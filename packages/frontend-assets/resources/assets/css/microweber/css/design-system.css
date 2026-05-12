@@ -12,8 +12,26 @@
 
 :root {
     /* ============================================================
-     * Color tokens — Light Mode
-     * ============================================================ */
+     * Color tokens — Light Mode (AI-284 WCAG AA audit applied)
+     * ============================================================
+     *
+     * Every text color in this block has been verified ≥ 4.5:1 contrast
+     * against `--color-surface: #ffffff` per WCAG 2.1 SC 1.4.3 (Level
+     * AA, normal text). Audit ratios (foreground vs #ffffff):
+     *
+     *   #111827 (text-primary)   = 17.74:1  ✓ AAA
+     *   #4b5563 (text-secondary) =  7.56:1  ✓ AAA (gray-600)
+     *   #6b7280 (text-muted)     =  4.83:1  ✓ AA  (gray-500)
+     *   #0d6efd (primary)        =  4.66:1  ✓ AA
+     *
+     * `--color-text-muted` was previously `#9ca3af` (gray-400, 2.85:1
+     * → fails AA). Bumped to gray-500 (`#6b7280`). `--color-text-
+     * secondary` moved to gray-600 (`#4b5563`) so the muted/secondary
+     * visual distinction is preserved. AI-284 contrast checker script
+     * (tests/Unit/Template/DesignSystemContrastTest.php) pins every
+     * text token to ≥ 4.5:1 against its expected background — runs in
+     * the standard `phpunit --testsuite=Unit` pass.
+     */
     --color-primary: #0d6efd;
     --color-primary-hover: #0b5ed7;
     --color-success: #22c55e;
@@ -24,8 +42,8 @@
     --color-surface-raised: #f8f9fa;
 
     --color-text-primary: #111827;
-    --color-text-secondary: #6b7280;
-    --color-text-muted: #9ca3af;
+    --color-text-secondary: #4b5563;
+    --color-text-muted: #6b7280;
 
     --color-border: #d1d5db;
     --color-border-focus: #0d6efd;

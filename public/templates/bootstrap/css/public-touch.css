@@ -15,8 +15,12 @@
     --color-surface-raised: #f8f9fa;
 
     --color-text-primary: #111827;
-    --color-text-secondary: #6b7280;
-    --color-text-muted: #9ca3af;
+    /* AI-284: bumped secondary gray-500→gray-600 and muted gray-400→
+       gray-500 so every text token clears the WCAG AA 4.5:1 minimum
+       against `--color-surface: #ffffff`. See design-system.css for the
+       full audit ratios; DesignSystemContrastTest pins them. */
+    --color-text-secondary: #4b5563;
+    --color-text-muted: #6b7280;
 
     --color-border: #d1d5db;
     --color-border-focus: #0d6efd;
@@ -52,6 +56,39 @@
     --btn-focus-ring-offset: 2px;
     --btn-active-scale: 0.98;
     --btn-disabled-opacity: 0.5;
+
+    /*
+     * AI-284 Bootstrap variable mapping.
+     *
+     * Bootstrap exposes its theme color stops on `:root` as `--bs-*`
+     * custom properties (`--bs-primary`, `--bs-primary-rgb`, etc.).
+     * Its own utility classes (`.text-primary`, `.bg-primary`, `.btn-
+     * primary`) and component CSS read those `--bs-*` variables. We
+     * point each one at the matching `--color-*` design token so the
+     * audit-approved palette flows through Bootstrap utilities
+     * automatically — no per-class color override, no hardcoded hex.
+     *
+     * `--bs-primary-rgb` (and the other `-rgb` variants) are kept in
+     * their decimal-triplet form because Bootstrap uses them inside
+     * `rgba(var(--bs-primary-rgb), 0.5)` expressions; CSS doesn't
+     * resolve a `var()` to its hex inside the rgba() shorthand.
+     */
+    --bs-primary: var(--color-primary);
+    --bs-primary-rgb: 13, 110, 253;
+    --bs-success: var(--color-success);
+    --bs-success-rgb: 34, 197, 94;
+    --bs-danger: var(--color-error);
+    --bs-danger-rgb: 239, 68, 68;
+    --bs-warning: var(--color-warning);
+    --bs-warning-rgb: 245, 158, 11;
+
+    --bs-body-color: var(--color-text-primary);
+    --bs-body-bg: var(--color-surface);
+    --bs-secondary-color: var(--color-text-secondary);
+    --bs-tertiary-color: var(--color-text-muted);
+    --bs-border-color: var(--color-border);
+    --bs-link-color: var(--color-primary);
+    --bs-link-hover-color: var(--color-primary-hover);
 }
 
 /*
