@@ -80,6 +80,38 @@ live-edit-add-content-button-wrapper .live-edit-toolbar-buttons.button,
     @apply !rounded-[7px];
 }
 
+/*
+ * AI-211 (task-2026-05-13-8b4721) — checkout form style unification.
+ * tester observed Filament checkout inputs rendering at 7px while
+ * Bootstrap public inputs use 4px (--radius-sm), creating a jarring
+ * visual mismatch when users navigate from /shop (Bootstrap) to
+ * /checkout (Filament). The global `!rounded-[7px]` rule above is the
+ * Microweber admin brand choice and stays — but the checkout panel
+ * specifically is a *public-facing surface* and should match the
+ * public Bootstrap form palette.
+ *
+ * Scope: `body.fi-panel-checkout` only. Admin panel keeps 7px. The
+ * `!important` qualifier is required because the global rule above
+ * uses `@apply !rounded-[7px]` (Tailwind `!` = !important) and we
+ * need to win on equal-specificity tie via source order. The
+ * `var(--radius-sm, 4px)` fallback keeps the rule resilient if the
+ * design-system stylesheet hasn't loaded yet.
+ *
+ * AC #1 coverage: checkout input border radius is now uniform 4px
+ * across .fi-input-wrp + .fi-select-wrp + .fi-textarea-wrp + .fi-btn
+ * (the Place Order button) so there is no longer a mix of 4 and 7.
+ * AC #2 coverage: matches the Bootstrap public form-theme 4px.
+ */
+body.fi-panel-checkout .fi-input-wrp,
+body.fi-panel-checkout .fi-select-wrp,
+body.fi-panel-checkout .fi-textarea-wrp,
+body.fi-panel-checkout .fi-input,
+body.fi-panel-checkout .fi-select,
+body.fi-panel-checkout .fi-textarea,
+body.fi-panel-checkout .fi-btn {
+    border-radius: var(--radius-sm, 4px) !important;
+}
+
 .form-check-input {
     @apply !m-0;
 }
