@@ -48,6 +48,7 @@ class Dashboard extends \Filament\Pages\Dashboard
     {
         $coreWidgets = [
             \App\Filament\Admin\Widgets\WelcomeWidget::class,
+            \App\Filament\Admin\Widgets\DashboardEmptyStateWidget::class,
             \App\Filament\Admin\Widgets\DashboardQuickStatsWidget::class,
         ];
 

@@ -3266,6 +3266,164 @@ html.dark {
 }
 
 // ============================================================================
+// AI-269 + AI-272 (task-2026-05-13-e64357) — Dashboard new-install empty-
+// state widget. Shows above the stats grid on a fresh install with 4 CTA
+// cards (Create page / Write post / Add product / Customize theme). The
+// widget only renders when the `content` table is empty — once any
+// content exists the widget vanishes and the stats grid stands alone.
+//
+// Acceptance coverage (AI-272):
+//   - empty-state card with iconography (#1) ✓
+//   - "Create your first page" CTA ≥44×44 (#2) ✓ via .mw-empty-state-cta
+//   - quick-action links: Add product, Write post, Customize theme (#3) ✓
+//   - stacked card layout on mobile, grid above the sm breakpoint (#6) ✓
+//
+// Deferred to follow-ups: 3/5-step progress indicator (#4) — needs
+// install-state plumbing; dismissible help banner (#5) — needs user
+// preferences plumbing. Both intentionally out of scope for this slice.
+// ============================================================================
+.mw-dashboard-empty-state {
+  background-color: $mw-bg-surface;
+  border: 1px solid $mw-border-color;
+  border-radius: $mw-radius-lg;
+  padding: $mw-space-lg;
+  margin-bottom: $mw-space-md;
+}
+
+.mw-dashboard-empty-state-header {
+  margin-bottom: $mw-space-md;
+}
+
+.mw-dashboard-empty-state-heading {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: $mw-text-primary !important;
+  line-height: 1.3 !important;
+  margin: 0 0 $mw-space-hair !important;
+}
+
+.mw-dashboard-empty-state-subheading {
+  font-size: 14px !important;
+  color: $mw-text-secondary !important;
+  margin: 0 !important;
+}
+
+.mw-empty-state-grid {
+  display: grid;
+  grid-template-columns: 1fr;            // stacked on mobile (AC #6)
+  gap: $mw-space-sm;
+}
+
+@media (min-width: 576px) {
+  .mw-empty-state-grid {
+    // 2x2 grid on tablet+ — auto-fit keeps the layout responsive
+    // between sm and large viewports without breakpoint shimmies.
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+.mw-empty-state-cta {
+  display: flex;
+  align-items: flex-start;
+  gap: $mw-space-sm;
+  padding: $mw-space-sm $mw-space-md;
+  background-color: $mw-bg-surface;
+  border: 1px solid $mw-border-color;
+  border-radius: $mw-radius-md;
+  text-decoration: none !important;
+  color: inherit !important;
+  // AC #2 — every CTA must satisfy the 44×44 WCAG 2.5.5 touch target.
+  // padding + flex gap typically push the height past 44 already; the
+  // explicit floor below makes it deterministic regardless of font size.
+  min-height: 44px;
+  min-width: 44px;
+  transition: border-color 150ms ease, transform 150ms ease,
+              background-color 150ms ease;
+
+  &:hover {
+    border-color: $mw-accent;
+    transform: translateY(-1px);
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $mw-accent;
+    outline-offset: 2px;
+  }
+}
+
+.mw-empty-state-cta-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: $mw-radius-md;
+  flex-shrink: 0;
+
+  &--blue   { background-color: rgba(59, 130, 246, 0.10); color: #2563eb; }
+  &--green  { background-color: rgba(34, 197, 94, 0.10);  color: #16a34a; }
+  &--orange { background-color: rgba(249, 115, 22, 0.10); color: #ea580c; }
+  &--pink   { background-color: rgba(236, 72, 153, 0.10); color: #db2777; }
+}
+
+.mw-empty-state-cta-icon-svg {
+  width: 24px;
+  height: 24px;
+}
+
+.mw-empty-state-cta-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mw-empty-state-cta-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: $mw-text-primary;
+  line-height: 1.3;
+}
+
+.mw-empty-state-cta-description {
+  font-size: 13px;
+  color: $mw-text-secondary;
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw-empty-state-cta {
+    transition: none !important;
+    &:hover { transform: none !important; }
+  }
+}
+
+// Dark-mode tints — keep iconography legible against the darker surface
+// without losing the brand-color hint.
+.dark {
+  .mw-dashboard-empty-state {
+    background-color: #1a1f2b;
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  .mw-empty-state-cta {
+    background-color: #1a1f2b;
+    border-color: rgba(255, 255, 255, 0.08);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.04);
+    }
+  }
+  .mw-empty-state-cta-icon {
+    &--blue   { background-color: rgba(59, 130, 246, 0.15); }
+    &--green  { background-color: rgba(34, 197, 94, 0.15); }
+    &--orange { background-color: rgba(249, 115, 22, 0.15); }
+    &--pink   { background-color: rgba(236, 72, 153, 0.15); }
+  }
+  .mw-dashboard-empty-state-heading { color: #f3f4f6 !important; }
+  .mw-empty-state-cta-label { color: #f3f4f6; }
+}
+
+// ============================================================================
 // Dashboard — MW v2 Statistics Card (ECharts)
 // ============================================================================
 .mw-stats-card {
