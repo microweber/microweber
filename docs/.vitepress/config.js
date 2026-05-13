@@ -104,6 +104,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/post/examples' },
               { text: 'Troubleshooting', link: '/modules/post/troubleshooting' }
             ]
+          },
+          {
+            text: 'Category Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/category/' },
+              { text: 'Installation', link: '/modules/category/installation' },
+              { text: 'Usage', link: '/modules/category/usage' },
+              { text: 'API Reference', link: '/modules/category/api' },
+              { text: 'Examples', link: '/modules/category/examples' },
+              { text: 'Troubleshooting', link: '/modules/category/troubleshooting' }
+            ]
           }
         ]
       },
