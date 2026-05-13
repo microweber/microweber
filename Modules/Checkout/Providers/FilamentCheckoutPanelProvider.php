@@ -10,6 +10,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
+use MicroweberPackages\Admin\Filament\MwColors;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -35,8 +36,15 @@ class FilamentCheckoutPanelProvider extends PanelProvider
             ->brandLogo(function () {
                 return mw()->ui->admin_logo();
             })
+            // AI-209 (task-2026-05-13-e8ebcf) — checkout primary blue now
+            // shares the MwColors::Blue palette anchored at Bootstrap
+            // #0d6efd, the same blue the admin panel + public storefront
+            // CTAs use. Was Color::Blue (Tailwind blue-500 #3b82f6), which
+            // made the checkout "Next" button render in a visibly different
+            // hue than the /shop "All Categories" Bootstrap-blue button on
+            // the same device.
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => MwColors::Blue,
             ])
             //->discoverResources(in: __DIR__ . '/../Filament/Resources', for: 'Modules\\Checkout\\Filament\\Resources')
             // ->discoverPages(in: __DIR__ . '/../Filament/Pages', for: 'Modules\\Checkout\\Filament\\Pages')
