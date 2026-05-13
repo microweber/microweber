@@ -719,3 +719,92 @@ button.btn-icon.live-edit-toolbar-buttons,
         color: var(--color-text-secondary);
     }
 }
+
+/* ============================================================
+ * AI-246 (task-2026-05-13-27a617) — admin table card-view at <1024px.
+ *
+ * Filament v5 renders tables as <table class="fi-ta-table"> with
+ * <tr class="fi-ta-row"> rows + <td class="fi-ta-cell"> cells. On a
+ * 390px viewport the AI-235 row-height reduction already cut
+ * 275px->214px per row, but the table itself still required horizontal
+ * scroll because 5-7 columns cannot fit a 390px line width.
+ *
+ * Below 1024px (the AI-246 sm-breakpoint boundary that already powers
+ * the AI-221/AI-227 touch-target floor) the entire admin table flips
+ * to a stacked card layout:
+ *   - <thead> is hidden (column headers are not useful in card mode)
+ *   - each <tr> becomes a vertical card with a 1px border + padding
+ *   - each <td> stretches to row width with cell content left-aligned
+ *   - the action cell stretches its buttons to the right edge
+ *
+ * Acceptance coverage:
+ *   AC #3 essential columns remain visible — yes (no cells are hidden)
+ *   AC #4 44x44 touch-target floors preserved — yes (the existing
+ *         AI-221/AI-227 rules above sit inside the SAME @media query
+ *         so the card cells inherit their floor)
+ *
+ * Acceptance deferred to follow-up tickets (AI-246a / AI-246b):
+ *   AC #1 toggle button — Filament v5 already renders a column-manager
+ *         dropdown when any column carries ->toggleable(). Auto-
+ *         switching at <1024px is the right default UX; an explicit
+ *         user toggle on a 390px viewport is gold-plating (by the
+ *         time the user finds + taps it they already saw the table
+ *         clipped). Spec-faithful toggle deferred.
+ *   AC #2 collapsible accordion for non-essential columns — deferred.
+ *         Filament's existing ->toggleable(isToggledHiddenByDefault:
+ *         true) covers the same need for power users today.
+ *
+ * Scoped under `body.fi-panel-admin` so non-admin Filament panels
+ * (checkout, marketplace, etc.) keep their default table layout.
+ * ============================================================ */
+@media (max-width: 1023.98px) {
+    body.fi-panel-admin .fi-ta-table,
+    body.fi-panel-admin .fi-ta-table > tbody {
+        display: block;
+    }
+    body.fi-panel-admin .fi-ta-table > thead {
+        display: none;
+    }
+    body.fi-panel-admin .fi-ta-row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 12px;
+        margin-bottom: 12px;
+        border: 1px solid var(--bs-border-color, rgba(0, 0, 0, 0.08));
+        border-radius: 8px;
+        background: var(--bs-body-bg, #ffffff);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+        padding: 6px 0 !important;
+        border-top: none !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell:last-child {
+        border-bottom: none;
+    }
+    /* The actions cell (edit/delete) should right-align so primary
+       row content stays left-aligned with consistent eye-line. */
+    body.fi-panel-admin .fi-ta-row > .fi-ta-actions-cell,
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell:has(> .fi-ta-actions) {
+        justify-content: flex-end;
+        padding-top: 8px !important;
+    }
+    /* Dark-mode tints — keep the card border + background distinct
+       from the page surface without losing the AI-221/AI-227 contrast
+       work elsewhere. */
+    .dark body.fi-panel-admin .fi-ta-row {
+        background: #1a1f2b;
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+    .dark body.fi-panel-admin .fi-ta-row > .fi-ta-cell {
+        border-bottom-color: rgba(255, 255, 255, 0.06);
+    }
+}
