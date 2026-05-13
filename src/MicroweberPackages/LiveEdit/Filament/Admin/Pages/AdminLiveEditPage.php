@@ -679,6 +679,40 @@ class AdminLiveEditPage extends Page
                 $model->fill($data);
                 $model->save();
 
+                // NOVICE #11 (task-2026-05-13-899d57) — body
+                // placeholder backfill. The persona reported: "I
+                // created my first blog post. The toast said 'Now
+                // click anywhere on the page to start writing'. I
+                // clicked. Nothing happened. The page is empty
+                // except for the title and a date. There's nowhere
+                // to click that does anything." A novice user who
+                // skipped the compact modal's body field lands on
+                // a blank-rendered template with no visible click
+                // target.
+                //
+                // Fix: if the user did NOT type anything in the
+                // body fields, write a friendly placeholder block
+                // into `content_body` AND `content` so the rendered
+                // canvas has a visible "Click here to start
+                // writing…" target. The block is real, saved
+                // content — the user overwrites it on first edit
+                // and the placeholder disappears for good.
+                //
+                // Scoped to posts + pages only. Products use
+                // pricing/title-first flows where an empty body is
+                // intentional; categories aren't a user-typed body
+                // surface at all.
+                if (in_array($contentType, ['post', 'page'], true)) {
+                    $existingBody = trim(strip_tags((string) ($model->content_body ?? '')));
+                    $existingContent = trim(strip_tags((string) ($model->content ?? '')));
+                    if ($existingBody === '' && $existingContent === '') {
+                        $placeholderHtml = '<p class="mw-novice-body-placeholder" data-mw-novice-placeholder="1" style="color:#94a3b8;font-style:italic;">Click here to start writing your '.$contentType.'…</p>';
+                        $model->content_body = $placeholderHtml;
+                        $model->content = $placeholderHtml;
+                        $model->save();
+                    }
+                }
+
                 $contentTypeFriendly = ucfirst($contentType);
 
                 $newContentLink = (string) content_link($model->id);
@@ -725,10 +759,19 @@ class AdminLiveEditPage extends Page
                     ? '"' . mb_strimwidth($titleText, 0, 40, '…') . '"'
                     : strtolower($contentTypeFriendly);
 
+                // NOVICE #11 (task-2026-05-13-899d57) — copy update.
+                // For post/page where the body was empty we just
+                // injected a "Click here to start writing…"
+                // placeholder, so the toast now directs the user
+                // at that visible target rather than the previous
+                // hand-wave "click anywhere on the page".
+                $bodyHint = (in_array($contentType, ['post', 'page'], true))
+                    ? 'Click the highlighted "Click here to start writing…" text on the page to add your content — or "Edit details" for SEO, tags, and more.'
+                    : 'Use "Edit details" for the full form — SEO, tags, custom fields, and more.';
                 Notification::make()
                     ->success()
                     ->title($shortTitle . ' created')
-                    ->body('Now click anywhere on the page to start writing — or "Edit details" for SEO, tags, and more.')
+                    ->body($bodyHint)
                     ->persistent()
                     ->actions([
                         Action::make('editDetails')
