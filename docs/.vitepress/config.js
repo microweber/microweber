@@ -188,6 +188,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/profile/examples' },
               { text: 'Troubleshooting', link: '/modules/profile/troubleshooting' }
             ]
+          },
+          {
+            text: 'Shop Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/shop/' },
+              { text: 'Installation', link: '/modules/shop/installation' },
+              { text: 'Usage', link: '/modules/shop/usage' },
+              { text: 'API Reference', link: '/modules/shop/api' },
+              { text: 'Examples', link: '/modules/shop/examples' },
+              { text: 'Troubleshooting', link: '/modules/shop/troubleshooting' }
+            ]
           }
         ]
       },
