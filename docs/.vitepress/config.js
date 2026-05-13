@@ -152,6 +152,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/menu/examples' },
               { text: 'Troubleshooting', link: '/modules/menu/troubleshooting' }
             ]
+          },
+          {
+            text: 'Settings Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/settings/' },
+              { text: 'Installation', link: '/modules/settings/installation' },
+              { text: 'Usage', link: '/modules/settings/usage' },
+              { text: 'API Reference', link: '/modules/settings/api' },
+              { text: 'Examples', link: '/modules/settings/examples' },
+              { text: 'Troubleshooting', link: '/modules/settings/troubleshooting' }
+            ]
           }
         ]
       },
