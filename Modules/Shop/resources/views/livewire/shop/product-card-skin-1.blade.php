@@ -1,17 +1,20 @@
 <div class="mw-online-shop-skin-1-product position-relative">
-    {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB:
-         Same Option-B migration as Shop/product-card.blade.php — bg-image div
-         replaced with a real <img> inside a position:relative wrapper.
-         Badge/discount/overlay children stay on top via z-index without
-         restructuring. See product-card.blade.php for the full rationale. --}}
+    {{-- AI-265 (task-2026-05-13-de78ce) — skin-1 product card image
+         bounded optimization slice. Same migration as product-card.blade.php:
+         hand-rolled <img> → responsive_thumbnail() (gains srcset/sizes
+         centralised in the helper) + wrapper placeholder background-color
+         (no-CLS layout reservation, no white flash). See product-card.blade.php
+         for the full rationale. WebP variants + LQIP blur deferred to
+         AI-265 follow-ups. --}}
     <a class="text-decoration-none" href="{{content_link($product->id)}}">
-        <div class="background-image-holder position-relative" style="aspect-ratio: 1 / 1; overflow: hidden;">
-            <img src="{{ $product->thumbnail(800, 600) }}"
-                 alt="{{ $product->title }}"
-                 loading="lazy"
-                 decoding="async"
-                 class="position-absolute top-0 start-0 w-100 h-100"
-                 style="object-fit: cover;">
+        <div class="background-image-holder position-relative mw-product-card-image-placeholder"
+             style="aspect-ratio: 1 / 1; overflow: hidden;">
+            {!! responsive_thumbnail($product->mediaUrl(), 800, 600, [
+                'alt' => $product->title,
+                'class' => 'position-absolute top-0 start-0 w-100 h-100',
+                'style' => 'object-fit: cover;',
+                'sizes' => '(max-width: 575.98px) 100vw, (max-width: 991.98px) 50vw, 33vw',
+            ]) !!}
 
             <div @if($product->getContentDataByFieldName('label-color'))
                      style="background-color: {{$product->getContentDataByFieldName('label-color')}} "

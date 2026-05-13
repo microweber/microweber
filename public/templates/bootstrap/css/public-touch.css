@@ -1014,3 +1014,24 @@ html.dark {
         min-height: 24px;
     }
 }
+
+/* ------------------------------------------------------------------
+ * AI-265 (task-2026-05-13-de78ce) — product card image placeholder.
+ * The product cards on the shop grid render their image inside
+ * `.background-image-holder` with `aspect-ratio: 1/1` reserving the
+ * card height. Until the network request resolves the image is
+ * visually empty (white flash on light themes / dark flash on dark).
+ * Giving the wrapper the `--color-surface-raised` token as a soft
+ * background-color keeps the slot occupied with the same neutral
+ * surface used elsewhere in the design system, eliminating the
+ * white-flash + signalling that an image is loading.
+ *
+ * Scoped via `.mw-product-card-image-placeholder` so non-card images
+ * (slider, blog post hero, gallery) keep their own placeholders.
+ * The full LQIP/blur-up placeholder is deferred to the AI-265 WebP
+ * variant pipeline follow-up; this rule covers the no-CLS / no-white-
+ * flash subset of acceptance criterion #4.
+ * ------------------------------------------------------------------ */
+.mw-product-card-image-placeholder {
+    background-color: var(--color-surface-raised);
+}

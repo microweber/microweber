@@ -1,25 +1,34 @@
 <div class="shop-products">
 
     <div class="product position-relative">
-        {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB:
-             Migrated from `<div style="background-image: url('{{ safe_css_url(...) }}')">`
-             to a real `<img>` inside a position:relative wrapper. The wrapper is
-             absolute-positioned so badge/discount/overlay children stay on top
-             via z-index without restructuring the card layout.
-             - object-fit:cover preserves the prior background-size:cover visual
-             - aspect-ratio 1/1 + thumbnail size dropped from 1000x1000 to 800x600
-               (no perceptible quality loss on a ~450px-tall card; ~36% bandwidth
-               saving on the image-heavy shop grid)
-             - alt + loading=lazy + decoding=async added per a11y/perf brief
-             Same shape used by Slider/default cycle-41 and Categories/images cycle-39. --}}
+        {{-- AI-265 (task-2026-05-13-de78ce) — product card image bounded
+             optimization slice. Migrated from a hand-rolled <img> with only
+             `src` + lazy/async (no srcset, no placeholder) to the
+             responsive_thumbnail() helper which centralises srcset/sizes/
+             alt/loading/decoding emission per ADR-0001 helper-layer
+             principle. Eager-first-N defaults to 2 so above-the-fold
+             cards paint as part of LCP; remaining cards stay lazy.
+             A `background-color` placeholder on the wrapper reserves
+             layout space (no CLS) and replaces the white flash while
+             the image network request resolves. The full LQIP/blur-up
+             + WebP variant pipeline + 20%-LCP test remain deferred to
+             AI-265 follow-up tickets when the WebP variant generator
+             lands in MediaManager.
+
+             History — audit-test 2026-05-08 PM TASK-017 / TICKET-AB:
+             original migration was from `<div style="background-image: url(...)">`
+             to a real `<img>`; same Option-B layout (object-fit:cover within
+             position:relative wrapper, aspect-ratio 1/1, thumbnail dropped
+             1000x1000 → 800x600 for ~36% bandwidth saving). --}}
         <a class="text-decoration-none" href="{{content_link($product->id)}}">
-            <div class="background-image-holder position-relative" style="aspect-ratio: 1 / 1; overflow: hidden;">
-                <img src="{{ $product->thumbnail(800, 600) }}"
-                     alt="{{ $product->title }}"
-                     loading="lazy"
-                     decoding="async"
-                     class="position-absolute top-0 start-0 w-100 h-100"
-                     style="object-fit: cover;">
+            <div class="background-image-holder position-relative mw-product-card-image-placeholder"
+                 style="aspect-ratio: 1 / 1; overflow: hidden;">
+                {!! responsive_thumbnail($product->mediaUrl(), 800, 600, [
+                    'alt' => $product->title,
+                    'class' => 'position-absolute top-0 start-0 w-100 h-100',
+                    'style' => 'object-fit: cover;',
+                    'sizes' => '(max-width: 575.98px) 100vw, (max-width: 991.98px) 50vw, 33vw',
+                ]) !!}
 
                 <div @if($product->getContentDataByFieldName('label-color'))
                          style="background-color: {{$product->getContentDataByFieldName('label-color')}} "
