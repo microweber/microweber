@@ -5339,6 +5339,71 @@ body.mw-live-body-mouse-moved-outside mw-le-element {
     display: none !important;
 }
 
+/* ============================================================
+ * AI-513 — Live Edit element selection visibility.
+ *
+ * Audit task 2.1.1 ("Enhance Element Selection Visibility with Clear
+ * Borders and Breadcrumbs") flagged four problems with the current
+ * selection visualisation in this file (lines ~393–400 + ~1727–1730):
+ *
+ *   - Selected element border too subtle (1px dotted #a6a6a6)
+ *   - No distinction between hover (.moveit-hover) and selected
+ *     (.element-active) — both rendered as 1px gray outlines today
+ *   - Parent/child selection ambiguous — parent outline used the
+ *     same 1px solid #333 as hover
+ *   - No keyboard focus indication on the selected element
+ *
+ * AI-513 ships three coordinated overrides (later-in-cascade wins
+ * over the upstream definitions earlier in this same file) plus one
+ * new focus-visible rule:
+ *
+ *   1. Selected (.element-active) — 2px solid Bootstrap-primary blue
+ *      (#0d6efd, matching MwColors::Blue 500). Strong, unambiguous,
+ *      one-glance identification of the active editing target.
+ *   2. Hover (.moveit-hover) — 1px dashed neutral gray (#6b7280).
+ *      Dashed pattern + lighter weight distinguishes hover from
+ *      the selected solid outline at a single glance.
+ *   3. Parent (.mw-sorthandle-parent-outline) — 1px dashed at half-
+ *      opacity primary blue (rgba(13,110,253,0.5)). Communicates
+ *      "this is the container of the selected element" via the
+ *      colour family, while the dashed-and-half-opacity pattern
+ *      keeps it visually subordinate to the solid selection.
+ *   4. Keyboard focus (.element-active:focus-visible) — same 2px
+ *      solid blue, but with outline-offset: 4px so the focus ring
+ *      sits OUTSIDE the selection outline, producing a "double
+ *      ring" effect when the user navigates with the keyboard.
+ *
+ * Out of scope (deferred to AI-513a follow-up):
+ *   - Breadcrumb path UI for nested element selection.
+ *   - Subtle background tint on the selected element.
+ *
+ * Colour value 0d6efd is the project-canonical primary blue from
+ * MicroweberPackages\Filament\Themes\MwColors::Blue. Hardcoded
+ * because this CSS is consumed inside the canvas iframe where the
+ * admin theme tokens are not in scope.
+ *
+ * This file is the served-source-of-truth: frontend-assets-libs
+ * copies it to public/vendor/microweber-packages/frontend-assets-libs/css/
+ * via build.mjs. A mirror block exists in packages/frontend-assets/
+ * resources/assets/css/microweber/css/liveedit.css to keep the two
+ * source copies in sync.
+ * ============================================================ */
 
+.moveit-hover,
+.moveit-hover:hover {
+    outline: 1px dashed #6b7280;
+}
 
+.mw-sorthandle-parent-outline {
+    outline: 1px dashed rgba(13, 110, 253, 0.5);
+}
 
+.element-active {
+    outline: 2px solid #0d6efd;
+    outline-offset: 0;
+}
+
+.element-active:focus-visible {
+    outline: 2px solid #0d6efd;
+    outline-offset: 4px;
+}
