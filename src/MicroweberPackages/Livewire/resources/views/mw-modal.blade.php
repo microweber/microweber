@@ -24,6 +24,7 @@
                 background-color: #fff;
                 width: 100%;
                 overflow: auto;
+                position: relative;
             }
 
             @media only screen and (min-width: 600px) {
@@ -47,6 +48,50 @@
                     overflow: auto;
                 }
             }
+
+            /*
+             * NOVICE #13 (task-2026-05-13-899d57) — wrapper close X.
+             *
+             * The mw-modal wrapper had no top-right close affordance.
+             * Whether a close button existed depended entirely on the
+             * embedded child component. Novice persona reported: "I'm
+             * stuck staring at a modal I can't dismiss until I find
+             * the right inner button." Even when the X DID exist, it
+             * was visually inconsistent across components.
+             *
+             * Adding a wrapper-level close X guarantees every Livewire
+             * modal has the same top-right dismiss control. 44×44 touch
+             * target (WCAG 2.5.5), high-contrast on the modal's white
+             * background, gets a focus ring for keyboard users.
+             */
+            .mw-modal-close-x {
+                position: absolute;
+                top: 8px;
+                right: 8px;
+                width: 44px;
+                height: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border: 0;
+                background: transparent;
+                color: #475569;
+                font-size: 24px;
+                line-height: 1;
+                cursor: pointer;
+                border-radius: 6px;
+                z-index: 2;
+                padding: 0;
+            }
+            .mw-modal-close-x:hover {
+                background: rgba(0, 0, 0, 0.06);
+                color: #0f172a;
+            }
+            .mw-modal-close-x:focus-visible {
+                outline: 2px solid #6366f1;
+                outline-offset: 2px;
+                background: rgba(99, 102, 241, 0.08);
+            }
         </style>
     </div>
 
@@ -63,12 +108,37 @@
                      the wrapper programmatically focusable so the focus-
                      trap script can land focus inside the modal if no
                      focusable child exists (rare but possible). --}}
+                {{-- NOVICE #13 (task-2026-05-13-899d57) — the
+                     `data-mw-modal-backdrop="1"` flag identifies the
+                     backdrop element for the JS click handler below.
+                     Clicking the dim area (event target IS the
+                     backdrop) dispatches `closeModal`; clicks on the
+                     inner white card bubble up but the target check
+                     filters them out. --}}
                 <div class="js-modal-livewire {{$activeComponent ? 'active' : ''}}" id="js-modal-livewire-id-{{ $id }}"
                      wire:key="{{ $id }}"
                      role="dialog"
                      aria-modal="true"
-                     tabindex="-1">
+                     tabindex="-1"
+                     data-mw-modal-backdrop="1">
                     <div class="js-modal-livewire-content">
+                        {{-- Wrapper-level close X — every Livewire
+                             modal now gets the same dismiss affordance
+                             regardless of which child component is
+                             loaded inside. `data-mw-modal-close="1"`
+                             marks it for the focus-trap so initial
+                             focus prefers a form field over the X. --}}
+                        <button type="button"
+                                class="mw-modal-close-x"
+                                aria-label="Close"
+                                title="Close"
+                                data-mw-modal-close="1"
+                                onclick="try { window.Livewire && window.Livewire.dispatch('closeModal'); } catch (e) {}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
                         @livewire($component['name'], $component['attributes'], key($id))
                     </div>
                 </div>
@@ -254,6 +324,25 @@
                     mwModalKeydownBound = false;
                 }
 
+                /*
+                 * NOVICE #13 (task-2026-05-13-899d57) — prefer a non-
+                 * close tabbable for INITIAL focus. The new wrapper-
+                 * level close X is the first tabbable in DOM order so
+                 * focus-trap's default would land focus on it on every
+                 * modal open — the user opens a form and their cursor
+                 * sits on a Close button instead of the first input.
+                 * Skip elements marked `data-mw-modal-close="1"` when
+                 * picking the initial focus target, but keep them in
+                 * the tab cycle (Tab/Shift+Tab still reach them).
+                 */
+                function mwPickInitialFocus(tabbables, modalEl) {
+                    if (tabbables.length === 0) return modalEl;
+                    const nonClose = tabbables.filter(function (n) {
+                        return !n.hasAttribute('data-mw-modal-close');
+                    });
+                    return nonClose.length > 0 ? nonClose[0] : tabbables[0];
+                }
+
                 function mwTrapFocusForModal() {
                     mwModalFocusStack.push(document.activeElement || null);
                     mwBindModalKeydown();
@@ -265,11 +354,7 @@
                         const topModal = mwGetTopmostOpenModal();
                         if (!topModal) return;
                         const tabbables = mwGetTabbablesInModal(topModal);
-                        if (tabbables.length > 0) {
-                            tabbables[0].focus();
-                        } else {
-                            topModal.focus();
-                        }
+                        mwPickInitialFocus(tabbables, topModal).focus();
                     }, 30);
                 }
 
@@ -287,6 +372,38 @@
                     mwLockBodyScrollForModal();
                     mwTrapFocusForModal();
                 });
+
+                /*
+                 * NOVICE #13 (task-2026-05-13-899d57) — backdrop-click
+                 * dismiss. Click on the dim area (the `.js-modal-
+                 * livewire` element itself, NOT its inner white card)
+                 * dispatches `closeModal`. `e.target === e.currentTarget`
+                 * is not used because we listen on document (delegation)
+                 * — instead we check `e.target.classList.contains(
+                 * 'js-modal-livewire')` which is only true when the
+                 * pointer landed on the backdrop itself. Clicks on the
+                 * inner card or any descendant resolve `e.target` to
+                 * the card/descendant, NOT the backdrop, so they fall
+                 * through.
+                 *
+                 * Listening on document via capture so we run BEFORE
+                 * any inner-component click handlers can stop
+                 * propagation by accident. Modal components that
+                 * INTENTIONALLY want to opt out of click-to-dismiss
+                 * can mark themselves with `data-mw-modal-no-backdrop-
+                 * close="1"` on the `.js-modal-livewire` element (no
+                 * existing components do — but the opt-out is here
+                 * for the future).
+                 */
+                document.addEventListener('click', function (e) {
+                    const t = e.target;
+                    if (!t || !t.classList || !t.classList.contains('js-modal-livewire')) return;
+                    if (!t.hasAttribute('data-mw-modal-backdrop')) return;
+                    if (t.hasAttribute('data-mw-modal-no-backdrop-close')) return;
+                    if (window.Livewire && typeof window.Livewire.dispatch === 'function') {
+                        window.Livewire.dispatch('closeModal');
+                    }
+                }, true);
 
                 Livewire.on('closeMwTopDialogIframe', () => {
                     let dialog = mw.top().dialog.get('#mw-livewire-component-iframe');
