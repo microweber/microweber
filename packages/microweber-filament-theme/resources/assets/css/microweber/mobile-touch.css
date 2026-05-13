@@ -1065,3 +1065,89 @@ button.btn-icon.live-edit-toolbar-buttons,
         vertical-align: middle;
     }
 }
+
+/* ============================================================
+ * AI-511 — Form layouts restructure (Phase 1, bounded slice 1/2).
+ *
+ * Audit task 1.3.1 ("Restructure Form Layouts with Visual Grouping
+ * and Sticky Actions") called out four problems:
+ *   1. Long forms lack visual grouping
+ *   2. No sticky "Save" button on scroll
+ *   3. Tabs used as lazy grouping without clear organization logic
+ *   4. Form width unconstrained on large screens
+ *
+ * This slice ships two of the four (the pure-CSS, lowest-regression
+ * wins). The remaining two are deferred:
+ *
+ *   - Tab reorganization (Basic → Advanced → SEO workflow phases)
+ *     requires per-resource PHP edits across Content/Product/User/
+ *     etc. resources. Defer to AI-511a follow-up sweep ticket.
+ *   - Section visual-grouping enhancement (border refinement +
+ *     header underline) is subjective and risks dark-mode
+ *     regressions. Defer to AI-511b once a design mockup lands.
+ *
+ * Shipping now:
+ *
+ *   A. Sticky form actions — `.fi-form-actions` inside page-level
+ *      forms becomes `position: sticky; bottom: 0` with a thin
+ *      top border + soft shadow, so the Save/Cancel/Live-Edit
+ *      buttons remain reachable no matter how far the user scrolls
+ *      down a long form. Universal (mobile + desktop) because the
+ *      benefit is greatest on mobile where viewport height is
+ *      smallest. Dark-mode variant included.
+ *
+ *   B. Form width constraint — `max-width: 48rem` (Tailwind
+ *      `max-w-3xl`, the audit's exact recommendation) on page-level
+ *      forms on ≥768px viewports. Below 768px the form keeps full
+ *      width so mobile users don't see absurd horizontal padding.
+ *      `margin-left: auto; margin-right: auto;` centers the form
+ *      in its page container.
+ *
+ * Scope:
+ *   - `body.fi-panel-admin .fi-page > .fi-form` — direct child of
+ *     the page wrapper. Matches Filament v5 resource Create/Edit
+ *     page DOM.
+ *   - `body.fi-panel-admin .fi-page-content > .fi-form` — alt DOM
+ *     used by some Filament page types.
+ *   - NOT forms inside Filament modals (fi-modal-window descendants)
+ *     — those keep their existing width + non-sticky actions; the
+ *     modal already handles overflow internally.
+ *   - NOT `.fi-panel-checkout .fi-form` — checkout has its own
+ *     bespoke layout from AI-211; leave untouched.
+ *
+ * The audit's `max-w-3xl` (48rem) constrains 2-column Filament
+ * Section layouts more than 4-column ones. If the constraint
+ * proves too tight on dense forms (Content, Product), revisit
+ * via AI-511c to either bump to `max-w-4xl` (56rem) or carve
+ * out specific resources.
+ * ============================================================ */
+
+body.fi-panel-admin .fi-page > .fi-form .fi-form-actions,
+body.fi-panel-admin .fi-page-content > .fi-form .fi-form-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    background-color: var(--bs-body-bg, #ffffff);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    margin-top: 1rem;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.04);
+}
+
+html.dark body.fi-panel-admin .fi-page > .fi-form .fi-form-actions,
+html.dark body.fi-panel-admin .fi-page-content > .fi-form .fi-form-actions {
+    background-color: rgb(17, 24, 39);
+    border-top-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.4);
+}
+
+@media (min-width: 768px) {
+    body.fi-panel-admin .fi-page > .fi-form,
+    body.fi-panel-admin .fi-page-content > .fi-form {
+        max-width: 48rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
