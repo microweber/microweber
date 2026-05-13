@@ -118,15 +118,35 @@ class AdminLiveEditPage extends Page
             'action' => 'addImageAction',
             'icon' => 'heroicon-o-photo',
         ];
-        // AI-309 (task-2026-05-13-5f1937): the "Add to this page" picker
-        // entry (history: AI-167 cycle-145 / AI-234 cycle-174) was REMOVED
-        // here per tester-agent's UX audit. The card was a meta-instruction
-        // — "close this picker, then tap Insert layout in the toolbar" —
-        // that broke the picker's flow (read → close → find another
-        // button) instead of being a direct action. The picker's job is
-        // to create NEW top-level content; the in-canvas Insert layout /
-        // left-rail drag flow remains available via the toolbar itself.
-        // The companion `addToCurrentPageAction` method below is left in
+        // NOVICE #4 (task-2026-05-13-899d57) — re-introduce the "Add a
+        // block to this page" entry that AI-309 removed, but this time
+        // as a DIRECT ACTION not a meta-instruction. The original card
+        // told the user "close this picker, then tap Insert layout in
+        // the toolbar" — a read-close-hunt flow that broke the picker's
+        // promise. AI-309 was right to remove that version; this is the
+        // proper replacement.
+        //
+        // The new card carries a `js_dispatch` key (instead of routing
+        // through a Filament action). The picker template detects the
+        // key and wires the card's click handler to (a) unmount the
+        // picker modal and (b) dispatch the named window event. The
+        // iframe-page Alpine listener at `liveEditInsertLayoutRequest`
+        // (added in the same commit) forwards to
+        // `mw.app.editor.dispatch('insertLayoutRequest')`, which is the
+        // canonical opener for the in-canvas Insert Layout dialog.
+        //
+        // One click → picker closes → layout picker opens. No more
+        // hunting for the toolbar button after reading instructions.
+        $actions[] = [
+            'title' => 'Add a block to this page',
+            'description' => 'Drop text, images, buttons, headings or any other block into the page you are editing right now.',
+            'action' => 'addToCurrentPageAction',
+            'icon' => 'heroicon-o-plus-circle',
+            'js_dispatch' => 'liveEditInsertLayoutRequest',
+        ];
+        // AI-309 (task-2026-05-13-5f1937) historical note: the previous
+        // "Add to this page" card was a meta-instruction that broke the
+        // picker's flow. The companion `addToCurrentPageAction` method below is left in
         // place but is no longer referenced by the picker — keeping it
         // costs nothing and avoids a behaviour change for anyone who still
         // dispatches it via Livewire. If a future cleanup pass confirms
@@ -323,28 +343,33 @@ class AdminLiveEditPage extends Page
      *     exactly where they need to be (looking at the canvas)
      *     with the right action one tap away.
      */
+    /**
+     * NOVICE #4 (task-2026-05-13-899d57) — rewritten from a meta-
+     * instruction modal into a direct-action stub.
+     *
+     * The picker's "Add a block to this page" card now uses
+     * `js_dispatch` and never routes through this method (see the
+     * card definition + `add-content-modal.blade.php`). This method
+     * exists only as a defensive fallback: if any stale Livewire
+     * reference, a button somewhere outside the picker, or future
+     * code paths mount `addToCurrentPageAction` as a real Filament
+     * action, the user should still end up with the Insert Layout
+     * dialog rather than the old "close this and tap that" meta-
+     * instruction text.
+     *
+     * The Filament Page's `js()` method injects a `<script>` tag
+     * into the next Livewire render. The dispatched window event
+     * is the same one the picker card fires, so it's caught by the
+     * existing iframe-page listener at `liveEditInsertLayoutRequest`.
+     */
     public function addToCurrentPageAction(): Action
     {
         return Action::make('addToCurrentPageAction')
-            ->label('Add to this page')
-            ->modalHeading('Add a block to this page')
-            ->modalDescription(
-                'Close this dialog and use the Insert layout button in the '
-                . 'top toolbar — or drag a block from the left rail — to '
-                . 'add text, headings, images, or any other module to the '
-                . 'page you are editing right now. The picker behind this '
-                . 'dialog is for creating brand-new pages / posts / etc., '
-                . 'not for adding blocks to a page you are already on.'
-            )
-            ->modalSubmitActionLabel('Got it')
-            ->modalCancelAction(false)
+            ->label('Add a block to this page')
+            ->requiresConfirmation(false)
+            ->modalHeading(false)
             ->action(function () {
-                Notification::make()
-                    ->title('Tap "Insert layout" in the toolbar')
-                    ->body('That button (or dragging from the left rail) is how you add text, headings, images, and other blocks to the page you are editing right now.')
-                    ->info()
-                    ->duration(8000)
-                    ->send();
+                $this->js('window.dispatchEvent(new CustomEvent("liveEditInsertLayoutRequest"));');
             });
     }
 

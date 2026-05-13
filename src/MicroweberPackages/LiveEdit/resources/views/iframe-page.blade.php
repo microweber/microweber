@@ -218,6 +218,33 @@
                 try { $wire.unmountAction(); } catch (_) { /* nothing mounted */ }
             });
 
+            // NOVICE #4 (task-2026-05-13-899d57) — when the user picks
+            // "Add a block to this page" from the +ADD picker, the
+            // card's click handler fires this window event. The
+            // listener forwards to the canvas's editor dispatcher,
+            // which opens the Insert Layout dialog (the same flow the
+            // SettingsCustomize "Insert layout" toolbar button opens).
+            //
+            // Why a window event rather than a Filament server-side
+            // action: the Insert Layout flow lives entirely in
+            // canvas-iframe JS (mw.app.editor.dispatch). There is no
+            // server route to redirect to, and embedding the layout
+            // picker inside a Filament modal would conflict with the
+            // canvas iframe root (the same constraint that pushed
+            // upload-image into a redirect originally — see
+            // AdminLiveEditPage::addImageAction comment block). The
+            // picker card-click handler unmounts the picker and
+            // dispatches this event in one tick; the canvas takes
+            // over from here without any extra user interaction.
+            window.addEventListener('liveEditInsertLayoutRequest', () => {
+                try {
+                    if (window.mw && window.mw.app && window.mw.app.editor
+                        && typeof window.mw.app.editor.dispatch === 'function') {
+                        window.mw.app.editor.dispatch('insertLayoutRequest');
+                    }
+                } catch (_) { /* canvas not ready */ }
+            });
+
             // After AdminLiveEditPage::generateAction creates a new
             // page/post/product/category, navigate the canvas iframe to
             // the new content (or refresh the current page if the event

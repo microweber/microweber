@@ -128,21 +128,34 @@
              new card? Add its synonyms to $mwAddContentSynonyms below. --}}
         @php
             $mwAddContentSynonyms = [
-                'addPageAction'     => 'about services contact landing static homepage',
-                'addPostAction'     => 'article news update story news blog entry',
-                'addCategoryAction' => 'folder group section tag taxonomy',
-                'addProductAction'  => 'shop item store buy sell merchandise sku',
-                'addImageAction'    => 'photo picture banner graphic logo upload media gallery',
+                'addPageAction'           => 'about services contact landing static homepage',
+                'addPostAction'           => 'article news update story news blog entry',
+                'addCategoryAction'       => 'folder group section tag taxonomy',
+                'addProductAction'        => 'shop item store buy sell merchandise sku',
+                'addImageAction'          => 'photo picture banner graphic logo upload media gallery',
+                'addToCurrentPageAction'  => 'block layout text image button heading paragraph row column section insert',
             ];
             $mwAddContentHaystack = strtolower(
                 $action['title']
                 . ' ' . $action['description']
                 . ' ' . ($mwAddContentSynonyms[$action['action']] ?? '')
             );
+            // NOVICE #4 (task-2026-05-13-899d57) — cards with a
+            // `js_dispatch` key dispatch a client-side window event
+            // and unmount the picker, instead of routing through a
+            // Filament action. This is how "Add a block to this
+            // page" becomes a direct action: one click → picker
+            // closes → canvas listener fires Insert Layout. No
+            // server roundtrip, no meta-instruction modal.
+            $mwAddContentJsDispatch = $action['js_dispatch'] ?? null;
         @endphp
         <button
             type="button"
-            wire:click="replaceMountedAction('{{ $action['action'] }}')"
+            @if ($mwAddContentJsDispatch)
+                x-on:click="window.dispatchEvent(new CustomEvent(@js($mwAddContentJsDispatch))); try { $wire.unmountAction(); } catch (e) {}"
+            @else
+                wire:click="replaceMountedAction('{{ $action['action'] }}')"
+            @endif
             aria-label="{{ $action['title'] }}: {{ $action['description'] }}"
             data-mw-add-content-card
             data-mw-add-content-haystack="{{ $mwAddContentHaystack }}"
