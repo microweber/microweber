@@ -80,6 +80,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/page/examples' },
               { text: 'Troubleshooting', link: '/modules/page/troubleshooting' }
             ]
+          },
+          {
+            text: 'Post Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/post/' },
+              { text: 'Installation', link: '/modules/post/installation' },
+              { text: 'Usage', link: '/modules/post/usage' },
+              { text: 'API Reference', link: '/modules/post/api' },
+              { text: 'Examples', link: '/modules/post/examples' },
+              { text: 'Troubleshooting', link: '/modules/post/troubleshooting' }
+            ]
           }
         ]
       },
