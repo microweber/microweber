@@ -17,6 +17,7 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 
 use Modules\Backup\Console\Commands\BackupCommand;
 use Modules\Backup\Console\Commands\Big2DemoSeedCommand;
+use Modules\Backup\Console\Commands\Big2InstallContentCommand;
 use Modules\Backup\Console\Commands\ShopDemoSeedCommand;
 use Modules\Backup\Console\Commands\TemplateSeedRegenerateCommand;
 use Modules\Backup\Filament\Resources\BackupResource;
@@ -60,6 +61,10 @@ class BackupServiceProvider extends BaseModuleServiceProvider
             // category + N products + /shop page for mobile-audit
             // testing of the Big2 Ecommerce layouts (AI-171).
             ShopDemoSeedCommand::class,
+            // task-2026-05-13-3330a0 — Big2 full-content seeder, restores
+            // the canonical mw_default_content.zip via TemplateInstaller
+            // so tester-agent-1 has a realistic Big2 surface to evaluate.
+            Big2InstallContentCommand::class,
         ]);
 
         // Register Filament resources
