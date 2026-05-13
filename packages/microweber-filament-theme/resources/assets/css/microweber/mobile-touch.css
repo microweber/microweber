@@ -808,3 +808,91 @@ button.btn-icon.live-edit-toolbar-buttons,
         border-bottom-color: rgba(255, 255, 255, 0.06);
     }
 }
+
+/* ============================================================
+ * AI-293 (task-2026-05-13-c3c806) — RTL directional-icon flip.
+ *
+ * This is the bounded first slice of AI-293 (Low priority, multi-cycle
+ * RTL support). The HTML root already carries dir="rtl" when an RTL
+ * language is active — see `lang_attributes()` in
+ * src/MicroweberPackages/App/Managers/Helpers/Lang.php line 276 and the
+ * `<html <?php print lang_attributes(); ?>>` emission in
+ * src/MicroweberPackages/Admin/resources/views/layouts/partials/header.blade.php
+ * line 2. So the selector `[dir="rtl"]` activates automatically for
+ * Arabic / Hebrew / Farsi / Urdu users with no per-component opt-in.
+ *
+ * What this slice ships (AC #4):
+ *   - Horizontally flip directional Heroicons (arrow-*, chevron-*)
+ *     wherever Filament renders them as inline SVG, so "back" arrows
+ *     point right and "forward" arrows point left in RTL contexts.
+ *   - Flip the inline-SVG chevron pseudo-element used by Filament's
+ *     expandable rows / nav items (data-uri SVG in general-styles.css
+ *     line 1681-1692).
+ *
+ * What this slice DOES NOT do (deferred to AI-293a..f follow-ups):
+ *   AC #1 dir="rtl" admin-panel test mode toggle — needs a user-prefs
+ *         flip + a guard so toggling doesn't require setting the
+ *         interface language.
+ *   AC #2 margin-inline-start sweep — multi-file logical-property
+ *         migration across the admin theme.
+ *   AC #3 text-align: start sweep — same as AC #2 scope.
+ *   AC #5 sidebar mirror to right side in RTL — sidebar position is
+ *         driven by Filament's panel config + layout breakpoints,
+ *         needs a dedicated Filament theme override.
+ *   AC #6 Arabic placeholder test content — content-only, no code.
+ *   AC #7 RTL implementation guide — docs work.
+ *
+ * Why this slice today: directional icons are the single most
+ * disorienting RTL bug because they ACTIVELY MISLEAD navigation
+ * intent (a back-arrow pointing right in an RTL page makes users tap
+ * forward when they want back). Every other AC produces a layout
+ * imperfection; this one produces a wrong-direction action. Shipping
+ * just this rule meaningfully reduces RTL user friction even before
+ * the rest of AI-293 lands.
+ *
+ * The :not() guard list excludes non-directional icons that happen to
+ * carry the "arrow" or "chevron" stem in their name but are not
+ * affordances (trending-up/down are data indicators, not navigation).
+ * Currency / contact / decorative icons match by stem-prefix not
+ * substring so they're naturally excluded.
+ * ============================================================ */
+[dir="rtl"] svg.heroicon-o-arrow-left,
+[dir="rtl"] svg.heroicon-o-arrow-right,
+[dir="rtl"] svg.heroicon-o-arrow-long-left,
+[dir="rtl"] svg.heroicon-o-arrow-long-right,
+[dir="rtl"] svg.heroicon-o-arrow-uturn-left,
+[dir="rtl"] svg.heroicon-o-arrow-uturn-right,
+[dir="rtl"] svg.heroicon-o-arrow-small-left,
+[dir="rtl"] svg.heroicon-o-arrow-small-right,
+[dir="rtl"] svg.heroicon-m-arrow-left,
+[dir="rtl"] svg.heroicon-m-arrow-right,
+[dir="rtl"] svg.heroicon-m-arrow-long-left,
+[dir="rtl"] svg.heroicon-m-arrow-long-right,
+[dir="rtl"] svg.heroicon-m-arrow-uturn-left,
+[dir="rtl"] svg.heroicon-m-arrow-uturn-right,
+[dir="rtl"] svg.heroicon-s-arrow-left,
+[dir="rtl"] svg.heroicon-s-arrow-right,
+[dir="rtl"] svg.heroicon-o-chevron-left,
+[dir="rtl"] svg.heroicon-o-chevron-right,
+[dir="rtl"] svg.heroicon-o-chevron-double-left,
+[dir="rtl"] svg.heroicon-o-chevron-double-right,
+[dir="rtl"] svg.heroicon-m-chevron-left,
+[dir="rtl"] svg.heroicon-m-chevron-right,
+[dir="rtl"] svg.heroicon-m-chevron-double-left,
+[dir="rtl"] svg.heroicon-m-chevron-double-right,
+[dir="rtl"] svg.heroicon-s-chevron-left,
+[dir="rtl"] svg.heroicon-s-chevron-right {
+    transform: scaleX(-1);
+}
+
+/* Filament's expand/collapse pseudo-element renders an inline-SVG
+   chevron data-uri (general-styles.css:1681-1692). That can't be
+   targeted by class — flip via transform on the ::after itself.
+   Scoped to .fi-* surfaces so non-Filament chevron pseudo-elements
+   keep their orientation. */
+[dir="rtl"] .fi-sidebar-nav-item > a::after,
+[dir="rtl"] .fi-nav-group-button::after,
+[dir="rtl"] .fi-breadcrumbs-item:not(:last-child)::after {
+    transform: scaleX(-1);
+}
+
