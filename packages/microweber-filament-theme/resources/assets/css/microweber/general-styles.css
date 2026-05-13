@@ -883,6 +883,36 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     letter-spacing: 0.01em;
 }
 
+/*
+ * NOVICE #2 (task-2026-05-13-899d57) — "Undo last publish" button
+ * styling inside the Saved & Published success toast. The button
+ * sits to the right of the label and reads as a clear secondary
+ * action: text underline + transparent background + matches every
+ * other "Undo" affordance the user has seen in Gmail / Slack /
+ * Figma toasts. Hover/focus surfaces a subtle background change so
+ * keyboard users get a visible focus ring, not just a colour shift.
+ */
+.mw-notification-saved-toast__undo {
+    margin-inline-start: 0.5rem;
+    padding: 2px 8px;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1.2;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+}
+.mw-notification-saved-toast__undo:hover,
+.mw-notification-saved-toast__undo:focus-visible {
+    background: rgba(255, 255, 255, 0.18);
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
 .animate-pulse {
     animation: none;
 }

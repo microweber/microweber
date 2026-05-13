@@ -7248,6 +7248,32 @@ html[dir="rtl"] .mw-select .mw-select-value:after {
     letter-spacing: 0.01em;
 }
 
+/*
+ * NOVICE #2 (task-2026-05-13-899d57) — "Undo last publish" button
+ * styling inside the Saved & Published success toast. Mirror of
+ * the same rule in microweber-filament-theme/general-styles.css.
+ */
+.mw-notification-saved-toast__undo {
+    margin-inline-start: 0.5rem;
+    padding: 2px 8px;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1.2;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+}
+.mw-notification-saved-toast__undo:hover,
+.mw-notification-saved-toast__undo:focus-visible {
+    background: rgba(255, 255, 255, 0.18);
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
 .mw-success {
     background-color: #309e65;
     color: #fff;
