@@ -66,6 +66,24 @@ export default defineConfig({
         ]
       },
       {
+        text: 'Module Reference',
+        collapsed: false,
+        items: [
+          {
+            text: 'Page Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/page/' },
+              { text: 'Installation', link: '/modules/page/installation' },
+              { text: 'Usage', link: '/modules/page/usage' },
+              { text: 'API Reference', link: '/modules/page/api' },
+              { text: 'Examples', link: '/modules/page/examples' },
+              { text: 'Troubleshooting', link: '/modules/page/troubleshooting' }
+            ]
+          }
+        ]
+      },
+      {
         text: 'Operations',
         collapsed: true,
         items: [
