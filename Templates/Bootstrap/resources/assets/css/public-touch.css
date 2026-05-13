@@ -26,7 +26,18 @@
     --color-border-focus: #0d6efd;
 
     --color-footer-text: #F8F9FA;
-    --color-product-title: #d97706;
+    /* AI-210 (task-2026-05-13-c3a280) — product title now resolves to
+       primary text color so the public link palette stays harmonious
+       across product cards, headings, and body copy. tester observed
+       Big2 template emitting orange product titles (#F4A261) alongside
+       off-white footer links (#F8F9FA); piping the token through
+       primary text removes the warm-orange outlier and lets each
+       template still override via a stylesheet that loads after this
+       one without re-introducing the mismatch. */
+    --color-product-title: var(--color-text-primary);
+    /* Hover state lifts to the brand primary so the link affordance
+       remains discoverable. */
+    --color-product-title-hover: var(--color-primary);
 
     --radius-sm: 4px;
     --radius-md: 8px;
@@ -632,7 +643,10 @@ html.dark {
     --color-border: #374151;
     --color-border-focus: #60a5fa;
     --color-footer-text: #d1d5db;
-    --color-product-title: #f59e0b;
+    /* AI-210 — dark mode also routes product title through primary
+       text so the link palette stays consistent in both themes. */
+    --color-product-title: var(--color-text-primary);
+    --color-product-title-hover: var(--color-primary);
 }
 
 /*
@@ -1034,4 +1048,42 @@ html.dark {
  * ------------------------------------------------------------------ */
 .mw-product-card-image-placeholder {
     background-color: var(--color-surface-raised);
+}
+
+/* ------------------------------------------------------------------
+ * AI-210 (task-2026-05-13-c3a280) — product card title link color
+ * unification. tester audit observed `#F4A261` (Big2 sandy-orange) on
+ * product titles alongside `#F8F9FA` (off-white) footer links — two
+ * unrelated warm/cool values in the same visual scan-region. The
+ * design-system token `--color-product-title` now resolves to
+ * `var(--color-text-primary)` (dark in light mode, light-gray in dark
+ * mode); these rules apply the token directly to the product card
+ * anchor + heading so a downstream template's hardcoded link color
+ * cannot reintroduce the mismatch.
+ *
+ * `!important` is needed because Big2's `design-styles.css` sets
+ * `--mw-header-link-color: #f4a261` on `<a>` elements and loads in the
+ * same media-query-less context — without `!important` the
+ * equal-specificity tie + the template-set var wins.
+ *
+ * Scoped to the two shop product card variants (`.shop-products
+ * .product` default + `.mw-online-shop-skin-1-product` skin-1) so the
+ * rule cannot leak to non-product surfaces.
+ * ------------------------------------------------------------------ */
+.shop-products .product > a,
+.shop-products .product > a h4,
+.mw-online-shop-skin-1-product > a,
+.mw-online-shop-skin-1-product > a h4 {
+    color: var(--color-product-title) !important;
+}
+
+.shop-products .product > a:hover,
+.shop-products .product > a:hover h4,
+.shop-products .product > a:focus-visible,
+.shop-products .product > a:focus-visible h4,
+.mw-online-shop-skin-1-product > a:hover,
+.mw-online-shop-skin-1-product > a:hover h4,
+.mw-online-shop-skin-1-product > a:focus-visible,
+.mw-online-shop-skin-1-product > a:focus-visible h4 {
+    color: var(--color-product-title-hover) !important;
 }

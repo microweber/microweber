@@ -51,7 +51,13 @@
     /* Surface-specific color tokens — kept distinct from base text
        tokens so footer text and product titles can't share a value. */
     --color-footer-text: #F8F9FA;
-    --color-product-title: #d97706;
+    /* AI-210 (task-2026-05-13-c3a280) — product title resolves to
+       primary text color so the public link palette stays harmonious
+       across product cards, headings, and body copy. Removes the
+       warm-orange outlier flagged by tester (Big2 hardcoded #F4A261
+       vs Bootstrap #F8F9FA footer). */
+    --color-product-title: var(--color-text-primary);
+    --color-product-title-hover: var(--color-primary);
 
     /* ============================================================
      * Typography tokens
@@ -379,5 +385,8 @@ html.dark {
     --color-border-focus: #60a5fa;
 
     --color-footer-text: #d1d5db;
-    --color-product-title: #f59e0b;
+    /* AI-210 — dark mode also routes product title through primary
+       text so the link palette stays consistent in both themes. */
+    --color-product-title: var(--color-text-primary);
+    --color-product-title-hover: var(--color-primary);
 }
