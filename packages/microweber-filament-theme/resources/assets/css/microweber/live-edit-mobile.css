@@ -212,6 +212,34 @@
 }
 
 /* ------------------------------------------------------------------
+ * AI-310 (task-2026-05-13-5f1937) — sub-575.98px modal overflow fix.
+ * tester-agent measured the live-edit picker modal at width=374px with
+ * left=20px on a 390×844 viewport (iPhone 14 Pro): 374 + 20 = 394px,
+ * a 4px overflow past the right edge. The `100vw - 16px` window width
+ * from the @media (max-width:768px) block above is correct, but
+ * Filament's parent `.fi-modal` backdrop adds its own `p-4` (16px)
+ * padding-inline, so the window's *content edge* sits at
+ * parent-padding + window-margin = 16 + 8 = 24px from the viewport
+ * left — not the 8px our window-margin rule intended.
+ *
+ * Below the sm-breakpoint (575.98px, the AI-286 mobile boundary)
+ * suppress the backdrop's padding-inline and tighten the window to
+ * `100vw - 24px` with 12px margins so the window + centring fit on
+ * a 390px viewport with no horizontal overflow at all.
+ * ------------------------------------------------------------------ */
+@media (max-width: 575.98px) {
+    .mw-live-edit-page .fi-modal {
+        padding-inline: 0 !important;
+    }
+    .mw-live-edit-page .fi-modal-window,
+    .mw-live-edit-page .fi-modal-content {
+        max-width: calc(100vw - 24px) !important;
+        width: calc(100vw - 24px) !important;
+        margin: 12px !important;
+    }
+}
+
+/* ------------------------------------------------------------------
  * Add-content picker row density on mobile.
  * The +ADD picker shows 6 rows, each with Tailwind `flex gap-6 p-5`
  * + an 80x80 icon container holding a 40x40 SVG. On a 390px viewport

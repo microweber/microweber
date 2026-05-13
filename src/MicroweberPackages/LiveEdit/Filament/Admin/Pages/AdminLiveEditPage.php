@@ -115,32 +115,19 @@ class AdminLiveEditPage extends Page
             'action' => 'addImageAction',
             'icon' => 'heroicon-o-photo',
         ];
-        // AI-167 (cycle-145 2026-05-09): novice signposting — the picker
-        // is for NEW top-level content (page/post/etc.), not for adding
-        // text/image blocks to the page the user is already editing.
-        // Tester UX-engineer audit found mobile users tap "Add content"
-        // expecting to add a text block to the current page, then
-        // bounce when they see only Page/Post/Category/Product/Image
-        // options. This entry signposts the in-canvas "Insert layout /
-        // drag from left rail" flow that IS the right path for adding
-        // blocks — without trying to embed that flow inside this
-        // picker (which would conflict with the canvas iframe).
-        // AI-234 (cycle-174 2026-05-10): description shortened from
-        // 200 chars / 32 words to ~95 chars / 17 words. agent-test
-        // measured the original copy overflowing the card container
-        // at 320px width (line-clamp:3 from cycle-148 only HID the
-        // overflow with ellipsis — the user couldn't read enough of
-        // the sentence to understand what to do). The shorter copy
-        // fits in 2 lines at 230px text-column width while still
-        // pointing at the "Insert layout" toolbar button + the
-        // left-rail drag affordance — same UX intent, half the
-        // characters.
-        $actions[] = [
-            'title' => 'Add to this page',
-            'description' => 'Close this picker, then tap Insert layout in the toolbar — or drag a block from the left rail.',
-            'action' => 'addToCurrentPageAction',
-            'icon' => 'heroicon-o-cursor-arrow-rays',
-        ];
+        // AI-309 (task-2026-05-13-5f1937): the "Add to this page" picker
+        // entry (history: AI-167 cycle-145 / AI-234 cycle-174) was REMOVED
+        // here per tester-agent's UX audit. The card was a meta-instruction
+        // — "close this picker, then tap Insert layout in the toolbar" —
+        // that broke the picker's flow (read → close → find another
+        // button) instead of being a direct action. The picker's job is
+        // to create NEW top-level content; the in-canvas Insert layout /
+        // left-rail drag flow remains available via the toolbar itself.
+        // The companion `addToCurrentPageAction` method below is left in
+        // place but is no longer referenced by the picker — keeping it
+        // costs nothing and avoids a behaviour change for anyone who still
+        // dispatches it via Livewire. If a future cleanup pass confirms
+        // zero callers, the method can be deleted.
 
         return Action::make('addContentAction')
             ->modalHeading('Add new content')
