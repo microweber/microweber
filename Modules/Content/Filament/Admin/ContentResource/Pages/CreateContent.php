@@ -23,6 +23,41 @@ class CreateContent extends CreateRecord
 
     protected static string $resource = ContentResource::class;
 
+    /**
+     * NOVICE #12 (task-2026-05-13-899d57) — accept the user's
+     * already-typed title/body/excerpt from the query string when
+     * the Live Edit compact modal opens this Create page via the
+     * "Show all options" footer action. The Live Edit modal's JS
+     * (iframe-page.blade.php `attachOpenInAdminTitleSync`) appends
+     * the current typed values to the button's href on every
+     * input event; this method reads them back so the full-form
+     * Create page lands with the user's work already filled in
+     * instead of a blank form.
+     *
+     * Filament's `CreateRecord::getInitialData()` returns `[]` by
+     * default; overriding it is the canonical hook for pre-filling
+     * fields without touching the form schema. Length caps mirror
+     * the JS side (title 256, content_body 6 KB, description 2 KB)
+     * — defence-in-depth so a hand-crafted URL can't pre-fill a
+     * giant body and bloat session memory.
+     */
+    protected function getInitialData(): array
+    {
+        $defaults = parent::getInitialData();
+        $caps = [
+            'title' => 256,
+            'content_body' => 6144,
+            'description' => 2048,
+        ];
+        foreach ($caps as $key => $cap) {
+            $value = request()->query($key);
+            if (is_string($value) && trim($value) !== '') {
+                $defaults[$key] = mb_substr($value, 0, $cap);
+            }
+        }
+        return $defaults;
+    }
+
     protected function handleRecordCreation(array $data): Model
     {
         if (property_exists($this, 'activeLocale') && $this->activeLocale) {

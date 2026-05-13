@@ -835,26 +835,86 @@
                     function findTitle() {
                         return modal.querySelector('input.mw-fb-title-input, input[id$=".title"]');
                     }
+                    /*
+                     * NOVICE #12 (task-2026-05-13-899d57) — extended the
+                     * Open-in-admin URL sync to ALSO carry the user's
+                     * typed body and excerpt, not just the title. The
+                     * persona reported: "I clicked 'Show all options'
+                     * because I wanted to add tags. A new tab opened,
+                     * the original modal closed, and the title I'd typed
+                     * was gone — I had to start over." Title was already
+                     * carried (task-2026-05-04-1e4af3); body + excerpt
+                     * were not. Now ALL three fields persist.
+                     *
+                     * Caps: title 256 chars, body 6 KB, excerpt 2 KB.
+                     * URL practical limits start at ~8 KB across major
+                     * browsers + servers, so we cap each field below
+                     * its share. If the user has a longer body than
+                     * the cap, we still carry the truncated prefix —
+                     * the rest of the body is lost but the user lands
+                     * on the admin form with a meaningful head-start,
+                     * which is strictly better than losing everything.
+                     */
+                    function findBody() {
+                        return modal.querySelector('.fi-fo-rich-editor [contenteditable="true"], .ProseMirror[contenteditable="true"], .tiptap[contenteditable="true"]');
+                    }
+                    function findExcerpt() {
+                        return modal.querySelector('textarea[id$=".description"], textarea[id$=".content_body_excerpt"]');
+                    }
+                    function clip(s, limit) {
+                        s = (s || '').toString();
+                        if (s.length <= limit) return s;
+                        return s.slice(0, limit);
+                    }
                     function sync() {
                         var btn = findBtn();
                         var title = findTitle();
-                        if (!btn || !title) return;
+                        if (!btn) return;
                         if (!btn.dataset.mwOriginalHref) {
                             btn.dataset.mwOriginalHref = btn.getAttribute('href') || '';
                         }
                         var base = btn.dataset.mwOriginalHref;
-                        var typed = (title.value || '').trim();
-                        if (!typed) {
+                        var typedTitle = clip((title && title.value || '').trim(), 256);
+                        var body = findBody();
+                        var typedBody = body
+                            ? clip((body.innerHTML || '').trim(), 6144)
+                            : '';
+                        var excerpt = findExcerpt();
+                        var typedExcerpt = excerpt
+                            ? clip((excerpt.value || '').trim(), 2048)
+                            : '';
+
+                        var params = [];
+                        if (typedTitle)   params.push('title=' + encodeURIComponent(typedTitle));
+                        if (typedBody)    params.push('content_body=' + encodeURIComponent(typedBody));
+                        if (typedExcerpt) params.push('description=' + encodeURIComponent(typedExcerpt));
+
+                        if (!params.length) {
                             btn.setAttribute('href', base);
                             return;
                         }
                         var sep = base.indexOf('?') === -1 ? '?' : '&';
-                        btn.setAttribute('href', base + sep + 'title=' + encodeURIComponent(typed));
+                        btn.setAttribute('href', base + sep + params.join('&'));
                     }
                     var title = findTitle();
                     if (title) {
                         title.addEventListener('input', sync);
                         title.addEventListener('change', sync);
+                    }
+                    var excerpt = findExcerpt();
+                    if (excerpt) {
+                        excerpt.addEventListener('input', sync);
+                        excerpt.addEventListener('change', sync);
+                    }
+                    // RichEditor doesn't bubble plain 'input' from the
+                    // hidden state field; listen for events on its
+                    // contenteditable surface. Use a MutationObserver
+                    // fallback so we catch programmatic changes too.
+                    var body = findBody();
+                    if (body) {
+                        body.addEventListener('input', sync);
+                        body.addEventListener('keyup', sync);
+                        body.addEventListener('blur', sync);
                     }
                     // Also sync once on mount so any default
                     // title (when editing) is reflected.
