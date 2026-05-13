@@ -56,8 +56,18 @@
 
         @if($components)
             @foreach($components as $id => $component)
+                {{-- AI-240 (task-2026-05-13-0fb704): a11y attributes on the
+                     modal root. role="dialog" + aria-modal="true" tell
+                     assistive tech this overlay is a modal so background
+                     content is announced as inert. tabindex="-1" makes
+                     the wrapper programmatically focusable so the focus-
+                     trap script can land focus inside the modal if no
+                     focusable child exists (rare but possible). --}}
                 <div class="js-modal-livewire {{$activeComponent ? 'active' : ''}}" id="js-modal-livewire-id-{{ $id }}"
-                     wire:key="{{ $id }}">
+                     wire:key="{{ $id }}"
+                     role="dialog"
+                     aria-modal="true"
+                     tabindex="-1">
                     <div class="js-modal-livewire-content">
                         @livewire($component['name'], $component['attributes'], key($id))
                     </div>
@@ -108,8 +118,155 @@
                     delete document.body.dataset.mwModalScrollY;
                 }
 
+                /*
+                 * AI-240 focus management for the Livewire `mw-modal` overlay
+                 * (task-2026-05-13-0fb704). Filament's `.fi-modal` already
+                 * provides focus-trap + Escape + focus-return via Alpine's
+                 * x-trap + x-on:keydown.escape (vendor/filament/support/...
+                 * /components/modal/index.blade.php lines 113 + 143). The
+                 * Livewire `mw-modal` runs outside that Alpine pipeline and
+                 * had none of those affordances — keyboard users could tab
+                 * out into the page beneath, Escape was a no-op, and on
+                 * close focus fell back to <body> instead of the trigger.
+                 *
+                 * Three vanilla-JS pieces, no new npm dep:
+                 *   1. On open: remember `document.activeElement` as the
+                 *      trigger, push it onto a stack so nested modals
+                 *      stack-restore correctly, then move focus to the
+                 *      first tabbable element inside the modal (or the
+                 *      modal wrapper itself if no tabbable child exists —
+                 *      tabindex="-1" on the wrapper makes that fallback
+                 *      programmatically focusable).
+                 *   2. While open: a window-level keydown handler traps
+                 *      Tab + Shift+Tab inside the topmost modal AND closes
+                 *      it on Escape (matching the Filament behaviour).
+                 *   3. On close: pop the focus stack and restore focus to
+                 *      the saved trigger if it's still in the DOM.
+                 *
+                 * Tabbable-element selector matches the standard set used
+                 * by every focus-trap library on npm — links, buttons,
+                 * inputs/selects/textareas/checkboxes that are not
+                 * disabled, plus anything with an explicit non-negative
+                 * tabindex. We exclude `[type="hidden"]` and elements
+                 * inside `[hidden]` parents.
+                 */
+                const MW_MODAL_TABBABLE_SELECTOR = [
+                    'a[href]',
+                    'button:not([disabled])',
+                    'input:not([disabled]):not([type="hidden"])',
+                    'select:not([disabled])',
+                    'textarea:not([disabled])',
+                    '[tabindex]:not([tabindex="-1"])',
+                ].join(', ');
+
+                let mwModalFocusStack = [];
+                let mwModalKeydownBound = false;
+
+                function mwGetTopmostOpenModal() {
+                    const all = document.querySelectorAll('.js-modal-livewire');
+                    for (let i = all.length - 1; i >= 0; i--) {
+                        const el = all[i];
+                        const cs = window.getComputedStyle(el);
+                        if (cs.display !== 'none' && cs.visibility !== 'hidden') {
+                            return el;
+                        }
+                    }
+                    return null;
+                }
+
+                function mwGetTabbablesInModal(modalEl) {
+                    if (!modalEl) return [];
+                    return Array.from(modalEl.querySelectorAll(MW_MODAL_TABBABLE_SELECTOR))
+                        .filter(function (n) {
+                            if (n.offsetParent === null && n !== document.activeElement) return false;
+                            if (n.hasAttribute('disabled')) return false;
+                            return true;
+                        });
+                }
+
+                function mwModalKeydownHandler(event) {
+                    const topModal = mwGetTopmostOpenModal();
+                    if (!topModal) return;
+
+                    if (event.key === 'Escape' || event.keyCode === 27) {
+                        event.preventDefault();
+                        if (window.Livewire && typeof window.Livewire.dispatch === 'function') {
+                            window.Livewire.dispatch('closeModal');
+                        }
+                        return;
+                    }
+
+                    if (event.key !== 'Tab' && event.keyCode !== 9) return;
+
+                    const tabbables = mwGetTabbablesInModal(topModal);
+                    if (tabbables.length === 0) {
+                        event.preventDefault();
+                        topModal.focus();
+                        return;
+                    }
+
+                    const first = tabbables[0];
+                    const last = tabbables[tabbables.length - 1];
+                    const active = document.activeElement;
+
+                    if (event.shiftKey) {
+                        if (active === first || !topModal.contains(active)) {
+                            event.preventDefault();
+                            last.focus();
+                        }
+                    } else {
+                        if (active === last || !topModal.contains(active)) {
+                            event.preventDefault();
+                            first.focus();
+                        }
+                    }
+                }
+
+                function mwBindModalKeydown() {
+                    if (mwModalKeydownBound) return;
+                    document.addEventListener('keydown', mwModalKeydownHandler, true);
+                    mwModalKeydownBound = true;
+                }
+
+                function mwUnbindModalKeydown() {
+                    if (!mwModalKeydownBound) return;
+                    if (mwModalFocusStack.length > 0) return;
+                    document.removeEventListener('keydown', mwModalKeydownHandler, true);
+                    mwModalKeydownBound = false;
+                }
+
+                function mwTrapFocusForModal() {
+                    mwModalFocusStack.push(document.activeElement || null);
+                    mwBindModalKeydown();
+
+                    // Defer focus so the modal DOM is laid out + visible
+                    // before we try to focus into it (Livewire mounts the
+                    // component asynchronously).
+                    setTimeout(function () {
+                        const topModal = mwGetTopmostOpenModal();
+                        if (!topModal) return;
+                        const tabbables = mwGetTabbablesInModal(topModal);
+                        if (tabbables.length > 0) {
+                            tabbables[0].focus();
+                        } else {
+                            topModal.focus();
+                        }
+                    }, 30);
+                }
+
+                function mwReleaseFocusForModal() {
+                    const trigger = mwModalFocusStack.pop();
+                    mwUnbindModalKeydown();
+                    if (trigger && typeof trigger.focus === 'function' && document.body.contains(trigger)) {
+                        try {
+                            trigger.focus();
+                        } catch (e) { /* no-op — trigger may have been removed */ }
+                    }
+                }
+
                 Livewire.on('activeModalComponentChanged', () => {
                     mwLockBodyScrollForModal();
+                    mwTrapFocusForModal();
                 });
 
                 Livewire.on('closeMwTopDialogIframe', () => {
@@ -155,6 +312,10 @@
                     }
                     // AI-239: release the body scroll lock symmetrically with open.
                     mwUnlockBodyScrollForModal();
+                    // AI-240: release the focus trap + restore focus to the
+                    // element that triggered the modal so keyboard users
+                    // resume from their last tabstop instead of <body>.
+                    mwReleaseFocusForModal();
                 });
 
 
