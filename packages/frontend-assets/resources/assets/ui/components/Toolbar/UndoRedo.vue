@@ -1,11 +1,17 @@
 <template>
-    <button v-on:click="undo()" aria-label="Undo" class="btn btn-icon me-2 live-edit-toolbar-buttons live-edit-toolbar-buttons-undo-redo" id="vue-toolbar-undo" :disabled='undoIsDisabled'>
+    <!-- AI-274 / AI-268 (task-2026-05-13-b07dd6): hover-tooltip + keyboard
+         shortcut affordance. `title` is the visible-on-hover hint for
+         pointer users; `aria-label` continues to feed screen readers
+         (the two attributes serve different a11y surfaces and intentionally
+         carry the same human copy + shortcut hint). Mobile users see the
+         same affordance via long-press on most touch keyboards. -->
+    <button v-on:click="undo()" aria-label="Undo (Ctrl+Z)" title="Undo (Ctrl+Z)" class="btn btn-icon me-2 live-edit-toolbar-buttons live-edit-toolbar-buttons-undo-redo" id="vue-toolbar-undo" :disabled='undoIsDisabled'>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20px">
             <path
                 d="M12.5,8C9.85,8 7.45,9 5.6,10.6L2,7V16H11L7.38,12.38C8.77,11.22 10.54,10.5 12.5,10.5C16.04,10.5 19.05,12.81 20.1,16L22.47,15.22C21.08,11.03 17.15,8 12.5,8Z"/>
         </svg>
     </button>
-    <button v-on:click="redo()" aria-label="Redo" class="btn btn-icon live-edit-toolbar-buttons live-edit-toolbar-buttons-undo-redo" id="vue-toolbar-redo" :disabled='redoIsDisabled'>
+    <button v-on:click="redo()" aria-label="Redo (Ctrl+Y)" title="Redo (Ctrl+Y)" class="btn btn-icon live-edit-toolbar-buttons live-edit-toolbar-buttons-undo-redo" id="vue-toolbar-redo" :disabled='redoIsDisabled'>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20px">
             <path
                 d="M18.4,10.6C16.55,9 14.15,8 11.5,8C6.85,8 2.92,11.03 1.54,15.22L3.9,16C4.95,12.81 7.95,10.5 11.5,10.5C13.45,10.5 15.23,11.22 16.62,12.38L13,16H22V7L18.4,10.6Z"/>
@@ -17,10 +23,16 @@
 export default {
     methods: {
         undo() {
+            if (this.undoIsDisabled) {
+                return;
+            }
             mw.app.state.undo()
             this.setButtons();
         },
         redo() {
+            if (this.redoIsDisabled) {
+                return;
+            }
             mw.app.state.redo()
             this.setButtons();
         },
@@ -36,6 +48,7 @@ export default {
         };
     },
     mounted() {
+        var self = this;
         mw.app.canvas.on('liveEditCanvasLoaded', () => {
             mw.app.state.on('record', () => this.setButtons())
             mw.app.state.on('undo', () => {
@@ -78,6 +91,34 @@ export default {
 
                 this.setButtons()
             })
+
+            // AI-274 / AI-268 (task-2026-05-13-b07dd6): keyboard shortcuts.
+            // SaveButton.vue binds Ctrl+S the same way; we mirror that
+            // here so Ctrl+Z (undo), Ctrl+Y (redo) and the conventional
+            // Ctrl+Shift+Z (also redo, Mac-style alias) work everywhere
+            // mw.app.editor reaches — same handler pipeline, same
+            // disabled-state guard as the click path so a held key never
+            // dispatches past the end of the history buffer.
+            if (mw.app.editor && typeof mw.app.editor.on === 'function') {
+                mw.app.editor.on('Ctrl+Z', function (event) {
+                    if (event && typeof event.preventDefault === 'function') {
+                        event.preventDefault();
+                    }
+                    self.undo();
+                });
+                mw.app.editor.on('Ctrl+Y', function (event) {
+                    if (event && typeof event.preventDefault === 'function') {
+                        event.preventDefault();
+                    }
+                    self.redo();
+                });
+                mw.app.editor.on('Ctrl+Shift+Z', function (event) {
+                    if (event && typeof event.preventDefault === 'function') {
+                        event.preventDefault();
+                    }
+                    self.redo();
+                });
+            }
         })
 
 

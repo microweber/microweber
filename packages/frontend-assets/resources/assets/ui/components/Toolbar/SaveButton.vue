@@ -186,7 +186,10 @@ export default {
 }
 </script>
 <template>
-    <button class="btn btn-dark live-edit-toolbar-buttons" id="save-button" aria-label="Save and publish page (Ctrl+S)" @click="save()">
+    <!-- AI-274 / AI-268 (task-2026-05-13-b07dd6): `title` matches the
+         existing aria-label so pointer users see the same Ctrl+S hint
+         that screen-reader users already received via the aria-label. -->
+    <button class="btn btn-dark live-edit-toolbar-buttons" id="save-button" aria-label="Save and publish page (Ctrl+S)" title="Save & Publish (Ctrl+S)" @click="save()">
             <span class="font-weight-bold">Save &amp; Publish</span>
      </button>
 </template>

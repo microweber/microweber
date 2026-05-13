@@ -61,7 +61,16 @@ html.mw-setup-wizard-document .back-to-edit{
                  <span class="ms-1 font-weight-bold">ADMIN</span>
             </a>
 
-            <div class="live-edit-undo-redo-buttons-wrapper hidden ms-1">
+            <!-- AI-274 / AI-268 (task-2026-05-13-b07dd6): the undo/redo
+                 buttons existed (UndoRedo.vue) but the wrapper was hidden
+                 — tester audit (AI-245) flagged this as an interaction-
+                 design gap: Ctrl+Z worked nowhere because no shortcut was
+                 bound, and the buttons that DID work were invisible. The
+                 `hidden` class is now removed so the buttons surface in
+                 the toolbar; UndoRedo.vue separately binds Ctrl+Z + Ctrl+Y
+                 to the same handlers so keyboard users get the same
+                 affordance. -->
+            <div class="live-edit-undo-redo-buttons-wrapper ms-1">
                 <UndoRedo></UndoRedo>
             </div>
 
