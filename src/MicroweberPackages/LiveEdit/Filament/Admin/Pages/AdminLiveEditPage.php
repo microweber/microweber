@@ -141,7 +141,15 @@ class AdminLiveEditPage extends Page
                     ])
             ])
             ->modalSubmitAction(false)
-            ->modalCancelAction(false)
+            // NOVICE #3 (task-2026-05-13-899d57) — keep the Cancel
+            // footer button. The previous `->modalCancelAction(false)`
+            // hid every dismiss-by-button affordance, leaving only the
+            // tiny top-right X. On mobile the X was hard to thumb-reach;
+            // novices reported "the picker was stuck open" until they
+            // found it. Filament's default cancel button is a clear,
+            // full-width footer control — exactly what a confused user
+            // looks for when they want to back out.
+            ->modalCancelActionLabel('Cancel')
             // Centered modal at the same width tier as the
             // generateAction modals — so the +ADD picker visually
             // matches the modal that opens after the user picks a
@@ -211,12 +219,19 @@ class AdminLiveEditPage extends Page
             ->modalCancelActionLabel('Close')
             ->modalWidth(MaxWidth::TwoExtraLarge)
             ->extraModalFooterActions(fn (Action $action): array => [
+                // NOVICE #8 (task-2026-05-13-899d57) — open the Media
+                // Library in a new tab. The previous `openUrlInNewTab(false)`
+                // hard-navigated mid-upload: if the user dropped a file
+                // and then absent-mindedly clicked "Browse Media Library"
+                // to peek at their other images, the page navigated away
+                // and the in-progress upload was lost without warning.
+                // Opening in a new tab preserves the upload context.
                 Action::make('browseMediaLibrary')
                     ->label('Browse Media Library')
                     ->icon('heroicon-o-folder-open')
                     ->color('gray')
                     ->url(route('filament.admin.pages.media-library'))
-                    ->openUrlInNewTab(false),
+                    ->openUrlInNewTab(true),
             ])
             ->form([
                 FileUpload::make('images')

@@ -19,6 +19,15 @@ use Filament\Schemas\Components\Component;
  * for form posting — but it's still the primary hint used by 1Password,
  * Bitwarden, Apple Keychain, Chrome autofill, and most accessibility tools.
  * Adding it is purely additive.
+ *
+ * NOVICE #10 (task-2026-05-13-899d57) — extended with the standard
+ * WHATWG `autocomplete` tokens. `name="email"` alone helps SOME password
+ * managers, but `autocomplete="username"` + `autocomplete="current-password"`
+ * are what the spec actually requires for autofill, and what iOS Keychain
+ * / Android Autofill / Chrome / Edge / Safari all look for. Without
+ * these tokens, autofill silently does nothing — the novice persona
+ * reported lockouts from typo'd manual password entry after autofill
+ * failed to surface.
  */
 class Login extends BaseLogin
 {
@@ -26,13 +35,20 @@ class Login extends BaseLogin
     {
         return parent::getEmailFormComponent()
             ->placeholder(__('you@example.com'))
-            ->extraInputAttributes(['name' => 'email']);
+            ->extraInputAttributes([
+                'name' => 'email',
+                'autocomplete' => 'username',
+                'inputmode' => 'email',
+            ]);
     }
 
     protected function getPasswordFormComponent(): Component
     {
         return parent::getPasswordFormComponent()
             ->placeholder(__('Your password'))
-            ->extraInputAttributes(['name' => 'password']);
+            ->extraInputAttributes([
+                'name' => 'password',
+                'autocomplete' => 'current-password',
+            ]);
     }
 }

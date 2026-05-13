@@ -68,14 +68,20 @@
      }"
      x-init="$nextTick(() => $refs.search && $refs.search.focus())">
 
+    {{-- NOVICE #14 (task-2026-05-13-899d57) — the previous copy
+         "Search content types…" was jargon. A first-time site owner does
+         not know "content type" is a thing. Replaced with a plain-English
+         prompt that mirrors the question the user actually has in their
+         head ("what do I want to add?") and seeds them with three
+         concrete examples so they don't have to guess at the vocabulary. --}}
     <label class="mw-add-content-modal-search relative block">
-        <span class="sr-only">Search content types</span>
+        <span class="sr-only">What do you want to add?</span>
         <input
             type="search"
             x-ref="search"
             x-model="q"
-            placeholder="Search content types…"
-            aria-label="Search content types"
+            placeholder="What do you want to add? (page, post, image…)"
+            aria-label="What do you want to add?"
             autocomplete="off"
             x-on:keydown.enter.prevent="activateFirstVisibleCard()"
             x-on:keydown.arrow-down.prevent="focusFirstVisibleCard()"
@@ -109,9 +115,30 @@
              semantics work natively without manual wiring. The
              previous onkeydown shim is no longer needed —
              <button>'s default behaviour fires click on Enter and
-             on Space-keyup, exactly per ARIA APG. --}}
+             on Space-keyup, exactly per ARIA APG.
+
+             NOVICE #14 (task-2026-05-13-899d57) — extended the per-card
+             search haystack with hand-curated synonyms keyed on the
+             action name. The novice persona reported typing "photo"
+             and "article" and "banner" only to see "no content types
+             found" — because the search was exact-substring against
+             the literal titles + descriptions. The synonym map below
+             folds in the words a first-time user actually uses, so the
+             search returns the right card on the first try. Adding a
+             new card? Add its synonyms to $mwAddContentSynonyms below. --}}
         @php
-            $mwAddContentHaystack = strtolower($action['title'] . ' ' . $action['description']);
+            $mwAddContentSynonyms = [
+                'addPageAction'     => 'about services contact landing static homepage',
+                'addPostAction'     => 'article news update story news blog entry',
+                'addCategoryAction' => 'folder group section tag taxonomy',
+                'addProductAction'  => 'shop item store buy sell merchandise sku',
+                'addImageAction'    => 'photo picture banner graphic logo upload media gallery',
+            ];
+            $mwAddContentHaystack = strtolower(
+                $action['title']
+                . ' ' . $action['description']
+                . ' ' . ($mwAddContentSynonyms[$action['action']] ?? '')
+            );
         @endphp
         <button
             type="button"
@@ -139,8 +166,16 @@
     @endforeach
 
     @php
+        // NOVICE #14 — the empty-state check must use the SAME haystack
+        // (including synonyms) that the per-card x-show uses, otherwise
+        // typing "photo" filters every card to hidden AND ALSO shows the
+        // "no content types found" message — confusing twice.
         $mwAddContentHaystacks = collect($actions)
-            ->map(fn ($a) => strtolower($a['title'] . ' ' . $a['description']))
+            ->map(fn ($a) => strtolower(
+                $a['title']
+                . ' ' . $a['description']
+                . ' ' . ($mwAddContentSynonyms[$a['action']] ?? '')
+            ))
             ->values()
             ->all();
     @endphp

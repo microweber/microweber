@@ -113,7 +113,26 @@
                     if (mwModalOpenStack > 0) mwModalOpenStack--;
                     if (mwModalOpenStack > 0) return;
                     document.body.style.overflow = '';
-                    const y = parseInt(document.body.dataset.mwModalScrollY || '0', 10);
+                    /*
+                     * NOVICE #15 (task-2026-05-13-899d57) — when
+                     * `dataset.mwModalScrollY` is undefined (e.g. a
+                     * nested-modal race opened modal B before modal A's
+                     * lock fired, then both close in quick succession),
+                     * the previous code parsed the missing string as
+                     * `0` and called `window.scrollTo(0, 0)` — snapping
+                     * the user back to the top of the page. Novice
+                     * persona reported "I scrolled down to edit the
+                     * footer, opened a modal, closed it, and the page
+                     * jumped back to the top — I had to scroll all the
+                     * way down again every time." Early-return when
+                     * the stored scrollY is missing so the current
+                     * position is preserved.
+                     */
+                    const stored = document.body.dataset.mwModalScrollY;
+                    if (typeof stored === 'undefined' || stored === null || stored === '') {
+                        return;
+                    }
+                    const y = parseInt(stored, 10);
                     if (!isNaN(y)) window.scrollTo(0, y);
                     delete document.body.dataset.mwModalScrollY;
                 }
