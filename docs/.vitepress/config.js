@@ -212,6 +212,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/product/examples' },
               { text: 'Troubleshooting', link: '/modules/product/troubleshooting' }
             ]
+          },
+          {
+            text: 'Cart Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/cart/' },
+              { text: 'Installation', link: '/modules/cart/installation' },
+              { text: 'Usage', link: '/modules/cart/usage' },
+              { text: 'API Reference', link: '/modules/cart/api' },
+              { text: 'Examples', link: '/modules/cart/examples' },
+              { text: 'Troubleshooting', link: '/modules/cart/troubleshooting' }
+            ]
           }
         ]
       },
