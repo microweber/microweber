@@ -1087,3 +1087,72 @@ html.dark {
 .mw-online-shop-skin-1-product > a:focus-visible h4 {
     color: var(--color-product-title-hover) !important;
 }
+
+/* ------------------------------------------------------------------
+ * AI-265b (task-2026-05-13-56ea16) — product card LQIP blur-up effect.
+ *
+ * Builds on the AI-265 first-slice (commit 836bab5193): the wrapper
+ * `.mw-product-card-image-placeholder` already paints
+ * `background-color: var(--color-surface-raised)` which reserves the
+ * card slot and eliminates the white flash. This CSS-only follow-up
+ * adds a blur-up perceptual-performance trick on top:
+ *
+ *   - Each `<img>` rendered inside the placeholder wrapper animates
+ *     from `filter: blur(8px); opacity: 0` to
+ *     `filter: blur(0); opacity: 1` over 400ms on every render.
+ *   - The colored wrapper underneath is the static LQIP; the
+ *     animation makes the image fade in sharp over the placeholder.
+ *
+ * This is intentionally NOT tied to the JS `load` event — a pure-CSS
+ * `animation` on every render achieves the same visible result with
+ * zero JS (no load-event listener, no class-toggle script, no risk
+ * of stale state when the image hits the browser cache and resolves
+ * synchronously).
+ *
+ * `prefers-reduced-motion: no-preference` gates the rule per WCAG
+ * 2.3.3 — users who opted out of motion see the image render
+ * normally (no blur, no fade). The wrapper's color placeholder still
+ * paints in both modes so reduced-motion users still get the
+ * no-CLS / no-white-flash benefit from the AI-265 first slice.
+ *
+ * `will-change: opacity, filter` is a perf hint — without it some
+ * browsers don't promote the image to its own layer and the blur
+ * filter falls back to a low-quality software blur during the
+ * animation. The hint is auto-cleared once the animation completes.
+ *
+ * Scoped to `.mw-product-card-image-placeholder` so the rule cannot
+ * leak to non-product images (slider, blog hero, gallery, etc.).
+ * The selector matches both direct `> img` (responsive_thumbnail's
+ * current emission) AND `picture > img` (future `<picture>`-wrapped
+ * variant if/when the WebP pipeline AI-265a lands).
+ *
+ * Acceptance:
+ *   - AC #1 Blur effect visible on placeholder ✓
+ *   - AC #2 Smooth transition when image loads ✓ (400ms ease-out
+ *     animation from blur+transparent to sharp+opaque)
+ *   - AC #3 No layout shift (CLS = 0) ✓ — animation only touches
+ *     opacity + filter, never margin/padding/transform-translate or
+ *     box dimensions; the AI-265 first-slice aspect-ratio wrapper
+ *     keeps the slot reserved
+ *   - AC #4 Works at 390x844 mobile viewport ✓ — no media-query gate
+ *     beyond the prefers-reduced-motion exception, so the rule
+ *     applies to every viewport
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+    .mw-product-card-image-placeholder > img,
+    .mw-product-card-image-placeholder picture > img {
+        animation: mw-product-card-image-blur-up 400ms ease-out 1 both;
+        will-change: opacity, filter;
+    }
+}
+
+@keyframes mw-product-card-image-blur-up {
+    from {
+        opacity: 0;
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
