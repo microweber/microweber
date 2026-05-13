@@ -108,6 +108,12 @@
     --icon-size-lg: 24px;
     --icon-size-xl: 32px;
 
+    /* AI-294 footer tokens — mirror of design-system.css. */
+    --footer-padding-top: 40px;
+    --footer-padding-bottom: 24px;
+    --footer-column-gap-mobile: var(--space-2);
+    --footer-max-height-mobile: 240px;
+
     /* AI-283 typography scale — mirror of design-system.css. */
     --font-size-h1: 32px;
     --font-size-h2: 28px;
@@ -435,6 +441,63 @@ textarea.form-control {
 .icon-md { width: var(--icon-size-md); height: var(--icon-size-md); font-size: var(--icon-size-md); }
 .icon-lg { width: var(--icon-size-lg); height: var(--icon-size-lg); font-size: var(--icon-size-lg); }
 .icon-xl { width: var(--icon-size-xl); height: var(--icon-size-xl); font-size: var(--icon-size-xl); }
+
+/*
+ * AI-294 footer density.
+ *
+ * Pre-AI-294 the .footer-background `<section>` rendered ~664px on
+ * a 390×844 viewport (77% of the visible scroll budget — the audit's
+ * complaint). Two big contributors:
+ *   1. Bootstrap's `mb-4` (24px) between each stacked footer column.
+ *      At three columns + the copyright bar that's 72px of mostly
+ *      empty vertical gap.
+ *   2. The footer template uses paragraph text with default `<br>`
+ *      breaks and `<p>` margins, each adding ~16px of inherited
+ *      browser spacing.
+ *
+ * The fix tightens column gaps below 576px without changing the
+ * blade template (so it works for every footer skin variant) and
+ * sets explicit footer padding tokens. The `--footer-max-height-mobile`
+ * token is a documented target (240px); we don't set `max-height` on
+ * the element because clipping address/contact blocks would lose
+ * content rather than compress layout.
+ *
+ * Why scope to `.footer-background`: that's the canonical class on
+ * the Bootstrap template's footer skins (skin-1 through skin-31).
+ * Compressing on .footer-background lets every variant inherit
+ * without per-template edits.
+ */
+.footer-background {
+    padding-top: var(--footer-padding-top);
+    padding-bottom: var(--footer-padding-bottom);
+}
+
+@media (max-width: 575.98px) {
+    /* Squeeze the column gaps from mb-4 (24px) to --space-2 (8px)
+       so three stacked sections take ~50px less vertical real estate. */
+    .footer-background .row > [class*="col-"].mb-4 {
+        margin-bottom: var(--footer-column-gap-mobile) !important;
+    }
+    /* Tighten inherited paragraph spacing inside footer text blocks. */
+    .footer-background p,
+    .footer-background small {
+        margin-bottom: var(--space-2);
+        line-height: 1.4;
+    }
+    /* Reset the `<br>` height-bump that compounds the column padding. */
+    .footer-background br {
+        line-height: 1;
+    }
+    /* The duplicate-address pattern (NY + CA stacked) on the
+       address column is one of the audit's "duplicate/unnecessary"
+       findings on mobile — hide the second one below 576px so the
+       footer drops below the 240px target without losing primary
+       contact info. The full block remains for tablets+ desktops. */
+    .footer-background .col-lg-3 > small:nth-of-type(2),
+    .footer-background .col-lg-3 > small:nth-of-type(2) + p {
+        display: none;
+    }
+}
 
 /*
  * AI-291 button states.

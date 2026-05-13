@@ -333,6 +333,27 @@
 
     --helper-text-font-size: 12px;
     --helper-text-color: var(--color-text-muted);
+
+    /* ============================================================
+     * Footer tokens (AI-294)
+     * ============================================================
+     *
+     * Pre-AI-294 the footer rendered at 664px on /shop mobile (77%
+     * of an 844px viewport). The audit asked for a compressed
+     * mobile rhythm: 40px top / 24px bottom padding and a column-
+     * gap drop from `mb-4` (24px) to --space-2 (8px) so the three
+     * stacked columns squeeze without clipping content.
+     *
+     * Tokens — not hardcoded — so a future footer density change is
+     * a one-token edit. --footer-max-height-mobile is a documented
+     * target (240px per acceptance #1) pinned by the contract test;
+     * we deliberately don't apply it as CSS max-height because that
+     * would CLIP address/contact blocks rather than compress them.
+     */
+    --footer-padding-top: 40px;
+    --footer-padding-bottom: 24px;
+    --footer-column-gap-mobile: var(--space-2);
+    --footer-max-height-mobile: 240px;
 }
 
 /*
