@@ -176,6 +176,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/user/examples' },
               { text: 'Troubleshooting', link: '/modules/user/troubleshooting' }
             ]
+          },
+          {
+            text: 'Profile Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/profile/' },
+              { text: 'Installation', link: '/modules/profile/installation' },
+              { text: 'Usage', link: '/modules/profile/usage' },
+              { text: 'API Reference', link: '/modules/profile/api' },
+              { text: 'Examples', link: '/modules/profile/examples' },
+              { text: 'Troubleshooting', link: '/modules/profile/troubleshooting' }
+            ]
           }
         ]
       },
