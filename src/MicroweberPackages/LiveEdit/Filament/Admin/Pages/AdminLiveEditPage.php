@@ -77,28 +77,35 @@ class AdminLiveEditPage extends Page
         // need a Page or a Post. Each description now answers the
         // single question the user has at this moment: "Which one
         // do I want?" with one concrete example.
+        // NOVICE #5 (task-2026-05-13-899d57) — extended each
+        // description with a "Pick this if" / "Skip this for now"
+        // second sentence. The persona reported: "Page sounds the
+        // safest, I'll pick that" — meaning the previous one-liners
+        // didn't actually help the user decide; they just listed
+        // examples. A clear decision rule beats a longer example
+        // list every time.
         $actions = [];
         $actions[] = [
             'title' => 'New Page',
-            'description' => 'A standalone page like About, Services or Contact.',
+            'description' => 'A standalone page like About, Services or Contact. Pick this if you want a single permanent page that lives at its own URL.',
             'action' => 'addPageAction',
             'icon' => 'mw-add-page',
         ];
         $actions[] = [
             'title' => 'New Post',
-            'description' => 'A blog article or news story that appears in your Blog list.',
+            'description' => 'A blog article or news story that appears in your Blog list. Pick this if you want to publish dated updates that stack newest-first.',
             'action' => 'addPostAction',
             'icon' => 'mw-add-post',
         ];
         $actions[] = [
             'title' => 'New Category',
-            'description' => 'A folder to group your blog posts or shop items.',
+            'description' => 'A folder to group your blog posts or shop items. Skip this for now unless you already have lots of posts or products to organise.',
             'action' => 'addCategoryAction',
             'icon' => 'mw-add-category',
         ];
         $actions[] = [
             'title' => 'New Product',
-            'description' => 'An item to sell in your online shop.',
+            'description' => 'An item to sell in your online shop. Pick this if you have something physical, digital, or a service to charge money for.',
             'action' => 'addProductAction',
             'icon' => 'mw-add-product',
         ];
@@ -114,7 +121,7 @@ class AdminLiveEditPage extends Page
         // when adding a Picture / Slider module to a page.
         $actions[] = [
             'title' => 'New Image',
-            'description' => 'Upload a picture, photo, or graphic to the Media Library. Once uploaded, you can drop it into any page.',
+            'description' => 'Upload a picture, photo, or graphic to the Media Library. Pick this if you just want to add a photo from your camera roll — you can drop it into any page afterwards.',
             'action' => 'addImageAction',
             'icon' => 'heroicon-o-photo',
         ];
@@ -139,7 +146,7 @@ class AdminLiveEditPage extends Page
         // hunting for the toolbar button after reading instructions.
         $actions[] = [
             'title' => 'Add a block to this page',
-            'description' => 'Drop text, images, buttons, headings or any other block into the page you are editing right now.',
+            'description' => 'Drop text, images, buttons, headings or any other block into the page you are editing right now. Pick this if you just want to add content WITHIN the current page — not create a new page.',
             'action' => 'addToCurrentPageAction',
             'icon' => 'heroicon-o-plus-circle',
             'js_dispatch' => 'liveEditInsertLayoutRequest',
