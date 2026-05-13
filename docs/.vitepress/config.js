@@ -200,6 +200,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/shop/examples' },
               { text: 'Troubleshooting', link: '/modules/shop/troubleshooting' }
             ]
+          },
+          {
+            text: 'Product Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/product/' },
+              { text: 'Installation', link: '/modules/product/installation' },
+              { text: 'Usage', link: '/modules/product/usage' },
+              { text: 'API Reference', link: '/modules/product/api' },
+              { text: 'Examples', link: '/modules/product/examples' },
+              { text: 'Troubleshooting', link: '/modules/product/troubleshooting' }
+            ]
           }
         ]
       },
