@@ -917,6 +917,76 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     animation: none;
 }
 
+/*
+ * NOVICE #6 (task-2026-05-13-899d57) — user-menu button visual
+ * rework. The legacy `.mw-le-hamburger` is a 24×17 box with three
+ * absolutely-positioned span bars. We're keeping the class for
+ * back-compat (tests + the .active>.mw-le-hamburger>span:nth-child(2)
+ * highlight rule in live-edit-classes.css both target it) but
+ * overriding sizing/layout with the new `.mw-le-user-menu-button`
+ * modifier so the affordance reads as a real account-menu button:
+ * pill shape, user icon on the left, optional "Menu" label, chevron
+ * on the right. Hover/focus surfaces a subtle background change for
+ * pointer + keyboard users alike.
+ */
+.mw-le-user-menu-button {
+    /* Reset the legacy absolute-bars sizing */
+    width: auto;
+    height: auto;
+    /* Real button shape */
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+.mw-le-user-menu-button:hover,
+.mw-le-user-menu-button:focus-visible {
+    background-color: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+html.dark .mw-le-user-menu-button:hover,
+html.dark .mw-le-user-menu-button:focus-visible {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+.mw-le-user-menu-button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+.mw-le-user-menu-button__icon {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+}
+.mw-le-user-menu-button__label {
+    letter-spacing: 0.02em;
+}
+.mw-le-user-menu-button__chevron {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+    transition: transform 150ms ease;
+}
+/* When the wrapper has .active, the chevron flips up — same visual
+   feedback dropdown menus give the user everywhere on the web. */
+#user-menu-wrapper.active .mw-le-user-menu-button__chevron {
+    transform: rotate(180deg);
+}
+/* Hide the legacy three-bar inner spans if they ever leak in via
+   a different rendering path (e.g. an older cached Vue bundle). */
+.mw-le-user-menu-button > span:empty {
+    display: none;
+}
+
 .btn-link.mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed {
     @apply !text-gray-900 dark:!text-white;
 }

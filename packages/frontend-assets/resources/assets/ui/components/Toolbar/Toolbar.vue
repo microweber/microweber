@@ -122,11 +122,48 @@ html.mw-setup-wizard-document .back-to-edit{
             </div>
 
             <div id="user-menu-wrapper" class="align-self-center">
-                <span class="mw-le-hamburger" id="toolbar-user-menu-button" role="button" aria-label="User menu" aria-haspopup="true" @click="userMenu()">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </span>
+                <!--
+                  NOVICE #6 (task-2026-05-13-899d57) — the original button
+                  was three bare <span> bars with no icon, no label, and
+                  no chevron. Novice persona reported: "I closed the tab
+                  to log out — I had no idea Logout, Light/Dark mode, or
+                  the user settings were hidden there."
+
+                  Replaced the three nameless bars with a real button
+                  shape: user icon + "Menu" text (visible on screens
+                  wider than mobile via the d-none/d-md-inline pair) +
+                  chevron-down to signal "click for more". The button
+                  reads as an account-menu affordance at first glance.
+
+                  Tooltip and aria-label preserved so screen-reader
+                  users keep the same announce-text they already had.
+
+                  The .mw-le-hamburger class is kept on the parent
+                  because (a) existing selectors in live-edit-classes.css
+                  target .active>.mw-le-hamburger for the open-state
+                  visual, and (b) the test suite has Browser tests that
+                  look for the class. Sizing/visuals are now overridden
+                  by .mw-le-user-menu-button (added to the same element)
+                  + scoped CSS — see general-styles.css.
+                -->
+                <button
+                    type="button"
+                    class="mw-le-hamburger mw-le-user-menu-button"
+                    id="toolbar-user-menu-button"
+                    aria-label="Open user menu"
+                    aria-haspopup="true"
+                    title="Menu — logout, account settings, light/dark mode"
+                    @click="userMenu()"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="mw-le-user-menu-button__icon" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M4 21a8 8 0 0 1 16 0"></path>
+                    </svg>
+                    <span class="mw-le-user-menu-button__label d-none d-md-inline">Menu</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mw-le-user-menu-button__chevron" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
                 <div id="user-menu" class="mw-le-nav-box">
                     <nav aria-label="User navigation">
                         <a v-for="menuItem in menu" :href="menuItem.href" :onclick="menuItem.onclick" :target="menuItem.target" :id="menuItem.id" :ref="menuItem.ref?menuItem.ref:''" :class="menuItem.class?menuItem.class:''">

@@ -7274,6 +7274,65 @@ html[dir="rtl"] .mw-select .mw-select-value:after {
     outline-offset: 2px;
 }
 
+/*
+ * NOVICE #6 (task-2026-05-13-899d57) — user-menu button visual rework.
+ * Mirror of the same rule in microweber-filament-theme/general-styles.css.
+ * The legacy `.mw-le-hamburger` is kept for back-compat; the new
+ * `.mw-le-user-menu-button` modifier turns the three-bar icon into a
+ * proper account-menu pill (user icon + Menu label + chevron).
+ */
+.mw-le-user-menu-button {
+    width: auto;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+.mw-le-user-menu-button:hover,
+.mw-le-user-menu-button:focus-visible {
+    background-color: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+html.dark .mw-le-user-menu-button:hover,
+html.dark .mw-le-user-menu-button:focus-visible {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+.mw-le-user-menu-button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+.mw-le-user-menu-button__icon {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+}
+.mw-le-user-menu-button__label {
+    letter-spacing: 0.02em;
+}
+.mw-le-user-menu-button__chevron {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+    transition: transform 150ms ease;
+}
+#user-menu-wrapper.active .mw-le-user-menu-button__chevron {
+    transform: rotate(180deg);
+}
+.mw-le-user-menu-button > span:empty {
+    display: none;
+}
+
 .mw-success {
     background-color: #309e65;
     color: #fff;
