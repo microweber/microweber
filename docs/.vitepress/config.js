@@ -140,6 +140,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/medialibrary/examples' },
               { text: 'Troubleshooting', link: '/modules/medialibrary/troubleshooting' }
             ]
+          },
+          {
+            text: 'Menu Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/menu/' },
+              { text: 'Installation', link: '/modules/menu/installation' },
+              { text: 'Usage', link: '/modules/menu/usage' },
+              { text: 'API Reference', link: '/modules/menu/api' },
+              { text: 'Examples', link: '/modules/menu/examples' },
+              { text: 'Troubleshooting', link: '/modules/menu/troubleshooting' }
+            ]
           }
         ]
       },
