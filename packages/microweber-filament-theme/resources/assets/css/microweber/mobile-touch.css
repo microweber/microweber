@@ -896,3 +896,77 @@ button.btn-icon.live-edit-toolbar-buttons,
     transform: scaleX(-1);
 }
 
+/* AI-515 — iOS safe-area-inset coverage for the notch + home-indicator
+   gesture bar on iPhone X+ and modern iPads. Fixed/sticky chrome that
+   would otherwise collide with the rounded screen corners or the home
+   gesture pill gets padded by the OS-reported inset value, falling
+   back to the existing visual padding when the inset is zero (older
+   devices, non-iOS browsers, viewport-fit=auto contexts).
+
+   `viewport-fit=cover` is set on the Live Edit canvas iframe in
+   iframe.blade.php so these inset values become non-zero on iOS.
+   The Filament admin panel still ships its default viewport meta
+   without `viewport-fit=cover`, so on those surfaces the env() values
+   evaluate to 0 and these rules are inert — but they remain
+   future-proof for when the admin panel adopts edge-to-edge layout.
+
+   Wrapped in @supports so legacy browsers (IE11, very old Android
+   WebView) skip the block entirely rather than mis-parse the env(). */
+@supports (padding-top: env(safe-area-inset-top)) {
+    /* Filament admin top bar (sticky at top on mobile widths) */
+    body.fi-panel-admin .fi-topbar {
+        padding-top: max(0px, env(safe-area-inset-top));
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+
+    /* Filament checkout top bar — same treatment for the checkout panel */
+    body.fi-panel-checkout .fi-topbar {
+        padding-top: max(0px, env(safe-area-inset-top));
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+
+    /* Page content gets bottom padding so the last row isn't hidden
+       under the home-indicator gesture bar. Use additive max() so
+       any existing bottom padding wins on small insets. */
+    body.fi-panel-admin .fi-page,
+    body.fi-panel-checkout .fi-page {
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+
+    /* Filament sidebar nav (mobile slide-in drawer) — the very last
+       nav item would otherwise sit under the gesture bar on iOS. */
+    body.fi-panel-admin .fi-sidebar-nav,
+    body.fi-panel-checkout .fi-sidebar-nav {
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+
+    /* Live Edit canvas — the toolbar at the very top of the iframe
+       can sit under the notch when viewport-fit=cover is on. */
+    .live-edit-toolbar,
+    .mw-le-toolbar {
+        padding-top: max(0px, env(safe-area-inset-top));
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+
+    /* mw-modal floating close-X (added in AI-307 follow-up) — pushed
+       in from the notch + rounded corner on iPhone landscape. */
+    .mw-modal-close-x {
+        top: max(0.5rem, env(safe-area-inset-top));
+        right: max(0.5rem, env(safe-area-inset-right));
+    }
+
+    /* Fixed bottom action bars (e.g. checkout sticky CTAs) — keep
+       the tap target above the gesture bar. Scoped to mobile widths
+       only via the existing surrounding media-query patterns; this
+       rule is broad on purpose to catch any opt-in element marked
+       with the bottom-safe class. */
+    .mw-safe-area-bottom,
+    .live-edit-bottom-bar,
+    .mw-le-bottom-bar {
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+}
+
