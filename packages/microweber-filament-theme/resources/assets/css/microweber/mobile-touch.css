@@ -970,3 +970,98 @@ button.btn-icon.live-edit-toolbar-buttons,
     }
 }
 
+/* ============================================================
+ * AI-510 — Desktop data-table improvements (≥1024px).
+ *
+ * AI-246 already flips admin tables to a stacked card layout below
+ * 1024px, so this block targets the inverse media range: classic
+ * tabular layout where horizontal scroll, weak sort affordances, and
+ * checkbox drift become the cardinal sins called out by the UX audit
+ * (COMPREHENSIVE_UX_AUDIT_PLAN.md task 1.2.1).
+ *
+ * Three coordinated changes:
+ *   1. Sort indicator visibility — when a header carries
+ *      `aria-sort="ascending"` or `"descending"` (emitted by Filament
+ *      v5 when the column is the active sort), tint its background and
+ *      raise its font-weight so the active sort jumps out without the
+ *      user squinting at the chevron icon.
+ *   2. Sticky first column — `position: sticky; left: 0;` on the first
+ *      cell in every row keeps the title column anchored when the
+ *      table overflows horizontally, so context never scrolls offscreen.
+ *      Background colour is restated so scrolling content beneath
+ *      doesn't bleed through.
+ *   3. Checkbox vertical-alignment normalisation — Filament's default
+ *      sometimes leaves the row-select checkbox off-centre when the
+ *      adjacent cell wraps. Pin `align-items: center` on the cell
+ *      and `vertical-align: middle` on the input so the click target
+ *      stays consistent across rows.
+ *
+ * Out of scope (deferred to AI-510a..c follow-up tickets):
+ *   - Replacing the row-action "…" menu with 2–3 inline icon buttons
+ *     (requires per-resource PHP edits — Content::table, Product::table,
+ *     User::table, etc., across many modules). Best done as a sweep
+ *     after the visual baseline is stable.
+ *   - Per-row hover-shown action affordance (CSS-only candidate for
+ *     AI-510b once the inline-icon shape is settled).
+ *
+ * Scoped to `body.fi-panel-admin` + `body.fi-panel-checkout` to avoid
+ * touching public-site tables.
+ * ============================================================ */
+@media (min-width: 1024px) {
+    /* 1. Sort indicator visibility */
+    body.fi-panel-admin .fi-ta-header-cell[aria-sort="ascending"],
+    body.fi-panel-admin .fi-ta-header-cell[aria-sort="descending"],
+    body.fi-panel-checkout .fi-ta-header-cell[aria-sort="ascending"],
+    body.fi-panel-checkout .fi-ta-header-cell[aria-sort="descending"] {
+        background-color: rgba(13, 110, 253, 0.06);
+        font-weight: 600;
+    }
+
+    /* Dark-mode equivalent — keep the tint visible against the
+       Filament dark panel background. Filament v5 sets the dark theme
+       on `<html class="dark">`. */
+    html.dark body.fi-panel-admin .fi-ta-header-cell[aria-sort="ascending"],
+    html.dark body.fi-panel-admin .fi-ta-header-cell[aria-sort="descending"],
+    html.dark body.fi-panel-checkout .fi-ta-header-cell[aria-sort="ascending"],
+    html.dark body.fi-panel-checkout .fi-ta-header-cell[aria-sort="descending"] {
+        background-color: rgba(13, 110, 253, 0.18);
+    }
+
+    /* 2. Sticky first column when the table overflows horizontally.
+       `position: sticky` is relative to the nearest scroll container,
+       which is Filament's `.fi-ta-ctn` / `.fi-ta-content-ctn`. The
+       background is restated so the sticky cell remains opaque as
+       other cells scroll behind it. */
+    body.fi-panel-admin .fi-ta-table > thead > tr > th:first-child,
+    body.fi-panel-admin .fi-ta-table > tbody > tr > td:first-child,
+    body.fi-panel-checkout .fi-ta-table > thead > tr > th:first-child,
+    body.fi-panel-checkout .fi-ta-table > tbody > tr > td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background-color: var(--bs-body-bg, #ffffff);
+    }
+    html.dark body.fi-panel-admin .fi-ta-table > thead > tr > th:first-child,
+    html.dark body.fi-panel-admin .fi-ta-table > tbody > tr > td:first-child,
+    html.dark body.fi-panel-checkout .fi-ta-table > thead > tr > th:first-child,
+    html.dark body.fi-panel-checkout .fi-ta-table > tbody > tr > td:first-child {
+        background-color: rgb(17, 24, 39);
+    }
+
+    /* 3. Checkbox vertical-alignment normalisation. Use the modern
+       `:has()` selector so we only touch cells that actually carry a
+       checkbox — non-checkbox cells keep Filament's default cell
+       alignment (top-aligned when content wraps). */
+    body.fi-panel-admin .fi-ta-cell:has(> .fi-checkbox-input),
+    body.fi-panel-admin .fi-ta-cell:has(input[type="checkbox"]),
+    body.fi-panel-checkout .fi-ta-cell:has(> .fi-checkbox-input),
+    body.fi-panel-checkout .fi-ta-cell:has(input[type="checkbox"]) {
+        vertical-align: middle;
+    }
+    body.fi-panel-admin .fi-ta-cell .fi-checkbox-input,
+    body.fi-panel-admin .fi-ta-cell input[type="checkbox"],
+    body.fi-panel-checkout .fi-ta-cell .fi-checkbox-input,
+    body.fi-panel-checkout .fi-ta-cell input[type="checkbox"] {
+        vertical-align: middle;
+    }
+}
