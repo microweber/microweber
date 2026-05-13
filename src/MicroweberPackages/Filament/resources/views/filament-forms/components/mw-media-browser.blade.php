@@ -40,30 +40,73 @@
                 });
             </script>
 
+            {{--
+                NOVICE #9 (task-2026-05-13-899d57) — affordance rewrite.
+
+                The previous single-button copy read "Select media file or
+                **Upload**" — neither word was clickable in a way the user
+                could distinguish, and "media file" is jargon a novice site
+                owner doesn't speak. Worse, both words triggered the same
+                file-picker dialog, so the user who clicked "Upload"
+                expecting an upload flow got the same browser dialog as
+                someone clicking "Select" — and bounced because the dialog
+                "looked like the OS dialog, not the Microweber media
+                library" (audit verbatim).
+
+                Replaced with TWO clearly-distinct buttons inside the
+                drop zone:
+
+                  1. PRIMARY:  "Choose from Media Library" (pill button)
+                  2. SECONDARY: "Upload from your device"  (underline link)
+
+                Both still dispatch `mw.filePickerDialog` because that's
+                the canonical Microweber file-browser entry — the dialog
+                itself contains both library + upload tabs. The visual
+                split tells the user "you have options" up front, which
+                was the missing affordance.
+
+                Copy: "media file" → "image". Added a named tip line for
+                the drop zone so the drag-and-drop affordance is
+                explicit, not implicit.
+
+                Deferred to a separate ticket: a recent-uploads thumbnail
+                strip directly inside this picker. That would need a new
+                Livewire endpoint exposing the latest N media rows
+                site-wide (not just the ones already attached to THIS
+                module) — out of scope for the bounded slice here.
+            --}}
+            @php
+                $mwMediaBrowserPickerHandler = "() => { mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => { if (!Array.isArray(url)) { url = [url]; } \$wire.callSchemaComponentMethod('" . $statePath . "', 'addMediaItemMultiple', { data: { urls: url } }); }); }";
+            @endphp
             <div
                 id="mw-image-dropzone"
-                class="w-full flex flex-col p-3 items-center justify-center border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+                class="mw-media-browser-dropzone w-full flex flex-col p-4 items-center justify-center border-2 border-dashed border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+            >
 
-                <button
-                    class="w-full py-6 full flex flex-col items-center justify-center"
-                    type="button" x-on:click="()=> {
+                <x-heroicon-o-photo class="w-8 h-8 text-gray-400 mb-3" />
 
-                    mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => {
-                            if(!Array.isArray(url)) {
-                                url = [url];
-                            }
-                            $wire.callSchemaComponentMethod('{{ $statePath }}', 'addMediaItemMultiple', {
-                                    data: { urls: url }
-                                })
-                    });
+                <div class="flex flex-col items-center gap-2 mb-2">
+                    <button
+                        type="button"
+                        class="mw-media-browser-primary-btn inline-flex items-center justify-center px-4 py-2 rounded-full bg-indigo-600 text-white font-semibold text-sm shadow hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                        title="Browse images already in your Media Library"
+                        x-on:click="{{ $mwMediaBrowserPickerHandler }}">
+                        <x-heroicon-m-photo class="w-4 h-4 me-2 -ms-1" aria-hidden="true" />
+                        Choose from Media Library
+                    </button>
 
-                }">
+                    <button
+                        type="button"
+                        class="mw-media-browser-secondary-btn inline-flex items-center justify-center text-sm font-medium text-indigo-600 underline underline-offset-4 hover:text-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 rounded"
+                        title="Pick an image from your phone or computer to add to the Media Library"
+                        x-on:click="{{ $mwMediaBrowserPickerHandler }}">
+                        Upload from your device
+                    </button>
+                </div>
 
-                <x-heroicon-o-arrow-up-tray class="w-8 h-8 text-gray-400 mb-2" />
-                <span>
-                    Select media file or <b class="text-yellow-500 font-bold">Upload</b>
-                </span>
-                </button>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
+                    Tip: you can also drag images directly into this box.
+                </p>
 
                 <style>
                     .admin-thumbs-holder-images-wrap:not(:has(.background-image-holder)) .admin-thumbs-holder-bulk-actions {
