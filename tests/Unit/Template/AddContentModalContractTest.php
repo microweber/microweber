@@ -109,6 +109,144 @@ class AddContentModalContractTest extends TestCase
     }
 
     #[Test]
+    public function picker_auto_focuses_search_input_on_modal_open(): void
+    {
+        $blade = $this->readFile(self::ADD_CONTENT_MODAL_BLADE);
+
+        // free-form UX improvement (task-2026-05-13-bf1966)
+        $this->assertMatchesRegularExpression(
+            '/x-init="\$nextTick\(\(\) => \$refs\.search && \$refs\.search\.focus\(\)\)"/',
+            $blade,
+            'Picker must auto-focus the search input on modal open via x-init + $nextTick + $refs.search so users can type immediately.'
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/<input\b[^>]*\bx-ref="search"/s',
+            $blade,
+            'Search input must carry x-ref="search" so the focus + clear handlers can reach it.'
+        );
+    }
+
+    #[Test]
+    public function picker_search_input_supports_command_palette_keyboard_navigation(): void
+    {
+        $blade = $this->readFile(self::ADD_CONTENT_MODAL_BLADE);
+
+        // Enter on the search input activates the first visible card
+        // (command-palette pattern — one-keystroke selection when exactly
+        // one card matches).
+        $this->assertMatchesRegularExpression(
+            '/<input\b[^>]*\bx-on:keydown\.enter\.prevent="activateFirstVisibleCard\(\)"/s',
+            $blade,
+            'Enter on the search input must call activateFirstVisibleCard() so users can type → Enter without leaving the keyboard.'
+        );
+
+        // ArrowDown from the search moves focus to the first visible
+        // card; ArrowUp from the search moves focus to the last visible
+        // card.
+        $this->assertMatchesRegularExpression(
+            '/<input\b[^>]*\bx-on:keydown\.arrow-down\.prevent="focusFirstVisibleCard\(\)"/s',
+            $blade,
+            'ArrowDown on the search input must call focusFirstVisibleCard() — standard command-palette navigation.'
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/<input\b[^>]*\bx-on:keydown\.arrow-up\.prevent="focusLastVisibleCard\(\)"/s',
+            $blade,
+            'ArrowUp on the search input must call focusLastVisibleCard() — wraps to the bottom of the list.'
+        );
+    }
+
+    #[Test]
+    public function picker_action_cards_cycle_focus_via_arrow_keys(): void
+    {
+        $blade = $this->readFile(self::ADD_CONTENT_MODAL_BLADE);
+
+        $this->assertMatchesRegularExpression(
+            '/data-mw-add-content-card[^>]*x-on:keydown\.arrow-down\.prevent="focusNextCard\(\$el\)"/s',
+            $blade,
+            'Each action card must carry x-on:keydown.arrow-down="focusNextCard($el)" so ArrowDown moves to the next visible card (or back to the search input at the end).'
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/data-mw-add-content-card[^>]*x-on:keydown\.arrow-up\.prevent="focusPrevCard\(\$el\)"/s',
+            $blade,
+            'Each action card must carry x-on:keydown.arrow-up="focusPrevCard($el)" so ArrowUp moves to the previous visible card (or back to the search input at the start).'
+        );
+    }
+
+    #[Test]
+    public function picker_search_input_has_inline_clear_button_when_query_non_empty(): void
+    {
+        $blade = $this->readFile(self::ADD_CONTENT_MODAL_BLADE);
+
+        // The .mw-add-content-modal-search-clear button must exist AND
+        // be gated by x-show="q !== ''" — attribute order on the tag is
+        // not asserted (the rendered tag interleaves x-show, x-on:click,
+        // aria-label, class, style based on author preference).
+        $this->assertStringContainsString(
+            'mw-add-content-modal-search-clear',
+            $blade,
+            'Search input must have an inline clear button carrying the .mw-add-content-modal-search-clear class.'
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/x-show="q !== \'\'"/',
+            $blade,
+            "Clear button must be gated by x-show=\"q !== ''\" so it only appears when there is text to clear."
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/x-on:click="q = \'\'; \$refs\.search\.focus\(\)"/',
+            $blade,
+            'Clear button click must reset q to empty AND re-focus the search input so users can keep typing.'
+        );
+
+        $this->assertStringContainsString(
+            'aria-label="Clear search"',
+            $blade,
+            'Clear button must carry aria-label="Clear search" for assistive tech.'
+        );
+
+        // Default `style="display: none;"` so the button does not flash
+        // visible before Alpine initialises (same belt-and-braces pattern
+        // the empty-state element uses).
+        // The empty-state element ALSO carries style="display: none;",
+        // so assert that the file has at least 2 occurrences (one for
+        // the clear button, one for the empty-state).
+        $occurrences = substr_count($blade, 'style="display: none;"');
+        $this->assertGreaterThanOrEqual(
+            2,
+            $occurrences,
+            'Both the clear button AND the empty-state element must default to inline style="display: none;" so they do not flash visible before Alpine initialises (found ' . $occurrences . ' occurrences, expected ≥2).'
+        );
+    }
+
+    #[Test]
+    public function picker_x_data_exposes_visible_cards_helpers(): void
+    {
+        $blade = $this->readFile(self::ADD_CONTENT_MODAL_BLADE);
+
+        // The Alpine x-data object must define the 6 keyboard-navigation
+        // helpers so the input + cards can reference them without inline
+        // JS duplication.
+        foreach ([
+            'visibleCards()',
+            'focusFirstVisibleCard()',
+            'focusLastVisibleCard()',
+            'focusNextCard(current)',
+            'focusPrevCard(current)',
+            'activateFirstVisibleCard()',
+        ] as $helper) {
+            $this->assertStringContainsString(
+                $helper,
+                $blade,
+                "Alpine x-data must define helper {$helper} so the keyboard navigation works without duplicated inline JS."
+            );
+        }
+    }
+
+    #[Test]
     public function ai_309_add_to_this_page_card_is_no_longer_pushed_onto_actions(): void
     {
         $php = $this->readFile(self::ADMIN_LIVE_EDIT_PAGE);
