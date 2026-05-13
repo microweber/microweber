@@ -32,3 +32,9 @@ Patterns extracted from rows 1-13:
 - **Filament's consistent `.fi-*` class emission is a leverage point.** One CSS block scoped to `body.fi-panel-admin` covers every resource list (row 6).
 - **The `Edit` tool beats Bash heredoc for appending to existing source files.** Row 7's discard locked this in.
 - **Speculative refactors deferred when no explicit dispatch + no test content** (row 13). Respect PM's queue model; flag concerns; don't manufacture work.
+
+## Auto-learn 2026-05-13 (review #2)
+
+Reviewed: zero new journal rows since the prior `## Auto-learn 2026-05-13` heading. All 13 existing rows were already mined by review #1; no fresh `keep` / `discard` / `partial` outcomes have been logged. Tally: 0 unreviewed entries → 0 new recurring anti-patterns, 0 new best-practice approaches, 0 new simplification wins, 0 contradicted-hypothesis knowledge gaps. No additions made to `LESSONS.md` (the seven existing entries already capture every pattern derivable from rows 1–13 plus three session-derived facts). No new skill files created.
+
+**Meta-observation worth recording for the next review:** A large amount of session work has shipped since the last review (AI-322 / AI-323 module docs, the Live Edit upload-modal rewrite under task-f18a79, and the full NOVICE-customer audit batch #1–#15) without being logged as individual journal rows. Going forward, each non-trivial shipped task should add a `pending` row before code touches and update to `keep` / `discard` after — otherwise the auto-learn signal weakens. This gap is acknowledged here rather than backfilled retroactively, because fabricating after-the-fact rows would dilute the dataset's honesty.
