@@ -7,12 +7,14 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\LocaleSwitcher;
 use Filament\Schemas\Components\Livewire;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Enums\Width as MaxWidth;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Storage;
 use MicroweberPackages\LiveEdit\Filament\Actions\CustomViewAction;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings;
@@ -20,6 +22,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Category\Filament\Admin\Resources\CategoryResource;
 use Modules\Content\Filament\Admin\ContentResource;
 use Modules\Content\Models\Content;
+use Modules\Media\Models\Media;
 use function Clue\StreamFilter\fun;
 
 class AdminLiveEditPage extends Page
@@ -170,34 +173,114 @@ class AdminLiveEditPage extends Page
     }
 
     /**
-     * AI-148 (cycle-142): novice mobile UX — "New Image" picker entry.
+     * AI-148 (cycle-142) → task-2026-05-13-f18a79 rewrite.
      *
-     * Sends the user to the Media Library upload page in a centred
-     * modal so they can drag-drop or pick a file without leaving the
-     * Live Edit context. The Media Library page itself (Modules/
-     * MediaLibrary/Filament/Admin/Pages/MediaLibrary.php) is the
-     * canonical upload surface; once the asset is in the library, it
-     * becomes available everywhere (page editors, module image
-     * pickers, exports).
+     * Real in-place upload modal. Previously this action was a
+     * redirect-only confirmation dialog ("you will be taken to the
+     * Media Library…") which broke live-edit context, required three
+     * taps, and showed nothing useful in the modal body. After repeat
+     * "still not very good" feedback from the human, the action now
+     * does what its label promises — uploads images, in-place, from a
+     * drag-and-drop file zone inside the modal itself. The user stays
+     * in live-edit; uploaded images land in the Media Library and are
+     * immediately available in module pickers.
      *
-     * Implementation choice — redirect rather than embedding the
-     * Media Library inside the modal. The MediaLibrary page is a
-     * full Filament Livewire surface with its own routes + bulk-
-     * select state; trying to render it inside a modal would conflict
-     * with the parent live-edit page's Livewire root and break drag-
-     * drop. A redirect is the most reliable novice-friendly path:
-     * one tap, you're on the upload page, one tap back returns to
-     * live-edit.
+     * The drag-drop + multi-file + preview + validation comes from
+     * Filament's built-in `FileUpload` component. It is Livewire-
+     * native, so it does NOT conflict with the parent live-edit
+     * Livewire root (the conflict the older comment warned about was
+     * specifically about embedding the entire MediaLibrary page —
+     * a single form field is a different shape and works fine).
+     *
+     * Persistence path mirrors `MediaLibrary::updatedUploads()`:
+     * stored under `userfiles/media/` on the `public` disk, rows
+     * created in the `media` table with `media_type='picture'`.
+     *
+     * The secondary footer action keeps "Browse Media Library" as a
+     * one-tap escape hatch for advanced workflows (folder management,
+     * bulk delete, CDN sync) without making it the default path.
      */
     public function addImageAction(): Action
     {
         return Action::make('addImageAction')
             ->label('Upload image')
-            ->modalHeading('Upload an image')
-            ->modalDescription('You will be taken to the Media Library to upload your image. Once uploaded, the image becomes available in every page editor and module picker on your site.')
-            ->modalSubmitActionLabel('Open Media Library')
-            ->action(function () {
-                return redirect()->to(route('filament.admin.pages.media-library'));
+            ->modalIcon('heroicon-o-photo')
+            ->modalHeading('Upload images')
+            ->modalDescription('Drop images here, or click to browse from your device. Each upload goes into your Media Library and becomes available in every page editor and module image picker on your site.')
+            ->modalSubmitActionLabel('Add to Media Library')
+            ->modalCancelActionLabel('Close')
+            ->modalWidth(MaxWidth::TwoExtraLarge)
+            ->extraModalFooterActions(fn (Action $action): array => [
+                Action::make('browseMediaLibrary')
+                    ->label('Browse Media Library')
+                    ->icon('heroicon-o-folder-open')
+                    ->color('gray')
+                    ->url(route('filament.admin.pages.media-library'))
+                    ->openUrlInNewTab(false),
+            ])
+            ->form([
+                FileUpload::make('images')
+                    ->hiddenLabel()
+                    ->multiple()
+                    ->image()
+                    ->imageEditor()
+                    ->reorderable()
+                    ->appendFiles()
+                    ->panelLayout('grid')
+                    ->imagePreviewHeight('120')
+                    ->maxSize(10240)
+                    ->disk('public')
+                    ->directory('userfiles/media')
+                    ->visibility('public')
+                    ->preserveFilenames()
+                    ->acceptedFileTypes([
+                        'image/jpeg',
+                        'image/png',
+                        'image/gif',
+                        'image/webp',
+                        'image/svg+xml',
+                    ])
+                    ->helperText('PNG, JPG, GIF, WebP, or SVG. Up to 10 MB per file. Drop multiple at once — they upload as you add them, then click Add to Media Library when you are done.')
+                    ->required(),
+            ])
+            ->action(function (array $data): void {
+                $paths = $data['images'] ?? [];
+                if (!is_array($paths)) {
+                    $paths = [$paths];
+                }
+
+                $created = 0;
+                foreach ($paths as $path) {
+                    if (!$path) {
+                        continue;
+                    }
+
+                    $title = pathinfo($path, PATHINFO_FILENAME);
+                    $url = Storage::disk('public')->url($path);
+
+                    Media::create([
+                        'title' => $title,
+                        'filename' => $url,
+                        'media_type' => 'picture',
+                        'created_by' => auth()->id(),
+                    ]);
+                    $created++;
+                }
+
+                if ($created === 0) {
+                    Notification::make()
+                        ->warning()
+                        ->title('Nothing uploaded')
+                        ->body('No files were processed. Please drop or choose at least one image.')
+                        ->send();
+                    return;
+                }
+
+                Notification::make()
+                    ->success()
+                    ->title($created === 1 ? 'Image uploaded' : "{$created} images uploaded")
+                    ->body('Available now in your Media Library and module image pickers.')
+                    ->send();
             });
     }
 
