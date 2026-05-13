@@ -79,6 +79,36 @@ class AddContentModalContractTest extends TestCase
     }
 
     #[Test]
+    public function ai_307_empty_state_uses_static_copy_and_inline_hidden_default(): void
+    {
+        $blade = $this->readFile(self::ADD_CONTENT_MODAL_BLADE);
+
+        // The empty-state element must default to display:none via inline
+        // style so the pre-Alpine paint cannot flash visible content
+        // (the project does not define a global [x-cloak] rule).
+        $this->assertMatchesRegularExpression(
+            '/class="[^"]*mw-add-content-modal-empty[^"]*"\s+x-show="[^"]+"\s+style="display:\s*none;"/s',
+            $blade,
+            'AI-307 polish: .mw-add-content-modal-empty must carry inline style="display: none;" so it stays hidden until Alpine flips x-show (no global [x-cloak] rule exists in the project).'
+        );
+
+        // The empty-state copy must NOT echo the user query — that's what
+        // produced the literal-empty-quotes flash on every modal open.
+        $this->assertStringNotContainsString(
+            '<span x-text="q">',
+            $blade,
+            'AI-307 polish: the empty-state element must NOT echo the user query via <span x-text="q"> — that produces a literal "" flash before Alpine initialises.'
+        );
+
+        // The new query-free copy must be present.
+        $this->assertStringContainsString(
+            'No content types found.',
+            $blade,
+            'AI-307 polish: empty-state must use the static query-free copy "No content types found.".'
+        );
+    }
+
+    #[Test]
     public function ai_309_add_to_this_page_card_is_no_longer_pushed_onto_actions(): void
     {
         $php = $this->readFile(self::ADMIN_LIVE_EDIT_PAGE);
@@ -139,6 +169,30 @@ class AddContentModalContractTest extends TestCase
             '/@media\s*\(max-width:\s*575\.98px\)[\s\S]*?\.mw-live-edit-page\s+\.fi-modal-window,\s*\.mw-live-edit-page\s+\.fi-modal-content\s*\{[^}]*margin:\s*12px\s*!important/s',
             $css,
             'AI-310 must set the 575.98px modal window margin to 12px !important so it centres on a 390px viewport.'
+        );
+    }
+
+    #[Test]
+    public function ai_307_picker_search_input_width_polish_trims_inner_padding(): void
+    {
+        $css = $this->readFile(self::LIVE_EDIT_MOBILE_CSS);
+
+        // The picker's Filament .fi-modal-content padding-inline must be
+        // trimmed from the default 24px to 12px inside @media (max-width:
+        // 575.98px). Without this, the 286px observed input width can't
+        // reach the ~340px target.
+        $this->assertMatchesRegularExpression(
+            '/@media\s*\(max-width:\s*575\.98px\)[\s\S]*?\.mw-live-edit-page\s+\.mw-content-picker-modal\s+\.fi-modal-content\s*\{[^}]*padding-inline:\s*0\.75rem\s*!important/s',
+            $css,
+            'AI-307 polish: the picker .fi-modal-content padding-inline must be trimmed to 0.75rem inside @media (max-width: 575.98px) so the search input can reach ~340px.'
+        );
+
+        // The .mw-add-content-modal-root wrapper padding must also drop
+        // to 0.25rem so the input has the full content width.
+        $this->assertMatchesRegularExpression(
+            '/@media\s*\(max-width:\s*575\.98px\)[\s\S]*?\.mw-live-edit-page\s+\.mw-content-picker-modal\s+\.mw-add-content-modal-root\s*\{[^}]*padding:\s*0\.25rem\s*!important/s',
+            $css,
+            'AI-307 polish: the .mw-add-content-modal-root padding must be trimmed to 0.25rem inside @media (max-width: 575.98px).'
         );
     }
 

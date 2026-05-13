@@ -237,6 +237,29 @@
         width: calc(100vw - 24px) !important;
         margin: 12px !important;
     }
+
+    /* AI-307 post-fix polish (task-2026-05-13-5d3a06) — picker search-
+       input width. tester-agent measured the search input at 286px on
+       a 390×844 viewport and suggested ~340px for comfort. The input
+       uses Tailwind `w-full` inside `.mw-add-content-modal-root` which
+       wraps Filament's `.fi-modal-content`. Filament's default `px-6`
+       (24px each side, 48px total) plus the root's `p-2` (8px each
+       side, 16px total) ate 64px of the 366px window's content area,
+       leaving only ~302px for the input. On the sub-575.98px viewport
+       we trim Filament's content-padding to 12px each side and drop
+       the root wrapper padding to 4px each side: 366 - 24 - 8 = 334px
+       available width — comfortably above the 340px target without
+       letting the picker cards touch the modal edges.
+
+       Scoped to `.mw-content-picker-modal` so non-picker modals (form
+       Cancel/Save, module settings, etc.) keep their default Filament
+       content padding. */
+    .mw-live-edit-page .mw-content-picker-modal .fi-modal-content {
+        padding-inline: 0.75rem !important;
+    }
+    .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-root {
+        padding: 0.25rem !important;
+    }
 }
 
 /* ------------------------------------------------------------------

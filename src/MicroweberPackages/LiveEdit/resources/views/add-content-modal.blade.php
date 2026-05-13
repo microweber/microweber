@@ -65,9 +65,19 @@
             ->values()
             ->all();
     @endphp
+    {{-- AI-307 post-fix polish (task-2026-05-13-5d3a06): the empty-state
+         element used to render `No content types match "<span x-text=q>".`
+         and relied on `x-cloak` to suppress the brief pre-Alpine paint.
+         No project stylesheet defines the `[x-cloak] { display: none }`
+         rule, so the message visibly flashed with literal empty quotes
+         (`No content types match "".`) on every modal open. Replaced
+         the query-echoing copy with a static, query-free message + an
+         inline `style="display: none"` so the element is hidden until
+         Alpine flips it via x-show. This eliminates the empty-quote
+         flash AND drops the dependency on a global x-cloak rule. --}}
     <div class="mw-add-content-modal-empty text-center text-sm text-gray-500 dark:text-gray-400 py-6"
          x-show="q !== '' && @js($mwAddContentHaystacks).every(h => !h.includes(q.toLowerCase()))"
-         x-cloak>
-        No content types match &ldquo;<span x-text="q"></span>&rdquo;.
+         style="display: none;">
+        No content types found.
     </div>
 </div>
