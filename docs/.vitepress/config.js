@@ -70,6 +70,18 @@ export default defineConfig({
         collapsed: false,
         items: [
           {
+            text: 'Content Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/content/' },
+              { text: 'Installation', link: '/modules/content/installation' },
+              { text: 'Usage', link: '/modules/content/usage' },
+              { text: 'API Reference', link: '/modules/content/api' },
+              { text: 'Examples', link: '/modules/content/examples' },
+              { text: 'Troubleshooting', link: '/modules/content/troubleshooting' }
+            ]
+          },
+          {
             text: 'Page Module',
             collapsed: true,
             items: [
