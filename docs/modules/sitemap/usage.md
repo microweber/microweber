@@ -218,3 +218,113 @@ done
 ```
 
 Zero URLs in a sub-sitemap usually means either (a) no active content of that type exists yet, (b) every row is `exclude_from_sitemap = true`, or (c) the `active()` scope is filtering out everything (e.g. all rows have `is_active = 0`). See [troubleshooting](./troubleshooting.md#a-sub-sitemap-has-zero-urls).
+
+---
+
+## Cron / scheduled regeneration
+
+The Sitemap module does **NOT** ship a built-in cron job. It is request-driven: each `/sitemap.xml/<type>` GET re-runs the query and re-renders the XML (modulo the cache-TTL workaround documented in [Cache behaviour](#cache-behaviour)).
+
+For most sites this is the right default — sitemap generation runs only when a crawler asks for one. But two scenarios benefit from explicit scheduled regeneration:
+
+1. **You operate behind a long-TTL reverse-proxy cache** (e.g. Cloudflare with `Cache-Control: max-age=86400`). Crawler requests for `/sitemap.xml` hit the cache for ~1 day. A scheduled regeneration ensures the cached version is never older than your scheduling interval.
+2. **You're paying for a slow database** and want sitemap regeneration to happen during low-traffic hours rather than mid-request.
+
+### Pattern A — Laravel scheduler (recommended)
+
+Add to your project-level `app/Console/Kernel.php` or `routes/console.php`:
+
+```php
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::call(function () {
+    $hostname = app('mw')->url_manager->hostname();
+    $cacheDir = mw_cache_path();
+
+    // Force regeneration on the next request by deleting the cache files
+    foreach (['categories', 'products', 'posts', 'pages', 'tags'] as $type) {
+        $file = $cacheDir . $hostname . '_' . $type . '_sitemap.xml';
+        if (is_file($file)) {
+            @unlink($file);
+        }
+    }
+
+    // Warm the cache by issuing internal HTTP requests so the next
+    // search-engine crawler hit gets a hot file rather than triggering
+    // regeneration on its own request
+    foreach (['categories', 'products', 'posts', 'pages', 'tags'] as $type) {
+        \Illuminate\Support\Facades\Http::timeout(60)->get(url('/sitemap.xml/' . $type));
+    }
+})->dailyAt('03:00')->name('regenerate-sitemap')->withoutOverlapping();
+```
+
+Then ensure the Laravel scheduler cron entry is installed on the server:
+
+```bash
+# /etc/crontab or `crontab -e`
+* * * * * cd /path/to/microweber && php artisan schedule:run >> /dev/null 2>&1
+```
+
+The job runs at 3am daily, deletes the cached XML files, then warms them by hitting each sub-sitemap URL internally. By the time the morning crawler arrives, the files are fresh.
+
+### Pattern B — direct cron without the Laravel scheduler
+
+For installs that don't want to enable the Laravel scheduler:
+
+```bash
+# crontab -e
+0 3 * * * curl -sS https://your-site.com/sitemap.xml/categories > /dev/null && \
+          curl -sS https://your-site.com/sitemap.xml/products > /dev/null && \
+          curl -sS https://your-site.com/sitemap.xml/posts > /dev/null && \
+          curl -sS https://your-site.com/sitemap.xml/pages > /dev/null && \
+          curl -sS https://your-site.com/sitemap.xml/tags > /dev/null
+```
+
+The bare curl hits cause regeneration on the server. No cache deletion needed if the cache-TTL check is fixed per the [Cache behaviour](#cache-behaviour) note — the broken-always-true check actually helps here because it guarantees fresh content on every hit.
+
+### Pattern C — invalidate on content save (event-driven)
+
+For high-update news sites where waiting until 3am is too slow:
+
+```php
+// app/Listeners/InvalidateSitemapOnContentSave.php
+
+namespace App\Listeners;
+
+class InvalidateSitemapOnContentSave
+{
+    public function handle($event): void
+    {
+        $hostname = app('mw')->url_manager->hostname();
+        $cacheDir = mw_cache_path();
+        foreach (['categories', 'products', 'posts', 'pages', 'tags'] as $type) {
+            $file = $cacheDir . $hostname . '_' . $type . '_sitemap.xml';
+            if (is_file($file)) {
+                @unlink($file);
+            }
+        }
+    }
+}
+```
+
+Wire to whichever Content-save event your Microweber version fires (varies — grep `Modules/Content/Models/Content.php` for `event(`):
+
+```php
+protected $listen = [
+    \Modules\Content\Events\ContentWasSaved::class => [
+        \App\Listeners\InvalidateSitemapOnContentSave::class,
+    ],
+];
+```
+
+This makes the sitemap "as fresh as the last save" without any scheduled regeneration. The trade-off: every save burns a small amount of disk I/O. Fine for news sites; overkill for low-update brochure sites.
+
+### Picking a pattern
+
+| Site type | Recommended pattern |
+|---|---|
+| Low-update brochure (< 10 saves/day) | None — let request-driven regeneration handle it |
+| Medium-update e-commerce (10-100 saves/day) | Pattern A (daily scheduler) or Pattern C (event-driven invalidation) |
+| High-update news site (> 100 saves/day) | Pattern C (event-driven), with a debounce wrapper if savings outpace the cron — e.g. mark "dirty" on save, invalidate once per minute via the Laravel scheduler |
+
+The Sitemap module's stance: **don't ship a default cron job** because the right pattern depends on the site's update cadence, which the module can't know. Project-level configuration via Laravel scheduler or system cron is the canonical extension point.
