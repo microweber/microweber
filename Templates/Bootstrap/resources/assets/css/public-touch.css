@@ -891,6 +891,30 @@ html.dark {
         display: inline-flex;
         align-items: center;
     }
+
+    /* AI-528 — Category module mobile touch-targets per agent-test
+       audit (2026-05-14, 390x844). The Category module's `default`,
+       `skin-1`, and `horizontal-list-1` templates all set
+       `$params['ul_class'] = 'nav-list'` and render a Knp-Menu tree
+       like `<nav class="module-categories"><ul class="nav-list"><li>
+       <a href="...">Category title</a></li>...</ul></nav>`.
+
+       The `.nav-list li a` links carry no padding by default — they
+       render at the font-size only (~16x14px text bounds), far below
+       the WCAG 2.5.5 44x44 floor. The existing nav-link block in
+       this file (line ~818) covers `.mw-nav-list a` / `.mw-main-nav a`
+       / `nav.navbar .navbar-nav .nav-link` / `nav ul.menu li a` /
+       `nav ul.nav li a` but NOT `.nav-list li a` (no `.mw-` prefix,
+       not `.nav` class).
+
+       Scope: `.nav-list` is used ONLY by the Category module across
+       the entire repo (grep-verified) so the bare selector is safe —
+       no other module appropriates the class name. */
+    .nav-list li a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
 }
 
 /*
