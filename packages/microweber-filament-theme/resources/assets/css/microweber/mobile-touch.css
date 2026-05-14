@@ -1375,5 +1375,63 @@ body.fi-panel-checkout .fi-page-content b {
     font-weight: 500;
 }
 
+/* ============================================================
+ * AI-517 — Public checkout (`body.fi-panel-checkout`) touch-target
+ * floors per the agent-test mobile audit (2026-05-14):
+ *   - Review Edit buttons (`.review-edit-btn` in Modules/Checkout/
+ *     resources/views/livewire/checkout-wizard/review-order.blade.php)
+ *     measured 24x20.
+ *   - Terms checkbox: Filament Checkbox renders an ~18x18 input — the
+ *     visual checkbox stays small (design system / a11y intuition); we
+ *     bump the LABEL row containing it to 44h so a fingertip lands the
+ *     toggle anywhere on the row.
+ *   - Place Order button: Filament Action `->color('success')->size('lg')`
+ *     in the wizard footer measured 359x42 — 2px short on height.
+ *
+ * Scoped to `body.fi-panel-checkout` only; admin (`body.fi-panel-admin`)
+ * is unaffected. Inside the touch-viewport media query so desktop
+ * density is preserved.
+ * ============================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* Review Edit buttons in the review step. The class lives in
+       review-order.blade.php and is otherwise unstyled (no padding,
+       text-only). Floor + center the label inside the 44x44 hit area. */
+    body.fi-panel-checkout .review-edit-btn {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Terms-checkbox label-row hit area. Filament's inline checkbox is
+       `<input class="fi-checkbox-input">` next to a label inside a
+       `.fi-fo-field-wrp` (with optional `<label>` wrapping). Pad the
+       wrapper + label so the entire row is 44px tall and clickable;
+       the visual checkbox stays at its native ~18x18. `:has()` is
+       cross-browser supported (Chrome 105+, Safari 15.4+, Firefox 121+)
+       and gracefully degrades to the existing 18x18 on older engines. */
+    body.fi-panel-checkout .fi-fo-field-wrp:has(.fi-checkbox-input) {
+        min-height: 44px;
+    }
+    body.fi-panel-checkout label:has(> .fi-checkbox-input),
+    body.fi-panel-checkout label:has(.fi-checkbox-input) {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* Place Order primary CTA — Filament Action color=success. The
+       existing AI-510/AI-211 rules cover `.fi-color-primary`; the
+       success variant escapes that selector and needs an explicit
+       floor. `!important` is needed because Filament's `->size('lg')`
+       inline style sets a fixed height that loses the cascade
+       otherwise. */
+    body.fi-panel-checkout button.fi-btn.fi-color-success,
+    body.fi-panel-checkout .fi-sc-wizard-actions button.fi-color-success,
+    body.fi-panel-checkout .fi-ac button.fi-btn.fi-color-success {
+        min-height: 44px !important;
+    }
+}
 
 
