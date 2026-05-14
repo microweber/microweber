@@ -976,6 +976,37 @@ html.dark {
         align-items: center;
         justify-content: center;
     }
+
+    /* AI-532 — Rating module star touch-targets per agent-test audit
+       (2026-05-14, 390x844). The Rating `default.blade.php` template
+       renders `<div class="module-rating module-rating-template-default">
+       <div class="starrr" ...></div></div>`. The starrr jQuery plugin
+       (Modules/Rating/resources/assets/js/lib.js line 49) appends
+       `<i class="...">` for each star. The shipped
+       `Modules/Rating/resources/assets/css/rating.css` line 7-11 styles
+       `.starrr i { font-size: 20px; padding: 0 2px; }` — total tap
+       area ~24x20 px, below the 44x44 WCAG 2.5.5 floor.
+
+       PM's dispatch suggests `.module-rating .starrr span, .module-rating
+       .starrr i` — covers both DOM shapes (lib.js currently emits `<i>`;
+       future starrr versions / replacements may emit `<span>`). The
+       `font-size: 28px` bump enlarges the visual star glyph too — stars
+       ARE the primary affordance here (not a small modifier like the
+       AI-517/518 checkbox), so the visual-stays-small pattern doesn't
+       apply.
+
+       Scope: `.module-rating .starrr` is exclusive to this module
+       (grep-verified). The `display: inline-flex` etc. set up the
+       per-star hit-area as a 44x44 cell with the glyph centred. */
+    .module-rating .starrr span,
+    .module-rating .starrr i {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+    }
 }
 
 /*
