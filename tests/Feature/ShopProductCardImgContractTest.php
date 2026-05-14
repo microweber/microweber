@@ -72,11 +72,12 @@ class ShopProductCardImgContractTest extends TestCase
             );
         } else {
             // responsive_thumbnail() emits alt + loading by default; pin
-            // that the call passes size args + at least one option (alt/
-            // class/style/loading) so future drift can't strip the
-            // metadata-passing path.
+            // that the call passes size args. Use [\s\S]*? (non-greedy
+            // cross-line) instead of [^)]* so nested parens in the src
+            // argument (e.g. $product->mediaUrl()) don't prematurely stop
+            // the match before reaching the W,H arguments.
             $this->assertMatchesRegularExpression(
-                "/responsive_thumbnail\\([^)]*\\d+,\\s*\\d+/s",
+                "/responsive_thumbnail\\([\\s\\S]*?\\d+,\\s*\\d+/s",
                 $content,
                 "{$where}: expected responsive_thumbnail(\$src, W, H, [...]) with explicit width/height"
             );
@@ -156,19 +157,18 @@ class ShopProductCardImgContractTest extends TestCase
         $skin7 = $this->loadFile('Modules/Product/resources/views/templates/skin-7.blade.php');
 
         // Acceptance #3 — dropped from 1000x1000 / 1250x1250 to 800x600.
-        // Match either the bare `thumbnail(...)` shape (Shop product-card
-        // Livewire path uses `$product->thumbnail(800, 600)`) OR the
-        // `responsive_thumbnail($src, 800, 600, [...])` shape (cycle-55 +
-        // post-cycle-55 helper migration).
-        $this->assertMatchesRegularExpression(
-            '/(?:->|^|\\s)thumbnail\\(800,\\s*600\\)/s',
-            $cardA,
-            'Shop/product-card.blade.php: expected $product->thumbnail(800, 600)'
+        // Product-card Livewire views use responsive_thumbnail($product->mediaUrl(), 800, 600, [...]).
+        // skin-7 uses responsive_thumbnail($item['image'], 800, 600, [...]).
+        // Match either `responsive_thumbnail(` with 800, 600 args OR `->thumbnail(800, 600)`.
+        $this->assertTrue(
+            (bool) preg_match('/responsive_thumbnail\([\s\S]*?800,\s*600/s', $cardA) ||
+            (bool) preg_match('/thumbnail\(800,\s*600\)/', $cardA),
+            'Shop/product-card.blade.php: expected thumbnail at 800x600'
         );
-        $this->assertMatchesRegularExpression(
-            '/(?:->|^|\\s)thumbnail\\(800,\\s*600\\)/s',
-            $cardB,
-            'Shop/product-card-skin-1.blade.php: expected $product->thumbnail(800, 600)'
+        $this->assertTrue(
+            (bool) preg_match('/responsive_thumbnail\([\s\S]*?800,\s*600/s', $cardB) ||
+            (bool) preg_match('/thumbnail\(800,\s*600\)/', $cardB),
+            'Shop/product-card-skin-1.blade.php: expected thumbnail at 800x600'
         );
         $this->assertMatchesRegularExpression(
             "/responsive_thumbnail\\(\\\$item\\['image'\\],\\s*800,\\s*600/s",
