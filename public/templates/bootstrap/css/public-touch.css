@@ -1007,6 +1007,29 @@ html.dark {
         justify-content: center;
         font-size: 28px;
     }
+
+    /* AI-534 — Logo module link touch-target floor per agent-test
+       audit (2026-05-14). The Logo `default.blade.php` template
+       renders `<div class="logo-module"><a class="logo-link"
+       href="..."><img|span></a></div>`. The inline `<style>` block
+       at lines 43-49 of default.blade.php sets
+       `.logo-module .logo-link { display: inline-block; max-width:
+       100%; overflow: hidden; text-overflow: ellipsis; white-space:
+       nowrap; }` — no min-height floor. Small logos (100x30 image)
+       or short text logos (30px font) result in 30-36px touch
+       targets, below the 44x44 WCAG 2.5.5 floor.
+
+       Scope: `.logo-module .logo-link` is exclusive to the Logo
+       module's `default.blade.php` template across the entire repo
+       (`2rows.blade.php` uses `.module-logo.module-logo-2rows`, a
+       different shape; Big2 template uses `.linktree-logo .logo-module
+       a` — bare `a`, no `.logo-link`). Bare combinator selector is
+       safe; no collisions. */
+    .logo-module .logo-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
 }
 
 /*
