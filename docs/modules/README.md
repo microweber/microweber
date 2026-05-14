@@ -1,5 +1,53 @@
 # Microweber per-module docs
 
+Two layers of documentation coexist in this repo:
+
+1. **Tier-1 narrative docs** — VitePress-rendered, six-page-per-module sets covering nine core modules. These are the **canonical, hand-written guides** for the modules that ship Microweber's core surface. Use them for "how does this module work, end-to-end" and "how do I customise it from a sibling package".
+2. **Per-module README snapshots** — auto-generated from filesystem on 2026-04-25, one per module, mostly machine-summarised. Use them for "what classes / events / columns exist right now". They lag the codebase by their generation date; treat as a reference rather than a guide.
+
+When the two disagree on shape (e.g. a class was renamed after the auto-generation date), trust the narrative docs first, then read the actual source to confirm.
+
+---
+
+## Tier-1 narrative docs (the canonical guides)
+
+Each tier-1 module has six pages: **Overview / Installation / Usage / API / Examples / Troubleshooting**. Grouped here by sub-cluster.
+
+### E-commerce sub-cluster (data flow: Product → Cart → Checkout → Order)
+
+| Module | Role | Docs |
+|---|---|---|
+| **Product** | data owner — three-table variant system, three-tier pricing, inventory triad | [📖 Product docs](./product/) |
+| **Cart** | state manager — single-table line-item-per-row, server-canonical pricing | [📖 Cart docs](./cart/) |
+| **Checkout** | conversion flow — five-step wizard, gateway round-trip, zero owned models | [📖 Checkout docs](./checkout/) |
+| **Order** | persistence + fulfillment — `cart_orders` row, 7-state lifecycle, 8 events | [📖 Order docs](./order/) |
+
+### Content-discovery sub-cluster
+
+| Module | Role | Docs |
+|---|---|---|
+| **Search** | live `LIKE` search via 1 Livewire component over Content's `get_content()` | [📖 Search docs](./search/) |
+| **Seo** | SeoMetadataService + 5 Blade directives; 13 columns on `content` via Content migration | [📖 Seo docs](./seo/) |
+| **Sitemap** | 6 routes (sitemap-index + 5 sub-sitemaps); 3-hour disk cache; sitemap protocol 0.9 | [📖 Sitemap docs](./sitemap/) |
+
+### Admin shell sub-cluster
+
+| Module | Role | Docs |
+|---|---|---|
+| **Admin** | Filament v5 boot harness — panel provider, login, middleware, AdminSettingsPage abstract, MwColors | [📖 Admin docs](./admin/) |
+| **LiveEdit** | two-surface in-place editor — admin frame + canvas iframe communicate via CustomEvent verbs | [📖 LiveEdit docs](./liveedit/) |
+
+### Cross-cluster topics
+
+- **Save flow** — the LiveEdit specificity ranker is documented in [LiveEdit usage → save flow](./liveedit/usage.md#the-save-flow--what-happens-when-save-is-clicked); for the resource-form save path see [Admin usage → AdminSettingsPage](./admin/usage.md#building-an-admin-settings-page).
+- **Multilanguage** — Content owns the `HasMultilanguageTrait` and `multilanguage_translations` table; per-module translatable fields documented in each module's docs.
+- **Color tokens** — anchored at `MicroweberPackages\Admin\Filament\MwColors` (primary blue `#0d6efd`); admin / checkout / public share the palette. See [Admin api → MwColors](./admin/api.md#mwcolors-brand-color-authority).
+- **Mobile considerations** — AI-515 (commit `54fdfeb713`) ships safe-area-inset CSS across admin / checkout panels. Per-module mobile gotchas are in each module's troubleshooting page.
+
+---
+
+## Per-module README snapshots (auto-generated)
+
 Each `Modules/<X>/docs/README.md` documents a single module's
 data model, public API, service classes, events, and tests
 according to the canonical
