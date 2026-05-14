@@ -268,3 +268,199 @@ body.fi-page-myresource-page #toolbar-go-live-edit { display: none; }
 ```
 
 The button's id and class hooks are stable (preserved as project back-compat references — see the project's `feedback_always_build` memory note about toolbar back-compat hooks).
+
+---
+
+## Building a custom dashboard widget
+
+The admin dashboard is composed of Filament Widgets — small Livewire-backed cards that render in a grid on `/admin`. The Admin package ships one widget (`FilamentInfoWidget`) and registers it via `FilamentAdminPanelProvider`. Custom widgets live in any package and register themselves through the standard Filament pattern.
+
+Three steps:
+
+### Step 1 — Create the widget class
+
+```php
+namespace YourPackage\Filament\Admin\Widgets;
+
+use Filament\Widgets\Widget;
+
+class WidgetCountStatsWidget extends Widget
+{
+    protected string $view = 'yourpackage::filament.widgets.widget-count-stats';
+
+    // Optional: sort order on the dashboard (-1 puts you above the
+    // default stats row at 0; default is 0)
+    protected static ?int $sort = 1;
+
+    // Optional: column span (1, 2, 3 or 'full' for the full row)
+    protected int|string|array $columnSpan = 1;
+
+    // Optional: only show on the dashboard, not other pages
+    public static function canView(): bool
+    {
+        return auth()->user()?->is_admin === 1;
+    }
+
+    public function getViewData(): array
+    {
+        return [
+            'count' => \YourPackage\Models\Widget::count(),
+            'recent' => \YourPackage\Models\Widget::latest()->take(5)->get(),
+        ];
+    }
+}
+```
+
+For a stats-style widget with a number + trend indicator, extend `Filament\Widgets\StatsOverviewWidget` instead — gives you the standard card grid for free.
+
+### Step 2 — Create the Blade view
+
+```blade
+{{-- resources/views/filament/widgets/widget-count-stats.blade.php --}}
+<x-filament-widgets::widget>
+    <x-filament::section>
+        <x-slot name="heading">Widget Counts</x-slot>
+
+        <div class="text-2xl font-bold">
+            {{ $count }} widgets
+        </div>
+
+        <ul class="mt-4 space-y-1 text-sm">
+            @foreach ($recent as $widget)
+                <li>{{ $widget->name }} <span class="text-gray-500">— {{ $widget->created_at->diffForHumans() }}</span></li>
+            @endforeach
+        </ul>
+    </x-filament::section>
+</x-filament-widgets::widget>
+```
+
+### Step 3 — Register via FilamentRegistry
+
+```php
+// YourPackage\Providers\YourServiceProvider::boot()
+
+use MicroweberPackages\Filament\FilamentRegistry;
+
+FilamentRegistry::registerWidget(\YourPackage\Filament\Admin\Widgets\WidgetCountStatsWidget::class);
+```
+
+The Admin panel provider iterates the registry on boot and includes every registered widget. No edits to the Admin package itself.
+
+For conditional visibility (e.g. "only show on first-install" or "only show when content count is zero"), implement `canView(): bool` on the widget. The dashboard renders only widgets that return true. A real-world example: the `DashboardEmptyStateWidget` shipped earlier this session (commit `ce2e76bcdd`) returns `canView() === DB::table('content')->count() === 0` so it surfaces only on fresh installs.
+
+---
+
+## Listening to admin events / hooks
+
+Beyond the typed `ServingAdmin` event the Admin middleware fires, there are three additional admin extension points:
+
+### 1. Filament panel events
+
+Filament v5 fires its own lifecycle events that you can listen to in any service provider:
+
+```php
+use Filament\Events\ServingFilament;
+use Illuminate\Support\Facades\Event;
+
+Event::listen(ServingFilament::class, function (ServingFilament $event) {
+    // Filament is booting on this request — register dynamic resources,
+    // adjust nav, etc.
+});
+```
+
+`ServingFilament` fires on every Filament-panel request (admin, checkout, any future panels). Use `request()->routeIs('filament.admin.*')` inside the listener to scope to the admin panel only.
+
+### 2. Livewire morph hooks
+
+For DOM-mutation observability (e.g. instrumenting a custom analytics tracker when a Livewire component re-renders):
+
+```js
+// In your admin-side JS
+document.addEventListener('livewire:initialized', () => {
+    Livewire.hook('morph.added', ({ el, component }) => {
+        // Element was added to the DOM
+    });
+    Livewire.hook('morph.removed', ({ el, component }) => {
+        // Element was removed
+    });
+});
+```
+
+This is **not** an admin-package hook — it's a Livewire feature. But because the admin panel is heavy Livewire, listening here is the canonical way to react to component-level DOM activity.
+
+### 3. Custom Filament action lifecycle hooks
+
+Filament actions have their own lifecycle callbacks you can subscribe to without modifying the action class:
+
+```php
+use Filament\Forms\Components\Actions\Action;
+use Illuminate\Support\Facades\Event;
+
+Event::listen('eloquent.created: Modules\Content\Models\Content', function ($content) {
+    // Fired whenever a Content row is created — including from
+    // Filament's "Create record" action. Useful for cross-cutting
+    // concerns like audit logs.
+});
+```
+
+Eloquent's wildcard event names (`eloquent.created:`, `eloquent.updated:`, `eloquent.deleted:`) work for any model and are model-agnostic — listeners don't need to know the resource class that triggered the save.
+
+The **legacy event-trigger** hooks (`event_trigger('mw.admin')`, `event_trigger('mw_backend')`, `event_trigger('on_load')`) are still fired by the Admin middleware + controller for back-compat. New code should subscribe to the typed `ServingAdmin` event instead.
+
+---
+
+## Multilanguage support in admin
+
+The `MultilanguageFilamentPlugin` registers automatically when the Multilanguage module is enabled (see [installation.md](./installation.md#filament-panel-registration)). It adds three concrete capabilities to the admin panel:
+
+### 1. Per-locale option storage via `ModuleOption`
+
+When an `AdminSettingsPage` declares `$moduleOptionScope`, the abstract uses `ModuleOption` (translatable) instead of `Option` (single-value). Each form field's value gets stored per active locale in the `multilanguage_translations` table.
+
+```php
+class WelcomeSettingsPage extends AdminSettingsPage
+{
+    protected array $optionGroups = ['website'];
+    protected string $moduleOptionScope = 'website';   // ← activates per-locale storage
+
+    protected function getFormSchema(): array
+    {
+        return [
+            TextInput::make('welcome_headline')->translatable(),  // ← field opts in
+            TextInput::make('welcome_subhead')->translatable(),
+        ];
+    }
+}
+```
+
+The plugin renders a locale switcher in the form header. Editing in EN, switching to DE, editing again, saving — both translations land in the right rows.
+
+### 2. Translatable Filament resources
+
+Microweber's modules with translatable content (Content, Product, Category) use the Content module's `HasMultilanguageTrait` on their Eloquent models. The `MultilanguageFilamentPlugin` automatically adds:
+
+- A locale switcher in the resource's edit form.
+- A "Locale" column option for list views.
+- A "Locale filter" in the search bar.
+- Per-locale validation so a missing-translation save shows the right field highlighted in the right locale.
+
+To opt a field into translation in your custom resource:
+
+```php
+// In YourResource::form(Form $form): Form
+TextInput::make('title')->translatable()->required();
+```
+
+The `translatable()` modifier is provided by the plugin — it wraps the field in a per-locale storage shim.
+
+### 3. Admin UI locale (separate from content locale)
+
+The locale of the admin UI itself (button labels, navigation, error messages) is independent of the content locale being edited. Switch the admin UI locale via:
+
+```
+GET /admin/lang/{locale}   (e.g. /admin/lang/de)
+```
+
+The route is registered by the Multilanguage module. It updates the session's `admin_locale` and redirects back. The admin language preference persists per-user (stored on `User::$admin_locale` if the column exists).
+
+Translation files for the admin UI live at `lang/<locale>/admin.php` for project-level overrides; package-level admin translations are in each package's `lang/` directory and are picked up by `\Lang::addNamespace()` calls in the package providers.
