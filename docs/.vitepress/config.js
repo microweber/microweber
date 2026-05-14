@@ -224,6 +224,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/cart/examples' },
               { text: 'Troubleshooting', link: '/modules/cart/troubleshooting' }
             ]
+          },
+          {
+            text: 'Checkout Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/checkout/' },
+              { text: 'Installation', link: '/modules/checkout/installation' },
+              { text: 'Usage', link: '/modules/checkout/usage' },
+              { text: 'API Reference', link: '/modules/checkout/api' },
+              { text: 'Examples', link: '/modules/checkout/examples' },
+              { text: 'Troubleshooting', link: '/modules/checkout/troubleshooting' }
+            ]
           }
         ]
       },

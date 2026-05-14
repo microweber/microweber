@@ -36,7 +36,7 @@ Per cycle-87 + cycle-89 + cycle-103 (AI-113 grep-gate):
   loaded via `@once <link rel="stylesheet">`.
 - **No inline `style="..."` with Blade interpolation.** The
   AI-113 grep-gate blocks
-  `style="...background-image: url('{{ thumbnail|asset...`.
+  `style="...background-image: url('&#123;&#123; thumbnail|asset...`.
   Use a real `<img>` via `responsive_thumbnail()` instead.
 - **No inline `onclick="..."` with Blade interpolation.**
   Use `data-mw-action` + a delegated listener (see ADR-0003).

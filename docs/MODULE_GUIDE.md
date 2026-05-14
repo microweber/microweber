@@ -128,7 +128,7 @@ description: 4-column card grid with hover effects.
 - **No inline `<style>` blocks** — use a shared stylesheet under
   `resources/assets/css/<skin>.css` loaded via `@once <link
   rel="stylesheet">`. The AI-113 grep-gate blocks
-  `style="...background-image: url('{{ thumbnail|asset...`.
+  `style="...background-image: url('&#123;&#123; thumbnail|asset...`.
 - **No inline `onclick=` with Blade interpolation** — use
   `data-mw-action` + a delegated listener. The AI-113 grep-gate
   blocks the pattern.
@@ -284,6 +284,6 @@ The frontend-assets-bundle-rebuild skill covers the full rebuild
 - **`@apply` Tailwind directives need an active build** — module
   CSS that uses `@apply` requires the build pipeline to be running
   during dev (`npm run dev`).
-- **Blade {{-- comments are stripped at render time** but ARE
+- **Blade &#123;&#123;-- comments are stripped at render time** but ARE
   visible to greps — strip them in regression-test regexes that
   scan for "this code shape".
