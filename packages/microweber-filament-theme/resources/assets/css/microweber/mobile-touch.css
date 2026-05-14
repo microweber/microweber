@@ -1258,4 +1258,122 @@ html.dark body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) texta
     box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.25);
 }
 
+/* ============================================================
+ * AI-514 — Consistent typography scale across admin + checkout panels.
+ *
+ * Audit task 1.4.x ("Establish Clear Type Scale, Improve Readability,
+ * Darken Secondary Text") asked for four changes:
+ *
+ *   1. Clear type scale — H1: 32px, H2: 24px, H3: 20px, Body: 16px.
+ *   2. Body line-height 1.6 for readability.
+ *   3. Darken secondary text from #9CA3AF (Tailwind gray-400) to
+ *      #6B7280 (Tailwind gray-500) so it meets WCAG AA contrast
+ *      (4.5:1 against white).
+ *   4. Add font-weight: 500 (medium) as an emphasis option between
+ *      the default 400 and the existing 600.
+ *
+ * All four ship in this single CSS block. Scoped to body.fi-panel-admin
+ * + body.fi-panel-checkout so public storefront templates keep their
+ * own typography (those have their own per-template scale).
+ *
+ * Type scale uses rem units (anchored to the page's base 16px) so the
+ * scale stays consistent if a user has bumped browser default font-size
+ * for accessibility:
+ *   - 2rem = 32px
+ *   - 1.5rem = 24px
+ *   - 1.25rem = 20px
+ *   - 1rem = 16px (body)
+ *
+ * The "emphasis" weight is exposed three ways:
+ *   - `.fi-emphasis` utility class for explicit opt-in
+ *   - `<strong>` and `<b>` defaulting to 500 inside Filament panels
+ *     (matches the audit's intent — emphasis should be visual but
+ *     not over-bold; 600 is reserved for table sort headers + form
+ *     section titles, where AI-510 and Filament's defaults already
+ *     anchor it)
+ *
+ * Dark-mode secondary text: shifts from #6B7280 to #9CA3AF — the
+ * inverse of light mode. Lighter shade on dark background preserves
+ * the 4.5:1 contrast ratio.
+ *
+ * Out of scope (deferred to AI-514a):
+ *   - Per-component type-scale tokens (--mw-type-h1, --mw-type-body,
+ *     etc.) as CSS custom properties so per-resource overrides become
+ *     trivial. The bounded slice ships fixed values; tokenisation is a
+ *     follow-up refactor once usage patterns settle.
+ * ============================================================ */
+
+/* Type scale */
+body.fi-panel-admin h1,
+body.fi-panel-checkout h1 {
+    font-size: 2rem;
+    line-height: 1.25;
+}
+
+body.fi-panel-admin h2,
+body.fi-panel-checkout h2 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+}
+
+body.fi-panel-admin h3,
+body.fi-panel-checkout h3 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+}
+
+body.fi-panel-admin h4,
+body.fi-panel-checkout h4 {
+    font-size: 1.125rem;
+    line-height: 1.45;
+}
+
+/* Body text size + line-height. Scoped to .fi-page descendants so
+   it doesn't override the topbar/sidebar text (which has its own
+   sizing from Filament's CSS). */
+body.fi-panel-admin .fi-page,
+body.fi-panel-checkout .fi-page,
+body.fi-panel-admin .fi-page-content,
+body.fi-panel-checkout .fi-page-content {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Secondary-text color override. `.fi-section-header-description` is
+   Filament v5's canonical "subtitle under a section header" class.
+   Darken from gray-400 to gray-500 for WCAG AA contrast. */
+body.fi-panel-admin .fi-section-header-description,
+body.fi-panel-checkout .fi-section-header-description {
+    color: #6B7280;
+}
+
+/* Dark-mode inverse — lighter shade on dark background. */
+html.dark body.fi-panel-admin .fi-section-header-description,
+html.dark body.fi-panel-checkout .fi-section-header-description {
+    color: #9CA3AF;
+}
+
+/* Emphasis weight 500 — opt-in via utility class. */
+body.fi-panel-admin .fi-emphasis,
+body.fi-panel-checkout .fi-emphasis {
+    font-weight: 500;
+}
+
+/* Default <strong> and <b> in form body text to 500 (medium) rather
+   than the browser default 700 (bold). Matches the audit's intent
+   that emphasis be visual but not over-bold. Limit to .fi-page
+   descendants so topbar/sidebar bold elements (which Filament tunes
+   separately) stay at their original weight. */
+body.fi-panel-admin .fi-page strong,
+body.fi-panel-admin .fi-page b,
+body.fi-panel-checkout .fi-page strong,
+body.fi-panel-checkout .fi-page b,
+body.fi-panel-admin .fi-page-content strong,
+body.fi-panel-admin .fi-page-content b,
+body.fi-panel-checkout .fi-page-content strong,
+body.fi-panel-checkout .fi-page-content b {
+    font-weight: 500;
+}
+
+
 
