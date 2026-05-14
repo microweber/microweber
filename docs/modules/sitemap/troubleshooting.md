@@ -74,32 +74,23 @@ For #4 (multilang), check that at least one locale has content for the type. The
 
 **Symptom.** Every request to `/sitemap.xml/<type>` takes 1-5 seconds; observability shows the database queries running every time.
 
-**Cause.** Documented in the module's own helper trait: `SitemapHelpersTrait::needToUpdateSitemap()` **always returns `true`** in the current implementation. The filesystem cache file is written on every request but never read.
+**Cause (historical).** Earlier versions of `SitemapHelpersTrait::needToUpdateSitemap()` short-circuited with `return true;` at the top of the method — effectively disabling the cache. The AI-333 follow-up shipped a one-line fix that removed the short-circuit and activated the documented 3-hour TTL.
 
-**Fix.** One-line patch:
+**Verify the fix is active.**
 
 ```php
-// In SitemapHelpersTrait::needToUpdateSitemap()
-
-// BEFORE
-public function needToUpdateSitemap($sitemapFileLocation): bool
-{
-    return true;     // ← the bug
-}
-
-// AFTER
-public function needToUpdateSitemap($sitemapFileLocation): bool
-{
-    if (! file_exists($sitemapFileLocation)) {
-        return true;
-    }
-    return filemtime($sitemapFileLocation) < strtotime('-3 hours');
-}
+// In tinker
+$h = new class { use \Modules\Sitemap\Http\Controllers\SitemapHelpersTrait; };
+echo $h->needToUpdateSitemap('/nonexistent') ? 'true' : 'false';   // Expected: true
+$path = tempnam(sys_get_temp_dir(), 'sitemap_');
+touch($path, time() - 60);                                          // 1 minute old
+echo $h->needToUpdateSitemap($path) ? 'true' : 'false';            // Expected: false
+@unlink($path);
 ```
 
-This activates the documented 3-hour TTL. Cache files are written on first request, served from disk on subsequent requests within the 3-hour window, regenerated on the request after the TTL expires.
+If the second call returns `true` despite a fresh file, the short-circuit is back — file an issue. The `Tests\Feature\SitemapCacheTtlContractTest` regression test should also catch this immediately in CI.
 
-**Workaround if you can't patch the module:** add a reverse-proxy cache (nginx `proxy_cache`, Cloudflare page rule, Varnish). A 5-minute proxy TTL eliminates 95%+ of regeneration:
+**Performance still not where you want it after the fix?** Layer a reverse-proxy cache (nginx `proxy_cache`, Cloudflare page rule, Varnish) in front. A 5-minute proxy TTL on top of the 3-hour disk cache eliminates ~95% of even the cached regeneration:
 
 ```nginx
 # nginx example

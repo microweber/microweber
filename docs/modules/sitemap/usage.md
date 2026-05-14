@@ -93,29 +93,20 @@ The module writes each generated sub-sitemap to disk at:
 
 E.g. `storage/cache/example.com_products_sitemap.xml`.
 
-**However**, `SitemapHelpersTrait::needToUpdateSitemap($file)` currently returns `true` for all inputs — the documented 3-hour TTL check is short-circuited. Effectively, the cache file is **write-only** (rewritten on every request) and never read.
+`SitemapHelpersTrait::needToUpdateSitemap($file)` checks the file's mtime against a 3-hour TTL:
 
-Consequences:
+- File doesn't exist → `true` (regenerate).
+- File exists but `filemtime()` fails (permission issue) → `true` (safe default).
+- File is older than 3 hours → `true` (regenerate).
+- File is fresher than 3 hours → `false` (use cache).
 
-- **For correctness**: every request reflects the freshest content. Good.
-- **For performance**: every request hits the database + Blade. For large sites this is a real cost.
+The 3-hour TTL is the convention search-engine crawlers typically respect — fresh enough to reflect recent content updates, stale-tolerant enough to avoid regenerating on every crawler ping.
 
-If you need a working cache, fix `needToUpdateSitemap()` to honour the file mtime:
+For an even shorter effective TTL (e.g. on a news site), layer a reverse-proxy cache (Cloudflare, Varnish, nginx) in front with a custom Cache-Control. The on-disk file's 3-hour life is independent of the reverse-proxy's TTL — you can have a 5-minute proxy cache pointed at a 3-hour disk cache, regenerating only when both expire.
 
-```php
-// In SitemapHelpersTrait
-public function needToUpdateSitemap($sitemapFileLocation): bool
-{
-    if (! file_exists($sitemapFileLocation)) {
-        return true;
-    }
-    return filemtime($sitemapFileLocation) < strtotime('-3 hours');
-}
-```
+If you want immediate cache invalidation on content save (rather than waiting for the 3-hour TTL), see [Pattern C — event-driven invalidation](#cron--scheduled-regeneration) below.
 
-This is a one-line fix that activates the documented 3-hour TTL.
-
-Alternatively, layer a reverse-proxy cache (Cloudflare, Varnish, nginx) in front. For a 5-minute proxy TTL on a typical search-engine crawl cadence, regeneration drops from ~50/day to ~10/day per route.
+> **Historical note.** The Sitemap module's earlier implementation short-circuited `needToUpdateSitemap()` with `return true;` at the top of the method — effectively disabling the cache. The original AI-333 docs flagged the bug + documented a one-line fix; the fix shipped as part of the AI-333 follow-up (sister commit to this docs page). The behaviour described above is the current, working implementation.
 
 ---
 

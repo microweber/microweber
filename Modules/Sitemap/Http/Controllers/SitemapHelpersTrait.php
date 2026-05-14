@@ -170,22 +170,33 @@ trait SitemapHelpersTrait
         return $items;
     }
 
+    /**
+     * Should the sitemap file at $sitemapFileLocation be regenerated?
+     *
+     * Returns true when the file is missing, unreadable, or older than
+     * 3 hours. The 3-hour TTL is documented in
+     * docs/modules/sitemap/usage.md#cache-behaviour and matches the
+     * convention search-engine crawlers typically use.
+     *
+     * Earlier versions short-circuited with `return true;` at the top of
+     * this method — effectively disabling the cache. The Sitemap module's
+     * AI-333 docs flagged the short-circuit as a known bug with a
+     * one-line fix; removing the early return activates the documented
+     * TTL behaviour.
+     */
     public function needToUpdateSitemap($sitemapFileLocation)
     {
-        return true;
-
-        $updateSitemap = false;
-
-        if (is_file($sitemapFileLocation)) {
-            $filelastmodified = filemtime($sitemapFileLocation);
-            // The file is old
-            if ((time() - $filelastmodified) > 3 * 3600) {
-                $updateSitemap = true;
-            }
-        } else {
-            $updateSitemap = true; //file does not exist
+        if (! is_file($sitemapFileLocation)) {
+            return true;
         }
 
-        return $updateSitemap;
+        $filelastmodified = @filemtime($sitemapFileLocation);
+        if ($filelastmodified === false) {
+            // Unreadable / permission issue — regenerate to be safe
+            return true;
+        }
+
+        // The 3-hour TTL — file older than this needs regeneration
+        return (time() - $filelastmodified) > (3 * 3600);
     }
 }
