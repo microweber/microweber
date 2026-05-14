@@ -260,6 +260,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/search/examples' },
               { text: 'Troubleshooting', link: '/modules/search/troubleshooting' }
             ]
+          },
+          {
+            text: 'Seo Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/seo/' },
+              { text: 'Installation', link: '/modules/seo/installation' },
+              { text: 'Usage', link: '/modules/seo/usage' },
+              { text: 'API Reference', link: '/modules/seo/api' },
+              { text: 'Examples', link: '/modules/seo/examples' },
+              { text: 'Troubleshooting', link: '/modules/seo/troubleshooting' }
+            ]
           }
         ]
       },
