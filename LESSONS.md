@@ -4,6 +4,33 @@
 
 ---
 
+## 2026-05-14 — Filament `Action::color('success')` size=lg requires `!important` to enforce min-height
+
+- **Pattern:** Wrote `body.fi-panel-checkout button.fi-btn.fi-color-success { min-height: 44px; }` in `mobile-touch.css` for the AI-517 "Place Order" button. The rule was ignored and the button stayed at ~42px on mobile, 2px short of the 44px floor.
+- **Why it happened:** Filament `Action::make(...)->color('success')->size(ActionSize::Large)` (the canonical place-order pattern in `CheckoutResource`) emits inline styles at the size=lg layer that beat normal CSS selectors. The `:hover`/`:focus` rules cascade fine but `min-height` is one of the inline-overridden properties.
+- **Prevention rule:** When targeting `.fi-color-success` or any `size=lg` Filament button, add `!important` to the `min-height` declaration: `button.fi-btn.fi-color-success { min-height: 44px !important; }`. Pin the rule in a contract test that asserts the `!important` token is present.
+- **Applies when:** Any touch-target / sizing rule against a Filament Action button rendered with a non-default size (`size=lg`, `size=sm`) — particularly success/danger colour variants on checkout/wizard surfaces.
+
+---
+
+## 2026-05-14 — Contract-test source slices must bound to the rule's closing brace, not EOF
+
+- **Pattern:** Wrote `Ai518CustomerTouchTargetContractTest::contactUsBlock()` as `substr($css, strpos($css, 'AI-518'))` — slicing from the marker to end-of-file. The downstream assertion `assertStringNotContainsString('@media', $block)` then false-failed because the slice picked up unrelated `@media` declarations *later* in `public-touch.css`.
+- **Why it happened:** The slice's intent was "just the AI-518 rule body" but the implementation grabbed everything from the marker onwards. Whenever the file grows below the marker, the slice grows too, and assertions about what is *absent* from the slice start failing for unrelated reasons.
+- **Prevention rule:** Bound the slice to the rule's closing brace, not EOF: `$end = strpos(substr($css, $start), "\n    }\n"); $block = substr($css, $start, $end + 6);`. For multi-rule blocks, bound to the closing brace of the outer `@media` (`"\n}\n"`). Validate with both a present-assertion AND an absent-assertion to catch over-large slices early.
+- **Applies when:** Writing PHPUnit contract tests that slice a CSS/JS/PHP source file by a marker comment and assert structural facts (especially absence assertions like "no `@media` inside this rule").
+
+---
+
+## 2026-05-14 — Contract tests that grep source for selectors must avoid quoting the selector in their own comments
+
+- **Pattern:** Drafted an `Ai517CheckoutTouchTargetContractTest` guard that asserted "`.fi-modal-window .fi-form` selector does NOT appear in the AI-517 block" — but included that exact literal selector inside a prose comment of *another* test method. When the second test ran its own self-search guard, it matched the first test's comment and false-failed.
+- **Why it happened:** Test files are part of the source tree. A guard that searches the source for a literal token will match wherever that token appears — including inside its own file's prose comments.
+- **Prevention rule:** When a contract test asserts the *absence* of a specific selector or token from source, use non-literal phrasing in any nearby prose comment (e.g. write "the modal-window form-scoped selector" instead of `.fi-modal-window .fi-form`). Alternatively, search a subset of files that explicitly excludes the test file via path filter.
+- **Applies when:** Authoring guard assertions in contract tests, especially negative assertions (`assertStringNotContainsString`, regex non-matches) over file-system reads.
+
+---
+
 ## 2026-05-14 — `{{ }}` in VitePress markdown prose breaks the SSR build
 
 - **Pattern:** Wrote `{{ thumbnail() }}` and `{{ var }}` in inline backticks and prose inside `docs/adr/0001-helper-layer-security.md`, `docs/modules/page/troubleshooting.md`, and `docs/modules/product/troubleshooting.md`. `npm run docs:build` failed with `TypeError: _ctx.thumbnail is not a function` (and friends).
