@@ -224,3 +224,219 @@ On a fresh install (no admin user exists yet), navigating to `/admin/setup-wizar
 4. Redirect to `/admin/live-edit` for the first-edit experience.
 
 The wizard's metadata (template list, website-info defaults) comes from `/api/live-edit/get-website-info`. The wizard route is only reachable when no admin user exists — the Admin middleware's first-time-setup escape hatch (documented in the [Admin package](/modules/admin/installation#admin-url-prefix)) is what makes it accessible unauthenticated.
+
+---
+
+## Template / live-edit mode switching
+
+A staff user toggles between four distinct modes of viewing the same page:
+
+| Mode | URL pattern | What it shows | Audience |
+|---|---|---|---|
+| **Public view** | `/{page-slug}` | the page as a public visitor sees it; no edit chrome, no toolbar | end visitors (default) |
+| **Preview view** | `/{page-slug}?preview=y` | same DOM as public view + a "Return to admin" banner; useful for sharing draft content | staff sharing a preview link |
+| **Live edit** | `/{page-slug}?editmode=y` | edit chrome + toolbar + drag handles + module slide-overs | staff editing inline |
+| **Layout preview** | `/template/preview-layout?module=...&skin=...&template=...` | renders one module + one skin combination in isolation | staff picking a template/skin from the layout picker |
+
+The `?editmode=y` toggle is a query-string signal the frontend recognises. When present, `iframe-page.blade.php` is the wrapping shell; without it, the public-page Blade renders directly. The Vue toolbar conditionally mounts based on the same signal:
+
+```js
+// In packages/frontend-assets/.../live-edit-page-scripts.js
+if (location.search.includes('editmode=y')) {
+    mountLiveEditToolbar();
+    bootCanvasEditor();
+}
+```
+
+The Admin package's top-nav "Live Edit" button targets `site_url('?editmode=y')` (`Admin\Filament\FilamentAdminPanelProvider` render hook). Direct navigation works too — bookmarking `/blog/some-post?editmode=y` jumps straight into editing that post.
+
+The `preview` mode (`?preview=y`) is owned by the [Content module](/), not LiveEdit — it uses a different toggle so a marketing team can share preview URLs without invoking the editor chrome.
+
+To programmatically detect the current mode inside a custom Vue component:
+
+```js
+const isLiveEdit = window.location.search.includes('editmode=y');
+const isPreview  = window.location.search.includes('preview=y');
+const isPublic   = !isLiveEdit && !isPreview;
+```
+
+If your custom module renders differently in edit mode (e.g. hiding pagination so a draft is fully visible), branch on `isLiveEdit`.
+
+---
+
+## Drag-and-drop event handlers (detailed)
+
+The canvas-side drag-drop is built on **moveable.js** integrated by `liveeditmode.js` and `live-edit-page-scripts.js`. The library fires native browser events on the moveable element AND emits its own typed callbacks. Both are usable extension points.
+
+### moveable.js callbacks (preferred)
+
+The Microweber wrapper around moveable.js exposes these per-element callbacks (set on the wrapper, not the underlying moveable instance):
+
+| Callback | When | Payload |
+|---|---|---|
+| `onDragStart(event)` | user begins dragging | `{ target, clientX, clientY }` |
+| `onDrag(event)` | every mousemove during drag | `{ target, beforeTranslate, translate }` |
+| `onDragEnd(event)` | user releases | `{ target, lastEvent }` |
+| `onResizeStart(event)` | resize handle clicked | `{ target, direction }` |
+| `onResize(event)` | every resize step | `{ target, width, height, drag }` |
+| `onResizeEnd(event)` | resize completes | `{ target, lastEvent }` |
+| `onRotateStart`/`onRotate`/`onRotateEnd` | rotation handle (currently unused on most elements; reserved) | similar shape |
+
+These fire on the moveable wrapper, NOT on the underlying DOM element. Listen via:
+
+```js
+// Inside the canvas iframe
+const wrapper = window.mw?.app?.moveable;
+if (wrapper) {
+    wrapper.on('drag', (event) => {
+        console.log('dragging', event.target.id, event.translate);
+    });
+}
+```
+
+### Native browser drop events
+
+For drag-from-outside-the-canvas (e.g. dragging a desktop file onto the editor), listen for native `drop` events on the canvas iframe's document:
+
+```js
+const canvasDoc = window.mw?.app?.canvas?.getDocument();
+canvasDoc?.addEventListener('drop', (e) => {
+    if (e.dataTransfer.files.length > 0) {
+        // File drop — invoke the image-upload action
+        window.parent.dispatchEvent(new CustomEvent('openAddContentAction'));
+    }
+});
+```
+
+The Microweber wrapper doesn't intercept native file drops by default — the +ADD picker's "Upload image" card is the canonical entry point for new media. The above pattern is for custom integrations.
+
+### Sortable / reorder events
+
+Block reordering (different from drag-positioning) uses **SortableJS** internally via the `VisualEditorComponent` Livewire (NOT moveable.js). The Vue toolbar's UNDO button captures a `body.innerHTML` snapshot before each reorder, so undo restores pre-reorder state.
+
+For listening to block reorders specifically:
+
+```php
+// In a Livewire component embedded in the canvas
+#[On('blockReordered')]
+public function whenBlockReordered($oldIndex, $newIndex): void
+{
+    // Custom side-effect — e.g. log the move to an audit table
+}
+```
+
+The `blockReordered` Livewire event is the canonical hook; the `VisualEditorComponent` fires it after every successful drag-to-reorder.
+
+---
+
+## Session persistence and auto-save
+
+LiveEdit deliberately does **NOT auto-save**. The design choice: explicit SAVE button click → explicit dispatch via `liveEditSaveCallMountedAction` → explicit form submit. Three reasons:
+
+1. **Predictability** — users always know when their work has hit the database.
+2. **Network resilience** — a failed auto-save mid-typing leaves the input in a confusing state (was it saved? was it lost?). The explicit-save model removes the ambiguity.
+3. **Multi-edit scenarios** — when an admin has 5 changes typed across 3 modal slide-overs, auto-save would have to decide which to commit first; the user makes that decision via the save-flow specificity ranker (see [Overview → save flow](./#the-save-flow--most-specific-form-wins)).
+
+What IS persisted across requests:
+
+| State | Where | Lifetime |
+|---|---|---|
+| Current canvas URL | `?url=` query string on `/admin/live-edit?url=...` | URL-scoped (lost on refresh without the param) |
+| `$liveEditUrl` Livewire property | the `AdminLiveEditPage` Livewire component state | Livewire-mount-scoped (rehydrated from `?url=` on refresh) |
+| Admin session | Laravel session (cookie-backed) | session-lifetime |
+| Vue toolbar settings (publish-confirmed flag, etc.) | localStorage keys prefixed `mw-` | until cleared |
+| Undo/redo snapshots | in-memory in `UndoRedo.vue` | refresh clears them |
+
+What is **NOT** persisted (and would be if auto-save existed):
+
+- Typed-but-unsaved content in any open modal form.
+- Drag-positions applied to the canvas DOM but not yet committed via SAVE.
+- Module-settings slide-over field changes.
+
+### Opting into auto-save (custom code)
+
+If your project needs auto-save (e.g. a long-form editor where losing typing is catastrophic), wire a debounced auto-save in your custom Livewire component:
+
+```php
+namespace App\Filament\Admin\Pages;
+
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Livewire\Component;
+
+class MyAutoSaveEditor extends Component
+{
+    public string $title = '';
+    public string $body  = '';
+
+    public function updatedTitle(): void { $this->autoSave(); }
+    public function updatedBody(): void  { $this->autoSave(); }
+
+    // Debounced via wire:model.live.debounce.500ms on the form input
+    public function autoSave(): void
+    {
+        \Modules\Content\Models\Content::updateOrCreate(
+            ['id' => $this->contentId],
+            ['title' => $this->title, 'content_body' => $this->body],
+        );
+    }
+}
+```
+
+The `wire:model.live.debounce.500ms="title"` modifier in your Blade view triggers the `updatedTitle()` hook after 500ms of typing inactivity. The hook persists silently.
+
+This pattern bypasses the standard SAVE button — your custom editor isn't part of the save-flow specificity ranker. Document this clearly for your users: "this surface auto-saves; you don't need to click Save".
+
+### Recovering unsaved work after browser crash
+
+Because LiveEdit doesn't auto-save, browser crashes lose unsaved input. Three mitigations:
+
+1. **Browser-level form recovery** — most modern browsers (Chrome, Firefox, Safari) restore form input on tab restore. Test by killing + reopening the browser; usually 80% effective.
+2. **Custom localStorage backup** — implement client-side periodic dumps of in-progress input. Not built into LiveEdit; would be a custom Vue plugin.
+3. **Filament's optimistic-update model** — Filament writes through Livewire on every field blur. If your form uses `->live(onBlur: true)` on each field, each blur is effectively a checkpoint.
+
+---
+
+## Mobile LiveEdit considerations
+
+The full drag-and-drop edit experience is **optimised for desktop / large tablet** (≥1024px viewport). On smaller viewports the experience degrades gracefully:
+
+### Viewport breakpoints
+
+| Width | Behaviour |
+|---|---|
+| ≥1024px | full edit chrome — drag handles, slide-overs, multi-column module settings |
+| 768–1023px (tablet) | edit chrome present but compressed — slide-overs become full-screen modals; drag handles smaller but still touchable |
+| <768px (phone) | edit chrome present but heavily compressed — many features hide or become single-column; touch interactions for drag/resize work but precision is harder |
+
+The AI-515 safe-area-inset CSS (from the Phase 1 UX work — commit `54fdfeb713`) ensures Live Edit's toolbar respects iPhone notches and home-indicator gesture bars on iOS. See the [AI-515 ship report](/) for details.
+
+### Touch event support
+
+moveable.js's touch-event implementation covers single-finger drag and pinch-zoom. Two known limitations on mobile:
+
+1. **Long-press to drag** — by default moveable.js treats every touchstart as a potential drag, which conflicts with scroll. The Microweber wrapper sets a 300ms long-press delay so the user can scroll-without-dragging by lifting before 300ms.
+2. **Multi-select** — phone-touch doesn't support multi-element selection (no Shift+click equivalent). Multi-edit workflows are desktop-only.
+
+### Performance on mobile
+
+The canvas iframe loads the full public-page bundle PLUS the edit chrome on every Live Edit page-load. On a 4G phone, expect ~3-5s initial load. Mitigations:
+
+- Pre-fetch from a CDN if available (Cloudflare, Fastly).
+- Lazy-load non-critical Vue toolbar components — the `UndoRedo`, `AddContentButton`, user menu can defer until first interaction.
+- Defer the moveable.js initialisation until the first `.element-active` click — drag handles aren't needed until the user selects something.
+
+### Mobile-specific routes
+
+There is **no separate mobile Live Edit route**. The desktop URL pattern works on mobile; the responsive CSS adapts.
+
+For users who need a stripped-down mobile-only edit mode (e.g. quick-fix typos on the go), the recommended pattern is to expose the Content module's standard Filament Edit form (no canvas iframe) at `/admin/content/{id}/edit` — that surface is mobile-friendly by default and skips the heavy drag-drop chrome entirely.
+
+### Known mobile gotchas
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Toolbar hidden under notch | viewport-fit=cover not present | AI-515 ships the meta tag on the iframe; if missing, add it manually |
+| Tap on toolbar button does nothing | iOS Safari blocking `pointer-events: none` ancestor | check parent element has `pointer-events: auto` |
+| Drag handle jitters during scroll | touch-event conflict | rely on the 300ms long-press delay; if more time is needed, see the wrapper's `pressDelay` config |
+| Modal close-X tap area too small | regression — should be 44×44px floor per AI-225 | check the WCAG 2.5.5 floor (44×44 px) is applied to the close-X CSS rule |
