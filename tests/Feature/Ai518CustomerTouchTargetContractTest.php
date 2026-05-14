@@ -174,13 +174,25 @@ class Ai518CustomerTouchTargetContractTest extends TestCase
     {
         // Guard: NO profile-panel rule may target `body.fi-panel-admin`
         // or `body.fi-panel-checkout`. Bound the AI-518 profile-panel
-        // sub-block from the AI-518 marker comment until the AI-517
-        // block's closing brace.
+        // sub-block from the AI-518 marker comment to the start of the
+        // next AI-NNN block-comment marker (or to the enclosing @media
+        // closing brace if no further block exists). Per LESSONS.md
+        // 2026-05-14 — slice to the rule terminator, not to a larger
+        // block that may grow underneath the marker.
         $ai518MarkerStart = strpos($this->mobileTouchCss, 'AI-518 — Customer / Profile panel');
         $this->assertNotFalse($ai518MarkerStart, 'AI-518 profile-panel marker comment must exist');
         $remaining = substr($this->mobileTouchCss, $ai518MarkerStart);
-        $blockEnd = strpos($remaining, "\n}\n");
-        $this->assertNotFalse($blockEnd, 'AI-518 profile-panel block must terminate cleanly');
+
+        // Prefer bounding to the next AI- block-comment marker; fall back
+        // to the @media closing brace if no further AI- block exists.
+        $nextAiMarker = strpos($remaining, '/* ============================================================
+     * AI-', 1);
+        if ($nextAiMarker !== false) {
+            $blockEnd = $nextAiMarker;
+        } else {
+            $blockEnd = strpos($remaining, "\n}\n");
+            $this->assertNotFalse($blockEnd, 'AI-518 profile-panel block must terminate cleanly');
+        }
         $ai518Block = substr($remaining, 0, $blockEnd);
 
         $this->assertStringNotContainsString(

@@ -1456,6 +1456,30 @@ body.fi-panel-checkout .fi-page-content b {
         display: inline-flex;
         align-items: center;
     }
+
+    /* ============================================================
+     * AI-520 — Shipping module — Filament Radio touch-target floor
+     * Shipping method selection in the checkout panel renders as a
+     * Filament Radio component (CheckoutResource line 168:
+     * `Radio::make('shipping_provider_id')->options($options)`). Each
+     * shipping provider becomes one `<label class="fi-fo-radio-label">`
+     * containing an `<input type="radio" class="fi-radio-input">` —
+     * native input ~16x16 (browser default). AI-517 covered checkboxes
+     * via `:has(.fi-checkbox-input)` but the equivalent rule for radios
+     * did not exist, so the per-option row sat at the bare label height
+     * with no 44h floor.
+     *
+     * Same pattern as AI-517: visual radio stays small (a11y intuition);
+     * the LABEL row reaches 44h so a fingertip anywhere on the row
+     * toggles the option. Applies to every Filament Radio rendered in
+     * the checkout panel (Shipping method, Payment method, any future
+     * radio fields). Scoped to `body.fi-panel-checkout` only.
+     * ============================================================ */
+    body.fi-panel-checkout label.fi-fo-radio-label {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
 }
 
 
