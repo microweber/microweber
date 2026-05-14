@@ -848,6 +848,49 @@ html.dark {
     .mw-go-live-edit {
         min-height: 44px;
     }
+
+    /* AI-522 — ContactForm module mobile touch-targets per agent-test
+       audit (2026-05-14, 390x844). The ContactForm `default` template
+       (`Modules/ContactForm/resources/views/templates/default.blade.php`)
+       renders inside `.contact-form-container` and ships three
+       touch-target violations on mobile:
+
+         (a) Submit button — `.btn.btn-primary` inside
+             `.form-group` (`partials/formSubmit.blade.php` line 26)
+             measures ~38-40px. The site-wide `.btn.btn-primary` rule
+             (line 284 above) sets only border-radius/padding, not
+             min-height; floor it explicitly for the contact form
+             container.
+         (b) Inputs — `.form-control` carries an `--input-height` of
+             44px from AI-292 globally, but the audit measured ~38px
+             on the rendered contact form. Belt-and-braces: pin the
+             floor inside the touch-viewport @media, scoped to the
+             contact form container so it cannot regress.
+         (c) Newsletter-subscribe checkbox — `<input type="checkbox">`
+             inside `<label class="mw-ui-check">` (default.blade.php
+             line 33). Bootstrap-native checkbox renders 16x16; the
+             label row needs a 44h floor + inline-flex centring so
+             a fingertip on the row toggles the checkbox. Visual
+             checkbox stays at its native ~16x16.
+
+       Scoped to `.contact-form-container` so site-wide rendering of
+       `.btn-primary` / `.form-control` / `.mw-ui-check` (used outside
+       the contact form, e.g. in admin and other modules) is
+       unaffected. */
+    .contact-form-container .btn.btn-primary,
+    .contact-form-container .btn {
+        min-height: 44px;
+    }
+    .contact-form-container .form-control,
+    .contact-form-container .form-select,
+    .contact-form-container textarea.form-control {
+        min-height: 44px;
+    }
+    .contact-form-container label.mw-ui-check {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
 }
 
 /*
