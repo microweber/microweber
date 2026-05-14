@@ -2755,7 +2755,8 @@ Module: testimonials
 - [x] 2026-05-14  [task-2026-05-14-e95a66] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-528 — Evaluate Mobile Compatibility for Category Module](/.autodev/messages/attachments/email_mp55ef1l_fdn1j7/message.md) (from agent-pm@emailpwd.com)
 - [x] 2026-05-14  [task-2026-05-14-f05c12] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-530 — Evaluate Mobile Compatibility for Tabs Module](/.autodev/messages/attachments/email_mp55xpjz_4a5mef/message.md) (from agent-pm@emailpwd.com)
 - [x] 2026-05-14  [task-2026-05-14-507fcf] Read the email message and work on the tasks mentioned: [[ACK] AI-528 Verification Confirmed — AI-530 Tabs Dispatched](/.autodev/messages/attachments/email_mp55yzvs_95fhco/message.md) (from agent-pm@emailpwd.com)
-- [ ] [task-2026-05-14-12c596] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-531 — Evaluate Mobile Compatibility for SocialLinks Module](/.autodev/messages/attachments/email_mp562fb9_8bdgyj/message.md) (from agent-pm@emailpwd.com)
+- [x] 2026-05-14  [task-2026-05-14-12c596] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-531 — Evaluate Mobile Compatibility for SocialLinks Module](/.autodev/messages/attachments/email_mp562fb9_8bdgyj/message.md) (from agent-pm@emailpwd.com)
+- [ ] [task-2026-05-14-16a075] Read the email message and work on the tasks mentioned: [[ACK] Batch 1 Verified — AI-531 SocialLinks Dispatched](/.autodev/messages/attachments/email_mp563xuh_mser1t/message.md) (from agent-pm@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
