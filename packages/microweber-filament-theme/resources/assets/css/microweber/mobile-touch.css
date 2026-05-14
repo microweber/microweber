@@ -1432,6 +1432,30 @@ body.fi-panel-checkout .fi-page-content b {
     body.fi-panel-checkout .fi-ac button.fi-btn.fi-color-success {
         min-height: 44px !important;
     }
+
+    /* ============================================================
+     * AI-518 — Customer / Profile panel (body.fi-panel-profile)
+     * Remember-me checkbox row hit area. The profile Filament panel
+     * (Modules/Profile/Providers/FilamentProfilePanelProvider.php,
+     * panel id 'profile', path /profile) renders the public customer
+     * login + register flow. The login page exposes Filament's stock
+     * `getRememberFormComponent()` checkbox at ~13x13 which fails the
+     * 44x44 floor on mobile.
+     *
+     * Same `:has(.fi-checkbox-input)` wrapper-label pattern as AI-517
+     * — visual checkbox stays small (a11y/design intuition), but the
+     * field-wrapper and label row both reach 44h so a fingertip on
+     * the row toggles the checkbox.
+     * ============================================================ */
+    body.fi-panel-profile .fi-fo-field-wrp:has(.fi-checkbox-input) {
+        min-height: 44px;
+    }
+    body.fi-panel-profile label:has(> .fi-checkbox-input),
+    body.fi-panel-profile label:has(.fi-checkbox-input) {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
 }
 
 

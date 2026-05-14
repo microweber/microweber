@@ -706,6 +706,24 @@ html.dark {
         min-height: 44px;
     }
 
+    /* AI-518 — CONTACT US header button (`<module type="btn"
+       id="header-layout-btn" button_size="btn-sm">` in
+       layouts/templates/menus/skin-1.blade.php line 43). The Btn module
+       renders it as `<button|a id="header-layout-btn" class="btn btn-sm">`
+       — Bootstrap's `.btn-sm` gives a ~38px height. The audit measured
+       137x38 at 390x844; floor min-height to 44px on mobile so the header
+       contact CTA hits the WCAG 2.5.5 tap-target threshold.
+
+       Targeted by id (stable, narrow) AND by header-context selector so
+       a future skin that uses a different module id but the same header
+       wrapper still inherits the floor. Content-area `.btn-sm` instances
+       are unaffected — they sit outside `.templates-top-header-menu`. */
+    #header-layout-btn.btn,
+    .templates-top-header-menu #header-layout-btn,
+    .templates-top-header-menu .btn.btn-sm {
+        min-height: 44px;
+    }
+
     /* Footer menu links (`footer-19-menu` is the wrapper used by
        layouts/footers/skin-1; cover the generic Bootstrap footer
        patterns too: `footer .menu a`, `footer nav a`). Public footer
