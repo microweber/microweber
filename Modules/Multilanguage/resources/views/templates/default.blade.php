@@ -81,7 +81,7 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         transition: box-shadow 0.2s, transform 0.2s;
         min-width: 44px;
-        min-height: 36px;
+        min-height: 44px; /* WCAG 2.5.5 AI-556: 44px touch target */
         font-weight: 500;
         gap: 6px;
         border: none;
@@ -131,7 +131,7 @@
         font-size: 15px;
         font-weight: 500;
         gap: 8px;
-        min-height: 36px;
+        min-height: 44px; /* WCAG 2.5.5 AI-556: 44px touch target */
         display: flex;
         align-items: center;
         border: none; /* removed border */
@@ -162,7 +162,7 @@
         }
         .modern-lang-link {
             font-size: 14px;
-            min-height: 32px;
+            min-height: 44px; /* WCAG 2.5.5 AI-556: keep 44px on mobile */
         }
     }
 </style>

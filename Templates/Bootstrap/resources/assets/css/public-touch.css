@@ -1402,3 +1402,54 @@ html.dark {
         filter: blur(0);
     }
 }
+
+/* ---- WCAG 2.5.5 Touch-target floors for public-surface interactive elements ----
+ *
+ * AI-498 (Content): .button-8 "Read more" anchors in content list templates
+ * AI-499 (Page):    .mw-more "Read More" anchors in page/product list template
+ * AI-553 (Currency): currency-switcher toggle button
+ * AI-564 (LayoutContent): .btn call-to-action links inside layout-content module
+ * AI-565 (Btn): .btn-sm rendered by the Btn module (configurable size may emit sm)
+ * AI-572 (Sharer): social-share icon anchors wrapping SVGs
+ *
+ * All rules are scoped to their module context where possible to avoid
+ * global .btn-sm interference.
+ * ------------------------------------------------------------------ */
+
+/* AI-498: Content "Read more" button-8 style */
+.button-8 {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* AI-499: Page / product list "Read More" text link */
+.mw-more {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* AI-553: Currency switcher toggle */
+.currency-switcher button {
+    min-height: 44px;
+}
+
+/* AI-564/AI-565: .btn and .btn-sm inside module wrappers on public surface */
+.module-layout-content .btn,
+.mw-btn-align-wrap .btn,
+.mw-btn-align-wrap .btn-sm {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* AI-572: Sharer social-share icon anchors */
+.mw-social-share-links a {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

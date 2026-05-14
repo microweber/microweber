@@ -37,6 +37,12 @@
     padding: 0.5rem;
     cursor: pointer;
     color: inherit;
+    /* WCAG 2.5.5 AI-551: 44×44 touch target */
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .cookie-notice-wrapper .close-button svg {
@@ -51,6 +57,10 @@
 .cookie-notice-wrapper .cookie-policy-link {
     color: #4F46E5;
     text-decoration: none;
+    /* WCAG 2.5.5 AI-551: 44px touch target */
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
 }
 
 .cookie-notice-wrapper .cookie-policy-link:hover {
@@ -143,6 +153,8 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
+    /* WCAG 2.5.5 AI-551: 44px touch target */
+    min-height: 44px;
 }
 
 .cookie-notice-wrapper .accept-all-button {
