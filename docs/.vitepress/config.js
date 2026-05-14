@@ -236,6 +236,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/checkout/examples' },
               { text: 'Troubleshooting', link: '/modules/checkout/troubleshooting' }
             ]
+          },
+          {
+            text: 'Order Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/order/' },
+              { text: 'Installation', link: '/modules/order/installation' },
+              { text: 'Usage', link: '/modules/order/usage' },
+              { text: 'API Reference', link: '/modules/order/api' },
+              { text: 'Examples', link: '/modules/order/examples' },
+              { text: 'Troubleshooting', link: '/modules/order/troubleshooting' }
+            ]
           }
         ]
       },
