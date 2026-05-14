@@ -692,6 +692,20 @@ html.dark {
         min-height: 44px;
     }
 
+    /* AI-516 — Cart count badge `.js-shopping-cart-quantity` touch-target
+       floor. The badge is the visible pill that shows the cart item count
+       (rendered inside the cart-icon `<a>` wrapper via skin-1.blade.php).
+       Bootstrap's `btn btn-outline-primary btn-sm` gives it a ~38px
+       height — below the 44x44 WCAG 2.5.5 floor. Floor min-width and
+       min-height on the badge itself. The `:not([hidden])` guard makes
+       the empty-state hidden behaviour explicit (the badge carries the
+       HTML5 `hidden` attribute when cart_qty <= 0 per the AI-40 fix in
+       skin-1.blade.php). */
+    .js-shopping-cart-quantity:not([hidden]) {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
     /* Footer menu links (`footer-19-menu` is the wrapper used by
        layouts/footers/skin-1; cover the generic Bootstrap footer
        patterns too: `footer .menu a`, `footer nav a`). Public footer

@@ -94,6 +94,7 @@ class PublicTouchTargetContractTest extends TestCase
         $required_selectors = [
             '.mw-socialLinks a',                       // social icons (16x25, 20x24)
             '.btn-shopping-cart > a.nav-link',          // cart badge link (58x22)
+            '.js-shopping-cart-quantity',               // AI-516 cart count badge (86x38 -> 44x44)
             '.footer-19-menu a',                        // footer nav (~24px)
             '.swiper-pagination-bullet',                // carousel dots (8x8)
             '.carousel-control-prev',                   // bootstrap carousel arrow
@@ -120,6 +121,22 @@ class PublicTouchTargetContractTest extends TestCase
             '/min-height:\s*44px/',
             $this->sourceCss,
             'public-touch.css: at least one min-height: 44px rule must exist'
+        );
+    }
+
+    #[Test]
+    public function ai_516_cart_badge_rule_carries_explicit_44px_floor(): void
+    {
+        // AI-516 — the `.js-shopping-cart-quantity` selector must own a
+        // rule body that sets BOTH min-width: 44px AND min-height: 44px.
+        // Selector presence alone is not enough — guard the actual
+        // declarations so a future refactor that drops one half is caught.
+        // The `:not([hidden])` guard is part of the contract too: the
+        // empty-state hidden-attribute behaviour from AI-40 must survive.
+        $this->assertMatchesRegularExpression(
+            '/\.js-shopping-cart-quantity:not\(\[hidden\]\)\s*\{[^}]*min-width:\s*44px;[^}]*min-height:\s*44px;[^}]*\}/s',
+            $this->sourceCss,
+            'public-touch.css: AI-516 badge rule must declare BOTH min-width: 44px AND min-height: 44px on `.js-shopping-cart-quantity:not([hidden])`'
         );
     }
 
