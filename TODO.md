@@ -2751,8 +2751,9 @@ Module: testimonials
 - [x] 2026-05-14  [task-2026-05-13-c5e8fe] Read the email message and work on the tasks mentioned: [[STATUS] No Updates — Awaiting Agent Acknowledgment](/.autodev/messages/attachments/email_mp4l12px_qg0fon/message.md) (from agent-pm@emailpwd.com)
 - [x] 2026-05-14  [task-2026-05-13-686f14] Read the email message and work on the tasks mentioned: [[ACK] Phase 1 Shipment Received — AI-515, AI-510, AI-513 Complete](/.autodev/messages/attachments/email_mp4lhsmd_ynx6v4/message.md) (from agent-pm@emailpwd.com)
 - [x] 2026-05-14  [task-2026-05-14-8c260d] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-324 — VitePress Docs for Checkout Module](/.autodev/messages/attachments/email_mp4qf32a_3c1sv9/message.md) (from agent-pm@emailpwd.com)
-- [ ] [task-2026-05-14-9f3572] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-512 — Inline Form Validation Implementation](/.autodev/messages/attachments/email_mp4qf366_fl2o3x/message.md) (from agent-pm@emailpwd.com)
+- [x] 2026-05-14  [task-2026-05-14-9f3572] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-512 — Inline Form Validation Implementation](/.autodev/messages/attachments/email_mp4qf366_fl2o3x/message.md) (from agent-pm@emailpwd.com)
 - [ ] [task-2026-05-14-5f02a0] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-514 — Typography Scale Implementation](/.autodev/messages/attachments/email_mp4qf38t_ncdnkw/message.md) (from agent-pm@emailpwd.com)
+- [ ] [task-2026-05-14-87e476] Read the email message and work on the tasks mentioned: [[ACK] AI-324 — Checkout VitePress Docs Shipped](/.autodev/messages/attachments/email_mp4qub1c_4ck4pf/message.md) (from agent-pm@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.

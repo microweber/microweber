@@ -268,3 +268,78 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 })();
+
+/* ============================================================
+ * AI-512 — Auto-scroll to first validation error after form submit.
+ *
+ * Audit task 1.3.2 ("Implement Inline Validation with Specific
+ * Messages and Auto-Scroll") asked for four changes. This slice
+ * ships the auto-scroll behaviour as the only piece that fits a
+ * single bounded JS slice — the other asks (inline blur-validation,
+ * specific messages, consistent styling) require per-resource PHP
+ * changes (live(onBlur) opt-in) + CSS work; deferred to AI-512a/b.
+ *
+ * How it works:
+ *   1. Capturing click listener on submit buttons inside admin or
+ *      checkout panels.
+ *   2. After 250ms — enough for Filament's Livewire submit → server
+ *      validation → DOM morph pipeline to complete — query for the
+ *      FIRST `[data-validation-error]` element (Filament v5's
+ *      canonical validation-error attribute on every error
+ *      <p>/<div>/<ul>).
+ *   3. Smooth-scroll its outer `.fi-fo-field` wrapper into the
+ *      viewport (center-aligned), then 400ms later focus the
+ *      first non-hidden, non-disabled input inside it.
+ *
+ * Why a click listener and not a Livewire morph hook: morphs fire
+ * on every keystroke when live-validation is enabled — scrolling
+ * on every key event would be unhelpful. A submit-click is a
+ * one-shot, intentional commit trigger.
+ *
+ * Scope: `body.fi-panel-admin` + `body.fi-panel-checkout` only —
+ * public storefront forms have separate jQuery-era validation that
+ * this would otherwise compete with.
+ * ============================================================ */
+(function mwScrollToFirstValidationError() {
+    'use strict';
+
+    var isAdminOrCheckoutPanel = function () {
+        return document.body.classList.contains('fi-panel-admin') ||
+               document.body.classList.contains('fi-panel-checkout');
+    };
+
+    document.addEventListener('click', function (e) {
+        if (!isAdminOrCheckoutPanel()) return;
+
+        var btn = e.target && e.target.closest && e.target.closest('button[type="submit"]');
+        if (!btn) return;
+
+        setTimeout(function () {
+            var firstError = document.querySelector(
+                'body.fi-panel-admin [data-validation-error], ' +
+                'body.fi-panel-checkout [data-validation-error]'
+            );
+            if (!firstError) return;
+
+            var wrp = firstError.closest('.fi-fo-field');
+            if (!wrp) return;
+
+            try {
+                wrp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } catch (err) {
+                wrp.scrollIntoView();
+            }
+
+            setTimeout(function () {
+                var input = wrp.querySelector(
+                    'input:not([type="hidden"]):not([readonly]):not(:disabled), ' +
+                    'select:not(:disabled), ' +
+                    'textarea:not(:disabled):not([readonly])'
+                );
+                if (input && typeof input.focus === 'function') {
+                    try { input.focus({ preventScroll: true }); } catch (err) { input.focus(); }
+                }
+            }, 400);
+        }, 250);
+    }, true);
+})();
