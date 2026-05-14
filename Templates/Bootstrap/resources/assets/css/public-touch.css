@@ -937,6 +937,45 @@ html.dark {
         display: inline-flex;
         align-items: center;
     }
+
+    /* AI-531 — SocialLinks module mobile touch-targets per agent-test
+       audit (2026-05-14, 390x844). Each social-link `<a>` wraps an
+       SVG icon (default ~24x24 px) with no inherent padding on the
+       anchor — tester measured 24x24 touch-target, below the 44x44
+       WCAG 2.5.5 floor.
+
+       All 6 SocialLinks templates wrap links in `.mw-socialLinks`:
+         - `default.blade.php`   (<div class="mw-socialLinks">)
+         - `footer.blade.php`    (<ul class="mw-socialLinks ...">)
+         - `skin-1.blade.php`    (<ul class="mw-socialLinks ...">)
+         - `skin-2.blade.php`    (<ul class="mw-socialLinks ...">)
+         - `skin-7.blade.php`    (<ul class="mw-socialLinks ...">)
+         - `skin-9.blade.php`    (<ul class="mw-socialLinks ...">)
+
+       Scope: `.mw-socialLinks` is used ONLY by SocialLinks module
+       templates across the entire repo (grep-verified; the only other
+       hits are inside `Templates/Bootstrap/resources/assets/css/main.scss`
+       which sets the same rule for the Bootstrap template). Bare-class
+       selector is safe.
+
+       **Defensive duplicate by design:** `Templates/Bootstrap/.../main.scss`
+       line 560 already declares
+       `.mw-socialLinks a, .module-breadcrumb a, ... { min-height: 44px; min-width: 44px; ... }`
+       inside `@media (max-width: 767.98px)`. If the audited public
+       page used the Bootstrap template the existing rule would have
+       applied — yet tester measured 24x24 at 390x844, indicating the
+       active template at the audit site does NOT load Bootstrap's
+       compiled `app.css`. `public-touch.css` is loaded as a separate
+       site-wide mobile-touch stylesheet, so duplicating the rule here
+       guarantees the floor across templates. Same defensive pattern
+       as AI-510/AI-211 served-mirror sync. */
+    .mw-socialLinks a {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 /*

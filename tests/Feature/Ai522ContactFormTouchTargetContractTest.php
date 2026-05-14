@@ -50,15 +50,24 @@ class Ai522ContactFormTouchTargetContractTest extends TestCase
             'public-touch.css must contain the AI-522 marker comment'
         );
         $remaining = substr($this->css, $start);
-        // Bound to the last AI-522 rule's closing brace — there are 3
-        // rule bodies; the third ends with `\n    }\n` followed by the
-        // closing of the @media block `\n}\n`. Slice from marker to the
-        // @media closing brace pattern.
-        $end = strpos($remaining, "\n}\n");
-        $this->assertNotFalse(
-            $end,
-            'AI-522 rule block must terminate cleanly inside the touch-viewport @media'
-        );
+        // Bound to the next AI-NNN block-comment marker (fallback to
+        // the @media closing brace if no further AI block exists) —
+        // same lesson as AI-518's slice-bounding fix in commit
+        // 54a36417c5. The original `\n}\n` bound assumed AI-522 was
+        // the last block inside the @media; later AI- ships (AI-528,
+        // AI-530, AI-531) sit after it inside the same @media and the
+        // slice grew downstream to include their `body.fi-panel-*` /
+        // `@media (...)` references, false-failing absence guards.
+        $nextAiMarker = strpos($remaining, '/* AI-', 1);
+        if ($nextAiMarker !== false) {
+            $end = $nextAiMarker;
+        } else {
+            $end = strpos($remaining, "\n}\n");
+            $this->assertNotFalse(
+                $end,
+                'AI-522 rule block must terminate cleanly inside the touch-viewport @media'
+            );
+        }
         return substr($remaining, 0, $end);
     }
 
