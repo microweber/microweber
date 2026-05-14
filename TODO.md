@@ -2767,6 +2767,20 @@ Module: testimonials
 - [x] 2026-05-14  [task-2026-05-14-3cae2b] chec for more errors
 - [x] 2026-05-14  [task-2026-05-14-461c5e] run php artisan test and the usk test and fix failing
 - [x] [task-2026-05-14-0e8e6c] go on the .goal i to test the whole prict and fix all non working function and incoisntnecies
+- [x] 2026-05-14 [task-2026-05-14-fdb606] Read the email message and work on the tasks mentioned: [[DISPATCH] Open Tickets Summary — Sequential Fix Queue + Pending Work](/.autodev/messages/attachments/email_mp5h516f_o7ekjb/message.md) (from agent-pm@emailpwd.com)
+- [x] 2026-05-14 [task-2026-05-14-ef026b] Read the email message and work on the tasks mentioned: [[ACK] Batch Evaluation Accepted — AI-498/499 + Profile/Elements/Embed/GA](/.autodev/messages/attachments/email_mp5h7lro_3zklpj/message.md) (from agent-test@emailpwd.com)
+- [x] [task-2026-05-14-e46168] Read the email message and work on the tasks mentioned: [[EVAL COMPLETE] Batch Evaluation — 22 tickets, 8 need CSS fix](/.autodev/messages/attachments/email_mp5hge5g_wjiuqm/message.md) (from agent-test@emailpwd.com)
+- [x] [task-2026-05-14-12b586] Read the email message and work on the tasks mentioned: [[DISPATCH] Batch Evaluation Results — 8 New Fix Tickets Queued](/.autodev/messages/attachments/email_mp5hibl9_59gcu3/message.md) (from agent-pm@emailpwd.com)
+- [x] [task-2026-05-14-49677a] Read the email message and work on the tasks mentioned: [[SHIP VERIFIED] Batch Complete — AI-498/499/551/553/556/564/565/572](/.autodev/messages/attachments/email_mp5ht1h3_cv9qro/message.md) (from agent-pm@emailpwd.com)
+- [x] [task-2026-05-14-667242] Read the email message and work on the tasks mentioned: [[SHIP VERIFIED] AI-498/499/551/553/556/564/565/572 — 20 tests/60 assertions green](/.autodev/messages/attachments/email_mp5hw95j_5jn1jv/message.md) (from agent-test@emailpwd.com)
+- [x] [task-2026-05-14-5d78c4] Read the email message and work on the tasks mentioned: [[ACK] Live Edit Batch Accepted — AI-500/501/502/503](/.autodev/messages/attachments/email_mp5mjnqp_n4e6o5/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-14  [task-2026-05-14-5cd980] Read the email message and work on the tasks mentioned: [[EVAL COMPLETE] Live Edit Batch — AI-500/501/502/503](/.autodev/messages/attachments/email_mp5mldkv_u9wj3o/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-14  [task-2026-05-14-6fe49b] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-501 — Fix Menu Default Skin Touch Target](/.autodev/messages/attachments/email_mp5mo5sc_0ezx2f/message.md) (from agent-pm@emailpwd.com)
+- [x] 2026-05-14  [task-2026-05-14-be9311] Read the email message and work on the tasks mentioned: [[ACK] Admin Mobile Batch — AI-504/505/506/507/508/509](/.autodev/messages/attachments/email_mp5mulac_fbn9ab/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-14  [task-2026-05-14-e43714] Read the email message and work on the tasks mentioned: [[DISPATCH] UX Phase 1 — AI-510/511/512/513/514/515](/.autodev/messages/attachments/email_mp5mxdl3_8qhdrz/message.md) (from agent-pm@emailpwd.com)
+- [x] [task-2026-05-14-dfda8d] Read the email message and work on the tasks mentioned: [[EVAL COMPLETE] Admin Mobile Batch — 3 code-PASS, 3 flagged, 2 high-risk](/.autodev/messages/attachments/email_mp5n2y7u_b6lkwc/message.md) (from agent-test@emailpwd.com)
+- [x] [task-2026-05-14-bab6c2] Read the email message and work on the tasks mentioned: [[DISPATCH] Admin Mobile Fixes — AI-505/506/507/508/509](/.autodev/messages/attachments/email_mp5n4g8b_dbjdsx/message.md) (from agent-pm@emailpwd.com)
+- [x] [task-2026-05-14-94cd39] Read the email message and work on the tasks mentioned: [[SHIP VERIFIED] AI-510–515 (UX Phase 1) — Regression Clean](/.autodev/messages/attachments/email_mp5n9dpa_v6aw05/message.md) (from agent-test@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
