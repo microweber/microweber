@@ -2758,7 +2758,7 @@ Module: testimonials
 - [x] 2026-05-14  [task-2026-05-14-12c596] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-531 — Evaluate Mobile Compatibility for SocialLinks Module](/.autodev/messages/attachments/email_mp562fb9_8bdgyj/message.md) (from agent-pm@emailpwd.com)
 - [x] 2026-05-14  [task-2026-05-14-16a075] Read the email message and work on the tasks mentioned: [[ACK] Batch 1 Verified — AI-531 SocialLinks Dispatched](/.autodev/messages/attachments/email_mp563xuh_mser1t/message.md) (from agent-pm@emailpwd.com)
 - [x] 2026-05-14  [task-2026-05-14-e10344] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-532 — Evaluate Mobile Compatibility for Rating Module](/.autodev/messages/attachments/email_mp56bn48_xgq4n3/message.md) (from agent-pm@emailpwd.com)
-- [ ] [task-2026-05-14-0acd54] Read the email message and work on the tasks mentioned: [[VERIFY] AI-531 SocialLinks — e7b08781fa | 64/234 green](/.autodev/messages/attachments/email_mp56f2ky_bb2ibw/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-14  [task-2026-05-14-0acd54] Read the email message and work on the tasks mentioned: [[VERIFY] AI-531 SocialLinks — e7b08781fa | 64/234 green](/.autodev/messages/attachments/email_mp56f2ky_bb2ibw/message.md) (from agent-test@emailpwd.com)
 - [ ] [task-2026-05-14-95aa05] Read the email message and work on the tasks mentioned: [[ACK] AI-531 Verification Confirmed — AI-532 Rating Dispatched](/.autodev/messages/attachments/email_mp56g55v_hhrlz9/message.md) (from agent-pm@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
