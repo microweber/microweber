@@ -23,7 +23,25 @@
          last visible card. From a card, ArrowDown/ArrowUp cycle through
          the visible cards. Standard command-palette navigation.
        - Refs (`x-ref="search"` + per-card refs via index) so the
-         keyboard handlers don't need to re-query the DOM. --}}
+         keyboard handlers don't need to re-query the DOM.
+
+     Free-form UX improvement (task-2026-05-14-dac0b8):
+       - Clear button floor lifted from 28x28 (w-7 h-7) to 44x44
+         (w-11 h-11) to match the project-wide WCAG 2.5.5 touch-target
+         standard enforced by AI-516..AI-522. Visual × glyph stays the
+         same size; only the tap-area grows. Mobile users can now hit
+         the clear button reliably on first try.
+       - Escape on the search input: when `q` is non-empty, Escape
+         clears the search and refocuses the input — natural
+         command-palette ergonomic. When `q` is empty, Escape lets
+         Filament's modal-level Escape handler close the picker
+         (per AI-240 mw-modal focus contract). Implemented via
+         `event.stopPropagation()` only when we have text to clear.
+       - `aria-live="polite"` result-count announcement (visually
+         hidden via .sr-only): assistive tech now hears "3 results" /
+         "no results" / "all 6 options visible" as the user types,
+         without any visual change for sighted users. Updates on
+         `q` change via Alpine x-text. --}}
 <div class="mw-add-content-modal-root mb-6 p-2 flex flex-col gap-4"
      x-data="{
         q: '',
@@ -65,6 +83,18 @@
                 cards[0].focus();
             }
         },
+        visibleCount() {
+            return this.visibleCards().length;
+        },
+        resultAnnouncement() {
+            const total = $root.querySelectorAll('[data-mw-add-content-card]').length;
+            const shown = this.visibleCount();
+            if (this.q === '') return '';
+            if (shown === 0) return 'No results.';
+            if (shown === total) return 'All ' + total + ' options visible.';
+            if (shown === 1) return '1 result.';
+            return shown + ' results.';
+        },
      }"
      x-init="$nextTick(() => $refs.search && $refs.search.focus())">
 
@@ -86,7 +116,8 @@
             x-on:keydown.enter.prevent="activateFirstVisibleCard()"
             x-on:keydown.arrow-down.prevent="focusFirstVisibleCard()"
             x-on:keydown.arrow-up.prevent="focusLastVisibleCard()"
-            class="mw-add-content-modal-search-input w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 pe-10 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+            x-on:keydown.escape="if (q !== '') { q = ''; $refs.search.focus(); $event.stopPropagation(); }"
+            class="mw-add-content-modal-search-input w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 pe-12 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
         >
         {{-- Inline clear button — visible only while the input has text.
              Aria-labelled for assistive tech; click resets the model + re-
@@ -97,7 +128,7 @@
             x-show="q !== ''"
             x-on:click="q = ''; $refs.search.focus()"
             aria-label="Clear search"
-            class="mw-add-content-modal-search-clear absolute end-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-7 h-7 rounded-full text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-200/60 dark:hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+            class="mw-add-content-modal-search-clear absolute end-1 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-11 h-11 rounded-full text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-200/60 dark:hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
             style="display: none;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" aria-hidden="true">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -105,6 +136,17 @@
             </svg>
         </button>
     </label>
+
+    {{-- task-2026-05-14-dac0b8 — assistive-tech result-count announcement.
+         Visually hidden via .sr-only; updated by Alpine on every `q`
+         change via x-text + resultAnnouncement(). aria-live="polite" so
+         screen-readers announce the count after the user pauses typing,
+         not on every keystroke. Empty string suppresses announcements
+         when q is empty (no result-count to report). --}}
+    <div class="sr-only"
+         aria-live="polite"
+         aria-atomic="true"
+         x-text="resultAnnouncement()"></div>
 
     @foreach($actions as $action)
 
