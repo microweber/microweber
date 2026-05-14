@@ -1482,4 +1482,68 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/* ================================================================
+ * AI-507 — Media Library icon-only action buttons
+ *
+ * The MediaLibrary admin page (Modules/MediaLibrary/Filament/Admin/
+ * Pages/MediaLibrary.php) renders custom Blade markup with bespoke
+ * `mw-media-*` button classes — these are NOT standard Filament
+ * `.fi-icon-btn` elements so existing table-action rules don't cover
+ * them. Code analysis:
+ *
+ *   .mw-media-item-menu-btn   — per-grid-item "…" action button;
+ *                               SCSS sets w/h to $mw-space-lg (26px),
+ *                               well below the 44px floor.
+ *   .mw-media-folder-menu-btn — per-folder ellipsis; padding only,
+ *                               no explicit min-height.
+ *   .mw-media-folder-expand   — folder expand/collapse chevron;
+ *                               no explicit min-height.
+ *   .mw-media-view-btn        — grid/list view-mode toggle; padding
+ *                               only, no explicit min-height.
+ *   .mw-media-clear-filters   — clear-filters X button in toolbar.
+ *
+ * Scope: admin panel only (media library page is admin-only).
+ * No !important needed — these classes have lower-specificity base
+ * rules that min-width/min-height easily overrides.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin .mw-media-item-menu-btn,
+    body.fi-panel-admin .mw-media-folder-menu-btn,
+    body.fi-panel-admin .mw-media-folder-expand,
+    body.fi-panel-admin .mw-media-view-btn,
+    body.fi-panel-admin .mw-media-clear-filters {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* ================================================================
+ * AI-508 — Filament table drag/reorder handles
+ *
+ * ContentResource uses `->reorderable('position')` which renders a
+ * drag handle column. Filament v5 generates the handle as:
+ *
+ *   <button class="fi-ta-reorder-handle fi-icon-btn">
+ *
+ * The base Filament `.fi-icon-btn` has a 36px rendered height in
+ * Tailwind's `size-9` class. The existing mobile-touch.css rules for
+ * `.fi-icon-btn` are scoped to `.fi-ta-header-toolbar` or the
+ * reorder-*mode* icon button (`wire:click*="reorder"`), but the actual
+ * drag handle in each row cell is a separate element that the existing
+ * rules don't reach. Floor it to 44×44 so it passes the WCAG 2.5.5
+ * tap-target requirement on touch devices.
+ *
+ * Scope: `body.fi-panel-admin` — only admin tables are reorderable.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin .fi-ta-reorder-handle,
+    body.fi-panel-admin .fi-ta-reorder-handle.fi-icon-btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+    }
+}
+
 
