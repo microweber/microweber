@@ -248,6 +248,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/order/examples' },
               { text: 'Troubleshooting', link: '/modules/order/troubleshooting' }
             ]
+          },
+          {
+            text: 'Search Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/search/' },
+              { text: 'Installation', link: '/modules/search/installation' },
+              { text: 'Usage', link: '/modules/search/usage' },
+              { text: 'API Reference', link: '/modules/search/api' },
+              { text: 'Examples', link: '/modules/search/examples' },
+              { text: 'Troubleshooting', link: '/modules/search/troubleshooting' }
+            ]
           }
         ]
       },
