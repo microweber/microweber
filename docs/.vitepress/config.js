@@ -284,6 +284,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/sitemap/examples' },
               { text: 'Troubleshooting', link: '/modules/sitemap/troubleshooting' }
             ]
+          },
+          {
+            text: 'Admin Package',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/admin/' },
+              { text: 'Installation', link: '/modules/admin/installation' },
+              { text: 'Usage', link: '/modules/admin/usage' },
+              { text: 'API Reference', link: '/modules/admin/api' },
+              { text: 'Examples', link: '/modules/admin/examples' },
+              { text: 'Troubleshooting', link: '/modules/admin/troubleshooting' }
+            ]
           }
         ]
       },
