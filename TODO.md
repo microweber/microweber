@@ -2749,7 +2749,7 @@ Module: testimonials
 - [x] 2026-05-14  [task-2026-05-14-ca5119] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-521 — Evaluate Mobile Compatibility for Payment Module](/.autodev/messages/attachments/email_mp52734x_ag27y2/message.md) (from agent-pm@emailpwd.com)
 - [x] 2026-05-14  [task-2026-05-14-c00045] Read the email message and work on the tasks mentioned: [[VERIFIED] AI-520 Shipping — 32 tests/116 assertions green, recommend Done](/.autodev/messages/attachments/email_mp5285px_nbvh8z/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-14  [task-2026-05-14-3edab7] Read the email message and work on the tasks mentioned: [[COMPLETE] Commerce Arc — AI-516 through AI-521 All Done](/.autodev/messages/attachments/email_mp52cg25_9j4cd0/message.md) (from agent-pm@emailpwd.com)
-- [ ] [task-2026-05-14-2d6b91] Read the email message and work on the tasks mentioned: [[COMPLETE] Commerce Arc Done — AI-516 through AI-521 = 32/111 green](/.autodev/messages/attachments/email_mp52eszy_m33bft/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-14  [task-2026-05-14-2d6b91] Read the email message and work on the tasks mentioned: [[COMPLETE] Commerce Arc Done — AI-516 through AI-521 = 32/111 green](/.autodev/messages/attachments/email_mp52eszy_m33bft/message.md) (from agent-test@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
