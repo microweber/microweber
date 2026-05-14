@@ -219,11 +219,11 @@
             });
 
             // NOVICE #4 (task-2026-05-13-899d57) — when the user picks
-            // "Add a block to this page" from the +ADD picker, the
+            // 'Add a block to this page' from the +ADD picker, the
             // card's click handler fires this window event. The
             // listener forwards to the canvas's editor dispatcher,
             // which opens the Insert Layout dialog (the same flow the
-            // SettingsCustomize "Insert layout" toolbar button opens).
+            // SettingsCustomize 'Insert layout' toolbar button opens).
             //
             // Why a window event rather than a Filament server-side
             // action: the Insert Layout flow lives entirely in

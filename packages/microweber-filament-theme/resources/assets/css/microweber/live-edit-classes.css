@@ -1430,10 +1430,15 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
      * canvas iframe by ~33px (measured by audit-test 2026-05-08).
      */
     /* AI-116 / TICKET-CI (cycle-107): scoped to `.mw-live-edit-page`
-       so the 56px toolbar offset only applies inside live-edit. */
-    .mw-live-edit-page.fi-layout .fi-main-ctn,
+       so the 56px toolbar offset only applies inside live-edit.
+       task-2026-05-14-0ff040: removed — this created 56px dead space
+       at the top of the viewport AND a 52px toolbar/canvas overlap on
+       mobile. The single-row toolbar (max-height: 56px, #toolbar rule
+       above) combined with `#live-edit-frame-holder { top: var(--toolbar-height) }`
+       already positions the canvas correctly below the toolbar. */
+    /* .mw-live-edit-page.fi-layout .fi-main-ctn,
     .mw-live-edit-page #iframe-holder,
     .mw-live-edit-page .live-edit-canvas-wrapper {
         padding-top: 56px !important;
-    }
+    } */
 }
