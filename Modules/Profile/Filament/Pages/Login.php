@@ -12,8 +12,7 @@ class Login extends BaseLogin
 {
     public ?string $captcha = null;
 
-
-    public $schema_id;
+    public string $form_id = '';
 
     public function mount(): void
     {

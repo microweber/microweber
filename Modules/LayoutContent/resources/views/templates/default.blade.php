@@ -53,7 +53,7 @@ description: default
                 <p style="text-align: justify; text-justify: inter-word;"><?php echo substr($contentDescription, 0, 145) . "..."; ?></p>
             </div>
                 <?php if (!empty($contentButtonText)) : ?>
-            <a href="<?php echo $contentButtonLink; ?>" class="btn btn-primary" target="_blank">
+            <a href="<?php echo $contentButtonLink; ?>" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                     <?php echo $contentButtonText; ?>
             </a>
             <?php endif; ?>
@@ -64,7 +64,7 @@ description: default
 
     <?php if (isset($buttonText) && !empty($buttonText)): ?>
     <div class="text-<?php echo $align; ?> mt-6">
-        <a href="<?php echo $buttonLink; ?>" class="btn btn-primary w-25" target="_blank">
+        <a href="<?php echo $buttonLink; ?>" class="btn btn-primary w-25" target="_blank" rel="noopener noreferrer">
                 <?php echo $buttonText; ?>
         </a>
     </div>

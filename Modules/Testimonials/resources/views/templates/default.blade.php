@@ -88,7 +88,7 @@
                              @endif
                              @if(isset($item->client_website))
                                  <div><a href="{{ $item->client_website }}"
-                                    target="_blank">{{ $item->client_website }}</a></div>
+           target="_blank" rel="noopener noreferrer">{{ $item->client_website }}</a></div>
                              @endif
 
                          </div>

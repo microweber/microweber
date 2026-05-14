@@ -58,7 +58,7 @@
                 {{ $stockLabel }}
             </span>
         @endif
-        <a class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" href="{{content_link($content->id)}}" target="_blank" data-bs-toggle="tooltip" x-data="{}" x-tooltip="{
+        <a class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" href="{{content_link($content->id)}}" target="_blank" rel="noopener noreferrer" data-bs-toggle="tooltip" x-data="{}" x-tooltip="{
             content: 'View',
             theme: $store.theme,
         }" aria-label="View" data-bs-original-title="View">

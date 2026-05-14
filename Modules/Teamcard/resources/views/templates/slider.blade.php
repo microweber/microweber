@@ -66,9 +66,11 @@ if (!window.SliderV2) {
                             {{$member['role']}}
                         </p>
                         {{-- task-2026-05-05-90021f — rel=noopener noreferrer for security --}}
+                        @if(!empty($member['website']))
                         <a href="{{ $member['website'] }}" target="_blank" rel="noopener noreferrer">
                             {{$member['website']}}
                         </a>
+                        @endif
                         <p class="pt-3 italic">
                             {{$member['bio']}}
                         </p>

@@ -9,7 +9,7 @@
 
     @if($x_enabled)
         <a href="https://x.com/intent/tweet?text={{ urlencode(content_title()) }}&url={{ urlencode(mw()->url->current()) }}"
-           target="_blank">
+           target="_blank" rel="noopener noreferrer">
             @svg('modules.social_links-x')
         </a>
     @endif
@@ -31,7 +31,7 @@
 
     @if($linkedin_enabled)
         <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(mw()->url->current()) }}&title={{ urlencode(page_title()) }}"
-           target="_blank">
+           target="_blank" rel="noopener noreferrer">
             @svg('modules.social_links-linkedin')
         </a>
     @endif

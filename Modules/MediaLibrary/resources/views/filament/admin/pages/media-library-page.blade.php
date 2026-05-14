@@ -478,7 +478,7 @@
                                         <button type="button" @click="navigator.clipboard.writeText('{{ $item->filename }}'); open = false; $dispatch('notify', {type:'success', message:'URL copied'})">
                                             <x-heroicon-m-clipboard-document class="w-4 h-4" /> Copy URL
                                         </button>
-                                        <a href="{{ $item->filename }}" target="_blank" @click="open = false">
+                                        <a href="{{ $item->filename }}" target="_blank" rel="noopener noreferrer" @click="open = false">
                                             <x-heroicon-m-arrow-top-right-on-square class="w-4 h-4" /> Open in new tab
                                         </a>
                                         <button type="button" wire:click.stop="selectMedia({{ $item->id }})" @click="open = false">
@@ -548,7 +548,7 @@
                                                     <button type="button" @click="navigator.clipboard.writeText('{{ $item->filename }}'); open = false; $dispatch('notify', {type:'success', message:'URL copied'})">
                                                         <x-heroicon-m-clipboard-document class="w-4 h-4" /> Copy URL
                                                     </button>
-                                                    <a href="{{ $item->filename }}" target="_blank" @click="open = false">
+                                                    <a href="{{ $item->filename }}" target="_blank" rel="noopener noreferrer" @click="open = false">
                                                         <x-heroicon-m-arrow-top-right-on-square class="w-4 h-4" /> Open in new tab
                                                     </a>
                                                     <button type="button" wire:click.stop="selectMedia({{ $item->id }})" @click="open = false">

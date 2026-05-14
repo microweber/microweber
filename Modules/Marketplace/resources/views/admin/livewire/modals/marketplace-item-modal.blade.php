@@ -112,7 +112,7 @@
                         <td>
                                 <?php if (isset($package['homepage'])): ?>
                             <a href="<?php print $package['homepage']; ?>" target="_blank"
-                               class="mw-blue package-ext-link"><?php print $package['homepage']; ?></a>
+                               class="mw-blue package-ext-link" rel="noopener noreferrer"><?php print $package['homepage']; ?></a>
                             <?php else: ?>
                                 <?php _e('N/A'); ?>
                             <?php endif; ?>

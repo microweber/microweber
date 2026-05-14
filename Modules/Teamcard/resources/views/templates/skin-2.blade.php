@@ -88,9 +88,11 @@ description: Skin-2
                             {{$member['role']}}
                         </p>
                         {{-- task-2026-05-05-90021f — rel=noopener noreferrer for security --}}
+                        @if(!empty($member['website']))
                         <a class="d-block mb-3" href="{{ $member['website'] }}" target="_blank" rel="noopener noreferrer">
                             {{$member['website']}}
                         </a>
+                        @endif
                         <p class="team-card-item-bio italic">
                             {{$member['bio']}}
                         </p>

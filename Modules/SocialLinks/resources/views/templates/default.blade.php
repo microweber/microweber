@@ -41,7 +41,7 @@
     @endif
 
     @if($whatsapp_enabled)
-        <a href="whatsapp://send?text=Check this out: {{ mw()->url->current() }}" target="_blank">
+        <a href="whatsapp://send?text=Check this out: {{ mw()->url->current() }}" target="_blank" rel="noopener noreferrer">
             @svg('modules.social_links-whatsapp')
         </a>
     @endif
