@@ -175,7 +175,7 @@ Check what your template expects:
 grep -rn "variants.*image" Templates/
 ```
 
-If the template renders with `<img src="{{ $variant->image }}">`, full URLs work. If it uses `mw_image($variant->image)`, the URL gets prefixed automatically.
+If the template renders with `<img src="&#123;&#123; $variant->image }}">`, full URLs work. If it uses `mw_image($variant->image)`, the URL gets prefixed automatically.
 
 ## Low-stock notifications not sending
 

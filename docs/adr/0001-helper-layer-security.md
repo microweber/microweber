@@ -34,7 +34,7 @@ Each of these is a **string-in / HTML-out** path. The risk model:
    / JS in the visitor's browser.
 
 The cycle-23..101 sweeps closed many specific vectors (CSS-injection
-via `style="background-image: url('{{ thumbnail() }}')"`, inline
+via `style="background-image: url('&#123;&#123; thumbnail() }}')"`, inline
 `onclick=` interpolations, etc.). This ADR captures the **principles**
 those fixes encoded so future helpers don't drift back.
 

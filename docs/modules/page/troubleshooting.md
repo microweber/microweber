@@ -110,7 +110,7 @@ Page::factory()
 
 **Symptom:** `<p>...</p>` shows up as text in the rendered page.
 
-The template is using `{{ $page->content_body }}` (escaped). Use `{!! $page->content_body !!}` (raw) for HTML-typed body fields. Microweber's frontend already sanitizes content on save — raw output is safe for admin-authored content.
+The template is using `&#123;&#123; $page->content_body }}` (escaped). Use `{!! $page->content_body !!}` (raw) for HTML-typed body fields. Microweber's frontend already sanitizes content on save — raw output is safe for admin-authored content.
 
 ## Where to file bugs / contribute fixes
 

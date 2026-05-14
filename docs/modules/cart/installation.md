@@ -168,7 +168,7 @@ There is no Filament Resource for cart inventory inspection — admins inspect c
 
 ## Optional: live-edit "Add to cart" module
 
-The Cart module ships a [Live Edit](/modules/live-edit/) block that drops an "Add to cart" button onto any page. Configure via:
+The Cart module ships a [Live Edit](/modules/liveedit/) block that drops an "Add to cart" button onto any page. Configure via:
 
 - Live Edit toolbar → Add module → Shop → Add to cart.
 - Per-block settings: button text, template selection (default / bootstrap / shop_inner / mw_default).

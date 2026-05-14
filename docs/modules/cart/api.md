@@ -455,5 +455,5 @@ The Cart module has no config file. The few tunables:
 
 - `Cart::MAX_ITEMS_PER_SESSION = 500` — hard cap per session (DoS protection).
 - `config('session.lifetime')` — affects guest cart longevity.
-- Coupon rate limits — owned by the [Coupons module](/modules/coupons/).
+- Coupon rate limits — owned by the Coupons module (separate package; docs forthcoming).
 - Inventory reservation window — owned by the [Product module's InventoryService](/modules/product/installation.md#reservation-window).
