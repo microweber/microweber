@@ -272,6 +272,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/seo/examples' },
               { text: 'Troubleshooting', link: '/modules/seo/troubleshooting' }
             ]
+          },
+          {
+            text: 'Sitemap Module',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/sitemap/' },
+              { text: 'Installation', link: '/modules/sitemap/installation' },
+              { text: 'Usage', link: '/modules/sitemap/usage' },
+              { text: 'API Reference', link: '/modules/sitemap/api' },
+              { text: 'Examples', link: '/modules/sitemap/examples' },
+              { text: 'Troubleshooting', link: '/modules/sitemap/troubleshooting' }
+            ]
           }
         ]
       },
