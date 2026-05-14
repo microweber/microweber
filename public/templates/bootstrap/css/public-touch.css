@@ -915,6 +915,28 @@ html.dark {
         display: inline-flex;
         align-items: center;
     }
+
+    /* AI-530 — Tabs module mobile touch-targets per agent-test audit
+       (2026-05-14, 390x844). The Tabs `default.blade.php` template
+       (the Bootstrap-accordion skin) renders each tab as a
+       `<button class="btn btn-link"` inside a `<div class="card-header">`
+       (default.blade.php line 25). Bootstrap's `.btn-link` default
+       padding gives ~36px total height — below the 44x44 WCAG 2.5.5
+       floor.
+
+       Scope: `.card-header .btn` + `.card-header .nav-link`. Limited to
+       the Bootstrap card-header context so site-wide `.btn` rendering
+       (other modules, buttons inside content blocks) is unaffected.
+       Other Tabs skins (`skin-1` Webflow-style, `skin-2` `.nav-link`,
+       `skin-3`/`skin-4`/`skin-5`/`flower-tabs`/`horizontal-centered-tabs`)
+       use different button shapes; only `default.blade.php` puts the
+       tab button inside `.card-header` — that's the audit scope. */
+    .card-header .btn,
+    .card-header .nav-link {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
 }
 
 /*
