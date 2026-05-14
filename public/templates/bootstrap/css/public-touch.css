@@ -1030,6 +1030,38 @@ html.dark {
         display: flex;
         align-items: center;
     }
+
+    /* AI-535 — Breadcrumb module link touch-target floor per agent-test
+       audit (2026-05-14). The Breadcrumb `default.blade.php` template
+       renders `<nav aria-label="Breadcrumb"><ol class="breadcrumb">
+       <li class="breadcrumb-item"><a href="...">title</a></li>...</ol>
+       </nav>`. Bootstrap's stock `.breadcrumb-item` styling sets no
+       `<a>` padding — the clickable area is text-bound (~16x14 px),
+       far below the 44x44 WCAG 2.5.5 floor. A11y already-correct:
+       `<nav aria-label="Breadcrumb">` + `aria-current="page"` on the
+       last (non-link) crumb.
+
+       Scope: `.breadcrumb-item` is Bootstrap's stock class — broader
+       than the per-module bare classes used in AI-528/AI-531/AI-534
+       (`nav-list`, `mw-socialLinks`, `logo-module`). The rule
+       therefore floors EVERY breadcrumb link on the public surface
+       (Microweber breadcrumbs + any custom Bootstrap-styled breadcrumb
+       elsewhere). This is intentional per PM dispatch and matches the
+       project's site-wide WCAG policy: touch-target floors apply to
+       all interactive elements, not only module-default ones.
+
+       Note: main.scss line 561 declares `.module-breadcrumb a` in the
+       AI-510 touch-target rule list, but the Breadcrumb default
+       template does NOT add a `.module-breadcrumb` wrapper class —
+       so that rule never actually matches the rendered DOM. AI-535's
+       `.breadcrumb-item a` selector matches the actual Bootstrap
+       breadcrumb DOM directly. */
+    .breadcrumb-item a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 4px;
+    }
 }
 
 /*
