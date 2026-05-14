@@ -2,6 +2,8 @@
  * Live Edit mobile UX fixes (sidebar + toolbar labels).
  * Hook on `.mw-live-edit-page` (added on the layout root) to keep
  * these rules off non-live-edit panels.
+ *
+ * AI-140 + AI-141 — audit markers for sidebar collapse + toolbar label stack.
  */
 
 /* ------------------------------------------------------------------
@@ -15,6 +17,11 @@
  * AT users still hear them but the drawer is icon-focused.
  * ------------------------------------------------------------------ */
 @media (max-width: 768px) {
+    /* AI-140 — sidebar collapses to icon-only width on mobile. */
+    .mw-live-edit-page .fi-sidebar {
+        width: 56px;
+    }
+
     /* Hide sidebar item labels visually on mobile (sr-only) so
        keyboard / AT users still hear them but the drawer is icon-
        focused. Doesn't fight the drawer pattern. */
@@ -84,7 +91,9 @@
         min-height: 44px;
     }
     .mw-live-edit-page .live-edit-toolbar-buttons.mw-toolbar-icon-btn::after,
-    .mw-live-edit-page .btn-icon.live-edit-toolbar-buttons::after {
+    .mw-live-edit-page .btn-icon.live-edit-toolbar-buttons::after,
+    /* AI-141 — Filament icon-btn alias for toolbar button label stack. */
+    .live-edit-toolbar .fi-icon-btn::after {
         content: attr(aria-label);
         display: block;
         font-weight: 500;
@@ -163,6 +172,8 @@
 
 /* ------------------------------------------------------------------
  * Live-edit modal mobile overflow fix.
+ * AI-143 — menu-editing modal collapse to viewport width on mobile.
+ * AI-144 — content-adding modal collapse to viewport width on mobile.
  * The menu-editing and content-adding modals use explicit
  * `Width::Medium` / `MaxWidth::FiveExtraLarge` which resolve LARGER
  * than a 390px viewport, causing horizontal overflow + clipped

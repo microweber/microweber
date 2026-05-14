@@ -4,10 +4,10 @@
      URL. `SocialLinksModule::getSocialNetworksData()` auto-enables
      facebook/x/instagram/linkedin with empty `_url` strings on fresh
      installs (lines 75-83); without this gate the blade rendered
-     `<a href="" target="_blank">` icons — exactly the "empty anchor"
-     pattern the audit flagged. WhatsApp is the only exception: its
-     `href` is a runtime-built `whatsapp://send?text=…` URL, never
-     stored as a setting, so the enable flag alone gates it. --}}
+     empty-href anchors — exactly the "empty anchor" pattern the audit
+     flagged. WhatsApp is the only exception: its href is a runtime-built
+     `whatsapp://send?text=…` URL, never stored as a setting, so the
+     enable flag alone gates it. --}}
 
 <div class="mw-socialLinks">
     @if($facebook_enabled && !empty($facebook_url))

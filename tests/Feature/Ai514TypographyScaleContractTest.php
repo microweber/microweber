@@ -47,7 +47,10 @@ class Ai514TypographyScaleContractTest extends TestCase
         $css = $this->read(self::MOBILE_TOUCH_CSS);
         $start = strpos($css, 'AI-514 — Consistent typography scale');
         $this->assertNotFalse($start, 'mobile-touch.css must contain the AI-514 marker comment.');
-        return substr($css, $start);
+        // Find the next section separator (the start of the next block) so that
+        // only the AI-514 block is tested, not any subsequent blocks (e.g. AI-517).
+        $nextSep = strpos($css, '/* =====', $start + 10);
+        return $nextSep !== false ? substr($css, $start, $nextSep - $start) : substr($css, $start);
     }
 
     #[Test]
