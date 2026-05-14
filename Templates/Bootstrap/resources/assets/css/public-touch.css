@@ -1453,3 +1453,15 @@ html.dark {
     align-items: center;
     justify-content: center;
 }
+
+/* AI-501: Menu module default skin nav links
+ * The navbar and simple skins already pass via nav.navbar .navbar-nav .nav-link
+ * and nav ul.menu li a rules above. The default skin wraps links in
+ * .module-navigation-default without a navbar wrapper, so they fall through.
+ * Scoped to the module wrapper to avoid global <a> impact.
+ * ------------------------------------------------------------------ */
+.module-navigation-default a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+}

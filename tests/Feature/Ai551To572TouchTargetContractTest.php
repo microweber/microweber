@@ -223,6 +223,20 @@ class Ai551To572TouchTargetContractTest extends TestCase
     }
 
     // -----------------------------------------------------------------------
+    // AI-501 Menu module default skin nav links
+    // -----------------------------------------------------------------------
+
+    #[Test]
+    public function ai501_menu_navigation_default_anchor_has_min_height_44(): void
+    {
+        $this->assertMatchesRegularExpression(
+            '/\.module-navigation-default\s+a\s*\{[^}]*min-height\s*:\s*44px/s',
+            $this->publicTouch,
+            'AI-501: public-touch.css must set min-height:44px on .module-navigation-default a'
+        );
+    }
+
+    // -----------------------------------------------------------------------
     // Boundary guard: no Filament panel selectors in public-touch.css
     // -----------------------------------------------------------------------
 
