@@ -296,6 +296,18 @@ export default defineConfig({
               { text: 'Examples', link: '/modules/admin/examples' },
               { text: 'Troubleshooting', link: '/modules/admin/troubleshooting' }
             ]
+          },
+          {
+            text: 'LiveEdit Package',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/modules/liveedit/' },
+              { text: 'Installation', link: '/modules/liveedit/installation' },
+              { text: 'Usage', link: '/modules/liveedit/usage' },
+              { text: 'API Reference', link: '/modules/liveedit/api' },
+              { text: 'Examples', link: '/modules/liveedit/examples' },
+              { text: 'Troubleshooting', link: '/modules/liveedit/troubleshooting' }
+            ]
           }
         ]
       },
