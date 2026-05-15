@@ -1465,3 +1465,34 @@ html.dark {
     display: inline-flex;
     align-items: center;
 }
+
+/* AI-524: Teamcard module — website-link anchor touch target
+ * The website link inside each .team-card-item is rendered as an `<a>`
+ * with Bootstrap `d-block` (display: block already). The text-link
+ * height equals the line-height (~24px) — below the WCAG 2.5.5 44px
+ * floor. `min-height: 44px` on the block anchor expands the tap area
+ * without any layout shift. Scoped to .team-card-item to avoid leaking
+ * to other anchors outside the card. */
+.team-card-item a {
+    min-height: 44px;
+}
+
+/* AI-582: Newsletter module — form-control input height + checkbox label
+ * Bootstrap .form-control renders at ~38px (padding-y + line-height).
+ * The terms-and-conditions checkbox is a raw <input type="checkbox">
+ * nested inside a <label> — browser default checkbox is ~13×13px.
+ *
+ * Fix 1: floor .form-control inputs to 44px inside the newsletter wrapper.
+ * Fix 2: expand the checkbox <label> to 44px with inline-flex so the
+ *        entire label row is the tap target (clicking anywhere on the row
+ *        still toggles the checkbox). gap: 8px provides visual separation
+ *        between the checkbox and the label text. */
+.newsletter-module-wrapper .form-control {
+    min-height: 44px;
+}
+.newsletter-module-wrapper label:has(input[type="checkbox"]) {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}

@@ -39,7 +39,23 @@ class Ai517CheckoutTouchTargetContractTest extends TestCase
     {
         $start = strpos($this->css, 'AI-517');
         $this->assertNotFalse($start, 'mobile-touch.css must contain the AI-517 marker comment.');
-        return substr($this->css, $start);
+        // Bound the slice to the next AI-NNN block-comment header so
+        // downstream rules (AI-507/AI-508 admin reorder-handle blocks
+        // added after AI-517 in the file) do not leak into this slice
+        // and false-fail the admin-panel scope guard. Per LESSONS.md
+        // slice-bounding rule (same fix shape as AI-518 in commit
+        // 54a36417c5 and AI-522 in e7b08781fa).
+        $remaining = substr($this->css, $start);
+        // Skip past the AI-517's own marker line, then look for the
+        // next ` AI-` block-comment marker.
+        $afterMarker = strpos($remaining, "\n", 1);
+        if ($afterMarker !== false) {
+            $nextMarker = preg_match('/\n\s*\*?\s*AI-\d{3}\b/', substr($remaining, $afterMarker), $m, PREG_OFFSET_CAPTURE);
+            if ($nextMarker === 1) {
+                return substr($remaining, 0, $afterMarker + $m[0][1]);
+            }
+        }
+        return $remaining;
     }
 
     #[Test]
