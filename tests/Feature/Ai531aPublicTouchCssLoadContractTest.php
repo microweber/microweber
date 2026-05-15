@@ -43,6 +43,9 @@ class Ai531aPublicTouchCssLoadContractTest extends TestCase
     #[Test]
     public function every_public_template_master_loads_public_touch_css(): void
     {
+        // Iterate templates present in this checkout. Gitignored
+        // templates simply won't appear in the glob, so the test
+        // gracefully adapts to whichever templates are installed.
         $masters = glob(base_path('Templates/*/resources/views/layouts/master.blade.php'));
         $this->assertNotEmpty($masters, 'At least one public template master.blade.php must exist');
 
@@ -63,7 +66,23 @@ class Ai531aPublicTouchCssLoadContractTest extends TestCase
         // template that didn't load the file. Pin it explicitly so a
         // future refactor that removes the AI-531a load link
         // false-fails here with a clear Big2-anchored message.
-        $big2 = file_get_contents(base_path('Templates/Big2/resources/views/layouts/master.blade.php'));
+        //
+        // NOTE: `Templates/Big2/` is gitignored in .gitignore line 94,
+        // so the edit only persists on machines that have Big2 checked
+        // out (audit site + dev installs that pulled it via composer or
+        // template installer). Fresh git clones won't have Big2 at all.
+        // Skip gracefully when absent rather than false-failing — the
+        // long-term centralization fix (AI-531a follow-up) supersedes
+        // the need for this per-template patching.
+        $path = base_path('Templates/Big2/resources/views/layouts/master.blade.php');
+        if (!file_exists($path)) {
+            $this->markTestSkipped(
+                'Templates/Big2 not present in this checkout (gitignored). '
+                . 'Long-term AI-531a fix is centralization to a '
+                . 'template-agnostic asset location.'
+            );
+        }
+        $big2 = file_get_contents($path);
         $this->assertStringContainsString(
             self::ASSET_PATH,
             $big2,
@@ -88,8 +107,13 @@ class Ai531aPublicTouchCssLoadContractTest extends TestCase
     public function ai531a_marker_recorded_in_big2_master(): void
     {
         // Pin the AI-531a docblock so the next agent can trace the
-        // cross-template path-coupling decision.
-        $big2 = file_get_contents(base_path('Templates/Big2/resources/views/layouts/master.blade.php'));
+        // cross-template path-coupling decision. Same gitignore-skip
+        // semantics as `big2_template_master_loads_public_touch_css`.
+        $path = base_path('Templates/Big2/resources/views/layouts/master.blade.php');
+        if (!file_exists($path)) {
+            $this->markTestSkipped('Templates/Big2 not present (gitignored).');
+        }
+        $big2 = file_get_contents($path);
         $this->assertStringContainsString('AI-531a', $big2);
         $this->assertStringContainsString('SOUL #56', $big2);
         // Date marker (line-wrapped in the docblock, so check the
