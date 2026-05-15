@@ -84,47 +84,17 @@ class AdminLiveEditPage extends Page
         // didn't actually help the user decide; they just listed
         // examples. A clear decision rule beats a longer example
         // list every time.
+        //
+        // task-2026-05-15-0282f5 (picker UX improvement): "Add a block to
+        // this page" is moved to FIRST position because it is the most
+        // contextually relevant action for a user who is already inside
+        // Live Edit — they are on a page and want to drop a block into it.
+        // Page / Post / Product etc. are new-content flows that take the
+        // user out of the current editing context. Surfacing the in-context
+        // action at position 1 reduces decision time and avoids the
+        // "I scanned 6 options and picked the first one I recognised" pattern.
         $actions = [];
-        $actions[] = [
-            'title' => 'New Page',
-            'description' => 'A standalone page like About, Services or Contact. Pick this if you want a single permanent page that lives at its own URL.',
-            'action' => 'addPageAction',
-            'icon' => 'mw-add-page',
-        ];
-        $actions[] = [
-            'title' => 'New Post',
-            'description' => 'A blog article or news story that appears in your Blog list. Pick this if you want to publish dated updates that stack newest-first.',
-            'action' => 'addPostAction',
-            'icon' => 'mw-add-post',
-        ];
-        $actions[] = [
-            'title' => 'New Category',
-            'description' => 'A folder to group your blog posts or shop items. Skip this for now unless you already have lots of posts or products to organise.',
-            'action' => 'addCategoryAction',
-            'icon' => 'mw-add-category',
-        ];
-        $actions[] = [
-            'title' => 'New Product',
-            'description' => 'An item to sell in your online shop. Pick this if you have something physical, digital, or a service to charge money for.',
-            'action' => 'addProductAction',
-            'icon' => 'mw-add-product',
-        ];
-        // AI-148 (cycle-142 2026-05-09): novice mobile UX — add a
-        // discoverable "New Image" entry. Tester audit found that
-        // mobile users opening the Add-content picker had no way to
-        // upload images: searching "picture" or "image" returned no
-        // results because the picker only listed Page/Post/Category/
-        // Product. The new entry sends users to the Media Library
-        // upload page (Modules/MediaLibrary/...), where they can
-        // drag-drop or click Upload, then return to live-edit and
-        // pick the freshly-uploaded image via the inline image-picker
-        // when adding a Picture / Slider module to a page.
-        $actions[] = [
-            'title' => 'New Image',
-            'description' => 'Upload a picture, photo, or graphic to the Media Library. Pick this if you just want to add a photo from your camera roll — you can drop it into any page afterwards.',
-            'action' => 'addImageAction',
-            'icon' => 'heroicon-o-photo',
-        ];
+
         // NOVICE #4 (task-2026-05-13-899d57) — re-introduce the "Add a
         // block to this page" entry that AI-309 removed, but this time
         // as a DIRECT ACTION not a meta-instruction. The original card
@@ -150,6 +120,46 @@ class AdminLiveEditPage extends Page
             'action' => 'addToCurrentPageAction',
             'icon' => 'heroicon-o-plus-circle',
             'js_dispatch' => 'liveEditInsertLayoutRequest',
+        ];
+        $actions[] = [
+            'title' => 'New Page',
+            'description' => 'A standalone page like About, Services or Contact. Pick this if you want a single permanent page that lives at its own URL.',
+            'action' => 'addPageAction',
+            'icon' => 'mw-add-page',
+        ];
+        $actions[] = [
+            'title' => 'New Post',
+            'description' => 'A blog article or news story that appears in your Blog list. Pick this if you want to publish dated updates that stack newest-first.',
+            'action' => 'addPostAction',
+            'icon' => 'mw-add-post',
+        ];
+        $actions[] = [
+            'title' => 'New Product',
+            'description' => 'An item to sell in your online shop. Pick this if you have something physical, digital, or a service to charge money for.',
+            'action' => 'addProductAction',
+            'icon' => 'mw-add-product',
+        ];
+        // AI-148 (cycle-142 2026-05-09): novice mobile UX — add a
+        // discoverable "New Image" entry. Tester audit found that
+        // mobile users opening the Add-content picker had no way to
+        // upload images: searching "picture" or "image" returned no
+        // results because the picker only listed Page/Post/Category/
+        // Product. The new entry sends users to the Media Library
+        // upload page (Modules/MediaLibrary/...), where they can
+        // drag-drop or click Upload, then return to live-edit and
+        // pick the freshly-uploaded image via the inline image-picker
+        // when adding a Picture / Slider module to a page.
+        $actions[] = [
+            'title' => 'New Image',
+            'description' => 'Upload a picture, photo, or graphic to the Media Library. Pick this if you just want to add a photo from your camera roll — you can drop it into any page afterwards.',
+            'action' => 'addImageAction',
+            'icon' => 'heroicon-o-photo',
+        ];
+        $actions[] = [
+            'title' => 'New Category',
+            'description' => 'A folder to group your blog posts or shop items. Skip this for now unless you already have lots of posts or products to organise.',
+            'action' => 'addCategoryAction',
+            'icon' => 'mw-add-category',
         ];
         // AI-309 (task-2026-05-13-5f1937) historical note: the previous
         // "Add to this page" card was a meta-instruction that broke the

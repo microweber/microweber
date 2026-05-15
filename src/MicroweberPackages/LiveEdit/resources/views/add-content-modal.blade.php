@@ -148,6 +148,16 @@
          aria-atomic="true"
          x-text="resultAnnouncement()"></div>
 
+    {{-- task-2026-05-15-0282f5 (picker UX improvement): cards are
+         arranged in a 2-column responsive grid so all 6 options are
+         visible at once without scrolling on typical desktop widths.
+         Each card uses a vertical layout (icon above text) which
+         scales cleanly in narrower grid columns. On single-column
+         (mobile) the vertical layout is also more compact than the
+         previous horizontal approach. Icon background and foreground
+         colours are distinct per action type to aid rapid scanning. --}}
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
     @foreach($actions as $action)
 
         {{-- task-2026-05-05-66e507 (QW1) — drunk-designer external
@@ -190,6 +200,29 @@
             // closes → canvas listener fires Insert Layout. No
             // server roundtrip, no meta-instruction modal.
             $mwAddContentJsDispatch = $action['js_dispatch'] ?? null;
+
+            // task-2026-05-15-0282f5 — per-action icon colours.
+            // Each full class string appears literally here so Tailwind
+            // JIT includes them in the compiled bundle without needing
+            // safelist entries.
+            $mwAddContentIconBg = match ($action['action']) {
+                'addToCurrentPageAction' => 'bg-blue-500/10 group-hover:bg-blue-500/20 dark:group-hover:bg-blue-400/10',
+                'addPageAction'          => 'bg-indigo-500/10 group-hover:bg-indigo-500/20 dark:group-hover:bg-indigo-400/10',
+                'addPostAction'          => 'bg-emerald-500/10 group-hover:bg-emerald-500/20 dark:group-hover:bg-emerald-400/10',
+                'addProductAction'       => 'bg-violet-500/10 group-hover:bg-violet-500/20 dark:group-hover:bg-violet-400/10',
+                'addImageAction'         => 'bg-rose-500/10 group-hover:bg-rose-500/20 dark:group-hover:bg-rose-400/10',
+                'addCategoryAction'      => 'bg-amber-500/10 group-hover:bg-amber-500/20 dark:group-hover:bg-amber-400/10',
+                default                  => 'bg-gray-500/10 group-hover:bg-gray-500/20 dark:group-hover:bg-gray-400/10',
+            };
+            $mwAddContentIconText = match ($action['action']) {
+                'addToCurrentPageAction' => 'text-blue-600 dark:text-blue-400',
+                'addPageAction'          => 'text-indigo-600 dark:text-indigo-400',
+                'addPostAction'          => 'text-emerald-600 dark:text-emerald-400',
+                'addProductAction'       => 'text-violet-600 dark:text-violet-400',
+                'addImageAction'         => 'text-rose-600 dark:text-rose-400',
+                'addCategoryAction'      => 'text-amber-600 dark:text-amber-400',
+                default                  => 'text-gray-600 dark:text-gray-400',
+            };
         @endphp
         <button
             type="button"
@@ -204,15 +237,15 @@
             x-show="q === '' || @js($mwAddContentHaystack).includes(q.toLowerCase())"
             x-on:keydown.arrow-down.prevent="focusNextCard($el)"
             x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
-            class="mw-add-content-modal-action-wrapper cursor-pointer flex gap-6 p-5 group transition duration-150 hover:bg-blue-500/10 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
-            <div class="flex items-center justify-center w-20 h-20 bg-blue-500/5 transition duration-150 group-hover:bg-blue-500/10 dark:group-hover:bg-white/10 rounded-lg p-4">
-                @svg($action['icon'], "h-10 w-10 text-black/80 dark:text-white")
+            class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col gap-3 p-4 group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
+            <div class="flex items-center justify-center w-12 h-12 {{ $mwAddContentIconBg }} transition duration-150 rounded-lg shrink-0">
+                @svg($action['icon'], "h-6 w-6 transition duration-150 " . $mwAddContentIconText)
             </div>
-            <div class="flex flex-col gap-2 w-full">
-                <div class="font-bold">
+            <div class="flex flex-col gap-1">
+                <div class="font-semibold text-sm leading-tight">
                     {{ $action['title'] }}
                 </div>
-                <div class="text-sm">
+                <div class="text-xs text-gray-500 dark:text-gray-400 leading-snug">
                     {{ $action['description'] }}
                 </div>
             </div>
@@ -244,9 +277,11 @@
          inline `style="display: none"` so the element is hidden until
          Alpine flips it via x-show. This eliminates the empty-quote
          flash AND drops the dependency on a global x-cloak rule. --}}
-    <div class="mw-add-content-modal-empty text-center text-sm text-gray-500 dark:text-gray-400 py-6"
+    <div class="mw-add-content-modal-empty sm:col-span-2 text-center text-sm text-gray-500 dark:text-gray-400 py-6"
          x-show="q !== '' && @js($mwAddContentHaystacks).every(h => !h.includes(q.toLowerCase()))"
          style="display: none;">
         No content types found.
     </div>
+
+    </div>{{-- end grid --}}
 </div>
