@@ -1496,3 +1496,46 @@ html.dark {
     align-items: center;
     gap: 8px;
 }
+
+/* AI-518a: Header CTA — broader `.btn.btn-sm` selector at narrow viewports
+ * per tester CREATIVE EVAL 2026-05-15 (CRITICAL). The original AI-518
+ * rule above (line 721) targets `#header-layout-btn` + `.templates-top-
+ * header-menu .btn.btn-sm`. Tester runtime measurement at 390×844 found
+ * the rendered header CTA carries neither wrapper class nor the id —
+ * so the existing rule doesn't apply and the button measures 137×38px
+ * (below the 44px WCAG 2.5.5 floor).
+ *
+ * Fix: at viewports ≤575.98px (phone-sized), floor ALL `.btn.btn-sm`
+ * elements to 44h. This intentionally broadens to a Bootstrap-stock
+ * class — same scope rationale as AI-535 `.breadcrumb-item a` (SOUL
+ * #63): site-wide WCAG policy applies to all interactive elements,
+ * and at <576px Bootstrap's compact form clusters are rare while
+ * single-CTA buttons are the dominant pattern.
+ *
+ * Threshold deliberately ≤575.98px (not the broader project-standard
+ * 1023.98px) to limit the broad-blast risk. If the broader threshold
+ * proves needed, expand on tester re-eval. */
+@media (max-width: 575.98px) {
+    .btn.btn-sm {
+        min-height: 44px;
+    }
+}
+
+/* AI-603: Slider `.slider-button` per tester CREATIVE EVAL 2026-05-15
+ * (HIGH). The Slider templates render anchors with class
+ * "slider-button btn btn-primary" (default.blade.php:165 +
+ * swiper-skin-1.blade.php:124 — recon SOUL #72). However, each slide's
+ * inline `<style>` block declares
+ * `#js-slider-{id} .swiper-slide-{slide-id} .slider-button { padding:
+ * 8px 20px; ... }` — that selector has higher specificity than the
+ * bare `.btn` (id + 2 classes), so it overrides Bootstrap's `.btn`
+ * padding. Tester measures the rendered button at ~36px height.
+ *
+ * Fix: add a floor on `.slider-button` itself. Class-only selector
+ * has lower specificity than the inline override, so we need to also
+ * provide the floor via `min-height` (which the inline style doesn't
+ * touch) — Bootstrap's `.btn` doesn't set min-height either, so this
+ * is purely additive. */
+.slider-button {
+    min-height: 44px;
+}
