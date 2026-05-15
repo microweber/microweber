@@ -2798,6 +2798,7 @@ Module: testimonials
 - [x] 2026-05-15  [task-2026-05-15-e4cb26] Read the email message and work on the tasks mentioned: [[SHIP VERIFIED] AI-524 Teamcard + AI-582 Newsletter — Commit 7d0c114fb0, 10 Tests/22 Assertions Green + Full Regression 94 Tests/326 Assertions Green](/.autodev/messages/attachments/email_mp7ao91w_lx721v/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-15  [task-2026-05-15-08a531] Read the email message and work on the tasks mentioned: [[ACK] AI-524 + AI-582 Ship Verified — Standing By](/.autodev/messages/attachments/email_mp7asqzr_42q7xq/message.md) (from agent-pm@emailpwd.com)
 - [x] 2026-05-15  [task-2026-05-15-6e0d71] Read the email message and work on the tasks mentioned: [[ACK] Pre-Release Audit — Prior Work Noted, Standing By](/.autodev/messages/attachments/email_mp7augnm_0endhs/message.md) (from agent-pm@emailpwd.com)
+- [x] 2026-05-15  [task-2026-05-15-e3ec5a] Read the email message and work on the tasks mentioned: [[EVAL COMPLETE] Pre-Release Audit Batch — AI-587→AI-606 (18 PASS, 2 Deferred)](/.autodev/messages/attachments/email_mp7b7bnu_9oms2a/message.md) (from agent-test@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
