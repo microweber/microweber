@@ -651,106 +651,20 @@
             color: var(--ese-accent);
         }
 
-        /* AI-691a (task-2026-05-16-860f75) — §A6 Path B (designer-resolved):
-           On desktop ≥769px, hide the picker modal Cancel button. The
-           top-right X is reachable with a mouse pointer, so the redundant
-           Cancel chrome can come off. On mobile ≤768px Cancel STAYS (no
-           rule applies) to preserve NOVICE #3 thumb-reach affordance —
-           task-2026-05-13-899d57 documented users reporting the picker
-           "stuck open" when only the tiny X was available. When AI-695
-           (mobile bottom-sheet) ships, the whole Cancel DOM is deleted
-           (PHP `->modalCancelActionLabel` removed) and this rule + AI-691a
-           file are removed too. Scoped to .mw-content-picker-modal so the
-           global .fi-modal-footer-actions on other Filament modals is
-           untouched. modalSubmitAction(false) is set on addContentAction
-           so this footer contains only Cancel; hiding the wrapper is
-           equivalent to hiding the button. */
-        @media (min-width: 769px) {
-            .mw-content-picker-modal .fi-modal-footer-actions {
-                display: none;
-            }
-        }
-
-        /* AI-697 (task-2026-05-16-e3da1a) — Anchor the Add-Content picker
-           modal to the +ADD button on desktop, NOT a centered modal.
-
-           v2's Add-Content menu is a dropdown anchored below the +ADD
-           button — the centered-modal+backdrop-dim approach blocks the
-           canvas and breaks flow for what should be a quick add. Per
-           designer spec (live-edit-inspiration-from-v2-2026-05-16.md §2
-           P1):
-
-             desktop ≥ 769px:
-               position: fixed
-               top: calc(var(--toolbar-height) + var(--space-xs))
-               left: 64px
-               no backdrop dim — canvas stays alive behind the modal
-               open animation: transform-origin: top left;
-                 scale(0.95) translateY(-4px) → scale(1) translateY(0)
-                 over var(--t-fast)
-
-             mobile ≤ 768px:
-               keep the existing centered modal until AI-695 mobile
-               bottom-sheet ships (which adds backdrop dim per ESE §3.2).
-
-           Filament wraps the modal in a `.fi-modal` overlay that
-           normally flex-centers `.fi-modal-window` and dims via
-           `.fi-modal-close-overlay`. We override the centering by
-           positioning `.fi-modal-window.mw-content-picker-modal`
-           absolutely within the overlay; the overlay's flex centering
-           still positions other modals so we don't touch its base.
-           The backdrop dim is hidden only when the overlay contains
-           the picker modal (via `:has()` so other modals keep their
-           dim).
-
-           Token sources (all :root-scoped, resolve outside .mw-live-
-           edit-page since the modal is Filament-portaled to body):
-             --toolbar-height (60px, frontend-assets/ui/css/index.css)
-             --space-xs       (φ scale, ESE slice 1.1)
-             --t-fast         (motion, ESE slice 1.1)
-             --ease           (motion, ESE slice 1.1)
-           Each var() carries a literal fallback for environments where
-           those stylesheets haven't loaded yet. */
-        @media (min-width: 769px) {
-            /* Anchor the modal window — top-left fixed coords, sized
-               to its natural width (max-w-2xl from extraModalWindowAttributes).
-               margin: 0 cancels the body-centering margin Filament
-               applies on .fi-modal-window. */
-            .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) .fi-modal-window.mw-content-picker-modal {
-                position: fixed;
-                top: calc(var(--toolbar-height, 60px) + var(--space-xs, 6px));
-                inset-inline-start: 64px;
-                margin: 0;
-                transform-origin: top left;
-                animation: mw-add-content-picker-open var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
-            }
-            /* No backdrop dim at desktop — canvas stays alive behind
-               the modal. Scoped via :has() so other Filament modals
-               opened on the same panel keep their dim. */
-            .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) > .fi-modal-close-overlay {
-                background-color: transparent;
-            }
-        }
-
-        @keyframes mw-add-content-picker-open {
-            from {
-                opacity: 0;
-                transform: scale(0.95) translateY(-4px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        /* Respect prefers-reduced-motion — disable the scale/translate
-           animation. Per the SOUL #108 designer-recommended pattern
-           (do not animate when the OS-level pref is set). */
-        @media (prefers-reduced-motion: reduce) {
-            .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) .fi-modal-window.mw-content-picker-modal {
-                animation: none;
-            }
-        }
+        /* task-2026-05-16-bc28fd CHANGE — the desktop-Cancel-hide
+           rule [originally AI-691a (task-2026-05-16-860f75)] and the
+           anchored Add-Content picker rule [originally AI-697
+           (task-2026-05-16-e3da1a)] MOVED OUT of this Blade. Reason: designer verified live (per the SOUL #108
+           verify-before-accept contract) that this `<style>` block ONLY
+           renders when the LiveEditModuleSettings sub-form page loads
+           (per LiveEditModuleSettings::layout = 'live-edit-module-
+           settings'), NOT when the +ADD picker modal opens on the
+           live-edit canvas. The two rules now live in
+           `packages/microweber-filament-theme/resources/assets/css/
+           microweber/live-edit-classes.css` — the Webpack-bundled
+           always-on Live Edit stylesheet that fires on
+           `/admin/live-edit`. See the AI-691a / AI-697 / task-bc28fd
+           blocks in that file. */
     </style>
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::FOOTER, scopes: $livewire->getRenderHookScopes()) }}

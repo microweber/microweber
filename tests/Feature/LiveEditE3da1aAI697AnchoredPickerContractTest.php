@@ -66,8 +66,15 @@ class LiveEditE3da1aAI697AnchoredPickerContractTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        // task-bc28fd CHANGE (designer per SOUL #108 verify-before-
+        // accept): the AI-697 anchored-picker rule moved OUT of the
+        // live-edit-module-settings.blade.php `<style>` block INTO
+        // live-edit-classes.css (Webpack-bundled, loaded on
+        // /admin/live-edit). The Blade-side rule never fired on the
+        // live build because that Blade is the LiveEditModuleSettings
+        // sub-form layout, not the live-edit canvas.
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit-module-settings.blade.php'
+            'packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-classes.css'
         ));
         $this->page = (string) file_get_contents(base_path(
             'src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php'
@@ -148,7 +155,7 @@ class LiveEditE3da1aAI697AnchoredPickerContractTest extends TestCase
         // and confirm every backdrop-overlay rule carries the :has()
         // scope.
         $start = strpos($this->blade, 'AI-697 (task-2026-05-16-e3da1a)');
-        $this->assertNotFalse($start, 'AI-697 task-id marker must be present in the admin-side style block.');
+        $this->assertNotFalse($start, 'AI-697 task-id marker must be present in the live-edit-classes.css style block (relocated per task-bc28fd CHANGE).');
         $end = strpos($this->blade, '@keyframes mw-add-content-picker-open', $start);
         $this->assertNotFalse($end, 'AI-697 keyframes block must follow the rule block.');
         $slice = substr($this->blade, $start, $end - $start);
@@ -240,9 +247,19 @@ class LiveEditE3da1aAI697AnchoredPickerContractTest extends TestCase
         // consumed in CSS that may resolve OUTSIDE .mw-live-edit-page
         // must carry a literal fallback for environments where the
         // ESE / index.css stylesheets haven't loaded.
-        $start = strpos($this->blade, 'AI-697 (task-2026-05-16-e3da1a)');
-        $end = strpos($this->blade, '</style>', $start);
-        $slice = substr($this->blade, $start, $end - $start);
+        // task-bc28fd CHANGE: relocation to live-edit-classes.css.
+        // The first `AI-697 (task-...)` occurrence is in the
+        // top-of-block docblock; sub-occurrences live above each
+        // actual CSS rule. Walk past the docblock close `*/` to
+        // start the slice at the CSS rules, then slice to EOF
+        // (the AI-691a+697 block is the last thing in the file).
+        // LESSONS selector-self-match guard reapplied (5th
+        // session-occurrence) — don't inspect docblock prose.
+        $markerStart = strpos($this->blade, 'AI-697 (task-2026-05-16-e3da1a)');
+        $this->assertNotFalse($markerStart, 'AI-697 task-id marker must be present.');
+        $docblockEnd = strpos($this->blade, '*/', $markerStart);
+        $this->assertNotFalse($docblockEnd, 'AI-697 marker must be followed by a docblock close `*/`.');
+        $slice = substr($this->blade, $docblockEnd + 2);
 
         // Each consumed token must use var(--name, fallback) form
         // somewhere in the slice.

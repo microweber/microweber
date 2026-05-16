@@ -47,8 +47,16 @@ class AddContent860f75AI691aCancelDesktopHideContractTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        // task-bc28fd CHANGE (designer per SOUL #108 verify-before-
+        // accept): the AI-691a rule moved OUT of the
+        // live-edit-module-settings.blade.php `<style>` block (which
+        // only loaded on the module-settings sub-form page, NOT the
+        // live-edit canvas) INTO live-edit-classes.css (Webpack-
+        // bundled, loaded on /admin/live-edit). $blade now points
+        // at the new host file so existing assertions continue to
+        // verify presence at the correct location.
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit-module-settings.blade.php'
+            'packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-classes.css'
         ));
         $this->page = (string) file_get_contents(base_path(
             'src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php'
@@ -82,10 +90,13 @@ class AddContent860f75AI691aCancelDesktopHideContractTest extends TestCase
         // selector always has the .mw-content-picker-modal prefix.
         $start = strpos($this->blade, 'AI-691a (task-2026-05-16-860f75)');
         $this->assertNotFalse($start, 'AI-691a task-id marker must be present.');
-        // Window from marker to closing </style> tag (rule is the last
-        // before </style> per the implementation).
-        $end = strpos($this->blade, '</style>', $start);
-        $this->assertNotFalse($end, 'Closing </style> must follow the AI-691a block.');
+        // task-bc28fd CHANGE: after the relocation to
+        // live-edit-classes.css the host file is CSS not Blade, so
+        // there's no `</style>` close tag. Slice from the marker to
+        // either the next AI block comment (`/* AI-`) or EOF.
+        $afterMarker = $start + strlen('AI-691a (task-2026-05-16-860f75)');
+        $nextBlock = strpos($this->blade, '/* AI-', $afterMarker);
+        $end = $nextBlock !== false ? $nextBlock : strlen($this->blade);
         $slice = substr($this->blade, $start, $end - $start);
         // Any CSS RULE line (containing `{`) that mentions
         // `.fi-modal-footer-actions` must also be preceded by

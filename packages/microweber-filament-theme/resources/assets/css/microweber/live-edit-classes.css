@@ -1553,3 +1553,100 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
         padding-top: 56px !important;
     } */
 }
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-691a + AI-697 — Add-Content picker modal styling
+ * task-2026-05-16-bc28fd (CHANGE re-ship of task-860f75 + task-e3da1a)
+ *
+ * Designer dispatched a `[CHANGE]` per the SOUL #108 verify-before-
+ * accept contract: the original AI-691a + AI-697 rules in
+ * `src/MicroweberPackages/Filament/resources/views/filament/
+ * components/layout/live-edit-module-settings.blade.php` were NOT
+ * firing on the live build. Root cause: that Blade is the
+ * LiveEditModuleSettings sub-form layout — only loaded when editing
+ * a module's settings, NOT when the +ADD picker modal opens on the
+ * live-edit canvas at `/admin/live-edit`.
+ *
+ * Moved here (live-edit-classes.css, microweber-filament-theme.css
+ * Webpack bundle) which is loaded on the live-edit page. Selectors
+ * are unchanged from the originals — only the host file changed.
+ *
+ * AI-691a (task-2026-05-16-860f75) — §A6 Path B (designer-resolved):
+ *   On desktop ≥769px, hide the picker modal Cancel button. The
+ *   top-right X is reachable with a mouse pointer, so the redundant
+ *   Cancel chrome can come off. On mobile ≤768px Cancel STAYS to
+ *   preserve NOVICE #3 thumb-reach affordance (task-2026-05-13-899d57:
+ *   users reported the picker "stuck open" when only the tiny X was
+ *   available). When AI-695 (mobile bottom-sheet) ships, the whole
+ *   Cancel DOM is deleted (PHP `->modalCancelActionLabel` removed)
+ *   and this rule is removed too.
+ *
+ * AI-697 (task-2026-05-16-e3da1a):
+ *   Anchor the Add-Content picker modal to the +ADD button on
+ *   desktop (NOT a centered modal). v2's Add-Content menu is a
+ *   dropdown anchored below the +ADD button — centered-modal+
+ *   backdrop-dim blocks the canvas and breaks flow for what should
+ *   be a quick add. Desktop ≥769px: position fixed, top-left of
+ *   viewport (`calc(var(--toolbar-height) + var(--space-xs))` ×
+ *   `inset-inline-start: 64px`), no backdrop dim — canvas stays
+ *   alive. Mobile ≤768px keeps centered modal until AI-695 ships.
+ *
+ * Token sources (all :root-scoped, resolve outside .mw-live-edit-
+ * page since the modal is Filament-portaled to body):
+ *   --toolbar-height (48px since AI-698a, frontend-assets/ui/css/
+ *                     index.css)
+ *   --space-xs       (φ scale, ESE slice 1.1)
+ *   --t-fast         (motion, ESE slice 1.1)
+ *   --ease           (motion, ESE slice 1.1)
+ * Each var() carries a literal fallback for environments where
+ * those stylesheets haven't loaded yet.
+ * ─────────────────────────────────────────────────────────────── */
+
+@media (min-width: 769px) {
+    /* AI-691a (task-2026-05-16-860f75) — hide the redundant Cancel
+       footer on desktop. Scoped to .mw-content-picker-modal so the
+       global .fi-modal-footer-actions on other Filament modals is
+       untouched. */
+    .mw-content-picker-modal .fi-modal-footer-actions {
+        display: none;
+    }
+
+    /* AI-697 (task-2026-05-16-e3da1a) — anchor the modal window to
+       top-left, sized to its natural width (max-w-2xl from
+       extraModalWindowAttributes). `margin: 0` cancels the body-
+       centering margin Filament applies on .fi-modal-window. */
+    .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) .fi-modal-window.mw-content-picker-modal {
+        position: fixed;
+        top: calc(var(--toolbar-height, 60px) + var(--space-xs, 6px));
+        inset-inline-start: 64px;
+        margin: 0;
+        transform-origin: top left;
+        animation: mw-add-content-picker-open var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+    }
+
+    /* AI-697 (task-2026-05-16-e3da1a) — no backdrop dim at desktop;
+       canvas stays alive behind the modal. Scoped via :has() so
+       other Filament modals opened on the same panel keep their
+       dim. */
+    .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) > .fi-modal-close-overlay {
+        background-color: transparent;
+    }
+}
+
+@keyframes mw-add-content-picker-open {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* AI-697 — respect prefers-reduced-motion (SOUL #108 motion pattern). */
+@media (prefers-reduced-motion: reduce) {
+    .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) .fi-modal-window.mw-content-picker-modal {
+        animation: none;
+    }
+}
