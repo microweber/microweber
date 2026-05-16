@@ -115,17 +115,31 @@ class FilamentAdminPanelProvider extends PanelProvider
             //   AI-703a follow-up candidate (will require CSS overrides at
             //   1024-1279.98px to undo Filament's `lg:` pinned utilities).
             ->sidebarCollapsibleOnDesktop()
-            ->brandLogoHeight('34px')
-            ->brandLogo(function () {
-                $logo = mw()->ui->admin_logo();
-                if (empty($logo)) {
-                    $logo = mw()->ui->admin_logo_login();
-                }
-                return $logo;
-            })
-            ->brandName(function () {
-                return mw()->ui->brand_name();
-            })
+            // task-2026-05-17-76dd12 / AI-702 CHANGE — designer
+            // verified `441050920e` and rejected the AI-702 ship
+            // because the existing Filament `->brandLogo()` panel-
+            // config call was still rendering alongside the new
+            // TOPBAR_START hook (added at task-bcb327). Two side-
+            // by-side Microweber logos visible in the admin topbar.
+            //
+            // Fix: the existing `->brandLogo()` + `->brandName()` +
+            // `->brandLogoHeight()` panel-config calls have been
+            // removed so Filament's own `.fi-logo` slot does not
+            // render. The TOPBAR_START render hook (further down
+            // at line ~301) carries the brand mark from now on,
+            // owning the full brand-anchor surface.
+            //
+            // ->brandLogoHeight('34px')
+            // ->brandLogo(function () {
+            //     $logo = mw()->ui->admin_logo();
+            //     if (empty($logo)) {
+            //         $logo = mw()->ui->admin_logo_login();
+            //     }
+            //     return $logo;
+            // })
+            // ->brandName(function () {
+            //     return mw()->ui->brand_name();
+            // })
             // AI-703 / task-2026-05-16-29342d — 240px per designer spec
             // (was 16rem = 256px). Width applies to the pinned-open sidebar
             // at lg+ and the overlay drawer below lg.
