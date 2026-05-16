@@ -80,12 +80,19 @@ mw.app.register('pageAlreadyOpened', MWPageAlreadyOpened);
 
 
 
+// task-2026-05-16-505ed5 / AI-708 — disambiguated heading per designer
+// dispatch. This is the scope-picker panel (template vs layout); the
+// renamed title "Template & Layout" distinguishes it from the per-element
+// "Element Style Editor" pane and the global "Theme Settings" pane. The
+// stale `mw-live-edit-templateSettings-editor-box` controlBox (was in
+// `live-edit.blade.php`, also titled "Template Style Editor") has been
+// removed alongside — see LESSONS / SOUL #110 for the DOM-duplicate audit.
 mw.app.templateSettingsWidget = new mw.controlBox({
     content: `<div id="template-settings-teleport-widget-content"></div>`,
     position:  'right',
     id: `template-settings-teleport-widget`,
     closeButton: true,
-    title: mw.lang('Template settings')
+    title: mw.lang('Template & Layout')
 });
 
 // mw.app.templateSettingsWidgetSetupWizard = new mw.controlBox({

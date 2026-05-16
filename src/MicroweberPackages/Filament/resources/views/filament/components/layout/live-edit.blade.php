@@ -135,61 +135,39 @@
 
             @livewire(filament()->getSidebarLivewireComponent())
 
-    <style>
-    #mw-live-edit-templateSettings-editor-box{
-                    width: var(--sidebar-end-size)
-                }
-    </style>
-        <div id="live-edit-global-template-settings-component-wrapper" style="display:none;">
+        {{--
+          task-2026-05-16-505ed5 / AI-708 — STALE controlBox removed.
 
+          Previously this file created a SECOND controlBox titled
+          "Template Style Editor" via `new mw.controlBox({ title:
+          mw.lang('Template Style Editor'), id:
+          'mw-live-edit-templateSettings-editor-box', ... })`. It
+          duplicated the `template-settings-teleport-widget` controlBox
+          created in `packages/frontend-assets/resources/assets/api-core/
+          services/bootstrap.js`. The duplicate was unreachable —
+          nothing calls `.show()` on `mw.top().app.templateSettingsBox`
+          anywhere in the codebase — but its <h3 class="mw-control-box-
+          title"> still mounted simultaneously alongside the live
+          controlBox's <h3>, plus RightSidebar.vue's own <h3>. Three
+          near-duplicate headings in one viewport (designer DOM-probe
+          via Playwright, SOUL #110 audit).
 
-        </div>
+          What was removed:
+            - the <style> rule for #mw-live-edit-templateSettings-editor-box
+              (CSS-only — no other surface referenced this id)
+            - the dead <template>...</template> block (HTML <template>
+              tag is inert; never executed)
+            - the <script> block that created the controlBox and stored
+              it as `mw.top().app.templateSettingsBox`
 
-        <template>
-              window.addEventListener('load', () => {
-                const stylesBox = document.getElementById('style-edit-global-template-settings-holder');
-                const templateSettings = document.getElementById('live-edit-global-template-settings-component-wrapper');
-                stylesBox.innerHTML = '';
-                stylesBox.appendChild(templateSettings);
-                templateSettings.style.display = '';
-              })
-
-
-            </template>
-            <script>
-
-            addEventListener('load', () => {
-
-                const templateSettings = document.getElementById('live-edit-global-template-settings-component-wrapper');
-                const tsEditor = new (mw.top()).controlBox({
-                    content:``,
-                    position:  'right',
-                    id: 'mw-live-edit-templateSettings-editor-box',
-                    closeButton: true,
-                    title: mw.lang('Template Style Editor')
-                });
-                tsEditor.boxContent.appendChild(templateSettings);
-
-                templateSettings.style.display = '';
-
-
-
-                tsEditor.on('show', () => {
-                    document.documentElement.classList['add']('live-edit-gui-editor-opened');
-                });
-                tsEditor.on('hide', () => {
-                   if(!mw.top().controlBox.hasOpened('right')) {
-                        mw.top().doc.documentElement.classList.remove('live-edit-gui-editor-opened');
-                    }
-                })
-
-                mw.top().app.templateSettingsBox = tsEditor;
-            })
-
-
-
-
-        </script>
+          The wrapper div `#live-edit-global-template-settings-component-
+          wrapper` is kept (still hidden) as a back-compat DOM hook in
+          case external admin code references the id. Its purpose was
+          to be moved INTO the (now-removed) controlBox; with that
+          controlBox gone, the wrapper sits empty + hidden = no visual
+          effect.
+        --}}
+        <div id="live-edit-global-template-settings-component-wrapper" style="display:none;"></div>
 
 
 

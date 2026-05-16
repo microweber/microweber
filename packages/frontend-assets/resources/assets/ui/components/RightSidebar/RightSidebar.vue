@@ -5,7 +5,19 @@
         <div id="general-theme-settings" role="complementary" aria-label="Theme settings sidebar" :class="[showSidebar == true ? 'active' : '']">
             <div>
                 <div class="d-flex align-items-center justify-content-between position-relative">
-                    <h3 v-show="showTemplateSettings" class="fs-3 font-weight-bold"><Lang>Template Style Editor</Lang></h3>
+                    <!--
+                      task-2026-05-16-505ed5 / AI-708 — disambiguated heading
+                      per designer dispatch. This is the `role="complementary"
+                      aria-label="Theme settings sidebar"` wrapper, so the
+                      heading is "Theme Settings" (global theme/style toggles).
+                      "Template Style Editor" was misleading — the
+                      per-element pane is called "Element Style Editor", and
+                      "Template Style Editor" was being shown both here AND
+                      on the (now-removed) stale controlBox in
+                      `live-edit.blade.php`. See LESSONS / SOUL #110 for the
+                      DOM-duplicate audit that triggered the rename.
+                    -->
+                    <h3 v-show="showTemplateSettings" class="fs-3 font-weight-bold"><Lang>Theme Settings</Lang></h3>
 
                     <span v-show="!showElementStyleEditor" v-on:click="closeSidebar"
                           :class="[buttonIsActive?'live-edit-right-sidebar-active':'']"
