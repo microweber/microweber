@@ -347,6 +347,102 @@ mw.DomTree = function (options) {
         }
     };
 
+    /**
+     * task-2026-05-16-cf3fa6 / AI-709 — rich element label.
+     *
+     * Returns "<tag> [.class] ['preview']" HTML for a row. Examples
+     * (from designer dispatch):
+     *   h1 'Describe your company'
+     *   div .hero
+     *   p
+     *
+     * Rules:
+     *   - tag is always present (lowercased nodeName)
+     *   - first non-system class is appended as " .<class>" if present
+     *     (system classes "edit", "module", "selected", "ui-*" excluded
+     *      so the row identifies the element, not the framework chrome)
+     *   - text preview is the first 24 chars of node.innerText (single-
+     *     line, trimmed); only emitted for elements that carry direct
+     *     text content (headings, paragraphs, spans)
+     *   - final HTML capped to 32 visible chars + ellipsis to keep
+     *     row width predictable; the full label is set as title= on
+     *     the parent <li> for tooltip access on hover.
+     */
+    this.getRichElementLabel = function (node) {
+        var tag = (node.nodeName || '').toLowerCase();
+        var bits = [
+            '<span class="mw-domtree-tag">' + this._escapeHtml(tag) + '</span>'
+        ];
+        var visibleChars = tag.length;
+
+        // First non-system class (.hero, .container, .my-custom-class).
+        var systemClasses = ['edit', 'module', 'selected', 'active', 'mw-defaults', 'mw-defaults-element'];
+        var firstClass = '';
+        if (node.classList && node.classList.length) {
+            for (var i = 0; i < node.classList.length; i++) {
+                var c = node.classList[i];
+                if (systemClasses.indexOf(c) !== -1) continue;
+                if (c.indexOf('ui-') === 0) continue;
+                if (c.indexOf('selectable-') === 0) continue;
+                firstClass = c;
+                break;
+            }
+        }
+        if (firstClass) {
+            var classText = '.' + firstClass;
+            bits.push(
+                '<span class="mw-domtree-class">' + this._escapeHtml(classText) + '</span>'
+            );
+            visibleChars += 1 + classText.length;
+        }
+
+        // Inner-text preview (first 24 chars) for elements that
+        // carry direct text — headings, paragraphs, spans. Skipped
+        // for layout containers (div / section) and modules.
+        var previewTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'a', 'li', 'button', 'label'];
+        if (previewTags.indexOf(tag) !== -1) {
+            var rawText = (node.innerText || node.textContent || '').replace(/\s+/g, ' ').trim();
+            if (rawText.length) {
+                var preview = rawText.length > 24 ? rawText.substr(0, 24) + '…' : rawText;
+                var previewText = "'" + preview + "'";
+                bits.push(
+                    '<span class="mw-domtree-preview">' + this._escapeHtml(previewText) + '</span>'
+                );
+                visibleChars += 1 + previewText.length;
+            }
+        }
+
+        return {
+            html: bits.join(' '),
+            text: this._buildPlainLabel(tag, firstClass, node, previewTags),
+            // Designer spec: truncate at 32 chars + title= tooltip.
+            // visibleChars is informational for CSS / future tests.
+            visibleChars: visibleChars
+        };
+    };
+
+    this._escapeHtml = function (s) {
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    };
+
+    this._buildPlainLabel = function (tag, firstClass, node, previewTags) {
+        var parts = [tag];
+        if (firstClass) parts.push('.' + firstClass);
+        if (previewTags.indexOf(tag) !== -1) {
+            var rawText = (node.innerText || node.textContent || '').replace(/\s+/g, ' ').trim();
+            if (rawText.length) {
+                var preview = rawText.length > 24 ? rawText.substr(0, 24) + '…' : rawText;
+                parts.push("'" + preview + "'");
+            }
+        }
+        return parts.join(' ');
+    };
+
     this.createItem = function (item) {
         if (!this.validateNode(item)) {
             return;
@@ -355,10 +451,32 @@ mw.DomTree = function (options) {
         li._value = item;
         li.className = 'mw-domtree-item' + (this._selectedDomNode === item ? ' active' : '');
         var dio = item.children.length ? '<i class="mw-domtree-item-opener"></i>' : '';
+
+        // task-2026-05-16-cf3fa6 / AI-709 — rich element label
+        // (icon + <tag> + .class + 'preview') is the row's primary
+        // identity. Previously the row showed only the existing
+        // .mw-domtree-item-label (which on .edit elements rendered
+        // literally as "Edit" — the designer's audit reported "Edit
+        // button is the only readable text per row"). The element
+        // label now leads; the .mw-domtree-item-label component
+        // affordance (Edit / module-name) is right-aligned via CSS.
+        var iconAndTitle = this.getNodeIconAndTitle(item);
+        var iconHtml = iconAndTitle.icon || '';
+        var rich = this.getRichElementLabel(item);
+
+        var dtElementLabel = this.document.createElement('span');
+        dtElementLabel.className = 'mw-domtree-item-element-label';
+        dtElementLabel.innerHTML =
+            '<span class="mw-domtree-item-icon">' + iconHtml + '</span>' + rich.html;
+        // Full label as native tooltip (designer spec — "Truncate at
+        // 32 chars + title= tooltip").
+        li.title = rich.text;
+
         var dtLabel = this.document.createElement('span');
         dtLabel.className = 'mw-domtree-item-label'
         dtLabel.innerHTML = this.getComponentLabel(item)
         li.innerHTML = dio;
+        li.appendChild(dtElementLabel);
         li.appendChild(dtLabel)
         if (typeof scope.settings.canSelect === 'function') {
             var can = scope.settings.canSelect(item, li);

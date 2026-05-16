@@ -120,3 +120,123 @@
 html.dark .mw-module-settings-sidebar-icon-background-image{
     filter: invert(1)
 }
+
+/* ====================================================================
+   task-2026-05-16-cf3fa6 / AI-709 — Layers panel rich row labels.
+
+   Layout (left → right):
+     [icon] <tag> [.class] ['preview text']  ............  [Edit]
+       └───────── .mw-domtree-item-element-label ──┘     └ .mw-domtree-item-label
+
+   The element-label is the row's primary identity; the .mw-domtree-
+   item-label (component affordance — "Edit", module name, etc.) is
+   pushed to the right edge so the row reads as identity-first.
+
+   Selected row gets a 2px --ese-accent left bar + --ese-surface-hover
+   bg (matches the ESE selected-element-indicator from spec §F3.3).
+
+   Indentation per nesting level uses var(--space-sm) (φ-scale token
+   from ESE slice 1.1). Falls back to 8px when --space-sm is
+   unavailable (the Layers controlBox renders outside .mw-live-edit-
+   page in some contexts; the fallback keeps the indent sane).
+
+   ESE tokens (--ese-accent, --ese-surface-hover, --ese-text-muted,
+   --space-sm, --font-control) are defined at :root in
+   `element-style-editor.css` so they resolve inside the controlBox
+   even though the box DOM lives outside .mw-live-edit-page.
+   ==================================================================== */
+
+.mw-domtree li {
+    display: flex;
+    flex-direction: column;
+}
+
+.mw-domtree li > .mw-domtree-item-opener,
+.mw-domtree li > .mw-domtree-item-element-label,
+.mw-domtree li > .mw-domtree-item-label {
+    /* element-label + component-label sit on the same row */
+}
+
+.mw-domtree li {
+    /* Row "header" container — opener + element-label + component-label.
+       Use grid so component-label can right-align without floats. */
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: var(--space-sm, 8px);
+    padding-block: 4px;
+    padding-inline: var(--space-sm, 8px);
+    border-inline-start: 2px solid transparent; /* selected-row accent slot */
+    position: relative;
+}
+
+/* nested <ul> wraps to a row spanning all three columns */
+.mw-domtree li > ul {
+    grid-column: 1 / -1;
+    padding-inline-start: var(--space-sm, 8px);
+}
+
+/* The element-label is the row's primary identity — center column,
+   truncates at 32-ish chars via overflow + ellipsis. */
+.mw-domtree-item-element-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text, currentColor);
+}
+
+.mw-domtree-item-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ese-text-muted, #8a8a8a);
+}
+
+.mw-domtree-tag {
+    font-weight: 500;
+    color: var(--ese-text, currentColor);
+}
+
+.mw-domtree-class {
+    color: var(--ese-accent, #0d6efd);
+    font-weight: 400;
+}
+
+.mw-domtree-preview {
+    color: var(--ese-text-muted, #8a8a8a);
+    font-style: italic;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+/* The existing .mw-domtree-item-label is now the component affordance
+   slot (Edit / module name). Right-aligned at row's end column. */
+.mw-domtree-item-element-label + .mw-domtree-item-label {
+    /* AI-709: tighten the original 14px font + the calc(100% - 20px)
+       width — they belonged to the old "label-is-the-only-content"
+       shape. Now the label is just the affordance chip. */
+    width: auto;
+    font-size: var(--font-label, 11px);
+    color: var(--ese-text-muted, #8a8a8a);
+    padding-inline: 6px;
+    flex-shrink: 0;
+}
+
+/* Selected row: 2px --ese-accent left bar + --ese-surface-hover bg.
+   Matches the ESE selected-element-indicator spec §F3.3. */
+.mw-domtree li.selected {
+    border-inline-start-color: var(--ese-accent, #0d6efd);
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+}
+
+html.dark .mw-domtree li.selected {
+    background-color: var(--ese-surface-hover, rgba(255, 255, 255, 0.06));
+}
