@@ -118,8 +118,45 @@ html.mw-setup-wizard-document .back-to-edit{
                         PREVIEW
                     </button>
                     <SaveButton></SaveButton>
+
+                    <!--
+                      task-2026-05-16-7326d6 / AI-700 + AI-698b item 3 —
+                      the ☰ hamburger button that opens MainDrawer.
+                      Sits at the right end of the toolbar per the
+                      AI-698 layout spec (← ADMIN · undo redo · + ADD
+                      · Search · device-preview · ⋯ tools · ⌄ · VIEW
+                      · SAVE · ☰). The legacy hidden hamburger at
+                      #user-menu-wrapper.mw-le-hamburger below stays
+                      hidden for Dusk-test back-compat per
+                      task-2026-05-16-3ae87c.
+                    -->
+                    <button
+                        type="button"
+                        id="mw-live-edit-main-drawer-button"
+                        class="btn-icon live-edit-toolbar-buttons mw-toolbar-icon-btn mw-main-drawer-trigger"
+                        aria-label="Open menu"
+                        aria-haspopup="true"
+                        title="Open menu"
+                        @click="$refs.mainDrawer && $refs.mainDrawer.open()"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="22" height="22" fill="currentColor" aria-hidden="true">
+                            <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
+
+            <!-- task-2026-05-16-7326d6 / AI-700 — MainDrawer mounts as
+                 a sibling here, but its <Teleport to="body"> moves the
+                 actual panel + backdrop to document.body root so the
+                 toolbar's overflow context can't clip it. The drawer
+                 reads `backToAdminLink` and the cached user-menu data
+                 from Toolbar.vue's existing props (no new API call). -->
+            <MainDrawer
+                ref="mainDrawer"
+                :back-to-admin-link="backToAdminLink"
+                :menu="menu"
+            />
 
             <!--
                 task-2026-05-16-3ae87c: the user-menu button and its
@@ -239,6 +276,9 @@ import HtmlEditor from "../HtmlEditor/HtmlEditor.vue";
 import AddContentButton from "./AddContentButton.vue";
 import ToolbarMulilanguageSelector from "./ToolbarMulilanguageSelector.vue";
 import ToolbarToolsDropdown from "./ToolbarToolsDropdown.vue";
+// task-2026-05-16-7326d6 / AI-700 — left-drawer consolidating
+// Template Settings + Layers + Tools + Admin nav.
+import MainDrawer from "./MainDrawer.vue";
 
 export default {
     components: {
@@ -246,6 +286,7 @@ export default {
         ToolbarToolsDropdown,
         AddContentButton,
         HtmlEditor,
+        MainDrawer,
         SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav, SettingsCustomize,},
     methods: {
         pagePreviewToggle: () => {

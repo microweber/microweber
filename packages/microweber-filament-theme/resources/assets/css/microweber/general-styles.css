@@ -2326,3 +2326,164 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 .dark .agent-chat-container .quick-actions button:hover {
     background-color: rgb(75 85 99) !important;
 }
+
+/* ======================================================================
+   task-2026-05-16-7326d6 / AI-700 — Main drawer (left slide-in,
+   consolidates Template & Layout + Layers + Theme Settings + admin
+   nav into one surface). Triggered by the `☰` hamburger added to
+   Toolbar.vue's right cluster (mutually-unblocks AI-698b item 3).
+
+   Layout per designer spec:
+     - Width 280px desktop / 100vw mobile (≤768px).
+     - Slide-in from left over var(--t-slow).
+     - Backdrop dim 40%.
+     - Close via × / backdrop tap / ESC.
+     - ESE stays as its own right-side panel — NOT in this drawer.
+
+   Token-scoping note (per SOUL #108 spec-doc-nit): every var()
+   consumed carries a literal fallback. The drawer DOM lives at
+   document.body root (outside .mw-live-edit-page) so :root-scoped
+   ESE tokens resolve fine, but the fallbacks protect environments
+   where the ESE stylesheet hasn't loaded yet.
+   ====================================================================== */
+.mw-main-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1199;
+}
+
+.mw-main-drawer {
+    position: fixed;
+    top: 0;
+    inset-inline-start: 0;
+    bottom: 0;
+    width: 280px;
+    max-width: 100vw;
+    background-color: var(--ese-surface, #ffffff);
+    color: var(--ese-text, #111827);
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform var(--t-slow, 320ms) var(--ease, ease-out);
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.18);
+    visibility: hidden;
+}
+
+html[dir="rtl"] .mw-main-drawer {
+    transform: translateX(100%);
+}
+
+.mw-main-drawer--open {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+@media (max-width: 768px) {
+    .mw-main-drawer {
+        width: 100vw;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mw-main-drawer {
+        transition: none;
+    }
+}
+
+.mw-main-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md, 13px) var(--space-md, 13px);
+    border-bottom: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+}
+
+.mw-main-drawer__title {
+    font-size: var(--font-section, 15px);
+    font-weight: 600;
+}
+
+.mw-main-drawer__close {
+    background: transparent;
+    border: 0;
+    color: var(--ese-text-muted, #6b7280);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm, 6px);
+}
+
+.mw-main-drawer__close:hover {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+    color: var(--ese-text, #111827);
+}
+
+.mw-main-drawer__nav {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: var(--space-sm, 8px) 0;
+}
+
+.mw-main-drawer__footer {
+    border-top: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+    padding: var(--space-sm, 8px) 0;
+}
+
+.mw-main-drawer__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm, 8px);
+    width: 100%;
+    padding: var(--space-sm, 8px) var(--space-md, 13px);
+    background: transparent;
+    border: 0;
+    color: var(--ese-text, #111827);
+    font-size: var(--font-control, 13px);
+    text-decoration: none;
+    cursor: pointer;
+    text-align: start;
+}
+
+.mw-main-drawer__item:hover {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+    color: var(--ese-accent, #0d6efd);
+}
+
+.mw-main-drawer__item:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: -2px;
+}
+
+.mw-main-drawer__item svg {
+    flex-shrink: 0;
+    color: var(--ese-text-muted, #6b7280);
+}
+
+.mw-main-drawer__item:hover svg {
+    color: var(--ese-accent, #0d6efd);
+}
+
+/* Dark theme — drawer surfaces flip to dark; tokens carry dark
+   variants from ESE slice 1.1 :root override on html.dark. */
+html.dark .mw-main-drawer-backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+html.dark .mw-main-drawer {
+    background-color: var(--ese-surface, #1f2937);
+    color: var(--ese-text, #f3f4f6);
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.6);
+}
+
+/* Hamburger trigger — matches the live-edit-toolbar-buttons base. */
+#mw-live-edit-main-drawer-button.mw-main-drawer-trigger {
+    color: var(--ese-text-muted, #6b7280);
+}
+#mw-live-edit-main-drawer-button.mw-main-drawer-trigger:hover {
+    color: var(--ese-accent, #0d6efd);
+}
