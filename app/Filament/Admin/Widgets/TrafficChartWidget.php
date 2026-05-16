@@ -22,6 +22,20 @@ class TrafficChartWidget extends ChartWidget
 
     protected int|string|array $columnSpan = 'full';
 
+    /**
+     * AI-706 / task-2026-05-16-5cc439 — hero chart 2× current height
+     * per designer spec admin-shell-improvements §2 AD5. Filament's
+     * default ChartWidget canvas height is governed by Chart.js's
+     * 2:1 aspect ratio — typically ~240-280 px on a wide screen.
+     * Setting maxHeight='480px' bumps the chart to roughly 2× its
+     * previous default, claiming the hero position on the dashboard.
+     *
+     * The companion "KPIs as a left-rail inside this card" part of
+     * §2 AD5 is the AI-706a follow-up candidate — requires a custom
+     * widget view and KPI computation; out of scope for slice 1.
+     */
+    protected ?string $maxHeight = '480px';
+
     public ?string $filter = '7days';
 
     protected function getFilters(): ?array

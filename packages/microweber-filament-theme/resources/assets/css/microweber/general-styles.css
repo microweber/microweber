@@ -2986,3 +2986,79 @@ body.fi-panel-admin .mw-welcome-widget-empty {
         transition: none;
     }
 }
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-706 — Stat-card hierarchy: hero chart 2× + 4-col secondary strip
+ * task-2026-05-16-5cc439 / designer spec admin-shell-improvements §2 AD5
+ *
+ * Pre-AI-706 the dashboard weighted the Statistics chart and the
+ * 4 secondary cards (Emails / Comments / Sales / Orders) equally —
+ * chart sparse, secondary cards over-claiming attention. This block
+ * re-establishes the hierarchy "one hero + a strip":
+ *
+ *  - Hero chart: 2× height via Filament's `$maxHeight = '480px'` on
+ *    TrafficChartWidget (PHP-side; no CSS needed for the height itself).
+ *  - Secondary strip `.mw-quick-stats-grid`: switches from 2×2 to a
+ *    single 4-col row at desktop (≥1024 px), 2×2 at tablet
+ *    (480-1023.98 px), 1-col at mobile (≤480 px). Higher specificity
+ *    than the legacy `microweber-theme-v3.scss` rules so this wins
+ *    the cascade. Note legacy SCSS uses `grid-template-columns:
+ *    repeat(2, 1fr);` (no !important); we beat it with the
+ *    `body.fi-panel-admin` scope prefix.
+ *  - Card body padding compacted from `--space-lg` × 2 to
+ *    `--space-sm` × `--space-md` per spec "half current height" so
+ *    the strip reads as a slim row.
+ *  - Vertical breathing room between hero and strip: `margin-block-start:
+ *    var(--space-lg)` applied to the .fi-wi wrapping the secondary
+ *    cards when it follows another .fi-wi (general sibling combinator
+ *    keeps the gap proportional even when other widgets sit between).
+ *
+ * The "KPIs left-rail INSIDE the chart card" piece of §2 AD5 is the
+ * AI-706a follow-up candidate (requires a custom widget view +
+ * Online / Visitors % / Conversion computation).
+ *
+ * Token-scoping note (SOUL #108): every var() carries a literal
+ * fallback because dashboard widgets render inside body.fi-panel-admin
+ * where :root ESE tokens resolve, but the literal fallbacks protect
+ * against any future stylesheet-load order regression.
+ * ─────────────────────────────────────────────────────────────── */
+
+body.fi-panel-admin .mw-quick-stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md, 13px);
+    margin-block-start: var(--space-lg, 21px);
+}
+
+@media (max-width: 1023.98px) {
+    body.fi-panel-admin .mw-quick-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    body.fi-panel-admin .mw-quick-stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+body.fi-panel-admin .mw-quick-stat-card-body {
+    padding: var(--space-sm, 8px) var(--space-md, 13px);
+    gap: var(--space-sm, 8px);
+}
+
+body.fi-panel-admin .mw-quick-stat-card-icon {
+    width: var(--space-lg, 21px);
+    height: var(--space-lg, 21px);
+    min-width: var(--space-lg, 21px);
+}
+
+body.fi-panel-admin .mw-quick-stat-card-label {
+    font-size: var(--font-label, 11px);
+    line-height: 1.2;
+}
+
+body.fi-panel-admin .mw-quick-stat-card-value {
+    font-size: var(--font-section, 15px);
+    line-height: 1.2;
+    font-weight: 600;
+}
