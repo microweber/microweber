@@ -43,7 +43,14 @@ class RecentVisitorsWidget extends BaseWidget
 
                 TextColumn::make('country_name')
                     ->label('Country')
-                    ->placeholder('Unknown'),
+                    ->placeholder('Unknown')
+                    // task-2026-05-16-321ef4: stats_geoip stores unresolved IPs
+                    // as literal `'unknown'` (not null), so the placeholder
+                    // never fires for those rows. Coerce them to the same
+                    // 'Unknown' display string used by the null path above.
+                    ->formatStateUsing(fn ($state) => $state && strtolower((string) $state) !== 'unknown'
+                        ? $state
+                        : 'Unknown'),
 
                 TextColumn::make('browser')
                     ->label('Browser')

@@ -40,6 +40,13 @@ class LanguagesWidget extends BaseWidget
                     ->where('stats_sessions.updated_at', '>=', now()->subDays(30))
                     ->whereNotNull('stats_sessions.language')
                     ->where('stats_sessions.language', '!=', '')
+                    // task-2026-05-16-321ef4: some clients (and historical
+                    // imports) store a literal `'0'` in the language column —
+                    // the existing `!= ''` filter doesn't catch it, and it
+                    // renders as a blank-looking row. Also drop tokens shorter
+                    // than 2 chars since those can't be a real BCP-47 tag.
+                    ->where('stats_sessions.language', '!=', '0')
+                    ->whereRaw('CHAR_LENGTH(stats_sessions.language) >= 2')
                     ->groupBy('stats_sessions.language')
                     ->orderByDesc('visitor_count')
             )

@@ -48,11 +48,22 @@ class LocationsWidget extends BaseWidget
             ->columns([
                 TextColumn::make('country_name')
                     ->label('Country')
-                    ->searchable(),
+                    ->searchable()
+                    // task-2026-05-16-321ef4: stats_geoip rows for unresolved IPs
+                    // are stored with literal `country_name='unknown'` /
+                    // `country_code='unknown'` (lowercase strings, NOT null), so
+                    // Filament's `->placeholder('Unknown')` never fires. Coerce
+                    // those literals to a friendlier display string here.
+                    ->formatStateUsing(fn ($state) => $state && strtolower((string) $state) !== 'unknown'
+                        ? $state
+                        : 'Unknown'),
 
                 TextColumn::make('country_code')
                     ->label('Code')
-                    ->badge(),
+                    ->badge()
+                    ->formatStateUsing(fn ($state) => $state && strtolower((string) $state) !== 'unknown'
+                        ? strtoupper((string) $state)
+                        : '—'),
 
                 TextColumn::make('visitor_count')
                     ->label('Visitors')
