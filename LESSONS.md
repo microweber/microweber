@@ -4,6 +4,51 @@
 
 ---
 
+## 2026-05-16 — `/* … */` block comments inside an HTML attribute value terminate the attribute at the first embedded `"`
+
+- **Pattern:** task-968a71 first-attempt at the AI-692 two-group Add-Content modal embedded a block comment in the `x-data="..."` Alpine attribute that contained prose like `/* typing "page" hides the "On this page" group header */`. The HTML attribute parser doesn't know the `"` is inside a JS comment — it sees the first `"` and closes the attribute. Result: the entire x-data block was silently truncated, the page paint succeeded, and Alpine then threw a cascade of `q is not defined` / `hasVisibleCardsInGroup is not defined` / `resultAnnouncement is not defined` ReferenceErrors. The bug was invisible until DevTools console was opened.
+- **Why it happened:** Block comments inside HTML attribute values look fine in editors with JS syntax highlighting because the editor treats the attribute body as JS — but the browser's HTML parser runs first and only knows about `"`. Any character with parser-level meaning (here `"`, but `</` is the same family) is unsafe in attribute prose, regardless of language wrapping.
+- **Prevention rule:** Inside any HTML attribute value (`x-data`, `x-init`, `onclick`, etc.), NEVER write `/* … */` block comments containing literal `"`. Use `//` single-line comments only, and keep them quote-free. The same rule applies to embedded `</script>` strings — never reproduce a parser-meaningful sequence in prose inside that parser's scope. Reference: regression-guard test `comment_block_uses_single_line_comments_only_in_xdata` in `AddContent968a71AI692TwoGroupLayoutContractTest.php` asserts no `/*` appears inside `x-data="..."`.
+- **Applies when:** Authoring any Alpine `x-data` / `x-init` / `x-on:*` block longer than ~5 lines, especially when the block contains JS comments describing the helper's behaviour. The PHP docblock variant: literal `*/` inside docblock prose closes the docblock — express as words ("slash-star ... star-slash") rather than characters.
+
+---
+
+## 2026-05-16 — Tailwind v4 uses native CSS `translate` property — independent of `transform`
+
+- **Pattern:** task-02760c (Live Edit sidebar menu invisible after hamburger click) hit a silent regression where the project's `.fi-sidebar { transform: translateX(-100%) !important }` override appeared to do nothing. DevTools confirmed `transform: matrix(1, 0, 0, 1, 0, 0)` (identity!) but `getBoundingClientRect().x === -280`. Root cause: Tailwind v4 compiles utilities like `-translate-x-full` to the **native CSS `translate` property** (`translate: -100% !important`), NOT to `transform: translateX(...)`. CSS `translate` is its own property — independent of `transform` — and the Tailwind utility wins because the project override never touches it.
+- **Why it happened:** The `transform: translateX(...)` mental model is the Tailwind v3 / pre-2022 CSS shape; Tailwind v4 adopted the newer CSS individual-transform properties. Project-side overrides written against v3 muscle memory silently miss the v4 generated CSS.
+- **Prevention rule:** When defeating any Tailwind v4 translate/rotate/scale utility, reset BOTH the individual property AND the composite `transform`: `translate: none !important; transform: translateX(-100%) !important;` (also `rotate: none !important;` / `scale: none !important;` as applicable). Validate with `getComputedStyle(el).translate` not just `.transform`. Always reproduce at the failing viewport with Playwright + `evaluate(() => getBoundingClientRect())` before declaring the override correct.
+- **Applies when:** Any project-side CSS attempting to override a Tailwind v4 utility that animates element position. Common spots: Filament sidebar/topbar visibility toggles, modal slide-in/out, drawer opens.
+
+---
+
+## 2026-05-16 — When refactoring a code section, carry forward the prior task's source-comment marker
+
+- **Pattern:** task-968a71 AI-692 refactored the `@foreach($actions as $action)` card grid into two `<section>` wrappers, but the rewrite dropped the `task-2026-05-16-cdeefd` marker that AI-691 had embedded in the card-section docblock. The audit-grep rule "every UX/UI fix embeds task-YYYY-MM-DD-XXXXXX in (a) commit, (b) test docblock, (c) source-side comment" was broken across blade — the original task became un-greppable from the new source.
+- **Why it happened:** The refactor scope was "split into two sections", not "preserve every marker". Mechanical refactors that move/replace blocks tend to inherit only the structural intent of the rewrite, not the metadata of the rewritten code.
+- **Prevention rule:** Before deleting or rewriting a code block that carries a `task-YYYY-MM-DD-XXXXXX` marker, grep the block for prior markers and re-embed them in the new block's docblock. If the new task adds its own marker, both markers should appear in the new block (the contract test for the new task can assert both). Pattern: "task-AAAA-MM-DD-NNNNNN / task-BBBB-MM-DD-MMMMMM" comma-separated in the docblock header.
+- **Applies when:** Any refactor that replaces a substantial source block (Vue component sections, blade `<section>` wrappers, PHP method bodies, CSS rule groups). Especially relevant when ship reports cite multiple task IDs touching the same surface in close succession.
+
+---
+
+## 2026-05-16 — Contract-test regex `[^)]+` cannot cross parens that appear inside lambda bodies
+
+- **Pattern:** task-968a71 AI-692's `actions_carry_group_key_in_php` test initially used `'/'action'\s*=>\s*'addToCurrentPageAction'[^)]*'group'\s*=>\s*'primary'/'` to assert that an action's `'group' => 'primary'` key appears within the same action array. The regex false-failed on every match because PHP lambda bodies in adjacent actions (e.g. `fn($a) => ($a['group'] ?? 'secondary') === 'primary'`) contained inner parens; the `[^)]*` class refused to cross any `)`, so the match-window terminated before reaching the `'group'` key.
+- **Why it happened:** Negative character classes feel safer than `.*?` but they over-constrain when the body contains the excluded character for benign reasons. PHP lambdas, arrow functions, ternaries, and method chains all sprinkle parens inside array literals.
+- **Prevention rule:** When asserting that two source patterns co-occur within the same array/block, use multiline-friendly `.*?` (non-greedy) with the `s` modifier — NOT `[^X]*` — unless `X` truly cannot appear in any plausible body. Example: `'/'action'\s*=>\s*'addToCurrentPageAction'.*?'group'\s*=>\s*'primary'/s'`.
+- **Applies when:** Writing PHPUnit `assertMatchesRegularExpression` against source code that contains nested syntax (parens, brackets, braces). Reference: `AddContent968a71AI692TwoGroupLayoutContractTest::actions_carry_group_key_in_php` final shape.
+
+---
+
+## 2026-05-16 — `!important` written to defeat a non-loaded stylesheet is dead code (safe to drop)
+
+- **Pattern:** task-1b5604 ESE slice 1.2 inherited a six-rule `!important` fortress on `.v-slider-track__background` / `__fill` / `__surface` from a prior cycle that was guarding against Vuetify's slider styles overriding the project's geometry. Recon found that Vuetify CSS is NOT loaded in the parent Microweber admin window (only inside iframe/canvas surfaces that bundle it explicitly per the `vuetify-slider-in-mw-admin` skill). The `!important` had no real specificity competitor; dropping it and rewriting with token-driven geometry was a pure simplification win.
+- **Why it happened:** Defensive `!important` accumulates over time as agents work around symptoms without recon-ing the actual cascade. Each agent inherits the fortress and adds their own `!important` to "make sure" — the original adversary is forgotten.
+- **Prevention rule:** Before reproducing or extending an `!important` fortress, run a grep across the rendered HTML's actual stylesheet loads (network panel + `getComputedStyle` showing which rule wins) to confirm the adversary stylesheet is actually loaded. If it isn't, the fortress is dead code — drop the `!important` and rewrite with normal specificity + document the surviving cases inline. Three `!important` rules survived in slice 1.2 with explicit one-line justifications: Vuetify-inline-positioning, hidden a11y input, fight with `live-edit-input.css`.
+- **Applies when:** Touching any CSS block with 3+ `!important` declarations on the same component. Recon the actual cascade before assuming the fortress is necessary; the cost of leaving dead `!important` in place is that future agents inherit the wrong mental model of the specificity environment.
+
+---
+
 ## 2026-05-16 — "As they were before" feedback usually means delete prior customization, not add more
 
 - **Pattern:** task-cfef17 ("put dark/light back in the submenu") arrived after AI-168 had previously injected `<x-filament-panels::theme-switcher />` into the `TOPBAR_END` render hook to make the theme switcher more visible. The correct fix was to DELETE the 25-line `FilamentView::registerRenderHook(PanelsRenderHook::TOPBAR_END, ...)` block in `MicroweberFilamentTheme.php` and let Filament's stock user-menu dropdown render the switcher per `vendor/filament/.../user-menu.blade.php` lines 112-116. A wrong-but-tempting alternative would have been to add NEW CSS/JS to "make the user-menu version more visible" — layering customization on customization.
