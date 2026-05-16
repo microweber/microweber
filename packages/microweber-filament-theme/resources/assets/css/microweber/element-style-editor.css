@@ -498,76 +498,109 @@ html[dir="rtl"] .reset-field {
 }
 
 /*
- * task-2026-05-05-d2ce0f / task-2026-05-05-73c751: the Element
- * Style Editor right-rail uses the dark theme (#1a1f2b panel bg),
- * but Vuetify's `<v-slider>` defaults to `v-theme--light` and
- * renders its track as a near-white horizontal bar. We use
- * opacity-tinted currentColor so the sliders inherit the surrounding
- * text color on both light and dark themes; bumped opacity values
- * so the track is actually visible (was 0.18 — too faint to spot).
- */
-.mw-live-edit-slider-small .v-slider-track__background {
-    background: currentColor !important;
-    opacity: 0.30 !important;
-    height: 4px !important;
-    border-radius: 2px !important;
-}
-.mw-live-edit-slider-small .v-slider-track__fill {
-    background: currentColor !important;
-    opacity: 0.85 !important;
-    height: 4px !important;
-    border-radius: 2px !important;
-}
-.mw-live-edit-slider-small .v-slider-thumb__surface {
-    background: currentColor !important;
-    width: 14px !important;
-    height: 14px !important;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
-    border-radius: 50%;
-}
-/*
- * task-2026-05-05-e62d5b drunk-designer audit + task-2026-05-05-4bd251:
- * Vuetify's own CSS isn't loaded in the parent admin window — only
- * its `.v-slider-track` / `.v-slider-thumb__surface` selectors are
- * styled here. The wrapper `.v-slider-thumb` needs to be positioned
- * along the track via `inset-inline-start: var(--v-slider-thumb-
- * position)`. Initial fix in e62d5b made the thumb absolute relative
- * to `.mw-live-edit-slider-small` (which already had
- * `position: relative`), but that container is the FULL slider
- * component including the label+number-input row above the track.
- * 50% of that container placed the thumb in the middle of the
- * combined block — visibly above the track line.
+ * task-2026-05-16-1b5604 — ESE Slice 1.2 / AI-689 / F1.6 MwSlider
+ * geometry. Spec §4.2 locks slider geometry at token level so the
+ * prior `!important` fortress (six rules guarding against Vuetify
+ * defaults) can be deleted. Per the vuetify-slider-in-mw-admin
+ * skill: Vuetify's own CSS is NOT loaded in the parent admin
+ * window, so there is no Vuetify default specificity to fight on
+ * `.v-slider-track__background` / `__fill` / `__surface` — those
+ * `!important` declarations were defensive against a non-loaded
+ * stylesheet. Dropping them.
  *
- * Fix: make `.v-slider__container` (the row that wraps just the
- * track + thumb) the positioning context. `inset-block-start: 50%`
- * on the thumb now references the slider row only, putting the
- * thumb on the track's center line as intended.
+ * Surviving !important (intentional):
+ *   - .v-slider-thumb positioning — Vuetify writes inline styles
+ *     for `inset-inline-start` on every drag tick; without
+ *     `!important` the inline updates would win the cascade.
+ *   - hidden-input + .form-control-input-range-slider — fight
+ *     higher-specificity rules in live-edit-input.css; deleted
+ *     from this block but documented in surviving rules below.
+ *
+ * Geometry constants (one rule, no `!important` on the geometry):
+ *   --slider-track-h: 2px         (spec §4.2)
+ *   --slider-thumb-d: 16px        (spec §4.2)
+ *   track row height: --space-lg  (25.9px — thumb centres naturally)
+ *   track bg:         var(--ese-track)
+ *   filled track:     var(--ese-track-fill)
+ *   thumb fill:       var(--ese-accent)
+ *   thumb ring (light): 1px solid var(--ese-surface)         (N3)
+ *   thumb ring (dark):  2px solid var(--ese-surface-muted)   (N3)
+ *
+ * Visual delta vs prior fortress: thumb fill switches from
+ * `currentColor` (followed text colour, theme-dependent) to
+ * `--ese-accent` (Bootstrap blue #0d6efd, consistent both themes).
+ * Spec §4.2 explicitly requests the blue accent fill so the active
+ * affordance reads as interactive across themes.
  */
+.mw-live-edit-slider-small {
+    --slider-track-h: 2px;
+    --slider-thumb-d: 16px;
+}
 .mw-live-edit-slider-small .v-slider__container {
     position: relative;
-    min-height: 14px;
+    min-height: var(--space-lg);
     display: flex;
     align-items: center;
+}
+.mw-live-edit-slider-small .v-slider {
+    min-height: var(--space-lg);
+}
+.mw-live-edit-slider-small .v-slider .v-input__control {
+    min-height: var(--space-lg);
 }
 .mw-live-edit-slider-small .v-slider-track {
     position: relative;
     flex: 1;
+    height: var(--slider-track-h);
+}
+.mw-live-edit-slider-small .v-slider-track__background {
+    background: var(--ese-track);
+    height: var(--slider-track-h);
+    border-radius: var(--radius-pill);
+}
+.mw-live-edit-slider-small .v-slider-track__fill {
+    background: var(--ese-track-fill);
+    height: var(--slider-track-h);
+    border-radius: var(--radius-pill);
+}
+.mw-live-edit-slider-small .v-slider-thumb__surface {
+    background: var(--ese-accent);
+    width: var(--slider-thumb-d);
+    height: var(--slider-thumb-d);
+    border-radius: var(--radius-pill);
+    /* N3: 1px --ese-surface ring on light (default). */
+    box-shadow: 0 0 0 1px var(--ese-surface);
+}
+html.dark .mw-live-edit-slider-small .v-slider-thumb__surface,
+.theme-dark .mw-live-edit-slider-small .v-slider-thumb__surface,
+[data-theme="dark"] .mw-live-edit-slider-small .v-slider-thumb__surface {
+    /* N3: 2px --ese-surface-muted ring on dark — accepted per
+       designer's spec v2 (#90), prevents thumb-into-track merge. */
+    box-shadow: 0 0 0 2px var(--ese-surface-muted);
 }
 .mw-live-edit-slider-small .v-slider-thumb {
+    /* `!important` here remains intentional: Vuetify writes inline
+       `inset-inline-start: <px>` on every drag tick; without
+       `!important` the inline value would override our 0%-default
+       fallback even when no drag is active. */
     position: absolute !important;
     inset-block-start: 50% !important;
     transform: translateY(-50%) !important;
     inset-inline-start: var(--v-slider-thumb-position, 0%) !important;
-    margin-inline-start: -7px;
-    width: 14px !important;
-    height: 14px !important;
+    margin-inline-start: calc(var(--slider-thumb-d) / -2);
+    width: var(--slider-thumb-d) !important;
+    height: var(--slider-thumb-d) !important;
     z-index: 1;
 }
-.mw-live-edit-slider-small .v-slider {
-    min-height: 24px !important;
+/* Disabled state — spec §5 interaction matrix:
+   thumb opacity 0.4, track opacity 0.5. */
+.mw-live-edit-slider-small[aria-disabled="true"] .v-slider-thumb__surface,
+.mw-live-edit-slider-small .v-slider[aria-disabled="true"] .v-slider-thumb__surface {
+    opacity: 0.4;
 }
-.mw-live-edit-slider-small .v-slider .v-input__control {
-    min-height: 24px !important;
+.mw-live-edit-slider-small[aria-disabled="true"] .v-slider-track,
+.mw-live-edit-slider-small .v-slider[aria-disabled="true"] .v-slider-track {
+    opacity: 0.5;
 }
 /*
  * Vuetify renders an inert `<input>` underneath the visible track for

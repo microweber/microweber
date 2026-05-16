@@ -181,23 +181,29 @@ class ESE11812bSlice11TokensContractTest extends TestCase
     #[Test]
     public function token_consumers_match_currently_authorised_slices(): void
     {
-        // Originally a slice-1.1-alone additive guard. Slice 1.7 (AI-690)
-        // landed in the same dispatch (per designer's "AI-686 + AI-690
-        // land together" green-light) and adds the first batch of token
-        // consumers. Future slices (1.2 MwSlider / 1.3 MwToolButton /
-        // 1.4 MwField / 1.5 empty state / 1.6 mobile bottom-sheet) will
-        // each add their own consumers — this assertion's threshold must
-        // be bumped per slice as it lands. If a slice ships without an
-        // authorising dispatch + threshold bump here, this test fails.
+        // Slice-by-slice additive guard. Each authorising dispatch
+        // adds a known number of token consumers; this assertion's
+        // threshold gets bumped per slice as it lands. If a slice
+        // ships without an authorising dispatch + threshold bump
+        // here, this test fails — surfaces unscoped consumer leaks.
+        //
+        // Comment-stripped scan (block comments removed before counting)
+        // so docblock prose that *describes* the migration and quotes
+        // var(--…) token names does not register as a consumer.
         //
         // Current authorised slices in this file:
-        //   - 1.1 (tokens):     1 var(--ese-accent) inside --ese-track-fill alias = 1 consumer
-        //   - 1.7 (AI-690):     5 migrated consumer loci, .picker-button has 2 (border + hover) = 6 consumers
-        //   Total authorised: 7
-        preg_match_all('/var\(--(ese-|space-|font-|weight-|line-|letter-|border-|radius-|t-fast|t-base|t-slow|ease)/', $this->src, $m);
+        //   - 1.1 (tokens):     1 consumer  (--ese-track-fill aliases --ese-accent)
+        //   - 1.7 (AI-690):     6 consumers (5 migration loci, .picker-button has 2)
+        //   - 1.2 (AI-689):    11 consumers (3× --space-lg, 2× --ese-track*,
+        //                       2× --radius-pill on track+fill, 1× --ese-accent
+        //                       on thumb, 1× --radius-pill on thumb, 2× --ese-
+        //                       surface / --ese-surface-muted on thumb rings)
+        //   Total authorised: 18
+        $stripped = preg_replace('/\/\*.*?\*\//s', '', $this->src);
+        preg_match_all('/var\(--(ese-|space-|font-|weight-|line-|letter-|border-|radius-|t-fast|t-base|t-slow|ease)/', $stripped, $m);
         $useCount = count($m[0]);
-        $this->assertSame(7, $useCount,
-            "Authorised token consumers: 7 (1 from slice 1.1 alias + 6 from slice 1.7 / AI-690). "
+        $this->assertSame(18, $useCount,
+            "Authorised token consumers: 18 (1 from slice 1.1 + 6 from slice 1.7 + 11 from slice 1.2). "
             . "Found {$useCount}. If a new slice landed, bump this threshold + document in the comment."
         );
     }
