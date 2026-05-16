@@ -3,7 +3,24 @@
 
 html {
     --toolbar-static-height: 70px;
-    --toolbar-height: 60px;
+    /*
+       task-2026-05-16-ec0c87 / AI-698a — toolbar height compressed
+       60px → 48px per designer spec (live-edit-inspiration-from-v2-
+       2026-05-16.md §2 P2; matches ESE spec §3.2 mobile-header
+       height). The token cascades to every consumer in this file
+       (`#toolbar`, `#live-edit-frame-holder` top + height calc,
+       SaveButton row), plus the AI-697 anchored picker modal that
+       reads `var(--toolbar-height, 60px)` — its top offset moves
+       up 12px to stay flush with the new toolbar bottom edge.
+
+       The 9-element-row compression (device-preview into
+       MwSegmented, 3 tools under `⋯ Tools` popover, `☰` hamburger
+       replacing side-panel triggers) ships as AI-698b alongside
+       AI-700 (drawer consolidation) so the hamburger has a real
+       drawer to open. Sub-slicing rationale: AI-698a is the
+       height-lock foundation; AI-698b is the layout grouping.
+    */
+    --toolbar-height: 48px;
     --toolbar-height-animation-speed: 0.4s;
 
     --iframe-height-minus: 0px;
