@@ -179,29 +179,26 @@ class ESE11812bSlice11TokensContractTest extends TestCase
     }
 
     #[Test]
-    public function slice_is_additive_no_consumers_yet(): void
+    public function token_consumers_match_currently_authorised_slices(): void
     {
-        // Slice 1.1 is purely additive — no `--ese-*` or `--space-*`
-        // VALUE should yet appear inside an .ese-*  or .mw-ese-*
-        // rule body (those land in slices 1.2-1.6). This guard
-        // ensures the token defs are isolated until the planned
-        // migration consumes them.
+        // Originally a slice-1.1-alone additive guard. Slice 1.7 (AI-690)
+        // landed in the same dispatch (per designer's "AI-686 + AI-690
+        // land together" green-light) and adds the first batch of token
+        // consumers. Future slices (1.2 MwSlider / 1.3 MwToolButton /
+        // 1.4 MwField / 1.5 empty state / 1.6 mobile bottom-sheet) will
+        // each add their own consumers — this assertion's threshold must
+        // be bumped per slice as it lands. If a slice ships without an
+        // authorising dispatch + threshold bump here, this test fails.
         //
-        // Acceptable: --space-*: 0.236rem;  (token DEFINITION)
-        // Acceptable: --weight-label: 500;  (token DEFINITION)
-        // Acceptable: --ese-accent: #0d6efd;  (token DEFINITION)
-        // FAIL:       background: var(--ese-accent);  (consumption
-        //             inside Slice 1.1 violates "additive only")
-        //
-        // We test by counting var(--ese-*) / var(--space-*) usages:
-        // there should be only 1 (the dark-theme block uses
-        // `var(--ese-accent)` once via `--ese-track-fill` definition,
-        // which is a definition aliasing another token — still additive).
+        // Current authorised slices in this file:
+        //   - 1.1 (tokens):     1 var(--ese-accent) inside --ese-track-fill alias = 1 consumer
+        //   - 1.7 (AI-690):     5 migrated consumer loci, .picker-button has 2 (border + hover) = 6 consumers
+        //   Total authorised: 7
         preg_match_all('/var\(--(ese-|space-|font-|weight-|line-|letter-|border-|radius-|t-fast|t-base|t-slow|ease)/', $this->src, $m);
         $useCount = count($m[0]);
-        $this->assertLessThanOrEqual(2, $useCount,
-            "Slice 1.1 is additive — token defs only. Found {$useCount} var(--…) references; "
-            . 'expected ≤2 (one for --ese-track-fill aliasing --ese-accent). Excess means a '
-            . 'later-slice consumer leaked into 1.1.');
+        $this->assertSame(7, $useCount,
+            "Authorised token consumers: 7 (1 from slice 1.1 alias + 6 from slice 1.7 / AI-690). "
+            . "Found {$useCount}. If a new slice landed, bump this threshold + document in the comment."
+        );
     }
 }

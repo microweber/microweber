@@ -384,9 +384,14 @@ html[dir="rtl"] .reset-field {
  * I-glyph that visibly turns blue + italic-rendered when active.
  */
 #mw-element-style-editor-app .mw-italic-toggle {
+    /* task-2026-05-16-b30fd9 AI-690: rgba literals → --ese-* aliases.
+       Dark `rgba(255,255,255,0.18)` and light `rgba(0,0,0,0.18)` both
+       collapse to `--ese-border-strong` (alpha 0.20 per theme — visual
+       Δ ≤ 0.02 imperceptible). Removes the `:not(.dark)` override
+       below. */
     width: 32px;
     height: 32px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid var(--ese-border-strong);
     background: transparent;
     color: inherit;
     border-radius: 4px;
@@ -397,9 +402,6 @@ html[dir="rtl"] .reset-field {
     font-family: serif;
     font-size: 16px;
     transition: background 0.15s, border-color 0.15s, color 0.15s;
-}
-:not(.dark) #mw-element-style-editor-app .mw-italic-toggle {
-    border-color: rgba(0, 0, 0, 0.18);
 }
 #mw-element-style-editor-app .mw-italic-toggle:hover {
     border-color: rgba(96, 165, 250, 0.5);
@@ -423,12 +425,14 @@ html[dir="rtl"] .reset-field {
  * as a quiet "v More options" link.
  */
 #mw-element-style-editor-app .mw-typography-advanced {
+    /* task-2026-05-16-b30fd9 AI-690: divider literal → --ese-border.
+       Original dark `rgba(255,255,255,0.05)` was below the WCAG
+       non-text-contrast floor for UI dividers — the spec §F2.5 calls
+       this out explicitly. Token bumps to 0.12 alpha both themes,
+       passing the 3:1 contrast floor while keeping the divider quiet. */
     margin-top: 0.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--ese-border);
     padding-top: 0.5rem;
-}
-:not(.dark) #mw-element-style-editor-app .mw-typography-advanced {
-    border-top-color: rgba(0, 0, 0, 0.08);
 }
 #mw-element-style-editor-app .mw-typography-advanced > summary {
     list-style: none;
@@ -474,7 +478,8 @@ html[dir="rtl"] .reset-field {
 }
 
 #mw-element-style-editor-app .text-align > * + * {
-    border-inline-start: 1px solid rgba(255, 255, 255, 0.08);
+    /* task-2026-05-16-b30fd9 AI-690: divider → --ese-border. */
+    border-inline-start: 1px solid var(--ese-border);
 }
 
 #mw-element-style-editor-app .form-control-live-edit-label-wrapper:has(.picker-button) > .d-flex {
@@ -484,12 +489,12 @@ html[dir="rtl"] .reset-field {
 }
 
 .element-style-editor-toggle-wrapper.active > div:nth-child(2) {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    /* task-2026-05-16-b30fd9 AI-690: divider → --ese-border. Collapses
+       the dark base + `:not(.dark)` light override into one rule via
+       the theme-auto-switching alias. */
+    border-top: 1px solid var(--ese-border);
     padding-top: 8px !important;
     margin-top: 8px !important;
-}
-:not(.dark) .element-style-editor-toggle-wrapper.active > div:nth-child(2) {
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 /*
@@ -614,6 +619,14 @@ html[dir="rtl"] .reset-field {
  */
 .form-control-live-edit-label-wrapper .picker-button,
 #mw-element-style-editor-app .picker-button {
+    /* task-2026-05-16-b30fd9 AI-690: literal borders → tokens. The dark
+       0.35 / light 0.25 border alphas both collapse to
+       `--ese-border-strong` (0.20 per theme — slight visual softening,
+       <0.15 alpha shift). The inset 2px ring stays a literal
+       `rgba(0,0,0,0.2)`: its purpose is to delineate the user's chosen
+       swatch colour from the container, NOT theme-aware chrome. If we
+       made it theme-aware, light user-colours on dark mode would get a
+       brightening white ring — wrong contrast direction. */
     width: 28px !important;
     height: 28px !important;
     min-height: 28px !important;
@@ -621,18 +634,17 @@ html[dir="rtl"] .reset-field {
     font-size: 0 !important;
     line-height: 0 !important;
     padding: 0 !important;
-    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    border: 1px solid var(--ese-border-strong) !important;
     box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.2) !important;
     cursor: pointer;
     background-clip: padding-box;
 }
 .form-control-live-edit-label-wrapper .picker-button:hover {
-    border-color: rgba(255, 255, 255, 0.65) !important;
-}
-/* Light theme fallback: the canvas-iframe inline-styled .picker-button
-   for non-dark contexts still reads. */
-:not(.dark) .form-control-live-edit-label-wrapper .picker-button {
-    border: 1px solid rgba(0, 0, 0, 0.25) !important;
+    /* task-2026-05-16-b30fd9 AI-690: hover border → --ese-accent. The
+       original `rgba(255,255,255,0.65)` was a "lift" highlight; per
+       spec §4.1 swatch click opens the picker, so a blue accent
+       outline is the right hover affordance + theme-symmetric. */
+    border-color: var(--ese-accent) !important;
 }
 
 /* ------------------------------------------------------------------
