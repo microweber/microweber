@@ -1650,3 +1650,81 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
         animation: none;
     }
 }
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-713 (task-2026-05-16-de5bc4) — Z-flow regression fix in the
+ * Add-Content picker modal at desktop.
+ *
+ * Designer drunk-designer audit caught a layout regression on the
+ * AI-692 two-group rework: Filament's default `.fi-grid` form
+ * wrapper inside the picker modal was forcing the picker view
+ * into a 2-column grid at 1440px. Result was a Z-flow reading
+ * path:
+ *   col1: Search input
+ *   col2: "On this page" header + primary "Add a block" card
+ *   col1: "New content" header + 5-card 2-col grid (with
+ *         "Category" orphaning in the last row)
+ * Mobile was unaffected because the 1-col stack hides the conflict.
+ *
+ * Fix: scope a `grid-template-columns: minmax(0, 1fr)` reset to
+ * `.mw-content-picker-modal` so Filament's outer form grid
+ * collapses to a single column. With the outer grid out of the
+ * way, the inner blade rhythm reads correctly:
+ *   1. Full-width search row
+ *   2. "On this page" header + full-width primary card
+ *      (--ese-accent-soft bg, ≥ 1.5× height of secondary)
+ *   3. "New content" header + secondary 3-col grid (the
+ *      blade's `grid grid-cols-2 sm:grid-cols-3` now resolves
+ *      to 3 cols at sm+ because there's only ONE outer column
+ *      to fill, not 1/2 of two).
+ *
+ * Primary-card visual hierarchy: `--ese-accent-soft` bg + accent
+ * border + ≥ 1.5× height than secondary cards so users register
+ * it as the primary action, not a peer of the 5 secondary cards.
+ *
+ * Companion lesson (task-bc28fd, just shipped): the equivalent
+ * rule for this had existed in
+ * `live-edit-module-settings.blade.php` but never fired on the
+ * live build because that Blade is the LiveEditModuleSettings
+ * sub-form layout, not the live-edit canvas layout. Same root
+ * cause as AI-691a / AI-697 — moving here to live-edit-classes.css
+ * (Webpack-bundled, loaded on /admin/live-edit) closes the gap
+ * for this surface too.
+ *
+ * Token-scoping note (SOUL #108): every var() carries a literal
+ * fallback. The picker modal is Filament-portaled to body so
+ * `:root`-scoped tokens resolve; literals protect against
+ * stylesheet-load-order edge cases.
+ * ─────────────────────────────────────────────────────────────── */
+
+/* AI-713 — collapse Filament's outer form grid to a single column
+   inside the picker modal so the inner two-section blade rhythm
+   isn't fractured into a Z-flow. Scoped to .mw-content-picker-modal
+   so other content-form modals (which legitimately want multi-
+   column form layouts) are untouched. */
+.mw-content-picker-modal .fi-grid,
+.mw-content-picker-modal .fi-sc.fi-grid,
+.mw-content-picker-modal .fi-fo-component-ctn,
+.mw-content-picker-modal .fi-fo-field-content-col {
+    grid-template-columns: minmax(0, 1fr) !important;
+}
+
+/* AI-713 — primary "Add a block to this page" card visual
+   hierarchy: --ese-accent-soft tint + accent border + ≥1.5×
+   the height of a secondary card so it reads as the primary
+   action, not a peer of the secondary cards. Scoped to
+   .mw-add-content-group--primary (the group wrapper set on
+   the section) inside the picker modal. */
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12));
+    border-color: var(--ese-accent, #0d6efd);
+    min-height: calc(var(--space-xl, 42px) * 1.5);
+    padding-block: var(--space-md, 13px);
+}
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:hover {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.16));
+    border-color: var(--ese-accent, #0d6efd);
+}
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-icon {
+    background-color: var(--ese-surface, #ffffff);
+}
