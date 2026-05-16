@@ -183,7 +183,8 @@ mw.filePicker = function (options) {
         element: null,
         //   type: null, // filetypes to accept, ex. images, videos, audios, documents
         footer: true,
-        okLabel: mw.lang("OK"),
+        /* task-2026-05-17-46d1ac AI-741 — verb-led footer label */
+        okLabel: mw.lang("Insert image"),
         cancelLabel: mw.lang("Cancel"),
         uploaderType: "big", // 'big' | 'small'
         confirm: function (data) {},
@@ -550,10 +551,10 @@ mw.filePicker = function (options) {
                             '<div class="mw-file-drop-zone-img"></div>' +
                             '<div class="mw-ui-progress-small"><div class="mw-ui-progress-bar" style="width: 0%"></div></div>' +
                             '<span class="btn btn-pill  btn-primary">' +
-                            mw.lang("Add file") +
+                            mw.lang("Choose file") /* task-2026-05-17-46d1ac AI-741 — verb-led label */ +
                             "</span> " +
                             "<p>" +
-                            mw.lang("or drop files to upload") +
+                            mw.lang("or drag and drop an image here · JPG, PNG, GIF, WebP up to 10MB") /* task-2026-05-17-46d1ac AI-741 — inline format + size hint */ +
                             "</p>" +
                             "</div>" +
                             "</div>"
@@ -561,10 +562,10 @@ mw.filePicker = function (options) {
                 } else if (scope.settings.uploaderType === "small") {
                     $zone = $(
                         '<div class="mw-file-drop-zone mw-file-drop-zone-small mw-file-drop-square-zone"> <div class="mw-file-drop-zone-holder"> <span class="mw-ui-link">' +
-                            mw.lang("Add file") +
+                            mw.lang("Choose file") /* task-2026-05-17-46d1ac AI-741 — verb-led label */ +
                             "</span> " +
                             "<p>" +
-                            mw.lang("or drop files to upload") +
+                            mw.lang("or drag and drop an image here · JPG, PNG, GIF, WebP up to 10MB") /* task-2026-05-17-46d1ac AI-741 — inline format + size hint */ +
                             "</p>" +
                             "</div>" +
                             "</div>"
@@ -834,7 +835,7 @@ mw.filePicker = function (options) {
         } else if (this.settings.nav === "dropdown") {
             var select = $(
                 '<select class="form-select btn-as-link" data-style="btn-sm" data-width="auto" data-title="' +
-                    mw.lang("Add file") +
+                    mw.lang("Choose file") /* task-2026-05-17-46d1ac AI-741 — verb-led label */ +
                     '"/>'
             );
             scope._select = select;
