@@ -616,6 +616,26 @@
             letter-spacing: -0.005em !important;
         }
 
+        /* AI-693 (task-2026-05-16-c3d0ed) — Add-Content modal icon palette
+           accent contract. The six picker cards now render a monochrome
+           icon at rest (.text-gray-600 + bg-gray-500/10 / dark equivalents
+           in `add-content-modal.blade.php`); hover/focus replaces both with
+           the ESE accent pair (`--ese-accent-soft` bg + `--ese-accent`
+           foreground) so the visual coupling matches MwToolButton's accent
+           contract from spec §4.5. ESE tokens are defined at `:root` in
+           `element-style-editor.css` so they resolve even inside the
+           Filament-portaled modal that lives outside `.mw-live-edit-page`.
+           Scoped to .mw-content-picker-modal so non-picker modals
+           (form-modal, settings, etc.) keep their existing palette. */
+        .mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon,
+        .mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon {
+            background-color: var(--ese-accent-soft);
+        }
+        .mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon svg,
+        .mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
+            color: var(--ese-accent);
+        }
+
         /* AI-691a (task-2026-05-16-860f75) — §A6 Path B (designer-resolved):
            On desktop ≥769px, hide the picker modal Cancel button. The
            top-right X is reachable with a mouse pointer, so the redundant

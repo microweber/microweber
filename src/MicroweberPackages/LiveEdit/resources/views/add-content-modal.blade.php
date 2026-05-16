@@ -214,9 +214,15 @@
                         . ' ' . ($mwAddContentSynonyms[$action['action']] ?? '')
                     );
                     $mwAddContentJsDispatch = $action['js_dispatch'] ?? null;
-                    $mwAddContentIconBg = 'bg-blue-500/10 group-hover:bg-blue-500/20 dark:group-hover:bg-blue-400/10';
-                    $mwAddContentIconText = 'text-blue-600 dark:text-blue-400';
                 @endphp
+                {{-- task-2026-05-16-c3d0ed / AI-693 — monochrome icon at rest; the
+                     `mw-add-content-icon` wrapper picks up the accent contract
+                     (--ese-accent-soft bg + --ese-accent foreground) on hover/
+                     focus via CSS in `live-edit-module-settings.blade.php`.
+                     Previously each action had per-type tinting (blue/indigo/
+                     emerald/violet/rose/amber); that match map is removed so
+                     the six cards share a single monochrome line-set per
+                     designer spec §2 + AI-693 description. --}}
                 <button
                     type="button"
                     @if ($mwAddContentJsDispatch)
@@ -233,8 +239,8 @@
                     x-on:keydown.arrow-down.prevent="focusNextCard($el)"
                     x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
                     class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-row items-center gap-3 p-4 group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
-                    <div class="flex items-center justify-center w-12 h-12 {{ $mwAddContentIconBg }} transition duration-150 rounded-lg shrink-0">
-                        @svg($action['icon'], "h-6 w-6 transition duration-150 " . $mwAddContentIconText)
+                    <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 bg-gray-500/10 transition duration-150 rounded-lg shrink-0">
+                        @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-600 dark:text-gray-400')
                     </div>
                     <div class="font-semibold text-sm leading-tight">
                         {{ $action['title'] }}
@@ -261,24 +267,15 @@
                         . ' ' . ($mwAddContentSynonyms[$action['action']] ?? '')
                     );
                     $mwAddContentJsDispatch = $action['js_dispatch'] ?? null;
-                    // task-2026-05-15-0282f5 — per-action icon colours.
-                    $mwAddContentIconBg = match ($action['action']) {
-                        'addPageAction'     => 'bg-indigo-500/10 group-hover:bg-indigo-500/20 dark:group-hover:bg-indigo-400/10',
-                        'addPostAction'     => 'bg-emerald-500/10 group-hover:bg-emerald-500/20 dark:group-hover:bg-emerald-400/10',
-                        'addProductAction'  => 'bg-violet-500/10 group-hover:bg-violet-500/20 dark:group-hover:bg-violet-400/10',
-                        'addImageAction'    => 'bg-rose-500/10 group-hover:bg-rose-500/20 dark:group-hover:bg-rose-400/10',
-                        'addCategoryAction' => 'bg-amber-500/10 group-hover:bg-amber-500/20 dark:group-hover:bg-amber-400/10',
-                        default             => 'bg-gray-500/10 group-hover:bg-gray-500/20 dark:group-hover:bg-gray-400/10',
-                    };
-                    $mwAddContentIconText = match ($action['action']) {
-                        'addPageAction'     => 'text-indigo-600 dark:text-indigo-400',
-                        'addPostAction'     => 'text-emerald-600 dark:text-emerald-400',
-                        'addProductAction'  => 'text-violet-600 dark:text-violet-400',
-                        'addImageAction'    => 'text-rose-600 dark:text-rose-400',
-                        'addCategoryAction' => 'text-amber-600 dark:text-amber-400',
-                        default             => 'text-gray-600 dark:text-gray-400',
-                    };
                 @endphp
+                {{-- task-2026-05-16-c3d0ed / AI-693 — monochrome icon at rest;
+                     accent contract (`--ese-accent-soft` bg + `--ese-accent`
+                     foreground) applies on hover/focus via CSS in
+                     `live-edit-module-settings.blade.php`. The previous
+                     task-2026-05-15-0282f5 per-action `match` map (indigo /
+                     emerald / violet / rose / amber tints) is removed so the
+                     six cards share a single monochrome line-set per designer
+                     spec §2 + AI-693 description. --}}
                 <button
                     type="button"
                     @if ($mwAddContentJsDispatch)
@@ -295,8 +292,8 @@
                     x-on:keydown.arrow-down.prevent="focusNextCard($el)"
                     x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
                     class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col gap-3 p-4 group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
-                    <div class="flex items-center justify-center w-12 h-12 {{ $mwAddContentIconBg }} transition duration-150 rounded-lg shrink-0">
-                        @svg($action['icon'], "h-6 w-6 transition duration-150 " . $mwAddContentIconText)
+                    <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 bg-gray-500/10 transition duration-150 rounded-lg shrink-0">
+                        @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-600 dark:text-gray-400')
                     </div>
                     <div class="font-semibold text-sm leading-tight">
                         {{ $action['title'] }}

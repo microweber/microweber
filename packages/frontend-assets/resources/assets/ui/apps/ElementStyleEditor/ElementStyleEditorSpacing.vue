@@ -134,6 +134,14 @@
     </div>
 
     <!-- task-2026-05-16-ea56d3: @click.stop — see ElementStyleEditorTypography.vue -->
+    <!-- task-2026-05-16-c3d0ed (ESE Slice 1.3b / AI-684 cont.): preset rows
+         migrated to MwToolButton primitive per spec §4.5. S/M/L/XL/trash
+         buttons carry .mw-tool-btn.mw-tool-btn--preset (32x28 label-sized,
+         accent-soft on .is-active); the icon-only "Fine-tune each side"
+         settings cog stays the default .mw-tool-btn (24x24 ghost). The
+         legacy .btn .btn-icon classes are preserved alongside for back-
+         compat per the migration plan — new primitives own the styling,
+         legacy classes remain as DOM hooks for external code. -->
     <div v-if="showSpacing" @click.stop>
 
 
@@ -141,14 +149,14 @@
             <div class="form-label live-edit-label ">Inner space</div>
             <div class="form-group">
                 <div class="flex gap-1 mw-live-edit-spacing-wrapper" style="margin: auto">
-                    <a class="btn btn-icon" title="Small inner space" :class="{ active: activePadding === 30 }" @click="setPaddingOnAllSides(30)">S</a>
-                    <a class="btn btn-icon" title="Medium inner space" :class="{ active: activePadding === 40 }" @click="setPaddingOnAllSides(40)">M</a>
-                    <a class="btn btn-icon" title="Large inner space" :class="{ active: activePadding === 50 }" @click="setPaddingOnAllSides(50)">L</a>
-                    <a class="btn btn-icon" title="Extra-large inner space" :class="{ active: activePadding === 100 }" @click="setPaddingOnAllSides(100)">XL</a>
-                    <a class="btn btn-icon" title="Remove inner space" :class="{ active: activePadding === 0 }" @click="setPaddingOnAllSides(0)" v-html="iconResolver('trash')">
+                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Small inner space" :class="{ 'active': activePadding === 30, 'is-active': activePadding === 30 }" @click="setPaddingOnAllSides(30)">S</a>
+                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Medium inner space" :class="{ 'active': activePadding === 40, 'is-active': activePadding === 40 }" @click="setPaddingOnAllSides(40)">M</a>
+                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Large inner space" :class="{ 'active': activePadding === 50, 'is-active': activePadding === 50 }" @click="setPaddingOnAllSides(50)">L</a>
+                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Extra-large inner space" :class="{ 'active': activePadding === 100, 'is-active': activePadding === 100 }" @click="setPaddingOnAllSides(100)">XL</a>
+                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Remove inner space" :class="{ 'active': activePadding === 0, 'is-active': activePadding === 0 }" @click="setPaddingOnAllSides(0)" v-html="iconResolver('trash')">
 
                     </a>
-                    <a class="btn btn-icon" title="Fine-tune each side" @click="toggleMarginAndPaddingControlls()"  v-html="iconResolver('settings')"></a>
+                    <a class="btn btn-icon mw-tool-btn" title="Fine-tune each side" @click="toggleMarginAndPaddingControlls()"  v-html="iconResolver('settings')"></a>
                 </div>
             </div>
         </div>
@@ -158,14 +166,14 @@
             <div class="form-label live-edit-label ">Outer space</div>
             <div class="form-group">
                 <div class="flex gap-1 mw-live-edit-spacing-wrapper" style="margin: auto">
-                    <a class="btn btn-icon" title="Small outer space" :class="{ active: activeMargin === 30 }" @click="setMarginOnAllSides(30)">S</a>
-                    <a class="btn btn-icon" title="Medium outer space" :class="{ active: activeMargin === 40 }" @click="setMarginOnAllSides(40)">M</a>
-                    <a class="btn btn-icon" title="Large outer space" :class="{ active: activeMargin === 50 }" @click="setMarginOnAllSides(50)">L</a>
-                    <a class="btn btn-icon" title="Extra-large outer space" :class="{ active: activeMargin === 100 }" @click="setMarginOnAllSides(100)">XL</a>
-                    <a class="btn btn-icon  " title="Remove outer space" :class="{ active: activeMargin === 0 }" @click="setMarginOnAllSides(0)" v-html="iconResolver('trash')">
+                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Small outer space" :class="{ 'active': activeMargin === 30, 'is-active': activeMargin === 30 }" @click="setMarginOnAllSides(30)">S</a>
+                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Medium outer space" :class="{ 'active': activeMargin === 40, 'is-active': activeMargin === 40 }" @click="setMarginOnAllSides(40)">M</a>
+                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Large outer space" :class="{ 'active': activeMargin === 50, 'is-active': activeMargin === 50 }" @click="setMarginOnAllSides(50)">L</a>
+                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Extra-large outer space" :class="{ 'active': activeMargin === 100, 'is-active': activeMargin === 100 }" @click="setMarginOnAllSides(100)">XL</a>
+                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Remove outer space" :class="{ 'active': activeMargin === 0, 'is-active': activeMargin === 0 }" @click="setMarginOnAllSides(0)" v-html="iconResolver('trash')">
 
                 </a>
-                    <a class="btn btn-icon " title="Fine-tune each side" @click="toggleMarginAndPaddingControlls()"   v-html="iconResolver('settings')"></a>
+                    <a class="btn btn-icon mw-tool-btn" title="Fine-tune each side" @click="toggleMarginAndPaddingControlls()"   v-html="iconResolver('settings')"></a>
                 </div>
             </div>
         </div>
