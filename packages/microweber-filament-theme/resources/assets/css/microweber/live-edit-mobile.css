@@ -676,54 +676,64 @@
     }
 
     /* ─────────────────────────────────────────────────────────
-     * AI-717 — CRITICAL: sticky PREVIEW + SAVE on the right
-     * edge of the mobile toolbar (task-2026-05-16-e0d0f1).
+     * AI-717 v2 — pin PREVIEW + SAVE absolute to the toolbar's
+     * RIGHT EDGE on mobile (task-2026-05-17-946668 supersedes
+     * task-2026-05-16-e0d0f1 sticky approach).
      *
-     * Designer DOM-probe at mobile 390:
-     *   #toolbar scrollWidth: 525, clientWidth: 390 (135px overflow)
-     *   #mw-page-set-preview-mode x=372 (only 18px visible)
-     *   #save-button             x=432 (off-screen by 42px)
+     * Designer DOM-probe found AI-717 v1's `position: sticky` did
+     * NOT pull SAVE into view at mobile 390:
+     *   Before scroll: SAVE rect left=426 right=488  (off-screen)
+     *   After scroll : SAVE rect left=237 right=299  (at middle, NOT right edge)
+     * User had to horizontal-scroll 319px to reach SAVE — spec
+     * acceptance #3 ("visible at right edge by default, no
+     * scrolling required") not met.
      *
-     * SAVE is the most important affordance in the chrome — it
-     * was invisible by default at mobile. Designer interim fix
-     * (before AI-698 toolbar compression lands): pin PREVIEW +
-     * SAVE to the right edge via `position: sticky; right: 0`.
-     * The middle scrollable region carries the rest; PREVIEW +
-     * SAVE never participate in the overflow.
+     * Root cause: `position: sticky; right: 0` inside an
+     * `overflow-x: auto` parent pins to the right of the
+     * scroll-container CONTENT area (at content-end x=709),
+     * NOT to the right of the VIEWPORT. Sticky doesn't pull
+     * off-screen elements onto screen — it only pins elements
+     * that would otherwise scroll out.
      *
-     * `--ese-surface` bg + `box-shadow` left-fade hide the
-     * underlying scrollable content as it slides past. The
-     * sticky cells stack right-to-left: SAVE at `right: 0`,
-     * PREVIEW at `right: var(--space-sm)` (8px) plus the SAVE
-     * button width — both sticky simultaneously so they form a
-     * single right-edge group.
+     * Fix per designer's Option C: use `position: absolute`
+     * relative to `#toolbar` (which becomes `position: relative`).
+     * The scrollable middle region gets `padding-right: 152px`
+     * (80 SAVE + 64 PREVIEW + 8 gap) so the scrolling content
+     * doesn't underlap the absolutely-positioned right cluster.
      *
-     * `flex-shrink: 0` already applied above keeps them at
-     * natural width; `z-index` ensures they paint above the
-     * scrolling middle row.
+     * SAVE pinned at `right: 0`; PREVIEW pinned at
+     * `right: calc(80px + var(--space-sm))` so it sits just
+     * inside SAVE with the gap. Both `top: 50%; translateY(-50%)`
+     * for vertical centering inside the 48px toolbar (AI-698a).
+     *
+     * `box-shadow` left-fade hides scrolling content as it
+     * passes under the right cluster.
      * ───────────────────────────────────────────────────── */
+    .mw-admin-live-edit-page #toolbar,
+    .mw-live-edit-page #toolbar {
+        position: relative !important;
+        padding-right: 152px !important;
+    }
     .mw-admin-live-edit-page #toolbar #mw-page-set-preview-mode,
     .mw-live-edit-page #toolbar #mw-page-set-preview-mode,
     .mw-admin-live-edit-page #toolbar #save-button,
     .mw-live-edit-page #toolbar #save-button {
-        position: sticky !important;
+        position: absolute !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
         z-index: 3;
         background-color: var(--ese-surface, #ffffff) !important;
-        /* Left-edge fade — 8px linear gradient from transparent
-           to surface so scrolling content slides under cleanly. */
         box-shadow: -8px 0 8px -4px var(--ese-surface, #ffffff);
+        flex-shrink: 0;
     }
-    /* SAVE: right-most, pinned at right: 0. */
+    /* SAVE: right-most, pinned to right: 0 of #toolbar. */
     .mw-admin-live-edit-page #toolbar #save-button,
     .mw-live-edit-page #toolbar #save-button {
         right: 0 !important;
     }
-    /* PREVIEW: just inside SAVE, pinned at right: 8px so the
-       scroll-snap target advances by SAVE's natural width plus
-       --space-sm. The original me-2 margin on PREVIEW (Bootstrap
-       0.5rem ≈ 8px) supplies the visual gap; right offset matches. */
+    /* PREVIEW: just inside SAVE — 80px (SAVE width) + 8px gap. */
     .mw-admin-live-edit-page #toolbar #mw-page-set-preview-mode,
     .mw-live-edit-page #toolbar #mw-page-set-preview-mode {
-        right: calc(var(--space-sm, 8px) + 80px);
+        right: calc(var(--space-sm, 8px) + 80px) !important;
     }
 }
