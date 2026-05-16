@@ -1457,6 +1457,30 @@ select option,
     margin-bottom: 0.5rem;
 }
 
+/* task-2026-05-16-886722 / AI-729: explainer paragraph that sits
+   between the empty-state heading and the primary CTA. Muted
+   colour so the CTA stays the largest visual weight on the
+   surface; max-width caps the line length so the explainer
+   doesn't run edge-to-edge on wide viewports.
+   - Light: tailwind gray-500-ish (#6b7280) for AA contrast on
+     the typical near-white empty-state background.
+   - Dark : gray-400-ish (#9ca3af) for AA contrast on the dark
+     surface.
+   Margins reuse the .mw-table-empty-cta-wrap spacing scale so the
+   heading → explainer → CTA stack rhythm reads as one unit. */
+.mw-admin-empty-state-explainer {
+    color: #6b7280;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 36rem;
+    margin: 0.25rem auto 1rem;
+    padding-inline: 1rem;
+}
+html.dark .mw-admin-empty-state-explainer,
+.dark .mw-admin-empty-state-explainer {
+    color: #9ca3af;
+}
+
 .fi-ta-record {
     @apply !rounded-none;
 }

@@ -104,14 +104,30 @@ You do not have any products yet.
 
         @if($modelName == Modules\Post\Models\Post::class)
 
+            {{-- task-2026-05-16-886722 / AI-729: copy + hierarchy
+                 reshaped per designer pattern —
+                   headline ≤ 4 words → "No posts yet"
+                   1-sentence explainer
+                   verb-led CTA "Write your first post →" (not the
+                   system-label "+ Add post"). CTA is the largest
+                   interactive element on the empty state by
+                   construction (only interactive element here +
+                   mw-table-empty-cta hits 44 px min-height from
+                   task-fd0d1d). aria-label kept descriptive for
+                   AT users. --}}
             <h2 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
-                You do not have any posts yet.
+                No posts yet
             </h2>
 
-            {{-- task-2026-05-16-fd0d1d: primary CTA on the empty state. --}}
+            <p class="mw-admin-empty-state-explainer text-center">
+                Articles, news, and updates you publish appear here.
+            </p>
+
+            {{-- task-2026-05-16-fd0d1d: primary CTA on the empty state.
+                 task-2026-05-16-886722 / AI-729: verb-led label. --}}
             <div class="text-center mw-table-empty-cta-wrap">
-                <a href="{{ route('filament.admin.resources.posts.create') }}" class="mw-table-empty-cta" aria-label="Add post">
-                    + Add post
+                <a href="{{ route('filament.admin.resources.posts.create') }}" class="mw-table-empty-cta" aria-label="Write your first post">
+                    Write your first post →
                 </a>
             </div>
 
