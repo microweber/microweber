@@ -121,20 +121,25 @@ class AdminLiveEditPage extends Page
             'icon' => 'heroicon-o-plus-circle',
             'js_dispatch' => 'liveEditInsertLayoutRequest',
         ];
+        // task-2026-05-16-cdeefd / AI-691 / A7: "New" prefix dropped from
+        // card titles — the modal heading is already "Add new content",
+        // so the prefix was three syllables of waste per row. Visible
+        // title is now just "Page" / "Post" / "Product" / "Image" /
+        // "Category" per designer spec §2 key-move 6.
         $actions[] = [
-            'title' => 'New Page',
+            'title' => 'Page',
             'description' => 'A standalone page like About, Services or Contact. Pick this if you want a single permanent page that lives at its own URL.',
             'action' => 'addPageAction',
             'icon' => 'mw-add-page',
         ];
         $actions[] = [
-            'title' => 'New Post',
+            'title' => 'Post',
             'description' => 'A blog article or news story that appears in your Blog list. Pick this if you want to publish dated updates that stack newest-first.',
             'action' => 'addPostAction',
             'icon' => 'mw-add-post',
         ];
         $actions[] = [
-            'title' => 'New Product',
+            'title' => 'Product',
             'description' => 'An item to sell in your online shop. Pick this if you have something physical, digital, or a service to charge money for.',
             'action' => 'addProductAction',
             'icon' => 'mw-add-product',
@@ -150,13 +155,13 @@ class AdminLiveEditPage extends Page
         // pick the freshly-uploaded image via the inline image-picker
         // when adding a Picture / Slider module to a page.
         $actions[] = [
-            'title' => 'New Image',
+            'title' => 'Image',
             'description' => 'Upload a picture, photo, or graphic to the Media Library. Pick this if you just want to add a photo from your camera roll — you can drop it into any page afterwards.',
             'action' => 'addImageAction',
             'icon' => 'heroicon-o-photo',
         ];
         $actions[] = [
-            'title' => 'New Category',
+            'title' => 'Category',
             'description' => 'A folder to group your blog posts or shop items. Skip this for now unless you already have lots of posts or products to organise.',
             'action' => 'addCategoryAction',
             'icon' => 'mw-add-category',

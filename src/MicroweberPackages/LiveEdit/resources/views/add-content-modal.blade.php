@@ -224,6 +224,13 @@
                 default                  => 'text-gray-600 dark:text-gray-400',
             };
         @endphp
+        {{-- task-2026-05-16-cdeefd / AI-691 / A1: card body text removed
+             from visible flow. Description is preserved as the native
+             `title=` attribute (browser tooltip on hover; respects
+             keyboard focus via Filament chrome) and on the aria-label
+             so the accessibility tree still carries the full context.
+             Cards are now title-only — visual scan is twice as fast
+             per designer spec §2 key-move 1. --}}
         <button
             type="button"
             @if ($mwAddContentJsDispatch)
@@ -232,6 +239,7 @@
                 wire:click="replaceMountedAction('{{ $action['action'] }}')"
             @endif
             aria-label="{{ $action['title'] }}: {{ $action['description'] }}"
+            title="{{ $action['description'] }}"
             data-mw-add-content-card
             data-mw-add-content-haystack="{{ $mwAddContentHaystack }}"
             x-show="q === '' || @js($mwAddContentHaystack).includes(q.toLowerCase())"
@@ -241,13 +249,8 @@
             <div class="flex items-center justify-center w-12 h-12 {{ $mwAddContentIconBg }} transition duration-150 rounded-lg shrink-0">
                 @svg($action['icon'], "h-6 w-6 transition duration-150 " . $mwAddContentIconText)
             </div>
-            <div class="flex flex-col gap-1">
-                <div class="font-semibold text-sm leading-tight">
-                    {{ $action['title'] }}
-                </div>
-                <div class="text-xs text-gray-500 dark:text-gray-400 leading-snug">
-                    {{ $action['description'] }}
-                </div>
+            <div class="font-semibold text-sm leading-tight">
+                {{ $action['title'] }}
             </div>
         </button>
 
