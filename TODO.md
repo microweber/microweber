@@ -2819,7 +2819,7 @@ Module: testimonials
 - [x] 2026-05-16  [task-2026-05-16-624e18] drownd in siebar in dar modei s not good [attachment: .autodev/messages/attachments/task-2026-05-16-624e18/paste-1778918119948.png]
 - [x] 2026-05-16  [task-2026-05-16-5c6a1e] menu and sidebar are ovelaping [attachment: .autodev/messages/attachments/task-2026-05-16-5c6a1e/paste-1778918150287.png]
 - [x] 2026-05-16  [task-2026-05-16-da59c9] style the site stats admin table and make it more commpact
-- [ ] [task-2026-05-16-ffbe90] then you edit bgi2 you toud comint to its rpeosiroty in the tmeplate folder not in the microweber, remeber that
+- [x] 2026-05-16  [task-2026-05-16-ffbe90] then you edit bgi2 you toud comint to its rpeosiroty in the tmeplate folder not in the microweber, remeber that
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
