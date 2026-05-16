@@ -111,12 +111,27 @@ mw.app.templateSettingsWidget = new mw.controlBox({
 mw.app.templateSettingsWidget.box.style.width = 'var(--sidebar-end-size)';
 //mw.app.templateSettingsWidgetSetupWizard.box.style.width = 'var(--sidebar-end-size)';
 
+    // AI-727 / task-2026-05-16-3b014a — guiEditor controlBox title
+    // suppressed. The Vue ESE component at
+    // `#mw-element-style-editor-app-container` already renders
+    // `<h3 class="fs-2 font-weight-bold">Element styles</h3>` (per
+    // AI-710 rename) as the canonical panel heading. The
+    // mw.controlBox library was rendering a duplicate
+    // `<h3 class="mw-control-box-title">Element Style Editor</h3>`
+    // on the wrapper, causing screen readers to announce the
+    // heading twice + showing two visible h3s when ESE opens.
+    // Same defect class as AI-708 (Theme Settings / Template &
+    // Layout duplicate h3); same fix shape — keep the wrapper div
+    // for back-compat, suppress the duplicate h3 by passing
+    // `title: false`. The controlBox library at
+    // control_box.js:168 gates the h3 creation behind
+    // `if (this.settings.title)`, so falsy = no h3 rendered.
     const guiEditor = new (mw.top()).controlBox({
         content: ``,
         position: 'right',
         id: 'mw-live-edit-gui-editor-box',
         closeButton: true,
-        title: mw.lang('Element Style Editor')
+        title: false
     });
 
 
