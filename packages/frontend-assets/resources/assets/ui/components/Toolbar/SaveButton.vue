@@ -345,8 +345,13 @@ export default {
 <template>
     <!-- AI-274 / AI-268 (task-2026-05-13-b07dd6): `title` matches the
          existing aria-label so pointer users see the same Ctrl+S hint
-         that screen-reader users already received via the aria-label. -->
-    <button class="btn btn-dark live-edit-toolbar-buttons" id="save-button" aria-label="Save and publish page (Ctrl+S)" title="Save & Publish (Ctrl+S)" @click="save()">
-            <span class="font-weight-bold">Save &amp; Publish</span>
+         that screen-reader users already received via the aria-label.
+         task-2026-05-16-3a464f: user asked for a shorter "Save" label —
+         the act-of-publishing is implicit on a live edit save and the
+         shorter copy fits cleaner in narrow viewports. Functional
+         behaviour is unchanged (save() still does the publish step
+         behind the scenes); only the visible/announced copy changes. -->
+    <button class="btn btn-dark live-edit-toolbar-buttons" id="save-button" aria-label="Save (Ctrl+S)" title="Save (Ctrl+S)" @click="save()">
+            <span class="font-weight-bold">Save</span>
      </button>
 </template>
