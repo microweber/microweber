@@ -2821,6 +2821,8 @@ Module: testimonials
 - [x] 2026-05-16  [task-2026-05-16-da59c9] style the site stats admin table and make it more commpact
 - [x] 2026-05-16  [task-2026-05-16-ffbe90] then you edit bgi2 you toud comint to its rpeosiroty in the tmeplate folder not in the microweber, remeber that
 - [x] 2026-05-16  [task-2026-05-16-0e7dfc] elemtny tyle editor sidebar design is not cosnsident , pls clock on all the tabs and fixi t
+- [x] 2026-05-16  [task-2026-05-16-8d26a0] you muse evalue with your borwsrr and click and fix all in live edit eleent tyle editor
+- [ ] [task-2026-05-16-481080] /goal fix all design inconsistencies in the live edit sidebar
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
