@@ -586,6 +586,212 @@ html.dark .mw-le-layouts-dialog .modules-list {
     top: 0;
 }
 
+/* ─────────────────────────────────────────────────────────────────
+ * AI-714 — Add Layouts modal mobile category filter
+ * task-2026-05-16-8f20b6 / designer spec DESIGN_AUDIT.md L2.5
+ *
+ * Pre-AI-714 the `<= 767px` rule below hid the 255-px category rail
+ * entirely on mobile, leaving users with only free-text search.
+ * High-priority regression (designer "every category accessible
+ * within 2 taps at mobile 390 px" done-when).
+ *
+ * Fix (designer option C — bottom-sheet): keep the desktop rail
+ * shape unchanged. On mobile, the rail is replaced by a Filter
+ * trigger button next to the search input that opens a bottom-
+ * sheet listing all 17 categories. Trigger shows the current
+ * filter as its label. Bottom-sheet uses the same
+ * `filterCategorySubmit` handler so the active-state binding
+ * stays in sync between surfaces. The AI-685 / AI-695 bottom-
+ * sheet primitive is not yet shipped — this implementation is
+ * a minimal inline bottom-sheet sufficient for this surface; can
+ * be refactored to the primitive when AI-685/AI-695 land.
+ *
+ * Token-scoping note (SOUL #108): every var() carries a literal
+ * fallback. Sheet renders inside the layouts-dialog overlay
+ * which sits in the live-edit page chrome where :root ESE
+ * tokens resolve.
+ * ─────────────────────────────────────────────────────────────── */
+
+/* Trigger button — hidden by default; revealed only on mobile via
+ * the @media block below. */
+.mw-le-layouts-mobile-filter-trigger {
+    display: none;
+}
+
+.mw-le-layouts-mobile-filter-sheet {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .mw-le-layouts-dialog-col:first-child {
+        display: none;
+    }
+    .mw-le-layouts-dialog-col:last-child {
+        position: static;
+    }
+
+    /* AI-714 mobile filter trigger — full-width affordance below
+     * the search input. Shows current filter as label; chevron
+     * down hints at bottom-sheet expansion. 44-px hit area per
+     * WCAG 2.5.5. */
+    .mw-le-layouts-mobile-filter-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-xs, 6px);
+        width: 100%;
+        min-height: 44px;
+        padding: var(--space-sm, 8px) var(--space-md, 13px);
+        margin-top: var(--space-sm, 8px);
+        background-color: var(--ese-surface-muted, rgba(0, 0, 0, 0.04));
+        color: var(--ese-text, #111827);
+        border: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+        border-radius: var(--radius-sm, 6px);
+        font-size: var(--font-control, 13px);
+        cursor: pointer;
+        transition: background-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+    }
+    .mw-le-layouts-mobile-filter-trigger:hover,
+    .mw-le-layouts-mobile-filter-trigger:focus-visible {
+        background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.08));
+    }
+    .mw-le-layouts-mobile-filter-trigger:focus-visible {
+        outline: 2px solid var(--ese-accent, #0d6efd);
+        outline-offset: 2px;
+    }
+    .mw-le-layouts-mobile-filter-trigger-label {
+        flex: 1;
+        text-align: start;
+        font-weight: 500;
+    }
+    .mw-le-layouts-mobile-filter-trigger-chevron {
+        transition: transform var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+    }
+    .mw-le-layouts-mobile-filter-trigger[aria-expanded="true"] .mw-le-layouts-mobile-filter-trigger-chevron {
+        transform: rotate(180deg);
+    }
+
+    /* AI-714 bottom-sheet — full-viewport overlay that slides up
+     * a panel from the bottom edge containing the category list.
+     * Backdrop dims the canvas; clicking it dismisses without
+     * selection. */
+    .mw-le-layouts-mobile-filter-sheet {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 1100;
+    }
+    .mw-le-layouts-mobile-filter-sheet__backdrop {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        animation: mw-le-layouts-mobile-filter-sheet-fade var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+    }
+    .mw-le-layouts-mobile-filter-sheet__panel {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-height: 80vh;
+        overflow-y: auto;
+        background-color: var(--ese-surface, #ffffff);
+        border-top-left-radius: var(--radius-md, 10px);
+        border-top-right-radius: var(--radius-md, 10px);
+        padding-bottom: env(safe-area-inset-bottom, 0);
+        animation: mw-le-layouts-mobile-filter-sheet-slide var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+    }
+    .mw-le-layouts-mobile-filter-sheet__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-md, 13px);
+        border-bottom: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+        position: sticky;
+        top: 0;
+        background-color: var(--ese-surface, #ffffff);
+    }
+    .mw-le-layouts-mobile-filter-sheet__title {
+        margin: 0;
+        font-size: var(--font-section, 15px);
+        font-weight: 600;
+        color: var(--ese-text, #111827);
+    }
+    .mw-le-layouts-mobile-filter-sheet__close {
+        background: transparent;
+        border: none;
+        padding: var(--space-xs, 6px);
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--ese-text-muted, #6b7280);
+        cursor: pointer;
+        border-radius: var(--radius-sm, 6px);
+    }
+    .mw-le-layouts-mobile-filter-sheet__close:hover,
+    .mw-le-layouts-mobile-filter-sheet__close:focus-visible {
+        background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+        color: var(--ese-text, #111827);
+    }
+    .mw-le-layouts-mobile-filter-sheet__close:focus-visible {
+        outline: 2px solid var(--ese-accent, #0d6efd);
+        outline-offset: 2px;
+    }
+    .mw-le-layouts-mobile-filter-sheet__list {
+        list-style: none;
+        margin: 0;
+        padding: var(--space-sm, 8px) 0;
+    }
+    .mw-le-layouts-mobile-filter-sheet__list li {
+        padding: var(--space-sm, 8px) var(--space-md, 13px);
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: var(--font-control, 13px);
+        color: var(--ese-text, #111827);
+    }
+    .mw-le-layouts-mobile-filter-sheet__list li:hover,
+    .mw-le-layouts-mobile-filter-sheet__list li:focus-visible {
+        background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+    }
+    .mw-le-layouts-mobile-filter-sheet__list li.active {
+        background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12));
+        color: var(--ese-accent, #0d6efd);
+        font-weight: 600;
+    }
+    .mw-le-layouts-mobile-filter-sheet__list li.active::before {
+        content: '✓';
+        margin-inline-end: var(--space-sm, 8px);
+        font-weight: 700;
+    }
+    .mw-le-layouts-mobile-filter-sheet__list li:focus-visible {
+        outline: 2px solid var(--ese-accent, #0d6efd);
+        outline-offset: -2px;
+    }
+}
+
+@keyframes mw-le-layouts-mobile-filter-sheet-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes mw-le-layouts-mobile-filter-sheet-slide {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mw-le-layouts-mobile-filter-sheet__backdrop,
+    .mw-le-layouts-mobile-filter-sheet__panel {
+        animation: none;
+    }
+    .mw-le-layouts-mobile-filter-trigger-chevron {
+        transition: none;
+    }
+}
+
+/* AI-714 — leave the original mobile-rail-hide rule below intact;
+ * the trigger + sheet above replace its function on mobile. */
 @media (max-width: 767px) {
     .mw-le-layouts-dialog-col:first-child {
         display: none;

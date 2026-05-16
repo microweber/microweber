@@ -116,6 +116,94 @@
                                         d="M21 21l-6 -6"></path></svg>
                                 </span>
                             </div>
+
+                            <!-- AI-714 / task-2026-05-16-8f20b6 — mobile-only
+                                 category filter trigger. The desktop rail
+                                 (`.mw-le-layouts-dialog-col:first-child`) is
+                                 `display: none` on mobile (index.css line ~590);
+                                 prior to AI-714, mobile users had zero way to
+                                 filter by category. The trigger button shows
+                                 the current filter ("All categories" /
+                                 selected name) and opens the bottom-sheet on
+                                 tap. Visible only at ≤767px via CSS. -->
+                            <button v-if="layoutsList?.categories?.length"
+                                    type="button"
+                                    class="mw-le-layouts-mobile-filter-trigger"
+                                    v-on:click="toggleMobileFilter"
+                                    :aria-expanded="mobileFilterOpen ? 'true' : 'false'"
+                                    aria-controls="mw-le-layouts-mobile-filter-sheet"
+                                    :aria-label="$lang('Filter layouts by category')">
+                                <svg class="mw-le-layouts-mobile-filter-trigger-icon"
+                                     xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor" aria-hidden="true">
+                                    <path d="M400-240v-80h160v80H400ZM240-440v-80h480v80H240ZM120-640v-80h720v80H120Z"/>
+                                </svg>
+                                <span class="mw-le-layouts-mobile-filter-trigger-label">
+                                    {{ filterCategory || $lang('All categories') }}
+                                </span>
+                                <svg class="mw-le-layouts-mobile-filter-trigger-chevron"
+                                     xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px" fill="currentColor" aria-hidden="true">
+                                    <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- AI-714 / task-2026-05-16-8f20b6 — mobile-only
+                             category filter bottom-sheet. Renders only when
+                             `mobileFilterOpen` is true. Hosts a duplicate of
+                             the desktop category list (`<ul class="modules-
+                             list-categories">`) so the active-state binding
+                             stays in sync across surfaces. Tapping a
+                             category selects AND closes the sheet
+                             (`filterCategoryFromMobile`). Backdrop click
+                             dismisses without selection. Visible only at
+                             ≤767px via CSS. -->
+                        <div v-if="mobileFilterOpen"
+                             id="mw-le-layouts-mobile-filter-sheet"
+                             class="mw-le-layouts-mobile-filter-sheet"
+                             role="dialog"
+                             aria-modal="true"
+                             :aria-label="$lang('Filter layouts by category')"
+                             v-on:keydown.esc.prevent="closeMobileFilter">
+                            <div class="mw-le-layouts-mobile-filter-sheet__backdrop"
+                                 v-on:click="closeMobileFilter"
+                                 aria-hidden="true"></div>
+                            <div class="mw-le-layouts-mobile-filter-sheet__panel">
+                                <header class="mw-le-layouts-mobile-filter-sheet__header">
+                                    <h3 class="mw-le-layouts-mobile-filter-sheet__title">
+                                        {{ $lang('Filter by category') }}
+                                    </h3>
+                                    <button type="button"
+                                            class="mw-le-layouts-mobile-filter-sheet__close"
+                                            v-on:click="closeMobileFilter"
+                                            :aria-label="$lang('Close filter')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                                    </button>
+                                </header>
+                                <ul class="modules-list-categories mw-le-layouts-mobile-filter-sheet__list"
+                                    role="tablist"
+                                    :aria-label="$lang('Layout categories')">
+                                    <li role="tab"
+                                        :aria-selected="'' === filterCategory"
+                                        :class="['' == filterCategory ? 'active' : '']"
+                                        v-on:click="filterCategoryFromMobile('')"
+                                        v-on:keydown.enter="filterCategoryFromMobile('')"
+                                        v-on:keydown.space.prevent="filterCategoryFromMobile('')"
+                                        tabindex="0">
+                                        {{ $lang('All categories') }}
+                                    </li>
+                                    <li v-for="categoryName in layoutsList.categories"
+                                        role="tab"
+                                        :key="'mobile-' + categoryName"
+                                        :aria-selected="categoryName === filterCategory"
+                                        :class="[categoryName == filterCategory ? 'active' : '']"
+                                        v-on:click="filterCategoryFromMobile(categoryName)"
+                                        v-on:keydown.enter="filterCategoryFromMobile(categoryName)"
+                                        v-on:keydown.space.prevent="filterCategoryFromMobile(categoryName)"
+                                        tabindex="0">
+                                        {{ categoryName }}
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
 
                         <!--                    <div class="me-5 pe-3 my-3 py-0 col-xl-2 col-md-3 col-12 ms-auto text-end justify-content-end">-->
@@ -621,6 +709,20 @@ export default {
             this.filterCategory = category;
             this.filterLayouts();
         },
+        // AI-714 / task-2026-05-16-8f20b6 — mobile filter helpers.
+        // Tapping a category inside the mobile bottom-sheet should
+        // select AND close the sheet so the user lands back on the
+        // filtered grid in one gesture.
+        toggleMobileFilter() {
+            this.mobileFilterOpen = !this.mobileFilterOpen;
+        },
+        closeMobileFilter() {
+            this.mobileFilterOpen = false;
+        },
+        filterCategoryFromMobile(category) {
+            this.filterCategorySubmit(category);
+            this.closeMobileFilter();
+        },
         filterLayouts() {
 
             this.layoutsListLoaded = false;
@@ -891,6 +993,13 @@ export default {
             licenseKey: '',
             filterKeyword: '',
             filterCategory: '',
+            // AI-714 / task-2026-05-16-8f20b6 — mobile category filter
+            // bottom-sheet state. Desktop uses the inline `.mw-le-layouts-
+            // dialog-col:first-child` rail; mobile (≤767px) gets the
+            // rail collapsed to a `Filter` trigger button that opens
+            // this bottom-sheet. State drives both `aria-expanded` on
+            // the trigger and `v-if` on the sheet panel.
+            mobileFilterOpen: false,
             layoutsListTypePreview: 'list',
             layoutsList: [],
             layoutsListFiltered: [],
