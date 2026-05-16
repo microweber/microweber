@@ -2487,3 +2487,200 @@ html.dark .mw-main-drawer {
 #mw-live-edit-main-drawer-button.mw-main-drawer-trigger:hover {
     color: var(--ese-accent, #0d6efd);
 }
+
+/* ======================================================================
+   task-2026-05-16-66ceca / AI-701 — current-page chip + picker. Per
+   designer spec (live-edit-inspiration-from-v2-2026-05-16.md §2 P6):
+   centred toolbar slot becomes a button showing the current page
+   name (truncate 24 chars + ellipsis) with `⌄` suffix. Click opens
+   an anchored popover containing search + page list + `+ New page`
+   shortcut.
+
+   Token-scoping note (per SOUL #108 spec-doc-nit): every var()
+   consumed carries a literal fallback. The chip renders inside the
+   toolbar (within .mw-live-edit-page scope on most installs) — :root
+   ESE tokens resolve fine via ancestor inheritance; fallbacks protect
+   environments where the ESE stylesheet hasn't loaded yet.
+
+   AI-687 (MwField) note: the popover's search input currently uses a
+   basic styled <input>; when AI-687 ships, replace .mw-page-chip-
+   popover__input with the MwField wrapper for consistent field
+   chrome across surfaces.
+   ====================================================================== */
+.mw-page-chip-wrapper {
+    position: relative;
+    display: inline-flex;
+}
+
+.mw-page-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs, 6px);
+    background-color: var(--ese-surface-muted, rgba(0, 0, 0, 0.04));
+    color: var(--ese-text, #111827);
+    border: 0;
+    border-radius: var(--radius-sm, 6px);
+    padding: var(--space-xs, 6px) var(--space-md, 13px);
+    font-size: var(--font-control, 13px);
+    font-weight: 500;
+    cursor: pointer;
+    max-width: 240px;
+    transition: background-color var(--t-fast, 120ms) var(--ease, ease-out);
+}
+
+.mw-page-chip:hover {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.08));
+}
+
+.mw-page-chip:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: 2px;
+}
+
+.mw-page-chip--open {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.08));
+}
+
+.mw-page-chip__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.mw-page-chip__chevron {
+    flex-shrink: 0;
+    color: var(--ese-text-muted, #6b7280);
+    transition: transform var(--t-fast, 120ms) var(--ease, ease-out);
+}
+
+.mw-page-chip--open .mw-page-chip__chevron {
+    transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mw-page-chip,
+    .mw-page-chip__chevron {
+        transition: none;
+    }
+}
+
+/* Popover — anchored below the chip, centred horizontally on the
+   chip's midpoint. inset-inline-start: 50% + translateX(-50%) keeps
+   it RTL-friendly. */
+.mw-page-chip-popover {
+    position: absolute;
+    top: calc(100% + var(--space-xs, 6px));
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    max-width: 90vw;
+    background-color: var(--ese-surface, #ffffff);
+    color: var(--ese-text, #111827);
+    border: 1px solid var(--ese-border, rgba(0, 0, 0, 0.12));
+    border-radius: var(--radius-md, 10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+}
+
+html.dark .mw-page-chip-popover {
+    background-color: var(--ese-surface, #1f2937);
+    color: var(--ese-text, #f3f4f6);
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.12));
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+}
+
+.mw-page-chip-popover__search {
+    padding: var(--space-sm, 8px);
+    border-bottom: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+}
+
+.mw-page-chip-popover__input {
+    width: 100%;
+    background-color: var(--ese-surface, #ffffff);
+    color: var(--ese-text, #111827);
+    border: 1px solid var(--ese-border, rgba(0, 0, 0, 0.12));
+    border-radius: var(--radius-sm, 6px);
+    padding: var(--space-sm, 8px) var(--space-md, 13px);
+    font-size: var(--font-control, 13px);
+    min-height: 36px;
+}
+
+.mw-page-chip-popover__input:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: -1px;
+    border-color: var(--ese-accent, #0d6efd);
+}
+
+html.dark .mw-page-chip-popover__input {
+    background-color: var(--ese-surface, #111827);
+    color: var(--ese-text, #f3f4f6);
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.12));
+}
+
+.mw-page-chip-popover__list {
+    list-style: none;
+    margin: 0;
+    padding: var(--space-xs, 6px) 0;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.mw-page-chip-popover__item {
+    margin: 0;
+    padding: 0;
+}
+
+.mw-page-chip-popover__link {
+    display: flex;
+    align-items: center;
+    padding: var(--space-sm, 8px) var(--space-md, 13px);
+    color: var(--ese-text, #111827);
+    text-decoration: none;
+    font-size: var(--font-control, 13px);
+}
+
+.mw-page-chip-popover__link:hover {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+    color: var(--ese-accent, #0d6efd);
+}
+
+html.dark .mw-page-chip-popover__link {
+    color: var(--ese-text, #f3f4f6);
+}
+
+.mw-page-chip-popover__item-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mw-page-chip-popover__empty {
+    padding: var(--space-md, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    font-size: var(--font-label, 11px);
+    text-align: center;
+}
+
+.mw-page-chip-popover__footer {
+    border-top: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+    padding: var(--space-sm, 8px);
+}
+
+.mw-page-chip-popover__new-page {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm, 8px);
+    padding: var(--space-sm, 8px) var(--space-md, 13px);
+    color: var(--ese-accent, #0d6efd);
+    text-decoration: none;
+    font-size: var(--font-control, 13px);
+    font-weight: 500;
+    border-radius: var(--radius-sm, 6px);
+}
+
+.mw-page-chip-popover__new-page:hover {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+}

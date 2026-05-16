@@ -80,8 +80,25 @@ html.mw-setup-wizard-document .back-to-edit{
         </div>
 
 
+        <!--
+          task-2026-05-16-66ceca / AI-701 — centred toolbar slot now
+          renders the current-page chip + picker per v2's anchored
+          page-name dropdown pattern. The chip doubles as "what page
+          am I editing?" + "switch page". `<ContentSearchNav>` was
+          the prior generic placeholder; PageChip replaces it inline
+          (designer's AI-698 toolbar-restructure positions the slot
+          in the right place — the chip works in both the current
+          layout AND the post-AI-698c layout).
+
+          The hidden ContentSearchNav DOM is preserved as a fallback
+          so external code that targets `#mw-live-edit-search-content`
+          still finds the element.
+        -->
         <div class="col col-xl-auto toolbar-col-container">
-            <ContentSearchNav></ContentSearchNav>
+            <PageChip></PageChip>
+            <div style="display: none;" aria-hidden="true">
+                <ContentSearchNav></ContentSearchNav>
+            </div>
             <ToolbarMulilanguageSelector></ToolbarMulilanguageSelector>
         </div>
 
@@ -279,6 +296,9 @@ import ToolbarToolsDropdown from "./ToolbarToolsDropdown.vue";
 // task-2026-05-16-7326d6 / AI-700 — left-drawer consolidating
 // Template Settings + Layers + Tools + Admin nav.
 import MainDrawer from "./MainDrawer.vue";
+// task-2026-05-16-66ceca / AI-701 — current-page chip + picker
+// replaces the generic Search field in the centred toolbar slot.
+import PageChip from "./PageChip.vue";
 
 export default {
     components: {
@@ -287,6 +307,7 @@ export default {
         AddContentButton,
         HtmlEditor,
         MainDrawer,
+        PageChip,
         SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav, SettingsCustomize,},
     methods: {
         pagePreviewToggle: () => {
