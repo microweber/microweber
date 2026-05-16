@@ -330,10 +330,43 @@ body {
 
 #user-menu-wrapper.active #user-menu {
     background-color: #fff !important;
+    /*
+     * task-2026-05-16-5c6a1e: when the ESE sidebar is open (right:0,
+     * z-index:100, starts ~2px below the toolbar) and the user
+     * clicks the toolbar's "Menu" button, the dropdown drops down
+     * from a position at the top-right corner — directly into the
+     * area now covered by the ESE sidebar. The dropdown was
+     * disappearing behind the sidebar.
+     *
+     * The toolbar itself has z-index: 999 (packages/frontend-assets/
+     * resources/assets/ui/css/index.css line 76), but #user-menu sits
+     * inside #user-menu-wrapper which is `position: relative` (no
+     * explicit z-index above #toolbar's). Without explicit lift the
+     * absolutely-positioned dropdown panel inherits the toolbar's
+     * stacking context but its visual extent can still be clipped
+     * by ESE which has its own z-index: 100 in a separate stacking
+     * context (because it uses `position: fixed` with explicit
+     * z-index).
+     *
+     * Lift the active user-menu dropdown to z-index 1100 — above the
+     * ESE's 100 — so the dropdown always overlays the sidebar.
+     */
+    position: relative;
+    z-index: 1100;
 }
 
 html.dark #user-menu-wrapper.active #user-menu {
     background-color: #1f2937 !important;
+}
+
+/*
+ * task-2026-05-16-5c6a1e: also lift the wrapper itself so the entire
+ * Menu button + active dropdown read as one stacking unit that's
+ * always above the ESE sidebar's right-edge.
+ */
+#user-menu-wrapper.active {
+    position: relative;
+    z-index: 1100;
 }
 
 .active>.mw-le-hamburger>span:nth-child(2) {
