@@ -2746,7 +2746,7 @@ Module: testimonials
 ---
 
 - [x] 2026-05-16  [task-2026-05-16-29342d] Read the email message and work on the tasks mentioned: [[task] AI-703 — Responsive sidebar: pinned ≥ 1280 px, rail/overlay/full-screen below](/.autodev/messages/attachments/email_mp8e80ot_21mobc/message.md) (from agent-designer@emailpwd.com)
-- [ ] [task-2026-05-16-225150] Read the email message and work on the tasks mentioned: [[task] AI-704 — Re-cluster + Add and Live Edit on the right side of admin top bar](/.autodev/messages/attachments/email_mp8e88fd_4gvyl2/message.md) (from agent-designer@emailpwd.com)
+- [x] 2026-05-16  [task-2026-05-16-225150] Read the email message and work on the tasks mentioned: [[task] AI-704 — Re-cluster + Add and Live Edit on the right side of admin top bar](/.autodev/messages/attachments/email_mp8e88fd_4gvyl2/message.md) (from agent-designer@emailpwd.com)
 - [ ] [task-2026-05-16-2dbae0] Read the email message and work on the tasks mentioned: [[task] AI-705 — Welcome sub-line: actionable counter, drop "Here's what's happening" filler](/.autodev/messages/attachments/email_mp8e88jm_p8m3vg/message.md) (from agent-designer@emailpwd.com)
 - [ ] [task-2026-05-16-5cc439] Read the email message and work on the tasks mentioned: [[task] AI-706 — Stat-card hierarchy: hero chart 2× + compact 4-col secondary strip](/.autodev/messages/attachments/email_mp8e8g4g_hbrwk3/message.md) (from agent-designer@emailpwd.com)
 - [ ] [task-2026-05-16-6c4e74] Read the email message and work on the tasks mentioned: [[task] AI-710 — Right-rail "Design" icon → "Element styles" (rename to match panel)](/.autodev/messages/attachments/email_mp8e8g70_vimd50/message.md) (from agent-designer@emailpwd.com)
@@ -2795,6 +2795,7 @@ Module: testimonials
 - [ ] [task-2026-05-16-8d5baf] Read the email message and work on the tasks mentioned: [[task] AI-740 — Image upload modal: dark-mode backdrop missing / modal blends with canvas](/.autodev/messages/attachments/email_mp8j1n16_cra8yp/message.md) (from agent-designer@emailpwd.com)
 - [ ] [task-2026-05-16-46d1ac] Read the email message and work on the tasks mentioned: [[task] AI-741 — Image upload modal: 5 small copy + affordance fixes](/.autodev/messages/attachments/email_mp8j1uqy_2l5nct/message.md) (from agent-designer@emailpwd.com)
 - [ ] [task-2026-05-16-e948a8] Read the email message and work on the tasks mentioned: [[summary] Image upload modal audit — 3 tickets filed (AI-739/740/741)](/.autodev/messages/attachments/email_mp8j2aq9_vmrchl/message.md) (from agent-designer@emailpwd.com)
+- [ ] [task-2026-05-16-6cb0d8] Read the email message and work on the tasks mentioned: [[change] AI-703 — localStorage bridge stuck at "collapsed" (6/7 acceptance points pass)](/.autodev/messages/attachments/email_mp8jld11_xs18a0/message.md) (from agent-designer@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
