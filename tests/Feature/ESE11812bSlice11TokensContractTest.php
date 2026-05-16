@@ -204,12 +204,19 @@ class ESE11812bSlice11TokensContractTest extends TestCase
         //                       (border/radius/font-size/font-weight/transition)
         //                       plus the segmented strip + cell defs +
         //                       active-state overrides.
-        //   Total authorised: 55
+        //   - 1.4 (AI-687):    37 consumers — MwField primitive (task-5fe1f9).
+        //                       Wrapper row (4 tokens) + label (5) + control
+        //                       wrapper (1) + <select> rules (7 normal + 1 hover
+        //                       + 2 focus-visible) + number-input (7) + reset
+        //                       (3 + 4 transition + 1 hover + 1 focus = 9) +
+        //                       hover/focus overrides. SOUL #108 spec-doc-nit
+        //                       compliance — every var() has a literal fallback.
+        //   Total authorised: 92
         $stripped = preg_replace('/\/\*.*?\*\//s', '', $this->src);
         preg_match_all('/var\(--(ese-|space-|font-|weight-|line-|letter-|border-|radius-|t-fast|t-base|t-slow|ease)/', $stripped, $m);
         $useCount = count($m[0]);
-        $this->assertSame(55, $useCount,
-            "Authorised token consumers: 55 (1 from slice 1.1 + 6 from slice 1.7 + 11 from slice 1.2 + 37 from slice 1.3a). "
+        $this->assertSame(92, $useCount,
+            "Authorised token consumers: 92 (1 from slice 1.1 + 6 from slice 1.7 + 11 from slice 1.2 + 37 from slice 1.3a + 37 from slice 1.4). "
             . "Found {$useCount}. If a new slice landed, bump this threshold + document in the comment."
         );
     }

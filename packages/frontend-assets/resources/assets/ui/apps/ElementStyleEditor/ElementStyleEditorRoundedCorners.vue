@@ -17,17 +17,30 @@
     <!-- task-2026-05-16-ea56d3: @click.stop — see ElementStyleEditorTypography.vue -->
     <div :style="'display: ' + (showRoundedCorners ? '' : 'none') " @click.stop>
 
-        <div class="form-control-live-edit-label-wrapper my-4">
+        <!-- task-2026-05-16-5fe1f9 / AI-687 (ESE 1.4 MwField) —
+             proof-of-pattern migration: predefined border-radius
+             selector now uses the .mw-tool-field primitive
+             (single-row label + control + reset slot per spec §4.1).
+             Legacy classes (.form-control-live-edit-label-wrapper,
+             .live-edit-label, .form-control-live-edit-input,
+             .form-select) kept alongside the new .mw-tool-field*
+             classes for back-compat — other components / external
+             scripts may target the old hooks. The rest of the four
+             ad-hoc patterns (Spacing, Grid, UlOl) migrate in AI-687a
+             follow-up. -->
+        <div class="form-control-live-edit-label-wrapper my-4 mw-tool-field">
 
-            <label class="live-edit-label" for="borderRadiusSelect">Select predefined border radius:</label>
-            <select class="form-control-live-edit-input form-select" id="borderRadiusSelect"
-                    v-model="selectedBorderRadius"
-                    @change="applyPredefinedRadius">
-                <option v-for="(radius, key) in predefinedBorderRadiusValues" :key="key" :value="radius.value">{{
-                        radius.label
-                    }}
-                </option>
-            </select>
+            <label class="live-edit-label mw-tool-field__label" for="borderRadiusSelect">Select predefined border radius:</label>
+            <span class="mw-tool-field__control">
+                <select class="form-control-live-edit-input form-select" id="borderRadiusSelect"
+                        v-model="selectedBorderRadius"
+                        @change="applyPredefinedRadius">
+                    <option v-for="(radius, key) in predefinedBorderRadiusValues" :key="key" :value="radius.value">{{
+                            radius.label
+                        }}
+                    </option>
+                </select>
+            </span>
         </div>
 
         <div class="d-flex flex-column gap-3">

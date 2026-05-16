@@ -141,6 +141,129 @@
     box-shadow: inset 0 0 0 1px var(--ese-accent);
 }
 
+/* ================================================================
+ * MwField — slice 1.4 (AI-687 / ESE Phase 1 step 6/7).
+ * task-2026-05-16-5fe1f9.
+ * Spec: designer-agent/output/ese-design-spec-2026-05-16.md §4.1
+ *       "the universal field-row".
+ *
+ * Replaces the four ad-hoc field-row patterns currently in
+ * Spacing / Grid / RoundedCorners / UlOl. Layout:
+ *   [ LABEL ………… [ CONTROL ] [ ↺ ] ]   single row, baseline aligned.
+ *   height 32px, touch-padded to 44px row total.
+ *   gap: var(--space-sm); margin-block: var(--space-sm) var(--space-md);
+ *
+ * Class names use `.mw-tool-field` (NOT `.mw-field`) — `.mw-field`
+ * is owned by a long-standing rule cluster further down in this
+ * file (line ~239: .mw-multiple-fields, .rouded-corners .mw-field,
+ * .mw-field.unit input + input, etc.) that styles the current
+ * Spacing/Grid/Border dropdown+input markup. Renaming would
+ * cascade into every consumer; instead, the new primitive uses
+ * a distinct class so consumers migrate incrementally without
+ * disturbing existing layout rules. Same coexistence pattern as
+ * MwToolButton's `.mw-tool-btn` (1.3a / AI-684 / task-f69d54).
+ *
+ * Scoped under `.mw-live-edit-page` per the live-edit-css-must-
+ * be-scoped skill — defensive even though `.mw-tool-field`
+ * doesn't currently collide.
+ *
+ * Phase 1 ships:
+ *   - the .mw-tool-field primitive + 3 modifier elements
+ *   - one proof-of-pattern consumer migration (RoundedCorners
+ *     predefined-radius select) marked with `mw-tool-field` next
+ *     to the legacy `form-control-live-edit-label-wrapper` for
+ *     back-compat. AI-687a will migrate Spacing/Grid/UlOl later.
+ *
+ * AI-701 PageChip popover input + AI-712a Template Settings
+ * AI-Assistant collapse are both queued to consume this token
+ * pattern when they land.
+ * ---------------------------------------------------------------- */
+.mw-live-edit-page .mw-tool-field {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm, 9.9px);
+    min-height: 44px;
+    padding-block: var(--space-xs, 6.1px);
+    margin-block: var(--space-sm, 9.9px) var(--space-md, 16px);
+}
+.mw-live-edit-page .mw-tool-field__label {
+    flex: 1 1 auto;
+    font-size: var(--font-label, 11px);
+    font-weight: var(--weight-label, 500);
+    letter-spacing: var(--letter-label, 0.01em);
+    color: var(--ese-label, #475569);
+    line-height: var(--line-tight, 1.2);
+    margin: 0;
+}
+.mw-live-edit-page .mw-tool-field__control {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs, 6.1px);
+    max-width: 60%;
+}
+.mw-live-edit-page .mw-tool-field__control > select,
+.mw-live-edit-page .mw-tool-field__control > .mw-tool-field__select {
+    min-width: 120px;
+    max-width: 100%;
+    height: 32px;
+    border: var(--border-xs, 1.9px) solid var(--ese-border, rgba(15, 23, 42, 0.12));
+    border-radius: var(--radius-sm, 6px);
+    background: var(--ese-surface, #ffffff);
+    color: var(--ese-text, #0f172a);
+    padding: 4px 28px 4px 8px;
+    font-size: var(--font-control, 13px);
+    font-weight: var(--weight-control, 400);
+    transition: border-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+}
+.mw-live-edit-page .mw-tool-field__control > select:hover {
+    border-color: var(--ese-border-strong, rgba(15, 23, 42, 0.20));
+}
+.mw-live-edit-page .mw-tool-field__control > select:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: 1px;
+    border-color: var(--ese-accent, #0d6efd);
+}
+.mw-live-edit-page .mw-tool-field__control > input[type="number"] {
+    width: 52px;
+    height: 32px;
+    text-align: right;
+    border: var(--border-xs, 1.9px) solid var(--ese-border, rgba(15, 23, 42, 0.12));
+    border-radius: var(--radius-sm, 6px);
+    background: var(--ese-surface, #ffffff);
+    color: var(--ese-text, #0f172a);
+    padding: 4px 6px;
+    font-size: var(--font-control, 13px);
+    font-weight: var(--weight-control, 400);
+}
+.mw-live-edit-page .mw-tool-field__reset {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    color: var(--ese-text-muted, #64748b);
+    cursor: pointer;
+    opacity: 0;
+    border-radius: var(--radius-xs, 4px);
+    transition: opacity var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)),
+                color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+}
+.mw-live-edit-page .mw-tool-field:hover .mw-tool-field__reset,
+.mw-live-edit-page .mw-tool-field.is-dirty .mw-tool-field__reset {
+    opacity: 1;
+}
+.mw-live-edit-page .mw-tool-field__reset:hover {
+    color: var(--ese-accent, #0d6efd);
+}
+.mw-live-edit-page .mw-tool-field__reset:focus-visible {
+    opacity: 1;
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: 2px;
+}
+
 /* ============================================================
  * Element Style Editor (ESE) design tokens — slice 1.1
  * AI-684 / AI-685 prerequisite. Spec: designer-agent/output/
