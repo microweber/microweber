@@ -2816,9 +2816,10 @@ Module: testimonials
 - [x] 2026-05-16  [task-2026-05-16-28c634] also thei nputs are not ok intheleenmnt tyle editr
 - [x] 2026-05-16  [task-2026-05-16-b68ce4] work on thel ive edit sidebar element tyl editr , the block msut be togglebacke all inputs styles, etc, now look not finihsed
 - [x] 2026-05-16  [task-2026-05-16-ec4fe0] we get some deprcaton messages on big2 and you fix them [attachment: .autodev/messages/attachments/task-2026-05-16-ec4fe0/paste-1778917878999.png]
-- [~] [task-2026-05-16-624e18] drownd in siebar in dar modei s not good [attachment: .autodev/messages/attachments/task-2026-05-16-624e18/paste-1778918119948.png]
+- [x] 2026-05-16  [task-2026-05-16-624e18] drownd in siebar in dar modei s not good [attachment: .autodev/messages/attachments/task-2026-05-16-624e18/paste-1778918119948.png]
 - [ ] [task-2026-05-16-5c6a1e] menu and sidebar are ovelaping [attachment: .autodev/messages/attachments/task-2026-05-16-5c6a1e/paste-1778918150287.png]
 - [ ] [task-2026-05-16-da59c9] style the site stats admin table and make it more commpact
+- [ ] [task-2026-05-16-ffbe90] then you edit bgi2 you toud comint to its rpeosiroty in the tmeplate folder not in the microweber, remeber that
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
