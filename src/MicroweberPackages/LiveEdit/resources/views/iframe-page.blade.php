@@ -1919,9 +1919,20 @@
         </style>
 
 
+        {{-- task-2026-05-17-49266a / AI-710 CHANGE — designer
+             verified the right-rail Vue button rename ("Element
+             styles") shipped clean but the rendered panel h3
+             STILL served "Element Style Editor" at runtime.
+             Root cause: this STATIC <h3> in iframe-page.blade.php
+             is not replaced by any Vue mount — the Vue
+             StyleEditor.vue's own <h3> renders inside its own
+             card component, not inside this container. The
+             previous AI-710 ship updated the Vue h3 source but
+             missed this Blade-side static h3. Renaming here so
+             both code paths read "Element styles". --}}
         <div id="mw-element-style-editor-app-container">
             <div class="d-flex align-items-center justify-content-between mb-3">
-                <h3 class="fs-2 font-weight-bold">Element Style Editor</h3>
+                <h3 class="fs-2 font-weight-bold">Element styles</h3>
                 <span class="x-close-modal-link" style="top: 27px; right: 32px;">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                          fill="currentColor">
