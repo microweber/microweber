@@ -536,23 +536,38 @@
     }
 
     /*
-     * Live Edit toolbar overflow. The admin live-edit toolbar
-     * overflows ~56px on a 390px viewport. Two layered fixes:
-     *   (a) `flex-wrap: wrap` lets the toolbar break onto a second
-     *       row instead of overflowing horizontally.
-     *   (b) Defensive `overflow-x: auto` with `scroll-snap-type`
-     *       so if (a) fails (e.g. min-content too wide) the user
-     *       still gets a scrollable toolbar with snap points.
+     * Live Edit toolbar overflow at narrow viewports.
+     *
+     * task-2026-05-16-74c5f5 — the previous approach combined
+     * `flex-wrap: wrap` (let children fall to a second row) with
+     * the toolbar's fixed `height: var(--toolbar-height)` (60px).
+     * Wrapped children rendered visually BELOW the toolbar's 60px
+     * box (at y=60..116), which is exactly where the right
+     * `.mw-live-edit-right-sidebar-wrapper` starts (top:60, z:2).
+     * Result: the Menu button + Save & Publish button got covered
+     * by the right-side icon strip (and its tooltip labels at the
+     * narrower breakpoint). The user reported it as "menus is
+     * still overlaping".
+     *
+     * Switch to nowrap + horizontal scroll. The toolbar now keeps
+     * ONE row at every viewport width and scrolls horizontally if
+     * the children don't all fit. No element ever escapes the
+     * toolbar's vertical box, so the right sidebar (which sits
+     * just below at y=60) is no longer collided with. The
+     * scroll-snap rules below still snap to each toolbar column
+     * for one-finger discoverability on touch.
      */
     .mw-admin-live-edit-page #toolbar,
     .mw-live-edit-page #toolbar {
-        flex-wrap: wrap !important;
+        flex-wrap: nowrap !important;
         overflow-x: auto;
+        overflow-y: hidden;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
     }
     .mw-admin-live-edit-page #toolbar > *,
     .mw-live-edit-page #toolbar > * {
         scroll-snap-align: start;
+        flex-shrink: 0;
     }
 }
