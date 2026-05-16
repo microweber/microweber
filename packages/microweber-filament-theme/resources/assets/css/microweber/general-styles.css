@@ -3062,3 +3062,38 @@ body.fi-panel-admin .mw-quick-stat-card-value {
     line-height: 1.2;
     font-weight: 600;
 }
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-711 — Quick AI Edit row labels (H1 / P1 / LINK 1 / IMAGE ALT 1)
+ * task-2026-05-16-b0b48f / designer spec DESIGN_AUDIT.md L2.4
+ *
+ * The Quick AI Edit panel labels each editable element row with a
+ * per-section identifier (H1 / P1 / P2 / LINK 1 / BUTTON 1 / IMAGE
+ * ALT 1) — the labels are metadata identifiers, NOT body text, so
+ * they belong to the same metadata typography family as ESE section
+ * labels: --font-label / --weight-label / --letter-label.
+ *
+ * Pre-AI-711 styling came from `@apply text-sm font-medium
+ * text-gray-700` (lines ~1186) — replaced here with ESE-token-driven
+ * typography so the panel reads consistently with the rest of the
+ * design-token-aware admin surfaces. The `--ese-text-muted` colour
+ * confirms the labels read as metadata rather than primary text.
+ *
+ * Scoped via `.quick-ai-card .form-control-live-edit-label-wrapper`
+ * so the existing `.mw-dialog-skin-default` and form-wrapper labels
+ * elsewhere keep their legacy typography. Card class
+ * `.quick-ai-card` is the unique wrapper the panel emits — see
+ * `editor()` method in `quick-ai-edit.js`.
+ *
+ * Token-scoping note (SOUL #108): tokens consumed are :root-scoped
+ * via the ESE token layer; every var() carries a literal fallback
+ * for defence-in-depth.
+ * ─────────────────────────────────────────────────────────────── */
+
+.quick-ai-card .form-control-live-edit-label-wrapper .live-edit-label {
+    font-size: var(--font-label, 11px);
+    font-weight: var(--weight-label, 500);
+    letter-spacing: var(--letter-label, 0.01em);
+    color: var(--ese-text-muted, #6b7280);
+    text-transform: none;
+}

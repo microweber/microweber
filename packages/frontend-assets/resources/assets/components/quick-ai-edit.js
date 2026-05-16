@@ -68,16 +68,86 @@ const tagMap = {
     H6: mw.lang("Heading") + " 6",
 };
 
+/**
+ * AI-711 / task-2026-05-16-b0b48f — Quick AI Edit per-section labels.
+ *
+ * Pre-AI-711 the panel labelled every text row with the verbose
+ * `tagMap[obj.tag]` ("Heading 1", "Paragraph", …) so users couldn't
+ * tell at a glance which input affected which DOM element. Designer
+ * spec DESIGN_AUDIT.md L2.4 wants:
+ *   - Heading rows: H1 / H2 / H3 (the tag name, no number — only
+ *     one h1 per section by convention).
+ *   - Paragraph rows: P1 / P2 / … (resets when a new heading
+ *     appears within the section).
+ *   - Other elements: BUTTON 1 / LINK 1 / IMAGE ALT 1 (numbered
+ *     by type within the heading-bounded subsection).
+ *
+ * The numbering is per-subsection — encountering a new heading
+ * inside a card resets the P / LINK / BUTTON / IMAGE-ALT counters
+ * so labels read `H1 / P1 / P2 / H2 / P1` naturally.
+ *
+ * `computeQuickAiEditLabel(obj, sectionId, state)` mutates `state`
+ * (passed in by the caller) so callers can hold their own per-card
+ * counter map. Returning the computed string keeps the helper
+ * pure-functional from the consumer's POV — just call and assign
+ * to `obj.label`.
+ */
+function computeQuickAiEditLabel(obj, sectionId, state) {
+    if (!state[sectionId]) {
+        state[sectionId] = { p: 0, link: 0, button: 0, imgAlt: 0 };
+    }
+    const counters = state[sectionId];
+    const tag = obj.tag;
+
+    if (/^H[1-6]$/.test(tag)) {
+        // Heading resets all non-heading counters within this
+        // section so paragraph numbering restarts under each
+        // heading per spec example: H1 / P1 / P2 / H2 / P1.
+        state[sectionId] = { p: 0, link: 0, button: 0, imgAlt: 0 };
+        return tag;
+    }
+    if (tag === "A") {
+        counters.link += 1;
+        return "LINK " + counters.link;
+    }
+    if (tag === "BUTTON") {
+        counters.button += 1;
+        return "BUTTON " + counters.button;
+    }
+    if (tag === "IMG") {
+        counters.imgAlt += 1;
+        return "IMAGE ALT " + counters.imgAlt;
+    }
+    if (
+        tag === "P" ||
+        tag === "SPAN" ||
+        tag === "DIV" ||
+        tag === "LI" ||
+        tag === "BLOCKQUOTE"
+    ) {
+        counters.p += 1;
+        return "P" + counters.p;
+    }
+    // Fallback: raw tag uppercase (unchanged from pre-AI-711 default
+    // when tag wasn't in `tagMap`).
+    return tag;
+}
+
 class QuickEditGUI {
     constructor(instance) {
         this.instance = instance;
     }
 
     static _text(obj) {
+        // AI-711 / task-2026-05-16-b0b48f — prefer the per-section
+        // computed `obj.label` (e.g. "H1", "P1", "P2", "LINK 1")
+        // when the caller has populated it; fall back to the legacy
+        // verbose tagMap copy for callers that haven't migrated to
+        // the per-section counter pattern yet.
         return `
             <div class="form-control-live-edit-label-wrapper">
                 <label class="live-edit-label">${
-                    tagMap[obj.tag] || obj.tag
+                    obj.label || tagMap[obj.tag] || obj.tag
                 }</label>
                 <input class="form-control-live-edit-input" value="${
                     obj.text
@@ -966,13 +1036,16 @@ export class QuickEditComponent extends MicroweberBaseClass {
         // Group objects by their parent edit section
         const fieldGroups = {};
 
+        // AI-711 / task-2026-05-16-b0b48f — per-section label counters.
+        // The closure-scoped `quickAiEditLabelState` holds one counter
+        // bag per sectionId; `computeQuickAiEditLabel` mutates it as
+        // each obj is visited in DOM order so paragraph numbering
+        // restarts under each heading per designer spec L2.4.
+        const quickAiEditLabelState = {};
+
         this.api.collect(undefined, undefined, (obj) => {
             if (obj.node.matches(this.settings.nodesSelector)) {
                 const type = this.getType(obj);
-
-                const node = this.gui.build(obj, type);
-                enodes.push(node);
-                nodes.push(obj.node);
 
                 // Get the parent section for grouping
                 let parentEdit = obj.node.closest(".edit");
@@ -1007,6 +1080,20 @@ export class QuickEditComponent extends MicroweberBaseClass {
                     sectionId = "default";
                     sectionTitle = "Content Elements";
                 }
+
+                // AI-711: compute the per-section label BEFORE building
+                // the editor field so `_text(obj)` can read it from
+                // `obj.label`. Mutates `quickAiEditLabelState[sectionId]`
+                // as a side effect.
+                obj.label = computeQuickAiEditLabel(
+                    obj,
+                    sectionId,
+                    quickAiEditLabelState
+                );
+
+                const node = this.gui.build(obj, type);
+                enodes.push(node);
+                nodes.push(obj.node);
 
                 // Create the group if it doesn't exist
                 if (!fieldGroups[sectionId]) {
