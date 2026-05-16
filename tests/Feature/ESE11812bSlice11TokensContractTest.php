@@ -198,12 +198,18 @@ class ESE11812bSlice11TokensContractTest extends TestCase
         //                       2× --radius-pill on track+fill, 1× --ese-accent
         //                       on thumb, 1× --radius-pill on thumb, 2× --ese-
         //                       surface / --ese-surface-muted on thumb rings)
-        //   Total authorised: 18
+        //   - 1.3a (AI-684):   37 consumers — MwToolButton + MwSegmented
+        //                       primitive declarations. Heaviest slice so far
+        //                       because of the 3 variants × ~6 token refs each
+        //                       (border/radius/font-size/font-weight/transition)
+        //                       plus the segmented strip + cell defs +
+        //                       active-state overrides.
+        //   Total authorised: 55
         $stripped = preg_replace('/\/\*.*?\*\//s', '', $this->src);
         preg_match_all('/var\(--(ese-|space-|font-|weight-|line-|letter-|border-|radius-|t-fast|t-base|t-slow|ease)/', $stripped, $m);
         $useCount = count($m[0]);
-        $this->assertSame(18, $useCount,
-            "Authorised token consumers: 18 (1 from slice 1.1 + 6 from slice 1.7 + 11 from slice 1.2). "
+        $this->assertSame(55, $useCount,
+            "Authorised token consumers: 55 (1 from slice 1.1 + 6 from slice 1.7 + 11 from slice 1.2 + 37 from slice 1.3a). "
             . "Found {$useCount}. If a new slice landed, bump this threshold + document in the comment."
         );
     }

@@ -47,13 +47,21 @@
               a toggle, not a select. Render as a single toggle
               button with the same `fontStyle` model — clicking
               flips between 'normal' and 'italic'.
+
+              task-2026-05-16-f69d54 (AI-684 / F1.1) — migrated to
+              the `MwToolButton` toggle primitive per spec §4.5.
+              Same DOM, new class names (.mw-tool-btn.mw-tool-btn--
+              toggle.is-active replaces .mw-italic-toggle.active).
+              The .mw-italic-toggle class is kept alongside for
+              back-compat with any external references; the new
+              primitive owns the actual styling now.
             -->
             <div class="form-control-live-edit-label-wrapper my-4 d-flex justify-content-between align-items-center">
                 <label class="live-edit-label">Italic</label>
                 <button
                     type="button"
-                    class="mw-italic-toggle"
-                    :class="{ 'active': fontStyle === 'italic' }"
+                    class="mw-italic-toggle mw-tool-btn mw-tool-btn--toggle"
+                    :class="{ 'active': fontStyle === 'italic', 'is-active': fontStyle === 'italic' }"
                     :aria-pressed="fontStyle === 'italic'"
                     title="Italic"
                     @click="fontStyle = (fontStyle === 'italic' ? 'normal' : 'italic')">

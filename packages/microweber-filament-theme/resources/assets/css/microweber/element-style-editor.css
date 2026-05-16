@@ -1,4 +1,147 @@
 /* ============================================================
+ * Element Style Editor (ESE) MwToolButton + MwSegmented
+ * primitives — slice 1.3a (AI-684 / F1.1).
+ *
+ * task-2026-05-16-f69d54 — Spec §4.5 (MwToolButton) + §4.3
+ * (MwSegmented). Designer's brief: collapse 3 existing button
+ * "languages" (.btn.btn-icon with .active in Spacing, .mw-italic-
+ * toggle in Typography, .btn-light in Background, etc.) into one
+ * coherent primitive set with 3 variants.
+ *
+ * Slice 1.3a = primitives + 1 proof-of-pattern consumer migration
+ *              (.mw-italic-toggle in Typography — easiest single
+ *              toggle, already tagged for AI-690 alpha bump in
+ *              slice 1.7, so re-touching is incremental).
+ * Slice 1.3b = remaining ~13 consumer migrations (Spacing presets,
+ *              Background/Border align rows, Typography align row,
+ *              etc.) — deferred to next dispatch so the per-slice
+ *              diff stays reviewable.
+ *
+ * Variants per spec §4.5 (no `swatch` — deferred to slice 1.4
+ * MwField since the swatch inherits MwField context):
+ *   .mw-tool-btn            — default: 24x24 hit, 16px icon, ghost
+ *   .mw-tool-btn--toggle    — 32x32, --radius-sm, on=accent-soft + accent text
+ *   .mw-tool-btn--preset    — 32x28, label-sized, on=accent-soft
+ *
+ * MwSegmented per spec §4.3 — full-width strip, internal dividers
+ * only, active cell uses --ese-accent-soft. Single-line at all
+ * viewports (N2 mobile exception).
+ *
+ * `.mw-live-edit-page` ancestor scope keeps the primitives off
+ * non-live-edit Filament panels (per the live-edit-css-must-be-
+ * scoped skill — defensive even though `.mw-tool-btn` doesn't
+ * collide with any `.fi-*`).
+ * ============================================================ */
+.mw-live-edit-page .mw-tool-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: var(--border-hair) solid transparent;
+    border-radius: var(--radius-sm);
+    color: inherit;
+    cursor: pointer;
+    /* default variant — small ghost icon button (reset, kebab, toolbar) */
+    min-width: 24px;
+    min-height: 24px;
+    padding: 0;
+    font-size: var(--font-control);
+    line-height: var(--line-tight);
+    transition: background var(--t-fast) var(--ease),
+                border-color var(--t-fast) var(--ease),
+                color var(--t-fast) var(--ease);
+}
+.mw-live-edit-page .mw-tool-btn:hover {
+    background: var(--ese-surface-hover);
+}
+.mw-live-edit-page .mw-tool-btn:focus-visible {
+    outline: 2px solid var(--ese-accent);
+    outline-offset: 1px;
+}
+.mw-live-edit-page .mw-tool-btn[disabled],
+.mw-live-edit-page .mw-tool-btn[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Toggle variant — italic / bold / underline / pin-the-state. */
+.mw-live-edit-page .mw-tool-btn.mw-tool-btn--toggle {
+    min-width: 32px;
+    min-height: 32px;
+    border-color: var(--ese-border-strong);
+}
+.mw-live-edit-page .mw-tool-btn.mw-tool-btn--toggle.is-active,
+.mw-live-edit-page .mw-tool-btn.mw-tool-btn--toggle[aria-pressed="true"] {
+    background: var(--ese-accent-soft);
+    border-color: var(--ese-accent);
+    color: var(--ese-accent);
+}
+
+/* Preset variant — Spacing S/M/L/XL, BorderRadius presets, etc. */
+.mw-live-edit-page .mw-tool-btn.mw-tool-btn--preset {
+    min-width: 32px;
+    min-height: 28px;
+    padding: 0 var(--space-xs);
+    font-size: var(--font-label);
+    font-weight: var(--weight-label);
+    border-color: var(--ese-border);
+}
+.mw-live-edit-page .mw-tool-btn.mw-tool-btn--preset.is-active,
+.mw-live-edit-page .mw-tool-btn.mw-tool-btn--preset[aria-pressed="true"] {
+    background: var(--ese-accent-soft);
+    border-color: var(--ese-accent);
+    color: var(--ese-accent);
+}
+
+/* ----------------------------------------------------------------
+ * MwSegmented — spec §4.3.
+ * Replaces the ad-hoc "row of toggle icons" pattern used by
+ * align / border-style / container / device selectors. One outer
+ * border + internal 1px dividers; never an outer-edge divider.
+ * N2 mobile exception: single-line at ALL viewports (the §6.2
+ * two-line label-above-control rule does NOT apply to segmented).
+ * ---------------------------------------------------------------- */
+.mw-live-edit-page .mw-segmented {
+    display: inline-flex;
+    width: 100%;
+    border: var(--border-xs) solid var(--ese-border-strong);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+.mw-live-edit-page .mw-segmented__cell {
+    flex: 1 1 0;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    border-inline-start: 1px solid var(--ese-border);
+    border-radius: 0;
+    color: inherit;
+    cursor: pointer;
+    font-size: var(--font-control);
+    transition: background var(--t-fast) var(--ease),
+                color var(--t-fast) var(--ease);
+}
+.mw-live-edit-page .mw-segmented__cell:first-child {
+    border-inline-start: 0;
+}
+.mw-live-edit-page .mw-segmented__cell:hover {
+    background: var(--ese-surface-hover);
+}
+.mw-live-edit-page .mw-segmented__cell:focus-visible {
+    outline: 2px solid var(--ese-accent);
+    outline-offset: -2px;
+}
+.mw-live-edit-page .mw-segmented__cell.is-active,
+.mw-live-edit-page .mw-segmented__cell[aria-pressed="true"] {
+    background: var(--ese-accent-soft);
+    color: var(--ese-accent);
+    box-shadow: inset 0 0 0 1px var(--ese-accent);
+}
+
+/* ============================================================
  * Element Style Editor (ESE) design tokens — slice 1.1
  * AI-684 / AI-685 prerequisite. Spec: designer-agent/output/
  * ese-design-spec-2026-05-16.md §2 (drop-in :root block).
