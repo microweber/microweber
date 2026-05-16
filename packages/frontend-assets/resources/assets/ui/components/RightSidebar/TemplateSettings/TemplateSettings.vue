@@ -1,7 +1,26 @@
 <template>
 
 
-    <div>
+    <!-- AI-712 / task-2026-05-16-51c8e8 — Template Settings panel
+         unification (slice 1, designer spec DESIGN_AUDIT.md L2.5).
+         Three internal content-block patterns now share one visual
+         rhythm:
+           1. "Choose where to edit" (.edit-mode-toggle-container)
+              wears the MwSegmented primitive (AI-684) alongside
+              its legacy classes — same active-state visual contract
+              as ESE preset toggles. Slice 1 ships this migration.
+           2. "Website design settings" link rows (mainStyleGroups
+              v-for) — AI-712a follow-up candidate: convert to
+              MwField rows with trailing MwToolButton chevron once
+              AI-687 (ESE 1.4 MwField primitive) ships.
+           3. AI Assistant (FieldAiChangeDesign) — AI-712a follow-up
+              candidate: collapse to a single MwField with inline
+              send icon once AI-687 ships.
+         Section headers visually unified via
+         .mw-template-settings-section-header consuming
+         --font-label / --weight-label / --letter-label /
+         --ese-text-muted per spec. -->
+    <div class="mw-template-settings-panel">
         <div v-if="isLoading" class="text-center">
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -30,12 +49,16 @@
             <!-- Choose where to edit toggle -->
             <div v-if="hasStyleSettings" class="form-control-live-edit-label-wrapper"
                  v-show="!isSingleSettingMode">
-                <label class="live-edit-label mb-3">Choose where to edit</label>
+                <label class="live-edit-label mw-template-settings-section-header mb-3">Choose where to edit</label>
 
-                <div class="edit-mode-toggle-container">
+                <!-- AI-712 slice 1: MwSegmented primitive (AI-684) applied
+                     alongside the legacy .edit-mode-toggle-container class
+                     so existing CSS keeps rendering while the segmented
+                     primitive picks up the active-state ring contract. -->
+                <div class="edit-mode-toggle-container mw-segmented">
                     <div
-                        class="edit-mode-option"
-                        :class="{ active: applyMode === 'template' }"
+                        class="edit-mode-option mw-segmented__cell"
+                        :class="{ active: applyMode === 'template', 'is-active': applyMode === 'template' }"
                         @click="handleApplyModeChange('template')"
                     >
                         <div class="edit-mode-icon d-flex align-items-center gap-2 mb-2">
@@ -49,8 +72,8 @@
                     </div>
 
                     <div
-                        class="edit-mode-option"
-                        :class="{ active: applyMode === 'layout' }"
+                        class="edit-mode-option mw-segmented__cell"
+                        :class="{ active: applyMode === 'layout', 'is-active': applyMode === 'layout' }"
                         @click="handleApplyModeChange('layout')"
                     >
                         <div class="edit-mode-icon d-flex align-items-center gap-2 mb-2">
@@ -186,7 +209,7 @@
             <div v-if="currentPath === '/' && hasStyleSettings && !isSingleSettingMode" class="mt-5">
                 <span
                     class="fs-2 font-weight-bold settings-main-group d-flex align-items-center justify-content-between">
-                    <span class="live-edit-label">Website design settings</span>
+                    <span class="live-edit-label mw-template-settings-section-header">Website design settings</span>
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="Reset stylesheet settings" class="reset-template-settings-and-stylesheet-button"
                             @click="resetAllDesignSelectorsValuesSettings">

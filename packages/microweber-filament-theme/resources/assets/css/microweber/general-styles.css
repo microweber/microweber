@@ -3097,3 +3097,42 @@ body.fi-panel-admin .mw-quick-stat-card-value {
     color: var(--ese-text-muted, #6b7280);
     text-transform: none;
 }
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-712 — Template Settings panel section-header unification
+ * task-2026-05-16-51c8e8 / designer spec DESIGN_AUDIT.md L2.5
+ *
+ * The Template Settings panel mixes three internal content-block
+ * patterns (segmented selector / link rows / AI Assistant). Slice 1
+ * unifies the three section-header labels under one metadata
+ * typography contract — same shape as the AI-711 Quick AI Edit
+ * row labels, same ESE tokens.
+ *
+ * Surfaces wearing `.mw-template-settings-section-header`:
+ *   1. "Choose where to edit" — label above the
+ *      `.edit-mode-toggle-container` (now also wearing `.mw-segmented`
+ *      primitive from AI-684 — applied in slice 1).
+ *   2. "Website design settings" — span above the link-row list.
+ *
+ * The third section header (AI Assistant ::before pseudo-element
+ * on `.mw-ai-chat-box`) is the AI-712a follow-up candidate —
+ * requires restructuring the FieldAiChangeDesign component to
+ * use MwField (AI-687) with an inline send icon. Flagged in
+ * source comments + this CSS docblock + contract test.
+ *
+ * Token-scoping note (SOUL #108): every var() carries a literal
+ * fallback. The panel renders inside `.mw-template-settings-panel`
+ * which lives below `body.fi-panel-admin`, so :root ESE tokens
+ * resolve. Scoped to `.mw-template-settings-panel` so legacy
+ * `.live-edit-label` rules elsewhere keep their typography.
+ * ─────────────────────────────────────────────────────────────── */
+
+.mw-template-settings-panel .mw-template-settings-section-header {
+    font-size: var(--font-label, 11px);
+    font-weight: var(--weight-label, 500);
+    letter-spacing: var(--letter-label, 0.01em);
+    color: var(--ese-text-muted, #6b7280);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: var(--space-sm, 8px);
+}
