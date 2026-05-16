@@ -2813,7 +2813,8 @@ Module: testimonials
 - [x] 2026-05-16  [task-2026-05-16-cfef17] move the dar/light slich i nthe submenu as thy e were before [attachment: .autodev/messages/attachments/task-2026-05-16-cfef17/paste-1778915128602.png]
 - [x] 2026-05-16  [task-2026-05-16-6ba113] on the stats the lines aretoo bightt  remove hte lines  \ [attachment: .autodev/messages/attachments/task-2026-05-16-6ba113/paste-1778915167144.png]
 - [x] 2026-05-16  [task-2026-05-16-ea56d3] in the element tyle editor the accoreon are not ogleable pls fix them  and fix thel ign icons [attachment: .autodev/messages/attachments/task-2026-05-16-ea56d3/paste-1778915230819.png]
-- [ ] [task-2026-05-16-28c634] also thei nputs are not ok intheleenmnt tyle editr
+- [x] 2026-05-16  [task-2026-05-16-28c634] also thei nputs are not ok intheleenmnt tyle editr
+- [ ] [task-2026-05-16-b68ce4] work on thel ive edit sidebar element tyl editr , the block msut be togglebacke all inputs styles, etc, now look not finihsed
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
