@@ -119,15 +119,16 @@ class Admin293e44AI728PostsEmptyStateIllustrationContractTest extends TestCase
             $this->postBranch,
             'CTA must point at filament.admin.resources.posts.create route.'
         );
-        $this->assertStringContainsString(
-            'aria-label="Add post"',
-            $this->postBranch,
-            'CTA must keep aria-label="Add post" for AT users.'
-        );
+        // CTA aria-label + visible label evolved at AI-729
+        // (task-886722): "Add post" → "Write your first post". AI-728
+        // is illustration-strip scope; the verb-led-label requirement
+        // is AI-729's contract — so AI-728 here only asserts that
+        // SOME aria-label exists, not a verbatim value (else AI-729
+        // ships would false-fail this test against itself).
         $this->assertMatchesRegularExpression(
-            '/\+\s*Add post/',
+            '/<a[^>]*aria-label="[^"]+"/',
             $this->postBranch,
-            'CTA must display "+ Add post" label.'
+            'CTA must carry some aria-label for AT users (verbatim text owned by AI-729 contract).'
         );
     }
 

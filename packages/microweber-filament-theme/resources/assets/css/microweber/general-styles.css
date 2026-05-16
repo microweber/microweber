@@ -1481,6 +1481,34 @@ html.dark .mw-admin-empty-state-explainer,
     color: #9ca3af;
 }
 
+/* task-2026-05-16-3d35fe / AI-730: when the admin Posts list is
+   empty, hide the Filament table toolbar entirely. The toolbar
+   (sort arrows, Categories pill, empty search, list-density,
+   filter with bogus "0" badge) operates on rows that don't exist
+   and adds noise on top of the empty state.
+
+   The `.mw-admin-empty-state-posts` wrapper class is emitted by
+   the Post branch of empty-state.blade.php only when that
+   branch fires (model = Post). `:has()` walks up the table
+   ancestor and hides the toolbar sibling. The empty-state slot
+   itself stays visible.
+
+   Browser support: `:has()` is in Chrome 105+, Firefox 121+,
+   Safari 15.4+ — Filament v5 requires modern browsers already.
+
+   Scope: `body.fi-panel-admin` so this rule never fires outside
+   the admin panel; the `:has()` predicate matches only when our
+   own marker class is rendered, so the rule is naturally
+   scoped to the Posts list page (or any future page that
+   renders the same marker).
+
+   The legacy table-toolbar default behaviour (visible when rows
+   > 0) is unchanged — the `:has()` predicate evaluates false
+   when no `.mw-admin-empty-state-posts` is mounted. */
+body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolbar {
+    display: none !important;
+}
+
 .fi-ta-record {
     @apply !rounded-none;
 }

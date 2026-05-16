@@ -114,7 +114,18 @@ You do not have any products yet.
                    construction (only interactive element here +
                    mw-table-empty-cta hits 44 px min-height from
                    task-fd0d1d). aria-label kept descriptive for
-                   AT users. --}}
+                   AT users.
+
+                 task-2026-05-16-3d35fe / AI-730: the .mw-admin-
+                 empty-state-posts wrapper carries the marker class
+                 that the AI-730 CSS rule in general-styles.css
+                 uses via `:has()` to hide the Filament table
+                 toolbar (sort/filter/search/density) when the
+                 Posts list is empty. Marker class + data attribute
+                 both emitted for redundancy — `:has()` rule grabs
+                 the class, an audit grep for data-mw-empty-state
+                 lands here. --}}
+            <div class="mw-admin-empty-state-posts" data-mw-empty-state="posts">
             <h2 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
                 No posts yet
             </h2>
@@ -130,6 +141,7 @@ You do not have any products yet.
                     Write your first post →
                 </a>
             </div>
+            </div>{{-- /.mw-admin-empty-state-posts (AI-730 marker) --}}
 
             {{-- task-2026-05-16-293e44 / AI-728: shopping/e-commerce
                  illustration (woman with bags, dress rack — the SHOP
