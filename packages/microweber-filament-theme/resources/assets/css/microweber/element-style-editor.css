@@ -842,3 +842,14 @@ html[dir="rtl"] .reset-field {
 .element-style-editor-toggle-wrapper.active .live-edit-label.cursor-pointer:hover {
     background: rgba(127, 127, 127, 0.08);
 }
+
+/* 7. Background tab — ImagePicker label "Image" inherited
+ *    `.background-image-nav > * { text-align: center }` (declared
+ *    earlier in this file as a 3-column thumbnail-strip layout)
+ *    and rendered visibly centered while siblings (Color, Size,
+ *    Repeat, Position) were left-aligned. Force the label inside
+ *    background-image-nav back to start-alignment so it matches.
+ */
+.element-style-editor-toggle-wrapper.active .background-image-nav > .live-edit-label {
+    text-align: start;
+}
