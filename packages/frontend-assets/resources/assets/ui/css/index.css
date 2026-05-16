@@ -1424,3 +1424,56 @@ aside.fi-sidebar {
     text-transform: uppercase;
     letter-spacing: var(--letter-label, 0.01em);
 }
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-716 — Add Layouts left-rail category hierarchy
+ * task-2026-05-16-c4893b / designer spec DESIGN_AUDIT.md
+ *
+ * 17 flat categories grouped into 3 visual tiers:
+ *   1. All categories (top, no header) — default active.
+ *   2. Featured — designer-curated 6 high-use categories.
+ *   3. All categories (alphabetised remainder) — header label.
+ *
+ * Group headers (`<li role="presentation" aria-hidden="true">`)
+ * render in --font-label / --weight-label / --letter-label
+ * metadata typography, uppercase, --ese-text-muted colour. They
+ * sit inside the same <ul role="tablist"> as the tabs so screen
+ * readers announce all tabs linearly without group-header noise
+ * (aria-hidden + role="presentation" makes the header invisible
+ * to AT). `var(--space-sm)` spacing above each group header
+ * separates the groups visually without injecting a `<hr>`.
+ *
+ * The same grouping applies to BOTH the desktop rail AND the
+ * AI-714 mobile bottom-sheet — same selector targets both
+ * because both surfaces share `.modules-list-categories` and
+ * `.mw-le-layouts-categories-group-header`.
+ *
+ * Token-scoping note (SOUL #108): every var() carries a literal
+ * fallback. Scoped to the categories list so other admin
+ * surfaces are untouched.
+ * ─────────────────────────────────────────────────────────────── */
+
+.modules-list-categories .mw-le-layouts-categories-group-header {
+    font-size: var(--font-label, 11px);
+    font-weight: var(--weight-label, 500);
+    letter-spacing: var(--letter-label, 0.01em);
+    color: var(--ese-text-muted, #6b7280);
+    text-transform: uppercase;
+    padding-inline: var(--space-md, 13px);
+    padding-block: var(--space-sm, 8px) var(--space-xs, 6px);
+    margin-block-start: var(--space-sm, 8px);
+    cursor: default;
+    list-style: none;
+    user-select: none;
+    /* Group headers are decorative — no hover / focus / active
+       affordance. Make sure they don't pick up any tab styling
+       inherited from `.modules-list-categories li`. */
+    background: transparent;
+    pointer-events: none;
+}
+/* First group header (Featured) sits right after the All-
+   categories tab — no top margin so the gap reads as one
+   --space-sm separator, not double. */
+.modules-list-categories > li:nth-child(2).mw-le-layouts-categories-group-header {
+    margin-block-start: 0;
+}

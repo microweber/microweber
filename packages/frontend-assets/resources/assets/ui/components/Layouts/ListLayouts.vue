@@ -47,11 +47,24 @@
                              which layouts show). Wire role="tablist" /
                              role="tab" / aria-selected so screen readers
                              announce "tabs, Content selected, 12 items"
-                             instead of "list of 12 items". -->
+                             instead of "list of 12 items".
+
+                             AI-716 / task-2026-05-16-c4893b — 17 flat
+                             categories split into 3 visual groups:
+                               1. All Categories (top, no header)
+                               2. Featured (designer-curated 6 high-use)
+                               3. All categories (alphabetised remainder)
+                             Single <ul role="tablist"> + interleaved
+                             <li role="presentation"> group-header rows
+                             so the tablist still announces all tabs
+                             linearly to screen readers (AT users get
+                             the unified semantics; sighted users get
+                             the visual grouping). -->
                         <ul class="modules-list-categories py-5"
                             role="tablist"
                             :aria-label="$lang('Layout categories')">
 
+                            <!-- Group 1: All categories — default active. -->
                             <li role="tab"
                                 :aria-selected="'' === filterCategory"
                                 :tabindex="'' === filterCategory ? 0 : -1"
@@ -62,20 +75,48 @@
                                 All categories
                             </li>
 
-                            <li v-for="categoryName in layoutsList.categories"
+                            <!-- Group 2: Featured (designer-curated). -->
+                            <li v-if="featuredCategories.length"
+                                role="presentation"
+                                aria-hidden="true"
+                                class="mw-le-layouts-categories-group-header">
+                                {{ $lang('Featured') }}
+                            </li>
+                            <li v-for="categoryName in featuredCategories"
                                 role="tab"
+                                :key="'featured-' + categoryName"
                                 :aria-selected="categoryName === filterCategory"
                                 :tabindex="categoryName === filterCategory ? 0 : -1"
                                 :data-category="[categoryName ? categoryName.toLowerCase(): '']"
                                 v-on:click="filterCategorySubmit(categoryName)"
                                 v-on:keydown.enter="filterCategorySubmit(categoryName)"
                                 v-on:keydown.space.prevent="filterCategorySubmit(categoryName)">
-
                                 <a :class="[categoryName == filterCategory ? 'active animate__animated animate__pulse': '']"
                                    class="mw-admin-action-links">
                                     {{ categoryName }}
                                 </a>
+                            </li>
 
+                            <!-- Group 3: Other (alphabetised). -->
+                            <li v-if="otherCategories.length"
+                                role="presentation"
+                                aria-hidden="true"
+                                class="mw-le-layouts-categories-group-header">
+                                {{ $lang('All categories') }}
+                            </li>
+                            <li v-for="categoryName in otherCategories"
+                                role="tab"
+                                :key="'other-' + categoryName"
+                                :aria-selected="categoryName === filterCategory"
+                                :tabindex="categoryName === filterCategory ? 0 : -1"
+                                :data-category="[categoryName ? categoryName.toLowerCase(): '']"
+                                v-on:click="filterCategorySubmit(categoryName)"
+                                v-on:keydown.enter="filterCategorySubmit(categoryName)"
+                                v-on:keydown.space.prevent="filterCategorySubmit(categoryName)">
+                                <a :class="[categoryName == filterCategory ? 'active animate__animated animate__pulse': '']"
+                                   class="mw-admin-action-links">
+                                    {{ categoryName }}
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -197,9 +238,16 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
                                     </button>
                                 </header>
+                                <!-- AI-716 / task-2026-05-16-c4893b — same
+                                     3-group hierarchy as the desktop rail
+                                     so users get a consistent mental
+                                     model across viewports. featuredSet
+                                     + alphabetised remainder are computed
+                                     once and reused for both surfaces. -->
                                 <ul class="modules-list-categories mw-le-layouts-mobile-filter-sheet__list"
                                     role="tablist"
                                     :aria-label="$lang('Layout categories')">
+                                    <!-- Group 1: All categories. -->
                                     <li role="tab"
                                         :aria-selected="'' === filterCategory"
                                         :class="['' == filterCategory ? 'active' : '']"
@@ -209,9 +257,34 @@
                                         tabindex="0">
                                         {{ $lang('All categories') }}
                                     </li>
-                                    <li v-for="categoryName in layoutsList.categories"
+                                    <!-- Group 2: Featured. -->
+                                    <li v-if="featuredCategories.length"
+                                        role="presentation"
+                                        aria-hidden="true"
+                                        class="mw-le-layouts-categories-group-header">
+                                        {{ $lang('Featured') }}
+                                    </li>
+                                    <li v-for="categoryName in featuredCategories"
                                         role="tab"
-                                        :key="'mobile-' + categoryName"
+                                        :key="'mobile-featured-' + categoryName"
+                                        :aria-selected="categoryName === filterCategory"
+                                        :class="[categoryName == filterCategory ? 'active' : '']"
+                                        v-on:click="filterCategoryFromMobile(categoryName)"
+                                        v-on:keydown.enter="filterCategoryFromMobile(categoryName)"
+                                        v-on:keydown.space.prevent="filterCategoryFromMobile(categoryName)"
+                                        tabindex="0">
+                                        {{ categoryName }}
+                                    </li>
+                                    <!-- Group 3: Other (alphabetised). -->
+                                    <li v-if="otherCategories.length"
+                                        role="presentation"
+                                        aria-hidden="true"
+                                        class="mw-le-layouts-categories-group-header">
+                                        {{ $lang('All categories') }}
+                                    </li>
+                                    <li v-for="categoryName in otherCategories"
+                                        role="tab"
+                                        :key="'mobile-other-' + categoryName"
                                         :aria-selected="categoryName === filterCategory"
                                         :class="[categoryName == filterCategory ? 'active' : '']"
                                         v-on:click="filterCategoryFromMobile(categoryName)"
@@ -1006,11 +1079,51 @@ export default {
             this.filterLayouts();
         }
     },
+    computed: {
+        // AI-716 / task-2026-05-16-c4893b — categories that survive
+        // the featuredCategoryNames intersection, kept in the
+        // designer-specified spec order (NOT alphabetised). Filters
+        // to only those categories actually present in
+        // layoutsList.categories so a Featured slot never points
+        // at a category with zero layouts.
+        featuredCategories() {
+            if (!this.layoutsList?.categories?.length) return [];
+            const cats = this.layoutsList.categories;
+            return this.featuredCategoryNames.filter(name => cats.includes(name));
+        },
+        // AI-716 — categories NOT in featuredCategoryNames, sorted
+        // alphabetically per spec "alphabetised, the remaining 11".
+        otherCategories() {
+            if (!this.layoutsList?.categories?.length) return [];
+            const featuredSet = new Set(this.featuredCategoryNames);
+            return this.layoutsList.categories
+                .filter(name => !featuredSet.has(name))
+                .slice()
+                .sort((a, b) => String(a).localeCompare(String(b)));
+        }
+    },
     data() {
         return {
             licenseKey: '',
             filterKeyword: '',
             filterCategory: '',
+            // AI-716 / task-2026-05-16-c4893b — Featured-set is
+            // declared here as a data field (NOT hardcoded in
+            // template) so PM can re-weight later by editing this
+            // one array. Order is meaningful: featured categories
+            // render top-to-bottom in this order. Categories not
+            // present in `layoutsList.categories` are silently
+            // skipped at computed time (so a stale entry doesn't
+            // break the rail). The 6 designer-specified high-use
+            // categories are listed per spec.
+            featuredCategoryNames: [
+                'Content',
+                'Header',
+                'Features',
+                'Hero',
+                'Call To Action',
+                'Gallery',
+            ],
             // AI-714 / task-2026-05-16-8f20b6 — mobile category filter
             // bottom-sheet state. Desktop uses the inline `.mw-le-layouts-
             // dialog-col:first-child` rail; mobile (≤767px) gets the
