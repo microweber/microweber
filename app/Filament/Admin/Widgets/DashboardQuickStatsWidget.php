@@ -38,12 +38,18 @@ class DashboardQuickStatsWidget extends Widget
                 'color' => 'blue',
                 'url' => url(mw_admin_prefix_url() . '/form-entries'),
             ],
+            // task-2026-05-17-18be49 / AI-738: comments stat now
+            // routes to /admin/settings/comments (the Comments
+            // settings card destination per designer dispatch), and
+            // the label carries a clear time scope ("Last comments
+            // (30 days)") so users understand the count's meaning.
+            // The 30-day window matches getCommentsCount() below.
             [
-                'label' => 'Last comments',
+                'label' => 'Last comments (30 days)',
                 'value' => $stats['comments'],
                 'icon' => 'heroicon-o-chat-bubble-left-right',
                 'color' => 'pink',
-                'url' => url(mw_admin_prefix_url() . '/comments'),
+                'url' => url(mw_admin_prefix_url() . '/settings/comments'),
             ],
             [
                 'label' => 'Sales',
@@ -73,8 +79,14 @@ class DashboardQuickStatsWidget extends Widget
 
     private function getCommentsCount(): string
     {
+        // task-2026-05-17-18be49 / AI-738: 30-day window so the
+        // "Last comments (30 days)" label is truthful. Pre-fix
+        // this returned all-time count paired with the "Last
+        // comments" label — designer flagged the mismatch.
         try {
-            return (string) DB::table('comments')->count();
+            return (string) DB::table('comments')
+                ->where('created_at', '>=', now()->subDays(30))
+                ->count();
         } catch (\Throwable $e) {
             return '0';
         }

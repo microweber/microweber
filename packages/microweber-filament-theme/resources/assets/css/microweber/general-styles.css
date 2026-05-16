@@ -3129,6 +3129,39 @@ body.fi-panel-admin .mw-quick-stat-card-value {
     font-weight: 600;
 }
 
+/* task-2026-05-17-18be49 / AI-738: hover affordance on the
+   dashboard quick-stat cards. Pre-fix the cards rendered as
+   <a> wrappers (clickable) but had no visual hover signal — the
+   audit reported them as "non-clickable" because there was no
+   feedback when the mouse entered the card. This rule lifts the
+   card 1 px + adds a subtle box-shadow on hover/focus-visible so
+   the click affordance reads clearly. :focus-visible mirror
+   keeps keyboard users on parity. prefers-reduced-motion
+   collapses the transition to 0. */
+body.fi-panel-admin .mw-quick-stat-card {
+    transition: transform var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)),
+                box-shadow var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+}
+body.fi-panel-admin .mw-quick-stat-card:hover,
+body.fi-panel-admin .mw-quick-stat-card:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    text-decoration: none;
+}
+body.fi-panel-admin .mw-quick-stat-card:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: 2px;
+}
+html.dark body.fi-panel-admin .mw-quick-stat-card:hover,
+html.dark body.fi-panel-admin .mw-quick-stat-card:focus-visible {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+@media (prefers-reduced-motion: reduce) {
+    body.fi-panel-admin .mw-quick-stat-card {
+        transition: none;
+    }
+}
+
 /* ─────────────────────────────────────────────────────────────────
  * AI-711 — Quick AI Edit row labels (H1 / P1 / LINK 1 / IMAGE ALT 1)
  * task-2026-05-16-b0b48f / designer spec DESIGN_AUDIT.md L2.4
