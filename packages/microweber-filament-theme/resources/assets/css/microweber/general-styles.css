@@ -1407,6 +1407,56 @@ select option,
     }
 }
 
+/*
+ * task-2026-05-16-fd0d1d: empty-state CTA button.
+ * The Filament-rendered empty state on admin → Pages / Posts /
+ * Products / Orders / Customers / Invoices / Categories / Payment
+ * Providers / Shipping Providers / Taxes used to show only a heading
+ * + illustration with no action. Users had no obvious "add the first
+ * one" path. We render a primary CTA between the heading and the
+ * illustration. Style this button as a Bootstrap-style primary CTA
+ * (matches admin's existing #0d6efd accent — see MwColors::Blue), so
+ * the button reads as the obvious next action regardless of which
+ * Filament version is installed.
+ */
+.mw-table-empty-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.625rem 1.25rem;
+    background-color: #0d6efd;
+    color: #fff !important;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    line-height: 1.25;
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: background-color 120ms ease, transform 120ms ease;
+    border: 1px solid transparent;
+}
+.mw-table-empty-cta:hover,
+.mw-table-empty-cta:focus-visible {
+    background-color: #0b5ed7;
+    color: #fff !important;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+.mw-table-empty-cta:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+.mw-table-empty-cta:active {
+    transform: translateY(0);
+    background-color: #0a58ca;
+}
+.mw-table-empty-cta-wrap {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
 .fi-ta-record {
     @apply !rounded-none;
 }
