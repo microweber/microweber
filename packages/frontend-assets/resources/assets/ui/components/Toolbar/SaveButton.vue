@@ -350,8 +350,34 @@ export default {
          the act-of-publishing is implicit on a live edit save and the
          shorter copy fits cleaner in narrow viewports. Functional
          behaviour is unchanged (save() still does the publish step
-         behind the scenes); only the visible/announced copy changes. -->
-    <button class="btn btn-dark live-edit-toolbar-buttons" id="save-button" aria-label="Save (Ctrl+S)" title="Save (Ctrl+S)" @click="save()">
+         behind the scenes); only the visible/announced copy changes.
+
+         task-2026-05-16-8b10a3 / AI-699 — v2-style solid black pill.
+         Button now binds `mw-save-button--idle` when `_dirty === false`
+         (no unsaved changes — visually muted; cursor: default; no
+         pulse) and `mw-save-button--has-changes` when `_dirty === true`
+         (active — full saturation + accent-ring pulse once per minute).
+         The `_dirty` flag is the single source of truth for save
+         state — already wired to input / dblclick / drop / Editor
+         change / save() events in this component. CSS for both states
+         lives in `general-styles.css` so the pill renders inside the
+         Live Edit admin frame where ESE tokens (--ese-text /
+         --ese-surface / --radius-pill / --space-sm / --space-md /
+         --ese-accent / --t-slow) resolve from :root. Legacy
+         `btn btn-dark` classes preserved as back-compat in case
+         external code targets them. -->
+    <button
+        class="btn btn-dark live-edit-toolbar-buttons"
+        :class="{
+            'mw-save-button': true,
+            'mw-save-button--has-changes': _dirty,
+            'mw-save-button--idle': !_dirty
+        }"
+        :aria-pressed="_dirty ? 'true' : 'false'"
+        id="save-button"
+        aria-label="Save (Ctrl+S)"
+        title="Save (Ctrl+S)"
+        @click="save()">
             <span class="font-weight-bold">Save</span>
      </button>
 </template>

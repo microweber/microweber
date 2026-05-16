@@ -223,6 +223,84 @@ body {
     @apply !bg-green-200 dark:!bg-green-800;
 }
 
+/* ======================================================================
+   task-2026-05-16-8b10a3 / AI-699 — v2-style solid black pill SAVE button.
+
+   Designer spec (live-edit-inspiration-from-v2-2026-05-16.md §2 P3 + P8):
+   the current green button reads as "neutral status badge"; v2's solid
+   black pill reads as "moment-of-truth action". Two render states:
+
+     idle (no unsaved changes, `_dirty === false`):
+       opacity 0.4; cursor: default; button still clickable (the user
+       can force a save explicitly) but visually muted.
+
+     has-changes (unsaved changes, `_dirty === true`):
+       full saturation; once-per-minute accent-ring pulse.
+
+   The CSS overrides the existing #save-button green-bg rule above
+   ONLY when the new `.mw-save-button` class is present (always
+   emitted by SaveButton.vue's :class binding). That keeps a
+   theoretical back-compat path open for environments that strip the
+   class — they'd still get the green fallback.
+
+   Token sources (all :root-scoped per ESE slice 1.1; literal
+   fallbacks on every var() since this rule may render in contexts
+   where the ESE stylesheet hasn't loaded):
+     --ese-text       (button background — "solid black")
+     --ese-surface    (button text — "white")
+     --radius-pill    (pill shape)
+     --space-sm / --space-md  (φ-scale padding)
+     --ese-accent     (pulse ring colour)
+     --t-slow         (pulse duration)
+   ====================================================================== */
+#save-button.mw-save-button {
+    background-color: var(--ese-text, #111827) !important;
+    color: var(--ese-surface, #ffffff) !important;
+    border: none !important;
+    border-radius: var(--radius-pill, 999px) !important;
+    padding: var(--space-sm, 8px) var(--space-md, 13px) !important;
+    transition: opacity var(--t-fast, 120ms) var(--ease, ease-out),
+                box-shadow var(--t-slow, 320ms) var(--ease, ease-out);
+}
+#save-button.mw-save-button:hover {
+    background-color: var(--ese-text, #111827) !important;
+    opacity: 1;
+}
+
+/* Idle: muted. Cursor default (still clickable; user can force save). */
+#save-button.mw-save-button.mw-save-button--idle {
+    opacity: 0.4;
+    cursor: default;
+}
+#save-button.mw-save-button.mw-save-button--idle:hover {
+    opacity: 0.5; /* slight rise on hover so user knows it's reachable */
+}
+
+/* Has-changes: full opacity + pulse the accent ring once per minute.
+   Animation duration is one full cycle: pulse over --t-slow, then
+   wait the remainder of 60s with no ring. Keyframes go
+   transparent→accent-soft→transparent across the first --t-slow ms
+   then stay transparent for the rest of the minute. */
+#save-button.mw-save-button.mw-save-button--has-changes {
+    opacity: 1;
+    cursor: pointer;
+    animation: mw-save-button-pulse 60s linear infinite;
+}
+
+@keyframes mw-save-button-pulse {
+    0%  { box-shadow: 0 0 0 0 transparent; }
+    0.5% { box-shadow: 0 0 0 4px var(--ese-accent, #0d6efd); }
+    2%  { box-shadow: 0 0 0 4px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* prefers-reduced-motion: no pulse. Per SOUL #108 designer note. */
+@media (prefers-reduced-motion: reduce) {
+    #save-button.mw-save-button.mw-save-button--has-changes {
+        animation: none;
+    }
+}
+
 .mw-live-edit-search-dropdown {
     @apply !bg-gray-100 dark:!bg-gray-800 !border-gray-100 rounded !max-h-[35px] !flex !items-center !relative w-full !overflow-visible;
     background-position: calc(100% - 8px) center !important;
