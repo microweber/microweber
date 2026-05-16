@@ -98,10 +98,18 @@
             }
         </style>
 
-        @livewire(\Modules\SiteStats\Filament\Widgets\StatsOverviewCards::class)
+        {{--
+            task-2026-05-16-0004bc: chart on top.
+            The Visitors & Bounce-Rate chart is the most information-dense
+            widget on the page — it answers "what does the last 30 days look
+            like?" in one glance. The smaller numeric cards below act as the
+            drill-down. Previously the cards sat above the chart so users had
+            to scan past 8 KPI boxes before reaching the trend line.
+        --}}
+        @livewire(\Modules\SiteStats\Filament\Widgets\VisitorsChartWidget::class)
 
         <div class="mt-6">
-            @livewire(\Modules\SiteStats\Filament\Widgets\VisitorsChartWidget::class)
+            @livewire(\Modules\SiteStats\Filament\Widgets\StatsOverviewCards::class)
         </div>
 
         <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
