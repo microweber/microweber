@@ -651,6 +651,23 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply !bg-black/40;
 }
 
+/* task-2026-05-17-8d5baf / AI-740: dark-mode backdrop dim bump.
+   Pre-fix the dark-mode image upload modal inherited the same
+   rgba(0,0,0,0.4) backdrop the light mode used — but with the
+   dark canvas background bleeding through, the modal became
+   visually indistinguishable from the page behind it. Mirror
+   AI-700 MainDrawer's `rgba(0,0,0,0.4) light → rgba(0,0,0,0.6)
+   dark` pattern. The 60 % alpha gives enough separation on the
+   dark hero canvas without going opaque.
+
+   Scope: any dialog using the default skin (filepicker, prompts,
+   confirms) benefits — positive side-effect of the AI-740 fix
+   since they share the same backdrop problem in dark mode. */
+html.dark .mw-dialog-skin-default .mw-dialog-overlay,
+.dark .mw-dialog-skin-default .mw-dialog-overlay {
+    @apply !bg-black/60;
+}
+
 /* Prompt/Confirm dialog mobile */
 @media (max-width: 768px) {
     .mw-dialog-skin-default:not(.mw_modal_live_edit_link_editor_settings) .mw-dialog-holder {
