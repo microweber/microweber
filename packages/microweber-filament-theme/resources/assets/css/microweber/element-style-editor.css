@@ -853,3 +853,44 @@ html[dir="rtl"] .reset-field {
 .element-style-editor-toggle-wrapper.active .background-image-nav > .live-edit-label {
     text-align: start;
 }
+
+/* 8. Promoted compact-select sizing to global scope so EVERY field
+ *    that opts in via `.dropdown-small-select` (DropdownSmall,
+ *    FontPicker — likely more later) gets the same row geometry.
+ *    Previously this rule lived inside DropdownSmall.vue's scoped
+ *    <style>, so other components could not benefit. The rule is
+ *    intentionally not !important so a component can still override
+ *    when it has a real reason.
+ */
+.element-style-editor-toggle-wrapper.active .dropdown-small-select,
+.element-style-editor-toggle-wrapper.active select.dropdown-small-select {
+    width: auto;
+    min-width: 120px;
+    max-width: 60%;
+    font-size: 13px;
+    padding: 4px 28px 4px 8px;
+    height: auto;
+}
+:root.dark .element-style-editor-toggle-wrapper.active .dropdown-small-select,
+.dark .element-style-editor-toggle-wrapper.active .dropdown-small-select {
+    color-scheme: dark;
+}
+
+/* 9. FontPicker "Add more fonts" link previously had `pt-3 pb-1`
+ *    (12px / 4px) which pushed it well below the select row,
+ *    creating a visible vertical gap. Tighten the top padding so
+ *    it sits closer to the field it belongs to. Color is muted
+ *    so it reads as a secondary action.
+ */
+.element-style-editor-toggle-wrapper.active .font-picker-add-more {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 4px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: opacity 0.15s ease;
+}
+.element-style-editor-toggle-wrapper.active .font-picker-add-more:hover {
+    opacity: 1;
+}

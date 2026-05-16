@@ -1,30 +1,42 @@
 <template>
+    <!--
+        task-2026-05-16-481080: match the unified ESE row pattern
+        (label-left / control-right) used by DropdownSmall,
+        ColorPicker, ImagePicker, Italic toggle. Was a vertical
+        stack with the select going full-width below the label —
+        inconsistent with sibling fields. The `font-picker-select`
+        class shares the `dropdown-small-select` sizing rules from
+        general-styles.css below, so the select sits compact
+        (~150px) on the right while "Font" anchors left.
+    -->
     <div class="form-control-live-edit-label-wrapper my-4" :modelvalue="null">
-        <label class="live-edit-label">Font</label>
-        <select
-            class="form-control-live-edit-input form-select"
-            @change="handleFontChange"
-            :value="fontFamily"
-            ref="fontSelect">
-            <option value="">Default</option>
-            <option value="inherit">Inherit</option>
-            <!-- Display custom font if it's not in the supported fonts list -->
-            <option
-                v-if="fontFamily && !isInSupportedFonts(fontFamily) && fontFamily !== '' && fontFamily !== 'inherit'"
+        <div class="d-flex justify-content-between align-items-center gap-2">
+            <label class="live-edit-label mb-0">Font</label>
+            <select
+                class="form-control-live-edit-input form-select dropdown-small-select font-picker-select"
+                @change="handleFontChange"
                 :value="fontFamily"
-                :style="{ fontFamily: `${fontFamily}` }">
-                {{ fontFamily }}
-            </option>
-            <option
-                v-for="(fontFamilyItem, index) in supportedFonts"
-                :key="index"
-                :value="fontFamilyItem"
-                :selected="fontFamily === fontFamilyItem"
-                :style="{ fontFamily: `${fontFamilyItem}` }">
-                {{ fontFamilyItem }}
-            </option>
-        </select>
-        <small class="cursor-pointer d-flex ms-auto justify-content-end pt-3 pb-1" v-on:click="loadMoreFonts()">Add more fonts</small>
+                ref="fontSelect">
+                <option value="">Default</option>
+                <option value="inherit">Inherit</option>
+                <!-- Display custom font if it's not in the supported fonts list -->
+                <option
+                    v-if="fontFamily && !isInSupportedFonts(fontFamily) && fontFamily !== '' && fontFamily !== 'inherit'"
+                    :value="fontFamily"
+                    :style="{ fontFamily: `${fontFamily}` }">
+                    {{ fontFamily }}
+                </option>
+                <option
+                    v-for="(fontFamilyItem, index) in supportedFonts"
+                    :key="index"
+                    :value="fontFamilyItem"
+                    :selected="fontFamily === fontFamilyItem"
+                    :style="{ fontFamily: `${fontFamilyItem}` }">
+                    {{ fontFamilyItem }}
+                </option>
+            </select>
+        </div>
+        <small class="cursor-pointer d-flex ms-auto justify-content-end pt-2 pb-1 font-picker-add-more" v-on:click="loadMoreFonts()">Add more fonts</small>
     </div>
 </template>
 
