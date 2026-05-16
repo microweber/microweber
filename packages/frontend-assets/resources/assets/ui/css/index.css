@@ -1313,3 +1313,114 @@ html.mw-live-edit-sidebar-start #live-edit-frame-holder {
 aside.fi-sidebar {
     width: var(--sidebar-start-size);
 }
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-715 — Add Layouts desktop polish: search promote + top
+ * alignment + selected-category echo
+ * task-2026-05-16-847083 / designer spec DESIGN_AUDIT.md (Drunk-
+ * Designer 5-heuristic protocol)
+ *
+ * Three independent micro-fixes per the failed heuristics:
+ *
+ *   1. Eye-flow test FAIL — search rendered as faint placeholder
+ *      only. Fix: promote `.modules-list-search-field` to the
+ *      MwField visual contract (--ese-surface-muted bg, --border-xs
+ *      solid --ese-border, --radius-sm, 44px height). Matches the
+ *      mobile treatment shipped at AI-714.
+ *
+ *   2. Edge-alignment scan FAIL — left rail starts at y≈17px,
+ *      right pane search at y≈47px (30px misalignment). Fix:
+ *      both columns' first content row aligns to var(--space-md).
+ *      Override the .py-5 on `.modules-list-categories` (Bootstrap
+ *      utility = 1.25rem ≈ 20px) and lock matching padding-top on
+ *      the right pane's wrapper.
+ *
+ *   3. Section continuity FAIL — clicking a category leaves no
+ *      visible "Showing: X" echo in the right pane. Fix: new
+ *      `.mw-le-layouts-result-header` shows `{Category} · {N}
+ *      layouts` directly above the search input + active left-
+ *      rail item gets --ese-accent-soft bg + --ese-accent text
+ *      (matches MwToolButton toggle accent contract).
+ *
+ * Token-scoping note (SOUL #108): every var() carries a literal
+ * fallback. All 3 fixes scoped to the layouts dialog wrappers so
+ * other admin surfaces are untouched.
+ * ─────────────────────────────────────────────────────────────── */
+
+/* AI-715 §1: promote search to MwField visual contract. */
+.mw-le-layouts-dialog .modules-list-search-field,
+.modules-list-search-field {
+    background-color: var(--ese-surface-muted, rgba(0, 0, 0, 0.04));
+    color: var(--ese-text, #111827);
+    border: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+    border-radius: var(--radius-sm, 6px);
+    min-height: 44px;
+    padding-inline: var(--space-md, 13px);
+    padding-block: var(--space-sm, 8px);
+    font-size: var(--font-control, 13px);
+}
+.mw-le-layouts-dialog .modules-list-search-field:focus,
+.modules-list-search-field:focus {
+    background-color: var(--ese-surface, #ffffff);
+    border-color: var(--ese-accent, #0d6efd);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--ese-accent-soft, rgba(13, 110, 253, 0.12));
+}
+.mw-le-layouts-dialog .modules-list-search-field::placeholder,
+.modules-list-search-field::placeholder {
+    color: var(--ese-text-muted, #6b7280);
+}
+
+/* AI-715 §2: align both columns' first content row to
+   var(--space-md). Left rail `<ul class="modules-list-categories
+   py-5">` carries py-5 (Bootstrap 1.25rem) — neutralise and apply
+   our token. Right pane wrapper gets matching padding-top. */
+.mw-le-layouts-dialog-col:first-child .modules-list-categories {
+    padding-top: var(--space-md, 13px) !important;
+    padding-bottom: var(--space-md, 13px) !important;
+}
+.mw-le-layouts-dialog-col:last-child > div:first-child {
+    padding-top: var(--space-md, 13px);
+}
+
+/* AI-715 §3a: active left-rail category gets accent-soft bg +
+   accent text. Targets both shapes the template emits — `<li>`
+   for All-categories and inner `<a>` for the v-for'd categories. */
+.mw-le-layouts-dialog-col:first-child .modules-list-categories li.active,
+.mw-le-layouts-dialog-col:first-child .modules-list-categories li a.active {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12)) !important;
+    color: var(--ese-accent, #0d6efd) !important;
+    border-radius: var(--radius-sm, 6px);
+    font-weight: 600;
+}
+.mw-le-layouts-dialog-col:first-child .modules-list-categories li.active {
+    padding-inline: var(--space-md, 13px);
+}
+
+/* AI-715 §3b: section-continuity echo header in right pane.
+   `{Category} · {N} layouts` rendered above the search input so
+   users can see at-a-glance which category they have selected and
+   how many layouts match. */
+.mw-le-layouts-result-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs, 6px);
+    padding-inline: var(--space-md, 13px);
+    padding-block-end: var(--space-sm, 8px);
+    font-size: var(--font-section, 15px);
+    color: var(--ese-text, #111827);
+}
+.mw-le-layouts-result-header__name {
+    font-weight: 600;
+}
+.mw-le-layouts-result-header__separator {
+    color: var(--ese-text-muted, #6b7280);
+    user-select: none;
+}
+.mw-le-layouts-result-header__count {
+    font-size: var(--font-label, 11px);
+    color: var(--ese-text-muted, #6b7280);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-label, 0.01em);
+}

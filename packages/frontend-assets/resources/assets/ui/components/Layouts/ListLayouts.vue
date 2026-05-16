@@ -90,6 +90,24 @@
                                                 </span>
                                             </div>-->
 
+                        <!-- AI-715 / task-2026-05-16-847083 — section-
+                             continuity echo per spec: right pane shows
+                             `{Category} · {N layouts}` so the active
+                             category from the left rail is mirrored in
+                             the content header. Drunk-Designer §3
+                             "section continuity" fix. -->
+                        <div v-if="layoutsList?.categories?.length"
+                             class="mw-le-layouts-result-header"
+                             aria-live="polite">
+                            <span class="mw-le-layouts-result-header__name">
+                                {{ filterCategory || $lang('All categories') }}
+                            </span>
+                            <span class="mw-le-layouts-result-header__separator" aria-hidden="true">·</span>
+                            <span class="mw-le-layouts-result-header__count">
+                                {{ layoutsListFiltered?.length || 0 }} {{ (layoutsListFiltered?.length === 1 ? $lang('layout') : $lang('layouts')) }}
+                            </span>
+                        </div>
+
                         <div v-show="layoutsList?.categories?.length">
                             <div class="modules-list-search-block input-icon">
                                 <!-- audit-test 2026-05-07 picker audit finding #3:
