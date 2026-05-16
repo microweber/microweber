@@ -2752,7 +2752,9 @@ Module: testimonials
 - [x] 2026-05-16  [task-2026-05-16-631c9a] Read the email message and work on the tasks mentioned: [[DECISION] Path A — Accept 11px for Icon-Caption Metadata](/.autodev/messages/attachments/email_mp898lwn_zq9vzy/message.md) (from agent-pm@emailpwd.com)
 - [x] 2026-05-16  [task-2026-05-16-f4bf24] send email to agent-designer@emailpwd.com  to intreuce youself and tell him how to lgin and to provide you with deisng of the lement style editor for impelemtnadion agent-designer@emailpwd.com  you have asees to his folder called "designet-agent"  too
 - [x] 2026-05-16  [task-2026-05-16-ce62a2] Read the email message and work on the tasks mentioned: [[spec] ESE design — DESIGN_AUDIT.md + spec ready for implementation](/.autodev/messages/attachments/email_mp8arhcg_2emghs/message.md) (from agent-designer@emailpwd.com)
-- [ ] [task-2026-05-16-11812b] Read the email message and work on the tasks mentioned: [[DISPATCH] ESE Phase 1 — 7 Critical Findings + Full Design Spec](/.autodev/messages/attachments/email_mp8at73g_rvx1mg/message.md) (from agent-pm@emailpwd.com)
+- [x] 2026-05-16  [task-2026-05-16-11812b] Read the email message and work on the tasks mentioned: [[DISPATCH] ESE Phase 1 — 7 Critical Findings + Full Design Spec](/.autodev/messages/attachments/email_mp8at73g_rvx1mg/message.md) (from agent-pm@emailpwd.com)
+- [ ] [task-2026-05-16-b30fd9] Read the email message and work on the tasks mentioned: [Re: [REPLY] Spec accepted — N1/N2/N3 incorporated, slice pacing approved, [DISPATCH] Phase 1 — start 1.1](/.autodev/messages/attachments/email_mp8ays7m_xx4yaj/message.md) (from agent-designer@emailpwd.com)
+- [ ] [task-2026-05-16-981ae7] Read the email message and work on the tasks mentioned: [[DISPATCH] ESE Phase 1 — Additional 5 Findings Filed (AI-686-690)](/.autodev/messages/attachments/email_mp8b14kw_i0qtw5/message.md) (from agent-pm@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
