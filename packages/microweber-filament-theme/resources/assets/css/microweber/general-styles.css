@@ -2902,3 +2902,87 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
         display: none !important;
     }
 }
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-705 — Welcome widget actionable counter sub-line
+ * task-2026-05-16-2dbae0 / designer spec admin-shell-improvements §2 AD4
+ *
+ * Replaces the static "Here's what's happening" filler with a
+ * counter strip — `3 new comments · 1 new order · 0 new messages` —
+ * each segment is a real `<a href>` routing to the relevant list.
+ * Counters come from WelcomeWidget::getCounters(), which queries
+ * the SAME columns as the matching Filament navigation badge
+ * (single source of truth — never disagrees with the bell).
+ *
+ *  - `.mw-welcome-widget-counters`: inline-flex strip, font-control
+ *    size, muted colour so it reads as metadata under the headline.
+ *  - `.mw-welcome-widget-counter`: each segment uses --ese-text by
+ *    default and shifts to --ese-accent + underline on :hover, with
+ *    a 2px --ese-accent focus-visible outline (a11y).
+ *  - `.mw-welcome-widget-counter-sep` (`·`): wraps in var(--space-xs)
+ *    on both sides per spec.
+ *  - `.mw-welcome-widget-empty` (rendered when isAllCaughtUp()):
+ *    slightly heavier than --font-control (15px / weight 500) per
+ *    spec — short, satisfying, distinct from metadata.
+ *
+ * Token-scoping note (SOUL #108 spec-doc-nit): the widget renders
+ * inside body.fi-panel-admin; :root ESE tokens resolve naturally.
+ * Every var() carries a literal fallback for defence-in-depth.
+ * ─────────────────────────────────────────────────────────────── */
+
+body.fi-panel-admin .mw-welcome-widget-counters {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0;
+    margin: 0;
+    font-size: var(--font-control, 13px);
+    line-height: 1.5;
+    color: var(--ese-text-muted, #6b7280);
+}
+
+body.fi-panel-admin .mw-welcome-widget-counter {
+    color: var(--ese-text, #111827);
+    text-decoration: none;
+    transition: color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+}
+
+body.fi-panel-admin .mw-welcome-widget-counter:hover {
+    color: var(--ese-accent, #0d6efd);
+    text-decoration: underline;
+}
+
+body.fi-panel-admin .mw-welcome-widget-counter:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm, 6px);
+}
+
+body.fi-panel-admin .mw-welcome-widget-counter-count {
+    font-weight: 600;
+}
+
+body.fi-panel-admin .mw-welcome-widget-counter-label {
+    margin-inline-start: 4px;
+}
+
+body.fi-panel-admin .mw-welcome-widget-counter-sep {
+    display: inline-block;
+    margin-inline: var(--space-xs, 6px);
+    color: var(--ese-text-muted, #6b7280);
+    user-select: none;
+}
+
+body.fi-panel-admin .mw-welcome-widget-empty {
+    margin: 0;
+    font-size: var(--font-section, 15px);
+    font-weight: 500;
+    color: var(--ese-text-muted, #6b7280);
+    line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.fi-panel-admin .mw-welcome-widget-counter {
+        transition: none;
+    }
+}
