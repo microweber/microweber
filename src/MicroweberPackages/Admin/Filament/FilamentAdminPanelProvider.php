@@ -268,6 +268,44 @@ class FilamentAdminPanelProvider extends PanelProvider
 
             });
 
+        // task-2026-05-16-bcb327 / AI-702 — Restore Microweber brand
+        // mark at the very top-left of the admin top bar per designer
+        // spec (admin-shell-improvements-2026-05-16.md §2 AD1).
+        //
+        // Filament's TOPBAR_START render hook accumulates hooks in
+        // registration order; this hook is registered BEFORE the
+        // existing `admin-top-navigation-actions` hook below, so the
+        // brand mark renders leftmost (the desired anchor position).
+        //
+        // Logo URL falls back through the same chain `brandLogo()`
+        // uses earlier in this provider (admin_logo → admin_logo_login)
+        // so the brand mark stays in sync with the configured admin
+        // logo. Click routes to /admin per standard convention.
+        //
+        // Mobile (≤768px) collapses to mark-only via CSS in
+        // general-styles.css — markup is identical; the wordmark
+        // alt-text is hidden visually via .mw-admin-brand-mark__label.
+        $panel->renderHook(
+            name: PanelsRenderHook::TOPBAR_START,
+            hook: function (): string {
+                $logoUrl = mw()->ui->admin_logo();
+                if (empty($logoUrl)) {
+                    $logoUrl = mw()->ui->admin_logo_login();
+                }
+                $brandName = mw()->ui->brand_name() ?: 'Microweber';
+                $adminUrl = url(mw_admin_prefix_url() ?: 'admin');
+                return '<a href="' . e($adminUrl) . '"'
+                    . ' class="mw-admin-brand-mark"'
+                    . ' aria-label="' . e($brandName) . ' admin"'
+                    . ' title="' . e($brandName) . ' — back to admin home">'
+                    . '<img src="' . e($logoUrl) . '"'
+                    . ' alt="' . e($brandName) . '"'
+                    . ' class="mw-admin-brand-mark__image" />'
+                    . '<span class="mw-admin-brand-mark__label sr-only">' . e($brandName) . '</span>'
+                    . '</a>';
+            }
+        );
+
         $panel->renderHook(
             name: PanelsRenderHook::TOPBAR_START,
             hook: fn(): string => Blade::render('@livewire(\'admin-top-navigation-actions\')')
