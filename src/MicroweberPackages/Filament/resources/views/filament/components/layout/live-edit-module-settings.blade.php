@@ -615,6 +615,26 @@
             text-transform: none !important;
             letter-spacing: -0.005em !important;
         }
+
+        /* AI-691a (task-2026-05-16-860f75) — §A6 Path B (designer-resolved):
+           On desktop ≥769px, hide the picker modal Cancel button. The
+           top-right X is reachable with a mouse pointer, so the redundant
+           Cancel chrome can come off. On mobile ≤768px Cancel STAYS (no
+           rule applies) to preserve NOVICE #3 thumb-reach affordance —
+           task-2026-05-13-899d57 documented users reporting the picker
+           "stuck open" when only the tiny X was available. When AI-695
+           (mobile bottom-sheet) ships, the whole Cancel DOM is deleted
+           (PHP `->modalCancelActionLabel` removed) and this rule + AI-691a
+           file are removed too. Scoped to .mw-content-picker-modal so the
+           global .fi-modal-footer-actions on other Filament modals is
+           untouched. modalSubmitAction(false) is set on addContentAction
+           so this footer contains only Cancel; hiding the wrapper is
+           equivalent to hiding the button. */
+        @media (min-width: 769px) {
+            .mw-content-picker-modal .fi-modal-footer-actions {
+                display: none;
+            }
+        }
     </style>
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::FOOTER, scopes: $livewire->getRenderHookScopes()) }}
