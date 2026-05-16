@@ -375,7 +375,7 @@ export default {
         }"
         :aria-pressed="_dirty ? 'true' : 'false'"
         id="save-button"
-        aria-label="Save (Ctrl+S)"
+        aria-label="Save"
         title="Save (Ctrl+S)"
         @click="save()">
             <span class="font-weight-bold">Save</span>

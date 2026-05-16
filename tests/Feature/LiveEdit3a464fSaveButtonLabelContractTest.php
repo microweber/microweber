@@ -51,15 +51,21 @@ class LiveEdit3a464fSaveButtonLabelContractTest extends TestCase
     #[Test]
     public function button_aria_label_and_title_are_short_form(): void
     {
+        // task-2026-05-16-d2e562 AI-719 update — aria-label collapsed
+        // from "Save (Ctrl+S)" to bare verb "Save". The (Ctrl+S)
+        // shortcut hint stays on `title=` for desktop hover (and the
+        // keyboard binding itself stays in script). Saves ~50px of
+        // mobile toolbar width via the task-8149b5 ::after pseudo
+        // which renders aria-label as visible text on touch viewports.
         $this->assertMatchesRegularExpression(
-            '/aria-label="Save \(Ctrl\+S\)"/',
+            '/aria-label="Save"/',
             $this->vue,
-            'aria-label must be "Save (Ctrl+S)".'
+            'aria-label must be bare verb "Save" per AI-719 (was "Save (Ctrl+S)" — shortcut hint moved to title= only).'
         );
         $this->assertMatchesRegularExpression(
             '/title="Save \(Ctrl\+S\)"/',
             $this->vue,
-            'title must be "Save (Ctrl+S)".'
+            'title must keep "Save (Ctrl+S)" — desktop hover affordance preserved per AI-719.'
         );
     }
 
