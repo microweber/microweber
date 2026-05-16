@@ -2644,6 +2644,20 @@ html.dark .mw-page-chip-popover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
 }
 
+/* task-2026-05-16-77fedf / AI-734: smart anchor flip — when the
+   chip sits near the viewport right edge (mobile + horizontally
+   scrolled toolbar), the JS in PageChip.vue's computeAnchor()
+   detects the would-be overflow and flips popoverAnchor → 'right'.
+   This rule hugs the popover to the chip's right edge with no
+   transform, keeping the entire 320 px popover inside the
+   viewport. Acceptance: popover right edge ≤ window.innerWidth -
+   8 at any viewport. */
+.mw-page-chip-popover--anchor-right {
+    left: auto;
+    right: 0;
+    transform: none;
+}
+
 .mw-page-chip-popover__search {
     padding: var(--space-sm, 8px);
     border-bottom: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));

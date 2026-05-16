@@ -61,6 +61,7 @@
         <div
             v-show="isOpen"
             class="mw-page-chip-popover"
+            :class="{ 'mw-page-chip-popover--anchor-right': popoverAnchor === 'right' }"
             role="dialog"
             aria-label="Switch page"
             ref="popover"
@@ -115,9 +116,15 @@ export default {
             currentPageTitleFull: '',
             q: '',
             results: [],
+            // task-2026-05-16-77fedf / AI-734 — anchor-flip state.
+            // 'center' = default centered-below-chip (translateX
+            // -50%); 'right' = right-edge-aligned (no transform).
+            // Computed by computeAnchor() at open() + on resize.
+            popoverAnchor: 'center',
             _searchTimer: null,
             _outsideHandler: null,
             _keyHandler: null,
+            _resizeHandler: null,
         };
     },
 
@@ -159,8 +166,50 @@ export default {
         open() {
             this.isOpen = true;
             this.$nextTick(() => {
+                // task-2026-05-16-77fedf / AI-734 — compute anchor
+                // AFTER the popover paints so getBoundingClientRect
+                // returns real layout values, not 0.
+                this.computeAnchor();
                 if (this.$refs.searchInput) this.$refs.searchInput.focus();
             });
+        },
+
+        // task-2026-05-16-77fedf / AI-734 — smart anchor flip.
+        // PageChip popover is 320 px and anchors to chip-center
+        // via translateX(-50%). When the chip sits in a horizontally
+        // scrolled toolbar at mobile (390 px viewport), the popover
+        // can extend past the viewport right edge. This method
+        // measures the chip's viewport-relative position and
+        // computes whether the centered popover would overflow;
+        // if so, it flips popoverAnchor to 'right' (CSS hugs the
+        // chip right edge with no transform), keeping the popover
+        // entirely on-screen.
+        //
+        // Acceptance per dispatch: popover right edge ≤
+        // window.innerWidth - 8 at any viewport.
+        computeAnchor() {
+            try {
+                var root = this.$refs.root;
+                if (!root) return;
+                var POPOVER_WIDTH = 320; // matches CSS
+                var EDGE_MARGIN = 8;     // safe gutter from viewport right
+                var chipRect = root.getBoundingClientRect();
+                var chipCenterX = chipRect.left + (chipRect.width / 2);
+                var centeredPopoverRight = chipCenterX + (POPOVER_WIDTH / 2);
+                if (centeredPopoverRight > window.innerWidth - EDGE_MARGIN) {
+                    this.popoverAnchor = 'right';
+                } else {
+                    this.popoverAnchor = 'center';
+                }
+            } catch (_) { /* no-op — graceful fallback to center */ }
+        },
+
+        onResize() {
+            // Re-compute anchor on viewport size change while the
+            // popover is open (rotation, browser-window resize).
+            if (this.isOpen) {
+                this.computeAnchor();
+            }
         },
 
         close() {
@@ -242,19 +291,25 @@ export default {
 
         this._outsideHandler = this.onOutsideClick.bind(this);
         this._keyHandler = this.onKeyDown.bind(this);
+        this._resizeHandler = this.onResize.bind(this);
         document.addEventListener('click', this._outsideHandler, true);
         window.addEventListener('keydown', this._keyHandler);
+        // task-2026-05-16-77fedf / AI-734 — recompute anchor on
+        // viewport resize while popover open.
+        window.addEventListener('resize', this._resizeHandler);
     },
 
     beforeUnmount() {
         if (this._outsideHandler) document.removeEventListener('click', this._outsideHandler, true);
         if (this._keyHandler) window.removeEventListener('keydown', this._keyHandler);
+        if (this._resizeHandler) window.removeEventListener('resize', this._resizeHandler);
         if (this._searchTimer) clearTimeout(this._searchTimer);
     },
 
     beforeDestroy() {
         if (this._outsideHandler) document.removeEventListener('click', this._outsideHandler, true);
         if (this._keyHandler) window.removeEventListener('keydown', this._keyHandler);
+        if (this._resizeHandler) window.removeEventListener('resize', this._resizeHandler);
         if (this._searchTimer) clearTimeout(this._searchTimer);
     },
 };
