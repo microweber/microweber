@@ -121,7 +121,23 @@ html.mw-setup-wizard-document .back-to-edit{
                 </div>
             </div>
 
-            <div id="user-menu-wrapper" class="align-self-center">
+            <!--
+                task-2026-05-16-3ae87c: the user-menu button and its
+                dropdown panel are kept in the DOM but hidden from view
+                because the visible menu items now render inside the
+                3-dots ToolbarToolsDropdown ("we dont need 2 dordowns").
+                Keeping the wrapper avoids regressions in:
+                  - tests/Browser/AdminLiveEditDropdownAndButtonsTest.php
+                    (checks for `#toolbar-user-menu-button`,
+                    `#user-menu-wrapper`, `#user-menu nav` membership)
+                  - SettingsCustomize.vue:651 (defensive `.classList.remove`)
+                  - CSS selectors in live-edit-classes.css /
+                    general-styles.css that target `.mw-le-hamburger`
+                    and `#user-menu-wrapper.active`
+                Behaviour is preserved: the hidden button still toggles
+                `.active` on the wrapper when scripts call userMenu().
+            -->
+            <div id="user-menu-wrapper" class="align-self-center" style="display: none;" aria-hidden="true">
                 <!--
                   NOVICE #6 (task-2026-05-13-899d57) — the original button
                   was three bare <span> bars with no icon, no label, and

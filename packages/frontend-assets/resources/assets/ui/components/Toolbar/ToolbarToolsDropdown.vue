@@ -115,6 +115,46 @@
                     </a>
                 </li>
 
+                <!--
+                    task-2026-05-16-3ae87c: user-menu items merged in here.
+                    The separate "Menu" button previously held Report
+                    issue / See website / Log out + the light/dark mode
+                    toggle. The user said "we dont need 2 dordowns" so
+                    those items now live at the bottom of THIS dropdown,
+                    separated from the tools above by a visual divider.
+                    The original `#user-menu-wrapper` stays in the DOM
+                    hidden — see Toolbar.vue for the back-compat note.
+                -->
+                <li class="separator" v-if="userMenuItems.length > 0">
+                    <hr>
+                </li>
+
+                <li v-for="(menuItem, idx) in userMenuItems" :key="'um-' + idx">
+                    <a
+                        :href="menuItem.href"
+                        :onclick="menuItem.onclick"
+                        :target="menuItem.target"
+                        :id="menuItem.id ? menuItem.id + '-tools' : null"
+                        :class="menuItem.class || ''"
+                        @click="hideToolsDropdown"
+                    >
+                        <span v-html="menuItem.icon_html"></span>
+                        {{ menuItem.title }}
+                    </a>
+                </li>
+
+                <li>
+                    <a @click="handleToggleDarkMode" role="button">
+                        <svg v-if="theme === 'light'" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20">
+                            <path d="M480 936q-150 0-255-105T120 576q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444 396q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"/>
+                        </svg>
+                        <svg v-else height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path d="M10 2a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 10 2ZM10 15a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 10 15ZM10 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM15.657 5.404a.75.75 0 1 0-1.06-1.06l-1.061 1.06a.75.75 0 0 0 1.06 1.06l1.06-1.06ZM6.464 14.596a.75.75 0 1 0-1.06-1.06l-1.06 1.06a.75.75 0 0 0 1.06 1.06l1.06-1.06ZM18 10a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 18 10ZM5 10a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 5 10ZM14.596 15.657a.75.75 0 0 0 1.06-1.06l-1.06-1.061a.75.75 0 1 0-1.06 1.06l1.06 1.06ZM5.404 6.464a.75.75 0 0 0 1.06-1.06l-1.06-1.06a.75.75 0 1 0-1.061 1.06l1.06 1.06Z"/>
+                        </svg>
+                        {{ theme === 'light' ? 'Dark mode' : 'Light mode' }}
+                    </a>
+                </li>
+
                 <!-- Expandable More Settings Content -->
                 <li class="more-settings-content" v-show="moreSettingsExpanded">
                     <ul class="submenu">
@@ -387,6 +427,9 @@ export default {
             buttonIsActive: false,
             buttonIsActiveStyleEditor: false,
             buttonIsActiveQuickEdit: false,
+            // task-2026-05-16-3ae87c: user-menu items merged in.
+            userMenuItems: [],
+            theme: 'light',
         }
     },
     methods: {
@@ -480,6 +523,31 @@ export default {
 
         toggleMoreSettings() {
             this.moreSettingsExpanded = !this.moreSettingsExpanded;
+        },
+
+        // task-2026-05-16-3ae87c: user-menu integration.
+        async fetchUserMenu() {
+            try {
+                const url = (typeof route === 'function')
+                    ? route('api.live-edit.get-top-right-menu')
+                    : '/api/live-edit/get-top-right-menu';
+                const resp = await fetch(url, { credentials: 'same-origin', headers: { 'Accept': 'application/json' } });
+                if (!resp.ok) return;
+                const data = await resp.json();
+                if (Array.isArray(data)) this.userMenuItems = data;
+            } catch (e) {
+                // Non-blocking — the toolbar still works without the user menu.
+                console.warn('ToolbarToolsDropdown: failed to fetch user menu', e);
+            }
+        },
+
+        handleToggleDarkMode() {
+            this.hideToolsDropdown();
+            if (window.mw?.top()?.admin?.theme?.toggle) {
+                window.mw.top().admin.theme.toggle();
+            }
+            // Sync local theme state with the html.dark class.
+            this.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
         },
 
         handleMoreSettings() {
@@ -723,6 +791,17 @@ export default {
     },
 
     mounted() {
+        // task-2026-05-16-3ae87c: fetch the user-menu items + initial theme.
+        this.fetchUserMenu();
+        this.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        // Re-sync theme whenever it changes elsewhere (e.g. the legacy
+        // hidden user-menu's own toggleDarkMode in Toolbar.vue or the
+        // admin theme switcher).
+        const themeObserver = new MutationObserver(() => {
+            this.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
         // Initial setup when app is ready
         mw.app.on('ready', () => {
             this.updateCurrentElement();
