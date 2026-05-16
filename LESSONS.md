@@ -4,6 +4,51 @@
 
 ---
 
+## 2026-05-16 — "As they were before" feedback usually means delete prior customization, not add more
+
+- **Pattern:** task-cfef17 ("put dark/light back in the submenu") arrived after AI-168 had previously injected `<x-filament-panels::theme-switcher />` into the `TOPBAR_END` render hook to make the theme switcher more visible. The correct fix was to DELETE the 25-line `FilamentView::registerRenderHook(PanelsRenderHook::TOPBAR_END, ...)` block in `MicroweberFilamentTheme.php` and let Filament's stock user-menu dropdown render the switcher per `vendor/filament/.../user-menu.blade.php` lines 112-116. A wrong-but-tempting alternative would have been to add NEW CSS/JS to "make the user-menu version more visible" — layering customization on customization.
+- **Why it happened:** Once the user has experienced a prior version of the UI, "as they were before" is a precise specification. The framework's default state is reachable by removing agent-added code rather than by reproducing the default via new code. Adding more code to mimic a default is strictly worse than deleting the override that hides it.
+- **Prevention rule:** When user feedback says "back to how it was", "as before", "the way it used to be", or names a prior behaviour positively, FIRST check git history (`git log --oneline -- <file>` and `git blame` on relevant lines) for the customization that overrode the default. Strongly prefer deleting the override over adding compensating code. Commit message should explicitly reference the prior ticket/commit that introduced the override (e.g. "revert AI-168 TOPBAR_END injection").
+- **Applies when:** Any task whose description references prior UI state ("before", "old", "previous", "used to"), restores a framework default, or asks the agent to "put X back". Especially relevant for Filament render hooks, CSS overrides, and Vue template injections that override stock behaviour.
+
+---
+
+## 2026-05-16 — Grep `packages/` for a new CSS class name before adopting it
+
+- **Pattern:** task-fd0d1d added a `.mw-empty-state-cta` button to a Filament resource empty state. The element rendered as a dark-gray pill instead of a primary-blue button. `getComputedStyle` revealed `background: rgb(26, 31, 43)` instead of the expected `#0d6efd` — a same-named rule from `DashboardEmptyStateWidget` (in `microweber-theme-v3.scss`) was winning the cascade because it ships in a later-loaded bundle.
+- **Why it happened:** Two unrelated bundles can both define rules for the same class name without lint warnings. The runtime cascade picks whichever bundle loads last, which depends on entry order rather than file structure.
+- **Prevention rule:** Before naming a new CSS utility/component class, grep the entire `packages/microweber-filament-theme` and `packages/frontend-assets` trees for the proposed name. If any match exists in a different bundle, pick a scope-prefixed alternative (`mw-table-*`, `mw-dashboard-*`, `mw-le-*` etc.). Pin the chosen name in the contract test so regressions surface immediately.
+- **Applies when:** Adding any new `mw-*` CSS class for a button, badge, card, callout, or other reusable widget shipped in any package-level bundle.
+
+---
+
+## 2026-05-16 — Mobile UX fixes belong in `live-edit-mobile.css`, not the desktop file
+
+- **Pattern:** task-74c5f5 reported "menus still overlapping" in Live Edit. Initial fix targeted `#toolbar { flex-wrap: nowrap; overflow-x: auto; }` in `live-edit-classes.css` and the user's screenshot still reproduced. Re-measurement at the user's reported viewport (~560×440) showed the rule was being shadowed: `.mw-(admin-)?live-edit-page #toolbar` inside `live-edit-mobile.css`'s `@media (max-width: 768px), (pointer: coarse)` block declares `flex-wrap: wrap !important`, beating the bare `#toolbar` rule on specificity AND at narrow viewports only.
+- **Why it happened:** The repo splits Live Edit toolbar CSS across two files — `live-edit-classes.css` (desktop default) and `live-edit-mobile.css` (mobile / pointer-coarse). The mobile file's selector is more specific (`.mw-live-edit-page #toolbar` > `#toolbar`) AND scoped inside a `@media` query, so fixes to the desktop file are invisible on mobile.
+- **Prevention rule:** When a UX bug is screenshot-attached and the screenshot shows a mobile/narrow viewport, FIRST `Grep packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-mobile.css` for the affected selector. The mobile-specific rule almost certainly exists and is the one that needs editing.
+- **Applies when:** Any Live Edit toolbar or canvas layout fix where the symptom is reported on a narrow viewport or mobile device.
+
+---
+
+## 2026-05-16 — Grep `tests/Browser/` before deleting Live Edit toolbar DOM elements
+
+- **Pattern:** task-3ae87c merged the user-menu items into the 3-dots `ToolbarToolsDropdown.vue` to eliminate a redundant dropdown. The initial approach removed `<div id="user-menu-wrapper">` and `<button id="toolbar-user-menu-button">` entirely from `Toolbar.vue`. `tests/Browser/AdminLiveEditDropdownAndButtonsTest.php` Dusk test then failed — it asserts the presence of those IDs, and `SettingsCustomize.vue:651` also references them.
+- **Why it happened:** Toolbar element IDs are external API surface — Dusk tests, JS event listeners, and CSS rules across multiple files reference them. Removing the element breaks unrelated suites silently until the Dusk run fails much later in CI.
+- **Prevention rule:** Before deleting any toolbar DOM element, grep `tests/Browser/`, `packages/frontend-assets/resources/assets/ui/`, and `packages/microweber-filament-theme/resources/assets/css/microweber/` for its `id`, `class`, and any other selectors. If any reference exists, keep the element with `style="display: none;"` instead — preserves the contract while removing the visual rendering. Add a source comment explaining the back-compat reason.
+- **Applies when:** Restructuring or consolidating any element in `packages/frontend-assets/resources/assets/ui/components/Toolbar/` — particularly user-menu, hamburger, undo/redo, save, or settings-related elements.
+
+---
+
+## 2026-05-16 — Reproduce UX bugs at the screenshot's actual viewport before declaring "can't reproduce"
+
+- **Pattern:** task-74c5f5's initial Playwright measurement at the default 1440×900 viewport showed no toolbar overlap — the screenshot showed clear overlap at narrow widths but the dev tools said everything fit. Wrong conclusion: "the prior fix worked". Correct: the user took the screenshot on a narrow viewport (estimated ~560×440 based on visible content scale).
+- **Why it happened:** Mobile-specific CSS (`@media (max-width: 768px)`) only activates at narrow widths; a desktop measurement gives a different layout entirely.
+- **Prevention rule:** When a UX bug arrives with a screenshot, estimate the viewport from visible cues (font scale, breakpoint behaviour, mobile-specific UI) BEFORE measuring. Resize Playwright to that viewport with `browser_resize(width, height)` as the first verification step. Only after reproducing at the correct viewport do measurements have any diagnostic value.
+- **Applies when:** Any UX/CSS bug arriving with a screenshot — especially mobile or "the X is overlapping the Y" reports where the layout problem is media-query-gated.
+
+---
+
 ## 2026-05-14 — Filament `Action::color('success')` size=lg requires `!important` to enforce min-height
 
 - **Pattern:** Wrote `body.fi-panel-checkout button.fi-btn.fi-color-success { min-height: 44px; }` in `mobile-touch.css` for the AI-517 "Place Order" button. The rule was ignored and the button stayed at ~42px on mobile, 2px short of the 44px floor.
