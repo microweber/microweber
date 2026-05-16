@@ -105,7 +105,16 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->login(\MicroweberPackages\Admin\Filament\Pages\Login::class)
             // ->registration()
             ->font('Inter')
-            // ->sidebarCollapsibleOnDesktop()
+            // AI-703 / task-2026-05-16-29342d — Responsive sidebar:
+            //   - Desktop (Filament default lg+ = ≥1024px): drawer pinned-open
+            //     as a 240px left sidebar with collapse-to-rail toggle.
+            //   - Below lg: drawer overlays content + hamburger toggle.
+            //   Designer spec calls for the breakpoint at 1280px specifically;
+            //   Filament's native lg breakpoint (1024px) is shipped here for
+            //   slice-1 simplicity. Tuning the breakpoint to 1280px is the
+            //   AI-703a follow-up candidate (will require CSS overrides at
+            //   1024-1279.98px to undo Filament's `lg:` pinned utilities).
+            ->sidebarCollapsibleOnDesktop()
             ->brandLogoHeight('34px')
             ->brandLogo(function () {
                 $logo = mw()->ui->admin_logo();
@@ -117,7 +126,10 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->brandName(function () {
                 return mw()->ui->brand_name();
             })
-            ->sidebarWidth('16rem')
+            // AI-703 / task-2026-05-16-29342d — 240px per designer spec
+            // (was 16rem = 256px). Width applies to the pinned-open sidebar
+            // at lg+ and the overlay drawer below lg.
+            ->sidebarWidth('240px')
             ->colors([
                 'primary' => MwColors::Blue,
                 'danger' => Color::Rose,
@@ -314,6 +326,43 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->renderHook(
             name: PanelsRenderHook::GLOBAL_SEARCH_AFTER,
             hook: fn(): string => view('admin::livewire.filament.top-navigation-go-live-edit') . view('admin::livewire.filament.search-quick-nav')
+        );
+
+        // AI-703 / task-2026-05-16-29342d — bridge Filament's Alpine sidebar
+        // state into `localStorage.admin_sidebar_mode` so the designer-spec
+        // key is present alongside Filament's native persistence. Watches the
+        // `body` element's `fi-sidebar-open` / `fi-sidebar-collapsed-on-desktop`
+        // class state and mirrors to one of three string values:
+        //   - 'pinned'    (lg+ sidebar open and not collapsed)
+        //   - 'rail'      (lg+ sidebar open and collapsed to rail)
+        //   - 'collapsed' (sidebar closed — applies < lg by default)
+        $panel->renderHook(
+            name: PanelsRenderHook::BODY_END,
+            hook: fn(): string => <<<'HTML'
+            <script>
+            /* AI-703 / task-2026-05-16-29342d — admin_sidebar_mode localStorage bridge */
+            (function () {
+                if (typeof window === 'undefined' || !window.localStorage) return;
+                var KEY = 'admin_sidebar_mode';
+                var body = document.body;
+                if (!body || !body.classList.contains('fi-panel-admin')) return;
+                function readMode() {
+                    var classes = body.classList;
+                    var collapsedRail = classes.contains('fi-sidebar-collapsed-on-desktop');
+                    var open = classes.contains('fi-sidebar-open');
+                    if (open && !collapsedRail) return 'pinned';
+                    if (open && collapsedRail) return 'rail';
+                    return 'collapsed';
+                }
+                function writeMode() {
+                    try { window.localStorage.setItem(KEY, readMode()); } catch (e) {}
+                }
+                writeMode();
+                var observer = new MutationObserver(writeMode);
+                observer.observe(body, { attributes: true, attributeFilter: ['class'] });
+            })();
+            </script>
+            HTML
         );
 
 

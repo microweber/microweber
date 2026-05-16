@@ -2752,3 +2752,37 @@ a.mw-admin-brand-mark {
         transition: none;
     }
 }
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-703 — Microweber admin responsive sidebar polish
+ * task-2026-05-16-29342d / designer spec admin-shell-improvements §2 AD2
+ *
+ * Filament's ->sidebarCollapsibleOnDesktop() enables the pinned-rail
+ * pattern at the framework's lg breakpoint (≥1024px). The designer
+ * spec calls for a 1280px breakpoint with a clean 240px sidebar width.
+ *
+ * This block ships:
+ *  - the 240px width pin (defence-in-depth — the panel provider sets the
+ *    same value via ->sidebarWidth('240px'); duplicating here protects
+ *    against future overrides that compete on specificity);
+ *  - a subtle right-edge divider between the pinned sidebar and main
+ *    content, visible only at lg+ when the sidebar is pinned-open.
+ *
+ * The exact 1280px breakpoint shift (1024px → 1280px) is the AI-703a
+ * follow-up candidate; landing it requires undoing several `lg:` utility
+ * classes that Filament bakes into the rendered HTML and is a larger
+ * slice than this dispatch budgets for.
+ * ─────────────────────────────────────────────────────────────── */
+
+body.fi-panel-admin .fi-sidebar {
+    --sidebar-width: 240px;
+}
+
+@media (min-width: 1024px) {
+    body.fi-panel-admin.fi-sidebar-open .fi-sidebar {
+        border-inline-end: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+    }
+    html.dark body.fi-panel-admin.fi-sidebar-open .fi-sidebar {
+        border-inline-end-color: var(--ese-border, rgba(255, 255, 255, 0.12));
+    }
+}
