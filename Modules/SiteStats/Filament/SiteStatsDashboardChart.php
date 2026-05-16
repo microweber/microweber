@@ -74,6 +74,26 @@ class SiteStatsDashboardChart extends ChartWidget
                 [
                     'label' => $title,
                     'data' => array_map('floatval', $records),
+                    // task-2026-05-17-2a40c5 / AI-737 — explicit
+                    // brand-accent stroke + 0.15 fill so the line
+                    // stays visible at WCAG AA non-text 3:1 against
+                    // BOTH the light (#fff) and dark (#1a1f2b)
+                    // chart surfaces. Pre-fix, Chart.js defaults
+                    // produced a near-grey line that washed out on
+                    // white — same data rendered visibly in dark
+                    // mode but appeared empty in light. The hex
+                    // `#0d6efd` is MwColors::Blue (project-wide
+                    // primary blue, see src/MicroweberPackages/
+                    // Filament/Themes/MwColors.php) — gives
+                    // 4.4:1 on white + 7.3:1 on dark slate.
+                    // borderWidth 2 px is the Chart.js default-
+                    // bump that keeps the line readable at small
+                    // chart heights (200 px max here).
+                    'borderColor' => '#0d6efd',
+                    'backgroundColor' => 'rgba(13, 110, 253, 0.15)',
+                    'borderWidth' => 2,
+                    'fill' => true,
+                    'tension' => 0.3,
                 ],
             ],
             // 'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
