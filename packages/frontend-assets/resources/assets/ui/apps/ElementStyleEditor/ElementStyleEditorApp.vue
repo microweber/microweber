@@ -234,124 +234,72 @@ export default {
                 if (!child) return;
                 // Each child has a different `showXxx` field name —
                 // probe the known set rather than maintaining a map.
+                // task-2026-05-16-ea56d3: probe both legacy + actual
+                // field names. Grid uses `showGridSettings`, ClassApplier
+                // uses `showClasses` — historically the probe list
+                // expected `showGrid`/`showClassApplier` which silently
+                // failed `field in child`, leaving those panels' body
+                // states stuck.
                 ['showTypography', 'showBackground', 'showSpacing', 'showContainer',
-                 'showGrid', 'showBorder', 'showRoundedCorners', 'showAnimations',
-                 'showShadow', 'showClassApplier'].forEach(field => {
+                 'showGrid', 'showGridSettings', 'showBorder', 'showRoundedCorners', 'showAnimations',
+                 'showShadow', 'showClassApplier', 'showClasses'].forEach(field => {
                     if (field in child) child[field] = false;
                 });
             });
         },
 
+        // task-2026-05-16-ea56d3: Generic toggle helper. Previously
+        // each toggleXxx() always set `is<Xxx>Active = true` — so a
+        // second click on the same header could not close the panel
+        // (it stayed forced-open). Combined with the wrapper-level
+        // @click on the outer div, clicking any inner control (e.g.
+        // an Align icon, a slider thumb) bubbled up and re-triggered
+        // the toggle, but since the toggle was always-open it
+        // appeared frozen rather than disruptive.
+        //
+        // Fix: a single helper that truly toggles. If the requested
+        // panel is currently active, close it and bail out. Otherwise
+        // close everything else, then open the requested one. The
+        // child-component side (`@click.stop` on each `<div v-if="
+        // showXxx">` body) prevents inner-control clicks from
+        // bubbling, so accordion state is only changed by clicks on
+        // the header itself.
+        togglePanel(activeFlag, refName, fieldName, label) {
+            if (this[activeFlag]) {
+                this.announceAria(label + ' panel closed');
+                this[activeFlag] = false;
+                if (refName && fieldName) {
+                    const c = this.$refs[refName];
+                    if (c && fieldName in c) c[fieldName] = false;
+                }
+                return;
+            }
+            this.resetActiveStates();
+            if (refName) this.closeAllChildPanels(refName);
+            this.announceAria(label + ' panel opened');
+            this[activeFlag] = true;
+            if (refName && fieldName) {
+                const c = this.$refs[refName];
+                if (c && fieldName in c) c[fieldName] = true;
+            }
+        },
+
         // Methods to toggle active states
-        toggleTypography() {
-            this.resetActiveStates();
-            this.announceAria('Typography panel opened');
-            this.isTypographyActive = true;
-            this.closeAllChildPanels('typographyComp');
-            const c = this.$refs.typographyComp; if (c && 'showTypography' in c) c.showTypography = true;
-        },
-
-        toggleBackground() {
-            this.resetActiveStates();
-            this.announceAria('Background panel opened');
-            this.isBackgroundActive = true;
-            this.closeAllChildPanels('backgroundComp');
-            const c = this.$refs.backgroundComp; if (c && 'showBackground' in c) c.showBackground = true;
-        },
-
-        toggleSpacing() {
-            this.resetActiveStates();
-            this.announceAria('Spacing panel opened');
-            this.isSpacingActive = true;
-            this.closeAllChildPanels('spacingComp');
-            const c = this.$refs.spacingComp; if (c && 'showSpacing' in c) c.showSpacing = true;
-        },
-
-        toggleContainer() {
-            this.resetActiveStates();
-            this.announceAria('Container panel opened');
-            this.isContainerActive = true;
-            this.closeAllChildPanels('containerComp');
-            const c = this.$refs.containerComp; if (c && 'showContainer' in c) c.showContainer = true;
-        },
-
-        toggleGrid() {
-            this.resetActiveStates();
-            this.announceAria('Grid panel opened');
-            this.isGridActive = true;
-            this.closeAllChildPanels('gridComp');
-            const c = this.$refs.gridComp; if (c && 'showGrid' in c) c.showGrid = true;
-        },
-
-        toggleBorder() {
-            this.resetActiveStates();
-            this.announceAria('Border panel opened');
-            this.isBorderActive = true;
-            this.closeAllChildPanels('borderComp');
-            const c = this.$refs.borderComp; if (c && 'showBorder' in c) c.showBorder = true;
-        },
-
-        toggleRoundedCorners() {
-            this.resetActiveStates();
-            this.announceAria('Rounded corners panel opened');
-            this.isRoundedCornersActive = true;
-            this.closeAllChildPanels('roundedCornersComp');
-            const c = this.$refs.roundedCornersComp; if (c && 'showRoundedCorners' in c) c.showRoundedCorners = true;
-        },
-
-        toggleAnimations() {
-            this.resetActiveStates();
-            this.announceAria('Animations panel opened');
-            this.isAnimationsActive = true;
-            this.closeAllChildPanels('animationsComp');
-            const c = this.$refs.animationsComp; if (c && 'showAnimations' in c) c.showAnimations = true;
-        },
-
-        toggleShadow() {
-            this.resetActiveStates();
-            this.announceAria('Shadow panel opened');
-            this.isShadowActive = true;
-            this.closeAllChildPanels('shadowComp');
-            const c = this.$refs.shadowComp; if (c && 'showShadow' in c) c.showShadow = true;
-        },
-
-        toggleClassApplier() {
-            this.resetActiveStates();
-            this.announceAria('CSS class applier opened');
-            this.isClassApplierActive = true;
-            this.closeAllChildPanels('classApplierComp');
-            const c = this.$refs.classApplierComp; if (c && 'showClassApplier' in c) c.showClassApplier = true;
-        },
-
-        togglePosition() {
-            this.resetActiveStates();
-            this.announceAria('Position panel opened');
-            this.isPositionActive = true;
-        },
-
-        toggleListStyleEditor() {
-            this.resetActiveStates();
-            this.announceAria('List style editor opened');
-            this.isListStyleEditorActive = true;
-        },
-
-        toggleLayoutSettings() {
-            this.resetActiveStates();
-            this.announceAria('Layout settings opened');
-            this.isLayoutSettingsActive = true;
-        },
-
-        togglePredefinedStylesApplier() {
-            this.resetActiveStates();
-            this.announceAria('Predefined styles applier opened');
-            this.isPredefinedStylesApplierSettingsActive = true;
-        },
-
-        toggleAiChatSettings() {
-            this.resetActiveStates();
-            this.announceAria('AI chat settings opened');
-            this.isAiChatSettingsActive = true;
-        },
+        toggleTypography()           { this.togglePanel('isTypographyActive', 'typographyComp', 'showTypography', 'Typography'); },
+        toggleBackground()           { this.togglePanel('isBackgroundActive', 'backgroundComp', 'showBackground', 'Background'); },
+        toggleSpacing()              { this.togglePanel('isSpacingActive', 'spacingComp', 'showSpacing', 'Spacing'); },
+        toggleContainer()            { this.togglePanel('isContainerActive', 'containerComp', 'showContainer', 'Container'); },
+        toggleGrid()                 { this.togglePanel('isGridActive', 'gridComp', 'showGridSettings', 'Grid'); },
+        toggleBorder()               { this.togglePanel('isBorderActive', 'borderComp', 'showBorder', 'Border'); },
+        toggleRoundedCorners()       { this.togglePanel('isRoundedCornersActive', 'roundedCornersComp', 'showRoundedCorners', 'Rounded corners'); },
+        toggleAnimations()           { this.togglePanel('isAnimationsActive', 'animationsComp', 'showAnimations', 'Animations'); },
+        toggleShadow()               { this.togglePanel('isShadowActive', 'shadowComp', 'showShadow', 'Shadow'); },
+        toggleClassApplier()         { this.togglePanel('isClassApplierActive', 'classApplierComp', 'showClasses', 'CSS class applier'); },
+        togglePosition()             { this.togglePanel('isPositionActive', null, null, 'Position'); },
+        toggleListStyleEditor()      { this.togglePanel('isListStyleEditorActive', null, null, 'List style editor'); },
+        toggleLayoutSettings()       { this.togglePanel('isLayoutSettingsActive', null, null, 'Layout settings'); },
+        togglePredefinedStylesApplier() { this.togglePanel('isPredefinedStylesApplierSettingsActive', null, null, 'Predefined styles applier'); },
+        toggleAiChatSettings()       { this.togglePanel('isAiChatSettingsActive', null, null, 'AI chat settings'); },
 
         applyPropertyToActiveNode(activeNode, prop, val) {
 

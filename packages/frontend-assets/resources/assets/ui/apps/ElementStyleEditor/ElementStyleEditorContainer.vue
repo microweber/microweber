@@ -6,12 +6,13 @@
                 <path fill="currentColor" d="M19,17H5V7H19M19,5H5A2,2 0 0,0 3,7V17A2,2 0 0,0 5,19H19A2,2 0 0,0 21,17V7C21,5.89 20.1,5 19,5Z"></path>
             </svg>
 
-            <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3" :class="{'active': showContainer }" v-on:click="toggleContainer">
+            <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3" :class="{'active': showContainer }">
                 Container
             </span>
         </div>
 
-        <div v-if="showContainer">
+        <!-- task-2026-05-16-ea56d3: @click.stop — see ElementStyleEditorTypography.vue -->
+        <div v-if="showContainer" @click.stop>
 
         <div class="form-control-live-edit-label-wrapper my-4" id="field-conatiner-type">
             <label class="live-edit-label">Container</label>
