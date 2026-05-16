@@ -1728,3 +1728,36 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-icon {
     background-color: var(--ese-surface, #ffffff);
 }
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-693 (task-2026-05-16-c3d0ed) — Add-Content modal monochrome
+ * icon palette accent contract — RELOCATED here per task-2026-05-16-
+ * 651cc2 CHANGE (designer DOM-probe verified rule was not firing
+ * in `live-edit-module-settings.blade.php`; same defect class as
+ * AI-691a + AI-697 — that Blade is the LiveEditModuleSettings
+ * sub-form layout, never renders on the live-edit canvas).
+ *
+ * The six picker cards render monochrome icons at rest
+ * (`.mw-add-content-icon` + `.text-gray-600 bg-gray-500/10` per
+ * the add-content-modal.blade.php tints, AI-693 / task-c3d0ed
+ * ESE 1.3b ship). On hover/focus, both the icon container bg AND
+ * the SVG fill flip to the ESE accent pair (`--ese-accent-soft` +
+ * `--ese-accent`) so the visual coupling matches MwToolButton's
+ * accent contract from ESE spec §4.5.
+ *
+ * Scoped to .mw-content-picker-modal so non-picker Filament
+ * modals keep their existing palette.
+ *
+ * Token-scoping note (SOUL #108): ESE tokens are :root-scoped via
+ * element-style-editor.css; literal fallbacks on every var() so
+ * the rule resolves even before the ESE stylesheet loads.
+ * ─────────────────────────────────────────────────────────────── */
+
+.mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon,
+.mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12));
+}
+.mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon svg,
+.mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
+    color: var(--ese-accent, #0d6efd);
+}

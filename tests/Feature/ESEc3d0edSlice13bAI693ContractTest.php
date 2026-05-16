@@ -71,8 +71,18 @@ class ESEc3d0edSlice13bAI693ContractTest extends TestCase
         $this->modalBlade = (string) file_get_contents(base_path(
             'src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
         ));
+        // task-2026-05-16-651cc2 CHANGE (designer per SOUL #108
+        // verify-before-accept): AI-693 hover-accent rule was NOT
+        // firing on the live build — same defect class as AI-691a /
+        // AI-697. live-edit-module-settings.blade.php is the
+        // LiveEditModuleSettings sub-form layout, never renders on
+        // the live-edit canvas. Rule relocated to live-edit-
+        // classes.css (Webpack-bundled, loaded on /admin/live-edit).
+        // $adminStyleBlade now reads the new host file so existing
+        // selector + token assertions continue to verify presence
+        // at the correct location.
         $this->adminStyleBlade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit-module-settings.blade.php'
+            'packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-classes.css'
         ));
     }
 
@@ -242,8 +252,12 @@ class ESEc3d0edSlice13bAI693ContractTest extends TestCase
     {
         // .mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover
         //   .mw-add-content-icon { background-color: var(--ese-accent-soft); }
+        // task-651cc2 update: var() now carries literal fallback
+        // per SOUL #108 token-fallback contract — regex updated to
+        // accept `var(--ese-accent-soft)` or `var(--ese-accent-soft,
+        // <fallback>)`.
         $this->assertMatchesRegularExpression(
-            '/\.mw-content-picker-modal\s+\.mw-add-content-modal-action-wrapper:hover\s+\.mw-add-content-icon[\s\S]*?background-color:\s*var\(--ese-accent-soft\)/',
+            '/\.mw-content-picker-modal\s+\.mw-add-content-modal-action-wrapper:hover\s+\.mw-add-content-icon[\s\S]*?background-color:\s*var\(--ese-accent-soft(?:,[^)]*)?\)/',
             $this->adminStyleBlade,
             'AI-693 accent contract: :hover on .mw-add-content-modal-action-wrapper must set --ese-accent-soft on .mw-add-content-icon (scoped to .mw-content-picker-modal).'
         );
@@ -252,8 +266,10 @@ class ESEc3d0edSlice13bAI693ContractTest extends TestCase
     #[Test]
     public function accent_contract_svg_color_rule_present(): void
     {
+        // task-651cc2 update: accept var() with optional literal
+        // fallback per SOUL #108 token-fallback contract.
         $this->assertMatchesRegularExpression(
-            '/\.mw-content-picker-modal\s+\.mw-add-content-modal-action-wrapper:hover\s+\.mw-add-content-icon\s+svg[\s\S]*?color:\s*var\(--ese-accent\)/',
+            '/\.mw-content-picker-modal\s+\.mw-add-content-modal-action-wrapper:hover\s+\.mw-add-content-icon\s+svg[\s\S]*?color:\s*var\(--ese-accent(?:,[^)]*)?\)/',
             $this->adminStyleBlade,
             'AI-693 accent contract: :hover SVG must inherit --ese-accent foreground (scoped).'
         );
@@ -275,19 +291,39 @@ class ESEc3d0edSlice13bAI693ContractTest extends TestCase
     public function accent_contract_uses_ese_tokens_not_inline_literals(): void
     {
         // Guard against re-introducing per-type tinted colours or
-        // hex literals in the AI-693 CSS slice. Slice from the AI-693
-        // marker to the next AI-NNN marker (AI-691a follows) and confirm
-        // no rgb/hex literals appear in the slice — only var(--ese-*).
+        // standalone hex/rgb/rgba literals in the AI-693 CSS slice.
+        //
+        // task-2026-05-16-651cc2 update: file relocated to
+        // live-edit-classes.css. AI-693 block now sits AFTER the
+        // AI-691a+AI-697 block (per task-bc28fd ordering) — slice-
+        // end marker walks forward to next `/* ─` or EOF (LESSONS
+        // selector-self-match slice pattern). Token-fallback
+        // contract from SOUL #108 means var() calls now carry
+        // literal fallbacks (`var(--ese-accent-soft, rgba(13, 110,
+        // 253, 0.12))`) — those rgba() literals INSIDE var()
+        // fallbacks are legitimate. The guard rejects literals on
+        // CSS rule lines that DON'T contain `var(`.
         $start = strpos($this->adminStyleBlade, 'AI-693 (task-2026-05-16-c3d0ed)');
         $this->assertNotFalse($start, 'AI-693 task-id marker must be present in the admin-side style block.');
-        $end = strpos($this->adminStyleBlade, 'AI-691a (task-2026-05-16-860f75)', $start);
-        $this->assertNotFalse($end, 'Slice end marker (next AI-NNN block) must follow the AI-693 block.');
-        $slice = substr($this->adminStyleBlade, $start, $end - $start);
-        $this->assertDoesNotMatchRegularExpression(
-            '/#[0-9a-fA-F]{3,8}\b|rgb\s*\(|rgba\s*\(/',
-            $slice,
-            'AI-693 CSS slice must consume var(--ese-*) tokens — no hex / rgb / rgba literals allowed in the slice body.'
-        );
+        $sliceStart = strpos($this->adminStyleBlade, '*/', $start);
+        $this->assertNotFalse($sliceStart, 'AI-693 docblock close `*/` must follow the marker.');
+        $sliceStart += 2;
+        $next = strpos($this->adminStyleBlade, '/* ─', $sliceStart);
+        $sliceEnd = $next !== false ? $next : strlen($this->adminStyleBlade);
+        $slice = substr($this->adminStyleBlade, $sliceStart, $sliceEnd - $sliceStart);
+
+        // Scan declaration lines only; skip lines that wrap their
+        // literal inside a var() fallback.
+        $lines = preg_split('/\r?\n/', $slice);
+        foreach ($lines as $line) {
+            if (! str_contains($line, ':')) continue; // only declaration lines
+            if (str_contains($line, 'var(')) continue; // var() with fallback is allowed
+            $this->assertDoesNotMatchRegularExpression(
+                '/#[0-9a-fA-F]{3,8}\b|rgb\s*\(|rgba\s*\(/',
+                $line,
+                "AI-693 CSS slice must consume var(--ese-*) tokens — found standalone literal in line: {$line}"
+            );
+        }
     }
 
     #[Test]

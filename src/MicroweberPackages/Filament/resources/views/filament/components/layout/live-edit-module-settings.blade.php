@@ -631,25 +631,16 @@
             pointer-events: none;
         }
 
-        /* AI-693 (task-2026-05-16-c3d0ed) — Add-Content modal icon palette
-           accent contract. The six picker cards now render a monochrome
-           icon at rest (.text-gray-600 + bg-gray-500/10 / dark equivalents
-           in `add-content-modal.blade.php`); hover/focus replaces both with
-           the ESE accent pair (`--ese-accent-soft` bg + `--ese-accent`
-           foreground) so the visual coupling matches MwToolButton's accent
-           contract from spec §4.5. ESE tokens are defined at `:root` in
-           `element-style-editor.css` so they resolve even inside the
-           Filament-portaled modal that lives outside `.mw-live-edit-page`.
-           Scoped to .mw-content-picker-modal so non-picker modals
-           (form-modal, settings, etc.) keep their existing palette. */
-        .mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon,
-        .mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon {
-            background-color: var(--ese-accent-soft);
-        }
-        .mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon svg,
-        .mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
-            color: var(--ese-accent);
-        }
+        /* AI-693 (task-2026-05-16-c3d0ed) — hover-accent rules MOVED
+           OUT of this Blade per task-2026-05-16-651cc2 CHANGE.
+           Designer verified live: same defect class as AI-691a /
+           AI-697 — this Blade is the LiveEditModuleSettings sub-form
+           layout, NOT the live-edit canvas, so the `<style>` block
+           never renders when the +ADD picker modal opens. Hover-
+           accent rules now live in `packages/microweber-filament-
+           theme/resources/assets/css/microweber/live-edit-classes.
+           css` (Webpack-bundled, loaded on /admin/live-edit) — see
+           the AI-693 / task-651cc2 block in that file. */
 
         /* task-2026-05-16-bc28fd CHANGE — the desktop-Cancel-hide
            rule [originally AI-691a (task-2026-05-16-860f75)] and the
