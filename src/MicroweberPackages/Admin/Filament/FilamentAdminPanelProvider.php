@@ -362,36 +362,81 @@ class FilamentAdminPanelProvider extends PanelProvider
 
         // AI-703 / task-2026-05-16-29342d — bridge Filament's Alpine sidebar
         // state into `localStorage.admin_sidebar_mode` so the designer-spec
-        // key is present alongside Filament's native persistence. Watches the
-        // `body` element's `fi-sidebar-open` / `fi-sidebar-collapsed-on-desktop`
-        // class state and mirrors to one of three string values:
-        //   - 'pinned'    (lg+ sidebar open and not collapsed)
-        //   - 'rail'      (lg+ sidebar open and collapsed to rail)
-        //   - 'collapsed' (sidebar closed — applies < lg by default)
+        // key is present alongside Filament's native persistence.
+        //
+        // task-2026-05-17-6cb0d8 / AI-703 CHANGE — designer verified
+        // 6 of 7 acceptance points but found the localStorage bridge
+        // was stuck on its initial value through every state
+        // transition. Root cause: the observer was watching the
+        // `body` element's `fi-sidebar-open` / `fi-sidebar-collapsed-
+        // on-desktop` classes — but neither class is toggled by
+        // Filament v5 in this build. Filament's sidebar state lives
+        // in Alpine `$store('sidebar').isOpen` AND the `.fi-sidebar`
+        // element itself carries the `fi-sidebar-open` class via
+        // `x-bind:class="{ 'fi-sidebar-open': $store.sidebar.isOpen }"`
+        // (see vendor/filament/filament/resources/views/livewire/
+        // sidebar.blade.php line 19).
+        //
+        // Fix per designer's recommended Option A: observe the
+        // `.fi-sidebar` element's class list instead of body. Three-
+        // state mapping preserved:
+        //   - 'pinned'    (.fi-sidebar.fi-sidebar-open AND viewport
+        //                  ≥ 1024 px)
+        //   - 'rail'      (.fi-sidebar present but NOT .fi-sidebar-
+        //                  open AND viewport ≥ 1024 px — Filament's
+        //                  rail mode hides the open state on desktop)
+        //   - 'collapsed' (viewport < 1024 px OR no .fi-sidebar)
+        //
+        // Window resize also triggers a re-sync so transitions
+        // across the 1024 px breakpoint update the stored state.
         $panel->renderHook(
             name: PanelsRenderHook::BODY_END,
             hook: fn(): string => <<<'HTML'
             <script>
-            /* AI-703 / task-2026-05-16-29342d — admin_sidebar_mode localStorage bridge */
+            /* AI-703 / task-2026-05-16-29342d + AI-703 CHANGE
+               task-2026-05-17-6cb0d8 — admin_sidebar_mode localStorage
+               bridge, observing .fi-sidebar element. */
             (function () {
                 if (typeof window === 'undefined' || !window.localStorage) return;
                 var KEY = 'admin_sidebar_mode';
                 var body = document.body;
                 if (!body || !body.classList.contains('fi-panel-admin')) return;
+                var DESKTOP_PX = 1024;
+                function getSidebar() {
+                    return document.querySelector('.fi-sidebar');
+                }
                 function readMode() {
-                    var classes = body.classList;
-                    var collapsedRail = classes.contains('fi-sidebar-collapsed-on-desktop');
-                    var open = classes.contains('fi-sidebar-open');
-                    if (open && !collapsedRail) return 'pinned';
-                    if (open && collapsedRail) return 'rail';
-                    return 'collapsed';
+                    var sidebar = getSidebar();
+                    var isDesktop = window.innerWidth >= DESKTOP_PX;
+                    if (!sidebar) return 'collapsed';
+                    var open = sidebar.classList.contains('fi-sidebar-open');
+                    if (!isDesktop) return 'collapsed';
+                    if (open) return 'pinned';
+                    return 'rail';
                 }
                 function writeMode() {
                     try { window.localStorage.setItem(KEY, readMode()); } catch (e) {}
                 }
+                function attachObserver() {
+                    var sidebar = getSidebar();
+                    if (!sidebar) return false;
+                    var observer = new MutationObserver(writeMode);
+                    observer.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+                    return true;
+                }
                 writeMode();
-                var observer = new MutationObserver(writeMode);
-                observer.observe(body, { attributes: true, attributeFilter: ['class'] });
+                // .fi-sidebar may render after this script runs (Livewire
+                // hydration order). Retry attachment until success or
+                // give-up cap.
+                if (!attachObserver()) {
+                    var tries = 0;
+                    var retry = setInterval(function () {
+                        if (attachObserver() || ++tries > 20) {
+                            clearInterval(retry);
+                        }
+                    }, 100);
+                }
+                window.addEventListener('resize', writeMode);
             })();
             </script>
             HTML

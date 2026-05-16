@@ -153,14 +153,15 @@ class Admin29342dAI703ResponsiveSidebarContractTest extends TestCase
     #[Test]
     public function bridge_script_observes_body_class_via_mutationobserver(): void
     {
-        // The Alpine sidebar state surfaces as classes on <body>;
-        // a MutationObserver scoped to attribute changes is the
-        // canonical sync primitive (matches the ToolbarToolsDropdown
-        // theme-sync pattern from task-2026-05-16-3ae87c).
+        // task-2026-05-17-6cb0d8 / AI-703 CHANGE — the observer
+        // target moved from `body` to `.fi-sidebar` because
+        // Filament v5 does NOT toggle the sidebar state classes on
+        // body in this build. The MutationObserver primitive shape
+        // is preserved (still attributeFilter: ['class']).
         $this->assertMatchesRegularExpression(
             "/AI-703[\\s\\S]*?new\\s+MutationObserver\\(\\s*writeMode\\s*\\)[\\s\\S]*?attributeFilter:\\s*\\['class'\\]/",
             $this->panelProvider,
-            'Bridge script must use MutationObserver on body with attributeFilter: ["class"] to track Filament sidebar state.'
+            'Bridge script must use MutationObserver with attributeFilter: ["class"] to track Filament sidebar state.'
         );
     }
 
@@ -181,18 +182,30 @@ class Admin29342dAI703ResponsiveSidebarContractTest extends TestCase
     #[Test]
     public function bridge_script_reads_canonical_filament_state_classes(): void
     {
-        // The two Filament body classes the bridge reads to compute
-        // the mode. If Filament renames these, the bridge breaks
-        // and the test fails — that's the contract.
-        $this->assertMatchesRegularExpression(
-            "/AI-703[\\s\\S]*?'fi-sidebar-collapsed-on-desktop'/",
-            $this->panelProvider,
-            "Bridge script must read the canonical Filament class 'fi-sidebar-collapsed-on-desktop'."
-        );
+        // task-2026-05-17-6cb0d8 / AI-703 CHANGE — designer's
+        // verification at 1440 + overlay + mobile + dark found the
+        // pre-CHANGE bridge stuck because Filament v5 does NOT
+        // toggle `fi-sidebar-collapsed-on-desktop` on body in this
+        // build — the canonical state lives on `.fi-sidebar` itself
+        // via x-bind:class="{ 'fi-sidebar-open': $store.sidebar.isOpen }"
+        // (see vendor/filament/filament/resources/views/livewire/
+        // sidebar.blade.php line 19). The bridge now observes the
+        // `.fi-sidebar` element directly + uses window.innerWidth
+        // as a 1024 px desktop/mobile tiebreaker for the rail mode.
         $this->assertMatchesRegularExpression(
             "/AI-703[\\s\\S]*?'fi-sidebar-open'/",
             $this->panelProvider,
-            "Bridge script must read the canonical Filament class 'fi-sidebar-open'."
+            "Bridge script must read the canonical Filament class 'fi-sidebar-open' (the only class Filament v5 toggles in this build)."
+        );
+        $this->assertMatchesRegularExpression(
+            "/AI-703[\\s\\S]*?DESKTOP_PX\\s*=\\s*1024/",
+            $this->panelProvider,
+            "Bridge script must define DESKTOP_PX = 1024 — the breakpoint that drives the rail/collapsed distinction post-CHANGE."
+        );
+        $this->assertMatchesRegularExpression(
+            "/AI-703[\\s\\S]*?document\\.querySelector\\(\\s*'\\.fi-sidebar'\\s*\\)/",
+            $this->panelProvider,
+            "Bridge script must query the `.fi-sidebar` element directly — post-CHANGE observer target."
         );
     }
 
