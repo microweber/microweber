@@ -1,7 +1,12 @@
 <template>
+    <!-- AI-710 / task-2026-05-16-6c4e74 — panel heading aligned to
+         the right-rail button label ("Element styles") per designer
+         spec. Both surfaces now say the same thing — fixes the
+         "two names, one surface" naming-hygiene problem flagged
+         downstream of AI-708. -->
     <div v-if="isOpened">
         <div class="d-flex align-items-center justify-content-between mb-3">
-            <h3 class="fs-2 font-weight-bold">Element Style Editor</h3>
+            <h3 class="fs-2 font-weight-bold">Element styles</h3>
             <span v-on:click="closeStyleEditor" class="x-close-modal-link" style="top: 27px; right: 32px;">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
 

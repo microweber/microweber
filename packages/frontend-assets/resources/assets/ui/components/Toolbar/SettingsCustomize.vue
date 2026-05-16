@@ -381,18 +381,24 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
         </button>
 
 
+        <!-- AI-710 / task-2026-05-16-6c4e74 — right-rail icon was
+             labelled "Design" but opens the per-element styling panel;
+             rename to "Element styles" so the button and the panel
+             agree (screen readers stop announcing two different names
+             for the same surface). Click target / state classes / event
+             handlers are unchanged — pure label rewrite. -->
         <button type="button"
              v-if="canShowSettingsCustomize"
              :class="{'live-edit-right-sidebar-active': !buttonIsActive && buttonIsActiveStyleEditor }"
              class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle mw-toolbar-icon-btn"
-             aria-label="Design"
-             title="Design"
+             aria-label="Element styles"
+             title="Element styles"
              :aria-pressed="!buttonIsActive && buttonIsActiveStyleEditor"
              v-on:click="toggle('style-editor')"
              v-on:keydown.enter.prevent="toggle('style-editor')"
              v-on:keydown.space.prevent="toggle('style-editor')">
             <v-tooltip activator="parent" location="start">
-                <Lang>Design</Lang>
+                <Lang>Element styles</Lang>
             </v-tooltip>
             <svg fill="currentColor"
                  height="22" viewBox="0 -960 960 960"
