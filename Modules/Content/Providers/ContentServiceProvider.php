@@ -8,6 +8,7 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\Content\Filament\Admin\ContentResource;
+use Modules\Content\Filament\Admin\Pages\ContentTypesPage;
 use Modules\Content\Filament\ContentModuleSettings;
 use Modules\Content\Filament\ContentTableList;
 use Modules\Content\Microweber\ContentModule;
@@ -73,6 +74,9 @@ class ContentServiceProvider extends BaseModuleServiceProvider
         Livewire::component('modules.content.filament.content-table-list', ContentTableList::class);
         FilamentRegistry::registerResource(ContentResource::class);
         FilamentRegistry::registerPage(ContentModuleSettings::class);
+        // task-2026-05-16-299f78 / AI-732 Phase 1 — Content Types
+        // listing page at /admin/content-types.
+        FilamentRegistry::registerPage(ContentTypesPage::class);
         Microweber::module(ContentModule::class);
 
 
