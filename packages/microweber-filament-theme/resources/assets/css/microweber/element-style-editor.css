@@ -719,3 +719,126 @@ html[dir="rtl"] .reset-field {
         right: auto;
     }
 }
+
+/* ============================================================
+ * task-2026-05-16-0e7dfc: ESE sidebar design-consistency sweep
+ *
+ * The ESE accordion bodies each render with their own per-component
+ * markup conventions (form-control-live-edit-label-wrapper /
+ * s-field / form-label / d-flex / bespoke wrappers). This block
+ * brings the visible field-row rhythm in line across all tabs so
+ * the sidebar reads as ONE control surface instead of N component
+ * rooms.
+ *
+ * Touches: Typography, Background, Spacing, Container, Grid,
+ * Border, RoundedCorners, Animations, Shadow, Class Applier,
+ * List Style Editor, Predefined Styles, AI Chat. Scoped to
+ * `.element-style-editor-toggle-wrapper.active` so it only fires
+ * inside the open accordion, never leaking to other Filament UI.
+ * ============================================================ */
+
+/* 1. Spacing tab — S/M/L/XL preset buttons. Used `.btn.btn-icon`
+ *    but no CSS defines `.btn-icon` anywhere in the project, so the
+ *    buttons rendered with bare Bootstrap `.btn` blue-bordered
+ *    defaults — visibly inconsistent with every other ESE control
+ *    (ColorPicker pill, Italic toggle, alignment row).
+ *    Make them compact 28×28 currentColor squares with a subtle
+ *    border + active state matching `.text-align .active`.
+ */
+.element-style-editor-toggle-wrapper.active .mw-live-edit-spacing-wrapper {
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.element-style-editor-toggle-wrapper.active .mw-live-edit-spacing-wrapper .btn.btn-icon {
+    width: 32px;
+    height: 28px;
+    min-width: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    border: 1px solid rgba(127, 127, 127, 0.25);
+    background: transparent;
+    color: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease,
+                color 0.15s ease;
+}
+.element-style-editor-toggle-wrapper.active .mw-live-edit-spacing-wrapper .btn.btn-icon:hover {
+    border-color: rgba(127, 127, 127, 0.5);
+    background: rgba(127, 127, 127, 0.08);
+}
+.element-style-editor-toggle-wrapper.active .mw-live-edit-spacing-wrapper .btn.btn-icon.active {
+    background: rgb(37 99 235);     /* tw blue-600 */
+    border-color: rgb(37 99 235);
+    color: #fff;
+}
+.element-style-editor-toggle-wrapper.active .mw-live-edit-spacing-wrapper .btn.btn-icon svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+/* 2. Grid tab — `<label class="live-edit-label px-0 col-4">` forced
+ *    a 33% width on Grid labels (col-4 = 33% of a 12-col row),
+ *    making them narrower than every other ESE label and pushing
+ *    the breakpoint controls into a cramped 67% slot. Normalize.
+ */
+.element-style-editor-toggle-wrapper.active .live-edit-label.col-4 {
+    width: auto;
+    flex: 0 0 auto;
+    min-width: 80px;
+    padding-inline: 0 !important;
+}
+
+/* 3. UlOl list-style + PredefinedStyles tabs — `.live-edit-label.w-100`
+ *    + `.live-edit-label.cursor-pointer` rendered the label
+ *    full-width on its own line which broke the otherwise consistent
+ *    label-left/control-right rhythm. Force consistent inline layout.
+ */
+.element-style-editor-toggle-wrapper.active .live-edit-label.w-100 {
+    width: auto !important;
+}
+
+/* 4. Spacing tab — `.form-label.live-edit-label` (with the extra
+ *    Bootstrap `.form-label`) inherits `.form-label`'s
+ *    `margin-bottom: 0.5rem` which makes its labels sit 8px LOWER
+ *    than other ESE labels. Cancel the extra margin so they align
+ *    with sibling rows.
+ */
+.element-style-editor-toggle-wrapper.active .form-label.live-edit-label {
+    margin-bottom: 4px;
+}
+
+/* 5. All accordion-body containers — `.mb-3` (Spacing) / `.mb-4`
+ *    (RoundedCorners) / inherent margin from `.my-4` on individual
+ *    field wrappers diverge. Normalize the row gap between
+ *    field-row groups to a consistent 12px while inside the active
+ *    accordion. (The earlier general-styles rule sets
+ *    `.form-control-live-edit-label-wrapper { margin-bottom: 8px }`
+ *    inside the active wrapper — this rule extends to the other
+ *    margin-utility variants.)
+ */
+.element-style-editor-toggle-wrapper.active .mb-3,
+.element-style-editor-toggle-wrapper.active .mb-4,
+.element-style-editor-toggle-wrapper.active .my-4 {
+    margin-top: 4px !important;
+    margin-bottom: 12px !important;
+}
+
+/* 6. List-style + Predefined-styles accordion buttons that use
+ *    `<a>` with `cursor-pointer` need a hover affordance + active
+ *    state so they read as buttons not paragraphs.
+ */
+.element-style-editor-toggle-wrapper.active .live-edit-label.cursor-pointer {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.15s ease;
+}
+.element-style-editor-toggle-wrapper.active .live-edit-label.cursor-pointer:hover {
+    background: rgba(127, 127, 127, 0.08);
+}
