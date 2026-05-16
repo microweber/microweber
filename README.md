@@ -116,7 +116,7 @@ You can import the `.htaccess` rewrite rules for IIS. Ensure that the URL Rewrit
 
 ### Database
 
-Microweber supports multiple database engines, including MySQL, SQLite, Microsoft SQL Server, and PostgreSQL. For small websites, SQLite is highly recommended. During installation, you can select from the databases enabled in your PHP configuration. If your preferred database server isn't listed, make sure to enable the corresponding PDO extension for your server in your PHP configuration.
+Microweber supports multiple database engines, including MySQL, MariaDB, SQLite, Microsoft SQL Server, and PostgreSQL. For small websites, SQLite is highly recommended. During installation, you can select from the databases enabled in your PHP configuration. If your preferred database server isn't listed, make sure to enable the corresponding PDO extension for your server in your PHP configuration.
 
 ## Installation
 
