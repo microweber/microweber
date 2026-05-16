@@ -78,5 +78,21 @@ export default {
     font-size: 13px;
     padding: 4px 28px 4px 8px;
     height: auto;
+    /*
+     * task-2026-05-16-624e18: when the admin/live-edit shell is in
+     * dark mode (`html.dark`), the native `<select>` popup that the
+     * browser opens for the option list still renders with
+     * light-mode-default styling (white bg, black text, blue
+     * highlight). The :root.dark { color-scheme: dark; } rule in
+     * theme/base.css helps for most native form controls, but does
+     * not reliably propagate to `<select>` popups across browsers.
+     * Force `color-scheme: dark` directly on the select inside .dark
+     * so Chromium/Firefox render the dropdown popup with the dark
+     * native theme — matches the ESE sidebar's panel chrome.
+     */
+}
+:root.dark .dropdown-small-select,
+.dark .dropdown-small-select {
+    color-scheme: dark;
 }
 </style>
