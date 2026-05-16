@@ -115,7 +115,14 @@
                         min: 0,
                         max: yMax,
                         splitNumber: allZero ? 2 : undefined,
-                        splitLine: { lineStyle: { color: allZero ? '#f0f0f0' : '#e0e0e0', type: 'solid' } },
+                        // task-2026-05-16-6ba113: hide Y-axis horizontal
+                        // gridlines (splitLine). They previously rendered
+                        // at #e0e0e0/#f0f0f0 light gray which was too
+                        // bright against the dark dashboard background.
+                        // The blue line/area chart already conveys the
+                        // trend; gridlines aren't needed for readability
+                        // in the compact dashboard widget.
+                        splitLine: { show: false },
                         axisLine: { show: false },
                         axisTick: { show: false },
                         axisLabel: { show: this.expanded, color: '#4a5568', fontSize: 11 }
