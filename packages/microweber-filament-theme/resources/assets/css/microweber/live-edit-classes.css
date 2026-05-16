@@ -1773,11 +1773,20 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
  * the rule resolves even before the ESE stylesheet loads.
  * ─────────────────────────────────────────────────────────────── */
 
+/* task-2026-05-17-247ca7 / AI-693 v4 CHANGE — designer CSSOM
+   probe found the hover rule didn't reach runtime even though
+   source + bundle were correct. Root cause: the icon element
+   carries Tailwind utility `.bg-gray-500/10` directly; under
+   Tailwind v4's `:where()` specificity-zero wrapping it should
+   still lose to our 0,4,0 selector — but designer's runtime
+   probe says it doesn't. Belt-and-braces: bump to !important
+   to win cascade unconditionally. Same defect family as
+   AI-697 v3 cascade collision (task-d994e7). */
 .mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon,
 .mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon {
-    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12));
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12)) !important;
 }
 .mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon svg,
 .mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
-    color: var(--ese-accent, #0d6efd);
+    color: var(--ese-accent, #0d6efd) !important;
 }
