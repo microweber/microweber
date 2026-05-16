@@ -2810,6 +2810,10 @@ Module: testimonials
 - [x] 2026-05-15  [task-2026-05-15-5fa39a] Read the email message and work on the tasks mentioned: [[ACK] Phase 2 Complete — 184 Tickets Evaluated, Standing By](/.autodev/messages/attachments/email_mp7d7cfr_zclebe/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-15  [task-2026-05-15-35e97e] Read the email message and work on the tasks mentioned: [[STATUS] No New Findings — 184 Tickets Evaluated, Standing By](/.autodev/messages/attachments/email_mp7e7shv_ekr8nq/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-16  [task-2026-05-15-08dcb8] Read the email message and work on the tasks mentioned: [[STATUS] 21:06 UTC — No New Findings, Standing By](/.autodev/messages/attachments/email_mp7fald3_omersb/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-16  [task-2026-05-16-cfef17] move the dar/light slich i nthe submenu as thy e were before [attachment: .autodev/messages/attachments/task-2026-05-16-cfef17/paste-1778915128602.png]
+- [ ] [task-2026-05-16-6ba113] on the stats the lines aretoo bightt  remove hte lines  \ [attachment: .autodev/messages/attachments/task-2026-05-16-6ba113/paste-1778915167144.png]
+- [ ] [task-2026-05-16-ea56d3] in the element tyle editor the accoreon are not ogleable pls fix them  and fix thel ign icons [attachment: .autodev/messages/attachments/task-2026-05-16-ea56d3/paste-1778915230819.png]
+- [ ] [task-2026-05-16-28c634] also thei nputs are not ok intheleenmnt tyle editr
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
