@@ -19,10 +19,20 @@
 </script>
 
  <style>
+    /* task-2026-05-16-02760c: Filament v5 ships Tailwind v4, which uses
+       the separate CSS `translate` property for its `-translate-x-full`
+       utility on the sidebar. The slide-in animation below drives
+       `transform`, so we must also reset `translate` to `none` —
+       otherwise `translate: -100% !important` stays applied and the
+       sidebar drawer renders off-screen at x=-280 even when `.active`
+       sets the identity transform. User-visible symptom before the fix:
+       clicking the live-edit toolbar hamburger added `.active` but no
+       menu content appeared (sidebar was rendering off-screen left). */
     .fi-sidebar{
         position: absolute  !important;
         top:0;
         left:0;
+        translate: none !important;
         transform: translateX(-100%) !important;
         transition: var(--toolbar-height-animation-speed) !important;
         z-index: 101 !important;
