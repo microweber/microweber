@@ -1,11 +1,21 @@
+{{-- AI-704 / task-2026-05-16-225150 — +Add re-clustered with Live Edit
+     on the right side of admin top bar (was a standalone TOPBAR_START
+     hook isolated at the left). The button is now icon-only (24-32 px
+     hit, 16 px Plus icon) to match the MwToolButton default variant
+     from spec §2 AD3; the visible "Add" label is hidden via .sr-only
+     so AT users still hear it, and an explicit aria-label is set on
+     the trigger so screen readers don't fall back to icon-only output.
+     Geometry + ghost background live in general-styles.css. --}}
 <div class="flex justify-between">
     <x-filament::modal width="lg">
         <x-slot name="trigger">
             <x-filament::button
                 icon="heroicon-m-plus"
                 class="admin-toolbar-buttons admin-toolbar-add"
+                aria-label="Add new content"
+                title="Add new content"
             >
-                Add
+                <span class="sr-only">Add</span>
             </x-filament::button>
         </x-slot>
 

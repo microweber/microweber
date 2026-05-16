@@ -318,14 +318,32 @@ class FilamentAdminPanelProvider extends PanelProvider
             }
         );
 
-        $panel->renderHook(
-            name: PanelsRenderHook::TOPBAR_START,
-            hook: fn(): string => Blade::render('@livewire(\'admin-top-navigation-actions\')')
-        );
-
+        // AI-704 / task-2026-05-16-225150 — Re-cluster +Add with Live Edit
+        // on the right side of the admin top bar per designer spec
+        // (admin-shell-improvements-2026-05-16.md §2 AD3).
+        //
+        // Previous: +Add was registered as its own TOPBAR_START hook so it
+        // sat at the LEFT edge (just after the AI-702 brand mark, before
+        // the hamburger), visually isolated and competing with the brand.
+        //
+        // Now:     both +Add and Live Edit render together via
+        // GLOBAL_SEARCH_AFTER, wrapped in a `.mw-admin-primary-actions`
+        // flex container with `gap: var(--space-sm)` — primary actions
+        // cluster sits in the right half of the topbar after search,
+        // before Filament's stock user/notifications cluster.
+        //
+        // Mobile collapse: see general-styles.css AI-704 block — at
+        // ≤768px the +Add button is hidden (its functions remain
+        // accessible via the sidebar drawer / resource pages). The
+        // explicit "render +Add as a hamburger-menu item on mobile"
+        // step from §2 AD3 is AI-704a follow-up.
         $panel->renderHook(
             name: PanelsRenderHook::GLOBAL_SEARCH_AFTER,
-            hook: fn(): string => view('admin::livewire.filament.top-navigation-go-live-edit') . view('admin::livewire.filament.search-quick-nav')
+            hook: fn(): string => '<div class="mw-admin-primary-actions">'
+                . Blade::render('@livewire(\'admin-top-navigation-actions\')')
+                . view('admin::livewire.filament.top-navigation-go-live-edit')->render()
+                . '</div>'
+                . view('admin::livewire.filament.search-quick-nav')->render()
         );
 
         // AI-703 / task-2026-05-16-29342d — bridge Filament's Alpine sidebar

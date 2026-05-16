@@ -2786,3 +2786,119 @@ body.fi-panel-admin .fi-sidebar {
         border-inline-end-color: var(--ese-border, rgba(255, 255, 255, 0.12));
     }
 }
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-704 — Re-cluster +Add with Live Edit on the right side of
+ * the admin top bar
+ * task-2026-05-16-225150 / designer spec admin-shell-improvements §2 AD3
+ *
+ * Layout: PHP-side moves both buttons into GLOBAL_SEARCH_AFTER wrapped
+ * in `.mw-admin-primary-actions`. This block ships:
+ *
+ *  - `.mw-admin-primary-actions` — inline-flex wrapper with
+ *    `gap: var(--space-sm)` per spec, so +Add and Live Edit sit
+ *    tight together as a single visual cluster.
+ *
+ *  - `.admin-toolbar-add` (Filament `.fi-btn`) — compact
+ *    MwToolButton-default geometry: icon-only 32×32 hit area,
+ *    16 px Plus icon, transparent ghost background that fills on
+ *    hover with `--ese-surface-hover`. Overrides the legacy
+ *    `microweber-theme-v3.scss` MW-v2 light-blue pill with
+ *    `!important` (the legacy SCSS uses `!important` itself, so we
+ *    have to match-or-beat its specificity).
+ *
+ *  - `.admin-toolbar-live-edit` (Filament `.fi-btn`) — v2-inspired
+ *    primary pill matching the AI-699 SAVE pill contract:
+ *    `--ese-text` bg, `--ese-surface` text, `--radius-pill` rounding,
+ *    `var(--space-sm) var(--space-md)` padding. Same `!important`
+ *    rationale.
+ *
+ *  - Mobile (≤768px) hides `.admin-toolbar-add` per spec. The
+ *    explicit "render in sidebar drawer on mobile" step from §2 AD3
+ *    is the AI-704a follow-up candidate (requires wiring into the
+ *    Filament sidebar nav rather than the topbar).
+ *
+ * Token-scoping note (SOUL #108 spec-doc-nit): all consumed tokens
+ * are :root-scoped at the ESE token layer; literal fallbacks on every
+ * var() so the rules resolve even in surfaces where the ESE stylesheet
+ * hasn't loaded.
+ * ─────────────────────────────────────────────────────────────── */
+
+body.fi-panel-admin .mw-admin-primary-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm, 8px);
+}
+
+body.fi-panel-admin .fi-btn.admin-toolbar-add,
+body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary {
+    background-color: transparent !important;
+    color: var(--ese-text, #111827) !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: var(--radius-md, 10px) !important;
+    height: auto !important;
+    min-height: 32px !important;
+    min-width: 32px !important;
+    padding: var(--space-xs, 6px) !important;
+    line-height: 1 !important;
+    transition: background-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) !important;
+}
+body.fi-panel-admin .fi-btn.admin-toolbar-add:hover,
+body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary:hover {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04)) !important;
+    opacity: 1 !important;
+}
+body.fi-panel-admin .fi-btn.admin-toolbar-add:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd) !important;
+    outline-offset: 2px !important;
+}
+body.fi-panel-admin .fi-btn.admin-toolbar-add svg {
+    width: 16px !important;
+    height: 16px !important;
+    color: var(--ese-text, #111827) !important;
+}
+
+body.fi-panel-admin .fi-btn.admin-toolbar-live-edit,
+body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
+    background-color: var(--ese-text, #111827) !important;
+    color: var(--ese-surface, #ffffff) !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: var(--radius-pill, 999px) !important;
+    height: auto !important;
+    min-height: 32px !important;
+    padding: var(--space-sm, 8px) var(--space-md, 13px) !important;
+    line-height: 1 !important;
+    transition: opacity var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) !important;
+}
+body.fi-panel-admin .fi-btn.admin-toolbar-live-edit:hover,
+body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary:hover {
+    background-color: var(--ese-text, #111827) !important;
+    opacity: 0.9 !important;
+}
+body.fi-panel-admin .fi-btn.admin-toolbar-live-edit:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd) !important;
+    outline-offset: 2px !important;
+}
+body.fi-panel-admin .fi-btn.admin-toolbar-live-edit span,
+body.fi-panel-admin .fi-btn.admin-toolbar-live-edit .fi-btn-label,
+body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
+    color: var(--ese-surface, #ffffff) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.fi-panel-admin .fi-btn.admin-toolbar-add,
+    body.fi-panel-admin .fi-btn.admin-toolbar-live-edit {
+        transition: none !important;
+    }
+}
+
+/* AI-704 mobile: +Add hides on ≤768px; the resource pages keep their
+ * own create buttons + the sidebar nav exposes the same routes.
+ * AI-704a follow-up: render +Add as an explicit hamburger-menu item. */
+@media (max-width: 768px) {
+    body.fi-panel-admin .fi-btn.admin-toolbar-add {
+        display: none !important;
+    }
+}
