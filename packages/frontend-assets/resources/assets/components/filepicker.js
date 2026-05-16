@@ -170,10 +170,17 @@ mw.filePicker = function (options) {
         // than upload new ones, so the most-used path now opens the picker
         // immediately. desktop/server follow as upload paths; ai/url last as
         // generation/external paths.
+        //
+        // task-2026-05-17-2a7bcf / AI-739 — removed the legacy
+        // "Uploaded" (server) tab. Per designer dispatch: redundant
+        // with "Media library" — both surfaced uploaded files; the
+        // former was the legacy FileManager UI, the latter is the
+        // canonical iframe. 5 tabs → 4 tabs. Skeleton-loader +
+        // "No files yet" empty state for the Media library tab
+        // tracked as AI-739a (require larger Vue component work).
         components: [
             { type: "library", label: mw.lang("Media library") },
             { type: "desktop", label: mw.lang("My computer") },
-            { type: "server", label: mw.lang("Uploaded") },
             { type: "ai", label: mw.lang("Enter prompt") },
             { type: "url", label: mw.lang("URL") },
         ],
