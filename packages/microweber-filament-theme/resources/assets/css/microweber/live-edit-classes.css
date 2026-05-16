@@ -1614,12 +1614,23 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     /* AI-697 (task-2026-05-16-e3da1a) — anchor the modal window to
        top-left, sized to its natural width (max-w-2xl from
        extraModalWindowAttributes). `margin: 0` cancels the body-
-       centering margin Filament applies on .fi-modal-window. */
+       centering margin Filament applies on .fi-modal-window.
+
+       task-2026-05-17-d994e7 / AI-697 v3 CHANGE — designer runtime
+       probe found the rule reached the loaded sheet but the
+       modal still rendered off-screen left because the parent
+       `.mw-content-form-modal` class applies `transform:
+       translateX(-50%)`. The two stacked: left=64 + transform=-336
+       = visual=-272 (off-screen). Fix: explicit `transform: none`
+       to neutralise the inherited translateX. The animation
+       keyframe still works — keyframes override `transform: none`
+       during animation, then settle to it post-animation. */
     .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) .fi-modal-window.mw-content-picker-modal {
         position: fixed;
         top: calc(var(--toolbar-height, 60px) + var(--space-xs, 6px));
         inset-inline-start: 64px;
         margin: 0;
+        transform: none;
         transform-origin: top left;
         animation: mw-add-content-picker-open var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
     }
@@ -1627,9 +1638,18 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     /* AI-697 (task-2026-05-16-e3da1a) — no backdrop dim at desktop;
        canvas stays alive behind the modal. Scoped via :has() so
        other Filament modals opened on the same panel keep their
-       dim. */
-    .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) > .fi-modal-close-overlay {
-        background-color: transparent;
+       dim.
+
+       task-2026-05-17-d994e7 / AI-697 v3 CHANGE — designer runtime
+       probe found Filament's `.fi-modal-close-overlay` background-
+       color rule beat ours via selector specificity. Bumped to
+       !important to win the cascade. Belt-and-braces: also added a
+       descendant variant (.fi-modal-close-overlay without `>`
+       combinator) for builds where Filament nests the overlay
+       deeper. */
+    .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) > .fi-modal-close-overlay,
+    .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) .fi-modal-close-overlay {
+        background-color: transparent !important;
     }
 }
 
