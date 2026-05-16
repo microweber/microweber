@@ -128,6 +128,17 @@
      * 72px fits "Template settings" on two short lines without
      * truncation, while keeping the canvas area mostly intact at
      * the typical mobile 360-414px viewport.
+     *
+     * task-2026-05-16-af3348 / AI-718 (Option A, interim): designer
+     * reverted the 72px+labels approach at mobile — the rail was
+     * eating 16% of viewport width for navigation chrome. Reduced
+     * rail to 40px and dropped the text labels (kept as title= /
+     * aria-label for desktop hover + AT users). Option B (collapse
+     * rail entirely → bottom-anchored Tools pill + bottom-sheet)
+     * is the recommended final state; ships when AI-685 lands.
+     * The 72px/64px values below are overridden by the AI-718
+     * rules further down — kept in source as a record of the
+     * intermediate iteration.
      */
     .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar {
         width: 72px !important;
@@ -137,6 +148,63 @@
         width: 64px !important;
         height: auto !important;
         min-height: 56px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+     * AI-718 (Option A — interim, task-2026-05-16-af3348):
+     * the right vertical rail was eating 64px (~16% of mobile
+     * 390 viewport) for navigation chrome — too much given the
+     * 5 cells render as 2-line text labels under each icon.
+     *
+     * Option A fix:
+     *   - Drop the text labels (suppress the AI-178/task-8149b5
+     *     `::after { content: attr(aria-label) }` rule for the
+     *     right rail ONLY; top-toolbar buttons keep their
+     *     2-line labels per the original task-8149b5 spec).
+     *   - Reduce rail width from 72px → 40px.
+     *   - Reduce button width from 64px → 40px.
+     *   - Keep min-height 44px on each button per WCAG 2.5.5
+     *     (vertical tap area unchanged; only horizontal shrinks).
+     *
+     * The `title` and `aria-label` attributes on each button in
+     * SettingsCustomize.vue are PRESERVED — desktop hover
+     * tooltips + screen-reader announcements still work.
+     *
+     * Option B (recommended final): collapse the rail entirely
+     * at ≤768px and replace with a bottom-anchored Tools pill
+     * that opens a bottom-sheet listing the 5 actions. Saves the
+     * full 40px column. Blocked on AI-685 (mobile bottom-sheet
+     * primitive); flagged AI-718b follow-up candidate.
+     * ───────────────────────────────────────────────────── */
+
+    /* Suppress the AI-178/task-8149b5 ::after label inside the
+       right rail only — preserves the top-toolbar 2-line labels. */
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .live-edit-toolbar-buttons.mw-toolbar-icon-btn::after,
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons::after,
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .fi-icon-btn::after {
+        content: none !important;
+        display: none !important;
+    }
+
+    /* AI-718 narrow rail — 40px width on the rail and its buttons.
+       min-height: 44px preserves WCAG 2.5.5 vertical tap area. */
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar {
+        width: 40px !important;
+    }
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons,
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup {
+        width: 40px !important;
+        min-width: 40px !important;
+        min-height: 44px !important;
+        padding: 6px !important;
+        flex-direction: row !important;
+    }
+    /* AI-718 — keep the icon centred + sized at 22px (the rail
+       has no label so the icon does the full job). */
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons svg,
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup svg {
+        width: 22px;
+        height: 22px;
     }
     /*
      * No `:has(*:not(:empty))` suppression: the Vue toolbar buttons
