@@ -75,10 +75,16 @@ class AddContentModalDac0b8ContractTest extends TestCase
     #[Test]
     public function search_input_reserves_padding_for_larger_clear_button(): void
     {
+        // task-2026-05-16-de4ce4 (AI-694) widened pe-12 (48px) → pe-16
+        // (64px) to also reserve room for the ⌘K shortcut chip rendered
+        // beside the clear button. Accept either as long as the padding
+        // remains AT LEAST 48px (pe-12 floor) — the contract is "reserve
+        // room for the 44px clear button + any sibling affordances on
+        // the right edge", not the literal pe-12 value.
         $this->assertMatchesRegularExpression(
-            '/mw-add-content-modal-search-input[^"]*\bpe-12\b/s',
+            '/mw-add-content-modal-search-input[^"]*\bpe-(?:12|16|20|24)\b/s',
             $this->blade,
-            'Search input must reserve `pe-12` (48px) right padding so the 44px clear button does not overlap typed text'
+            'Search input must reserve at least pe-12 (48px) right padding for the 44px clear button + AI-694 ⌘K chip slot.'
         );
     }
 

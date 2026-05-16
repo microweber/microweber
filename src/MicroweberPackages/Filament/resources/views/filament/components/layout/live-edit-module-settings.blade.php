@@ -616,6 +616,21 @@
             letter-spacing: -0.005em !important;
         }
 
+        /* AI-694 (task-2026-05-16-de4ce4) — `visibility: hidden` filtered-card
+           state. Replaces the prior `x-show` (display: none) path so cards
+           filtered out by the search query keep their grid cell — the
+           remaining visible cards do not reflow as the user types. Pair
+           with the Alpine `visibleCards()` filter which now skips
+           visibility: hidden alongside display: none. pointer-events: none
+           keeps the hidden card from intercepting clicks/keyboard while
+           still occupying its grid cell. Scope: any
+           .mw-add-content-modal-action-wrapper anywhere on the page —
+           the class is unique to the add-content picker cards. */
+        .mw-add-content-modal-action-wrapper.mw-add-content-card--hidden {
+            visibility: hidden;
+            pointer-events: none;
+        }
+
         /* AI-693 (task-2026-05-16-c3d0ed) — Add-Content modal icon palette
            accent contract. The six picker cards now render a monochrome
            icon at rest (.text-gray-600 + bg-gray-500/10 / dark equivalents

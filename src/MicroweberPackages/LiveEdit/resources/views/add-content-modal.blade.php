@@ -46,8 +46,17 @@
      x-data="{
         q: '',
         visibleCards() {
+            // task-2026-05-16-de4ce4 / AI-694 — filter accepts BOTH
+            // display:none (legacy x-show path) AND visibility:hidden
+            // (the new no-reflow path). visibility:hidden keeps the
+            // grid cell in layout so filtered cards do not reflow the
+            // surrounding cards, but the helpers must still skip them
+            // for keyboard nav + activation.
             return Array.from($root.querySelectorAll('[data-mw-add-content-card]'))
-                .filter(el => window.getComputedStyle(el).display !== 'none');
+                .filter(el => {
+                    const s = window.getComputedStyle(el);
+                    return s.display !== 'none' && s.visibility !== 'hidden';
+                });
         },
         focusFirstVisibleCard() {
             const cards = this.visibleCards();
@@ -81,6 +90,17 @@
                 cards[0].click();
             } else if (cards.length > 1) {
                 cards[0].focus();
+            } else if (this.q !== '') {
+                // task-2026-05-16-de4ce4 / AI-694 — zero-match ENTER
+                // fallback per designer spec §4 + §7 Slice 4: when no
+                // card matches the query, ENTER still activates the
+                // primary "Add a block" card so users never hit an
+                // ENTER dead-end. The primary card is rendered first
+                // in DOM and tagged data-mw-add-content-group="primary".
+                const primary = $root.querySelector(
+                    '[data-mw-add-content-card][data-mw-add-content-group=' + JSON.stringify('primary') + ']'
+                );
+                if (primary) primary.click();
             }
         },
         visibleCount() {
@@ -122,6 +142,18 @@
          prompt that mirrors the question the user actually has in their
          head ("what do I want to add?") and seeds them with three
          concrete examples so they don't have to guess at the vocabulary. --}}
+    {{-- task-2026-05-16-de4ce4 / AI-694 — search promotion. Per spec §2 + §4
+         + §7 Slice 4: input becomes the primary affordance — 44px tall
+         (WCAG 2.5.5 touch-target floor + visual prominence), auto-focused
+         on modal open (already done via x-init below), `⌘K` shortcut chip
+         on the right edge as a visual affordance hint (global hotkey
+         routing intentionally deferred — designer note: "visual hint only
+         at this slice"). Keyboard contract: ENTER → activateFirstVisible
+         (zero-match → primary fallback); ↑/↓ enter the card grid;
+         ESC clears `q` or escalates to modal close (Filament/AI-240).
+         New `←/→` handlers added on the cards (below) as aliases for
+         prev/next. The pe-16 padding-right reserves space for the
+         optional ⌘K chip + clear button. --}}
     <label class="mw-add-content-modal-search relative block">
         <span class="sr-only">What do you want to add?</span>
         <input
@@ -135,8 +167,17 @@
             x-on:keydown.arrow-down.prevent="focusFirstVisibleCard()"
             x-on:keydown.arrow-up.prevent="focusLastVisibleCard()"
             x-on:keydown.escape="if (q !== '') { q = ''; $refs.search.focus(); $event.stopPropagation(); }"
-            class="mw-add-content-modal-search-input w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 pe-12 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+            class="mw-add-content-modal-search-input w-full min-h-[44px] rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 pe-16 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
         >
+        {{-- task-2026-05-16-de4ce4 / AI-694 — ⌘K shortcut affordance chip.
+             Visual hint only at this slice; global ⌘K hotkey routing is
+             intentionally deferred (designer dispatch note). Hidden while
+             the input has text so the clear button has room. Hidden on
+             coarse pointers (touch devices) where the cmd-K convention
+             is meaningless. --}}
+        <kbd x-show="q === ''"
+             aria-hidden="true"
+             class="mw-add-content-modal-search-shortcut hidden sm:inline-flex items-center justify-center absolute end-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">⌘K</kbd>
         {{-- Inline clear button — visible only while the input has text.
              Aria-labelled for assistive tech; click resets the model + re-
              focuses the input so users can keep typing without breaking
@@ -154,6 +195,19 @@
             </svg>
         </button>
     </label>
+
+    {{-- task-2026-05-16-de4ce4 / AI-694 — zero-match ENTER hint.
+         When the query has no matches anywhere, surface a small hint
+         that ENTER will still add a block. This is the visible
+         counterpart to the activateFirstVisibleCard() primary
+         fallback above. style="display: none;" is the inline
+         default-hidden state (per LESSONS — there is no global
+         [x-cloak] rule). --}}
+    <div x-show="q !== '' && visibleCount() === 0"
+         class="mw-add-content-modal-zero-match-hint text-xs text-gray-500 dark:text-gray-400 px-1"
+         style="display: none;">
+        Press <kbd class="inline-flex items-center px-1 py-0.5 text-[10px] font-medium bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">Enter</kbd> to add a block to this page.
+    </div>
 
     {{-- task-2026-05-14-dac0b8 — assistive-tech result-count announcement.
          Visually hidden via .sr-only; updated by Alpine on every `q`
@@ -235,9 +289,15 @@
                     data-mw-add-content-card
                     data-mw-add-content-group="primary"
                     data-mw-add-content-haystack="{{ $mwAddContentHaystack }}"
-                    x-show="q === '' || @js($mwAddContentHaystack).includes(q.toLowerCase())"
+                    {{-- task-2026-05-16-de4ce4 / AI-694 — `visibility: hidden`
+                         path (via .mw-add-content-card--hidden) replaces
+                         x-show display:none so filtered cards keep their
+                         grid cell (no reflow on type). --}}
+                    :class="{ 'mw-add-content-card--hidden': q !== '' && !@js($mwAddContentHaystack).includes(q.toLowerCase()) }"
                     x-on:keydown.arrow-down.prevent="focusNextCard($el)"
                     x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
+                    x-on:keydown.arrow-left.prevent="focusPrevCard($el)"
+                    x-on:keydown.arrow-right.prevent="focusNextCard($el)"
                     class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-row items-center gap-3 p-4 group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
                     <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 bg-gray-500/10 transition duration-150 rounded-lg shrink-0">
                         @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-600 dark:text-gray-400')
@@ -288,9 +348,13 @@
                     data-mw-add-content-card
                     data-mw-add-content-group="secondary"
                     data-mw-add-content-haystack="{{ $mwAddContentHaystack }}"
-                    x-show="q === '' || @js($mwAddContentHaystack).includes(q.toLowerCase())"
+                    {{-- task-2026-05-16-de4ce4 / AI-694 — visibility:hidden
+                         path (see primary card for full rationale). --}}
+                    :class="{ 'mw-add-content-card--hidden': q !== '' && !@js($mwAddContentHaystack).includes(q.toLowerCase()) }"
                     x-on:keydown.arrow-down.prevent="focusNextCard($el)"
                     x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
+                    x-on:keydown.arrow-left.prevent="focusPrevCard($el)"
+                    x-on:keydown.arrow-right.prevent="focusNextCard($el)"
                     class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col gap-3 p-4 group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
                     <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 bg-gray-500/10 transition duration-150 rounded-lg shrink-0">
                         @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-600 dark:text-gray-400')
