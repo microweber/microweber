@@ -1,3 +1,94 @@
+/* ============================================================
+ * Element Style Editor (ESE) design tokens — slice 1.1
+ * AI-684 / AI-685 prerequisite. Spec: designer-agent/output/
+ * ese-design-spec-2026-05-16.md §2 (drop-in :root block).
+ *
+ * task-2026-05-16-11812b — purely additive in slice 1.1. Token
+ * defs cascade inert until consumed by MwToolButton (AI-684),
+ * mobile bottom-sheet (AI-685), MwField, MwSlider, MwSegmented,
+ * MwAccordion, semantic-colour migration, etc.
+ *
+ * φ scale (golden ratio = 1.618). Snap rule per the
+ * golden-ratio-spacing skill: every ESE spacing/border value
+ * must reference one of these tokens or sit within ±2% of a
+ * step. Adjacent token ratios must be φ ±5%.
+ * ============================================================ */
+:root {
+    /* ── Spacing — φ scale, base 1rem ───────────────────────── */
+    --space-hair: 0.236rem;   /*  3.8px */
+    --space-xs:   0.382rem;   /*  6.1px */
+    --space-sm:   0.618rem;   /*  9.9px */
+    --space-md:   1.000rem;   /* 16.0px */
+    --space-lg:   1.618rem;   /* 25.9px */
+    --space-xl:   2.618rem;   /* 41.9px */
+    --space-2xl:  4.236rem;   /* 67.8px */
+
+    /* ── Borders ───────────────────────────────────────────── */
+    --border-hair: 1px;
+    --border-xs:   1.9px;
+    --border-sm:   3.1px;
+
+    /* ── Radii ─────────────────────────────────────────────── */
+    --radius-xs:   4px;       /* dense controls (slider thumb, chips) */
+    --radius-sm:   6px;       /* inputs, dropdowns, buttons (default) */
+    --radius-md:  10px;       /* cards, accordion bodies */
+    --radius-pill: 999px;     /* colour swatch, status chips */
+
+    /* ── Typography ───────────────────────────────────────── */
+    --font-label: 11px;       /* sentence-case; PM-sanctioned 11px floor */
+    --font-control: 13px;     /* dropdowns, inputs */
+    --font-section: 15px;     /* accordion headers */
+    --font-title:   17px;     /* panel title */
+    --weight-label: 500;
+    --weight-control: 400;
+    --weight-section: 600;
+    --line-tight: 1.2;
+    --line-base:  1.45;
+    --letter-label: 0.01em;
+
+    /* ── Semantic colour aliases (light) ──────────────────── */
+    --ese-surface:        #ffffff;
+    --ese-surface-muted:  #f7f8fa;
+    --ese-surface-hover:  rgba(13, 110, 253, 0.06);
+    --ese-border:         rgba(15, 23, 42, 0.12);
+    --ese-border-strong:  rgba(15, 23, 42, 0.20);
+    --ese-text:           #0f172a;
+    --ese-text-muted:     #64748b;
+    --ese-label:          #475569;
+    --ese-accent:         #0d6efd;            /* MwColors::Blue */
+    --ese-accent-soft:    rgba(13, 110, 253, 0.12);
+    --ese-danger:         #dc2626;
+    --ese-track:          rgba(15, 23, 42, 0.18);
+    --ese-track-fill:     var(--ese-accent);
+
+    /* ── Motion ───────────────────────────────────────────── */
+    --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --t-fast: 120ms;
+    --t-base: 200ms;
+    --t-slow: 320ms;
+}
+
+/* Dark theme: swap surfaces + adjust alphas. Filament toggles
+   `dark` on <html>; we also accept `.theme-dark` / [data-theme]
+   for non-Filament contexts. */
+html.dark,
+.theme-dark,
+[data-theme="dark"] {
+    --ese-surface:        #1a1f2b;
+    --ese-surface-muted:  #232938;
+    --ese-surface-hover:  rgba(255, 255, 255, 0.06);
+    --ese-border:         rgba(255, 255, 255, 0.12);
+    --ese-border-strong:  rgba(255, 255, 255, 0.20);
+    --ese-text:           #f1f5f9;
+    --ese-text-muted:     #94a3b8;
+    --ese-label:          #cbd5e1;
+    --ese-track:          rgba(255, 255, 255, 0.22);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root { --t-fast: 0ms; --t-base: 0ms; --t-slow: 0ms; }
+}
+
 .mw-multiple-fields {
     @apply relative;
 }
