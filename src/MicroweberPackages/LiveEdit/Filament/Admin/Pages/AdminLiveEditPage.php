@@ -114,12 +114,20 @@ class AdminLiveEditPage extends Page
         //
         // One click → picker closes → layout picker opens. No more
         // hunting for the toolbar button after reading instructions.
+        // task-2026-05-16-968a71 / AI-692 / A2+A3: actions now carry a
+        // `group` key so the Blade picker can render them in two visually-
+        // distinct groups per designer spec §2 key-move 2 — "Two groups,
+        // one primary per group." 'primary' = inline-insertion (Add a
+        // block); 'secondary' = navigate-to-admin-form (Page/Post/etc.).
+        // The two action classes have different mental models (in-place
+        // vs go-somewhere-else) and should not read as visually equal.
         $actions[] = [
             'title' => 'Add a block to this page',
             'description' => 'Drop text, images, buttons, headings or any other block into the page you are editing right now. Pick this if you just want to add content WITHIN the current page — not create a new page.',
             'action' => 'addToCurrentPageAction',
             'icon' => 'heroicon-o-plus-circle',
             'js_dispatch' => 'liveEditInsertLayoutRequest',
+            'group' => 'primary',
         ];
         // task-2026-05-16-cdeefd / AI-691 / A7: "New" prefix dropped from
         // card titles — the modal heading is already "Add new content",
@@ -131,18 +139,21 @@ class AdminLiveEditPage extends Page
             'description' => 'A standalone page like About, Services or Contact. Pick this if you want a single permanent page that lives at its own URL.',
             'action' => 'addPageAction',
             'icon' => 'mw-add-page',
+            'group' => 'secondary',
         ];
         $actions[] = [
             'title' => 'Post',
             'description' => 'A blog article or news story that appears in your Blog list. Pick this if you want to publish dated updates that stack newest-first.',
             'action' => 'addPostAction',
             'icon' => 'mw-add-post',
+            'group' => 'secondary',
         ];
         $actions[] = [
             'title' => 'Product',
             'description' => 'An item to sell in your online shop. Pick this if you have something physical, digital, or a service to charge money for.',
             'action' => 'addProductAction',
             'icon' => 'mw-add-product',
+            'group' => 'secondary',
         ];
         // AI-148 (cycle-142 2026-05-09): novice mobile UX — add a
         // discoverable "New Image" entry. Tester audit found that
@@ -159,12 +170,14 @@ class AdminLiveEditPage extends Page
             'description' => 'Upload a picture, photo, or graphic to the Media Library. Pick this if you just want to add a photo from your camera roll — you can drop it into any page afterwards.',
             'action' => 'addImageAction',
             'icon' => 'heroicon-o-photo',
+            'group' => 'secondary',
         ];
         $actions[] = [
             'title' => 'Category',
             'description' => 'A folder to group your blog posts or shop items. Skip this for now unless you already have lots of posts or products to organise.',
             'action' => 'addCategoryAction',
             'icon' => 'mw-add-category',
+            'group' => 'secondary',
         ];
         // AI-309 (task-2026-05-13-5f1937) historical note: the previous
         // "Add to this page" card was a meta-instruction that broke the

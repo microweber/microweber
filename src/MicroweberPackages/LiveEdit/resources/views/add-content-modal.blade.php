@@ -86,6 +86,24 @@
         visibleCount() {
             return this.visibleCards().length;
         },
+        // task-2026-05-16-968a71 / AI-692 / §A2-3: group-aware
+        // visibility helper for the two-group layout. Returns true
+        // if any card in the named group matches the current q (or
+        // if q is empty — i.e. show all groups by default). Drives
+        // the x-show on each group wrapper so typing a keyword
+        // hides the unmatched group header when its cards no
+        // longer match. (NB: single-line // comments here only —
+        // block-comment style with embedded double-quotes in the
+        // prose breaks the HTML x-data attribute parser.)
+        hasVisibleCardsInGroup(group) {
+            const cards = Array.from(
+                $root.querySelectorAll('[data-mw-add-content-card][data-mw-add-content-group=' + JSON.stringify(group) + ']')
+            );
+            if (cards.length === 0) return false;
+            if (this.q === '') return true;
+            const needle = this.q.toLowerCase();
+            return cards.some(c => (c.dataset.mwAddContentHaystack || '').includes(needle));
+        },
         resultAnnouncement() {
             const total = $root.querySelectorAll('[data-mw-add-content-card]').length;
             const shown = this.visibleCount();
@@ -148,113 +166,145 @@
          aria-atomic="true"
          x-text="resultAnnouncement()"></div>
 
-    {{-- task-2026-05-15-0282f5 (picker UX improvement): cards are
-         arranged in a 2-column responsive grid so all 6 options are
-         visible at once without scrolling on typical desktop widths.
-         Each card uses a vertical layout (icon above text) which
-         scales cleanly in narrower grid columns. On single-column
-         (mobile) the vertical layout is also more compact than the
-         previous horizontal approach. Icon background and foreground
-         colours are distinct per action type to aid rapid scanning. --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    {{-- task-2026-05-16-968a71 / AI-692 / §A2 + §A3: TWO-GROUP layout.
+         Replaces the prior single 2-column grid that lumped all 6
+         cards together. Spec §2 key-move 2 — "two action classes —
+         separate them visually." Primary group (Add a block) renders
+         as a single full-width card under "On this page". Secondary
+         group (Page/Post/Product/Image/Category) renders as a 3-col
+         (desktop) / 2-col (mobile) grid under "New content".
+         Synonyms map lifted outside both loops since it's static
+         per the project — not per-iteration data.
 
-    @foreach($actions as $action)
+         task-2026-05-16-cdeefd / AI-691 changes preserved through
+         the refactor: card body description is rendered as the
+         native `title=` attribute (browser tooltip on hover) plus
+         the aria-label (accessibility tree) — never as visible
+         body text inside the card. Section headers introduced by
+         AI-692 do NOT re-introduce the visible body text. --}}
+    @php
+        // NOVICE #14 (task-2026-05-13-899d57) — synonyms map. Adding
+        // a new card? Append to this map keyed on the action name.
+        $mwAddContentSynonyms = [
+            'addPageAction'           => 'about services contact landing static homepage',
+            'addPostAction'           => 'article news update story news blog entry',
+            'addCategoryAction'       => 'folder group section tag taxonomy',
+            'addProductAction'        => 'shop item store buy sell merchandise sku',
+            'addImageAction'          => 'photo picture banner graphic logo upload media gallery',
+            'addToCurrentPageAction'  => 'block layout text image button heading paragraph row column section insert',
+        ];
+        $mwAddContentPrimary   = array_values(array_filter($actions, fn ($a) => ($a['group'] ?? 'secondary') === 'primary'));
+        $mwAddContentSecondary = array_values(array_filter($actions, fn ($a) => ($a['group'] ?? 'secondary') === 'secondary'));
+    @endphp
 
-        {{-- task-2026-05-05-66e507 (QW1) — drunk-designer external
-             audit flagged role=button divs as the most important a11y
-             fix on this surface. Switched to a real <button> element
-             so keyboard activation, focus rings, and form-control
-             semantics work natively without manual wiring. The
-             previous onkeydown shim is no longer needed —
-             <button>'s default behaviour fires click on Enter and
-             on Space-keyup, exactly per ARIA APG.
+    {{-- ON THIS PAGE — primary group (single full-width card) --}}
+    <section class="mw-add-content-group mw-add-content-group--primary"
+             x-show="hasVisibleCardsInGroup('primary')"
+             aria-labelledby="mw-add-content-group-primary-heading">
+        <h3 id="mw-add-content-group-primary-heading"
+            class="mw-add-content-group__header text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2 px-1">
+            On this page
+        </h3>
+        <div class="mw-add-content-group__items flex flex-col gap-3">
+            @foreach($mwAddContentPrimary as $action)
+                @php
+                    $mwAddContentHaystack = strtolower(
+                        $action['title']
+                        . ' ' . $action['description']
+                        . ' ' . ($mwAddContentSynonyms[$action['action']] ?? '')
+                    );
+                    $mwAddContentJsDispatch = $action['js_dispatch'] ?? null;
+                    $mwAddContentIconBg = 'bg-blue-500/10 group-hover:bg-blue-500/20 dark:group-hover:bg-blue-400/10';
+                    $mwAddContentIconText = 'text-blue-600 dark:text-blue-400';
+                @endphp
+                <button
+                    type="button"
+                    @if ($mwAddContentJsDispatch)
+                        x-on:click="window.dispatchEvent(new CustomEvent(@js($mwAddContentJsDispatch))); try { $wire.unmountAction(); } catch (e) {}"
+                    @else
+                        wire:click="replaceMountedAction('{{ $action['action'] }}')"
+                    @endif
+                    aria-label="{{ $action['title'] }}: {{ $action['description'] }}"
+                    title="{{ $action['description'] }}"
+                    data-mw-add-content-card
+                    data-mw-add-content-group="primary"
+                    data-mw-add-content-haystack="{{ $mwAddContentHaystack }}"
+                    x-show="q === '' || @js($mwAddContentHaystack).includes(q.toLowerCase())"
+                    x-on:keydown.arrow-down.prevent="focusNextCard($el)"
+                    x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
+                    class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-row items-center gap-3 p-4 group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
+                    <div class="flex items-center justify-center w-12 h-12 {{ $mwAddContentIconBg }} transition duration-150 rounded-lg shrink-0">
+                        @svg($action['icon'], "h-6 w-6 transition duration-150 " . $mwAddContentIconText)
+                    </div>
+                    <div class="font-semibold text-sm leading-tight">
+                        {{ $action['title'] }}
+                    </div>
+                </button>
+            @endforeach
+        </div>
+    </section>
 
-             NOVICE #14 (task-2026-05-13-899d57) — extended the per-card
-             search haystack with hand-curated synonyms keyed on the
-             action name. The novice persona reported typing "photo"
-             and "article" and "banner" only to see "no content types
-             found" — because the search was exact-substring against
-             the literal titles + descriptions. The synonym map below
-             folds in the words a first-time user actually uses, so the
-             search returns the right card on the first try. Adding a
-             new card? Add its synonyms to $mwAddContentSynonyms below. --}}
-        @php
-            $mwAddContentSynonyms = [
-                'addPageAction'           => 'about services contact landing static homepage',
-                'addPostAction'           => 'article news update story news blog entry',
-                'addCategoryAction'       => 'folder group section tag taxonomy',
-                'addProductAction'        => 'shop item store buy sell merchandise sku',
-                'addImageAction'          => 'photo picture banner graphic logo upload media gallery',
-                'addToCurrentPageAction'  => 'block layout text image button heading paragraph row column section insert',
-            ];
-            $mwAddContentHaystack = strtolower(
-                $action['title']
-                . ' ' . $action['description']
-                . ' ' . ($mwAddContentSynonyms[$action['action']] ?? '')
-            );
-            // NOVICE #4 (task-2026-05-13-899d57) — cards with a
-            // `js_dispatch` key dispatch a client-side window event
-            // and unmount the picker, instead of routing through a
-            // Filament action. This is how "Add a block to this
-            // page" becomes a direct action: one click → picker
-            // closes → canvas listener fires Insert Layout. No
-            // server roundtrip, no meta-instruction modal.
-            $mwAddContentJsDispatch = $action['js_dispatch'] ?? null;
-
-            // task-2026-05-15-0282f5 — per-action icon colours.
-            // Each full class string appears literally here so Tailwind
-            // JIT includes them in the compiled bundle without needing
-            // safelist entries.
-            $mwAddContentIconBg = match ($action['action']) {
-                'addToCurrentPageAction' => 'bg-blue-500/10 group-hover:bg-blue-500/20 dark:group-hover:bg-blue-400/10',
-                'addPageAction'          => 'bg-indigo-500/10 group-hover:bg-indigo-500/20 dark:group-hover:bg-indigo-400/10',
-                'addPostAction'          => 'bg-emerald-500/10 group-hover:bg-emerald-500/20 dark:group-hover:bg-emerald-400/10',
-                'addProductAction'       => 'bg-violet-500/10 group-hover:bg-violet-500/20 dark:group-hover:bg-violet-400/10',
-                'addImageAction'         => 'bg-rose-500/10 group-hover:bg-rose-500/20 dark:group-hover:bg-rose-400/10',
-                'addCategoryAction'      => 'bg-amber-500/10 group-hover:bg-amber-500/20 dark:group-hover:bg-amber-400/10',
-                default                  => 'bg-gray-500/10 group-hover:bg-gray-500/20 dark:group-hover:bg-gray-400/10',
-            };
-            $mwAddContentIconText = match ($action['action']) {
-                'addToCurrentPageAction' => 'text-blue-600 dark:text-blue-400',
-                'addPageAction'          => 'text-indigo-600 dark:text-indigo-400',
-                'addPostAction'          => 'text-emerald-600 dark:text-emerald-400',
-                'addProductAction'       => 'text-violet-600 dark:text-violet-400',
-                'addImageAction'         => 'text-rose-600 dark:text-rose-400',
-                'addCategoryAction'      => 'text-amber-600 dark:text-amber-400',
-                default                  => 'text-gray-600 dark:text-gray-400',
-            };
-        @endphp
-        {{-- task-2026-05-16-cdeefd / AI-691 / A1: card body text removed
-             from visible flow. Description is preserved as the native
-             `title=` attribute (browser tooltip on hover; respects
-             keyboard focus via Filament chrome) and on the aria-label
-             so the accessibility tree still carries the full context.
-             Cards are now title-only — visual scan is twice as fast
-             per designer spec §2 key-move 1. --}}
-        <button
-            type="button"
-            @if ($mwAddContentJsDispatch)
-                x-on:click="window.dispatchEvent(new CustomEvent(@js($mwAddContentJsDispatch))); try { $wire.unmountAction(); } catch (e) {}"
-            @else
-                wire:click="replaceMountedAction('{{ $action['action'] }}')"
-            @endif
-            aria-label="{{ $action['title'] }}: {{ $action['description'] }}"
-            title="{{ $action['description'] }}"
-            data-mw-add-content-card
-            data-mw-add-content-haystack="{{ $mwAddContentHaystack }}"
-            x-show="q === '' || @js($mwAddContentHaystack).includes(q.toLowerCase())"
-            x-on:keydown.arrow-down.prevent="focusNextCard($el)"
-            x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
-            class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col gap-3 p-4 group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
-            <div class="flex items-center justify-center w-12 h-12 {{ $mwAddContentIconBg }} transition duration-150 rounded-lg shrink-0">
-                @svg($action['icon'], "h-6 w-6 transition duration-150 " . $mwAddContentIconText)
-            </div>
-            <div class="font-semibold text-sm leading-tight">
-                {{ $action['title'] }}
-            </div>
-        </button>
-
-    @endforeach
+    {{-- NEW CONTENT — secondary group (3-col desktop, 2-col mobile) --}}
+    <section class="mw-add-content-group mw-add-content-group--secondary mt-4"
+             x-show="hasVisibleCardsInGroup('secondary')"
+             aria-labelledby="mw-add-content-group-secondary-heading">
+        <h3 id="mw-add-content-group-secondary-heading"
+            class="mw-add-content-group__header text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2 px-1">
+            New content
+        </h3>
+        <div class="mw-add-content-group__items grid grid-cols-2 sm:grid-cols-3 gap-3">
+            @foreach($mwAddContentSecondary as $action)
+                @php
+                    $mwAddContentHaystack = strtolower(
+                        $action['title']
+                        . ' ' . $action['description']
+                        . ' ' . ($mwAddContentSynonyms[$action['action']] ?? '')
+                    );
+                    $mwAddContentJsDispatch = $action['js_dispatch'] ?? null;
+                    // task-2026-05-15-0282f5 — per-action icon colours.
+                    $mwAddContentIconBg = match ($action['action']) {
+                        'addPageAction'     => 'bg-indigo-500/10 group-hover:bg-indigo-500/20 dark:group-hover:bg-indigo-400/10',
+                        'addPostAction'     => 'bg-emerald-500/10 group-hover:bg-emerald-500/20 dark:group-hover:bg-emerald-400/10',
+                        'addProductAction'  => 'bg-violet-500/10 group-hover:bg-violet-500/20 dark:group-hover:bg-violet-400/10',
+                        'addImageAction'    => 'bg-rose-500/10 group-hover:bg-rose-500/20 dark:group-hover:bg-rose-400/10',
+                        'addCategoryAction' => 'bg-amber-500/10 group-hover:bg-amber-500/20 dark:group-hover:bg-amber-400/10',
+                        default             => 'bg-gray-500/10 group-hover:bg-gray-500/20 dark:group-hover:bg-gray-400/10',
+                    };
+                    $mwAddContentIconText = match ($action['action']) {
+                        'addPageAction'     => 'text-indigo-600 dark:text-indigo-400',
+                        'addPostAction'     => 'text-emerald-600 dark:text-emerald-400',
+                        'addProductAction'  => 'text-violet-600 dark:text-violet-400',
+                        'addImageAction'    => 'text-rose-600 dark:text-rose-400',
+                        'addCategoryAction' => 'text-amber-600 dark:text-amber-400',
+                        default             => 'text-gray-600 dark:text-gray-400',
+                    };
+                @endphp
+                <button
+                    type="button"
+                    @if ($mwAddContentJsDispatch)
+                        x-on:click="window.dispatchEvent(new CustomEvent(@js($mwAddContentJsDispatch))); try { $wire.unmountAction(); } catch (e) {}"
+                    @else
+                        wire:click="replaceMountedAction('{{ $action['action'] }}')"
+                    @endif
+                    aria-label="{{ $action['title'] }}: {{ $action['description'] }}"
+                    title="{{ $action['description'] }}"
+                    data-mw-add-content-card
+                    data-mw-add-content-group="secondary"
+                    data-mw-add-content-haystack="{{ $mwAddContentHaystack }}"
+                    x-show="q === '' || @js($mwAddContentHaystack).includes(q.toLowerCase())"
+                    x-on:keydown.arrow-down.prevent="focusNextCard($el)"
+                    x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
+                    class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col gap-3 p-4 group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
+                    <div class="flex items-center justify-center w-12 h-12 {{ $mwAddContentIconBg }} transition duration-150 rounded-lg shrink-0">
+                        @svg($action['icon'], "h-6 w-6 transition duration-150 " . $mwAddContentIconText)
+                    </div>
+                    <div class="font-semibold text-sm leading-tight">
+                        {{ $action['title'] }}
+                    </div>
+                </button>
+            @endforeach
+        </div>
+    </section>
 
     @php
         // NOVICE #14 — the empty-state check must use the SAME haystack
@@ -280,11 +330,13 @@
          inline `style="display: none"` so the element is hidden until
          Alpine flips it via x-show. This eliminates the empty-quote
          flash AND drops the dependency on a global x-cloak rule. --}}
-    <div class="mw-add-content-modal-empty sm:col-span-2 text-center text-sm text-gray-500 dark:text-gray-400 py-6"
+    {{-- Empty state — outside both groups so it spans the modal
+         width when no card in EITHER group matches. The .sm:col-span-2
+         utility from the prior single-grid layout is no longer
+         needed since this div is no longer inside a grid. --}}
+    <div class="mw-add-content-modal-empty text-center text-sm text-gray-500 dark:text-gray-400 py-6"
          x-show="q !== '' && @js($mwAddContentHaystacks).every(h => !h.includes(q.toLowerCase()))"
          style="display: none;">
         No content types found.
     </div>
-
-    </div>{{-- end grid --}}
 </div>
