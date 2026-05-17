@@ -30,7 +30,7 @@ description: Pictures slider
                             {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper.
                                  First slide eager-loaded for LCP per the cycle-41 Slider/default reference. --}}
                             {!! responsive_thumbnail($item['filename'] ?? '', 1200, null, [
-                                'alt' => isset($item['title']) ? $item['title'] : __('Image'),
+                                'alt' => $item['title'] ?? $item['description'] ?? __('Image'),
                                 'class' => 'img-fluid',
                                 'loading' => $loop->first ? 'eager' : 'lazy',
                             ]) !!}

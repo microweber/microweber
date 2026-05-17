@@ -43,7 +43,7 @@ description: Shop inner
                        data-zoom-image="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}">
                         {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                         {!! responsive_thumbnail($item['filename'] ?? '', 200, 200, [
-                            'alt' => __('Product image'),
+                            'alt' => $item['title'] ?? $item['description'] ?? __('Product image'),
                             'class' => 'img-fluid d-block',
                         ]) !!}
                     </a>

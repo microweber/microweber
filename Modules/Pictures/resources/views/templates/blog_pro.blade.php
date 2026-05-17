@@ -50,7 +50,7 @@ description: Blog pro
                 $itemTitle = false;
                 $itemDescription = false;
                 $itemLink = false;
-                $itemAltText = 'Open';
+                $itemAltText = $item['title'] ?? $item['description'] ?? __('Image');
                 if (isset($item['image_options']) && is_array($item['image_options'])) {
                     if (isset($item['image_options']['title'])) {
                         $itemTitle = $item['image_options']['title'];

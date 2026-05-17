@@ -54,7 +54,7 @@ description: Skin-2
                 <div class="d-block position-relative show-on-hover-root">
                     <div class="img-as-background mh-350 mb-3">
                         {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                        {!! responsive_thumbnail($item['filename'] ?? '', 350, 350, ['alt' => __('Image'), 'class' => 'img-fluid', 'crop' => true]) !!}
+                        {!! responsive_thumbnail($item['filename'] ?? '', 350, 350, ['alt' => $item['title'] ?? $item['description'] ?? __('Image'), 'class' => 'img-fluid', 'crop' => true]) !!}
                     </div>
 
                     @if($itemTitle || $itemDescription || $itemLink)

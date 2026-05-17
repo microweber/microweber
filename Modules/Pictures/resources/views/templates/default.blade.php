@@ -46,7 +46,7 @@ description: Default Picture List
                             --}}
                             {{-- task-2026-05-05-90021f — drunk-designer audit (pictures.md QW): default lazy-loading on every gallery image. --}}
                             {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                            {!! responsive_thumbnail($item['filename'] ?? '', 600, null, ['alt' => __('Image'), 'class' => 'img-fluid']) !!}
+                            {!! responsive_thumbnail($item['filename'] ?? '', 600, null, ['alt' => $item['title'] ?? $item['description'] ?? __('Image'), 'class' => 'img-fluid']) !!}
                         </a>
                     </div>
                 @endforeach

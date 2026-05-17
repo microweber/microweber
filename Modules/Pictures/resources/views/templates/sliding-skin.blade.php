@@ -85,7 +85,7 @@ description: Skin for sliding Logos
                        href="{{ $itemLink ?? '#' }}">
                         {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                         {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
-                            'alt' => $item['title'] ?? __('Image'),
+                            'alt' => $item['title'] ?? $item['description'] ?? __('Image'),
                             'class' => 'img-fluid',
                         ]) !!}
                     </a>
@@ -119,7 +119,7 @@ description: Skin for sliding Logos
                        href="{{ $itemLink ?? '#' }}">
                         {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                         {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
-                            'alt' => $item['title'] ?? __('Image'),
+                            'alt' => $item['title'] ?? $item['description'] ?? __('Image'),
                             'class' => 'img-fluid',
                         ]) !!}
                     </a>

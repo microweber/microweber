@@ -43,7 +43,7 @@ description: Default skin for shop inner of the templates
                            data-mw-product-image="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}" data-mw-product-image-target="{{ $pictureElementId }}" data-mw-product-image-index="{{ $count }}">
                             {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                             {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
-                                'alt' => __('Product image'),
+                                'alt' => $item['title'] ?? $item['description'] ?? __('Product image'),
                                 'class' => 'img-fluid d-block',
                             ]) !!}
                         </a>
@@ -89,7 +89,7 @@ description: Default skin for shop inner of the templates
                 {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper.
                      loading=eager because this is the gallery's primary above-the-fold image. --}}
                 {!! responsive_thumbnail($data[0]['filename'], 1080, 1080, [
-                    'alt' => __('Product image'),
+                    'alt' => $item['title'] ?? $item['description'] ?? __('Product image'),
                     'class' => 'img-fluid',
                     'id' => $pictureElementId,
                     'loading' => 'eager',

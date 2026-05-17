@@ -75,7 +75,7 @@ description: Skin-16 for Logos
                             <div class="background-image-holder mh-200">
                                 {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                                 {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
-                                    'alt' => __('Product image'),
+                                    'alt' => $item['title'] ?? $item['description'] ?? __('Product image'),
                                     'class' => 'd-block w-100 h-100',
                                     'style' => 'object-fit: contain;',
                                 ]) !!}

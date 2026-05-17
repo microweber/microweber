@@ -19,7 +19,7 @@ description: Skin 14
                      loading=eager. --}}
                 {!! responsive_thumbnail($data[0]['filename'] ?? '', 1080, 1080, [
                     'id' => $pictureElementId,
-                    'alt' => __('Product image'),
+                    'alt' => $item['title'] ?? $item['description'] ?? __('Product image'),
                     'class' => 'img-fluid',
                     'loading' => 'eager',
                 ]) !!}
@@ -55,7 +55,7 @@ description: Skin 14
                                      so the browser doesn't defer it.
                                      Subsequent images stay lazy. --}}
                                 {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
-                                    'alt' => __('Product image'),
+                                    'alt' => $item['title'] ?? $item['description'] ?? __('Product image'),
                                     'class' => 'img-fluid d-block',
                                     'loading' => $loop->first ? 'eager' : 'lazy',
                                 ]) !!}

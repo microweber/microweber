@@ -37,7 +37,7 @@ description: Simple Pictures List Template
                                     {{-- task-2026-05-05-d71799 — lazy-load gallery image. --}}
                                     {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                                     {!! responsive_thumbnail($item['filename'] ?? '', 300, null, [
-                                        'alt' => isset($item['title']) ? $item['title'] : __('Image'),
+                                        'alt' => $item['title'] ?? $item['description'] ?? __('Image'),
                                         'class' => 'img-fluid',
                                     ]) !!}
                                 </span>
