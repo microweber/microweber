@@ -146,8 +146,19 @@
 @media (max-width: 575.98px) {
     /* `general-styles.css` sets `.mw-live-edit-resolutions-wrapper` to
        Tailwind's `flex` utility via `@apply` later in the cascade, so a
-       bare `display: none` loses — use `!important` to force the hide. */
-    .mw-live-edit-resolutions-wrapper {
+       bare `display: none` loses — use `!important` to force the hide.
+
+       task-2026-05-17-2c33e0 / AI-768 — `:not(.mw-filepicker-component-
+       tab-nav)` exempts the image picker tab strip from this hide.
+       The picker shares the legacy `.mw-live-edit-resolutions-wrapper`
+       class for visual styling but should NOT disappear on mobile
+       (it's a tab selector, not a device-preview switcher). Per
+       designer Option A — the two surfaces no longer share a hide-
+       class policy. The picker carries the extra
+       `.mw-filepicker-component-tab-nav` marker class
+       (filepicker.js:785) so the :not() selector matches the
+       device-switcher only. */
+    .mw-live-edit-resolutions-wrapper:not(.mw-filepicker-component-tab-nav) {
         display: none !important;
     }
     /* CSS variable for toolbar height so changes to the toolbar's

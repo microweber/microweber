@@ -781,8 +781,21 @@ mw.filePicker = function (options) {
         this._navigationHolder = document.createElement("div");
         if (this.settings.nav === false) {
         } else if (this.settings.nav === "tabs") {
+            // task-2026-05-17-2c33e0 / AI-768 — picker tab nav carries
+            // its own `.mw-filepicker-component-tab-nav` ALONGSIDE the
+            // legacy shared `.mw-live-edit-resolutions-wrapper` so it
+            // (a) keeps the visual styling (rounded chip-strip via
+            // general-styles.css :164+), and (b) is exempt from the
+            // mobile hide rule via `:not(.mw-filepicker-component-
+            // tab-nav)` in mobile-touch.css. Pre-fix, the picker
+            // tabs disappeared at <576px because mobile-touch.css
+            // line 150 hides `.mw-live-edit-resolutions-wrapper`
+            // (intended for the canvas device-switcher only) and
+            // the picker reused that class without escape. Per
+            // designer's Option A — the two surfaces no longer
+            // share a hide-class policy.
             var ul = $(
-                '<div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper mx-0" />'
+                '<div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper mw-filepicker-component-tab-nav mx-0" />'
             );
             this.settings.components.forEach(function (item) {
                 ul.append(
