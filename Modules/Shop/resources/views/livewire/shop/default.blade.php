@@ -1,5 +1,21 @@
 <div class="d-flex justify-content-between flex-wrap mt-3">
-    <div class="col-12 col-md-2">
+    {{-- task-2026-05-17-328124 / AI-862 — Bootstrap grid math fix for tablet 768.
+         Pre-fix the filter sidebar carried `col-12 col-md-2` (116px wide at
+         the 768 viewport — the unique width where md-2 hits the legibility
+         cliff: "Discount filter" label collapses to 1px) and the product grid
+         carried `col-12 col-md-9`, summing to 11 cols and leaving a visible
+         60px dead-space band on the right of the row.
+
+         Option A2 per designer (preferred): stack-at-md, sidebar-at-lg+.
+         At md (≥768): both columns hit `col-12` so the filter rail stacks
+         ABOVE the product grid — easier touch targets, all filter labels
+         legible, no dead-space gap. At lg+ (≥992): filter rail returns as
+         3-col sidebar (180px @ 992, 240px @ 1280, 300px @ 1440), product
+         grid is 9 cols. 1440 desktop UX unchanged (still sidebar layout).
+
+         Trade-off named + accepted by designer: ~1 row of vertical filter
+         pills at tablet portrait = legibility win. --}}
+    <div class="col-12 col-lg-3">
         @if(!empty($availableCategories) && !$filterSettings['disable_categories_filtering'])
             @include('modules.shop::livewire.shop.filters.categories.index')
         @endif
@@ -20,7 +36,7 @@
             @include('modules.shop::livewire.shop.filters.tags.index')
         @endif
     </div>
-    <div class="col-12 col-md-9">
+    <div class="col-12 col-lg-9">
         @include('modules.shop::livewire.shop.filters.top.index')
 
         {{-- aria-live="polite" announces grid updates to screen readers when filters

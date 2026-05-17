@@ -1,5 +1,9 @@
 <div class="d-flex justify-content-between flex-wrap mt-3">
-    <div class="col-12 col-md-2">
+    {{-- task-2026-05-17-328124 / AI-862 — sibling skin fix. Same Bootstrap
+         grid math defect (col-12 col-md-2 + col-12 col-md-9 = 11 cols at md
+         with 116px sidebar legibility cliff). See default.blade.php for the
+         full Option A2 rationale (stack-at-md, sidebar-at-lg+). --}}
+    <div class="col-12 col-lg-3">
         @if(!empty($availableCategories) && !$filterSettings['disable_categories_filtering'])
             @include('modules.shop::livewire.shop.filters.categories.index')
         @endif
@@ -20,7 +24,7 @@
             @include('modules.shop::livewire.shop.filters.tags.index')
         @endif
     </div>
-    <div class="col-12 col-md-9">
+    <div class="col-12 col-lg-9">
         @include('modules.shop::livewire.shop.filters.top.index')
 
         {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB finding #9 (a11y half):
