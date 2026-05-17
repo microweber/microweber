@@ -7,6 +7,15 @@ description: Default Picture List
 @if(isset($data))
     @php
         $rand = uniqid();
+        // task-2026-05-17-8cf71e / AI-814 — precompute gallery JSON
+        // ONCE outside any @foreach loop. Pre-fix the same
+        // base64+json_encode ran N times for an N-image gallery
+        // because the encode call lived inside data-mw-gallery=
+        // attribute on the looped element. Move out for perf +
+        // hoist for clarity.
+        $mwAi814GalleryJson = base64_encode(json_encode(array_map(function ($item) {
+            return ['image' => $item['filename'] ?? '', 'description' => $item['title'] ?? ''];
+        }, $data ?? [])));
     @endphp
 
     <script>mw.moduleCSS("{{ asset('modules/pictures/css/clean.css') }}");</script>
@@ -36,7 +45,7 @@ description: Default Picture List
 
                     <div class="mw-pictures-clean-item mw-pictures-clean-item-{{ $item['id'] }}">
                         <a href="{{ isset($item['filename']) ? $item['filename'] : '' }}"
-                           data-mw-gallery="@php echo base64_encode(json_encode(array_map(function ($it) { return ['image' => $it['filename'] ?? '', 'description' => $it['title'] ?? '']; }, $data ?? []))); @endphp" data-mw-gallery-index="{{ $count }}">
+                           data-mw-gallery="{{ $mwAi814GalleryJson }}" data-mw-gallery-index="{{ $count }}">
                             {{--
                                 img-fluid (Bootstrap 5 helper for
                                 max-width:100%; height:auto) lets the
@@ -52,15 +61,19 @@ description: Default Picture List
                 @endforeach
             @endif
 
+            {{-- task-2026-05-17-8cf71e / AI-814 — IIFE wrapper for scope
+                 isolation + json_encode with JS-context escape flags
+                 (HEX_QUOT/TAG/AMP/APOS) so title/description containing JS-
+                 meaningful characters (", \, /, newline, etc.) cannot break
+                 out of the string context. Pre-fix the description was
+                 interpolated via Blade {{}} into a JS-string literal —
+                 HTML-escape only, not JS-escape (defense-in-depth XSS fix).
+                 window.gallery<rand> assignment preserved so external readers
+                 accessing the global by name still find it. --}}
             <script>
-                gallery{{ $rand }} = [
-                    @foreach($data as $item)
-                        {
-                            image: "{{ isset($item['filename']) ? $item['filename'] : '' }}",
-                            description: "{{ isset($item['title']) ? $item['title'] : '' }}"
-                        },
-                    @endforeach
-                ];
+                (function () {
+                    window.gallery{{ $rand }} = @php echo json_encode(array_map(function ($item) { return ['image' => $item['filename'] ?? '', 'description' => $item['title'] ?? '']; }, $data ?? []), JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS); @endphp;
+                })();
             </script>
         </div>
     </div>
