@@ -80,18 +80,27 @@
         @endif
 
     @else
-        <p class="mt-2 text-gray-600 dark:text-gray-400">
-            You have no items in your cart.
-        </p>
-        <div class="mt-6">
-            <x-filament::button
-                color="primary"
-                tag="a"
-                href="{{ url('/') }}"
-                class="dark:bg-indigo-700 dark:text-white dark:hover:bg-indigo-800"
-            >
-                Continue Shopping
-            </x-filament::button>
+        {{-- task-2026-05-17-0e6cfa / AI-796 Slice C — empty-state copy
+             pass + Slice B single-CTA shape. Replaces the prior
+             "You have no items in your cart." line + dark-indigo
+             Filament button (Filament's <x-filament::button> isn't
+             reliably loaded on every public template; Big2 re-skinned
+             it salmon orange). New shape: heading + body + ONE CTA
+             — matches the project-wide empty-state ONE-CTA rule
+             (AI-759 cross-surface pattern, 4th instance: Live-edit
+             Create, Orders, Comments, /cart). Bare <a> styled by
+             the parent .mw-cart-standalone-page CSS at brand-blue
+             #0d6efd (matches .mw-table-empty-cta in
+             microweber-filament-theme.css). --}}
+        <div class="mw-cart-empty">
+            <h2 class="mw-cart-empty__heading">{{ __('Your cart is empty') }}</h2>
+            {{-- Use Microweber's _e() with $to_return=true; Laravel's __() helper treats trailing periods as namespace separators and silently returns empty for namespaced keys with no matching translation file. --}}
+            <p class="mw-cart-empty__body">{{ _e('Browse our products and add items.', true) }}</p>
+            <div class="mw-cart-empty__actions">
+                <a href="{{ url('/') }}" class="mw-cart-empty-cta" aria-label="{{ __('Continue shopping') }}">
+                    {{ __('Continue shopping') }}
+                </a>
+            </div>
         </div>
 
     @endif
