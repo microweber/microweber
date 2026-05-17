@@ -3387,3 +3387,55 @@ html.dark body.fi-panel-admin .fi-theme-switcher-btn.fi-active {
     color: var(--ese-accent, #60a5fa);
     box-shadow: inset 0 0 0 1px var(--ese-accent, #60a5fa);
 }
+
+/* ── AI-774 (task-2026-05-17-551f7e) — admin notifications drawer empty state.
+ * Companion CSS for the Blade override at
+ * resources/views/vendor/filament-notifications/database-notifications.blade.php
+ * Empty state now renders inside the same slide-over chrome as the filled
+ * state (no width swap, no alignment swap). This rule styles the centred
+ * icon+heading+description body so it reads as a polished empty state
+ * rather than a default-stack of unstyled elements.
+ *
+ * Token-scoping per SOUL #108 — every var() carries a literal fallback
+ * because this CSS runs at the Filament slide-over root (outside
+ * .mw-live-edit-page). */
+.mw-no-database-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-2xl, 32px) var(--space-md, 13px);
+    gap: var(--space-sm, 8px);
+    min-height: 320px;
+}
+
+.mw-no-database-empty__icon {
+    width: 48px;
+    height: 48px;
+    color: var(--ese-text-muted, #9ca3af);
+    margin-bottom: var(--space-sm, 8px);
+}
+
+.mw-no-database-empty__heading {
+    font-size: var(--font-section, 15px);
+    font-weight: 600;
+    color: var(--ese-text, #111827);
+    margin: 0;
+}
+
+.mw-no-database-empty__description {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    max-width: 28ch;
+    line-height: 1.5;
+    margin: 0;
+}
+
+html.dark .mw-no-database-empty__heading {
+    color: var(--ese-text, #f3f4f6);
+}
+
+html.dark .mw-no-database-empty__description {
+    color: var(--ese-text-muted, #9ca3af);
+}
