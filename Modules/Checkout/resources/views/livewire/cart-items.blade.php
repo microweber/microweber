@@ -93,6 +93,19 @@
              #0d6efd (matches .mw-table-empty-cta in
              microweber-filament-theme.css). --}}
         <div class="mw-cart-empty">
+            {{-- task-2026-05-17-7c3881 / AI-851 [P3] — empty-cart-no-checkout
+                 notice banner. Read by the bare /checkout middleware
+                 (RedirectEmptyCheckoutToCart) when a user types /checkout
+                 directly with an empty cart, AND by CheckoutPage::mount()
+                 when a user reaches /checkout/checkout via bookmarks. Both
+                 paths now land on /cart?notice=empty-cart-no-checkout. The
+                 banner explains why the URL bounced. Unknown notice values
+                 are silently ignored. --}}
+            @if (request()->query('notice') === 'empty-cart-no-checkout')
+                <div class="mw-cart-empty__notice" role="status" aria-live="polite" style="padding: 12px 16px; margin-bottom: 16px; background: #fffbea; border: 1px solid #fde68a; border-radius: 8px; color: #78350f; font-size: 14px;">
+                    {{ _e('You tried to check out but your cart is empty — add a product first.', true) }}
+                </div>
+            @endif
             <h2 class="mw-cart-empty__heading">{{ __('Your cart is empty') }}</h2>
             {{-- Use Microweber's _e() with $to_return=true; Laravel's __() helper treats trailing periods as namespace separators and silently returns empty for namespaced keys with no matching translation file. --}}
             <p class="mw-cart-empty__body">{{ _e('Browse our products and add items.', true) }}</p>

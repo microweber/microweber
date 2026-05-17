@@ -31,9 +31,19 @@ class CheckoutPage extends Page
             app()->cart_manager->recover_cart($order_id);
         }
 
-        // Redirect to cart if still empty
+        // Redirect to cart if still empty.
+        //
+        // task-2026-05-17-7c3881 / AI-851 — destination now carries the
+        // `notice=empty-cart-no-checkout` query param so the AI-796 cart
+        // empty-state view shows the "You tried to check out but your
+        // cart is empty" banner. Matches the bare /checkout short-circuit
+        // in Modules/Checkout/Http/Middleware/RedirectEmptyCheckoutToCart;
+        // users reaching this URL via bookmarks/direct-nav land on the
+        // same destination with the same notice as users typing /checkout.
         if (!app()->cart_manager->get()) {
             $cartUrl = \Route::has('shop.cart') ? route('shop.cart') : '/cart';
+            $cartUrl .= '?' . \Modules\Checkout\Http\Middleware\RedirectEmptyCheckoutToCart::NOTICE_PARAM
+                . '=' . \Modules\Checkout\Http\Middleware\RedirectEmptyCheckoutToCart::NOTICE_VALUE;
             $this->redirect($cartUrl);
         }
     }

@@ -21,6 +21,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use Modules\Checkout\Filament\Resources\CheckoutResource;
 use Modules\Checkout\Filament\Resources\Pages\CheckoutPage;
+use Modules\Checkout\Http\Middleware\RedirectEmptyCheckoutToCart;
 
 class FilamentCheckoutPanelProvider extends PanelProvider
 {
@@ -58,6 +59,17 @@ class FilamentCheckoutPanelProvider extends PanelProvider
             ->middleware([
 
                'web',
+
+                // task-2026-05-17-7c3881 / AI-851 [P3] — short-circuit the
+                // bare /checkout + empty-cart double-redirect chain.
+                // Pre-fix: GET /checkout → 302 /checkout/checkout → 302 /cart
+                // (two hops, no notice). Post-fix: GET /checkout → 302
+                // /cart?notice=empty-cart-no-checkout (single hop + notice
+                // banner). Placed BEFORE Filament's panel-default home
+                // redirect so it fires on the bare /checkout request and
+                // short-circuits the panel chain. Scope-guarded to the
+                // BARE /checkout path; subroutes are untouched.
+                RedirectEmptyCheckoutToCart::class,
 
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
