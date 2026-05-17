@@ -9,6 +9,45 @@
 //   - Sidebar: clean, flat, matching MW v2 layout
 // ============================================================================
 
+// ----------------------------------------------------------------------------
+// task-2026-05-17-9a12c2 / AI-819 — Filament primary token brand alignment
+// ----------------------------------------------------------------------------
+// Filament v5's ColorManager passes `->colors(['primary' => MwColors::Blue])`
+// through `Color::convertToOklch()` and emits the CSS variables in OKLCH
+// format. The project's tailwind.config.js still maps Tailwind utilities
+// via `rgba(var(--primary-500), <alpha-value>)` — a Filament v3 / Tailwind
+// v3 pattern that expects R,G,B comma-separated RGB triplets, not OKLCH.
+// The two formats don't compose: `rgba(oklch(...), 1)` is invalid CSS
+// and falls back to Filament's bundled default Tailwind blue (#4299e1),
+// not the Microweber brand blue (#0d6efd) per AI-209 / AI-737 / AI-794
+// primary-CTA lineage.
+//
+// Fix: explicitly emit the brand-anchored `--primary-XX` CSS variables
+// in this SCSS bundle (loads after Filament's runtime emit, wins cascade)
+// using the comma-separated R,G,B triplet format the project's
+// tailwind.config.js expects. Values mirror MwColors::Blue verbatim
+// (#e7f1ff → #010a19, anchored at #0d6efd on slot 500).
+//
+// Pairs with AI-816 (task-2026-05-17-2b1020) which swapped Save CTAs from
+// `->color('success')` to `->color('primary')` — without AI-819, those
+// CTAs render at the wrong blue. Slice B follow-up AI-819a: audit the
+// remaining $mw-accent: #4299e1 SCSS literal (line ~37 below) — used on
+// link colors / focus rings / checkbox backgrounds throughout this file —
+// for the same drift back to brand blue.
+:root {
+    --primary-50: 231, 241, 255;
+    --primary-100: 207, 226, 255;
+    --primary-200: 158, 197, 254;
+    --primary-300: 110, 168, 254;
+    --primary-400: 61, 139, 253;
+    --primary-500: 13, 110, 253;
+    --primary-600: 10, 88, 202;
+    --primary-700: 8, 66, 152;
+    --primary-800: 5, 44, 101;
+    --primary-900: 3, 22, 51;
+    --primary-950: 1, 10, 25;
+}
+
 // --- Design Tokens ---
 $mw-bg-page: #f6f8fb;          // MW v2 cool blue-gray background
 $mw-bg-surface: #ffffff;
