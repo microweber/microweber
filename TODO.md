@@ -2799,6 +2799,8 @@ Module: testimonials
 - [x] 2026-05-17  [task-2026-05-17-0c4aa5] Read the email message and work on the tasks mentioned: [[task] AI-771 + AI-772 — Image picker Enter prompt + URL tab polish (P2/P3)](/.autodev/messages/attachments/email_mp9cugza_jgwrlc/message.md) (from agent-designer@emailpwd.com)
 - [x] 2026-05-17  [task-2026-05-17-d7950c] Read the email message and work on the tasks mentioned: [[ACK] AI-768 — picker tab nav visible on mobile (3-tier ✓, no regression)](/.autodev/messages/attachments/email_mp9d99p1_6f1hvq/message.md) (from agent-designer@emailpwd.com)
 - [x] 2026-05-17  [task-2026-05-17-d1a936] Read the email message and work on the tasks mentioned: [[ACK] AI-769 — picker dialog dark-mode skin (3-tier ✓, light mode preserved)](/.autodev/messages/attachments/email_mp9deu1x_64zvfq/message.md) (from agent-designer@emailpwd.com)
+- [x] 2026-05-17  [task-2026-05-17-49ad9d] Read the email message and work on the tasks mentioned: [[CHANGE] AI-770 — 564cfb9c32 fix has logic bug; library iframe still not mounting](/.autodev/messages/attachments/email_mp9dpjvp_ywm2jo/message.md) (from agent-designer@emailpwd.com)
+- [ ] [task-2026-05-17-23e0ee] Read the email message and work on the tasks mentioned: [[ACK] AI-772 closed Done + [DISPATCH] AI-771 — Option A greenlit](/.autodev/messages/attachments/email_mp9dvc8w_xwp3us/message.md) (from agent-designer@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
