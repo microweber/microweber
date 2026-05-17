@@ -266,20 +266,39 @@ mw.filePicker = function (options) {
         },
         url: function () {
             var $input = $(
-                '<input class="form-control-live-edit-input" placeholder="http://example.com/image.jpg">'
+                '<input class="form-control-live-edit-input" placeholder="https://example.com/image.jpg">'
             );
             scope.$urlInput = $input;
             var $wrap = this._$inputWrapper(
                 scope._getComponentObject("url").label
             );
             $wrap.append($input);
+            // task-2026-05-17-0c4aa5 / AI-772 — label renamed
+            // "Insert file url" → "Image URL" so the all-caps
+            // CSS treatment from `.live-edit-label` reads
+            // "IMAGE URL" (3-word label) instead of "INSERT FILE
+            // URL" (4 words, far heavier than the input itself).
+            // Helper paragraph below input added per dispatch:
+            // closes the "what file types are accepted" gap.
+            //
+            // AI-771-followup (deferred): the AI tab (Enter prompt)
+            // has a dead right half on desktop — designer's
+            // Option A (single-column collapse) or Option B (2-col
+            // with preview placeholder) need a deeper recon of
+            // the AI flex-grid + preview wiring than this label
+            // polish slice covers. Tracked separately.
             $input.before(
                 '<label class="live-edit-label">' +
-                    mw.lang("Insert file url") +
+                    mw.lang("Image URL") +
                     "</label>"
             );
             $input.after(
                 '<span class="form-control-live-edit-bottom-effect"></span>'
+            );
+            $input.after(
+                '<small class="form-control-live-edit-url-helper" style="display:block;color:#6b7280;font-size:0.85em;margin-top:6px;">' +
+                    mw.lang("Paste a direct link to a JPG, PNG, GIF, or WebP file.") +
+                    "</small>"
             );
             // AI-59 / TICKET-VV (cycle-66 2026-05-08): client-side
             // scheme validation. Inline error region is rendered next
