@@ -481,7 +481,18 @@ class ContentResource extends Resource
                     ->rules(['required'])
                     ->markAsRequired()
                     ->autofocus()
-                    ->placeholder('e.g. My first post')
+                    // AI-781 (task-2026-05-17-378d85) — type-aware placeholder
+                    // mirrors the bigType title field at line ~356. Before the
+                    // fix, every content_type saw "e.g. My first post" — wrong
+                    // context for Products + Pages. Match pattern aligns with
+                    // contentTitleSection() for cross-section consistency.
+                    ->placeholder(function (Schemas\Components\Utilities\Get $get) {
+                        return match ($get('content_type')) {
+                            'page' => 'e.g. About us',
+                            'product' => 'e.g. Blue cotton t-shirt',
+                            default => 'e.g. My first post',
+                        };
+                    })
                     // TICKET-C (audit-test reply 2026-05-06): server-side
                     // ->rules(['required']) + ->markAsRequired() applies
                     // the visual asterisk but does NOT emit aria-required
@@ -704,7 +715,16 @@ class ContentResource extends Resource
                     // displayed on the page (recommended: 50-60
                     // characters)" was pure noise; "Title" is enough
                     // signage and the maxLength does the rest.
-                    ->placeholder('e.g. My first post')
+                    // AI-781 (task-2026-05-17-378d85) — type-aware placeholder
+                    // matches compactGeneralInformationSection so the full-form
+                    // Title field shows the same context-sensitive hint.
+                    ->placeholder(function (Schemas\Components\Utilities\Get $get) {
+                        return match ($get('content_type')) {
+                            'page' => 'e.g. About us',
+                            'product' => 'e.g. Blue cotton t-shirt',
+                            default => 'e.g. My first post',
+                        };
+                    })
                     // task-2026-05-05-5e9ffc (Audit-#8) — admin
                     // full-form Title was server-side `->required()`
                     // but not announced as required to screen
@@ -959,58 +979,24 @@ class ContentResource extends Resource
 
     /**
      * task-2026-05-17-6d65de / AI-776 — Posts admin Menus rail anti-leak filter.
-     * Jira: https://microweber.atlassian.net/browse/AI-776
+     * task-2026-05-17-378d85 / AI-784 — refactored to delegate to the systemic
+     * AdminFixtureGuard helper (single source of truth for the blocklist).
      *
      * Designer's Round-10 audit caught dev/test fixture menu names
      * surfacing in the production Posts admin form right-rail (e.g.
-     * "Menu Test 6A030E7B650Aa (209 items)"). Customer-trust P1.
-     *
-     * Two layers of defence:
-     *   1. EMPTY-TITLE: skip menus with null/empty title (456 of 595
-     *      menus on the audit DB — most are anonymous test fixtures
-     *      created via the menu-manager API without a title).
-     *   2. TEST-PATTERN: skip menus whose lower-cased title matches
-     *      any pattern in AI-776 fixture-leak blocklist (PHPUnit
-     *      unique-name generator output, lorem-ipsum cruft, scenario
-     *      labels from automated tests).
-     *
-     * Both filters are LABEL-side only — they hide rows in the admin
-     * dropdown WITHOUT modifying the menu data itself. A menu hidden
-     * here remains fully functional via direct API access; only the
-     * Posts form dropdown UI excludes it. Production data that
-     * legitimately matches a pattern (extremely unlikely with the
-     * regexes below) would also be hidden — operators must rename
-     * the menu to surface it. Trade-off accepted for customer-trust.
-     */
-    private const AI776_MENU_FIXTURE_LEAK_PATTERNS = [
-        '/^menu test [0-9a-f]+$/i',            // PHPUnit unique-name pattern
-        '/^test menu$/i',                       // generic scenario label
-        '/^created via module api menu$/i',     // module-API integration test fixture
-        '/^lorem\b/i',                          // lorem-ipsum cruft (lorem ipsum dolor ...)
-        '/^after$/i',                           // before/after test-step labels
-        '/^before$/i',
-        '/^\d+$/',                              // pure-numeric "titles" (123, 456) from quick-test setup
-    ];
-
-    /**
-     * Apply the AI-776 fixture-leak filter to a single menu row.
-     * Returns true if the menu SHOULD render in the admin dropdown.
-     *
-     * Public for direct PHPUnit coverage; never call from outside
-     * the menusSection options closure or its contract test.
+     * "Menu Test 6A030E7B650Aa (209 items)"). The AI-776 ship added
+     * a per-resource blocklist; AI-784 (task-378d85) lifted the
+     * blocklist into MicroweberPackages\Filament\Support\AdminFixtureGuard
+     * so every admin form that surfaces fixture-prone data can call
+     * the same canonical filter. This method is kept as a stable
+     * call surface for the existing AI-776 contract test + future
+     * grep-discoverability — it now thinly delegates.
      */
     public static function ai776MenuShouldRender(array $menu): bool
     {
-        $title = isset($menu['title']) ? trim((string) $menu['title']) : '';
-        if ($title === '') {
-            return false;
-        }
-        foreach (self::AI776_MENU_FIXTURE_LEAK_PATTERNS as $pattern) {
-            if (preg_match($pattern, $title) === 1) {
-                return false;
-            }
-        }
-        return true;
+        return \MicroweberPackages\Filament\Support\AdminFixtureGuard::shouldRenderItem(
+            $menu['title'] ?? null
+        );
     }
 
     protected static function menusSection(): Schemas\Components\Section
