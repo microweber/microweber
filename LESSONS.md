@@ -4,6 +4,22 @@
 
 ---
 
+## 2026-05-17 — textContent-leak family: skin support code outside @if gate
+
+- **Pattern:** Module-template skin support `<style>` and `<script>` blocks that ship UNCONDITIONALLY (i.e. as siblings of the menu-render `@if/@else` gate) become text-node descendants of the module wrapper when the module renders empty. `document.querySelector('.module-X').textContent` then returns the CSS+JS source as part of the module's "content" — leaking to Lighthouse SEO analysis, some AT readers, and Google's mobile-first crawler. ~600 wasted bytes per empty-menu render in the AI-852 navbar case.
+- **Why it happened:** Pre-Round-17 mental model treated `<style>` and `<script>` blocks as "side-channel" emissions (browser parses them as elements, not text). They ARE elements — but their bodies are text-nodes from `textContent`'s perspective. The leak is silent at runtime; only catches at SEO/AT audit.
+- **Prevention rule:** When a module template's `<style>` or `<script>` block exists ONLY to support the menu/list/grid that renders inside the truthy branch of an `@if($mt != false)` (or sibling pattern), move it INSIDE the truthy branch. Empty renders ship zero descendant CSS/JS. Asset-registration scripts (`mw.moduleCSS(...)`) follow the same rule — no asset registered for an empty-state render is the right outcome.
+- **Applies when:** Any module skin emits inline `<style>` or `<script>` bodies tied to the rendered surface and the surface has a conditional empty-state branch. Round 18 cross-module sweep candidate (Pictures / Posts / Shop / Logo / Spacer skins — per designer's Round 17 closeout).
+
+## 2026-05-17 — "Promise without delivery" UX defect sub-family (3-instance threshold)
+
+- **Pattern:** A class hook on a UI element promises an interaction that the codebase doesn't deliver. Class `mw-open-module-settings` on an empty-state strongly suggests a click-to-edit affordance; the click handler doesn't exist (or isn't wired in the current bundle). Sibling instances: AI-848 (auth header logo rendered 0×0 — promise of brand mark, delivery of nothing) + AI-851 (`/checkout` → `/checkout/checkout` → `/cart` double-redirect chain with no notice — promise of "empty cart" feedback, delivery of silent bounce) + AI-853 (`mw-open-module-settings` broken click). Designer's Round 17 closeout promoted to sub-family at the 3-instance threshold.
+- **Why it happened:** Class names that read like affordances tend to outlive their handler wiring across refactors. Bundle changes, route changes, or framework upgrades can break the handler without breaking the class hook's *appearance* in DOM. Tests that assert the class is present say "yes" while the click-test says "nothing happens".
+- **Prevention rule:** When auditing module templates or admin chrome, treat every `*-open-*`, `*-edit-*`, `*-toggle-*`, `*-show-*` class hook on a non-`<a>`/non-`<button>` element as a suspect shape. Verify the handler exists AND is wired in the current bundle. Better: prefer native `<a href>` over JS-bound class hooks for navigation affordances (browser does the work; no handler to break).
+- **Applies when:** Empty-states, edit affordances, expand/collapse triggers, any non-anchor element whose class implies an action. Future Round 18+ audits should grep `class=".*\b(mw-open|mw-edit|mw-toggle|mw-show)-` across all module templates and admin views.
+
+---
+
 ## 2026-05-17 — Stage-2 sub-variant 4 `CSS-rules-mutual-dependency` promoted to 3-recurrence + canonical fix-shape "explicit-dimensions-on-img" (post-AI-803 CHANGE v2 / task-2026-05-17-5be57f)
 
 - **Pattern:** Designer's Tier-3 verify on AI-803 CHANGE v1 (`852a8549ba`) measured the logo STILL rendering 0×0 at desktop 1440 on `/`. Two layers I missed in v1: **(1) specificity loss** — the active template skin ships `.header-background.mw-menu-skin-com .mw-big-header-logo a { display: flex }` at specificity 0,3,1 which beat my AI-803 CHANGE rule `.logo-module .logo-link { display: inline-block }` at 0,2,0; the new rule landed in the cascade but didn't fire (`.logo-link` computed display stayed `flex`). **(2) Cycle moved up one DOM level** — `.logo-module` itself is `display: block, width: 0px` inside Bootstrap `col-xl-4 w-auto` (column shrinks to content); same shrink-to-fit cycle as AI-848 just one level higher. Even forcing `.logo-link` to inline-block wouldn't have helped because its parent `.logo-module` was still computed-width 0.
