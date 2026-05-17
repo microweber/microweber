@@ -297,12 +297,22 @@ export default {
         // task-2026-05-16-77fedf / AI-734 — recompute anchor on
         // viewport resize while popover open.
         window.addEventListener('resize', this._resizeHandler);
+
+        // task-2026-05-17-7a9913 / AI-798 Slice C — listen for the
+        // `mwOpenPageChip` verb dispatched by MainDrawer's "Pages"
+        // item so users have a discoverable drawer-side path to
+        // switch the canvas page (designer audit: first-time users
+        // miss the topbar chip). Verb-bridge pattern documented in
+        // CLAUDE.md (liveEditSaveCallMountedAction family).
+        this._openVerbHandler = () => { this.open(); };
+        window.addEventListener('mwOpenPageChip', this._openVerbHandler);
     },
 
     beforeUnmount() {
         if (this._outsideHandler) document.removeEventListener('click', this._outsideHandler, true);
         if (this._keyHandler) window.removeEventListener('keydown', this._keyHandler);
         if (this._resizeHandler) window.removeEventListener('resize', this._resizeHandler);
+        if (this._openVerbHandler) window.removeEventListener('mwOpenPageChip', this._openVerbHandler);
         if (this._searchTimer) clearTimeout(this._searchTimer);
     },
 
@@ -310,6 +320,7 @@ export default {
         if (this._outsideHandler) document.removeEventListener('click', this._outsideHandler, true);
         if (this._keyHandler) window.removeEventListener('keydown', this._keyHandler);
         if (this._resizeHandler) window.removeEventListener('resize', this._resizeHandler);
+        if (this._openVerbHandler) window.removeEventListener('mwOpenPageChip', this._openVerbHandler);
         if (this._searchTimer) clearTimeout(this._searchTimer);
     },
 };

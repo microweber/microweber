@@ -158,8 +158,12 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     #[Test]
     public function drawer_renders_back_to_admin_item(): void
     {
+        // Pin-evolution per task-2026-05-17-7a9913 / AI-798: item labels
+        // are now wrapped in <span class="mw-main-drawer__item-label">…</span>
+        // for the per-section affordance layout. Original contract
+        // (Back to Admin label + backToAdminLink prop binding) preserved.
         $this->assertMatchesRegularExpression(
-            '/:href="backToAdminLink"[\s\S]*?<span>Back to Admin<\/span>/',
+            '/:href="backToAdminLink"[\s\S]*?<span[^>]*>Back to Admin<\/span>/',
             $this->mainDrawer,
             'Back to Admin item must use the backToAdminLink prop and render the label "Back to Admin".'
         );
@@ -168,8 +172,9 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     #[Test]
     public function drawer_renders_layers_item_wired_to_domtree(): void
     {
+        // Pin-evolution per AI-798 — see drawer_renders_back_to_admin_item.
         $this->assertMatchesRegularExpression(
-            '/@click="openLayers\(\)"[\s\S]*?<span>Layers<\/span>/',
+            '/@click="openLayers\(\)"[\s\S]*?<span[^>]*>Layers<\/span>/',
             $this->mainDrawer,
             'Layers item must call openLayers() and render label "Layers".'
         );
@@ -184,8 +189,9 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     #[Test]
     public function drawer_renders_template_and_layout_item_wired_to_widget_toggle(): void
     {
+        // Pin-evolution per AI-798.
         $this->assertMatchesRegularExpression(
-            '/@click="openTemplateAndLayout\(\)"[\s\S]*?<span>Template &amp; Layout<\/span>/',
+            '/@click="openTemplateAndLayout\(\)"[\s\S]*?<span[^>]*>Template &amp; Layout<\/span>/',
             $this->mainDrawer,
             'Template & Layout item must call openTemplateAndLayout() and render "Template &amp; Layout" (HTML-entity escaped per Vue context).'
         );
@@ -199,8 +205,9 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     #[Test]
     public function drawer_renders_theme_settings_item_wired_to_widget_show(): void
     {
+        // Pin-evolution per AI-798.
         $this->assertMatchesRegularExpression(
-            '/@click="openThemeSettings\(\)"[\s\S]*?<span>Theme Settings<\/span>/',
+            '/@click="openThemeSettings\(\)"[\s\S]*?<span[^>]*>Theme Settings<\/span>/',
             $this->mainDrawer,
             'Theme Settings item must call openThemeSettings() and render "Theme Settings".'
         );
@@ -214,9 +221,10 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     #[Test]
     public function drawer_renders_users_see_website_logout_items(): void
     {
-        $this->assertMatchesRegularExpression('/<span>Users<\/span>/', $this->mainDrawer);
-        $this->assertMatchesRegularExpression('/<span>See website<\/span>/', $this->mainDrawer);
-        $this->assertMatchesRegularExpression('/<span>Log out<\/span>/', $this->mainDrawer);
+        // Pin-evolution per AI-798 — labels now wrapped in <span class="mw-main-drawer__item-label">.
+        $this->assertMatchesRegularExpression('/<span[^>]*>Users<\/span>/', $this->mainDrawer);
+        $this->assertMatchesRegularExpression('/<span[^>]*>See website<\/span>/', $this->mainDrawer);
+        $this->assertMatchesRegularExpression('/<span[^>]*>Log out<\/span>/', $this->mainDrawer);
     }
 
     #[Test]

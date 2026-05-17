@@ -2661,6 +2661,116 @@ html.dark .mw-main-drawer {
 }
 
 /* ======================================================================
+   task-2026-05-17-7a9913 / AI-798 — MainDrawer hierarchy. Designer
+   audit flagged the flat 7-item list as Heuristic-5 (section continuity)
+   failure — 3 mental models (EDIT slide-overs / NAVIGATE leave / PREFERENCES
+   toggle) rendered as one undifferentiated list. Split into 3 labeled
+   sections with per-section affordances:
+     - EDIT items: trailing chevron `>` (slide-over triggers)
+     - NAVIGATE external items: trailing `up-right arrow` (leave live-edit)
+     - PREFERENCES toggle items: pill-style toggle chrome
+   Pages NEW Slice C item dispatches `mwOpenPageChip` CustomEvent
+   picked up by PageChip.vue; gives first-time users a discoverable
+   drawer-side path to switch the canvas page.
+   ====================================================================== */
+.mw-main-drawer__section-header {
+    margin: var(--space-md, 13px) 0 var(--space-xs, 4px);
+    padding: 0 var(--space-md, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.4;
+}
+.mw-main-drawer__section-header:first-child {
+    margin-top: 0;
+}
+.mw-main-drawer__section {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.mw-main-drawer__section > li {
+    margin: 0;
+    padding: 0;
+}
+.mw-main-drawer__item-icon {
+    flex-shrink: 0;
+    color: var(--ese-text-muted, #6b7280);
+}
+.mw-main-drawer__item-label {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.mw-main-drawer__item-affordance {
+    flex-shrink: 0;
+    margin-inline-start: auto;
+    color: var(--ese-text-muted, #6b7280);
+    opacity: 0.7;
+    transition: opacity 120ms ease, color 120ms ease, transform 120ms ease;
+}
+.mw-main-drawer__item:hover .mw-main-drawer__item-affordance {
+    opacity: 1;
+    color: var(--ese-accent, #0d6efd);
+}
+.mw-main-drawer__item--edit:hover .mw-main-drawer__item-affordance,
+.mw-main-drawer__item--navigate:hover .mw-main-drawer__item-affordance {
+    transform: translateX(2px);
+}
+.mw-main-drawer__item--external:hover .mw-main-drawer__item-affordance {
+    transform: translate(2px, -2px);
+}
+/* Toggle chrome for PREFERENCES items (Light mode). Pill track + thumb;
+   on `[data-state="on"]` (dark mode) thumb slides right + track tints accent. */
+.mw-main-drawer__item-affordance--toggle {
+    opacity: 1;
+    margin-inline-start: auto;
+}
+.mw-main-drawer__toggle-track {
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 16px;
+    background-color: var(--ese-border-strong, rgba(0, 0, 0, 0.2));
+    border-radius: 999px;
+    transition: background-color 160ms ease;
+}
+.mw-main-drawer__item-affordance--toggle[data-state="on"] .mw-main-drawer__toggle-track {
+    background-color: var(--ese-accent, #0d6efd);
+}
+.mw-main-drawer__toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    transition: left 160ms ease;
+}
+.mw-main-drawer__item-affordance--toggle[data-state="on"] .mw-main-drawer__toggle-thumb {
+    left: 16px;
+}
+.mw-main-drawer__item:hover .mw-main-drawer__item-affordance--toggle {
+    transform: none;
+}
+html.dark .mw-main-drawer__section-header {
+    color: var(--ese-text-muted, #94a3b8);
+}
+html.dark .mw-main-drawer__toggle-track {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+@media (prefers-reduced-motion: reduce) {
+    .mw-main-drawer__item-affordance,
+    .mw-main-drawer__toggle-track,
+    .mw-main-drawer__toggle-thumb {
+        transition: none;
+    }
+}
+
+/* ======================================================================
    task-2026-05-16-66ceca / AI-701 — current-page chip + picker. Per
    designer spec (live-edit-inspiration-from-v2-2026-05-16.md §2 P6):
    centred toolbar slot becomes a button showing the current page
