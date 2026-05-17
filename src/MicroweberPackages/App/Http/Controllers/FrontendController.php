@@ -1017,10 +1017,39 @@ class FrontendController extends Controller
                     $load_template_404_2 = templates_dir() . 'default/404.php';
                     if (is_file($load_template_404)) {
                         $render_file = $load_template_404;
+                    } else if (is_file($load_template_404_2)) {
+                        $render_file = $load_template_404_2;
                     } else {
-                        if (is_file($load_template_404_2)) {
-                            $render_file = $load_template_404_2;
+                        // task-2026-05-17-c54f1f / AI-795 — front-end 404 styled view.
+                        // Closes AI-755 (placeholder "My title / My text content"
+                        // stub returning 200 + indexable HTML) in the same ship.
+                        // Mirrors AI-793 admin 404 propagation pattern for the
+                        // public frontend. When the active template ships no
+                        // 404.php override, short-circuit here and render the
+                        // dedicated Blade view at resources/views/frontend/errors/404.blade.php
+                        // — extends the active template's master so the public
+                        // chrome (navigation + footer + CSS) wraps the styled
+                        // "page not found" card, AND emits explicit `noindex,nofollow`
+                        // meta + `X-Robots-Tag` header so search engines stop
+                        // ranking the placeholder stub.
+                        $mwAi795TemplateName = template_name();
+                        $mwAi795ExtendsView = 'templates.bootstrap::layouts.master';
+                        if (!empty($mwAi795TemplateName)) {
+                            $mwAi795ExtendsCheck = 'templates.' . $mwAi795TemplateName . '::layouts.master';
+                            if (view()->exists($mwAi795ExtendsCheck)) {
+                                $mwAi795ExtendsView = $mwAi795ExtendsCheck;
+                            }
                         }
+                        $mwAi795Rendered = view('frontend.errors.404', [
+                            'extendsView' => $mwAi795ExtendsView,
+                            'requestedUrl' => '/' . ltrim((string) request()->path(), '/'),
+                        ])->render();
+                        return response($mwAi795Rendered, 404)->withHeaders([
+                            'Content-Type' => 'text/html; charset=UTF-8',
+                            'X-Robots-Tag' => 'noindex, nofollow',
+                            'X-Fallback-Message' => 'frontend-404',
+                            'X-Powered-By' => 'Microweber',
+                        ]);
                     }
                 }
             }
