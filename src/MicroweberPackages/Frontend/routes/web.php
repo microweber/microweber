@@ -81,10 +81,27 @@ Route::group(
     // exclusion regex routes /customer to Route::fallback which now
     // renders the AI-795 chrome-404 view (extended in this ship — see
     // Route::fallback below).
+    // task-2026-05-17-35e2d6 / AI-856 — added `blog|faq|testimonials` to
+    // the excluded-prefix regex. 7th confirmed silent-stub Stage-3
+    // sibling-renderer family member (AI-755 / AI-795 / AI-837 / AI-849 /
+    // AI-850 / AI-856 lineage). Pre-fix, /blog + /faq + /testimonials all
+    // returned HTTP 200 with "Describe your company" / "Your Story Should
+    // Evolve" fixture content because FrontendController's
+    // `is_installed('blog')` / `is_installed('faq')` / `is_installed
+    // ('testimonials')` checks all returned true (these modules ship with
+    // the standard Microweber install but only as content-surface modules
+    // — they have NO public route + NO standalone listing page, only
+    // <module type="..."> embeddable widgets). Excluding them from the
+    // catch-all routes the URL to Route::fallback() which renders the
+    // AI-795 chrome-wrapped 404 — proper "no such page" surface vs.
+    // silent-stub fixture leak. AI-856b follow-up candidate (separate
+    // dispatch): build actual listing-page controllers if standalone
+    // /blog + /faq + /testimonials listing pages are desired (would
+    // mirror AI-837 SearchController shape).
     Route::any('{slug}', array('as' => 'slug', 'uses' =>
         \MicroweberPackages\Frontend\Http\Controllers\FrontendController::class . '@index'))
         ->middleware('web')
-        ->where('slug', '^(?!vendor|packages|template|modules|css|storage|userfiles|js|admin|search|shop|customer).*')
+        ->where('slug', '^(?!vendor|packages|template|modules|css|storage|userfiles|js|admin|search|shop|customer|blog|faq|testimonials).*')
         ->name('website');
 
     Route::fallback(function () {
