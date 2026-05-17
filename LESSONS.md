@@ -4,6 +4,41 @@
 
 ---
 
+## 2026-05-17 — Strict-mode global ReferenceError in `packages/frontend-assets/.../tools/` JS bundle (AI-854 / task-f1e4d9)
+
+- **Pattern:** Assignment `url = mw.settings.site_url + ...` (no declarator keyword) inside `common-extend.js:53` linted fine but threw `ReferenceError: url is not defined` at runtime. The dialog never appeared in production; only caught when designer dispatched the regression report.
+- **Why it happened:** The `tools/` JS bundle is built in strict mode; implicit globals throw `ReferenceError` rather than silently creating a window property. Linting passes because ESLint without `no-implicit-globals` accepts the assignment as syntactically valid.
+- **Prevention rule:** ALWAYS declare with `var`/`let`/`const` even on what looks like a throwaway one-off assignment in `packages/frontend-assets/resources/assets/tools/*.js`. For contract-test served-bundle probes, use a **200-char window (NOT 80)** when grepping for the post-bundling shape — the minifier collapses sequential declarations into comma-lists (`var t={...},i=mw.settings.site_url+...`); a tight window misses the asserted variable name.
+- **Applies when:** Editing any JS file under `packages/frontend-assets/resources/assets/tools/`; writing a runtime probe contract test against a Vite/Webpack minified bundle.
+
+## 2026-05-17 — Filament token-anchor `!important` pattern for primary CTAs (AI-855 / task-2026-05-17)
+
+- **Pattern:** Brand-blue primary CTA in admin Filament panel rendered as Filament-default blue at runtime, NOT brand `#0d6efd`. Tier-1 + Tier-2 passed; Tier-3 runtime probe caught it. Root cause: the rule consumed a literal hex `background-color: #0d6efd !important` instead of composing via the AI-819 `--primary-NNN` RGB-triplet override block.
+- **Why it happened:** Hardcoded hex bypasses the AI-819 `:root` override and becomes invisible to any future brand-colour reanchoring. The Filament v5 OKLCH-vs-Tailwind-v3-RGB-triplet format mismatch (AI-819) made the override block load-bearing for every primary CTA in the admin.
+- **Prevention rule:** Filament v5 admin button overrides MUST compose via `rgba(var(--primary-500), 1) !important` (or 600 for hover/border). NEVER hardcode brand hex in admin SCSS — always go through the token. Reference shape at `packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss:4266` (`.mw-media-upload-btn`).
+- **Applies when:** Adding a new admin Filament CTA in `microweber-theme-v3.scss` or any `.mw-*` admin-scope class; reanchoring an existing CTA from hardcoded hex.
+
+## 2026-05-17 — Frontend catch-all exclusion regex needs `\b` word-boundary anchor (AI-856 / task-35e2d6)
+
+- **Pattern:** Adding `blog` to the FrontendController catch-all exclusion regex `^(?!vendor|packages|...|blog|faq|testimonials).*` short-circuited not only `/blog` but also `/blog-archive`, `/blog-2026`, and any content slug starting with `blog`. The frontend rendered 404 for legitimate content pages.
+- **Why it happened:** PCRE `|` alternation matches substrings; `blog` without a word-boundary anchor matches `blog-archive` as a prefix. The exclusion list was designed for exact-route short-circuits, not prefix-substring matches.
+- **Prevention rule:** When adding a route prefix to the FrontendController catch-all exclusion in `src/MicroweberPackages/Frontend/routes/web.php`, the pattern inside `(?!...)` MUST be future-proofed with `\b` word-boundary anchor at the end of each keyword. Final shape: `(?!vendor\b|packages\b|...|blog\b|faq\b|testimonials\b).*`. Sibling routes with the prefix as legitimate substring stay routable.
+- **Applies when:** Editing `src/MicroweberPackages/Frontend/routes/web.php` Route::fallback() regex; adding any new route prefix that needs short-circuit handling.
+
+## 2026-05-17 — Position-preserving comment-strip for byte-offset contract test assertions (AI-852)
+
+- **Pattern:** Contract test for AI-852 menu empty-state bundle compared byte-offsets — "the `@if($mt != false)` directive must appear BEFORE any `<script>` token in the slice". The first draft used `preg_replace('~//[^\n]*~', '', $source)` to strip comments before the offset comparison. Test false-positive matched `<script>` in a docblock prose line ("// Inline `<script>` + `<style>` moved INSIDE the truthy branch") because comment removal SHIFTED all subsequent byte positions.
+- **Why it happened:** Naive `preg_replace` removes the matched bytes entirely; every position downstream shifts left by the length of the removed comment. Byte-offset assertions become meaningless once positions are shifted.
+- **Prevention rule:** Use `preg_replace_callback` returning `str_repeat(' ', strlen($match))` to MASK comment content while PRESERVING byte positions. The comment text becomes whitespace; downstream byte offsets are unchanged; negative greps now anchor against the true source positions. Reference: `tests/Feature/Menu4f4f83AI852AI853EmptyStateBundleContractTest.php` Group B.
+- **Applies when:** Writing a contract test that compares `strpos()` byte offsets across the same source-with-comments-stripped buffer; any negative-grep that needs to know the position of a real source token relative to a docblock prose token.
+
+## 2026-05-17 — `!important` count discipline — never quote counts without verifying source (post-AI-803 v3 ACK / task-bc0e9d)
+
+- **Pattern:** AI-803 v3 ACK had a 13/12 off-by-one — designer counted 12 `!important` declarations in the rendered template; my SHIP report quoted 13. Designer acknowledged but flagged the discrepancy. Actual source carried 12 declarations (2 on `.logo-module` + 6 on `.logo-link` + 4 on `img`).
+- **Why it happened:** I counted from memory of edits-as-planned rather than re-grepping the final source before writing the SHIP report. Even small numeric discrepancies erode trust in ship-report accuracy over a long arc.
+- **Prevention rule:** ALWAYS grep the source for the exact assertion shape before quoting counts in SHIP reports — `grep -c '!important' <file>` for declaration counts, `wc -l` for line counts, line numbers via `grep -n`. Numeric claims in ship reports are auditable; off-by-ones get noticed. Verify, then quote.
+- **Applies when:** Writing any SHIP report that quotes a count (rules, declarations, tests, assertions, lines, files); responding to a designer ACK that contains a different count.
+
 ## 2026-05-17 — Logo shrink-to-fit cycle (Stage-2 sub-variant 4 — 4-recurrence canonicalization)
 
 - **Pattern:** A logo / avatar / icon image renders 0×0 at desktop despite a `width / height` rule on its module class. Source-level contract test passes (rule shape present in stylesheet served to browser); Tier-3 runtime probe shows `getBoundingClientRect()` returning 0 dimensions. Computed style on the img element shows `height: auto` (or `width: 0`) even though the module's own SCSS says otherwise.
