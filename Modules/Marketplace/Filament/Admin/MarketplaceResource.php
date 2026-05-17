@@ -20,6 +20,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\HtmlString;
+use MicroweberPackages\Filament\Support\AdminDisplayName;
 use MicroweberPackages\Filament\Tables\Columns\BadgesColumn;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Module\ModuleManager;
@@ -76,8 +77,30 @@ class MarketplaceResource extends Resource
 
                     Tables\Columns\TextColumn::make('name')
                         ->searchable()
+                        // AI-785 (task-2026-05-17-4905c8) — pass module/template
+                        // names through the AdminDisplayName helper so CamelCase
+                        // folder identifiers ("LayoutContent", "AiWizard",
+                        // "CustomFields") render as "Layout content", "AI wizard",
+                        // "Custom fields" on the Marketplace card. Names that
+                        // are already display-format (e.g. "Car Services")
+                        // pass through unchanged (idempotent).
+                        ->formatStateUsing(fn (?string $state): string => AdminDisplayName::format($state))
                         ->columnSpanFull()
                         ->weight(FontWeight::Bold),
+
+                    // AI-786 (task-2026-05-17-4905c8) — render description on
+                    // each marketplace card. The MarketplaceItem.description
+                    // field exists but was hidden from the card layout — user
+                    // had to open the slide-over to read what each card was.
+                    // Truncated to 120 chars (Filament default ellipsis) so
+                    // long descriptions don't blow up the card grid; full
+                    // description still visible in the view-details slide-over.
+                    Tables\Columns\TextColumn::make('description')
+                        ->limit(120)
+                        ->color('gray')
+                        ->size(\Filament\Support\Enums\TextSize::Small)
+                        ->columnSpanFull()
+                        ->extraAttributes(['class' => 'mw-marketplace-card-description']),
 
                     BadgesColumn::make('badges')->badges(function (MarketplaceItem $marketplaceItem) {
                         $badges = [];

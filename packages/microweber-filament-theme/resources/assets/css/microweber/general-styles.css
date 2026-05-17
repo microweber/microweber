@@ -3471,3 +3471,20 @@ body.fi-panel-admin .fi-wi-stats-overview-stat-label,
 body.fi-panel-admin .fi-wi-stats-overview-stat-description {
     text-decoration: none;
 }
+
+/* ── AI-786 (task-2026-05-17-4905c8) — marketplace card description sizing.
+ * Companion CSS for the new description column added to MarketplaceResource
+ * card layout. Constrains the description line-height + max-height so long
+ * descriptions don't blow the card vertical rhythm; the column already
+ * truncates at 120 chars at the PHP level. Mutes the colour to ese-text-muted
+ * so the body text doesn't compete with the bold title. */
+body.fi-panel-admin .mw-marketplace-card-description {
+    line-height: 1.4;
+    max-height: 4.2em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    color: var(--ese-text-muted, #6b7280);
+    margin-top: var(--space-xs, 6px);
+}
