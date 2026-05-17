@@ -24,7 +24,15 @@ class ListOrders extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->icon('heroicon-o-plus')->label('Create Order'),
+            // AI-783 (task-2026-05-17-378d85) — unify the header CTA label with
+            // the empty-state body CTA ("+ Add order"). Previously "Create Order"
+            // (header) vs "+ Add order" (empty state body) — same affordance,
+            // two different labels + visual styles. Now both read "+ Add order"
+            // with primary color, matching the AI-736 Pages-list pattern.
+            Actions\CreateAction::make()
+                ->label('+ Add order')
+                ->icon('heroicon-o-plus')
+                ->color('primary'),
 
             Actions\ActionGroup::make([
 

@@ -3447,3 +3447,27 @@ html.dark .mw-no-database-empty__description {
  * cross-package @import architecture, default.css is consumed by BOTH the
  * Vite bundle AND the Webpack theme bundle — one source, both pipelines
  * fed. See default.css for the full rule body. */
+
+/* ── AI-782 (task-2026-05-17-378d85) — Filament table badges no-wrap.
+ * Designer's Round-10 audit caught "Out of Stock" wrapping to 2 lines
+ * inside the Stock badge column on /admin/products. The Filament stock
+ * .fi-badge default lets multi-word labels wrap on narrow columns —
+ * "Out of Stock", "Low Stock", any 2-3 word badge label hits the same
+ * issue everywhere. Scoping to admin panel so checkout/profile badges
+ * keep Filament defaults. Single white-space rule is the smallest fix;
+ * single-word badges unaffected. */
+body.fi-panel-admin .fi-badge {
+    white-space: nowrap;
+}
+
+/* ── AI-783 (task-2026-05-17-378d85) — stat-card label accidental underline.
+ * Designer's Round-10 audit caught the "Orders" label on the OrderStats
+ * widget rendering with `text-decoration: underline` — inherits from a
+ * parent rule (probably the page-section heading style cascade). Filament
+ * stat labels are NOT links and should never carry an underline. Scoped
+ * to the stat-overview widget class so other stats elsewhere keep their
+ * intended styling. Applies to the label only (not the value). */
+body.fi-panel-admin .fi-wi-stats-overview-stat-label,
+body.fi-panel-admin .fi-wi-stats-overview-stat-description {
+    text-decoration: none;
+}
