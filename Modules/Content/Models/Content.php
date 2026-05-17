@@ -883,6 +883,40 @@ class Content extends Model
     {
         $blogPage = get_pages('content_type=page&subtype=dynamic&is_shop=0&single=1');
         if (!$blogPage) {
+            // task-2026-05-17-05a3bc / AI-843 — race-condition
+            // hardening (AI-791 lineage; preventative complement to
+            // the AI-791 Slice D + AI-792b cleanup migration).
+            //
+            // 3 call sites (TemplateInstaller.php:159 + ContentResource
+            // .php:620 + ContentRepository.php:264) can fire this
+            // method concurrently in the same install bootstrap.
+            // Pre-fix the get_pages() null-check above + the new
+            // static() save below carried a race window where TWO
+            // concurrent calls both observed get_pages() = null and
+            // both proceeded to save a Blog page — producing the
+            // orphan `Blog{14-digit-timestamp}` rows that AI-791
+            // Slice D migration cleans up reactively.
+            //
+            // Option B fix (designer-validated, smallest diff):
+            // re-check via a different query path (Content::where on
+            // the canonical 'Blog' URL) BEFORE the save. Catches the
+            // race window — if Call A's save completed between Call
+            // B's get_pages() and Call B's where(), Call B's where()
+            // returns true and we return early without re-saving.
+            //
+            // Belt + suspenders: the small remaining window between
+            // where() and save() (1 SQL roundtrip) is covered by the
+            // AI-791 Slice D cleanup migration as a fallback safety
+            // net. Application-level prevention here + reactive
+            // cleanup migration there = two-layer defence.
+            //
+            // Options A (Schema::table->lockForUpdate) + C (Cache
+            // ::lock) noted in AI-843 ticket body as alternatives if
+            // PM prefers DB-level or cache-level locking; Option B
+            // chosen for smallest code surface.
+            if (static::where('url', 'Blog')->exists()) {
+                return null;
+            }
             $blogPage = new static();
             $blogPage->title = 'Blog';
             $blogPage->content_type = 'page';

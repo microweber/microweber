@@ -64,6 +64,43 @@ class Content4e9d1bAI792DefaultBlogPageLayoutContractTest extends TestCase
         ));
     }
 
+    /**
+     * Slice the createDefaultBlogPage method body via balance-counting
+     * braces, NOT via `strpos($source, '    }', ...)`. The substring
+     * approach is brittle against inner blocks at any indent level
+     * (e.g. the AI-843 race-guard inner-if at 12-space indent).
+     * Sister-rule to LESSONS 2026-05-14 slice-bounding rule + AI-816
+     * fixed-length-substr lesson — slicing source for a localised
+     * assertion must use a robust boundary algorithm, not pattern-
+     * match on whitespace + brace.
+     */
+    private function sliceMethodBody(): string
+    {
+        $start = strpos($this->contentModel, 'public static function createDefaultBlogPage()');
+        if ($start === false) {
+            return '';
+        }
+        $openBrace = strpos($this->contentModel, '{', $start);
+        if ($openBrace === false) {
+            return '';
+        }
+        $depth = 0;
+        $i = $openBrace;
+        $len = strlen($this->contentModel);
+        while ($i < $len) {
+            if ($this->contentModel[$i] === '{') {
+                $depth++;
+            } elseif ($this->contentModel[$i] === '}') {
+                $depth--;
+                if ($depth === 0) {
+                    return substr($this->contentModel, $start, $i - $start + 1);
+                }
+            }
+            $i++;
+        }
+        return substr($this->contentModel, $start);
+    }
+
     // ─────────────────────────────────────────────────────────────────────
     // Group A — createDefaultBlogPage sets layout_file
     // ─────────────────────────────────────────────────────────────────────
@@ -71,14 +108,12 @@ class Content4e9d1bAI792DefaultBlogPageLayoutContractTest extends TestCase
     #[Test]
     public function create_default_blog_page_sets_layout_file_to_blog_blade(): void
     {
-        // Slice the createDefaultBlogPage method body via strpos to
-        // avoid selector-self-match on the docblock prose that
-        // legitimately mentions `layout_file = null`.
-        $start = strpos($this->contentModel, 'public static function createDefaultBlogPage()');
-        $this->assertNotFalse($start);
-        $end = strpos($this->contentModel, '    }', $start);
-        $this->assertNotFalse($end);
-        $body = substr($this->contentModel, $start, $end - $start);
+        // Slice the createDefaultBlogPage method body via balance-
+        // counting (see sliceMethodBody helper). The earlier strpos-
+        // for-`    }` approach false-truncated against inner blocks
+        // (AI-843 race-guard inner-if exposed the brittleness).
+        $body = $this->sliceMethodBody();
+        $this->assertNotSame('', $body);
 
         $this->assertMatchesRegularExpression(
             "/\\\$blogPage->layout_file\\s*=\\s*'blog\\.blade\\.php'/",
@@ -94,9 +129,7 @@ class Content4e9d1bAI792DefaultBlogPageLayoutContractTest extends TestCase
         // content_type / subtype) must still be set so the
         // idempotency check at line 884 (`get_pages(...&subtype=dynamic)`)
         // continues to find this page on subsequent calls.
-        $start = strpos($this->contentModel, 'public static function createDefaultBlogPage()');
-        $end = strpos($this->contentModel, '    }', $start);
-        $body = substr($this->contentModel, $start, $end - $start);
+        $body = $this->sliceMethodBody();
 
         $this->assertStringContainsString("\$blogPage->title = 'Blog'", $body);
         $this->assertStringContainsString("\$blogPage->content_type = 'page'", $body);
@@ -110,9 +143,7 @@ class Content4e9d1bAI792DefaultBlogPageLayoutContractTest extends TestCase
         // (`get_pages('content_type=page&subtype=dynamic&...')`)
         // MUST remain so re-running the installer does NOT create
         // a second Blog page.
-        $start = strpos($this->contentModel, 'public static function createDefaultBlogPage()');
-        $end = strpos($this->contentModel, '    }', $start);
-        $body = substr($this->contentModel, $start, $end - $start);
+        $body = $this->sliceMethodBody();
 
         $this->assertStringContainsString(
             "get_pages('content_type=page&subtype=dynamic&is_shop=0&single=1')",
