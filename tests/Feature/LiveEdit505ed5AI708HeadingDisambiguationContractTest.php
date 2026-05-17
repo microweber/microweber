@@ -103,12 +103,19 @@ class LiveEdit505ed5AI708HeadingDisambiguationContractTest extends TestCase
     public function right_sidebar_h3_renders_theme_settings(): void
     {
         // The Vue <h3> inside the `complementary` wrapper now renders
-        // "Theme Settings" — matches the wrapper's aria-label semantics
-        // (global theme/style toggles).
+        // "Theme settings" — matches the wrapper's aria-label semantics
+        // (global theme/style toggles) AND the MainDrawer "Theme settings"
+        // entry-point label per AI-800 sentence-case sweep.
+        //
+        // task-2026-05-17-bce4b7 / AI-800a — pin-evolution from prior
+        // "Theme Settings" Title Case (AI-708 shipped 2026-05-16). Single
+        // logical contract preserved (label inside the complementary-
+        // wrapper h3); evolved syntax (case-flip). AI-770 v2 pin-evolution
+        // discipline — update existing pin in place, no parallel test.
         $this->assertMatchesRegularExpression(
-            '/<h3[^>]*v-show="showTemplateSettings"[^>]*>\s*<Lang>\s*Theme Settings\s*<\/Lang>\s*<\/h3>/',
+            '/<h3[^>]*v-show="showTemplateSettings"[^>]*>\s*<Lang>\s*Theme settings\s*<\/Lang>\s*<\/h3>/',
             $this->rightSidebar,
-            'RightSidebar.vue must render the complementary-wrapper h3 as "Theme Settings".'
+            'RightSidebar.vue must render the complementary-wrapper h3 as "Theme settings" (sentence case per AI-800a).'
         );
     }
 
@@ -149,11 +156,20 @@ class LiveEdit505ed5AI708HeadingDisambiguationContractTest extends TestCase
     public function bootstrap_template_settings_widget_titled_template_and_layout(): void
     {
         // The active template-settings controlBox (target of the Vue
-        // Teleport) renders title "Template & Layout" now.
+        // Teleport) renders title "Templates & layouts" now — sentence
+        // case + plural-plural per AI-800a, matching the MainDrawer
+        // "Templates & layouts" entry-point label.
+        //
+        // task-2026-05-17-bce4b7 / AI-800a — pin-evolution from prior
+        // "Template & Layout" Title Case singular (AI-708 shipped
+        // 2026-05-16). Single logical contract preserved (controlBox
+        // title); evolved syntax (case-flip + plural-plural). AI-770 v2
+        // pin-evolution discipline — update existing pin in place, no
+        // parallel test.
         $this->assertMatchesRegularExpression(
-            "/mw\\.app\\.templateSettingsWidget\\s*=\\s*new mw\\.controlBox\\(\\{[\\s\\S]*?id:\\s*`template-settings-teleport-widget`[\\s\\S]*?title:\\s*mw\\.lang\\('Template & Layout'\\)/",
+            "/mw\\.app\\.templateSettingsWidget\\s*=\\s*new mw\\.controlBox\\(\\{[\\s\\S]*?id:\\s*`template-settings-teleport-widget`[\\s\\S]*?title:\\s*mw\\.lang\\('Templates & layouts'\\)/",
             $this->bootstrapJs,
-            'bootstrap.js mw.app.templateSettingsWidget controlBox must render title "Template & Layout".'
+            'bootstrap.js mw.app.templateSettingsWidget controlBox must render title "Templates & layouts" (sentence case + plural-plural per AI-800a).'
         );
     }
 

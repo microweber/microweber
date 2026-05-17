@@ -9,15 +9,24 @@
                       task-2026-05-16-505ed5 / AI-708 — disambiguated heading
                       per designer dispatch. This is the `role="complementary"
                       aria-label="Theme settings sidebar"` wrapper, so the
-                      heading is "Theme Settings" (global theme/style toggles).
+                      heading is "Theme settings" (global theme/style toggles).
                       "Template Style Editor" was misleading — the
                       per-element pane is called "Element Style Editor", and
                       "Template Style Editor" was being shown both here AND
                       on the (now-removed) stale controlBox in
                       `live-edit.blade.php`. See LESSONS / SOUL #110 for the
                       DOM-duplicate audit that triggered the rename.
+
+                      task-2026-05-17-bce4b7 / AI-800a — sentence-case
+                      cascade from AI-800 MainDrawer copy pass. The
+                      MainDrawer "Theme settings" nav-item is the entry
+                      point to this panel; the panel's own h3 must match
+                      the user's expectation set by that label. Cross-
+                      surface consistency outweighs the case-change
+                      regression test churn (handled via AI-708 contract-
+                      test pin-evolution).
                     -->
-                    <h3 v-show="showTemplateSettings" class="fs-3 font-weight-bold"><Lang>Theme Settings</Lang></h3>
+                    <h3 v-show="showTemplateSettings" class="fs-3 font-weight-bold"><Lang>Theme settings</Lang></h3>
 
                     <span v-show="!showElementStyleEditor" v-on:click="closeSidebar"
                           :class="[buttonIsActive?'live-edit-right-sidebar-active':'']"
