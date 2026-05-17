@@ -362,6 +362,38 @@
             box-shadow: none;
             outline: none;
         }
+        /*
+         * task-2026-05-17-04f015 / AI-817 — WCAG 3.3.2 Level A.
+         * The Facebook-style writing surface intentionally hides
+         * the field label visually (big-type placeholder carries
+         * the affordance). BEFORE AI-817 we used Filament's
+         * `->hiddenLabel()` which removed the label from the DOM
+         * entirely — AT users heard "edit text, blank" with no
+         * field name. AFTER: `->label('Title')` is restored and
+         * this sr-only rule visually-hides the rendered label
+         * while keeping it programmatically associated with the
+         * input for screen readers / Dragon NaturallySpeaking /
+         * voice-control software.
+         *
+         * Shared by ContentResource compactTitleOnlySection (Post +
+         * Page + Product via CreateContent inheritance) AND
+         * CategoryResource Slice B sibling — both surfaces tag
+         * the field wrapper with .mw-fb-title-wrap.
+         */
+        .mw-fb-title-wrap > .fi-fo-field-lbl,
+        .mw-fb-title-wrap > .fi-fo-field-lbl-ctn,
+        .mw-fb-title-wrap label.fi-fo-field-lbl,
+        .mw-fb-title-wrap > label {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
         .mw-content-form-modal .mw-fb-media-section {
             border: 1px dashed var(--gray-200, #e5e7eb);
             background: transparent;

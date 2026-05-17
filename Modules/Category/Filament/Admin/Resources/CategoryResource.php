@@ -321,11 +321,22 @@ class CategoryResource extends Resource
                 Forms\Components\Hidden::make('rel_id')
                     ->default($selectedPage ?: null),
 
+                // task-2026-05-17-04f015 / AI-817 — Slice B sibling fix.
+                // Same WCAG 3.3.2 Level A defect as ContentResource
+                // compactTitleOnlySection(): `->hiddenLabel()` removed
+                // the <label>Title</label> from the DOM, leaving AT
+                // users with "edit text, blank" once the placeholder
+                // disappeared on focus. Drop `->hiddenLabel()`; keep
+                // the existing `->label('Title')` so Filament emits
+                // the canonical `<label>` element. Visual design is
+                // preserved by the `.mw-fb-title-wrap` sr-only CSS
+                // rule in live-edit-module-settings.blade.php (same
+                // hook used by ContentResource). aria-label layered
+                // for defense-in-depth.
                 Forms\Components\TextInput::make('title')
                     ->label('Title')
-                    ->hiddenLabel()
                     ->placeholder("What's the category name?")
-                    ->extraInputAttributes(['class' => 'mw-fb-title-input'])
+                    ->extraInputAttributes(['class' => 'mw-fb-title-input', 'aria-label' => 'Title'])
                     ->rules(['required'])
                     ->markAsRequired()
                     ->autofocus()

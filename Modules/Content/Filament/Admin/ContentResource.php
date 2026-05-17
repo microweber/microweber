@@ -348,7 +348,22 @@ class ContentResource extends Resource
             ->extraAttributes(['class' => 'mw-fb-title-section'])
             ->schema([
                 Forms\Components\TextInput::make('title')
-                    ->hiddenLabel()
+                    // task-2026-05-17-04f015 / AI-817 — WCAG 3.3.2
+                    // Level A requires a programmatic label for every
+                    // form input. The prior `->hiddenLabel()` removed
+                    // the <label> from the DOM entirely; once the
+                    // placeholder disappears on focus, AT users hear
+                    // just "edit text, blank" with no field name.
+                    // Fix: emit Filament's canonical `<label>Title</label>`
+                    // (per Filament convention) + visually-hide via
+                    // the .mw-fb-title-wrap CSS sr-only rule in
+                    // live-edit-module-settings.blade.php so the
+                    // Facebook-style writing surface visual stays
+                    // intact. Defense-in-depth aria-label below
+                    // covers the input even if a future CSS change
+                    // mis-hides the rendered label.
+                    ->label('Title')
+                    ->extraFieldWrapperAttributes(['class' => 'mw-fb-title-wrap'])
                     ->maxLength(255)
                     ->rules(['required'])
                     ->markAsRequired()
@@ -365,8 +380,11 @@ class ContentResource extends Resource
                     // audit found Title was server-side `->required()`
                     // but not announced as required to screen readers.
                     // Add aria-required="true" so AT users hear the
-                    // requirement before submit.
-                    ->extraInputAttributes(['class' => 'mw-fb-title-input', 'aria-required' => 'true'])
+                    // requirement before submit. AI-817 layered an
+                    // aria-label here for defense-in-depth: even if
+                    // the rendered <label>Title</label> were lost,
+                    // the input still announces a field name.
+                    ->extraInputAttributes(['class' => 'mw-fb-title-input', 'aria-required' => 'true', 'aria-label' => 'Title'])
                     ->hintAction(
                         TranslateFieldAction::make('title')->label('')
                     )->columnSpanFull(),
