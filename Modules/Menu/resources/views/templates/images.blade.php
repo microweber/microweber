@@ -22,7 +22,9 @@ description: Images Menu skin
     if ($mt != false) {
         print($mt);
     } else {
-        print lnotif(_e('There are no items in the menu', true) . " <b>" . $menu_name . '</b>');
+        // task-2026-05-17-d00884 / AI-809 -- escape $menu_name via e()
+        // (admin-to-admin XSS defense-in-depth; lnotif is editmode-gated).
+        print lnotif(_e('There are no items in the menu', true) . " <b>" . e($menu_name) . '</b>');
     }
     ?>
 </div>

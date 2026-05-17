@@ -62,6 +62,8 @@ $mt = menu_tree($menu_filter);
 if ($mt != false) {
     print ($mt);
 } else {
-    print lnotif("There are no items in the menu <b>" . $menu_name . '</b>');
+    // task-2026-05-17-d00884 / AI-809 -- escape $menu_name via e()
+    // (admin-to-admin XSS defense-in-depth; lnotif is editmode-gated).
+    print lnotif("There are no items in the menu <b>" . e($menu_name) . '</b>');
 }
 ?>

@@ -31,7 +31,14 @@ $mt = menu_tree($menu_filter);
 @if ($mt != false)
     {!! $mt !!}
 @else
-    {!! lnotif("There are no items in the menu <b>" . $menu_name . '</b>') !!}
+    {{-- task-2026-05-17-d00884 / AI-809 -- escape $menu_name via e() before
+         injecting into lnotif HTML. Admin-to-admin XSS defense-in-depth
+         (lnotif is editmode-gated). The 5th + 6th instance of this
+         family found in the Menu module beyond designer's enumerated 4;
+         worth flagging to update LESSONS prong-1 diagnostic to also
+         catch scalar interpolation in helper-call HTML output, not
+         just $field[] array access. --}}
+    {!! lnotif("There are no items in the menu <b>" . e($menu_name) . '</b>') !!}
 @endif
 
 <style>
