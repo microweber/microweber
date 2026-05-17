@@ -291,20 +291,22 @@ class Search3e91f4AI837SearchStubElimContractTest extends TestCase
     #[Test]
     public function frontend_catchall_exclusion_regex_carries_search(): void
     {
-        // Pin-evolved 2026-05-17 / task-66a21a / AI-849 — the exclusion
-        // regex grew to include `shop` for the same belt-and-braces
-        // reason. Updated in place per pin-evolution discipline (AI-770
-        // v2 / AI-805 Path B); NOT a parallel test. The contract this
-        // method pins is "search is in the exclusion regex" — the regex
-        // now matches a broader set of prefixes but `search` is still
-        // present, which is what AI-837 cares about. AI-849 ships its
-        // own `frontend_catchall_exclusion_regex_carries_shop` test for
-        // its half of the contract.
+        // Pin-evolved 2026-05-17 / task-28d21d / AI-850 (after task-66a21a /
+        // AI-849 added `shop`) — the exclusion regex now grows with each
+        // dispatch that adds a new excluded prefix. Anchoring on the
+        // EXACT regex shape breaks every time a new prefix lands. Updated
+        // in place per pin-evolution discipline (AI-770 v2 / AI-805 Path B)
+        // to anchor on `search` being IN the exclusion list, not on the
+        // exact set of prefixes. This pin survives future additions
+        // (customer, foo, bar, ...) without false-failing.
         $source = $this->read(self::FRONTEND_ROUTES);
+        // The exclusion regex looks like:
+        //   ->where('slug', '^(?!vendor|packages|template|modules|css|storage|userfiles|js|admin|search|shop|customer).*')
+        // Anchor: any pipe-separated list inside (?!...) that contains `search`.
         $this->assertMatchesRegularExpression(
-            '/->where\(\s*\'slug\'\s*,\s*\'\^\(\?!vendor\|packages\|template\|modules\|css\|storage\|userfiles\|js\|admin\|search\|shop\)/',
+            '/->where\(\s*\'slug\'\s*,\s*\'\^\(\?![^)]*\|search\b[^)]*\)/',
             $source,
-            'AI-837 (pin-evolved by AI-849): frontend catch-all `->where(\'slug\', ...)` regex must exclude `search` AND `shop` (belt-and-braces: if either module is ever disabled, the respective URL 404s cleanly via Route::fallback() instead of regressing to the FrontendController stub renderer).'
+            'AI-837 (pin-evolved by AI-850): frontend catch-all `->where(\'slug\', ...)` regex must include `search` in its exclusion list (belt-and-braces: if Search module is ever disabled, /search 404s cleanly via Route::fallback() instead of regressing to the FrontendController stub renderer).'
         );
     }
 

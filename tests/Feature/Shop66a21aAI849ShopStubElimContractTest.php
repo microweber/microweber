@@ -375,11 +375,19 @@ class Shop66a21aAI849ShopStubElimContractTest extends TestCase
     #[Test]
     public function frontend_catchall_exclusion_regex_carries_shop(): void
     {
+        // Pin-evolved 2026-05-17 / task-28d21d / AI-850 — anchored on
+        // `shop` being IN the exclusion list rather than the exact set
+        // of prefixes (per pin-evolution discipline AI-770 v2 / AI-805
+        // Path B). The regex now grows with each new excluded prefix;
+        // this shape survives future additions without false-failing.
+        // AI-850 also pin-evolved the sibling AI-837
+        // frontend_catchall_exclusion_regex_carries_search test the
+        // same way.
         $source = $this->read(self::FRONTEND_ROUTES);
         $this->assertMatchesRegularExpression(
-            '/->where\(\s*\'slug\'\s*,\s*\'\^\(\?!vendor\|packages\|template\|modules\|css\|storage\|userfiles\|js\|admin\|search\|shop\)/',
+            '/->where\(\s*\'slug\'\s*,\s*\'\^\(\?![^)]*\|shop\b[^)]*\)/',
             $source,
-            'AI-849: frontend catch-all `->where(\'slug\', ...)` regex must exclude `shop` (belt-and-braces: if Shop module is ever disabled, /shop 404s cleanly via Route::fallback() instead of regressing back to the FrontendController stub renderer).'
+            'AI-849 (pin-evolved by AI-850): frontend catch-all `->where(\'slug\', ...)` regex must include `shop` in its exclusion list (belt-and-braces: if Shop module is ever disabled, /shop 404s cleanly via Route::fallback() instead of regressing back to the FrontendController stub renderer).'
         );
     }
 

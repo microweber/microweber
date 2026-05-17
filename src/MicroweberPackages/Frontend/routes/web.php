@@ -62,10 +62,29 @@ Route::group(
     // regex addition is belt-and-braces: if Shop module is ever disabled,
     // /shop subroutes 404 cleanly via Route::fallback() instead of
     // regressing back to the FrontendController stub renderer.
+    //
+    // task-2026-05-17-28d21d / AI-850 — added `customer` to the excluded-
+    // prefix regex. Different defect-family from the silent-stub family
+    // (AI-849 etc.) — the Customer module is BACKEND-ONLY (admin Filament
+    // resource + API endpoints; no frontend templates exist). Pre-fix,
+    // /customer fell through to FrontendController which detected
+    // "customer" as an installed module (lines 781-797: `is_installed`
+    // check), set `$page['content'] = '<module type="customer" />'` +
+    // `$page['layout_file'] = 'clean.php'` + `$show_404_to_non_admin =
+    // false`. Because Customer module has no template, the `<module
+    // type="customer" />` rendered to nothing — body became just the
+    // ApijsScriptTag meta-tag chrome (CSRF fetch wrapper) + empty
+    // <title>. Designer-reported body sample showed the CSRF JS at the
+    // top of the response. Decision per designer's Slice A hypothesis 3:
+    // `/customer` shouldn't exist as a public surface (admin-side use
+    // `/admin/customers`, end-customer use `/profile`). Adding to the
+    // exclusion regex routes /customer to Route::fallback which now
+    // renders the AI-795 chrome-404 view (extended in this ship — see
+    // Route::fallback below).
     Route::any('{slug}', array('as' => 'slug', 'uses' =>
         \MicroweberPackages\Frontend\Http\Controllers\FrontendController::class . '@index'))
         ->middleware('web')
-        ->where('slug', '^(?!vendor|packages|template|modules|css|storage|userfiles|js|admin|search|shop).*')
+        ->where('slug', '^(?!vendor|packages|template|modules|css|storage|userfiles|js|admin|search|shop|customer).*')
         ->name('website');
 
     Route::fallback(function () {
@@ -97,6 +116,42 @@ Route::group(
                 ]);
         }
 
+        // task-2026-05-17-28d21d / AI-850 — non-admin Route::fallback now
+        // renders the AI-795 chrome-404 view (instead of plain text/plain)
+        // so excluded-prefix URLs (/customer per AI-850; /search if
+        // Search module is disabled per AI-837; /shop if Shop module is
+        // disabled per AI-849) land on a styled 404 page matching the
+        // active template's chrome with noindex meta. AI-795 view was
+        // built for the FrontendController $show_404_to_non_admin
+        // branch — same view is now reused here for catch-all-excluded
+        // URLs that reach Route::fallback. Resolves the AI-795
+        // active-template-master with Bootstrap fallback inline (AI-757
+        // pattern) so this fallback doesn't depend on FrontendController.
+        $activeTemplate = (string) (get_option('current_template', 'template') ?? '');
+        $extendsView = 'templates.bootstrap::layouts.master';
+        if ($activeTemplate !== '') {
+            $candidate = 'templates.' . strtolower($activeTemplate) . '::layouts.master';
+            if (view()->exists($candidate)) {
+                $extendsView = $candidate;
+            }
+        }
+
+        if (view()->exists('frontend.errors.404')) {
+            return response()
+                ->view('frontend.errors.404', [
+                    'extendsView' => $extendsView,
+                    'requestedUrl' => '/' . ltrim((string) $url, '/'),
+                ], 404)
+                ->withHeaders([
+                    'X-Robots-Tag' => 'noindex, nofollow',
+                    'X-Fallback-Message' => 'frontend-404',
+                    'X-Powered-By' => 'Microweber',
+                ]);
+        }
+
+        // Final fallback: if the AI-795 view is missing (fresh install
+        // mid-migration / template-removal edge case), return the
+        // original text/plain shape to preserve audit-trail behaviour.
         return response('Page not found at url: ' . $url, 404)->withHeaders([
             'Content-Type' => 'text/plain',
             'X-Fallback-Message' => 'true',
