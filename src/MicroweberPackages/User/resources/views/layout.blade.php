@@ -56,9 +56,19 @@ $mwAuthLogoUrl = mw()->ui->admin_logo_login();
 .mw-auth-card .form-control { width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; line-height: 1.4; background: #fff; color: #1f2937; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; box-sizing: border-box; }
 .mw-auth-card .form-control:focus { outline: none; border-color: #0d6efd; box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15); }
 .mw-auth-card .btn { display: inline-block; padding: 12px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; line-height: 1.2; cursor: pointer; transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out; border: 1px solid transparent; text-decoration: none; }
-.mw-auth-card .btn-primary { background: #0d6efd; color: #fff; border-color: #0d6efd; }
+/* task-2026-05-17-06892a / AI-794a — CHANGE 1 absorbed (Stage-2 cascade-loss
+   sibling to AI-697 v3 + AI-786 dark text + AI-810 flex-centring). Pre-CHANGE
+   the .mw-auth-card .btn-primary single-class rule lost the cascade fight to
+   the active template's .btn-primary (which ships with template-specific
+   colour — often salmon #F4A261 in the Big2 template). Designer's runtime
+   measurement at 1440 desktop showed rgb(244, 162, 97) instead of brand-blue.
+   Canonical Stage-2 fix per LESSONS: compound selector at single-class
+   specificity + !important on the colour declarations. The .mw-auth-card
+   ancestor compound bumps specificity AND !important defeats any inline-style
+   or framework-default that wins via higher specificity. */
+.mw-auth-card .btn-primary { background-color: #0d6efd !important; color: #fff !important; border-color: #0d6efd !important; }
 .mw-auth-card .btn-primary:hover,
-.mw-auth-card .btn-primary:focus { background: #0b5ed7; border-color: #0a58ca; color: #fff; }
+.mw-auth-card .btn-primary:focus { background-color: #0b5ed7 !important; border-color: #0a58ca !important; color: #fff !important; }
 .mw-auth-card .btn-link { background: transparent; color: #0d6efd; padding-inline: 0; }
 .mw-auth-card .btn-link:hover,
 .mw-auth-card .btn-link:focus { text-decoration: underline; color: #0a58ca; }

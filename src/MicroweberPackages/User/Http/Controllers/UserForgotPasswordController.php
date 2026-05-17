@@ -139,13 +139,19 @@ class UserForgotPasswordController extends Controller
 
     public function showResetForm(Request $request)
     {
-        $expiredText = "Password reset link is expired";
-
         $check = DB::table('password_resets')
             ->where('email', '=', $request->email)
             ->first();
         if (!$check) {
-            return abort(response($expiredText, 401));
+            // task-2026-05-17-06892a / AI-794b — CHANGE 2 absorbed.
+            // Pre-CHANGE this returned `abort(response("Password reset
+            // link is expired", 401))` which rendered bare text on a
+            // blank page (no auth chrome). Now routes through the
+            // user::auth.reset-password-expired view which extends
+            // user::layout — same AI-794 chrome as the form surfaces
+            // + a "Request a new reset link" CTA so the user can
+            // recover without copying the URL by hand.
+            return $this->expiredResetLinkResponse();
         }
 
         $abort = false;
@@ -171,13 +177,38 @@ class UserForgotPasswordController extends Controller
                 ->where('email', '=', $request->email)
                 ->delete();
 
-            return abort(response($expiredText, 401));
+            // task-2026-05-17-06892a / AI-794b — see comment above.
+            return $this->expiredResetLinkResponse();
         }
 
         return view('user::auth.reset-password', [
             'email' => $request->email,
             'token' => $request->token,
         ]);
+    }
+
+    /**
+     * task-2026-05-17-06892a / AI-794b — CHANGE 2 absorbed.
+     * Render the chrome-wrapped expired-reset-link response.
+     *
+     * Pre-AI-794b the controller called
+     * `abort(response("Password reset link is expired", 401))` which
+     * emitted bare text on a blank page — losing the AI-794 auth
+     * chrome at the exact moment the user is actively trying to
+     * recover access. Same propagation-without-renderer-update
+     * family as AI-735→AI-793 admin-404 (the form-rendering path
+     * got the AI-794 layout wrap; the controller's error path
+     * bypassed user::layout entirely).
+     *
+     * Returns 401 with the same status code + an HTML body that
+     * extends user::layout (active-template master + .mw-auth-card
+     * chrome + brand logo + footer + AI-794a brand-blue CTA).
+     *
+     * @return \Illuminate\Http\Response
+     */
+    protected function expiredResetLinkResponse()
+    {
+        return response()->view('user::auth.reset-password-expired', [], 401);
     }
 
     public function update(Request $request)
@@ -202,7 +233,13 @@ class UserForgotPasswordController extends Controller
                 DB::table('password_resets')
                     ->where('email', '=', $request->get('email'))
                     ->delete();
-                return abort(response("Password reset link is expired", 401));
+                // task-2026-05-17-06892a / AI-794b — CHANGE 2 absorbed.
+                // Pre-CHANGE this 3rd error path also emitted bare-text
+                // 401. Routed through the same chrome-wrapped expired-
+                // reset-link view as showResetForm() so the user gets
+                // identical recovery UX whether the link is expired at
+                // page-load OR at form-submit time.
+                return $this->expiredResetLinkResponse();
             }
 
             $user = User::where('email', $request->get('email'))->first();
