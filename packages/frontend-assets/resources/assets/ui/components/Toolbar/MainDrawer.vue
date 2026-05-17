@@ -46,6 +46,15 @@
 
   Lineage: AI-700 (original drawer) + AI-708 (sidebar disambiguation)
   + AI-701 (PageChip; receives the new CustomEvent).
+
+  task-2026-05-17-918e58 / AI-799  Users item href broken (resolved
+  to the current live-edit URL because `usersUrl` defaulted to '').
+  Fix: data() now resolves `usersUrl` + `logoutUrl` via the Ziggy
+  `route()` helper with safe fallback to plain admin paths. Same
+  `readMenuUrls()` API-override path preserved but only when the
+  menu provides a non-empty value. Every drawer item gains a stable
+  `data-mw-drawer-item="<slug>"` attribute for runtime probes (per
+  designer Tier-3 selector `[data-mw-drawer-item="users"]`).
 -->
 <template>
     <Teleport to="body">
@@ -98,6 +107,7 @@
                         <button
                             type="button"
                             class="mw-main-drawer__item mw-main-drawer__item--edit"
+                            data-mw-drawer-item="layers"
                             @click="openLayers()"
                         >
                             <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
@@ -117,6 +127,7 @@
                         <button
                             type="button"
                             class="mw-main-drawer__item mw-main-drawer__item--edit"
+                            data-mw-drawer-item="template-and-layout"
                             @click="openTemplateAndLayout()"
                         >
                             <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
@@ -139,6 +150,7 @@
                         <button
                             type="button"
                             class="mw-main-drawer__item mw-main-drawer__item--edit"
+                            data-mw-drawer-item="theme-settings"
                             @click="openThemeSettings()"
                         >
                             <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
@@ -167,6 +179,7 @@
                         <button
                             type="button"
                             class="mw-main-drawer__item mw-main-drawer__item--navigate"
+                            data-mw-drawer-item="pages"
                             @click="openPagesList()"
                         >
                             <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
@@ -184,6 +197,7 @@
                         <a
                             :href="backToAdminLink"
                             class="mw-main-drawer__item mw-main-drawer__item--external"
+                            data-mw-drawer-item="back-to-admin"
                             @click="close()"
                         >
                             <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -196,11 +210,15 @@
                         </a>
                     </li>
 
-                    <!-- Users URL link to admin/users. -->
+                    <!-- Users URL link to admin/users. AI-799 fix:
+                         usersUrl now defaults via route() with safe
+                         fallback to /admin/users (the empty-string
+                         default was the broken-link defect). -->
                     <li>
                         <a
                             :href="usersUrl"
                             class="mw-main-drawer__item mw-main-drawer__item--external"
+                            data-mw-drawer-item="users"
                             @click="close()"
                         >
                             <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
@@ -220,6 +238,7 @@
                             target="_blank"
                             rel="noopener"
                             class="mw-main-drawer__item mw-main-drawer__item--external"
+                            data-mw-drawer-item="see-website"
                             @click="close()"
                         >
                             <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
@@ -242,6 +261,7 @@
                         <button
                             type="button"
                             class="mw-main-drawer__item mw-main-drawer__item--toggle"
+                            data-mw-drawer-item="theme-toggle"
                             @click="toggleTheme()"
                             :aria-pressed="theme === 'dark' ? 'true' : 'false'"
                         >
@@ -269,6 +289,7 @@
                     v-if="logoutUrl"
                     :href="logoutUrl"
                     class="mw-main-drawer__item mw-main-drawer__item--logout"
+                    data-mw-drawer-item="logout"
                     @click="close()"
                 >
                     <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
@@ -297,12 +318,33 @@ export default {
     },
 
     data() {
+        // task-2026-05-17-918e58 / AI-799  hard fallback URLs for items
+        // whose href comes from the (async) top_right_menu API. Pre-fix,
+        // `usersUrl` defaulted to `''` so the rendered `<a :href="">`
+        // resolved to the current URL (window.location), producing the
+        // designer-flagged broken-link defect: clicking "Users" on
+        // /admin/live-edit reloaded the same live-edit URL. Ziggy's
+        // `route()` helper is registered globally by the Toolbar's
+        // app boot so it's safe to call at data() time; wrap in try
+        // catch so a missing route name (or Ziggy not loaded yet)
+        // falls back to the plain admin path instead of throwing.
+        // Reference: AI-735 admin route propagation (same admin-prefix
+        // resolution shape).
+        var safeRoute = function (name, fallback) {
+            try {
+                if (typeof window !== 'undefined' && typeof window.route === 'function') {
+                    return window.route(name);
+                }
+            } catch (_) { /* no-op */ }
+            return fallback;
+        };
+
         return {
             isOpen: false,
             theme: 'light',
-            usersUrl: '',
+            usersUrl: safeRoute('filament.admin.resources.users.index', '/admin/users'),
             seeWebsiteUrl: '/',
-            logoutUrl: ''
+            logoutUrl: safeRoute('logout', '/logout')
         };
     },
 
@@ -425,13 +467,22 @@ export default {
             // menu items carry id="logout-link" / similar identifiers;
             // we look them up by id. Falls back to plain admin paths
             // when the menu hasn't loaded yet.
+            //
+            // task-2026-05-17-918e58 / AI-799  ONLY override the data()
+            // defaults when the menu provides a non-empty href. Pre-fix,
+            // `this.usersUrl = item.href || ''` would BLANK the safe
+            // default when the API returned an empty href (or the
+            // API placeholder '#'). That's the broken-link defect:
+            // empty :href renders to current URL. Now we read the href
+            // and only assign when it's truthy + not the placeholder.
             if (Array.isArray(this.menu) && this.menu.length) {
                 for (var i = 0; i < this.menu.length; i++) {
                     var item = this.menu[i];
                     if (!item || !item.id) continue;
-                    if (item.id === 'logout-link') this.logoutUrl = item.href || '';
-                    if (item.id === 'users-link') this.usersUrl = item.href || '';
-                    if (item.id === 'see-website-link' && item.href) this.seeWebsiteUrl = item.href;
+                    var safe = item.href && item.href !== '#' ? item.href : null;
+                    if (item.id === 'logout-link' && safe) this.logoutUrl = safe;
+                    if (item.id === 'users-link' && safe) this.usersUrl = safe;
+                    if (item.id === 'see-website-link' && safe) this.seeWebsiteUrl = safe;
                 }
             }
         }
