@@ -50,7 +50,16 @@ mw.fileWindow = function (config) {
     };
 
 
-    url = mw.settings.site_url + 'editor_tools/rte_image_editor?' + $.param(q) + '#fileWindow';
+    // task-2026-05-17-f1e4d9 / AI-854 -- add `var` declaration. Pre-fix
+    // this assignment was an implicit global which throws ReferenceError
+    // under strict-mode bundling ("url is not defined"). Production
+    // impact: every component handler binding 'file-uploader' silently
+    // failed -- no modal, no visible error. P1 because the legacy
+    // file-uploader hook fan-out covers admin upload affordances across
+    // multiple surfaces. Slice B linting candidate: run
+    //   npx eslint packages/frontend-assets/resources/assets/ --rule 'no-undef: error'
+    // to surface sibling implicit-global assignments in this dir.
+    var url = mw.settings.site_url + 'editor_tools/rte_image_editor?' + $.param(q) + '#fileWindow';
     var frameWindow;
     var toreturn = {
         dialog: null,
