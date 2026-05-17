@@ -668,6 +668,109 @@ html.dark .mw-dialog-skin-default .mw-dialog-overlay,
     @apply !bg-black/60;
 }
 
+/* task-2026-05-17-df485c / AI-769: dark-mode SKIN for the dialog
+   surface itself. AI-740 only fixed the backdrop alpha — the modal
+   body, title bar, tab nav, inputs, footer buttons, and thumbnail
+   grid all stayed light-theme, producing a 600×~200 px white flash
+   on dark admin. Pre-fix:
+     getComputedStyle('.mw-dialog-skin-default .mw-dialog-holder')
+       .backgroundColor === 'rgb(255,255,255)' on .dark
+   This block paints the full dialog chrome dark to match the rest
+   of the admin in dark mode.
+
+   Scope: `.mw-dialog-skin-default` is shared by filepicker,
+   prompts, confirms — all benefit. Light mode unchanged (no
+   overrides without the .dark / html.dark prefix). */
+html.dark .mw-dialog-skin-default .mw-dialog-holder,
+.dark .mw-dialog-skin-default .mw-dialog-holder {
+    background-color: #1f2937 !important;     /* gray-800 — matches Filament dark surface */
+    color: #f3f4f6 !important;                /* gray-100 — body text */
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55) !important;
+}
+
+html.dark .mw-dialog-skin-default .mw-modal-title-holder,
+.dark .mw-dialog-skin-default .mw-modal-title-holder,
+html.dark .mw-dialog-skin-default .mw-dialog-header,
+.dark .mw-dialog-skin-default .mw-dialog-header {
+    background-color: #1f2937 !important;
+    color: #f3f4f6 !important;
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .mw-dialog-skin-default .mw-modal-title-holder *,
+.dark .mw-dialog-skin-default .mw-modal-title-holder *,
+html.dark .mw-dialog-skin-default .mw-dialog-header .modal-title,
+.dark .mw-dialog-skin-default .mw-dialog-header .modal-title {
+    color: #f3f4f6 !important;
+}
+
+/* Picker tab nav anchors — light surface in dark mode would read
+   as washed-out blue links on white. Force gray-200 default,
+   white on hover, accent blue on active. */
+html.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a,
+.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a {
+    color: #e5e7eb !important;
+    background-color: transparent !important;
+}
+html.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a:hover,
+.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a:hover {
+    color: #ffffff !important;
+}
+html.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a.active,
+.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a.active {
+    color: var(--ese-accent, #0d6efd) !important;
+}
+
+/* Form inputs inside the dialog — text fields, search box,
+   textareas. */
+html.dark .mw-dialog-skin-default input.form-control,
+.dark .mw-dialog-skin-default input.form-control,
+html.dark .mw-dialog-skin-default .form-control,
+.dark .mw-dialog-skin-default .form-control,
+html.dark .mw-dialog-skin-default textarea,
+.dark .mw-dialog-skin-default textarea {
+    background-color: #111827 !important;     /* gray-900 — input field bg */
+    color: #f3f4f6 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+html.dark .mw-dialog-skin-default input.form-control::placeholder,
+.dark .mw-dialog-skin-default input.form-control::placeholder,
+html.dark .mw-dialog-skin-default .form-control::placeholder,
+.dark .mw-dialog-skin-default .form-control::placeholder {
+    color: #9ca3af !important;                /* gray-400 — placeholder */
+}
+
+/* Footer buttons — Cancel (secondary) + Insert image (primary).
+   The Insert image button keeps the primary blue from its own
+   `.btn-primary` rules; the Cancel button needs an explicit dark
+   border + text so it doesn't read as a light pill on dark. */
+html.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons,
+.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons,
+html.dark .mw-dialog-skin-default .mw-dialog-footer,
+.dark .mw-dialog-skin-default .mw-dialog-footer {
+    background-color: #111827 !important;     /* slightly darker than body for visual depth */
+    border-top-color: rgba(255, 255, 255, 0.06) !important;
+}
+html.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning),
+.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning),
+html.dark .mw-dialog-skin-default .mw-dialog-footer .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning),
+.dark .mw-dialog-skin-default .mw-dialog-footer .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning) {
+    background-color: transparent !important;
+    color: #e5e7eb !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Thumbnail grid cells in the picker's library / uploaded tabs —
+   default light-gray bg looks like a white blob on dark. */
+html.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails,
+.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails,
+html.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails > *,
+.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails > * {
+    background-color: #111827 !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
 /* Prompt/Confirm dialog mobile */
 @media (max-width: 768px) {
     .mw-dialog-skin-default:not(.mw_modal_live_edit_link_editor_settings) .mw-dialog-holder {
