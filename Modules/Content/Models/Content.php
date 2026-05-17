@@ -887,6 +887,15 @@ class Content extends Model
             $blogPage->title = 'Blog';
             $blogPage->content_type = 'page';
             $blogPage->subtype = 'dynamic';
+            // AI-792 (task-2026-05-17-4e9d1b) — bind the Blog page to
+            // the active template's blog.blade.php layout. Without
+            // this, the renderer falls back to the default home
+            // template (which is the marketing hero) and visitors to
+            // /Blog see the home page instead of the post archive.
+            // Templates that lack blog.blade.php still get a
+            // dynamic-subtype page; the resolver downgrades cleanly
+            // to the next-best match.
+            $blogPage->layout_file = 'blog.blade.php';
             $blogPage->save();
         }
         return $blogPage;
