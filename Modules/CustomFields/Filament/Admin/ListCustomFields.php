@@ -263,7 +263,14 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable, Has
                                             })
                                             ->label('Custom field type')
                                             ->options(CustomFieldTypes::class)
-                                            //  ->descriptions(CustomFieldTypes::class)
+                                            // task-2026-05-17-6027b9 / AI-788 CHANGE — descriptions
+                                            // call was previously commented out so the actionable
+                                            // copy data shipped via CustomFieldTypes::getDescriptions()
+                                            // (PHPUnit DataProvider enforces ≥10 chars +
+                                            // non-tautological) never reached the RadioDeck UI.
+                                            // Designer's runtime probe caught 0 description nodes
+                                            // per option. Single-character fix per dispatch.
+                                            ->descriptions(CustomFieldTypes::class)
                                             ->icons(CustomFieldTypes::class)
                                             ->required()
                                             ->live()
