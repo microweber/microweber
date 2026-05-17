@@ -4689,9 +4689,19 @@ html[dir="rtl"] .mw-text-start {
  * instead of being baked into the JS string template.
  * ============================================================================= */
 
+/* task-2026-05-17-23e0ee / AI-771 — single-column collapse per
+   designer Option A. The 400px max-width + auto-margin centered
+   the AI tab in a narrow column, leaving dead space on both
+   sides at desktop and breaking width hierarchy (Generate was
+   "full-width" inside 400px ≈ 280px). Drop both so the tab fills
+   the modal content width; secondary fields stay narrow via
+   .mw-filepicker-ai-field-narrow (unchanged at 200px). The
+   outer JS-template wrapper class `mw-image-picker-ai` also
+   switched from Tailwind `max-w-sm mx-auto` to `w-full`
+   (filepicker.js — see AI-771 marker). */
 .mw-filepicker-ai-tab-wrap {
-    max-width: 400px;
-    margin: auto;
+    max-width: none;
+    margin: 0;
 }
 
 .mw-filepicker-ai-field-narrow {

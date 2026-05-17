@@ -368,9 +368,25 @@ mw.filePicker = function (options) {
             //   - `aria-describedby` linking button → status region
             //   - `<output role="status" aria-live="polite">` so SR
             //     users hear "Generating image…" / "Image generated"
+            //
+            // task-2026-05-17-23e0ee / AI-771 — outer wrapper was
+            // `max-w-sm mx-auto` (Tailwind ≤24rem centered) +
+            // nested `.mw-filepicker-ai-tab-wrap` had max-width:
+            // 400px (filepicker.css). Combined effect: AI tab
+            // occupied a narrow centered column with dead space
+            // either side at desktop, breaking width hierarchy
+            // (Generate was "full-width" inside 400px ≈ 280px,
+            // visually equal to secondary fields). Per designer
+            // Option A greenlight: outer wrapper now `w-full`;
+            // inner .mw-filepicker-ai-tab-wrap max-width dropped
+            // (see filepicker.css next-to AI-771 marker). Single-
+            // column flow fills modal width; Generate becomes
+            // truly full-width primary; secondary fields keep
+            // their 200px narrow constraint via .mw-filepicker-
+            // ai-field-narrow.
             const html = `
 
-                <div class="mw-image-picker-ai max-w-sm mx-auto">
+                <div class="mw-image-picker-ai w-full">
                 <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
                 <div class="form-control-live-edit-label-wrapper empty:hidden" id="${id}"></div>
