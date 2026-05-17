@@ -31,7 +31,16 @@ class ShopServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-        //$this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+
+        // task-2026-05-17-66a21a / AI-849 — load the frontend /shop route
+        // handler. BaseModuleServiceProvider does NOT auto-load module
+        // routes (see scaffold/provider.stub:37 commented stub); explicit
+        // opt-in is required so /shop + /shop/{path} are served by
+        // ShopController instead of falling through to the FrontendController
+        // catch-all + clean.blade.php "Describe your company / Call to
+        // action / The Feature Title" placeholder. Stage-3 closure on
+        // the primary commerce surface (sibling lineage AI-755/795/837).
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
 
         $this->app->singleton('shop_manager', function ($app) {

@@ -48,10 +48,24 @@ Route::group(
     // is ever disabled, /search 404s cleanly via Route::fallback()
     // instead of regressing back to the FrontendController stub.
     // Surface 1 (front-end 404 returning 200) closed by AI-795.
+    //
+    // task-2026-05-17-66a21a / AI-849 — added `shop` to the excluded-
+    // prefix regex. 4th instance in the silent-stub family (sibling
+    // lineage AI-755 → AI-795 → AI-837 → this), FIRST on the primary
+    // commerce surface. Pre-fix, /shop + /shop/products + /shop/category
+    // + /shop/featured + /shop/categories all fell through to
+    // FrontendController which detected "shop" as an installed module
+    // name and rendered the same clean.blade.php placeholder. The Shop
+    // module now ships a real `Route::get('shop/{path?}', ShopController
+    // @index)` via Modules/Shop/routes/web.php (loaded via
+    // ShopServiceProvider::register() since 2026-05-17). The exclusion-
+    // regex addition is belt-and-braces: if Shop module is ever disabled,
+    // /shop subroutes 404 cleanly via Route::fallback() instead of
+    // regressing back to the FrontendController stub renderer.
     Route::any('{slug}', array('as' => 'slug', 'uses' =>
         \MicroweberPackages\Frontend\Http\Controllers\FrontendController::class . '@index'))
         ->middleware('web')
-        ->where('slug', '^(?!vendor|packages|template|modules|css|storage|userfiles|js|admin|search).*')
+        ->where('slug', '^(?!vendor|packages|template|modules|css|storage|userfiles|js|admin|search|shop).*')
         ->name('website');
 
     Route::fallback(function () {
