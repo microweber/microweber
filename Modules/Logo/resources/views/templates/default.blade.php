@@ -69,6 +69,38 @@
         max-width: 100%;
         height: auto;
     }
+    /*
+     * task-2026-05-17-5b0a92 / AI-803 CHANGE — runtime
+     * parent-flex-collapse fix. The original AI-803 ship
+     * (task-fa5dc3) correctly gated `.logo-module { min-width:0;
+     * overflow:hidden }` inside `@media (max-width: 575px)` so the
+     * parent column no longer collapsed unconditionally. But
+     * designer's tier-3 desktop probe found the img STILL rendered
+     * at 0×0 because the parent template wrapper carries the
+     * Bootstrap class combo `col-xl-4 w-auto`: `col-xl-4` sets
+     * 33.33% width, but `w-auto !important` overrides to "fit
+     * content" and wins via Bootstrap utility source-order
+     * specificity. Parent width = content width; content =
+     * `.logo-link > img`; without `display: inline-block` on
+     * `.logo-link`, the anchor defaults to `display: inline`,
+     * collapses to 0, and the img's `max-width: 100%` (of a
+     * collapsed parent) also collapses to 0×0.
+     *
+     * Designer's Option A fix: give `.logo-link` `display:
+     * inline-block` at desktop too (mirrors the same declaration
+     * already in the ≤575px block from AI-803 task-fa5dc3). The
+     * anchor wraps to its content width (the img's natural
+     * dimensions), parent fits content, img renders at natural
+     * 300×82.
+     *
+     * Stage-2 cascade-loss family (sibling to AI-697 v3, AI-786
+     * v2): source change correct but a sibling rule (or parent
+     * flex context) needed runtime adjustment. Pattern signature:
+     * "source-pin pass + consumer-runtime silent."
+     */
+    .logo-module .logo-link {
+        display: inline-block;
+    }
     .logo-text {
         display: inline-block;
         margin-top: 10px;

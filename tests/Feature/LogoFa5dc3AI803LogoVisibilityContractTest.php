@@ -193,6 +193,56 @@ class LogoFa5dc3AI803LogoVisibilityContractTest extends TestCase
     }
 
     #[Test]
+    public function logo_link_display_inline_block_top_level_for_parent_flex_collapse_fix(): void
+    {
+        // task-2026-05-17-5b0a92 / AI-803 CHANGE — designer's tier-3 desktop
+        // probe found the img still rendered at 0×0 post-AI-803 ship because
+        // the parent template wrapper's `col-xl-4 w-auto` Bootstrap class
+        // combo collapses parent width to content width. Without
+        // `display: inline-block` on `.logo-link`, the anchor defaulted to
+        // `display: inline` and collapsed to 0, cascading the img's
+        // `max-width: 100%` to 0×0 despite natural 300×82.
+        //
+        // Designer's Option A fix: top-level `.logo-module .logo-link {
+        // display: inline-block }` so the anchor wraps to img natural width
+        // regardless of parent flex context. Mirrors the same declaration
+        // already inside the ≤575px block from task-fa5dc3.
+        //
+        // Stage-2 cascade-loss family pattern: source change correct
+        // (task-fa5dc3 @media gate), but a sibling rule needed runtime
+        // adjustment. Sibling to AI-697 v3 + AI-786 v2.
+        //
+        // Pin the SHAPE: top-level rule exists + carries `display: inline-block`.
+        // Pre-strip CSS comments first so the migration docblock's prose
+        // (mentioning `.logo-link` + `display: inline-block` cross-references)
+        // doesn't false-pass — selector-self-match guard family.
+        $stripped = preg_replace('~/\*[\s\S]*?\*/~', '', $this->template);
+
+        // Also strip the @media block so the @media-internal .logo-link
+        // rule from task-fa5dc3 (which also has display: inline-block)
+        // doesn't false-pass as top-level.
+        $strippedNoMedia = preg_replace(
+            '~@media\s*\(max-width:\s*575px\)\s*\{(?:[^{}]*|\{[^{}]*\})*\}~s',
+            '',
+            (string) $stripped
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/\.logo-module\s+\.logo-link\s*\{\s*display:\s*inline-block;\s*\}/',
+            (string) $strippedNoMedia,
+            'AI-803 CHANGE: top-level `.logo-module .logo-link { display: inline-block; }` rule must exist OUTSIDE the `@media (max-width: 575px)` block — fixes parent-flex-collapse at desktop where the Bootstrap `col-xl-4 w-auto` parent combo gives content-width.'
+        );
+
+        // AI-803 CHANGE marker present in the source — enables future
+        // audit grep across task-IDs.
+        $this->assertStringContainsString(
+            'task-2026-05-17-5b0a92 / AI-803 CHANGE',
+            $this->template,
+            'AI-803 CHANGE marker must be embedded in the migration docblock so a future audit can grep both the original task-fa5dc3 ship AND the CHANGE cycle in a single pass.'
+        );
+    }
+
+    #[Test]
     public function logo_text_fallback_styling_unchanged(): void
     {
         // The text-only fallback (when no logoimage provided) has its
