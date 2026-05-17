@@ -851,7 +851,18 @@ class ContentResource extends Resource
                     // commerce flow's headline field; a leading
                     // symbol from option_get('currency') anchors
                     // the field as a money input at first glance.
-                    ->prefix(function_exists('currency_symbol') ? currency_symbol() : null)
+                    //
+                    // task-2026-05-17-fc0b22 / AI-818 — Robustness
+                    // upgrade: add `?: '$'` fallback so an unset
+                    // / empty / missing-helper state still shows a
+                    // visible currency anchor instead of a naked
+                    // numeric input. Microweber's canonical
+                    // `currency_symbol()` helper reads the shop
+                    // currency option; the `$` fallback only fires
+                    // when the helper is unavailable OR returns an
+                    // empty string. Non-USD shops keep their
+                    // configured symbol (€ / £ / ¥ / …).
+                    ->prefix(fn () => (function_exists('currency_symbol') ? currency_symbol() : null) ?: '$')
                     ->placeholder('19.99')
                     ->helperText('Price shown to customers')
                     ->required(),
@@ -880,7 +891,11 @@ class ContentResource extends Resource
                     ->minValue(0)
                     ->step(0.01)
                     ->lt('price')
-                    ->prefix(function_exists('currency_symbol') ? currency_symbol() : null)
+                    // task-2026-05-17-fc0b22 / AI-818 — see Price
+                    // above; same `?: '$'` robustness fallback so
+                    // Sale price always carries a visible currency
+                    // anchor matching the shop default.
+                    ->prefix(fn () => (function_exists('currency_symbol') ? currency_symbol() : null) ?: '$')
                     ->placeholder('14.99')
                     ->helperText('Optional discount, lower than regular price')
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
@@ -1223,6 +1238,13 @@ class ContentResource extends Resource
                         ->minValue(0)
                         ->step(0.01)
                         ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                        // task-2026-05-17-fc0b22 / AI-818 — mirror the
+                        // compact pricingSection's currency prefix on
+                        // the full admin Pricing section so non-USD
+                        // shops see their configured symbol here too.
+                        // Same robustness fallback shape: helper if
+                        // available + empty -> '$' last-resort.
+                        ->prefix(fn () => (function_exists('currency_symbol') ? currency_symbol() : null) ?: '$')
                         ->columnSpan(['lg' => 2, 'sm' => 2])
                         ->required(),
 
@@ -1249,6 +1271,10 @@ class ContentResource extends Resource
                         ->minValue(0)
                         ->step(0.01)
                         ->lt('price')
+                        // task-2026-05-17-fc0b22 / AI-818 — see Price
+                        // above; same currency-aware prefix shape on
+                        // the full admin Sale price.
+                        ->prefix(fn () => (function_exists('currency_symbol') ? currency_symbol() : null) ?: '$')
                         ->columnSpan(['lg' => 2, 'sm' => 2])
                         ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                         ->visible(function_exists('offers_get_price'))

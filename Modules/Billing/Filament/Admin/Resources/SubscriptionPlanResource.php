@@ -37,6 +37,35 @@ class SubscriptionPlanResource extends Resource
         return ['name', 'sku', 'description'];
     }
 
+    /**
+     * task-2026-05-17-fc0b22 / AI-818 Slice B — reactive currency-
+     * symbol resolver for the per-plan currency Select on this
+     * resource. The form's three price inputs (Price / discount_price
+     * / save_price) had hardcoded '$' prefixes regardless of the
+     * currency the admin picked for the plan. This helper maps the
+     * 6 currencies the Select offers to their canonical UI symbols
+     * (USD $ / EUR € / GBP £ / CAD C$ / AUD A$ / JPY ¥), falls back
+     * to Microweber's shop-default `currency_symbol()` when the
+     * value is unset (e.g. on a fresh form mount before defaults
+     * apply), and to a literal '$' as last resort.
+     */
+    protected static function resolveCurrencyPrefix(?string $currency): string
+    {
+        $map = [
+            'USD' => '$',
+            'EUR' => '€',
+            'GBP' => '£',
+            'CAD' => 'C$',
+            'AUD' => 'A$',
+            'JPY' => '¥',
+        ];
+        if ($currency !== null && isset($map[$currency])) {
+            return $map[$currency];
+        }
+        $shopDefault = function_exists('currency_symbol') ? currency_symbol() : null;
+        return $shopDefault ?: '$';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -81,10 +110,23 @@ Forms\Components\Select::make('subscription_plan_group_id')
                 Section::make('Pricing')
                     ->description('Configure the pricing details for this plan')
                     ->schema([
+                            // task-2026-05-17-fc0b22 / AI-818 Slice B —
+                            // SubscriptionPlanResource carries its OWN
+                            // per-plan currency picker (USD/EUR/GBP/
+                            // CAD/AUD/JPY). The prefix on Price /
+                            // discount_price / save_price was
+                            // hardcoded '$' which broke for every
+                            // non-USD plan even on USD-default shops.
+                            // Make the prefix reactive: ->live()
+                            // on the currency Select + a closure
+                            // reading $get('currency') and mapping
+                            // to the matching symbol. Falls back to
+                            // shop default (`currency_symbol()`) or
+                            // '$' when neither is available.
 Forms\Components\TextInput::make('price')
                                 ->required()
                                 ->numeric()
-                                ->prefix('$')
+                                ->prefix(fn (Forms\Get $get) => static::resolveCurrencyPrefix($get('currency')))
                                 ->columnSpanFull()
                                 ->helperText('The regular price shown to customers')
                                 ->minValue(0),
@@ -99,18 +141,19 @@ Forms\Components\TextInput::make('price')
                                 ])
                                 ->default('USD')
                                 ->required()
+                                ->live()
                                 ->columnSpanFull()
                                 ->helperText('Currency for this plan'),
                             Forms\Components\TextInput::make('discount_price')
                             ->numeric()
-                            ->prefix('$')
+                            ->prefix(fn (Forms\Get $get) => static::resolveCurrencyPrefix($get('currency')))
                             ->columnSpanFull()
                             ->helperText('Optional discounted price')
                             ->minValue(0)
                             ->visible(fn(Forms\Get $get) => $get('price') > 0),
                         Forms\Components\TextInput::make('save_price')
                             ->numeric()
-                            ->prefix('$')
+                            ->prefix(fn (Forms\Get $get) => static::resolveCurrencyPrefix($get('currency')))
                             ->columnSpanFull()
                             ->helperText('Amount customers save (calculated automatically)')
                             ->disabled()

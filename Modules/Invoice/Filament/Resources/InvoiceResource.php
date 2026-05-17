@@ -165,7 +165,12 @@ Forms\Components\Select::make('user_id')
                                         Forms\Components\TextInput::make('price')
                                             ->numeric()
                                             ->required()
-                                            ->prefix('$')
+                                            // task-2026-05-17-fc0b22 / AI-818 Slice B —
+                                            // was hardcoded '$' which broke non-USD shops.
+                                            // Pull from Microweber's canonical shop
+                                            // currency_symbol() helper, fall back to '$'
+                                            // when unset/empty.
+                                            ->prefix(fn () => (function_exists('currency_symbol') ? currency_symbol() : null) ?: '$')
                                             ->afterStateHydrated(function ($state, $set) {
                                                 if ($state) {
                                                     $set('price', $state);
