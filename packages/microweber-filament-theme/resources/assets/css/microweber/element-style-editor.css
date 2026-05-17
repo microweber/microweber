@@ -120,6 +120,17 @@
     border-radius: 0;
     color: inherit;
     cursor: pointer;
+    /*
+     * task-2026-05-17-439f34 / AI-811 — font-family: inherit is
+     * the load-bearing add when AI-811 swapped the cells from
+     * <span> to native <button> in ResolutionSwitch.vue. Browsers
+     * paint a UA-default font on <button> (Arial / Helvetica)
+     * that fights the live-edit page font. inherit pulls the page
+     * font back; the rest of the button-reset (background:
+     * transparent, border: 0, color: inherit) was already in
+     * place for the <span> shape.
+     */
+    font-family: inherit;
     font-size: var(--font-control);
     transition: background var(--t-fast) var(--ease),
                 color var(--t-fast) var(--ease);
@@ -134,8 +145,20 @@
     outline: 2px solid var(--ese-accent);
     outline-offset: -2px;
 }
+/*
+ * task-2026-05-17-439f34 / AI-811 — extended active-state to
+ * also match [aria-checked="true"] (the radio-APG ARIA shape
+ * shipped on ResolutionSwitch.vue cells). Pre-fix selector
+ * matched [aria-pressed="true"] (toggle-button ARIA shape);
+ * the .is-active class binding remains the load-bearing
+ * trigger but the aria-checked match adds defense-in-depth in
+ * case the class binding ever drifts. [aria-pressed="true"]
+ * kept as legacy alias — other MwSegmented consumers may still
+ * use the toggle-button pattern.
+ */
 .mw-live-edit-page .mw-segmented__cell.is-active,
-.mw-live-edit-page .mw-segmented__cell[aria-pressed="true"] {
+.mw-live-edit-page .mw-segmented__cell[aria-pressed="true"],
+.mw-live-edit-page .mw-segmented__cell[aria-checked="true"] {
     background: var(--ese-accent-soft);
     color: var(--ese-accent);
     box-shadow: inset 0 0 0 1px var(--ese-accent);
