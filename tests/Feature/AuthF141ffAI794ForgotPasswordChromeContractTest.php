@@ -151,20 +151,30 @@ class AuthF141ffAI794ForgotPasswordChromeContractTest extends TestCase
     {
         // Pre-fix the brand mark rendered at ~200x200 (Tailwind `max-width: 70%` on a
         // free-floating <img>). Spec: max 64x64 per designer dispatch.
+        //
+        // Pin-evolved 2026-05-17 / task-6305c9 / AI-848: original AI-794 spec
+        // capped via parent .mw-auth-logo { max-width:64px; max-height:64px; },
+        // but parent max-width on an inline-block anchor with no defined width
+        // created a shrink-to-fit cycle that settled at 0×0 against the img's
+        // width:auto + max-width:100%. AI-848 Slice A moves the design cap from
+        // parent max-width to the img's explicit height:64px (and bounds wide
+        // brand marks via img max-width:280px), breaking the cycle. The 64x64
+        // design intent is preserved — relocated, not removed.
         $this->assertStringContainsString(
             'class="mw-auth-logo"',
             $this->layout,
-            'Brand logo anchor must carry `.mw-auth-logo` so CSS caps its size at 64x64.'
+            'Brand logo anchor must carry `.mw-auth-logo` so CSS reaches the size-cap rules.'
+        );
+        // Post-AI-848: cap lives on the img element (height:64px) NOT on the parent.
+        $this->assertMatchesRegularExpression(
+            '/\.mw-auth-header\s+\.mw-auth-logo\s+img\s*\{[^}]*height:\s*64px/',
+            $this->layout,
+            '`.mw-auth-logo img` must declare `height: 64px` (AI-848 design-cap relocation).'
         );
         $this->assertMatchesRegularExpression(
-            '/\.mw-auth-header\s+\.mw-auth-logo\s*\{[^}]*max-width:\s*64px/',
+            '/\.mw-auth-header\s+\.mw-auth-logo\s+img\s*\{[^}]*max-width:\s*280px/',
             $this->layout,
-            '`.mw-auth-logo` must declare `max-width: 64px` (designer spec).'
-        );
-        $this->assertMatchesRegularExpression(
-            '/\.mw-auth-header\s+\.mw-auth-logo\s*\{[^}]*max-height:\s*64px/',
-            $this->layout,
-            '`.mw-auth-logo` must declare `max-height: 64px` (designer spec).'
+            '`.mw-auth-logo img` must declare `max-width: 280px` (AI-848 bound for wide brand marks).'
         );
     }
 
@@ -197,10 +207,18 @@ class AuthF141ffAI794ForgotPasswordChromeContractTest extends TestCase
     {
         // Per designer spec: "Primary CTA brand blue" — MwColors::Blue = #0d6efd.
         // Also matches AI-209 / AI-702 admin shell unification.
+        //
+        // Pin-evolved 2026-05-17 / task-06892a / AI-794a CHANGE absorption:
+        // original AI-794 pin used the `background:` shorthand which lost the
+        // cascade fight to the active template's higher-specificity
+        // .btn-primary rule (e.g. Big2 ships salmon #F4A261). AI-794a moved
+        // to longhand `background-color:` + `!important` on a compound
+        // .mw-auth-card .btn-primary selector that defeats the template default.
+        // The brand-blue contract is preserved — escalated, not removed.
         $this->assertMatchesRegularExpression(
-            '/\.mw-auth-card\s+\.btn-primary\s*\{[^}]*background:\s*#0d6efd/',
+            '/\.mw-auth-card\s+\.btn-primary\s*\{[^}]*background-color:\s*#0d6efd\s*!important/',
             $this->layout,
-            '.mw-auth-card .btn-primary must use brand blue #0d6efd (MwColors::Blue) — matches AI-209 unification.'
+            '.mw-auth-card .btn-primary must use brand blue #0d6efd with !important (AI-794a Stage-2 cascade-loss fix).'
         );
         $this->assertMatchesRegularExpression(
             '/\.mw-auth-card\s+\.form-control:focus\s*\{[^}]*border-color:\s*#0d6efd/',

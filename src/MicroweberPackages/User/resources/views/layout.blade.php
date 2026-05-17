@@ -46,8 +46,21 @@ $mwAuthLogoUrl = mw()->ui->admin_logo_login();
    styling from the active template is untouched. */
 .mw-auth-container { max-width: 480px; margin: 50px auto; padding: 20px; }
 .mw-auth-header { text-align: center; margin-bottom: 24px; }
-.mw-auth-header .mw-auth-logo { display: inline-block; max-width: 64px; max-height: 64px; }
-.mw-auth-header .mw-auth-logo img { display: block; max-width: 100%; max-height: 64px; height: auto; width: auto; }
+/* task-2026-05-17-6305c9 / AI-848 — Stage-2 sub-variant `CSS-rules-mutual-dependency`.
+   Pre-fix: parent <a class="mw-auth-logo"> was inline-block with max-width:64px and
+   NO defined width; img child had width:auto + max-width:100% (% of parent). Parent
+   width depended on child intrinsic size; child width depended on parent — shrink-to-fit
+   chicken-and-egg layout cycle settled at 0×0 (designer-measured at /forgot-password +
+   /reset-password 1440 + 390). Compounding: source logo.svg carries viewBox="0 0 612 115.6"
+   but NO explicit width=/height= attributes, so browsers treat it as having intrinsic
+   ratio but no intrinsic SIZE — combined with shrink-to-fit parent, layout picks 0.
+   Slice A fix (designer-preferred, preserves merchant aspect ratio): drop parent
+   max-width constraint + set explicit height:64px on img + max-width:280px on img to
+   bound wide brand marks. width:auto resolves from SVG ratio 612:115.6 ≈ 339px,
+   clamped to 280 by max-width. Sister-rule to AI-803 .logo-module .logo-link inline-block
+   parent-flex-context fix; same Stage-2 family, distinct sub-variant + distinct class. */
+.mw-auth-header .mw-auth-logo { display: inline-block; }
+.mw-auth-header .mw-auth-logo img { display: block; width: auto; height: 64px; max-width: 280px; }
 .mw-auth-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); padding: 40px; }
 .mw-auth-card h2,
 .mw-auth-card h3 { font-size: 22px; font-weight: 600; color: #1f2937; margin: 0 0 20px; text-align: center; }
