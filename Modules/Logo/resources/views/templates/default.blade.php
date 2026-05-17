@@ -3,12 +3,30 @@
          Pre-fix had a Blade if/else where BOTH arms emitted identical
          href={{ site_url() }} (both arms returned the same value, so
          the condition was dead code). Designer dispatch offered Path A
-         (collapse, no behaviour change -- this ship) vs Path B
-         (formalise live-edit-disabled-navigation, e.g. is_live_edit()
-         ? '#' : site_url() -- behaviour change, needs product call).
-         Shipped Path A; Path B remains AI-805a follow-up candidate if
-         PM/designer wants the editor-disabled-link behaviour. --}}
-    <a href="{{ site_url() }}" class="logo-link">
+         (collapse, no behaviour change -- shipped at task-e2e29a) vs
+         Path B (formalise live-edit-disabled-navigation -- the AI-805a
+         follow-up).
+
+         task-2026-05-17-af2b73 / AI-805a -- Path B shipped per
+         designer's AI-805 ACK authorization. Recommended shape:
+         is_live_edit() ? 'javascript:void(0)' : site_url(). Tooltip
+         "Use the menu to navigate" + aria-disabled="true" added so AT
+         users understand why the link doesn't navigate.
+
+         Product-call validation: designer's own audit work hit the
+         data-loss bug "happened to me twice today" -- clicking the
+         logo mid-edit navigated away from the live-edit session and
+         lost unsaved work. Path B prevents the lossage at the entry
+         point. javascript:void(0) (not '#') chosen because '#' jumps
+         to top of page if not handled; void(0) is explicit "do
+         nothing" semantics.
+
+         Public mode unchanged: href={{ site_url() }} as it always
+         was. The single-href contract preserved AI-805 (no dead
+         conditional, no Blade @if/@else/@endif overhead) -- the only
+         conditional now is the runtime is_live_edit() ternary which
+         is a behaviour gate, not a dead branch. --}}
+    <a href="{{ is_live_edit() ? 'javascript:void(0)' : site_url() }}" class="logo-link"@if(is_live_edit()) title="Use the menu to navigate" aria-disabled="true"@endif>
         @if(isset($logoimage) && !empty($logoimage))
             {{-- task-2026-05-17-488fa3 / AI-804 -- WCAG 2.1 SC 1.1.1 fix.
                  Pre-fix alt="{{ isset($text) ? $text : '' }}" rendered
