@@ -859,9 +859,16 @@ class ContentResource extends Resource
             ->schema([
                 Forms\Components\Toggle::make('is_active')
                     ->label('Published')
-                    ->default(function (Schemas\Components\Utilities\Get $get) {
-                        return $get('id') ? 0 : 1;
-                    })
+                    // AI-778 (task-2026-05-17-6d65de) — Published toggle defaults
+                    // to FALSE on Create. Previously defaulted to true on Create
+                    // (type-title → SAVE → live immediately = "publish on first
+                    // save" footgun). Edit form is unaffected — Filament loads
+                    // is_active from the record via Eloquent, the default only
+                    // applies when the record is null. Operators who want to
+                    // publish must now explicitly toggle ON before saving;
+                    // explicit > implicit for any state change that affects
+                    // public visibility.
+                    ->default(false)
                     ->live()
                     ->afterStateUpdated(function (Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
                         if ($get('is_active') && !$get('posted_at')) {
@@ -950,6 +957,62 @@ class ContentResource extends Resource
             ]);
     }
 
+    /**
+     * task-2026-05-17-6d65de / AI-776 — Posts admin Menus rail anti-leak filter.
+     * Jira: https://microweber.atlassian.net/browse/AI-776
+     *
+     * Designer's Round-10 audit caught dev/test fixture menu names
+     * surfacing in the production Posts admin form right-rail (e.g.
+     * "Menu Test 6A030E7B650Aa (209 items)"). Customer-trust P1.
+     *
+     * Two layers of defence:
+     *   1. EMPTY-TITLE: skip menus with null/empty title (456 of 595
+     *      menus on the audit DB — most are anonymous test fixtures
+     *      created via the menu-manager API without a title).
+     *   2. TEST-PATTERN: skip menus whose lower-cased title matches
+     *      any pattern in AI-776 fixture-leak blocklist (PHPUnit
+     *      unique-name generator output, lorem-ipsum cruft, scenario
+     *      labels from automated tests).
+     *
+     * Both filters are LABEL-side only — they hide rows in the admin
+     * dropdown WITHOUT modifying the menu data itself. A menu hidden
+     * here remains fully functional via direct API access; only the
+     * Posts form dropdown UI excludes it. Production data that
+     * legitimately matches a pattern (extremely unlikely with the
+     * regexes below) would also be hidden — operators must rename
+     * the menu to surface it. Trade-off accepted for customer-trust.
+     */
+    private const AI776_MENU_FIXTURE_LEAK_PATTERNS = [
+        '/^menu test [0-9a-f]+$/i',            // PHPUnit unique-name pattern
+        '/^test menu$/i',                       // generic scenario label
+        '/^created via module api menu$/i',     // module-API integration test fixture
+        '/^lorem\b/i',                          // lorem-ipsum cruft (lorem ipsum dolor ...)
+        '/^after$/i',                           // before/after test-step labels
+        '/^before$/i',
+        '/^\d+$/',                              // pure-numeric "titles" (123, 456) from quick-test setup
+    ];
+
+    /**
+     * Apply the AI-776 fixture-leak filter to a single menu row.
+     * Returns true if the menu SHOULD render in the admin dropdown.
+     *
+     * Public for direct PHPUnit coverage; never call from outside
+     * the menusSection options closure or its contract test.
+     */
+    public static function ai776MenuShouldRender(array $menu): bool
+    {
+        $title = isset($menu['title']) ? trim((string) $menu['title']) : '';
+        if ($title === '') {
+            return false;
+        }
+        foreach (self::AI776_MENU_FIXTURE_LEAK_PATTERNS as $pattern) {
+            if (preg_match($pattern, $title) === 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     protected static function menusSection(): Schemas\Components\Section
     {
         return Schemas\Components\Section::make('Menus')
@@ -967,6 +1030,12 @@ class ContentResource extends Resource
                             // Count items per menu for sorting by most used
                             $menuItems = [];
                             foreach ($menus as $menu) {
+                                // AI-776 (task-2026-05-17-6d65de) — fixture-leak filter.
+                                // Skip empty-titled + test-pattern menus before the
+                                // expensive per-menu item-count query.
+                                if (! self::ai776MenuShouldRender($menu)) {
+                                    continue;
+                                }
                                 $itemCount = app()->menu_manager->get_menu_items('count=1&parent_id=' . $menu['id']);
                                 $menuItems[] = [
                                     'id' => $menu['id'],
