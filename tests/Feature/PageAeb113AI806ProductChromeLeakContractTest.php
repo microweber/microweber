@@ -309,6 +309,133 @@ class PageAeb113AI806ProductChromeLeakContractTest extends TestCase
             $this->executable,
             "AI-808: Page empty-state CTA href MUST route to admin_url('content/create?content_type=page')."
         );
+        // aria-label on the CTA anchor for screen-reader users (the
+        // visible "+ Add page" text would announce the "+" literally
+        // without the aria-label).
+        $this->assertMatchesRegularExpression(
+            "/aria-label=\"\\{\\{\\s*__\\('\\+ Add page'\\)\\s*\\}\\}\"/",
+            $this->executable,
+            "AI-808: Page empty-state CTA MUST carry aria-label='+ Add page' for AT users (mirrors AI-780a accessibility shape)."
+        );
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Group C-bis  AI-808 CSS source guards (two-stage CSS shipping pattern
+    // per SUMMARY.md: pair the source-template test with a source-CSS test
+    // so a future agent who deletes the .mw-canvas-empty-state rules from
+    // default.css fails this test loudly instead of silently rendering an
+    // unstyled empty state). Designer's claim: "CSS already serves all
+    // module surfaces via the existing .mw-canvas-empty-state rules
+    // (AI-771 cross-package @import)." -- verified here.
+    // ─────────────────────────────────────────────────────────────────────
+
+    #[Test]
+    public function ai808_canvas_empty_state_css_rules_exist_in_frontend_assets_source(): void
+    {
+        // Source of truth: packages/frontend-assets/resources/assets/css
+        // /microweber/css/default.css (AI-771 cross-package @import
+        // architecture -- consumed by BOTH the Vite bundle AND the
+        // Webpack theme bundle from one source).
+        $defaultCss = (string) file_get_contents(base_path(
+            'packages/frontend-assets/resources/assets/css/microweber/css/default.css'
+        ));
+
+        // Base wrapper class -- the rule body MUST exist (not just the
+        // selector mention in a comment). Match `.mw-canvas-empty-state`
+        // at line-start (CSS rule, not selector-in-comment-context) AND
+        // followed by `{` for the rule-body open.
+        $this->assertMatchesRegularExpression(
+            '/^\.mw-canvas-empty-state\s*\{/m',
+            $defaultCss,
+            'AI-808: .mw-canvas-empty-state base rule body MUST exist in default.css (the AI-771 cross-package source of truth).'
+        );
+        $this->assertMatchesRegularExpression(
+            '/^\.mw-canvas-empty-state__title\s*\{/m',
+            $defaultCss,
+            'AI-808: .mw-canvas-empty-state__title BEM child MUST exist in default.css.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/^\.mw-canvas-empty-state__body\s*\{/m',
+            $defaultCss,
+            'AI-808: .mw-canvas-empty-state__body BEM child MUST exist in default.css.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/^\.mw-canvas-empty-state__cta\s*\{/m',
+            $defaultCss,
+            'AI-808: .mw-canvas-empty-state__cta BEM child MUST exist in default.css.'
+        );
+    }
+
+    #[Test]
+    public function ai808_canvas_empty_state_cta_meets_wcag_44px_touch_floor(): void
+    {
+        // The CTA is a clickable anchor; per the project-wide
+        // touch-target floor (44x44px per WCAG 2.5.5; SUMMARY.md
+        // Decisions block + multiple AI-516..AI-535 ship references),
+        // the .mw-canvas-empty-state__cta MUST declare min-height: 44px.
+        // Source-level guard for the rule body.
+        $defaultCss = (string) file_get_contents(base_path(
+            'packages/frontend-assets/resources/assets/css/microweber/css/default.css'
+        ));
+
+        // Slice the .mw-canvas-empty-state__cta rule body (between
+        // the opening `{` after the selector and the next `}`).
+        if (preg_match('/^\.mw-canvas-empty-state__cta\s*\{([^}]+)\}/m', $defaultCss, $m)) {
+            $ctaBody = $m[1];
+            $this->assertMatchesRegularExpression(
+                '/min-height:\s*44px/',
+                $ctaBody,
+                'AI-808: .mw-canvas-empty-state__cta MUST declare min-height: 44px (WCAG 2.5.5 touch-target floor; same rule applied across AI-516..AI-535).'
+            );
+        } else {
+            $this->fail('AI-808: could not slice .mw-canvas-empty-state__cta rule body for WCAG check.');
+        }
+    }
+
+    #[Test]
+    public function ai808_canvas_empty_state_carries_dark_theme_variant(): void
+    {
+        // Empty-state surface MUST resolve in dark theme too (the
+        // canvas iframe + admin chrome both support dark theme).
+        // Source-level guard for the `html.dark .mw-canvas-empty-state*`
+        // rule existence.
+        $defaultCss = (string) file_get_contents(base_path(
+            'packages/frontend-assets/resources/assets/css/microweber/css/default.css'
+        ));
+
+        $this->assertMatchesRegularExpression(
+            '/html\.dark\s+\.mw-canvas-empty-state\s*\{/',
+            $defaultCss,
+            'AI-808: dark-theme variant of .mw-canvas-empty-state MUST exist (Stage-2 cascade-loss prevention; matches the AI-786 CHANGE pattern).'
+        );
+    }
+
+    #[Test]
+    public function ai808_ai771_cross_package_architecture_documented(): void
+    {
+        // Designer's claim from the AI-808 email body: "CSS already
+        // serves all module surfaces via the existing .mw-canvas-
+        // empty-state rules (AI-771 cross-package @import)."
+        // Verify the cross-package architecture is documented at
+        // the second consumer-side (microweber-filament-theme's
+        // general-styles.css) so future agents inheriting this
+        // surface understand WHERE the rules actually live and
+        // WHY they're not duplicated in two places.
+        $themeCss = (string) file_get_contents(base_path(
+            'packages/microweber-filament-theme/resources/assets/css/microweber/general-styles.css'
+        ));
+        $this->assertStringContainsString(
+            'mw-canvas-empty-state',
+            $themeCss,
+            'AI-808: theme-side general-styles.css MUST document the .mw-canvas-empty-state cross-package architecture (AI-771 lineage).'
+        );
+        // Also verify the comment cites AI-780 (the source of the
+        // pattern) + the source-of-truth path (default.css).
+        $this->assertStringContainsString(
+            'frontend-assets',
+            $themeCss,
+            'AI-808: theme-side comment MUST cite frontend-assets as the canonical source location.'
+        );
     }
 
     // ─────────────────────────────────────────────────────────────────────
