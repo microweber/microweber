@@ -83,41 +83,84 @@
         /*text-align: center;*/
         margin: 20px 0;
     }
-    .logo-module img {
-        max-width: 100%;
-        height: auto;
-    }
     /*
-     * task-2026-05-17-5b0a92 / AI-803 CHANGE — runtime
-     * parent-flex-collapse fix. The original AI-803 ship
-     * (task-fa5dc3) correctly gated `.logo-module { min-width:0;
-     * overflow:hidden }` inside `@media (max-width: 575px)` so the
-     * parent column no longer collapsed unconditionally. But
-     * designer's tier-3 desktop probe found the img STILL rendered
-     * at 0×0 because the parent template wrapper carries the
-     * Bootstrap class combo `col-xl-4 w-auto`: `col-xl-4` sets
-     * 33.33% width, but `w-auto !important` overrides to "fit
-     * content" and wins via Bootstrap utility source-order
-     * specificity. Parent width = content width; content =
-     * `.logo-link > img`; without `display: inline-block` on
-     * `.logo-link`, the anchor defaults to `display: inline`,
-     * collapses to 0, and the img's `max-width: 100%` (of a
-     * collapsed parent) also collapses to 0×0.
+     * task-2026-05-17-5be57f / AI-803 CHANGE v2 — Slice B per
+     * designer's deep Tier-3 verify (first CHANGE absorption at
+     * task-2026-05-17-5b0a92 / AI-803 CHANGE fixed only one of two
+     * layers; this v2 closes the remaining two). Lineage: task-fa5dc3
+     * (AI-803 v0 @media gate) → task-5b0a92 (AI-803 CHANGE v1 .logo-link
+     * inline-block) → task-5be57f (this AI-803 CHANGE v2 Slice B).
+     * Same Stage-2 sub-variant as AI-848 — `CSS-rules-mutual-dependency`
+     * shrink-to-fit cycle — just at a different DOM level.
      *
-     * Designer's Option A fix: give `.logo-link` `display:
-     * inline-block` at desktop too (mirrors the same declaration
-     * already in the ≤575px block from AI-803 task-fa5dc3). The
-     * anchor wraps to its content width (the img's natural
-     * dimensions), parent fits content, img renders at natural
-     * 300×82.
+     * Two reasons AI-803 v1 still rendered 0×0 at runtime:
      *
-     * Stage-2 cascade-loss family (sibling to AI-697 v3, AI-786
-     * v2): source change correct but a sibling rule (or parent
-     * flex context) needed runtime adjustment. Pattern signature:
-     * "source-pin pass + consumer-runtime silent."
+     *  (1) Specificity loss. The active template's skin layer
+     *      ships
+     *          .header-background.mw-menu-skin-com .mw-big-header-logo a
+     *              { display: flex; align-items: center; ... }
+     *      at specificity 0,3,1 which beats the AI-803 CHANGE
+     *      rule `.logo-module .logo-link { display: inline-block }`
+     *      at specificity 0,2,0. The new rule landed in the
+     *      cascade but didn't fire — `.logo-link` computed display
+     *      stayed `flex`.
+     *
+     *  (2) Even if (1) resolved, the shrink-to-fit cycle just
+     *      moved up one DOM level. `.logo-module` itself is inside
+     *      Bootstrap `col-xl-4 w-auto` (column shrinks to content);
+     *      `.logo-module` is `display: block, width: 0px`. Same
+     *      chicken-and-egg layout cycle as AI-848 just one level
+     *      higher.
+     *
+     * Slice B fix (mirrors AI-848 — explicit dimensions on img
+     * break the cycle independently of any parent's computed
+     * width):
+     *
+     *   (a) `.logo-module { display: inline-block !important;
+     *                       min-width: 160px; }`
+     *       - inline-block → fits content (not block-width-of-0)
+     *       - min-width: 160px → defends against col-xl-4 w-auto
+     *         column-collapse pattern (reasonable floor for any
+     *         brand mark)
+     *       - !important → beats any future template-side override
+     *
+     *   (b) `.logo-module .logo-link { display: inline-block
+     *                                  !important; }`
+     *       - !important defeats the active-template skin's
+     *         `.header-background.mw-menu-skin-com .mw-big-header-logo a
+     *           { display: flex }` 0,3,1 selector
+     *
+     *   (c) `.logo-module img { width: auto; height: 60px;
+     *                          max-width: 100%; }`
+     *       - explicit height: 60px → img's intrinsic width
+     *         resolves from natural ratio (300×82 SVG → 219px
+     *         wide at h=60)
+     *       - max-width: 100% → still bounded by .logo-module
+     *         min-width floor for narrow viewports
+     *
+     * The cycle is broken at the IMG level — even if `.logo-module`
+     * or `.logo-link` continue to be defeated by future template
+     * layers, the img's `height: 60px` always wins (no specificity
+     * competitor on img height in this module's scope), and the
+     * width resolves from the SVG's intrinsic ratio.
+     *
+     * Stage-2 sub-variant 4 (`CSS-rules-mutual-dependency` cycle)
+     * 3rd-instance recurrence: AI-803 v1 + AI-848 + AI-803 v2
+     * today. Designer flagged "explicit-dimensions-on-img" as the
+     * canonical fix-shape for any logo/avatar/icon-shrink-to-fit-
+     * collapse going forward.
      */
+    .logo-module {
+        display: inline-block !important;
+        min-width: 160px;
+    }
     .logo-module .logo-link {
-        display: inline-block;
+        display: inline-block !important;
+    }
+    .logo-module img {
+        width: auto;
+        height: 60px;
+        max-width: 100%;
     }
     .logo-text {
         display: inline-block;

@@ -150,16 +150,29 @@ class LogoFa5dc3AI803LogoVisibilityContractTest extends TestCase
     #[Test]
     public function responsive_image_safety_stays_outside_media_query(): void
     {
-        // .logo-module img { max-width: 100%; height: auto; } is
-        // responsive-image safety, applies at every viewport. Must
-        // NOT be inside the narrow-viewport @media block.
+        // Pin-evolved 2026-05-17 / task-5be57f / AI-803 CHANGE v2 —
+        // designer's deep Tier-3 verify on the v1 ship (task-5b0a92)
+        // found the img STILL rendered 0×0. Two reasons: (1) active-
+        // template skin selector `.header-background.mw-menu-skin-com
+        // .mw-big-header-logo a { display: flex }` (specificity 0,3,1)
+        // beat the AI-803 v1 `.logo-link { display: inline-block }`
+        // (0,2,0); (2) shrink-to-fit cycle moved up one DOM level to
+        // `.logo-module` inside Bootstrap `col-xl-4 w-auto` column.
+        // Slice B fix (mirrors AI-848 Stage-2 sub-variant 4 `CSS-rules-
+        // mutual-dependency`): explicit dimensions on img break the
+        // cycle independently of any parent's computed width. img rule
+        // is now `width: auto; height: 60px; max-width: 100%;` — the
+        // explicit `height: 60px` lets the SVG intrinsic ratio resolve
+        // width regardless of parent shrink-to-fit cascade.
+        // Updated in place per pin-evolution discipline (AI-770 v2 /
+        // AI-805 Path B).
         $this->assertMatchesRegularExpression(
-            '/\.logo-module\s+img\s*\{\s*max-width:\s*100%;\s*height:\s*auto;\s*\}/',
+            '/\.logo-module\s+img\s*\{\s*width:\s*auto;\s*height:\s*60px;\s*max-width:\s*100%;\s*\}/',
             $this->template,
-            '`.logo-module img { max-width: 100%; height: auto }` must be present as a top-level rule (responsive-image safety, applies at every viewport).'
+            '`.logo-module img { width: auto; height: 60px; max-width: 100% }` must be present as a top-level rule (AI-803 CHANGE v2 Slice B — explicit dimensions break the shrink-to-fit cycle independently of any parent computed width).'
         );
 
-        // Pre-strip CSS comments before strpos scanning  the docblock
+        // Pre-strip CSS comments before strpos scanning the docblock
         // prose mentions `.logo-module img` and `@media (max-width: 575px)`
         // in the rationale text; un-stripped scan finds the docblock
         // occurrences first instead of the rule positions. Recurring
@@ -177,6 +190,90 @@ class LogoFa5dc3AI803LogoVisibilityContractTest extends TestCase
             $mediaStart,
             $imgPos,
             '.logo-module img rule must appear OUTSIDE/BEFORE the @media block so responsive-image rule applies cross-viewport.'
+        );
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Group D — AI-803 CHANGE v2 — Slice B (post-task-5be57f)
+    // ─────────────────────────────────────────────────────────────────────
+
+    #[Test]
+    public function ai803_v2_logo_module_carries_inline_block_and_min_width_floor(): void
+    {
+        // task-2026-05-17-5be57f / AI-803 CHANGE v2 — break the shrink-
+        // to-fit cycle at the .logo-module level itself. The v1 fix
+        // (display: inline-block on .logo-link only) couldn't escape
+        // because .logo-module is inside Bootstrap `col-xl-4 w-auto`
+        // which gives column width = content width; .logo-module was
+        // `display: block, width: 0px` so its children inherited 0.
+        //
+        // Pre-strip CSS comments before scanning + slice OUT the
+        // @media block so the inside-media `.logo-module { min-width: 0 }`
+        // doesn't false-fail (selector-self-match guard UNIFORMITY).
+        $stripped = preg_replace('~/\*[\s\S]*?\*/~', '', $this->template);
+        $strippedNoMedia = preg_replace(
+            '~@media\s*\(max-width:\s*575px\)\s*\{(?:[^{}]*|\{[^{}]*\})*\}~s',
+            '',
+            (string) $stripped
+        );
+
+        // The new rule must declare display: inline-block !important +
+        // min-width: 160px outside the @media block.
+        $this->assertMatchesRegularExpression(
+            '/\.logo-module\s*\{[^}]*display:\s*inline-block\s*!important[^}]*min-width:\s*160px[^}]*\}/',
+            (string) $strippedNoMedia,
+            'AI-803 CHANGE v2: top-level `.logo-module { display: inline-block !important; min-width: 160px; }` must be present (breaks shrink-to-fit cycle at the .logo-module level + reasonable floor for any brand mark).'
+        );
+    }
+
+    #[Test]
+    public function ai803_v2_logo_link_carries_inline_block_important(): void
+    {
+        // task-2026-05-17-5be57f / AI-803 CHANGE v2 — the !important
+        // qualifier is required to defeat the active-template skin's
+        // `.header-background.mw-menu-skin-com .mw-big-header-logo a
+        // { display: flex }` 0,3,1 selector that wins on specificity.
+        //
+        // Pin evolved from v1 shape `display: inline-block;` (without
+        // !important) to v2 shape `display: inline-block !important;`.
+        // Updated in place per pin-evolution discipline (AI-770 v2 /
+        // AI-805 Path B).
+        $stripped = preg_replace('~/\*[\s\S]*?\*/~', '', $this->template);
+        $strippedNoMedia = preg_replace(
+            '~@media\s*\(max-width:\s*575px\)\s*\{(?:[^{}]*|\{[^{}]*\})*\}~s',
+            '',
+            (string) $stripped
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/\.logo-module\s+\.logo-link\s*\{\s*display:\s*inline-block\s*!important;\s*\}/',
+            (string) $strippedNoMedia,
+            'AI-803 CHANGE v2: top-level `.logo-module .logo-link { display: inline-block !important; }` must be present — !important defeats the active-template skin layer that ships `.header-background.mw-menu-skin-com .mw-big-header-logo a { display: flex }` at specificity 0,3,1.'
+        );
+    }
+
+    #[Test]
+    public function ai803_v2_change_marker_present_in_source(): void
+    {
+        $this->assertStringContainsString(
+            'task-2026-05-17-5be57f / AI-803 CHANGE v2',
+            $this->template,
+            'AI-803 CHANGE v2: marker `task-2026-05-17-5be57f / AI-803 CHANGE v2` must be embedded in the migration docblock so future audits grep all three AI-803 cycles (fa5dc3 v0 + 5b0a92 v1 + 5be57f v2) in one pass.'
+        );
+    }
+
+    #[Test]
+    public function ai803_v2_cites_ai848_sister_pattern(): void
+    {
+        // The AI-803 v2 Slice B mirrors AI-848 Slice A (auth-header
+        // `.mw-auth-logo` shrink-to-fit cycle). 3rd-instance recurrence
+        // of Stage-2 sub-variant 4 (CSS-rules-mutual-dependency). The
+        // docblock must cite AI-848 so future audits see the family
+        // lineage in one pass.
+        $this->assertStringContainsString(
+            'AI-848',
+            $this->template,
+            'AI-803 CHANGE v2 docblock must cite AI-848 as sister-pattern (same Stage-2 sub-variant 4 — CSS-rules-mutual-dependency shrink-to-fit cycle, just at a different DOM level).'
         );
     }
 
@@ -227,14 +324,25 @@ class LogoFa5dc3AI803LogoVisibilityContractTest extends TestCase
             (string) $stripped
         );
 
-        $this->assertMatchesRegularExpression(
+        // Pin-evolved 2026-05-17 / task-5be57f / AI-803 CHANGE v2 —
+        // the !important qualifier is required to defeat the active-
+        // template skin layer (specificity 0,3,1 selector beats the v1
+        // 0,2,0 selector). Updated in place per pin-evolution discipline.
+        // The v2 shape is asserted in the dedicated Group D test
+        // `ai803_v2_logo_link_carries_inline_block_important`; this
+        // method's assertion is the cross-reference that pins the
+        // pre-v2 shape NO LONGER exists (negative-pin counterpart).
+        // The v1 shape (no `!important`) MUST be gone from top-level
+        // scope — only the v2 shape (with `!important`) should match.
+        $this->assertDoesNotMatchRegularExpression(
             '/\.logo-module\s+\.logo-link\s*\{\s*display:\s*inline-block;\s*\}/',
             (string) $strippedNoMedia,
-            'AI-803 CHANGE: top-level `.logo-module .logo-link { display: inline-block; }` rule must exist OUTSIDE the `@media (max-width: 575px)` block — fixes parent-flex-collapse at desktop where the Bootstrap `col-xl-4 w-auto` parent combo gives content-width.'
+            'AI-803 CHANGE v2: the v1 shape `.logo-module .logo-link { display: inline-block; }` (WITHOUT !important) must NOT exist at top-level scope — v2 requires `!important` to defeat active-template skin specificity. Pin-evolved per AI-770 v2 / AI-805 Path B discipline.'
         );
 
-        // AI-803 CHANGE marker present in the source — enables future
-        // audit grep across task-IDs.
+        // AI-803 CHANGE markers present in the source — enables future
+        // audit grep across all 3 AI-803 cycles (fa5dc3 v0 + 5b0a92 v1 +
+        // 5be57f v2).
         $this->assertStringContainsString(
             'task-2026-05-17-5b0a92 / AI-803 CHANGE',
             $this->template,
