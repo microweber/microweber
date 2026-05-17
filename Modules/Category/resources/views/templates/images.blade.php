@@ -63,9 +63,26 @@ description: Category Images Layout
      Findings #5 (a-with-background-image → <img>) and #6 (50-line
      inline <style>) are tracked separately as TICKET-SS / TICKET-V
      (refactor scope; this commit is the safe a11y pass only). --}}
+{{-- task-2026-05-17-1ffb35 / AI-815 — content_type-aware
+     category heading. Pre-fix every site (blogs, portfolios,
+     galleries) had screen-readers announce "Product categories
+     navigation" because the module hardcoded the product slug.
+     match() derives from $params['content_type'] (the parser-
+     populated module type) with $params['heading'] as the
+     manual override. Same content_type-aware derivation
+     pattern as AI-780/AI-780a/AI-801. --}}
+@php
+    $mwCatHeading = $params['heading'] ?? match ($params['content_type'] ?? 'content') {
+        'post'    => __('Post categories'),
+        'page'    => __('Page categories'),
+        'product' => __('Product categories'),
+        'picture' => __('Picture categories'),
+        default   => __('Categories'),
+    };
+@endphp
 <nav class="module-categories module-categories-template-images"
      aria-labelledby="cat-{{ $params['id'] ?? 'images' }}-h">
-    <h2 id="cat-{{ $params['id'] ?? 'images' }}-h" class="visually-hidden">{{ __('Product categories') }}</h2>
+    <h2 id="cat-{{ $params['id'] ?? 'images' }}-h" class="visually-hidden">{{ $mwCatHeading }}</h2>
     @if(!empty($data))
         @foreach($data as $item)
             @php
