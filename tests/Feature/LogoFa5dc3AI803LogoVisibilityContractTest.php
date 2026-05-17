@@ -150,26 +150,22 @@ class LogoFa5dc3AI803LogoVisibilityContractTest extends TestCase
     #[Test]
     public function responsive_image_safety_stays_outside_media_query(): void
     {
-        // Pin-evolved 2026-05-17 / task-5be57f / AI-803 CHANGE v2 —
-        // designer's deep Tier-3 verify on the v1 ship (task-5b0a92)
-        // found the img STILL rendered 0×0. Two reasons: (1) active-
-        // template skin selector `.header-background.mw-menu-skin-com
-        // .mw-big-header-logo a { display: flex }` (specificity 0,3,1)
-        // beat the AI-803 v1 `.logo-link { display: inline-block }`
-        // (0,2,0); (2) shrink-to-fit cycle moved up one DOM level to
-        // `.logo-module` inside Bootstrap `col-xl-4 w-auto` column.
-        // Slice B fix (mirrors AI-848 Stage-2 sub-variant 4 `CSS-rules-
-        // mutual-dependency`): explicit dimensions on img break the
-        // cycle independently of any parent's computed width. img rule
-        // is now `width: auto; height: 60px; max-width: 100%;` — the
-        // explicit `height: 60px` lets the SVG intrinsic ratio resolve
-        // width regardless of parent shrink-to-fit cascade.
-        // Updated in place per pin-evolution discipline (AI-770 v2 /
-        // AI-805 Path B).
+        // Pin-evolved 2026-05-17 / task-7b669f / AI-803 CHANGE v3 / Slice C
+        // -- designer's Tier-3 probe on the v2 ship found img STILL
+        // 0x0. Two new defeaters: (1) active-template app.css
+        // `.header-background.mw-menu-skin-com .mw-big-header-logo a img
+        // { max-width: 200px; height: auto }` (specificity 0,3,2) beat
+        // v2's bare `.logo-module img { height: 60px }` (0,1,1) without
+        // !important; (2) inline `style="max-width:270px"` on the img
+        // element beat v2's `max-width: 100%`. v3 fix: !important on
+        // EVERY property + explicit pixel height + max-width: none to
+        // defeat the inline style. Pin-evolved in place per
+        // pin-evolution discipline (AI-770 v2 / AI-805 Path B); 4th
+        // pin-evolution in this file (v0 / v1 / v2 / v3).
         $this->assertMatchesRegularExpression(
-            '/\.logo-module\s+img\s*\{\s*width:\s*auto;\s*height:\s*60px;\s*max-width:\s*100%;\s*\}/',
+            '/\.logo-module\s+img\s*\{\s*width:\s*auto\s*!important;\s*height:\s*60px\s*!important;\s*max-width:\s*none\s*!important;\s*display:\s*inline-block\s*!important;\s*\}/',
             $this->template,
-            '`.logo-module img { width: auto; height: 60px; max-width: 100% }` must be present as a top-level rule (AI-803 CHANGE v2 Slice B — explicit dimensions break the shrink-to-fit cycle independently of any parent computed width).'
+            '`.logo-module img { width: auto !important; height: 60px !important; max-width: none !important; display: inline-block !important; }` must be present as a top-level rule (AI-803 CHANGE v3 Slice C — !important + explicit pixel height + max-width: none to defeat app.css height:auto + inline style="max-width:270px").'
         );
 
         // Pre-strip CSS comments before strpos scanning the docblock
@@ -217,27 +213,29 @@ class LogoFa5dc3AI803LogoVisibilityContractTest extends TestCase
             (string) $stripped
         );
 
-        // The new rule must declare display: inline-block !important +
-        // min-width: 160px outside the @media block.
+        // Pin-evolved 2026-05-17 / task-7b669f / AI-803 CHANGE v3 --
+        // min-width now carries !important too (v2 had it bare; v3
+        // ships !important defensively per Slice C "!important at
+        // every property at every layer" canonical fix-shape).
         $this->assertMatchesRegularExpression(
-            '/\.logo-module\s*\{[^}]*display:\s*inline-block\s*!important[^}]*min-width:\s*160px[^}]*\}/',
+            '/\.logo-module\s*\{[^}]*display:\s*inline-block\s*!important[^}]*min-width:\s*160px\s*!important[^}]*\}/',
             (string) $strippedNoMedia,
-            'AI-803 CHANGE v2: top-level `.logo-module { display: inline-block !important; min-width: 160px; }` must be present (breaks shrink-to-fit cycle at the .logo-module level + reasonable floor for any brand mark).'
+            'AI-803 CHANGE v3: top-level `.logo-module { display: inline-block !important; min-width: 160px !important; }` must be present (Slice C — !important at every property defends against future template-skin layer overrides).'
         );
     }
 
     #[Test]
     public function ai803_v2_logo_link_carries_inline_block_important(): void
     {
-        // task-2026-05-17-5be57f / AI-803 CHANGE v2 — the !important
-        // qualifier is required to defeat the active-template skin's
-        // `.header-background.mw-menu-skin-com .mw-big-header-logo a
-        // { display: flex }` 0,3,1 selector that wins on specificity.
-        //
-        // Pin evolved from v1 shape `display: inline-block;` (without
-        // !important) to v2 shape `display: inline-block !important;`.
-        // Updated in place per pin-evolution discipline (AI-770 v2 /
-        // AI-805 Path B).
+        // Pin-evolved 2026-05-17 / task-7b669f / AI-803 CHANGE v3 / Slice C
+        // -- v2 carried only `display: inline-block !important;`. v3
+        // adds 5 more !important properties at the .logo-link layer:
+        // min-width: 160px, min-height: 60px, line-height: 1,
+        // overflow: visible, padding: 0. Each one defeats a specific
+        // defeater rule that v2 didn't account for (default.css
+        // `.mw-big-header-logo a { min-width: 44px !important;
+        // padding: 6px 4px; ... }`, possible parent overflow:hidden
+        // cascades, text line-height collapsing the link box, etc.).
         $stripped = preg_replace('~/\*[\s\S]*?\*/~', '', $this->template);
         $strippedNoMedia = preg_replace(
             '~@media\s*\(max-width:\s*575px\)\s*\{(?:[^{}]*|\{[^{}]*\})*\}~s',
@@ -246,9 +244,9 @@ class LogoFa5dc3AI803LogoVisibilityContractTest extends TestCase
         );
 
         $this->assertMatchesRegularExpression(
-            '/\.logo-module\s+\.logo-link\s*\{\s*display:\s*inline-block\s*!important;\s*\}/',
+            '/\.logo-module\s+\.logo-link\s*\{\s*display:\s*inline-block\s*!important;\s*min-width:\s*160px\s*!important;\s*min-height:\s*60px\s*!important;\s*line-height:\s*1\s*!important;\s*overflow:\s*visible\s*!important;\s*padding:\s*0\s*!important;\s*\}/',
             (string) $strippedNoMedia,
-            'AI-803 CHANGE v2: top-level `.logo-module .logo-link { display: inline-block !important; }` must be present — !important defeats the active-template skin layer that ships `.header-background.mw-menu-skin-com .mw-big-header-logo a { display: flex }` at specificity 0,3,1.'
+            'AI-803 CHANGE v3 Slice C: top-level `.logo-module .logo-link { display: inline-block !important; min-width: 160px !important; min-height: 60px !important; line-height: 1 !important; overflow: visible !important; padding: 0 !important; }` must be present — every !important property defeats a specific defeater in default.css / app.css that v2 missed.'
         );
     }
 
@@ -259,6 +257,20 @@ class LogoFa5dc3AI803LogoVisibilityContractTest extends TestCase
             'task-2026-05-17-5be57f / AI-803 CHANGE v2',
             $this->template,
             'AI-803 CHANGE v2: marker `task-2026-05-17-5be57f / AI-803 CHANGE v2` must be embedded in the migration docblock so future audits grep all three AI-803 cycles (fa5dc3 v0 + 5b0a92 v1 + 5be57f v2) in one pass.'
+        );
+    }
+
+    #[Test]
+    public function ai803_v3_change_marker_present_in_source(): void
+    {
+        // task-2026-05-17-7b669f / AI-803 CHANGE v3 / Slice C -- 4th
+        // pin in this file's pin-evolution chain. Marker must be
+        // present so future audits grep all four cycles (v0 + v1 +
+        // v2 + v3) in one pass.
+        $this->assertStringContainsString(
+            'task-2026-05-17-7b669f / AI-803 CHANGE v3',
+            $this->template,
+            'AI-803 CHANGE v3: marker `task-2026-05-17-7b669f / AI-803 CHANGE v3` must be embedded in the Slice C docblock so future audits grep all four AI-803 cycles in one pass.'
         );
     }
 

@@ -150,17 +150,76 @@
      * canonical fix-shape for any logo/avatar/icon-shrink-to-fit-
      * collapse going forward.
      */
+    /*
+     * task-2026-05-17-7b669f / AI-803 CHANGE v3 / Slice C -- the 4th
+     * iteration on the shrink-to-fit cycle in this lineage. v2 fixed
+     * the .logo-module + .logo-link levels but the img STILL rendered
+     * 0x0 at desktop 1440 because higher-specificity skin rules from
+     * app.css beat v2's bare (no !important) declarations on the img:
+     *
+     *   .header-background.mw-menu-skin-com .mw-big-header-logo a img
+     *       { max-width: 200px; height: auto; }   (specificity 0,3,2)
+     *
+     * AND because the .logo-link parent took on conflicting min-width
+     * 44px !important from public-touch.css (default.css):
+     *
+     *   .module-logo a, .mw-big-header-logo a, a.text-2xl.font-semibold
+     *       { min-width: 44px !important; padding: 6px 4px; ... }
+     *
+     * v3 fix: !important on EVERY property at EVERY layer + explicit
+     * pixel dimensions on the img (NOT auto) + max-width: none to
+     * defeat the inline style="max-width:270px" the module emits.
+     * Specificity is irrelevant once every rule carries !important;
+     * tie-broken by source order (this rule wins, scoped to
+     * .logo-module).
+     *
+     * Defeating rule chain at each layer:
+     *   .logo-module     -- defends min-width 160 floor against
+     *                       col-xl-4 w-auto column shrink (per AI-803
+     *                       CHANGE v1 finding).
+     *   .logo-module .logo-link
+     *                    -- !important defeats default.css
+     *                       `.mw-big-header-logo a { min-width: 44px
+     *                       !important }` (tie-break by specificity
+     *                       0,2,1 > 0,1,1).
+     *                    -- min-height: 60px keeps the link tall enough
+     *                       to host the 60px img without box-collapse.
+     *                    -- padding: 0 kills the default.css 6px 4px
+     *                       padding that contributed to box-collapse.
+     *                    -- line-height: 1 prevents text-line-height
+     *                       expanding past the img height.
+     *                    -- overflow: visible defeats any inherited
+     *                       overflow:hidden from earlier !important
+     *                       cascades or future template-skin rules.
+     *   .logo-module img -- explicit height + max-width: none defeats
+     *                       both the app.css skin rule + the inline
+     *                       style="max-width:270px" attribute the
+     *                       module emits in compiled HTML.
+     *
+     * Stage-2 sub-variant 4 promoted to 4-recurrence in this lineage:
+     * AI-803 v0 (cross-viewport leak) + v1 (inline-block) + AI-848
+     * (auth header logo) + v3 (this Slice C). Canonical fix-shape
+     * codified in LESSONS as the "!important at every layer + explicit
+     * pixel dimensions on img" pattern -- now the default approach for
+     * any logo/avatar/icon shrink-to-fit defect.
+     */
     .logo-module {
         display: inline-block !important;
-        min-width: 160px;
+        min-width: 160px !important;
     }
     .logo-module .logo-link {
         display: inline-block !important;
+        min-width: 160px !important;
+        min-height: 60px !important;
+        line-height: 1 !important;
+        overflow: visible !important;
+        padding: 0 !important;
     }
     .logo-module img {
-        width: auto;
-        height: 60px;
-        max-width: 100%;
+        width: auto !important;
+        height: 60px !important;
+        max-width: none !important;
+        display: inline-block !important;
     }
     .logo-text {
         display: inline-block;

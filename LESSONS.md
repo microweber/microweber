@@ -4,6 +4,36 @@
 
 ---
 
+## 2026-05-17 — Logo shrink-to-fit cycle (Stage-2 sub-variant 4 — 4-recurrence canonicalization)
+
+- **Pattern:** A logo / avatar / icon image renders 0×0 at desktop despite a `width / height` rule on its module class. Source-level contract test passes (rule shape present in stylesheet served to browser); Tier-3 runtime probe shows `getBoundingClientRect()` returning 0 dimensions. Computed style on the img element shows `height: auto` (or `width: 0`) even though the module's own SCSS says otherwise.
+- **Why it happened:** Higher-specificity skin rules from `default.css` / `public-touch.css` / active-template app.css beat the module-scoped rule at every level of the parent chain. Common defeaters: (1) `.<skin-wrapper> .<module-wrapper> a img { height: auto; max-width: 200px }` (specificity 0,3,2) beats `.<module> img { height: 60px }` (0,1,1); (2) `.<skin-wrapper> a { display: flex; min-width: 44px !important; padding: 6px 4px }` (multi-class touch-target rule from public-touch.css) cascades onto the module's link parent and overrides display + padding + min-width; (3) inline `style="max-width: 270px"` on the img element beats `max-width: 100%` from CSS.
+- **Prevention rule (canonical Slice C fix-shape):** When fixing logo/avatar/icon shrink-to-fit cycles, write `!important` on EVERY property at EVERY layer — `.module-wrapper`, `.module-wrapper .link`, `.module-wrapper img` — and use **explicit pixel dimensions** on the img (NOT `auto`), AND `max-width: none !important` to defeat inline-style overrides. Source-level contract test pinning string presence is INSUFFICIENT — must be paired with a Tier-3 runtime probe asserting `getBoundingClientRect().width > 50 && .height > 20` on the actual img element at desktop 1440 viewport before ACK. Canonical fix-shape:
+  ```css
+  .logo-module {
+      display: inline-block !important;
+      min-width: 160px !important;
+  }
+  .logo-module .logo-link {
+      display: inline-block !important;
+      min-width: 160px !important;
+      min-height: 60px !important;
+      line-height: 1 !important;
+      overflow: visible !important;
+      padding: 0 !important;
+  }
+  .logo-module img {
+      width: auto !important;
+      height: 60px !important;
+      max-width: none !important;
+      display: inline-block !important;
+  }
+  ```
+- **Applies when:** Any logo, avatar, brand-mark, or icon image inside a Microweber module template, particularly when the template skin layer (Big2 / Bootstrap / theme bundles) ships its own higher-specificity rules targeting the parent chain. Lineage in this codebase: AI-803 v0 (cross-viewport `min-width:0` leak — task-fa5dc3) → AI-803 v1 (inline-block on .logo-link — task-5b0a92) → AI-848 (`.mw-auth-logo` auth-header shrink — task-6305c9) → AI-803 v2 (explicit dimensions on img — task-5be57f) → **AI-803 v3 / Slice C** (!important EVERY property + max-width: none on img — task-7b669f). Stage-2 sub-variant 4 promoted to **4-recurrence**. Every future logo/avatar/icon shrink-to-fit defect should jump directly to Slice C; lesser fixes will be defeated by skin layers.
+- **Family:** Stage-2 sub-variant 4 (CSS-rules-mutual-dependency) — joins {1} !important-cascade-loss, {2} media-query-override-flip, {3} parent-flex-context, {5} token-override-+-downstream-!important-hardcode, {6} custom-Blade-directive-eats-its-own-token. Sister-pattern to AI-697 v3 + AI-786 v2 (source-change correct + sibling-rule needed runtime adjustment).
+
+---
+
 ## 2026-05-17 — Stage-2 sub-variant 6: custom Blade directives eat string-literal occurrences of their own trigger token
 
 - **Pattern:** Microweber ships a custom Blade directive for the module tag (`<module type="..." />`) that eagerly substitutes ANY occurrence of the directive's opening token in the Blade source — INCLUDING inside string literals passed to other functions. Writing `parse_modules_html('<module type="shop" />')` in a Blade template compiles to broken PHP because the directive rewrites the string-literal copy as well, mangling the argument: the compiled view contains nested PHP `<?php echo app()->parser->process("<module "...` inside a string passed to another `<?php echo parse_modules_html(...)`. All consuming routes return HTTP 500 with `syntax error, unexpected identifier "module"`.
