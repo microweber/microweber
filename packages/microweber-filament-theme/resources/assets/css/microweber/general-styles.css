@@ -3488,3 +3488,58 @@ body.fi-panel-admin .mw-marketplace-card-description {
     color: var(--ese-text-muted, #6b7280);
     margin-top: var(--space-xs, 6px);
 }
+
+/* ── AI-789 (task-2026-05-17-c188de) — systemic admin empty-state chrome.
+ * Companion CSS for the new `mw-filament::partials.admin-empty-state` Blade
+ * partial. Centered flex-column with vertical rhythm matching the existing
+ * AI-728/729/730 admin empty-state pattern. Heading + body + CTA all
+ * consume ESE tokens (literal fallbacks per SOUL #108 — partial renders
+ * inside Filament chrome, may also render in iframe canvas in future).
+ *
+ * The CTA itself uses the existing .mw-table-empty-cta class (44px floor,
+ * primary blue, full hover/focus states) from
+ * Modules/Content/resources/views/filament/admin/empty-state.blade.php's
+ * companion styling. This rule adds chrome around it (heading typography,
+ * body muted, icon spacing). */
+body.fi-panel-admin .mw-admin-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-2xl, 32px) var(--space-md, 13px);
+    gap: var(--space-sm, 8px);
+    min-height: 280px;
+}
+
+body.fi-panel-admin .mw-admin-empty-state__icon {
+    color: var(--ese-text-muted, #9ca3af);
+    margin-bottom: var(--space-xs, 6px);
+}
+
+body.fi-panel-admin .mw-admin-empty-state__heading {
+    font-size: var(--font-section, 15px);
+    font-weight: 600;
+    color: var(--ese-text, #111827);
+    margin: 0;
+}
+
+body.fi-panel-admin .mw-admin-empty-state__body {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    max-width: 36ch;
+    line-height: 1.5;
+    margin: 0;
+}
+
+body.fi-panel-admin .mw-admin-empty-state__cta-wrap {
+    margin-top: var(--space-sm, 8px);
+}
+
+html.dark body.fi-panel-admin .mw-admin-empty-state__heading {
+    color: var(--ese-text, #f3f4f6);
+}
+
+html.dark body.fi-panel-admin .mw-admin-empty-state__body {
+    color: var(--ese-text-muted, #9ca3af);
+}
