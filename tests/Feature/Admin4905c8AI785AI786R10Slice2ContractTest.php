@@ -184,20 +184,50 @@ class Admin4905c8AI785AI786R10Slice2ContractTest extends TestCase
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
-    public function css_carries_marketplace_card_description_rule(): void
+    public function css_carries_marketplace_card_description_sizing_rule(): void
     {
+        // Pin-evolution: AI-786 CHANGE (task-2026-05-17-bed599) split the
+        // original single-rule shape into TWO rules — sizing stays at
+        // single-class specificity, COLOUR moves to a compound selector
+        // with !important to defeat Filament's dark-mode default cascade.
+        // This test now pins only the sizing rule body; the color rule
+        // is pinned by its own dedicated test below.
         $this->assertMatchesRegularExpression(
             '/body\.fi-panel-admin\s+\.mw-marketplace-card-description\s*\{/',
             $this->css,
-            'general-styles.css must declare `.mw-marketplace-card-description` rule scoped to admin panel.'
+            'general-styles.css must declare `.mw-marketplace-card-description` sizing rule scoped to admin panel.'
         );
-        // Slice the AI-786 rule body + assert key properties.
         $start = strpos($this->css, '.mw-marketplace-card-description {');
         $this->assertNotFalse($start);
         $end = strpos($this->css, '}', $start);
         $body = substr($this->css, $start, $end - $start);
         $this->assertStringContainsString('-webkit-line-clamp: 3', $body);
-        $this->assertStringContainsString('color: var(--ese-text-muted', $body);
+        $this->assertStringContainsString('max-height: 4.2em', $body);
+        // Negative regression-guard: color MUST NOT live in the sizing
+        // rule anymore (the cascade-fix moved it to the compound-selector
+        // rule below). If color reappears here, the cascade fix is broken
+        // because Filament's dark default will dominate.
+        $this->assertStringNotContainsString(
+            'color:',
+            $body,
+            'AI-786 CHANGE moved color OUT of the sizing rule into a compound-selector rule with !important. If color reappears here, the cascade-loss fix is broken.'
+        );
+    }
+
+    #[Test]
+    public function css_color_uses_compound_selector_with_important_dark_mode_fix(): void
+    {
+        // AI-786 CHANGE (task-2026-05-17-bed599) — Stage-2 cascade-loss
+        // fix. The colour rule MUST use the compound
+        // `.fi-ta-text-item.mw-marketplace-card-description` selector
+        // with `!important` to defeat Filament's higher-specificity
+        // dark-mode default (`body.fi-panel-admin.dark .fi-ta-text {
+        // color: white }`-style rule). Same Stage-2 family as AI-697 v3.
+        $this->assertMatchesRegularExpression(
+            '/body\.fi-panel-admin\s+\.fi-ta-text-item\.mw-marketplace-card-description\s*\{[^}]*color:\s*var\(--ese-text-muted[^)]*\)\s*!important/s',
+            $this->css,
+            'AI-786 CHANGE requires compound `.fi-ta-text-item.mw-marketplace-card-description` selector + `!important` on the color declaration to win against Filament dark-mode defaults.'
+        );
     }
 
     #[Test]

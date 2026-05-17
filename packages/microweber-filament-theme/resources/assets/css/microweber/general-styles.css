@@ -3477,7 +3477,22 @@ body.fi-panel-admin .fi-wi-stats-overview-stat-description {
  * card layout. Constrains the description line-height + max-height so long
  * descriptions don't blow the card vertical rhythm; the column already
  * truncates at 120 chars at the PHP level. Mutes the colour to ese-text-muted
- * so the body text doesn't compete with the bold title. */
+ * so the body text doesn't compete with the bold title.
+ *
+ * task-2026-05-17-bed599 / AI-786 CHANGE absorption — Stage-2 cascade-loss
+ * dark-mode fix. Designer's dark-mode probe caught Filament's compiled
+ * `dark:fi-text-color-400` losing to a higher-specificity Filament default
+ * (`body.fi-panel-admin.dark .fi-ta-text { color: white }`-style rule); our
+ * single-class .mw-marketplace-card-description (specificity 0,0,2,1) won
+ * in light but was dominated in dark — title + description both rendered
+ * white, hierarchy collapsed. Same Stage-2 family as AI-697 v3 (cascade
+ * loss to a higher-specificity Filament default). Fix per designer's
+ * Option A: compound `.fi-ta-text-item.mw-marketplace-card-description`
+ * selector + `!important` closes the cascade gap with a single-line edit;
+ * no new token, no dark-only branch, no inline-style override.
+ *
+ * Sizing rule (line-height / clamp / max-height) below remains single-
+ * class — only the COLOUR needs the cascade defence. */
 body.fi-panel-admin .mw-marketplace-card-description {
     line-height: 1.4;
     max-height: 4.2em;
@@ -3485,8 +3500,11 @@ body.fi-panel-admin .mw-marketplace-card-description {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    color: var(--ese-text-muted, #6b7280);
     margin-top: var(--space-xs, 6px);
+}
+
+body.fi-panel-admin .fi-ta-text-item.mw-marketplace-card-description {
+    color: var(--ese-text-muted, #6b7280) !important;
 }
 
 /* ── AI-789 (task-2026-05-17-c188de) — systemic admin empty-state chrome.
