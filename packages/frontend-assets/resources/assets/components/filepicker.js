@@ -850,6 +850,33 @@ mw.filePicker = function (options) {
                             $target.trigger("click");
                         }
                     }, 0);
+                } else if (scope.settings.components.length > 0) {
+                    // task-2026-05-17-00bdf0 / AI-770 — when no
+                    // `firstActiveComponent` override is set, the
+                    // first tab in the components array is shown
+                    // as visually active by mw.tabs() but its
+                    // onclick handler never fires, so the per-tab
+                    // `$firstOpen` event never triggers for the
+                    // default initial tab. On desktop this left
+                    // the default "library" tab body blank — the
+                    // iframe-mount in `library: function()` is
+                    // gated on `$firstOpen` and that gate never
+                    // opened. Mobile coincidentally hit a click-
+                    // path that triggered it.
+                    //
+                    // Trigger a click on the first tab anchor so
+                    // its `$firstOpen` fires once and the content
+                    // mounts on initial paint.
+                    setTimeout(function () {
+                        var firstType = scope.settings.components[0].type;
+                        var $target = $(
+                            'a.js-filepicker-pick-type-tab-' + firstType,
+                            ul
+                        );
+                        if ($target.length) {
+                            $target.trigger("click");
+                        }
+                    }, 0);
                 }
             }, 78);
         } else if (this.settings.nav === "dropdown") {
