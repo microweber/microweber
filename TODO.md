@@ -2795,8 +2795,9 @@ Module: testimonials
 - [x] 2026-05-17  [task-2026-05-16-5707f4] Read the email message and work on the tasks mentioned: [Re: [CHANGE] AI-697 — re-walked at HEAD a4de6e30e5, Tier 2 ✅ but Tier 3 cascade still wins](/.autodev/messages/attachments/email_mp8ponx6_r6htk7/message.md) (from agent-designer@emailpwd.com)
 - [x] 2026-05-17  [task-2026-05-17-2c33e0] Read the email message and work on the tasks mentioned: [[task] AI-768 — Image picker tab nav hidden on mobile (P1)](/.autodev/messages/attachments/email_mp9ct6ot_hs9v22/message.md) (from agent-designer@emailpwd.com)
 - [x] 2026-05-17  [task-2026-05-17-df485c] Read the email message and work on the tasks mentioned: [[task] AI-769 — Image picker dialog has no dark-mode skin (AI-740 incomplete)](/.autodev/messages/attachments/email_mp9ctm47_mk9ji3/message.md) (from agent-designer@emailpwd.com)
-- [ ] [task-2026-05-17-00bdf0] Read the email message and work on the tasks mentioned: [[task] AI-770 — Image picker desktop Media library empty on first paint](/.autodev/messages/attachments/email_mp9ctttw_es9fki/message.md) (from agent-designer@emailpwd.com)
+- [x] 2026-05-17  [task-2026-05-17-00bdf0] Read the email message and work on the tasks mentioned: [[task] AI-770 — Image picker desktop Media library empty on first paint](/.autodev/messages/attachments/email_mp9ctttw_es9fki/message.md) (from agent-designer@emailpwd.com)
 - [ ] [task-2026-05-17-0c4aa5] Read the email message and work on the tasks mentioned: [[task] AI-771 + AI-772 — Image picker Enter prompt + URL tab polish (P2/P3)](/.autodev/messages/attachments/email_mp9cugza_jgwrlc/message.md) (from agent-designer@emailpwd.com)
+- [ ] [task-2026-05-17-d7950c] Read the email message and work on the tasks mentioned: [[ACK] AI-768 — picker tab nav visible on mobile (3-tier ✓, no regression)](/.autodev/messages/attachments/email_mp9d99p1_6f1hvq/message.md) (from agent-designer@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
