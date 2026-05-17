@@ -4263,6 +4263,14 @@ html.dark {
   }
 }
 
+// task-2026-05-17-8c8d0b / AI-855 Defect 2 — Upload is THE primary action of
+// the Media Library modal; must render brand-blue per the AI-209 / AI-737 /
+// AI-794 / AI-816 primary-CTA lineage. Pre-fix background: $mw-text-primary
+// (#182433 dark blue-black) competed visually with neighbouring secondary
+// buttons. Now consumes rgba(var(--primary-500), 1) so the AI-819 :root
+// override flows through; brand-blue (#0d6efd) at runtime in both light +
+// dark modes. !important defeats Filament's default .fi-btn cascade as the
+// AI-819 CHANGE rule at line 2914 does for sibling primary CTAs.
 .mw-media-upload-btn {
   display: flex;
   align-items: center;
@@ -4270,14 +4278,14 @@ html.dark {
   padding: $mw-space-xs $mw-space-md;  // GR: xs(6) md(16)
   border: none;
   border-radius: $mw-radius-sm;
-  background: $mw-text-primary;
-  color: #fff;
+  background: rgba(var(--primary-500), 1) !important;
+  color: #fff !important;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
 
   &:hover {
-    background: #2a3a4d;
+    background: rgba(var(--primary-600), 1) !important;
   }
 }
 

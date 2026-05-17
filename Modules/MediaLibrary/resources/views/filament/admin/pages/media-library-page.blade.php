@@ -1,6 +1,15 @@
+{{-- task-2026-05-17-8c8d0b / AI-855 Defect 1 — persistent visible dropzone
+     affordance. Pre-fix the upload zone was x-show="showUploadZone || dragOver"
+     (default false) so users saw no drag-drop target unless they first clicked
+     the Upload button. Three-clicks-and-context-switches per upload vs. the
+     drag-from-desktop one-gesture baseline. Fix: showUploadZone defaults to
+     true so the dropzone affordance is always visible; existing toggle still
+     works for the click-to-show flow. Native HTML5 drag handlers preserved
+     on the zone. The .mw-media-library-dropzone class is appended alongside
+     .mw-media-upload-zone for designer's contract-test selector. --}}
 <div
     x-data="{
-        showUploadZone: false,
+        showUploadZone: true,
         dragOver: false,
         confirmBulkDelete: false,
         showMoveToFolder: false,
@@ -15,10 +24,15 @@
         <div class="mw-media-toolbar-left">
             <div class="mw-media-search">
                 <x-heroicon-m-magnifying-glass class="mw-media-search-icon" />
+                {{-- task-2026-05-17-8c8d0b / AI-855 Defect 3 — sibling of
+                     AI-817 hidden-label WCAG 3.3.2 family. Placeholder
+                     alone is not a label per WCAG; add aria-label so
+                     screen readers announce the field's purpose. --}}
                 <input
                     type="text"
                     wire:model.live.debounce.300ms="search"
                     placeholder="Search media..."
+                    aria-label="Search media"
                     class="mw-media-search-input"
                 />
             </div>
@@ -170,7 +184,7 @@
         }"
         x-show="showUploadZone || dragOver"
         x-cloak
-        class="mw-media-upload-zone"
+        class="mw-media-upload-zone mw-media-library-dropzone"
         :class="{
             'drag-over': dragOver,
             'is-uploading': uploading,
