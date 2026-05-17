@@ -92,12 +92,15 @@ class EditContent extends EditRecord
             ->outlined();
 
         $actions[] = $editAction;
+        // task-2026-05-17-2b1020 / AI-816 — primary Save CTA must
+        // render brand-blue (#0d6efd), not success-green. See
+        // CreateContent::getHeaderActions() for the full rationale.
         $actions[] = Actions\EditAction::make()
             ->action('saveContent')
             ->icon('heroicon-o-check-circle')
             ->size('xl')
             ->label('Save')
-            ->color('success')
+            ->color('primary')
             ->labeledFrom('md');
 
         $isMultilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();

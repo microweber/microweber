@@ -138,12 +138,19 @@ class CreateContent extends CreateRecord
         $actions[] = $editAction;
 
 
+        // task-2026-05-17-2b1020 / AI-816 — Save CTA is the primary
+        // unsubmitted-form action, so it must render brand-blue
+        // (#0d6efd / Color::Primary), NOT success-green (#2FB344).
+        // Green semantically reads as "saved successfully" — using
+        // it on an UNSUBMITTED form conflates the click target with
+        // the post-submit success state. Same lineage as AI-737 /
+        // AI-704 / AI-731 / AI-794 brand-blue-for-primary unification.
         $actions[] = Actions\Action::make('saveContent')
             ->action('saveContent')
             ->icon('heroicon-o-check-circle')
             ->size('xl')
             ->label('Save')
-            ->color('success');
+            ->color('primary');
 
 
         $isMultilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();

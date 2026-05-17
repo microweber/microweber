@@ -609,12 +609,17 @@ class AdminLiveEditPage extends Page
         return Action::make($actionName)
             ->label('Create ' . $contentType)
             ->modalHeading('Create ' . $contentType)
-            // Green "Save" button matches the green main-toolbar SAVE
-            // pill — visually says "this is the primary commit
-            // action". The previous default was a dark grey button
-            // that looked secondary and made users reach for the
-            // toolbar SAVE instead. task-2026-05-02-4c1606.
-            ->color('success')
+            // task-2026-05-17-2b1020 / AI-816 — primary CTA on an
+            // unsubmitted form must render brand-blue (#0d6efd),
+            // NOT success-green. The earlier task-2026-05-02-4c1606
+            // rationale ("match the green main-toolbar SAVE pill")
+            // is obsolete: the toolbar SAVE became a BLACK pill in
+            // AI-699 / task-2026-05-16-8b10a3 (v2-style solid black
+            // with optional unsaved-state accent ring). Brand-blue
+            // matches the AI-737/AI-704/AI-731/AI-794 primary-CTA
+            // lineage; green is reserved for post-submit success
+            // semantics (saved, published, approved).
+            ->color('primary')
             // Centered modal (NOT a right-side slideOver) so the form
             // gets the full-width column the title/url/content-body
             // fields actually need. The previous slideOver pinned the

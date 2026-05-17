@@ -69,10 +69,13 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
             ])
             ->headerActions([
                 CreateAction::make('create')
-                    // Green Save button (matches the toolbar) so the
-                    // primary commit action visually pops.
-                    // task-2026-05-02-4c1606.
-                    ->color('success')
+                    // task-2026-05-17-2b1020 / AI-816 — primary CTA
+                    // must render brand-blue (#0d6efd), not green.
+                    // The earlier "match the green toolbar" rationale
+                    // is obsolete: toolbar SAVE became a BLACK pill
+                    // in AI-699. See CreateContent::getHeaderActions()
+                    // for the full rationale.
+                    ->color('primary')
                     // Centered modal (NOT a right-side slideOver) so the
                     // form gets the full-width column its title/url/
                     // content-body fields actually need. The previous
@@ -119,7 +122,8 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
             ])
             ->actions([
                 EditAction::make('edit')
-                    ->color('success')
+                    // task-2026-05-17-2b1020 / AI-816 — see CreateAction above.
+                    ->color('primary')
                     ->modalWidth(MaxWidth::FiveExtraLarge)
                     ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'])
                     ->closeModalByClickingAway(false)
