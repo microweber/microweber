@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Traits\LiveEditTrait;
+use MicroweberPackages\Filament\Support\AdminFixtureGuard;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\View\MicroweberModuleTagCompiler;
@@ -161,6 +162,21 @@ class FrontendController extends Controller
         $page_url = rtrim($page_url, '/');
         $is_admin = app()->user_manager->is_admin();
         $page_url_orig = $page_url;
+
+        // task-2026-05-17-f15cce / AI-860 — PUBLIC fixture-slug guard. PHPUnit
+        // resource-test products + Faker-seeded slugs + raw Seeder leak
+        // (e.g. "CheckoutResourceTest-Product", "checkoutresourcetest-product-1")
+        // must NOT resolve on the public frontend. Same family signature as
+        // the admin-side AdminFixtureGuard (AI-776 / AI-781 / AI-844). Applied
+        // here BEFORE content_manager->get_by_url() so the slug never even
+        // hits the lookup pipeline. Admin status is intentionally ignored —
+        // fixture slugs should 404 for everyone on the public surface (admin
+        // users still see/manage these rows via the admin panel, not the
+        // public renderer). Sibling: Modules/Shop/Livewire/ShopComponent.php
+        // product query filter on the same FIXTURE_SLUG_LIKE_PATTERNS set.
+        if ($page_url !== '' && AdminFixtureGuard::isFixtureSlug($page_url)) {
+            abort(404);
+        }
         $simply_a_file = false;
         $show_404_to_non_admin = false;
         $enable_full_page_cache = false;

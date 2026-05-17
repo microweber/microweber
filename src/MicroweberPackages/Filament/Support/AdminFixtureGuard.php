@@ -211,4 +211,83 @@ final class AdminFixtureGuard
             fn ($row) => is_array($row) && self::shouldRenderItem($row[$titleKey] ?? null)
         ));
     }
+
+    // ─────────────────────────────────────────────────────────────────
+    // task-2026-05-17-f15cce / AI-860 — PUBLIC-side fixture-slug guard.
+    // Family extension: AdminFixtureGuard was admin-only originally; the
+    // AI-860 audit found PHPUnit fixture `CheckoutResourceTest Product`
+    // leaking to PUBLIC /shop + product-detail. Same family signature as
+    // AI-776 / AI-781 / AI-844 (Faker-data-leak family is cross-surface,
+    // admin + public — codified post-Round 14 RSS audit). The 4 patterns
+    // below cover the empirical fixture-slug shapes observed: PHPUnit
+    // resource-test products, Faker-seeded slugs, raw seeder output.
+    //
+    // Consumed at:
+    //   - Modules/Shop/Livewire/ShopComponent.php product query (LIKE)
+    //   - src/MicroweberPackages/App/Http/Controllers/FrontendController.php
+    //     content lookup short-circuit (regex via isFixtureSlug())
+    //
+    // Add a new pattern to BOTH arrays in lockstep — LIKE-form for
+    // Eloquent NOT LIKE filters at the query layer; regex-form for the
+    // pure-PHP isFixtureSlug() probe at the route-resolution layer.
+    // ─────────────────────────────────────────────────────────────────
+
+    /**
+     * LIKE-pattern form for Eloquent NOT LIKE filters. Case-insensitive
+     * via MySQL/SQLite collation defaults; `%` wildcards on both sides
+     * so the pattern matches the substring anywhere in the column value.
+     */
+    public const FIXTURE_SLUG_LIKE_PATTERNS = [
+        '%test%product%',          // CheckoutResourceTest Product, OrderTestProduct, etc.
+        '%checkoutresourcetest%',  // CheckoutResourceTest fixture family
+        '%faker%',                 // any Faker-seeded slug
+        '%seeder%',                // raw Seeder leak
+    ];
+
+    /**
+     * Regex form for the pure-PHP isFixtureSlug() check. Case-insensitive
+     * via the `i` flag; no anchors so the pattern matches the substring
+     * anywhere in the slug.
+     */
+    public const FIXTURE_SLUG_REGEX_PATTERNS = [
+        '/test.*product/i',
+        '/checkoutresourcetest/i',
+        '/faker/i',
+        '/seeder/i',
+    ];
+
+    /**
+     * Decide whether a public URL slug looks like a PHPUnit / Faker /
+     * Seeder fixture leak. Used by FrontendController to short-circuit
+     * content resolution with abort(404) BEFORE the slug hits the
+     * content_manager->get_by_url() lookup.
+     *
+     * Pure function: no DB calls, no Laravel boot required.
+     *
+     * Filter order:
+     *   1. null / empty / whitespace-only → false (no slug to filter)
+     *   2. FIXTURE_SLUG_REGEX_PATTERNS match → true (block)
+     *   3. otherwise → false (legitimate slug)
+     *
+     * NOTE: returns true when the slug LOOKS like fixture leak (i.e.
+     * SHOULD be blocked). Opposite polarity from shouldRenderItem() —
+     * which returns true for "keep this item". Naming reflects the
+     * call-site intent: `if (isFixtureSlug($slug)) { abort(404); }`.
+     */
+    public static function isFixtureSlug(?string $slug): bool
+    {
+        if ($slug === null) {
+            return false;
+        }
+        $trimmed = trim($slug);
+        if ($trimmed === '') {
+            return false;
+        }
+        foreach (self::FIXTURE_SLUG_REGEX_PATTERNS as $pattern) {
+            if (preg_match($pattern, $trimmed) === 1) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
