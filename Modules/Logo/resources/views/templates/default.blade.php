@@ -10,7 +10,17 @@
 
         class="logo-link">
         @if(isset($logoimage) && !empty($logoimage))
-            <img src="{{ $logoimage }}" alt="{{ isset($text) ? $text : '' }}" style="max-width: {{ isset($size) ? $size . 'px' : '200px' }};"/>
+            {{-- task-2026-05-17-488fa3 / AI-804 -- WCAG 2.1 SC 1.1.1 fix.
+                 Pre-fix alt="{{ isset($text) ? $text : '' }}" rendered
+                 empty alt when no module text override was set --
+                 screen-reader users heard nothing on the brand mark.
+                 Fallback precedence: user-set $text -> configured site
+                 website_title -> literal 'Home' safety net (never empty).
+                 Designer dispatch suggested option_get(); Microweber's
+                 canonical helper is get_option(key, group) -- matches
+                 the existing pattern at src/MicroweberPackages/App
+                 /resources/views/email/simple.blade.php:348. --}}
+            <img src="{{ $logoimage }}" alt="{{ isset($text) && $text !== '' ? $text : (get_option('website_title', 'website') ?: 'Home') }}" style="max-width: {{ isset($size) ? $size . 'px' : '200px' }};"/>
         @elseif(isset($text) && !empty($text))
             <span class="logo-text" style="color: {{ isset($text_color) ? $text_color : 'inherit' }}; font-family: {{ isset($font_family) ? $font_family : 'inherit' }}; font-size: {{ isset($font_size) ? $font_size : '30' }}px;">
                 {{ $text }}
