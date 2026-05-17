@@ -313,13 +313,49 @@ class Shop66a21aAI849ShopStubElimContractTest extends TestCase
     #[Test]
     public function shop_view_carries_product_grid_module_embed(): void
     {
+        // Pin-evolution 2026-05-17 (task-477d4c / AI-849 CHANGE):
+        // pre-CHANGE the embed shape was
+        //   {!! parse_modules_html('<module type="shop" />') !!}
+        // The wrap was redundant + broken at runtime — Microweber's
+        // custom Blade directive for the module tag eagerly substitutes
+        // any occurrence of its opening token in the Blade source,
+        // including inside string literals passed to
+        // parse_modules_html(). All 5 /shop subroutes 500'd. Canonical
+        // pattern elsewhere in the codebase (Cart / Checkout / Captcha)
+        // writes the module tag directly in the template. Pin evolves
+        // to the bare-directive shape; the parse_modules_html wrapper
+        // is now a negative regression-guard.
         $source = $this->read(self::VIEW);
-        // When there ARE products, the view embeds the existing
-        // ShopComponent Livewire grid via the Microweber module parser.
+
+        // The bare Blade-directive form: <module type="shop" /> (with
+        // optional self-close slash, attribute-quote tolerance,
+        // surrounding whitespace).
         $this->assertMatchesRegularExpression(
-            '/parse_modules_html\(\s*\'<module type="shop"\s*\/?>\'\s*\)/',
+            '/<module\s+type\s*=\s*"shop"\s*\/?>/',
             $source,
-            'AI-849: shop view must embed the existing ShopComponent grid via `parse_modules_html(\'<module type="shop" />\')` when $hasProducts is true.'
+            'AI-849 CHANGE: shop view must embed the ShopComponent grid via the bare `<module type="shop" />` Blade-directive form. parse_modules_html() wrapper is broken at runtime and removed in CHANGE absorption.'
+        );
+    }
+
+    #[Test]
+    public function shop_view_does_not_wrap_module_tag_in_parse_modules_html(): void
+    {
+        // Stage-2 sub-variant 6 regression guard: custom Blade directives
+        // eat string-literal occurrences of their own trigger token.
+        // The pre-CHANGE wrapped shape (parse_modules_html with a string
+        // literal containing the module tag) compiles to broken PHP. Pin
+        // the negative form so the AI-849 CHANGE cannot drift back.
+        $source = $this->read(self::VIEW);
+
+        // Strip Blade comments first per selector-self-match guard
+        // (this docblock + CHANGE rationale prose mention the legacy
+        // pattern in word form).
+        $stripped = preg_replace('~\{\{--[\s\S]*?--\}\}~', '', $source);
+
+        $this->assertDoesNotMatchRegularExpression(
+            '/parse_modules_html\s*\(\s*[\'"]<module\b/',
+            $stripped,
+            'AI-849 CHANGE regression guard: shop view MUST NOT wrap the <module ... /> tag in parse_modules_html(...). Microweber\'s Blade directive eats the string-literal copy and compiles broken PHP — all subroutes 500. Write the module tag directly.'
         );
     }
 

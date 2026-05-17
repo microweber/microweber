@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-05-17 — Stage-2 sub-variant 6: custom Blade directives eat string-literal occurrences of their own trigger token
+
+- **Pattern:** Microweber ships a custom Blade directive for the module tag (`<module type="..." />`) that eagerly substitutes ANY occurrence of the directive's opening token in the Blade source — INCLUDING inside string literals passed to other functions. Writing `parse_modules_html('<module type="shop" />')` in a Blade template compiles to broken PHP because the directive rewrites the string-literal copy as well, mangling the argument: the compiled view contains nested PHP `<?php echo app()->parser->process("<module "...` inside a string passed to another `<?php echo parse_modules_html(...)`. All consuming routes return HTTP 500 with `syntax error, unexpected identifier "module"`.
+- **Why it happened:** The custom Blade compiler runs a pre-pass regex substitution across the WHOLE template source without quote-context-respect. PHP / JS engines distinguish identifiers inside string literals from identifiers in code; the Microweber custom directive does not. Source-level contract tests pinned the string presence but said nothing about runtime — the AI-849 first ship passed Tier-1 + 2 cleanly but every page 500'd at Tier-3.
+- **Prevention rule:** Never wrap the canonical `<module type="..." />` Blade directive inside `parse_modules_html(...)` (or any other function call). Write the tag directly in the template body — the Blade directive IS the module renderer; no wrapper needed. Canonical sibling patterns: `Modules/Cart/resources/views/templates/default.blade.php:39`, `Modules/Checkout/resources/views/payment_method.blade.php:85`, `Modules/Captcha/resources/views/livewire/.../captcha-confirm.blade.php:31` — all write `<module type="..." />` directly.
+- **Applies when:** Any new view that needs to embed a Microweber module via the parser. Test scaffolding: source-level contract tests MUST be paired with at least one HTTP 200 + zero-syntax-error runtime probe per new route. The `ship-verify-tier-3-by-defect-class` skill explicitly warns about this family: source string presence ≠ runtime behaviour.
+- **Family:** Stage-2 sub-variant 6 — joins {1} !important-cascade-loss, {2} media-query-override-flip, {3} parent-flex-context, {4} CSS-rules-mutual-dependency, {5} token-override-+-downstream-!important-hardcode. Promotes the family from 5 to 6 sub-variants. The new sub-variant is unique in that the trigger isn't a CSS-cascade hazard — it's a Blade-compiler-pass interaction. Worth keeping in the same family because the root signature is the same: "source-level test pass, runtime ship breaks because of an upstream substitution pass the test didn't model."
+
+---
+
 ## 2026-05-17 — textContent-leak family: skin support code outside @if gate
 
 - **Pattern:** Module-template skin support `<style>` and `<script>` blocks that ship UNCONDITIONALLY (i.e. as siblings of the menu-render `@if/@else` gate) become text-node descendants of the module wrapper when the module renders empty. `document.querySelector('.module-X').textContent` then returns the CSS+JS source as part of the module's "content" — leaking to Lighthouse SEO analysis, some AT readers, and Google's mobile-first crawler. ~600 wasted bytes per empty-menu render in the AI-852 navbar case.

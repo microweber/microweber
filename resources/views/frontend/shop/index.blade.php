@@ -62,13 +62,25 @@
                     </header>
 
                     @if ($hasProducts)
-                        {{-- AI-849 Slice A — render the existing ShopComponent
-                             Livewire product grid via the Microweber module
-                             parser. The <module type="shop" /> tag resolves
-                             to Modules/Shop/resources/views/templates/default.blade.php
-                             which mounts the ShopComponent Livewire grid. --}}
+                        {{-- task-2026-05-17-477d4c / AI-849 CHANGE — switch from
+                             parse_modules_html('<module ...>') wrap to a bare
+                             Blade-directive form. Microweber's custom Blade
+                             directive for the module tag eagerly substitutes
+                             ANY occurrence of the directive's opening token in
+                             the Blade source, including inside string literals
+                             passed to parse_modules_html(). The pre-CHANGE
+                             shape compiled to broken PHP that crashed all 5
+                             /shop subroutes with HTTP 500 (`syntax error,
+                             unexpected identifier "module"`). Stage-2 sub-
+                             variant 6 -- the custom Blade directive eats
+                             string-literal occurrences of its own trigger
+                             token. Canonical pattern elsewhere in the
+                             codebase (Cart, Checkout, Captcha) writes the
+                             module-tag directly in the template; the Blade
+                             directive IS the module renderer -- no wrapper
+                             needed. --}}
                         <div class="mw-frontend-shop__grid">
-                            {!! parse_modules_html('<module type="shop" />') !!}
+                            <module type="shop" />
                         </div>
                     @else
                         <div class="mw-frontend-shop__empty text-center my-5">
