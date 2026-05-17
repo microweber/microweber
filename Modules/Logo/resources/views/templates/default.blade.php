@@ -1,14 +1,14 @@
 <div class="logo-module">
-    <a
-        @if(is_live_edit())
-            href="{{ site_url() }}"
-        @else
-
-            href="{{ site_url() }}"
-        @endif
-
-
-        class="logo-link">
+    {{-- task-2026-05-17-e2e29a / AI-805 -- collapsed dead conditional.
+         Pre-fix had a Blade if/else where BOTH arms emitted identical
+         href={{ site_url() }} (both arms returned the same value, so
+         the condition was dead code). Designer dispatch offered Path A
+         (collapse, no behaviour change -- this ship) vs Path B
+         (formalise live-edit-disabled-navigation, e.g. is_live_edit()
+         ? '#' : site_url() -- behaviour change, needs product call).
+         Shipped Path A; Path B remains AI-805a follow-up candidate if
+         PM/designer wants the editor-disabled-link behaviour. --}}
+    <a href="{{ site_url() }}" class="logo-link">
         @if(isset($logoimage) && !empty($logoimage))
             {{-- task-2026-05-17-488fa3 / AI-804 -- WCAG 2.1 SC 1.1.1 fix.
                  Pre-fix alt="{{ isset($text) ? $text : '' }}" rendered
