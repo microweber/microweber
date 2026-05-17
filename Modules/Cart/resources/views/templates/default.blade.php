@@ -30,9 +30,52 @@ Description: Default cart add template with prices and add to cart button
     @endif
 
     @if(empty($data))
-        <div class="mw-open-module-settings">
-            {{ _e('Click here to edit custom fields', true) }}
-        </div>
+        {{-- task-2026-05-17-046a37 / AI-861 — public surface MUST always
+             carry a buy CTA. Pre-fix this empty-data branch rendered ONLY
+             the admin editor prompt "Click here to edit custom fields"
+             which leaked to public users (the `mw-open-module-settings`
+             class has no display:none scope), and crucially produced ZERO
+             add-to-cart button on the product-detail page when no prices
+             were configured. Gate the admin prompt behind is_admin();
+             public users now see a fallback "Add to cart" button anchored
+             at the product's base price column (`$content_data['price']`
+             with `0` fallback for misconfigured products). The button
+             carries the canonical `mw-add-to-cart-btn` class so the
+             shop.js delegated click handler fires the cart-add transaction
+             identically to the regular price-configured path. --}}
+        @if(is_admin())
+            <div class="mw-open-module-settings">
+                {{ _e('Click here to edit custom fields', true) }}
+            </div>
+        @else
+            @php
+                $mwAi861Cd = content_data($for_id);
+                $mwAi861FallbackPrice = isset($mwAi861Cd['price']) ? (float) $mwAi861Cd['price'] : 0;
+            @endphp
+            <div class="mw-price-item d-flex align-items-center justify-content-between">
+                <div class="price-holder">
+                    <h5 class="mb-0 price">{{ currency_format($mwAi861FallbackPrice) }}</h5>
+                </div>
+                @if(!$in_stock)
+                    <button class="btn btn-secondary float-end mw-add-to-cart-disabled-btn" type="button"
+                            aria-disabled="true"
+                            aria-label="{{ _e('Out of stock', true) }}: {{ $title }}"
+                            data-alert-message="{{ _e('This item is out of stock and cannot be ordered', true) }}">
+                        <i class="mdi mdi-cart" aria-hidden="true"></i>
+                        {{ _e('Out of stock', true) }}
+                    </button>
+                @else
+                    <button class="btn btn-primary float-end mw-add-to-cart-btn" type="button"
+                            aria-label="{{ _e($button_text !== false ? $button_text : 'Add to cart', true) }}: {{ $title }}"
+                            data-content-id="{{ $for_id ?? '' }}"
+                            data-price="{{ $mwAi861FallbackPrice }}"
+                            data-title="{{ $title }}">
+                        <i class="mdi mdi-cart" aria-hidden="true"></i>
+                        {{ _e($button_text !== false ? $button_text : 'Add to cart', true) }}
+                    </button>
+                @endif
+            </div>
+        @endif
     @else
         <br class="mw-add-to-cart-spacer"/>
 

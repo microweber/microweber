@@ -64,4 +64,21 @@
                     wire:click="filterTag('{{ $tag->slug }}')">{{ $tag->name }}</button>
         </span>
     @endforeach
+
+    {{-- task-2026-05-17-046a37 / AI-861 — storefront add-to-cart CTA.
+         Sibling fix to product-card.blade.php — skin-1 carried the same
+         no-buy-affordance gap. See product-card.blade.php docblock for
+         the full rationale (mw-add-to-cart-btn = canonical shop.js click
+         handler hook; data-content-id + data-price + data-title shape
+         mirrors the Cart-module templates that own the variant-picker
+         flow on the product-detail page). --}}
+    <button type="button"
+            class="btn btn-primary mt-3 mw-add-to-cart-btn"
+            data-content-id="{{ $product->id }}"
+            data-price="{{ $product->price }}"
+            data-title="{{ $product->title }}"
+            aria-label="{{ _e('Add to cart', true) }}: {{ $product->title }}">
+        <i class="mdi mdi-cart" aria-hidden="true"></i>
+        {{ _e('Add to cart', true) }}
+    </button>
 </div>

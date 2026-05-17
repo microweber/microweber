@@ -80,5 +80,34 @@
                         wire:click="filterTag('{{ $tag->slug }}')">{{ $tag->name }}</button>
             </span>
         @endforeach
+
+        {{-- task-2026-05-17-046a37 / AI-861 — storefront add-to-cart CTA.
+             Pre-fix the product card carried only title + price + tags — NO buy
+             affordance anywhere on /shop, leaving the commerce funnel at 0% even
+             though products themselves rendered. Each card now carries an
+             explicit `mw-add-to-cart-btn` button (the canonical class consumed
+             by the shop.js delegated click handler used by the
+             <module type="shop/cart_add"/> templates at
+             Modules/Cart/.../default.blade.php + .../shop_inner.blade.php).
+             data-content-id + data-price + data-title match the shape those
+             templates emit so the same JS handler fires the cart-add
+             transaction whether the click originates from the shop grid OR
+             the product-detail page.
+
+             For variant products (multiple prices configured via custom_fields),
+             this card-level button performs the SIMPLE-add (default price);
+             the product-detail page still hosts the full variant-picker UI via
+             <module type="shop/cart_add"/>. Title/image anchor click navigation
+             stays intact — the button is below the price-holder and does not
+             capture the card-wide link region. --}}
+        <button type="button"
+                class="btn btn-primary mt-3 mw-add-to-cart-btn"
+                data-content-id="{{ $product->id }}"
+                data-price="{{ $product->price }}"
+                data-title="{{ $product->title }}"
+                aria-label="{{ _e('Add to cart', true) }}: {{ $product->title }}">
+            <i class="mdi mdi-cart" aria-hidden="true"></i>
+            {{ _e('Add to cart', true) }}
+        </button>
     </div>
 </div>
