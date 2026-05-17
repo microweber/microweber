@@ -461,6 +461,18 @@ html[dir="rtl"] #user-menu {
     display: flex;
     flex-wrap: nowrap;
     gap: 20px;
+    /*
+     * task-2026-05-17-b91c0c / AI-810 — anchor .toolbar-col to the
+     * toolbar's height token so the right col never produces a
+     * negative-y clipping even if a future child component grows
+     * beyond the 48px (--toolbar-height) budget. Belt-and-braces
+     * defense in addition to the Toolbar.vue flex-nowrap fix on the
+     * inner row. Items inside .toolbar-col stay vertically centred
+     * within this 48px frame regardless of natural content height.
+     */
+    min-height: var(--toolbar-height);
+    height: var(--toolbar-height);
+    align-items: center;
 }
 .toolbar-col-container {
     align-self: center;

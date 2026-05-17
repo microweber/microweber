@@ -104,7 +104,25 @@ html.mw-setup-wizard-document .back-to-edit{
 
         <div class="toolbar-col justify-content-center align-items-center ">
             <div class="toolbar-col-container">
-                <div class="d-flex align-items-center flex-wrap gap-2">
+                <!-- task-2026-05-17-b91c0c / AI-810 — flex-nowrap on the
+                     inner right-col row. Pre-fix this carried `flex-wrap`
+                     (Bootstrap utility). At desktop 1440 the inner items
+                     (Resolution / Tools / Preview / Save / Undo+Redo /
+                     Theme / ☰) total width occasionally exceeded the
+                     right col's flex share, which triggered wrap to a 2nd
+                     row. The 2-row .toolbar-col natural height (~67-90px)
+                     then exceeded #toolbar's fixed 48px height (AI-698a
+                     token --toolbar-height), and #toolbar's
+                     `align-items: center` flex-centred the over-tall
+                     column to y=24-height/2, putting the TOP at negative
+                     y. Designer probe captured #preview-nav at y=-19.5px
+                     (top half clipped above viewport). Switch to
+                     flex-nowrap so items stay on one row and either fit
+                     horizontally or overflow visibly inside the toolbar
+                     bounds — never wrap vertically. Same family as
+                     Stage-3 viewport-scope leak (AI-803) but in the
+                     vertical axis. -->
+                <div class="d-flex align-items-center flex-nowrap gap-2">
                     <ResolutionSwitch></ResolutionSwitch>
 
 
