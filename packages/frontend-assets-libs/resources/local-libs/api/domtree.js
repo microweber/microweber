@@ -90,6 +90,17 @@ mw.DomTree = function (options) {
         this.prepare = function () {
             var defaults = {
                 selector: '.edit',
+                // AI-775 Slice A (task-2026-05-17-551f7e) — meaningful-layers filter.
+                // When meaningfulOnly is true, the walker uses meaningfulSelector
+                // instead of selector for the initial querySelectorAll AND the
+                // recursive descent (createChildren). This caps the Layers panel
+                // at structural containers only (main-content / module-layouts /
+                // module / [data-type] modules) — typical canvas yields <=100
+                // rows instead of the 1,787-row blowout from the broad `.edit`
+                // walk. Default false to preserve back-compat for any consumer
+                // that still wants the full walk.
+                meaningfulOnly: false,
+                meaningfulSelector: '.main-content, .module-layouts, .module, [data-type]',
                 compactTreeView: false,
                 document: document,
                 targetDocument: document,
@@ -538,7 +549,14 @@ mw.DomTree = function (options) {
     };
 
     this.create = function () {
-        var all = this.targetDocument.querySelectorAll(this.settings.selector);
+        // AI-775 Slice A (task-2026-05-17-551f7e) — when meaningfulOnly is set,
+        // walk only structural containers (meaningfulSelector) instead of every
+        // .edit element. Cuts Layers panel cardinality from ~1,787 rows to <=100
+        // on the 6-section demo page.
+        var walkSelector = this.settings.meaningfulOnly
+            ? this.settings.meaningfulSelector
+            : this.settings.selector;
+        var all = this.targetDocument.querySelectorAll(walkSelector);
         var i = 0;
         for (; i < all.length; i++) {
             var item = this.createItem(all[i]);
@@ -580,13 +598,28 @@ mw.DomTree = function (options) {
         if (!parent) return;
         var list = this.createList();
         var curr = node.children[0];
+        // AI-775 Slice A (task-2026-05-17-551f7e) — under meaningfulOnly, a
+        // child renders only when it matches the meaningfulSelector. Recursion
+        // continues into non-matching descendants so we can find a deep
+        // meaningful node nested inside markup wrappers — but the non-matching
+        // wrapper itself does not appear in the tree.
+        var meaningfulOnly = this.settings.meaningfulOnly;
+        var meaningfulSelector = this.settings.meaningfulSelector;
         while (curr) {
-            var item = this.createItem(curr);
-            if (item) {
-                list.appendChild(item);
-                if (curr.children.length) {
-                    this.createChildren(curr, item);
+            var isMeaningful = !meaningfulOnly || (typeof curr.matches === 'function' && curr.matches(meaningfulSelector));
+            if (isMeaningful) {
+                var item = this.createItem(curr);
+                if (item) {
+                    list.appendChild(item);
+                    if (curr.children.length) {
+                        this.createChildren(curr, item);
+                    }
                 }
+            } else if (curr.children.length) {
+                // Pass `parent` (not a new item) so meaningful descendants of
+                // a non-meaningful wrapper attach to the same enclosing list —
+                // collapses pure-markup wrappers without losing depth.
+                this.createChildrenInto(curr, list);
             }
             curr = curr.nextElementSibling;
         }
@@ -618,6 +651,33 @@ mw.DomTree = function (options) {
         }
 
         parent.appendChild(list);
+    };
+
+    // AI-775 Slice A (task-2026-05-17-551f7e) — helper used by createChildren
+    // when meaningfulOnly is active: walk a non-meaningful wrapper's descendants
+    // and append any meaningful matches to an EXISTING parent list (rather than
+    // creating a new sublist). Collapses pure-markup wrappers (intermediate
+    // <div>s with no .module/.module-layouts/.main-content class) without
+    // losing the meaningful nodes nested inside.
+    this.createChildrenInto = function (node, parentList) {
+        if (!parentList) return;
+        var meaningfulSelector = this.settings.meaningfulSelector;
+        var curr = node.children[0];
+        while (curr) {
+            var isMeaningful = typeof curr.matches === 'function' && curr.matches(meaningfulSelector);
+            if (isMeaningful) {
+                var item = this.createItem(curr);
+                if (item) {
+                    parentList.appendChild(item);
+                    if (curr.children.length) {
+                        this.createChildren(curr, item);
+                    }
+                }
+            } else if (curr.children.length) {
+                this.createChildrenInto(curr, parentList);
+            }
+            curr = curr.nextElementSibling;
+        }
     };
 
     this.init = function () {

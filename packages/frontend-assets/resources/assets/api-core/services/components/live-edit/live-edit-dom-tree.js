@@ -53,6 +53,13 @@ class LiveEditDOMTree extends MicroweberBaseClass {
             element: this.box.boxContent,
             resizable: false,
             sortable: false,
+            // AI-775 Slice A (task-2026-05-17-551f7e) — opt the Layers panel
+            // into the meaningful-layers filter. Walks .main-content /
+            // .module-layouts / .module / [data-type] only; caps cardinality
+            // at <=100 rows on the 6-section demo page (was ~1,787 with the
+            // default .edit walk). Per-item show/hide/lock/drag (Slice B) and
+            // label spacing polish (Slice C) deferred to follow-up commits.
+            meaningfulOnly: true,
 
             targetDocument: mw.app.canvas.getDocument(),
 
