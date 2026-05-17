@@ -55,6 +55,21 @@
   menu provides a non-empty value. Every drawer item gains a stable
   `data-mw-drawer-item="<slug>"` attribute for runtime probes (per
   designer Tier-3 selector `[data-mw-drawer-item="users"]`).
+
+  task-2026-05-17-f39d53 / AI-800  copy + grammar pass (sentence-case
+  per Filament convention; pluralisation where panel shows multiple).
+  Label renames (4 items):
+    "Back to Admin"       -> "Back to admin"
+    "Template & Layout"   -> "Templates & layouts"
+    "Theme Settings"      -> "Theme settings"
+    "See website"         -> "View public site"
+  "Layers" / "Pages" / "Users" / "Log out" already sentence-case.
+  Theme toggle label is already correctly state-aware: shows the
+  ACTION (switch to dark / switch to light) not the current state.
+  RightSidebar.vue h3 + bootstrap.js controlBox title (Theme
+  Settings / Template & Layout from AI-708) NOT cascaded in this
+  slice -- scope is drawer-only per the dispatch wording. Optional
+  cross-surface cascade flagged in the SHIP report as AI-800a.
 -->
 <template>
     <Teleport to="body">
@@ -133,7 +148,7 @@
                             <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
                                 <path d="M120-120v-720h720v720H120Zm80-560h560v-80H200v80Zm200 480h360v-400H400v400Zm-200 0h120v-400H200v400Z"></path>
                             </svg>
-                            <span class="mw-main-drawer__item-label">Template &amp; Layout</span>
+                            <span class="mw-main-drawer__item-label">Templates &amp; layouts</span>
                             <svg class="mw-main-drawer__item-affordance" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <polyline points="9 6 15 12 9 18"></polyline>
                             </svg>
@@ -156,7 +171,7 @@
                             <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
                                 <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q34 0 60-26t26-60v-80h-80q-17 0-31.5-6.5T428-352l-46-46-130 26q-9 32 0 65t34 60q44 44 96 65.5t98 21.5Zm-40-280h80v-40h40v-80h-40v-40h-80v40h-40v80h40v40Zm346 60q9-32 9-66.5t-9-66.5l-69 18q-9-9-19-15.5T693-558l64-32q-15-50-46.5-94T637-757l-87 75q-11-3-23-5t-23-2v-80q41 0 81.5 11.5T658-722q33 25 60 58.5t44 71.5l-72 72Z"></path>
                             </svg>
-                            <span class="mw-main-drawer__item-label">Theme Settings</span>
+                            <span class="mw-main-drawer__item-label">Theme settings</span>
                             <svg class="mw-main-drawer__item-affordance" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <polyline points="9 6 15 12 9 18"></polyline>
                             </svg>
@@ -203,7 +218,7 @@
                             <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M19 12H5M12 19l-7-7 7-7"></path>
                             </svg>
-                            <span class="mw-main-drawer__item-label">Back to Admin</span>
+                            <span class="mw-main-drawer__item-label">Back to admin</span>
                             <svg class="mw-main-drawer__item-affordance" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M7 17L17 7M7 7h10v10"></path>
                             </svg>
@@ -244,7 +259,7 @@
                             <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
                                 <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-40-83v-77q-33 0-56.5-23.5T360-320v-40L168-552q-3 18-5.5 36t-2.5 36q0 121 79.5 212T440-163Z"></path>
                             </svg>
-                            <span class="mw-main-drawer__item-label">See website</span>
+                            <span class="mw-main-drawer__item-label">View public site</span>
                             <svg class="mw-main-drawer__item-affordance" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M7 17L17 7M7 7h10v10"></path>
                             </svg>

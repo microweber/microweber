@@ -163,7 +163,7 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
         // for the per-section affordance layout. Original contract
         // (Back to Admin label + backToAdminLink prop binding) preserved.
         $this->assertMatchesRegularExpression(
-            '/:href="backToAdminLink"[\s\S]*?<span[^>]*>Back to Admin<\/span>/',
+            '/:href="backToAdminLink"[\s\S]*?<span[^>]*>Back to admin<\/span>/',
             $this->mainDrawer,
             'Back to Admin item must use the backToAdminLink prop and render the label "Back to Admin".'
         );
@@ -191,7 +191,7 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     {
         // Pin-evolution per AI-798.
         $this->assertMatchesRegularExpression(
-            '/@click="openTemplateAndLayout\(\)"[\s\S]*?<span[^>]*>Template &amp; Layout<\/span>/',
+            '/@click="openTemplateAndLayout\(\)"[\s\S]*?<span[^>]*>Templates &amp; layouts<\/span>/',
             $this->mainDrawer,
             'Template & Layout item must call openTemplateAndLayout() and render "Template &amp; Layout" (HTML-entity escaped per Vue context).'
         );
@@ -207,7 +207,7 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     {
         // Pin-evolution per AI-798.
         $this->assertMatchesRegularExpression(
-            '/@click="openThemeSettings\(\)"[\s\S]*?<span[^>]*>Theme Settings<\/span>/',
+            '/@click="openThemeSettings\(\)"[\s\S]*?<span[^>]*>Theme settings<\/span>/',
             $this->mainDrawer,
             'Theme Settings item must call openThemeSettings() and render "Theme Settings".'
         );
@@ -223,7 +223,7 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     {
         // Pin-evolution per AI-798 — labels now wrapped in <span class="mw-main-drawer__item-label">.
         $this->assertMatchesRegularExpression('/<span[^>]*>Users<\/span>/', $this->mainDrawer);
-        $this->assertMatchesRegularExpression('/<span[^>]*>See website<\/span>/', $this->mainDrawer);
+        $this->assertMatchesRegularExpression('/<span[^>]*>View public site<\/span>/', $this->mainDrawer);
         $this->assertMatchesRegularExpression('/<span[^>]*>Log out<\/span>/', $this->mainDrawer);
     }
 

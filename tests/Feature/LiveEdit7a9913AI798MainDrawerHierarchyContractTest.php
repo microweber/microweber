@@ -250,7 +250,7 @@ class LiveEdit7a9913AI798MainDrawerHierarchyContractTest extends TestCase
         $this->assertNotFalse($navUlStart);
 
         $pagesIdx = strpos($this->drawer, '<span class="mw-main-drawer__item-label">Pages</span>', $navUlStart);
-        $backToAdminIdx = strpos($this->drawer, '<span class="mw-main-drawer__item-label">Back to Admin</span>', $navUlStart);
+        $backToAdminIdx = strpos($this->drawer, '<span class="mw-main-drawer__item-label">Back to admin</span>', $navUlStart);
 
         $this->assertNotFalse($pagesIdx, 'Pages item must render inside the NAVIGATE section.');
         $this->assertNotFalse($backToAdminIdx, 'Back to Admin item must still render inside NAVIGATE.');
