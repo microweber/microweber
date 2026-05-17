@@ -213,30 +213,35 @@ class AddContent968a71AI692TwoGroupLayoutContractTest extends TestCase
     }
 
     #[Test]
-    public function comment_block_uses_single_line_comments_only_in_xdata(): void
+    public function xdata_is_named_alpine_data_reference_not_inline_object(): void
     {
-        // Regression guard for the bug that killed the first attempt
-        // at this slice — block comments with embedded double-quotes
-        // INSIDE the x-data attribute terminate the HTML attribute
-        // at the first `"` and corrupt the entire x-data evaluation.
-        // The helper docblock now uses // single-line comments and
-        // contains no embedded double-quotes.
-        //
-        // We verify by checking that within the x-data attribute
-        // (delimited by `x-data="` opening to the closing `"`)
-        // there is no `/*` opener. The Alpine helper's surrounding
-        // comments are all `//` style now.
-        $xdataStart = strpos($this->blade, 'x-data="');
-        $this->assertNotFalse($xdataStart, 'x-data attribute must exist.');
-        // Find the closing quote of the x-data attribute. The closing
-        // is the `"` that's followed by either `>` or whitespace and
-        // the next attribute. The block ends with `x-init="..."` so
-        // we look for `}"\n` after the last `},`.
-        $xdataChunk = substr($this->blade, $xdataStart, 3000);
-        $this->assertStringNotContainsString(
-            '/*',
-            $xdataChunk,
-            'No /* block comment may appear inside the x-data attribute — embedded "..." in prose would terminate the HTML attribute.'
+        // Pin-evolution pattern: AI-790 (task-2026-05-17-255d24) lifted
+        // the inline x-data object into a named Alpine.data() registration
+        // because `//` line comments inside the JS contained literal `"`
+        // characters (e.g. `// primary "Add a block" card`) and the HTML
+        // attribute parser terminated at the first embedded `"`, dumping
+        // the rest of the JS as visible body text. Original AI-692
+        // assertion (guard against `/*` block comments) is now subsumed
+        // by this stronger assertion: the x-data attribute on the modal
+        // root must be a bare identifier reference, not an inline `{...}`
+        // expression. Any future code that adds inline JS to x-data
+        // re-introduces the AI-790 defect class and fails this test.
+        $this->assertMatchesRegularExpression(
+            '/x-data="addContentModal"/',
+            $this->blade,
+            'Modal root x-data must be `x-data="addContentModal"` — bare named-reference (per AI-790 / task-255d24 escape-leak fix).'
+        );
+        // Negative regression-guard: NO inline `x-data="{` object on
+        // .mw-add-content-modal-root. Any inline JS in x-data
+        // re-introduces the AI-790 defect class. Strip Blade
+        // `{{-- ... --}}` comments first (selector-self-match guard
+        // family — the AI-790 docblock legitimately mentions
+        // `x-data="{...}"` as the BEFORE state).
+        $bladeStripped = preg_replace('/\{\{--[\s\S]*?--\}\}/', '', $this->blade);
+        $this->assertDoesNotMatchRegularExpression(
+            '/mw-add-content-modal-root[\s\S]{0,200}x-data="\{/',
+            $bladeStripped,
+            'Modal root x-data MUST NOT use inline `{ ... }` object — extract to Alpine.data() registration per AI-790.'
         );
     }
 

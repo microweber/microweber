@@ -43,97 +43,18 @@
          without any visual change for sighted users. Updates on
          `q` change via Alpine x-text. --}}
 <div class="mw-add-content-modal-root mb-6 p-2 flex flex-col gap-4"
-     x-data="{
-        q: '',
-        visibleCards() {
-            // task-2026-05-16-de4ce4 / AI-694 — filter accepts BOTH
-            // display:none (legacy x-show path) AND visibility:hidden
-            // (the new no-reflow path). visibility:hidden keeps the
-            // grid cell in layout so filtered cards do not reflow the
-            // surrounding cards, but the helpers must still skip them
-            // for keyboard nav + activation.
-            return Array.from($root.querySelectorAll('[data-mw-add-content-card]'))
-                .filter(el => {
-                    const s = window.getComputedStyle(el);
-                    return s.display !== 'none' && s.visibility !== 'hidden';
-                });
-        },
-        focusFirstVisibleCard() {
-            const cards = this.visibleCards();
-            if (cards.length) cards[0].focus();
-        },
-        focusLastVisibleCard() {
-            const cards = this.visibleCards();
-            if (cards.length) cards[cards.length - 1].focus();
-        },
-        focusNextCard(current) {
-            const cards = this.visibleCards();
-            const i = cards.indexOf(current);
-            if (i === -1 || i === cards.length - 1) {
-                $refs.search.focus();
-            } else {
-                cards[i + 1].focus();
-            }
-        },
-        focusPrevCard(current) {
-            const cards = this.visibleCards();
-            const i = cards.indexOf(current);
-            if (i === -1 || i === 0) {
-                $refs.search.focus();
-            } else {
-                cards[i - 1].focus();
-            }
-        },
-        activateFirstVisibleCard() {
-            const cards = this.visibleCards();
-            if (cards.length === 1) {
-                cards[0].click();
-            } else if (cards.length > 1) {
-                cards[0].focus();
-            } else if (this.q !== '') {
-                // task-2026-05-16-de4ce4 / AI-694 — zero-match ENTER
-                // fallback per designer spec §4 + §7 Slice 4: when no
-                // card matches the query, ENTER still activates the
-                // primary "Add a block" card so users never hit an
-                // ENTER dead-end. The primary card is rendered first
-                // in DOM and tagged data-mw-add-content-group="primary".
-                const primary = $root.querySelector(
-                    '[data-mw-add-content-card][data-mw-add-content-group=' + JSON.stringify('primary') + ']'
-                );
-                if (primary) primary.click();
-            }
-        },
-        visibleCount() {
-            return this.visibleCards().length;
-        },
-        // task-2026-05-16-968a71 / AI-692 / §A2-3: group-aware
-        // visibility helper for the two-group layout. Returns true
-        // if any card in the named group matches the current q (or
-        // if q is empty — i.e. show all groups by default). Drives
-        // the x-show on each group wrapper so typing a keyword
-        // hides the unmatched group header when its cards no
-        // longer match. (NB: single-line // comments here only —
-        // block-comment style with embedded double-quotes in the
-        // prose breaks the HTML x-data attribute parser.)
-        hasVisibleCardsInGroup(group) {
-            const cards = Array.from(
-                $root.querySelectorAll('[data-mw-add-content-card][data-mw-add-content-group=' + JSON.stringify(group) + ']')
-            );
-            if (cards.length === 0) return false;
-            if (this.q === '') return true;
-            const needle = this.q.toLowerCase();
-            return cards.some(c => (c.dataset.mwAddContentHaystack || '').includes(needle));
-        },
-        resultAnnouncement() {
-            const total = $root.querySelectorAll('[data-mw-add-content-card]').length;
-            const shown = this.visibleCount();
-            if (this.q === '') return '';
-            if (shown === 0) return 'No results.';
-            if (shown === total) return 'All ' + total + ' options visible.';
-            if (shown === 1) return '1 result.';
-            return shown + ' results.';
-        },
-     }"
+     {{-- AI-790 (task-2026-05-17-255d24) — Stage-5 template-attribute
+          escape leak. The previous inline `x-data="{ ... }"` block
+          carried embedded `//` line comments with literal `"`
+          characters (e.g. `// primary "Add a block" card`). The HTML
+          attribute parser terminates the attribute at the first
+          embedded `"`, dumping the remainder of the JS as visible
+          text content in the modal. Canonical fix per designer's
+          dispatch: extract the entire state object to a named
+          Alpine.data() registration (see <script> at the bottom of
+          this file). The Blade attribute now carries only a bare
+          identifier — no quoting issues possible. --}}
+     x-data="addContentModal"
      x-init="$nextTick(() => $refs.search && $refs.search.focus())">
 
     {{-- NOVICE #14 (task-2026-05-13-899d57) — the previous copy
@@ -401,3 +322,124 @@
         No content types found.
     </div>
 </div>
+
+{{-- AI-790 (task-2026-05-17-255d24) — Alpine.data() registration for
+     the Add Content modal. Lifted out of the inline x-data="{...}"
+     attribute to dodge the Stage-5 template-attribute escape leak
+     (any `"` inside the inline JS terminates the HTML attribute,
+     dumping the rest of the JS as visible body text). Single quotes
+     throughout this block; comments freely use `"` because we're now
+     inside a regular <script> body, not an HTML attribute. The
+     Blade attribute consumes this via `x-data="addContentModal"` —
+     bare identifier, no quoting issues possible. --}}
+<script>
+    document.addEventListener('alpine:init', () => {
+        if (typeof window.Alpine === 'undefined' || typeof window.Alpine.data !== 'function') {
+            return;
+        }
+        if (window.__mwAddContentModalRegistered) {
+            return; // idempotent — survives multiple Blade renders
+        }
+        window.__mwAddContentModalRegistered = true;
+
+        window.Alpine.data('addContentModal', () => ({
+            q: '',
+
+            // task-2026-05-16-de4ce4 / AI-694 — filter accepts BOTH
+            // display:none (legacy x-show path) AND visibility:hidden
+            // (the new no-reflow path). visibility:hidden keeps the
+            // grid cell in layout so filtered cards do not reflow the
+            // surrounding cards, but the helpers must still skip them
+            // for keyboard nav + activation.
+            visibleCards() {
+                return Array.from(this.$root.querySelectorAll('[data-mw-add-content-card]'))
+                    .filter(el => {
+                        const s = window.getComputedStyle(el);
+                        return s.display !== 'none' && s.visibility !== 'hidden';
+                    });
+            },
+
+            focusFirstVisibleCard() {
+                const cards = this.visibleCards();
+                if (cards.length) cards[0].focus();
+            },
+
+            focusLastVisibleCard() {
+                const cards = this.visibleCards();
+                if (cards.length) cards[cards.length - 1].focus();
+            },
+
+            focusNextCard(current) {
+                const cards = this.visibleCards();
+                const i = cards.indexOf(current);
+                if (i === -1 || i === cards.length - 1) {
+                    this.$refs.search.focus();
+                } else {
+                    cards[i + 1].focus();
+                }
+            },
+
+            focusPrevCard(current) {
+                const cards = this.visibleCards();
+                const i = cards.indexOf(current);
+                if (i === -1 || i === 0) {
+                    this.$refs.search.focus();
+                } else {
+                    cards[i - 1].focus();
+                }
+            },
+
+            activateFirstVisibleCard() {
+                const cards = this.visibleCards();
+                if (cards.length === 1) {
+                    cards[0].click();
+                } else if (cards.length > 1) {
+                    cards[0].focus();
+                } else if (this.q !== '') {
+                    // task-2026-05-16-de4ce4 / AI-694 — zero-match ENTER
+                    // fallback per designer spec §4 + §7 Slice 4: when no
+                    // card matches the query, ENTER still activates the
+                    // primary "Add a block" card so users never hit an
+                    // ENTER dead-end. The primary card is rendered first
+                    // in DOM and tagged data-mw-add-content-group="primary".
+                    const primary = this.$root.querySelector(
+                        '[data-mw-add-content-card][data-mw-add-content-group=' + JSON.stringify('primary') + ']'
+                    );
+                    if (primary) primary.click();
+                }
+            },
+
+            visibleCount() {
+                return this.visibleCards().length;
+            },
+
+            // task-2026-05-16-968a71 / AI-692 / §A2-3: group-aware
+            // visibility helper for the two-group layout. Returns true
+            // if any card in the named group matches the current q (or
+            // if q is empty — i.e. show all groups by default). Drives
+            // the x-show on each group wrapper so typing a keyword
+            // hides the unmatched group header when its cards no
+            // longer match.
+            hasVisibleCardsInGroup(group) {
+                const cards = Array.from(
+                    this.$root.querySelectorAll('[data-mw-add-content-card][data-mw-add-content-group=' + JSON.stringify(group) + ']')
+                );
+                if (cards.length === 0) return false;
+                if (this.q === '') return true;
+                const needle = this.q.toLowerCase();
+                return cards.some(c => (c.dataset.mwAddContentHaystack || '').includes(needle));
+            },
+
+            resultAnnouncement() {
+                const total = this.$root.querySelectorAll('[data-mw-add-content-card]').length;
+                const shown = this.visibleCount();
+                if (this.q === '') return '';
+                if (shown === 0) return 'No results.';
+                if (shown === total) return 'All ' + total + ' options visible.';
+                if (shown === 1) return '1 result.';
+                return shown + ' results.';
+            },
+        }));
+    });
+</script>
+
