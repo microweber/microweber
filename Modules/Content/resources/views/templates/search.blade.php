@@ -65,6 +65,18 @@ if(!isset($tn[1])){
                         // Mechanical-copy slice per designer dispatch.
                         // Original AI-780 references at task-2026-05-17-6d65de.
                         $mwAi780Type = $params['content_type'] ?? null;
+                        // task-2026-05-17-fe8f9e / AI-801 -- Stage-1 fix:
+                        // infer from $params['type'] when content_type
+                        // is missing at runtime. See default.blade.php
+                        // for the full lineage docblock.
+                        if (! $mwAi780Type) {
+                            $mwAi780Type = match ($params['type'] ?? null) {
+                                'posts'    => 'post',
+                                'pages'    => 'page',
+                                'products' => 'product',
+                                default    => null,
+                            };
+                        }
                         if ($mwAi780Type === 'post') {
                             $mwAi780Title = __('No posts yet');
                             $mwAi780Body = __('Add your first post to fill this module.');

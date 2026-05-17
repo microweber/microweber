@@ -91,6 +91,27 @@
                         // admin Create page; falls back to /admin/content
                         // when the type is unknown.
                         $mwAi780Type = $params['content_type'] ?? null;
+                        // task-2026-05-17-fe8f9e / AI-801 -- Stage-1 sub-case
+                        // (AI-788 lineage). The AI-780/780a contract test
+                        // set $params['content_type']='post' explicitly,
+                        // but at runtime the posts module renderer never
+                        // passes it -- $mwAi780Type stayed null and the
+                        // default branch fired instead of the post branch
+                        // (designer DOM probe: data-mw-ai780-content-type=
+                        // "unknown"). Fix: infer from $params['type'] which
+                        // the parser populates from <module type="..."> via
+                        // ParserLoadModuleTrait line 405-407. Explicit match
+                        // keeps the safe-three list -- no naive trailing-s
+                        // strip that could over-strip arbitrary module
+                        // names.
+                        if (! $mwAi780Type) {
+                            $mwAi780Type = match ($params['type'] ?? null) {
+                                'posts'    => 'post',
+                                'pages'    => 'page',
+                                'products' => 'product',
+                                default    => null,
+                            };
+                        }
                         if ($mwAi780Type === 'post') {
                             $mwAi780Title = __('No posts yet');
                             $mwAi780Body = __('Add your first post to fill this module.');
