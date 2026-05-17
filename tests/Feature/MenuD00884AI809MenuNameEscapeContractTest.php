@@ -64,6 +64,17 @@ class MenuD00884AI809MenuNameEscapeContractTest extends TestCase
 
     // ─────────────────────────────────────────────────────────────────────
     // Group A  positive guards -- $menu_name is wrapped in e() now
+    //
+    // Pin-evolution 2026-05-17 (task-2026-05-17-4f4f83 / AI-852): the
+    // empty-state surface now uses .mw-canvas-empty-state chrome with
+    // a fixed admin_url('settings/menus') CTA instead of lnotif() with
+    // $menu_name interpolation. AI-852 supersedes the AI-809 fix by
+    // removing the interpolation entirely -- a strictly stronger
+    // guarantee (nothing to escape if nothing is interpolated). The
+    // contract is now conditional: IF $menu_name is interpolated
+    // anywhere in executable source, it MUST be wrapped in e(). If
+    // $menu_name doesn't appear at all (AI-852 supersession path),
+    // the assertion passes vacuously.
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
@@ -72,12 +83,26 @@ class MenuD00884AI809MenuNameEscapeContractTest extends TestCase
     {
         $src = $this->templateContents($relativePath);
 
-        // Must contain `e($menu_name)` (htmlspecialchars wrapper).
-        // Whitespace-tolerant regex.
+        // Strip comments first (selector-self-match guard family, 18+
+        // session-recurrences) so docblock prose mentioning the legacy
+        // shape doesn't false-fail.
+        $stripped = preg_replace('~//.*$~m', '', $src);
+        $stripped = preg_replace('~/\*[\s\S]*?\*/~', '', $stripped);
+        $stripped = preg_replace('~\{\{--[\s\S]*?--\}\}~', '', $stripped);
+
+        // If $menu_name doesn't appear in executable source at all,
+        // AI-852 supersession path applies -- nothing to escape.
+        if (! preg_match('/\$menu_name\b/', $stripped)) {
+            $this->addToAssertionCount(1);
+            return;
+        }
+
+        // Otherwise the AI-809 contract still applies: e($menu_name)
+        // wrap MUST be present.
         $this->assertMatchesRegularExpression(
             '/e\(\s*\$menu_name\s*\)/',
-            $src,
-            "AI-809: {$relativePath} MUST wrap \$menu_name in e() helper before injecting into lnotif() HTML."
+            $stripped,
+            "AI-809: {$relativePath} interpolates \$menu_name in executable source — it MUST be wrapped in e() helper (htmlspecialchars). Either remove the interpolation entirely (AI-852 supersession) or wrap it."
         );
     }
 

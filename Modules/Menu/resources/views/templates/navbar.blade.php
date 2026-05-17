@@ -28,56 +28,76 @@ $menu_filter['li_submenu_a_link'] = '<a itemprop="url" data-item-id="{id}" {targ
 $mt = menu_tree($menu_filter);
 @endphp
 
+{{-- task-2026-05-17-4f4f83 / AI-852 + task-2026-05-17-bdba1a / AI-853 bundled.
+     Three defects closed in one shape:
+     (1) skin support style+script moved INSIDE the truthy branch so empty-
+         menu renders ship zero descendant CSS/JS bytes (textContent-leak
+         family, Round 17 deeper-Menu audit -- ~600 wasted bytes per
+         empty-menu render).
+     (2) empty-state migrates from semantic-mismatched mw-notification
+         mw-success ("success" on a "nothing yet" state -- AI-816 family)
+         to the canonical .mw-canvas-empty-state chrome shared with
+         Pictures/Page/Content/Posts per AI-780a/AI-808/AI-815 lineage.
+     (3) raw slug $menu_name (e.g. "header_menu") no longer leaks --
+         replaced with action-focused copy + a real <a href> CTA to
+         settings/menus. The new .mw-canvas-empty-state__cta IS the
+         click-affordance AI-853 needed; native href navigation replaces
+         the broken mw-open-module-settings JS handler -- no JS binding
+         needed. is_admin() gate keeps the empty-state admin-only so
+         anonymous visitors never see editor copy.
+     Supersedes task-2026-05-17-d00884 / AI-809 lnotif-with-
+     e($menu_name) shape by removing the $menu_name interpolation
+     entirely (stronger guarantee than the e()-wrap fix; nothing to
+     escape if nothing is interpolated). --}}
 @if ($mt != false)
     {!! $mt !!}
-@else
-    {{-- task-2026-05-17-d00884 / AI-809 -- escape $menu_name via e() before
-         injecting into lnotif HTML. Admin-to-admin XSS defense-in-depth
-         (lnotif is editmode-gated). The 5th + 6th instance of this
-         family found in the Menu module beyond designer's enumerated 4;
-         worth flagging to update LESSONS prong-1 diagnostic to also
-         catch scalar interpolation in helper-call HTML output, not
-         just $field[] array access. --}}
-    {!! lnotif("There are no items in the menu <b>" . e($menu_name) . '</b>') !!}
-@endif
 
-<style>
-    .navbar--big-default li.nav-item:hover > ul {
-        display: block !important;
-        position: absolute !important;
-    }
-    .navbar--big-default li:hover > a{
-         transition: .3s;
-    }
-    .navbar--big-default li ul ul{
-        top:0;
-        left: 100%;
-    }
-</style>
+    <style>
+        .navbar--big-default li.nav-item:hover > ul {
+            display: block !important;
+            position: absolute !important;
+        }
+        .navbar--big-default li:hover > a{
+             transition: .3s;
+        }
+        .navbar--big-default li ul ul{
+            top:0;
+            left: 100%;
+        }
+    </style>
 
-<script>
-    Array.from(document.querySelectorAll('.navbar-submenu-overflow')).forEach(node => {
-        node.classList.remove('navbar-submenu-overflow');
-        Array.from(node.querySelectorAll('li')).forEach(li => {
-            li.addEventListener('mouseenter', function(e) {
-                var ul = this.querySelector('ul');
-                if(ul && !ul._ready && ul !== node) {
-                    if(ul.offsetWidth + mw.element(ul).offset().offsetLeft > innerWidth) {
-                        ul.style.left = 'auto';
-                        ul.style.right = '100%';
+    <script>
+        Array.from(document.querySelectorAll('.navbar-submenu-overflow')).forEach(node => {
+            node.classList.remove('navbar-submenu-overflow');
+            Array.from(node.querySelectorAll('li')).forEach(li => {
+                li.addEventListener('mouseenter', function(e) {
+                    var ul = this.querySelector('ul');
+                    if(ul && !ul._ready && ul !== node) {
+                        if(ul.offsetWidth + mw.element(ul).offset().offsetLeft > innerWidth) {
+                            ul.style.left = 'auto';
+                            ul.style.right = '100%';
+                        }
+                        setTimeout(() => {
+                                ul._ready = true;
+                                if(ul.offsetWidth + mw.element(ul).offset().offsetLeft > innerWidth) {
+                                    ul.style.left = 'auto';
+                                    ul.style.right = '100%';
+                                }
+                        }, 10)
                     }
-                    setTimeout(() => {
-                            ul._ready = true;
-                            if(ul.offsetWidth + mw.element(ul).offset().offsetLeft > innerWidth) {
-                                ul.style.left = 'auto';
-                                ul.style.right = '100%';
-                            }
-                    }, 10)
-                }
 
-            });
-        })
+                });
+            })
 
 
-    });
-</script>
+        });
+    </script>
+@else
+    @if(is_admin())
+        <div class="mw-canvas-empty-state" data-mw-ai780-content-type="menu">
+            <h3 class="mw-canvas-empty-state__title">{{ _e('This menu is empty', true) }}</h3>
+            <p class="mw-canvas-empty-state__body">{{ _e('Add menu items via menu settings to fill this navigation.', true) }}</p>
+            <a class="mw-canvas-empty-state__cta" href="{{ admin_url('settings/menus') }}" aria-label="{{ _e('+ Add menu item', true) }}">{{ _e('+ Add menu item', true) }}</a>
+        </div>
+    @endif
+@endif

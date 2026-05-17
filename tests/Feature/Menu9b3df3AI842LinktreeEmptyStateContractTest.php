@@ -159,17 +159,27 @@ class Menu9b3df3AI842LinktreeEmptyStateContractTest extends TestCase
     #[DataProvider('ai809SiblingTemplateProvider')]
     public function ai809_sibling_templates_carry_e_menu_name_wrap(string $relativePath): void
     {
+        // Pin-evolution 2026-05-17 (task-2026-05-17-4f4f83 / AI-852):
+        // the 6 AI-809 sibling templates were migrated from the
+        // lnotif("...$menu_name...") empty-state shape to canonical
+        // .mw-canvas-empty-state__cta chrome with fixed admin_url
+        // ('settings/menus') CTA. AI-852 supersedes the AI-809 fix
+        // by removing the $menu_name interpolation entirely. The
+        // cross-template consistency contract evolves: every Menu
+        // skin MUST carry EITHER the legacy AI-809 lnotif+e($menu_name)
+        // shape OR the new AI-852 .mw-canvas-empty-state__cta shape.
+        // Linktree itself still uses lnotif (covered by AI-842 fix);
+        // future Menu skins may use either route.
         $source = $this->read($relativePath);
 
-        $this->assertStringContainsString(
-            'e($menu_name)',
-            $source,
-            "AI-842 cross-template consistency: AI-809 sibling {$relativePath} must continue to carry the e(\$menu_name) escape wrap. Regression guard fires if any future agent reverts the AI-809 fix."
-        );
-        $this->assertStringContainsString(
-            'lnotif',
-            $source,
-            "AI-842 cross-template consistency: AI-809 sibling {$relativePath} must continue to carry the lnotif empty-state pattern."
+        $hasLegacyShape = (bool) preg_match('/e\(\s*\$menu_name\s*\)/', $source)
+            && str_contains($source, 'lnotif');
+        $hasCanonicalShape = str_contains($source, 'mw-canvas-empty-state__cta')
+            && str_contains($source, 'data-mw-ai780-content-type="menu"');
+
+        $this->assertTrue(
+            $hasLegacyShape || $hasCanonicalShape,
+            "AI-842 cross-template consistency: AI-809 sibling {$relativePath} must carry EITHER the legacy lnotif+e(\$menu_name) shape (pre-AI-852) OR the canonical .mw-canvas-empty-state__cta shape (post-AI-852)."
         );
     }
 
