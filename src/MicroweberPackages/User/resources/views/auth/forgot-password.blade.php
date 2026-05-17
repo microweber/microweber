@@ -1,57 +1,41 @@
+{{-- task-2026-05-17-f141ff / AI-794 — forgot-password form, now wrapped in mw-auth-card chrome via user::layout --}}
 @extends('user::layout')
 
-@section('content')
-<form class="form-horizontal" role="form" method="POST"
-      action="{{ route('password.email') }}">
-    <h2>Password Reset</h2>
+@section('auth_form')
+<form class="mw-auth-form" role="form" method="POST" action="{{ route('password.email') }}">
+    <h2>{{ _e('Reset your password', true) }}</h2>
+
     @csrf
 
     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-
-
-        <label class="form-label">Enter your email</label>
-
-        <input type="text" class="form-control" id="email" name="email"
-               placeholder="Email"/>
-
-
+        <label class="form-label" for="email">{{ _e('Email', true) }}</label>
+        <input type="email"
+               class="form-control"
+               id="email"
+               name="email"
+               value="{{ old('email') }}"
+               autocomplete="username"
+               inputmode="email"
+               placeholder="{{ _e('your@email.com', true) }}"
+               autofocus
+               required/>
         @if ($errors->has('email'))
-
-            <div class="help-block text-danger"><strong>{{ $errors->first('email') }}</strong></div>
-
+            <div class="text-danger"><strong>{{ $errors->first('email') }}</strong></div>
         @endif
+    </div>
 
-
-        @if (get_option('captcha_disabled', 'users') !== 'y')
-
-
+    @if (get_option('captcha_disabled', 'users') !== 'y')
+        <div class="form-group">
             @if ($errors->has('captcha'))
-
-                <div class="help-block text-danger"><strong>{{ $errors->first('captcha') }}</strong>
-                </div>
-
+                <div class="text-danger"><strong>{{ $errors->first('captcha') }}</strong></div>
             @endif
-
             <module type="captcha"/>
+        </div>
+    @endif
 
-        @endif
-
-
+    <div class="mw-auth-actions">
+        <a class="btn btn-link" href="{{ route('login') }}">{{ _e('Back to login', true) }}</a>
+        <button type="submit" class="btn btn-primary submit">{{ _e('Send reset link', true) }}</button>
     </div>
-
-    <div class="d-flex justify-content-between align-items-center">
-
-        <a class="btn btn-link" class="reset_pass" href="{{route('login')}}">Login</a>
-
-        <button type="submit" class="btn btn-primary submit">Send Password
-            Reset Link
-        </button>
-
-
-    </div>
-
-    <div class="clearfix"></div>
-
-
 </form>
 @endsection
