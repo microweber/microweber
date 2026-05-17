@@ -4858,3 +4858,85 @@ html[dir="rtl"] .mw-text-start {
         justify-content: center;
     }
 }
+
+/* ── AI-780 (task-2026-05-17-6d65de) — canvas content-module empty state.
+ * Renders inside the Live Edit iframe (admin-only via is_admin() gate in
+ * Modules/Content/resources/views/templates/default.blade.php) when a
+ * posts/pages/content module has no items. Mirrors the AI-728/729/730
+ * admin empty-state shape: title + action-aware body + primary CTA.
+ * Module-type-aware copy is generated in Blade ($params['content_type']
+ * → post/page/other); this rule supplies the visual chrome.
+ *
+ * Lives in default.css (NOT general-styles.css) because the canvas
+ * iframe loads the front-end template stack, not admin chrome.
+ * default.css is cross-imported into the Webpack theme bundle per the
+ * AI-771 architecture (microweber-filament-theme/index.css:34), so one
+ * source feeds both pipelines.
+ *
+ * Token-scoping per SOUL #108 — every var() carries a literal fallback
+ * because the iframe canvas runs outside the .mw-live-edit-page wrapper
+ * AND outside the ESE token-loaded admin chrome. */
+.mw-canvas-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-2xl, 32px) var(--space-md, 13px);
+    gap: var(--space-sm, 8px);
+    background-color: var(--ese-surface-muted, rgba(0, 0, 0, 0.02));
+    border: 1px dashed var(--ese-border, rgba(0, 0, 0, 0.12));
+    border-radius: var(--radius-md, 10px);
+    min-height: 200px;
+}
+
+.mw-canvas-empty-state__title {
+    font-size: var(--font-section, 15px);
+    font-weight: 600;
+    color: var(--ese-text, #111827);
+    margin: 0;
+}
+
+.mw-canvas-empty-state__body {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    max-width: 36ch;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.mw-canvas-empty-state__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: var(--space-sm, 8px) var(--space-md, 13px);
+    margin-top: var(--space-sm, 8px);
+    background-color: var(--ese-accent, #0d6efd);
+    color: #ffffff;
+    border-radius: var(--radius-sm, 6px);
+    font-size: var(--font-control, 13px);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.mw-canvas-empty-state__cta:hover,
+.mw-canvas-empty-state__cta:focus-visible {
+    background-color: var(--ese-accent, #0b5ed7);
+    color: #ffffff;
+    text-decoration: none;
+    outline: none;
+}
+
+html.dark .mw-canvas-empty-state {
+    background-color: var(--ese-surface-muted, rgba(255, 255, 255, 0.04));
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.12));
+}
+
+html.dark .mw-canvas-empty-state__title {
+    color: var(--ese-text, #f3f4f6);
+}
+
+html.dark .mw-canvas-empty-state__body {
+    color: var(--ese-text-muted, #9ca3af);
+}

@@ -81,7 +81,38 @@
             @if(empty($data))
                 {{-- AI-104 / TICKET-AI-104 (cycle-101 2026-05-09): wrap empty-content placeholder in is_admin() so it stays visible to editors but doesn't leak onto anonymous public pages. --}}
                 @if(is_admin())
-                    <p class="mw-pictures-clean">{{ __('No content added. Please add content to the module.') }}</p>
+                    @php
+                        // AI-780 (task-2026-05-17-6d65de) — module-type-aware
+                        // empty state. Mirrors the AI-728/729/730 admin
+                        // shipped pattern (title + action-aware description +
+                        // primary CTA). Identifies the module via
+                        // $params['content_type'] (post|page|null) so the
+                        // user knows WHAT to add. CTA links to the matching
+                        // admin Create page; falls back to /admin/content
+                        // when the type is unknown.
+                        $mwAi780Type = $params['content_type'] ?? null;
+                        if ($mwAi780Type === 'post') {
+                            $mwAi780Title = __('No posts yet');
+                            $mwAi780Body = __('Add your first post to fill this module.');
+                            $mwAi780CtaLabel = __('+ Add post');
+                            $mwAi780CtaHref = e(admin_url('content/create?content_type=post'));
+                        } elseif ($mwAi780Type === 'page') {
+                            $mwAi780Title = __('No pages yet');
+                            $mwAi780Body = __('Add your first page to fill this module.');
+                            $mwAi780CtaLabel = __('+ Add page');
+                            $mwAi780CtaHref = e(admin_url('content/create?content_type=page'));
+                        } else {
+                            $mwAi780Title = __('No content yet');
+                            $mwAi780Body = __('Add your first item to fill this module.');
+                            $mwAi780CtaLabel = __('+ Add content');
+                            $mwAi780CtaHref = e(admin_url('content/create'));
+                        }
+                    @endphp
+                    <div class="mw-canvas-empty-state" data-mw-ai780-content-type="{{ e($mwAi780Type ?? 'unknown') }}">
+                        <h3 class="mw-canvas-empty-state__title">{{ $mwAi780Title }}</h3>
+                        <p class="mw-canvas-empty-state__body">{{ $mwAi780Body }}</p>
+                        <a class="mw-canvas-empty-state__cta" href="{{ $mwAi780CtaHref }}" aria-label="{{ $mwAi780CtaLabel }}">{{ $mwAi780CtaLabel }}</a>
+                    </div>
                 @endif
             @else
                 @foreach ($data as $key => $item)

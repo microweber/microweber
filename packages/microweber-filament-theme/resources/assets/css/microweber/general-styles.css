@@ -3439,3 +3439,11 @@ html.dark .mw-no-database-empty__heading {
 html.dark .mw-no-database-empty__description {
     color: var(--ese-text-muted, #9ca3af);
 }
+
+/* AI-780 (task-2026-05-17-6d65de) — `.mw-canvas-empty-state` rules live
+ * in `packages/frontend-assets/resources/assets/css/microweber/css/default.css`
+ * because the canvas content-module empty state renders inside the Live Edit
+ * iframe (front-end template stack), not admin chrome. Per AI-771
+ * cross-package @import architecture, default.css is consumed by BOTH the
+ * Vite bundle AND the Webpack theme bundle — one source, both pipelines
+ * fed. See default.css for the full rule body. */
