@@ -76,19 +76,28 @@ class LiveEdit00bdf0AI770PickerDefaultTabAutoOpenContractTest extends TestCase
     }
 
     #[Test]
-    public function else_if_triggers_click_on_first_component_tab(): void
+    public function else_if_fires_first_open_directly_on_first_component_tab(): void
     {
-        // Inside the else-if branch the first component's type is
-        // read and its tab anchor receives a programmatic click.
+        // task-2026-05-17-49ad9d / AI-770 v2 CHANGE — the AI-770 v1
+        // approach (trigger("click") on the active first tab) hit a
+        // mw.tabs toggle-OFF bug. v2 pivots to firing $firstOpen
+        // DIRECTLY (designer Option B) combined with `toggle: false`
+        // on mw.tabs (designer Option C). Pin the new direct-fire
+        // shape — the trigger("click") path is gone.
         $this->assertMatchesRegularExpression(
             '/scope\.settings\.components\[0\]\.type/',
             $this->filepicker,
             'AI-770 fallback must read scope.settings.components[0].type to derive the first-tab slug.'
         );
         $this->assertMatchesRegularExpression(
-            '/else\s+if\s*\(\s*scope\.settings\.components\.length[\s\S]*?firstType\s*=\s*scope\.settings\.components\[0\]\.type[\s\S]*?\$target\.trigger\(\s*[\'"]click[\'"]\s*\)/',
+            '/scope\.__navigation_first\.push\(\s*0\s*\)/',
             $this->filepicker,
-            'AI-770 fallback must trigger("click") on the first-tab anchor so $firstOpen fires for the default tab.'
+            'AI-770 v2 fallback must push index 0 into scope.__navigation_first so a subsequent real click does not double-fire.'
+        );
+        $this->assertMatchesRegularExpression(
+            "/\\\$\\(scope\\)\\.trigger\\(\\s*['\"]\\\$firstOpen['\"]\\s*,\\s*\\[/",
+            $this->filepicker,
+            'AI-770 v2 fallback must fire $firstOpen directly via $(scope).trigger("$firstOpen", [...]).'
         );
     }
 

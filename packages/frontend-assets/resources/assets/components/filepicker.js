@@ -834,6 +834,25 @@ mw.filePicker = function (options) {
                     nav: $("a", ul),
                     tabs: $(".mw-filepicker-component-section", scope.$root),
                     activeClass: "active",
+                    // task-2026-05-17-49ad9d / AI-770 v2 CHANGE —
+                    // disable mw.tabs default `toggle:true` behaviour
+                    // for the picker. Pre-fix order at init:
+                    //   1. mw.tabs() sets .active on first tab (library)
+                    //   2. AI-770 v1 trigger("click") on library
+                    //   3. onclick saw hasClass("active") → toggle-OFF
+                    //      branch (removed active, hid content)
+                    //   4. $firstOpen only fires in toggle-ON branch
+                    //      → never fired for library
+                    //   5. Library iframe never mounted
+                    // Designer confirmed empirically via probe of the
+                    // mw.tabs event handler source. With `toggle:false`
+                    // the click on an already-active tab no-ops the
+                    // toggle decision and the onclick callback runs
+                    // normally → $firstOpen fires → iframe mounts.
+                    // Also closes a latent UX bug — for a 1-of-N
+                    // picker, accidentally hiding the active tab
+                    // content by re-clicking is wrong by design.
+                    toggle: false,
                     onclick: function (el, event, i) {
                         if (scope.__navigation_first.indexOf(i) === -1) {
                             scope.__navigation_first.push(i);
@@ -877,23 +896,45 @@ mw.filePicker = function (options) {
                     // onclick handler never fires, so the per-tab
                     // `$firstOpen` event never triggers for the
                     // default initial tab. On desktop this left
+                    //
+                    // task-2026-05-17-49ad9d / AI-770 v2 CHANGE —
+                    // pivoted from "trigger('click') on the active
+                    // tab" to "fire $firstOpen directly". With the
+                    // mw.tabs `toggle: false` flip above, clicking
+                    // an already-active tab is a no-op (else branch
+                    // in tools/tabs.js:97 doesn't call onclick when
+                    // toggle is not true). Per designer's Option B
+                    // combined with Option C: bypass the click +
+                    // fire $firstOpen directly so the iframe mounts
+                    // AND the latent re-click-hides-tab UX bug also
+                    // closes. The __navigation_first guard mirrors
+                    // the same guard inside mw.tabs.onclick at
+                    // lines 837-844, so a subsequent real click on
+                    // the library tab won't double-fire.
                     // the default "library" tab body blank — the
                     // iframe-mount in `library: function()` is
                     // gated on `$firstOpen` and that gate never
                     // opened. Mobile coincidentally hit a click-
                     // path that triggered it.
                     //
-                    // Trigger a click on the first tab anchor so
-                    // its `$firstOpen` fires once and the content
-                    // mounts on initial paint.
+                    // Fire $firstOpen directly for the first tab
+                    // (the visually-active default).
                     setTimeout(function () {
                         var firstType = scope.settings.components[0].type;
                         var $target = $(
                             'a.js-filepicker-pick-type-tab-' + firstType,
                             ul
                         );
-                        if ($target.length) {
-                            $target.trigger("click");
+                        var $section = $(
+                            ".mw-filepicker-component-section",
+                            scope.$root
+                        ).eq(0);
+                        if ($target.length && scope.__navigation_first.indexOf(0) === -1) {
+                            scope.__navigation_first.push(0);
+                            $(scope).trigger("$firstOpen", [
+                                $section[0],
+                                firstType,
+                            ]);
                         }
                     }, 0);
                 }
