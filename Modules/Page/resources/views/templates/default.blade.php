@@ -26,7 +26,13 @@ description: Default - 3 Columns
         getSchemaOrgItemTypeTag() because PageModule does not inject
         content_type='page' into options at runtime — Google was
         indexing CMS pages as Products. Hard-coded to WebPage now.
-     6. <?php print $item['...'] ?> -- unescaped PHP echo (AI-807 XSS).
+     6. Legacy raw php-print of $item fields (AI-807 XSS) -- six
+        unescaped fields per the designer enumeration: title (3x:
+        alt/title/h3), link (2x: href attrs), created_at, description,
+        id (in data-attr), add_cart_text (option-controllable). A page
+        title like "><img src=x onerror=alert(1)> injected raw HTML
+        into the public list. Now: every value rendered via Blade {{ }}
+        which auto-escapes via htmlspecialchars.
      7. No empty-state -- AI-808.
 
    SHIPPED HERE:
@@ -150,7 +156,7 @@ description: Default - 3 Columns
                                          all dynamic values rendered via
                                          Blade {{ }} -- auto-escaped via
                                          htmlspecialchars. Closes the
-                                         <?php print $item['...'] ?>
+                                         legacy raw-php-print-of-item
                                          XSS surface family. --}}
                                     <h3 itemprop="name" class="mw-pages-title m-0"><a href="{{ $item['link'] }}">{{ $item['title'] }}</a></h3>
                                 @endif

@@ -219,15 +219,41 @@ class PageAeb113AI806ProductChromeLeakContractTest extends TestCase
     #[Test]
     public function ai807_no_raw_php_blocks_at_all(): void
     {
-        // Belt-and-braces: the new template is pure Blade. No <?php
-        // blocks anywhere in the executable body (legacy template was
-        // pure <?php). The only allowed source-side <?php-like token
-        // would be inside a Blade `{{-- comment --}}` describing the
-        // removed pattern -- which we already pre-stripped.
+        // Belt-and-braces: the new template is pure Blade. No raw php
+        // open tags anywhere in the executable body (legacy template
+        // was 100% raw php). The only allowed source-side legacy
+        // token would be inside a Blade `{{-- comment --}}` describing
+        // the removed pattern -- which we already pre-stripped.
         $this->assertDoesNotMatchRegularExpression(
             '/<\?php\b/',
             $this->executable,
-            'AI-807: Page template MUST be pure Blade -- no <?php blocks (legacy template was 100% <?php).'
+            'AI-807: Page template MUST be pure Blade -- no raw php blocks (legacy template was 100% raw php).'
+        );
+    }
+
+    #[Test]
+    public function ai807_designer_literal_regex_stub_passes_against_raw_source(): void
+    {
+        /* task-2026-05-17-3937be / AI-807 -- belt-and-braces. The
+         * designer email shipped a literal regex stub: the assertion
+         * here matches that stub VERBATIM against the RAW source (no
+         * comment-stripping). This guarantees the designer (or any
+         * future agent) running the literal stub from the JIRA ticket
+         * body gets the same green that this PHPUnit run does. Adds
+         * a second-layer regression guard: future docblock prose that
+         * accidentally re-introduces the legacy token in comments
+         * will fail this test even though Group B's stripped-source
+         * assertion would tolerate it.
+         *
+         * Selector-self-match guard family (16+ session-recurrences):
+         * documented in LESSONS.md. The fix here is to phrase source
+         * prose so it never carries the literal absence-asserted token,
+         * EVEN inside comments -- so the literal designer stub passes
+         * without needing the contract test to pre-strip comments. */
+        $this->assertDoesNotMatchRegularExpression(
+            '/<\?php\s+print\s+\$item\[/',
+            $this->template,
+            'AI-807: designer regex stub MUST pass against RAW source (no comment-stripping) -- if this fails, source prose still mentions the legacy raw-php-print-of-item literal somewhere; rephrase as words.'
         );
     }
 
