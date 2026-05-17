@@ -207,4 +207,216 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
             'AI-819: tailwind.config.js must keep consuming --primary-500 via `rgba(var(--primary-500), <alpha-value>)`. A switch to space-separated triplets or OKLCH would silently break the AI-819 override.'
         );
     }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Group F — AI-819 CHANGE absorption (task-2026-05-17-68e111)
+    //
+    // Designer's verify-before-accept on the original AI-819 ship (commit
+    // 32097ab25d) found 2 hardcoded `!important` rules in the SAME bundle
+    // that bypassed the `:root` token override:
+    //
+    //   :775 (light) — .fi-btn.fi-color-primary:not(.admin-toolbar-buttons)
+    //                  background-color: #182433 !important (MW v2 btn-dark)
+    //   :2904 (dark) — .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit)
+    //                  background-color: #4299e1 !important (pre-AI-819 Tailwind)
+    //
+    // Stage-2 sub-variant: token-override + downstream !important hardcode =
+    // silent override-of-override. Codified post-AI-819 CHANGE absorption.
+    //
+    // Selector-self-match guard UNIFORMITY (post-task-7aa48a) — strip
+    // comments before any absence assertions.
+    // ─────────────────────────────────────────────────────────────────────
+
+    #[Test]
+    public function ai819_change_light_mode_primary_button_uses_brand_token(): void
+    {
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        // Strip block + line comments so the docblock prose mentioning
+        // legacy #182433 doesn't false-fail the negative regression-guard.
+        $exec = preg_replace('~/\*[\s\S]*?\*/~', '', $scss);
+        $exec = preg_replace('~//[^\n]*~', '', $exec);
+
+        // Selector corrected to match dark-mode rule + excludes BOTH
+        // toolbar variants (admin-toolbar-add + admin-toolbar-live-edit).
+        $this->assertMatchesRegularExpression(
+            '~\.fi-btn\.fi-color-primary:not\(\.admin-toolbar-add\):not\(\.admin-toolbar-live-edit\)\s*\{[^}]*background-color:\s*rgba\(var\(--primary-500\),\s*1\)\s*!important~',
+            $exec,
+            'AI-819 CHANGE: light-mode .fi-btn.fi-color-primary must consume rgba(var(--primary-500), 1) !important (NOT #182433) so the :root token override flows through.'
+        );
+        $this->assertStringContainsString(
+            'border: 1px solid rgba(var(--primary-600), 1) !important',
+            $exec,
+            'AI-819 CHANGE: light-mode border must consume --primary-600 (NOT #1f2e41).'
+        );
+    }
+
+    #[Test]
+    public function ai819_change_dark_mode_primary_button_uses_brand_token(): void
+    {
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $exec = preg_replace('~/\*[\s\S]*?\*/~', '', $scss);
+        $exec = preg_replace('~//[^\n]*~', '', $exec);
+
+        // The dark-mode rule lives inside `html.dark { ... }` wrapper.
+        // Slice from "html.dark" forward through the .fi-color-primary
+        // rule's closing brace to scope the assertion.
+        $darkPos = strpos($exec, 'html.dark');
+        $this->assertNotFalse($darkPos, 'AI-819 CHANGE: html.dark wrapper must exist for dark-mode primary rule.');
+        $darkSlice = substr($exec, $darkPos);
+
+        $this->assertMatchesRegularExpression(
+            '~\.fi-btn\.fi-color-primary:not\(\.admin-toolbar-add\):not\(\.admin-toolbar-live-edit\)\s*\{[^}]*background-color:\s*rgba\(var\(--primary-500\),\s*1\)\s*!important~',
+            $darkSlice,
+            'AI-819 CHANGE: dark-mode .fi-btn.fi-color-primary must consume rgba(var(--primary-500), 1) !important (NOT #4299e1).'
+        );
+    }
+
+    #[Test]
+    public function ai819_change_hover_uses_primary_600_token(): void
+    {
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $exec = preg_replace('~/\*[\s\S]*?\*/~', '', $scss);
+        $exec = preg_replace('~//[^\n]*~', '', $exec);
+
+        // :hover background-color must use --primary-600 in BOTH the
+        // light-mode rule (was #1f2e41) AND the dark-mode rule (was #3182ce).
+        // Expect at least 2 occurrences in executable source.
+        $occurrences = preg_match_all(
+            '~&?:hover\s*\{[^}]*background-color:\s*rgba\(var\(--primary-600\),\s*1\)\s*!important~',
+            $exec,
+            $m
+        );
+        $this->assertGreaterThanOrEqual(
+            2,
+            $occurrences,
+            'AI-819 CHANGE: both light-mode + dark-mode :hover must consume rgba(var(--primary-600), 1) !important. Found ' . $occurrences . ' occurrences.'
+        );
+    }
+
+    #[Test]
+    public function ai819_change_legacy_hardcoded_literals_removed_from_primary_rules(): void
+    {
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $exec = preg_replace('~/\*[\s\S]*?\*/~', '', $scss);
+        $exec = preg_replace('~//[^\n]*~', '', $exec);
+
+        // Slice each .fi-color-primary :not(...) rule and assert its body
+        // does NOT contain the pre-CHANGE literals. Use preg_match_all to
+        // walk every occurrence of the corrected selector.
+        preg_match_all(
+            '~\.fi-btn\.fi-color-primary:not\(\.admin-toolbar-add\):not\(\.admin-toolbar-live-edit\)\s*\{[^}]*\}~',
+            $exec,
+            $matches
+        );
+        $this->assertGreaterThanOrEqual(
+            2,
+            count($matches[0]),
+            'AI-819 CHANGE: expect at least 2 corrected-selector rules (light + dark).'
+        );
+
+        foreach ($matches[0] as $ruleBody) {
+            $this->assertStringNotContainsString(
+                '#182433',
+                $ruleBody,
+                'AI-819 CHANGE regression-guard: rule body must NOT carry literal #182433 (MW v2 btn-dark).'
+            );
+            $this->assertStringNotContainsString(
+                '#4299e1',
+                $ruleBody,
+                'AI-819 CHANGE regression-guard: rule body must NOT carry literal #4299e1 (pre-AI-819 Tailwind blue).'
+            );
+        }
+    }
+
+    #[Test]
+    public function ai819_change_obsolete_admin_toolbar_buttons_selector_removed(): void
+    {
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $exec = preg_replace('~/\*[\s\S]*?\*/~', '', $scss);
+        $exec = preg_replace('~//[^\n]*~', '', $exec);
+
+        // The pre-CHANGE selector `:not(.admin-toolbar-buttons)` was
+        // INVERTED — it didn't match the live-edit toolbar SAVE class
+        // (`admin-toolbar-live-edit`) so the v2-dark style hijacked
+        // every primary CTA instead of only the toolbar. Regression-guard:
+        // the corrected selector replaces it entirely. The bare
+        // `:not(.admin-toolbar-buttons)` pattern on .fi-color-primary
+        // should no longer appear.
+        $this->assertDoesNotMatchRegularExpression(
+            '~\.fi-btn\.fi-color-primary:not\(\.admin-toolbar-buttons\)\s*\{~',
+            $exec,
+            'AI-819 CHANGE: legacy single-:not selector must be replaced by the corrected :not(.admin-toolbar-add):not(.admin-toolbar-live-edit) shape.'
+        );
+    }
+
+    #[Test]
+    public function ai819_change_ai699_toolbar_pills_unaffected(): void
+    {
+        // Regression-guard for the AI-699 black-pill SAVE button +
+        // AI-704 toolbar +Add. Both have their own explicit rules at
+        // lines 210 (.admin-toolbar-add) + 237 (.admin-toolbar-live-edit).
+        // The corrected AI-819 CHANGE selector EXCLUDES both via :not(),
+        // so the brand-blue re-anchor must not touch the toolbar.
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $exec = preg_replace('~/\*[\s\S]*?\*/~', '', $scss);
+        $exec = preg_replace('~//[^\n]*~', '', $exec);
+
+        // .admin-toolbar-live-edit.fi-color-primary rule still present
+        // and still light-green (per AI-704). Asserts that AI-819 CHANGE
+        // didn't accidentally rewrite the wrong rule.
+        $this->assertMatchesRegularExpression(
+            '~\.fi-btn\.admin-toolbar-live-edit\.fi-color-primary\s*\{[^}]*background-color:\s*#e2f9e6~',
+            $exec,
+            'AI-704 regression-guard: admin-toolbar-live-edit SAVE pill must keep its MW v2 light-green bg #e2f9e6 (AI-699 black-pill is rendered by Vue Toolbar SaveButton.vue, not this rule).'
+        );
+
+        // .admin-toolbar-add.fi-color-primary rule still light-blue
+        $this->assertMatchesRegularExpression(
+            '~\.fi-btn\.admin-toolbar-add\.fi-color-primary\s*\{[^}]*background-color:\s*#e1edf8~',
+            $exec,
+            'AI-704 regression-guard: admin-toolbar-add +Add pill must keep its MW v2 light-blue bg #e1edf8.'
+        );
+    }
+
+    #[Test]
+    public function ai819_change_task_id_marker_in_source(): void
+    {
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $this->assertStringContainsString(
+            'task-2026-05-17-68e111',
+            $scss,
+            'AI-819 CHANGE absorption ship must embed task-id marker for grep-discoverability per LESSONS.'
+        );
+    }
+
+    #[Test]
+    public function ai819_change_served_bundle_carries_corrected_selector(): void
+    {
+        // Tier-2 served-bundle probe — after Webpack rebuild, the served
+        // CSS must carry the corrected selector + token-anchored values.
+        $bundlePath = 'public/vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css';
+        $bundle = $this->fileContents($bundlePath);
+
+        $this->assertStringContainsString(
+            '.fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit)',
+            $bundle,
+            'AI-819 CHANGE Tier-2: served bundle must carry the corrected selector. Bundle stale? Re-run `cd packages/microweber-filament-theme && npm run build`.'
+        );
+
+        // Both outer rules (light + dark) must consume --primary-500
+        $primary500Count = substr_count($bundle, 'rgba(var(--primary-500), 1) !important');
+        $this->assertGreaterThanOrEqual(
+            2,
+            $primary500Count,
+            'AI-819 CHANGE Tier-2: served bundle must carry at least 2 occurrences of `rgba(var(--primary-500), 1) !important` (light outer + dark outer). Found ' . $primary500Count . '.'
+        );
+
+        // Hover + light-border must consume --primary-600
+        $primary600Count = substr_count($bundle, 'rgba(var(--primary-600), 1) !important');
+        $this->assertGreaterThanOrEqual(
+            3,
+            $primary600Count,
+            'AI-819 CHANGE Tier-2: served bundle must carry at least 3 occurrences of `rgba(var(--primary-600), 1) !important` (light border + light hover + dark hover). Found ' . $primary600Count . '.'
+        );
+    }
 }

@@ -770,18 +770,28 @@ svg[wire\:loading\.remove] {
   }
 }
 
-// Primary button — MW v2: dark bg #182433
-// Exclude topbar toolbar buttons which use light bg
-.fi-btn.fi-color-primary:not(.admin-toolbar-buttons) {
-  background-color: #182433 !important;  // MW v2 exact: btn-dark
+// task-2026-05-17-68e111 / AI-819 CHANGE absorption — primary button re-anchored to brand-blue
+// Pre-CHANGE used literal #182433 (MW v2 "btn-dark" near-black) which silently won the cascade
+// over the AI-819 `:root` --primary-NNN token override + hijacked every admin Save/Create/primary
+// CTA into the toolbar's v2 black-pill look — directly contradicting the AI-209 / AI-737 / AI-794
+// / AI-816 brand-blue primary-CTA lineage. Selector was also inverted (`:not(.admin-toolbar-buttons)`
+// doesn't actually match the live-edit toolbar SAVE class). Per designer Stage-2 sub-variant
+// "token-override + downstream !important hardcode = silent override-of-override" (post-AI-819
+// CHANGE absorption sister-rule to AI-771 v1 + AI-786 cascade-loss).
+// Selector corrected to match the dark-mode rule below (lines 2904+) — excludes BOTH toolbar variants
+// (admin-toolbar-add transparent text + admin-toolbar-live-edit black v2 pill per AI-699), applies
+// brand-blue to every other primary CTA. Now consumes `var(--primary-X)` so AI-819 :root override
+// flows through; brand-blue at runtime in both light + dark modes.
+.fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) {
+  background-color: rgba(var(--primary-500), 1) !important;
   color: #ffffff !important;
-  border: 1px solid #1f2e41 !important;  // MW v2 exact
+  border: 1px solid rgba(var(--primary-600), 1) !important;
   svg {
     color: #ffffff !important;
   }
 
   &:hover {
-    background-color: #1f2e41 !important;
+    background-color: rgba(var(--primary-600), 1) !important;
     opacity: 1 !important;
   }
 }
@@ -2901,12 +2911,15 @@ html.dark {
   }
 
   // ── Primary / secondary / danger buttons — dark mode ──
+  // task-2026-05-17-68e111 / AI-819 CHANGE absorption — re-anchored to brand-blue via --primary-X
+  // Pre-CHANGE used literal #4299e1 (pre-AI-819 Tailwind blue) which silently won the cascade
+  // over the AI-819 :root override. Same Stage-2 sub-variant as the light-mode rule at :775.
   .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) {
-    background-color: #4299e1 !important;
+    background-color: rgba(var(--primary-500), 1) !important;
     color: #fff !important;
 
     &:hover {
-      background-color: #3182ce !important;
+      background-color: rgba(var(--primary-600), 1) !important;
     }
   }
 
