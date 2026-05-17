@@ -247,17 +247,28 @@ class LiveEdit505ed5AI708HeadingDisambiguationContractTest extends TestCase
     #[Test]
     public function settings_customize_button_renamed_to_template_and_layout(): void
     {
-        // The right-rail icon button's aria-label, title, and tooltip
-        // copy all match the new panel title.
+        // Pin-evolved 2026-05-17 / task-c3f232 / AI-800b — cross-surface
+        // case cascade continued from AI-800a. The right-rail button is a
+        // SECOND entry point to the same panel; all entry points must
+        // carry the same label per the cross-surface-consistency principle
+        // (MainDrawer + bootstrap.js controlBox + RightSidebar h3 all
+        // render "Templates & layouts"). Updated in place per pin-evolution
+        // discipline (AI-770 v2 / AI-805/805a Path B) — not a parallel
+        // test. Prior shape: aria-label + title + Lang = "Template & Layout"
+        // (AI-708). New shape: "Templates & layouts" sentence-case plural-
+        // plural matching the cascade. `&` is HTML-escaped as `&amp;` in
+        // the `<Lang>` slot (Vue template parses HTML entities); aria-label
+        // + title attribute values use literal `&` since they're attribute
+        // values not Vue template body.
         $this->assertMatchesRegularExpression(
-            "/aria-label=\"Template & Layout\"\\s+title=\"Template & Layout\"/",
+            "/aria-label=\"Templates & layouts\"\\s+title=\"Templates & layouts\"/",
             $this->settingsCustomize,
-            'SettingsCustomize.vue button must use aria-label + title "Template & Layout".'
+            'SettingsCustomize.vue button must use aria-label + title "Templates & layouts" (AI-800b cross-surface match).'
         );
         $this->assertStringContainsString(
-            '<Lang>Template & Layout</Lang>',
+            '<Lang>Templates &amp; layouts</Lang>',
             $this->settingsCustomize,
-            'SettingsCustomize.vue v-tooltip slot must render <Lang>Template & Layout</Lang>.'
+            'SettingsCustomize.vue v-tooltip slot must render <Lang>Templates &amp; layouts</Lang> (AI-800b cross-surface match; `&` HTML-escaped in template body).'
         );
     }
 
@@ -268,7 +279,8 @@ class LiveEdit505ed5AI708HeadingDisambiguationContractTest extends TestCase
         // comments and CSS so the migration docblock + CSS selector
         // rules (which reference the class `.mw-live-edit-right-sidebar
         // -template-sidebar`, that's the wrapper class, not the
-        // button label) don't false-fail.
+        // button label) don't false-fail. Selector-self-match guard
+        // UNIFORMITY (post-task-7aa48a default-on protocol).
         $stripped = preg_replace('/<!--[\s\S]*?-->/', '', $this->settingsCustomize);
         // Also strip the <style> block at the top — CSS selectors
         // reference template-sidebar as a class name, not as user copy.
@@ -285,17 +297,34 @@ class LiveEdit505ed5AI708HeadingDisambiguationContractTest extends TestCase
             $stripped,
             'SettingsCustomize.vue must not render legacy `<Lang>Template settings</Lang>` in any v-tooltip.'
         );
+        // AI-800b additional pin-evolution regression-guards: the
+        // AI-708-era "Template & Layout" Title-Case singular shape is
+        // also obsolete now that the cascade matches "Templates & layouts".
+        $this->assertStringNotContainsString(
+            'aria-label="Template & Layout"',
+            $stripped,
+            'SettingsCustomize.vue must not render legacy AI-708-era `aria-label="Template & Layout"` (Title-Case singular) — superseded by AI-800b "Templates & layouts" sentence-case plural-plural cascade.'
+        );
+        $this->assertStringNotContainsString(
+            '<Lang>Template & Layout</Lang>',
+            $stripped,
+            'SettingsCustomize.vue must not render legacy `<Lang>Template & Layout</Lang>` in any v-tooltip — superseded by AI-800b cascade.'
+        );
     }
 
     #[Test]
     public function left_sidebar_nav_item_renamed_to_template_and_layout(): void
     {
-        // The left-sidebar nav-menu item label renamed for consistency.
-        // `&` is HTML-escaped as `&amp;` in this rendering site.
+        // Pin-evolved 2026-05-17 / task-c3f232 / AI-800b — recon-driven
+        // Slice B bundle: LeftSidebar.vue is the second sibling cascade
+        // site (alongside SettingsCustomize.vue from the AI-800b dispatch).
+        // Designer's dispatch named only SettingsCustomize.vue; recon
+        // found this nav-item per the recon-driven Slice B uniformity
+        // rule (task-46127c). Updated in place per pin-evolution discipline.
         $this->assertStringContainsString(
-            '<Lang>Template &amp; Layout</Lang>',
+            '<Lang>Templates &amp; layouts</Lang>',
             $this->leftSidebar,
-            'LeftSidebar.vue nav-item label must render <Lang>Template &amp; Layout</Lang>.'
+            'LeftSidebar.vue nav-item label must render <Lang>Templates &amp; layouts</Lang> (AI-800b cross-surface cascade match).'
         );
     }
 
@@ -303,12 +332,58 @@ class LiveEdit505ed5AI708HeadingDisambiguationContractTest extends TestCase
     public function left_sidebar_does_not_render_legacy_template_settings_label(): void
     {
         // Strip Vue comments before checking — migration docblock
-        // mentions the old label as prose.
+        // mentions the old label as prose (selector-self-match guard
+        // UNIFORMITY per task-7aa48a default-on protocol).
         $stripped = preg_replace('/<!--[\s\S]*?-->/', '', $this->leftSidebar);
         $this->assertStringNotContainsString(
             '<Lang>Template settings</Lang>',
             $stripped,
             'LeftSidebar.vue must not render legacy `<Lang>Template settings</Lang>` (with no `& Layout`) on any nav-item label.'
+        );
+        // AI-800b regression-guard: AI-708-era Title-Case singular shape
+        // is also obsolete now that the cascade matches "Templates & layouts".
+        $this->assertStringNotContainsString(
+            '<Lang>Template &amp; Layout</Lang>',
+            $stripped,
+            'LeftSidebar.vue must not render legacy `<Lang>Template &amp; Layout</Lang>` (AI-708-era Title-Case singular) — superseded by AI-800b cascade.'
+        );
+    }
+
+    #[Test]
+    public function toolbar_tools_dropdown_renamed_to_templates_and_layouts(): void
+    {
+        // task-2026-05-17-c3f232 / AI-800b — recon-driven Slice B bundle:
+        // ToolbarToolsDropdown.vue is the THIRD entry point to the
+        // template-settings panel (alongside SettingsCustomize button +
+        // LeftSidebar nav-item). Designer's AI-800b dispatch named the
+        // right-rail button only; recon found this 3-dots dropdown as a
+        // sibling cascade site per the recon-driven Slice B uniformity
+        // rule (task-46127c).
+        $dropdown = (string) file_get_contents(base_path(
+            'packages/frontend-assets/resources/assets/ui/components/Toolbar/ToolbarToolsDropdown.vue'
+        ));
+        $this->assertStringContainsString(
+            'Templates &amp; layouts',
+            $dropdown,
+            'ToolbarToolsDropdown.vue 3-dots dropdown anchor must render "Templates &amp; layouts" text (AI-800b cross-surface cascade match).'
+        );
+    }
+
+    #[Test]
+    public function toolbar_tools_dropdown_does_not_render_legacy_template_layout_label(): void
+    {
+        $dropdown = (string) file_get_contents(base_path(
+            'packages/frontend-assets/resources/assets/ui/components/Toolbar/ToolbarToolsDropdown.vue'
+        ));
+        // Strip Vue comments — migration docblock mentions the old shapes
+        // as prose (selector-self-match guard UNIFORMITY).
+        $stripped = preg_replace('/<!--[\s\S]*?-->/', '', $dropdown);
+        // The dropdown body must NOT carry the AI-708-era "Template &amp; Layout"
+        // Title-Case singular shape — superseded by AI-800b cascade.
+        $this->assertStringNotContainsString(
+            'Template &amp; Layout',
+            $stripped,
+            'ToolbarToolsDropdown.vue must not render legacy `Template &amp; Layout` (AI-708-era Title-Case singular) — superseded by AI-800b cascade.'
         );
     }
 

@@ -61,15 +61,28 @@
 
                 <li>
                     <!-- task-2026-05-16-5fe1f9 / AI-698b item 2 — label
-                         renamed "Template Settings" → "Template & Layout"
-                         to match the canonical AI-708 / task-505ed5
-                         controlBox heading. Method name handleTemplateSettings
-                         stays — internal API, no consumer impact. -->
+                         disambiguated. This 3-dots dropdown item opens
+                         the same scope-picker panel as the right-rail
+                         button + left-nav-menu item. Method name
+                         handleTemplateSettings stays — internal API.
+
+                         task-2026-05-17-c3f232 / AI-800b — recon-driven
+                         Slice B bundle: cross-surface case cascade
+                         continued from AI-800a. 3-dots dropdown is the
+                         third entry point to template-settings panel;
+                         aligned with MainDrawer + bootstrap.js controlBox
+                         + RightSidebar h3 + SettingsCustomize right-rail
+                         button + LeftSidebar nav-menu to render "Templates
+                         & layouts" (sentence-case plural-plural). Designer's
+                         AI-800b dispatch named the right-rail button only;
+                         recon found this dropdown item as a sibling cascade
+                         site per the recon-driven Slice B uniformity rule
+                         (task-46127c). -->
                     <a @click="handleTemplateSettings" v-show="canShowSettingsCustomize" :class="{ active: buttonIsActive && !buttonIsActiveStyleEditor }">
                         <svg fill="currentColor" height="20" viewBox="96 96 960 960" width="20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M480 976q-82 0-155-31.5t-127.5-86Q143 804 111.5 731T80 576q0-83 32.5-156t88-127Q256 239 330 207.5T488 176q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880 538q0 115-70 176.5T640 776h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480 976Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480 896q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800 538q0-121-92.5-201.5T488 256q-136 0-232 93t-96 227q0 133 93.5 226.5T480 896Z"/>
                         </svg>
-                        Template &amp; Layout
+                        Templates &amp; layouts
                     </a>
                 </li>
 
