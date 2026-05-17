@@ -921,6 +921,16 @@ class ContentResource extends Resource
         // architecture jargon (folder/parent/child). A first-time
         // site owner reads it as "family tree". Renamed section to
         // "Where to put it" — answers the user's actual question.
+        //
+        // task-2026-05-17-4c289e / AI-779 Slice A — designer-greenlit
+        // structural split: for posts, render TWO labeled sub-sections
+        // (Parent page + Categories) instead of one combined tree.
+        // Visually separates page-hierarchy placement from taxonomy
+        // categorisation — IA confusion designer flagged. Both
+        // sub-sections still feed the existing `parent` + `categoryIds`
+        // hidden form fields via the mw-tree state binding (no schema
+        // change, no new form fields). For pages/products the original
+        // single-view shape is preserved.
         return Schemas\Components\Section::make('Where to put it')
             ->icon('heroicon-m-folder')
             ->schema(function (?Model $record, Schemas\Components\Utilities\Get $get) use ($firstBlogId, $firstShopId) {
@@ -947,6 +957,60 @@ class ContentResource extends Resource
                     $parent = $firstBlogId;
                 }
 
+                // AI-779 Slice A — post-specific two-section layout.
+                $isPost = ($record && $record->content_type === 'post') || $get('content_type') === 'post';
+                if ($isPost) {
+                    // Sub-section 1: Parent page (pages-only tree,
+                    // single-select). Existing skipCategories=true
+                    // hides category nodes so this picker is solely
+                    // about hierarchy placement.
+                    $parentViewData = [
+                        'selectedPage' => $parent,
+                        'singleSelect' => true,
+                        'skipCategories' => true,
+                        'contentType' => 'page',
+                        'skipPageId' => $record?->id,
+                        'isShopFilter' => 0,
+                        'selectedCategories' => [],
+                    ];
+                    // Sub-section 2: Categories (full tree with
+                    // category nodes visible + multi-select for
+                    // existing categoryIds). Page nodes still appear
+                    // — backend mw-tree doesn't yet support a
+                    // skipPages flag; AI-779b can ship that
+                    // refinement. For Slice A the IA-clarity win is
+                    // the LABELED separation of intent (this section
+                    // is for taxonomy; the section above is for
+                    // hierarchy).
+                    $categoriesViewData = [
+                        'selectedPage' => null,
+                        'singleSelect' => false,
+                        'skipCategories' => false,
+                        'contentType' => false,
+                        'skipPageId' => $record?->id,
+                        'isShopFilter' => 0,
+                        'selectedCategories' => $categoryIds,
+                    ];
+                    return [
+                        Schemas\Components\Section::make('Parent page')
+                            ->icon('heroicon-m-document-text')
+                            ->description('Where this post lives in the site hierarchy. Pick a page to nest under.')
+                            ->schema([
+                                Schemas\Components\View::make('mw-filament::admin.mw-tree')
+                                    ->viewData($parentViewData),
+                            ]),
+                        Schemas\Components\Section::make('Categories')
+                            ->icon('heroicon-m-tag')
+                            ->description('How readers discover this post via taxonomy. Pick one or more categories.')
+                            ->schema([
+                                Schemas\Components\View::make('mw-filament::admin.mw-tree')
+                                    ->viewData($categoriesViewData),
+                            ]),
+                    ];
+                }
+
+                // Non-post path (pages, products, default) — preserve
+                // the original single-view shape verbatim.
                 $viewData = [
                     'selectedPage' => $parent,
                     'singleSelect' => $singleSelect,
