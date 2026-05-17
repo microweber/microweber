@@ -160,6 +160,52 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
     z-index: 1;
 }
 
+/*
+ * task-2026-05-17-e06dec / AI-802  spacer label chrome leak.
+ *
+ * Pre-fix: every .mw-le-spacer rendered its height value ("20px") as
+ * visible text via the live-edit-spacer.js DOM-injected
+ * <span class="mw-le-spacer-info-content"> child. Designer audit:
+ * home demo had 16 spacers -> 16 "20px" labels scattered between
+ * content blocks, Heuristic-1 (eye-flow) failure between sections.
+ *
+ * Root cause: the existing .mw-le-resizable-scoped opacity:0 rule
+ * at line ~97 doesn't fire on .mw-le-spacer nodes that DON'T receive
+ * the .mw-le-resizable class -- the Resizable instance may not stamp
+ * it, OR the served CSS minifier collapses a "&:hover" parent away
+ * leaving a bare .mw-le-spacer-info-content {opacity:1} rule that
+ * wins over the scoped opacity:0 default. Confirmed in served
+ * liveedit.css line 3.
+ *
+ * Fix: explicit unconditional default-hide on .mw-le-spacer-info-content
+ * regardless of parent wrapper. Show ONLY on:
+ *   1. .mw-le-spacer:hover                                 (editor hover discovery)
+ *   2. .mw-le-spacer.mw-le-spacer-resizing                 (active resize feedback)
+ *   3. body.mw-editmode-show-spacer-labels descendants     (designer-spec opt-in toggle)
+ *
+ * Slice A (this ship): hide-by-default + hover/resize/body-class show.
+ * Slice B (deferred AI-802a): wire .mw-editmode-show-spacer-labels
+ * toggle into Theme Settings UI -- needs new affordance UI; out of
+ * scope for this Medium-priority chrome polish.
+ *
+ * Editor-only by construction: .mw-le-spacer / .mw-le-spacer-info /
+ * .mw-le-spacer-info-content are JS-injected by live-edit-spacer.js,
+ * which only runs on the editor canvas. Frontend probe confirmed clean
+ * by designer (fetch('/') -> 0 matches for module-spacer[...]20px).
+ */
+.mw-le-spacer-info-content {
+    opacity: 0;
+    transition: opacity .2s ease;
+}
+.mw-le-spacer:hover .mw-le-spacer-info-content,
+.mw-le-spacer.mw-le-spacer-resizing .mw-le-spacer-info-content,
+body.mw-editmode-show-spacer-labels .mw-le-spacer-info-content {
+    opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+    .mw-le-spacer-info-content { transition: none; }
+}
+
 /* /spacer */
 
 .mw-pointer-skip{
