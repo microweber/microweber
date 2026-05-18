@@ -143,12 +143,16 @@ class ShopAdaa6aAI867NouislideHandleOverflowContractTest extends TestCase
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
-    public function ai866_cart_counter_rule_preserved(): void
+    public function ai866_v2_cart_counter_rule_preserved(): void
     {
+        // Pin-evolved at task-6a307b (AI-866 v2 CHANGE absorption): v1 shipped
+        // 3-selector list with `var(--color-primary, #0d6efd)`; v2 ships
+        // specificity-bumped 2-selector list with literal `#0d6efd`. Sentinel
+        // updated to track the v2 shape.
         $source = $this->srcContents();
-        $this->assertStringContainsString('task-2026-05-18-2747f0', $source, 'AI-866 task marker must stay intact.');
-        $this->assertStringContainsString('.js-shopping-cart-quantity,', $source);
-        $this->assertStringContainsString('background-color: var(--color-primary, #0d6efd) !important;', $source, 'AI-866 cart-counter brand-blue cascade rule must stay intact.');
+        $this->assertStringContainsString('task-2026-05-18-2747f0', $source, 'AI-866 task marker must stay intact (carries v2 absorption).');
+        $this->assertStringContainsString('.js-shopping-cart-quantity.btn.btn-outline-primary,', $source, 'AI-866 v2 specificity-bumped selector must stay intact.');
+        $this->assertStringContainsString('background-color: #0d6efd !important;', $source, 'AI-866 v2 literal brand-blue background must stay intact.');
     }
 
     #[Test]

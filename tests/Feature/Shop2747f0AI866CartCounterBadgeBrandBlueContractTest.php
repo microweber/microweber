@@ -9,60 +9,73 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * task-2026-05-18-2747f0 / AI-866 — header cart-counter badge brand-blue
- * cascade. 4th instance of the Stage-2 salmon-cascade family on public
- * frontend.
+ * task-2026-05-18-2747f0 / AI-866 v2 — header cart-counter badge brand-blue
+ * cascade. CHANGE absorbed per designer dispatch task-2026-05-18-6a307b.
+ * 4th instance of the Stage-2 salmon-cascade family on public frontend.
  * Jira: https://microweber.atlassian.net/browse/AI-866
  *
  * Pre-fix the header cart-counter badge (`<span class="btn btn-outline-primary
  * btn-sm mx-2 js-shopping-cart-quantity">` rendered from
  * `Templates/Bootstrap/resources/views/modules/layouts/templates/menus/skin-1.blade.php`)
- * rendered salmon `rgb(244, 162, 97)` on `/shop`, `/cart`, `/premium-coffee-beans`
- * because Bootstrap's `btn-outline-primary` consumes the active template's
- * `$primary` SCSS variable which resolves to salmon (NOT brand-blue
- * `rgb(13, 110, 253)` per the AI-209 commerce-color contract).
+ * rendered salmon `rgb(244, 162, 97)` because Bootstrap's `btn-outline-primary`
+ * consumes the active template's `$primary` SCSS variable which resolves to
+ * salmon (NOT brand-blue `rgb(13, 110, 253)` per the AI-209 commerce-color
+ * contract).
  *
- * 4th instance of the Stage-2 salmon-cascade family on public frontend:
- *   - AI-794a auth-card CTA (`btn-primary`)
- *   - AI-855 admin Media Library upload button (cascade sibling)
- *   - AI-819 CHANGE primary-btn `:not()` selector chain
- *   - AI-866 header cart-counter badge (THIS)
- * = 4-instance threshold reached; LESSONS canonicalization landed in
- * `LESSONS.md` of the same date.
+ * 4th instance of the Stage-2 salmon-cascade family on public frontend
+ * (AI-794a + AI-855 + AI-819 CHANGE + AI-866 = 4-instance threshold);
+ * LESSONS canonicalization landed in `LESSONS.md` of the same date.
  *
- * Fix shape (single CSS rule + hover variant in Templates/Bootstrap/.../public-touch.css):
- *   .js-shopping-cart-quantity,
- *   .btn-shopping-cart .badge,
- *   .btn-shopping-cart > span.btn {
- *       background-color: var(--color-primary, #0d6efd) !important;
+ * v1 (a56fcd04c0) shipped 3-selector form with `var(--color-primary,
+ * #0d6efd) !important` — Tier-1 source-pin + Tier-2 served-mirror +
+ * Tier-2 served-bundle all green. Designer's Tier-3 runtime probe at
+ * fresh /shop load measured cart badge STILL salmon despite served-bundle
+ * green. Cascade diagnostic: v1 selectors landed at (0,2,0) specificity —
+ * same tier as the competing app.css rule `.btn.btn-outline,
+ * .btn.btn-outline-primary, .btn.btn-outline-secondary { ... !important
+ * = transparent }`; source-order tiebreak DID NOT favour public-touch.css
+ * as expected (root cause unconfirmed; AI-866d separate root-cause
+ * investigation candidate exploring the `--mw-primary-color: #f4a261`
+ * token at app.css :root).
+ *
+ * v2 fix shape (designer's Path B — surgical specificity bump):
+ *   .js-shopping-cart-quantity.btn.btn-outline-primary,
+ *   .btn-shopping-cart > span.btn.btn-outline-primary {
+ *       background-color: #0d6efd !important;
  *       color: #fff !important;
- *       border-color: var(--color-primary, #0d6efd) !important;
+ *       border-color: #0d6efd !important;
  *   }
  *
- * Token choice — `var(--color-primary, #0d6efd)` consumes the existing
- * `:root --color-primary: #0d6efd` declared at public-touch.css:8.
- * NOT `var(--primary-500)` — that token lives in `microweber-theme-v3.scss`
- * (admin Filament theme), NOT in the public-frontend pipeline. Token-name
- * choice by stylesheet pipeline is the LESSONS-formalised two-modality
- * split between admin + public salmon-cascade fixes.
+ * Changes from v1: (a) added `.btn.btn-outline-primary` to BOTH selectors
+ * to raise specificity to (0,3,0) — beats all current (0,2,0) competitors
+ * regardless of source-order shenanigans; (b) dropped `.btn-shopping-cart
+ * .badge` selector — no `.badge` child exists in the rendered DOM per the
+ * cascade probe; (c) swapped `var(--color-primary, #0d6efd)` to literal
+ * `#0d6efd` so token-shadow is ruled out independently. v1's discipline
+ * calls (public-modality token convention + class-chain combinator) STAY;
+ * only specificity + literal-value adjustments change.
  *
  * NOT inside the touch-viewport @media block — defect manifests at BOTH
  * 1440 desktop AND 390 mobile; fix must be viewport-agnostic.
  *
- * Acceptance gates (verified at HEAD):
- *   - Tier-1 source-pin: AI-866 rule + hover variant in public-touch.css
- *   - Tier-2 served-page: curl /templates/bootstrap/css/public-touch.css
- *     returns the new rule body
- *   - Tier-2 mirror: src + public/ mirror byte-identical
- *   - Tier-3 runtime (Playwright): getComputedStyle().backgroundColor =
- *     'rgb(13, 110, 253)' on cart-counter badges across /shop /cart
- *     /premium-coffee-beans (deferred to designer's verify-before-accept)
+ * Pin-evolution discipline: this test file pin-evolves in place per the
+ * LESSONS rule (v1 pins replaced with v2 pins; NO parallel test). v1 task-id
+ * `task-2026-05-18-2747f0` retained — same task carries CHANGE absorption.
  *
- * 4-group structure: A = source-presence (AI-866 docblock + rule body + hover);
- * B = served-mirror byte-identity + public-touch.css carries the rule;
+ * Acceptance gates:
+ *   - Tier-1 source-pin: v2 rule + hover variant in public-touch.css
+ *   - Tier-2 served-mirror: src + public/ byte-identical
+ *   - Tier-3 runtime (designer): getComputedStyle().backgroundColor =
+ *     'rgb(13, 110, 253)' on cart-counter badge at fresh /shop load
+ *     BEFORE marking Done — MANDATORY for salmon-cascade family ships
+ *     post-AI-866 v1's missed-runtime-probe lesson.
+ *
+ * 4-group structure: A = v2 source-presence (specificity-bumped selectors +
+ * literal hex + hover variant + markers); B = served-mirror byte-identity;
  * C = scope discipline (rule OUTSIDE touch-viewport @media; viewport-agnostic);
  * D = back-compat regression sentinels (existing AI-516 cart-badge tap-target
- * rule preserved; AI-518/519/520 sibling-rules preserved).
+ * rule preserved; sibling AI markers preserved) + v1-shape-absent negative
+ * regression guards.
  */
 class Shop2747f0AI866CartCounterBadgeBrandBlueContractTest extends TestCase
 {
@@ -91,39 +104,61 @@ class Shop2747f0AI866CartCounterBadgeBrandBlueContractTest extends TestCase
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
-    public function ai866_rule_body_carries_brand_blue_cascade_override(): void
+    public function ai866_v2_rule_body_carries_specificity_bumped_selectors_and_literal_hex(): void
     {
         $source = $this->srcContents();
-        // Find the AI-866 rule selector block. The 3-selector list:
-        //   .js-shopping-cart-quantity,
-        //   .btn-shopping-cart .badge,
-        //   .btn-shopping-cart > span.btn {
-        $this->assertStringContainsString('.js-shopping-cart-quantity,', $source, 'AI-866 must include .js-shopping-cart-quantity selector.');
-        $this->assertStringContainsString('.btn-shopping-cart .badge,', $source, 'AI-866 must include .btn-shopping-cart .badge selector (defensive — future badge-class).');
-        $this->assertStringContainsString('.btn-shopping-cart > span.btn {', $source, 'AI-866 must include .btn-shopping-cart > span.btn selector (current rendered DOM shape).');
-        // Properties — brand-blue via the public-frontend token convention.
-        $this->assertMatchesRegularExpression(
-            '/background-color:\s*var\(--color-primary,\s*#0d6efd\)\s*!important;/',
+        // v2 selectors (specificity bumped to (0,3,0) — beats all (0,2,0)
+        // competitors regardless of source-order):
+        //   .js-shopping-cart-quantity.btn.btn-outline-primary,
+        //   .btn-shopping-cart > span.btn.btn-outline-primary {
+        //       background-color: #0d6efd !important;
+        //       color: #fff !important;
+        //       border-color: #0d6efd !important;
+        //   }
+        $this->assertStringContainsString(
+            '.js-shopping-cart-quantity.btn.btn-outline-primary,',
             $source,
-            'AI-866 rule must carry background-color: var(--color-primary, #0d6efd) !important.'
+            'AI-866 v2 must include .js-shopping-cart-quantity.btn.btn-outline-primary selector — specificity bump to (0,3,0).'
+        );
+        $this->assertStringContainsString(
+            '.btn-shopping-cart > span.btn.btn-outline-primary {',
+            $source,
+            'AI-866 v2 must include .btn-shopping-cart > span.btn.btn-outline-primary selector — specificity bump to (0,3,0).'
+        );
+        // Properties — literal #0d6efd (NOT var() — token-shadow ruled out
+        // independently of any future AI-866d diagnostic).
+        $this->assertMatchesRegularExpression(
+            '/background-color:\s*#0d6efd\s*!important;/',
+            $source,
+            'AI-866 v2 must carry background-color: #0d6efd !important (literal hex, NOT var() — token-shadow ruled out).'
         );
         $this->assertMatchesRegularExpression(
             '/color:\s*#fff\s*!important;/',
             $source,
-            'AI-866 rule must carry color: #fff !important for WCAG contrast against brand-blue bg.'
+            'AI-866 v2 must carry color: #fff !important for WCAG contrast against brand-blue bg.'
         );
         $this->assertMatchesRegularExpression(
-            '/border-color:\s*var\(--color-primary,\s*#0d6efd\)\s*!important;/',
+            '/border-color:\s*#0d6efd\s*!important;/',
             $source,
-            'AI-866 rule must carry border-color: var(--color-primary, #0d6efd) !important — defeats Bootstrap btn-outline-primary salmon border.'
+            'AI-866 v2 must carry border-color: #0d6efd !important — defeats Bootstrap btn-outline-primary salmon border.'
         );
     }
 
     #[Test]
-    public function ai866_hover_variant_present(): void
+    public function ai866_v2_hover_variant_specificity_bumped(): void
     {
         $source = $this->srcContents();
-        $this->assertStringContainsString('.js-shopping-cart-quantity:hover,', $source, 'AI-866 must include hover variant for the brand-blue cascade.');
+        // v2 hover selectors carry same (0,3,0) specificity bump.
+        $this->assertStringContainsString(
+            '.js-shopping-cart-quantity.btn.btn-outline-primary:hover,',
+            $source,
+            'AI-866 v2 hover must include the specificity-bumped selector chain.'
+        );
+        $this->assertStringContainsString(
+            '.btn-shopping-cart > span.btn.btn-outline-primary:hover {',
+            $source,
+            'AI-866 v2 hover must include the .btn-shopping-cart specificity-bumped selector.'
+        );
         $this->assertMatchesRegularExpression(
             '/background-color:\s*#0b5ed7\s*!important;/',
             $source,
@@ -165,12 +200,13 @@ class Shop2747f0AI866CartCounterBadgeBrandBlueContractTest extends TestCase
     }
 
     #[Test]
-    public function served_mirror_carries_ai866_rule(): void
+    public function served_mirror_carries_ai866_v2_rule(): void
     {
         $served = (string) file_get_contents($this->servedMirrorPath());
         $this->assertStringContainsString('task-2026-05-18-2747f0', $served);
-        $this->assertStringContainsString('.js-shopping-cart-quantity,', $served);
-        $this->assertStringContainsString('background-color: var(--color-primary, #0d6efd) !important;', $served);
+        $this->assertStringContainsString('.js-shopping-cart-quantity.btn.btn-outline-primary,', $served);
+        $this->assertStringContainsString('.btn-shopping-cart > span.btn.btn-outline-primary {', $served);
+        $this->assertStringContainsString('background-color: #0d6efd !important;', $served);
     }
 
     // ─────────────────────────────────────────────────────────────────────
@@ -257,5 +293,48 @@ class Shop2747f0AI866CartCounterBadgeBrandBlueContractTest extends TestCase
         $this->assertStringContainsString('AI-866', $lessons);
         $this->assertStringContainsString('var(--color-primary, #0d6efd)', $lessons, 'LESSONS entry must document the public-frontend token convention (NOT --primary-500 admin convention).');
         $this->assertStringContainsString('Two-modality split', $lessons, 'LESSONS entry must document the admin/public token-name split.');
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // v1-shape-absent negative regression guards (added at v2 absorption)
+    // ─────────────────────────────────────────────────────────────────────
+
+    #[Test]
+    public function v1_low_specificity_three_selector_block_is_absent(): void
+    {
+        // Comment-stripped slice (selector-self-match guard, 22+ recurrences).
+        $stripped = $this->stripCssComments($this->srcContents());
+        // v1 carried a 3-selector list at (0,2,0):
+        //   .js-shopping-cart-quantity,
+        //   .btn-shopping-cart .badge,
+        //   .btn-shopping-cart > span.btn { ... }
+        // The `.btn-shopping-cart .badge` selector specifically distinguished v1
+        // from v2 — DOM has no .badge child per the cascade probe + Path B
+        // explicitly drops it. If this selector reappears, v1 has crept back.
+        $this->assertStringNotContainsString(
+            '.btn-shopping-cart .badge',
+            $stripped,
+            'AI-866 v1 .btn-shopping-cart .badge selector must NOT reappear — Path B dropped it (no .badge child in rendered DOM).'
+        );
+    }
+
+    #[Test]
+    public function v1_var_color_primary_token_consumer_is_absent_in_ai866_block(): void
+    {
+        // Comment-stripped slice — docblock prose mentions `var(--color-primary,
+        // #0d6efd)` as the v1 token convention, which is legitimate; only the
+        // RULE BODY must NOT carry it (Path B specifies literal #0d6efd).
+        $stripped = $this->stripCssComments($this->srcContents());
+        // Find the v2 selector list opening + slice to the matching `}` close.
+        $ai866Pos = strpos($stripped, '.js-shopping-cart-quantity.btn.btn-outline-primary,');
+        $this->assertNotFalse($ai866Pos, 'v2 selector chain must exist before this negative regression guard can run.');
+        $closeBracePos = strpos($stripped, '}', $ai866Pos);
+        $this->assertNotFalse($closeBracePos);
+        $ruleBody = substr($stripped, $ai866Pos, $closeBracePos - $ai866Pos);
+        $this->assertStringNotContainsString(
+            'var(--color-primary',
+            $ruleBody,
+            'AI-866 v2 rule body must use literal #0d6efd (NOT var(--color-primary, ...)) — Path B rules out token-shadow.'
+        );
     }
 }

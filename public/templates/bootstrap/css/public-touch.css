@@ -1540,50 +1540,57 @@ html.dark {
     min-height: 44px;
 }
 
-/* task-2026-05-18-2747f0 / AI-866 — header cart-counter badge brand-blue
-   cascade fix. 4th instance of the Stage-2 salmon-cascade family on the
-   public frontend (AI-794a auth-card CTA + AI-855 admin upload-btn +
-   AI-819 CHANGE primary-btn-color-rules + AI-866 cart-counter badge =
-   4-instance threshold reached; LESSONS canonicalization due, see
-   LESSONS.md entry of the same date).
+/* task-2026-05-18-2747f0 / AI-866 v2 — header cart-counter badge brand-blue
+   cascade fix. CHANGE absorbed per designer dispatch task-2026-05-18-6a307b
+   (commit f3542d9051 prior). 4th instance of the Stage-2 salmon-cascade
+   family on the public frontend (AI-794a + AI-855 + AI-819 CHANGE +
+   AI-866 = 4-instance threshold; LESSONS canonicalization shipped on
+   2026-05-18).
 
-   The badge is rendered as `<span class="btn btn-outline-primary btn-sm
-   mx-2 js-shopping-cart-quantity">` from layouts/templates/menus/skin-1.blade.php.
-   Bootstrap's `btn-outline-primary` consumes `$primary` which the active
-   Bootstrap template overrides to salmon `rgb(244, 162, 97)`. That
-   override wins over the AI-209 brand-blue contract at every selector
-   that doesn't explicitly re-anchor.
+   v1 (a56fcd04c0) shipped 3-selector form with `var(--color-primary,
+   #0d6efd) !important` — Tier-1 source-pin + Tier-2 served-mirror +
+   Tier-2 served-bundle all green. Designer's Tier-3 runtime probe at
+   fresh /shop load measured cart badge STILL salmon `rgb(244, 162, 97)`
+   despite the rule reaching the served bundle. Cascade diagnostic
+   identified the badge surface as `<span class="btn btn-outline-primary
+   btn-sm mx-2 js-shopping-cart-quantity">`; AI-866 v1 selectors landed
+   at specificity (0,2,0) — same tier as the competing app.css rule
+   `.btn.btn-outline, .btn.btn-outline-primary, .btn.btn-outline-secondary
+    { background-color: transparent !important }`. Source-order tiebreak
+   SHOULD have favoured public-touch.css (loads after app.css) but did
+   NOT — root cause unconfirmed (var-resolution shadow OR JS repaint
+   suspected; designer flagged AI-866d as separate root-cause-investigation
+   candidate exploring the `--mw-primary-color: #f4a261` token at
+   app.css :root).
 
-   Re-anchored via `var(--color-primary, #0d6efd) !important` consuming
-   the existing `:root --color-primary: #0d6efd` token (line 8 of this
-   file) with literal hex fallback. Three selectors per the designer's
-   defensive spec — direct `.js-shopping-cart-quantity` + 2 contextual
-   `.btn-shopping-cart`-scoped variants cover all current rendered DOM
-   shapes + any future badge-class addition.
+   v2 ships Path B (designer's surgical preference): bump selector
+   specificity to (0,3,0) by adding `.btn.btn-outline-primary` to BOTH
+   selectors + drop `.btn-shopping-cart .badge` (no `.badge` child
+   exists in the rendered DOM per the cascade probe) + swap from
+   `var(--color-primary, #0d6efd)` to literal `#0d6efd` so token-shadow
+   is ruled out independently of any future AI-866d diagnostic. The
+   token-name + selector-list discipline calls from v1 stay (Bootstrap
+   public-modality NOT admin `--primary-NNN`; class-chain combinator
+   `> span.btn`). Hover variant matched at same (0,3,0).
 
    NOT inside the touch-viewport @media (lines 665+) — defect manifests
    at BOTH 1440 desktop AND 390 mobile per Round 28 runtime evidence;
-   the fix must be viewport-agnostic. Light + dark mode both pass per
-   the audit-light-and-dark-separately rule.
+   fix must be viewport-agnostic.
 
-   Sibling tickets in the same family (next-available-Jira numbers
-   awaiting filing): salmon `.btn-primary` on public-frontend (next
-   after AI-866). The unified Bootstrap-template `$primary` SCSS
-   variable re-anchor would close the whole family at one stroke;
-   AI-866 ships per-selector !important per the designer's preference
-   for surgical wins over wide-blast SCSS variable changes (and the
-   AI-863 dispatch's separate "SCSS-variable approach greenlit" plan
-   covers the wide-blast path when filed). */
-.js-shopping-cart-quantity,
-.btn-shopping-cart .badge,
-.btn-shopping-cart > span.btn {
-    background-color: var(--color-primary, #0d6efd) !important;
+   Tier-3 runtime probe is MANDATORY for every future ship in the
+   salmon-cascade family per AI-866 v1's missed-runtime-probe lesson:
+   `getComputedStyle(el).backgroundColor === 'rgb(13, 110, 253)'` at a
+   fresh page load BEFORE marking Done. v1 escaped Tier-1+Tier-2 PASS
+   despite Tier-3 FAIL — the strongest validation of the
+   css-ship-3-tier-probe discipline to date. */
+.js-shopping-cart-quantity.btn.btn-outline-primary,
+.btn-shopping-cart > span.btn.btn-outline-primary {
+    background-color: #0d6efd !important;
     color: #fff !important;
-    border-color: var(--color-primary, #0d6efd) !important;
+    border-color: #0d6efd !important;
 }
-.js-shopping-cart-quantity:hover,
-.btn-shopping-cart .badge:hover,
-.btn-shopping-cart > span.btn:hover {
+.js-shopping-cart-quantity.btn.btn-outline-primary:hover,
+.btn-shopping-cart > span.btn.btn-outline-primary:hover {
     background-color: #0b5ed7 !important;
     color: #fff !important;
     border-color: #0b5ed7 !important;
