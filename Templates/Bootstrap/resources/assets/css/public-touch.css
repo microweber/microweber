@@ -1539,3 +1539,52 @@ html.dark {
 .slider-button {
     min-height: 44px;
 }
+
+/* task-2026-05-18-2747f0 / AI-866 — header cart-counter badge brand-blue
+   cascade fix. 4th instance of the Stage-2 salmon-cascade family on the
+   public frontend (AI-794a auth-card CTA + AI-855 admin upload-btn +
+   AI-819 CHANGE primary-btn-color-rules + AI-866 cart-counter badge =
+   4-instance threshold reached; LESSONS canonicalization due, see
+   LESSONS.md entry of the same date).
+
+   The badge is rendered as `<span class="btn btn-outline-primary btn-sm
+   mx-2 js-shopping-cart-quantity">` from layouts/templates/menus/skin-1.blade.php.
+   Bootstrap's `btn-outline-primary` consumes `$primary` which the active
+   Bootstrap template overrides to salmon `rgb(244, 162, 97)`. That
+   override wins over the AI-209 brand-blue contract at every selector
+   that doesn't explicitly re-anchor.
+
+   Re-anchored via `var(--color-primary, #0d6efd) !important` consuming
+   the existing `:root --color-primary: #0d6efd` token (line 8 of this
+   file) with literal hex fallback. Three selectors per the designer's
+   defensive spec — direct `.js-shopping-cart-quantity` + 2 contextual
+   `.btn-shopping-cart`-scoped variants cover all current rendered DOM
+   shapes + any future badge-class addition.
+
+   NOT inside the touch-viewport @media (lines 665+) — defect manifests
+   at BOTH 1440 desktop AND 390 mobile per Round 28 runtime evidence;
+   the fix must be viewport-agnostic. Light + dark mode both pass per
+   the audit-light-and-dark-separately rule.
+
+   Sibling tickets in the same family (next-available-Jira numbers
+   awaiting filing): salmon `.btn-primary` on public-frontend (next
+   after AI-866). The unified Bootstrap-template `$primary` SCSS
+   variable re-anchor would close the whole family at one stroke;
+   AI-866 ships per-selector !important per the designer's preference
+   for surgical wins over wide-blast SCSS variable changes (and the
+   AI-863 dispatch's separate "SCSS-variable approach greenlit" plan
+   covers the wide-blast path when filed). */
+.js-shopping-cart-quantity,
+.btn-shopping-cart .badge,
+.btn-shopping-cart > span.btn {
+    background-color: var(--color-primary, #0d6efd) !important;
+    color: #fff !important;
+    border-color: var(--color-primary, #0d6efd) !important;
+}
+.js-shopping-cart-quantity:hover,
+.btn-shopping-cart .badge:hover,
+.btn-shopping-cart > span.btn:hover {
+    background-color: #0b5ed7 !important;
+    color: #fff !important;
+    border-color: #0b5ed7 !important;
+}
