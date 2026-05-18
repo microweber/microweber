@@ -1588,3 +1588,39 @@ html.dark {
     color: #fff !important;
     border-color: #0b5ed7 !important;
 }
+
+/* task-2026-05-18-adaa6a / AI-867 — noUi-slider handle viewport overflow at mobile 390.
+   Pre-fix the price-range filter at /shop renders the noUi-slider with handles
+   that overflow the viewport's right edge by ~4px (`docW=394` vs `viewportW=390`)
+   because the library positions handles via `transform: translate(-50%, 0)` from
+   a percentage-positioned origin. At the upper bound (100% slider value), the
+   handle's centroid sits exactly at the track's right edge — the -50% translate
+   leaves 50% of the 34px handle width (~17px) extending past. The track sits
+   flush against the sidebar's right edge with no right-padding, so the
+   protruding 17px lands outside the 390px viewport.
+
+   Option A per designer (preferred over B): symmetric-bounded margin inset on
+   the noUi-target. 8px left + 18px right (asymmetric — the 18px right
+   compensates for the upper-handle's half-width = 17px + 1px breathing,
+   while 8px left provides modest breathing for the lower-handle which only
+   half-protrudes when value = 0%; designer's spec values preserved verbatim).
+
+   Avoided the alternative `transform: translate(-50%) !important` library-
+   fighting approach — that visually breaks handle centering at intermediate
+   slider values (the centroid drift becomes proportional to handle width,
+   not handle position).
+
+   Library-agnostic — fix targets noUi-slider's `.noUi-target` / `.noUi-horizontal`
+   classes (the canonical library mount points). Renders correctly for any
+   future widget that wraps the same noUi DOM contract (e.g. multi-range
+   slider, datepicker plugin built on noUi).
+
+   1st instance of 3rd-party-widget-overflow-at-mobile defect family per
+   designer's LESSONS canonicalization watch — NOT promoting to LESSONS yet
+   (1-instance below 3-instance threshold). Sibling-watch list: datepicker,
+   multi-select dropdown, modal, range-slider widgets. */
+.noUi-target,
+.noUi-horizontal {
+    margin-left: 8px;
+    margin-right: 18px;
+}
