@@ -532,7 +532,15 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                     </form>
 
                     <div class="form-footer">
-                        <a href="#" class="forgot-password-link">Forgot your password?</a>
+                        {{-- task-2026-05-18-77da7a / AI-863 — replace `href="#"` JS-intercept
+                             with real route URL so the AI-794 standalone
+                             `/forgot-password` chrome (commit 4ecba69fd0) is reachable
+                             from the natural navigation. Pre-fix the JS click-handler
+                             at the bottom of this file swapped an in-place forgot panel,
+                             orphaning the polished standalone chrome. Sibling fix-shape:
+                             L672 + L704 below get the same treatment via `route('login')`.
+                             JS intercept block was removed in the same commit. --}}
+                        <a href="{{ route('password.request') }}" class="forgot-password-link">Forgot your password?</a>
                     </div>
                 </div>
 
@@ -669,7 +677,8 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                         </form>
 
                         <div class="form-footer">
-                            Already have an account? <a href="#" class="login-link">Sign in</a>
+                            {{-- AI-863 — real route URL (was href="#" + JS intercept). --}}
+                            Already have an account? <a href="{{ route('login') }}" class="login-link">Sign in</a>
                         </div>
                     </div>
                 @endif
@@ -701,7 +710,8 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                     </form>
 
                     <div class="form-footer">
-                        <a href="#" class="login-link">Back to Login</a>
+                        {{-- AI-863 — real route URL (was href="#" + JS intercept). --}}
+                        <a href="{{ route('login') }}" class="login-link">Back to Login</a>
                     </div>
                 </div>
             @endif
@@ -731,20 +741,16 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                 });
             });
 
-            // Link handlers
-            document.querySelectorAll('.forgot-password-link').forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector('[data-tab="forgot"]').click();
-                });
-            });
-
-            document.querySelectorAll('.login-link').forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector('[data-tab="login"]').click();
-                });
-            });
+            // task-2026-05-18-77da7a / AI-863 — JS click-intercept handlers for
+            // .forgot-password-link + .login-link REMOVED. The handlers used to
+            // call e.preventDefault() + swap to an in-place forgot panel, which
+            // orphaned the AI-794 standalone /forgot-password chrome (commit
+            // 4ecba69fd0). The 3 anchors now carry real route URLs
+            // (route('password.request') + route('login') x2) so natural
+            // navigation reaches the polished standalone chrome. Browser
+            // Back/Forward + middle-click + shareable URLs + screen-reader
+            // semantics all restored. Tab-switching JS for the visible
+            // .auth-tab buttons above is preserved (separate UI concern).
 
             // Alert helper functions
             function showAlert(message, type = 'danger') {
