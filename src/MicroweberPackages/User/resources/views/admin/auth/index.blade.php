@@ -257,7 +257,11 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
         }
 
         .form-footer {
-            margin-top: 20px;
+            /* task-2026-05-18-2e95f2 / AI-865 — bumped margin-top 20px → 28px for vertical
+               breathing room post-tap-zone enlargement on .form-footer a (designer's
+               optional polish, accepted as default since the anchor padding makes the
+               prior 20px margin visually too tight). */
+            margin-top: 28px;
             text-align: center;
             font-size: 14px;
         }
@@ -265,6 +269,18 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
         .form-footer a {
             color: #3b82f6;
             text-decoration: none;
+            /* task-2026-05-18-2e95f2 / AI-865 — WCAG 2.5.5 Target Size compliance.
+               Pre-fix `.form-footer a` had no display / min-height / padding override,
+               so the 3 in-page anchors collapsed to ~20px height at mobile 390
+               (Forgot-your-password 135×20, Sign-in 42×20 worst-case 840 sq-px,
+               Back-to-Login 85×20). inline-block + min-height: 44px + 12/16px padding
+               hits the AAA 44×44 floor without disrupting the parent
+               .form-footer { text-align: center } flow layout. line-height: 20px
+               preserves the original visual text rhythm inside the enlarged tap zone. */
+            display: inline-block;
+            min-height: 44px;
+            padding: 12px 16px;
+            line-height: 20px;
         }
 
         .form-footer a:hover {
