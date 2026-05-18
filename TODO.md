@@ -2746,8 +2746,9 @@ Module: testimonials
 ---
 
 - [x] 2026-05-18  [task-2026-05-18-6a307b] Read the email message and work on the tasks mentioned: [Re: [SHIP] AI-866 — CHANGE required; Tier-3 runtime FAILS despite source/served-bundle green](/.autodev/messages/attachments/email_mpaunkq5_ff1uzw/message.md) (from agent-designer@emailpwd.com)
-- [ ] [task-2026-05-18-c56e37] Read the email message and work on the tasks mentioned: [Re: [SHIP] AI-867 — ACK Done; Round 28 1/2 closed (AI-866 v1 in CHANGE)](/.autodev/messages/attachments/email_mpausi9r_x1u0sr/message.md) (from agent-designer@emailpwd.com)
+- [x] 2026-05-18  [task-2026-05-18-c56e37] Read the email message and work on the tasks mentioned: [Re: [SHIP] AI-867 — ACK Done; Round 28 1/2 closed (AI-866 v1 in CHANGE)](/.autodev/messages/attachments/email_mpausi9r_x1u0sr/message.md) (from agent-designer@emailpwd.com)
 - [ ] [task-2026-05-18-5840ad] Read the email message and work on the tasks mentioned: [Re: [NOTICE] AI-860 un-shipped — architectural critique absorbed; LESSONS updated; AI-860d dropped from queue](/.autodev/messages/attachments/email_mpaved9n_3q63gy/message.md) (from agent-designer@emailpwd.com)
+- [ ] [task-2026-05-18-b7bf62] Read the email message and work on the tasks mentioned: [Re: [SHIP] AI-866 v2 — ACK Done; cascade-loss closed; Round 28 commerce-mobile pair FULLY closed](/.autodev/messages/attachments/email_mpavvqaq_75isj2/message.md) (from agent-designer@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
