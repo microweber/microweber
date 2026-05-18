@@ -503,12 +503,20 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 
                         <div class="form-group">
                             <label class="form-label">Email or Username</label>
-                            <input type="text" class="form-control" name="username" value="{{ old('username') }}"
+                            {{-- task-2026-05-18-78caa0 / AI-864 — added autocomplete="username"
+                                 per WHATWG HTML autocomplete spec §4.10.18.7 — `username` is
+                                 the primary account identifier (works for both email and
+                                 username login-key shapes). Adjacent audit while fixing the
+                                 main Register-tab password defect; see L645/L651 for the
+                                 mandatory fix. --}}
+                            <input type="text" class="form-control" autocomplete="username" name="username" value="{{ old('username') }}"
                                    required autofocus>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Password</label>
+                            {{-- L512 — Login Password correctly carries `current-password`
+                                 (existing-account sign-in). Untouched by AI-864. --}}
                             <input type="password" class="form-control" autocomplete="current-password" name="password"
                                    required>
                         </div>
@@ -625,30 +633,47 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 
                             <div class="form-group">
                                 <label class="form-label">Full Name</label>
-                                <input type="text" class="form-control" name="first_name"
+                                {{-- AI-864 adjacent audit — autocomplete="name" per WHATWG spec
+                                     for full-name proper-name autofill. --}}
+                                <input type="text" class="form-control" autocomplete="name" name="first_name"
                                        value="{{ old('first_name') }}" required>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}"
+                                {{-- AI-864 adjacent audit — autocomplete="email" per WHATWG spec
+                                     for email-input autofill. --}}
+                                <input type="email" class="form-control" autocomplete="email" name="email" value="{{ old('email') }}"
                                        required>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Username</label>
-                                <input type="text" class="form-control" name="username" value="{{ old('username') }}">
+                                {{-- AI-864 adjacent audit — autocomplete="username" per WHATWG spec
+                                     for primary-account-identifier autofill. --}}
+                                <input type="text" class="form-control" autocomplete="username" name="username" value="{{ old('username') }}">
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Password</label>
-                                <input type="password" class="form-control" autocomplete="current-password"
+                                {{-- task-2026-05-18-78caa0 / AI-864 — autocomplete="new-password"
+                                     per WHATWG HTML autocomplete spec §4.10.18.7. Pre-fix
+                                     `current-password` told browsers this was an existing-account
+                                     sign-in form, silently pre-filling Register Password with the
+                                     user's saved /login password from prior sessions — privacy
+                                     leak on shared/public devices + UX failure on the registration
+                                     happy path. `new-password` instructs the browser to (a) NOT
+                                     autofill prior saved credentials AND (b) offer password-manager
+                                     generation for a fresh strong password. --}}
+                                <input type="password" class="form-control" autocomplete="new-password"
                                        name="password" required>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control" autocomplete="current-password"
+                                {{-- AI-864 — same fix-shape applied to Confirm Password to
+                                     match the primary Password field's autocomplete contract. --}}
+                                <input type="password" class="form-control" autocomplete="new-password"
                                        name="password_confirmation" required>
                             </div>
 
@@ -694,7 +719,9 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 
                         <div class="form-group">
                             <label class="form-label">Email Address</label>
-                            <input type="email" class="form-control" name="email" value="{{ old('email') }}" required
+                            {{-- AI-864 adjacent audit — autocomplete="email" on Forgot Password
+                                 email input so the browser autofills the user's saved email. --}}
+                            <input type="email" class="form-control" autocomplete="email" name="email" value="{{ old('email') }}" required
                                    autofocus>
                         </div>
 
