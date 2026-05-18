@@ -8,7 +8,6 @@ use Modules\Blog\Livewire\BlogComponent;
 use Modules\Shop\Livewire\Traits\ShopCategoriesTrait;
 use Modules\Shop\Livewire\Traits\ShopCustomFieldsTrait;
 use Modules\Shop\Livewire\Traits\ShopTagsTrait;
-use MicroweberPackages\Filament\Support\AdminFixtureGuard;
 use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\Category\Models\Category;
 use Modules\Page\Models\Page;
@@ -208,18 +207,6 @@ class ShopComponent extends BlogComponent
         $productsQuery->where('is_active', 1);
         $productsQuery->where('is_deleted', 0);
 
-        // task-2026-05-17-f15cce / AI-860 — exclude PHPUnit fixture / Faker /
-        // Seeder products from public storefront. Filters BOTH title + url
-        // because the slug derives from title at content-create time; either
-        // column can leak the fixture marker. Real merchant products with
-        // legitimate substrings are unaffected — pattern shapes are narrow
-        // enough to target only the test-fixture families (see
-        // AdminFixtureGuard::FIXTURE_SLUG_LIKE_PATTERNS for canonical list).
-        foreach (AdminFixtureGuard::FIXTURE_SLUG_LIKE_PATTERNS as $mwAi860FixtureLikePattern) {
-            $productsQuery->where('title', 'NOT LIKE', $mwAi860FixtureLikePattern);
-            $productsQuery->where('url', 'NOT LIKE', $mwAi860FixtureLikePattern);
-        }
-
         $filters = [];
         if (!empty($this->keywords)) {
             $filters['keyword'] = $this->keywords;
@@ -252,13 +239,6 @@ class ShopComponent extends BlogComponent
             $productsQueryAll->where('parent', $mainPageId);
         }
         $productsQueryAll->where('is_active', 1);
-        // AI-860 — mirror the fixture-leak filter on the all-products
-        // companion query so derived filter counts (price range, tags,
-        // categories) don't include fixture rows either.
-        foreach (AdminFixtureGuard::FIXTURE_SLUG_LIKE_PATTERNS as $mwAi860FixtureLikePattern) {
-            $productsQueryAll->where('title', 'NOT LIKE', $mwAi860FixtureLikePattern);
-            $productsQueryAll->where('url', 'NOT LIKE', $mwAi860FixtureLikePattern);
-        }
         $allProducts = $productsQueryAll->get();
 
         $availableTags = [];

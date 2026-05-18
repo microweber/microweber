@@ -49,11 +49,15 @@ use Tests\TestCase;
  *     Fallback price reads `content_data($for_id)['price']` (with
  *     `0` fallback for misconfigured products).
  *
- * Acceptance gate (verified at HEAD via curl against a non-fixture
- * product `premium-coffee-beans` created for the runtime probe):
+ * Acceptance gate (verified at HEAD via curl when product data exists):
  *   - curl /shop | grep -oc 'add-to-cart' ≥ 1 (per visible product card)
- *   - curl /premium-coffee-beans | grep -c 'add-to-cart' ≥ 2
- *   - curl /CheckoutResourceTest-Product = 404 (AI-860 still in force)
+ *   - curl /<product-slug> | grep -c 'add-to-cart' ≥ 2 (detail page)
+ *
+ * NOTE: AI-860 runtime fixture-detection guard was un-shipped per task-4ebf70
+ * (human architectural critique: prod request paths should not carry
+ * fixture-detection logic; root-cause fix is data-layer cleanliness).
+ * The historical AI-860 sentinel here was inverted to assert the
+ * runtime guard STAYS removed.
  *
  * 5-group structure: A = product-card.blade.php source-presence;
  * B = product-card-skin-1.blade.php source-presence (sibling skin);
@@ -234,15 +238,19 @@ class Public046a37AI861AddToCartCtaContractTest extends TestCase
     }
 
     #[Test]
-    public function ai860_fixture_filter_unaffected_by_ai861(): void
+    public function fixture_filter_runtime_guard_is_removed_per_task_4ebf70(): void
     {
-        // AI-861 work is layered on top of AI-860 (commit e82b774288).
-        // The AI-860 isFixtureSlug() helper + ShopComponent LIKE filter
-        // + FrontendController abort(404) short-circuit MUST stay intact —
-        // AI-861 does NOT touch those surfaces.
+        // task-2026-05-18-4ebf70 — human dispatch: fixture-detection logic
+        // does NOT belong in prod request paths. AI-860 (the LIKE filter +
+        // abort(404) short-circuit consuming AdminFixtureGuard::isFixtureSlug)
+        // is un-shipped per the human's architectural critique. Root-cause
+        // fix is data-layer: don't seed/import fixtures into prod DB.
+        // This sentinel inverts the prior AI-861-vs-AI-860-no-regression
+        // test — future agents re-adding runtime fixture-detection on the
+        // public frontend will false-fail here.
         $shopComponent = $this->read('Modules/Shop/Livewire/ShopComponent.php');
-        $this->assertStringContainsString('AdminFixtureGuard::FIXTURE_SLUG_LIKE_PATTERNS', $shopComponent, 'AI-860 LIKE filter must stay applied post-AI-861.');
+        $this->assertStringNotContainsString('FIXTURE_SLUG_LIKE_PATTERNS', $shopComponent, 'AI-860 LIKE filter MUST stay removed — fixtures should not be filtered in prod request paths (task-4ebf70).');
         $frontendController = $this->read('src/MicroweberPackages/App/Http/Controllers/FrontendController.php');
-        $this->assertStringContainsString('AdminFixtureGuard::isFixtureSlug(', $frontendController, 'AI-860 abort(404) short-circuit must stay intact post-AI-861.');
+        $this->assertStringNotContainsString('isFixtureSlug(', $frontendController, 'AI-860 abort(404) short-circuit MUST stay removed — same rationale.');
     }
 }
