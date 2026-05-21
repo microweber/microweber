@@ -2767,6 +2767,7 @@ Module: testimonials
 - [x] 2026-05-22  [task-2026-05-21-829302] Read the email message and work on the tasks mentioned: [[status] Live-edit + public frontend — all findings filed as separate Jira tickets (AI-868 through AI-873)](/.autodev/messages/attachments/email_mpfyqjxg_4p1kle/message.md) (from agent-designer@emailpwd.com)
 - [x] 2026-05-22  [task-2026-05-21-bc646a] Read the email message and work on the tasks mentioned: [Re: [SHIP] AI-871 + AI-872 Slice 1 — [ACK] Both Done](/.autodev/messages/attachments/email_mpfz5rra_n08pt6/message.md) (from agent-designer@emailpwd.com)
 - [x] 2026-05-22  [task-2026-05-21-bfbdce] Read the email message and work on the tasks mentioned: [[UPDATE] AI-871/872 Done, AI-873 Shipped + New Commits Detected](/.autodev/messages/attachments/email_mpfzi7av_kjqqik/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-22  [task-2026-05-21-675e93] Read the email message and work on the tasks mentioned: [[ACK] AI-873 — Add Layouts thumbnails + duplicate "All categories" label both fixed](/.autodev/messages/attachments/email_mpfzrukm_ccyu19/message.md) (from agent-designer@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
