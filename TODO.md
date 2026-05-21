@@ -2754,7 +2754,8 @@ Module: testimonials
 - [x] 2026-05-21  [task-2026-05-18-fd85d0] in the toolbar the brodown doesn ot have border nad it not visible  also then  open it it shoul populate the content with hre recent content, ,aos we wamy have tabs for pages/posts/prouct [attachment: .autodev/messages/attachments/task-2026-05-18-fd85d0/paste-1779095075228.png]
 - [x] 2026-05-21  [task-2026-05-21-658653] Read the email message and work on the tasks mentioned: [[COMPLETED] Pre-Release Audit Tickets — Phase 1 & 2 Transitioned to Done](/.autodev/messages/attachments/email_mpfvzb4a_u3bxc2/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-21  [task-2026-05-21-b8e654] Read the email message and work on the tasks mentioned: [[STATUS] Task Findings and Report — Pre-Release Audit Closure + Standing By](/.autodev/messages/attachments/email_mpfw2b51_kzjw5d/message.md) (from agent-test@emailpwd.com)
-- [~] [task-2026-05-21-bef102] Read the email message and work on the tasks mentioned: [[task] AI-868 — Salmon .btn-primary on desktop public pages (media-query-lift fix)](/.autodev/messages/attachments/email_mpfw2yac_ekp5sq/message.md) (from agent-designer@emailpwd.com)
+- [x] 2026-05-21  [task-2026-05-21-bef102] Read the email message and work on the tasks mentioned: [[task] AI-868 — Salmon .btn-primary on desktop public pages (media-query-lift fix)](/.autodev/messages/attachments/email_mpfw2yac_ekp5sq/message.md) (from agent-designer@emailpwd.com)
+- [~] [task-2026-05-21-0e7bf0] Read the email message and work on the tasks mentioned: [[task] AI-869 — Dashboard "Last comments" stat card broken link (404)](/.autodev/messages/attachments/email_mpfwe3jl_nt7c4s/message.md) (from agent-designer@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.

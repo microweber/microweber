@@ -38,18 +38,21 @@ class DashboardQuickStatsWidget extends Widget
                 'color' => 'blue',
                 'url' => url(mw_admin_prefix_url() . '/form-entries'),
             ],
-            // task-2026-05-17-18be49 / AI-738: comments stat now
-            // routes to /admin/settings/comments (the Comments
-            // settings card destination per designer dispatch), and
-            // the label carries a clear time scope ("Last comments
-            // (30 days)") so users understand the count's meaning.
-            // The 30-day window matches getCommentsCount() below.
+            // task-2026-05-17-18be49 / AI-738: comments stat label
+            // carries a clear time scope ("Last comments (30 days)")
+            // so users understand the count's meaning. The 30-day
+            // window matches getCommentsCount() below.
+            //
+            // task-2026-05-21-0e7bf0 / AI-869: URL corrected from
+            // /admin/settings/comments (404) to /admin/comments (200).
+            // /admin/settings/comments does not exist as a route.
+            // /admin/comments lists all comments (140 rows confirmed).
             [
                 'label' => 'Last comments (30 days)',
                 'value' => $stats['comments'],
                 'icon' => 'heroicon-o-chat-bubble-left-right',
                 'color' => 'pink',
-                'url' => url(mw_admin_prefix_url() . '/settings/comments'),
+                'url' => url(mw_admin_prefix_url() . '/comments'),
             ],
             [
                 'label' => 'Sales',
