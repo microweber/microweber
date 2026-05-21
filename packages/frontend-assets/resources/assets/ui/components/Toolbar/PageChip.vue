@@ -1,11 +1,10 @@
 <!--
   task-2026-05-16-66ceca / AI-701 — current-page chip + picker.
 
-  Replaces the generic `<ContentSearchNav>` "Search content"
-  placeholder in the toolbar centre slot with v2's anchored
-  page-name dropdown pattern. The chip surface answers two
-  questions at once: "what page am I editing?" and "switch
-  to another page".
+  task-2026-05-18-fd85d0 — three improvements:
+    1. Border made visible against dark toolbar background.
+    2. Recent content loaded immediately on open (not only on search).
+    3. Tabs: Pages / Posts / Products.
 
   Architecture:
 
@@ -14,32 +13,21 @@
       with a `⌄` chevron suffix.
     - Click toggles a popover anchored below the chip. Popover
       contains:
-        - search input (filters the page list inline)
-        - recent-pages list (uses the same content-search API
-          as the prior ContentSearchNav — mw.autoComplete with
-          get_content_admin endpoint)
-        - `+ New page` shortcut linking to the admin
-          content/create page form
+        - tab bar (Pages / Posts / Products)
+        - search input (filters the active tab's list inline)
+        - recent-content list loaded immediately on open
+        - `+ New <type>` shortcut linking to the admin create form
     - Close via: outside click, ESC, picking an item.
     - Current page title pulled from
-      `mw.top().app.canvas.getLiveEditData().content.title`
-      (same data Toolbar.vue uses for backToAdminLink).
-    - Listens for `liveEditCanvasLoaded` so the title updates
-      on canvas navigation.
+      `mw.top().app.canvas.getLiveEditData().content.title`.
+    - Listens for `liveEditCanvasLoaded` so title updates on navigation.
 
   Token-scoping note (per SOUL #108 spec-doc-nit): the chip +
-  popover render INSIDE Toolbar.vue's overflow context — no
-  Teleport. ESE :root tokens resolve through ancestors;
-  literal fallbacks on every var() protect environments where
-  the ESE stylesheet hasn't loaded.
+  popover render INSIDE Toolbar.vue — no Teleport. ESE :root tokens
+  resolve through ancestors; literal fallbacks on every var().
 
-  AI-687 (MwField) note: designer's spec asks the popover's
-  search input to "Reuse the MwField token pattern (AI-687)".
-  AI-687 hasn't shipped yet (ESE Phase 1 slice 1.4 pending);
-  for now the input uses a basic styled <input> consuming the
-  same ESE tokens (--ese-surface / --ese-border / --ese-text
-  / --radius-sm / --space-sm / --space-md). Trivial refactor
-  to MwField when 1.4 lands.
+  AI-687 (MwField) note: input uses ESE tokens pending AI-687 MwField
+  ship (trivial refactor when 1.4 lands).
 -->
 <template>
     <div class="mw-page-chip-wrapper" ref="root">
@@ -67,37 +55,60 @@
             ref="popover"
             style="display: none;"
         >
+            <!-- Tab bar: Pages / Posts / Products -->
+            <div class="mw-page-chip-popover__tabs" role="tablist">
+                <button
+                    v-for="tab in tabs"
+                    :key="tab.key"
+                    type="button"
+                    class="mw-page-chip-popover__tab"
+                    :class="{ 'mw-page-chip-popover__tab--active': activeTab === tab.key }"
+                    role="tab"
+                    :aria-selected="activeTab === tab.key ? 'true' : 'false'"
+                    @click="switchTab(tab.key)"
+                >{{ tab.label }}</button>
+            </div>
+
+            <!-- Search input -->
             <div class="mw-page-chip-popover__search">
                 <input
                     type="search"
                     class="mw-page-chip-popover__input"
-                    placeholder="Search pages…"
-                    aria-label="Search pages"
+                    :placeholder="'Search ' + activeTabLabel + '…'"
+                    :aria-label="'Search ' + activeTabLabel"
                     v-model="q"
-                    @input="search"
+                    @input="onSearchInput"
                     ref="searchInput"
                 />
             </div>
 
+            <!-- Results list -->
             <ul class="mw-page-chip-popover__list" v-if="results.length">
                 <li v-for="item in results" :key="item.id" class="mw-page-chip-popover__item">
                     <a :href="item.edit_link" class="mw-page-chip-popover__link" @click="close()">
-                        <span class="mw-page-chip-popover__item-title">{{ item.title }}</span>
+                        <span class="mw-page-chip-popover__item-title">{{ item.title || '(Untitled)' }}</span>
                     </a>
                 </li>
             </ul>
 
-            <div v-else-if="q !== ''" class="mw-page-chip-popover__empty">
-                No pages found.
+            <!-- Loading state -->
+            <div v-else-if="isLoading" class="mw-page-chip-popover__empty">
+                Loading…
             </div>
 
+            <!-- Empty / no results -->
+            <div v-else-if="q !== '' || hasLoaded" class="mw-page-chip-popover__empty">
+                {{ q !== '' ? ('No ' + activeTabLabel + ' found.') : ('No ' + activeTabLabel + ' yet.') }}
+            </div>
+
+            <!-- Footer: New page/post/product shortcut -->
             <div class="mw-page-chip-popover__footer">
-                <a :href="newPageHref" class="mw-page-chip-popover__new-page" @click="close()">
+                <a :href="newItemHref" class="mw-page-chip-popover__new-page" @click="close()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
-                    <span>New page</span>
+                    <span>New {{ activeTabSingular }}</span>
                 </a>
             </div>
         </div>
@@ -116,10 +127,16 @@ export default {
             currentPageTitleFull: '',
             q: '',
             results: [],
+            isLoading: false,
+            hasLoaded: false,
+            // task-2026-05-18-fd85d0 — active tab key
+            activeTab: 'page',
+            tabs: [
+                { key: 'page',    label: 'Pages',    singular: 'page',    plural: 'pages' },
+                { key: 'post',    label: 'Posts',    singular: 'post',    plural: 'posts' },
+                { key: 'product', label: 'Products', singular: 'product', plural: 'products' },
+            ],
             // task-2026-05-16-77fedf / AI-734 — anchor-flip state.
-            // 'center' = default centered-below-chip (translateX
-            // -50%); 'right' = right-edge-aligned (no transform).
-            // Computed by computeAnchor() at open() + on resize.
             popoverAnchor: 'center',
             _searchTimer: null,
             _outsideHandler: null,
@@ -135,18 +152,37 @@ export default {
             if (t.length <= 24) return t;
             return t.substr(0, 24) + '…';
         },
-        newPageHref() {
+
+        activeTabLabel() {
+            var tab = this.tabs.find(function (t) { return t.key === this.activeTab; }, this);
+            return tab ? tab.plural : 'pages';
+        },
+
+        activeTabSingular() {
+            var tab = this.tabs.find(function (t) { return t.key === this.activeTab; }, this);
+            return tab ? tab.singular : 'page';
+        },
+
+        // task-2026-05-18-fd85d0 — per-tab create URL using Filament routes.
+        // These are admin routes; mw.settings.admin_url or /admin/ fallback.
+        newItemHref() {
             try {
-                // mw.settings.admin_url provides the trailing-slash
-                // admin prefix; fallback to /admin/ if unavailable.
-                var adminUrl = (window.mw && window.mw.settings && window.mw.settings.admin_url) || '/admin/';
-                // Standard Filament Create-Content URL with
-                // content_type=page query param.
-                return adminUrl + 'content/create?content_type=page';
+                var base = (window.mw && window.mw.settings && window.mw.settings.admin_url) || '/admin/';
+                var routes = {
+                    page:    base + 'pages/create',
+                    post:    base + 'posts/create',
+                    product: base + 'products/create',
+                };
+                return routes[this.activeTab] || (base + 'contents/create');
             } catch (_) {
-                return '/admin/content/create?content_type=page';
+                return '/admin/pages/create';
             }
-        }
+        },
+
+        // Keep newPageHref as a back-compat alias (pinned by contract tests)
+        newPageHref() {
+            return this.newItemHref;
+        },
     },
 
     methods: {
@@ -165,34 +201,22 @@ export default {
 
         open() {
             this.isOpen = true;
-            this.$nextTick(() => {
-                // task-2026-05-16-77fedf / AI-734 — compute anchor
-                // AFTER the popover paints so getBoundingClientRect
-                // returns real layout values, not 0.
+            this.$nextTick(function () {
+                // task-2026-05-16-77fedf / AI-734
                 this.computeAnchor();
                 if (this.$refs.searchInput) this.$refs.searchInput.focus();
-            });
+            }.bind(this));
+            // task-2026-05-18-fd85d0 — load recent content on open
+            this.loadRecent();
         },
 
-        // task-2026-05-16-77fedf / AI-734 — smart anchor flip.
-        // PageChip popover is 320 px and anchors to chip-center
-        // via translateX(-50%). When the chip sits in a horizontally
-        // scrolled toolbar at mobile (390 px viewport), the popover
-        // can extend past the viewport right edge. This method
-        // measures the chip's viewport-relative position and
-        // computes whether the centered popover would overflow;
-        // if so, it flips popoverAnchor to 'right' (CSS hugs the
-        // chip right edge with no transform), keeping the popover
-        // entirely on-screen.
-        //
-        // Acceptance per dispatch: popover right edge ≤
-        // window.innerWidth - 8 at any viewport.
+        // task-2026-05-16-77fedf / AI-734
         computeAnchor() {
             try {
                 var root = this.$refs.root;
                 if (!root) return;
-                var POPOVER_WIDTH = 320; // matches CSS
-                var EDGE_MARGIN = 8;     // safe gutter from viewport right
+                var POPOVER_WIDTH = 320;
+                var EDGE_MARGIN = 8;
                 var chipRect = root.getBoundingClientRect();
                 var chipCenterX = chipRect.left + (chipRect.width / 2);
                 var centeredPopoverRight = chipCenterX + (POPOVER_WIDTH / 2);
@@ -201,63 +225,91 @@ export default {
                 } else {
                     this.popoverAnchor = 'center';
                 }
-            } catch (_) { /* no-op — graceful fallback to center */ }
+            } catch (_) { /* graceful fallback */ }
         },
 
         onResize() {
-            // Re-compute anchor on viewport size change while the
-            // popover is open (rotation, browser-window resize).
-            if (this.isOpen) {
-                this.computeAnchor();
-            }
+            if (this.isOpen) this.computeAnchor();
         },
 
         close() {
             this.isOpen = false;
             this.q = '';
             this.results = [];
+            this.hasLoaded = false;
+            this.isLoading = false;
         },
 
         toggle() {
             this.isOpen ? this.close() : this.open();
         },
 
-        search() {
+        // task-2026-05-18-fd85d0 — switch tab, clear search, reload
+        switchTab(key) {
+            if (this.activeTab === key) return;
+            this.activeTab = key;
+            this.q = '';
+            this.results = [];
+            this.hasLoaded = false;
+            this.loadRecent();
+            this.$nextTick(function () {
+                if (this.$refs.searchInput) this.$refs.searchInput.focus();
+            }.bind(this));
+        },
+
+        // task-2026-05-18-fd85d0 — load most recent 8 items for active tab
+        loadRecent() {
+            this.isLoading = true;
+            this.hasLoaded = false;
+            var self = this;
+            this.fetchResults('', function (items) {
+                self.results = items;
+                self.isLoading = false;
+                self.hasLoaded = true;
+            });
+        },
+
+        onSearchInput() {
             if (this._searchTimer) clearTimeout(this._searchTimer);
             var self = this;
+            if (this.q === '') {
+                this.loadRecent();
+                return;
+            }
             this._searchTimer = setTimeout(function () {
-                if (self.q === '') {
-                    self.results = [];
-                    return;
-                }
-                self.fetchResults(self.q);
+                self.isLoading = true;
+                self.fetchResults(self.q, function (items) {
+                    self.results = items;
+                    self.isLoading = false;
+                    self.hasLoaded = true;
+                });
             }, 200);
         },
 
-        fetchResults(keyword) {
+        fetchResults(keyword, callback) {
             try {
                 var apiBase = (window.mw && window.mw.settings && window.mw.settings.api_url) || '/api/';
-                // Same endpoint ContentSearchNav.vue used —
-                // get_content_admin with keyword filter.
                 var url = apiBase
                     + 'get_content_admin?get_extra_data=1'
                     + '&order_by=updated_at desc'
                     + '&is_active=1&is_deleted=0'
-                    + '&content_type=page'
-                    + '&keyword=' + encodeURIComponent(keyword);
-                var self = this;
+                    + '&content_type=' + encodeURIComponent(this.activeTab)
+                    + (keyword ? '&keyword=' + encodeURIComponent(keyword) : '')
+                    + '&limit=8';
                 axios.get(url).then(function (response) {
+                    var items = [];
                     if (Array.isArray(response.data)) {
-                        self.results = response.data.slice(0, 8); // top 8
+                        items = response.data.slice(0, 8);
                     } else if (response.data && Array.isArray(response.data.data)) {
-                        self.results = response.data.data.slice(0, 8);
-                    } else {
-                        self.results = [];
+                        items = response.data.data.slice(0, 8);
                     }
+                    callback(items);
                 }).catch(function () {
-                    self.results = [];
+                    callback([]);
                 });
-            } catch (_) { /* no-op */ }
+            } catch (_) {
+                callback([]);
+            }
         },
 
         onOutsideClick(event) {
@@ -281,12 +333,9 @@ export default {
     mounted() {
         this.readCurrentPageTitle();
         try {
-            // Re-read on canvas navigation so the chip stays in
-            // sync with the current page after the user picks
-            // a different one from the popover.
-            window.mw.top().app.on('liveEditCanvasLoaded', () => {
+            window.mw.top().app.on('liveEditCanvasLoaded', function () {
                 this.readCurrentPageTitle();
-            });
+            }.bind(this));
         } catch (_) { /* no-op */ }
 
         this._outsideHandler = this.onOutsideClick.bind(this);
@@ -294,17 +343,10 @@ export default {
         this._resizeHandler = this.onResize.bind(this);
         document.addEventListener('click', this._outsideHandler, true);
         window.addEventListener('keydown', this._keyHandler);
-        // task-2026-05-16-77fedf / AI-734 — recompute anchor on
-        // viewport resize while popover open.
         window.addEventListener('resize', this._resizeHandler);
 
-        // task-2026-05-17-7a9913 / AI-798 Slice C — listen for the
-        // `mwOpenPageChip` verb dispatched by MainDrawer's "Pages"
-        // item so users have a discoverable drawer-side path to
-        // switch the canvas page (designer audit: first-time users
-        // miss the topbar chip). Verb-bridge pattern documented in
-        // CLAUDE.md (liveEditSaveCallMountedAction family).
-        this._openVerbHandler = () => { this.open(); };
+        // task-2026-05-17-7a9913 / AI-798 Slice C
+        this._openVerbHandler = function () { this.open(); }.bind(this);
         window.addEventListener('mwOpenPageChip', this._openVerbHandler);
     },
 

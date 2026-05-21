@@ -163,15 +163,19 @@ class LiveEdit66cecaAI701PageChipContractTest extends TestCase
     #[Test]
     public function popover_search_input_pinned(): void
     {
+        // task-2026-05-18-fd85d0 pin-evolution: @input handler renamed
+        // from "search" to "onSearchInput" to distinguish from the
+        // method that triggers debounced search.
         $this->assertMatchesRegularExpression(
-            '/<input[\s\S]*?type="search"[\s\S]*?class="mw-page-chip-popover__input"[\s\S]*?v-model="q"[\s\S]*?@input="search"/',
+            '/<input[\s\S]*?type="search"[\s\S]*?class="mw-page-chip-popover__input"[\s\S]*?v-model="q"[\s\S]*?@input="onSearchInput"/',
             $this->pageChip,
-            'Popover search input must use v-model="q" + @input="search" (debounced via setTimeout).'
+            'Popover search input must use v-model="q" + @input="onSearchInput" (debounced via setTimeout).'
         );
-        // aria-label present
-        $this->assertStringContainsString(
-            'aria-label="Search pages"',
-            $this->pageChip
+        // aria-label present (now dynamic: :aria-label="'Search ' + activeTabLabel")
+        $this->assertMatchesRegularExpression(
+            '/:aria-label="\'Search \' \+ activeTabLabel"/',
+            $this->pageChip,
+            'Search input aria-label must be dynamic: :aria-label="\'Search \' + activeTabLabel".'
         );
     }
 
@@ -183,27 +187,44 @@ class LiveEdit66cecaAI701PageChipContractTest extends TestCase
             $this->pageChip,
             'Popover must render a results list (v-if="results.length") with v-for="item in results".'
         );
-        // Empty state when q is non-empty + zero results
+        // task-2026-05-18-fd85d0 pin-evolution: empty state text is now
+        // dynamic ("No <tab> found." / "No <tab> yet.") — check the
+        // condition shape.
         $this->assertMatchesRegularExpression(
-            "/v-else-if=\"q !== ''\"[\s\S]*?No pages found\./",
+            "/v-else-if=\"isLoading\"/",
             $this->pageChip,
-            'Popover must render "No pages found." when q is non-empty AND results is empty.'
+            'Popover must render a loading state while fetching.'
+        );
+        $this->assertMatchesRegularExpression(
+            "/v-else-if=\"q !== '' \|\| hasLoaded\"/",
+            $this->pageChip,
+            'Popover must render empty state when no results and already loaded or q is non-empty.'
         );
     }
 
     #[Test]
     public function popover_new_page_shortcut_pinned(): void
     {
+        // task-2026-05-18-fd85d0 pin-evolution: CTA href now uses
+        // newItemHref (per-tab create URL); newPageHref is a back-compat
+        // alias that delegates to newItemHref.
         $this->assertMatchesRegularExpression(
-            '/:href="newPageHref"[\s\S]*?class="mw-page-chip-popover__new-page"[\s\S]*?<span>New page<\/span>/',
+            '/:href="newItemHref"[\s\S]*?class="mw-page-chip-popover__new-page"/',
             $this->pageChip,
-            'Popover footer must contain a "+ New page" anchor wired to the newPageHref computed prop.'
+            'Popover footer must contain a "+ New <type>" anchor wired to newItemHref.'
         );
-        // newPageHref computed builds admin /content/create URL
+        // newItemHref uses the correct Filament create routes (not the
+        // legacy admin_url('content/create?content_type=X') which 404s)
         $this->assertMatchesRegularExpression(
-            '/newPageHref\(\)\s*\{[\s\S]*?content\/create\?content_type=page/',
+            '/newItemHref\(\)\s*\{[\s\S]*?pages\/create[\s\S]*?posts\/create[\s\S]*?products\/create/',
             $this->pageChip,
-            'newPageHref must return the admin content/create?content_type=page URL.'
+            'newItemHref must map page/post/product to their Filament create routes (/admin/pages/create etc).'
+        );
+        // Back-compat alias preserved for external code that may reference newPageHref
+        $this->assertStringContainsString(
+            'newPageHref()',
+            $this->pageChip,
+            'newPageHref() back-compat alias must remain.'
         );
     }
 
@@ -212,17 +233,18 @@ class LiveEdit66cecaAI701PageChipContractTest extends TestCase
     {
         // Continuity with the prior ContentSearchNav — both call
         // mw.settings.api_url + 'get_content_admin?...&keyword=...'
+        // task-2026-05-18-fd85d0 pin-evolution: fetchResults now accepts
+        // a callback + uses this.activeTab for content_type.
         $this->assertMatchesRegularExpression(
-            "/fetchResults\\(keyword\\)\\s*\\{[\\s\\S]*?get_content_admin\\?get_extra_data=1[\\s\\S]*?&keyword=/",
+            "/fetchResults\\(keyword,\\s*callback\\)\\s*\\{[\\s\\S]*?get_content_admin\\?get_extra_data=1/",
             $this->pageChip,
             'fetchResults must call the same get_content_admin endpoint ContentSearchNav.vue used (continuity with legacy behaviour).'
         );
-        // Filtered to content_type=page so the picker only shows
-        // pages (designer spec — "page tree")
+        // Now filters by this.activeTab (dynamic per tab)
         $this->assertStringContainsString(
-            'content_type=page',
+            'this.activeTab',
             $this->pageChip,
-            'fetchResults must filter to content_type=page (designer spec: "page tree", not all content).'
+            'fetchResults must filter by this.activeTab (pages/posts/products — not hard-coded content_type=page).'
         );
     }
 
@@ -437,5 +459,104 @@ class LiveEdit66cecaAI701PageChipContractTest extends TestCase
                 "Token {$token} must be consumed as var({$token}, <literal {$fallback}>) in the AI-701 slice."
             );
         }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Group F — task-2026-05-18-fd85d0 additions
+    // ─────────────────────────────────────────────────────────────────────
+
+    #[Test]
+    public function tab_bar_present_with_pages_posts_products(): void
+    {
+        // task-2026-05-18-fd85d0: tablist with Pages / Posts / Products.
+        $this->assertMatchesRegularExpression(
+            '/role="tablist"/',
+            $this->pageChip,
+            'Popover must carry role="tablist" for the tab bar.'
+        );
+        foreach (['Pages', 'Posts', 'Products'] as $label) {
+            $this->assertStringContainsString(
+                $label,
+                $this->pageChip,
+                "Tab bar must include a '{$label}' tab."
+            );
+        }
+        $this->assertMatchesRegularExpression(
+            '/tabs:\s*\[[\s\S]*?key:\s*[\'"]page[\'"][\s\S]*?key:\s*[\'"]post[\'"][\s\S]*?key:\s*[\'"]product[\'"]/s',
+            $this->pageChip,
+            'Tabs data array must define page, post, product keys in that order.'
+        );
+    }
+
+    #[Test]
+    public function load_recent_called_on_open(): void
+    {
+        // task-2026-05-18-fd85d0: recent content loaded immediately on
+        // open, not only after the user types a query.
+        $this->assertMatchesRegularExpression(
+            '/open\(\)\s*\{[\s\S]*?this\.loadRecent\(\)/s',
+            $this->pageChip,
+            'open() must call this.loadRecent() to populate recent content immediately.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/loadRecent\(\)\s*\{[\s\S]*?this\.isLoading\s*=\s*true/s',
+            $this->pageChip,
+            'loadRecent() must set isLoading=true before fetching.'
+        );
+    }
+
+    #[Test]
+    public function popover_border_visible_in_dark_mode(): void
+    {
+        // task-2026-05-18-fd85d0: border must be visible against the dark
+        // toolbar. The original rgba(0,0,0,0.12) was invisible.
+        // New implementation uses a solid colour rather than transparent.
+        $this->assertMatchesRegularExpression(
+            '/\.mw-page-chip-popover\s*\{[^}]*border:\s*1\.5px\s+solid/s',
+            $this->generalStyles,
+            'Popover must use a solid 1.5px border (not rgba-transparent) so it is visible against the dark toolbar.'
+        );
+        // Dark-mode override with visible border colour.
+        $this->assertMatchesRegularExpression(
+            '/html\.dark\s+\.mw-page-chip-popover\s*\{[^}]*border-color:/s',
+            $this->generalStyles,
+            'html.dark .mw-page-chip-popover must have an explicit border-color override.'
+        );
+    }
+
+    #[Test]
+    public function tab_css_rules_present(): void
+    {
+        // task-2026-05-18-fd85d0: tab bar CSS.
+        $this->assertStringContainsString(
+            '.mw-page-chip-popover__tabs',
+            $this->generalStyles,
+            'general-styles.css must include .mw-page-chip-popover__tabs rule.'
+        );
+        $this->assertStringContainsString(
+            '.mw-page-chip-popover__tab',
+            $this->generalStyles,
+            'general-styles.css must include .mw-page-chip-popover__tab rule.'
+        );
+        $this->assertStringContainsString(
+            '.mw-page-chip-popover__tab--active',
+            $this->generalStyles,
+            'general-styles.css must include .mw-page-chip-popover__tab--active rule.'
+        );
+    }
+
+    #[Test]
+    public function task_fd85d0_marker_present(): void
+    {
+        $this->assertStringContainsString(
+            'task-2026-05-18-fd85d0',
+            $this->pageChip,
+            'PageChip.vue must carry the task-fd85d0 marker.'
+        );
+        $this->assertStringContainsString(
+            'task-2026-05-18-fd85d0',
+            $this->generalStyles,
+            'general-styles.css must carry the task-fd85d0 marker.'
+        );
     }
 }
