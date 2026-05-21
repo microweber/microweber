@@ -97,12 +97,14 @@
                                 </a>
                             </li>
 
-                            <!-- Group 3: Other (alphabetised). -->
+                            <!-- Group 3: Other (alphabetised). task-2026-05-21-3d7892 / AI-873
+                                 Renamed from 'All categories' → 'More categories' so the section
+                                 header is distinct from the 'All categories' tab in Group 1. -->
                             <li v-if="otherCategories.length"
                                 role="presentation"
                                 aria-hidden="true"
                                 class="mw-le-layouts-categories-group-header">
-                                {{ $lang('All categories') }}
+                                {{ $lang('More categories') }}
                             </li>
                             <li v-for="categoryName in otherCategories"
                                 role="tab"
@@ -275,12 +277,12 @@
                                         tabindex="0">
                                         {{ categoryName }}
                                     </li>
-                                    <!-- Group 3: Other (alphabetised). -->
+                                    <!-- Group 3: Other (alphabetised). task-2026-05-21-3d7892 / AI-873 -->
                                     <li v-if="otherCategories.length"
                                         role="presentation"
                                         aria-hidden="true"
                                         class="mw-le-layouts-categories-group-header">
-                                        {{ $lang('All categories') }}
+                                        {{ $lang('More categories') }}
                                     </li>
                                     <li v-for="categoryName in otherCategories"
                                         role="tab"

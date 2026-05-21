@@ -168,10 +168,12 @@ class LayoutsModalC4893bAI716CategoryHierarchyContractTest extends TestCase
     #[Test]
     public function desktop_rail_renders_group_header_for_other(): void
     {
+        // task-2026-05-21-3d7892 / AI-873: renamed 'All categories' → 'More categories'
+        // to eliminate the visual duplicate with the Group 1 "All categories" tab.
         $this->assertMatchesRegularExpression(
-            '/<li\s+v-if="otherCategories\.length"[\s\S]{0,300}class="mw-le-layouts-categories-group-header"[\s\S]{0,300}\$lang\([\'"]All categories[\'"]/',
+            '/<li\s+v-if="otherCategories\.length"[\s\S]{0,300}class="mw-le-layouts-categories-group-header"[\s\S]{0,300}\$lang\([\'"]More categories[\'"]/',
             $this->vue,
-            'Desktop rail must render an `<li class="mw-le-layouts-categories-group-header">All categories</li>` header gated on otherCategories.length.'
+            'Desktop rail must render an `<li class="mw-le-layouts-categories-group-header">More categories</li>` header gated on otherCategories.length. (Renamed from All categories per AI-873 de-dup fix.)'
         );
     }
 
