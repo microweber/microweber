@@ -115,17 +115,17 @@ $rand = uniqid();
                             $mwAi780Title = __('No posts yet');
                             $mwAi780Body = __('Add your first post to fill this module.');
                             $mwAi780CtaLabel = __('+ Add post');
-                            $mwAi780CtaHref = e(admin_url('content/create?content_type=post'));
+                            $mwAi780CtaHref = route('filament.admin.resources.posts.create');
                         } elseif ($mwAi780Type === 'page') {
                             $mwAi780Title = __('No pages yet');
                             $mwAi780Body = __('Add your first page to fill this module.');
                             $mwAi780CtaLabel = __('+ Add page');
-                            $mwAi780CtaHref = e(admin_url('content/create?content_type=page'));
+                            $mwAi780CtaHref = route('filament.admin.resources.pages.create');
                         } else {
                             $mwAi780Title = __('No content yet');
                             $mwAi780Body = __('Add your first item to fill this module.');
                             $mwAi780CtaLabel = __('+ Add content');
-                            $mwAi780CtaHref = e(admin_url('content/create'));
+                            $mwAi780CtaHref = route('filament.admin.resources.contents.create');
                         }
                     @endphp
                     <div class="mw-canvas-empty-state" data-mw-ai780-content-type="{{ e($mwAi780Type ?? 'unknown') }}">
