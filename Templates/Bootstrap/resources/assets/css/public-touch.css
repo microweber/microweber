@@ -1707,3 +1707,29 @@ html.dark {
         padding-block: 8px;
     }
 }
+
+/* task-2026-05-22-ef3960 / AI-877 P3 — Frontend bare <a> link colour (salmon → brand-blue).
+ * Bootstrap template _variables.scss sets $link-color: #f4a261 (demo salmon),
+ * which compiles into the `a { color: ... }` rule in app.css and trickles to
+ * every bare text link on the public frontend — footer mailto, "Create a website"
+ * credit link, /search "Return home" link, and any unclassed body-text <a>.
+ *
+ * AI-868 fixed `.btn-primary` backgrounds at global scope but left $link-color
+ * untouched, so bare text links remained salmon. This is the 6th instance of
+ * the Stage-2 salmon-cascade family (AI-794a / AI-855 / AI-819 CHANGE / AI-866 /
+ * AI-868 / this AI-877).
+ *
+ * Fix: global scope override (no @media guard) using :not(.btn):not(.navbar-brand)
+ * to avoid touching Bootstrap nav chrome that legitimately inherits white from
+ * its dark navbar context, and .btn elements which carry their own color chain.
+ *
+ * Tier-3 verification: getComputedStyle(footerLink).color must return
+ * `rgb(13, 110, 253)` on a bare footer <a> after this rule is served.
+ * Negative guard: `rgb(244, 162, 97)` must not appear on body-text links. */
+a:not(.btn):not(.navbar-brand):not([class*="btn-"]) {
+    color: var(--color-primary, #0d6efd);
+}
+a:not(.btn):not(.navbar-brand):not([class*="btn-"]):hover {
+    color: var(--color-primary-hover, #0b5ed7);
+    text-decoration: underline;
+}
