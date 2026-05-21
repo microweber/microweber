@@ -1643,3 +1643,67 @@ html.dark {
     margin-left: 8px;
     margin-right: 18px;
 }
+
+/* task-2026-05-22-7d4e11 / AI-NEW (from task-d5ee77 mobile audit)
+   ─────────────────────────────────────────────────────────────────
+   FAIL #1 — Hamburger menu tap-target floor.
+
+   skin-1 initialises MWSiteMobileMenu with size:'25px', making the
+   .mw-vhmbgr-wrapper <button> 25×25px — well below the WCAG 2.5.5
+   44×44px minimum. The tester measured 25×25px at 390×844.
+
+   Fix: min-width/min-height 44px with !important override the
+   JS-injected `--size` CSS custom property (width: var(--size);
+   height: var(--size)) without altering the visual SVG.
+   The SVG uses position:absolute + 200%/-50% centering relative
+   to the wrapper, so it stays visually centred regardless of how
+   large the wrapper's minimum tap area grows.
+
+   Scope: .mw-vhmbgr-wrapper is exclusively the MWSiteMobileMenu
+   hamburger button — safe to target bare class.
+   Already inside the touch-viewport @media (max-width: 768px),
+   (pointer: coarse) block so it does not affect desktop layout. */
+@media (max-width: 768px), (pointer: coarse) {
+    .mw-vhmbgr-wrapper {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}
+
+/* task-2026-05-22-7d4e11 / AI-NEW (from task-d5ee77 mobile audit)
+   ─────────────────────────────────────────────────────────────────
+   FAIL #2 — Footer copyright-bar link tap-target floor.
+
+   The footer skin-1 template has two sections:
+     1. <section class="footer-background …"> — covered by the existing
+        .footer-background a { min-height: 44px } rule at line ~1159.
+     2. <section class="py-2" style="…"> — the bottom copyright bar
+        (© All Rights Reserved + powered_by_link()). This section does
+        NOT carry .footer-background, so the existing rule is out of scope.
+
+   The copyright bar's powered_by_link() outputs:
+     <span class="mw-powered-by">
+       <a …>Create a website</a> with <a …>Microweber</a>
+     </span>
+   These <a> elements render at ~20-23px height (tester measured).
+
+   Fix: broaden the .mw-powered-by a rule to the standalone class
+   (without requiring a .footer-background ancestor). The existing
+   .footer-background .mw-powered-by a rule (higher specificity) still
+   wins inside .footer-background — this new rule only adds coverage
+   for the copyright bar outside .footer-background.
+
+   display: inline-flex allows the link to grow to 44px min-height
+   while wrapping naturally in the "Create a website with Microweber"
+   inline sentence. padding-block 8px provides visual breathing room. */
+@media (max-width: 768px), (pointer: coarse) {
+    .mw-powered-by a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        padding-block: 8px;
+    }
+}
