@@ -58,8 +58,7 @@ class ContentTypesPage extends Page
     {
         return DB::table('content')
             ->select('content_type', DB::raw('COUNT(*) as row_count'))
-            ->whereNull('deleted_at')
-            ->where(function ($q) {
+            ->where(function ($q) { // task-2026-05-22-3b90dd AI-876: deleted_at does not exist on content table; is_deleted is the soft-delete column
                 $q->where('is_deleted', 0)->orWhereNull('is_deleted');
             })
             ->groupBy('content_type')
