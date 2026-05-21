@@ -1749,6 +1749,27 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     background-color: var(--ese-surface, #ffffff);
 }
 
+/* task-2026-05-21-30040a / AI-870 — Z-flow regression root cause: an
+   INLINE <style> block (not from live-edit-classes.css) applies:
+     @media (min-width: 640px) {
+       .mw-content-picker-modal .fi-sc-component .mb-6 {
+         display: grid; grid-template-columns: 1fr 1fr;
+       }
+     }
+   .mw-add-content-modal-root carries the Tailwind class `mb-6`, so
+   at desktop (≥640px) the root becomes a 2-column grid, placing
+   search in the left column and the primary card in the right column
+   (Z-flow break). AI-713 targeted `.fi-grid` but the inline CSS
+   targets `.fi-sc-component .mb-6` — two different elements; AI-713
+   never overrode the actual culprit.
+   Force flex-column on the modal root so the blade rhythm
+   (search → primary full-width card → secondary 3-col grid)
+   reads top-to-bottom in a single column. */
+.mw-content-picker-modal .fi-sc-component .mw-add-content-modal-root {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
 /* task-2026-05-18-76a360 — Add Content card filter-on-typing visibility
  * rule. AI-694 (task-2026-05-16-de4ce4) introduced the no-reflow filter
  * path that toggles a `.mw-add-content-card--hidden` class on cards

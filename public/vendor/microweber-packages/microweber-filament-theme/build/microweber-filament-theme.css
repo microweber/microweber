@@ -16531,6 +16531,10 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-icon {
   background-color: var(--ese-surface, #ffffff);
 }
+.mw-content-picker-modal .fi-sc-component .mw-add-content-modal-root {
+  display: flex !important;
+  flex-direction: column !important;
+}
 .mw-add-content-modal-action-wrapper.mw-add-content-card--hidden {
   visibility: hidden !important;
   pointer-events: none !important;
@@ -25931,6 +25935,9 @@ html.dark .mw-settings-hub-item-description {
   .min-h-\[60vh\] {
     min-height: 60vh;
   }
+  .min-h-\[72px\] {
+    min-height: 72px;
+  }
   .min-h-\[200px\] {
     min-height: 200px;
   }
@@ -28654,11 +28661,6 @@ html.dark .mw-settings-hub-item-description {
   .sm\:grid-cols-2 {
     @media (width >= 40rem) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-  .sm\:grid-cols-3 {
-    @media (width >= 40rem) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
   .sm\:grid-cols-4 {

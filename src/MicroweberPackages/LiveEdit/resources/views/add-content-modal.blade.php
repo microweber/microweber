@@ -219,13 +219,23 @@
                     x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
                     x-on:keydown.arrow-left.prevent="focusPrevCard($el)"
                     x-on:keydown.arrow-right.prevent="focusNextCard($el)"
-                    class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-row items-center gap-3 p-4 group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
+                    {{-- task-2026-05-21-30040a / AI-870 Fix 3: min-h
+                         increased (63→72px), title text-base (was text-sm),
+                         description now visible below title (not just tooltip),
+                         chevron affordance added. --}}
+                    class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-row items-center gap-3 p-4 min-h-[72px] group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
                     <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 bg-gray-500/10 transition duration-150 rounded-lg shrink-0">
                         @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-600 dark:text-gray-400')
                     </div>
-                    <div class="font-semibold text-sm leading-tight">
-                        {{ $action['title'] }}
+                    <div class="flex flex-col min-w-0">
+                        <div class="font-semibold text-base leading-tight">
+                            {{ $action['title'] }}
+                        </div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 leading-snug">
+                            {{ $action['description'] }}
+                        </div>
                     </div>
+                    @svg('heroicon-o-chevron-right', 'ml-auto shrink-0 h-4 w-4 text-gray-400 dark:text-gray-500')
                 </button>
             @endforeach
         </div>
@@ -239,7 +249,11 @@
             class="mw-add-content-group__header text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2 px-1">
             New content
         </h3>
-        <div class="mw-add-content-group__items grid grid-cols-2 sm:grid-cols-3 gap-3">
+        {{-- task-2026-05-21-30040a / AI-870: modal is always ≥618px;
+             the 2-col fallback caused a Z-flow reflow artefact when
+             transitioning from 2→3 columns on viewport resize. Always
+             use 3 columns. --}}
+        <div class="mw-add-content-group__items grid grid-cols-3 gap-3">
             @foreach($mwAddContentSecondary as $action)
                 @php
                     $mwAddContentHaystack = strtolower(
