@@ -18,8 +18,19 @@
         {{ ariaAnnouncement }}
     </div>
 
-    <div v-if="!selectedElement" class="mb-4">
-        <div class="alert alert-primary">Please select an element to edit</div>
+    <!-- task-2026-05-21-a4832f / AI-871 — ESE empty-state upgrade.
+         Pre-fix: bare Bootstrap alert. New: centered icon + two-line
+         guidance copy following the standard mw-canvas-empty-state
+         pattern used in module templates. Visually distinct from the
+         panel rows so the "nothing selected" state is immediately
+         obvious before the user has clicked any element. -->
+    <div v-if="!selectedElement" class="mw-ese-empty-state" aria-live="polite">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mw-ese-empty-state__icon" aria-hidden="true">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M3 12c0-1 .5-2 1.5-3L12 3l7.5 6c1 1 1.5 2 1.5 3s-.5 2-1.5 3L12 21l-7.5-6C3.5 14 3 13 3 12z"/>
+        </svg>
+        <p class="mw-ese-empty-state__title">Click any element to edit its styles</p>
+        <p class="mw-ese-empty-state__hint">Typography, background, spacing, borders and more</p>
     </div>
 
     <div class="mb-4" :class="{'style-editor-disabled': !selectedElement}">

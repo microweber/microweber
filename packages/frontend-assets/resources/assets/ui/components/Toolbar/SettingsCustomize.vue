@@ -341,11 +341,14 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
              AI-64 also calls for 44×44 minimum touch targets — the
              sizing override lives in mobile-touch.css alongside the
              other live-edit chrome rules. -->
+        <!-- task-2026-05-21-a4832f / AI-871: data-mw-label added for the
+             mini-label ::after CSS pattern (2-3 char label below icon). -->
         <button type="button"
              v-if="insertLayoutVisible"
              class="btn-icon live-edit-toolbar-buttons mw-toolbar-icon-btn"
              aria-label="Insert layout"
              title="Insert layout"
+             data-mw-label="Layout"
              v-on:click="handleInsertLayout()"
              v-on:keydown.enter.prevent="handleInsertLayout()"
              v-on:keydown.space.prevent="handleInsertLayout()">
@@ -378,6 +381,7 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
               class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle mw-toolbar-icon-btn"
               aria-label="Templates & layouts"
               title="Templates & layouts"
+              data-mw-label="Template"
               :aria-pressed="buttonIsActive && !buttonIsActiveStyleEditor"
               v-on:click="toggle('template-settings')"
               v-on:keydown.enter.prevent="toggle('template-settings')"
@@ -401,6 +405,7 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
              class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle mw-toolbar-icon-btn"
              aria-label="Element styles"
              title="Element styles"
+             data-mw-label="Style"
              :aria-pressed="!buttonIsActive && buttonIsActiveStyleEditor"
              v-on:click="toggle('style-editor')"
              v-on:keydown.enter.prevent="toggle('style-editor')"
@@ -422,6 +427,7 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
              class="btn-icon live-edit-toolbar-buttons mw-toolbar-icon-btn"
              aria-label="Quick AI edit"
              title="Quick AI edit"
+             data-mw-label="AI Edit"
              :aria-pressed="buttonIsActiveQuickEdit"
              v-on:click="handleQuickEdit()"
              v-on:keydown.enter.prevent="handleQuickEdit()"
@@ -460,10 +466,11 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
 
 
             <button type="button"
-                 :class="{'live-edit-right-sidebar-active': buttonIsActiveQuickEdit }"
+                 :class="{'live-edit-right-sidebar-active': advanced }"
                  class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-advanced mw-toolbar-icon-btn"
                  aria-label="Advanced"
                  title="Advanced"
+                 data-mw-label="More"
                  :aria-pressed="advanced"
                  v-on:click="handleAdvanced()"
                  v-on:keydown.enter.prevent="handleAdvanced()"

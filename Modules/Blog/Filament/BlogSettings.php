@@ -61,6 +61,28 @@ class BlogSettings extends LiveEditModuleSettings
                                     ->live()
                                     ->default(10),
 
+                                // task-2026-05-21-a4832f / AI-872 Slice 1 — Blog: Sort + Layout controls
+                                Select::make('options.order_by')
+                                    ->label('Sort by')
+                                    ->live()
+                                    ->options([
+                                        'date_desc'  => 'Newest first',
+                                        'date_asc'   => 'Oldest first',
+                                        'title_asc'  => 'Title A → Z',
+                                        'title_desc' => 'Title Z → A',
+                                    ])
+                                    ->default('date_desc'),
+
+                                ToggleButtons::make('options.layout')
+                                    ->label('Layout')
+                                    ->live()
+                                    ->inline()
+                                    ->options([
+                                        'grid' => 'Grid',
+                                        'list' => 'List',
+                                    ])
+                                    ->default('grid'),
+
                                 Toggle::make('options.show_categories')
                                     ->label('Show Categories')
                                     ->helperText('Display blog post categories')
