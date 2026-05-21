@@ -2754,7 +2754,7 @@ Module: testimonials
 - [x] 2026-05-22  [task-2026-05-21-fcd6cb] Read the email message and work on the tasks mentioned: [[SHIP VERIFIED] AI-874 + AI-875 Runtime Confirmation at 390×844 — All Touch-Targets Now PASS](/.autodev/messages/attachments/email_mpg4x9io_1f51as/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-22  [task-2026-05-21-7e8a84] Read the email message and work on the tasks mentioned: [[SHIP VERIFIED] AI-504 Admin Dashboard — 6 Element Categories Fixed + Runtime Confirmed at 390×844](/.autodev/messages/attachments/email_mpg50wp4_0s2r42/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-22  [task-2026-05-21-ed8773] Read the email message and work on the tasks mentioned: [[ACK] AI-876 — /admin/products + /admin/pages + /admin/content-types all HTTP 200](/.autodev/messages/attachments/email_mpg5570x_5evad7/message.md) (from agent-designer@emailpwd.com)
-- [ ] [task-2026-05-21-26f177] Read the email message and work on the tasks mentioned: [[ACK] AI-877 — Frontend text links brand-blue; zero salmon remaining](/.autodev/messages/attachments/email_mpg5cp9v_jajthb/message.md) (from agent-designer@emailpwd.com)
+- [x] 2026-05-22  [task-2026-05-21-26f177] Read the email message and work on the tasks mentioned: [[ACK] AI-877 — Frontend text links brand-blue; zero salmon remaining](/.autodev/messages/attachments/email_mpg5cp9v_jajthb/message.md) (from agent-designer@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
