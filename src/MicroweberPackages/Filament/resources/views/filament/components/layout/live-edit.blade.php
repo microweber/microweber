@@ -18,6 +18,129 @@
     });
 </script>
 
+{{-- task-2026-05-18-76a360 — Alpine.data() factory for the Add Content
+     modal MUST be registered at INITIAL page load, not inside the modal
+     Blade view. Filament/Livewire morph-inserts the modal HTML when the
+     +ADD action mounts, but embedded <script> tags from morph-inserted
+     HTML DO NOT EXECUTE in the browser — so the in-modal AI-790 script
+     never ran, the factory never registered, and `x-data="addContentModal"`
+     failed with "addContentModal is not defined" leaving cards invisible.
+
+     Fix: register the factory HERE in @push('scripts') so it rides the
+     initial admin-frame page render, then `Alpine.data('addContentModal',
+     factory)` is globally available by the time Filament mounts the
+     modal subtree. Dual-path init (eager + alpine:init) covers both
+     script-loaded-before-Alpine + script-loaded-after-Alpine cases. --}}
+<script>
+    (function () {
+        const factory = () => ({
+            q: '',
+
+            // task-2026-05-16-de4ce4 / AI-694 — filter accepts BOTH
+            // display:none (legacy x-show path) AND visibility:hidden
+            // (the new no-reflow path).
+            visibleCards() {
+                return Array.from(this.$root.querySelectorAll('[data-mw-add-content-card]'))
+                    .filter(el => {
+                        const s = window.getComputedStyle(el);
+                        return s.display !== 'none' && s.visibility !== 'hidden';
+                    });
+            },
+
+            focusFirstVisibleCard() {
+                const cards = this.visibleCards();
+                if (cards.length) cards[0].focus();
+            },
+
+            focusLastVisibleCard() {
+                const cards = this.visibleCards();
+                if (cards.length) cards[cards.length - 1].focus();
+            },
+
+            focusNextCard(current) {
+                const cards = this.visibleCards();
+                const i = cards.indexOf(current);
+                if (i === -1 || i === cards.length - 1) {
+                    this.$refs.search.focus();
+                } else {
+                    cards[i + 1].focus();
+                }
+            },
+
+            focusPrevCard(current) {
+                const cards = this.visibleCards();
+                const i = cards.indexOf(current);
+                if (i === -1 || i === 0) {
+                    this.$refs.search.focus();
+                } else {
+                    cards[i - 1].focus();
+                }
+            },
+
+            activateFirstVisibleCard() {
+                const cards = this.visibleCards();
+                if (cards.length === 1) {
+                    cards[0].click();
+                } else if (cards.length > 1) {
+                    cards[0].focus();
+                } else if (this.q !== '') {
+                    // task-2026-05-16-de4ce4 / AI-694 — zero-match ENTER
+                    // fallback: ENTER still activates the primary "Add a
+                    // block" card so users never hit an ENTER dead-end.
+                    const primary = this.$root.querySelector(
+                        '[data-mw-add-content-card][data-mw-add-content-group=' + JSON.stringify('primary') + ']'
+                    );
+                    if (primary) primary.click();
+                }
+            },
+
+            visibleCount() {
+                return this.visibleCards().length;
+            },
+
+            // task-2026-05-16-968a71 / AI-692 / §A2-3: group-aware
+            // visibility helper for the two-group layout.
+            hasVisibleCardsInGroup(group) {
+                const cards = Array.from(
+                    this.$root.querySelectorAll('[data-mw-add-content-card][data-mw-add-content-group=' + JSON.stringify(group) + ']')
+                );
+                if (cards.length === 0) return false;
+                if (this.q === '') return true;
+                const needle = this.q.toLowerCase();
+                return cards.some(c => (c.dataset.mwAddContentHaystack || '').includes(needle));
+            },
+
+            resultAnnouncement() {
+                const total = this.$root.querySelectorAll('[data-mw-add-content-card]').length;
+                const shown = this.visibleCount();
+                if (this.q === '') return '';
+                if (shown === 0) return 'No results.';
+                if (shown === total) return 'All ' + total + ' options visible.';
+                if (shown === 1) return '1 result.';
+                return shown + ' results.';
+            },
+        });
+
+        const register = () => {
+            if (typeof window.Alpine === 'undefined' || typeof window.Alpine.data !== 'function') {
+                return;
+            }
+            if (window.__mwAddContentModalRegistered) return;
+            window.__mwAddContentModalRegistered = true;
+            window.Alpine.data('addContentModal', factory);
+        };
+
+        // Eager: if Alpine is already running by the time this script
+        // body executes, register immediately. Otherwise wait for
+        // alpine:init. Dual-path covers both bundle-order outcomes.
+        if (typeof window.Alpine !== 'undefined' && typeof window.Alpine.data === 'function') {
+            register();
+        } else {
+            document.addEventListener('alpine:init', register);
+        }
+    })();
+</script>
+
  <style>
     /* task-2026-05-16-02760c: Filament v5 ships Tailwind v4, which uses
        the separate CSS `translate` property for its `-translate-x-full`

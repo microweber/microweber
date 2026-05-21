@@ -61,8 +61,19 @@ class AddContent968a71AI692TwoGroupLayoutContractTest extends TestCase
         $this->page = (string) file_get_contents(base_path(
             'src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php'
         ));
+        // task-2026-05-18-76a360 pin-evolution: the Alpine.data() factory
+        // body was moved out of add-content-modal.blade.php into
+        // live-edit.blade.php @push('scripts') so scripts execute at
+        // INITIAL page load (Filament/Livewire-morph-inserted modal HTML
+        // does NOT execute embedded <script> tags). Concatenate both
+        // files so existing AI-692 factory-body assertions
+        // (hasVisibleCardsInGroup, JSON.stringify(group)) still find
+        // their targets in the union. Structural assertions on x-data
+        // attributes still match the modal blade contents.
         $this->blade = (string) file_get_contents(base_path(
             'src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+        )) . "\n" . (string) file_get_contents(base_path(
+            'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php'
         ));
     }
 

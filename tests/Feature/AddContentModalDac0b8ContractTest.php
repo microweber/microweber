@@ -40,7 +40,16 @@ class AddContentModalDac0b8ContractTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->blade = file_get_contents(base_path(self::MODAL));
+        // task-2026-05-18-76a360 pin-evolution: factory body moved out of
+        // add-content-modal.blade.php → live-edit.blade.php @push('scripts').
+        // Concatenate both files so dac0b8 factory-body assertions
+        // (resultAnnouncement strings, this.q checks) still find their
+        // targets in the union.
+        $this->blade = file_get_contents(base_path(self::MODAL))
+            . "\n"
+            . file_get_contents(base_path(
+                'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php'
+            ));
     }
 
     #[Test]

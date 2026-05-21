@@ -26,6 +26,12 @@ use PHPUnit\Framework\TestCase;
 class AddContentModalContractTest extends TestCase
 {
     private const ADD_CONTENT_MODAL_BLADE = __DIR__ . '/../../../src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php';
+    // task-2026-05-18-76a360 — Alpine.data() factory body for the
+    // addContentModal lives in live-edit.blade.php @push('scripts')
+    // (moved from add-content-modal.blade.php because Livewire-morph-
+    // inserted scripts do NOT execute). Factory-body assertions read
+    // the union of both files via readModalUnion().
+    private const LIVE_EDIT_LAYOUT_BLADE = __DIR__ . '/../../../src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php';
     private const ADMIN_LIVE_EDIT_PAGE = __DIR__ . '/../../../src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php';
     private const LIVE_EDIT_MOBILE_CSS = __DIR__ . '/../../../packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-mobile.css';
     private const LIVE_EDIT_MOBILE_CSS_BUILT = __DIR__ . '/../../../public/vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css';
@@ -225,7 +231,14 @@ class AddContentModalContractTest extends TestCase
     #[Test]
     public function picker_x_data_exposes_visible_cards_helpers(): void
     {
-        $blade = $this->readFile(self::ADD_CONTENT_MODAL_BLADE);
+        // task-2026-05-18-76a360 pin-evolution: factory body moved out
+        // of add-content-modal.blade.php → live-edit.blade.php
+        // @push('scripts') because Livewire-morph-inserted scripts do
+        // NOT execute. Concatenate both files for the factory-body
+        // assertion.
+        $blade = $this->readFile(self::ADD_CONTENT_MODAL_BLADE)
+            . "\n"
+            . $this->readFile(self::LIVE_EDIT_LAYOUT_BLADE);
 
         // The Alpine x-data object must define the 6 keyboard-navigation
         // helpers so the input + cards can reference them without inline

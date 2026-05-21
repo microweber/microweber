@@ -14,29 +14,32 @@ use Tests\TestCase;
  *
  * Designer's R10-4 audit captured the user-visible body of the Add
  * Content modal rendering with a paragraph of raw Alpine.js source
- * code BEFORE the "What do you want to add?" search input — actual
- * `innerText` excerpt:
+ * code BEFORE the "What do you want to add?" search input. Root cause:
+ * line-comments inside the inline `x-data="{ ... }"` attribute
+ * contained literal `"` characters, terminating the HTML attribute
+ * early and dumping the remainder of the JS expression as visible
+ * text content.
  *
- *   (c.dataset.mwAddContentHaystack || '').includes(needle)); },
- *   resultAnnouncement() { const total = $root.querySelectorAll(...)
+ * Original AI-790 fix: extract the entire state object to a named
+ * Alpine.data() registration. Blade attribute carries only a bare
+ * identifier `x-data="addContentModal"` — no quoting issues possible.
  *
- * Root cause: `//` line comments inside the inline `x-data="{ ... }"`
- * attribute contained literal `"` characters (e.g.
- * `// primary "Add a block" card` at line 97; `// data-mw-add-content-group="primary"`
- * at line 99). The HTML attribute parser terminates the attribute
- * at the first embedded `"`, dumping the remainder of the JS
- * expression as visible text content.
+ * task-2026-05-18-76a360 PIN-EVOLUTION — the original AI-790 ship
+ * placed the registration <script> block AT THE BOTTOM of
+ * `add-content-modal.blade.php`. That worked at the source level + at
+ * Tier-1/Tier-2 verify but failed at Tier-3 runtime: the modal HTML is
+ * Filament/Livewire-morph-inserted when the user clicks +ADD, and
+ * embedded <script> tags from morph-inserted HTML DO NOT EXECUTE in
+ * the browser. The factory never registered, Alpine could not resolve
+ * `x-data="addContentModal"`, and the cards rendered invisible with
+ * the entire user-visible defect being "modal empty / cards missing"
+ * (designer-attached screenshot in task-2026-05-18-76a360).
  *
- * Canonical fix (per designer's dispatch): extract the entire state
- * object to a named Alpine.data() registration. Blade attribute now
- * carries only a bare identifier `x-data="addContentModal"` — no
- * quoting issues possible. The script block at the bottom of the
- * Blade is a regular <script> body where `"` characters are fine.
- *
- * This test pins the AI-790 fix shape + carries the designer's
- * generic Tier-3 contract probe (no Alpine internals leaked to
- * innerText) as a source-level regex guard that catches the same
- * defect class in any future modal.
+ * task-76a360 moves the factory registration to the parent admin-frame
+ * layout `live-edit.blade.php` @push('scripts') block, where it rides
+ * the initial admin-frame page render BEFORE the modal mounts. This
+ * test pin-evolves in place per LESSONS pin-evolution discipline (no
+ * parallel test; previous pins updated to target the new home).
  *
  * **Stage-5 lesson family** (designer's words from the dispatch):
  *
@@ -45,25 +48,36 @@ use Tests\TestCase;
  *   templating engine (typically `"` inside an inline JS string or
  *   expression), the attribute terminates early and the remainder
  *   of the directive becomes visible text. Diagnostic: any visible
- *   text matching /x-init|x-data|\$nextTick|\$refs|querySelectorAll/.
+ *   text matching /x-init|x-data|nextTick|querySelectorAll/.
  *   Guard: extract complex x-data to a named Alpine.data()
- *   registration; keep Blade attributes simple references.
+ *   registration; keep Blade attributes simple references. Register
+ *   the factory at INITIAL PAGE LOAD, not inside lazy-mounted
+ *   modal HTML (scripts inside Livewire-morphed HTML do not run).
  *
  * Sibling lineage in the same defect family:
  *   - AI-692 (task-968a71) — slash-star-style block comments with
  *     embedded double-quotes in prose terminated x-data attribute.
- *     AI-790 supersedes that fix because slash-slash comments
- *     containing double-quotes hit the same terminator class.
+ *   - task-bc28fd (AI-691a + AI-697 CHANGE) — same defect class but
+ *     for CSS rules: source rule lived in `live-edit-module-settings.blade.php`
+ *     which is only loaded on the module-settings sub-form layout,
+ *     NOT on `/admin/live-edit` where the Add Content picker actually
+ *     opens. task-76a360 follows the same fix-shape (move the
+ *     ride-the-initial-page-render artefact to `live-edit-classes.css`
+ *     or `live-edit.blade.php` @push('scripts')).
  */
 class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
 {
-    private string $blade;
+    private string $modal;
+    private string $liveEditLayout;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->blade = (string) file_get_contents(base_path(
+        $this->modal = (string) file_get_contents(base_path(
             'src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+        ));
+        $this->liveEditLayout = (string) file_get_contents(base_path(
+            'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php'
         ));
     }
 
@@ -76,7 +90,7 @@ class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
     {
         $this->assertMatchesRegularExpression(
             '/x-data="addContentModal"/',
-            $this->blade,
+            $this->modal,
             'Modal root must declare `x-data="addContentModal"` — bare named-reference, no inline JS.'
         );
     }
@@ -85,9 +99,8 @@ class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
     public function modal_root_xdata_does_not_carry_inline_object(): void
     {
         // Strip Blade `{{-- ... --}}` comments first (selector-self-match
-        // guard — the AI-790 docblock + script-block docblock both
-        // mention `x-data="{...}"` as the BEFORE state).
-        $stripped = preg_replace('/\{\{--[\s\S]*?--\}\}/', '', $this->blade);
+        // guard — the docblock + comment blocks mention the BEFORE state).
+        $stripped = preg_replace('/\{\{--[\s\S]*?--\}\}/', '', $this->modal);
         $this->assertDoesNotMatchRegularExpression(
             '/mw-add-content-modal-root[\s\S]{0,200}x-data="\{/',
             $stripped,
@@ -97,22 +110,40 @@ class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
 
     // ─────────────────────────────────────────────────────────────────────
     // Group B — Alpine.data('addContentModal', ...) registration shipped
+    //           IN THE PARENT ADMIN-FRAME LAYOUT (task-76a360 pin-evolved)
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
-    public function alpine_data_registration_present_at_bottom_of_blade(): void
+    public function alpine_data_registration_lives_in_live_edit_admin_frame_layout(): void
     {
+        // task-76a360 pin-evolution: the registration was MOVED from
+        // add-content-modal.blade.php (Filament-morph-inserted, scripts
+        // do NOT execute) to live-edit.blade.php @push('scripts') (rides
+        // initial admin-frame page render, scripts execute).
         $this->assertStringContainsString(
-            "Alpine.data('addContentModal', () => ({",
-            $this->blade,
-            "Blade must register `Alpine.data('addContentModal', () => ({ ... }))` for the named reference to resolve."
+            "window.Alpine.data('addContentModal', factory)",
+            $this->liveEditLayout,
+            "live-edit.blade.php must register `window.Alpine.data('addContentModal', factory)` so the factory is available before Filament mounts the modal."
         );
-        // Registration must happen inside an `alpine:init` listener so
-        // it fires before Alpine evaluates the x-data attribute.
+    }
+
+    #[Test]
+    public function registration_supports_both_eager_and_alpine_init_paths(): void
+    {
+        // Dual-path init: works whether the script runs BEFORE or AFTER
+        // Alpine boots. (a) Eager path: if Alpine is already running,
+        // register immediately. (b) Deferred path: otherwise wait for
+        // alpine:init. Both paths required because @push('scripts') may
+        // land in head OR body depending on Filament panel config.
         $this->assertStringContainsString(
             "document.addEventListener('alpine:init',",
-            $this->blade,
-            'Registration must happen inside an `alpine:init` event listener.'
+            $this->liveEditLayout,
+            'Registration must listen for alpine:init as the deferred-path fallback.'
+        );
+        $this->assertStringContainsString(
+            "if (typeof window.Alpine !== 'undefined' && typeof window.Alpine.data === 'function')",
+            $this->liveEditLayout,
+            'Registration must check eager-path readiness (Alpine already running) before falling back to alpine:init.'
         );
     }
 
@@ -124,8 +155,8 @@ class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
         // warnings + duplicate handler hits.
         $this->assertStringContainsString(
             'window.__mwAddContentModalRegistered',
-            $this->blade,
-            'Registration must check a window-scoped sentinel flag to be idempotent across multiple Blade renders.'
+            $this->liveEditLayout,
+            'Registration must check a window-scoped sentinel flag to be idempotent across multiple renders.'
         );
     }
 
@@ -137,20 +168,22 @@ class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
         // rather than throwing.
         $this->assertStringContainsString(
             "if (typeof window.Alpine === 'undefined' || typeof window.Alpine.data !== 'function')",
-            $this->blade,
+            $this->liveEditLayout,
             'Registration must guard against missing window.Alpine before calling .data().'
         );
     }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group C — every state method from the OLD inline x-data preserved
+    //           in the NEW home (live-edit.blade.php pin-evolved)
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
     public function all_state_methods_present_in_registration(): void
     {
         // Behaviour parity: every method from the OLD x-data inline
-        // object must still exist in the Alpine.data() body.
+        // object must still exist in the Alpine.data() body — now in
+        // live-edit.blade.php per task-76a360.
         $methods = [
             'visibleCards()',
             'focusFirstVisibleCard()',
@@ -165,14 +198,14 @@ class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
         foreach ($methods as $method) {
             $this->assertStringContainsString(
                 $method . ' {',
-                $this->blade,
-                "Alpine.data() body must preserve state method `{$method}` from the pre-AI-790 x-data object."
+                $this->liveEditLayout,
+                "Alpine.data() body in live-edit.blade.php must preserve state method `{$method}` from the pre-AI-790 x-data object."
             );
         }
         // The `q: ''` initial state field must also remain.
         $this->assertMatchesRegularExpression(
             "/q:\\s*''/",
-            $this->blade,
+            $this->liveEditLayout,
             "Alpine.data() body must initialise `q: ''` (search query state)."
         );
     }
@@ -180,19 +213,17 @@ class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
     #[Test]
     public function state_method_bodies_use_this_refs_and_this_root(): void
     {
-        // Lifting from inline x-data to Alpine.data() changes the
-        // binding of `$root` / `$refs` — inside the function-form
-        // factory, those magics are accessed via `this.$root` /
-        // `this.$refs`. Pin the new shape so refactors can't drop
-        // the `this.` prefix.
+        // Function-form factory: $root / $refs magics accessed via
+        // `this.$root` / `this.$refs`. Pin the new shape so refactors
+        // can't drop the `this.` prefix.
         $this->assertStringContainsString(
             'this.$root.querySelectorAll',
-            $this->blade,
+            $this->liveEditLayout,
             'Alpine.data() body must reference `this.$root.querySelectorAll(...)` (not bare `$root`).'
         );
         $this->assertStringContainsString(
             'this.$refs.search.focus()',
-            $this->blade,
+            $this->liveEditLayout,
             'Alpine.data() body must reference `this.$refs.search.focus()` (not bare `$refs`).'
         );
     }
@@ -206,33 +237,19 @@ class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
     {
         // Stage-5 leak detection — when the x-data attribute terminates
         // early, the closing `}"` becomes text content followed by JS.
-        // Structural check: the first NON-WHITESPACE characters after
-        // the modal-root opening tag's `>` must be a `<` (next element)
-        // or a Blade `{{` directive — NOT raw text matching JS shapes
-        // like `}", `, `}); `, `() {`. Strip Blade comments first
-        // (selector-self-match guard).
-        $stripped = preg_replace('/\{\{--[\s\S]*?--\}\}/', '', $this->blade);
+        // Structural check on the modal blade (where the x-data lives).
+        $stripped = preg_replace('/\{\{--[\s\S]*?--\}\}/', '', $this->modal);
 
-        // Locate the modal root opening tag — must walk past the
-        // attribute block whose last attribute is x-init. The `>` we
-        // want is the one closing the opening tag.
         $rootStart = strpos($stripped, '<div class="mw-add-content-modal-root');
         $this->assertNotFalse($rootStart);
-        // The opening tag of .mw-add-content-modal-root ends at the
-        // `>` after the x-init attribute. Find that specific `>` by
-        // first locating the x-init attribute then the next `>` after
-        // its closing `"`.
         $xInitPos = strpos($stripped, 'x-init="', $rootStart);
         $this->assertNotFalse($xInitPos);
-        $xInitClose = strpos($stripped, '"', $xInitPos + 8); // +8 = after x-init="
+        $xInitClose = strpos($stripped, '"', $xInitPos + 8);
         $this->assertNotFalse($xInitClose);
         $rootTagClose = strpos($stripped, '>', $xInitClose);
         $this->assertNotFalse($rootTagClose);
 
-        // First non-whitespace chars after the opening tag's close.
         $tail = ltrim(substr($stripped, $rootTagClose + 1, 100));
-        // Must start with `<` (next element) — anything else is text
-        // content that shouldn't be there.
         $this->assertMatchesRegularExpression(
             '/^</',
             $tail,
@@ -241,7 +258,6 @@ class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
                 var_export(mb_substr($tail, 0, 80), true)
             )
         );
-        // Doubly-paranoid: no JS-shape signatures in the first 100 chars.
         $this->assertDoesNotMatchRegularExpression(
             '/\}",|\}\);|\(\)\s*\{|=>\s*[a-z]/',
             $tail,
@@ -250,13 +266,49 @@ class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
     }
 
     // ─────────────────────────────────────────────────────────────────────
-    // Group E — markers
+    // Group E — task-76a360 pin-evolution negative regression guards
+    // ─────────────────────────────────────────────────────────────────────
+
+    #[Test]
+    public function alpine_data_factory_body_no_longer_in_modal_blade(): void
+    {
+        // task-76a360 negative regression guard: the factory registration
+        // moved OUT of add-content-modal.blade.php. If a future agent
+        // tries to put the registration BACK inside the modal blade,
+        // this guard fails — Livewire-morphed scripts do not execute.
+        $stripped = preg_replace('/\{\{--[\s\S]*?--\}\}/', '', $this->modal);
+        $this->assertStringNotContainsString(
+            "window.Alpine.data('addContentModal'",
+            $stripped,
+            'Factory registration must NOT live in add-content-modal.blade.php — scripts inside Filament/Livewire-morph-inserted modal HTML do NOT execute. Register in live-edit.blade.php @push("scripts") instead.'
+        );
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Group F — markers
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
     public function task_id_and_ai790_markers_present(): void
     {
-        $this->assertStringContainsString('task-2026-05-17-255d24', $this->blade);
-        $this->assertStringContainsString('AI-790', $this->blade);
+        $this->assertStringContainsString('task-2026-05-17-255d24', $this->modal);
+        $this->assertStringContainsString('AI-790', $this->modal);
+    }
+
+    #[Test]
+    public function task_76a360_markers_present_in_both_files(): void
+    {
+        // Pin-evolution markers — both files carry the task-76a360 token
+        // so future audits can grep the relocation across surfaces.
+        $this->assertStringContainsString(
+            'task-2026-05-18-76a360',
+            $this->modal,
+            'add-content-modal.blade.php docblock must reference task-76a360 (explains where the factory body moved).'
+        );
+        $this->assertStringContainsString(
+            'task-2026-05-18-76a360',
+            $this->liveEditLayout,
+            'live-edit.blade.php @push("scripts") docblock must reference task-76a360 (explains why this is the canonical home for the factory).'
+        );
     }
 }

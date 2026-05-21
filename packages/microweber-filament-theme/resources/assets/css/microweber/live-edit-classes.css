@@ -1749,6 +1749,30 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     background-color: var(--ese-surface, #ffffff);
 }
 
+/* task-2026-05-18-76a360 — Add Content card filter-on-typing visibility
+ * rule. AI-694 (task-2026-05-16-de4ce4) introduced the no-reflow filter
+ * path that toggles a `.mw-add-content-card--hidden` class on cards
+ * whose `data-mw-add-content-haystack` does not include the current
+ * query. The companion CSS rule was placed in
+ * `live-edit-module-settings.blade.php` <style> block — which is the
+ * sub-form LAYOUT view, only loaded when editing a module's settings,
+ * NOT loaded on `/admin/live-edit` (where the Add Content picker
+ * actually opens). Same defect class as task-bc28fd AI-691a + AI-697
+ * CHANGE absorption (move the picker-modal CSS rules to
+ * live-edit-classes.css so they ride the Webpack bundle loaded by
+ * `/admin/live-edit`).
+ *
+ * `visibility: hidden` keeps the card in document flow so siblings
+ * do not reflow when the query changes; `pointer-events: none`
+ * prevents the hidden card from being clicked or tab-focused. The
+ * Alpine helpers (`visibleCards()`, `visibleCount()`,
+ * `hasVisibleCardsInGroup()`) already filter out cards with
+ * `visibility: hidden` so keyboard nav + ENTER fallback skip them. */
+.mw-add-content-modal-action-wrapper.mw-add-content-card--hidden {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
 /* ─────────────────────────────────────────────────────────────────
  * AI-693 (task-2026-05-16-c3d0ed) — Add-Content modal monochrome
  * icon palette accent contract — RELOCATED here per task-2026-05-16-
