@@ -1532,6 +1532,87 @@ body.fi-panel-checkout .fi-page-content b {
 }
 
 /* ================================================================
+ * task-2026-05-22-77c486 / AI-NEW — Admin dashboard mobile touch-target audit
+ *
+ * Agent-test runtime audit at 390×844 found 7 element categories below
+ * the WCAG 2.5.5 44×44px minimum. All fixes scoped to body.fi-panel-admin.
+ *
+ * FAIL list (measurements in parentheses):
+ *   1. Brand mark link .mw-admin-brand-mark          (147×36px)
+ *   2. Live Edit button .admin-toolbar-live-edit      (112×40px)
+ *   3. Sidebar items .fi-sidebar-item-btn             (40×44px — width only)
+ *   4. Sidebar dropdown triggers (group-btn etc.)     (40×40px)
+ *   5. Welcome widget counters .mw-welcome-widget-counter (79-110px × 20px)
+ *   6. "View more" link .mw-stats-card-show-more      (61×15px)
+ *
+ * Note: +Add button (.admin-toolbar-add) was measured at 32×32px but
+ * general-styles.css already hides it at ≤768px via
+ * `display: none !important` (AI-704 design decision — add is in the
+ * sidebar nav on mobile). No fix needed.
+ *
+ * mobile-touch.css is imported AFTER general-styles.css in index.css
+ * (lines 31 vs 58), so these !important declarations win over
+ * general-styles.css !important declarations of equal specificity.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* §1 Brand mark link — general-styles.css uses height:100% which
+       collapses to ~36px at the admin topbar's reduced mobile height.
+       min-height: 44px !important overrides the implicit height chain. */
+    body.fi-panel-admin .fi-topbar a.mw-admin-brand-mark,
+    body.fi-panel-admin a.mw-admin-brand-mark {
+        min-height: 44px !important;
+        align-items: center !important;
+    }
+
+    /* §2 Live Edit button — general-styles.css locks min-height:32px !important.
+       Override to 44px so the pill meets the WCAG floor. Width already
+       passes (112px) — height is the only dimension short. */
+    body.fi-panel-admin .fi-btn.admin-toolbar-live-edit,
+    body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
+        min-height: 44px !important;
+    }
+
+    /* §3 Sidebar item buttons — 40px wide in collapsed rail/icon mode.
+       Both axes need the 44px floor; height usually passes via padding
+       but !important protects against future style resets. */
+    body.fi-panel-admin .fi-sidebar-item-btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+    }
+
+    /* §4 Sidebar group/dropdown trigger buttons — 40×40px.
+       Three class variants cover collapsed-group trigger, the expand
+       toggle, and the dropdown trigger respectively. */
+    body.fi-panel-admin .fi-sidebar-group-btn,
+    body.fi-panel-admin .fi-sidebar-group-collapse-btn,
+    body.fi-panel-admin .fi-sidebar-group-dropdown-trigger-btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+    }
+
+    /* §5 Welcome widget counter links — 79-110px wide, 20px tall.
+       general-styles.css renders these as inline-flex with font-control
+       (13px) + line-height 1.4 ≈ 18px. min-height 44px with !important
+       overrides the inline-flow height without changing the visual type. */
+    body.fi-panel-admin .mw-welcome-widget-counter {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+
+    /* §6 "View more" link (.mw-stats-card-show-more) in the echarts
+       traffic widget — 61px wide, 15px tall (text-link with no padding).
+       The inline style="cursor: pointer" on the element does not prevent
+       min-height from applying; display: inline-block allows min-height. */
+    body.fi-panel-admin .mw-stats-card-show-more {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        padding-block: 8px !important;
+    }
+}
+
+/* ================================================================
  * AI-508 — Filament table drag/reorder handles
  *
  * ContentResource uses `->reorderable('position')` which renders a
