@@ -281,9 +281,58 @@ small,
  * padding, or shadow.
  */
 
+/* task-2026-05-21-bef102 / AI-868 — Salmon .btn-primary on desktop.
+ * The brand-blue color override previously existed only inside
+ * `@media (max-width: 768px), (pointer: coarse)` so mobile/touch
+ * received brand-blue while desktop got Bootstrap template's demo
+ * salmon `$primary: #f4a261`. Lifted to global scope here so the
+ * correction applies at ALL viewports unconditionally.
+ *
+ * Also adds --mw-btn-background-color :root token so the CONTACT US
+ * nav button (`.btn.btn-sm` routing through `app.css`'s broad negation
+ * selector `var(--mw-btn-background-color)`) picks up brand-blue.
+ *
+ * Tier-3 gate: desktop 1440 getComputedStyle('.btn-primary').backgroundColor
+ * must return `rgb(13, 110, 253)` after this ship. */
+:root {
+    --mw-btn-background-color: var(--color-primary, #0d6efd);
+}
+
+.btn-primary,
+.btn.btn-primary,
+a.btn-primary,
+button.btn-primary,
+.shop-cta,
+a.shop-cta,
+button.shop-cta,
+.add-to-cart-button,
+.mw-btn-primary,
+[data-button="primary"] {
+    background-color: var(--color-primary, #0d6efd) !important;
+    border-color: var(--color-primary, #0d6efd) !important;
+    color: #ffffff !important;
+    border-radius: var(--radius-sm, 6px) !important;
+    transition: background-color var(--duration-fast, 0.15s) var(--ease-default, ease),
+                border-color var(--duration-fast, 0.15s) var(--ease-default, ease);
+}
+
+.btn-primary:hover,
+.btn.btn-primary:hover,
+a.btn-primary:hover,
+button.btn-primary:hover,
+.shop-cta:hover,
+a.shop-cta:hover,
+button.shop-cta:hover,
+.add-to-cart-button:hover,
+.mw-btn-primary:hover,
+[data-button="primary"]:hover {
+    background-color: var(--color-primary-hover, #0b5ed7) !important;
+    border-color: var(--color-primary-hover, #0b5ed7) !important;
+}
+
 .btn.btn-primary {
-    border-radius: var(--btn-primary-radius);
-    padding: var(--btn-primary-padding-y) var(--btn-primary-padding-x);
+    border-radius: var(--btn-primary-radius, 6px);
+    padding: var(--btn-primary-padding-y, 8px) var(--btn-primary-padding-x, 16px);
 }
 
 .btn.btn-secondary,
@@ -1154,48 +1203,11 @@ html.dark {
         color: var(--color-footer-text) !important;
     }
 
-    /*
-     * Unify primary button colors, heights, and radii via
-     * design-system tokens. Bootstrap `.btn-primary` and the
-     * various `.shop-cta` / `.add-to-cart-button` / similar
-     * primary-action buttons otherwise render in different hex
-     * blues, heights, and radii across the public site. Route
-     * everything through `var(--color-primary)` so the single
-     * source-of-truth is `design-system.css`.
-     */
-    .btn-primary,
-    .btn.btn-primary,
-    a.btn-primary,
-    button.btn-primary,
-    .shop-cta,
-    a.shop-cta,
-    button.shop-cta,
-    .add-to-cart-button,
-    .mw-btn-primary,
-    [data-button="primary"] {
-        background-color: var(--color-primary) !important;
-        border-color: var(--color-primary) !important;
-        color: #ffffff !important;
-        min-height: var(--touch-target-min);
-        min-width: var(--touch-target-min);
-        border-radius: var(--radius-sm) !important;
-        padding: 0 var(--space-5);
-        transition: background-color var(--duration-fast) var(--ease-default),
-                    border-color var(--duration-fast) var(--ease-default);
-    }
-    .btn-primary:hover,
-    .btn.btn-primary:hover,
-    a.btn-primary:hover,
-    button.btn-primary:hover,
-    .shop-cta:hover,
-    a.shop-cta:hover,
-    button.shop-cta:hover,
-    .add-to-cart-button:hover,
-    .mw-btn-primary:hover,
-    [data-button="primary"]:hover {
-        background-color: var(--color-primary-hover) !important;
-        border-color: var(--color-primary-hover) !important;
-    }
+    /* task-2026-05-21-bef102 / AI-868 — .btn-primary color rules moved
+       to global scope (see below). Left here as a comment so the mobile
+       @media block remains structurally intact and future diffing is
+       clear about the pre-868 layout. The lifted rules below apply at
+       ALL viewports; this block no longer needs them. */
 
     /*
      * Live Edit mobile editing chrome.
