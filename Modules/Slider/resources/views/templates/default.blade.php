@@ -200,7 +200,10 @@ if (!window.SliderV2) {
      (autoplay, autoplay_speed, show_arrows, show_dots) instead of hardcoded values. --}}
 ;(function(){
      const slider = new SliderV2('#js-slider-{{ $params['id'] ?? 'default' }}', {
-        loop: true,
+        loop: {{ ($sliderLoop ?? true) ? 'true' : 'false' }},
+        @if(!empty($sliderEffect) && $sliderEffect !== 'slide')
+        effect: '{{ $sliderEffect }}',
+        @endif
         @if(!empty($sliderAutoplay))
         autoplay: true,
         delay: {{ (int)($sliderAutoplaySpeed ?? 3000) }},

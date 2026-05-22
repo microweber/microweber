@@ -188,7 +188,10 @@ filter: sepia(100%);
          Now mirrors default.blade.php conditional wiring pattern. --}}
     ;(function(){
          const slider = new SliderV2('#js-slider-{{ $params['id'] ?? 'default' }}', {
-            loop: true,
+            loop: {{ ($sliderLoop ?? true) ? 'true' : 'false' }},
+            @if(!empty($sliderEffect) && $sliderEffect !== 'slide')
+            effect: '{{ $sliderEffect }}',
+            @endif
             @if($sliderAutoplay ?? false)
             autoplay: {
                 delay: {{ $sliderAutoplaySpeed ?? 3000 }},

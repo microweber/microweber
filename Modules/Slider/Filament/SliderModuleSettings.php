@@ -4,6 +4,7 @@ namespace Modules\Slider\Filament;
 
 use Filament\Schemas\Components\Livewire;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -43,17 +44,35 @@ class SliderModuleSettings extends LiveEditModuleSettingsTable
                                     ->live()
                                     ->helperText('Automatically advance slides without user interaction.'),
 
-                                Select::make('options.autoplay_speed')
-                                    ->label('Speed')
+                                // AI-1013 / task-2026-05-22 — replaced preset Select with free TextInput
+                                TextInput::make('options.autoplay_speed')
+                                    ->label('Speed (milliseconds)')
+                                    ->live()
+                                    ->numeric()
+                                    ->minValue(500)
+                                    ->maxValue(30000)
+                                    ->step(500)
+                                    ->default('3000')
+                                    ->helperText('Delay in ms between slides (e.g. 3000 = 3 seconds). Minimum 500ms.'),
+
+                                // AI-1014 / task-2026-05-22 — loop Toggle with default true
+                                Toggle::make('options.loop')
+                                    ->label('Loop')
+                                    ->live()
+                                    ->default(true)
+                                    ->helperText('Return to first slide after the last slide.'),
+
+                                // AI-1015 / task-2026-05-22 — transition effect selector
+                                Select::make('options.effect')
+                                    ->label('Transition effect')
                                     ->live()
                                     ->options([
-                                        '2000' => '2 seconds',
-                                        '3000' => '3 seconds',
-                                        '5000' => '5 seconds',
-                                        '8000' => '8 seconds',
+                                        'slide'      => 'Slide',
+                                        'fade'       => 'Fade',
+                                        'coverflow'  => 'Coverflow',
                                     ])
-                                    ->default('3000')
-                                    ->helperText('Delay between automatic slide transitions.'),
+                                    ->default('slide')
+                                    ->helperText('Animation style when advancing to the next slide.'),
 
                                 Toggle::make('options.show_arrows')
                                     ->label('Navigation arrows')

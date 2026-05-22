@@ -30,6 +30,12 @@ class SliderModule extends BaseModule
         $viewData['sliderAutoplaySpeed'] = (int)  ($this->getOption('autoplay_speed', 3000) ?: 3000);
         $viewData['sliderShowArrows']    = (bool) $this->getOption('show_arrows', true);
         $viewData['sliderShowDots']      = (bool) $this->getOption('show_dots', true);
+        // AI-1014 / task-2026-05-22 — wire loop setting (default true)
+        $viewData['sliderLoop']          = filter_var(
+            $this->getOption('loop', true), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE
+        ) ?? true;
+        // AI-1015 / task-2026-05-22 — wire transition effect (default 'slide')
+        $viewData['sliderEffect']        = $this->getOption('effect', 'slide') ?: 'slide';
 
         $template = $viewData['template'] ?? 'default';
         if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
