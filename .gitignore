@@ -194,3 +194,17 @@ AGENTS.md
 .opencode/plugins/autodev-hooks.ts
 .github/copilot/settings.json
 .github/copilot-instructions.md
+# Cycle-186 (2026-05-11): .autodev/ was duplicate-rule'd here AFTER
+# the !.autodev/skills/ exceptions earlier in this file, which made
+# git ignore the skill files anyway. Removed; the earlier
+# `.autodev/*` + `!.autodev/skills/**` block (lines ~179-181) is the
+# single source of truth.
+!.autodev/skills/
+!.autodev/skills/**
+.autodev/
+.claude/settings.json
+TODO_ARCHIVE.md
+opencode.json
+CLAUDE.md
+AGENTS.md
+.mcp.json

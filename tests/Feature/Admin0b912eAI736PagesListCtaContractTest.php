@@ -136,19 +136,27 @@ class Admin0b912eAI736PagesListCtaContractTest extends TestCase
     #[Test]
     public function table_count_query_is_soft_delete_aware(): void
     {
-        // Mirror the soft-delete-awareness pattern from AI-732 +
-        // ContentResource (whereNull('deleted_at') + is_deleted
-        // gate). Stops soft-deleted rows inflating the count past
-        // 10 and re-introducing the pagination chrome falsely.
-        $this->assertMatchesRegularExpression(
-            "/->whereNull\\(\\s*['\"]deleted_at['\"]\\s*\\)/",
+        // AI-876 fix: content table uses `is_deleted` (int), NOT Laravel's
+        // standard `deleted_at` timestamp. `whereNull('deleted_at')` causes
+        // a COLUMN-NOT-FOUND SQL error at runtime on MySQL.
+        //
+        // Regression guard: assert `deleted_at` is NOT present in query.
+        $this->assertDoesNotMatchRegularExpression(
+            "/->whereNull\(\s*['\"]deleted_at['\"]\s*\)/",
             $this->listPagesSrc,
-            'table() count query must skip soft-deleted rows via whereNull(\'deleted_at\').'
+            'table() count query must NOT use whereNull(\'deleted_at\') — content table has no deleted_at column (AI-876 regression guard).'
         );
+
+        // Canonical soft-delete predicate for the content table.
         $this->assertStringContainsString(
             "->where('is_deleted', 0)",
             $this->listPagesSrc,
             'table() count query must skip is_deleted = 1 rows.'
+        );
+        $this->assertMatchesRegularExpression(
+            "/->orWhereNull\(\s*['\"]is_deleted['\"]\s*\)/",
+            $this->listPagesSrc,
+            'table() count query must include orWhereNull(is_deleted) for rows with NULL soft-delete flag.'
         );
     }
 

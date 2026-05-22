@@ -5272,8 +5272,12 @@ html[dir="rtl"] .mw-main-drawer {
   padding: var(--space-sm, 8px) 0;
 }
 .mw-main-drawer__footer {
-  border-top: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
-  padding: var(--space-sm, 8px) 0;
+  padding: 0;
+}
+.mw-main-drawer__footer-divider {
+  border: none;
+  border-top: 1px solid var(--ese-border, rgba(0, 0, 0, 0.12));
+  margin: 0 var(--space-md, 13px);
 }
 .mw-main-drawer__item {
   display: flex;
@@ -5321,7 +5325,7 @@ html.dark .mw-main-drawer {
 .mw-main-drawer__section-header {
   margin: var(--space-md, 13px) 0 var(--space-xs, 4px);
   padding: 0 var(--space-md, 13px);
-  color: var(--ese-text-muted, #6b7280);
+  color: #4b5563;
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -5613,8 +5617,8 @@ html.dark .mw-page-chip-popover__link {
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: clip;
-  max-width: 40px;
+  text-overflow: ellipsis;
+  max-width: 48px;
   pointer-events: none;
 }
 html.dark .mw-live-edit-page .mw-toolbar-icon-btn[data-mw-label]::after {
@@ -6083,6 +6087,119 @@ html.dark .quick-ai-type-group-header {
 }
 html.dark .quick-ai-type-group-header:hover {
   background: var(--ese-surface-hover, rgba(255, 255, 255, 0.04));
+}
+body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-button {
+  background-color: rgba(13, 110, 253, 0.08) !important;
+  border-left: 3px solid #0d6efd !important;
+  padding-left: calc(var(--sidebar-item-padding-x, 12px) - 3px) !important;
+}
+html.dark body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-button {
+  background-color: rgba(13, 110, 253, 0.15) !important;
+}
+body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-icon, body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-label {
+  color: #0d6efd !important;
+}
+html.dark .flatpickr-calendar {
+  background: #1f2937 !important;
+  color: #f9fafb !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+html.dark .flatpickr-calendar .flatpickr-day {
+  color: #f9fafb !important;
+}
+html.dark .flatpickr-calendar .flatpickr-day:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: transparent !important;
+}
+html.dark .flatpickr-calendar .flatpickr-day.selected, html.dark .flatpickr-calendar .flatpickr-day.today {
+  background: #0d6efd !important;
+  border-color: #0d6efd !important;
+  color: #ffffff !important;
+}
+html.dark .flatpickr-calendar .flatpickr-day.disabled {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+html.dark .flatpickr-calendar .flatpickr-months, html.dark .flatpickr-calendar .flatpickr-month, html.dark .flatpickr-calendar .flatpickr-current-month, html.dark .flatpickr-calendar .flatpickr-prev-month, html.dark .flatpickr-calendar .flatpickr-next-month {
+  background: #1f2937 !important;
+  color: #f9fafb !important;
+  fill: #f9fafb !important;
+}
+html.dark .flatpickr-calendar .flatpickr-weekday {
+  color: #9ca3af !important;
+  background: #1f2937 !important;
+}
+html.dark .flatpickr-calendar .flatpickr-time input, html.dark .flatpickr-calendar .flatpickr-time .flatpickr-am-pm {
+  background: #1f2937 !important;
+  color: #f9fafb !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+html.dark .choices__list--dropdown, html.dark .choices__list[aria-expanded] {
+  background: #1f2937 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+html.dark .choices__item--selectable, html.dark .choices__item--choice {
+  color: #f9fafb !important;
+}
+html.dark .choices__item--selectable:hover, html.dark .choices__item--selectable.is-highlighted {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+html.dark [data-headlessui-state] [role="listbox"], html.dark .fi-fo-field-wrp [role="listbox"], html.dark .fi-select-option-list, html.dark [x-floated][role="listbox"] {
+  background-color: #1f2937 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #f9fafb !important;
+}
+html.dark [data-headlessui-state] [role="option"], html.dark .fi-fo-field-wrp [role="option"] {
+  color: #f9fafb !important;
+}
+html.dark [data-headlessui-state] [role="option"]:hover, html.dark [data-headlessui-state] [role="option"][data-active="true"], html.dark [data-headlessui-state] [role="option"][aria-selected="true"] {
+  background-color: rgba(13, 110, 253, 0.2) !important;
+}
+html.dark body.fi-panel-admin .fi-input, html.dark body.fi-panel-admin .fi-input-wrp, html.dark body.fi-panel-admin .fi-select, html.dark body.fi-panel-admin .fi-select-wrp, html.dark body.fi-panel-admin .fi-textarea, html.dark body.fi-panel-admin .fi-textarea-wrp {
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+html.dark body.fi-panel-admin .fi-input:focus, html.dark body.fi-panel-admin .fi-input-wrp:focus-within, html.dark body.fi-panel-admin .fi-select:focus, html.dark body.fi-panel-admin .fi-textarea:focus {
+  border-color: rgba(13, 110, 253, 0.8) !important;
+  box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25) !important;
+}
+html.dark body.fi-panel-admin .fi-ta-row:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+html.dark body.fi-panel-admin .fi-ta-row:nth-child(odd) {
+  background-color: transparent !important;
+}
+html.dark body.fi-panel-admin .fi-ta-row:hover {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+body.fi-panel-admin .fi-fo-repeater-create-item-btn-ctn, body.fi-panel-admin button[wire\:click*="addRepeaterItem"], body.fi-panel-admin .fi-fo-repeater > .fi-fo-repeater-create-item-btn-ctn {
+  border: 1.5px dashed rgba(13, 110, 253, 0.4) !important;
+  border-radius: 0.5rem !important;
+  background: rgba(13, 110, 253, 0.04) !important;
+  transition: background 120ms ease, border-color 120ms ease;
+  width: 100%;
+}
+body.fi-panel-admin .fi-fo-repeater-create-item-btn-ctn:hover, body.fi-panel-admin button[wire\:click*="addRepeaterItem"]:hover {
+  background: rgba(13, 110, 253, 0.08) !important;
+  border-color: rgba(13, 110, 253, 0.6) !important;
+}
+html.dark body.fi-panel-admin .fi-fo-repeater-create-item-btn-ctn {
+  border-color: rgba(13, 110, 253, 0.35) !important;
+  background: rgba(13, 110, 253, 0.08) !important;
+}
+body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-input-wrp {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
+}
+body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-input {
+  border-color: #ef4444 !important;
+}
+body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-select-wrp, body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-textarea-wrp {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
+}
+html.dark body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-input-wrp, html.dark body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-select-wrp, html.dark body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-textarea-wrp {
+  border-color: #f87171 !important;
+  box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.2) !important;
 }
 .ts-control {
   border: 1px solid #ececec;
@@ -16894,9 +17011,29 @@ html.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-s
   margin-top: var(--space-xs, 6px);
 }
 .mw-content-form-modal .preview_frame_wrapper_holder {
-  max-height: 160px;
-  overflow: hidden;
-  border-radius: 0.375rem;
+  display: none !important;
+}
+.swiper-pagination-bullet {
+  background: rgba(0, 0, 0, 0.5) !important;
+  opacity: 0.6 !important;
+}
+.swiper-pagination-bullet-active {
+  background: #0d6efd !important;
+  opacity: 1 !important;
+}
+.swiper-button-next, .swiper-button-prev, .mw-slider-v2-button-next, .mw-slider-v2-button-prev {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  color: #ffffff !important;
+}
+.swiper-button-next::after, .swiper-button-prev::after {
+  font-size: 18px !important;
+  color: #ffffff !important;
+}
+#live-editor-frame, #live-editor-frame:focus, #live-editor-frame:focus-visible {
+  outline: none;
 }
 .w-100 {
   width: 100% !important;
@@ -19507,6 +19644,18 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
   }
   body.fi-panel-admin .fi-fo-component-ctn {
     grid-template-columns: minmax(0, 1fr) !important;
+  }
+  body.fi-panel-admin .fi-ta-row .fi-badge {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  body.fi-panel-admin .fi-ta-cell .fi-ta-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
   }
 }
 root {
@@ -27215,6 +27364,9 @@ html.dark .mw-settings-hub-item-description {
   .border-primary-500 {
     border-color: rgba(var(--primary-500), 1);
   }
+  .border-primary-600 {
+    border-color: rgba(var(--primary-600), 1);
+  }
   .border-red-200 {
     border-color: var(--color-red-200);
   }
@@ -28465,13 +28617,6 @@ html.dark .mw-settings-hub-item-description {
       }
     }
   }
-  .hover\:bg-gray-700 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: rgba(var(--gray-700), 1);
-      }
-    }
-  }
   .hover\:bg-gray-800 {
     &:hover {
       @media (hover: hover) {
@@ -28504,6 +28649,13 @@ html.dark .mw-settings-hub-item-description {
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-indigo-700);
+      }
+    }
+  }
+  .hover\:bg-primary-50 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: rgba(var(--primary-50), 1);
       }
     }
   }
@@ -28736,11 +28888,6 @@ html.dark .mw-settings-hub-item-description {
       border-color: #4991fc;
     }
   }
-  .focus\:border-gray-900 {
-    &:focus {
-      border-color: rgba(var(--gray-900), 1);
-    }
-  }
   .focus\:border-indigo-500 {
     &:focus {
       border-color: var(--color-indigo-500);
@@ -28901,9 +29048,9 @@ html.dark .mw-settings-hub-item-description {
       background-color: rgba(var(--gray-100), 1);
     }
   }
-  .active\:bg-gray-900 {
+  .active\:bg-primary-100 {
     &:active {
-      background-color: rgba(var(--gray-900), 1);
+      background-color: rgba(var(--primary-100), 1);
     }
   }
   .active\:bg-primary-900 {

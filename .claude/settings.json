@@ -3,5 +3,394 @@
     "allow": [
       "*"
     ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{ cozempic checkpoint 2>/dev/null || python3 -m cozempic checkpoint 2>/dev/null; } || true"
+          }
+        ]
+      },
+      {
+        "matcher": "TaskCreate|TaskUpdate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{ cozempic checkpoint 2>/dev/null || python3 -m cozempic checkpoint 2>/dev/null; } || true"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{ cozempic remind 2>/dev/null || python3 -m cozempic remind 2>/dev/null; } || true"
+          }
+        ]
+      },
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "INPUT=$(cat); SESSION_ID=$(echo \"$INPUT\" | python3 -c \"import sys,json; print(json.load(sys.stdin).get('session_id',''))\" 2>/dev/null); TRANSCRIPT=$(echo \"$INPUT\" | python3 -c \"import sys,json; print(json.load(sys.stdin).get('transcript_path',''))\" 2>/dev/null); { uv pip install --upgrade cozempic --quiet 2>/dev/null || pip install --upgrade cozempic --quiet --disable-pip-version-check 2>/dev/null; } & { cozempic guard --daemon ${SESSION_ID:+--session $SESSION_ID} 2>/dev/null || python3 -m cozempic guard --daemon ${SESSION_ID:+--session $SESSION_ID} 2>/dev/null; } || true; { cozempic digest inject ${TRANSCRIPT:+--session $TRANSCRIPT} 2>/dev/null || python3 -m cozempic digest inject ${TRANSCRIPT:+--session $TRANSCRIPT} 2>/dev/null; } || true"
+          }
+        ]
+      },
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "TRANSCRIPT=$(cat | python3 -c \"import sys,json; print(json.load(sys.stdin).get('transcript_path',''))\" 2>/dev/null); { cozempic checkpoint 2>/dev/null || python3 -m cozempic checkpoint 2>/dev/null; } || true; { cozempic digest flush ${TRANSCRIPT:+--session $TRANSCRIPT} 2>/dev/null || python3 -m cozempic digest flush ${TRANSCRIPT:+--session $TRANSCRIPT} 2>/dev/null; } || true"
+          }
+        ]
+      },
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "TRANSCRIPT=$(cat | python3 -c \"import sys,json; print(json.load(sys.stdin).get('transcript_path',''))\" 2>/dev/null); { cozempic checkpoint 2>/dev/null || python3 -m cozempic checkpoint 2>/dev/null; } || true; { cozempic digest flush ${TRANSCRIPT:+--session $TRANSCRIPT} 2>/dev/null || python3 -m cozempic digest flush ${TRANSCRIPT:+--session $TRANSCRIPT} 2>/dev/null; } || true"
+          }
+        ]
+      },
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{ cozempic post-compact 2>/dev/null || python3 -m cozempic post-compact 2>/dev/null; } || true; { cozempic digest inject 2>/dev/null || python3 -m cozempic digest inject 2>/dev/null; } || true"
+          }
+        ]
+      },
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "Setup": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "TeammateIdle": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "PermissionDenied": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "TaskCreated": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "CwdChanged": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "FileChanged": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "InstructionsLoaded": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "ConfigChange": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "Elicitation": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "ElicitationResult": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "WorktreeCreate": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "WorktreeRemove": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "__autodev_hooks__": true,
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      }
+    ]
   }
 }

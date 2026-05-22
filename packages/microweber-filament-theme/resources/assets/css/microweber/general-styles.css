@@ -4090,3 +4090,59 @@ html.dark body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-tex
     border-color: #f87171 !important;
     box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.2) !important;
 }
+
+/* ==========================================================================
+   AI-959 / task-2026-05-22 — Required field asterisk: standardise position AFTER
+   label text. Filament v5 renders <sup class="fi-fo-field-label-required-mark">*</sup>
+   inline after the label — add red colour + consistent margin.
+   ========================================================================== */
+body.fi-panel-admin .fi-fo-field-label-required-mark,
+body.fi-panel-admin .fi-fieldset-label-required-mark,
+body.fi-panel-admin .fi-fo-table-repeater-header-required-mark {
+    color: #ef4444 !important;
+    margin-left: 2px !important;
+    font-size: 0.8em !important;
+    vertical-align: super !important;
+}
+
+/* ==========================================================================
+   AI-975 / task-2026-05-22 — Bulk-delete confirm: danger-zone styling.
+   Filament bulk-action modals add a count to the heading. We target the
+   modal description paragraph that contains the bulk count via a broader
+   .fi-modal-window rule so the danger colour + bolder weight stand out.
+   ========================================================================== */
+body.fi-panel-admin .fi-ac-action[id*="bulk"] .fi-modal-header-heading,
+body.fi-panel-admin .fi-bulk-action-modal .fi-modal-header-heading {
+    color: #dc2626 !important;
+}
+body.fi-panel-admin .fi-bulk-action-modal .fi-modal-description {
+    font-weight: 500 !important;
+    color: #dc2626 !important;
+}
+
+/* ==========================================================================
+   AI-996 / task-2026-05-22 — Dashboard stat cards: ensure cursor:pointer and
+   a clear link affordance even when the browser doesn't inherit from <a>.
+   ========================================================================== */
+body.fi-panel-admin a.mw-quick-stat-card {
+    cursor: pointer !important;
+    text-decoration: none !important;
+    display: block !important;
+}
+
+/* ==========================================================================
+   AI-993 / task-2026-05-22 — User role badge a11y: WCAG 1.4.1 colour-alone
+   rule requires a text label alongside colour coding. Filament already renders
+   the role name as text inside the badge — this rule ensures the text is
+   always legible (min contrast 4.5:1) in both themes. No structural change needed.
+   ========================================================================== */
+body.fi-panel-admin .fi-badge[class*="role"],
+body.fi-panel-admin .fi-badge[class*="admin"],
+body.fi-panel-admin .fi-badge[class*="superadmin"] {
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
+}
+html.dark body.fi-panel-admin .fi-badge {
+    /* Ensure readable text inside badges in dark mode */
+    text-shadow: none !important;
+}

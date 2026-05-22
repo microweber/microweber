@@ -99,14 +99,22 @@
                     size: 30
                 }).remove();
 
-                 console.log(pagesTree)
-
                 pagesTree.tree.on('selectionChange', e => {
                     let result = pagesTree.tree.getSelected();
                     this.state = result;
                 })
- 
-                pagesTree.tree.openAll()
+
+                pagesTree.tree.openAll();
+
+                // AI-1001 / task-2026-05-22 — wire expand-all / collapse-all buttons.
+                const expandBtn = document.querySelector('#mw-tree-expand-all-{{$suffix}}');
+                const collapseBtn = document.querySelector('#mw-tree-collapse-all-{{$suffix}}');
+                if (expandBtn) {
+                    expandBtn.addEventListener('click', () => pagesTree.tree.openAll());
+                }
+                if (collapseBtn) {
+                    collapseBtn.addEventListener('click', () => pagesTree.tree.closeAll());
+                }
 
             };
 
@@ -144,7 +152,19 @@
 
         @endscript
 
-
+        {{-- AI-1001 / task-2026-05-22 — expand-all / collapse-all tree toolbar. --}}
+        <div class="flex gap-2 mb-2">
+            <button type="button" id="mw-tree-expand-all-{{$suffix}}"
+                class="fi-btn fi-btn-size-sm fi-color-gray fi-btn-color-gray py-1 px-2 text-xs rounded"
+                style="border:1px solid #e5e7eb;background:#f9fafb;cursor:pointer;">
+                ＋ Expand all
+            </button>
+            <button type="button" id="mw-tree-collapse-all-{{$suffix}}"
+                class="fi-btn fi-btn-size-sm fi-color-gray fi-btn-color-gray py-1 px-2 text-xs rounded"
+                style="border:1px solid #e5e7eb;background:#f9fafb;cursor:pointer;">
+                − Collapse all
+            </button>
+        </div>
 
             <div wire:ignore class="mw-edit-categories-list" id="mw-tree-edit-content-{{$suffix}}"></div>
 

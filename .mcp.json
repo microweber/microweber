@@ -1,40 +1,108 @@
 {
   "mcpServers": {
-    "playwright": {
-      "type": "local",
-      "command": "npx",
+    "mcp-atlassian": {
+      "command": "uvx",
       "args": [
-        "-y",
-        "@playwright/mcp@latest"
+        "mcp-atlassian"
       ],
-      "tools": [
-        "*"
-      ]
+      "env": {
+        "JIRA_URL": "https://microweber.atlassian.net",
+        "JIRA_USERNAME": "boksiora@gmail.com",
+        "JIRA_API_TOKEN": "ATATT3xFfGF0_jbNUUtrGbkISn0lZoS6HuEt2eCEalappGnryR76OpsiNx9dTkEIZp5dPwz-LWDY90Do8xIu__tfEiB-dSxXoOINQvAzDVtxhfNG93xtyMCXSSd-lMHu56qexxvpA7a3DLnw00UscWh333e8-7QVQGLxcllyNnsMgTxYv8_z1Sc=F50C02BF"
+      },
+      "alwaysLoad": true,
+      "_meta": {
+        "managedBy": "autoaidev",
+        "name": "mcp-atlassian",
+        "kind": "user"
+      }
     },
-    "sequential-thinking": {
-      "type": "local",
-      "command": "npx",
+    "zerolib-email": {
+      "command": "uvx",
       "args": [
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
+        "mcp-email-server@latest",
+        "stdio"
       ],
-      "tools": [
-        "*"
-      ]
+      "env": {
+        "MCP_EMAIL_SERVER_ACCOUNT_NAME": "default",
+        "MCP_EMAIL_SERVER_EMAIL_ADDRESS": "agent-a1@emailpwd.com",
+        "MCP_EMAIL_SERVER_PASSWORD": "rkOIaiZ479iBzqMweEKp",
+        "MCP_EMAIL_SERVER_IMAP_HOST": "mail.emailpwd.com",
+        "MCP_EMAIL_SERVER_IMAP_PORT": "993",
+        "MCP_EMAIL_SERVER_IMAP_SSL": "true",
+        "MCP_EMAIL_SERVER_IMAP_VERIFY_SSL": "true",
+        "MCP_EMAIL_SERVER_SMTP_HOST": "mail.emailpwd.com",
+        "MCP_EMAIL_SERVER_SMTP_PORT": "465",
+        "MCP_EMAIL_SERVER_SMTP_SSL": "true",
+        "MCP_EMAIL_SERVER_SMTP_START_SSL": "false",
+        "MCP_EMAIL_SERVER_SMTP_VERIFY_SSL": "true",
+        "MCP_EMAIL_SERVER_ENABLE_ATTACHMENT_DOWNLOAD": "true",
+        "MCP_EMAIL_SERVER_SAVE_TO_SENT": "true",
+        "MCP_EMAIL_SERVER_USER_NAME": "agent-a1@emailpwd.com",
+        "AUTODEV_EMAIL_RECEIVE_TASKS": "true",
+        "AUTODEV_EMAIL_ALLOWED_SENDERS": "agent-test@emailpwd.com,agent-a1@emailpwd.com,agent-pm@emailpwd.com,agent-designer@emailpwd.com,boksiora@gmail.com"
+      },
+      "alwaysLoad": true,
+      "_meta": {
+        "managedBy": "autoaidev",
+        "name": "zerolib-email",
+        "kind": "user"
+      }
     },
     "memory": {
-      "type": "local",
       "command": "npx",
       "args": [
         "-y",
         "@modelcontextprotocol/server-memory"
       ],
       "env": {
-        "MEMORY_FILE_PATH": ".autodev/MEMORY.jsonl"
+        "MEMORY_FILE_PATH": ".autodev/MEMORY.md"
       },
-      "tools": [
-        "*"
-      ]
+      "alwaysLoad": true,
+      "_meta": {
+        "managedBy": "autoaidev",
+        "name": "memory",
+        "kind": "builtin"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "alwaysLoad": true,
+      "_meta": {
+        "managedBy": "autoaidev",
+        "name": "playwright",
+        "kind": "builtin"
+      }
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "alwaysLoad": true,
+      "_meta": {
+        "managedBy": "autoaidev",
+        "name": "sequential-thinking",
+        "kind": "builtin"
+      }
+    },
+    "computer-use-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "computer-use-mcp"
+      ],
+      "alwaysLoad": true,
+      "_meta": {
+        "managedBy": "autoaidev",
+        "name": "computer-use-mcp",
+        "kind": "builtin"
+      }
     }
   }
 }

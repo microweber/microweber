@@ -963,10 +963,13 @@ class ContentResource extends Resource
                 Forms\Components\DateTimePicker::make('posted_at')
                     ->label('Publish Date')
                     ->prefixIcon('heroicon-m-calendar')
+                    // AI-1000 / task-2026-05-22 — scheduled post countdown in helperText.
+                    // Shows human-readable "Publishes in X hours" when date is in the future.
                     ->helperText(function (Schemas\Components\Utilities\Get $get) {
                         $postedAt = $get('posted_at');
                         if ($postedAt && \Carbon\Carbon::parse($postedAt)->isFuture()) {
-                            return 'This post is scheduled for future publication.';
+                            $diffHuman = \Carbon\Carbon::parse($postedAt)->diffForHumans(null, false, false, 2);
+                            return "Scheduled — publishes {$diffHuman}.";
                         }
                         return 'Set a future date to schedule publication. Leave empty to publish immediately.';
                     })
