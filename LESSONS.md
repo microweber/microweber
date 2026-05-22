@@ -4,6 +4,34 @@
 
 ---
 
+## 2026-05-22 — Filament NavigationGroup icon conflict (AI-943 P1 BLOCKER)
+
+- **Pattern:** Adding `->icon()` to a Filament `NavigationGroup` when ANY child resource in that group ALSO carries a navigation icon causes HTTP 500 on EVERY admin page: "Navigation group [Website] has an icon but one or more of its items also have icons. Either the group or its items can have icons, but not both." Admin is completely inaccessible until fixed.
+- **Why it happened:** AI-926 removed `->sidebarCollapsibleOnDesktop()` from the panel provider. This changed how Filament renders the navigation and surfaced its group-vs-item icon validation, which was previously silently ignored in the collapsible-rail mode.
+- **Prevention rule:** Never add `->icon()` to a `NavigationGroup` definition in `FilamentAdminPanelProvider.php` without first checking if the group's child resources have `$navigationIcon` set. Use ONE or the OTHER: group icon or per-item icons. Per-item icons are more informative and consistent with Filament's standard patterns. Fix: remove `->icon()` from `NavigationGroup::make()` definitions for Website, Shop, and any other group whose children carry icons.
+- **Applies when:** Any change to `FilamentAdminPanelProvider.php` navigation groups; adding new modules with `$navigationIcon` to existing groups.
+
+## 2026-05-22 — Settings-hub duplicate card: FilamentRegistry dual-registration dedup failure (AI-929)
+
+- **Pattern:** Registering a Filament Resource with BOTH `FilamentRegistry::registerResource(X::class)` (global scope, sidebar) AND `FilamentRegistry::registerResource(X::class, Settings::class)` (Settings hub scope) causes two identical cards to appear in the Settings hub. The expected dedup in `Settings.php::getViewData()` fails because `extractItemData()` returns empty slug for NavigationItems (Filament's `NavigationItem` has no `getSlug()` method), while the resource instance returns a real slug — `array_search(real_slug, [empty, empty, ...])` returns false and BOTH items are added.
+- **Why it happened:** AI-764 added both registrations thinking they were needed for both sidebar AND Settings hub. In practice, the Settings hub's nav-loop already captures globally-registered resources if their `navigationGroup` ends in "Settings".
+- **Prevention rule:** If a resource should appear in the Settings hub, use ONLY the global `registerResource(X::class)` AND give it `$navigationGroup = '* Settings'` (e.g. "System Settings"). The Settings hub nav-loop captures groups ending in "Settings". The Settings-scoped registration is ONLY needed for resources that should appear in Settings hub but NOT in the sidebar. Never use both.
+- **Applies when:** Adding resources to `BackupServiceProvider`, `RestoreServiceProvider`, or any module that participates in the Settings hub.
+
+## 2026-05-22 — `/blog` returns 404 after AI-856 catch-all exclusion (AI-946)
+
+- **Pattern:** AI-856 added `blog` to the FrontendController catch-all exclusion regex (`web.php` where clause) to prevent Faker fixture content at `/blog`. AI-792 later fixed `createDefaultBlogPage()` to create a real blog listing page. After AI-792, `/blog` IS a real content page in the DB but still excluded from FrontendController → Route::fallback → 404.
+- **Why it happened:** The exclusion was added as a workaround for a missing content page. The workaround was not re-evaluated after the underlying issue was fixed.
+- **Prevention rule:** When an exclusion is added to the catch-all regex as a fixture-leak workaround, add a comment explaining the prerequisite fix needed before it can be removed. When AI-792 or similar "create the real page" fixes land, immediately check if any catch-all exclusions can be removed. The exclusion list in `web.php` should only contain routes that have their own dedicated controllers — not content pages.
+- **Applies when:** Any change to the catch-all `->where('slug', '^(?!...).*')` regex in `src/MicroweberPackages/Frontend/routes/web.php`.
+
+## 2026-05-22 — Video module lazy_load key mismatch in renderVideoModule() helper (AI-967)
+
+- **Pattern:** `VideoModuleSettings.php` defines `Toggle::make('options.lazy_load')` which saves the option as `lazy_load` (with underscore) via `set_option('lazy_load', value, id)`. The `renderVideoModule()` helper in `Modules/Video/Support/helpers.php` reads `get_option('lazyload', $id)` (no underscore). The lazy-load setting is silently ignored on every render.
+- **Why it happened:** The form field key `options.lazy_load` uses snake_case; the helper was written to read the legacy `lazyload` key from before the Filament settings form existed.
+- **Prevention rule:** When checking if a module's settings are wired, grep BOTH the form field keys in `ModuleSettings.php` AND the `get_option()` calls in the helper. Verify the keys match exactly — underscore vs no-underscore, dash vs no-dash differences will silently ignore the setting. If adding a backward-compat read for old data, use `?: get_option('legacy_key', $id)` as a fallback.
+- **Applies when:** Any module that uses a global helper function (`renderVideoModule`, `renderSliderModule`, etc.) instead of reading options directly in `Module::render()`. The helper's `get_option()` calls may use legacy key names that differ from the Filament form's option keys.
+
 ## 2026-05-22 — Microweber module settings wiring: render() must call getOption() (AI-918..922)
 
 - **Pattern:** `ModuleSettings.php` saves Filament form fields correctly via `LiveEditModuleSettings`. The settings persist in the DB. But `Module.php::render()` never reads them with `$this->getOption('key', 'default')`. Templates hardcode defaults (e.g. `autoplay: true`, `show_dots: true`). User changes settings → nothing changes. Confirmed in 8+ modules: Slider, GoogleMaps, Embed, ContactForm, SocialLinks.
