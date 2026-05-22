@@ -69,6 +69,7 @@ class CustomerResource extends Resource
                     ->relationship('currency', 'name')
                     ->searchable()
                     ->preload()
+                    ->default(fn () => \Modules\Currency\Models\Currency::getDefault()?->id)
                     ->required()
                     ->createOptionForm([
                         Forms\Components\TextInput::make('name')
@@ -212,7 +213,13 @@ Forms\Components\Select::make('company_id')
             Tables\Columns\TextColumn::make('phone')->sortable()->searchable()
                 ->visibleFrom('md'),
             Tables\Columns\TextColumn::make('email')->sortable()->searchable(),
-            Tables\Columns\BooleanColumn::make('active')->sortable(),
+            Tables\Columns\IconColumn::make('active')
+                ->boolean()
+                ->trueIcon('heroicon-o-check-circle')
+                ->trueColor('success')
+                ->falseIcon('heroicon-o-x-circle')
+                ->falseColor('danger')
+                ->sortable(),
             Tables\Columns\TextColumn::make('user.username')->sortable()
                 ->visibleFrom('md'),
             Tables\Columns\TextColumn::make('currency.name')->sortable()
