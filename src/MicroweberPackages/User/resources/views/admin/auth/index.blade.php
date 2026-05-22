@@ -65,6 +65,30 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
             margin-bottom: 30px;
         }
 
+        /* task-2026-05-22-1dcb94 / AI-757 — brand logo in auth header */
+        .auth-brand-logo-wrapper {
+            margin-bottom: 16px;
+        }
+        .auth-brand-logo-wrapper a {
+            display: inline-block;
+            text-decoration: none;
+        }
+        .auth-brand-logo {
+            max-height: 60px;
+            max-width: 200px;
+            width: auto;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .auth-brand-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0d6efd;
+            text-decoration: none;
+            display: inline-block;
+        }
+
         .auth-header h2 {
             font-size: 28px;
             font-weight: 600;
@@ -446,7 +470,26 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                 </div>
             @else
                 <!-- Login/Register Forms -->
+                {{-- task-2026-05-22-1dcb94 / AI-757 — brand logo + brand expression
+                     on admin login page. admin_logo_login() returns the configured
+                     admin logo URL; falls back to brand name text when no logo is
+                     configured. Mirrors the AI-794 pattern from layout.blade.php.
+                --}}
+                @php $mwAdminLoginLogo = mw()->ui->admin_logo_login(); @endphp
                 <div class="auth-header">
+                    <div class="auth-brand-logo-wrapper">
+                        @if ($mwAdminLoginLogo)
+                            <a href="{{ url('/') }}" aria-label="{{ mw()->ui->brand_name() ?: 'Microweber' }}">
+                                <img src="{{ $mwAdminLoginLogo }}"
+                                     alt="{{ mw()->ui->brand_name() ?: 'Microweber' }}"
+                                     class="auth-brand-logo">
+                            </a>
+                        @else
+                            <a href="{{ url('/') }}" class="auth-brand-name" aria-label="{{ mw()->ui->brand_name() ?: 'Microweber' }}">
+                                {{ mw()->ui->brand_name() ?: 'Microweber' }}
+                            </a>
+                        @endif
+                    </div>
                     <h2>Welcome</h2>
                     <p style="color: #6b7280; font-size: 14px;">Sign in to your account or create a new one</p>
                 </div>
