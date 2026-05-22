@@ -4,6 +4,20 @@
 
 ---
 
+## 2026-05-22 — `strrpos` for last-occurrence task marker when marker appears multiple times (task-2026-05-22-5cbdee)
+
+- **Pattern:** A contract test slicing from a task-ID marker in a CSS file got the wrong block because the marker appeared twice: once in a prior task's comment block that referenced the new fix, and once in the actual new CSS block further down. Using `strpos` found the FIRST occurrence (prior task's comment), so the 1500-char slice didn't reach the new `@media` block, causing the test to false-fail.
+- **Why it happened:** CSS files accumulate multiple task-ID markers across blocks. When task-2026-05-22-77c486 (brand mark) included a comment mentioning "task-2026-05-22-5cbdee" (page-header buttons), the 5cbdee marker was present before its own code block. `strpos` is greedy for the first occurrence.
+- **Prevention rule:** When a task-ID marker may appear multiple times in the source file (common when a prior task's comment block cites the new task, or when the marker exists in both a CSS comment and in the new rule block), ALWAYS use `strrpos` to find the LAST occurrence. The last occurrence is always the actual new code block. Document in the test docblock why `strrpos` is used: "The marker appears twice: once in [prior context], once in [new block]. `strrpos` finds the LAST occurrence — the new block." Part of the 22+ recurrence selector-self-match guard family.
+- **Applies when:** Writing contract tests that use a task-ID marker as a slice anchor in CSS files; any source file where multiple blocks share a marker or where a prior block cites the new task.
+
+## 2026-05-22 — CSS global-scope assertion: position comparison beats slice + @media check (AI-877 / task-2026-05-22-ef3960)
+
+- **Pattern:** Three consecutive iterations of a contract test asserting a CSS rule is at global scope (not inside `@media`) all failed due to `@media` text appearing in the docblock prose ("no @media guard" etc.). The "slice from task marker + check slice doesn't contain @media" approach is fundamentally fragile because the slice can start inside a comment that mentions `@media`.
+- **Why it happened:** CSS docblock comments for global-scope rules routinely say things like "no @media guard — applies to all viewports." Any approach that searches for `@media` inside a slice starting from the task marker will false-fail when the marker is inside the comment containing that prose.
+- **Prevention rule:** Use the position-comparison approach instead: (a) strip all CSS comments from the full source with `preg_replace('~/\*[\s\S]*?\*/~s', '', $src)`; (b) find the rule selector's LAST position with `strrpos($srcStripped, 'your-selector')`; (c) find the LAST `@media` position with `strrpos($srcStripped, '@media')`; (d) `assertGreaterThan($lastMediaPos, $rulePos)`. If the rule position is after the last `@media` position, it's provably at global scope. If any `@media` appears after the rule, it cannot be at global scope. Robust against all prose variations.
+- **Applies when:** Contract-testing that a CSS rule is at global scope (not inside any @media viewport block); asserting "this rule applies to all viewports" for public-touch.css or similar files; any test that previously used "slice from marker + search for @media inside slice."
+
 ## 2026-05-22 — Admin dashboard stat-card URL regression from label rename (AI-869 / task-0e7bf0)
 
 - **Pattern:** `DashboardQuickStatsWidget` comments stat card linked to `/admin/settings/comments` which returns HTTP 404. The companion stat-card for Welcome sub-line (AI-705) correctly linked to `/admin/comments`. The discrepancy was introduced by AI-738 when the comments stat card's label was updated to "Last comments (30 days)" — the URL was changed at the same time but to the wrong path.
