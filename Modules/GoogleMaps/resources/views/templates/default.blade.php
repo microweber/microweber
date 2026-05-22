@@ -24,7 +24,7 @@ description: Default
             scrolling="no"
             marginheight="0"
             marginwidth="0"
-            src="https://maps.google.com/maps?q={{ urlencode($address) }}&amp;z={{ intval($zoom) }}&amp;t={{ $mapType ?? 'm' }}&amp;output=embed{{ !($showMarker ?? true) ? '&amp;markers=' : '' }}">
+            src="https://maps.google.com/maps?q={{ urlencode($address) }}&amp;z={{ intval($zoom) }}&amp;t={{ $mapType ?? 'm' }}&amp;output=embed{{ !($showMarker ?? true) ? '&amp;markers=' : (isset($markerLabel) && $markerLabel ? '&amp;markers=label:' . e($markerLabel) . '|' . urlencode($address) : '') }}">
         </iframe>
     @else
         {{-- AI-969 / task-2026-05-22 — improved placeholder when no address is set.

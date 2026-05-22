@@ -20,7 +20,14 @@ class GoogleMapsModule extends BaseModule
         $viewData = $this->getViewData();
 
         $address = $this->params['data-address'] ?? '';
-        $mapType = get_module_option('data-map-type', $this->params['id']) ?? $this->params['data-map-type'] ?? 'roadmap';
+        // AI-1017 / task-2026-05-22 — AI-872 settings form saved key as `data-maptype` (no hyphen);
+        // render() reads `data-map-type` (with hyphen). Fix: read both keys with fallback so
+        // existing saved data (`data-maptype`) still works; new saves use `data-map-type`.
+        $mapType = get_module_option('data-map-type', $this->params['id'])
+            ?? get_module_option('data-maptype', $this->params['id'])
+            ?? $this->params['data-map-type']
+            ?? $this->params['data-maptype']
+            ?? 'roadmap';
         $zoom = get_module_option('data-zoom', $this->params['id']) ?? $this->params['data-zoom'] ?? $this->params['zoom'] ?? 17;
         // AI-1016 — fixed missing closing ) — the get_module_option call was swallowing
         // the fallback chain as its second argument; should close after ['id'] only.
@@ -71,6 +78,11 @@ class GoogleMapsModule extends BaseModule
             ?? true;
         $showMarker = filter_var($showMarkerRaw, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? true;
 
+        // AI-1020 / task-2026-05-22 — marker label (single char overlaid on pin, e.g. 'A').
+        $markerLabel = get_module_option('data-marker-label', $this->params['id'])
+            ?? $this->params['data-marker-label']
+            ?? null;
+
         $viewData['mapType'] = $mapType;
         $viewData['zoom'] = $zoom;
         $viewData['width'] = $width;
@@ -79,6 +91,7 @@ class GoogleMapsModule extends BaseModule
         $viewData['id'] = $id;
         $viewData['address'] = $address;
         $viewData['showMarker'] = $showMarker;
+        $viewData['markerLabel'] = $markerLabel;
 
 
 
