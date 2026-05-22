@@ -4,6 +4,8 @@ namespace Modules\SocialLinks\Filament;
 
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -173,6 +175,54 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
 
                         Tabs\Tab::make('Design')
                             ->schema([
+                                // task-2026-05-22-759a88 / AI-922 — expose 6 icon style
+                                // properties that getSocialNetworksData() already reads
+                                // from options but had no UI controls. Operators could
+                                // not customize icon appearance via the settings panel.
+                                Section::make('Icon Styles')->schema([
+                                    ColorPicker::make('options.iconColor')
+                                        ->label('Icon Color')
+                                        ->live()
+                                        ->helperText('Leave blank to use the default icon brand color.'),
+
+                                    ColorPicker::make('options.iconHoverColor')
+                                        ->label('Icon Hover Color')
+                                        ->live()
+                                        ->helperText('Color shown when hovering over an icon.'),
+
+                                    TextInput::make('options.iconSize')
+                                        ->label('Icon Size (px)')
+                                        ->live()
+                                        ->numeric()
+                                        ->default('24')
+                                        ->helperText('Icon width and height in pixels.'),
+
+                                    TextInput::make('options.iconSpacing')
+                                        ->label('Icon Spacing (px)')
+                                        ->live()
+                                        ->numeric()
+                                        ->default('10')
+                                        ->helperText('Gap between icons in pixels.'),
+
+                                    Select::make('options.iconFlex')
+                                        ->label('Icon Layout')
+                                        ->live()
+                                        ->options([
+                                            'flex'         => 'Row (horizontal)',
+                                            'flex-column'  => 'Column (vertical)',
+                                        ])
+                                        ->default('flex'),
+
+                                    Select::make('options.iconPosition')
+                                        ->label('Icon Alignment')
+                                        ->live()
+                                        ->options([
+                                            'flex-start' => 'Left',
+                                            'center'     => 'Center',
+                                            'flex-end'   => 'Right',
+                                        ])
+                                        ->default('center'),
+                                ]),
                                 Section::make('Design Settings')->schema(
                                     $this->getTemplatesFormSchema()),
                             ]),

@@ -289,6 +289,23 @@ public static function getNavigationBadgeTooltip(): ?string
                     ->label('Is paid')
                     ->columnSpan('full')
                     ->required(),
+                // task-2026-05-22-46f7ff / AI-924 — warn when order_status=Completed but
+                // is_paid=false (conflicting financial signals). Real data state B:
+                // status and payment fields are independent; cash orders can be Completed
+                // before payment is confirmed. A reactive Placeholder surfaces the mismatch
+                // without blocking saves.
+                Forms\Components\Placeholder::make('payment_status_conflict_warning')
+                    ->label('')
+                    ->columnSpan('full')
+                    ->content(new \Illuminate\Support\HtmlString(
+                        '<div class="rounded-lg bg-warning-50 dark:bg-warning-900/20 border border-warning-300 dark:border-warning-700 px-4 py-3 text-sm text-warning-800 dark:text-warning-300">'
+                        . '<strong>⚠ Payment conflict:</strong> Order status is Completed but Is Paid is off. '
+                        . 'Confirm this is intentional (e.g. cash payment) or toggle Is Paid on.'
+                        . '</div>'
+                    ))
+                    ->visible(function (\Filament\Forms\Get $get): bool {
+                        return $get('order_status') === 'completed' && !$get('is_paid');
+                    }),
             ]);
     }
 
@@ -612,10 +629,19 @@ public static function getNavigationBadgeTooltip(): ?string
                 ->unique(Order::class, 'order_reference_id', ignoreRecord: true),
 
 
+            // task-2026-05-22-46f7ff / AI-923 — customer field showed raw ID instead
+            // of human-readable name/email. Added ->getOptionLabelUsing() so Filament
+            // can resolve the label for the currently-selected customer_id on form load
+            // (->lazy() defers option loading but needs explicit label resolution for the
+            // initial value; ->getOptionLabelFromRecordUsing alone doesn't cover this).
             Forms\Components\Select::make('customer_id')
                 ->relationship('customer', 'email')
                 ->searchable()
                 ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->getFullName()}  {$record->getEmail()}")
+                ->getOptionLabelUsing(function ($value): ?string {
+                    $c = \Modules\Customer\Models\Customer::find($value);
+                    return $c ? trim($c->getFullName() . ' ' . $c->getEmail()) : (string) $value;
+                })
                 ->label('Customer')
                 //    ->preload()
                 ->lazy()

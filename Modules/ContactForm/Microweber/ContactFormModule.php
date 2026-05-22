@@ -41,6 +41,16 @@ class ContactFormModule extends BaseModule
         $viewData['default_fields'] = implode(',', $default_fields);
         $viewData['button_text'] = $viewData['options']['button_text'] ?? 'Send Message';
 
+        // task-2026-05-22-759a88 / AI-921 — wire newsletter_subscription toggle.
+        // ContactFormModuleSettings defines options.newsletter_subscription but
+        // render() never forwarded it — template @if(isset($show_newsletter_subscription))
+        // always got nothing so the subscription field was permanently invisible.
+        $viewData['show_newsletter_subscription'] = (bool) (get_option('newsletter_subscription', $this->params['id']) ?: false);
+        // Also wire enable_captcha and email_redirect_after_submit which have the
+        // same settings-not-wired gap (designer note in AI-921).
+        $viewData['enable_captcha'] = (bool) (get_option('enable_captcha', $this->params['id']) ?: false);
+        $viewData['email_redirect_after_submit'] = get_option('email_redirect_after_submit', $this->params['id']) ?: '';
+
         $template = $viewData['template'] ?? 'default';
         if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
             $template = 'default';
