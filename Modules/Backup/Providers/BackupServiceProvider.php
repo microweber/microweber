@@ -69,8 +69,11 @@ class BackupServiceProvider extends BaseModuleServiceProvider
         ]);
 
         // Register Filament resources and pages (task-2026-05-22-f83bf6 / AI-764)
+        // task-2026-05-22-AI-929 — keep only global registration; the Settings hub nav-loop
+        // already captures BackupResource from the "System Settings" nav-group (ends with "Settings").
+        // The previously-added Settings::class-scoped registration caused a duplicate card because
+        // the nav-loop extracted a blank slug while the resource produced a real slug — dedup failed.
         FilamentRegistry::registerResource(BackupResource::class);
-        FilamentRegistry::registerResource(BackupResource::class, Settings::class);
         FilamentRegistry::registerResource(BackupScheduleResource::class);
         FilamentRegistry::registerResource(BackupHistoryResource::class);
         FilamentRegistry::registerPage(RestoreAdminPage::class);
