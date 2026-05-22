@@ -152,7 +152,7 @@
         // task-2026-05-22-6eb365 / AI-752 — Livewire navigation listener.
         // Livewire v4 `navigate` feature re-renders the admin frame without
         // a full page reload, resetting window.__mwAddContentModalRegistered
-        // to undefined without re-executing @push('scripts'). Adding a
+        // to undefined without re-executing the scripts-push block. Adding a
         // `livewire:navigated` listener re-registers the factory so the modal
         // stays functional after Livewire-driven panel navigation.
         document.addEventListener('livewire:navigated', function () {

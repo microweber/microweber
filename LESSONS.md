@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-05-22 — Blade `@push` / `@endpush` directives inside JavaScript `//` comments corrupt the Blade stack (task-2026-05-22-79d301)
+
+- **Pattern:** A `@push('scripts')` literal token inside a JavaScript `//` comment in a Blade template was processed by Blade as a real directive. This opened a nested push block whose single `@endpush` closed only the inner block. The outer push block (opened at the file's top) was never closed, so Blade treated the entire rest of the file (including all HTML layout) as push content. The resulting `@stack('scripts')` output contained the whole page HTML as raw text inside a `<script>` block. The `#mw-api-settings` script tag (which sets `mw.settings`) ended up as raw text inside the script block's textContent — never a real DOM element — so `document.querySelector('script[data-public-url]')` returned null, `mw.settings` was never populated, and Live Edit's Vue toolbar showed "Loading..." forever.
+- **Why it happened:** Blade's directive scanner runs before any language-specific comment stripping. JavaScript `//` comments are not Blade syntax — `@push('scripts')` on that line is processed as a directive. The AI-752 author added a descriptive JS comment explaining the code and used `@push('scripts')` verbatim without realising Blade would execute it.
+- **Prevention rule:** Never write a literal Blade directive token (`@push`, `@endpush`, `@stack`, `@if`, `@else`, `@endif`, `@foreach`, etc.) inside a JavaScript `//` comment. Use word-form instead: "the scripts-push block", "the stack directive", "the if-statement". This extends the existing LESSONS rule about `@if`/`@else`/`@endif` inside CSS `/* */` comments — the same principle applies to JS `//` comments and ALL Blade directives. Contract test: strip Blade comments (`{{-- ... --}}`) first, then count `@push('scripts')` occurrences; assert exactly 1.
+- **Applies when:** Writing inline script blocks in Blade templates that use `@push`/`@endpush`; any explanatory JS comment that references the surrounding Blade structure by name.
+
 ## 2026-05-22 — Playwright admin field injection: `.type()` for username, `input.value` assignment for password (AI-504..509 / tester 2026-05-22)
 
 - **Pattern:** When logging into `/admin/login` via Playwright, the username field accepts `.type()` but the password field rejects `.fill()` because Filament's "show/hide password" toggle-mask fires `input` events that interfere with the typed value. The correct injection sequence is: `await page.locator('input[name="email"]').type('admin@admin.com')` followed by direct `element.value = 'admin'` assignment via `page.evaluate()`.
