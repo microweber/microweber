@@ -78,22 +78,30 @@ public static function form(Schema $schema): Schema
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->visibleFrom('md'),
-                Tables\Columns\TextColumn::make('username')->searchable(),
-                Tables\Columns\TextColumn::make('phone')->searchable()
-                    ->visibleFrom('md'),
+                // AI-1033 / task-2026-05-22 — removed raw DB id column;
+                // replaced with email as first visible column.
                 Tables\Columns\TextColumn::make('email')->searchable(),
+                Tables\Columns\TextColumn::make('username')->searchable(),
                 Tables\Columns\TextColumn::make('first_name')->searchable()
                     ->visibleFrom('md'),
                 Tables\Columns\TextColumn::make('last_name')->searchable()
                     ->visibleFrom('md'),
+                // AI-1031 / task-2026-05-22 — roles column: use is_admin as fallback
+                // because the roles relationship may be empty for non-RBAC installs.
                 Tables\Columns\TextColumn::make('roles.name')
                     ->label('Roles')
                     ->badge()
+                    ->default('—')
                     ->toggleable(),
+                Tables\Columns\IconColumn::make('is_admin')
+                    ->label('Admin')
+                    ->boolean()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                // AI-1032 / task-2026-05-22 — phone column hidden by default (often empty).
+                Tables\Columns\TextColumn::make('phone')->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->visibleFrom('md'),
+                    ->toggleable(isToggledHiddenByDefault: true),
 
             ])
             ->filters([

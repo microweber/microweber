@@ -76,6 +76,13 @@ class MediaLibrary extends Page
     /** Thumbnail width in pixels for grid view. */
     public const GRID_THUMB_WIDTH = 300;
 
+    // AI-1035 / task-2026-05-22 — override slug so route is /admin/media not
+    // /admin/media-library. Filament v5 getSlug() requires the optional $panel param.
+    public static function getSlug(?\Filament\Panel $panel = null): string
+    {
+        return 'media';
+    }
+
     public static function canAccess(): bool
     {
         return is_admin();

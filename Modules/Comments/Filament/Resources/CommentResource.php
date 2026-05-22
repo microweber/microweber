@@ -121,12 +121,20 @@ return parent::getEloquentQuery()
                     ->searchable()
                     ->default('—')
                     ->toggleable(),
+                // AI-1034 / task-2026-05-22 — distinct icons per status so APPROVED and
+                // SPAM don't both show identical red × when false.
                 Tables\Columns\IconColumn::make('is_moderated')
                     ->label('Approved')
-                    ->boolean(),
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->trueColor('success')
+                    ->falseIcon('heroicon-o-clock')
+                    ->falseColor('warning'),
                 Tables\Columns\IconColumn::make('is_spam')
                     ->label('Spam')
-                    ->boolean(),
+                    ->trueIcon('heroicon-o-exclamation-triangle')
+                    ->trueColor('danger')
+                    ->falseIcon('heroicon-o-minus-circle')
+                    ->falseColor('gray'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Date')
                     ->dateTime('M d, Y H:i')
