@@ -1675,4 +1675,69 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/* ================================================================
+ * task-2026-05-22-3e1637 / AI-747 — /admin/posts/create mobile
+ * overflow + editor toolbar wrap fix.
+ *
+ * Problem 1 — Horizontal overflow:
+ *   The RichEditor container (.fi-fo-rich-editor) has no max-width
+ *   cap; when the toolbar buttons overflow the viewport, the entire
+ *   editor scrolls horizontally. Fix: cap the editor + its toolbar
+ *   wrapper to 100% and hide outer overflow.
+ *
+ * Problem 2 — Toolbar wraps to 5 rows:
+ *   Filament's toolbar uses display:flex; flex-wrap:wrap; each
+ *   button is ≥44px (our touch-target floor), so at 390px up to 8
+ *   buttons fit per row. With ~30+ toolbar icons the toolbar balloons
+ *   to 5 rows. Fix: override to flex-wrap:nowrap + overflow-x:auto
+ *   on the toolbar itself so it scrolls horizontally in a single row
+ *   — the canonical mobile horizontal-scroll toolbar pattern.
+ *
+ * Problem 3 — Multi-column form sections do not stack at narrow
+ *   viewport. Filament renders grid layout via .fi-fo-component-ctn;
+ *   force single-column at mobile for form field stacking.
+ *
+ * AC 3 (touch targets ≥44px) preserved: the existing touch-target
+ * rule at lines 544-558 remains active; the nowrap change only
+ * converts row-wrap to horizontal scroll.
+ *
+ * Scope: body.fi-panel-admin so checkout/profile panels are
+ * unaffected. Desktop (>1023.98px) completely unchanged.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+
+    /* 1. Prevent the editor container from causing horizontal overflow */
+    body.fi-panel-admin .fi-fo-rich-editor {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    /* 2. Make the toolbar a single scrollable row instead of
+     *    wrapping to 5 rows. flex-wrap:nowrap overrides Filament's
+     *    default flex-wrap:wrap; overflow-x:auto adds touch-scroll. */
+    body.fi-panel-admin .fi-fo-rich-editor-toolbar {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        /* hide the scrollbar track — still scrollable via touch */
+        scrollbar-width: none;
+    }
+    body.fi-panel-admin .fi-fo-rich-editor-toolbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Toolbar buttons must not shrink below their min-width when the
+     * toolbar is nowrap — the 44px touch-target floor is already set
+     * at lines 544-550; add flex-shrink:0 to honour it. */
+    body.fi-panel-admin .fi-fo-rich-editor-tool,
+    body.fi-panel-admin .fi-fo-rich-editor-toolbar button {
+        flex-shrink: 0 !important;
+    }
+
+    /* 3. Force form multi-column grids to single column so fields
+     *    stack vertically on narrow viewports (AC 4). */
+    body.fi-panel-admin .fi-fo-component-ctn {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+}
 

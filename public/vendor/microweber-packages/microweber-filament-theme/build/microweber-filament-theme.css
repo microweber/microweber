@@ -19480,6 +19480,27 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
     min-height: 44px !important;
   }
 }
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+  body.fi-panel-admin .fi-fo-rich-editor {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  body.fi-panel-admin .fi-fo-rich-editor-toolbar {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  body.fi-panel-admin .fi-fo-rich-editor-toolbar::-webkit-scrollbar {
+    display: none;
+  }
+  body.fi-panel-admin .fi-fo-rich-editor-tool, body.fi-panel-admin .fi-fo-rich-editor-toolbar button {
+    flex-shrink: 0 !important;
+  }
+  body.fi-panel-admin .fi-fo-component-ctn {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
 root {
   font-size: 16px;
   height: 100%;
