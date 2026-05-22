@@ -22,6 +22,27 @@ export class AdminFilament extends BaseComponent {
         this.hookOptionSaved();
         this.hookLivewireLoadingState();
 
+        // AI-984 / task-2026-05-22 — Ctrl/Cmd+S global save shortcut.
+        // Triggers a click on the first visible Filament submit button so admins
+        // can save forms with the familiar keyboard shortcut without scrolling.
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                const submitBtn = document.querySelector(
+                    'button[type="submit"].fi-btn, .fi-form-actions button[type="submit"]'
+                );
+                if (submitBtn && !submitBtn.disabled) {
+                    submitBtn.click();
+                }
+            }
+        });
+
+        // AI-983 / task-2026-05-22 — Live character counter on SEO / meta fields.
+        // Injects a small "N/160" counter below any input or textarea that has
+        // data-mw-char-limit attribute (set via the field's extraAttributes in PHP).
+        // Fires on DOMContentLoaded + Livewire navigation to handle SPA re-renders.
+        this.initCharCounters();
+        document.addEventListener('livewire:navigated', () => this.initCharCounters());
 
     }
 
@@ -184,6 +205,33 @@ export class AdminFilament extends BaseComponent {
                     }
 
             }
+        });
+    }
+
+    // AI-983 / task-2026-05-22 — attach live character counters to admin
+    // inputs/textareas that carry data-mw-char-limit attribute. Called on
+    // init and after every Livewire navigation so dynamically-mounted fields
+    // (e.g. SEO tab fields that render on tab switch) are also instrumented.
+    initCharCounters() {
+        document.querySelectorAll('[data-mw-char-limit]:not([data-mw-char-counter-wired])').forEach((el) => {
+            el.setAttribute('data-mw-char-counter-wired', '1');
+            const limit = parseInt(el.getAttribute('data-mw-char-limit'), 10);
+            if (!limit || isNaN(limit)) return;
+
+            const counter = document.createElement('span');
+            counter.className = 'mw-char-counter';
+            counter.setAttribute('aria-live', 'polite');
+            counter.style.cssText = 'display:block;font-size:11px;color:#6b7280;text-align:right;margin-top:2px;';
+
+            const update = () => {
+                const len = el.value.length;
+                counter.textContent = len + ' / ' + limit;
+                counter.style.color = len > limit ? '#ef4444' : '#6b7280';
+            };
+
+            el.parentNode.insertBefore(counter, el.nextSibling);
+            el.addEventListener('input', update);
+            update();
         });
     }
 
