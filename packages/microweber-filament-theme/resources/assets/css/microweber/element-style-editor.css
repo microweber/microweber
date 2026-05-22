@@ -1496,6 +1496,109 @@ html.dark #mw-element-style-editor-app .reset-field svg,
     fill: var(--ese-text-muted, #94a3b8) !important;
 }
 
+/* ──────────────────────────────────────────────────────────────────────────
+ * task-2026-05-22-06f3f4 / AI-725 — ESE panel content dark mode mapping.
+ *
+ * Six surfaces INSIDE accordion panel content (AI-724 fixed the chrome —
+ * accordion labels, dividers, icon-strip SVGs, reset icon; this ticket
+ * fixes what's visible inside each open panel):
+ *
+ * 9.  Typographic preset thumbnails (.mw-live-edit-predefines-styles-box)
+ * 10. Selected predefined-style preview heading (.predefined-styles-rended)
+ * 11. Spacing diagram holder (.mw-ese-holder, .mw-ese-holder.active)
+ * 12. Spacing diagram position labels (.mw-ese-label: TOP/RIGHT/BOTTOM/LEFT)
+ * 13. Preset quick-action buttons (.mw-tool-btn.mw-tool-btn--preset)
+ * 14. Unit toggle button (px/rem/% switcher in .mw-field.unit .mw-ui-btn)
+ * 15. Segmented-control buttons (.mw-segmented-control button + active state)
+ *
+ * All rules html.dark / .theme-dark / [data-theme="dark"] scoped.
+ * Light mode completely unchanged. !important where Vue SFC scoped styles
+ * or Bootstrap .btn class raise specificity beyond (0,1,0).
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* 9. Typographic preset thumbnail — keep a white backplate so the predefined
+ *    text style is visible regardless of whether the class sets dark text.
+ *    This is intentionally a light island inside the dark panel: the preview
+ *    shows how the text looks in its natural context. */
+html.dark .mw-live-edit-predefines-styles-box,
+.theme-dark .mw-live-edit-predefines-styles-box,
+[data-theme="dark"] .mw-live-edit-predefines-styles-box {
+    background-color: #ffffff;
+    border: 1px solid var(--ese-border, rgba(255, 255, 255, 0.35));
+    border-radius: var(--radius-sm, 6px);
+    padding: 4px 8px;
+}
+
+/* 10. Selected predefined-style preview (h3.predefined-styles-rended shown
+ *     when a class is already applied) — same white-island treatment. */
+html.dark .predefined-styles-rended,
+.theme-dark .predefined-styles-rended,
+[data-theme="dark"] .predefined-styles-rended {
+    background-color: #ffffff;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm, 6px);
+}
+
+/* 11. Spacing diagram holder — @apply bg-gray-100 border-gray-300 compiles
+ *     to hardcoded light colors; override with dark panel surface. */
+html.dark .mw-ese-holder,
+.theme-dark .mw-ese-holder,
+[data-theme="dark"] .mw-ese-holder {
+    background-color: var(--ese-surface-muted, #232938) !important;
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.35)) !important;
+}
+
+html.dark .mw-ese-holder.active,
+.theme-dark .mw-ese-holder.active,
+[data-theme="dark"] .mw-ese-holder.active {
+    background-color: var(--ese-surface, #1a1f2b) !important;
+    border-color: var(--ese-accent, #0d6efd) !important;
+}
+
+/* 12. Spacing diagram position labels (TOP, RIGHT, BOTTOM, LEFT) */
+html.dark .mw-ese-label,
+.theme-dark .mw-ese-label,
+[data-theme="dark"] .mw-ese-label {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+
+/* 13. Preset quick-action buttons (S / M / L / XL / trash) — Bootstrap .btn
+ *     class can force dark text via its own specificity; re-anchor in dark. */
+html.dark #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset,
+.theme-dark #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset,
+[data-theme="dark"] #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset {
+    color: var(--ese-text, #f1f5f9) !important;
+}
+
+/* 14. Unit toggle button (px/rem/% switcher inside .mw-field.unit) */
+html.dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn,
+html.dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn i,
+.theme-dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn,
+.theme-dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn i {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+
+/* 15. Segmented-control buttons (older align/justify/position icon strip that
+ *     uses .mw-segmented-control, distinct from the ESE-primitive .mw-segmented)
+ *     Bootstrap styles override ESE token defaults for this component. */
+html.dark #mw-element-style-editor-app .mw-segmented-control button,
+.theme-dark #mw-element-style-editor-app .mw-segmented-control button,
+[data-theme="dark"] #mw-element-style-editor-app .mw-segmented-control button {
+    color: var(--ese-text, #f1f5f9) !important;
+    background-color: var(--ese-surface-muted, #232938) !important;
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.35)) !important;
+}
+
+html.dark #mw-element-style-editor-app .mw-segmented-control button.active,
+html.dark #mw-element-style-editor-app .mw-segmented-control button[aria-pressed="true"],
+.theme-dark #mw-element-style-editor-app .mw-segmented-control button.active,
+.theme-dark #mw-element-style-editor-app .mw-segmented-control button[aria-pressed="true"] {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.15)) !important;
+    border-color: var(--ese-accent, #0d6efd) !important;
+    color: var(--ese-accent, #0d6efd) !important;
+}
+
 /* Light mode regression-guard anchor (no-op selector, proves no changes to light) */
 /* task-2026-05-22-e8b42c AI-825: all rules above are html.dark scoped */
 /* task-2026-05-22-747f20 AI-724: same scope discipline */
+/* task-2026-05-22-06f3f4 AI-725: same scope discipline */
