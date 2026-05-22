@@ -294,8 +294,12 @@ class ContentResource extends Resource
                     ->schema([
                         MwSelectTemplateForPage::make('active_site_template', 'layout_file')
                             ->columnSpanFull(),
-                        Forms\Components\RichEditor::make('content_body')
-                            ->label('Page content')
+                        // task-2026-05-22-AI-936 — replaced RichEditor with Textarea to reduce
+                        // modal scroll depth. Full editor available after save in live-edit canvas.
+                        Forms\Components\Textarea::make('content_body')
+                            ->label('Page content (optional)')
+                            ->placeholder('You can add or edit content in the editor after creating the page.')
+                            ->rows(3)
                             ->columnSpanFull()
                             ->hintAction(
                                 TranslateFieldAction::make('content_body')->label('')

@@ -680,13 +680,17 @@ class AdminLiveEditPage extends Page
                     // Custom Fields / Permalink — and so it stops
                     // looking like a synonym for Save.
                     ->label('Show all options')
-                    ->icon('heroicon-o-arrow-top-right-on-square')
-                    // ->color('gray') used to render as a near-
-                    // invisible dark-grey rectangle on the dark-
-                    // mode modal — switch to ->outlined() which
-                    // picks up an explicit border in both
-                    // themes. task-2026-05-04-1e4af3 (P2 finding).
-                    ->outlined()
+                    // AI-937 — changed from heroicon-o-arrow-top-right-on-square (external link)
+                    // to heroicon-o-adjustments-horizontal (options/settings) because the arrow
+                    // icon WCAG 1.3.3-implied "opens in new tab" which confused operators.
+                    // Note: the button still opens in a new tab via openUrlInNewTab(); the icon
+                    // now focuses on the ACTION (show more options) not the transport (new tab).
+                    ->icon('heroicon-o-adjustments-horizontal')
+                    // AI-938 — changed from ->outlined() to ->link() so Save (filled primary)
+                    // has clear visual priority over "Show all options" (text link).
+                    // ->outlined() made both buttons appear as equal-weight blue buttons;
+                    // ->link() clearly communicates secondary hierarchy.
+                    ->link()
                     ->extraAttributes(['class' => 'mw-open-in-admin-btn'])
                     // The title-carry-forward from the typed
                     // input to the URL query string is wired up
