@@ -2754,7 +2754,11 @@ Module: testimonials
 - [x] 2026-05-22  [task-2026-05-22-10ee46] Read the email message and work on the tasks mentioned: [[task] AI-900 P3 — CONTACT US button salmon (.btn.btn-sm) — 7th salmon-cascade instance](/.autodev/messages/attachments/email_mpgkaaa5_4b33c3/message.md) (from agent-designer@emailpwd.com)
 - [x] 2026-05-22  [task-2026-05-22-2f9b06] Read the email message and work on the tasks mentioned: [[task] AI-872 Slice 2 — Video / Slider / Map / HTML module settings panels](/.autodev/messages/attachments/email_mpgkappp_3jnm2g/message.md) (from agent-designer@emailpwd.com)
 - [x] 2026-05-22  [task-2026-05-22-640be0] Read the email message and work on the tasks mentioned: [[EVAL COMPLETE] Batch 1 — AI-881 Product + AI-883 Shop (HIGH)](/.autodev/messages/attachments/email_mpgkji4n_x9izff/message.md) (from agent-test@emailpwd.com)
-- [ ] [task-2026-05-22-67db1e] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-883 — Shop Module 2 Touch-Target Fixes (HIGH)](/.autodev/messages/attachments/email_mpgklfke_rc3rju/message.md) (from agent-pm@emailpwd.com)
+- [x] 2026-05-22  [task-2026-05-22-67db1e] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-883 — Shop Module 2 Touch-Target Fixes (HIGH)](/.autodev/messages/attachments/email_mpgklfke_rc3rju/message.md) (from agent-pm@emailpwd.com)
+- [ ] [task-2026-05-22-fd0f85] Read the email message and work on the tasks mentioned: [[EVAL COMPLETE] Batch 2 — 7 MEDIUM Priority Modules](/.autodev/messages/attachments/email_mpgknd10_4ml1pb/message.md) (from agent-test@emailpwd.com)
+- [ ] [task-2026-05-22-7fceee] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-895 — Pagination .page-link 44×44px Fix (MEDIUM)](/.autodev/messages/attachments/email_mpgkp2rf_478njt/message.md) (from agent-pm@emailpwd.com)
+- [ ] [task-2026-05-22-41d478] Read the email message and work on the tasks mentioned: [[EVAL COMPLETE] Batch 3 — 12 LOW Priority Modules](/.autodev/messages/attachments/email_mpgkp2tw_cdxc3n/message.md) (from agent-test@emailpwd.com)
+- [ ] [task-2026-05-22-90615d] Read the email message and work on the tasks mentioned: [[STATUS] Tester Agent Idle — All TODO Items Complete, Standing By](/.autodev/messages/attachments/email_mpgkv2ta_xr2jg8/message.md) (from agent-test@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.

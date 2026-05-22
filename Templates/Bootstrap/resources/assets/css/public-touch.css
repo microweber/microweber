@@ -1708,6 +1708,38 @@ html.dark {
     }
 }
 
+/* task-2026-05-22-67db1e / AI-883 HIGH — Shop module touch-target fixes at 390×844.
+ *
+ * Two WCAG 2.5.5 violations measured by tester:
+ *
+ * Fix 1: Category filter sidebar buttons (.mw-shop-filter-categories)
+ *   .list-group-item.list-group-item-action measured 366×40px.
+ *   40px height < 44px floor. Scoped to .mw-shop-filter-categories to
+ *   avoid touching Bootstrap list-groups elsewhere on the site.
+ *
+ * Fix 2: Per-page limit <select class="form-control">
+ *   select measured 38×44px. 38px width < 44px floor. `select.form-control`
+ *   is the canonical class on the element (no wrapper class); min-width:44px
+ *   is a minimum and won't shrink any select that is already wider.
+ *
+ * INVESTIGATE result: empty cart dropdown (280×18px) is the .mw-big-dropdown-cart
+ * container before cart items load. Not an interactive element itself — the
+ * toggle button (cart icon) already passes at 44×44px. No touch-target fix
+ * needed for the dropdown container. */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* Fix 1: Shop category filter buttons */
+    .mw-shop-filter-categories .list-group-item.list-group-item-action {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Fix 2: Per-page selector (Limit <select>) */
+    select.form-control {
+        min-width: 44px;
+    }
+}
+
 /* task-2026-05-22-ef3960 / AI-877 P3 — Frontend bare <a> link colour (salmon → brand-blue).
  * Bootstrap template _variables.scss sets $link-color: #f4a261 (demo salmon),
  * which compiles into the `a { color: ... }` rule in app.css and trickles to
