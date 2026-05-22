@@ -53,6 +53,19 @@ class BlogComponent extends Component
             $this->layout = $settings['options']['layout'] ?? 'grid';
             $this->showCategories = $settings['options']['show_categories'] ?? true;
             $this->showTags = $settings['options']['show_tags'] ?? true;
+
+            // task-2026-05-22-1b49a3 / AI-911 — wire the Sort by setting saved
+            // by BlogSettings::order_by to the component's sortBy/sortOrder.
+            // Pre-fix these two properties were hardcoded ('created_at', 'desc')
+            // so the admin dropdown had no effect at runtime (Stage-1 settings-
+            // not-wired defect, same family as AI-904/905/906/907).
+            $orderBy = $settings['options']['order_by'] ?? 'date_desc';
+            [$this->sortBy, $this->sortOrder] = match($orderBy) {
+                'date_asc'   => ['created_at', 'asc'],
+                'title_asc'  => ['title', 'asc'],
+                'title_desc' => ['title', 'desc'],
+                default      => ['created_at', 'desc'],
+            };
         }
 
         $this->updateActiveFilters();
