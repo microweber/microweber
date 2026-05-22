@@ -698,6 +698,49 @@ html.dark {
     --color-product-title-hover: var(--color-primary);
 }
 
+/* AI-947 / task-2026-05-22 — OS-level dark mode preference.
+ * Applies the same token overrides as html.dark / [data-bs-theme="dark"]
+ * so users whose OS is set to dark mode see appropriate colors
+ * without needing to toggle manually. Brand-blue CTAs unchanged
+ * (--color-primary stays #0d6efd; only surface/text/border tokens shift).
+ * Triggers only when no explicit light-mode override is set. */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-surface: #111827;
+        --color-surface-raised: #1f2937;
+        --color-text-primary: #f9fafb;
+        --color-text-secondary: #9ca3af;
+        --color-text-muted: #6b7280;
+        --color-border: #374151;
+        --color-border-focus: #60a5fa;
+        --color-footer-text: #d1d5db;
+        --color-product-title: var(--color-text-primary);
+        --color-product-title-hover: var(--color-primary);
+    }
+    body {
+        background-color: var(--color-surface);
+        color: var(--color-text-primary);
+    }
+    .card, .modal-content, .dropdown-menu, .list-group-item {
+        background-color: var(--color-surface-raised);
+        color: var(--color-text-primary);
+        border-color: var(--color-border);
+    }
+    .navbar, header.site-header, .site-header, #header {
+        background-color: var(--color-surface-raised) !important;
+        border-bottom-color: var(--color-border);
+    }
+    footer, .site-footer, .footer-section {
+        background-color: var(--color-surface) !important;
+    }
+    a:not(.btn):not([class*="btn-"]) {
+        color: var(--color-border-focus);
+    }
+    a:not(.btn):not([class*="btn-"]):hover {
+        color: var(--color-primary-hover, #0b5ed7);
+    }
+}
+
 /*
  * Public-site mobile-touch refinements — mirror of the Filament admin
  *   packages/microweber-filament-theme/resources/assets/css/microweber/mobile-touch.css
