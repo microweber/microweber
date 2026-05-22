@@ -753,33 +753,42 @@ mw.filePicker = function (options) {
             var $wrap = this._$inputWrapper(
                 scope._getComponentObject("library").label
             );
-            $(scope).on("$firstOpen", function (e, el, type) {
-                var comp = scope._getComponentObject("library");
-                if (type === "library") {
-                    mw.tools.loading(el, true);
-                    var fr = mw
-                        .top()
-                        .tools.moduleFrameRoute("filament.admin.pages.media-library");
-                    $wrap.append(fr);
-                    if (scope.settings._frameMaxHeight) {
-                        fr.style.maxHeight = "60vh";
-                        fr.scrolling = "yes";
-                    }
-                    fr.onload = function () {
-                        mw.tools.loading(el, false);
-                        this.contentWindow.mw.on.hashParam(
-                            "select-file",
-                            function (pval) {
-                                var url = pval.toString();
-                                scope.setSectionValue(url);
-                                if (scope.settings.autoSelect) {
-                                    scope.result();
-                                }
-                            }
-                        );
-                    };
+            // task-2026-05-22-a901b0 / AI-901 Phase 1 — shared mount helper
+            var _mountLib = function (loadIndicatorEl) {
+                if (loadIndicatorEl) mw.tools.loading(loadIndicatorEl, true);
+                var fr = mw
+                    .top()
+                    .tools.moduleFrameRoute("filament.admin.pages.media-library");
+                scope._libraryFrameBaseSrc = fr.src;
+                $wrap.append(fr);
+                if (scope.settings._frameMaxHeight) {
+                    fr.style.maxHeight = "60vh";
+                    fr.scrolling = "yes";
                 }
-            });
+                fr.onload = function () {
+                    if (loadIndicatorEl) mw.tools.loading(loadIndicatorEl, false);
+                    this.contentWindow.mw.on.hashParam(
+                        "select-file",
+                        function (pval) {
+                            var url = pval.toString();
+                            scope.setSectionValue(url);
+                            if (scope.settings.autoSelect) {
+                                scope.result();
+                            }
+                        }
+                    );
+                };
+            };
+            if (scope.settings.nav === 'action-bar') {
+                // action-bar mode: mount library immediately (no lazy-mount per AI-901 designer spec)
+                setTimeout(function () { _mountLib(null); }, 0);
+            } else {
+                $(scope).on("$firstOpen", function (e, el, type) {
+                    if (type === "library") {
+                        _mountLib(el);
+                    }
+                });
+            }
 
             /*mw.load_module('pictures/media_library', $wrap);*/
             return $wrap[0];
@@ -792,6 +801,36 @@ mw.filePicker = function (options) {
 
     this.showUploaders = function (type) {
         mw.$(".mw-filepicker-component-section", this.$root).show();
+    };
+
+    // task-2026-05-22-a901b0 / AI-901 Phase 1 — overlay helpers for action-bar mode
+    this._overlayEls = {};
+    this._buildOverlay = function (type) {
+        var $overlay = $('<div class="mw-filepicker-overlay mw-filepicker-overlay--' + type + '" hidden>');
+        var $closeBtn = $('<button type="button" class="mw-filepicker-overlay-close" aria-label="' + mw.lang('Close') + '">&times;</button>');
+        var $content = $('<div class="mw-filepicker-overlay-content">');
+        var comp = scope.components[type] ? scope.components[type]() : null;
+        if (comp) $content.append(comp);
+        $overlay.append($closeBtn, $content);
+        $closeBtn.on('click', function () { scope.hideAllOverlays(); });
+        scope.$root.find('.mw-filepicker-library-section').append($overlay);
+        scope._overlayEls[type] = $overlay[0];
+        return $overlay;
+    };
+    this.toggleOverlay = function (type) {
+        var existing = scope._overlayEls[type];
+        if (existing && !existing.hidden) {
+            scope.hideAllOverlays();
+        } else {
+            scope.hideAllOverlays();
+            if (!existing) scope._buildOverlay(type);
+            scope._overlayEls[type].hidden = false;
+        }
+    };
+    this.hideAllOverlays = function () {
+        $.each(scope._overlayEls, function (k, el) {
+            if (el) el.hidden = true;
+        });
     };
 
     this.settings.components = this.settings.components.filter(function (item) {
@@ -1033,6 +1072,61 @@ mw.filePicker = function (options) {
                     items.hide().eq(index).show();
                 }
             });
+        } else if (this.settings.nav === 'action-bar') {
+            // task-2026-05-22-a901b0 / AI-901 Phase 1 — action bar replaces tabs
+            this._navigationHolder.appendChild(this._navigationHeader);
+
+            var $actionBar = $('<div class="mw-filepicker-action-bar">');
+
+            scope.$searchInput = $('<input type="search" class="mw-filepicker-search-input form-control" placeholder="' + mw.lang('Search media') + '" aria-label="' + mw.lang('Search media') + '">');
+
+            var _iconBtn = function (cls, label, svgPath) {
+                return $(
+                    '<button type="button" class="mw-filepicker-action-btn btn btn-outline-secondary ' + cls + '" aria-label="' + label + '" title="' + label + '">' +
+                    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">' + svgPath + '</svg>' +
+                    '</button>'
+                );
+            };
+
+            var $btnUpload = _iconBtn('mw-filepicker-action-btn--upload', mw.lang('Upload'),
+                '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/>');
+            var $btnAi = _iconBtn('mw-filepicker-action-btn--ai', mw.lang('Generate AI image'),
+                '<circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>');
+            var $btnUrl = _iconBtn('mw-filepicker-action-btn--url', mw.lang('Image URL'),
+                '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>');
+
+            $actionBar.append(scope.$searchInput, $btnUpload, $btnAi, $btnUrl);
+            this._navigationHeader.appendChild($actionBar[0]);
+
+            // Search: 150ms debounce → reload library iframe with keywords param
+            var _searchTimer;
+            scope.$searchInput.on('input', function () {
+                clearTimeout(_searchTimer);
+                var q = scope.$searchInput.val();
+                _searchTimer = setTimeout(function () {
+                    var fr = scope.$root.find('iframe')[0];
+                    if (fr) {
+                        try { fr.contentWindow.postMessage({ action: 'mw-filepicker-search', q: q }, '*'); } catch (e) {}
+                        var baseSrc = scope._libraryFrameBaseSrc;
+                        if (baseSrc) {
+                            fr.src = q ? baseSrc + (baseSrc.indexOf('?') >= 0 ? '&' : '?') + 'keywords=' + encodeURIComponent(q) : baseSrc;
+                        }
+                    }
+                }, 150);
+            });
+
+            // Drag-enter on picker root shows upload overlay
+            scope.$root.on('dragenter dragover', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!scope._overlayEls.desktop || scope._overlayEls.desktop.hidden) {
+                    scope.toggleOverlay('desktop');
+                }
+            });
+
+            $btnUpload.on('click', function () { scope.toggleOverlay('desktop'); });
+            $btnAi.on('click', function () { scope.toggleOverlay('ai'); });
+            $btnUrl.on('click', function () { scope.toggleOverlay('url'); });
         }
         this.$root.prepend(this._navigationHolder);
     };
@@ -1131,7 +1225,17 @@ mw.filePicker = function (options) {
 
     this.build = function () {
         this.navigation();
-        this.buildComponents();
+        if (this.settings.nav === 'action-bar') {
+            // action-bar: only library section is always-visible; other components are overlays
+            var _libComp = scope.buildComponent({ type: 'library' });
+            if (_libComp) {
+                var _libSec = scope.buildComponentSection();
+                _libSec.addClass('mw-filepicker-library-section');
+                _libSec.append(_libComp);
+            }
+        } else {
+            this.buildComponents();
+        }
         if (this.settings.nav === "dropdown") {
             $(".mw-filepicker-component-section", scope.$root)
                 .hide()
@@ -1142,6 +1246,11 @@ mw.filePicker = function (options) {
     };
 
     this.init = function () {
+        // task-2026-05-22-a901b0 / AI-901 Phase 1: action-bar mode overrides
+        if (this.settings.nav === 'action-bar') {
+            this.settings.autoSelect = true;
+            this.settings.footer = false;
+        }
         this.build();
         if (this.settings.element) {
             $(this.settings.element).eq(0).append(this.$root);

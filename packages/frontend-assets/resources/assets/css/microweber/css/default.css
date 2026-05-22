@@ -4940,3 +4940,83 @@ html.dark .mw-canvas-empty-state__title {
 html.dark .mw-canvas-empty-state__body {
     color: var(--ese-text-muted, #9ca3af);
 }
+
+/* task-2026-05-22-a901b0 / AI-901 Phase 1 — action-bar layout + upload overlay */
+.mw-filepicker-action-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs, 6px);
+    margin-bottom: var(--space-sm, 8px);
+}
+.mw-filepicker-search-input {
+    flex: 1 1 0;
+    min-width: 0;
+}
+.mw-filepicker-action-btn {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.mw-filepicker-library-section {
+    position: relative;
+    min-height: 280px;
+}
+.mw-filepicker-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+.mw-filepicker-overlay[hidden] {
+    display: none;
+}
+.mw-filepicker-overlay-content {
+    background: var(--ese-surface, #fff);
+    border: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+    border-radius: var(--radius-sm, 6px);
+    padding: var(--space-lg, 24px);
+    width: min(520px, 90%);
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+.mw-filepicker-overlay-close {
+    position: absolute;
+    top: var(--space-xs, 6px);
+    right: var(--space-xs, 6px);
+    background: none;
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--ese-text-muted, #6b7280);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm, 4px);
+}
+.mw-filepicker-overlay-close:hover {
+    background: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+}
+.mw-filepicker-overlay--desktop .mw-filepicker-overlay-content {
+    border-style: dashed;
+    border-width: 2px;
+    border-color: var(--ese-accent, #0d6efd);
+}
+html.dark .mw-filepicker-overlay-content,
+.dark .mw-filepicker-overlay-content {
+    background: var(--ese-surface, #1f2937) !important;
+    color: var(--ese-text, #f3f4f6) !important;
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.08)) !important;
+}
+@media (max-width: 390px) {
+    .mw-filepicker-action-bar {
+        gap: 4px;
+    }
+}
