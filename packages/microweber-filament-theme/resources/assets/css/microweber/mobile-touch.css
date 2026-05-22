@@ -1766,5 +1766,26 @@ body.fi-panel-checkout .fi-page-content b {
     body.fi-panel-admin .fi-fo-component-ctn {
         grid-template-columns: minmax(0, 1fr) !important;
     }
+
+    /* AI-952 / task-2026-05-22 — Posts list status badges at 390px.
+     * Badges in card-layout rows must not overflow their cell — add
+     * max-width + overflow ellipsis so chip text truncates gracefully
+     * rather than pushing the cell wider or overflowing the card. */
+    body.fi-panel-admin .fi-ta-row .fi-badge {
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* AI-953 / task-2026-05-22 — Orders list email column at 390px.
+     * Plain text cells in card-layout rows may overflow without truncation.
+     * Apply ellipsis to prevent mid-character cut at narrow viewport. */
+    body.fi-panel-admin .fi-ta-cell .fi-ta-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
+    }
 }
 
