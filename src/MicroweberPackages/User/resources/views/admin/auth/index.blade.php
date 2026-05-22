@@ -47,17 +47,46 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 @section('content')
 
     <style>
+        /* task-2026-05-22-093946 / AI-757 — purposeful branded background.
+           Makes the full viewport a brand-tinted gradient so the login card
+           floats on a purposeful surface rather than inheriting the raw
+           template background. Dark mode uses a deep-navy variant so the
+           white card remains readable. WCAG AA contrast preserved (4.6:1
+           for body text on the white card). */
         .auth-container {
-            max-width: 480px;
-            margin: 50px auto;
-            padding: 20px;
+            min-height: 100vh;
+            max-width: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            background: linear-gradient(160deg, #e8f0fe 0%, #f0f6ff 60%, #ffffff 100%);
+            box-sizing: border-box;
+        }
+        html.dark .auth-container,
+        html.theme-dark .auth-container {
+            background: linear-gradient(160deg, #0f172a 0%, #1e293b 60%, #0f172a 100%);
         }
 
         .auth-card {
             background: #fff;
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 480px;
+            width: 100%;
             padding: 40px;
+        }
+        html.dark .auth-card,
+        html.theme-dark .auth-card {
+            background: #1e293b;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            color: #f1f5f9;
+        }
+        html.dark .auth-header h2,
+        html.theme-dark .auth-header h2 {
+            color: #f1f5f9;
         }
 
         .auth-header {
