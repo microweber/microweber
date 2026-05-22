@@ -38,8 +38,13 @@ class ListPages extends \Modules\Content\Filament\Admin\ContentResource\Pages\Li
             })
             ->count();
 
+        // task-2026-05-22-e0571b / AI-736 re-dispatch: AC#4 — for >10 pages the
+        // parent defaultPaginationPageOption(250) still renders "Per page 250".
+        // Override to a sensible [10,25,50] set defaulting to 25.
         if ($pageCount <= 10) {
             $table->paginated(false);
+        } else {
+            $table->paginated([10, 25, 50])->defaultPaginationPageOption(25);
         }
 
         return $table;
