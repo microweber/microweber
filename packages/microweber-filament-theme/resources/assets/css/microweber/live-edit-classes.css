@@ -1885,3 +1885,16 @@ html.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-s
     padding-top: var(--space-xs, 6px);
     margin-top: var(--space-xs, 6px);
 }
+
+/* task-2026-05-22-1f0503 — Cap template preview iframe height inside the
+   content form modal so the Template + Layout pickers + preview all fit
+   above the fold at 1024x768 (minimum supported viewport, modal ~70vh).
+   The iframe renders inside .preview_frame_wrapper_holder (class emitted by
+   mw-render-template-preview-iframe.blade.php). Scoped to .mw-content-form-modal
+   so the full-size template-preview page on admin/settings/templates is
+   unaffected. */
+.mw-content-form-modal .preview_frame_wrapper_holder {
+    max-height: 160px;
+    overflow: hidden;
+    border-radius: 0.375rem;
+}

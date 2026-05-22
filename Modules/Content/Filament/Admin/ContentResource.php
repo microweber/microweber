@@ -226,14 +226,24 @@ class ContentResource extends Resource
                 ...static::hiddenFieldsSchema($id, $sessionId, $contentType, $contentSubtype, $isMultilanguageEnabled, $active_site_template_default),
 
                 static::compactTitleOnlySection(),
-                // Facebook's "Add to your post" row equivalent —
-                // strip the Media heading + icon so the upload
-                // tile reads as a tool affordance, not a labelled
-                // form section. task-2026-05-04-bfe418.
-                static::mediaSection($relType, $relId, $mediaIds)
-                    ->heading(null)
-                    ->icon(null)
-                    ->extraAttributes(['class' => 'mw-fb-media-section']),
+                // task-2026-05-22-1f0503 — "Cover image" collapsed accordion.
+                // The MwMediaBrowser tile (~200px) was shown upfront, pushing
+                // Template + Layout + iframe off-screen on the Create page modal.
+                // Wrapped in a collapsible Section (collapsed by default, same
+                // pattern as "More options") so the primary path (Title →
+                // Template → Layout) is always above the fold.
+                Schemas\Components\Section::make(__('Cover image'))
+                    ->icon('heroicon-m-photo')
+                    ->collapsible()
+                    ->collapsed()
+                    ->extraAttributes(['class' => 'mw-fb-cover-image-accordion'])
+                    ->schema([
+                        static::mediaSection($relType, $relId, $mediaIds)
+                            ->heading(null)
+                            ->icon(null)
+                            ->extraAttributes(['class' => 'mw-fb-media-section']),
+                    ])
+                    ->columnSpanFull(),
 
                 // Pricing kept VISIBLE upfront for products —
                 // user explicitly asked: "on add new product in
