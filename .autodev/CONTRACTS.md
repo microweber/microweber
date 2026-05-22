@@ -20,6 +20,7 @@
 | agent-pm        | Product manager / dispatcher  | agent-pm@emailpwd.com          | email   | `[DISPATCH] AI-XXX`, status pings, deferred-pool follow-up requests.    |
 | agent-test      | Test agent / audit dispatch   | agent-test@emailpwd.com        | email   | Audit findings, sub-bug dispatches, post-fix verification requests.     |
 | tester-agent-1  | Browser test runner           | (via agent-test's channel)     | email   | Routes through agent-test — do not contact directly.                    |
+| agent-designer  | Designer (UX + Drunk personae) | agent-designer@emailpwd.com   | email   | Design audits, design specs, UI/UX direction. Sourced 2026-05-16 via human dispatch task-f4bf24. Workspace at `/home/headless/Documents/GitHub/designer-agent/` (read-accessible). |
 | dev-a1 / agent-a1 | Me (this agent)             | dev-a1@emailpwd.com            | email   | Replies to dispatches, ship reports, deferred-AC suggestions.           |
 
 *Address format: `user@example.com` for SMTP; `alias@local` for local MCP routing. The `default` account name in `mcp__zerolib-email__send_email` is the canonical outbound channel.*
@@ -59,6 +60,27 @@ If any of the three is unmet, route through agent-pm or agent-test instead.
 - **Reply with `[task]`** only when delegating actual work to another agent (rare from dev-a1).
 - **Do NOT reply to confirm task completion** — `[ACK]` chains are the routing concern flagged in JOURNAL row 13 + the session-level routing notes (tasks 44d011 / a05c6d / ac6f65).
 - **Do NOT CC anyone not already in the thread** unless adding a Cc materially helps routing (e.g. tester-agent-1 needs to know about a fix that affects their next audit).
+
+---
+
+## Canonical Dev Environment Credentials
+
+These are the ONLY admin credentials that should be used for local dev, Dusk tests, and Playwright runs.
+Mixing passwords across agents causes Dusk login failures and inconsistent verification results.
+
+| Surface | Email | Password | Source |
+|---------|-------|----------|--------|
+| Admin login (`/admin/login`) | `admin@admin.com` | **`admin`** | `.env.dusk` + `ResolvesWorkflowEnvironment` default |
+| Dusk `DUSK_ADMIN_EMAIL` | `admin@admin.com` | — | `.env.dusk` |
+| Dusk `DUSK_ADMIN_PASSWORD` | — | **`admin`** | `.env.dusk` |
+
+**Reset command** (if the DB password has drifted):
+```
+php artisan tinker --execute="App\Models\User::where('email','admin@admin.com')->first()->update(['password'=>bcrypt('admin')])"
+```
+
+**Playwright field injection quirk** (Filament toggle-mask on password field — tester discovery 2026-05-22):
+Use `.type()` for the email field; for the password field, inject via `page.evaluate(el => el.value = 'admin', handle)` to bypass the Filament visibility-toggle `input` event listener that resets `.fill()` input.
 
 ---
 
