@@ -6232,6 +6232,40 @@ html.dark body.fi-panel-admin .mw-admin-empty-state-posts svg, html.dark body.fi
 body.fi-panel-admin .fi-btn-badge[data-count="0"], body.fi-panel-admin .fi-ta-filters-btn .fi-badge:empty {
   display: none !important;
 }
+body.fi-panel-admin h1 {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+}
+body.fi-panel-admin h2, body.fi-panel-admin .fi-page-heading-title {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+}
+body.fi-panel-admin h3 {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+}
+body.fi-panel-admin h4, body.fi-panel-admin .fi-fo-section-header-label {
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+}
+:root {
+  --mw-transition-fast: 150ms;
+  --mw-transition-base: 200ms;
+  --mw-transition-slow: 300ms;
+}
+body.fi-panel-admin .fi-modal-window, body.fi-panel-admin .fi-dropdown-list, body.fi-panel-admin .fi-sidebar {
+  transition-duration: var(--mw-transition-base, 200ms) !important;
+}
+body.fi-panel-admin .fi-notification {
+  transition-duration: var(--mw-transition-slow, 300ms) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.fi-panel-admin .fi-modal-window, body.fi-panel-admin .fi-dropdown-list, body.fi-panel-admin .fi-sidebar, body.fi-panel-admin .fi-notification {
+    transition-duration: 0ms !important;
+  }
+}
 .ts-control {
   border: 1px solid #ececec;
   border-radius: 5px;
