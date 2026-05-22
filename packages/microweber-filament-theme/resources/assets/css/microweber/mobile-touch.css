@@ -1556,11 +1556,14 @@ body.fi-panel-checkout .fi-page-content b {
  * ================================================================ */
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
     /* §1 Brand mark link — general-styles.css uses height:100% which
-       collapses to ~36px at the admin topbar's reduced mobile height.
-       min-height: 44px !important overrides the implicit height chain. */
+       collapses to ~36px tall at the admin topbar's reduced mobile height.
+       At mobile the image shrinks to 16px + 2×8px padding = 32px wide —
+       also below the 44px minimum. Both axes need !important floors.
+       task-2026-05-22-5cbdee: added min-width (was only min-height). */
     body.fi-panel-admin .fi-topbar a.mw-admin-brand-mark,
     body.fi-panel-admin a.mw-admin-brand-mark {
         min-height: 44px !important;
+        min-width: 44px !important;
         align-items: center !important;
     }
 
@@ -1609,6 +1612,40 @@ body.fi-panel-checkout .fi-page-content b {
         display: inline-flex !important;
         align-items: center !important;
         padding-block: 8px !important;
+    }
+}
+
+/* ================================================================
+ * task-2026-05-22-5cbdee (AI-505/508 admin mobile audit) —
+ * Filament page-header action buttons 42px → 44px
+ *
+ * Agent-test measured ".fi-color-primary (+ Add page)" at 151×42px and
+ * ".fi-color-warning (Setup Homepage)" at 187×42px on /admin/pages.
+ * Both are 2px short of the WCAG 2.5.5 44px minimum.
+ *
+ * Root cause: Filament renders these with `h-9` (36px from Tailwind's
+ * 9 × 4px = 36px) + 3px top/bottom padding = 42px rendered height.
+ * The existing mobile-touch.css rule covers `.fi-topbar .fi-btn` but
+ * NOT the page-header action bar.
+ *
+ * Fix: apply min-height:44px to all color-variant Filament buttons in
+ * the admin panel. Color variants (.fi-color-primary, .fi-color-warning,
+ * etc.) identify interactive action buttons — not form inputs or
+ * structural elements — making this scope safe for a broad touch-target
+ * floor. The topbar-specific rules (admin-toolbar-add display:none at
+ * ≤768px; admin-toolbar-live-edit min-height; brand mark) remain as
+ * more-specific overrides that continue to win.
+ *
+ * Scope: body.fi-panel-admin — admin panel only.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin .fi-btn.fi-color-primary,
+    body.fi-panel-admin .fi-btn.fi-color-warning,
+    body.fi-panel-admin .fi-btn.fi-color-success,
+    body.fi-panel-admin .fi-btn.fi-color-danger,
+    body.fi-panel-admin .fi-btn.fi-color-info,
+    body.fi-panel-admin .fi-btn.fi-color-gray {
+        min-height: 44px !important;
     }
 }
 

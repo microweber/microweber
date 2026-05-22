@@ -19054,6 +19054,7 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
   body.fi-panel-admin .fi-topbar a.mw-admin-brand-mark, body.fi-panel-admin a.mw-admin-brand-mark {
     min-height: 44px !important;
+    min-width: 44px !important;
     align-items: center !important;
   }
   body.fi-panel-admin .fi-btn.admin-toolbar-live-edit, body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
@@ -19077,6 +19078,11 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
     display: inline-flex !important;
     align-items: center !important;
     padding-block: 8px !important;
+  }
+}
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+  body.fi-panel-admin .fi-btn.fi-color-primary, body.fi-panel-admin .fi-btn.fi-color-warning, body.fi-panel-admin .fi-btn.fi-color-success, body.fi-panel-admin .fi-btn.fi-color-danger, body.fi-panel-admin .fi-btn.fi-color-info, body.fi-panel-admin .fi-btn.fi-color-gray {
+    min-height: 44px !important;
   }
 }
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
