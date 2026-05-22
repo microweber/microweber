@@ -19319,6 +19319,9 @@ html.dark body.fi-panel-admin .fi-page > .fi-form .fi-form-actions, html.dark bo
   border-top-color: rgba(255, 255, 255, 0.08);
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.4);
 }
+body.fi-panel-admin .fi-page > .fi-form, body.fi-panel-admin .fi-page-content > .fi-form {
+  padding-bottom: 72px;
+}
 @media (min-width: 768px) {
   body.fi-panel-admin .fi-page > .fi-form, body.fi-panel-admin .fi-page-content > .fi-form {
     max-width: 48rem;

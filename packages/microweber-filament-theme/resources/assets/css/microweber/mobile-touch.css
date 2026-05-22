@@ -1153,6 +1153,33 @@ html.dark body.fi-panel-admin .fi-page-content > .fi-form .fi-form-actions {
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.4);
 }
 
+/* ============================================================
+ * task-2026-05-22-f8a011 / AI-766 — Sticky save-bar content-clearance.
+ *
+ * The AI-511 sticky `.fi-form-actions` bar is ~60–72px tall (padding
+ * top + bottom + button height). Without a matching bottom padding on
+ * the form container the last form field is hidden behind the sticky
+ * bar when the page is scrolled to the bottom — the user can see the
+ * field label but cannot reach its input.
+ *
+ * Fix: add `padding-bottom: 72px` to the same two form selectors so
+ * the natural scroll end always lands the last field above the bar.
+ * 72px = safe clearance for the bar at its tallest realistic height
+ * (44px button + 2 × 0.75rem padding = ~68px, rounded up to 72px for
+ * breathing room). Applied universally (mobile + desktop) because the
+ * sticky bar ships without a viewport gate — the clearance is
+ * necessary wherever the bar is sticky.
+ *
+ * Scope mirrors AI-511 exactly:
+ *   - body.fi-panel-admin .fi-page > .fi-form
+ *   - body.fi-panel-admin .fi-page-content > .fi-form
+ *   Checkout, modal forms, and other panels remain unaffected.
+ * ============================================================ */
+body.fi-panel-admin .fi-page > .fi-form,
+body.fi-panel-admin .fi-page-content > .fi-form {
+    padding-bottom: 72px;
+}
+
 @media (min-width: 768px) {
     body.fi-panel-admin .fi-page > .fi-form,
     body.fi-panel-admin .fi-page-content > .fi-form {
