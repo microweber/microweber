@@ -230,7 +230,7 @@ abstract class DuskTestCase extends BaseTestCase
                 'db_prefix' => 'mw_test_',
                 'admin_username' => 'admin',
                 'admin_email' => 'admin@localhost',
-                'admin_password' => 'admin123',
+                'admin_password' => 'admin',
                 'default_template' => $this->template_name,
                 'with_default_content' => 1,
                 'site_lang' => 'en_US'

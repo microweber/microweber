@@ -7,7 +7,7 @@
  * fixture, and reports all console.error messages per page.
  *
  * Usage:
- *   node scripts/audit-admin-console.mjs [--base-url=http://localhost:8000] [--email=admin@admin.com] [--password=admin123]
+ *   node scripts/audit-admin-console.mjs [--base-url=http://localhost:8000] [--email=admin@admin.com] [--password=admin]
  *
  * Requirements:
  *   npx playwright install chromium   # first run only
@@ -32,7 +32,7 @@ function arg(name, fallback) {
 
 const BASE_URL  = arg('base-url', 'http://localhost:8000');
 const EMAIL     = arg('email', 'admin@admin.com');
-const PASSWORD  = arg('password', 'admin123');
+const PASSWORD  = arg('password', 'admin');
 
 // ---------------------------------------------------------------------------
 // Load fixture — PHP file, so we shell out to parse it
