@@ -4,6 +4,27 @@
 
 ---
 
+## 2026-05-22 — Microweber module settings wiring: render() must call getOption() (AI-918..922)
+
+- **Pattern:** `ModuleSettings.php` saves Filament form fields correctly via `LiveEditModuleSettings`. The settings persist in the DB. But `Module.php::render()` never reads them with `$this->getOption('key', 'default')`. Templates hardcode defaults (e.g. `autoplay: true`, `show_dots: true`). User changes settings → nothing changes. Confirmed in 8+ modules: Slider, GoogleMaps, Embed, ContactForm, SocialLinks.
+- **Why it happened:** Stage-1 "data-shipped-consumer-not-wired" defect family. The UI and persistence layers ship correctly; only the consumption layer (render → template) is wired. Prior authors added form fields but forgot to add corresponding `$viewData['key'] = $this->getOption('key', 'default')` reads.
+- **Prevention rule:** After adding any field to a `ModuleSettings.php`, immediately check the corresponding `Module.php::render()` method. For each `TextInput::make('options.foo')`, add `$viewData['foo'] = $this->getOption('foo', 'default_value')` before the `return view(...)` call. For booleans stored as "1"/"0" strings, use `filter_var($this->getOption('show_arrows', true), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? true`. Templates consume `$viewData` variables, NOT `$this->getOption()` directly.
+- **Applies when:** Any module with both a `Filament/*ModuleSettings.php` AND a `Microweber/*Module.php` with a `render()` method. Check the form field option keys match the `getOption()` call keys exactly (field `options.key` → key `key`).
+
+## 2026-05-22 — Filament Select `->lazy()` requires BOTH label closures (AI-916)
+
+- **Pattern:** `Select::make('customer_id')->lazy()->getOptionLabelFromRecordUsing(...)` shows a blank or raw-ID value when the edit form opens for an existing record. The field was searchable and worked on new records, but existing records showed `1234` instead of `Jane Doe (jane@example.com)`.
+- **Why it happened:** `->getOptionLabelFromRecordUsing()` generates labels from Eloquent records during dropdown search. It does NOT resolve a stored ID to a label when the form opens. For that, `->getOptionLabelUsing(fn($value) => Model::find($value)?->name ?? $value)` is required as a separate closure.
+- **Prevention rule:** Any `Select` using `->lazy()` that stores a raw ID MUST have BOTH: (1) `->getOptionLabelFromRecordUsing(fn($record) => ...)` for dropdown list labels, AND (2) `->getOptionLabelUsing(fn($value) => Model::find($value)?->label ?? $value)` for resolving the saved ID on form load. Missing (2) shows raw ID on edit.
+- **Applies when:** All `Select` fields with `->lazy()` and custom option queries in Filament forms.
+
+## 2026-05-22 — Vue SFC files must use HTML comments, not Blade comments (AI-915 / task-2026-05-22)
+
+- **Pattern:** Using `{{-- comment --}}` (Blade syntax) in a `.vue` file causes a Vite build failure. The error is a parser error mentioning unexpected `{` or `{--`. Blade `{{-- --}}` is a Blade-engine construct; Vite/Vue only understands `<!-- HTML comments -->`.
+- **Why it happened:** Copied a comment style from a Blade template into a Vue SFC (ElementStyleEditorBackground.vue, ElementStyleEditorShadow.vue).
+- **Prevention rule:** In `.vue` files, always use `<!-- -->` HTML comment syntax. Blade syntax (`{{-- --}}`, `@if`, `{{ }}`, `{!! !!}`) is invalid in Vue SFCs and will cause Vite to fail. This applies to ALL files under `packages/frontend-assets/resources/assets/ui/**/*.vue`.
+- **Applies when:** Any edit to `.vue` files, especially when refactoring or copy-pasting code between Blade and Vue.
+
 ## 2026-05-22 — Blade `@push` / `@endpush` directives inside JavaScript `//` comments corrupt the Blade stack (task-2026-05-22-79d301)
 
 - **Pattern:** A `@push('scripts')` literal token inside a JavaScript `//` comment in a Blade template was processed by Blade as a real directive. This opened a nested push block whose single `@endpush` closed only the inner block. The outer push block (opened at the file's top) was never closed, so Blade treated the entire rest of the file (including all HTML layout) as push content. The resulting `@stack('scripts')` output contained the whole page HTML as raw text inside a `<script>` block. The `#mw-api-settings` script tag (which sets `mw.settings`) ended up as raw text inside the script block's textContent — never a real DOM element — so `document.querySelector('script[data-public-url]')` returned null, `mw.settings` was never populated, and Live Edit's Vue toolbar showed "Loading..." forever.

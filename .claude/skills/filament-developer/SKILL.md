@@ -420,4 +420,60 @@ class MyTablePage extends Page implements HasTable
 FilamentRegistry::registerPage(MyTablePage::class);
 ```
 
+## 8. Select Field Label Resolution — `getOptionLabelUsing` vs `getOptionLabelFromRecordUsing`
+
+When using `Select::make('customer_id')->relationship()` or a custom `->options()` callback,
+Filament needs TWO separate closures:
+
+| Method | Purpose | Called when |
+|--------|---------|-------------|
+| `->getOptionLabelFromRecordUsing(fn($record) => $record->name)` | Generate label from an Eloquent model | Populating the dropdown list (relationship mode) |
+| `->getOptionLabelUsing(fn($value) => Model::find($value)->name ?? $value)` | Resolve a stored ID to a label | Displaying the ALREADY-SELECTED value when the form opens |
+
+**The defect:** Using `->lazy()` + `->getOptionLabelFromRecordUsing()` without `->getOptionLabelUsing()`
+causes the selected value to display as raw ID or empty when the form loads. Users see the form
+with a blank Select or "1234" instead of "Jane Doe".
+
+```php
+// WRONG — edit form shows raw ID for existing records:
+Select::make('customer_id')
+    ->lazy()
+    ->getSearchResultsUsing(fn ($search) => Customer::where('name', 'like', "%{$search}%")->pluck('name', 'id'))
+    ->getOptionLabelFromRecordUsing(fn ($record) => trim($record->getFullName() . ' ' . $record->getEmail()));
+
+// CORRECT — add getOptionLabelUsing() for the stored-ID → display-label lookup:
+Select::make('customer_id')
+    ->lazy()
+    ->getSearchResultsUsing(fn ($search) => Customer::where(...)->pluck(...))
+    ->getOptionLabelFromRecordUsing(fn ($record) => trim($record->getFullName() . ' ' . $record->getEmail()))
+    ->getOptionLabelUsing(function ($value): ?string {
+        $customer = \Modules\Customer\Models\Customer::find($value);
+        return $customer
+            ? trim($customer->getFullName() . ' ' . $customer->getEmail())
+            : (string) $value;
+    });
+```
+
+**Rule:** Any `Select` with `->lazy()` that stores a raw ID MUST have `->getOptionLabelUsing()`
+in addition to `->getOptionLabelFromRecordUsing()`. The former resolves the saved ID when the
+form opens; the latter generates labels during dropdown search.
+
+## 9. Vue SFC Comments — Use HTML, Not Blade
+
+Vue Single File Components (`.vue` files) are processed by Vite, not by Blade.
+**Blade comments `{{-- --}}` in `.vue` files cause Vite build failures.**
+
+```vue
+<!-- WRONG in .vue files — Vite doesn't understand Blade syntax: -->
+{{-- This comment will break the build --}}
+
+<!-- CORRECT — use HTML comments: -->
+<!-- This is a valid comment in a .vue file -->
+```
+
+**Error symptom:** Vite reports a parser error mentioning unexpected `{` or `{--`.
+
+**Applies to:** All files in `packages/frontend-assets/resources/assets/ui/**/*.vue`
+and any other `.vue` files. Only Blade templates (`.blade.php`) support `{{-- --}}`.
+
 Happy building & testing! 
