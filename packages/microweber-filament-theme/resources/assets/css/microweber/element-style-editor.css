@@ -1598,7 +1598,65 @@ html.dark #mw-element-style-editor-app .mw-segmented-control button[aria-pressed
     color: var(--ese-accent, #0d6efd) !important;
 }
 
+/* ──────────────────────────────────────────────────────────────────────────
+ * task-2026-05-22-48070d / AI-720 — ESE per-panel empty state styles.
+ *
+ * Three panels (Animations, Section Settings, AI Style Editor) now render
+ * an empty state when the selected element doesn't support their controls.
+ * These rules handle both light and dark surface presentation:
+ *
+ *   .mw-ese-panel-empty-state    — wrapper (padding + layout)
+ *   .mw-admin-empty-state__heading  — h3 heading text
+ *   .mw-admin-empty-state__body     — p body text
+ *   .mw-ese-link-disabled           — non-interactive link visual
+ *
+ * Scoped to #mw-element-style-editor-app where possible.
+ * Dark overrides follow the html.dark / .theme-dark pattern.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* Base empty-state styles (light mode) */
+#mw-element-style-editor-app .mw-ese-panel-empty-state {
+    padding: var(--space-sm, 8px) var(--space-xs, 6px);
+    text-align: left;
+}
+
+#mw-element-style-editor-app .mw-admin-empty-state__heading {
+    font-size: var(--font-section, 15px);
+    font-weight: 600;
+    color: var(--ese-text, #111827);
+    margin: 0 0 var(--space-xs, 6px) 0;
+    line-height: 1.3;
+}
+
+#mw-element-style-editor-app .mw-admin-empty-state__body {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    margin: 0;
+    line-height: 1.45;
+}
+
+/* Disabled-link style for Section Settings header when no layout node */
+#mw-element-style-editor-app .mw-ese-link-disabled {
+    opacity: 0.45;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Dark mode overrides */
+html.dark #mw-element-style-editor-app .mw-admin-empty-state__heading,
+.theme-dark #mw-element-style-editor-app .mw-admin-empty-state__heading,
+[data-theme="dark"] #mw-element-style-editor-app .mw-admin-empty-state__heading {
+    color: var(--ese-text, #f1f5f9) !important;
+}
+
+html.dark #mw-element-style-editor-app .mw-admin-empty-state__body,
+.theme-dark #mw-element-style-editor-app .mw-admin-empty-state__body,
+[data-theme="dark"] #mw-element-style-editor-app .mw-admin-empty-state__body {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+
 /* Light mode regression-guard anchor (no-op selector, proves no changes to light) */
 /* task-2026-05-22-e8b42c AI-825: all rules above are html.dark scoped */
 /* task-2026-05-22-747f20 AI-724: same scope discipline */
 /* task-2026-05-22-06f3f4 AI-725: same scope discipline */
+/* task-2026-05-22-48070d AI-720: per-panel empty state light styles above + dark overrides scoped */

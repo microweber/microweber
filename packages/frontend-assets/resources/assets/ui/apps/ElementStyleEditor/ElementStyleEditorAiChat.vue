@@ -21,24 +21,26 @@
               </span>
             </div>
 
+            <!-- task-2026-05-22-48070d / AI-720: show empty state when the selected
+                 element is not text-based (div, section, img, etc. don't have
+                 text styles for AI to suggest). -->
             <div v-show="showAiChat">
 
-                <!--
-                  task-2026-05-05-854d66 (QW9) — removed:
-                  (a) the duplicate `<span>AI Style Editor</span>`
-                      inside the expanded panel — the heading row
-                      above already announces the section.
-                  (b) the dead `.d-none` `<input type="text">` +
-                      Send button block — the AIChatForm mounted
-                      into #ai-gui-editor below is the only live
-                      input. The hidden block was scaffolding from
-                      an earlier iteration and was visible to
-                      DOM-walking auditors as a "second AI input".
-                -->
-                <div id="ai-gui-editor" ref="wrapper"></div>
+                <template v-if="elementSupportsAiStyles">
+                    <!--
+                      task-2026-05-05-854d66 (QW9) — removed duplicate span + dead input block.
+                    -->
+                    <div id="ai-gui-editor" ref="wrapper"></div>
 
-                <div v-if="loading" class="text-center">AI is thinking...</div>
-                <div v-else-if="error" class="text-danger">{{ error }}</div>
+                    <div v-if="loading" class="text-center">AI is thinking...</div>
+                    <div v-else-if="error" class="text-danger">{{ error }}</div>
+                </template>
+
+                <!-- AI-720 empty state: non-text element selected -->
+                <div v-else class="mw-ese-panel-empty-state" aria-live="polite">
+                    <h3 class="mw-admin-empty-state__heading">Select text</h3>
+                    <p class="mw-admin-empty-state__body">Select text to apply AI styles.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -165,6 +167,21 @@ export default {
             error: null,
             activeNode: null
         };
+    },
+
+    computed: {
+        // AI-720: empty state shows when the selected element is not a text-content
+        // element. Text elements (headings, paragraphs, spans, links, etc.) have
+        // meaningful text styles for the AI to suggest; non-text elements (div,
+        // section, img, video, etc.) render the empty state instead.
+        elementSupportsAiStyles() {
+            const el = this.$root && this.$root.selectedElement;
+            if (!el || el.nodeType !== 1) return false;
+            var textTags = ['H1','H2','H3','H4','H5','H6','P','SPAN','A','STRONG',
+                'EM','B','I','LABEL','LI','TD','TH','BLOCKQUOTE','FIGCAPTION',
+                'CITE','ABBR','MARK','CODE','PRE','ADDRESS','DT','DD','CAPTION'];
+            return textTags.indexOf((el.tagName || '').toUpperCase()) !== -1;
+        }
     },
 
     methods: {

@@ -1,5 +1,8 @@
 <template>
-  <div v-if="supportsAnimations">
+  <!-- task-2026-05-22-48070d / AI-720: removed root v-if="supportsAnimations" so the
+       accordion header always renders; empty state shows inside the expanded panel
+       when the selected element does not support animations. -->
+  <div>
 
       <div class="d-flex">
 
@@ -15,30 +18,34 @@
       <!-- task-2026-05-16-ea56d3: @click.stop — see ElementStyleEditorTypography.vue -->
       <div v-if="showAnimations" class="mb-4" @click.stop>
 
-        <!--
-          task-2026-05-05-4b1414 — the previous animation-item grid
-          rendered a flat unstyled list of all 80+ animation names
-          (None, Bounce, Flash, Pulse, …) without the preview-image
-          backgrounds, eating the entire panel height and burying
-          the When/Speed controls below. The user reported "fix the
-          animations dropdown" — switch to a single Filament-style
-          dropdown so picking an animation is one click + scroll
-          instead of scrolling a 600px-tall list.
-          The native `animationOptions` getter returns the same
-          `[ {key, value}, … ]` shape as before; DropdownSmall's
-          `:options="animationOptions"` consumes it.
-        -->
-        <DropdownSmall v-model="selectedAnimation" :options="animations" :label="'Animation'"/>
+        <template v-if="supportsAnimations">
+          <!--
+            task-2026-05-05-4b1414 — the previous animation-item grid
+            rendered a flat unstyled list of all 80+ animation names
+            (None, Bounce, Flash, Pulse, ...) without the preview-image
+            backgrounds, eating the entire panel height and burying
+            the When/Speed controls below. The user reported "fix the
+            animations dropdown" — switch to a single Filament-style
+            dropdown so picking an animation is one click + scroll
+            instead of scrolling a 600px-tall list.
+            The native `animationOptions` getter returns the same
+            `[ {key, value}, ... ]` shape as before; DropdownSmall's
+            `:options="animationOptions"` consumes it.
+          -->
+          <DropdownSmall v-model="selectedAnimation" :options="animations" :label="'Animation'"/>
 
-    <div v-if="selectedAnimation">
-      <DropdownSmall v-model="selectedAnimationWhenAppear" :options="animationsAppear" :label="'When'"/>
+          <div v-if="selectedAnimation">
+            <DropdownSmall v-model="selectedAnimationWhenAppear" :options="animationsAppear" :label="'When'"/>
+            <SliderSmall v-model="selectedAnimationSpeed" :label="'Speed'" :min="0.1" :max="5" :step="0.1" :unit="'s'"/>
+          </div>
+        </template>
 
+        <!-- AI-720 empty state: selected element does not support animations -->
+        <div v-else class="mw-ese-panel-empty-state" aria-live="polite">
+          <h3 class="mw-admin-empty-state__heading">No animations available</h3>
+          <p class="mw-admin-empty-state__body">Animations apply to sections and modules — select a section in the canvas to add an animation.</p>
+        </div>
 
-
-      <SliderSmall v-model="selectedAnimationSpeed" :label="'Speed'" :min="0.1" :max="5" :step="0.1" :unit="'s'"/>
-
-
-    </div>
     </div>
 
   </div>
