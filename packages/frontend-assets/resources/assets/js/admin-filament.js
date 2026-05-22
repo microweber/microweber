@@ -59,6 +59,13 @@ export class AdminFilament extends BaseComponent {
         // show the prompt consistently, not just on tab close.
         this.initLivewireNavigateUnsavedGuard();
 
+        // AI-942 / task-2026-05-22 — Confirm-on-close for create/edit modals when
+        // form data has been entered. Filament action modals (CreateAction, EditAction)
+        // have no built-in dirty-state check on Escape/X/Cancel. We intercept the
+        // Escape keydown event and any click on .fi-modal-close-btn (X) or
+        // .fi-modal-cancel-btn (Cancel) and check for filled inputs inside the modal.
+        this.initModalDirtyGuard();
+
     }
 
     initModalFocusTrap() {
@@ -84,6 +91,42 @@ export class AdminFilament extends BaseComponent {
         });
 
         obs.observe(document.body, { childList: true, subtree: true, attributeFilter: ['hidden', 'class'] });
+    }
+
+    initModalDirtyGuard() {
+        // Detect if an open Filament modal has any filled form inputs.
+        // Returns true when at least one text/textarea/select has a non-empty value.
+        function modalHasDirtyData(modal) {
+            if (!modal) return false;
+            var inputs = modal.querySelectorAll('input[type="text"], input[type="email"], input[type="url"], textarea');
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].value && inputs[i].value.trim() !== '') return true;
+            }
+            return false;
+        }
+
+        // Intercept Escape key — only when a modal is open and has dirty data.
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape') return;
+            var modal = document.querySelector('.fi-modal-window:not([hidden])');
+            if (!modal || !modalHasDirtyData(modal)) return;
+            if (!confirm('You have unsaved changes. Close this form and lose your work?')) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        }, true);  // capture phase so we fire before Alpine/Livewire close handlers
+
+        // Intercept modal close-X and Cancel button clicks.
+        document.addEventListener('click', function (e) {
+            var closeBtn = e.target.closest('.fi-modal-close-btn, [x-on\\:click*="close"], button[aria-label="Close"]');
+            if (!closeBtn) return;
+            var modal = closeBtn.closest('.fi-modal-window');
+            if (!modal || !modalHasDirtyData(modal)) return;
+            if (!confirm('You have unsaved changes. Close this form and lose your work?')) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        }, true);  // capture phase
     }
 
     initLivewireNavigateUnsavedGuard() {
