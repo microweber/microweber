@@ -60,6 +60,9 @@ description: Default
 </style>
 
 @if(isset($lazyload) && $lazyload)
+{{-- AI-1010 / task-2026-05-22 — lazy-load click handler disabled in live-edit mode to
+     prevent play-button click from conflicting with canvas element selection. --}}
+@if(!is_live_edit())
 <script>
     $(document).ready(function () {
         $('.js-mw-embed-wrapper-{{ $params['id'] ?? '' }}').click(function () {
@@ -82,10 +85,22 @@ description: Default
     });
 </script>
 @endif
-<div class="video-player-container">{!! $code ?? '' !!}</div>
+@endif
 
+{{-- AI-1009 / task-2026-05-22 — when no video source is configured the module falls
+     back to a demo video. Show an overlay badge so editors know it is a placeholder. --}}
+<div class="video-player-container" style="position:relative;">
+    {!! $code ?? '' !!}
+    @if(!empty($isDemoVideo))
+    <div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.7);color:#fff;
+         font-size:11px;padding:4px 8px;border-radius:4px;pointer-events:none;z-index:10;">
+        Demo video — configure source in Settings →
+    </div>
+    @endif
+</div>
 
-
+{{-- AI-1010 / task-2026-05-22 — pause/play state handler skipped in live-edit mode. --}}
+@if(!is_live_edit())
 <script>
     $(document).ready(function () {
         $('#{{ $params['id'] ?? '' }} video').on('pause', function () {
@@ -95,3 +110,4 @@ description: Default
         });
     });
 </script>
+@endif

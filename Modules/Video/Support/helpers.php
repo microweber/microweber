@@ -100,7 +100,12 @@ if (!function_exists('renderVideoModule')) {
         $prior = get_option('prior', $params['id']);
 
         $code = false;
-        $getCode = get_option('embed_url', $params['id']);
+        // AI-1007 / task-2026-05-22 — also check embed_code (raw iframe HTML field added in
+        // VideoModuleSettings). embed_code takes priority over embed_url.
+        $getCode = get_option('embed_code', $params['id']);
+        if ($getCode == false) {
+            $getCode = get_option('embed_url', $params['id']);
+        }
         if ($getCode == false) {
             $getCode = get_option('url', $params['id']);
         }

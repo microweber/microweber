@@ -51,16 +51,28 @@ class VideoModuleSettings extends LiveEditModuleSettings
                                     ->default('1'),
 
                                 Group::make([
-                                    Textarea::make('options.embed_url')
-                                        ->label('Paste video URL or Embed Code')
+                                    // AI-1007 / task-2026-05-22 — changed from Textarea to TextInput for URL entry.
+                                    // Standard YouTube/Vimeo/etc URLs are single-line. Raw embed codes
+                                    // (multi-line iframes) can be pasted in the embed_code field below.
+                                    TextInput::make('options.embed_url')
+                                        ->label('Video URL')
                                         ->live()
+                                        ->url()
+                                        ->placeholder('https://www.youtube.com/watch?v=...')
                                         ->visible(fn (Get $get) => $get('options.prior') !== '2')
                                         ->afterStateUpdated(function ($state, callable $set) {
                                             if ($state) {
                                             //    $set('options.upload', null);
                                             }
                                         })
-                                        ->helperText('Enter the URL or embed code for the video you want to display.'),
+                                        ->helperText('YouTube, Vimeo, Dailymotion, or direct video URL.'),
+
+                                    Textarea::make('options.embed_code')
+                                        ->label('Raw Embed Code (advanced)')
+                                        ->live()
+                                        ->rows(3)
+                                        ->visible(fn (Get $get) => $get('options.prior') !== '2')
+                                        ->helperText('Paste a custom &lt;iframe&gt; or embed HTML here. Overrides URL above when set.'),
 
                                     MwFileUpload::make('options.upload')
                                         ->label('Upload Video')
@@ -85,25 +97,29 @@ class VideoModuleSettings extends LiveEditModuleSettings
                                 // as options.autoplay / options.muted / options.loop / options.hide_controls.
                                 // hide_controls is the semantic inverse of "Show controls" — default 0 means
                                 // controls are visible. No new fields needed; marker added for audit grep.
+                                // AI-1008 / task-2026-05-22 — removed hard-coded 'px' suffix; allow responsive
+                                // values like '100%' or 'auto'. Defaults (100% / 350px) shown in placeholder.
                                 Group::make([
                                     TextInput::make('options.width')
                                         ->label('Width')
-                                        ->suffix('px')
                                         ->live()
-                                        ->helperText('Specify the width of the video player in pixels.'),
+                                        ->placeholder('100%')
+                                        ->helperText('e.g. "100%" for responsive or "500px" for fixed width.'),
                                     TextInput::make('options.height')
                                         ->label('Height')
-                                        ->suffix('px')
                                         ->live()
-                                        ->helperText('Specify the height of the video player in pixels.'),
+                                        ->placeholder('350px')
+                                        ->helperText('e.g. "350px" or "auto" for responsive height.'),
                                 ])->columns(2),
                                 Group::make([
+                                // AI-1006 / task-2026-05-22 — added browser-policy warning.
+                                // Modern browsers block autoplay with sound; muted is required.
                                 Toggle::make('options.autoplay')
                                     ->label('Autoplay')
                                     ->live()
                                     ->inline()
                                     ->default('0')
-                                    ->helperText('Automatically start playing the video when the page loads.'),
+                                    ->helperText('Autoplay requires Muted to work in modern browsers.'),
 
                                 Toggle::make('options.loop')
                                     ->label('Loop')
