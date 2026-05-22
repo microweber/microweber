@@ -215,6 +215,17 @@ body {
     @apply !fill-black dark:!fill-white;
 }
 
+/* task-2026-05-22-747f20 / AI-724 Fix 3 — Right-edge icon strip SVG contrast.
+ * The @apply dark:!fill-white above targets Tailwind's .dark parent. Add an
+ * explicit html.dark rule as belt-and-suspenders so the SVGs are always
+ * light-coloured against the dark sidebar background regardless of which
+ * dark-mode mechanism the canvas iframe uses. */
+html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.live-edit-toolbar-buttons svg,
+html.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
+    fill: #f1f5f9 !important;
+    color: #f1f5f9 !important;
+}
+
 #save-button {
     @apply !bg-green-100 !text-green-800 dark:!bg-green-900 dark:!text-green-200 !border-none font-semibold rounded;
 }

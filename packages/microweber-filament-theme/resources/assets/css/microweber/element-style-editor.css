@@ -1428,5 +1428,74 @@ html.dark #mw-element-style-editor-app .mw-typography-advanced > summary,
     color: var(--ese-text-muted, #94a3b8) !important;
 }
 
+/* ──────────────────────────────────────────────────────────────────────────
+ * task-2026-05-22-747f20 / AI-724 — ESE chrome dark mode contrast sweep.
+ *
+ * Four surfaces identified by tester at dark mode on-device probe:
+ *  1. Collapsed accordion section labels — inherited dark text on dark panel.
+ *  2. Section dividers — hardcoded #000 corner-marks (Border section) +
+ *     any Tailwind-hardcoded light hairlines invisible on dark surface.
+ *  3. Right-edge icon strip SVGs — dark glyphs on dark sidebar background.
+ *     (Handled in live-edit-classes.css alongside existing sidebar rules.)
+ *  4. Reset icon (↺) — dark stroke on dark ESE surface.
+ *
+ * All rules html.dark / .theme-dark / [data-theme="dark"] scoped.
+ * Light mode completely unchanged.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* 6. Collapsed accordion section labels (Typography, Background, …).
+ *    The parent container gets `color: white` via general-styles.css
+ *    `.dark #mw-element-style-editor-app`, but Tailwind-generated link
+ *    styles on `.mw-admin-action-links` can win with higher specificity in
+ *    some builds — anchor here with an explicit token-driven override. */
+html.dark .element-style-editor-toggle-wrapper .mw-admin-action-links,
+.theme-dark .element-style-editor-toggle-wrapper .mw-admin-action-links,
+[data-theme="dark"] .element-style-editor-toggle-wrapper .mw-admin-action-links {
+    color: var(--ese-text, #f1f5f9) !important;
+}
+
+/* Accordion header SVG icons — ensure they use the muted text colour so
+ * they're readable but don't compete with the active-state blue accent. */
+html.dark .element-style-editor-toggle-wrapper svg,
+.theme-dark .element-style-editor-toggle-wrapper svg,
+[data-theme="dark"] .element-style-editor-toggle-wrapper svg {
+    color: var(--ese-text-muted, #94a3b8) !important;
+    fill: currentColor;
+}
+
+/* Chevron ::after data-uri SVG uses stroke='currentColor'; making the
+ * parent colour light (above) propagates automatically. */
+
+/* 7. Section dividers — Border section corner-angle marks use hardcoded
+ *    `border: 1px solid #000` which vanishes on a dark surface. These are
+ *    scoped Vue styles; `!important` is required to override them. */
+html.dark .angle-top-left,
+html.dark .angle-top-right,
+html.dark .angle-bottom-left,
+html.dark .angle-bottom-right,
+.theme-dark .angle-top-left,
+.theme-dark .angle-top-right,
+.theme-dark .angle-bottom-left,
+.theme-dark .angle-bottom-right {
+    border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* 8. Reset (↺) icon — `.reset-field` uses `color: inherit`; `.mw-tool-field__reset`
+ *    has `color: var(--ese-text-muted)` which maps to #94a3b8 in dark mode
+ *    — correct. Anchor `.reset-field` explicitly so it doesn't regress. */
+html.dark #mw-element-style-editor-app .reset-field,
+html.dark #mw-element-style-editor-app .reset-field a,
+html.dark #mw-element-style-editor-app .reset-field button,
+.theme-dark #mw-element-style-editor-app .reset-field,
+.theme-dark #mw-element-style-editor-app .reset-field a,
+.theme-dark #mw-element-style-editor-app .reset-field button {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+html.dark #mw-element-style-editor-app .reset-field svg,
+.theme-dark #mw-element-style-editor-app .reset-field svg {
+    fill: var(--ese-text-muted, #94a3b8) !important;
+}
+
 /* Light mode regression-guard anchor (no-op selector, proves no changes to light) */
 /* task-2026-05-22-e8b42c AI-825: all rules above are html.dark scoped */
+/* task-2026-05-22-747f20 AI-724: same scope discipline */
