@@ -5,6 +5,8 @@ namespace Modules\RssFeed\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
+use MicroweberPackages\Filament\Support\AdminFixtureGuard;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class RssController extends Controller
@@ -40,8 +42,20 @@ class RssController extends Controller
 
         $cont = get_content('is_active=1&is_deleted=0&limit=2500&orderby=updated_at desc'.$filter);
 
+        // task-2026-05-22-d8532e / AI-844 — filter faker/test-fixture content
+        // before building the feed so lorem-ipsum test titles never appear in the
+        // public RSS feed. Extends the AI-784 AdminFixtureGuard umbrella to the
+        // public RSS surface (cross-surface Faker-leak family, 3-recurrence).
+        if (!empty($cont)) {
+            $cont = AdminFixtureGuard::filterByTitle($cont);
+        }
+
         $siteTitle = app()->option_manager->get('website_title', 'website');
-        $siteDesc = app()->option_manager->get('website_description', 'website');
+        // task-2026-05-22-d8532e / AI-844 — 3-tier description fallback so the
+        // channel <description> is never empty (empty description → invalid RSS 2.0).
+        $siteDesc = app()->option_manager->get('website_description', 'website')
+            ?: app()->option_manager->get('website_title', 'website')
+            ?: __('Latest content from our site');
 
         if (!empty($cont)) {
             foreach ($cont as $k => $item) {
@@ -79,7 +93,10 @@ class RssController extends Controller
         $data = [
             'siteTitle' => $siteTitle,
             'siteDescription' => $siteDesc,
-            'siteUrl' => mw()->url_manager->hostname(),
+            // task-2026-05-22-d8532e / AI-844 — use url('/') not hostname().
+            // hostname() returns bare "127.0.0.1" with no protocol; <link> in
+            // RSS 2.0 must be an absolute URL (https://example.com/).
+            'siteUrl' => url('/'),
             'rssData' => $contentData,
         ];
         return response()->view('modules.rssfeed::'.$view, $data)->header('Content-Type', 'text/xml');
@@ -94,9 +111,15 @@ class RssController extends Controller
         }
 
         $siteTitle = app()->option_manager->get('website_title', 'website');
-        $siteDesc = app()->option_manager->get('website_description', 'website');
+        $siteDesc = app()->option_manager->get('website_description', 'website')
+            ?: app()->option_manager->get('website_title', 'website')
+            ?: __('Latest content from our site');
 
         $posts = get_content('is_active=1&content_type=post&limit=2500&orderby=updated_at desc');
+
+        if (!empty($posts)) {
+            $posts = AdminFixtureGuard::filterByTitle($posts);
+        }
 
         if(!empty($posts)) {
             foreach($posts as $post) {
@@ -119,7 +142,7 @@ class RssController extends Controller
         $data = [
             'siteTitle' => $siteTitle,
             'siteDescription' => $siteDesc,
-            'siteUrl' => mw()->url_manager->hostname(),
+            'siteUrl' => url('/'),
             'rssData' => $contentData,
         ];
 
@@ -137,9 +160,15 @@ class RssController extends Controller
         }
 
         $siteTitle = app()->option_manager->get('website_title', 'website');
-        $siteDesc = app()->option_manager->get('website_description', 'website');
+        $siteDesc = app()->option_manager->get('website_description', 'website')
+            ?: app()->option_manager->get('website_title', 'website')
+            ?: __('Latest content from our site');
 
         $products = get_content('is_active=1&is_deleted=0&content_type=product&limit=2500&orderby=updated_at desc');
+
+        if (!empty($products)) {
+            $products = AdminFixtureGuard::filterByTitle($products);
+        }
 
         if(!empty($products)) {
             foreach($products as $product) {
@@ -162,7 +191,7 @@ class RssController extends Controller
         $data = [
             'siteTitle' => $siteTitle,
             'siteDescription' => $siteDesc,
-            'siteUrl' => mw()->url_manager->hostname(),
+            'siteUrl' => url('/'),
             'rssData' => $contentData,
         ];
 

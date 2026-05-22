@@ -9,7 +9,12 @@
             <item>
                 <title>{{ $item['title'] }}</title>
                 <link>{{ $item['url'] }}</link>
-                <description>{{ $item['url'] }}</description>
+                {{-- task-2026-05-22-d8532e / AI-844 — strip HTML tags and limit to 280
+                     chars. Pre-fix: description was literally the item URL, which is
+                     useless for RSS consumers. The controller sets $item['description']
+                     to the processed HTML content body; strip_tags removes markup so
+                     <description> carries a readable plain-text excerpt. --}}
+                <description>{{ \Illuminate\Support\Str::limit(strip_tags($item['description'] ?? ''), 280) }}</description>
 
                 @if(!empty($item['image_url']) and is_string($item['image_url']))
                     <enclosure url="{{ $item['image_url'] }}" type="{{ $item['image_type'] }}" />
