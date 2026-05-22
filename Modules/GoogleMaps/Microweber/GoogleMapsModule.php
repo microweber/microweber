@@ -22,7 +22,9 @@ class GoogleMapsModule extends BaseModule
         $address = $this->params['data-address'] ?? '';
         $mapType = get_module_option('data-map-type', $this->params['id']) ?? $this->params['data-map-type'] ?? 'roadmap';
         $zoom = get_module_option('data-zoom', $this->params['id']) ?? $this->params['data-zoom'] ?? $this->params['zoom'] ?? 17;
-        $width = get_module_option('data-width', $this->params['id'] ?? $this->params['data-width'] ?? $this->params['width'] ?? '100%');
+        // AI-1016 — fixed missing closing ) — the get_module_option call was swallowing
+        // the fallback chain as its second argument; should close after ['id'] only.
+        $width = get_module_option('data-width', $this->params['id']) ?? $this->params['data-width'] ?? $this->params['width'] ?? '100%';
         $height = get_module_option('data-height', $this->params['id']) ?? $this->params['data-height'] ?? $this->params['height'] ?? '600';
 
         $addressPartsFromParams = [];
