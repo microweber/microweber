@@ -736,4 +736,43 @@
     .mw-live-edit-page #toolbar #mw-page-set-preview-mode {
         right: calc(var(--space-sm, 8px) + 80px) !important;
     }
+
+    /* task-2026-05-22-17d95a / AI-832 — Tools dropdown mobile viewport safety.
+     *
+     * ROOT CAUSE: .dropdown-content is position:absolute (scoped Vue CSS)
+     * relative to .custom-dropdown. Inside the horizontally-scrollable
+     * #toolbar (overflow-x:auto, AI-74c5f5), position:absolute is relative
+     * to the SCROLLED container — not the visible viewport. When the toolbar
+     * is scrolled right the popup renders off-screen to the right (invisible).
+     *
+     * FIX: switch to position:fixed on mobile so the popup is always
+     * viewport-relative, anchored just below the toolbar height token.
+     * right:4px keeps it away from the screen edge; left:auto lets the
+     * popup take its natural width (min-width:200px from the Vue scoped CSS).
+     * max-height:80vh + overflow-y:auto makes all items reachable by scroll.
+     * z-index:100000 ensures it paints above the toolbar and iframe canvas.
+     *
+     * Dark mode parity: no extra rule needed — the scoped Vue dark-mode
+     * selectors (html.dark .dropdown-content) remain in force.
+     *
+     * The trigger button itself stays at flex-shrink:0 so it is never
+     * crushed off the visible edge of the toolbar. */
+    .mw-admin-live-edit-page #toolbar .custom-dropdown .dropdown-content.show,
+    .mw-live-edit-page #toolbar .custom-dropdown .dropdown-content.show {
+        position: fixed !important;
+        top: calc(var(--toolbar-height, 48px) + 4px) !important;
+        right: 4px !important;
+        left: auto !important;
+        max-height: 80vh !important;
+        overflow-y: auto !important;
+        z-index: 100000 !important;
+        /* Keep min-width from Vue scoped CSS; cap at viewport width minus 8px */
+        max-width: calc(100vw - 8px) !important;
+    }
+
+    /* Prevent the trigger button from being crushed by toolbar flex */
+    .mw-admin-live-edit-page #toolbar .custom-dropdown,
+    .mw-live-edit-page #toolbar .custom-dropdown {
+        flex-shrink: 0 !important;
+    }
 }

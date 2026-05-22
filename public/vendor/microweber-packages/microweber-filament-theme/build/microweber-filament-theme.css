@@ -16580,8 +16580,9 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     top: calc(var(--toolbar-height, 60px) + var(--space-xs, 6px));
     inset-inline-start: 64px;
     margin: 0;
-    transform: none;
+    transform: none !important;
     transform-origin: top left;
+    max-width: min(var(--size, 42rem), calc(100vw - 80px));
     animation: mw-add-content-picker-open var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
   }
   .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) > .fi-modal-close-overlay, .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) .fi-modal-close-overlay {
@@ -18517,6 +18518,19 @@ html.dark .mw-live-edit-slider-small .v-slider-thumb__surface, .theme-dark .mw-l
   .mw-admin-live-edit-page #toolbar #mw-page-set-preview-mode, .mw-live-edit-page #toolbar #mw-page-set-preview-mode {
     right: calc(var(--space-sm, 8px) + 80px) !important;
   }
+  .mw-admin-live-edit-page #toolbar .custom-dropdown .dropdown-content.show, .mw-live-edit-page #toolbar .custom-dropdown .dropdown-content.show {
+    position: fixed !important;
+    top: calc(var(--toolbar-height, 48px) + 4px) !important;
+    right: 4px !important;
+    left: auto !important;
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+    z-index: 100000 !important;
+    max-width: calc(100vw - 8px) !important;
+  }
+  .mw-admin-live-edit-page #toolbar .custom-dropdown, .mw-live-edit-page #toolbar .custom-dropdown {
+    flex-shrink: 0 !important;
+  }
 }
 :root {
   --color-primary: #0d6efd;
@@ -19049,6 +19063,40 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
     display: inline-flex;
     align-items: center;
     justify-content: center;
+  }
+}
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+  body.fi-panel-admin .fi-topbar a.mw-admin-brand-mark, body.fi-panel-admin a.mw-admin-brand-mark {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    align-items: center !important;
+  }
+  body.fi-panel-admin .fi-btn.admin-toolbar-live-edit, body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
+    min-height: 44px !important;
+  }
+  body.fi-panel-admin .fi-sidebar-item-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+  body.fi-panel-admin .fi-sidebar-group-btn, body.fi-panel-admin .fi-sidebar-group-collapse-btn, body.fi-panel-admin .fi-sidebar-group-dropdown-trigger-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+  body.fi-panel-admin .mw-welcome-widget-counter {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+  body.fi-panel-admin .mw-stats-card-show-more {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    padding-block: 8px !important;
+  }
+}
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+  body.fi-panel-admin .fi-btn.fi-color-primary, body.fi-panel-admin .fi-btn.fi-color-warning, body.fi-panel-admin .fi-btn.fi-color-success, body.fi-panel-admin .fi-btn.fi-color-danger, body.fi-panel-admin .fi-btn.fi-color-info, body.fi-panel-admin .fi-btn.fi-color-gray {
+    min-height: 44px !important;
   }
 }
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
