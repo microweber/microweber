@@ -327,4 +327,97 @@ livewire(StatsOverview::class)
 
 Update this section as new assertions or plugins emerge (e.g. better mocking for file uploads or relation managers).
 
+## 7. Navigation & Routing Gotchas
+
+### 7.1 `getSlug()` Signature in Filament v5
+
+When overriding `getSlug()` in **both Resources and Pages**, you MUST include the
+optional `\Filament\Panel $panel = null` parameter to match the parent class signature:
+
+```php
+// WRONG in Filament v5 — PHP throws declaration incompatibility:
+public static function getSlug(): string
+{
+    return 'my-resource';
+}
+
+// CORRECT — matches Filament v5 parent signature:
+public static function getSlug(?\Filament\Panel $panel = null): string
+{
+    return 'my-resource';
+}
+```
+
+**Error without it:**
+```
+Declaration of MyResource::getSlug(): string must be compatible with
+Filament\Resources\Resource::getSlug(?Filament\Panel $panel = null): string
+```
+
+**Applies to:** `Filament\Resources\Resource` subclasses AND `Filament\Pages\Page`
+subclasses. The parameter is nullable so callers without it work fine; only the
+*signature declaration* needs to match.
+
+**Contract test regex** for this signature pattern:
+```php
+// Allow for optional parameter — use [^)]* instead of ()
+"~function\s+getSlug\([^)]*\)[^{]*\{[^}]*return\s+['\"]my-slug['\"]~s"
+```
+
+### 7.2 `shouldRegisterNavigation` — Hidden Resources
+
+If a Filament Resource has `protected static bool $shouldRegisterNavigation = false;`,
+the resource is completely invisible in the sidebar. All `/admin/<slug>/*` URLs still
+work when accessed directly — only the nav entry is suppressed.
+
+**To surface a hidden resource:**
+1. Remove the `$shouldRegisterNavigation = false` line
+2. Set `$navigationIcon`, `$navigationLabel`, `$navigationGroup`, `$navigationSort`
+3. Add a custom `getSlug()` if the default auto-generated slug is wrong
+
+**Common symptom:** "Guessing `/admin/backup`... 404" — usually `$shouldRegisterNavigation = false`.
+
+### 7.3 Custom Page with Embedded Table
+
+To create a Filament **Page** that contains a table (e.g. `/admin/restore`):
+
+```php
+use Filament\Pages\Page;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+
+class MyTablePage extends Page implements HasTable
+{
+    use InteractsWithTable;
+
+    protected string $view = 'my-module::filament.pages.my-table-page';
+
+    public static function getSlug(?\Filament\Panel $panel = null): string
+    {
+        return 'my-table';
+    }
+
+    public function table(Table $table): Table
+    {
+        return $table
+            ->query(MyModel::query())
+            ->columns([...])
+            ->actions([...]);
+    }
+}
+```
+
+**Blade view** (minimal):
+```blade
+<x-filament-panels::page>
+    {{ $this->table }}
+</x-filament-panels::page>
+```
+
+**Register via FilamentRegistry:**
+```php
+FilamentRegistry::registerPage(MyTablePage::class);
+```
+
 Happy building & testing! 

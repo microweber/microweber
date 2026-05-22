@@ -158,6 +158,38 @@ public function new_rule_at_global_scope(): void
 }
 ```
 
+## Technique: Multi-selector trailing comma (AI-766)
+
+When a CSS rule uses a **comma-separated multi-selector**, the first selector ends with
+`,` not `{`. A regex that expects `{` directly after the first selector will NEVER match:
+
+```css
+/* This is valid CSS — comma-separated multi-selector: */
+body.fi-panel-admin .fi-page > .fi-form,
+body.fi-panel-admin .fi-page-content > .fi-form {
+    padding-bottom: 72px;
+}
+```
+
+**Wrong regex (expects `{` after first selector — never matches):**
+```php
+'~body\.fi-panel-admin\s+\.fi-page\s*>\s*\.fi-form\s*\{[^}]*padding-bottom:\s*72px~s'
+```
+
+**Correct regex (trailing comma as discriminator, then `[\s\S]*?` to span to the value):**
+```php
+'~body\.fi-panel-admin\s+\.fi-page\s*>\s*\.fi-form\s*,[\s\S]*?padding-bottom:\s*72px~s'
+```
+
+**When to apply:** Any time a CSS selector appears in a comma-separated multi-selector
+list and you're asserting a property value. Use `,` or `[,{]` after the first selector
+in the regex instead of `\s*\{`.
+
+**Additional trap**: If the first selector in the multi-selector (`A,\nB { }`) also
+appears as a PREFIX in ANOTHER selector (`A > .child { ... }`), `strrpos` may find the
+wrong block. Use the trailing-comma version to disambiguate — it will only match the
+actual multi-selector block, not the prefix-only usage.
+
 ## Do NOT
 
 - Do NOT perform `assertDoesNotMatch` on raw source without comment-stripping.
@@ -166,6 +198,8 @@ public function new_rule_at_global_scope(): void
   marker may be inside a docblock that itself mentions `@media`.
 - Do NOT use `preg_replace('!<!--[\s\S]*?-->!', ...)` — `!<` parses as delimiter+flag.
   Use `~` or `#` delimiter.
+- Do NOT write a CSS selector regex expecting `\{` directly after the selector when the
+  selector might be the first element of a comma-separated multi-selector list.
 
 ## Applies To
 
