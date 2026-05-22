@@ -87,7 +87,12 @@ class ApiApplicationsPage extends Page
 
             return [
                 'id' => $token->id,
-                'name' => $token->client->name ?? 'Personal Access Token',
+                // task-2026-05-22-9d1964 / AI-916 — read $token->name (the user-assigned
+                // label set via createToken('My name')) not $token->client->name (the
+                // system-level OAuth client name "Personal Access Client" which is
+                // implementation detail, not user-meaningful). Pre-fix: NAME column
+                // showed blank because PAC client name is usually null or generic.
+                'name' => $token->name ?? 'Personal Access Token',
                 'scopes' => $token->scopes ? implode(', ', $token->scopes) : 'All',
                 'created_at' => $token->created_at->format('Y-m-d H:i'),
                 'last_used_at' => $lastUsedAt?->format('Y-m-d H:i') ?? 'Never',

@@ -14,22 +14,26 @@
         </p>
     </div>
 
+    {{-- task-2026-05-22-9d1964 / AI-917 — (1) removed uppercase tracking-widest (ALL-CAPS
+         was inconsistent with admin's Title Case convention); (2) swapped hierarchy:
+         "Add License Key" is the primary action (existing customers), "Purchase License"
+         is secondary (new buyers) — now outlined to de-emphasise. --}}
     <div class="flex flex-col sm:flex-row gap-3">
-        <a href="https://microweber.com/pricing#white-label" 
+        <button
+            type="button"
+            x-on:click="$wire.mountAction('manage-licenses')"
+            class="inline-flex items-center px-4 py-2 bg-primary-600 border border-transparent rounded-md font-semibold text-xs text-white hover:bg-primary-700 active:bg-primary-900 focus:outline-none focus:border-primary-900 focus:ring ring-primary-300 disabled:opacity-25 transition ease-in-out duration-150">
+            + Add License Key
+        </button>
+
+        <a href="https://microweber.com/pricing#white-label"
            target="_blank"
-           class="inline-flex items-center px-4 py-2 bg-primary-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary-700 active:bg-primary-900 focus:outline-none focus:border-primary-900 focus:ring ring-primary-300 disabled:opacity-25 transition ease-in-out duration-150" rel="noopener noreferrer">
+           class="inline-flex items-center px-4 py-2 bg-white border border-primary-600 rounded-md font-semibold text-xs text-primary-600 hover:bg-primary-50 active:bg-primary-100 focus:outline-none focus:ring ring-primary-300 disabled:opacity-25 transition ease-in-out duration-150" rel="noopener noreferrer">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
             </svg>
             Purchase License
         </a>
-        
-        <button 
-            type="button"
-            x-on:click="$wire.mountAction('manage-licenses')"
-            class="inline-flex items-center px-4 py-2 bg-primary-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
-            + Add License Key
-        </button>
     </div>
     
     <div class="text-xs text-gray-500 dark:text-gray-400 text-center">
