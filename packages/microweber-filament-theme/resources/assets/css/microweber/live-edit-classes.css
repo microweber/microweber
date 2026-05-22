@@ -1897,6 +1897,35 @@ html.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-s
     display: none !important;
 }
 
+/* AI-968 / task-2026-05-22 — Slider navigation dots and arrows may lack contrast
+   in live-edit canvas mode. Ensure swiper pagination bullets and navigation
+   arrows are visible against the canvas background with minimum contrast.
+   These rules apply globally inside the canvas so ALL slider instances benefit.
+   Canvas styles load inside the iframe independently from admin styles. */
+.swiper-pagination-bullet {
+    background: rgba(0, 0, 0, 0.5) !important;
+    opacity: 0.6 !important;
+}
+.swiper-pagination-bullet-active {
+    background: #0d6efd !important;
+    opacity: 1 !important;
+}
+.swiper-button-next,
+.swiper-button-prev,
+.mw-slider-v2-button-next,
+.mw-slider-v2-button-prev {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border-radius: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+    color: #ffffff !important;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-size: 18px !important;
+    color: #ffffff !important;
+}
+
 /* task-2026-05-22-31aeb1 / AI-909 — Remove the blue focus outline that appears
    between the toolbar and the canvas when the user clicks inside the iframe.
    The live-edit canvas iframe is not keyboard-navigable by users; removing its
