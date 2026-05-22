@@ -51,6 +51,14 @@ export class AdminFilament extends BaseComponent {
         // focus (e.g. screen-reader virtual cursor) also stays within the dialog.
         this.initModalFocusTrap();
 
+        // AI-972 / task-2026-05-22 — Consistent unsaved-changes guard across all
+        // Filament admin forms. Filament's non-SPA setUpUnsavedDataChangesAlert only
+        // hooks window.beforeunload (tab close) — it does NOT intercept Livewire's
+        // livewire:navigate event (sidebar clicks). This supplement catches the
+        // navigate event and prompts using the same savedDataHash check so ALL forms
+        // show the prompt consistently, not just on tab close.
+        this.initLivewireNavigateUnsavedGuard();
+
     }
 
     initModalFocusTrap() {
@@ -76,6 +84,32 @@ export class AdminFilament extends BaseComponent {
         });
 
         obs.observe(document.body, { childList: true, subtree: true, attributeFilter: ['hidden', 'class'] });
+    }
+
+    initLivewireNavigateUnsavedGuard() {
+        // Filament's non-SPA mode setUpUnsavedDataChangesAlert listens only to
+        // window.beforeunload. When users click sidebar links, Livewire fires
+        // a livewire:navigate event instead. This guard intercepts that event
+        // and prompts the user if any Livewire component has unsaved form data
+        // (detected via the same $wire.data vs savedDataHash comparison
+        // that Filament's SPA-mode guard uses).
+        document.addEventListener('livewire:navigate', function (e) {
+            try {
+                var allComponents = Livewire.all ? Livewire.all() : [];
+                var hasUnsaved = allComponents.some(function (component) {
+                    if (!component.savedDataHash) return false;
+                    var hash = window.jsMd5
+                        ? window.jsMd5(JSON.stringify(component.data).replace(/\\/g, ''))
+                        : null;
+                    return hash && hash !== component.savedDataHash;
+                });
+                if (hasUnsaved && !confirm('You have unsaved changes. Leave this page?')) {
+                    e.preventDefault();
+                }
+            } catch (_) {
+                // fail-safe: if the check throws, allow navigation
+            }
+        });
     }
 
     hookLivewireLoadingState() {
