@@ -57,6 +57,15 @@ class EmbedModule extends BaseModule
             $viewData['source_code'] = $sourceCode;
         }
 
+        // task-2026-05-22-ce249e / AI-920 — wire code_type selector.
+        // Pre-fix: code_type (html/css/javascript) was defined in settings
+        // but never read — all embeds output raw {!! source_code !!} without
+        // wrapping tags. CSS embeds were missing <style> tags (styles didn't
+        // apply); JavaScript embeds were missing <script> tags (code didn't
+        // execute).
+        $codeType = get_option('code_type', $this->params['id']) ?? 'html';
+        $viewData['code_type'] = in_array($codeType, ['html', 'css', 'javascript']) ? $codeType : 'html';
+
         $template = $viewData['template'] ?? 'default';
         if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
             $template = 'default';

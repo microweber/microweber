@@ -60,6 +60,15 @@ class GoogleMapsModule extends BaseModule
         if(!$address){
             $address = '1 Infinite Loop in Cupertino, California, United States.';
         }
+        // task-2026-05-22-ce249e / AI-919 — wire data-show-marker toggle.
+        // All other settings (zoom, maptype, width, height, address) were already
+        // wired. data-show-marker was defined in GoogleMapsModuleSettings but
+        // never read here — the map always showed a pin regardless of the toggle.
+        $showMarkerRaw = get_module_option('data-show-marker', $this->params['id'])
+            ?? $this->params['data-show-marker']
+            ?? true;
+        $showMarker = filter_var($showMarkerRaw, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? true;
+
         $viewData['mapType'] = $mapType;
         $viewData['zoom'] = $zoom;
         $viewData['width'] = $width;
@@ -67,6 +76,7 @@ class GoogleMapsModule extends BaseModule
         $id = 'mw-map-' . $this->params['id'];
         $viewData['id'] = $id;
         $viewData['address'] = $address;
+        $viewData['showMarker'] = $showMarker;
 
 
 

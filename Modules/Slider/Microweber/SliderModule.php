@@ -21,6 +21,16 @@ class SliderModule extends BaseModule
         $viewData = $this->getViewData();
         $viewData['slides'] = $this->getSlides();
 
+        // task-2026-05-22-ce249e / AI-918 — wire SliderModuleSettings playback
+        // settings to the template. Pre-fix: autoplay / autoplay_speed /
+        // show_arrows / show_dots were defined in settings but never read —
+        // the template hardcoded loop:true and ignored all playback controls.
+        $moduleId = $this->params['id'] ?? null;
+        $viewData['sliderAutoplay']      = (bool) $this->getOption('autoplay', true);
+        $viewData['sliderAutoplaySpeed'] = (int)  ($this->getOption('autoplay_speed', 3000) ?: 3000);
+        $viewData['sliderShowArrows']    = (bool) $this->getOption('show_arrows', true);
+        $viewData['sliderShowDots']      = (bool) $this->getOption('show_dots', true);
+
         $template = $viewData['template'] ?? 'default';
         if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
             $template = 'default';

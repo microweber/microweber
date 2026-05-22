@@ -196,15 +196,27 @@ if (!window.SliderV2) {
 
 
 
+{{-- task-2026-05-22-ce249e / AI-918 — build SliderV2 config from module settings
+     (autoplay, autoplay_speed, show_arrows, show_dots) instead of hardcoded values. --}}
 ;(function(){
      const slider = new SliderV2('#js-slider-{{ $params['id'] ?? 'default' }}', {
         loop: true,
+        @if(!empty($sliderAutoplay))
+        autoplay: true,
+        delay: {{ (int)($sliderAutoplaySpeed ?? 3000) }},
+        @endif
+        @if(!empty($sliderShowDots))
         pagination: {
             el: '#js-slide-pagination-{{ $params['id'] ?? 'default' }}',
             clickable: true
         },
-
-
+        @endif
+        @if(!empty($sliderShowArrows))
+        navigation: {
+            nextEl: '#js-slide-pagination-next-{{ $params['id'] ?? 'default' }}',
+            prevEl: '#js-slide-pagination-previous-{{ $params['id'] ?? 'default' }}'
+        },
+        @endif
     });
 
 
