@@ -42,17 +42,17 @@ class EmbedModuleSettings extends LiveEditModuleSettings
                     ->default('html')
                     ->helperText('Select the type of code you are embedding.'),
 
-                // AI-1023 / task-2026-05-22 — reactive badge shows active language mode
-                // so editors know which syntax is expected without switching tabs.
-                // AI-1021 / task-2026-05-22 — added client-side validation via Alpine.js
-                // x-data integration. On blur, validates syntax:
-                // HTML — DOMParser (browser), CSS — CSSStyleSheet API, JS — Function constructor.
-                // Shows inline error message below textarea.
+                // AI-1023 / task-2026-05-22 — reactive badge shows active language mode.
+                // AI-1021 / task-2026-05-22 — client-side syntax validation (moved to JS
+                //   CodeMirror blur handler for AI-970 compatibility).
+                // AI-970 / task-2026-05-22-dc3963 — CodeMirror syntax highlighting.
+                //   data-mw-codemirror signals admin-filament.js to wrap this textarea.
+                //   data-mw-code-type is updated reactively by Livewire when code_type changes,
+                //   allowing the JS to update the CodeMirror mode without a full reinitialisation.
                 Textarea::make('options.source_code')
                     ->label('Embed Code')
                     ->rows(10)
                     ->placeholder('Insert your embed code here')
-                    ->live()
                     ->hint(fn (Get $get): string => match ($get('options.code_type') ?? 'html') {
                         'css' => 'CSS',
                         'javascript' => 'JavaScript',
@@ -60,24 +60,10 @@ class EmbedModuleSettings extends LiveEditModuleSettings
                     })
                     ->hintColor('primary')
                     ->helperText('Paste HTML, CSS, or JavaScript embed code. The code is validated on blur.')
-                    ->extraInputAttributes([
+                    ->extraInputAttributes(fn (Get $get) => [
                         'style' => 'resize: vertical; min-height: 120px; font-family: monospace; font-size: 13px;',
-                        'x-on:blur' => "
-                            (function(el) {
-                                var code = el.value;
-                                var type = document.querySelector('[data-code-type-select]')?.value || 'html';
-                                var err = el.closest('.fi-fo-field-wrp')?.querySelector('.mw-embed-validation-error');
-                                if (!err) { err = document.createElement('p'); err.className = 'mw-embed-validation-error'; err.style = 'color:#dc2626;font-size:12px;margin-top:4px;'; el.closest('.fi-fo-field-wrp')?.append(err); }
-                                err.textContent = '';
-                                if (!code.trim()) return;
-                                try {
-                                    if (type === 'javascript') { new Function(code); }
-                                    else if (type === 'css') { var s = new CSSStyleSheet(); s.replaceSync(code); }
-                                    else { var d = (new DOMParser()).parseFromString(code, 'text/html'); if (d.querySelector('parsererror')) throw new Error('Invalid HTML'); }
-                                    err.textContent = '';
-                                } catch(e) { err.textContent = 'Syntax error: ' + e.message; }
-                            })(event.target)
-                        ",
+                        'data-mw-codemirror' => 'true',
+                        'data-mw-code-type'  => $get('options.code_type') ?? 'html',
                     ]),
 
                 Toggle::make('options.hide_in_live_edit')

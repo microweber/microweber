@@ -66,6 +66,14 @@ export class AdminFilament extends BaseComponent {
         // .fi-modal-cancel-btn (Cancel) and check for filled inputs inside the modal.
         this.initModalDirtyGuard();
 
+        // AI-970 / task-2026-05-22-dc3963 — CodeMirror syntax highlighting for the
+        // Embed module settings source_code textarea. Loads CodeMirror core + HTML/CSS/JS
+        // mode files from the already-published vendor path, then initialises an editor
+        // on any textarea that carries data-mw-codemirror="true". A MutationObserver
+        // watches for the attribute data-mw-code-type changing (Livewire updates it when
+        // the code_type Select changes) and swaps the CodeMirror mode in place.
+        this.initEmbedCodeMirror();
+
     }
 
     initModalFocusTrap() {
@@ -315,6 +323,154 @@ export class AdminFilament extends BaseComponent {
 
             }
         });
+    }
+
+    // AI-970 / task-2026-05-22-dc3963 — CodeMirror syntax highlighting for any
+    // textarea that carries data-mw-codemirror="true" (set by EmbedModuleSettings).
+    // Loads the core CodeMirror bundle plus xml/css/javascript/htmlmixed mode files
+    // from the vendor path (published by frontend-assets-libs build) then wraps the
+    // textarea with a full editor. A single MutationObserver covers two concerns:
+    //   1. childList — initialise new textareas added by Livewire re-renders.
+    //   2. attributeFilter data-mw-code-type — swap CodeMirror mode when the
+    //      code_type Select changes (Livewire updates this attribute reactively).
+    // Blur validation (HTML/CSS/JS syntax check) is wired to CodeMirror's own blur
+    // event so it works even though the original textarea is hidden by CodeMirror.
+    initEmbedCodeMirror() {
+        const CM_BASE = '/vendor/microweber-packages/frontend-assets-libs/codemirror/';
+
+        const modeFor = (codeType) => {
+            if (codeType === 'javascript') return 'javascript';
+            if (codeType === 'css') return 'css';
+            return 'htmlmixed';   // default covers HTML + embedded CSS/JS
+        };
+
+        const validateSyntax = (code, codeType) => {
+            if (!code.trim()) return '';
+            try {
+                if (codeType === 'javascript') { new Function(code); }
+                else if (codeType === 'css') { var s = new CSSStyleSheet(); s.replaceSync(code); }
+                else {
+                    var d = (new DOMParser()).parseFromString(code, 'text/html');
+                    if (d.querySelector('parsererror')) throw new Error('Invalid HTML');
+                }
+            } catch (e) { return 'Syntax error: ' + e.message; }
+            return '';
+        };
+
+        const showError = (cm, msg) => {
+            var wrap = cm.getWrapperElement();
+            var fieldWrap = wrap && wrap.closest ? wrap.closest('.fi-fo-field-wrp') : null;
+            if (!fieldWrap) return;
+            var err = fieldWrap.querySelector('.mw-embed-validation-error');
+            if (!err) {
+                err = document.createElement('p');
+                err.className = 'mw-embed-validation-error';
+                err.style.cssText = 'color:#dc2626;font-size:12px;margin-top:4px;';
+                fieldWrap.appendChild(err);
+            }
+            err.textContent = msg;
+        };
+
+        const initOnTextarea = (textarea) => {
+            if (textarea._mwCm) return;  // already initialised
+            if (!window.CodeMirror) return;
+
+            var codeType = textarea.getAttribute('data-mw-code-type') || 'html';
+            var cm = window.CodeMirror.fromTextArea(textarea, {
+                lineNumbers: true,
+                lineWrapping: true,
+                mode: modeFor(codeType),
+                indentUnit: 2,
+                tabSize: 2,
+                indentWithTabs: false,
+            });
+
+            // Sync CodeMirror value back to the hidden textarea so Livewire picks it up.
+            cm.on('change', function () {
+                textarea.value = cm.getValue();
+                textarea.dispatchEvent(new Event('input', { bubbles: true }));
+            });
+
+            // Validate on blur (mirrors the old x-on:blur handler).
+            cm.on('blur', function () {
+                var type = textarea.getAttribute('data-mw-code-type') || 'html';
+                showError(cm, validateSyntax(cm.getValue(), type));
+            });
+
+            textarea._mwCm = cm;
+        };
+
+        const scanAndInit = () => {
+            document.querySelectorAll('[data-mw-codemirror="true"]').forEach(initOnTextarea);
+        };
+
+        const scriptLoaded = () => {
+            scanAndInit();
+        };
+
+        const loadCodeMirror = () => {
+            if (window.CodeMirror) { scriptLoaded(); return; }
+
+            // Inject stylesheet once.
+            if (!document.querySelector('link[data-mw-cm-css]')) {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = CM_BASE + 'codemirror.css';
+                link.setAttribute('data-mw-cm-css', '1');
+                document.head.appendChild(link);
+            }
+
+            // Load scripts sequentially: core → xml → css → javascript → htmlmixed.
+            var chain = ['codemirror.js', 'xml.js', 'css.js', 'javascript.js', 'htmlmixed.js'];
+            var idx = 0;
+            var loadNext = () => {
+                if (idx >= chain.length) { scriptLoaded(); return; }
+                var src = CM_BASE + chain[idx++];
+                if (document.querySelector('script[data-mw-cm-src="' + src + '"]')) {
+                    loadNext(); return;
+                }
+                var s = document.createElement('script');
+                s.setAttribute('data-mw-cm-src', src);
+                s.src = src;
+                s.onload = loadNext;
+                s.onerror = loadNext;
+                document.head.appendChild(s);
+            };
+            loadNext();
+        };
+
+        // Observe DOM: new textareas AND code-type attribute changes.
+        var obs = new MutationObserver(function (mutations) {
+            mutations.forEach(function (m) {
+                if (m.type === 'childList') {
+                    m.addedNodes.forEach(function (node) {
+                        if (node.nodeType !== 1) return;
+                        var targets = [];
+                        if (node.matches && node.matches('[data-mw-codemirror="true"]')) {
+                            targets.push(node);
+                        } else if (node.querySelectorAll) {
+                            targets = Array.from(node.querySelectorAll('[data-mw-codemirror="true"]'));
+                        }
+                        targets.forEach(function (t) {
+                            if (window.CodeMirror) initOnTextarea(t);
+                        });
+                    });
+                } else if (m.type === 'attributes' && m.attributeName === 'data-mw-code-type') {
+                    var el = m.target;
+                    if (el._mwCm) {
+                        el._mwCm.setOption('mode', modeFor(el.getAttribute('data-mw-code-type') || 'html'));
+                    }
+                }
+            });
+        });
+        obs.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributeFilter: ['data-mw-code-type'],
+        });
+
+        // Load CodeMirror (and init existing textareas) on first call.
+        loadCodeMirror();
     }
 
     // AI-983 / task-2026-05-22 — attach live character counters to admin

@@ -38,6 +38,11 @@ const nodeModulesScripts = [
     {target: `swiper`, path: `node_modules/swiper/swiper-bundle.min.js`},
     {target: `masonry`, path: `node_modules/masonry-layout/dist/masonry.pkgd.js`},
     {target: `codemirror`, path: `node_modules/codemirror/lib/codemirror.js`, process: false},
+    // AI-970 / task-2026-05-22-dc3963 — mode files for syntax highlighting in Embed settings
+    {target: `codemirror`, path: `node_modules/codemirror/mode/xml/xml.js`, process: false},
+    {target: `codemirror`, path: `node_modules/codemirror/mode/css/css.js`, process: false},
+    {target: `codemirror`, path: `node_modules/codemirror/mode/javascript/javascript.js`, process: false},
+    {target: `codemirror`, path: `node_modules/codemirror/mode/htmlmixed/htmlmixed.js`, process: false},
     {target: `easymde`, path: `node_modules/easymde/dist/easymde.min.js`, process: false},
     {target: `async-alpine`, path: `node_modules/async-alpine/dist/async-alpine.script.js` },
        {target: `bootstrap_datepicker`, path: `node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js`, process: false},
