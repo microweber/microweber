@@ -256,6 +256,18 @@ class ContentResource extends Resource
                 static::pricingSection()
                     ->columnSpanFull(),
 
+                // task-2026-05-22-AI-941 — Status toggle appears BEFORE body for posts.
+                // Designer reported content is written before classification (status,
+                // category) which leads to unintentionally published posts. Compact
+                // status section upfront for posts only (pages have the Page setup
+                // section; products use pricing which already expresses priority).
+                static::publishedSection()
+                    ->icon('heroicon-m-signal')
+                    ->columnSpanFull()
+                    ->visible(function (Schemas\Components\Utilities\Get $get) {
+                        return $get('content_type') === 'post';
+                    }),
+
                 // Body + Excerpt VISIBLE upfront for posts and
                 // products. Customer-persona testing showed that
                 // saving a post with body collapsed inside More
@@ -266,7 +278,7 @@ class ContentResource extends Resource
                 // post page. Pages have their own body editor
                 // inside the Page setup section above, so this
                 // group is hidden for pages to avoid duplicating.
-                // task-2026-05-04-1e4af3.
+                // task-2026-05-04-1e4af3. (AI-941: status now shown above body)
                 Schemas\Components\Section::make('Body')
                     ->heading(null)
                     ->extraAttributes(['class' => 'mw-fb-body-section'])
@@ -333,8 +345,13 @@ class ContentResource extends Resource
                         // disclosure.
                         static::compactShortSummaryGroup()
                             ->columnSpanFull(),
+                        // task-2026-05-22-AI-941 — publishedSection is shown upfront for posts
+                        // (above body section). Keep it in the accordion for pages/products.
                         static::publishedSection()
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->visible(function (Schemas\Components\Utilities\Get $get) {
+                                return $get('content_type') !== 'post';
+                            }),
                         static::parentPageSection($firstBlogId, $firstShopId)
                             ->columnSpanFull(),
                     ])

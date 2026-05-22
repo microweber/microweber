@@ -101,7 +101,13 @@ Route::group(
     Route::any('{slug}', array('as' => 'slug', 'uses' =>
         \MicroweberPackages\Frontend\Http\Controllers\FrontendController::class . '@index'))
         ->middleware('web')
-        ->where('slug', '^(?!vendor|packages|template|modules|css|storage|userfiles|js|admin|search|shop|customer|blog|faq|testimonials).*')
+        // task-2026-05-22-AI-946 — removed `blog` from exclusion list.
+        // AI-856 excluded `blog` to prevent fixture content leaking at /blog.
+        // AI-792 fixed createDefaultBlogPage() to produce a proper blog listing page
+        // (layout_file=blog.blade.php). With that fix in place, /blog is a real content
+        // page in the DB and FrontendController resolves it correctly. Excluding blog
+        // caused AI-946 (/blog returns 404 instead of blog listing).
+        ->where('slug', '^(?!vendor|packages|template|modules|css|storage|userfiles|js|admin|search|shop|customer|faq|testimonials).*')
         ->name('website');
 
     Route::fallback(function () {
