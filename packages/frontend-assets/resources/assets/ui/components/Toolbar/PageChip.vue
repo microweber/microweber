@@ -200,6 +200,14 @@ export default {
         },
 
         open() {
+            // task-2026-05-22-31aeb1 / AI-910 — blur the chip button before
+            // opening so the blue :focus-visible ring does not persist after a
+            // mouse click. The ring still appears on keyboard-initiated opens
+            // (Tab → Enter triggers :focus-visible; blur() here removes the
+            // programmatic focus set by the button's native click handler but
+            // the browser's :focus-visible heuristic preserves it for keyboard
+            // flows). Focus is immediately transferred to the search input below.
+            if (this.$el) this.$el.blur();
             this.isOpen = true;
             this.$nextTick(function () {
                 // task-2026-05-16-77fedf / AI-734

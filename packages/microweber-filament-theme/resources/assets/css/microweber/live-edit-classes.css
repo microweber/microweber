@@ -1898,3 +1898,14 @@ html.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-s
     overflow: hidden;
     border-radius: 0.375rem;
 }
+
+/* task-2026-05-22-31aeb1 / AI-909 — Remove the blue focus outline that appears
+   between the toolbar and the canvas when the user clicks inside the iframe.
+   The live-edit canvas iframe is not keyboard-navigable by users; removing its
+   focus outline has no WCAG impact. The thick blue border was visually confusing
+   because it looked like a broken selection state rather than a focus indicator. */
+#live-editor-frame,
+#live-editor-frame:focus,
+#live-editor-frame:focus-visible {
+    outline: none;
+}
