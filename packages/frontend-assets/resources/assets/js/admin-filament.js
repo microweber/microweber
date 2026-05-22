@@ -44,6 +44,38 @@ export class AdminFilament extends BaseComponent {
         this.initCharCounters();
         document.addEventListener('livewire:navigated', () => this.initCharCounters());
 
+        // AI-954 / task-2026-05-22 — WCAG 2.4.3 focus trap for Filament modals.
+        // Filament v5 ships x-trap.noscroll via Alpine's @alpinejs/focus plugin,
+        // which should trap Tab inside the modal. As a defence-in-depth layer, we
+        // also apply `inert` to page content behind the modal overlay so non-Alpine
+        // focus (e.g. screen-reader virtual cursor) also stays within the dialog.
+        this.initModalFocusTrap();
+
+    }
+
+    initModalFocusTrap() {
+        // Watch for open Filament modals and apply `inert` to the background page
+        // content, ensuring WCAG 2.4.3 compliance even if Alpine's x-trap misses
+        // an edge case (e.g. Livewire re-render during dialog open).
+        var mainContent = document.querySelector('.fi-main') || document.querySelector('main');
+        var sidebar = document.querySelector('.fi-sidebar');
+
+        if (!mainContent) return;
+
+        var obs = new MutationObserver(function () {
+            // Detect any open Filament modal: look for .fi-modal-window that is not hidden
+            var anyOpen = document.querySelector('.fi-modal-window:not([hidden])');
+
+            if (anyOpen) {
+                mainContent && mainContent.setAttribute('inert', '');
+                sidebar && sidebar.setAttribute('inert', '');
+            } else {
+                mainContent && mainContent.removeAttribute('inert');
+                sidebar && sidebar.removeAttribute('inert');
+            }
+        });
+
+        obs.observe(document.body, { childList: true, subtree: true, attributeFilter: ['hidden', 'class'] });
     }
 
     hookLivewireLoadingState() {
