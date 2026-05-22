@@ -4,6 +4,27 @@
 
 ---
 
+## 2026-05-22 — `get_module_option()` ??-chain-as-second-argument PHP trap (AI-1016 P1)
+
+- **Pattern:** `get_module_option('key', $this->params['id'] ?? 'fallback')` makes the `??` fallback chain the second `$id` argument, not an external fallback. This silently uses the wrong module option. Causes 500 when `'fallback'` is a non-numeric string and the option DB lookup fails.
+- **Why it happened:** Refactoring added `??` fallback without realising the call already had a second positional argument.
+- **Prevention rule:** Always close `get_module_option('key', $this->params['id'])` with `)` BEFORE the `??` chain: `get_module_option('key', $this->params['id']) ?? $this->params['key'] ?? 'default'`.
+- **Applies when:** Any `get_module_option()` call with external fallback chain; any module `render()` refactor adding ?? fallbacks.
+
+## 2026-05-22 — Module settings option-key mismatch (Stage-1, 3rd batch, AI-1017)
+
+- **Pattern:** Filament form field key `options.data-maptype` saves option as `data-maptype` (no hyphen); but `render()` reads `data-map-type` (with hyphen). The setting change is silently ignored — map type always renders as the hardcoded default.
+- **Why it happened:** The form field name and the `get_module_option()` key were set independently without cross-checking.
+- **Prevention rule:** When adding a setting to `ModuleSettings.php`, immediately search for the corresponding `get_module_option('key', ...)` call in `Module.php::render()` and verify the key strings match EXACTLY (hyphen placement, underscore vs camelCase, etc.). Add a regression test.
+- **Applies when:** Any module settings form changes; any `get_module_option()` call in render().
+
+## 2026-05-22 — `@extends($masterLayout)` without view()->exists() fallback (AI-944)
+
+- **Pattern:** `$masterLayout = "templates.{$activeTemplate}::layouts.master"` computed without `view()->exists()` guard causes silent "View not found" exception when the active template is gitignored (Big2) or otherwise missing. Cart/shop/auth pages render with no chrome.
+- **Why it happened:** Assumed the active template always has its layouts registered, but Big2 is gitignored on CI/fresh clones.
+- **Prevention rule:** Always guard runtime-computed view names: `$master = view()->exists($candidate) ? $candidate : 'templates.bootstrap::layouts.master'`. This is the AI-757/AI-795 pattern already used in shop index.blade.php.
+- **Applies when:** Any Blade file using `@extends($runtimeComputedVar)` where the view might not exist.
+
 ## 2026-05-22 — Filament NavigationGroup icon conflict (AI-943 P1 BLOCKER)
 
 - **Pattern:** Adding `->icon()` to a Filament `NavigationGroup` when ANY child resource in that group ALSO carries a navigation icon causes HTTP 500 on EVERY admin page: "Navigation group [Website] has an icon but one or more of its items also have icons. Either the group or its items can have icons, but not both." Admin is completely inaccessible until fixed.
