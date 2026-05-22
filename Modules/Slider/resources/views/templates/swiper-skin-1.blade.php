@@ -132,8 +132,11 @@ filter: sepia(100%);
     </div>
 
     <div id="js-slide-pagination-{{ $params['id'] ?? 'default' }}" class="swiper-pagination"></div>
-    <div id="js-slide-pagination-previous-{{ $params['id'] ?? 'default' }}" class="mw-slider-v2-buttons-slide mw-slider-v2-button-prev"></div>
-    <div id="js-slide-pagination-next-{{ $params['id'] ?? 'default' }}" class="mw-slider-v2-buttons-slide mw-slider-v2-button-next"></div>
+    {{-- AI-1012 / task-2026-05-22 — replaced <div> with <button> for WCAG 4.1.2.
+         Screen readers and keyboard users require focusable, semantic button elements
+         on interactive controls. Matches default.blade.php accessibility pattern. --}}
+    <button type="button" id="js-slide-pagination-previous-{{ $params['id'] ?? 'default' }}" class="mw-slider-v2-buttons-slide mw-slider-v2-button-prev" aria-label="{{ __('Previous slide') }}"></button>
+    <button type="button" id="js-slide-pagination-next-{{ $params['id'] ?? 'default' }}" class="mw-slider-v2-buttons-slide mw-slider-v2-button-next" aria-label="{{ __('Next slide') }}"></button>
 </div>
 
 <style>
@@ -180,13 +183,30 @@ filter: sepia(100%);
 </script>
 
 <script>
+    {{-- AI-1011 / task-2026-05-22 — wire playback settings. Previously hardcoded
+         loop:true + pagination always-on with no autoplay.
+         Now mirrors default.blade.php conditional wiring pattern. --}}
     ;(function(){
          const slider = new SliderV2('#js-slider-{{ $params['id'] ?? 'default' }}', {
             loop: true,
+            @if($sliderAutoplay ?? false)
+            autoplay: {
+                delay: {{ $sliderAutoplaySpeed ?? 3000 }},
+                disableOnInteraction: false,
+            },
+            @endif
+            @if($sliderShowDots ?? true)
             pagination: {
                 el: '#js-slide-pagination-{{ $params['id'] ?? 'default' }}',
                 clickable: true
             },
+            @endif
+            @if($sliderShowArrows ?? true)
+            navigation: {
+                nextEl: '#js-slide-pagination-next-{{ $params['id'] ?? 'default' }}',
+                prevEl: '#js-slide-pagination-previous-{{ $params['id'] ?? 'default' }}'
+            },
+            @endif
         });
 
         document.querySelector('#js-slide-pagination-next-{{ $params['id'] ?? 'default' }}').addEventListener('click', () => {
