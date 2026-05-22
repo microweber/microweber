@@ -3919,6 +3919,23 @@ html.dark .quick-ai-type-group-header:hover {
     background: var(--ese-surface-hover, rgba(255, 255, 255, 0.04));
 }
 
+/* AI-971 / task-2026-05-22 — Sidebar active state indistinguishable from hover state.
+ * Filament's default active item has a 2px left border (w-0.5) that may be invisible
+ * when clipped by the sidebar container. Add a more visible active indicator:
+ * brand-blue left inset border + light background tint. */
+body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-button {
+    background-color: rgba(13, 110, 253, 0.08) !important;
+    border-left: 3px solid #0d6efd !important;
+    padding-left: calc(var(--sidebar-item-padding-x, 12px) - 3px) !important;
+}
+html.dark body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-button {
+    background-color: rgba(13, 110, 253, 0.15) !important;
+}
+body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-icon,
+body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-label {
+    color: #0d6efd !important;
+}
+
 /* AI-956 / task-2026-05-22 — Admin dark mode: Flatpickr date-picker calendar renders
  * with white background in dark mode. Add dark theme overrides. */
 html.dark .flatpickr-calendar {
