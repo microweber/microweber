@@ -33,67 +33,73 @@ class BlogSettings extends LiveEditModuleSettings
                         Tabs\Tab::make('Content')
                             ->schema([
 
-
-
                                 Actions::make([
-
                                     Action::make('Edit posts')
                                         ->openUrlInNewTab()
                                         ->label('Edit posts')
                                         ->icon('heroicon-o-pencil-square')
                                         ->url(PostResource::getUrl(), shouldOpenInNewTab: true),
-
                                 ]),
 
+                                // task-2026-05-22-69dbcd / AI-912 — wrap Content tab fields
+                                // into two named Sections (Content + Display) for clearer UX
+                                // grouping. Blog Title gets blank default + placeholder instead
+                                // of pre-filled "My Blog" (placeholder is correct not-yet-
+                                // configured UX). Posts Per Page gets validation guards.
+                                Section::make('Content')->schema([
+                                    TextInput::make('options.title')
+                                        ->label('Blog Title')
+                                        ->helperText('Enter the title for your blog.')
+                                        ->placeholder(__('My Blog'))
+                                        ->live()
+                                        ->default(''),
 
+                                    TextInput::make('options.posts_per_page')
+                                        ->label('Posts Per Page')
+                                        ->helperText('Number of posts to display per page')
+                                        ->numeric()
+                                        ->minValue(1)
+                                        ->maxValue(50)
+                                        ->integer()
+                                        ->live()
+                                        ->default(10),
 
+                                    // task-2026-05-21-a4832f / AI-872 Slice 1 — Blog: Sort control
+                                    Select::make('options.order_by')
+                                        ->label('Sort by')
+                                        ->live()
+                                        ->options([
+                                            'date_desc'  => 'Newest first',
+                                            'date_asc'   => 'Oldest first',
+                                            'title_asc'  => 'Title A → Z',
+                                            'title_desc' => 'Title Z → A',
+                                        ])
+                                        ->default('date_desc'),
+                                ]),
 
-                                TextInput::make('options.title')
-                                    ->label('Blog Title')
-                                    ->helperText('Enter the title for your blog.')
-                                    ->live()
-                                    ->default('My Blog'),
+                                Section::make('Display')->schema([
+                                    ToggleButtons::make('options.layout')
+                                        ->label('Layout')
+                                        ->live()
+                                        ->inline()
+                                        ->options([
+                                            'grid' => 'Grid',
+                                            'list' => 'List',
+                                        ])
+                                        ->default('grid'),
 
-                                TextInput::make('options.posts_per_page')
-                                    ->label('Posts Per Page')
-                                    ->helperText('Number of posts to display per page')
-                                    ->numeric()
-                                    ->live()
-                                    ->default(10),
+                                    Toggle::make('options.show_categories')
+                                        ->label('Show Categories')
+                                        ->helperText('Display blog post categories')
+                                        ->live()
+                                        ->default(true),
 
-                                // task-2026-05-21-a4832f / AI-872 Slice 1 — Blog: Sort + Layout controls
-                                Select::make('options.order_by')
-                                    ->label('Sort by')
-                                    ->live()
-                                    ->options([
-                                        'date_desc'  => 'Newest first',
-                                        'date_asc'   => 'Oldest first',
-                                        'title_asc'  => 'Title A → Z',
-                                        'title_desc' => 'Title Z → A',
-                                    ])
-                                    ->default('date_desc'),
-
-                                ToggleButtons::make('options.layout')
-                                    ->label('Layout')
-                                    ->live()
-                                    ->inline()
-                                    ->options([
-                                        'grid' => 'Grid',
-                                        'list' => 'List',
-                                    ])
-                                    ->default('grid'),
-
-                                Toggle::make('options.show_categories')
-                                    ->label('Show Categories')
-                                    ->helperText('Display blog post categories')
-                                    ->live()
-                                    ->default(true),
-
-                                Toggle::make('options.show_tags')
-                                    ->label('Show Tags')
-                                    ->helperText('Display blog post tags')
-                                    ->live()
-                                    ->default(true),
+                                    Toggle::make('options.show_tags')
+                                        ->label('Show Tags')
+                                        ->helperText('Display blog post tags')
+                                        ->live()
+                                        ->default(true),
+                                ]),
                             ]),
 
                         // Design Tab
