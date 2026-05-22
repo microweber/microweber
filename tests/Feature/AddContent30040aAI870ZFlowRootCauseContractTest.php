@@ -39,6 +39,8 @@ use Tests\TestCase;
  *      (no 2→3 reflow artefact on viewport resize; modal is ≥618px)
  *   3. add-content-modal.blade.php: primary card visual upgrade
  *      (min-h-[72px], text-base, description visible, chevron)
+ *      NOTE: task-2026-05-22-fa8e70 reverted the description-visible
+ *      part of Fix 3. Description is tooltip-only again per AI-691 spec.
  *
  * Test groups:
  *   A = CSS override presence + bundle delivery
@@ -181,13 +183,30 @@ class AddContent30040aAI870ZFlowRootCauseContractTest extends TestCase
     }
 
     #[Test]
-    public function primary_card_shows_description_text(): void
+    public function primary_card_description_is_tooltip_only(): void
     {
-        // Description must be visible as text (not just tooltip/aria-label).
-        $this->assertMatchesRegularExpression(
-            '/mw-add-content-group--primary[\s\S]*?action\[.description.\]/s',
+        // task-2026-05-22-fa8e70 — pin-evolution of the original AI-870 Fix 3 test.
+        // AI-870 Fix 3 made the description visible below the primary card title.
+        // User reported visual imbalance (visible text on primary vs icon+title only
+        // on secondary cards). Per AI-691 spec, description is tooltip-only.
+        // This test is inverted in-place: description must NOT render as visible text.
+
+        // Strip Blade comments so the comment referencing the description
+        // doesn't false-match the absence assertion.
+        $bladeStripped = preg_replace('~\{\{--[\s\S]*?--\}\}~s', '', $this->blade) ?? $this->blade;
+        $bladeStripped = preg_replace('~//[^\n]*~', '', $bladeStripped) ?? $bladeStripped;
+
+        $this->assertDoesNotMatchRegularExpression(
+            '/mw-add-content-group--primary[\s\S]*?class="text-xs text-gray-500[^"]*"[\s\S]*?action\[.description.\]/s',
+            $bladeStripped,
+            'Primary card description must NOT be rendered as visible body text (tooltip-only per AI-691; task-2026-05-22-fa8e70 reverts AI-870 Fix 3 description-visible change).'
+        );
+
+        // Description must still exist as title= tooltip (AI-691 contract preserved).
+        $this->assertStringContainsString(
+            "title=\"{{ \$action['description'] }}\"",
             $this->blade,
-            'Primary card description must be rendered as visible text inside the primary section.'
+            'Description must still be present as title= tooltip attribute.'
         );
     }
 
