@@ -125,10 +125,13 @@ class OfferResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->emptyState(function (Table $table) {
-                $modelName = static::$model;
-                return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
-            })
+            // task-2026-05-22-7fcc22 / AI-908 — replace generic Content module empty-state view
+            // (which had no Offers branch, rendering a blank div) with Filament-native methods.
+            ->emptyStateHeading('No offers yet')
+            ->emptyStateDescription('Create your first offer to discount specific products.')
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make()->label('+ New Offer'),
+            ])
             ->columns([
 
 
