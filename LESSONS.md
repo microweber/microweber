@@ -4,6 +4,20 @@
 
 ---
 
+## 2026-05-22 — Alpine.data() factory must live in @push('scripts'), not in modal Blade view (AI-752 / task-2026-05-22-6eb365)
+
+- **Pattern:** All Add-Content modal cards were invisible despite the source-level fix shipping `x-data="addContentModal"` (bare identifier reference, correct per AI-790). The factory `Alpine.data('addContentModal', factory)` was registered inside the modal Blade view's own `<script>` block. Filament/Livewire morph-inserts the modal HTML when the `+ADD` action mounts; morph-inserted HTML does NOT execute `<script>` tags. The factory therefore never registered → Alpine had no `addContentModal` component → all cards invisible.
+- **Why it happened:** The AI-790 fix extracted the factory to a `<script>` block and moved it out of `x-data="..."`, but placed that `<script>` inside the modal's own Blade view. The distinction between "initial page load script execution" and "morph-inserted fragment script execution" wasn't accounted for.
+- **Prevention rule:** Any Alpine factory registration (`Alpine.data('name', () => ({...}))`) for a Livewire/Filament-mounted component MUST live in a page-level `@push('scripts')` block that executes on initial page load — not inside the Blade partial that gets morph-inserted. For the Add-Content modal, this is `src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php` `@push('scripts')`. Additionally, add a `document.addEventListener('livewire:navigated', ...)` listener so the factory re-registers after Livewire v4 SPA navigation.
+- **Applies when:** Any `Alpine.data('factoryName', ...)` registration for a component rendered in a Filament modal, Livewire component, or any morph-inserted DOM subtree. If the factory has to be "there when Alpine processes the element", it must be at page load, not in the element's own template fragment.
+
+## 2026-05-22 — Filament v5 anchored picker CSS: `transform: none !important` required (AI-751 / task-2026-05-22-6eb365)
+
+- **Pattern:** The AI-697 anchored Add-Content picker appeared off-screen at runtime despite the source-level CSS setting `transform: none`. Filament v5 applies centering transforms to `.fi-modal-window` elements through its own Tailwind utilities or inline styles. A `transform: none` declaration without `!important` loses to Filament's higher-specificity rule.
+- **Why it happened:** The initial AI-697 ship correctly anchored the modal via `position: fixed; top: ...; left: ...`, but the `transform: none` reset that clears Filament's centering animation was missing `!important`. Filament v5's transform either has higher specificity or is an inline style that beats any external CSS without `!important`.
+- **Prevention rule:** When anchoring a Filament modal with a CSS override that sets `transform: none` (to clear the browser's built-in centering translate), ALWAYS use `transform: none !important;`. Additionally, add a `max-width: min(var(--size, 42rem), calc(100vw - 80px))` constraint so the modal stays fully visible on narrow viewports. Source-level tests pass (the property is set); only a browser-rendered position probe (Playwright `getBoundingClientRect()`) catches this class of failure.
+- **Applies when:** Any CSS rule anchoring a Filament modal to a specific position (top/left offsets) rather than the default centered behavior; any `transform: none` reset in Webpack-bundled `live-edit-classes.css`.
+
 ## 2026-05-22 — `strrpos` for last-occurrence task marker when marker appears multiple times (task-2026-05-22-5cbdee)
 
 - **Pattern:** A contract test slicing from a task-ID marker in a CSS file got the wrong block because the marker appeared twice: once in a prior task's comment block that referenced the new fix, and once in the actual new CSS block further down. Using `strpos` found the FIRST occurrence (prior task's comment), so the 1500-char slice didn't reach the new `@media` block, causing the test to false-fail.
