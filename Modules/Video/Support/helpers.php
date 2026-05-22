@@ -120,7 +120,10 @@ if (!function_exists('renderVideoModule')) {
         }
 
 
-        $lazyload = get_option('lazyload', $params['id']);
+        // task-2026-05-22-AI-967 — settings form saves option as 'lazy_load' (underscore)
+        // because the form field is Toggle::make('options.lazy_load'). Read both keys
+        // so existing data saved as 'lazyload' (no underscore) still works.
+        $lazyload = get_option('lazy_load', $params['id']) ?: get_option('lazyload', $params['id']);
         if ($lazyload == false) {
             if (isset($params['lazyload'])) {
                 $lazyload = intval($params['lazyload']);
