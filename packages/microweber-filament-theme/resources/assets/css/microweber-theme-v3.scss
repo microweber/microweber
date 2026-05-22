@@ -6001,6 +6001,30 @@ html.dark {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       }
     }
+
+    // task-2026-05-22-56d7dc / AI-746 — categories tree row action contrast
+    // Bootstrap link-primary (brand-blue #0d6efd) was inherited as text color
+    // on the dark navy background (#0d0f14), giving approximately 3.8:1
+    // contrast — below the WCAG AA 4.5:1 floor for normal text.
+    // #e2e8f0 on #0d0f14 achieves approximately 15:1 (WCAG AAA).
+    // The same fix applies to ShopCategoryResource which extends CategoryResource
+    // and uses the identical .mw-tree-nav-skin-category-manager skin.
+    .mw-tree-context-menu-item {
+      color: #e2e8f0 !important;
+
+      svg {
+        color: #e2e8f0 !important;
+      }
+
+      &:hover {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+
+        svg {
+          color: #ffffff !important;
+        }
+      }
+    }
   }
 }
 
