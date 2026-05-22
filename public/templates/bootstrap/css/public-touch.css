@@ -811,6 +811,18 @@ html.dark {
         padding-inline: 0;
     }
 
+    /* task-2026-05-22-fc5060 / AI-585 — Slider nav prev/next buttons.
+       `.mw-slider-v2-buttons-slide` is shared by both `default.blade.php`
+       (uses `<button>`) and `swiper-skin-1.blade.php` (uses `<div>`).
+       `slider.css` fixes these at `width: 40px; height: 40px` — 4px
+       short of the WCAG 2.5.5 floor. `min-width`/`min-height` override
+       the fixed dimensions because the constraint algorithm applies after
+       the cascade regardless of `!important` on `width`/`height`. */
+    .mw-slider-v2-buttons-slide {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
     /* Bootstrap carousel control prev/next arrows.
        `.carousel-control-prev`/`.carousel-control-next` are the
        absolute-positioned <button>s; the inner `-icon` is 20px by
@@ -1547,8 +1559,12 @@ html.dark {
  * has lower specificity than the inline override, so we need to also
  * provide the floor via `min-height` (which the inline style doesn't
  * touch) — Bootstrap's `.btn` doesn't set min-height either, so this
- * is purely additive. */
+ * is purely additive.
+ *
+ * task-2026-05-22-fc5060 / AI-585 CHANGE: also adds `min-width: 44px`
+ * since tester measured the CTA at ~36px wide on narrow slides. */
 .slider-button {
+    min-width: 44px;
     min-height: 44px;
 }
 
