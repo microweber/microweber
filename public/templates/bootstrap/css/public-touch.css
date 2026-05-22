@@ -1856,6 +1856,22 @@ html.dark {
     }
 }
 
+/* task-2026-05-22-ba0702 / AI-881 FAIL #1 — Product module tag-filter btn-link touch-target.
+ * product-card.blade.php:78 renders category/tag filter pills as
+ * `.btn.btn-link.p-0` elements. Bootstrap `.btn-link` + `.p-0` (zero padding)
+ * results in a text-height hit box of ~20px — below the WCAG 2.5.5 44px floor.
+ * min-height wins over explicit height/padding via the CSS constraint algorithm
+ * (min-height is a separate property unaffected by !important on height).
+ *
+ * FAIL #2 — Product module skin-4 Slick carousel arrow touch-target.
+ * skin-4.blade.php uses the Slick carousel library. slick.css defaults set
+ * .slick-prev and .slick-next to 20×30px — below the 44px floor on both axes.
+ * No existing rule in public-touch.css covered these selectors. */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    .btn.btn-link { min-height: 44px; display: inline-flex; align-items: center; }
+    .slick-prev, .slick-next { min-width: 44px; min-height: 44px; }
+}
+
 /* task-2026-05-22-ef3960 / AI-877 P3 — Frontend bare <a> link colour (salmon → brand-blue).
  * Bootstrap template _variables.scss sets $link-color: #f4a261 (demo salmon),
  * which compiles into the `a { color: ... }` rule in app.css and trickles to

@@ -39,7 +39,7 @@
                     <button
                         wire:click="removeItem('{{ $item['id'] }}')"
                         type="button"
-                        class="rounded-md bg-red-600 dark:bg-red-700 p-2 text-white shadow-sm hover:bg-red-500 dark:hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 dark:focus-visible:outline-red-700 transition-colors"
+                        class="rounded-md bg-red-600 dark:bg-red-700 p-3 text-white shadow-sm hover:bg-red-500 dark:hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 dark:focus-visible:outline-red-700 transition-colors mw-cart-remove-btn"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-5 h-5">
