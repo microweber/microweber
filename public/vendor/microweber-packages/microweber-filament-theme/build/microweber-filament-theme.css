@@ -6201,6 +6201,37 @@ html.dark body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-inp
   border-color: #f87171 !important;
   box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.2) !important;
 }
+body.fi-panel-admin .fi-fo-field-label-required-mark, body.fi-panel-admin .fi-fieldset-label-required-mark, body.fi-panel-admin .fi-fo-table-repeater-header-required-mark {
+  color: #ef4444 !important;
+  margin-left: 2px !important;
+  font-size: 0.8em !important;
+  vertical-align: super !important;
+}
+body.fi-panel-admin .fi-ac-action[id*="bulk"] .fi-modal-header-heading, body.fi-panel-admin .fi-bulk-action-modal .fi-modal-header-heading {
+  color: #dc2626 !important;
+}
+body.fi-panel-admin .fi-bulk-action-modal .fi-modal-description {
+  font-weight: 500 !important;
+  color: #dc2626 !important;
+}
+body.fi-panel-admin a.mw-quick-stat-card {
+  cursor: pointer !important;
+  text-decoration: none !important;
+  display: block !important;
+}
+body.fi-panel-admin .fi-badge[class*="role"], body.fi-panel-admin .fi-badge[class*="admin"], body.fi-panel-admin .fi-badge[class*="superadmin"] {
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+}
+html.dark body.fi-panel-admin .fi-badge {
+  text-shadow: none !important;
+}
+html.dark body.fi-panel-admin .mw-admin-empty-state-posts svg, html.dark body.fi-panel-admin .fi-ta-empty-state svg, html.dark body.fi-panel-admin [class*="empty-state"] svg {
+  filter: saturate(0.3) opacity(0.6) !important;
+}
+body.fi-panel-admin .fi-btn-badge[data-count="0"], body.fi-panel-admin .fi-ta-filters-btn .fi-badge:empty {
+  display: none !important;
+}
 .ts-control {
   border: 1px solid #ececec;
   border-radius: 5px;
