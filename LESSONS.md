@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-05-22 — PM-suggested CSS selectors must be verified against actual template DOM before adopting (AI-558 / task-2026-05-22-c71042)
+
+- **Pattern:** PM dispatched AI-558 with the fix selector `.blog-posts a, .read-more`. Recon against actual Post module templates found that no template uses `.blog-posts` (without a numeric suffix) — every skin uses `.blog-posts-N` (`.blog-posts-1`, `.blog-posts-2`, etc.). The selector would have matched nothing. Similarly, `.read-more` is not a class on any `<a>` element in the templates. Only two skins had named classes on their read-more links (`.skin-18--read-more-link` + `.mw-post-22-post-read-more`); ~25 other skins use bare `<a class="">` anchors.
+- **Why it happened:** PM's dispatch was based on the tester's observation ("text-only links") and a reasonable guess about the container selector, without grepping the actual Blade templates. The real DOM class names follow a skin-specific convention that isn't obvious from module-level inspection.
+- **Prevention rule:** Before writing any CSS rule based on a PM-suggested selector: (1) `grep -rn 'class=".*<suggested-class>' Modules/<Name>/resources/views/templates/*.blade.php` to confirm the class exists in actual template HTML; (2) if the selector doesn't match, identify the actual classes that DO appear + document the delta in the SHIP report. Shipping a rule based on a non-existent selector is a silent no-op — tests pass but the defect persists. File an `AI-NNNa` follow-up when full coverage requires adding classes to multiple templates.
+- **Applies when:** Any PM or designer dispatch that includes a CSS selector suggestion alongside a problem description; module-template touch-target sweeps; any dispatch covering modules with 5+ skin variants.
+
 ## 2026-05-22 — Alpine.data() factory must live in @push('scripts'), not in modal Blade view (AI-752 / task-2026-05-22-6eb365)
 
 - **Pattern:** All Add-Content modal cards were invisible despite the source-level fix shipping `x-data="addContentModal"` (bare identifier reference, correct per AI-790). The factory `Alpine.data('addContentModal', factory)` was registered inside the modal Blade view's own `<script>` block. Filament/Livewire morph-inserts the modal HTML when the `+ADD` action mounts; morph-inserted HTML does NOT execute `<script>` tags. The factory therefore never registered → Alpine had no `addContentModal` component → all cards invisible.
