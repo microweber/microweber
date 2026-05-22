@@ -15,7 +15,10 @@
             <h4 class="card-title">{{$post->title}}</h4>
             <p class="card-text">{!! $post->shortDescription(220) !!}</p>
 
-            @if($post->categoryItems->count() > 0)
+            {{-- task-2026-05-22-7c7804 / AI-905: gate categories and tags on module settings.
+                 $showCategories / $showTags are passed from BlogComponent::render() via
+                 default.blade.php; defaults to true if the template is rendered standalone. --}}
+            @if(($showCategories ?? true) && $post->categoryItems->count() > 0)
                 <div class="post-categories mb-2">
                     @foreach($post->categoryItems as $categoryItem)
                         @if($categoryItem->category)
@@ -25,7 +28,7 @@
                 </div>
             @endif
 
-            @if($post->tagged->count() > 0)
+            @if(($showTags ?? true) && $post->tagged->count() > 0)
                 <div class="post-tags">
                     @foreach($post->tagged as $tagged)
                         @if($tagged->tag)

@@ -1,5 +1,8 @@
 @php
+    // task-2026-05-22-7c7804 / AI-904: derive Bootstrap column class from the
+    // layout option wired in BlogComponent (was hardcoded col-md-6 before this fix).
     $moduleId = $moduleId ?? null;
+    $colClass  = (($layout ?? 'grid') === 'list') ? 'col-12 mb-3' : 'col-md-6 mb-5';
 @endphp
 <div>
 
@@ -50,8 +53,8 @@
 
                 <div class="row">
                     @forelse($posts as $post)
-                        <div class="col-md-6 mb-5">
-                            @include('modules.blog::livewire.blog.post-card', ['post' => $post])
+                        <div class="{{ $colClass }}">
+                            @include('modules.blog::livewire.blog.post-card', ['post' => $post, 'showCategories' => $showCategories ?? true, 'showTags' => $showTags ?? true])
                         </div>
                     @empty
                         <div class="col-12">

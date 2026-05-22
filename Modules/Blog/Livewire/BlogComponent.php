@@ -157,12 +157,18 @@ class BlogComponent extends Component
             $viewName = $this->moduleTemplateNamespace . '.default';
         }
 
+        // task-2026-05-22-7c7804 / AI-904+AI-905: pass layout + visibility flags so
+        // default.blade.php and post-card.blade.php can act on them (AI-872 Slice 1
+        // stored them in component properties but never forwarded them to the view).
         return view($viewName, [
-            'moduleId' => $this->moduleId,
-            'moduleType' => $this->moduleType,
-            'posts' => $posts,
-            'total' => $posts->total(),
-            'count' => $posts->count(),
+            'moduleId'       => $this->moduleId,
+            'moduleType'     => $this->moduleType,
+            'posts'          => $posts,
+            'total'          => $posts->total(),
+            'count'          => $posts->count(),
+            'layout'         => $this->layout,
+            'showCategories' => $this->showCategories,
+            'showTags'       => $this->showTags,
         ]);
     }
 }
