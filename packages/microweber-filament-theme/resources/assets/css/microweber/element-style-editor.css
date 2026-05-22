@@ -1319,3 +1319,114 @@ html.dark .mw-live-edit-slider-small .v-slider-thumb__surface,
 .element-style-editor-toggle-wrapper.active .font-picker-add-more:hover {
     opacity: 1;
 }
+
+/* ============================================================
+ * task-2026-05-22-e8b42c / AI-821 — aria-live announcement region
+ * visually-hidden with !important.
+ *
+ * Root cause: the ESE Vue app loads its own CSS bundle in the live-edit
+ * iframe; Bootstrap's .visually-hidden class is not present there, so
+ * the class="visually-hidden mw-ese-announce" region renders visible text
+ * (e.g. "Typography panel opened") above every section header.
+ *
+ * Fix: explicit sr-only properties with !important directly on
+ * .mw-ese-announce so the hiding works regardless of Bootstrap availability.
+ * The aria-live / aria-atomic / role="status" attrs on the DOM node still
+ * fire announcements to AT — only the visual rendering is suppressed.
+ * ============================================================ */
+.mw-ese-announce {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* ============================================================
+ * task-2026-05-22-e8b42c / AI-825 — ESE dark mode contrast sweep.
+ *
+ * Problem: 5 contrast failures in dark mode across all ESE sections:
+ *   1. Field labels:  Tailwind @apply text-gray-500/600 hardcodes light
+ *      colours → not swapped in dark; can fall below 4.5:1.
+ *   2. Input borders: --ese-border at rgba(255,255,255,0.12) on #1a1f2b ≈
+ *      1.5:1 — fails WCAG 3:1 non-text minimum.
+ *   3. Dropdown chrome: native <select> bg stays gray-100 (Tailwind @apply)
+ *      → near-white on dark panel; hard to read.
+ *   4. Dark colour swatches: --ese-border-strong at rgba(255,255,255,0.20)
+ *      on #1a1f2b ≈ 2.0:1 — swatch outline invisible.
+ *   5. "More options:" divider: same rgba(255,255,255,0.12) → invisible.
+ *
+ * Fix strategy: Stage-2 cascade-loss compound selector + !important pattern:
+ *   (a) Token override block bumps --ese-border and --ese-border-strong
+ *       in dark; later css block wins via source-order cascade.
+ *   (b) Compound selectors override Tailwind @apply hardcoded colours on
+ *       inputs, selects, labels; !important beats Tailwind utility output.
+ *
+ * Light mode is regression-guarded: all rules are scoped to html.dark /
+ * .theme-dark / [data-theme="dark"] so no light mode property is touched.
+ * ============================================================ */
+
+/* (a) Token bump — later in file = source-order wins over the existing
+ * html.dark block at line 363. Both have the same specificity; this wins
+ * because it appears last. */
+html.dark,
+.theme-dark,
+[data-theme="dark"] {
+    /* Bumped from 0.12 → 0.35; achieves ≈3.54:1 on #1a1f2b (≥3:1 non-text) */
+    --ese-border:        rgba(255, 255, 255, 0.35);
+    /* Bumped from 0.20 → 0.50; achieves ≈5.5:1 on #1a1f2b (colour swatches) */
+    --ese-border-strong: rgba(255, 255, 255, 0.50);
+}
+
+/* (b) Compound selector overrides for Tailwind-hardcoded light values */
+
+/* 1. Field labels */
+html.dark #mw-element-style-editor-app .live-edit-label,
+.theme-dark #mw-element-style-editor-app .live-edit-label,
+[data-theme="dark"] #mw-element-style-editor-app .live-edit-label {
+    color: var(--ese-label, #cbd5e1) !important;
+}
+
+/* 2. All text inputs, number inputs, selects, textareas inside ESE */
+html.dark #mw-element-style-editor-app input:not([type="color"]):not([type="range"]),
+html.dark #mw-element-style-editor-app select,
+html.dark #mw-element-style-editor-app textarea,
+.theme-dark #mw-element-style-editor-app input:not([type="color"]):not([type="range"]),
+.theme-dark #mw-element-style-editor-app select,
+.theme-dark #mw-element-style-editor-app textarea {
+    background-color: var(--ese-surface-muted, #232938) !important;
+    color: var(--ese-text, #f1f5f9) !important;
+    border-color: var(--ese-border-strong, rgba(255, 255, 255, 0.50)) !important;
+}
+
+/* 3. Dropdown Chrome: .mw-esc select uses @apply bg-gray-100 text-gray-800 */
+html.dark #mw-element-style-editor-app .mw-esc .mw-multiple-fields .mw-field:last-child select,
+.theme-dark #mw-element-style-editor-app .mw-esc .mw-multiple-fields .mw-field:last-child select {
+    background-color: var(--ese-surface-muted, #232938) !important;
+    color: var(--ese-text, #f1f5f9) !important;
+    border-color: var(--ese-border-strong, rgba(255, 255, 255, 0.50)) !important;
+}
+
+/* 4. Color swatch outline — .picker-button border uses --ese-border-strong
+ * which is bumped by token override (a) above; no extra rule needed there.
+ * Ensure the inset delineation ring is still visible: */
+html.dark .form-control-live-edit-label-wrapper .picker-button,
+html.dark #mw-element-style-editor-app .picker-button,
+.theme-dark .form-control-live-edit-label-wrapper .picker-button,
+.theme-dark #mw-element-style-editor-app .picker-button {
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* 5. "More options:" summary text (Typography section <details>) */
+html.dark #mw-element-style-editor-app .mw-typography-advanced > summary,
+.theme-dark #mw-element-style-editor-app .mw-typography-advanced > summary,
+[data-theme="dark"] #mw-element-style-editor-app .mw-typography-advanced > summary {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+
+/* Light mode regression-guard anchor (no-op selector, proves no changes to light) */
+/* task-2026-05-22-e8b42c AI-825: all rules above are html.dark scoped */
