@@ -16,12 +16,32 @@ description: Default Picture List
         $mwAi814GalleryJson = base64_encode(json_encode(array_map(function ($item) {
             return ['image' => $item['filename'] ?? '', 'description' => $item['title'] ?? ''];
         }, $data ?? [])));
+
+        // task-2026-05-22-b45297 / AI-907 — wire PicturesModuleSettings fields
+        // (Columns, Aspect Ratio, Lightbox) to this template.
+        $mwAi907Cols = $options['columns'] ?? '3';
+        $mwAi907ColClass = match($mwAi907Cols) {
+            '2' => 'col-12 col-md-6',
+            '4' => 'col-12 col-md-6 col-lg-3',
+            default => 'col-12 col-md-4',
+        };
+        $mwAi907AspectStyle = match($options['aspect_ratio'] ?? 'auto') {
+            '1:1'  => 'aspect-ratio: 1 / 1; object-fit: cover; width: 100%;',
+            '4:3'  => 'aspect-ratio: 4 / 3; object-fit: cover; width: 100%;',
+            '16:9' => 'aspect-ratio: 16 / 9; object-fit: cover; width: 100%;',
+            '3:4'  => 'aspect-ratio: 3 / 4; object-fit: cover; width: 100%;',
+            default => '',
+        };
+        // lightbox: Toggle saves '1'/'true'/true when on, '0'/'false'/false/null when off.
+        $mwAi907LightboxRaw = $options['lightbox'] ?? true;
+        $mwAi907Lightbox = $mwAi907LightboxRaw !== '0' && $mwAi907LightboxRaw !== false && $mwAi907LightboxRaw !== null;
     @endphp
 
     <script>mw.moduleCSS("{{ asset('modules/pictures/css/clean.css') }}");</script>
 
     <div class="mw-module-images{{ isset($no_img) && $no_img ? ' no-image' : '' }}">
-        <div class="mw-pictures-clean" id="mw-gallery-{{ $rand }}">
+        {{-- row g-3: Bootstrap grid row with 1rem gutter to host per-item column classes. --}}
+        <div class="mw-pictures-clean row g-3" id="mw-gallery-{{ $rand }}">
             @php $count = -1; @endphp
 
             @if(empty($data))
@@ -43,9 +63,13 @@ description: Default Picture List
                         @continue
                     @endif
 
-                    <div class="mw-pictures-clean-item mw-pictures-clean-item-{{ $item['id'] }}">
+                    {{-- task-2026-05-22-b45297 / AI-907: column class from settings. --}}
+                    <div class="mw-pictures-clean-item mw-pictures-clean-item-{{ $item['id'] }} {{ $mwAi907ColClass }}">
+                        {{-- task-2026-05-22-b45297 / AI-907: gate lightbox anchor on setting. --}}
+                        @if($mwAi907Lightbox)
                         <a href="{{ isset($item['filename']) ? $item['filename'] : '' }}"
                            data-mw-gallery="{{ $mwAi814GalleryJson }}" data-mw-gallery-index="{{ $count }}">
+                        @endif
                             {{--
                                 img-fluid (Bootstrap 5 helper for
                                 max-width:100%; height:auto) lets the
@@ -55,8 +79,15 @@ description: Default Picture List
                             --}}
                             {{-- task-2026-05-05-90021f — drunk-designer audit (pictures.md QW): default lazy-loading on every gallery image. --}}
                             {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                            {!! responsive_thumbnail($item['filename'] ?? '', 600, null, ['alt' => $item['title'] ?? $item['description'] ?? __('Image'), 'class' => 'img-fluid']) !!}
+                            {{-- task-2026-05-22-b45297 / AI-907: aspect ratio style applied via attributes array. --}}
+                            {!! responsive_thumbnail($item['filename'] ?? '', 600, null, array_filter([
+                                'alt'   => $item['title'] ?? $item['description'] ?? __('Image'),
+                                'class' => 'img-fluid',
+                                'style' => $mwAi907AspectStyle,
+                            ])) !!}
+                        @if($mwAi907Lightbox)
                         </a>
+                        @endif
                     </div>
                 @endforeach
             @endif
