@@ -1733,3 +1733,33 @@ a:not(.btn):not(.navbar-brand):not([class*="btn-"]):hover {
     color: var(--color-primary-hover, #0b5ed7);
     text-decoration: underline;
 }
+
+/* task-2026-05-22-10ee46 / AI-900 P3 — CONTACT US topbar button salmon fix.
+ * Bootstrap template $primary: #f4a261 (demo salmon) cascades into .btn-sm
+ * elements that carry no .btn-primary class. The CONTACT US nav button is
+ * rendered by the Btn module as `<button class="btn btn-sm">` (no .btn-primary),
+ * so AI-868 (.btn-primary selector) and AI-877 (bare <a> text link color)
+ * both missed it — this is the 7th instance of the Stage-2 salmon-cascade family.
+ *
+ * AI-868 shipped an :root { --mw-btn-background-color } token that was
+ * expected to route through app.css's broad negation selector, but the runtime
+ * DOM confirms backgroundColor is still rgb(244, 162, 97) — the token chain
+ * did not reach the CONTACT US button. Direct selector + literal hex is the
+ * confirmed-working pattern (Path B discipline per AI-866 v2).
+ *
+ * Exclusions via :not():
+ *   .btn-outline-primary — shopping cart badge `btn btn-outline-primary btn-sm`
+ *                          must stay transparent with blue border (AI-866)
+ *   .btn-danger           — red action buttons must stay red
+ *   .btn-outline-danger   — outline red must stay as-is
+ *
+ * Global scope (no @media guard) — applies to all viewports because the salmon
+ * defect manifests at every screen width, not just mobile.
+ *
+ * Negative regression guard: rgb(244, 162, 97) must NOT appear on .btn.btn-sm. */
+a.btn.btn-sm:not(.btn-outline-primary):not(.btn-danger):not(.btn-outline-danger),
+button.btn.btn-sm:not(.btn-outline-primary):not(.btn-danger):not(.btn-outline-danger) {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #fff !important;
+}

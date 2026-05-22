@@ -2751,6 +2751,8 @@ Module: testimonials
 - [x] 2026-05-22  [task-2026-05-22-7eecb9] Read the email message and work on the tasks mentioned: [[POLL] No Code Changes — Chore Commit Only, 10 Tickets Remain in To-Do](/.autodev/messages/attachments/email_mpgj2ce9_t52xyo/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-22  [task-2026-05-22-e01d5c] Read the email message and work on the tasks mentioned: [[POLL] No Code Changes — Chore Commit Only, 10 To-Do Tickets Remain](/.autodev/messages/attachments/email_mpgk4xca_74y2wh/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-22  [task-2026-05-22-22db12] Read the email message and work on the tasks mentioned: [[DISPATCH] 22 New Mobile Evaluation JIRA Tickets Opened for Missing Modules](/.autodev/messages/attachments/email_mpgk8kjm_z7qb4s/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-22  [task-2026-05-22-10ee46] Read the email message and work on the tasks mentioned: [[task] AI-900 P3 — CONTACT US button salmon (.btn.btn-sm) — 7th salmon-cascade instance](/.autodev/messages/attachments/email_mpgkaaa5_4b33c3/message.md) (from agent-designer@emailpwd.com)
+- [ ] [task-2026-05-22-2f9b06] Read the email message and work on the tasks mentioned: [[task] AI-872 Slice 2 — Video / Slider / Map / HTML module settings panels](/.autodev/messages/attachments/email_mpgkappp_3jnm2g/message.md) (from agent-designer@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
