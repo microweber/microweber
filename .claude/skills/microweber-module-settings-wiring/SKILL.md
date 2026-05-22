@@ -152,6 +152,22 @@ public function render_reads_autoplay_from_options(): void
   `get_option()` can return `null`, `"1"`, `"0"`, `"true"`, `"false"`.
   Use `filter_var()` for robust boolean coercion.
 - Do NOT skip checking the existing ModuleSettings.php first — option keys must match exactly.
+- **Do NOT let the form field key differ from the `get_module_option()` key** (3rd-batch Stage-1 variant, AI-1017 2026-05-22):
+  `Select::make('options.data-maptype')` saves as `data-maptype` (no hyphen between "map" and "type"),
+  but `render()` called `get_module_option('data-map-type', ...)` (with hyphen). The map type setting
+  was silently ignored. Fix: change the form key to `options.data-map-type` AND add a backward-compat
+  read of the old key: `get_module_option('data-map-type', $id) ?? get_module_option('data-maptype', $id)`.
+  This applies to any hyphen, underscore, or camelCase mismatch between the form key and the reader key.
+
+## Key-Mismatch Anti-Pattern (3+ recurrences — watch for this)
+
+| Module | Form key | Reader key | Mismatch type |
+|--------|----------|------------|---------------|
+| Video (AI-967) | `options.lazy_load` | `lazyload` | underscore vs none |
+| GoogleMaps (AI-1017) | `options.data-maptype` | `data-map-type` | hyphen placement |
+| Video (AI-1008) | `options.width` suffix `px` | helper appends `px` | double-append |
+
+When fixing a mismatch: (1) fix the form key to match the reader; (2) add a fallback read of the old key for backward compat; (3) add a contract test asserting both keys are handled.
 
 ## Applies To
 

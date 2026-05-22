@@ -4,6 +4,41 @@
 
 ---
 
+## 2026-05-22 — IconColumn status states need distinct semantic icons, not just boolean true/false (AI-1034)
+
+- **Pattern:** Filament `IconColumn::make('is_moderated')->boolean()` and `IconColumn::make('is_spam')->boolean()` both rendered identical red × icons when their values were false. Users could not distinguish "not yet approved" (neutral/pending) from "marked as spam" (danger).
+- **Why it happened:** The `.boolean()` shortcut uses Filament's default `heroicon-o-check-circle` (true) / `heroicon-o-x-circle` (false) across all boolean columns, regardless of semantic meaning. A "false" moderation flag means "pending" (neutral), not "rejected" (danger).
+- **Prevention rule:** For boolean columns with distinct semantic states, override icons explicitly: `->trueIcon('heroicon-o-check-circle')->trueColor('success')->falseIcon('heroicon-o-clock')->falseColor('warning')` for approval (pending state is neutral/amber), and `->trueIcon('heroicon-o-exclamation-triangle')->trueColor('danger')->falseIcon('heroicon-o-minus-circle')->falseColor('gray')` for spam (non-spam state is neutral). Never let two columns with opposite semantics share the same false-icon.
+- **Applies when:** Any `IconColumn` where "false" has different meaning per column (pending vs spam, deactivated vs hidden, etc.); audit all boolean columns before shipping a resource.
+
+## 2026-05-22 — Button label must clarify when clicking it triggers auto-save (AI-1027/AI-1028)
+
+- **Pattern:** A "Live edit" button on the Create Post form saved the form AND navigated to Live Edit without the user expecting auto-save to occur. The button shared identical blue colour with the primary "Save" button, making hierarchy ambiguous.
+- **Why it happened:** The action was named for its destination ("Live edit") not its side-effect ("Save first, then open Live Edit"). Both buttons used `->color('info')` / `->color('primary')` — both rendered blue.
+- **Prevention rule:** (1) If a button performs an implicit save before its named action, label it "Save & [Action]" (e.g. "Save & Live Edit"). (2) If a primary CTA and a secondary CTA share the same colour on the same form, change the secondary to `->color('gray')` so hierarchy is visually distinct — the primary (filling, coloured) is the unambiguous save path.
+- **Applies when:** Any header action that first saves the record before navigating away; any form with two blue action buttons at the same visual weight.
+
+## 2026-05-22 — Form `->collapsed()` sections hide critical fields from editors by default (AI-1029)
+
+- **Pattern:** The "Permalink" section in `ContentResource.php` used `->collapsed()`, hiding the SEO URL slug behind a click. Editors were publishing pages without ever seeing or setting the slug, resulting in auto-generated URLs from the title that were often too long or not SEO-friendly.
+- **Why it happened:** The original rationale was "most users don't need this" — but the permalink is critical for SEO and editors who do need it won't find it collapsed. The "less visible = less friction" assumption was wrong for this field.
+- **Prevention rule:** Never collapse sections that contain SEO-critical or identity-defining fields (URL slug, meta title, meta description, canonical URL) on create or edit forms. Use `->collapsed()` only for genuinely optional sections like advanced developer settings, webhook configuration, or deprecated fields. If a section must be collapsible, start it open (`->collapsible()` without `->collapsed()`).
+- **Applies when:** Any Filament `Section::make()->collapsible()->collapsed()` that wraps fields related to: URL/slug, SEO meta, publication date, category/parent, or any field editors need to review on every save.
+
+## 2026-05-22 — Filament table `->defaultPaginationPageOption(N)` above 50 causes performance issues (AI-1026)
+
+- **Pattern:** `ContentResource` had `->defaultPaginationPageOption(250)` which caused noticeable load times on sites with large content libraries. The default page size of 250 rows required fetching, hydrating, and rendering 250 Eloquent models on every list visit.
+- **Why it happened:** 250 was chosen as "show everything" convenience during development. This is acceptable on a test install with 10 items; on a production site with 5000+ content items it generates a slow query + large Livewire payload.
+- **Prevention rule:** Always set `->defaultPaginationPageOption(25)` (or at most 50) on Filament resource tables. Keep 250 available in the `->paginated([10, 25, 50, 100, 250, 'all'])` options list so power users can choose it, but never make it the default. If a resource table feels slow, check `defaultPaginationPageOption` first.
+- **Applies when:** Any `Table::make()->paginated()->defaultPaginationPageOption()` configuration in Filament resources; initial setup of new resource tables.
+
+## 2026-05-22 — WCAG 2.4.3 modal focus containment: use `inert` attribute as defence-in-depth alongside Alpine x-trap (AI-954)
+
+- **Pattern:** Filament v5 uses Alpine's `x-trap.noscroll="isOpen"` on `.fi-modal-window` to trap Tab focus inside open modals. In some edge cases (Livewire re-renders, rapid open/close, screen readers' virtual cursor), focus can escape. The modern W3C reinforcement is the `inert` attribute on background content.
+- **Why it happened:** `x-trap` works for keyboard Tab navigation but does not prevent screen-reader virtual cursor navigation to background content. WCAG 2.4.3 requires the focus order to be maintained within a dialog — `inert` on background content prevents both keyboard AND AT navigation outside the dialog.
+- **Prevention rule:** When implementing or auditing modal focus traps in admin, use a `MutationObserver` on `document.body` that: (1) on any `.fi-modal-window:not([hidden])` appearing, sets `inert` on `.fi-main` and `.fi-sidebar`; (2) when no such modal exists, removes `inert`. This runs in `admin-filament.js`'s `initModalFocusTrap()` method (AI-954, commit `6b2ebaabb4`). Defence-in-depth: both Alpine `x-trap` AND `inert` are needed for full WCAG 2.4.3 compliance.
+- **Applies when:** Any new modal, dialog, or drawer added to the Filament admin panel; WCAG 2.4.3 audits on admin interactive overlays.
+
 ## 2026-05-22 — `get_module_option()` ??-chain-as-second-argument PHP trap (AI-1016 P1)
 
 - **Pattern:** `get_module_option('key', $this->params['id'] ?? 'fallback')` makes the `??` fallback chain the second `$id` argument, not an external fallback. This silently uses the wrong module option. Causes 500 when `'fallback'` is a non-numeric string and the option DB lookup fails.
