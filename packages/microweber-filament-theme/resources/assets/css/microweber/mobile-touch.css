@@ -1787,5 +1787,19 @@ body.fi-panel-checkout .fi-page-content b {
         white-space: nowrap;
         max-width: 100%;
     }
+
+    /* AI-945 / task-2026-05-22 — "Live Edit" topbar button collides with other
+     * Filament topbar icons (search, notifications, user avatar) at 390px.
+     * At narrow viewports the button text ("Live Edit") takes ~112px; hiding it
+     * reduces the chip to icon-only (~44px) and prevents collision.
+     * The icon (heroicon-m-eye) preserves the affordance without the text. */
+    body.fi-panel-admin .fi-topbar .admin-toolbar-live-edit .fi-btn-label,
+    body.fi-panel-admin .fi-topbar .fi-btn.admin-toolbar-live-edit span:not(.fi-btn-icon) {
+        display: none !important;
+    }
+    body.fi-panel-admin .fi-topbar .fi-btn.admin-toolbar-live-edit {
+        min-width: 44px !important;
+        padding-inline: 8px !important;
+    }
 }
 
