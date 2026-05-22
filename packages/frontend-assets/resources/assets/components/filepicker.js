@@ -754,29 +754,112 @@ mw.filePicker = function (options) {
                 scope._getComponentObject("library").label
             );
             // task-2026-05-22-a901b0 / AI-901 Phase 1 — shared mount helper
+            // task-2026-05-22-faf839 / AI-761 — skeleton loader + empty state
             var _mountLib = function (loadIndicatorEl) {
                 if (loadIndicatorEl) mw.tools.loading(loadIndicatorEl, true);
+
+                // Skeleton: 6 shimmer tiles matching the post-load 3-col grid.
+                var $skeleton = $('<div class="mw-filepicker-library-skeleton" aria-hidden="true">');
+                for (var _si = 0; _si < 6; _si++) {
+                    $skeleton.append('<div class="mw-filepicker-library-skeleton-tile">');
+                }
+                $wrap.append($skeleton);
+
                 var fr = mw
                     .top()
                     .tools.moduleFrameRoute("filament.admin.pages.media-library");
                 scope._libraryFrameBaseSrc = fr.src;
+                // Keep iframe visually hidden until row-count message arrives
+                // so the skeleton is the only visible element during load.
+                fr.style.opacity = '0';
+                fr.style.position = 'absolute';
+                fr.style.pointerEvents = 'none';
                 $wrap.append(fr);
                 if (scope.settings._frameMaxHeight) {
                     fr.style.maxHeight = "60vh";
                     fr.scrolling = "yes";
                 }
-                fr.onload = function () {
+
+                var _emptyEl = null;
+
+                // 8s safety net: unhide iframe even if postMessage never arrives.
+                var _safetyId = setTimeout(function () {
+                    $skeleton.remove();
+                    fr.style.opacity = '';
+                    fr.style.position = '';
+                    fr.style.pointerEvents = '';
+                }, 8000);
+
+                // postMessage listener — media-library iframe posts row count
+                // once Livewire has rendered (see media-library-page.blade.php).
+                var _onRowCount = function (evt) {
+                    if (!evt.data || evt.data.type !== 'mw-filemanager:row-count') return;
+                    window.removeEventListener('message', _onRowCount);
+                    clearTimeout(_safetyId);
                     if (loadIndicatorEl) mw.tools.loading(loadIndicatorEl, false);
-                    this.contentWindow.mw.on.hashParam(
-                        "select-file",
-                        function (pval) {
-                            var url = pval.toString();
-                            scope.setSectionValue(url);
-                            if (scope.settings.autoSelect) {
-                                scope.result();
+                    $skeleton.remove();
+
+                    if (evt.data.count === 0) {
+                        // Truly empty library: show in-picker empty state.
+                        fr.style.display = 'none';
+                        _emptyEl = $('<div class="mw-filepicker-library-empty">' +
+                            '<span class="mw-filepicker-library-empty-icon" aria-hidden="true">&#128444;&#65039;</span>' +
+                            '<h3 class="mw-filepicker-library-empty-heading">' +
+                            mw.lang('No files yet') +
+                            '</h3>' +
+                            '<p class="mw-filepicker-library-empty-body">' +
+                            mw.lang('Upload your first image — or paste a URL on the URL tab.') +
+                            '</p>' +
+                            '<button type="button" class="mw-filepicker-library-empty-cta">' +
+                            mw.lang('Upload from device →') +
+                            '</button>' +
+                            '</div>')[0];
+                        $wrap.append(_emptyEl);
+
+                        $(_emptyEl).find('.mw-filepicker-library-empty-cta').on('click', function () {
+                            var $desktopTab = $('a.js-filepicker-pick-type-tab-desktop', scope.$root);
+                            if ($desktopTab.length) {
+                                $desktopTab.trigger('click');
                             }
-                        }
-                    );
+                        });
+
+                        // First upload: remove empty state and reveal library.
+                        $(scope).one('FileUploaded', function () {
+                            if (_emptyEl) {
+                                $(_emptyEl).remove();
+                                _emptyEl = null;
+                            }
+                            fr.style.display = '';
+                            fr.style.opacity = '';
+                            fr.style.position = '';
+                            fr.style.pointerEvents = '';
+                            fr.src = scope._libraryFrameBaseSrc;
+                        });
+                    } else {
+                        // Library has files — reveal iframe.
+                        fr.style.opacity = '';
+                        fr.style.position = '';
+                        fr.style.pointerEvents = '';
+                    }
+                };
+                window.addEventListener('message', _onRowCount);
+
+                fr.onload = function () {
+                    // Wire file selection back to the picker.
+                    try {
+                        this.contentWindow.mw.on.hashParam(
+                            "select-file",
+                            function (pval) {
+                                var url = pval.toString();
+                                scope.setSectionValue(url);
+                                if (scope.settings.autoSelect) {
+                                    scope.result();
+                                }
+                            }
+                        );
+                    } catch (_e) {
+                        // contentWindow.mw unavailable (cross-origin or not yet ready).
+                    }
                 };
             };
             if (scope.settings.nav === 'action-bar') {

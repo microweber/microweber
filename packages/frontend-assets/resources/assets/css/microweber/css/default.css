@@ -5020,3 +5020,96 @@ html.dark .mw-filepicker-overlay-content,
         gap: 4px;
     }
 }
+
+/* task-2026-05-22-faf839 / AI-761 — Media library skeleton loader */
+.mw-filepicker-library-skeleton {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 8px;
+}
+.mw-filepicker-library-skeleton-tile {
+    aspect-ratio: 4/3;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #edf2f7 25%, #e2e8f0 50%, #edf2f7 75%);
+    background-size: 200% 100%;
+    animation: mw-filepicker-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+@keyframes mw-filepicker-skeleton-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .mw-filepicker-library-skeleton-tile {
+        animation: none;
+    }
+}
+html.dark .mw-filepicker-library-skeleton-tile,
+.dark .mw-filepicker-library-skeleton-tile {
+    background: linear-gradient(90deg, #1e2330 25%, #2d3748 50%, #1e2330 75%);
+    background-size: 200% 100%;
+    animation: mw-filepicker-skeleton-shimmer-dark 1.5s ease-in-out infinite;
+}
+@keyframes mw-filepicker-skeleton-shimmer-dark {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html.dark .mw-filepicker-library-skeleton-tile,
+    .dark .mw-filepicker-library-skeleton-tile {
+        animation: none;
+    }
+}
+
+/* task-2026-05-22-faf839 / AI-761 — Media library empty state */
+.mw-filepicker-library-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 32px 24px;
+    gap: 8px;
+    min-height: 220px;
+}
+.mw-filepicker-library-empty-icon {
+    font-size: 40px;
+    line-height: 1;
+    opacity: 0.5;
+}
+.mw-filepicker-library-empty-heading {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ese-text, #111827);
+    margin: 0;
+}
+.mw-filepicker-library-empty-body {
+    font-size: 13px;
+    color: var(--ese-text-muted, #6b7280);
+    max-width: 280px;
+    margin: 0;
+    line-height: 1.5;
+}
+.mw-filepicker-library-empty-cta {
+    background: var(--ese-accent, #0d6efd);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm, 4px);
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 8px;
+    min-height: 44px;
+    min-width: 44px;
+}
+.mw-filepicker-library-empty-cta:hover {
+    background: var(--ese-accent-hover, #0b5ed7);
+}
+html.dark .mw-filepicker-library-empty-heading,
+.dark .mw-filepicker-library-empty-heading {
+    color: var(--ese-text, #f3f4f6);
+}
+html.dark .mw-filepicker-library-empty-body,
+.dark .mw-filepicker-library-empty-body {
+    color: var(--ese-text-muted, #9ca3af);
+}
