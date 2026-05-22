@@ -3919,6 +3919,84 @@ html.dark .quick-ai-type-group-header:hover {
     background: var(--ese-surface-hover, rgba(255, 255, 255, 0.04));
 }
 
+/* AI-956 / task-2026-05-22 — Admin dark mode: Flatpickr date-picker calendar renders
+ * with white background in dark mode. Add dark theme overrides. */
+html.dark .flatpickr-calendar {
+    background: #1f2937 !important;
+    color: #f9fafb !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+html.dark .flatpickr-calendar .flatpickr-day {
+    color: #f9fafb !important;
+}
+html.dark .flatpickr-calendar .flatpickr-day:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: transparent !important;
+}
+html.dark .flatpickr-calendar .flatpickr-day.selected,
+html.dark .flatpickr-calendar .flatpickr-day.today {
+    background: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #ffffff !important;
+}
+html.dark .flatpickr-calendar .flatpickr-day.disabled {
+    color: rgba(255, 255, 255, 0.3) !important;
+}
+html.dark .flatpickr-calendar .flatpickr-months,
+html.dark .flatpickr-calendar .flatpickr-month,
+html.dark .flatpickr-calendar .flatpickr-current-month,
+html.dark .flatpickr-calendar .flatpickr-prev-month,
+html.dark .flatpickr-calendar .flatpickr-next-month {
+    background: #1f2937 !important;
+    color: #f9fafb !important;
+    fill: #f9fafb !important;
+}
+html.dark .flatpickr-calendar .flatpickr-weekday {
+    color: #9ca3af !important;
+    background: #1f2937 !important;
+}
+html.dark .flatpickr-calendar .flatpickr-time input,
+html.dark .flatpickr-calendar .flatpickr-time .flatpickr-am-pm {
+    background: #1f2937 !important;
+    color: #f9fafb !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* AI-957 / task-2026-05-22 — Admin dark mode: multi-select tags dropdown renders
+ * with white popup in dark mode. Add dark theme overrides for Filament select popups. */
+html.dark .choices__list--dropdown,
+html.dark .choices__list[aria-expanded] {
+    background: #1f2937 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+html.dark .choices__item--selectable,
+html.dark .choices__item--choice {
+    color: #f9fafb !important;
+}
+html.dark .choices__item--selectable:hover,
+html.dark .choices__item--selectable.is-highlighted {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+/* Filament v5 native custom select dropdown */
+html.dark [data-headlessui-state] [role="listbox"],
+html.dark .fi-fo-field-wrp [role="listbox"],
+html.dark .fi-select-option-list,
+html.dark [x-floated][role="listbox"] {
+    background-color: #1f2937 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #f9fafb !important;
+}
+html.dark [data-headlessui-state] [role="option"],
+html.dark .fi-fo-field-wrp [role="option"] {
+    color: #f9fafb !important;
+}
+html.dark [data-headlessui-state] [role="option"]:hover,
+html.dark [data-headlessui-state] [role="option"][data-active="true"],
+html.dark [data-headlessui-state] [role="option"][aria-selected="true"] {
+    background-color: rgba(13, 110, 253, 0.2) !important;
+}
+
 /* AI-950 / task-2026-05-22 — Admin dark mode: form input borders invisible in Settings pages.
  * Filament dark mode uses very subtle borders that blend into the dark background.
  * WCAG 1.4.11 (Non-text Contrast) requires 3:1 ratio for UI components.
