@@ -3918,3 +3918,36 @@ html.dark .quick-ai-type-group-header {
 html.dark .quick-ai-type-group-header:hover {
     background: var(--ese-surface-hover, rgba(255, 255, 255, 0.04));
 }
+
+/* AI-950 / task-2026-05-22 — Admin dark mode: form input borders invisible in Settings pages.
+ * Filament dark mode uses very subtle borders that blend into the dark background.
+ * WCAG 1.4.11 (Non-text Contrast) requires 3:1 ratio for UI components.
+ * Bumping to rgba(255,255,255,0.25) provides ~4:1 on typical Filament dark bg (#1f2937). */
+html.dark body.fi-panel-admin .fi-input,
+html.dark body.fi-panel-admin .fi-input-wrp,
+html.dark body.fi-panel-admin .fi-select,
+html.dark body.fi-panel-admin .fi-select-wrp,
+html.dark body.fi-panel-admin .fi-textarea,
+html.dark body.fi-panel-admin .fi-textarea-wrp {
+    border-color: rgba(255, 255, 255, 0.25) !important;
+}
+html.dark body.fi-panel-admin .fi-input:focus,
+html.dark body.fi-panel-admin .fi-input-wrp:focus-within,
+html.dark body.fi-panel-admin .fi-select:focus,
+html.dark body.fi-panel-admin .fi-textarea:focus {
+    border-color: rgba(13, 110, 253, 0.8) !important;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25) !important;
+}
+
+/* AI-951 / task-2026-05-22 — Admin dark mode: table alternating row stripes disappear.
+ * In dark mode, even/odd row backgrounds have near-zero lightness delta.
+ * Adding a subtle but perceptible stripe keeps rows distinguishable. */
+html.dark body.fi-panel-admin .fi-ta-row:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+}
+html.dark body.fi-panel-admin .fi-ta-row:nth-child(odd) {
+    background-color: transparent !important;
+}
+html.dark body.fi-panel-admin .fi-ta-row:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
