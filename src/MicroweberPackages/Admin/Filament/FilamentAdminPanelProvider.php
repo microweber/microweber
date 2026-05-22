@@ -105,16 +105,12 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->login(\MicroweberPackages\Admin\Filament\Pages\Login::class)
             // ->registration()
             ->font('Inter')
-            // AI-703 / task-2026-05-16-29342d — Responsive sidebar:
-            //   - Desktop (Filament default lg+ = ≥1024px): drawer pinned-open
-            //     as a 240px left sidebar with collapse-to-rail toggle.
-            //   - Below lg: drawer overlays content + hamburger toggle.
-            //   Designer spec calls for the breakpoint at 1280px specifically;
-            //   Filament's native lg breakpoint (1024px) is shipped here for
-            //   slice-1 simplicity. Tuning the breakpoint to 1280px is the
-            //   AI-703a follow-up candidate (will require CSS overrides at
-            //   1024-1279.98px to undo Filament's `lg:` pinned utilities).
-            ->sidebarCollapsibleOnDesktop()
+            // AI-703 / task-2026-05-16-29342d — Responsive sidebar slice 1: 240px.
+            // AI-926 — removed sidebarCollapsibleOnDesktop() per operator feedback:
+            //   icons-only mode with no visible expand affordance confused new operators
+            //   who could not identify navigation items. Sidebar now always shows labels.
+            //   Restore collapse feature only after adding a prominent expand chevron or
+            //   after operators are onboarded with the icon set.
             // task-2026-05-17-76dd12 / AI-702 CHANGE — designer
             // verified `441050920e` and rejected the AI-702 ship
             // because the existing Filament `->brandLogo()` panel-
