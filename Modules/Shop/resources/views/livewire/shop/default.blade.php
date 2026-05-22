@@ -50,9 +50,26 @@
                  and stopped at 2 cols on wide desktop. Updated breakpoints
                  land cleanly on the AI-286 test viewports
                  (320/390/768/1024/1440). --}}
+            {{-- task-2026-05-22-c58ec3 / AI-906 — wire Columns setting to grid class.
+                 $filterSettings['columns'] is saved by ShopModuleSettings ToggleButtons
+                 with values '2'|'3'|'4'. Default '3' preserves the pre-fix layout. --}}
+            @php
+                $mwAi906Cols = $filterSettings['columns'] ?? '3';
+                $mwAi906ColClass = match($mwAi906Cols) {
+                    '2' => 'col-12 col-md-6',
+                    '4' => 'col-12 col-md-6 col-lg-3',
+                    default => 'col-12 col-md-6 col-lg-4 col-xl-4',
+                };
+                // show_price / show_add_to_cart: '1' = show (default), '0' = hide.
+                $mwAi906ShowPrice      = ($filterSettings['show_price'] ?? '1')      !== '0';
+                $mwAi906ShowAddToCart  = ($filterSettings['show_add_to_cart'] ?? '1') !== '0';
+            @endphp
             @forelse($products as $product)
-                <div class="col-12 col-md-6 col-lg-4 col-xl-4 mb-5">
-                    @include('modules.shop::livewire.shop.product-card')
+                <div class="{{ $mwAi906ColClass }} mb-5">
+                    @include('modules.shop::livewire.shop.product-card', [
+                        'showPrice'     => $mwAi906ShowPrice,
+                        'showAddToCart' => $mwAi906ShowAddToCart,
+                    ])
                 </div>
             @empty
                 <div class="col-12">

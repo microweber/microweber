@@ -56,6 +56,8 @@
 
         <p>{{ Str::limit($product->description, 150) }}</p>
 
+        {{-- task-2026-05-22-c58ec3 / AI-906 — wire show_price setting. --}}
+        @if($showPrice ?? true)
         <div class="d-flex items-center text-center align-items-center price-holder">
 
             @if($product->hasSpecialPrice())
@@ -66,6 +68,7 @@
             @endif
 
         </div>
+        @endif
 
         {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB finding #10:
              prior `<a href="?tags[]={{ $tag->slug }}">` wiped all existing query
@@ -100,6 +103,8 @@
              <module type="shop/cart_add"/>. Title/image anchor click navigation
              stays intact — the button is below the price-holder and does not
              capture the card-wide link region. --}}
+        {{-- task-2026-05-22-c58ec3 / AI-906 — wire show_add_to_cart setting. --}}
+        @if($showAddToCart ?? true)
         <button type="button"
                 class="btn btn-primary mt-3 mw-add-to-cart-btn"
                 data-content-id="{{ $product->id }}"
@@ -109,5 +114,6 @@
             <i class="mdi mdi-cart" aria-hidden="true"></i>
             {{ _e('Add to cart', true) }}
         </button>
+        @endif
     </div>
 </div>
