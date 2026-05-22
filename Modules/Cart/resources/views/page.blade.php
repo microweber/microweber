@@ -41,7 +41,14 @@
     $activeTemplate = function_exists('template_dir')
         ? strtolower(basename(rtrim(template_dir(), DIRECTORY_SEPARATOR)))
         : 'bootstrap';
-    $masterLayout = "templates.{$activeTemplate}::layouts.master";
+    // AI-944 / task-2026-05-22 — add Bootstrap fallback when the active template's
+    // master layout isn't registered (e.g. Big2 is gitignored on fresh clones).
+    // Matches the $extendsView ?? 'templates.bootstrap::layouts.master' pattern
+    // from AI-757/AI-795 (shop index.blade.php).
+    $candidateMaster = "templates.{$activeTemplate}::layouts.master";
+    $masterLayout = view()->exists($candidateMaster)
+        ? $candidateMaster
+        : 'templates.bootstrap::layouts.master';
 
     /*
      * task-2026-05-17-0e6cfa / AI-796 Slice A — gate the bottom
