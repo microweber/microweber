@@ -290,9 +290,14 @@
                     x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
                     x-on:keydown.arrow-left.prevent="focusPrevCard($el)"
                     x-on:keydown.arrow-right.prevent="focusNextCard($el)"
-                    class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col gap-3 p-4 group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
-                    <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 bg-gray-500/10 transition duration-150 rounded-lg shrink-0">
-                        @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-600 dark:text-gray-400')
+                    {{-- task-2026-05-22-9d5e21: padding p-4→p-3 (tighter cards);
+                         dark:bg-white/[0.04] replaces bg-transparent so cards are
+                         visible against the dark modal background; dark:border-white/10
+                         replaces dark:border-gray-700 for better dark-mode separation;
+                         icon 48px→40px proportionally fits the compact p-3 card. --}}
+                    class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col gap-2 p-3 group transition duration-150 bg-transparent dark:bg-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.07] rounded-lg w-full border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start">
+                    <div class="mw-add-content-icon flex items-center justify-center w-10 h-10 bg-gray-500/10 dark:bg-white/[0.08] transition duration-150 rounded-lg shrink-0">
+                        @svg($action['icon'], 'h-5 w-5 transition duration-150 text-gray-600 dark:text-gray-400')
                     </div>
                     <div class="font-semibold text-sm leading-tight">
                         {{ $action['title'] }}
