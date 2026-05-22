@@ -5407,3 +5407,23 @@ body.mw-live-body-mouse-moved-outside mw-le-element {
     outline: 2px solid #0d6efd;
     outline-offset: 4px;
 }
+
+/* AI-948 / task-2026-05-22 — canvas element selection outline in dark mode.
+   Blue #0d6efd has low contrast on dark backgrounds; add white glow so the
+   selection border is visible regardless of the underlying element colour. */
+html.dark .element-active,
+html[data-bs-theme="dark"] .element-active,
+body.dark-theme .element-active {
+    outline: 2px solid #60a5fa;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+/* AI-949 / task-2026-05-22 — floating element toolbar (sorthandle drag handle)
+   in dark-mode canvas. Ensure the handle background has sufficient contrast. */
+html.dark .mw-sorthandle-moveit:before,
+html[data-bs-theme="dark"] .mw-sorthandle-moveit:before,
+body.dark-theme .mw-sorthandle-moveit:before {
+    background-color: rgba(30, 30, 30, 0.85);
+    color: #e5e7eb;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
