@@ -176,14 +176,16 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->label('')
                     ->collapsible(false),
 
+                // AI-943 — removed group-level ->icon() from Website and Shop.
+                // Filament v5 forbids both group icon AND per-item icons simultaneously.
+                // Items under these groups already carry individual icons, so the
+                // group-level icons are redundant and cause HTTP 500 on every admin request.
                 'Website' => NavigationGroup::make()
-                    ->icon('heroicon-o-globe-alt')
                     ->label('Website')
                     ->collapsible(true)
                     ->collapsed(true),
 
                 'Shop' => NavigationGroup::make()
-                    ->icon('heroicon-o-shopping-bag')
                     ->label('Shop')
                     ->collapsible(true)
                     ->collapsed(true),
