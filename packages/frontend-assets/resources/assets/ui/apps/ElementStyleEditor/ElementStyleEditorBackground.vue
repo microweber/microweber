@@ -1,10 +1,12 @@
 <template>
 
     <div class="d-flex">
-        <svg fill="currentColor" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
-             xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 24 24"
-             style="enable-background:new 0 0 24 24;" xml:space="preserve" aria-hidden="true">
-            <path d="M12.2,3.9c4.5,0,8.1,3.6,8.1,8.1s-3.6,8.1-8.1,8.1S4.1,16.5,4.1,12S7.7,3.9,12.2,3.9"></path>
+        <!-- task-2026-05-22-cd4d21 / AI-915 — replace meaningless filled-circle
+             with swatch icon (heroicon-o-swatch equivalent, stroke-based). -->
+        <svg fill="none" height="24" width="24" viewBox="0 0 24 24" stroke="currentColor"
+             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.097-1.293M12 14.25l.293-1.048a4.5 4.5 0 0 1 3.003-3.005l.78-.26L18.187 6.375a2.25 2.25 0 0 1 3.183 3.183l-3.674 3.674a4.5 4.5 0 0 1-2.003 1.139l-1.041.294a15.998 15.998 0 0 1-1.293 3.097M12 14.25c0-1.243.438-2.383 1.165-3.265M6.75 21.75a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5Z"/>
         </svg>
         <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3" :class="{'active': showBackground }">
             Background

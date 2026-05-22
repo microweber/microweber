@@ -3043,6 +3043,9 @@ html.dark .mw-page-chip-popover__link {
    ====================================================================== */
 
 /* ── AI-871 §1: Right-rail mini-labels ─────────────────────────────── */
+/* task-2026-05-22-cd4d21 / AI-915 — widened from 40px to 48px because
+   labels like "Template" and "AI Edit" were visually clipped at 40px.
+   text-overflow: ellipsis added so clipping is legible if labels grow. */
 .mw-live-edit-page .mw-toolbar-icon-btn[data-mw-label]::after {
     content: attr(data-mw-label);
     display: block;
@@ -3055,8 +3058,8 @@ html.dark .mw-page-chip-popover__link {
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: clip;
-    max-width: 40px;
+    text-overflow: ellipsis;
+    max-width: 48px;
     pointer-events: none;
 }
 
