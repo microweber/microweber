@@ -3602,6 +3602,12 @@ html.dark {
   color: $mw-text-muted;
 }
 
+// AI-1040 / task-2026-05-22-3906fc — visible text label after each stat number.
+.mw-stats-footer-label {
+  font-size: 12px;
+  color: $mw-text-muted;
+}
+
 .mw-stats-card-show-more {
   font-size: 13px !important;
   color: #206bc4 !important;
@@ -3843,6 +3849,20 @@ html.dark {
   &:focus {
     border-color: $mw-accent;
   }
+}
+
+// AI-1039 / task-2026-05-22-558c11 — wrapper label aligns text + date input inline.
+.mw-media-filter-date-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: default;
+}
+
+.mw-media-filter-date-label {
+  font-size: 12px;
+  color: $mw-text-secondary;
+  white-space: nowrap;
 }
 
 .mw-media-filter-date {

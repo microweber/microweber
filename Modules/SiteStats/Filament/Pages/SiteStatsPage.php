@@ -13,7 +13,9 @@ class SiteStatsPage extends Page
 
     protected static ?string $title = 'Site Statistics';
 
-    protected static ?string $slug = 'site-stats';
+    // task-2026-05-22-f9ebf9 / AI-1037 — changed from 'site-stats' to 'site-statistics'
+    // so the URL /admin/site-statistics matches the nav label 'Site Statistics'.
+    protected static ?string $slug = 'site-statistics';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Dashboard';
 

@@ -200,24 +200,32 @@
             <x-filament::loading-indicator class="h-6 w-6" />
         </div>
 
-        {{-- Footer: visitors + bounce rate | Show More --}}
+        {{-- Footer: visitors + bounce rate | Show More
+             AI-1040 / task-2026-05-22-3906fc — added visible text labels next to each
+             icon+number so the stats read as "20 visitors · 95% bounce rate" rather
+             than bare numbers that require tooltip discovery.
+             AI-1037 / task-2026-05-22-f9ebf9 — "View more" link updated from the old
+             /admin/site-stats slug to /admin/site-statistics (slug renamed to match label). --}}
         <div class="mw-stats-card-footer">
             <div class="mw-stats-card-footer-left">
-                <div class="mw-stats-card-footer-stat" title="Visitors">
+                <div class="mw-stats-card-footer-stat">
                     <x-filament::icon icon="heroicon-o-user" class="mw-stats-card-footer-icon" />
                     <span x-text="Number(chartData.totalVisitors).toLocaleString()"></span>
+                    <span class="mw-stats-footer-label">visitors</span>
                 </div>
-                <div class="mw-stats-card-footer-stat" title="Bounce rate">
+                <div class="mw-stats-card-footer-stat">
                     <x-filament::icon icon="heroicon-o-arrow-uturn-left" class="mw-stats-card-footer-icon" />
                     <span x-text="chartData.bouncePercent + '%'"></span>
+                    <span class="mw-stats-footer-label">bounce rate</span>
                 </div>
-                <div class="mw-stats-card-footer-stat" x-show="expanded" title="Bounced sessions" x-cloak>
+                <div class="mw-stats-card-footer-stat" x-show="expanded" x-cloak>
                     <x-filament::icon icon="heroicon-o-x-circle" class="mw-stats-card-footer-icon" />
                     <span x-text="Number(chartData.totalBounced).toLocaleString()"></span>
+                    <span class="mw-stats-footer-label">bounced</span>
                 </div>
             </div>
             <div class="mw-stats-card-footer-right">
-                <a href="{{ url('/admin/site-stats') }}" class="mw-stats-card-show-more" style="text-decoration: none; cursor: pointer;">View more</a>
+                <a href="{{ url('/admin/site-statistics') }}" class="mw-stats-card-show-more" style="text-decoration: none; cursor: pointer;">View more</a>
             </div>
         </div>
     </div>

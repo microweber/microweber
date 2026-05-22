@@ -45,18 +45,27 @@
                 <option value="file">Documents</option>
             </select>
 
-            <input
-                type="date"
-                wire:model.live.debounce.500ms="dateFrom"
-                class="mw-media-filter-date"
-                title="From date"
-            />
-            <input
-                type="date"
-                wire:model.live.debounce.500ms="dateTo"
-                class="mw-media-filter-date"
-                title="To date"
-            />
+            {{-- AI-1039 / task-2026-05-22-558c11 — visible "From" and "To" labels next to the
+                 date pickers so the inputs are self-describing without requiring tooltip hover.
+                 HTML5 type="date" is kept (locale-aware browser formatting); labels clarify context. --}}
+            <label class="mw-media-filter-date-wrap">
+                <span class="mw-media-filter-date-label">From</span>
+                <input
+                    type="date"
+                    wire:model.live.debounce.500ms="dateFrom"
+                    class="mw-media-filter-date"
+                    aria-label="From date"
+                />
+            </label>
+            <label class="mw-media-filter-date-wrap">
+                <span class="mw-media-filter-date-label">To</span>
+                <input
+                    type="date"
+                    wire:model.live.debounce.500ms="dateTo"
+                    class="mw-media-filter-date"
+                    aria-label="To date"
+                />
+            </label>
 
             @if($search || $typeFilter || $dateFrom || $dateTo || $selectedFolderId)
                 <button wire:click="clearFilters" class="mw-media-clear-filters" title="Clear all filters">
@@ -479,8 +488,18 @@
                                     @endif
                                 </div>
 
-                                <div class="mw-media-grid-label">
-                                    {{ Str::limit($item->title ?: basename($item->filename), 24) }}
+                                {{-- AI-1038 / task-2026-05-22-5beaa2 — tooltip shows full filename + file-size
+                                     on hover so a bare numeric basename (from legacy placeholder URLs)
+                                     gets context when the user hovers over the thumbnail label. --}}
+                                @php
+                                    $mediaLabel = $item->title ?: basename($item->filename);
+                                    $mediaTooltip = $item->filename;
+                                    if (!empty($item->file_size) && $item->file_size > 0) {
+                                        $mediaTooltip .= ' (' . round($item->file_size / 1024, 1) . ' KB)';
+                                    }
+                                @endphp
+                                <div class="mw-media-grid-label" title="{{ $mediaTooltip }}">
+                                    {{ Str::limit($mediaLabel, 24) }}
                                 </div>
 
                                 {{-- 3-dot menu --}}
