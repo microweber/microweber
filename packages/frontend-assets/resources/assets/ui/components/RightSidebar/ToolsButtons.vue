@@ -51,7 +51,7 @@
 
         <li role="none">
             <button type="button"
-                    class="mw-live-edit-advanced-settings-popup"
+                    class="mw-live-edit-advanced-settings-popup mw-live-edit-advanced-settings-popup--destructive"
                     role="menuitem"
                     aria-label="Reset content"
                     title="Reset content"
@@ -130,7 +130,7 @@
 
         <li role="none">
             <button type="button"
-                    class="mw-live-edit-advanced-settings-popup"
+                    class="mw-live-edit-advanced-settings-popup mw-live-edit-advanced-settings-popup--destructive"
                     role="menuitem"
                     aria-label="Clear cache"
                     title="Clear cache"

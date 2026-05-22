@@ -32,10 +32,7 @@
 }
 
 
-/* Allow titles to show in the tools panel popup - higher specificity */
-.advanced-popup .tools-panel .mw-live-edit-advanced-settings-popup svg + span {
-    display: inline !important;
-}
+/* task-2026-05-22-903d56 / AI-903: Advanced panel shows text in menu mode (via template=menu, not CSS override) */
 
 .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar ul {
     display: flex;
@@ -76,122 +73,7 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
     right: var(--sidebar-end-size);
 }
 
-.advanced-enter-active,
-.advanced-leave-active {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
-.advanced-enter-from,
-.advanced-leave-to {
-    opacity: 0;
-    transform: scale(0.9) translateY(10px);
-}
-
-.advanced-popup {
-    position: absolute;
-    bottom: 70px;
-    right: 60px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1),
-    0 4px 12px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(255, 255, 255, 0.2);
-    z-index: 1000;
-    min-width: 240px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    transform-origin: bottom right;
-}
-
-.dark .advanced-popup {
-    background: rgba(30, 30, 30, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
-    0 4px 12px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.1);
-}
-
-.advanced-popup-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.advanced-popup-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px 12px;
-    border-radius: 12px;
-    background: rgba(0, 0, 0, 0.03);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    text-align: center;
-    min-height: 80px;
-    position: relative;
-    overflow: hidden;
-}
-
-.advanced-popup-item:hover {
-    background: rgba(0, 0, 0, 0.08);
-    border-color: rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-}
-
-.dark .advanced-popup-item {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dark .advanced-popup-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-.advanced-popup-item svg {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 8px;
-    fill: #374151;
-    transition: all 0.2s ease;
-}
-
-.dark .advanced-popup-item svg {
-    fill: #e5e7eb;
-}
-
-.advanced-popup-item:hover svg {
-    fill: #1f2937;
-    transform: scale(1.1);
-}
-
-.dark .advanced-popup-item:hover svg {
-    fill: #ffffff;
-}
-
-.advanced-popup-item span {
-    font-size: 12px;
-    color: #374151;
-    font-weight: 500;
-    transition: color 0.2s ease;
-}
-
-.dark .advanced-popup-item span {
-    color: #e5e7eb;
-}
-
-.advanced-popup-item:hover span {
-    color: #1f2937;
-}
-
-.dark .advanced-popup-item:hover span {
-    color: #ffffff;
-}
 
 .tools-panel ul {
     display: flex !important;
@@ -292,27 +174,7 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
     transform: scale(1);
 }
 
-.advanced-popup-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 0%, transparent 70%);
-    opacity: 0;
-    transform: scale(0);
-    transition: all 0.3s ease;
-}
 
-.dark .advanced-popup-item::before {
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-}
-
-.advanced-popup-item:active::before {
-    opacity: 1;
-    transform: scale(1);
-}
 
 </style>
 
@@ -454,24 +316,21 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
         </div>
 
 
+        <!-- task-2026-05-22-903d56 / AI-903: Teleport ToolsButtons into the Advanced right-rail panel -->
+        <Teleport to="#mw-advanced-panel-content" v-if="advancedPanelBoxCreated">
+            <div class="tools-panel">
+                <ToolsButtons template="menu"></ToolsButtons>
+            </div>
+        </Teleport>
+
         <div style="margin-top:auto;">
-            <Transition name="advanced">
-                <div v-if="advanced" class="advanced-popup">
-                    <!-- Tools Panel - Shows by default when advanced popup opens -->
-                    <div class="tools-panel">
-                        <ToolsButtons template="menu"></ToolsButtons>
-                    </div>
-                </div>
-            </Transition>
-
-
             <button type="button"
-                 :class="{'live-edit-right-sidebar-active': advanced }"
+                 :class="{'live-edit-right-sidebar-active': buttonIsActiveAdvanced }"
                  class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-advanced mw-toolbar-icon-btn"
                  aria-label="Advanced"
                  title="Advanced"
                  data-mw-label="More"
-                 :aria-pressed="advanced"
+                 :aria-pressed="buttonIsActiveAdvanced"
                  v-on:click="handleAdvanced()"
                  v-on:keydown.enter.prevent="handleAdvanced()"
                  v-on:keydown.space.prevent="handleAdvanced()">
@@ -578,35 +437,19 @@ export default {
             mw.app.liveEditWidgets.toggleQuickEditComponent()
         },
         handleAdvanced() {
-            this.advanced = !this.advanced;
-        },
-        handleClickOutside(event) {
-            if (this.advanced) {
-                // Check if click is outside the popup specifically, not the entire component
-                const popupElement = this.$el.querySelector('.advanced-popup');
-                const advancedButton = this.$el.querySelector('.live-edit-toolbar-button-advanced');
-
-                // Close if click is outside popup and not on the advanced button
-                if (popupElement &&
-                    !popupElement.contains(event.target) &&
-                    !advancedButton.contains(event.target)) {
-                    this.advanced = false;
-                    this.$refs.moreSettingsDropdown?.classList.remove('show');
-                }
-            }
+            // task-2026-05-22-903d56 / AI-903 — toggle right-rail panel (was popup)
+            mw.app.advancedPanelWidget?.toggle();
         },
         show: function (name) {
 
             this.emitter.emit('live-edit-ui-show', name);
             this.$refs.moreSettingsDropdown?.classList.remove('show');
-            // Hide advanced popup when showing other UI elements
-            this.advanced = false;
+            mw.app.advancedPanelWidget?.hide();
         },
         toggle: function (name) {
 
             this.$refs.moreSettingsDropdown?.classList.remove('show');
-            // Hide advanced popup when toggling other UI elements
-            this.advanced = false;
+            mw.app.advancedPanelWidget?.hide();
 
             if (name !== 'style-editor') {
                 CSSGUIService.hide()
@@ -625,8 +468,7 @@ export default {
 
         hideMoreSettingsDropdown() {
             this.$refs.moreSettingsDropdown?.classList.remove('show');
-            // Also hide the advanced popup
-            this.advanced = false;
+            mw.app.advancedPanelWidget?.hide();
         },
 
         openReportIssueModal() {
@@ -647,10 +489,7 @@ export default {
         }
     },
 
-    unmounted() {
-        // Remove click-outside handler
-        document.removeEventListener('click', this.handleClickOutside);
-    },
+    unmounted() {},
     mounted() {
         this.emitter.on("live-edit-ui-show", () => {
             this.hideMoreSettingsDropdown();
@@ -779,8 +618,25 @@ export default {
         mw.top().app.canvas.on('liveEditCanvasLoaded', () => {
             this.canShowSettingsCustomize = !!mw.top().app.canvas.getLiveEditData()
         });
-        // Add click-outside handler for advanced popup
-        document.addEventListener('click', this.handleClickOutside);
+
+        // task-2026-05-22-903d56 / AI-903: create Advanced right-rail panel (replaces popup)
+        if (!mw.app.advancedPanelWidget) {
+            mw.app.advancedPanelWidget = new (mw.top()).controlBox({
+                content: '<div id="mw-advanced-panel-content"></div>',
+                position: 'right',
+                id: 'mw-live-edit-advanced-panel-box',
+                closeButton: true,
+                title: mw.lang('Advanced'),
+                width: 'var(--sidebar-end-size)',
+            });
+        }
+        this.advancedPanelBoxCreated = true;
+        mw.app.advancedPanelWidget.on('show', () => {
+            this.buttonIsActiveAdvanced = true;
+        });
+        mw.app.advancedPanelWidget.on('hide', () => {
+            this.buttonIsActiveAdvanced = false;
+        });
     },
     data() {
 
@@ -791,10 +647,10 @@ export default {
             buttonIsActive: false,
             buttonIsActiveStyleEditor: false,
             buttonIsActiveQuickEdit: false,
-            advanced: false,
+            buttonIsActiveAdvanced: false,   // task-2026-05-22-903d56 / AI-903
+            advancedPanelBoxCreated: false,  // task-2026-05-22-903d56 / AI-903 — set true after controlBox created
             insertLayoutVisible: false,
             iconInsertlayout: mw.top().app?.iconService?.icon('add-layout'),
-
         }
     },
 

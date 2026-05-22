@@ -1847,3 +1847,30 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 .mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
     color: var(--ese-accent, #0d6efd) !important;
 }
+
+/* task-2026-05-22-903d56 / AI-903 — Advanced panel: nav arrows + destructive item styling */
+#mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup:not(.mw-live-edit-advanced-settings-popup--destructive)::after {
+    content: '→';
+    margin-left: auto;
+    color: var(--ese-text-muted, #9ca3af);
+    font-size: 14px;
+    flex-shrink: 0;
+}
+#mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive {
+    color: var(--ese-danger, #dc2626) !important;
+}
+#mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive svg {
+    fill: var(--ese-danger, #dc2626) !important;
+}
+html.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive {
+    color: var(--ese-danger, #ef4444) !important;
+}
+html.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive svg {
+    fill: var(--ese-danger, #ef4444) !important;
+}
+/* Separator before destructive items */
+#mw-live-edit-advanced-panel-box .tools-panel li:has(.mw-live-edit-advanced-settings-popup--destructive):first-of-type {
+    border-top: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+    padding-top: var(--space-xs, 6px);
+    margin-top: var(--space-xs, 6px);
+}
