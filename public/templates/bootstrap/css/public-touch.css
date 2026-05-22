@@ -1740,6 +1740,34 @@ html.dark {
     }
 }
 
+/* task-2026-05-22-7fceee / AI-895 MEDIUM — Bootstrap pagination .page-link touch-target floor.
+ *
+ * Bootstrap 5 pagination renders .page-item > .page-link at ~38px height by
+ * default (padding 0.375rem + line-height 1.5 × 1rem = ~38px rendered). This
+ * is 6px below the WCAG 2.5.5 44×44px floor for interactive elements.
+ *
+ * The tester code-level analysis confirmed the likely failure. Runtime
+ * measurement was blocked because pagination only triggers when the content
+ * count exceeds the per-page limit (currently only 6 products). This rule is
+ * preemptive — when content grows and pagination activates, .page-link will
+ * already meet the 44px floor on all viewports.
+ *
+ * Covers: pagination numbers, prev/next arrows (‹ ›), and ellipsis items.
+ * All .page-link elements are interactive so the floor applies to all.
+ *
+ * display: inline-flex + align-items: center ensures text/icon vertically
+ * centres inside the enlarged hit area. min-width: 44px ensures square
+ * pagination buttons (numbers) as well as the wider prev/next labels. */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    .page-link {
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
 /* task-2026-05-22-ef3960 / AI-877 P3 — Frontend bare <a> link colour (salmon → brand-blue).
  * Bootstrap template _variables.scss sets $link-color: #f4a261 (demo salmon),
  * which compiles into the `a { color: ... }` rule in app.css and trickles to
