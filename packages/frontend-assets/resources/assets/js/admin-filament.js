@@ -75,6 +75,21 @@ export class AdminFilament extends BaseComponent {
             this.removeLoadingClassToBody();
         })
 
+        // AI-925 / task-2026-05-22 — Livewire tables blank after CSRF mismatch.
+        // The custom VerifyCsrfToken middleware returns 400 on token mismatch;
+        // standard Laravel returns 419. Both indicate a stale CSRF token. Rather
+        // than silently leaving the table blank, we surface a dismissible banner
+        // so operators know they need to reload the page.
+        Livewire.hook('request', ({ fail }) => {
+            fail(({ status, preventDefault }) => {
+                if (status === 419 || status === 400) {
+                    this.removeLoadingClassToBody();
+                    this.showSessionExpiredBanner();
+                    preventDefault(); // suppress Livewire's own error handling
+                }
+            });
+        });
+
         //
         // Livewire.hook('morph.added', ({el, component}) => {
         //    // this.removeLoadingClassToBody();
@@ -95,6 +110,28 @@ export class AdminFilament extends BaseComponent {
         // Livewire.hook('morph.removing', () => {
         //  //   this.addLoadingClassToBody();
         // })
+    }
+
+    showSessionExpiredBanner() {
+        // Prevent stacking duplicate banners
+        if (document.getElementById('mw-session-expired-banner')) {
+            return;
+        }
+        const banner = document.createElement('div');
+        banner.id = 'mw-session-expired-banner';
+        banner.setAttribute('role', 'alert');
+        banner.innerHTML = `
+            <span>Your session has expired.</span>
+            <a href="javascript:void(0)" onclick="window.location.reload()" style="font-weight:600;text-decoration:underline;margin-left:8px;">Reload the page</a>
+            <button onclick="this.closest('#mw-session-expired-banner').remove()" aria-label="Dismiss" style="margin-left:12px;background:transparent;border:none;cursor:pointer;color:inherit;">✕</button>
+        `;
+        banner.style.cssText = [
+            'position:fixed', 'top:0', 'left:0', 'right:0', 'z-index:99999',
+            'background:#dc2626', 'color:#fff', 'padding:10px 20px',
+            'display:flex', 'align-items:center', 'justify-content:center',
+            'font-size:14px', 'font-family:inherit', 'gap:4px',
+        ].join(';');
+        document.body.prepend(banner);
     }
 
     addLoadingClassToBody() {
