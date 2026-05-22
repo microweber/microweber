@@ -3841,3 +3841,68 @@ html.dark body.fi-panel-admin .mw-admin-empty-state__heading {
 html.dark body.fi-panel-admin .mw-admin-empty-state__body {
     color: var(--ese-text-muted, #9ca3af);
 }
+
+/* task-2026-05-22-902abc / AI-902 — Quick AI Edit type groups + empty state */
+.quick-ai-type-group {
+    border-top: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+}
+.quick-ai-type-group:first-child {
+    border-top: none;
+}
+.quick-ai-type-group-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--space-xs, 6px) var(--space-sm, 8px);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: var(--font-label, 11px);
+    font-weight: var(--weight-label, 500);
+    letter-spacing: var(--letter-label, 0.01em);
+    text-transform: uppercase;
+    color: var(--ese-text-muted, #6b7280);
+    text-align: left;
+    gap: var(--space-xs, 6px);
+}
+.quick-ai-type-group-header:hover {
+    background: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+    border-radius: var(--radius-sm, 4px);
+}
+.quick-ai-type-group-body {
+    padding: 0 var(--space-xs, 6px) var(--space-xs, 6px);
+}
+.quick-ai-type-group[data-open="false"] .quick-ai-type-group-body {
+    display: none;
+}
+/* Empty state when no canvas section is selected */
+.mw-quick-ai-edit-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl, 42px) var(--space-md, 13px);
+    text-align: center;
+    gap: var(--space-sm, 8px);
+}
+.mw-quick-ai-edit-empty-state__icon {
+    color: var(--ese-text-muted, #9ca3af);
+    opacity: 0.6;
+}
+.mw-quick-ai-edit-empty-state__text {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    margin: 0;
+    max-width: 220px;
+    line-height: 1.4;
+}
+/* Dark mode */
+html.dark .quick-ai-type-group {
+    border-top-color: var(--ese-border, rgba(255, 255, 255, 0.08));
+}
+html.dark .quick-ai-type-group-header {
+    color: var(--ese-text-muted, #9ca3af);
+}
+html.dark .quick-ai-type-group-header:hover {
+    background: var(--ese-surface-hover, rgba(255, 255, 255, 0.04));
+}

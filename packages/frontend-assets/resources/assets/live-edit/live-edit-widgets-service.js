@@ -217,7 +217,7 @@ export class LiveEditWidgetsService extends BaseComponent{
             id: 'mw-live-edit-quickEditComponent-box',
             closeButton: true,
             closeButtonAction: closeButtonAction,
-            title: mw.lang('Quick Edit'),
+            title: mw.lang('Quick AI Edit'), // task-2026-05-22-902abc / AI-902 — matches button tooltip
             width: 'var(--sidebar-end-size)'
         });
 

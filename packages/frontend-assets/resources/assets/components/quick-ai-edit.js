@@ -1099,32 +1099,87 @@ export class QuickEditComponent extends MicroweberBaseClass {
                 if (!fieldGroups[sectionId]) {
                     fieldGroups[sectionId] = {
                         title: sectionTitle,
-                        nodes: [],
+                        // task-2026-05-22-902abc / AI-902 — type sub-groups inside each section card
+                        typeGroups: {
+                            headings: { nodes: [] },
+                            body:     { nodes: [] },
+                            ctas:     { nodes: [] },
+                            other:    { nodes: [] },
+                        },
                         parentEdit,
                     };
                 }
 
-                fieldGroups[sectionId].nodes.push(node);
+                // Route each field to its type sub-group
+                const _typeKey = /^H[1-6]$/.test(obj.tag) ? 'headings'
+                    : (obj.tag === 'P' || obj.tag === 'SPAN' || obj.tag === 'DIV' || obj.tag === 'LI' || obj.tag === 'BLOCKQUOTE') ? 'body'
+                    : (obj.tag === 'BUTTON' || obj.tag === 'A') ? 'ctas'
+                    : 'other';
+                fieldGroups[sectionId].typeGroups[_typeKey].nodes.push(node);
             }
         });
 
-        // Create card sections for each group
+        // task-2026-05-22-902abc / AI-902 — create section cards with type sub-groups
+        const _typeGroupOrder = ['headings', 'body', 'ctas', 'other'];
+        const _typeGroupLabels = {
+            headings: mw.lang('Headings'),
+            body:     mw.lang('Body text'),
+            ctas:     mw.lang('Buttons / CTAs'),
+            other:    mw.lang('Other'),
+        };
+
         Object.keys(fieldGroups).forEach((sectionId) => {
             const section = document.createElement("div");
             section.className = "quick-ai-card";
-            section.dataset.sectionId = sectionId; // Store section ID for future reference
+            section.dataset.sectionId = sectionId;
             section.$$edit = fieldGroups[sectionId].parentEdit;
 
-            const body = document.createElement("div");
-            body.className = "quick-ai-card-body";
+            _typeGroupOrder.forEach((typeKey) => {
+                const tg = fieldGroups[sectionId].typeGroups[typeKey];
+                if (!tg.nodes.length) return; // skip empty type groups
 
-            fieldGroups[sectionId].nodes.forEach((field) => {
-                body.appendChild(field);
+                const groupEl = document.createElement('div');
+                groupEl.className = 'quick-ai-type-group quick-ai-type-group--' + typeKey;
+                groupEl.dataset.open = 'true'; // default all expanded
+
+                const headerEl = document.createElement('button');
+                headerEl.type = 'button';
+                headerEl.className = 'quick-ai-type-group-header';
+                headerEl.textContent = _typeGroupLabels[typeKey];
+                headerEl.setAttribute('aria-expanded', 'true');
+                headerEl.addEventListener('click', function () {
+                    const isOpen = groupEl.dataset.open === 'true';
+                    groupEl.dataset.open = isOpen ? 'false' : 'true';
+                    headerEl.setAttribute('aria-expanded', String(!isOpen));
+                });
+
+                const bodyEl = document.createElement('div');
+                bodyEl.className = 'quick-ai-type-group-body';
+                tg.nodes.forEach((field) => bodyEl.appendChild(field));
+
+                groupEl.appendChild(headerEl);
+                groupEl.appendChild(bodyEl);
+                section.appendChild(groupEl);
             });
 
-            section.appendChild(body);
             editFieldsContainer.appendChild(section);
         });
+
+        // task-2026-05-22-902abc / AI-902 — no-selection empty state
+        if (!editFieldsContainer.firstChild) {
+            const _emptyEl = document.createElement('div');
+            _emptyEl.className = 'mw-quick-ai-edit-empty-state';
+            _emptyEl.innerHTML =
+                '<div class="mw-quick-ai-edit-empty-state__icon" aria-hidden="true">' +
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">' +
+                    '<path d="M3 12h18M3 6h18M3 18h18"/>' +
+                    '</svg>' +
+                '</div>' +
+                '<p class="mw-quick-ai-edit-empty-state__text">' +
+                    mw.lang('Click a section on the canvas to see editable fields') +
+                '</p>';
+            editFieldsContainer.appendChild(_emptyEl);
+        }
 
         // Add the organized fields container to the editor
         editor.appendChild(editFieldsContainer);
