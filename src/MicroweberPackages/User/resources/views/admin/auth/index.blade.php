@@ -306,14 +306,35 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
             border: 1px solid #bbf7d0;
         }
 
+        /* task-2026-05-22-834339 — WCAG 2.5.5 touch-target floor on
+           Remember me + Terms checkboxes. Tester measured 18×18px (checkbox)
+           and 93×20px (label) at 390×844 — both below the 44×44 floor.
+           Fix: expand the wrapper row to min-height 44px and make the label
+           fill it as an inline-flex row. Clicking anywhere on the label
+           still activates the checkbox (label[for] association). The native
+           checkbox glyph stays its standard size; only the tap area grows.
+           Covers both the Login (remember me) and Register (terms) checkboxes
+           since both use the same .checkbox-wrapper class. */
         .checkbox-wrapper {
             display: flex;
             align-items: center;
             gap: 8px;
+            min-height: 44px;
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper label {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
         }
 
         .checkbox-wrapper input[type="checkbox"] {
             width: auto;
+            min-width: 20px;
+            min-height: 20px;
+            cursor: pointer;
         }
 
         .logged-in-section {
