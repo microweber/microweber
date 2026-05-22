@@ -24,15 +24,19 @@ use Modules\Backup\SessionStepper;
 
 class BackupResource extends Resource
 {
+    // task-2026-05-22-f83bf6 / AI-764 — surfaces the Backup admin page at
+    // /admin/backup and adds it to the Settings sidebar.
     protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     protected static ?string $model = Backup::class;
 
     protected static ?string $recordTitleAttribute = 'filename';
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-uturn-left';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-archive-box';
 
-    protected static ?int $navigationSort = 9999;
+    protected static ?string $navigationLabel = 'Backup';
+
+    protected static ?int $navigationSort = 50;
 
     public static function getGloballySearchableAttributes(): array
     {
@@ -56,7 +60,6 @@ class BackupResource extends Resource
 
     public static $sessionId = null;
     private static $restoreFile = null;
-    protected static bool $shouldRegisterNavigation = false;
 
     public static $restoreType = null;
     public static string $description = 'Manage your backups, restore content, and download backup files';
@@ -64,6 +67,11 @@ class BackupResource extends Resource
     {
 
         return static::$description;
+    }
+
+    public static function getSlug(?\Filament\Panel $panel = null): string
+    {
+        return 'backup';
     }
 
 

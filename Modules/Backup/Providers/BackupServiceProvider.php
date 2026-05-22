@@ -20,6 +20,7 @@ use Modules\Backup\Console\Commands\Big2DemoSeedCommand;
 use Modules\Backup\Console\Commands\Big2InstallContentCommand;
 use Modules\Backup\Console\Commands\ShopDemoSeedCommand;
 use Modules\Backup\Console\Commands\TemplateSeedRegenerateCommand;
+use Modules\Backup\Filament\Pages\RestoreAdminPage;
 use Modules\Backup\Filament\Resources\BackupResource;
 use Modules\Backup\Filament\Resources\BackupScheduleResource;
 use Modules\Backup\Filament\Resources\BackupHistoryResource;
@@ -67,11 +68,12 @@ class BackupServiceProvider extends BaseModuleServiceProvider
             Big2InstallContentCommand::class,
         ]);
 
-        // Register Filament resources
+        // Register Filament resources and pages (task-2026-05-22-f83bf6 / AI-764)
         FilamentRegistry::registerResource(BackupResource::class);
         FilamentRegistry::registerResource(BackupResource::class, Settings::class);
         FilamentRegistry::registerResource(BackupScheduleResource::class);
         FilamentRegistry::registerResource(BackupHistoryResource::class);
+        FilamentRegistry::registerPage(RestoreAdminPage::class);
     }
 
     /**
