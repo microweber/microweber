@@ -90,17 +90,18 @@
             :class="{ 'mw-main-drawer--open': isOpen }"
             role="dialog"
             aria-modal="true"
-            aria-label="Main navigation"
+            aria-label="Navigation"
             :aria-hidden="!isOpen"
             ref="drawer"
         >
             <header class="mw-main-drawer__header">
-                <span class="mw-main-drawer__title">Menu</span>
+                <!-- AI-931 — renamed "Menu" to "Navigation" for contextual clarity -->
+                <span class="mw-main-drawer__title">Navigation</span>
                 <button
                     type="button"
                     class="mw-main-drawer__close"
-                    aria-label="Close menu"
-                    title="Close menu"
+                    aria-label="Close navigation"
+                    title="Close navigation"
                     @click="close()"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -168,8 +169,10 @@
                             data-mw-drawer-item="theme-settings"
                             @click="openThemeSettings()"
                         >
+                            <!-- AI-935 — changed from globe-like settings icon to paint-palette icon
+                                 to distinguish from "View public site" which also uses a globe. -->
                             <svg class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
-                                <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q34 0 60-26t26-60v-80h-80q-17 0-31.5-6.5T428-352l-46-46-130 26q-9 32 0 65t34 60q44 44 96 65.5t98 21.5Zm-40-280h80v-40h40v-80h-40v-40h-80v40h-40v80h40v40Zm346 60q9-32 9-66.5t-9-66.5l-69 18q-9-9-19-15.5T693-558l64-32q-15-50-46.5-94T637-757l-87 75q-11-3-23-5t-23-2v-80q41 0 81.5 11.5T658-722q33 25 60 58.5t44 71.5l-72 72Z"></path>
+                                <path d="M430-120q-104 0-177-73t-73-177q0-104 73-177t177-73q27 0 50.5 5t44.5 14l-24 23q-10-3-21.5-4.5T480-584q-83 0-141.5 58.5T280-384q0 83 58.5 141.5T480-184q83 0 141.5-58.5T680-384v-40h80v40q0 104-73 177t-177 73Zm176-240q-17 0-28.5-11.5T566-400q0-17 11.5-28.5T606-440q17 0 28.5 11.5T646-400q0 17-11.5 28.5T606-360Zm-252 0q-17 0-28.5-11.5T314-400q0-17 11.5-28.5T354-440q17 0 28.5 11.5T394-400q0 17-11.5 28.5T354-360Zm126-260q-17 0-28.5-11.5T440-660q0-17 11.5-28.5T480-700q17 0 28.5 11.5T520-660q0 17-11.5 28.5T480-620Zm-170 80q-17 0-28.5-11.5T270-580q0-17 11.5-28.5T310-620q17 0 28.5 11.5T350-580q0 17-11.5 28.5T310-540Zm340 0q-17 0-28.5-11.5T610-580q0-17 11.5-28.5T650-620q17 0 28.5 11.5T690-580q0 17-11.5 28.5T650-540Z"></path>
                             </svg>
                             <span class="mw-main-drawer__item-label">Theme settings</span>
                             <svg class="mw-main-drawer__item-affordance" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -280,11 +283,17 @@
                             @click="toggleTheme()"
                             :aria-pressed="theme === 'dark' ? 'true' : 'false'"
                         >
+                            <!-- AI-932 — icon now matches the TARGET state, not current state.
+                                 WCAG 1.3.3: sensory characteristics must align with text label.
+                                 Light mode active: moon icon + "Dark mode" label (both mean switch to dark).
+                                 Dark mode active: sun icon + "Light mode" label (both mean switch to light). -->
                             <svg v-if="theme === 'light'" class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
-                                <path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"></path>
+                                <!-- Moon: in light mode, clicking switches to dark mode -->
+                                <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"></path>
                             </svg>
                             <svg v-else class="mw-main-drawer__item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18" height="18" fill="currentColor" aria-hidden="true">
-                                <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"></path>
+                                <!-- Sun: in dark mode, clicking switches to light mode -->
+                                <path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"></path>
                             </svg>
                             <span class="mw-main-drawer__item-label">{{ theme === 'dark' ? 'Light mode' : 'Dark mode' }}</span>
                             <span class="mw-main-drawer__item-affordance mw-main-drawer__item-affordance--toggle" :data-state="theme === 'dark' ? 'on' : 'off'" aria-hidden="true">
@@ -297,9 +306,10 @@
                 </ul>
             </nav>
 
-            <!-- Footer Log out per L3.1. Stays separated from the 3
-                 above categories as the destructive-action slot. -->
+            <!-- AI-933 — added hr separator before footer logout to prevent accidental
+                 clicks on the destructive logout action. -->
             <footer class="mw-main-drawer__footer">
+                <hr class="mw-main-drawer__footer-divider" aria-hidden="true">
                 <a
                     v-if="logoutUrl"
                     :href="logoutUrl"
