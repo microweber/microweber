@@ -1768,6 +1768,78 @@ html.dark {
     }
 }
 
+/* task-2026-05-22-ea3b1f / AI-302 MEDIUM — BeforeAfter module .twentytwenty-handle touch-target.
+ *
+ * Tester measured the draggable divider handle at 38×38px at 390×844.
+ * The handle sits at the midpoint of the before/after image split and is the
+ * primary interactive affordance of the module — it must meet the 44×44px
+ * WCAG 2.5.5 floor.
+ *
+ * twentytwenty.css (the library stylesheet served from
+ * public/modules/before_after/css/twentytwenty.css) hard-codes width: 38px
+ * with no min-width override. We add min-width + min-height here in
+ * public-touch.css (loaded via Bootstrap template) rather than patching the
+ * library file, following the AI-517/AI-518/AI-522..AI-895 pattern.
+ *
+ * Inside the standard touch-viewport @media so desktop gets the native 38px
+ * handle size while mobile gets the enlarged touch target. */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    .twentytwenty-handle {
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
+
+/* task-2026-05-22-c71042 / AI-558 MEDIUM — Post module read-more link touch-target floor.
+ *
+ * Tester measured text-only read-more links at 16-21px height at 390×844.
+ * The Post module ships 30+ skin templates; only two use named CSS classes on
+ * the read-more anchor — the rest render bare `<a class="" itemprop="url">`.
+ *
+ * Named classes covered by this rule:
+ *   .skin-18--read-more-link  — used by skin-18.blade.php + pro_blog.blade.php
+ *   .mw-post-22-post-read-more — used by skin-22.blade.php
+ *
+ * AI-558a follow-up candidate: the remaining ~25 post skins render read-more
+ * via bare `<a class="" itemprop="url">` with no unique class to target.
+ * Fixing those requires adding a `.mw-post-read-more` class to each template
+ * — deferred pending explicit dispatch.
+ *
+ * Note: the PM's suggested .blog-posts selector does not match the actual
+ * templates, which use skin-specific wrappers (.blog-posts-1, .blog-posts-2,
+ * etc., not .blog-posts without a suffix). */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    .skin-18--read-more-link,
+    .mw-post-22-post-read-more {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* task-2026-05-22-af62dd / AI-303 MEDIUM — CookieNotice toggle option row touch-target.
+ *
+ * The CookieNotice module CSS defines a .switch (48×24px visual toggle track)
+ * and .cookie-option (flex row wrapping the switch + category label text).
+ * The toggle height 24px is below the 44×44px WCAG 2.5.5 floor.
+ *
+ * The default template (default.blade.php) does not currently render cookie
+ * category toggles — the current UI shows only Close / Learn more / Accept All
+ * (all three already at 44px per cookie-notice.css AI-551 rules). This rule
+ * is defensive, targeting the .cookie-option row wrapper for when a cookie
+ * preferences panel is added that renders per-category toggles.
+ *
+ * Pattern: enlarging the row wrapper (.cookie-option) preserves the visual
+ * 48×24px slider shape while extending the interactive tap area to the full
+ * row height — same pattern as the Filament checkbox wrapper (AI-517/AI-518). */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    .cookie-notice-wrapper .cookie-option {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+}
+
 /* task-2026-05-22-ef3960 / AI-877 P3 — Frontend bare <a> link colour (salmon → brand-blue).
  * Bootstrap template _variables.scss sets $link-color: #f4a261 (demo salmon),
  * which compiles into the `a { color: ... }` rule in app.css and trickles to
