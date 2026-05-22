@@ -2,6 +2,7 @@
 
 namespace Modules\Embed\Filament;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -28,11 +29,24 @@ class EmbedModuleSettings extends LiveEditModuleSettings
     {
         return $schema
             ->schema([
+                // task-2026-05-22-slice2-ai872 / AI-872 Slice 2 — Embed: code type + resizable textarea
+                Select::make('options.code_type')
+                    ->label('Code type')
+                    ->live()
+                    ->options([
+                        'html'       => 'HTML',
+                        'css'        => 'CSS',
+                        'javascript' => 'JavaScript',
+                    ])
+                    ->default('html')
+                    ->helperText('Select the type of code you are embedding.'),
+
                 Textarea::make('options.source_code')
                     ->label('Embed Code')
                     ->rows(10)
                     ->placeholder('Insert your embed code here')
-                    ->live(),
+                    ->live()
+                    ->extraInputAttributes(['style' => 'resize: vertical; min-height: 120px;']),
 
                 Toggle::make('options.hide_in_live_edit')
                     ->label('Hide in Live Edit')

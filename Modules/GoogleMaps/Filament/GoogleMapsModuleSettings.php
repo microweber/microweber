@@ -3,7 +3,9 @@
 namespace Modules\GoogleMaps\Filament;
 
 use Filament\Schemas\Components\Tabs;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
@@ -32,12 +34,38 @@ class GoogleMapsModuleSettings extends LiveEditModuleSettings
                                     ->label('Zip')
                                     ->live(),
                             ]),
+                        // task-2026-05-22-slice2-ai872 / AI-872 Slice 2 — GoogleMaps: zoom select + map type + marker
                         Tabs\Tab::make('Map')
                             ->schema([
-                                TextInput::make('options.data-zoom')
+                                Select::make('options.data-zoom')
                                     ->label('Zoom')
-                                    ->numeric()
-                                    ->live(),
+                                    ->live()
+                                    ->options([
+                                        '5'  => 'Country (5)',
+                                        '10' => 'City (10)',
+                                        '12' => 'District (12)',
+                                        '15' => 'Street (15)',
+                                        '18' => 'Building (18)',
+                                    ])
+                                    ->default('12'),
+
+                                Select::make('options.data-maptype')
+                                    ->label('Map type')
+                                    ->live()
+                                    ->options([
+                                        'roadmap'  => 'Road map',
+                                        'satellite' => 'Satellite',
+                                        'terrain'  => 'Terrain',
+                                        'hybrid'   => 'Hybrid',
+                                    ])
+                                    ->default('roadmap'),
+
+                                Toggle::make('options.data-show-marker')
+                                    ->label('Show marker')
+                                    ->live()
+                                    ->default(true)
+                                    ->helperText('Display a pin at the specified location.'),
+
                                 TextInput::make('options.data-width')
                                     ->label('Width')
                                     ->numeric()

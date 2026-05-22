@@ -80,6 +80,11 @@ class VideoModuleSettings extends LiveEditModuleSettings
 
                         Tabs\Tab::make('Settings')
                             ->schema([
+                                // task-2026-05-22-slice2-ai872 / AI-872 Slice 2 — Video: playback toggles
+                                // All 4 prescribed fields (Autoplay, Muted, Loop, Show Controls) already exist
+                                // as options.autoplay / options.muted / options.loop / options.hide_controls.
+                                // hide_controls is the semantic inverse of "Show controls" — default 0 means
+                                // controls are visible. No new fields needed; marker added for audit grep.
                                 Group::make([
                                     TextInput::make('options.width')
                                         ->label('Width')
