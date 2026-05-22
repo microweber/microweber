@@ -4146,3 +4146,27 @@ html.dark body.fi-panel-admin .fi-badge {
     /* Ensure readable text inside badges in dark mode */
     text-shadow: none !important;
 }
+
+/* ==========================================================================
+   AI-1030 / task-2026-05-22 — Products empty state: desaturate bright SVG
+   illustration in dark mode. The shopping illustration uses pink/teal/yellow
+   fills that clash with the dark admin background.
+   ========================================================================== */
+html.dark body.fi-panel-admin .mw-admin-empty-state-posts svg,
+html.dark body.fi-panel-admin .fi-ta-empty-state svg,
+html.dark body.fi-panel-admin [class*="empty-state"] svg {
+    filter: saturate(0.3) opacity(0.6) !important;
+}
+
+/* ==========================================================================
+   AI-1025 / task-2026-05-22 — Filter badge: visually hide when count is 0.
+   Filament renders a small badge on the Filters button showing how many filters
+   are active. "0" should not display when no filters are applied. The badge
+   element shows the number as text — we can't directly match text content in CSS
+   but we can hide the badge when the Filters popover is closed (no active filters).
+   JS-enhanced: admin-filament.js also hides zero badges on Livewire updates.
+   ========================================================================== */
+body.fi-panel-admin .fi-btn-badge[data-count="0"],
+body.fi-panel-admin .fi-ta-filters-btn .fi-badge:empty {
+    display: none !important;
+}

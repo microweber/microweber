@@ -812,13 +812,13 @@ class ContentResource extends Resource
                     }),
 
                 // URL slug moved out of the top-of-form field stack
-                // and into a collapsed "Permalink" section. Customers
-                // almost never set this manually — auto-generated
-                // from title. Power users can expand the section when
-                // they need to. task-2026-05-02-4c244f.
+                // AI-1029 / task-2026-05-22 — Permalink section expanded by default
+                // so editors can see and set the SEO-critical URL slug upfront.
+                // Previously collapsed; task-2026-05-02-4c244f rationale ("power users
+                // can expand when needed") updated per designer feedback that hiding it
+                // by default caused operators to miss the SEO field entirely.
                 Schemas\Components\Section::make('Permalink')
                     ->description('URL slug for this content. Leave blank to auto-generate from the title.')
-                    ->collapsed()
                     ->collapsible()
                     ->compact()
                     ->columnSpanFull()
@@ -2025,8 +2025,10 @@ return \MicroweberPackages\User\Models\User::query()
         return $table
             ->recordAction(null)
             ->recordUrl(null)
+            // AI-1026 / task-2026-05-22 — reduced default per-page from 250 to 25.
+            // 250 caused performance issues on sites with large content libraries.
             ->paginated([10, 25, 50, 100, 250, 'all'])
-            ->defaultPaginationPageOption(250)
+            ->defaultPaginationPageOption(25)
             ->deferLoading()
             ->searchable(true)
             ->reorderable('position')

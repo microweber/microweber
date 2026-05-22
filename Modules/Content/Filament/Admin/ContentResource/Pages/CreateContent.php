@@ -130,10 +130,14 @@ class CreateContent extends CreateRecord
             $editAction = Actions\Action::make('liveEditIframe')->action('saveContentAndGoLiveEditIframe');
         }
 
+        // AI-1027 / task-2026-05-22 — Live edit uses 'gray' (secondary) so Save (primary blue)
+        // has clear visual hierarchy. Both buttons were previously blue ('info' vs 'primary').
+        // AI-1028 / task-2026-05-22 — Label "Save & Live Edit" makes the auto-save intent
+        // explicit. Previously "Live edit" silently saved without the user expecting it.
         $editAction->icon('heroicon-m-eye')
-            ->label('Live edit')
+            ->label('Save & Live Edit')
             ->size('xl')
-            ->color('info');
+            ->color('gray');
 
         $actions[] = $editAction;
 
