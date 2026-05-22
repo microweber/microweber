@@ -1624,14 +1624,26 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
        = visual=-272 (off-screen). Fix: explicit `transform: none`
        to neutralise the inherited translateX. The animation
        keyframe still works — keyframes override `transform: none`
-       during animation, then settle to it post-animation. */
+       during animation, then settle to it post-animation.
+
+       task-2026-05-22-6eb365 / AI-751 CHANGE — Filament v5 emits a
+       centering `transform: translateX(-50%)` with higher specificity
+       in some panel configurations. Unimportant `transform: none`
+       lost the cascade race, causing the modal to render half
+       off-screen at 1280px. Fix: promote to `!important`.
+       Also add `max-width: min(var(--size, 42rem), calc(100vw - 80px))`
+       as a viewport-overflow safety net — the inner `--size` token
+       (set by `modalWidth(MaxWidth::TwoExtraLarge)` = 42rem = 672px)
+       is respected when it fits; when it doesn't, the clamp prevents
+       the modal from extending beyond the right viewport edge. */
     .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) .fi-modal-window.mw-content-picker-modal {
         position: fixed;
         top: calc(var(--toolbar-height, 60px) + var(--space-xs, 6px));
         inset-inline-start: 64px;
         margin: 0;
-        transform: none;
+        transform: none !important;
         transform-origin: top left;
+        max-width: min(var(--size, 42rem), calc(100vw - 80px));
         animation: mw-add-content-picker-open var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
     }
 

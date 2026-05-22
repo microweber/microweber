@@ -133,13 +133,19 @@ class AddContent968a71AI692TwoGroupLayoutContractTest extends TestCase
     }
 
     #[Test]
-    public function secondary_grid_uses_responsive_2col_to_3col(): void
+    public function secondary_grid_always_three_columns(): void
     {
-        // Spec §6: 2-col mobile (default), 3-col at sm: breakpoint
+        // task-2026-05-21-30040a / AI-870 PIN-EVOLUTION:
+        // Original AI-692 spec §6 shipped `grid-cols-2 sm:grid-cols-3`.
+        // AI-870 Z-flow root cause investigation found the 2→3 col
+        // transition caused a layout reflow artefact at viewport resize
+        // inside the picker (which is always ≥618px wide as a fixed
+        // modal). Always-3 col removes the reflow without any UX loss.
+        // Assertion updated from `sm:grid-cols-3` to `grid-cols-3` only.
         $this->assertMatchesRegularExpression(
-            '/mw-add-content-group__items\s+grid\s+grid-cols-2\s+sm:grid-cols-3\s+gap-3/',
+            '/mw-add-content-group__items\s+grid\s+grid-cols-3\s+gap-3/',
             $this->blade,
-            'Secondary grid must be grid-cols-2 sm:grid-cols-3 per spec §6.'
+            'Secondary grid must be grid-cols-3 (always 3 columns, per AI-870 Z-flow fix — was grid-cols-2 sm:grid-cols-3 in original AI-692 ship).'
         );
     }
 

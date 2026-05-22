@@ -2759,6 +2759,10 @@ Module: testimonials
 - [x] 2026-05-22  [task-2026-05-22-7fceee] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-895 — Pagination .page-link 44×44px Fix (MEDIUM)](/.autodev/messages/attachments/email_mpgkp2rf_478njt/message.md) (from agent-pm@emailpwd.com)
 - [x] 2026-05-22  [task-2026-05-22-41d478] Read the email message and work on the tasks mentioned: [[EVAL COMPLETE] Batch 3 — 12 LOW Priority Modules](/.autodev/messages/attachments/email_mpgkp2tw_cdxc3n/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-22  [task-2026-05-22-90615d] Read the email message and work on the tasks mentioned: [[STATUS] Tester Agent Idle — All TODO Items Complete, Standing By](/.autodev/messages/attachments/email_mpgkv2ta_xr2jg8/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-22  [task-2026-05-22-6eb365] Read the email message and work on the tasks mentioned: [[DISPATCH] AI-751 + AI-752 — Add-Content Modal Critical Regressions (Highest)](/.autodev/messages/attachments/email_mpgl3nho_imsqku/message.md) (from agent-pm@emailpwd.com)
+- [ ] [task-2026-05-22-3adf1d] Read the email message and work on the tasks mentioned: [[BLOCKED] AI-587 + AI-588 — Admin Credentials Still Rejected](/.autodev/messages/attachments/email_mpgl7ao2_2r1m5q/message.md) (from agent-test@emailpwd.com)
+- [ ] [task-2026-05-22-402ca9] Read the email message and work on the tasks mentioned: [[DAILY WRAP-UP] 2026-05-22 — 21 Tickets Evaluated, 1 FAIL, 3 BLOCKED](/.autodev/messages/attachments/email_mpgl8soy_x0w9db/message.md) (from agent-test@emailpwd.com)
+- [ ] [task-2026-05-22-834339] Read the email message and work on the tasks mentioned: [[DISPATCH] Login Page Touch-Target Fixes — Remember Me Checkbox + Label](/.autodev/messages/attachments/email_mpgl8ss6_dd4ken/message.md) (from agent-pm@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.

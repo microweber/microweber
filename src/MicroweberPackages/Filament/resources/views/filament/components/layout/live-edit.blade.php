@@ -128,6 +128,16 @@
             if (window.__mwAddContentModalRegistered) return;
             window.__mwAddContentModalRegistered = true;
             window.Alpine.data('addContentModal', factory);
+
+            // task-2026-05-22-6eb365 / AI-752 — DOM-already-live guard.
+            // Edge case: if the modal is already in the DOM when the factory
+            // registers (e.g. on Livewire full-page component reload), Alpine
+            // has already processed the element and found no factory, leaving
+            // it with visible unprocessed x-data. Manually re-init the subtree.
+            const existingModal = document.querySelector('[x-data="addContentModal"]');
+            if (existingModal && typeof window.Alpine.initTree === 'function') {
+                window.Alpine.initTree(existingModal);
+            }
         };
 
         // Eager: if Alpine is already running by the time this script
@@ -138,6 +148,17 @@
         } else {
             document.addEventListener('alpine:init', register);
         }
+
+        // task-2026-05-22-6eb365 / AI-752 — Livewire navigation listener.
+        // Livewire v4 `navigate` feature re-renders the admin frame without
+        // a full page reload, resetting window.__mwAddContentModalRegistered
+        // to undefined without re-executing @push('scripts'). Adding a
+        // `livewire:navigated` listener re-registers the factory so the modal
+        // stays functional after Livewire-driven panel navigation.
+        document.addEventListener('livewire:navigated', function () {
+            window.__mwAddContentModalRegistered = false;
+            register();
+        });
     })();
 </script>
 

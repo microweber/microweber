@@ -16580,8 +16580,9 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     top: calc(var(--toolbar-height, 60px) + var(--space-xs, 6px));
     inset-inline-start: 64px;
     margin: 0;
-    transform: none;
+    transform: none !important;
     transform-origin: top left;
+    max-width: min(var(--size, 42rem), calc(100vw - 80px));
     animation: mw-add-content-picker-open var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
   }
   .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) > .fi-modal-close-overlay, .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) .fi-modal-close-overlay {
