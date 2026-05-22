@@ -4,6 +4,20 @@
 
 ---
 
+## 2026-05-22 — Playwright admin field injection: `.type()` for username, `input.value` assignment for password (AI-504..509 / tester 2026-05-22)
+
+- **Pattern:** When logging into `/admin/login` via Playwright, the username field accepts `.type()` but the password field rejects it because Filament's "show/hide password" toggle-mask fires `input` events that interfere with the typed value. The correct injection sequence is: `await page.locator('input[name="email"]').type('admin@admin.com')` followed by `await page.locator('input[name="password"]').fill('')` + direct `element.value = 'admin123'` via `page.evaluate()`.
+- **Why it happened:** Filament v5's password input wraps in a Livewire component with a visibility-toggle listener. The `.fill()` Playwright method dispatches synthetic events; the Livewire listener intercepts these and resets the field before submission.
+- **Prevention rule:** For Playwright tests that must authenticate against the Filament admin panel: use `.type()` for the email field (fires real keydown events) + `page.evaluate(el => el.value = '...', passwordHandle)` for the password field to bypass the toggle-mask event listener. Valid credentials: `admin@admin.com` / `admin123` (or as set via `php artisan tinker`).
+- **Applies when:** Any Playwright or Dusk test that attempts to log into `/admin/login`; runtime verification requiring an authenticated admin session.
+
+## 2026-05-22 — Pure-wrapper modules (Audio, Google Maps, Video) declare PASS/N/A on touch-target audits (AI-296/298 / tester 2026-05-22)
+
+- **Pattern:** Some Microweber modules are pure wrappers around browser-native controls (Audio → `<audio controls>`) or third-party iframes (Google Maps, Video → YouTube/Vimeo embed). These modules ship zero Microweber-specific CSS classes on interactive elements. A touch-target audit on these modules should declare PASS/N/A rather than flagging a failure, because there are no Microweber-owned selectors to fix.
+- **Why it happened:** Tester auditing AI-296 (Audio) and AI-298 (Google Maps) initially expected to find Microweber-styled controls like `.btn` or `.mw-*` classes. After confirming the modules emit only native HTML elements or third-party iframes, both were declared PASS/N/A.
+- **Prevention rule:** Before writing a touch-target fix for a module, grep its template(s) for Microweber-owned interactive classes: `grep -rn 'class="[^"]*\(btn\|mw-\)' Modules/<Name>/resources/views/templates/`. If no Microweber classes are found on interactive elements, declare PASS/N/A in the SHIP report and close the ticket without a fix. Document the rationale in the JIRA comment.
+- **Applies when:** Touch-target audit dispatches for media modules (Audio, Video), embed modules (GoogleMaps, YouTube, Vimeo), or any module whose primary interactive surface is a browser-native control or third-party embedded widget.
+
 ## 2026-05-22 — Filament v5 `getSlug()` override must include `?\Filament\Panel $panel = null` parameter (AI-764 / task-2026-05-22-f83bf6)
 
 - **Pattern:** When overriding `getSlug()` in a Filament v5 `Resource` or `Page` subclass, omitting the optional panel parameter causes a fatal PHP declaration incompatibility error at runtime: "Declaration of `MyClass::getSlug(): string` must be compatible with `Filament\Resources\Resource::getSlug(?Filament\Panel $panel = null): string`".

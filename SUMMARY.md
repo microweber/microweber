@@ -357,6 +357,8 @@
 
 ## Gotchas & Known Issues
 - The local Apache-served runtime in this environment returns `404` for `/admin/login` even though `http://127.0.0.1` responds with `200`, so browser verification can fail for environment reasons rather than app regressions.
+- **Playwright admin field injection quirk** (tester discovery 2026-05-22): Filament's password visibility-toggle fires `input` events that reset the field when `.fill()` is used. Correct sequence: `.type()` for email (fires real keydown events) + `page.evaluate(el => el.value = 'password', handle)` to bypass the toggle-mask for the password field. Valid local-dev credentials: `admin@admin.com` / `admin123`.
+- **Pure-wrapper modules declare PASS/N/A on touch-target audits** (tester discovery 2026-05-22 — AI-296 Audio, AI-298 GoogleMaps): modules that emit only browser-native controls (`<audio controls>`) or third-party iframes have zero Microweber-owned interactive CSS classes. Before writing a touch-target fix, `grep -rn 'class="[^"]*\(btn\|mw-\)' Modules/<Name>/resources/views/templates/` — if no Microweber classes found, declare PASS/N/A.
 - The full PHP test surface is intentionally split by `run-tests.sh` because long single-process runs hit PHP memory fragmentation/OOM issues (~6 MB/test leak).
 - The root repo now documents PHPUnit + `run-tests.sh` as the active entrypoints; the remaining Pest helper files under `docs/testing/` are optional scaffolding only, not live root configuration.
 - Live-edit theme helpers must stay scoped to `.mw-admin-live-edit-page`; unscoped Filament tab/input/modal overrides leak into unrelated admin screens and create recurring visual regressions.
