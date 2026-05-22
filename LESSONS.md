@@ -4,6 +4,27 @@
 
 ---
 
+## 2026-05-22 — Filament v5 `getSlug()` override must include `?\Filament\Panel $panel = null` parameter (AI-764 / task-2026-05-22-f83bf6)
+
+- **Pattern:** When overriding `getSlug()` in a Filament v5 `Resource` or `Page` subclass, omitting the optional panel parameter causes a fatal PHP declaration incompatibility error at runtime: "Declaration of `MyClass::getSlug(): string` must be compatible with `Filament\Resources\Resource::getSlug(?Filament\Panel $panel = null): string`".
+- **Why it happened:** The Filament v5 parent class added an optional parameter to `getSlug()` for multi-panel support. Simple overrides without this parameter break PHP's strict method signature compatibility rule (even though the parameter is optional in callsites).
+- **Prevention rule:** Always declare `getSlug()` overrides with the full Filament v5 signature: `public static function getSlug(?\Filament\Panel $panel = null): string`. This applies to both `Resource` subclasses AND `Page` subclasses. The parameter is nullable so all existing callsites continue to work. PHPUnit contract-test regex for this signature must use `\([^)]*\)` not `\(\)` to allow for the optional parameter: `~function\s+getSlug\([^)]*\)[^{]*\{[^}]*return\s+'slug'~s`.
+- **Applies when:** Any time you add or override `getSlug()` in a Filament v5 Resource, Page, or other panel class.
+
+## 2026-05-22 — `$shouldRegisterNavigation = false` hides Resource from sidebar but keeps URLs functional (AI-764 / task-2026-05-22-f83bf6)
+
+- **Pattern:** A Filament Resource with `protected static bool $shouldRegisterNavigation = false;` will not appear in the admin sidebar. All `/admin/<resource-slug>/*` URLs still respond (HTTP 200) when visited directly. The symptom — "all guessed URLs return 404" — is a navigation issue, not a routing issue.
+- **Why it happened:** The property was set to prevent an incomplete resource from cluttering the sidebar during development. Over time the resource was completed but the navigation-suppression property was not removed.
+- **Prevention rule:** When `/admin/<slug>` returns 404 on a Filament resource that you know exists in the codebase, check for `$shouldRegisterNavigation = false` BEFORE assuming the resource is missing or unregistered. Remove the property to restore navigation. Also ensure `$navigationIcon`, `$navigationLabel`, `$navigationGroup`, and `$navigationSort` are set for the sidebar entry to be well-formed.
+- **Applies when:** Investigating missing admin sidebar entries; debugging `/admin/*` 404s on known Filament resources.
+
+## 2026-05-22 — CSS multi-selector trailing comma requires different regex in contract tests (AI-766 / task-2026-05-22-f8a011)
+
+- **Pattern:** A CSS rule block with a comma-separated multi-selector has its first selector followed by `,`, not `{`. Contract-test regex asserting `property: value` inside such a block will silently fail if it expects `\{` immediately after the first selector.
+- **Why it happened:** The AI-766 rule was written as: `body.fi-panel-admin .fi-page > .fi-form,\nbody.fi-panel-admin .fi-page-content > .fi-form { padding-bottom: 72px; }`. Initial regex `~\.fi-page\s*>\s*\.fi-form\s*\{[^}]*padding-bottom~s` never matched because `.fi-form` is followed by `,` not `{`.
+- **Prevention rule:** When the target CSS selector is part of a comma-separated multi-selector, use a trailing-comma discriminator in the regex: `~\.fi-page\s*>\s*\.fi-form\s*,[\s\S]*?padding-bottom:\s*72px~s`. The `,` after the selector ensures the regex matches the correct multi-selector block and not a different block where the selector appears as a simple prefix.
+- **Applies when:** Writing contract tests for CSS rules that use comma-separated multi-selectors; any time a CSS selector can appear as both a standalone selector and as the first member of a multi-selector list.
+
 ## 2026-05-22 — Prefer targeted Blade class change over broad global CSS when a Tailwind utility appears in multiple sibling elements (AI-881 FAIL #3 / task-2026-05-22-ba0702)
 
 - **Pattern:** Dispatch suggested `.p-2 { min-height:44px }` in public-touch.css to fix a cart remove button. The remove button uses `p-2` but so do two non-button siblings in the same Livewire component: `<h3 class="... p-2">` (item title) and `<p class="... p-2">` (price). A global `.p-2 { min-height:44px }` would silently apply to all three — setting `min-height: 44px` on a `<h3>` and `<p>` is not harmful but is unintended. The dispatch explicitly offered "OR change `p-2` → `p-3`" as an alternative.
