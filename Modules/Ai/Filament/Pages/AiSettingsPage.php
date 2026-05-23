@@ -131,6 +131,14 @@ Toggle::make('options.ai.enabled')
 ->offIcon('heroicon-m-x-mark')
 ->helperText('Enable or disable all AI features globally'),
 
+// task-2026-05-23-0b73f1 / AI-1059 — show hint when AI is disabled explaining that
+// enabling it reveals the provider/API-key configuration sections below.
+// The toggle already has ->live() so sections appear immediately on toggle.
+Placeholder::make('ai_disabled_hint')
+    ->hiddenLabel()
+    ->hidden(fn(callable $get) => (bool) $get('options.ai.enabled'))
+    ->content(new \Illuminate\Support\HtmlString('<p style="color:#6b7280;font-size:13px;margin:0;">Enable AI Functionality above to configure providers (OpenAI, Gemini, Ollama, etc.) and API keys.</p>')),
+
 Toggle::make('options.ai.debug_mode')
 ->visible(fn(callable $get) => $get('options.ai.enabled'))
 ->label('Debug Mode')
