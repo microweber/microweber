@@ -4,6 +4,7 @@ namespace MicroweberPackages\User\Filament\Resources;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use MicroweberPackages\Role\Models\Role;
@@ -36,35 +37,37 @@ public static function form(Schema $schema): Schema
             ->schema([
                 TextInput::make('first_name'),
                 TextInput::make('last_name'),
+                // task-2026-05-23-b3f5df / AI-1050 — autocomplete="off" prevents browser
+                // from pre-filling admin's own credentials into the new-user form.
                 TextInput::make('username')->unique(
                     ignoreRecord: true,
-                ),
+                )->extraInputAttributes(['autocomplete' => 'off']),
                 TextInput::make('email')->email()->required()->unique(
                     ignoreRecord: true,
-                ),
+                )->extraInputAttributes(['autocomplete' => 'off']),
                 TextInput::make('password')
                     ->password()
                     ->required(fn (string $operation): bool => $operation === 'create')
                     ->dehydrated(fn (?string $state): bool => filled($state))
                     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                     ->confirmed()
-                    ->minLength(4),
+                    ->minLength(4)
+                    ->extraInputAttributes(['autocomplete' => 'new-password']),
                 TextInput::make('password_confirmation')
                     ->password()
                     ->required(fn (string $operation): bool => $operation === 'create')
-                    ->dehydrated(false),
-                Select::make('is_admin')
+                    ->dehydrated(false)
+                    ->extraInputAttributes(['autocomplete' => 'new-password']),
+                // task-2026-05-23-6579bd / AI-1051 — boolean fields use Toggle (consistent
+                // with Published, Autoplay, Muted etc. across all other admin forms).
+                // Is Admin defaults to false (new users are not admins by default).
+                // Is Active defaults to true (new users should be active immediately).
+                Toggle::make('is_admin')
                     ->label('Is Admin')
-                    ->options([
-                        '0' => 'No',
-                        '1' => 'Yes',
-                    ]),
-                Select::make('is_active')
+                    ->default(false),
+                Toggle::make('is_active')
                     ->label('Is Active')
-                    ->options([
-                        '0' => 'No',
-                        '1' => 'Yes',
-                    ]),
+                    ->default(true),
                 Select::make('roles')
                     ->label('Roles')
                     ->multiple()
