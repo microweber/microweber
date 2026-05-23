@@ -98,11 +98,14 @@ class MarketplaceResource extends Resource
                     // Truncated to 120 chars (Filament default ellipsis) so
                     // long descriptions don't blow up the card grid; full
                     // description still visible in the view-details slide-over.
+                    // task-2026-05-23-70fca2 / AI-1048 — hide row when description is empty;
+                    // MarketplaceItem now defaults to '' instead of 'No description'.
                     Tables\Columns\TextColumn::make('description')
                         ->limit(120)
                         ->color('gray')
                         ->size(\Filament\Support\Enums\TextSize::Small)
                         ->columnSpanFull()
+                        ->placeholder(null)
                         ->extraAttributes(['class' => 'mw-marketplace-card-description']),
 
                     BadgesColumn::make('badges')->badges(function (MarketplaceItem $marketplaceItem) {

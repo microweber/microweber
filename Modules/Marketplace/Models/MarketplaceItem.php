@@ -129,7 +129,9 @@ class MarketplaceItem extends Model
             $item['versions'] = json_encode($latestVersion['versions']);
             $item['author_name'] = false;
             $item['author_email'] = false;
-            $item['description'] = 'No description';
+            // task-2026-05-23-70fca2 / AI-1048 — omit uninformative fallback; empty string
+            // collapses the description row in the card rather than showing 'No description'.
+            $item['description'] = '';
             $item['tags'] = 'No tags';
             $item['request_license'] = 0;
 
