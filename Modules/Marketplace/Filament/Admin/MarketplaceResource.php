@@ -420,130 +420,18 @@ class MarketplaceResource extends Resource
                     ]),
 
             ])
-            ->bulkActions([
-                Tables\Actions\BulkAction::make('install')
-                    ->label('Install Selected')
-                    ->icon('heroicon-o-cloud-arrow-down')
-                    ->color('success')
-                    ->requiresConfirmation()
-                    ->modalHeading('Install Selected Modules')
-                    ->modalDescription('Are you sure you want to install the selected modules?')
-                    ->modalSubmitActionLabel('Yes, Install')
-                    ->action(function (array $records) {
-                        $runner = new MicroweberComposerClient();
-                        $results = [];
-                        foreach ($records as $record) {
-                            try {
-                                if (!$record->has_current_install && $record->available_for_install) {
-                                    $installResults = $runner->requestInstall([
-                                        'require_name' => $record->internal_name,
-                                        'require_version' => $record->version,
-                                    ]);
-                                    $results[] = [
-                                        'name' => $record->name,
-                                        'status' => isset($installResults['success']) ? 'success' : 'error',
-                                        'message' => $installResults['success'] ?? ($installResults['error'] ?? 'Unknown error'),
-                                    ];
-                                }
-                            } catch (\Exception $e) {
-                                $results[] = [
-                                    'name' => $record->name,
-                                    'status' => 'error',
-                                    'message' => $e->getMessage(),
-                                ];
-                            }
-                        }
-                        
-                        // Clear marketplace cache after bulk install
-                        Cache::forget('livewire-marketplace');
-                        
-                        return redirect()->back()->with('bulkInstallResults', $results);
-                    }),
-                Tables\Actions\BulkAction::make('update')
-                    ->label('Update Selected')
-                    ->icon('heroicon-o-arrow-path')
-                    ->color('primary')
-                    ->requiresConfirmation()
-                    ->modalHeading('Update Selected Modules')
-                    ->modalDescription('Are you sure you want to update the selected modules to their latest versions?')
-                    ->modalSubmitActionLabel('Yes, Update')
-                    ->visible(function ($records) {
-                        foreach ($records as $record) {
-                            if ($record->has_update) {
-                                return true;
-                            }
-                        }
-                        return false;
-                    })
-                    ->action(function (array $records) {
-                        $runner = new MicroweberComposerClient();
-                        $results = [];
-                        foreach ($records as $record) {
-                            try {
-                                if ($record->has_update && $record->has_current_install) {
-                                    $updateResults = $runner->requestInstall([
-                                        'require_name' => $record->internal_name,
-                                        'require_version' => $record->version,
-                                    ]);
-                                    $results[] = [
-                                        'name' => $record->name,
-                                        'status' => isset($updateResults['success']) ? 'success' : 'error',
-                                        'message' => $updateResults['success'] ?? ($updateResults['error'] ?? 'Unknown error'),
-                                    ];
-                                }
-                            } catch (\Exception $e) {
-                                $results[] = [
-                                    'name' => $record->name,
-                                    'status' => 'error',
-                                    'message' => $e->getMessage(),
-                                ];
-                            }
-                        }
-                        
-                        // Clear marketplace cache after bulk update
-                        Cache::forget('livewire-marketplace');
-                        
-                        return redirect()->back()->with('bulkUpdateResults', $results);
-                    }),
-                Tables\Actions\DeleteBulkAction::make()
-                    ->label('Uninstall Selected')
-                    ->icon('heroicon-o-trash')
-                    ->requiresConfirmation()
-                    ->modalHeading('Uninstall Selected Modules')
-                    ->modalDescription('Are you sure you want to uninstall the selected modules? This action cannot be undone.')
-                    ->modalSubmitActionLabel('Yes, Uninstall')
-                    ->action(function (array $records) {
-                        $moduleManager = new ModuleManager();
-                        $results = [];
-                        foreach ($records as $record) {
-                            try {
-                                if ($record->has_current_install) {
-                                    // Extract module name from internal_name (e.g., "microweber-modules/shop" -> "shop")
-                                    $moduleName = explode('/', $record->internal_name);
-                                    $moduleName = end($moduleName);
-                                    
-                                    $moduleManager->uninstall(['for_module' => $moduleName]);
-                                    $results[] = [
-                                        'name' => $record->name,
-                                        'status' => 'success',
-                                        'message' => 'Uninstalled successfully',
-                                    ];
-                                }
-                            } catch (\Exception $e) {
-                                $results[] = [
-                                    'name' => $record->name,
-                                    'status' => 'error',
-                                    'message' => $e->getMessage(),
-                                ];
-                            }
-                        }
-                        
-                        // Clear marketplace cache after bulk uninstall
-                        Cache::forget('livewire-marketplace');
-                        
-                        return redirect()->back()->with('bulkUninstallResults', $results);
-                    }),
-            ]);
+            // task-2026-05-23-78fbf1 / AI-1052 — empty bulkActions removes card
+            // checkboxes that appeared inert (no visible bulk-action toolbar in
+            // Filament v5 contentGrid layout). Individual install/update/uninstall
+            // actions remain on each card. AI-1052a filed to restore bulk operations
+            // once the grid-view selection affordance is resolved.
+            // task-2026-05-23-78fbf1 / AI-1052 — checkboxes removed.
+            // In Filament v5 contentGrid layout, the bulk-action selection toolbar
+            // did not render visibly when cards were checked — the checkboxes appeared
+            // completely inert. Empty array removes the selection affordance.
+            // Per-card install/update/uninstall actions remain in ->actions([...]) above.
+            // AI-1052a filed to restore bulk operations once grid-view selection UX resolved.
+            ->bulkActions([]);
     }
 
 public static function infolist(Schema $schema): Schema
