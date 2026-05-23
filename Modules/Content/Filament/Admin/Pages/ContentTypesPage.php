@@ -81,8 +81,9 @@ class ContentTypesPage extends Page
         return 'Content Types';
     }
 
+    // task-2026-05-23-78686e / AI-1044 — user-facing copy replaces developer language.
     public function getSubheading(): ?string
     {
-        return 'Distinct content_type values stored in the content table. Phase 1 — read-only listing.';
+        return "Manage your site's content structure. Add custom field schemas to pages, posts, and products.";
     }
 }
