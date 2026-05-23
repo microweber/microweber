@@ -20,6 +20,21 @@ class SubscribersChart extends ChartWidget
         return 'line';
     }
 
+    // task-2026-05-23-b59ecf / AI-1056 — clamp Y-axis minimum to 0.
+    // Chart.js auto-scales to -1..1 when all data points are 0, making
+    // an empty subscriber chart show negative counts which is nonsensical.
+    protected function getOptions(): array
+    {
+        return [
+            'scales' => [
+                'y' => [
+                    'min' => 0,
+                    'ticks' => ['precision' => 0],
+                ],
+            ],
+        ];
+    }
+
     protected function getData(): array
     {
         $startDate = Carbon::now()->subMonths(6);
