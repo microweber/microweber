@@ -39,7 +39,10 @@ class MarketplaceResource extends Resource
 
     protected static ?string $breadcrumb = 'Marketplace';
 
-    protected static ?string $pluralLabel = 'Marketplaces';
+    // task-2026-05-23-b66561 / AI-1047 — match sidebar nav label (singular 'Marketplace').
+    // Filament uses $pluralLabel for the list-page heading; overriding it prevents
+    // the auto-pluralisation that would render 'Marketplaces'.
+    protected static ?string $pluralLabel = 'Marketplace';
 
     protected static ?string $slug = 'marketplace';
 
