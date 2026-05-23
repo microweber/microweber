@@ -49,6 +49,9 @@ class KitchenSink extends Page
     protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
     protected static ?int $navigationSort = 99;
 
+    // task-2026-05-23-cc3b22 / AI-1053 — description for settings hub card.
+    public static string $description = 'UI component showcase and developer tools for testing Filament form components.';
+
     public int $star = 0;
     public int $resetStars = 0;
 

@@ -22,6 +22,9 @@ class ApiApplicationsPage extends Page
     protected static string|\UnitEnum|null $navigationGroup = 'System Settings';
     protected static ?int $navigationSort = 2500;
 
+    // task-2026-05-23-cc3b22 / AI-1053 — description for settings hub card.
+    public static string $description = 'Manage OAuth API keys, personal access tokens, and third-party application access.';
+
     protected string $view = 'user::filament.pages.api-applications';
 
     public array $applications = [];

@@ -56,6 +56,9 @@ class WordPressMigrationImportPage extends Page
     // sibling WordPressMigrationResource so every data-movement
     // tool is in one place.
     protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
+
+    // task-2026-05-23-cc3b22 / AI-1053 — description for settings hub card.
+    public static string $description = 'Migrate content, pages, posts, and media from an existing WordPress site.';
     protected string $view = 'microweber-module-wordpressmigration::pages.import';
 
     public ?array $data = [

@@ -35,6 +35,9 @@ class RestoreAdminPage extends Page implements HasTable
 
     protected static ?string $navigationLabel = 'Restore';
 
+    // task-2026-05-23-cc3b22 / AI-1053 — description for settings hub card.
+    public static string $description = 'Restore your website from a previous backup file.';
+
     protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     protected static ?int $navigationSort = 51;
