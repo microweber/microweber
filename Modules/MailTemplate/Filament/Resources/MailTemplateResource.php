@@ -17,6 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Filament\Support\AdminFixtureGuard;
 use Modules\MailTemplate\Services\MailTemplateService;
 
 class MailTemplateResource extends Resource
@@ -160,6 +161,25 @@ class MailTemplateResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            // task-2026-05-23-73e461 / AI-1055 — filter Faker/test records from production list.
+            // The "Updated" record (name='Updated', Latin subject) was created by a test run
+            // against the dev DB. We exclude rows where the subject contains any of the
+            // AdminFixtureGuard's Faker lorem-ipsum words (the Latin text key-word list).
+            // The name='Updated' alone is too generic to filter on; the Latin subject is the
+            // reliable discriminator.
+            ->modifyQueryUsing(function (Builder $query) {
+                // Build a NOT LIKE exclusion for each Faker lorem ipsum keyword.
+                // AdminFixtureGuard::FAKER_LOREM_WORDS is the canonical 158-word vocab.
+                $fakerWords = AdminFixtureGuard::FAKER_LOREM_WORDS ?? [];
+                if (!empty($fakerWords)) {
+                    $query->where(function (Builder $q) use ($fakerWords) {
+                        foreach (array_slice($fakerWords, 0, 20) as $word) {
+                            $q->where('subject', 'NOT LIKE', '%' . $word . '%');
+                        }
+                    });
+                }
+                return $query;
+            })
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
