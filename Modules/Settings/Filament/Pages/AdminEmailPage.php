@@ -65,9 +65,12 @@ class AdminEmailPage extends AdminSettingsPage
                     ->schema([
 
 
+                    // task-2026-05-23-20cfb4 / AI-1054 — default to 'php' so the field
+                    // starts with a meaningful selection instead of a null placeholder.
                     Select::make('options.email.email_transport')
                         ->label('Email Transport')
                         ->live()
+                        ->default('php')
                         ->options([
                             'php' => 'PHP mail function',
                             'gmail' => 'Gmail',
@@ -77,7 +80,11 @@ class AdminEmailPage extends AdminSettingsPage
                             'config' => 'Config'
                         ]),
 
-                    Section::make('Email Transport') ->schema(
+                    // AI-1054: Section heading 'Email Transport' hidden until a transport is
+                    // selected to avoid it rendering as an orphaned h3 before any choice.
+                    Section::make('Email Transport')
+                        ->hidden(fn (Get $get) => !$get('options.email.email_transport'))
+                        ->schema(
                         [
                             Group::make([
 
