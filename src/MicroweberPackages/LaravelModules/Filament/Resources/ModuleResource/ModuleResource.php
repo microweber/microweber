@@ -73,6 +73,27 @@ class ModuleResource extends Resource
 //                            return redirect($module->adminUrl());
 //                        })
                         ->grow(false),
+
+                    // task-2026-05-23-cf2dd3 / AI-1042 — 2-line truncated description
+                    // from module.json (or the CamelCase-spaced fallback set by SystemModulesSushi).
+                    // CSS -webkit-line-clamp applied via extraAttributes.
+                    Tables\Columns\TextColumn::make('description')
+                        ->color('gray')
+                        ->size(Tables\Columns\TextColumn\TextColumnSize::ExtraSmall)
+                        ->wrap()
+                        ->extraAttributes([
+                            'style' => 'overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-size:12px;opacity:0.7;',
+                        ])
+                        ->grow(false),
+
+                    // task-2026-05-23-82ffcf / AI-1046 — subdued version badge.
+                    // Only shown when version is set and not the default 'dev' placeholder.
+                    Tables\Columns\TextColumn::make('version')
+                        ->formatStateUsing(fn (?string $state): string => ($state && $state !== 'dev') ? 'v' . $state : '')
+                        ->color('gray')
+                        ->size(Tables\Columns\TextColumn\TextColumnSize::ExtraSmall)
+                        ->extraAttributes(['style' => 'font-size:11px;opacity:0.5;'])
+                        ->grow(false),
                 ])->url(function (SystemModulesSushi $module) {
                     return $module->adminUrl();
                 }),
