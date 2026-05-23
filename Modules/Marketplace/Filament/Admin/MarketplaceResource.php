@@ -123,14 +123,20 @@ class MarketplaceResource extends Resource
                                 ];
                             }
                             if ($marketplaceItem['is_paid'] == 1) {
+                                // task-2026-05-23-e858f6 / AI-1049 — Premium badge uses
+                                // 'warning' (amber/gold) for semantic "paid tier" meaning.
+                                // 'success' (green) was the source of the "teal" report —
+                                // the Free badge below was the dominant green on the page.
                                 $badges[] = [
                                     'label' => 'Premium',
                                     'color' => 'warning',
                                 ];
                             } else {
+                                // Free tier: 'gray' rather than 'success' (green) so
+                                // a non-installed free package doesn't look like a success state.
                                 $badges[] = [
                                     'label' => 'Free',
-                                    'color' => 'success',
+                                    'color' => 'gray',
                                 ];
                             }
                         }
