@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Filament\Tables\Columns\ClickableColumn;
 use MicroweberPackages\Filament\Tables\Columns\SVGColumn;
 use MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\Pages\ListModules;
+use MicroweberPackages\Filament\Support\AdminDisplayName;
 use MicroweberPackages\LaravelModules\Models\SystemModulesSushi;
 
 class ModuleResource extends Resource
@@ -61,8 +62,12 @@ class ModuleResource extends Resource
                         })
                         ->grow(false),
 
+                    // task-2026-05-23-366972 / AI-1041 — PascalCase module names
+                    // (e.g. 'LayoutContent', 'AiWizard') formatted via AdminDisplayName
+                    // which space-splits camelCase and uppercases known acronyms (AI, SEO…).
                     Tables\Columns\TextColumn::make('name')
                         ->searchable()
+                        ->formatStateUsing(fn (?string $state): string => AdminDisplayName::format($state))
                         ->weight(FontWeight::Bold)
 //                        ->action(function (SystemModulesSushi $module) {
 //                            return redirect($module->adminUrl());
