@@ -42,9 +42,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                <p class="mt-6 text-sm text-gray-500 dark:text-gray-400">
-                    Phase 1 of AI-732 ships read-only listing. Per-type CRUD and field-schema editing arrive in Phase 2 and Phase 3.
-                </p>
+                {{-- task-2026-05-23-d1aa85 / AI-1045: internal ticket reference removed from production UI. --}}
             </div>
         </div>
     @endif
