@@ -104,6 +104,18 @@ class ModuleResource extends Resource
                 'md' => 4,
                 'xl' => 4,
             ])
+            // task-2026-05-23-bbad8f / AI-1043 — replace the default circle-X empty-state icon
+            // (implies an error) with a puzzle-piece icon + CTA link to the Marketplace.
+            ->emptyStateIcon('heroicon-o-puzzle-piece')
+            ->emptyStateHeading('No modules found')
+            ->emptyStateDescription('Install modules from the Marketplace to extend your site.')
+            ->emptyStateActions([
+                \Filament\Actions\Action::make('browse_marketplace')
+                    ->label('Browse Marketplace →')
+                    ->url('/admin/marketplace')
+                    ->color('primary')
+                    ->link(),
+            ])
             ->paginated(false)
             ->filters([
 
