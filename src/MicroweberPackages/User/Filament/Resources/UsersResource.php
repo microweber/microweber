@@ -18,6 +18,7 @@ use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Illuminate\Database\Eloquent\Builder;
 
 class UsersResource extends Resource
 {
@@ -80,6 +81,13 @@ public static function form(Schema $schema): Schema
     public static function table(Table $table): Table
     {
         return $table
+            // task-2026-05-26 / AI-1088 — exclude test-fixture users
+            // created by PHPUnit factories (RFC 2606 reserved domains).
+            ->modifyQueryUsing(fn (Builder $query) => $query
+                ->where('email', 'NOT LIKE', '%@example.com')
+                ->where('email', 'NOT LIKE', '%@example.org')
+                ->where('email', 'NOT LIKE', '%@example.net')
+            )
             ->columns([
                 // AI-1033 / task-2026-05-22 — removed raw DB id column;
                 // replaced with email as first visible column.

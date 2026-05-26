@@ -28,6 +28,7 @@ use Modules\Coupons\Filament\Resources\CouponResource\Pages;
 use Modules\Coupons\Filament\Resources\CouponResource\RelationManagers;
 use Modules\Coupons\Models\Coupon;
 use Modules\Coupons\Services\CouponService;
+use MicroweberPackages\Filament\Support\AdminFixtureGuard;
 
 class CouponResource extends Resource
 {
@@ -423,6 +424,12 @@ Section::make('Item Count Requirements')
     public static function table(Table $table): Table
     {
         return $table
+            // task-2026-05-26 / AI-1088 — exclude Faker-generated coupon rows.
+            // Factory produces 3 lowercase Latin words as coupon_name; filter
+            // at SQL level via REGEXP (all-lowercase multi-word, no digits/caps).
+            ->modifyQueryUsing(fn (Builder $query) => $query
+                ->whereRaw("coupon_name NOT REGEXP '^[a-z]+ [a-z]+( [a-z]+)*$'")
+            )
             ->columns([
                 TextColumn::make('coupon_name')
                     ->label('Name')
