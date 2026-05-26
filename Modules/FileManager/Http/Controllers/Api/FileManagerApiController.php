@@ -74,7 +74,11 @@ class FileManagerApiController extends Controller {
         }
         $storageDirectories = $storageInstance->directories($path);
         if (!empty($storageDirectories)) {
-            $getData['dirs'] = $storageDirectories;
+            $storageDirectories = array_filter($storageDirectories, function ($dir) {
+                $name = basename($dir);
+                return !preg_match('/^\d+folder$/', $name);
+            });
+            $getData['dirs'] = array_values($storageDirectories);
         }
         $paginationOutput = [];
         if ($limit > 0) {
