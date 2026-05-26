@@ -221,7 +221,10 @@ class MailTemplateResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->emptyStateHeading('No mail templates')
+            ->emptyStateDescription('Create email templates to customize the messages your site sends.')
+            ->emptyStateIcon('heroicon-o-envelope');
     }
 
     public static function getPages(): array

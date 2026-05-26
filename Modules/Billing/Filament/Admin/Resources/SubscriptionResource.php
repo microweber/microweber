@@ -378,7 +378,10 @@ class SubscriptionResource extends Resource
                 ]),
             ])
             ->defaultSort('created_at', 'desc')
-            ->poll('60s');
+            ->poll('60s')
+            ->emptyStateHeading('No subscriptions yet')
+            ->emptyStateDescription('Active billing subscriptions will appear here once customers subscribe.')
+            ->emptyStateIcon('heroicon-o-credit-card');
     }
 
     public static function infolist(Schema $schema): Schema

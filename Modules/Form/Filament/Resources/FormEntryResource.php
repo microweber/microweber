@@ -88,7 +88,10 @@ class FormEntryResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('created_at', 'desc')
+            ->emptyStateHeading('No form entries yet')
+            ->emptyStateDescription('Form submissions from your website visitors will appear here.')
+            ->emptyStateIcon('heroicon-o-inbox');
     }
 
     public static function getPages(): array
