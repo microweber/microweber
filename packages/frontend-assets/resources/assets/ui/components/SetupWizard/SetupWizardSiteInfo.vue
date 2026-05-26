@@ -26,7 +26,7 @@ let wizardAiChat = ref(null)
 let titleSaveTimeout = null
 let descriptionSaveTimeout = null
 let keywordsSaveTimeout = null
-let showTabs = null
+let showTabs = ref(true)
 
 // Load website info from API
 const loadWebsiteInfo = async () => {

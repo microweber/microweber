@@ -43,12 +43,12 @@
                             class="mw-step-indicator"
                             :class="{
                                 'active': currentStep === index,
-                                'completed': currentStep > index
+                                'completed': completedSteps.has(index) && currentStep !== index
                             }"
                             @click="navigateToStep(index)"
                         >
                             <div class="step-circle">
-                                <span v-if="currentStep > index" class="step-check">✓</span>
+                                <span v-if="completedSteps.has(index) && currentStep !== index" class="step-check">✓</span>
                                 <span v-else>{{ index + 1 }}</span>
                             </div>
                             <div class="step-label">{{ step.title }}</div>
@@ -124,11 +124,10 @@
             <!-- Wizard Navigation -->
             <div class="wizard-navigation d-flex justify-content-between p-3 border-top">
                 <button
-
                     @click="completeWizard"
-                    class="btn btn-outline-success w-100"
+                    :class="['btn', 'w-100', completedSteps.size > 0 ? 'btn-outline-success' : 'btn-outline-secondary']"
                 >
-                    Complete Setup
+                    {{ completedSteps.size > 0 ? 'Complete Setup' : 'Skip Setup' }}
                 </button>
             </div>
             <div class="wizard-navigation d-flex justify-content-between p-3 border-top">
@@ -183,7 +182,7 @@
     margin: 0 !important;
     display: flex;
     flex-direction: column;
-    z-index: 101;
+    z-index: 1050;
     background-color: white;
     box-shadow: -10px 0 20px #00000040;
 }
@@ -249,7 +248,9 @@ html.dark .mw-progress-track {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    padding: 0 4px;
     position: relative;
+    overflow: visible;
 }
 
 .mw-step-indicator {
@@ -578,6 +579,7 @@ export default {
             params: null,
             prompt: '',
             isAIProcessing: false,
+            completedSteps: new Set(),
 
         }
     },
@@ -641,8 +643,8 @@ export default {
 
 
             if (this.currentStep < this.steps.length - 1) {
+                this.completedSteps.add(this.currentStep);
                 this.currentStep++;
-
             }
         },
 
@@ -678,6 +680,7 @@ export default {
 
         handleAIRequestEnd() {
             this.isAIProcessing = false;
+            this.completedSteps.add(0);
             // Auto-advance to next step after AI completes
             setTimeout(() => {
                 this.nextStep();
@@ -714,6 +717,7 @@ export default {
         openModal() {
             this.showModal = true;
             this.currentStep = 0;
+            this.completedSteps = new Set();
             this.pagePreviewToggle();
             mw.top().doc.documentElement.classList.add('mw-setup-wizard-document');
             mw.top().doc.documentElement.classList.add('live-edit-gui-editor-opened');
