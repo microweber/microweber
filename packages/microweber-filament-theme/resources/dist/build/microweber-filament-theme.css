@@ -5786,8 +5786,8 @@ body.fi-panel-admin .fi-btn.admin-toolbar-add svg {
   color: var(--ese-text, #111827) !important;
 }
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit, body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
-  background-color: var(--ese-text, #111827) !important;
-  color: var(--ese-surface, #ffffff) !important;
+  background-color: #e2f9e6 !important;
+  color: #111827 !important;
   border: none !important;
   box-shadow: none !important;
   border-radius: var(--radius-pill, 999px) !important;
@@ -5798,15 +5798,15 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit, body.fi-panel-admin .fi-btn
   transition: opacity var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) !important;
 }
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit:hover, body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary:hover {
-  background-color: var(--ese-text, #111827) !important;
-  opacity: 0.9 !important;
+  background-color: #d0f0d6 !important;
+  opacity: 1 !important;
 }
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit:focus-visible {
   outline: 2px solid var(--ese-accent, #0d6efd) !important;
   outline-offset: 2px !important;
 }
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit span, body.fi-panel-admin .fi-btn.admin-toolbar-live-edit .fi-btn-label, body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
-  color: var(--ese-surface, #ffffff) !important;
+  color: #111827 !important;
 }
 @media (prefers-reduced-motion: reduce) {
   body.fi-panel-admin .fi-btn.admin-toolbar-add, body.fi-panel-admin .fi-btn.admin-toolbar-live-edit {
