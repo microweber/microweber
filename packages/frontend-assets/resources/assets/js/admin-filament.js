@@ -80,25 +80,27 @@ export class AdminFilament extends BaseComponent {
         // Watch for open Filament modals and apply `inert` to the background page
         // content, ensuring WCAG 2.4.3 compliance even if Alpine's x-trap misses
         // an edge case (e.g. Livewire re-render during dialog open).
-        var mainContent = document.querySelector('.fi-main') || document.querySelector('main');
-        var sidebar = document.querySelector('.fi-sidebar');
-
-        if (!mainContent) return;
-
         var obs = new MutationObserver(function () {
-            // Detect any open Filament modal: look for .fi-modal-window that is not hidden
-            var anyOpen = document.querySelector('.fi-modal-window:not([hidden])');
+            var mainContent = document.querySelector('.fi-main') || document.querySelector('main');
+            var sidebar = document.querySelector('.fi-sidebar');
+            if (!mainContent) return;
+
+            // Filament modals use .fi-modal-open class when open (set by Alpine x-bind).
+            // The previous selector `.fi-modal-window:not([hidden])` was wrong because
+            // Filament hides modals via Alpine x-show (display:none), not the HTML
+            // hidden attribute — so closed modals matched and inert was always set.
+            var anyOpen = document.querySelector('.fi-modal.fi-modal-open');
 
             if (anyOpen) {
-                mainContent && mainContent.setAttribute('inert', '');
-                sidebar && sidebar.setAttribute('inert', '');
+                mainContent.setAttribute('inert', '');
+                if (sidebar) sidebar.setAttribute('inert', '');
             } else {
-                mainContent && mainContent.removeAttribute('inert');
-                sidebar && sidebar.removeAttribute('inert');
+                mainContent.removeAttribute('inert');
+                if (sidebar) sidebar.removeAttribute('inert');
             }
         });
 
-        obs.observe(document.body, { childList: true, subtree: true, attributeFilter: ['hidden', 'class'] });
+        obs.observe(document.body, { childList: true, subtree: true, attributeFilter: ['hidden', 'class', 'style'] });
     }
 
     initModalDirtyGuard() {
