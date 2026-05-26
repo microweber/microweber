@@ -70,13 +70,34 @@ class OrderStats extends BaseWidget
             return '0.00';
         }
 
+        $defaultSymbol = function_exists('currency_symbol')
+            ? (currency_symbol() ?: '$')
+            : '$';
+
         if ($rows->count() === 1) {
-            return number_format((float) $rows->first()->avg_amount, 2);
+            $symbol = self::currencyCodeToSymbol($rows->first()->currency) ?? $defaultSymbol;
+            return $symbol . ' ' . number_format((float) $rows->first()->avg_amount, 2);
         }
 
         return $rows
-            ->map(fn ($row) => number_format((float) $row->avg_amount, 2)
-                . ' ' . (string) ($row->currency ?? ''))
+            ->map(function ($row) use ($defaultSymbol) {
+                $symbol = self::currencyCodeToSymbol($row->currency) ?? $defaultSymbol;
+                return $symbol . ' ' . number_format((float) $row->avg_amount, 2);
+            })
             ->implode(' · ');
+    }
+
+    protected static function currencyCodeToSymbol(?string $code): ?string
+    {
+        if (!$code) return null;
+        return match (strtoupper($code)) {
+            'USD' => '$',
+            'EUR' => '€',
+            'GBP' => '£',
+            'CAD' => 'C$',
+            'AUD' => 'A$',
+            'JPY' => '¥',
+            default => strtoupper($code),
+        };
     }
 }

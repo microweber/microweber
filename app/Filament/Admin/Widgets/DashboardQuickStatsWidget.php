@@ -133,7 +133,9 @@ class DashboardQuickStatsWidget extends Widget
     private function getCurrencySymbol(): string
     {
         try {
-            return get_option('currency_symbol', 'website') ?: '$';
+            return function_exists('currency_symbol')
+                ? (currency_symbol() ?: '$')
+                : (get_option('currency_symbol', 'website') ?: '$');
         } catch (\Throwable $e) {
             return '$';
         }
