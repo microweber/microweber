@@ -73,6 +73,9 @@ abstract class AdminSettingsPage extends Page
 
         if ($getOptions) {
             foreach ($getOptions as $option) {
+                if (!is_object($option)) {
+                    continue;
+                }
                 if (isset($booleanFields[$option->option_group])) {
                     if (in_array($option->option_key, $booleanFields[$option->option_group])) {
                         if ($option->option_value == 'y' || $option->option_value == 1) {
@@ -92,6 +95,9 @@ abstract class AdminSettingsPage extends Page
         });
         if ($getTranslatableOptions) {
             foreach ($getTranslatableOptions as $option) {
+                if (!is_object($option)) {
+                    continue;
+                }
                 if (!empty($option->multilanguage_translations)) {
                     foreach ($option->multilanguage_translations as $translationLocale => $translationField) {
                         $this->translatableOptions[$option->option_group][$option->option_key][$translationLocale] = $translationField['option_value'];

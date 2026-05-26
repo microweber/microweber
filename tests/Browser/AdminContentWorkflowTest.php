@@ -51,8 +51,13 @@ class AdminContentWorkflowTest extends DuskTestCase
     {
         $browser->script("
             var saveBtn = Array.from(document.querySelectorAll('button')).find(
-                b => b.textContent.trim().includes('Save')
+                b => b.textContent.trim() === 'Save'
             );
+            if (!saveBtn) {
+                saveBtn = Array.from(document.querySelectorAll('button')).find(
+                    b => b.textContent.trim().includes('Save') && !b.textContent.trim().includes('Live Edit')
+                );
+            }
             if (saveBtn) saveBtn.click();
         ");
         $browser->pause(6000);
@@ -246,6 +251,21 @@ class AdminContentWorkflowTest extends DuskTestCase
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
+
+                // If not found (e.g. sorted oldest-first), use the in-list search
+                if (!str_contains($pageSource, $title)) {
+                    $browser->script("
+                        var searchInput = document.querySelector('.fi-ta-search-field input')
+                            || document.querySelector('input[placeholder=\"Search\"]');
+                        if (searchInput) {
+                            searchInput.value = " . json_encode($title) . ";
+                            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
+                    ");
+                    $browser->pause(4000);
+                    $pageSource = $browser->driver->getPageSource();
+                }
+
                 $this->assertStringContainsString($title, $pageSource,
                     "Created post '{$title}' should appear in the posts list");
                 $checks++;

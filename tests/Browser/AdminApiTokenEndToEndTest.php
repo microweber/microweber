@@ -53,10 +53,29 @@ class AdminApiTokenEndToEndTest extends DuskTestCase
             $tokenName = 'Dusk E2E ' . now()->format('H:i:s') . ' ' . substr(uniqid(), -4);
 
             // ── Step 2: create a token (no scope picks = wildcard '*') ──
-            $browser->clear('input[wire\\:model="newTokenName"]')
-                ->type('input[wire\\:model="newTokenName"]', $tokenName)
-                ->click('button[wire\\:click="createPersonalToken"]')
-                ->pause(3000);
+            // Use JS to set value via Livewire component API (avoids ElementNotInteractableException in headless)
+            $browser->script("
+                var input = document.querySelector('input[wire\\\\:model=\"newTokenName\"]');
+                if (input) {
+                    // Walk up to the Livewire component
+                    var el = input;
+                    while (el && !el.getAttribute('wire:id')) el = el.parentElement;
+                    if (el) {
+                        var comp = window.Livewire.find(el.getAttribute('wire:id'));
+                        if (comp) comp.set('newTokenName', " . json_encode($tokenName) . ");
+                    }
+                    // Also set native value for display
+                    input.value = " . json_encode($tokenName) . ";
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            ");
+            $browser->pause(1000);
+
+            $browser->script("
+                var btn = document.querySelector('button[wire\\\\:click=\"createPersonalToken\"]');
+                if (btn) btn.click();
+            ");
+            $browser->pause(4000);
 
             // ── Step 3: capture the one-time plaintext token. The view
             // renders it inside a <code class="...select-all"> after the

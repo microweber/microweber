@@ -56,8 +56,13 @@ class AdminContentEditTest extends DuskTestCase
     {
         $browser->script("
             var saveBtn = Array.from(document.querySelectorAll('button')).find(
-                b => b.textContent.trim().includes('Save')
+                b => b.textContent.trim() === 'Save'
             );
+            if (!saveBtn) {
+                saveBtn = Array.from(document.querySelectorAll('button')).find(
+                    b => b.textContent.trim().includes('Save') && !b.textContent.trim().includes('Live Edit')
+                );
+            }
             if (saveBtn) saveBtn.click();
         ");
         $browser->pause(5000);

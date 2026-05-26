@@ -69,14 +69,19 @@ class AdminContentCreateTest extends DuskTestCase
     }
 
     /**
-     * Click the Save button using JS to find it by text content.
+     * Click the "Save" button (not "Save & Live Edit") using JS.
      */
     protected function clickSave(Browser $browser): void
     {
         $browser->script("
             var saveBtn = Array.from(document.querySelectorAll('button')).find(
-                b => b.textContent.trim().includes('Save')
+                b => b.textContent.trim() === 'Save'
             );
+            if (!saveBtn) {
+                saveBtn = Array.from(document.querySelectorAll('button')).find(
+                    b => b.textContent.trim().includes('Save') && !b.textContent.trim().includes('Live Edit')
+                );
+            }
             if (saveBtn) saveBtn.click();
         ");
         $browser->pause(5000);
@@ -256,7 +261,7 @@ class AdminContentCreateTest extends DuskTestCase
             }
 
             // ════════════════════════════════════════════════════════════
-            // 5. Navigation: "New page" button works
+            // 5. Navigation: "Add page" button works
             // ════════════════════════════════════════════════════════════
             try {
                 $browser->visit('/admin/pages')->pause(1500);
@@ -264,7 +269,8 @@ class AdminContentCreateTest extends DuskTestCase
 
                 $browser->script("
                     var newBtn = Array.from(document.querySelectorAll('a')).find(
-                        a => a.textContent.trim().includes('New page')
+                        a => a.textContent.trim().includes('Add page')
+                            || a.textContent.trim().includes('New page')
                             || a.textContent.trim().includes('new page')
                     );
                     if (newBtn) newBtn.click();
@@ -273,15 +279,15 @@ class AdminContentCreateTest extends DuskTestCase
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 $this->assertStringContainsString('/create', $currentUrl,
-                    '"New page" button should navigate to create form');
+                    '"Add page" button should navigate to create form');
                 $browser->assertSee('Create Page');
                 $passed++;
             } catch (\Exception $e) {
-                $failed['new_page_button'] = $e->getMessage();
+                $failed['add_page_button'] = $e->getMessage();
             }
 
             // ════════════════════════════════════════════════════════════
-            // 6. Navigation: "New product" button works
+            // 6. Navigation: "Add product" button works
             // ════════════════════════════════════════════════════════════
             try {
                 $browser->visit('/admin/products')->pause(1500);
@@ -289,7 +295,8 @@ class AdminContentCreateTest extends DuskTestCase
 
                 $browser->script("
                     var newBtn = Array.from(document.querySelectorAll('a')).find(
-                        a => a.textContent.trim().includes('New product')
+                        a => a.textContent.trim().includes('Add product')
+                            || a.textContent.trim().includes('New product')
                             || a.textContent.trim().includes('new product')
                     );
                     if (newBtn) newBtn.click();
@@ -298,11 +305,11 @@ class AdminContentCreateTest extends DuskTestCase
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 $this->assertStringContainsString('/create', $currentUrl,
-                    '"New product" button should navigate to create form');
+                    '"Add product" button should navigate to create form');
                 $browser->assertSee('Create Product');
                 $passed++;
             } catch (\Exception $e) {
-                $failed['new_product_button'] = $e->getMessage();
+                $failed['add_product_button'] = $e->getMessage();
             }
 
             // ════════════════════════════════════════════════════════════

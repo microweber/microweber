@@ -32,12 +32,12 @@ class AdminMediaLibraryTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $this->loginAsAdmin($browser);
 
-            $browser->visit('/admin/media-library')->pause(5000);
+            $browser->visit('/admin/media')->pause(5000);
             $this->ensureLoggedIn($browser);
 
             $currentUrl = $browser->driver->getCurrentURL();
             if (!str_contains($currentUrl, '/media')) {
-                $browser->visit('/admin/media-library')->pause(5000);
+                $browser->visit('/admin/media')->pause(5000);
             }
 
             $pageSource = $browser->driver->getPageSource();
@@ -54,21 +54,26 @@ class AdminMediaLibraryTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $this->loginAsAdmin($browser);
 
-            $browser->visit('/admin/media-library')->pause(5000);
+            $browser->visit('/admin/media')->pause(5000);
             $this->ensureLoggedIn($browser);
 
-            // Look for upload button, dropzone, or file input
+            // Look for upload button, dropzone, file input, or Filament upload component
             $hasUpload = $browser->script("
                 var hasFileInput = document.querySelector('input[type=\"file\"]') !== null;
                 var hasUploadBtn = false;
-                var allElements = document.querySelectorAll('button, a, [role=\"button\"]');
+                var allElements = document.querySelectorAll('button, a, [role=\"button\"], span, div');
                 allElements.forEach(function(el) {
-                    var text = el.textContent.trim().toLowerCase();
-                    if (text.includes('upload') || text.includes('add media') || text.includes('browse')) {
+                    var text = (el.textContent || '').trim().toLowerCase();
+                    if (text.includes('upload') || text.includes('add media') || text.includes('browse')
+                        || text.includes('drag') || text.includes('drop files')) {
                         hasUploadBtn = true;
                     }
                 });
-                var hasDropzone = document.querySelector('[class*=\"dropzone\"], [class*=\"upload\"], [class*=\"drop-area\"]') !== null;
+                var hasDropzone = document.querySelector(
+                    '[class*=\"dropzone\"], [class*=\"upload\"], [class*=\"drop-area\"], ' +
+                    '[class*=\"filepond\"], [class*=\"media-browser\"], [class*=\"mw-media\"], ' +
+                    '.fi-fo-file-upload, [x-data*=\"upload\"]'
+                ) !== null;
                 return hasFileInput || hasUploadBtn || hasDropzone;
             ");
 

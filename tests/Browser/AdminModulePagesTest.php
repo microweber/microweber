@@ -61,7 +61,7 @@ class AdminModulePagesTest extends DuskTestCase
                 '/admin/faqs' => 'FAQs',
                 '/admin/ratings' => 'Ratings',
                 '/admin/mail-templates' => 'Mail Templates',
-                '/admin/backups' => 'Backups',
+                '/admin/backup' => 'Backups',
                 '/admin/newsletter-subscribers' => 'Newsletter Subscribers',
                 '/admin/newsletter-campaigns' => 'Newsletter Campaigns',
                 '/admin/newsletter-templates' => 'Newsletter Templates',
@@ -273,7 +273,7 @@ class AdminModulePagesTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $this->loginAsAdmin($browser);
 
-            $browser->visit('/admin/backups')->pause(5000);
+            $browser->visit('/admin/backup')->pause(5000);
             $this->ensureLoggedIn($browser);
 
             $pageSource = $browser->driver->getPageSource();
