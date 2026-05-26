@@ -554,6 +554,11 @@ class ModulesApiLiveEdit extends Controller
                             }
                         }
 
+                        // task-2026-05-26-630b6e / AI-1126: clean layout title
+                        $layoutName = $dynamic_layout['name'] ?? '';
+                        $layoutTitle = str_replace('/', ' ', $layoutName);
+                        $layoutTitle = titlelize($layoutTitle);
+
                         $moduleListJson['layouts'][] = [
                             // 'group' => 'layouts',
                             'template' => $dynamic_layout['layout_file'],
@@ -566,7 +571,7 @@ class ModulesApiLiveEdit extends Controller
                             'found_modules' => $dynamic_layout['found_modules'] ?? false,
                             'description_raw' => $dynamic_layout['description'],
                             'description' => addslashes($dynamic_layout['description']),
-                            'title' => titlelize($dynamic_layout['name']),
+                            'title' => $layoutTitle,
                         ];
                     }
                 }
@@ -679,7 +684,11 @@ class ModulesApiLiveEdit extends Controller
             && !empty($moduleListJson['categories'])
             && is_array($moduleListJson['categories'])) {
 
-            $moduleListJson['categories'] = array_keys($moduleListJson['categories']);
+            // task-2026-05-26-630b6e / AI-1126: Title Case category names
+            $moduleListJson['categories'] = array_values(array_unique(array_map(
+                fn($cat) => ucwords(trim($cat)),
+                array_keys($moduleListJson['categories'])
+            )));
         } else {
             $moduleListJson['categories'] = [];
         }

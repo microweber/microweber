@@ -4,7 +4,7 @@
 
 type: layout
 
-name: CLEAN CONTAINER
+name: Full-width Container
 
 position: 0
 

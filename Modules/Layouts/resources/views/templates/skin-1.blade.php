@@ -4,7 +4,7 @@
 
 type: layout
 
-name: CLEAN CONTAINER
+name: Boxed Container
 
 position: 0
 

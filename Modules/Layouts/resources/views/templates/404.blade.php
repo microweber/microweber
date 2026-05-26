@@ -6,6 +6,8 @@ type: layout
 
 name: 404
 
+description: Error page with illustration
+
 position: 10
 
 */
