@@ -4,6 +4,27 @@
 
 ---
 
+## 2026-05-26 — Three-layer fixture defence: AdminFixtureGuard alone is insufficient for table listings (AI-1129)
+
+- **Pattern:** `AdminFixtureGuard` filters fixture/test records at the UI presentation layer (pickers, dropdowns), but Filament table listings still show correct fixture-row counts in pagination and include fixture rows in query results. The guard catches display but not data.
+- **Why it happened:** `AdminFixtureGuard::shouldRenderItem()` operates on already-fetched Eloquent collections — the SQL query still returns all rows including fixtures. Pagination shows "1-10 of 47" when 12 of those 47 are DuskTest fixtures.
+- **Prevention rule:** Apply three layers simultaneously: (1) `AdminFixtureGuard` vocabs for picker/dropdown surfaces (belt-and-suspenders); (2) `Table::modifyQueryUsing(fn (Builder $query) => $query->where('title', 'NOT LIKE', 'DuskTest%'))` for SQL-level exclusion from the listing query — this fixes pagination counts and prevents fixture rows from ever reaching the table; (3) Dusk test `setUp()/tearDown()` DB-level cleanup (`DB::table('content')->where('title', 'LIKE', 'DuskTest%')->delete()`) so fixture records are deleted even when tests fail mid-assertion.
+- **Applies when:** Any admin resource table listing that may contain test/fixture records from Dusk tests, seeded data, or Faker-generated content. Especially important for Content, Pages, Posts — any table where `AdminFixtureGuard` alone doesn't cover the full data pipeline.
+
+## 2026-05-26 — Vue 3 `<style scoped>` silently breaks dark-mode ancestor selectors (AI-1127)
+
+- **Pattern:** `html.dark .dropdown-content { background-color: rgb(24, 36, 51); }` inside `<style scoped>` compiles to `html.dark[data-v-xxx] .dropdown-content[data-v-xxx] { ... }`. The `<html>` element never carries `[data-v-xxx]`, so the rule never matches. Dark mode silently does nothing — no build error, no console warning.
+- **Why it happened:** Vue 3's SFC compiler appends the scoping attribute to every simple selector in a descendant combinator — it doesn't distinguish "ancestor outside the component" from "element inside the component". This is the expected scoping mechanism, but its effect on ancestor selectors is non-obvious.
+- **Prevention rule:** Any `<style scoped>` rule that references an ancestor element outside the component (`html.dark`, `html[dir="rtl"]`, `body.fi-panel-admin`, etc.) MUST wrap the ancestor in `:global()`: `:global(html.dark) .dropdown-content { ... }`. This exempts the ancestor from scoping while keeping the component element scoped. Do NOT use `<style>` (unscoped) as a workaround — it leaks styles globally. Do NOT use `:deep()` — that affects child selectors, not ancestors.
+- **Applies when:** Any Vue 3 SFC with `<style scoped>` that needs dark-mode, RTL, or panel-scoped CSS overrides based on ancestors outside the component tree.
+
+## 2026-05-26 — Filament v5 moved `TextColumnSize` enum — runtime 500 crash (AI-1128 P0)
+
+- **Pattern:** `->size(Tables\Columns\TextColumn\TextColumnSize::ExtraSmall)` compiles without error but crashes at runtime with "Class not found" — HTTP 500 on `/admin/module-resource/modules`. The correct path in Filament v5 is `Filament\Support\Enums\TextSize::ExtraSmall`.
+- **Why it happened:** The enum was moved during the Filament v4 → v5 migration. PHP can't verify the class exists at compile time because it's resolved via autoloading; the crash only surfaces when the page actually renders.
+- **Prevention rule:** When referencing Filament sizing/styling enums, use the `Filament\Support\Enums\*` namespace: `TextSize`, `IconSize`, `ActionSize`, `FontWeight`, `MaxWidth`, etc. If a page crashes with "Class not found" on a `TextColumn*` or `IconColumn*` enum, check whether the enum moved to `Filament\Support\Enums\`. The old per-column-component paths (`Tables\Columns\TextColumn\TextColumnSize`) do not exist in v5.
+- **Applies when:** Any Filament v5 resource or page that uses `->size()` on table columns; any PHP "Class not found" error referencing a Filament enum.
+
 ## 2026-05-22 — IconColumn status states need distinct semantic icons, not just boolean true/false (AI-1034)
 
 - **Pattern:** Filament `IconColumn::make('is_moderated')->boolean()` and `IconColumn::make('is_spam')->boolean()` both rendered identical red × icons when their values were false. Users could not distinguish "not yet approved" (neutral/pending) from "marked as spam" (danger).
