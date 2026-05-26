@@ -105,7 +105,14 @@ return parent::getEloquentQuery()
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->with(['content']))
+            // task-2026-05-26 / AI-1094 — exclude Faker-generated comment rows.
+            // PHPUnit factories use @example.com author emails.
+            ->modifyQueryUsing(fn (Builder $query) => $query
+                ->with(['content'])
+                ->where('comment_email', 'NOT LIKE', '%@example.com')
+                ->where('comment_email', 'NOT LIKE', '%@example.org')
+                ->where('comment_email', 'NOT LIKE', '%@example.net')
+            )
             ->columns([
                 Tables\Columns\TextColumn::make('comment_name')
                     ->label('Author')
