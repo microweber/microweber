@@ -143,7 +143,10 @@ mw.app.templateSettingsWidget.box.style.width = 'var(--sidebar-end-size)';
     });
 
 
-    guiEditor.boxContent.appendChild(document.getElementById('mw-element-style-editor-app'));
+    var eseApp = document.getElementById('mw-element-style-editor-app');
+    if (eseApp) {
+        guiEditor.boxContent.appendChild(eseApp);
+    }
 
     mw.top().app.guiEditorBox = guiEditor
 
