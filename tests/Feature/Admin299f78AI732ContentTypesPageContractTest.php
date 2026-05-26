@@ -81,13 +81,13 @@ class Admin299f78AI732ContentTypesPageContractTest extends TestCase
     }
 
     #[Test]
-    public function page_carries_website_nav_group_and_icon(): void
+    public function page_carries_settings_nav_group_and_icon(): void
     {
         $group = (new \ReflectionProperty(ContentTypesPage::class, 'navigationGroup'))->getDefaultValue();
         $this->assertSame(
-            'Website',
+            'Settings',
             $group,
-            'ContentTypesPage must sit in the Website nav group alongside Pages / Posts (per AI-731 grouping + AI-732 dispatch).'
+            'ContentTypesPage must sit in the Settings nav group (task-2026-05-26-b2a545: moved from Website to Settings).'
         );
         $icon = (new \ReflectionProperty(ContentTypesPage::class, 'navigationIcon'))->getDefaultValue();
         $this->assertNotNull(
@@ -159,8 +159,8 @@ class Admin299f78AI732ContentTypesPageContractTest extends TestCase
             $this->pageSrc,
             'Results must be ordered by count descending (most-used types first).'
         );
-        // Soft-delete-aware: skips deleted_at non-null + is_deleted=1.
-        $this->assertStringContainsString('whereNull', $this->pageSrc);
+        // task-2026-05-26-b2a545: is_deleted is the soft-delete column (not deleted_at)
+        $this->assertStringContainsString('is_deleted', $this->pageSrc);
     }
 
     // ─────────────────────────────────────────────────────────────────────

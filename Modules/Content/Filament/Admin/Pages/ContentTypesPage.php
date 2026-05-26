@@ -31,7 +31,7 @@ class ContentTypesPage extends Page
     protected static bool $shouldRegisterNavigation = true;
     protected static ?string $title = 'Content Types';
     protected static ?string $slug = 'content-types';
-    protected static string|\UnitEnum|null $navigationGroup = 'Website';
+    protected static string|\UnitEnum|null $navigationGroup = 'Settings';
     protected static ?int $navigationSort = 90;
 
     protected string $view = 'modules.content::filament.admin.pages.content-types-page';
@@ -56,16 +56,17 @@ class ContentTypesPage extends Page
      */
     protected function loadContentTypes(): array
     {
+        // task-2026-05-26-b2a545: map null/empty content_type to 'page' (Microweber default)
         return DB::table('content')
-            ->select('content_type', DB::raw('COUNT(*) as row_count'))
+            ->select(DB::raw("COALESCE(NULLIF(content_type, ''), 'page') as content_type_label"), DB::raw('COUNT(*) as row_count'))
             ->where(function ($q) { // task-2026-05-22-3b90dd AI-876: deleted_at does not exist on content table; is_deleted is the soft-delete column
                 $q->where('is_deleted', 0)->orWhereNull('is_deleted');
             })
-            ->groupBy('content_type')
+            ->groupBy('content_type_label')
             ->orderByDesc('row_count')
             ->get()
             ->map(fn ($row) => [
-                'type' => (string) $row->content_type,
+                'type' => (string) $row->content_type_label,
                 'count' => (int) $row->row_count,
             ])
             ->all();

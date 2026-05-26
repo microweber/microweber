@@ -29,7 +29,7 @@ class CategoryResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    //protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-folder';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Website';
     protected static ?int $navigationSort = 2;
