@@ -240,7 +240,10 @@ class ModuleConfigurationResource extends Resource
 
                         return redirect()->back()->with('success', "{$count} modules have been disabled.");
                     }),
-            ]);
+            ])
+            ->emptyStateHeading('No modules found')
+            ->emptyStateDescription('Install modules to extend your website functionality.')
+            ->emptyStateIcon('heroicon-o-puzzle-piece');
     }
 
     public static function getRelations(): array

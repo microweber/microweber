@@ -195,7 +195,10 @@ class BackupResource extends Resource
                             }
                         }),
                 ]),
-            ]);
+            ])
+            ->emptyStateHeading('No backups yet')
+            ->emptyStateDescription('Create a backup to safeguard your website content and settings.')
+            ->emptyStateIcon('heroicon-o-archive-box');
     }
 
     public static function getRelations(): array

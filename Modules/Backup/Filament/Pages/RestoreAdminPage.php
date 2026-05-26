@@ -153,6 +153,9 @@ class RestoreAdminPage extends Page implements HasTable
                             }
                         }),
                 ]),
-            ]);
+            ])
+            ->emptyStateHeading('No backups available')
+            ->emptyStateDescription('Create a backup first, then you can restore from it here.')
+            ->emptyStateIcon('heroicon-o-arrow-path');
     }
 }

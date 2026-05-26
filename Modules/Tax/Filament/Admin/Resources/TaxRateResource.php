@@ -284,7 +284,10 @@ class TaxRateResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('priority', 'desc');
+            ->defaultSort('priority', 'desc')
+            ->emptyStateHeading('No tax rates yet')
+            ->emptyStateDescription('Create your first tax rate to start collecting taxes on orders.')
+            ->emptyStateIcon('heroicon-o-receipt-percent');
     }
 
     public static function getRelations(): array
