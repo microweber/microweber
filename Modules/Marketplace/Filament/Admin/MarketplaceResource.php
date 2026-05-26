@@ -431,6 +431,19 @@ class MarketplaceResource extends Resource
             // completely inert. Empty array removes the selection affordance.
             // Per-card install/update/uninstall actions remain in ->actions([...]) above.
             // AI-1052a filed to restore bulk operations once grid-view selection UX resolved.
+            ->emptyStateHeading(function ($livewire) {
+                if ($livewire?->activeTab === 'updates') {
+                    return 'All packages are up to date';
+                }
+                return 'No packages found';
+            })
+            ->emptyStateDescription(function ($livewire) {
+                if ($livewire?->activeTab === 'updates') {
+                    return 'Check back later for new versions of your installed packages.';
+                }
+                return 'Try a different tab or reload the marketplace.';
+            })
+            ->emptyStateIcon('heroicon-o-check-circle')
             ->bulkActions([]);
     }
 
