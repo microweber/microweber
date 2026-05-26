@@ -16,6 +16,7 @@ use Modules\Customer\Filament\CustomerResource\Pages\EditCustomer;
 use Modules\Customer\Filament\CustomerResource\Pages\ListCustomers;
 use Modules\Customer\Models\Customer;
 use Modules\Tag\Models\Tag;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 class CustomerResource extends Resource
 {
@@ -200,6 +201,16 @@ Forms\Components\Select::make('company_id')
     public static function table(Table $table): Table
     {
         return $table
+        // task-2026-05-26 / AI-1095 — exclude multi-seed-source test customers.
+        // PHPUnit factories produce @example.com emails and Faker names that
+        // contaminate admin list with mismatched name columns.
+        ->modifyQueryUsing(fn (EloquentBuilder $query) => $query
+            ->where(function (EloquentBuilder $q) {
+                $q->where('email', 'NOT LIKE', '%@example.com')
+                  ->where('email', 'NOT LIKE', '%@example.org')
+                  ->where('email', 'NOT LIKE', '%@example.net');
+            })
+        )
         ->emptyState(function (Table $table) {
             $modelName = static::$model;
             return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
