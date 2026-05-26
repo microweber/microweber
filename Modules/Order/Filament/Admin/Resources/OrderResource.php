@@ -432,8 +432,13 @@ public static function getNavigationBadgeTooltip(): ?string
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\BooleanColumn::make('is_paid')
+                Tables\Columns\IconColumn::make('is_paid')
                     ->label('Paid')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-clock')
+                    ->trueColor('success')
+                    ->falseColor('warning')
                     ->grow(false)
                     ->sortable()
                     ->toggleable(),
