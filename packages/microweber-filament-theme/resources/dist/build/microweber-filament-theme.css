@@ -5605,6 +5605,17 @@ html.dark .mw-page-chip-popover__link {
 .mw-page-chip-popover__new-page:hover {
   background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
 }
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar {
+  width: 60px !important;
+}
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .mw-toolbar-icon-btn[data-mw-label], .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons {
+  flex-direction: column !important;
+  height: auto !important;
+  min-height: 44px;
+  width: 52px !important;
+  padding: 6px 2px 3px !important;
+  gap: 1px;
+}
 .mw-live-edit-page .mw-toolbar-icon-btn[data-mw-label]::after {
   content: attr(data-mw-label);
   display: block;
@@ -23070,6 +23081,10 @@ html.dark .mw-quick-stat-card-value {
   height: 18px;
   color: #718096;
 }
+.mw-stats-footer-label {
+  font-size: 12px;
+  color: #718096;
+}
 .mw-stats-card-show-more {
   font-size: 13px !important;
   color: #206bc4 !important;
@@ -23245,6 +23260,17 @@ html.dark .fi-simple-page .fi-btn-primary:hover {
 }
 .mw-media-filter-select:focus {
   border-color: #4299e1;
+}
+.mw-media-filter-date-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: default;
+}
+.mw-media-filter-date-label {
+  font-size: 12px;
+  color: #4a5568;
+  white-space: nowrap;
 }
 .mw-media-filter-date {
   padding: 6px 6px;

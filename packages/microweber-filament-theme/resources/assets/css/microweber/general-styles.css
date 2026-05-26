@@ -3052,6 +3052,22 @@ html.dark .mw-page-chip-popover__link {
    ====================================================================== */
 
 /* ── AI-871 §1: Right-rail mini-labels ─────────────────────────────── */
+/* task-2026-05-26-8ca979: sidebar buttons need flex-direction:column so
+   the ::after label stacks below the icon instead of being crushed to
+   2px wide in the default row layout. Sidebar widens from 50px to 60px
+   to give labels breathing room. */
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar {
+    width: 60px !important;
+}
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .mw-toolbar-icon-btn[data-mw-label],
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons {
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 44px;
+    width: 52px !important;
+    padding: 6px 2px 3px !important;
+    gap: 1px;
+}
 /* task-2026-05-22-cd4d21 / AI-915 — widened from 40px to 48px because
    labels like "Template" and "AI Edit" were visually clipped at 40px.
    text-overflow: ellipsis added so clipping is legible if labels grow. */

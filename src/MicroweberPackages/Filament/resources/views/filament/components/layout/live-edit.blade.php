@@ -186,7 +186,58 @@
         transform: translateX(0%) !important;
 
     }
+
+    /* task-2026-05-26-da6eab: Filament modals inside the live-edit layout
+       suffer from a hit-testing issue — fi-main-ctn intercepts pointer
+       events on position:fixed modal children. The JS below reroutes
+       clicks to the correct modal element based on coordinates. */
  </style>
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('click', function(e) {
+            var openModal = document.querySelector('.fi-modal.fi-modal-open');
+            if (!openModal) return;
+            if (openModal.contains(e.target)) return;
+
+            var x = e.clientX;
+            var y = e.clientY;
+            var best = null;
+            var bestDepth = -1;
+
+            function walk(el, depth) {
+                var rect = el.getBoundingClientRect();
+                if (rect.width === 0 || rect.height === 0) return;
+                if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) return;
+                if (el.tagName === 'BUTTON' || el.tagName === 'A' ||
+                    el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' ||
+                    el.tagName === 'SELECT' ||
+                    el.hasAttribute('wire:click') ||
+                    el.hasAttribute('x-on:click') ||
+                    el.hasAttribute('x-on:click.prevent') ||
+                    el.classList.contains('fi-modal-close-overlay') ||
+                    el.classList.contains('fi-modal-close-btn')) {
+                    if (depth > bestDepth) {
+                        best = el;
+                        bestDepth = depth;
+                    }
+                }
+                for (var i = 0; i < el.children.length; i++) {
+                    walk(el.children[i], depth + 1);
+                }
+            }
+
+            for (var i = 0; i < openModal.children.length; i++) {
+                walk(openModal.children[i], 0);
+            }
+
+            if (best) {
+                e.stopPropagation();
+                e.preventDefault();
+                best.click();
+            }
+        }, true);
+    });
+ </script>
 @endpush
 <x-filament-panels::layout.base :livewire="$livewire">
     {{-- The sidebar is after the page content in the markup to fix issues with page content overlapping dropdown content from the sidebar. --}}
