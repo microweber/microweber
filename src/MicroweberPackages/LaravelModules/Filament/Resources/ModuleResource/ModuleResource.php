@@ -79,7 +79,7 @@ class ModuleResource extends Resource
                     // CSS -webkit-line-clamp applied via extraAttributes.
                     Tables\Columns\TextColumn::make('description')
                         ->color('gray')
-                        ->size(Tables\Columns\TextColumn\TextColumnSize::ExtraSmall)
+                        ->size(\Filament\Support\Enums\TextSize::ExtraSmall)
                         ->wrap()
                         ->extraAttributes([
                             'style' => 'overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-size:12px;opacity:0.7;',
@@ -91,7 +91,7 @@ class ModuleResource extends Resource
                     Tables\Columns\TextColumn::make('version')
                         ->formatStateUsing(fn (?string $state): string => ($state && $state !== 'dev') ? 'v' . $state : '')
                         ->color('gray')
-                        ->size(Tables\Columns\TextColumn\TextColumnSize::ExtraSmall)
+                        ->size(\Filament\Support\Enums\TextSize::ExtraSmall)
                         ->extraAttributes(['style' => 'font-size:11px;opacity:0.5;'])
                         ->grow(false),
                 ])->url(function (SystemModulesSushi $module) {
