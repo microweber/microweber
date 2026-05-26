@@ -15,20 +15,45 @@ class DashboardQuickStatsWidget extends Widget
 
     protected string $view = 'filament.admin.widgets.dashboard-quick-stats-widget';
 
-    public function getStats(): array
+    public function getHeroStat(): array
     {
-        $stats = Cache::remember('dashboard_quick_stats', 120, function () {
-            $orderStats = $this->getOrderStats();
+        $currencySymbol = $this->getCurrencySymbol();
 
+        $ranges = Cache::remember('dashboard_hero_sales', 120, function () {
             return [
-                'emails' => $this->getEmailsCount(),
-                'comments' => $this->getCommentsCount(),
-                'salesTotal' => $orderStats['total'],
-                'ordersCount' => $orderStats['count'],
+                'daily' => $this->getSalesForPeriod(1),
+                'weekly' => $this->getSalesForPeriod(7),
+                'monthly' => $this->getSalesForPeriod(30),
+                'yearly' => $this->getSalesForPeriod(365),
             ];
         });
 
-        $currencySymbol = $this->getCurrencySymbol();
+        $formatted = [];
+        foreach ($ranges as $key => $data) {
+            $formatted[$key] = [
+                'total' => $currencySymbol . ' ' . number_format((float) $data['total'], 2),
+                'count' => $data['count'],
+            ];
+        }
+
+        return [
+            'label' => 'Sales',
+            'icon' => 'heroicon-o-currency-dollar',
+            'color' => 'green',
+            'url' => url(mw_admin_prefix_url() . '/orders'),
+            'ranges' => $formatted,
+        ];
+    }
+
+    public function getStats(): array
+    {
+        $stats = Cache::remember('dashboard_quick_stats', 120, function () {
+            return [
+                'emails' => $this->getEmailsCount(),
+                'comments' => $this->getCommentsCount(),
+                'ordersCount' => $this->getOrdersCount(),
+            ];
+        });
 
         return [
             [
@@ -38,28 +63,12 @@ class DashboardQuickStatsWidget extends Widget
                 'color' => 'blue',
                 'url' => url(mw_admin_prefix_url() . '/form-entries'),
             ],
-            // task-2026-05-17-18be49 / AI-738: comments stat label
-            // carries a clear time scope ("Last comments (30 days)")
-            // so users understand the count's meaning. The 30-day
-            // window matches getCommentsCount() below.
-            //
-            // task-2026-05-21-0e7bf0 / AI-869: URL corrected from
-            // /admin/settings/comments (404) to /admin/comments (200).
-            // /admin/settings/comments does not exist as a route.
-            // /admin/comments lists all comments (140 rows confirmed).
             [
                 'label' => 'Last comments (30 days)',
                 'value' => $stats['comments'],
                 'icon' => 'heroicon-o-chat-bubble-left-right',
                 'color' => 'pink',
                 'url' => url(mw_admin_prefix_url() . '/comments'),
-            ],
-            [
-                'label' => 'Sales',
-                'value' => $currencySymbol . ' ' . number_format((float) $stats['salesTotal'], 2),
-                'icon' => 'heroicon-o-currency-dollar',
-                'color' => 'green',
-                'url' => url(mw_admin_prefix_url() . '/orders'),
             ],
             [
                 'label' => 'Recent Orders',
@@ -82,12 +91,6 @@ class DashboardQuickStatsWidget extends Widget
 
     private function getCommentsCount(): string
     {
-        // task-2026-05-17-18be49 / AI-738: 30-day window so the
-        // "Last comments (30 days)" label is truthful. Pre-fix
-        // this returned all-time count paired with the "Last
-        // comments" label — designer flagged the mismatch.
-        // task-2026-05-26 / AI-1107 — exclude PHPUnit test comments
-        // (Faker generates @example.com / @example.org / @example.net emails).
         try {
             return (string) DB::table('comments')
                 ->where('created_at', '>=', now()->subDays(30))
@@ -100,11 +103,12 @@ class DashboardQuickStatsWidget extends Widget
         }
     }
 
-    private function getOrderStats(): array
+    private function getSalesForPeriod(int $days): array
     {
         try {
             $result = Order::query()
                 ->where('order_completed', 1)
+                ->where('created_at', '>=', now()->subDays($days))
                 ->selectRaw('COUNT(*) as orders_count, COALESCE(SUM(amount), 0) as orders_total')
                 ->first();
 
@@ -114,6 +118,15 @@ class DashboardQuickStatsWidget extends Widget
             ];
         } catch (\Throwable $e) {
             return ['count' => '0', 'total' => 0.0];
+        }
+    }
+
+    private function getOrdersCount(): string
+    {
+        try {
+            return (string) Order::query()->where('order_completed', 1)->count();
+        } catch (\Throwable $e) {
+            return '0';
         }
     }
 
