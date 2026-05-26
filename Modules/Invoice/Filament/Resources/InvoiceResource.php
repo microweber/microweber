@@ -287,6 +287,7 @@ Tables\Filters\SelectFilter::make('paid_status')
             Tables\Actions\ExportAction::make()
                 ->exporter(InvoiceExporter::class)
                 ->icon('heroicon-m-cloud-arrow-down')
+                ->color('gray')
                 ->form(function (Tables\Actions\ExportAction $action): array {
                     $exportColumns = InvoiceExporter::getColumns();
                     $schemaSchema = [];
@@ -305,7 +306,6 @@ Tables\Filters\SelectFilter::make('paid_status')
                     $url = route('filament.admin.export.invoices', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
                     return redirect()->to($url);
                 }),
-            Tables\Actions\CreateAction::make(),
         ])
         ->actions([
             Tables\Actions\EditAction::make(),
