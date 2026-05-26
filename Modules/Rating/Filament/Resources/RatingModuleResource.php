@@ -7,6 +7,7 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Rating\Models\Rating;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -83,6 +84,16 @@ class RatingModuleResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            // task-2026-05-26 / AI-1107 — exclude PHPUnit factory-created Rating rows.
+            // Faker generates Latin Lorem comments; filter by distinctive Latin words.
+            ->modifyQueryUsing(fn (Builder $query) => $query
+                ->where(function ($q) {
+                    $fakerWords = ['perspiciatis', 'repudiandae', 'exercitationem', 'accusantium', 'consequatur', 'voluptatem', 'adipisci', 'laudantium'];
+                    foreach ($fakerWords as $word) {
+                        $q->where('comment', 'NOT LIKE', "%{$word}%");
+                    }
+                })
+            )
             ->columns([
                 TextColumn::make('rel_type')
                     ->searchable()

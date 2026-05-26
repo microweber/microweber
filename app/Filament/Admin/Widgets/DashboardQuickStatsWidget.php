@@ -86,9 +86,14 @@ class DashboardQuickStatsWidget extends Widget
         // "Last comments (30 days)" label is truthful. Pre-fix
         // this returned all-time count paired with the "Last
         // comments" label — designer flagged the mismatch.
+        // task-2026-05-26 / AI-1107 — exclude PHPUnit test comments
+        // (Faker generates @example.com / @example.org / @example.net emails).
         try {
             return (string) DB::table('comments')
                 ->where('created_at', '>=', now()->subDays(30))
+                ->where('comment_email', 'NOT LIKE', '%@example.com')
+                ->where('comment_email', 'NOT LIKE', '%@example.org')
+                ->where('comment_email', 'NOT LIKE', '%@example.net')
                 ->count();
         } catch (\Throwable $e) {
             return '0';

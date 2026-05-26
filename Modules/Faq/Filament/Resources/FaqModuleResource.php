@@ -7,6 +7,7 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Faq\Models\Faq;
 use Filament\Forms\Components\TextInput;
@@ -79,6 +80,17 @@ class FaqModuleResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            // task-2026-05-26 / AI-1107 — exclude PHPUnit factory-created FAQ rows.
+            // Faker generates Latin Lorem answers; filter by distinctive Latin words
+            // that would never appear in real English FAQ content.
+            ->modifyQueryUsing(fn (Builder $query) => $query
+                ->where(function ($q) {
+                    $fakerWords = ['perspiciatis', 'repudiandae', 'exercitationem', 'accusantium', 'consequatur', 'voluptatem', 'adipisci', 'laudantium'];
+                    foreach ($fakerWords as $word) {
+                        $q->where('answer', 'NOT LIKE', "%{$word}%");
+                    }
+                })
+            )
             ->columns([
                 TextColumn::make('question')
                     ->searchable()

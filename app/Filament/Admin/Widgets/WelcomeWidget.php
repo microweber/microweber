@@ -52,8 +52,12 @@ class WelcomeWidget extends Widget
             && class_exists(\Modules\Comments\Filament\Resources\CommentResource::class)) {
             $count = 0;
             try {
+                // task-2026-05-26 / AI-1107 — exclude Faker @example.* comments
                 $count = (int) \Modules\Comments\Models\Comment::where('is_moderated', false)
                     ->where('is_spam', false)
+                    ->where('comment_email', 'NOT LIKE', '%@example.com')
+                    ->where('comment_email', 'NOT LIKE', '%@example.org')
+                    ->where('comment_email', 'NOT LIKE', '%@example.net')
                     ->count();
             } catch (\Throwable $e) {
                 $count = 0;
