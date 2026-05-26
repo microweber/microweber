@@ -101,6 +101,14 @@ class WordPressMigrationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            // task-2026-05-26 / AI-1105 — exclude PHPUnit test migration jobs
+            // that use RFC 2606 reserved domains (.invalid, .example, .test).
+            ->modifyQueryUsing(fn ($query) => $query
+                ->where('source_host', 'NOT LIKE', '%.example.%')
+                ->where('source_host', 'NOT LIKE', '%.invalid')
+                ->where('source_host', 'NOT LIKE', '%.test')
+                ->where('source_host', 'NOT LIKE', 'localhost%')
+            )
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('#')

@@ -103,7 +103,16 @@ class McpClientResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn ($query) => $query->withCount('tokens'))
+            // task-2026-05-26 / AI-1105 — exclude PHPUnit factory-created MCP clients.
+            // Faker generates company names and slug patterns; real clients have
+            // a non-null created_by_user_id or have been used (last_used_at).
+            ->modifyQueryUsing(fn ($query) => $query
+                ->withCount('tokens')
+                ->where(function ($q) {
+                    $q->whereNotNull('created_by_user_id')
+                      ->orWhereNotNull('last_used_at');
+                })
+            )
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
