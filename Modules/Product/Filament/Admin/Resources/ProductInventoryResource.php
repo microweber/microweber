@@ -170,11 +170,15 @@ class ProductInventoryResource extends Resource
                     ->label('ID')
                     ->sortable(),
 
+                // task-2026-05-26 / AI-1102 — product title was blank because
+                // the relation wasn't eager-loaded and orphaned product_id
+                // rows returned null. Show fallback with product_id.
                 TextColumn::make('product.title')
                     ->label('Product')
                     ->searchable()
                     ->sortable()
-                    ->wrap(),
+                    ->wrap()
+                    ->default(fn ($record) => $record->product_id ? 'Product #' . $record->product_id : '—'),
 
                 TextColumn::make('variant.sku')
                     ->label('Variant SKU')
@@ -291,7 +295,9 @@ class ProductInventoryResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery();
+        // task-2026-05-26 / AI-1102 — eager-load product relation so
+        // the PRODUCT column renders the title instead of blank.
+        return parent::getEloquentQuery()->with(['product']);
     }
 
     public static function getRelations(): array
