@@ -55,24 +55,14 @@ import {AIChatForm} from '../../../components/ai-chat';
 export default {
 
     mounted() {
-        const target = this.$refs.wrapper;
-        const aiChatForm = new AIChatForm({
-            multiLine: true,
-            submitOnEnter: true,
-            placeholder: mw.lang('Make text bigger')
-        });
-        target.appendChild(aiChatForm.form);
-
-
-        aiChatForm.on('submit', val => {
-            this.aiMessage = val;
-
-            this.submitAiRequest()
-        })
-        aiChatForm.on('areaValue', val => {
-
-            this.aiMessage = val;
-        })
+        this._initAiChatForm();
+    },
+    watch: {
+        elementSupportsAiStyles(val) {
+            if (val) {
+                this.$nextTick(() => this._initAiChatForm());
+            }
+        }
     },
     components: {},
     data() {
@@ -185,6 +175,24 @@ export default {
     },
 
     methods: {
+        _initAiChatForm() {
+            const target = this.$refs.wrapper;
+            if (!target || this._aiChatFormAttached) return;
+            const aiChatForm = new AIChatForm({
+                multiLine: true,
+                submitOnEnter: true,
+                placeholder: mw.lang('Make text bigger')
+            });
+            target.appendChild(aiChatForm.form);
+            this._aiChatFormAttached = true;
+            aiChatForm.on('submit', val => {
+                this.aiMessage = val;
+                this.submitAiRequest();
+            });
+            aiChatForm.on('areaValue', val => {
+                this.aiMessage = val;
+            });
+        },
         toggleAiChat() {
             this.showAiChat = !this.showAiChat;
         },

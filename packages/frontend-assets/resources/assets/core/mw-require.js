@@ -29,7 +29,8 @@ mw.require = function(url, inHead, key, defered) {
     if (!~mw.required.indexOf(toPush)) {
 
         mw.required.push(toPush);
-        url = url.includes("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
+        var _mwv = (typeof mw.version === 'string' && mw.version) ? mw.version : '';
+        url = url.includes("?") ?  url + '&mwv=' + _mwv : url + "?mwv=" + _mwv;
         if(document.querySelector('link[href="'+url+'"],script[src="'+url+'"]') !== null){
             return
         }
