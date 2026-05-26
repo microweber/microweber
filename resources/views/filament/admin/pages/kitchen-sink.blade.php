@@ -3,31 +3,27 @@
     <div id="filepick1"></div>
 
     <script>
-        var fm = mw.FileManager({
-            element: '#filepick1',
-            canSelectFolder: false,
-
-            stickyHeader: true,
-
-            type: '*',
-
-
-            selectable: true,
-            multiselect: true,
-            stickyHeader: false,
-            options: true,
-            selectableRow: false,
-
-        });
-        fm.on('insert', function (val) {
-            console.log(val)
-        });
-        fm.on('insertByValue', function (val) {
-            console.log(val)
-        });
-        fm.on('selectionChanged', function (val) {
-
-            console.log(val)
+        addEventListener('load', function () {
+            if (typeof mw === 'undefined' || typeof mw.FileManager !== 'function') return;
+            var fm = mw.FileManager({
+                element: '#filepick1',
+                canSelectFolder: false,
+                stickyHeader: false,
+                type: '*',
+                selectable: true,
+                multiselect: true,
+                options: true,
+                selectableRow: false,
+            });
+            fm.on('insert', function (val) {
+                console.log(val)
+            });
+            fm.on('insertByValue', function (val) {
+                console.log(val)
+            });
+            fm.on('selectionChanged', function (val) {
+                console.log(val)
+            });
         });
     </script>
 
@@ -200,6 +196,18 @@ mw.widget.tree(nodeElement);
         </h2>
 
         <hr class="my-6 border-gray-200 dark:border-gray-700">
+        <style>
+            .dark .richtext-example .tox .tox-edit-area__iframe { background-color: #1a1a2e; }
+            .dark .richtext-example .tox:not(.tox-tinymce-inline) .tox-editor-header,
+            .dark .richtext-example .tox .tox-toolbar,
+            .dark .richtext-example .tox .tox-toolbar__primary,
+            .dark .richtext-example .tox .tox-toolbar__overflow,
+            .dark .richtext-example .tox .tox-statusbar { background-color: #1f2937; border-color: #374151; }
+            .dark .richtext-example .tox .tox-tbtn svg { fill: #d1d5db; }
+            .dark .richtext-example .tox .tox-tbtn { color: #d1d5db; }
+            .dark .richtext-example .tox .tox-tbtn:hover { background-color: #374151; }
+            .dark .richtext-example .tox:not(.tox-tinymce-inline) { border-color: #374151; }
+        </style>
         <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
             Editor
 
@@ -218,17 +226,16 @@ editor.on('change', val => {
 })
             </pre>
             <script>
-                addEventListener('load', () => {
-                    if (typeof tinymce !== 'undefined') {
-                        const editor = mw.richTextEditor({
-                            target: '.richtext-example'
-                        });
-                        editor.on('change', val => {
-                            console.log(val)
-                        })
-                    }
-                })
-
+                addEventListener('load', function () {
+                    if (typeof mw === 'undefined' || typeof mw.richTextEditor !== 'function') return;
+                    if (typeof tinymce === 'undefined') return;
+                    var editor = mw.richTextEditor({
+                        target: '.richtext-example'
+                    });
+                    editor.on('change', function (val) {
+                        console.log(val);
+                    });
+                });
             </script>
         </h2>
 
