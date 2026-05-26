@@ -1,6 +1,11 @@
 @php
     $record = $getRecord();
     $history = $record?->statusHistory ?? collect();
+    $history = $history->filter(function ($entry) {
+        if (!$entry->user_id) return true;
+        if (!$entry->user) return false;
+        return (bool) $entry->user->is_admin;
+    });
 @endphp
 
 @if($history->isEmpty())
