@@ -2033,6 +2033,11 @@ return \MicroweberPackages\User\Models\User::query()
             ->searchable(true)
             ->reorderable('position')
             ->defaultSort('position', 'asc')
+            // task-2026-05-26-2b11f4 / AI-1129: exclude Dusk/PHPUnit test fixture records
+            ->modifyQueryUsing(fn (\Illuminate\Database\Eloquent\Builder $query) => $query
+                ->where('title', 'not like', 'DuskTest%')
+                ->where('title', 'not like', 'Test post')
+            )
             ->columns(
                 $livewire->isGridLayout()
                     ? static::getGridTableColumns()

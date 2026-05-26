@@ -86,6 +86,8 @@ final class AdminFixtureGuard
         '/^after$/i',                             // before/after test-step labels
         '/^before$/i',
         '/^\d+$/',                                // pure-numeric "titles" (123, 456) from quick-test setup
+        '/^DuskTest/i',                            // Dusk browser-test fixture (DuskTestPage, DuskTestPost, DuskTestProduct)
+        '/^Test post$/i',                          // generic Dusk/PHPUnit post fixture
     ];
 
     /**

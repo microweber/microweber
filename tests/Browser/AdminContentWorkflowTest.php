@@ -29,6 +29,27 @@ class AdminContentWorkflowTest extends DuskTestCase
         // Skip parent — we rely on the already-running server's database
     }
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // task-2026-05-26-2b11f4 / AI-1129: clean up stale DuskTest* records from previous runs
+        \Illuminate\Support\Facades\DB::table('content')
+            ->where('title', 'like', 'DuskTest%')
+            ->orWhere('title', 'like', 'Test post%')
+            ->delete();
+    }
+
+    protected function tearDown(): void
+    {
+        // task-2026-05-26-2b11f4 / AI-1129: belt-and-suspenders DB-level cleanup
+        \Illuminate\Support\Facades\DB::table('content')
+            ->where('title', 'like', 'DuskTest%')
+            ->orWhere('title', 'like', 'Test post%')
+            ->delete();
+        $this->createdIds = [];
+        parent::tearDown();
+    }
+
     protected function livewireSet(Browser $browser, string $property, string $value): void
     {
         $js = <<<JS
