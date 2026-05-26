@@ -319,34 +319,34 @@
 }
 
 /* Dark mode styles */
-html.dark .dropdown-trigger {
+:global(html.dark) .dropdown-trigger {
     background: rgb(24, 36, 51);
     border: 1px solid #374151;
     color: #e5e7eb;
 }
 
-html.dark .dropdown-trigger:hover,
-html.dark .dropdown-trigger:focus {
+:global(html.dark) .dropdown-trigger:hover,
+:global(html.dark) .dropdown-trigger:focus {
     border: 1.5px solid #6b7280;
     background: rgb(31, 41, 55);
 }
 
-html.dark .dropdown-content {
+:global(html.dark) .dropdown-content {
     background-color: rgb(24, 36, 51);
     border: 1px solid #374151;
 }
 
-html.dark .dropdown-content li a {
+:global(html.dark) .dropdown-content li a {
     color: #e5e7eb;
 }
 
-html.dark .dropdown-content li a:hover,
-html.dark .dropdown-content li a:focus {
+:global(html.dark) .dropdown-content li a:hover,
+:global(html.dark) .dropdown-content li a:focus {
     background-color: rgb(31, 41, 55);
     color: #ffffff;
 }
 
-html.dark .dropdown-content li a.active {
+:global(html.dark) .dropdown-content li a.active {
     background-color: rgb(37, 99, 235, 0.2);
     color: #60a5fa;
 }
@@ -363,7 +363,7 @@ html.dark .dropdown-content li a.active {
     margin: 0 16px;
 }
 
-html.dark .separator hr {
+:global(html.dark) .separator hr {
     background-color: #374151;
 }
 
@@ -378,7 +378,7 @@ html.dark .separator hr {
     color: #1976d2;
 }
 
-html.dark .more-settings-item a.expanded {
+:global(html.dark) .more-settings-item a.expanded {
     background-color: rgb(31, 41, 55);
     color: #ffffff;
 }
@@ -406,7 +406,7 @@ html.dark .more-settings-item a.expanded {
     margin: 4px 12px 8px 12px;
 }
 
-html.dark .submenu {
+:global(html.dark) .submenu {
     background-color: rgba(255, 255, 255, 0.03);
 }
 
@@ -428,8 +428,8 @@ html.dark .submenu {
     color: #1976d2;
 }
 
-html.dark .submenu li a:hover,
-html.dark .submenu li a:focus {
+:global(html.dark) .submenu li a:hover,
+:global(html.dark) .submenu li a:focus {
     background-color: rgba(96, 165, 250, 0.1);
     color: #60a5fa;
 }
