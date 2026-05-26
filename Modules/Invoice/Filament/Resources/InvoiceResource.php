@@ -27,6 +27,7 @@ class InvoiceResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?string $model = Invoice::class;
     protected static ?string $recordTitleAttribute = 'invoice_number';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-currency-dollar';
 
     protected static string | null $navigationLabel = 'Invoices';
     protected static ?string $modelLabel = 'Invoice';
