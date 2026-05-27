@@ -204,6 +204,7 @@ AGENTS.md
 .autodev/
 .claude/settings.json
 TODO_ARCHIVE.md
+opencode.json
 CLAUDE.md
 AGENTS.md
 .mcp.json
