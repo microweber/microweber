@@ -3221,6 +3221,70 @@ html.dark .mw-main-drawer__item--depth-1::before {
     background-color: rgba(255, 255, 255, 0.12);
 }
 
+/* ── AI-1197: Right-rail panel button 44px touch targets ───────────── */
+/* task-2026-05-27-9e89ba / AI-1197: action buttons in right-rail panels
+   (back button, search toggle/clear, close X) measured 24-32px; enforce
+   WCAG 2.5.5 minimum 44x44px on all interactive elements. */
+.mw-live-edit-page .btn.btn-link,
+.mw-live-edit-page .live-edit-settings-back-button-wrapper .btn {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mw-live-edit-page .x-close-modal-link {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.mw-live-edit-page .style-pack-search-toggle,
+.mw-live-edit-page .style-pack-search-clear {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* ── AI-1200: Right-rail progressive disclosure ────────────────────── */
+/* task-2026-05-27-9e89ba / AI-1200: default show 3 primary sidebar
+   icons (Template, Style, More); secondary icons (Layout, AI Edit)
+   appear on hover or focus-within. Mobile always shows all. */
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
+    [data-mw-sidebar-priority="secondary"] {
+    display: none;
+}
+
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar:hover
+    [data-mw-sidebar-priority="secondary"],
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar:focus-within
+    [data-mw-sidebar-priority="secondary"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
+        [data-mw-sidebar-priority="secondary"] {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
+        [data-mw-sidebar-priority="secondary"] {
+        transition: opacity 0.2s ease;
+    }
+}
+
 /* ======================================================================
    task-2026-05-16-bcb327 / AI-702 — Microweber brand mark in the admin
    top bar. Per designer spec (admin-shell-improvements-2026-05-16.md

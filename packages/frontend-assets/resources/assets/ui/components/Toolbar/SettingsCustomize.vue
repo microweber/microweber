@@ -211,6 +211,7 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
              aria-label="Insert layout"
              title="Insert layout"
              data-mw-label="Layout"
+             data-mw-sidebar-priority="secondary"
              v-on:click="handleInsertLayout()"
              v-on:keydown.enter.prevent="handleInsertLayout()"
              v-on:keydown.space.prevent="handleInsertLayout()">
@@ -290,6 +291,7 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
              aria-label="Quick AI edit"
              title="Quick AI edit"
              data-mw-label="AI Edit"
+             data-mw-sidebar-priority="secondary"
              :aria-pressed="buttonIsActiveQuickEdit"
              v-on:click="handleQuickEdit()"
              v-on:keydown.enter.prevent="handleQuickEdit()"

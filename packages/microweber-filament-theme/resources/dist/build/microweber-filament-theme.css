@@ -5740,6 +5740,47 @@ html.dark .mw-ese-empty-state__hint {
 html.dark .mw-main-drawer__item--depth-1::before {
   background-color: rgba(255, 255, 255, 0.12);
 }
+.mw-live-edit-page .btn.btn-link, .mw-live-edit-page .live-edit-settings-back-button-wrapper .btn {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.mw-live-edit-page .x-close-modal-link {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.mw-live-edit-page .style-pack-search-toggle, .mw-live-edit-page .style-pack-search-clear {
+  min-height: 44px;
+  min-width: 44px;
+}
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar [data-mw-sidebar-priority="secondary"] {
+  display: none;
+}
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar:hover [data-mw-sidebar-priority="secondary"], .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar:focus-within [data-mw-sidebar-priority="secondary"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 768px) {
+  .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar [data-mw-sidebar-priority="secondary"] {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar [data-mw-sidebar-priority="secondary"] {
+    transition: opacity 0.2s ease;
+  }
+}
 .fi-topbar a.mw-admin-brand-mark, a.mw-admin-brand-mark {
   display: inline-flex;
   align-items: center;
