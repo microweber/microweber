@@ -227,7 +227,8 @@ export default {
             this.aiChatFormInstance = new AIChatForm({
                 multiLine: true,
                 submitOnEnter: true,
-                placeholder: 'Make it blue and white...'
+                placeholder: 'Make it blue and white...',
+                ariaLabel: 'AI style assistant prompt'
             });
 
 

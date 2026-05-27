@@ -141,7 +141,7 @@ const AIChatFormCSS = `
 
 `;
 
-const AIChatFormTpl = (multiLine, placeholder, options, speech, hasChat) => {
+const AIChatFormTpl = (multiLine, placeholder, options, speech, hasChat, ariaLabel) => {
     let optionsTpl = "";
 
     if (Array.isArray(options)) {
@@ -158,7 +158,7 @@ const AIChatFormTpl = (multiLine, placeholder, options, speech, hasChat) => {
             <${
                 multiLine ? "textarea" : "input"
             } class="mw-ai-chat-box-area-field" aria-label="${
-        placeholder || mw.lang("Enter topic for AI assistance")
+        ariaLabel || placeholder || mw.lang("Enter topic for AI assistance")
     }" placeholder="${
         placeholder || mw.lang("Enter topic")
     }">${multiLine ? "</textarea>" : ""}
@@ -268,7 +268,8 @@ export class AIChatForm extends MicroweberBaseClass {
             this.settings.placeholder,
             this.settings.chatOptions,
             this.speechRecognition.isSupported(),
-            hasChat
+            hasChat,
+            this.settings.ariaLabel
         );
 
         const btn = frag.querySelector("button.mw-ai-chat-box-action-send");
