@@ -42,13 +42,14 @@ const AIChatFormCSS = `
     .mw-ai-chat-box-actions button:not(.speaking):hover{
     background: #eeeeee3d;
     }
+    /* task-2026-05-27-df6d28 / AI-1175: 30px → 44px for WCAG 2.5.5 */
     .mw-ai-chat-box-actions button{
-        width: 30px;
-        height: 30px;
+        width: 44px;
+        height: 44px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border-radius: 30px !important;
+        border-radius: 44px !important;
         color: #111;
 
     }
