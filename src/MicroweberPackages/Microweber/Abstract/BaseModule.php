@@ -122,6 +122,24 @@ abstract class BaseModule
 
         }
 
+        // task-2026-05-27-701c0d / AI-1189: check other installed templates
+        // when the view was not found in the active template
+        $defaultViewName = $moduleTemplatesNamespace . '.' . 'default';
+        if ($viewName === $defaultViewName && $template && $template !== 'default') {
+            $allTemplates = app()->templates->all();
+            foreach ($allTemplates as $otherTemplate) {
+                $otherLowerName = $otherTemplate->getLowerName();
+                if (isset($checkIfActiveSiteTemplateLowerName) && $otherLowerName === $checkIfActiveSiteTemplateLowerName) {
+                    continue;
+                }
+                $otherNs = str_replace('::', '.', $moduleTemplatesNamespace);
+                $otherViewName = 'templates.' . $otherLowerName . '::' . $otherNs . '.' . $template;
+                if (view()->exists($otherViewName)) {
+                    $viewName = $otherViewName;
+                    break;
+                }
+            }
+        }
 
         return $viewName;
     }

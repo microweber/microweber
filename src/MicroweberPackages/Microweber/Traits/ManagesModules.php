@@ -148,83 +148,86 @@ trait ManagesModules
 
     public function getTemplates($moduleType, $activeSiteTemplate = false): array
     {
-        $templatesForModule = [];
-        $foldersForScan = [];
         $ready = [];
         $moduleClass = $this->getModuleClass($moduleType);
 
-        if(!$activeSiteTemplate){
+        if (!$activeSiteTemplate) {
             $activeSiteTemplate = template_name();
         }
 
         $templateParent = template_parent($activeSiteTemplate);
-        if($templateParent and $templateParent != $activeSiteTemplate){
+        if ($templateParent and $templateParent != $activeSiteTemplate) {
             $activeSiteTemplate = $templateParent;
         }
 
-        if ($moduleClass) {
-            if (class_exists($moduleClass)) {
-                /** @var BaseModule $moduleClass */
-                if (method_exists($moduleClass, 'getTemplatesNamespace')) {
+        if ($moduleClass && class_exists($moduleClass) && method_exists($moduleClass, 'getTemplatesNamespace')) {
 
+            $templatesNamespace = $moduleClass::getTemplatesNamespace();
 
-                    $templatesNamespace = $moduleClass::getTemplatesNamespace();
-                    $scanTemplates = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
-                    $templatesForModule = $scanTemplates->scan($templatesNamespace,$moduleType);
+            // 1. Scan base module templates
+            $scanTemplates = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
+            $baseModuleSkins = $scanTemplates->scan($templatesNamespace, $moduleType);
 
-                    if ($activeSiteTemplate) {
-                        // we will check for module templates in the active site template
-                        $checkIfActiveSiteTemplate = app()->templates->find($activeSiteTemplate);
-                        if ($checkIfActiveSiteTemplate) {
-                            $checkIfActiveSiteTemplateLowerName = $checkIfActiveSiteTemplate->getLowerName();
-                            $templatesNamespaceInActiveSiteTemplate = str_replace('::', '.', $templatesNamespace);
-                            $templatesNamespaceInActiveSiteTemplate = 'templates.' . $checkIfActiveSiteTemplateLowerName . '::' . $templatesNamespaceInActiveSiteTemplate;
-
-
-                            $scanTemplatesInActiveSiteTemplate = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
-                            $templatesForModuleInActiveSiteTemplate = $scanTemplatesInActiveSiteTemplate->scan($templatesNamespaceInActiveSiteTemplate,$moduleType,$activeSiteTemplate, $checkIfActiveSiteTemplateLowerName);
-
-
-                            if ($templatesForModuleInActiveSiteTemplate) {
-                                foreach ($templatesForModuleInActiveSiteTemplate as $templatesForModuleInActiveSiteTemplateKey => $templatesForModuleInActiveSiteTemplateValue) {
-                                    if (!$templatesForModule) {
-                                        continue;
-                                    }
-                                    foreach ($templatesForModule as $templatesForModuleKey => $templatesForModuleValue) {
-                                        //check if layout_file is the same as in the module and unset it
-                                        if (isset($templatesForModuleValue['layout_file']) && isset($templatesForModuleInActiveSiteTemplateValue['layout_file']) && $templatesForModuleValue['layout_file'] == $templatesForModuleInActiveSiteTemplateValue['layout_file']) {
-                                            $ready[] = $templatesForModuleInActiveSiteTemplateValue;
-                                            //    unset($templatesForModule[$templatesForModuleKey]);
-                                            //  unset($templatesForModuleInActiveSiteTemplate[$templatesForModuleInActiveSiteTemplateKey]);
-                                            continue(2);
-                                        }
-                                    }
-                                    if (isset($templatesForModuleInActiveSiteTemplate[$templatesForModuleInActiveSiteTemplateKey])) {
-                                        $ready[] = $templatesForModuleInActiveSiteTemplate[$templatesForModuleInActiveSiteTemplateKey];
-                                    }
-
-                                }
-
-                            } else {
-                                $ready = $templatesForModule;
-                            }
-                        }
-                    } else {
-
-
-                    }
+            // 2. Scan active site template
+            $activeTemplateSkins = [];
+            $activeTemplateLowerName = '';
+            if ($activeSiteTemplate) {
+                $checkIfActiveSiteTemplate = app()->templates->find($activeSiteTemplate);
+                if ($checkIfActiveSiteTemplate) {
+                    $activeTemplateLowerName = $checkIfActiveSiteTemplate->getLowerName();
+                    $ns = str_replace('::', '.', $templatesNamespace);
+                    $ns = 'templates.' . $activeTemplateLowerName . '::' . $ns;
+                    $scanner = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
+                    $activeTemplateSkins = $scanner->scan($ns, $moduleType, $activeSiteTemplate, $activeTemplateLowerName) ?: [];
                 }
             }
-            if ($ready) {
 
-                $ready = array_intersect_key($ready, array_unique(array_map(function ($el) {
-                    return $el['layout_file'];
-                }, $ready)));
+            // 3. Scan other installed templates for additional layouts
+            $otherTemplateSkins = [];
+            $allTemplates = app()->templates->all();
+            foreach ($allTemplates as $otherTemplate) {
+                $otherLowerName = $otherTemplate->getLowerName();
+                if ($activeTemplateLowerName && $otherLowerName === $activeTemplateLowerName) {
+                    continue;
+                }
+                $ns = str_replace('::', '.', $templatesNamespace);
+                $ns = 'templates.' . $otherLowerName . '::' . $ns;
+                $scanner = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
+                $scanned = $scanner->scan($ns, $moduleType, $otherTemplate->getName(), $otherLowerName);
+                if ($scanned) {
+                    $otherTemplateSkins = array_merge($otherTemplateSkins, $scanned);
+                }
+            }
 
-                return $ready;
+            // 4. Merge with priority: active template > other templates > base module
+            $seenLayoutFiles = [];
+            foreach ($activeTemplateSkins as $skin) {
+                if (isset($skin['layout_file'])) {
+                    $ready[] = $skin;
+                    $seenLayoutFiles[$skin['layout_file']] = true;
+                }
+            }
+            foreach ($otherTemplateSkins as $skin) {
+                if (isset($skin['layout_file']) && !isset($seenLayoutFiles[$skin['layout_file']])) {
+                    $ready[] = $skin;
+                    $seenLayoutFiles[$skin['layout_file']] = true;
+                }
+            }
+            foreach ($baseModuleSkins as $skin) {
+                if (isset($skin['layout_file']) && !isset($seenLayoutFiles[$skin['layout_file']])) {
+                    $ready[] = $skin;
+                    $seenLayoutFiles[$skin['layout_file']] = true;
+                }
             }
         }
-        return [];
+
+        if ($ready) {
+            $ready = array_intersect_key($ready, array_unique(array_map(function ($el) {
+                return $el['layout_file'];
+            }, $ready)));
+        }
+
+        return $ready ?: [];
     }
 
 }
