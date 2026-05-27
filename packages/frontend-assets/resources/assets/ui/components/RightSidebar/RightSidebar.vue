@@ -2,7 +2,7 @@
     <div v-if="isReady">
 
 
-        <div id="general-theme-settings" role="complementary" aria-label="Theme settings sidebar" :class="[showSidebar == true ? 'active' : '']">
+        <div id="general-theme-settings" role="complementary" aria-label="Theme settings sidebar" :aria-hidden="!showSidebar" :class="[showSidebar == true ? 'active' : '']">
             <div>
                 <div class="d-flex align-items-center justify-content-between position-relative">
                     <!--
