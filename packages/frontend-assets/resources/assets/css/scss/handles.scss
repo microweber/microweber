@@ -85,7 +85,7 @@ $lightBG: #ffffff;
 $bg: $lightBG;
 
 $handleHeight: 38;
-$handleholderHeight: 42;
+$handleholderHeight: 56;
 
 
 :root{
@@ -131,10 +131,11 @@ $handleholderHeight: 42;
         box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
         background-color: var(--light-bg);
 
+        /* task-2026-05-27-df6d28 / AI-1170: 32px → 44px for WCAG 2.5.5 */
         .mw-le-handle-menu-button {
             display: inline-flex;
-            width: 32px;
-            height: 32px;
+            width: 44px;
+            height: 44px;
             margin: 0 2px;
             border-radius: 3px;
             cursor: pointer;
