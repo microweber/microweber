@@ -3097,10 +3097,20 @@ html.dark .mw-page-chip-popover__link {
 .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons {
     flex-direction: column !important;
     height: auto !important;
-    min-height: 44px;
+    min-height: 44px !important;
+    max-height: none !important;
     width: 52px !important;
     padding: 6px 2px 3px !important;
     gap: 1px;
+}
+/* task-2026-05-27-7f8c02 — normalize SVG icon sizes in right sidebar.
+   Inline SVG width/height attributes vary (19px, 22, 24px); this rule
+   forces a uniform 20×20 rendered size and prevents flex-shrink. */
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons svg,
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .mw-toolbar-icon-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+    flex-shrink: 0;
 }
 /* task-2026-05-27-c72805 — remove max-width + overflow:hidden that
    clipped labels like "Template" and "AI Edit". The block-level
