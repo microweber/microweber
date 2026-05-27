@@ -24,6 +24,7 @@ class ProcessCampaign extends Page
     public function getBreadcrumbs(): array
     {
         return [
+            route('filament.admin.pages.newsletter.homepage') => 'Newsletter',
             route('filament.admin-newsletter.resources.campaigns.index') => 'Campaigns',
             $this->campaign?->name ?? 'Campaign',
             'Processing',

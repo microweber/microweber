@@ -93,11 +93,10 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             hook: fn() => view('microweber-module-newsletter::livewire.filament.admin.sidebar.back-to-admin')
         );
 
-        // task-2026-05-23-b59ecf / AI-1056 — duplicate the Back to Admin link at TOPBAR_START
-        // task-2026-05-27-6e9cf4 / AI-1173: enlarged breadcrumb for orientation
+        // task-2026-05-27-902c15 / AI-1179: breadcrumb trail "Admin > Newsletter"
         $panel->renderHook(
             name: PanelsRenderHook::TOPBAR_START,
-            hook: fn(): string => '<a href="' . e(admin_url()) . '" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;font-size:14px;font-weight:500;color:var(--gray-700,#374151);text-decoration:none;border-right:1px solid rgba(0,0,0,0.1);margin-right:10px;min-height:44px;" title="Back to Admin Settings"><svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' style=\'width:18px;height:18px;\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18\' /></svg><span>Admin Settings</span></a>'
+            hook: fn(): string => '<nav aria-label="Breadcrumb" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;font-size:14px;font-weight:500;color:var(--gray-700,#374151);border-right:1px solid rgba(0,0,0,0.1);margin-right:10px;min-height:44px;"><a href="' . e(admin_url()) . '" style="color:var(--gray-500,#6b7280);text-decoration:none;" title="Back to Admin"><svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' style=\'width:18px;height:18px;vertical-align:middle;margin-right:4px;\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18\' /></svg>Admin</a><span style="color:var(--gray-400,#9ca3af);margin:0 2px;">/</span><span style="color:var(--gray-700,#374151);">Newsletter</span></nav>'
         );
 
         $panel->plugin(new MicroweberFilamentTheme());

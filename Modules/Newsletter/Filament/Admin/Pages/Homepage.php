@@ -24,6 +24,7 @@ class Homepage extends BaseDashboard
     public function getBreadcrumbs(): array
     {
         return [
+            route('filament.admin.pages.newsletter.homepage') => 'Newsletter',
             'Dashboard',
         ];
     }

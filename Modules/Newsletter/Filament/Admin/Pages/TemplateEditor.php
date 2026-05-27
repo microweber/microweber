@@ -19,8 +19,11 @@ class TemplateEditor extends Page
 
     public function getBreadcrumbs(): array
     {
+        $newsletterRoot = route('filament.admin.pages.newsletter.homepage');
+
         if ($campaign = $this->getCampaign()) {
             return [
+                $newsletterRoot => 'Newsletter',
                 route('filament.admin-newsletter.resources.campaigns.index') => 'Campaigns',
                 route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id) => $campaign->name,
                 'Template Editor',
@@ -28,6 +31,7 @@ class TemplateEditor extends Page
         }
 
         $breadcrumbs = [
+            $newsletterRoot => 'Newsletter',
             route('filament.admin-newsletter.resources.templates.index') => 'Designs',
         ];
 
