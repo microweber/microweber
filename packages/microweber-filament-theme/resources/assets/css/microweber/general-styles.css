@@ -4415,3 +4415,10 @@ body.fi-panel-admin .fi-notification {
         transition-duration: 0ms !important;
     }
 }
+
+/* task-2026-05-27-241d90 / AI-1159: modal footer <a> tags invisible in dark mode.
+   Filament dark cascade targets <button> but misses <a> with fi-btn class. */
+html.dark .fi-modal-footer a.fi-btn,
+.theme-dark .fi-modal-footer a.fi-btn {
+    color: rgb(226, 232, 240) !important;
+}
