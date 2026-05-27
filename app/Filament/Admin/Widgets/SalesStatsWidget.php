@@ -178,12 +178,26 @@ class SalesStatsWidget extends BaseWidget
 
     private function formatCurrency(float $amount): string
     {
+        $symbol = $this->getCurrencySymbol();
+
         if ($amount >= 1000000) {
-            return '$' . number_format($amount / 1000000, 1) . 'M';
+            return $symbol . number_format($amount / 1000000, 1) . 'M';
         } elseif ($amount >= 1000) {
-            return '$' . number_format($amount / 1000, 1) . 'K';
+            return $symbol . number_format($amount / 1000, 1) . 'K';
         }
 
-        return '$' . number_format($amount, 2);
+        return $symbol . number_format($amount, 2);
+    }
+
+    // task-2026-05-27-13983e / AI-1133 sub-issue 3
+    private function getCurrencySymbol(): string
+    {
+        try {
+            return function_exists('currency_symbol')
+                ? (currency_symbol() ?: '$')
+                : (get_option('currency_symbol', 'website') ?: '$');
+        } catch (\Throwable $e) {
+            return '$';
+        }
     }
 }

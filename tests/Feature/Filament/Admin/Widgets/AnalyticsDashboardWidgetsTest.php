@@ -93,9 +93,13 @@ class AnalyticsDashboardWidgetsTest extends TestCase
         $method = $reflection->getMethod('formatCurrency');
         $method->setAccessible(true);
 
-        $this->assertEquals('$100.00', $method->invoke($widget, 100));
-        $this->assertEquals('$1.0K', $method->invoke($widget, 1000));
-        $this->assertEquals('$1.5M', $method->invoke($widget, 1500000));
+        $symbolMethod = $reflection->getMethod('getCurrencySymbol');
+        $symbolMethod->setAccessible(true);
+        $symbol = $symbolMethod->invoke($widget);
+
+        $this->assertEquals($symbol . '100.00', $method->invoke($widget, 100));
+        $this->assertEquals($symbol . '1.0K', $method->invoke($widget, 1000));
+        $this->assertEquals($symbol . '1.5M', $method->invoke($widget, 1500000));
     }
 
     public function test_traffic_stats_widget_formats_duration(): void

@@ -5815,7 +5815,14 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit span, body.fi-panel-admin .f
 }
 @media (max-width: 768px) {
   body.fi-panel-admin .fi-btn.admin-toolbar-add {
-    display: none !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 }
 body.fi-panel-admin .mw-welcome-widget-counters {
@@ -5866,8 +5873,108 @@ body.fi-panel-admin .mw-welcome-widget-empty {
     transition: none;
   }
 }
+body.fi-panel-admin .mw-hero-stat-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  padding: var(--space-md, 13px) var(--space-lg, 21px);
+  margin-block-end: var(--space-md, 13px);
+}
+html.dark body.fi-panel-admin .mw-hero-stat-card {
+  background-color: #1a1f2b;
+  border-color: rgba(255, 255, 255, 0.07);
+}
+body.fi-panel-admin .mw-hero-stat-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  margin-block-end: var(--space-sm, 8px);
+}
+body.fi-panel-admin .mw-hero-stat-icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body.fi-panel-admin .mw-hero-stat-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+html.dark body.fi-panel-admin .mw-hero-stat-label {
+  color: #f3f4f6;
+}
+body.fi-panel-admin .mw-hero-stat-link {
+  margin-inline-start: auto;
+  font-size: 13px;
+  color: #0d6efd;
+  text-decoration: none;
+}
+body.fi-panel-admin .mw-hero-stat-link:hover {
+  text-decoration: underline;
+}
+body.fi-panel-admin .mw-hero-stat-tabs {
+  display: flex;
+  gap: 2px;
+  margin-block-end: var(--space-md, 13px);
+  background: #f3f4f6;
+  border-radius: 6px;
+  padding: 2px;
+  width: fit-content;
+}
+html.dark body.fi-panel-admin .mw-hero-stat-tabs {
+  background: rgba(255, 255, 255, 0.07);
+}
+body.fi-panel-admin .mw-hero-stat-tab {
+  padding: 4px 12px;
+  font-size: 13px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #6b7280;
+  font-weight: 500;
+  transition: background-color 120ms, color 120ms;
+}
+body.fi-panel-admin .mw-hero-stat-tab:hover {
+  color: #111827;
+}
+html.dark body.fi-panel-admin .mw-hero-stat-tab:hover {
+  color: #f3f4f6;
+}
+body.fi-panel-admin .mw-hero-stat-tab--active {
+  background: #fff;
+  color: #111827;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+html.dark body.fi-panel-admin .mw-hero-stat-tab--active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f3f4f6;
+}
+body.fi-panel-admin .mw-hero-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+  margin: 0;
+}
+html.dark body.fi-panel-admin .mw-hero-stat-value {
+  color: #f3f4f6;
+}
+body.fi-panel-admin .mw-hero-stat-orders {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 4px 0 0;
+}
+body.fi-panel-admin .mw-quick-stats-grid.mw-quick-stats-secondary {
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md, 13px);
+  margin-block-start: 0;
+}
 body.fi-panel-admin .mw-quick-stats-grid {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-md, 13px);
   margin-block-start: var(--space-lg, 21px);
 }

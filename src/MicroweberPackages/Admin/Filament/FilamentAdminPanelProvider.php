@@ -149,7 +149,21 @@ class FilamentAdminPanelProvider extends PanelProvider
                 'warning' => Color::Amber,
             ])
             ->maxContentWidth(Width::Full)
-            ->unsavedChangesAlerts();
+            ->unsavedChangesAlerts()
+            // task-2026-05-27-13983e / AI-1133 sub-issue 1
+            ->userMenuItems([
+                \Filament\Navigation\MenuItem::make()
+                    ->label('My Account')
+                    ->icon('heroicon-o-user-circle')
+                    ->sort(-2)
+                    ->url(function () {
+                        $userId = auth()->id();
+                        if ($userId) {
+                            return \MicroweberPackages\User\Filament\Resources\UsersResource::getUrl('edit', ['record' => $userId]);
+                        }
+                        return null;
+                    }),
+            ]);
 
         return $panel;
     }

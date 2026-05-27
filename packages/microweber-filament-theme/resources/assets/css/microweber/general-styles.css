@@ -3388,12 +3388,20 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
     }
 }
 
-/* AI-704 mobile: +Add hides on ≤768px; the resource pages keep their
- * own create buttons + the sidebar nav exposes the same routes.
- * AI-704a follow-up: render +Add as an explicit hamburger-menu item. */
+/* AI-704 mobile: +Add shows as compact 36x36 icon-only button on mobile.
+ * task-2026-05-27-13983e / AI-1133 sub-issue 2 — was display:none, now
+ * shows a compact touch-friendly icon button so mobile users keep the
+ * quick-create shortcut. */
 @media (max-width: 768px) {
     body.fi-panel-admin .fi-btn.admin-toolbar-add {
-        display: none !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        width: 36px !important;
+        height: 36px !important;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 }
 
