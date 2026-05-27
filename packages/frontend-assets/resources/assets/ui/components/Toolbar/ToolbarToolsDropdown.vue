@@ -245,7 +245,7 @@
     gap: 8px;
     background: #fff;
     border-radius: 6px;
-    border: 1px solid #efefef;
+    border: 1px solid transparent;
     box-shadow: 0 1px 2px rgba(0,0,0,0.03);
     transition: border 0.2s, box-shadow 0.2s;
     font-weight: 500;
@@ -259,7 +259,7 @@
 
 .dropdown-trigger:focus,
 .dropdown-trigger:hover {
-    border: 1.5px solid #b3b3b3;
+    border: 1px solid #e0e0e0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.07);
     background: #fafbfc;
 }
@@ -321,13 +321,13 @@
 /* Dark mode styles */
 :global(html.dark) .dropdown-trigger {
     background: rgb(24, 36, 51);
-    border: 1px solid #374151;
+    border: 1px solid transparent;
     color: #e5e7eb;
 }
 
 :global(html.dark) .dropdown-trigger:hover,
 :global(html.dark) .dropdown-trigger:focus {
-    border: 1.5px solid #6b7280;
+    border: 1px solid #4b5563;
     background: rgb(31, 41, 55);
 }
 

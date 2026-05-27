@@ -154,7 +154,7 @@ body {
 
 .live-edit-toolbar-buttons-undo-redo,
 .live-edit-toolbar-buttons-view {
-    @apply !bg-gray-100 !border-gray-100 dark:!bg-gray-800;
+    @apply !bg-gray-100 !border-transparent dark:!bg-gray-800 dark:!border-transparent;
 }
 
 .mw-live-edit-resolutions-wrapper,

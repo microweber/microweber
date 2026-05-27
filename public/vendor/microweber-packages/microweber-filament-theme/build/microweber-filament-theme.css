@@ -15772,8 +15772,11 @@ body {
   scrollbar-gutter: auto !important;
 }
 .live-edit-toolbar-buttons-undo-redo, .live-edit-toolbar-buttons-view {
-  border-color: rgba(var(--gray-100), 1) !important;
+  border-color: transparent !important;
   background-color: rgba(var(--gray-100), 1) !important;
+  &:is(.dark *) {
+    border-color: transparent !important;
+  }
   &:is(.dark *) {
     background-color: rgba(var(--gray-800), 1) !important;
   }
