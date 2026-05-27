@@ -1140,19 +1140,22 @@ class ContentResource extends Resource
                     ->helperText('Select menu where this content will appear')
                     ->searchable()
                     ->bulkToggleable()
+                    // task-2026-05-27-6e6957 / AI-1118 — deduplicate + filter Faker entries
                     ->options(function (?Model $record) {
                         $menus = get_menus();
                         $menusCheckboxes = [];
                         if ($menus) {
-                            // Count items per menu for sorting by most used
                             $menuItems = [];
+                            $seenTitles = [];
                             foreach ($menus as $menu) {
-                                // AI-776 (task-2026-05-17-6d65de) — fixture-leak filter.
-                                // Skip empty-titled + test-pattern menus before the
-                                // expensive per-menu item-count query.
                                 if (! self::ai776MenuShouldRender($menu)) {
                                     continue;
                                 }
+                                $titleKey = mb_strtolower(trim($menu['title'] ?? ''));
+                                if (isset($seenTitles[$titleKey])) {
+                                    continue;
+                                }
+                                $seenTitles[$titleKey] = true;
                                 $itemCount = app()->menu_manager->get_menu_items('count=1&parent_id=' . $menu['id']);
                                 $menuItems[] = [
                                     'id' => $menu['id'],
@@ -1160,7 +1163,6 @@ class ContentResource extends Resource
                                     'count' => (int) $itemCount,
                                 ];
                             }
-                            // Sort by item count descending (most used first)
                             usort($menuItems, fn($a, $b) => $b['count'] - $a['count']);
                             foreach ($menuItems as $menu) {
                                 $label = Str::headline($menu['title']);

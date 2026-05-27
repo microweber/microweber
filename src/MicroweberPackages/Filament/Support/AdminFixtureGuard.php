@@ -88,6 +88,10 @@ final class AdminFixtureGuard
         '/^\d+$/',                                // pure-numeric "titles" (123, 456) from quick-test setup
         '/^DuskTest/i',                            // Dusk browser-test fixture (DuskTestPage, DuskTestPost, DuskTestProduct)
         '/^Test post$/i',                          // generic Dusk/PHPUnit post fixture
+        '/^Active Menu$/i',                        // AI-1118 test fixture (16 duplicates)
+        '/^Disabled Menu$/i',                      // AI-1118 test fixture (16 duplicates)
+        '/^my_new_menu$/i',                        // AI-1118 test fixture (snake_case test name)
+        '/^Richest people in the world$/i',        // AI-1118 Faker-seeded test content
     ];
 
     /**
@@ -163,41 +167,38 @@ final class AdminFixtureGuard
         return true;
     }
 
+    // AI-1118: short Latin filler words that pair with FAKER_LOREM_WORDS
+    public const SHORT_LATIN_WORDS = [
+        'a', 'ab', 'ad', 'at', 'aut', 'cum', 'de', 'est', 'et', 'eum',
+        'ex', 'id', 'in', 'non', 'quo', 'rem', 'sed', 'sit', 'sub', 'ut',
+    ];
+
     /**
-     * Detect Faker lorem-ipsum-style 2+ word titles. Returns true when
-     * the title contains at least 2 ≥4-char words AND every ≥4-char
-     * word appears in FAKER_LOREM_WORDS (case-insensitive).
-     *
-     * Examples that match (filtered):
-     *   - "Commodi Sunt"           (2 words, both ≥4 chars, both in set)
-     *   - "Reprehenderit Voluptate" (2 words, both in set)
-     *   - "Asperiores Et"          (et is <4 char so ignored; asperiores in set; <2 long words → does NOT match — passes)
-     *   - "Aperiam placeat" lowercase (both in set)
-     *
-     * Examples that do NOT match (pass through):
-     *   - "About Us"           (about/us not in set)
-     *   - "Customer Support"   (neither in set)
-     *   - "Main"               (single word — no multi-word fixture signature)
+     * Detect Faker lorem-ipsum-style multi-word titles. Returns true when
+     * every word is recognisable Latin (either in FAKER_LOREM_WORDS or
+     * SHORT_LATIN_WORDS) and at least one word is in the long-form set.
      */
     public static function looksLikeFakerLorem(string $title): bool
     {
-        // Tokenize on whitespace + common separators
         $words = preg_split('/[\s\-_,.\/]+/', strtolower(trim($title))) ?: [];
-        // Keep only ≥4-char tokens (filters out `et`, `a`, `in`, etc.)
-        $significant = array_values(array_filter(
+        $alphaWords = array_values(array_filter(
             $words,
-            fn ($w) => mb_strlen($w) >= 4 && preg_match('/^[a-z]+$/u', $w) === 1
+            fn ($w) => mb_strlen($w) >= 1 && preg_match('/^[a-z]+$/u', $w) === 1
         ));
-        if (count($significant) < 2) {
+        if (count($alphaWords) < 2) {
             return false;
         }
-        $set = array_flip(self::FAKER_LOREM_WORDS);
-        foreach ($significant as $word) {
-            if (! isset($set[$word])) {
+        $longSet = array_flip(self::FAKER_LOREM_WORDS);
+        $shortSet = array_flip(self::SHORT_LATIN_WORDS);
+        $hasLongWord = false;
+        foreach ($alphaWords as $word) {
+            if (isset($longSet[$word])) {
+                $hasLongWord = true;
+            } elseif (! isset($shortSet[$word])) {
                 return false;
             }
         }
-        return true;
+        return $hasLongWord;
     }
 
     /**
