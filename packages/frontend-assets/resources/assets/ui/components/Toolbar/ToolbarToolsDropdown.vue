@@ -244,14 +244,17 @@
     align-items: center;
     gap: 8px;
     background: #fff;
-    border-radius: 6px;
-    border: 1px solid transparent;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    border-radius: 7px;
+    border: 1px solid #e0e0e0;
+    box-shadow: none;
     transition: border 0.2s, box-shadow 0.2s;
-    font-weight: 500;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
     color: #222;
     outline: none;
     position: relative;
+    height: 35px;
     max-height: 35px;
     width: auto;
     min-width: unset;
@@ -259,9 +262,9 @@
 
 .dropdown-trigger:focus,
 .dropdown-trigger:hover {
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    background: #fafbfc;
+    border: 1px solid #c0c0c0;
+    box-shadow: none;
+    background: #f5f5f5;
 }
 
 .dropdown-content {
@@ -320,15 +323,15 @@
 
 /* Dark mode styles */
 :global(html.dark) .dropdown-trigger {
-    background: rgb(24, 36, 51);
-    border: 1px solid transparent;
+    background: rgb(31, 41, 55);
+    border: 1px solid #374151;
     color: #e5e7eb;
 }
 
 :global(html.dark) .dropdown-trigger:hover,
 :global(html.dark) .dropdown-trigger:focus {
     border: 1px solid #4b5563;
-    background: rgb(31, 41, 55);
+    background: rgb(55, 65, 81);
 }
 
 :global(html.dark) .dropdown-content {
