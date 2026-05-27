@@ -15782,9 +15782,9 @@ body {
   border-radius: 7px !important;
   box-shadow: none !important;
   border: 1px solid #e0e0e0 !important;
-  height: 35px !important;
-  min-height: 35px !important;
-  max-height: 35px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
   display: inline-flex !important;
   align-items: center !important;
   font-size: 14px !important;
@@ -15798,7 +15798,7 @@ body {
   background-color: transparent !important;
   border-radius: 7px !important;
   padding: 0 !important;
-  max-height: 35px !important;
+  max-height: 44px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -15810,9 +15810,9 @@ body {
   border-radius: 7px !important;
   box-shadow: none !important;
   border: 1px solid #e0e0e0 !important;
-  height: 35px !important;
-  min-height: 35px !important;
-  max-height: 35px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
   padding: 3px 7px !important;
   line-height: 20px !important;
   font-size: 14px !important;
@@ -15913,9 +15913,9 @@ html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.live-edit-toolbar-button
   border: none !important;
   border-radius: var(--radius-pill, 999px) !important;
   padding: 0 14px !important;
-  height: 35px !important;
-  min-height: 35px !important;
-  max-height: 35px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
   font-size: 14px !important;
   line-height: 20px !important;
   display: inline-flex !important;
@@ -21498,6 +21498,8 @@ svg[wire\:loading\.remove\.delay\.default], svg[wire\:loading\.remove] {
 .fi-modal-close-btn {
   border-radius: 4px !important;
   color: #718096 !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
 }
 .fi-modal-close-btn:hover {
   color: #182433 !important;
