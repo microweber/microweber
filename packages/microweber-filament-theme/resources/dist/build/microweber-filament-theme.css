@@ -17181,7 +17181,7 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
   color: #ffffff !important;
 }
 html.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon, .dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon {
-  background-color: rgba(255, 255, 255, 0.08) !important;
+  filter: brightness(0.55) saturate(0.8);
 }
 @media (max-width: 767px) {
   .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) {

@@ -250,7 +250,7 @@
             class="mw-add-content-group__header text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 px-1">
             New content
         </h3>
-        <p class="text-xs text-gray-400 dark:text-gray-500 mb-3 px-1">Create something new for your website</p>
+        <p class="text-xs text-gray-400 dark:text-gray-300 mb-3 px-1">Create something new for your website</p>
         {{-- task-2026-05-27-4b1344 / AI-1139: responsive grid —
              3-col on desktop (≥768px), 2-col on tablet/mobile per
              designer responsive spec. --}}
