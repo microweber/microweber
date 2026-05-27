@@ -26,11 +26,13 @@ class UpdaterPage extends Page
     public $currentVersion;
     public $latestVersion;
     public $updateAvailable = false;
+    public $aheadOfLatest = false;
     public $canUpdate = true;
     public $updateMessages = [];
     public $selectedBranch = 'master';
     public $branches = [];
 
+    // task-2026-05-27-6e6957 / AI-1113
     public function mount(): void
     {
         $this->currentVersion = MW_VERSION;
@@ -42,6 +44,8 @@ class UpdaterPage extends Page
 
         if (\Composer\Semver\Comparator::greaterThan($this->latestVersion, $this->currentVersion)) {
             $this->updateAvailable = true;
+        } elseif (\Composer\Semver\Comparator::greaterThan($this->currentVersion, $this->latestVersion)) {
+            $this->aheadOfLatest = true;
         }
 
         $this->updateMessages = $updaterHelper->getCanUpdateMessages();
@@ -65,6 +69,7 @@ class UpdaterPage extends Page
         $updaterHelper = app(UpdaterHelper::class);
         $this->latestVersion = $updaterHelper->getLatestVersion($this->selectedBranch);
 
+        $this->aheadOfLatest = false;
         if (\Composer\Semver\Comparator::greaterThan($this->latestVersion, $this->currentVersion)) {
             $this->updateAvailable = true;
             Notification::make()
@@ -74,6 +79,9 @@ class UpdaterPage extends Page
                 ->send();
         } else {
             $this->updateAvailable = false;
+            if (\Composer\Semver\Comparator::greaterThan($this->currentVersion, $this->latestVersion)) {
+                $this->aheadOfLatest = true;
+            }
             Notification::make()
                 ->title('No updates available')
                 ->body("You are running the latest version from the {$this->selectedBranch} branch.")
