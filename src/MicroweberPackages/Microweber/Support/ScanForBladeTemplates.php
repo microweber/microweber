@@ -237,8 +237,25 @@ class ScanForBladeTemplates
                     'layouts/sign-up.php',
                 ];
 
+                // task-2026-05-27-b0bacf / AI-1186: also skip blade versions and
+                // non-visual layouts (JS-only scripts like footer_cart)
+                $skipLayoutBasenames = [
+                    '404',
+                    'forgot_password',
+                    'login',
+                    'register',
+                    'reset_password',
+                    'sign-up',
+                    'footer_cart',
+                ];
 
                 if (in_array($layout_file, $skipLayoutFiles)) {
+                    continue;
+                }
+
+                $layout_basename = pathinfo($layout_file, PATHINFO_FILENAME);
+                $layout_basename = str_replace('.blade', '', $layout_basename);
+                if (in_array($layout_basename, $skipLayoutBasenames)) {
                     continue;
                 }
 //
