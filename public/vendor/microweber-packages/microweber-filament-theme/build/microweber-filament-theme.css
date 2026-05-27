@@ -5659,10 +5659,7 @@ html.dark .mw-page-chip-popover__link {
   color: var(--ese-text-muted, #6b7280);
   margin-top: 2px;
   text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 48px;
+  overflow: visible;
   pointer-events: none;
 }
 html.dark .mw-live-edit-page .mw-toolbar-icon-btn[data-mw-label]::after {
