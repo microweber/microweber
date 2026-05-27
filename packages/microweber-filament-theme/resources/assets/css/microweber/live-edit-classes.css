@@ -1551,7 +1551,8 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .mw-add-content-modal-action-wrapper .font-bold {
+.dark .mw-add-content-modal-action-wrapper .font-bold,
+.dark .mw-add-content-modal-action-wrapper .font-semibold {
     color: #e5e7eb !important;
 }
 
