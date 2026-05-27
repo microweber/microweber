@@ -2347,9 +2347,10 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
  * in @apply dark:bg-gray-* compiled output (Tailwind v4).
  */
 
+/* task-2026-05-27-e8af06 / AI-1162: defensive hardening with !important */
 .dark #toolbar {
-    background-color: rgb(31 41 55);
-    color: white;
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
 }
 
 .dark #general-theme-settings,
@@ -2361,19 +2362,19 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 }
 
 .dark .mw-control-box-default {
-    background-color: rgb(31 41 55);
-    color: white;
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
 }
 
 .dark .mw-control-box-bottom.mw-control-box-default {
-    background-color: rgb(31 41 55);
-    color: white;
-    border-color: rgb(55 65 81);
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
+    border-color: rgb(55 65 81) !important;
 }
 
 .dark #save-toolbar {
-    background-color: rgb(31 41 55);
-    color: white;
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
 }
 
 .dark .mw-domtree li.selected > span {
