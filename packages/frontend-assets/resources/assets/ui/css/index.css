@@ -884,13 +884,17 @@ html.dark .mw-le-layouts-dialog .modules-list {
     overflow-y: scroll;
 }
 
+/* task-2026-05-27-de93c9 / AI-1166: color #737373 → var(--ese-text) for WCAG 4.5:1 contrast */
 .mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {
     height: var(--layouts-dialog-toolbar-height);
     background-color: var(--tblr-body-bg2, #f4f6fa);
     border-color: var(--tblr-body-bg2, #f4f6fa);
     padding: 0 20px 0 55px;
     font-size: 14px;
-    color: #737373;
+    color: var(--ese-text, #111827);
+}
+.mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field::placeholder {
+    color: var(--ese-text-muted, #6b7280);
 }
 
 .mw-le-layouts-dialog .modules-list-block-item,
