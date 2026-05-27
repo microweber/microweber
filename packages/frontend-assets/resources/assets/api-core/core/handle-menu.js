@@ -214,6 +214,7 @@ export const HandleMenu = function (options) {
         });
     };
 
+    // task-2026-05-27-df6d28 / AI-1171: aria-label + role for WCAG
     this.button = function (conf) {
         var btn = ElementManager({
             props: {
@@ -222,6 +223,14 @@ export const HandleMenu = function (options) {
                     (conf.className ? " " + conf.className : ""),
             },
         });
+        var btnNode = btn.get(0);
+        if (btnNode) {
+            btnNode.setAttribute('role', 'button');
+            if (conf.title) {
+                var label = typeof conf.title === 'function' ? conf.title(conf, this.getTarget()) : conf.title;
+                if (label) btnNode.setAttribute('aria-label', label);
+            }
+        }
         var btnContenConf = {
             props: {
                 className: "mw-le-handle-menu-button-content",
