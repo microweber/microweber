@@ -165,6 +165,12 @@ class WorkflowResource extends Resource
 
                 EditAction::make(),
                 DeleteAction::make(),
+            ])
+            ->emptyStateHeading('No workflows yet')
+            ->emptyStateDescription('Set up automation workflows to send emails based on triggers and schedules.')
+            ->emptyStateActions([
+                \Filament\Tables\Actions\CreateAction::make()
+                    ->label('Create Workflow'),
             ]);
     }
 

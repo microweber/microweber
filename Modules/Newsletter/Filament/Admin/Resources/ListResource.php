@@ -157,6 +157,12 @@ class ListResource extends Resource
                         }),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->emptyStateHeading('No lists yet')
+            ->emptyStateDescription('Create a subscriber list to organize your audience into segments.')
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make()
+                    ->label('Create List'),
             ]);
     }
 

@@ -275,6 +275,12 @@ class SubscribersResource extends Resource
                         }),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->emptyStateHeading('No subscribers yet')
+            ->emptyStateDescription('Add subscribers manually or import them from a CSV file.')
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make()
+                    ->label('Add Subscriber'),
             ]);
     }
 

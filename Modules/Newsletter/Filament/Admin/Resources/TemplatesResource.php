@@ -103,6 +103,12 @@ class TemplatesResource extends Resource
             Tables\Actions\BulkActionGroup::make([
                 Tables\Actions\DeleteBulkAction::make(),
             ]),
+        ])
+        ->emptyStateHeading('No designs yet')
+        ->emptyStateDescription('Create an email template to use in your campaigns.')
+        ->emptyStateActions([
+            Tables\Actions\CreateAction::make()
+                ->label('New Template'),
         ]);
     }
 

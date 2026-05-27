@@ -483,6 +483,14 @@ Tables\Actions\DeleteAction::make(),
                         }),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->emptyStateHeading('No campaigns yet')
+            ->emptyStateDescription('Create your first email campaign to start reaching your subscribers.')
+            ->emptyStateActions([
+                Tables\Actions\Action::make('createCampaign')
+                    ->label('Create Campaign')
+                    ->icon('heroicon-o-rocket-launch')
+                    ->url(route('filament.admin-newsletter.pages.create-campaign')),
             ]);
     }
 
