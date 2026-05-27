@@ -157,7 +157,9 @@ const AIChatFormTpl = (multiLine, placeholder, options, speech, hasChat) => {
         <div class="mw-ai-chat-box-area">
             <${
                 multiLine ? "textarea" : "input"
-            } class="mw-ai-chat-box-area-field" placeholder="${
+            } class="mw-ai-chat-box-area-field" aria-label="${
+        placeholder || mw.lang("Enter topic for AI assistance")
+    }" placeholder="${
         placeholder || mw.lang("Enter topic")
     }">${multiLine ? "</textarea>" : ""}
             <div class="mw-ai-chat-box-footer">
