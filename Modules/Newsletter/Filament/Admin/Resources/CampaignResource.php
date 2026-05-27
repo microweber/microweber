@@ -62,7 +62,8 @@ class CampaignResource extends Resource
 
     //    protected static bool $shouldRegisterNavigation = false;
 
-    protected static ?string $label = 'Campaigns';
+    protected static ?string $label = 'Campaign';
+    protected static ?string $pluralLabel = 'Campaigns';
     protected static string | null $navigationLabel = 'Campaigns';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Campaigns';

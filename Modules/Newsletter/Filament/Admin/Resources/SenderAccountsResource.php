@@ -30,7 +30,8 @@ class SenderAccountsResource extends Resource
 
 //    protected static bool $shouldRegisterNavigation = false;
 
-    protected static ?string $label = 'Senders';
+    protected static ?string $label = 'Sender';
+    protected static ?string $pluralLabel = 'Senders';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Settings';
 

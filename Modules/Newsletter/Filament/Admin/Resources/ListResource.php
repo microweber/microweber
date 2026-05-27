@@ -38,7 +38,8 @@ class ListResource extends Resource
 
 //    protected static bool $shouldRegisterNavigation = false;
 
-    protected static ?string $label = 'Lists';
+    protected static ?string $label = 'List';
+    protected static ?string $pluralLabel = 'Lists';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Campaigns';
 

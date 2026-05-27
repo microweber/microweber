@@ -37,7 +37,8 @@ class SubscribersResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $label = 'Subscribers';
+    protected static ?string $label = 'Subscriber';
+    protected static ?string $pluralLabel = 'Subscribers';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Subscribers';
 
