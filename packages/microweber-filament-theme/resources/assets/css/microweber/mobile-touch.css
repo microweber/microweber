@@ -818,6 +818,28 @@ button.btn-icon.live-edit-toolbar-buttons,
     .dark body.fi-panel-admin .fi-ta-row > .fi-ta-cell {
         border-bottom-color: rgba(255, 255, 255, 0.06);
     }
+    /* task-2026-05-27-305605 / AI-1132 — show column header labels in
+       card mode. Filament's stackedOnMobile() renders .fi-ta-cell-label
+       inside each cell but hides them above sm: (640px). Our card layout
+       activates at 1024px, so labels must be forced visible across the
+       full card range. */
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell > .fi-ta-cell-label {
+        display: block !important;
+        padding-top: 0 !important;
+        font-size: 0.6875rem !important;
+        font-weight: 600 !important;
+        color: #6b7280 !important;
+        line-height: 1.25 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.03em !important;
+    }
+    .dark body.fi-panel-admin .fi-ta-row > .fi-ta-cell > .fi-ta-cell-label {
+        color: #9ca3af !important;
+    }
+    /* Hide the checkbox cell label (just says "Select/deselect") */
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell.fi-ta-selection-cell > .fi-ta-cell-label {
+        display: none !important;
+    }
 }
 
 /* ============================================================

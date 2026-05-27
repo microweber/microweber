@@ -55,7 +55,9 @@ class FilamentAdminPanelProvider extends PanelProvider
         Table::configureUsing(function (Table $table): Table {
             return $table
                 ->paginationPageOptions([10, 25, 50, 100, 250])
-                ->defaultPaginationPageOption(25);
+                ->defaultPaginationPageOption(25)
+                // task-2026-05-27-305605 / AI-1132
+                ->stackedOnMobile();
         });
     }
 
