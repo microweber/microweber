@@ -1871,11 +1871,16 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
     color: #ffffff !important;
 }
-/* AI-1139 dark mode — dim per-type tint circles via filter so inline
-   style= background-colors stay distinguishable (not uniform gray) */
+/* AI-1139 dark mode — dim per-type tint circles for dark bg;
+   task-2026-05-27-688e38: brightness(0.55) was too aggressive,
+   making SVG icons invisible. Raised to 0.75 for visibility. */
 html.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon,
 .dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon {
-    filter: brightness(0.55) saturate(0.8);
+    filter: brightness(0.75) saturate(0.8);
+}
+html.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon svg,
+.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon svg {
+    color: #e5e7eb !important;
 }
 /* AI-1139: mobile bottom-sheet modal */
 @media (max-width: 767px) {
