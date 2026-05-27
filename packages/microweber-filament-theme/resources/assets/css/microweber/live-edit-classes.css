@@ -346,7 +346,14 @@ html.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
     color: var(--ese-surface, #ffffff) !important;
     border: none !important;
     border-radius: var(--radius-pill, 999px) !important;
-    padding: var(--space-sm, 8px) var(--space-md, 13px) !important;
+    padding: 0 14px !important;
+    height: 35px !important;
+    min-height: 35px !important;
+    max-height: 35px !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    display: inline-flex !important;
+    align-items: center !important;
     transition: opacity var(--t-fast, 120ms) var(--ease, ease-out),
                 box-shadow var(--t-slow, 320ms) var(--ease, ease-out);
 }
