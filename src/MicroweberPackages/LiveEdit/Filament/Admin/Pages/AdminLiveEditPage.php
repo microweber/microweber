@@ -304,11 +304,16 @@ class AdminLiveEditPage extends Page
                 // to peek at their other images, the page navigated away
                 // and the in-progress upload was lost without warning.
                 // Opening in a new tab preserves the upload context.
+                // task-2026-05-27-287636 / AI-1140 Part A: route was
+                // 'filament.admin.pages.media-library' (non-existent);
+                // correct name is 'filament.admin.pages.media'.
                 Action::make('browseMediaLibrary')
                     ->label('Browse Media Library')
                     ->icon('heroicon-o-folder-open')
                     ->color('gray')
-                    ->url(route('filament.admin.pages.media-library'))
+                    ->url(\Illuminate\Support\Facades\Route::has('filament.admin.pages.media')
+                        ? route('filament.admin.pages.media')
+                        : admin_url('media'))
                     ->openUrlInNewTab(true),
             ])
             ->form([
