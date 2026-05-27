@@ -5208,7 +5208,7 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 .mw-main-drawer {
   position: fixed;
   top: 0;
-  inset-inline-start: 0;
+  inset-inline-end: 0;
   bottom: 0;
   width: 280px;
   max-width: 100vw;
@@ -5217,13 +5217,13 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
   z-index: 1200;
   display: flex;
   flex-direction: column;
-  transform: translateX(-100%);
+  transform: translateX(100%);
   transition: transform var(--t-slow, 320ms) var(--ease, ease-out);
   box-shadow: 0 0 24px rgba(0, 0, 0, 0.18);
   visibility: hidden;
 }
 html[dir="rtl"] .mw-main-drawer {
-  transform: translateX(100%);
+  transform: translateX(-100%);
 }
 .mw-main-drawer--open {
   transform: translateX(0);
