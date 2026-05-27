@@ -40,7 +40,7 @@
             :title="currentPageTitleFull || 'Switch page'"
             @click="toggle()"
         >
-            <span class="mw-page-chip__label">{{ currentPageTitleTruncated || 'Untitled' }}</span>
+            <span class="mw-page-chip__label">{{ currentPageTitleTruncated || 'Homepage' }}</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mw-page-chip__chevron" aria-hidden="true">
                 <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -86,7 +86,7 @@
             <ul class="mw-page-chip-popover__list" v-if="results.length">
                 <li v-for="item in results" :key="item.id" class="mw-page-chip-popover__item">
                     <a :href="item.edit_link" class="mw-page-chip-popover__link" @click="close()">
-                        <span class="mw-page-chip-popover__item-title">{{ item.title || '(Untitled)' }}</span>
+                        <span class="mw-page-chip-popover__item-title">{{ item.title || '(No title)' }}</span>
                     </a>
                 </li>
             </ul>

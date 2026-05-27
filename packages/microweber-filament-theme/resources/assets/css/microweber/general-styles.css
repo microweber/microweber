@@ -3285,6 +3285,20 @@ html.dark .mw-main-drawer__item--depth-1::before {
     }
 }
 
+/* ── AI-1192: Add Content modal Cancel button 44px touch target ────── */
+/* task-2026-05-27-fb049a / AI-1192: Filament Cancel button in the
+   Add Content modal measures 42px; enforce WCAG 2.5.5 44px minimum. */
+.mw-content-picker-modal .fi-modal-footer-actions .fi-btn {
+    min-height: 44px;
+}
+
+/* ── AI-1194: Quick AI Edit toggle buttons 44px touch target ───────── */
+/* task-2026-05-27-fb049a / AI-1194: "Active layout" / "Whole page"
+   toggle buttons in Quick AI Edit panel measure 38px; enforce 44px. */
+#mw-live-edit-quickEditComponent-box .btn {
+    min-height: 44px;
+}
+
 /* ======================================================================
    task-2026-05-16-bcb327 / AI-702 — Microweber brand mark in the admin
    top bar. Per designer spec (admin-shell-improvements-2026-05-16.md

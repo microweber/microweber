@@ -1701,7 +1701,7 @@ body.mw-livewire-loading .mw-page-loading {
   padding: 0 2px;
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
-  font-size: 9.75px;
+  font-size: 12px;
   letter-spacing: 0.75px;
   text-overflow: ellipsis;
   margin-bottom: calc(var(--spacing) * 2);
@@ -5780,6 +5780,12 @@ html.dark .mw-main-drawer__item--depth-1::before {
   .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar [data-mw-sidebar-priority="secondary"] {
     transition: opacity 0.2s ease;
   }
+}
+.mw-content-picker-modal .fi-modal-footer-actions .fi-btn {
+  min-height: 44px;
+}
+#mw-live-edit-quickEditComponent-box .btn {
+  min-height: 44px;
 }
 .fi-topbar a.mw-admin-brand-mark, a.mw-admin-brand-mark {
   display: inline-flex;
