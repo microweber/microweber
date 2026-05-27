@@ -367,11 +367,13 @@ class AdminTemplateCustomizerPage extends Page
                             ]),
                     ]),
 
+                // task-2026-05-27-6e9cf4 / AI-1174: size(Large) for 44px min-height
                 Actions::make([
                     Action::make('resetToDefaults')
                         ->label('Reset to Defaults')
                         ->icon('heroicon-o-arrow-path')
                         ->color('danger')
+                        ->size(\Filament\Support\Enums\Size::Large)
                         ->requiresConfirmation()
                         ->modalHeading('Reset Template Settings')
                         ->modalDescription('Are you sure you want to reset all template settings to their default values? This action cannot be undone.')
@@ -383,6 +385,7 @@ class AdminTemplateCustomizerPage extends Page
                         ->label('Export Settings')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->color('gray')
+                        ->size(\Filament\Support\Enums\Size::Large)
                         ->action(function () {
                             $this->exportSettings();
                         }),
@@ -391,6 +394,7 @@ class AdminTemplateCustomizerPage extends Page
                         ->label('Import Settings')
                         ->icon('heroicon-o-arrow-up-tray')
                         ->color('gray')
+                        ->size(\Filament\Support\Enums\Size::Large)
                         ->form([
                             FileUpload::make('settings_file')
                                 ->label('Settings JSON File')
