@@ -121,11 +121,12 @@ class AdminLiveEditPage extends Page
         // block); 'secondary' = navigate-to-admin-form (Page/Post/etc.).
         // The two action classes have different mental models (in-place
         // vs go-somewhere-else) and should not read as visually equal.
+        // task-2026-05-27-4b1344 / AI-1139 item 5: solid filled icon
         $actions[] = [
             'title' => 'Add a block to this page',
             'description' => 'Drop text, images, buttons, headings or any other block into the page you are editing right now. Pick this if you just want to add content WITHIN the current page — not create a new page.',
             'action' => 'addToCurrentPageAction',
-            'icon' => 'heroicon-o-plus-circle',
+            'icon' => 'heroicon-s-plus-circle',
             'js_dispatch' => 'liveEditInsertLayoutRequest',
             'group' => 'primary',
         ];
@@ -134,12 +135,15 @@ class AdminLiveEditPage extends Page
         // so the prefix was three syllables of waste per row. Visible
         // title is now just "Page" / "Post" / "Product" / "Image" /
         // "Category" per designer spec §2 key-move 6.
+        // task-2026-05-27-4b1344 / AI-1139 items 1+2: sublabel + tint
         $actions[] = [
             'title' => 'Page',
             'description' => 'A standalone page like About, Services or Contact. Pick this if you want a single permanent page that lives at its own URL.',
             'action' => 'addPageAction',
             'icon' => 'mw-add-page',
             'group' => 'secondary',
+            'sublabel' => 'Static page',
+            'tint' => '#DBEBFE',
         ];
         $actions[] = [
             'title' => 'Post',
@@ -147,6 +151,8 @@ class AdminLiveEditPage extends Page
             'action' => 'addPostAction',
             'icon' => 'mw-add-post',
             'group' => 'secondary',
+            'sublabel' => 'Blog article',
+            'tint' => '#D4EDDA',
         ];
         $actions[] = [
             'title' => 'Product',
@@ -154,6 +160,8 @@ class AdminLiveEditPage extends Page
             'action' => 'addProductAction',
             'icon' => 'mw-add-product',
             'group' => 'secondary',
+            'sublabel' => 'Shop item',
+            'tint' => '#FFEACC',
         ];
         // AI-148 (cycle-142 2026-05-09): novice mobile UX — add a
         // discoverable "New Image" entry. Tester audit found that
@@ -171,6 +179,8 @@ class AdminLiveEditPage extends Page
             'action' => 'addImageAction',
             'icon' => 'heroicon-o-photo',
             'group' => 'secondary',
+            'sublabel' => 'Media upload',
+            'tint' => '#E8DAF7',
         ];
         $actions[] = [
             'title' => 'Category',
@@ -178,6 +188,19 @@ class AdminLiveEditPage extends Page
             'action' => 'addCategoryAction',
             'icon' => 'mw-add-category',
             'group' => 'secondary',
+            'sublabel' => 'Content group',
+            'tint' => '#CFEDEA',
+        ];
+        // task-2026-05-27-4b1344 / AI-1139 item 3: 6th Layout card
+        $actions[] = [
+            'title' => 'Layout',
+            'description' => 'A pre-designed section block — rows of columns, hero areas, feature grids, or footers. Drop a complete layout section onto your page.',
+            'action' => 'addLayoutAction',
+            'icon' => 'heroicon-o-rectangle-group',
+            'js_dispatch' => 'liveEditInsertLayoutRequest',
+            'group' => 'secondary',
+            'sublabel' => 'Section block',
+            'tint' => '#DBEBFE',
         ];
         // AI-309 (task-2026-05-13-5f1937) historical note: the previous
         // "Add to this page" card was a meta-instruction that broke the

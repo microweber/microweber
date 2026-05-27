@@ -1768,8 +1768,38 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.16));
     border-color: var(--ese-accent, #0d6efd);
 }
+/* task-2026-05-27-4b1344 / AI-1139 item 5: filled brand-blue circle */
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-icon {
-    background-color: var(--ese-surface, #ffffff);
+    background-color: var(--ese-accent, #0d6efd);
+    border-radius: 50%;
+}
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-icon svg {
+    color: #ffffff !important;
+}
+/* Keep blue icon on hover — prevent generic hover rule from flipping it */
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon,
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon {
+    background-color: var(--ese-accent, #0d6efd) !important;
+}
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon svg,
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
+    color: #ffffff !important;
+}
+/* AI-1139 item 1: dark mode — mute the per-type tint circles */
+html.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon,
+.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+/* AI-1139: mobile bottom-sheet modal */
+@media (max-width: 767px) {
+    .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) {
+        align-items: flex-end !important;
+    }
+    .fi-modal-window.mw-content-picker-modal {
+        border-radius: 16px 16px 0 0 !important;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
 }
 
 /* task-2026-05-21-30040a / AI-870 — Z-flow regression root cause: an

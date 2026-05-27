@@ -167,6 +167,7 @@
             'addProductAction'        => 'shop item store buy sell merchandise sku',
             'addImageAction'          => 'photo picture banner graphic logo upload media gallery',
             'addToCurrentPageAction'  => 'block layout text image button heading paragraph row column section insert',
+            'addLayoutAction'         => 'section block template row column hero grid footer layout structure',
         ];
         $mwAddContentPrimary   = array_values(array_filter($actions, fn ($a) => ($a['group'] ?? 'secondary') === 'primary'));
         $mwAddContentSecondary = array_values(array_filter($actions, fn ($a) => ($a['group'] ?? 'secondary') === 'secondary'));
@@ -177,7 +178,7 @@
              x-show="hasVisibleCardsInGroup('primary')"
              aria-labelledby="mw-add-content-group-primary-heading">
         <h3 id="mw-add-content-group-primary-heading"
-            class="mw-add-content-group__header text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2 px-1">
+            class="mw-add-content-group__header text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 px-1">
             On this page
         </h3>
         <div class="mw-add-content-group__items flex flex-col gap-3">
@@ -227,8 +228,8 @@
                          below primary card title created visual imbalance vs
                          secondary cards (icon + title only). --}}
                     class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-row items-center gap-3 p-4 min-h-[72px] group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
-                    <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 bg-gray-500/10 transition duration-150 rounded-lg shrink-0">
-                        @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-600 dark:text-gray-400')
+                    <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 transition duration-150 rounded-full shrink-0">
+                        @svg($action['icon'], 'h-6 w-6 transition duration-150 text-white')
                     </div>
                     <div class="flex flex-col min-w-0">
                         <div class="font-semibold text-base leading-tight">
@@ -246,14 +247,14 @@
              x-show="hasVisibleCardsInGroup('secondary')"
              aria-labelledby="mw-add-content-group-secondary-heading">
         <h3 id="mw-add-content-group-secondary-heading"
-            class="mw-add-content-group__header text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2 px-1">
+            class="mw-add-content-group__header text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 px-1">
             New content
         </h3>
-        {{-- task-2026-05-21-30040a / AI-870: modal is always ≥618px;
-             the 2-col fallback caused a Z-flow reflow artefact when
-             transitioning from 2→3 columns on viewport resize. Always
-             use 3 columns. --}}
-        <div class="mw-add-content-group__items grid grid-cols-3 gap-3">
+        <p class="text-xs text-gray-400 dark:text-gray-500 mb-3 px-1">Create something new for your website</p>
+        {{-- task-2026-05-27-4b1344 / AI-1139: responsive grid —
+             3-col on desktop (≥768px), 2-col on tablet/mobile per
+             designer responsive spec. --}}
+        <div class="mw-add-content-group__items grid grid-cols-2 md:grid-cols-3 gap-3">
             @foreach($mwAddContentSecondary as $action)
                 @php
                     $mwAddContentHaystack = strtolower(
@@ -290,18 +291,19 @@
                     x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
                     x-on:keydown.arrow-left.prevent="focusPrevCard($el)"
                     x-on:keydown.arrow-right.prevent="focusNextCard($el)"
-                    {{-- task-2026-05-22-9d5e21 / task-2026-05-22-7645d6: padding p-4→p-3;
-                         dark:bg-white/[0.04] replaces bg-transparent so cards are
-                         visible against the dark modal background; dark:border-white/10
-                         replaces dark:border-gray-700; dark:hover:border-white/20 steps
-                         the hover border; icon container 48px→40px; inner SVG stays
-                         h-6 w-6 per designer spec (container shrinks, icon does not). --}}
-                    class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col gap-3 p-3 group transition duration-150 bg-transparent dark:bg-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.07] rounded-lg w-full border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start">
-                    <div class="mw-add-content-icon flex items-center justify-center w-10 h-10 bg-gray-500/10 dark:bg-white/[0.08] transition duration-150 rounded-lg shrink-0">
+                    {{-- task-2026-05-27-4b1344 / AI-1139 items 1+2: centered
+                         48px icon circles with per-type color tint + sublabels. --}}
+                    class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col items-center text-center gap-2 p-4 group transition duration-150 bg-transparent dark:bg-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.07] rounded-lg w-full border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">
+                    <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 transition duration-150 rounded-full shrink-0" style="background-color: {{ $action['tint'] ?? '#f3f4f6' }}">
                         @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-600 dark:text-gray-400')
                     </div>
-                    <div class="font-semibold text-sm leading-tight">
-                        {{ $action['title'] }}
+                    <div class="flex flex-col items-center gap-0.5">
+                        <div class="font-semibold text-sm leading-tight">
+                            {{ $action['title'] }}
+                        </div>
+                        @if (!empty($action['sublabel']))
+                            <div class="text-xs text-gray-400 dark:text-gray-500">{{ $action['sublabel'] }}</div>
+                        @endif
                     </div>
                 </button>
             @endforeach
