@@ -6,6 +6,7 @@
         }
     }
 }
+/* task-2026-05-27-de93c9 / AI-1172: expand touch target to 44px via pseudo-element */
 .mw-le-resizer {
     position: absolute;
     pointer-events: all;
@@ -17,6 +18,15 @@
     right: 0;
     top: 0;
     width: 5px;
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -19px;
+        width: 44px;
+        height: 100%;
+        cursor: e-resize;
+    }
 }
 
 .mw-le-resizer-l {
@@ -25,6 +35,15 @@
     left: 0;
     top: 0;
     width: 5px;
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -19px;
+        width: 44px;
+        height: 100%;
+        cursor: e-resize;
+    }
 }
 
 .mw-le-resizer-b {
@@ -33,8 +52,15 @@
     height: 5px;
     left: 0;
     width: 100%;
-
-
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -19px;
+        width: 100%;
+        height: 44px;
+        cursor: n-resize;
+    }
 }
 
 .module-spacer:not(:last-child) .mw-le-resizer-b {
@@ -47,6 +73,15 @@
     height: 5px;
     left: 0;
     width: 100%;
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -19px;
+        width: 100%;
+        height: 44px;
+        cursor: n-resize;
+    }
 }
 
 [data-hide-resizer="true"],
