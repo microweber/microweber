@@ -336,8 +336,11 @@
                                 :padding="12"
                                 :ssr-columns="1">
                                 <template #default="{ item, index }">
+                                    <!-- task-2026-05-27-de93c9 / AI-1167: aria-label for WCAG -->
                                     <div
                                         :class="['modules-list-block-item-masonry', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']"
+                                        role="button"
+                                        :aria-label="'Layout: ' + item.title"
                                         v-on:click="insertLayout(item)">
 
                                         <div class="layout-image-container">
@@ -414,8 +417,11 @@
                         >
                             <template
                                 v-slot="{item}">
+                                <!-- task-2026-05-27-de93c9 / AI-1167: aria-label for WCAG -->
                                 <div
                                     :class="['modules-list-block-style-' + layoutsListTypePreview, 'modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']"
+                                    role="button"
+                                    :aria-label="'Layout: ' + item.title"
                                     v-on:click="insertLayout(item)">
 
                                     <div
