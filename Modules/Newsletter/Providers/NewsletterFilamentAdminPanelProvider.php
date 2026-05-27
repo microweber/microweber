@@ -94,10 +94,10 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
         );
 
         // task-2026-05-23-b59ecf / AI-1056 — duplicate the Back to Admin link at TOPBAR_START
-        // so it is always discoverable at the top of the page, not only buried at sidebar bottom.
+        // task-2026-05-27-6e9cf4 / AI-1173: enlarged breadcrumb for orientation
         $panel->renderHook(
             name: PanelsRenderHook::TOPBAR_START,
-            hook: fn(): string => '<a href="' . admin_url() . '" style="display:inline-flex;align-items:center;gap:4px;padding:4px 12px;font-size:13px;color:var(--gray-600,#6b7280);text-decoration:none;border-right:1px solid rgba(0,0,0,0.08);margin-right:8px;" title="Back to Microweber admin"><svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' style=\'width:16px;height:16px;\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18\' /></svg>Admin</a>'
+            hook: fn(): string => '<a href="' . e(admin_url()) . '" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;font-size:14px;font-weight:500;color:var(--gray-700,#374151);text-decoration:none;border-right:1px solid rgba(0,0,0,0.1);margin-right:10px;min-height:44px;" title="Back to Admin Settings"><svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' style=\'width:18px;height:18px;\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18\' /></svg><span>Admin Settings</span></a>'
         );
 
         $panel->plugin(new MicroweberFilamentTheme());
