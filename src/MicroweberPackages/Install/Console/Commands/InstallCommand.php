@@ -124,7 +124,7 @@ class InstallCommand extends Command
         }
 
         if ($lazy_install) {
-            $input['default_template'] = (getenv('DEFAULT_TEMPLATE') ?: 'Bootstrap');
+            $input['default_template'] = (getenv('DEFAULT_TEMPLATE') ?: 'Big2');
             $input['with_default_content'] = true;
         }
         $input['subscribe_for_update_notification'] = true;
