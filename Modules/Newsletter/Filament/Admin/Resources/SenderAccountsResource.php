@@ -253,7 +253,18 @@ class SenderAccountsResource extends Resource
 
     public static function table(Table $table): Table
     {
+        // task-2026-05-27-892547 / AI-1176: filter out Faker-seeded sender accounts
         return $table
+            ->modifyQueryUsing(fn ($query) => $query
+                ->where(function ($q) {
+                    $q->whereNull('from_email')
+                      ->orWhere(function ($q2) {
+                          $q2->where('from_email', 'NOT LIKE', '%@example.com')
+                             ->where('from_email', 'NOT LIKE', '%@example.net')
+                             ->where('from_email', 'NOT LIKE', '%@example.org');
+                      });
+                })
+            )
             ->columns([
                 TextColumn::make('account_type')
                     ->label('Type')
