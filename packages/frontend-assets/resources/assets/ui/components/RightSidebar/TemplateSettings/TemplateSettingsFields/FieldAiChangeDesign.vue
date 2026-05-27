@@ -1,5 +1,5 @@
 <template>
-    <div class="position-relative mt-5">
+    <div class="position-relative mt-5" title="Generate layout with AI">
         <div ref="aiChatFormBox"></div>
         <div v-if="loading" class="text-center mt-2">AI is thinking...</div>
         <div v-if="error" class="text-danger mt-2">{{ error }}</div>
@@ -472,7 +472,7 @@ Critical: If the user specifies new colors for font and background, you must use
 }
 
 .mw-ai-chat-box::before {
-    content: '✨ AI Assistant';
+    content: '✨ AI Assist';
     position: absolute;
     top: -8px;
     left: 16px;

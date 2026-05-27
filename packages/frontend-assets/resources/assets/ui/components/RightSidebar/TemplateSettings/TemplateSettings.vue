@@ -49,7 +49,8 @@
             <!-- Choose where to edit toggle -->
             <div v-if="hasStyleSettings" class="form-control-live-edit-label-wrapper"
                  v-show="!isSingleSettingMode">
-                <label class="live-edit-label mw-template-settings-section-header mb-3">Choose where to edit</label>
+                <label class="live-edit-label mw-template-settings-section-header mb-1">Choose where to edit</label>
+                <p class="text-muted small mb-3" style="margin-top: 0; font-size: 0.75rem; opacity: 0.7;">Choose a page layout template or edit global styles</p>
 
                 <!-- AI-712 slice 1: MwSegmented primitive (AI-684) applied
                      alongside the legacy .edit-mode-toggle-container class
@@ -164,6 +165,11 @@
                                 @style-pack-expanded-state="handleStylePackExpandedState"
                                 :ref="el => { if(!nestedItems) nestedItems = []; nestedItems.push(el); }"/>
                         </div>
+                    </div>
+                    <!-- Fallback: no settings or sub-items available for this group -->
+                    <div v-else class="text-muted text-center py-4" style="opacity: 0.6;">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="currentColor" style="opacity: 0.4;" class="mb-2"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>
+                        <p class="small mb-0">No style settings available for this section in the current template.</p>
                     </div>
                 </div>
             </div>
