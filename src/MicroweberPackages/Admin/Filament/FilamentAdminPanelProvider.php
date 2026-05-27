@@ -153,6 +153,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->maxContentWidth(Width::Full)
             ->unsavedChangesAlerts()
             // task-2026-05-27-13983e / AI-1133 sub-issue 1
+            // task-2026-05-27-37db93 / AI-1171: error boundary for panels that don't register UsersResource
             ->userMenuItems([
                 \Filament\Navigation\MenuItem::make()
                     ->label('My Account')
@@ -161,7 +162,11 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->url(function () {
                         $userId = auth()->id();
                         if ($userId) {
-                            return \MicroweberPackages\User\Filament\Resources\UsersResource::getUrl('edit', ['record' => $userId]);
+                            try {
+                                return \MicroweberPackages\User\Filament\Resources\UsersResource::getUrl('edit', ['record' => $userId]);
+                            } catch (\Symfony\Component\Routing\Exception\RouteNotFoundException $e) {
+                                return url(mw_admin_prefix_url() . '/users/' . $userId . '/edit');
+                            }
                         }
                         return null;
                     }),
