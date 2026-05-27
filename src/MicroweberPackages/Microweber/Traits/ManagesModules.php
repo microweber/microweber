@@ -200,31 +200,48 @@ trait ManagesModules
             }
 
             // 4. Merge with priority: active template > other templates > base module
+            // task-2026-05-27-269dc1 / AI-1188: dedup by both layout_file AND name
             $seenLayoutFiles = [];
+            $seenNames = [];
             foreach ($activeTemplateSkins as $skin) {
                 if (isset($skin['layout_file'])) {
+                    $nameKey = strtolower(trim($skin['name'] ?? ''));
+                    if ($nameKey && isset($seenNames[$nameKey])) {
+                        continue;
+                    }
                     $ready[] = $skin;
                     $seenLayoutFiles[$skin['layout_file']] = true;
+                    if ($nameKey) {
+                        $seenNames[$nameKey] = true;
+                    }
                 }
             }
             foreach ($otherTemplateSkins as $skin) {
                 if (isset($skin['layout_file']) && !isset($seenLayoutFiles[$skin['layout_file']])) {
+                    $nameKey = strtolower(trim($skin['name'] ?? ''));
+                    if ($nameKey && isset($seenNames[$nameKey])) {
+                        continue;
+                    }
                     $ready[] = $skin;
                     $seenLayoutFiles[$skin['layout_file']] = true;
+                    if ($nameKey) {
+                        $seenNames[$nameKey] = true;
+                    }
                 }
             }
             foreach ($baseModuleSkins as $skin) {
                 if (isset($skin['layout_file']) && !isset($seenLayoutFiles[$skin['layout_file']])) {
+                    $nameKey = strtolower(trim($skin['name'] ?? ''));
+                    if ($nameKey && isset($seenNames[$nameKey])) {
+                        continue;
+                    }
                     $ready[] = $skin;
                     $seenLayoutFiles[$skin['layout_file']] = true;
+                    if ($nameKey) {
+                        $seenNames[$nameKey] = true;
+                    }
                 }
             }
-        }
-
-        if ($ready) {
-            $ready = array_intersect_key($ready, array_unique(array_map(function ($el) {
-                return $el['layout_file'];
-            }, $ready)));
         }
 
         return $ready ?: [];

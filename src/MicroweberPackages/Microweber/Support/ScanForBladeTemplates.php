@@ -277,7 +277,12 @@ class ScanForBladeTemplates
                 $to_return_temp['layout_file'] = $view_name;
 
                 if (!isset($to_return_temp['name'])) {
-                    $to_return_temp['name'] = ucfirst($view_name);
+                    // task-2026-05-27-269dc1 / AI-1187: humanize fallback name
+                    $humanName = str_replace(['.', '-', '_'], ' ', $view_name);
+                    $humanName = preg_replace('/\bskin\s+\d+/i', '', $humanName);
+                    $humanName = preg_replace('/\bmw\b[\s-]*/i', '', $humanName);
+                    $humanName = ucwords(trim(preg_replace('/\s+/', ' ', $humanName)));
+                    $to_return_temp['name'] = $humanName ?: ucfirst($view_name);
                 }
 
                 $to_return_temp['filename'] = $filename;
