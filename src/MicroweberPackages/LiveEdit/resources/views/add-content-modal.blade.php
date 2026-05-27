@@ -295,14 +295,16 @@
                          48px icon circles with per-type color tint + sublabels. --}}
                     class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col items-center text-center gap-2 p-4 group transition duration-150 bg-transparent dark:bg-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.07] rounded-lg w-full border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">
                     <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 transition duration-150 rounded-full shrink-0" style="background-color: {{ $action['tint'] ?? '#f3f4f6' }}">
-                        @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-600 dark:text-gray-400')
+                        {{-- task-2026-05-27-de93c9 / AI-1168: text-gray-600 → text-gray-700 for WCAG 4.5:1 --}}
+                        @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-700 dark:text-gray-300')
                     </div>
                     <div class="flex flex-col items-center gap-0.5">
                         <div class="font-semibold text-sm leading-tight">
                             {{ $action['title'] }}
                         </div>
                         @if (!empty($action['sublabel']))
-                            <div class="text-xs text-gray-400 dark:text-gray-500">{{ $action['sublabel'] }}</div>
+                            {{-- task-2026-05-27-de93c9 / AI-1168: text-gray-400 → text-gray-500 for contrast --}}
+                            <div class="text-xs text-gray-500 dark:text-gray-400">{{ $action['sublabel'] }}</div>
                         @endif
                     </div>
                 </button>
