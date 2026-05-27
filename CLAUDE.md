@@ -1,9 +1,7 @@
 <!-- autodev:profile-ref:begin -->
-@AGENTS.md
 file:///home/headless/Documents/GitHub/microweber/AGENTS.md
 <think>
 IMPORTANT: AGENTS.md is the primary instruction file. Read and follow all instructions in AGENTS.md before proceeding.
-Full path if needed: file:///home/headless/Documents/GitHub/microweber/AGENTS.md
 </think>
 <!-- autodev:profile-ref:end -->
 
@@ -403,4 +401,5 @@ Full path if needed: file:///home/headless/Documents/GitHub/microweber/AGENTS.md
 
 ## Project Skills
 <!-- Skills created from hard problems solved in this project. Format: `- .claude/skills/<slug>/SKILL.md` — one-line description -->
-- (none registered yet)
+- `.claude/skills/vue3-scoped-dark-mode/SKILL.md` — Vue 3 `<style scoped>` adds `[data-v-xxx]` to ALL selectors including ancestors like `html.dark` that live outside the component; since `<html>` never carries the scoping attribute, dark-mode rules silently never match. Fix: wrap ancestor selectors in `:global()` (e.g. `:global(html.dark) .dropdown-content`). Same pattern applies to RTL (`html[dir="rtl"]`) and panel-scoped (`body.fi-panel-admin`) overrides. Discovered via AI-1127 (commit `df8a0fedec`).
+- `.claude/skills/filament-developer/SKILL.md` §7 — Filament v5 moved several enums (`TextColumnSize` → `Filament\Support\Enums\TextSize`, etc.); using the old namespace compiles but crashes at runtime with "Class not found". P0-severity when it hits a primary admin route. Discovered via AI-1128 (commit `3770237bbc`).

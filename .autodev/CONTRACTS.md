@@ -1,6 +1,6 @@
 # Agent Contracts
 
-> Last updated: 2026-05-13
+> Last updated: 2026-05-27
 > Read this file before sending any email, message, or notification.
 
 ---
@@ -81,6 +81,16 @@ php artisan tinker --execute="App\Models\User::where('email','admin@admin.com')-
 
 **Playwright field injection quirk** (Filament toggle-mask on password field — tester discovery 2026-05-22):
 Use `.type()` for the email field; for the password field, inject via `page.evaluate(el => el.value = 'admin', handle)` to bypass the Filament visibility-toggle `input` event listener that resets `.fill()` input.
+
+---
+
+## JIRA Project Info
+
+| Key | Value |
+|-----|-------|
+| Project key | AI — https://microweber.atlassian.net/browse/AI |
+| Transition IDs | 11 = To Do, 21 = In Progress, 31 = Done |
+| Rule | Always use bare transition (no fields, no comment) — workflow auto-sets resolution |
 
 ---
 

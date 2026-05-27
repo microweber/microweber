@@ -327,9 +327,37 @@ livewire(StatsOverview::class)
 
 Update this section as new assertions or plugins emerge (e.g. better mocking for file uploads or relation managers).
 
-## 7. Navigation & Routing Gotchas
+## 7. Filament v5 Enum Namespace Changes
 
-### 7.1 `getSlug()` Signature in Filament v5
+Several enums moved namespaces between Filament v4 and v5. Using the old
+path compiles fine but crashes at runtime with "Class not found".
+
+| Old Path (v4 / early v5) | Correct Path (v5 stable) | Enum Values |
+|--------------------------|--------------------------|-------------|
+| `Tables\Columns\TextColumn\TextColumnSize` | `Filament\Support\Enums\TextSize` | `ExtraSmall`, `Small`, `Medium`, `Large` |
+| `Tables\Columns\IconColumn\IconColumnSize` | `Filament\Support\Enums\IconSize` | `ExtraSmall`, `Small`, `Medium`, `Large`, `ExtraLarge` |
+| `Forms\Components\Actions\ActionSize` | `Filament\Support\Enums\ActionSize` | same |
+
+**Diagnostic:** HTTP 500 on any admin page that renders the affected column/component.
+Error: `Class "...\TextColumnSize" not found` (or similar).
+
+**Fix:** Replace the import/reference with the `Filament\Support\Enums\*` path:
+
+```php
+// WRONG — class doesn't exist in Filament v5:
+->size(Tables\Columns\TextColumn\TextColumnSize::ExtraSmall)
+
+// CORRECT — enum moved to Support\Enums:
+->size(\Filament\Support\Enums\TextSize::ExtraSmall)
+```
+
+**History:** AI-1128 / task-2026-05-26-2b11f4 (commit `3770237bbc`) — P0 blocker,
+`/admin/module-resource/modules` crashed with 500 due to 2 stale `TextColumnSize` refs
+in `ModuleResource.php`.
+
+## 8. Navigation & Routing Gotchas
+
+### 8.1 `getSlug()` Signature in Filament v5
 
 When overriding `getSlug()` in **both Resources and Pages**, you MUST include the
 optional `\Filament\Panel $panel = null` parameter to match the parent class signature:
@@ -364,7 +392,7 @@ subclasses. The parameter is nullable so callers without it work fine; only the
 "~function\s+getSlug\([^)]*\)[^{]*\{[^}]*return\s+['\"]my-slug['\"]~s"
 ```
 
-### 7.2 `shouldRegisterNavigation` — Hidden Resources
+### 8.2 `shouldRegisterNavigation` — Hidden Resources
 
 If a Filament Resource has `protected static bool $shouldRegisterNavigation = false;`,
 the resource is completely invisible in the sidebar. All `/admin/<slug>/*` URLs still
@@ -377,7 +405,7 @@ work when accessed directly — only the nav entry is suppressed.
 
 **Common symptom:** "Guessing `/admin/backup`... 404" — usually `$shouldRegisterNavigation = false`.
 
-### 7.3 Custom Page with Embedded Table
+### 8.3 Custom Page with Embedded Table
 
 To create a Filament **Page** that contains a table (e.g. `/admin/restore`):
 
@@ -420,7 +448,7 @@ class MyTablePage extends Page implements HasTable
 FilamentRegistry::registerPage(MyTablePage::class);
 ```
 
-## 8. Select Field Label Resolution — `getOptionLabelUsing` vs `getOptionLabelFromRecordUsing`
+## 9. Select Field Label Resolution — `getOptionLabelUsing` vs `getOptionLabelFromRecordUsing`
 
 When using `Select::make('customer_id')->relationship()` or a custom `->options()` callback,
 Filament needs TWO separate closures:
@@ -458,7 +486,7 @@ Select::make('customer_id')
 in addition to `->getOptionLabelFromRecordUsing()`. The former resolves the saved ID when the
 form opens; the latter generates labels during dropdown search.
 
-## 9. Vue SFC Comments — Use HTML, Not Blade
+## 10. Vue SFC Comments — Use HTML, Not Blade
 
 Vue Single File Components (`.vue` files) are processed by Vite, not by Blade.
 **Blade comments `{{-- --}}` in `.vue` files cause Vite build failures.**
@@ -475,5 +503,42 @@ Vue Single File Components (`.vue` files) are processed by Vite, not by Blade.
 
 **Applies to:** All files in `packages/frontend-assets/resources/assets/ui/**/*.vue`
 and any other `.vue` files. Only Blade templates (`.blade.php`) support `{{-- --}}`.
+
+## 11. Mobile Table Stacking — `stackedOnMobile()` + Label Visibility Gap
+
+Filament v5's `Table::stackedOnMobile()` enables server-side rendering of `.fi-ta-cell-label` elements inside each `<td>`. Without it, the server never emits label divs and mobile card layouts show bare values with no field context.
+
+**Gotcha — breakpoint gap:** Filament's built-in CSS hides `.fi-ta-cell-label` via `sm:hidden` (above 640px). If your project's card/stacked CSS activates at a wider breakpoint (e.g. 1024px via `@media (max-width: 1023.98px)`), labels are invisible in the 640px–1024px range even though stacking is enabled.
+
+**Fix pattern:**
+```php
+// In PanelProvider boot() — enable globally for all tables
+Table::configureUsing(function (Table $table): Table {
+    return $table->stackedOnMobile();
+});
+```
+
+```css
+/* Force labels visible in the gap between Filament's sm breakpoint and your card breakpoint */
+@media (max-width: 1023.98px) {
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell > .fi-ta-cell-label {
+        display: block !important;
+        font-size: 0.6875rem !important;
+        font-weight: 600 !important;
+        color: #6b7280 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.03em !important;
+    }
+    .dark body.fi-panel-admin .fi-ta-row > .fi-ta-cell > .fi-ta-cell-label {
+        color: #9ca3af !important;
+    }
+    /* Hide label on selection checkbox cells */
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell.fi-ta-selection-cell > .fi-ta-cell-label {
+        display: none !important;
+    }
+}
+```
+
+**Key insight:** `->stackedOnMobile()` defaults to `false` — you must opt in. Global via `Table::configureUsing()` is preferred over per-resource to ensure every table gets labels. Reference: AI-1132 / task-2026-05-27-305605.
 
 Happy building & testing! 
