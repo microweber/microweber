@@ -2,7 +2,7 @@
     <div v-if="isReady">
 
 
-        <div id="general-theme-settings" role="complementary" aria-label="Theme settings sidebar" :aria-hidden="!showSidebar" :class="[showSidebar == true ? 'active' : '']">
+        <div v-if="showSidebar" id="general-theme-settings" role="complementary" aria-label="Theme settings sidebar" :aria-busy="!tabpanelReady" :class="[showSidebar == true ? 'active' : '']">
             <div>
                 <div class="d-flex align-items-center justify-content-between position-relative">
                     <!--
@@ -55,7 +55,7 @@
 
                 <div class="tab-content" data-show="showTemplateSettings" v-show="true">
                     <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
-                         role="tabpanel">
+                         ref="tabpanel" role="tabpanel">
 
 
 <!--                        <TemplateSettings></TemplateSettings>-->
@@ -185,6 +185,28 @@ export default {
             var src = srcBase + "?" + json2url(attrsForSettings);
             return src;
 
+        },
+        _observeTabpanel() {
+            this._disconnectObserver();
+            var el = this.$refs.tabpanel;
+            if (!el) return;
+            if (el.children.length > 0) {
+                this.tabpanelReady = true;
+                return;
+            }
+            this._tabpanelObserver = new MutationObserver(() => {
+                if (el.children.length > 0) {
+                    this.tabpanelReady = true;
+                    this._disconnectObserver();
+                }
+            });
+            this._tabpanelObserver.observe(el, { childList: true, subtree: true });
+        },
+        _disconnectObserver() {
+            if (this._tabpanelObserver) {
+                this._tabpanelObserver.disconnect();
+                this._tabpanelObserver = null;
+            }
         }
     },
     mounted() {
@@ -248,13 +270,31 @@ export default {
         });
 
     },
+    watch: {
+        showSidebar(val) {
+            if (val) {
+                this.tabpanelReady = false;
+                this.$nextTick(() => {
+                    this._observeTabpanel();
+                });
+            } else {
+                this.tabpanelReady = false;
+                this._disconnectObserver();
+            }
+        }
+    },
+    beforeUnmount() {
+        this._disconnectObserver();
+    },
     data() {
         return {
             showSidebar: false,
             showTemplateSettings: true,
             buttonIsActive: false,
             isReady: false,
-            showElementStyleEditor: false
+            showElementStyleEditor: false,
+            tabpanelReady: false,
+            _tabpanelObserver: null
         }
     }
 }
