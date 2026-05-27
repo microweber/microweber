@@ -249,6 +249,7 @@ small {
 }
 
 .mw-layout-dark-background{
+    background-color: rgb(31, 41, 55) !important;
     h1,h2,h3,h4,h5,h6,p, small, ul li a {
         color: var(--mw-text-on-dark-background-color);
     }
