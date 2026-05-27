@@ -1703,6 +1703,7 @@ class ContentResource extends Resource
                         ->columnSpanFull(),
 
 
+// task-2026-05-27-6e6957 / AI-1119 — show display name, filter Faker test users
 Forms\Components\Select::make('created_by')
 ->visible(function (Schemas\Components\Utilities\Get $get) {
 return $get('id');
@@ -1710,10 +1711,26 @@ return $get('id');
 ->label('Author')
 ->placeholder('Select author')
 ->options(function () {
-return \MicroweberPackages\User\Models\User::query()
-    ->whereNotNull('email')
-    ->limit(100)
-    ->pluck('email', 'id');
+    return \MicroweberPackages\User\Models\User::query()
+        ->where('is_admin', 1)
+        ->whereNotNull('email')
+        ->where('email', 'NOT LIKE', '%@example.test')
+        ->where('email', 'NOT LIKE', '%@example.com')
+        ->where('email', 'NOT LIKE', 'unitTestUser%')
+        ->limit(100)
+        ->get()
+        ->mapWithKeys(function ($user) {
+            $name = trim(($user->first_name ?? '') . ' ' . ($user->last_name ?? ''));
+            $label = $name !== '' ? $name . ' (' . $user->email . ')' : $user->email;
+            return [$user->id => $label];
+        })
+        ->all();
+})
+->getOptionLabelUsing(function ($value): ?string {
+    $user = \MicroweberPackages\User\Models\User::find($value);
+    if (!$user) return null;
+    $name = trim(($user->first_name ?? '') . ' ' . ($user->last_name ?? ''));
+    return $name !== '' ? $name . ' (' . $user->email . ')' : $user->email;
 })
 ->searchable()
 ->preload(),
