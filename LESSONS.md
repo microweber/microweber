@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-05-27 — Filament `stackedOnMobile()` defaults to false + label breakpoint gap (AI-1132)
+
+- **Pattern:** Every Filament admin table at 390px showed bare values with no column labels — "admin@admin.com" / "Wallace" / "Kreiger" with zero context. Labels existed in `<thead>` but the custom card CSS hid `<thead>` at ≤1024px.
+- **Why it happened:** Two compounding issues: (1) Filament v5's `stackedOnMobile()` defaults to `false`, so the server never renders `.fi-ta-cell-label` divs inside cells — there was nothing to show even if CSS was correct; (2) Filament's built-in label CSS uses `sm:hidden` (hides above 640px), but Microweber's card layout activates at 1024px — a 640px–1024px gap where labels exist in DOM but are CSS-hidden.
+- **Prevention rule:** Enable `->stackedOnMobile()` globally via `Table::configureUsing()` in the panel provider's `boot()` method. Then add a `display: block !important` override for `.fi-ta-cell-label` inside whatever `@media` breakpoint your card layout uses. Always verify at the actual target viewport (390px), not just at Filament's default 640px breakpoint. Include dark-mode variant.
+- **Applies when:** Any Filament v5 project with custom mobile card/stacked table CSS that hides `<thead>` at a breakpoint wider than Filament's default 640px `sm` breakpoint.
+
 ## 2026-05-26 — Three-layer fixture defence: AdminFixtureGuard alone is insufficient for table listings (AI-1129)
 
 - **Pattern:** `AdminFixtureGuard` filters fixture/test records at the UI presentation layer (pickers, dropdowns), but Filament table listings still show correct fixture-row counts in pagination and include fixture rows in query results. The guard catches display but not data.
