@@ -709,32 +709,47 @@
      * `box-shadow` left-fade hides scrolling content as it
      * passes under the right cluster.
      * ───────────────────────────────────────────────────── */
+    /* task-2026-05-27-ed8090 / AI-1142 — mobile toolbar regression fix.
+       Hide non-essential toolbar items on mobile so the MainDrawer
+       hamburger stays in-viewport at 390px. Hidden items are accessible
+       via MainDrawer (Pages, Tools) or keyboard shortcuts (Ctrl+Z). */
+    .mw-admin-live-edit-page .live-edit-undo-redo-buttons-wrapper,
+    .mw-live-edit-page .live-edit-undo-redo-buttons-wrapper {
+        display: none !important;
+    }
+    .mw-admin-live-edit-page .toolbar-col-container:has(.mw-page-chip-wrapper),
+    .mw-live-edit-page .toolbar-col-container:has(.mw-page-chip-wrapper) {
+        display: none !important;
+    }
+    .mw-admin-live-edit-page .toolbar-col .toolbar-col-container .mx-2,
+    .mw-live-edit-page .toolbar-col .toolbar-col-container .mx-2 {
+        display: none !important;
+    }
+
     .mw-admin-live-edit-page #toolbar,
     .mw-live-edit-page #toolbar {
         position: relative !important;
-        padding-right: 152px !important;
+        padding-right: 64px !important;
     }
-    .mw-admin-live-edit-page #toolbar #mw-page-set-preview-mode,
-    .mw-live-edit-page #toolbar #mw-page-set-preview-mode,
     .mw-admin-live-edit-page #toolbar #save-button,
     .mw-live-edit-page #toolbar #save-button {
         position: absolute !important;
         top: 50% !important;
         transform: translateY(-50%) !important;
         z-index: 3;
-        background-color: var(--ese-surface, #ffffff) !important;
+        background-color: var(--ese-text, #111827) !important;
+        color: var(--ese-surface, #ffffff) !important;
         box-shadow: -8px 0 8px -4px var(--ese-surface, #ffffff);
         flex-shrink: 0;
+        right: 4px !important;
+        height: 35px !important;
+        min-height: 35px !important;
     }
-    /* SAVE: right-most, pinned to right: 0 of #toolbar. */
-    .mw-admin-live-edit-page #toolbar #save-button,
-    .mw-live-edit-page #toolbar #save-button {
-        right: 0 !important;
-    }
-    /* PREVIEW: just inside SAVE — 80px (SAVE width) + 8px gap. */
     .mw-admin-live-edit-page #toolbar #mw-page-set-preview-mode,
     .mw-live-edit-page #toolbar #mw-page-set-preview-mode {
-        right: calc(var(--space-sm, 8px) + 80px) !important;
+        height: 35px !important;
+        min-height: 35px !important;
+        flex-shrink: 0;
     }
 
     /* task-2026-05-22-17d95a / AI-832 — Tools dropdown mobile viewport safety.
