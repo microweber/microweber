@@ -128,9 +128,7 @@ function computeQuickAiEditLabel(obj, sectionId, state) {
         counters.p += 1;
         return "P" + counters.p;
     }
-    // Fallback: raw tag uppercase (unchanged from pre-AI-711 default
-    // when tag wasn't in `tagMap`).
-    return tag;
+    return tag || "";
 }
 
 class QuickEditGUI {
@@ -147,10 +145,10 @@ class QuickEditGUI {
         return `
             <div class="form-control-live-edit-label-wrapper">
                 <label class="live-edit-label">${
-                    obj.label || tagMap[obj.tag] || obj.tag
+                    obj.label || tagMap[obj.tag] || obj.tag || ""
                 }</label>
                 <input class="form-control-live-edit-input" value="${
-                    obj.text
+                    obj.text != null ? obj.text : ""
                 }" id="data-node-id-${obj.id}">
             </div>
         `;
@@ -1044,6 +1042,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
         const quickAiEditLabelState = {};
 
         this.api.collect(undefined, undefined, (obj) => {
+            if (!obj.tag) return;
             if (obj.node.matches(this.settings.nodesSelector)) {
                 const type = this.getType(obj);
 
