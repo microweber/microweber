@@ -1822,6 +1822,14 @@ body.fi-panel-checkout .fi-page-content b {
     body.fi-panel-admin .fi-topbar .fi-btn.admin-toolbar-live-edit {
         min-width: 44px !important;
         padding-inline: 8px !important;
+        font-size: 0 !important;
+        gap: 0 !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    body.fi-panel-admin .fi-topbar .fi-btn.admin-toolbar-live-edit svg {
+        width: 20px !important;
+        height: 20px !important;
     }
 }
 
