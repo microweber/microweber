@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-05-27 — Shared component aria-label must not fall back to example-style placeholder (AI-1193 + AI-1196)
+
+- **Pattern:** `AIChatForm` used `placeholder` as the `aria-label` fallback. When a consumer sets placeholder to an example like "Make it blue and white...", screen readers announce the example text as the input's purpose — meaningless for AT users.
+- **Why it happened:** The shared component had no dedicated `ariaLabel` option; it assumed placeholders were always descriptive of the field's purpose. But consumers like `FieldAiChangeDesign.vue` use example-style placeholders as user hints, not purpose descriptions.
+- **Prevention rule:** When a shared UI component uses `placeholder` as `aria-label` fallback, add a dedicated `ariaLabel` option that takes priority in the chain: `ariaLabel || placeholder || defaultLabel`. Consumers whose placeholder is an example or hint MUST pass a descriptive `ariaLabel`. Audit all consumers of the shared component when adding the option.
+- **Applies when:** Any shared form component (AIChatForm, custom inputs, reusable search bars) where different consumers may use placeholder for different purposes (descriptive vs example). 2-recurrence: AI-1193 (base fix) + AI-1196 (consumer fix).
+
 ## 2026-05-27 — Filament `stackedOnMobile()` defaults to false + label breakpoint gap (AI-1132)
 
 - **Pattern:** Every Filament admin table at 390px showed bare values with no column labels — "admin@admin.com" / "Wallace" / "Kreiger" with zero context. Labels existed in `<thead>` but the custom card CSS hid `<thead>` at ≤1024px.
