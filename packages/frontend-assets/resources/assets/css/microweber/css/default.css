@@ -4913,7 +4913,7 @@ html[dir="rtl"] .mw-text-start {
     padding: var(--space-sm, 8px) var(--space-md, 13px);
     margin-top: var(--space-sm, 8px);
     background-color: var(--ese-accent, #0d6efd);
-    color: #ffffff;
+    color: #ffffff !important;
     border-radius: var(--radius-sm, 6px);
     font-size: var(--font-control, 13px);
     font-weight: 500;
@@ -4923,7 +4923,7 @@ html[dir="rtl"] .mw-text-start {
 .mw-canvas-empty-state__cta:hover,
 .mw-canvas-empty-state__cta:focus-visible {
     background-color: var(--ese-accent, #0b5ed7);
-    color: #ffffff;
+    color: #ffffff !important;
     text-decoration: none;
     outline: none;
 }
