@@ -226,10 +226,17 @@ export const HandleMenu = function (options) {
         var btnNode = btn.get(0);
         if (btnNode) {
             btnNode.setAttribute('role', 'button');
+            btnNode.setAttribute('tabindex', '0');
             if (conf.title) {
                 var label = typeof conf.title === 'function' ? conf.title(conf, this.getTarget()) : conf.title;
                 if (label) btnNode.setAttribute('aria-label', label);
             }
+            btn.on('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    btnNode.click();
+                }
+            });
         }
         var btnContenConf = {
             props: {
@@ -315,7 +322,7 @@ export const HandleMenu = function (options) {
                 e.stopPropagation();
                 e.preventDefault();
 
-                if (e.type !== "touchstart" && e.which !== 1) {
+                if (e.type !== "touchstart" && e.which !== 1 && e.which !== 0) {
                     return;
                 }
                 Array.from(
@@ -334,7 +341,7 @@ export const HandleMenu = function (options) {
             });
             btn.on(actionEvents, function (e) {
                 e.stopPropagation();
-                if (e.type !== "touchstart" && e.which !== 1) {
+                if (e.type !== "touchstart" && e.which !== 1 && e.which !== 0) {
                     return;
                 }
                 Array.from(
