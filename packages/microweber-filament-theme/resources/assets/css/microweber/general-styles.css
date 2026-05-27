@@ -3633,13 +3633,15 @@ body.fi-panel-admin .mw-quick-stats-grid {
 }
 
 @media (max-width: 1023.98px) {
-    body.fi-panel-admin .mw-quick-stats-grid {
+    body.fi-panel-admin .mw-quick-stats-grid,
+    body.fi-panel-admin .mw-quick-stats-grid.mw-quick-stats-secondary {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 480px) {
-    body.fi-panel-admin .mw-quick-stats-grid {
+    body.fi-panel-admin .mw-quick-stats-grid,
+    body.fi-panel-admin .mw-quick-stats-grid.mw-quick-stats-secondary {
         grid-template-columns: 1fr;
     }
 }
