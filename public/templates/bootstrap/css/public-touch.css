@@ -25,7 +25,7 @@
     --color-border: #d1d5db;
     --color-border-focus: #0d6efd;
 
-    --color-footer-text: #F8F9FA;
+    --color-footer-text: var(--mw-footer-text-color, #F8F9FA);
     /* AI-210 (task-2026-05-13-c3a280) — product title now resolves to
        primary text color so the public link palette stays harmonious
        across product cards, headings, and body copy. tester observed

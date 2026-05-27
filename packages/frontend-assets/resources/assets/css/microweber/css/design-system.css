@@ -49,8 +49,10 @@
     --color-border-focus: #0d6efd;
 
     /* Surface-specific color tokens — kept distinct from base text
-       tokens so footer text and product titles can't share a value. */
-    --color-footer-text: #F8F9FA;
+       tokens so footer text and product titles can't share a value.
+       Falls back to template-defined footer text color when available
+       so white-footer templates (Big2) get dark text. */
+    --color-footer-text: var(--mw-footer-text-color, #F8F9FA);
     /* AI-210 (task-2026-05-13-c3a280) — product title resolves to
        primary text color so the public link palette stays harmonious
        across product cards, headings, and body copy. Removes the
