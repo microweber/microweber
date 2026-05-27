@@ -61,7 +61,7 @@ class SubscribersChart extends ChartWidget
                 [
                     'label' => 'Subscribers',
                     'data' => $subscribersCountByMonths,
-                    'fill' => 'start',
+                    'fill' => 'origin',
                 ],
             ],
             'labels' => $datesHumanFormated,
