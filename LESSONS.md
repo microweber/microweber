@@ -4,6 +4,34 @@
 
 ---
 
+## 2026-05-28 — Hover-dependent modules need @media (hover: none) CSS + JS tap-to-toggle fallback (AI-885)
+
+- **Pattern:** CSS `:hover` on `.mw-rollover` revealed the overlay image — completely invisible on touch devices where hover events don't fire. The module appeared broken on mobile with no indication of interactive content.
+- **Why it happened:** Desktop-first module development using CSS `:hover` as the sole interaction mechanism. No touch/mobile testing during original implementation.
+- **Prevention rule:** Any module that uses CSS `:hover` to reveal content MUST include: (1) `@media (hover: none)` CSS fallback showing a subtle preview (opacity 0.12) + active-class full reveal; (2) JS `window.matchMedia('(hover: none)').matches` gate adding tap-to-toggle click handler + `.classList.toggle('active-class')`; (3) ARIA attributes (`role="button"`, `aria-label`, `tabindex="0"`) dynamically added on touch devices only; (4) `@media (prefers-reduced-motion: reduce)` guard disabling transitions; (5) `-webkit-tap-highlight-color: transparent` to suppress browser tap flash.
+- **Applies when:** Any Microweber module template using CSS `:hover` for content reveal (ImageRollover, BeforeAfter, any card-flip or tooltip module). Grep `':hover'` in `Modules/*/resources/views/templates/*.blade.php` to find candidates.
+
+## 2026-05-28 — Quick AI Edit panel: JS-generated form elements need explicit label-input association (AI-1221)
+
+- **Pattern:** `QuickEditGUI._text()` generated `<label>` and `<input>` elements where the label had no `for` attribute despite the input having a unique `id="data-node-id-${obj.id}"`. Screen readers couldn't associate labels with their inputs across 22 text fields.
+- **Why it happened:** JS template literal generated both elements adjacently but never wired the `for`/`id` association — the label relied on visual proximity (same wrapper div) rather than programmatic association.
+- **Prevention rule:** When generating form controls in JS template literals or `createElement`, always wire `<label for="X">` to `<input id="X">` explicitly. For accordion/disclosure patterns, also wire `aria-controls` on the toggle pointing to the panel's `id`, plus `role="region"` + `aria-labelledby` on the panel pointing back to the toggle's `id`. These are WCAG 1.3.1 (Info and Relationships) + 4.1.2 (Name, Role, Value) requirements.
+- **Applies when:** Any JS-generated form UI in the Quick AI Edit panel, Element Style Editor, or other right-rail panels that create inputs dynamically.
+
+## 2026-05-28 — Filament v5 modal aria-labelledby references a non-existent heading ID (AI-1218)
+
+- **Pattern:** Filament v5 emits `aria-labelledby="{id}.heading"` on the `.fi-modal` dialog wrapper, but the `<h2 class="fi-modal-heading">` element never receives a matching `id` attribute. The ARIA reference points to nothing — screen readers can't find the modal's accessible name.
+- **Why it happened:** Framework gap in `vendor/filament/support/resources/views/components/modal/index.blade.php` — line 88 sets `aria-labelledby="{{ "{$id}.heading" }}"` but line 210 renders `<h2 class="fi-modal-heading">` with no `id`. Vendor file cannot be modified.
+- **Prevention rule:** When adding custom content inside a Filament modal that needs ARIA compliance, patch the heading ID at mount time using Alpine `x-init`: find the parent `[role=dialog]`, read its `aria-labelledby` value, then set that as the heading element's `id`. Inline `<script>` tags do NOT execute inside Livewire-morphed modal DOM — only Alpine directives (`x-init`, `x-data`) execute after morph.
+- **Applies when:** Any Filament v5 modal whose accessible name matters for screen readers (i.e., any modal that isn't purely decorative). Especially important for modals with custom Blade content where the heading text is set via `->modalHeading()`.
+
+## 2026-05-28 — ElementManager props vs .attr() for ARIA attributes (AI-1219)
+
+- **Pattern:** `ElementManager({ props: { role: 'button' } })` silently fails to set the `role` attribute because `setProps()` uses `node[key] = val` (DOM property assignment), and `role` is not a DOM property — it's an HTML attribute that requires `setAttribute()`.
+- **Why it happened:** The `ElementManager` API's `props` object maps to DOM properties (like `className`, `innerHTML`, `tabIndex`). Properties and attributes overlap for some names but diverge for ARIA attributes (`role`, `aria-label`, `aria-*`) which have no corresponding DOM property.
+- **Prevention rule:** For ARIA attributes on `ElementManager` instances, always use the `.attr()` method chain: `.attr('role', 'button').attr('aria-label', 'descriptive text')`. Use `props` only for true DOM properties: `className`, `innerHTML`, `tabIndex` (camelCase), `id`, `style` (object). When adding keyboard accessibility, also add `tabIndex: 0` in `props` (DOM property) plus `.on('keydown', handler)` for Enter/Space.
+- **Applies when:** Any canvas-side handle element created via `ElementManager` that needs ARIA attributes for accessibility (layout handles, drag handles, resize handles, insert buttons).
+
 ## 2026-05-27 — Shared component aria-label must not fall back to example-style placeholder (AI-1193 + AI-1196)
 
 - **Pattern:** `AIChatForm` used `placeholder` as the `aria-label` fallback. When a consumer sets placeholder to an example like "Make it blue and white...", screen readers announce the example text as the input's purpose — meaningless for AT users.
