@@ -121,7 +121,13 @@ export const EditorComponent = function () {
         smallEditor: editorControls,
 
         smallEditorPositionX: 'left',
-        smallEditorSkin: 'light',
+        smallEditorSkin: (function() {
+            try {
+                var topHtml = mw.top().document.documentElement;
+                if (topHtml && topHtml.classList.contains('dark')) return 'dark';
+            } catch(e) {}
+            return 'light';
+        })(),
 
         interactionControls: ['tableManager', 'linkTooltip'],
 
@@ -195,6 +201,21 @@ export const EditorComponent = function () {
     mw.app.register('richTextEditor', liveEditor);
 
     mw.app.register('richTextEditorAPI', liveEditor.api);
+
+    try {
+        var topHtml = mw.top().document.documentElement;
+        if (topHtml && typeof liveEditor.setSmallEditorSkin === 'function') {
+            var _editorThemeObserver = new MutationObserver(function() {
+                var isDark = topHtml.classList.contains('dark');
+                var currentSkin = liveEditor.settings.smallEditorSkin;
+                var newSkin = isDark ? 'dark' : 'light';
+                if (currentSkin !== newSkin) {
+                    liveEditor.setSmallEditorSkin(newSkin);
+                }
+            });
+            _editorThemeObserver.observe(topHtml, { attributes: true, attributeFilter: ['class'] });
+        }
+    } catch(e) {}
 };
 
 

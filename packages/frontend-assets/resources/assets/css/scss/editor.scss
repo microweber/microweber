@@ -75,6 +75,7 @@ $editorSpacing: 5px;
             max-width: 100%;
             overflow-y: hidden;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             .mw-bar-control-item-group-contents{
                 max-width: 90%;
                 text-align: center;
@@ -89,6 +90,9 @@ $editorSpacing: 5px;
              .mw-bar-control-item, .mw-editor-controller-component  {
                 position: static;
             }
+        }
+        .mw-bar-row {
+            flex-wrap: nowrap;
         }
     }
 
@@ -242,8 +246,8 @@ $editorSpacing: 5px;
 
     .mw-editor-controller-button{
 
-        height: 35px;
-        min-width: 33px;
+        height: 44px;
+        min-width: 44px;
         text-align: center;
         cursor:pointer;
         border: none;
@@ -322,12 +326,40 @@ $editorSpacing: 5px;
 
 html[data-mw-theme="dark"] .mw-small-editor,
 .mw-small-editor.mw-small-editor-skin-dark{
-    background-color: rgb(24 36 51 / 1);
-    color: white;
+    background-color: rgb(30, 30, 30);
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 6px 24px 0px, rgba(0, 0, 0, 0.5) 0px 0px 0px 1px;
     .mw-editor-controller-button{
-        color: white;
+        color: rgba(255, 255, 255, 0.9);
+        &:hover,
+        &:focus{
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        &.active-control{
+            background-color: #4592ff !important;
+            color: #fff;
+        }
     }
-    .mw-bar-control-item-group-contents{background-color: rgb(24, 36, 51);}
+    .mw-bar-control-item-group-contents{
+        background-color: rgb(30, 30, 30);
+        box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 5px -1px, rgba(0, 0, 0, 0.5) 0px 1px 3px -1px;
+    }
+    .mw-editor-controller-component-select-values-holder{
+        background-color: rgb(30, 30, 30);
+        background: rgb(30, 30, 30);
+    }
+    .mw-editor-dropdown-option:hover{
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .mw-bar-delimiter.mw-bar-control-item{
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+    .mw-editor-control-group-media-matches.active .mw-editor-group-button{
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .mw-editor-group-button-icon{
+        color: rgba(255, 255, 255, 0.9);
+    }
 }
 
 
@@ -644,8 +676,8 @@ html[data-mw-theme="dark"] .mw-small-editor,
     vertical-align: middle;
     background-color: transparent;
     font-size: 19px;
-    min-width: 32px;
-    height: 32px;
+    min-width: 44px;
+    height: 44px;
     line-height: 0;
     padding: 0 5px;
     -webkit-touch-callout: none;
