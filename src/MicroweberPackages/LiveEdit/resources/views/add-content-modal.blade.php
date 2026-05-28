@@ -97,7 +97,13 @@
             x-on:keydown.arrow-down.prevent="focusFirstVisibleCard()"
             x-on:keydown.arrow-up.prevent="focusLastVisibleCard()"
             x-on:keydown.escape="if (q !== '') { q = ''; $refs.search.focus(); $event.stopPropagation(); }"
-            class="mw-add-content-modal-search-input w-full min-h-[44px] rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 pe-16 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+            {{-- task-2026-05-28-2f5a6c / AI-1155 — add dark:text-gray-200 so
+                 the typed search text remains readable on the dark
+                 dark:bg-gray-900 background. Without it the input text
+                 inherited the default foreground (near-black) and washed
+                 to invisible in dark mode. Contrast: gray-200 (#e5e7eb)
+                 on gray-900 (#111827) ≈ 14:1 → well above WCAG AA 4.5:1. --}}
+            class="mw-add-content-modal-search-input w-full min-h-[44px] rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 px-4 py-3 pe-16 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
         >
         {{-- task-2026-05-16-de4ce4 / AI-694 — ⌘K shortcut affordance chip.
              Visual hint only at this slice; global ⌘K hotkey routing is
