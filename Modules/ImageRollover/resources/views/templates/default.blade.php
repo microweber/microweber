@@ -36,6 +36,26 @@
         height: 100%;
         object-fit: cover;
     }
+
+    /* task-2026-05-28-acfec1 / AI-885: touch-device fallback */
+    @media (hover: none) {
+        .mw-rollover {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .mw-rollover-overlay {
+            opacity: 0.12;
+        }
+        .mw-rollover.mw-rollover-active .mw-rollover-overlay {
+            opacity: 1;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .mw-rollover-overlay {
+            transition: none;
+        }
+    }
 </style>
 
 @php
@@ -46,11 +66,11 @@
 
 <div>
     <div class="mw-rollover">
-        <img src="{{ $default_image }}" class="mw-rollover-default_image" {!! $sizeAttr !!} alt="{{ $text ?? '' }}"/>
+        <img src="{{ $default_image }}" class="mw-rollover-default_image" {!! $sizeAttr !!} alt="{{ isset($text) && $text !== '' ? $text : (get_option('website_title', 'website') ?: 'Image') }}"/>
 
         @if($rollover_image)
             <div class="mw-rollover-overlay">
-                <img src="{{ $rollover_image }}" {!! $sizeAttr !!} alt="{{ $text ?? '' }}"/>
+                <img src="{{ $rollover_image }}" {!! $sizeAttr !!} alt="{{ isset($text) && $text !== '' ? $text . ' (rollover)' : (get_option('website_title', 'website') ?: 'Image') . ' (rollover)' }}"/>
             </div>
         @endif
     </div>
@@ -69,22 +89,40 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Initialize any JavaScript functionality here
-        const rolloverImages = document.querySelectorAll('.mw-rollover');
+        var rolloverImages = document.querySelectorAll('.mw-rollover');
 
-        rolloverImages.forEach(container => {
-            const overlay = container.querySelector('.mw-rollover-overlay');
+        rolloverImages.forEach(function (container) {
+            var overlay = container.querySelector('.mw-rollover-overlay');
             if (overlay) {
-                // Ensure images are loaded
-                const defaultImage = container.querySelector('.mw-rollover-default_image');
-                const rolloverImage = overlay.querySelector('img');
+                var defaultImage = container.querySelector('.mw-rollover-default_image');
+                var rolloverImage = overlay.querySelector('img');
 
                 if (defaultImage && rolloverImage) {
-                    // Ensure same dimensions
                     rolloverImage.style.width = defaultImage.offsetWidth + 'px';
                     rolloverImage.style.height = defaultImage.offsetHeight + 'px';
                 }
             }
         });
+
+        /* task-2026-05-28-acfec1 / AI-885: tap-to-toggle on touch devices */
+        if (window.matchMedia('(hover: none)').matches) {
+            rolloverImages.forEach(function (container) {
+                var overlay = container.querySelector('.mw-rollover-overlay');
+                if (overlay) {
+                    container.setAttribute('role', 'button');
+                    container.setAttribute('aria-label', 'Tap to toggle image');
+                    container.setAttribute('tabindex', '0');
+                    container.addEventListener('click', function () {
+                        container.classList.toggle('mw-rollover-active');
+                    });
+                    container.addEventListener('keydown', function (e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            container.classList.toggle('mw-rollover-active');
+                        }
+                    });
+                }
+            });
+        }
     });
 </script>
