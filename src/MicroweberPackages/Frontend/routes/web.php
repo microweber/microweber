@@ -98,6 +98,34 @@ Route::group(
     // dispatch): build actual listing-page controllers if standalone
     // /blog + /faq + /testimonials listing pages are desired (would
     // mirror AI-837 SearchController shape).
+    //
+    // task-2026-05-28-a8b4e2 / AI-1087 — added `tag|tags|categories|
+    // captcha` to the excluded-prefix regex. 8th confirmed silent-stub
+    // Stage-3 sibling-renderer family member (AI-755 / AI-795 / AI-837 /
+    // AI-849 / AI-850 / AI-856 / AI-1087 lineage). Pre-fix, /tag + /tags
+    // + /categories + /captcha all returned HTTP 200 with placeholder /
+    // empty fixture content because FrontendController's silent-stub
+    // detector (`is_installed('tag')` / `is_installed('category')` /
+    // `is_installed('captcha')` — note Tag/Category module names map to
+    // singular per Microweber convention) returned true: Modules/Tag,
+    // Modules/Category, Modules/Captcha all ship with the standard
+    // install. None of these modules expose a public listing surface —
+    // Tag/Category are taxonomy back-ends consumed by Content templates
+    // via `<module type="..."/>` embeddable widgets; Captcha is a
+    // backend-only image generator (admin Filament + form-validation
+    // helper). Excluding them from the catch-all routes the URL to
+    // Route::fallback() which renders the AI-795 chrome-wrapped 404 —
+    // proper "no such page" surface vs. silent-stub fixture leak. The
+    // `tag` and `tags` entries are BOTH required because PCRE word
+    // boundary `\b` matches between `g` and `s` only when the next char
+    // is a non-word char — `tags` would NOT be matched by the `tag\b`
+    // anchor (the `\b` between `g` and `s` does not apply since both are
+    // word chars). AI-1087b follow-up candidate (separate dispatch):
+    // build actual taxonomy listing-page controllers (/tag/{slug} +
+    // /category/{slug} archive pages) if standalone tag + category
+    // archive surfaces are desired (would mirror AI-837 SearchController
+    // shape and need TagController + CategoryController + Routes +
+    // listing views + content-by-taxonomy DB queries).
     Route::any('{slug}', array('as' => 'slug', 'uses' =>
         \MicroweberPackages\Frontend\Http\Controllers\FrontendController::class . '@index'))
         ->middleware('web')
@@ -107,7 +135,7 @@ Route::group(
         // (layout_file=blog.blade.php). With that fix in place, /blog is a real content
         // page in the DB and FrontendController resolves it correctly. Excluding blog
         // caused AI-946 (/blog returns 404 instead of blog listing).
-        ->where('slug', '^(?!vendor|packages|template|modules|css|storage|userfiles|js|admin|search|shop|customer|faq|testimonials).*')
+        ->where('slug', '^(?!vendor|packages|template|modules|css|storage|userfiles|js|admin|search|shop|customer|faq|testimonials|tag\b|tags\b|categories\b|captcha\b).*')
         ->name('website');
 
     Route::fallback(function () {
