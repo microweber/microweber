@@ -17248,6 +17248,9 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 .dark .mw-add-content-modal-root p {
   color: #d1d5db !important;
 }
+.mw-content-picker-modal .fi-modal-footer-actions .fi-btn {
+  min-height: 44px !important;
+}
 @media (max-width: 767.98px) {
   #toolbar {
     flex-wrap: nowrap !important;

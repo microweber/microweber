@@ -55,7 +55,16 @@
           this file). The Blade attribute now carries only a bare
           identifier — no quoting issues possible. --}}
      x-data="addContentModal"
-     x-init="$nextTick(() => $refs.search && $refs.search.focus())">
+     x-init="$nextTick(() => {
+         $refs.search && $refs.search.focus();
+         /* task-2026-05-28-102772 / AI-1218: patch missing heading id for aria-labelledby */
+         var dlg = $el.closest('[role=dialog]');
+         if (dlg) {
+             var lbl = dlg.getAttribute('aria-labelledby');
+             var h = dlg.querySelector('.fi-modal-heading');
+             if (lbl && h && !h.id) h.id = lbl;
+         }
+     })">
 
     {{-- NOVICE #14 (task-2026-05-13-899d57) — the previous copy
          "Search content types…" was jargon. A first-time site owner does

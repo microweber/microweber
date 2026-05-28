@@ -1576,6 +1576,11 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     color: #d1d5db !important;
 }
 
+/* task-2026-05-28-102772 / AI-1218 — Cancel button 44px touch target */
+.mw-content-picker-modal .fi-modal-footer-actions .fi-btn {
+    min-height: 44px !important;
+}
+
 /*
  * AI-73 / TICKET-I (cycle-86 2026-05-09): live-edit mobile one-row
  * toolbar + canvas iframe padding-top fix at < 768px viewports.
