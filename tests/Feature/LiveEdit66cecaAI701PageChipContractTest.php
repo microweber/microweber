@@ -84,11 +84,13 @@ class LiveEdit66cecaAI701PageChipContractTest extends TestCase
     #[Test]
     public function chip_button_renders_truncated_title_and_chevron(): void
     {
-        // Truncated label via the computed prop.
+        // Pin-evolution: 'Untitled' renamed to 'Homepage' in
+        // task-2026-05-27-fb049a Round 51 batch (commit 7a4fa67888).
+        // Updated in place per pin-evolution discipline.
         $this->assertMatchesRegularExpression(
-            '/<span class="mw-page-chip__label">\{\{ currentPageTitleTruncated \|\| \'Untitled\' \}\}<\/span>/',
+            '/<span class="mw-page-chip__label">\{\{ currentPageTitleTruncated \|\| \'Homepage\' \}\}<\/span>/',
             $this->pageChip,
-            'Chip label must render currentPageTitleTruncated (computed prop) with "Untitled" fallback.'
+            'Chip label must render currentPageTitleTruncated (computed prop) with "Homepage" fallback.'
         );
         // Chevron SVG inside the button.
         $this->assertMatchesRegularExpression(
