@@ -1833,3 +1833,30 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/* ================================================================
+ * task-2026-05-28-7e3b4c (AI-1156) — Filament modal footer secondary
+ * buttons 42px → 44px at mobile.
+ *
+ * Filament v5 renders modal footer action buttons (Cancel, secondary
+ * actions, link-style fi-btn anchors) at h-9 (36px) + 3px vertical
+ * padding = 42px on touch viewports — 2px short of the WCAG 2.5.5
+ * Target Size 44 CSS-pixel floor that this codebase enforces across
+ * admin + checkout + Live Edit (lineage: AI-517 / AI-518 / AI-519 /
+ * AI-1148 close button / AI-1192 + AI-1218 Add Content Cancel).
+ *
+ * Earlier scoped fixes (AI-1192 in general-styles.css, AI-1218 in
+ * live-edit-classes.css) only widened the Add Content picker modal.
+ * AI-1156 generalises the floor across EVERY .fi-modal-footer button
+ * on touch viewports — anchor button + link-style anchor variants.
+ * `!important` defeats Filament's h-9 utility class.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin .fi-modal-footer .fi-btn,
+    body.fi-panel-admin .fi-modal-footer-actions .fi-btn,
+    body.fi-panel-checkout .fi-modal-footer .fi-btn,
+    body.fi-panel-checkout .fi-modal-footer-actions .fi-btn {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+}
+
