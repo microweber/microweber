@@ -171,10 +171,17 @@ class ShippingProviderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->emptyState(function (Table $table) {
-                $modelName = static::$model;
-                return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
-            })
+            // task-2026-05-28-f3a1d8 / AI-1064 — replaced content-module empty-state view
+            // (which rendered retail shopper imagery) with Filament built-in empty-state
+            // methods scoped to the shipping context.
+            ->emptyStateIcon('heroicon-o-truck')
+            ->emptyStateHeading('No shipping providers configured')
+            ->emptyStateDescription('Add a shipping provider to offer delivery options at checkout.')
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make()
+                    ->label('Add shipping provider')
+                    ->icon('heroicon-m-plus'),
+            ])
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
