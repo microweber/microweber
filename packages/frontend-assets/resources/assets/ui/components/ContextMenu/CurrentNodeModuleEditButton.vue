@@ -4,7 +4,7 @@
             <div
                 :class="{ 'active': isEditingModule }"
                 :title="isLayoutElement ? 'Layout Settings' : 'Module Settings'"
-                class="btn-icon module-edit-button"
+                class="btn-icon live-edit-toolbar-buttons module-edit-button"
                 @click="editCurrentModule"
                 @mouseenter="onModuleHover"
             >

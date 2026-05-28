@@ -3,7 +3,7 @@
         <div v-if="isTextElement" class="current-node-text-edit">
             <div
                 :class="{ 'active': isEditing }"
-                class="btn-icon text-edit-button"
+                class="btn-icon live-edit-toolbar-buttons text-edit-button"
                 title="Edit Text"
                 @click="editCurrentNode"
                 @mouseenter="onNodeHover"

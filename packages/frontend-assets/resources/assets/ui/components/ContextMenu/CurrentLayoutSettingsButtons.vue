@@ -243,6 +243,17 @@ export default {
 
 
             this.setupEventListeners();
+
+            // Pre-load modules list so getModuleIcon() returns real icons
+            // instead of the star fallback (modulesListData is null until
+            // list() is called at least once). After loading, re-render
+            // so any already-visible module buttons get their proper icon.
+            if (window.mw?.top()?.app?.modules) {
+                window.mw.top().app.modules.list(() => {
+                    this.updateCurrentLayout();
+                });
+            }
+
             this.updateCurrentLayout();
 
             // Update periodically to catch dynamic changes
@@ -640,11 +651,14 @@ export default {
         getModuleIcon(module) {
             // Use the new getModuleIcon service function directly
             if (window.mw?.top()?.app?.modules) {
-                return window.mw.top().app.modules.getModuleIcon(module.type);
+                const icon = window.mw.top().app.modules.getModuleIcon(module.type);
+                if (icon) return icon;
             }
 
-            // Fallback to default icon
-            return '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+            // Fallback to a cog/settings icon (not a star) so the button
+            // still looks like a settings affordance when the module registry
+            // hasn't loaded yet or has no icon for this type.
+            return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>';
         }, openModuleSettings(module) {
             try {
                 // Use Microweber's module settings system

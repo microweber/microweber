@@ -497,6 +497,43 @@
                     }, 450);
                 } catch (_) { /* no action mounted, nothing to submit */ }
             });
+
+            // fi-modal stacking-context escape — moves fi-modal out of
+            // fi-main-ctn to be a direct sibling of fi-main-ctn (child of
+            // fi-layout). fi-main-ctn creates a stacking context during
+            // Filament panel transitions (opacity, transform changes) that
+            // traps position:fixed descendants in its compositor layer,
+            // causing Chrome's elementFromPoint to return fi-main-ctn for
+            // ALL modal coordinates and making modal inputs un-clickable.
+            // Teleporting fi-modal out is the proven fix; all CSS-only
+            // approaches (pointer-events, isolation, overflow) failed.
+            // Livewire morphdom re-inserts fi-modal into fi-main-ctn on
+            // each commit cycle, so the hook cleans up the prior teleported
+            // copy (removes :scope > .fi-modal from fi-layout) before
+            // appending the freshly-rendered one.
+            (function () {
+                var doTeleport = function () {
+                    var layout = document.querySelector('.fi-layout');
+                    if (!layout) { return; }
+                    // Remove stale teleported copies from prior Livewire rounds.
+                    layout.querySelectorAll(':scope > .fi-modal').forEach(
+                        function (el) { el.remove(); }
+                    );
+                    var modal = document.querySelector('.fi-main-ctn .fi-modal');
+                    if (modal) { layout.appendChild(modal); }
+                };
+                var registerHook = function () {
+                    if (!window.Livewire || typeof window.Livewire.hook !== 'function') { return; }
+                    window.Livewire.hook('commit', function (ref) {
+                        ref.succeed(function () { requestAnimationFrame(doTeleport); });
+                    });
+                };
+                if (window.Livewire && typeof window.Livewire.hook === 'function') {
+                    registerHook();
+                } else {
+                    document.addEventListener('livewire:initialized', registerHook);
+                }
+            }());
         }"
     >
 

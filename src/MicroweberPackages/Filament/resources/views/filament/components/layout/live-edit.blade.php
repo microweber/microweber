@@ -188,9 +188,15 @@
     }
 
     /* task-2026-05-26-da6eab: Filament modals inside the live-edit layout
-       suffer from a hit-testing issue — fi-main-ctn intercepts pointer
-       events on position:fixed modal children. The JS below reroutes
-       clicks to the correct modal element based on coordinates. */
+       suffer from a hit-testing issue — the iframe inside
+       #live-edit-frame-holder absorbs pointer events that should reach
+       position:fixed modal children. Primary fix: disable pointer events
+       on the frame holder while any Filament modal is open so clicks and
+       keyboard focus reach modal inputs natively. The JS below is a
+       fallback rerouter for any residual cases not covered by the CSS. */
+    .mw-live-edit-page:has(.fi-modal.fi-modal-open) #live-edit-frame-holder {
+        pointer-events: none !important;
+    }
  </style>
  <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -234,6 +240,12 @@
                 e.stopPropagation();
                 e.preventDefault();
                 best.click();
+                // task-2026-05-28: for typeable elements also call .focus()
+                // so keyboard events are routed to the element for typing.
+                // Synthetic .click() alone does not reliably focus inputs.
+                if (best.tagName === 'INPUT' || best.tagName === 'TEXTAREA' || best.tagName === 'SELECT') {
+                    best.focus();
+                }
             }
         }, true);
     });

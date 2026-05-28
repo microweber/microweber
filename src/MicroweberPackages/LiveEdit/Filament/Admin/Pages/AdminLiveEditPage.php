@@ -442,7 +442,7 @@ class AdminLiveEditPage extends Page
     {
         return Action::make('openModuleAction')
             ->modalIcon(function (array $arguments) {
-                $data = $arguments['data'];
+                $data = $arguments['data'] ?? [];
                 if (isset($data['moduleSettingsComponent'])) {
                     if (isset($data['moduleSettingsComponent'])) {
                         $exists = class_exists($data['moduleSettingsComponent']);
@@ -460,7 +460,7 @@ class AdminLiveEditPage extends Page
                 return 'heroicon-o-cog-6-tooth';
             })
             ->label(function (array $arguments) {
-                $data = $arguments['data'];
+                $data = $arguments['data'] ?? [];
                 if (isset($data['moduleSettingsComponent'])) {
                     if (isset($data['moduleSettingsComponent'])) {
                         $exists = class_exists($data['moduleSettingsComponent']);
@@ -481,8 +481,8 @@ class AdminLiveEditPage extends Page
             //->modalContent(view('microweber::livewire.no-settings'))
             ->form(
                 function (array $arguments) {
-                    $data = $arguments['data'];
-                    $params = $data['params'];
+                    $data = $arguments['data'] ?? [];
+                    $params = $data['params'] ?? [];
 
                     if (isset($data['moduleSettingsComponent'])) {
                         $componentClass = $data['moduleSettingsComponent'];
