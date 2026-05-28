@@ -23,8 +23,14 @@ class ListShippingProviders extends ListRecords
     }
     protected function getHeaderActions(): array
     {
+        // task-2026-05-28-2f5a6c / AI-1106 — header CreateAction hides when
+        // the table has zero rows so the prominent emptyState CTA in the
+        // shared empty-state blade is the only primary affordance on the
+        // empty page. When records exist, the empty state never renders
+        // and the header CTA is the sole primary.
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->visible(fn (): bool => static::getResource()::getEloquentQuery()->exists()),
         ];
     }
 }
