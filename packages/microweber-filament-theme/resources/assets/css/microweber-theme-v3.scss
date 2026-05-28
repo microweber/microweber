@@ -6235,3 +6235,14 @@ html.dark {
     padding: 1rem;
   }
 }
+
+/* task-2026-05-28-af5d5b / AI-1161: Image Picker filepond drop label dark-mode contrast ≥4.5:1 (was 1.8:1) */
+html.dark .filepond--drop-label,
+html.dark .filepond--drop-label label,
+html.dark .filepond--label-action {
+  color: rgb(229, 231, 235) !important;
+}
+
+html.dark .filepond--label-action {
+  text-decoration-color: rgb(229, 231, 235) !important;
+}
