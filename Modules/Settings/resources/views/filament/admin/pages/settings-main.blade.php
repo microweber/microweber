@@ -7,7 +7,13 @@
                 <div class="mw-settings-hub-card">
                     <div class="mw-settings-hub-grid">
                         @foreach($settings as $setting)
-                            <a href="{{ $setting['url'] }}" class="mw-settings-hub-item">
+                            {{-- task-2026-05-28-2f5a6c / AI-1098 — explicit aria-label
+                                 with trim($setting['title']) so the link's accessible
+                                 name is the cleanly-trimmed title rather than the
+                                 multi-line content (icon SVG + title h3 + description
+                                 p) which leaks indent whitespace into the computed
+                                 accessible name. --}}
+                            <a href="{{ $setting['url'] }}" class="mw-settings-hub-item" aria-label="{{ trim($setting['title']) }}">
                                 <div class="mw-settings-hub-item-icon">
                                     @if(isset($setting['icon']) && $setting['icon'] != '')
                                         <?php try { ?>
