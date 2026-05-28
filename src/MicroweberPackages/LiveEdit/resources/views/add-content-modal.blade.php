@@ -247,7 +247,12 @@
                         @svg($action['icon'], 'h-6 w-6 transition duration-150 text-white')
                     </div>
                     <div class="flex flex-col min-w-0">
-                        <div class="font-semibold text-base leading-tight">
+                        {{-- task-2026-05-28-2f5a6c / AI-1153 — explicit
+                             text-gray-900 dark:text-gray-100 so the title
+                             no longer relies on inherited button-default
+                             colour (which measured ~4.1:1 in dark mode
+                             against the Filament modal surface). --}}
+                        <div class="font-semibold text-base leading-tight text-gray-900 dark:text-gray-100">
                             {{ $action['title'] }}
                         </div>
                     </div>
@@ -265,7 +270,13 @@
             class="mw-add-content-group__header text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 px-1">
             New content
         </h3>
-        <p class="text-xs text-gray-400 dark:text-gray-300 mb-3 px-1">Create something new for your website</p>
+        {{-- task-2026-05-28-2f5a6c / AI-1153 — text-gray-400 (#9ca3af) on
+             a white modal background measured ~2.85:1 (well below the
+             WCAG AA 4.5:1 floor for non-large text). Bumped to
+             text-gray-600 (#4b5563 on white ≈ 7.56:1). Dark mode keeps
+             text-gray-300 — already comfortably above the threshold
+             on the modal's dark surface. --}}
+        <p class="text-xs text-gray-600 dark:text-gray-300 mb-3 px-1">Create something new for your website</p>
         {{-- task-2026-05-27-4b1344 / AI-1139: responsive grid —
              3-col on desktop (≥768px), 2-col on tablet/mobile per
              designer responsive spec. --}}
@@ -314,7 +325,10 @@
                         @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-700 dark:text-gray-300')
                     </div>
                     <div class="flex flex-col items-center gap-0.5">
-                        <div class="font-semibold text-sm leading-tight">
+                        {{-- task-2026-05-28-2f5a6c / AI-1153 — explicit
+                             text-gray-900 dark:text-gray-100 (see primary
+                             card title for full rationale). --}}
+                        <div class="font-semibold text-sm leading-tight text-gray-900 dark:text-gray-100">
                             {{ $action['title'] }}
                         </div>
                         @if (!empty($action['sublabel']))
