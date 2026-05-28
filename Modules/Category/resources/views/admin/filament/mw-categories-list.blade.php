@@ -17,11 +17,18 @@
 
             $suffix = $this->getId();
 
-
+            // task-2026-05-28-2f5a6c / AI-1092 — server-side category-count gate.
+            // /admin/categories renders via a custom JS-rendered tree (mw.admin.categoriesTree),
+            // NOT a standard Filament table, so a Resource-level ->emptyState() wiring
+            // would never render. Instead, count categories server-side and render
+            // either the tree (count > 0) or the empty-state chrome (count === 0)
+            // with a heading + CTA pointing at the category-create route.
+            $mwAi1092CategoryCount = \Modules\Category\Models\Category::count();
 
         @endphp
 
 
+        @if($mwAi1092CategoryCount > 0)
 
         @script
 
@@ -167,6 +174,27 @@
         </div>
 
             <div wire:ignore class="mw-edit-categories-list" id="mw-tree-edit-content-{{$suffix}}"></div>
+
+        @else
+            {{-- task-2026-05-28-2f5a6c / AI-1092 — empty-state chrome for /admin/categories.
+                 Mirrors the shared-empty-state blade shape (heading + CTA-wrap + CTA)
+                 used by Content / Order / Customer / Invoice / Product branches in
+                 Modules/Content/resources/views/filament/admin/empty-state.blade.php,
+                 but lands here because the categories list bypasses Filament's table. --}}
+            <div class="text-center you-dont-have-any d-flex justify-content-center mt-5 flex-column align-items-center" style="min-height: 300px;">
+                <h2 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
+                    You do not have any categories yet.
+                </h2>
+                <p class="text-center mt-2" style="max-width: 480px;">
+                    Categories group related pages, posts, and products together so customers can browse your content. Add your first category to get started.
+                </p>
+                <div class="text-center mw-table-empty-cta-wrap mt-3">
+                    <a href="{{ route('filament.admin.resources.categories.create') }}" class="mw-table-empty-cta" aria-label="Add category">
+                        + Add category
+                    </a>
+                </div>
+            </div>
+        @endif
 
 
 
