@@ -170,15 +170,21 @@ class ProductInventoryResource extends Resource
                     ->label('ID')
                     ->sortable(),
 
-                // task-2026-05-26 / AI-1102 — product title was blank because
-                // the relation wasn't eager-loaded and orphaned product_id
-                // rows returned null. Show fallback with product_id.
+                // task-2026-05-28-b31e7c / AI-1062 — PRODUCT column blank even with
+                // eager-loading (AI-1102). Root cause: ->default() only fires when
+                // state is null; an empty-string title silently passes through.
+                // Switched to ->formatStateUsing() so both null AND empty-string
+                // product titles fall back to a readable "Product #ID" label.
                 TextColumn::make('product.title')
                     ->label('Product')
                     ->searchable()
                     ->sortable()
                     ->wrap()
-                    ->default(fn ($record) => $record->product_id ? 'Product #' . $record->product_id : '—'),
+                    ->formatStateUsing(fn ($state, $record) =>
+                        ($state !== null && $state !== '')
+                            ? $state
+                            : ($record->product_id ? 'Product #' . $record->product_id : '—')
+                    ),
 
                 TextColumn::make('variant.sku')
                     ->label('Variant SKU')
@@ -295,8 +301,10 @@ class ProductInventoryResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        // task-2026-05-26 / AI-1102 — eager-load product relation so
-        // the PRODUCT column renders the title instead of blank.
+        // task-2026-05-28-b31e7c / AI-1062 — eager-load product relation so
+        // the PRODUCT column can resolve the title via ->formatStateUsing().
+        // AI-1102 established this eager load; AI-1062 upgrades the column
+        // renderer to handle empty-string titles (not just null).
         return parent::getEloquentQuery()->with(['product']);
     }
 
