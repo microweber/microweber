@@ -195,10 +195,18 @@ class ProductVariantAttributeResource extends Resource
                         default => 'gray',
                     }),
 
-                TextColumn::make('values_count')
+                // task-2026-05-28-c7f4d2 / AI-1063 — VALUES column showed count
+                // "(1)" instead of actual value names (S, M, L, XL).
+                // ->counts('values') emits only the integer count.
+                // Replaced with ->getStateUsing() that plucks the 'value' field
+                // from the eager-loaded values collection and joins with ', '.
+                TextColumn::make('values_list')
                     ->label('Values')
-                    ->counts('values')
-                    ->sortable(),
+                    ->getStateUsing(fn ($record) =>
+                        $record->values->pluck('value')->filter()->implode(', ') ?: '—'
+                    )
+                    ->wrap()
+                    ->searchable(false),
 
                 TextColumn::make('position')
                     ->numeric()
@@ -230,6 +238,13 @@ class ProductVariantAttributeResource extends Resource
                 ]),
             ])
             ->defaultSort('position', 'asc');
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        // task-2026-05-28-c7f4d2 / AI-1063 — eager-load values relation so the
+        // VALUES column can render comma-separated labels without N+1 queries.
+        return parent::getEloquentQuery()->with(['values']);
     }
 
     public static function getPages(): array
