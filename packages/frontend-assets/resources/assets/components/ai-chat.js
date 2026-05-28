@@ -118,10 +118,11 @@ const AIChatFormCSS = `
         opacity: .5;
         pointer-events: none
       }
+      /* task-2026-05-28-414789 / AI-1221: 40px → 44px for WCAG 2.5.5 */
       .mw-ai-chat-box-action-send{
             display: flex;
             width: 92%;
-            height: 40px;
+            min-height: 44px;
             overflow: hidden;
             background: #003da4;
             margin: 14px 4%;

@@ -142,9 +142,10 @@ class QuickEditGUI {
         // when the caller has populated it; fall back to the legacy
         // verbose tagMap copy for callers that haven't migrated to
         // the per-section counter pattern yet.
+        /* task-2026-05-28-414789 / AI-1221: label for= matches input id= */
         return `
             <div class="form-control-live-edit-label-wrapper">
-                <label class="live-edit-label">${
+                <label class="live-edit-label" for="data-node-id-${obj.id}">${
                     obj.label || tagMap[obj.tag] || obj.tag || ""
                 }</label>
                 <input class="form-control-live-edit-input" value="${
@@ -1141,11 +1142,15 @@ export class QuickEditComponent extends MicroweberBaseClass {
                 groupEl.className = 'quick-ai-type-group quick-ai-type-group--' + typeKey;
                 groupEl.dataset.open = 'true'; // default all expanded
 
+                /* task-2026-05-28-414789 / AI-1221: aria-controls on accordion */
+                const panelId = 'quick-ai-panel-' + sectionId + '-' + typeKey;
+
                 const headerEl = document.createElement('button');
                 headerEl.type = 'button';
                 headerEl.className = 'quick-ai-type-group-header';
                 headerEl.textContent = _typeGroupLabels[typeKey];
                 headerEl.setAttribute('aria-expanded', 'true');
+                headerEl.setAttribute('aria-controls', panelId);
                 headerEl.addEventListener('click', function () {
                     const isOpen = groupEl.dataset.open === 'true';
                     groupEl.dataset.open = isOpen ? 'false' : 'true';
@@ -1154,6 +1159,10 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
                 const bodyEl = document.createElement('div');
                 bodyEl.className = 'quick-ai-type-group-body';
+                bodyEl.id = panelId;
+                bodyEl.setAttribute('role', 'region');
+                bodyEl.setAttribute('aria-labelledby', panelId + '-header');
+                headerEl.id = panelId + '-header';
                 tg.nodes.forEach((field) => bodyEl.appendChild(field));
 
                 groupEl.appendChild(headerEl);
