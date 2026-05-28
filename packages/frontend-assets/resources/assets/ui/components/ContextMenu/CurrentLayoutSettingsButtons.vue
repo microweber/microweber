@@ -36,6 +36,8 @@
             </div>
         </div>
 
+        <!-- task-2026-05-28-0d7e2a / AI-1226 — module-settings-button lifted
+             from 32×32px to min 44×44px for WCAG 2.5.5 touch target. -->
         <div class="modules-buttons">
             <div
                 v-for="module in currentLayoutModules"
@@ -124,10 +126,21 @@
     padding: 0 5px;
 }
 
+/* task-2026-05-28-0d7e2a / AI-1226 — "Insert content" button was 24px
+   (SVG-natural height only). Lifted to 44px min for WCAG 2.5.5. */
+.add-module-button {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+/* task-2026-05-28-0d7e2a / AI-1226 — Configure-X buttons were 32×32px.
+   WCAG 2.5.5 requires 44×44px minimum touch target on mobile. */
 .module-settings-button {
-    height: 32px;
-    width: 32px;
+    min-height: 44px;
+    min-width: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -148,14 +161,14 @@
 }
 
 .module-settings-button :deep(svg) {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     fill: currentColor;
 }
 
 .module-settings-button :deep(img) {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
 }
 
