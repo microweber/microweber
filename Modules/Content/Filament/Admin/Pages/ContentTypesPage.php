@@ -21,9 +21,26 @@ use Illuminate\Support\Facades\DB;
  * Phase 2 (AI-732-followup). Per-type list views + field-aware
  * editing deferred to Phase 3.
  *
- * Sits in the Website nav group alongside Pages / Posts.
  * Access gated to admins (consistent with the AI-133 / SEC-02
  * pattern on ContentResource).
+ *
+ * task-2026-05-28-c5d4b9 / AI-1081 — Content Types IA restructure.
+ * Jira: https://microweber.atlassian.net/browse/AI-1081
+ *
+ * Pre-fix: $navigationGroup = 'Settings'. Designer dispatch
+ * framed the pre-state as "Website group", but recon found the
+ * actual pre-state value was 'Settings' (the legacy AI-732 Phase 1
+ * docblock prose claimed "Sits in the Website nav group alongside
+ * Pages / Posts", but the source attribute disagreed with the
+ * docblock since AI-732 ship — a docblock-vs-source drift). Either
+ * way, "Content Types" is a schema-management surface (taxonomy of
+ * content_type strings consumed across Page/Post/Product/custom
+ * types) — it belongs in the dedicated "Website Settings" sidebar
+ * group (already declared in FilamentAdminPanelProvider.php lines
+ * 242-248 alongside Shop Settings / Email Settings / Customization
+ * Settings) rather than the generic catch-all 'Settings' group.
+ * Sibling surfaces in Website Settings: site title / favicon /
+ * homepage / language / SEO / sitemap.
  */
 class ContentTypesPage extends Page
 {
@@ -31,7 +48,13 @@ class ContentTypesPage extends Page
     protected static bool $shouldRegisterNavigation = true;
     protected static ?string $title = 'Content Types';
     protected static ?string $slug = 'content-types';
-    protected static string|\UnitEnum|null $navigationGroup = 'Settings';
+    // task-2026-05-28-c5d4b9 / AI-1081 — moved from 'Settings' (legacy
+    // generic catch-all) to 'Website Settings' (dedicated IA sidebar
+    // group). Pre-fix value: 'Settings'. Despite the legacy AI-732
+    // Phase 1 docblock claiming "Website nav group", the actual
+    // source value was 'Settings' — a docblock-vs-source drift fixed
+    // in this ship.
+    protected static string|\UnitEnum|null $navigationGroup = 'Website Settings';
     protected static ?int $navigationSort = 90;
 
     protected string $view = 'modules.content::filament.admin.pages.content-types-page';
