@@ -1568,6 +1568,14 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     background-color: rgba(255, 255, 255, 0.06) !important;
 }
 
+/* task-2026-05-28-d8b915 / AI-1217 — dark-mode text contrast fix */
+.dark .mw-add-content-modal-search-input {
+    color: #e5e7eb !important;
+}
+.dark .mw-add-content-modal-root p {
+    color: #d1d5db !important;
+}
+
 /*
  * AI-73 / TICKET-I (cycle-86 2026-05-09): live-edit mobile one-row
  * toolbar + canvas iframe padding-top fix at < 768px viewports.

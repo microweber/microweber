@@ -12320,6 +12320,7 @@ html[dir=rtl] .mw-tree-nav-skin-default .mw-tree-toggler:after {
     max-width: 100%;
     overflow-y: hidden;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .mw-small-editor.mw-small-editor-skin-light .mw-bar .mw-bar-control-item-group-contents, .mw-small-editor.mw-small-editor-skin-dark .mw-bar .mw-bar-control-item-group-contents {
     max-width: 90%;
@@ -12332,6 +12333,9 @@ html[dir=rtl] .mw-tree-nav-skin-default .mw-tree-toggler:after {
   }
   .mw-small-editor.mw-small-editor-skin-light .mw-bar .mw-bar-control-item, .mw-small-editor.mw-small-editor-skin-light .mw-bar .mw-editor-controller-component, .mw-small-editor.mw-small-editor-skin-dark .mw-bar .mw-bar-control-item, .mw-small-editor.mw-small-editor-skin-dark .mw-bar .mw-editor-controller-component {
     position: static;
+  }
+  .mw-small-editor.mw-small-editor-skin-light .mw-bar-row, .mw-small-editor.mw-small-editor-skin-dark .mw-bar-row {
+    flex-wrap: nowrap;
   }
 }
 .mw-small-editor.mw-small-editor-skin-light .mw-editor-dropdown-option, .mw-small-editor.mw-small-editor-skin-dark .mw-editor-dropdown-option {
@@ -12456,8 +12460,8 @@ html[dir=rtl] .mw-tree-nav-skin-default .mw-tree-toggler:after {
   width: 24px;
 }
 .mw-small-editor.mw-small-editor-skin-light .mw-editor-controller-button, .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button {
-  height: 35px;
-  min-width: 33px;
+  height: 44px;
+  min-width: 44px;
   text-align: center;
   cursor: pointer;
   border: none;
@@ -12513,14 +12517,39 @@ html[dir=rtl] .mw-tree-nav-skin-default .mw-tree-toggler:after {
   background-color: #eee;
 }
 html[data-mw-theme=dark] .mw-small-editor, .mw-small-editor.mw-small-editor-skin-dark {
-  background-color: rgb(24, 36, 51);
-  color: white;
+  background-color: rgb(30, 30, 30);
+  color: rgba(255, 255, 255, 0.9);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 6px 24px 0px, rgba(0, 0, 0, 0.5) 0px 0px 0px 1px;
 }
 html[data-mw-theme=dark] .mw-small-editor .mw-editor-controller-button, .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button {
-  color: white;
+  color: rgba(255, 255, 255, 0.9);
+}
+html[data-mw-theme=dark] .mw-small-editor .mw-editor-controller-button:hover, html[data-mw-theme=dark] .mw-small-editor .mw-editor-controller-button:focus, .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button:hover, .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+html[data-mw-theme=dark] .mw-small-editor .mw-editor-controller-button.active-control, .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button.active-control {
+  background-color: #4592ff !important;
+  color: #fff;
 }
 html[data-mw-theme=dark] .mw-small-editor .mw-bar-control-item-group-contents, .mw-small-editor.mw-small-editor-skin-dark .mw-bar-control-item-group-contents {
-  background-color: rgb(24, 36, 51);
+  background-color: rgb(30, 30, 30);
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 5px -1px, rgba(0, 0, 0, 0.5) 0px 1px 3px -1px;
+}
+html[data-mw-theme=dark] .mw-small-editor .mw-editor-controller-component-select-values-holder, .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-component-select-values-holder {
+  background-color: rgb(30, 30, 30);
+  background: rgb(30, 30, 30);
+}
+html[data-mw-theme=dark] .mw-small-editor .mw-editor-dropdown-option:hover, .mw-small-editor.mw-small-editor-skin-dark .mw-editor-dropdown-option:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+html[data-mw-theme=dark] .mw-small-editor .mw-bar-delimiter.mw-bar-control-item, .mw-small-editor.mw-small-editor-skin-dark .mw-bar-delimiter.mw-bar-control-item {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+html[data-mw-theme=dark] .mw-small-editor .mw-editor-control-group-media-matches.active .mw-editor-group-button, .mw-small-editor.mw-small-editor-skin-dark .mw-editor-control-group-media-matches.active .mw-editor-group-button {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+html[data-mw-theme=dark] .mw-small-editor .mw-editor-group-button-icon, .mw-small-editor.mw-small-editor-skin-dark .mw-editor-group-button-icon {
+  color: rgba(255, 255, 255, 0.9);
 }
 .mw-editor-frame-area, .mw-editor-area {
   background-color: #fff;
@@ -12789,8 +12818,8 @@ html[data-mw-theme=dark] .mw-small-editor .mw-bar-control-item-group-contents, .
   vertical-align: middle;
   background-color: transparent;
   font-size: 19px;
-  min-width: 32px;
-  height: 32px;
+  min-width: 44px;
+  height: 44px;
   line-height: 0;
   padding: 0 5px;
   -webkit-touch-callout: none;
@@ -17212,6 +17241,12 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 }
 .dark .mw-add-content-modal-action-wrapper .w-20 {
   background-color: rgba(255, 255, 255, 0.06) !important;
+}
+.dark .mw-add-content-modal-search-input {
+  color: #e5e7eb !important;
+}
+.dark .mw-add-content-modal-root p {
+  color: #d1d5db !important;
 }
 @media (max-width: 767.98px) {
   #toolbar {
