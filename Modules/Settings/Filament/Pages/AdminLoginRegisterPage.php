@@ -37,7 +37,8 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                 Section::make('Register options')
                     ->icon('heroicon-m-user-plus')
                     ->view('mw-filament::sections.section')
-                    ->description('Set your settings for proper login and register functionality.')
+                    // task-2026-05-28-92a3f1 / AI-1061 — differentiate from Login description
+                    ->description('Configure who can sign up for a new account and how new registrations are handled.')
                     ->schema([
 
                         Toggle::make('options.users.enable_user_registration')
@@ -69,7 +70,8 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                 Section::make('Login options')
                     ->icon('heroicon-m-arrow-right-on-rectangle')
                     ->view('mw-filament::sections.section')
-                    ->description('Set your settings for proper login and register functionality.')
+                    // task-2026-05-28-92a3f1 / AI-1061 — differentiate from Register description
+                    ->description('Configure how existing users log in and manage access to their accounts.')
                     ->schema([
                         Toggle::make('options.users.disable_login')
                             ->label('Disable login')
