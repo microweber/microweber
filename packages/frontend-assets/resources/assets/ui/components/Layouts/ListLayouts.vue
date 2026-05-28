@@ -327,13 +327,18 @@
                         <!--                        </div>-->
                         <!--                    </div>-->
 
+                        <!-- task-2026-05-28-2f5a6c / AI-1145 — masonry gap + padding
+                             standardised to 16px (was 12px) so the masonry view
+                             matches the .modules-list-block CSS rule used by the
+                             list + full views below (also 16px after this ticket).
+                             All three views now use a consistent 16px gutter. -->
                         <div v-if="layoutsListLoaded && layoutsListTypePreview == 'masonry'"
                              class="modules-list-block-masonry">
                             <MasonryWall
                                 :column-width="400"
-                                :gap="12"
+                                :gap="16"
                                 :items="layoutsListFiltered"
-                                :padding="12"
+                                :padding="16"
                                 :ssr-columns="1">
                                 <template #default="{ item, index }">
                                     <!-- task-2026-05-27-de93c9 / AI-1167: aria-label for WCAG

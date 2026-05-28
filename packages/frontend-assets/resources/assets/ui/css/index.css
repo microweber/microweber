@@ -928,11 +928,15 @@ html.dark .mw-le-layouts-dialog .modules-list {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+/* task-2026-05-28-2f5a6c / AI-1145 — insert-layout dialog spacing
+   standardised to 16px (was 30px) so the list + full views align with
+   the masonry view (also 16px in ListLayouts.vue MasonryWall props).
+   16px = Tailwind gap-4 = the design-system standard gutter. */
 .mw-le-layouts-dialog .modules-list-block {
-    padding: 30px;
+    padding: 16px;
     display: flex;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 16px;
     justify-content: space-between;
     justify-content: center;
     max-height: 100%;
