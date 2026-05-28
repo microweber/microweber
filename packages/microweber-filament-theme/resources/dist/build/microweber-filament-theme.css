@@ -17445,6 +17445,21 @@ html.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-s
 #live-editor-frame, #live-editor-frame:focus, #live-editor-frame:focus-visible {
   outline: none;
 }
+.mw-content-picker-modal .mw-add-content-modal-action-wrapper {
+  padding: 1rem;
+}
+.mw-content-picker-modal .mw-add-content-group--secondary {
+  margin-top: 1rem;
+}
+.mw-content-picker-modal .mw-add-content-modal-search-input {
+  border: 1px solid rgb(209, 213, 219);
+}
+html.dark .mw-content-picker-modal .mw-add-content-modal-search-input {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.dark .mw-content-picker-modal .mw-add-content-modal-search-input {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
 .w-100 {
   width: 100% !important;
 }
@@ -20126,6 +20141,12 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
   body.fi-panel-admin .fi-topbar .fi-btn.admin-toolbar-live-edit svg {
     width: 20px !important;
     height: 20px !important;
+  }
+}
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+  body.fi-panel-admin .fi-modal-footer .fi-btn, body.fi-panel-admin .fi-modal-footer-actions .fi-btn, body.fi-panel-checkout .fi-modal-footer .fi-btn, body.fi-panel-checkout .fi-modal-footer-actions .fi-btn {
+    min-height: 44px !important;
+    min-width: 44px !important;
   }
 }
 root {

@@ -2071,3 +2071,46 @@ html.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-s
 #live-editor-frame:focus-visible {
     outline: none;
 }
+
+/* task-2026-05-28-e1a4c9 / AI-1227 — Add Content modal CSS spacing regressions
+ *
+ * D1 — card padding was 0px: Tailwind `p-4` on .mw-add-content-modal-action-wrapper
+ *      is not processed by the microweber-filament-theme Webpack pipeline, so the
+ *      utility never reaches the browser. Explicit `padding: 1rem` here overrides.
+ *
+ * D2 — CTA horizontal padding was 0px: prior rule set only `padding-block`, leaving
+ *      inline (left/right) padding at 0. Unified `padding: 1rem` on the wrapper
+ *      fixes both axes.
+ *
+ * D3 — secondary-section top margin was 0px: Tailwind `mt-4` on
+ *      .mw-add-content-group--secondary had the same pipeline gap.
+ *      Explicit `margin-top: 1rem` here.
+ *
+ * D4 — search-input border dark in light mode: .dark selector in the existing rule
+ *      at ~line 1572 matches when the admin panel dark class is present but the
+ *      light-mode baseline rule was absent, so `border-gray-200` utility (also not
+ *      in the build pipeline) produced no border at all or inherited a dark one.
+ *      Explicit `border: 1px solid rgb(209, 213, 219)` (= Tailwind gray-200) + dark
+ *      override here.
+ * ─────────────────────────────────────────────────────────────────────────────── */
+
+/* D1 + D2 — card internal padding (baseline for all wrapper instances) */
+.mw-content-picker-modal .mw-add-content-modal-action-wrapper {
+    padding: 1rem;
+}
+
+/* D3 — secondary section top spacing */
+.mw-content-picker-modal .mw-add-content-group--secondary {
+    margin-top: 1rem;
+}
+
+/* D4 — search input border: explicit light-mode baseline */
+.mw-content-picker-modal .mw-add-content-modal-search-input {
+    border: 1px solid rgb(209, 213, 219);
+}
+html.dark .mw-content-picker-modal .mw-add-content-modal-search-input {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.dark .mw-content-picker-modal .mw-add-content-modal-search-input {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
