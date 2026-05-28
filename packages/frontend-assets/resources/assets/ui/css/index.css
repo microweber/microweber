@@ -1493,3 +1493,17 @@ aside.fi-sidebar {
 .modules-list-categories > li:nth-child(2).mw-le-layouts-categories-group-header {
     margin-block-start: 0;
 }
+
+/* task-2026-05-28-10c8ab / AI-1185 — WCAG 2.5.5 touch targets */
+.mw-le-dialog-close-btn {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.mw-le-layouts-dialog .modules-list-categories li[role="tab"] {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
