@@ -66,13 +66,19 @@ class OrderStats extends BaseWidget
             ->orderBy('currency')
             ->get();
 
-        if ($rows->isEmpty()) {
-            return '0.00';
-        }
-
+        // task-2026-05-28-2f5a6c / AI-1090 — empty-state currency-symbol fix.
+        // Prior shape returned a bare "0.00" with no currency symbol when no
+        // orders carried an `amount`, leaving the Average-price stat card
+        // ambiguous on fresh installs. Always prefix with the shop-default
+        // currency symbol (via currency_symbol()) per the AI-818 pattern so
+        // the value reads "$ 0.00" / "€ 0.00" / etc. even when empty.
         $defaultSymbol = function_exists('currency_symbol')
             ? (currency_symbol() ?: '$')
             : '$';
+
+        if ($rows->isEmpty()) {
+            return $defaultSymbol . ' 0.00';
+        }
 
         if ($rows->count() === 1) {
             $symbol = self::currencyCodeToSymbol($rows->first()->currency) ?? $defaultSymbol;
