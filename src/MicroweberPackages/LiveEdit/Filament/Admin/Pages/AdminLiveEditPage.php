@@ -107,10 +107,12 @@ class AdminLiveEditPage extends Page
         // through a Filament action). The picker template detects the
         // key and wires the card's click handler to (a) unmount the
         // picker modal and (b) dispatch the named window event. The
-        // iframe-page Alpine listener at `liveEditInsertLayoutRequest`
+        // iframe-page listener at `liveEditInsertLayoutRequest`
         // (added in the same commit) forwards to
-        // `mw.app.editor.dispatch('insertLayoutRequest')`, which is the
-        // canonical opener for the in-canvas Insert Layout dialog.
+        // `mw.app.editor.dispatch('insertLayoutRequestOnBottom')`, which
+        // is what ListLayouts.vue listens for to open the layout picker
+        // dialog (task-2026-05-28: was dispatching 'insertLayoutRequest'
+        // which ListLayouts.vue never subscribes to).
         //
         // One click → picker closes → layout picker opens. No more
         // hunting for the toolbar button after reading instructions.
@@ -397,7 +399,7 @@ class AdminLiveEditPage extends Page
      *
      * Why a notification rather than a redirect or an embedded UI:
      *   - The Insert layout flow runs in the canvas iframe via
-     *     `mw.app.editor.dispatch('insertLayoutRequest', ...)` and
+     *     `mw.app.editor.dispatch('insertLayoutRequestOnBottom', ...)` and
      *     is JS-only — there is no server route to redirect to.
      *   - Embedding the left-rail palette inside the picker modal
      *     would conflict with the Vue toolbar / canvas iframe roots.

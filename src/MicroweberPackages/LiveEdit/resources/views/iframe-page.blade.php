@@ -240,7 +240,12 @@
                 try {
                     if (window.mw && window.mw.app && window.mw.app.editor
                         && typeof window.mw.app.editor.dispatch === 'function') {
-                        window.mw.app.editor.dispatch('insertLayoutRequest');
+                        // ListLayouts.vue only listens for insertLayoutRequestOnBottom
+                        // and insertLayoutRequestOnTop — never the bare insertLayoutRequest
+                        // event. Dispatching the named OnBottom variant opens the picker
+                        // dialog (task-2026-05-28).
+                        window.mw.app.editor.dispatch('insertLayoutRequestOnBottom',
+                            window.mw.app.liveEdit?.layoutHandle?.getTarget?.() ?? null);
                     }
                 } catch (_) { /* canvas not ready */ }
             });

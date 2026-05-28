@@ -127,17 +127,26 @@ class FilamentAdminPanelProvider extends PanelProvider
             // at line ~301) carries the brand mark from now on,
             // owning the full brand-anchor surface.
             //
-            // ->brandLogoHeight('34px')
-            // ->brandLogo(function () {
-            //     $logo = mw()->ui->admin_logo();
-            //     if (empty($logo)) {
-            //         $logo = mw()->ui->admin_logo_login();
-            //     }
-            //     return $logo;
-            // })
-            // ->brandName(function () {
-            //     return mw()->ui->brand_name();
-            // })
+            // Use Filament's native brand-logo API (docs 5.x/styling/overview#adding-a-logo)
+            // instead of a custom render-hook brand mark.
+            ->brandLogo(function () {
+                $logo = mw()->ui->admin_logo();
+                if (empty($logo)) {
+                    $logo = mw()->ui->admin_logo_login();
+                }
+                return $logo;
+            })
+            ->darkModeBrandLogo(function () {
+                $logo = mw()->ui->admin_logo();
+                if (empty($logo)) {
+                    $logo = mw()->ui->admin_logo_login();
+                }
+                return $logo;
+            })
+            ->brandName(function () {
+                return mw()->ui->brand_name() ?: 'Microweber';
+            })
+            ->brandLogoHeight('34px')
             // AI-703 / task-2026-05-16-29342d — 240px per designer spec
             // (was 16rem = 256px). Width applies to the pinned-open sidebar
             // at lg+ and the overlay drawer below lg.
@@ -313,67 +322,17 @@ class FilamentAdminPanelProvider extends PanelProvider
 
             });
 
-        // task-2026-05-16-bcb327 / AI-702 — Restore Microweber brand
-        // mark at the very top-left of the admin top bar per designer
-        // spec (admin-shell-improvements-2026-05-16.md §2 AD1).
-        //
-        // Filament's TOPBAR_START render hook accumulates hooks in
-        // registration order; this hook is registered BEFORE the
-        // existing `admin-top-navigation-actions` hook below, so the
-        // brand mark renders leftmost (the desired anchor position).
-        //
-        // Logo URL falls back through the same chain `brandLogo()`
-        // uses earlier in this provider (admin_logo → admin_logo_login)
-        // so the brand mark stays in sync with the configured admin
-        // logo. Click routes to /admin per standard convention.
-        //
-        // Mobile (≤768px) collapses to mark-only via CSS in
-        // general-styles.css — markup is identical; the wordmark
-        // alt-text is hidden visually via .mw-admin-brand-mark__label.
+        // +Add button is rendered via GLOBAL_SEARCH_BEFORE so it appears
+        // immediately after the Filament logo slot, before the search box.
+        // (TOPBAR_START fires before the logo — wrong order for our layout.)
         $panel->renderHook(
-            name: PanelsRenderHook::TOPBAR_START,
-            hook: function (): string {
-                $logoUrl = mw()->ui->admin_logo();
-                if (empty($logoUrl)) {
-                    $logoUrl = mw()->ui->admin_logo_login();
-                }
-                $brandName = mw()->ui->brand_name() ?: 'Microweber';
-                $adminUrl = url(mw_admin_prefix_url() ?: 'admin');
-                return '<a href="' . e($adminUrl) . '"'
-                    . ' class="mw-admin-brand-mark"'
-                    . ' aria-label="' . e($brandName) . ' admin"'
-                    . ' title="' . e($brandName) . ' — back to admin home">'
-                    . '<img src="' . e($logoUrl) . '"'
-                    . ' alt="' . e($brandName) . '"'
-                    . ' class="mw-admin-brand-mark__image" />'
-                    . '<span class="mw-admin-brand-mark__label sr-only">' . e($brandName) . '</span>'
-                    . '</a>';
-            }
+            name: PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
+            hook: fn(): string => Blade::render('@livewire(\'admin-top-navigation-actions\')')
         );
 
-        // AI-704 / task-2026-05-16-225150 — Re-cluster +Add with Live Edit
-        // on the right side of the admin top bar per designer spec
-        // (admin-shell-improvements-2026-05-16.md §2 AD3).
-        //
-        // Previous: +Add was registered as its own TOPBAR_START hook so it
-        // sat at the LEFT edge (just after the AI-702 brand mark, before
-        // the hamburger), visually isolated and competing with the brand.
-        //
-        // Now:     both +Add and Live Edit render together via
-        // GLOBAL_SEARCH_AFTER, wrapped in a `.mw-admin-primary-actions`
-        // flex container with `gap: var(--space-sm)` — primary actions
-        // cluster sits in the right half of the topbar after search,
-        // before Filament's stock user/notifications cluster.
-        //
-        // Mobile collapse: see general-styles.css AI-704 block — at
-        // ≤768px the +Add button is hidden (its functions remain
-        // accessible via the sidebar drawer / resource pages). The
-        // explicit "render +Add as a hamburger-menu item on mobile"
-        // step from §2 AD3 is AI-704a follow-up.
         $panel->renderHook(
             name: PanelsRenderHook::GLOBAL_SEARCH_AFTER,
             hook: fn(): string => '<div class="mw-admin-primary-actions">'
-                . Blade::render('@livewire(\'admin-top-navigation-actions\')')
                 . view('admin::livewire.filament.top-navigation-go-live-edit')->render()
                 . '</div>'
                 . view('admin::livewire.filament.search-quick-nav')->render()

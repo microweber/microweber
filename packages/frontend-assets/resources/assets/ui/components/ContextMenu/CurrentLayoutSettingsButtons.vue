@@ -17,7 +17,7 @@
         -->
         <div class="add-module-section">
             <div
-                class="btn-icon add-module-button"
+                class="btn-icon add-module-button live-edit-toolbar-buttons"
                 title="Insert content"
                 aria-label="Insert content into this layout"
                 role="button"
@@ -47,7 +47,7 @@
                 :aria-label="`Configure ${module.title || module.type}`"
                 role="button"
                 tabindex="0"
-                class="btn-icon module-settings-button"
+                class="btn-icon module-settings-button live-edit-toolbar-buttons"
                 @click="openModuleSettings(module)"
                 @keydown.enter.prevent="openModuleSettings(module)"
                 @keydown.space.prevent="openModuleSettings(module)"
@@ -91,7 +91,9 @@
     flex-direction: column;
     gap: 15px;
     padding: 15px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /* task-2026-05-28 — was rgba(255,255,255,0.1): invisible in light mode.
+       Use a colour that is visible on both white and dark sidebar backgrounds. */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     margin-bottom: 10px;
 }
 
@@ -104,7 +106,10 @@
 
 .layout-title {
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.7);
+    /* task-2026-05-28 — was rgba(255,255,255,0.7): invisible in light mode.
+       Use currentColor with opacity for light and dark mode compatibility. */
+    color: currentColor;
+    opacity: 0.6;
     text-align: center;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -152,8 +157,11 @@
     overflow: visible;
 }
 
+/* task-2026-05-28 — hover visual feedback now comes from the inherited
+   .live-edit-toolbar-buttons:hover background-color rule in live-edit-classes.css.
+   Scale transform is inconsistent with the rest of the sidebar button styles. */
 .module-settings-button:hover {
-    transform: scale(1.05);
+    /* no transform: scale — background-color change used instead */
 }
 
 .module-settings-button:active {

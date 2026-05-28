@@ -21,6 +21,7 @@
 .current-node-module-edit {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 5px 0;
 }
 
