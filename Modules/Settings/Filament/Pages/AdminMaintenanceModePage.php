@@ -39,9 +39,14 @@ class AdminMaintenanceModePage extends AdminSettingsPage
                             ->rows(4)
                             ->live(),
 
+                        // task-2026-05-28-a4c9e1 / AI-1065 — default was missing (false/OFF).
+                        // Admins who enable maintenance mode expect to retain their own
+                        // access by default; an accidental lockout requires server-side recovery.
+                        // Added ->default(true) so new installs ship with admin access ON.
                         Toggle::make('options.website.maintenance_mode_admin_access')
                             ->label('Allow Admin Access')
                             ->helperText(new HtmlString('When enabled, administrators can still access the website while in maintenance mode.'))
+                            ->default(true)
                             ->live(),
 
                         Toggle::make('options.website.maintenance_mode_ip_whitelist_enable')
