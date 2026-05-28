@@ -17,17 +17,23 @@
 
 .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup,
 .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons {
-    height: 39px;
-    width: 39px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 44px !important;
+    width: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
     margin: 0 auto !important;
     gap: 4px;
     user-select: none;
+    overflow: visible !important;
 
     svg {
         width: 22px;
+        height: 22px;
+        flex-shrink: 0;
     }
 }
 
@@ -47,7 +53,7 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    width: 50px;
+    width: 56px;
     height: calc(100vh - var(--toolbar-height));
     transition: transform .5s, right .5s;
     display: flex;
@@ -55,7 +61,7 @@
     align-items: center !important;
     justify-content: start !important;
     max-height: none !important;
-    gap: 22px !important;
+    gap: 16px !important;
     padding: 10px 0 !important;
     margin: 0 !important;
     border-radius: 0 !important;
