@@ -410,25 +410,36 @@ export class LayoutHandleContent {
         this.plusTop = ElementManager({
             props: {
                 className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top',
-                innerHTML: this.rootScope.lang(plusLabel)
+                innerHTML: this.rootScope.lang(plusLabel),
+                tabIndex: 0
             }
         });
+        this.plusTop.attr('role', 'button').attr('aria-label', 'Add layout above section');
 
         this.plusBottom = ElementManager({
             props: {
                 className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom',
-                innerHTML: this.rootScope.lang(plusLabel)
+                innerHTML: this.rootScope.lang(plusLabel),
+                tabIndex: 0
             }
         });
+        this.plusBottom.attr('role', 'button').attr('aria-label', 'Add layout below section');
+
+        /* task-2026-05-28-8a32a5 / AI-1219: keydown Enter/Space operability */
+        const handleKeydown = (which) => (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handlePlus(which);
+            }
+        };
 
         this.plusTop.hide().on('click', () => {
             handlePlus('top');
-
-        });
+        }).on('keydown', handleKeydown('top'));
 
         this.plusBottom.hide().on('click', () => {
             handlePlus('bottom');
-        });
+        }).on('keydown', handleKeydown('bottom'));
 
         const targetDocument = mw.top().app.canvas.getDocument()
 
