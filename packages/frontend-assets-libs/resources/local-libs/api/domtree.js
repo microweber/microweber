@@ -188,6 +188,13 @@ mw.DomTree = function (options) {
     this.createRoot = function () {
         this.root = this.createList();
         this.root.className = 'mw-defaults mw-domtree';
+        // task-2026-05-28-4b9d88 / AI-1223 — ARIA Tree pattern.
+        // Root <ul> declares role="tree" + aria-labelledby pointing
+        // at the controlBox <h3 class="mw-control-box-title"> id
+        // ("mw-domtree-layers-heading"). Sublists declared role="group"
+        // inside createChildren() so AT reads the nested structure.
+        this.root.setAttribute('role', 'tree');
+        this.root.setAttribute('aria-labelledby', 'mw-domtree-layers-heading');
     };
 
 
@@ -220,6 +227,10 @@ mw.DomTree = function (options) {
         var li = this._get(nodeOrTreeNode);
         li._opened = true;
         li.classList.add('expand');
+        // task-2026-05-28-4b9d88 / AI-1223 — aria-expanded mirror.
+        if (li.hasAttribute('aria-expanded')) {
+            li.setAttribute('aria-expanded', 'true');
+        }
         if (this._opened.indexOf(li._value) === -1) {
             this._opened.push(li._value);
         }
@@ -228,6 +239,10 @@ mw.DomTree = function (options) {
         var li = this._get(nodeOrTreeNode);
         li._opened = false;
         li.classList.remove('expand');
+        // task-2026-05-28-4b9d88 / AI-1223 — aria-expanded mirror.
+        if (li.hasAttribute('aria-expanded')) {
+            li.setAttribute('aria-expanded', 'false');
+        }
         var ind = this._opened.indexOf(li._value);
         if (ind !== -1) {
             this._opened.splice(ind, ind)
@@ -257,6 +272,14 @@ mw.DomTree = function (options) {
         }
         mw.$('.selected', this.root).removeClass('selected');
         node.classList.add('selected');
+        // task-2026-05-28-4b9d88 / AI-1223 — roving tabindex.
+        // Only the active treeitem carries tabindex="0"; all others
+        // are tabindex="-1" so a single Tab moves into the tree and
+        // arrow keys traverse from the active row.
+        mw.$('li[tabindex="0"]', this.root).attr('tabindex', '-1');
+        if (node && node.setAttribute) {
+            node.setAttribute('tabindex', '0');
+        }
         this._selectedDomNode = node;
     };
 
@@ -340,6 +363,91 @@ mw.DomTree = function (options) {
                     }
                 }
 
+            })
+            // task-2026-05-28-4b9d88 / AI-1223 — ARIA Tree keyboard nav.
+            // ArrowDown/Up move focus to the next/prev visible treeitem.
+            // ArrowRight expands a collapsed node, or focuses the first
+            // child when already expanded. ArrowLeft collapses an open
+            // node, or focuses the parent treeitem when already closed.
+            // Home/End jump to first/last visible treeitem. Enter/Space
+            // selects the focused row. Implements the ARIA Authoring
+            // Practices tree pattern.
+            .on('keydown', function (e) {
+                var target = e.target;
+                if (!target || target.getAttribute('role') !== 'treeitem') {
+                    return;
+                }
+                var key = e.key;
+                var moveFocus = function (next) {
+                    if (!next) return;
+                    mw.$('li[tabindex="0"]', scope.root).attr('tabindex', '-1');
+                    next.setAttribute('tabindex', '0');
+                    next.focus();
+                };
+                var visibleItems = function () {
+                    var all = scope.root.querySelectorAll('li[role="treeitem"]');
+                    var out = [];
+                    for (var i = 0; i < all.length; i++) {
+                        var hidden = false;
+                        var p = all[i].parentNode;
+                        while (p && p !== scope.root) {
+                            if (p.nodeName === 'LI' && !p.classList.contains('expand')) {
+                                hidden = true;
+                                break;
+                            }
+                            p = p.parentNode;
+                        }
+                        if (!hidden) out.push(all[i]);
+                    }
+                    return out;
+                };
+                if (key === 'ArrowDown') {
+                    e.preventDefault();
+                    var items = visibleItems();
+                    var idx = items.indexOf(target);
+                    if (idx !== -1 && idx + 1 < items.length) moveFocus(items[idx + 1]);
+                } else if (key === 'ArrowUp') {
+                    e.preventDefault();
+                    var items = visibleItems();
+                    var idx = items.indexOf(target);
+                    if (idx > 0) moveFocus(items[idx - 1]);
+                } else if (key === 'ArrowRight') {
+                    e.preventDefault();
+                    if (target.getAttribute('aria-expanded') === 'false') {
+                        scope.open(target);
+                    } else if (target.getAttribute('aria-expanded') === 'true') {
+                        var firstChild = target.querySelector('ul[role="group"] > li[role="treeitem"]');
+                        if (firstChild) moveFocus(firstChild);
+                    }
+                } else if (key === 'ArrowLeft') {
+                    e.preventDefault();
+                    if (target.getAttribute('aria-expanded') === 'true') {
+                        scope.close(target);
+                    } else {
+                        var parentLi = target.parentNode && target.parentNode.parentNode;
+                        if (parentLi && parentLi.nodeName === 'LI' && parentLi.getAttribute('role') === 'treeitem') {
+                            moveFocus(parentLi);
+                        }
+                    }
+                } else if (key === 'Home') {
+                    e.preventDefault();
+                    var items = visibleItems();
+                    if (items.length) moveFocus(items[0]);
+                } else if (key === 'End') {
+                    e.preventDefault();
+                    var items = visibleItems();
+                    if (items.length) moveFocus(items[items.length - 1]);
+                } else if (key === 'Enter' || key === ' ') {
+                    e.preventDefault();
+                    if (target._selectable) {
+                        scope.selected(target);
+                        if (scope.settings.onSelect) {
+                            scope.settings.onSelect.call(scope, e, target, target._value);
+                        }
+                    } else if (target.hasAttribute('aria-expanded')) {
+                        scope.toggle(target);
+                    }
+                }
             });
     };
 
@@ -461,7 +569,17 @@ mw.DomTree = function (options) {
         var li = this.document.createElement('li');
         li._value = item;
         li.className = 'mw-domtree-item' + (this._selectedDomNode === item ? ' active' : '');
-        var dio = item.children.length ? '<i class="mw-domtree-item-opener"></i>' : '';
+        // task-2026-05-28-4b9d88 / AI-1223 — ARIA Tree pattern.
+        // Every <li> declares role="treeitem" + roving tabindex="-1"
+        // (initial focus carrier set in create() after the walk).
+        // aria-expanded is mirrored on collapsible nodes (open/close).
+        // The opener <i> is aria-hidden so AT consumes the row label.
+        li.setAttribute('role', 'treeitem');
+        li.setAttribute('tabindex', '-1');
+        if (item.children.length) {
+            li.setAttribute('aria-expanded', 'false');
+        }
+        var dio = item.children.length ? '<i class="mw-domtree-item-opener" aria-hidden="true"></i>' : '';
 
         // task-2026-05-16-cf3fa6 / AI-709 — rich element label
         // (icon + <tag> + .class + 'preview') is the row's primary
@@ -566,6 +684,11 @@ mw.DomTree = function (options) {
             }
         }
         this.createItemEvents();
+        // task-2026-05-28-4b9d88 / AI-1223 — initial roving focus carrier.
+        // The first treeitem gets tabindex="0" so the panel receives focus
+        // on a single Tab; arrow keys then traverse the tree from there.
+        var firstItem = this.root.querySelector('li[role="treeitem"]');
+        if (firstItem) firstItem.setAttribute('tabindex', '0');
         $(this.settings.element).empty().append(this.root);
         if(this.settings.resizable) {
             $(this.settings.element).resizable({
@@ -597,6 +720,8 @@ mw.DomTree = function (options) {
     this.createChildren = function (node, parent) {
         if (!parent) return;
         var list = this.createList();
+        // task-2026-05-28-4b9d88 / AI-1223 — sublists declare role="group".
+        list.setAttribute('role', 'group');
         var curr = node.children[0];
         // AI-775 Slice A (task-2026-05-17-551f7e) — under meaningfulOnly, a
         // child renders only when it matches the meaningfulSelector. Recursion

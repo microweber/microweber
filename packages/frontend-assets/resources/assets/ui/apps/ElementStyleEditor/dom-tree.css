@@ -240,3 +240,50 @@ html.dark .mw-module-settings-sidebar-icon-background-image{
 html.dark .mw-domtree li.selected {
     background-color: var(--ese-surface-hover, rgba(255, 255, 255, 0.06));
 }
+
+/* ====================================================================
+   task-2026-05-28-4b9d88 / AI-1223 — Layers panel keyboard a11y +
+   ARIA tree + touch targets.
+
+   - Rows: 44px min-height (WCAG 2.5.5 touch target).
+   - Opener icon: 44x44 hit area via padding (visual 14x14 preserved
+     via the existing --size var + pseudo-element). The opener has
+     aria-hidden="true" so AT consumes the row's accessible name.
+   - Focus ring on the treeitem (tabindex=0 carrier) — visible at
+     all viewports + light/dark.
+   ==================================================================== */
+
+.mw-domtree li[role="treeitem"] {
+    min-height: 44px;
+}
+
+.mw-domtree li[role="treeitem"]:focus {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: -2px;
+}
+
+.mw-domtree li[role="treeitem"]:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.mw-domtree li[role="treeitem"]:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: -2px;
+}
+
+.mw-domtree-item-opener {
+    /* 44x44 hit target; visual chevron stays 14x14 via ::after. */
+    width: 44px;
+    height: 44px;
+    top: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mw-domtree-item-opener:after {
+    /* Keep the visual chevron at the original --size; only the hit
+       area expands. */
+    width: var(--size);
+    height: var(--size);
+}

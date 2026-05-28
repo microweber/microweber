@@ -30,6 +30,17 @@ class LiveEditDOMTree extends MicroweberBaseClass {
             title: mw.lang("Layers"),
         });
 
+        // task-2026-05-28-4b9d88 / AI-1223 — wire the Layers panel header
+        // <h3> with an id so the tree root <ul aria-labelledby="..."> can
+        // reference it (ARIA Tree pattern). Done here (not inside controlBox)
+        // so other controlBox consumers keep their unscoped headings.
+        if (this.box.box) {
+            var heading = this.box.box.querySelector('.mw-control-box-title');
+            if (heading) {
+                heading.id = 'mw-domtree-layers-heading';
+            }
+        }
+
         this.box.on("show", () => {
             this.dispatch("show", this);
         });
