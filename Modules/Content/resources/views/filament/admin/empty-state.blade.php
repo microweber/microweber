@@ -218,6 +218,27 @@ You do not have any products yet.
 
             @endif
 
+        {{-- task-2026-05-28-2f5a6c / AI-1099 — Payment branch carries a
+             text-only chrome (no SVG illustration — payments are
+             transaction records, not setup objects) with a CTA pointing
+             at the Payment Provider Settings page (records are created
+             by transactions, not manually). --}}
+        @if($modelName == Modules\Payment\Models\Payment::class)
+            <h2 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
+                You do not have any payments yet.
+            </h2>
+
+            <p class="text-center mt-3" style="opacity: 0.7;">
+                Set up payment providers to start accepting payments.
+            </p>
+
+            <div class="text-center mw-table-empty-cta-wrap">
+                <a href="{{ route('filament.admin.resources.payment-providers.index') }}" class="mw-table-empty-cta" aria-label="Configure payment providers">
+                    + Configure payment providers
+                </a>
+            </div>
+        @endif
+
     </div>
 </div>
 

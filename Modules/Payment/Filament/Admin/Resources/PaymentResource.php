@@ -99,6 +99,15 @@ class PaymentResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->defaultPaginationPageOption(50)
             ->paginationPageOptions([10, 25, 50, 100, 200, 500, 1000, 2000, 'all'])
+            // task-2026-05-28-2f5a6c / AI-1099 — replace Filament's generic
+            // empty-state icon with the shared empty-state blade carrying a
+            // meaningful Payment-branch heading + CTA pointing at the
+            // Payment Provider Settings page (payments are typically
+            // created by transactions, not manually).
+            ->emptyState(function (Table $table) {
+                $modelName = static::$model;
+                return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
+            })
             ->columns([
                 TextColumn::make('id')
                     ->sortable()
