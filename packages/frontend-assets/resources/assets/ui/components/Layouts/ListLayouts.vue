@@ -336,12 +336,17 @@
                                 :padding="12"
                                 :ssr-columns="1">
                                 <template #default="{ item, index }">
-                                    <!-- task-2026-05-27-de93c9 / AI-1167: aria-label for WCAG -->
+                                    <!-- task-2026-05-27-de93c9 / AI-1167: aria-label for WCAG
+                                         task-2026-05-28-af5d5b / AI-1158: tabindex + keyboard handlers
+                                         (Enter/Space) so layout cards meet WCAG 2.1.1 Keyboard. -->
                                     <div
                                         :class="['modules-list-block-item-masonry', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']"
                                         role="button"
+                                        tabindex="0"
                                         :aria-label="'Layout: ' + item.title"
-                                        v-on:click="insertLayout(item)">
+                                        v-on:click="insertLayout(item)"
+                                        v-on:keydown.enter.prevent="insertLayout(item)"
+                                        v-on:keydown.space.prevent="insertLayout(item)">
 
                                         <div class="layout-image-container">
                                             <img v-if="item.screenshot" :alt="item.title" :src="item.screenshot"/>
@@ -417,12 +422,17 @@
                         >
                             <template
                                 v-slot="{item}">
-                                <!-- task-2026-05-27-de93c9 / AI-1167: aria-label for WCAG -->
+                                <!-- task-2026-05-27-de93c9 / AI-1167: aria-label for WCAG
+                                     task-2026-05-28-af5d5b / AI-1158: tabindex + keyboard handlers
+                                     (Enter/Space) so layout cards meet WCAG 2.1.1 Keyboard. -->
                                 <div
                                     :class="['modules-list-block-style-' + layoutsListTypePreview, 'modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']"
                                     role="button"
+                                    tabindex="0"
                                     :aria-label="'Layout: ' + item.title"
-                                    v-on:click="insertLayout(item)">
+                                    v-on:click="insertLayout(item)"
+                                    v-on:keydown.enter.prevent="insertLayout(item)"
+                                    v-on:keydown.space.prevent="insertLayout(item)">
 
                                     <div
                                         v-if="item.screenshot"
