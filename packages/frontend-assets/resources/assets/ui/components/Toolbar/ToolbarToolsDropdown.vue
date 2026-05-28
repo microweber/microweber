@@ -40,6 +40,11 @@
                 id. handleMenuKeydown owns ArrowUp/ArrowDown/Home/End/Escape/Tab
                 roving-tabindex navigation per WAI-ARIA Authoring Practices
                 Guide Menu pattern.
+
+                task-2026-05-28-f8a3c1 / AI-1225 — IA reorganisation:
+                - Preferences section (Dark mode) separated from editing tools
+                - Session section (user menu items) separated from preferences
+                - "Back to Admin" filtered from userMenuItems (already in MainDrawer Navigate)
             -->
             <ul class="dropdown-content" :class="{ 'show': dropdownOpen }"
                 ref="toolsDropdownContent"
@@ -159,6 +164,30 @@
                     <hr>
                 </li>
 
+                <!-- task-2026-05-28-f8a3c1 / AI-1225 — Preferences section
+                     Dark mode is a global preference, not an editing tool.
+                     Separated here with a section label so it's visually
+                     distinct from the editing tools above. -->
+                <li class="section-label" role="none" aria-hidden="true">
+                    <span>Preferences</span>
+                </li>
+
+                <li role="none">
+                    <button type="button" role="menuitem" tabindex="-1" @click="handleToggleDarkMode">
+                        <svg v-if="theme === 'light'" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20">
+                            <path d="M480 936q-150 0-255-105T120 576q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444 396q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"/>
+                        </svg>
+                        <svg v-else height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path d="M10 2a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 10 2ZM10 15a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 10 15ZM10 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM15.657 5.404a.75.75 0 1 0-1.06-1.06l-1.061 1.06a.75.75 0 0 0 1.06 1.06l1.06-1.06ZM6.464 14.596a.75.75 0 1 0-1.06-1.06l-1.06 1.06a.75.75 0 0 0 1.06 1.06l1.06-1.06ZM18 10a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 18 10ZM5 10a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 5 10ZM14.596 15.657a.75.75 0 0 0 1.06-1.06l-1.06-1.061a.75.75 0 1 0-1.06 1.06l1.06 1.06ZM5.404 6.464a.75.75 0 0 0 1.06-1.06l-1.06-1.06a.75.75 0 1 0-1.061 1.06l1.06 1.06Z"/>
+                        </svg>
+                        {{ theme === 'light' ? 'Dark mode' : 'Light mode' }}
+                    </button>
+                </li>
+
+                <li class="separator" role="separator">
+                    <hr>
+                </li>
+
                 <li class="more-settings-item" role="none">
                     <button type="button" role="menuitem" tabindex="-1" aria-haspopup="menu" aria-controls="mw-tools-more-settings" :aria-expanded="moreSettingsExpanded.toString()" @click="toggleMoreSettings" :class="{ expanded: moreSettingsExpanded }">
                         <svg fill="currentColor" height="20" viewBox="0 -960 960 960" width="20" xmlns="http://www.w3.org/2000/svg">
@@ -173,16 +202,18 @@
 
                 <!--
                     task-2026-05-16-3ae87c: user-menu items merged in here.
-                    The separate "Menu" button previously held Report
-                    issue / See website / Log out + the light/dark mode
-                    toggle. The user said "we dont need 2 dordowns" so
-                    those items now live at the bottom of THIS dropdown,
-                    separated from the tools above by a visual divider.
+                    task-2026-05-28-f8a3c1 / AI-1225: reorganised into a
+                    "Session" section. "Back to Admin" filtered in
+                    fetchUserMenu() — it duplicates MainDrawer Navigate.
                     The original `#user-menu-wrapper` stays in the DOM
                     hidden — see Toolbar.vue for the back-compat note.
                 -->
                 <li class="separator" role="separator" v-if="userMenuItems.length > 0">
                     <hr>
+                </li>
+
+                <li class="section-label" role="none" aria-hidden="true" v-if="userMenuItems.length > 0">
+                    <span>Session</span>
                 </li>
 
                 <li role="none" v-for="(menuItem, idx) in userMenuItems" :key="'um-' + idx">
@@ -199,18 +230,6 @@
                         <span v-html="menuItem.icon_html"></span>
                         {{ menuItem.title }}
                     </a>
-                </li>
-
-                <li role="none">
-                    <button type="button" role="menuitem" tabindex="-1" @click="handleToggleDarkMode">
-                        <svg v-if="theme === 'light'" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20">
-                            <path d="M480 936q-150 0-255-105T120 576q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444 396q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"/>
-                        </svg>
-                        <svg v-else height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path d="M10 2a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 10 2ZM10 15a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 10 15ZM10 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM15.657 5.404a.75.75 0 1 0-1.06-1.06l-1.061 1.06a.75.75 0 0 0 1.06 1.06l1.06-1.06ZM6.464 14.596a.75.75 0 1 0-1.06-1.06l-1.06 1.06a.75.75 0 0 0 1.06 1.06l1.06-1.06ZM18 10a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 18 10ZM5 10a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 5 10ZM14.596 15.657a.75.75 0 0 0 1.06-1.06l-1.06-1.061a.75.75 0 1 0-1.06 1.06l1.06 1.06ZM5.404 6.464a.75.75 0 0 0 1.06-1.06l-1.06-1.06a.75.75 0 1 0-1.061 1.06l1.06 1.06Z"/>
-                        </svg>
-                        {{ theme === 'light' ? 'Dark mode' : 'Light mode' }}
-                    </button>
                 </li>
 
                 <!-- Expandable More Settings Content -->
@@ -266,6 +285,7 @@
 
 .dropdown-trigger {
     cursor: pointer;
+    /* task-2026-05-28-f8a3c1 / AI-1225 — trigger was 35px, WCAG 2.5.5 requires 44px */
     padding: 8px 14px 8px 10px;
     display: flex;
     align-items: center;
@@ -281,8 +301,7 @@
     color: #222;
     outline: none;
     position: relative;
-    height: 35px;
-    max-height: 35px;
+    min-height: 44px;
     width: auto;
     min-width: unset;
 }
@@ -319,8 +338,10 @@
 
 .dropdown-content li a,
 .dropdown-content li button {
+    /* task-2026-05-28-f8a3c1 / AI-1225 — items were ~38px, min-height 44px for WCAG 2.5.5 */
     display: flex;
     align-items: center;
+    min-height: 44px;
     padding: 10px 20px;
     text-decoration: none;
     color: #222;
@@ -460,6 +481,8 @@
 
 .submenu li a,
 .submenu li button {
+    /* task-2026-05-28-f8a3c1 / AI-1225 — submenu items also need 44px */
+    min-height: 44px;
     padding: 8px 16px 8px 24px;
     font-size: 14px;
     border-radius: 4px;
@@ -486,6 +509,27 @@
 :global(html.dark) .submenu li button:focus {
     background-color: rgba(96, 165, 250, 0.1);
     color: #60a5fa;
+}
+
+/* task-2026-05-28-f8a3c1 / AI-1225 — section label rows (Preferences, Session)
+   are non-interactive; they carry aria-hidden="true" so screen readers
+   skip them. Visually they use a small all-caps weight-600 muted label. */
+.section-label {
+    padding: 8px 20px 2px;
+    list-style: none;
+    pointer-events: none;
+}
+
+.section-label span {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #9ca3af;
+}
+
+:global(html.dark) .section-label span {
+    color: #6b7280;
 }
 </style>
 
@@ -711,7 +755,14 @@ export default {
                 const resp = await fetch(url, { credentials: 'same-origin', headers: { 'Accept': 'application/json' } });
                 if (!resp.ok) return;
                 const data = await resp.json();
-                if (Array.isArray(data)) this.userMenuItems = data;
+                if (Array.isArray(data)) {
+                    // task-2026-05-28-f8a3c1 / AI-1225 — filter "Back to Admin"
+                    // which is already present in MainDrawer Navigate section;
+                    // showing it here too creates a duplicate nav target and
+                    // mixes session/navigation concerns inside the editing-tools
+                    // menu. All other top_right_menu items remain.
+                    this.userMenuItems = data.filter(item => item.id !== 'js-live-edit-back-to-admin-link');
+                }
             } catch (e) {
                 // Non-blocking — the toolbar still works without the user menu.
                 console.warn('ToolbarToolsDropdown: failed to fetch user menu', e);
