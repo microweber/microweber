@@ -4665,6 +4665,7 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
     gap: calc(var(--spacing) * 2);
     -webkit-user-select: none;
     user-select: none;
+    min-height: 44px;
   }
   & .d-flex:has(> svg) > svg {
     height: calc(var(--spacing) * 5);
@@ -5260,8 +5261,10 @@ html[dir="rtl"] .mw-main-drawer {
   border: 0;
   color: var(--ese-text-muted, #6b7280);
   cursor: pointer;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -5529,7 +5532,11 @@ html.dark .mw-page-chip-popover__tabs {
 }
 .mw-page-chip-popover__tab {
   flex: 1;
-  padding: 8px 4px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 4px;
   font-size: 12px;
   font-weight: 500;
   color: var(--ese-text-muted, #6b7280);
@@ -5539,6 +5546,10 @@ html.dark .mw-page-chip-popover__tabs {
   transition: color 0.12s;
   white-space: nowrap;
   line-height: 1.4;
+}
+.mw-page-chip-popover__tab:focus-visible {
+  outline: 2px solid var(--ese-accent, #0d6efd);
+  outline-offset: -2px;
 }
 .mw-page-chip-popover__tab:hover {
   color: var(--ese-text, #111827);
@@ -5597,10 +5608,17 @@ html.dark .mw-page-chip-popover__input {
 .mw-page-chip-popover__link {
   display: flex;
   align-items: center;
+  min-height: 44px;
+  width: 100%;
   padding: var(--space-sm, 8px) var(--space-md, 13px);
   color: var(--ese-text, #111827);
   text-decoration: none;
   font-size: var(--font-control, 13px);
+  background: transparent;
+  border: none;
+  text-align: start;
+  cursor: pointer;
+  font: inherit;
 }
 .mw-page-chip-popover__link:hover {
   background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
@@ -5608,6 +5626,18 @@ html.dark .mw-page-chip-popover__input {
 }
 html.dark .mw-page-chip-popover__link {
   color: var(--ese-text, #f3f4f6);
+}
+.mw-page-chip-popover__link--current {
+  color: var(--ese-accent, #0d6efd);
+  font-weight: 500;
+  cursor: default;
+}
+.mw-page-chip-popover__link--current:hover {
+  background-color: transparent;
+  color: var(--ese-accent, #0d6efd);
+}
+html.dark .mw-page-chip-popover__link--current {
+  color: var(--ese-accent, #0d6efd);
 }
 .mw-page-chip-popover__item-title {
   overflow: hidden;
@@ -5627,6 +5657,7 @@ html.dark .mw-page-chip-popover__link {
 .mw-page-chip-popover__new-page {
   display: flex;
   align-items: center;
+  min-height: 44px;
   gap: var(--space-sm, 8px);
   padding: var(--space-sm, 8px) var(--space-md, 13px);
   color: var(--ese-accent, #0d6efd);
@@ -25541,6 +25572,12 @@ html.dark .mw-settings-hub-item-description {
   .mw-settings-section-content {
     padding: 1rem;
   }
+}
+html.dark .filepond--drop-label, html.dark .filepond--drop-label label, html.dark .filepond--label-action {
+  color: rgb(229, 231, 235) !important;
+}
+html.dark .filepond--label-action {
+  text-decoration-color: rgb(229, 231, 235) !important;
 }
 @layer theme, base, components, utilities;
 @layer theme {

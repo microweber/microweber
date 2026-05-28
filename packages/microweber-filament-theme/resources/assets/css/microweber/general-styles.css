@@ -2590,13 +2590,21 @@ html[dir="rtl"] .mw-main-drawer {
     font-weight: 600;
 }
 
+/* task-2026-05-28-9e3c47 / AI-1148 — MainDrawer close button widened from
+ * 32x32px to 44x44px to meet the WCAG 2.5.5 Target Size (Enhanced) 44x44
+ * CSS-pixel floor. The SVG glyph stays 20x20px so the inner stroke geometry
+ * is unchanged; only the click/tap target grows. min-width + min-height
+ * enforced as belt-and-braces against future descendant rules that might
+ * shrink the button via width/height alone. */
 .mw-main-drawer__close {
     background: transparent;
     border: 0;
     color: var(--ese-text-muted, #6b7280);
     cursor: pointer;
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
