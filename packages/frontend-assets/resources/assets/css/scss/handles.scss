@@ -678,9 +678,13 @@ html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
 @media (min-width: 801px) {
     #mw-handle-item-layout-root{
         .mw-handle-item-menus-holder{
+            // task-2026-05-28-571193 — transition defined at base state so exit
+            // (unhover) also animates; previously transition was only in :hover
+            // which caused items to snap to opacity:0 instantly on mouse-out.
             .mw-le-handle-menu-button ~ *{
                 height: 0;
                 opacity: 0;
+                transition: opacity .2s, height .2s;
             }
             &:not(:hover) {
                 .mw-le-handle-menu-button ~ *{
@@ -696,7 +700,7 @@ html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
                 .mw-le-handle-menu-button ~ *{
                     height: auto;
                     opacity: 1;
-                    transition: .2s;
+                    transition: opacity .2s;
                 }
             }
         }
