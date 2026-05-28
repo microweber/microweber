@@ -9,8 +9,23 @@
               `.dropdown-trigger` class kept alongside `.mw-tool-btn`
               for the custom-dropdown JS that targets it.
             -->
-            <a role="button" aria-label="Tools menu" class="dropdown-trigger mw-tool-btn"
-               :aria-expanded="dropdownOpen.toString()" @click.prevent="toggleDropdown">
+            <!--
+                task-2026-05-28-4a2e1b / AI-1151 — Tools dropdown ARIA menu pattern + keyboard nav.
+                Jira: https://microweber.atlassian.net/browse/AI-1151
+
+                Trigger anchor carries id="mw-tools-dropdown-trigger" so the dropdown
+                ul (role="menu") can reference it via aria-labelledby. Down/Up arrow
+                keys open the menu and focus first/last menuitem per the WAI-ARIA
+                Authoring Practices Guide Menu pattern. ref="toolsDropdownTrigger"
+                lets the keydown handler return focus on Escape close.
+            -->
+            <a role="button" id="mw-tools-dropdown-trigger" ref="toolsDropdownTrigger"
+               aria-label="Tools menu" aria-haspopup="menu" class="dropdown-trigger mw-tool-btn"
+               :aria-expanded="dropdownOpen.toString()" @click.prevent="toggleDropdown"
+               @keydown.down.prevent="openAndFocusFirstMenuItem"
+               @keydown.up.prevent="openAndFocusLastMenuItem"
+               @keydown.enter.prevent="toggleDropdown"
+               @keydown.space.prevent="toggleDropdown">
                 <svg fill="currentColor" height="20" viewBox="0 -960 960 960" width="20" xmlns="http://www.w3.org/2000/svg">
                     <path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/>
                 </svg>
@@ -19,39 +34,49 @@
 
             </a>
 
+            <!--
+                task-2026-05-28-4a2e1b / AI-1151 — Tools dropdown ul carries
+                role="menu" + aria-labelledby pointing at the trigger anchor's
+                id. handleMenuKeydown owns ArrowUp/ArrowDown/Home/End/Escape/Tab
+                roving-tabindex navigation per WAI-ARIA Authoring Practices
+                Guide Menu pattern.
+            -->
             <ul class="dropdown-content" :class="{ 'show': dropdownOpen }"
-                ref="toolsDropdownContent">
+                ref="toolsDropdownContent"
+                role="menu"
+                aria-labelledby="mw-tools-dropdown-trigger"
+                @keydown="handleMenuKeydown">
 
 
 
 
 
-                <li>
-                    <button type="button" @click="handleInsertLayout" v-show="insertLayoutVisible">
+                <li role="none">
+                    <button type="button" role="menuitem" tabindex="-1" @click="handleInsertLayout" v-show="insertLayoutVisible">
                         <svg fill="currentColor" height="20" viewBox="0 -960 960 960" width="20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-480H200v480Zm80-80h200v-120H280v120Zm240 0h200v-280H520v280Zm-240-160h200v-120H280v120Z"/>
                         </svg>
                         Insert Layout
                     </button>
                 </li>
-                <li>
-                    <button type="button" @click="handleInsertModule" v-show="canInsertModule">
+                <li role="none">
+                    <button type="button" role="menuitem" tabindex="-1" @click="handleInsertModule" v-show="canInsertModule">
                         <svg fill="currentColor" height="20" viewBox="0 -960 960 960" width="20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/>
                         </svg>
                         Insert Module
                     </button>
                 </li>
-                <li>
-                    <button type="button" @click="handleEditTextNode" v-show="hasEditableTextNode">
+                <li role="none">
+                    <button type="button" role="menuitem" tabindex="-1" @click="handleEditTextNode" v-show="hasEditableTextNode">
                         <svg fill="currentColor" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
                         </svg>
                         Edit Element
                     </button>
                 </li>
-                <li>
-                    <button type="button" @click="handleEditModuleNode" v-show="hasEditableModuleNode">
+                <li role="none">
+                    <button type="button" role="menuitem" tabindex="-1" @click="handleEditModuleNode" v-show="hasEditableModuleNode">
                         <svg fill="currentColor" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97c0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1c0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66Z"/>
                         </svg>
@@ -59,7 +84,7 @@
                     </button>
                 </li>
 
-                <li>
+                <li role="none">
                     <!-- task-2026-05-16-5fe1f9 / AI-698b item 2 — label
                          disambiguated. This 3-dots dropdown item opens
                          the same scope-picker panel as the right-rail
@@ -78,7 +103,7 @@
                          recon found this dropdown item as a sibling cascade
                          site per the recon-driven Slice B uniformity rule
                          (task-46127c). -->
-                    <button type="button" @click="handleTemplateSettings" v-show="canShowSettingsCustomize" :class="{ active: buttonIsActive && !buttonIsActiveStyleEditor }">
+                    <button type="button" role="menuitem" tabindex="-1" @click="handleTemplateSettings" v-show="canShowSettingsCustomize" :class="{ active: buttonIsActive && !buttonIsActiveStyleEditor }">
                         <svg fill="currentColor" height="20" viewBox="96 96 960 960" width="20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M480 976q-82 0-155-31.5t-127.5-86Q143 804 111.5 731T80 576q0-83 32.5-156t88-127Q256 239 330 207.5T488 176q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880 538q0 115-70 176.5T640 776h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480 976Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480 896q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800 538q0-121-92.5-201.5T488 256q-136 0-232 93t-96 227q0 133 93.5 226.5T480 896Z"/>
                         </svg>
@@ -86,13 +111,13 @@
                     </button>
                 </li>
 
-                <li>
+                <li role="none">
                     <!-- task-2026-05-16-5fe1f9 / AI-698b item 2 — label
                          renamed "Style Editor" → "Design" to match the
                          AI-710 right-rail icon-label fix (Design icon
                          opens the Element Style Editor). Method name
                          handleStyleEditor stays — internal API. -->
-                    <button type="button" @click="handleStyleEditor" v-show="canShowSettingsCustomize" :class="{ active: !buttonIsActive && buttonIsActiveStyleEditor }">
+                    <button type="button" role="menuitem" tabindex="-1" @click="handleStyleEditor" v-show="canShowSettingsCustomize" :class="{ active: !buttonIsActive && buttonIsActiveStyleEditor }">
                         <svg fill="currentColor" height="20" viewBox="0 -960 960 960" width="20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M480-120q-133 0-226.5-92T160-436q0-65 25-121.5T254-658l226-222 226 222q44 44 69 100.5T800-436q0 132-93.5 224T480-120ZM242-400h474q12-72-13.5-123T650-600L480-768 310-600q-27 26-53 77t-15 123Z"/>
                         </svg>
@@ -100,8 +125,8 @@
                     </button>
                 </li>
 
-                <li>
-                    <button type="button" @click="handleQuickEdit" v-show="canShowSettingsCustomize" :class="{ active: buttonIsActiveQuickEdit }">
+                <li role="none">
+                    <button type="button" role="menuitem" tabindex="-1" @click="handleQuickEdit" v-show="canShowSettingsCustomize" :class="{ active: buttonIsActiveQuickEdit }">
                         <svg clip-rule="evenodd" fill="currentColor" fill-rule="evenodd" height="20px" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" viewBox="0 0 512 472.403" width="20px" xmlns="http://www.w3.org/2000/svg">
                             <path d="M144.317 85.269h223.368c15.381 0 29.391 6.325 39.567 16.494l.025-.024c10.163 10.164 16.477 24.193 16.477 39.599v189.728c0 15.401-6.326 29.425-16.485 39.584-10.159 10.159-24.183 16.484-39.584 16.484H144.317c-15.4 0-29.437-6.313-39.601-16.476-10.152-10.152-16.47-24.167-16.47-39.592V141.338c0-15.374 6.306-29.379 16.463-39.558l.078-.078c10.178-10.139 24.168-16.433 39.53-16.433zm59.98 204.329h-39.825l30.577-117.964h58.32l30.577 117.964h-39.825l-3.051-18.686h-33.725l-3.048 18.686zm15.645-81.726l-5.801 33.032h19.945l-5.61-33.032h-8.534zm74.007 81.726V171.634h37.749v117.964h-37.749zm161.348-35.797v30.763c0 3.165 2.587 5.751 5.752 5.751h45.199c3.165 0 5.752-2.586 5.752-5.751v-30.763c0-3.165-2.587-5.752-5.752-5.752h-45.199c-3.165 0-5.752 2.587-5.752 5.752zm0-70.639v30.762c0 3.163 2.587 5.752 5.752 5.752h45.199c3.165 0 5.752-2.589 5.752-5.752v-30.762c0-3.168-2.587-5.752-5.752-5.752h-45.199c-3.165 0-5.752 2.584-5.752 5.752zm0 141.278v30.763c0 3.165 2.587 5.752 5.752 5.752h45.199c3.165 0 5.752-2.587 5.752-5.752V324.44c0-3.165-2.587-5.751-5.752-5.751h-45.199c-3.165 0-5.752 2.586-5.752 5.751zm0-211.92v30.763c0 3.164 2.587 5.751 5.752 5.751h45.199c3.165 0 5.752-2.587 5.752-5.751V112.52c0-3.165-2.587-5.752-5.752-5.752h-45.199c-3.165 0-5.752 2.587-5.752 5.752zM56.703 253.801v30.763c0 3.165-2.587 5.751-5.752 5.751H5.752c-3.165 0-5.752-2.586-5.752-5.751v-30.763c0-3.165 2.587-5.752 5.752-5.752h45.199c3.165 0 5.752 2.587 5.752 5.752zm0-70.639v30.762c0 3.163-2.587 5.752-5.752 5.752H5.752c-3.165 0-5.752-2.589-5.752-5.752v-30.762c0-3.168 2.587-5.752 5.752-5.752h45.199c3.165 0 5.752 2.584 5.752 5.752zm0 141.278v30.763c0 3.165-2.587 5.752-5.752 5.752H5.752c-3.165 0-5.752-2.587-5.752-5.752V324.44c0-3.165 2.587-5.751 5.752-5.751h45.199c3.165 0 5.752 2.586 5.752 5.751zm0-211.92v30.763c0 3.164-2.587 5.751-5.752 5.751H5.752c-3.165 0-5.752-2.587-5.752-5.751V112.52c0-3.165 2.587-5.752 5.752-5.752h45.199c3.165 0 5.752 2.587 5.752 5.752zM346.579 415.7h30.763c3.162 0 5.751 2.587 5.751 5.752v45.199c0 3.165-2.589 5.752-5.751 5.752h-30.763c-3.167 0-5.752-2.587-5.752-5.752v-45.199c0-3.165 2.585-5.752 5.752-5.752zm-70.642 0H306.7c3.165 0 5.751 2.587 5.751 5.752v45.199c0 3.165-2.586 5.752-5.751 5.752h-30.763c-3.165 0-5.752-2.587-5.752-5.752v-45.199c0-3.165 2.587-5.752 5.752-5.752zm-70.639 0h30.762c3.165 0 5.752 2.587 5.752 5.752v45.199c0 3.165-2.587 5.752-5.752 5.752h-30.762c-3.165 0-5.752-2.587-5.752-5.752v-45.199c0-3.165 2.587-5.752 5.752-5.752zm-70.64 0h30.763c3.165 0 5.752 2.587 5.752 5.752v45.199c0 3.165-2.587 5.752-5.752 5.752h-30.763c-3.165 0-5.751-2.587-5.751-5.752v-45.199c0-3.165 2.586-5.752 5.751-5.752zM346.579 0h30.763c3.162 0 5.751 2.587 5.751 5.752v45.199c0 3.165-2.589 5.752-5.751 5.752h-30.763c-3.167 0-5.752-2.587-5.752-5.752V5.752c0-3.165 2.585-5.752 5.752-5.752zm-70.642 0H306.7c3.165 0 5.751 2.587 5.751 5.752v45.199c0 3.165-2.586 5.752-5.751 5.752h-30.763c-3.165 0-5.752-2.587-5.752-5.752V5.752c0-3.165 2.587-5.752 5.752-5.752zm-70.639 0h30.762c3.165 0 5.752 2.587 5.752 5.752v45.199c0 3.165-2.587 5.752-5.752 5.752h-30.762c-3.165 0-5.752-2.587-5.752-5.752V5.752c0-3.165 2.587-5.752 5.752-5.752zm-70.64 0h30.763c3.165 0 5.752 2.587 5.752 5.752v45.199c0 3.165-2.587 5.752-5.752 5.752h-30.763c-3.165 0-5.751-2.587-5.751-5.752V5.752c0-3.165 2.586-5.752 5.751-5.752zm233.027 111.097H144.317a30.11 30.11 0 00-21.35 8.844l-.049.049a30.117 30.117 0 00-8.844 21.348v189.728c0 8.292 3.414 15.847 8.9 21.333 5.494 5.493 13.058 8.907 21.343 8.907h223.368c8.273 0 15.833-3.421 21.326-8.914s8.915-13.053 8.915-21.326V141.338c0-8.283-3.414-15.848-8.908-21.341v-.049c-5.454-5.456-13.006-8.851-21.333-8.851z" fill-rule="nonzero"/>
                         </svg>
@@ -109,8 +134,8 @@
                     </button>
                 </li>
 
-                <li>
-                    <button type="button" @click="handleCurrentLayoutSettings">
+                <li role="none">
+                    <button type="button" role="menuitem" tabindex="-1" @click="handleCurrentLayoutSettings">
                         <svg fill="currentColor" height="20" viewBox="0 -960 960 960" width="20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M440-120v-240h80v80h320v80H520v80h-80Zm-320-80v-80h240v80H120Zm160-160v-80H120v-80h160v-80h80v240h-80Zm160-80v-80h400v80H440Zm160-160v-240h80v80h160v80H680v80h-80Zm-480-80v-80h400v80H120Z"/>
                         </svg>
@@ -118,8 +143,8 @@
                     </button>
                 </li>
 
-                <li>
-                    <button type="button" @click="openSetupWizard">
+                <li role="none">
+                    <button type="button" role="menuitem" tabindex="-1" @click="openSetupWizard">
                         <svg fill="currentColor" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">
                             <path d="m176-120-56-56 301-302-181-45 198-123-17-234 179 151 216-88-87 217 151 178-234-16-124 198-45-181-301 301Zm24-520-80-80 80-80 80 80-80 80Zm355 197 48-79 93 7-60-71 35-86-86 35-71-59 7 92-79 49 90 22 23 90Zm165 323-80-80 80-80 80 80-80 80ZM569-570Z"/>
                         </svg>
@@ -130,12 +155,12 @@
 
 
                 <!-- More Settings Section -->
-                <li class="separator">
+                <li class="separator" role="separator">
                     <hr>
                 </li>
 
-                <li class="more-settings-item">
-                    <button type="button" @click="toggleMoreSettings" :class="{ expanded: moreSettingsExpanded }">
+                <li class="more-settings-item" role="none">
+                    <button type="button" role="menuitem" tabindex="-1" aria-haspopup="menu" aria-controls="mw-tools-more-settings" :aria-expanded="moreSettingsExpanded.toString()" @click="toggleMoreSettings" :class="{ expanded: moreSettingsExpanded }">
                         <svg fill="currentColor" height="20" viewBox="0 -960 960 960" width="20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/>
                         </svg>
@@ -156,12 +181,14 @@
                     The original `#user-menu-wrapper` stays in the DOM
                     hidden — see Toolbar.vue for the back-compat note.
                 -->
-                <li class="separator" v-if="userMenuItems.length > 0">
+                <li class="separator" role="separator" v-if="userMenuItems.length > 0">
                     <hr>
                 </li>
 
-                <li v-for="(menuItem, idx) in userMenuItems" :key="'um-' + idx">
+                <li role="none" v-for="(menuItem, idx) in userMenuItems" :key="'um-' + idx">
                     <a
+                        role="menuitem"
+                        tabindex="-1"
                         :href="menuItem.href"
                         :onclick="menuItem.onclick"
                         :target="menuItem.target"
@@ -174,8 +201,8 @@
                     </a>
                 </li>
 
-                <li>
-                    <button type="button" @click="handleToggleDarkMode">
+                <li role="none">
+                    <button type="button" role="menuitem" tabindex="-1" @click="handleToggleDarkMode">
                         <svg v-if="theme === 'light'" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20">
                             <path d="M480 936q-150 0-255-105T120 576q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444 396q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"/>
                         </svg>
@@ -187,10 +214,10 @@
                 </li>
 
                 <!-- Expandable More Settings Content -->
-                <li class="more-settings-content" v-show="moreSettingsExpanded">
-                    <ul class="submenu">
-                        <li>
-                            <button type="button" @click="handleLayers" :class="{ active: layers }">
+                <li class="more-settings-content" role="none" v-show="moreSettingsExpanded">
+                    <ul class="submenu" id="mw-tools-more-settings" role="menu" aria-labelledby="mw-tools-dropdown-trigger">
+                        <li role="none">
+                            <button type="button" role="menuitem" tabindex="-1" @click="handleLayers" :class="{ active: layers }">
                                 <svg fill="currentColor" height="18" viewBox="0 -960 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M480-400 40-640l440-240 440 240-440 240Zm0 160L63-467l84-46 333 182 333-182 84 46-417 227Zm0 160L63-307l84-46 333 182 333-182 84 46L480-80Zm0-411 273-149-273-149-273 149 273 149Zm0-149Z"/>
                                 </svg>
@@ -198,8 +225,8 @@
                             </button>
                         </li>
 
-                        <li>
-                            <button type="button" @click="showCodeEditor">
+                        <li role="none">
+                            <button type="button" role="menuitem" tabindex="-1" @click="showCodeEditor">
                                 <svg fill="currentColor" height="18" viewBox="0 -960 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0-360v-240h60v80h80v-80h60v240h-60v-100H60v100H0Zm310 0v-180h-70v-60h200v60h-70v180h-60Zm170 0v-200q0-17 11.5-28.5T520-600h180q17 0 28.5 11.5T740-560v200h-60v-180h-40v140h-60v-140h-40v180h-60Zm320 0v-240h60v180h100v60H800Z"/>
                                 </svg>
@@ -207,8 +234,8 @@
                             </button>
                         </li>
 
-                        <li>
-                            <button type="button" @click="openContentResetContent">
+                        <li role="none">
+                            <button type="button" role="menuitem" tabindex="-1" @click="openContentResetContent">
                                 <svg fill="currentColor" height="18" viewBox="0 -960 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/>
                                 </svg>
@@ -216,8 +243,8 @@
                             </button>
                         </li>
 
-                        <li>
-                            <button type="button" @click="clearCache">
+                        <li role="none">
+                            <button type="button" role="menuitem" tabindex="-1" @click="clearCache">
                                 <svg fill="currentColor" height="18" viewBox="0 -960 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M280-720v520-520Zm170 600H280q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v172q-17-5-39.5-8.5T680-560v-160H280v520h132q6 21 16 41.5t22 38.5Zm-90-160h40q0-63 20-103.5l20-40.5v-216h-80v360Zm160-230q17-11 38.5-22t41.5-16v-92h-80v130ZM680-80q-83 0-141.5-58.5T480-280q0-83 58.5-141.5T680-480q83 0 141.5 58.5T880-280q0 83-58.5 141.5T680-80Zm66-106 28-28-74-74v-112h-40v128l86 86Z"/>
                                 </svg>
@@ -491,12 +518,104 @@ export default {
         }
     },
     methods: {
+        // task-2026-05-28-4a2e1b / AI-1151 — open the menu and focus the
+        // first menuitem so screen-reader + keyboard users land on a
+        // tabbable element per WAI-ARIA APG Menu pattern.
         toggleDropdown() {
-            this.dropdownOpen = !this.dropdownOpen;
+            const opening = !this.dropdownOpen;
+            this.dropdownOpen = opening;
+            if (opening) {
+                this.$nextTick(() => this.focusFirstMenuItem());
+            }
         },
 
-        hideToolsDropdown() {
+        // task-2026-05-28-4a2e1b / AI-1151 — close the menu. When the
+        // close was triggered by Escape, return focus to the trigger
+        // anchor per WAI-ARIA APG Menu pattern. Always collapse the
+        // nested "More settings" submenu so the next open starts clean.
+        hideToolsDropdown(focusTrigger = false) {
             this.dropdownOpen = false;
+            this.moreSettingsExpanded = false;
+            if (focusTrigger && this.$refs.toolsDropdownTrigger) {
+                this.$refs.toolsDropdownTrigger.focus();
+            }
+        },
+
+        // task-2026-05-28-4a2e1b / AI-1151 — keyboard activators on the
+        // trigger anchor. Enter/Space/ArrowDown open + focus first item;
+        // ArrowUp opens + focuses last item per WAI-ARIA APG Menu pattern.
+        openAndFocusFirstMenuItem() {
+            if (!this.dropdownOpen) { this.dropdownOpen = true; }
+            this.$nextTick(() => this.focusFirstMenuItem());
+        },
+
+        openAndFocusLastMenuItem() {
+            if (!this.dropdownOpen) { this.dropdownOpen = true; }
+            this.$nextTick(() => this.focusLastMenuItem());
+        },
+
+        // Collect currently-visible role=menuitem elements within the
+        // dropdown content root. Hidden submenu items (More settings
+        // collapsed) are filtered via offsetParent null check.
+        getMenuItems() {
+            const root = this.$refs.toolsDropdownContent;
+            if (!root) return [];
+            return Array.from(root.querySelectorAll('[role="menuitem"]'))
+                .filter((el) => el.offsetParent !== null);
+        },
+
+        focusFirstMenuItem() {
+            const items = this.getMenuItems();
+            if (items.length > 0) items[0].focus();
+        },
+
+        focusLastMenuItem() {
+            const items = this.getMenuItems();
+            if (items.length > 0) items[items.length - 1].focus();
+        },
+
+        // task-2026-05-28-4a2e1b / AI-1151 — roving-tabindex keyboard
+        // navigation per WAI-ARIA APG Menu pattern. ArrowDown/Up cycle,
+        // Home/End jump to ends, Escape closes + focuses trigger, Tab
+        // closes without focus return (lets the natural tab order
+        // continue past the menu).
+        handleMenuKeydown(event) {
+            const items = this.getMenuItems();
+            if (items.length === 0) return;
+            const currentIndex = items.indexOf(document.activeElement);
+            switch (event.key) {
+                case 'ArrowDown': {
+                    event.preventDefault();
+                    const next = currentIndex < 0 || currentIndex === items.length - 1 ? 0 : currentIndex + 1;
+                    items[next].focus();
+                    break;
+                }
+                case 'ArrowUp': {
+                    event.preventDefault();
+                    const prev = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+                    items[prev].focus();
+                    break;
+                }
+                case 'Home': {
+                    event.preventDefault();
+                    items[0].focus();
+                    break;
+                }
+                case 'End': {
+                    event.preventDefault();
+                    items[items.length - 1].focus();
+                    break;
+                }
+                case 'Escape': {
+                    event.preventDefault();
+                    this.hideToolsDropdown(true);
+                    break;
+                }
+                case 'Tab': {
+                    this.hideToolsDropdown(false);
+                    break;
+                }
+            }
         },
 
         // Close any Filament module/layout-settings slideOver that may
