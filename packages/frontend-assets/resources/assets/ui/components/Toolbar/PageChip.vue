@@ -6,6 +6,17 @@
     2. Recent content loaded immediately on open (not only on search).
     3. Tabs: Pages / Posts / Products.
 
+  task-2026-05-28-1a7899 / AI-1224 — PageChip popover ARIA tabs + touch targets:
+    1. tablist gets aria-label="Page picker"; each tab carries id +
+       aria-controls + roving tabindex (0 on active, -1 on others).
+    2. ArrowLeft/ArrowRight/Home/End move focus and the active tab.
+    3. The search + results + footer block becomes a role="tabpanel"
+       with aria-labelledby pointing at the active tab.
+    4. Current-page rows render as <button aria-current="page"> instead
+       of the legacy empty-href anchor (so AT consumes a real disabled
+       affordance rather than a no-op link).
+    5. Tab/row/CTA min-height: 44px (WCAG 2.5.5 touch target).
+
   Architecture:
 
     - Renders a <button class="mw-page-chip"> showing the
@@ -55,61 +66,91 @@
             ref="popover"
             style="display: none;"
         >
-            <!-- Tab bar: Pages / Posts / Products -->
-            <div class="mw-page-chip-popover__tabs" role="tablist">
+            <!-- Tab bar: Pages / Posts / Products
+                 task-2026-05-28-1a7899 / AI-1224 — aria-label + IDs +
+                 aria-controls + roving tabindex + arrow-key handler. -->
+            <div class="mw-page-chip-popover__tabs" role="tablist" aria-label="Page picker">
                 <button
-                    v-for="tab in tabs"
+                    v-for="(tab, idx) in tabs"
                     :key="tab.key"
                     type="button"
                     class="mw-page-chip-popover__tab"
                     :class="{ 'mw-page-chip-popover__tab--active': activeTab === tab.key }"
                     role="tab"
+                    :id="'mw-page-chip-tab-' + tab.key"
+                    :aria-controls="'mw-page-chip-tabpanel-' + tab.key"
                     :aria-selected="activeTab === tab.key ? 'true' : 'false'"
+                    :tabindex="activeTab === tab.key ? 0 : -1"
+                    ref="tabRefs"
                     @click="switchTab(tab.key)"
+                    @keydown="onTabKeydown($event, idx)"
                 >{{ tab.label }}</button>
             </div>
 
-            <!-- Search input -->
-            <div class="mw-page-chip-popover__search">
-                <input
-                    type="search"
-                    class="mw-page-chip-popover__input"
-                    :placeholder="'Search ' + activeTabLabel + '…'"
-                    :aria-label="'Search ' + activeTabLabel"
-                    v-model="q"
-                    @input="onSearchInput"
-                    ref="searchInput"
-                />
-            </div>
+            <!-- Tabpanel: search + results + footer
+                 task-2026-05-28-1a7899 / AI-1224 — role=tabpanel +
+                 aria-labelledby pairs the panel with the active tab. -->
+            <div
+                role="tabpanel"
+                :id="'mw-page-chip-tabpanel-' + activeTab"
+                :aria-labelledby="'mw-page-chip-tab-' + activeTab"
+                tabindex="0"
+                class="mw-page-chip-popover__panel"
+            >
+                <!-- Search input -->
+                <div class="mw-page-chip-popover__search">
+                    <input
+                        type="search"
+                        class="mw-page-chip-popover__input"
+                        :placeholder="'Search ' + activeTabLabel + '…'"
+                        :aria-label="'Search ' + activeTabLabel"
+                        v-model="q"
+                        @input="onSearchInput"
+                        ref="searchInput"
+                    />
+                </div>
 
-            <!-- Results list -->
-            <ul class="mw-page-chip-popover__list" v-if="results.length">
-                <li v-for="item in results" :key="item.id" class="mw-page-chip-popover__item">
-                    <a :href="item.edit_link" class="mw-page-chip-popover__link" @click="close()">
-                        <span class="mw-page-chip-popover__item-title">{{ item.title || '(No title)' }}</span>
+                <!-- Results list
+                     task-2026-05-28-1a7899 / AI-1224 — rows with no
+                     edit_link render as <button aria-current="page">
+                     so AT does not announce a no-op link. -->
+                <ul class="mw-page-chip-popover__list" v-if="results.length">
+                    <li v-for="item in results" :key="item.id" class="mw-page-chip-popover__item">
+                        <button
+                            v-if="!item.edit_link"
+                            type="button"
+                            class="mw-page-chip-popover__link mw-page-chip-popover__link--current"
+                            aria-current="page"
+                            @click="close()"
+                        >
+                            <span class="mw-page-chip-popover__item-title">{{ item.title || '(No title)' }}</span>
+                        </button>
+                        <a v-else :href="item.edit_link" class="mw-page-chip-popover__link" @click="close()">
+                            <span class="mw-page-chip-popover__item-title">{{ item.title || '(No title)' }}</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Loading state -->
+                <div v-else-if="isLoading" class="mw-page-chip-popover__empty">
+                    Loading…
+                </div>
+
+                <!-- Empty / no results -->
+                <div v-else-if="q !== '' || hasLoaded" class="mw-page-chip-popover__empty">
+                    {{ q !== '' ? ('No ' + activeTabLabel + ' found.') : ('No ' + activeTabLabel + ' yet.') }}
+                </div>
+
+                <!-- Footer: New page/post/product shortcut -->
+                <div class="mw-page-chip-popover__footer">
+                    <a :href="newItemHref" class="mw-page-chip-popover__new-page" @click="close()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>New {{ activeTabSingular }}</span>
                     </a>
-                </li>
-            </ul>
-
-            <!-- Loading state -->
-            <div v-else-if="isLoading" class="mw-page-chip-popover__empty">
-                Loading…
-            </div>
-
-            <!-- Empty / no results -->
-            <div v-else-if="q !== '' || hasLoaded" class="mw-page-chip-popover__empty">
-                {{ q !== '' ? ('No ' + activeTabLabel + ' found.') : ('No ' + activeTabLabel + ' yet.') }}
-            </div>
-
-            <!-- Footer: New page/post/product shortcut -->
-            <div class="mw-page-chip-popover__footer">
-                <a :href="newItemHref" class="mw-page-chip-popover__new-page" @click="close()">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                    <span>New {{ activeTabSingular }}</span>
-                </a>
+                </div>
             </div>
         </div>
     </div>
@@ -262,6 +303,40 @@ export default {
             this.loadRecent();
             this.$nextTick(function () {
                 if (this.$refs.searchInput) this.$refs.searchInput.focus();
+            }.bind(this));
+        },
+
+        // task-2026-05-28-1a7899 / AI-1224 — arrow-key navigation across
+        // the tablist (WAI-ARIA Tabs Pattern). ArrowLeft/ArrowRight wrap;
+        // Home/End jump to the first/last tab. Focus moves WITH the
+        // active-tab change so the roving tabindex carries the user.
+        onTabKeydown(event, idx) {
+            var key = event.key;
+            if (key !== 'ArrowLeft' && key !== 'ArrowRight' && key !== 'Home' && key !== 'End') {
+                return;
+            }
+            event.preventDefault();
+            var last = this.tabs.length - 1;
+            var nextIdx = idx;
+            if (key === 'ArrowLeft') nextIdx = idx === 0 ? last : idx - 1;
+            else if (key === 'ArrowRight') nextIdx = idx === last ? 0 : idx + 1;
+            else if (key === 'Home') nextIdx = 0;
+            else if (key === 'End') nextIdx = last;
+            var nextKey = this.tabs[nextIdx].key;
+            if (nextKey === this.activeTab) {
+                // tablist of length 1, or no-op — still focus the target.
+                var sameRef = this.$refs.tabRefs && this.$refs.tabRefs[nextIdx];
+                if (sameRef) sameRef.focus();
+                return;
+            }
+            this.activeTab = nextKey;
+            this.q = '';
+            this.results = [];
+            this.hasLoaded = false;
+            this.loadRecent();
+            this.$nextTick(function () {
+                var nextEl = this.$refs.tabRefs && this.$refs.tabRefs[nextIdx];
+                if (nextEl) nextEl.focus();
             }.bind(this));
         },
 

@@ -2946,7 +2946,13 @@ html.dark .mw-page-chip-popover__tabs {
 
 .mw-page-chip-popover__tab {
     flex: 1;
-    padding: 8px 4px;
+    /* task-2026-05-28-1a7899 / AI-1224 — min-height: 44px (WCAG 2.5.5
+       touch target); padding-block expanded to 12px to match. */
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 4px;
     font-size: 12px;
     font-weight: 500;
     color: var(--ese-text-muted, #6b7280);
@@ -2956,6 +2962,13 @@ html.dark .mw-page-chip-popover__tabs {
     transition: color 0.12s;
     white-space: nowrap;
     line-height: 1.4;
+}
+
+/* task-2026-05-28-1a7899 / AI-1224 — focus ring on the tablist's
+   active treetab (roving tabindex carrier). */
+.mw-page-chip-popover__tab:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: -2px;
 }
 
 .mw-page-chip-popover__tab:hover {
@@ -3034,10 +3047,18 @@ html.dark .mw-page-chip-popover__input {
 .mw-page-chip-popover__link {
     display: flex;
     align-items: center;
+    /* task-2026-05-28-1a7899 / AI-1224 — min-height: 44px (WCAG 2.5.5). */
+    min-height: 44px;
+    width: 100%;
     padding: var(--space-sm, 8px) var(--space-md, 13px);
     color: var(--ese-text, #111827);
     text-decoration: none;
     font-size: var(--font-control, 13px);
+    background: transparent;
+    border: none;
+    text-align: start;
+    cursor: pointer;
+    font: inherit;
 }
 
 .mw-page-chip-popover__link:hover {
@@ -3047,6 +3068,24 @@ html.dark .mw-page-chip-popover__input {
 
 html.dark .mw-page-chip-popover__link {
     color: var(--ese-text, #f3f4f6);
+}
+
+/* task-2026-05-28-1a7899 / AI-1224 — current-page button variant:
+   carries aria-current="page", styled as the active row (accent +
+   no hover state change). Replaces the legacy empty-href anchor. */
+.mw-page-chip-popover__link--current {
+    color: var(--ese-accent, #0d6efd);
+    font-weight: 500;
+    cursor: default;
+}
+
+.mw-page-chip-popover__link--current:hover {
+    background-color: transparent;
+    color: var(--ese-accent, #0d6efd);
+}
+
+html.dark .mw-page-chip-popover__link--current {
+    color: var(--ese-accent, #0d6efd);
 }
 
 .mw-page-chip-popover__item-title {
@@ -3070,6 +3109,8 @@ html.dark .mw-page-chip-popover__link {
 .mw-page-chip-popover__new-page {
     display: flex;
     align-items: center;
+    /* task-2026-05-28-1a7899 / AI-1224 — min-height: 44px (WCAG 2.5.5). */
+    min-height: 44px;
     gap: var(--space-sm, 8px);
     padding: var(--space-sm, 8px) var(--space-md, 13px);
     color: var(--ese-accent, #0d6efd);
