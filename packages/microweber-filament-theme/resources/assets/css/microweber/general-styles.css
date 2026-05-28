@@ -1983,9 +1983,16 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
 
     /* Each wrapper renders an inner `.d-flex` with [icon, label] from
        the category Vue component. We only style that header row —
-       expanded controls below it inherit their own styling. */
+       expanded controls below it inherit their own styling.
+       task-2026-05-28-af5d5b AI-1146: min-height 44px so the header
+       trigger meets WCAG 2.5.5 touch target. Wrapper itself stays
+       `<div>` (carries role=button + tabindex=0 + aria-expanded +
+       keydown.enter/space handlers — equivalent semantic to <button>
+       without the invalid-HTML hazard of nesting interactive child
+       controls like sliders/colour pickers inside a <button>). */
     & .d-flex:has(> svg) {
         @apply items-center gap-2 select-none;
+        min-height: 44px;
     }
 
     /* Normalize icon: fixed 20×20 box so circle/rect SVGs all sit on
