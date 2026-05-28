@@ -216,12 +216,23 @@ Forms\Components\Select::make('company_id')
             return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
         })
+        // task-2026-05-28-2f5a6c / AI-1097 — column bloat reduction.
+        // /admin/customers default-rendered 11 columns at desktop
+        // (id, name, first_name, last_name, phone, email, active,
+        // user.username, currency.name, company.name, tags) which
+        // forces horizontal scroll at 1440px. Default-visible
+        // reduced to the 5 highest-signal columns (name, email,
+        // phone, active, tags); the other 6 are kept toggleable
+        // (hidden by default) so power users can re-enable them
+        // via the column-toggle menu without losing data access.
         ->columns([
             Tables\Columns\TextColumn::make('id')->sortable()->searchable()
-                ->visibleFrom('md'),
+                ->toggleable(isToggledHiddenByDefault: true),
             Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-            Tables\Columns\TextColumn::make('first_name')->sortable()->searchable(),
-            Tables\Columns\TextColumn::make('last_name')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('first_name')->sortable()->searchable()
+                ->toggleable(isToggledHiddenByDefault: true),
+            Tables\Columns\TextColumn::make('last_name')->sortable()->searchable()
+                ->toggleable(isToggledHiddenByDefault: true),
             Tables\Columns\TextColumn::make('phone')->sortable()->searchable()
                 ->visibleFrom('md'),
             Tables\Columns\TextColumn::make('email')->sortable()->searchable(),
@@ -233,11 +244,11 @@ Forms\Components\Select::make('company_id')
                 ->falseColor('danger')
                 ->sortable(),
             Tables\Columns\TextColumn::make('user.username')->sortable()
-                ->visibleFrom('md'),
+                ->toggleable(isToggledHiddenByDefault: true),
             Tables\Columns\TextColumn::make('currency.name')->sortable()
-                ->visibleFrom('md'),
+                ->toggleable(isToggledHiddenByDefault: true),
             Tables\Columns\TextColumn::make('company.name')->sortable()
-                ->visibleFrom('md'),
+                ->toggleable(isToggledHiddenByDefault: true),
             Tables\Columns\TextColumn::make('tags.name')
                 ->label('Tags')
                 ->badge()
