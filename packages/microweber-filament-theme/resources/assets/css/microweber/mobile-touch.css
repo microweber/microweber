@@ -533,18 +533,29 @@ button.btn-icon.live-edit-toolbar-buttons,
 }
 
 /*
- * Module-settings iframe toggle fix: the settings panel is always narrower
- * than 1024px — so the max-width arm of the toggle rule above fires
- * spuriously and forces .fi-toggle into a 44x44 square even on desktop.
- * In a slide-over settings form both desktop and mobile users expect the
- * natural pill shape; higher-specificity selector overrides the touch-
- * target !important above without needing a media guard.
+ * Module-settings iframe toggle fix — desktop-only revert.
+ * task-2026-05-30-AI1157-iframe-toggle-mobile-floor
+ *
+ * The settings panel iframe is always narrower than 1024px — so the
+ * max-width arm of the toggle rule above fires spuriously and forces
+ * .fi-toggle into a 44x44 square even on desktop. On desktop both axes
+ * of the natural pill (44x24) are usable with a fine pointer, so revert
+ * the floor there. On mobile (hover: none, pointer: coarse) the WCAG
+ * 2.5.5 / iOS HIG 44 floor MUST hold, so the revert is gated behind
+ * (hover: hover) and (pointer: fine).
+ *
+ * Pre-2026-05-30: the revert had no media gate and silently stripped
+ * the 44x44 floor for real mobile users inside Social Links / Btn /
+ * Shop-Cart / Logo module-settings modals — toggles rendered 44x24
+ * (height shortfall = 20px) on 390x844 viewports.
  */
-body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-toggle,
-body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-fo-toggle,
-body.fi-panel-admin main.mw-live-edit-module-settings-iframe button.fi-toggle[role="switch"] {
-    min-height: auto !important;
-    min-width: auto !important;
+@media (hover: hover) and (pointer: fine) {
+    body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-toggle,
+    body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-fo-toggle,
+    body.fi-panel-admin main.mw-live-edit-module-settings-iframe button.fi-toggle[role="switch"] {
+        min-height: auto !important;
+        min-width: auto !important;
+    }
 }
 
 /*

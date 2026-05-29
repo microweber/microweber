@@ -19793,9 +19793,11 @@ html.dark #mw-element-style-editor-app .mw-admin-empty-state__body, .theme-dark 
     min-height: 44px !important;
   }
 }
-body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-toggle, body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-fo-toggle, body.fi-panel-admin main.mw-live-edit-module-settings-iframe button.fi-toggle[role="switch"] {
-  min-height: auto !important;
-  min-width: auto !important;
+@media (hover: hover) and (pointer: fine) {
+  body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-toggle, body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-fo-toggle, body.fi-panel-admin main.mw-live-edit-module-settings-iframe button.fi-toggle[role="switch"] {
+    min-height: auto !important;
+    min-width: auto !important;
+  }
 }
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
   body.fi-panel-admin .fi-fo-rich-editor-tool, body.fi-panel-admin .fi-fo-rich-editor-toolbar button, body.fi-panel-admin .fi-fo-rich-editor-toolbar .fi-fo-rich-editor-tool {
