@@ -19568,6 +19568,12 @@ html.dark #mw-element-style-editor-app .mw-admin-empty-state__body, .theme-dark 
   .mw-admin-live-edit-page #toolbar .custom-dropdown, .mw-live-edit-page #toolbar .custom-dropdown {
     flex-shrink: 0 !important;
   }
+  body.fi-panel-admin #mw-live-edit-quickEditComponent-box .quick-ai-type-group-header {
+    min-height: 44px !important;
+  }
+  body.fi-panel-admin #mw-live-edit-quickEditComponent-box .form-control-live-edit-input {
+    min-height: 44px !important;
+  }
 }
 :root {
   --color-primary: #0d6efd;
@@ -20252,6 +20258,20 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
     min-height: 44px;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+  }
+}
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+  body.fi-panel-admin .fi-ta-cell.fi-ta-selection-cell {
+    min-height: 44px;
+    height: 44px;
+  }
+  body.fi-panel-admin .fi-ta-cell.fi-ta-selection-cell .fi-checkbox-input {
+    min-width: 22px;
+    min-height: 22px;
+  }
+  body.fi-panel-admin .fi-ac-icon-btn-group {
+    min-height: 44px !important;
+    min-width: 44px !important;
   }
 }
 root {

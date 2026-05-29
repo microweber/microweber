@@ -851,4 +851,35 @@
     .mw-live-edit-page #toolbar .custom-dropdown {
         flex-shrink: 0 !important;
     }
+
+    /*
+     * task-2026-05-29-eaf3a1 / AI-1157 — Quick AI Edit panel
+     * (#mw-live-edit-quickEditComponent-box) carries 24 sub-44 interactive
+     * elements at 390x844: 12 .quick-ai-type-group-header buttons rendered
+     * at 32px tall (12px short of WCAG 2.5.5) and 12 .form-control-live-edit-input
+     * text inputs rendered at 38px tall (6px short). Pin both rule families
+     * to the 44px floor inside the canonical mobile/touch media block.
+     *
+     * Scope note: the controlBox teleports directly under body.fi-panel-admin
+     * (no .mw-admin-live-edit-page / .mw-live-edit-page ancestor), so the
+     * doubled-prefix pattern used elsewhere in this file does NOT match here.
+     * Scope via the unique box ID so other Live Edit surfaces that reuse
+     * .form-control-live-edit-input (filepicker / module settings) keep their
+     * desktop sizing.
+     *
+     * Specificity note: microweber-filament-theme.css:100 ships a same-
+     * specificity desktop rule pinning min-height:36px on the same selector
+     * with !important. That file concatenates AFTER live-edit-mobile.css in
+     * the bundle, so source-order would otherwise win against this mobile
+     * override (Stage-2 sub-variant !important-cascade-loss). Prefix with
+     * body.fi-panel-admin to bump specificity (+0/1/1/0) above the bare
+     * #id .class rule.
+     */
+    body.fi-panel-admin #mw-live-edit-quickEditComponent-box .quick-ai-type-group-header {
+        min-height: 44px !important;
+    }
+
+    body.fi-panel-admin #mw-live-edit-quickEditComponent-box .form-control-live-edit-input {
+        min-height: 44px !important;
+    }
 }

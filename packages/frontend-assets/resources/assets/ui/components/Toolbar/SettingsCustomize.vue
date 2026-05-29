@@ -455,6 +455,13 @@ export default {
             mw.app.advancedPanelWidget?.hide();
         },
         toggle: function (name) {
+            // task-2026-05-29-eaf3a1 / AI-1157 — right-rail button path must emit
+            // live-edit-ui-show so RightSidebar.showSidebar flips true and the
+            // Vue Teleport source <TemplateSettingsTeleport> mounts; the global
+            // event path (mounted() handler line below) already routes through
+            // show() which carries the emit. Without this emit the controlBox
+            // opens but its body stays empty on the 'template-settings' path.
+            this.emitter.emit('live-edit-ui-show', name);
 
             this.$refs.moreSettingsDropdown?.classList.remove('show');
             mw.app.advancedPanelWidget?.hide();
