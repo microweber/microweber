@@ -20234,6 +20234,26 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
     align-items: center;
   }
 }
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+  body.fi-panel-profile .fi-btn.fi-size-md {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  body.fi-panel-profile .fi-user-menu-trigger {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  body.fi-panel-profile .fi-ta-cell:has(> .fi-checkbox-input), body.fi-panel-profile .fi-ta-cell:has(.fi-checkbox-input) {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  body.fi-panel-profile .btn.btn-outline-primary, body.fi-panel-profile .btn.btn-primary, body.fi-panel-profile .btn.btn-outline-danger, body.fi-panel-profile .btn.btn-danger {
+    min-height: 44px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
 root {
   font-size: 16px;
   height: 100%;

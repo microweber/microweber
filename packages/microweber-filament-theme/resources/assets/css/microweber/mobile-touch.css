@@ -1929,3 +1929,57 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/* ================================================================
+ * task-2026-05-29-c8b5a1 — Customer Profile panel mobile
+ * touch-target sweep (Batch 3). Tier-3 Playwright probe at
+ * 390x844 across 5 Profile subpages (dashboard, edit-profile,
+ * change-password, order-history, two-factor-auth, saved-addresses)
+ * surfaced 4 sub-44 violation families inside
+ * body.fi-panel-profile:
+ *
+ *   1. .fi-btn.fi-size-md primary action buttons at 42px tall
+ *      (Save Changes, Add New Address, Enable, Add Your First
+ *      Address) — 2px short of the WCAG 2.5.5 floor.
+ *   2. .fi-user-menu-trigger topbar avatar at 32x32 (12px short),
+ *      present on every Profile page.
+ *   3. .fi-ta-page-checkbox table-cell native checkbox at 18x18
+ *      (26px short on hit area) on Saved Addresses list.
+ *   4. Jetstream .btn.btn-outline-primary (Two Factor Authentication
+ *      and Browser Sessions buttons on Edit Profile) at 38px tall
+ *      (6px short, Bootstrap btn-default sizing).
+ *
+ * Fix: scoped mobile media-query block pinning each rule family
+ * inside body.fi-panel-profile. Extends the AI-518 Profile coverage
+ * which pinned only the login-form remember-me checkbox wrapper.
+ * Checkbox hit-area uses the :has() wrapper pattern lineage AI-517
+ * / AI-518 / AI-519 / AI-1144 so the visible input keeps its native
+ * size while the wrapper carries the 44x44 target.
+ *
+ * Family: WCAG 2.5.5 mobile touch-target floor — lineage with
+ * AI-517 / AI-518 / AI-519 / AI-1135 / AI-1143 / AI-1144 / AI-1156.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-profile .fi-btn.fi-size-md {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+    body.fi-panel-profile .fi-user-menu-trigger {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+    body.fi-panel-profile .fi-ta-cell:has(> .fi-checkbox-input),
+    body.fi-panel-profile .fi-ta-cell:has(.fi-checkbox-input) {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+    body.fi-panel-profile .btn.btn-outline-primary,
+    body.fi-panel-profile .btn.btn-primary,
+    body.fi-panel-profile .btn.btn-outline-danger,
+    body.fi-panel-profile .btn.btn-danger {
+        min-height: 44px;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+}
+
