@@ -3804,6 +3804,29 @@ body.fi-panel-admin .mw-hero-stat-orders {
     margin: 4px 0 0;
 }
 
+/* task-2026-05-27-h3r0a8 — Dashboard hero-stats widget mobile touch-target
+   floor. Pre-fix at <=768px the four .mw-hero-stat-tab buttons (Daily / Weekly
+   / Monthly / Yearly) rendered at roughly 53-70 wide by 29 tall and the
+   "View all" link at 61 by 21 — all below the WCAG 2.5.5 / iOS HIG 44 by 44
+   floor. Tabs gain min-height: 44px with inline-flex centering plus 16px
+   horizontal padding; link gains min-height: 44px with inline-flex centering.
+   Desktop layout untouched (>768px keeps the dense 29px tab rail). */
+@media (max-width: 768px) {
+    body.fi-panel-admin .mw-hero-stat-tab {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 16px;
+    }
+    body.fi-panel-admin .mw-hero-stat-link {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 8px;
+    }
+}
+
 body.fi-panel-admin .mw-quick-stats-grid.mw-quick-stats-secondary {
     grid-template-columns: repeat(4, 1fr);
     gap: var(--space-md, 13px);

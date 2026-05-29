@@ -665,6 +665,37 @@
         padding-bottom: 6px;
     }
 
+    /* task-2026-05-27-e5e443 / AI-1143 — Element Style Editor mobile
+       touch-target floors. Two sub-44 control families surfaced via
+       Tier-3 Playwright probe at 390x844:
+         1. `.mw-segmented__cell` (4x text-align toggles ta-left /
+            ta-center / ta-right / ta-justify) render 75-76 x 28 —
+            16px short on vertical hit area.
+         2. `.v-input--horizontal` (4x Vuetify slider wrappers for
+            font-size / line-height / letter-spacing etc.) render
+            304 x 26 — the `.v-slider-track` itself is 3px tall so
+            tap-to-set vertical hit area is only 26px (18px short).
+       Both pinned to min-height: 44px inside the live-edit mobile
+       block. Vuetify writes inline styles on slider drag so
+       !important is mandatory to defeat the inline override (per
+       the existing surviving-!important pattern documented in
+       element-style-editor.css). Desktop layout unaffected. */
+    .mw-admin-live-edit-page .mw-segmented__cell,
+    .mw-live-edit-page .mw-segmented__cell,
+    #mw-element-style-editor-app .mw-segmented__cell {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    .mw-admin-live-edit-page #mw-element-style-editor-app .v-input--horizontal,
+    .mw-live-edit-page #mw-element-style-editor-app .v-input--horizontal,
+    #mw-element-style-editor-app .v-input--horizontal {
+        min-height: 44px !important;
+        display: flex !important;
+        align-items: center;
+    }
+
     /*
      * Live Edit toolbar overflow at narrow viewports.
      *

@@ -1878,3 +1878,54 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/* ================================================================
+ * task-2026-05-27-aa1144 (AI-1144) — Newsletter panel mobile
+ * touch-target audit (Batch 2).
+ *
+ * Tier-3 Playwright probe at 390x844 across 5 Newsletter admin
+ * pages (campaigns / subscribers / lists / sender-accounts /
+ * campaigns/create) found 3 consistent sub-44 violation families,
+ * all standard Filament chrome rendered inside the Newsletter
+ * panel scope (body.fi-panel-admin-newsletter from
+ * Modules/Newsletter/Providers/NewsletterFilamentAdminPanelProvider.php
+ * panel id "admin-newsletter"):
+ *
+ *   1. .fi-btn.fi-size-md action buttons (Export Campaigns,
+ *      Import Subscribers, New Sender, Create, Cancel, ...):
+ *      rendered 42px tall (Filament default min-height: 36px +
+ *      vertical padding) — 2px short of the WCAG 2.5.5 floor.
+ *   2. .fi-user-menu-trigger topbar avatar: 32x32 — 12px short
+ *      on both axes.
+ *   3. .fi-ta-record-checkbox / .fi-ta-page-checkbox table
+ *      checkboxes: 18x18 native input — 26px short. Fix via the
+ *      :has() label-wrapper pattern established by AI-517 /
+ *      AI-518 / AI-519 so the HIT AREA reaches 44x44 while the
+ *      visible checkbox stays its native size.
+ *
+ * Scoped to body.fi-panel-admin-newsletter only — CLAUDE.md
+ * explicitly cautions against broad body.fi-panel-admin touch
+ * sweeps without tester audit + explicit dispatch. Cross-admin
+ * generalisation deferred as AI-1145 follow-up candidate.
+ *
+ * Family: WCAG 2.5.5 mobile touch-target floor — same lineage as
+ * AI-517 / AI-518 / AI-519 checkbox :has() wrapper, AI-1156 modal
+ * footer 42->44, AI-1135 dashboard hero-stats, AI-1143 ESE.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin-newsletter .fi-btn.fi-size-md {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+    body.fi-panel-admin-newsletter .fi-user-menu-trigger {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+    body.fi-panel-admin-newsletter .fi-ta-cell:has(> .fi-checkbox-input),
+    body.fi-panel-admin-newsletter label:has(> .fi-checkbox-input),
+    body.fi-panel-admin-newsletter label:has(.fi-checkbox-input) {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+

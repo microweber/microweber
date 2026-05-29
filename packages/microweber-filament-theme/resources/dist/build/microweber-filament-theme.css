@@ -6067,6 +6067,21 @@ body.fi-panel-admin .mw-hero-stat-orders {
   color: #6b7280;
   margin: 4px 0 0;
 }
+@media (max-width: 768px) {
+  body.fi-panel-admin .mw-hero-stat-tab {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 16px;
+  }
+  body.fi-panel-admin .mw-hero-stat-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+  }
+}
 body.fi-panel-admin .mw-quick-stats-grid.mw-quick-stats-secondary {
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-md, 13px);
@@ -19487,6 +19502,17 @@ html.dark #mw-element-style-editor-app .mw-admin-empty-state__body, .theme-dark 
     padding-top: 6px;
     padding-bottom: 6px;
   }
+  .mw-admin-live-edit-page .mw-segmented__cell, .mw-live-edit-page .mw-segmented__cell, #mw-element-style-editor-app .mw-segmented__cell {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  .mw-admin-live-edit-page #mw-element-style-editor-app .v-input--horizontal, .mw-live-edit-page #mw-element-style-editor-app .v-input--horizontal, #mw-element-style-editor-app .v-input--horizontal {
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center;
+  }
   .mw-admin-live-edit-page #toolbar, .mw-live-edit-page #toolbar {
     flex-wrap: nowrap !important;
     overflow-x: auto;
@@ -20191,6 +20217,21 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
   body.fi-panel-admin .fi-modal-footer .fi-btn, body.fi-panel-admin .fi-modal-footer-actions .fi-btn, body.fi-panel-checkout .fi-modal-footer .fi-btn, body.fi-panel-checkout .fi-modal-footer-actions .fi-btn {
     min-height: 44px !important;
     min-width: 44px !important;
+  }
+}
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+  body.fi-panel-admin-newsletter .fi-btn.fi-size-md {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  body.fi-panel-admin-newsletter .fi-user-menu-trigger {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  body.fi-panel-admin-newsletter .fi-ta-cell:has(> .fi-checkbox-input), body.fi-panel-admin-newsletter label:has(> .fi-checkbox-input), body.fi-panel-admin-newsletter label:has(.fi-checkbox-input) {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
   }
 }
 root {
