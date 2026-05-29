@@ -20276,6 +20276,21 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
     min-width: 44px !important;
   }
 }
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+  body.fi-panel-admin #mw-element-style-editor-app .form-control-live-edit-input.form-select {
+    min-height: 44px !important;
+  }
+  body.fi-panel-admin #mw-element-style-editor-app .picker-button {
+    min-height: 44px !important;
+  }
+  body.fi-panel-admin #mw-element-style-editor-app .reset-field-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
 root {
   font-size: 16px;
   height: 100%;

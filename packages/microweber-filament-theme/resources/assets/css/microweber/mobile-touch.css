@@ -2044,3 +2044,50 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/*
+ * task-2026-05-30-AI1157-ese-mobile-touch-floor / AI-1157 — Element Style Editor
+ * (ESE) mobile touch-target floor for expanded sections.
+ *
+ * Audit at 390x844 with Typography expanded surfaced 3 real defects whose
+ * interactive surface sits BELOW the WCAG 2.5.5 / iOS HIG 44x44 floor and
+ * is NOT parent-mitigated (no row-level click delegation):
+ *
+ *   1. .form-control-live-edit-input.form-select — native SELECT 182x26.
+ *      Parent .form-control-live-edit-label-wrapper is a DIV (not a real
+ *      <label>), so tapping the wrapper does NOT open the select. Native
+ *      SELECT itself is the only interactive trigger.
+ *
+ *   2. .picker-button — color picker 44x28. Grandparent row is 36px, so
+ *      no useful row-level hit area either.
+ *
+ *   3. .reset-field-btn — icon-only "Restore default value" 14x14. Parent
+ *      .slider-small-controls row is 84x44 BUT has no click delegation;
+ *      the icon is the only interactive target.
+ *
+ * Parent-mitigated (NOT fixed because the parent provides 44px hit area):
+ *   - .v-slider-thumb__surface — 16x16 visual, but .v-input parent is
+ *     304x44 and slider drag operates on the full track.
+ *
+ * Vuetify a11y internals (NOT fixed — visually hidden, not user-facing):
+ *   - Hidden 2x2 <input> elements for screen reader value announcement.
+ *
+ * Scope: #mw-element-style-editor-app keeps these rules from leaking to
+ * other Live Edit surfaces that reuse the same primitive classes (module
+ * settings forms, link picker, file picker).
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin #mw-element-style-editor-app .form-control-live-edit-input.form-select {
+        min-height: 44px !important;
+    }
+    body.fi-panel-admin #mw-element-style-editor-app .picker-button {
+        min-height: 44px !important;
+    }
+    body.fi-panel-admin #mw-element-style-editor-app .reset-field-btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}
+
