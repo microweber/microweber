@@ -1654,12 +1654,15 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 
     /*
      * task-mobile-frame-fixes: pull the frame holder's right edge in
-     * by 40px so the canvas doesn't extend under the 40px right
-     * sidebar rail (AI-718). Without this the rightmost 40px of every
-     * canvas page is invisible behind the rail at ≤767px.
+     * so the canvas doesn't extend under the right sidebar rail (AI-718).
+     * task-2026-05-27-d4r1l0: bumped 40px -> 48px to match the widened
+     * rail in live-edit-mobile.css (Defect 1 fix raised the rail to 48px
+     * so 44x44 touch-target buttons fit per WCAG 2.5.5). Without this
+     * bump, the canvas's rightmost 8px ghosts under the rail because
+     * frame-holder.right(40) < sidebar.width(48).
      */
     #live-edit-frame-holder {
-        right: 40px !important;
+        right: 48px !important;
     }
 
     /* AI-73 / TICKET-I (cycle-86): VIEW button collapses to icon-only

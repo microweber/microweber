@@ -144,3 +144,21 @@
         pointer-events: all;
     }
 }
+
+/* task-2026-05-27-c4n0v1 — neutralize AI-1172 resizer ::before 44px expansion at
+   mobile breakpoints. The pseudo extends 19px beyond parent edges via
+   right:-19px / left:-19px / top:-19px / bottom:-19px to widen the touch
+   target. At the viewport edges this 19px ghosts past <body>, inflating
+   bodyScrollWidth by 19px and producing a horizontal scrollbar inside the
+   canvas iframe. Drag-resize of a 5px handle is not usable on touch anyway —
+   element/spacer dimension edits happen via the right-rail Advanced panel
+   on mobile. Pseudo gets display:none below 769px (the existing live-edit
+   mobile breakpoint per live-edit-mobile.css). */
+@media (max-width: 768px) {
+    .mw-le-resizer-r::before,
+    .mw-le-resizer-l::before,
+    .mw-le-resizer-t::before,
+    .mw-le-resizer-b::before {
+        display: none;
+    }
+}

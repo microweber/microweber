@@ -200,25 +200,37 @@
         display: none !important;
     }
 
-    /* AI-718 narrow rail — 40px width on the rail and its buttons.
-       min-height: 44px preserves WCAG 2.5.5 vertical tap area. */
-    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar {
-        width: 40px !important;
+    /* task-2026-05-27-railfit — right rail widened to 48px on mobile so
+       its 44px (WCAG 2.5.5) buttons fit inside the rail without
+       clipping past the viewport right edge at 390px viewports.
+       Specificity raised via `body.fi-panel-admin` (4 classes) so
+       this rule beats the frontend-assets bundle rule
+       `.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
+       .btn-icon.live-edit-toolbar-buttons { width: 44px !important }`
+       which previously won via source-order tiebreak at equal
+       specificity. Pre-fix: 40px rail + 44px buttons → buttons
+       overflowed 4px past viewport (x=350..394 vs viewport 0..390). */
+    body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar,
+    body.fi-panel-admin .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar {
+        width: 48px !important;
     }
-    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons,
-    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup {
-        width: 40px !important;
-        min-width: 40px !important;
+    body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons,
+    body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup,
+    body.fi-panel-admin .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons,
+    body.fi-panel-admin .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup {
+        width: 44px !important;
+        min-width: 44px !important;
+        max-width: 44px !important;
         min-height: 44px !important;
         padding: 6px !important;
         flex-direction: row !important;
     }
-    /* AI-718 — keep the icon centred + sized at 22px (the rail
-       has no label so the icon does the full job). */
-    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons svg,
-    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup svg {
-        width: 22px;
-        height: 22px;
+    /* Icon centred at 22px — no label inside rail on mobile so icon
+       carries full discoverability. */
+    body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons svg,
+    body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup svg {
+        width: 22px !important;
+        height: 22px !important;
     }
     /*
      * No `:has(*:not(:empty))` suppression: the Vue toolbar buttons
