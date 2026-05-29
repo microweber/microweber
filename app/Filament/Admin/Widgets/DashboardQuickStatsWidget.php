@@ -48,9 +48,11 @@ class DashboardQuickStatsWidget extends Widget
     public function getStats(): array
     {
         $stats = Cache::remember('dashboard_quick_stats', 120, function () {
+            $sales = $this->getSalesForPeriod(30);
             return [
                 'emails' => $this->getEmailsCount(),
                 'comments' => $this->getCommentsCount(),
+                'salesCount' => $sales['count'],
                 'ordersCount' => $this->getOrdersCount(),
             ];
         });
@@ -68,7 +70,17 @@ class DashboardQuickStatsWidget extends Widget
                 'value' => $stats['comments'],
                 'icon' => 'heroicon-o-chat-bubble-left-right',
                 'color' => 'pink',
+                // task-2026-05-21-0e7bf0 / AI-869 — fixed broken URL;
+                // /settings/comments (AI-738) returned HTTP 404.
+                // Correct route is /admin/comments (HTTP 200).
                 'url' => url(mw_admin_prefix_url() . '/comments'),
+            ],
+            [
+                'label' => 'Sales',
+                'value' => $stats['salesCount'],
+                'icon' => 'heroicon-o-currency-dollar',
+                'color' => 'green',
+                'url' => url(mw_admin_prefix_url() . '/orders'),
             ],
             [
                 'label' => 'Recent Orders',

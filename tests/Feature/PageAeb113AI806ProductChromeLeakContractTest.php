@@ -305,9 +305,11 @@ class PageAeb113AI806ProductChromeLeakContractTest extends TestCase
             "AI-808: Page empty-state CTA label MUST be __('+ Add page')."
         );
         $this->assertStringContainsString(
-            "admin_url('content/create?content_type=page')",
+            // task-2026-05-18-561d00 — admin_url caused 404 after Filament route
+            // reorganisation; CTA now uses route('filament.admin.resources.pages.create').
+            "route('filament.admin.resources.pages.create')",
             $this->executable,
-            "AI-808: Page empty-state CTA href MUST route to admin_url('content/create?content_type=page')."
+            "AI-808: Page empty-state CTA href MUST route to filament.admin.resources.pages.create."
         );
         // aria-label on the CTA anchor for screen-reader users (the
         // visible "+ Add page" text would announce the "+" literally

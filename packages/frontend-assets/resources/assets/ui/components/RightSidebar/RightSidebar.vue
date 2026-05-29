@@ -2,7 +2,7 @@
     <div v-if="isReady">
 
 
-        <div v-if="showSidebar" id="general-theme-settings" role="complementary" aria-label="Theme settings sidebar" :aria-busy="!tabpanelReady" :class="[showSidebar == true ? 'active' : '']">
+        <div v-if="showSidebar" id="general-theme-settings" role="complementary" aria-label="Theme settings sidebar" :aria-hidden="!showSidebar" :aria-busy="!tabpanelReady" :class="[showSidebar == true ? 'active' : '']">
             <div>
                 <div class="d-flex align-items-center justify-content-between position-relative">
                     <!--

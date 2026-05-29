@@ -95,10 +95,13 @@ class LiveEdit2f9b06AI872Slice2ModuleSettingsContractTest extends TestCase
     #[Test]
     public function slider_speed_options_include_all_prescribed_values(): void
     {
-        $this->assertStringContainsString("'2000'", $this->slider, 'Speed option 2000ms must be present.');
-        $this->assertStringContainsString("'3000'", $this->slider, 'Speed option 3000ms must be present.');
-        $this->assertStringContainsString("'5000'", $this->slider, 'Speed option 5000ms must be present.');
-        $this->assertStringContainsString("'8000'", $this->slider, 'Speed option 8000ms must be present.');
+        // AI-1013 / task-2026-05-22 pin-evolution: preset Select replaced with free TextInput.
+        // Verify the TextInput carries the numeric constraints (min 500 / max 30000 / step 500)
+        // and default 3000 instead of specific preset option values.
+        $this->assertStringContainsString('->minValue(500)', $this->slider, 'Speed TextInput must have minValue(500).');
+        $this->assertStringContainsString('->maxValue(30000)', $this->slider, 'Speed TextInput must have maxValue(30000).');
+        $this->assertStringContainsString('->step(500)', $this->slider, 'Speed TextInput must have step(500).');
+        $this->assertStringContainsString("'3000'", $this->slider, 'Speed TextInput must have default 3000ms.');
     }
 
     #[Test]
@@ -161,8 +164,10 @@ class LiveEdit2f9b06AI872Slice2ModuleSettingsContractTest extends TestCase
     #[Test]
     public function maps_maptype_select_present(): void
     {
-        $this->assertStringContainsString("'options.data-maptype'", $this->maps,
-            'GoogleMapsModuleSettings must have options.data-maptype Select.');
+        // AI-1017 / task-2026-05-22 pin-evolution: key was data-maptype (no hyphen),
+        // render() reads data-map-type (with hyphen). Key changed.
+        $this->assertStringContainsString("'options.data-map-type'", $this->maps,
+            'GoogleMapsModuleSettings must have options.data-map-type Select (AI-1017 key rename).');
     }
 
     #[Test]

@@ -46,6 +46,26 @@
     --primary-800: 5, 44, 101;
     --primary-900: 3, 22, 51;
     --primary-950: 1, 10, 25;
+
+    // task-2026-05-29 / AI-819b — Gray (Neutral) token RGB-triplet override
+    // Same class of bug as AI-819: Filament v5 ColorManager emits gray
+    // via Color::Neutral as OKLCH (e.g. --gray-200: oklch(0.922 0 0)) but
+    // the theme CSS uses rgba(var(--gray-NNN), 1) — Tailwind v3 pattern
+    // expecting R,G,B comma-separated triplets. Invalid CSS falls back to
+    // currentColor, breaking border-gray-*, text-gray-*, bg-gray-* utilities
+    // in custom Blade templates (e.g. add-content modal cards).
+    // Values: Tailwind neutral palette (what Color::Neutral maps to).
+    --gray-50: 250, 250, 250 !important;
+    --gray-100: 245, 245, 245 !important;
+    --gray-200: 229, 229, 229 !important;
+    --gray-300: 212, 212, 212 !important;
+    --gray-400: 163, 163, 163 !important;
+    --gray-500: 115, 115, 115 !important;
+    --gray-600: 82, 82, 82 !important;
+    --gray-700: 64, 64, 64 !important;
+    --gray-800: 38, 38, 38 !important;
+    --gray-900: 23, 23, 23 !important;
+    --gray-950: 10, 10, 10 !important;
 }
 
 // --- Design Tokens ---

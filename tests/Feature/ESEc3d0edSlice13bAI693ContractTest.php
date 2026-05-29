@@ -226,14 +226,18 @@ class ESEc3d0edSlice13bAI693ContractTest extends TestCase
         // utilities — confirm both bg and foreground share the new class.
         // Count occurrences of the canonical neutral-icon class string
         // emitted by both foreach loops.
+        // Pin-evolved: task-2026-05-27-de93c9 / AI-1168 updated secondary-card icons
+        // from text-gray-600 dark:text-gray-400 → text-gray-700 dark:text-gray-300
+        // for WCAG 4.5:1 contrast compliance. Primary cards use text-white (on
+        // accent-bg), so only secondary cards carry this neutral-icon class.
         $count = substr_count(
             $this->modalBlade,
-            "'h-6 w-6 transition duration-150 text-gray-600 dark:text-gray-400'"
+            "'h-6 w-6 transition duration-150 text-gray-700 dark:text-gray-300'"
         );
         $this->assertGreaterThanOrEqual(
-            2,
+            1,
             $count,
-            'Both card loops must emit the neutral gray SVG class string (text-gray-600 + dark:text-gray-400).'
+            'Secondary card loop must emit the neutral gray SVG class string (text-gray-700 + dark:text-gray-300, per AI-1168 WCAG 4.5:1 fix).'
         );
     }
 

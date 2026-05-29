@@ -82,7 +82,10 @@ class Canvas4c289eAI780aCompanionTemplatesContractTest extends TestCase
         $blade = (string) file_get_contents(base_path($path));
         $this->assertStringContainsString("__('No posts yet')", $blade);
         $this->assertStringContainsString("__('+ Add post')", $blade);
-        $this->assertStringContainsString("admin_url('content/create?content_type=post')", $blade);
+        // task-2026-05-18-561d00 pin-evolution: admin_url('content/create?content_type=post')
+        // was replaced with route('filament.admin.resources.posts.create') because
+        // the old admin_url resolved to a Filament-reorganised 404 path.
+        $this->assertStringContainsString("route('filament.admin.resources.posts.create')", $blade);
     }
 
     #[Test]
@@ -92,7 +95,9 @@ class Canvas4c289eAI780aCompanionTemplatesContractTest extends TestCase
         $blade = (string) file_get_contents(base_path($path));
         $this->assertStringContainsString("__('No pages yet')", $blade);
         $this->assertStringContainsString("__('+ Add page')", $blade);
-        $this->assertStringContainsString("admin_url('content/create?content_type=page')", $blade);
+        // task-2026-05-18-561d00 pin-evolution: admin_url('content/create?content_type=page')
+        // was replaced with route('filament.admin.resources.pages.create').
+        $this->assertStringContainsString("route('filament.admin.resources.pages.create')", $blade);
     }
 
     #[Test]
@@ -102,7 +107,9 @@ class Canvas4c289eAI780aCompanionTemplatesContractTest extends TestCase
         $blade = (string) file_get_contents(base_path($path));
         $this->assertStringContainsString("__('No content yet')", $blade);
         $this->assertStringContainsString("__('+ Add content')", $blade);
-        $this->assertStringContainsString("admin_url('content/create')", $blade);
+        // task-2026-05-18-561d00 pin-evolution: admin_url('content/create')
+        // was replaced with route('filament.admin.resources.contents.create').
+        $this->assertStringContainsString("route('filament.admin.resources.contents.create')", $blade);
     }
 
     // ─────────────────────────────────────────────────────────────────────

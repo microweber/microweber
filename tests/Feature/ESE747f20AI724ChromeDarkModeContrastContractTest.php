@@ -134,10 +134,12 @@ class ESE747f20AI724ChromeDarkModeContrastContractTest extends TestCase
     #[Test]
     public function angle_corner_marks_dark_border_color_rule_present(): void
     {
+        // SOUL #108: var(--ese-border, rgba(...)) is the correct migrated form.
+        // Accept both bare rgba(…) and the token-wrapped var(--ese-border, rgba(…)) shape.
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*\.angle-top-left[^{]*\{[^}]*border-color:\s*rgba\(255,\s*255,\s*255~s',
+            '~html\.dark[^{]*\.angle-top-left[^{]*\{[^}]*border-color:\s*(?:var\([^,]+,\s*)?rgba\(255,\s*255,\s*255~s',
             $this->eseStripped,
-            'html.dark must override .angle-top-left border-color to a light rgba value'
+            'html.dark must override .angle-top-left border-color to a light rgba value (bare or var()-wrapped)'
         );
     }
 

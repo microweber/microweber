@@ -56,11 +56,16 @@ a {
     color: #2b2b2b;
 }
 
+/* task-2026-05-27 — Sidebar is 60 px wide at desktop; the old right: 50px
+ * caused a 10 px overlap where the canvas bled under the sidebar. Corrected
+ * to 60px to match the actual sidebar width. The existing @media (max-width:
+ * 767px) downstream already resets right: 0 for mobile (sidebar overlays
+ * the canvas there). */
 #live-edit-frame-holder {
     position: fixed;
     top: var(--toolbar-height);
     left: 0;
-    right: 50px;
+    right: 60px;
     height: calc(100% - var(--toolbar-height) - var(--iframe-height-minus));
     bottom: calc(0px - var(--iframe-height-minus));
     transition: var(--toolbar-height-animation-speed);

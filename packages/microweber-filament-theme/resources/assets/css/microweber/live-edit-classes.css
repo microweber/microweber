@@ -85,8 +85,15 @@
     }
 }
 
+/* task-2026-05-27 — ADMIN back-link rendered at 32 px (Tailwind h-8) at
+ * desktop, failing WCAG 2.5.5 Target Size 44x44 minimum. Replaced with
+ * inline-flex + min-height: 44px so the clickable area meets the floor
+ * on all viewports. The h-8 / leading-8 Tailwind classes are removed
+ * because the flex alignment makes line-height-based vertical centering
+ * redundant. */
 .mw-live-edit-toolbar-link--arrowed {
-    @apply inline-block h-8 leading-8; /* 2rem = 8 * 0.5rem */
+    @apply inline-flex items-center;
+    min-height: 44px;
 }
 
 .mw-live-edit-toolbar-link--arrowed .mw-live-edit-toolbar-arrow-icon {
@@ -164,14 +171,17 @@ body {
     max-height: 44px !important;
     display: inline-flex !important;
     align-items: center !important;
+    padding: 0 11px !important;
     font-size: 14px !important;
     line-height: 20px !important;
+    color: #1f2937 !important;
 }
 
 .dark .live-edit-toolbar-buttons-undo-redo,
 .dark .live-edit-toolbar-buttons-view {
     background-color: rgb(31 41 55) !important;
     border-color: #374151 !important;
+    color: #e5e7eb !important;
 }
 
 .mw-live-edit-resolutions-wrapper,
@@ -196,7 +206,7 @@ body {
     height: 44px !important;
     min-height: 44px !important;
     max-height: 44px !important;
-    padding: 3px 7px !important;
+    padding: 3px 11px !important;
     line-height: 20px !important;
     font-size: 14px !important;
 }
@@ -347,7 +357,7 @@ html.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
     color: var(--ese-surface, #ffffff) !important;
     border: none !important;
     border-radius: var(--radius-pill, 999px) !important;
-    padding: 0 14px !important;
+    padding: var(--space-sm, 8px) var(--space-md, 13px) !important;
     height: 44px !important;
     min-height: 44px !important;
     max-height: 44px !important;
@@ -555,16 +565,34 @@ html.dark #user-menu-wrapper.active #user-menu {
     @apply flex items-center;
 }
 
+/* After JS teleport: fi-modal is moved to .fi-layout (> .mw-live-edit-page)
+   as a direct child — outside .mw-admin-live-edit-page — so target via
+   the layout class. Filament action modals must appear above the sidebar. */
+.mw-live-edit-page > .fi-modal > .fi-modal-close-overlay {
+    z-index: 200 !important;
+}
+
+/* Modals that stay within the admin live-edit panel wrapper. */
 .mw-admin-live-edit-page .fi-modal > .fi-modal-close-overlay {
     z-index: 200 !important;
 }
 
 .mw-admin-live-edit-page .fi-modal > .fi-modal-window-ctn {
     z-index: 200 !important;
+    top: var(--toolbar-height, 48px) !important;
+    height: calc(100vh - var(--toolbar-height, 48px)) !important;
+}
+
+.mw-live-edit-page > .fi-modal > .fi-modal-window-ctn {
+    z-index: 200 !important;
+    /* Toolbar is 48px tall at z:999 — offset the slide-over container so
+       the close button (sitting at ~y:24 inside the ctn) is reachable. */
+    top: var(--toolbar-height, 48px) !important;
+    height: calc(100vh - var(--toolbar-height, 48px)) !important;
 }
 
 /* Filament action modals must appear above the live edit sidebar and panels */
-.mw-admin-live-edit-page .fi-modal {
+.mw-live-edit-page > .fi-modal {
     z-index: 200 !important;
 }
 
@@ -1546,20 +1574,9 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     border-color: rgb(55 65 81) !important;
 }
 
-/* Add content modal cards — dark mode */
-.dark .mw-add-content-modal-action-wrapper {
-    border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.dark .mw-add-content-modal-action-wrapper .font-bold,
-.dark .mw-add-content-modal-action-wrapper .font-semibold {
-    color: #e5e7eb !important;
-}
-
-.dark .mw-add-content-modal-action-wrapper .text-sm {
-    color: #9ca3af !important;
-}
-
+/* Add content modal cards — dark mode
+   Note: dark:border-white/10 and dark:hover:border-white/20 Tailwind
+   utilities handle border in dark mode — no override needed here. */
 .dark .mw-add-content-modal-action-wrapper svg {
     color: #d1d5db !important;
 }
@@ -1612,20 +1629,56 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
         overflow-x: auto !important;
         overflow-y: hidden !important;
         -webkit-overflow-scrolling: touch;
+        scrollbar-width: none !important;
         min-height: 56px;
         max-height: 56px;
+    }
+    /* Suppress webkit scrollbar on the toolbar row — flex items should
+       now fit without overflow once hamburger + preview are 44px each,
+       but keep auto as safety net and hide the scrollbar track. */
+    #toolbar::-webkit-scrollbar {
+        display: none !important;
     }
     #toolbar > * {
         flex-shrink: 0 !important;
     }
 
+    /*
+     * task-mobile-frame-fixes: update --toolbar-height to 56px so all
+     * token consumers auto-adjust — frame holder top+height, modal
+     * window-ctn top+height, toolbar-col min/max-height.
+     * !important beats the unconditional 48px declaration in the
+     * frontend-assets bundle (source-order variable).
+     */
+    :root { --toolbar-height: 56px !important; }
+
+    /*
+     * task-mobile-frame-fixes: pull the frame holder's right edge in
+     * by 40px so the canvas doesn't extend under the 40px right
+     * sidebar rail (AI-718). Without this the rightmost 40px of every
+     * canvas page is invisible behind the rail at ≤767px.
+     */
+    #live-edit-frame-holder {
+        right: 40px !important;
+    }
+
     /* AI-73 / TICKET-I (cycle-86): VIEW button collapses to icon-only
        at mobile width to save horizontal real estate. The aria-label
        on #mw-page-set-preview-mode still announces "Toggle preview
-       mode" for SR users. */
+       mode" for SR users.
+       task-2026-05-27-mobile-overflow: add !important to font-size:0
+       so it beats the base .live-edit-toolbar-buttons-view rule which
+       declares font-size: 14px !important. Without !important here
+       the text "PREVIEW" remained visible at mobile despite the eye
+       icon being injected via ::before. Also collapse to 44px fixed
+       width (icon-only) to free ~63px of toolbar real estate. */
     #toolbar #mw-page-set-preview-mode {
-        font-size: 0;
+        font-size: 0 !important;
         padding-inline: 0.5rem;
+        padding: 0 !important;
+        width: 44px !important;
+        min-width: 44px !important;
+        max-width: 44px !important;
     }
     #toolbar #mw-page-set-preview-mode::before {
         content: "\1F441";  /* eye glyph U+1F441 */
@@ -1640,6 +1693,7 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     #toolbar #mw-live-edit-toolbar-back-to-admin-link span {
         display: none !important;
     }
+
 
     /*
      * AI-73 / TICKET-I (cycle-86): canvas iframe padding-top fix.
@@ -1994,7 +2048,8 @@ html.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-cont
     color: var(--ese-accent, #0d6efd) !important;
 }
 
-/* task-2026-05-22-903d56 / AI-903 — Advanced panel: nav arrows + destructive item styling */
+/* ─────────────────────────────────────────────────────────────────
+ * task-2026-05-22-903d56 / AI-903 — Advanced panel: nav arrows + destructive item styling */
 #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup:not(.mw-live-edit-advanced-settings-popup--destructive)::after {
     content: '→';
     margin-left: auto;
@@ -2114,3 +2169,95 @@ html.dark .mw-content-picker-modal .mw-add-content-modal-search-input {
 .dark .mw-content-picker-modal .mw-add-content-modal-search-input {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+ * task-2026-05-28 / AI-1235 — Sidebar module-settings and add-module buttons:
+ * visual unification + icon visibility.
+ *
+ * Root cause: .module-settings-button and .add-module-button had no background,
+ * border, or explicit text/fill color, so:
+ *   - Light mode: icons with hardcoded SVG path fill="white" were invisible
+ *     on the white sidebar background.
+ *   - Dark mode: SVG fill was handled by an earlier rule but button had no
+ *     visual affordance (no box, no border).
+ *
+ * Fix strategy:
+ *   (A) Vue template: added live-edit-toolbar-buttons class to both button
+ *       divs so they inherit the full button-box treatment (white/dark bg,
+ *       border, border-radius, hover states) from existing rules.
+ *   (B) Path-level fill: the @apply !fill-black dark:!fill-white rule above
+ *       only targets the <svg> element, not <path>/<circle>/<rect> children
+ *       that may carry explicit fill attributes. Mirror those fills explicitly.
+ *   (C) Img icons: some module icons are <img> elements (base64 SVG or URL).
+ *       CSS fill rules do not apply to img content — use filter instead.
+ *   (D) Separator: .current-layout-modules uses <hr> elements as visual
+ *       dividers; in dark mode the default hr border is nearly invisible.
+ *   (E) Container bottom-border: the scoped Vue CSS was rgba(255,255,255,0.1)
+ *       (invisible in light mode); now fixed in the component's scoped CSS.
+ * ─────────────────────────────────────────────────────────────────────────────── */
+
+/* B — Path-level SVG fill for module buttons: light mode (dark icons) */
+.mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg path,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg circle,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg rect,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg polygon,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg path,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg circle,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg rect,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg polygon {
+    fill: #1f2937 !important;
+}
+
+/* B — dark mode: light icons */
+html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg path,
+html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg circle,
+html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg rect,
+html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg polygon,
+html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg path,
+html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg circle,
+html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg rect,
+html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg polygon,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg path,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg circle,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg rect,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg polygon,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg path,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg circle,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg rect,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg polygon {
+    fill: #f1f5f9 !important;
+}
+
+/* C — Img icons: force to dark in light mode, light in dark mode */
+.mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button img {
+    filter: brightness(0) saturate(0);
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button img,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button img {
+    filter: brightness(0) saturate(0) invert(1);
+}
+
+/* D — Separator hr elements inside .current-layout-modules */
+.mw-live-edit-right-sidebar-template-sidebar .current-layout-modules hr {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 4px 0;
+    width: 100%;
+}
+html.dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules hr,
+.dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules hr {
+    border-top-color: rgba(255, 255, 255, 0.15);
+}
+
+/* E — Container bottom-border dark mode (light mode fixed in scoped Vue CSS) */
+html.dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules,
+.dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules {
+    border-bottom-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+
+
+

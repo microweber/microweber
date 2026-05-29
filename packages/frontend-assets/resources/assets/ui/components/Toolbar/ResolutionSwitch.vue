@@ -82,7 +82,7 @@ export default {
       tabindex / keydown handlers reduces surface area + eliminates
       the WCAG 2.1.1 fragility.
 
-      Back-compat preservation (per task-5fe1f9 / AI-698b lineage):
+      Back-compat preservation (per task-2026-05-16-5fe1f9 / AI-698b lineage):
       .live-edit-resolution-active + .is-active class chain kept
       verbatim on the active cell so external CSS + scripts that
       target the legacy hooks still work. Replaced :aria-pressed

@@ -1499,7 +1499,8 @@ html.dark .element-style-editor-toggle-wrapper svg,
 
 /* 7. Section dividers — Border section corner-angle marks use hardcoded
  *    `border: 1px solid #000` which vanishes on a dark surface. These are
- *    scoped Vue styles; `!important` is required to override them. */
+ *    scoped Vue styles; `!important` is required to override them.
+ *    Uses var(--ese-border,...) with literal fallback per SOUL #108. */
 html.dark .angle-top-left,
 html.dark .angle-top-right,
 html.dark .angle-bottom-left,
@@ -1508,7 +1509,7 @@ html.dark .angle-bottom-right,
 .theme-dark .angle-top-right,
 .theme-dark .angle-bottom-left,
 .theme-dark .angle-bottom-right {
-    border-color: rgba(255, 255, 255, 0.35) !important;
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.35)) !important;
 }
 
 /* 8. Reset (↺) icon — `.reset-field` uses `color: inherit`; `.mw-tool-field__reset`

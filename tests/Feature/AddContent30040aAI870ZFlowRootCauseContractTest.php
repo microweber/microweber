@@ -136,6 +136,11 @@ class AddContent30040aAI870ZFlowRootCauseContractTest extends TestCase
 
     // ─────────────────────────────────────────────────────────────────────
     // Group B — secondary grid fix
+    // Pin-evolved in place: task-2026-05-27-4b1344 / AI-1139 changed
+    // "always 3 columns" to a responsive grid (2-col mobile, 3-col ≥md).
+    // The Z-flow trigger was specifically sm: (640px breakpoint) causing
+    // reflow artefacts; md: (768px) is safe. AI-1139 also added mobile
+    // bottom-sheet so a responsive grid is appropriate.
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
@@ -144,15 +149,16 @@ class AddContent30040aAI870ZFlowRootCauseContractTest extends TestCase
         // Blade comment-strip before negative assertion.
         $strippedBlade = preg_replace('/\{\{--[\s\S]*?--\}\}/', '', $this->blade);
 
+        // AI-1139 updated: responsive grid (2-col mobile, 3-col desktop)
         $this->assertStringContainsString(
-            'grid grid-cols-3 gap-3',
+            'grid grid-cols-2 md:grid-cols-3 gap-3',
             $strippedBlade,
-            'Secondary items grid must use grid-cols-3 (always 3 columns).'
+            'Secondary items grid must use grid-cols-2 md:grid-cols-3 gap-3 (responsive: 2-col mobile, 3-col desktop ≥md).'
         );
         $this->assertStringNotContainsString(
-            'grid-cols-2 sm:grid-cols-3',
+            'sm:grid-cols-3',
             $strippedBlade,
-            'Secondary items grid must NOT use grid-cols-2 sm:grid-cols-3 — causes Z-flow reflow artefact on viewport resize.'
+            'Secondary items grid must NOT use sm:grid-cols-3 — the sm: breakpoint (640px) caused the original AI-870 Z-flow reflow artefact; md: (768px) is safe.'
         );
     }
 

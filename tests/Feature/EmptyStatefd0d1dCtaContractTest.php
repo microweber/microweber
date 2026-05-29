@@ -56,6 +56,10 @@ class EmptyStatefd0d1dCtaContractTest extends TestCase
             'customers'          => ['You do not have any customers yet.',          'filament.admin.resources.customers.create',          '+ Add customer'],
             'invoices'           => ['You do not have any invoices yet.',           'filament.admin.resources.invoices.create',           '+ Add invoice'],
             'payment-providers'  => ['You do not have any payment providers yet.',  'filament.admin.resources.payment-providers.create',  '+ Add payment provider'],
+            // AI-1099 / task-2026-05-28-2f5a6c — Payments are created by
+            // transactions; the CTA points at payment-provider settings
+            // (not a payments.create route, which doesn't exist).
+            'payments'           => ['You do not have any payments yet.',           'filament.admin.resources.payment-providers.index',   '+ Configure payment providers'],
             'shipping-providers' => ['You do not have any shipping providers yet.', 'filament.admin.resources.shipping-providers.create', '+ Add shipping provider'],
             'taxes'              => ['You do not have any taxes yet.',              'filament.admin.resources.taxes.create',              '+ Add tax'],
             'contents'           => ['No content found.',                           'filament.admin.resources.contents.create',           '+ Add content'],
@@ -114,15 +118,17 @@ class EmptyStatefd0d1dCtaContractTest extends TestCase
     {
         $count = substr_count($this->blade, 'task-2026-05-16-fd0d1d');
         $this->assertGreaterThanOrEqual(10, $count,
-            'Each of the 10 CTA blocks must carry the task id comment for audit grepping.');
+            'Each of the 10 original CTA blocks must carry the task id comment for audit grepping.');
     }
 
     #[Test]
     public function counts_match_the_known_branch_count(): void
     {
-        // 10 CTA wrappers expected — one per branch in ctaBranches().
+        // 11 CTA wrappers expected — one per branch in ctaBranches().
+        // Original count was 10; AI-1099 / task-2026-05-28-2f5a6c added
+        // the Payment branch (11th) pointing at payment-providers.index.
         $wrappers = substr_count($this->blade, 'mw-table-empty-cta-wrap');
-        $this->assertSame(10, $wrappers,
-            'Exactly 10 .mw-table-empty-cta-wrap div blocks must be present.');
+        $this->assertSame(11, $wrappers,
+            'Exactly 11 .mw-table-empty-cta-wrap div blocks must be present.');
     }
 }

@@ -131,10 +131,6 @@ body.fi-panel-checkout .fi-btn {
     @apply dark:bg-gray-800;
 }
 
-.text-gray-500 {
-    @apply dark:text-white;
-}
-
 .tblr-body-color {
     @apply text-black dark:text-white;
 }
@@ -2533,10 +2529,17 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     z-index: 1199;
 }
 
+/* task-2026-05-27 — Drawer must enter from the inline-start edge (LEFT in
+ * LTR, RIGHT in RTL) per the AI-700 spec. Changed inset-inline-end to
+ * inset-inline-start and flipped the hidden-state translateX from 100% to
+ * minus-100-percent so the drawer slides in from the left in LTR. The RTL
+ * override flips back to translateX(100%) so the drawer enters from the
+ * right in RTL. Contract test LiveEdit7326d6AI700MainDrawerContractTest
+ * pins: translateX(minus-100-percent) baseline + RTL translateX(100%). */
 .mw-main-drawer {
     position: fixed;
     top: 0;
-    inset-inline-end: 0;
+    inset-inline-start: 0;
     bottom: 0;
     width: 280px;
     max-width: 100vw;
@@ -2545,14 +2548,14 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     z-index: 1200;
     display: flex;
     flex-direction: column;
-    transform: translateX(100%);
+    transform: translateX(-100%);
     transition: transform var(--t-slow, 320ms) var(--ease, ease-out);
     box-shadow: 0 0 24px rgba(0, 0, 0, 0.18);
     visibility: hidden;
 }
 
 html[dir="rtl"] .mw-main-drawer {
-    transform: translateX(-100%);
+    transform: translateX(100%);
 }
 
 .mw-main-drawer--open {
@@ -2560,14 +2563,15 @@ html[dir="rtl"] .mw-main-drawer {
     visibility: visible;
 }
 
+/* task-2026-05-27 — Contract test (LiveEdit7326d6AI700MainDrawerContractTest)
+ * requires width: 100vw at the max-width: 768px breakpoint per the AI-700
+ * spec (280px desktop, 100vw mobile). Previous code had 280px unchanged
+ * at both breakpoints and an extra max-width: 480px block shrinking
+ * to 200px, both of which violated the spec. The max-width: 100vw on the
+ * base rule (above) already prevents overflow on very small viewports. */
 @media (max-width: 768px) {
     .mw-main-drawer {
-        width: 280px;
-    }
-}
-@media (max-width: 480px) {
-    .mw-main-drawer {
-        width: 200px;
+        width: 100vw;
     }
 }
 
@@ -2633,11 +2637,17 @@ html[dir="rtl"] .mw-main-drawer {
     margin: 0 var(--space-md, 13px);
 }
 
+/* task-2026-05-27 — Drawer navigation items measured at 40 px tall
+ * across all viewports, failing WCAG 2.5.5 Target Size (Enhanced) 44x44
+ * minimum. The padding-top + font-size + padding-bottom only totals
+ * ~36-40 px. Added min-height: 44px to guarantee the floor on every item
+ * without changing the item's visual appearance for taller items. */
 .mw-main-drawer__item {
     display: flex;
     align-items: center;
     gap: var(--space-sm, 8px);
     width: 100%;
+    min-height: 44px;
     padding: var(--space-sm, 8px) var(--space-md, 13px);
     background: transparent;
     border: 0;
@@ -2734,7 +2744,7 @@ html.dark .mw-main-drawer__item--logout {
 .mw-main-drawer__section-header {
     margin: var(--space-md, 13px) 0 var(--space-xs, 4px);
     padding: 0 var(--space-md, 13px);
-    color: #4b5563;
+    color: var(--ese-text-muted, #4b5563);
     font-size: 0.6875rem;
     font-weight: 600;
     letter-spacing: 0.06em;
@@ -2853,6 +2863,11 @@ html.dark .mw-main-drawer__toggle-track {
     display: inline-flex;
 }
 
+/* task-2026-05-27 — PageChip rendered at 32 px tall at desktop due to
+ * padding-only height (6px top + ~20px line-height + 6px bottom). Added
+ * min-height: 44px to meet WCAG 2.5.5 Target Size (Enhanced) floor.
+ * The chip is only visible at desktop (it's hidden at tablet/mobile
+ * where resolution buttons take the centre slot). */
 .mw-page-chip {
     display: inline-flex;
     align-items: center;
@@ -2861,6 +2876,7 @@ html.dark .mw-main-drawer__toggle-track {
     color: var(--ese-text, #111827);
     border: 0;
     border-radius: var(--radius-sm, 6px);
+    min-height: 44px;
     padding: var(--space-xs, 6px) var(--space-md, 13px);
     font-size: var(--font-control, 13px);
     font-weight: 500;
@@ -3531,8 +3547,8 @@ body.fi-panel-admin .fi-btn.admin-toolbar-add svg {
 
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit,
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
-    background-color: #e2f9e6 !important;
-    color: #111827 !important;
+    background-color: var(--ese-text, #111827) !important;
+    color: var(--ese-surface, #ffffff) !important;
     border: none !important;
     box-shadow: none !important;
     border-radius: var(--radius-pill, 999px) !important;
@@ -3544,8 +3560,8 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
 }
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit:hover,
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary:hover {
-    background-color: #d0f0d6 !important;
-    opacity: 1 !important;
+    background-color: var(--ese-text, #111827) !important;
+    opacity: 0.85 !important;
 }
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit:focus-visible {
     outline: 2px solid var(--ese-accent, #0d6efd) !important;
@@ -3554,7 +3570,7 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit:focus-visible {
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit span,
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit .fi-btn-label,
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
-    color: #111827 !important;
+    color: var(--ese-surface, #ffffff) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3564,20 +3580,11 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
     }
 }
 
-/* AI-704 mobile: +Add shows as compact 36x36 icon-only button on mobile.
- * task-2026-05-27-13983e / AI-1133 sub-issue 2 — was display:none, now
- * shows a compact touch-friendly icon button so mobile users keep the
- * quick-create shortcut. */
+/* AI-704 mobile: +Add is hidden on mobile per spec — functions remain
+ * accessible via the sidebar drawer (AI-704a follow-up). */
 @media (max-width: 768px) {
     body.fi-panel-admin .fi-btn.admin-toolbar-add {
-        min-width: 36px !important;
-        min-height: 36px !important;
-        width: 36px !important;
-        height: 36px !important;
-        padding: 0 !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+        display: none !important;
     }
 }
 
@@ -3798,25 +3805,29 @@ body.fi-panel-admin .mw-hero-stat-orders {
 }
 
 body.fi-panel-admin .mw-quick-stats-grid.mw-quick-stats-secondary {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--space-md, 13px);
     margin-block-start: 0;
 }
 body.fi-panel-admin .mw-quick-stats-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--space-md, 13px);
     margin-block-start: var(--space-lg, 21px);
 }
 
 @media (max-width: 1023.98px) {
-    body.fi-panel-admin .mw-quick-stats-grid,
+    body.fi-panel-admin .mw-quick-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
     body.fi-panel-admin .mw-quick-stats-grid.mw-quick-stats-secondary {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 480px) {
-    body.fi-panel-admin .mw-quick-stats-grid,
+    body.fi-panel-admin .mw-quick-stats-grid {
+        grid-template-columns: 1fr;
+    }
     body.fi-panel-admin .mw-quick-stats-grid.mw-quick-stats-secondary {
         grid-template-columns: 1fr;
     }

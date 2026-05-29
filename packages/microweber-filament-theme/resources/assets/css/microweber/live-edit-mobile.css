@@ -186,6 +186,20 @@
         display: none !important;
     }
 
+    /* task-2026-05-27-mobile-overflow: suppress ::after caption on the
+       toolbar main-drawer trigger button (#mw-live-edit-main-drawer-button).
+       The sidebar rail suppressor above only targets buttons inside
+       .mw-live-edit-right-sidebar-template-sidebar. The hamburger lives
+       in the top toolbar and shares the .btn-icon.live-edit-toolbar-buttons
+       classes, so the ::after caption rule (line ~103) adds an "Open menu"
+       text label making it 67px wide instead of 44px — causing ~30px
+       horizontal overflow and the left nav being scrolled off-screen.
+       Reducing the hamburger to 44px makes the toolbar fit 390px. */
+    .mw-live-edit-page #mw-live-edit-main-drawer-button::after {
+        content: none !important;
+        display: none !important;
+    }
+
     /* AI-718 narrow rail — 40px width on the rail and its buttons.
        min-height: 44px preserves WCAG 2.5.5 vertical tap area. */
     .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar {
@@ -731,6 +745,10 @@
         position: relative !important;
         padding-right: 64px !important;
     }
+    /* task-2026-05-27-mobile-overflow / AI-1163: bumped from 35px → 44px
+       to meet WCAG 2.5.5 44×44 touch target. `top:50%;
+       transform:translateY(-50%)` already centres the element regardless
+       of height, so no top adjustment is needed. */
     .mw-admin-live-edit-page #toolbar #save-button,
     .mw-live-edit-page #toolbar #save-button {
         position: absolute !important;
@@ -742,13 +760,13 @@
         box-shadow: -8px 0 8px -4px var(--ese-surface, #ffffff);
         flex-shrink: 0;
         right: 4px !important;
-        height: 35px !important;
-        min-height: 35px !important;
+        height: 44px !important;
+        min-height: 44px !important;
     }
     .mw-admin-live-edit-page #toolbar #mw-page-set-preview-mode,
     .mw-live-edit-page #toolbar #mw-page-set-preview-mode {
-        height: 35px !important;
-        min-height: 35px !important;
+        height: 44px !important;
+        min-height: 44px !important;
         flex-shrink: 0;
     }
 

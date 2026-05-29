@@ -77,7 +77,9 @@ class Canvas6d65deAI780ContentModuleEmptyStateContractTest extends TestCase
         $this->assertStringContainsString("__('No posts yet')", $this->blade);
         $this->assertStringContainsString("__('Add your first post to fill this module.')", $this->blade);
         $this->assertStringContainsString("__('+ Add post')", $this->blade);
-        $this->assertStringContainsString("admin_url('content/create?content_type=post')", $this->blade);
+        // task-2026-05-18-561d00 — admin_url caused 404 after Filament route reorganisation;
+        // CTA now uses route('filament.admin.resources.posts.create').
+        $this->assertStringContainsString("route('filament.admin.resources.posts.create')", $this->blade);
     }
 
     #[Test]
@@ -86,7 +88,8 @@ class Canvas6d65deAI780ContentModuleEmptyStateContractTest extends TestCase
         $this->assertStringContainsString("__('No pages yet')", $this->blade);
         $this->assertStringContainsString("__('Add your first page to fill this module.')", $this->blade);
         $this->assertStringContainsString("__('+ Add page')", $this->blade);
-        $this->assertStringContainsString("admin_url('content/create?content_type=page')", $this->blade);
+        // task-2026-05-18-561d00 — admin_url caused 404; CTA now uses route('filament.admin.resources.pages.create').
+        $this->assertStringContainsString("route('filament.admin.resources.pages.create')", $this->blade);
     }
 
     #[Test]
@@ -97,7 +100,8 @@ class Canvas6d65deAI780ContentModuleEmptyStateContractTest extends TestCase
         $this->assertStringContainsString("__('No content yet')", $this->blade);
         $this->assertStringContainsString("__('Add your first item to fill this module.')", $this->blade);
         $this->assertStringContainsString("__('+ Add content')", $this->blade);
-        $this->assertStringContainsString("admin_url('content/create')", $this->blade);
+        // task-2026-05-18-561d00 — admin_url caused 404; CTA now uses route('filament.admin.resources.contents.create').
+        $this->assertStringContainsString("route('filament.admin.resources.contents.create')", $this->blade);
     }
 
     #[Test]

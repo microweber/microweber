@@ -144,8 +144,11 @@ class ESEb30fd9Slice17ColourAliasMigrationContractTest extends TestCase
         $stripped = preg_replace('/\/\*.*?\*\//s', '', $this->src);
 
         // Then count rgba(255,255,255,*) / rgba(0,0,0,*) literals.
-        // Filter out :root token definitions — those start with
-        // `--`-prefixed property names.
+        // Filter out:
+        //   - :root token definitions (lines starting with `--`)
+        //   - var()-fallback uses: `var(--ese-token, rgba(...))` — these ARE
+        //     the migrated form per SOUL #108 token-fallback contract and must
+        //     not be counted as unmigrated literals.
         $consumerLiterals = 0;
         foreach (preg_split('/\R/', $stripped) as $line) {
             $line = trim($line);
@@ -153,16 +156,29 @@ class ESEb30fd9Slice17ColourAliasMigrationContractTest extends TestCase
                 continue;
             }
             if (preg_match('/rgba\(\s*255,\s*255,\s*255|rgba\(\s*0,\s*0,\s*0/', $line)) {
+                // Skip lines where rgba is used only as a var() fallback —
+                // `var(--ese-border, rgba(255,255,255,0.35))` is the correct
+                // migrated shape, not an unmigrated bare literal.
+                if (preg_match('/var\([^,]+,\s*rgba\(\s*(?:255,\s*255,\s*255|0,\s*0,\s*0)/', $line)) {
+                    continue;
+                }
                 $consumerLiterals++;
             }
         }
-        // Expected surviving literals after AI-690:
-        //   - 1× slider thumb box-shadow (deferred to slice 1.2 per spec §4.2)
-        //   - 1× picker-button inner-ring (theme-agnostic by design — see source docblock)
+        // Expected surviving bare literals after AI-690 + AI-724/AI-725 sweep:
+        //   - 1× picker-button inner-ring light-mode (theme-agnostic, inset ring
+        //     delineates user's chosen swatch colour against white bg — see source
+        //     docblock at the .picker-button rule)
+        //   - 1× picker-button inner-ring dark-mode (AI-724 analogue — inset ring
+        //     delineates swatch against dark surface; exempt for same reason as
+        //     light counterpart)
+        // Note: slider thumb literal was deferred to slice 1.2 per spec §4.2 and
+        // migrated there; 0 slider-thumb survivors remaining.
         $this->assertLessThanOrEqual(2, $consumerLiterals,
-            "Expected ≤2 surviving consumer rgba literals after AI-690 "
-            . "(slider thumb + swatch inner-ring); found {$consumerLiterals}. "
-            . "Extra literal means a consumer wasn't migrated."
+            "Expected ≤2 surviving bare consumer rgba literals after AI-690 "
+            . "(light-mode inner-ring + dark-mode inner-ring); found {$consumerLiterals}. "
+            . "var(--ese-token, rgba(...)) fallback shape is exempt (migrated form). "
+            . "Extra bare literal means a consumer wasn't migrated."
         );
     }
 

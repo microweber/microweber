@@ -161,12 +161,15 @@
     .mw-live-edit-resolutions-wrapper:not(.mw-filepicker-component-tab-nav) {
         display: none !important;
     }
-    /* CSS variable for toolbar height so changes to the toolbar's
-       intrinsic height don't silently break the iframe offset. */
-    :root { --mw-live-edit-toolbar-h: 60px; }
+    /* task-mobile-frame-fixes: --toolbar-height is now forced to 56px
+       at ≤767.98px (live-edit-classes.css), so the holder top already
+       clears the toolbar. The padding-top workaround is set to 0px and
+       kept as a named token so future changes don't silently break the
+       offset. box-sizing: border-box is also removed (no padding to box). */
+    :root { --mw-live-edit-toolbar-h: 0px; }
     #live-edit-frame-holder {
         padding-top: var(--mw-live-edit-toolbar-h);
-        box-sizing: border-box;
+        box-sizing: content-box;
     }
 }
 
@@ -527,6 +530,21 @@ button.btn-icon.live-edit-toolbar-buttons,
         min-width: 44px !important;
         min-height: 44px !important;
     }
+}
+
+/*
+ * Module-settings iframe toggle fix: the settings panel is always narrower
+ * than 1024px — so the max-width arm of the toggle rule above fires
+ * spuriously and forces .fi-toggle into a 44x44 square even on desktop.
+ * In a slide-over settings form both desktop and mobile users expect the
+ * natural pill shape; higher-specificity selector overrides the touch-
+ * target !important above without needing a media guard.
+ */
+body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-toggle,
+body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-fo-toggle,
+body.fi-panel-admin main.mw-live-edit-module-settings-iframe button.fi-toggle[role="switch"] {
+    min-height: auto !important;
+    min-width: auto !important;
 }
 
 /*

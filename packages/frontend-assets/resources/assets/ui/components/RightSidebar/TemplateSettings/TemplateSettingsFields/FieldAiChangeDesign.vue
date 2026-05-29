@@ -1,8 +1,8 @@
 <template>
-    <div class="position-relative mt-5" title="Generate layout with AI">
+    <div class="mw-ai-design-root mt-5" title="Generate layout with AI">
         <div ref="aiChatFormBox"></div>
-        <div v-if="loading" class="text-center mt-2">AI is thinking...</div>
-        <div v-if="error" class="text-danger mt-2">{{ error }}</div>
+        <div v-if="loading" class="mw-ai-loading-state mt-2">AI is thinking...</div>
+        <div v-if="error" class="mw-ai-error-state mt-2">{{ error }}</div>
     </div>
 </template>
 
@@ -430,7 +430,7 @@ Critical: If the user specifies new colors for font and background, you must use
 </script>
 
 <style>
-.position-relative {
+.mw-ai-design-root {
     position: relative;
 }
 
@@ -531,7 +531,7 @@ Critical: If the user specifies new colors for font and background, you must use
 }
 
 /* Loading and Error States */
-.text-center {
+.mw-ai-loading-state {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -540,7 +540,7 @@ Critical: If the user specifies new colors for font and background, you must use
     font-weight: 500;
 }
 
-.text-danger {
+.mw-ai-error-state {
     color: #ef4444;
     background: #fef2f2;
     border: 1px solid #fecaca;
@@ -617,13 +617,13 @@ html.dark .mw-ai-chat-box .mw-ai-chat-box-submit-btn:hover {
     box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
 }
 
-.dark .text-center,
-html.dark .text-center {
+.dark .mw-ai-loading-state,
+html.dark .mw-ai-loading-state {
     color: #818cf8;
 }
 
-.dark .text-danger,
-html.dark .text-danger {
+.dark .mw-ai-error-state,
+html.dark .mw-ai-error-state {
     color: #f87171;
     background: #374151;
     border: 1px solid #4b5563;

@@ -145,9 +145,9 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     public function drawer_has_close_button_with_aria_label(): void
     {
         $this->assertMatchesRegularExpression(
-            '/<button[^>]*class="mw-main-drawer__close"[^>]*aria-label="Close menu"[^>]*@click="close\(\)"/',
+            '/<button[^>]*class="mw-main-drawer__close"[^>]*aria-label="Close navigation"[^>]*@click="close\(\)"\s*>/',
             $this->mainDrawer,
-            'Drawer must have a × close button with aria-label="Close menu" wired to close().'
+            'Drawer must have a × close button with aria-label="Close navigation" wired to close(). (AI-931 renamed from \'Close menu\' to \'Close navigation\' for contextual clarity.)'
         );
     }
 

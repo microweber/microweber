@@ -34,6 +34,8 @@ Route::group(
     // content" placeholder page. Adding `admin` lets unmatched
     // admin URLs propagate to Route::fallback() below which
     // returns a clean 404.
+    // AI-735a follow-up: front-end 404 returning HTTP 200 (FrontendController
+    // stub) — closed by AI-795 (task-2026-05-17-c54f1f).
     //
     // task-2026-05-17-3e91f4 / AI-837 — added `search` to the
     // excluded-prefix regex. AI-735b follow-up closure. Pre-fix,

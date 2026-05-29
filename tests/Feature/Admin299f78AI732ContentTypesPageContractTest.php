@@ -85,9 +85,9 @@ class Admin299f78AI732ContentTypesPageContractTest extends TestCase
     {
         $group = (new \ReflectionProperty(ContentTypesPage::class, 'navigationGroup'))->getDefaultValue();
         $this->assertSame(
-            'Settings',
+            'Website Settings',
             $group,
-            'ContentTypesPage must sit in the Settings nav group (task-2026-05-26-b2a545: moved from Website to Settings).'
+            'ContentTypesPage must sit in the Website Settings nav group (task-2026-05-28-c5d4b9 / AI-1081: moved from generic Settings to dedicated Website Settings group).'
         );
         $icon = (new \ReflectionProperty(ContentTypesPage::class, 'navigationIcon'))->getDefaultValue();
         $this->assertNotNull(

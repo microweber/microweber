@@ -60,25 +60,29 @@ class LiveEditE0d0f1AI717StickySaveContractTest extends TestCase
     #[Test]
     public function preview_and_save_are_position_sticky(): void
     {
-        // Both selectors must apply `position: sticky` — the
-        // root mechanism that pins them while the middle row
-        // scrolls under.
+        // AI-717 v2 (task-2026-05-17-946668): SAVE is pinned via
+        // `position: absolute` inside a `position: relative` #toolbar.
+        // Sticky (v1) failed because sticky inside overflow-x:auto pins
+        // to content-end, not viewport-right. Pin-evolved in place per
+        // LESSONS pin-evolution discipline (task-2026-05-16-e0d0f1 → v2).
         $this->assertMatchesRegularExpression(
-            '/#toolbar\s+#mw-page-set-preview-mode[\s\S]{0,500}#toolbar\s+#save-button[\s\S]{0,500}position:\s*sticky/s',
+            '/#save-button[\s\S]{0,300}position:\s*absolute\s*!important/s',
             $this->css,
-            'Both PREVIEW and SAVE buttons must share a `position: sticky` rule per AI-717 (effectively Critical Save-visibility fix).'
+            'AI-717 v2: #save-button must use position: absolute !important to pin to toolbar right edge on mobile.'
         );
     }
 
     #[Test]
     public function sticky_rule_uses_ese_surface_background(): void
     {
-        // The sticky cells need an opaque background so the
-        // scrolling content underneath doesn't show through.
+        // AI-717 v2: SAVE button has dark badge bg (--ese-text) for
+        // contrast, while var(--ese-surface) is used for the left-edge
+        // fade (box-shadow) and text contrast (color). Verify that
+        // var(--ese-surface) is applied as either color or box-shadow.
         $this->assertMatchesRegularExpression(
-            '/#save-button[\s\S]{0,200}background-color:\s*var\(--ese-surface/s',
+            '/#save-button[\s\S]{0,300}(?:color|box-shadow):\s*[^;]*var\(--ese-surface/s',
             $this->css,
-            'AI-717 sticky rule must use var(--ese-surface) bg so scrolling content doesn\'t bleed through.'
+            'AI-717 v2: #save-button must use var(--ese-surface) as text or fade color.'
         );
     }
 
@@ -99,23 +103,29 @@ class LiveEditE0d0f1AI717StickySaveContractTest extends TestCase
     #[Test]
     public function save_pins_to_right_zero(): void
     {
-        // SAVE is the rightmost sticky cell — `right: 0`.
+        // AI-717 v2: SAVE is absolutely-positioned at right: 4px
+        // (4px gutter matches WCAG 2.5.5 44px touch target + breathing
+        // room). Pin-evolved from right:0 (v1 sticky) to right:4px (v2
+        // absolute) per task-2026-05-17-946668.
         $this->assertMatchesRegularExpression(
-            '/#save-button[\s\S]{0,500}right:\s*0\s*!important/s',
+            '/#save-button[\s\S]{0,500}right:\s*4px\s*!important/s',
             $this->css,
-            'AI-717: #save-button must pin to right: 0 — it\'s the rightmost sticky cell.'
+            'AI-717 v2: #save-button must pin at right: 4px !important on mobile.'
         );
     }
 
     #[Test]
     public function preview_pins_inside_save_with_space_sm_offset(): void
     {
-        // PREVIEW sits just inside SAVE — `right: calc(--space-sm + 80px)`
-        // (the SAVE button's natural width + the spec --space-sm gap).
+        // AI-717 v2: PREVIEW stays in-flow (scrolls with middle toolbar).
+        // The toolbar has padding-right to reserve space for SAVE.
+        // PREVIEW gets height:44px touch target (WCAG 2.5.5). Pin-evolved
+        // from right:calc() (v1 sticky offset) to height-only (v2 in-flow)
+        // per task-2026-05-17-946668.
         $this->assertMatchesRegularExpression(
-            '/#mw-page-set-preview-mode[\s\S]{0,500}right:\s*calc\(\s*var\(--space-sm,\s*8px\)\s*\+\s*80px\s*\)/s',
+            '/#mw-page-set-preview-mode[\s\S]{0,300}height:\s*44px/s',
             $this->css,
-            'AI-717: #mw-page-set-preview-mode must pin at right: calc(var(--space-sm) + 80px) so it sits just inside SAVE.'
+            'AI-717 v2: #mw-page-set-preview-mode must have height: 44px for WCAG touch target.'
         );
     }
 
@@ -155,12 +165,13 @@ class LiveEditE0d0f1AI717StickySaveContractTest extends TestCase
     #[Test]
     public function sticky_rule_uses_z_index(): void
     {
-        // Without z-index the scrolling content can paint above
-        // the sticky cells when GPU compositing reorders layers.
+        // AI-717 v2: absolutely-positioned SAVE needs z-index:3 so it
+        // paints above the scrolling middle row. Pin-evolved from
+        // position:sticky + z-index:3 to position:absolute + z-index:3.
         $this->assertMatchesRegularExpression(
-            '/position:\s*sticky[\s\S]{0,200}z-index:\s*3/',
+            '/position:\s*absolute\s*!important[\s\S]{0,200}z-index:\s*3/',
             $this->css,
-            'AI-717 sticky rule must declare z-index: 3 so sticky cells paint above the scrolling middle row.'
+            'AI-717 v2: #save-button must declare z-index: 3 so it paints above scrolling content.'
         );
     }
 
@@ -228,10 +239,13 @@ class LiveEditE0d0f1AI717StickySaveContractTest extends TestCase
             $slice,
             '--ese-surface must carry literal #ffffff fallback in the AI-717 slice.'
         );
+        // AI-717 v2 no longer uses --space-sm for right-offset
+        // (SAVE is at right:4px literal; PREVIEW is in-flow).
+        // Verify --ese-text fallback is present for SAVE badge bg.
         $this->assertMatchesRegularExpression(
-            '/var\(--space-sm,\s*8px\)/',
+            '/var\(--ese-text,\s*#[0-9a-fA-F]+\)/',
             $slice,
-            '--space-sm must carry literal 8px fallback in the AI-717 slice.'
+            '--ese-text must carry literal hex fallback in the AI-717 slice.'
         );
     }
 }

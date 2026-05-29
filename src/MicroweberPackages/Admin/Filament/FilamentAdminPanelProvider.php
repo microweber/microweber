@@ -129,27 +129,15 @@ class FilamentAdminPanelProvider extends PanelProvider
             //
             // Use Filament's native brand-logo API (docs 5.x/styling/overview#adding-a-logo)
             // instead of a custom render-hook brand mark.
-            ->brandLogo(function () {
-                $logo = mw()->ui->admin_logo();
-                if (empty($logo)) {
-                    $logo = mw()->ui->admin_logo_login();
-                }
-                return $logo;
-            })
-            ->darkModeBrandLogo(function () {
-                $logo = mw()->ui->admin_logo();
-                if (empty($logo)) {
-                    $logo = mw()->ui->admin_logo_login();
-                }
-                return $logo;
-            })
-            ->brandName(function () {
-                return mw()->ui->brand_name() ?: 'Microweber';
-            })
-            ->brandLogoHeight('34px')
+            // task-2026-05-16-bcb327 / AI-702 — brandLogo, darkModeBrandLogo, brandLogoHeight,
+            // and brandName removed; brand mark delivered via TOPBAR_START render hook below
+            // so there is exactly one logo in the admin topbar (AI-702 CHANGE / task-76dd12).
             // AI-703 / task-2026-05-16-29342d — 240px per designer spec
             // (was 16rem = 256px). Width applies to the pinned-open sidebar
             // at lg+ and the overlay drawer below lg.
+            // AI-703a follow-up candidate: shift sidebarCollapsibleOnDesktop
+            // breakpoint from 1024px to 1280px when ready.
+            ->sidebarCollapsibleOnDesktop()
             ->sidebarWidth('240px')
             ->colors([
                 'primary' => MwColors::Blue,
@@ -322,17 +310,38 @@ class FilamentAdminPanelProvider extends PanelProvider
 
             });
 
-        // +Add button is rendered via GLOBAL_SEARCH_BEFORE so it appears
-        // immediately after the Filament logo slot, before the search box.
-        // (TOPBAR_START fires before the logo — wrong order for our layout.)
+        // AI-702 / task-2026-05-16-bcb327 — Microweber brand mark rendered via
+        // TOPBAR_START so it sits at the leftmost position in the admin topbar.
+        // Registered BEFORE the GLOBAL_SEARCH_AFTER hook so Filament accumulates
+        // it first and renders it leftmost. Logo URL uses the same fallback chain
+        // as the old ->brandLogo() call.
         $panel->renderHook(
-            name: PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
-            hook: fn(): string => Blade::render('@livewire(\'admin-top-navigation-actions\')')
+            name: PanelsRenderHook::TOPBAR_START,
+            hook: function (): string {
+                $logoUrl = mw()->ui->admin_logo();
+                if (empty($logoUrl)) {
+                    $logoUrl = mw()->ui->admin_logo_login();
+                }
+                $brandName = mw()->ui->brand_name() ?: 'Microweber';
+                $adminUrl  = url(mw_admin_prefix_url() ?: 'admin');
+                return '<a href="' . e($adminUrl) . '" class="mw-admin-brand-mark"'
+                    . ' aria-label="' . e($brandName) . ' admin"'
+                    . ' title="' . e($brandName) . ' admin">'
+                    . ($logoUrl ? '<img class="mw-admin-brand-mark__image" src="' . e($logoUrl) . '" alt="">' : '')
+                    . '<span class="mw-admin-brand-mark__label sr-only">' . e($brandName) . '</span>'
+                    . '</a>';
+            }
         );
 
+        // AI-704 / task-2026-05-16-225150 — Re-cluster +Add with Live Edit button.
+        // Both primary actions render inside a single GLOBAL_SEARCH_AFTER hook
+        // wrapped in .mw-admin-primary-actions so the gap and grouping behaviours
+        // apply to both. The search-quick-nav renders OUTSIDE the wrapper.
+        // AI-704a follow-up: render +Add as hamburger-menu item on narrow mobile.
         $panel->renderHook(
             name: PanelsRenderHook::GLOBAL_SEARCH_AFTER,
             hook: fn(): string => '<div class="mw-admin-primary-actions">'
+                . Blade::render('@livewire(\'admin-top-navigation-actions\')')
                 . view('admin::livewire.filament.top-navigation-go-live-edit')->render()
                 . '</div>'
                 . view('admin::livewire.filament.search-quick-nav')->render()

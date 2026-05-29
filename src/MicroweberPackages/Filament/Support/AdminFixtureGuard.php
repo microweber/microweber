@@ -190,15 +190,20 @@ final class AdminFixtureGuard
         }
         $longSet = array_flip(self::FAKER_LOREM_WORDS);
         $shortSet = array_flip(self::SHORT_LATIN_WORDS);
-        $hasLongWord = false;
+        $longWordCount = 0;
         foreach ($alphaWords as $word) {
             if (isset($longSet[$word])) {
-                $hasLongWord = true;
+                $longWordCount++;
             } elseif (! isset($shortSet[$word])) {
                 return false;
             }
         }
-        return $hasLongWord;
+        // "Multi-word signature" requires at least TWO long-form Faker
+        // words. Short Latin filler words (≤3 chars, e.g. 'et', 'in')
+        // are treated as neutral — they don't disqualify, but a title
+        // with only ONE long-form word + filler (e.g. "Asperiores Et")
+        // does NOT match the multi-word signature.
+        return $longWordCount >= 2;
     }
 
     /**

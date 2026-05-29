@@ -135,17 +135,25 @@ class AddContent968a71AI692TwoGroupLayoutContractTest extends TestCase
     #[Test]
     public function secondary_grid_always_three_columns(): void
     {
-        // task-2026-05-21-30040a / AI-870 PIN-EVOLUTION:
-        // Original AI-692 spec §6 shipped `grid-cols-2 sm:grid-cols-3`.
-        // AI-870 Z-flow root cause investigation found the 2→3 col
-        // transition caused a layout reflow artefact at viewport resize
-        // inside the picker (which is always ≥618px wide as a fixed
-        // modal). Always-3 col removes the reflow without any UX loss.
-        // Assertion updated from `sm:grid-cols-3` to `grid-cols-3` only.
+        // task-2026-05-21-30040a / AI-870 PIN-EVOLUTION (2nd):
+        // Original AI-692 spec shipped `grid-cols-2 sm:grid-cols-3`.
+        // AI-870 found the 2→3 col transition at sm: (640px) caused
+        // a Z-flow reflow artefact; always-3 col was the fix.
+        // task-2026-05-27-4b1344 / AI-1139 PIN-EVOLUTION: mobile
+        // bottom-sheet redesign needs a responsive grid — changed
+        // from always-3 to `grid-cols-2 md:grid-cols-3`. The md:
+        // breakpoint (768px) is safe — the reflow trigger was sm:
+        // (640px) specifically. Updated in place per pin-evolution rule.
         $this->assertMatchesRegularExpression(
-            '/mw-add-content-group__items\s+grid\s+grid-cols-3\s+gap-3/',
+            '/mw-add-content-group__items\s+grid\s+grid-cols-2\s+md:grid-cols-3\s+gap-3/',
             $this->blade,
-            'Secondary grid must be grid-cols-3 (always 3 columns, per AI-870 Z-flow fix — was grid-cols-2 sm:grid-cols-3 in original AI-692 ship).'
+            'Secondary grid must be grid-cols-2 md:grid-cols-3 gap-3 (responsive: 2-col mobile, 3-col desktop ≥md, per AI-1139).'
+        );
+        // Safety: md: breakpoint (768px) is safe; sm: (640px) is NOT.
+        $this->assertStringNotContainsString(
+            'sm:grid-cols-3',
+            $this->blade,
+            'Secondary grid must NOT use sm:grid-cols-3 — the 640px sm: breakpoint caused the original AI-870 Z-flow artefact.'
         );
     }
 

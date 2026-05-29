@@ -68,6 +68,7 @@ class ListPages extends \Modules\Content\Filament\Admin\ContentResource\Pages\Li
         // as AI-736a / AI-736b follow-ups.
         $actions[] = Actions\CreateAction::make()
             ->label('+ Add page')
+            ->icon('heroicon-o-plus')
             ->color('primary');
 
         // Check if there's no homepage set

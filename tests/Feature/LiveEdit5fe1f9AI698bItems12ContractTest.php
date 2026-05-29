@@ -83,16 +83,21 @@ class LiveEdit5fe1f9AI698bItems12ContractTest extends TestCase
     #[Test]
     public function each_mode_cell_carries_mw_segmented_cell_primitive(): void
     {
-        // Three cells must each carry .mw-segmented__cell.
+        // AI-811 semantic upgrade: span[role=button] → real <button> elements.
+        // Three cells must each carry .mw-segmented__cell with role=radio
+        // (ARIA radiogroup/radio pattern is more semantically correct for
+        // single-select from 3 options than toggle-button APG).
+        // Pin-evolved from <span role="button"> to <button role="radio"> per
+        // task-2026-05-17-ecabe27 / AI-811.
         $cellCount = preg_match_all(
-            '/<span[^>]+class="[^"]*\bmw-segmented__cell\b[^"]*"[^>]+role="button"/',
+            '/<button[^>]+class="[^"]*\bmw-segmented__cell\b[^"]*"[^>]+role="radio"/',
             $this->resolutionSwitch,
             $m
         );
         $this->assertSame(
             3,
             $cellCount,
-            'ResolutionSwitch must have exactly 3 .mw-segmented__cell spans (Desktop / Tablet / Mobile).'
+            'ResolutionSwitch must have exactly 3 .mw-segmented__cell buttons (Desktop / Tablet / Mobile).'
         );
     }
 
@@ -143,33 +148,29 @@ class LiveEdit5fe1f9AI698bItems12ContractTest extends TestCase
     #[Test]
     public function aria_pressed_toggle_button_apg_preserved(): void
     {
-        // The a11y contract from task-2026-05-04-a11y: aria-pressed
-        // + tabindex=0 + keydown.enter/space must remain on each
-        // cell. Span elements aren't natively keyboard-focusable.
+        // AI-811 semantic upgrade: span[role=button]+aria-pressed
+        // replaced by <button role=radio>+aria-checked (radiogroup APG).
+        // Native <button> is keyboard-focusable and handles Enter/Space
+        // natively — explicit tabindex/keydown handlers are no longer needed.
+        // Pin-evolved from toggle-button APG to radiogroup APG per
+        // task-2026-05-17-ecabe27 / AI-811.
         $this->assertMatchesRegularExpression(
-            '/:aria-pressed="previewMode==[\'"]desktop[\'"]"/',
+            '/:aria-checked="previewMode==[\'"]desktop[\'"]/',
             $this->resolutionSwitch
         );
         $this->assertMatchesRegularExpression(
-            '/:aria-pressed="previewMode==[\'"]tablet[\'"]"/',
+            '/:aria-checked="previewMode==[\'"]tablet[\'"]/',
             $this->resolutionSwitch
         );
         $this->assertMatchesRegularExpression(
-            '/:aria-pressed="previewMode==[\'"]phone[\'"]"/',
+            '/:aria-checked="previewMode==[\'"]phone[\'"]/',
             $this->resolutionSwitch
         );
-        // tabindex=0 + keydown handlers
-        $tabCount = substr_count($this->resolutionSwitch, 'tabindex="0"');
-        $this->assertSame(3, $tabCount, 'All 3 cells must carry tabindex="0".');
-        $this->assertGreaterThanOrEqual(
-            3,
-            substr_count($this->resolutionSwitch, 'keydown.enter.prevent'),
-            'Each cell must wire keydown.enter.prevent (ARIA toggle-button APG).'
-        );
-        $this->assertGreaterThanOrEqual(
-            3,
-            substr_count($this->resolutionSwitch, 'keydown.space.prevent'),
-            'Each cell must wire keydown.space.prevent (ARIA toggle-button APG).'
+        // Radiogroup wrapper must carry role="radiogroup"
+        $this->assertStringContainsString(
+            'role="radiogroup"',
+            $this->resolutionSwitch,
+            'Nav wrapper must carry role="radiogroup" for the radio APG pattern.'
         );
     }
 
@@ -193,12 +194,14 @@ class LiveEdit5fe1f9AI698bItems12ContractTest extends TestCase
     #[Test]
     public function template_settings_label_renamed_to_template_and_layout(): void
     {
-        // Visible label must be "Template & Layout" (HTML-entity escaped)
-        // per AI-708 canonical heading. Method name unchanged.
+        // AI-800b sentence-case plural-plural cascade updated the label from
+        // "Template & Layout" (AI-698b shape, matches AI-708) to
+        // "Templates & layouts" (sentence-case, plural-plural per AI-800b).
+        // Pin-evolved per task-2026-05-17-bce4b7 / AI-800a + AI-800b.
         $this->assertStringContainsString(
-            'Template &amp; Layout',
+            'Templates &amp; layouts',
             $this->toolbarToolsDropdown,
-            'Template Settings label must be renamed to "Template & Layout" (matches AI-708).'
+            'Template Settings label must be "Templates & layouts" (AI-800b sentence-case plural-plural).'
         );
         // Method preserved as internal API
         $this->assertStringContainsString(
@@ -213,7 +216,7 @@ class LiveEdit5fe1f9AI698bItems12ContractTest extends TestCase
         $this->assertDoesNotMatchRegularExpression(
             '/>\s*Template Settings\s*</',
             $this->toolbarToolsDropdown,
-            'The literal visible label "Template Settings" must no longer appear — renamed to Template & Layout.'
+            'The literal visible label "Template Settings" must no longer appear — renamed to Templates &amp; layouts.'
         );
     }
 
@@ -367,10 +370,13 @@ class LiveEdit5fe1f9AI698bItems12ContractTest extends TestCase
             $bundle,
             'Vite-built live-edit-app.js must carry the Tablet view aria-label.'
         );
+        // AI-800b updated label from "Template & Layout" to "Templates & layouts".
+        // The Vite bundle stores the unescaped form (HTML entities are resolved
+        // by Vue compiler during SFC compilation).
         $this->assertStringContainsString(
-            'Template & Layout',
+            'Templates & layouts',
             $bundle,
-            'Vite-built live-edit-app.js must carry the renamed "Template & Layout" label.'
+            'Vite-built live-edit-app.js must carry the renamed "Templates & layouts" label.'
         );
     }
 }

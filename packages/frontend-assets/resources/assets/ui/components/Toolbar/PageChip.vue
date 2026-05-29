@@ -429,7 +429,7 @@ export default {
         window.addEventListener('resize', this._resizeHandler);
 
         // task-2026-05-17-7a9913 / AI-798 Slice C
-        this._openVerbHandler = function () { this.open(); }.bind(this);
+        this._openVerbHandler = () => { this.open(); };
         window.addEventListener('mwOpenPageChip', this._openVerbHandler);
     },
 
