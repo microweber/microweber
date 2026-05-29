@@ -1983,3 +1983,53 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/*
+ * task-2026-05-29-7d2a91 — Admin panel mobile touch-target sweep
+ * (Batch 3). Tier-3 Playwright probe at 390x844 across 5 admin
+ * surfaces (customers, users, posts, products, categories)
+ * surfaced 2 sub-44 violation families remaining inside
+ * body.fi-panel-admin AFTER the prior Batch 1 / 2 sweeps:
+ *
+ *   1. body.fi-panel-admin .fi-ta-cell.fi-ta-selection-cell
+ *      bare-checkbox layout on Customers / Users list tables
+ *      rendered the row selection input at 18x22 inside a 60x35
+ *      cell. Distinct markup from Profile / Newsletter (no label
+ *      wrapper) so the AI-517 / AI-518 / AI-519 / AI-1144 :has()
+ *      label-wrapper pattern does NOT match — the input lives
+ *      directly inside the TD.
+ *
+ *   2. body.fi-panel-admin .fi-ac-icon-btn-group page-header
+ *      Actions dropdown trigger (Posts, Products with bulk
+ *      actions) rendered the kebab/Actions button at 36x36
+ *      — 8px short of the WCAG 2.5.5 floor. Sits inside
+ *      .fi-dropdown-trigger with aria-label="Actions".
+ *
+ * Fix: scoped @media block pinning the selection-cell hit-area
+ * to 44x44 (cell-level, leaving the native input visually small)
+ * and the .fi-ac-icon-btn-group action button to 44x44 with
+ * !important so Filament's fi-size-md base does not win the
+ * cascade tie. Scoped to body.fi-panel-admin (NOT cross-panel)
+ * per the project standard "no broad fi-panel-admin sweeps
+ * without measurements + explicit dispatch" — the /workflow
+ * long run dispatch + the Tier-3 measurement floor satisfy
+ * both conditions for this narrow two-selector slice.
+ *
+ * Family: WCAG 2.5.5 mobile touch-target floor — same lineage as
+ * AI-517 / AI-518 / AI-519 / AI-1135 / AI-1143 / AI-1144 /
+ * AI-1156 and Batch 3 sibling slice c8b5a1 (Profile panel).
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin .fi-ta-cell.fi-ta-selection-cell {
+        min-height: 44px;
+        height: 44px;
+    }
+    body.fi-panel-admin .fi-ta-cell.fi-ta-selection-cell .fi-checkbox-input {
+        min-width: 22px;
+        min-height: 22px;
+    }
+    body.fi-panel-admin .fi-ac-icon-btn-group {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+}
+
