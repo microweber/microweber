@@ -2266,3 +2266,54 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/*
+ * task-2026-05-30-fitasort — Filament table column-sort button + numeric
+ * body-cell button touch-target floors on mobile.
+ *
+ * DEFECTS (probed at 390x844 across Newsletter resource list pages, then
+ * scope-confirmed against /admin/users + /admin/posts to bound the family
+ * to tables whose columns opt-in via ->sortable())
+ *
+ *   1. `.fi-ta-header-cell-sort-btn` ships at 20px height — the
+ *      clickable text/icon control inside each sortable `<th>`. Sites
+ *      observed at 390x844:
+ *        - /admin/newsletter/subscribers — Subscriber 292x20, Status 99x20
+ *        - /admin/newsletter/lists       — 2x sort-btn at 20px
+ *        - /admin/newsletter/templates   — Title 81x20, Used in 102x20,
+ *          Last Modified 163x20
+ *        - /admin/newsletter/sender-accounts — Type 83x20
+ *        - /admin/newsletter/workflows   — Name 61x20, Executions 106x20
+ *      Surfaces lacking sortable() columns (/admin/users, /admin/posts)
+ *      are unaffected — the fix can ship at the primitive level safely.
+ *
+ *   2. `button.fi-ta-col` — body-row cells rendered as buttons (e.g.
+ *      numeric subscriber-count column on /admin/newsletter/lists) ship
+ *      at 32x56 — narrower than the 44px floor on the inline-axis.
+ *      Filament pins width via inline style on the wrapper, so the
+ *      override floors min-width on the button itself.
+ *
+ * SCOPE NOTE
+ *   Newsletter ships a sibling Filament panel with id `admin-newsletter`,
+ *   so its body class is `fi-panel-admin-newsletter` — `body.fi-panel-admin`
+ *   does NOT match it (CSS class selectors do not substring-match). The
+ *   attribute-substring scope `body[class*="fi-panel-admin"]` captures
+ *   both the core admin panel AND any sibling admin sub-panel (current
+ *   or future) without leaking to fi-panel-checkout / fi-panel-profile.
+ *
+ * FIX
+ *   Two rules inside the canonical @media (max-width: 768px),
+ *   (pointer: coarse) block. Both scoped via `body[class*="fi-panel-admin"]`
+ *   for specificity bump over Filament's primitive defaults.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body[class*="fi-panel-admin"] .fi-ta-header-cell-sort-btn {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+    body[class*="fi-panel-admin"] button.fi-ta-col {
+        min-width: 44px !important;
+        min-height: 44px !important;
+    }
+}
+
