@@ -25,12 +25,21 @@
             <div class="mt-6 bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                 <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-4">Quick Actions</h3>
                 <div class="grid grid-cols-2 gap-3">
+                    {{-- task-2026-05-30-tplcust: inline style with !important
+                         enforces WCAG 2.5.5 touch-target floor on size="sm"
+                         Filament buttons (probed 390x844 — rendered at 36px
+                         without the override). Inline style alone loses the
+                         cascade against Filament v5's own !important
+                         .fi-btn.fi-size-sm min-height rule; the !important
+                         flag is mandatory. Tailwind JIT did NOT compile a new
+                         min-h-[44px] arbitrary class added to this file. --}}
                     <x-filament::button
                         type="button"
                         wire:click="$dispatch('refreshPreview')"
                         icon="heroicon-m-arrow-path"
                         color="gray"
                         size="sm"
+                        style="min-height:44px !important;"
                     >
                         Refresh Preview
                     </x-filament::button>
@@ -43,6 +52,7 @@
                         icon="heroicon-m-eye"
                         color="gray"
                         size="sm"
+                        style="min-height:44px !important;"
                     >
                         View Live Site
                     </x-filament::button>
@@ -122,10 +132,23 @@
                             {{-- Preview Controls --}}
                             <div class="flex items-center justify-between mb-3">
                                 <div class="flex items-center gap-2">
+                                    {{-- task-2026-05-30-tplcust: zoom +/- buttons
+                                         lifted to 44x44 (WCAG 2.5.5) from 28x28
+                                         via inline style with !important —
+                                         Tailwind JIT did NOT compile fresh
+                                         min-w-[44px] / min-h-[44px] arbitrary
+                                         classes added to this file (pre-existing
+                                         min-w-[60px] DID compile, confirming
+                                         inline style is the only guaranteed
+                                         cascade-winner here). The !important
+                                         flag is mandatory because surrounding
+                                         Filament admin CSS rules ship !important
+                                         declarations on .fi-btn sizing. --}}
                                     <button
                                         type="button"
                                         x-on:click="scale = Math.max(0.5, scale - 0.1)"
                                         class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                                        style="min-width:44px !important;min-height:44px !important;"
                                     >
                                         <x-heroicon-m-minus class="w-4 h-4"/>
                                     </button>
@@ -134,16 +157,26 @@
                                         type="button"
                                         x-on:click="scale = Math.min(1.0, scale + 0.1)"
                                         class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                                        style="min-width:44px !important;min-height:44px !important;"
                                     >
                                         <x-heroicon-m-plus class="w-4 h-4"/>
                                     </button>
                                 </div>
 
                                 <div class="flex items-center gap-2">
+                                    {{-- task-2026-05-30-tplcust: Reload button
+                                         inline style with !important enforces
+                                         WCAG 2.5.5 — Tailwind JIT compile not
+                                         guaranteed on fresh arbitrary classes
+                                         added to this file. The !important
+                                         flag wins the cascade against
+                                         Filament's own !important sizing
+                                         rules. --}}
                                     <button
                                         type="button"
                                         x-on:click="refreshFrame()"
                                         class="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-2.5 py-1.5 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                                        style="min-height:44px !important;"
                                     >
                                         <x-heroicon-m-arrow-path class="w-4 h-4"/>
                                         Reload
@@ -170,14 +203,21 @@
                             </div>
 
                             {{-- Device View Toggle --}}
+                            {{-- task-2026-05-30-tplcust: device toggle buttons
+                                 lifted to 44x44 (WCAG 2.5.5) from 28x28 via
+                                 inline style with !important — Tailwind JIT
+                                 not guaranteed on fresh arbitrary classes
+                                 added to this file, AND Filament ships
+                                 !important sizing rules on its own button
+                                 selectors that win against bare inline style. --}}
                             <div class="flex items-center justify-center gap-2 mt-4">
-                                <button type="button" class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition" title="Desktop View">
+                                <button type="button" class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition" style="min-width:44px !important;min-height:44px !important;" title="Desktop View">
                                     <x-heroicon-m-computer-desktop class="w-4 h-4"/>
                                 </button>
-                                <button type="button" class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition" title="Tablet View">
+                                <button type="button" class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition" style="min-width:44px !important;min-height:44px !important;" title="Tablet View">
                                     <x-heroicon-m-device-tablet class="w-4 h-4"/>
                                 </button>
-                                <button type="button" class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition" title="Mobile View">
+                                <button type="button" class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition" style="min-width:44px !important;min-height:44px !important;" title="Mobile View">
                                     <x-heroicon-m-device-phone-mobile class="w-4 h-4"/>
                                 </button>
                             </div>

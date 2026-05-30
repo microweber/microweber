@@ -367,13 +367,21 @@ class AdminTemplateCustomizerPage extends Page
                             ]),
                     ]),
 
-                // task-2026-05-27-6e9cf4 / AI-1174: size(Large) for 44px min-height
+                // task-2026-05-27-6e9cf4 / AI-1174: size(Large) intent for 44px
+                // task-2026-05-30-tplcust: Size::Large rendered at 42px on mobile
+                // (probed 390x844). Tailwind JIT does not pick up new utility
+                // classes added via extraAttributes here, so inline style is
+                // the guaranteed cascade-winner for the WCAG 2.5.5 floor.
+                // The !important flag is mandatory because Filament v5 ships
+                // its own !important min-height on .fi-btn.fi-size-lg /
+                // .fi-size-sm — bare inline style loses the cascade.
                 Actions::make([
                     Action::make('resetToDefaults')
                         ->label('Reset to Defaults')
                         ->icon('heroicon-o-arrow-path')
                         ->color('danger')
                         ->size(\Filament\Support\Enums\Size::Large)
+                        ->extraAttributes(['style' => 'min-height:44px !important;'])
                         ->requiresConfirmation()
                         ->modalHeading('Reset Template Settings')
                         ->modalDescription('Are you sure you want to reset all template settings to their default values? This action cannot be undone.')
@@ -386,6 +394,7 @@ class AdminTemplateCustomizerPage extends Page
                         ->icon('heroicon-o-arrow-down-tray')
                         ->color('gray')
                         ->size(\Filament\Support\Enums\Size::Large)
+                        ->extraAttributes(['style' => 'min-height:44px !important;'])
                         ->action(function () {
                             $this->exportSettings();
                         }),
@@ -395,6 +404,7 @@ class AdminTemplateCustomizerPage extends Page
                         ->icon('heroicon-o-arrow-up-tray')
                         ->color('gray')
                         ->size(\Filament\Support\Enums\Size::Large)
+                        ->extraAttributes(['style' => 'min-height:44px !important;'])
                         ->form([
                             FileUpload::make('settings_file')
                                 ->label('Settings JSON File')

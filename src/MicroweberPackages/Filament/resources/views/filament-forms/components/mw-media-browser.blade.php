@@ -85,10 +85,12 @@
 
                 <x-heroicon-o-photo class="w-8 h-8 text-gray-400 mb-3" />
 
+                {{-- task-2026-05-30-mediabrowser AI-1137 — primary + secondary buttons carry inline min-height:44px !important for WCAG 2.5.5 touch-target floor. Tailwind JIT min-h-[44px] arbitrary class is NOT picked up post-build on this Blade (same constraint as task-2026-05-30-tplcust). --}}
                 <div class="flex flex-col items-center gap-2 mb-2">
                     <button
                         type="button"
                         class="mw-media-browser-primary-btn inline-flex items-center justify-center px-4 py-2 rounded-full bg-indigo-600 text-white font-semibold text-sm shadow hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                        style="min-height:44px !important;"
                         title="Browse images already in your Media Library"
                         x-on:click="{{ $mwMediaBrowserPickerHandler }}">
                         <x-heroicon-m-photo class="w-4 h-4 me-2 -ms-1" aria-hidden="true" />
@@ -98,6 +100,7 @@
                     <button
                         type="button"
                         class="mw-media-browser-secondary-btn inline-flex items-center justify-center text-sm font-medium text-indigo-600 underline underline-offset-4 hover:text-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 rounded"
+                        style="min-height:44px !important;"
                         title="Pick an image from your phone or computer to add to the Media Library"
                         x-on:click="{{ $mwMediaBrowserPickerHandler }}">
                         Upload from your device

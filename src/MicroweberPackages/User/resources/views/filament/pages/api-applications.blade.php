@@ -11,8 +11,10 @@
                 <div class="flex items-end gap-3">
                     <div class="flex-1">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Token Name</label>
+                        {{-- task-2026-05-30-apiapps AI-1138 — hand-rolled Tailwind input carries inline min-height:44px !important for WCAG 2.5.5 (py-2 + text-sm yields 40px). --}}
                         <input type="text" wire:model="newTokenName" placeholder="e.g. My API Client"
-                            class="fi-input block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm transition duration-75 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+                            class="fi-input block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm transition duration-75 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            style="min-height:44px !important;" />
                     </div>
                     <x-filament::button wire:click="createPersonalToken" icon="heroicon-o-plus">
                         Create Token
@@ -127,12 +129,14 @@
                     <div class="flex-1">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Application Name</label>
                         <input type="text" wire:model="newAppName" placeholder="e.g. My External App"
-                            class="fi-input block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm transition duration-75 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+                            class="fi-input block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm transition duration-75 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            style="min-height:44px !important;" />
                     </div>
                     <div class="flex-1">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Redirect URL</label>
                         <input type="text" wire:model="newAppRedirect" placeholder="https://example.com/callback"
-                            class="fi-input block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm transition duration-75 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+                            class="fi-input block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm transition duration-75 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            style="min-height:44px !important;" />
                     </div>
                     <x-filament::button wire:click="createApplication" icon="heroicon-o-plus">
                         Create Application
@@ -204,7 +208,8 @@
 
             <div class="mb-4">
                 <a href="{{ url('api/documentation') }}" target="_blank" rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+                    class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                    style="min-height:44px !important;">
                     <x-heroicon-o-book-open class="h-5 w-5" />
                     Open interactive API documentation
                     <x-heroicon-o-arrow-top-right-on-square class="h-4 w-4" />

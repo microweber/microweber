@@ -2358,3 +2358,251 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/*
+ * task-2026-05-30-fipprows — Filament v5 pagination "records per page"
+ * select touch-target floor on mobile.
+ *
+ * DEFECT (probed at 390x844 on /admin/users + /admin/posts)
+ *
+ *   Filament v5 ships .fi-pagination-records-per-page-select with a compact
+ *   geometry — outer <label> 62x34, inner .fi-input-wrp 62x34, native
+ *   <select> 60x32. Height fails the 44px WCAG 2.5.5 / iOS HIG floor on the
+ *   actual tap target users hit to change rows-per-page. Sibling pagination
+ *   chrome — .fi-pagination-next-btn / .fi-pagination-previous-btn — already
+ *   ships at 81x44 (Filament default fi-size-md) so only the per-page select
+ *   needs lifting. Page-item buttons (.fi-pagination-item-btn) render 0x0 at
+ *   <= 768px by design — only prev/next show on mobile.
+ *
+ * SCOPE NOTE
+ *   body[class*="fi-panel-admin"] attribute-substring scope (matching the
+ *   sibling task-2026-05-30-fitasort + task-2026-05-30-mediatap blocks) so
+ *   the fix reaches the core admin panel AND any sibling admin sub-panel
+ *   (admin-newsletter etc.) without leaking to checkout / profile panels
+ *   which carry their own pagination chrome.
+ *
+ * FIX
+ *   Lift the wrapping <label> + inner .fi-input-wrp + native <select> to
+ *   44px min-height all !important. Tracks Filament v5's two-form responsive
+ *   pattern: the non-compact label rendered with a prefix "Per page" label
+ *   collapses to 0x0 at narrow viewports while the .fi-compact label
+ *   carrying just the select takes over — both labels share the same class
+ *   prefix, so the unscoped selector lifts whichever Filament chose to
+ *   render.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body[class*="fi-panel-admin"] label.fi-pagination-records-per-page-select,
+    body[class*="fi-panel-admin"] label.fi-pagination-records-per-page-select .fi-input-wrp,
+    body[class*="fi-panel-admin"] label.fi-pagination-records-per-page-select select.fi-select-input {
+        min-height: 44px !important;
+    }
+    body[class*="fi-panel-admin"] label.fi-pagination-records-per-page-select {
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+}
+
+/*
+ * task-2026-05-30-sidegrp — Filament v5 grouped icon-less .fi-sidebar-item-btn
+ * touch-target floor on mobile.
+ *
+ * DEFECT (probed at 390x844 on /admin/newsletter with sidebar opened via
+ * .fi-topbar-open-sidebar-btn)
+ *
+ *   .fi-sidebar-item-btn inside a sidebar nav group (carries the
+ *   .fi-sidebar-item-grouped-border wrapper) ships at 151x40 — 4px under the
+ *   44px floor. Math: text line-height 20px + padding-block 10px + 10px =
+ *   40px. Top-level sibling items (Dashboard / Subscribers / Designs /
+ *   Campaigns / Lists) ship at 151x44 because their .fi-icon.fi-size-lg
+ *   icon box exceeds line-height and forces the row to 44px. The grouped
+ *   indented sub-item "Senders" carries padding-inline-start: 52px instead
+ *   of the icon, so the icon vertical-floor doesn't help. Affects any
+ *   Filament v5 admin sidebar group with icon-less sub-items.
+ *
+ * SCOPE NOTE
+ *   body[class*="fi-panel-admin"] attribute-substring scope (mirrors
+ *   task-2026-05-30-fitasort / mediatap / fipprows siblings) so the fix
+ *   reaches the core admin panel AND any sibling admin sub-panel
+ *   (admin-newsletter etc.) without leaking to checkout / profile panels.
+ *
+ * FIX
+ *   Lift .fi-sidebar-item-btn min-height to 44px on mobile. Top-level
+ *   icon-bearing items already render at 44px so the rule is no-op there;
+ *   grouped icon-less sub-items get the lift.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body[class*="fi-panel-admin"] .fi-sidebar-item-btn {
+        min-height: 44px !important;
+    }
+}
+
+/*
+ * task-2026-05-30-fitabs — Filament v5 .fi-tabs-item short-label width floor
+ * on mobile.
+ *
+ * DEFECT (probed at 390x844 on /admin/orders)
+ *
+ *   Filament v5 status-filter tabs (.fi-tabs-item) render at
+ *   text-line-width + horizontal padding. Short labels like "All" and "New"
+ *   collapse to 27x44 / 36x44 — height passes the 44px floor but the
+ *   inline-axis width fails. Long labels ("Cancelled", "Refunded") already
+ *   exceed 44px naturally. Affects any Filament v5 resource list page that
+ *   uses status filter tabs with short labels.
+ *
+ * SCOPE NOTE
+ *   body[class*="fi-panel-admin"] attribute-substring scope (mirrors
+ *   task-2026-05-30-fitasort / mediatap / fipprows / sidegrp siblings) so
+ *   the fix reaches the core admin panel AND any sibling admin sub-panel
+ *   (admin-newsletter etc.) without leaking to checkout / profile panels.
+ *
+ * FIX
+ *   Lift .fi-tabs-item min-width to 44px on mobile. Inline-flex + center
+ *   alignment keeps the short label visually centred inside the lifted
+ *   hit area.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body[class*="fi-panel-admin"] .fi-tabs-item {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}
+
+/*
+ * task-2026-05-30-mediafil — Media Library toolbar input height floors on
+ * mobile.
+ *
+ * DEFECTS (probed at 390x844 on /admin/media)
+ *
+ *   1. .mw-media-search-input ships at 367x38 — search input above the
+ *      media grid (width passes 44px; only height needs lifting).
+ *
+ *   2. .mw-media-filter-select ships at 86x33 — type filter select
+ *      (All types / Images / Videos / ...).
+ *
+ *   3. .mw-media-filter-date ships at 110x34 — date-range from/to inputs
+ *      (two instances side-by-side).
+ *
+ *   All three are project-bespoke .mw-media-* selectors sibling to the
+ *   AI-855 .mw-media-upload-btn + .mw-media-unsplash-btn already pinned
+ *   by task-2026-05-30-mediatap.
+ *
+ * SCOPE NOTE
+ *   body[class*="fi-panel-admin"] attribute-substring scope mirrors the
+ *   sibling mediatap block so the fix reaches the core admin panel AND
+ *   any sibling admin sub-panel.
+ *
+ * FIX
+ *   Lift all three inputs to 44px min-height. The .mw-media-filter-select
+ *   carries native select chrome (padding-right: 26px for the dropdown
+ *   arrow) — min-height is sufficient; no padding change needed.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body[class*="fi-panel-admin"] .mw-media-search-input,
+    body[class*="fi-panel-admin"] .mw-media-filter-select,
+    body[class*="fi-panel-admin"] .mw-media-filter-date {
+        min-height: 44px !important;
+    }
+}
+
+/*
+ * task-2026-05-30-mediacb — Media grid checkbox 44x44 hit-area on mobile.
+ *
+ * DEFECT (probed at 390x844 on /admin/media)
+ *
+ *   label.mw-media-grid-checkbox ships at 16x20 with a native
+ *   <input type="checkbox"> 16x16 inside. The label is position:absolute
+ *   overlaid on each media tile (bulk-select affordance via
+ *   wire:click.stop="toggleBulkSelect(<id>)"). The 16-square tap target
+ *   fails the 44x44 floor by 28px on each axis. Affects every media tile
+ *   on every page of /admin/media — high-frequency tap target.
+ *
+ * SCOPE NOTE
+ *   body[class*="fi-panel-admin"] attribute-substring scope mirrors the
+ *   sibling mediatap + mediafil blocks. Project-bespoke .mw-media-*
+ *   selector cannot leak to Filament .fi-checkbox chrome.
+ *
+ * FIX
+ *   Expand label to 44x44 hit area via min-width/min-height + inline-flex
+ *   centering. The label stays position:absolute (overlay role
+ *   preserved); the native input stays 16x16 visually but the click
+ *   target is the whole 44x44 label per WCAG 2.5.5.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body[class*="fi-panel-admin"] label.mw-media-grid-checkbox {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}
+
+/*
+ * task-2026-05-30-leinput — .form-control-live-edit-input touch-target
+ * floor inside admin panel forms on mobile.
+ *
+ * DEFECT (probed at 390x844 on /admin/pages/create at y=1559)
+ *
+ *   .form-control-live-edit-input inside the mw-tree-component content
+ *   picker (#mw-tree-edit-content-* > .form-control-live-edit-label-wrapper)
+ *   ships at 247x36 — 8px under the 44px floor. The class is the live-
+ *   edit-flavoured input shared across MicroweberUI components
+ *   (range-slider, link-picker, textarea, input, font-picker, select,
+ *   select-modern), Module admin options (select-tags, select-page),
+ *   filepicker URL and AI prompt fields, and template-settings sidebar
+ *   selects. Default rule in live-edit-input.css does not set a min-
+ *   height floor.
+ *
+ * SCOPE NOTE
+ *   Rule carries body[class*="fi-panel-admin"] attribute-substring scope
+ *   (mirrors sibling task-2026-05-30-mediatap + mediafil + mediacb +
+ *   fitabs blocks). Live Edit canvas iframe (body.mw-live-edit-page) is
+ *   a separate body context and intentionally not touched here —
+ *   distinct surface, distinct visual rhythm; if a future probe finds
+ *   the same class sub-44px there, ship a sibling block scoped to
+ *   .mw-live-edit-page.
+ *
+ * FIX
+ *   Lift min-height to 44px !important. Width unchanged (parent sizes
+ *   correctly). Single-property declaration matches sibling mediafil
+ *   block shape.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body[class*="fi-panel-admin"] .form-control-live-edit-input {
+        min-height: 44px !important;
+    }
+}
+
+/*
+ * task-2026-05-30-fiselect — Filament v5 native .fi-select-input height
+ * touch-target floor on mobile.
+ *
+ * DEFECT (probed at 390x844 on /admin/newsletter/subscribers at y=451)
+ *
+ *   <select class="fi-select-input"> on the bulk-upload field-mapping
+ *   form ships at 536x36 — 8px short of the 44px floor. .fi-select-input
+ *   is Filament v5's canonical class for native select form components
+ *   so the defect is cross-cutting across every admin resource using a
+ *   native Filament select.
+ *
+ * SCOPE NOTE
+ *   Rule carries body[class*="fi-panel-admin"] attribute-substring scope
+ *   (mirrors sibling task-2026-05-30-mediatap + mediafil + mediacb +
+ *   fitabs + leinput blocks). Reaches admin AND admin-newsletter /
+ *   admin-shop / etc. sub-panels without leaking to checkout or profile.
+ *   Checkout panel keeps its own .fi-select-input rule earlier in this
+ *   file (uses --touch-target-min token). Pagination records-per-page
+ *   select keeps its narrow override.
+ *
+ * FIX
+ *   Single-property min-height: 44px !important matches sibling leinput
+ *   / mediafil shape. Width unchanged (parent sizes correctly).
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body[class*="fi-panel-admin"] .fi-select-input {
+        min-height: 44px !important;
+    }
+}
+
