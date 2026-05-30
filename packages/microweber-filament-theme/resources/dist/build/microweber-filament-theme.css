@@ -20310,6 +20310,23 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
     min-height: 44px !important;
   }
 }
+@media (max-width: 768px), (pointer: coarse) {
+  body.fi-panel-admin .fi-ta-content a.block.truncate {
+    display: flex !important;
+    align-items: center !important;
+    min-height: 44px !important;
+  }
+  body.fi-panel-admin .fi-ta-content .fi-btn.fi-color-success, body.fi-panel-admin .fi-ta-record .fi-btn.fi-size-sm.fi-color-success, body.fi-panel-admin .fi-ta-dropdown .fi-dropdown-trigger > button {
+    min-height: 44px !important;
+    height: auto !important;
+  }
+  body.fi-panel-admin .fi-ta-record-checkbox, body.fi-panel-admin .fi-ta-page-checkbox {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+  }
+}
 root {
   font-size: 16px;
   height: 100%;

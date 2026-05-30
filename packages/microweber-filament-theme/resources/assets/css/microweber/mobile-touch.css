@@ -2112,3 +2112,61 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/*
+ * task-2026-05-30-admrows — Filament admin table row touch-target floors
+ * on mobile (content-prefix layout used by every resource list page).
+ *
+ * Probed at 390x844 on /admin/pages. Three sub-44 hit areas surface on
+ * every record row regardless of resource:
+ *
+ *   1. Title link `<a class="block truncate">` — 293x20.
+ *      Width fine, height fails. Anchor wraps the record title and is
+ *      the primary navigation target for the row. Lift to 44px via
+ *      min-height + inline-flex + align-items: center on the anchor
+ *      itself — keeps the line-box centered without shifting layout.
+ *
+ *   2. Status badge dropdown trigger `.fi-ta-dropdown button` — 146x28.
+ *      Width fine, height fails. The badge opens a status-change
+ *      dropdown so it IS interactive. Lift via min-height on the
+ *      dropdown trigger button.
+ *
+ *   3. Table checkboxes `.fi-ta-record-checkbox` + `.fi-ta-page-checkbox`
+ *      — 18x18 (both dims fail). Filament renders these as bare <input>
+ *      with no `<label>` wrapper — the AI-517 / AI-518 form-checkbox
+ *      pattern (`label:has(.fi-checkbox-input)`) doesn't catch them.
+ *      Lift the input itself to 44x44 and reset appearance so the
+ *      checkmark stays visually centered inside the larger hit area.
+ *
+ * Scope via `body.fi-panel-admin` for specificity bump over Filament's
+ * later-cascade table styles. Mobile media block matches the canonical
+ * (max-width: 768px), (pointer: coarse) breakpoint already used by the
+ * brand-link rule.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body.fi-panel-admin .fi-ta-content a.block.truncate {
+        display: flex !important;
+        align-items: center !important;
+        min-height: 44px !important;
+    }
+    /*
+     * Badge dropdown trigger fights two existing source rules that pin
+     * BOTH min-height AND height to 28px (`.fi-ta-content .fi-btn.fi-color-success`
+     * + `.fi-ta-record .fi-btn.fi-size-sm.fi-color-success`). Override
+     * both properties — `height` wins over `min-height` when both are
+     * set on the same element.
+     */
+    body.fi-panel-admin .fi-ta-content .fi-btn.fi-color-success,
+    body.fi-panel-admin .fi-ta-record .fi-btn.fi-size-sm.fi-color-success,
+    body.fi-panel-admin .fi-ta-dropdown .fi-dropdown-trigger > button {
+        min-height: 44px !important;
+        height: auto !important;
+    }
+    body.fi-panel-admin .fi-ta-record-checkbox,
+    body.fi-panel-admin .fi-ta-page-checkbox {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        width: 44px !important;
+        height: 44px !important;
+    }
+}
+
