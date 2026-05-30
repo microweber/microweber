@@ -2091,3 +2091,24 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/*
+ * task-2026-05-30-admbrand AI-1234 — Filament admin sidebar brand-link
+ * touch-target floor on mobile.
+ *
+ * Stock Filament v5 sidebar header emits `<a><div class="fi-logo">Brand</div></a>`
+ * with no padding on the anchor — at 390x844 the anchor renders as a
+ * 106x20 click target, failing WCAG 2.5.5 / iOS HIG 44x44.
+ *
+ * Scope via `body.fi-panel-admin` to beat Filament's same-specificity
+ * defaults that ship LATER in the cascade. Apply min-height + inline-flex
+ * + align-items: center so the click target grows vertically without
+ * shifting the brand mark off-center.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body.fi-panel-admin .fi-sidebar-header-logo-ctn a {
+        display: inline-flex !important;
+        align-items: center !important;
+        min-height: 44px !important;
+    }
+}
+

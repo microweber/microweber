@@ -20303,6 +20303,13 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
     justify-content: center !important;
   }
 }
+@media (max-width: 768px), (pointer: coarse) {
+  body.fi-panel-admin .fi-sidebar-header-logo-ctn a {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 44px !important;
+  }
+}
 root {
   font-size: 16px;
   height: 100%;
