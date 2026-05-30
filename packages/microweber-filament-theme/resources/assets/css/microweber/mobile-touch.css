@@ -2317,3 +2317,44 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/*
+ * task-2026-05-30-mediatap — Media Library touch-target floors on mobile.
+ *
+ * DEFECTS (probed at 390x844 on /admin/media)
+ *
+ *   1. .mw-media-unsplash-btn ships at 110x34 — the "Add from Unsplash"
+ *      action button in the Media Library toolbar (width passes the 44px
+ *      floor; only height needs lifting).
+ *
+ *   2. .mw-media-upload-btn ships at 98x32 — the project-bespoke media
+ *      upload trigger (AI-855 token-anchored its primary background colour
+ *      via rgba(var(--primary-500),1) but left height untouched; this rule
+ *      addresses height only, AI-855 colour binding preserved).
+ *
+ *   3. Laravel default Tailwind-preset pagination buttons inside
+ *      .mw-media-pagination ship at 74x38 — selector scope
+ *      .mw-media-pagination button is project-bespoke wrapper-scoped so
+ *      it never leaks to Filament's own .fi-pagination chrome.
+ *
+ * SCOPE NOTE
+ *   All three rules carry the body[class*="fi-panel-admin"] attribute-
+ *   substring scope to keep checkout / profile panels uneffected and to
+ *   reach any future admin sub-panel that hosts the Media browser.
+ *
+ * FIX
+ *   Three rules inside the canonical @media (max-width: 768px),
+ *   (pointer: coarse) block. Width already passes; only min-height is
+ *   lifted, mirroring AI-855's no-width-bump precedent.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body[class*="fi-panel-admin"] .mw-media-unsplash-btn,
+    body[class*="fi-panel-admin"] .mw-media-upload-btn {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+    body[class*="fi-panel-admin"] .mw-media-pagination button {
+        min-height: 44px !important;
+    }
+}
+

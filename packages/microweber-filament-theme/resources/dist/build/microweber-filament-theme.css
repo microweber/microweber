@@ -20365,6 +20365,16 @@ body.fi-panel-admin .fi-page strong, body.fi-panel-admin .fi-page b, body.fi-pan
     min-height: 44px !important;
   }
 }
+@media (max-width: 768px), (pointer: coarse) {
+  body[class*="fi-panel-admin"] .mw-media-unsplash-btn, body[class*="fi-panel-admin"] .mw-media-upload-btn {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+  body[class*="fi-panel-admin"] .mw-media-pagination button {
+    min-height: 44px !important;
+  }
+}
 root {
   font-size: 16px;
   height: 100%;
