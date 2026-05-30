@@ -2214,3 +2214,55 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/*
+ * task-2026-05-30-admform — Filament admin create/edit form primitives.
+ *
+ * DEFECTS (probed at 390x844 on /admin/pages/create — recurs on every
+ * Filament create/edit form: posts, products, categories, users…)
+ *
+ *   1. `.fi-btn.fi-size-xl` ships at 42px height. The page-header
+ *      "Save & Live Edit" + "Save" header actions render at the XL
+ *      primitive (181x42 / 81x42). Same shape as the admui fi-size-md
+ *      fix — Filament pins both min-height and height as !important so
+ *      the override must reset both.
+ *
+ *   2. `.mw-media-browser-secondary-btn` (the "Upload from your device"
+ *      link inside the project-bespoke media browser dropzone) ships at
+ *      152x20 — styled as an inline-flex link with no padding. Lift to
+ *      44px via inline-flex + align-items + min-height.
+ *
+ *   3. `label.fi-fo-checkbox-list-option` wraps the checkbox-list
+ *      option labels in `Where to put it / Tags / Menus` form sections.
+ *      The AI-517 / AI-518 generic `label:has(.fi-checkbox-input)`
+ *      pattern does NOT match Filament's specific checkbox-list-option
+ *      class — option labels render at 24px. Lift to 44px hit area via
+ *      min-height + display: inline-flex + align-items: center.
+ *
+ * FIX
+ *   Three rules inside the canonical @media (max-width: 768px),
+ *   (pointer: coarse) block. Each scoped via `body.fi-panel-admin`
+ *   for specificity bump over Filament's primitive defaults.
+ *
+ * TIER-3 POST-FIX (forced-reload probe at 390x844)
+ *   - Save & Live Edit header action: 181x44
+ *   - Save header action: 81x44
+ *   - Upload from your device link: 152x44
+ *   - checkbox-list option label: ≥44px
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body.fi-panel-admin .fi-btn.fi-size-xl {
+        min-height: 44px !important;
+        height: auto !important;
+    }
+    body.fi-panel-admin .mw-media-browser-secondary-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        min-height: 44px !important;
+    }
+    body.fi-panel-admin label.fi-fo-checkbox-list-option {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+}
+
