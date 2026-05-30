@@ -882,4 +882,28 @@
     body.fi-panel-admin #mw-live-edit-quickEditComponent-box .form-control-live-edit-input {
         min-height: 44px !important;
     }
+
+    /* task-2026-05-30-pchip01 — PageChip mobile-overlay override.
+     * The toolbar-col-container hosting .mw-page-chip-wrapper is
+     * display:none at <=768px (line 777 above) for room budget. On
+     * mobile, PageChip.vue teleports the popover to <body> via
+     * <Teleport :disabled="!isMobile">; the teleported node carries
+     * the .mw-page-chip-popover--mobile class and renders as a
+     * full-viewport overlay below the toolbar. Position:fixed escapes
+     * the hidden ancestor's display:none even if Teleport's
+     * :disabled toggle is delayed by one tick. Top offset 56px
+     * matches the toolbar height (--toolbar-height: 48px + 8px margin).
+     */
+    .mw-page-chip-popover.mw-page-chip-popover--mobile {
+        position: fixed !important;
+        top: 56px !important;
+        left: 8px !important;
+        right: 8px !important;
+        bottom: 8px !important;
+        width: auto !important;
+        max-width: none !important;
+        transform: none !important;
+        z-index: 100000 !important;
+        max-height: calc(100vh - 64px) !important;
+    }
 }

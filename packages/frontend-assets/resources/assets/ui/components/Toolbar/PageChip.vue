@@ -33,9 +33,28 @@
       `mw.top().app.canvas.getLiveEditData().content.title`.
     - Listens for `liveEditCanvasLoaded` so title updates on navigation.
 
-  Token-scoping note (per SOUL #108 spec-doc-nit): the chip +
-  popover render INSIDE Toolbar.vue — no Teleport. ESE :root tokens
-  resolve through ancestors; literal fallbacks on every var().
+  task-2026-05-30-pchip01 / PageChip mobile P1 fix (supersedes
+  SOUL #108 "no Teleport" contract for mobile only):
+    The live-edit-mobile.css rule
+    `.toolbar-col-container:has(.mw-page-chip-wrapper) { display: none }`
+    (room-budget hide at <=768px) collapsed the popover to 0x0
+    when MainDrawer fired mwOpenPageChip on mobile — the chip
+    wrapper itself was inside the hidden ancestor.
+
+    Fix: wrap the popover in <Teleport to="body" :disabled="!isMobile">.
+    On mobile the popover renders OUTSIDE the hidden ancestor as a
+    full-viewport overlay; on desktop the original in-place mount
+    is preserved (Teleport disabled).
+
+    Token-scoping: ESE tokens consumed by the popover MUST resolve
+    when the node is mounted under <body> (no .mw-live-edit-page
+    ancestor). Every var(--ese-*) in mw-page-chip-popover-* rules
+    must carry a literal fallback OR be :root-scoped. Same rule as
+    AI-700 MainDrawer + AI-701 (in-place) + AI-697 anchored picker.
+
+    computeAnchor() is desktop-only — gated on !isMobile because
+    the chipRect-based horizontal-flip is irrelevant when the
+    popover is a position:fixed full-viewport overlay.
 
   AI-687 (MwField) note: input uses ESE tokens pending AI-687 MwField
   ship (trivial refactor when 1.4 lands).
@@ -57,10 +76,18 @@
             </svg>
         </button>
 
+        <!-- task-2026-05-30-pchip01 — Teleport to body on mobile so
+             the popover escapes the hidden .toolbar-col-container ancestor.
+             :disabled="!isMobile" preserves the original in-place mount
+             on desktop (SOUL #108 contract retained for desktop). -->
+        <Teleport to="body" :disabled="!isMobile">
         <div
             v-show="isOpen"
             class="mw-page-chip-popover"
-            :class="{ 'mw-page-chip-popover--anchor-right': popoverAnchor === 'right' }"
+            :class="{
+                'mw-page-chip-popover--anchor-right': popoverAnchor === 'right',
+                'mw-page-chip-popover--mobile': isMobile,
+            }"
             role="dialog"
             aria-label="Switch page"
             ref="popover"
@@ -153,6 +180,7 @@
                 </div>
             </div>
         </div>
+        </Teleport>
     </div>
 </template>
 
@@ -179,10 +207,16 @@ export default {
             ],
             // task-2026-05-16-77fedf / AI-734 — anchor-flip state.
             popoverAnchor: 'center',
+            // task-2026-05-30-pchip01 — drives Teleport :disabled and
+            // mobile-overlay class. matchMedia mirrors live-edit-mobile.css
+            // breakpoint (max-width: 768px).
+            isMobile: false,
             _searchTimer: null,
             _outsideHandler: null,
             _keyHandler: null,
             _resizeHandler: null,
+            _mqList: null,
+            _mqHandler: null,
         };
     },
 
@@ -260,7 +294,14 @@ export default {
         },
 
         // task-2026-05-16-77fedf / AI-734
+        // task-2026-05-30-pchip01 — desktop-only. On mobile the popover
+        // is a position:fixed full-viewport overlay so chipRect-based
+        // horizontal anchor-flip is irrelevant.
         computeAnchor() {
+            if (this.isMobile) {
+                this.popoverAnchor = 'center';
+                return;
+            }
             try {
                 var root = this.$refs.root;
                 if (!root) return;
@@ -399,9 +440,13 @@ export default {
             if (!this.isOpen) return;
             var root = this.$refs.root;
             if (!root) return;
-            if (!root.contains(event.target)) {
-                this.close();
-            }
+            if (root.contains(event.target)) return;
+            // task-2026-05-30-pchip01 — when the popover is teleported
+            // to <body> on mobile, it is no longer inside root.contains().
+            // Treat clicks inside the popover ref as inside the chip.
+            var popover = this.$refs.popover;
+            if (popover && popover.contains(event.target)) return;
+            this.close();
         },
 
         onKeyDown(event) {
@@ -428,6 +473,22 @@ export default {
         window.addEventListener('keydown', this._keyHandler);
         window.addEventListener('resize', this._resizeHandler);
 
+        // task-2026-05-30-pchip01 — track viewport via matchMedia so the
+        // Teleport flips synchronously when the user rotates or resizes
+        // across the 768px breakpoint. Mirrors live-edit-mobile.css.
+        try {
+            if (window.matchMedia) {
+                this._mqList = window.matchMedia('(max-width: 768px)');
+                this.isMobile = !!this._mqList.matches;
+                this._mqHandler = (e) => { this.isMobile = !!e.matches; };
+                if (this._mqList.addEventListener) {
+                    this._mqList.addEventListener('change', this._mqHandler);
+                } else if (this._mqList.addListener) {
+                    this._mqList.addListener(this._mqHandler);
+                }
+            }
+        } catch (_) { /* no-op */ }
+
         // task-2026-05-17-7a9913 / AI-798 Slice C
         this._openVerbHandler = () => { this.open(); };
         window.addEventListener('mwOpenPageChip', this._openVerbHandler);
@@ -438,6 +499,13 @@ export default {
         if (this._keyHandler) window.removeEventListener('keydown', this._keyHandler);
         if (this._resizeHandler) window.removeEventListener('resize', this._resizeHandler);
         if (this._openVerbHandler) window.removeEventListener('mwOpenPageChip', this._openVerbHandler);
+        if (this._mqList && this._mqHandler) {
+            if (this._mqList.removeEventListener) {
+                this._mqList.removeEventListener('change', this._mqHandler);
+            } else if (this._mqList.removeListener) {
+                this._mqList.removeListener(this._mqHandler);
+            }
+        }
         if (this._searchTimer) clearTimeout(this._searchTimer);
     },
 
@@ -446,6 +514,13 @@ export default {
         if (this._keyHandler) window.removeEventListener('keydown', this._keyHandler);
         if (this._resizeHandler) window.removeEventListener('resize', this._resizeHandler);
         if (this._openVerbHandler) window.removeEventListener('mwOpenPageChip', this._openVerbHandler);
+        if (this._mqList && this._mqHandler) {
+            if (this._mqList.removeEventListener) {
+                this._mqList.removeEventListener('change', this._mqHandler);
+            } else if (this._mqList.removeListener) {
+                this._mqList.removeListener(this._mqHandler);
+            }
+        }
         if (this._searchTimer) clearTimeout(this._searchTimer);
     },
 };

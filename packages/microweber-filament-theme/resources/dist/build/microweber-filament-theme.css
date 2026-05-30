@@ -19574,6 +19574,18 @@ html.dark #mw-element-style-editor-app .mw-admin-empty-state__body, .theme-dark 
   body.fi-panel-admin #mw-live-edit-quickEditComponent-box .form-control-live-edit-input {
     min-height: 44px !important;
   }
+  .mw-page-chip-popover.mw-page-chip-popover--mobile {
+    position: fixed !important;
+    top: 56px !important;
+    left: 8px !important;
+    right: 8px !important;
+    bottom: 8px !important;
+    width: auto !important;
+    max-width: none !important;
+    transform: none !important;
+    z-index: 100000 !important;
+    max-height: calc(100vh - 64px) !important;
+  }
 }
 :root {
   --color-primary: #0d6efd;
