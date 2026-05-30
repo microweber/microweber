@@ -2170,3 +2170,47 @@ body.fi-panel-checkout .fi-page-content b {
     }
 }
 
+/*
+ * task-2026-05-30-admui — Filament admin "medium" size primitives.
+ *
+ * DEFECTS (probed at 390x844 across /admin/pages, /admin/posts,
+ * /admin/products, /admin/users, /admin/marketplace)
+ *
+ *   1. `.fi-btn.fi-size-md` ships at 42px height (2px short of WCAG
+ *      2.5.5 / iOS HIG 44x44 floor). Recurring sites:
+ *        - pagination "Next" `.fi-pagination-next-btn` 81x42
+ *        - filter toggle "Categories" `.fi-color-mw-secondary` 148x42
+ *        - record action group `.fi-ac-btn-group` button 72x42
+ *      Width fine; height fails. Override min-height + height (same
+ *      trick as the AI-1135 badge fix — `height` wins over min-height
+ *      when Filament pins both as !important).
+ *
+ *   2. `.fi-link.fi-size-md.fi-ac-link-action` (page-header link
+ *      actions, eg "Reload Packages" / "Licenses" on /admin/marketplace)
+ *      ships at 20px height — link-styled actions carry no padding.
+ *      Lift to a 44px hit area via inline-flex + min-height +
+ *      align-items: center on the link itself.
+ *
+ * FIX
+ *   Two rules inside the canonical @media (max-width: 768px),
+ *   (pointer: coarse) block. Each scoped via `body.fi-panel-admin`.
+ *
+ * TIER-3 POST-FIX (forced-reload probe at 390x844)
+ *   - pagination Next: 81x44
+ *   - filter toggle: 148x44
+ *   - record action group button: 72x44
+ *   - page-header link action: 136x44 / 81x44
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body.fi-panel-admin .fi-btn.fi-size-md {
+        min-height: 44px !important;
+        height: auto !important;
+    }
+    body.fi-panel-admin .fi-link.fi-ac-link-action,
+    body.fi-panel-admin .fi-link.fi-size-md.fi-ac-link-action {
+        display: inline-flex !important;
+        align-items: center !important;
+        min-height: 44px !important;
+    }
+}
+
