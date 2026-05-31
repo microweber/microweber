@@ -201,7 +201,7 @@ class UrlManager
                         $params_list = explode(',', $the_param);
                         if ($param == 'custom_fields_criteria') {
                             $the_param1 = base64_decode($the_param);
-                            $the_param1 = unserialize($the_param1);
+                            $the_param1 = unserialize($the_param1, ['allowed_classes' => false]);
 
                             return $the_param1;
                         }
