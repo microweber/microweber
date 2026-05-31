@@ -9,7 +9,7 @@
     @endforeach
 
     <div class="d-flex justify-content-center mb-3">
-        {{ $comments->links() }}
+        {{ $comments->links('pagination::bootstrap-5') }}
     </div>
 
 </div>

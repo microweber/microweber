@@ -39,7 +39,7 @@
         </div>
 
         <div class="d-flex justify-content-center mb-3">
-            {{ $products->links() }}
+            {{ $products->links('pagination::bootstrap-5') }}
         </div>
     </div>
 </div>

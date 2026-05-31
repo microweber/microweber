@@ -132,7 +132,7 @@ class PagingNav
 
                 return $pagination_links;
             } else {
-                return $paginate->links();
+                return $paginate->links('pagination::bootstrap-5');
             }
         }
 
