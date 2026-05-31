@@ -34,7 +34,7 @@ class MarqueeModuleSettings extends LiveEditModuleSettings
                     ->helperText('Enter the animation speed for the marquee.')
                     ->numeric()
                     ->live()
-                    ->default('normal'),
+                    ->default(100),
 
                 TextInput::make('options.textWeight')
                     ->label('Text Weight')

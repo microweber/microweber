@@ -18,7 +18,7 @@ Actions\Action::make('save')
             ->icon('heroicon-o-check-circle')
             ->size('xl')
             ->label('Save')
-            ->color('success'),
+            ->color('primary'),
         ];
     }
 

@@ -40,7 +40,7 @@ class EditCategory extends EditRecord
                 ->icon('heroicon-o-check-circle')
                 ->size('xl')
                 ->label('Save')
-                ->color('success'),
+                ->color('primary'),
         ];
     }
 

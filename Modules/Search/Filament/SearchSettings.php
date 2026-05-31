@@ -57,7 +57,7 @@ class SearchSettings extends LiveEditModuleSettings
                                     })
                                     ->helperText('Select where to be positioned the search bar.')
                                     ->live()
-                                    ->default(1),
+                                    ->default('start'),
 
                                 TextInput::make('options.searchWidth')
                                     ->label('Choose the width of the search bar')
