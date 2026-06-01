@@ -199,54 +199,47 @@ class LiveEditPostModuleSettingsAddEditTest extends DuskTestCase
                     return ($found[0] ?? 0) === 1;
                 });
 
-                // Fill title and submit.
+                // Set form fields via Livewire-native state-set + call the
+                // mounted action directly. DOM-fill via input.value +
+                // dispatch events does NOT reliably sync to Filament's deferred
+                // wire:model state — a subsequent form.requestSubmit() posts
+                // stale/empty data and silently re-renders without persisting.
+                //
+                // Property path is the UNIFIED `mountedActions.0.data.*` — in
+                // Filament v5 the table-action HasActions trait is deprecated
+                // and forwards to the form-action InteractsWithActions trait's
+                // single `$mountedActions` array. `$mountedTableActions` does
+                // NOT exist as a public property and `wire.set('mountedTableActions.…')`
+                // throws PublicPropertyNotFoundException. Verified against
+                // vendor/filament/tables/src/Concerns/HasActions.php (all
+                // methods @deprecated forwarders) + vendor/filament/actions/
+                // src/Concerns/InteractsWithActions.php:39 (`public ?array
+                // $mountedActions = []`).
+                //
+                // AI-778 / task-2026-05-17-6d65de — Published toggle defaults
+                // to FALSE on Create; set is_active=true explicitly so the
+                // post appears in the public posts-list render at the end.
                 $iframe->script(
                     "
-                    var title = " . json_encode($createdTitle) . ";
-                    var isVisible = function (el) {
-                        var r = el.getBoundingClientRect();
-                        if (r.width === 0 || r.height === 0) return false;
-                        var cs = getComputedStyle(el);
-                        return cs.display !== 'none' && cs.visibility !== 'hidden';
-                    };
-                    var pickForm = function (name) {
-                        return Array.from(document.querySelectorAll('form'))
-                            .filter(isVisible)
-                            .find(f => {
-                                var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
-                                return v === name;
-                            });
-                    };
-                    var form = pickForm('callMountedTableAction') || pickForm('callMountedAction');
-                    if (!form) return;
-
-                    var setVal = function (input, value) {
-                        if (!input) return false;
-                        input.focus();
-                        input.value = value;
-                        input.dispatchEvent(new Event('input', { bubbles: true }));
-                        input.dispatchEvent(new Event('change', { bubbles: true }));
-                        return true;
-                    };
-
-                    var titleInput = null;
-                    var fields = form.querySelectorAll('input, textarea');
-                    for (var i = 0; i < fields.length; i++) {
-                        var el = fields[i];
-                        var attrs = el.attributes;
-                        for (var j = 0; j < attrs.length; j++) {
-                            var a = attrs[j];
-                            if (!a.name.startsWith('wire:model')) continue;
-                            if (!titleInput && /(^|\\.)title\$/.test(a.value || '')) titleInput = el;
-                        }
-                    }
-                    if (!titleInput) {
-                        var visible = Array.from(form.querySelectorAll('input[type=\"text\"], input:not([type])'))
-                            .filter(el => !el.disabled && !el.readOnly && isVisible(el));
-                        if (visible.length > 0) titleInput = visible[0];
-                    }
-                    setVal(titleInput, title);
-                    setTimeout(() => { if (form.requestSubmit) form.requestSubmit(); }, 700);
+                    return (async function () {
+                        try {
+                            var title = " . json_encode($createdTitle) . ";
+                            var roots = Array.from(document.querySelectorAll('[wire\\\\:id]'));
+                            for (var i = 0; i < roots.length; i++) {
+                                var snap = roots[i].getAttribute('wire:snapshot') || '';
+                                if (snap.indexOf('contentModel') !== -1
+                                    && snap.indexOf('tableRecordsPerPage') !== -1) {
+                                    var w = window.Livewire.find(roots[i].getAttribute('wire:id'));
+                                    if (!w) continue;
+                                    await w.set('mountedActions.0.data.title', title);
+                                    await w.set('mountedActions.0.data.is_active', true);
+                                    await w.callMountedAction();
+                                    return 'OK';
+                                }
+                            }
+                            return 'NO_ROOT';
+                        } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
+                    })();
                 "
                 );
                 $iframe->pause(4000);
@@ -365,49 +358,28 @@ class LiveEditPostModuleSettingsAddEditTest extends DuskTestCase
                     return ($found[0] ?? 0) === 1;
                 });
 
-                // Rename and submit.
+                // Livewire-native rename + submit (same shape as the ADD
+                // case above). is_active is already 1 on the seeded row.
                 $iframe->script(
                     "
-                    var title = " . json_encode($editRenamedTitle) . ";
-                    var isVisible = function (el) {
-                        var r = el.getBoundingClientRect();
-                        if (r.width === 0 || r.height === 0) return false;
-                        var cs = getComputedStyle(el);
-                        return cs.display !== 'none' && cs.visibility !== 'hidden';
-                    };
-                    var pickForm = function (name) {
-                        return Array.from(document.querySelectorAll('form'))
-                            .filter(isVisible)
-                            .find(f => {
-                                var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
-                                return v === name;
-                            });
-                    };
-                    var form = pickForm('callMountedTableAction') || pickForm('callMountedAction');
-                    if (!form) return;
-
-                    var setVal = function (input, value) {
-                        if (!input) return false;
-                        input.focus();
-                        input.value = value;
-                        input.dispatchEvent(new Event('input', { bubbles: true }));
-                        input.dispatchEvent(new Event('change', { bubbles: true }));
-                        return true;
-                    };
-
-                    var titleInput = null;
-                    var fields = form.querySelectorAll('input, textarea');
-                    for (var i = 0; i < fields.length; i++) {
-                        var el = fields[i];
-                        var attrs = el.attributes;
-                        for (var j = 0; j < attrs.length; j++) {
-                            var a = attrs[j];
-                            if (!a.name.startsWith('wire:model')) continue;
-                            if (!titleInput && /(^|\\.)title\$/.test(a.value || '')) titleInput = el;
-                        }
-                    }
-                    setVal(titleInput, title);
-                    setTimeout(() => { if (form.requestSubmit) form.requestSubmit(); }, 700);
+                    return (async function () {
+                        try {
+                            var title = " . json_encode($editRenamedTitle) . ";
+                            var roots = Array.from(document.querySelectorAll('[wire\\\\:id]'));
+                            for (var i = 0; i < roots.length; i++) {
+                                var snap = roots[i].getAttribute('wire:snapshot') || '';
+                                if (snap.indexOf('contentModel') !== -1
+                                    && snap.indexOf('tableRecordsPerPage') !== -1) {
+                                    var w = window.Livewire.find(roots[i].getAttribute('wire:id'));
+                                    if (!w) continue;
+                                    await w.set('mountedActions.0.data.title', title);
+                                    await w.callMountedAction();
+                                    return 'OK';
+                                }
+                            }
+                            return 'NO_ROOT';
+                        } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
+                    })();
                 "
                 );
                 $iframe->pause(4500);

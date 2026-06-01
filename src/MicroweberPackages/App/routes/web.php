@@ -158,6 +158,8 @@ Route::get('login',
     ->middleware('web')
     ->name('login');
 
+Route::redirect('register', '/profile/register')->name('register');
+
 
 Route::post('/csrf-validate-token', function () {
     $headers = ['Cache-Control' => 'no-cache, no-store, must-revalidate'];

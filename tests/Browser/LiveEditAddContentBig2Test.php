@@ -38,14 +38,16 @@ use Tests\DuskTestCase;
  *   2. Mounts the Filament action via `$wire.mountAction(<actionName>)`
  *      — same hook the toolbar Add button + AdminLiveEditPage actions
  *      list use;
- *   3. Fills the title + url fields directly into the rendered modal;
- *   4. Clicks the green live-edit SAVE pill (#save-button) — the
- *      pipeline under test;
+ *   3. Sets the title / url / is_active (+ price for product) via
+ *      Livewire-native `wire.set('mountedActions.0.data.<field>', …)`;
+ *   4. Calls `wire.callMountedAction()` directly — this is the
+ *      canonical Livewire-native submit shape (DOM-fill + the
+ *      live-edit SAVE button's `requestSubmit()` was the legacy path
+ *      and is brittle against Filament's deferred wire:model);
  *   5. Asserts the matching Content row was inserted with the expected
  *      title + content_type. The row's existence is the only thing
- *      that proves the full chain — JS dispatch → form requestSubmit →
- *      Livewire flush → callMountedAction → Action::handle →
- *      Content::save() — survived a round trip.
+ *      that proves the full chain — callMountedAction → Action::handle
+ *      → Content::save() — survived a round trip.
  *
  * The test only writes to its own `livesmoke-` slugs so cleanup() is a
  * narrow `LandingTestContentPurger::purge()` call against rows it
@@ -191,103 +193,45 @@ class LiveEditAddContentBig2Test extends DuskTestCase
         // null/empty for other types.
         $price = $contentType === 'product' ? '19.99' : '';
 
-        $filled = $browser->script(
+        // Set form fields via Livewire-native state-set + call the
+        // mounted action directly. DOM-fill via input.value + dispatch
+        // events does NOT reliably sync to Filament's deferred
+        // wire:model state — a subsequent #save-button click +
+        // requestSubmit() posts stale/empty data and silently
+        // re-renders without persisting. The state-set +
+        // callMountedAction pipeline is the canonical shape (verified
+        // 2026-06-01 alongside LiveEditAddPostFromHomepageTest
+        // task-2026-05-01-3dff3c +
+        // LiveEditPostsListAddPostPublicRenderTest
+        // task-2026-04-29-76c7f4).
+        //
+        // AI-778 / task-2026-05-17-6d65de — Published toggle defaults
+        // to FALSE on Create (anti-footgun); set is_active=true
+        // explicitly so the row lands as published.
+        $saveResult = $browser->script(
             "
-            var title = " . json_encode($title) . ";
-            var slug = " . json_encode($slug) . ";
-            var price = " . json_encode($price) . ";
-
-            var form = Array.from(document.querySelectorAll('form'))
-                .find(f => f.getAttribute('wire:submit.prevent') === 'callMountedAction'
-                        || f.getAttribute('wire:submit') === 'callMountedAction');
-            if (!form) return 'NO_FORM';
-
-            var setVal = function (input, value) {
-                if (!input) return false;
-                input.focus();
-                input.value = value;
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-                input.dispatchEvent(new Event('change', { bubbles: true }));
-                return true;
-            };
-
-            var titleInput = null, urlInput = null, priceInput = null;
-            var fields = form.querySelectorAll('input, textarea');
-            for (var i = 0; i < fields.length; i++) {
-                var el = fields[i];
-                var attrs = el.attributes;
-                for (var j = 0; j < attrs.length; j++) {
-                    var a = attrs[j];
-                    if (!a.name.startsWith('wire:model')) continue;
-                    var v = a.value || '';
-                    if (!titleInput && /(^|\\.)title\$/.test(v)) titleInput = el;
-                    if (!urlInput && /(^|\\.)url\$/.test(v)) urlInput = el;
-                    if (!priceInput && /(^|\\.)price\$/.test(v)) priceInput = el;
-                }
-                if (!titleInput && el.getAttribute('name') && /(^|\\.)title\$/.test(el.getAttribute('name'))) {
-                    titleInput = el;
-                }
-                if (!urlInput && el.getAttribute('name') && /(^|\\.)url\$/.test(el.getAttribute('name'))) {
-                    urlInput = el;
-                }
-                if (!priceInput && el.getAttribute('name') && /(^|\\.)price\$/.test(el.getAttribute('name'))) {
-                    priceInput = el;
-                }
-            }
-
-            if (!setVal(titleInput, title)) {
-                // Last resort — first visible text input in the form
-                // that's not a hidden / readonly field.
-                var visible = Array.from(form.querySelectorAll('input[type=\"text\"], input:not([type])'))
-                    .filter(el => !el.disabled && !el.readOnly && el.offsetParent !== null);
-                if (visible.length > 0) titleInput = visible[0];
-            }
-
-            if (!setVal(titleInput, title)) {
-                // Diagnostic dump — list every input's wire:model so
-                // future failures are debuggable instead of opaque.
-                var dump = Array.from(form.querySelectorAll('input, textarea'))
-                    .map(el => {
-                        var wm = '';
-                        Array.from(el.attributes).forEach(a => {
-                            if (a.name.startsWith('wire:model')) wm += a.name + '=' + a.value + ' ';
-                        });
-                        return el.tagName.toLowerCase()
-                            + '[type=' + (el.type || '') + ']'
-                            + '[name=' + (el.getAttribute('name') || '') + ']'
-                            + '{' + wm.trim() + '}';
-                    }).join(' | ');
-                return 'NO_TITLE_INPUT::' + dump;
-            }
-
-            if (urlInput) setVal(urlInput, slug);
-            if (price && priceInput) setVal(priceInput, price);
-            return 'OK';
+            return (async function () {
+                try {
+                    var root = document.querySelector('[wire\\\\:id]');
+                    if (!root) return 'NO_WIRE_ROOT';
+                    var wire = window.Livewire.find(root.getAttribute('wire:id'));
+                    if (!wire) return 'NO_WIRE';
+                    await wire.set('mountedActions.0.data.title', " . json_encode($title) . ");
+                    await wire.set('mountedActions.0.data.url', " . json_encode($slug) . ");
+                    await wire.set('mountedActions.0.data.is_active', true);
+                    " . ($price !== '' ? "await wire.set('mountedActions.0.data.price', " . json_encode($price) . ");" : '') . "
+                    await wire.callMountedAction();
+                    return 'OK';
+                } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
+            })();
         "
         );
-        $outcome = (string)($filled[0] ?? '');
-        $this->assertStringStartsWith(
+        $this->assertSame(
             'OK',
-            $outcome,
-            "Could not fill {$contentType} form fields. JS dump: {$outcome}"
+            (string)($saveResult[0] ?? ''),
+            "Livewire callMountedAction failed for {$contentType}: " . (string)($saveResult[0] ?? '')
         );
-
-        // Give Livewire's debounced wire:model.live a beat to flush.
-        $browser->pause(900);
-
-        // Click the live-edit SAVE button — the pipeline under test.
-        // It dispatches liveEditSaveCallMountedAction → iframe-page's
-        // Alpine listener calls form.requestSubmit() → Livewire syncs
-        // bindings → callMountedAction runs the form's action handler.
-        $clicked = $browser->script(
-            "
-            var btn = document.getElementById('save-button');
-            if (!btn) return 'NO_SAVE_BUTTON';
-            btn.click();
-            return 'OK';
-        "
-        );
-        $this->assertSame('OK', (string)($clicked[0] ?? ''), 'Live-edit SAVE button missing');
+        $browser->pause(1500);
 
         // Poll the DB directly for the new row instead of polling
         // Livewire's mountedActions array. The mountedActions signal

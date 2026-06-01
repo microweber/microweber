@@ -55,7 +55,19 @@ class AdminDashboardWorkflowTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $this->loginAsAdmin($browser);
 
-            $browser->visit('/admin')->pause(5000);
+            $browser->visit('/admin')->pause(2000);
+            $this->ensureLoggedIn($browser);
+
+            // Filament + Livewire widget hydration runs after initial paint.
+            // Wait for actual dashboard content rather than fixed pause so the
+            // assertions don't race against widget mount. Falls back to a long
+            // pause if the wait fails (test still asserts content presence).
+            try {
+                $browser->waitFor('.fi-page-content', 15);
+            } catch (\Exception $e) {
+                $browser->pause(8000);
+            }
+            $browser->pause(3000);
 
             $checks = 0;
             $failed = [];

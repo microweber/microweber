@@ -249,9 +249,9 @@ class ExchangeRateResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListExchangeRates::class,
-            'create' => Pages\CreateExchangeRate::class,
-            'edit' => Pages\EditExchangeRate::class,
+            'index' => Pages\ListExchangeRates::route('/'),
+            'create' => Pages\CreateExchangeRate::route('/create'),
+            'edit' => Pages\EditExchangeRate::route('/{record}/edit'),
         ];
     }
 

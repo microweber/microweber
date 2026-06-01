@@ -59,7 +59,9 @@ class LiveAdminModuleRestoreSmokeTest extends DuskTestCase
     use AdminLoginTrait;
     use AssertsSkinConsoleClean;
 
-    private const BACKUPS_LIST_SLUG = 'backups';
+    // task-2026-06-01 — BackupResource::getSlug() returns 'backup' (singular)
+    // so the route lives at /admin/backup, not /admin/backups.
+    private const BACKUPS_LIST_SLUG = 'backup';
 
     /**
      * Synthetic session id sentinel used to round-trip through

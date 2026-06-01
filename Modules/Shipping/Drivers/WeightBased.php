@@ -179,7 +179,7 @@ class WeightBased extends AbstractShippingMethod
 
         return [
             Forms\Components\Section::make()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) use ($instructions) {
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) use ($instructions) {
                     $cartWeight = $this->getCartWeight();
                     $cost = 0;
 
@@ -213,7 +213,7 @@ class WeightBased extends AbstractShippingMethod
             Forms\Components\Section::make()
                 ->statePath('settings')
                 ->reactive()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) {
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) {
                     $useTiers = $get('settings.use_weight_tiers') ?? false;
 
                     $schema = [

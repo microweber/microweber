@@ -1,5 +1,6 @@
 <div>
-
+    {{-- AI-1207 task-2026-06-01: ensure non-script content remains after Livewire's SupportMultipleRootElementDetection strips <script>/<style> tags; otherwise DOMDocument::loadHTML crashes on empty source --}}
+    <span class="mw-le-template-settings-anchor" aria-hidden="true" style="display:none;">.</span>
 
     @include('admin::layouts.partials.loads-user-custom-fonts')
 

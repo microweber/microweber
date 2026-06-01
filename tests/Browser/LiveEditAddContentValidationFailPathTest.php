@@ -135,7 +135,19 @@ class LiveEditAddContentValidationFailPathTest extends DuskTestCase
         });
 
         // Click SAVE with empty fields — validation should block.
-        $browser->script("document.getElementById('save-button').click();");
+        // Synthetic .click() on #save-button does NOT trigger Vue's
+        // @click="save()" handler reliably in headless Chrome (verified
+        // in LiveEditAddContentRefreshAndModalSubmitTest mainSave path).
+        // The listener at iframe-page.blade.php:354+ that performs the
+        // showInlineTitleValidation() gate IS reachable via direct
+        // window.dispatchEvent — same event SaveButton.vue dispatches.
+        $browser->script(
+            "
+            try { document.getElementById('save-button').click(); } catch (e) {}
+            try { window.dispatchEvent(new Event('liveEditSaveCallMountedAction')); } catch (e) {}
+            return 'OK';
+        "
+        );
 
         // Give Filament time to surface validation state on the form.
         $browser->pause(2500);

@@ -157,7 +157,7 @@ class MomoMtn extends AbstractPaymentMethod
         $gateway = $this->getGateway();
         return [
             Forms\Components\Section::make()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) use ($gateway) {
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) use ($gateway) {
                     return [
                         Forms\Components\TextInput::make('payer_phone')
                             ->label('Mobile Money Phone Number')

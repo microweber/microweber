@@ -115,15 +115,21 @@ class LiveEditAddContentModalIsCenteredTest extends DuskTestCase
                 . 'right-side slideOver again. Modal classes: ' . $combinedClasses
             );
 
-            // Hard guard #2: width hint is still FiveExtraLarge.
+            // Hard guard #2: width hint is ThreeExtraLarge.
             // (Filament emits the width as a class fragment.)
-            // Bumped from ThreeExtraLarge → FiveExtraLarge in
-            // task-2026-05-04-3337c0.
+            // History: ThreeExtraLarge → FiveExtraLarge in task-2026-05-04-3337c0
+            // when the form still had tabs + a two-column layout. The compact
+            // form became single-column with no tabs, so FiveExtraLarge wasted
+            // horizontal space while making the modal scroll vertically — user
+            // reported "must look very small and compact and not have scrolls"
+            // (task-2026-05-05-899bf8). Reverted to ThreeExtraLarge (768px):
+            // proportional to the single-column compact form, keeps the
+            // live-edit canvas visible on either side. Pin updated to match.
             $this->assertStringContainsString(
-                'fi-width-5xl',
+                'fi-width-3xl',
                 (string) $shape['classNames'],
-                'task-2026-05-04-3337c0 regressed: the Add Post modal lost its '
-                . 'modalWidth(FiveExtraLarge) hint. Without it the modal collapses to '
+                'task-2026-05-05-899bf8 regressed: the Add Post modal lost its '
+                . 'modalWidth(ThreeExtraLarge) hint. Without it the modal collapses to '
                 . 'Filament\'s default narrow width and the form fields stack into one '
                 . 'column. Modal classes: ' . $shape['classNames']
             );

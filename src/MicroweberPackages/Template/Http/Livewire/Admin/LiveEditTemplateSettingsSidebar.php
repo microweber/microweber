@@ -23,8 +23,11 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
     }
     public function getSettings()
     {
-
-
+        $this->styleSheetSourceFile = '';
+        $this->settingsGroups = [];
+        $this->options = [];
+        $this->optionGroup = '';
+        $this->optionGroupLess = '';
 
         $getTemplateConfig = app()->template_manager->get_config();
 
@@ -32,8 +35,9 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
             return;
         }
 
-
-
+        if (empty($getTemplateConfig['dir_name'])) {
+            return;
+        }
 
         $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';
         $optionGroupLess = 'mw-template-' . $getTemplateConfig['dir_name'];

@@ -484,6 +484,7 @@ export class AdminFilament extends BaseComponent {
             el.setAttribute('data-mw-char-counter-wired', '1');
             const limit = parseInt(el.getAttribute('data-mw-char-limit'), 10);
             if (!limit || isNaN(limit)) return;
+            if (typeof el.value !== 'string') return;
 
             const counter = document.createElement('span');
             counter.className = 'mw-char-counter';
@@ -491,7 +492,7 @@ export class AdminFilament extends BaseComponent {
             counter.style.cssText = 'display:block;font-size:11px;color:#6b7280;text-align:right;margin-top:2px;';
 
             const update = () => {
-                const len = el.value.length;
+                const len = (el.value || '').length;
                 counter.textContent = len + ' / ' + limit;
                 counter.style.color = len > limit ? '#ef4444' : '#6b7280';
             };

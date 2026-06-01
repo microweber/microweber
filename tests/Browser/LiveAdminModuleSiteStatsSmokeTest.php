@@ -68,7 +68,9 @@ class LiveAdminModuleSiteStatsSmokeTest extends DuskTestCase
      * slug back to the Filament-default kebab basename (which
      * would silently 404 every link to the stats dashboard).
      */
-    private const DASHBOARD_SLUG = 'site-stats';
+    // task-2026-06-01 — SiteStatsPage slug was renamed to 'site-statistics'
+    // in AI-1037 (task-2026-05-22-f9ebf9) to match the nav label.
+    private const DASHBOARD_SLUG = 'site-statistics';
 
     /**
      * Canonical option_group the disable-tracking flag lives

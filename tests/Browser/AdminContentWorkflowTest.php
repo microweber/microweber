@@ -167,6 +167,21 @@ class AdminContentWorkflowTest extends DuskTestCase
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
+
+                // If not found (e.g. sorted oldest-first or paginated), use the in-list search
+                if (!str_contains($pageSource, $title)) {
+                    $browser->script("
+                        var searchInput = document.querySelector('.fi-ta-search-field input')
+                            || document.querySelector('input[placeholder=\"Search\"]');
+                        if (searchInput) {
+                            searchInput.value = " . json_encode($title) . ";
+                            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
+                    ");
+                    $browser->pause(4000);
+                    $pageSource = $browser->driver->getPageSource();
+                }
+
                 $this->assertStringContainsString($title, $pageSource,
                     "Created page '{$title}' should appear in the pages list");
                 $checks++;
@@ -387,6 +402,21 @@ class AdminContentWorkflowTest extends DuskTestCase
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
+
+                // If not found (e.g. sorted oldest-first or paginated), use the in-list search
+                if (!str_contains($pageSource, $title)) {
+                    $browser->script("
+                        var searchInput = document.querySelector('.fi-ta-search-field input')
+                            || document.querySelector('input[placeholder=\"Search\"]');
+                        if (searchInput) {
+                            searchInput.value = " . json_encode($title) . ";
+                            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
+                    ");
+                    $browser->pause(4000);
+                    $pageSource = $browser->driver->getPageSource();
+                }
+
                 $this->assertStringContainsString($title, $pageSource,
                     "Created product '{$title}' should appear in the products list");
                 $checks++;

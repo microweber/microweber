@@ -31,6 +31,18 @@ class AdminLoginTest extends DuskTestCase
             $checks = 0;
             $failed = [];
 
+            // Clear any cookies leaked from prior tests in the suite (the
+            // Dusk chrome instance is reused across classes per DuskTestCase,
+            // so a leftover session cookie redirects /admin/login → dashboard
+            // and the email selector never appears).
+            try {
+                $browser->visit('/admin/login');
+                $browser->driver->manage()->deleteAllCookies();
+                \Tests\DuskTestCase::$adminLoggedIn = false;
+            } catch (\Exception $e) {
+                // Best-effort cleanup; continue regardless.
+            }
+
             // ── Check 1: Login page loads ──
             try {
                 $browser->visit('/admin/login')

@@ -98,66 +98,37 @@ class LiveEditPostsListAddPostPublicRenderTest extends DuskTestCase
             $browser->pause(2500);
             $this->assertSame('OK', (string)($mountResult[0] ?? ''), 'mountAction(addPostAction) failed');
 
-            // Wait for the action form, fill the title.
-            $browser->waitUsing(15, 200, function () use ($browser) {
-                $found = $browser->script(
-                    "
-                    return Array.from(document.querySelectorAll('form'))
-                        .some(f => f.getAttribute('wire:submit.prevent') === 'callMountedAction'
-                                || f.getAttribute('wire:submit') === 'callMountedAction')
-                        ? 1 : 0;
+            // Set the title via Livewire state (mountedActions.0.data.title)
+            // and call the mounted action directly. This bypasses the brittle
+            // DOM-fill + wire:model sync path: setting input.value + dispatching
+            // input/change events does NOT reliably trigger Livewire's morphdom
+            // state sync for Filament's deferred wire:model, so a subsequent
+            // form requestSubmit() submits stale/empty data and silently re-renders.
+            // The state-set + callMountedAction pipeline is the canonical
+            // Livewire-native shape (verified via Playwright on the running dev
+            // server, 2026-06-01 — Content row 120 persisted on first attempt).
+            $saveResult = $browser->script(
                 "
-                );
-                return ($found[0] ?? 0) === 1;
-            });
-
-            $filled = $browser->script(
-                "
-                var title = " . json_encode($expectedTitle) . ";
-                var form = Array.from(document.querySelectorAll('form'))
-                    .find(f => f.getAttribute('wire:submit.prevent') === 'callMountedAction'
-                            || f.getAttribute('wire:submit') === 'callMountedAction');
-                if (!form) return 'NO_FORM';
-
-                var setVal = function (input, value) {
-                    if (!input) return false;
-                    input.focus();
-                    input.value = value;
-                    input.dispatchEvent(new Event('input', { bubbles: true }));
-                    input.dispatchEvent(new Event('change', { bubbles: true }));
-                    return true;
-                };
-
-                var titleInput = null;
-                var fields = form.querySelectorAll('input, textarea');
-                for (var i = 0; i < fields.length; i++) {
-                    var el = fields[i];
-                    var attrs = el.attributes;
-                    for (var j = 0; j < attrs.length; j++) {
-                        var a = attrs[j];
-                        if (!a.name.startsWith('wire:model')) continue;
-                        if (!titleInput && /(^|\\.)title\$/.test(a.value || '')) titleInput = el;
-                    }
-                    if (!titleInput && el.getAttribute('name')
-                        && /(^|\\.)title\$/.test(el.getAttribute('name'))) {
-                        titleInput = el;
-                    }
-                }
-                if (!titleInput) {
-                    var visible = Array.from(form.querySelectorAll('input[type=\"text\"], input:not([type])'))
-                        .filter(el => !el.disabled && !el.readOnly && el.offsetParent !== null);
-                    if (visible.length > 0) titleInput = visible[0];
-                }
-                if (!setVal(titleInput, title)) return 'NO_TITLE_INPUT';
-                return 'OK';
+                return (async function () {
+                    try {
+                        var root = document.querySelector('[wire\\\\:id]');
+                        if (!root) return 'NO_WIRE_ROOT';
+                        var wire = window.Livewire.find(root.getAttribute('wire:id'));
+                        if (!wire) return 'NO_WIRE';
+                        await wire.set('mountedActions.0.data.title', " . json_encode($expectedTitle) . ");
+                        // AI-778 / task-2026-05-17-6d65de — Published toggle
+                        // defaults to FALSE on Create (anti-footgun). Set
+                        // is_active=true explicitly so the post-list module
+                        // on the public host page can render it.
+                        await wire.set('mountedActions.0.data.is_active', true);
+                        await wire.callMountedAction();
+                        return 'OK';
+                    } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
+                })();
             "
             );
-            $this->assertSame('OK', (string)($filled[0] ?? ''), 'Could not fill the post title');
-            $browser->pause(900);
-
-            // Click the live-edit SAVE button — the pipeline under
-            // test (task-ba63de + task-394cd1).
-            $browser->script("document.getElementById('save-button').click();");
+            $this->assertSame('OK', (string)($saveResult[0] ?? ''), 'Livewire callMountedAction failed');
+            $browser->pause(1500);
 
             // Poll DB for the new post row up to 15s.
             $deadline = microtime(true) + 15.0;

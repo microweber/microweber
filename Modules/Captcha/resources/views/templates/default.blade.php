@@ -4,6 +4,10 @@ name: Default
 description: Default comments template
 --}}
 
+@once
+    <script src="{{ asset('modules/captcha/js/captcha-alpine.js') }}" data-mw-captcha-alpine-inline></script>
+@endonce
+
 <div
     wire:ignore
     x-data="captchaAlpine"

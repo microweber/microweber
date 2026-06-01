@@ -5,7 +5,10 @@ namespace Modules\Currency\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use Modules\Currency\Filament\Admin\Resources\CurrencyResource;
+use Modules\Currency\Filament\Admin\Resources\ExchangeRateResource;
 use Modules\Currency\Services\CurrencyManager;
 use Modules\Currency\Services\CurrencyConversionService;
 use Modules\Currency\Http\Middleware\CurrencyMiddleware;
@@ -38,6 +41,9 @@ class CurrencyServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->mergeConfigFrom(dirname(__DIR__) . '/config/money.php', 'money');
         $this->mergeConfigFrom(dirname(__DIR__) . '/config/currency.php', 'currency');
+
+        FilamentRegistry::registerResource(CurrencyResource::class);
+        FilamentRegistry::registerResource(ExchangeRateResource::class);
     }
 
     /**

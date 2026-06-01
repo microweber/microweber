@@ -47,7 +47,7 @@ class Mollie extends AbstractPaymentMethod
     {
         return [
             Forms\Components\Section::make()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) {
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) {
                     return [
                         Forms\Components\Placeholder::make('')
                             ->content('You will be redirected to Mollie to complete your purchase.')

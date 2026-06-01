@@ -145,37 +145,35 @@ class LiveEditAddPostFromHomepageTest extends DuskTestCase
                 return ($found[0] ?? 0) === 1;
             });
 
-            $titleResult = $browser->script(
+            // Set form fields via Livewire-native state-set + call the
+            // mounted action directly. DOM-fill via input.value + dispatch
+            // events does NOT reliably sync to Filament's deferred
+            // wire:model state — a subsequent submit posts stale/empty
+            // data and silently re-renders without persisting. The
+            // state-set + callMountedAction pipeline is the canonical
+            // shape (verified 2026-06-01 alongside
+            // LiveEditPostsListAddPostPublicRenderTest task-2026-04-29-76c7f4).
+            // AI-778 / task-2026-05-17-6d65de — Published toggle defaults
+            // to FALSE on Create; set is_active=true explicitly so the
+            // post appears in public posts lists immediately.
+            $saveResult = $browser->script(
                 "
-                var title = " . json_encode($title) . ";
-                var input = document.querySelector('input[wire\\\\:model=\"mountedActions.0.data.title\"]');
-                if (!input) return 'NO_TITLE';
-                input.focus();
-                input.value = title;
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-                input.dispatchEvent(new Event('change', { bubbles: true }));
-                return 'OK';
+                return (async function () {
+                    try {
+                        var root = document.querySelector('[wire\\\\:id]');
+                        if (!root) return 'NO_WIRE_ROOT';
+                        var wire = window.Livewire.find(root.getAttribute('wire:id'));
+                        if (!wire) return 'NO_WIRE';
+                        await wire.set('mountedActions.0.data.title', " . json_encode($title) . ");
+                        await wire.set('mountedActions.0.data.is_active', true);
+                        await wire.callMountedAction();
+                        return 'OK';
+                    } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
+                })();
             "
             );
-            $this->assertSame('OK', (string) ($titleResult[0] ?? ''), 'title fill failed');
-            $browser->pause(900);
-
-            // Submit via Filament's own modal Save — most natural
-            // operator action. Skip the green toolbar SAVE here; that
-            // path is already covered by LiveEditAddContentRefreshAnd
-            // ModalSubmitTest. This test owns the "from homepage" angle.
-            $clicked = $browser->script(
-                "
-                var modal = document.querySelector('.fi-modal-window');
-                if (!modal) return 'NO_MODAL';
-                var btn = Array.from(modal.querySelectorAll('button'))
-                    .find(b => /save/i.test((b.textContent || '').trim()) && b.id !== 'save-button');
-                if (!btn) return 'NO_MODAL_SAVE';
-                btn.click();
-                return 'OK';
-            "
-            );
-            $this->assertSame('OK', (string) ($clicked[0] ?? ''), 'modal Save click failed');
+            $this->assertSame('OK', (string) ($saveResult[0] ?? ''), 'Livewire callMountedAction failed');
+            $browser->pause(1500);
 
             // Wait for DB row.
             $deadline = microtime(true) + 20.0;

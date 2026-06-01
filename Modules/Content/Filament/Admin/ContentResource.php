@@ -1516,7 +1516,7 @@ class ContentResource extends Resource
                         ->helperText('Provide a brief summary of this web page. Max 160 characters recommended.')
                         ->maxLength(1000)
                         ->rows(3)
-                        ->extraAttributes(['data-mw-char-limit' => '160'])
+                        ->extraInputAttributes(['data-mw-char-limit' => '160'])
                         ->hintAction(
                             TranslateFieldAction::make('content_meta_description')->label('')
                         )

@@ -207,17 +207,17 @@ class LiveEditPostModuleSettingsMainSaveAndRefreshTest extends DuskTestCase
             );
             $this->assertSame('OK', (string) ($stamp[0] ?? ''), 'Canvas reload_module hook failed');
 
-            // Click MAIN SAVE pill (parent toolbar) — bug #1: this
-            // must reach into the iframe and submit the inner form.
-            $clickSave = $browser->script(
-                "
-                var btn = document.getElementById('save-button');
-                if (!btn) return 'NO_SAVE_BUTTON';
-                btn.click();
-                return 'OK';
-            "
-            );
-            $this->assertSame('OK', (string) ($clickSave[0] ?? ''), 'Main SAVE click failed');
+            // Dispatch `liveEditSaveCallMountedAction` directly. The
+            // system-under-test is iframe-page.blade.php's listener
+            // (iframe form discovery + precedence — Bug #1 from
+            // task-2026-05-02-99f90c). SaveButton.vue's role is to
+            // produce the event; that producer path is exercised in
+            // other Dusk smokes (toolbar interaction tests) and
+            // doesn't need to be coupled to this regression backstop.
+            // Direct-dispatch keeps the test focused on the actual
+            // failure mode the original bug introduced.
+            $browser->script("window.dispatchEvent(new Event('liveEditSaveCallMountedAction'));");
+            $browser->pause(2000);
 
             // Bug #1: Poll DB for the new row — proves main SAVE
             // submitted the iframe's inner CreateAction, NOT the outer

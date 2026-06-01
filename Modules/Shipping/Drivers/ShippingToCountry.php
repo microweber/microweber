@@ -167,7 +167,7 @@ class ShippingToCountry extends AbstractShippingMethod
             Forms\Components\Section::make()
                 ->live()
                 ->reactive()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) {
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) {
 
                     $instructions = $this->getModel()->settings['shipping_instructions'] ?? 'Please select your shipping country to calculate shipping costs.';
 

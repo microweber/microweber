@@ -35,7 +35,7 @@ class PayOnDelivery extends AbstractPaymentMethod
 
         return [
             Forms\Components\Section::make()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) use ($message) {
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) use ($message) {
                     return [
                         Forms\Components\Placeholder::make('')
                             ->content($message)
@@ -50,7 +50,7 @@ class PayOnDelivery extends AbstractPaymentMethod
             Forms\Components\Section::make()
                 ->statePath('settings')
                 ->reactive()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) {
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) {
                     $provider = $get('provider');
 
                     return [

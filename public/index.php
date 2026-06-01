@@ -6,6 +6,14 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
+// task-2026-06-01: bump PCRE limits so Livewire's debug-mode SupportMultipleRootElementDetection
+// hook (vendor/livewire/livewire/src/Features/SupportMultipleRootElementDetection/SupportMultipleRootElementDetection.php)
+// can preg_replace <script>/<style> tags from large Livewire renders (e.g. live-edit template settings
+// sidebar with ~1.5MB output + 81 inline scripts) — default 1M backtrack limit silently returns NULL
+// and triggers DOMDocument::loadHTML("") crash. Production-safe — only affects regex engine ceilings.
+@ini_set('pcre.backtrack_limit', '100000000');
+@ini_set('pcre.recursion_limit', '100000000');
+
 /*
 |--------------------------------------------------------------------------
 | Check If Application Is Under Maintenance

@@ -145,6 +145,18 @@ class LiveEditAddContentDoesNotLoseDataOnClickOutsideTest extends DuskTestCase
             // Step 2: press Escape via the parent body element. Same
             // guard applies — closeModalByEscaping(false) means Esc
             // doesn't fire close-modal.
+            //
+            // Stub window.confirm before Escape: the newer
+            // initModalDirtyGuard in admin-filament.js intercepts
+            // Escape when the modal has dirty data and shows a
+            // confirm() dialog. WebDriver sees that as an
+            // UnexpectedAlertOpen unless the dialog is auto-handled.
+            // Returning false ("keep my work") makes the guard
+            // stopPropagation; either way the Filament
+            // closeModalByEscaping(false) chain ALSO keeps the modal
+            // open, so the outcome is unchanged — this stub just
+            // prevents the alert from blocking the next script() call.
+            $browser->script("window.confirm = function () { return false; };");
             $browser->driver->getKeyboard()->sendKeys(\Facebook\WebDriver\WebDriverKeys::ESCAPE);
             $browser->pause(800);
 

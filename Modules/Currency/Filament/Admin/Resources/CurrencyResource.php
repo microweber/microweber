@@ -217,9 +217,9 @@ class CurrencyResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCurrencies::class,
-            'create' => Pages\CreateCurrency::class,
-            'edit' => Pages\EditCurrency::class,
+            'index' => Pages\ListCurrencies::route('/'),
+            'create' => Pages\CreateCurrency::route('/create'),
+            'edit' => Pages\EditCurrency::route('/{record}/edit'),
         ];
     }
 
