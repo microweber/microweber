@@ -214,9 +214,12 @@ class BtnModuleSettings extends LiveEditModuleSettings
                 ->default(''),
 
 
-            //hoverbackgroundColor
+            // task-2026-05-31-d8c2a1 / AI-1197 — duplicate-word typo "Hover hover color".
+            // This picker controls TEXT colour on hover (sibling to hoverbackgroundColor +
+            // hoverborderColor). Renamed to "Hover text color" so the AT-announced label,
+            // the visual label, and the field semantics agree.
             ColorPicker::make('options.hovercolor')
-                ->label('Hover hover color')
+                ->label('Hover text color')
                 ->live()
                 ->default(''),
 

@@ -319,8 +319,16 @@ class AdminLiveEditPage extends Page
                     ->openUrlInNewTab(true),
             ])
             ->form([
+                // task-2026-05-31 / AI-817 follow-up: replaced ->hiddenLabel()
+                // with ->label('Image files') + sr-only wrapper class so
+                // screen readers announce the input purpose. ->hiddenLabel()
+                // strips the label from the accessibility tree entirely
+                // (WCAG 3.3.2 Level A failure). The .mw-fb-title-wrap
+                // sr-only rule is declared in live-edit-module-settings
+                // blade view which is loaded on the live-edit page.
                 FileUpload::make('images')
-                    ->hiddenLabel()
+                    ->label('Image files')
+                    ->extraFieldWrapperAttributes(['class' => 'mw-fb-title-wrap'])
                     ->multiple()
                     ->image()
                     ->imageEditor()

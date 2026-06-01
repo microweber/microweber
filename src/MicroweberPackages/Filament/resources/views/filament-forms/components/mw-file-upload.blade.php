@@ -1,3 +1,27 @@
+{{--
+    task-2026-05-31-flu814 — AI-1203: Filament v5 native mw-file-upload schema-component
+    accessible-name gap.
+
+    Pre-fix state probed via Playwright at /admin/logo-module-settings:
+      Every <button> rendering the icon-only close-X SVG inside the image-preview,
+      video-preview, and generic-file-preview branches carried NO aria-label, NO
+      title, NO visible text content. The readonly URL input in the generic-file
+      branch carried NO aria-label and NO associated <label>. AT users heard
+      "button" / "edit, blank" with no indication of purpose. WCAG 4.1.2 Level A
+      (icon-only buttons) + WCAG 3.3.2 Level A (input without label).
+
+    Sister-fix to AI-1199 (Tabs aria-selected), AI-1200 (Toggle aria-checked),
+    AI-1201 (Toggle accessible-name), AI-1202 (Section collapse-btn accessible-name).
+    Same Filament v5 native-component accessibility-gap family.
+
+    Fix: inject aria-label + title on all three clear-X buttons (semantic
+         "Remove file" action) + aria-label on the readonly URL input
+         (semantic "File URL" purpose). Translated via Microweber __() helper.
+
+    Carries to every mw-file-upload consumer project-wide (Logo, Image,
+    Slider, ContactForm, every Form::make()->schema([...->fileUpload()]) call
+    that resolves to this view).
+--}}
 @php
     use Filament\Support\Facades\FilamentView;
 
@@ -5,6 +29,9 @@
     $statePath = $getStatePath();
 
     $fileTypes = $getFileTypes();
+
+    $mwAi1203RemoveFileLabel = __('Remove file');
+    $mwAi1203FileUrlLabel = __('File URL');
 @endphp
 <div>
 
@@ -111,9 +138,9 @@
                 --}}
                 <div class="w-full relative flex flex-col gap-0 items-stretch justify-center bg-white dark:bg-gray-800 rounded-md overflow-hidden border border-gray-200 dark:border-gray-700">
                     <div class="flex gap-2 items-center px-3 py-2 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-                        <button type="button" class="text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-1" x-on:click="clearState()">
+                        <button type="button" class="text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-1" x-on:click="clearState()" aria-label="{{ $mwAi1203RemoveFileLabel }}" title="{{ $mwAi1203RemoveFileLabel }}">
                             <svg fill="currentColor" class="w-5" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z">
                                 </path>
@@ -143,9 +170,9 @@
                         class="absolute w-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5 z-10">
                         <div class="flex gap-2 items-center">
                             <button type="button" class="text-white bg-white/5 rounded-md hover:bg-white/20"
-                                x-on:click="clearState()">
+                                x-on:click="clearState()" aria-label="{{ $mwAi1203RemoveFileLabel }}" title="{{ $mwAi1203RemoveFileLabel }}">
                                 <svg fill="currentColor" class="w-6" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                     <path fill-rule="evenodd" clip-rule="evenodd"
                                         d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z">
                                     </path>
@@ -180,9 +207,9 @@
                 --}}
                 <div class="w-full relative flex flex-col gap-2 items-stretch justify-center bg-black/80 rounded-md p-3">
                     <div class="flex gap-2 items-center text-white">
-                        <button type="button" class="text-white bg-white/10 hover:bg-white/20 rounded-md p-1" x-on:click="clearState()">
+                        <button type="button" class="text-white bg-white/10 hover:bg-white/20 rounded-md p-1" x-on:click="clearState()" aria-label="{{ $mwAi1203RemoveFileLabel }}" title="{{ $mwAi1203RemoveFileLabel }}">
                             <svg fill="currentColor" class="w-5" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z">
                                 </path>
@@ -190,7 +217,7 @@
                         </button>
                         <span class="truncate text-sm" x-text="fileUrlShort"></span>
                     </div>
-                    <input type="text" :value="state" readonly class="w-full text-xs bg-white/10 text-white border border-white/10 rounded-md px-2 py-1" />
+                    <input type="text" :value="state" readonly aria-label="{{ $mwAi1203FileUrlLabel }}" class="w-full text-xs bg-white/10 text-white border border-white/10 rounded-md px-2 py-1" />
                 </div>
             </div>
         </div>

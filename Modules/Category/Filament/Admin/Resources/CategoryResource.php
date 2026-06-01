@@ -65,13 +65,18 @@ class CategoryResource extends Resource
             ->icon('heroicon-m-folder-open')
             ->columns(1)
             ->schema([
+                // task-2026-05-31 / AI-817 follow-up: ->hiddenLabel() stripped
+                // the "Choose Parent Page or Category" label from the AT —
+                // the parent Section heading "Parent page" alone doesn't
+                // convey that the user can pick EITHER a page OR a category.
+                // WCAG 3.3.2 Level A nuance loss. Replace with sr-only
+                // wrapper class so the contextual label stays in the AT.
                 MwTree::make('mw_parent_page_and_category_state')
                     ->columnSpanFull()
-                    ->hiddenLabel()
                     ->inlineLabel(false)
                     ->live()
                     ->extraFieldWrapperAttributes([
-                        'class' => 'mw-tree-wrapper',
+                        'class' => 'mw-tree-wrapper mw-fb-title-wrap',
                     ])
                     ->required(function (Forms\Get $get) {
                         $required = true;

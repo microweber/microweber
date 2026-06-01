@@ -52,6 +52,15 @@ mw.autoComplete = function(options){
         if(this.options.placeholder){
             this.inputField.placeholder = this.options.placeholder;
         }
+        // task-2026-06-01-ai1206 — AI-1206: dynamic-input accessible-name gap.
+        // mw.autoComplete creates the input via DOM imperatively, so consumers cannot
+        // supply aria-label via markup. Fallback chain mirrors AI-1196:
+        //   options.ariaLabel  >  options.placeholder  >  options.name.
+        // Without this, screen-reader users hear "edit, blank" on every autoComplete
+        // instance (Live Edit search content, every consumer surface). WCAG 3.3.2 Level A.
+        var ai1206AccessibleName = this.options.ariaLabel || this.options.placeholder || this.options.name || 'Search';
+        this.inputField.setAttribute('aria-label', ai1206AccessibleName);
+        this.inputField.setAttribute('title', ai1206AccessibleName);
         mw.$(this.inputField).on('input focus', function(e){
             var val = e.type === 'focus' ? '' : this.value;
             scope.search(val);

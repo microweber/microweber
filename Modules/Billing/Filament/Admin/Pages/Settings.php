@@ -123,11 +123,15 @@ class Settings extends Page implements HasForms
 
     protected function getActions(): array
     {
+        // task-2026-05-31 / AI-816 follow-up: Save CTA on unsubmitted-form
+        // surface uses primary-blue, NOT success-green. Green is reserved
+        // for post-submit semantic-success states (saved, published,
+        // approved, mark-paid). See LESSONS Save CTA color contract.
         return [
             Action::make('Save Settings')
                 ->label('Save Settings')
                 ->action(fn() => $this->save())
-                ->color('success'),
+                ->color('primary'),
         ];
     }
 }

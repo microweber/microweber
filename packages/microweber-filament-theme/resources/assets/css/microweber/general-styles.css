@@ -4591,3 +4591,35 @@ html.dark .fi-modal-footer a.fi-btn,
 .theme-dark .fi-modal-footer a.fi-btn {
     color: rgb(226, 232, 240) !important;
 }
+
+/* task-2026-05-31 / AI-817 follow-up: sr-only label-restoration rule mirror for
+   admin-panel form surfaces outside Live Edit canvas.
+
+   Canonical rule lives in src/MicroweberPackages/Filament/resources/views/filament/
+   components/layout/live-edit-module-settings.blade.php (Live Edit only) and
+   src/MicroweberPackages/LiveEdit/resources/views/iframe-page.blade.php
+   (canvas iframe). Mirror here so admin panel resource forms tagging fields
+   with .mw-fb-title-wrap resolve the rule without depending on Live Edit
+   asset chain.
+
+   Visually hides the label while keeping it in the accessibility tree
+   (NOT display:none). Filament's ->hiddenLabel() shortcut removes the
+   label from the AT entirely — WCAG 3.3.2 Level A failure. */
+.mw-fb-title-wrap .fi-fo-field-label,
+.mw-fb-title-wrap .fi-fo-field-label-ctn,
+.mw-fb-title-wrap .fi-fo-field-label-col,
+.mw-fb-title-wrap > .fi-fo-field-lbl,
+.mw-fb-title-wrap > .fi-fo-field-lbl-ctn,
+.mw-fb-title-wrap label.fi-fo-field-lbl,
+.mw-fb-title-wrap label.fi-fo-field-label,
+.mw-fb-title-wrap > label {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}

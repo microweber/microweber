@@ -1958,6 +1958,31 @@
                 text-transform: none !important;
                 letter-spacing: -0.005em !important;
             }
+
+            /*
+             * task-2026-05-31 / AI-817 follow-up: sr-only label visibility.
+             * The .mw-fb-title-wrap class hides the label visually while
+             * keeping it readable by screen readers (WCAG 3.3.2 Level A).
+             * Mirrors the canonical rule in
+             * src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit-module-settings.blade.php
+             * but scoped to the live-edit iframe page where the
+             * addImageAction modal renders. ->hiddenLabel() removes the
+             * element from the accessibility tree entirely.
+             */
+            .mw-fb-title-wrap > .fi-fo-field-lbl,
+            .mw-fb-title-wrap > .fi-fo-field-lbl-ctn,
+            .mw-fb-title-wrap label.fi-fo-field-lbl,
+            .mw-fb-title-wrap > label {
+                position: absolute !important;
+                width: 1px !important;
+                height: 1px !important;
+                padding: 0 !important;
+                margin: -1px !important;
+                overflow: hidden !important;
+                clip: rect(0, 0, 0, 0) !important;
+                white-space: nowrap !important;
+                border: 0 !important;
+            }
         </style>
 
 

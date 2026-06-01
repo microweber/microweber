@@ -9,9 +9,12 @@ export default {
         }
     },
     mounted() {
+        // task-2026-06-01-ai1206 — AI-1206 consumer-wiring: pass ariaLabel so the dynamic
+        // input created by mw.autoComplete carries an accessible name (WCAG 3.3.2 Level A).
         this.liveEditSearchContentField = new mw.autoComplete({
             element: "#mw-live-edit-search-content",
             placeholder: "Search content",
+            ariaLabel: "Search content",
             ajaxConfig: {
                 method: 'get',
                 url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&order_by=updated_at desc&is_active=1&is_deleted=0&keyword=${val}'

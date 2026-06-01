@@ -126,31 +126,43 @@
                 </style>
 
                 <div>
-                    <div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper">
-                        <span x-show="supports.includes('image')" x-on:click="activeTab = 'image'"
+                    {{-- task-2026-05-31-bg811 / AI-1198 — Background tab buttons rendered as <span> with x-on:click
+                         but no role, tabindex, or keyboard handlers (WCAG 4.1.2 Level A). AI-811-family reprise:
+                         convert to real <button type="button" role="tab"> with aria-selected so screen readers
+                         announce the role + state and the keyboard reaches them via natural Tab order. --}}
+                    <div role="tablist" aria-label="Background source"
+                         class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper">
+                        <button type="button" role="tab" x-show="supports.includes('image')" x-on:click="activeTab = 'image'"
+                              x-bind:aria-selected="activeTab === 'image' ? 'true' : 'false'"
                               x-bind:class="{ 'active': activeTab === 'image', 'tab-indicator': true, 'has-image': hasBackgroundImage }"
                               x-bind:style="hasBackgroundImage && backgroundImagePreview ? `--bg-image: url('${backgroundImagePreview}')` : ''"
-                              class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Image</span>
-                        <span x-show="supports.includes('video')" x-on:click="activeTab = 'video'"
+                              class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Image</button>
+                        <button type="button" role="tab" x-show="supports.includes('video')" x-on:click="activeTab = 'video'"
+                              x-bind:aria-selected="activeTab === 'video' ? 'true' : 'false'"
                               x-bind:class="{ 'active': activeTab === 'video', 'tab-indicator': true, 'has-video': hasBackgroundVideo }"
-                              class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Video</span>
-                        <span x-show="supports.includes('color')" x-on:click="activeTab = 'color'"
+                              class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Video</button>
+                        <button type="button" role="tab" x-show="supports.includes('color')" x-on:click="activeTab = 'color'"
+                              x-bind:aria-selected="activeTab === 'color' ? 'true' : 'false'"
                               x-bind:class="{ 'active': activeTab === 'color', 'tab-indicator': true, 'has-color': hasBackgroundColor }"
                               x-bind:style="hasBackgroundColor && backgroundColorPreview ? `--bg-color: ${backgroundColorPreview}` : ''"
-                              class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Color</span>
-                        <span x-show="supports.includes('other')" x-on:click="activeTab = 'other'"
+                              class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Color</button>
+                        <button type="button" role="tab" x-show="supports.includes('other')" x-on:click="activeTab = 'other'"
+                              x-bind:aria-selected="activeTab === 'other' ? 'true' : 'false'"
                               x-bind:class="{ 'active': activeTab === 'other', 'tab-indicator': true, 'has-cursor': hasBackgroundCursor }"
                               class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100"
-                              style="display: none;">Other</span>
+                              style="display: none;">Other</button>
                     </div>
                     <br>
 
                     <div x-show="supports.includes('image') && activeTab === 'image'" class="bg-tab">
                         <div id="bg--image-picker"></div>
                         <br>
+                        {{-- task-2026-05-31-bg811 / AI-1198 — "Image size" was a bare <label> with no `for`
+                             paired with an unannotated radio container. Bind via id+aria-labelledby so AT
+                             announces "Image size, radio group" (WCAG 1.3.1 Level A). --}}
                         <div class="change-layout-background-wrapper">
-                            <label class="live-edit-label">Image size</label>
-                            <div
+                            <label id="bg-image-size-label" class="live-edit-label">Image size</label>
+                            <div role="radiogroup" aria-labelledby="bg-image-size-label"
                                 class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper mx-0">
                                 <label class="form-selectgroup-item w-100">
                                     <input type="radio" name="backgroundSize" value="auto"
@@ -210,8 +222,12 @@
             </div>
             <div @if(isset($showOnlyBackgroundSettings) && $showOnlyBackgroundSettings) x-show="false" @endif>
 
+                {{-- task-2026-05-31-bg811 / AI-1198 — heading was rendered as <label> with no `for` —
+                     binds to no control, so screen readers reported "no associated form field".
+                     Convert to <div role="heading" aria-level="3"> so AT announces it as a section
+                     heading and not a misbound label (WCAG 1.3.1 Level A). --}}
                 <div class="current-template-modules-list-wrap mt-4" x-show="modulesList.length > 0">
-                    <label class="current-template-modules-list-label live-edit-label mb-2">This layout contains these modules</label>
+                    <div role="heading" aria-level="3" class="current-template-modules-list-label live-edit-label mb-2">This layout contains these modules</div>
                     <div class="current-template-modules-list d-flex flex-wrap gap-2 ms-2">
                         <template x-for="module in modulesList" :key="module.moduleId">
                             <a href="javascript:;" class="btn btn-outline-dark btn-sm d-flex align-items-center gap-1"

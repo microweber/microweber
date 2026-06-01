@@ -1,9 +1,33 @@
+{{--
+    task-2026-05-31-flu814 — AI-1203: Filament v5 native mw-file-upload-multiple
+    schema-component accessible-name gap (multi-variant sister-surface).
+
+    Pre-fix state probed via Playwright at /admin/logo-module-settings family:
+      The per-item remove <button> rendered inside <template x-for="fileItem in state">
+      carried NO aria-label, NO title, NO visible text content. AT users hearing
+      a grid of items each with an icon-only "button" had no indication that
+      activating it would remove that file from the upload set. WCAG 4.1.2 Level A
+      (icon-only buttons).
+
+    Sister-fix to AI-1199 (Tabs aria-selected), AI-1200 (Toggle aria-checked),
+    AI-1201 (Toggle accessible-name), AI-1202 (Section collapse-btn accessible-name),
+    AI-1203 (mw-file-upload single-variant — see ./mw-file-upload.blade.php).
+    Same Filament v5 native-component accessibility-gap family.
+
+    Fix: inject aria-label + title on the per-item remove-X button (semantic
+         "Remove file" action) + aria-hidden + focusable=false on its decorative
+         SVG. Translated via Microweber __() helper.
+
+    Carries to every mw-file-upload-multiple consumer project-wide.
+--}}
 @php
     use Filament\Support\Facades\FilamentView;
 
     $id = $getId();
     $statePath = $getStatePath();
-    $fileTypes = ($getFileTypes())
+    $fileTypes = ($getFileTypes());
+
+    $mwAi1203RemoveFileLabel = __('Remove file');
 @endphp
 <div>
 
@@ -108,7 +132,7 @@
                                 class="absolute w-full h-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5 min-h-[300px]"
                             >
                                 <div class="flex gap-2 items-center">
-                                    <button type="button" class="text-white bg-white/5 rounded-md" x-on:click="() => {
+                                    <button type="button" class="text-white bg-white/5 rounded-md" aria-label="{{ $mwAi1203RemoveFileLabel }}" title="{{ $mwAi1203RemoveFileLabel }}" x-on:click="() => {
                                         if (state && state !== null && typeof state == 'object') {
                                             state = state.filter(item => item !== fileItem);
                                         } else {
@@ -116,7 +140,7 @@
                                         }
                                     }">
                                         <svg fill="currentColor" class="w-6" viewBox="0 0 20 20"
-                                             xmlns="http://www.w3.org/2000/svg">
+                                             xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                             <path fill-rule="evenodd" clip-rule="evenodd"
                                                   d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"></path>
                                         </svg>
