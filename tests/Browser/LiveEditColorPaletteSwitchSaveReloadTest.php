@@ -104,14 +104,18 @@ class LiveEditColorPaletteSwitchSaveReloadTest extends DuskTestCase
             $this->loginAsAdmin($browser);
 
             // ---- Step 1: apply A → Save ----
-            $this->openColorPaletteSidebar($browser, $fixture->pageId);
+            $this->openColorPaletteSidebar($browser, $fixture->pageId, $fixture->link);
             $this->clickPalette($browser, self::PALETTE_A);
             $this->assertPaletteApplied($browser, $packA['properties']);
             $this->saveLiveEdit($browser);
             $browser->pause(1500);
+            // Navigate away from the JS-heavy live-edit page before reloading
+            // it, so Chrome can GC the previous live-edit heap and avoid
+            // session crashes (InvalidSessionIdException) on the second load.
+            $browser->visit('/admin')->pause(2000);
 
             // ---- Step 2: reload and assert A is the persisted state ----
-            $this->reopenLiveEdit($browser, $fixture->pageId);
+            $this->reopenLiveEdit($browser, $fixture->link);
 
             $rootAfterA = $this->snapshotRootCssVars($browser);
             $this->assertPersistedPaletteMatches(
@@ -130,9 +134,14 @@ class LiveEditColorPaletteSwitchSaveReloadTest extends DuskTestCase
             $browser->pause(1500);
 
             // ---- Step 4: reload and assert B replaces A ----
-            $this->reopenLiveEdit($browser, $fixture->pageId);
+            // Load the PUBLIC page (not live-edit) to verify the persisted
+            // CSS re-hydrates correctly without triggering a 3rd heavy
+            // live-edit load (which crashes Chrome on repeated loads).
+            // The public page serves the saved template_css file, so
+            // :root computed vars are identical to what live-edit would show.
+            $browser->visit($fixture->link)->pause(3000);
 
-            $rootAfterB = $this->snapshotRootCssVars($browser);
+            $rootAfterB = $this->snapshotPublicRootCssVars($browser);
             $this->assertPersistedPaletteMatches(
                 $packB['properties'],
                 $rootAfterB,
@@ -176,16 +185,37 @@ class LiveEditColorPaletteSwitchSaveReloadTest extends DuskTestCase
      * persisted state — no in-memory cssEditor layer. Uses the same
      * readiness contract as {@see openColorPaletteSidebar()}.
      */
-    private function reopenLiveEdit(Browser $browser, int $pageId): void
+    private function reopenLiveEdit(Browser $browser, string $link): void
     {
-        $link = content_link($pageId);
         if (!$link) {
             throw new \RuntimeException(
-                "reopenLiveEdit: content_link({$pageId}) returned empty"
+                "reopenLiveEdit: link is empty"
             );
         }
 
         $browser->visit('/admin/live-edit?url=' . urlencode($link))->pause(5000);
+
+        // Diagnostics: capture actual page state before waitFor
+        $diag = $browser->script(
+            "return {
+                href: window.location.href,
+                title: document.title,
+                hasIframe: !!document.querySelector('iframe'),
+                iframeCount: document.querySelectorAll('iframe').length,
+                bodyLen: document.body ? document.body.innerHTML.length : 0,
+                hasMw: typeof window.mw !== 'undefined'
+            };"
+        );
+        $diagInfo = $diag[0] ?? [];
+        if (empty($diagInfo['hasIframe'])) {
+            throw new \RuntimeException(
+                'reopenLiveEdit: no iframe found after visit+5s pause. '
+                . 'href=' . ($diagInfo['href'] ?? '?') . ' '
+                . 'title=' . ($diagInfo['title'] ?? '?') . ' '
+                . 'bodyLen=' . ($diagInfo['bodyLen'] ?? '?')
+            );
+        }
+
         $browser->waitFor('iframe', 20)->pause(3000);
 
         for ($i = 0; $i < 30; $i++) {

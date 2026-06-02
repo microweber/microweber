@@ -237,6 +237,16 @@ class LiveEditLayoutPickerCategoryFilterTest extends DuskTestCase
             );
             var templates = [];
             for (var i = 0; i < cards.length; i++) {
+                // Prefer the data-template attribute bound by Vue — present on
+                // both masonry and list card divs regardless of whether the
+                // card renders a screenshot image (no iframe) or a live-preview
+                // iframe. Parsing the iframe src is kept as a secondary fallback
+                // for cards that mount an iframe before Vue sets data-template.
+                var dataTpl = (cards[i].getAttribute('data-template') || '').trim();
+                if (dataTpl) {
+                    templates.push(dataTpl);
+                    continue;
+                }
                 var iframe = cards[i].querySelector('iframe.layout-preview-iframe');
                 var title = cards[i].querySelector('.modules-list-block-item-masonry-title, .modules-list-block-item-title');
                 var titleText = title ? (title.textContent || '').trim() : '';
@@ -244,7 +254,7 @@ class LiveEditLayoutPickerCategoryFilterTest extends DuskTestCase
                     var tpl = extractTemplate(iframe.getAttribute('src') || '');
                     templates.push(tpl || ('(no-template:' + titleText + ')'));
                 } else {
-                    templates.push('(no-iframe:' + titleText + ')');
+                    templates.push('(no-data-template:' + titleText + ')');
                 }
             }
             return templates;

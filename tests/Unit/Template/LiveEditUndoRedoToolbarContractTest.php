@@ -53,10 +53,14 @@ class LiveEditUndoRedoToolbarContractTest extends TestCase
     {
         $vue = $this->readFile(self::UNDO_REDO_VUE);
 
+        // AI-719 (task-2026-05-16-d2e562): aria-label collapsed to bare "Undo"
+        // so the mobile ::after pseudo (content: attr(aria-label)) renders just
+        // "Undo" without the shortcut hint that bloats mobile toolbar width.
+        // The "(Ctrl+Z)" shortcut is preserved in title= for desktop hover.
         $this->assertMatchesRegularExpression(
-            '/v-on:click="undo\(\)"[^>]*aria-label="Undo \(Ctrl\+Z\)"[^>]*title="Undo \(Ctrl\+Z\)"/s',
+            '/v-on:click="undo\(\)"[^>]*aria-label="Undo"[^>]*title="Undo \(Ctrl\+Z\)"/s',
             $vue,
-            'Undo button must carry aria-label="Undo (Ctrl+Z)" AND title="Undo (Ctrl+Z)" so pointer + screen-reader users see the same shortcut hint.'
+            'Undo button must carry aria-label="Undo" AND title="Undo (Ctrl+Z)".'
         );
     }
 
@@ -65,10 +69,11 @@ class LiveEditUndoRedoToolbarContractTest extends TestCase
     {
         $vue = $this->readFile(self::UNDO_REDO_VUE);
 
+        // AI-719 (task-2026-05-16-d2e562): same rationale as Undo above.
         $this->assertMatchesRegularExpression(
-            '/v-on:click="redo\(\)"[^>]*aria-label="Redo \(Ctrl\+Y\)"[^>]*title="Redo \(Ctrl\+Y\)"/s',
+            '/v-on:click="redo\(\)"[^>]*aria-label="Redo"[^>]*title="Redo \(Ctrl\+Y\)"/s',
             $vue,
-            'Redo button must carry aria-label="Redo (Ctrl+Y)" AND title="Redo (Ctrl+Y)".'
+            'Redo button must carry aria-label="Redo" AND title="Redo (Ctrl+Y)".'
         );
     }
 
@@ -137,10 +142,14 @@ class LiveEditUndoRedoToolbarContractTest extends TestCase
     {
         $vue = $this->readFile(self::SAVE_BUTTON_VUE);
 
+        // task-2026-05-16-3a464f: label shortened to bare "Save" so the copy
+        // fits cleanly in narrow viewports. Saving IS publishing on the live-edit
+        // surface so the longer "Save & Publish" wording is redundant.
+        // The Ctrl+S shortcut hint remains in title= for hover affordance.
         $this->assertMatchesRegularExpression(
-            '/id="save-button"[^>]*aria-label="Save and publish page \(Ctrl\+S\)"[^>]*title="Save & Publish \(Ctrl\+S\)"/s',
+            '/id="save-button"[^>]*aria-label="Save"[^>]*title="Save \(Ctrl\+S\)"/s',
             $vue,
-            'SaveButton.vue must carry BOTH aria-label="Save and publish page (Ctrl+S)" AND title="Save & Publish (Ctrl+S)" so pointer users see the shortcut hint on hover.'
+            'SaveButton.vue must carry aria-label="Save" AND title="Save (Ctrl+S)".'
         );
     }
 
@@ -164,9 +173,9 @@ class LiveEditUndoRedoToolbarContractTest extends TestCase
             'Built bundle must carry the "Redo (Ctrl+Y)" tooltip string.'
         );
         $this->assertStringContainsString(
-            'Save & Publish (Ctrl+S)',
+            'Save (Ctrl+S)',
             $built,
-            'Built bundle must carry the "Save & Publish (Ctrl+S)" tooltip string.'
+            'Built bundle must carry the "Save (Ctrl+S)" tooltip string.'
         );
         $this->assertStringContainsString(
             'Ctrl+Shift+Z',

@@ -249,7 +249,7 @@ class PostModuleAdminAndPublicRenderTest extends DuskTestCase
                     var ok = ['callMountedAction', 'callMountedTableAction'];
                     return Array.from(document.querySelectorAll('form')).some(f => {
                         var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
-                        return ok.indexOf(v) !== -1 && f.offsetParent !== null;
+                        return ok.indexOf(v) !== -1 && f.getBoundingClientRect().width > 0;
                     }) ? 1 : 0;
                 "
                 );
@@ -262,7 +262,7 @@ class PostModuleAdminAndPublicRenderTest extends DuskTestCase
                 var title = " . json_encode($expectedTitle) . ";
                 var ok = ['callMountedAction', 'callMountedTableAction'];
                 var form = Array.from(document.querySelectorAll('form'))
-                    .filter(f => f.offsetParent !== null)
+                    .filter(f => f.getBoundingClientRect().width > 0)
                     .find(f => {
                         var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
                         return ok.indexOf(v) !== -1;
@@ -305,6 +305,26 @@ class PostModuleAdminAndPublicRenderTest extends DuskTestCase
             $this->assertSame('OK', (string)($filled[0] ?? ''), 'Could not fill title input');
             $browser->pause(900);
 
+            // Ensure the post is created as active (is_active defaults to false
+            // per AI-778/task-2026-05-17-6d65de to prevent "publish on first save"
+            // footgun). For this test we want a publicly visible post, so we
+            // set is_active=true on the Livewire component that owns the mounted action.
+            $browser->script(
+                "
+                document.querySelectorAll('[wire\\\\:id]').forEach(function (el) {
+                    try {
+                        var wire = window.Livewire.find(el.getAttribute('wire:id'));
+                        if (!wire) return;
+                        var ma = wire.get ? wire.get('mountedActions') : null;
+                        if (ma && Array.isArray(ma) && ma.length > 0) {
+                            wire.\$set('mountedActions.0.data.is_active', true);
+                        }
+                    } catch (e) {}
+                });
+                "
+            );
+            $browser->pause(500);
+
             // Submit the form via requestSubmit() — same path the form's
             // own submit button hits. This is what the parent-page SAVE
             // listener does when the form is in the parent DOM (which
@@ -314,7 +334,7 @@ class PostModuleAdminAndPublicRenderTest extends DuskTestCase
                 "
                 var ok = ['callMountedAction', 'callMountedTableAction'];
                 var form = Array.from(document.querySelectorAll('form'))
-                    .filter(f => f.offsetParent !== null)
+                    .filter(f => f.getBoundingClientRect().width > 0)
                     .find(f => {
                         var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
                         return ok.indexOf(v) !== -1;
@@ -469,7 +489,7 @@ class PostModuleAdminAndPublicRenderTest extends DuskTestCase
                     var ok = ['callMountedAction', 'callMountedTableAction'];
                     return Array.from(document.querySelectorAll('form')).some(f => {
                         var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
-                        return ok.indexOf(v) !== -1 && f.offsetParent !== null;
+                        return ok.indexOf(v) !== -1 && f.getBoundingClientRect().width > 0;
                     }) ? 1 : 0;
                 "
                 );
@@ -482,7 +502,7 @@ class PostModuleAdminAndPublicRenderTest extends DuskTestCase
                 var title = " . json_encode($renamedTitle) . ";
                 var pickForm = function (name) {
                     return Array.from(document.querySelectorAll('form'))
-                        .filter(f => f.offsetParent !== null)
+                        .filter(f => f.getBoundingClientRect().width > 0)
                         .find(f => {
                             var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
                             return v === name;
@@ -527,7 +547,7 @@ class PostModuleAdminAndPublicRenderTest extends DuskTestCase
                 "
                 var pickForm = function (name) {
                     return Array.from(document.querySelectorAll('form'))
-                        .filter(f => f.offsetParent !== null)
+                        .filter(f => f.getBoundingClientRect().width > 0)
                         .find(f => {
                             var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
                             return v === name;

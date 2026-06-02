@@ -200,7 +200,7 @@ class Big2UserFlowFullPageTest extends DuskTestCase
                 }
                 if (!titleInput) {
                     var visible = Array.from(form.querySelectorAll('input[type=\"text\"], input:not([type])'))
-                        .filter(el => !el.disabled && !el.readOnly && el.offsetParent !== null);
+                        .filter(el => !el.disabled && !el.readOnly && el.getBoundingClientRect().width > 0);
                     if (visible.length > 0) titleInput = visible[0];
                 }
                 if (!setVal(titleInput, title)) return 'NO_TITLE_INPUT';
@@ -210,7 +210,35 @@ class Big2UserFlowFullPageTest extends DuskTestCase
             $this->assertSame('OK', (string)($filled[0] ?? ''), 'Could not fill post title');
             $browser->pause(900);
 
-            $browser->script("document.getElementById('save-button').click();");
+            // Set is_active=true so the post is published (defaults to false per AI-778).
+            $browser->script(
+                "
+                document.querySelectorAll('[wire\\\\:id]').forEach(function (el) {
+                    try {
+                        var wire = window.Livewire.find(el.getAttribute('wire:id'));
+                        if (!wire) return;
+                        var ma = wire.get ? wire.get('mountedActions') : null;
+                        if (ma && Array.isArray(ma) && ma.length > 0) {
+                            wire.\$set('mountedActions.0.data.is_active', true);
+                        }
+                    } catch (e) {}
+                });
+                "
+            );
+            $browser->pause(500);
+
+            // Use wire.callMountedAction() directly — canonical approach that
+            // bypasses the #save-button confirm dialog and canvas-drag save path.
+            $browser->script("
+                (async function () {
+                    var root = document.querySelector('[wire\\\\:id]');
+                    if (!root) return;
+                    var wire = window.Livewire.find(root.getAttribute('wire:id'));
+                    if (!wire) return;
+                    await wire.callMountedAction();
+                })();
+            ");
+            $browser->pause(500); // pause replaced the old #save-button click
 
             // Poll for the new post row.
             $deadline = microtime(true) + 15.0;

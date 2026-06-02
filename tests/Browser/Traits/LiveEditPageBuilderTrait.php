@@ -178,12 +178,25 @@ trait LiveEditPageBuilderTrait
             throw new \RuntimeException('insertLayoutByCategory: picker dialog never opened');
         }
 
-        // Filter by category, then click the matching card.
-        $clicked = $browser->script(
+        // Wait for the layouts list to actually populate (async fetch).
+        for ($i = 0; $i < 20; $i++) {
+            $hasCards = $browser->script("
+                var cards = document.querySelectorAll(
+                    '.mw-le-layouts-dialog .modules-list-block-item, '
+                    + '.mw-le-layouts-dialog .modules-list-block-item-masonry'
+                );
+                return cards.length > 0 ? 1 : 0;
+            ");
+            if (($hasCards[0] ?? 0) === 1) {
+                break;
+            }
+            $browser->pause(500);
+        }
+
+        // Click the matching category and wait for Vue to re-render the filtered list.
+        $browser->script(
             "
             var category = " . json_encode($category) . ";
-            var skinSlug = " . json_encode($skinSlug) . ";
-
             var catLinks = document.querySelectorAll(
                 '.mw-le-layouts-dialog .modules-list-categories li'
             );
@@ -194,23 +207,32 @@ trait LiveEditPageBuilderTrait
                     break;
                 }
             }
+        "
+        );
 
-            // Give Vue a tick to recompute layoutsListFiltered.
+        // Pause for Vue to recompute layoutsListFiltered and re-render the grid.
+        $browser->pause(1500);
+
+        // Scan the rendered cards for the skin slug via data-template or title.
+        $clicked = $browser->script(
+            "
+            var skinSlug = " . json_encode($skinSlug) . ";
+
             var cards = document.querySelectorAll(
                 '.mw-le-layouts-dialog .modules-list-block-item, '
                 + '.mw-le-layouts-dialog .modules-list-block-item-masonry'
             );
             for (var j = 0; j < cards.length; j++) {
                 var card = cards[j];
-                var haystack = '';
-                var iframe = card.querySelector('iframe.layout-preview-iframe');
-                if (iframe) { haystack += (iframe.getAttribute('src') || ''); }
+                var haystack = (card.getAttribute('data-template') || '').toLowerCase();
                 var title = card.querySelector('.modules-list-block-item-masonry-title, .modules-list-block-item-title');
-                if (title) { haystack += ' ' + (title.textContent || ''); }
-                haystack += ' ' + (card.getAttribute('data-template') || '');
+                if (title) { haystack += ' ' + (title.textContent || '').toLowerCase(); }
+                // Also check iframes that may be loaded in view.
+                var iframe = card.querySelector('iframe.layout-preview-iframe');
+                if (iframe) { haystack += ' ' + (iframe.getAttribute('src') || '').toLowerCase(); }
 
-                if (haystack.toLowerCase().indexOf(skinSlug.toLowerCase()) !== -1
-                    || haystack.toLowerCase().indexOf(skinSlug.replace('/', '__').toLowerCase()) !== -1) {
+                if (haystack.indexOf(skinSlug.toLowerCase()) !== -1
+                    || haystack.indexOf(skinSlug.replace('/', '__').toLowerCase()) !== -1) {
                     card.click();
                     return 1;
                 }

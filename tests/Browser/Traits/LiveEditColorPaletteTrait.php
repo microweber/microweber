@@ -76,9 +76,11 @@ trait LiveEditColorPaletteTrait
      * {@see clickPalette()} to work — it calls the same `setPropertyForSelectorBulk`
      * API that the sidebar's Vue components invoke on swatch click.
      */
-    protected function openColorPaletteSidebar(Browser $browser, int $pageId): void
+    protected function openColorPaletteSidebar(Browser $browser, int $pageId, string $link = ''): void
     {
-        $link = content_link($pageId);
+        if ($link === '') {
+            $link = (string)content_link($pageId);
+        }
         if (!$link) {
             throw new \RuntimeException(
                 "openColorPaletteSidebar: content_link({$pageId}) returned empty"
@@ -173,7 +175,7 @@ trait LiveEditColorPaletteTrait
                 var out = {};
                 for (var i = 0; i < styles.length; i++) {
                     var prop = styles[i];
-                    if (prop && prop.indexOf('--mw-') === 0) {
+                    if (prop && prop.indexOf('--') === 0) {
                         out[prop] = (styles.getPropertyValue(prop) || '').trim();
                     }
                 }
@@ -253,14 +255,88 @@ trait LiveEditColorPaletteTrait
     }
 
     /**
-     * Trigger the live-edit save pipeline (POST /api/content/save_edit)
+     * Snapshot every `--mw-*` CSS custom property from the current page's
+     * `:root` directly (not the live-edit canvas iframe). Use this when
+     * the browser is on the PUBLIC page URL rather than the admin live-edit
+     * URL, so that heavy live-edit JS does not need to be loaded.
+     *
+     * @return array<string, string>
+     */
+    protected function snapshotPublicRootCssVars(Browser $browser): array
+    {
+        $result = $browser->script(
+            "try {
+                var styles = document.defaultView.getComputedStyle(document.documentElement);
+                var out = {};
+                for (var i = 0; i < styles.length; i++) {
+                    var prop = styles[i];
+                    if (prop && prop.indexOf('--') === 0) {
+                        out[prop] = (styles.getPropertyValue(prop) || '').trim();
+                    }
+                }
+                return out;
+            } catch (e) {
+                return {};
+            }"
+        );
+
+        $vars = $result[0] ?? [];
+        return is_array($vars) ? $vars : [];
+    }
+
+    /**
      * and block until it completes. Matches the contract used by
      * {@see \Tests\Browser\Traits\LiveEditPageBuilderTrait::saveLiveEdit()}
      * so palette-only tests don't need to compose the full landing-page
      * builder just to Save.
+     *
+     * Two-phase save to avoid the CSS-publish race condition:
+     *   Phase 1 — explicitly flush cssEditor.publishIfChanged() and wait
+     *             for its Promise to resolve before starting the HTML save.
+     *             mw.drag.save() calls publishIfChanged() internally but does
+     *             NOT await it, so the HTML XHR can complete (setting
+     *             __liveEditSaveDone) while the CSS POST is still in flight.
+     *   Phase 2 — call mw.drag.save() and wait for the HTML XHR as before.
+     *             Because Phase 1 already set changed = false, the internal
+     *             publishIfChanged() call inside drag.save() is a no-op.
      */
     protected function saveLiveEdit(Browser $browser): void
     {
+        // Phase 1: flush CSS editor before HTML save.
+        $browser->script(
+            "window.__liveEditCssDone = false;
+            window.__liveEditCssError = null;
+
+            var cssEditor = window.mw && mw.app && mw.app.cssEditor;
+            if (!cssEditor || typeof cssEditor.publishIfChanged !== 'function') {
+                window.__liveEditCssDone = true;
+            } else {
+                try {
+                    cssEditor.publishIfChanged()
+                        .then(function () { window.__liveEditCssDone = true; })
+                        .catch(function (e) {
+                            window.__liveEditCssError = 'cssPublish rejected: ' + (e && e.message ? e.message : e);
+                            window.__liveEditCssDone = true;
+                        });
+                } catch (e) {
+                    window.__liveEditCssError = 'publishIfChanged threw: ' + (e && e.message ? e.message : e);
+                    window.__liveEditCssDone = true;
+                }
+            }"
+        );
+
+        for ($i = 0; $i < 30; $i++) {
+            $cssState = $browser->script(
+                "return { done: !!window.__liveEditCssDone, error: window.__liveEditCssError };"
+            );
+            $cssState = $cssState[0] ?? ['done' => false, 'error' => null];
+            if (!empty($cssState['done'])) {
+                break;
+            }
+            $browser->pause(500);
+        }
+
+        // Phase 2: HTML save.
         $browser->script(
             "window.__liveEditSaveDone = false;
             window.__liveEditSaveError = null;

@@ -200,7 +200,7 @@ class ProductModuleAdminAndPublicRenderTest extends DuskTestCase
                     var ok = ['callMountedAction', 'callMountedTableAction'];
                     return Array.from(document.querySelectorAll('form')).some(f => {
                         var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
-                        return ok.indexOf(v) !== -1 && f.offsetParent !== null;
+                        return ok.indexOf(v) !== -1 && f.getBoundingClientRect().width > 0;
                     }) ? 1 : 0;
                 "
                 );
@@ -212,7 +212,7 @@ class ProductModuleAdminAndPublicRenderTest extends DuskTestCase
                 var title = " . json_encode($renamedTitle) . ";
                 var pickForm = function (name) {
                     return Array.from(document.querySelectorAll('form'))
-                        .filter(f => f.offsetParent !== null)
+                        .filter(f => f.getBoundingClientRect().width > 0)
                         .find(f => {
                             var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
                             return v === name;
@@ -252,7 +252,7 @@ class ProductModuleAdminAndPublicRenderTest extends DuskTestCase
                 "
                 var pickForm = function (name) {
                     return Array.from(document.querySelectorAll('form'))
-                        .filter(f => f.offsetParent !== null)
+                        .filter(f => f.getBoundingClientRect().width > 0)
                         .find(f => {
                             var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
                             return v === name;

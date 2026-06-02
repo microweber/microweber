@@ -120,19 +120,38 @@ class LiveEditColorPalettePickerSwatchCountTest extends DuskTestCase
         });
     }
 
+    /**
+     * Programmatically open the template-settings panel by dispatching
+     * the `mw.open-template-settings` event on `mw.top().app`. This
+     * triggers `SettingsCustomize.vue`'s handler which calls
+     * `show('template-settings')`, emitting the mitt `live-edit-ui-show`
+     * event so `RightSidebar.vue` sets `showSidebar = true` and
+     * `TemplateSettingsTeleport` can mount. Without the mitt emit,
+     * the controlBox container is visible but the Vue teleport body
+     * stays empty (task-2026-05-29-eaf3a1 / AI-1157 fix chain).
+     */
     private function showTemplateSettingsWidget(Browser $browser): void
     {
         for ($attempt = 0; $attempt < 30; $attempt++) {
             $state = $browser->script("
                 try {
-                    var w = window.mw && mw.top && mw.top().app
-                        && mw.top().app.templateSettingsWidget;
+                    var app = window.mw && mw.top && mw.top().app;
+                    if (!app) return 'NO_APP';
+                    var w = app.templateSettingsWidget;
                     if (!w) return 'NO_WIDGET';
+                    // Dispatch the named event so SettingsCustomize.vue's handler
+                    // calls show('template-settings'), which emits live-edit-ui-show
+                    // via the Vue mitt bus — this sets showSidebar = true in
+                    // RightSidebar.vue so TemplateSettingsTeleport mounts.
+                    if (typeof app.dispatch === 'function') {
+                        app.dispatch('mw.open-template-settings');
+                    }
+                    // Also call show() directly as belt-and-suspenders in case
+                    // the SettingsCustomize handler is not yet registered.
                     if (typeof w.show === 'function') {
                         w.show();
-                        return 'SHOWN';
                     }
-                    return 'NO_SHOW_FN';
+                    return 'SHOWN';
                 } catch (e) {
                     return 'ERR:' + (e && e.message ? e.message : e);
                 }
@@ -146,8 +165,8 @@ class LiveEditColorPalettePickerSwatchCountTest extends DuskTestCase
         }
 
         throw new \RuntimeException(
-            'showTemplateSettingsWidget: mw.top().app.templateSettingsWidget '
-            . 'never became available within 15s'
+            'showTemplateSettingsWidget: mw.top().app.templateSettingsWidget never '
+            . 'became available within 15s'
         );
     }
 

@@ -47,10 +47,13 @@ class AddContentModalContractTest extends TestCase
             'Add Content picker blade must include a <input type="search" x-model="q"> filter input (AI-308).'
         );
 
+        // task-2026-05-13-899d57 / NOVICE #14 pin-evolution: aria-label updated
+        // from jargon "Search content types" to plain-English prompt
+        // "What do you want to add?" per UX copy revision.
         $this->assertMatchesRegularExpression(
-            '/aria-label="Search content types"/',
+            '/aria-label="What do you want to add\?"/',
             $blade,
-            'AI-308 search input must carry aria-label="Search content types".'
+            'AI-308 search input must carry aria-label="What do you want to add?" (updated from jargon "Search content types" per NOVICE-14 UX copy revision).'
         );
     }
 
@@ -59,10 +62,21 @@ class AddContentModalContractTest extends TestCase
     {
         $blade = $this->readFile(self::ADD_CONTENT_MODAL_BLADE);
 
-        $this->assertMatchesRegularExpression(
-            '/x-show="q\s*===\s*\'\'\s*\|\|\s*@js\(\$mwAddContentHaystack\)\.includes\(q\.toLowerCase\(\)\)"/',
+        // task-2026-05-16-de4ce4 / AI-694 pin-evolution: filtering changed from
+        // x-show (display:none reflow) to visibility:hidden via :class so filtered
+        // cards keep their grid cell (no reflow on type). The hidden class is
+        // mw-add-content-card--hidden applied when the haystack does not include
+        // the lowercased query.
+        $this->assertStringContainsString(
+            "mw-add-content-card--hidden",
             $blade,
-            'AI-308 each action card must be gated by x-show with a case-insensitive substring match on the haystack of its title + description.'
+            'AI-308/AI-694 each action card must use mw-add-content-card--hidden class for visibility-based filtering.'
+        );
+
+        $this->assertMatchesRegularExpression(
+            '~:class="\{[^"]*mw-add-content-card--hidden[^"]*includes\(q\.toLowerCase\(\)\)~s',
+            $blade,
+            'AI-308/AI-694 each action card :class binding must include haystack includes(q.toLowerCase()) filter.'
         );
 
         $this->assertMatchesRegularExpression(
@@ -119,11 +133,20 @@ class AddContentModalContractTest extends TestCase
     {
         $blade = $this->readFile(self::ADD_CONTENT_MODAL_BLADE);
 
-        // free-form UX improvement (task-2026-05-13-bf1966)
+        // task-2026-05-28-102772 / AI-1218 pin-evolution: x-init block expanded
+        // with an aria-labelledby heading-id patch after the search focus call.
+        // Test now asserts the x-init contains $nextTick opening AND $refs.search.focus()
+        // rather than the exact single-expression form (which no longer exists).
         $this->assertMatchesRegularExpression(
-            '/x-init="\$nextTick\(\(\) => \$refs\.search && \$refs\.search\.focus\(\)\)"/',
+            '/x-init="\$nextTick\(\(\) =>/s',
             $blade,
-            'Picker must auto-focus the search input on modal open via x-init + $nextTick + $refs.search so users can type immediately.'
+            'Picker must auto-focus via x-init + $nextTick so users can type immediately (AI-1218: x-init may contain additional logic after the focus call).'
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/\$refs\.search && \$refs\.search\.focus\(\)/s',
+            $blade,
+            'Picker x-init must include $refs.search && $refs.search.focus() so search input is focused on modal open.'
         );
 
         $this->assertMatchesRegularExpression(
@@ -267,13 +290,20 @@ class AddContentModalContractTest extends TestCase
         $this->assertDoesNotMatchRegularExpression(
             "/\\\$actions\\[\\]\\s*=\\s*\\[\\s*\\n[^\\]]*'title'\\s*=>\\s*'Add to this page'/s",
             $php,
-            'AI-309 the "Add to this page" entry must NOT be pushed onto the $actions array in AdminLiveEditPage::addContentAction.'
+            'AI-309 the "Add to this page" entry (with that exact title) must NOT be pushed onto the $actions array in AdminLiveEditPage::addContentAction.'
         );
 
-        $this->assertDoesNotMatchRegularExpression(
-            "/'action'\\s*=>\\s*'addToCurrentPageAction'/",
+        // task-2026-05-13-5f1937 pin-evolution: the card was renamed from
+        // "Add to this page" to "Add a block to this page" and given a
+        // js_dispatch override (liveEditInsertLayoutRequest) so it no longer
+        // calls replaceMountedAction('addToCurrentPageAction') via Livewire.
+        // The 'action' key remains as a synonym-lookup identifier only.
+        // Assert the card has a js_dispatch key so the blade uses the
+        // CustomEvent path instead of the Livewire wire:click path.
+        $this->assertMatchesRegularExpression(
+            "/'action'\\s*=>\\s*'addToCurrentPageAction'[\\s\\S]*?'js_dispatch'/s",
             $php,
-            'AI-309 no picker action may route to addToCurrentPageAction — the meta-instruction card was removed.'
+            'AI-309 the addToCurrentPageAction card must carry a js_dispatch key so it routes via CustomEvent (liveEditInsertLayoutRequest) rather than via Livewire replaceMountedAction.'
         );
     }
 
@@ -292,10 +322,13 @@ class AddContentModalContractTest extends TestCase
         $methodHead = substr($methodTail, 0, $methodEnd);
         $pushCount = preg_match_all('/\$actions\[\]\s*=\s*\[/', $methodHead);
 
+        // task-2026-05-13-5f1937 pin-evolution: originally 5 (Page/Post/Category/Product/Image).
+        // AI-148 added Image (was already counted in 5), AI-1139 item 3 added Layout (6th),
+        // "Add a block" primary card counts as 7th. Current total: 7.
         $this->assertSame(
-            5,
+            7,
             $pushCount,
-            'AI-309 picker must push exactly 5 entries (Page, Post, Category, Product, Image) — found ' . $pushCount . '.'
+            'AI-309/AI-1139 picker must push exactly 7 entries (Add-a-block, Page, Post, Product, Image, Category, Layout) — found ' . $pushCount . '.'
         );
     }
 

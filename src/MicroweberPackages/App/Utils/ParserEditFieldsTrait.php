@@ -602,6 +602,14 @@ trait ParserEditFieldsTrait
                         $newItem->setReplaceKey($v1);
                         $newItem->setReplaceValue($value);
                         $newItem->setAttributes($attrs);
+                        if (isset($attrs['id'])) {
+                            $newItem->setId($attrs['id']);
+                        }
+                        if (isset($attrs['data-type'])) {
+                            $newItem->setModuleName($attrs['data-type']);
+                        } elseif (isset($attrs['type'])) {
+                            $newItem->setModuleName($attrs['type']);
+                        }
                         if ($prevous_mod_obj) {
                             $newItem->setParent($prevous_mod_obj);
                         }

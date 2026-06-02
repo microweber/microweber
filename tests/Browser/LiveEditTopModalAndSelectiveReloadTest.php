@@ -67,8 +67,10 @@ class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
         // CSS broke Filament's grid container so the overlay backdrop
         // disappeared, the modal grew past the viewport, and the
         // sticky footer never engaged. The replacement test asserts
-        // the layout is now sane: modal carries native fi-width-5xl
-        // (bumped from 3xl in task-2026-05-04-3337c0), header + footer
+        // the layout is now sane: modal carries native fi-width-3xl
+        // (task-2026-05-04-3337c0 bumped to FiveExtraLarge; then
+        // task-2026-05-05-899bf8 dropped to ThreeExtraLarge for the
+        // compact single-column no-tabs form), header + footer
         // are inside the viewport, and the footer's `position: sticky`
         // keeps it visible.
         $this->ensureAdminUser();
@@ -109,7 +111,7 @@ class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
                     var footerStyle = footer ? window.getComputedStyle(footer) : null;
                     return {
                         classNames: modal.className,
-                        hasNativeWidth: modal.className.indexOf('fi-width-5xl') !== -1,
+                        hasNativeWidth: modal.className.indexOf('fi-width-3xl') !== -1,
                         hasCustomTopClass: modal.className.indexOf('mw-live-edit-top-modal') !== -1,
                         headerTop: headerRect ? Math.round(headerRect.top) : null,
                         headerHeight: headerRect ? Math.round(headerRect.height) : null,
@@ -127,8 +129,10 @@ class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
 
             $this->assertTrue(
                 (bool) $info['hasNativeWidth'],
-                'task-2026-05-04-3337c0 regressed: modal lost its fi-width-5xl class. '
-                . 'modalWidth(MaxWidth::FiveExtraLarge) wiring broke.'
+                'task-2026-05-05-899bf8 pin-evolution: modal must have fi-width-3xl class. '
+                . 'Width dropped from FiveExtraLarge (task-2026-05-04-3337c0) to ThreeExtraLarge '
+                . '(task-2026-05-05-899bf8) for the compact single-column form. '
+                . 'modalWidth(MaxWidth::ThreeExtraLarge) wiring broke.'
             );
 
             $this->assertFalse(

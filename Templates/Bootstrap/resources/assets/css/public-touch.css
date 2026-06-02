@@ -308,8 +308,8 @@ button.shop-cta,
 .add-to-cart-button,
 .mw-btn-primary,
 [data-button="primary"] {
-    background-color: var(--color-primary, #0d6efd) !important;
-    border-color: var(--color-primary, #0d6efd) !important;
+    background-color: var(--mw-btn-background-color, var(--color-primary, #0d6efd)) !important;
+    border-color: var(--mw-btn-border-color, var(--color-primary, #0d6efd)) !important;
     color: #ffffff !important;
     border-radius: var(--radius-sm, 6px) !important;
     transition: background-color var(--duration-fast, 0.15s) var(--ease-default, ease),
@@ -326,13 +326,13 @@ button.shop-cta:hover,
 .add-to-cart-button:hover,
 .mw-btn-primary:hover,
 [data-button="primary"]:hover {
-    background-color: var(--color-primary-hover, #0b5ed7) !important;
-    border-color: var(--color-primary-hover, #0b5ed7) !important;
+    background-color: var(--mw-btn-background-hover-color, var(--color-primary-hover, #0b5ed7)) !important;
+    border-color: var(--mw-btn-border-color, var(--color-primary-hover, #0b5ed7)) !important;
 }
 
 .btn.btn-primary {
-    border-radius: var(--btn-primary-radius, 6px);
-    padding: var(--btn-primary-padding-y, 8px) var(--btn-primary-padding-x, 16px);
+    border-radius: var(--btn-primary-radius);
+    padding: var(--btn-primary-padding-y) var(--btn-primary-padding-x);
 }
 
 .btn.btn-secondary,
@@ -1980,7 +1980,7 @@ a:not(.btn):not(.navbar-brand):not([class*="btn-"]):hover {
  * Negative regression guard: rgb(244, 162, 97) must NOT appear on .btn.btn-sm. */
 a.btn.btn-sm:not(.btn-outline-primary):not(.btn-danger):not(.btn-outline-danger),
 button.btn.btn-sm:not(.btn-outline-primary):not(.btn-danger):not(.btn-outline-danger) {
-    background-color: #0d6efd !important;
-    border-color: #0d6efd !important;
+    background-color: var(--mw-btn-background-color, #0d6efd) !important;
+    border-color: var(--mw-btn-border-color, #0d6efd) !important;
     color: #fff !important;
 }

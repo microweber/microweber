@@ -71,7 +71,7 @@ class LiveEditColorPaletteZeroPacksTemplateTest extends DuskTestCase
     use CleansColorPaletteTestFixtures;
     use LiveEditColorPaletteTrait;
 
-    private const EMPTY_TEMPLATE = 'Big2';
+    private const EMPTY_TEMPLATE = 'default';
 
     protected function assertPreConditions(): void
     {

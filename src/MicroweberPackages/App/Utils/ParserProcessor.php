@@ -70,10 +70,31 @@ class ParserProcessor
      */
     public $process_layouts_loop = [];
 
+    /**
+     * Stack of ParserModuleItem objects pushed while a layout Blade template
+     * is being rendered via $this->load(). When non-empty, any bare
+     * single-<module> tag that reaches process() with no parent context
+     * (i.e. from an @module() Blade directive compiled inline) is returned
+     * unchanged so the outer _replace_editable_fields + recursive process()
+     * flow can assign the correct rel/field/parent context.
+     */
+    public array $_deferred_blade_module_stack = [];
+
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false, $prevous_mod_obj = false, $prevous_layout_obj = false)
     {
         if ($layout == '') {
             return;
+        }
+
+        // Deferred Blade module processing: if we're currently rendering a
+        // layout's Blade template (stack non-empty) and this call is a bare
+        // single-module tag with no parent context, return the tag unchanged
+        // so the outer _replace_editable_fields + recursive process() flow
+        // can assign the correct rel/field/parent context before rendering.
+        if (!empty($this->_deferred_blade_module_stack)
+            && !$prevous_mod_obj
+            && preg_match('/^\s*<module\s[^>]*\/>\s*$/s', $layout)) {
+            return $layout;
         }
         /*
          * cycle-N (post-cycle-116 OOM hunt): the original code declared
@@ -501,6 +522,18 @@ class ParserProcessor
                                     }
                                     ++$z;
                                 }
+                                // DEBUG: trace btn module parent context
+                                if ($module_name === 'btn') {
+                                    $parentObj = $mod_obj->getParent();
+                                    file_put_contents('/tmp/mw_btn_trace.txt',
+                                        "module_name=$module_name\n" .
+                                        "coming_from_parent_id=$coming_from_parent_id\n" .
+                                        "coming_from_parent=$coming_from_parent\n" .
+                                        "mod_obj_parent=" . ($parentObj ? $parentObj->getId() . '/' . $parentObj->getModuleName() : 'NULL') . "\n" .
+                                        "attrs_parent_module_id=" . ($attrs['parent-module-id'] ?? 'NOT_SET') . "\n" .
+                                        "attrs_id=" . ($attrs['id'] ?? 'NOT_SET') . "\n\n",
+                                        FILE_APPEND);
+                                }
                                 $module_title = false;
                                 if (!isset($module_name) or !$module_name) {
                                     $module_html = false;
@@ -519,14 +552,6 @@ class ParserProcessor
                                         $mod_id = '';
                                         $mod_id_was_not_found = false;
                                         $mod_id2 = '';
-
-
-//                                        if (!defined('CONTENT_ID')) {
-//                                            //   $mod_id = $mod_id . '-uid-fixme-' . uniqid();
-//                                        //    $mod_id = $mod_id . '-'.url_string(true);
-//
-//                                        }
-
 
                                         if (!$mod_id) {
                                             $mod_id = $module_class;
@@ -1036,6 +1061,7 @@ class ParserProcessor
                                     $this->_current_parser_module_of_type[$par_id_mod_count][$module_name]++;
 
 
+                                    $this->_deferred_blade_module_stack[] = $mod_obj;
                                     $mod_content = $this->load($module_name, $attrs);
 
 
@@ -1079,6 +1105,7 @@ class ParserProcessor
                                     if(is_object($mod_content) and method_exists($mod_content, 'render')){
                                         $mod_content = $mod_content->render();
                                      }
+                                    array_pop($this->_deferred_blade_module_stack);
 
 
                                     if ($this->current_module /*and isset($this->current_module['module_type']) and $this->current_module['module_type']*/) {

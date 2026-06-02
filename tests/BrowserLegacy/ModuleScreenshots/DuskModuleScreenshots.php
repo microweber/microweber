@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\ModuleScreenshots;
+namespace Tests\BrowserLegacy\ModuleScreenshots;
 
 use Illuminate\Support\Facades\Log;
 use Laravel\Dusk\Browser;

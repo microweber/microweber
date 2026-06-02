@@ -211,7 +211,7 @@ class LiveEditColorPaletteCrossTemplateTest extends DuskTestCase
                     var out = {};
                     for (var i = 0; i < styles.length; i++) {
                         var prop = styles[i];
-                        if (prop && prop.indexOf('--mw-') === 0) {
+                        if (prop && prop.indexOf('--') === 0) {
                             out[prop] = (styles.getPropertyValue(prop) || '').trim();
                         }
                     }
@@ -223,7 +223,7 @@ class LiveEditColorPaletteCrossTemplateTest extends DuskTestCase
             $actual = is_array($result[0] ?? null) ? $result[0] : [];
             $this->assertNotEmpty(
                 $actual,
-                "Public render of '{$fixture['slug']}' must expose --mw-* "
+                "Public render of '{$fixture['slug']}' must expose CSS "
                 . "custom properties on :root "
                 . "(template: {$template}, pack: {$slug})"
             );

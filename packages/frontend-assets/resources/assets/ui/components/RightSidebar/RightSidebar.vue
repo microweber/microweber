@@ -213,6 +213,14 @@ export default {
 
         const rightSidebarInstance = this;
 
+        // No-replay guard: if the canvas already finished loading before this
+        // component mounted, set isReady immediately so TemplateSettingsTeleport
+        // can mount. mw.app._ready is set in live-edit-app.js immediately after
+        // liveEditCanvasLoaded fires, so it serves as a reliable "already loaded"
+        // sentinel for components that attach listeners late.
+        if (window.mw && mw.app && mw.app._ready) {
+            this.isReady = true;
+        }
 
         mw.app.canvas.on('liveEditCanvasLoaded', () => {
 
