@@ -140,13 +140,14 @@ class LiveEditAddContentRefreshAndModalSubmitTest extends DuskTestCase
         // appear earlier in document order. Querying generically would
         // stamp the wrong frame and the test would falsely report the
         // canvas didn't reload.
+        $sentinelJs = json_encode($submitPath . '_' . $this->runSlug);
         $stamped = $browser->script(
             "
             try {
                 var ifr = (mw && mw.app && mw.app.canvas && typeof mw.app.canvas.getFrame === 'function')
                     ? mw.app.canvas.getFrame() : null;
                 if (!ifr || !ifr.contentWindow) return 'NO_CANVAS_FRAME';
-                ifr.contentWindow.__addRefreshSentinel = '" . $submitPath . "_" . $this->runSlug . "';
+                ifr.contentWindow.__addRefreshSentinel = {$sentinelJs};
                 return 'OK';
             } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
         "
@@ -228,7 +229,7 @@ class LiveEditAddContentRefreshAndModalSubmitTest extends DuskTestCase
             // Diagnostic — capture the toolbar SAVE button state right before
             // the click. Helps surface "button hidden / disabled / detached"
             // failure modes when the wire root churned between paths.
-            $mainSaveDiag = $browser->script(
+            $browser->script(
                 "
                 try {
                     var btn = document.getElementById('save-button');
@@ -258,7 +259,6 @@ class LiveEditAddContentRefreshAndModalSubmitTest extends DuskTestCase
                 } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
             "
             );
-            fwrite(STDERR, "[mainSave pre-click]\n" . ($mainSaveDiag[0] ?? 'NIL') . "\n");
 
             // Install a sentinel so we can confirm whether the
             // `liveEditSaveCallMountedAction` listener (in iframe-page.blade.php)
@@ -300,7 +300,6 @@ class LiveEditAddContentRefreshAndModalSubmitTest extends DuskTestCase
                 } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
             "
             );
-            fwrite(STDERR, "[mainSave post-click]\n" . ($listenerDiag[0] ?? 'NIL') . "\n");
 
             // Fallback chain — headless Chrome cannot reliably exercise the
             // toolbar SAVE → save() → dispatch → listener → requestSubmit()
@@ -333,7 +332,7 @@ class LiveEditAddContentRefreshAndModalSubmitTest extends DuskTestCase
                 "
                 );
                 usleep(800_000);
-                $postDispatchDiag = $browser->script(
+                $browser->script(
                     "
                     try {
                         return JSON.stringify({
@@ -343,7 +342,6 @@ class LiveEditAddContentRefreshAndModalSubmitTest extends DuskTestCase
                     } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
                 "
                 );
-                fwrite(STDERR, "[mainSave post-dispatch]\n" . ($postDispatchDiag[0] ?? 'NIL') . "\n");
             }
 
             // Ultimate fallback — directly invoke the mounted action via the
@@ -352,7 +350,7 @@ class LiveEditAddContentRefreshAndModalSubmitTest extends DuskTestCase
             // when the synthetic-click / requestSubmit chain didn't fire.
             // Polled idempotently: if the dispatch path already submitted,
             // this becomes a no-op because mountedActions is empty.
-            $fallback = $browser->script(
+            $browser->script(
                 "
                 return (async function () {
                     try {
@@ -375,7 +373,6 @@ class LiveEditAddContentRefreshAndModalSubmitTest extends DuskTestCase
                 })();
             "
             );
-            fwrite(STDERR, "[mainSave ultimate fallback]\n" . ($fallback[0] ?? 'NIL') . "\n");
         } else {
             // 'modalSave' path: click Filament's own footer "Save"
             // button inside the modal. That button submits the wrapping
@@ -383,7 +380,7 @@ class LiveEditAddContentRefreshAndModalSubmitTest extends DuskTestCase
             // explicitly do NOT touch #save-button here — the whole
             // point of this case is to prove the modal-only submit
             // is enough on its own.
-            $diagnostic = $browser->script(
+            $browser->script(
                 "
                 try {
                     var modal = document.querySelector('.fi-modal-window');
@@ -431,7 +428,6 @@ class LiveEditAddContentRefreshAndModalSubmitTest extends DuskTestCase
                 } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
             "
             );
-            fwrite(STDERR, "[modalSave diagnostic]\n" . ($diagnostic[0] ?? 'NIL') . "\n");
 
             // The Filament v5 modal IS the form (wire:submit.prevent=callMountedAction
             // on .fi-modal-window itself). Synthetic DOM events (.click() /
@@ -490,7 +486,7 @@ class LiveEditAddContentRefreshAndModalSubmitTest extends DuskTestCase
             // Post-click diagnostic — wait a beat for any error notification
             // / validation to surface, then capture modal state.
             usleep(2_000_000);
-            $postClickDiag = $browser->script(
+            $browser->script(
                 "
                 try {
                     var modal = document.querySelector('.fi-modal-window');
@@ -514,7 +510,6 @@ class LiveEditAddContentRefreshAndModalSubmitTest extends DuskTestCase
                 } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
             "
             );
-            fwrite(STDERR, "[modalSave post-click]\n" . ($postClickDiag[0] ?? 'NIL') . "\n");
         }
 
         // Poll the DB for the new row.

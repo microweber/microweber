@@ -78,14 +78,6 @@ class AdminMarketplaceWorkflowTest extends DuskTestCase
                 $browser->visit('/admin/marketplace')->pause(5000);
                 $this->ensureLoggedIn($browser);
 
-                $hasSearch = $browser->script("
-                    var searchInput = document.querySelector('input[type=\"search\"]')
-                        || document.querySelector('input[placeholder*=\"search\"]')
-                        || document.querySelector('input[placeholder*=\"Search\"]')
-                        || document.querySelector('.fi-ta-search-field input');
-                    return searchInput !== null;
-                ");
-
                 $pageSource = $browser->driver->getPageSource();
                 $this->assertStringNotContainsString('Whoops', $pageSource,
                     'Marketplace page should not show error');
@@ -114,10 +106,10 @@ class AdminMarketplaceWorkflowTest extends DuskTestCase
                     || str_contains($text, 'marketplace')
                     || str_contains($text, 'package');
 
-                $this->assertTrue(
-                    $hasInstallContent || !str_contains($pageSource, 'Whoops'),
-                    'Installed item page should have content or at least no errors'
-                );
+                $this->assertStringNotContainsString('Whoops', $pageSource,
+                    'Installed item page should not show Whoops error');
+                $this->assertTrue($hasInstallContent,
+                    'Installed item page should have install/marketplace-related content');
                 $checks++;
             } catch (\Exception $e) {
                 $failed['installed_item'] = substr($e->getMessage(), 0, 200);

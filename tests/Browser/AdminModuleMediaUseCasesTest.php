@@ -70,23 +70,6 @@ class AdminModuleMediaUseCasesTest extends DuskTestCase
             $this->assertGreaterThan(0, $data['inputCount'] ?? 0,
                 'Video settings should have URL/embed inputs');
 
-            // Video module should have a URL or embed code input
-            $videoCheck = $browser->script("
-                try {
-                    var textInputs = document.querySelectorAll('input[type=\"text\"], input[type=\"url\"], textarea');
-                    var hasUrlLike = false;
-                    textInputs.forEach(function(el) {
-                        var placeholder = (el.placeholder || '').toLowerCase();
-                        var label = (el.getAttribute('aria-label') || '').toLowerCase();
-                        if (placeholder.includes('url') || placeholder.includes('embed') || placeholder.includes('video')
-                            || label.includes('url') || label.includes('video')) {
-                            hasUrlLike = true;
-                        }
-                    });
-                    return {textInputCount: textInputs.length, hasUrlLikeInput: hasUrlLike};
-                } catch(e) { return {textInputCount: 0, hasUrlLikeInput: false}; }
-            ");
-
             if (($data['tabCount'] ?? 0) > 1) {
                 $this->clickThroughTabs($browser, $data['tabCount'], 'Video');
             }

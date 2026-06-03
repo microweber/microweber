@@ -59,6 +59,8 @@ class Big2UserFlowFullPageTest extends DuskTestCase
     /** @var int[] */
     private array $createdIds = [];
 
+    private ?string $originalTemplate = null;
+
     #[Test]
     public function full_user_flow_on_big2_inline_edit_save_add_post_then_public_render(): void
     {
@@ -386,6 +388,8 @@ class Big2UserFlowFullPageTest extends DuskTestCase
             ->first();
 
         if ($row) {
+            // Remember original so tearDown can restore it
+            $this->originalTemplate = $row->option_value;
             if ($row->option_value !== 'Big2') {
                 DB::table('options')
                     ->where('id', $row->id)
@@ -394,6 +398,7 @@ class Big2UserFlowFullPageTest extends DuskTestCase
             return;
         }
 
+        $this->originalTemplate = null; // row didn't exist; tearDown will delete it
         DB::table('options')->insert([
             'option_key' => 'current_template',
             'option_value' => 'Big2',
@@ -411,6 +416,22 @@ class Big2UserFlowFullPageTest extends DuskTestCase
             } catch (\Throwable $e) {}
         }
         $this->createdIds = [];
+
+        // Restore the original template so sibling tests see a clean state
+        if ($this->originalTemplate !== null) {
+            DB::table('options')
+                ->where('option_key', 'current_template')
+                ->where('option_group', 'template')
+                ->update(['option_value' => $this->originalTemplate, 'updated_at' => now()]);
+        } else {
+            // The row was inserted by this test — remove it
+            DB::table('options')
+                ->where('option_key', 'current_template')
+                ->where('option_group', 'template')
+                ->where('option_value', 'Big2')
+                ->delete();
+        }
+
         parent::tearDown();
     }
 }

@@ -59,9 +59,7 @@ class AdminTagWorkflowTest extends DuskTestCase
                 $bodyText = $browser->script("return document.body.innerText.toLowerCase();");
                 $text = $bodyText[0] ?? '';
                 $hasTagContent = str_contains($text, 'tag')
-                    || str_contains($text, 'name')
-                    || str_contains($text, 'no records')
-                    || str_contains($text, 'create');
+                    || str_contains($text, 'no records');
                 $this->assertTrue(
                     ($hasContent[0] ?? false) || $hasTagContent,
                     'Tags list page should have table/content or tag-related text'
@@ -92,8 +90,7 @@ class AdminTagWorkflowTest extends DuskTestCase
                 $text = $bodyText[0] ?? '';
                 $hasGroupContent = str_contains($text, 'group')
                     || str_contains($text, 'tag')
-                    || str_contains($text, 'no records')
-                    || str_contains($text, 'create');
+                    || str_contains($text, 'no records');
                 $this->assertTrue(
                     ($hasContent[0] ?? false) || $hasGroupContent,
                     'Tag groups page should have table/content or group-related text'
@@ -139,9 +136,7 @@ class AdminTagWorkflowTest extends DuskTestCase
                 $text = $bodyText[0] ?? '';
                 $hasTaggedContent = str_contains($text, 'tagged')
                     || str_contains($text, 'tag')
-                    || str_contains($text, 'resource')
-                    || str_contains($text, 'no records')
-                    || str_contains($text, 'content');
+                    || str_contains($text, 'no records');
                 $this->assertTrue(
                     ($hasContent[0] ?? false) || $hasTaggedContent,
                     'Tagged resources page should have table/content or tagged-related text'

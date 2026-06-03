@@ -129,7 +129,7 @@ class AdminLiveEditElementStyleEditorTest extends DuskTestCase
             // ── Check 5: Verify elementStyleEditor.selectNode dispatch fires on new selection ──
             try {
                 // Install listener, then select a DIFFERENT element to trigger targetChange
-                $dispatched = $browser->script("
+                $browser->script("
                     try {
                         window._styleEditorDispatched = false;
                         window._styleEditorDispatchedElement = null;

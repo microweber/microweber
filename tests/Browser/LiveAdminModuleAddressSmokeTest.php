@@ -209,7 +209,7 @@ class LiveAdminModuleAddressSmokeTest extends DuskTestCase
             ) > 0;
 
         $this->assertTrue(
-            $hasFilamentChrome || $hasLivewireWiring,
+            $hasLivewireWiring,
             'customer admin page must render Filament/Livewire chrome (fi-page / fi-resource '
             . '/ fi-table / wire:id / wire:snapshot / wire:model) — otherwise the page never '
             . 'mounted past the auth shell and the address round-trip above would only prove '

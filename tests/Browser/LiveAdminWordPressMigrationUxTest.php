@@ -221,7 +221,7 @@ class LiveAdminWordPressMigrationUxTest extends DuskTestCase
     private function innerText(Browser $browser, string $selector): ?string
     {
         $result = $browser->script(
-            "var n = document.querySelector('" . addslashes($selector) . "'); return n ? n.innerText.trim() : null;"
+            "var n = document.querySelector(" . json_encode($selector) . "); return n ? n.innerText.trim() : null;"
         );
         return $result[0] ?? null;
     }

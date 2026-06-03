@@ -224,7 +224,7 @@ class LiveAdminModuleCompanySmokeTest extends DuskTestCase
         ) > 0;
 
         $this->assertTrue(
-            $hasFilamentChrome || $hasLivewireWiring,
+            $hasLivewireWiring,
             'admin dashboard must render Filament/Livewire chrome (fi-page / fi-resource '
             . '/ fi-table / wire:id / wire:snapshot / wire:model / wire:click="save") — '
             . 'otherwise the page never mounted past the auth shell and the company '

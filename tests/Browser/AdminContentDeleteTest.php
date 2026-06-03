@@ -30,6 +30,8 @@ class AdminContentDeleteTest extends DuskTestCase
 
     protected function livewireSet(Browser $browser, string $property, string $value): void
     {
+        $propertyJs = json_encode($property);
+        $valueJs    = json_encode($value);
         $js = <<<JS
             var titleInput = document.querySelector('#form\\\\.title');
             if (!titleInput) return false;
@@ -39,7 +41,7 @@ class AdminContentDeleteTest extends DuskTestCase
             var wireId = el.getAttribute('wire:id');
             var comp = window.Livewire.find(wireId);
             if (!comp) return false;
-            comp.set('{$property}', '{$value}');
+            comp.set({$propertyJs}, {$valueJs});
             return true;
         JS;
         $browser->script($js);

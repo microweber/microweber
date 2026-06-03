@@ -59,9 +59,7 @@ class AdminCustomerWorkflowTest extends DuskTestCase
                 $text = $bodyText[0] ?? '';
                 $hasCustomerContent = str_contains($text, 'customer')
                     || str_contains($text, 'email')
-                    || str_contains($text, 'name')
-                    || str_contains($text, 'no records')
-                    || str_contains($text, 'create');
+                    || str_contains($text, 'no records');
                 $this->assertTrue(
                     ($hasContent[0] ?? false) || $hasCustomerContent,
                     'Customer list page should have table/content or customer-related text'

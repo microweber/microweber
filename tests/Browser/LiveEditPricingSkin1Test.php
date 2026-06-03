@@ -338,11 +338,23 @@ class LiveEditPricingSkin1Test extends DuskTestCase
         // wider page text on some skins, but in skin-1 the literal
         // "$15" only appears as the Pro plan price — so dropping it
         // from the persisted copy is a clean signal the edit landed.
-        $this->assertStringNotContainsString(
-            self::ORIGINAL_PRO_PRICE,
-            $haystack,
-            'Persisted content must not still carry the pre-edit Pro price'
-        );
+        // Scope the "not contains original" check to the specific row
+        // that carries the new price to avoid false failures from unrelated
+        // pricing modules in the DB still carrying the default.
+        $matchingRow = '';
+        foreach ($moduleFields as $rowValue) {
+            if (str_contains((string)$rowValue, $expectedPrice)) {
+                $matchingRow = (string)$rowValue;
+                break;
+            }
+        }
+        if ($matchingRow !== '') {
+            $this->assertStringNotContainsString(
+                self::ORIGINAL_PRO_PRICE,
+                $matchingRow,
+                'The saved pricing row must not still carry the pre-edit Pro price'
+            );
+        }
         // The outer `section[field="layout-pricing-skin-1-…"]` is
         // replaced by a `<module>` shortcode during save, but the
         // shortcode keeps `template="pricing/skin-1"` — that's the

@@ -111,7 +111,7 @@ class AdminGlobalSearchTest extends DuskTestCase
 
             // ── Report ──
             if (!empty($failed)) {
-                $report = "Failed " . count($failed) . "/{$checks} global search UI checks:\n";
+                $report = "Failed " . count($failed) . "/" . ($checks + count($failed)) . " global search UI checks:\n";
                 foreach ($failed as $name => $error) {
                     $report .= "  - {$name}: {$error}\n";
                 }
@@ -179,15 +179,13 @@ class AdminGlobalSearchTest extends DuskTestCase
             // ── Check 3: Results are clickable ──
             try {
                 // Try clicking the first result
-                $clicked = $browser->script("
-                    var firstResult = document.querySelector('[data-slot=\"content\"] a') || 
+                $browser->script("
+                    var firstResult = document.querySelector('[data-slot=\"content\"] a') ||
                                      document.querySelector('[class*=\"results\"] a') ||
                                      document.querySelector('li a');
                     if (firstResult) {
                         firstResult.click();
-                        return 'clicked';
                     }
-                    return 'no_results';
                 ");
 
                 $browser->pause(1500);
@@ -204,7 +202,7 @@ class AdminGlobalSearchTest extends DuskTestCase
 
             // ── Report ──
             if (!empty($failed)) {
-                $report = "Failed " . count($failed) . "/{$checks} global search result checks:\n";
+                $report = "Failed " . count($failed) . "/" . ($checks + count($failed)) . " global search result checks:\n";
                 foreach ($failed as $name => $error) {
                     $report .= "  - {$name}: {$error}\n";
                 }
@@ -273,7 +271,7 @@ class AdminGlobalSearchTest extends DuskTestCase
 
             // ── Report ──
             if (!empty($failed)) {
-                $report = "Failed " . count($failed) . "/{$checks} empty results checks:\n";
+                $report = "Failed " . count($failed) . "/" . ($checks + count($failed)) . " empty results checks:\n";
                 foreach ($failed as $name => $error) {
                     $report .= "  - {$name}: {$error}\n";
                 }
@@ -330,7 +328,7 @@ class AdminGlobalSearchTest extends DuskTestCase
 
             // ── Report ──
             if (!empty($failed)) {
-                $report = "Failed " . count($failed) . "/{$checks} keyboard accessibility checks:\n";
+                $report = "Failed " . count($failed) . "/" . ($checks + count($failed)) . " keyboard accessibility checks:\n";
                 foreach ($failed as $name => $error) {
                     $report .= "  - {$name}: {$error}\n";
                 }

@@ -113,15 +113,6 @@ class AdminModuleSocialUseCasesTest extends DuskTestCase
             $this->assertGreaterThan(0, $data['inputCount'] ?? 0,
                 'Contact form settings should have inputs for email, fields config');
 
-            // Contact form should have email recipient and form field configuration
-            $formCheck = $browser->script("
-                try {
-                    var emailInputs = document.querySelectorAll('input[type=\"email\"], input[type=\"text\"]');
-                    var textareas = document.querySelectorAll('textarea');
-                    return {emailInputCount: emailInputs.length, textareaCount: textareas.length};
-                } catch(e) { return {emailInputCount: 0, textareaCount: 0}; }
-            ");
-
             if (($data['tabCount'] ?? 0) > 1) {
                 $this->clickThroughTabs($browser, $data['tabCount'], 'Contact Form');
             }

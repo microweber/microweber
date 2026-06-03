@@ -205,7 +205,7 @@ class LiveAdminModuleAttributesSmokeTest extends DuskTestCase
         ) > 0;
 
         $this->assertTrue(
-            $hasFilamentChrome || $hasLivewireWiring,
+            $hasLivewireWiring,
             'product-variant-attributes admin must render Filament/Livewire chrome (fi-page / '
             . 'fi-resource / fi-table / wire:id / wire:snapshot / wire:model) — otherwise the '
             . 'page never mounted past the auth shell and the attribute round-trip above would '

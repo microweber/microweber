@@ -91,7 +91,6 @@ class AdminShippingTaxWorkflowTest extends DuskTestCase
                 $text = $bodyText[0] ?? '';
                 $hasFormContent = str_contains($text, 'shipping')
                     || str_contains($text, 'provider')
-                    || str_contains($text, 'name')
                     || str_contains($text, 'title')
                     || str_contains($text, 'create');
                 $this->assertTrue($hasFormContent,
@@ -328,7 +327,6 @@ class AdminShippingTaxWorkflowTest extends DuskTestCase
                 $hasRateFields = str_contains($text, 'rate')
                     || str_contains($text, 'percentage')
                     || str_contains($text, 'tax')
-                    || str_contains($text, 'name')
                     || str_contains($text, 'create');
                 $this->assertTrue($hasRateFields,
                     'Tax rate create page should have rate-related labels');

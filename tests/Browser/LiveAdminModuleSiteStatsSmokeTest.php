@@ -287,7 +287,7 @@ class LiveAdminModuleSiteStatsSmokeTest extends DuskTestCase
             || str_contains($source, 'wire:click=');
 
         $this->assertTrue(
-            $hasFilamentChrome || $hasLivewireWiring,
+            $hasLivewireWiring,
             'site-stats dashboard must render Filament/Livewire chrome (fi-page / '
             . 'fi-resource / fi-table / fi-widget / wire:id / wire:snapshot / wire:model '
             . '/ wire:click) — otherwise the page never mounted past the auth shell and '

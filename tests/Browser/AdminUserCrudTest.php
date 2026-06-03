@@ -210,8 +210,8 @@ class AdminUserCrudTest extends DuskTestCase
             $bodyText = $browser->script("return document.body.innerText;");
             $text = $bodyText[0] ?? '';
             $hasRole = stripos($text, 'Role') !== false
-                || stripos($text, 'Admin') !== false
-                || stripos($text, 'role') !== false;
+                || stripos($text, 'Super Admin') !== false
+                || stripos($text, 'permissions') !== false;
             $this->assertTrue($hasRole,
                 'Admin user edit page should show role information');
         });

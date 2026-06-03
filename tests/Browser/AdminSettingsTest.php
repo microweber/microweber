@@ -152,13 +152,14 @@ class AdminSettingsTest extends DuskTestCase
 
                 if (isset($setResult[0]) && $setResult[0] !== 'not-found') {
                     // Type the new title
+                    $testTitleJs = json_encode($testTitle);
                     $browser->script("
                         var inputs = document.querySelectorAll('input[type=\"text\"]');
                         for (var i = 0; i < inputs.length; i++) {
                             var attrs = inputs[i].attributes;
                             for (var j = 0; j < attrs.length; j++) {
                                 if (attrs[j].name.startsWith('wire:model') && attrs[j].value.includes('website_title')) {
-                                    inputs[i].value = '{$testTitle}';
+                                    inputs[i].value = {$testTitleJs};
                                     inputs[i].dispatchEvent(new Event('input', { bubbles: true }));
                                     inputs[i].dispatchEvent(new Event('change', { bubbles: true }));
                                     return;
@@ -192,7 +193,7 @@ class AdminSettingsTest extends DuskTestCase
                     );
                 } else {
                     // If we couldn't find the field, at least verify the page loaded
-                    $this->assertTrue(true, 'General settings loaded but could not find website_title field');
+                    $this->addToAssertionCount(1);
                 }
 
                 $checks++;
@@ -266,7 +267,7 @@ class AdminSettingsTest extends DuskTestCase
 
             // ── Report ──
             if (!empty($failed)) {
-                $report = "Failed " . count($failed) . "/{$checks} settings checks:\n";
+                $report = "Failed " . count($failed) . "/" . ($checks + count($failed)) . " settings checks:\n";
                 foreach ($failed as $name => $error) {
                     $report .= "  - {$name}: {$error}\n";
                 }

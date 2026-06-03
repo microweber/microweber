@@ -56,11 +56,9 @@ class AdminProfileWorkflowTest extends DuskTestCase
                 $bodyText = $browser->script("return document.body.innerText.toLowerCase();");
                 $text = $bodyText[0] ?? '';
                 $hasProfileContent = str_contains($text, 'profile')
-                    || str_contains($text, 'name')
                     || str_contains($text, 'email')
                     || str_contains($text, 'password')
-                    || str_contains($text, 'account')
-                    || str_contains($text, 'admin');
+                    || str_contains($text, 'account');
 
                 $formInfo = $browser->script("
                     var inputs = document.querySelectorAll('input, select, textarea');
@@ -90,10 +88,8 @@ class AdminProfileWorkflowTest extends DuskTestCase
 
                 $bodyText = $browser->script("return document.body.innerText.toLowerCase();");
                 $text = $bodyText[0] ?? '';
-                $hasFormLabels = str_contains($text, 'name')
-                    || str_contains($text, 'email')
+                $hasFormLabels = str_contains($text, 'email')
                     || str_contains($text, 'password')
-                    || str_contains($text, 'save')
                     || str_contains($text, 'profile')
                     || str_contains($text, 'update');
                 $this->assertTrue($hasFormLabels,

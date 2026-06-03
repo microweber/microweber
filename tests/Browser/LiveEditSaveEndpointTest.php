@@ -72,6 +72,24 @@ class LiveEditSaveEndpointTest extends DuskTestCase
 
             $this->installXhrSpy($browser);
 
+            // Bypass the one-time "save & publish" confirmation dialog
+            // (SaveButton.vue NOVICE #2: `window.confirm(PUBLISH_CONFIRM_PROMPT)`
+            // fires on the first manual save if 'mw-publish-confirmed' is absent
+            // from localStorage). Set it in both the admin window and the canvas
+            // iframe so the button fires the XHR without a blocking dialog.
+            $browser->script("
+                try { localStorage.setItem('mw-publish-confirmed', '1'); } catch(_) {}
+                try {
+                    if (window.mw && mw.app && mw.app.canvas
+                        && typeof mw.app.canvas.getWindow === 'function') {
+                        var cw = mw.app.canvas.getWindow();
+                        if (cw && cw.localStorage) {
+                            cw.localStorage.setItem('mw-publish-confirmed', '1');
+                        }
+                    }
+                } catch(_) {}
+            ");
+
             // Click the real SAVE button (not the programmatic
             // mw.drag.save() shortcut) — that's what the plan is
             // really asserting against.
@@ -252,25 +270,35 @@ class LiveEditSaveEndpointTest extends DuskTestCase
     private function waitForSaveXhrLogged(Browser $browser): void
     {
         for ($i = 0; $i < 40; $i++) {
-            $found = $browser->script("
-                function collect(w) {
-                    if (!w || !w.__saveXhrLog) return [];
-                    return w.__saveXhrLog;
-                }
-                var log = [].concat(collect(window));
+            try {
+                $found = $browser->script("
+                    function collect(w) {
+                        if (!w || !w.__saveXhrLog) return [];
+                        return w.__saveXhrLog;
+                    }
+                    var log = [].concat(collect(window));
+                    try {
+                        if (window.mw && mw.app && mw.app.canvas
+                            && typeof mw.app.canvas.getWindow === 'function') {
+                            log = log.concat(collect(mw.app.canvas.getWindow()));
+                        }
+                    } catch (e) {}
+                    for (var i = 0; i < log.length; i++) {
+                        if ((log[i].url || '').match(/(?:^|\\/)api\\/save_edit(?:\\?|$)/)) {
+                            return 1;
+                        }
+                    }
+                    return 0;
+                ");
+            } catch (\Facebook\WebDriver\Exception\UnexpectedAlertOpenException $e) {
+                // A browser dialog (e.g. beforeunload confirm) appeared while
+                // the XHR spy was being polled — dismiss it and continue polling.
                 try {
-                    if (window.mw && mw.app && mw.app.canvas
-                        && typeof mw.app.canvas.getWindow === 'function') {
-                        log = log.concat(collect(mw.app.canvas.getWindow()));
-                    }
-                } catch (e) {}
-                for (var i = 0; i < log.length; i++) {
-                    if ((log[i].url || '').match(/(?:^|\\/)api\\/save_edit(?:\\?|$)/)) {
-                        return 1;
-                    }
-                }
-                return 0;
-            ");
+                    $browser->driver->switchTo()->alert()->dismiss();
+                } catch (\Throwable $ignored) {}
+                $browser->pause(300);
+                continue;
+            }
             if (($found[0] ?? 0) === 1) {
                 $browser->pause(400); // let the XHR settle
                 return;

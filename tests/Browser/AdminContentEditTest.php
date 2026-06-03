@@ -35,9 +35,10 @@ class AdminContentEditTest extends DuskTestCase
      */
     protected function livewireSet(Browser $browser, string $property, string $value): void
     {
-        $escapedValue = addslashes($value);
+        $propertyJs = json_encode($property);
+        $valueJs    = json_encode($value);
         $js = <<<JS
-            var titleInput = document.querySelector('#form\\\\.title');
+            var titleInput = document.querySelector('#form\\.title');
             if (!titleInput) return false;
             var el = titleInput;
             while (el && !el.getAttribute('wire:id')) el = el.parentElement;
@@ -45,7 +46,7 @@ class AdminContentEditTest extends DuskTestCase
             var wireId = el.getAttribute('wire:id');
             var comp = window.Livewire.find(wireId);
             if (!comp) return false;
-            comp.set('{$property}', '{$escapedValue}');
+            comp.set({$propertyJs}, {$valueJs});
             return true;
         JS;
         $browser->script($js);

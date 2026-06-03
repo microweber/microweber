@@ -200,7 +200,7 @@ class AdminOrderWorkflowTest extends DuskTestCase
                     'Orders list page should not show Whoops error');
             }
 
-            $this->assertTrue(true, 'Order edit page accessibility verified');
+            $this->addToAssertionCount(1);
         });
     }
 

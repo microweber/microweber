@@ -259,6 +259,7 @@ class AdminSettingsWorkflowTest extends DuskTestCase
 
                 if ($origTitle !== null) {
                     $testTitle = 'DuskSettingsTest ' . time();
+                    $testTitleJs = json_encode($testTitle);
                     $browser->script("
                         var inputs = document.querySelectorAll('input[type=\"text\"]');
                         for (var i = 0; i < inputs.length; i++) {
@@ -270,7 +271,7 @@ class AdminSettingsWorkflowTest extends DuskTestCase
                                     if (el) {
                                         var wireId = el.getAttribute('wire:id');
                                         var comp = window.Livewire.find(wireId);
-                                        if (comp) comp.set(attrs[j].value, '{$testTitle}');
+                                        if (comp) comp.set(attrs[j].value, {$testTitleJs});
                                     }
                                     return;
                                 }
@@ -298,7 +299,9 @@ class AdminSettingsWorkflowTest extends DuskTestCase
                     $this->assertStringContainsString('DuskSettingsTest', $savedValue[0] ?? '',
                         'Website title should persist after reload');
 
-                    // Restore original
+                    // Restore original — json_encode() ensures any special chars in the title
+                    // (apostrophes, backslashes, etc.) do not break the JS string literal.
+                    $origTitleJs = json_encode((string)$origTitle);
                     $browser->script("
                         var inputs = document.querySelectorAll('input[type=\"text\"]');
                         for (var i = 0; i < inputs.length; i++) {
@@ -309,7 +312,7 @@ class AdminSettingsWorkflowTest extends DuskTestCase
                                     while (el && !el.getAttribute('wire:id')) el = el.parentElement;
                                     if (el) {
                                         var comp = window.Livewire.find(el.getAttribute('wire:id'));
-                                        if (comp) comp.set(attrs[j].value, '{$origTitle}');
+                                        if (comp) comp.set(attrs[j].value, $origTitleJs);
                                     }
                                     return;
                                 }

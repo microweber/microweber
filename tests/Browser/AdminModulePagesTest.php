@@ -103,6 +103,7 @@ class AdminModulePagesTest extends DuskTestCase
             $checks = 0;
             $failed = [];
             $tagName = 'DuskTag' . time();
+            $tagNameJs = json_encode($tagName);
 
             // ── Check 1: Create tag page loads ──
             try {
@@ -135,7 +136,7 @@ class AdminModulePagesTest extends DuskTestCase
                         if (el) {
                             var wireId = el.getAttribute('wire:id');
                             var comp = window.Livewire.find(wireId);
-                            if (comp) comp.set('data.name', '{$tagName}');
+                            if (comp) comp.set('data.name', {$tagNameJs});
                         }
                     }
                 ");
@@ -185,7 +186,7 @@ class AdminModulePagesTest extends DuskTestCase
                     var links = document.querySelectorAll('a[href*=\"/tags/\"]');
                     var editLink = null;
                     links.forEach(function(l) {
-                        if (l.href.includes('/edit') && l.textContent.includes('{$tagName}')) {
+                        if (l.href.includes('/edit') && l.textContent.includes({$tagNameJs})) {
                             editLink = l.href;
                         }
                     });
@@ -193,7 +194,7 @@ class AdminModulePagesTest extends DuskTestCase
                     if (!editLink) {
                         var rows = document.querySelectorAll('tr');
                         rows.forEach(function(row) {
-                            if (row.textContent.includes('{$tagName}')) {
+                            if (row.textContent.includes({$tagNameJs})) {
                                 var link = row.querySelector('a[href*=\"/edit\"]');
                                 if (link) editLink = link.href;
                             }

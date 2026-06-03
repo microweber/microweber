@@ -63,7 +63,7 @@ class AdminModuleLiveEditUseCasesTest extends DuskTestCase
                 var iframe = document.querySelector('iframe');
                 if (!iframe || !iframe.contentDocument) return 'no iframe';
                 var doc = iframe.contentDocument;
-                var el = doc.getElementById('" . addslashes($moduleId) . "');
+                var el = doc.getElementById(" . json_encode($moduleId) . ");
                 if (!el) return 'element not found';
                 mw.app.editor.dispatch('onModuleSettingsRequest', el);
                 return 'dispatched';
@@ -150,9 +150,6 @@ class AdminModuleLiveEditUseCasesTest extends DuskTestCase
                         continue; // skip non-dispatchable modules
                     }
 
-                    // Get form stats
-                    $stats = $this->getSettingsFormStats($browser);
-
                     // Verify the page didn't crash
                     $this->assertPageHasNoErrorMarkers($browser, "Module '{$type}' settings");
 
@@ -214,8 +211,6 @@ class AdminModuleLiveEditUseCasesTest extends DuskTestCase
                     if ($result !== 'dispatched') {
                         continue;
                     }
-
-                    $stats = $this->getSettingsFormStats($browser);
 
                     $this->assertPageHasNoErrorMarkers($browser, "Module '{$type}' settings");
 
@@ -313,7 +308,7 @@ class AdminModuleLiveEditUseCasesTest extends DuskTestCase
 
             if (empty($moduleTypes)) {
                 // Shop page may not exist — not a failure
-                $this->assertTrue(true, 'No modules found on shop page (page may not exist)');
+                $this->addToAssertionCount(1);
                 return;
             }
 
@@ -349,8 +344,8 @@ class AdminModuleLiveEditUseCasesTest extends DuskTestCase
                 $this->fail($report);
             }
 
-            $this->assertTrue($checked >= 0,
-                "Shop page module checks completed ({$checked} tested)");
+            // If we reached here with no failures, all tested modules passed
+            $this->addToAssertionCount(max(1, $checked));
         });
     }
 
@@ -393,7 +388,7 @@ class AdminModuleLiveEditUseCasesTest extends DuskTestCase
                 $this->fail("Critical JS errors after module interactions:\n  - " . implode("\n  - ", array_slice($critical, 0, 5)));
             }
 
-            $this->assertTrue(true, "No critical JS errors after interacting with {$count} modules");
+            $this->addToAssertionCount(1); // No critical JS errors after interacting with modules
         });
     }
 }

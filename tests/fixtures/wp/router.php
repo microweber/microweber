@@ -37,6 +37,12 @@ $query = $_SERVER['QUERY_STRING'] ?? '';
 // a Basic Authorization header. Requests without the expected header
 // get a 401 with a real WP-shaped error body, so the authed-flow Dusk
 // test exercises the exact branch that hardened production sites hit.
+//
+// `WP_FIXTURE_MODE=rss-only` takes the REST endpoints off the table
+// (all /wp-json/* paths answer 404) while keeping the /feed active.
+// LiveAdminWordPressMigrationRssTest uses this mode so the probe
+// detects only the RSS capability and the import pipeline follows the
+// RSS path — not the REST path that the default fixture also exposes.
 $fixtureMode = getenv('WP_FIXTURE_MODE') ?: 'default';
 $restAuthedUser = getenv('WP_FIXTURE_REST_USER') ?: 'editor';
 $restAuthedPass = getenv('WP_FIXTURE_REST_PASS') ?: 'abcdefghijklmnopqrstuvwx';
@@ -57,6 +63,17 @@ if ($fixtureMode === 'rest-authed'
     http_response_code(404);
     header('Content-Type: text/plain');
     echo "404 rest-authed mode";
+    return true;
+}
+
+if ($fixtureMode === 'rss-only' && str_starts_with($path, '/wp-json')) {
+    // Force the probe to see only the RSS capability by making all
+    // REST endpoints unavailable. LiveAdminWordPressMigrationRssTest
+    // starts the fixture server in this mode so the import page
+    // follows the RSS path rather than preferring REST.
+    http_response_code(404);
+    header('Content-Type: text/plain');
+    echo "404 rss-only mode";
     return true;
 }
 

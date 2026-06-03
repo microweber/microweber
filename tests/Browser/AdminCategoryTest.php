@@ -104,10 +104,8 @@ class AdminCategoryTest extends DuskTestCase
             $browser->pause(5000);
 
             $currentUrl = $browser->driver->getCurrentURL();
-            $this->assertTrue(
-                str_contains($currentUrl, '/create') || str_contains($currentUrl, '/categories'),
-                'New category button should navigate. Got: ' . $currentUrl
-            );
+            $this->assertStringContainsString('/create', $currentUrl,
+                'New category button should navigate to create form. Got: ' . $currentUrl);
 
             $pageSource = $browser->driver->getPageSource();
             $this->assertStringNotContainsString('Internal Server Error', $pageSource,

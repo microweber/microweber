@@ -51,8 +51,7 @@ class AdminMultilanguageWorkflowTest extends DuskTestCase
                     var inputs = document.querySelectorAll('input, select, textarea, .fi-toggle');
                     var hasForm = inputs.length > 0;
                     var hasSection = document.querySelectorAll('.fi-section').length > 0;
-                    var hasWire = document.querySelector('[wire\\\\:id]') !== null;
-                    return { formFields: inputs.length, hasSection: hasSection, hasWire: hasWire };
+                    return { formFields: inputs.length, hasSection: hasSection };
                 ");
 
                 $bodyText = $browser->script("return document.body.innerText.toLowerCase();");
@@ -117,7 +116,7 @@ class AdminMultilanguageWorkflowTest extends DuskTestCase
 
                 // Check for language-related toggle/button elements
                 $hasToggleArea = $browser->script("
-                    var toggles = document.querySelectorAll('.fi-toggle, input[type=\"checkbox\"], button');
+                    var toggles = document.querySelectorAll('.fi-toggle, input[type=\"checkbox\"]');
                     var hasLangButtons = false;
                     var bodyText = document.body.innerText.toLowerCase();
                     hasLangButtons = bodyText.includes('enable') || bodyText.includes('active')

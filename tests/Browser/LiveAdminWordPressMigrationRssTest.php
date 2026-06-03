@@ -242,10 +242,21 @@ class LiveAdminWordPressMigrationRssTest extends DuskTestCase
 
     private function purgeImportedContent(): void
     {
-        $contentIds = DB::table('content_data')
+        // Purge by import_source to clean RSS-specific rows.
+        $bySource = DB::table('content_data')
             ->where('field_name', 'import_source')
             ->where('field_value', 'wordpress_rss')
             ->pluck('rel_id');
+
+        // Also purge by GUID so stale rows from sibling tests (REST,
+        // WXR, sitemap) that share the same fixture post IDs do not
+        // contaminate findContentByGuid lookups.
+        $byGuid = DB::table('content_data')
+            ->where('field_name', 'source_guid')
+            ->whereIn('field_value', self::FIXTURE_WP_POST_IDS)
+            ->pluck('rel_id');
+
+        $contentIds = $bySource->merge($byGuid)->unique();
 
         if ($contentIds->isNotEmpty()) {
             DB::table('content_data')->whereIn('rel_id', $contentIds)->delete();
@@ -274,7 +285,7 @@ class LiveAdminWordPressMigrationRssTest extends DuskTestCase
             '-S', self::FIXTURE_HOST . ':' . self::FIXTURE_PORT,
             '-t', $docroot,
             $router,
-        ], $docroot);
+        ], $docroot, ['WP_FIXTURE_MODE' => 'rss-only']);
         $this->fixtureServer->start();
 
         $deadline = microtime(true) + 5.0;

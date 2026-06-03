@@ -227,7 +227,7 @@ class AdminLoginTest extends DuskTestCase
 
             // ── Report ──
             if (!empty($failed)) {
-                $report = "Failed " . count($failed) . "/{$checks} login/logout checks:\n";
+                $report = "Failed " . count($failed) . "/" . ($checks + count($failed)) . " login/logout checks:\n";
                 foreach ($failed as $name => $error) {
                     $report .= "  - {$name}: {$error}\n";
                 }

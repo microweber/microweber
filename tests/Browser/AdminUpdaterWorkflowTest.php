@@ -79,18 +79,6 @@ class AdminUpdaterWorkflowTest extends DuskTestCase
                 $browser->visit('/admin/updater')->pause(5000);
                 $this->ensureLoggedIn($browser);
 
-                $hasButton = $browser->script("
-                    var buttons = document.querySelectorAll('button, a.fi-btn');
-                    var hasCheckBtn = false;
-                    buttons.forEach(function(btn) {
-                        var t = btn.innerText.toLowerCase();
-                        if (t.includes('check') || t.includes('update') || t.includes('refresh')) {
-                            hasCheckBtn = true;
-                        }
-                    });
-                    return hasCheckBtn || buttons.length > 0;
-                ");
-
                 $pageSource = $browser->driver->getPageSource();
                 $this->assertStringNotContainsString('Internal Server Error', $pageSource,
                     'Updater page should remain stable');

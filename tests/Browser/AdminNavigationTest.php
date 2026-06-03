@@ -84,10 +84,11 @@ class AdminNavigationTest extends DuskTestCase
                     $this->ensureLoggedIn($browser);
 
                     // Click the sidebar item by label text
+                    $labelJs = json_encode($label);
                     $clicked = $browser->script("
                         var items = document.querySelectorAll('.fi-sidebar-item-label');
                         for (var i = 0; i < items.length; i++) {
-                            if (items[i].textContent.trim() === '{$label}') {
+                            if (items[i].textContent.trim() === {$labelJs}) {
                                 var link = items[i].closest('a');
                                 if (link) { link.click(); return true; }
                             }

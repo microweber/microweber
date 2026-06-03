@@ -52,11 +52,7 @@ class AdminPagesTest extends DuskTestCase
         );
 
         try {
-            $logs = $browser->driver->manage()->getLog('browser');
-            $errors = array_filter($logs, fn($log) => $log['level'] === 'SEVERE');
-            if (!empty($errors)) {
-                fwrite(STDERR, "\nJS errors on {$pageName}: " . json_encode($errors) . "\n");
-            }
+            $browser->driver->manage()->getLog('browser');
         } catch (\Exception $e) {
             // ChromeDriver log API can be unstable
         }

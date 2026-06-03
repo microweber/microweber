@@ -41,14 +41,6 @@ class AdminModuleNavigationUseCasesTest extends DuskTestCase
             $this->assertGreaterThan(0, $data['inputCount'] ?? 0,
                 'Menu settings should have inputs for menu selection');
 
-            // Menu module should have a select/dropdown for choosing which menu
-            $menuCheck = $browser->script("
-                try {
-                    var selects = document.querySelectorAll('select, .fi-fo-select, [class*=\"select\"]');
-                    return {selectCount: selects.length};
-                } catch(e) { return {selectCount: 0}; }
-            ");
-
             if (($data['tabCount'] ?? 0) > 1) {
                 $this->clickThroughTabs($browser, $data['tabCount'], 'Menu');
             }

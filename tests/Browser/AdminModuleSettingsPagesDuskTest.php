@@ -252,7 +252,7 @@ class AdminModuleSettingsPagesDuskTest extends DuskTestCase
             }
 
             if (!empty($failed)) {
-                $report = "Failed " . count($failed) . "/" . $checked . " module settings page checks:\n";
+                $report = "Failed " . count($failed) . "/" . ($checked + count($failed)) . " module settings page checks:\n";
                 foreach ($failed as $slug => $error) {
                     $report .= "  - /admin/{$slug}: {$error}\n";
                 }

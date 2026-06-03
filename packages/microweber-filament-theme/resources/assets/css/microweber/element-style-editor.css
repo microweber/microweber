@@ -1054,11 +1054,17 @@ html.dark #mw-element-style-editor-app .picker-button::before,
         background-clip: content-box;
     }
 
-    /* AI-146 #2 — Font size input + every other unit/numeric input. */
+    /* AI-146 #2 — Font size input + every other unit/numeric input.
+     * Also targets select — DropdownSmall renders <select> at ~27px.
+     * font-size: 16px on all inputs/selects prevents iOS Safari
+     * auto-zoom on focus (any font-size < 16px triggers viewport zoom). */
     #mw-element-style-editor-app input[type="text"],
     #mw-element-style-editor-app input[type="number"],
-    #mw-element-style-editor-app .mw-field input {
+    #mw-element-style-editor-app select,
+    #mw-element-style-editor-app .mw-field input,
+    #mw-element-style-editor-app .mw-field select {
         min-height: 44px;
+        font-size: 16px !important;
     }
 
     /* AI-146 #3 — Italic toggle. Visible glyph stays at 32px to keep

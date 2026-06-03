@@ -132,10 +132,7 @@ class AdminDashboardWorkflowTest extends DuskTestCase
 
             // Check 4: No JS errors on dashboard
             try {
-                $jsErrors = $browser->script("
-                    return window.__duskJsErrors || [];
-                ");
-                // This just verifies the page doesn't crash
+                // Verify the page renders without server errors
                 $pageSource = $browser->driver->getPageSource();
                 $this->assertStringNotContainsString('Internal Server Error', $pageSource,
                     'Dashboard should not have server errors');
@@ -302,8 +299,7 @@ class AdminDashboardWorkflowTest extends DuskTestCase
                 $hasStats = stripos($text, 'Views') !== false
                     || stripos($text, 'Traffic') !== false
                     || stripos($text, 'Visitors') !== false
-                    || stripos($text, 'Stats') !== false
-                    || stripos($text, 'Page') !== false;
+                    || stripos($text, 'Stats') !== false;
                 $this->assertTrue($hasStats,
                     'Site stats page should display statistics content');
                 $checks++;

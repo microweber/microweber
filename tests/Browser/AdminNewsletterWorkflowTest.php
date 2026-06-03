@@ -94,7 +94,6 @@ class AdminNewsletterWorkflowTest extends DuskTestCase
                 $hasFormLabels = str_contains($text, 'subject')
                     || str_contains($text, 'body')
                     || str_contains($text, 'list')
-                    || str_contains($text, 'name')
                     || str_contains($text, 'campaign')
                     || str_contains($text, 'create');
                 $this->assertTrue($hasFormLabels,

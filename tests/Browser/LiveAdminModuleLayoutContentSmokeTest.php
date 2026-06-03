@@ -184,7 +184,7 @@ class LiveAdminModuleLayoutContentSmokeTest extends DuskTestCase
             || str_contains($source, 'wire:model=');
 
         $this->assertTrue(
-            $hasFilamentChrome || $hasLivewireWiring,
+            $hasLivewireWiring,
             'layout content settings page must render Filament/Livewire chrome (fi-page '
             . '/ fi-form / fi-tabs / wire:id / wire:snapshot / wire:model) — otherwise '
             . 'the page never mounted past the auth shell and the CRUD round-trip above '

@@ -142,13 +142,6 @@ class AdminInvoiceWorkflowTest extends DuskTestCase
                         'Searching invoices should not cause 500');
                 }
 
-                // Also check for filter buttons
-                $hasFilters = $browser->script("
-                    return document.querySelector('.fi-ta-filters') !== null
-                        || document.querySelector('button[class*=\"filter\"]') !== null
-                        || document.querySelector('.fi-header-actions') !== null;
-                ");
-
                 // Page loads without error — pass regardless of filter presence
                 $pageSource = $browser->driver->getPageSource();
                 $this->assertStringNotContainsString('Whoops', $pageSource,

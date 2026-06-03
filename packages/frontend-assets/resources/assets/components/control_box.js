@@ -92,7 +92,7 @@ export class ControlBox extends BaseComponent {
         if(side) {
             side = '.mw-control-box-' + side;
 
-            if(side === 'right') {
+            if(side === '.mw-control-box-right') {
                  side += ', #general-theme-settings.active'
             }
         }

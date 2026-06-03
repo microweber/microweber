@@ -46,13 +46,6 @@ class AdminProductWorkflowTest extends DuskTestCase
 
             // Check 1: Table or content list exists
             try {
-                $hasTable = $browser->script("
-                    return document.querySelector('.fi-ta-table') !== null
-                        || document.querySelector('table') !== null
-                        || document.querySelector('.fi-empty-state') !== null
-                        || document.querySelector('[wire\\\\:id]') !== null
-                        || document.querySelectorAll('.fi-section, .fi-resource-index').length > 0;
-                ");
                 $pageSource = $browser->driver->getPageSource();
                 $this->assertStringNotContainsString('Internal Server Error', $pageSource,
                     'Products page should not return 500');
@@ -283,7 +276,7 @@ class AdminProductWorkflowTest extends DuskTestCase
                     'Products list page should not show Whoops error');
             }
 
-            $this->assertTrue(true, 'Product edit page accessibility verified');
+            $this->addToAssertionCount(1);
         });
     }
 

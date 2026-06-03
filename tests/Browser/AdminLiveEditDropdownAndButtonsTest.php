@@ -148,15 +148,6 @@ class AdminLiveEditDropdownAndButtonsTest extends DuskTestCase
 
             // ── Check 8: Resolution switch buttons ──
             try {
-                $hasResolution = $browser->script("
-                    var el = document.querySelector('.mw-le-toolbar-res-switch')
-                        || document.querySelector('[class*=\"resolution\"]')
-                        || document.querySelector('[class*=\"ResolutionSwitch\"]')
-                        || document.querySelector('[aria-label*=\"esktop\"]')
-                        || document.querySelector('[aria-label*=\"obile\"]')
-                        || document.querySelector('[aria-label*=\"ablet\"]');
-                    return el !== null;
-                ");
                 // Resolution switch may not be present on small viewports — soft check
                 $checks++;
             } catch (\Exception $e) {
@@ -322,6 +313,13 @@ class AdminLiveEditDropdownAndButtonsTest extends DuskTestCase
     #[Test]
     public function live_edit_hamburger_menu_opens(): void
     {
+        // After AI-700 (task-2026-05-16-7326d6), the hamburger button
+        // (#mw-live-edit-main-drawer-button / .mw-le-hamburger) opens
+        // MainDrawer.vue (Teleport-to-body, role=dialog, aria-modal=true)
+        // with [data-mw-drawer-item] nav items and a Preferences section
+        // containing the theme toggle.  The legacy #user-menu-wrapper stays
+        // in the DOM with display:none for back-compat but never receives
+        // the .active class, so checks must probe the new drawer surface.
         $this->browse(function (Browser $browser) {
             $this->loginAsAdmin($browser);
 
@@ -332,78 +330,88 @@ class AdminLiveEditDropdownAndButtonsTest extends DuskTestCase
             $this->ensureLoggedIn($browser);
             $this->injectErrorListener($browser);
 
-            // ── Check 1: Click hamburger menu ──
+            // ── Check 1: Click the MainDrawer trigger; drawer appears ──
             try {
                 $browser->script("
-                    var btn = document.querySelector('#toolbar-user-menu-button')
+                    var btn = document.querySelector('#mw-live-edit-main-drawer-button')
                         || document.querySelector('.mw-le-hamburger');
                     if (btn) btn.click();
                 ");
                 $browser->pause(1000);
 
-                $menuVisible = $browser->script("
-                    var wrapper = document.querySelector('#user-menu-wrapper');
-                    return wrapper && wrapper.classList.contains('active');
+                $drawerOpen = $browser->script("
+                    // MainDrawer teleports to body with role=dialog + aria-modal=true
+                    var drawer = document.querySelector('[role=\"dialog\"][aria-modal=\"true\"].mw-main-drawer')
+                        || document.querySelector('[role=\"dialog\"].mw-main-drawer')
+                        || document.querySelector('.mw-main-drawer');
+                    if (!drawer) return false;
+                    var style = window.getComputedStyle(drawer);
+                    return style.display !== 'none' && style.visibility !== 'hidden';
                 ");
-                $this->assertTrue($menuVisible[0] ?? false,
-                    'Hamburger menu should open on click');
+                $this->assertTrue($drawerOpen[0] ?? false,
+                    'MainDrawer (.mw-main-drawer) should be visible after clicking the hamburger trigger');
 
                 $criticalErrors = $this->getCriticalErrors($browser);
                 $this->assertEmpty(
                     $criticalErrors,
-                    'No JS errors after opening hamburger menu: ' . implode('; ', $criticalErrors)
+                    'No JS errors after opening the main drawer: ' . implode('; ', $criticalErrors)
                 );
                 $checks++;
             } catch (\Exception $e) {
                 $failed['hamburger_open'] = substr($e->getMessage(), 0, 200);
             }
 
-            // ── Check 2: Menu has navigation items ──
+            // ── Check 2: Drawer has navigation items (data-mw-drawer-item) ──
             try {
-                $menuItems = $browser->script("
-                    var menu = document.querySelector('#user-menu nav');
-                    if (!menu) return { found: false, count: 0 };
-                    var links = menu.querySelectorAll('a');
-                    return { found: true, count: links.length };
+                $drawerItems = $browser->script("
+                    var items = document.querySelectorAll('[data-mw-drawer-item]');
+                    if (!items.length) return { found: false, count: 0 };
+                    var slugs = [];
+                    items.forEach(function(el) { slugs.push(el.getAttribute('data-mw-drawer-item')); });
+                    return { found: true, count: items.length, slugs: slugs };
                 ");
 
-                $result = $menuItems[0] ?? [];
+                $result = $drawerItems[0] ?? [];
                 $this->assertTrue($result['found'] ?? false,
-                    'User menu should have navigation');
+                    'MainDrawer should have [data-mw-drawer-item] navigation items');
                 $this->assertGreaterThan(0, $result['count'] ?? 0,
-                    'User menu should have at least one link');
+                    'MainDrawer should have at least one nav item');
                 $checks++;
             } catch (\Exception $e) {
                 $failed['menu_items'] = substr($e->getMessage(), 0, 200);
             }
 
-            // ── Check 3: Dark mode toggle link present ──
+            // ── Check 3: Preferences section with theme toggle ──
             try {
-                $hasDarkMode = $browser->script("
-                    var menu = document.querySelector('#user-menu nav');
-                    if (!menu) return false;
-                    return menu.textContent.includes('Dark mode') || menu.textContent.includes('Light mode');
+                $hasThemeToggle = $browser->script("
+                    var drawer = document.querySelector('.mw-main-drawer');
+                    if (!drawer) return false;
+                    var text = drawer.textContent || '';
+                    // Preferences section carries the dark/light theme switcher
+                    return text.includes('Dark') || text.includes('Light')
+                        || text.includes('Theme') || text.includes('Preferences');
                 ");
-                $this->assertTrue($hasDarkMode[0] ?? false,
-                    'Menu should have Dark/Light mode toggle');
+                $this->assertTrue($hasThemeToggle[0] ?? false,
+                    'MainDrawer Preferences section should mention Dark/Light mode or Theme');
                 $checks++;
             } catch (\Exception $e) {
                 $failed['dark_mode_toggle'] = substr($e->getMessage(), 0, 200);
             }
 
-            // ── Check 4: Close menu by clicking outside ──
+            // ── Check 4: Close drawer via Escape key ──
             try {
-                $browser->script("
-                    document.body.click();
-                ");
-                $browser->pause(500);
+                $browser->keys('body', '{escape}');
+                $browser->pause(600);
 
-                $menuClosed = $browser->script("
-                    var wrapper = document.querySelector('#user-menu-wrapper');
-                    return wrapper && !wrapper.classList.contains('active');
+                $drawerClosed = $browser->script("
+                    // After ESC the drawer should be removed from DOM or hidden
+                    var drawer = document.querySelector('.mw-main-drawer');
+                    if (!drawer) return true;
+                    var style = window.getComputedStyle(drawer);
+                    return style.display === 'none' || style.visibility === 'hidden';
                 ");
-                $this->assertTrue($menuClosed[0] ?? false,
-                    'Menu should close when clicking outside');
+                $this->assertTrue($drawerClosed[0] ?? false,
+                    'MainDrawer should close when pressing Escape');
                 $checks++;
             } catch (\Exception $e) {
                 $failed['menu_close'] = substr($e->getMessage(), 0, 200);
@@ -469,6 +477,8 @@ class AdminLiveEditDropdownAndButtonsTest extends DuskTestCase
                     return style.visibility === 'visible' || style.opacity !== '0';
                 ");
                 // The back button should be visible in preview mode
+                $this->assertTrue($backBtnVisible[0] ?? false,
+                    'Back to edit button should be visible in preview mode');
                 $checks++;
             } catch (\Exception $e) {
                 $failed['back_to_edit_btn'] = substr($e->getMessage(), 0, 200);

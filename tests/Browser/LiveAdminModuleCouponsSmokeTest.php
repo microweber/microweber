@@ -342,7 +342,7 @@ class LiveAdminModuleCouponsSmokeTest extends DuskTestCase
         ) > 0;
 
         $this->assertTrue(
-            $hasFilamentChrome || $hasLivewireWiring,
+            $hasLivewireWiring,
             'coupon admin list must render Filament/Livewire chrome (fi-page / '
             . 'fi-resource / fi-table / fi-empty-state / wire:id / wire:snapshot / '
             . 'wire:model / wire:click) — otherwise the page never mounted past the '

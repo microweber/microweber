@@ -238,7 +238,6 @@ export default {
                 if(styleEditorInstance.hasBeenOpenedBeforeUnload){
                     styleEditorInstance.isOpened = true;
                 }
-              styleEditorInstance.isOpened = true;
              }
         });
         // mw.app.canvas.on('liveEditCanvasBeforeUnload', function (frame) {

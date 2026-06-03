@@ -1516,3 +1516,25 @@ aside.fi-sidebar {
     display: flex;
     align-items: center;
 }
+
+/* task-2026-06-02-mobile01 — iOS auto-zoom prevention.
+ * iOS Safari zooms any <input> / <select> / <textarea> whose
+ * computed font-size is below 16px. The Insert Layout search
+ * field uses var(--font-control, 13px) on desktop — correct for
+ * the compact ESE UI but too small for mobile. Override to 16px
+ * on touch devices so the viewport stays put on focus.
+ * Combined with (pointer: coarse) so the override only fires
+ * on actual touch/stylus devices, not desktop browsers that
+ * happen to be 767px wide. */
+@media (max-width: 767px), (pointer: coarse) {
+    .mw-le-layouts-dialog .modules-list-search-field,
+    .modules-list-search-field {
+        font-size: 16px;
+    }
+    /* Bottom-sheet list font-size: li elements don't trigger iOS
+       zoom but 13px is hard to read at arm's length on mobile.
+       Bump to 15px (readable without ballooning the panel). */
+    .mw-le-layouts-mobile-filter-sheet__list li {
+        font-size: 15px;
+    }
+}

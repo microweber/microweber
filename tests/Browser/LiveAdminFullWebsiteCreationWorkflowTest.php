@@ -1353,7 +1353,7 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
                     // title is the operator-visible surface for
                     // this option (rendered in the <title> and/or
                     // various header widgets).
-                    domSignal: fn (Browser $b): bool => true,
+                    domSignal: fn (Browser $b): bool => $this->workflowPageRenderedCleanly($b),
                     domFailureMessage: 'Admin dashboard must stay cleanly rendered with new site title/description',
                     browser: $browser,
                 );

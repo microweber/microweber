@@ -87,6 +87,10 @@ class AdminUserManagementTest extends DuskTestCase
 
             $this->assertTrue(($hasFields[0]['totalInputs'] ?? 0) > 0,
                 'User create page should have form inputs');
+            $this->assertTrue($hasFields[0]['hasEmail'] ?? false,
+                'User create form should have an email input');
+            $this->assertTrue($hasFields[0]['hasPassword'] ?? false,
+                'User create form should have a password input');
         });
     }
 
@@ -111,9 +115,7 @@ class AdminUserManagementTest extends DuskTestCase
 
                 $fieldInfo = $browser->script("
                     var inputs = document.querySelectorAll('input');
-                    var types = [];
-                    inputs.forEach(function(i) { types.push(i.type + ':' + (i.id || '')); });
-                    return { count: inputs.length, types: types };
+                    return { count: inputs.length };
                 ");
 
                 $this->assertGreaterThan(2, $fieldInfo[0]['count'] ?? 0,

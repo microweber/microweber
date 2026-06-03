@@ -63,7 +63,7 @@ class AdminLiveEditModuleSettingsTest extends DuskTestCase
                 var iframe = document.querySelector('iframe');
                 if (!iframe || !iframe.contentDocument) return 'no iframe';
                 var doc = iframe.contentDocument;
-                var el = doc.getElementById('" . addslashes($moduleId) . "');
+                var el = doc.getElementById(" . json_encode($moduleId) . ");
                 if (!el) return 'element not found';
                 mw.app.editor.dispatch('onModuleSettingsRequest', el);
                 return 'dispatched';
@@ -278,12 +278,14 @@ class AdminLiveEditModuleSettingsTest extends DuskTestCase
 
             // Find a product page URL
             $productUrl = $browser->script("
-                try {
-                    var response = await fetch('/api/content?content_type=product&limit=1');
-                    var data = await response.json();
-                    if (data && data.length > 0) return data[0].url;
-                    return null;
-                } catch(e) { return null; }
+                return (async function() {
+                    try {
+                        var response = await fetch('/api/content?content_type=product&limit=1');
+                        var data = await response.json();
+                        if (data && data.length > 0) return data[0].url;
+                        return null;
+                    } catch(e) { return null; }
+                })();
             ");
 
             $url = $productUrl[0] ?? null;
@@ -305,7 +307,7 @@ class AdminLiveEditModuleSettingsTest extends DuskTestCase
 
             if (empty($moduleTypes)) {
                 // Not a failure — shop page might not exist
-                $this->assertTrue(true, 'No modules on product page (page may not exist)');
+                $this->addToAssertionCount(1);
                 return;
             }
 
@@ -340,8 +342,7 @@ class AdminLiveEditModuleSettingsTest extends DuskTestCase
                 $this->fail($report);
             }
 
-            $this->assertTrue($checks >= 0,
-                "Product page module checks completed ({$checks} modules tested)");
+            $this->addToAssertionCount(1); // Product page module checks completed ({$checks} modules tested)
         });
     }
 

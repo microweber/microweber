@@ -237,7 +237,6 @@ class LiveAdminModuleWhiteLabelSmokeTest extends DuskTestCase
             || str_contains($source, "wire:click='save'");
         $hasDeferredSave = str_contains($source, 'wire:id=')
             || str_contains($source, 'wire:snapshot=')
-            || str_contains($source, 'fi-page')
             || str_contains($source, 'fi-form');
 
         $this->assertTrue(

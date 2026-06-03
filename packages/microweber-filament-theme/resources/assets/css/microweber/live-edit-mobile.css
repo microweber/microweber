@@ -907,3 +907,46 @@
         max-height: calc(100vh - 64px) !important;
     }
 }
+
+/* ------------------------------------------------------------------
+ * task-2026-06-02-mobile02 — Template Settings panel mobile touch targets.
+ *
+ * The TemplateSettings panel (.mw-template-settings-panel) surfaces three
+ * interactive element classes that fall below WCAG 2.5.5 (44px) on mobile:
+ *
+ * 1. Bootstrap .form-check.form-switch toggle switches render at ~16px.
+ *    Expand to 44px by setting min-height on the label wrapper and enlarging
+ *    the track for thumb-reach.
+ * 2. .form-control text inputs and .form-select dropdowns render at ~32px.
+ *    Bump to min-height: 44px; font-size: 16px prevents iOS Safari auto-zoom
+ *    on focus (any font-size below 16px triggers viewport zoom).
+ * 3. Accordion header links (.mw-admin-action-links.mw-adm-liveedit-tabs)
+ *    render at line-height only (~24px). Expand to 44px via min-height + flex.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px), (pointer: coarse) {
+    .mw-template-settings-panel .form-check.form-switch {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .mw-template-settings-panel .form-check.form-switch .form-check-input {
+        width: 3em;
+        height: 1.5em;
+        flex-shrink: 0;
+    }
+
+    .mw-template-settings-panel input.form-control,
+    .mw-template-settings-panel select.form-select {
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    /* Accordion section + sub-section headings */
+    .mw-template-settings-panel .mw-admin-action-links.mw-adm-liveedit-tabs {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+}

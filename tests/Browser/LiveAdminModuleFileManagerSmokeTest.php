@@ -292,7 +292,7 @@ class LiveAdminModuleFileManagerSmokeTest extends DuskTestCase
         ) > 0;
 
         $this->assertTrue(
-            $hasFilamentChrome || $hasLivewireWiring,
+            $hasLivewireWiring,
             'file manager admin must render Filament/Livewire chrome (fi-page / '
             . 'fi-section / fi-form / wire:id / wire:snapshot / wire:model / wire:click) '
             . '— otherwise the page never mounted past the auth shell and the upload + '

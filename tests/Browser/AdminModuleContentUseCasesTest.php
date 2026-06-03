@@ -97,15 +97,6 @@ class AdminModuleContentUseCasesTest extends DuskTestCase
             $this->assertTrue($data['hasWireId'] ?? false,
                 'FAQ settings should be a Livewire component');
 
-            // FAQ uses LiveEditModuleSettingsTable — check for table or repeater
-            $tableCheck = $browser->script("
-                try {
-                    var table = document.querySelector('.fi-ta, table, .fi-fo-repeater');
-                    var rows = document.querySelectorAll('.fi-ta-row, tbody tr, .fi-fo-repeater-item');
-                    return {hasTable: table !== null, rowCount: rows.length};
-                } catch(e) { return {hasTable: false, rowCount: 0}; }
-            ");
-
             if (($data['tabCount'] ?? 0) > 1) {
                 $this->clickThroughTabs($browser, $data['tabCount'], 'FAQ');
             }

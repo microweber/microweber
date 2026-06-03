@@ -52,6 +52,8 @@ class AdminContentWorkflowTest extends DuskTestCase
 
     protected function livewireSet(Browser $browser, string $property, string $value): void
     {
+        $propertyJs = json_encode($property);
+        $valueJs    = json_encode($value);
         $js = <<<JS
             var titleInput = document.querySelector('#form\\\\.title');
             if (!titleInput) return false;
@@ -61,7 +63,7 @@ class AdminContentWorkflowTest extends DuskTestCase
             var wireId = el.getAttribute('wire:id');
             var comp = window.Livewire.find(wireId);
             if (!comp) return false;
-            comp.set('{$property}', '{$value}');
+            comp.set({$propertyJs}, {$valueJs});
             return true;
         JS;
         $browser->script($js);
@@ -205,11 +207,12 @@ class AdminContentWorkflowTest extends DuskTestCase
 
                 // Type the unique title into search
                 $searchTerm = "DuskTestPage {$ts}";
+                $searchTermJs = json_encode($searchTerm);
                 $browser->script("
                     var input = document.querySelector('input[placeholder*=\"Search\"]')
                         || document.querySelector('input[type=\"search\"]');
                     if (input) {
-                        input.value = '{$searchTerm}';
+                        input.value = {$searchTermJs};
                         input.dispatchEvent(new Event('input', { bubbles: true }));
                     }
                 ");
@@ -323,11 +326,12 @@ class AdminContentWorkflowTest extends DuskTestCase
                 $browser->pause(2000);
 
                 $searchTerm = "DuskTestPost {$ts}";
+                $searchTermJs = json_encode($searchTerm);
                 $browser->script("
                     var input = document.querySelector('input[placeholder*=\"Search\"]')
                         || document.querySelector('input[type=\"search\"]');
                     if (input) {
-                        input.value = '{$searchTerm}';
+                        input.value = {$searchTermJs};
                         input.dispatchEvent(new Event('input', { bubbles: true }));
                     }
                 ");
@@ -438,11 +442,12 @@ class AdminContentWorkflowTest extends DuskTestCase
                 $browser->pause(2000);
 
                 $searchTerm = "DuskTestProduct {$ts}";
+                $searchTermJs = json_encode($searchTerm);
                 $browser->script("
                     var input = document.querySelector('input[placeholder*=\"Search\"]')
                         || document.querySelector('input[type=\"search\"]');
                     if (input) {
-                        input.value = '{$searchTerm}';
+                        input.value = {$searchTermJs};
                         input.dispatchEvent(new Event('input', { bubbles: true }));
                     }
                 ");

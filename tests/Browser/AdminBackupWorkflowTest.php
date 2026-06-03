@@ -190,6 +190,8 @@ class AdminBackupWorkflowTest extends DuskTestCase
                         || bodyText.includes('start backup');
                     return hasButton;
                 ");
+                $this->assertTrue($hasCreateButton[0] ?? false,
+                    'Backups page should have a create/new backup button or action');
 
                 // Page should be stable regardless
                 $pageSource = $browser->driver->getPageSource();
