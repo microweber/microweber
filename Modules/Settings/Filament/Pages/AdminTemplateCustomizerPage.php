@@ -59,6 +59,25 @@ class AdminTemplateCustomizerPage extends Page
             $this->selectedTemplate = $defaultTemplate['dir_name'];
         }
 
+        // AI-1068 / task-2026-06-04-le1068 — seed the Layout dropdown with
+        // the active template's first available layout instead of leaving
+        // $layout_file = '' (which renders as the "Select an option" null
+        // placeholder and blocks the live preview until the user picks a
+        // layout). Mirrors the component-level ->default() in
+        // MwSelectTemplateForPage so the page-bound property carries a real
+        // value on first mount. The ticket accepts "the first available
+        // option" as the default.
+        if ($this->layout_file === '' && $this->selectedTemplate) {
+            $layouts = mw()->layouts_manager->get_all([
+                'site_template' => $this->selectedTemplate,
+                'no_cache' => true,
+                'no_folder_sort' => true,
+            ]);
+            if (isset($layouts[0]['layout_file'])) {
+                $this->layout_file = $layouts[0]['layout_file'];
+            }
+        }
+
         // Load existing customization options
         $this->loadCustomizationData();
 
