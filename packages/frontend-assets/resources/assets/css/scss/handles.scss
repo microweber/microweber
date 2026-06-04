@@ -694,25 +694,6 @@ html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
                     overflow: hidden;
                     margin: 0;
                 }
-
-                // task-2026-06-04-lecollapse — the resting (un-hovered) layout
-                // menu must be a COMPACT icon-only trigger that expands on
-                // hover. The primary "Settings" button is styled width:100%
-                // with a 15px label (handles.scss:334-341), so without this it
-                // renders as a wide "⚙ Settings" box (looking permanently
-                // expanded). Collapse it to a 44px icon here; the label + the
-                // sibling buttons (Clone/Delete) reveal in the :hover block.
-                .mw-handle-edit-layout-button {
-                    width: 44px;
-                    min-width: 44px;
-                    justify-content: center;
-                }
-                .mw-handle-edit-layout-button .mw-le-handle-menu-button-content-title {
-                    font-size: 0;
-                    width: 0;
-                    padding: 0;
-                    overflow: hidden;
-                }
             }
 
             &:hover{
