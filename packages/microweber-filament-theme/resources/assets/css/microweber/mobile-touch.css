@@ -750,6 +750,16 @@ button.btn-icon.live-edit-toolbar-buttons,
     body.fi-panel-checkout textarea.fi-textarea-input:focus,
     body.fi-panel-checkout select.fi-select-input:focus {
         border-color: var(--color-border-focus) !important;
+        /* AI-253 / task-2026-06-04-ckfocus: these checkout inputs render
+           with 0 border-width (filled style), so the border-color change
+           alone is an INVISIBLE focus indicator (WCAG 2.4.7 failure on the
+           P1 conversion form). Add a 2px box-shadow ring (non-layout-
+           shifting) for a visible focus state, plus a transparent outline
+           so Windows High-Contrast / forced-colors still shows focus
+           (box-shadow is dropped in forced-colors mode). */
+        box-shadow: 0 0 0 2px var(--color-border-focus, #0d6efd) !important;
+        outline: 2px solid transparent !important;
+        outline-offset: 2px;
     }
 
     /* Label alignment — checkout form labels should be the same

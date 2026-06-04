@@ -554,6 +554,34 @@
         width: 100% !important;
         min-height: 50vh !important;
     }
+
+    /* AI-218 / task-2026-06-04-linkpick — WCAG 2.5.5 44px touch targets.
+       The mobile layout above is sound (full-screen, horizontal scroll
+       tab bar, stacked footer), but the compact pills/buttons render
+       below the 44px floor: tabs ~28px (py-1.5 text-xs), footer buttons
+       ~36px (py-2.5), close ~32px, checkbox 16px. Lift each interactive
+       element to a 44px min hit area without changing the visual type. */
+    .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav .mw-admin-action-links {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+    .mw_modal_live_edit_link_editor_settings .x-close-modal-link {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    .mw_modal_live_edit_link_editor_settings .form-check,
+    .mw_modal_live_edit_link_editor_settings .form-check-inline {
+        min-height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    .mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer button {
+        min-height: 44px !important;
+    }
 }
 
 /* Small phones */

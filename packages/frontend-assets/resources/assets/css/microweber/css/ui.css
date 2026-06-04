@@ -3317,6 +3317,36 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after {
         }
     }
 }
+
+/* ================================================================
+ * AI-293 / task-2026-06-04-rtlicon — RTL directional-icon flip
+ *
+ * Horizontally-directional icons (back/forward arrows, navigation
+ * chevrons, carousel prev/next) must mirror under RTL so a "next"
+ * affordance still points along the reading direction. Vertical
+ * icons (chevron up/down, dropdown carets) are intentionally NOT
+ * listed — scaleX has no visual effect on them and they must not move.
+ *
+ * `.mw-rtl-flip` is an opt-in utility for any bespoke directional
+ * glyph (SVG/icon-font) that the named classes below don't cover.
+ * Verified: LTR unaffected (rule is gated on html[dir="rtl"]).
+ * ================================================================ */
+html[dir="rtl"] .mdi-arrow-left,
+html[dir="rtl"] .mdi-arrow-right,
+html[dir="rtl"] .mdi-arrow-left-thin,
+html[dir="rtl"] .mdi-arrow-right-thin,
+html[dir="rtl"] .mdi-arrow-back,
+html[dir="rtl"] .mdi-arrow-forward,
+html[dir="rtl"] .mdi-chevron-left,
+html[dir="rtl"] .mdi-chevron-right,
+html[dir="rtl"] .mdi-chevron-double-left,
+html[dir="rtl"] .mdi-chevron-double-right,
+html[dir="rtl"] .mdi-menu-left,
+html[dir="rtl"] .mdi-menu-right,
+html[dir="rtl"] .mw-rtl-flip {
+    transform: scaleX(-1);
+}
+
 @supports not (container-name: mw-tree-root) {
     @media (max-width: 1200px) {
         .mw-tree-nav-skin-default

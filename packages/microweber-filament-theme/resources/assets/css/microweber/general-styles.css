@@ -3586,9 +3586,17 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
 }
 
 /* AI-704 mobile: +Add is hidden on mobile per spec — functions remain
- * accessible via the sidebar drawer (AI-704a follow-up). */
+ * accessible via the sidebar drawer (AI-704a follow-up).
+ *
+ * AI-1254 / task-2026-06-04-add768: the always-on display:flex rule above
+ * (line ~3519) matches at specificity (0,4,1) via its `.fi-color-primary`
+ * compound, outranking this hide rule's bare (0,3,1) — so +Add never hid on
+ * mobile and rendered a 32px sub-floor pill next to the 44px Live Edit pill.
+ * Mirror the `.fi-color-primary` compound here so the hide rule matches at
+ * equal (0,4,1) and wins on later source order. */
 @media (max-width: 768px) {
-    body.fi-panel-admin .fi-btn.admin-toolbar-add {
+    body.fi-panel-admin .fi-btn.admin-toolbar-add,
+    body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary {
         display: none !important;
     }
 }
@@ -5324,4 +5332,28 @@ body.fi-panel-admin .fi-ta-empty-state-description {
 html.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary .fi-btn-label,
 html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary .fi-btn-label {
     color: #e5e7eb !important;
+}
+
+/* ================================================================
+ * AI-293 / task-2026-06-04-rtlicon — RTL directional-icon flip (admin
+ * + Live Edit surfaces). Filament v5 already mirrors its own layout
+ * and heroicon chevrons under [dir="rtl"]; this covers Microweber's
+ * Material Design Icon glyphs and the opt-in `.mw-rtl-flip` utility on
+ * bespoke directional icons in the admin shell / Live Edit toolbar.
+ * Vertical glyphs are intentionally excluded. Mirror of the public
+ * rule in frontend-assets ui.css per the both-pipelines convention. */
+html[dir="rtl"] .mdi-arrow-left,
+html[dir="rtl"] .mdi-arrow-right,
+html[dir="rtl"] .mdi-arrow-left-thin,
+html[dir="rtl"] .mdi-arrow-right-thin,
+html[dir="rtl"] .mdi-arrow-back,
+html[dir="rtl"] .mdi-arrow-forward,
+html[dir="rtl"] .mdi-chevron-left,
+html[dir="rtl"] .mdi-chevron-right,
+html[dir="rtl"] .mdi-chevron-double-left,
+html[dir="rtl"] .mdi-chevron-double-right,
+html[dir="rtl"] .mdi-menu-left,
+html[dir="rtl"] .mdi-menu-right,
+html[dir="rtl"] .mw-rtl-flip {
+    transform: scaleX(-1);
 }
