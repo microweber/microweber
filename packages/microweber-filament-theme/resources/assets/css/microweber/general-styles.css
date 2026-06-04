@@ -3518,21 +3518,26 @@ body.fi-panel-admin .mw-admin-primary-actions {
 
 body.fi-panel-admin .fi-btn.admin-toolbar-add,
 body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary {
-    background-color: transparent !important;
-    color: var(--ese-text, #111827) !important;
+    background-color: #e1edf8 !important;
+    color: #182433 !important;
     border: none !important;
     box-shadow: none !important;
-    border-radius: var(--radius-md, 10px) !important;
+    border-radius: var(--radius-pill, 999px) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
     height: auto !important;
     min-height: 32px !important;
-    min-width: 32px !important;
-    padding: var(--space-xs, 6px) !important;
+    padding: 0 13px !important;
     line-height: 1 !important;
+    gap: 6px !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
     transition: background-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) !important;
 }
 body.fi-panel-admin .fi-btn.admin-toolbar-add:hover,
 body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary:hover {
-    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04)) !important;
+    background-color: #c8dff5 !important;
     opacity: 1 !important;
 }
 body.fi-panel-admin .fi-btn.admin-toolbar-add:focus-visible {
@@ -3542,13 +3547,13 @@ body.fi-panel-admin .fi-btn.admin-toolbar-add:focus-visible {
 body.fi-panel-admin .fi-btn.admin-toolbar-add svg {
     width: 16px !important;
     height: 16px !important;
-    color: var(--ese-text, #111827) !important;
+    color: #182433 !important;
 }
 
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit,
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
-    background-color: var(--ese-text, #111827) !important;
-    color: var(--ese-surface, #ffffff) !important;
+    background-color: #e2f9e6 !important;
+    color: #182433 !important;
     border: none !important;
     box-shadow: none !important;
     border-radius: var(--radius-pill, 999px) !important;
@@ -3556,12 +3561,12 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
     min-height: 32px !important;
     padding: var(--space-sm, 8px) var(--space-md, 13px) !important;
     line-height: 1 !important;
-    transition: opacity var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) !important;
+    transition: background-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) !important;
 }
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit:hover,
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary:hover {
-    background-color: var(--ese-text, #111827) !important;
-    opacity: 0.85 !important;
+    background-color: #c8f4ce !important;
+    opacity: 1 !important;
 }
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit:focus-visible {
     outline: 2px solid var(--ese-accent, #0d6efd) !important;
@@ -3570,7 +3575,7 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit:focus-visible {
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit span,
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit .fi-btn-label,
 body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
-    color: var(--ese-surface, #ffffff) !important;
+    color: #182433 !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4622,4 +4627,701 @@ html.dark .fi-modal-footer a.fi-btn,
     clip: rect(0, 0, 0, 0) !important;
     white-space: nowrap !important;
     border: 0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+ * MW v2 admin design polish — task-2026-06-03
+ * Brings the Filament admin visually in line with the old v2 design.
+ * ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Topbar: hide the redundant ".fi-logo" name text in topbar-start ──
+   The brand mark (logo icon) already shows; "Microweber" text alongside
+   the collapse-sidebar button duplicates it and wasn't in old v2. */
+body.fi-panel-admin .fi-topbar-start .fi-logo {
+    display: none !important;
+}
+
+/* ── Topbar: ADD button — show label text to match old v2 "+ ADD" ────
+   Old v2 showed a full text button. Filament renders an icon-only button
+   with an sr-only label. Unclip the span so text is visible. */
+body.fi-panel-admin .fi-btn.admin-toolbar-add .sr-only {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    margin: 0 !important;
+    border: 0 !important;
+    color: #182433 !important;
+}
+/* ── Topbar collapse-sidebar button — subtle styling ─────────────────
+   Reduce visual weight of the collapse button so topbar stays clean. */
+body.fi-panel-admin .fi-topbar-collapse-sidebar-btn-ctn .fi-icon-btn {
+    color: #6b7280 !important;
+    opacity: 0.7;
+}
+body.fi-panel-admin .fi-topbar-collapse-sidebar-btn-ctn .fi-icon-btn:hover {
+    opacity: 1;
+}
+
+/* ── Page background: match v2 light blue-gray ────────────────────── */
+body.fi-panel-admin {
+    background-color: #f6f8fb !important;
+}
+body.fi-panel-admin .fi-main {
+    background-color: #f6f8fb !important;
+}
+
+/* ── Sidebar: match v2 white sidebar with clean item styling ──────── */
+body.fi-panel-admin .fi-sidebar-wrap,
+body.fi-panel-admin .fi-sidebar {
+    background-color: #ffffff !important;
+    border-right: 1px solid #e8eef4 !important;
+}
+
+/* ── Sidebar nav items: font and spacing matching v2 ─────────────── */
+body.fi-panel-admin .fi-sidebar-item-button {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #182433 !important;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+    min-height: 38px !important;
+}
+body.fi-panel-admin .fi-sidebar-item-button:hover {
+    background-color: #f0f4fa !important;
+    color: #0d6efd !important;
+}
+body.fi-panel-admin .fi-sidebar-item-button.fi-active {
+    background-color: #e9f2ff !important;
+    color: #0d6efd !important;
+    font-weight: 500 !important;
+}
+body.fi-panel-admin .fi-sidebar-item-button .fi-sidebar-item-icon {
+    color: inherit !important;
+}
+
+/* ── Sidebar group headers: match v2 muted uppercase labels ────────  */
+body.fi-panel-admin .fi-sidebar-group-label {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    color: #9ca3af !important;
+    padding: 12px 12px 4px !important;
+}
+
+/* ── Dashboard page background: match overall v2 feel ───────────── */
+body.fi-panel-admin .fi-page {
+    background-color: #f6f8fb !important;
+}
+
+/* ── Dashboard welcome heading sizing ────────────────────────────── */
+body.fi-panel-admin .mw-welcome-widget-heading {
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    color: #182433 !important;
+    letter-spacing: -0.02em !important;
+}
+
+/* ── Cards/widgets: clean white bg with subtle shadow ────────────── */
+body.fi-panel-admin .fi-wi-stats-overview-stat,
+body.fi-panel-admin .fi-section {
+    background-color: #ffffff !important;
+    border: 1px solid #e8eef4 !important;
+    box-shadow: 0 1px 3px rgba(24, 36, 51, 0.04) !important;
+    border-radius: 12px !important;
+}
+
+/* ── Table: clean header and row styles ─────────────────────────── */
+body.fi-panel-admin .fi-ta-header-cell {
+    background-color: #f8fafc !important;
+    color: #6b7280 !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    border-bottom: 1px solid #e8eef4 !important;
+}
+body.fi-panel-admin .fi-ta-row:hover td,
+body.fi-panel-admin .fi-ta-row:hover .fi-ta-cell {
+    background-color: #f5f9ff !important;
+}
+
+/* ── Primary action buttons: consistent with v2 blue ────────────── */
+body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+    background-color: rgba(var(--primary-500), 1) !important;
+    color: #fff !important;
+}
+
+/* ── Dark mode: invert bg tokens for dark theme ─────────────────── */
+html.dark body.fi-panel-admin,
+html.dark body.fi-panel-admin .fi-main,
+html.dark body.fi-panel-admin .fi-page {
+    background-color: #111827 !important;
+}
+html.dark body.fi-panel-admin .fi-sidebar-wrap,
+html.dark body.fi-panel-admin .fi-sidebar {
+    background-color: #1f2937 !important;
+    border-right-color: #374151 !important;
+}
+html.dark body.fi-panel-admin .fi-sidebar-item-button {
+    color: #e5e7eb !important;
+}
+html.dark body.fi-panel-admin .fi-sidebar-item-button:hover {
+    background-color: #374151 !important;
+    color: #60a5fa !important;
+}
+html.dark body.fi-panel-admin .fi-sidebar-item-button.fi-active {
+    background-color: #1e3a5f !important;
+    color: #60a5fa !important;
+}
+html.dark body.fi-panel-admin .fi-btn.admin-toolbar-live-edit,
+html.dark body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
+    background-color: #1a3d2b !important;
+    color: #6ee7a0 !important;
+}
+html.dark body.fi-panel-admin .fi-btn.admin-toolbar-live-edit span,
+html.dark body.fi-panel-admin .fi-btn.admin-toolbar-live-edit .fi-btn-label,
+html.dark body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
+    color: #6ee7a0 !important;
+}
+html.dark body.fi-panel-admin .fi-btn.admin-toolbar-add,
+html.dark body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary {
+    background-color: #1a2e45 !important;
+    color: #93c5fd !important;
+}
+html.dark body.fi-panel-admin .fi-btn.admin-toolbar-add .sr-only {
+    color: #93c5fd !important;
+}
+html.dark body.fi-panel-admin .fi-btn.admin-toolbar-add svg {
+    color: #93c5fd !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+ * MW v2 admin design polish — Round 2 — task-2026-06-03
+ * Breadcrumbs, page headings, table containers, pagination, forms
+ * ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Breadcrumb links: brand blue instead of Filament default ────── */
+body.fi-panel-admin .fi-breadcrumbs-item-label {
+    color: #0d6efd !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+}
+body.fi-panel-admin .fi-breadcrumbs-item-label:hover {
+    color: #0a58ca !important;
+    text-decoration: underline !important;
+}
+body.fi-panel-admin .fi-breadcrumbs-item-separator {
+    color: #9ca3af !important;
+    font-size: 12px !important;
+}
+
+/* ── Page heading (h1): match v2 28px bold dark heading ─────────── */
+body.fi-panel-admin .fi-header-heading {
+    font-size: 26px !important;
+    font-weight: 700 !important;
+    color: #182433 !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.2 !important;
+}
+
+/* ── Page header area: correct spacing and bottom border ─────────── */
+body.fi-panel-admin .fi-header {
+    padding-bottom: 16px !important;
+    border-bottom: 1px solid #e8eef4 !important;
+    margin-bottom: 20px !important;
+}
+
+/* ── Table container: white card with border and subtle shadow ───── */
+body.fi-panel-admin .fi-ta-ctn {
+    background-color: #ffffff !important;
+    border: 1px solid #e8eef4 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 1px 3px rgba(24, 36, 51, 0.04) !important;
+    overflow: hidden !important;
+}
+
+/* ── Table header row ───────────────────────────────────────────── */
+body.fi-panel-admin .fi-ta-header {
+    background-color: #f8fafc !important;
+    border-bottom: 1px solid #e8eef4 !important;
+}
+
+/* ── Table rows: padding and hover ─────────────────────────────── */
+body.fi-panel-admin .fi-ta-row td,
+body.fi-panel-admin .fi-ta-row .fi-ta-cell {
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    transition: background-color 100ms ease !important;
+}
+body.fi-panel-admin .fi-ta-row:last-child td,
+body.fi-panel-admin .fi-ta-row:last-child .fi-ta-cell {
+    border-bottom: none !important;
+}
+
+/* ── Icon action buttons in table rows: subtle hover ────────────── */
+body.fi-panel-admin .fi-ta-row .fi-icon-btn {
+    color: #6b7280 !important;
+    border-radius: 6px !important;
+    transition: background-color 100ms, color 100ms !important;
+}
+body.fi-panel-admin .fi-ta-row .fi-icon-btn:hover {
+    background-color: #f0f4fa !important;
+    color: #0d6efd !important;
+}
+
+/* ── Table toolbar (search + filters bar) ───────────────────────── */
+body.fi-panel-admin .fi-ta-header-toolbar {
+    padding: 12px 16px !important;
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+/* ── Pagination: match v2 clean style ───────────────────────────── */
+body.fi-panel-admin .fi-pagination {
+    padding: 12px 16px !important;
+    background-color: #ffffff !important;
+    border-top: 1px solid #f1f5f9 !important;
+}
+body.fi-panel-admin .fi-pagination-item-btn {
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    color: #182433 !important;
+    transition: background-color 100ms !important;
+}
+body.fi-panel-admin .fi-pagination-item-btn:hover {
+    background-color: #f0f4fa !important;
+    color: #0d6efd !important;
+}
+body.fi-panel-admin .fi-pagination-item-btn[aria-current="page"],
+body.fi-panel-admin .fi-pagination-item-btn.fi-active {
+    background-color: #0d6efd !important;
+    color: #ffffff !important;
+}
+
+/* ── Sidebar header (logo area) ─────────────────────────────────── */
+body.fi-panel-admin .fi-sidebar-header {
+    padding: 16px 12px 12px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+/* ── Topbar: ensure brand-blue ADD button matches v2 exactly ─────── */
+body.fi-panel-admin .fi-topbar {
+    border-bottom: 1px solid #e8eef4 !important;
+}
+
+/* ── Form inputs: clean v2-style inputs ─────────────────────────── */
+body.fi-panel-admin .fi-input {
+    border-color: #d1d9e6 !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    background-color: #ffffff !important;
+    color: #182433 !important;
+    transition: border-color 150ms ease, box-shadow 150ms ease !important;
+}
+body.fi-panel-admin .fi-input:focus {
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12) !important;
+}
+body.fi-panel-admin .fi-input-wrp {
+    border-radius: 8px !important;
+}
+
+/* ── Form labels ─────────────────────────────────────────────────── */
+body.fi-panel-admin .fi-fo-field-wrp-label label,
+body.fi-panel-admin .fi-fo-field-wrp > label {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #374151 !important;
+    margin-bottom: 4px !important;
+}
+
+/* ── Section headings inside forms ──────────────────────────────── */
+body.fi-panel-admin .fi-section-header {
+    padding: 16px 20px 12px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+body.fi-panel-admin .fi-section-header-heading {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #182433 !important;
+}
+
+/* ── Tabs in list pages (All/New/Processing/etc.) ───────────────── */
+body.fi-panel-admin .fi-tabs {
+    border-bottom: 1px solid #e8eef4 !important;
+    background-color: #ffffff !important;
+}
+body.fi-panel-admin .fi-tabs-tab {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #6b7280 !important;
+    padding: 10px 16px !important;
+    border-bottom: 2px solid transparent !important;
+    transition: color 100ms, border-color 100ms !important;
+}
+body.fi-panel-admin .fi-tabs-tab:hover {
+    color: #182433 !important;
+}
+body.fi-panel-admin .fi-tabs-tab[aria-selected="true"],
+body.fi-panel-admin .fi-tabs-tab.fi-active {
+    color: #0d6efd !important;
+    border-bottom-color: #0d6efd !important;
+    font-weight: 600 !important;
+}
+
+/* ── Status badges: keep v2-style colors ────────────────────────── */
+body.fi-panel-admin .fi-badge.fi-color-success {
+    background-color: #dcfce7 !important;
+    color: #16a34a !important;
+    border-color: #bbf7d0 !important;
+}
+body.fi-panel-admin .fi-badge.fi-color-warning {
+    background-color: #fef9c3 !important;
+    color: #ca8a04 !important;
+    border-color: #fef08a !important;
+}
+body.fi-panel-admin .fi-badge.fi-color-danger {
+    background-color: #fee2e2 !important;
+    color: #dc2626 !important;
+    border-color: #fecaca !important;
+}
+body.fi-panel-admin .fi-badge.fi-color-info,
+body.fi-panel-admin .fi-badge.fi-color-primary {
+    background-color: #dbeafe !important;
+    color: #1d4ed8 !important;
+    border-color: #bfdbfe !important;
+}
+
+/* ── Topbar search bar: match v2 subtle style ───────────────────── */
+body.fi-panel-admin .fi-global-search-field input {
+    border-radius: 20px !important;
+    border-color: #e8eef4 !important;
+    background-color: #f6f8fb !important;
+    font-size: 13px !important;
+    color: #182433 !important;
+}
+body.fi-panel-admin .fi-global-search-field input:focus {
+    border-color: #0d6efd !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.10) !important;
+}
+
+/* ── Dark mode — Round 2 ─────────────────────────────────────────── */
+html.dark body.fi-panel-admin .fi-breadcrumbs-item-label {
+    color: #60a5fa !important;
+}
+html.dark body.fi-panel-admin .fi-header-heading {
+    color: #f9fafb !important;
+}
+html.dark body.fi-panel-admin .fi-header {
+    border-bottom-color: #374151 !important;
+}
+html.dark body.fi-panel-admin .fi-ta-ctn {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+}
+html.dark body.fi-panel-admin .fi-ta-header {
+    background-color: #111827 !important;
+    border-bottom-color: #374151 !important;
+}
+html.dark body.fi-panel-admin .fi-ta-row td,
+html.dark body.fi-panel-admin .fi-ta-row .fi-ta-cell {
+    border-bottom-color: #374151 !important;
+}
+html.dark body.fi-panel-admin .fi-input {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+    color: #f9fafb !important;
+}
+html.dark body.fi-panel-admin .fi-input:focus {
+    border-color: #60a5fa !important;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15) !important;
+}
+html.dark body.fi-panel-admin .fi-tabs {
+    background-color: #1f2937 !important;
+    border-bottom-color: #374151 !important;
+}
+html.dark body.fi-panel-admin .fi-tabs-tab {
+    color: #9ca3af !important;
+}
+html.dark body.fi-panel-admin .fi-tabs-tab:hover {
+    color: #e5e7eb !important;
+}
+html.dark body.fi-panel-admin .fi-tabs-tab[aria-selected="true"],
+html.dark body.fi-panel-admin .fi-tabs-tab.fi-active {
+    color: #60a5fa !important;
+    border-bottom-color: #60a5fa !important;
+}
+html.dark body.fi-panel-admin .fi-global-search-field input {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+    color: #f9fafb !important;
+}
+
+/* ── Dark mode — additional table/form/section overrides ─────────── */
+/* Main table wrapper */
+html.dark body.fi-panel-admin .fi-ta {
+    background-color: #1f2937 !important;
+}
+/* Table toolbar (search bar + filter row) */
+html.dark body.fi-panel-admin .fi-ta-header-toolbar {
+    background-color: #1f2937 !important;
+    border-bottom-color: #374151 !important;
+}
+/* Column header cells */
+html.dark body.fi-panel-admin .fi-ta-header-cell {
+    background-color: #111827 !important;
+    color: #9ca3af !important;
+}
+/* Section card in dark */
+html.dark body.fi-panel-admin .fi-section {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+}
+html.dark body.fi-panel-admin .fi-section-header {
+    border-bottom-color: #374151 !important;
+}
+html.dark body.fi-panel-admin .fi-section-header-heading {
+    color: #f9fafb !important;
+}
+html.dark body.fi-panel-admin .fi-section-content {
+    background-color: #1f2937 !important;
+}
+/* Form labels */
+html.dark body.fi-panel-admin .fi-fo-field-wrp-label label,
+html.dark body.fi-panel-admin .fi-fo-field-wrp > label {
+    color: #d1d5db !important;
+}
+/* Pagination */
+html.dark body.fi-panel-admin .fi-pagination {
+    background-color: #1f2937 !important;
+    border-top-color: #374151 !important;
+}
+/* Table filter form row */
+html.dark body.fi-panel-admin .fi-ta-filters-form {
+    background-color: #1f2937 !important;
+    border-bottom-color: #374151 !important;
+}
+/* Row action icon buttons */
+html.dark body.fi-panel-admin .fi-ta-row .fi-icon-btn {
+    color: #9ca3af !important;
+}
+html.dark body.fi-panel-admin .fi-ta-row .fi-icon-btn:hover {
+    background-color: rgba(96, 165, 250, 0.1) !important;
+    color: #60a5fa !important;
+}
+/* Badges — softer alpha tones for dark bg */
+html.dark body.fi-panel-admin .fi-badge.fi-color-success {
+    background-color: rgba(22, 163, 74, 0.2) !important;
+    color: #4ade80 !important;
+    border-color: rgba(22, 163, 74, 0.3) !important;
+}
+html.dark body.fi-panel-admin .fi-badge.fi-color-warning {
+    background-color: rgba(202, 138, 4, 0.2) !important;
+    color: #facc15 !important;
+    border-color: rgba(202, 138, 4, 0.3) !important;
+}
+html.dark body.fi-panel-admin .fi-badge.fi-color-danger {
+    background-color: rgba(220, 38, 38, 0.2) !important;
+    color: #f87171 !important;
+    border-color: rgba(220, 38, 38, 0.3) !important;
+}
+html.dark body.fi-panel-admin .fi-badge.fi-color-info,
+html.dark body.fi-panel-admin .fi-badge.fi-color-primary {
+    background-color: rgba(29, 78, 216, 0.2) !important;
+    color: #60a5fa !important;
+    border-color: rgba(29, 78, 216, 0.3) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   v2-PARITY ROUND 3 — "New X" create buttons, tabs, table polish
+   ══════════════════════════════════════════════════════════════════════
+
+   Key v2 design tokens:
+   - #182433  — dark navy (create buttons, headings, icon text)
+   - #e1edf8  — light blue (ADD topbar button bg)
+   - #e2f9e6  — light green (EDIT/Live Edit topbar button bg)
+   - #f6f8fb  — page background
+   - #e8eef4  — border / separator color
+   - #0d6efd  — brand blue (primary actions)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── "New X" header action buttons: dark navy matching v2 ──────────────
+   Targets:
+     • Page-level header buttons e.g. "+ Add page" (.fi-header-actions-ctn)
+     • Table-level header buttons e.g. "New product" (.fi-ta-actions)
+   Excludes toolbar ADD + Live Edit (already styled separately). */
+body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+    background-color: #182433 !important;
+    color: #ffffff !important;
+    border-color: #182433 !important;
+    box-shadow: none !important;
+}
+body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover,
+body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover {
+    background-color: #243347 !important;
+    color: #ffffff !important;
+    border-color: #243347 !important;
+}
+/* Dark mode — keep visible but slightly lighter */
+html.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+    background-color: #2d4a6e !important;
+    color: #e5e7eb !important;
+    border-color: #2d4a6e !important;
+}
+
+/* ── Tabs: fix .fi-tabs-item (Filament v5 uses this, not .fi-tabs-tab) ─
+   Mirror the existing .fi-tabs-tab rules onto .fi-tabs-item so tabs
+   that exist in real pages (Marketplace, settings sections) apply. */
+body.fi-panel-admin .fi-tabs-item {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #6b7280 !important;
+    padding: 8px 16px !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    transition: color 100ms, border-color 100ms !important;
+    cursor: pointer !important;
+}
+body.fi-panel-admin .fi-tabs-item:hover {
+    color: #182433 !important;
+}
+body.fi-panel-admin .fi-tabs-item.fi-active,
+body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
+    color: #182433 !important;
+    border-bottom-color: #182433 !important;
+    font-weight: 600 !important;
+}
+/* Tab container line */
+body.fi-panel-admin .fi-tabs {
+    border-bottom: 1px solid #e8eef4 !important;
+    gap: 0 !important;
+}
+
+/* Dark mode tabs */
+html.dark body.fi-panel-admin .fi-tabs {
+    border-bottom-color: #374151 !important;
+}
+html.dark body.fi-panel-admin .fi-tabs-item {
+    color: #9ca3af !important;
+}
+html.dark body.fi-panel-admin .fi-tabs-item:hover {
+    color: #e5e7eb !important;
+}
+html.dark body.fi-panel-admin .fi-tabs-item.fi-active,
+html.dark body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
+    color: #f9fafb !important;
+    border-bottom-color: #60a5fa !important;
+}
+
+/* ── Table header action bar: align with v2 ───────────────────────────
+   The .fi-ta-header-ctn wraps the sorting + search + filter toolbar.
+   Make it consistent with the v2 look. */
+body.fi-panel-admin .fi-ta-header-ctn {
+    padding: 10px 16px !important;
+}
+
+/* ── Content-area header: tighten breadcrumb + title spacing ──────────
+   v2 does not show breadcrumbs — keep them but make them very subtle */
+body.fi-panel-admin .fi-breadcrumbs {
+    font-size: 11px !important;
+    color: #9ca3af !important;
+    margin-bottom: 2px !important;
+}
+body.fi-panel-admin .fi-breadcrumbs-item {
+    color: #9ca3af !important;
+}
+body.fi-panel-admin .fi-breadcrumbs-item-separator {
+    color: #c9d3df !important;
+}
+body.fi-panel-admin .fi-breadcrumbs-item.fi-active {
+    color: #6b7280 !important;
+}
+
+/* ── Settings page icon: make icon container match v2 light-blue swatch */
+body.fi-panel-admin .mw-admin-settings-icon-wrap,
+body.fi-panel-admin .fi-wi-stats-overview-icon-ctn {
+    background-color: #e1edf8 !important;
+    border-radius: 8px !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* ── Product/page list rows: ensure thumbnail column is proportional ──
+   v2 product rows show a 64×64 thumbnail in the first column. */
+body.fi-panel-admin .fi-ta-cell .fi-ta-image {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 6px !important;
+    object-fit: cover !important;
+}
+
+/* ── Status badge: "PUBLISHED" v2 style — uppercase + tight ──────────
+   v2 Published badge: #e2f9e6 bg, #1a6b35 text, border none, 12px.
+   (existing CSS may cover this — add as fallback with higher specificity) */
+body.fi-panel-admin .fi-badge.fi-color-success {
+    background-color: #e2f9e6 !important;
+    color: #156b32 !important;
+    border-color: #b3e8c3 !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+}
+
+/* ── Marketplace grid: ensure card border-radius matches v2 ───────────
+   v2 template cards have slightly rounded corners + visible border on hover */
+body.fi-panel-admin .mw-marketplace-card {
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    transition: box-shadow 150ms ease, transform 100ms ease !important;
+}
+body.fi-panel-admin .mw-marketplace-card:hover {
+    box-shadow: 0 4px 16px rgba(24, 36, 51, 0.12) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* ── Page-header title: ensure consistent with v2 bold heading ────────
+   fi-page-header styling */
+body.fi-panel-admin .fi-page-header-main-ctn .fi-header-heading {
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    color: #182433 !important;
+    letter-spacing: -0.01em !important;
+}
+
+/* ── Table empty state: match v2's centered empty-state style ─────────
+   When a table has 0 rows, show centered message */
+body.fi-panel-admin .fi-ta-empty-state-icon,
+body.fi-panel-admin [class*="empty"] svg {
+    color: #cbd5e1 !important;
+}
+body.fi-panel-admin .fi-ta-empty-state-heading {
+    color: #182433 !important;
+    font-weight: 600 !important;
+}
+body.fi-panel-admin .fi-ta-empty-state-description {
+    color: #6b7280 !important;
+}
+
+/* ── Dark mode: "New X" button dark navy becomes visible navy ─────────
+   Already handled above, but also ensure the label/icon colors follow */
+html.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary .fi-btn-label,
+html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary .fi-btn-label {
+    color: #e5e7eb !important;
 }
