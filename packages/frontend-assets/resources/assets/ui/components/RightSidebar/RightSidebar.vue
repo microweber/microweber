@@ -263,6 +263,25 @@ export default {
             }
         } catch (e) {}
 
+        // task-2026-06-04-tplclose — identical fix for the "Templates &
+        // layouts" panel. Its visible chrome is the templateSettingsWidget
+        // control box, but the Vue #general-theme-settings sidebar that hosts
+        // its teleported content stays .active after the control-box × is
+        // clicked — leaving the white 350px sidebar open (canvas still
+        // narrowed). Close this sidebar when the template-settings control box
+        // hides. Guarded — the control box is created in bootstrap.js before
+        // the Vue apps mount.
+        try {
+            var _tplBox = window.mw && mw.top && mw.top().app && mw.top().app.templateSettingsWidget;
+            if (_tplBox && typeof _tplBox.on === 'function') {
+                _tplBox.on('hide', function () {
+                    if (rightSidebarInstance.showTemplateSettings) {
+                        rightSidebarInstance.closeSidebar();
+                    }
+                });
+            }
+        } catch (e) {}
+
         this.emitter.on("live-edit-ui-show", show => {
 
 
