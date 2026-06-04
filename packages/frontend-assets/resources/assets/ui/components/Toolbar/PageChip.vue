@@ -86,6 +86,7 @@
             class="mw-page-chip-popover"
             :class="{
                 'mw-page-chip-popover--anchor-right': popoverAnchor === 'right',
+                'mw-page-chip-popover--anchor-left': popoverAnchor === 'left',
                 'mw-page-chip-popover--mobile': isMobile,
             }"
             role="dialog"
@@ -310,8 +311,18 @@ export default {
                 var chipRect = root.getBoundingClientRect();
                 var chipCenterX = chipRect.left + (chipRect.width / 2);
                 var centeredPopoverRight = chipCenterX + (POPOVER_WIDTH / 2);
+                var centeredPopoverLeft = chipCenterX - (POPOVER_WIDTH / 2);
+                // task-2026-06-04-le734 / AI-734 — two-sided anchor flip.
+                // Right overflow → hug the chip's right edge (existing).
+                // Left overflow (chip near the viewport's left edge) → hug
+                // the chip's left edge so the popover's left stays >= 8px.
+                // Closes the last AI-734 acceptance gap (left edge >= 8px);
+                // the right-flip + mobile teleport overlay already covered
+                // the right-edge + mobile cases.
                 if (centeredPopoverRight > window.innerWidth - EDGE_MARGIN) {
                     this.popoverAnchor = 'right';
+                } else if (centeredPopoverLeft < EDGE_MARGIN) {
+                    this.popoverAnchor = 'left';
                 } else {
                     this.popoverAnchor = 'center';
                 }

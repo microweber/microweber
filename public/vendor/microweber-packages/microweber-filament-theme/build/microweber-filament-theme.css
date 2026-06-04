@@ -5582,6 +5582,11 @@ html.dark .mw-page-chip-popover__tab:hover {
   right: 0;
   transform: none;
 }
+.mw-page-chip-popover--anchor-left {
+  left: 0;
+  right: auto;
+  transform: none;
+}
 .mw-page-chip-popover__search {
   padding: var(--space-sm, 8px);
   border-bottom: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));

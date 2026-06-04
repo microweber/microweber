@@ -3027,6 +3027,17 @@ html.dark .mw-page-chip-popover__tab:hover {
     transform: none;
 }
 
+/* task-2026-06-04-le734 / AI-734 — left-overflow flip. When the chip
+   sits near the viewport's left edge, computeAnchor() detects the
+   would-be left overflow and flips popoverAnchor → 'left'. This rule
+   hugs the popover to the chip's left edge with no transform, keeping
+   the popover's left edge >= 8px. Mirror of --anchor-right. */
+.mw-page-chip-popover--anchor-left {
+    left: 0;
+    right: auto;
+    transform: none;
+}
+
 .mw-page-chip-popover__search {
     padding: var(--space-sm, 8px);
     border-bottom: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
