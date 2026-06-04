@@ -58,11 +58,31 @@ const UNDO_CONFIRM_PROMPT = (
 );
 
 export default {
+    computed: {
+        // AI-988 / task-2026-06-04-le988 — platform-aware save shortcut
+        // label. macOS editors press Cmd (⌘); Windows/Linux press Ctrl.
+        // Drives both the visible tooltip and the screen-reader
+        // aria-label so the announced shortcut matches the key the user
+        // must actually press. The keydown handler below accepts BOTH
+        // ctrlKey and metaKey so the shortcut fires on every platform.
+        saveShortcutLabel() {
+            var isMac = false;
+            try {
+                var p = (navigator.userAgentData && navigator.userAgentData.platform)
+                    || navigator.platform || navigator.userAgent || '';
+                isMac = /Mac|iPod|iPhone|iPad/i.test(p);
+            } catch (_) { /* default to Ctrl */ }
+            return isMac ? '⌘S' : 'Ctrl+S';
+        }
+    },
     data() {
         return {
             _dirty: false,
             _autoSaveTimer: null,
             _autoSaveActive: false,
+            // AI-988 — retained reference to the document-level keydown
+            // handler so beforeUnmount can detach it (previously leaked).
+            _mwSaveKeydownListener: null,
             // NOVICE #2: canvas HTML snapshot taken on canvas-load
             // and refreshed at the END of every successful save —
             // captures "the state the server had immediately BEFORE
@@ -324,21 +344,29 @@ export default {
                 saveButtonInstance.$data._undoSnapshot = saveButtonInstance.captureCanvasSnapshot();
             } catch (_) { /* no-op */ }
         });
-        document.addEventListener('keydown', function (event) {
-            if (event.ctrlKey && event.keyCode === 83) {
+        // AI-988 / task-2026-06-04-le988 — Cmd/Ctrl+S triggers Save.
+        // Accept metaKey (Cmd on macOS) in addition to ctrlKey
+        // (Windows/Linux) so keyboard-first editors on every platform
+        // can save without reaching for the mouse. Retained on the
+        // instance so beforeUnmount can detach it.
+        this._mwSaveKeydownListener = function (event) {
+            if ((event.ctrlKey || event.metaKey) && event.keyCode === 83) {
                 event.preventDefault();
                 saveButtonInstance.save();
             }
-        });
+        };
+        document.addEventListener('keydown', this._mwSaveKeydownListener);
     },
     beforeUnmount() {
         this.stopAutoSave();
         try { window.removeEventListener('liveEditUndoLastPublish', this._mwUndoListener); } catch (_) { /* no-op */ }
+        try { if (this._mwSaveKeydownListener) document.removeEventListener('keydown', this._mwSaveKeydownListener); } catch (_) { /* no-op */ }
     },
     beforeDestroy() {
         // Vue 2 fallback name
         this.stopAutoSave();
         try { window.removeEventListener('liveEditUndoLastPublish', this._mwUndoListener); } catch (_) { /* no-op */ }
+        try { if (this._mwSaveKeydownListener) document.removeEventListener('keydown', this._mwSaveKeydownListener); } catch (_) { /* no-op */ }
     }
 }
 </script>
@@ -375,8 +403,8 @@ export default {
         }"
         :aria-pressed="_dirty ? 'true' : 'false'"
         id="save-button"
-        aria-label="Save"
-        title="Save (Ctrl+S)"
+        :aria-label="'Save (' + saveShortcutLabel + ')'"
+        :title="'Save (' + saveShortcutLabel + ')'"
         @click="save()">
             <span class="font-weight-bold">Save</span>
      </button>
