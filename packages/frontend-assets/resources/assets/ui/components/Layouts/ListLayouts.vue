@@ -72,10 +72,18 @@
                             role="tablist"
                             :aria-label="$lang('Layout categories')">
 
-                            <!-- Group 1: All categories — default active. -->
+                            <!-- Group 1: All categories — default active.
+                                 task-2026-06-04-le1160 / AI-1160 — every desktop
+                                 category tab is statically tabindex="0" (not a
+                                 roving 0/-1) so all are Tab-reachable + operable.
+                                 The prior roving tabindex left inactive tabs at
+                                 -1 with no arrow-key handler to reach them, so
+                                 the auditor found 0 focusable category links.
+                                 Matches the mobile-sheet rail (already all
+                                 tabindex="0") for cross-surface consistency. -->
                             <li role="tab"
                                 :aria-selected="'' === filterCategory"
-                                :tabindex="'' === filterCategory ? 0 : -1"
+                                tabindex="0"
                                 :class="['' == filterCategory ? 'active animate__animated animate__pulse': '']"
                                 v-on:click="filterCategorySubmit('')"
                                 v-on:keydown.enter="filterCategorySubmit('')"
@@ -94,7 +102,7 @@
                                 role="tab"
                                 :key="'featured-' + categoryName"
                                 :aria-selected="categoryName === filterCategory"
-                                :tabindex="categoryName === filterCategory ? 0 : -1"
+                                tabindex="0"
                                 :data-category="[categoryName ? categoryName.toLowerCase(): '']"
                                 v-on:click="filterCategorySubmit(categoryName)"
                                 v-on:keydown.enter="filterCategorySubmit(categoryName)"
@@ -118,7 +126,7 @@
                                 role="tab"
                                 :key="'other-' + categoryName"
                                 :aria-selected="categoryName === filterCategory"
-                                :tabindex="categoryName === filterCategory ? 0 : -1"
+                                tabindex="0"
                                 :data-category="[categoryName ? categoryName.toLowerCase(): '']"
                                 v-on:click="filterCategorySubmit(categoryName)"
                                 v-on:keydown.enter="filterCategorySubmit(categoryName)"
