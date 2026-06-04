@@ -311,7 +311,14 @@ button.shop-cta,
     background-color: var(--mw-btn-background-color, var(--color-primary, #0d6efd)) !important;
     border-color: var(--mw-btn-border-color, var(--color-primary, #0d6efd)) !important;
     color: #ffffff !important;
-    border-radius: var(--radius-sm, 6px) !important;
+    /* AI-250 / task-2026-06-04-btnradius: honor the template's configured
+       button radius (--mw-btn-border-radius) FIRST so primary CTAs match the
+       radius of every other .btn on the page. Previously this hardcoded
+       --radius-sm (4px), forcing primary CTAs to 4px while base .btn used the
+       template's --mw-btn-border-radius (e.g. 33px pill) — a visible
+       header-CTA-vs-content-CTA radius mismatch. Falls back to the radius
+       tokens then a literal when the template defines no button radius. */
+    border-radius: var(--mw-btn-border-radius, var(--radius-sm, 6px)) !important;
     transition: background-color var(--duration-fast, 0.15s) var(--ease-default, ease),
                 border-color var(--duration-fast, 0.15s) var(--ease-default, ease);
 }
