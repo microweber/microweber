@@ -42,9 +42,9 @@
                         d="M0-360v-240h60v80h80v-80h60v240h-60v-100H60v100H0Zm310 0v-180h-70v-60h200v60h-70v180h-60Zm170 0v-200q0-17 11.5-28.5T520-600h180q17 0 28.5 11.5T740-560v200h-60v-180h-40v140h-60v-140h-40v180h-60Zm320 0v-240h60v180h100v60H800Z"/>
                 </svg>
                 <v-tooltip activator="parent" location="start">
-                    <Lang>Code Editor</Lang>
+                    <Lang>Code editor</Lang>
                 </v-tooltip>
-                <Lang v-if="template === 'menu'">Code Editor</Lang>
+                <Lang v-if="template === 'menu'">Code editor</Lang>
             </button>
         </li>
 
@@ -63,9 +63,9 @@
                 </svg>
 
                 <v-tooltip activator="parent" location="start">
-                    <Lang>Reset Content</Lang>
+                    <Lang>Reset content</Lang>
                 </v-tooltip>
-                <Lang v-if="template === 'menu'">Reset Content</Lang>
+                <Lang v-if="template === 'menu'">Reset content</Lang>
             </button>
         </li>
 
@@ -98,14 +98,14 @@
                     title="Layout settings"
                     v-on:click="handleCurrentLayoutSettings()">
                 <v-tooltip activator="parent" location="start">
-                    <Lang>Layout Settings</Lang>
+                    <Lang>Layout settings</Lang>
                 </v-tooltip>
                 <svg fill="currentColor" height="24px" viewBox="0 -960 960 960" width="24px"
                      xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path
                         d="M440-120v-240h80v80h320v80H520v80h-80Zm-320-80v-80h240v80H120Zm160-160v-80H120v-80h160v-80h80v240h-80Zm160-80v-80h400v80H440Zm160-160v-240h80v80h160v80H680v80h-80Zm-480-80v-80h400v80H120Z"/>
                 </svg>
-                <Lang v-if="template === 'menu'">Layout Settings</Lang>
+                <Lang v-if="template === 'menu'">Layout settings</Lang>
             </button>
         </li>
 
@@ -117,14 +117,14 @@
                     title="More settings"
                     v-on:click="handleMoreSettings()">
                 <v-tooltip activator="parent" location="start">
-                    <Lang>More Settings</Lang>
+                    <Lang>More settings</Lang>
                 </v-tooltip>
                 <svg fill="currentColor" height="24px" viewBox="0 -960 960 960" width="24px"
                      xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path
                         d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/>
                 </svg>
-                <Lang v-if="template === 'menu'">More Settings</Lang>
+                <Lang v-if="template === 'menu'">More settings</Lang>
             </button>
         </li>
 
@@ -142,9 +142,9 @@
                 </svg>
 
                 <v-tooltip activator="parent" location="start">
-                    <Lang>Clear Cache</Lang>
+                    <Lang>Clear cache</Lang>
                 </v-tooltip>
-                <Lang v-if="template === 'menu'">Clear Cache</Lang>
+                <Lang v-if="template === 'menu'">Clear cache</Lang>
             </button>
         </li>
 

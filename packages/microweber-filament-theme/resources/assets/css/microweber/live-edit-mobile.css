@@ -213,6 +213,15 @@
     body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar,
     body.fi-panel-admin .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar {
         width: 48px !important;
+        /* task-2026-06-04-le834 / AI-834 #2 — the older 40px rail
+           overflowed 1px past the 390 viewport; task-2026-05-27-railfit
+           already eliminated the hard overflow (48px rail / 44px buttons
+           sit inside the viewport). This 6px right inset gives the docked
+           rail the ≥8px right-edge breathing room the ticket asks for:
+           the 44px button's right edge moves from ~x388 (2px gap) to
+           ~x382 (8px gap). Margin only — the rail width token + canvas
+           --sidebar-end-size calc are untouched, so no layout regression. */
+        margin-right: 6px !important;
     }
     body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons,
     body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup,
