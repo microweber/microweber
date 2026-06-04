@@ -76,6 +76,33 @@ export default {
             this.removeStyleEditor();
          //   this.emitter.emit("live-edit-ui-show", 'template-settings')
            this.emitter.emit("live-edit-ui-show", 'close-element-style-editor')
+
+            // task-2026-06-04-eseclose — closing the ESE previously left the
+            // element still selected, so the element-bound chrome it opened
+            // alongside itself (the Layers / dom-tree control box +
+            // selection handles + floating element toolbar) lingered as a
+            // "sidebar under the element" with no way to dismiss it. Tear
+            // that down too: hide the Layers control box and clear the
+            // element selection so the canvas returns to a clean state.
+            // Guarded — these APIs are absent in some embed contexts.
+            try {
+                var targetMW = mw.top();
+                if (targetMW.__controlBoxDomTree && typeof targetMW.__controlBoxDomTree.hide === 'function') {
+                    targetMW.__controlBoxDomTree.hide();
+                }
+                var liveEdit = targetMW.app && targetMW.app.liveEdit;
+                if (liveEdit && liveEdit.handles) {
+                    var elementHandle = liveEdit.handles.get('element');
+                    if (elementHandle && typeof elementHandle.set === 'function') {
+                        elementHandle.set(null);
+                    }
+                    if (typeof liveEdit.handles.reposition === 'function') {
+                        liveEdit.handles.reposition();
+                    }
+                }
+            } catch (e) {
+                // non-fatal — the primary close path above already ran
+            }
         },
 
         buildIframeUrlStyleEditor: function (url) {

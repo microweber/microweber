@@ -904,8 +904,25 @@
     };
 
 
+    // task-2026-06-04-ico2x — singleton/coalesce guard. Double-clicking an
+    // icon in the live-edit canvas runs the open path twice (the dblclick
+    // dispatch + the trailing click), which previously spawned TWO stacked
+    // "Select icon" dialogs. Coalesce rapid re-opens (<600ms) into the same
+    // picker instance so only ONE icon-picker modal ever exists at a time.
+    // A genuine later open (>600ms) still gets a fresh picker.
+    var _mwActiveIconPicker = null;
+    var _mwLastIconPickerAt = 0;
     mw.iconPicker = function (options) {
-        return new IconPicker(options);
+        var now = (typeof Date !== 'undefined' && Date.now) ? Date.now() : (+new Date());
+        if (_mwActiveIconPicker && (now - _mwLastIconPickerAt) < 600) {
+            // Re-entrant double-open: reuse the picker already being opened
+            // instead of creating a second dialog on top of it.
+            _mwLastIconPickerAt = now;
+            return _mwActiveIconPicker;
+        }
+        _mwLastIconPickerAt = now;
+        _mwActiveIconPicker = new IconPicker(options);
+        return _mwActiveIconPicker;
     };
 
 })();

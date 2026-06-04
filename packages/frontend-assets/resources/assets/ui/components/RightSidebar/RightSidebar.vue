@@ -152,6 +152,14 @@ export default {
             CSSGUIService.hide();
             this.emitter.emit("live-edit-ui-show", 'template-settings-close');
 
+            // task-2026-06-04-eseclose — guarantee the canvas un-shifts: drop
+            // the gui-editor-opened class so #live_edit_side_holder reclaims
+            // full width (the empty ~350px sidebar gap left after the ESE
+            // closes collapses). The bootstrap-level class removal is gated on
+            // controlBox.hasOpened('right'), which counts this very panel
+            // while it is still .active — so remove it here on the explicit
+            // full close.
+            try { mw.top().doc.documentElement.classList.remove('live-edit-gui-editor-opened'); } catch (e) {}
         },
         closeElementStyleEditorIfOpened() {
             this.emitter.emit("live-edit-ui-show", 'template-settings');
@@ -234,6 +242,26 @@ export default {
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function () {
             rightSidebarInstance.showTemplateSettings = false;
         });
+
+        // task-2026-06-04-eseclose — when the Element Style Editor control box
+        // (guiEditorBox) is dismissed via its OWN × (the control-box close
+        // button), the Vue RightSidebar that hosts the ESE was never told to
+        // close, so #general-theme-settings stayed .active — keeping the
+        // canvas narrowed with an empty ~350px sidebar gap (the user-reported
+        // "sidebar under element does not close"). Mirror the close here:
+        // whenever the ESE box hides while we are showing the element style
+        // editor, fully close this sidebar too. Guarded — guiEditorBox is
+        // created in bootstrap.js before the Vue apps mount, but stay safe.
+        try {
+            var _guiBox = window.mw && mw.top && mw.top().app && mw.top().app.guiEditorBox;
+            if (_guiBox && typeof _guiBox.on === 'function') {
+                _guiBox.on('hide', function () {
+                    if (rightSidebarInstance.showElementStyleEditor) {
+                        rightSidebarInstance.closeSidebar();
+                    }
+                });
+            }
+        } catch (e) {}
 
         this.emitter.on("live-edit-ui-show", show => {
 

@@ -174,6 +174,30 @@ mw.app.templateSettingsWidget.box.style.width = 'var(--sidebar-end-size)';
             document.documentElement.classList['remove']('live-edit-gui-editor-opened');
         }
 
+        // task-2026-06-04-eseclose — when the Element Style Editor closes,
+        // tear down the element-bound chrome the ESE opened alongside itself:
+        // the Layers / dom-tree control box, the element selection, and its
+        // handles. Previously `on('hide')` only stripped the CSS class (and
+        // only when no other right panel was open), so that "sidebar under
+        // the element" lingered with no way to dismiss it — the user-reported
+        // bug. Runs unconditionally on hide because this chrome belongs to the
+        // ESE specifically and must clear whenever it closes. Guarded — these
+        // APIs are absent in some embed flows.
+        try {
+            var _t = mw.top();
+            if (_t.__controlBoxDomTree && typeof _t.__controlBoxDomTree.hide === 'function') {
+                _t.__controlBoxDomTree.hide();
+            }
+            var _le = _t.app && _t.app.liveEdit;
+            if (_le && _le.handles) {
+                var _eh = _le.handles.get('element');
+                if (_eh && typeof _eh.set === 'function') { _eh.set(null); }
+                if (typeof _le.handles.reposition === 'function') { _le.handles.reposition(); }
+            }
+        } catch (e) {
+            // non-fatal — the class-removal above already ran
+        }
+
 
     });
 

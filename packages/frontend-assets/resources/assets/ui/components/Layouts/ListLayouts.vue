@@ -23,7 +23,15 @@
                  - Visually-hidden h2 carries the announce-only title;
                    aria-hidden="true" on the &times; glyph so SR reads
                    the close button's aria-label, not "multiplication". -->
-            <h2 id="mw-le-layouts-dialog-title" class="visually-hidden">{{ $lang('Insert layout') }}</h2>
+            <!-- task-2026-06-04-lehdr — the announce-only title relied on the
+                 Bootstrap `.visually-hidden` class, which is NOT loaded in the
+                 live-edit canvas context, so the h2 rendered as a visible
+                 full-width block that broke out of the modal's top edge (the
+                 malformed "Insert layout" header). Use the canonical sr-only
+                 inline style (AI-817 pattern) so it is hidden from sight but
+                 still read by assistive tech, independent of any stylesheet. -->
+            <h2 id="mw-le-layouts-dialog-title"
+                style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">{{ $lang('Insert layout') }}</h2>
 
             <!-- Close Button -->
             <button
