@@ -216,6 +216,45 @@
                                 ref.succeed(function () { requestAnimationFrame(mwHoistSettingsModal); });
                             });
                         }
+
+                        // task-2026-06-05-modsettings-save: save the create/edit
+                        // form from a teleported module-settings modal. The hoist
+                        // above moves the modal to <body>, OUTSIDE the embedded
+                        // Livewire component's wire:id subtree, so the modal's
+                        // form wire:submit="callMountedAction" has no component to
+                        // bind to -- the footer Save button (type=submit) fired a
+                        // native submit event Livewire never handled and the row
+                        // could not be saved. Catch the orphaned submit here, find
+                        // the Livewire component that actually has the matching
+                        // mounted action, and invoke it directly (its $wire is
+                        // intact; wire:model already synced the field values).
+                        // Forms still inside a wire:id ancestor are left untouched.
+                        var mwCallKeyByName = {
+                            callMountedAction: 'mountedActions',
+                            callMountedTableAction: 'mountedTableActions',
+                            callMountedTableBulkAction: 'mountedTableBulkActions',
+                            callMountedFormComponentAction: 'mountedFormComponentActions'
+                        };
+                        document.addEventListener('submit', function (e) {
+                            var f = e.target;
+                            if (!f || f.tagName !== 'FORM') { return; }
+                            var s = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit') || '';
+                            if (s.indexOf('callMounted') !== 0) { return; }
+                            if (f.closest('[wire\\:id]')) { return; }
+                            var key = mwCallKeyByName[s];
+                            if (!key) { return; }
+                            var comps = (window.Livewire && window.Livewire.all) ? window.Livewire.all() : [];
+                            for (var i = 0; i < comps.length; i++) {
+                                var w = comps[i].$wire || comps[i];
+                                var v;
+                                try { v = w.get ? w.get(key) : null; } catch (err) { v = null; }
+                                if (Array.isArray(v) && v.length > 0) {
+                                    e.preventDefault();
+                                    try { w[s](); } catch (err2) {}
+                                    return;
+                                }
+                            }
+                        }, true);
                     });
                     if(self.frameElement && mw.tools && mw.tools.iframeAutoHeight){
                         mw.tools.iframeAutoHeight(self.frameElement);
