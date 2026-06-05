@@ -673,7 +673,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
 
             <div
-                x-data="{styleEditorData:{}, showStyleSettings: '/'}"
+                x-data="{styleEditorData:{}, showStyleSettings: '/', filterQuery: ''}"
 
                 x-init="()=>{
             $watch('styleEditorData', (value) => {
@@ -683,6 +683,24 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                 });
             }"
             >
+
+                {{-- AI-987 task-2026-06-05-ts987: search/filter for the Template
+                     Settings panel. For themes with 30+ variables the top-level
+                     list is long; this filters the named settings (and style
+                     groups) by name as the user types. Only shown at the top
+                     level (showStyleSettings == '/'); each filterable item reads
+                     its own lowercased name from a data-* attribute via
+                     $el.dataset (so the label never enters the Alpine
+                     expression string — no attribute-escape leak). Empty query
+                     shows everything, so default behaviour is unchanged. --}}
+                <div class="form-control-live-edit-label-wrapper mt-3 mb-2 mw-ts-search-wrap"
+                     x-show="showStyleSettings == '/'">
+                    <input type="search"
+                           class="form-control-live-edit-input form-control mw-ts-search"
+                           x-model="filterQuery"
+                           placeholder="Search settings…"
+                           aria-label="Search template settings">
+                </div>
 
                 <div class="ai-settings-wrapper">
                     <label for="" class="live-edit-label mb-2">
@@ -750,7 +768,8 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                             class="my-3">
 
                             <div
-                                x-show="showStyleSettings == '/'"
+                                x-show="showStyleSettings == '/' && (filterQuery === '' || ($el.dataset.mwTsName || '').includes(filterQuery.toLowerCase()))"
+                                data-mw-ts-name="{{ isset($styleSetting['title']) ? strtolower((string) $styleSetting['title']) : '' }}"
                             >
                                 @if (isset($styleSetting['title']))
                                     <a x-on:click="showStyleSettings = '{{ $styleSetting['url'] }}'"
@@ -926,7 +945,9 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                                         </button>
                                     </div>
 
-                                    <div x-show="showStyleSettings == '/'" class="my-4">
+                                    <div x-show="showStyleSettings == '/' && (filterQuery === '' || ($el.dataset.mwTsName || '').includes(filterQuery.toLowerCase()))"
+                                         data-mw-ts-name="{{ strtolower((string) $settingName) }}"
+                                         class="my-4">
                                         <a x-on:click="showStyleSettings = 'setting-values-key-{{md5($settingName)}}'"
                                            class="mw-admin-action-links">
                                             <b>{{$settingName}}</b>
