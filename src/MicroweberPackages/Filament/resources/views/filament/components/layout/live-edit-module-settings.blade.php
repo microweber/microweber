@@ -159,6 +159,28 @@
             background-color: rgba(0, 0, 0, 0.55) !important;
         }
         /*
+         * task-2026-06-05-mnu-modal — Generic module-settings create/edit modal
+         * chrome. Module panels OTHER than Content (the Menu Add-menu-item / Edit
+         * dialog, and any LiveEditModuleSettings page that renders its own
+         * filament-actions modals create/edit action) carry NO marker class, so
+         * the per-class backdrop and sizing rules above never reached them. On
+         * this surface the project filament theme forces the modal close overlay
+         * to a transparent background and leaves the window container top-aligned,
+         * so those dialogs opened with no backdrop dim and uncentred — a bare
+         * inline box over the settings list (the add-menu-item-looks-broken
+         * report). Restore the two defaults for every non-slide-over modal on the
+         * module-settings surface. Slide-over modals are excluded so the settings
+         * panel itself keeps its right-edge alignment. This style block only loads
+         * inside the module-settings layout, so it cannot reach full-page admin
+         * modals (which already render correct chrome from the panel CSS).
+         */
+        body.fi-panel-admin .fi-modal:not(.fi-modal-slide-over) .fi-modal-close-overlay {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+        }
+        body.fi-panel-admin .fi-modal:not(.fi-modal-slide-over) .fi-modal-window-ctn {
+            align-items: center !important;
+        }
+        /*
          * Match the (0,4,0) specificity of Filament's base
          * `.fi-modal:not(.fi-width-screen) .fi-modal-window:not(...)`
          * rule so this overrides without !important — the drag
