@@ -96,6 +96,56 @@ export class ModuleHandleContent {
                 },
             },
             {
+                // AI-1024 / task-2026-06-05-emc1024 — "Edit code" shortcut shown
+                // ONLY on Embed modules. Opens the module settings (same surface
+                // as Edit) and best-effort scrolls/focuses the source_code
+                // CodeMirror editor so the user lands directly on the code,
+                // skipping the manual "open settings → scroll to textarea" steps.
+                title: 'Edit code',
+                text: '',
+                icon: handleIcons.icon('code'),
+                className: 'mw-handle-edit-code-button',
+                onTarget: function (target, selfNode) {
+                    var type = target && (
+                        (target.dataset && target.dataset.type) ||
+                        (target.getAttribute && target.getAttribute('type'))
+                    );
+                    if (type && String(type).trim() === 'embed') {
+                        selfNode.classList.remove('mw-le-handle-menu-button-hidden');
+                    } else {
+                        selfNode.classList.add('mw-le-handle-menu-button-hidden');
+                    }
+                },
+                action: () => {
+                    const target = mw.app.liveEdit.handles.get('module').getTarget();
+                    moduleSettingsDispatch(target);
+                    // Best-effort focus of the Embed code editor once the
+                    // settings panel renders. Never throws — settings are
+                    // already open via moduleSettingsDispatch regardless.
+                    try {
+                        const topDoc = mw.top().document;
+                        let tries = 0;
+                        const focusCode = () => {
+                            tries++;
+                            const el = topDoc.querySelector('[data-mw-codemirror="true"]');
+                            if (el) {
+                                if (el._mwCm && typeof el._mwCm.focus === 'function') {
+                                    el._mwCm.focus();
+                                    const wrap = el._mwCm.getWrapperElement && el._mwCm.getWrapperElement();
+                                    if (wrap && wrap.scrollIntoView) wrap.scrollIntoView({ block: 'center' });
+                                } else {
+                                    el.scrollIntoView({ block: 'center' });
+                                    el.focus();
+                                }
+                                return;
+                            }
+                            if (tries < 20) setTimeout(focusCode, 150);
+                        };
+                        setTimeout(focusCode, 300);
+                    } catch (e) { /* settings already opened above */ }
+                },
+            },
+            {
                 title: 'Insert module' ,
                 text: '',
                 icon: handleIcons.icon('plus'),

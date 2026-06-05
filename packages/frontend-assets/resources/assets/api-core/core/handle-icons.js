@@ -149,6 +149,12 @@ export const HandleIcons = function () {
         {
             name: 'upload',
             icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor"><path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>`
+        },
+        {
+            // AI-1024 / task-2026-06-05-emc1024 — code-brackets glyph for the
+            // Embed module's "Edit code" floating-toolbar shortcut.
+            name: 'code',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor"><path d="m320-242-198-198 198-198 57 57-141 141 141 141-57 57Zm320 0-57-57 141-141-141-141 57-57 198 198-198 198Z"/></svg>`
         }
     ];
 
