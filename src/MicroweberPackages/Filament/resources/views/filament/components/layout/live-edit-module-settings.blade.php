@@ -197,6 +197,7 @@
                             var w = m.querySelector('.fi-modal-window');
                             return !!(w && (w.offsetParent !== null || w.getClientRects().length > 0));
                         };
+
                         var mwHoistSettingsModal = function () {
                             var wrapper = document.querySelector('.mw-live-edit-page-wrapper');
                             if (wrapper) {
@@ -265,6 +266,49 @@
         }
         body.fi-panel-admin .fi-modal:not(.fi-modal-slide-over) .fi-modal-window-ctn {
             align-items: center !important;
+        }
+        /*
+         * Live-edit submodal full-screen slide sheet — task-2026-06-05-mnumodal-slide.
+         * Inside the live-edit slide-over the module-settings page is a nested iframe,
+         * and its create/edit "submodal" (Add post, Custom field, Accordion item,
+         * New tab, ...) is teleported to be a direct child of body (see the hoist hook
+         * above). A small CENTRED dialog — or a narrow right-docked slide-over — inside
+         * the already-narrow settings panel is cramped and reads as a stray popup, so
+         * EVERY hoisted submodal (centred dialog AND native slide-over alike) instead
+         * slides in from the inline-end edge and fills the full panel viewport, giving
+         * the form maximum room. Scoped with the child combinator to `body > .fi-modal`
+         * so it ONLY affects the teleported (in-iframe) copy — the standalone
+         * /admin/<module>-module-settings page keeps its centred dialog. Inside the
+         * iframe the only `body > .fi-modal` nodes are these inner action modals, so
+         * the rule never touches the outer settings panel (that lives in the parent
+         * frame, beyond this stylesheet's reach).
+         */
+        body.fi-panel-admin > .fi-modal .fi-modal-window {
+            position: fixed !important;
+            inset: 0 !important;
+            width: 100vw !important;
+            max-width: 100vw !important;
+            height: 100vh !important;
+            max-height: 100vh !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            animation: mw-submodal-slide-in 0.28s cubic-bezier(0.32, 0.72, 0, 1) both;
+        }
+        body.fi-panel-admin > .fi-modal .fi-modal-content {
+            flex: 1 1 auto !important;
+            overflow-y: auto !important;
+            max-height: none !important;
+        }
+        @keyframes mw-submodal-slide-in {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            body.fi-panel-admin > .fi-modal .fi-modal-window {
+                animation: none !important;
+            }
         }
         /*
          * Match the (0,4,0) specificity of Filament's base
