@@ -118,6 +118,11 @@ class MenusList extends Component implements HasForms, HasActions
         return Action::make('renameMenu')
             ->label('Rename menu')
             ->icon('heroicon-m-pencil-square')
+            // AI-942 / task-2026-06-05-mnu942 — unsaved-draft protection (see
+            // addMenuItemAction): don't discard the typed name on a stray
+            // backdrop click or Escape keystroke.
+            ->closeModalByClickingAway(false)
+            ->closeModalByEscaping(false)
             ->mountUsing(function (Schema $schema, array $arguments) {
                 $record = static::findMenuOrFail($arguments['id']);
                 if ($record) {
@@ -156,6 +161,15 @@ class MenusList extends Component implements HasForms, HasActions
             ->modalAutofocus(false)
             ->modalSubmitActionLabel(__('Add menu item'))
             ->modalCancelActionLabel(__('Cancel'))
+            // AI-942 / task-2026-06-05-mnu942 — unsaved-draft protection.
+            // A user typing a menu item Title + Link must not lose it to a
+            // stray backdrop click or Escape keystroke (especially now that
+            // task-2026-06-05-mnu-modal restored a real, clickable backdrop
+            // on this surface). Same option-3 mitigation the content-create
+            // form already uses (AdminLiveEditPage, task-2026-05-02-354958):
+            // dismiss only via the explicit X or Cancel footer action.
+            ->closeModalByClickingAway(false)
+            ->closeModalByEscaping(false)
             ->mountUsing(function (Schema $schema, array $arguments) {
                 $schema->fill($arguments);
             })
@@ -201,6 +215,11 @@ class MenusList extends Component implements HasForms, HasActions
         return CreateAction::make('create')
             ->label('Create new main menu')
             ->createAnother(false)
+            // AI-942 / task-2026-06-05-mnu942 — unsaved-draft protection (see
+            // addMenuItemAction): don't discard the typed menu name on a
+            // stray backdrop click or Escape keystroke.
+            ->closeModalByClickingAway(false)
+            ->closeModalByEscaping(false)
             ->form([
                 TextInput::make('title')
                     ->required()
@@ -474,6 +493,12 @@ class MenusList extends Component implements HasForms, HasActions
             ->iconButton()
             ->tooltip('Edit')
             ->slideOver()
+            // AI-942 / task-2026-06-05-mnu942 — unsaved-draft protection (see
+            // addMenuItemAction): the edit form carries substantial typed
+            // content (title, link, images, advanced options); don't discard
+            // it on a stray backdrop click or Escape keystroke.
+            ->closeModalByClickingAway(false)
+            ->closeModalByEscaping(false)
             ->mountUsing(function (Schema $schema, array $arguments) {
                 $record = static::findMenuOrFail($arguments['id']);
 
