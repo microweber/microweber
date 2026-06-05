@@ -119,9 +119,15 @@
                         // helpers (filament.admin.resources.<type>s.create) which
                         // resolve to the canonical /admin/posts/create etc. paths.
                         if ($mwAi780Type === 'post') {
+                            // AI-753 (task-2026-06-05-pmes753) — last-mile polish
+                            // so the in-page Live-Edit posts empty state mirrors
+                            // the admin Posts list (AI-729): same explainer copy
+                            // and a verb-led CTA. A secondary link (rendered
+                            // below, live-edit only) lets the user re-scope which
+                            // posts this module shows without the admin hop.
                             $mwAi780Title = __('No posts yet');
-                            $mwAi780Body = __('Add your first post to fill this module.');
-                            $mwAi780CtaLabel = __('+ Add post');
+                            $mwAi780Body = __('Articles, news, and updates you publish appear here.');
+                            $mwAi780CtaLabel = __('Write your first post →');
                             $mwAi780CtaHref = route('filament.admin.resources.posts.create');
                         } elseif ($mwAi780Type === 'page') {
                             $mwAi780Title = __('No pages yet');
@@ -139,6 +145,16 @@
                         <h3 class="mw-canvas-empty-state__title">{{ $mwAi780Title }}</h3>
                         <p class="mw-canvas-empty-state__body">{{ $mwAi780Body }}</p>
                         <a class="mw-canvas-empty-state__cta" href="{{ $mwAi780CtaHref }}" aria-label="{{ $mwAi780CtaLabel }}">{{ $mwAi780CtaLabel }}</a>
+                        {{-- AI-753 (task-2026-06-05-pmes753): live-edit-only secondary
+                             link giving the user agency to re-scope the module without
+                             the admin-panel hop. Dispatches onModuleSettingsRequest on
+                             the closest .module wrapper (moduleSettingsDispatch in
+                             api-core/handles-content/module.js). Posts-only per the
+                             ticket scope. onclick uses single quotes only — no embedded
+                             double quote, so the HTML attribute parser stays intact. --}}
+                        @if (($mwAi780Type ?? null) === 'post' && is_live_edit())
+                            <a class="mw-canvas-empty-state__secondary" href="javascript:void(0)" onclick="var m=this.closest('.module');if(m&&window.mw&&mw.app&&mw.app.editor){mw.app.editor.dispatch('onModuleSettingsRequest',m);}return false;" aria-label="{{ __('Change which posts this module shows') }}">{{ __('Or change which posts this module shows →') }}</a>
+                        @endif
                     </div>
                 @endif
             @else

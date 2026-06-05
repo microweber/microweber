@@ -75,11 +75,19 @@ class Canvas6d65deAI780ContentModuleEmptyStateContractTest extends TestCase
     public function blade_renders_post_type_strings_and_cta(): void
     {
         $this->assertStringContainsString("__('No posts yet')", $this->blade);
-        $this->assertStringContainsString("__('Add your first post to fill this module.')", $this->blade);
-        $this->assertStringContainsString("__('+ Add post')", $this->blade);
+        // task-2026-06-05-pmes753 / AI-753 — pin-evolution: the posts empty
+        // state now mirrors the admin Posts list (AI-729) explainer + verb-led
+        // CTA, replacing the earlier generic "Add your first post to fill this
+        // module." / "+ Add post" copy.
+        $this->assertStringContainsString("__('Articles, news, and updates you publish appear here.')", $this->blade);
+        $this->assertStringContainsString("__('Write your first post →')", $this->blade);
+        $this->assertStringNotContainsString("__('Add your first post to fill this module.')", $this->blade);
         // task-2026-05-18-561d00 — admin_url caused 404 after Filament route reorganisation;
         // CTA now uses route('filament.admin.resources.posts.create').
         $this->assertStringContainsString("route('filament.admin.resources.posts.create')", $this->blade);
+        // AI-753 — live-edit-only secondary link to re-scope the module.
+        $this->assertStringContainsString("__('Or change which posts this module shows →')", $this->blade);
+        $this->assertStringContainsString("mw-canvas-empty-state__secondary", $this->blade);
     }
 
     #[Test]
