@@ -219,6 +219,27 @@
                 if (act) { swapAction(act, {}); }
             });
 
+            // task-2026-06-05-addcontent-save: SAVE the create form from a
+            // teleported action modal. The modal is hoisted to .fi-layout to
+            // escape the stacking trap, which leaves its form with NO wire:id
+            // ancestor -- so the footer Save button (type=submit) and the SAVE
+            // pill (form.requestSubmit) fire a native submit event that Livewire
+            // never bound a handler to, and the create form could not be saved.
+            // Catch that orphaned submit at the page root and run the mounted
+            // action through $wire (intact here); wire:model has already synced
+            // the field values live. Forms still inside .fi-main-ctn keep their
+            // normal Livewire submit (skip them). Single quotes only -- x-init
+            // double-quoted attribute.
+            document.addEventListener('submit', (e) => {
+                const f = e.target;
+                if (!f || f.tagName !== 'FORM') { return; }
+                const s = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit') || '';
+                if (s !== 'callMountedAction') { return; }
+                if (f.closest('.fi-main-ctn')) { return; }
+                e.preventDefault();
+                try { $wire.callMountedAction(); } catch (err) {}
+            }, true);
+
             // Some live-edit toolbar actions (Template Settings, Style
             // Editor, Quick AI Edit, Setup Wizard, Insert Layout,
             // Layers, Code Editor, Reset Content, Clear Cache, …) open
