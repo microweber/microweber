@@ -20,6 +20,28 @@
        .mw-live-edit-back-to-editmode-link {
             display: none;
         }
+
+        /* AI-945 / task-2026-06-05-gle945 — at mobile (390px) the fixed
+           top-centre admin preview bar overlapped the template header's nav
+           icons (logo, hamburger, search/account/cart). The bar is transparent,
+           so its Admin / Live Edit icons sat directly over the site-header
+           actions with no visual separation — admins could not tell which icons
+           were admin tools and which were site navigation.
+
+           Move the bar out of the top header row entirely: anchor it as a
+           clearly-separated floating pill at the bottom-centre, with a solid
+           backplate + ring + shadow so it always reads as a distinct admin
+           control regardless of the page surface behind it. Desktop is
+           untouched (this only overrides inside the mobile breakpoint). */
+        #mw-site-preview-navigation {
+            top: auto;
+            bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 999px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            padding: 4px 8px;
+        }
     }
 
 </style>
