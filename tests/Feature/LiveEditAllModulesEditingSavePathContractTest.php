@@ -29,10 +29,14 @@ use Tests\TestCase;
  * mountedTableActions), which the interceptor handles. If a future module rolls
  * its own non-standard mount path, this test flags it as an interceptor gap.
  *
- * Runtime-verified representatives (in-browser, prior sessions + this one):
- * Menu (add item), Content (create/edit), Accordion + Testimonials (this run).
- * The other item-editor modules share the identical standard-action structure
- * pinned here, so the verified path covers them.
+ * Runtime-verified in-browser on the live-edit audit page (live-edit-audit):
+ *  - Full create→fill→save→DB-persist: Menu (add item), Content (create/edit),
+ *    Accordion (new item id 116 persisted via the interceptor, then cleaned up).
+ *  - Create modal opens teleported to <body> as an ORPHANED callMountedAction
+ *    form (no wire:id ancestor → interceptor-eligible): Tabs, Faq, Testimonials,
+ *    Slider, Teamcard, Rating.
+ * Every item-editor module shows the identical interceptor-eligible structure,
+ * so the single generic fix covers them all — no module-specific breakage found.
  */
 class LiveEditAllModulesEditingSavePathContractTest extends TestCase
 {
