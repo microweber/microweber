@@ -952,7 +952,14 @@ class ContentResource extends Resource
                     // publish must now explicitly toggle ON before saving;
                     // explicit > implicit for any state change that affects
                     // public visibility.
+                    //
+                    // task-2026-06-05-AI777 — close the AI-777 acceptance gap:
+                    // the draft-first default (AI-778) shipped without the
+                    // explanatory helper text the ticket asked for. Add it so a
+                    // first-time author understands why a freshly-created post is
+                    // not yet visible on the public site.
                     ->default(false)
+                    ->helperText('Drafts are only visible to you. Toggle on when ready to publish.')
                     ->live()
                     ->afterStateUpdated(function (Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
                         if ($get('is_active') && !$get('posted_at')) {

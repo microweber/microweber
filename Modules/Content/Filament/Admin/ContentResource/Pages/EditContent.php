@@ -76,8 +76,14 @@ class EditContent extends EditRecord
             $editAction =  Actions\EditAction::make()->action('saveContentAndGoLiveEditIframe');
         }
 
+        // task-2026-06-05-AI777 — AI-777 issue 2: make the save-first intent
+        // explicit. This EditAction already persists the record before opening
+        // the live editor (saveContentAndGoLiveEdit*), but the bare "Live edit"
+        // label gave no signal of that, leaving users unsure whether unsaved
+        // edits were kept. Match the CreateContent precedent (AI-1028) where the
+        // same button reads "Save & Live Edit".
         $editAction->icon('heroicon-m-eye')
-            ->label('Live edit')
+            ->label('Save & Live Edit')
             ->size('xl')
             ->color('info')
             ->labeledFrom('md');
