@@ -13,7 +13,7 @@ description: Masonry
         // because the encode call lived inside data-mw-gallery=
         // attribute on the looped element. Move out for perf +
         // hoist for clarity.
-        $mwAi814GalleryJson = base64_encode(json_encode(array_map(function ($item) {
+        $mwGalleryGalleryJson = base64_encode(json_encode(array_map(function ($item) {
             return ['image' => $item['filename'] ?? '', 'description' => $item['title'] ?? ''];
         }, $data ?? [])));
     @endphp
@@ -56,7 +56,7 @@ description: Masonry
                  Pre-fix the bare <p> rendered "No pictures added. Please add pictures to the module." to
                  anonymous frontend visitors — admin-targeted copy leaked to public surface. --}}
             @if (is_admin())
-                <div class="mw-canvas-empty-state" data-mw-ai780-content-type="picture">
+                <div class="mw-canvas-empty-state" data-mw-content-type="picture">
                     <h3 class="mw-canvas-empty-state__title">{{ __('No pictures yet') }}</h3>
                     <p class="mw-canvas-empty-state__body">{{ __('Add your first picture to fill this gallery.') }}</p>
                     <a class="mw-canvas-empty-state__cta" href="{{ admin_url('media') }}" aria-label="{{ __('+ Add picture') }}">{{ __('+ Add picture') }}</a>
@@ -65,7 +65,7 @@ description: Masonry
         @else
             @foreach($data as $item)
                 @php $count++; @endphp
-                <div class="masonry-item" data-mw-gallery="{{ $mwAi814GalleryJson }}" data-mw-gallery-index="{{ $count }}">
+                <div class="masonry-item" data-mw-gallery="{{ $mwGalleryGalleryJson }}" data-mw-gallery-index="{{ $count }}">
                     {{-- task-2026-05-05-90021f — lazy-load gallery images. --}}
                     {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                     {!! responsive_thumbnail($item['filename'] ?? '', 300, null, ['alt' => $item['title'] ?? $item['description'] ?? __('Image'), 'class' => 'img-fluid']) !!}

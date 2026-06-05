@@ -18,14 +18,14 @@ use Tests\TestCase;
  *   - AI-788 (task-2026-05-17-6027b9)  Stage-1 sister lesson
  *
  * Designer DOM probe of home demo posts module empty state:
- *   data-mw-ai780-content-type: "unknown"        <- should be "post"
+ *   data-mw-content-type: "unknown"        <- should be "post"
  *   fullText: "No content yet\n\n+ Add content"  <- should be type-aware
  *
  * Root cause: $params['content_type'] was the SOLE source for
- * $mwAi780Type resolution. The AI-780/780a contract test sets it
+ * $mwEmptyType resolution. The AI-780/780a contract test sets it
  * explicitly in the DataProvider, so the source-level tests passed
  * (35/125 green). At runtime the posts module renderer doesn't pass
- * 'content_type' through $params  $mwAi780Type stays null  default
+ * 'content_type' through $params  $mwEmptyType stays null  default
  * branch fires.
  *
  * Same Stage-1 sub-case as AI-788 (data shipped, consumer not wired)
@@ -44,7 +44,7 @@ use Tests\TestCase;
  * + search + sidebar). Each gets the same inline @php fallback block.
  *
  * Acceptance:
- *   - data-mw-ai780-content-type="post" (NOT "unknown") on the posts
+ *   - data-mw-content-type="post" (NOT "unknown") on the posts
  *     module empty state
  *   - Body copy "No posts yet" / CTA "+ Add post"
  *   - Same path works for pages module  "No pages yet / + Add page"
@@ -85,14 +85,14 @@ class CanvasFe8f9eAI801ContentTypeInferenceContractTest extends TestCase
         $contents = $this->templateContents($path);
 
         // The inference block must:
-        //   (a) be gated on `! $mwAi780Type` (only fires when content_type
+        //   (a) be gated on `! $mwEmptyType` (only fires when content_type
         //       wasn't passed explicitly)
         //   (b) use a match expression against $params['type'] ?? null
         //   (c) carry the three safe mappings posts/pages/products
         $this->assertMatchesRegularExpression(
-            '/if\s*\(\s*!\s*\$mwAi780Type\s*\)\s*\{\s*\$mwAi780Type\s*=\s*match\s*\(\s*\$params\[[\'"]type[\'"]\]\s*\?\?\s*null\s*\)\s*\{/',
+            '/if\s*\(\s*!\s*\$mwEmptyType\s*\)\s*\{\s*\$mwEmptyType\s*=\s*match\s*\(\s*\$params\[[\'"]type[\'"]\]\s*\?\?\s*null\s*\)\s*\{/',
             $contents,
-            basename($path) . ' must guard its inference with `if (! $mwAi780Type)` then `match ($params[\'type\'] ?? null)`.'
+            basename($path) . ' must guard its inference with `if (! $mwEmptyType)` then `match ($params[\'type\'] ?? null)`.'
         );
         $this->assertMatchesRegularExpression(
             "/'posts'\s*=>\s*'post'/",
@@ -121,18 +121,18 @@ class CanvasFe8f9eAI801ContentTypeInferenceContractTest extends TestCase
     public function template_inference_block_precedes_first_branch_check(string $path): void
     {
         // Sanity: the inference block must run BEFORE the original
-        // `if ($mwAi780Type === 'post')` cascade so the inferred value
+        // `if ($mwEmptyType === 'post')` cascade so the inferred value
         // is the one tested.
         $contents = $this->templateContents($path);
-        $matchIdx = strpos($contents, '$mwAi780Type = match ($params[\'type\']');
-        $firstBranchIdx = strpos($contents, "if (\$mwAi780Type === 'post') {");
+        $matchIdx = strpos($contents, '$mwEmptyType = match ($params[\'type\']');
+        $firstBranchIdx = strpos($contents, "if (\$mwEmptyType === 'post') {");
 
         $this->assertNotFalse($matchIdx, basename($path) . ' must contain the inference match expression.');
         $this->assertNotFalse($firstBranchIdx, basename($path) . ' must still contain the original first-branch check.');
         $this->assertLessThan(
             $firstBranchIdx,
             $matchIdx,
-            basename($path) . ' inference block must run BEFORE the first `if ($mwAi780Type === \'post\')` branch.'
+            basename($path) . ' inference block must run BEFORE the first `if ($mwEmptyType === \'post\')` branch.'
         );
     }
 
@@ -168,7 +168,7 @@ class CanvasFe8f9eAI801ContentTypeInferenceContractTest extends TestCase
         // intact after the inference block runs.
         $contents = $this->templateContents($path);
         $this->assertStringContainsString(
-            "} elseif (\$mwAi780Type === 'page') {",
+            "} elseif (\$mwEmptyType === 'page') {",
             $contents,
             basename($path) . ' must preserve the original page-branch elseif.'
         );
@@ -183,9 +183,9 @@ class CanvasFe8f9eAI801ContentTypeInferenceContractTest extends TestCase
             basename($path) . ' must preserve the default-branch title "No content yet" copy.'
         );
         $this->assertStringContainsString(
-            "data-mw-ai780-content-type=\"{{ e(\$mwAi780Type ?? 'unknown') }}\"",
+            "data-mw-content-type=\"{{ e(\$mwEmptyType ?? 'unknown') }}\"",
             $contents,
-            basename($path) . ' must preserve the data-mw-ai780-content-type runtime probe attribute.'
+            basename($path) . ' must preserve the data-mw-content-type runtime probe attribute.'
         );
     }
 

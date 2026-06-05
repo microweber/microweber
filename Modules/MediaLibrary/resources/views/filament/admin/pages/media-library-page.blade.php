@@ -741,10 +741,10 @@
      parent can show a skeleton during load and an empty state when the
      library is truly empty. The count is server-side rendered to avoid
      waiting for Livewire. Fires immediately on page load. --}}
-@php $mwAi761Total = $media instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator ? (int) $media->total() : (int) $media->count(); @endphp
+@php $mwMediaLibTotal = $media instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator ? (int) $media->total() : (int) $media->count(); @endphp
 <script>
 (function () {
-    var count = {{ $mwAi761Total }};
+    var count = {{ $mwMediaLibTotal }};
     if (window.parent && window.parent !== window) {
         window.parent.postMessage({ type: 'mw-filemanager:row-count', count: count }, '*');
     }

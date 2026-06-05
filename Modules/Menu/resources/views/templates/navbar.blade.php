@@ -33,40 +33,40 @@ $mt = menu_tree($menu_filter);
 // Fix: use DOMDocument to remove duplicate top-level <li> entries; nested submenus
 // are intentionally untouched (only direct children of the outermost <ul> are checked).
 if ($mt && is_string($mt)) {
-    $mwAi791Doc = new \DOMDocument('1.0', 'UTF-8');
+    $mwMenuTreeDoc = new \DOMDocument('1.0', 'UTF-8');
     libxml_use_internal_errors(true);
-    $mwAi791Doc->loadHTML('<?xml encoding="UTF-8"><div id="mw_dedup">' . $mt . '</div>');
+    $mwMenuTreeDoc->loadHTML('<?xml encoding="UTF-8"><div id="mw_dedup">' . $mt . '</div>');
     libxml_clear_errors();
-    $mwAi791Root = $mwAi791Doc->getElementById('mw_dedup');
-    if ($mwAi791Root) {
-        foreach ($mwAi791Root->childNodes as $mwAi791Ul) {
-            if ($mwAi791Ul->nodeType !== XML_ELEMENT_NODE || $mwAi791Ul->nodeName !== 'ul') continue;
-            $mwAi791Seen = [];
-            $mwAi791Del  = [];
-            foreach (iterator_to_array($mwAi791Ul->childNodes) as $mwAi791Li) {
-                if ($mwAi791Li->nodeType !== XML_ELEMENT_NODE || $mwAi791Li->nodeName !== 'li') continue;
-                foreach ($mwAi791Li->childNodes as $mwAi791Anchor) {
-                    if ($mwAi791Anchor->nodeType !== XML_ELEMENT_NODE || $mwAi791Anchor->nodeName !== 'a') continue;
-                    $mwAi791Href = rtrim($mwAi791Anchor->getAttribute('href'), '/');
-                    if ($mwAi791Href !== '' && isset($mwAi791Seen[$mwAi791Href])) {
-                        $mwAi791Del[] = $mwAi791Li;
+    $mwMenuTreeRoot = $mwMenuTreeDoc->getElementById('mw_dedup');
+    if ($mwMenuTreeRoot) {
+        foreach ($mwMenuTreeRoot->childNodes as $mwMenuTreeUl) {
+            if ($mwMenuTreeUl->nodeType !== XML_ELEMENT_NODE || $mwMenuTreeUl->nodeName !== 'ul') continue;
+            $mwMenuTreeSeen = [];
+            $mwMenuTreeDel  = [];
+            foreach (iterator_to_array($mwMenuTreeUl->childNodes) as $mwMenuTreeLi) {
+                if ($mwMenuTreeLi->nodeType !== XML_ELEMENT_NODE || $mwMenuTreeLi->nodeName !== 'li') continue;
+                foreach ($mwMenuTreeLi->childNodes as $mwMenuTreeAnchor) {
+                    if ($mwMenuTreeAnchor->nodeType !== XML_ELEMENT_NODE || $mwMenuTreeAnchor->nodeName !== 'a') continue;
+                    $mwMenuTreeHref = rtrim($mwMenuTreeAnchor->getAttribute('href'), '/');
+                    if ($mwMenuTreeHref !== '' && isset($mwMenuTreeSeen[$mwMenuTreeHref])) {
+                        $mwMenuTreeDel[] = $mwMenuTreeLi;
                     } else {
-                        $mwAi791Seen[$mwAi791Href] = true;
+                        $mwMenuTreeSeen[$mwMenuTreeHref] = true;
                     }
                     break;
                 }
             }
-            foreach ($mwAi791Del as $mwAi791Node) {
-                $mwAi791Ul->removeChild($mwAi791Node);
+            foreach ($mwMenuTreeDel as $mwMenuTreeNode) {
+                $mwMenuTreeUl->removeChild($mwMenuTreeNode);
             }
         }
-        $mwAi791Out = '';
-        foreach ($mwAi791Root->childNodes as $mwAi791Node) {
-            $mwAi791Out .= $mwAi791Doc->saveHTML($mwAi791Node);
+        $mwMenuTreeOut = '';
+        foreach ($mwMenuTreeRoot->childNodes as $mwMenuTreeNode) {
+            $mwMenuTreeOut .= $mwMenuTreeDoc->saveHTML($mwMenuTreeNode);
         }
-        $mt = $mwAi791Out;
+        $mt = $mwMenuTreeOut;
     }
-    unset($mwAi791Doc, $mwAi791Root, $mwAi791Seen, $mwAi791Del, $mwAi791Out, $mwAi791Ul, $mwAi791Li, $mwAi791Anchor, $mwAi791Href, $mwAi791Node);
+    unset($mwMenuTreeDoc, $mwMenuTreeRoot, $mwMenuTreeSeen, $mwMenuTreeDel, $mwMenuTreeOut, $mwMenuTreeUl, $mwMenuTreeLi, $mwMenuTreeAnchor, $mwMenuTreeHref, $mwMenuTreeNode);
 }
 @endphp
 
@@ -136,7 +136,7 @@ if ($mt && is_string($mt)) {
     </script>
 @else
     @if(is_admin())
-        <div class="mw-canvas-empty-state" data-mw-ai780-content-type="menu">
+        <div class="mw-canvas-empty-state" data-mw-content-type="menu">
             <h3 class="mw-canvas-empty-state__title">{{ _e('This menu is empty', true) }}</h3>
             <p class="mw-canvas-empty-state__body">{{ _e('Add menu items via menu settings to fill this navigation.', true) }}</p>
             <a class="mw-canvas-empty-state__cta" href="{{ admin_url('settings/menus') }}" aria-label="{{ _e('+ Add menu item', true) }}">{{ _e('+ Add menu item', true) }}</a>

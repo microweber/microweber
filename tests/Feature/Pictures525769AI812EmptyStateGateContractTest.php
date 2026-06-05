@@ -30,7 +30,7 @@ use Tests\TestCase;
  * Post-fix per template:
  *   @if (empty($data))
  *       @if (is_admin())
- *           <div class="mw-canvas-empty-state" data-mw-ai780-content-type="picture">
+ *           <div class="mw-canvas-empty-state" data-mw-content-type="picture">
  *               <h3 class="mw-canvas-empty-state__title">{{ __('No pictures yet') }}</h3>
  *               <p class="mw-canvas-empty-state__body">{{ __('Add your first picture to fill this gallery.') }}</p>
  *               <a class="mw-canvas-empty-state__cta" href="{{ admin_url('media') }}" aria-label="{{ __('+ Add picture') }}">{{ __('+ Add picture') }}</a>
@@ -168,9 +168,9 @@ class Pictures525769AI812EmptyStateGateContractTest extends TestCase
             "AI-812: {$relativePath} MUST adopt the .mw-canvas-empty-state typed empty-state pattern (AI-780a lineage)."
         );
         $this->assertStringContainsString(
-            'data-mw-ai780-content-type="picture"',
+            'data-mw-content-type="picture"',
             $exec,
-            "AI-812: {$relativePath} MUST carry data-mw-ai780-content-type=\"picture\" data attribute (explicit content-type for Pictures-module empty state)."
+            "AI-812: {$relativePath} MUST carry data-mw-content-type=\"picture\" data attribute (explicit content-type for Pictures-module empty state)."
         );
     }
 

@@ -122,7 +122,7 @@ description: Default - 3 Columns
                      Pages. Wrapped in is_admin() so it only surfaces to
                      editors (AI-104 lineage). --}}
                 @if (is_admin())
-                    <div class="mw-canvas-empty-state" data-mw-ai780-content-type="page">
+                    <div class="mw-canvas-empty-state" data-mw-content-type="page">
                         <h3 class="mw-canvas-empty-state__title">{{ __('No pages yet') }}</h3>
                         <p class="mw-canvas-empty-state__body">{{ __('Add your first page to fill this module.') }}</p>
                         <a class="mw-canvas-empty-state__cta" href="{{ route('filament.admin.resources.pages.create') }}" aria-label="{{ __('+ Add page') }}">{{ __('+ Add page') }}</a>

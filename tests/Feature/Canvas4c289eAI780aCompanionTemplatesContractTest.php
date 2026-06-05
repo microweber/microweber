@@ -16,7 +16,7 @@ use Tests\TestCase;
  * posts module uses `template="skin-1"`, not `default.blade.php`, so
  * the new type-aware empty state didn't render where the audit
  * actually fired. Designer dispatched the AI-780a companion rollout
- * inline: apply the same `@php $mwAi780Type = ... @endphp` +
+ * inline: apply the same `@php $mwEmptyType = ... @endphp` +
  * `.mw-canvas-empty-state` wrapper to 5 sibling templates:
  *
  *   - templates/skin-1.blade.php (home demo target)
@@ -62,9 +62,9 @@ class Canvas4c289eAI780aCompanionTemplatesContractTest extends TestCase
             "{$path} must carry the .mw-canvas-empty-state wrapper."
         );
         $this->assertStringContainsString(
-            'data-mw-ai780-content-type=',
+            'data-mw-content-type=',
             $blade,
-            "{$path} must carry the data-mw-ai780-content-type attribute."
+            "{$path} must carry the data-mw-content-type attribute."
         );
         $this->assertStringContainsString('mw-canvas-empty-state__title', $blade);
         $this->assertStringContainsString('mw-canvas-empty-state__body', $blade);

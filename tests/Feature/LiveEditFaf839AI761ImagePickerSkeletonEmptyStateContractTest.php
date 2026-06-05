@@ -183,12 +183,12 @@ class LiveEditFaf839AI761ImagePickerSkeletonEmptyStateContractTest extends TestC
     {
         // The count must be PHP-rendered into the script — no Livewire wait needed.
         $this->assertMatchesRegularExpression(
-            '~mwAi761Total~',
+            '~mwMediaLibTotal~',
             $this->blade,
-            'media-library-page.blade.php must use $mwAi761Total as the PHP-rendered count variable'
+            'media-library-page.blade.php must use $mwMediaLibTotal as the PHP-rendered count variable'
         );
-        $this->assertStringContainsString('$mwAi761Total', $this->blade,
-            '$mwAi761Total PHP variable must be declared and inlined into the script');
+        $this->assertStringContainsString('$mwMediaLibTotal', $this->blade,
+            '$mwMediaLibTotal PHP variable must be declared and inlined into the script');
     }
 
     // ─── 3. Empty state ───────────────────────────────────────────────────────

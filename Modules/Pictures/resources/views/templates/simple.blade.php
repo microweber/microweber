@@ -13,7 +13,7 @@ description: Simple Pictures List Template
         // because the encode call lived inside data-mw-gallery=
         // attribute on the looped element. Move out for perf +
         // hoist for clarity.
-        $mwAi814GalleryJson = base64_encode(json_encode(array_map(function ($item) {
+        $mwGalleryGalleryJson = base64_encode(json_encode(array_map(function ($item) {
             return ['image' => $item['filename'] ?? '', 'description' => $item['title'] ?? ''];
         }, $data ?? [])));
     @endphp
@@ -29,7 +29,7 @@ description: Simple Pictures List Template
                      Pre-fix the bare <p> rendered "No pictures added. Please add pictures to the module." to
                      anonymous frontend visitors — admin-targeted copy leaked to public surface. --}}
                 @if (is_admin())
-                    <div class="mw-canvas-empty-state" data-mw-ai780-content-type="picture">
+                    <div class="mw-canvas-empty-state" data-mw-content-type="picture">
                         <h3 class="mw-canvas-empty-state__title">{{ __('No pictures yet') }}</h3>
                         <p class="mw-canvas-empty-state__body">{{ __('Add your first picture to fill this gallery.') }}</p>
                         <a class="mw-canvas-empty-state__cta" href="{{ admin_url('media') }}" aria-label="{{ __('+ Add picture') }}">{{ __('+ Add picture') }}</a>
@@ -40,7 +40,7 @@ description: Simple Pictures List Template
                     @php $count++; @endphp
                     <div class="mw-pictures-item mw-pictures-item-{{ $item['id'] ?? '' }}">
                         <div class="thumbnail"
-                             data-mw-gallery="{{ $mwAi814GalleryJson }}" data-mw-gallery-index="{{ $count }}">
+                             data-mw-gallery="{{ $mwGalleryGalleryJson }}" data-mw-gallery-index="{{ $count }}">
                             <span class="pic-valign">
                                 <span class="pic-valign-cell">
                                     {{-- task-2026-05-05-d71799 — lazy-load gallery image. --}}

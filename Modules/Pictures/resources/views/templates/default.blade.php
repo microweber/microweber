@@ -13,19 +13,19 @@ description: Default Picture List
         // because the encode call lived inside data-mw-gallery=
         // attribute on the looped element. Move out for perf +
         // hoist for clarity.
-        $mwAi814GalleryJson = base64_encode(json_encode(array_map(function ($item) {
+        $mwGalleryGalleryJson = base64_encode(json_encode(array_map(function ($item) {
             return ['image' => $item['filename'] ?? '', 'description' => $item['title'] ?? ''];
         }, $data ?? [])));
 
         // task-2026-05-22-b45297 / AI-907 — wire PicturesModuleSettings fields
         // (Columns, Aspect Ratio, Lightbox) to this template.
-        $mwAi907Cols = $options['columns'] ?? '3';
-        $mwAi907ColClass = match($mwAi907Cols) {
+        $mwPicGridCols = $options['columns'] ?? '3';
+        $mwPicGridColClass = match($mwPicGridCols) {
             '2' => 'col-12 col-md-6',
             '4' => 'col-12 col-md-6 col-lg-3',
             default => 'col-12 col-md-4',
         };
-        $mwAi907AspectStyle = match($options['aspect_ratio'] ?? 'auto') {
+        $mwPicGridAspectStyle = match($options['aspect_ratio'] ?? 'auto') {
             '1:1'  => 'aspect-ratio: 1 / 1; object-fit: cover; width: 100%;',
             '4:3'  => 'aspect-ratio: 4 / 3; object-fit: cover; width: 100%;',
             '16:9' => 'aspect-ratio: 16 / 9; object-fit: cover; width: 100%;',
@@ -33,8 +33,8 @@ description: Default Picture List
             default => '',
         };
         // lightbox: Toggle saves '1'/'true'/true when on, '0'/'false'/false/null when off.
-        $mwAi907LightboxRaw = $options['lightbox'] ?? true;
-        $mwAi907Lightbox = $mwAi907LightboxRaw !== '0' && $mwAi907LightboxRaw !== false && $mwAi907LightboxRaw !== null;
+        $mwPicGridLightboxRaw = $options['lightbox'] ?? true;
+        $mwPicGridLightbox = $mwPicGridLightboxRaw !== '0' && $mwPicGridLightboxRaw !== false && $mwPicGridLightboxRaw !== null;
     @endphp
 
     <script>mw.moduleCSS("{{ asset('modules/pictures/css/clean.css') }}");</script>
@@ -50,7 +50,7 @@ description: Default Picture List
                      Pre-fix the bare <p> rendered "No pictures added. Please add pictures to the module." to
                      anonymous frontend visitors — admin-targeted copy leaked to public surface. --}}
                 @if (is_admin())
-                    <div class="mw-canvas-empty-state" data-mw-ai780-content-type="picture">
+                    <div class="mw-canvas-empty-state" data-mw-content-type="picture">
                         <h3 class="mw-canvas-empty-state__title">{{ __('No pictures yet') }}</h3>
                         <p class="mw-canvas-empty-state__body">{{ __('Add your first picture to fill this gallery.') }}</p>
                         <a class="mw-canvas-empty-state__cta" href="{{ admin_url('media') }}" aria-label="{{ __('+ Add picture') }}">{{ __('+ Add picture') }}</a>
@@ -64,11 +64,11 @@ description: Default Picture List
                     @endif
 
                     {{-- task-2026-05-22-b45297 / AI-907: column class from settings. --}}
-                    <div class="mw-pictures-clean-item mw-pictures-clean-item-{{ $item['id'] }} {{ $mwAi907ColClass }}">
+                    <div class="mw-pictures-clean-item mw-pictures-clean-item-{{ $item['id'] }} {{ $mwPicGridColClass }}">
                         {{-- task-2026-05-22-b45297 / AI-907: gate lightbox anchor on setting. --}}
-                        @if($mwAi907Lightbox)
+                        @if($mwPicGridLightbox)
                         <a href="{{ isset($item['filename']) ? $item['filename'] : '' }}"
-                           data-mw-gallery="{{ $mwAi814GalleryJson }}" data-mw-gallery-index="{{ $count }}">
+                           data-mw-gallery="{{ $mwGalleryGalleryJson }}" data-mw-gallery-index="{{ $count }}">
                         @endif
                             {{--
                                 img-fluid (Bootstrap 5 helper for
@@ -83,9 +83,9 @@ description: Default Picture List
                             {!! responsive_thumbnail($item['filename'] ?? '', 600, null, array_filter([
                                 'alt'   => $item['title'] ?? $item['description'] ?? __('Image'),
                                 'class' => 'img-fluid',
-                                'style' => $mwAi907AspectStyle,
+                                'style' => $mwPicGridAspectStyle,
                             ])) !!}
-                        @if($mwAi907Lightbox)
+                        @if($mwPicGridLightbox)
                         </a>
                         @endif
                     </div>

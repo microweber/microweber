@@ -23,12 +23,12 @@
             // would never render. Instead, count categories server-side and render
             // either the tree (count > 0) or the empty-state chrome (count === 0)
             // with a heading + CTA pointing at the category-create route.
-            $mwAi1092CategoryCount = \Modules\Category\Models\Category::count();
+            $mwCatListCategoryCount = \Modules\Category\Models\Category::count();
 
         @endphp
 
 
-        @if($mwAi1092CategoryCount > 0)
+        @if($mwCatListCategoryCount > 0)
 
         @script
 

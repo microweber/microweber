@@ -57,8 +57,8 @@
      * competing with the Livewire empty-state CTA. cart_manager->get()
      * returns null when empty; coerce to [] for the empty()-check.
      */
-    $mwAi796CartItems = function_exists('mw') ? (mw()->cart_manager->get() ?? []) : [];
-    $mwAi796HasItems = !empty($mwAi796CartItems);
+    $mwCartCartItems = function_exists('mw') ? (mw()->cart_manager->get() ?? []) : [];
+    $mwCartHasItems = !empty($mwCartCartItems);
 @endphp
 
 @extends($masterLayout)
@@ -69,7 +69,7 @@
 
         @livewire('modules.checkout.livewire.cart-items')
 
-        @if($mwAi796HasItems)
+        @if($mwCartHasItems)
             <div class="mt-4 text-center mw-cart-standalone-checkout-cta-wrap">
                 {{-- Cycle-163 + task-2026-05-17-0e6cfa: explicit Proceed
                      to Checkout CTA. Pre-AI-796 it rendered unconditionally;

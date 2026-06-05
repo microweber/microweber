@@ -90,22 +90,22 @@
                         // user knows WHAT to add. CTA links to the matching
                         // admin Create page; falls back to /admin/content
                         // when the type is unknown.
-                        $mwAi780Type = $params['content_type'] ?? null;
+                        $mwEmptyType = $params['content_type'] ?? null;
                         // task-2026-05-17-fe8f9e / AI-801 -- Stage-1 sub-case
                         // (AI-788 lineage). The AI-780/780a contract test
                         // set $params['content_type']='post' explicitly,
                         // but at runtime the posts module renderer never
-                        // passes it -- $mwAi780Type stayed null and the
+                        // passes it -- $mwEmptyType stayed null and the
                         // default branch fired instead of the post branch
-                        // (designer DOM probe: data-mw-ai780-content-type=
+                        // (designer DOM probe: data-mw-content-type=
                         // "unknown"). Fix: infer from $params['type'] which
                         // the parser populates from <module type="..."> via
                         // ParserLoadModuleTrait line 405-407. Explicit match
                         // keeps the safe-three list -- no naive trailing-s
                         // strip that could over-strip arbitrary module
                         // names.
-                        if (! $mwAi780Type) {
-                            $mwAi780Type = match ($params['type'] ?? null) {
+                        if (! $mwEmptyType) {
+                            $mwEmptyType = match ($params['type'] ?? null) {
                                 'posts'    => 'post',
                                 'pages'    => 'page',
                                 'products' => 'product',
@@ -118,33 +118,33 @@
                         // resource routes were reorganised. Use the Filament route
                         // helpers (filament.admin.resources.<type>s.create) which
                         // resolve to the canonical /admin/posts/create etc. paths.
-                        if ($mwAi780Type === 'post') {
+                        if ($mwEmptyType === 'post') {
                             // AI-753 (task-2026-06-05-pmes753) — last-mile polish
                             // so the in-page Live-Edit posts empty state mirrors
                             // the admin Posts list (AI-729): same explainer copy
                             // and a verb-led CTA. A secondary link (rendered
                             // below, live-edit only) lets the user re-scope which
                             // posts this module shows without the admin hop.
-                            $mwAi780Title = __('No posts yet');
-                            $mwAi780Body = __('Articles, news, and updates you publish appear here.');
-                            $mwAi780CtaLabel = __('Write your first post →');
-                            $mwAi780CtaHref = route('filament.admin.resources.posts.create');
-                        } elseif ($mwAi780Type === 'page') {
-                            $mwAi780Title = __('No pages yet');
-                            $mwAi780Body = __('Add your first page to fill this module.');
-                            $mwAi780CtaLabel = __('+ Add page');
-                            $mwAi780CtaHref = route('filament.admin.resources.pages.create');
+                            $mwEmptyTitle = __('No posts yet');
+                            $mwEmptyBody = __('Articles, news, and updates you publish appear here.');
+                            $mwEmptyCtaLabel = __('Write your first post →');
+                            $mwEmptyCtaHref = route('filament.admin.resources.posts.create');
+                        } elseif ($mwEmptyType === 'page') {
+                            $mwEmptyTitle = __('No pages yet');
+                            $mwEmptyBody = __('Add your first page to fill this module.');
+                            $mwEmptyCtaLabel = __('+ Add page');
+                            $mwEmptyCtaHref = route('filament.admin.resources.pages.create');
                         } else {
-                            $mwAi780Title = __('No content yet');
-                            $mwAi780Body = __('Add your first item to fill this module.');
-                            $mwAi780CtaLabel = __('+ Add content');
-                            $mwAi780CtaHref = route('filament.admin.resources.contents.create');
+                            $mwEmptyTitle = __('No content yet');
+                            $mwEmptyBody = __('Add your first item to fill this module.');
+                            $mwEmptyCtaLabel = __('+ Add content');
+                            $mwEmptyCtaHref = route('filament.admin.resources.contents.create');
                         }
                     @endphp
-                    <div class="mw-canvas-empty-state" data-mw-ai780-content-type="{{ e($mwAi780Type ?? 'unknown') }}">
-                        <h3 class="mw-canvas-empty-state__title">{{ $mwAi780Title }}</h3>
-                        <p class="mw-canvas-empty-state__body">{{ $mwAi780Body }}</p>
-                        <a class="mw-canvas-empty-state__cta" href="{{ $mwAi780CtaHref }}" aria-label="{{ $mwAi780CtaLabel }}">{{ $mwAi780CtaLabel }}</a>
+                    <div class="mw-canvas-empty-state" data-mw-content-type="{{ e($mwEmptyType ?? 'unknown') }}">
+                        <h3 class="mw-canvas-empty-state__title">{{ $mwEmptyTitle }}</h3>
+                        <p class="mw-canvas-empty-state__body">{{ $mwEmptyBody }}</p>
+                        <a class="mw-canvas-empty-state__cta" href="{{ $mwEmptyCtaHref }}" aria-label="{{ $mwEmptyCtaLabel }}">{{ $mwEmptyCtaLabel }}</a>
                         {{-- AI-753 (task-2026-06-05-pmes753): live-edit-only secondary
                              link giving the user agency to re-scope the module without
                              the admin-panel hop. Dispatches onModuleSettingsRequest on
@@ -152,7 +152,7 @@
                              api-core/handles-content/module.js). Posts-only per the
                              ticket scope. onclick uses single quotes only — no embedded
                              double quote, so the HTML attribute parser stays intact. --}}
-                        @if (($mwAi780Type ?? null) === 'post' && is_live_edit())
+                        @if (($mwEmptyType ?? null) === 'post' && is_live_edit())
                             <a class="mw-canvas-empty-state__secondary" href="javascript:void(0)" onclick="var m=this.closest('.module');if(m&&window.mw&&mw.app&&mw.app.editor){mw.app.editor.dispatch('onModuleSettingsRequest',m);}return false;" aria-label="{{ __('Change which posts this module shows') }}">{{ __('Or change which posts this module shows →') }}</a>
                         @endif
                     </div>

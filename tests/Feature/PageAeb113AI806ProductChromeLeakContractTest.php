@@ -280,9 +280,9 @@ class PageAeb113AI806ProductChromeLeakContractTest extends TestCase
             'AI-808: Page template MUST carry the .mw-canvas-empty-state wrapper (AI-780a shape).'
         );
         $this->assertStringContainsString(
-            'data-mw-ai780-content-type="page"',
+            'data-mw-content-type="page"',
             $this->executable,
-            'AI-808: Page empty-state MUST carry data-mw-ai780-content-type="page" -- explicit, no $params[type] inference needed.'
+            'AI-808: Page empty-state MUST carry data-mw-content-type="page" -- explicit, no $params[type] inference needed.'
         );
     }
 

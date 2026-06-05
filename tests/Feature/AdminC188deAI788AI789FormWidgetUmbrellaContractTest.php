@@ -217,25 +217,25 @@ class AdminC188deAI788AI789FormWidgetUmbrellaContractTest extends TestCase
             'Partial must render heading h2 with .mw-admin-empty-state__heading class.'
         );
         $this->assertStringContainsString(
-            '{{ $mwAi789Heading }}',
+            '{{ $mwAdminEmptyHeading }}',
             $this->partial,
-            'Partial must echo the $mwAi789Heading variable inside the h2.'
+            'Partial must echo the $mwAdminEmptyHeading variable inside the h2.'
         );
     }
 
     #[Test]
     public function ai789_partial_gates_description_cta_and_icon_on_presence(): void
     {
-        // Description renders only when $mwAi789Description is set.
-        $this->assertStringContainsString('@if ($mwAi789Description)', $this->partial);
+        // Description renders only when $mwAdminEmptyDescription is set.
+        $this->assertStringContainsString('@if ($mwAdminEmptyDescription)', $this->partial);
         $this->assertStringContainsString('mw-admin-empty-state__body', $this->partial);
 
         // CTA renders only when BOTH label AND href are set.
-        $this->assertStringContainsString('@if ($mwAi789CtaLabel && $mwAi789CtaHref)', $this->partial);
+        $this->assertStringContainsString('@if ($mwAdminEmptyCtaLabel && $mwAdminEmptyCtaHref)', $this->partial);
         $this->assertStringContainsString('mw-table-empty-cta mw-admin-empty-state__cta', $this->partial);
 
-        // Icon renders only when $mwAi789Icon is set.
-        $this->assertStringContainsString('@if ($mwAi789Icon)', $this->partial);
+        // Icon renders only when $mwAdminEmptyIcon is set.
+        $this->assertStringContainsString('@if ($mwAdminEmptyIcon)', $this->partial);
         $this->assertStringContainsString('mw-admin-empty-state__icon', $this->partial);
     }
 
@@ -245,9 +245,9 @@ class AdminC188deAI788AI789FormWidgetUmbrellaContractTest extends TestCase
         // When $cta_aria is missing, the rendered aria-label uses
         // $cta_label so AT users always hear meaningful text.
         $this->assertStringContainsString(
-            "\$mwAi789CtaAria      = \$cta_aria ?? \$mwAi789CtaLabel;",
+            "\$mwAdminEmptyCtaAria      = \$cta_aria ?? \$mwAdminEmptyCtaLabel;",
             $this->partial,
-            'Partial must default $mwAi789CtaAria to $mwAi789CtaLabel when $cta_aria is missing.'
+            'Partial must default $mwAdminEmptyCtaAria to $mwAdminEmptyCtaLabel when $cta_aria is missing.'
         );
     }
 
@@ -258,9 +258,9 @@ class AdminC188deAI788AI789FormWidgetUmbrellaContractTest extends TestCase
         // through e() so an injection cannot escape the class
         // attribute.
         $this->assertStringContainsString(
-            'class="mw-admin-empty-state {{ e($mwAi789ExtraClass) }}"',
+            'class="mw-admin-empty-state {{ e($mwAdminEmptyExtraClass) }}"',
             $this->partial,
-            'Partial must escape $mwAi789ExtraClass via e() before interpolating into the class attribute.'
+            'Partial must escape $mwAdminEmptyExtraClass via e() before interpolating into the class attribute.'
         );
     }
 

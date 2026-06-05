@@ -18,7 +18,7 @@ use Tests\TestCase;
  *   - product-card.blade.php lines 103-111: add-to-cart button unconditional
  *
  * Fix (3-link wiring):
- *   1. default.blade.php: $mwAi906ColClass match on $filterSettings['columns'] ?? '3'
+ *   1. default.blade.php: $mwShopGridColClass match on $filterSettings['columns'] ?? '3'
  *   2. default.blade.php: pass showPrice + showAddToCart via @include data array
  *   3. product-card.blade.php: wrap price in @if($showPrice ?? true),
  *      add-to-cart in @if($showAddToCart ?? true)
@@ -65,9 +65,9 @@ class ShopC58ec3AI906SettingsWiredToTemplateContractTest extends TestCase
     public function default_blade_computes_col_class_from_filter_settings(): void
     {
         $this->assertMatchesRegularExpression(
-            '~\$mwAi906ColClass\s*=\s*match~s',
+            '~\$mwShopGridColClass\s*=\s*match~s',
             $this->defaultStripped,
-            'default.blade.php must compute $mwAi906ColClass via match on $filterSettings columns.'
+            'default.blade.php must compute $mwShopGridColClass via match on $filterSettings columns.'
         );
     }
 
@@ -76,9 +76,9 @@ class ShopC58ec3AI906SettingsWiredToTemplateContractTest extends TestCase
     {
         // The col class must reference the variable, not a hardcoded value
         $this->assertStringContainsString(
-            '$mwAi906ColClass',
+            '$mwShopGridColClass',
             $this->defaultStripped,
-            'default.blade.php must use $mwAi906ColClass in the grid item div.'
+            'default.blade.php must use $mwShopGridColClass in the grid item div.'
         );
 
         // The old hardcoded value must be gone (from the @forelse loop context)
@@ -108,9 +108,9 @@ class ShopC58ec3AI906SettingsWiredToTemplateContractTest extends TestCase
             'default.blade.php must pass showPrice via the @include data array.'
         );
         $this->assertStringContainsString(
-            'mwAi906ShowPrice',
+            'mwShopGridShowPrice',
             $this->defaultStripped,
-            'default.blade.php must compute $mwAi906ShowPrice from $filterSettings.'
+            'default.blade.php must compute $mwShopGridShowPrice from $filterSettings.'
         );
     }
 
@@ -123,9 +123,9 @@ class ShopC58ec3AI906SettingsWiredToTemplateContractTest extends TestCase
             'default.blade.php must pass showAddToCart via the @include data array.'
         );
         $this->assertStringContainsString(
-            'mwAi906ShowAddToCart',
+            'mwShopGridShowAddToCart',
             $this->defaultStripped,
-            'default.blade.php must compute $mwAi906ShowAddToCart from $filterSettings.'
+            'default.blade.php must compute $mwShopGridShowAddToCart from $filterSettings.'
         );
     }
 

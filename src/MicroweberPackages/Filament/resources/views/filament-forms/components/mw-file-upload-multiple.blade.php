@@ -27,7 +27,7 @@
     $statePath = $getStatePath();
     $fileTypes = ($getFileTypes());
 
-    $mwAi1203RemoveFileLabel = __('Remove file');
+    $mwUploadRemoveFileLabel = __('Remove file');
 @endphp
 <div>
 
@@ -132,7 +132,7 @@
                                 class="absolute w-full h-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5 min-h-[300px]"
                             >
                                 <div class="flex gap-2 items-center">
-                                    <button type="button" class="text-white bg-white/5 rounded-md" aria-label="{{ $mwAi1203RemoveFileLabel }}" title="{{ $mwAi1203RemoveFileLabel }}" x-on:click="() => {
+                                    <button type="button" class="text-white bg-white/5 rounded-md" aria-label="{{ $mwUploadRemoveFileLabel }}" title="{{ $mwUploadRemoveFileLabel }}" x-on:click="() => {
                                         if (state && state !== null && typeof state == 'object') {
                                             state = state.filter(item => item !== fileItem);
                                         } else {

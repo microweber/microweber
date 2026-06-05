@@ -312,40 +312,40 @@ description: Dictionary
                         // rollout of the AI-780 type-aware empty state.
                         // Mechanical-copy slice per designer dispatch.
                         // Original AI-780 references at task-2026-05-17-6d65de.
-                        $mwAi780Type = $params['content_type'] ?? null;
+                        $mwEmptyType = $params['content_type'] ?? null;
                         // task-2026-05-17-fe8f9e / AI-801 -- Stage-1 fix:
                         // infer from $params['type'] when content_type
                         // is missing at runtime. See default.blade.php
                         // for the full lineage docblock.
-                        if (! $mwAi780Type) {
-                            $mwAi780Type = match ($params['type'] ?? null) {
+                        if (! $mwEmptyType) {
+                            $mwEmptyType = match ($params['type'] ?? null) {
                                 'posts'    => 'post',
                                 'pages'    => 'page',
                                 'products' => 'product',
                                 default    => null,
                             };
                         }
-                        if ($mwAi780Type === 'post') {
-                            $mwAi780Title = __('No posts yet');
-                            $mwAi780Body = __('Add your first post to fill this module.');
-                            $mwAi780CtaLabel = __('+ Add post');
-                            $mwAi780CtaHref = route('filament.admin.resources.posts.create');
-                        } elseif ($mwAi780Type === 'page') {
-                            $mwAi780Title = __('No pages yet');
-                            $mwAi780Body = __('Add your first page to fill this module.');
-                            $mwAi780CtaLabel = __('+ Add page');
-                            $mwAi780CtaHref = route('filament.admin.resources.pages.create');
+                        if ($mwEmptyType === 'post') {
+                            $mwEmptyTitle = __('No posts yet');
+                            $mwEmptyBody = __('Add your first post to fill this module.');
+                            $mwEmptyCtaLabel = __('+ Add post');
+                            $mwEmptyCtaHref = route('filament.admin.resources.posts.create');
+                        } elseif ($mwEmptyType === 'page') {
+                            $mwEmptyTitle = __('No pages yet');
+                            $mwEmptyBody = __('Add your first page to fill this module.');
+                            $mwEmptyCtaLabel = __('+ Add page');
+                            $mwEmptyCtaHref = route('filament.admin.resources.pages.create');
                         } else {
-                            $mwAi780Title = __('No content yet');
-                            $mwAi780Body = __('Add your first item to fill this module.');
-                            $mwAi780CtaLabel = __('+ Add content');
-                            $mwAi780CtaHref = route('filament.admin.resources.contents.create');
+                            $mwEmptyTitle = __('No content yet');
+                            $mwEmptyBody = __('Add your first item to fill this module.');
+                            $mwEmptyCtaLabel = __('+ Add content');
+                            $mwEmptyCtaHref = route('filament.admin.resources.contents.create');
                         }
                     @endphp
-                    <div class="mw-canvas-empty-state" data-mw-ai780-content-type="{{ e($mwAi780Type ?? 'unknown') }}">
-                        <h3 class="mw-canvas-empty-state__title">{{ $mwAi780Title }}</h3>
-                        <p class="mw-canvas-empty-state__body">{{ $mwAi780Body }}</p>
-                        <a class="mw-canvas-empty-state__cta" href="{{ $mwAi780CtaHref }}" aria-label="{{ $mwAi780CtaLabel }}">{{ $mwAi780CtaLabel }}</a>
+                    <div class="mw-canvas-empty-state" data-mw-content-type="{{ e($mwEmptyType ?? 'unknown') }}">
+                        <h3 class="mw-canvas-empty-state__title">{{ $mwEmptyTitle }}</h3>
+                        <p class="mw-canvas-empty-state__body">{{ $mwEmptyBody }}</p>
+                        <a class="mw-canvas-empty-state__cta" href="{{ $mwEmptyCtaHref }}" aria-label="{{ $mwEmptyCtaLabel }}">{{ $mwEmptyCtaLabel }}</a>
                     </div>
                 @endif
                                 @else

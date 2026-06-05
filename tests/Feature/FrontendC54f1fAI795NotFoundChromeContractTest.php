@@ -74,7 +74,7 @@ class FrontendC54f1fAI795NotFoundChromeContractTest extends TestCase
             'FrontendController must render the new Blade view at frontend.errors.404 when no template-level 404.php exists.'
         );
         $this->assertStringContainsString(
-            "'extendsView' => \$mwAi795ExtendsView",
+            "'extendsView' => \$mwFallbackExtendsView",
             $this->controller,
             'Short-circuit must pass the resolved $extendsView (active template master with Bootstrap fallback) to the view.'
         );
@@ -99,9 +99,9 @@ class FrontendC54f1fAI795NotFoundChromeContractTest extends TestCase
         $block = substr($this->controller, $start, $end - $start + 3);
 
         $this->assertMatchesRegularExpression(
-            '/response\(\s*\$mwAi795Rendered\s*,\s*404\s*\)/',
+            '/response\(\s*\$mwFallbackRendered\s*,\s*404\s*\)/',
             $block,
-            'Short-circuit must return response($mwAi795Rendered, 404) — explicit HTTP 404 status.'
+            'Short-circuit must return response($mwFallbackRendered, 404) — explicit HTTP 404 status.'
         );
         $this->assertMatchesRegularExpression(
             "/'X-Robots-Tag'\s*=>\s*'noindex,\s*nofollow'/",
@@ -156,17 +156,17 @@ class FrontendC54f1fAI795NotFoundChromeContractTest extends TestCase
     public function controller_short_circuit_resolves_active_template_master_with_bootstrap_fallback(): void
     {
         $this->assertStringContainsString(
-            "\$mwAi795ExtendsView = 'templates.bootstrap::layouts.master';",
+            "\$mwFallbackExtendsView = 'templates.bootstrap::layouts.master';",
             $this->controller,
             'Short-circuit must default $extendsView to the Bootstrap template master (works in installs with no active template configured).'
         );
         $this->assertStringContainsString(
-            "\$mwAi795ExtendsCheck = 'templates.' . \$mwAi795TemplateName . '::layouts.master';",
+            "\$mwFallbackExtendsCheck = 'templates.' . \$mwFallbackTemplateName . '::layouts.master';",
             $this->controller,
             'Short-circuit must check for an active-template-specific master and prefer it over Bootstrap when present (same pattern as AI-757 admin login + AI-794 auth chrome).'
         );
         $this->assertMatchesRegularExpression(
-            '/if\s*\(view\(\)->exists\(\$mwAi795ExtendsCheck\)\)/',
+            '/if\s*\(view\(\)->exists\(\$mwFallbackExtendsCheck\)\)/',
             $this->controller,
             'Short-circuit must guard the active-template-master pick with view()->exists() so missing template masters silently fall back to Bootstrap.'
         );
@@ -322,7 +322,7 @@ class FrontendC54f1fAI795NotFoundChromeContractTest extends TestCase
     {
         $start = strpos($this->controller, 'task-2026-05-17-c54f1f / AI-795');
         $this->assertNotFalse($start);
-        $end = strpos($this->controller, '$mwAi795TemplateName', $start);
+        $end = strpos($this->controller, '$mwFallbackTemplateName', $start);
         $this->assertNotFalse($end);
         $docblock = substr($this->controller, $start, $end - $start);
 

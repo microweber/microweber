@@ -128,9 +128,9 @@ class Menu4f4f83AI852AI853EmptyStateBundleContractTest extends TestCase
             "AI-852: {$relativePath} MUST render .mw-canvas-empty-state chrome per AI-780a/AI-808/AI-815 lineage (Defect 2: replaces semantic-mismatched mw-notification mw-success)."
         );
         $this->assertStringContainsString(
-            'data-mw-ai780-content-type="menu"',
+            'data-mw-content-type="menu"',
             $source,
-            "AI-852: {$relativePath} MUST carry data-mw-ai780-content-type=\"menu\" anchor per AI-780a canonical empty-state attribute contract."
+            "AI-852: {$relativePath} MUST carry data-mw-content-type=\"menu\" anchor per AI-780a canonical empty-state attribute contract."
         );
     }
 

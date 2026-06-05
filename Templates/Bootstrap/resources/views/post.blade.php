@@ -12,12 +12,12 @@ $itemTags = content_tags(CONTENT_ID);
 $itemCategories = content_categories(CONTENT_ID) ?: [];
 
 // Slice B — reading-time estimate (200 wpm average)
-$mwAi791Words = str_word_count(strip_tags((string)($post['content_body'] ?? '')));
-$mwAi791ReadingMins = max(1, (int)ceil($mwAi791Words / 200));
+$mwPostWords = str_word_count(strip_tags((string)($post['content_body'] ?? '')));
+$mwPostReadingMins = max(1, (int)ceil($mwPostWords / 200));
 
 // Slice C — prev/next navigation
-$mwAi791PrevPost = function_exists('prev_post') ? prev_post(CONTENT_ID) : null;
-$mwAi791NextPost = function_exists('next_post') ? next_post(CONTENT_ID) : null;
+$mwPostPrevPost = function_exists('prev_post') ? prev_post(CONTENT_ID) : null;
+$mwPostNextPost = function_exists('next_post') ? next_post(CONTENT_ID) : null;
 
 /*
  * AI-69 / TICKET-KK (cycle-82 2026-05-08): post-detail meta
@@ -95,7 +95,7 @@ if (isset($post['created_by']) && (int) $post['created_by'] > 0) {
                             </span>
                         @endif
                         <span class="post-meta-separator" aria-hidden="true"> · </span>
-                        <span class="post-reading-time">{{ $mwAi791ReadingMins }} {{ __('min read') }}</span>
+                        <span class="post-reading-time">{{ $mwPostReadingMins }} {{ __('min read') }}</span>
                     </p>
 
                     {{-- Slice B (AI-791): category chips --}}
@@ -136,26 +136,26 @@ if (isset($post['created_by']) && (int) $post['created_by'] > 0) {
                     <module type="sharer" id="post-bottom-sharer" class="py-3"/>
 
                     {{-- Slice C (AI-791): prev/next post navigation --}}
-                    @if ($mwAi791PrevPost || $mwAi791NextPost)
+                    @if ($mwPostPrevPost || $mwPostNextPost)
                         <nav class="post-navigation d-flex justify-content-between mt-5 mb-3 gap-3"
                              aria-label="{{ __('Post navigation') }}">
                             <div class="post-nav-prev">
-                                @if ($mwAi791PrevPost && !empty($mwAi791PrevPost['url']))
-                                    <a href="{{ $mwAi791PrevPost['url'] }}"
+                                @if ($mwPostPrevPost && !empty($mwPostPrevPost['url']))
+                                    <a href="{{ $mwPostPrevPost['url'] }}"
                                        class="post-nav-link d-flex flex-column"
                                        rel="prev">
                                         <small class="text-muted">{{ __('← Previous') }}</small>
-                                        <span class="fw-medium">{{ e($mwAi791PrevPost['title'] ?? '') }}</span>
+                                        <span class="fw-medium">{{ e($mwPostPrevPost['title'] ?? '') }}</span>
                                     </a>
                                 @endif
                             </div>
                             <div class="post-nav-next text-end">
-                                @if ($mwAi791NextPost && !empty($mwAi791NextPost['url']))
-                                    <a href="{{ $mwAi791NextPost['url'] }}"
+                                @if ($mwPostNextPost && !empty($mwPostNextPost['url']))
+                                    <a href="{{ $mwPostNextPost['url'] }}"
                                        class="post-nav-link d-flex flex-column align-items-end"
                                        rel="next">
                                         <small class="text-muted">{{ __('Next →') }}</small>
-                                        <span class="fw-medium">{{ e($mwAi791NextPost['title'] ?? '') }}</span>
+                                        <span class="fw-medium">{{ e($mwPostNextPost['title'] ?? '') }}</span>
                                     </a>
                                 @endif
                             </div>

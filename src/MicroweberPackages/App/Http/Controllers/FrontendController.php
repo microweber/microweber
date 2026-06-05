@@ -1032,19 +1032,19 @@ class FrontendController extends Controller
                         // "page not found" card, AND emits explicit `noindex,nofollow`
                         // meta + `X-Robots-Tag` header so search engines stop
                         // ranking the placeholder stub.
-                        $mwAi795TemplateName = template_name();
-                        $mwAi795ExtendsView = 'templates.bootstrap::layouts.master';
-                        if (!empty($mwAi795TemplateName)) {
-                            $mwAi795ExtendsCheck = 'templates.' . $mwAi795TemplateName . '::layouts.master';
-                            if (view()->exists($mwAi795ExtendsCheck)) {
-                                $mwAi795ExtendsView = $mwAi795ExtendsCheck;
+                        $mwFallbackTemplateName = template_name();
+                        $mwFallbackExtendsView = 'templates.bootstrap::layouts.master';
+                        if (!empty($mwFallbackTemplateName)) {
+                            $mwFallbackExtendsCheck = 'templates.' . $mwFallbackTemplateName . '::layouts.master';
+                            if (view()->exists($mwFallbackExtendsCheck)) {
+                                $mwFallbackExtendsView = $mwFallbackExtendsCheck;
                             }
                         }
-                        $mwAi795Rendered = view('frontend.errors.404', [
-                            'extendsView' => $mwAi795ExtendsView,
+                        $mwFallbackRendered = view('frontend.errors.404', [
+                            'extendsView' => $mwFallbackExtendsView,
                             'requestedUrl' => '/' . ltrim((string) request()->path(), '/'),
                         ])->render();
-                        return response($mwAi795Rendered, 404)->withHeaders([
+                        return response($mwFallbackRendered, 404)->withHeaders([
                             'Content-Type' => 'text/html; charset=UTF-8',
                             'X-Robots-Tag' => 'noindex, nofollow',
                             'X-Fallback-Message' => 'frontend-404',

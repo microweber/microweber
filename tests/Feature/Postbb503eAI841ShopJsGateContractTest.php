@@ -102,27 +102,27 @@ class Postbb503eAI841ShopJsGateContractTest extends TestCase
         $source = $this->read($relativePath);
 
         $this->assertStringContainsString(
-            '$mwAi841NeedsShop = false;',
+            '$mwShopGateNeedsShop = false;',
             $source,
-            "AI-841: {$relativePath} must initialise the \$mwAi841NeedsShop sentinel to false before the pre-scan loop."
+            "AI-841: {$relativePath} must initialise the \$mwShopGateNeedsShop sentinel to false before the pre-scan loop."
         );
         $this->assertMatchesRegularExpression(
-            '/foreach\s*\(\s*\$data\s+as\s+\$mwAi841Item\s*\)/',
+            '/foreach\s*\(\s*\$data\s+as\s+\$mwShopGateItem\s*\)/',
             $source,
             "AI-841: {$relativePath} pre-scan must iterate \$data via foreach to detect any priced item."
         );
         $this->assertStringContainsString(
-            "is_array(\$mwAi841Item['prices'])",
+            "is_array(\$mwShopGateItem['prices'])",
             $source,
-            "AI-841: {$relativePath} pre-scan must check is_array(\$mwAi841Item['prices']) (mirrors the cart-button gating in Content templates)."
+            "AI-841: {$relativePath} pre-scan must check is_array(\$mwShopGateItem['prices']) (mirrors the cart-button gating in Content templates)."
         );
         $this->assertStringContainsString(
-            "!empty(\$mwAi841Item['prices'])",
+            "!empty(\$mwShopGateItem['prices'])",
             $source,
-            "AI-841: {$relativePath} pre-scan must check !empty(\$mwAi841Item['prices']) (only non-empty arrays trip the gate)."
+            "AI-841: {$relativePath} pre-scan must check !empty(\$mwShopGateItem['prices']) (only non-empty arrays trip the gate)."
         );
         $this->assertStringContainsString(
-            '$mwAi841NeedsShop = true;',
+            '$mwShopGateNeedsShop = true;',
             $source,
             "AI-841: {$relativePath} pre-scan loop must flip the sentinel to true on first priced item."
         );
@@ -140,9 +140,9 @@ class Postbb503eAI841ShopJsGateContractTest extends TestCase
         $source = $this->read($relativePath);
 
         $this->assertMatchesRegularExpression(
-            '/@if\s*\(\s*\$mwAi841NeedsShop\s*\)\s*\R\s*<script>\s*\R\s*mw\.require\(\s*[\'"]shop\.js[\'"]\s*\)\s*;\s*\R\s*<\/script>\s*\R\s*@endif/',
+            '/@if\s*\(\s*\$mwShopGateNeedsShop\s*\)\s*\R\s*<script>\s*\R\s*mw\.require\(\s*[\'"]shop\.js[\'"]\s*\)\s*;\s*\R\s*<\/script>\s*\R\s*@endif/',
             $source,
-            "AI-841: {$relativePath} must wrap the mw.require shop.js call in @if(\$mwAi841NeedsShop) ... @endif so the script load is skipped when no item carries prices."
+            "AI-841: {$relativePath} must wrap the mw.require shop.js call in @if(\$mwShopGateNeedsShop) ... @endif so the script load is skipped when no item carries prices."
         );
     }
 
@@ -173,18 +173,18 @@ class Postbb503eAI841ShopJsGateContractTest extends TestCase
 
         // The mw.require call itself MUST still appear (inside the
         // @if branch), but it must NOT appear at top level outside
-        // an @if($mwAi841NeedsShop) wrapper. Assert by checking that
+        // an @if($mwShopGateNeedsShop) wrapper. Assert by checking that
         // every mw.require slash shop.js occurrence in the executable
-        // source sits within ~80 chars after an @if($mwAi841NeedsShop)
+        // source sits within ~80 chars after an @if($mwShopGateNeedsShop)
         // opening.
         if (preg_match_all('/mw\.require\(\s*[\'"]shop\.js[\'"]\s*\)/', $executable, $matches, PREG_OFFSET_CAPTURE)) {
             foreach ($matches[0] as $match) {
                 [$_, $offset] = $match;
                 $contextBefore = substr($executable, max(0, $offset - 200), min(200, $offset));
                 $this->assertMatchesRegularExpression(
-                    '/@if\s*\(\s*\$mwAi841NeedsShop\s*\)/',
+                    '/@if\s*\(\s*\$mwShopGateNeedsShop\s*\)/',
                     $contextBefore,
-                    "AI-841 Layer 1: every mw.require shop.js call in executable source must sit inside an @if(\$mwAi841NeedsShop) gate. Found unconditional call in {$relativePath} at offset {$offset}."
+                    "AI-841 Layer 1: every mw.require shop.js call in executable source must sit inside an @if(\$mwShopGateNeedsShop) gate. Found unconditional call in {$relativePath} at offset {$offset}."
                 );
             }
         }

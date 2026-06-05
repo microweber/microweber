@@ -42,44 +42,44 @@
 --}}
 
 @php
-    $mwAi789Heading      = $heading ?? '';
-    $mwAi789Description  = $description ?? null;
-    $mwAi789CtaLabel     = $cta_label ?? null;
-    $mwAi789CtaHref      = $cta_href ?? null;
-    $mwAi789CtaAria      = $cta_aria ?? $mwAi789CtaLabel;
-    $mwAi789Icon         = $icon ?? null;
-    $mwAi789ExtraClass   = $extra_class ?? '';
+    $mwAdminEmptyHeading      = $heading ?? '';
+    $mwAdminEmptyDescription  = $description ?? null;
+    $mwAdminEmptyCtaLabel     = $cta_label ?? null;
+    $mwAdminEmptyCtaHref      = $cta_href ?? null;
+    $mwAdminEmptyCtaAria      = $cta_aria ?? $mwAdminEmptyCtaLabel;
+    $mwAdminEmptyIcon         = $icon ?? null;
+    $mwAdminEmptyExtraClass   = $extra_class ?? '';
 @endphp
 
-<div class="mw-admin-empty-state {{ e($mwAi789ExtraClass) }}" data-mw-admin-empty-state="true">
-    @if ($mwAi789Icon)
+<div class="mw-admin-empty-state {{ e($mwAdminEmptyExtraClass) }}" data-mw-admin-empty-state="true">
+    @if ($mwAdminEmptyIcon)
         <span class="mw-admin-empty-state__icon" aria-hidden="true">
             {{-- Heroicon name passed through to Filament's icon helper if present.
                  Falls back to nothing if neither blade-ui-kit nor @svg helper is wired. --}}
             @if (function_exists('svg'))
-                {!! svg($mwAi789Icon, 'h-12 w-12 text-gray-400') !!}
+                {!! svg($mwAdminEmptyIcon, 'h-12 w-12 text-gray-400') !!}
             @endif
         </span>
     @endif
 
     <h2 class="mw-admin-empty-state__heading">
-        {{ $mwAi789Heading }}
+        {{ $mwAdminEmptyHeading }}
     </h2>
 
-    @if ($mwAi789Description)
+    @if ($mwAdminEmptyDescription)
         <p class="mw-admin-empty-state__body">
-            {{ $mwAi789Description }}
+            {{ $mwAdminEmptyDescription }}
         </p>
     @endif
 
-    @if ($mwAi789CtaLabel && $mwAi789CtaHref)
+    @if ($mwAdminEmptyCtaLabel && $mwAdminEmptyCtaHref)
         <div class="mw-table-empty-cta-wrap mw-admin-empty-state__cta-wrap">
             <a
-                href="{{ $mwAi789CtaHref }}"
+                href="{{ $mwAdminEmptyCtaHref }}"
                 class="mw-table-empty-cta mw-admin-empty-state__cta"
-                aria-label="{{ $mwAi789CtaAria ?? $mwAi789CtaLabel }}"
+                aria-label="{{ $mwAdminEmptyCtaAria ?? $mwAdminEmptyCtaLabel }}"
             >
-                {{ $mwAi789CtaLabel }}
+                {{ $mwAdminEmptyCtaLabel }}
             </a>
         </div>
     @endif

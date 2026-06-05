@@ -52,9 +52,9 @@ class FilamentIconPickerIco900AI1204IconPickerClearBtnAccessibleNameContractTest
     public function php_declares_remove_icon_label_via_translation_helper(): void
     {
         $this->assertMatchesRegularExpression(
-            '/\$mwAi1204RemoveIconLabel\s*=\s*__\(\s*[\'"]Remove icon[\'"]\s*\)\s*;/',
+            '/\$mwIconPickRemoveIconLabel\s*=\s*__\(\s*[\'"]Remove icon[\'"]\s*\)\s*;/',
             $this->blade,
-            'Blade @php block MUST declare $mwAi1204RemoveIconLabel via the Microweber __() translation helper so the accessible name is localizable'
+            'Blade @php block MUST declare $mwIconPickRemoveIconLabel via the Microweber __() translation helper so the accessible name is localizable'
         );
     }
 
@@ -62,9 +62,9 @@ class FilamentIconPickerIco900AI1204IconPickerClearBtnAccessibleNameContractTest
     public function clear_button_carries_aria_label_bound_to_variable(): void
     {
         $this->assertMatchesRegularExpression(
-            '/<x-filament::button[\s\S]*?x-show="state"[\s\S]*?:aria-label="\$mwAi1204RemoveIconLabel"[\s\S]*?<\/x-filament::button>/',
+            '/<x-filament::button[\s\S]*?x-show="state"[\s\S]*?:aria-label="\$mwIconPickRemoveIconLabel"[\s\S]*?<\/x-filament::button>/',
             $this->blade,
-            'Clear button MUST carry :aria-label="$mwAi1204RemoveIconLabel" so screen-reader users hear "Remove icon" instead of just "button" — WCAG 4.1.2 Level A'
+            'Clear button MUST carry :aria-label="$mwIconPickRemoveIconLabel" so screen-reader users hear "Remove icon" instead of just "button" — WCAG 4.1.2 Level A'
         );
     }
 
@@ -72,9 +72,9 @@ class FilamentIconPickerIco900AI1204IconPickerClearBtnAccessibleNameContractTest
     public function clear_button_carries_title_bound_to_variable(): void
     {
         $this->assertMatchesRegularExpression(
-            '/<x-filament::button[\s\S]*?x-show="state"[\s\S]*?:title="\$mwAi1204RemoveIconLabel"[\s\S]*?<\/x-filament::button>/',
+            '/<x-filament::button[\s\S]*?x-show="state"[\s\S]*?:title="\$mwIconPickRemoveIconLabel"[\s\S]*?<\/x-filament::button>/',
             $this->blade,
-            'Clear button MUST carry :title="$mwAi1204RemoveIconLabel" so mouse users see the hover tooltip — defence-in-depth with aria-label'
+            'Clear button MUST carry :title="$mwIconPickRemoveIconLabel" so mouse users see the hover tooltip — defence-in-depth with aria-label'
         );
     }
 
@@ -104,7 +104,7 @@ class FilamentIconPickerIco900AI1204IconPickerClearBtnAccessibleNameContractTest
         $this->assertDoesNotMatchRegularExpression(
             '/:aria-label="[\'"]Remove icon[\'"]"/',
             $this->bladeStripped,
-            'aria-label MUST bind to $mwAi1204RemoveIconLabel (translatable via __()) — NOT a hardcoded literal string that bypasses i18n'
+            'aria-label MUST bind to $mwIconPickRemoveIconLabel (translatable via __()) — NOT a hardcoded literal string that bypasses i18n'
         );
     }
 

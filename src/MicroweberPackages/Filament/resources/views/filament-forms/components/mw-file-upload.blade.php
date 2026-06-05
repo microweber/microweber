@@ -30,8 +30,8 @@
 
     $fileTypes = $getFileTypes();
 
-    $mwAi1203RemoveFileLabel = __('Remove file');
-    $mwAi1203FileUrlLabel = __('File URL');
+    $mwUploadRemoveFileLabel = __('Remove file');
+    $mwUploadFileUrlLabel = __('File URL');
 @endphp
 <div>
 
@@ -138,7 +138,7 @@
                 --}}
                 <div class="w-full relative flex flex-col gap-0 items-stretch justify-center bg-white dark:bg-gray-800 rounded-md overflow-hidden border border-gray-200 dark:border-gray-700">
                     <div class="flex gap-2 items-center px-3 py-2 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-                        <button type="button" class="text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-1" x-on:click="clearState()" aria-label="{{ $mwAi1203RemoveFileLabel }}" title="{{ $mwAi1203RemoveFileLabel }}">
+                        <button type="button" class="text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-1" x-on:click="clearState()" aria-label="{{ $mwUploadRemoveFileLabel }}" title="{{ $mwUploadRemoveFileLabel }}">
                             <svg fill="currentColor" class="w-5" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -170,7 +170,7 @@
                         class="absolute w-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5 z-10">
                         <div class="flex gap-2 items-center">
                             <button type="button" class="text-white bg-white/5 rounded-md hover:bg-white/20"
-                                x-on:click="clearState()" aria-label="{{ $mwAi1203RemoveFileLabel }}" title="{{ $mwAi1203RemoveFileLabel }}">
+                                x-on:click="clearState()" aria-label="{{ $mwUploadRemoveFileLabel }}" title="{{ $mwUploadRemoveFileLabel }}">
                                 <svg fill="currentColor" class="w-6" viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -207,7 +207,7 @@
                 --}}
                 <div class="w-full relative flex flex-col gap-2 items-stretch justify-center bg-black/80 rounded-md p-3">
                     <div class="flex gap-2 items-center text-white">
-                        <button type="button" class="text-white bg-white/10 hover:bg-white/20 rounded-md p-1" x-on:click="clearState()" aria-label="{{ $mwAi1203RemoveFileLabel }}" title="{{ $mwAi1203RemoveFileLabel }}">
+                        <button type="button" class="text-white bg-white/10 hover:bg-white/20 rounded-md p-1" x-on:click="clearState()" aria-label="{{ $mwUploadRemoveFileLabel }}" title="{{ $mwUploadRemoveFileLabel }}">
                             <svg fill="currentColor" class="w-5" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -217,7 +217,7 @@
                         </button>
                         <span class="truncate text-sm" x-text="fileUrlShort"></span>
                     </div>
-                    <input type="text" :value="state" readonly aria-label="{{ $mwAi1203FileUrlLabel }}" class="w-full text-xs bg-white/10 text-white border border-white/10 rounded-md px-2 py-1" />
+                    <input type="text" :value="state" readonly aria-label="{{ $mwUploadFileUrlLabel }}" class="w-full text-xs bg-white/10 text-white border border-white/10 rounded-md px-2 py-1" />
                 </div>
             </div>
         </div>

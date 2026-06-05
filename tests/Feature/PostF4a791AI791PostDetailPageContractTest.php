@@ -123,10 +123,10 @@ class PostF4a791AI791PostDetailPageContractTest extends TestCase
     #[Test]
     public function post_computes_reading_time(): void
     {
-        $this->assertStringContainsString('mwAi791Words', $this->postStripped,
+        $this->assertStringContainsString('mwPostWords', $this->postStripped,
             'post.blade.php must compute word count for reading-time estimate.'
         );
-        $this->assertStringContainsString('mwAi791ReadingMins', $this->postStripped,
+        $this->assertStringContainsString('mwPostReadingMins', $this->postStripped,
             'post.blade.php must compute reading minutes and render them.'
         );
         $this->assertStringContainsString('min read', $this->postStripped,
@@ -139,10 +139,10 @@ class PostF4a791AI791PostDetailPageContractTest extends TestCase
     #[Test]
     public function post_has_prev_next_navigation(): void
     {
-        $this->assertStringContainsString('mwAi791PrevPost', $this->postStripped,
+        $this->assertStringContainsString('mwPostPrevPost', $this->postStripped,
             'post.blade.php must fetch and render the previous post link.'
         );
-        $this->assertStringContainsString('mwAi791NextPost', $this->postStripped,
+        $this->assertStringContainsString('mwPostNextPost', $this->postStripped,
             'post.blade.php must fetch and render the next post link.'
         );
         $this->assertStringContainsString('prev_post(', $this->postStripped,

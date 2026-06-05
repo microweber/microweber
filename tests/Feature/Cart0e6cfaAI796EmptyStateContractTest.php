@@ -69,19 +69,19 @@ class Cart0e6cfaAI796EmptyStateContractTest extends TestCase
         // The bottom "Proceed to Checkout" anchor must be wrapped in
         // an @if that checks a cart-items-non-empty flag.
         $this->assertStringContainsString(
-            '$mwAi796CartItems = function_exists(\'mw\') ? (mw()->cart_manager->get() ?? []) : [];',
+            '$mwCartCartItems = function_exists(\'mw\') ? (mw()->cart_manager->get() ?? []) : [];',
             $this->page,
-            'page.blade.php must resolve $mwAi796CartItems from cart_manager (coerce null→[]) so the empty-check is reliable.'
+            'page.blade.php must resolve $mwCartCartItems from cart_manager (coerce null→[]) so the empty-check is reliable.'
         );
         $this->assertStringContainsString(
-            '$mwAi796HasItems = !empty($mwAi796CartItems);',
+            '$mwCartHasItems = !empty($mwCartCartItems);',
             $this->page,
-            'page.blade.php must derive $mwAi796HasItems boolean from the resolved cart items.'
+            'page.blade.php must derive $mwCartHasItems boolean from the resolved cart items.'
         );
         $this->assertMatchesRegularExpression(
-            '/@if\(\$mwAi796HasItems\)\s*\n.*?Proceed to Checkout.*?\n.*?@endif/s',
+            '/@if\(\$mwCartHasItems\)\s*\n.*?Proceed to Checkout.*?\n.*?@endif/s',
             $this->page,
-            'The "Proceed to Checkout" anchor must be wrapped in @if($mwAi796HasItems) ... @endif.'
+            'The "Proceed to Checkout" anchor must be wrapped in @if($mwCartHasItems) ... @endif.'
         );
     }
 
@@ -95,16 +95,16 @@ class Cart0e6cfaAI796EmptyStateContractTest extends TestCase
         $stripped = preg_replace('!{{--.*?--}}!s', '', $this->page);
 
         // The wrapper class .mw-cart-standalone-checkout-cta-wrap should
-        // exist ONLY inside the @if($mwAi796HasItems) branch — never
+        // exist ONLY inside the @if($mwCartHasItems) branch — never
         // appear before it as an unconditional sibling.
-        $ifStart = strpos($stripped, '@if($mwAi796HasItems)');
-        $this->assertNotFalse($ifStart, 'page.blade.php must contain the @if($mwAi796HasItems) gate.');
+        $ifStart = strpos($stripped, '@if($mwCartHasItems)');
+        $this->assertNotFalse($ifStart, 'page.blade.php must contain the @if($mwCartHasItems) gate.');
 
         $beforeIf = substr($stripped, 0, $ifStart);
         $this->assertStringNotContainsString(
             'Proceed to Checkout',
             $beforeIf,
-            'The "Proceed to Checkout" anchor must NOT appear before the @if($mwAi796HasItems) gate.'
+            'The "Proceed to Checkout" anchor must NOT appear before the @if($mwCartHasItems) gate.'
         );
     }
 

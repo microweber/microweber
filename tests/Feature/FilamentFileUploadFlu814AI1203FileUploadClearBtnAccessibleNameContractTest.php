@@ -80,9 +80,9 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
     public function single_variant_declares_remove_file_label_php_variable(): void
     {
         $this->assertMatchesRegularExpression(
-            '/\$mwAi1203RemoveFileLabel\s*=\s*__\(\s*\'Remove file\'\s*\)\s*;/s',
+            '/\$mwUploadRemoveFileLabel\s*=\s*__\(\s*\'Remove file\'\s*\)\s*;/s',
             $this->singleBlade,
-            'Override MUST declare $mwAi1203RemoveFileLabel via __(\'Remove file\') so the clear-X button accessible name follows the active locale (dynamic per-locale, not hardcoded English)'
+            'Override MUST declare $mwUploadRemoveFileLabel via __(\'Remove file\') so the clear-X button accessible name follows the active locale (dynamic per-locale, not hardcoded English)'
         );
     }
 
@@ -90,9 +90,9 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
     public function single_variant_declares_file_url_label_php_variable(): void
     {
         $this->assertMatchesRegularExpression(
-            '/\$mwAi1203FileUrlLabel\s*=\s*__\(\s*\'File URL\'\s*\)\s*;/s',
+            '/\$mwUploadFileUrlLabel\s*=\s*__\(\s*\'File URL\'\s*\)\s*;/s',
             $this->singleBlade,
-            'Override MUST declare $mwAi1203FileUrlLabel via __(\'File URL\') so the readonly URL input accessible name follows the active locale'
+            'Override MUST declare $mwUploadFileUrlLabel via __(\'File URL\') so the readonly URL input accessible name follows the active locale'
         );
     }
 
@@ -100,9 +100,9 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
     public function multi_variant_declares_remove_file_label_php_variable(): void
     {
         $this->assertMatchesRegularExpression(
-            '/\$mwAi1203RemoveFileLabel\s*=\s*__\(\s*\'Remove file\'\s*\)\s*;/s',
+            '/\$mwUploadRemoveFileLabel\s*=\s*__\(\s*\'Remove file\'\s*\)\s*;/s',
             $this->multiBlade,
-            'Multi-variant override MUST declare $mwAi1203RemoveFileLabel via __(\'Remove file\') so the per-item remove-X button accessible name follows the active locale'
+            'Multi-variant override MUST declare $mwUploadRemoveFileLabel via __(\'Remove file\') so the per-item remove-X button accessible name follows the active locale'
         );
     }
 
@@ -118,15 +118,15 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
         );
 
         $this->assertMatchesRegularExpression(
-            '/<button[^>]*x-on:click="clearState\(\)"[^>]*aria-label="\{\{\s*\$mwAi1203RemoveFileLabel\s*\}\}"[^>]*>/s',
+            '/<button[^>]*x-on:click="clearState\(\)"[^>]*aria-label="\{\{\s*\$mwUploadRemoveFileLabel\s*\}\}"[^>]*>/s',
             $imageBranch,
-            'Image-branch clear-X <button> MUST carry aria-label="{{ $mwAi1203RemoveFileLabel }}" so AT users hear the action semantic instead of bare "button"'
+            'Image-branch clear-X <button> MUST carry aria-label="{{ $mwUploadRemoveFileLabel }}" so AT users hear the action semantic instead of bare "button"'
         );
 
         $this->assertMatchesRegularExpression(
-            '/<button[^>]*x-on:click="clearState\(\)"[^>]*title="\{\{\s*\$mwAi1203RemoveFileLabel\s*\}\}"[^>]*>/s',
+            '/<button[^>]*x-on:click="clearState\(\)"[^>]*title="\{\{\s*\$mwUploadRemoveFileLabel\s*\}\}"[^>]*>/s',
             $imageBranch,
-            'Image-branch clear-X <button> MUST carry title="{{ $mwAi1203RemoveFileLabel }}" so mouse users also see the tooltip and the action remains discoverable across input modalities'
+            'Image-branch clear-X <button> MUST carry title="{{ $mwUploadRemoveFileLabel }}" so mouse users also see the tooltip and the action remains discoverable across input modalities'
         );
     }
 
@@ -142,15 +142,15 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
         );
 
         $this->assertMatchesRegularExpression(
-            '/<button[^>]*x-on:click="clearState\(\)"[^>]*aria-label="\{\{\s*\$mwAi1203RemoveFileLabel\s*\}\}"[^>]*>/s',
+            '/<button[^>]*x-on:click="clearState\(\)"[^>]*aria-label="\{\{\s*\$mwUploadRemoveFileLabel\s*\}\}"[^>]*>/s',
             $videoBranch,
-            'Video-branch clear-X <button> MUST carry aria-label="{{ $mwAi1203RemoveFileLabel }}"'
+            'Video-branch clear-X <button> MUST carry aria-label="{{ $mwUploadRemoveFileLabel }}"'
         );
 
         $this->assertMatchesRegularExpression(
-            '/<button[^>]*x-on:click="clearState\(\)"[^>]*title="\{\{\s*\$mwAi1203RemoveFileLabel\s*\}\}"[^>]*>/s',
+            '/<button[^>]*x-on:click="clearState\(\)"[^>]*title="\{\{\s*\$mwUploadRemoveFileLabel\s*\}\}"[^>]*>/s',
             $videoBranch,
-            'Video-branch clear-X <button> MUST carry title="{{ $mwAi1203RemoveFileLabel }}"'
+            'Video-branch clear-X <button> MUST carry title="{{ $mwUploadRemoveFileLabel }}"'
         );
     }
 
@@ -166,15 +166,15 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
         );
 
         $this->assertMatchesRegularExpression(
-            '/<button[^>]*x-on:click="clearState\(\)"[^>]*aria-label="\{\{\s*\$mwAi1203RemoveFileLabel\s*\}\}"[^>]*>/s',
+            '/<button[^>]*x-on:click="clearState\(\)"[^>]*aria-label="\{\{\s*\$mwUploadRemoveFileLabel\s*\}\}"[^>]*>/s',
             $genericBranch,
-            'Generic-file-branch clear-X <button> MUST carry aria-label="{{ $mwAi1203RemoveFileLabel }}"'
+            'Generic-file-branch clear-X <button> MUST carry aria-label="{{ $mwUploadRemoveFileLabel }}"'
         );
 
         $this->assertMatchesRegularExpression(
-            '/<button[^>]*x-on:click="clearState\(\)"[^>]*title="\{\{\s*\$mwAi1203RemoveFileLabel\s*\}\}"[^>]*>/s',
+            '/<button[^>]*x-on:click="clearState\(\)"[^>]*title="\{\{\s*\$mwUploadRemoveFileLabel\s*\}\}"[^>]*>/s',
             $genericBranch,
-            'Generic-file-branch clear-X <button> MUST carry title="{{ $mwAi1203RemoveFileLabel }}"'
+            'Generic-file-branch clear-X <button> MUST carry title="{{ $mwUploadRemoveFileLabel }}"'
         );
     }
 
@@ -184,9 +184,9 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
         $genericBranch = $this->sliceFromAnchor($this->singleBlade, "typeFile !== 'image' && typeFile !== 'video' && typeFile !== 'audio'", 4000);
 
         $this->assertMatchesRegularExpression(
-            '/<input[^>]*type="text"[^>]*readonly[^>]*aria-label="\{\{\s*\$mwAi1203FileUrlLabel\s*\}\}"[^>]*\/?>|<input[^>]*type="text"[^>]*aria-label="\{\{\s*\$mwAi1203FileUrlLabel\s*\}\}"[^>]*readonly[^>]*\/?>|<input[^>]*readonly[^>]*aria-label="\{\{\s*\$mwAi1203FileUrlLabel\s*\}\}"[^>]*\/?>/s',
+            '/<input[^>]*type="text"[^>]*readonly[^>]*aria-label="\{\{\s*\$mwUploadFileUrlLabel\s*\}\}"[^>]*\/?>|<input[^>]*type="text"[^>]*aria-label="\{\{\s*\$mwUploadFileUrlLabel\s*\}\}"[^>]*readonly[^>]*\/?>|<input[^>]*readonly[^>]*aria-label="\{\{\s*\$mwUploadFileUrlLabel\s*\}\}"[^>]*\/?>/s',
             $genericBranch,
-            'Generic-file-branch readonly URL <input> MUST carry aria-label="{{ $mwAi1203FileUrlLabel }}" (WCAG 3.3.2 Level A) — the rendered field has no associated <label> so the accessible name must come from aria-label'
+            'Generic-file-branch readonly URL <input> MUST carry aria-label="{{ $mwUploadFileUrlLabel }}" (WCAG 3.3.2 Level A) — the rendered field has no associated <label> so the accessible name must come from aria-label'
         );
     }
 
@@ -194,9 +194,9 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
     public function multi_variant_per_item_remove_button_carries_aria_label(): void
     {
         $this->assertMatchesRegularExpression(
-            '/<button[^>]*aria-label="\{\{\s*\$mwAi1203RemoveFileLabel\s*\}\}"[^>]*title="\{\{\s*\$mwAi1203RemoveFileLabel\s*\}\}"[^>]*x-on:click="\(\)\s*=>\s*\{[\s\S]*?state\s*=\s*state\.filter/s',
+            '/<button[^>]*aria-label="\{\{\s*\$mwUploadRemoveFileLabel\s*\}\}"[^>]*title="\{\{\s*\$mwUploadRemoveFileLabel\s*\}\}"[^>]*x-on:click="\(\)\s*=>\s*\{[\s\S]*?state\s*=\s*state\.filter/s',
             $this->multiBlade,
-            'Multi-variant per-item remove <button> (inside <template x-for="fileItem in state">) MUST carry both aria-label and title bound to {{ $mwAi1203RemoveFileLabel }} so each per-item icon-only button announces its semantic action to AT users'
+            'Multi-variant per-item remove <button> (inside <template x-for="fileItem in state">) MUST carry both aria-label and title bound to {{ $mwUploadRemoveFileLabel }} so each per-item icon-only button announces its semantic action to AT users'
         );
     }
 
@@ -230,19 +230,19 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
         $this->assertDoesNotMatchRegularExpression(
             '/aria-label="Remove file"/s',
             $this->singleStripped,
-            'Single-variant aria-label MUST be wired to {{ $mwAi1203RemoveFileLabel }} (translatable via __()), NOT a hardcoded English literal — otherwise non-English locales hear the English label'
+            'Single-variant aria-label MUST be wired to {{ $mwUploadRemoveFileLabel }} (translatable via __()), NOT a hardcoded English literal — otherwise non-English locales hear the English label'
         );
 
         $this->assertDoesNotMatchRegularExpression(
             '/aria-label="File URL"/s',
             $this->singleStripped,
-            'Single-variant URL input aria-label MUST be wired to {{ $mwAi1203FileUrlLabel }} (translatable via __()), NOT a hardcoded English literal'
+            'Single-variant URL input aria-label MUST be wired to {{ $mwUploadFileUrlLabel }} (translatable via __()), NOT a hardcoded English literal'
         );
 
         $this->assertDoesNotMatchRegularExpression(
             '/aria-label="Remove file"/s',
             $this->multiStripped,
-            'Multi-variant per-item remove aria-label MUST be wired to {{ $mwAi1203RemoveFileLabel }} (translatable via __()), NOT a hardcoded English literal'
+            'Multi-variant per-item remove aria-label MUST be wired to {{ $mwUploadRemoveFileLabel }} (translatable via __()), NOT a hardcoded English literal'
         );
     }
 

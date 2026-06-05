@@ -49,12 +49,12 @@ Description: Default cart add template with prices and add to cart button
             </div>
         @else
             @php
-                $mwAi861Cd = content_data($for_id);
-                $mwAi861FallbackPrice = isset($mwAi861Cd['price']) ? (float) $mwAi861Cd['price'] : 0;
+                $mwCartPriceCd = content_data($for_id);
+                $mwCartPriceFallbackPrice = isset($mwCartPriceCd['price']) ? (float) $mwCartPriceCd['price'] : 0;
             @endphp
             <div class="mw-price-item d-flex align-items-center justify-content-between">
                 <div class="price-holder">
-                    <h5 class="mb-0 price">{{ currency_format($mwAi861FallbackPrice) }}</h5>
+                    <h5 class="mb-0 price">{{ currency_format($mwCartPriceFallbackPrice) }}</h5>
                 </div>
                 @if(!$in_stock)
                     <button class="btn btn-secondary float-end mw-add-to-cart-disabled-btn" type="button"
@@ -68,7 +68,7 @@ Description: Default cart add template with prices and add to cart button
                     <button class="btn btn-primary float-end mw-add-to-cart-btn" type="button"
                             aria-label="{{ _e($button_text !== false ? $button_text : 'Add to cart', true) }}: {{ $title }}"
                             data-content-id="{{ $for_id ?? '' }}"
-                            data-price="{{ $mwAi861FallbackPrice }}"
+                            data-price="{{ $mwCartPriceFallbackPrice }}"
                             data-title="{{ $title }}">
                         <i class="mdi mdi-cart" aria-hidden="true"></i>
                         {{ _e($button_text !== false ? $button_text : 'Add to cart', true) }}

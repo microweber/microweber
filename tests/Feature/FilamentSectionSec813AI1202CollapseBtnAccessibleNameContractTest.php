@@ -25,7 +25,7 @@ use Tests\TestCase;
  * vendor/filament/support/src/SupportServiceProvider.php registers the view namespace
  * as 'filament', NOT 'filament-support'.
  *
- * Fix: inject :label="$mwAi1202CollapseLabel" into the <x-filament::icon-button>
+ * Fix: inject :label="$mwSectionCollapseLabel" into the <x-filament::icon-button>
  *      invocation. Filament's icon-button component accepts 'label' => null and
  *      merges it as 'aria-label' => $label into the rendered button, also setting
  *      title when no tooltip is present.
@@ -77,9 +77,9 @@ class FilamentSectionSec813AI1202CollapseBtnAccessibleNameContractTest extends T
     public function override_computes_collapse_label_with_heading_branch(): void
     {
         $this->assertMatchesRegularExpression(
-            '/\$mwAi1202CollapseLabel\s*=\s*\$hasHeading\s*\?\s*\'Toggle section:\s*\'\s*\.\s*trim\(strip_tags\(\(string\)\s*\$heading\)\)\s*:\s*\'Toggle section\'\s*;/s',
+            '/\$mwSectionCollapseLabel\s*=\s*\$hasHeading\s*\?\s*\'Toggle section:\s*\'\s*\.\s*trim\(strip_tags\(\(string\)\s*\$heading\)\)\s*:\s*\'Toggle section\'\s*;/s',
             $this->blade,
-            'Override MUST compute $mwAi1202CollapseLabel via the $hasHeading ternary so each collapse button announces "Toggle section: <heading>" (or fallback "Toggle section" when heading is null) — derived screen-reader label, stripped of any HTML in $heading'
+            'Override MUST compute $mwSectionCollapseLabel via the $hasHeading ternary so each collapse button announces "Toggle section: <heading>" (or fallback "Toggle section" when heading is null) — derived screen-reader label, stripped of any HTML in $heading'
         );
     }
 
@@ -87,9 +87,9 @@ class FilamentSectionSec813AI1202CollapseBtnAccessibleNameContractTest extends T
     public function override_injects_label_prop_into_icon_button_invocation(): void
     {
         $this->assertMatchesRegularExpression(
-            '/<x-filament::icon-button[\s\S]*?:label="\$mwAi1202CollapseLabel"[\s\S]*?class="fi-section-collapse-btn"/s',
+            '/<x-filament::icon-button[\s\S]*?:label="\$mwSectionCollapseLabel"[\s\S]*?class="fi-section-collapse-btn"/s',
             $this->blade,
-            'Override MUST inject :label="$mwAi1202CollapseLabel" into the <x-filament::icon-button> invocation that renders .fi-section-collapse-btn so the rendered button carries a non-empty accessible name (ARIA 1.2 requirement for icon-only buttons; Filament icon-button merges label into aria-label)'
+            'Override MUST inject :label="$mwSectionCollapseLabel" into the <x-filament::icon-button> invocation that renders .fi-section-collapse-btn so the rendered button carries a non-empty accessible name (ARIA 1.2 requirement for icon-only buttons; Filament icon-button merges label into aria-label)'
         );
     }
 
@@ -99,7 +99,7 @@ class FilamentSectionSec813AI1202CollapseBtnAccessibleNameContractTest extends T
         $this->assertDoesNotMatchRegularExpression(
             '/:label="\'[^\']*\'"/s',
             $this->bladeStripped,
-            'label prop MUST be wired to $mwAi1202CollapseLabel (dynamic per-section heading), NOT a hardcoded string literal — otherwise every collapse button announces the same name'
+            'label prop MUST be wired to $mwSectionCollapseLabel (dynamic per-section heading), NOT a hardcoded string literal — otherwise every collapse button announces the same name'
         );
     }
 

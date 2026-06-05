@@ -175,7 +175,7 @@ class Menu9b3df3AI842LinktreeEmptyStateContractTest extends TestCase
         $hasLegacyShape = (bool) preg_match('/e\(\s*\$menu_name\s*\)/', $source)
             && str_contains($source, 'lnotif');
         $hasCanonicalShape = str_contains($source, 'mw-canvas-empty-state__cta')
-            && str_contains($source, 'data-mw-ai780-content-type="menu"');
+            && str_contains($source, 'data-mw-content-type="menu"');
 
         $this->assertTrue(
             $hasLegacyShape || $hasCanonicalShape,

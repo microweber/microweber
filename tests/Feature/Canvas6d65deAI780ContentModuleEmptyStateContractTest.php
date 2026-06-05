@@ -128,17 +128,17 @@ class Canvas6d65deAI780ContentModuleEmptyStateContractTest extends TestCase
     #[Test]
     public function blade_carries_module_type_data_attribute_and_aria_label(): void
     {
-        // data-mw-ai780-content-type attribute identifies which copy
+        // data-mw-content-type attribute identifies which copy
         // path fired (debuggability + future analytics hook). aria-label
         // on the CTA ensures the action text is the announced label
         // (defensive for AT users — visible text already matches).
         $this->assertMatchesRegularExpression(
-            '/data-mw-ai780-content-type="\{\{[^}]*\$mwAi780Type/',
+            '/data-mw-content-type="\{\{[^}]*\$mwEmptyType/',
             $this->blade,
-            'AI-780 wrapper div must carry `data-mw-ai780-content-type` for debuggability.'
+            'AI-780 wrapper div must carry `data-mw-content-type` for debuggability.'
         );
         $this->assertMatchesRegularExpression(
-            '/aria-label="\{\{[^}]*\$mwAi780CtaLabel/',
+            '/aria-label="\{\{[^}]*\$mwEmptyCtaLabel/',
             $this->blade,
             'AI-780 CTA must carry aria-label bound to the same label string.'
         );

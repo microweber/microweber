@@ -31,11 +31,11 @@ use Tests\TestCase;
  *
  * Post-fix (designer recipe applied uniformly):
  *   Fix A: top @php block precomputes
- *     $mwAi814GalleryJson = base64_encode(json_encode(array_map(...)))
+ *     $mwGalleryGalleryJson = base64_encode(json_encode(array_map(...)))
  *     ONCE per render.
  *   Fix B: every data-mw-gallery="@php echo base64_encode(...);
  *     @endphp" attribute becomes data-mw-gallery="
- *     {{ $mwAi814GalleryJson }}" — base64 chars are HTML-safe so
+ *     {{ $mwGalleryGalleryJson }}" — base64 chars are HTML-safe so
  *     {{}} doesn't alter content.
  *   Fix C: <script>gallery<rand> = [...]</script> rewritten as
  *     IIFE-wrapped window.gallery<rand> = json_encode(...,
@@ -82,7 +82,7 @@ class Pictures8cf71eAI814ScriptBlockHardeningContractTest extends TestCase
     }
 
     // ─────────────────────────────────────────────────────────────────────
-    // Group A  Fix A — top @php block carries $mwAi814GalleryJson precompute
+    // Group A  Fix A — top @php block carries $mwGalleryGalleryJson precompute
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
@@ -90,20 +90,20 @@ class Pictures8cf71eAI814ScriptBlockHardeningContractTest extends TestCase
     public function top_php_block_precomputes_gallery_json(string $relativePath, int $expected): void
     {
         $exec = $this->executableTemplate($relativePath);
-        // The $mwAi814GalleryJson variable MUST be assigned via
+        // The $mwGalleryGalleryJson variable MUST be assigned via
         // base64_encode(json_encode(array_map(...))) inside a @php
         // block somewhere above the @foreach loop.
         $this->assertMatchesRegularExpression(
-            '/\$mwAi814GalleryJson\s*=\s*base64_encode\(json_encode\(array_map\(/',
+            '/\$mwGalleryGalleryJson\s*=\s*base64_encode\(json_encode\(array_map\(/',
             $exec,
-            "AI-814 Fix A: {$relativePath} MUST precompute \$mwAi814GalleryJson via base64_encode(json_encode(array_map(...))) outside the @foreach loop."
+            "AI-814 Fix A: {$relativePath} MUST precompute \$mwGalleryGalleryJson via base64_encode(json_encode(array_map(...))) outside the @foreach loop."
         );
 
         // The precompute MUST live in a @php ... @endphp block.
         $this->assertMatchesRegularExpression(
-            '/@php\s+\$rand\s*=\s*uniqid\(\)\s*;[\s\S]+?\$mwAi814GalleryJson\s*=[\s\S]+?@endphp/',
+            '/@php\s+\$rand\s*=\s*uniqid\(\)\s*;[\s\S]+?\$mwGalleryGalleryJson\s*=[\s\S]+?@endphp/',
             $exec,
-            "AI-814 Fix A: {$relativePath} \$mwAi814GalleryJson precompute MUST live in the same top @php block as \$rand (computes once per render)."
+            "AI-814 Fix A: {$relativePath} \$mwGalleryGalleryJson precompute MUST live in the same top @php block as \$rand (computes once per render)."
         );
     }
 
@@ -116,16 +116,16 @@ class Pictures8cf71eAI814ScriptBlockHardeningContractTest extends TestCase
     public function data_mw_gallery_uses_precomputed_var(string $relativePath, int $expected): void
     {
         $exec = $this->executableTemplate($relativePath);
-        // Positive: data-mw-gallery="{{ $mwAi814GalleryJson }}" appears EXACTLY
+        // Positive: data-mw-gallery="{{ $mwGalleryGalleryJson }}" appears EXACTLY
         // $expected times (the per-file count from the data provider).
         $count = preg_match_all(
-            '/data-mw-gallery="\{\{\s*\$mwAi814GalleryJson\s*\}\}"/',
+            '/data-mw-gallery="\{\{\s*\$mwGalleryGalleryJson\s*\}\}"/',
             $exec
         );
         $this->assertSame(
             $expected,
             $count,
-            "AI-814 Fix B: {$relativePath} MUST have exactly {$expected} data-mw-gallery=\"{{ \$mwAi814GalleryJson }}\" attribute occurrence(s)."
+            "AI-814 Fix B: {$relativePath} MUST have exactly {$expected} data-mw-gallery=\"{{ \$mwGalleryGalleryJson }}\" attribute occurrence(s)."
         );
     }
 

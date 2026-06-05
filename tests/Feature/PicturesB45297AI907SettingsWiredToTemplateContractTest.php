@@ -16,12 +16,12 @@ use Tests\TestCase;
  * $options['columns'], $options['aspect_ratio'], $options['lightbox'].
  *
  * Fix (in default.blade.php):
- *   1. $mwAi907ColClass match on $options['columns'] ?? '3'
- *   2. $mwAi907AspectStyle match on $options['aspect_ratio'] ?? 'auto'
- *   3. $mwAi907Lightbox from $options['lightbox'] ?? true
+ *   1. $mwPicGridColClass match on $options['columns'] ?? '3'
+ *   2. $mwPicGridAspectStyle match on $options['aspect_ratio'] ?? 'auto'
+ *   3. $mwPicGridLightbox from $options['lightbox'] ?? true
  *   4. Column class applied to .mw-pictures-clean-item div
  *   5. Aspect style passed to responsive_thumbnail() attributes
- *   6. Lightbox <a> wrapper gated on $mwAi907Lightbox
+ *   6. Lightbox <a> wrapper gated on $mwPicGridLightbox
  *
  * Tier-2 DOM structure assertions via position comparison.
  *
@@ -52,9 +52,9 @@ class PicturesB45297AI907SettingsWiredToTemplateContractTest extends TestCase
     public function col_class_computed_via_match(): void
     {
         $this->assertMatchesRegularExpression(
-            '~\$mwAi907ColClass\s*=\s*match~s',
+            '~\$mwPicGridColClass\s*=\s*match~s',
             $this->stripped,
-            'default.blade.php must compute $mwAi907ColClass via match on columns setting.'
+            'default.blade.php must compute $mwPicGridColClass via match on columns setting.'
         );
     }
 
@@ -70,9 +70,9 @@ class PicturesB45297AI907SettingsWiredToTemplateContractTest extends TestCase
     public function aspect_style_computed_via_match(): void
     {
         $this->assertMatchesRegularExpression(
-            '~\$mwAi907AspectStyle\s*=\s*match~s',
+            '~\$mwPicGridAspectStyle\s*=\s*match~s',
             $this->stripped,
-            'default.blade.php must compute $mwAi907AspectStyle via match on aspect_ratio setting.'
+            'default.blade.php must compute $mwPicGridAspectStyle via match on aspect_ratio setting.'
         );
     }
 
@@ -93,9 +93,9 @@ class PicturesB45297AI907SettingsWiredToTemplateContractTest extends TestCase
     public function lightbox_setting_consumed(): void
     {
         $this->assertStringContainsString(
-            '$mwAi907Lightbox',
+            '$mwPicGridLightbox',
             $this->stripped,
-            'default.blade.php must consume $mwAi907Lightbox from $options[lightbox].'
+            'default.blade.php must consume $mwPicGridLightbox from $options[lightbox].'
         );
     }
 
@@ -103,9 +103,9 @@ class PicturesB45297AI907SettingsWiredToTemplateContractTest extends TestCase
     public function col_class_applied_to_grid_item_div(): void
     {
         $this->assertMatchesRegularExpression(
-            '~mw-pictures-clean-item[^"]*\{\{\s*\$mwAi907ColClass\s*\}\}~',
+            '~mw-pictures-clean-item[^"]*\{\{\s*\$mwPicGridColClass\s*\}\}~',
             $this->stripped,
-            'Column class must be output via {{ $mwAi907ColClass }} on the .mw-pictures-clean-item div.'
+            'Column class must be output via {{ $mwPicGridColClass }} on the .mw-pictures-clean-item div.'
         );
     }
 
@@ -113,7 +113,7 @@ class PicturesB45297AI907SettingsWiredToTemplateContractTest extends TestCase
     public function aspect_style_applied_to_responsive_thumbnail_call(): void
     {
         $this->assertStringContainsString(
-            'mwAi907AspectStyle',
+            'mwPicGridAspectStyle',
             $this->stripped,
             'Aspect style must be passed to responsive_thumbnail() or applied to the img element.'
         );
@@ -123,9 +123,9 @@ class PicturesB45297AI907SettingsWiredToTemplateContractTest extends TestCase
     public function lightbox_anchor_gated_on_lightbox_setting(): void
     {
         $this->assertMatchesRegularExpression(
-            '~@if\s*\(\s*\$mwAi907Lightbox\s*\)[\s\S]*?data-mw-gallery[\s\S]*?@endif~s',
+            '~@if\s*\(\s*\$mwPicGridLightbox\s*\)[\s\S]*?data-mw-gallery[\s\S]*?@endif~s',
             $this->stripped,
-            'Lightbox <a> wrapper must be inside @if($mwAi907Lightbox) ... @endif.'
+            'Lightbox <a> wrapper must be inside @if($mwPicGridLightbox) ... @endif.'
         );
     }
 
@@ -155,11 +155,11 @@ class PicturesB45297AI907SettingsWiredToTemplateContractTest extends TestCase
     public function col_class_variable_appears_after_match_computation(): void
     {
         $src = $this->stripped;
-        $matchPos   = strpos($src, '$mwAi907ColClass = match');
-        $usagePos   = strpos($src, '$mwAi907ColClass }}');
+        $matchPos   = strpos($src, '$mwPicGridColClass = match');
+        $usagePos   = strpos($src, '$mwPicGridColClass }}');
 
-        $this->assertNotFalse($matchPos, 'match computation for $mwAi907ColClass must be present.');
-        $this->assertNotFalse($usagePos, 'Usage of {{ $mwAi907ColClass }} must be present.');
+        $this->assertNotFalse($matchPos, 'match computation for $mwPicGridColClass must be present.');
+        $this->assertNotFalse($usagePos, 'Usage of {{ $mwPicGridColClass }} must be present.');
         $this->assertGreaterThan(
             $matchPos,
             $usagePos,
@@ -171,15 +171,15 @@ class PicturesB45297AI907SettingsWiredToTemplateContractTest extends TestCase
     public function lightbox_if_guard_appears_before_data_mw_gallery(): void
     {
         $src = $this->stripped;
-        $ifPos      = strpos($src, '@if($mwAi907Lightbox)');
+        $ifPos      = strpos($src, '@if($mwPicGridLightbox)');
         $galleryPos = strpos($src, 'data-mw-gallery=');
 
-        $this->assertNotFalse($ifPos, '@if($mwAi907Lightbox) guard must exist.');
+        $this->assertNotFalse($ifPos, '@if($mwPicGridLightbox) guard must exist.');
         $this->assertNotFalse($galleryPos, 'data-mw-gallery attribute must exist.');
         $this->assertGreaterThan(
             $ifPos,
             $galleryPos,
-            'data-mw-gallery must appear INSIDE the @if($mwAi907Lightbox) conditional.'
+            'data-mw-gallery must appear INSIDE the @if($mwPicGridLightbox) conditional.'
         );
     }
 
@@ -187,14 +187,14 @@ class PicturesB45297AI907SettingsWiredToTemplateContractTest extends TestCase
     public function aspect_style_appears_after_match_computation(): void
     {
         $src = $this->stripped;
-        $matchPos = strpos($src, '$mwAi907AspectStyle = match');
-        $usePos   = strpos($src, 'mwAi907AspectStyle');
+        $matchPos = strpos($src, '$mwPicGridAspectStyle = match');
+        $usePos   = strpos($src, 'mwPicGridAspectStyle');
 
-        $this->assertNotFalse($matchPos, 'match computation for $mwAi907AspectStyle must be present.');
+        $this->assertNotFalse($matchPos, 'match computation for $mwPicGridAspectStyle must be present.');
         // The variable name appears in both the match assignment AND later usage — usePos finds the first
         // occurrence which is the match itself. Find the SECOND occurrence (actual usage):
-        $usePos2 = strpos($src, 'mwAi907AspectStyle', $matchPos + 1);
-        $this->assertNotFalse($usePos2, 'Second occurrence of $mwAi907AspectStyle (usage) must exist.');
+        $usePos2 = strpos($src, 'mwPicGridAspectStyle', $matchPos + 1);
+        $this->assertNotFalse($usePos2, 'Second occurrence of $mwPicGridAspectStyle (usage) must exist.');
         $this->assertGreaterThan(
             $matchPos,
             $usePos2,

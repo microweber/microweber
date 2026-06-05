@@ -32,12 +32,12 @@ Description: Template designed for use within shop product layouts
                     </div>
                 @else
                     @php
-                        $mwAi861Cd = content_data($for_id);
-                        $mwAi861FallbackPrice = isset($mwAi861Cd['price']) ? (float) $mwAi861Cd['price'] : 0;
+                        $mwCartPriceCd = content_data($for_id);
+                        $mwCartPriceFallbackPrice = isset($mwCartPriceCd['price']) ? (float) $mwCartPriceCd['price'] : 0;
                     @endphp
                     <div class="mw-price-item">
                         <div class="price-display mb-3">
-                            <strong class="price-value">{{ currency_format($mwAi861FallbackPrice) }}</strong>
+                            <strong class="price-value">{{ currency_format($mwCartPriceFallbackPrice) }}</strong>
                         </div>
                         <div class="add-to-cart-actions d-flex align-items-center">
                             @if(!$in_stock)
@@ -52,7 +52,7 @@ Description: Template designed for use within shop product layouts
                                 <button class="btn-default button-add-to-cart mw-add-to-cart-btn" type="button"
                                         aria-label="{{ _e($button_text !== false ? $button_text : 'Add to cart', true) }}: {{ $title }}"
                                         data-content-id="{{ $for_id ?? '' }}"
-                                        data-price="{{ $mwAi861FallbackPrice }}"
+                                        data-price="{{ $mwCartPriceFallbackPrice }}"
                                         data-title="{{ $title }}">
                                     <i class="mdi mdi-cart" aria-hidden="true"></i>
                                     {{ _e($button_text !== false ? $button_text : 'Add to cart', true) }}

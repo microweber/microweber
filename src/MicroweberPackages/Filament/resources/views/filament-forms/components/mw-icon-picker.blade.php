@@ -27,7 +27,7 @@
     $statePath = $getStatePath();
     $iconSets = $getIconSets();
 
-    $mwAi1204RemoveIconLabel = __('Remove icon');
+    $mwIconPickRemoveIconLabel = __('Remove icon');
 
 @endphp
 
@@ -84,8 +84,8 @@
             x-on:click="state = ''"
             color="gray"
             style="margin-left: 1px;"
-            :aria-label="$mwAi1204RemoveIconLabel"
-            :title="$mwAi1204RemoveIconLabel"
+            :aria-label="$mwIconPickRemoveIconLabel"
+            :title="$mwIconPickRemoveIconLabel"
         >
 
 

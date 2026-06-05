@@ -54,21 +54,21 @@
                  $filterSettings['columns'] is saved by ShopModuleSettings ToggleButtons
                  with values '2'|'3'|'4'. Default '3' preserves the pre-fix layout. --}}
             @php
-                $mwAi906Cols = $filterSettings['columns'] ?? '3';
-                $mwAi906ColClass = match($mwAi906Cols) {
+                $mwShopGridCols = $filterSettings['columns'] ?? '3';
+                $mwShopGridColClass = match($mwShopGridCols) {
                     '2' => 'col-12 col-md-6',
                     '4' => 'col-12 col-md-6 col-lg-3',
                     default => 'col-12 col-md-6 col-lg-4 col-xl-4',
                 };
                 // show_price / show_add_to_cart: '1' = show (default), '0' = hide.
-                $mwAi906ShowPrice      = ($filterSettings['show_price'] ?? '1')      !== '0';
-                $mwAi906ShowAddToCart  = ($filterSettings['show_add_to_cart'] ?? '1') !== '0';
+                $mwShopGridShowPrice      = ($filterSettings['show_price'] ?? '1')      !== '0';
+                $mwShopGridShowAddToCart  = ($filterSettings['show_add_to_cart'] ?? '1') !== '0';
             @endphp
             @forelse($products as $product)
-                <div class="{{ $mwAi906ColClass }} mb-5">
+                <div class="{{ $mwShopGridColClass }} mb-5">
                     @include('modules.shop::livewire.shop.product-card', [
-                        'showPrice'     => $mwAi906ShowPrice,
-                        'showAddToCart' => $mwAi906ShowAddToCart,
+                        'showPrice'     => $mwShopGridShowPrice,
+                        'showAddToCart' => $mwShopGridShowAddToCart,
                     ])
                 </div>
             @empty

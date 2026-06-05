@@ -58,18 +58,18 @@ class AdminCategories1092EmptyStateContractTest extends TestCase
     public function test_categories_list_carries_server_side_count_gate(): void
     {
         $this->assertMatchesRegularExpression(
-            '/\$mwAi1092CategoryCount\s*=\s*\\\\Modules\\\\Category\\\\Models\\\\Category::count\(\)\s*;/',
+            '/\$mwCatListCategoryCount\s*=\s*\\\\Modules\\\\Category\\\\Models\\\\Category::count\(\)\s*;/',
             $this->categoriesList,
-            'AI-1092: custom categories view must compute $mwAi1092CategoryCount via \\Modules\\Category\\Models\\Category::count() server-side so the gate can split tree-render vs empty-state branches'
+            'AI-1092: custom categories view must compute $mwCatListCategoryCount via \\Modules\\Category\\Models\\Category::count() server-side so the gate can split tree-render vs empty-state branches'
         );
     }
 
     public function test_categories_list_renders_tree_only_when_count_gt_zero(): void
     {
         $this->assertMatchesRegularExpression(
-            '/@if\s*\(\s*\$mwAi1092CategoryCount\s*>\s*0\s*\)/',
+            '/@if\s*\(\s*\$mwCatListCategoryCount\s*>\s*0\s*\)/',
             $this->categoriesList,
-            'AI-1092: tree-render block must be gated behind @if($mwAi1092CategoryCount > 0) so an empty categories table does not leak a bare tree mount-point with no copy'
+            'AI-1092: tree-render block must be gated behind @if($mwCatListCategoryCount > 0) so an empty categories table does not leak a bare tree mount-point with no copy'
         );
     }
 
@@ -130,9 +130,9 @@ class AdminCategories1092EmptyStateContractTest extends TestCase
     public function test_categories_list_tree_mount_sits_inside_count_gate(): void
     {
         $this->assertMatchesRegularExpression(
-            '/@if\s*\(\s*\$mwAi1092CategoryCount\s*>\s*0\s*\)[\s\S]*?<div\s+wire:ignore\s+class="mw-edit-categories-list"[\s\S]*?@else[\s\S]*?@endif/',
+            '/@if\s*\(\s*\$mwCatListCategoryCount\s*>\s*0\s*\)[\s\S]*?<div\s+wire:ignore\s+class="mw-edit-categories-list"[\s\S]*?@else[\s\S]*?@endif/',
             $this->categoriesListStripped,
-            'AI-1092: tree mount-point div (.mw-edit-categories-list) must sit BETWEEN the @if($mwAi1092CategoryCount > 0) opener and the @else branch — pre-fix shape was a bare div with no count-gate, leaving empty installs with no copy'
+            'AI-1092: tree mount-point div (.mw-edit-categories-list) must sit BETWEEN the @if($mwCatListCategoryCount > 0) opener and the @else branch — pre-fix shape was a bare div with no count-gate, leaving empty installs with no copy'
         );
     }
 

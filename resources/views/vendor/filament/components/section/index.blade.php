@@ -72,7 +72,7 @@
     $hasIcon = filled($icon);
     $hasHeader = $hasIcon || $hasHeading || $hasDescription || $collapsible || (! is_slot_empty($afterHeader));
 
-    $mwAi1202CollapseLabel = $hasHeading
+    $mwSectionCollapseLabel = $hasHeading
         ? 'Toggle section: ' . trim(strip_tags((string) $heading))
         : 'Toggle section';
 @endphp
@@ -143,7 +143,7 @@
                     color="gray"
                     :icon="\Filament\Support\Icons\Heroicon::ChevronUp"
                     :icon-alias="\Filament\Support\View\SupportIconAlias::SECTION_COLLAPSE_BUTTON"
-                    :label="$mwAi1202CollapseLabel"
+                    :label="$mwSectionCollapseLabel"
                     x-on:click.stop="isCollapsed = ! isCollapsed"
                     class="fi-section-collapse-btn"
                 />

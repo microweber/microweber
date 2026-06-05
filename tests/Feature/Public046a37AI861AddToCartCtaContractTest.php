@@ -173,7 +173,7 @@ class Public046a37AI861AddToCartCtaContractTest extends TestCase
         $this->assertStringContainsString('mw-add-to-cart-btn', $branchSlice, 'Empty-data branch MUST emit an mw-add-to-cart-btn fallback button for public users (AI-861 acceptance gate).');
         $this->assertStringContainsString('mw-add-to-cart-disabled-btn', $branchSlice, 'Out-of-stock variant of fallback CTA MUST also exist for stock=0 products.');
         $this->assertStringContainsString('content_data($for_id)', $branchSlice, 'Fallback price MUST read content_data($for_id) so the button carries the product\'s base price.');
-        $this->assertStringContainsString('mwAi861FallbackPrice', $branchSlice, 'Fallback-price variable name carries the AI-861 task marker for audit-grep.');
+        $this->assertStringContainsString('mwCartPriceFallbackPrice', $branchSlice, 'Fallback-price variable name carries the AI-861 task marker for audit-grep.');
         $this->assertStringContainsString('task-2026-05-17-046a37', $branchSlice);
         $this->assertStringContainsString('AI-861', $branchSlice);
     }

@@ -44,7 +44,7 @@ description: Skin-8
                      Pre-fix the bare <p> rendered "No pictures added. Please add pictures to the module." to
                      anonymous frontend visitors — admin-targeted copy leaked to public surface. --}}
                 @if (is_admin())
-                    <div class="mw-canvas-empty-state" data-mw-ai780-content-type="picture">
+                    <div class="mw-canvas-empty-state" data-mw-content-type="picture">
                         <h3 class="mw-canvas-empty-state__title">{{ __('No pictures yet') }}</h3>
                         <p class="mw-canvas-empty-state__body">{{ __('Add your first picture to fill this gallery.') }}</p>
                         <a class="mw-canvas-empty-state__cta" href="{{ admin_url('media') }}" aria-label="{{ __('+ Add picture') }}">{{ __('+ Add picture') }}</a>

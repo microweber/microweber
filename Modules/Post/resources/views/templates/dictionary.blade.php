@@ -39,22 +39,22 @@ description: Dictionary
 // Modules/Post/resources/views/templates/partials/_shop-require-gate
 // .blade.php once a 3rd Posts wrapper joins the cart-supporting set.
 // Currently 2-file scope; inline keeps the audit trail per-file.
-$mwAi841NeedsShop = false;
+$mwShopGateNeedsShop = false;
 if (isset($data) && is_iterable($data)) {
-    foreach ($data as $mwAi841Item) {
-        if (is_array($mwAi841Item)
-            && isset($mwAi841Item['prices'])
-            && is_array($mwAi841Item['prices'])
-            && !empty($mwAi841Item['prices'])
+    foreach ($data as $mwShopGateItem) {
+        if (is_array($mwShopGateItem)
+            && isset($mwShopGateItem['prices'])
+            && is_array($mwShopGateItem['prices'])
+            && !empty($mwShopGateItem['prices'])
         ) {
-            $mwAi841NeedsShop = true;
+            $mwShopGateNeedsShop = true;
             break;
         }
     }
 }
 
 @endphp
-@if ($mwAi841NeedsShop)
+@if ($mwShopGateNeedsShop)
 <script>
     mw.require('shop.js');
 </script>
