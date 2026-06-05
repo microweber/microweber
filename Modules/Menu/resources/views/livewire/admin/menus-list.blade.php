@@ -122,5 +122,26 @@
 
     </div>
 
+    {{-- task-2026-06-05-mnu-modal — Restore Filament modal overlay chrome for
+         the Add menu item / Edit create dialog rendered below. On this admin
+         settings page (both standalone at /admin/menu-module-settings and
+         inside the live-edit Module Settings iframe) a runtime probe found the
+         create modal opened with no backdrop dim (the close overlay computed to
+         a fully transparent background) and with the window container aligned to
+         the top of the viewport instead of the centre, so the dialog read as a
+         bare inline box overlapping the menu list rather than a proper centred
+         modal. Restore vertical centring + a dimmed backdrop. Scoped to
+         non-slide-over modals so the live-edit slide-over panel keeps its own
+         right-edge alignment. Same per-surface backdrop patch pattern as the
+         live-edit content-picker modal in live-edit-classes.css. --}}
+    <style>
+        body.fi-panel-admin .fi-modal:not(.fi-modal-slide-over) .fi-modal-window-ctn {
+            align-items: center;
+        }
+        body.fi-panel-admin .fi-modal:not(.fi-modal-slide-over) .fi-modal-close-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+
     <x-filament-actions::modals/>
 </div>
