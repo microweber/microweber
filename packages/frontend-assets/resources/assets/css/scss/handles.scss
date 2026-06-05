@@ -191,6 +191,20 @@ html.dark, html[data-mw-theme="dark"]{
         .mw-handle-item-menus-holder, .mw-le-handle-menu-button-sub-menu{
             background-color: var(--dark-bg);
             color: white;
+
+            /* AI-726 / task-2026-06-05-fte726 — the floating element toolbar
+               (this dark chip) disappears into dark page surfaces in dark mode:
+               a dark hero image or black <section> leaves no surface contrast
+               to anchor against, and the base soft shadow (rgba(17,17,26,.1))
+               is invisible on dark.
+               Per the ticket's recommended option 2, keep the dark chip but add
+               a 1px light ring + a strong drop shadow so it separates from ANY
+               page surface — WCAG AA non-text contrast 3:1 via the ring. The
+               border slot is already declared `1px solid transparent` above, so
+               we only colour it here. Light mode is untouched. */
+            border-color: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18),
+                0 8px 24px rgba(0, 0, 0, 0.5);
         }
     }
 }
