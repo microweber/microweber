@@ -129,6 +129,92 @@
                                 // guard against cross-origin or missing context
                             }
                         });
+
+                        // fi-modal hit-test escape — task-2026-06-05-mnumodal-teleport.
+                        // Inside the live-edit slide-over this settings page renders as
+                        // a NESTED iframe, and a module's Filament action modal (e.g. the
+                        // Menu "Add menu item" / "Edit" create-edit dialog) mounts DEEP
+                        // inside the settings form schema. In that nested position the
+                        // modal's fixed .fi-modal-window-ctn is composited away from its
+                        // layout box: elementFromPoint at the modal inputs returns the
+                        // bare body and REAL CLICKS never reach the fields — the dialog
+                        // renders but is completely un-usable (verified in-browser; a real
+                        // mouse click at an input's exact coordinates left activeElement on
+                        // body). This is the same hit-test trap fixed for the canvas in
+                        // iframe-page.blade.php, where every CSS-only approach
+                        // (pointer-events / isolation / overflow) was proven to fail. The
+                        // proven fix is to hoist .fi-modal up to be a direct child of
+                        // <body> (Filament's canonical, un-nested modal location), escaping
+                        // the form ancestors.
+                        //
+                        // Robust against MULTIPLE / NESTED / STACKED modals and the
+                        // two-Livewire-component layout (the settings Page + the embedded
+                        // table/list each commit independently):
+                        //   1. Hoist EVERY modal still nested in the settings wrapper out to
+                        //      <body>, in document order, so a modal that itself opens a
+                        //      second modal (link picker, media browser, confirm) keeps its
+                        //      stack order — querySelectorAll, not querySelector.
+                        //   2. Prune the hoisted copies ONLY when NO Filament action is
+                        //      mounted anywhere in this iframe (i.e. every dialog is closed).
+                        //      Mounted-action state is the authoritative "is a modal open"
+                        //      signal — NOT inline display, which is transiently `none` while
+                        //      Alpine's x-show animates a freshly-opened modal in (pruning on
+                        //      display removed dialogs the instant they opened). Because we
+                        //      never blanket-remove while something is mounted, a commit from
+                        //      the OTHER component cannot yank an open, already-hoisted dialog
+                        //      out from under the user; and the unmount commit that closes the
+                        //      last dialog flips this to "nothing mounted" so the orphaned
+                        //      <body> copy is cleaned up instead of lingering.
+                        var mwAnyActionMounted = function () {
+                            var keys = ['mountedActions', 'mountedTableActions',
+                                'mountedFormComponentActions', 'mountedInfolistActions',
+                                'mountedTableBulkActions'];
+                            try {
+                                var comps = (window.Livewire && window.Livewire.all) ? window.Livewire.all() : [];
+                                return comps.some(function (c) {
+                                    var w = c.$wire || c;
+                                    return keys.some(function (k) {
+                                        var v;
+                                        try { v = w.get ? w.get(k) : null; } catch (e) { v = null; }
+                                        return Array.isArray(v) ? v.length > 0 : (v !== null && v !== undefined && v !== false);
+                                    });
+                                });
+                            } catch (e) {
+                                return true; // fail-safe: assume a modal is open, never prune blindly
+                            }
+                        };
+                        // A modal is only safe to prune when it is BOTH not backed by a
+                        // mounted action AND has no visibly-rendered window. The second
+                        // signal protects any future non-action Filament modal component
+                        // (the x-filament modal blade tag, driven by Alpine x-show and NOT
+                        // tracked in mountedActions) from being yanked while it is open, and
+                        // double-guards against an exotic mounted-action key that
+                        // mwAnyActionMounted() might not enumerate.
+                        // NOTE: never write a literal "less-than x-..." blade component tag
+                        // anywhere in this file (even inside a JS comment) — Blade parses it
+                        // as a real component and breaks compilation (task-2026-06-05).
+                        var mwModalHasVisibleWindow = function (m) {
+                            var w = m.querySelector('.fi-modal-window');
+                            return !!(w && (w.offsetParent !== null || w.getClientRects().length > 0));
+                        };
+                        var mwHoistSettingsModal = function () {
+                            var wrapper = document.querySelector('.mw-live-edit-page-wrapper');
+                            if (wrapper) {
+                                wrapper.querySelectorAll('.fi-modal').forEach(function (m) {
+                                    document.body.appendChild(m);
+                                });
+                            }
+                            if (!mwAnyActionMounted()) {
+                                document.querySelectorAll('body > .fi-modal').forEach(function (m) {
+                                    if (!mwModalHasVisibleWindow(m)) { m.remove(); }
+                                });
+                            }
+                        };
+                        if (typeof Livewire !== 'undefined' && typeof Livewire.hook === 'function') {
+                            Livewire.hook('commit', function (ref) {
+                                ref.succeed(function () { requestAnimationFrame(mwHoistSettingsModal); });
+                            });
+                        }
                     });
                     if(self.frameElement && mw.tools && mw.tools.iframeAutoHeight){
                         mw.tools.iframeAutoHeight(self.frameElement);
