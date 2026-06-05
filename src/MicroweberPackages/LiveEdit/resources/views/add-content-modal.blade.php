@@ -219,7 +219,17 @@
                     @if ($mwAddContentJsDispatch)
                         x-on:click="window.dispatchEvent(new CustomEvent(@js($mwAddContentJsDispatch))); try { $wire.unmountAction(); } catch (e) {}"
                     @else
-                        wire:click="replaceMountedAction('{{ $action['action'] }}')"
+                        {{-- task-2026-06-05-addcontent-swap: dispatch a window
+                             event instead of wire:click. The picker modal is
+                             teleported to .fi-layout (iframe-page.blade.php) to
+                             escape the stacking trap, which moves it OUT of the
+                             Livewire wire:id subtree -- so wire:click here cannot
+                             resolve the component and the card silently does
+                             nothing. The page-root listener (iframe-page.blade.php
+                             liveEditOpenCreateContent) has an intact $wire and
+                             swaps the picker for the create action. Single quotes
+                             only inside this double-quoted attribute. --}}
+                        x-on:click="window.dispatchEvent(new CustomEvent('liveEditOpenCreateContent', { detail: { action: '{{ $action['action'] }}' } }))"
                     @endif
                     aria-label="{{ $action['title'] }}: {{ $action['description'] }}"
                     title="{{ $action['description'] }}"
@@ -303,7 +313,17 @@
                     @if ($mwAddContentJsDispatch)
                         x-on:click="window.dispatchEvent(new CustomEvent(@js($mwAddContentJsDispatch))); try { $wire.unmountAction(); } catch (e) {}"
                     @else
-                        wire:click="replaceMountedAction('{{ $action['action'] }}')"
+                        {{-- task-2026-06-05-addcontent-swap: dispatch a window
+                             event instead of wire:click. The picker modal is
+                             teleported to .fi-layout (iframe-page.blade.php) to
+                             escape the stacking trap, which moves it OUT of the
+                             Livewire wire:id subtree -- so wire:click here cannot
+                             resolve the component and the card silently does
+                             nothing. The page-root listener (iframe-page.blade.php
+                             liveEditOpenCreateContent) has an intact $wire and
+                             swaps the picker for the create action. Single quotes
+                             only inside this double-quoted attribute. --}}
+                        x-on:click="window.dispatchEvent(new CustomEvent('liveEditOpenCreateContent', { detail: { action: '{{ $action['action'] }}' } }))"
                     @endif
                     aria-label="{{ $action['title'] }}: {{ $action['description'] }}"
                     title="{{ $action['description'] }}"

@@ -204,6 +204,21 @@
                 swapAction('openModuleSettingsAction', { data: e.detail });
             });
 
+            // task-2026-06-05-addcontent-swap: open a create action (Add Page /
+            // Post / Product / Category / Image) from the +ADD picker cards.
+            // The picker modal is teleported to .fi-layout, OUTSIDE the Livewire
+            // wire:id subtree, so a wire:click on a card cannot resolve its
+            // component and silently does nothing (the +ADD card-does-nothing
+            // bug). Window events DO cross that boundary, so the cards dispatch
+            // this event instead; swapAction runs here at the page root where
+            // $wire is intact, unmounting the picker and mounting the create
+            // action fresh. Single quotes only -- this block is inside an x-init
+            // double-quoted attribute (a double-quote truncates it).
+            window.addEventListener('liveEditOpenCreateContent', (e) => {
+                const act = (e && e.detail && e.detail.action) ? e.detail.action : '';
+                if (act) { swapAction(act, {}); }
+            });
+
             // Some live-edit toolbar actions (Template Settings, Style
             // Editor, Quick AI Edit, Setup Wizard, Insert Layout,
             // Layers, Code Editor, Reset Content, Clear Cache, …) open
