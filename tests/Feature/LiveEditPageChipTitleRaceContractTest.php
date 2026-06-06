@@ -62,6 +62,45 @@ class LiveEditPageChipTitleRaceContractTest extends TestCase
     }
 
     #[Test]
+    public function it_watches_for_canvas_navigation_via_content_id_change(): void
+    {
+        // task-2026-06-06-pchipnav — liveEditCanvasLoaded does not fire on every
+        // in-canvas navigation (e.g. after creating content from +ADD), so a
+        // content-id-change poll re-reads the title. Verify the watcher exists
+        // and is cleaned up.
+        $this->assertMatchesRegularExpression(
+            '/this\._pageWatchTimer\s*=\s*setInterval/',
+            $this->src,
+            'PageChip must poll for canvas content-id changes to catch navigations the event misses.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/id\s*!==\s*this\._lastContentId/',
+            $this->src,
+            'The watcher must re-read the title only when the content id actually changes.'
+        );
+        $this->assertSame(
+            2,
+            substr_count($this->src, 'clearInterval(this._pageWatchTimer)'),
+            'The poll interval must be cleared in BOTH beforeUnmount and beforeDestroy.'
+        );
+    }
+
+    #[Test]
+    public function the_switcher_query_includes_drafts(): void
+    {
+        // task-2026-06-06-pchipdraft — content is draft-by-default (AI-777), so
+        // the switcher must NOT filter is_active=1, otherwise a freshly-created
+        // page/post is unreachable from the chip. Deleted content stays excluded.
+        $this->assertStringContainsString('&is_deleted=0', $this->src,
+            'The switcher query must still exclude deleted content.');
+        // Strip JS comments so the task-note explaining the removal cannot self-match.
+        $stripped = preg_replace('~/\*[\s\S]*?\*/~', '', $this->src);
+        $stripped = preg_replace('~//[^\n]*~', '', $stripped);
+        $this->assertStringNotContainsString('is_active=1', $stripped,
+            'The switcher query must NOT filter is_active=1 — that hides draft pages from the editor.');
+    }
+
+    #[Test]
     public function the_built_bundle_carries_the_retry_logic(): void
     {
         // PageChip compiles into the live-edit toolbar bundle(s). At least one

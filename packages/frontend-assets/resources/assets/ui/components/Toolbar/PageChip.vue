@@ -278,6 +278,7 @@ export default {
                     var data = top.app.canvas.getLiveEditData();
                     if (data && data.content && data.content.title) {
                         this.currentPageTitleFull = data.content.title;
+                        if (data.content.id) this._lastContentId = data.content.id;
                         return;
                     }
                 }
@@ -437,10 +438,16 @@ export default {
         fetchResults(keyword, callback) {
             try {
                 var apiBase = (window.mw && window.mw.settings && window.mw.settings.api_url) || '/api/';
+                // task-2026-06-06-pchipdraft — do NOT filter is_active here.
+                // Content defaults to draft (is_active=0) since AI-777, so a
+                // freshly-created page/post was invisible in this switcher — the
+                // editor could not navigate back to the very page they just made.
+                // The page chip is an editor tool, so it must list drafts too;
+                // only deleted content is excluded.
                 var url = apiBase
                     + 'get_content_admin?get_extra_data=1'
                     + '&order_by=updated_at desc'
-                    + '&is_active=1&is_deleted=0'
+                    + '&is_deleted=0'
                     + '&content_type=' + encodeURIComponent(this.activeTab)
                     + (keyword ? '&keyword=' + encodeURIComponent(keyword) : '')
                     + '&limit=8';
@@ -516,6 +523,26 @@ export default {
         // task-2026-05-17-7a9913 / AI-798 Slice C
         this._openVerbHandler = () => { this.open(); };
         window.addEventListener('mwOpenPageChip', this._openVerbHandler);
+
+        // task-2026-06-06-pchipnav — liveEditCanvasLoaded does NOT fire when the
+        // canvas navigates to a different page (e.g. after creating content from
+        // the +ADD modal, or following an in-canvas link), so the event listener
+        // above misses those navigations and the chip keeps showing the previous
+        // page's title. Poll the canvas content id and re-read the title whenever
+        // it changes — robust against any navigation mechanism. Reading one JS
+        // property every 600ms is negligible.
+        this._pageWatchTimer = setInterval(function () {
+            try {
+                var top = window.mw && window.mw.top();
+                if (!top || !top.app || !top.app.canvas || typeof top.app.canvas.getLiveEditData !== 'function') return;
+                var data = top.app.canvas.getLiveEditData();
+                var id = data && data.content && data.content.id;
+                if (id && id !== this._lastContentId) {
+                    this._lastContentId = id;
+                    this.readCurrentPageTitle();
+                }
+            } catch (_) { /* no-op */ }
+        }.bind(this), 600);
     },
 
     beforeUnmount() {
@@ -531,6 +558,7 @@ export default {
             }
         }
         if (this._searchTimer) clearTimeout(this._searchTimer);
+        if (this._pageWatchTimer) clearInterval(this._pageWatchTimer);
     },
 
     beforeDestroy() {
@@ -546,6 +574,7 @@ export default {
             }
         }
         if (this._searchTimer) clearTimeout(this._searchTimer);
+        if (this._pageWatchTimer) clearInterval(this._pageWatchTimer);
     },
 };
 </script>
