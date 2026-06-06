@@ -3,9 +3,25 @@
 use Illuminate\Support\Facades\Cookie;
 use  \Illuminate\Support\Facades\Route;
 
+// task-2026-06-06-adminapisession: the `admin` middleware authorises via
+// is_admin() / Auth::check() (session-based). These route groups ran in the
+// stateless `api` group (or with only `['admin']`), which never starts a
+// session — so the logged-in admin's session cookie was ignored and every
+// request returned 401 "Please as admin login to continue". In Live Edit this
+// broke the "+ ADD" module picker (api/module/list, getSkins, layout-preview):
+// the 401 surfaced to the user as a false "Your session has expired" banner
+// even though the admin was logged in. Start a session before `admin` runs so
+// it can see the authenticated admin. Order matters: EncryptCookies (decrypt
+// the incoming cookie) → AddQueuedCookies → StartSession → then `admin`.
+$adminSessionStack = [
+    \Illuminate\Cookie\Middleware\EncryptCookies::class,
+    \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+    \Illuminate\Session\Middleware\StartSession::class,
+];
+
 Route::name('api.module.')
     ->prefix('api/module')
-    ->middleware(['api', 'admin'])
+    ->middleware(array_merge(['api'], $adminSessionStack, ['admin']))
     ->group(function () {
 // modules/list
 
@@ -21,6 +37,10 @@ Route::name('api.module.')
     });
 
 
+// NOTE: this group uses only ['admin'] (no 'api' group). Such routes already
+// receive a session — it's specifically opting INTO the stateless `api` group
+// that drops it (see the api/module group above). So no session stack is
+// needed here; adding one would double-apply StartSession.
 Route::name('api.')
     ->prefix('api/')
     ->middleware(['admin'])
