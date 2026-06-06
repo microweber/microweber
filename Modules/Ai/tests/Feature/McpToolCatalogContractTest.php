@@ -215,12 +215,26 @@ class McpToolCatalogContractTest extends TestCase
                 . 'drops the field would silently regress MCP 2025-06-18 clients to '
                 . 'guessing the response shape.'
             );
-            $this->assertTrue(
-                $entry['annotations']['readOnlyHint'] ?? false,
-                "Tool '{$entry['name']}' must declare annotations.readOnlyHint=true — "
-                . 'every tool in the current catalog is strictly read-only. A '
-                . 'regression that adds a write tool without flipping this hint would '
-                . 'silently surface the new tool as safe-by-default to AI clients.'
+            // task-2026-06-06-mcpwritehint: readOnlyHint is a SAFETY
+            // signal — MCP clients gate auto-invocation (no human
+            // approval) on it. The catalog carries two genuine write
+            // tools (content.create -> Content::create, product.create
+            // -> Product::create); they MUST advertise readOnlyHint=false
+            // or an AI client treats "create a product" as safe-by-default.
+            // Every other tool is strictly read-only and must be true.
+            // (Previously this asserted true for EVERY tool, which masked
+            // the two write tools shipping mis-annotated as read-only.)
+            $writeTools = ['content.create', 'product.create'];
+            $expectedReadOnly = ! in_array($entry['name'], $writeTools, true);
+
+            $this->assertSame(
+                $expectedReadOnly,
+                $entry['annotations']['readOnlyHint'] ?? null,
+                $expectedReadOnly
+                    ? "Tool '{$entry['name']}' is read-only and must declare annotations.readOnlyHint=true."
+                    : "Tool '{$entry['name']}' persists data and MUST declare annotations.readOnlyHint=false — "
+                        . 'otherwise MCP clients surface the mutation as safe-by-default and may '
+                        . 'auto-invoke it without human approval.'
             );
         }
     }

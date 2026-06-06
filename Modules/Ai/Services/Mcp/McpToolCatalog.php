@@ -70,6 +70,11 @@ class McpToolCatalog
                 'tool' => CreateContentTool::class,
                 'module' => 'content',
                 'title' => 'Create a new page, post, or generic content item in Microweber.',
+                // task-2026-06-06-mcpwritehint: CreateContentTool persists a row
+                // (Content::create). It is NOT read-only — MCP clients gate
+                // auto-invocation on readOnlyHint, so this must be false or the
+                // tool is advertised as safe-by-default.
+                'readOnlyHint' => false,
             ],
             'product.lookup' => [
                 'tool' => ProductSearchTool::class,
@@ -80,6 +85,9 @@ class McpToolCatalog
                 'tool' => CreateProductTool::class,
                 'module' => 'product',
                 'title' => 'Create a new product (title, price, SKU, description, stock) in Microweber.',
+                // task-2026-06-06-mcpwritehint: CreateProductTool persists a row
+                // (Product::create). Not read-only — see content.create above.
+                'readOnlyHint' => false,
             ],
             'order.lookup' => [
                 'tool' => OrderSearchTool::class,
@@ -282,14 +290,15 @@ class McpToolCatalog
 
             $tool = app()->make($definition['tool']);
 
-            // The catalog is read-only today: every entry is gated
-            // through `definition.readOnlyHint`, which defaults to
-            // `true` for backward compat. When the first write tool
-            // ships, it should set `readOnlyHint => false` in its
-            // catalog definition (and the spec-compliance test in
-            // `McpToolCatalogContractTest::tools_list_response_declares_output_format_for_every_tool`
-            // will fail to remind the contributor to flip the
-            // annotations.readOnlyHint hint accordingly).
+            // Each entry is gated through `definition.readOnlyHint`,
+            // which defaults to `true` (the catalog is overwhelmingly
+            // read-only). The write tools — content.create and
+            // product.create, which persist rows via Content::create /
+            // Product::create — explicitly set `readOnlyHint => false`
+            // so MCP clients don't treat them as safe-by-default and
+            // auto-invoke a content/product mutation without approval.
+            // Any new write tool MUST set this to false; the
+            // McpToolCatalogContractTest read/write split pins it.
             $readOnlyHint = (bool) ($definition['readOnlyHint'] ?? true);
 
             $tools[] = [
