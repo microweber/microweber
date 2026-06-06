@@ -47,6 +47,11 @@ class ContentTypesPage extends Page
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static bool $shouldRegisterNavigation = true;
     protected static ?string $title = 'Content Types';
+    // task-2026-06-06-AI835 — the sidebar nav label derived from $title
+    // ("Content Types") wraps to two lines in the narrow sidebar group.
+    // Shorten the SIDEBAR label only to "Types"; the page title + heading
+    // stay "Content Types" so the surface itself reads unambiguously.
+    protected static ?string $navigationLabel = 'Types';
     protected static ?string $slug = 'content-types';
     // task-2026-05-28-c5d4b9 / AI-1081 — moved from 'Settings' (legacy
     // generic catch-all) to 'Website Settings' (dedicated IA sidebar
