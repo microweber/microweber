@@ -17,8 +17,19 @@ use Modules\Cart\Http\Controllers\Api\CartApiController;
 |
 */
 
+// task-2026-06-06-cartsession: the cart is session-backed (CartService scopes
+// rows by Session::getId()), so the route group needs the cookie+session stack.
+// The bare `api` group is stateless, which left an item added by POST visible
+// to no subsequent GET (each request minted a fresh session id). Mirror the
+// legacy web-group cart endpoints by starting a session here.
 Route::prefix('api/module/cart')
-    ->middleware(['api', 'throttle:public'])
+    ->middleware([
+        'api',
+        'throttle:public',
+        \Illuminate\Cookie\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+    ])
     ->name('api.module.cart.')
     ->group(function () {
         Route::get('/', [CartApiController::class, 'index'])->name('index');

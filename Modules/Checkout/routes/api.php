@@ -17,8 +17,18 @@ use Modules\Checkout\Http\Controllers\Api\CheckoutApiController;
 |
 */
 
+// task-2026-06-06-cartsession: checkout reads the cart via the session-scoped
+// CartService::getCart(), so the route group needs the cookie+session stack.
+// Without it the bare `api` group is stateless and every REST checkout sees an
+// empty cart (the item was added under a different, non-persisted session id).
 Route::prefix('api/module/checkout')
-    ->middleware(['api', 'throttle:public'])
+    ->middleware([
+        'api',
+        'throttle:public',
+        \Illuminate\Cookie\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+    ])
     ->name('api.module.checkout.')
     ->group(function () {
         Route::get('/', [CheckoutApiController::class, 'index'])->name('index');

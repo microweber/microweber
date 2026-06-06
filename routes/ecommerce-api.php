@@ -30,8 +30,24 @@ Route::middleware([])->group(function () {
         });
 
     // Public Cart API routes (no authentication required - session-based)
+    //
+    // task-2026-06-06-cartsession: the cart is session-backed (CartService
+    // scopes every row by user_manager->session_id() === Session::getId()),
+    // but this file is required inside the stateless `api` middleware group
+    // (bootstrap/app.php), which does NOT start a session. Without the
+    // session stack each request mints a fresh, non-persisted session id, so
+    // an item added by POST /api/cart is written under one id and the next
+    // GET /api/cart reads under a different id and sees an empty cart. The
+    // legacy web-group endpoints (api/update_cart, api/cart_sum) already work
+    // because the `web` group starts a session. Mirror that here with the
+    // cookie+session stack so the REST cart actually persists.
     Route::name('api.cart.')
         ->prefix('api/cart')
+        ->middleware([
+            \Illuminate\Cookie\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+        ])
         ->group(function () {
             Route::get('/', [CartApiController::class, 'index'])->name('index');
             Route::post('/', [CartApiController::class, 'store'])->name('store');
@@ -44,8 +60,18 @@ Route::middleware([])->group(function () {
         });
 
     // Public Checkout API routes (no authentication required)
+    //
+    // task-2026-06-06-cartsession: checkout reads the cart via the same
+    // session-scoped CartService::getCart(), so it needs the session stack
+    // for the same reason as the cart group above — otherwise every REST
+    // checkout sees an empty cart and refuses to place the order.
     Route::name('api.checkout.')
         ->prefix('api/checkout')
+        ->middleware([
+            \Illuminate\Cookie\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+        ])
         ->group(function () {
             Route::get('/', [CheckoutApiController::class, 'index'])->name('index');
             Route::post('/', [CheckoutApiController::class, 'store'])->name('store');
