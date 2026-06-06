@@ -654,11 +654,15 @@ class TaggableFileStore implements Store
                 $tagMapPath = $this->_getTagMapPathByName($tag);
 
                 try {
-                    if(!in_array($tagPath,$this->deletedFilesCache)){
+                    // task-2026-06-06-tagpath: this block deletes the tag-MAP file, so the
+                    // dedup check + record must use $tagMapPath. The previous code referenced
+                    // $tagPath (the inner-foreach variable) which is undefined when $tagDetails
+                    // is empty — emitting "Undefined variable $tagPath" warnings on every flush.
+                    if(!in_array($tagMapPath,$this->deletedFilesCache)){
                         if ($this->files->isFile($tagMapPath)) {
                             $this->files->delete($tagMapPath);
                         }
-                        $this->deletedFilesCache[] =$tagPath;
+                        $this->deletedFilesCache[] =$tagMapPath;
                     }
 
                 } catch (\Exception $e) {
