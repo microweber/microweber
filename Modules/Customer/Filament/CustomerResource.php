@@ -226,7 +226,13 @@ Forms\Components\Select::make('company_id')
         // (hidden by default) so power users can re-enable them
         // via the column-toggle menu without losing data access.
         ->columns([
-            Tables\Columns\TextColumn::make('id')->sortable()->searchable()
+            // task-2026-06-06-AI1101 — don't surface the raw auto-increment as a
+            // bare number; present it as a stable customer reference code derived
+            // purely from the id (no new data, fully reversible). e.g. 17426 -> C-17426.
+            Tables\Columns\TextColumn::make('id')
+                ->label('Customer')
+                ->formatStateUsing(fn ($state) => $state ? 'C-' . str_pad((string) $state, 5, '0', STR_PAD_LEFT) : '—')
+                ->sortable()->searchable()
                 ->toggleable(isToggledHiddenByDefault: true),
             Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('first_name')->sortable()->searchable()
