@@ -107,6 +107,12 @@ class CreateContentTool extends BaseTool
             'subtype' => 'static',
             'url' => $url,
             'is_active' => $is_active ? 1 : 0,
+            // task-2026-06-06-mcpparent: root-level content MUST persist
+            // parent=0, not NULL. The admin Pages listing / Live Edit
+            // PageChip / page tree filter on `parent = 0`; without it,
+            // tool-created pages render on the frontend but are invisible
+            // in every admin page picker.
+            'parent' => 0,
         ];
 
         if (!empty($content)) {

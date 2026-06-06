@@ -105,6 +105,10 @@ class CreateProductTool extends CreateContentTool
             'content_type' => 'product',
             'subtype' => 'product',
             'is_active' => 1,
+            // task-2026-06-06-mcpparent: root-level products must persist
+            // parent=0, not NULL, so they appear in admin product pickers
+            // and the Live Edit page tree (which filter on parent=0).
+            'parent' => 0,
 
             'created_by' => user_id()
         ];
