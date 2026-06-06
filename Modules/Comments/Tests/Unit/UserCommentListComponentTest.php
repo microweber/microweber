@@ -83,8 +83,11 @@ $this->assertEquals(
     $renderedComments->pluck('id')->toArray()
 );
 
-// Verify pagination controls
-$component->assertSee('Next &raquo;');
-$component->assertDontSee('Previous &laquo;');
+// Verify pagination controls. assertSee escapes the needle by default, turning
+// &raquo; into &amp;raquo; which never matches the raw entity the paginator emits;
+// pass escape:false so the literal "Next &raquo;" markup is matched.
+// task-2026-06-06-cmttests
+$component->assertSee('Next &raquo;', false);
+$component->assertDontSee('Previous &laquo;', false);
     }
 }

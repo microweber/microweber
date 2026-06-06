@@ -32,8 +32,17 @@ class CommentResourceTest extends TestCase
     #[Test]
     public function it_index_page_shows_all_records(): void
     {
-        $comments = Comment::factory()->count(3)->create();
-        Livewire::test(ListComments::class)->assertCanSeeTableRecords($comments);
+        // task-2026-06-06-cmttests: the table's modifyQueryUsing (AI-1094) excludes
+        // @example.com/.org/.net author emails to hide Faker rows — and the factory
+        // default IS @example.com, so factory records would be filtered out. Give the
+        // records a real-looking email so they survive the filter. loadTable() forces
+        // Filament v5's deferred table load before asserting visibility.
+        $comments = Comment::factory()->count(3)->create([
+            'comment_email' => 'reviewer@realsite.test',
+        ]);
+        Livewire::test(ListComments::class)
+            ->loadTable()
+            ->assertCanSeeTableRecords($comments);
     }
 
     #[Test]
@@ -134,11 +143,17 @@ class CommentResourceTest extends TestCase
     #[Test]
     public function it_table_has_required_columns(): void
     {
+        // task-2026-06-06-cmttests: is_moderated / is_spam are TernaryFilters, not
+        // columns. The table columns are comment_name, comment_body, content.title,
+        // status, created_at — the moderation state is surfaced via the `status`
+        // column and filtered via the is_moderated / is_spam filters.
         Livewire::test(ListComments::class)
             ->assertTableColumnExists('comment_name')
             ->assertTableColumnExists('comment_body')
-            ->assertTableColumnExists('is_moderated')
-            ->assertTableColumnExists('is_spam');
+            ->assertTableColumnExists('status')
+            ->assertTableColumnExists('created_at')
+            ->assertTableFilterExists('is_moderated')
+            ->assertTableFilterExists('is_spam');
     }
 
     #[Test]
