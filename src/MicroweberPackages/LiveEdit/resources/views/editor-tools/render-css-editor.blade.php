@@ -363,7 +363,7 @@
      with no context. CM5 forwards aria attributes to its input handle. --}}
 <textarea class="form-select  w100 mw_option_field" dir="ltr" name="custom_css" id="custom_css_code_mirror" rows="30"
           option-group="template" aria-label="<?php _e('Custom CSS source'); ?>"
-          placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $custom_css ?></textarea>
+          placeholder="<?php _e('Type your CSS code here'); ?>"><?php /* task-2026-06-06-csstextareaesc: HTML-escape so a `</textarea>` inside the CSS source can't break out of the textarea into the admin canvas iframe. Lossless — CodeMirror reads .value, which the browser auto-decodes. */ echo htmlspecialchars((string) $custom_css, ENT_QUOTES); ?></textarea>
                 {{-- audit-test 2026-05-07 Code Editor audit finding #1 (P0 BLOCKER):
                      <span onclick> Save was not focusable / not keyboard-
                      activatable; converted to <button> + addEventListener.
@@ -387,7 +387,7 @@
         <textarea class="form-select  w100" dir="ltr" name="live_edit_custom_css"
                   id="live_edit_custom_css_code_mirror" rows="30"
                   aria-label="<?php _e('Live edit CSS source'); ?>"
-                  placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $live_edit_css_content ?></textarea>
+                  placeholder="<?php _e('Type your CSS code here'); ?>"><?php /* task-2026-06-06-csstextareaesc: HTML-escape so a `</textarea>` inside the live-edit CSS file can't break out of the textarea. Lossless — CodeMirror reads the decoded .value. */ echo htmlspecialchars((string) $live_edit_css_content, ENT_QUOTES); ?></textarea>
 
 
                 {{-- audit-test 2026-05-07 Code Editor audit finding #1 (P0 BLOCKER):

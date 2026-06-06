@@ -500,8 +500,13 @@
          the canvas iframe. --}}
     <div class="mw-css-editor-c2a-nav">
         <div class="btn-group btn-block" role="group">
-            <?php /*        <button onclick="format_code2();"  class="btn btn-outline-primary" type="button"><?php _e('Format code'); ?></button>
-*/ ?>
+            {{-- task-2026-06-06-fmtcodebtn: the Format-code affordance was
+                 commented out (raw <span onclick>-style), so admins had no
+                 way to auto-indent their HTML even though formatCode() /
+                 format_code2() are fully wired below. Restored it as a real,
+                 focusable <button> bound via addEventListener (matching the
+                 2026-05-07 audit pattern used for Update). --}}
+            <button id="mw-html-editor-format-btn" class="btn btn-outline-dark" type="button"><?php _e('Format code'); ?></button>
             <button id="mw-html-editor-update-btn" class="btn btn-dark" type="button"><?php _e('Update'); ?></button>
         </div>
     </div>
@@ -510,6 +515,11 @@
             var updateBtn = document.getElementById('mw-html-editor-update-btn');
             if (updateBtn) {
                 updateBtn.addEventListener('click', function () { applyHtmlEdit2(); });
+            }
+            // task-2026-06-06-fmtcodebtn: keyboard-accessible Format-code wiring.
+            var formatBtn = document.getElementById('mw-html-editor-format-btn');
+            if (formatBtn) {
+                formatBtn.addEventListener('click', function () { format_code2(); });
             }
             var applyDirtyBtn = document.getElementById('mw-html-editor-apply-btn');
             if (applyDirtyBtn) {

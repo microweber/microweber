@@ -418,39 +418,9 @@ export default {
         });
 
 
-        var output = function (property, value, ActiveNode) {
-
-
-//console.log('CSSoutput', property, value, ActiveNode)
-
-
-            var mwTarget = targetMw;
-            if (ActiveNode) {
-
-                if (!specialCases(property, value)) {
-                    let prop = property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-                    // if(prop.indexOf('webkit') === 0) {
-                    //     prop = `-${prop}`;
-                    // }
-                    if (ActiveSelector) {
-                        mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, prop, value)
-                    }
-
-                    if (ActiveNode.style && ActiveNode.style[prop]) {
-                        ActiveNode.style[prop] = '';
-                    }
-                    mw.top().app.cssEditor.temp(ActiveNode, prop, value)
-                }
-                mw.top().app.registerChange(ActiveNode);
-
-                if (mw.top().app.liveEdit) {
-                    mw.top().app.liveEdit.handles.get('interactionHandle').hide()
-
-                    mw.top().app.liveEdit.handles.reposition();
-                }
-            }
-
-        };
+        // task-2026-06-06-esededupe: `output` was defined twice (the first copy
+        // carried a dead `var mwTarget = targetMw;`); `var` redeclaration meant
+        // only this second copy was ever live. Removed the dead first copy.
         var output = function (property, value, ActiveNode) {
 
 
@@ -483,11 +453,10 @@ export default {
             }
 
         };
-        mw.top().app.on('mw.elementStyleEditor.applyCssPropertyToNode', function (data) {
-
-
-            output(data.prop, data.val, data.node);
-        });
+        // task-2026-06-06-esededupe: the applyCssPropertyToNode listener above
+        // (output(data.prop, data.val, data.node)) was registered a second time
+        // here, so every CSS property change ran output() twice — double
+        // registerChange + double handles.reposition(). Removed the duplicate.
 
 
         mw.top().tools.iframeAutoHeight(frameElement)
