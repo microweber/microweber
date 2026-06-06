@@ -12,7 +12,12 @@ mw.reload_module = function(module, callback) {
                     callback.call();
                 }
                 $( this ).trigger('ModuleReload');
-                mw.top().app.dispatch('moduleReloaded', module[i]);
+                // task-2026-06-06-cartdispatch — mw.top().app is undefined on the
+                // public storefront (app only exists in admin/live-edit); guard
+                // so add-to-cart's reload_modules doesn't throw.
+                if (mw.top() && mw.top().app && typeof mw.top().app.dispatch === 'function') {
+                    mw.top().app.dispatch('moduleReloaded', module[i]);
+                }
             });
         }
         return false;
@@ -46,7 +51,10 @@ mw.reload_module = function(module, callback) {
                                     callback.call();
                                 }
                                 $( document ).trigger('ModuleReload');
-                                mw.top().app.dispatch('moduleReloaded', m[i]);
+                                // task-2026-06-06-cartdispatch — see note above.
+                                if (mw.top() && mw.top().app && typeof mw.top().app.dispatch === 'function') {
+                                    mw.top().app.dispatch('moduleReloaded', m[i]);
+                                }
                             })
                         }
                     })(callback)

@@ -366,38 +366,63 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
             $options[$method['id']] = $method['name'] ?? ucfirst($method['provider'] ?? 'Standard');
         }
 
+        // task-2026-06-06-nopaymethod — graceful empty-state. With no active
+        // payment provider configured the Radio rendered an empty, required
+        // "Payment Options*" field — an unsatisfiable dead-end with no message
+        // (the shopper just saw "The payment Options field is required" and
+        // could never finish). When there are no options, swap the required
+        // radio for a clear explanation so the store doesn't silently trap the
+        // customer mid-checkout.
+        $paymentSchema = empty($options)
+            ? [
+                Placeholder::make('no_payment_methods')
+                    ->label(__('Payment Options'))
+                    // The trailing period is appended in PHP, NOT inside __():
+                    // Laravel treats a translation key ending in '.' as a
+                    // namespace separator and returns an empty string, which
+                    // rendered the empty-state box blank.
+                    ->content(new HtmlString(
+                        '<div class="mw-checkout-empty-state" role="status" style="padding:1rem;border:1px solid #f0c000;border-radius:.5rem;background:#fff8e1;">'
+                        . '<p style="margin:0 0 .25rem;font-weight:600;">' . e(__('No payment methods are available right now')) . '.</p>'
+                        . '<p style="margin:0;">' . e(__('Please contact the store to complete your order — checkout cannot finish until a payment method is set up')) . '.</p>'
+                        . '</div>'
+                    ))
+                    ->html(),
+            ]
+            : [
+                Radio::make('payment_provider_id')
+                    ->label(__('Payment Options'))
+                    ->options($options)
+                    ->required()
+                    ->live()
+                    ->afterStateUpdated(function ($state) {
+                        checkout_set_user_info('payment_provider_id', $state);
+                    }),
+
+                // Dynamic payment provider forms
+                Placeholder::make('payment_form_placeholder')
+                    ->label('')
+                    ->content(function (Get $get) {
+                        $providerId = $get('payment_provider_id');
+                        if (!$providerId) {
+                            return '';
+                        }
+
+                        $provider = app()->payment_method_manager->getProviderById($providerId);
+                        if (!$provider || !isset($provider['form_view'])) {
+                            return '';
+                        }
+
+                        return view($provider['form_view'])->render();
+                    })
+                    ->html()
+                    ->visible(fn (Get $get) => $get('payment_provider_id')),
+            ];
+
         return [
             Section::make(__('Payment Method'))
                 ->description(__('Select how you want to pay'))
-                ->schema([
-                    Radio::make('payment_provider_id')
-                        ->label(__('Payment Options'))
-                        ->options($options)
-                        ->required()
-                        ->live()
-                        ->afterStateUpdated(function ($state) {
-                            checkout_set_user_info('payment_provider_id', $state);
-                        }),
-
-                    // Dynamic payment provider forms
-                    Placeholder::make('payment_form_placeholder')
-                        ->label('')
-                        ->content(function (Get $get) {
-                            $providerId = $get('payment_provider_id');
-                            if (!$providerId) {
-                                return '';
-                            }
-
-                            $provider = app()->payment_method_manager->getProviderById($providerId);
-                            if (!$provider || !isset($provider['form_view'])) {
-                                return '';
-                            }
-
-                            return view($provider['form_view'])->render();
-                        })
-                        ->html()
-                        ->visible(fn (Get $get) => $get('payment_provider_id')),
-                ]),
+                ->schema($paymentSchema),
 
             Section::make(__('Order Summary'))
                 ->description(__('Current totals'))

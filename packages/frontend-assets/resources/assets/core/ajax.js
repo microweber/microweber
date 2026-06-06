@@ -259,7 +259,15 @@ mw.reload_module = async function(module, callback) {
                     callback.call();
                 }
                 $( this ).trigger('ModuleReload')
-                mw.top().app.dispatch('moduleReloaded', module[i]);
+                // task-2026-06-06-cartdispatch — guard for the PUBLIC frontend,
+                // where mw.top().app is undefined (the `app` only exists in the
+                // admin / live-edit window). Add-to-cart calls reload_modules,
+                // which threw "Cannot read properties of undefined (reading
+                // 'dispatch')" on every storefront. The moduleReloaded dispatch
+                // is only consumed by admin/live-edit listeners anyway.
+                if (mw.top() && mw.top().app && typeof mw.top().app.dispatch === 'function') {
+                    mw.top().app.dispatch('moduleReloaded', module[i]);
+                }
             });
         }
         return false;
@@ -311,7 +319,11 @@ mw.reload_module = async function(module, callback) {
                                     callback.call();
                                 }
                                 $( document ).trigger('ModuleReload')
-                                mw.top().app.dispatch('moduleReloaded', m[i]);
+                                // task-2026-06-06-cartdispatch — see note above;
+                                // mw.top().app is undefined on the public storefront.
+                                if (mw.top() && mw.top().app && typeof mw.top().app.dispatch === 'function') {
+                                    mw.top().app.dispatch('moduleReloaded', m[i]);
+                                }
                             })
                         }
                     })(callback)
