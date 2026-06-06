@@ -72,6 +72,40 @@ class CustomField extends Model
     /**
      * Get custom fields with aggregated values, decoded options, and price modifiers.
      */
+    /**
+     * task-2026-06-06-cfrel — normalize a short rel_type token to the morph
+     * class actually stored in the custom_fields table. Content custom fields
+     * (incl. products / posts / pages — all rows in the `content` table) are
+     * stored as the fully-qualified Content class, so a caller passing the
+     * shorthand 'content' (or 'product'/'page'/'post') previously matched
+     * nothing and product custom fields never rendered or got captured at
+     * add-to-cart. A FQCN (contains a backslash) or any other token (e.g. the
+     * form-builder 'module') is returned unchanged.
+     */
+    public static function normalizeRelType($relType): string
+    {
+        $relType = (string) $relType;
+
+        if ($relType === '' || str_contains($relType, '\\')) {
+            return $relType;
+        }
+
+        if (in_array(strtolower($relType), ['content', 'product', 'page', 'post'], true)) {
+            return \Modules\Content\Models\Content::class;
+        }
+
+        // Defer to the canonical morph map for any other known short name
+        // (categories, media, …); leave unknown tokens such as 'module' intact.
+        if (function_exists('morph_name')) {
+            $mapped = morph_name($relType);
+            if (is_string($mapped) && $mapped !== '' && str_contains($mapped, '\\')) {
+                return $mapped;
+            }
+        }
+
+        return $relType;
+    }
+
     public static function getWithValues(array $params): array
     {
         $query = static::query();
@@ -82,7 +116,7 @@ class CustomField extends Model
 
         if (isset($params['rel_id'])) {
             $query->where('rel_id', $params['rel_id']);
-            $query->where('rel_type', $params['rel_type']);
+            $query->where('rel_type', static::normalizeRelType($params['rel_type'] ?? ''));
         }
 
         if (!empty($params['type'])) {

@@ -20,9 +20,13 @@ class CustomFieldsModule extends BaseModule
     {
         $viewData = $this->getViewData();
 
-        // Get parameters from request
-        $for = $this->params['for'] ?? 'module';
-        $forId = $this->getForId();
+        // Get parameters from request.
+        // task-2026-06-06-cfrel — resolve the rel_type ($for) and rel_id
+        // ($forId) with auto-detection so a bare <module type="custom_fields"/>
+        // on a product/post/page detail page renders THAT content's fields,
+        // while form-builder modules (which signal module context via
+        // data-for="module" / for-id / default-fields) keep working unchanged.
+        [$for, $forId] = $this->resolveRelTypeAndId();
         $skipTypes = $this->getSkipTypes();
 
 
@@ -67,17 +71,69 @@ class CustomFieldsModule extends BaseModule
         return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 
+    /**
+     * First non-empty value among the given param keys (null if none).
+     */
+    protected function firstParam(array $keys)
+    {
+        foreach ($keys as $key) {
+            if (isset($this->params[$key]) && $this->params[$key] !== '' && $this->params[$key] !== null) {
+                return $this->params[$key];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * task-2026-06-06-cfrel — resolve [rel_type, rel_id] for this module.
+     *
+     * Order of precedence:
+     *   1. Explicit rel_type via for / data-for (form-builder modules pass
+     *      data-for="module") — honoured as-is.
+     *   2. An injected content id (the cart-add form passes data-content-id) →
+     *      content fields for that product/post/page.
+     *   3. No explicit ids AND no form-builder signal (default-fields / for-id)
+     *      → AUTO-DETECT the current content via content_id() so a bare
+     *      <module type="custom_fields"/> dropped on a product page just works.
+     *   4. Otherwise fall back to the module instance (form fields).
+     *
+     * Both the data- and non-data- attribute spellings are accepted so the
+     * resolution is robust regardless of how the module tag was authored.
+     */
+    protected function resolveRelTypeAndId(): array
+    {
+        $for = $this->firstParam(['for', 'data-for']);
+        $contentId = $this->firstParam(['content-id', 'data-content-id', 'content_id', 'data-content_id']);
+        $hasFormSignal = $this->firstParam(['default-fields', 'data-default-fields', 'for-id', 'for_id']) !== null;
+
+        if (! $for) {
+            if ($contentId) {
+                $for = 'content';
+            } elseif (! $hasFormSignal && function_exists('content_id') && content_id()) {
+                $for = 'content';
+                $contentId = content_id();
+            } else {
+                $for = 'module';
+            }
+        }
+
+        if (in_array(strtolower((string) $for), ['content', 'product', 'page', 'post'], true)) {
+            $forId = $contentId
+                ?? $this->firstParam(['for-id', 'for_id', 'rel_id'])
+                ?? (function_exists('content_id') ? content_id() : null)
+                ?? 0;
+        } else {
+            $forId = $this->firstParam([
+                'for-id', 'for_id', 'rel_id', 'module-id', 'parent-module-id', 'data-id',
+            ]) ?? 0;
+        }
+
+        return [$for, (string) $forId];
+    }
+
     protected function getForId(): string
     {
-        return $this->params['content-id']
-            ?? $this->params['content_id']
-            ?? $this->params['for_id']
-            ?? $this->params['for-id']
-            ?? $this->params['rel_id']
-            ?? $this->params['module-id']
-            ?? $this->params['parent-module-id']
-            ?? $this->params['data-id']
-            ?? 0;
+        return (string) ($this->resolveRelTypeAndId()[1]);
     }
 
     protected function getSkipTypes(): array

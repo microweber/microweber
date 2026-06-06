@@ -12,9 +12,9 @@ mw.cart = {
         return mw.cart.add_item(content_id, price, c);
     },
 
-    add_and_show_modal: function (content_id, price, c) {
+    add_and_show_modal: function (content_id, price, c, fields) {
 
-        mw.cart.add_item(content_id, price, c);
+        mw.cart.add_item(content_id, price, c, fields);
 
         var checkoutUrl = mw.settings.api_url + "shop/redirect_to_checkout";
 
@@ -34,7 +34,7 @@ mw.cart = {
         });
     },
 
-    add_item: function (content_id, price, c) {
+    add_item: function (content_id, price, c, fields) {
         var data = {};
         if (content_id == undefined) {
             return;
@@ -44,6 +44,23 @@ mw.cart = {
 
         if (price != undefined && data != undefined) {
             data.price = price;
+        }
+
+        // task-2026-06-06-cfcart — merge product custom-field selections
+        // (Size, Session Focus, …) gathered from the add-to-cart form so they
+        // travel with the item and the backend can capture them + apply any
+        // price modifiers. Previously add_item sent only content_id + price,
+        // so every selection was silently dropped from the cart and order.
+        if (fields && typeof fields === "object") {
+            for (var fieldKey in fields) {
+                if (
+                    Object.prototype.hasOwnProperty.call(fields, fieldKey) &&
+                    fieldKey !== "content_id" &&
+                    fieldKey !== "price"
+                ) {
+                    data[fieldKey] = fields[fieldKey];
+                }
+            }
         }
 
         $.post(mw.settings.api_url + "update_cart", data, function (data) {
@@ -402,8 +419,46 @@ document.addEventListener("click", function (e) {
         var contentId = btn.getAttribute("data-content-id") || "";
         var price = btn.getAttribute("data-price") || "";
         var title = btn.getAttribute("data-title") || "";
+
+        // task-2026-06-06-cfcart — collect the product's custom-field
+        // selections (Size, Session Focus, …) from the enclosing add-to-cart
+        // holder so they're sent with the item. Without this only
+        // data-content-id/data-price were posted and every option (and its
+        // price modifier) was dropped. Enforce required fields client-side too.
+        var fields = {};
+        var holder = btn.closest(".mw-add-to-cart-holder") || btn.form || null;
+        var invalidField = null;
+        if (holder) {
+            holder
+                .querySelectorAll("input[name], select[name], textarea[name]")
+                .forEach(function (input) {
+                    if (
+                        (input.type === "radio" || input.type === "checkbox") &&
+                        !input.checked
+                    ) {
+                        return;
+                    }
+                    var name = input.getAttribute("name");
+                    if (!name) {
+                        return;
+                    }
+                    if (input.required && !String(input.value || "").trim()) {
+                        invalidField = invalidField || input;
+                    }
+                    fields[name] = input.value;
+                });
+        }
+        if (invalidField) {
+            if (typeof invalidField.reportValidity === "function") {
+                invalidField.reportValidity();
+            } else {
+                mw.alert(mw.lang("Please fill in the required options."));
+            }
+            return;
+        }
+
         if (typeof mw.cart !== "undefined" && typeof mw.cart.add_and_show_modal === "function") {
-            mw.cart.add_and_show_modal(contentId, price, title);
+            mw.cart.add_and_show_modal(contentId, price, title, fields);
         }
     }
 });

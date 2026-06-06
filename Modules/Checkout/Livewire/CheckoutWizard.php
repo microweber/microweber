@@ -602,7 +602,12 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
     protected function loadCartData(): void
     {
         $this->cartItems = app()->cart_manager->get() ?? [];
-        $this->cartTotal = cart_total();
+        // task-2026-06-06-shipdbl — cartTotal is the items SUBTOTAL. Use
+        // cart_sum() (items only), NOT cart_total() (which already adds
+        // shipping + tax). The order-summary then adds shipping on top, so
+        // cart_total() here double-counted shipping in the displayed grand
+        // total once a paid shipping method was chosen.
+        $this->cartTotal = cart_sum();
     }
 
     protected function loadShippingMethods(): void
@@ -628,7 +633,9 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
     #[On('shipping-changed')]
     public function onShippingChanged(): void
     {
-        $this->cartTotal = cart_total();
+        // task-2026-06-06-shipdbl — items subtotal only; shipping is added by
+        // the order-summary, not baked into cartTotal (see loadCartData()).
+        $this->cartTotal = cart_sum();
     }
 
     public function render()
