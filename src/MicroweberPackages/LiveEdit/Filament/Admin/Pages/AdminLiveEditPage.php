@@ -750,6 +750,27 @@ class AdminLiveEditPage extends Page
                     $data['parent'] = $currentPageId;
                 }
 
+                // task-2026-06-06-pglayoutmodal — derive is_shop / subtype
+                // from the chosen page layout at SAVE time. The compact
+                // modal's Template/Layout selects are non-reactive (so the
+                // modal survives — see MwSelectTemplateForPage), which means
+                // the old afterStateUpdated that set these no longer fires.
+                // Replicate it here so a page created with the Shop layout
+                // still becomes a shop page, and a Blog layout a dynamic page.
+                if ($contentType === 'page' && !empty($data['layout_file'])) {
+                    $layoutDetails = mw()->layouts_manager->get_layout_details([
+                        'layout_file' => $data['layout_file'],
+                        'active_site_template' => $data['active_site_template'] ?? template_name(),
+                        'no_cache' => true,
+                        'no_folder_sort' => true,
+                    ]);
+                    if (!empty($layoutDetails['content_type'])) {
+                        $data['subtype'] = $layoutDetails['content_type'];
+                    }
+                    $data['is_shop'] = (isset($layoutDetails['is_shop'])
+                        && ($layoutDetails['is_shop'] == 1 || $layoutDetails['is_shop'] === 'y')) ? 1 : 0;
+                }
+
                 $model = new Content();
                 $model->fill($data);
                 $model->save();
@@ -777,7 +798,25 @@ class AdminLiveEditPage extends Page
                 // pricing/title-first flows where an empty body is
                 // intentional; categories aren't a user-typed body
                 // surface at all.
-                if (in_array($contentType, ['post', 'page'], true)) {
+                //
+                // task-2026-06-06-pglayoutmodal — but NOT for a page that
+                // was created with a designed layout. A layout blade like
+                // services/pricing/landing/about renders its own default
+                // module blocks inside the `field="content"` editable
+                // region; writing the placeholder into `content` here
+                // OVERRIDES that design and the user lands on a blank
+                // "Click here to start writing…" page instead of the
+                // layout they just chose. The placeholder is only a help
+                // for genuinely-empty layouts (clean / none), so skip it
+                // when a non-clean layout_file is set. Posts are unaffected
+                // (they render via post.blade.php with no default body).
+                $hasDesignedLayout = false;
+                if ($contentType === 'page') {
+                    $layoutFile = (string) ($model->layout_file ?? '');
+                    $hasDesignedLayout = $layoutFile !== ''
+                        && ! in_array($layoutFile, ['clean.blade.php', 'clean.php'], true);
+                }
+                if (in_array($contentType, ['post', 'page'], true) && ! $hasDesignedLayout) {
                     $existingBody = trim(strip_tags((string) ($model->content_body ?? '')));
                     $existingContent = trim(strip_tags((string) ($model->content ?? '')));
                     if ($existingBody === '' && $existingContent === '') {

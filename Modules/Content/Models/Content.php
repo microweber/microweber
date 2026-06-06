@@ -50,6 +50,7 @@ class Content extends Model
     use HasSlugTrait;
     use HasSearchableTrait;
     use FilterableByParams;
+    use \Modules\Content\Models\Concerns\HasScheduledPublishingScope;
     use HasMenuItem;
     use MediaTrait;
     use Filterable;
@@ -186,6 +187,7 @@ class Content extends Model
             'posted_at' => 'datetime',
         ];
     }
+
 
     public function scopeActive($query)
     {

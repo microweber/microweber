@@ -304,7 +304,15 @@ class ContentResource extends Resource
                     ->heading(null)
                     ->extraAttributes(['class' => 'mw-fb-page-setup'])
                     ->schema([
-                        MwSelectTemplateForPage::make('active_site_template', 'layout_file')
+                        // task-2026-06-06-pglayoutmodal — withPreview:false in the
+                        // compact live-edit modal. The preview iframe's render
+                        // cascade (mw.templatePreview.rend → /api/module/layout-preview
+                        // looping) tore this Filament mounted-action modal out of the
+                        // DOM the moment a Layout was selected, so the user could
+                        // never create a page with a chosen layout. The selects still
+                        // drive layout_file / subtype / is_shop; only the thumbnail
+                        // preview (full-form-only chrome) is dropped here.
+                        MwSelectTemplateForPage::make('active_site_template', 'layout_file', withPreview: false, reactive: false)
                             ->columnSpanFull(),
                         // task-2026-05-22-AI-936 — replaced RichEditor with Textarea to reduce
                         // modal scroll depth. Full editor available after save in live-edit canvas.
