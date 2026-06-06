@@ -28,7 +28,12 @@
         <div class="col-md-4 h-auto">
 
             <div class="mt-3 ms-2">
-                <x-microweber-ui::input wire:model.live="search" type="text" placeholder="Search fonts..."/>
+                {{-- task-2026-06-06-AI995: debounce the live search so each
+                     keystroke doesn't fire its own round-trip + DOM re-patch
+                     (which races focus restoration and drops characters on fast
+                     typing). Matches the .debounce pattern used on the admin
+                     list searches. --}}
+                <x-microweber-ui::input wire:model.live.debounce.300ms="search" type="text" placeholder="Search fonts..."/>
             </div>
 
             <div class="d-flex flex-column align-items-start gap-2 mt-3 ms-3">
