@@ -262,7 +262,16 @@ export default {
     },
 
     methods: {
-        readCurrentPageTitle() {
+        readCurrentPageTitle(retriesLeft) {
+            // task-2026-06-06-pchiprace — getLiveEditData() is frequently still
+            // empty when this runs on mount() and on the first liveEditCanvasLoaded
+            // (the canvas content data is populated a beat later). Previously the
+            // single early read found nothing and never re-ran, so the chip stuck
+            // on the 'Homepage' fallback label for every non-home page. Retry a
+            // bounded number of times until the title resolves. getLiveEditData()
+            // always returns the CURRENT canvas content, so a late retry can never
+            // resurrect a stale title from a previous page.
+            if (typeof retriesLeft === 'undefined') retriesLeft = 15; // ~3s @ 200ms
             try {
                 var top = window.mw && window.mw.top();
                 if (top && top.app && top.app.canvas && typeof top.app.canvas.getLiveEditData === 'function') {
@@ -273,6 +282,10 @@ export default {
                     }
                 }
             } catch (_) { /* no-op */ }
+            if (retriesLeft > 0) {
+                var self = this;
+                setTimeout(function () { self.readCurrentPageTitle(retriesLeft - 1); }, 200);
+            }
         },
 
         open() {
