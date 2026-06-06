@@ -163,30 +163,40 @@ return parent::getEloquentQuery()
 
                     ]),
             ])
+            // task-2026-06-06-AI1100 — the four per-row actions
+            // (Edit / Delete / Approve / Mark spam) rendered as a row of
+            // four inline buttons ("action sausage") at the end of every
+            // row. Collapse them into a single ActionGroup kebab menu so
+            // the row stays tidy; the moderation verbs keep their labels +
+            // icons + confirmation inside the menu.
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\Action::make('approve')
-                    ->icon('heroicon-o-check')
-                    ->color('success')
-                    ->action(function (Comment $record) {
-                        $record->update([
-                            'is_moderated' => 1,
-                            'is_new' => 0,
-                            'is_spam' => 0
-                        ]);
-                    })
-                    ->visible(fn(Comment $record) => !$record->is_moderated),
-                Tables\Actions\Action::make('spam')
-                    ->icon('heroicon-o-exclamation-triangle')
-                    ->color('danger')
-                    ->action(function (Comment $record) {
-                        $record->update([
-                            'is_spam' => 1,
-                            'is_moderated' => 0
-                        ]);
-                    })
-                    ->requiresConfirmation(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('approve')
+                        ->label('Approve')
+                        ->icon('heroicon-o-check')
+                        ->color('success')
+                        ->action(function (Comment $record) {
+                            $record->update([
+                                'is_moderated' => 1,
+                                'is_new' => 0,
+                                'is_spam' => 0
+                            ]);
+                        })
+                        ->visible(fn(Comment $record) => !$record->is_moderated),
+                    Tables\Actions\Action::make('spam')
+                        ->label('Mark as spam')
+                        ->icon('heroicon-o-exclamation-triangle')
+                        ->color('danger')
+                        ->action(function (Comment $record) {
+                            $record->update([
+                                'is_spam' => 1,
+                                'is_moderated' => 0
+                            ]);
+                        })
+                        ->requiresConfirmation(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
