@@ -20,9 +20,15 @@ class FormEntryResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = null;
 
-    protected static ?string $label = 'Form Entry';
+    // task-2026-06-06-AI758 — unify the surface name. This page was called
+    // "Emails" (plural label → browser title, page heading, breadcrumb) while
+    // the empty state + URL slug said "form submissions" / "form-entries" — three
+    // names for one thing. Canonical name is "Form submissions" (matches the URL
+    // and the column shape NAME/EMAIL/SUBJECT/DATE). Slug stays 'form-entries' so
+    // existing bookmarks keep working.
+    protected static ?string $label = 'Form submission';
 
-    protected static ?string $pluralLabel = 'Emails';
+    protected static ?string $pluralLabel = 'Form submissions';
 
     protected static ?string $slug = 'form-entries';
 
