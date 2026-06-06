@@ -20,6 +20,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\User\Filament\Pages\ApiApplicationsPage;
+use MicroweberPackages\User\Filament\Pages\AdminProfileRedirectPage;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Events\ServingAdmin;
 use MicroweberPackages\User\Http\Livewire\Admin\CreateProfileInformationForm;
@@ -90,6 +91,10 @@ class UserServiceProvider extends AuthServiceProvider
         Event::listen(ServingAdmin::class, [$this, 'registerMenu']);
 
         FilamentRegistry::registerPage(ApiApplicationsPage::class);
+
+        // task-2026-06-06-AI839 — make /admin/profile resolve (it redirects to
+        // the signed-in user's edit page) instead of falling through to 404.
+        FilamentRegistry::registerPage(AdminProfileRedirectPage::class);
 
         $this->app->register(\MicroweberPackages\User\Providers\UserSocialiteServiceProvider::class);
 
