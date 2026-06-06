@@ -83,25 +83,29 @@
     <div v-if="showBorder" @click.stop>
 
 
-        <DropdownSmall v-model="borderPosition" :options="borderPositionOptions" label="Sides"/>
+        <!-- task-2026-06-06-AI824: the side selector is now "Apply to" (clearer
+             that it scopes which side the controls below affect); the dependent
+             Style/Size/Color captions dropped their per-side prefix because the
+             selected side is already named by the "Apply to" dropdown above. -->
+        <DropdownSmall v-model="borderPosition" :options="borderPositionOptions" label="Apply to"/>
 
 
-        <DropdownSmall v-if="borderPosition == 'all'" v-model="borderStyle" :options="borderStylesOptions" label="Line style"/>
+        <DropdownSmall v-if="borderPosition == 'all'" v-model="borderStyle" :options="borderStylesOptions" label="Style"/>
 
 
-        <DropdownSmall v-if="borderPosition == 'top'" v-model="borderStyleTop" :options="borderStylesOptions" label="Top Border Style"/>
+        <DropdownSmall v-if="borderPosition == 'top'" v-model="borderStyleTop" :options="borderStylesOptions" label="Style"/>
 
 
-        <DropdownSmall v-if="borderPosition == 'left'" v-model="borderStyleLeft" :options="borderStylesOptions" label="Left Border Style"/>
-        <DropdownSmall v-if="borderPosition == 'right'" v-model="borderStyleRight" :options="borderStylesOptions" label="Right Border Style"/>
-        <DropdownSmall v-if="borderPosition == 'bottom'" v-model="borderStyleBottom" :options="borderStylesOptions" label="Bottom Border Style"/>
+        <DropdownSmall v-if="borderPosition == 'left'" v-model="borderStyleLeft" :options="borderStylesOptions" label="Style"/>
+        <DropdownSmall v-if="borderPosition == 'right'" v-model="borderStyleRight" :options="borderStylesOptions" label="Style"/>
+        <DropdownSmall v-if="borderPosition == 'bottom'" v-model="borderStyleBottom" :options="borderStylesOptions" label="Style"/>
 
         <SliderSmall v-if="borderPosition == 'all'" label="Size" v-model="borderSize" :min="0" :max="30" :step="1"></SliderSmall>
 
-        <SliderSmall v-if="borderPosition == 'top'" label="Top Border Size" v-model="borderSizeTop" :min="0" :max="30" :step="1"></SliderSmall>
-        <SliderSmall v-if="borderPosition == 'left'" label="Left Border Size" v-model="borderSizeLeft" :min="0" :max="30" :step="1"></SliderSmall>
-        <SliderSmall v-if="borderPosition == 'right'" label="Right Border Size" v-model="borderSizeRight" :min="0" :max="30" :step="1"></SliderSmall>
-        <SliderSmall v-if="borderPosition == 'bottom'" label="Bottom Border Size" v-model="borderSizeBottom" :min="0" :max="30" :step="1"></SliderSmall>
+        <SliderSmall v-if="borderPosition == 'top'" label="Size" v-model="borderSizeTop" :min="0" :max="30" :step="1"></SliderSmall>
+        <SliderSmall v-if="borderPosition == 'left'" label="Size" v-model="borderSizeLeft" :min="0" :max="30" :step="1"></SliderSmall>
+        <SliderSmall v-if="borderPosition == 'right'" label="Size" v-model="borderSizeRight" :min="0" :max="30" :step="1"></SliderSmall>
+        <SliderSmall v-if="borderPosition == 'bottom'" label="Size" v-model="borderSizeBottom" :min="0" :max="30" :step="1"></SliderSmall>
 
 
 
@@ -110,10 +114,10 @@
 
 
 
-        <ColorPicker v-if="borderPosition == 'top'" v-model="borderColorTop" v-bind:color="borderColorTop" :label="'Top Border Color'" @change="handleBorderColorTopChange"/>
-        <ColorPicker v-if="borderPosition == 'left'" v-model="borderColorLeft" v-bind:color="borderColorLeft" :label="'Left Border Color'" @change="handleBorderColorLeftChange"/>
-        <ColorPicker v-if="borderPosition == 'right'" v-model="borderColorRight" v-bind:color="borderColorRight" :label="'Right Border Color'" @change="handleBorderColorRightChange"/>
-        <ColorPicker v-if="borderPosition == 'bottom'" v-model="borderColorBottom" v-bind:color="borderColorBottom" :label="'Bottom Border Color'" @change="handleBorderColorBottomChange"/>
+        <ColorPicker v-if="borderPosition == 'top'" v-model="borderColorTop" v-bind:color="borderColorTop" :label="'Color'" @change="handleBorderColorTopChange"/>
+        <ColorPicker v-if="borderPosition == 'left'" v-model="borderColorLeft" v-bind:color="borderColorLeft" :label="'Color'" @change="handleBorderColorLeftChange"/>
+        <ColorPicker v-if="borderPosition == 'right'" v-model="borderColorRight" v-bind:color="borderColorRight" :label="'Color'" @change="handleBorderColorRightChange"/>
+        <ColorPicker v-if="borderPosition == 'bottom'" v-model="borderColorBottom" v-bind:color="borderColorBottom" :label="'Color'" @change="handleBorderColorBottomChange"/>
 
 
 
