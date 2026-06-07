@@ -4,58 +4,43 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use Modules\Content\Services\ContentModuleEmptyState;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**
- * task-2026-05-17-fe8f9e / AI-801  AI-780/780a Stage-1 CHANGE.
+ * task-2026-05-17-fe8f9e / AI-801 — AI-780/780a Stage-1 CHANGE.
  * Jira: https://microweber.atlassian.net/browse/AI-801
  *
  * Lineage:
- *   - AI-780 (task-2026-05-17-6d65de)  original type-aware empty state
- *   - AI-780a (task-2026-05-17-4c289e)  5-template rollout
- *   - AI-788 (task-2026-05-17-6027b9)  Stage-1 sister lesson
+ *   - AI-780 (task-2026-05-17-6d65de) — original type-aware empty state
+ *   - AI-780a (task-2026-05-17-4c289e) — 5-template rollout
+ *   - AI-801 (task-2026-05-17-fe8f9e) — infer content_type from $params['type']
+ *   - **task-2026-06-07-pmprod (CHANGE)** — the inference + copy + markup that
+ *     used to be a copy-pasted inline `@php` block in all 6 templates was
+ *     EXTRACTED to \Modules\Content\Services\ContentModuleEmptyState (logic)
+ *     plus modules.content::partials.module-empty-state (markup). The six
+ *     templates now just `@include` the shared partial. This test was
+ *     updated in place (pin-evolution) to pin the new architecture:
+ *       - the per-template assertions now verify DELEGATION to the partial;
+ *       - the inference behaviour (including the 'shop/products' module type,
+ *         which the old inline `match` never matched) is pinned on the
+ *         service via ContentModuleEmptyState::resolveType();
+ *       - the parser invariant (Group C) is unchanged — the service still
+ *         relies on $params['type'] being populated by the module parser.
  *
- * Designer DOM probe of home demo posts module empty state:
- *   data-mw-content-type: "unknown"        <- should be "post"
- *   fullText: "No content yet\n\n+ Add content"  <- should be type-aware
- *
- * Root cause: $params['content_type'] was the SOLE source for
- * $mwEmptyType resolution. The AI-780/780a contract test sets it
- * explicitly in the DataProvider, so the source-level tests passed
- * (35/125 green). At runtime the posts module renderer doesn't pass
- * 'content_type' through $params  $mwEmptyType stays null  default
- * branch fires.
- *
- * Same Stage-1 sub-case as AI-788 (data shipped, consumer not wired)
- * applied at the params-pipeline layer rather than at a Filament call
- * site. AI-788 designer agreement: "always integration-test the
- * consumer's actual call site, not just the data-loader in isolation."
- *
- * Fix (Path A per designer dispatch): infer the singular content_type
- * from $params['type'] when 'content_type' is missing. The parser at
- * src/MicroweberPackages/App/Utils/ParserLoadModuleTrait.php:405-407
- * populates $params['type'] from <module type="..."> so it's always
- * available. Explicit match-three list (posts/pages/products) keeps
- * the safe singularisation; no naive trailing-s strip.
- *
- * Applied to all 6 templates (default + skin-1 + masonry + dictionary
- * + search + sidebar). Each gets the same inline @php fallback block.
- *
- * Acceptance:
- *   - data-mw-content-type="post" (NOT "unknown") on the posts
- *     module empty state
- *   - Body copy "No posts yet" / CTA "+ Add post"
- *   - Same path works for pages module  "No pages yet / + Add page"
- *   - Source-level pin in this test for all 6 templates
+ * Acceptance (unchanged behaviour, new home):
+ *   - data-mw-content-type="post" (NOT "unknown") on the posts module empty state
+ *   - posts module → "No posts yet"; pages → "No pages yet"; products → "No products yet"
+ *   - 'shop/products' (ProductsModule::$module) resolves to 'product'
  */
 class CanvasFe8f9eAI801ContentTypeInferenceContractTest extends TestCase
 {
     /**
      * @return string[] RELATIVE paths to the 6 affected template files.
      * DataProvider runs at test-discovery time BEFORE Laravel boots, so
-     * base_path() isn't available  resolved per-test instead.
+     * base_path() isn't available — resolved per-test instead.
      */
     public static function templateCases(): array
     {
@@ -75,131 +60,96 @@ class CanvasFe8f9eAI801ContentTypeInferenceContractTest extends TestCase
     }
 
     // ─────────────────────────────────────────────────────────────────────
-    // Group A  AI-801 inference block present in all 6 templates
+    // Group A — every list template delegates to the shared partial
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
     #[DataProvider('templateCases')]
-    public function template_carries_content_type_inference_from_params_type(string $path): void
+    public function template_delegates_empty_state_to_shared_partial(string $path): void
     {
         $contents = $this->templateContents($path);
 
-        // The inference block must:
-        //   (a) be gated on `! $mwEmptyType` (only fires when content_type
-        //       wasn't passed explicitly)
-        //   (b) use a match expression against $params['type'] ?? null
-        //   (c) carry the three safe mappings posts/pages/products
-        $this->assertMatchesRegularExpression(
-            '/if\s*\(\s*!\s*\$mwEmptyType\s*\)\s*\{\s*\$mwEmptyType\s*=\s*match\s*\(\s*\$params\[[\'"]type[\'"]\]\s*\?\?\s*null\s*\)\s*\{/',
-            $contents,
-            basename($path) . ' must guard its inference with `if (! $mwEmptyType)` then `match ($params[\'type\'] ?? null)`.'
-        );
-        $this->assertMatchesRegularExpression(
-            "/'posts'\s*=>\s*'post'/",
-            $contents,
-            basename($path) . ' must map \'posts\' module type to \'post\' content_type.'
-        );
-        $this->assertMatchesRegularExpression(
-            "/'pages'\s*=>\s*'page'/",
-            $contents,
-            basename($path) . ' must map \'pages\' module type to \'page\' content_type.'
-        );
-        $this->assertMatchesRegularExpression(
-            "/'products'\s*=>\s*'product'/",
-            $contents,
-            basename($path) . ' must map \'products\' module type to \'product\' content_type.'
-        );
-        $this->assertMatchesRegularExpression(
-            "/default\s*=>\s*null/",
-            $contents,
-            basename($path) . ' must default to null for unknown module types (preserves the AI-780 default-branch behaviour).'
-        );
-    }
-
-    #[Test]
-    #[DataProvider('templateCases')]
-    public function template_inference_block_precedes_first_branch_check(string $path): void
-    {
-        // Sanity: the inference block must run BEFORE the original
-        // `if ($mwEmptyType === 'post')` cascade so the inferred value
-        // is the one tested.
-        $contents = $this->templateContents($path);
-        $matchIdx = strpos($contents, '$mwEmptyType = match ($params[\'type\']');
-        $firstBranchIdx = strpos($contents, "if (\$mwEmptyType === 'post') {");
-
-        $this->assertNotFalse($matchIdx, basename($path) . ' must contain the inference match expression.');
-        $this->assertNotFalse($firstBranchIdx, basename($path) . ' must still contain the original first-branch check.');
-        $this->assertLessThan(
-            $firstBranchIdx,
-            $matchIdx,
-            basename($path) . ' inference block must run BEFORE the first `if ($mwEmptyType === \'post\')` branch.'
-        );
-    }
-
-    #[Test]
-    #[DataProvider('templateCases')]
-    public function template_carries_ai801_marker(string $path): void
-    {
-        $contents = $this->templateContents($path);
         $this->assertStringContainsString(
-            'task-2026-05-17-fe8f9e',
+            "@include('modules.content::partials.module-empty-state'",
             $contents,
-            basename($path) . ' must carry the AI-801 task-id marker.'
+            basename($path) . ' must render the shared empty-state partial.'
         );
-        $this->assertStringContainsString(
-            'AI-801',
+
+        // The inline inference/markup must be GONE — it now lives in the
+        // service + partial. Pins the de-duplication (task-2026-06-07-pmprod).
+        $this->assertStringNotContainsString(
+            'mwEmptyType = match',
             $contents,
-            basename($path) . ' must carry the AI-801 ticket reference.'
+            basename($path) . ' must NOT carry the inline inference match block anymore.'
+        );
+        $this->assertStringNotContainsString(
+            'mw-canvas-empty-state__title',
+            $contents,
+            basename($path) . ' must NOT carry the inline empty-state markup anymore.'
         );
     }
 
     // ─────────────────────────────────────────────────────────────────────
-    // Group B  default branch preserved (regression guard)
+    // Group B — the inference + default-branch behaviour lives in the service
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
-    #[DataProvider('templateCases')]
-    public function template_default_branch_preserved_for_truly_unknown_types(string $path): void
+    public function service_infers_singular_content_type_from_module_type(): void
     {
-        // When neither $params['content_type'] nor a matched
-        // $params['type'] is present, the default branch must still
-        // fire ("No content yet" / "+ Add content"). Pin the cascade
-        // structure: the original elseif/else block must still be
-        // intact after the inference block runs.
-        $contents = $this->templateContents($path);
+        // posts/pages/products map to their singular content_type; the
+        // path-namespaced product module type 'shop/products' (the AI-801
+        // CHANGE runtime gap — the old inline match only checked 'products')
+        // also resolves to 'product'.
+        $this->assertSame('post', ContentModuleEmptyState::resolveType(['type' => 'posts']));
+        $this->assertSame('page', ContentModuleEmptyState::resolveType(['type' => 'pages']));
+        $this->assertSame('product', ContentModuleEmptyState::resolveType(['type' => 'products']));
+        $this->assertSame('product', ContentModuleEmptyState::resolveType(['type' => 'shop/products']));
+    }
+
+    #[Test]
+    public function service_defaults_to_null_for_unknown_types_preserving_generic_branch(): void
+    {
+        $this->assertNull(ContentModuleEmptyState::resolveType(['type' => 'somethingelse']));
+        $this->assertNull(ContentModuleEmptyState::resolveType([]));
+
+        // Unknown type → generic "No content yet" view-model (AI-780 default branch).
+        $vm = ContentModuleEmptyState::resolve(['type' => 'somethingelse']);
+        $this->assertSame('No content yet', $vm['title']);
+    }
+
+    #[Test]
+    public function explicit_content_type_still_wins_over_type_inference(): void
+    {
+        // AI-780 contract: an explicit content_type is authoritative.
+        $this->assertSame('post', ContentModuleEmptyState::resolveType(['content_type' => 'post', 'type' => 'pages']));
+    }
+
+    #[Test]
+    public function shared_partial_emits_the_runtime_probe_attribute(): void
+    {
+        // The designer DOM probe reads data-mw-content-type; it now lives in
+        // the shared partial, defaulting to 'unknown' when type is null.
+        $partial = (string) file_get_contents(base_path(
+            'Modules/Content/resources/views/partials/module-empty-state.blade.php'
+        ));
         $this->assertStringContainsString(
-            "} elseif (\$mwEmptyType === 'page') {",
-            $contents,
-            basename($path) . ' must preserve the original page-branch elseif.'
-        );
-        $this->assertStringContainsString(
-            '} else {',
-            $contents,
-            basename($path) . ' must preserve the original default-branch else.'
-        );
-        $this->assertStringContainsString(
-            "__('No content yet')",
-            $contents,
-            basename($path) . ' must preserve the default-branch title "No content yet" copy.'
-        );
-        $this->assertStringContainsString(
-            "data-mw-content-type=\"{{ e(\$mwEmptyType ?? 'unknown') }}\"",
-            $contents,
-            basename($path) . ' must preserve the data-mw-content-type runtime probe attribute.'
+            "data-mw-content-type=\"{{ e(\$mwEmpty['type'] ?? 'unknown') }}\"",
+            $partial,
+            'The shared partial must preserve the data-mw-content-type runtime probe attribute.'
         );
     }
 
     // ─────────────────────────────────────────────────────────────────────
-    // Group C  parser invariant guard (defence-in-depth)
+    // Group C — parser invariant guard (defence-in-depth, unchanged)
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
     public function parser_still_populates_params_type_from_module_type_attribute(): void
     {
-        // The fix relies on `$params['type']` being populated by the
-        // module-render parser. Pin the parser invariant so future
-        // parser refactors that drop this default break this test
-        // BEFORE they hit the runtime defect.
+        // The inference relies on `$params['type']` being populated by the
+        // module-render parser. Pin the parser invariant so future parser
+        // refactors that drop this default break this test BEFORE they hit
+        // the runtime defect.
         // Reference: src/MicroweberPackages/App/Utils/ParserLoadModuleTrait.php:405-407
         $parser = (string) file_get_contents(base_path(
             'src/MicroweberPackages/App/Utils/ParserLoadModuleTrait.php'
@@ -207,7 +157,7 @@ class CanvasFe8f9eAI801ContentTypeInferenceContractTest extends TestCase
         $this->assertMatchesRegularExpression(
             "/if\\s*\\(!isset\\(\\\$attrs\\[\\s*['\"]type['\"]\\s*\\]\\)\\)\\s*\\{\\s*\\\$attrs\\[\\s*['\"]type['\"]\\s*\\]\\s*=\\s*\\\$module_name;\\s*\\}/",
             $parser,
-            'ParserLoadModuleTrait must still default $attrs[\'type\'] to $module_name (line ~405-407)  AI-801 inference relies on this invariant. If this assertion fails, the parser layer changed shape and the template-side inference will silently break at runtime.'
+            'ParserLoadModuleTrait must still default $attrs[\'type\'] to $module_name (line ~405-407) — the empty-state inference relies on this invariant.'
         );
     }
 }

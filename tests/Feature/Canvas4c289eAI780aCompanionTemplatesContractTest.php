@@ -12,34 +12,25 @@ use Tests\TestCase;
  * task-2026-05-17-4c289e / AI-780a — companion-template rollout of the
  * AI-780 type-aware empty state. Jira: https://microweber.atlassian.net/browse/AI-780
  *
- * Designer's ACK on AI-780 (task-6d65de) flagged that the home demo's
- * posts module uses `template="skin-1"`, not `default.blade.php`, so
- * the new type-aware empty state didn't render where the audit
- * actually fired. Designer dispatched the AI-780a companion rollout
- * inline: apply the same `@php $mwEmptyType = ... @endphp` +
- * `.mw-canvas-empty-state` wrapper to 5 sibling templates:
+ * Original AI-780a applied the same inline `@php $mwEmptyType = … @endphp` +
+ * `.mw-canvas-empty-state` markup to 5 sibling list templates (skin-1,
+ * masonry, dictionary, search, sidebar) so the home demo's skin-1 module
+ * got the type-aware empty state too.
  *
- *   - templates/skin-1.blade.php (home demo target)
- *   - templates/masonry.blade.php
- *   - templates/dictionary.blade.php
- *   - templates/search.blade.php
- *   - templates/sidebar.blade.php
- *
- * Mechanical copy slice — same `@php` block, same markup, only the
- * host template differs. Each template carries an `AI-780a` marker
- * comment so `git grep AI-780a` finds all 5 rollout sites in one
- * pass. Original AI-780 references at task-2026-05-17-6d65de.
- *
- * Companion CSS (`packages/frontend-assets/resources/assets/css/microweber/css/default.css`
- * `.mw-canvas-empty-state` rules) is unchanged — already serves all
- * 6 templates via the AI-771 cross-package @import architecture.
+ * **task-2026-06-07-pmprod (CHANGE)** — that inline block is exactly the
+ * duplication this refactor removed. The logic now lives in
+ * \Modules\Content\Services\ContentModuleEmptyState and the markup in the
+ * shared modules.content::partials.module-empty-state; all 5 companions (and
+ * default) just `@include` the partial. This test was rewritten in place
+ * (pin-evolution) to pin the DELEGATION — each companion includes the shared
+ * partial and no longer carries its own inline copy/markup — which is the
+ * regression that would re-introduce per-template drift. The behavioural
+ * copy/CTA coverage moved to the service-level tests in
+ * Canvas6d65deAI780ContentModuleEmptyStateContractTest +
+ * ContentEmptyStatePmprodContractTest.
  */
 class Canvas4c289eAI780aCompanionTemplatesContractTest extends TestCase
 {
-    // ─────────────────────────────────────────────────────────────────────
-    // Group A — every companion template carries the empty-state wrapper
-    // ─────────────────────────────────────────────────────────────────────
-
     public static function companionTemplates(): array
     {
         return [
@@ -51,120 +42,83 @@ class Canvas4c289eAI780aCompanionTemplatesContractTest extends TestCase
         ];
     }
 
+    // ─────────────────────────────────────────────────────────────────────
+    // Group A — every companion delegates to the shared empty-state partial
+    // ─────────────────────────────────────────────────────────────────────
+
     #[Test]
     #[DataProvider('companionTemplates')]
-    public function companion_template_carries_empty_state_wrapper(string $path): void
+    public function companion_template_delegates_to_shared_partial(string $path): void
     {
         $blade = (string) file_get_contents(base_path($path));
         $this->assertStringContainsString(
-            'class="mw-canvas-empty-state"',
+            "@include('modules.content::partials.module-empty-state'",
             $blade,
-            "{$path} must carry the .mw-canvas-empty-state wrapper."
+            "{$path} must render the shared empty-state partial."
         );
-        $this->assertStringContainsString(
-            'data-mw-content-type=',
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Group B — the inline copy/logic/markup is GONE (de-duplication)
+    // ─────────────────────────────────────────────────────────────────────
+
+    #[Test]
+    #[DataProvider('companionTemplates')]
+    public function companion_template_no_longer_carries_inline_logic_or_markup(string $path): void
+    {
+        $blade = (string) file_get_contents(base_path($path));
+
+        $this->assertStringNotContainsString(
+            'mwEmptyType = match',
             $blade,
-            "{$path} must carry the data-mw-content-type attribute."
+            "{$path} must NOT carry the inline empty-state inference block anymore."
         );
-        $this->assertStringContainsString('mw-canvas-empty-state__title', $blade);
-        $this->assertStringContainsString('mw-canvas-empty-state__body', $blade);
-        $this->assertStringContainsString('mw-canvas-empty-state__cta', $blade);
+        $this->assertStringNotContainsString(
+            'mw-canvas-empty-state__title',
+            $blade,
+            "{$path} must NOT carry the inline empty-state markup anymore."
+        );
+        // The Laravel __() copy keys moved to the service as _e($s, true).
+        $this->assertStringNotContainsString(
+            "__('No posts yet')",
+            $blade,
+            "{$path} must NOT carry inline copy keys — they moved to ContentModuleEmptyState."
+        );
     }
 
     // ─────────────────────────────────────────────────────────────────────
-    // Group B — type-aware copy preserved (post / page / fallback)
-    // ─────────────────────────────────────────────────────────────────────
-
-    #[Test]
-    #[DataProvider('companionTemplates')]
-    public function companion_template_carries_post_type_copy(string $path): void
-    {
-        $blade = (string) file_get_contents(base_path($path));
-        $this->assertStringContainsString("__('No posts yet')", $blade);
-        $this->assertStringContainsString("__('+ Add post')", $blade);
-        // task-2026-05-18-561d00 pin-evolution: admin_url('content/create?content_type=post')
-        // was replaced with route('filament.admin.resources.posts.create') because
-        // the old admin_url resolved to a Filament-reorganised 404 path.
-        $this->assertStringContainsString("route('filament.admin.resources.posts.create')", $blade);
-    }
-
-    #[Test]
-    #[DataProvider('companionTemplates')]
-    public function companion_template_carries_page_type_copy(string $path): void
-    {
-        $blade = (string) file_get_contents(base_path($path));
-        $this->assertStringContainsString("__('No pages yet')", $blade);
-        $this->assertStringContainsString("__('+ Add page')", $blade);
-        // task-2026-05-18-561d00 pin-evolution: admin_url('content/create?content_type=page')
-        // was replaced with route('filament.admin.resources.pages.create').
-        $this->assertStringContainsString("route('filament.admin.resources.pages.create')", $blade);
-    }
-
-    #[Test]
-    #[DataProvider('companionTemplates')]
-    public function companion_template_carries_fallback_type_copy(string $path): void
-    {
-        $blade = (string) file_get_contents(base_path($path));
-        $this->assertStringContainsString("__('No content yet')", $blade);
-        $this->assertStringContainsString("__('+ Add content')", $blade);
-        // task-2026-05-18-561d00 pin-evolution: admin_url('content/create')
-        // was replaced with route('filament.admin.resources.contents.create').
-        $this->assertStringContainsString("route('filament.admin.resources.contents.create')", $blade);
-    }
-
-    // ─────────────────────────────────────────────────────────────────────
-    // Group C — legacy placeholder gone + AI-104 is_admin gate preserved
+    // Group C — legacy placeholder string never resurfaces
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
     #[DataProvider('companionTemplates')]
     public function companion_template_drops_legacy_no_content_added_copy(string $path): void
     {
-        // Strip Blade `{{-- ... --}}` comments first — the AI-104
-        // explanatory comment may mention "empty-content placeholder"
-        // but the LEGACY user-facing string "No content added. Please
-        // add content to the module." must NOT appear.
         $blade = (string) file_get_contents(base_path($path));
         $stripped = preg_replace('/\{\{--[\s\S]*?--\}\}/', '', $blade);
         $this->assertStringNotContainsString(
             'No content added. Please add content to the module.',
             $stripped,
-            "{$path} must NOT carry the legacy placeholder string after AI-780a rollout."
+            "{$path} must NOT carry the legacy placeholder string."
         );
     }
 
+    // ─────────────────────────────────────────────────────────────────────
+    // Group D — the AI-104 is_admin gate is preserved (now in the partial)
+    // ─────────────────────────────────────────────────────────────────────
+
     #[Test]
-    #[DataProvider('companionTemplates')]
-    public function companion_template_preserves_ai104_is_admin_gate(string $path): void
+    public function shared_partial_preserves_ai104_is_admin_gate(): void
     {
-        $blade = (string) file_get_contents(base_path($path));
+        // The is_admin() gate that kept the editor hint off public pages now
+        // lives once in the shared partial, covering all companions at once.
+        $partial = (string) file_get_contents(base_path(
+            'Modules/Content/resources/views/partials/module-empty-state.blade.php'
+        ));
         $this->assertMatchesRegularExpression(
-            '/@if\s*\(\s*empty\s*\(\s*\$data\s*\)\s*\)[\s\S]*?@if\s*\(\s*is_admin\s*\(\s*\)\s*\)[\s\S]*?mw-canvas-empty-state/s',
-            $blade,
-            "{$path} empty-state must remain wrapped inside the AI-104 `@if(is_admin())` gate (no public-facing leak)."
-        );
-    }
-
-    // ─────────────────────────────────────────────────────────────────────
-    // Group D — markers + lineage cross-reference to original AI-780
-    // ─────────────────────────────────────────────────────────────────────
-
-    #[Test]
-    #[DataProvider('companionTemplates')]
-    public function companion_template_carries_ai780a_marker_with_lineage(string $path): void
-    {
-        $blade = (string) file_get_contents(base_path($path));
-        $this->assertStringContainsString(
-            'AI-780a (task-2026-05-17-4c289e)',
-            $blade,
-            "{$path} must carry the AI-780a task-id marker so git-grep finds the rollout site."
-        );
-        // Lineage reference back to original AI-780 ship so future
-        // audits can trace pattern origin.
-        $this->assertStringContainsString(
-            'task-2026-05-17-6d65de',
-            $blade,
-            "{$path} must reference the original AI-780 task-id (lineage)."
+            '/@if\s*\(\s*is_admin\s*\(\s*\)\s*\)[\s\S]*?mw-canvas-empty-state/s',
+            $partial,
+            'The shared partial must keep the AI-104 `@if(is_admin())` gate (no public-facing leak).'
         );
     }
 }

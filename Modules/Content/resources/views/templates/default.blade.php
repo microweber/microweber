@@ -80,83 +80,11 @@
         <div class="row big-news">
             @if(empty($data))
                 {{-- AI-104 / TICKET-AI-104 (cycle-101 2026-05-09): wrap empty-content placeholder in is_admin() so it stays visible to editors but doesn't leak onto anonymous public pages. --}}
-                @if(is_admin())
-                    @php
-                        // AI-780 (task-2026-05-17-6d65de) — module-type-aware
-                        // empty state. Mirrors the AI-728/729/730 admin
-                        // shipped pattern (title + action-aware description +
-                        // primary CTA). Identifies the module via
-                        // $params['content_type'] (post|page|null) so the
-                        // user knows WHAT to add. CTA links to the matching
-                        // admin Create page; falls back to /admin/content
-                        // when the type is unknown.
-                        $mwEmptyType = $params['content_type'] ?? null;
-                        // task-2026-05-17-fe8f9e / AI-801 -- Stage-1 sub-case
-                        // (AI-788 lineage). The AI-780/780a contract test
-                        // set $params['content_type']='post' explicitly,
-                        // but at runtime the posts module renderer never
-                        // passes it -- $mwEmptyType stayed null and the
-                        // default branch fired instead of the post branch
-                        // (designer DOM probe: data-mw-content-type=
-                        // "unknown"). Fix: infer from $params['type'] which
-                        // the parser populates from <module type="..."> via
-                        // ParserLoadModuleTrait line 405-407. Explicit match
-                        // keeps the safe-three list -- no naive trailing-s
-                        // strip that could over-strip arbitrary module
-                        // names.
-                        if (! $mwEmptyType) {
-                            $mwEmptyType = match ($params['type'] ?? null) {
-                                'posts'    => 'post',
-                                'pages'    => 'page',
-                                'products' => 'product',
-                                default    => null,
-                            };
-                        }
-                        // task-2026-05-18-561d00 — CTA hrefs corrected:
-                        // admin_url('content/create?content_type=X') resolved to
-                        // /admin/content/create which is a 404 after the Filament
-                        // resource routes were reorganised. Use the Filament route
-                        // helpers (filament.admin.resources.<type>s.create) which
-                        // resolve to the canonical /admin/posts/create etc. paths.
-                        if ($mwEmptyType === 'post') {
-                            // AI-753 (task-2026-06-05-pmes753) — last-mile polish
-                            // so the in-page Live-Edit posts empty state mirrors
-                            // the admin Posts list (AI-729): same explainer copy
-                            // and a verb-led CTA. A secondary link (rendered
-                            // below, live-edit only) lets the user re-scope which
-                            // posts this module shows without the admin hop.
-                            $mwEmptyTitle = __('No posts yet');
-                            $mwEmptyBody = __('Articles, news, and updates you publish appear here.');
-                            $mwEmptyCtaLabel = __('Write your first post →');
-                            $mwEmptyCtaHref = route('filament.admin.resources.posts.create');
-                        } elseif ($mwEmptyType === 'page') {
-                            $mwEmptyTitle = __('No pages yet');
-                            $mwEmptyBody = __('Add your first page to fill this module.');
-                            $mwEmptyCtaLabel = __('+ Add page');
-                            $mwEmptyCtaHref = route('filament.admin.resources.pages.create');
-                        } else {
-                            $mwEmptyTitle = __('No content yet');
-                            $mwEmptyBody = __('Add your first item to fill this module.');
-                            $mwEmptyCtaLabel = __('+ Add content');
-                            $mwEmptyCtaHref = route('filament.admin.resources.contents.create');
-                        }
-                    @endphp
-                    <div class="mw-canvas-empty-state" data-mw-content-type="{{ e($mwEmptyType ?? 'unknown') }}">
-                        <h3 class="mw-canvas-empty-state__title">{{ $mwEmptyTitle }}</h3>
-                        <p class="mw-canvas-empty-state__body">{{ $mwEmptyBody }}</p>
-                        <a class="mw-canvas-empty-state__cta" href="{{ $mwEmptyCtaHref }}" aria-label="{{ $mwEmptyCtaLabel }}">{{ $mwEmptyCtaLabel }}</a>
-                        {{-- AI-753 (task-2026-06-05-pmes753): live-edit-only secondary
-                             link giving the user agency to re-scope the module without
-                             the admin-panel hop. Dispatches onModuleSettingsRequest on
-                             the closest .module wrapper (moduleSettingsDispatch in
-                             api-core/handles-content/module.js). Posts-only per the
-                             ticket scope. onclick uses single quotes only — no embedded
-                             double quote, so the HTML attribute parser stays intact. --}}
-                        @if (($mwEmptyType ?? null) === 'post' && is_live_edit())
-                            <a class="mw-canvas-empty-state__secondary" href="javascript:void(0)" onclick="var m=this.closest('.module');if(m&&window.mw&&mw.app&&mw.app.editor){mw.app.editor.dispatch('onModuleSettingsRequest',m);}return false;" aria-label="{{ __('Change which posts this module shows') }}">{{ __('Or change which posts this module shows →') }}</a>
-                        @endif
-                    </div>
-                @endif
+                {{-- task-2026-06-07-pmprod: empty-state logic + markup centralised in
+                     \Modules\Content\Services\ContentModuleEmptyState + the shared partial
+                     below — replaces the copy-pasted ~50-line @php block (posts/pages/
+                     products/content parity). --}}
+                @include('modules.content::partials.module-empty-state', ['params' => $params])
             @else
                 @foreach ($data as $key => $item)
                 @php

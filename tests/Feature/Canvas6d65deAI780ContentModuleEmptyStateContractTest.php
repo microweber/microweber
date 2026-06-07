@@ -4,12 +4,22 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use Modules\Content\Services\ContentModuleEmptyState;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
  * task-2026-05-17-6d65de / AI-780 — live-edit canvas posts module empty
  * state. Jira: https://microweber.atlassian.net/browse/AI-780
+ *
+ * **task-2026-06-07-pmprod (CHANGE)** — the type-aware empty-state LOGIC and
+ * MARKUP were extracted from the inline Blade block into
+ * \Modules\Content\Services\ContentModuleEmptyState (logic) + the shared
+ * modules.content::partials.module-empty-state (markup); copy now uses
+ * Microweber's _e($s, true) instead of Laravel __() (trailing-period bodies
+ * blanked under __()). Group A/D were updated in place (pin-evolution) to
+ * assert the new home; the CSS chrome groups (B/C) are unchanged — the
+ * .mw-canvas-empty-state rules still live in default.css and both bundles.
  *
  * Designer's Round-10 audit flagged the generic empty-state copy
  * "No content added. Please add content to the module." in the
@@ -42,6 +52,7 @@ use Tests\TestCase;
 class Canvas6d65deAI780ContentModuleEmptyStateContractTest extends TestCase
 {
     private string $blade;
+    private string $partial;
     private string $defaultCss;
     private string $bundleFrontend;
     private string $bundleTheme;
@@ -51,6 +62,9 @@ class Canvas6d65deAI780ContentModuleEmptyStateContractTest extends TestCase
         parent::setUp();
         $this->blade = (string) file_get_contents(base_path(
             'Modules/Content/resources/views/templates/default.blade.php'
+        ));
+        $this->partial = (string) file_get_contents(base_path(
+            'Modules/Content/resources/views/partials/module-empty-state.blade.php'
         ));
         $this->defaultCss = (string) file_get_contents(base_path(
             'packages/frontend-assets/resources/assets/css/microweber/css/default.css'
@@ -68,93 +82,108 @@ class Canvas6d65deAI780ContentModuleEmptyStateContractTest extends TestCase
     }
 
     // ─────────────────────────────────────────────────────────────────────
-    // Group A — Blade markup is type-aware + carries CTA
+    // Group A — type-aware copy + CTA (now produced by the service) and the
+    // shared partial markup; the template delegates via @include.
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
-    public function blade_renders_post_type_strings_and_cta(): void
+    public function service_renders_post_type_copy_and_cta(): void
     {
-        $this->assertStringContainsString("__('No posts yet')", $this->blade);
-        // task-2026-06-05-pmes753 / AI-753 — pin-evolution: the posts empty
-        // state now mirrors the admin Posts list (AI-729) explainer + verb-led
-        // CTA, replacing the earlier generic "Add your first post to fill this
-        // module." / "+ Add post" copy.
-        $this->assertStringContainsString("__('Articles, news, and updates you publish appear here.')", $this->blade);
-        $this->assertStringContainsString("__('Write your first post →')", $this->blade);
-        $this->assertStringNotContainsString("__('Add your first post to fill this module.')", $this->blade);
-        // task-2026-05-18-561d00 — admin_url caused 404 after Filament route reorganisation;
-        // CTA now uses route('filament.admin.resources.posts.create').
-        $this->assertStringContainsString("route('filament.admin.resources.posts.create')", $this->blade);
-        // AI-753 — live-edit-only secondary link to re-scope the module.
-        $this->assertStringContainsString("__('Or change which posts this module shows →')", $this->blade);
-        $this->assertStringContainsString("mw-canvas-empty-state__secondary", $this->blade);
+        $vm = ContentModuleEmptyState::resolve(['type' => 'posts']);
+        // AI-753 explainer + verb-led CTA (mirrors the admin Posts list).
+        $this->assertSame('No posts yet', $vm['title']);
+        $this->assertSame('Articles, news, and updates you publish appear here.', $vm['body']);
+        $this->assertSame('Write your first post →', $vm['ctaLabel']);
+        $this->assertSame(route('filament.admin.resources.posts.create'), $vm['ctaHref']);
     }
 
     #[Test]
-    public function blade_renders_page_type_strings_and_cta(): void
+    public function service_renders_page_type_copy_and_cta(): void
     {
-        $this->assertStringContainsString("__('No pages yet')", $this->blade);
-        $this->assertStringContainsString("__('Add your first page to fill this module.')", $this->blade);
-        $this->assertStringContainsString("__('+ Add page')", $this->blade);
-        // task-2026-05-18-561d00 — admin_url caused 404; CTA now uses route('filament.admin.resources.pages.create').
-        $this->assertStringContainsString("route('filament.admin.resources.pages.create')", $this->blade);
+        $vm = ContentModuleEmptyState::resolve(['type' => 'pages']);
+        $this->assertSame('No pages yet', $vm['title']);
+        $this->assertSame('Add your first page to fill this module.', $vm['body']);
+        $this->assertSame('+ Add page', $vm['ctaLabel']);
+        $this->assertSame(route('filament.admin.resources.pages.create'), $vm['ctaHref']);
     }
 
     #[Test]
-    public function blade_has_fallback_type_strings_and_cta(): void
+    public function service_has_fallback_copy_and_cta(): void
     {
-        // When $params['content_type'] is null/unknown, fallback to a
-        // generic "No content yet" with the bare admin/content/create URL.
-        $this->assertStringContainsString("__('No content yet')", $this->blade);
-        $this->assertStringContainsString("__('Add your first item to fill this module.')", $this->blade);
-        $this->assertStringContainsString("__('+ Add content')", $this->blade);
-        // task-2026-05-18-561d00 — admin_url caused 404; CTA now uses route('filament.admin.resources.contents.create').
-        $this->assertStringContainsString("route('filament.admin.resources.contents.create')", $this->blade);
+        $vm = ContentModuleEmptyState::resolve([]);
+        $this->assertSame('No content yet', $vm['title']);
+        $this->assertSame('Add your first item to fill this module.', $vm['body']);
+        $this->assertSame('+ Add content', $vm['ctaLabel']);
+        $this->assertSame(route('filament.admin.resources.contents.create'), $vm['ctaHref']);
     }
 
     #[Test]
-    public function blade_preserves_is_admin_gate_from_ai104(): void
+    public function template_delegates_to_shared_partial(): void
     {
-        // AI-104 (cycle-101 2026-05-09) wrapped the empty-state
-        // placeholder in is_admin() so anonymous public visitors
-        // don't see the editor-facing hint. Must remain after AI-780.
-        $this->assertMatchesRegularExpression(
-            '/@if\s*\(\s*empty\s*\(\s*\$data\s*\)\s*\)[\s\S]*?@if\s*\(\s*is_admin\s*\(\s*\)\s*\)[\s\S]*?mw-canvas-empty-state/s',
+        $this->assertStringContainsString(
+            "@include('modules.content::partials.module-empty-state'",
             $this->blade,
-            'AI-780 empty-state markup must remain wrapped inside the AI-104 `@if(is_admin())` gate.'
+            'default.blade.php must delegate the empty state to the shared partial.'
         );
     }
 
     #[Test]
-    public function blade_carries_module_type_data_attribute_and_aria_label(): void
+    public function partial_carries_secondary_rescope_link(): void
     {
-        // data-mw-content-type attribute identifies which copy
-        // path fired (debuggability + future analytics hook). aria-label
-        // on the CTA ensures the action text is the announced label
-        // (defensive for AT users — visible text already matches).
+        // AI-753 live-edit-only secondary link to re-scope the module —
+        // now lives in the shared partial (and the service supplies its
+        // type-aware label). Extended to products by task-2026-06-07-pmprod.
+        $this->assertStringContainsString('mw-canvas-empty-state__secondary', $this->partial);
+        $this->assertStringContainsString('onModuleSettingsRequest', $this->partial);
+        $secondary = ContentModuleEmptyState::secondaryLabelFor('post');
+        $this->assertSame('Or change which posts this module shows →', $secondary);
+    }
+
+    #[Test]
+    public function partial_preserves_is_admin_gate_from_ai104(): void
+    {
+        // AI-104 (cycle-101 2026-05-09) wrapped the empty-state placeholder in
+        // is_admin() so anonymous public visitors don't see the editor hint.
+        // After the extraction the gate lives in the shared partial; the
+        // template still guards on empty($data) before including it.
         $this->assertMatchesRegularExpression(
-            '/data-mw-content-type="\{\{[^}]*\$mwEmptyType/',
-            $this->blade,
-            'AI-780 wrapper div must carry `data-mw-content-type` for debuggability.'
+            '/@if\s*\(\s*is_admin\s*\(\s*\)\s*\)[\s\S]*?mw-canvas-empty-state/s',
+            $this->partial,
+            'The shared partial must keep its `@if(is_admin())` gate around the empty-state markup.'
         );
         $this->assertMatchesRegularExpression(
-            '/aria-label="\{\{[^}]*\$mwEmptyCtaLabel/',
+            '/@if\s*\(\s*empty\s*\(\s*\$data\s*\)\s*\)[\s\S]*?@include\([\'"]modules\.content::partials\.module-empty-state/s',
             $this->blade,
-            'AI-780 CTA must carry aria-label bound to the same label string.'
+            'default.blade.php must include the empty-state partial inside the empty($data) guard.'
         );
     }
 
     #[Test]
-    public function legacy_generic_copy_is_gone_from_default_template(): void
+    public function partial_carries_module_type_data_attribute_and_aria_label(): void
     {
-        // Strip Blade {{-- … --}} comments first (selector-self-match
-        // guard family — the AI-104 comment and possibly other prose
-        // may reference the old copy).
-        $stripped = preg_replace('/\{\{--.*?--\}\}/s', '', $this->blade);
+        // data-mw-content-type identifies which copy path fired; aria-label on
+        // the CTA announces the action label for AT users. Both now in the partial.
+        $this->assertMatchesRegularExpression(
+            '/data-mw-content-type="\{\{[^}]*\$mwEmpty/',
+            $this->partial,
+            'The shared partial must carry `data-mw-content-type` for debuggability.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/aria-label="\{\{[^}]*\$mwEmpty\[\'ctaLabel\'\]/',
+            $this->partial,
+            'The shared partial CTA must carry aria-label bound to the same label string.'
+        );
+    }
+
+    #[Test]
+    public function legacy_generic_copy_is_gone(): void
+    {
+        // The legacy passive copy must not survive anywhere in the chain.
+        $stripped = preg_replace('/\{\{--.*?--\}\}/s', '', $this->blade . "\n" . $this->partial);
         $this->assertStringNotContainsString(
             'No content added. Please add content to the module.',
             $stripped,
-            'Legacy generic "No content added. Please add content to the module." copy must be gone from the rendered template (only the new AI-780 type-aware empty state remains).'
+            'Legacy generic "No content added…" copy must be gone (only the type-aware empty state remains).'
         );
     }
 
@@ -251,8 +280,14 @@ class Canvas6d65deAI780ContentModuleEmptyStateContractTest extends TestCase
     #[Test]
     public function task_id_and_ai780_markers_present(): void
     {
-        $this->assertStringContainsString('task-2026-05-17-6d65de', $this->blade);
-        $this->assertStringContainsString('AI-780', $this->blade);
+        // After the task-2026-06-07-pmprod extraction the AI-780 lineage marker
+        // lives in the service docblock (logic home); the CSS chrome keeps its
+        // own AI-780 markers; the template carries the extraction marker.
+        $service = (string) file_get_contents(base_path(
+            'Modules/Content/Services/ContentModuleEmptyState.php'
+        ));
+        $this->assertStringContainsString('AI-780', $service);
+        $this->assertStringContainsString('task-2026-06-07-pmprod', $this->blade);
         $this->assertStringContainsString('task-2026-05-17-6d65de', $this->defaultCss);
         $this->assertStringContainsString('AI-780', $this->defaultCss);
     }

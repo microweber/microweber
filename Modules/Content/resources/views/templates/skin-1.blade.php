@@ -98,51 +98,11 @@
         <div class="row big-news">
             @if(empty($data))
                 {{-- AI-104 / TICKET-AI-104 (cycle-101 2026-05-09): wrap empty-content placeholder in is_admin() so it stays visible to editors but doesn't leak onto anonymous public pages. --}}
-                @if(is_admin())
-                    @php
-                        // AI-780a (task-2026-05-17-4c289e) — companion-template
-                        // rollout of the AI-780 type-aware empty state shipped
-                        // for default.blade.php. Mechanical-copy slice per
-                        // designer dispatch: same @php block + same
-                        // .mw-canvas-empty-state markup, only the host
-                        // template differs. Original AI-780 references at
-                        // task-2026-05-17-6d65de.
-                        $mwEmptyType = $params['content_type'] ?? null;
-                        // task-2026-05-17-fe8f9e / AI-801 -- Stage-1 fix:
-                        // infer from $params['type'] when content_type
-                        // is missing at runtime. See default.blade.php
-                        // for the full lineage docblock.
-                        if (! $mwEmptyType) {
-                            $mwEmptyType = match ($params['type'] ?? null) {
-                                'posts'    => 'post',
-                                'pages'    => 'page',
-                                'products' => 'product',
-                                default    => null,
-                            };
-                        }
-                        if ($mwEmptyType === 'post') {
-                            $mwEmptyTitle = __('No posts yet');
-                            $mwEmptyBody = __('Add your first post to fill this module.');
-                            $mwEmptyCtaLabel = __('+ Add post');
-                            $mwEmptyCtaHref = route('filament.admin.resources.posts.create');
-                        } elseif ($mwEmptyType === 'page') {
-                            $mwEmptyTitle = __('No pages yet');
-                            $mwEmptyBody = __('Add your first page to fill this module.');
-                            $mwEmptyCtaLabel = __('+ Add page');
-                            $mwEmptyCtaHref = route('filament.admin.resources.pages.create');
-                        } else {
-                            $mwEmptyTitle = __('No content yet');
-                            $mwEmptyBody = __('Add your first item to fill this module.');
-                            $mwEmptyCtaLabel = __('+ Add content');
-                            $mwEmptyCtaHref = route('filament.admin.resources.contents.create');
-                        }
-                    @endphp
-                    <div class="mw-canvas-empty-state" data-mw-content-type="{{ e($mwEmptyType ?? 'unknown') }}">
-                        <h3 class="mw-canvas-empty-state__title">{{ $mwEmptyTitle }}</h3>
-                        <p class="mw-canvas-empty-state__body">{{ $mwEmptyBody }}</p>
-                        <a class="mw-canvas-empty-state__cta" href="{{ $mwEmptyCtaHref }}" aria-label="{{ $mwEmptyCtaLabel }}">{{ $mwEmptyCtaLabel }}</a>
-                    </div>
-                @endif
+                {{-- task-2026-06-07-pmprod: empty-state logic + markup centralised in
+                     \Modules\Content\Services\ContentModuleEmptyState + the shared partial
+                     below — replaces the copy-pasted ~50-line @php block (posts/pages/
+                     products/content parity). --}}
+                @include('modules.content::partials.module-empty-state', ['params' => $params])
             @else
                 @foreach ($data as $key => $item)
                 @php
