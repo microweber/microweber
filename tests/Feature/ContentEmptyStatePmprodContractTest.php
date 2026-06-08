@@ -125,6 +125,49 @@ class ContentEmptyStatePmprodContractTest extends TestCase
         );
     }
 
+    /**
+     * @return array<string, array{0: string}>
+     */
+    public static function renderableViews(): array
+    {
+        $out = [];
+        foreach (['default', 'skin-1', 'masonry', 'search', 'sidebar', 'dictionary'] as $t) {
+            $out['template:' . $t] = ['modules.content::templates.' . $t];
+        }
+        $out['partial'] = ['modules.content::partials.module-empty-state'];
+        return $out;
+    }
+
+    #[Test]
+    #[DataProvider('renderableViews')]
+    public function list_template_compiles_and_renders_without_a_blade_error(string $view): void
+    {
+        // Render guard — the source-grep tests above can't catch a Blade
+        // compile error (e.g. an @php/@if directive token left inside a {{-- --}}
+        // comment, which Blade's @php/@endphp raw-block extractor swallows,
+        // producing "syntax error, unexpected endforeach"). Rendering each
+        // refactored template + the partial fails loudly on that class of error.
+        //
+        // Runtime undefined-variable notices ($tn_size etc.) are TOLERATED —
+        // the real module render pipeline supplies those template variables;
+        // this guard only pins that the templates COMPILE to valid PHP.
+        try {
+            view($view, ['params' => ['id' => 1, 'type' => 'posts'], 'data' => []])->render();
+        } catch (\Throwable $e) {
+            $msg = $e->getMessage();
+            $isCompileError = $e instanceof \ParseError
+                || str_contains($msg, 'syntax error')
+                || str_contains($msg, 'unexpected end of file')
+                || str_contains($msg, 'expecting "elseif"');
+            if ($isCompileError) {
+                $this->fail("View [{$view}] has a Blade/PHP compile error: " . $msg);
+            }
+            // else: a runtime data/variable issue — not what this guard pins.
+        }
+
+        $this->assertTrue(true);
+    }
+
     #[Test]
     public function service_uses_microweber_translate_not_laravel_for_trailing_period_copy(): void
     {

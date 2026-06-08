@@ -100,7 +100,7 @@
                 {{-- AI-104 / TICKET-AI-104 (cycle-101 2026-05-09): wrap empty-content placeholder in is_admin() so it stays visible to editors but doesn't leak onto anonymous public pages. --}}
                 {{-- task-2026-06-07-pmprod: empty-state logic + markup centralised in
                      \Modules\Content\Services\ContentModuleEmptyState + the shared partial
-                     below — replaces the copy-pasted ~50-line @php block (posts/pages/
+                     below — replaces the copy-pasted ~50-line inline-PHP block (posts/pages/
                      products/content parity). --}}
                 @include('modules.content::partials.module-empty-state', ['params' => $params])
             @else
