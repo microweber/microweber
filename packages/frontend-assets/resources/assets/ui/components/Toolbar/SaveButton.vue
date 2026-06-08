@@ -1,11 +1,13 @@
 <script>
 /*
- * "Save & Publish" button + 30s draft auto-save.
+ * Save button (= publish) + 30s draft auto-save.
  *
- * The visible label is "Save & Publish" so the user knows the
- * action publishes changes to the live site immediately rather
- * than expecting a separate publish step. The aria-label still
- * references the Ctrl+S shortcut.
+ * The visible label is just "Save" (task-2026-05-16-3a464f): on the
+ * Live Edit surface saving IS publishing, so the longer "Save & Publish"
+ * wording is redundant and crowds narrow viewports. The aria-label is the
+ * bare verb "Save" (AI-719 / task-2026-05-16-d2e562, so the mobile
+ * ::after caption stays short) and the Ctrl+S shortcut hint lives on the
+ * `title` attribute for desktop hover.
  *
  * The 30-second draft auto-save:
  *   - Only fires AFTER the canvas is loaded (no auto-save on a
@@ -403,8 +405,8 @@ export default {
         }"
         :aria-pressed="_dirty ? 'true' : 'false'"
         id="save-button"
-        :aria-label="'Save (' + saveShortcutLabel + ')'"
-        :title="'Save (' + saveShortcutLabel + ')'"
+        aria-label="Save"
+        title="Save (Ctrl+S)"
         @click="save()">
             <span class="font-weight-bold">Save</span>
      </button>

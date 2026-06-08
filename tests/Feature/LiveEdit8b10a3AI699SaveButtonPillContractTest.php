@@ -186,10 +186,14 @@ class LiveEdit8b10a3AI699SaveButtonPillContractTest extends TestCase
     #[Test]
     public function idle_state_mutes_opacity_and_default_cursor(): void
     {
+        // Pin-evolved: task-2026-06-04-letone ("match top-bar colours to v2
+        // demo", commit e9b408d669) deliberately raised the idle opacity from
+        // 0.4 to 0.85 so the muted save button reads less "disabled" and
+        // matches the v2 demo. The cursor:default contract is unchanged.
         $this->assertMatchesRegularExpression(
-            '/#save-button\.mw-save-button\.mw-save-button--idle\s*\{[^}]*opacity:\s*0\.4[^}]*cursor:\s*default/s',
+            '/#save-button\.mw-save-button\.mw-save-button--idle\s*\{[^}]*opacity:\s*0\.85[^}]*cursor:\s*default/s',
             $this->liveEditClasses,
-            'Idle state must apply opacity: 0.4 and cursor: default (button still clickable; just visually muted).'
+            'Idle state must apply opacity: 0.85 and cursor: default (button still clickable; just visually muted, v2-demo tuned).'
         );
     }
 
