@@ -3510,10 +3510,10 @@ body.fi-panel-admin .fi-sidebar {
  *    `var(--space-sm) var(--space-md)` padding. Same `!important`
  *    rationale.
  *
- *  - Mobile (≤768px) hides `.admin-toolbar-add` per spec. The
- *    explicit "render in sidebar drawer on mobile" step from §2 AD3
- *    is the AI-704a follow-up candidate (requires wiring into the
- *    Filament sidebar nav rather than the topbar).
+ *  - Mobile (≤768px): `.admin-toolbar-add` stays VISIBLE (it is the
+ *    primary v2 left action) and is lifted to the 44px WCAG touch-target
+ *    floor — see the task-2026-06-08-addmobile @media block below. (The
+ *    old AI-704/AI-1254 mobile-hide was superseded.)
  *
  * Token-scoping note (SOUL #108 spec-doc-nit): all consumed tokens
  * are :root-scoped at the ESE token layer; literal fallbacks on every
@@ -3616,19 +3616,19 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
     }
 }
 
-/* AI-704 mobile: +Add is hidden on mobile per spec — functions remain
- * accessible via the sidebar drawer (AI-704a follow-up).
- *
- * AI-1254 / task-2026-06-04-add768: the always-on display:flex rule above
- * (line ~3519) matches at specificity (0,4,1) via its `.fi-color-primary`
- * compound, outranking this hide rule's bare (0,3,1) — so +Add never hid on
- * mobile and rendered a 32px sub-floor pill next to the 44px Live Edit pill.
- * Mirror the `.fi-color-primary` compound here so the hide rule matches at
- * equal (0,4,1) and wins on later source order. */
+/* task-2026-06-08-addmobile / AI-1254 CHANGE — +Add is now the primary v2
+ * LEFT action, so it stays VISIBLE on mobile (was hidden because it rendered
+ * a 32px sub-floor pill next to the 44px Live Edit pill). Instead of hiding
+ * it, lift it to the WCAG 2.5.5 44px touch-target floor and keep the "+ Add"
+ * label. The `.fi-color-primary` compound is mirrored so this rule matches
+ * the always-on display:flex rule above at equal (0,4,1) specificity and
+ * wins on later source order. (Supersedes the AI-704/AI-1254 mobile-hide.) */
 @media (max-width: 768px) {
     body.fi-panel-admin .fi-btn.admin-toolbar-add,
     body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary {
-        display: none !important;
+        display: inline-flex !important;
+        min-height: 44px !important;
+        padding: 0 14px !important;
     }
 }
 

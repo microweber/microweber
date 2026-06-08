@@ -201,11 +201,4 @@ class Admin225150AI704PrimaryActionsClusterContractTest extends TestCase
             $this->assertStringContainsString('task-2026-06-08-addleft', $src);
         }
     }
-
-    #[Test]
-    public function ai704a_followup_documented_in_source(): void
-    {
-        $this->assertStringContainsString('AI-704a', $this->panelProvider);
-        $this->assertStringContainsString('AI-704a', $this->generalStyles);
-    }
 }

@@ -350,8 +350,10 @@ class FilamentAdminPanelProvider extends PanelProvider
         );
 
         // Live Edit stays in the right cluster (GLOBAL_SEARCH_AFTER); the
-        // search-quick-nav renders OUTSIDE the wrapper. AI-704a follow-up:
-        // render +Add as a hamburger-menu item on narrow mobile.
+        // search-quick-nav renders OUTSIDE the wrapper. (The old AI-704a
+        // follow-up — render +Add in the mobile drawer instead of hiding it
+        // — is moot now: task-2026-06-08-addmobile keeps +Add visible at the
+        // 44px touch floor on mobile.)
         $panel->renderHook(
             name: PanelsRenderHook::GLOBAL_SEARCH_AFTER,
             hook: fn(): string => '<div class="mw-admin-primary-actions">'

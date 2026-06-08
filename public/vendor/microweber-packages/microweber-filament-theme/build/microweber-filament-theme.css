@@ -5960,7 +5960,9 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit span, body.fi-panel-admin .f
 }
 @media (max-width: 768px) {
   body.fi-panel-admin .fi-btn.admin-toolbar-add, body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary {
-    display: none !important;
+    display: inline-flex !important;
+    min-height: 44px !important;
+    padding: 0 14px !important;
   }
 }
 body.fi-panel-admin .mw-welcome-widget-counters {
