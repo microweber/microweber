@@ -266,7 +266,10 @@ class ShopManager
         if (is_file($cur_file)) {
             if (($handle = fopen($cur_file, 'r')) !== false) {
                 $res = array();
-                while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+                // task-2026-06-08-curfmt — pass enclosure+escape explicitly; PHP 8.4
+                // deprecates calling fgetcsv() without $escape (floods logs on every
+                // price render since currency_get() runs per price lookup).
+                while (($data = fgetcsv($handle, 1000, ',', '"', '')) !== false) {
                     $res[] = $data;
                 }
                 fclose($handle);

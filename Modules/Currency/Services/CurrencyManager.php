@@ -199,7 +199,12 @@ class CurrencyManager
         $currency = Currency::findByCode($currencyCode);
 
         if (!$currency) {
-            return number_format($amount, 2);
+            // task-2026-06-08-curfmt — on a fresh install the currencies table
+            // is empty, so getCurrentCurrencyCode() returns the 'USD' ultimate
+            // fallback but findByCode('USD') is null. Prepend the symbol fallback
+            // (consistent with getSymbol()'s '$' default) instead of dropping it —
+            // otherwise every storefront price renders as a bare number.
+            return $this->getSymbol($currencyCode) . number_format($amount, 2);
         }
 
         return $currency->formatAmount($amount);
