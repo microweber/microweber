@@ -32,19 +32,25 @@ class CustomFieldsCfslugShopAttributeFilterContractTest extends TestCase
     private const TRAIT = 'Modules/CustomFields/Traits/CustomFieldsTrait.php';
 
     #[Test]
-    public function where_custom_field_scope_slugs_name_key_with_underscore(): void
+    public function where_custom_field_scope_matches_name_key_in_both_separators(): void
     {
         $src = (string) file_get_contents(base_path(self::TRAIT));
 
+        // The scope must match the name_key with EITHER separator (name_keys
+        // exist as both 'session-focus' and 'session_focus' in the wild), via
+        // a whereIn over the raw field + both slug separators.
         $this->assertMatchesRegularExpression(
-            "/->where\(\s*'name_key'\s*,\s*Str::slug\(\\\$fieldName\s*,\s*'_'\s*\)\s*\)/",
+            "/whereIn\(\s*'name_key'\s*,\s*\\\$nameKeyCandidates\s*\)/",
             $src,
-            "scopeWhereCustomField must slug the field name with '_' to match the stored name_key separator."
+            'scopeWhereCustomField must match name_key via whereIn over the separator candidates.'
         );
+        $this->assertStringContainsString("Str::slug((string) \$fieldName, '-')", $src);
+        $this->assertStringContainsString("Str::slug((string) \$fieldName, '_')", $src);
+        // The old single-separator where() that matched nothing must be gone.
         $this->assertDoesNotMatchRegularExpression(
-            "/->where\(\s*'name_key'\s*,\s*Str::slug\(\\\$fieldName\s*,\s*'-'\s*\)\s*\)/",
+            "/->where\(\s*'name_key'\s*,\s*Str::slug\(\\\$fieldName\s*,\s*'-'\s*\)\s*\)->whereHas/",
             $src,
-            "scopeWhereCustomField must NOT slug with '-' — that produced 'session-focus' and matched nothing."
+            "scopeWhereCustomField must NOT use the single hyphen-slug where() that matched nothing."
         );
     }
 
