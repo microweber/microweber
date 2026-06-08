@@ -1974,109 +1974,89 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
  * down when expanded, normalized 20×20 icon box. mb-4 → mb-1 so
  * the list scans in ~250-300px instead of ~550px.
  */
+/* task-2026-06-08-eseliteral — ESE section (accordion) styling rewritten
+ * from Tailwind @apply to LITERAL CSS. The @apply form only renders when the
+ * Webpack/Tailwind build expands it; a stale/differently-built bundle left
+ * every ESE section completely UNSTYLED (bare text, no icons/spacing/borders/
+ * chevrons — PM report). Literal CSS + theme-aware --ese-* tokens (with SOUL
+ * #108 literal fallbacks) always apply, independent of the @apply build step. */
 .element-style-editor-toggle-wrapper {
-    @apply border-l-2 border-transparent rounded-r-md pl-3 pr-2 py-1.5 cursor-pointer transition-colors;
-
-    /* Each wrapper renders an inner `.d-flex` with [icon, label] from
-       the category Vue component. We only style that header row —
-       expanded controls below it inherit their own styling.
-       task-2026-05-28-af5d5b AI-1146: min-height 44px so the header
-       trigger meets WCAG 2.5.5 touch target. Wrapper itself stays
-       `<div>` (carries role=button + tabindex=0 + aria-expanded +
-       keydown.enter/space handlers — equivalent semantic to <button>
-       without the invalid-HTML hazard of nesting interactive child
-       controls like sliders/colour pickers inside a <button>). */
-    & .d-flex:has(> svg) {
-        @apply items-center gap-2 select-none;
-        min-height: 44px;
-    }
-
-    /* Normalize icon: fixed 20×20 box so circle/rect SVGs all sit on
-       the same baseline regardless of viewBox. */
-    & .d-flex:has(> svg) > svg {
-        @apply w-5 h-5 flex-shrink-0 opacity-80;
-    }
-    /* Some category components (Container, Grid, Classes, Section
-       settings, AI Style Editor) wrap their header row in an extra
-       `<div v-if="hasFoo">` — that pushes the .d-flex one level
-       deeper. The `:has(> svg)` selector above already catches them
-       because the SVG is always the direct child of the .d-flex,
-       regardless of how deeply the .d-flex itself is nested. */
-
-    /* Chevron-right that signals "click to expand". Lives as a
-       pseudo-element so we don't have to touch every category Vue
-       component to add an extra <svg>. SVG is inline data-uri of a
-       16×16 chevron-right (Heroicons). Rotates 90° when active. */
-    & .d-flex:has(> svg)::after {
-        content: '';
-        @apply ms-auto w-4 h-4 opacity-40 transition-transform;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5'/></svg>");
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-    }
-
-    /* Tighten label rhythm — drop the inline `ms-3` margin's effect
-       since the parent flex now controls gap. Also kill the inner
-       span's `text-decoration` link styling so the row feels like a
-       button rather than a hyperlink. */
-    & .d-flex:has(> svg) > .mw-admin-action-links {
-        @apply ms-0 no-underline font-medium text-sm;
-    }
-
-    &:hover {
-        @apply bg-gray-100 dark:bg-gray-800;
-    }
-
-    &:hover > .d-flex:first-child::after {
-        @apply opacity-70;
-    }
-
-    /*
-     * task-2026-05-05-86825a: user reported items don't read as
-     * "accordion items" and active item not visibly bold. Bump the
-     * active treatment: thicker left bar, bolder label, stronger bg
-     * tint that visually contains the expanded panel below it.
-     * Also round the wrapper so the active row + its expanded
-     * content read as one unified card.
-     */
-    &.active {
-        @apply border-blue-500 bg-gray-100 dark:bg-gray-800/70 rounded-md;
-        border-left-width: 3px;
-        padding-bottom: 0.5rem;
-    }
-
-    &.active > .d-flex:has(> svg) > .mw-admin-action-links,
-    &.active .d-flex:has(> svg):first-of-type > .mw-admin-action-links {
-        @apply font-bold text-blue-700 dark:text-blue-200 text-[15px];
-    }
-
-    &.active > .d-flex:has(> svg) > svg,
-    &.active .d-flex:has(> svg):first-of-type > svg {
-        @apply opacity-100 text-blue-700 dark:text-blue-200;
-    }
-
-    /* Active row: rotate chevron 90° down to signal "open". */
-    &.active > .d-flex:has(> svg)::after,
-    &.active .d-flex:has(> svg):first-of-type::after {
-        @apply rotate-90 opacity-80;
-    }
-
-    &:empty {
-        display: none;
-    }
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 6px 8px 6px 12px;
+    transition: color 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
+}
+.element-style-editor-toggle-wrapper .d-flex:has(> svg) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    min-height: 44px;
+}
+.element-style-editor-toggle-wrapper .d-flex:has(> svg) > svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+.element-style-editor-toggle-wrapper .d-flex:has(> svg)::after {
+    content: '';
+    margin-inline-start: auto;
+    width: 16px;
+    height: 16px;
+    opacity: 0.4;
+    transition: transform 0.12s ease;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.element-style-editor-toggle-wrapper .d-flex:has(> svg) > .mw-admin-action-links {
+    margin-inline-start: 0;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+}
+.element-style-editor-toggle-wrapper:hover {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+}
+.element-style-editor-toggle-wrapper:hover > .d-flex:first-child::after {
+    opacity: 0.7;
+}
+.element-style-editor-toggle-wrapper.active {
+    border-left: 3px solid var(--ese-accent, #0d6efd);
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+    border-radius: 10px;
+    padding-bottom: 8px;
+}
+.element-style-editor-toggle-wrapper.active > .d-flex:has(> svg) > .mw-admin-action-links,
+.element-style-editor-toggle-wrapper.active .d-flex:has(> svg):first-of-type > .mw-admin-action-links {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ese-accent, #0d6efd);
+}
+.element-style-editor-toggle-wrapper.active > .d-flex:has(> svg) > svg,
+.element-style-editor-toggle-wrapper.active .d-flex:has(> svg):first-of-type > svg {
+    opacity: 1;
+    color: var(--ese-accent, #0d6efd);
+}
+.element-style-editor-toggle-wrapper.active > .d-flex:has(> svg)::after,
+.element-style-editor-toggle-wrapper.active .d-flex:has(> svg):first-of-type::after {
+    transform: rotate(90deg);
+    opacity: 0.8;
+}
+.element-style-editor-toggle-wrapper:empty {
+    display: none;
 }
 
-/*
- * Expanded panel content sits below the header row with a small top
- * gap. Earlier we tried `ps-7` to indent under the icon column, but
- * that pushed all sub-section labels (FONT, ALIGN, COLOR, FONT
- * SIZE, …) ~28px right of the modal's left padding — they read as
- * misaligned. Drop the indent so labels sit flush at the same x as
- * the header text.
- */
+/* Expanded panel content sits below the header row with a small top gap;
+ * flush left so the sub-labels (FONT, ALIGN, COLOR, …) align with the header. */
 .element-style-editor-toggle-wrapper.active > div:nth-child(2) {
-    @apply mt-2 ps-1 pe-1;
+    margin-top: 8px;
+    padding-inline-start: 4px;
+    padding-inline-end: 4px;
 }
 
 /*
