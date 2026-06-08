@@ -333,15 +333,28 @@ class FilamentAdminPanelProvider extends PanelProvider
             }
         );
 
-        // AI-704 / task-2026-05-16-225150 — Re-cluster +Add with Live Edit button.
-        // Both primary actions render inside a single GLOBAL_SEARCH_AFTER hook
-        // wrapped in .mw-admin-primary-actions so the gap and grouping behaviours
-        // apply to both. The search-quick-nav renders OUTSIDE the wrapper.
-        // AI-704a follow-up: render +Add as hamburger-menu item on narrow mobile.
+        // task-2026-06-08-addleft / AI-704 CHANGE — restore the v2 layout:
+        // the +Add button sits at the LEFT of the topbar (just after the
+        // brand mark) with a visible "+ Add" label, as in the Microweber v2
+        // admin. AI-704 (task-2026-05-16-225150) had moved it into the
+        // right-side GLOBAL_SEARCH_AFTER cluster next to Live Edit; per the
+        // PM "want it on left as before (see v2 demo)" this reverts the
+        // placement. Registered at TOPBAR_START AFTER the brand-mark hook so
+        // Filament accumulates brand first (leftmost) then +Add to its right
+        // — both on the left, before the global-search field.
+        $panel->renderHook(
+            name: PanelsRenderHook::TOPBAR_START,
+            hook: fn(): string => '<div class="mw-admin-primary-actions mw-admin-primary-actions--left">'
+                . Blade::render('@livewire(\'admin-top-navigation-actions\')')
+                . '</div>'
+        );
+
+        // Live Edit stays in the right cluster (GLOBAL_SEARCH_AFTER); the
+        // search-quick-nav renders OUTSIDE the wrapper. AI-704a follow-up:
+        // render +Add as a hamburger-menu item on narrow mobile.
         $panel->renderHook(
             name: PanelsRenderHook::GLOBAL_SEARCH_AFTER,
             hook: fn(): string => '<div class="mw-admin-primary-actions">'
-                . Blade::render('@livewire(\'admin-top-navigation-actions\')')
                 . view('admin::livewire.filament.top-navigation-go-live-edit')->render()
                 . '</div>'
                 . view('admin::livewire.filament.search-quick-nav')->render()

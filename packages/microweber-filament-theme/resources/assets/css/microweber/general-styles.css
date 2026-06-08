@@ -3521,10 +3521,30 @@ body.fi-panel-admin .fi-sidebar {
  * hasn't loaded.
  * ─────────────────────────────────────────────────────────────── */
 
+/* task-2026-06-08-addleft / AI-704 CHANGE — the +Add button was moved
+ * back to the LEFT of the topbar (TOPBAR_START, after the brand mark)
+ * with a VISIBLE "+ Add" label, restoring the Microweber v2 layout
+ * (PM: "want it on left as before, say + Add — see v2 demo"). The
+ * .mw-admin-primary-actions--left modifier gives it breathing room from
+ * the brand mark; the .admin-toolbar-add pill geometry below is reused
+ * as-is (it already lays out icon + label in a row). Live Edit keeps the
+ * plain .mw-admin-primary-actions wrapper in the right cluster. */
 body.fi-panel-admin .mw-admin-primary-actions {
     display: inline-flex;
     align-items: center;
     gap: var(--space-sm, 8px);
+}
+
+body.fi-panel-admin .mw-admin-primary-actions--left {
+    margin-inline-start: var(--space-sm, 8px);
+}
+
+/* The visible "+ Add" label sits next to the plus icon (was .sr-only). */
+body.fi-panel-admin .fi-btn.admin-toolbar-add .admin-toolbar-add__label {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+    color: #182433;
 }
 
 body.fi-panel-admin .fi-btn.admin-toolbar-add,

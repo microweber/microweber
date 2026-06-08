@@ -5890,6 +5890,15 @@ body.fi-panel-admin .mw-admin-primary-actions {
   align-items: center;
   gap: var(--space-sm, 8px);
 }
+body.fi-panel-admin .mw-admin-primary-actions--left {
+  margin-inline-start: var(--space-sm, 8px);
+}
+body.fi-panel-admin .fi-btn.admin-toolbar-add .admin-toolbar-add__label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  color: #182433;
+}
 body.fi-panel-admin .fi-btn.admin-toolbar-add, body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary {
   background-color: #e1edf8 !important;
   color: #182433 !important;
@@ -12114,6 +12123,25 @@ html.dark .mw-canvas-empty-state__title {
 }
 html.dark .mw-canvas-empty-state__body {
   color: var(--ese-text-muted, #9ca3af);
+}
+.mw-canvas-empty-state__secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: var(--space-xs, 6px) var(--space-sm, 8px);
+  color: var(--ese-accent, #0d6efd);
+  font-size: var(--font-control, 13px);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+.mw-canvas-empty-state__secondary:hover, .mw-canvas-empty-state__secondary:focus-visible {
+  text-decoration: underline;
+  outline: none;
+}
+html.dark .mw-canvas-empty-state__secondary {
+  color: var(--ese-accent, #60a5fa);
 }
 .mw-filepicker-action-bar {
   display: flex;
