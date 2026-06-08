@@ -171,7 +171,14 @@ trait CustomFieldsTrait
 
             $query->whereHas('customField', function ($query) use ($whereArr, $fieldName, $fieldValue) {
 
-                $query->where('name_key', Str::slug($fieldName, '-'))->whereHas('fieldValue', function ($query) use ($fieldValue) {
+                // task-2026-06-08-cfslug — match the stored name_key separator.
+                // Custom-field name_keys are slugged with an UNDERSCORE (e.g.
+                // "Session Focus" -> "session_focus"), so slugging the filter
+                // field with a HYPHEN ("session-focus") matched nothing and the
+                // shop "Filter by attributes" returned zero results for every
+                // multi-word attribute. Slug with '_' so it aligns with storage
+                // (single-word fields like "color" are unaffected).
+                $query->where('name_key', Str::slug($fieldName, '_'))->whereHas('fieldValue', function ($query) use ($fieldValue) {
                     if (is_array($fieldValue)) {
                         $query->whereIn('value', $fieldValue);
                     } else {

@@ -5166,3 +5166,20 @@ html[dir="rtl"] .mdi-menu-right,
 html[dir="rtl"] .mw-rtl-flip {
     transform: scaleX(-1);
 }
+
+/* task-2026-06-08-wordbreak — mobile hardening surfaced by the module
+ * mobile audit: a long UNBROKEN string in module text (a category name,
+ * product/post title, or a pasted URL) forced horizontal page overflow at
+ * narrow viewports because it could not wrap at a space. overflow-wrap:
+ * break-word breaks such a word ONLY when it would otherwise overflow —
+ * normal multi-word text is unaffected. Scoped to public module content
+ * links/titles where the text is user-controlled. (Lives in default.css —
+ * the public frontend master bundle — NOT ui.css, which feeds admin.css.) */
+.module-categories a,
+.module-categories .nav-list a,
+.mw-products-title a,
+[class*="module-"] .post-holder h2 a,
+[class*="module-"] .post-holder h3 a,
+[class*="module-"] .post-holder h4 a {
+    overflow-wrap: break-word;
+}
