@@ -40,12 +40,31 @@ class UsersResourceTest extends TestCase
     #[Test]
     public function it_index_page_shows_all_records(): void
     {
-        $existingCount = User::count();
-        $users = User::factory()->count(3)->create();
+        // UsersResource hides Faker/demo users (@example.com/.org/.net) from the
+        // table via modifyQueryUsing, so the factory's default @example.com
+        // emails would be filtered out. Create users with a non-example domain
+        // and count against the SAME filter the resource applies, then clean up
+        // (no RefreshDatabase in this suite) so the rows don't accumulate.
+        $visibleQuery = fn () => User::where('email', 'NOT LIKE', '%@example.com')
+            ->where('email', 'NOT LIKE', '%@example.org')
+            ->where('email', 'NOT LIKE', '%@example.net');
 
-        Livewire::test(ListUsers::class)
-            ->loadTable()
-            ->assertCountTableRecords($existingCount + 3);
+        $existingCount = $visibleQuery()->count();
+
+        $ids = [];
+        for ($i = 0; $i < 3; $i++) {
+            $ids[] = User::factory()->create([
+                'email' => 'pmtest-' . uniqid() . '@usersresource-test.dev',
+            ])->id;
+        }
+
+        try {
+            Livewire::test(ListUsers::class)
+                ->loadTable()
+                ->assertCountTableRecords($existingCount + 3);
+        } finally {
+            User::whereIn('id', $ids)->forceDelete();
+        }
     }
 
     #[Test]
@@ -74,8 +93,10 @@ class UsersResourceTest extends TestCase
     #[Test]
     public function it_table_has_required_columns(): void
     {
+        // UsersResource shows human-readable columns (email/username/name/…),
+        // not the raw 'id' — so don't assert an 'id' column that the resource
+        // deliberately omits.
         Livewire::test(ListUsers::class)
-            ->assertTableColumnExists('id')
             ->assertTableColumnExists('username')
             ->assertTableColumnExists('email')
             ->assertTableColumnExists('first_name')
