@@ -316,6 +316,16 @@ export default {
         this._mwUndoListener = function () { saveButtonInstance.undoLastPublish(); };
         try { window.addEventListener('liveEditUndoLastPublish', this._mwUndoListener); } catch (_) { /* no-op */ }
 
+        // task-2026-06-08-savedirty — structural edits (layout/module insert, delete,
+        // reorder, AI edits) don't fire canvas input/dblclick/drop, so they left Save
+        // looking idle. registerChangedState() — the chokepoint every structural edit
+        // flows through — now dispatches a 'liveEditContentChanged' window CustomEvent.
+        // Bind it here in mounted() (NOT inside the one-shot liveEditCanvasLoaded
+        // callback, which doesn't replay for late subscribers) so Save reliably flips
+        // to its --has-changes state. Detached in beforeUnmount/beforeDestroy.
+        this._mwContentChangedListener = function () { saveButtonInstance.markDirty(); };
+        try { window.addEventListener('liveEditContentChanged', this._mwContentChangedListener); } catch (_) { /* no-op */ }
+
         mw.app.canvas.on('liveEditCanvasLoaded', () => {
             mw.app.editor.on('Ctrl+S', function (event) {
                 event.preventDefault();
@@ -335,13 +345,6 @@ export default {
                 }
                 if (mw.app.editor && typeof mw.app.editor.on === 'function') {
                     mw.app.editor.on('change', function () { saveButtonInstance.markDirty(); });
-                }
-                // task-2026-06-08-savedirty — structural edits (layout/module insert,
-                // delete, reorder, AI edits) don't fire canvas input/dblclick/drop, so
-                // listen for the registerChangedState chokepoint event too, so Save
-                // flips to its --has-changes state on those edits as well.
-                if (mw.app && typeof mw.app.on === 'function') {
-                    mw.app.on('liveEditContentChanged', function () { saveButtonInstance.markDirty(); });
                 }
             } catch (_) { /* no-op */ }
 
@@ -369,12 +372,14 @@ export default {
     beforeUnmount() {
         this.stopAutoSave();
         try { window.removeEventListener('liveEditUndoLastPublish', this._mwUndoListener); } catch (_) { /* no-op */ }
+        try { window.removeEventListener('liveEditContentChanged', this._mwContentChangedListener); } catch (_) { /* no-op */ }
         try { if (this._mwSaveKeydownListener) document.removeEventListener('keydown', this._mwSaveKeydownListener); } catch (_) { /* no-op */ }
     },
     beforeDestroy() {
         // Vue 2 fallback name
         this.stopAutoSave();
         try { window.removeEventListener('liveEditUndoLastPublish', this._mwUndoListener); } catch (_) { /* no-op */ }
+        try { window.removeEventListener('liveEditContentChanged', this._mwContentChangedListener); } catch (_) { /* no-op */ }
         try { if (this._mwSaveKeydownListener) document.removeEventListener('keydown', this._mwSaveKeydownListener); } catch (_) { /* no-op */ }
     }
 }

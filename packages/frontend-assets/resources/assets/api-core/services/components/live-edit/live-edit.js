@@ -144,7 +144,14 @@ export const liveEditComponent = () => {
         // toolbar Save button can flip to its --has-changes state. Previously only
         // canvas input/dblclick/drop fired the dirty flag, so inserting a layout or
         // module left Save looking idle even though there were unsaved changes.
-        try { mw.app.dispatch('liveEditContentChanged', element); } catch (e) {}
+        // Use a window CustomEvent (the timing-robust verb-bridge pattern used by
+        // liveEditUndoLastPublish / mwOpenPageChip) rather than mw.app.on, whose
+        // listener registration races the one-shot liveEditCanvasLoaded event.
+        try {
+            var _topWin = (window.mw && mw.top && mw.top().window) ? mw.top().window : window;
+            _topWin.dispatchEvent(new CustomEvent('liveEditContentChanged'));
+            if (window !== _topWin) { window.dispatchEvent(new CustomEvent('liveEditContentChanged')); }
+        } catch (e) {}
 
     };
 
