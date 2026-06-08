@@ -30,7 +30,10 @@ class ShopComponent extends BlogComponent
     public $sort;
     public $direction;
     public $offers;
-    public $limit;
+    // task-2026-06-08-shoplimit — sensible default page size. Was null, which made
+    // the Limit <select> render its first option ("1") as selected, so a fresh
+    // storefront appeared to show 1 product per page.
+    public $limit = 12;
 
     public $priceFrom;
     public $priceTo;

@@ -32,7 +32,7 @@
             <label>Limit</label>
             <div>
                 <select class="form-control" wire:model.live.debounce.500ms="limit">
-                    <option value="1">1</option>
+                    {{-- task-2026-06-08-shoplimit — dropped the nonsensical "1 per page" option --}}
                     <option value="12">12</option>
                     <option value="24">24</option>
                     <option value="48">48</option>
