@@ -350,13 +350,18 @@ class Search3e91f4AI837SearchStubElimContractTest extends TestCase
     }
 
     #[Test]
-    public function ai837b_followup_flagged_in_view(): void
+    public function ai837b_live_results_referenced_in_view(): void
     {
+        // Pin-evolved 2026-06-08 / task-srchwire: AI-837b is now IMPLEMENTED
+        // (SearchController@search + $searchResults loop). The view keeps the
+        // AI-837b marker, now describing the wired live results rather than a
+        // pending follow-up — see Searchsrchwire837bSearchResultsContractTest
+        // for the behavioural pins.
         $source = $this->read(self::VIEW);
         $this->assertStringContainsString(
             'AI-837b',
             $source,
-            'AI-837: results view docblock must flag the AI-837b follow-up (wire SearchComponent Livewire for live results — currently mounts on `keyword` only).'
+            'AI-837b: results view must carry the AI-837b marker for the wired live-results follow-up.'
         );
     }
 }

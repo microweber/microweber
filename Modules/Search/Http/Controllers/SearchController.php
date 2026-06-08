@@ -4,6 +4,9 @@ namespace Modules\Search\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use Modules\Content\Models\Content;
 
 /**
  * task-2026-05-17-3e91f4 / AI-837 — frontend /search route handler.
@@ -41,15 +44,72 @@ class SearchController extends Controller
         $query = trim((string) ($request->query('q', '')
             ?: $request->query('keyword', '')));
 
+        // task-2026-06-08-srchwire / AI-837b — wire the actual search.
+        // Pre-fix the controller passed only $searchQuery and the view
+        // hardcoded "No matching pages or products were found.", so /search
+        // ALWAYS reported zero results even when matching content existed
+        // (AI-837 Slice A shipped the chrome; this closes the deferred
+        // live-results follow-up). Empty query → empty collection, so the
+        // view renders the "type a term" prompt instead of a results list.
+        $results = $query === '' ? new Collection() : $this->search($query);
+
         return response()
             ->view('frontend.search.results', [
                 'extendsView' => $this->resolveExtendsView(),
                 'searchQuery' => $query,
+                'searchResults' => $results,
             ])
             ->withHeaders([
                 'X-Robots-Tag' => 'noindex, nofollow',
                 'X-Fallback-Message' => 'search-results',
             ]);
+    }
+
+    /**
+     * Search active, non-deleted pages / posts / products by title,
+     * content, body and description. Title matches rank first. Returns a
+     * lightweight view-model collection (id, title, type, link, excerpt)
+     * so the Blade view stays presentation-only.
+     *
+     * The keyword is bound as a parameter (no SQL injection); wildcard
+     * characters in the term simply broaden the LIKE match.
+     *
+     * @return Collection<int, array{id:int, title:string, type:string, link:string, excerpt:string}>
+     */
+    protected function search(string $query): Collection
+    {
+        $like = '%' . $query . '%';
+
+        return Content::query()
+            ->where('is_active', 1)
+            ->where(function ($q) {
+                $q->whereNull('is_deleted')->orWhere('is_deleted', 0);
+            })
+            ->whereIn('content_type', ['page', 'post', 'product'])
+            ->where(function ($q) use ($like) {
+                $q->where('title', 'like', $like)
+                    ->orWhere('content', 'like', $like)
+                    ->orWhere('content_body', 'like', $like)
+                    ->orWhere('description', 'like', $like);
+            })
+            ->orderByRaw('CASE WHEN title LIKE ? THEN 0 ELSE 1 END', [$like])
+            ->orderBy('updated_at', 'desc')
+            ->limit(50)
+            ->get(['id', 'title', 'content_type', 'description'])
+            ->map(function ($content) {
+                $link = function_exists('content_link') ? (string) content_link($content->id) : (string) $content->id;
+                if ($link !== '' && ! preg_match('#^https?://#i', $link)) {
+                    $link = function_exists('site_url') ? (string) site_url($link) : '/' . ltrim($link, '/');
+                }
+
+                return [
+                    'id' => (int) $content->id,
+                    'title' => (string) $content->title,
+                    'type' => (string) $content->content_type,
+                    'link' => $link,
+                    'excerpt' => Str::limit(trim(strip_tags((string) $content->description)), 160),
+                ];
+            });
     }
 
     /**

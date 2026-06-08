@@ -19,11 +19,10 @@
       5. Pinned by SearchA1B2c3AI837StubElimContractTest.
 
     AI-837 Slice A scope: minimum-viable chrome to close the stub-
-    renderer defect. Wiring the existing SearchComponent Livewire
-    component for live results is filed as AI-837b follow-up — the
-    component currently mounts on `keyword` query param, the audit
-    used `q` (W3C-canonical), and a clean integration needs a small
-    component-side mount() adjustment before shipping.
+    renderer defect. AI-837b (task-2026-06-08-srchwire) wires the live
+    results: SearchController@index now runs the query and passes
+    $searchResults; this view renders the matched pages/posts/products
+    and shows the empty-state copy ONLY when the result set is empty.
 --}}
 @extends($extendsView ?? 'templates.bootstrap::layouts.master')
 
@@ -38,13 +37,35 @@
         <div class="my-md-5 my-3 container">
             <div class="row">
                 <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+                    @php $mwResults = $searchResults ?? collect(); @endphp
                     @if ($searchQuery !== '')
                         <h1 class="mw-frontend-search-results__heading mb-3">
                             {{ __('Search results for') }} "{{ $searchQuery }}"
                         </h1>
-                        <p class="mw-frontend-search-results__hint text-muted mb-4">
-                            {!! _e('No matching pages or products were found.', true) !!}
-                        </p>
+                        {{-- task-2026-06-08-srchwire / AI-837b — live results.
+                             The empty-state copy now renders ONLY when the
+                             search genuinely returned nothing (was hardcoded,
+                             so /search always claimed "no results"). --}}
+                        @if ($mwResults->isEmpty())
+                            <p class="mw-frontend-search-results__hint text-muted mb-4">
+                                {!! _e('No matching pages or products were found.', true) !!}
+                            </p>
+                        @else
+                            <p class="mw-frontend-search-results__count text-muted mb-4">
+                                {{ trans_choice('{1}:count result|[2,*]:count results', $mwResults->count(), ['count' => $mwResults->count()]) }}
+                            </p>
+                            <ul class="mw-frontend-search-results__list list-unstyled mb-4">
+                                @foreach ($mwResults as $mwResult)
+                                    <li class="mw-frontend-search-results__item mb-3" data-mw-content-type="{{ e($mwResult['type']) }}">
+                                        <a class="mw-frontend-search-results__link h5 d-block mb-1" href="{{ $mwResult['link'] }}">{{ $mwResult['title'] }}</a>
+                                        @if ($mwResult['excerpt'] !== '')
+                                            <p class="mw-frontend-search-results__excerpt text-muted mb-1">{{ $mwResult['excerpt'] }}</p>
+                                        @endif
+                                        <span class="mw-frontend-search-results__badge badge bg-light text-muted">{{ ucfirst($mwResult['type']) }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
                     @else
                         <h1 class="mw-frontend-search-results__heading mb-3">
                             {{ __('Search') }}
