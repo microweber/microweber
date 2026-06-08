@@ -336,6 +336,13 @@ export default {
                 if (mw.app.editor && typeof mw.app.editor.on === 'function') {
                     mw.app.editor.on('change', function () { saveButtonInstance.markDirty(); });
                 }
+                // task-2026-06-08-savedirty — structural edits (layout/module insert,
+                // delete, reorder, AI edits) don't fire canvas input/dblclick/drop, so
+                // listen for the registerChangedState chokepoint event too, so Save
+                // flips to its --has-changes state on those edits as well.
+                if (mw.app && typeof mw.app.on === 'function') {
+                    mw.app.on('liveEditContentChanged', function () { saveButtonInstance.markDirty(); });
+                }
             } catch (_) { /* no-op */ }
 
             // NOVICE #2 — capture the initial canvas snapshot for

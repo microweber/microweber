@@ -138,6 +138,13 @@ export const liveEditComponent = () => {
         mw.app.registerUndoState(element, isNow);
         mw.app.registerAskUserToStay(true);
 
+        // task-2026-06-08-savedirty — registerChangedState is the single chokepoint
+        // every structural edit flows through (layout insert, module insert, element
+        // actions, AI edits, delete/reorder). Emit a content-changed event so the
+        // toolbar Save button can flip to its --has-changes state. Previously only
+        // canvas input/dblclick/drop fired the dirty flag, so inserting a layout or
+        // module left Save looking idle even though there were unsaved changes.
+        try { mw.app.dispatch('liveEditContentChanged', element); } catch (e) {}
 
     };
 
