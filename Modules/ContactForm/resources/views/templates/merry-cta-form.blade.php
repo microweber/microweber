@@ -41,5 +41,6 @@
             @endif
         </form>
         @include('modules.contact_form::partials.successMessage')
+        @include('modules.contact_form::partials.errorMessage')
     </div>
 </div>

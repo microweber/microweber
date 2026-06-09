@@ -2,6 +2,8 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('contactForm', (formId) => ({
         loading: false,
         success: false,
+        // task-2026-06-08-contacterr — inline error feedback instead of a native alert().
+        errorMessage: '',
         formData: {},
         formId: formId,
 
@@ -23,6 +25,7 @@ document.addEventListener('alpine:init', () => {
             event.preventDefault();
             this.loading = true;
             this.success = false;
+            this.errorMessage = '';
 
 
             setTimeout(() => {
@@ -77,13 +80,17 @@ document.addEventListener('alpine:init', () => {
 
                 if (data.success) {
                     this.success = true;
+                    this.errorMessage = '';
                     form.reset();
                 } else {
-                    alert(data.message || data.error || 'Error submitting form');
+                    // task-2026-06-08-contacterr — show the server error inline
+                    // (x-text="errorMessage") instead of a native alert(), so error
+                    // feedback is styled + accessible like the success message.
+                    this.errorMessage = data.message || data.error || 'Error submitting form';
                 }
             } catch (error) {
                 console.error('Error submitting form:', error);
-                alert('Error submitting form. Please try again.');
+                this.errorMessage = 'Error submitting form. Please try again.';
             } finally {
                 this.loading = false;
             }
