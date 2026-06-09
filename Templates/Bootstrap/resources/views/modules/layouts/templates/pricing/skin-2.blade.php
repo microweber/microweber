@@ -68,15 +68,15 @@ categories: Pricing
     ];
 @endphp
 
-@component('templates.bootstrap::partials.layout-section', [
-    'params'         => $params,
-    'classes'        => $classes,
-    'layout_classes' => $layout_classes ?? '',
-    'sectionClass'   => 'section pricing-skin-2',
-    'fieldName'      => 'layout-pricing-skin-2',
-    'noDrop'         => true,
-    'containerClass' => 'mw-layout-container py-3',
-])
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section pricing-skin-2"
+    field-name="layout-pricing-skin-2"
+    :no-drop="true"
+    container-class="mw-layout-container py-3"
+>
     <div class="pricing-header pb-4 mx-auto text-center" style="max-width: 720px;">
         <h2 class="display-5 fw-bold">Choose your hosting plan</h2>
         <p class="fs-5 text-muted">Fast, secure and scalable — every plan includes a free domain, SSL and 24/7 support. Upgrade or downgrade any time.</p>
@@ -116,4 +116,4 @@ categories: Pricing
     </x-row>
 
     <p class="text-center text-muted mt-4 mb-0"><small>30-day money-back guarantee &middot; Cancel any time &middot; No setup fees</small></p>
-@endcomponent
+</x-layout-section>

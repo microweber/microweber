@@ -12,17 +12,17 @@ position: 10
 
 ?>
 
-@component('templates.bootstrap::partials.layout-section', [
-    'params'              => $params,
-    'classes'             => $classes,
-    'layout_classes'      => $layout_classes ?? '',
-    'defaultPaddingTop'   => 'p-t-50',
-    'defaultPaddingBottom' => 'p-b-50',
-    'sectionClass'        => 'section',
-    'fieldName'           => 'layout-404',
-    'hasBackground'       => false,
-    'hasSpacers'          => false,
-])
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    default-padding-top="p-t-50"
+    default-padding-bottom="p-b-50"
+    section-class="section"
+    field-name="layout-404"
+    :has-background="false"
+    :has-spacers="false"
+>
     <x-row>
         <x-col size="4" class="not_found_text align-self-center">
             <h1><?php _lang("Oops", "templates/new-world"); ?>!</h1>
@@ -37,4 +37,4 @@ position: 10
             <img src="<?php print template_url(); ?>img/sections/404_graphic.png" alt="<?php echo __('404 error illustration'); ?>"/>
         </x-col>
     </x-row>
-@endcomponent
+</x-layout-section>

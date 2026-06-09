@@ -14,13 +14,13 @@ categories: Features
 
 ?>
 
-@component('templates.bootstrap::partials.layout-section', [
-    'params'        => $params,
-    'classes'       => $classes,
-    'layout_classes' => $layout_classes ?? '',
-    'sectionClass'  => 'section features-skin-2',
-    'fieldName'     => 'layout-features-skin-1',
-])
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section features-skin-2"
+    field-name="layout-features-skin-1"
+>
     <x-row class="text-center safe-mode">
         <x-col size="12" size-lg="8" size-xl="8" size-xxl="8" class="mx-auto">
             <div class="regular-mode">
@@ -48,4 +48,4 @@ categories: Features
             'buttonId'   => $params['id'] . '-btn-3',
         ])
     </x-row>
-@endcomponent
+</x-layout-section>

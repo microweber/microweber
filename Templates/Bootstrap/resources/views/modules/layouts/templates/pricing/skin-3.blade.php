@@ -14,15 +14,15 @@ categories: Pricing
 
 ?>
 
-@component('templates.bootstrap::partials.layout-section', [
-    'params'         => $params,
-    'classes'        => $classes,
-    'layout_classes' => $layout_classes ?? '',
-    'sectionClass'   => 'section pricing-skin-3',
-    'fieldName'      => 'layout-pricing-skin-3',
-    'noDrop'         => true,
-    'containerClass' => 'mw-layout-container py-3',
-])
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section pricing-skin-3"
+    field-name="layout-pricing-skin-3"
+    :no-drop="true"
+    container-class="mw-layout-container py-3"
+>
     <div class="text-center mx-auto pb-4" style="max-width: 720px;">
         <h2 class="display-5 fw-bold">Compare all features</h2>
         <p class="fs-5 text-muted">Every plan comes with the resources you need to launch, grow and scale. Pick the one that fits your stage.</p>
@@ -205,4 +205,4 @@ categories: Pricing
             </tfoot>
         </table>
     </div>
-@endcomponent
+</x-layout-section>

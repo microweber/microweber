@@ -12,18 +12,18 @@ position: 0
 
 ?>
 
-@component('templates.bootstrap::partials.layout-section', [
-    'params'              => $params,
-    'classes'             => $classes,
-    'layout_classes'      => $layout_classes ?? '',
-    'defaultPaddingTop'   => 'p-t-100',
-    'defaultPaddingBottom' => 'p-b-100',
-    'sectionClass'        => 'section nodrop clean-container mw-layout-container',
-    'fieldName'           => 'layout-skin-1',
-    'editableClass'       => 'edit',
-    'hasBackground'       => false,
-    'hasSpacers'          => false,
-])
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    default-padding-top="p-t-100"
+    default-padding-bottom="p-b-100"
+    section-class="section nodrop clean-container mw-layout-container"
+    field-name="layout-skin-1"
+    editable-class="edit"
+    :has-background="false"
+    :has-spacers="false"
+>
     <x-row>
         <x-col size="12" size-md="12" class="allow-drop">
             <div class="mw-row">
@@ -35,4 +35,4 @@ position: 0
             </div>
         </x-col>
     </x-row>
-@endcomponent
+</x-layout-section>

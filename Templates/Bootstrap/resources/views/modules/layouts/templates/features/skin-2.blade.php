@@ -27,13 +27,13 @@ categories: Features
     ];
 @endphp
 
-@component('templates.bootstrap::partials.layout-section', [
-    'params'        => $params,
-    'classes'       => $classes,
-    'layout_classes' => $layout_classes ?? '',
-    'sectionClass'  => 'section features-skin-2-advantages',
-    'fieldName'     => 'layout-features-skin-2',
-])
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section features-skin-2-advantages"
+    field-name="layout-features-skin-2"
+>
     <x-row class="text-center safe-mode">
         <x-col size="12" size-lg="8" size-xl="8" size-xxl="8" class="mx-auto">
             <div class="regular-mode">
@@ -54,4 +54,4 @@ categories: Features
             </div>
         @endforeach
     </div>
-@endcomponent
+</x-layout-section>

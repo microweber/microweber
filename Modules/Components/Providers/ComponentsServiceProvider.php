@@ -21,6 +21,7 @@ use Modules\Components\View\Components\Input;
 use Modules\Components\View\Components\Modal;
 use Modules\Components\View\Components\Navbar;
 use Modules\Components\View\Components\NavItem;
+use Modules\Components\View\Components\LayoutSection;
 use Modules\Components\View\Components\Pagination;
 use Modules\Components\View\Components\ProgressBar;
 use Modules\Components\View\Components\Radio;
@@ -75,6 +76,7 @@ class ComponentsServiceProvider extends BaseModuleServiceProvider
         Blade::component('progress-bar', ProgressBar::class);
         Blade::component('tabs', Tabs::class);
         Blade::component('tab-pane', TabPane::class);
+        Blade::component('layout-section', LayoutSection::class);
         Blade::component('pagination', Pagination::class);
     }
 }

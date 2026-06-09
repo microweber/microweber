@@ -14,14 +14,14 @@ categories: Content
 
 ?>
 
-@component('templates.bootstrap::partials.layout-section', [
-    'params'         => $params,
-    'classes'        => $classes,
-    'layout_classes' => $layout_classes ?? '',
-    'sectionClass'   => 'section',
-    'fieldName'      => 'layout-content-skin-1',
-    'containerClass' => 'mw-layout-container text-center',
-])
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section"
+    field-name="layout-content-skin-1"
+    container-class="mw-layout-container text-center"
+>
     <x-row>
         <x-col size="12" size-lg="8" size-xl="8" size-xxl="8" class="mx-auto">
             <div class="mb-4 no-element">
@@ -36,4 +36,4 @@ categories: Content
             </div>
         </x-col>
     </x-row>
-@endcomponent
+</x-layout-section>

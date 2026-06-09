@@ -14,15 +14,15 @@ categories: Pricing
 
 ?>
 
-@component('templates.bootstrap::partials.layout-section', [
-    'params'         => $params,
-    'classes'        => $classes,
-    'layout_classes' => $layout_classes ?? '',
-    'sectionClass'   => 'section',
-    'fieldName'      => 'layout-pricing-skin-1',
-    'noDrop'         => true,
-    'containerClass' => 'mw-layout-container py-3',
-])
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section"
+    field-name="layout-pricing-skin-1"
+    :no-drop="true"
+    container-class="mw-layout-container py-3"
+>
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
         <h1 class="display-4 fw-normal">Pricing</h1>
         <p class="fs-5 text-muted">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization.</p>
@@ -116,4 +116,4 @@ categories: Pricing
             </tbody>
         </table>
     </div>
-@endcomponent
+</x-layout-section>
