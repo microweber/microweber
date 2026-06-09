@@ -14,96 +14,44 @@ categories: Features
 
 ?>
 
-<?php
-if (!$classes['padding_top']) {
-    $classes['padding_top'] = '';
-}
-if (!$classes['padding_bottom']) {
-    $classes['padding_bottom'] = '';
-}
+@php
+    $advantageItems = [
+        ['icon' => 'mw-micon-Speed-Fast',          'title' => 'Blazing-fast NVMe',   'text' => 'NVMe storage and HTTP/3 deliver up to 20x faster load times than traditional hosting.'],
+        ['icon' => 'mw-micon-Shield-Protected',     'title' => 'Enterprise security', 'text' => 'Free SSL, daily backups, DDoS protection and malware scanning — included on every plan.'],
+        ['icon' => 'mw-micon-Headphones-Support',   'title' => 'Human 24/7 support',  'text' => 'Reach a real engineer by chat, email or phone — average response time under 3 minutes.'],
+        ['icon' => 'mw-micon-Certified-Badge',      'title' => '99.9% uptime SLA',    'text' => 'Redundant infrastructure across geographically distributed datacenters with automatic failover.'],
+        ['icon' => 'mw-micon-Globe-Earth',           'title' => 'Global CDN',          'text' => 'Serve your site from 200+ edge locations worldwide so visitors always get the closest copy.'],
+        ['icon' => 'mw-micon-Database-SQL',          'title' => 'One-click installs',  'text' => 'Spin up Microweber, Drupal, Joomla and 100+ other apps in seconds.'],
+        ['icon' => 'mw-micon-CreditCard-Payment',   'title' => 'No hidden fees',      'text' => 'Transparent pricing — the price you see is the price you pay. Cancel any time.'],
+        ['icon' => 'mw-micon-ArrowUp-Growth',        'title' => 'Scale on demand',     'text' => 'Upgrade with a single click when your traffic spikes — no downtime, no migration.'],
+    ];
+@endphp
 
-$layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-?>
-
-
-<section class="section features-skin-2-advantages <?php print $layout_classes; ?> edit safe-mode" field="layout-features-skin-2-{{ $params['id'] }}" rel="module">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="mw-layout-container container">
-        <div class="row text-center safe-mode">
-            <div class="col-12 col-lg-8 mx-auto">
-                <div class="regular-mode">
-                    <h2 class="display-5 fw-bold" data-mwplaceholder="Enter title here">Why choose our hosting</h2>
-                    <p class="fs-5 text-muted" data-mwplaceholder="Enter text here">Everything you need to launch and scale — with no hidden costs and no lock-in.</p>
-                </div>
+@component('templates.bootstrap::partials.layout-section', [
+    'params'        => $params,
+    'classes'       => $classes,
+    'layout_classes' => $layout_classes ?? '',
+    'sectionClass'  => 'section features-skin-2-advantages',
+    'fieldName'     => 'layout-features-skin-2',
+])
+    <x-row class="text-center safe-mode">
+        <x-col size="12" size-lg="8" size-xl="8" size-xxl="8" class="mx-auto">
+            <div class="regular-mode">
+                <h2 class="display-5 fw-bold" data-mwplaceholder="Enter title here">Why choose our hosting</h2>
+                <p class="fs-5 text-muted" data-mwplaceholder="Enter text here">Everything you need to launch and scale — with no hidden costs and no lock-in.</p>
             </div>
-        </div>
+        </x-col>
+    </x-row>
 
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mt-3">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mt-3">
+        @foreach($advantageItems as $item)
             <div class="col cloneable element text-center safe-mode background-color-element">
                 <div class="p-3">
-                    <i class="features-skin-2-icons mb-3 safe-element no-typing mw-micon-Speed-Fast d-block fs-1 text-primary"></i>
-                    <h5 class="fw-semibold" data-mwplaceholder="Enter title here">Blazing-fast NVMe</h5>
-                    <p class="text-muted small regular-mode" data-mwplaceholder="Enter text here">NVMe storage and HTTP/3 deliver up to 20x faster load times than traditional hosting.</p>
+                    <i class="features-skin-2-icons mb-3 safe-element no-typing {{ $item['icon'] }} d-block fs-1 text-primary"></i>
+                    <h5 class="fw-semibold" data-mwplaceholder="Enter title here">{{ $item['title'] }}</h5>
+                    <p class="text-muted small regular-mode" data-mwplaceholder="Enter text here">{{ $item['text'] }}</p>
                 </div>
             </div>
-
-            <div class="col cloneable element text-center safe-mode background-color-element">
-                <div class="p-3">
-                    <i class="features-skin-2-icons mb-3 safe-element no-typing mw-micon-Shield-Protected d-block fs-1 text-primary"></i>
-                    <h5 class="fw-semibold" data-mwplaceholder="Enter title here">Enterprise security</h5>
-                    <p class="text-muted small regular-mode" data-mwplaceholder="Enter text here">Free SSL, daily backups, DDoS protection and malware scanning — included on every plan.</p>
-                </div>
-            </div>
-
-            <div class="col cloneable element text-center safe-mode background-color-element">
-                <div class="p-3">
-                    <i class="features-skin-2-icons mb-3 safe-element no-typing mw-micon-Headphones-Support d-block fs-1 text-primary"></i>
-                    <h5 class="fw-semibold" data-mwplaceholder="Enter title here">Human 24/7 support</h5>
-                    <p class="text-muted small regular-mode" data-mwplaceholder="Enter text here">Reach a real engineer by chat, email or phone — average response time under 3 minutes.</p>
-                </div>
-            </div>
-
-            <div class="col cloneable element text-center safe-mode background-color-element">
-                <div class="p-3">
-                    <i class="features-skin-2-icons mb-3 safe-element no-typing mw-micon-Certified-Badge d-block fs-1 text-primary"></i>
-                    <h5 class="fw-semibold" data-mwplaceholder="Enter title here">99.9% uptime SLA</h5>
-                    <p class="text-muted small regular-mode" data-mwplaceholder="Enter text here">Redundant infrastructure across geographically distributed datacenters with automatic failover.</p>
-                </div>
-            </div>
-
-            <div class="col cloneable element text-center safe-mode background-color-element">
-                <div class="p-3">
-                    <i class="features-skin-2-icons mb-3 safe-element no-typing mw-micon-Globe-Earth d-block fs-1 text-primary"></i>
-                    <h5 class="fw-semibold" data-mwplaceholder="Enter title here">Global CDN</h5>
-                    <p class="text-muted small regular-mode" data-mwplaceholder="Enter text here">Serve your site from 200+ edge locations worldwide so visitors always get the closest copy.</p>
-                </div>
-            </div>
-
-            <div class="col cloneable element text-center safe-mode background-color-element">
-                <div class="p-3">
-                    <i class="features-skin-2-icons mb-3 safe-element no-typing mw-micon-Database-SQL d-block fs-1 text-primary"></i>
-                    <h5 class="fw-semibold" data-mwplaceholder="Enter title here">One-click installs</h5>
-                    <p class="text-muted small regular-mode" data-mwplaceholder="Enter text here">Spin up Microweber, Drupal, Joomla and 100+ other apps in seconds.</p>
-                </div>
-            </div>
-
-            <div class="col cloneable element text-center safe-mode background-color-element">
-                <div class="p-3">
-                    <i class="features-skin-2-icons mb-3 safe-element no-typing mw-micon-CreditCard-Payment d-block fs-1 text-primary"></i>
-                    <h5 class="fw-semibold" data-mwplaceholder="Enter title here">No hidden fees</h5>
-                    <p class="text-muted small regular-mode" data-mwplaceholder="Enter text here">Transparent pricing — the price you see is the price you pay. Cancel any time.</p>
-                </div>
-            </div>
-
-            <div class="col cloneable element text-center safe-mode background-color-element">
-                <div class="p-3">
-                    <i class="features-skin-2-icons mb-3 safe-element no-typing mw-micon-ArrowUp-Growth d-block fs-1 text-primary"></i>
-                    <h5 class="fw-semibold" data-mwplaceholder="Enter title here">Scale on demand</h5>
-                    <p class="text-muted small regular-mode" data-mwplaceholder="Enter text here">Upgrade with a single click when your traffic spikes — no downtime, no migration.</p>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+@endcomponent

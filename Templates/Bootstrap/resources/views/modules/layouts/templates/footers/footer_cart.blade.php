@@ -58,50 +58,28 @@
 </script>
 
 
-<!-- Login Modal -->
-<div class="modal fade login-modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+{{-- Login Modal --}}
+<x-modal id="loginModal" class="login-modal">
+    <div class="js-login-window">
+        <div class="icon"><i class="material-icons">person</i></div>
+        <div type="users/login" id="loginModalModuleLogin"></div>
+    </div>
 
-            <div class="modal-body">
-                <div class="js-login-window">
-                    <div class="icon"><i class="material-icons">person</i></div>
+    <div class="js-register-window" style="display:none;">
+        <div class="icon"><i class="material-icons">exit_to_app</i></div>
+        <div type="users/register" id="loginModalModuleRegister"></div>
 
-                    <div type="users/login" id="loginModalModuleLogin"></div>
-                </div>
+        <p class="or"><span>or</span></p>
 
-                <div class="js-register-window" style="display:none;">
-                    <div class="icon"><i class="material-icons">exit_to_app</i></div>
-
-                    <div type="users/register" id="loginModalModuleRegister"></div>
-
-                    <p class="or"><span>or</span></p>
-
-                    <div class="act login">
-                        <a href="#" class="js-show-login-window"><span>Back to Login</span></a>
-                    </div>
-                </div>
-            </div>
+        <div class="act login">
+            <a href="#" class="js-show-login-window"><span>Back to Login</span></a>
         </div>
     </div>
-</div>
+</x-modal>
 
-<?php if (user_id()): ?>
-    <!-- Orders Modal -->
-    <div class="modal fade my-orders-modal" id="ordersModal" tabindex="-1" role="dialog" aria-labelledby="ordersModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body">
-                    <module type="users/orders"/>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
+@if(user_id())
+    {{-- Orders Modal --}}
+    <x-modal id="ordersModal" size="lg" class="my-orders-modal">
+        <module type="users/orders"/>
+    </x-modal>
+@endif

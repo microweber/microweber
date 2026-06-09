@@ -16,16 +16,16 @@ description: Clean page
 
 @section('content')
 
-<div class="section edit main-content" data-layout-container rel="content" field="content">
-    <div class="my-md-5 my-3 container allow-drop">
-        <div class="row">
-            <div class="col-12 mx-auto">
+<x-section class="edit main-content" data-layout-container rel="content" field="content">
+    <x-container class="my-md-5 my-3 allow-drop">
+        <x-row>
+            <x-col size="12" class="mx-auto">
                 <h2 class="my-md-5 my-3">My title</h2>
                 <p>
                     My text content.
                 </p>
-            </div>
-        </div>
-    </div>
-</div>
+            </x-col>
+        </x-row>
+    </x-container>
+</x-section>
 @endsection

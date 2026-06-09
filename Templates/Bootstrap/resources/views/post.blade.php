@@ -57,10 +57,10 @@ if (isset($post['created_by']) && (int) $post['created_by'] > 0) {
              id="blog-content-<?php print CONTENT_ID; ?>"
              itemscope
              itemtype="https://schema.org/BlogPosting">
-        <div class="container">
-            <div class="row justify-content-center">
+        <x-container>
+            <x-row class="justify-content-center">
                 {{-- Slice A (AI-791): reading-line discipline — 720px max-width (55-75ch) --}}
-                <div class="col-12" style="max-width: 720px; margin-left: auto; margin-right: auto;">
+                <x-col size="12" style="max-width: 720px; margin-left: auto; margin-right: auto;">
 
                     <?php if ($picture != '' AND $picture != false): ?>
                     <div class="mb-4 rounded overflow-hidden">
@@ -187,8 +187,8 @@ if (isset($post['created_by']) && (int) $post['created_by'] > 0) {
                                 exclude_ids="<?php print CONTENT_ID; ?>"
                                 id="post-bottom-related-<?php print CONTENT_ID; ?>"/>
                     </aside>
-                </div>
-            </div>
-        </div>
+                </x-col>
+            </x-row>
+        </x-container>
     </article>
 @endsection

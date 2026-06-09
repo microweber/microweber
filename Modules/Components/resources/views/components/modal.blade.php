@@ -4,7 +4,14 @@
             @if($title)
                 <div class="modal-header">
                     <h5 class="modal-title" id="{{ $id }}Label">{{ $title }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    @if($dismissible)
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    @endif
+                </div>
+            @elseif($dismissible)
+                {{-- No title: still give the user a visible way to close the modal --}}
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
             @endif
 

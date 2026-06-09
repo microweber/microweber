@@ -14,64 +14,38 @@ categories: Features
 
 ?>
 
-<?php
-if (!$classes['padding_top']) {
-    $classes['padding_top'] = '';
-}
-if (!$classes['padding_bottom']) {
-    $classes['padding_bottom'] = '';
-}
-
-$layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-?>
-
-
-<section class="section features-skin-2 <?php print $layout_classes; ?> edit safe-mode" field="layout-features-skin-1-{{ $params['id'] }}" rel="module">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="mw-layout-container container">
-        <div class="row text-center safe-mode">
-            <div class="col-12 col-lg-8 mx-auto">
-                <div class="regular-mode">
-                    <h4 data-mwplaceholder="Enter title here">The Feature Title</h4>
-                </div>
+@component('templates.bootstrap::partials.layout-section', [
+    'params'        => $params,
+    'classes'       => $classes,
+    'layout_classes' => $layout_classes ?? '',
+    'sectionClass'  => 'section features-skin-2',
+    'fieldName'     => 'layout-features-skin-1',
+])
+    <x-row class="text-center safe-mode">
+        <x-col size="12" size-lg="8" size-xl="8" size-xxl="8" class="mx-auto">
+            <div class="regular-mode">
+                <h4 data-mwplaceholder="Enter title here">The Feature Title</h4>
             </div>
-        </div>
+        </x-col>
+    </x-row>
 
-        <div class="row text-center mt-7">
-            <div class="mx-auto col-md-6 col-lg-4 col-12 mb-5 cloneable element text-center safe-mode background-color-element">
-                <i class="features-skin-2-icons mb-2 safe-element no-typing mw-micon-Add-User"></i>
+    <x-row class="text-center mt-7">
+        @include('templates.bootstrap::partials.feature-item', [
+            'iconClass'  => 'mw-micon-Add-User',
+            'text'       => 'To get started in learning how to observe the stars much better, there are some basic things.',
+            'buttonId'   => $params['id'] . '-btn-1',
+        ])
 
-                <div class="text-center mt-6 regular-mode">
-                    <p data-mwplaceholder="Enter text here">To get started in learning how to observe the stars much better, there are some basic things.</p>
-                </div>
-                <div class="mt-md-4 mt-3">
-                    <module type="btn" id="{{ $params['id'] }}-btn-1" button_style="btn-dark" button_size="btn-md" button_text="Learn More"/>
-                </div>
-            </div>
+        @include('templates.bootstrap::partials.feature-item', [
+            'iconClass'  => 'mw-micon-Add-UserStar',
+            'text'       => 'To get started in learning how to observe the stars much better, there are some basic things.',
+            'buttonId'   => $params['id'] . '-btn-2',
+        ])
 
-            <div class="mx-auto col-md-6 col-lg-4 col-12 mb-5 cloneable element text-center safe-mode background-color-element">
-                <i class="features-skin-2-icons mb-2 safe-element no-typing mw-micon-Add-UserStar"></i>
-
-                <div class="text-center mt-6 regular-mode">
-                    <p data-mwplaceholder="Enter text here">To get started in learning how to observe the stars much better, there are some basic things.</p>
-                </div>
-                <div class="mt-md-4 mt-3">
-                    <module type="btn" id="{{ $params['id'] }}-btn-2" button_style="btn-dark" button_size="btn-md" button_text="Learn More"/>
-                </div>
-            </div>
-
-            <div class="mx-auto col-md-6 col-lg-4 col-12 mb-5 cloneable element text-center safe-mode background-color-element">
-                <i class="features-skin-2-icons mb-2 safe-element no-typing mw-micon-Business-ManWoman"></i>
-
-                <div class="text-center mt-6 regular-mode">
-                    <p data-mwplaceholder="Enter text here">To get started in learning how to observe the stars much better, there are some basic things.</p>
-                </div>
-                <div class="mt-md-4 mt-3">
-                    <module type="btn" id="{{ $params['id'] }}-btn-3" button_style="btn-dark" button_size="btn-md" button_text="Learn More"/>
-                </div>
-            </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+        @include('templates.bootstrap::partials.feature-item', [
+            'iconClass'  => 'mw-micon-Business-ManWoman',
+            'text'       => 'To get started in learning how to observe the stars much better, there are some basic things.',
+            'buttonId'   => $params['id'] . '-btn-3',
+        ])
+    </x-row>
+@endcomponent

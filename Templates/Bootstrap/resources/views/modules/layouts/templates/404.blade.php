@@ -12,32 +12,29 @@ position: 10
 
 ?>
 
-<?php
-if (!$classes['padding_top']) {
-    $classes['padding_top'] = 'p-t-50';
-}
-if (!$classes['padding_bottom']) {
-    $classes['padding_bottom'] = 'p-b-50';
-}
+@component('templates.bootstrap::partials.layout-section', [
+    'params'              => $params,
+    'classes'             => $classes,
+    'layout_classes'      => $layout_classes ?? '',
+    'defaultPaddingTop'   => 'p-t-50',
+    'defaultPaddingBottom' => 'p-b-50',
+    'sectionClass'        => 'section',
+    'fieldName'           => 'layout-404',
+    'hasBackground'       => false,
+    'hasSpacers'          => false,
+])
+    <x-row>
+        <x-col size="4" class="not_found_text align-self-center">
+            <h1><?php _lang("Oops", "templates/new-world"); ?>!</h1>
+            <p class="my-3"><?php _lang("A 404 error is a standard HTTP error
+             message code that means the website you
+              were trying to reach couldn't be found on the server", "templates/new-world"); ?>.
+            </p>
+            <module type="btn" button_size="px-6" button_text="Go back"/>
+        </x-col>
 
-$layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-?>
-
-<section class="section <?php print $layout_classes; ?> edit safe-mode" field="layout-404-{{ $params['id'] }}" rel="module">
-    <div class="container mw-layout-container">
-        <div class="row">
-            <div class="not_found_text col-4 align-self-center">
-                <h1><?php _lang("Oops", "templates/new-world"); ?>!</h1>
-                <p class="my-3"><?php _lang("A 404 error is a standard HTTP error
-                 message code that means the website you
-                  were trying to reach couldn't be found on the server", "templates/new-world"); ?>.
-                </p>
-                <module type="btn" button_size="px-6" button_text="Go back"/>
-            </div>
-
-            <div class="col-8 text-center not_found_img">
-                <img src="<?php print template_url(); ?>img/sections/404_graphic.png" alt="<?php echo __('404 error illustration'); ?>"/>
-            </div>
-        </div>
-    </div>
-</section>
+        <x-col size="8" class="text-center not_found_img">
+            <img src="<?php print template_url(); ?>img/sections/404_graphic.png" alt="<?php echo __('404 error illustration'); ?>"/>
+        </x-col>
+    </x-row>
+@endcomponent

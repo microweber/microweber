@@ -14,39 +14,26 @@ categories: Content
 
 ?>
 
-<?php
-if (!$classes['padding_top']) {
-    $classes['padding_top'] = '';
-}
-if (!$classes['padding_bottom']) {
-    $classes['padding_bottom'] = '';
-}
-
-$layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-?>
-
-
-<section class="section <?php print $layout_classes; ?> edit safe-mode"
-         field="layout-content-skin-1-{{ $params['id'] }}" rel="module">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-
-    <div class="container mw-layout-container text-center">
-        <div class="row">
-            <div class="col-12 col-lg-10 col-lg-8 mx-auto">
-                <div class="mb-4 no-element">
-                    <i class="safe-element no-typing mw-micon-Anchor mb-4 icon-size-64px"></i>
-                </div>
-                <div class="regular-mode">
-                    <h3 data-mwplaceholder="Enter title here">Your Story Should Evolve Over Time</h3>
-                    <p data-mwplaceholder="Enter text here" class="mb-3">Update your audience on new developments and how
-                        <br>
-                        you're overcoming challenges.
-                    </p>
-                </div>
+@component('templates.bootstrap::partials.layout-section', [
+    'params'         => $params,
+    'classes'        => $classes,
+    'layout_classes' => $layout_classes ?? '',
+    'sectionClass'   => 'section',
+    'fieldName'      => 'layout-content-skin-1',
+    'containerClass' => 'mw-layout-container text-center',
+])
+    <x-row>
+        <x-col size="12" size-lg="8" size-xl="8" size-xxl="8" class="mx-auto">
+            <div class="mb-4 no-element">
+                <i class="safe-element no-typing mw-micon-Anchor mb-4 icon-size-64px"></i>
             </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-
-</section>
+            <div class="regular-mode">
+                <h3 data-mwplaceholder="Enter title here">Your Story Should Evolve Over Time</h3>
+                <p data-mwplaceholder="Enter text here" class="mb-3">Update your audience on new developments and how
+                    <br>
+                    you're overcoming challenges.
+                </p>
+            </div>
+        </x-col>
+    </x-row>
+@endcomponent
