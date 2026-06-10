@@ -23,7 +23,7 @@ description: Contact Us
                 <x-row>
                     <x-col size="12" size-lg="6" size-xl="6" size-xxl="6" class="mb-4 mb-lg-0">
                         <div class="edit" field="contact-info" rel="page">
-                            <h3>Get in Touch</h3>
+                            <x-section-heading tag="h3" align="start">Get in Touch</x-section-heading>
                             <p>We'd love to hear from you. Whether you have a question about our products, pricing, or anything else, our team is ready to answer all your questions.</p>
                             <div class="mt-4">
                                 <p><i class="mdi mdi-map-marker"></i> <strong>Address:</strong> 21 Lebsack Harbor, Palo Alto, CA</p>

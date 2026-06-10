@@ -24,42 +24,48 @@ categories: Pricing
     container-class="mw-layout-container py-3"
 >
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-        <h1 class="display-4 fw-normal">Pricing</h1>
-        <p class="fs-5 text-muted">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization.</p>
+        <x-section-heading tag="h1" subtitle="Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization." class="display-4 fw-normal">Pricing</x-section-heading>
     </div>
 
-    <x-row class="row-cols-1 row-cols-md-3 mb-3 text-center">
-        @include('templates.bootstrap::partials.pricing-card', [
-            'planName'   => 'Free',
-            'price'      => '$0',
-            'period'     => '/mo',
-            'features'   => ['10 users included', '2 GB of storage', 'Email support', 'Help center access'],
-            'btnId'      => $params['id'] . '-free',
-            'btnStyle'   => 'w-100 btn btn-lg btn-outline-primary',
-            'btnText'    => 'Sign up for free',
-        ])
+    <x-pricing-table :columns="3" class="mb-3">
+        <x-pricing-row
+            plan-name="Free"
+            price="$0"
+            period="/mo"
+            :features="['10 users included', '2 GB of storage', 'Email support', 'Help center access']"
+            button-text="Sign up for free"
+            button-style="btn btn-lg btn-outline-primary"
+        >
+            <x-slot name="actions">
+                <module type="btn" id="{{ $params['id'] }}-free" button_style="w-100 btn btn-lg btn-outline-primary" button_text="Sign up for free"/>
+            </x-slot>
+        </x-pricing-row>
 
-        @include('templates.bootstrap::partials.pricing-card', [
-            'planName'   => 'Pro',
-            'price'      => '$15',
-            'period'     => '/mo',
-            'features'   => ['20 users included', '10 GB of storage', 'Priority email support', 'Help center access'],
-            'btnId'      => $params['id'] . '-pro',
-            'btnStyle'   => 'w-100 btn btn-lg btn-primary',
-            'btnText'    => 'Get started',
-        ])
+        <x-pricing-row
+            plan-name="Pro"
+            price="$15"
+            period="/mo"
+            :features="['20 users included', '10 GB of storage', 'Priority email support', 'Help center access']"
+            :highlighted="true"
+            button-text="Get started"
+        >
+            <x-slot name="actions">
+                <module type="btn" id="{{ $params['id'] }}-pro" button_style="w-100 btn btn-lg btn-primary" button_text="Get started"/>
+            </x-slot>
+        </x-pricing-row>
 
-        @include('templates.bootstrap::partials.pricing-card', [
-            'planName'   => 'Enterprise',
-            'price'      => '$29',
-            'period'     => '/mo',
-            'features'   => ['30 users included', '15 GB of storage', 'Phone and email support', 'Help center access'],
-            'btnId'      => $params['id'] . '-enterprise',
-            'btnStyle'   => 'w-100 btn btn-lg btn-primary',
-            'btnText'    => 'Contact us',
-            'highlighted'=> true,
-        ])
-    </x-row>
+        <x-pricing-row
+            plan-name="Enterprise"
+            price="$29"
+            period="/mo"
+            :features="['30 users included', '15 GB of storage', 'Phone and email support', 'Help center access']"
+            button-text="Contact us"
+        >
+            <x-slot name="actions">
+                <module type="btn" id="{{ $params['id'] }}-enterprise" button_style="w-100 btn btn-lg btn-primary" button_text="Contact us"/>
+            </x-slot>
+        </x-pricing-row>
+    </x-pricing-table>
 
     <h2 class="display-6 text-center mb-4">Compare plans</h2>
 

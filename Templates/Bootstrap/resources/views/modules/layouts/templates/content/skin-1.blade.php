@@ -28,11 +28,7 @@ categories: Content
                 <i class="safe-element no-typing mw-micon-Anchor mb-4 icon-size-64px"></i>
             </div>
             <div class="regular-mode">
-                <h3 data-mwplaceholder="Enter title here">Your Story Should Evolve Over Time</h3>
-                <p data-mwplaceholder="Enter text here" class="mb-3">Update your audience on new developments and how
-                    <br>
-                    you're overcoming challenges.
-                </p>
+                <x-section-heading tag="h3" subtitle="Update your audience on new developments and how you're overcoming challenges.">Your Story Should Evolve Over Time</x-section-heading>
             </div>
         </x-col>
     </x-row>

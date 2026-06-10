@@ -1,175 +1,57 @@
-<?php
-
+@php
 /*
 
 type: layout
 
-name: skin-12
+name: Product Cards
 
-description: skin-12
+description: Products using x-product-card component
 
 */
-?>
-
-
-@php
-    $tn = $tn_size ?? [350, 350];
-    if (!isset($tn[0]) or ($tn[0]) == 150) {
-        $tn[0] = 350;
-    }
-    if (!isset($tn[1])) {
-        $tn[1] = $tn[0];
-    }
 @endphp
 
-<style>
-    .flower-ecommerce-card {
-        border-radius: 20px 0 20px 0;
-    }
+<script>
+    mw.require('shop.js');
+</script>
 
-    .flower-ecommerce-card .img-as-background {
-        border-radius: 20px 0 20px 0;
-    }
-
-    <?php echo '#'.$params['id']; ?>
-    .mw-product-module-img {
-        object-fit: cover;
-        object-position: center center;
-        width: 100%;
-        height: 100%;
-        left: 0;
-    }
-
-    <?php echo '#'.$params['id']; ?>
-    .img-as-background {
-        height: 250px;
-    }
-</style>
-
-   @if(empty($data))
-       <p class="mw-pictures-clean">No products added. Please add products to the module.</p>
-   @else
-    <div class="row shop-products">
-        @foreach ($data as $key => $item)
+<x-row class="g-4" id="products-{{ $params['id'] }}">
+    @if(empty($data))
+        <p class="mw-pictures-clean">No products added. Please add products to the module.</p>
+    @else
+        @foreach($data as $item)
             @php
-                $categories = content_categories($item['id']);
                 $itemData = content_data($item['id']);
-                $itemTags = content_tags($item['id']);
-                $in_stock = true;
-                if (isset($itemData['qty']) and $itemData['qty'] != 'nolimit' and intval($itemData['qty']) == 0) {
-                    $in_stock = false;
+                $in_stock = !isset($itemData['qty']) || $itemData['qty'] == 'nolimit' || intval($itemData['qty']) > 0;
+                $firstPrice = '';
+                $originalPrice = '';
+                if(isset($item['prices']) && is_array($item['prices'])){
+                    $vals = array_values($item['prices']);
+                    $firstPrice = !empty($vals) ? currency_format(reset($vals)) : '';
                 }
-                if (!isset($itemData['label'])) {
-                    $itemData['label'] = '';
-                }
-                if (!isset($itemData['label-color'])) {
-                    $itemData['label-color'] = '';
-                }
-                $itemCats = '';
-                if ($categories) {
-                    foreach ($categories as $category) {
-                        $itemCats .= $category['title'] . ', ';
-                    }
+                if(isset($item['original_price']) && $item['original_price'] != ''){
+                    $originalPrice = currency_format($item['original_price']);
                 }
             @endphp
-
-            <div class="mx-auto mx-md-0 col-sm-10 col-md-6 col-xl-4 mb-5 item-{{ $item['id'] }}"
-                 data-masonry-filter="{{ $itemCats }}" itemscope
-                 itemtype="{{ $schema_org_item_type_tag }}">
-                <div class="product h-100 d-flex flex-column px-sm-3 position-relative">
-                    <div class="flower-ecommerce-card card h-100 d-flex flex-column">
-                        @if (is_array($item['prices']))
-                            @foreach ($item['prices'] as $k => $v)
-                                <input type="hidden" name="price" value="{{ $v }}"/>
-                                <input type="hidden" name="content_id" value="{{ $item['id'] }}"/>
-                                @break
-                            @endforeach
-                        @endif
-
-                        @if ($show_fields == false or in_array('thumbnail', $show_fields))
-                            <a href="{{ $item['link'] }}">
-                                <div class="img-as-background square-75">
-                                    @if (isset($itemData['label-type']) && $itemData['label-type'] === 'text')
-                                        <div class="position-absolute top-0 left-0 m-2" style="z-index: 3;">
-                                            <div class="badge text-white px-3 pb-1 pt-2 rounded-0"
-                                                 style="background-color: {{ $itemData['label-color'] }};">{{ $itemData['label'] }}</div>
-                                        </div>
-                                    @endif
-
-                                    @if (isset($item['original_price']) and $item['original_price'] != '')
-                                        @php
-                                            $percentChange = 0;
-                                            if (isset($item['price_discount_percent']) and $item['price_discount_percent']) {
-                                                $percentChange = $item['price_discount_percent'];
-                                            }
-                                        @endphp
-                                        @if (isset($itemData['label-type']) && $itemData['label-type'] === 'percent' && $percentChange > 0)
-                                            <div class="discount-label">
-                                                <span class="discount-percentage">{{ $percentChange }}%</span>
-                                                <span class="discount-label-text">@lang("Discount")</span>
-                                            </div>
-                                        @endif
-                                    @endif
-                                    {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55):
-                                         responsive_thumbnail() helper. --}}
-                                    {!! responsive_thumbnail($item['image'], 850, 850, [
-                                        'alt' => $item['title'] ?? __('Product image'),
-                                        'class' => 'mw-product-module-img img-fluid',
-                                    ]) !!}
-                                </div>
-                            </a>
-                        @endif
-
-                        <div class="pt-1 pb-3 mx-4">
-                            @if ($show_fields == false or in_array('title', $show_fields))
-                                <a href="{{ $item['link'] }}" class="text-dark text-decoration-none text-start p-3">
-                                    <h5 class="mt-3 mb-3 font-weight-normal">{{ $item['title'] }}</h5>
-                                </a>
-                            @endif
-
-                            @if (isset($item['description']))
-                                <div class="py-3 text-start">
-                                    <p style="color: #58585D;">{{ $item['description'] }}</p>
-                                </div>
-                            @endif
-
-                            @php
-                                $itemPrices = $item['prices'] ?? [0];
-                                $firstPrice = reset($itemPrices);
-                            @endphp
-                            @if ($firstPrice !== false && $firstPrice > 0)
-                                <div class="row align-items-center">
-                                    <div class="col-lg-6 col-12 price-holder">
-                                        @if ($show_fields == false or in_array('price', $show_fields))
-                                            @if (isset($item['prices']) and is_array($item['prices']))
-                                                @php
-                                                    $vals2 = array_values($item['prices']);
-                                                    $val1 = array_shift($vals2);
-                                                @endphp
-                                                @if (isset($item['original_price']) and $item['original_price'] != '')
-                                                    <h5 class="price-old mb-0">{{ currency_format($item['original_price']) }}</h5>
-                                                @endif
-                                                <h5 class="price mb-0">{{ currency_format($val1) }}</h5>
-                                            @endif
-                                        @endif
-                                    </div>
-
-                                    <div class="col-lg-6 col-12 text-end text-right">
-                                        <a href="{{ $item['link'] }}" class="flower-ecommerce-btn btn btn-primary">Join Now</a>
-                                        @if ($show_fields == false or ($show_fields != false and in_array('add_to_cart', $show_fields)))
-                                            <!--<a href="javascript:;" onclick="mw.cart.add_and_show_modal('{{ $item['id'] }}','{{ $val1 }}', '{{ $item['title'] }}');" class="btn btn-outline-primary"><i class="mw-micon-Shopping-Cart"></i> Add to cart</a>-->
-                                        @endif
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-col size="12" size-md="6" size-lg="4" size-xl="3">
+                <x-product-card
+                    :title="$item['title'] ?? ''"
+                    :image="$item['image'] ?? ''"
+                    :link="$item['link'] ?? ''"
+                    :price="$firstPrice"
+                    :original-price="$originalPrice"
+                    :description="\Illuminate\Support\Str::limit($item['description'] ?? '', 100)"
+                    :in-stock="$in_stock"
+                    :content-id="$item['id']"
+                    :add-to-cart-text="$add_to_cart_text ?? __('Add to cart')"
+                    class="shadow-sm"
+                    itemscope
+                    itemtype="{{ $schema_org_item_type_tag }}"
+                />
+            </x-col>
         @endforeach
-    </div>
-@endif
+    @endif
+</x-row>
 
-@if (isset($pages_count) and $pages_count > 1 and isset($paging_param))
+@if(isset($pages_count) && $pages_count > 1 && isset($paging_param))
     <module type="pagination" pages_count="{{ $pages_count }}" paging_param="{{ $paging_param }}"/>
 @endif

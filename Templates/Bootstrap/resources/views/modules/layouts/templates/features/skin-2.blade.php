@@ -37,8 +37,7 @@ categories: Features
     <x-row class="text-center safe-mode">
         <x-col size="12" size-lg="8" size-xl="8" size-xxl="8" class="mx-auto">
             <div class="regular-mode">
-                <h2 class="display-5 fw-bold" data-mwplaceholder="Enter title here">Why choose our hosting</h2>
-                <p class="fs-5 text-muted" data-mwplaceholder="Enter text here">Everything you need to launch and scale — with no hidden costs and no lock-in.</p>
+                <x-section-heading tag="h2" subtitle="Everything you need to launch and scale — with no hidden costs and no lock-in." class="display-5 fw-bold">Why choose our hosting</x-section-heading>
             </div>
         </x-col>
     </x-row>

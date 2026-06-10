@@ -8,28 +8,18 @@ position: 1
 categories: Videos
 --}}
 
-@php
-        $classes['padding_top'] = $classes['padding_top'] ?? '';
-        $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-        $layout_classes = $layout_classes ?? '';
-        $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-    @endphp
-
-    <section class="section {{ $layout_classes }}">
-        <module type="background" id="background-layout--{{ $params['id'] }}" />
-        <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top" />
-        <div class="mw-layout-container no-element container safe-mode edit safe-mode" field="layout-video-skin-1-{{ $params['id'] }}" rel="module">
-            <div class="row text-center">
-                <div class="col-12 col-lg-10 mx-auto regular-mode">
-                    <h1 data-mwplaceholder="{{ __('Enter title here') }}">Share your story <br> with a video</h1>
-                    <p data-mwplaceholder="{{ __('Enter text here') }}">
-                        Authenticity is key. <br> Share your journey, your passion, and the real reason behind your venture. <br>
-                        People connect with genuine stories.
-                    </p>
-                    <module class="module-padding-for-handle safe-mode" type="video" template="default" url="{{ asset('templates/big/videos/example.mp4') }}" height="500"/>
-                </div>
-            </div>
-        </div>
-        <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom" />
-    </section>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section"
+    field-name="layout-video-skin-1"
+>
+    <x-row class="text-center">
+        <x-col size="12" size-lg="10" class="mx-auto regular-mode">
+            <x-section-heading tag="h1" subtitle="Authenticity is key. Share your journey, your passion, and the real reason behind your venture. People connect with genuine stories.">Share your story <br> with a video</x-section-heading>
+            <x-video-embed url="{{ asset('templates/big/videos/example.mp4') }}" height="500" class="module-padding-for-handle safe-mode" />
+        </x-col>
+    </x-row>
+</x-layout-section>
 

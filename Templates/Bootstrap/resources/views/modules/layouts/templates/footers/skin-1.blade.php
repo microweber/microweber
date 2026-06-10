@@ -59,7 +59,9 @@ categories: Footers
                 </div>
                 <div class="edit" field="layout-footer-skin-1-social-{{ $params['id'] }}" rel="module">
                     <p>Social</p>
-                    <module type="social_links" template="skin-4" id="{{ $params['id'] }}-social-links"/>
+                    <x-social-links>
+                        <module type="social_links" template="skin-4" id="{{ $params['id'] }}-social-links"/>
+                    </x-social-links>
                 </div>
             </x-col>
 

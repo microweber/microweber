@@ -6,7 +6,7 @@ categories: Grids
 --}}
 
 
-<section class="section {{ $layout_classes }} ">
+<section class="section {{ $layout_classes ?? '' }} ">
     <module type="background" id="background-layout--{{ $params['id'] }}" />
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top" />
     <div class="mw-layout-container no-element container safe-mode edit" field="layout-grids-skin-5-{{ $params['id'] }}" rel="module">
