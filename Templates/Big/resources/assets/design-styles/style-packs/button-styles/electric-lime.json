@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Electric Lime",
+            "description": "Bright lime green with a neon glow and bold white text for a high-energy look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Electric Lime",
+                        "properties": {
+                            "--mw-btn-background": "#bfff00",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#bfff00",
+                            "--mw-btn-border-radius": "16px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 0 16px 0 #bfff00"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

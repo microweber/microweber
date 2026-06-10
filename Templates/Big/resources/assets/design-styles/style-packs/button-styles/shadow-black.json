@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Shadow Black",
+            "description": "Deep black button with a strong shadow and crisp white text for a bold, modern look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Shadow Black",
+                        "properties": {
+                            "--mw-btn-background": "#111",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#333",
+                            "--mw-btn-border-radius": "10px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 6px 24px 0 rgba(0,0,0,0.35)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

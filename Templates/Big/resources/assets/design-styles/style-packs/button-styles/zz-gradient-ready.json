@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: ZZ Gradient Ready",
+            "description": "Modern multi-color gradient with a smooth transition and soft shadow for a ready-to-use look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "ZZ Gradient Ready",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #ff9966 0%, #ff5e62 50%, #00f2fe 100%)",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "0px",
+                            "--mw-btn-border-radius": "16px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 2px 16px 0 rgba(0,242,254,0.25)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

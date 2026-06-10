@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Modern Display",
+                        "properties": {
+                            "--mw-body-font-family": "'Sora', sans-serif",
+                            "--mw-heading-font-family": "'Sora', sans-serif",
+                            "--mw-heading-font-weight": "800",
+                            "--mw-heading-font-size": "37px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "16px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

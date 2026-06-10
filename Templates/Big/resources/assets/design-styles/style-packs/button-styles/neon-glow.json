@@ -1,0 +1,37 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Neon Glow",
+            "description": "Vivid neon blue background with glowing border and text shadow for a striking effect.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Neon Glow",
+                        "properties": {
+                            "--mw-btn-background": "#0ff1ce",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#00f0ff",
+                            "--mw-btn-border-radius": "12px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 0 16px 0 #0ff1ce",
+                            "--mw-btn-text-shadow": "0 0 8px #0ff1ce"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

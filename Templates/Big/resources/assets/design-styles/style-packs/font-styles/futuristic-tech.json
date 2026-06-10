@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Futuristic Tech",
+                        "properties": {
+                            "--mw-body-font-family": "'Orbitron', sans-serif",
+                            "--mw-heading-font-family": "'Orbitron', sans-serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "34px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "15px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

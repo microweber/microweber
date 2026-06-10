@@ -1,0 +1,208 @@
+/****************************
+           GENERAL
+*****************************/
+
+
+
+$enable-important-utilities:  false !default;
+$mw-importance: null;
+
+
+$gray-100: #f8f9fa !default;
+$background: #ffffff !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$light:    $gray-100 !default;
+$white:    #ffffff !default;
+$dark:     $gray-900 !default;
+
+
+
+$grays: (
+    "100": $gray-100,
+    "200": $gray-200,
+    "300": $gray-300,
+    "400": $gray-400,
+    "500": $gray-500,
+    "600": $gray-600,
+    "700": $gray-700,
+    "800": $gray-800,
+    "900": $gray-900
+) !default;
+
+$blue:    #0044de !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #d63384 !default;
+$red:     #dc3545 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   #198754 !default;
+$teal:    #20c997 !default;
+$cyan:    #0dcaf0 !default;
+
+
+
+$colors: (
+    "blue":       $blue,
+    "indigo":     $indigo,
+    "purple":     $purple,
+    "pink":       $pink,
+    "red":        $red,
+    "orange":     $orange,
+    "yellow":     $yellow,
+    "green":      $green,
+    "teal":       $teal,
+    "cyan":       $cyan,
+    "white":      $white,
+    "gray":       $gray-600,
+    "gray-dark":  $gray-800
+) !default;
+
+$primary:       $blue !default;
+$secondary:     $gray-600 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$body-bg:       $background !default;
+$black:         $dark !default;
+$textDark:      $dark !default;
+$textLight:     $light !default;
+$section:       $white !default;
+
+$font-family-sans-serif:      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$font-family-base:            $font-family-sans-serif !default;
+
+$font-family-base: $font-family-sans-serif;
+
+$theme-colors: $colors;
+
+$body-color:                $textDark !default;
+$bodyFontSize:              16px   !default;
+$body-text-align:           null !default;
+$fontFamily:                $font-family-base !default;
+
+
+$body-color: $gray-900;
+
+$font-size-base: 1rem;
+
+$small-font-size: 12px;
+
+$title-xl: 50px !default;
+$title-lg: 46px !default;
+$title-md: 36px !default;
+$title-sm: 24px !default;
+$title-xs: 18px !default;
+
+$paragraph-xl: 18px !default;
+$paragraph-lg: 16px !default;
+$paragraph-md: 14px !default;
+$paragraph-sm: 12px !default;
+
+
+
+$h1-font-size: $font-size-base * 4;
+$h2-font-size: $font-size-base * 3;
+$h3-font-size: $font-size-base * 2.25;
+$h4-font-size: $font-size-base * 1.5;
+$h5-font-size: $font-size-base * 1.25;
+$h6-font-size: $font-size-base;
+/*
+// Buttons + Forms*/
+$input-btn-padding-y: .75rem;
+$input-btn-padding-x: .75rem;
+
+$input-btn-padding-y-sm: .5rem;
+$input-btn-padding-x-sm: .5rem;
+
+$input-btn-padding-y-lg: 0.969rem;
+$input-btn-padding-x-lg: 1rem;
+
+$input-height: 2.5rem;
+$input-height-sm: 1.875rem;
+$input-height-lg: 3.125rem;
+
+$border-width: 1px;
+
+$border-radius: 5px;
+$border-radius-lg: 5px;
+$border-radius-sm: 5px;
+
+$input-btn-border-width: $border-width;
+
+$input-color: $gray-700;
+$input-border-color: $gray-400;
+$input-border-width: $input-btn-border-width;
+$input-box-shadow: inset 0 1px 1px rgba($black, .075);
+
+$input-border-radius: $border-radius;
+$input-border-radius-lg: $border-radius-lg;
+$input-border-radius-sm: $border-radius-sm;
+
+$input-placeholder-color: $gray-600;
+$input-plaintext-color: $body-color;
+
+$input-height-border: $input-border-width * 2;
+
+$form-text-margin-top: .25rem;
+
+$form-check-input-gutter: 1.25rem;
+$form-check-input-margin-y: .3rem;
+$form-check-input-margin-x: .25rem;
+
+$form-check-inline-margin-x: .75rem;
+$form-check-inline-input-margin-x: .3125rem;
+
+$form-grid-gutter-width: 10px;
+$form-group-margin-bottom: 1rem;
+
+$custom-control-indicator-size: 1.25rem;
+
+/* Colors */
+$textLightHover: lighten($textLight, 20%);
+/*//
+//$dark: #212121;
+//$textDark: #212121;*/
+$textDarkHover: lighten($textDark, 20%);
+
+$textOnWhite: #212121;
+
+$default: $dark;
+$defaultHover: lighten($default, 20%);
+
+/*//$primary: #0044de;*/
+$primaryHover: lighten($primary, 20%);
+
+$secondaryHover: lighten($secondary, 20%);
+
+
+$grey: #bfbfbf;
+$silver: #f3f3f3;
+
+/*// Badges*/
+$badge-font-size: 85%;
+
+$badge-padding-y: 0.438rem;
+$badge-padding-x: 1.075em;
+$badge-border-radius: $border-radius;
+
+$badge-pill-padding-x: 1.075em;
+
+$input-focus-color: $dark;
+
+
+/*// Custom*/
+$textDark: lighten($dark, 20%);
+$textLight: darken($light, 20%);
+$rounded-sm: 12px !important;
+
+

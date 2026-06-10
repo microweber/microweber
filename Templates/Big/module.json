@@ -1,0 +1,11 @@
+{
+    "name": "Big",
+    "alias": "big",
+    "description": "",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Big\\Providers\\BigServiceProvider"
+    ],
+    "files": []
+}

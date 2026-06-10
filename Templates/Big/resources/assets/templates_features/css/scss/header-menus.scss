@@ -1,0 +1,152 @@
+.mw-vhmbgr--navigation {
+    .navbar-nav {
+        display: flex;
+        align-items: center;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        flex-direction: row;
+    }
+}
+
+
+.mw-vhmbgr-active-overlay {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+
+
+.mw-vhmbgr-active-popup {
+
+    height: 100%;
+    width: 100%;
+    padding: 25px;
+
+     li {
+        position: relative;
+
+    }
+
+    .mw-vhmbgr-submenu-toggle-button {
+        position: absolute;
+        right: 0;
+        top: 5px;
+        content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%235f6368"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>');
+        width: 35px;
+        height: 35px;
+        transform: rotate(0deg);
+        transition: transform .5s linear;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    li.mw-vhmbgr-submenu-active > .mw-vhmbgr-submenu-toggle-button{
+        transform: rotate(180deg);
+        transition: transform .5s linear;
+    }
+
+
+
+
+
+    ul {
+        margin-bottom: 0;
+        padding: 0 !important;
+
+        height: 100% !important;
+
+        max-height: 0;
+        overflow: hidden;
+        transition: .4s;
+
+
+
+        li {
+
+            a {
+                text-decoration: none;
+                font-weight: 600;
+                margin-bottom: 15px;
+                display: block;
+                font-size: 1.6rem;
+            }
+        }
+
+        li:last-child {
+            margin-bottom: 0;
+        }
+
+        ul {
+
+            li {
+                padding-left: 10px; // base padding
+
+                & > ul > li:not(:last-child) {
+                    padding-left: 20px;
+                }
+
+                & > ul > li > ul > li:not(:last-child) {
+                    padding-left: 35px;
+                }
+
+                & > ul > li > ul > li > ul > li:not(:last-child) {
+                    padding-left: 45px;
+                }
+
+                // Continue this pattern for as many levels of nesting as you need
+
+                a {
+                    font-weight: 500;
+                    font-size: 1.4rem;
+                }
+            }
+
+        }
+
+    }
+}
+
+.nav-item {
+    list-style: none;
+}
+
+
+@media screen and (max-width: 380px) {
+    .menu-header-skin-1 .navT-header-menu {
+        top: 26px;
+        right: 10px;
+        position: absolute;
+        width: auto !important;
+    }
+}
+
+
+
+.templates-top-header-menu {
+    .module-social-links {
+        .mdi {
+            &:before{
+                font-size: 20px;
+            }
+        }
+    }
+
+    .btn-phone {
+        font-size: 12px;
+
+    }
+
+    .top-header-background {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 45px;
+        list-style: none;
+        padding: 5px 20px;
+        margin-bottom: 0;
+    }
+}

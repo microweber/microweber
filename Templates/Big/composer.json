@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/big",
+    "description": "Master template for Microweber CMS",
+    "type": "microweber-template",
+
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\Big\\": "",
+            "Templates\\Big\\Database\\Factories\\": "database/factories/",
+            "Templates\\Big\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Templates\\Big\\Tests\\": "Tests/"
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/big/public"
+    },
+    "target-dir": "Big"
+}

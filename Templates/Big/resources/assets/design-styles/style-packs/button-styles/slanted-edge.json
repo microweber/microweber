@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Slanted Edge",
+            "description": "Button with slanted edges and a bold color for a dynamic, modern look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Slanted Edge",
+                        "properties": {
+                            "--mw-btn-background": "#ffb347",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#ffcc33",
+                            "--mw-btn-border-radius": "20px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

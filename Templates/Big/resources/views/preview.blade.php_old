@@ -1,0 +1,38 @@
+<?php
+
+/*
+  type: layout
+  content_type: static
+  name: Preview
+  description: Preview
+*/
+
+
+?>
+<div class="masonry-container">
+
+
+    @php
+
+        $layouts = module_templates('layouts','big');
+
+    @endphp
+
+    @foreach($layouts as $layout)
+
+            <?php
+            $layoutFile = $layout['layout_file'];
+            $layoutFile = str_replace('.php', '', $layoutFile);
+            ?>
+
+        <div class="manqk">
+            <h1><?php echo $layoutFile; ?></h1>
+            <div class="aadee">
+                <module id="<?php echo md5($layoutFile); ?>-layout" type="layouts"
+                        template="<?php echo $layoutFile; ?>"/>
+            </div>
+        </div>
+
+    @endforeach
+</div>
+

@@ -1,0 +1,198 @@
+{
+    "title": "Forms",
+    "description": "Pick a form style, and customize it to achieve the style you want.",
+    "settings": [
+        {
+            "title": "Colors",
+            "description": "Choose a form colors to use for your site.",
+            "settings": [
+                {
+                    "title": "Form Input Background Color",
+                    "description": "Choose a form input background color to use for your site.",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-form-control-background"
+                    }
+                },
+                {
+                    "title": "Form Label Color",
+                    "description": "Choose a form label color to use for your site.",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-form-label-color"
+                    }
+                },
+                {
+                    "title": "Form Input Text Color",
+                    "description": "Choose a form input text color to use for your site.",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-form-control-text-color"
+                    }
+                },
+                {
+                    "title": "Form Input Text Hover Color",
+                    "description": "Choose a form input text hover color to use for your site.",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-form-control-text-hover-color"
+                    }
+                },
+                {
+                    "title": "Form Input Border Color",
+                    "description": "Choose a form input border color to use for your site.",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-form-control-border-color"
+                    }
+                },
+                {
+                    "title": "Form Input Placeholder Color",
+                    "description": "Choose a form input placeholder color to use for your site.",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-form-control-placeholder-color"
+                    }
+                },
+                {
+                    "title": "Clear All",
+                    "description": "Clear all form inputs styles you have set for your site.",
+                    "fieldType": "clearAll",
+                    "selectors": [
+                        ":root",
+                        ".form-label",
+                        ".form-control",
+                        ".form-select"
+
+                    ],
+                    "fieldSettings": {
+                        "properties": [
+                            "--mw-form-control-background",
+                            "--mw-form-label-color",
+                            "--mw-form-control-text-color",
+                            "--mw-form-control-text-hover-color",
+                            "--mw-form-control-border-color",
+                            "--mw-form-control-placeholder-color"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "title": "Sizes",
+            "description": "Choose a form sizes to use for your site.",
+            "settings": [
+                {
+                    "title": "Form Label Font Size",
+                    "description": "Choose a form label font size to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-form-label-font-size",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Form Input Border Radius",
+                    "description": "Choose a form input border radius to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-form-control-border-radius",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Form Input Border Size",
+                    "description": "Choose a form input border size to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-form-control-border-size",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Form Input Padding Horizontal",
+                    "description": "Choose a form input padding horizontal to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-form-control-padding-inline",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Form Input Padding Vertical",
+                    "description": "Choose a form input padding vertical to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-form-control-padding-block",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Clear All",
+                    "description": "Clear all form inputs styles you have set for your site.",
+                    "fieldType": "clearAll",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "properties": [
+                            "--mw-form-label-font-size",
+                            "--mw-form-control-border-radius",
+                            "--mw-form-control-border-size",
+                            "--mw-form-control-padding-inline",
+                            "--mw-form-control-padding-block"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

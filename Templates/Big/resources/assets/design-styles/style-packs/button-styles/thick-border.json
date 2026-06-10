@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Thick Border",
+            "description": "Button with a thick, colorful border and subtle background for a bold outline effect.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Thick Border",
+                        "properties": {
+                            "--mw-btn-background": "#f8fafc",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "5px",
+                            "--mw-btn-border-color": "#3b82f6",
+                            "--mw-btn-border-radius": "12px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

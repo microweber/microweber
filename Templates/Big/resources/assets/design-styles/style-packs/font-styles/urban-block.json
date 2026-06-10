@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Urban Block",
+                        "properties": {
+                            "--mw-body-font-family": "'Teko', sans-serif",
+                            "--mw-heading-font-family": "'Teko', sans-serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "38px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "16px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Art Deco",
+            "description": "Elegant art deco inspired button with gold accents, geometric border, and a luxurious gradient.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Art Deco",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #f9d423 0%, #ff4e50 100%)",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "3px",
+                            "--mw-btn-border-color": "#ffd700",
+                            "--mw-btn-border-radius": "0 20px 0 20px",
+                            "--mw-btn-font-size": "19px",
+                            "--mw-btn-padding-block": "15px",
+                            "--mw-btn-padding-inline": "40px",
+                            "--mw-btn-box-shadow": "0 2px 16px 0 rgba(255,78,80,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Modern Mono",
+                        "properties": {
+                            "--mw-body-font-family": "'JetBrains Mono', monospace",
+                            "--mw-heading-font-family": "'JetBrains Mono', monospace",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "33px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "15px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Silver Lining",
+            "description": "Sleek silver gradient with metallic shine and subtle border for a premium look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Silver Lining",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #e0e0e0 0%, #bdbdbd 100%)",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#bdbdbd",
+                            "--mw-btn-border-radius": "12px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 2px 10px 0 rgba(189,189,189,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

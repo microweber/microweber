@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Plum Velvet",
+            "description": "Rich plum purple with a velvety gradient, gold border, and elegant shadow for a luxurious look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Plum Velvet",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #6a0572 0%, #ab47bc 100%)",
+                            "--mw-btn-color": "#fffbe7",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#ffd700",
+                            "--mw-btn-border-radius": "14px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 4px 18px 0 rgba(106,5,114,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

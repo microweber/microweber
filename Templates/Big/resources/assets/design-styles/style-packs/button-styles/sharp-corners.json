@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Sharp Corners",
+            "description": "Perfectly square corners, bold color, and a strong border for a crisp, modern appearance.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Sharp Corners",
+                        "properties": {
+                            "--mw-btn-background": "#00bcd4",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "3px",
+                            "--mw-btn-border-color": "#008ba3",
+                            "--mw-btn-border-radius": "0px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

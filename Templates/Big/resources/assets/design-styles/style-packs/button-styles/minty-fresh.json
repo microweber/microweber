@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Minty Fresh",
+            "description": "Bright mint green with a subtle gradient, white text, and a clean shadow for a fresh look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Minty Fresh",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #a8ffeb 0%, #43e97b 100%)",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#43e97b",
+                            "--mw-btn-border-radius": "16px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 4px 16px 0 rgba(67,233,123,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

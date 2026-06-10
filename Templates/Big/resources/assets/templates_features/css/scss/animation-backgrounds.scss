@@ -1,0 +1,643 @@
+//ANIMATION BACKGROUNDS BEGIN
+
+.animation-backgrounds-1 {
+    @keyframes color {
+        0%   { background: #33CCCC; }
+        20%  { background: #33CC36; }
+        40%  { background: #B8CC33; }
+        60%  { background: #FCCA00; }
+        80%  { background: #33CC36; }
+        100% { background: #33CCCC; }
+    }
+
+    section.section.bg-animation {
+        background: #33CCCC; /* Fallback */
+        animation: color 9s infinite linear;
+        text-align: center;
+        padding: 2em;
+    }
+
+
+    .btn {
+        background-color: rgba(255,255,255,0)!important;
+        color: #ffffff!important;
+        border-color: #ffffff!important;
+        border-width: 2px!important;
+        border-radius: 33px!important;
+
+        &:hover {
+            background-color: #ffffff !important;
+            color: #32c028 !important;
+            border-color: #ffffff !important;
+        }
+
+    }
+
+
+}
+
+.animation-backgrounds-2 {
+    @keyframes AnimateBG {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+    }
+
+
+    section.section.bg-animation {
+        background-size: 300% 300%;
+        background-image: linear-gradient(
+                -45deg,
+                rgba(59,173,227,1) 0%,
+                rgba(87,111,230,1) 25%,
+                rgba(152,68,183,1) 51%,
+                rgba(255,53,127,1) 100%
+        );
+        animation: AnimateBG 20s ease infinite;
+    }
+
+
+    .btn {
+        background-color: rgba(255,255,255,0)!important;
+        color: #ffffff!important;
+        border-color: #ffffff!important;
+        font-size: 16px!important;
+        padding: 0.9em 2em!important;
+
+        &:hover {
+            background-color: #ffffff !important;
+            color: #006aff !important;
+        }
+
+    }
+
+
+}
+
+.animation-backgrounds-3 {
+
+    /* Animate Background*/
+    @keyframes Gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    @keyframes cube {
+        from {
+            transform: scale(0) rotate(0deg) translate(-50%, -50%);
+            opacity: 1;
+        }
+        to {
+            transform: scale(20) rotate(960deg) translate(-50%, -50%);
+            opacity: 0;
+        }
+    }
+
+    .container-fluid.animation{
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background: #FFF;
+    }
+    /* ============= Animation background ========= */
+    .background {
+        background: linear-gradient(132deg, #FC415A, #591BC5, #212335);
+        background-size: 400% 400%;
+        animation: Gradient 15s ease infinite;
+        position: relative;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+        padding:0;
+        margin:0px;
+    }
+    .cube {
+        position: absolute;
+        top: 80vh;
+        left: 45vw;
+        width: 10px;
+        height: 10px;
+        border: solid 1px #D7D4E4;
+        transform-origin: top left;
+        transform: scale(0) rotate(0deg) translate(-50%, -50%);
+        animation: cube 12s ease-in forwards infinite;
+    }
+    .cube:nth-child(2n) {
+        border-color: #FFF ;
+    }
+    .cube:nth-child(2) {
+        animation-delay: 2s;
+        left: 25vw;
+        top: 40vh;
+    }
+    .cube:nth-child(3) {
+        animation-delay: 4s;
+        left: 75vw;
+        top: 50vh;
+    }
+    .cube:nth-child(4) {
+        animation-delay: 6s;
+        left: 90vw;
+        top: 10vh;
+    }
+    .cube:nth-child(5) {
+        animation-delay: 8s;
+        left: 10vw;
+        top: 85vh;
+    }
+    .cube:nth-child(6) {
+        animation-delay: 10s;
+        left: 50vw;
+        top: 10vh;
+    }
+
+    .btn {
+        background-color: #b500da!important;
+        color: #ffffff!important;
+        font-size: 18px!important;
+        padding: 0.9em 2em!important;
+        border-color: #b500da!important;
+
+        &:hover {
+            background-color: rgba(255,0,0,0) !important;
+            color: #ffffff !important;
+            border-color: #ffffff !important;
+        }
+
+    }
+
+}
+
+
+.animation-backgrounds-4 {
+
+    margin: 0;
+    overflow: hidden;
+
+
+    .background {
+        width: 100vw;
+        height: 100vh;
+        background: #3E1E68;
+    }
+
+    $particleSize: 20vmin;
+    $animationDuration: 6s;
+    $amount: 20;
+    .background span {
+        width: $particleSize;
+        height: $particleSize;
+        border-radius: $particleSize;
+        backface-visibility: hidden;
+        position: absolute;
+        animation-name: move;
+        animation-duration: $animationDuration;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        $colors: (
+            #583C87,
+            #E45A84,
+            #FFACAC
+        );
+        @for $i from 1 through $amount {
+            &:nth-child(#{$i}) {
+                color: nth($colors, random(length($colors)));
+                top: random(100) * 1%;
+                left: random(100) * 1%;
+                animation-duration: (random($animationDuration * 10) / 10) * 1s + 10s;
+                animation-delay: random(($animationDuration + 10s) * 10) / 10 * -1s;
+                transform-origin: (random(50) - 25) * 1vw (random(50) - 25) * 1vh;
+                $blurRadius: (random() + 0.5) * $particleSize * 0.5;
+                $x: if(random() > 0.5, -1, 1);
+                box-shadow: ($particleSize * 2 * $x) 0 $blurRadius currentColor;
+            }
+        }
+    }
+
+    @keyframes move {
+        100% {
+            transform: translate3d(0, 0, 1px) rotate(360deg);
+        }
+    }
+
+    .btn {
+        color: #ffffff!important;
+        border-color: #ffffff!important;
+        border-radius: 33px!important;
+        font-size: 18px!important;
+        padding: 0.9em 2em!important;
+        background-color: transparent!important;
+
+        &:hover {
+            background-color: #ffffff !important;
+            color: #950063 !important;
+        }
+
+    }
+
+}
+
+
+.animation-backgrounds-5 {
+    .context {
+        width: 100%;
+        position: absolute;
+        top:50vh;
+
+    }
+
+    .area{
+
+        width: 100%;
+        height:100vh;
+
+
+    }
+
+    .circles{
+        //position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .circles li{
+        position: absolute;
+        display: block;
+        list-style: none;
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        animation: animate 25s linear infinite;
+        bottom: -150px;
+
+    }
+
+    .circles li:nth-child(1){
+        left: 25%;
+        width: 80px;
+        height: 80px;
+        animation-delay: 0s;
+    }
+
+
+    .circles li:nth-child(2){
+        left: 10%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 2s;
+        animation-duration: 12s;
+    }
+
+    .circles li:nth-child(3){
+        left: 70%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 4s;
+    }
+
+    .circles li:nth-child(4){
+        left: 40%;
+        width: 60px;
+        height: 60px;
+        animation-delay: 0s;
+        animation-duration: 18s;
+    }
+
+    .circles li:nth-child(5){
+        left: 65%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 0s;
+    }
+
+    .circles li:nth-child(6){
+        left: 75%;
+        width: 110px;
+        height: 110px;
+        animation-delay: 3s;
+    }
+
+    .circles li:nth-child(7){
+        left: 35%;
+        width: 150px;
+        height: 150px;
+        animation-delay: 7s;
+    }
+
+    .circles li:nth-child(8){
+        left: 50%;
+        width: 25px;
+        height: 25px;
+        animation-delay: 15s;
+        animation-duration: 45s;
+    }
+
+    .circles li:nth-child(9){
+        left: 20%;
+        width: 15px;
+        height: 15px;
+        animation-delay: 2s;
+        animation-duration: 35s;
+    }
+
+    .circles li:nth-child(10){
+        left: 85%;
+        width: 150px;
+        height: 150px;
+        animation-delay: 0s;
+        animation-duration: 11s;
+    }
+
+
+
+    @keyframes animate {
+
+        0%{
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+            border-radius: 0;
+        }
+
+        100%{
+            transform: translateY(-1000px) rotate(720deg);
+            opacity: 0;
+            border-radius: 50%;
+        }
+
+    }
+
+    .btn {
+        background-color: rgba(255,255,255,0)!important;
+        color: #ffffff!important;
+        border-color: #ffffff!important;
+        border-width: 4px!important;
+        font-size: 16px!important;
+        padding: 0.9em 2em!important;
+
+        &:hover {
+
+        }
+
+    }
+
+
+
+}
+
+
+.animation-backgrounds-6 {
+    @mixin sp-layout {
+        @media screen and (max-width: 750px) {
+            @content;
+        }
+    }
+
+
+   .bg-animation {
+    background: radial-gradient(ellipse at bottom, #0d1d31 0%, #0c0d13 100%);
+    overflow: hidden;
+       z-index: 3;
+   }
+
+
+    @function random_range($min, $max) {
+        $rand: random();
+        $random_range: $min + floor($rand * (($max - $min) + 1));
+        @return $random_range;
+    }
+
+    .stars {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 120%;
+        transform: rotate(-45deg);
+        z-index: -1;
+    }
+
+    .star {
+        $star-count: 50;
+        --star-color: #ffffff;
+        --star-tail-length: 6em;
+        --star-tail-height: 2px;
+        --star-width: calc(var(--star-tail-length) / 6);
+        --fall-duration: 9s;
+        --tail-fade-duration: var(--fall-duration);
+
+        position: absolute;
+        top: var(--top-offset);
+        left: 0;
+        width: var(--star-tail-length);
+        height: var(--star-tail-height);
+        color: var(--star-color);
+        background: linear-gradient(45deg, currentColor, transparent);
+        border-radius: 50%;
+        filter: drop-shadow(0 0 6px currentColor);
+        transform: translate3d(104em, 0, 0);
+        animation: fall var(--fall-duration) var(--fall-delay) linear infinite, tail-fade var(--tail-fade-duration) var(--fall-delay) ease-out infinite;
+
+        @include sp-layout {
+            // For mobile performance, tail-fade animation will be removed QAQ
+            animation: fall var(--fall-duration) var(--fall-delay) linear infinite;
+        }
+
+        @for $i from 1 through $star-count {
+            &:nth-child(#{$i}) {
+                --star-tail-length: #{random_range(500em, 750em) / 100};
+                --top-offset: #{random_range(0vh, 10000vh) / 100};
+                --fall-duration: #{random_range(6000, 12000s) / 1000};
+                --fall-delay: #{random_range(0, 10000s) / 1000};
+            }
+        }
+
+        &::before, &::after {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: calc(var(--star-width) / -2);
+            width: var(--star-width);
+            height: 100%;
+            background: linear-gradient(45deg, transparent, currentColor, transparent);
+            border-radius: inherit;
+            animation: blink 2s linear infinite;
+        }
+
+        &::before {
+            transform: rotate(45deg);
+        }
+
+        &::after {
+            transform: rotate(-45deg);
+        }
+    }
+
+    @keyframes fall {
+        to {
+            transform: translate3d(-30em, 0, 0);
+        }
+    }
+
+    @keyframes tail-fade {
+        0%, 50% {
+            width: var(--star-tail-length);
+            opacity: 1;
+        }
+
+        70%, 80% {
+            width: 0;
+            opacity: 0.4;
+        }
+
+        100% {
+            width: 0;
+            opacity: 0;
+        }
+    }
+
+    @keyframes blink {
+        50% {
+            opacity: 0.6;
+        }
+    }
+
+    .btn {
+        background-color: transparent!important;
+        color: #ffffff!important;
+        font-size: 16px!important;
+        padding: 0.9em 2em!important;
+        border-width: 2px !important;
+        border-radius: 33px !important;
+        border-color: #ffffff !important;
+
+
+        &:hover {
+            background-color: #27437f !important;
+            color: #ffffff !important;
+            border-color: #ffffff !important;
+        }
+    }
+}
+
+.animation-backgrounds-7 {
+    .wrapper {
+        animation: scroll 70s linear infinite;
+        background: url("../../img/animations/BACKGROUND.jpg"), #111111;
+        z-index: 0;
+        background-size: cover;
+
+    }
+
+    @keyframes scroll {
+        100%{
+            background-position:0px -3000px;
+        }
+    }
+
+    @media (prefers-reduced-motion) {
+        .wrapper {
+            animation: scroll 200s linear infinite;
+        }
+    }
+
+    @media (min-width: 670px) {
+        .title {
+            font-size: 5rem;
+        }
+    }
+
+    .btn {
+        background-color: #bba32e!important;
+        border-color: #11025a!important;
+        border-width: 3px!important;
+        border-radius: 33px!important;
+        font-size: 18px!important;
+        padding: 0.9em 2em!important;
+
+        &:hover {
+            background-color: #11025a !important;
+            color: #ffffff !important;
+            border-color: #bba32e !important;
+
+        }
+
+    }
+
+}
+
+.animation-backgrounds-8 {
+
+    margin: 0;
+    overflow: hidden;
+
+
+    .background {
+        width: 100vw;
+        height: 100vh;
+        background: #3E1E68;
+    }
+
+    $particleSize: 20vmin;
+    $animationDuration: 6s;
+    $amount: 20;
+    .background span {
+        width: $particleSize;
+        height: $particleSize;
+        border-radius: $particleSize;
+        backface-visibility: hidden;
+        position: absolute;
+        animation-name: move;
+        animation-duration: $animationDuration;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        $colors: (
+            #583C87,
+            #E45A84,
+            #FFACAC
+        );
+        @for $i from 1 through $amount {
+            &:nth-child(#{$i}) {
+                color: nth($colors, random(length($colors)));
+                top: random(100) * 1%;
+                left: random(100) * 1%;
+                animation-duration: (random($animationDuration * 10) / 10) * 1s + 10s;
+                animation-delay: random(($animationDuration + 10s) * 10) / 10 * -1s;
+                transform-origin: (random(50) - 25) * 1vw (random(50) - 25) * 1vh;
+                $blurRadius: (random() + 0.5) * $particleSize * 0.5;
+                $x: if(random() > 0.5, -1, 1);
+                box-shadow: ($particleSize * 2 * $x) 0 $blurRadius currentColor;
+            }
+        }
+    }
+
+    @keyframes move {
+        100% {
+            transform: translate3d(0, 0, 1px) rotate(360deg);
+        }
+    }
+
+    .btn {
+        background-color: #ff00ae!important;
+        color: #ffffff!important;
+        border-radius: 33px!important;
+        font-size: 18px!important;
+        padding: 0.9em 2em!important;
+        &:hover {
+            background-color: #7100b3 !important;
+            color: #ffffff !important;
+        }
+
+    }
+}
+
+//ANIMATION BACKGROUNDS END

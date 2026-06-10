@@ -1,0 +1,83 @@
+{
+    "settings": [
+        {
+            "title": "Full styles",
+            "description": "",
+            "fieldType": "stylePack",
+
+            "selectors": [
+                ":root"
+            ],
+            "previewElementsFormat": "flex",
+            "previewElementsMode": "stylePackOpener",
+            "previewElements": [
+                {
+                    "tag": "h1",
+                    "class": "",
+                    "label": "Aa"
+                },
+                {
+                    "tag": "div",
+                    "class": "color-palette-item",
+                    "label": " ",
+                    "attributes": {
+                        "style": "background-color: var(--mw-primary-color);"
+                    }
+                },
+                {
+                    "tag": "div",
+                    "class": "color-palette-item",
+                    "label": " ",
+                    "attributes": {
+                        "style": "background-color: var(--mw-background-color);"
+                    }
+                },
+                {
+                    "tag": "div",
+                    "class": "color-palette-item",
+                    "label": " ",
+                    "attributes": {
+                        "style": "background-color: var(--mw-body-color);"
+                    }
+                },
+                {
+                    "tag": "div",
+                    "class": "color-palette-item",
+                    "label": " ",
+                    "attributes": {
+                        "style": "background-color: var(--mw-top-header-background-color);"
+                    }
+                },
+                {
+                    "tag": "div",
+                    "class": "color-palette-item",
+                    "label": " ",
+                    "attributes": {
+                        "style": "background-color: var(--mw-header-background-color);"
+                    }
+                },
+                {
+                    "tag": "button",
+                    "class": "btn btn-sm",
+                    "label": "Button"
+                }
+            ],
+            "previewElementsStyleProperties": [
+                {
+                    "label": "Full styles",
+                    "properties": {
+
+                    }
+                }
+            ],
+            "mergeFieldSettingsFromFiles": [
+                "resources/assets/design-styles/style-packs/full-styles.json"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                ]
+            }
+        }
+    ]
+}
+

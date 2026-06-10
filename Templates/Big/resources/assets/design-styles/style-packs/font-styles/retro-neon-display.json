@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Retro Neon Display",
+                        "properties": {
+                            "--mw-body-font-family": "'Press Start 2P', cursive",
+                            "--mw-heading-font-family": "'Press Start 2P', cursive",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "38px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "15px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

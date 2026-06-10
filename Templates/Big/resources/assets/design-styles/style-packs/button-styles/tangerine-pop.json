@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Tangerine Pop",
+            "description": "Vivid tangerine orange with a subtle gradient, white text, and playful shadow for a lively look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Tangerine Pop",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #ffb347 0%, #ff7043 100%)",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#ff7043",
+                            "--mw-btn-border-radius": "14px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 4px 16px 0 rgba(255,112,67,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

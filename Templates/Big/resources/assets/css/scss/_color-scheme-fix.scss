@@ -1,0 +1,29 @@
+/* task-big2-color-scheme — make buttons + links follow the active Big colour
+   palette instead of a foreign brand-blue.
+
+   Two root causes were combined:
+   1. The global public-touch.css (Bootstrap brand theme, loaded on every
+      template) forces buttons and links to brand-blue: a `:root` token sets
+      `--mw-btn-background-color: var(--color-primary, #0d6efd)` and a
+      high-specificity rule `a:not(.btn):not(.navbar-brand):not([class*="btn-"])`
+      colours links with `var(--color-primary)`. These overrode Big's palette.
+   2. Big defaulted `--mw-btn-background-color` to a fixed colour instead of
+      deriving it from the palette primary, so the predefined colour palettes
+      (which set `--mw-primary-color` / `--mw-link-color` but NOT the button
+      colour) never recoloured the buttons.
+
+   Fix: re-point the button colour vars to the palette primary and restore the
+   link colour to the palette link colour, scoped to `body.Big`. The body
+   carries the template name as a class, so `body.Big` (specificity 0,1,1)
+   beats public-touch's `:root` (0,1,0), and `body.Big a:not(...)` (0,4,2) beats
+   public-touch's `a:not(...)` (0,3,1) — regardless of stylesheet load order.
+   The Bootstrap template (body.Bootstrap) is untouched and keeps its brand-blue. */
+body.Big {
+    --mw-btn-background-color: var(--mw-primary-color, #f4a261);
+    --mw-btn-background-hover-color: var(--mw-primary-color, #f4a261);
+    --mw-btn-border-color: var(--mw-primary-color, #f4a261);
+}
+
+body.Big a:not(.btn):not(.navbar-brand):not([class*="btn-"]) {
+    color: var(--mw-link-color, var(--mw-primary-color, #f4a261));
+}

@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Bubble Round",
+            "description": "Soft, pill-shaped button with a bubbly pastel background and gentle shadow for a playful look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bubble Round",
+                        "properties": {
+                            "--mw-btn-background": "#e0f7fa",
+                            "--mw-btn-color": "#00796b",
+                            "--mw-btn-border-size": "0px",
+                            "--mw-btn-border-radius": "32px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "15px",
+                            "--mw-btn-padding-inline": "44px",
+                            "--mw-btn-box-shadow": "0 6px 18px 0 rgba(0,121,107,0.10)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

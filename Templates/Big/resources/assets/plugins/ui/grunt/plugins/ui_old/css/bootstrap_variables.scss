@@ -1,0 +1,130 @@
+$white: #fff !default;
+$gray-100: #fafafa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #cfcfcf !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #2b2b2b !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+$silver: #919191 !default;
+
+$blue: #4592ff !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #ff4f52 !default;
+$orange: #fd7e14 !default;
+$yellow: #ffc107 !default;
+$green: #3dc47e !default;
+$teal: #20c997 !default;
+$cyan: #e1f1fd !default;
+
+$secondary-new-color: darken($white, 6%);
+
+$primary: $blue !default;
+$secondary: $secondary-new-color !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: #2b2b2b !default;
+
+//$body-bg: $white !default;
+//$body-bg: #f2f3f5 !default;
+$body-bg: darken($white, 4%) !default;
+$body-color: $gray-900 !default;
+
+$font-size-base: 0.875rem !default;
+$font-size-lg: $font-size-base * 1.25 !default;
+$font-size-sm: $font-size-base * .875 !default;
+
+$small-font-size: 12px !default;
+
+$font-family-sans-serif: 'Verdana' !default;
+$font-family-monospace: 'Verdana' !default;
+
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+
+$font-family-base: $font-family-sans-serif !default;
+
+$h1-font-size: $font-size-base * 2.5 !default;
+$h2-font-size: $font-size-base * 2 !default;
+$h3-font-size: $font-size-base * 1.75 !default;
+$h4-font-size: $font-size-base * 1.5 !default;
+$h5-font-size: $font-size-base * 1.25 !default;
+$h6-font-size: $font-size-base !default;
+
+$text-muted: $silver !default;
+
+// Buttons + Forms
+$input-btn-padding-y: .75rem !default;
+$input-btn-padding-x: .75rem !default;
+
+$input-btn-padding-y-sm: .5rem !default;
+$input-btn-padding-x-sm: .5rem !default;
+
+$input-btn-padding-y-lg: 0.969rem !default;
+$input-btn-padding-x-lg: 1rem !default;
+
+$input-height: 2.5rem !default;
+$input-height-sm: 1.875rem !default;
+$input-height-lg: 3.125rem !default;
+
+$border-width: 1px !default;
+/*$border-radius:               .25rem !default;
+$border-radius-lg:            .3rem !default;
+$border-radius-sm:            .2rem !default;*/
+
+$border-radius: 5px !default;
+$border-radius-lg: 5px !default;
+$border-radius-sm: 5px !default;
+
+$input-btn-border-width: $border-width !default;
+
+$input-color: $gray-700 !default;
+$input-border-color: $gray-400 !default;
+$input-border-width: $input-btn-border-width !default;
+$input-box-shadow: inset 0 1px 1px rgba($black, .075) !default;
+
+$input-border-radius: $border-radius !default;
+$input-border-radius-lg: $border-radius-lg !default;
+$input-border-radius-sm: $border-radius-sm !default;
+
+$input-placeholder-color: $gray-600 !default;
+$input-plaintext-color: $body-color !default;
+
+$input-height-border: $input-border-width * 2 !default;
+
+$form-text-margin-top: .25rem !default;
+
+$form-check-input-gutter: 1.25rem !default;
+$form-check-input-margin-y: .3rem !default;
+$form-check-input-margin-x: .25rem !default;
+
+$form-check-inline-margin-x: .75rem !default;
+$form-check-inline-input-margin-x: .3125rem !default;
+
+$form-grid-gutter-width: 10px !default;
+$form-group-margin-bottom: 1rem !default;
+
+$custom-control-indicator-size: 1.25rem !default;
+
+/*$custom-file-padding-y:             $input-btn-padding-y !default;*/
+/*$custom-file-line-height:           1 !default;*/
+
+// Badges
+$badge-font-size: 85% !default;
+
+$badge-padding-y: 0.438rem !default;
+$badge-padding-x: 1.075em !default;
+$badge-border-radius: $border-radius !default;
+
+$badge-pill-padding-x: 1.075em !default;
+
+
+$input-focus-color: $dark !default;

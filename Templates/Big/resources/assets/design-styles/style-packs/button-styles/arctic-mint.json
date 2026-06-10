@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Arctic Mint",
+            "description": "Icy mint gradient with crisp border and cool shadow for a refreshing appearance.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Arctic Mint",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #a8edea 0%, #fed6e3 100%)",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#a8edea",
+                            "--mw-btn-border-radius": "14px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 2px 12px 0 rgba(168,237,234,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

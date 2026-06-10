@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Citrus Splash",
+            "description": "A zesty mix of citrus and aqua for a vibrant, energetic look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Citrus Splash",
+                        "properties": {
+                            "--mw-background-color": "#f6fff9",
+                            "--mw-section-background-color": "#f6fff9",
+                            "--mw-primary-color": "#ffe066",
+                            "--mw-secondary": "#00bcd4",
+                            "--mw-textDark": "#2e4631",
+                            "--mw-textLight": "#f6fff9",
+                            "--mw-body-color": "#2e4631",
+                            "--mw-heading-color": "#807033",
+                            "--mw-paragraph-color": "#807033",
+                            "--mw-link-color": "#807033",
+                            "--mw-link-hover-color": "#00bcd4",
+                            "--mw-header-background-color": "#f6fff9",
+                            "--mw-header-link-color": "#807033",
+                            "--mw-header-link-hover-color": "#00bcd4",
+                            "--mw-header-link-background-hover-color": "rgba(0, 188, 212, 0.08)",
+                            "--mw-top-header-background-color": "#f6fff9",
+                            "--mw-top-header-primary-color": "#ffe066",
+                            "--mw-top-header-link-color": "#005e6a",
+                            "--mw-top-header-link-hover-color": "#ffe066",
+                            "--mw-top-header-button-background-color": "#ffe066",
+                            "--mw-top-header-button-background-hover-color": "#00bcd4",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#2e4631",
+                            "--mw-footer-background-color": "#f6fff9",
+                            "--mw-footer-text-color": "#2e4631",
+                            "--mw-footer-primary-color": "#ffe066",
+                            "--mw-footer-link-color": "#005e6a",
+                            "--mw-footer-hover-link-color": "#ffe066",
+                            "--mw-footer-button-background-color": "#ffe066",
+                            "--mw-footer-button-background-hover-color": "#00bcd4",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#2e4631",
+                            "--mw-text-decoration-color": "#ffe066",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

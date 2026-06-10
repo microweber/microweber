@@ -1,0 +1,127 @@
+{
+    "schema": [
+        {
+            "type": "text",
+            "label": "Phone text value",
+            "name": "phone_text_value",
+            "show_when": [
+                "header_top_menu",
+                "phone_text"
+            ]
+        },
+        {
+            "type": "select",
+            "label": "Sticky nav",
+            "name": "sticky_navigation",
+            "placeholder": "Select sticky navigation",
+            "help": "Is the navigation sticky",
+            "options": {
+                "1": "Yes",
+                "0": "No"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Show header top menu",
+            "name": "header_top_menu",
+            "placeholder": "Is the header top menu enabled",
+            "help": "Is the header top menu enabled",
+            "options": {
+                "1": "Yes",
+                "0": "No"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Search",
+            "name": "search_bar",
+            "placeholder": "Enable search bar",
+            "options": {
+                "1": "Yes",
+                "0": "No"
+            },
+            "show_when": [
+                "header_top_menu"
+            ]
+        },
+        {
+            "type": "select",
+            "label": "Shopping cart",
+            "name": "shopping_cart",
+            "placeholder": "Enable shopping cart",
+            "options": {
+                "1": "Yes",
+                "0": "No"
+            },
+            "show_when": [
+                "header_top_menu"
+            ]
+        },
+        {
+            "type": "select",
+            "label": "Contact us link",
+            "name": "contact_us_link",
+            "placeholder": "Enable contact us link",
+            "options": {
+                "1": "Yes",
+                "0": "No"
+            },
+            "show_when": [
+                "header_top_menu"
+            ]
+        },
+        {
+            "type": "select",
+            "label": "Header socials",
+            "name": "header_socials",
+            "placeholder": "Enable header socials",
+            "options": {
+                "1": "Yes",
+                "0": "No"
+            },
+            "show_when": [
+                "header_top_menu"
+            ]
+        },
+        {
+            "type": "select",
+            "label": "Phone text",
+            "name": "phone_text",
+            "placeholder": "Enable phone text",
+            "options": {
+                "1": "Yes",
+                "0": "No"
+            },
+            "show_when": [
+                "header_top_menu"
+            ]
+        },
+
+        {
+            "type": "select",
+            "label": "Profile link",
+            "name": "profile_link",
+            "placeholder": "Enable profile link",
+            "options": {
+                "1": "Yes",
+                "0": "No"
+            },
+            "show_when": [
+                "header_top_menu"
+            ]
+        },
+        {
+            "type": "select",
+            "label": "Multilanguage",
+            "name": "multilanguage",
+            "placeholder": "Enable multilanguage",
+            "options": {
+                "1": "Yes",
+                "0": "No"
+            },
+            "show_when": [
+                "header_top_menu"
+            ]
+        }
+    ]
+}

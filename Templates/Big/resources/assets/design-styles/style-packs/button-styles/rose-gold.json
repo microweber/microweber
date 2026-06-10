@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Rose Gold",
+            "description": "Elegant rose gold gradient with a soft metallic sheen and rounded corners.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Rose Gold",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #b76e79 0%, #f7cac9 100%)",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#b76e79",
+                            "--mw-btn-border-radius": "14px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 2px 10px 0 rgba(183,110,121,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

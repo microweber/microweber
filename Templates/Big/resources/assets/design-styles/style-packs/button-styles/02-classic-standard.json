@@ -1,0 +1,48 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Classic Standard",
+            "description": "Traditional button style with slight rounded corners",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {
+                    "tag": "button",
+                    "class": "btn",
+                    "label": "Button"
+                },
+                {
+                    "tag": "button",
+                    "class": "btn btn-secondary",
+                    "label": "Secondary"
+                },
+                {
+                    "tag": "button",
+                    "class": "btn btn-outline",
+                    "label": "Outline"
+                }
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Classic Standard",
+                        "properties": {
+                            "--mw-btn-border-radius": "4px",
+                            "--mw-btn-border-size": "1px",
+                            "--mw-btn-font-size": "16px",
+                            "--mw-btn-padding-block": "10px",
+                            "--mw-btn-padding-inline": "20px",
+                            "--mw-btn-secondary-border-radius": "4px",
+                            "--mw-btn-outline-border-radius": "4px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

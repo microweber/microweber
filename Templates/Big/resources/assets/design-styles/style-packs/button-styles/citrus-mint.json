@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Citrus Mint",
+            "description": "Fresh citrus-to-mint gradient with crisp white text and a clean, modern shadow.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Citrus Mint",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #f9d423 0%, #a1ffce 100%)",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#a1ffce",
+                            "--mw-btn-border-radius": "16px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 4px 16px 0 rgba(161,255,206,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

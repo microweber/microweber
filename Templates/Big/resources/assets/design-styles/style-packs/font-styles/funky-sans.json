@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Funky Sans",
+                        "properties": {
+                            "--mw-body-font-family": "'Baloo 2', cursive",
+                            "--mw-heading-font-family": "'Baloo 2', cursive",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "37px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "16px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

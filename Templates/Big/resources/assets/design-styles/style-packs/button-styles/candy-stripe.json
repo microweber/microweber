@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Candy Stripe",
+            "description": "Diagonal pink and white stripes with glossy finish and playful shadow.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Candy Stripe",
+                        "properties": {
+                            "--mw-btn-background": "repeating-linear-gradient(45deg, #ffb6c1, #ffb6c1 10px, #fff 10px, #fff 20px)",
+                            "--mw-btn-color": "#d72660",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#d72660",
+                            "--mw-btn-border-radius": "18px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 4px 16px 0 rgba(215,38,96,0.10)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

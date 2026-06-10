@@ -1,0 +1,34 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Pop Art",
+            "description": "Pop art inspired button with playful, exaggerated roundness and thick border",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Pop Art",
+                        "properties": {
+                            "--mw-btn-border-radius": "32px",
+                            "--mw-btn-border-size": "5px",
+                            "--mw-btn-font-size": "22px",
+                            "--mw-btn-padding-block": "18px",
+                            "--mw-btn-padding-inline": "48px",
+                            "--mw-btn-secondary-border-radius": "32px",
+                            "--mw-btn-outline-border-radius": "32px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+
