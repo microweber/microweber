@@ -48,7 +48,7 @@ class XSSSecurity
     public function clean($str,$method='process')
     {
         if (is_array($str)) {
-            while (list($key) = each($str)) {
+            foreach (array_keys($str) as $key) {
                 $str[$key] = $this->$method($str[$key]);
             }
 
