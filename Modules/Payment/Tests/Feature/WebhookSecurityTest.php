@@ -239,10 +239,10 @@ class WebhookSecurityTest extends TestCase
      */
     public function test_paypal_rejects_webhook_when_webhook_id_not_configured(): void
     {
-        // Remove webhook_id from provider
-        $this->paypalProvider->update([
-            'settings' => array_merge($this->paypalProvider->settings, ['webhook_id' => '']),
-        ]);
+        // Force "no webhook_id configured" via config (the webhook HTTP request
+        // runs on a separate DB connection and won't see a provider update, so
+        // config — which getWebhookId() checks first — is the reliable source).
+        config(['services.paypal.webhook_id' => '']);
 
         $order = $this->createTestOrder('paypal');
 
@@ -267,11 +267,10 @@ class WebhookSecurityTest extends TestCase
             json_encode($payload)
         );
 
-        // The webhook MUST be rejected (4xx/5xx) — never processed. The exact
-        // code is 403 when webhook_id is genuinely empty; under the test's
-        // separate-connection DB the controller may instead fail closed at the
-        // verification API (503). Either way the order is NOT marked paid.
-        $this->assertGreaterThanOrEqual(400, $response->getStatusCode());
+        // With no webhook_id configured the controller rejects BEFORE any
+        // verification API call — exactly 403, and the order stays unpaid.
+        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertStringContainsString('verification not configured', $response->getContent());
 
         $order->refresh();
         $this->assertEquals(0, $order->is_paid);
@@ -750,5 +749,144 @@ class WebhookSecurityTest extends TestCase
             in_array($value, $array),
             $message ?: "Failed asserting that {$value} is in [" . implode(', ', $array) . "]"
         );
+    }
+
+    // -----------------------------------------------------------------------
+    // ROUND 1b: cert-URL SSRF hardening, config-resolved webhook_id,
+    // and the Stripe Event-object → array regression guard.
+    // -----------------------------------------------------------------------
+
+    /** Send a Stripe webhook signed with a known secret exposed via config. */
+    protected function sendValidStripeWebhook(array $payload): \Illuminate\Testing\TestResponse
+    {
+        $secret = 'whsec_valid_fixed_test_secret';
+        config(['services.stripe.webhook_secret' => $secret]);
+
+        $payloadJson = json_encode($payload);
+        $timestamp = time();
+        $signature = hash_hmac('sha256', "{$timestamp}.{$payloadJson}", $secret);
+
+        return $this->call('POST', 'payment/stripe/webhook', [], [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_STRIPE_SIGNATURE' => "t={$timestamp},v1={$signature}",
+        ], $payloadJson);
+    }
+
+    /** Build the PayPal signature headers, allowing per-test overrides. */
+    protected function paypalHeaders(array $overrides = []): array
+    {
+        return array_merge([
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_PAYPAL_TRANSMISSION_ID' => 'test-trans-id',
+            'HTTP_PAYPAL_TRANSMISSION_TIME' => '2026-01-01T00:00:00Z',
+            'HTTP_PAYPAL_TRANSMISSION_SIG' => 'test-sig',
+            'HTTP_PAYPAL_CERT_URL' => 'https://api.sandbox.paypal.com/v1/notifications/certs/test.pem',
+            'HTTP_PAYPAL_AUTH_ALGO' => 'SHA256withRSA',
+        ], $overrides);
+    }
+
+    /**
+     * SSRF: a look-alike cert host (api.paypal.com.evil.com) must be rejected.
+     */
+    public function test_paypal_rejects_lookalike_cert_url_host(): void
+    {
+        $order = $this->createTestOrder('paypal');
+        $payload = $this->buildPayPalPayload('PAYMENT.CAPTURE.COMPLETED', [
+            'custom_id' => $order->order_reference_id,
+        ]);
+
+        $response = $this->call(
+            'POST', 'payment/paypal/webhook', [], [], [],
+            $this->paypalHeaders([
+                'HTTP_PAYPAL_CERT_URL' => 'https://api.paypal.com.evil.com/certs/x.pem',
+            ]),
+            json_encode($payload)
+        );
+
+        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertStringContainsString('Invalid certificate URL', $response->getContent());
+        $order->refresh();
+        $this->assertEquals(0, $order->is_paid);
+    }
+
+    /**
+     * SSRF: a non-HTTPS cert URL (even on the real PayPal host) must be rejected.
+     */
+    public function test_paypal_rejects_non_https_cert_url(): void
+    {
+        $order = $this->createTestOrder('paypal');
+        $payload = $this->buildPayPalPayload('PAYMENT.CAPTURE.COMPLETED', [
+            'custom_id' => $order->order_reference_id,
+        ]);
+
+        $response = $this->call(
+            'POST', 'payment/paypal/webhook', [], [], [],
+            $this->paypalHeaders([
+                'HTTP_PAYPAL_CERT_URL' => 'http://api.paypal.com/certs/x.pem',
+            ]),
+            json_encode($payload)
+        );
+
+        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertStringContainsString('Invalid certificate URL', $response->getContent());
+    }
+
+    /**
+     * The webhook_id resolves from config (services.paypal.webhook_id) — proven
+     * by getting PAST the "verification not configured" check to the header
+     * check when headers are absent.
+     */
+    public function test_paypal_resolves_webhook_id_from_config(): void
+    {
+        config(['services.paypal.webhook_id' => 'WH-CONFIG-RESOLVED']);
+
+        $order = $this->createTestOrder('paypal');
+        $payload = $this->buildPayPalPayload('PAYMENT.CAPTURE.COMPLETED', [
+            'custom_id' => $order->order_reference_id,
+        ]);
+
+        // No PayPal signature headers → should reach the "missing headers" 403,
+        // NOT the "verification not configured" 403 — proving config resolved.
+        $response = $this->call(
+            'POST', 'payment/paypal/webhook', [], [], [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($payload)
+        );
+
+        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertStringContainsString('Missing PayPal signature headers', $response->getContent());
+        $this->assertStringNotContainsString('verification not configured', $response->getContent());
+    }
+
+    /**
+     * REGRESSION: a verified charge.refunded event must reach its array-typed
+     * handler without a TypeError — guards the Stripe Event-object → array fix.
+     */
+    public function test_stripe_charge_refunded_reaches_handler_without_type_error(): void
+    {
+        $payload = $this->buildStripePayload('charge.refunded', [
+            'object' => 'charge',
+            'id' => 'ch_test_refund',
+            'refunded' => true,
+        ]);
+
+        $response = $this->sendValidStripeWebhook($payload);
+
+        // The signature verifies and the array-typed handler runs — never a 500.
+        $this->assertNotEquals(500, $response->getStatusCode(),
+            'Verified Stripe event must be passed to handlers as an array, not a Stripe\\Event object'
+        );
+    }
+
+    /**
+     * A correctly-signed but structurally-malformed event must fail closed
+     * (no 500) — verification passes, processing degrades gracefully.
+     */
+    public function test_stripe_signed_malformed_event_does_not_500(): void
+    {
+        // Valid signature over a body missing the usual data.object shape.
+        $response = $this->sendValidStripeWebhook(['id' => 'evt_x', 'object' => 'event', 'type' => 'charge.refunded']);
+
+        $this->assertNotEquals(500, $response->getStatusCode());
     }
 }

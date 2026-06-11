@@ -102,7 +102,7 @@ class PayPalWebhookController extends Controller
             return new Response('PayPal not configured', 403);
         }
 
-        $webhookId = $provider->settings['webhook_id'] ?? null;
+        $webhookId = $this->getWebhookId($provider);
 
         // SECURITY: Reject if webhook_id is not configured — without it we cannot verify
         if (!$webhookId) {
@@ -126,10 +126,15 @@ class PayPalWebhookController extends Controller
             return new Response('Missing PayPal signature headers', 403);
         }
 
-        // SECURITY: Validate cert URL is from PayPal to prevent SSRF
+        // SECURITY: Validate cert URL is an HTTPS PayPal URL to prevent SSRF.
+        // Both the scheme (https only) and the exact host must match — a host
+        // check alone would accept http:// or a look-alike like
+        // "api.paypal.com.evil.com".
         $parsedCertUrl = parse_url($certUrl);
         $allowedHosts = ['api.paypal.com', 'api.sandbox.paypal.com'];
-        if (!isset($parsedCertUrl['host']) || !in_array($parsedCertUrl['host'], $allowedHosts)) {
+        $certScheme = strtolower($parsedCertUrl['scheme'] ?? '');
+        $certHost = strtolower($parsedCertUrl['host'] ?? '');
+        if ($certScheme !== 'https' || !in_array($certHost, $allowedHosts, true)) {
             Log::warning('PayPal webhook rejected: suspicious cert URL', [
                 'cert_url' => $certUrl,
                 'ip' => $request->ip(),
@@ -523,5 +528,31 @@ class PayPalWebhookController extends Controller
         return PaymentProvider::where('provider', 'paypal')
             ->where('is_active', 1)
             ->first();
+    }
+
+    /**
+     * Resolve the PayPal webhook id used for signature verification.
+     *
+     * Checks config first (env/services.paypal.webhook_id), then the active
+     * provider's settings — mirroring StripeWebhookController::getWebhookSecret().
+     * Returns null when neither is set (empty string is treated as unset), in
+     * which case the caller MUST reject the webhook.
+     *
+     * @param PaymentProvider|null $provider
+     * @return string|null
+     */
+    protected function getWebhookId(?PaymentProvider $provider): ?string
+    {
+        // When the config key is explicitly present it wins (even if empty —
+        // an empty value means "no webhook id configured" → reject). Absent
+        // (null) falls through to the active provider's settings.
+        $configId = config('services.paypal.webhook_id');
+        if ($configId !== null) {
+            return $configId !== '' ? $configId : null;
+        }
+
+        $settingsId = $provider->settings['webhook_id'] ?? '';
+
+        return $settingsId !== '' ? $settingsId : null;
     }
 }
