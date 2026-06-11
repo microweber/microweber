@@ -5,19 +5,17 @@ position: 123
 categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
-<section class="{{ $layout_classes }} section mw-new-layouts-23">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-23"
+    container-class="mw-layout-container no-element"
+>
     <module type="spacer" height="100px" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element edit safe-mode" field="layout-new-layouts-skin-23-{{ $params['id'] }}" rel="module">
-        <module type="tabs" template="skin-1"/>
-    </div>
-    <module type="spacer" height="100px" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+        <div class="container mw-layout-container no-element edit safe-mode" field="layout-new-layouts-skin-23-{{ $params['id'] }}" rel="module">
+            <module type="tabs" template="skin-1"/>
+        </div>
+        <module type="spacer" height="100px" id="spacer-layout--{{ $params['id'] }}-bottom"/>
+</x-layout-section>

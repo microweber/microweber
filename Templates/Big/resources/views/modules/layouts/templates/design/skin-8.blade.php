@@ -5,13 +5,6 @@
  categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-new-layouts-8 {
         a, .mw-new-8-title {
@@ -110,25 +103,25 @@
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-8">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element edit safe-mode text-center"
-         field="layout-new-layouts-skin-8-{{ $params['id'] }}" rel="module">
 
-        <div class="col-lx-8 col-12 mx-auto">
-            <div class="overlapping-avatars inside-title mb-5">
-                <img loading="lazy" class="overlapping-avatar cloneable p-0 element" src="{{ asset('templates/big/img/layouts/teamcard/1.jpg') }}" alt=""/>
-                <img loading="lazy" class="overlapping-avatar cloneable p-0 element" src="{{ asset('templates/big/img/layouts/teamcard/2.jpg') }}" alt=""/>
-                <img loading="lazy" class="overlapping-avatar cloneable p-0 element" src="{{ asset('templates/big/img/layouts/teamcard/3.jpg') }}" alt=""/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-8"
+    field-name="layout-new-layouts-skin-8"
+    container-class="mw-layout-container container no-element edit safe-mode text-center"
+>
+    <div class="col-lx-8 col-12 mx-auto">
+                <div class="overlapping-avatars inside-title mb-5">
+                    <img loading="lazy" class="overlapping-avatar cloneable p-0 element" src="{{ asset('templates/big/img/layouts/teamcard/1.jpg') }}" alt=""/>
+                    <img loading="lazy" class="overlapping-avatar cloneable p-0 element" src="{{ asset('templates/big/img/layouts/teamcard/2.jpg') }}" alt=""/>
+                    <img loading="lazy" class="overlapping-avatar cloneable p-0 element" src="{{ asset('templates/big/img/layouts/teamcard/3.jpg') }}" alt=""/>
+                </div>
+
+                <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-8-title mb-5 col-xxl-6 col-12 mx-auto">Top-notch legal support when your business needs it.</h2>
+
+                <module type="btn" button_style="btn-primary" text="Schedule a demo"/>
             </div>
-
-            <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-8-title mb-5 col-xxl-6 col-12 mx-auto">Top-notch legal support when your business needs it.</h2>
-
-            <module type="btn" button_style="btn-primary" text="Schedule a demo"/>
-        </div>
-    </div>
-
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+</x-layout-section>

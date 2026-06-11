@@ -5,13 +5,6 @@ position: 117
 categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-new-layouts-17 {
         .mw-new-17-title-tag {
@@ -79,33 +72,35 @@ categories: Design
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-17">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element edit safe-mode" field="layout-new-layouts-skin-17-{{ $params['id'] }}" rel="module">
-        <div class="row">
-            <div class="col-md-6 col-sm-10 mx-auto d-flex flex-column justify-content-between mb-md-0 mb-4">
-                <div class="flex-right">
-                    <div class="flex-tag background-color-element element" style="opacity: 1;">
-                        <span class="mw-new-17-title-tag">why us</span>
+
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-17"
+    field-name="layout-new-layouts-skin-17"
+    container-class="mw-layout-container container no-element edit safe-mode"
+>
+    <x-row>
+                <div class="col-md-6 col-sm-10 mx-auto d-flex flex-column justify-content-between mb-md-0 mb-4">
+                    <div class="flex-right">
+                        <div class="flex-tag background-color-element element" style="opacity: 1;">
+                            <span class="mw-new-17-title-tag">why us</span>
+                        </div>
+                    </div>
+
+                    <p data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-17-subhead-main">SkyRocket — Crafting Intuitive User Experiences. We're proud recipients of 10 awards in website design.
+                        <span class="mw-new-17-gray-color">Explore our portfolio for in-depth insights into our acclaimed projects.</span>
+                    </p>
+
+                    <div class="mt-5">
+                        <module type="btn" button_style="btn-outline-primary" text="ALL WORKS"/>
                     </div>
                 </div>
 
-                <p data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-17-subhead-main">SkyRocket — Crafting Intuitive User Experiences. We're proud recipients of 10 awards in website design.
-                    <span class="mw-new-17-gray-color">Explore our portfolio for in-depth insights into our acclaimed projects.</span>
-                </p>
-
-                <div class="mt-5">
-                    <module type="btn" button_style="btn-outline-primary" text="ALL WORKS"/>
+                <div class="col-md-6 col-sm-10 mx-auto mw-new-17-photo-wrapper">
+                    <img class="mw-new-17-photo" loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-5.jpg') }}" alt=""/>
                 </div>
-            </div>
-
-            <div class="col-md-6 col-sm-10 mx-auto mw-new-17-photo-wrapper">
-                <img class="mw-new-17-photo" loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-5.jpg') }}" alt=""/>
-            </div>
-        </div>
-    </div>
-
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+            </x-row>
+</x-layout-section>

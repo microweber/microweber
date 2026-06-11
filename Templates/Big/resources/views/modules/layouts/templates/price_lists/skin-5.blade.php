@@ -1,28 +1,9 @@
-@php
-/*
- 
+{{--
 type: layout
- 
 name: Price Lists 5
- 
 position: 5
- 
 categories: Price Lists
- 
-*/
-@endphp
-
-@if (!isset($classes['padding_top']))
-    @php $classes['padding_top'] = 'p-t-70'; @endphp
-@endif
-@if (!isset($classes['padding_bottom']))
-    @php $classes['padding_bottom'] = 'p-b-70'; @endphp
-@endif
-
-@php
-$layout_classes = $layout_classes ?? '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
+--}}
 
 <style>
     .prices-skin-5 .white-text {
@@ -30,11 +11,19 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
     }
 </style>
 
-<section class="section {{ $layout_classes }} prices-skin-5 ">
-    <module type="background" data-background-color="#2b2b2b" id="background-layout--{{ $params['id'] }}" />
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top" />
-    <div class="mw-layout-container no-element container edit safe-mode" field="layout-price-lists-skin-5-{{ $params['id'] }}" rel="module">
-        <div class="row d-flex py-4">
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section prices-skin-5"
+    field-name="layout-price-lists-skin-5"
+    default-padding-top="p-t-70"
+    default-padding-bottom="p-b-70"
+    background-attrs='data-background-color="#2b2b2b"'
+    container-class="mw-layout-container no-element container edit safe-mode"
+>
+    <div>
+        <x-row class="d-flex py-4">
             <h3 class="white-text text-center allow-select regular-mode py-5">Our menu</h3>
             <div class="col-lg-4 col-md-6 allow-select regular-mode ">
                 <div class="cloneable element p-4">
@@ -66,7 +55,6 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
                     <p class="white-text cloneable element">Cornmeal-based pork scrapple cut into chunks and scrambled with cage-free eggs. Served with a fresh tomato and two sourdough biscuits.</p>
                 </div>
             </div>
-        </div>
+        </x-row>
     </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom" />
-</section>
+</x-layout-section>

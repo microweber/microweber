@@ -5,13 +5,6 @@
  categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? ''; 
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-new-layouts-2 .mw-layout-new-2-box {
         border-radius: 30px;
@@ -78,71 +71,72 @@
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-2">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element text-center edit safe-mode no-typing"
-         field="layout-new-layouts-skin-2-{{ $params['id'] }}" rel="module">
-        <div class="row">
-            <div class="d-flex align-items-center justify-content-between mb-5">
-                <h3 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-2-title">We build experience</h3>
 
-                <div data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-new-2-button-text">WORK WITH US</div>
-            </div>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-2"
+    field-name="layout-new-layouts-skin-2"
+    container-class="mw-layout-container container no-element text-center edit safe-mode no-typing"
+>
+    <x-row>
+                <div class="d-flex align-items-center justify-content-between mb-5">
+                    <h3 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-2-title">We build experience</h3>
 
-            <div class="col-xl-4 col-sm-6 element cloneable mb-3">
-                <div class="mw-layout-new-2-box background-color-element element" style="background-color: #FAFAFA;">
-                    <div class="mw-new-2-shape-wrapper background-color-element element" style="background-color: #FFCBC3;"></div>
-                    <div class="mw-new-2-services-circle background-color-element element" style="background-color: #FF705A;">
-                        <i class="mw-micon-Idea-2"></i>
-                    </div>
+                    <div data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-new-2-button-text">WORK WITH US</div>
+                </div>
 
-                    <div class="mw-new-2-box-padding">
-                        <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-2-inside-title">Prototyping</h4>
-                        <p data-mwplaceholder="{{ _e('Enter text here') }}">Make sure you're building the right product.</p>
-                        <div class="mt-4">
-                            <module type="btn" button_style="btn-link" text="LEARN MORE"/>
+                <div class="col-xl-4 col-sm-6 element cloneable mb-3">
+                    <div class="mw-layout-new-2-box background-color-element element" style="background-color: #FAFAFA;">
+                        <div class="mw-new-2-shape-wrapper background-color-element element" style="background-color: #FFCBC3;"></div>
+                        <div class="mw-new-2-services-circle background-color-element element" style="background-color: #FF705A;">
+                            <i class="mw-micon-Idea-2"></i>
+                        </div>
+
+                        <div class="mw-new-2-box-padding">
+                            <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-2-inside-title">Prototyping</h4>
+                            <p data-mwplaceholder="{{ _e('Enter text here') }}">Make sure you're building the right product.</p>
+                            <div class="mt-4">
+                                <module type="btn" button_style="btn-link" text="LEARN MORE"/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-xl-4 col-sm-6 element cloneable mb-3">
-                <div class="mw-layout-new-2-box background-color-element element" style="background-color: #FAFAFA;">
-                    <div class="mw-new-2-shape-wrapper background-color-element element" style="background-color: #C2D2FD;"></div>
-                    <div class="mw-new-2-services-circle background-color-element element" style="background-color: #3C5CCF;">
-                        <i class="mw-micon-Shop-2"></i>
-                    </div>
+                <div class="col-xl-4 col-sm-6 element cloneable mb-3">
+                    <div class="mw-layout-new-2-box background-color-element element" style="background-color: #FAFAFA;">
+                        <div class="mw-new-2-shape-wrapper background-color-element element" style="background-color: #C2D2FD;"></div>
+                        <div class="mw-new-2-services-circle background-color-element element" style="background-color: #3C5CCF;">
+                            <i class="mw-micon-Shop-2"></i>
+                        </div>
 
-                    <div class="mw-new-2-box-padding">
-                        <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-2-inside-title">Prototyping</h4>
-                        <p data-mwplaceholder="{{ _e('Enter text here') }}">Make sure you're building the right product.</p>
-                        <div class="mt-4">
-                            <module type="btn" button_style="btn-link" text="LEARN MORE"/>
+                        <div class="mw-new-2-box-padding">
+                            <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-2-inside-title">Prototyping</h4>
+                            <p data-mwplaceholder="{{ _e('Enter text here') }}">Make sure you're building the right product.</p>
+                            <div class="mt-4">
+                                <module type="btn" button_style="btn-link" text="LEARN MORE"/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-xl-4 col-sm-6 element cloneable mb-3">
-                <div class="mw-layout-new-2-box background-color-element element" style="background-color: #FAFAFA;">
-                    <div class="mw-new-2-shape-wrapper background-color-element element" style="background-color: #A5FFDE;"></div>
-                    <div class="mw-new-2-services-circle background-color-element element" style="background-color: #3BCF91;">
-                        <i class="mw-micon-Brain-2"></i>
-                    </div>
+                <div class="col-xl-4 col-sm-6 element cloneable mb-3">
+                    <div class="mw-layout-new-2-box background-color-element element" style="background-color: #FAFAFA;">
+                        <div class="mw-new-2-shape-wrapper background-color-element element" style="background-color: #A5FFDE;"></div>
+                        <div class="mw-new-2-services-circle background-color-element element" style="background-color: #3BCF91;">
+                            <i class="mw-micon-Brain-2"></i>
+                        </div>
 
-                    <div class="mw-new-2-box-padding">
-                        <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-2-inside-title">Prototyping</h4>
-                        <p data-mwplaceholder="{{ _e('Enter text here') }}">Make sure you're building the right product.</p>
-                        <div class="mt-4">
-                            <module type="btn" button_style="btn-link" text="LEARN MORE"/>
+                        <div class="mw-new-2-box-padding">
+                            <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-2-inside-title">Prototyping</h4>
+                            <p data-mwplaceholder="{{ _e('Enter text here') }}">Make sure you're building the right product.</p>
+                            <div class="mt-4">
+                                <module type="btn" button_style="btn-link" text="LEARN MORE"/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+            </x-row>
+</x-layout-section>

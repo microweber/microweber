@@ -5,13 +5,12 @@ position: blank
 categories: Footers
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
-<div class="footer-background footer-blank py-0 {{ $layout_classes }}" id="mw-footer-background">
-
-</div>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="footer-background footer-blank py-0"
+    :has-background="false"
+    :has-spacers="false"
+    :use-container="false"
+/>

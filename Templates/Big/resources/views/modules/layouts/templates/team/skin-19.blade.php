@@ -1,23 +1,9 @@
-@php
-/*
+{{--
 type: layout
 name: Team 19
 position: 19
 categories: Team
-*/
-@endphp
-
-@php
-if (!isset($classes['padding_top'])) {
-    $classes['padding_top'] = '';
-}
-if (!isset($classes['padding_bottom'])) {
-    $classes['padding_bottom'] = '';
-}
-
-$layout_classes = $layout_classes ?? '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
+--}}
 
 <style>
     .team-19 .team {
@@ -95,14 +81,15 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
     }
 </style>
 
-<section class="section team-19 {{ $layout_classes }}">
-    <module type="background" id="background-layout--{{ $params['id'] }}" />
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top" height="177px" />
-
-    <div class="mw-layout-container no-element container-fluid edit" field="layout-team-skin-19-{{ $params['id'] }}" rel="module">
-        <div class="container">
-            <module type="teamcard" template="skin-17"/>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom" height="70px" />
-</section>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section team-19"
+    field-name="layout-team-skin-19"
+    container-class="mw-layout-container no-element container-fluid edit"
+>
+    <div class="container">
+                <module type="teamcard" template="skin-17"/>
+            </div>
+</x-layout-section>

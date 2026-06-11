@@ -42,7 +42,7 @@ categories: Features
         </x-col>
     </x-row>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mt-3">
+    <x-row class="row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mt-3">
         @foreach($advantageItems as $item)
             <div class="col cloneable element text-center safe-mode background-color-element">
                 <div class="p-3">
@@ -52,5 +52,5 @@ categories: Features
                 </div>
             </div>
         @endforeach
-    </div>
+    </x-row>
 </x-layout-section>

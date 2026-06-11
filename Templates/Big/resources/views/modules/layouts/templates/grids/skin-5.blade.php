@@ -5,28 +5,29 @@ position: 5
 categories: Grids
 --}}
 
-
-<section class="section {{ $layout_classes ?? '' }} ">
-    <module type="background" id="background-layout--{{ $params['id'] }}" />
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top" />
-    <div class="mw-layout-container no-element container safe-mode edit" field="layout-grids-skin-5-{{ $params['id'] }}" rel="module">
-        <div class="row">
-            <div class="col-sm mb-2 cloneable element safe-mode layouts-grids-background">
-                <div class="w-100 cube-wrapper">
-                    <img loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-8.jpg') }}" alt="">
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section {{ $layout_classes ?? '' }}"
+    field-name="layout-grids-skin-5"
+    container-class="mw-layout-container no-element container safe-mode edit"
+>
+    <x-row>
+                <div class="col-sm mb-2 cloneable element safe-mode layouts-grids-background">
+                    <div class="w-100 cube-wrapper">
+                        <img loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-8.jpg') }}" alt="">
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm mb-2 cloneable element safe-mode layouts-grids-background">
-                <div class="w-100 cube-wrapper">
-                    <img loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-9.jpg') }}" alt="">
+                <div class="col-sm mb-2 cloneable element safe-mode layouts-grids-background">
+                    <div class="w-100 cube-wrapper">
+                        <img loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-9.jpg') }}" alt="">
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm mb-2 cloneable element safe-mode layouts-grids-background">
-                <div class="w-100 cube-wrapper">
-                    <img loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-13.jpg') }}" alt="">
+                <div class="col-sm mb-2 cloneable element safe-mode layouts-grids-background">
+                    <div class="w-100 cube-wrapper">
+                        <img loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-13.jpg') }}" alt="">
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom" />
-</section>
+            </x-row>
+</x-layout-section>

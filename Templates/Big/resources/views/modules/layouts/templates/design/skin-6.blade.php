@@ -5,13 +5,6 @@
  categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-new-layouts-6 {
         .mw-new-6-container---main {
@@ -170,27 +163,32 @@
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-6 mw-new-6-inherited-styles-for-exported-element">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-6 mw-new-6-inherited-styles-for-exported-element"
+    container-class="mw-layout-container no-element"
+>
     <module type="spacer" height="40px" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="mw-new-6-container---main mw-layout-container no-element edit safe-mode no-typing"
-         field="layout-new-layouts-skin-6-{{ $params['id'] }}" rel="module">
-        <div class="mw-new-6-story-grid">
-            <div class="mw-new-6-career-image-pair">
-                <img loading="lazy" class="mw-new-6-rounded-image mw-new-6-career-image-1" src="{{ asset('templates/big/img/layouts/gallery-1-vertical.jpg') }}" alt=""/>
-                <img loading="lazy" class="mw-new-6-rounded-image mw-new-6-career-image-2" src="{{ asset('templates/big/img/layouts/gallery-1-4.jpg') }}" alt=""/>
-            </div>
+        <div class="mw-new-6-container---main mw-layout-container no-element edit safe-mode no-typing"
+             field="layout-new-layouts-skin-6-{{ $params['id'] }}" rel="module">
+            <div class="mw-new-6-story-grid">
+                <div class="mw-new-6-career-image-pair">
+                    <img loading="lazy" class="mw-new-6-rounded-image mw-new-6-career-image-1" src="{{ asset('templates/big/img/layouts/gallery-1-vertical.jpg') }}" alt=""/>
+                    <img loading="lazy" class="mw-new-6-rounded-image mw-new-6-career-image-2" src="{{ asset('templates/big/img/layouts/gallery-1-4.jpg') }}" alt=""/>
+                </div>
 
-            <div class="mw-new-6-container---s">
-                <div data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold mb-4">From the Team</div>
-                <div data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-new-6-heading-three">“Working at CMS is an ever-evolving journey. Here, innovation and collaboration go hand in hand, creating an environment where every day brings new challenges and opportunities to grow both personally and professionally.”</div>
-                <div class="mt-4">
-                    <div data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold">Carly Graham</div>
-                    <div data-mwplaceholder="{{ _e('Enter text here') }}">CMS Team Member</div>
+                <div class="mw-new-6-container---s">
+                    <div data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold mb-4">From the Team</div>
+                    <div data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-new-6-heading-three">“Working at CMS is an ever-evolving journey. Here, innovation and collaboration go hand in hand, creating an environment where every day brings new challenges and opportunities to grow both personally and professionally.”</div>
+                    <div class="mt-4">
+                        <div data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold">Carly Graham</div>
+                        <div data-mwplaceholder="{{ _e('Enter text here') }}">CMS Team Member</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <module type="spacer" height="130px" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+        <module type="spacer" height="130px" id="spacer-layout--{{ $params['id'] }}-bottom"/>
+</x-layout-section>

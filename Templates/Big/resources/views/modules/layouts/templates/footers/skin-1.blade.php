@@ -26,7 +26,7 @@ categories: Footers
             <br>
             <x-social-links />
         </x-col>
-        <div class="row col-md-10 row px-md-10">
+        <x-row class="col-md-10 row px-md-10">
             <div class="col">
                 <p class="font-weight-bold ms-3"> Footer Menu  </p>
                 <module type="menu" template="simple" class="pb-lg-4" name="footer_menu"/>
@@ -41,23 +41,8 @@ categories: Footers
                 <p class="font-weight-bold ms-3"> Footer Menu 2 </p>
                 <module type="menu" template="simple" name="footer_menu"/>
             </div>
-        </div>
+        </x-row>
     </x-row>
 </x-layout-section>
 
-<div class="mw-layout-container no-element container-fluid py-2">
-    <div class="row">
-        <div class="col-12 d-sm-flex text-center">
-            <div class="col-sm-6 text-md-start text-center edit safe-mode" field="footer-reserved-skin-1-{{ $params['id'] }}" rel="module">
-                <small>
-                    &copy; All Rights Reserved.
-                </small>
-            </div>
-            <div class="col-sm-6 mb-0 noedit text-md-end text-center">
-                <small>
-                    {!! powered_by_link() !!}
-                </small>
-            </div>
-        </div>
-    </div>
-</div>
+<x-footer-section copyright-field="footer-reserved-skin-1" :section-id="$params['id']" />

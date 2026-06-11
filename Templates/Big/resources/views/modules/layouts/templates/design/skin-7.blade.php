@@ -5,13 +5,6 @@
  categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-new-layouts-7 {
         a {
@@ -223,39 +216,44 @@
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-7">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-7"
+    container-class="mw-layout-container no-element"
+>
     <module type="spacer" height="40px" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="mw-new-7-mw-new-7-container---main mw-new-7-inherited-styles-for-exported-element mw-layout-container no-element edit safe-mode no-typing"
-         field="layout-new-layouts-skin-7-{{ $params['id'] }}" rel="module">
+        <div class="mw-new-7-mw-new-7-container---main mw-new-7-inherited-styles-for-exported-element mw-layout-container no-element edit safe-mode no-typing"
+             field="layout-new-layouts-skin-7-{{ $params['id'] }}" rel="module">
 
-        <div class="hero-wrapper-2">
-            <div class="mw-new-7-container---s text-center">
-                <h2 class="mw-new-7-heading-one" data-mwplaceholder="{{ _e('Enter title here') }}">On-demand Legal</h2>
-                <h2 class="mw-new-7-heading-one" data-mwplaceholder="{{ _e('Enter title here') }}" style="font-style: italic;">with CMS.</h2>
+            <div class="hero-wrapper-2">
+                <div class="mw-new-7-container---s text-center">
+                    <h2 class="mw-new-7-heading-one" data-mwplaceholder="{{ _e('Enter title here') }}">On-demand Legal</h2>
+                    <h2 class="mw-new-7-heading-one" data-mwplaceholder="{{ _e('Enter title here') }}" style="font-style: italic;">with CMS.</h2>
 
-                <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-new-7-large-text mb-5">Specialized legal guidance tailored for the needs of new and growing businesses.</p>
+                    <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-new-7-large-text mb-5">Specialized legal guidance tailored for the needs of new and growing businesses.</p>
 
-                <div class="horizontal-buttons d-flex align-items-center justify-content-center">
-                    <module type="btn" button_style="btn-primary" text="Get Started"/>
-                    <module type="btn" button_style="btn-outline-primary" text="Get Started"/>
+                    <div class="horizontal-buttons d-flex align-items-center justify-content-center">
+                        <module type="btn" button_style="btn-primary" text="Get Started"/>
+                        <module type="btn" button_style="btn-outline-primary" text="Get Started"/>
+                    </div>
                 </div>
-            </div>
-            <div class="mw-new-7-container---m">
-                <div class="mw-new-7-hero-composite">
-                    <img loading="lazy" class="mw-new-7-rounded-image" src="{{ asset('templates/big/img/layouts/gallery-1-13.jpg') }}" alt=""/>
-                    <div class="mw-new-7widget mw-new-7-notification mw-new-7-overlap-hero-image mw-new-7widget-body mw-new-7-align-center background-color-element element">
-                        <div class="mw-new-7-icon-wrapper background-color-element element">
-                            <i class="mdi mdi-check" style="color: #fff; font-size: 30px;"></i>
+                <div class="mw-new-7-container---m">
+                    <div class="mw-new-7-hero-composite">
+                        <img loading="lazy" class="mw-new-7-rounded-image" src="{{ asset('templates/big/img/layouts/gallery-1-13.jpg') }}" alt=""/>
+                        <div class="mw-new-7widget mw-new-7-notification mw-new-7-overlap-hero-image mw-new-7widget-body mw-new-7-align-center background-color-element element">
+                            <div class="mw-new-7-icon-wrapper background-color-element element">
+                                <i class="mdi mdi-check" style="color: #fff; font-size: 30px;"></i>
+                            </div>
+                            <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="text-bold">Your case has been marked complete.</h6>
+                            <p data-mwplaceholder="{{ _e('Enter text here') }}" class="small-text muted">5 mins ago</p>
                         </div>
-                        <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="text-bold">Your case has been marked complete.</h6>
-                        <p data-mwplaceholder="{{ _e('Enter text here') }}" class="small-text muted">5 mins ago</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <module type="spacer" height="130px" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+        <module type="spacer" height="130px" id="spacer-layout--{{ $params['id'] }}-bottom"/>
+</x-layout-section>

@@ -92,6 +92,36 @@ class BigTemplateRendersContractTest extends TestCase
         );
     }
 
+    /**
+     * Render every skin the way the admin layout-preview controller does — a
+     * plain `view()->render()` WITHOUT the `$layout_classes` the layouts module
+     * injects. This catches preview-path-only defects that load_module masks:
+     * raw `{{ $layout_classes }}` (no `?? ''` guard), `$classes['padding_top']`
+     * accessed on an empty array, and broken `background-attrs='…{{ asset('…') }}…'`
+     * single-quote nesting.
+     */
+    #[Test]
+    public function every_big_layout_skin_renders_clean_through_the_preview_path(): void
+    {
+        app()->template_manager->templateAdapter->templateFolderName = self::TEMPLATE;
+
+        $failures = [];
+        foreach ($this->skinNames() as $skin) {
+            $view = 'templates.big::modules.layouts.templates.' . str_replace('/', '.', $skin);
+            try {
+                view($view, ['params' => ['id' => 'x'], 'classes' => []])->render();
+            } catch (\Throwable $e) {
+                $failures[] = "{$skin}: " . preg_replace('/\s+/', ' ', substr($e->getMessage(), 0, 120));
+            }
+        }
+
+        $this->assertSame(
+            [],
+            $failures,
+            count($failures) . " Big skins fail the preview render path:\n - " . implode("\n - ", $failures)
+        );
+    }
+
     #[Test]
     public function migrated_skins_emit_their_component_markup(): void
     {

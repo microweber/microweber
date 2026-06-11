@@ -1,26 +1,21 @@
-{{-- 
+{{--
 type: layout
 name: Text block 12
 position: 12
 categories: Text block
 --}}
 
-@php
-$classes['padding_top'] = $classes['padding_top'] ?? '';
-$classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-$layout_classes = $layout_classes ?? '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
-<section class="section {{ $layout_classes }}">
-    <module type="background" id="background-layout--{{ $params['id'] }}" />
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top" />
-    <div class="mw-layout-container no-element container safe-mode edit" field="layout-text-block-skin-12-{{ $params['id'] }}" rel="module">
-        <div class="row text-center">
-            <div class="mw-default-layout-background-text col-8 mx-auto regular-mode">
-                <p data-mwplaceholder="<?php _e('Enter text here'); ?>" class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-            </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom" />
-</section>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section"
+    field-name="layout-text-block-skin-12"
+    container-class="mw-layout-container no-element container safe-mode edit"
+>
+    <x-row class="text-center">
+                <div class="mw-default-layout-background-text col-8 mx-auto regular-mode">
+                    <p data-mwplaceholder="<?php _e('Enter text here'); ?>" class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
+            </x-row>
+</x-layout-section>

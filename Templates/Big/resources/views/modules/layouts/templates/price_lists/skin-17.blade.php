@@ -1,28 +1,12 @@
-@php
-    /*
-
-    type: layout
+{{--
+type: layout
 
     name: Price Lists 17
 
     position: 17
 
     categories: Price Lists
-
-    */
-@endphp
-
-@php
-    if (!isset($classes['padding_top'])) {
-        $classes['padding_top'] = '';
-    }
-    if (!isset($classes['padding_bottom'])) {
-        $classes['padding_bottom'] = '';
-    }
-
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
+--}}
 
 <style>
     .price-list-17 .container-fluid {
@@ -89,46 +73,47 @@
 
 </style>
 
-<section class="section price-list-17 {{ $layout_classes }}">
 
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
 
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="container-fluid mw-layout-container mw-layout-overlay-container edit safe-mode  " field="layout-skin-17-{{ $params['id'] }}" rel="module">
-
-        <div class="section-header text-center mb-5 allow-drop allow-select">
-            <p data-mwplaceholder="{{ __('Enter title here') }}">Events</p>
-            <h2 data-mwplaceholder="{{ __('Enter title here') }}">Share <span>Your Moments</span> In Our Restaurant</h2>
-        </div>
-
-        <div class="row ">
-            <div class="col-lg-4 cloneable element event-item  relative d-flex flex-column justify-content-end allow-drop allow-select"  >
-                <img class="element no-resize price-list-17-image" src="{{ asset('templates/big/img/layouts/gallery-1-2.jpg') }}" alt="" loading="lazy">
-                <h3>Custom Parties</h3>
-                <h2 class="price align-self-start">$99</h2>
-                <p class="description">
-                    Quo corporis voluptas ea ad. Consectetur inventore sapiente ipsum voluptas eos omnis facere. Enim facilis veritatis id est rem repudiandae nulla expedita quas.
-                </p>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section price-list-17"
+    field-name="layout-skin-17"
+    container-class="mw-layout-container container-fluid mw-layout-overlay-container edit safe-mode"
+>
+    <div class="section-header text-center mb-5 allow-drop allow-select">
+                <p data-mwplaceholder="{{ __('Enter title here') }}">Events</p>
+                <h2 data-mwplaceholder="{{ __('Enter title here') }}">Share <span>Your Moments</span> In Our Restaurant</h2>
             </div>
 
-            <div class="col-lg-4 cloneable element relative event-item d-flex flex-column justify-content-end allow-drop allow-select">
-                <img class="element no-resize price-list-17-image" src="{{ asset('templates/big/img/layouts/gallery-1-8.jpg') }}" alt="" loading="lazy">
-                <h3>Private Parties</h3>
-                <h2 class="price align-self-start">$289</h2>
-                <p class="description">
-                    In delectus sint qui et enim. Et ab repudiandae inventore quaerat doloribus. Facere nemo vero est ut dolores ea assumenda et. Delectus saepe accusamus aspernatur.
-                </p>
-            </div>
+            <x-row>
+                <div class="col-lg-4 cloneable element event-item  relative d-flex flex-column justify-content-end allow-drop allow-select"  >
+                    <img class="element no-resize price-list-17-image" src="{{ asset('templates/big/img/layouts/gallery-1-2.jpg') }}" alt="" loading="lazy">
+                    <h3>Custom Parties</h3>
+                    <h2 class="price align-self-start">$99</h2>
+                    <p class="description">
+                        Quo corporis voluptas ea ad. Consectetur inventore sapiente ipsum voluptas eos omnis facere. Enim facilis veritatis id est rem repudiandae nulla expedita quas.
+                    </p>
+                </div>
 
-            <div class="col-lg-4 cloneable relative element event-item d-flex flex-column justify-content-end allow-drop allow-select">
-                <img class="element no-resize price-list-17-image" src="{{ asset('templates/big/img/layouts/gallery-1-10.jpg') }}" alt="" loading="lazy">
-                <h3>Birthday Parties</h3>
-                <h2 class="price align-self-start">$499</h2>
-                <p class="description">
-                    Laborum aperiam atque omnis minus omnis est qui assumenda quos. Quis id sit quibusdam. Esse quisquam ducimus officia ipsum ut quibusdam maxime. Non enim perspiciatis.
-                </p>
-            </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+                <div class="col-lg-4 cloneable element relative event-item d-flex flex-column justify-content-end allow-drop allow-select">
+                    <img class="element no-resize price-list-17-image" src="{{ asset('templates/big/img/layouts/gallery-1-8.jpg') }}" alt="" loading="lazy">
+                    <h3>Private Parties</h3>
+                    <h2 class="price align-self-start">$289</h2>
+                    <p class="description">
+                        In delectus sint qui et enim. Et ab repudiandae inventore quaerat doloribus. Facere nemo vero est ut dolores ea assumenda et. Delectus saepe accusamus aspernatur.
+                    </p>
+                </div>
+
+                <div class="col-lg-4 cloneable relative element event-item d-flex flex-column justify-content-end allow-drop allow-select">
+                    <img class="element no-resize price-list-17-image" src="{{ asset('templates/big/img/layouts/gallery-1-10.jpg') }}" alt="" loading="lazy">
+                    <h3>Birthday Parties</h3>
+                    <h2 class="price align-self-start">$499</h2>
+                    <p class="description">
+                        Laborum aperiam atque omnis minus omnis est qui assumenda quos. Quis id sit quibusdam. Esse quisquam ducimus officia ipsum ut quibusdam maxime. Non enim perspiciatis.
+                    </p>
+                </div>
+            </x-row>
+</x-layout-section>

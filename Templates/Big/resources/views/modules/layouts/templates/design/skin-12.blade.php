@@ -5,13 +5,6 @@ position: 112
 categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-new-layouts-12 {
         .mw-new-12-large-text {
@@ -104,28 +97,30 @@ categories: Design
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-12 mw-layout-dark-background">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element edit safe-mode" field="layout-new-layouts-skin-12-{{ $params['id'] }}" rel="module">
-        <div class="row">
-            <div class="mw-new-12-cta-box">
-                <div class="mw-new-12-cta-contents">
-                    <div>
-                        <h2 class="mw-new-12-heading-one" data-mwplaceholder="{{ _e('Enter title here') }}">On-demand Legal</h2>
-                        <h2 class="mw-new-12-heading-one" data-mwplaceholder="{{ _e('Enter title here') }}" style="font-style: italic;">with CMS.</h2>
-                    </div>
 
-                    <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-new-12-large-text">Effortlessly access specialized legal guidance tailored for the needs of new and growing businesses.</p>
-                    <div class="mw-new-12-horizontal-buttons">
-                        <module type="btn" button_style="btn-primary" text="Get Started"/>
-                        <module type="btn" button_style="btn-outline-primary" text="Request a Demo"/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-12 mw-layout-dark-background"
+    field-name="layout-new-layouts-skin-12"
+    container-class="mw-layout-container container no-element edit safe-mode"
+>
+    <x-row>
+                <div class="mw-new-12-cta-box">
+                    <div class="mw-new-12-cta-contents">
+                        <div>
+                            <h2 class="mw-new-12-heading-one" data-mwplaceholder="{{ _e('Enter title here') }}">On-demand Legal</h2>
+                            <h2 class="mw-new-12-heading-one" data-mwplaceholder="{{ _e('Enter title here') }}" style="font-style: italic;">with CMS.</h2>
+                        </div>
+
+                        <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-new-12-large-text">Effortlessly access specialized legal guidance tailored for the needs of new and growing businesses.</p>
+                        <div class="mw-new-12-horizontal-buttons">
+                            <module type="btn" button_style="btn-primary" text="Get Started"/>
+                            <module type="btn" button_style="btn-outline-primary" text="Request a Demo"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+            </x-row>
+</x-layout-section>

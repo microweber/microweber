@@ -5,13 +5,6 @@ position: 115
 categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-new-layouts-15 {
         .mw-new-15-title-tag {
@@ -85,71 +78,73 @@ categories: Design
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-15">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element edit safe-mode" field="layout-new-layouts-skin-15-{{ $params['id'] }}" rel="module">
-        <div class="row col-xl-12 mx-auto">
-            <div class="flex-right">
-                <div class="flex-tag background-color-element element" style="opacity: 1;">
-                    <span class="mw-new-15-title-tag">recent works</span>
+
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-15"
+    field-name="layout-new-layouts-skin-15"
+    container-class="mw-layout-container container no-element edit safe-mode"
+>
+    <x-row class="col-xl-12 mx-auto">
+                <div class="flex-right">
+                    <div class="flex-tag background-color-element element" style="opacity: 1;">
+                        <span class="mw-new-15-title-tag">recent works</span>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-15-title">THE WORK WE DO,</h2>
-                <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-15-title">AND THE PEOPLE WE HELP.</h2>
-            </div>
+                <div>
+                    <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-15-title">THE WORK WE DO,</h2>
+                    <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-15-title">AND THE PEOPLE WE HELP.</h2>
+                </div>
 
-            <div class="col-md-6 col-sm-10 col-12 mx-auto mt-5 cloneable element">
-                <a>
-                    <div class="mw-new-15-work-wrapper">
-                        <img loading="lazy" class="mw-new-15-work-photo" src="{{ asset('templates/big/img/layouts/gallery-1-14.jpg') }}" alt=""/>
-                    </div>
-                </a>
-            </div>
+                <div class="col-md-6 col-sm-10 col-12 mx-auto mt-5 cloneable element">
+                    <a>
+                        <div class="mw-new-15-work-wrapper">
+                            <img loading="lazy" class="mw-new-15-work-photo" src="{{ asset('templates/big/img/layouts/gallery-1-14.jpg') }}" alt=""/>
+                        </div>
+                    </a>
+                </div>
 
-            <div class="col-md-6 col-sm-10 col-12 mx-auto mt-5 cloneable element">
-                <a>
-                    <div class="mw-new-15-work-wrapper">
-                        <img loading="lazy" class="mw-new-15-work-photo" src="{{ asset('templates/big/img/layouts/gallery-1-2.jpg') }}" alt=""/>
-                    </div>
-                </a>
-            </div>
+                <div class="col-md-6 col-sm-10 col-12 mx-auto mt-5 cloneable element">
+                    <a>
+                        <div class="mw-new-15-work-wrapper">
+                            <img loading="lazy" class="mw-new-15-work-photo" src="{{ asset('templates/big/img/layouts/gallery-1-2.jpg') }}" alt=""/>
+                        </div>
+                    </a>
+                </div>
 
-            <div class="col-md-6 col-sm-10 col-12 mx-auto mt-5 cloneable element">
-                <a>
-                    <div class="mw-new-15-work-wrapper">
-                        <img loading="lazy" class="mw-new-15-work-photo" src="{{ asset('templates/big/img/layouts/gallery-1-4.jpg') }}" alt=""/>
-                    </div>
-                </a>
-            </div>
+                <div class="col-md-6 col-sm-10 col-12 mx-auto mt-5 cloneable element">
+                    <a>
+                        <div class="mw-new-15-work-wrapper">
+                            <img loading="lazy" class="mw-new-15-work-photo" src="{{ asset('templates/big/img/layouts/gallery-1-4.jpg') }}" alt=""/>
+                        </div>
+                    </a>
+                </div>
 
-            <div class="col-md-6 col-sm-10 col-12 mx-auto mt-5 cloneable element">
-                <a>
-                    <div class="mw-new-15-work-wrapper">
-                        <img loading="lazy" class="mw-new-15-work-photo" src="{{ asset('templates/big/img/layouts/gallery-1-12.jpg') }}" alt=""/>
-                    </div>
-                </a>
-            </div>
+                <div class="col-md-6 col-sm-10 col-12 mx-auto mt-5 cloneable element">
+                    <a>
+                        <div class="mw-new-15-work-wrapper">
+                            <img loading="lazy" class="mw-new-15-work-photo" src="{{ asset('templates/big/img/layouts/gallery-1-12.jpg') }}" alt=""/>
+                        </div>
+                    </a>
+                </div>
 
-            <div class="col-md-6 col-sm-10 col-12 mx-auto mt-5 cloneable element">
-                <a>
-                    <div class="mw-new-15-work-wrapper">
-                        <img loading="lazy" class="mw-new-15-work-photo" src="{{ asset('templates/big/img/layouts/gallery-1-15.jpg') }}" alt=""/>
-                    </div>
-                </a>
-            </div>
+                <div class="col-md-6 col-sm-10 col-12 mx-auto mt-5 cloneable element">
+                    <a>
+                        <div class="mw-new-15-work-wrapper">
+                            <img loading="lazy" class="mw-new-15-work-photo" src="{{ asset('templates/big/img/layouts/gallery-1-15.jpg') }}" alt=""/>
+                        </div>
+                    </a>
+                </div>
 
-            <div class="col-md-6 col-sm-10 col-12 mx-auto mt-5 cloneable element">
-                <a>
-                    <div class="mw-new-15-work-wrapper">
-                        <img loading="lazy" class="mw-new-15-work-photo" src="{{ asset('templates/big/img/layouts/gallery-1-7.jpg') }}" alt=""/>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+                <div class="col-md-6 col-sm-10 col-12 mx-auto mt-5 cloneable element">
+                    <a>
+                        <div class="mw-new-15-work-wrapper">
+                            <img loading="lazy" class="mw-new-15-work-photo" src="{{ asset('templates/big/img/layouts/gallery-1-7.jpg') }}" alt=""/>
+                        </div>
+                    </a>
+                </div>
+            </x-row>
+</x-layout-section>

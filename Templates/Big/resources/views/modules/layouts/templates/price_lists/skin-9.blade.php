@@ -1,6 +1,4 @@
-@php
-/*
-
+{{--
 type: layout
 
 name: Price Lists 9
@@ -8,9 +6,7 @@ name: Price Lists 9
 position: 9
 
 categories: Price Lists
-
-*/
-@endphp
+--}}
 
 <style>
     .price-lists-9 .card {
@@ -55,30 +51,24 @@ categories: Price Lists
     }
 </style>
 
-@php
-if (!isset($classes['padding_top'])) {
-    $classes['padding_top'] = 'p-t-70';
-}
-if (!isset($classes['padding_bottom'])) {
-    $classes['padding_bottom'] = 'p-b-70';
-}
 
-$layout_classes = $layout_classes ?? '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
 
-<section class="price-lists-9 {{ $layout_classes }} section ">
-    <module type="background" id="background-layout--{{ $params['id'] }}" />
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top" />
-    <div class="mw-layout-container no-element container-fluid edit safe-mode" field="layout-price-lists-skin-9-{{ $params['id'] }}" rel="module">
-        <div class="row mx-auto justify-content-center">
-            <div class="text-center allow-select regular-mode">
-                <h1 style="color: #181E4E;">Flexible Pricing Plans That <br> Suits With Your Needs</h1>
-                <p class="mt-4" style="color: #737272;">Monthly Plans Offers Lower Price</p>
-            </div>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="price-lists-9 section"
+    field-name="layout-price-lists-skin-9"
+    default-padding-top="p-t-70"
+    default-padding-bottom="p-b-70"
+    container-class="mw-layout-container no-element container-fluid edit safe-mode"
+>
+    <x-row class="mx-auto justify-content-center">
+                <div class="text-center allow-select regular-mode">
+                    <h1 style="color: #181E4E;">Flexible Pricing Plans That <br> Suits With Your Needs</h1>
+                    <p class="mt-4" style="color: #737272;">Monthly Plans Offers Lower Price</p>
+                </div>
 
-            <module type="tabs" template="skin-5" />
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom" />
-</section>
+                <module type="tabs" template="skin-5" />
+            </x-row>
+</x-layout-section>

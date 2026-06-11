@@ -62,62 +62,59 @@
     }
 </style>
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
 
-<section class="section feature-51 {{ $layout_classes }} ">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="container mw-layout-container no-element container edit" field="layout-feature-skin-51-{{ $params['id'] }}" rel="module">
-        <div class="row">
-            <div class="col-xl-4 col-md-6 cloneable element safe-mode">
-                <div class="services-51-item">
-                    <div class="services-51-icon background-color-element element">
-                        <i class="mw-micon-Books"></i>
 
-                    </div>
-                    <div class="services-51-main-content background-color-element element">
-                        <h4 data-mwplaceholder="{{ _e('Enter title here') }}">Online Degrees</h4>
-                        <p data-mwplaceholder="{{ _e('Enter text here') }}">Whenever you need free templates in HTML CSS, you just remember TemplateMo website.</p>
-                        <div class="services-51-main-button">
-                            <module type="btn" text="Read More" button_style="btn-primary"/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section feature-51"
+    field-name="layout-feature-skin-51"
+    container-class="mw-layout-container container no-element container edit"
+>
+    <x-row>
+                <div class="col-xl-4 col-md-6 cloneable element safe-mode">
+                    <div class="services-51-item">
+                        <div class="services-51-icon background-color-element element">
+                            <i class="mw-micon-Books"></i>
+
+                        </div>
+                        <div class="services-51-main-content background-color-element element">
+                            <h4 data-mwplaceholder="{{ _e('Enter title here') }}">Online Degrees</h4>
+                            <p data-mwplaceholder="{{ _e('Enter text here') }}">Whenever you need free templates in HTML CSS, you just remember TemplateMo website.</p>
+                            <div class="services-51-main-button">
+                                <module type="btn" text="Read More" button_style="btn-primary"/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-4 col-md-6 cloneable element safe-mode">
-                <div class="services-51-item">
-                    <div class="services-51-icon background-color-element element">
-                        <i class="mw-micon-Laptop-Phone"></i>
-                    </div>
-                    <div class="services-51-main-content background-color-element element">
-                        <h4 data-mwplaceholder="{{ _e('Enter title here') }}">Short Courses</h4>
-                        <p data-mwplaceholder="{{ _e('Enter text here') }}">You can browse free templates based on different tags such as digital marketing, etc.</p>
-                        <div class="services-51-main-button">
-                            <module type="btn" text="Read More" button_style="btn-primary"/>
+                <div class="col-xl-4 col-md-6 cloneable element safe-mode">
+                    <div class="services-51-item">
+                        <div class="services-51-icon background-color-element element">
+                            <i class="mw-micon-Laptop-Phone"></i>
+                        </div>
+                        <div class="services-51-main-content background-color-element element">
+                            <h4 data-mwplaceholder="{{ _e('Enter title here') }}">Short Courses</h4>
+                            <p data-mwplaceholder="{{ _e('Enter text here') }}">You can browse free templates based on different tags such as digital marketing, etc.</p>
+                            <div class="services-51-main-button">
+                                <module type="btn" text="Read More" button_style="btn-primary"/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-4 col-md-6 cloneable element safe-mode">
-                <div class="services-51-item">
-                    <div class="services-51-icon background-color-element element">
-                        <i class="mw-micon-Professor"></i>
-                    </div>
-                    <div class="services-51-main-content background-color-element element">
-                        <h4 data-mwplaceholder="{{ _e('Enter title here') }}">Web Experts</h4>
-                        <p data-mwplaceholder="{{ _e('Enter text here') }}">You can start learning HTML CSS by modifying free templates from our website too.</p>
-                        <div class="services-51-main-button">
-                            <module type="btn" text="Read More" button_style="btn-primary"/>
+                <div class="col-xl-4 col-md-6 cloneable element safe-mode">
+                    <div class="services-51-item">
+                        <div class="services-51-icon background-color-element element">
+                            <i class="mw-micon-Professor"></i>
+                        </div>
+                        <div class="services-51-main-content background-color-element element">
+                            <h4 data-mwplaceholder="{{ _e('Enter title here') }}">Web Experts</h4>
+                            <p data-mwplaceholder="{{ _e('Enter text here') }}">You can start learning HTML CSS by modifying free templates from our website too.</p>
+                            <div class="services-51-main-button">
+                                <module type="btn" text="Read More" button_style="btn-primary"/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+            </x-row>
+</x-layout-section>

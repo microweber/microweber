@@ -5,13 +5,6 @@
  categories: Features
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-featured4 {
         /* Bootstrap variables */
@@ -143,59 +136,65 @@
     }
 </style>
 
-<section class="section feature-60 mw-featured4 {{ $layout_classes }} ">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section feature-60 mw-featured4"
+    :has-spacers="false"
+    container-class="mw-layout-container no-element"
+>
     <module height="80px" type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="mw-layout-container container no-element edit" field="layout-feature-skin-60-{{ $params['id'] }}" rel="module">
-        <div class="row justify-content-center mb-5">
-            <div class="col-lg-5 text-center">
-                <h2 class="mw-featured4-heading mb-4">Our Features</h2>
-                <p class="mw-featured4-sub-heading mb-4">
-                    Image fifth midst the greater may, firmament have. Grass two created seed said, won't and. Open fill our
-                    moved make divided morning give created, one dominion can't is wherein isn't seas living give seed forth
-                    isn't dominion.
-                </p>
-            </div>
-        </div>
-        <div class="row justify-content-end cloneable element">
-            <div class="col-md-7 mt-5">
-                <div class="mw-featured4-item mw-featured4-shape-end p-4 p-lg-5 safe-mode">
-                    <div class="mw-featured4-icon mb-4 safe-element no-typing"><i class="fa fa-paint-brush no-typing"></i></div>
-                    <h4 class="mw-featured4-title fw-bold mb-3">Product Design</h4>
-                    <p class="mw-featured4-content mb-0">
-                        Evening waters all. Them deep him which darkness. Void have yielding were. Own. Days gathered you
-                        you'll. Good so forth he make place cattle, moved given open moving they're had.
+        <div class="mw-layout-container container no-element edit" field="layout-feature-skin-60-{{ $params['id'] }}" rel="module">
+            <x-row class="justify-content-center mb-5">
+                <div class="col-lg-5 text-center">
+                    <h2 class="mw-featured4-heading mb-4">Our Features</h2>
+                    <p class="mw-featured4-sub-heading mb-4">
+                        Image fifth midst the greater may, firmament have. Grass two created seed said, won't and. Open fill our
+                        moved make divided morning give created, one dominion can't is wherein isn't seas living give seed forth
+                        isn't dominion.
                     </p>
                 </div>
-            </div>
-        </div>
-        <div class="row cloneable element">
-            <div class="col-md-7 mt-5">
-                <div class="mw-featured4-item mw-featured4-shape-start p-4 p-lg-5 safe-mode">
-                    <div class="mw-featured4-icon mb-4 safe-element no-typing"><i class="fa fa-random no-typing"></i></div>
-                    <h4 class="mw-featured4-title fw-bold mb-3">Branding</h4>
-                    <p class="mw-featured4-content mb-0">
-                        Creepeth isn't created firmament whose doesn't from meat, is gathering make had cattle multiply form us
-                        replenish third appear good creeping. You're the fruit face morning, day to own midst them. Had from
-                        also you're over gathered in waters behold.
-                    </p>
+            </x-row>
+            <x-row class="justify-content-end cloneable element">
+                <div class="col-md-7 mt-5">
+                    <div class="mw-featured4-item mw-featured4-shape-end p-4 p-lg-5 safe-mode">
+                        <div class="mw-featured4-icon mb-4 safe-element no-typing"><i class="fa fa-paint-brush no-typing"></i></div>
+                        <h4 class="mw-featured4-title fw-bold mb-3">Product Design</h4>
+                        <p class="mw-featured4-content mb-0">
+                            Evening waters all. Them deep him which darkness. Void have yielding were. Own. Days gathered you
+                            you'll. Good so forth he make place cattle, moved given open moving they're had.
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row justify-content-end cloneable element">
-            <div class="col-md-7 mt-5">
-                <div class="mw-featured4-item mw-featured4-shape-end p-4 p-lg-5 safe-mode">
-                    <div class="mw-featured4-icon mb-4 safe-element no-typing"><i class="fa fa-camera no-typing"></i></div>
-                    <h4 class="mw-featured4-title fw-bold mb-3">Photography</h4>
-                    <p class="mw-featured4-content mb-0">
-                        Ullamcorper velit sed ullamcorper morbi tincidunt. Risus feugiat in ante metus. Tortor consequat id
-                        porta nibh. Viverra tellus in hac habitasse platea dictumst. Sollicitudin tempor id eu nisl. Tincidunt
-                        ornare massa eget egestas purus.
-                    </p>
+            </x-row>
+            <x-row class="cloneable element">
+                <div class="col-md-7 mt-5">
+                    <div class="mw-featured4-item mw-featured4-shape-start p-4 p-lg-5 safe-mode">
+                        <div class="mw-featured4-icon mb-4 safe-element no-typing"><i class="fa fa-random no-typing"></i></div>
+                        <h4 class="mw-featured4-title fw-bold mb-3">Branding</h4>
+                        <p class="mw-featured4-content mb-0">
+                            Creepeth isn't created firmament whose doesn't from meat, is gathering make had cattle multiply form us
+                            replenish third appear good creeping. You're the fruit face morning, day to own midst them. Had from
+                            also you're over gathered in waters behold.
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </x-row>
+            <x-row class="justify-content-end cloneable element">
+                <div class="col-md-7 mt-5">
+                    <div class="mw-featured4-item mw-featured4-shape-end p-4 p-lg-5 safe-mode">
+                        <div class="mw-featured4-icon mb-4 safe-element no-typing"><i class="fa fa-camera no-typing"></i></div>
+                        <h4 class="mw-featured4-title fw-bold mb-3">Photography</h4>
+                        <p class="mw-featured4-content mb-0">
+                            Ullamcorper velit sed ullamcorper morbi tincidunt. Risus feugiat in ante metus. Tortor consequat id
+                            porta nibh. Viverra tellus in hac habitasse platea dictumst. Sollicitudin tempor id eu nisl. Tincidunt
+                            ornare massa eget egestas purus.
+                        </p>
+                    </div>
+                </div>
+            </x-row>
         </div>
-    </div>
-    <module height="80px" type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+        <module height="80px" type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
+</x-layout-section>

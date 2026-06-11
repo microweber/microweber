@@ -5,13 +5,6 @@
  categories: Features
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .feature-58 {
         border-bottom: 1px solid #eee;
@@ -84,124 +77,130 @@
     }
 </style>
 
-<section class="section feature-58 {{ $layout_classes }} ">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section feature-58"
+    :has-spacers="false"
+    container-class="mw-layout-container no-element"
+>
     <module height="80px" type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="mw-layout-container no-element edit" field="layout-feature-skin-58-{{ $params['id'] }}" rel="module">
-        <div class="row align-items-center">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 offset-lg-3">
-                        <div class="section-heading text-center">
-                            <h2 data-mwplaceholder="{{ _e('Enter title here') }}">Best Weekly Offers In Each City</h2>
-                            <p data-mwplaceholder="{{ _e('Enter text here') }}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+        <div class="mw-layout-container no-element edit" field="layout-feature-skin-58-{{ $params['id'] }}" rel="module">
+            <x-row class="align-items-center">
+                <div class="container">
+                    <x-row>
+                        <div class="col-lg-6 offset-lg-3">
+                            <div class="section-heading text-center">
+                                <h2 data-mwplaceholder="{{ _e('Enter title here') }}">Best Weekly Offers In Each City</h2>
+                                <p data-mwplaceholder="{{ _e('Enter text here') }}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                            </div>
                         </div>
-                    </div>
+                    </x-row>
                 </div>
-            </div>
-            <div class="container-fluid mt-7">
-                <div class="row">
-                    <div class="col-xxl-4 col-lg-6 col-12 cloneable element">
-                        <div class="feature-58-item">
-                            <div class="img-wrapper">
-                                <img loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-1.jpg') }}" alt=""/>
-                            </div>
-
-                            <div class="text">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <h5 class="d-inline-block mb-0">Havana</h5>
-                                        <br>
-                                        <span style="color: #afafaf;">
-                                            <i class="mw-micon-Add-UserStar me-1" style="font-size: 18px;"></i>
-                                            234 Check Ins
-                                        </span>
-                                    </div>
-
-                                    <h6>$420<br><span style="color: #afafaf; font-size: 14px;">/person</span></h6>
+                <div class="container-fluid mt-7">
+                    <x-row>
+                        <div class="col-xxl-4 col-lg-6 col-12 cloneable element">
+                            <div class="feature-58-item">
+                                <div class="img-wrapper">
+                                    <img loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-1.jpg') }}" alt=""/>
                                 </div>
 
-                                <ul>
-                                    <li>Deal Includes:</li>
-                                    <li><i class="fa fa-taxi"></i> 5 Days Trip > Hotel Included</li>
-                                    <li><i class="fa fa-plane"></i> Airplane Bill Included</li>
-                                    <li><i class="fa fa-building"></i> Daily Places Visit</li>
-                                </ul>
-                                <div class="main-button mt-4">
-                                    <module type="btn" button_style="btn-primary" button_text="Make A Reservation"/>
+                                <div class="text">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <h5 class="d-inline-block mb-0">Havana</h5>
+                                            <br>
+                                            <span style="color: #afafaf;">
+                                                <i class="mw-micon-Add-UserStar me-1" style="font-size: 18px;"></i>
+                                                234 Check Ins
+                                            </span>
+                                        </div>
+
+                                        <h6>$420<br><span style="color: #afafaf; font-size: 14px;">/person</span></h6>
+                                    </div>
+
+                                    <ul>
+                                        <li>Deal Includes:</li>
+                                        <li><i class="fa fa-taxi"></i> 5 Days Trip > Hotel Included</li>
+                                        <li><i class="fa fa-plane"></i> Airplane Bill Included</li>
+                                        <li><i class="fa fa-building"></i> Daily Places Visit</li>
+                                    </ul>
+                                    <div class="main-button mt-4">
+                                        <module type="btn" button_style="btn-primary" button_text="Make A Reservation"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-xxl-4 col-lg-6 col-12 cloneable element">
-                        <div class="feature-58-item">
-                            <div class="img-wrapper">
-                                <img loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-1.jpg') }}" alt=""/>
-                            </div>
-
-                            <div class="text">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <h5 class="d-inline-block mb-0">Havana</h5>
-                                        <br>
-                                        <span style="color: #afafaf;">
-                                            <i class="mw-micon-Add-UserStar me-1" style="font-size: 18px;"></i>
-                                            234 Check Ins
-                                        </span>
-                                    </div>
-
-                                    <h6>$420<br><span style="color: #afafaf; font-size: 14px;">/person</span></h6>
+                        <div class="col-xxl-4 col-lg-6 col-12 cloneable element">
+                            <div class="feature-58-item">
+                                <div class="img-wrapper">
+                                    <img loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-1.jpg') }}" alt=""/>
                                 </div>
 
-                                <ul>
-                                    <li>Deal Includes:</li>
-                                    <li><i class="fa fa-taxi"></i> 5 Days Trip > Hotel Included</li>
-                                    <li><i class="fa fa-plane"></i> Airplane Bill Included</li>
-                                    <li><i class="fa fa-building"></i> Daily Places Visit</li>
-                                </ul>
-                                <div class="main-button mt-4">
-                                    <module type="btn" button_style="btn-primary" button_text="Make A Reservation"/>
+                                <div class="text">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <h5 class="d-inline-block mb-0">Havana</h5>
+                                            <br>
+                                            <span style="color: #afafaf;">
+                                                <i class="mw-micon-Add-UserStar me-1" style="font-size: 18px;"></i>
+                                                234 Check Ins
+                                            </span>
+                                        </div>
+
+                                        <h6>$420<br><span style="color: #afafaf; font-size: 14px;">/person</span></h6>
+                                    </div>
+
+                                    <ul>
+                                        <li>Deal Includes:</li>
+                                        <li><i class="fa fa-taxi"></i> 5 Days Trip > Hotel Included</li>
+                                        <li><i class="fa fa-plane"></i> Airplane Bill Included</li>
+                                        <li><i class="fa fa-building"></i> Daily Places Visit</li>
+                                    </ul>
+                                    <div class="main-button mt-4">
+                                        <module type="btn" button_style="btn-primary" button_text="Make A Reservation"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-xxl-4 col-lg-6 col-12 cloneable element">
-                        <div class="feature-58-item">
-                            <div class="img-wrapper">
-                                <img loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-1.jpg') }}" alt=""/>
-                            </div>
-
-                            <div class="text">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <h5 class="d-inline-block mb-0">Havana</h5>
-                                        <br>
-                                        <span style="color: #afafaf;">
-                                            <i class="mw-micon-Add-UserStar me-1" style="font-size: 18px;"></i>
-                                            234 Check Ins
-                                        </span>
-                                    </div>
-
-                                    <h6>$420<br><span style="color: #afafaf; font-size: 14px;">/person</span></h6>
+                        <div class="col-xxl-4 col-lg-6 col-12 cloneable element">
+                            <div class="feature-58-item">
+                                <div class="img-wrapper">
+                                    <img loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-1.jpg') }}" alt=""/>
                                 </div>
 
-                                <ul>
-                                    <li>Deal Includes:</li>
-                                    <li><i class="fa fa-taxi"></i> 5 Days Trip > Hotel Included</li>
-                                    <li><i class="fa fa-plane"></i> Airplane Bill Included</li>
-                                    <li><i class="fa fa-building"></i> Daily Places Visit</li>
-                                </ul>
-                                <div class="main-button mt-4">
-                                    <module type="btn" button_style="btn-primary" button_text="Make A Reservation"/>
+                                <div class="text">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <h5 class="d-inline-block mb-0">Havana</h5>
+                                            <br>
+                                            <span style="color: #afafaf;">
+                                                <i class="mw-micon-Add-UserStar me-1" style="font-size: 18px;"></i>
+                                                234 Check Ins
+                                            </span>
+                                        </div>
+
+                                        <h6>$420<br><span style="color: #afafaf; font-size: 14px;">/person</span></h6>
+                                    </div>
+
+                                    <ul>
+                                        <li>Deal Includes:</li>
+                                        <li><i class="fa fa-taxi"></i> 5 Days Trip > Hotel Included</li>
+                                        <li><i class="fa fa-plane"></i> Airplane Bill Included</li>
+                                        <li><i class="fa fa-building"></i> Daily Places Visit</li>
+                                    </ul>
+                                    <div class="main-button mt-4">
+                                        <module type="btn" button_style="btn-primary" button_text="Make A Reservation"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </x-row>
                 </div>
-            </div>
+            </x-row>
         </div>
-    </div>
-    <module height="80px" type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+        <module height="80px" type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
+</x-layout-section>

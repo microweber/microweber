@@ -5,13 +5,6 @@
  categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .heading-two {
         color: #222;
@@ -71,43 +64,43 @@
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-3">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element edit safe-mode"
-         field="layout-new-layouts-skin-3-{{ $params['id'] }}" rel="module">
 
-        <div class="row justify-content-between">
-            <div class="col-lg-6">
-                <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="heading-two">Our Values</h2>
-                <div class="values-list">
-                    <div class="values-item">
-                        <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold">Integrity</h6>
-                        <p data-mwplaceholder="{{ _e('Enter text here') }}">Upholding honesty and ethical practices in every aspect, ensuring trust and reliability in all of CMS's interactions and decisions.</p>
-                    </div>
-                    <div class="horizontal-line"></div>
-                    <div class="values-item">
-                        <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold">Innovation</h6>
-                        <p data-mwplaceholder="{{ _e('Enter text here') }}">Dedicated to continuous evolution, CMS simplifies legal processes with advanced technology, setting new standards in the legal tech landscape.</p>
-                    </div>
-                    <div class="horizontal-line"></div>
-                    <div class="values-item">
-                        <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold">Accessibility</h6>
-                        <p data-mwplaceholder="{{ _e('Enter text here') }}">Committed to making legal support attainable and user-friendly, CMS ensures businesses of all sizes have easy access to essential legal services.</p>
-                    </div>
-                    <div class="horizontal-line"></div>
-                    <div class="values-item">
-                        <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold">Collaboration</h6>
-                        <p data-mwplaceholder="{{ _e('Enter text here') }}">CMS believes in the power of teamwork and partnerships, working closely with clients and legal professionals to develop more effective legal solutions.</p>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-3"
+    field-name="layout-new-layouts-skin-3"
+    container-class="mw-layout-container container no-element edit safe-mode"
+>
+    <x-row class="justify-content-between">
+                <div class="col-lg-6">
+                    <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="heading-two">Our Values</h2>
+                    <div class="values-list">
+                        <div class="values-item">
+                            <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold">Integrity</h6>
+                            <p data-mwplaceholder="{{ _e('Enter text here') }}">Upholding honesty and ethical practices in every aspect, ensuring trust and reliability in all of CMS's interactions and decisions.</p>
+                        </div>
+                        <div class="horizontal-line"></div>
+                        <div class="values-item">
+                            <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold">Innovation</h6>
+                            <p data-mwplaceholder="{{ _e('Enter text here') }}">Dedicated to continuous evolution, CMS simplifies legal processes with advanced technology, setting new standards in the legal tech landscape.</p>
+                        </div>
+                        <div class="horizontal-line"></div>
+                        <div class="values-item">
+                            <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold">Accessibility</h6>
+                            <p data-mwplaceholder="{{ _e('Enter text here') }}">Committed to making legal support attainable and user-friendly, CMS ensures businesses of all sizes have easy access to essential legal services.</p>
+                        </div>
+                        <div class="horizontal-line"></div>
+                        <div class="values-item">
+                            <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold">Collaboration</h6>
+                            <p data-mwplaceholder="{{ _e('Enter text here') }}">CMS believes in the power of teamwork and partnerships, working closely with clients and legal professionals to develop more effective legal solutions.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 text-end mt-lg-0 mt-3">
-                <img loading="lazy" class="values-image" src="{{ asset('templates/big/img/layouts/gallery-1-vertical.jpg') }}" alt=""/>
-            </div>
-        </div>
-    </div>
-
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+                <div class="col-lg-4 text-end mt-lg-0 mt-3">
+                    <img loading="lazy" class="values-image" src="{{ asset('templates/big/img/layouts/gallery-1-vertical.jpg') }}" alt=""/>
+                </div>
+            </x-row>
+</x-layout-section>

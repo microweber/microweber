@@ -5,13 +5,6 @@ position: 114
 categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     a {
         font-weight: 400;
@@ -100,29 +93,31 @@ categories: Design
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-14">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element edit safe-mode" field="layout-new-layouts-skin-14-{{ $params['id'] }}" rel="module">
-        <div class="row">
-            <div class="customer-quote-grid">
-                <div>
-                    <img loading="lazy" class="rounded-image" src="{{ asset('templates/big/img/layouts/gallery-1-7.jpg') }}" alt=""/>
-                </div>
 
-                <div class="customer-cta">
-                    <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="heading-two italic">“CMS has become an indispensable part of our business.”</h2>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-14"
+    field-name="layout-new-layouts-skin-14"
+    container-class="mw-layout-container container no-element edit safe-mode"
+>
+    <x-row>
+                <div class="customer-quote-grid">
                     <div>
-                        <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold mb-0">Sandra Hotchkins</h6>
-                        <p data-mwplaceholder="{{ _e('Enter text here') }}">Founder + CEO, Ableto</p>
+                        <img loading="lazy" class="rounded-image" src="{{ asset('templates/big/img/layouts/gallery-1-7.jpg') }}" alt=""/>
                     </div>
 
-                    <module type="btn" button_style="btn-primary" text="Meet our Customers"/>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <div class="customer-cta">
+                        <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="heading-two italic">“CMS has become an indispensable part of our business.”</h2>
+                        <div>
+                            <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="font-weight-bold mb-0">Sandra Hotchkins</h6>
+                            <p data-mwplaceholder="{{ _e('Enter text here') }}">Founder + CEO, Ableto</p>
+                        </div>
 
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+                        <module type="btn" button_style="btn-primary" text="Meet our Customers"/>
+                    </div>
+                </div>
+            </x-row>
+</x-layout-section>

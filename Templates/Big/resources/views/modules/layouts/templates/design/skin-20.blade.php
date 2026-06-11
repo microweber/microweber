@@ -5,13 +5,6 @@ position: 120
 categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     a {
         font-weight: 400;
@@ -61,22 +54,24 @@ categories: Design
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-20">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element edit safe-mode" field="layout-new-layouts-skin-20-{{ $params['id'] }}" rel="module">
-        <div class="row col-xl-8 mx-auto gap-5">
-            <div class="heading-two text-center">Frequently asked questions</div>
 
-            <module type="accordion" template="skin-6" id="accordion-layout--{{ $params['id'] }}"/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-20"
+    field-name="layout-new-layouts-skin-20"
+    container-class="mw-layout-container container no-element edit safe-mode"
+>
+    <x-row class="col-xl-8 mx-auto gap-5">
+                <div class="heading-two text-center">Frequently asked questions</div>
 
-            <div class="faq-cta text-center justify-content-center">
-                <span>Do you still have questions about CMS?</span>
-                <module type="btn" button_style="btn-outline-primary" text="Get in touch"/>
-            </div>
-        </div>
-    </div>
+                <module type="accordion" template="skin-6" id="accordion-layout--{{ $params['id'] }}"/>
 
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+                <div class="faq-cta text-center justify-content-center">
+                    <span>Do you still have questions about CMS?</span>
+                    <module type="btn" button_style="btn-outline-primary" text="Get in touch"/>
+                </div>
+            </x-row>
+</x-layout-section>

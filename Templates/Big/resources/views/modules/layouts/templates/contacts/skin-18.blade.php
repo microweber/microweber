@@ -1,6 +1,4 @@
-@php
-/*
-
+{{--
 type: layout
 
 name: Contacts 18
@@ -8,21 +6,7 @@ name: Contacts 18
 position: 18
 
 categories: Contact Us
-
-*/
-@endphp
-
-@php
-if (!isset($classes['padding_top'])) {
-    $classes['padding_top'] = 'mw-p-t-50';
-}
-if (!isset($classes['padding_bottom'])) {
-    $classes['padding_bottom'] = 'mw-p-b-90';
-}
-
-$layout_classes = $layout_classes ?? '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
+--}}
 
 <style>
     .contacts-18 .section-heading p {
@@ -132,40 +116,43 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
     }
 </style>
 
-<section class="section contacts-18">
-    <module type="background" data-background-color="#F1F0FE" id="background-layout--{{ $params['id'] ?? '' }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] ?? '' }}-top"/>
-    <div class="mw-layout-container no-element container edit safe-mode "
-         field="layout-contacts-skin-18-{{ $params['id'] ?? '' }}" rel="module">
-        <div class="row align-items-center">
-            <div class="col-lg-7 align-self-stretch p-5 allow-select allow-drop">
-                <div class="section-heading">
-                    <div class="regular-mode">
-                        <h6>Contact Us</h6>
-                        <h2>Feel free to contact us anytime</h2>
-                        <p>Thank you for choosing our templates. We provide you best CSS templates at absolutely 100%
-                            free of charge. You may support us by sharing our website to your friends.</p>
-                    </div>
-                    <a>
-                        <div class="special-offer background-color-element element">
-                            <div class="offer background-color-element element">off<br><em>50%</em></div>
-                            <div class="contacts-18-title-1">Valide: <em>24 April 2036</em></div>
-                            <div class="contacts-18-title-2">Special Offer <em>50%</em> OFF!</div>
-                            <div class="contacts-8-right-arrow-wrapper background-color-element no-element nodrop no-drag fa fa-angle-right icon no-typing">
 
-                            </div>
+
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section contacts-18"
+    field-name="layout-contacts-skin-18"
+    default-padding-top="mw-p-t-50"
+    default-padding-bottom="mw-p-b-90"
+    container-class="mw-layout-container no-element container edit safe-mode"
+>
+    <x-row class="align-items-center">
+                <div class="col-lg-7 align-self-stretch p-5 allow-select allow-drop">
+                    <div class="section-heading">
+                        <div class="regular-mode">
+                            <h6>Contact Us</h6>
+                            <h2>Feel free to contact us anytime</h2>
+                            <p>Thank you for choosing our templates. We provide you best CSS templates at absolutely 100%
+                                free of charge. You may support us by sharing our website to your friends.</p>
                         </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-5 allow-select allow-drop align-self-stretch">
-                <div class="contacts-18-content p-5">
-                    <module type="contact_form" template="skin-1"/>
-                </div>
-            </div>
-        </div>
+                        <a>
+                            <div class="special-offer background-color-element element">
+                                <div class="offer background-color-element element">off<br><em>50%</em></div>
+                                <div class="contacts-18-title-1">Valide: <em>24 April 2036</em></div>
+                                <div class="contacts-18-title-2">Special Offer <em>50%</em> OFF!</div>
+                                <div class="contacts-8-right-arrow-wrapper background-color-element no-element nodrop no-drag fa fa-angle-right icon no-typing">
 
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] ?? '' }}-bottom"/>
-
-</section>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5 allow-select allow-drop align-self-stretch">
+                    <div class="contacts-18-content p-5">
+                        <module type="contact_form" template="skin-1"/>
+                    </div>
+                </div>
+            </x-row>
+</x-layout-section>

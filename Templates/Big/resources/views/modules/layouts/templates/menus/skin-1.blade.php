@@ -102,7 +102,7 @@
     </script>
 
     <div class="container-fluid justify-content-center mw-menu-skin-com-container">
-        <div class="row col-12 d-flex justify-content-center ">
+        <x-row class="col-12 d-flex justify-content-center">
             <module type="logo" id="header-logo-{{ $params['id'] }}"
                     class="me-auto col-auto col-xl-4 mw-big-header-logo w-auto align-self-center my-md-0 my-1 px-0 module module-logo "/>
 
@@ -111,6 +111,6 @@
                     <module type="menu" name="header_menu" id="header_menu-{{ $params['id'] }}12" template="navbar"/>
                 </div>
             </div>
-        </div>
+        </x-row>
     </div>
 </section>

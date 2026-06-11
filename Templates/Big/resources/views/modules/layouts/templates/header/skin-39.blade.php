@@ -90,9 +90,9 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
 <section class="section header-39">
     <module type="background" data-background-color="#00000060" data-background-image="{{ asset('templates/big/img/layouts/gallery-1-5.jpg') }}" id="background-layout--{{ $params['id'] ?? '' }}" />
 
-    <div class="mw-layout-container safe-mode no-element  {{ $layout_classes }} edit" field="layout-header-skin-39-{{ $params['id'] ?? '' }}" rel="module">
+    <div class="mw-layout-container safe-mode no-element  {{ $layout_classes ?? '' }} edit" field="layout-header-skin-39-{{ $params['id'] ?? '' }}" rel="module">
         <div class="container mw-layout-dark-background header-39-image-container allow-select">
-            <div class="row">
+            <x-row>
                 <div class="col-lg-12">
                     <h5 class="header-39-title" data-mwplaceholder="@lang('Enter title here')">Book Prefered Deal Here</h5>
                     <h3 class="mb-4" data-mwplaceholder="@lang('Enter title here')">Make Your Reservation</h3>
@@ -102,7 +102,7 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
                        <module type="btn" button_style="btn btn-secondary" button_text="Discover More" />
                     </div>
                 </div>
-            </div>
+            </x-row>
         </div>
 
         <div class="container row reservation-info mx-auto">

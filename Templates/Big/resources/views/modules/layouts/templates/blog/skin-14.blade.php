@@ -1,7 +1,4 @@
-<?php
-
-/*
-
+{{--
 type: layout
 
 name: Blog 14
@@ -9,10 +6,7 @@ name: Blog 14
 position: 14
 
 categories: Blog
-
-*/
-
-?>
+--}}
 
 <style>
     [field="layout-blog-skin-14-{{ $params['id'] ?? '' }}"] h1 {
@@ -41,37 +35,25 @@ categories: Blog
     }
 </style>
 
-@php
-if (!isset($classes['padding_top'])) {
-    $classes['padding_top'] = '';
-}
-if (!isset($classes['padding_bottom'])) {
-    $classes['padding_bottom'] = '';
-}
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-layout-container"
+    container-class="mw-layout-container container-fluid no-element"
+>
+    <div class="col-md-10 mx-auto edit" field="layout-blog-skin-14-{{ $params['id'] ?? '' }}" rel="module">
+                <div class="mx-auto text-center mb-8">
+                    <h1 class="mb-3">Beautiful Moments That i Captured</h1>
+                    <p>I photograph beautiful things everywhere, born of boredom. Raised by longing, for those of
+                        <br> you who love presentations that make you dizzy and keep your spirits up.
+                    </p>
+                </div>
 
-$layout_classes = $layout_classes ?? '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
+                <module type="posts" template="skin-14" />
 
-<section class="section mw-layout-container {{ $layout_classes }}">
-    <module type="background" id="background-layout--{{ $params['id'] ?? '' }}" />
-    <module type="spacer" id="spacer-layout--{{ $params['id'] ?? '' }}-top" height="120px" />
-
-    <div class="container-fluid mw-layout-container no-element">
-        <div class="col-md-10 mx-auto edit" field="layout-blog-skin-14-{{ $params['id'] ?? '' }}" rel="module">
-            <div class="mx-auto text-center mb-8">
-                <h1 class="mb-3">Beautiful Moments That i Captured</h1>
-                <p>I photograph beautiful things everywhere, born of boredom. Raised by longing, for those of
-                    <br> you who love presentations that make you dizzy and keep your spirits up.
-                </p>
+                <div class="d-flex align-items-center justify-content-center cloneable">
+                    <module type="btn" button_text="See All Moments ->" button_style="btn btn-primary px-5 py-4" />
+                </div>
             </div>
-
-            <module type="posts" template="skin-14" />
-
-            <div class="d-flex align-items-center justify-content-center cloneable">
-                <module type="btn" button_text="See All Moments ->" button_style="btn btn-primary px-5 py-4" />
-            </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] ?? '' }}-bottom" height="120px" />
-</section>
+</x-layout-section>

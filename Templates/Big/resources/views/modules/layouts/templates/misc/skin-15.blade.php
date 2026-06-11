@@ -1,28 +1,12 @@
-@php
-/*
- 
+{{--
 type: layout
- 
+
 name: Misc 15
- 
+
 position: 15
- 
+
 categories: Misc
- 
-*/
-@endphp
-
-@if (!isset($classes['padding_top']))
-    @php $classes['padding_top'] = ''; @endphp
-@endif
-@if (!isset($classes['padding_bottom']))
-    @php $classes['padding_bottom'] = ''; @endphp
-@endif
-
-@php
-$layout_classes = $layout_classes ?? ''; 
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
+--}}
 
 <style>
     .misc-15 {
@@ -99,25 +83,29 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
     }
 </style>
 
-<section class="section misc-15 {{ $layout_classes }} ">
-    <module type="background" data-background-color="#f1f0fe" id="background-layout--{{ $params['id'] }}" />
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top" />
-    <div class="mw-layout-container no-element container edit my-5" field="layout-misc-skin-15-{{ $params['id'] }}" rel="module">
-        <div class="row gap-3">
-            <div class="col-lg-6">
-                <module type="accordion" template="skin-4" />
-            </div>
-            <div class="col-lg-5 align-self-center mt-lg-0 mt-5">
-                <div class="misc-15-heading mt-lg-0 mt-3">
-                    <p style="color: #7A6AD8;" data-mwplaceholder="{{ _e('Enter title here') }}">About Us</p>
-                    <h4 class="font-weight-bold" data-mwplaceholder="{{ _e('Enter title here') }}">What makes us the best academy online?</h4>
-                    <p data-mwplaceholder="{{ _e('Enter title here') }}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravid risus commodo.</p>
-                    <div class="misc-15-main-button">
-                        <module type="btn" text="Read More" button_style="btn-primary"/>
+
+
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section misc-15"
+    field-name="layout-misc-skin-15"
+    container-class="mw-layout-container no-element container edit my-5"
+>
+    <x-row class="gap-3">
+                <div class="col-lg-6">
+                    <module type="accordion" template="skin-4" />
+                </div>
+                <div class="col-lg-5 align-self-center mt-lg-0 mt-5">
+                    <div class="misc-15-heading mt-lg-0 mt-3">
+                        <p style="color: #7A6AD8;" data-mwplaceholder="{{ _e('Enter title here') }}">About Us</p>
+                        <h4 class="font-weight-bold" data-mwplaceholder="{{ _e('Enter title here') }}">What makes us the best academy online?</h4>
+                        <p data-mwplaceholder="{{ _e('Enter title here') }}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravid risus commodo.</p>
+                        <div class="misc-15-main-button">
+                            <module type="btn" text="Read More" button_style="btn-primary"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom" />
-</section>
+            </x-row>
+</x-layout-section>

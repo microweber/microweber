@@ -1,29 +1,12 @@
-@php
-    /*
-
-    type: layout
+{{--
+type: layout
 
     name: Price Lists 18
 
     position: 18
 
     categories: Price Lists
-
-    */
-@endphp
-
-@php
-    if (!isset($classes['padding_top'])) {
-        $classes['padding_top'] = '';
-    }
-    if (!isset($classes['padding_bottom'])) {
-        $classes['padding_bottom'] = '';
-    }
-
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
+--}}
 
 <style>
     .comparison-grid.bg-base { background-color: #1a1a1a; }
@@ -79,126 +62,130 @@
 
 </style>
 
-<section class="section price-list-18 {{ $layout_classes }}">
-
-    <module type="background" data-background-color="#1a1a1a" id="background-layout--{{ $params['id'] }}"/>
-
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section price-list-18"
+    background-attrs='data-background-color="#1a1a1a"'
+    container-class="mw-layout-container no-element"
+>
     <module type="spacer" height="100px" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="container-fluid mw-layout-container mw-layout-overlay-container edit safe-mode" field="layout-skin-18-{{ $params['id'] }}" rel="module">
-        <div class="comparison-grid bg-base background-color-element element rounded-lg overflow-hidden">
-            <div class="row g-0 plan-header-row">
-                <div class="col-lg-3">
-                    <div class="plan-header-spacer">
-                        <h5 class="fw-semibold text-light py-4 mb-0 ps-2">Compare our plans</h5>
+        <div class="container-fluid mw-layout-container mw-layout-overlay-container edit safe-mode" field="layout-skin-18-{{ $params['id'] }}" rel="module">
+            <div class="comparison-grid bg-base background-color-element element rounded-lg overflow-hidden">
+                <x-row class="g-0 plan-header-row">
+                    <div class="col-lg-3">
+                        <div class="plan-header-spacer">
+                            <h5 class="fw-semibold text-light py-4 mb-0 ps-2">Compare our plans</h5>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-3 plan-col background-color-element element plan-col-first rounded-lg-top-start p-3">
-                    <div class="plan-header w-100 d-flex flex-column align-items-center justify-content-center py-2">
-                        <span class="fw-semibold fs-6" style="color: #fff;">Startup</span>
+                    <div class="col-lg-3 plan-col background-color-element element plan-col-first rounded-lg-top-start p-3">
+                        <div class="plan-header w-100 d-flex flex-column align-items-center justify-content-center py-2">
+                            <span class="fw-semibold fs-6" style="color: #fff;">Startup</span>
 
-                        <module type="btn" button_style="btn-primary" text="Try for Free"/>
+                            <module type="btn" button_style="btn-primary" text="Try for Free"/>
 
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-3 plan-col background-color-element element p-3">
-                    <div class="plan-header w-100 d-flex flex-column align-items-center justify-content-center py-2">
-                        <span class="fw-semibold fs-6" style="color: #fff;">Business</span>
-                        <module type="btn" button_style="btn-primary" text="Try for Free"/>
+                    <div class="col-lg-3 plan-col background-color-element element p-3">
+                        <div class="plan-header w-100 d-flex flex-column align-items-center justify-content-center py-2">
+                            <span class="fw-semibold fs-6" style="color: #fff;">Business</span>
+                            <module type="btn" button_style="btn-primary" text="Try for Free"/>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-3 plan-col background-color-element element plan-col-last rounded-lg-top-end p-3">
-                    <div class="plan-header w-100 d-flex flex-column align-items-center justify-content-center py-2">
-                        <span class="fw-semibold fs-6" style="color: #fff;">Custom</span>
-                        <module type="btn" button_style="btn-primary" text="Contact Us"/>
+                    <div class="col-lg-3 plan-col background-color-element element plan-col-last rounded-lg-top-end p-3">
+                        <div class="plan-header w-100 d-flex flex-column align-items-center justify-content-center py-2">
+                            <span class="fw-semibold fs-6" style="color: #fff;">Custom</span>
+                            <module type="btn" button_style="btn-primary" text="Contact Us"/>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </x-row>
 
-           <div class="cloneable py-0">
-               <div class="row g-0 py-3 category-detail-row rounded-lg background-color-element cloneable element align-items-center">
-                   <div class="col-lg-3 category-title-col d-flex align-items-center ps-2 pe-2">
-                       <span class="category-badge d-inline-block background-color-element element fw-medium py-1 px-3 rounded-lg fs-sm">Category</span>
-                   </div>
+               <div class="cloneable py-0">
+                   <x-row class="g-0 py-3 category-detail-row rounded-lg background-color-element cloneable element align-items-center">
+                       <div class="col-lg-3 category-title-col d-flex align-items-center ps-2 pe-2">
+                           <span class="category-badge d-inline-block background-color-element element fw-medium py-1 px-3 rounded-lg fs-sm">Category</span>
+                       </div>
+                   </x-row>
+                   <x-row class="g-0 feature-detail-row align-items-center cloneable element p-0">
+                       <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
+                       <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-close-thick"></i></div>
+                       <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                       <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                   </x-row>
+                   <x-row class="g-0 feature-detail-row align-items-center cloneable element p-0">
+                       <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
+                       <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                       <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                       <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                   </x-row>
                </div>
-               <div class="row g-0 feature-detail-row align-items-center cloneable element p-0">
-                   <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
-                   <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-close-thick"></i></div>
-                   <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                   <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-               </div>
-               <div class="row g-0 feature-detail-row align-items-center cloneable element p-0">
-                   <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
-                   <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                   <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                   <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-               </div>
-           </div>
 
-            <div class="cloneable py-0">
-                <div class="row g-0 py-3 category-detail-row rounded-lg background-color-element cloneable element align-items-center">
-                    <div class="col-lg-3 category-title-col d-flex align-items-center ps-2 pe-2">
-                        <span class="category-badge d-inline-block background-color-element element fw-medium py-1 px-3 rounded-lg fs-sm">Category</span>
-                    </div>
+                <div class="cloneable py-0">
+                    <x-row class="g-0 py-3 category-detail-row rounded-lg background-color-element cloneable element align-items-center">
+                        <div class="col-lg-3 category-title-col d-flex align-items-center ps-2 pe-2">
+                            <span class="category-badge d-inline-block background-color-element element fw-medium py-1 px-3 rounded-lg fs-sm">Category</span>
+                        </div>
+                    </x-row>
+                    <x-row class="g-0 feature-detail-row align-items-center cloneable element p-0">
+                        <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                    </x-row>
+                    <x-row class="g-0 feature-detail-row align-items-center cloneable element p-0">
+                        <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                    </x-row>
                 </div>
-                <div class="row g-0 feature-detail-row align-items-center cloneable element p-0">
-                    <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                </div>
-                <div class="row g-0 feature-detail-row align-items-center cloneable element p-0">
-                    <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                </div>
-            </div>
 
-            <div class="cloneable py-0">
-                <div class="row g-0 py-3 category-detail-row rounded-lg background-color-element cloneable element align-items-center">
-                    <div class="col-lg-3 category-title-col d-flex align-items-center ps-2 pe-2">
-                        <span class="category-badge d-inline-block background-color-element element fw-medium py-1 px-3 rounded-lg fs-sm">Category</span>
-                    </div>
-                </div>
-                <div class="row g-0 feature-detail-row align-items-center cloneable element p-0">
-                    <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                </div>
-                <div class="row g-0 feature-detail-row align-items-center cloneable element p-0">
-                    <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                </div>
-                <div class="row g-0 feature-detail-row align-items-center cloneable element p-0">
-                    <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                </div>
-                <div class="row g-0 feature-detail-row align-items-center cloneable element p-0">
-                    <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                </div>
-                <div class="row g-0 feature-detail-row align-items-center cloneable element p-0">
-                    <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-close-thick"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                </div>
-                <div class="row g-0 feature-detail-row align-items-center cloneable element p-0 is-last-row">
-                    <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
-                    <div class="col-lg-3 plan-col background-color-element element plan-col-first check-cell-col rounded-lg-bottom-start p-3"><i class="mdi mdi-close-thick"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
-                    <div class="col-lg-3 plan-col background-color-element element plan-col-last check-cell-col rounded-lg-bottom-end p-3"><i class="mdi mdi-check-bold"></i></div>
+                <div class="cloneable py-0">
+                    <x-row class="g-0 py-3 category-detail-row rounded-lg background-color-element cloneable element align-items-center">
+                        <div class="col-lg-3 category-title-col d-flex align-items-center ps-2 pe-2">
+                            <span class="category-badge d-inline-block background-color-element element fw-medium py-1 px-3 rounded-lg fs-sm">Category</span>
+                        </div>
+                    </x-row>
+                    <x-row class="g-0 feature-detail-row align-items-center cloneable element p-0">
+                        <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                    </x-row>
+                    <x-row class="g-0 feature-detail-row align-items-center cloneable element p-0">
+                        <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                    </x-row>
+                    <x-row class="g-0 feature-detail-row align-items-center cloneable element p-0">
+                        <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                    </x-row>
+                    <x-row class="g-0 feature-detail-row align-items-center cloneable element p-0">
+                        <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                    </x-row>
+                    <x-row class="g-0 feature-detail-row align-items-center cloneable element p-0">
+                        <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-close-thick"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                    </x-row>
+                    <x-row class="g-0 feature-detail-row align-items-center cloneable element p-0 is-last-row">
+                        <div class="col-lg-3 feature-name-col d-flex align-items-center ps-3 pe-3">...........</div>
+                        <div class="col-lg-3 plan-col background-color-element element plan-col-first check-cell-col rounded-lg-bottom-start p-3"><i class="mdi mdi-close-thick"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element check-cell-col p-3"><i class="mdi mdi-check-bold"></i></div>
+                        <div class="col-lg-3 plan-col background-color-element element plan-col-last check-cell-col rounded-lg-bottom-end p-3"><i class="mdi mdi-check-bold"></i></div>
+                    </x-row>
                 </div>
             </div>
         </div>
-    </div>
 
-    <module type="spacer" height="100px" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+        <module type="spacer" height="100px" id="spacer-layout--{{ $params['id'] }}-bottom"/>
+</x-layout-section>

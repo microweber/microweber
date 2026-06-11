@@ -1,6 +1,4 @@
-@php
-/*
-
+{{--
 type: layout
 
 name: Contacts 12
@@ -8,42 +6,31 @@ name: Contacts 12
 position: 12
 
 categories: Contact Us
+--}}
 
-*/
-@endphp
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section"
+    field-name="layout-contacts-skin-12"
+    default-padding-top="pt-7"
+    default-padding-bottom="pb-7"
+    container-class="mw-layout-container no-element container edit safe-mode"
+>
+    <x-row class="justify-content-center text-center">
+                <div class="cloneable element regular-mode">
+                    <h3 data-mwplaceholder="{{ _e('Enter title here') }}">Contact Us</h3>
+                </div>
 
-@php
-if (!isset($classes['padding_top'])) {
-    $classes['padding_top'] = 'pt-7';
-}
-if (!isset($classes['padding_bottom'])) {
-    $classes['padding_bottom'] = 'pb-7';
-}
+                <div class="mx-auto cloneable element regular-mode">
+                    <h6 data-mwplaceholder="{{ _e('Enter text here') }}">001 234 567 890</h6>
+                    <h6 data-mwplaceholder="{{ _e('Enter text here') }}"><a href="mailto:info@company.com">info@company.com</a></h6>
+                </div>
 
-$layout_classes = $layout_classes ?? ''; 
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
-<section class="section">
-     <module type="background" data-background-color="#f0f0f0" id="background-layout--{{ $params['id'] ?? '' }}" />
-    <module type="spacer" id="spacer-layout--{{ $params['id'] ?? '' }}-top" />
-    <div class="mw-layout-container no-element container edit safe-mode" field="layout-contacts-skin-12-{{ $params['id'] ?? '' }}" rel="module">
-        <div class="row justify-content-center text-center">
-            <div class="cloneable element regular-mode">
-                <h3 data-mwplaceholder="{{ _e('Enter title here') }}">Contact Us</h3>
-            </div>
-
-            <div class="mx-auto cloneable element regular-mode">
-                <h6 data-mwplaceholder="{{ _e('Enter text here') }}">001 234 567 890</h6>
-                <h6 data-mwplaceholder="{{ _e('Enter text here') }}"><a href="mailto:info@company.com">info@company.com</a></h6>
-            </div>
-
-            <div class="mx-auto cloneable element regular-mode">
-                <p data-mwplaceholder="{{ _e('Enter text here') }}">Follow us on social media</p>
-                <module type="social_links" template="skin-1"/>
-            </div>
-        </div>
-    </div>
-<module type="spacer" id="spacer-layout--{{ $params['id'] ?? '' }}-bottom" />
-
-</section>
+                <div class="mx-auto cloneable element regular-mode">
+                    <p data-mwplaceholder="{{ _e('Enter text here') }}">Follow us on social media</p>
+                    <module type="social_links" template="skin-1"/>
+                </div>
+            </x-row>
+</x-layout-section>

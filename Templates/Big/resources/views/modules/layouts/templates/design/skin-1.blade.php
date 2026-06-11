@@ -5,13 +5,6 @@
  categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-new-layouts-1 img {
         border-style: initial;
@@ -224,33 +217,35 @@
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-1">
-    <module type="background" id="background-layout--{{ $params['id'] }}" />
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top" />
 
-    <div class="container mw-layout-container no-element text-center edit safe-mode" field="layout-new-layouts-skin-1-{{ $params['id'] }}" rel="module">
-        <div class="mb-5">
-            <h2 class="mw-new-7-heading-one" data-mwplaceholder="{{ _e('Enter title here') }}">All-in-one legal</h2>
-            <h2 class="mw-new-7-heading-one" data-mwplaceholder="{{ _e('Enter title here') }}" style="font-style: italic;">for your business.</h2>
-        </div>
 
-        <div class="mw-layout-new-1-single-plan">
-            <img loading="lazy" class="mw-layouts-new-1-plan-image" src="{{ asset('templates/big/img/layouts/product-1.jpg') }}" alt=""/>
-
-            <div class="mw-layout-new-1-single-plan-contents">
-                <div class="mw-layout-new-1-price-terms">
-                    <div class="mw-layout-new-1-price">
-                        <div class="mw-layout-new-1-heading-three">$</div>
-                        <div class="mw-layout-new-1-large-price">99</div>
-                        <div>/ month</div>
-                    </div>
-                    <div data-mwplaceholder="{{ _e('Enter text here') }}" class="small-text muted">Prices in USD, billed annually.</div>
-                </div>
-                <div data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-layout-new-1-large-text mw-layout-new-1-single-plan-description">Comprehensive legal tools for growing enterprises.</div>
-                <module type="btn" button_style="btn-primary" text="Get Started"/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-1"
+    field-name="layout-new-layouts-skin-1"
+    container-class="mw-layout-container container no-element text-center edit safe-mode"
+>
+    <div class="mb-5">
+                <h2 class="mw-new-7-heading-one" data-mwplaceholder="{{ _e('Enter title here') }}">All-in-one legal</h2>
+                <h2 class="mw-new-7-heading-one" data-mwplaceholder="{{ _e('Enter title here') }}" style="font-style: italic;">for your business.</h2>
             </div>
-        </div>
-    </div>
 
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom" />
-</section>
+            <div class="mw-layout-new-1-single-plan">
+                <img loading="lazy" class="mw-layouts-new-1-plan-image" src="{{ asset('templates/big/img/layouts/product-1.jpg') }}" alt=""/>
+
+                <div class="mw-layout-new-1-single-plan-contents">
+                    <div class="mw-layout-new-1-price-terms">
+                        <div class="mw-layout-new-1-price">
+                            <div class="mw-layout-new-1-heading-three">$</div>
+                            <div class="mw-layout-new-1-large-price">99</div>
+                            <div>/ month</div>
+                        </div>
+                        <div data-mwplaceholder="{{ _e('Enter text here') }}" class="small-text muted">Prices in USD, billed annually.</div>
+                    </div>
+                    <div data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-layout-new-1-large-text mw-layout-new-1-single-plan-description">Comprehensive legal tools for growing enterprises.</div>
+                    <module type="btn" button_style="btn-primary" text="Get Started"/>
+                </div>
+            </div>
+</x-layout-section>

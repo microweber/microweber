@@ -35,7 +35,7 @@
     </script>
 
     <div class="container-fluid mw-menu-skin-com-container">
-        <div class="row col-12 d-flex justify-content-md-between justify-content-center align-items-center order-1">
+        <x-row class="col-12 d-flex justify-content-md-between justify-content-center align-items-center order-1">
             <module type="logo" id="header-logo-{{ $params['id'] }}"
                     class="col-auto mw-big-header-logo w-auto align-self-center my-md-0 my-1 module module-logo "/>
 
@@ -51,6 +51,6 @@
                 <module type="btn" button_style="btn btn-outline-primary theme-btn w-100" button_text="CREATE A WEBSITE"
                         id="header-btn-{{ $params['id'] }}"/>
             </div>
-        </div>
+        </x-row>
     </div>
 </section>

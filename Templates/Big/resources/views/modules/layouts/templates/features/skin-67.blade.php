@@ -1,7 +1,4 @@
-<?php
-
-/*
-
+{{--
 type: layout
 
 name: Feature 67
@@ -9,22 +6,7 @@ name: Feature 67
 position: 66
 
 categories: Features
-
-*/
-
-?>
-
-<?php
-if (!$classes['padding_top']) {
-    $classes['padding_top'] = '';
-}
-if (!$classes['padding_bottom']) {
-    $classes['padding_bottom'] = '';
-}
-
-$layout_classes = $layout_classes ?? '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-?>
+--}}
 
 <style>
     .feature-67 .why-box {
@@ -105,63 +87,59 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
     }
 </style>
 
-<section class="section feature-67 <?php print $layout_classes; ?> ">
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section feature-67"
+    field-name="layout-feature-skin-67"
+    container-class="mw-layout-container container no-element edit safe-mode"
+>
+    <x-row class="gy-4">
 
-    <module type="background" data-background-color="#EEEEEE" id="background-layout--{{ $params['id'] }}" />
-
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-
-    <div class="mw-layout-container container no-element edit safe-mode"
-         field="layout-feature-skin-67-{{ $params['id'] }}" rel="module">
-        <div class="row gy-4">
-
-            <div class="col-lg-4 cloneable element" data-aos="fade-up" data-aos-delay="100">
-                <div class="why-box background-color-element element">
-                    <h3>Why Choose Yummy?</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
-                        Asperiores dolores sed et. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus optio ad corporis.
-                        Tenetur quia eos. Autem tempore quibusdam vel necessitatibus optio ad corporis. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus optio ad corporis.
-                    </p>
-                    <div class="text-center">
-                       <module type="btn" button_style="btn btn-outline" button_text="Learn More"/>
+                <div class="col-lg-4 cloneable element" data-aos="fade-up" data-aos-delay="100">
+                    <div class="why-box background-color-element element">
+                        <h3>Why Choose Yummy?</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
+                            Asperiores dolores sed et. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus optio ad corporis.
+                            Tenetur quia eos. Autem tempore quibusdam vel necessitatibus optio ad corporis. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus optio ad corporis.
+                        </p>
+                        <div class="text-center">
+                           <module type="btn" button_style="btn btn-outline" button_text="Learn More"/>
+                        </div>
                     </div>
+                </div><!-- End Why Box -->
+
+                <div class="col-lg-8 d-flex align-items-center">
+                    <x-row class="gy-4">
+
+                        <div class="col-xl-4 cloneable element" data-aos="fade-up" data-aos-delay="200">
+                            <div class="icon-box d-flex flex-column justify-content-center align-items-center background-color-element element">
+                                <i class="no-typing mw-micon-File-Clipboard" style="font-size: 32px;"></i>
+                                <h5>Corporis voluptates officia eiusmod</h5>
+                                <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
+                            </div>
+                        </div><!-- End Icon Box -->
+
+                        <div class="col-xl-4 cloneable element" data-aos="fade-up" data-aos-delay="300">
+                            <div class="icon-box d-flex flex-column justify-content-center align-items-center background-color-element element">
+                                <i class="no-typing mw-micon-Diamond" style="font-size: 32px;"></i>
+                                <h5>Ullamco laboris ladore pan</h5>
+                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
+                            </div>
+                        </div><!-- End Icon Box -->
+
+                        <div class="col-xl-4 cloneable element" data-aos="fade-up" data-aos-delay="400">
+                            <div class="icon-box d-flex flex-column justify-content-center align-items-center background-color-element element">
+                                <i class="no-typing mw-micon-Box-withFolders" style="font-size: 32px;"></i>
+                                <h5>Labore consequatur incidid dolore</h5>
+                                <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
+                            </div>
+                        </div><!-- End Icon Box -->
+
+                    </x-row>
                 </div>
-            </div><!-- End Why Box -->
 
-            <div class="col-lg-8 d-flex align-items-center">
-                <div class="row gy-4">
-
-                    <div class="col-xl-4 cloneable element" data-aos="fade-up" data-aos-delay="200">
-                        <div class="icon-box d-flex flex-column justify-content-center align-items-center background-color-element element">
-                            <i class="no-typing mw-micon-File-Clipboard" style="font-size: 32px;"></i>
-                            <h5>Corporis voluptates officia eiusmod</h5>
-                            <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
-                        </div>
-                    </div><!-- End Icon Box -->
-
-                    <div class="col-xl-4 cloneable element" data-aos="fade-up" data-aos-delay="300">
-                        <div class="icon-box d-flex flex-column justify-content-center align-items-center background-color-element element">
-                            <i class="no-typing mw-micon-Diamond" style="font-size: 32px;"></i>
-                            <h5>Ullamco laboris ladore pan</h5>
-                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-                        </div>
-                    </div><!-- End Icon Box -->
-
-                    <div class="col-xl-4 cloneable element" data-aos="fade-up" data-aos-delay="400">
-                        <div class="icon-box d-flex flex-column justify-content-center align-items-center background-color-element element">
-                            <i class="no-typing mw-micon-Box-withFolders" style="font-size: 32px;"></i>
-                            <h5>Labore consequatur incidid dolore</h5>
-                            <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
-                        </div>
-                    </div><!-- End Icon Box -->
-
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-
-</section>
+            </x-row>
+</x-layout-section>

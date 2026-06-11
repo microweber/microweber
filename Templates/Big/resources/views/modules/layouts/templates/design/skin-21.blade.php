@@ -5,13 +5,6 @@ position: 121
 categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-new-21-display-1 {
         font-weight: 700;
@@ -122,21 +115,23 @@ categories: Design
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-21 mw-new-21-section-cta" id="layout-section--{{ $params['id'] }}">
-    <module type="background"   id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" height="130px" id="spacer-layout--{{ $params['id'] }}-top"/>
-
-    <div class="container mw-layout-container no-element edit safe-mode" field="layout-new-layouts-skin-21-{{ $params['id'] }}" rel="module">
-        <div class="mw-new-21-max-w-width-cta center">
-            <div class="mw-new-21-top-text background-color-element element">let's talk</div>
-            <div>
-                <h3 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-21-display-1 mw-new-21-cta-title">Let's Talk</h3>
-            </div>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-21 mw-new-21-section-cta"
+    field-name="layout-new-layouts-skin-21"
+    container-class="mw-layout-container no-element edit safe-mode"
+    default-padding-top="p-t-130"
+    default-padding-bottom="p-b-150"
+>
+    <div class="mw-new-21-max-w-width-cta center">
+        <div class="mw-new-21-top-text background-color-element element">let's talk</div>
+        <div>
+            <h3 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-21-display-1 mw-new-21-cta-title">Let's Talk</h3>
         </div>
     </div>
-
-    <module type="spacer" height="150px" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+</x-layout-section>
 
 <script>
     $(document).ready(function() {

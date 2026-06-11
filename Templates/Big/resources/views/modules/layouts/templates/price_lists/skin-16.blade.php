@@ -1,28 +1,12 @@
-@php
-    /*
-
-    type: layout
+{{--
+type: layout
 
     name: Price Lists 16
 
     position: 16
 
     categories: Price Lists
-
-    */
-@endphp
-
-@php
-    if (!isset($classes['padding_top'])) {
-        $classes['padding_top'] = '';
-    }
-    if (!isset($classes['padding_bottom'])) {
-        $classes['padding_bottom'] = '';
-    }
-
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
+--}}
 
 <style>
     .mw-pricing9 {
@@ -186,229 +170,230 @@
     }
 </style>
 
-<section class="section mw-pricing9 price-list-16 {{ $layout_classes }}">
 
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
 
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="container mw-layout-container mw-layout-overlay-container edit safe-mode" field="layout-skin-16-{{ $params['id'] }}" rel="module">
-
-        <div class="row mb-5 allow-select">
-            <div class="col-lg-6 mb-lg-4">
-                <h2 class="mw-pricing9-heading mb-0">Best Plan with more facilities and benefit</h2>
-            </div>
-        </div>
-        <div class="row align-items-start allow-select">
-            <div class="col-md-7">
-                <div class="nav flex-column me-md-3" id="ezy-pricing9-tab" role="tablist" aria-orientation="vertical">
-                    <button class="nav-link d-flex mw-pricing9-nav-link active px-4 py-5 mb-3" id="ezy-pricing9-price1-tab" data-bs-toggle="pill" data-bs-target="#ezy-pricing9-price1" type="button" role="tab" aria-controls="ezy-pricing9-price1" aria-selected="true">
-                        <div class="row align-items-center">
-                            <span class="col-auto">
-                                <span class="fa fa-circle"></span>
-                                <span class="fa fa-check-circle"></span>
-                            </span>
-                            <span class="col text-start">
-                                <h3 class="fw-bold mb-2 mw-pricing9-title">Basic</h3>
-                                <p class="opacity-75 mb-0 mw-pricing9-note">It’s easier to reach your savings goals when you have the right savings account.</p>
-                            </span>
-                            <div class="col-auto">
-                                <span class="mw-pricing9-price mb-3">
-                                    <span class="pricing-9-price-span fw-bold">$9</span>
-                                    <span class="ms-2 opacity-75">/month</span>
-                                </span>
-                            </div>
-                        </div>
-                    </button>
-                    <button class="nav-link d-flex mw-pricing9-nav-link px-4 py-5 mb-3" id="ezy-pricing9-price2-tab" data-bs-toggle="pill" data-bs-target="#ezy-pricing9-price2" type="button" role="tab" aria-controls="ezy-pricing9-price2" aria-selected="true">
-                        <div class="row align-items-center">
-                            <span class="col-auto">
-                                <span class="fa fa-circle"></span>
-                                <span class="fa fa-check-circle"></span>
-                            </span>
-                            <span class="col text-start">
-                                <h3 class="fw-bold mb-2 mw-pricing9-title">Standard</h3>
-                                <p class="opacity-75 mb-0 mw-pricing9-note">It’s no secret that the digital industry is booming. From exciting startups to global brands.</p>
-                            </span>
-                            <div class="col-auto">
-                                <span class="mw-pricing9-price mb-3">
-                                    <span class="pricing-9-price-span fw-bold">$69</span>
-                                    <span class="ms-2 opacity-75">/month</span>
-                                </span>
-                            </div>
-                        </div>
-                    </button>
-                    <button class="nav-link d-flex mw-pricing9-nav-link px-4 py-5 mb-3" id="ezy-pricing9-price3-tab" data-bs-toggle="pill" data-bs-target="#ezy-pricing9-price3" type="button" role="tab" aria-controls="ezy-pricing9-price3" aria-selected="true">
-                        <div class="row align-items-center">
-                            <span class="col-auto">
-                                <span class="fa fa-circle"></span>
-                                <span class="fa fa-check-circle"></span>
-                            </span>
-                            <span class="col text-start">
-                                <h3 class="fw-bold mb-2 mw-pricing9-title">Premium</h3>
-                                <p class="opacity-75 mb-0 mw-pricing9-note">More off this less hello salamander lied porpoise much circa horse taped.</p>
-                            </span>
-                            <div class="col-auto">
-                                <span class="mw-pricing9-price mb-3">
-                                    <span class="pricing-9-price-span fw-bold">$99</span>
-                                    <span class="ms-2 opacity-75">/month</span>
-                                </span>
-                            </div>
-                        </div>
-                    </button>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-pricing9 price-list-16"
+    field-name="layout-skin-16"
+    container-class="mw-layout-container container mw-layout-overlay-container edit safe-mode"
+>
+    <x-row class="mb-5 allow-select">
+                <div class="col-lg-6 mb-lg-4">
+                    <h2 class="mw-pricing9-heading mb-0">Best Plan with more facilities and benefit</h2>
                 </div>
-            </div>
-            <div class="col-md-5">
-                <div class="tab-content" id="ezy-pricing9-tabContent">
-                    <div class="tab-pane mw-pricing9-tab-pane p-3 p-lg-5 fade show active" id="ezy-pricing9-price1" role="tabpanel" aria-labelledby="ezy-pricing9-price1-tab">
-                        <ul class="nav flex-column">
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Links</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Over 66 complex</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">24/7 Contact support</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Tools easily</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Links</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Over 66 complex</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">24/7 Contact support</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Tools easily</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Links</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Over 66 complex</span>
-                            </li>
-                            <li>
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">6TB storage</span>
-                            </li>
-                        </ul>
-                        <module type="btn" button_text="Choose plan" button_style="btn btn-primary w-100 mt-4"/>
-                    </div>
-                    <div class="tab-pane mw-pricing9-tab-pane p-3 p-lg-5 fade" id="ezy-pricing9-price2" role="tabpanel" aria-labelledby="ezy-pricing9-price2-tab">
-                        <ul class="nav flex-column">
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Links</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Over 66 complex</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">24/7 Contact support</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Tools easily</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Links</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Over 66 complex</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">24/7 Contact support</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Tools easily</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Links</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Over 66 complex</span>
-                            </li>
-                            <li>
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">6TB storage</span>
-                            </li>
-                        </ul>
-                        <module type="btn" button_text="Choose plan" button_style="btn btn-primary w-100 mt-4"/>
-                    </div>
-                    <div class="tab-pane mw-pricing9-tab-pane p-3 p-lg-5 fade" id="ezy-pricing9-price3" role="tabpanel" aria-labelledby="ezy-pricing9-price2-tab">
-                        <ul class="nav flex-column">
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Links</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Over 66 complex</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">24/7 Contact support</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Tools easily</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Links</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Over 66 complex</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">24/7 Contact support</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Tools easily</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Build Links</span>
-                            </li>
-                            <li class="mb-3">
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">Over 66 complex</span>
-                            </li>
-                            <li>
-                                <span class="fa fa-check me-2"></span>
-                                <span class="opacity-75">6TB storage</span>
-                            </li>
-                        </ul>
-                        <module type="btn" button_text="Choose plan" button_style="btn btn-primary w-100 mt-4"/>
+            </x-row>
+            <x-row class="align-items-start allow-select">
+                <div class="col-md-7">
+                    <div class="nav flex-column me-md-3" id="ezy-pricing9-tab" role="tablist" aria-orientation="vertical">
+                        <button class="nav-link d-flex mw-pricing9-nav-link active px-4 py-5 mb-3" id="ezy-pricing9-price1-tab" data-bs-toggle="pill" data-bs-target="#ezy-pricing9-price1" type="button" role="tab" aria-controls="ezy-pricing9-price1" aria-selected="true">
+                            <x-row class="align-items-center">
+                                <span class="col-auto">
+                                    <span class="fa fa-circle"></span>
+                                    <span class="fa fa-check-circle"></span>
+                                </span>
+                                <span class="col text-start">
+                                    <h3 class="fw-bold mb-2 mw-pricing9-title">Basic</h3>
+                                    <p class="opacity-75 mb-0 mw-pricing9-note">It’s easier to reach your savings goals when you have the right savings account.</p>
+                                </span>
+                                <div class="col-auto">
+                                    <span class="mw-pricing9-price mb-3">
+                                        <span class="pricing-9-price-span fw-bold">$9</span>
+                                        <span class="ms-2 opacity-75">/month</span>
+                                    </span>
+                                </div>
+                            </x-row>
+                        </button>
+                        <button class="nav-link d-flex mw-pricing9-nav-link px-4 py-5 mb-3" id="ezy-pricing9-price2-tab" data-bs-toggle="pill" data-bs-target="#ezy-pricing9-price2" type="button" role="tab" aria-controls="ezy-pricing9-price2" aria-selected="true">
+                            <x-row class="align-items-center">
+                                <span class="col-auto">
+                                    <span class="fa fa-circle"></span>
+                                    <span class="fa fa-check-circle"></span>
+                                </span>
+                                <span class="col text-start">
+                                    <h3 class="fw-bold mb-2 mw-pricing9-title">Standard</h3>
+                                    <p class="opacity-75 mb-0 mw-pricing9-note">It’s no secret that the digital industry is booming. From exciting startups to global brands.</p>
+                                </span>
+                                <div class="col-auto">
+                                    <span class="mw-pricing9-price mb-3">
+                                        <span class="pricing-9-price-span fw-bold">$69</span>
+                                        <span class="ms-2 opacity-75">/month</span>
+                                    </span>
+                                </div>
+                            </x-row>
+                        </button>
+                        <button class="nav-link d-flex mw-pricing9-nav-link px-4 py-5 mb-3" id="ezy-pricing9-price3-tab" data-bs-toggle="pill" data-bs-target="#ezy-pricing9-price3" type="button" role="tab" aria-controls="ezy-pricing9-price3" aria-selected="true">
+                            <x-row class="align-items-center">
+                                <span class="col-auto">
+                                    <span class="fa fa-circle"></span>
+                                    <span class="fa fa-check-circle"></span>
+                                </span>
+                                <span class="col text-start">
+                                    <h3 class="fw-bold mb-2 mw-pricing9-title">Premium</h3>
+                                    <p class="opacity-75 mb-0 mw-pricing9-note">More off this less hello salamander lied porpoise much circa horse taped.</p>
+                                </span>
+                                <div class="col-auto">
+                                    <span class="mw-pricing9-price mb-3">
+                                        <span class="pricing-9-price-span fw-bold">$99</span>
+                                        <span class="ms-2 opacity-75">/month</span>
+                                    </span>
+                                </div>
+                            </x-row>
+                        </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+                <div class="col-md-5">
+                    <div class="tab-content" id="ezy-pricing9-tabContent">
+                        <div class="tab-pane mw-pricing9-tab-pane p-3 p-lg-5 fade show active" id="ezy-pricing9-price1" role="tabpanel" aria-labelledby="ezy-pricing9-price1-tab">
+                            <ul class="nav flex-column">
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Links</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Over 66 complex</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">24/7 Contact support</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Tools easily</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Links</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Over 66 complex</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">24/7 Contact support</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Tools easily</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Links</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Over 66 complex</span>
+                                </li>
+                                <li>
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">6TB storage</span>
+                                </li>
+                            </ul>
+                            <module type="btn" button_text="Choose plan" button_style="btn btn-primary w-100 mt-4"/>
+                        </div>
+                        <div class="tab-pane mw-pricing9-tab-pane p-3 p-lg-5 fade" id="ezy-pricing9-price2" role="tabpanel" aria-labelledby="ezy-pricing9-price2-tab">
+                            <ul class="nav flex-column">
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Links</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Over 66 complex</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">24/7 Contact support</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Tools easily</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Links</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Over 66 complex</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">24/7 Contact support</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Tools easily</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Links</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Over 66 complex</span>
+                                </li>
+                                <li>
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">6TB storage</span>
+                                </li>
+                            </ul>
+                            <module type="btn" button_text="Choose plan" button_style="btn btn-primary w-100 mt-4"/>
+                        </div>
+                        <div class="tab-pane mw-pricing9-tab-pane p-3 p-lg-5 fade" id="ezy-pricing9-price3" role="tabpanel" aria-labelledby="ezy-pricing9-price2-tab">
+                            <ul class="nav flex-column">
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Links</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Over 66 complex</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">24/7 Contact support</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Tools easily</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Links</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Over 66 complex</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">24/7 Contact support</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Tools easily</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Build Links</span>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">Over 66 complex</span>
+                                </li>
+                                <li>
+                                    <span class="fa fa-check me-2"></span>
+                                    <span class="opacity-75">6TB storage</span>
+                                </li>
+                            </ul>
+                            <module type="btn" button_text="Choose plan" button_style="btn btn-primary w-100 mt-4"/>
+                        </div>
+                    </div>
+                </div>
+            </x-row>
+</x-layout-section>

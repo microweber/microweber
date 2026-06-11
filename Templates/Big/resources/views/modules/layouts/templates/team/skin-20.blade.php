@@ -1,23 +1,9 @@
-@php
-/*
+{{--
 type: layout
 name: Team 20
 position: 20
 categories: Team
-*/
-@endphp
-
-@php
-if (!isset($classes['padding_top'])) {
-    $classes['padding_top'] = '';
-}
-if (!isset($classes['padding_bottom'])) {
-    $classes['padding_bottom'] = '';
-}
-
-$layout_classes = $layout_classes ?? '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
+--}}
 
 <style>
     .about-image {
@@ -65,31 +51,32 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
     }
 </style>
 
-<section class="section team-20 {{ $layout_classes }}">
-    <module type="background" id="background-layout--{{ $params['id'] }}" />
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top" />
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section team-20"
+    field-name="layout-team-skin-20"
+    container-class="mw-layout-container no-element edit"
+>
+    <x-row>
+                <div class="col-lg-3 col-12 p-0">
+                    <img class="about-image" loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-4.jpg') }}" alt="" />
+                </div>
 
-    <div class="mw-layout-container no-element edit" field="layout-team-skin-20-{{ $params['id'] }}" rel="module">
-        <div class="row">
-            <div class="col-lg-3 col-12 p-0">
-                <img class="about-image" loading="lazy" src="{{ asset('templates/big/img/layouts/gallery-1-4.jpg') }}" alt="" />
-            </div>
-
-            <div class="col-lg-3 col-12 background-color-element element" style="background-color: #2b2b2b;">
-                <div class="d-flex flex-column flex-wrap justify-content-center h-100 py-5 px-4 pt-lg-4 pb-lg-0">
-                    <h4 class="text-white mb-3">We’re - idealists and strategic thinkers.</h4>
-                    <p class="text-white">Over six years in the video business</p>
-                    <div class="mt-3 custom-links">
-                        <a class="text-white custom-link">Read News & Events</a>
-                        <a class="text-white custom-link">Work with Us</a>
+                <div class="col-lg-3 col-12 background-color-element element" style="background-color: #2b2b2b;">
+                    <div class="d-flex flex-column flex-wrap justify-content-center h-100 py-5 px-4 pt-lg-4 pb-lg-0">
+                        <h4 class="text-white mb-3">We’re - idealists and strategic thinkers.</h4>
+                        <p class="text-white">Over six years in the video business</p>
+                        <div class="mt-3 custom-links">
+                            <a class="text-white custom-link">Read News & Events</a>
+                            <a class="text-white custom-link">Work with Us</a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-lg-6 col-12 p-0">
-                <module type="teamcard" template="skin-19"/>
-            </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom" height="70px" />
-</section>
+                <div class="col-lg-6 col-12 p-0">
+                    <module type="teamcard" template="skin-19"/>
+                </div>
+            </x-row>
+</x-layout-section>

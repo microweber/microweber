@@ -32,7 +32,7 @@
     </script>
 
     <div class="container-fluid px-md-5 justify-content-center">
-        <div class="row col-12 d-flex justify-content-center ">
+        <x-row class="col-12 d-flex justify-content-center">
             <div class="menu-header-skin-1 col-auto d-flex flex-column align-items-center">
                 <module type="logo" id="header-logo-{{ $params['id'] }}"
                         class="mx-auto mw-big-header-logo w-auto align-self-center my-md-0 my-1 module module-logo "/>
@@ -41,6 +41,6 @@
                     <module type="menu" name="header_menu" id="header_menu-{{ $params['id'] }}12" template="navbar"/>
                 </div>
             </div>
-        </div>
+        </x-row>
     </div>
 </section>

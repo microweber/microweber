@@ -5,13 +5,6 @@ position: 118
 categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     h2 {
         margin-bottom: 5px;
@@ -105,35 +98,37 @@ categories: Design
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-18">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element edit safe-mode" field="layout-new-layouts-skin-18-{{ $params['id'] }}" rel="module">
-        <div class="row">
-            <div class="mw-new-18-max-w-center">
-                <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-18-subhead-main">We are grateful for the opportunity to work
-                    <span class="mw-new-18-gray-color">alongside top-tier brands.</span>
-                </h2>
-            </div>
 
-            <div class="mt-5">
-                {{-- AI-92 / BIG2-E (cycle-98 2026-05-09): brand logos
-                     are meaningful (the surrounding text says "We are
-                     grateful for the opportunity to work alongside top-
-                     tier brands" — the LOGOS ARE THE INFORMATION).
-                     Empty alt would deny SR users the names of the
-                     brands. Each logo gets a "<Brand> logo" alt. --}}
-                <div class="mw-new-18-logo-strip-main">
-                    <img loading="lazy" src="{{ asset('templates/big/img/layouts/logo_amazon.png') }}" alt="Amazon logo"/>
-                    <img loading="lazy" src="{{ asset('templates/big/img/layouts/logo_facebook.png') }}" alt="Facebook logo"/>
-                    <img loading="lazy" src="{{ asset('templates/big/img/layouts/logo_google.png') }}" alt="Google logo"/>
-                    <img loading="lazy" src="{{ asset('templates/big/img/layouts/logo_linkedin.png') }}" alt="LinkedIn logo"/>
-                    <img loading="lazy" src="{{ asset('templates/big/img/layouts/logo_philips.png') }}" alt="Philips logo"/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-18"
+    field-name="layout-new-layouts-skin-18"
+    container-class="mw-layout-container container no-element edit safe-mode"
+>
+    <x-row>
+                <div class="mw-new-18-max-w-center">
+                    <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-18-subhead-main">We are grateful for the opportunity to work
+                        <span class="mw-new-18-gray-color">alongside top-tier brands.</span>
+                    </h2>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+                <div class="mt-5">
+                    {{-- AI-92 / BIG2-E (cycle-98 2026-05-09): brand logos
+                         are meaningful (the surrounding text says "We are
+                         grateful for the opportunity to work alongside top-
+                         tier brands" — the LOGOS ARE THE INFORMATION).
+                         Empty alt would deny SR users the names of the
+                         brands. Each logo gets a "<Brand> logo" alt. --}}
+                    <div class="mw-new-18-logo-strip-main">
+                        <img loading="lazy" src="{{ asset('templates/big/img/layouts/logo_amazon.png') }}" alt="Amazon logo"/>
+                        <img loading="lazy" src="{{ asset('templates/big/img/layouts/logo_facebook.png') }}" alt="Facebook logo"/>
+                        <img loading="lazy" src="{{ asset('templates/big/img/layouts/logo_google.png') }}" alt="Google logo"/>
+                        <img loading="lazy" src="{{ asset('templates/big/img/layouts/logo_linkedin.png') }}" alt="LinkedIn logo"/>
+                        <img loading="lazy" src="{{ asset('templates/big/img/layouts/logo_philips.png') }}" alt="Philips logo"/>
+                    </div>
+                </div>
+            </x-row>
+</x-layout-section>

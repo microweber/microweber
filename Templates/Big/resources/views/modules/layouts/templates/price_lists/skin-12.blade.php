@@ -1,6 +1,4 @@
-@php
-/*
-
+{{--
 type: layout
 
 name: Price Lists 12
@@ -8,21 +6,7 @@ name: Price Lists 12
 position: 12
 
 categories: Price Lists
-
-*/
-@endphp
-
-@if (!isset($classes['padding_top']))
-    @php $classes['padding_top'] = ''; @endphp
-@endif
-@if (!isset($classes['padding_bottom']))
-    @php $classes['padding_bottom'] = ''; @endphp
-@endif
-
-@php
-$layout_classes = $layout_classes ?? '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
+--}}
 
 <style>
     .price-list-12 .price-list-12-section-heading {
@@ -96,114 +80,116 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
     }
 </style>
 
-<section class="section price-list-12 {{ $layout_classes }}">
-    <module type="background" id="background-layout--{{ $params['id'] }}" />
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top" />
-    <div class="container allow-drop edit safe-mode" field="layout-skin-12-{{ $params['id'] }}" rel="module">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="price-list-12-section-heading regular-mode">
-                    <h6>Schedule</h6>
-                    <h2>Upcoming Events</h2>
-                </div>
-            </div>
-            <div class="col-lg-12 col-md-6 cloneable element mb-4">
-                <div class="price-list-12-item background-color-element element p-lg-5 p-3">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="price-list-12-image element">
-                                <img class="element" loading="lazy" alt="" src="{{ asset('templates/big/img/layouts/features-1-2-1.jpg') }}">
-                            </div>
-                        </div>
-                        <div class="col-lg-9 row align-items-center mt-lg-0 mt-3">
-                            <div class="mwp-price-12-list-element col-lg-4 col-12">
-                                <span class="category background-color-element element">Web Design</span>
-                                <h4>UI Best Practices</h4>
-                            </div>
-                            <div class="mwp-price-12-list-element col">
-                                <span>Date:</span>
-                                <h6>16 Feb 2036</h6>
-                            </div>
-                            <div class="mwp-price-12-list-element col">
-                                <span>Duration:</span>
-                                <h6>22 Hours</h6>
-                            </div>
-                            <div class="mwp-price-12-list-element col">
-                                <span>Price:</span>
-                                <h6>$120</h6>
-                            </div>
-                            <a class="price-list-12-right-bubble background-color-element element">
-                                <i class="mdi mdi-chevron-right icon no-typing"></i>
-                            </a>
-                        </div>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section price-list-12"
+    field-name="layout-skin-12"
+    container-class="mw-layout-container allow-drop edit safe-mode"
+>
+    <x-row>
+                <div class="col-lg-12 text-center">
+                    <div class="price-list-12-section-heading regular-mode">
+                        <h6>Schedule</h6>
+                        <h2>Upcoming Events</h2>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-12 col-md-6 cloneable element mb-4">
-                <div class="price-list-12-item background-color-element element p-lg-5 p-3">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="price-list-12-image element">
-                                <img class="element" loading="lazy" alt="" src="{{ asset('templates/big/img/layouts/features-1-2-4.jpg') }}">
+                <div class="col-lg-12 col-md-6 cloneable element mb-4">
+                    <div class="price-list-12-item background-color-element element p-lg-5 p-3">
+                        <x-row>
+                            <div class="col-lg-3">
+                                <div class="price-list-12-image element">
+                                    <img class="element" loading="lazy" alt="" src="{{ asset('templates/big/img/layouts/features-1-2-1.jpg') }}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-9 row align-items-center mt-lg-0 mt-3">
-                            <div class="mwp-price-12-list-element col-lg-4 col-12">
-                                <span class="category background-color-element element">Web Design</span>
-                                <h4>New Design Trend</h4>
+                            <div class="col-lg-9 row align-items-center mt-lg-0 mt-3">
+                                <div class="mwp-price-12-list-element col-lg-4 col-12">
+                                    <span class="category background-color-element element">Web Design</span>
+                                    <h4>UI Best Practices</h4>
+                                </div>
+                                <div class="mwp-price-12-list-element col">
+                                    <span>Date:</span>
+                                    <h6>16 Feb 2036</h6>
+                                </div>
+                                <div class="mwp-price-12-list-element col">
+                                    <span>Duration:</span>
+                                    <h6>22 Hours</h6>
+                                </div>
+                                <div class="mwp-price-12-list-element col">
+                                    <span>Price:</span>
+                                    <h6>$120</h6>
+                                </div>
+                                <a class="price-list-12-right-bubble background-color-element element">
+                                    <i class="mdi mdi-chevron-right icon no-typing"></i>
+                                </a>
                             </div>
-                            <div class="mwp-price-12-list-element col">
-                                <span>Date:</span>
-                                <h6>24 Feb 2036</h6>
-                            </div>
-                            <div class="mwp-price-12-list-element col">
-                                <span>Duration:</span>
-                                <h6>30 Hours</h6>
-                            </div>
-                            <div class="mwp-price-12-list-element col">
-                                <span>Price:</span>
-                                <h6>$320</h6>
-                            </div>
-                            <a class="price-list-12-right-bubble background-color-element element">
-                                <i class="mdi mdi-chevron-right icon no-typing"></i>
-                            </a>
-                        </div>
+                        </x-row>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-12 col-md-6 cloneable element mb-4">
-                <div class="price-list-12-item background-color-element element p-lg-5 p-3">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="price-list-12-image element">
-                                <img class="element" loading="lazy" alt="" src="{{ asset('templates/big/img/layouts/features-1-2-3.jpg') }}">
+                <div class="col-lg-12 col-md-6 cloneable element mb-4">
+                    <div class="price-list-12-item background-color-element element p-lg-5 p-3">
+                        <x-row>
+                            <div class="col-lg-3">
+                                <div class="price-list-12-image element">
+                                    <img class="element" loading="lazy" alt="" src="{{ asset('templates/big/img/layouts/features-1-2-4.jpg') }}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-9 row align-items-center mt-lg-0 mt-3">
-                            <div class="mwp-price-12-list-element col-lg-4 col-12">
-                                <span class="category background-color-element element">Web Design</span>
-                                <h4>Web Programming</h4>
+                            <div class="col-lg-9 row align-items-center mt-lg-0 mt-3">
+                                <div class="mwp-price-12-list-element col-lg-4 col-12">
+                                    <span class="category background-color-element element">Web Design</span>
+                                    <h4>New Design Trend</h4>
+                                </div>
+                                <div class="mwp-price-12-list-element col">
+                                    <span>Date:</span>
+                                    <h6>24 Feb 2036</h6>
+                                </div>
+                                <div class="mwp-price-12-list-element col">
+                                    <span>Duration:</span>
+                                    <h6>30 Hours</h6>
+                                </div>
+                                <div class="mwp-price-12-list-element col">
+                                    <span>Price:</span>
+                                    <h6>$320</h6>
+                                </div>
+                                <a class="price-list-12-right-bubble background-color-element element">
+                                    <i class="mdi mdi-chevron-right icon no-typing"></i>
+                                </a>
                             </div>
-                            <div class="mwp-price-12-list-element col">
-                                <span>Date:</span>
-                                <h6>12 Mar 2036</h6>
-                            </div>
-                            <div class="mwp-price-12-list-element col">
-                                <span>Duration:</span>
-                                <h6>48 Hours</h6>
-                            </div>
-                            <div class="mwp-price-12-list-element col">
-                                <span>Price:</span>
-                                <h6>$440</h6>
-                            </div>
-                            <a class="price-list-12-right-bubble background-color-element element">
-                                <i class="mdi mdi-chevron-right icon no-typing"></i>
-                            </a>
-                        </div>
+                        </x-row>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom" />
-</section>
+                <div class="col-lg-12 col-md-6 cloneable element mb-4">
+                    <div class="price-list-12-item background-color-element element p-lg-5 p-3">
+                        <x-row>
+                            <div class="col-lg-3">
+                                <div class="price-list-12-image element">
+                                    <img class="element" loading="lazy" alt="" src="{{ asset('templates/big/img/layouts/features-1-2-3.jpg') }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-9 row align-items-center mt-lg-0 mt-3">
+                                <div class="mwp-price-12-list-element col-lg-4 col-12">
+                                    <span class="category background-color-element element">Web Design</span>
+                                    <h4>Web Programming</h4>
+                                </div>
+                                <div class="mwp-price-12-list-element col">
+                                    <span>Date:</span>
+                                    <h6>12 Mar 2036</h6>
+                                </div>
+                                <div class="mwp-price-12-list-element col">
+                                    <span>Duration:</span>
+                                    <h6>48 Hours</h6>
+                                </div>
+                                <div class="mwp-price-12-list-element col">
+                                    <span>Price:</span>
+                                    <h6>$440</h6>
+                                </div>
+                                <a class="price-list-12-right-bubble background-color-element element">
+                                    <i class="mdi mdi-chevron-right icon no-typing"></i>
+                                </a>
+                            </div>
+                        </x-row>
+                    </div>
+                </div>
+            </x-row>
+</x-layout-section>

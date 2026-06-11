@@ -62,11 +62,11 @@
                      broken anchor link. --}}
                 <a class="nav-link" data-bs-toggle="dropdown" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false" aria-label="Search"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 -960 960 960" width="28"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg></a>
                 <div class="dropdown-menu dropdown-menu-end">
-                    <div class="row">
+                    <x-row>
                         <form class="col w-300 mx-auto input-glass" action="{{ url('search') }}" method="get">
                             <input class="form-control border-0" type="text" id="keywords" name="keywords" placeholder="Search...">
                         </form>
-                    </div>
+                    </x-row>
                 </div>
             </li>
 
@@ -200,7 +200,7 @@
     </script>
 
     <div class="container-fluid justify-content-center mw-menu-skin-com-container">
-        <div class="row col-12 d-flex justify-content-center">
+        <x-row class="col-12 d-flex justify-content-center">
             <module type="logo" id="header-logo-header-layout" class="me-auto col-auto col-xl-4 mw-big-header-logo w-auto align-self-center my-md-0 my-1 px-0"/>
 
             <div class="menu-header-skin-1 col-auto d-flex align-items-center justify-content-end">
@@ -217,6 +217,6 @@
                      the JS (which also wires up size/color/threshold options
                      and the open/close handler). --}}
             </div>
-        </div>
+        </x-row>
     </div>
 </section>

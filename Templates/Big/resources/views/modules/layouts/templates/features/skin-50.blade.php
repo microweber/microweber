@@ -5,13 +5,6 @@
  categories: Features
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .feature-50 ul {
         list-style: none;
@@ -64,45 +57,49 @@
     }
 </style>
 
-<section class="section feature-50 {{ $layout_classes }} ">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="mw-layout-container no-element container edit" field="layout-feature-skin-50-{{ $params['id'] }}" rel="module">
-        <div class="row col-12 col-xxl-8 mx-auto">
-            <div class="col-lg-6">
-                <div class="img-holder h-100 w-100 background-image-holder">
-                    <img class="image-1" loading="lazy" alt="" src="{{ asset('templates/big/img/layouts/gallery-1-2.jpg') }}">
-                    <img class="image-2" loading="lazy" alt="" src="{{ asset('templates/big/img/layouts/gallery-1-7.jpg') }}">
-                </div>
-            </div>
 
-            <div class="col-lg-6 ps-md-5 ps-3">
-                <h4 style="font-weight: bold;" data-mwplaceholder="{{ _e('Enter title here') }}" class="mb-2">Useful links</h4>
-                <ul class="ul safe-mode nodrop">
-                    <li class="cloneable element safe-element">
-                        <a href="" target="_blank">Your useful link title here</a>
-                    </li>
-                    <li class="cloneable element safe-element">
-                        <a href="" target="_blank">Your useful link title here</a>
-                    </li>
-                    <li class="cloneable element safe-element">
-                        <a href="" target="_blank">Your useful link title here</a>
-                    </li>
-                    <li class="cloneable element safe-element">
-                        <a href="" target="_blank">Your useful link title here</a>
-                    </li>
-                    <li class="cloneable element safe-element">
-                        <a href="" target="_blank">Your useful link title here</a>
-                    </li>
-                    <li class="cloneable element safe-element">
-                        <a href="" target="_blank">Your useful link title here</a>
-                    </li>
-                    <li class="cloneable element safe-element">
-                        <a href="" target="_blank">Your useful link title here</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section feature-50"
+    field-name="layout-feature-skin-50"
+    container-class="mw-layout-container no-element container edit"
+>
+    <x-row class="col-12 col-xxl-8 mx-auto">
+                <div class="col-lg-6">
+                    <div class="img-holder h-100 w-100 background-image-holder">
+                        <img class="image-1" loading="lazy" alt="" src="{{ asset('templates/big/img/layouts/gallery-1-2.jpg') }}">
+                        <img class="image-2" loading="lazy" alt="" src="{{ asset('templates/big/img/layouts/gallery-1-7.jpg') }}">
+                    </div>
+                </div>
+
+                <div class="col-lg-6 ps-md-5 ps-3">
+                    <h4 style="font-weight: bold;" data-mwplaceholder="{{ _e('Enter title here') }}" class="mb-2">Useful links</h4>
+                    <ul class="ul safe-mode nodrop">
+                        <li class="cloneable element safe-element">
+                            <a href="" target="_blank">Your useful link title here</a>
+                        </li>
+                        <li class="cloneable element safe-element">
+                            <a href="" target="_blank">Your useful link title here</a>
+                        </li>
+                        <li class="cloneable element safe-element">
+                            <a href="" target="_blank">Your useful link title here</a>
+                        </li>
+                        <li class="cloneable element safe-element">
+                            <a href="" target="_blank">Your useful link title here</a>
+                        </li>
+                        <li class="cloneable element safe-element">
+                            <a href="" target="_blank">Your useful link title here</a>
+                        </li>
+                        <li class="cloneable element safe-element">
+                            <a href="" target="_blank">Your useful link title here</a>
+                        </li>
+                        <li class="cloneable element safe-element">
+                            <a href="" target="_blank">Your useful link title here</a>
+                        </li>
+                    </ul>
+                </div>
+            </x-row>
+</x-layout-section>

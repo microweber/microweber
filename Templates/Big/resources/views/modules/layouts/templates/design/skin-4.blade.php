@@ -5,13 +5,6 @@
  categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-new-layouts-4 {
         a, h1 {
@@ -203,45 +196,46 @@
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-4">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="mw-layout-container no-element edit safe-mode no-typing"
-         field="layout-new-layouts-skin-4-{{ $params['id'] }}" rel="module">
 
-        <div class="mw-new-4-about-hero-wrapper mw-new-4-inherited-styles-for-exported-element">
-            <div>
-                <h2 class="mw-new-5-title" data-mwplaceholder="{{ _e('Enter title here') }}">On a mission to</h2>
-                <h2 data-mwplaceholder="{{ _e('Enter title here') }}" style="font-style: italic;">democratize legal.</h2>
-            </div>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-4"
+    field-name="layout-new-layouts-skin-4"
+    container-class="mw-layout-container no-element edit safe-mode no-typing"
+>
+    <div class="mw-new-4-about-hero-wrapper mw-new-4-inherited-styles-for-exported-element">
+                <div>
+                    <h2 class="mw-new-5-title" data-mwplaceholder="{{ _e('Enter title here') }}">On a mission to</h2>
+                    <h2 data-mwplaceholder="{{ _e('Enter title here') }}" style="font-style: italic;">democratize legal.</h2>
+                </div>
 
-            <div class="mw-new-4-container---l">
-                <div class="mw-new-4-about-photo-video">
-                    <div class="mw-new-4-about-photos">
-                        <img loading="lazy" class="mw-new-4-rounded-image mw-new-4-about-image-left" src="{{ asset('templates/big/img/layouts/gallery-1-14.jpg') }}" alt=""/>
-                        <img loading="lazy" class="mw-new-4-rounded-image mw-new-4-about-image-right" src="{{ asset('templates/big/img/layouts/gallery-1-vertical.jpg') }}" alt=""/>
-                    </div>
+                <div class="mw-new-4-container---l">
+                    <div class="mw-new-4-about-photo-video">
+                        <div class="mw-new-4-about-photos">
+                            <img loading="lazy" class="mw-new-4-rounded-image mw-new-4-about-image-left" src="{{ asset('templates/big/img/layouts/gallery-1-14.jpg') }}" alt=""/>
+                            <img loading="lazy" class="mw-new-4-rounded-image mw-new-4-about-image-right" src="{{ asset('templates/big/img/layouts/gallery-1-vertical.jpg') }}" alt=""/>
+                        </div>
 
-                    <div class="mw-new-4-container---m">
-                        <div class="mw-new-4-video-box background-color-element element">
-                            <div class="mw-new-4-video-box-video">
-                                <img loading="lazy" class="video-image" src="{{ asset('templates/big/img/layouts/gallery-1-1.jpg') }}" alt=""/>
+                        <div class="mw-new-4-container---m">
+                            <div class="mw-new-4-video-box background-color-element element">
+                                <div class="mw-new-4-video-box-video">
+                                    <img loading="lazy" class="video-image" src="{{ asset('templates/big/img/layouts/gallery-1-1.jpg') }}" alt=""/>
 
-                                <div class="mw-new-4-video-lightbox w-inline-block">
-                                    <module type="video" template="dialog" url="{{ asset('templates/big/videos/example.mp4') }}" height="700">
+                                    <div class="mw-new-4-video-lightbox w-inline-block">
+                                        <module type="video" template="dialog" url="{{ asset('templates/big/videos/example.mp4') }}" height="700">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="mw-new-4-video-text">
-                                <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-4-heading-four">Meet the team</h6>
-                                <p data-mwplaceholder="{{ _e('Enter title here') }}">Get started with CMS and reduce your legal headaches.</p>
+                                <div class="mw-new-4-video-text">
+                                    <h6 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-4-heading-four">Meet the team</h6>
+                                    <p data-mwplaceholder="{{ _e('Enter title here') }}">Get started with CMS and reduce your legal headaches.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+</x-layout-section>

@@ -1,6 +1,4 @@
-@php
-/*
-
+{{--
 type: layout
 
 name: Contacts 22
@@ -8,21 +6,7 @@ name: Contacts 22
 position: 22
 
 categories: Contact Us
-
-*/
-@endphp
-
-@php
-if (!isset($classes['padding_top'])) {
-    $classes['padding_top'] = '';
-}
-if (!isset($classes['padding_bottom'])) {
-    $classes['padding_bottom'] = '';
-}
-
-$layout_classes = $layout_classes ?? '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
+--}}
 
 <style>
     .contacts-22 .contacts-22-form-title {
@@ -54,27 +38,27 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
     }
 </style>
 
-<section class="section contacts-22">
-    <module type="background" id="background-layout--{{ $params['id'] ?? '' }}" />
 
-    <module type="spacer" id="spacer-layout--{{ $params['id'] ?? '' }}-top" />
 
-        <div class="mw-layout-container no-element container edit safe-mode " field="layout-contacts-skin-22-{{ $params['id'] ?? '' }}" rel="module">
-            <div class="row">
-                <div class="col-lg-12 px-0 google-map-22 allow-select">
-                    <module type="google_maps" id="google-maps-{{ $params['id'] ?? '' }}" />
-                </div>
-
-                <div class="col-lg-12 contacts-22-form allow-select">
-                    <div class="col-lg-12">
-                        <h4 class="contacts-22-form-title">Make Your <em>Reservation</em> Through This <em>Form</em></h4>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section contacts-22"
+    field-name="layout-contacts-skin-22"
+    container-class="mw-layout-container no-element container edit safe-mode"
+>
+    <x-row>
+                    <div class="col-lg-12 px-0 google-map-22 allow-select">
+                        <module type="google_maps" id="google-maps-{{ $params['id'] ?? '' }}" />
                     </div>
 
-                    <module type="contact_form" template="skin-5" id="contact-form-{{ $params['id'] ?? '' }}"/>
-                </div>
-            </div>
-        </div>
+                    <div class="col-lg-12 contacts-22-form allow-select">
+                        <div class="col-lg-12">
+                            <h4 class="contacts-22-form-title">Make Your <em>Reservation</em> Through This <em>Form</em></h4>
+                        </div>
 
-    <module type="spacer" id="spacer-layout--{{ $params['id'] ?? '' }}-bottom" />
-
-</section>
+                        <module type="contact_form" template="skin-5" id="contact-form-{{ $params['id'] ?? '' }}"/>
+                    </div>
+                </x-row>
+</x-layout-section>

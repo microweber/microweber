@@ -1,7 +1,4 @@
-<?php
-
-/*
-
+{{--
 type: layout
 
 name: Blog 7
@@ -9,28 +6,15 @@ name: Blog 7
 position: 7
 
 categories: Blog
+--}}
 
-*/
-
-?>
-
-@php
-if (!isset($classes['padding_top'])) {
-    $classes['padding_top'] = '';
-}
-if (!isset($classes['padding_bottom'])) {
-    $classes['padding_bottom'] = '';
-}
-
-$layout_classes = $layout_classes ?? '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
-<section class="section {{ $layout_classes }}">
-    <module type="background" id="background-layout--{{ $params['id'] ?? '' }}" />
-    <module type="spacer" id="spacer-layout--{{ $params['id'] ?? '' }}-top" />
-    <div class="container mw-layout-container no-element edit" field="layout-blog-skin-7-{{ $params['id'] ?? '' }}" rel="module">
-        <module type="posts" template="skin-7" />
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] ?? '' }}-bottom" />
-</section>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section"
+    field-name="layout-blog-skin-7"
+    container-class="mw-layout-container container no-element edit"
+>
+    <module type="posts" template="skin-7" />
+</x-layout-section>

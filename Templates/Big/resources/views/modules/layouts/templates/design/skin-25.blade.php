@@ -5,13 +5,6 @@ position: 125
 categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .flex-right, .flex-tag {
         display: flex;
@@ -56,27 +49,30 @@ categories: Design
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-25">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element edit safe-mode" field="layout-new-layouts-skin-25-{{ $params['id'] }}" rel="module">
-        <div class="row">
-            <div class="col-12">
-                <div class="flex-right">
-                    <div class="flex-tag background-color-element element" style="opacity: 1;">
-                        <span class="mw-new-25-title-tag">TESTIMONIALS</span>
+
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-25"
+    field-name="layout-new-layouts-skin-25"
+    container-class="mw-layout-container container no-element edit safe-mode"
+>
+    <x-row>
+                <div class="col-12">
+                    <div class="flex-right">
+                        <div class="flex-tag background-color-element element" style="opacity: 1;">
+                            <span class="mw-new-25-title-tag">TESTIMONIALS</span>
+                        </div>
                     </div>
-                </div>
-                <div class="mb-4">
-                    <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-25-title">WHAT CLIENTS ARE
-                        <br> SAYING ABOUT US?
-                    </h2>
-                </div>
+                    <div class="mb-4">
+                        <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-25-title">WHAT CLIENTS ARE
+                            <br> SAYING ABOUT US?
+                        </h2>
+                    </div>
 
-                <module type="testimonials" template="skin-22"/>
-            </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+                    <module type="testimonials" template="skin-22"/>
+                </div>
+            </x-row>
+</x-layout-section>

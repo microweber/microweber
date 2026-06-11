@@ -80,7 +80,7 @@
     </script>
 
     <div class="container-fluid px-md-5 justify-content-center">
-        <div class="row col-12 d-flex justify-content-center ">
+        <x-row class="col-12 d-flex justify-content-center">
             <module type="logo" id="header-logo-{{ $params['id'] }}"
                     class="me-auto col-auto col-xl-4 mw-big-header-logo w-auto align-self-center my-md-0 my-1 px-0 module module-logo "/>
 
@@ -91,6 +91,6 @@
                             id="header_menu-socials-{{ $params['id'] }}12" template="skin-6"/>
                 </div>
             </div>
-        </div>
+        </x-row>
     </div>
 </section>

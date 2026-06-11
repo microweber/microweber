@@ -5,14 +5,6 @@ position: 113
 categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-    $limit = 50;
-@endphp
-
 <style>
     a {
         background-color: transparent;
@@ -119,28 +111,30 @@ categories: Design
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-13">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element edit safe-mode" field="layout-new-layouts-skin-13-{{ $params['id'] }}" rel="module">
-        <div class="row">
-            <div class="mw-new-13-top-divider mw-new-13-block">
-                <h3 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-13-title">Meet the team</h3>
-                <a class="mw-new-13-button-with-line mw-new-13-_2">
-                    <div class="mw-new-13-button-text-wrapper">
-                        <div class="mw-new-13-button-text">Join us</div>
-                    </div>
-                    <div class="mw-new-13-button-line-first">
-                        <div class="mw-new-13-button-line-overlay" style="width: 0%; height: 2px;"></div>
-                    </div>
-                </a>
-            </div>
-            <div>
-                <module type="teamcard" template="skin-18"/>
-            </div>
-        </div>
-    </div>
 
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-13"
+    field-name="layout-new-layouts-skin-13"
+    container-class="mw-layout-container container no-element edit safe-mode"
+>
+    <x-row>
+                <div class="mw-new-13-top-divider mw-new-13-block">
+                    <h3 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-13-title">Meet the team</h3>
+                    <a class="mw-new-13-button-with-line mw-new-13-_2">
+                        <div class="mw-new-13-button-text-wrapper">
+                            <div class="mw-new-13-button-text">Join us</div>
+                        </div>
+                        <div class="mw-new-13-button-line-first">
+                            <div class="mw-new-13-button-line-overlay" style="width: 0%; height: 2px;"></div>
+                        </div>
+                    </a>
+                </div>
+                <div>
+                    <module type="teamcard" template="skin-18"/>
+                </div>
+            </x-row>
+</x-layout-section>

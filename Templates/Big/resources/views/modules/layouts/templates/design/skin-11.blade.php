@@ -5,13 +5,6 @@ position: 111
 categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-new-layouts-11 {
         .mw-new-11-who-we-are-wrapper {
@@ -205,36 +198,38 @@ categories: Design
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-11">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container mw-layout-container no-element edit safe-mode" field="layout-new-layouts-skin-11-{{ $params['id'] }}" rel="module">
-        <div class="row">
-            <div class="mw-new-11-who-we-are-wrapper mw-new-11-_2">
-                <div class="mw-new-11-photo-animation-flex">
-                    <div class="mw-new-11-text-wrapper mw-new-11-_1">
-                        <div class="mw-new-11-photo-line-animation vertical">
-                            <img loading="lazy" class="mw-new-11-overlapping-avatar" src="{{ asset('templates/big/img/layouts/gallery-1-vertical.jpg') }}" alt=""/>
-                            <div class="mw-new-11-heading-overlay mw-new-11-_2"></div>
+
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-11"
+    field-name="layout-new-layouts-skin-11"
+    container-class="mw-layout-container container no-element edit safe-mode"
+>
+    <x-row>
+                <div class="mw-new-11-who-we-are-wrapper mw-new-11-_2">
+                    <div class="mw-new-11-photo-animation-flex">
+                        <div class="mw-new-11-text-wrapper mw-new-11-_1">
+                            <div class="mw-new-11-photo-line-animation vertical">
+                                <img loading="lazy" class="mw-new-11-overlapping-avatar" src="{{ asset('templates/big/img/layouts/gallery-1-vertical.jpg') }}" alt=""/>
+                                <div class="mw-new-11-heading-overlay mw-new-11-_2"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mw-new-11-text-wrapper mw-new-11-_2">
-                        <div class="mw-new-11-photo-line-animation horizontal">
-                            <img loading="lazy" class="mw-new-11-overlapping-avatar" src="{{ asset('templates/big/img/layouts/gallery-1-7.jpg') }}" alt=""/>
-                            <div class="mw-new-11-heading-overlay mw-new-11-_2"></div>
+                        <div class="mw-new-11-text-wrapper mw-new-11-_2">
+                            <div class="mw-new-11-photo-line-animation horizontal">
+                                <img loading="lazy" class="mw-new-11-overlapping-avatar" src="{{ asset('templates/big/img/layouts/gallery-1-7.jpg') }}" alt=""/>
+                                <div class="mw-new-11-heading-overlay mw-new-11-_2"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mw-new-11-title mw-new-11-absolute">
-                        <h3 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-11-title">Who we are</h3>
-                        <div class="mt-4">
-                            <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-new-11-subhead-main right">In the realm of CMS templates, <span class="mw-new-11-gray-color">CMS takes the lead with designs favored by users.</span><strong><br></strong></p>
+                        <div class="mw-new-11-title mw-new-11-absolute">
+                            <h3 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-11-title">Who we are</h3>
+                            <div class="mt-4">
+                                <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-new-11-subhead-main right">In the realm of CMS templates, <span class="mw-new-11-gray-color">CMS takes the lead with designs favored by users.</span><strong><br></strong></p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+            </x-row>
+</x-layout-section>

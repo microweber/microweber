@@ -23,7 +23,7 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
 <section class="section py-0 d-flex align-items-center justify-content-center overflow-hidden">
     <module type="background" id="background-layout--{{ $params['id'] ?? '' }}"/>
     <div class="mw-layout-container py-4 container mw-header-section-mh-100vh d-flex align-items-center justify-content-center no-element edit " field="layout-header-skin-8-{{ $params['id'] ?? '' }}" rel="module">
-        <div class="row text-center">
+        <x-row class="text-center">
             <div class="col-12 safe-mode col-sm-10 col-lg-6 mx-auto mb-5 px-0">
                 <module class="allow-select" type="slider"/>
             </div>
@@ -38,6 +38,6 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
                     <module type="btn" button_style="btn-primary" button_size="btn-lg px-5" text="Button"/>
                 </div>
             </div>
-        </div>
+        </x-row>
     </div>
 </section>

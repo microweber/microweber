@@ -5,13 +5,6 @@
  categories: Features
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-featured34 {
         /* Bootstrap variables */
@@ -140,65 +133,71 @@
     }
 </style>
 
-<section class="section feature-59 mw-featured34 {{ $layout_classes }} ">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section feature-59 mw-featured34"
+    :has-spacers="false"
+    container-class="mw-layout-container no-element"
+>
     <div class="mw-layout-container container-fluid no-element edit" field="layout-feature-skin-59-{{ $params['id'] }}" rel="module">
-        <div class="row mb-5 position-relative">
-            <div class="mw-featured34-shape background-color-element element"></div>
-            <div class="col-md-8 text-start position-relative">
-                <h1 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-featured34-heading header-section-title mb-4">Our Features</h1>
-                <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-featured34-sub-heading mb-4">
-                    Banks likewise put away cash to develop their hold of cash. What they do is directed by laws. Those laws vary in various nations.
-                </p>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="mw-featured34-wrapper background-color-element element">
-                    <div class="row text-center">
-                        <div class="col-md-6 mb-3 mb-md-4 cloneable element">
-                            <div class="mw-featured34-item position-relative p-4 p-lg-5 element background-color-element">
-                                <img loading="lazy" class="img-fluid mw-featured34-banner mb-4" src="{{ asset('templates/big/img/layouts/gallery-1-2.jpg') }}" alt="">
-                                <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-featured34-title fw-bold mb-3">Product Design</h4>
-                                <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-featured34-content mb-0">
-                                    Assumenda non repellendus distinctio nihil dicta sapiente, quibusdam maiores, illum at, aliquid blanditiis eligendi qui.
-                                </p>
+            <x-row class="mb-5 position-relative">
+                <div class="mw-featured34-shape background-color-element element"></div>
+                <div class="col-md-8 text-start position-relative">
+                    <h1 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-featured34-heading header-section-title mb-4">Our Features</h1>
+                    <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-featured34-sub-heading mb-4">
+                        Banks likewise put away cash to develop their hold of cash. What they do is directed by laws. Those laws vary in various nations.
+                    </p>
+                </div>
+            </x-row>
+            <x-row class="justify-content-center">
+                <div class="col-lg-10">
+                    <div class="mw-featured34-wrapper background-color-element element">
+                        <x-row class="text-center">
+                            <div class="col-md-6 mb-3 mb-md-4 cloneable element">
+                                <div class="mw-featured34-item position-relative p-4 p-lg-5 element background-color-element">
+                                    <img loading="lazy" class="img-fluid mw-featured34-banner mb-4" src="{{ asset('templates/big/img/layouts/gallery-1-2.jpg') }}" alt="">
+                                    <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-featured34-title fw-bold mb-3">Product Design</h4>
+                                    <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-featured34-content mb-0">
+                                        Assumenda non repellendus distinctio nihil dicta sapiente, quibusdam maiores, illum at, aliquid blanditiis eligendi qui.
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 mb-3 mb-md-4 cloneable element">
-                            <div class="mw-featured34-item position-relative p-4 p-lg-5 element background-color-element">
-                                <img loading="lazy" class="img-fluid mw-featured34-banner mb-4" src="{{ asset('templates/big/img/layouts/gallery-1-12.jpg') }}" alt="">
-                                <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-featured34-title fw-bold mb-3">Branding</h4>
-                                <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-featured34-content mb-0">
-                                    Man our from light they're cattle upon created female. You first land evening beast won't had bring first void meat.
-                                </p>
+                            <div class="col-md-6 mb-3 mb-md-4 cloneable element">
+                                <div class="mw-featured34-item position-relative p-4 p-lg-5 element background-color-element">
+                                    <img loading="lazy" class="img-fluid mw-featured34-banner mb-4" src="{{ asset('templates/big/img/layouts/gallery-1-12.jpg') }}" alt="">
+                                    <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-featured34-title fw-bold mb-3">Branding</h4>
+                                    <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-featured34-content mb-0">
+                                        Man our from light they're cattle upon created female. You first land evening beast won't had bring first void meat.
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 mb-3 mb-md-4 cloneable element">
-                            <div class="mw-featured34-item position-relative p-4 p-lg-5 element background-color-element">
-                                <img loading="lazy" class="img-fluid mw-featured34-banner mb-4" src="{{ asset('templates/big/img/layouts/gallery-1-7.jpg') }}" alt="">
-                                <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-featured34-title fw-bold mb-3">Photography</h4>
-                                <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-featured34-content mb-0">
-                                    Bearing bearing form night spirit, for signs isn't, tree fourth i there two land deep man without seasons fill itself.
-                                </p>
+                            <div class="col-md-6 mb-3 mb-md-4 cloneable element">
+                                <div class="mw-featured34-item position-relative p-4 p-lg-5 element background-color-element">
+                                    <img loading="lazy" class="img-fluid mw-featured34-banner mb-4" src="{{ asset('templates/big/img/layouts/gallery-1-7.jpg') }}" alt="">
+                                    <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-featured34-title fw-bold mb-3">Photography</h4>
+                                    <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-featured34-content mb-0">
+                                        Bearing bearing form night spirit, for signs isn't, tree fourth i there two land deep man without seasons fill itself.
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 mb-3 mb-md-4 cloneable element">
-                            <div class="mw-featured34-item position-relative p-4 p-lg-5 element background-color-element">
-                                <img loading="lazy" class="img-fluid mw-featured34-banner mb-4" src="{{ asset('templates/big/img/layouts/gallery-1-10.jpg') }}" alt="">
-                                <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-featured34-title fw-bold mb-3">Marketing</h4>
-                                <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-featured34-content mb-0">
-                                    Moving seasons, tree you're creeping third behold may be. Whose living for moving female seas heaven unto winged.
-                                </p>
+                            <div class="col-md-6 mb-3 mb-md-4 cloneable element">
+                                <div class="mw-featured34-item position-relative p-4 p-lg-5 element background-color-element">
+                                    <img loading="lazy" class="img-fluid mw-featured34-banner mb-4" src="{{ asset('templates/big/img/layouts/gallery-1-10.jpg') }}" alt="">
+                                    <h4 data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-featured34-title fw-bold mb-3">Marketing</h4>
+                                    <p data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-featured34-content mb-0">
+                                        Moving seasons, tree you're creeping third behold may be. Whose living for moving female seas heaven unto winged.
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 mt-4">
-                            <module type="btn" button_style="btn-primary" button_text="Read more"/>
-                        </div>
+                            <div class="col-12 mt-4">
+                                <module type="btn" button_style="btn-primary" button_text="Read more"/>
+                            </div>
+                        </x-row>
                     </div>
                 </div>
-            </div>
+            </x-row>
         </div>
-    </div>
-    <module height="80px" type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+        <module height="80px" type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
+</x-layout-section>

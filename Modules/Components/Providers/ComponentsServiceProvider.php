@@ -49,6 +49,11 @@ use Modules\Components\View\Components\TabItem;
 use Modules\Components\View\Components\FeatureItem;
 use Modules\Components\View\Components\StatCounter;
 use Modules\Components\View\Components\VideoEmbed;
+use Modules\Components\View\Components\IconFeature;
+use Modules\Components\View\Components\PriceListItem;
+use Modules\Components\View\Components\ImageCard;
+use Modules\Components\View\Components\GalleryGrid;
+use Modules\Components\View\Components\FooterSection;
 
 class ComponentsServiceProvider extends BaseModuleServiceProvider
 {
@@ -114,5 +119,10 @@ class ComponentsServiceProvider extends BaseModuleServiceProvider
         Blade::component('feature-item', FeatureItem::class);
         Blade::component('stat-counter', StatCounter::class);
         Blade::component('video-embed', VideoEmbed::class);
+        Blade::component('icon-feature', IconFeature::class);
+        Blade::component('price-list-item', PriceListItem::class);
+        Blade::component('image-card', ImageCard::class);
+        Blade::component('gallery-grid', GalleryGrid::class);
+        Blade::component('footer-section', FooterSection::class);
     }
 }

@@ -20,10 +20,10 @@ categories: Call to Action
             </div>
         </x-slot:heading>
 
-        <div class="row mt-5">
+        <x-row class="mt-5">
             <div class="col-12 col-sm-10 col-lg-10 col-lg-7 mx-auto text-center">
                 <module type="contact_form" template="subscribe-7"/>
             </div>
-        </div>
+        </x-row>
     </x-cta>
 </x-layout-section>

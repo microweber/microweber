@@ -1,19 +1,9 @@
-@php
-/*
+{{--
 type: layout
 name: Header 37
 position: 37
 categories: Header
-*/
-@endphp
-
-@php
-$classes['padding_top'] = $classes['padding_top'] ?? 'pt-5';
-$classes['padding_bottom'] = $classes['padding_bottom'] ?? 'pb-5';
-
-$layout_classes = isset($layout_classes) ? $layout_classes : '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
+--}}
 
 <style>
     .date-text, .location-text {
@@ -148,55 +138,64 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
     }
 </style>
 
-<section class="section header-37 mw-layout-dark-background">
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section header-37 mw-layout-dark-background"
+    :has-spacers="false"
+    default-padding-top="pt-5"
+    default-padding-bottom="pb-5"
+    container-class="mw-layout-container no-element"
+>
     <module type="background" data-background-video="
-    {{ asset('templates/big/video/layouts/content-video-1.mp4') }} " />
+        {{ asset('templates/big/video/layouts/content-video-1.mp4') }} " />
 
 
-    <div class="container mw-layout-container safe-mode mh-100vh d-flex align-items-center justify-content-center no-element {{ $layout_classes }} edit" field="layout-header-skin-37-{{ $params['id'] ?? '' }}" rel="module">
-        <div>
-            <div class="row regular-mode text-center mt-10">
-                <h1 data-mwplaceholder="@lang('Enter title here')" class="header-section-title mb-4"><u class="text-info">LEADERSHIP</u> CONFERENCE 2024</h1>
+        <div class="container mw-layout-container safe-mode mh-100vh d-flex align-items-center justify-content-center no-element {{ $layout_classes ?? '' }} edit" field="layout-header-skin-37-{{ $params['id'] ?? '' }}" rel="module">
+            <div>
+                <x-row class="regular-mode text-center mt-10">
+                    <h1 data-mwplaceholder="@lang('Enter title here')" class="header-section-title mb-4"><u class="text-info">LEADERSHIP</u> CONFERENCE 2024</h1>
 
-                <div class="d-flex justify-content-center align-items-center ">
-                    <div class="date-text cloneable element allow-select">July 12 to 18, 2022</div>
-                    <div class="location-text cloneable element allow-select">Times Square, NY</div>
-                </div>
+                    <div class="d-flex justify-content-center align-items-center ">
+                        <div class="date-text cloneable element allow-select">July 12 to 18, 2022</div>
+                        <div class="location-text cloneable element allow-select">Times Square, NY</div>
+                    </div>
 
-                <a class="mwiconlist-icon mw-micon-Down arrow-icon"></a>
-            </div>
+                    <a class="mwiconlist-icon mw-micon-Down arrow-icon"></a>
+                </x-row>
 
-            <div class="row mw-header-37-bottom-images-wrapper">
-                <div class="col-lg-4 col-md-6 col-12 cloneable element">
-                    <div class="highlight-thumb">
-                         <img class="highlight-image" loading="lazy" src="{{ asset('templates/big/img/layouts/events/1.jpg') }}" alt=""/>
-                        <div class="highlight-info">
-                            <h4 data-mwplaceholder="@lang('Enter title here')" class="highlight-title">2021 Highlights</h4>
-                            <a href="https://www.youtube.com/watch?v=3176Sw8A0EE" class="mdi mdi-youtube highlight-icon"></a>
+                <x-row class="mw-header-37-bottom-images-wrapper">
+                    <div class="col-lg-4 col-md-6 col-12 cloneable element">
+                        <div class="highlight-thumb">
+                             <img class="highlight-image" loading="lazy" src="{{ asset('templates/big/img/layouts/events/1.jpg') }}" alt=""/>
+                            <div class="highlight-info">
+                                <h4 data-mwplaceholder="@lang('Enter title here')" class="highlight-title">2021 Highlights</h4>
+                                <a href="https://www.youtube.com/watch?v=3176Sw8A0EE" class="mdi mdi-youtube highlight-icon"></a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-lg-4 col-md-6 col-12 cloneable element">
-                    <div class="highlight-thumb">
-                        <img class="highlight-image" loading="lazy" src="{{ asset('templates/big/img/layouts/events/2.jpg') }}" alt=""/>
-                        <div class="highlight-info">
-                            <h4 data-mwplaceholder="@lang('Enter title here')" class="highlight-title">2022 Highlights</h4>
-                            <a href="https://www.youtube.com/watch?v=3176Sw8A0EE" class="mdi mdi-youtube highlight-icon"></a>
+                    <div class="col-lg-4 col-md-6 col-12 cloneable element">
+                        <div class="highlight-thumb">
+                            <img class="highlight-image" loading="lazy" src="{{ asset('templates/big/img/layouts/events/2.jpg') }}" alt=""/>
+                            <div class="highlight-info">
+                                <h4 data-mwplaceholder="@lang('Enter title here')" class="highlight-title">2022 Highlights</h4>
+                                <a href="https://www.youtube.com/watch?v=3176Sw8A0EE" class="mdi mdi-youtube highlight-icon"></a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-lg-4 col-md-6 col-12 cloneable element">
-                    <div class="highlight-thumb">
-                        <img class="highlight-image" loading="lazy" src="{{ asset('templates/big/img/layouts/events/3.jpg') }}" alt=""/>
-                        <div class="highlight-info">
-                            <h4 data-mwplaceholder="@lang('Enter title here')" class="highlight-title">2023 Highlights</h4>
-                            <a href="https://www.youtube.com/watch?v=3176Sw8A0EE" class="mdi mdi-youtube highlight-icon"></a>
+                    <div class="col-lg-4 col-md-6 col-12 cloneable element">
+                        <div class="highlight-thumb">
+                            <img class="highlight-image" loading="lazy" src="{{ asset('templates/big/img/layouts/events/3.jpg') }}" alt=""/>
+                            <div class="highlight-info">
+                                <h4 data-mwplaceholder="@lang('Enter title here')" class="highlight-title">2023 Highlights</h4>
+                                <a href="https://www.youtube.com/watch?v=3176Sw8A0EE" class="mdi mdi-youtube highlight-icon"></a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </x-row>
             </div>
         </div>
-    </div>
-</section>
+</x-layout-section>

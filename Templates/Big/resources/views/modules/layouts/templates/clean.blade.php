@@ -15,10 +15,10 @@ categories: Content
 ?>
 
 <?php
-if (!$classes['padding_top']) {
+if (empty($classes['padding_top'])) {
     $classes['padding_top'] = '';
 }
-if (!$classes['padding_bottom']) {
+if (empty($classes['padding_bottom'])) {
     $classes['padding_bottom'] = 'pb-0';
 }
 
@@ -29,14 +29,14 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
     <div class="edit " field="layout-content-{{ $params['id'] }}" rel="module">
 
         <div class="my-md-5 my-3 container ">
-            <div class="row">
+            <x-row>
                 <div class="col-12 mx-auto allow-select allow-drop" style="min-height: 50px">
                     <h2 class="my-md-5 my-3">My title</h2>
                     <p>
                         My text content.
                     </p>
                 </div>
-            </div>
+            </x-row>
         </div>
     </div>
 

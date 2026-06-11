@@ -5,13 +5,6 @@
  categories: Design
 --}}
 
-@php
-    $classes['padding_top'] = $classes['padding_top'] ?? '';
-    $classes['padding_bottom'] = $classes['padding_bottom'] ?? '';
-    $layout_classes = $layout_classes ?? '';
-    $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
 <style>
     .mw-new-layouts-5 {
         .mw-new-5-title {
@@ -228,41 +221,42 @@
     }
 </style>
 
-<section class="{{ $layout_classes }} section mw-new-layouts-5">
-    <module type="background" id="background-layout--{{ $params['id'] }}"/>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="mw-layout-container no-element edit safe-mode no-typing"
-         field="layout-new-layouts-skin-5-{{ $params['id'] }}" rel="module">
 
-        <div class="mw-new-5-career-intro-section mw-new-5-inherited-styles-for-exported-element">
-            <div>
-                <h2 class="mw-new-5-title" data-mwplaceholder="{{ _e('Enter title here') }}">Join the</h2>
-                <h2 style="font-style: italic;">CMS Revolution.</h2>
-            </div>
-            <div class="mw-new-5-career-photo-cluster">
-                <div class="mw-new-5-photo-cluster-column">
-                    <img loading="lazy" class="mw-new-5-rounded-image" src="{{ asset('templates/big/img/layouts/gallery-1-4.jpg') }}" alt=""/>
-                    <img loading="lazy" class="mw-new-5-rounded-image mw-new-5-small-square-image" src="{{ asset('templates/big/img/layouts/gallery-1-7.jpg') }}" alt=""/>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section mw-new-layouts-5"
+    field-name="layout-new-layouts-skin-5"
+    container-class="mw-layout-container no-element edit safe-mode no-typing"
+>
+    <div class="mw-new-5-career-intro-section mw-new-5-inherited-styles-for-exported-element">
+                <div>
+                    <h2 class="mw-new-5-title" data-mwplaceholder="{{ _e('Enter title here') }}">Join the</h2>
+                    <h2 style="font-style: italic;">CMS Revolution.</h2>
                 </div>
+                <div class="mw-new-5-career-photo-cluster">
+                    <div class="mw-new-5-photo-cluster-column">
+                        <img loading="lazy" class="mw-new-5-rounded-image" src="{{ asset('templates/big/img/layouts/gallery-1-4.jpg') }}" alt=""/>
+                        <img loading="lazy" class="mw-new-5-rounded-image mw-new-5-small-square-image" src="{{ asset('templates/big/img/layouts/gallery-1-7.jpg') }}" alt=""/>
+                    </div>
 
-                <img loading="lazy" class="mw-new-5-rounded-image mw-new-5-small-square-image mw-new-5-adjacent-to-column" src="{{ asset('templates/big/img/layouts/gallery-1-vertical.jpg') }}" alt=""/>
-                <img loading="lazy" class="mw-new-5-rounded-image mw-new-5-small-square-image mw-new-5-inside-cluster" src="{{ asset('templates/big/img/layouts/gallery-1-2.jpg') }}" alt=""/>
-            </div>
-            <div class="mw-new-5-review-sites-box background-color-element element">
-                <div data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-5-heading-four">95% Employee Satisfaction</div>
-                <div class="mw-new-5-review-box-divider"></div>
-                <div class="mw-new-5-review-items ">
-                    <div class="mw-new-5-review-box-item">
-                        <i class="safe-element mdi mdi-phone"></i>
-                        <div>
-                            <div data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-5-small-text font-weight-bold">via Glassdoor</div>
-                            <div data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-new-5-small-text">35+ Reviews</div>
+                    <img loading="lazy" class="mw-new-5-rounded-image mw-new-5-small-square-image mw-new-5-adjacent-to-column" src="{{ asset('templates/big/img/layouts/gallery-1-vertical.jpg') }}" alt=""/>
+                    <img loading="lazy" class="mw-new-5-rounded-image mw-new-5-small-square-image mw-new-5-inside-cluster" src="{{ asset('templates/big/img/layouts/gallery-1-2.jpg') }}" alt=""/>
+                </div>
+                <div class="mw-new-5-review-sites-box background-color-element element">
+                    <div data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-5-heading-four">95% Employee Satisfaction</div>
+                    <div class="mw-new-5-review-box-divider"></div>
+                    <div class="mw-new-5-review-items ">
+                        <div class="mw-new-5-review-box-item">
+                            <i class="safe-element mdi mdi-phone"></i>
+                            <div>
+                                <div data-mwplaceholder="{{ _e('Enter title here') }}" class="mw-new-5-small-text font-weight-bold">via Glassdoor</div>
+                                <div data-mwplaceholder="{{ _e('Enter text here') }}" class="mw-new-5-small-text">35+ Reviews</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-</section>
+</x-layout-section>

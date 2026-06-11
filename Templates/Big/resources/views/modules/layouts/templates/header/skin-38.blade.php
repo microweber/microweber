@@ -1,19 +1,9 @@
-@php
-/*
+{{--
 type: layout
 name: Header 38
 position: 38
 categories: Header
-*/
-@endphp
-
-@php
-$classes['padding_top'] = $classes['padding_top'] ?? 'pt-5';
-$classes['padding_bottom'] = $classes['padding_bottom'] ?? 'pb-5';
-
-$layout_classes = isset($layout_classes) ? $layout_classes : '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
+--}}
 
 <style>
     .header-38 .content p {
@@ -78,24 +68,34 @@ $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_botto
     }
 </style>
 
-<section class="section header-38 mw-layout-dark-background">
+<x-layout-section
+    :has-background="false"
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section header-38 mw-layout-dark-background"
+    :has-spacers="false"
+    default-padding-top="pt-5"
+    default-padding-bottom="pb-5"
+    container-class="mw-layout-container no-element"
+>
     <module type="background" data-background-color="#00000060" data-background-image="{{ asset('templates/big/img/layouts/gallery-1-5.jpg') }}" id="background-layout--{{ $params['id'] ?? '' }}" />
 
-    <div class="container mw-layout-container safe-mode mh-100vh d-flex align-items-center justify-content-center no-element {{ $layout_classes }} edit" field="layout-header-skin-38-{{ $params['id'] ?? '' }}" rel="module">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="content">
-                    <div class="blur-bg" style="background: url({{ asset('templates/big/img/layouts/gallery-1-5.jpg);"></div>
-                    <h4 data-mwplaceholder="@lang('Enter title here')">EXPLORE OUR COUNTRY</h4>
-                    <div class="line-dec background-color-element element"></div>
-                    <h2 data-mwplaceholder="@lang('Enter title here')">Welcome To Caribbean</h2>
-                    <p data-mwplaceholder="@lang('Enter text here')">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt uttersi labore et dolore magna aliqua is ipsum suspendisse ultrices gravida</p>
+        <div class="container mw-layout-container safe-mode mh-100vh d-flex align-items-center justify-content-center no-element {{ $layout_classes ?? '' }} edit" field="layout-header-skin-38-{{ $params['id'] ?? '' }}" rel="module">
+            <x-row>
+                <div class="col-lg-12">
+                    <div class="content">
+                        <div class="blur-bg" style="background: url({{ asset('templates/big/img/layouts/gallery-1-5.jpg);"></div>
+                        <h4 data-mwplaceholder="@lang('Enter title here')">EXPLORE OUR COUNTRY</h4>
+                        <div class="line-dec background-color-element element"></div>
+                        <h2 data-mwplaceholder="@lang('Enter title here')">Welcome To Caribbean</h2>
+                        <p data-mwplaceholder="@lang('Enter text here')">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt uttersi labore et dolore magna aliqua is ipsum suspendisse ultrices gravida</p>
 
-                    <div class="main-button">
-                        <module type="btn" button_style="btn btn-secondary" text="Discover More"/>
+                        <div class="main-button">
+                            <module type="btn" button_style="btn btn-secondary" text="Discover More"/>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </x-row>
         </div>
-    </div>
-</section>
+</x-layout-section>

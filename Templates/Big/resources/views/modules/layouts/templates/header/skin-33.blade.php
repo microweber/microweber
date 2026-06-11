@@ -1,22 +1,21 @@
-@php
-/*
+{{--
 type: layout
 name: Header 33 - Slider
 position: 33
 categories: Header
-*/
-@endphp
+--}}
 
-@php
-$classes['padding_top'] = $classes['padding_top'] ?? 'pt-5';
-$classes['padding_bottom'] = $classes['padding_bottom'] ?? 'pb-5';
-
-$layout_classes = isset($layout_classes) ? $layout_classes : '';
-$layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
-@endphp
-
-<section class="section">
-    <div class="mw-layout-container no-element edit" field="layout-header-skin-33-{{ $params['id'] ?? '' }}" rel="module">
-        <module class="allow-select" type="slider"/>
-    </div>
-</section>
+<x-layout-section
+    :params="$params"
+    :classes="$classes"
+    :layout-classes="$layout_classes ?? ''"
+    section-class="section"
+    field-name="layout-header-skin-33"
+    :has-background="false"
+    :has-spacers="false"
+    default-padding-top="pt-5"
+    default-padding-bottom="pb-5"
+    container-class="mw-layout-container no-element edit"
+>
+    <module class="allow-select" type="slider"/>
+</x-layout-section>
