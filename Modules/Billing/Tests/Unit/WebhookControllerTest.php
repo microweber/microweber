@@ -16,12 +16,41 @@ use PHPUnit\Framework\Attributes\Test;
 class WebhookControllerTest extends TestCase
 {
 
+    /** @var string Known webhook secret used for generating test signatures */
+    protected string $webhookSecret = 'whsec_test_billing_secret';
+
     protected function setUp(): void
     {
         parent::setUp();
         Queue::fake();
-        // Disable webhook signature verification by default so tests can send arbitrary payloads
-        config(['cashier.webhook.secret' => null]);
+        // Set a known webhook secret so signature verification passes.
+        // Tests that need to verify behavior without a secret can override this.
+        config(['cashier.webhook.secret' => $this->webhookSecret]);
+    }
+
+    /**
+     * Send a billing webhook with a valid Stripe signature.
+     */
+    protected function sendSignedBillingWebhook(array $payload): \Illuminate\Testing\TestResponse
+    {
+        $payloadJson = json_encode($payload);
+        $timestamp = time();
+        $signedPayload = "{$timestamp}.{$payloadJson}";
+        $signature = hash_hmac('sha256', $signedPayload, $this->webhookSecret);
+        $sigHeader = "t={$timestamp},v1={$signature}";
+
+        return $this->call(
+            'POST',
+            route('billing.webhook.stripe'),
+            [],
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_STRIPE_SIGNATURE' => $sigHeader,
+            ],
+            $payloadJson
+        );
     }
 
     #[Test]
@@ -37,7 +66,7 @@ class WebhookControllerTest extends TestCase
             ],
         ];
 
-        $response = $this->postJson(route('billing.webhook.stripe'), $payload);
+        $response = $this->sendSignedBillingWebhook($payload);
 
         $response->assertStatus(200);
     }
@@ -90,7 +119,7 @@ class WebhookControllerTest extends TestCase
             ],
         ];
 
-        $this->postJson(route('billing.webhook.stripe'), $payload);
+        $this->sendSignedBillingWebhook($payload);
 
         Queue::assertPushed(ProcessWebhookJob::class, function ($job) {
             return $job->webhookLog->event_type === 'customer.subscription.updated';
@@ -114,10 +143,10 @@ class WebhookControllerTest extends TestCase
         ];
 
         // First webhook
-        $this->postJson(route('billing.webhook.stripe'), $payload);
+        $this->sendSignedBillingWebhook($payload);
 
         // Second webhook with same ID
-        $this->postJson(route('billing.webhook.stripe'), $payload);
+        $this->sendSignedBillingWebhook($payload);
 
         // Should only have one record
         $this->assertEquals(1, WebhookLog::where('event_id', 'evt_test_duplicate')->count());
@@ -126,8 +155,6 @@ class WebhookControllerTest extends TestCase
     #[Test]
     public function webhook_requires_signature_when_configured()
     {
-        config(['cashier.webhook.secret' => 'test_secret']);
-
         $payload = [
             'id' => 'evt_test_signature',
             'type' => 'invoice.paid',
@@ -148,6 +175,29 @@ class WebhookControllerTest extends TestCase
     }
 
     #[Test]
+    public function webhook_rejects_all_requests_when_secret_not_configured()
+    {
+        // SECURITY: When no secret is configured, ALL requests must be rejected
+        config(['cashier.webhook.secret' => null]);
+
+        $payload = [
+            'id' => 'evt_test_no_secret',
+            'type' => 'invoice.paid',
+            'data' => [
+                'object' => [
+                    'id' => 'inv_test_123',
+                    'customer' => 'cus_test_123',
+                    'amount_paid' => 5000,
+                ],
+            ],
+        ];
+
+        $response = $this->postJson(route('billing.webhook.stripe'), $payload);
+
+        $response->assertStatus(403);
+    }
+
+    #[Test]
     public function webhook_handles_missing_customer_id()
     {
         $payload = [
@@ -161,7 +211,7 @@ class WebhookControllerTest extends TestCase
             ],
         ];
 
-        $response = $this->postJson(route('billing.webhook.stripe'), $payload);
+        $response = $this->sendSignedBillingWebhook($payload);
 
         $response->assertStatus(200);
     }
@@ -190,7 +240,7 @@ class WebhookControllerTest extends TestCase
             ],
         ];
 
-        $response = $this->postJson(route('billing.webhook.stripe'), $payload);
+        $response = $this->sendSignedBillingWebhook($payload);
 
         $response->assertStatus(200);
 
@@ -228,7 +278,7 @@ class WebhookControllerTest extends TestCase
             ],
         ];
 
-        $response = $this->postJson(route('billing.webhook.stripe'), $payload);
+        $response = $this->sendSignedBillingWebhook($payload);
 
         $response->assertStatus(200);
     }
@@ -270,8 +320,11 @@ class WebhookControllerTest extends TestCase
             ['Content-Type' => 'application/json']
         );
 
-        // Should not throw 500
-        $this->assertTrue(in_array($response->getStatusCode(), [200, 400]));
+        // Must fail closed gracefully — never a 500. With mandatory signature
+        // verification an unsigned/empty payload is rejected with 403 before it
+        // ever reaches JSON parsing; a signed-but-malformed body would be 400.
+        $this->assertNotEquals(500, $response->getStatusCode());
+        $this->assertTrue(in_array($response->getStatusCode(), [200, 400, 403]));
     }
 
     #[Test]
@@ -290,9 +343,9 @@ class WebhookControllerTest extends TestCase
         ];
 
         // Send same webhook multiple times
-        $this->postJson(route('billing.webhook.stripe'), $payload);
-        $this->postJson(route('billing.webhook.stripe'), $payload);
-        $this->postJson(route('billing.webhook.stripe'), $payload);
+        $this->sendSignedBillingWebhook($payload);
+        $this->sendSignedBillingWebhook($payload);
+        $this->sendSignedBillingWebhook($payload);
 
         // Should only create one log entry
         $this->assertEquals(1, WebhookLog::where('event_id', 'evt_test_idempotent')->count());
@@ -431,7 +484,7 @@ class WebhookControllerTest extends TestCase
             ],
         ];
 
-        $response = $this->postJson(route('billing.webhook.stripe'), $payload);
+        $response = $this->sendSignedBillingWebhook($payload);
 
         // Should return 200 - the webhook is processed
         $response->assertStatus(200);

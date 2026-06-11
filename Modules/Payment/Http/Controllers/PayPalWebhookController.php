@@ -4,6 +4,8 @@ namespace Modules\Payment\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Modules\Order\Models\Order;
 use Modules\Payment\Events\PaymentWasProcessed;
@@ -19,11 +21,17 @@ use Symfony\Component\HttpFoundation\Response;
  * - Payment failures
  * - Refunds
  * - Disputes
+ *
+ * All webhooks are verified using PayPal's signature verification API
+ * before any payment state changes are applied.
  */
 class PayPalWebhookController extends Controller
 {
     /**
      * Handle incoming PayPal webhook requests.
+     *
+     * Signature verification is MANDATORY. If webhook verification fails
+     * or is not configured, the request is rejected.
      *
      * @param \Illuminate\Http\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -32,29 +40,192 @@ class PayPalWebhookController extends Controller
     {
         $payload = $request->all();
         $eventType = $payload['event_type'] ?? null;
-        
+
         if (!$eventType) {
             Log::warning('PayPal webhook received without event_type', [
                 'payload' => $payload,
             ]);
             return new Response('Invalid event type', 400);
         }
-        
+
+        // SECURITY: Verify the webhook signature before processing
+        $verificationResult = $this->verifyWebhookSignature($request);
+        if ($verificationResult !== true) {
+            return $verificationResult;
+        }
+
+        // SECURITY: Idempotency — reject duplicate event IDs using a nonce cache
+        $eventId = $payload['id'] ?? null;
+        if ($eventId) {
+            $nonceKey = 'paypal_webhook_nonce:' . $eventId;
+            if (Cache::has($nonceKey)) {
+                Log::info('PayPal webhook duplicate event rejected', ['event_id' => $eventId]);
+                return new Response('Event already processed', 200);
+            }
+            // Store nonce for 24 hours to prevent replay attacks
+            Cache::put($nonceKey, true, now()->addHours(24));
+        }
+
         Log::info('PayPal webhook received', [
             'event_type' => $eventType,
             'id' => $payload['id'] ?? 'unknown',
         ]);
-        
+
         // Handle specific event types
         $method = $this->getHandlerMethod($eventType);
-        
+
         if (method_exists($this, $method)) {
             return $this->{$method}($payload);
         }
-        
+
         // Log unhandled events but return success
         Log::info('Unhandled PayPal webhook event', ['type' => $eventType]);
         return new Response('Event received', 200);
+    }
+
+    /**
+     * Verify PayPal webhook signature using PayPal's verification API.
+     *
+     * PayPal signs every webhook notification. We verify by sending the
+     * headers and body to PayPal's /v1/notifications/verify-webhook-signature
+     * endpoint. This prevents attackers from crafting fake webhook payloads.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return true|\Symfony\Component\HttpFoundation\Response
+     */
+    protected function verifyWebhookSignature(Request $request)
+    {
+        $provider = $this->getPayPalProvider();
+
+        if (!$provider) {
+            Log::critical('PayPal webhook rejected: no active PayPal payment provider configured');
+            return new Response('PayPal not configured', 403);
+        }
+
+        $webhookId = $provider->settings['webhook_id'] ?? null;
+
+        // SECURITY: Reject if webhook_id is not configured — without it we cannot verify
+        if (!$webhookId) {
+            Log::critical('PayPal webhook rejected: webhook_id is not configured. Set it in PayPal payment provider settings.');
+            return new Response('Webhook verification not configured', 403);
+        }
+
+        // Get the required PayPal signature headers
+        $transmissionId = $request->header('PAYPAL-TRANSMISSION-ID');
+        $transmissionTime = $request->header('PAYPAL-TRANSMISSION-TIME');
+        $transmissionSig = $request->header('PAYPAL-TRANSMISSION-SIG');
+        $certUrl = $request->header('PAYPAL-CERT-URL');
+        $authAlgo = $request->header('PAYPAL-AUTH-ALGO');
+
+        if (!$transmissionId || !$transmissionTime || !$transmissionSig || !$certUrl || !$authAlgo) {
+            Log::warning('PayPal webhook rejected: missing signature headers', [
+                'ip' => $request->ip(),
+                'has_transmission_id' => (bool) $transmissionId,
+                'has_transmission_sig' => (bool) $transmissionSig,
+            ]);
+            return new Response('Missing PayPal signature headers', 403);
+        }
+
+        // SECURITY: Validate cert URL is from PayPal to prevent SSRF
+        $parsedCertUrl = parse_url($certUrl);
+        $allowedHosts = ['api.paypal.com', 'api.sandbox.paypal.com'];
+        if (!isset($parsedCertUrl['host']) || !in_array($parsedCertUrl['host'], $allowedHosts)) {
+            Log::warning('PayPal webhook rejected: suspicious cert URL', [
+                'cert_url' => $certUrl,
+                'ip' => $request->ip(),
+            ]);
+            return new Response('Invalid certificate URL', 403);
+        }
+
+        try {
+            $accessToken = $this->getPayPalAccessToken($provider);
+            if (!$accessToken) {
+                Log::error('PayPal webhook verification failed: could not obtain access token');
+                return new Response('Verification service unavailable', 503);
+            }
+
+            $testMode = $provider->settings['test_mode'] ?? true;
+            $baseUrl = $testMode
+                ? 'https://api-m.sandbox.paypal.com'
+                : 'https://api-m.paypal.com';
+
+            $response = Http::withToken($accessToken)
+                ->timeout(10)
+                ->post("{$baseUrl}/v1/notifications/verify-webhook-signature", [
+                    'auth_algo' => $authAlgo,
+                    'cert_url' => $certUrl,
+                    'transmission_id' => $transmissionId,
+                    'transmission_sig' => $transmissionSig,
+                    'transmission_time' => $transmissionTime,
+                    'webhook_id' => $webhookId,
+                    'webhook_event' => $request->all(),
+                ]);
+
+            if (!$response->successful()) {
+                Log::warning('PayPal webhook signature verification API call failed', [
+                    'status' => $response->status(),
+                    'ip' => $request->ip(),
+                ]);
+                return new Response('Signature verification failed', 403);
+            }
+
+            $verificationStatus = $response->json('verification_status');
+            if ($verificationStatus !== 'SUCCESS') {
+                Log::warning('PayPal webhook signature verification failed', [
+                    'verification_status' => $verificationStatus,
+                    'ip' => $request->ip(),
+                ]);
+                return new Response('Invalid signature', 403);
+            }
+
+            return true;
+
+        } catch (\Exception $e) {
+            Log::error('PayPal webhook signature verification error', [
+                'error' => $e->getMessage(),
+                'ip' => $request->ip(),
+            ]);
+            return new Response('Signature verification error', 503);
+        }
+    }
+
+    /**
+     * Get PayPal access token for API calls.
+     *
+     * @param PaymentProvider $provider
+     * @return string|null
+     */
+    protected function getPayPalAccessToken(PaymentProvider $provider): ?string
+    {
+        $cacheKey = 'paypal_access_token:' . $provider->id;
+
+        return Cache::remember($cacheKey, now()->addMinutes(55), function () use ($provider) {
+            $settings = $provider->settings;
+            $clientId = $settings['client_id'] ?? null;
+            $clientSecret = $settings['client_secret'] ?? null;
+
+            if (!$clientId || !$clientSecret) {
+                return null;
+            }
+
+            $testMode = $settings['test_mode'] ?? true;
+            $baseUrl = $testMode
+                ? 'https://api-m.sandbox.paypal.com'
+                : 'https://api-m.paypal.com';
+
+            $response = Http::withBasicAuth($clientId, $clientSecret)
+                ->asForm()
+                ->timeout(10)
+                ->post("{$baseUrl}/v1/oauth2/token", [
+                    'grant_type' => 'client_credentials',
+                ]);
+
+            if ($response->successful()) {
+                return $response->json('access_token');
+            }
+
+            return null;
+        });
     }
     
     /**
@@ -338,10 +509,19 @@ class PayPalWebhookController extends Controller
      */
     protected function getPayPalProviderId(): ?int
     {
-        $provider = PaymentProvider::where('provider', 'paypal')
+        $provider = $this->getPayPalProvider();
+        return $provider ? $provider->id : null;
+    }
+
+    /**
+     * Get the active PayPal payment provider.
+     *
+     * @return PaymentProvider|null
+     */
+    protected function getPayPalProvider(): ?PaymentProvider
+    {
+        return PaymentProvider::where('provider', 'paypal')
             ->where('is_active', 1)
             ->first();
-        
-        return $provider ? $provider->id : null;
     }
 }

@@ -360,9 +360,10 @@ class PayPal extends AbstractPaymentMethod
                         ->visible(false),
 
                     TextInput::make('settings.webhook_id')
-                        ->label('Webhook ID (Optional)')
-                        ->helperText('For webhook verification in PayPal Dashboard')
-                        ->placeholder('Enter webhook ID if configured'),
+                        ->label('Webhook ID')
+                        ->required()
+                        ->helperText('REQUIRED: Your PayPal Webhook ID from Developer Dashboard > Webhooks. Webhooks will be rejected without this for security.')
+                        ->placeholder('Enter webhook ID from PayPal Dashboard'),
                 ]),
         ];
     }

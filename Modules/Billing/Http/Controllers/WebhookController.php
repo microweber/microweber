@@ -16,6 +16,10 @@ class WebhookController extends \Laravel\Cashier\Http\Controllers\WebhookControl
 {
     /**
      * Create a new WebhookController instance.
+     *
+     * SECURITY: Webhook signature verification is always enforced.
+     * If no webhook secret is configured, all requests are rejected
+     * in handleWebhook() to prevent fake payment/subscription attacks.
      */
     public function __construct()
     {
@@ -27,11 +31,21 @@ class WebhookController extends \Laravel\Cashier\Http\Controllers\WebhookControl
     /**
      * Handle a Stripe webhook call.
      *
+     * SECURITY: Rejects all requests when webhook secret is not configured
+     * to prevent attackers from faking subscription/billing events.
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handleWebhook(Request $request)
     {
+        // SECURITY: Reject all webhooks if signing secret is not configured.
+        // Without signature verification, anyone can fake billing events.
+        if (!config('cashier.webhook.secret')) {
+            Log::critical('Billing webhook rejected: cashier.webhook.secret is not configured. All billing webhooks are blocked until a signing secret is set.');
+            return new Response('Webhook signing secret not configured', 403);
+        }
+
         $payload = json_decode($request->getContent(), true);
 
         if (empty($payload) || !isset($payload['type'])) {

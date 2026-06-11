@@ -4,6 +4,7 @@ namespace Modules\Payment\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Modules\Order\Models\Order;
@@ -19,36 +20,72 @@ class StripeWebhookController extends Controller
     /**
      * Handle incoming Stripe webhook requests.
      *
+     * Signature verification is MANDATORY. If no webhook secret is configured,
+     * all requests are rejected to prevent fake payment attacks.
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-public function handleWebhook(Request $request)
-{
-$payload = $request->getContent();
-$sigHeader = $request->header('Stripe-Signature');
-$event = null;
+    public function handleWebhook(Request $request)
+    {
+        $payload = $request->getContent();
+        $sigHeader = $request->header('Stripe-Signature');
+        $event = null;
 
-// Get webhook secret from settings
-$webhookSecret = $this->getWebhookSecret();
+        // Get webhook secret from settings
+        $webhookSecret = $this->getWebhookSecret();
 
-try {
-// Verify webhook signature if secret is configured and signature is present
-if ($webhookSecret && $sigHeader) {
-$event = Webhook::constructEvent(
-$payload,
-$sigHeader,
-$webhookSecret
-);
-} else {
-// For testing without signature verification or when signature is missing
-$event = json_decode($payload, true);
-}
-} catch (\Exception $e) {
-Log::error('Stripe webhook signature verification failed', [
-'error' => $e->getMessage(),
-]);
-return new Response('Invalid signature', 400);
-}
+        // SECURITY: Reject all requests when webhook secret is not configured.
+        // This prevents attackers from faking payment webhooks.
+        if (!$webhookSecret) {
+            Log::critical('Stripe webhook rejected: webhook signing secret is not configured. Configure it in payment provider settings to accept webhooks.');
+            return new Response('Webhook signing secret not configured', 403);
+        }
+
+        // SECURITY: Reject requests without a signature header.
+        if (!$sigHeader) {
+            Log::warning('Stripe webhook rejected: missing Stripe-Signature header', [
+                'ip' => $request->ip(),
+            ]);
+            return new Response('Missing signature', 403);
+        }
+
+        try {
+            // Verify webhook signature — this is now always enforced
+            $event = Webhook::constructEvent(
+                $payload,
+                $sigHeader,
+                $webhookSecret
+            );
+
+            // Webhook::constructEvent returns a \Stripe\Event object; the
+            // downstream handlers (handleChargeRefunded(array $event), …) and
+            // the $event['type']/$event['data'] accessors expect an array.
+            $event = $event->toArray();
+        } catch (\Stripe\Exception\SignatureVerificationException $e) {
+            Log::warning('Stripe webhook signature verification failed', [
+                'error' => $e->getMessage(),
+                'ip' => $request->ip(),
+            ]);
+            return new Response('Invalid signature', 403);
+        } catch (\Exception $e) {
+            Log::error('Stripe webhook processing error', [
+                'error' => $e->getMessage(),
+            ]);
+            return new Response('Invalid payload', 400);
+        }
+
+        // SECURITY: Idempotency — reject duplicate event IDs using a nonce cache
+        $eventId = $event['id'] ?? null;
+        if ($eventId) {
+            $nonceKey = 'stripe_webhook_nonce:' . $eventId;
+            if (Cache::has($nonceKey)) {
+                Log::info('Stripe webhook duplicate event rejected', ['event_id' => $eventId]);
+                return new Response('Event already processed', 200);
+            }
+            // Store nonce for 24 hours to prevent replay attacks
+            Cache::put($nonceKey, true, now()->addHours(24));
+        }
 
         $eventType = $event['type'] ?? null;
 

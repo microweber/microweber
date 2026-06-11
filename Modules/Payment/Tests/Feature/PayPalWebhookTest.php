@@ -2,12 +2,19 @@
 
 namespace Modules\Payment\Tests\Feature;
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Modules\Order\Models\Order;
 use Modules\Payment\Models\Payment;
 use Modules\Payment\Models\PaymentProvider;
 use Tests\TestCase;
 
+/**
+ * PayPal Webhook Tests
+ *
+ * These tests mock PayPal's signature verification API to simulate
+ * the real-world flow where PayPal sends signed webhooks.
+ */
 class PayPalWebhookTest extends TestCase
 {
     protected PaymentProvider $paypalProvider;
@@ -28,21 +35,71 @@ class PayPalWebhookTest extends TestCase
                 'webhook_id' => 'test_webhook_' . uniqid(),
             ],
         ]);
+
+        // Mock PayPal API: access token + webhook verification returns SUCCESS
+        Http::fake([
+            'api-m.sandbox.paypal.com/v1/oauth2/token' => Http::response([
+                'access_token' => 'test-access-token-' . uniqid(),
+                'token_type' => 'Bearer',
+                'expires_in' => 32400,
+            ], 200),
+            'api-m.sandbox.paypal.com/v1/notifications/verify-webhook-signature' => Http::response([
+                'verification_status' => 'SUCCESS',
+            ], 200),
+        ]);
+    }
+
+    /**
+     * Send a PayPal webhook request with valid signature headers.
+     *
+     * In production, PayPal adds these headers. We include them so the
+     * controller's verification logic proceeds to call PayPal's API
+     * (which is mocked to return SUCCESS).
+     */
+    protected function sendVerifiedPayPalWebhook(array $payload): \Illuminate\Testing\TestResponse
+    {
+        return $this->call(
+            'POST',
+            'payment/paypal/webhook',
+            [],
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_PAYPAL_TRANSMISSION_ID' => 'test-trans-' . uniqid(),
+                'HTTP_PAYPAL_TRANSMISSION_TIME' => now()->toIso8601String(),
+                'HTTP_PAYPAL_TRANSMISSION_SIG' => 'valid-test-sig-' . uniqid(),
+                'HTTP_PAYPAL_CERT_URL' => 'https://api.sandbox.paypal.com/v1/notifications/certs/CERT-360caa42-fca2a784.pem',
+                'HTTP_PAYPAL_AUTH_ALGO' => 'SHA256withRSA',
+            ],
+            json_encode($payload)
+        );
     }
 
     public function test_webhook_endpoint_is_accessible_without_csrf(): void
     {
         $payload = $this->createPaymentCaptureCompletedPayload();
 
-        $response = $this->postJson('payment/paypal/webhook', $payload);
+        $response = $this->sendVerifiedPayPalWebhook($payload);
 
         // Should not get 419 (CSRF token mismatch)
         $this->assertNotEquals(419, $response->getStatusCode());
     }
 
+    public function test_webhook_rejects_unsigned_requests(): void
+    {
+        // Sending without PayPal signature headers should be rejected
+        $response = $this->postJson('payment/paypal/webhook', [
+            'event_type' => 'PAYMENT.CAPTURE.COMPLETED',
+            'resource' => [],
+        ]);
+
+        $this->assertEquals(403, $response->getStatusCode());
+    }
+
     public function test_webhook_handles_invalid_payload(): void
     {
-        $response = $this->postJson('payment/paypal/webhook', ['invalid' => 'data']);
+        $response = $this->sendVerifiedPayPalWebhook(['invalid' => 'data']);
 
         $this->assertEquals(400, $response->getStatusCode());
     }
@@ -71,7 +128,7 @@ class PayPalWebhookTest extends TestCase
             'id' => 'PAYID-' . uniqid(),
         ]);
 
-        $response = $this->postJson('payment/paypal/webhook', $payload);
+        $response = $this->sendVerifiedPayPalWebhook($payload);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -85,7 +142,7 @@ class PayPalWebhookTest extends TestCase
 
         // Verify payment record was created
         $payment = Payment::where('rel_id', $order->id)
-            ->where('rel_type', 'Modules\\Order\\Models\\Order')
+            ->where('rel_type', morph_name(Order::class))
             ->first();
 
         $this->assertNotNull($payment);
@@ -120,7 +177,7 @@ class PayPalWebhookTest extends TestCase
             'id' => 'ORDER-' . uniqid(),
         ]);
 
-        $response = $this->postJson('payment/paypal/webhook', $payload);
+        $response = $this->sendVerifiedPayPalWebhook($payload);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -136,7 +193,6 @@ class PayPalWebhookTest extends TestCase
     {
         $orderReferenceId = 'TEST-' . uniqid();
 
-        // Create an order that hasn't been paid yet
         Order::create([
             'order_reference_id' => $orderReferenceId,
             'email' => 'test@example.com',
@@ -160,10 +216,8 @@ class PayPalWebhookTest extends TestCase
             'id' => 'ORDER-' . uniqid(),
         ]);
 
-        $response = $this->postJson('payment/paypal/webhook', $payload);
+        $response = $this->sendVerifiedPayPalWebhook($payload);
 
-        // Should return 200, but order should not be marked as paid yet
-        // (payment capture will handle that)
         $this->assertEquals(200, $response->getStatusCode());
     }
 
@@ -174,7 +228,7 @@ class PayPalWebhookTest extends TestCase
             'invoice_id' => 'NONEXISTENT-ORDER',
         ]);
 
-        $response = $this->postJson('payment/paypal/webhook', $payload);
+        $response = $this->sendVerifiedPayPalWebhook($payload);
 
         $this->assertEquals(404, $response->getStatusCode());
     }
@@ -198,14 +252,11 @@ class PayPalWebhookTest extends TestCase
             'id' => 'PAYID-' . uniqid(),
         ]);
 
-        $response = $this->postJson('payment/paypal/webhook', $payload);
+        $response = $this->sendVerifiedPayPalWebhook($payload);
 
         $this->assertEquals(200, $response->getStatusCode());
 
-        // Refresh order
         $order->refresh();
-
-        // Verify order was marked as failed
         $this->assertEquals('failed', $order->payment_status);
     }
 
@@ -227,7 +278,7 @@ class PayPalWebhookTest extends TestCase
         ]);
 
         Payment::create([
-            'rel_type' => 'Modules\\Order\\Models\\Order',
+            'rel_type' => morph_name(Order::class),
             'rel_id' => $order->id,
             'amount' => 100.00,
             'currency' => 'USD',
@@ -243,22 +294,12 @@ class PayPalWebhookTest extends TestCase
                 'value' => '100.00',
                 'currency_code' => 'USD',
             ],
-            'refunds' => [
-                [
-                    'id' => 'REFUND-' . uniqid(),
-                    'amount' => [
-                        'value' => '100.00',
-                        'currency_code' => 'USD',
-                    ],
-                ],
-            ],
         ]);
 
-        $response = $this->postJson('payment/paypal/webhook', $payload);
+        $response = $this->sendVerifiedPayPalWebhook($payload);
 
         $this->assertEquals(200, $response->getStatusCode());
 
-        // Verify payment was marked as refunded
         $payment = Payment::where('transaction_id', $captureId)->first();
         $this->assertNotNull($payment);
         $this->assertEquals('refunded', $payment->status);
@@ -273,11 +314,10 @@ class PayPalWebhookTest extends TestCase
             'reason' => 'MERCHANDISE_OR_SERVICE_NOT_RECEIVED',
         ]);
 
-        $response = $this->postJson('payment/paypal/webhook', $payload);
+        $response = $this->sendVerifiedPayPalWebhook($payload);
 
         $this->assertEquals(200, $response->getStatusCode());
 
-        // Verify the dispute was logged
         Log::shouldHaveReceived('warning')
             ->with('PayPal dispute created', \Mockery::any());
     }
@@ -302,11 +342,10 @@ class PayPalWebhookTest extends TestCase
             ],
         ];
 
-        $response = $this->postJson('payment/paypal/webhook', $payload);
+        $response = $this->sendVerifiedPayPalWebhook($payload);
 
         $this->assertEquals(200, $response->getStatusCode());
 
-        // Verify the event was logged as unhandled
         Log::shouldHaveReceived('info')
             ->with('Unhandled PayPal webhook event', ['type' => 'PAYMENT.AUTHORIZATION.CREATED']);
     }
@@ -332,12 +371,10 @@ class PayPalWebhookTest extends TestCase
             'id' => 'PAYID-' . uniqid(),
         ]);
 
-        $response = $this->postJson('payment/paypal/webhook', $payload);
+        $response = $this->sendVerifiedPayPalWebhook($payload);
 
-        // Should return 200 - either "already processed" or "processed successfully"
         $this->assertEquals(200, $response->getStatusCode());
-        
-        // Response should contain either "already" or indicate success (idempotent handling)
+
         $content = $response->getContent();
         $this->assertTrue(
             str_contains($content, 'already') || str_contains($content, 'success'),

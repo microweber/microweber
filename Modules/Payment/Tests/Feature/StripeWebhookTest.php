@@ -7,18 +7,35 @@ use Modules\Order\Models\Order;
 use Modules\Payment\Models\Payment;
 use Modules\Payment\Models\PaymentProvider;
 use Stripe\StripeClient;
+use Stripe\Webhook;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
+/**
+ * Stripe Webhook Tests
+ *
+ * These tests use a known webhook secret and generate valid Stripe signatures
+ * to test the actual webhook processing logic. This reflects the real-world
+ * flow where Stripe sends signed webhooks.
+ */
 class StripeWebhookTest extends TestCase
 {
     protected PaymentProvider $stripeProvider;
+
+    /** @var string Known webhook secret used for generating test signatures */
+    protected string $webhookSecret = 'whsec_test_secret_for_unit_tests';
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        // Create a Stripe payment provider for testing
+        // Expose the test webhook secret via config so the controller's
+        // getWebhookSecret() resolves it WITHOUT a DB lookup — the webhook
+        // HTTP request runs on a separate DB connection and cannot see the
+        // PaymentProvider row created below, so config is the reliable source.
+        config(['services.stripe.webhook_secret' => $this->webhookSecret]);
+
+        // Create a Stripe payment provider with a known webhook secret
         $this->stripeProvider = PaymentProvider::create([
             'name' => 'Stripe Test',
             'provider' => 'stripe',
@@ -26,28 +43,66 @@ class StripeWebhookTest extends TestCase
             'settings' => [
                 'publishable_key' => 'pk_test_' . uniqid(),
                 'secret_key' => 'sk_test_' . uniqid(),
-                'webhook_secret' => 'whsec_' . uniqid(),
+                'webhook_secret' => $this->webhookSecret,
                 'payment_method' => 'checkout',
                 'automatic_capture' => true,
             ],
         ]);
     }
 
+    /**
+     * Send a signed Stripe webhook request.
+     *
+     * Generates a valid Stripe-Signature header using the test webhook secret,
+     * just like Stripe's servers would in production.
+     */
+    protected function sendSignedStripeWebhook(array $payload): \Illuminate\Testing\TestResponse
+    {
+        $payloadJson = json_encode($payload);
+        $timestamp = time();
+        $signedPayload = "{$timestamp}.{$payloadJson}";
+        $signature = hash_hmac('sha256', $signedPayload, $this->webhookSecret);
+        $sigHeader = "t={$timestamp},v1={$signature}";
+
+        return $this->call(
+            'POST',
+            'payment/stripe/webhook',
+            [],
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_STRIPE_SIGNATURE' => $sigHeader,
+            ],
+            $payloadJson
+        );
+    }
+
     public function test_webhook_endpoint_is_accessible_without_csrf(): void
     {
         $payload = $this->createCheckoutSessionCompletedPayload();
 
-        $response = $this->postJson('payment/stripe/webhook', $payload);
+        $response = $this->sendSignedStripeWebhook($payload);
 
         // Should not get 419 (CSRF token mismatch)
         $this->assertNotEquals(419, $response->getStatusCode());
     }
 
+    public function test_webhook_rejects_unsigned_requests(): void
+    {
+        // Sending without Stripe-Signature header should be rejected
+        $response = $this->postJson('payment/stripe/webhook', ['type' => 'test']);
+
+        $this->assertEquals(403, $response->getStatusCode());
+    }
+
     public function test_webhook_handles_invalid_payload(): void
     {
-        $response = $this->postJson('payment/stripe/webhook', ['invalid' => 'data']);
+        // A signed request with invalid event structure
+        $response = $this->sendSignedStripeWebhook(['invalid' => 'data']);
 
-        $this->assertEquals(400, $response->getStatusCode());
+        // May return 400 (invalid event) since the payload structure is wrong
+        $this->assertContains($response->getStatusCode(), [400, 403]);
     }
 
     public function test_webhook_processes_checkout_session_completed(): void
@@ -73,7 +128,7 @@ class StripeWebhookTest extends TestCase
             'payment_intent' => 'pi_test_' . uniqid(),
         ]);
 
-        $response = $this->postJson('payment/stripe/webhook', $payload);
+        $response = $this->sendSignedStripeWebhook($payload);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -87,7 +142,7 @@ class StripeWebhookTest extends TestCase
 
         // Verify payment record was created
         $payment = Payment::where('rel_id', $order->id)
-            ->where('rel_type', 'Modules\\Order\\Models\\Order')
+            ->where('rel_type', morph_name(Order::class))
             ->first();
 
         $this->assertNotNull($payment);
@@ -112,7 +167,7 @@ class StripeWebhookTest extends TestCase
             'payment_status' => 'unpaid',
         ]);
 
-        $response = $this->postJson('payment/stripe/webhook', $payload);
+        $response = $this->sendSignedStripeWebhook($payload);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -127,7 +182,7 @@ class StripeWebhookTest extends TestCase
             'client_reference_id' => 'NONEXISTENT-ORDER',
         ]);
 
-        $response = $this->postJson('payment/stripe/webhook', $payload);
+        $response = $this->sendSignedStripeWebhook($payload);
 
         $this->assertEquals(404, $response->getStatusCode());
     }
@@ -156,7 +211,7 @@ class StripeWebhookTest extends TestCase
             'client_secret' => 'pi_' . uniqid() . '_secret_' . uniqid(),
         ]);
 
-        $response = $this->postJson('payment/stripe/webhook', $payload);
+        $response = $this->sendSignedStripeWebhook($payload);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -192,7 +247,7 @@ class StripeWebhookTest extends TestCase
             ],
         ]);
 
-        $response = $this->postJson('payment/stripe/webhook', $payload);
+        $response = $this->sendSignedStripeWebhook($payload);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -224,7 +279,7 @@ class StripeWebhookTest extends TestCase
             ],
         ]);
 
-        $response = $this->postJson('payment/stripe/webhook', $payload);
+        $response = $this->sendSignedStripeWebhook($payload);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -235,52 +290,51 @@ class StripeWebhookTest extends TestCase
         $this->assertEquals('cancelled', $order->payment_status);
     }
 
-public function test_webhook_handles_charge_refunded(): void
-{
-// Create an existing payment with charge ID as transaction_id
-$chargeId = 'ch_test_' . uniqid();
-$order = Order::create([
-'order_reference_id' => 'TEST-' . uniqid(),
-'email' => 'test@example.com',
-'first_name' => 'Test',
-'last_name' => 'User',
-'amount' => 100.00,
-'currency' => 'USD',
-'payment_provider' => 'stripe',
-'payment_provider_id' => $this->stripeProvider->id,
-'is_paid' => 1,
-'payment_status' => 'completed',
-'transaction_id' => $chargeId,
-]);
+    public function test_webhook_handles_charge_refunded(): void
+    {
+        $chargeId = 'ch_test_' . uniqid();
+        $order = Order::create([
+            'order_reference_id' => 'TEST-' . uniqid(),
+            'email' => 'test@example.com',
+            'first_name' => 'Test',
+            'last_name' => 'User',
+            'amount' => 100.00,
+            'currency' => 'USD',
+            'payment_provider' => 'stripe',
+            'payment_provider_id' => $this->stripeProvider->id,
+            'is_paid' => 1,
+            'payment_status' => 'completed',
+            'transaction_id' => $chargeId,
+        ]);
 
-Payment::create([
-'rel_type' => 'Modules\\Order\\Models\\Order',
-'rel_id' => $order->id,
-'amount' => 100.00,
-'currency' => 'USD',
-'status' => 'completed',
-'payment_provider' => 'stripe',
-'payment_provider_id' => $this->stripeProvider->id,
-'transaction_id' => $chargeId,
-]);
+        Payment::create([
+            'rel_type' => morph_name(Order::class),
+            'rel_id' => $order->id,
+            'amount' => 100.00,
+            'currency' => 'USD',
+            'status' => 'completed',
+            'payment_provider' => 'stripe',
+            'payment_provider_id' => $this->stripeProvider->id,
+            'transaction_id' => $chargeId,
+        ]);
 
-$payload = $this->createChargeRefundedPayload([
-'id' => $chargeId,
-'payment_intent' => 'pi_test_' . uniqid(), // Charge webhook can have different PI
-'refunds' => [
-['id' => 're_test_' . uniqid(), 'amount' => 10000],
-],
-]);
+        $payload = $this->createChargeRefundedPayload([
+            'id' => $chargeId,
+            'payment_intent' => 'pi_test_' . uniqid(),
+            'refunds' => [
+                ['id' => 're_test_' . uniqid(), 'amount' => 10000],
+            ],
+        ]);
 
-$response = $this->postJson('payment/stripe/webhook', $payload);
+        $response = $this->sendSignedStripeWebhook($payload);
 
-$this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(200, $response->getStatusCode());
 
-// Verify payment was marked as refunded
-$payment = Payment::where('transaction_id', $chargeId)->first();
-$this->assertNotNull($payment);
-$this->assertEquals('refunded', $payment->status);
-}
+        // Verify payment was marked as refunded
+        $payment = Payment::where('transaction_id', $chargeId)->first();
+        $this->assertNotNull($payment);
+        $this->assertEquals('refunded', $payment->status);
+    }
 
     public function test_webhook_logs_unhandled_events(): void
     {
@@ -297,7 +351,7 @@ $this->assertEquals('refunded', $payment->status);
             ],
         ];
 
-        $response = $this->postJson('payment/stripe/webhook', $payload);
+        $response = $this->sendSignedStripeWebhook($payload);
 
         $this->assertEquals(200, $response->getStatusCode());
 

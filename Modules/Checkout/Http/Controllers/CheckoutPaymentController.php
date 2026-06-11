@@ -37,6 +37,10 @@ class CheckoutPaymentController extends Controller
     {
         $payment = $this->handlePaymentResponse($request);
 
+        if (!$payment || !($payment instanceof \Modules\Payment\Models\Payment)) {
+            return response()->json(['status' => 'error', 'message' => 'Payment verification failed'], 400);
+        }
+
         return response()->json(['status' => 'success']);
     }
 

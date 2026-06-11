@@ -78,7 +78,9 @@ TextInput::make('settings.secret_key')
 
 TextInput::make('settings.webhook_secret')
 ->label('Webhook Secret')
-->helperText('Optional: Your Stripe webhook signing secret for verifying webhook events'),
+->required()
+->password()
+->helperText('REQUIRED: Your Stripe webhook signing secret (whsec_...) from Stripe Dashboard > Webhooks. Webhooks will be rejected without this.'),
 
 Toggle::make('settings.collect_phone_number')
 ->label('Collect Phone Number')
