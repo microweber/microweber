@@ -765,9 +765,13 @@ mw.filePicker = function (options) {
                 }
                 $wrap.append($skeleton);
 
+                // task-2026-05-27-287636 / AI-1140: the MediaLibrary page slug
+                // was overridden to 'media', so the Ziggy route is
+                // 'filament.admin.pages.media' — NOT 'media-library'. Using the
+                // old name made Ziggy throw and broke the File link picker.
                 var fr = mw
                     .top()
-                    .tools.moduleFrameRoute("filament.admin.pages.media-library");
+                    .tools.moduleFrameRoute("filament.admin.pages.media");
                 scope._libraryFrameBaseSrc = fr.src;
                 // Keep iframe visually hidden until row-count message arrives
                 // so the skeleton is the only visible element during load.
