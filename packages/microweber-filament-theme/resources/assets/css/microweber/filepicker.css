@@ -2,20 +2,51 @@
     @apply w-full;
 }
 
+/* task-2026-06-13-letele2 — render the picker tabs as a clean segmented control.
+   The rules were scoped on the generic `.form-control-live-edit-label-wrapper`,
+   so the live-edit-input base styles out-specified them (container ended up with
+   padding:0 / transparent bg and the tabs read as cramped/"jammed"). Scope every
+   rule under `.mw-filepicker-component-navigation-header` and pin the key props
+   with !important so the segmented-control styling wins. */
 .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
-    @apply w-full flex items-center justify-center rounded bg-gray-100 p-2 py-2 gap-4;
+    @apply w-full flex items-center justify-center;
+    gap: 4px !important;
+    background: #f3f4f6 !important;
+    padding: 4px !important;
+    border-radius: 10px !important;
 }
-
+:is(html.dark) .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
+    background: #1f2937 !important;
+}
 
 .mw-image-picker-ai .form-control-live-edit-label-wrapper:empty{
     display: none;
 }
-.form-control-live-edit-label-wrapper a {
-    @apply hover:bg-white/80 rounded py-2 px-4 text-center text-gray-600 dark:text-white w-full text-sm;
+.mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper a {
+    @apply text-center text-sm w-full;
+    padding: 8px 14px !important;
+    border: 0 !important;
+    outline: none !important;
+    border-radius: 7px !important;
+    color: #6b7280 !important;
+    line-height: 1.2 !important;
+    transition: background-color .15s, color .15s, box-shadow .15s;
 }
-
-.form-control-live-edit-label-wrapper a.active {
-    @apply bg-white dark:bg-gray-900;
+.mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper a:hover {
+    background: rgba(255, 255, 255, 0.6) !important;
+}
+.mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper a.active {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-weight: 600 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10) !important;
+}
+:is(html.dark) .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper a {
+    color: #9ca3af !important;
+}
+:is(html.dark) .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper a.active {
+    background: #111827 !important;
+    color: #ffffff !important;
 }
 .mw-ui-field-holder {
     @apply w-full flex flex-col items-center gap-4 border-2 border-dashed border-blue-600/50 rounded p-12;

@@ -3803,7 +3803,12 @@ html.dark {
 // --- Toolbar ---
 .mw-media-toolbar {
   display: flex;
-  align-items: center;
+  // task-2026-06-13-letele2 — top-align (was center). When the left group wraps
+  // to 2 rows in the picker modal (search+type on row 1, From/To dates on row 2),
+  // center-aligning floated the right group (grid/list, Unsplash, Upload) 27px
+  // down between the rows. flex-start keeps them level with the search row; at
+  // full width (single-row) it's identical to center.
+  align-items: flex-start;
   justify-content: space-between;
   gap: $mw-space-sm;  // GR: sm(10)
   padding: $mw-space-sm 0;  // GR: sm(10)
@@ -3818,6 +3823,13 @@ html.dark {
   gap: $mw-space-xs;  // GR: xs(6)
   flex: 1;
   min-width: 0;
+  // task-2026-06-13-letele2 — the image-picker modal embeds this toolbar in a
+  // ~800px iframe (above the 768px mobile breakpoint), so the search + type
+  // select + From/To date inputs were squeezed into one cramped row with the
+  // "To" date truncated. Let the group wrap so the date filters drop to a tidy
+  // second row instead of cramming.
+  flex-wrap: wrap;
+  row-gap: $mw-space-xs;
 }
 
 .mw-media-toolbar-right {
@@ -3826,10 +3838,28 @@ html.dark {
   gap: $mw-space-xs;  // GR: xs(6)
 }
 
+// task-2026-06-13-letele2 — normalize every row-1 control to one height so the
+// search, type select, view toggle, Unsplash and Upload line up exactly. They
+// were 38 / 46 / 34 / 32px, so vertical-centering left them visibly staggered
+// (the Upload button sat ~7px below the search). One height = clean baseline.
+.mw-media-search-input,
+.mw-media-filter-select,
+.mw-media-view-toggle,
+.mw-media-unsplash-btn,
+.mw-media-upload-btn {
+  height: 36px;
+  box-sizing: border-box;
+}
+.mw-media-view-toggle {
+  align-items: stretch;
+  .mw-media-view-btn { height: 100%; }
+}
+
 .mw-media-search {
   position: relative;
   flex: 1;
   max-width: 320px;
+  min-width: 200px;  // keep usable when the toolbar wraps in the picker modal
 }
 
 .mw-media-search-icon {
@@ -3875,11 +3905,22 @@ html.dark {
 }
 
 // AI-1039 / task-2026-05-22-558c11 — wrapper label aligns text + date input inline.
+// task-2026-06-13-letele2 — wrap the From/To label + native date input in one
+// bordered "pill" (and strip the input's own border) so the date filters read as
+// a single tidy control in the picker modal instead of a bare native field.
 .mw-media-filter-date-wrap {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   cursor: default;
+  padding: 2px $mw-space-xs;  // GR: xs(6)
+  background: $mw-bg-surface;
+  border: 1px solid $mw-border-color;
+  border-radius: $mw-radius-sm;
+
+  &:focus-within {
+    border-color: $mw-accent;
+  }
 }
 
 .mw-media-filter-date-label {
@@ -3889,18 +3930,13 @@ html.dark {
 }
 
 .mw-media-filter-date {
-  padding: $mw-space-xs $mw-space-xs;  // GR: xs(6)
-  border: 1px solid $mw-border-color;
-  border-radius: $mw-radius-sm;
+  padding: $mw-space-xs 0;  // GR: xs(6)
+  border: none;
+  background: transparent;
   font-size: 13px;
-  background: $mw-bg-surface;
   color: $mw-text-primary;
   outline: none;
-  max-width: 140px;
-
-  &:focus {
-    border-color: $mw-accent;
-  }
+  max-width: 130px;
 }
 
 /*
