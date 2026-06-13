@@ -37,8 +37,14 @@
         $bodyDarkClass = 'theme-dark';
     }
     ?>
-    <link rel="stylesheet" href="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.css') }}">
-    <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}" type="module"></script>
+    @php
+        // task-2026-06-13-letele2 — cache-bust the live-edit bundle (fixed Vite filename
+        // + no asset() version = stale-JS-after-rebuild). mtime query → fresh fetch.
+        $leVer = (@filemtime(public_path('vendor/microweber-packages/frontend-assets/build/live-edit-app.js')) ?: 0)
+               . '-' . (@filemtime(public_path('vendor/microweber-packages/frontend-assets/build/live-edit-app.css')) ?: 0);
+    @endphp
+    <link rel="stylesheet" href="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.css') }}?v={{ $leVer }}">
+    <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}?v={{ $leVer }}" type="module"></script>
 
     <?php event_trigger('mw.live_edit.header'); ?>
 

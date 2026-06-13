@@ -17,6 +17,9 @@ use Livewire\Livewire;
 use MicroweberPackages\Template\Http\Livewire\Admin\AdminTemplateUpdateModal;
 use MicroweberPackages\Template\Http\Livewire\Admin\LiveEditTemplateSettingsSidebar;
 use MicroweberPackages\Template\Repositories\TemplateMetaTagsRepository;
+use MicroweberPackages\Template\Services\DesignSystem\ColorSchemesRegistry;
+use MicroweberPackages\Template\Services\DesignSystem\DesignSystemService;
+use MicroweberPackages\Template\Services\DesignSystem\StylePackRegistry;
 
 class TemplateManagerServiceProvider extends ServiceProvider
 {
@@ -55,6 +58,34 @@ class TemplateManagerServiceProvider extends ServiceProvider
 
 
         View::addNamespace('template', __DIR__.'/resources/views');
+
+        /**
+         * @property \MicroweberPackages\Template\Services\DesignSystem\ColorSchemesRegistry $color_schemes_registry
+         */
+        $this->app->singleton('color_schemes_registry', function ($app) {
+            $registry = new ColorSchemesRegistry();
+            $registry->loadSharedPalettes();
+            return $registry;
+        });
+
+        /**
+         * @property \MicroweberPackages\Template\Services\DesignSystem\StylePackRegistry $style_pack_registry
+         */
+        $this->app->singleton('style_pack_registry', function ($app) {
+            $registry = new StylePackRegistry();
+            $registry->loadSharedPacks();
+            return $registry;
+        });
+
+        /**
+         * @property \MicroweberPackages\Template\Services\DesignSystem\DesignSystemService $design_system
+         */
+        $this->app->singleton('design_system', function ($app) {
+            return new DesignSystemService(
+                $app->make('color_schemes_registry'),
+                $app->make('style_pack_registry')
+            );
+        });
 
     }
 }

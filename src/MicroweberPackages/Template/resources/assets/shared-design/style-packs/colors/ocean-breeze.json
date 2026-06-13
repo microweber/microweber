@@ -1,0 +1,58 @@
+{
+    "settings": [
+        {
+            "title": "Ocean Breeze",
+            "description": "Cool ocean blues and seafoam greens for a refreshing look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Ocean Breeze",
+                        "properties": {
+                            "--mw-background-color": "#f0f8ff",
+                            "--mw-section-background-color": "#f0f8ff",
+                            "--mw-primary-color": "#0077b6",
+                            "--mw-secondary": "#00b4d8",
+                            "--mw-textDark": "#023e8a",
+                            "--mw-textLight": "#f0f8ff",
+                            "--mw-body-color": "#023e8a",
+                            "--mw-heading-color": "#03045e",
+                            "--mw-paragraph-color": "#023e8a",
+                            "--mw-link-color": "#0077b6",
+                            "--mw-link-hover-color": "#00b4d8",
+                            "--mw-header-background-color": "#f0f8ff",
+                            "--mw-header-link-color": "#023e8a",
+                            "--mw-header-link-hover-color": "#0077b6",
+                            "--mw-header-link-background-hover-color": "rgba(0, 119, 182, 0.08)",
+                            "--mw-top-header-background-color": "#023e8a",
+                            "--mw-top-header-primary-color": "#0077b6",
+                            "--mw-top-header-link-color": "#90e0ef",
+                            "--mw-top-header-link-hover-color": "#caf0f8",
+                            "--mw-top-header-button-background-color": "#0077b6",
+                            "--mw-top-header-button-background-hover-color": "#00b4d8",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#ffffff",
+                            "--mw-footer-background-color": "#023e8a",
+                            "--mw-footer-text-color": "#caf0f8",
+                            "--mw-footer-primary-color": "#0077b6",
+                            "--mw-footer-link-color": "#90e0ef",
+                            "--mw-footer-hover-link-color": "#caf0f8",
+                            "--mw-footer-button-background-color": "#0077b6",
+                            "--mw-footer-button-background-hover-color": "#00b4d8",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#ffffff",
+                            "--mw-btn-background-color": "#0077b6",
+                            "--mw-btn-background-hover-color": "#00b4d8",
+                            "--mw-btn-text-color": "#ffffff",
+                            "--mw-btn-text-hover-color": "#ffffff",
+                            "--mw-btn-border-color": "#0077b6",
+                            "--mw-text-decoration-color": "#0077b6",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

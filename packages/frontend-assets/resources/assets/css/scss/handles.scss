@@ -130,6 +130,9 @@ $handleholderHeight: 56;
         border: 1px solid transparent;
         box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
         background-color: var(--light-bg);
+        /* task-2026-06-12 — fade the box chrome in/out with the buttons so an
+           idle (non-active) handle never shows an empty white box. */
+        transition: background-color .2s ease, box-shadow .2s ease, border-color .2s ease;
 
         /* task-2026-05-27-df6d28 / AI-1170: 32px → 44px for WCAG 2.5.5 */
         .mw-le-handle-menu-button {
@@ -207,6 +210,19 @@ html.dark, html[data-mw-theme="dark"]{
                 0 8px 24px rgba(0, 0, 0, 0.5);
         }
     }
+}
+
+/* task-2026-06-12 — "see only settings, not the white box": the handle's setting
+   buttons fade in only on `.mw-handle-active` (opacity 0 → 1 below), but the box
+   (.mw-handle-item-menus-holder) was shown unconditionally — leaving an empty
+   white box on an idle handle. Strip the box chrome (bg + shadow + border ring)
+   until the handle is active, so the box appears together WITH its buttons and
+   never as an empty box. The button sub-menu flyout keeps its own chrome.
+   `!important` beats the higher-specificity dark-mode rule above. */
+.mw-handle-item:not(.mw-handle-active) .mw-handle-item-menus-holder {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
 }
 
 
@@ -707,6 +723,22 @@ html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
                     padding: 0 !important;
                     overflow: hidden;
                     margin: 0;
+                }
+                // task-2026-06-13-letele2 — the wide "Delete" layout button keeps
+                // height:auto from .mw-handle-button-wide, so the height:0 collapse
+                // above never flattens it: an invisible 44px row stayed reserved
+                // under the visible Settings/Clone buttons — the "empty white row"
+                // users saw in the layout Settings box. Flatten it explicitly while
+                // the holder is idle; the &:hover block below restores it.
+                .mw-le-handle-menu-button.mw-handle-button-wide.mw-handle-layout-delete-button{
+                    height: 0 !important;
+                    min-height: 0 !important;
+                    padding-top: 0 !important;
+                    padding-bottom: 0 !important;
+                    margin-top: 0 !important;
+                    margin-bottom: 0 !important;
+                    border-width: 0 !important;
+                    overflow: hidden;
                 }
             }
 

@@ -1,6 +1,16 @@
 <template>
 
     <div v-if="showModal" style="visibility: hidden; position: absolute; width: 1px; height: 1px;"></div>
+
+    <!-- Teleport to body: this modal is position:fixed. The live-edit chrome wraps
+         the app in clipping/transformed ancestors — #live-edit-frame-holder has
+         overflow:hidden, and the slide-in panels (control-box / sidebars / drawer)
+         use transform: translateX(), whose resting state forms a containing block
+         that re-roots a fixed descendant → clipping + broken hit-testing. (Device-
+         preview is width-only, NOT scale.) Teleporting to <body> escapes them all so
+         fixed resolves against the viewport. Pure-Vue (no $wire) → teleport-safe.
+         task-2026-06-12-letele2 -->
+    <Teleport to="body">
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-overlay active"></div>
 
 
@@ -104,6 +114,7 @@
 
         </div>
     </Transition>
+    </Teleport>
 
 </template>
 

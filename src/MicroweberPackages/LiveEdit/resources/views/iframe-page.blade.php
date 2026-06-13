@@ -273,15 +273,34 @@
             // dispatches this event in one tick; the canvas takes
             // over from here without any extra user interaction.
             window.addEventListener('liveEditInsertLayoutRequest', () => {
+                // task-2026-06-13-letele2 — close the Add-new-content Filament modal
+                // here. The card's own $wire.unmountAction() throws because the modal
+                // is teleported to .fi-layout (its $wire cannot resolve), so the modal
+                // window + backdrop stayed open behind the picker and looked broken.
+                // This listener runs in the page-root x-init where $wire DOES resolve.
+                try { $wire.unmountAction(); } catch (_) { /* nothing mounted */ }
                 try {
                     if (window.mw && window.mw.app && window.mw.app.editor
                         && typeof window.mw.app.editor.dispatch === 'function') {
-                        // ListLayouts.vue only listens for insertLayoutRequestOnBottom
-                        // and insertLayoutRequestOnTop — never the bare insertLayoutRequest
-                        // event. Dispatching the named OnBottom variant opens the picker
-                        // dialog (task-2026-05-28).
-                        window.mw.app.editor.dispatch('insertLayoutRequestOnBottom',
-                            window.mw.app.liveEdit?.layoutHandle?.getTarget?.() ?? null);
+                        // task-2026-06-13-letele2 — the 'Add a block to this page' card
+                        // opened the picker but inserted nothing. It dispatched
+                        // 'insertLayoutRequestOnBottom', whose ListLayouts handler did
+                        // NOT set this.target (only 'appendLayoutRequestOnBottom' does),
+                        // and passed null when no layout was selected — so the card-click
+                        // insert had no target and silently no-op'd. Use the target-setting
+                        // 'append' variant (the same path the working section handle uses),
+                        // and when no layout is selected fall back to the page main content
+                        // edit region so the block appends to the page.
+                        // NOTE: this inline script context is quote-sensitive — keep
+                        // SINGLE quotes only (no double quotes, even in comments/selectors),
+                        // matching the surrounding code; unquoted CSS attr values below.
+                        var insertTarget = window.mw.app.liveEdit?.layoutHandle?.getTarget?.();
+                        if (!insertTarget) {
+                            var canvasDoc = window.mw.app.canvas?.getWindow?.()?.document;
+                            insertTarget = canvasDoc && canvasDoc.querySelector(
+                                '.edit.main-content, .edit[field=content], .edit[rel=content], .edit');
+                        }
+                        window.mw.app.editor.dispatch('appendLayoutRequestOnBottom', insertTarget);
                     }
                 } catch (_) { /* canvas not ready */ }
             });
@@ -2068,8 +2087,19 @@
 
         </script>
 
-        <link rel="stylesheet" href="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.css') }}">
-        <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}" type="module"></script>
+        @php
+            // task-2026-06-13-letele2 — cache-bust the live-edit bundle. Vite emits a
+            // FIXED filename (live-edit-app.js, no content hash) and asset() adds no
+            // version query, so browsers cached the JS forever — users kept running a
+            // stale bundle (e.g. pre-teleport modal = un-clickable layout picker) after
+            // a rebuild even after re-login. Append the built file's mtime so each
+            // rebuild yields a new URL → browser fetches fresh JS/CSS.
+            $leAppJs = public_path('vendor/microweber-packages/frontend-assets/build/live-edit-app.js');
+            $leAppCss = public_path('vendor/microweber-packages/frontend-assets/build/live-edit-app.css');
+            $leVer = (@filemtime($leAppJs) ?: 0) . '-' . (@filemtime($leAppCss) ?: 0);
+        @endphp
+        <link rel="stylesheet" href="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.css') }}?v={{ $leVer }}">
+        <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}?v={{ $leVer }}" type="module"></script>
 
         <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
         <?php event_trigger('mw.live_edit.footer'); ?>

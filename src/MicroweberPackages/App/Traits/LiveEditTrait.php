@@ -135,9 +135,17 @@ trait LiveEditTrait
         // $viteScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js');
         //  $viteScriptCss = Vite::asset('packages/frontend-assets/resources/assets/css/scss/liveedit.scss', 'build');
         //$viteScriptCss = Vite::asset('resources/assets/css/scss/liveedit.scss', 'vendor/microweber-packages/frontend-assets/build');
-        $viteScriptCss = asset('vendor/microweber-packages/frontend-assets/build/liveedit.css');
+        // task-2026-06-13-letele2 — cache-bust the canvas-injected bundle. These
+        // are fixed Vite filenames referenced via bare asset() (no version), so
+        // browsers cached liveedit.css / live-edit-page-scripts.js forever — users
+        // kept stale canvas CSS (e.g. the layout-handle "empty Settings row" fix
+        // not applying) after a rebuild. Append the built file's mtime so each
+        // rebuild yields a fresh URL.
+        $leCssPath = public_path('vendor/microweber-packages/frontend-assets/build/liveedit.css');
+        $leJsPath = public_path('vendor/microweber-packages/frontend-assets/build/live-edit-page-scripts.js');
+        $viteScriptCss = asset('vendor/microweber-packages/frontend-assets/build/liveedit.css') . '?v=' . (@filemtime($leCssPath) ?: 0);
 
-        $viteScript = asset('vendor/microweber-packages/frontend-assets/build/live-edit-page-scripts.js');
+        $viteScript = asset('vendor/microweber-packages/frontend-assets/build/live-edit-page-scripts.js') . '?v=' . (@filemtime($leJsPath) ?: 0);
         //$viteScriptCss = public_asset() . 'vendor/microweber-packages/frontend-assets/css/live-edit-css.css';
 
         if ($viteScript) {

@@ -37,11 +37,17 @@
         background: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, .2);
 
+        // Slide-in panels. The RESTING (shown) state is `transform: none`, not
+        // `translateX(0)`: a non-none transform — even a 0 translation — makes the
+        // panel a containing block for any `position:fixed` descendant, re-rooting
+        // and clipping it (the footgun behind the live-edit modal teleport fixes).
+        // `none` keeps the slide animation (browsers interpolate translateX(100%)↔none
+        // as translateX→0) while NOT trapping fixed descendants once open.
         &.mw-control-box-right {
             transform: translateX(100%);
 
             &.active {
-                transform: translateX(0);
+                transform: none;
             }
          }
 
@@ -49,7 +55,7 @@
             transform: translateX(-100%);
 
             &.active {
-                transform: translateX(0);
+                transform: none;
             }
         }
 

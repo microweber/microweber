@@ -229,4 +229,20 @@ $mw-text-on-dark-background-color: $mw-white-color !default;
 
     --mw-text-on-dark-background-color: #{$mw-text-on-dark-background-color};
 
+    // Cross-template alias vars: robust :root defaults so content/layouts built
+    // on another template (e.g. Big) resolve correctly under Bootstrap. Mapped to
+    // Bootstrap's canonical palette vars so they track the active color scheme.
+    --mw-footer-link-hover-color: var(--mw-footer-hover-link-color);
+    --mw-content-bg: var(--mw-background-color);
+    --mw-text-color: var(--mw-body-color);
+    --mw-links-color: var(--mw-link-color);
+    --mw-links-hover-color: var(--mw-link-color);
+    --mw-color-primary: var(--mw-primary-color);
+    --mw-color-secondary: var(--mw-secondary);
+    --mw-color-dark: var(--mw-textDark);
+    --mw-color-light: var(--mw-textLight);
+    --mw-color-neutral: var(--mw-secondary);
+    --mw-color-link: var(--mw-link-color);
+    --mw-color-text: var(--mw-body-color);
+
 }

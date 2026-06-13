@@ -19,7 +19,9 @@ class EmbedModule extends BaseModule
     {
         $viewData = $this->getViewData();
 
-        $sourceCode = get_option('source_code', $this->params['id']);
+        // PHP 8.4: get_option() returns null when the option is unset; coalesce
+        // to '' so the downstream trim()/string ops don't hit a null-deprecation.
+        $sourceCode = get_option('source_code', $this->params['id']) ?? '';
 
         // AI-132 / SEC-01 (cycle-114 2026-05-09): defense-in-depth
         // audit log. The `source_code` option is gated to admin
