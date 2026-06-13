@@ -60,38 +60,13 @@ class PicturesModuleSettings extends LiveEditModuleSettings
                                     }),
 
                             ]),
-                        // task-2026-05-21-a4832f / AI-872 Slice 1 — Pictures/Gallery: Columns + Aspect Ratio + Lightbox
-                        Tabs\Tab::make('Display')
-                            ->schema([
-                                ToggleButtons::make('options.columns')
-                                    ->label('Columns')
-                                    ->live()
-                                    ->inline()
-                                    ->options([
-                                        '2' => '2',
-                                        '3' => '3',
-                                        '4' => '4',
-                                    ])
-                                    ->default('3'),
-
-                                Select::make('options.aspect_ratio')
-                                    ->label('Aspect Ratio')
-                                    ->live()
-                                    ->options([
-                                        'auto'   => 'Auto',
-                                        '1:1'    => 'Square (1:1)',
-                                        '4:3'    => 'Landscape (4:3)',
-                                        '16:9'   => 'Widescreen (16:9)',
-                                        '3:4'    => 'Portrait (3:4)',
-                                    ])
-                                    ->default('auto'),
-
-                                Toggle::make('options.lightbox')
-                                    ->label('Enable Lightbox')
-                                    ->helperText('Open images in a full-screen overlay when clicked')
-                                    ->live()
-                                    ->default(true),
-                            ]),
+                        // task-2026-06-13-letele2 — Columns / Aspect Ratio / Lightbox
+                        // are NOT global Pictures settings: they only apply to skins
+                        // that lay images out in a grid (currently the `default` skin).
+                        // They were a global "Display" tab; moved into the per-skin
+                        // Design tab via the JSON-schema mechanism (templates/default.json
+                        // -> getTemplatesFormSchema), so a skin only shows the options it
+                        // actually supports. See global_skin_settings.json for the pattern.
                         Tabs\Tab::make('Design')
                             ->schema($this->getTemplatesFormSchema()),
 

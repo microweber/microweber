@@ -1,0 +1,37 @@
+{
+    "useSchemaFrom": "global_skin_settings",
+    "schema": [
+        {
+            "type": "select",
+            "label": "Columns",
+            "name": "columns",
+            "placeholder": "Columns",
+            "help": "How many columns the image grid uses",
+            "options": {
+                "2": "2 columns",
+                "3": "3 columns",
+                "4": "4 columns"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Aspect Ratio",
+            "name": "aspect_ratio",
+            "placeholder": "Aspect ratio",
+            "help": "Crop each thumbnail to a fixed ratio (or keep the original with Auto)",
+            "options": {
+                "auto": "Auto",
+                "1:1": "Square (1:1)",
+                "4:3": "Landscape (4:3)",
+                "16:9": "Widescreen (16:9)",
+                "3:4": "Portrait (3:4)"
+            }
+        },
+        {
+            "type": "toggle",
+            "label": "Enable Lightbox",
+            "name": "lightbox",
+            "help": "Open images in a full-screen overlay when clicked"
+        }
+    ]
+}

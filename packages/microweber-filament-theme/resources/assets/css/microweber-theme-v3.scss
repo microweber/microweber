@@ -1978,6 +1978,37 @@ svg[wire\:loading\.remove] {
   border-radius: 50% !important;
 }
 
+// task-2026-06-13-letele2 — ToggleButtons selected/unselected fix.
+// Filament ToggleButtons (e.g. the Pictures "Columns" 2/3/4 toggle) gives every
+// option label `.fi-btn.fi-color-primary`, and the global
+// `body.fi-panel-admin .fi-btn.fi-color-primary { background: primary !important }`
+// rule then filled ALL options solid brand-blue — erasing the selected state, so
+// 2/3/4 all looked identical. Dim the UNSELECTED options (input:not(:checked)+label)
+// to a neutral pill so only the checked option keeps the brand colour — a proper
+// segmented control. Specificity here (incl. label.fi-btn.fi-color-primary) is
+// deliberately one notch above that global rule so it wins without a layer hack.
+body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:not(:checked) + label.fi-btn.fi-color-primary {
+  background-color: #ffffff !important;
+  color: #374151 !important;
+  border-color: #d1d5db !important;
+  box-shadow: none !important;
+
+  &:hover {
+    background-color: #f3f4f6 !important;
+    color: #111827 !important;
+  }
+}
+html.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:not(:checked) + label.fi-btn.fi-color-primary {
+  background-color: #1f2937 !important;
+  color: #9ca3af !important;
+  border-color: #374151 !important;
+
+  &:hover {
+    background-color: #374151 !important;
+    color: #f9fafb !important;
+  }
+}
+
 // ============================================================================
 // Links — MW v2 blue color
 // ============================================================================
