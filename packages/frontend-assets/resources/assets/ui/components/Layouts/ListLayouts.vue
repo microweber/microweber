@@ -3,19 +3,17 @@
 
     <div v-if="showModal" style="visibility: hidden; position: absolute; width: 1px; height: 1px;"></div>
 
-    <!-- task-2026-06-12-letele — Teleport the picker overlay + dialog to <body>.
-         The dialog is position:fixed, but the live-edit chrome wraps the app in
-         clipping/transformed ancestors: #live-edit-frame-holder has overflow:hidden,
-         and the slide-in panels (control-box / sidebars / main-drawer) use
-         transform: translateX(); a transformed ancestor — even translateX(0) —
-         becomes the containing block for a fixed descendant, re-rooting and clipping
-         it (cards/close un-clickable). (Device-preview is width-only, NOT scale —
-         see ResolutionSwitch.vue.) Setting transform:none on the dialog itself does
-         NOT help — the cause is an ANCESTOR. Teleporting to <body> moves the modal
-         out of every clipping/transformed/stacking ancestor so `fixed` resolves
-         against the viewport. Safe to teleport: all handlers are Vue v-on:click on
-         component methods / the global mw.app.editor API — no Livewire $wire. -->
-    <Teleport to="body">
+    <!-- task-2026-06-13-letele2 — NO Teleport needed. This dialog is position:fixed;
+         it was previously teleported to <body> to escape a containing-block trap, but
+         the real cause was a slide-in panel (.mw-control-box) whose SHOWN state used
+         transform: translateX(0) — a non-none transform re-roots fixed descendants.
+         That is fixed (control-box.scss active state → transform:none) and the modal
+         mount point (#live-edit-app) now has NO transform/filter/perspective ancestor
+         in any device-preview mode (the canvas + control-boxes are SIBLINGS, not
+         ancestors). overflow:hidden/clip on .fi-layout/body does NOT clip fixed
+         descendants without a transformed ancestor. Verified clickable in mobile
+         mode without teleport. Do NOT re-introduce an ancestor transform on
+         #live-edit-app's chain, or this modal will be trapped again. -->
     <div v-if="showModal" class="mw-le-overlay active" v-on:click="showModal = false"></div>
 
     <Transition
@@ -562,7 +560,6 @@
 
         </div>
     </Transition>
-    </Teleport>
 
 </template>
 
