@@ -3533,7 +3533,9 @@ body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary {
     color: #182433 !important;
     border: none !important;
     box-shadow: none !important;
-    border-radius: var(--radius-pill, 999px) !important;
+    /* task-2026-06-13-letoolbarstyle — match released v2.0.20 admin: 4px
+       rectangle, not the 999px pill (user: "old design is better, match it"). */
+    border-radius: 4px !important;
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
@@ -3567,7 +3569,9 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
     color: #182433 !important;
     border: none !important;
     box-shadow: none !important;
-    border-radius: var(--radius-pill, 999px) !important;
+    /* task-2026-06-13-letoolbarstyle — match released v2.0.20 admin: 4px
+       rectangle, not the 999px pill. */
+    border-radius: 4px !important;
     height: auto !important;
     min-height: 32px !important;
     padding: var(--space-sm, 8px) var(--space-md, 13px) !important;
@@ -3733,14 +3737,19 @@ body.fi-panel-admin .mw-welcome-widget-empty {
  * ─────────────────────────────────────────────────────────────── */
 
 body.fi-panel-admin .mw-hero-stat-card {
-    border: 1px solid #e5e7eb;
-    border-radius: 7px;
+    /* Unified card language: 4px (was an off-grid 7px), borderless (was a
+       mismatched #e5e7eb vs the #dadfe5 used elsewhere), floating on the shared
+       soft shadow — matches .mw-stats-card / .mw-quick-stat-card exactly. */
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(24, 36, 51, 0.08), 0 1px 2px rgba(24, 36, 51, 0.04);
     padding: var(--space-md, 13px) var(--space-lg, 21px);
     margin-block-end: var(--space-md, 13px);
 }
 html.dark body.fi-panel-admin .mw-hero-stat-card {
     background-color: #1a1f2b;
-    border-color: rgba(255, 255, 255, 0.07);
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.30);
 }
 body.fi-panel-admin .mw-hero-stat-header {
     display: flex;
@@ -3912,6 +3921,10 @@ body.fi-panel-admin .mw-quick-stat-card-value {
    keeps keyboard users on parity. prefers-reduced-motion
    collapses the transition to 0. */
 body.fi-panel-admin .mw-quick-stat-card {
+    /* Pin 4px here too — a 7px (Filament default, delivered via an adopted
+       stylesheet) leaks past the theme-scss rule and even this body-scoped one
+       per-corner, so !important is required to keep all cards unified at 4px. */
+    border-radius: 4px !important;
     transition: transform var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)),
                 box-shadow var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
 }
@@ -4950,7 +4963,10 @@ body.fi-panel-admin .fi-input:focus {
     box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12) !important;
 }
 body.fi-panel-admin .fi-input-wrp {
-    border-radius: 8px !important;
+    /* task-2026-06-13-letoolbarstyle — 4px to match released v2.0.20 form
+       controls (demo select = 4px). Was 8px; overrode the theme's
+       $mw-radius-sm (4px) intent via higher body.fi-panel-admin specificity. */
+    border-radius: 4px !important;
 }
 
 /* ── Form labels ─────────────────────────────────────────────────── */

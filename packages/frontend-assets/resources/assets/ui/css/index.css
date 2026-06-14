@@ -20,7 +20,13 @@ html {
        drawer to open. Sub-slicing rationale: AI-698a is the
        height-lock foundation; AI-698b is the layout grouping.
     */
-    --toolbar-height: 48px;
+    /* task-2026-06-13-letoolbarstyle — restored to 60px to match the released
+       v2.0.20 toolbar (demo.microweber.org) per user request ("old design is
+       better, match it"). The AI-698a 48px compression read as too cramped; the
+       60px bar gives the 36px buttons the original breathing room. Layout
+       grouping from AI-698b (segmented device switch, ⋯ Tools, ☰) is kept —
+       this is a styling-only alignment, not a structural revert. */
+    --toolbar-height: 60px;
     --toolbar-height-animation-speed: 0.4s;
 
     --iframe-height-minus: 0px;
@@ -662,7 +668,7 @@ html.dark .mw-le-layouts-dialog .modules-list {
         background-color: var(--ese-surface-muted, rgba(0, 0, 0, 0.04));
         color: var(--ese-text, #111827);
         border: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
-        border-radius: var(--radius-sm, 6px);
+        border-radius: var(--radius-sm, 4px);
         font-size: var(--font-control, 13px);
         cursor: pointer;
         transition: background-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
@@ -711,8 +717,8 @@ html.dark .mw-le-layouts-dialog .modules-list {
         max-height: 80vh;
         overflow-y: auto;
         background-color: var(--ese-surface, #ffffff);
-        border-top-left-radius: var(--radius-md, 10px);
-        border-top-right-radius: var(--radius-md, 10px);
+        border-top-left-radius: var(--radius-md, 8px);
+        border-top-right-radius: var(--radius-md, 8px);
         padding-bottom: env(safe-area-inset-bottom, 0);
         animation: mw-le-layouts-mobile-filter-sheet-slide var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
     }
@@ -743,7 +749,7 @@ html.dark .mw-le-layouts-dialog .modules-list {
         justify-content: center;
         color: var(--ese-text-muted, #6b7280);
         cursor: pointer;
-        border-radius: var(--radius-sm, 6px);
+        border-radius: var(--radius-sm, 4px);
     }
     .mw-le-layouts-mobile-filter-sheet__close:hover,
     .mw-le-layouts-mobile-filter-sheet__close:focus-visible {
@@ -1378,7 +1384,7 @@ aside.fi-sidebar {
     background-color: var(--ese-surface-muted, rgba(0, 0, 0, 0.04));
     color: var(--ese-text, #111827);
     border: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
-    border-radius: var(--radius-sm, 6px);
+    border-radius: var(--radius-sm, 4px);
     min-height: 44px;
     padding-inline: var(--space-md, 13px);
     padding-block: var(--space-sm, 8px);
@@ -1415,7 +1421,7 @@ aside.fi-sidebar {
 .mw-le-layouts-dialog-col:first-child .modules-list-categories li a.active {
     background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12)) !important;
     color: var(--ese-accent, #0d6efd) !important;
-    border-radius: var(--radius-sm, 6px);
+    border-radius: var(--radius-sm, 4px);
     font-weight: 600;
 }
 .mw-le-layouts-dialog-col:first-child .modules-list-categories li.active {
@@ -1537,4 +1543,125 @@ aside.fi-sidebar {
     .mw-le-layouts-mobile-filter-sheet__list li {
         font-size: 15px;
     }
+}
+
+/* ============================================================================
+   task-2026-06-13-letoolbarstyle — Live-edit toolbar visual match to the
+   released v2.0.20 toolbar (demo.microweber.org). CSS-ONLY: the AI-698b button
+   layout (3-icon device switch, ⋯ Tools popover, ☰ hamburger) is preserved;
+   only colours / radii / sizes are aligned to the old design. Measured demo
+   targets: buttons 36px tall, 4px radius, 14px/400 text; secondary buttons
+   gray #f0f0f0; +ADD soft-blue #e1edf8 with a blue glyph; SAVE flat dark
+   #182433 square (NOT the navy 999px pill); device switch grouped in a gray
+   #f0f0f0 / 5px-radius pill.
+   ============================================================================ */
+
+/* All toolbar buttons — old sizing & shape (4px corners, 36px, regular weight) */
+#toolbar .btn.live-edit-toolbar-buttons {
+    height: 36px;
+    min-height: 36px;
+    border-radius: 4px !important;
+    padding: 7px 16px;
+    font-size: 14px;
+    font-weight: 400 !important;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: none !important;
+}
+
+/* Icon-only toolbar buttons (⋮ Tools, hamburger, etc. — class is btn-icon, not
+   btn) — same 36px / 4px / gray treatment, but only OUTSIDE the segmented group
+   (those are handled below). */
+#toolbar .btn-icon.live-edit-toolbar-buttons:not(.mw-segmented__cell) {
+    height: 36px;
+    min-height: 36px;
+    min-width: 36px;
+    border-radius: 4px !important;
+    background-color: #f0f0f0;
+    border: 1px solid #f0f0f0;
+    color: #182433;
+    box-shadow: none !important;
+}
+#toolbar .btn-icon.live-edit-toolbar-buttons:not(.mw-segmented__cell):hover {
+    background-color: #e6e6e6;
+}
+
+/* Secondary buttons (undo, redo, VIEW/PREVIEW) — flat gray pills */
+#toolbar .btn.live-edit-toolbar-buttons:not(.btn-dark):not(.mw-save-button):not([aria-label="Add content"]) {
+    background-color: #f0f0f0;
+    color: #182433;
+    border: 1px solid #f0f0f0;
+}
+#toolbar .btn.live-edit-toolbar-buttons:not(.btn-dark):not(.mw-save-button):not([aria-label="Add content"]):hover {
+    background-color: #e6e6e6;
+    color: #182433;
+}
+
+/* + ADD — soft-blue background with a blue glyph (the old call-to-action look) */
+#toolbar button[aria-label="Add content"].live-edit-toolbar-buttons {
+    background-color: #e1edf8 !important;
+    color: #182433 !important;
+    border: 1px solid #e1edf8 !important;
+}
+#toolbar button[aria-label="Add content"].live-edit-toolbar-buttons:hover {
+    background-color: #d3e3f6 !important;
+}
+#toolbar button[aria-label="Add content"].live-edit-toolbar-buttons svg {
+    color: #2f74d0;
+}
+
+/* SAVE — flat dark slate square, not the navy pill; normal weight, caps via CSS */
+#toolbar .btn.live-edit-toolbar-buttons.mw-save-button,
+#toolbar .btn.live-edit-toolbar-buttons.btn-dark {
+    background-color: #182433 !important;
+    color: #ffffff !important;
+    border: 1px solid #1f2e41 !important;
+    border-radius: 4px !important;
+    font-weight: 400 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+#toolbar .btn.live-edit-toolbar-buttons.mw-save-button:hover,
+#toolbar .btn.live-edit-toolbar-buttons.btn-dark:hover {
+    background-color: #21364d !important;
+}
+
+/* Device / resolution switch — group the icons into one gray pill (old look),
+   without changing the AI-698b markup. The MwSegmented component (.mw-segmented)
+   styles itself, so override with full specificity + !important. */
+#toolbar .mw-live-edit-resolutions-wrapper.mw-segmented {
+    background-color: #f0f0f0 !important;
+    border-radius: 5px !important;
+    padding: 4px !important;
+    gap: 2px !important;
+}
+#toolbar .mw-live-edit-resolutions-wrapper .mw-segmented__cell.live-edit-toolbar-buttons {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    border-radius: 4px !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    box-shadow: none !important;
+    color: #182433;
+}
+#toolbar .mw-live-edit-resolutions-wrapper .mw-segmented__cell.live-edit-toolbar-buttons.is-active,
+#toolbar .mw-live-edit-resolutions-wrapper .mw-segmented__cell.live-edit-resolution-active {
+    background-color: #ffffff !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) !important;
+    color: #182433;
+}
+
+/* Page chip ("Home ▾") — gray pill matching the old page dropdown */
+#toolbar .mw-page-chip {
+    background-color: #f0f0f0 !important;
+    border: 1px solid #f0f0f0 !important;
+    border-radius: 4px !important;
+    color: #182433 !important;
+    min-height: 36px;
+    padding: 7px 16px;
+    font-weight: 400;
+    box-shadow: none !important;
+}
+#toolbar .mw-page-chip:hover {
+    background-color: #e6e6e6 !important;
 }

@@ -92,6 +92,17 @@ $mw-radius-lg: 4px;             // MW v2 exact: cards
 $mw-radius-xl: 8px;             // Modals — slightly rounded
 $mw-radius-pill: 999px;
 
+// --- Unified card elevation (one token for every card surface) ---
+// v2 floats cards on a soft shadow; the local build had drifted to 3 different
+// card treatments (4px/4px/7px radius, two border colours, one with no shadow).
+// These two tokens are the single source of truth for card elevation so every
+// card surface (stats / quick-stat / hero / section) reads as one family.
+$mw-card-shadow: 0 1px 3px rgba(24, 36, 51, 0.08), 0 1px 2px rgba(24, 36, 51, 0.04);
+$mw-card-shadow-hover: 0 4px 14px rgba(24, 36, 51, 0.10);
+
+// One radius for every tinted icon tile (stat / quick / hero cards had 6px vs 8px).
+$mw-radius-tile: 8px;
+
 // --- Golden Ratio Spacing Scale (φ = 1.618, base = 16px) ---
 $mw-space-hair: 4px;    // 3.8px → 4px
 $mw-space-xs:   6px;    // 6.1px → 6px
@@ -273,6 +284,20 @@ svg[wire\:loading\.remove] {
   span, .fi-btn-label {
     color: $mw-text-primary !important;
   }
+}
+
+// task-2026-06-13-letoolbarstyle — match released v2.0.20 admin top bar. The
+// +Add / Live Edit chips render as 999px pills via Filament's generic
+// `fi-color fi-bg-color-400` classes — they do NOT carry the
+// .admin-toolbar-add / .admin-toolbar-live-edit classes the rules above
+// target, so those 4px rules never reach them. The demo uses 4px rectangles;
+// square these off to match. Colour (#e1edf8 / #e2f9e6) and layout are kept —
+// this is the "don't revert, just style" alignment. The global-search pill
+// (intentional MW v2 style, line ~1793) is .fi-input, not fi-bg-color-*, so it
+// is unaffected.
+.fi-topbar a[class*="fi-bg-color"],
+.fi-topbar button[class*="fi-bg-color"] {
+  border-radius: $mw-radius-sm !important;  // 4px, MW v2 exact
 }
 
 // ============================================================================
@@ -3267,17 +3292,18 @@ html.dark {
 .mw-quick-stat-card {
   background-color: $mw-bg-surface;
   border-radius: $mw-radius-lg;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  border: 1px solid $mw-border-color;
+  // Unified card language: borderless, floating, lifts on hover (not flattens).
+  box-shadow: $mw-card-shadow;
+  border: none;
   display: flex;
   flex-direction: column;
   text-decoration: none !important;
-  transition: border-color 0.15s ease;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
   overflow: hidden;
 
   &:hover {
-    border-color: #b8c1cb; // darken($mw-border-color, 10%)
-    box-shadow: none;
+    box-shadow: $mw-card-shadow-hover;
+    transform: translateY(-1px);
     text-decoration: none !important;
   }
 }
@@ -3293,7 +3319,7 @@ html.dark {
   width: $mw-space-xl;  // GR: xl(42)
   height: $mw-space-xl;
   min-width: $mw-space-xl;
-  border-radius: $mw-space-xs;  // GR: xs(6)
+  border-radius: $mw-radius-tile;  // unified icon-tile radius
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3536,8 +3562,9 @@ html.dark {
   position: relative;
   background-color: $mw-bg-surface;
   border-radius: $mw-radius-lg;
-  border: 1px solid $mw-border-color;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  // Unified card language: borderless, floating on the shared soft shadow.
+  border: none;
+  box-shadow: $mw-card-shadow;
   overflow: hidden;
 }
 
@@ -3558,7 +3585,7 @@ html.dark {
   width: $mw-space-xl;  // GR: xl(42)
   height: $mw-space-xl;
   min-width: $mw-space-xl;
-  border-radius: $mw-space-xs;  // GR: xs(6)
+  border-radius: $mw-radius-tile;  // unified icon-tile radius
   background-color: #f0f4f8;
   display: flex;
   align-items: center;
