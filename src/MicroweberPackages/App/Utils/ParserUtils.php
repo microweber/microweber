@@ -11,7 +11,11 @@ class ParserUtils
     public function parseAttributes($html_tag)
     {
 
-        $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+        // Unquoted value: keep internal slashes (e.g. type=shop/products) but
+        // stop at the tag's self-closing slash so a value like type=layouts
+        // followed by a self-close does not absorb the slash. The trailing
+        // lookahead anchors the value end at whitespace, the tag end, or EOF.
+        $attribute_pattern = '@(?P<name>[a-zA-Z_][a-zA-Z0-9_-]*)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\'>]+?)(?=\s*/?>|\s|/$|$))@xsi';
 
         $attrs = array();
         if (preg_match_all($attribute_pattern, $html_tag, $attrs1, PREG_SET_ORDER)) {

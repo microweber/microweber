@@ -505,9 +505,9 @@ trait ParserEditFieldsTrait
             foreach ($modinner[0] as $item) {
 
                 //  preg_match_all($pattern,$item,$matches,PREG_SET_ORDER);
-                $result = $this->utils->parseAttributes($item);
+                $result = $this->attributeParser->parse($item);
 
-                $ed_fields_attr = $this->utils->getEditFieldAttributesFromParsedAttributes($result);
+                $ed_fields_attr = $this->attributeParser->getEditFieldAttributes($result);
 
 
                 if (isset($ed_fields_attr['field']) and isset($ed_fields_attr['rel'])) {
@@ -589,7 +589,7 @@ trait ParserEditFieldsTrait
                     $v1 = '<mw-unprocessed-module-tag>mw_replace_back_this_module_for_processing_' . $v1 . '</mw-unprocessed-module-tag>';
                     if (!$this->parser_modules_collection->has($v1)) {
 
-                        $attrs = $this->utils->parseAttributes($value);
+                        $attrs = $this->attributeParser->parse($value);
 
 
                         pq($elem)->replaceWith($v1);
@@ -689,7 +689,7 @@ trait ParserEditFieldsTrait
 //        $els_mod_inner = $pq_mod_inner['.edit'];
 
 
-        $tags = ['script', 'code', 'textarea', 'style', 'select'];
+        $tags = ['script', 'code', 'textarea', 'style', 'select', 'pre', 'optgroup'];
 
         foreach ($tags as $tag) {
 
@@ -716,7 +716,24 @@ trait ParserEditFieldsTrait
         }
 
 
-        $script_pattern = "/<!--(?!<!)[^\[>].*?-->/";
+        // Protect Blade comments {{-- ... --}} (must come before HTML comments)
+        $blade_comment_pattern = '/\{\{--[\s\S]*?--\}\}/';
+        preg_match_all($blade_comment_pattern, $mod_content, $mw_blade_matches);
+        if (!empty($mw_blade_matches)) {
+            foreach ($mw_blade_matches[0] as $key => $value) {
+                if ($value != '') {
+                    $v1 = crc32($value);
+                    $v1 = '<tag-comment>mw_replace_back_this_blade_comment_code_' . $v1 . '</tag-comment>';
+                    $mod_content = str_replace($value, $v1, $mod_content);
+                    if (!isset($this->_mw_parser_replaced_html_comments[$v1])) {
+                        $this->_mw_parser_replaced_html_comments[$v1] = $value;
+                    }
+                }
+            }
+        }
+
+        // Protect HTML comments <!-- ... -->
+        $script_pattern = "/<!--[\s\S]*?-->/";
         preg_match_all($script_pattern, $mod_content, $mw_script_matches);
         if (!empty($mw_script_matches)) {
             foreach ($mw_script_matches [0] as $key => $value) {

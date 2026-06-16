@@ -74,6 +74,27 @@ class FrontendController extends Controller
             $this->debugbarEnabled = \Debugbar::isEnabled();;
         }
 
+        // Per-request override (test/diagnostic aid): the LayoutProcessor parser
+        // is the default; ?use_legacy_parser=1 forces THIS request onto the
+        // legacy parser (=0 forces the new one). Honoured only when app.debug is
+        // on OR an admin is logged in, so an anonymous visitor cannot flip the
+        // parser in production. It changes only the current (read-only) render —
+        // no persistence. The legacy `?use_layout_processor=0|1` alias is kept
+        // for back-compat.
+        if (Config::get('app.debug') || is_admin()) {
+            if (request()->has('use_legacy_parser')) {
+                Config::set(
+                    'microweber.use_legacy_parser',
+                    filter_var(request()->get('use_legacy_parser'), FILTER_VALIDATE_BOOLEAN)
+                );
+            } elseif (request()->has('use_layout_processor')) {
+                Config::set(
+                    'microweber.use_legacy_parser',
+                    !filter_var(request()->get('use_layout_processor'), FILTER_VALIDATE_BOOLEAN)
+                );
+            }
+        }
+
         if (Config::get('microweber.force_https') && !is_cli() && !is_https()) {
             $https = str_ireplace('http://', 'https://', url_current());
             return mw()->url_manager->redirect($https);

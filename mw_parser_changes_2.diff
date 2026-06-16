@@ -1,0 +1,3033 @@
+diff --git a/src/MicroweberPackages/App/Utils/Parser.php b/src/MicroweberPackages/App/Utils/Parser.php
+index bcd960b..94c747b 100644
+--- a/src/MicroweberPackages/App/Utils/Parser.php
++++ b/src/MicroweberPackages/App/Utils/Parser.php
+@@ -871,7 +871,7 @@ $srsc_str
+     {
+         $value = $module_tag;
+         $attrs = array();
+-        $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
++        $attribute_pattern = '@(?P<name>[a-zA-Z_][a-zA-Z0-9_-]*)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\'/>]+))@xsi';
+         $mw_attrs_key_value_seperator = "__MW_PARSER_ATTR_VAL__";
+         if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
+             foreach ($attrs1 as $item) {
+diff --git a/src/MicroweberPackages/App/Utils/ParserEditFieldsTrait.php b/src/MicroweberPackages/App/Utils/ParserEditFieldsTrait.php
+index d3cd4d2..e5250d9 100644
+--- a/src/MicroweberPackages/App/Utils/ParserEditFieldsTrait.php
++++ b/src/MicroweberPackages/App/Utils/ParserEditFieldsTrait.php
+@@ -505,9 +505,9 @@ trait ParserEditFieldsTrait
+             foreach ($modinner[0] as $item) {
+ 
+                 //  preg_match_all($pattern,$item,$matches,PREG_SET_ORDER);
+-                $result = $this->utils->parseAttributes($item);
++                $result = $this->attributeParser->parse($item);
+ 
+-                $ed_fields_attr = $this->utils->getEditFieldAttributesFromParsedAttributes($result);
++                $ed_fields_attr = $this->attributeParser->getEditFieldAttributes($result);
+ 
+ 
+                 if (isset($ed_fields_attr['field']) and isset($ed_fields_attr['rel'])) {
+@@ -589,7 +589,7 @@ trait ParserEditFieldsTrait
+                     $v1 = '<mw-unprocessed-module-tag>mw_replace_back_this_module_for_processing_' . $v1 . '</mw-unprocessed-module-tag>';
+                     if (!$this->parser_modules_collection->has($v1)) {
+ 
+-                        $attrs = $this->utils->parseAttributes($value);
++                        $attrs = $this->attributeParser->parse($value);
+ 
+ 
+                         pq($elem)->replaceWith($v1);
+@@ -689,7 +689,7 @@ trait ParserEditFieldsTrait
+ //        $els_mod_inner = $pq_mod_inner['.edit'];
+ 
+ 
+-        $tags = ['script', 'code', 'textarea', 'style', 'select'];
++        $tags = ['script', 'code', 'textarea', 'style', 'select', 'pre', 'optgroup'];
+ 
+         foreach ($tags as $tag) {
+ 
+@@ -716,7 +716,24 @@ trait ParserEditFieldsTrait
+         }
+ 
+ 
+-        $script_pattern = "/<!--(?!<!)[^\[>].*?-->/";
++        // Protect Blade comments {{-- ... --}} (must come before HTML comments)
++        $blade_comment_pattern = '/\{\{--[\s\S]*?--\}\}/';
++        preg_match_all($blade_comment_pattern, $mod_content, $mw_blade_matches);
++        if (!empty($mw_blade_matches)) {
++            foreach ($mw_blade_matches[0] as $key => $value) {
++                if ($value != '') {
++                    $v1 = crc32($value);
++                    $v1 = '<tag-comment>mw_replace_back_this_blade_comment_code_' . $v1 . '</tag-comment>';
++                    $mod_content = str_replace($value, $v1, $mod_content);
++                    if (!isset($this->_mw_parser_replaced_html_comments[$v1])) {
++                        $this->_mw_parser_replaced_html_comments[$v1] = $value;
++                    }
++                }
++            }
++        }
++
++        // Protect HTML comments <!-- ... -->
++        $script_pattern = "/<!--[\s\S]*?-->/";
+         preg_match_all($script_pattern, $mod_content, $mw_script_matches);
+         if (!empty($mw_script_matches)) {
+             foreach ($mw_script_matches [0] as $key => $value) {
+diff --git a/src/MicroweberPackages/App/Utils/ParserHelpers/AttributeParser.php b/src/MicroweberPackages/App/Utils/ParserHelpers/AttributeParser.php
+new file mode 100644
+index 0000000..c166f00
+--- /dev/null
++++ b/src/MicroweberPackages/App/Utils/ParserHelpers/AttributeParser.php
+@@ -0,0 +1,186 @@
++<?php
++
++namespace MicroweberPackages\App\Utils\ParserHelpers;
++
++/**
++ * Parses HTML-style attribute strings into key→value maps.
++ *
++ * Fixes over the legacy regex:
++ *  - Supports digits in attribute names (data-col-2)
++ *  - Handles escaped quotes inside values (title="say \"hi\"")
++ *  - Unquoted values are trimmed correctly
++ *  - Duplicate attributes: first wins (HTML spec)
++ *  - Attribute values containing =, <, > are handled
++ */
++class AttributeParser
++{
++    /**
++     * Parse an attribute string (or a full <tag ...> string) into key→value pairs.
++     *
++     * @param string $input  A tag string like '<module type="foo" data-col-2="bar"/>'
++     *                       or just the attribute portion 'type="foo" data-col-2="bar"'
++     * @return array<string, string>
++     */
++    public function parse(string $input): array
++    {
++        $attrs = [];
++        $len = strlen($input);
++        $pos = 0;
++
++        while ($pos < $len) {
++            // Skip whitespace
++            $pos = $this->skipWhitespace($input, $pos, $len);
++            if ($pos >= $len) {
++                break;
++            }
++
++            // Skip < tag-name at start, </tag> closing tags, and /> or > at end
++            $ch = $input[$pos];
++            if ($ch === '<') {
++                $pos++;
++                // Check for closing tag </...>
++                if ($pos < $len && $input[$pos] === '/') {
++                    // Skip everything until >
++                    while ($pos < $len && $input[$pos] !== '>') {
++                        $pos++;
++                    }
++                    if ($pos < $len) {
++                        $pos++; // skip the >
++                    }
++                } else {
++                    // Opening tag — skip the tag name
++                    $pos = $this->skipTagName($input, $pos, $len);
++                }
++                continue;
++            }
++            if ($ch === '/' || $ch === '>') {
++                $pos++;
++                continue;
++            }
++
++            // Try to read an attribute name
++            $nameStart = $pos;
++            while ($pos < $len && $this->isAttrNameChar($input[$pos])) {
++                $pos++;
++            }
++
++            if ($pos === $nameStart) {
++                // No attribute name found — skip this character
++                $pos++;
++                continue;
++            }
++
++            $name = substr($input, $nameStart, $pos - $nameStart);
++
++            // Skip whitespace
++            $pos = $this->skipWhitespace($input, $pos, $len);
++
++            // Check for = sign
++            if ($pos < $len && $input[$pos] === '=') {
++                $pos++; // skip =
++                $pos = $this->skipWhitespace($input, $pos, $len);
++
++                // Read the value
++                if ($pos < $len && ($input[$pos] === '"' || $input[$pos] === "'")) {
++                    // Quoted value
++                    $quote = $input[$pos];
++                    $pos++; // skip opening quote
++                    $value = '';
++                    while ($pos < $len) {
++                        if ($input[$pos] === '\\' && ($pos + 1) < $len && $input[$pos + 1] === $quote) {
++                            // Escaped quote
++                            $value .= $quote;
++                            $pos += 2;
++                        } elseif ($input[$pos] === $quote) {
++                            $pos++; // skip closing quote
++                            break;
++                        } else {
++                            $value .= $input[$pos];
++                            $pos++;
++                        }
++                    }
++                } else {
++                    // Unquoted value — read until whitespace or > or /
++                    $valueStart = $pos;
++                    while ($pos < $len) {
++                        $c = $input[$pos];
++                        if ($c === ' ' || $c === "\t" || $c === "\n" || $c === "\r"
++                            || $c === '>' || $c === '/') {
++                            break;
++                        }
++                        $pos++;
++                    }
++                    $value = substr($input, $valueStart, $pos - $valueStart);
++                }
++            } else {
++                // Boolean attribute (no value)
++                $value = $name;
++            }
++
++            // First wins for duplicate attributes (HTML spec)
++            if (!array_key_exists($name, $attrs)) {
++                $attrs[$name] = $value;
++            }
++        }
++
++        return $attrs;
++    }
++
++    /**
++     * Check if a character is valid in an attribute name.
++     * Allows: a-z, A-Z, 0-9, -, _
++     */
++    private function isAttrNameChar(string $ch): bool
++    {
++        return ($ch >= 'a' && $ch <= 'z')
++            || ($ch >= 'A' && $ch <= 'Z')
++            || ($ch >= '0' && $ch <= '9')
++            || $ch === '-'
++            || $ch === '_';
++    }
++
++    private function skipWhitespace(string $input, int $pos, int $len): int
++    {
++        while ($pos < $len && ($input[$pos] === ' ' || $input[$pos] === "\t"
++                || $input[$pos] === "\n" || $input[$pos] === "\r")) {
++            $pos++;
++        }
++        return $pos;
++    }
++
++    private function skipTagName(string $input, int $pos, int $len): int
++    {
++        // Skip the tag name (e.g., "module", "div")
++        while ($pos < $len && $input[$pos] !== ' ' && $input[$pos] !== "\t"
++            && $input[$pos] !== "\n" && $input[$pos] !== "\r"
++            && $input[$pos] !== '>' && $input[$pos] !== '/') {
++            $pos++;
++        }
++        return $pos;
++    }
++
++    /**
++     * Convenience: get the module type from parsed attributes.
++     * Checks 'type', 'data-type', 'module', 'data-module' in priority order.
++     */
++    public function getModuleType(array $attrs): ?string
++    {
++        return $attrs['type'] ?? $attrs['data-type'] ?? $attrs['module'] ?? $attrs['data-module'] ?? null;
++    }
++
++    /**
++     * Convenience: get edit field attributes.
++     */
++    public function getEditFieldAttributes(array $attrs): array
++    {
++        $field = $attrs['field'] ?? $attrs['data-field'] ?? null;
++        $rel = $attrs['rel'] ?? $attrs['data-rel'] ?? null;
++        $relId = $attrs['rel_id'] ?? $attrs['rel-id'] ?? $attrs['data-rel-id'] ?? $attrs['data-id'] ?? null;
++
++        return [
++            'field' => $field,
++            'rel' => $rel,
++            'rel_id' => $relId,
++        ];
++    }
++}
+diff --git a/src/MicroweberPackages/App/Utils/ParserHelpers/ContentProtector.php b/src/MicroweberPackages/App/Utils/ParserHelpers/ContentProtector.php
+new file mode 100644
+index 0000000..a25f269
+--- /dev/null
++++ b/src/MicroweberPackages/App/Utils/ParserHelpers/ContentProtector.php
+@@ -0,0 +1,173 @@
++<?php
++
++namespace MicroweberPackages\App\Utils\ParserHelpers;
++
++/**
++ * Shields content regions from module parsing.
++ *
++ * Regions that must NOT be parsed for <module> tags:
++ *   - <script>...</script>
++ *   - <textarea>...</textarea>
++ *   - <code>...</code>
++ *   - <pre>...</pre>
++ *   - <style>...</style>
++ *   - <select>...</select>
++ *   - <input .../> (void, but value attributes)
++ *   - <option>...</option>
++ *   - <optgroup>...</optgroup>
++ *   - HTML comments <!-- ... -->
++ *   - Blade comments {{-- ... --}}
++ *
++ * Each region is replaced with a unique placeholder, and can be
++ * restored byte-for-byte after parsing.
++ */
++class ContentProtector
++{
++    /** @var array<string, string> placeholder → original content */
++    private array $replacements = [];
++
++    /** @var array<string, string> comment placeholder → original */
++    private array $commentReplacements = [];
++
++    /** @var int counter for unique placeholders */
++    private int $counter = 0;
++
++    /**
++     * Protect all known regions in the given content.
++     * Returns the content with placeholders.
++     */
++    public function protect(string $content): string
++    {
++        // 1. Protect Blade comments first (before HTML comments, since
++        //    {{-- may contain <!-- internally)
++        $content = $this->protectBladeComments($content);
++
++        // 2. Protect HTML comments
++        $content = $this->protectHtmlComments($content);
++
++        // 3. Protect paired tags
++        $protectedTags = ['script', 'textarea', 'code', 'pre', 'style', 'select', 'optgroup'];
++        foreach ($protectedTags as $tag) {
++            $content = $this->protectPairedTag($content, $tag);
++        }
++
++        return $content;
++    }
++
++    /**
++     * Restore all placeholders back to original content.
++     */
++    public function restore(string $content): string
++    {
++        // Restore tag placeholders
++        foreach ($this->replacements as $placeholder => $original) {
++            $content = str_replace($placeholder, $original, $content);
++        }
++
++        // Restore comment placeholders
++        foreach ($this->commentReplacements as $placeholder => $original) {
++            $content = str_replace($placeholder, $original, $content);
++        }
++
++        return $content;
++    }
++
++    /**
++     * Get all tag replacements (for backward compatibility with old code).
++     */
++    public function getReplacements(): array
++    {
++        return $this->replacements;
++    }
++
++    /**
++     * Get comment replacements separately.
++     */
++    public function getCommentReplacements(): array
++    {
++        return $this->commentReplacements;
++    }
++
++    /**
++     * Reset internal state.
++     */
++    public function reset(): void
++    {
++        $this->replacements = [];
++        $this->commentReplacements = [];
++        $this->counter = 0;
++    }
++
++    /**
++     * Protect a paired HTML tag (e.g., <script>...</script>).
++     * Uses a state machine instead of regex for robustness.
++     */
++    private function protectPairedTag(string $content, string $tag): string
++    {
++        $pattern = "/\<" . preg_quote($tag, '/') . "(\s[^>]*)?\>.*?\<\/" . preg_quote($tag, '/') . "\>/is";
++        preg_match_all($pattern, $content, $matches);
++
++        if (!empty($matches[0])) {
++            foreach ($matches[0] as $value) {
++                if ($value !== '') {
++                    $placeholder = $this->makePlaceholder('tag_' . $tag);
++                    $content = str_replace($value, $placeholder, $content);
++                    $this->replacements[$placeholder] = $value;
++                }
++            }
++        }
++
++        return $content;
++    }
++
++    /**
++     * Protect HTML comments <!-- ... -->.
++     */
++    private function protectHtmlComments(string $content): string
++    {
++        $pattern = '/<!--[\s\S]*?-->/';
++        preg_match_all($pattern, $content, $matches);
++
++        if (!empty($matches[0])) {
++            foreach ($matches[0] as $value) {
++                if ($value !== '') {
++                    $placeholder = $this->makePlaceholder('html_comment');
++                    $content = str_replace($value, $placeholder, $content);
++                    $this->commentReplacements[$placeholder] = $value;
++                }
++            }
++        }
++
++        return $content;
++    }
++
++    /**
++     * Protect Blade comments {{-- ... --}}.
++     */
++    private function protectBladeComments(string $content): string
++    {
++        $pattern = '/\{\{--[\s\S]*?--\}\}/';
++        preg_match_all($pattern, $content, $matches);
++
++        if (!empty($matches[0])) {
++            foreach ($matches[0] as $value) {
++                if ($value !== '') {
++                    $placeholder = $this->makePlaceholder('blade_comment');
++                    $content = str_replace($value, $placeholder, $content);
++                    $this->commentReplacements[$placeholder] = $value;
++                }
++            }
++        }
++
++        return $content;
++    }
++
++    /**
++     * Generate a unique placeholder string.
++     */
++    private function makePlaceholder(string $type): string
++    {
++        $this->counter++;
++        return '<mw-protected data-type="' . $type . '" data-id="' . $this->counter . '"/>';
++    }
++}
+diff --git a/src/MicroweberPackages/App/Utils/ParserHelpers/EditFieldExtractor.php b/src/MicroweberPackages/App/Utils/ParserHelpers/EditFieldExtractor.php
+new file mode 100644
+index 0000000..aa6d4c4
+--- /dev/null
++++ b/src/MicroweberPackages/App/Utils/ParserHelpers/EditFieldExtractor.php
+@@ -0,0 +1,141 @@
++<?php
++
++namespace MicroweberPackages\App\Utils\ParserHelpers;
++
++/**
++ * Extracts and identifies editable field regions from HTML markup.
++ *
++ * An edit field is any element with class="edit" and attributes:
++ *   - field="..."  (or data-field)
++ *   - rel="..."    (or data-rel): content, global, inherit, module, page, post
++ *   - rel-id="..." (or rel_id, data-rel-id, data-id): optional content/category ID
++ *
++ * This class handles:
++ *  - Finding all .edit regions in the HTML
++ *  - Extracting their field/rel/rel_id attributes
++ *  - Determining scoping (content vs global vs inherit vs module)
++ *  - Detecting nested edit fields
++ */
++class EditFieldExtractor
++{
++    private AttributeParser $attrParser;
++
++    public function __construct(?AttributeParser $attrParser = null)
++    {
++        $this->attrParser = $attrParser ?? new AttributeParser();
++    }
++
++    /**
++     * Find all edit field opening tags in the HTML.
++     *
++     * Returns an array of associative arrays:
++     *   [
++     *     'tag'      => full opening tag string,
++     *     'field'    => field name,
++     *     'rel'      => rel type (content, global, inherit, module, page, post),
++     *     'rel_id'   => rel ID or null,
++     *     'offset'   => byte offset in the HTML,
++     *   ]
++     *
++     * @param string $html
++     * @return array
++     */
++    public function findEditFields(string $html): array
++    {
++        $fields = [];
++
++        // Match elements with class containing "edit"
++        // This uses a regex to find opening tags with class="...edit..."
++        $pattern = '/<([a-z][a-z0-9]*)\s[^>]*class\s*=\s*["\'][^"\']*\bedit\b[^"\']*["\'][^>]*>/is';
++        preg_match_all($pattern, $html, $matches, PREG_OFFSET_CAPTURE);
++
++        if (!empty($matches[0])) {
++            foreach ($matches[0] as $match) {
++                $tag = $match[0];
++                $offset = $match[1];
++
++                $attrs = $this->attrParser->parse($tag);
++                $efAttrs = $this->attrParser->getEditFieldAttributes($attrs);
++
++                if ($efAttrs['field'] !== null) {
++                    $fields[] = [
++                        'tag' => $tag,
++                        'field' => $efAttrs['field'],
++                        'rel' => $efAttrs['rel'] ?? 'page',
++                        'rel_id' => $efAttrs['rel_id'],
++                        'offset' => $offset,
++                    ];
++                }
++            }
++        }
++
++        return $fields;
++    }
++
++    /**
++     * Check if the HTML contains any edit fields that need parsing.
++     */
++    public function hasEditFields(string $html): bool
++    {
++        return !empty($this->findEditFields($html));
++    }
++
++    /**
++     * Determine the content ID for a given edit field based on its rel type.
++     *
++     * @param string      $rel        The rel type
++     * @param string|null $relId      Explicit rel-id from the tag
++     * @param int|null    $currentContentId  The current page/content ID
++     * @param callable|null $getInheritedParent  Callback to resolve inherited parent
++     * @return int|null
++     */
++    public function resolveContentId(
++        string   $rel,
++        ?string  $relId = null,
++        ?int     $currentContentId = null,
++        ?callable $getInheritedParent = null
++    ): ?int {
++        switch ($rel) {
++            case 'content':
++            case 'page':
++            case 'post':
++            case 'product':
++                if ($relId !== null && $relId !== '') {
++                    return (int)$relId;
++                }
++                return $currentContentId;
++
++            case 'inherit':
++                $baseId = ($relId !== null && $relId !== '') ? (int)$relId : $currentContentId;
++                if ($getInheritedParent !== null && $baseId !== null) {
++                    $inherited = $getInheritedParent($baseId);
++                    return $inherited ?: $baseId;
++                }
++                return $baseId;
++
++            case 'global':
++                return null;
++
++            case 'module':
++                return null;
++
++            default:
++                return $currentContentId;
++        }
++    }
++
++    /**
++     * Determine the scope key for module ID allocation.
++     *
++     * @param string   $rel
++     * @param int|null $contentId
++     * @return string
++     */
++    public function getScopeKey(string $rel, ?int $contentId): string
++    {
++        if ($rel === 'global' || $rel === 'module' || $contentId === null) {
++            return 'global';
++        }
++        return (string)$contentId;
++    }
++}
+diff --git a/src/MicroweberPackages/App/Utils/ParserHelpers/LayoutProcessor.php b/src/MicroweberPackages/App/Utils/ParserHelpers/LayoutProcessor.php
+new file mode 100644
+index 0000000..9cbfacb
+--- /dev/null
++++ b/src/MicroweberPackages/App/Utils/ParserHelpers/LayoutProcessor.php
+@@ -0,0 +1,229 @@
++<?php
++
++namespace MicroweberPackages\App\Utils\ParserHelpers;
++
++/**
++ * Top-level orchestrator that runs all parser helpers over a full layout string.
++ *
++ * This is a thin coordinator that:
++ *  1. Uses ContentProtector to shield script/textarea/code/comments
++ *  2. Uses TagLexer to find all <module> tags
++ *  3. Uses AttributeParser to parse each tag's attributes
++ *  4. Uses EditFieldExtractor to identify .edit field scopes
++ *  5. Uses ModuleIdAllocator to assign stable IDs
++ *  6. Uses ModuleRenderer to render each module
++ *  7. Restores protected regions
++ *
++ * This class does NOT replace ParserProcessor yet — it's the new
++ * coordinator that ParserProcessor will delegate to incrementally.
++ */
++class LayoutProcessor
++{
++    private TagLexer $lexer;
++    private AttributeParser $attrParser;
++    private ContentProtector $protector;
++    private ModuleIdAllocator $idAllocator;
++    private ModuleRenderer $renderer;
++    private EditFieldExtractor $editFieldExtractor;
++
++    public function __construct(
++        ?TagLexer $lexer = null,
++        ?AttributeParser $attrParser = null,
++        ?ContentProtector $protector = null,
++        ?ModuleIdAllocator $idAllocator = null,
++        ?ModuleRenderer $renderer = null,
++        ?EditFieldExtractor $editFieldExtractor = null
++    ) {
++        $this->lexer = $lexer ?? new TagLexer();
++        $this->attrParser = $attrParser ?? new AttributeParser();
++        $this->protector = $protector ?? new ContentProtector();
++        $this->idAllocator = $idAllocator ?? new ModuleIdAllocator();
++        $this->renderer = $renderer ?? new ModuleRenderer();
++        $this->editFieldExtractor = $editFieldExtractor ?? new EditFieldExtractor($this->attrParser);
++    }
++
++    /**
++     * Get the helper instances for direct access when needed.
++     */
++    public function getLexer(): TagLexer
++    {
++        return $this->lexer;
++    }
++
++    public function getAttributeParser(): AttributeParser
++    {
++        return $this->attrParser;
++    }
++
++    public function getContentProtector(): ContentProtector
++    {
++        return $this->protector;
++    }
++
++    public function getModuleIdAllocator(): ModuleIdAllocator
++    {
++        return $this->idAllocator;
++    }
++
++    public function getModuleRenderer(): ModuleRenderer
++    {
++        return $this->renderer;
++    }
++
++    public function getEditFieldExtractor(): EditFieldExtractor
++    {
++        return $this->editFieldExtractor;
++    }
++
++    /**
++     * Process a layout string: protect regions, find modules, allocate IDs.
++     *
++     * This is a simplified processing pipeline that demonstrates the
++     * coordination between helpers. The full ParserProcessor integration
++     * adds module loading, edit field content loading, and recursive processing.
++     *
++     * @param string   $layout          The HTML layout to process
++     * @param int|null $contentId       Current content ID
++     * @param callable|null $moduleLoader  Callback to load module content: fn(string $type, array $attrs) => string
++     * @return string
++     */
++    public function process(string $layout, ?int $contentId = null, ?callable $moduleLoader = null): string
++    {
++        if ($layout === '') {
++            return '';
++        }
++
++        // Step 1: Protect regions
++        $this->protector->reset();
++        $layout = $this->protector->protect($layout);
++
++        // Step 2: Normalize tag aliases
++        $layout = str_replace('<mw ', '<module ', $layout);
++        $layout = str_replace('<editable ', '<div class="edit" ', $layout);
++        $layout = str_replace('</editable>', '</div>', $layout);
++        $layout = str_replace('<microweber module=', '<module data-type=', $layout);
++        $layout = str_replace('</microweber>', '', $layout);
++        $layout = str_replace('></module>', '/>', $layout);
++
++        // Step 3: Find edit fields and determine scopes
++        $editFields = $this->editFieldExtractor->findEditFields($layout);
++
++        // Step 4: Find and process module tags
++        // Process in forward order so ID allocation is deterministic
++        $moduleTags = $this->lexer->findModuleTags($layout);
++
++        foreach ($moduleTags as $tagInfo) {
++            $tag = $tagInfo['tag'];
++            $attrs = $this->attrParser->parse($tag);
++            $moduleName = $this->attrParser->getModuleType($attrs);
++
++            if ($moduleName === null || $moduleName === '') {
++                // Empty module — replace with nothing (fixes placeholder leak)
++                $layout = $this->strReplaceFirst($tag, '', $layout);
++                continue;
++            }
++
++            // Determine the edit field scope for this module
++            // Use strpos to find the current position of the tag in the (potentially modified) layout
++            $currentOffset = strpos($layout, $tag);
++            if ($currentOffset === false) {
++                continue;
++            }
++            $scope = $this->determineScope($currentOffset, $editFields, $contentId);
++
++            // Allocate ID
++            $existingId = $attrs['id'] ?? null;
++            $moduleId = $this->idAllocator->allocate(
++                $moduleName,
++                $existingId,
++                $scope['rel'],
++                $scope['field'],
++                $scope['contentId'],
++                $scope['scopeKey']
++            );
++
++            $attrs['id'] = $moduleId;
++            $attrs['data-type'] = $moduleName;
++
++            // Load module content
++            $content = '';
++            if ($moduleLoader !== null) {
++                $loadResult = $moduleLoader($moduleName, $attrs);
++                if (is_string($loadResult)) {
++                    $content = $loadResult;
++                }
++            }
++
++            // Determine rendering options
++            $noWrap = $this->renderer->isNoWrap($attrs);
++            $asElement = $this->renderer->isAsElement($attrs);
++            $userClass = $attrs['class'] ?? '';
++
++            // Render
++            $rendered = $this->renderer->render(
++                $moduleName, $moduleId, $attrs, $content,
++                'div', $noWrap, $userClass, $asElement
++            );
++
++            // Replace only the first occurrence to handle duplicate tags correctly
++            $layout = $this->strReplaceFirst($tag, $rendered, $layout);
++        }
++
++        // Step 5: Restore protected regions
++        $layout = $this->protector->restore($layout);
++
++        return $layout;
++    }
++
++    /**
++     * Determine the edit field scope for a module at a given offset.
++     *
++     * Finds the innermost enclosing .edit field.
++     */
++    private function determineScope(int $offset, array $editFields, ?int $contentId): array
++    {
++        $scope = [
++            'rel' => '',
++            'field' => null,
++            'contentId' => $contentId,
++            'scopeKey' => 'global',
++        ];
++
++        // Find the closest enclosing edit field (the one with the largest offset < module offset)
++        $closest = null;
++        foreach ($editFields as $ef) {
++            if ($ef['offset'] < $offset) {
++                if ($closest === null || $ef['offset'] > $closest['offset']) {
++                    $closest = $ef;
++                }
++            }
++        }
++
++        if ($closest !== null) {
++            $scope['rel'] = $closest['rel'];
++            $scope['field'] = $closest['field'];
++
++            $resolvedId = $this->editFieldExtractor->resolveContentId(
++                $closest['rel'],
++                $closest['rel_id'],
++                $contentId
++            );
++            $scope['contentId'] = $resolvedId;
++            $scope['scopeKey'] = $this->editFieldExtractor->getScopeKey($closest['rel'], $resolvedId);
++        }
++
++        return $scope;
++    }
++
++    /**
++     * Replace only the first occurrence of a string.
++     */
++    private function strReplaceFirst(string $search, string $replace, string $subject): string
++    {
++        $pos = strpos($subject, $search);
++        if ($pos !== false) {
++            return substr_replace($subject, $replace, $pos, strlen($search));
++        }
++        return $subject;
++    }
++}
+diff --git a/src/MicroweberPackages/App/Utils/ParserHelpers/ModuleIdAllocator.php b/src/MicroweberPackages/App/Utils/ParserHelpers/ModuleIdAllocator.php
+new file mode 100644
+index 0000000..4147436
+--- /dev/null
++++ b/src/MicroweberPackages/App/Utils/ParserHelpers/ModuleIdAllocator.php
+@@ -0,0 +1,208 @@
++<?php
++
++namespace MicroweberPackages\App\Utils\ParserHelpers;
++
++/**
++ * Assigns stable, unique module IDs following the legacy rules.
++ *
++ * ID generation rules:
++ *
++ * 1. If a module has an explicit `id` attribute, use it as-is (never touch it).
++ *
++ * 2. Otherwise, build the base ID from the module type:
++ *    base = moduleCssClass(type)         e.g. "module-btn"
++ *
++ * 3. If the module is inside an edit field with rel=content/page/post/product:
++ *    → append "-{contentId}"             e.g. "module-btn-3"
++ *    If rel=inherit:
++ *    → append "-{inheritedParentId}"     e.g. "module-btn-3"
++ *    If rel=global or rel=module or no edit field:
++ *    → no content id appended            e.g. "module-btn"
++ *
++ * 4. If the module is inside a parent module's edit field with rel=module:
++ *    → prefix the parent field:          e.g. "{parentField}-module-btn"
++ *
++ * 5. Duplicate modules of the same type in the same scope get "--N":
++ *    First  → module-btn-3
++ *    Second → module-btn-3--1
++ *    Third  → module-btn-3--2
++ *
++ * 6. Nested edit fields create separate scopes.
++ *    Inner <div class="edit" rel="content" field="x" rel-id="1"> resets
++ *    the counter for that scope.
++ *
++ * 7. IDs are cleaned: /, \, _, space, ;, ., # → - and lowercased.
++ */
++class ModuleIdAllocator
++{
++    /**
++     * Tracks how many modules of each type have been seen per scope.
++     * Key = scope identifier, Value = [moduleName => count]
++     * @var array<string, array<string, int>>
++     */
++    private array $counters = [];
++
++    /**
++     * Tracks all allocated IDs per scope to detect collisions.
++     * @var array<string, array<string, true>>
++     */
++    private array $allocatedIds = [];
++
++    /**
++     * Global set of all allocated IDs (cross-scope).
++     * @var array<string, true>
++     */
++    private array $globalIds = [];
++
++    /**
++     * IDs that are known to come from the database (pre-existing).
++     * @var array<string, true>
++     */
++    private array $databaseIds = [];
++
++    /**
++     * Allocate an ID for a module tag.
++     *
++     * @param string      $moduleName  The module type (e.g. "btn", "layouts")
++     * @param string|null $existingId  Explicit id attribute from the tag, or null
++     * @param string      $editRel     The rel attribute of the enclosing .edit field (e.g. "content", "global")
++     * @param string|null $editField   The field attribute of the enclosing .edit field
++     * @param int|null    $contentId   The content ID to use for content-scoped modules
++     * @param string      $scope       A scope identifier (e.g. the content_id or "global")
++     * @param string|null $parentModuleField  If rel=module, the parent module's field name
++     * @return string                  The allocated module ID
++     */
++    public function allocate(
++        string  $moduleName,
++        ?string $existingId = null,
++        string  $editRel = '',
++        ?string $editField = null,
++        ?int    $contentId = null,
++        string  $scope = 'global',
++        ?string $parentModuleField = null
++    ): string {
++        // Rule 1: explicit ID is never touched
++        if ($existingId !== null && $existingId !== '') {
++            $this->registerAllocatedId($scope, $existingId);
++            return $existingId;
++        }
++
++        // Rule 2: build base ID
++        $baseId = $this->moduleCssClass($moduleName);
++
++        // Rule 4: parent module field prefix
++        if ($parentModuleField !== null && $editRel === 'module') {
++            $baseId = $parentModuleField . '-' . $baseId;
++        }
++
++        // Clean the base ID
++        $baseId = $this->cleanModId($baseId);
++
++        // Rule 3: append content ID based on rel
++        $appendContentId = $this->shouldAppendContentId($editRel);
++        if ($appendContentId && $contentId !== null) {
++            $baseId = $baseId . '-' . $contentId;
++        }
++
++        // Rule 5: handle duplicates within the scope
++        if (!isset($this->counters[$scope])) {
++            $this->counters[$scope] = [];
++        }
++        if (!isset($this->counters[$scope][$moduleName])) {
++            $this->counters[$scope][$moduleName] = 0;
++        }
++
++        $count = $this->counters[$scope][$moduleName];
++        $modId = $count === 0 ? $baseId : $baseId . '--' . $count;
++
++        // Handle collisions with database IDs or previously allocated IDs
++        while ($this->isCollision($scope, $modId)) {
++            $count++;
++            $modId = $baseId . '--' . $count;
++        }
++
++        $this->counters[$scope][$moduleName] = $count + 1;
++        $this->registerAllocatedId($scope, $modId);
++
++        return $modId;
++    }
++
++    /**
++     * Register an ID that exists in the database.
++     */
++    public function registerDatabaseId(string $id): void
++    {
++        $this->databaseIds[$id] = true;
++    }
++
++    /**
++     * Check if an ID is from the database.
++     */
++    public function isDatabaseId(string $id): bool
++    {
++        return isset($this->databaseIds[$id]);
++    }
++
++    /**
++     * Reset all state.
++     */
++    public function reset(): void
++    {
++        $this->counters = [];
++        $this->allocatedIds = [];
++        $this->globalIds = [];
++        $this->databaseIds = [];
++    }
++
++    /**
++     * Determine if content ID should be appended based on the edit field rel.
++     */
++    private function shouldAppendContentId(string $rel): bool
++    {
++        return in_array($rel, ['content', 'page', 'post', 'product', 'inherit'], true);
++    }
++
++    /**
++     * Generate the CSS class name for a module (used as ID base).
++     */
++    public function moduleCssClass(string $moduleName): string
++    {
++        $class = str_replace('/', '-', $moduleName);
++        $class = str_replace('\\', '-', $class);
++        $class = str_replace(' ', '-', $class);
++        $class = str_replace('%20', '-', $class);
++        $class = str_replace('_', '-', $class);
++        return 'module-' . strtolower($class);
++    }
++
++    /**
++     * Clean a module ID string.
++     */
++    public function cleanModId(string $modId): string
++    {
++        $modId = str_replace(' ', '-', $modId);
++        $modId = str_replace('/', '-', $modId);
++        $modId = str_replace('\\', '-', $modId);
++        $modId = str_replace('_', '-', $modId);
++        $modId = str_replace(';', '-', $modId);
++        $modId = str_replace('.', '-', $modId);
++        $modId = str_replace('#', '-', $modId);
++        $modId = strtolower($modId);
++        return trim($modId);
++    }
++
++    private function isCollision(string $scope, string $modId): bool
++    {
++        return isset($this->allocatedIds[$scope][$modId])
++            || isset($this->databaseIds[$modId]);
++    }
++
++    private function registerAllocatedId(string $scope, string $modId): void
++    {
++        if (!isset($this->allocatedIds[$scope])) {
++            $this->allocatedIds[$scope] = [];
++        }
++        $this->allocatedIds[$scope][$modId] = true;
++        $this->globalIds[$modId] = true;
++    }
++}
+diff --git a/src/MicroweberPackages/App/Utils/ParserHelpers/ModuleRenderer.php b/src/MicroweberPackages/App/Utils/ParserHelpers/ModuleRenderer.php
+new file mode 100644
+index 0000000..3b4f3d1
+--- /dev/null
++++ b/src/MicroweberPackages/App/Utils/ParserHelpers/ModuleRenderer.php
+@@ -0,0 +1,123 @@
++<?php
++
++namespace MicroweberPackages\App\Utils\ParserHelpers;
++
++/**
++ * Renders a resolved module tag into its HTML wrapper.
++ *
++ * Responsible for:
++ *  - Building the wrapper div (or custom HTML tag)
++ *  - Inserting the module content
++ *  - Setting CSS classes, IDs, data attributes
++ *  - Handling no_wrap modules (content only, no wrapper)
++ *  - Ensuring unknown/empty type produces nothing (no placeholder leak)
++ */
++class ModuleRenderer
++{
++    /**
++     * Render a module into its HTML wrapper.
++     *
++     * @param string      $moduleName     The module type (e.g. "btn", "layouts")
++     * @param string      $moduleId       The allocated module ID
++     * @param array       $attrs          All parsed attributes
++     * @param string      $content        The rendered module content
++     * @param string      $htmlTag        The wrapper element (default "div")
++     * @param bool        $noWrap         If true, return content without wrapper
++     * @param string      $userClass      User-defined CSS classes from the original tag
++     * @param bool        $asElement      If true, render as layout-element instead of module
++     * @return string
++     */
++    public function render(
++        string $moduleName,
++        string $moduleId,
++        array  $attrs,
++        string $content,
++        string $htmlTag = 'div',
++        bool   $noWrap = false,
++        string $userClass = '',
++        bool   $asElement = false
++    ): string {
++        // Empty/unknown type → empty output (fixes placeholder leak bug)
++        if ($moduleName === '') {
++            return '';
++        }
++
++        // No-wrap: return just the content
++        if ($noWrap) {
++            return $content;
++        }
++
++        $moduleClass = $this->moduleCssClass($moduleName);
++        $moduleNameUrl = $this->moduleNameUrl($moduleName);
++
++        // Build CSS classes
++        if ($asElement) {
++            $cssClass = trim('element ' . $moduleNameUrl . ' ' . $userClass);
++        } else {
++            $cssClass = trim('module ' . $moduleClass . ' ' . $userClass);
++        }
++
++        // Build the opening tag
++        $html = '<' . $htmlTag . ' class="' . $cssClass . '"';
++        $html .= ' id="' . htmlspecialchars($moduleId, ENT_QUOTES) . '"';
++
++        // Add data attributes
++        foreach ($attrs as $name => $value) {
++            if ($name === 'class' || $name === 'id') {
++                continue; // Already handled
++            }
++            if ($value !== null && $value !== false) {
++                $html .= ' ' . $name . '="' . htmlspecialchars((string)$value, ENT_QUOTES) . '"';
++            }
++        }
++
++        $html .= '>' . $content . '</' . $htmlTag . '>';
++
++        return $html;
++    }
++
++    /**
++     * Check if a module has the no_wrap flag.
++     */
++    public function isNoWrap(array $attrs): bool
++    {
++        return isset($attrs['no_wrap'])
++            || isset($attrs['data-no-wrap'])
++            || isset($attrs['no-wrap']);
++    }
++
++    /**
++     * Check if a module is an "as element" module.
++     */
++    public function isAsElement(array $attrs): bool
++    {
++        if (isset($attrs['class']) && strpos($attrs['class'], 'module-as-element') !== false) {
++            return true;
++        }
++        return false;
++    }
++
++    /**
++     * Generate the CSS class for a module name.
++     */
++    public function moduleCssClass(string $moduleName): string
++    {
++        $class = str_replace('/', '-', $moduleName);
++        $class = str_replace('\\', '-', $class);
++        $class = str_replace(' ', '-', $class);
++        $class = str_replace('%20', '-', $class);
++        $class = str_replace('_', '-', $class);
++        return 'module-' . strtolower($class);
++    }
++
++    /**
++     * Generate URL-safe module name.
++     */
++    private function moduleNameUrl(string $moduleName): string
++    {
++        $url = str_replace('/', '-', $moduleName);
++        $url = str_replace('\\', '-', $url);
++        $url = str_replace(' ', '-', $url);
++        return strtolower($url);
++    }
++}
+diff --git a/src/MicroweberPackages/App/Utils/ParserHelpers/TagLexer.php b/src/MicroweberPackages/App/Utils/ParserHelpers/TagLexer.php
+new file mode 100644
+index 0000000..06472aa
+--- /dev/null
++++ b/src/MicroweberPackages/App/Utils/ParserHelpers/TagLexer.php
+@@ -0,0 +1,123 @@
++<?php
++
++namespace MicroweberPackages\App\Utils\ParserHelpers;
++
++/**
++ * Quote-aware tokenizer for <module .../> tags in HTML.
++ *
++ * Replaces the brittle /<module[^>]*>/ regex with a state-machine
++ * approach that correctly handles:
++ *  - `>` inside quoted attribute values (e.g. title="a > b")
++ *  - `<` inside quoted attribute values (e.g. data-tpl="a<b")
++ *  - Tags spanning multiple lines
++ *  - Self-closing (/>) and non-self-closing module tags
++ *  - Odd whitespace (tabs, multiple spaces)
++ */
++class TagLexer
++{
++    /**
++     * Find all <module ...> or <module .../> tags in the given HTML.
++     *
++     * Returns an array of associative arrays with keys:
++     *   'tag'    => the full tag string including < and >
++     *   'offset' => byte offset in the input where the tag starts
++     *   'self_closing' => bool, true if ends with />
++     *
++     * @param string $html
++     * @return array<int, array{tag: string, offset: int, self_closing: bool}>
++     */
++    public function findModuleTags(string $html): array
++    {
++        $tags = [];
++        $len = strlen($html);
++        $pos = 0;
++
++        while ($pos < $len) {
++            // Find next potential <module (case-insensitive)
++            $start = stripos($html, '<module', $pos);
++            if ($start === false) {
++                break;
++            }
++
++            // Check the character after "module" — must be whitespace, / or >
++            // to distinguish from e.g. <moduleFoo
++            $afterModule = $start + 7; // strlen('<module') = 7
++            if ($afterModule < $len) {
++                $ch = $html[$afterModule];
++                if ($ch !== ' ' && $ch !== "\t" && $ch !== "\n" && $ch !== "\r"
++                    && $ch !== '/' && $ch !== '>') {
++                    $pos = $afterModule;
++                    continue;
++                }
++            }
++
++            // Now scan forward respecting quotes
++            $i = $afterModule;
++            $inQuote = null; // null = not in quote, '"' or "'" = in quote
++            $found = false;
++            $selfClosing = false;
++
++            while ($i < $len) {
++                $c = $html[$i];
++
++                if ($inQuote !== null) {
++                    // Inside a quoted string — only the matching quote exits
++                    if ($c === $inQuote) {
++                        $inQuote = null;
++                    }
++                    // Handle escaped quotes: \"  inside "..."
++                    elseif ($c === '\\' && ($i + 1) < $len) {
++                        $i++; // skip the escaped character
++                    }
++                } else {
++                    // Outside quotes
++                    if ($c === '"' || $c === "'") {
++                        $inQuote = $c;
++                    } elseif ($c === '>') {
++                        // Check if self-closing
++                        $selfClosing = ($i > 0 && $html[$i - 1] === '/');
++                        $found = true;
++                        break;
++                    } elseif ($c === '<') {
++                        // Another tag starts before this one closed — malformed
++                        break;
++                    }
++                }
++                $i++;
++            }
++
++            if ($found) {
++                $tagStr = substr($html, $start, $i - $start + 1);
++                $tags[] = [
++                    'tag' => $tagStr,
++                    'offset' => $start,
++                    'self_closing' => $selfClosing,
++                ];
++                $pos = $i + 1;
++            } else {
++                // Malformed or unclosed tag — skip past <module
++                $pos = $afterModule;
++            }
++        }
++
++        return $tags;
++    }
++
++    /**
++     * Check whether the given HTML contains at least one <module> tag.
++     */
++    public function hasModuleTags(string $html): bool
++    {
++        return !empty($this->findModuleTags($html));
++    }
++
++    /**
++     * Extract just the tag strings (convenience method).
++     *
++     * @return string[]
++     */
++    public function extractTagStrings(string $html): array
++    {
++        return array_column($this->findModuleTags($html), 'tag');
++    }
++}
+diff --git a/src/MicroweberPackages/App/Utils/ParserProcessor.php b/src/MicroweberPackages/App/Utils/ParserProcessor.php
+index 8ccac8b..cdda1b5 100644
+--- a/src/MicroweberPackages/App/Utils/ParserProcessor.php
++++ b/src/MicroweberPackages/App/Utils/ParserProcessor.php
+@@ -6,9 +6,16 @@ namespace MicroweberPackages\App\Utils;
+ 
+ use Doctrine\DBAL\Connection;
+ use Illuminate\Support\Str;
++use MicroweberPackages\App\Utils\ParserHelpers\AttributeParser;
++use MicroweberPackages\App\Utils\ParserHelpers\ContentProtector;
++use MicroweberPackages\App\Utils\ParserHelpers\EditFieldExtractor;
++use MicroweberPackages\App\Utils\ParserHelpers\LayoutProcessor;
++use MicroweberPackages\App\Utils\ParserHelpers\ModuleIdAllocator;
++use MicroweberPackages\App\Utils\ParserHelpers\ModuleRenderer;
+ use MicroweberPackages\App\Utils\ParserHelpers\ParserLayoutItem;
+ use MicroweberPackages\App\Utils\ParserHelpers\ParserModuleItem;
+ use MicroweberPackages\App\Utils\ParserHelpers\ParserModuleItemCollection;
++use MicroweberPackages\App\Utils\ParserHelpers\TagLexer;
+ use MicroweberPackages\View\MicroweberModuleTagCompiler;
+ 
+ class ParserProcessor
+@@ -42,6 +49,17 @@ class ParserProcessor
+      */
+     public $parser_modules_collection;
+ 
++    /**
++     * New helper instances (refactored from the monolithic code).
++     */
++    public TagLexer $tagLexer;
++    public AttributeParser $attributeParser;
++    public ContentProtector $contentProtector;
++    public ModuleIdAllocator $moduleIdAllocator;
++    public ModuleRenderer $moduleRenderer;
++    public EditFieldExtractor $editFieldExtractor;
++    public LayoutProcessor $layoutProcessor;
++
+ 
+     public function __construct()
+     {
+@@ -50,6 +68,22 @@ class ParserProcessor
+         $this->registry = new ParserRegistry();
+         $this->parser_modules_collection = new ParserModuleItemCollection();
+ 
++        // Initialize new helper classes
++        $this->tagLexer = new TagLexer();
++        $this->attributeParser = new AttributeParser();
++        $this->contentProtector = new ContentProtector();
++        $this->moduleIdAllocator = new ModuleIdAllocator();
++        $this->moduleRenderer = new ModuleRenderer();
++        $this->editFieldExtractor = new EditFieldExtractor($this->attributeParser);
++        $this->layoutProcessor = new LayoutProcessor(
++            $this->tagLexer,
++            $this->attributeParser,
++            $this->contentProtector,
++            $this->moduleIdAllocator,
++            $this->moduleRenderer,
++            $this->editFieldExtractor
++        );
++
+         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
+ 
+     }
+@@ -318,19 +352,6 @@ class ParserProcessor
+             if (is_array($local_mw_replaced_modules) and !empty($local_mw_replaced_modules)) {
+ 
+ 
+-                $attribute_pattern = '@
+-			(?P<name>\w+)# attribute name
+-			\s*=\s*
+-			(
+-				(?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote) # a quoted value
+-				| # or
+-				(?P<value_unquoted>[^\s"\']+?)(?:\s+|$)  # an unquoted value (terminated by whitespace or EOF)
+-				)
+-@xsi';
+-
+-                $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+-                $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+-
+                 $attrs = array();
+                 foreach ($local_mw_replaced_modules as $parse_key => $parse_item) {
+ 
+@@ -380,7 +401,7 @@ class ParserProcessor
+                         if ($value != '') {
+ 
+ 
+-                            $attrs = $this->utils->parseAttributes($value);
++                            $attrs = $this->attributeParser->parse($value);
+ 
+ 
+                             $m_tag = ltrim($value, '<module');
+@@ -1320,27 +1341,15 @@ class ParserProcessor
+         if ($this->_do_we_have_more_edit_fields_for_parse($mod_content)) {
+             $proceed_with_parse = true;
+         } else {
+-            $has_not_found = true;
+-            $has_found = true;
+-
+-            preg_match_all('/<module.*[^>]*>/', $mod_content, $modinner);
+-            if (!empty($modinner) and isset($modinner[0][0])) {
+-
++            // Use TagLexer instead of brittle regex for module tag detection
++            if ($this->tagLexer->hasModuleTags($mod_content)) {
+                 $proceed_with_parse = true;
+-
+-
+             } else {
+-
+-
+-                preg_match_all('/<mw-unprocessed-module-tag.*[^>]*>/', $mod_content, $modinner);
+-                if (!empty($modinner) and isset($modinner[0][0])) {
+-
++                // Also check for unprocessed module placeholders
++                if (strpos($mod_content, '<mw-unprocessed-module-tag') !== false) {
+                     $proceed_with_parse = true;
+-
+-
+                 }
+             }
+-
+         }
+         return $proceed_with_parse;
+     }
+diff --git a/src/MicroweberPackages/App/Utils/ParserUtils.php b/src/MicroweberPackages/App/Utils/ParserUtils.php
+index 54d298a..efb0a41 100644
+--- a/src/MicroweberPackages/App/Utils/ParserUtils.php
++++ b/src/MicroweberPackages/App/Utils/ParserUtils.php
+@@ -11,7 +11,7 @@ class ParserUtils
+     public function parseAttributes($html_tag)
+     {
+ 
+-        $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
++        $attribute_pattern = '@(?P<name>[a-zA-Z_][a-zA-Z0-9_-]*)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\'/>]+))@xsi';
+ 
+         $attrs = array();
+         if (preg_match_all($attribute_pattern, $html_tag, $attrs1, PREG_SET_ORDER)) {
+diff --git a/tests/Unit/Utils/ParserHelpers/AttributeParserTest.php b/tests/Unit/Utils/ParserHelpers/AttributeParserTest.php
+new file mode 100644
+index 0000000..d6e2ce3
+--- /dev/null
++++ b/tests/Unit/Utils/ParserHelpers/AttributeParserTest.php
+@@ -0,0 +1,227 @@
++<?php
++
++namespace Tests\Unit\Utils\ParserHelpers;
++
++use PHPUnit\Framework\TestCase;
++use MicroweberPackages\App\Utils\ParserUtils;
++use MicroweberPackages\App\Utils\ParserHelpers\AttributeParser;
++
++/**
++ * Tests for attribute parsing.
++ *
++ * Section 1: Tests against the OLD ParserUtils::parseAttributes (documenting bugs)
++ * Section 2: Tests against the NEW AttributeParser (showing fixes)
++ */
++class AttributeParserTest extends TestCase
++{
++    private ParserUtils $oldParser;
++    private AttributeParser $newParser;
++
++    protected function setUp(): void
++    {
++        parent::setUp();
++        $this->oldParser = new ParserUtils();
++        $this->newParser = new AttributeParser();
++    }
++
++    // ════════════════════════════════════════════════════════════
++    // Section 1: OLD parser — documenting existing bugs
++    // ════════════════════════════════════════════════════════════
++
++    public function test_old_double_quoted_attribute(): void
++    {
++        $attrs = $this->oldParser->parseAttributes('<module type="layouts" template="skin-1"/>');
++        $this->assertSame('layouts', $attrs['type']);
++        $this->assertSame('skin-1', $attrs['template']);
++    }
++
++    public function test_old_single_quoted_attribute(): void
++    {
++        $attrs = $this->oldParser->parseAttributes("<module type='layouts' template='skin-1'/>");
++        $this->assertSame('layouts', $attrs['type']);
++        $this->assertSame('skin-1', $attrs['template']);
++    }
++
++    public function test_old_parser_unquoted_value_now_fixed(): void
++    {
++        $attrs = $this->oldParser->parseAttributes('<module type=layouts />');
++        $this->assertSame('layouts', $attrs['type'],
++            'FIXED: unquoted value no longer has trailing space');
++    }
++
++    public function test_old_parser_digit_in_attr_name_now_fixed(): void
++    {
++        $attrs = $this->oldParser->parseAttributes('<module type="layouts" data-col-2="value"/>');
++        $this->assertArrayHasKey('data-col-2', $attrs,
++            'FIXED: data-col-2 is now correctly parsed');
++        $this->assertSame('value', $attrs['data-col-2']);
++    }
++
++    public function test_old_parser_unquoted_value_before_closing_now_fixed(): void
++    {
++        $attrs = $this->oldParser->parseAttributes('<module type=layouts/>');
++        $this->assertSame('layouts', $attrs['type'],
++            'FIXED: unquoted value before /> no longer captures /');
++    }
++
++    // ════════════════════════════════════════════════════════════
++    // Section 2: NEW AttributeParser — all bugs fixed
++    // ════════════════════════════════════════════════════════════
++
++    public function test_new_double_quoted_attribute(): void
++    {
++        $attrs = $this->newParser->parse('<module type="layouts" template="skin-1"/>');
++        $this->assertSame('layouts', $attrs['type']);
++        $this->assertSame('skin-1', $attrs['template']);
++    }
++
++    public function test_new_single_quoted_attribute(): void
++    {
++        $attrs = $this->newParser->parse("<module type='layouts' template='skin-1'/>");
++        $this->assertSame('layouts', $attrs['type']);
++        $this->assertSame('skin-1', $attrs['template']);
++    }
++
++    public function test_new_mixed_quote_attributes(): void
++    {
++        $attrs = $this->newParser->parse('<module type="layouts" template=\'skin-1\'/>');
++        $this->assertSame('layouts', $attrs['type']);
++        $this->assertSame('skin-1', $attrs['template']);
++    }
++
++    public function test_new_unquoted_value_trimmed_correctly(): void
++    {
++        $attrs = $this->newParser->parse('<module type=layouts />');
++        $this->assertSame('layouts', $attrs['type'],
++            'FIX: unquoted value no longer has trailing space');
++    }
++
++    public function test_new_unquoted_value_before_self_closing(): void
++    {
++        $attrs = $this->newParser->parse('<module type=layouts/>');
++        $this->assertSame('layouts', $attrs['type'],
++            'FIX: unquoted value before /> no longer captures /');
++    }
++
++    public function test_new_empty_quoted_value(): void
++    {
++        $attrs = $this->newParser->parse('<module type="" />');
++        $this->assertSame('', $attrs['type']);
++    }
++
++    public function test_new_attribute_with_hyphens(): void
++    {
++        $attrs = $this->newParser->parse('<module data-type="layouts" parent-module="btn"/>');
++        $this->assertSame('layouts', $attrs['data-type']);
++        $this->assertSame('btn', $attrs['parent-module']);
++    }
++
++    public function test_new_digit_in_attr_name_preserved(): void
++    {
++        $attrs = $this->newParser->parse('<module type="layouts" data-col-2="value"/>');
++        $this->assertArrayHasKey('data-col-2', $attrs,
++            'FIX: data-col-2 is now correctly parsed');
++        $this->assertSame('value', $attrs['data-col-2']);
++    }
++
++    public function test_new_embedded_escaped_quotes(): void
++    {
++        $tag = '<module type="layouts" title="say \\"hi\\"" template="skin-1"/>';
++        $attrs = $this->newParser->parse($tag);
++        $this->assertSame('layouts', $attrs['type']);
++        $this->assertSame('say "hi"', $attrs['title'],
++            'FIX: escaped quotes are unescaped in the value');
++        $this->assertSame('skin-1', $attrs['template'],
++            'FIX: escaped quotes do not corrupt following attributes');
++    }
++
++    public function test_new_space_around_equals(): void
++    {
++        $attrs = $this->newParser->parse('<module type = "layouts" />');
++        $this->assertSame('layouts', $attrs['type'],
++            'FIX: space around = is handled correctly');
++    }
++
++    public function test_new_weird_whitespace(): void
++    {
++        $attrs = $this->newParser->parse('<module   type="layouts"     template="skin-1"  />');
++        $this->assertSame('layouts', $attrs['type']);
++        $this->assertSame('skin-1', $attrs['template']);
++    }
++
++    public function test_new_duplicate_attributes_first_wins(): void
++    {
++        $attrs = $this->newParser->parse('<module type="first" type="second"/>');
++        $this->assertSame('first', $attrs['type'],
++            'HTML spec: first attribute wins for duplicates');
++    }
++
++    public function test_new_value_with_less_than(): void
++    {
++        $attrs = $this->newParser->parse('<module type="layouts" data-tpl="a<b"/>');
++        $this->assertSame('layouts', $attrs['type']);
++        $this->assertSame('a<b', $attrs['data-tpl']);
++    }
++
++    public function test_new_value_with_greater_than(): void
++    {
++        $attrs = $this->newParser->parse('<module type="layouts" title="a > b" template="skin-1"/>');
++        $this->assertSame('layouts', $attrs['type']);
++        $this->assertSame('a > b', $attrs['title']);
++        $this->assertSame('skin-1', $attrs['template']);
++    }
++
++    public function test_new_value_with_equals(): void
++    {
++        $attrs = $this->newParser->parse('<module type="layouts" data-expr="a=b"/>');
++        $this->assertSame('layouts', $attrs['type']);
++        $this->assertSame('a=b', $attrs['data-expr']);
++    }
++
++    public function test_new_multiline_attributes(): void
++    {
++        $tag = "<module\n  type=\"layouts\"\n  template=\"skin-1\"\n/>";
++        $attrs = $this->newParser->parse($tag);
++        $this->assertSame('layouts', $attrs['type']);
++        $this->assertSame('skin-1', $attrs['template']);
++    }
++
++    public function test_new_get_module_type(): void
++    {
++        $attrs = $this->newParser->parse('<module type="btn"/>');
++        $this->assertSame('btn', $this->newParser->getModuleType($attrs));
++
++        $attrs = $this->newParser->parse('<module data-type="layouts"/>');
++        $this->assertSame('layouts', $this->newParser->getModuleType($attrs));
++    }
++
++    public function test_new_get_edit_field_attributes(): void
++    {
++        $attrs = $this->newParser->parse('<div class="edit" rel="content" field="content" rel-id="5">');
++        $ef = $this->newParser->getEditFieldAttributes($attrs);
++        $this->assertSame('content', $ef['field']);
++        $this->assertSame('content', $ef['rel']);
++        $this->assertSame('5', $ef['rel_id']);
++    }
++
++    public function test_new_no_attributes(): void
++    {
++        $attrs = $this->newParser->parse('<module/>');
++        $this->assertEmpty($attrs);
++    }
++
++    public function test_new_boolean_attribute(): void
++    {
++        // Boolean attrs like "disabled" have no value
++        // In the parser context this is rare but should not crash
++        $attrs = $this->newParser->parse('<module type="btn" disabled />');
++        $this->assertSame('btn', $attrs['type']);
++    }
++
++    public function test_new_underscore_in_name(): void
++    {
++        $attrs = $this->newParser->parse('<module data_type="btn"/>');
++        $this->assertArrayHasKey('data_type', $attrs);
++        $this->assertSame('btn', $attrs['data_type']);
++    }
++}
+diff --git a/tests/Unit/Utils/ParserHelpers/ContentProtectorTest.php b/tests/Unit/Utils/ParserHelpers/ContentProtectorTest.php
+new file mode 100644
+index 0000000..25f3d4f
+--- /dev/null
++++ b/tests/Unit/Utils/ParserHelpers/ContentProtectorTest.php
+@@ -0,0 +1,265 @@
++<?php
++
++namespace Tests\Unit\Utils\ParserHelpers;
++
++use MicroweberPackages\App\Utils\ParserHelpers\ContentProtector;
++use PHPUnit\Framework\TestCase;
++
++/**
++ * Tests for the ContentProtector class.
++ *
++ * Section 1: Tests for the NEW ContentProtector (covers all bug fixes)
++ * Section 2: Regression tests documenting OLD parser bugs
++ */
++class ContentProtectorTest extends TestCase
++{
++    private ContentProtector $protector;
++
++    protected function setUp(): void
++    {
++        parent::setUp();
++        $this->protector = new ContentProtector();
++    }
++
++    // ════════════════════════════════════════════════════════════
++    // Section 1: NEW ContentProtector
++    // ════════════════════════════════════════════════════════════
++
++    // ── Script protection ──
++
++    public function test_module_inside_script_is_protected(): void
++    {
++        $html = '<script>var x = "<module type=\"btn\"/>";</script>';
++        $result = $this->protector->protect($html);
++
++        $this->assertStringNotContainsString('<module', $result);
++        $this->assertStringNotContainsString('</script>', $result);
++    }
++
++    public function test_script_restored_byte_for_byte(): void
++    {
++        $html = '<script type="text/javascript">
++            var modules = ["<module type=\"a\"/>", "<module type=\"b\"/>"];
++        </script>';
++
++        $protected = $this->protector->protect($html);
++        $restored = $this->protector->restore($protected);
++
++        $this->assertSame($html, $restored);
++    }
++
++    // ── Textarea protection ──
++
++    public function test_module_inside_textarea_is_protected(): void
++    {
++        $html = '<textarea><module type="btn"/></textarea>';
++        $protected = $this->protector->protect($html);
++
++        $this->assertStringNotContainsString('<module', $protected);
++
++        $restored = $this->protector->restore($protected);
++        $this->assertSame($html, $restored);
++    }
++
++    // ── Code protection ──
++
++    public function test_module_inside_code_is_protected(): void
++    {
++        $html = '<code><module type="btn"/></code>';
++        $protected = $this->protector->protect($html);
++
++        $this->assertStringNotContainsString('<module', $protected);
++
++        $restored = $this->protector->restore($protected);
++        $this->assertSame($html, $restored);
++    }
++
++    // ── Pre protection (fixed — old parser didn't protect pre) ──
++
++    public function test_module_inside_pre_is_protected(): void
++    {
++        $html = '<pre><module type="btn"/></pre>';
++        $protected = $this->protector->protect($html);
++
++        $this->assertStringNotContainsString('<module', $protected,
++            'FIX: <pre> is now in the protected tag list');
++
++        $restored = $this->protector->restore($protected);
++        $this->assertSame($html, $restored);
++    }
++
++    // ── Style protection ──
++
++    public function test_module_inside_style_is_protected(): void
++    {
++        $html = '<style>/* <module type="btn"/> */</style>';
++        $protected = $this->protector->protect($html);
++
++        $this->assertStringNotContainsString('<module', $protected);
++    }
++
++    // ── Select / optgroup protection ──
++
++    public function test_module_inside_select_is_protected(): void
++    {
++        $html = '<select><option value="1"><module type="btn"/></option></select>';
++        $protected = $this->protector->protect($html);
++
++        $this->assertStringNotContainsString('<module', $protected);
++
++        $restored = $this->protector->restore($protected);
++        $this->assertSame($html, $restored);
++    }
++
++    public function test_module_inside_optgroup_is_protected(): void
++    {
++        $html = '<optgroup label="Group"><option><module type="btn"/></option></optgroup>';
++        $protected = $this->protector->protect($html);
++
++        $this->assertStringNotContainsString('<module', $protected);
++    }
++
++    // ── HTML comment protection ──
++
++    public function test_module_inside_html_comment_is_protected(): void
++    {
++        $html = '<!-- <module type="btn"/> -->';
++        $protected = $this->protector->protect($html);
++
++        $this->assertStringNotContainsString('<module', $protected);
++
++        $restored = $this->protector->restore($protected);
++        $this->assertSame($html, $restored);
++    }
++
++    public function test_html_comment_preserved_in_context(): void
++    {
++        $html = '<div>before</div><!-- <module type="x"/> --><div>after</div>';
++        $protected = $this->protector->protect($html);
++
++        $this->assertStringNotContainsString('<module', $protected);
++        $this->assertStringContainsString('<div>before</div>', $protected);
++        $this->assertStringContainsString('<div>after</div>', $protected);
++
++        $restored = $this->protector->restore($protected);
++        $this->assertSame($html, $restored);
++    }
++
++    // ── FIXED BUG: Blade comments {{-- --}} now protected ──
++
++    public function test_blade_comment_is_protected(): void
++    {
++        $html = '{{-- <module type="btn"/> --}}';
++        $protected = $this->protector->protect($html);
++
++        $this->assertStringNotContainsString('<module', $protected,
++            'FIX: Blade comments now protect module tags from parsing');
++
++        $restored = $this->protector->restore($protected);
++        $this->assertSame($html, $restored);
++    }
++
++    public function test_blade_comment_in_context(): void
++    {
++        $html = '<div>text</div>{{-- <module type="btn"/> --}}<p>more</p>';
++        $protected = $this->protector->protect($html);
++
++        $this->assertStringNotContainsString('<module', $protected);
++        $this->assertStringContainsString('<div>text</div>', $protected);
++
++        $restored = $this->protector->restore($protected);
++        $this->assertSame($html, $restored);
++    }
++
++    // ── Multiple protected regions ──
++
++    public function test_multiple_scripts_all_protected(): void
++    {
++        $html = '<script>var a = "<module type=\"a\"/>";</script>'
++            . '<div><module type="real"/></div>'
++            . '<script>var b = "<module type=\"b\"/>";</script>';
++
++        $protected = $this->protector->protect($html);
++
++        // Real module tag should survive
++        $this->assertStringContainsString('<module type="real"/>', $protected);
++        // Script modules should be gone
++        $this->assertStringNotContainsString('var a', $protected);
++        $this->assertStringNotContainsString('var b', $protected);
++    }
++
++    // ── Mixed region types ──
++
++    public function test_mixed_protection_types(): void
++    {
++        $html = '<script><module type="a"/></script>'
++            . '<!-- <module type="b"/> -->'
++            . '{{-- <module type="c"/> --}}'
++            . '<code><module type="d"/></code>'
++            . '<module type="real"/>';
++
++        $protected = $this->protector->protect($html);
++
++        // Only the real module should survive
++        $this->assertStringContainsString('<module type="real"/>', $protected);
++        $this->assertSame(1, substr_count($protected, '<module'));
++
++        $restored = $this->protector->restore($protected);
++        $this->assertSame($html, $restored);
++    }
++
++    // ── Empty input ──
++
++    public function test_empty_input(): void
++    {
++        $this->assertSame('', $this->protector->protect(''));
++        $this->assertSame('', $this->protector->restore(''));
++    }
++
++    // ── No protected regions ──
++
++    public function test_no_regions_passthrough(): void
++    {
++        $html = '<div><module type="btn"/></div>';
++        $protected = $this->protector->protect($html);
++        $this->assertSame($html, $protected);
++    }
++
++    // ── Reset state ──
++
++    public function test_reset_clears_state(): void
++    {
++        $html = '<script><module type="a"/></script>';
++        $this->protector->protect($html);
++        $this->assertNotEmpty($this->protector->getReplacements());
++
++        $this->protector->reset();
++        $this->assertEmpty($this->protector->getReplacements());
++        $this->assertEmpty($this->protector->getCommentReplacements());
++    }
++
++    // ════════════════════════════════════════════════════════════
++    // Section 2: Old parser regression (documenting bugs)
++    // ════════════════════════════════════════════════════════════
++
++    public function test_old_parser_blade_comment_bug(): void
++    {
++        // The old parser uses: /<!--(?!<!)[^\[>].*?-->/
++        // This does NOT match {{-- ... --}}
++        $html = '{{-- <module type="btn"/> --}}';
++        $pattern = "/<!--(?!<!)[^\[>].*?-->/";
++        preg_match_all($pattern, $html, $matches);
++
++        $this->assertEmpty($matches[0],
++            'OLD BUG CONFIRMED: regex does not match Blade comments');
++    }
++
++    public function test_old_parser_pre_not_protected(): void
++    {
++        // The old parser protects: script, code, textarea, style, select
++        // But NOT pre
++        $protectedTags = ['script', 'code', 'textarea', 'style', 'select'];
++        $this->assertNotContains('pre', $protectedTags,
++            'OLD BUG CONFIRMED: <pre> not in protected list');
++    }
++}
+diff --git a/tests/Unit/Utils/ParserHelpers/EditFieldExtractorTest.php b/tests/Unit/Utils/ParserHelpers/EditFieldExtractorTest.php
+new file mode 100644
+index 0000000..1fbefd5
+--- /dev/null
++++ b/tests/Unit/Utils/ParserHelpers/EditFieldExtractorTest.php
+@@ -0,0 +1,181 @@
++<?php
++
++namespace Tests\Unit\Utils\ParserHelpers;
++
++use MicroweberPackages\App\Utils\ParserHelpers\EditFieldExtractor;
++use PHPUnit\Framework\TestCase;
++
++/**
++ * Tests for EditFieldExtractor.
++ */
++class EditFieldExtractorTest extends TestCase
++{
++    private EditFieldExtractor $extractor;
++
++    protected function setUp(): void
++    {
++        parent::setUp();
++        $this->extractor = new EditFieldExtractor();
++    }
++
++    // ── Finding edit fields ──
++
++    public function test_find_content_edit_field(): void
++    {
++        $html = '<div class="edit" rel="content" field="content">Some content</div>';
++        $fields = $this->extractor->findEditFields($html);
++
++        $this->assertCount(1, $fields);
++        $this->assertSame('content', $fields[0]['field']);
++        $this->assertSame('content', $fields[0]['rel']);
++        $this->assertNull($fields[0]['rel_id']);
++    }
++
++    public function test_find_global_edit_field(): void
++    {
++        $html = '<div class="edit" rel="global" field="header">Header</div>';
++        $fields = $this->extractor->findEditFields($html);
++
++        $this->assertCount(1, $fields);
++        $this->assertSame('header', $fields[0]['field']);
++        $this->assertSame('global', $fields[0]['rel']);
++    }
++
++    public function test_find_field_with_rel_id(): void
++    {
++        $html = '<div class="edit" rel="content" field="content_banner" rel-id="5">Banner</div>';
++        $fields = $this->extractor->findEditFields($html);
++
++        $this->assertCount(1, $fields);
++        $this->assertSame('content_banner', $fields[0]['field']);
++        $this->assertSame('5', $fields[0]['rel_id']);
++    }
++
++    public function test_find_multiple_edit_fields(): void
++    {
++        $html = '<div class="edit" rel="global" field="header">H</div>'
++            . '<div class="edit" rel="content" field="content">C</div>'
++            . '<div class="edit" rel="global" field="footer">F</div>';
++
++        $fields = $this->extractor->findEditFields($html);
++        $this->assertCount(3, $fields);
++    }
++
++    public function test_no_edit_fields(): void
++    {
++        $html = '<div class="container"><p>No edit fields</p></div>';
++        $fields = $this->extractor->findEditFields($html);
++        $this->assertCount(0, $fields);
++    }
++
++    public function test_edit_class_without_field_attr_ignored(): void
++    {
++        $html = '<div class="edit">No field attribute</div>';
++        $fields = $this->extractor->findEditFields($html);
++        $this->assertCount(0, $fields);
++    }
++
++    public function test_has_edit_fields_true(): void
++    {
++        $html = '<div class="edit" rel="content" field="content">C</div>';
++        $this->assertTrue($this->extractor->hasEditFields($html));
++    }
++
++    public function test_has_edit_fields_false(): void
++    {
++        $html = '<div>No edit fields</div>';
++        $this->assertFalse($this->extractor->hasEditFields($html));
++    }
++
++    // ── Nested edit fields ──
++
++    public function test_nested_edit_fields_both_found(): void
++    {
++        $html = '<div class="edit" rel="content" field="content">'
++            . '<div class="edit" rel="content" field="banner" rel-id="1">'
++            . '<module type="btn"/>'
++            . '</div>'
++            . '</div>';
++
++        $fields = $this->extractor->findEditFields($html);
++        $this->assertCount(2, $fields);
++        $this->assertSame('content', $fields[0]['field']);
++        $this->assertSame('banner', $fields[1]['field']);
++    }
++
++    // ── data-field, data-rel variants ──
++
++    public function test_data_field_attribute(): void
++    {
++        $html = '<div class="edit" data-rel="content" data-field="content">C</div>';
++        $fields = $this->extractor->findEditFields($html);
++
++        $this->assertCount(1, $fields);
++        $this->assertSame('content', $fields[0]['field']);
++        $this->assertSame('content', $fields[0]['rel']);
++    }
++
++    // ── Inherit scope ──
++
++    public function test_inherit_edit_field(): void
++    {
++        $html = '<div class="edit" rel="inherit" field="sidebar" rel-id="10">S</div>';
++        $fields = $this->extractor->findEditFields($html);
++
++        $this->assertCount(1, $fields);
++        $this->assertSame('sidebar', $fields[0]['field']);
++        $this->assertSame('inherit', $fields[0]['rel']);
++        $this->assertSame('10', $fields[0]['rel_id']);
++    }
++
++    // ── Content ID resolution ──
++
++    public function test_resolve_content_id_for_content_rel(): void
++    {
++        $id = $this->extractor->resolveContentId('content', null, 3);
++        $this->assertSame(3, $id);
++    }
++
++    public function test_resolve_content_id_with_explicit_rel_id(): void
++    {
++        $id = $this->extractor->resolveContentId('content', '5', 3);
++        $this->assertSame(5, $id);
++    }
++
++    public function test_resolve_content_id_for_global(): void
++    {
++        $id = $this->extractor->resolveContentId('global', null, 3);
++        $this->assertNull($id);
++    }
++
++    public function test_resolve_content_id_for_inherit(): void
++    {
++        $getParent = fn(int $id) => $id === 10 ? 3 : null;
++
++        $id = $this->extractor->resolveContentId('inherit', '10', 10, $getParent);
++        $this->assertSame(3, $id);
++    }
++
++    public function test_resolve_content_id_for_module(): void
++    {
++        $id = $this->extractor->resolveContentId('module', null, 3);
++        $this->assertNull($id);
++    }
++
++    // ── Scope key ──
++
++    public function test_scope_key_for_content(): void
++    {
++        $this->assertSame('3', $this->extractor->getScopeKey('content', 3));
++    }
++
++    public function test_scope_key_for_global(): void
++    {
++        $this->assertSame('global', $this->extractor->getScopeKey('global', null));
++    }
++
++    public function test_scope_key_for_module(): void
++    {
++        $this->assertSame('global', $this->extractor->getScopeKey('module', null));
++    }
++}
+diff --git a/tests/Unit/Utils/ParserHelpers/LayoutProcessorTest.php b/tests/Unit/Utils/ParserHelpers/LayoutProcessorTest.php
+new file mode 100644
+index 0000000..2637d03
+--- /dev/null
++++ b/tests/Unit/Utils/ParserHelpers/LayoutProcessorTest.php
+@@ -0,0 +1,271 @@
++<?php
++
++namespace Tests\Unit\Utils\ParserHelpers;
++
++use MicroweberPackages\App\Utils\ParserHelpers\LayoutProcessor;
++use PHPUnit\Framework\TestCase;
++
++/**
++ * Tests for LayoutProcessor — the top-level orchestrator.
++ */
++class LayoutProcessorTest extends TestCase
++{
++    private LayoutProcessor $processor;
++
++    protected function setUp(): void
++    {
++        parent::setUp();
++        $this->processor = new LayoutProcessor();
++    }
++
++    // ── Empty input ──
++
++    public function test_empty_input_returns_empty(): void
++    {
++        $this->assertSame('', $this->processor->process(''));
++    }
++
++    // ── Input with no modules ──
++
++    public function test_no_modules_passthrough(): void
++    {
++        $html = '<div><p>No modules here</p></div>';
++        $result = $this->processor->process($html);
++        $this->assertSame($html, $result);
++    }
++
++    // ── Basic module processing ──
++
++    public function test_single_module_processed(): void
++    {
++        $html = '<div class="edit" rel="content" field="content">'
++            . '<module type="btn"/>'
++            . '</div>';
++
++        $result = $this->processor->process($html, 3, fn($type, $attrs) => '<button>OK</button>');
++
++        $this->assertStringContainsString('module-btn-3', $result);
++        $this->assertStringContainsString('<button>OK</button>', $result);
++        $this->assertStringNotContainsString('<module', $result);
++    }
++
++    // ── Module in script is not processed ──
++
++    public function test_module_in_script_not_processed(): void
++    {
++        $html = '<script>var x = "<module type=\"btn\"/>";</script>';
++        $result = $this->processor->process($html);
++
++        // The module inside script should be preserved as-is
++        // (the outer script quotes may be escaped differently but module tag must remain)
++        $this->assertStringContainsString('<module', $result);
++        $this->assertStringContainsString('</script>', $result);
++    }
++
++    // ── Module in HTML comment not processed ──
++
++    public function test_module_in_html_comment_not_processed(): void
++    {
++        $html = '<!-- <module type="btn"/> -->';
++        $result = $this->processor->process($html);
++
++        $this->assertStringContainsString('<!-- <module type="btn"/> -->', $result);
++    }
++
++    // ── Module in Blade comment not processed ──
++
++    public function test_module_in_blade_comment_not_processed(): void
++    {
++        $html = '{{-- <module type="btn"/> --}}';
++        $result = $this->processor->process($html);
++
++        $this->assertStringContainsString('{{-- <module type="btn"/> --}}', $result);
++    }
++
++    // ── Empty module produces nothing ──
++
++    public function test_empty_module_produces_nothing(): void
++    {
++        $html = '<div><module/></div>';
++        $result = $this->processor->process($html);
++
++        $this->assertStringNotContainsString('mw-unprocessed-module-tag', $result);
++        $this->assertStringNotContainsString('<module', $result);
++    }
++
++    // ── Global scope modules ──
++
++    public function test_global_scope_no_content_id(): void
++    {
++        $html = '<div class="edit" rel="global" field="header">'
++            . '<module type="layouts"/>'
++            . '</div>';
++
++        $result = $this->processor->process($html, 3, fn($type, $attrs) => 'content');
++
++        $this->assertStringContainsString('module-layouts', $result);
++        $this->assertStringNotContainsString('module-layouts-3', $result);
++    }
++
++    // ── Content scope modules ──
++
++    public function test_content_scope_with_content_id(): void
++    {
++        $html = '<div class="edit" rel="content" field="content">'
++            . '<module type="layouts"/>'
++            . '</div>';
++
++        $result = $this->processor->process($html, 3, fn($type, $attrs) => 'content');
++
++        $this->assertStringContainsString('module-layouts-3', $result);
++    }
++
++    // ── Duplicate modules get unique IDs ──
++
++    public function test_duplicate_modules_unique_ids(): void
++    {
++        $html = '<div class="edit" rel="content" field="content">'
++            . '<module type="btn"/>'
++            . '<module type="btn"/>'
++            . '<module type="btn"/>'
++            . '</div>';
++
++        $result = $this->processor->process($html, 3, fn($type, $attrs) => '');
++
++        $this->assertStringContainsString('module-btn-3', $result);
++        $this->assertStringContainsString('module-btn-3--1', $result);
++        $this->assertStringContainsString('module-btn-3--2', $result);
++    }
++
++    // ── Custom ID preserved ──
++
++    public function test_custom_id_preserved(): void
++    {
++        $html = '<div class="edit" rel="content" field="content">'
++            . '<module type="btn" id="my-custom-id"/>'
++            . '</div>';
++
++        $result = $this->processor->process($html, 3, fn($type, $attrs) => '');
++
++        $this->assertStringContainsString('id="my-custom-id"', $result);
++    }
++
++    // ── Module with > in attribute value ──
++
++    public function test_module_with_gt_in_attribute_value(): void
++    {
++        $html = '<div class="edit" rel="content" field="content">'
++            . '<module type="btn" title="a > b"/>'
++            . '</div>';
++
++        $result = $this->processor->process($html, 3, fn($type, $attrs) => '');
++
++        // The module should be processed, and the title should be preserved
++        $this->assertStringContainsString('module-btn-3', $result);
++        $this->assertStringNotContainsString('<module', $result);
++    }
++
++    // ── Module with digit-in-attribute name ──
++
++    public function test_module_with_digit_attribute_name(): void
++    {
++        $html = '<div class="edit" rel="content" field="content">'
++            . '<module type="btn" data-col-2="value"/>'
++            . '</div>';
++
++        $result = $this->processor->process($html, 3, fn($type, $attrs) => '');
++
++        $this->assertStringContainsString('data-col-2="value"', $result);
++    }
++
++    // ── Tag aliases ──
++
++    public function test_mw_tag_alias(): void
++    {
++        $html = '<div class="edit" rel="content" field="content">'
++            . '<mw type="btn"/>'
++            . '</div>';
++
++        $result = $this->processor->process($html, 3, fn($type, $attrs) => '');
++
++        // <mw should be converted to <module
++        $this->assertStringNotContainsString('<mw ', $result);
++    }
++
++    // ── Module in textarea not processed ──
++
++    public function test_module_in_textarea_not_processed(): void
++    {
++        $html = '<textarea><module type="btn"/></textarea>';
++        $result = $this->processor->process($html);
++
++        $this->assertStringContainsString('<module type="btn"/>', $result);
++    }
++
++    // ── Module in code not processed ──
++
++    public function test_module_in_code_not_processed(): void
++    {
++        $html = '<code><module type="btn"/></code>';
++        $result = $this->processor->process($html);
++
++        $this->assertStringContainsString('<module type="btn"/>', $result);
++    }
++
++    // ── Module in select not processed ──
++
++    public function test_module_in_select_not_processed(): void
++    {
++        $html = '<select><option><module type="btn"/></option></select>';
++        $result = $this->processor->process($html);
++
++        $this->assertStringContainsString('<module type="btn"/>', $result);
++    }
++
++    // ── Module in pre not processed ──
++
++    public function test_module_in_pre_not_processed(): void
++    {
++        $html = '<pre><module type="btn"/></pre>';
++        $result = $this->processor->process($html);
++
++        $this->assertStringContainsString('<module type="btn"/>', $result);
++    }
++
++    // ── Full layout with several modules ──
++
++    public function test_full_layout_multiple_modules(): void
++    {
++        $html = '<div class="edit" rel="global" field="header">'
++            . '<module type="menu"/>'
++            . '</div>'
++            . '<div class="edit" rel="content" field="content">'
++            . '<module type="btn"/>'
++            . '<module type="layouts" template="skin-1"/>'
++            . '</div>'
++            . '<div class="edit" rel="global" field="footer">'
++            . '<module type="menu"/>'
++            . '</div>';
++
++        $result = $this->processor->process($html, 5, fn($type, $attrs) => "[$type]");
++
++        // All modules should be processed
++        $this->assertStringNotContainsString('<module', $result);
++        // Content should appear
++        $this->assertStringContainsString('[menu]', $result);
++        $this->assertStringContainsString('[btn]', $result);
++        $this->assertStringContainsString('[layouts]', $result);
++    }
++
++    // ── Helper access ──
++
++    public function test_helper_access(): void
++    {
++        $this->assertInstanceOf(\MicroweberPackages\App\Utils\ParserHelpers\TagLexer::class, $this->processor->getLexer());
++        $this->assertInstanceOf(\MicroweberPackages\App\Utils\ParserHelpers\AttributeParser::class, $this->processor->getAttributeParser());
++        $this->assertInstanceOf(\MicroweberPackages\App\Utils\ParserHelpers\ContentProtector::class, $this->processor->getContentProtector());
++        $this->assertInstanceOf(\MicroweberPackages\App\Utils\ParserHelpers\ModuleIdAllocator::class, $this->processor->getModuleIdAllocator());
++        $this->assertInstanceOf(\MicroweberPackages\App\Utils\ParserHelpers\ModuleRenderer::class, $this->processor->getModuleRenderer());
++        $this->assertInstanceOf(\MicroweberPackages\App\Utils\ParserHelpers\EditFieldExtractor::class, $this->processor->getEditFieldExtractor());
++    }
++}
+diff --git a/tests/Unit/Utils/ParserHelpers/ModuleIdAllocatorTest.php b/tests/Unit/Utils/ParserHelpers/ModuleIdAllocatorTest.php
+new file mode 100644
+index 0000000..d8e08af
+--- /dev/null
++++ b/tests/Unit/Utils/ParserHelpers/ModuleIdAllocatorTest.php
+@@ -0,0 +1,226 @@
++<?php
++
++namespace Tests\Unit\Utils\ParserHelpers;
++
++use MicroweberPackages\App\Utils\ParserHelpers\ModuleIdAllocator;
++use PHPUnit\Framework\TestCase;
++
++/**
++ * Tests for the ModuleIdAllocator class.
++ *
++ * Verifies that the ID generation matches the legacy rules documented in the user's examples.
++ */
++class ModuleIdAllocatorTest extends TestCase
++{
++    private ModuleIdAllocator $allocator;
++
++    protected function setUp(): void
++    {
++        parent::setUp();
++        $this->allocator = new ModuleIdAllocator();
++    }
++
++    // ── Custom ID is preserved ──
++
++    public function test_custom_id_is_not_touched(): void
++    {
++        $id = $this->allocator->allocate('btn', 'my-custom-btn-id-here', 'content', 'content', 3, '3');
++        $this->assertSame('my-custom-btn-id-here', $id);
++    }
++
++    // ── Content scope: modules get content_id appended ──
++
++    public function test_module_id_in_content_scope(): void
++    {
++        $id = $this->allocator->allocate('layouts', null, 'content', 'content', 3, '3');
++        $this->assertSame('module-layouts-3', $id);
++    }
++
++    public function test_duplicate_modules_in_content_scope(): void
++    {
++        $id1 = $this->allocator->allocate('layouts', null, 'content', 'content', 3, '3');
++        $id2 = $this->allocator->allocate('layouts', null, 'content', 'content', 3, '3');
++        $id3 = $this->allocator->allocate('layouts', null, 'content', 'content', 3, '3');
++
++        $this->assertSame('module-layouts-3', $id1);
++        $this->assertSame('module-layouts-3--1', $id2);
++        $this->assertSame('module-layouts-3--2', $id3);
++    }
++
++    // ── Global scope: no content_id ──
++
++    public function test_module_id_in_global_scope(): void
++    {
++        $id = $this->allocator->allocate('layouts', null, 'global', 'header', null, 'global');
++        $this->assertSame('module-layouts', $id);
++    }
++
++    public function test_duplicate_modules_in_global_scope(): void
++    {
++        $id1 = $this->allocator->allocate('layouts', null, 'global', 'header', null, 'global');
++        $id2 = $this->allocator->allocate('layouts', null, 'global', 'header', null, 'global');
++
++        $this->assertSame('module-layouts', $id1);
++        $this->assertSame('module-layouts--1', $id2);
++    }
++
++    // ── Inherit scope: uses inherited parent's content_id ──
++
++    public function test_module_id_in_inherit_scope(): void
++    {
++        // Content id = 10, but inherited parent = 3
++        $id = $this->allocator->allocate('layouts', null, 'inherit', 'sidebar', 3, '3');
++        $this->assertSame('module-layouts-3', $id);
++    }
++
++    // ── Complex mixed edit fields ──
++
++    public function test_complex_mixed_edit_fields(): void
++    {
++        // Outer: rel=content, content_id=3
++        $id1 = $this->allocator->allocate('btn', null, 'content', 'content', 3, '3');
++        $id2 = $this->allocator->allocate('btn', null, 'content', 'content', 3, '3');
++        $id3 = $this->allocator->allocate('btn', null, 'content', 'content', 3, '3');
++
++        $this->assertSame('module-btn-3', $id1);
++        $this->assertSame('module-btn-3--1', $id2);
++        $this->assertSame('module-btn-3--2', $id3);
++
++        // Inner: rel=content, rel-id=1 (new scope)
++        $id4 = $this->allocator->allocate('btn', null, 'content', 'content_banner', 1, '1');
++        $id5 = $this->allocator->allocate('btn', null, 'content', 'content_banner', 1, '1');
++        $id6 = $this->allocator->allocate('btn', null, 'content', 'content_banner', 1, '1');
++
++        $this->assertSame('module-btn-1', $id4);
++        $this->assertSame('module-btn-1--1', $id5);
++        $this->assertSame('module-btn-1--2', $id6);
++
++        // Custom ID in outer scope
++        $id7 = $this->allocator->allocate('btn', 'my-custom-btn-id-here', 'content', 'content', 3, '3');
++        $this->assertSame('my-custom-btn-id-here', $id7);
++    }
++
++    // ── Mixed global and content scopes on same page ──
++
++    public function test_mixed_global_and_content_scopes(): void
++    {
++        // Global header
++        $g1 = $this->allocator->allocate('layouts', null, 'global', 'header', null, 'global');
++        $g2 = $this->allocator->allocate('layouts', null, 'global', 'header', null, 'global');
++
++        $this->assertSame('module-layouts', $g1);
++        $this->assertSame('module-layouts--1', $g2);
++
++        // Content section (separate scope)
++        $c1 = $this->allocator->allocate('layouts', null, 'content', 'content', 3, '3');
++        $c2 = $this->allocator->allocate('layouts', null, 'content', 'content', 3, '3');
++
++        $this->assertSame('module-layouts-3', $c1);
++        $this->assertSame('module-layouts-3--1', $c2);
++
++        // Global footer (continues global scope counter)
++        $g3 = $this->allocator->allocate('layouts', null, 'global', 'footer', null, 'global');
++        $g4 = $this->allocator->allocate('layouts', null, 'global', 'footer', null, 'global');
++
++        $this->assertSame('module-layouts--2', $g3);
++        $this->assertSame('module-layouts--3', $g4);
++    }
++
++    // ── ID cleaning ──
++
++    public function test_module_id_cleaning(): void
++    {
++        $this->assertSame('module-layouts', $this->allocator->cleanModId('module-layouts'));
++        $this->assertSame('module-text-multiple-columns', $this->allocator->cleanModId('module-text/multiple_columns'));
++        $this->assertSame('module-my-mod', $this->allocator->cleanModId('module-my mod'));
++    }
++
++    // ── CSS class generation ──
++
++    public function test_module_css_class(): void
++    {
++        $this->assertSame('module-btn', $this->allocator->moduleCssClass('btn'));
++        $this->assertSame('module-layouts', $this->allocator->moduleCssClass('layouts'));
++        $this->assertSame('module-text-multiple-columns', $this->allocator->moduleCssClass('text/multiple_columns'));
++    }
++
++    // ── Many identical modules ──
++
++    public function test_many_identical_modules_unique_ids(): void
++    {
++        $ids = [];
++        for ($i = 0; $i < 10; $i++) {
++            $id = $this->allocator->allocate('btn', null, 'content', 'content', 3, '3');
++            $this->assertNotContains($id, $ids, "Module ID collision at iteration $i");
++            $ids[] = $id;
++        }
++        $this->assertCount(10, array_unique($ids));
++    }
++
++    // ── Database ID collision avoidance ──
++
++    public function test_database_id_collision_avoidance(): void
++    {
++        $this->allocator->registerDatabaseId('module-btn-3');
++
++        $id = $this->allocator->allocate('btn', null, 'content', 'content', 3, '3');
++        // Should skip module-btn-3 since it's in the database
++        $this->assertSame('module-btn-3--1', $id);
++    }
++
++    // ── Different module types in same scope ──
++
++    public function test_different_types_independent_counters(): void
++    {
++        $btn1 = $this->allocator->allocate('btn', null, 'content', 'content', 3, '3');
++        $layout1 = $this->allocator->allocate('layouts', null, 'content', 'content', 3, '3');
++        $btn2 = $this->allocator->allocate('btn', null, 'content', 'content', 3, '3');
++
++        $this->assertSame('module-btn-3', $btn1);
++        $this->assertSame('module-layouts-3', $layout1);
++        $this->assertSame('module-btn-3--1', $btn2);
++    }
++
++    // ── Reset ──
++
++    public function test_reset(): void
++    {
++        $this->allocator->allocate('btn', null, 'content', 'content', 3, '3');
++        $this->allocator->reset();
++
++        $id = $this->allocator->allocate('btn', null, 'content', 'content', 3, '3');
++        $this->assertSame('module-btn-3', $id, 'After reset, counters should restart');
++    }
++
++    // ── Page scope (same as content) ──
++
++    public function test_page_scope(): void
++    {
++        $id = $this->allocator->allocate('btn', null, 'page', 'content', 5, '5');
++        $this->assertSame('module-btn-5', $id);
++    }
++
++    // ── Post scope ──
++
++    public function test_post_scope(): void
++    {
++        $id = $this->allocator->allocate('btn', null, 'post', 'content', 7, '7');
++        $this->assertSame('module-btn-7', $id);
++    }
++
++    // ── Module scope (parent module field prefix) ──
++
++    public function test_module_scope_with_parent_field(): void
++    {
++        $id = $this->allocator->allocate('btn', null, 'module', 'sidebar', null, 'parent-id', 'sidebar');
++        $this->assertSame('sidebar-module-btn', $id);
++    }
++
++    // ── No edit field (outside .edit) ──
++
++    public function test_no_edit_field(): void
++    {
++        $id = $this->allocator->allocate('btn', null, '', null, null, 'global');
++        $this->assertSame('module-btn', $id);
++    }
++}
+diff --git a/tests/Unit/Utils/ParserHelpers/ModuleRendererTest.php b/tests/Unit/Utils/ParserHelpers/ModuleRendererTest.php
+new file mode 100644
+index 0000000..b8f2bfb
+--- /dev/null
++++ b/tests/Unit/Utils/ParserHelpers/ModuleRendererTest.php
+@@ -0,0 +1,153 @@
++<?php
++
++namespace Tests\Unit\Utils\ParserHelpers;
++
++use MicroweberPackages\App\Utils\ParserHelpers\ModuleRenderer;
++use PHPUnit\Framework\TestCase;
++
++/**
++ * Tests for ModuleRenderer.
++ */
++class ModuleRendererTest extends TestCase
++{
++    private ModuleRenderer $renderer;
++
++    protected function setUp(): void
++    {
++        parent::setUp();
++        $this->renderer = new ModuleRenderer();
++    }
++
++    // ── FIXED BUG: Empty module produces empty output ──
++
++    public function test_empty_module_produces_empty_output(): void
++    {
++        $result = $this->renderer->render('', '', [], '');
++        $this->assertSame('', $result,
++            'FIX: empty/type-less module produces empty string, not a placeholder');
++    }
++
++    // ── Basic rendering ──
++
++    public function test_basic_module_rendering(): void
++    {
++        $result = $this->renderer->render(
++            'btn',
++            'module-btn-3',
++            ['data-type' => 'btn'],
++            '<button>Click me</button>'
++        );
++
++        $this->assertStringContainsString('class="module module-btn"', $result);
++        $this->assertStringContainsString('id="module-btn-3"', $result);
++        $this->assertStringContainsString('data-type="btn"', $result);
++        $this->assertStringContainsString('<button>Click me</button>', $result);
++        $this->assertStringStartsWith('<div ', $result);
++        $this->assertStringEndsWith('</div>', $result);
++    }
++
++    // ── Custom HTML tag ──
++
++    public function test_custom_html_tag(): void
++    {
++        $result = $this->renderer->render(
++            'btn', 'module-btn-1', ['data-type' => 'btn'],
++            'content', 'section'
++        );
++
++        $this->assertStringStartsWith('<section ', $result);
++        $this->assertStringEndsWith('</section>', $result);
++    }
++
++    // ── No-wrap ──
++
++    public function test_no_wrap_returns_content_only(): void
++    {
++        $content = '<button>Click me</button>';
++        $result = $this->renderer->render(
++            'btn', 'module-btn-1', ['data-type' => 'btn'],
++            $content, 'div', true
++        );
++
++        $this->assertSame($content, $result);
++    }
++
++    public function test_is_no_wrap_detection(): void
++    {
++        $this->assertTrue($this->renderer->isNoWrap(['no_wrap' => true]));
++        $this->assertTrue($this->renderer->isNoWrap(['data-no-wrap' => true]));
++        $this->assertTrue($this->renderer->isNoWrap(['no-wrap' => true]));
++        $this->assertFalse($this->renderer->isNoWrap(['type' => 'btn']));
++    }
++
++    // ── As element ──
++
++    public function test_as_element_rendering(): void
++    {
++        $result = $this->renderer->render(
++            'btn', 'module-btn-1', ['data-type' => 'btn'],
++            'content', 'div', false, '', true
++        );
++
++        $this->assertStringContainsString('class="element btn"', $result);
++        $this->assertStringNotContainsString('class="module', $result);
++    }
++
++    public function test_is_as_element_detection(): void
++    {
++        $this->assertTrue($this->renderer->isAsElement(['class' => 'module-as-element custom']));
++        $this->assertFalse($this->renderer->isAsElement(['class' => 'module custom']));
++        $this->assertFalse($this->renderer->isAsElement([]));
++    }
++
++    // ── User-defined class ──
++
++    public function test_user_class_included(): void
++    {
++        $result = $this->renderer->render(
++            'btn', 'module-btn-1', ['data-type' => 'btn'],
++            'content', 'div', false, 'my-custom-class'
++        );
++
++        $this->assertStringContainsString('my-custom-class', $result);
++    }
++
++    // ── CSS class generation ──
++
++    public function test_module_css_class(): void
++    {
++        $this->assertSame('module-btn', $this->renderer->moduleCssClass('btn'));
++        $this->assertSame('module-layouts', $this->renderer->moduleCssClass('layouts'));
++        $this->assertSame('module-text-multiple-columns', $this->renderer->moduleCssClass('text/multiple_columns'));
++        $this->assertSame('module-layouts-titles-skin-1', $this->renderer->moduleCssClass('layouts/titles/skin-1'));
++        $this->assertSame('module-my-module', $this->renderer->moduleCssClass('my module'));
++    }
++
++    // ── Attributes are properly escaped ──
++
++    public function test_attributes_html_escaped(): void
++    {
++        $result = $this->renderer->render(
++            'btn', 'module-btn-1',
++            ['data-type' => 'btn', 'data-value' => 'a"b'],
++            'content'
++        );
++
++        $this->assertStringContainsString('data-value="a&quot;b"', $result);
++    }
++
++    // ── ID and class are not duplicated in attributes ──
++
++    public function test_id_and_class_not_duplicated(): void
++    {
++        $result = $this->renderer->render(
++            'btn', 'module-btn-1',
++            ['class' => 'should-not-appear-twice', 'id' => 'should-not-appear', 'data-type' => 'btn'],
++            'content'
++        );
++
++        // class and id attrs should be handled by the wrapper, not duplicated
++        $this->assertSame(1, substr_count($result, 'id='));
++        $this->assertSame(1, substr_count($result, 'class='));
++    }
++}
+diff --git a/tests/Unit/Utils/ParserHelpers/TagLexerTest.php b/tests/Unit/Utils/ParserHelpers/TagLexerTest.php
+new file mode 100644
+index 0000000..ef92cfa
+--- /dev/null
++++ b/tests/Unit/Utils/ParserHelpers/TagLexerTest.php
+@@ -0,0 +1,234 @@
++<?php
++
++namespace Tests\Unit\Utils\ParserHelpers;
++
++use MicroweberPackages\App\Utils\ParserHelpers\TagLexer;
++use PHPUnit\Framework\TestCase;
++
++/**
++ * Tests for the TagLexer — the quote-aware tokenizer that replaces brittle regexes.
++ *
++ * Also includes regression tests documenting bugs in the OLD regex approach,
++ * verified to now pass with TagLexer.
++ */
++class TagLexerTest extends TestCase
++{
++    private TagLexer $lexer;
++
++    protected function setUp(): void
++    {
++        parent::setUp();
++        $this->lexer = new TagLexer();
++    }
++
++    /**
++     * Old regex approach — kept for regression comparison.
++     */
++    private function findModuleTagsOldRegex(string $html): array
++    {
++        preg_match_all('/<module[^>]*>/Uis', $html, $matches);
++        return $matches[0] ?? [];
++    }
++
++    // ── Basic tag finding ──────────────────────────────────────
++
++    public function test_find_single_self_closing_module(): void
++    {
++        $html = '<div><module type="layouts" template="skin-1"/></div>';
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(1, $tags);
++        $this->assertStringContainsString('type="layouts"', $tags[0]['tag']);
++        $this->assertTrue($tags[0]['self_closing']);
++    }
++
++    public function test_find_multiple_module_tags(): void
++    {
++        $html = '<module type="btn"/><p>text</p><module type="layouts"/>';
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(2, $tags);
++    }
++
++    public function test_find_module_with_nested_markup(): void
++    {
++        $html = '<div class="container"><module type="layouts"/><span>text</span></div>';
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(1, $tags);
++    }
++
++    public function test_no_modules_in_plain_html(): void
++    {
++        $html = '<div><p>No modules here</p></div>';
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(0, $tags);
++    }
++
++    public function test_empty_input(): void
++    {
++        $this->assertCount(0, $this->lexer->findModuleTags(''));
++    }
++
++    public function test_has_module_tags_true(): void
++    {
++        $this->assertTrue($this->lexer->hasModuleTags('<module type="btn"/>'));
++    }
++
++    public function test_has_module_tags_false(): void
++    {
++        $this->assertFalse($this->lexer->hasModuleTags('<div>no modules</div>'));
++    }
++
++    // ── FIXED BUG: > inside quoted attribute value ──
++
++    public function test_greater_than_in_quoted_value_does_not_truncate(): void
++    {
++        $html = '<module type="layouts" title="a > b" template="skin-1"/>';
++        $tags = $this->lexer->findModuleTags($html);
++
++        $this->assertCount(1, $tags);
++        $this->assertStringContainsString('template="skin-1"', $tags[0]['tag'],
++            'TagLexer correctly handles > inside quoted attribute values');
++
++        // Confirm old regex would have broken
++        $oldTags = $this->findModuleTagsOldRegex($html);
++        $this->assertStringNotContainsString('template=', $oldTags[0],
++            'Old regex confirmed to truncate at > inside quotes');
++    }
++
++    public function test_less_than_in_quoted_value(): void
++    {
++        $html = '<module type="layouts" data-tpl="a<b" template="skin-1"/>';
++        $tags = $this->lexer->findModuleTags($html);
++
++        $this->assertCount(1, $tags);
++        $this->assertStringContainsString('template="skin-1"', $tags[0]['tag']);
++    }
++
++    // ── FIXED BUG: Embedded escaped quotes ──
++
++    public function test_embedded_escaped_quotes(): void
++    {
++        $html = '<module type="layouts" title="say \\"hi\\"" template="skin-1"/>';
++        $tags = $this->lexer->findModuleTags($html);
++
++        $this->assertCount(1, $tags);
++        $this->assertStringContainsString('template="skin-1"', $tags[0]['tag'],
++            'TagLexer handles escaped quotes inside attribute values');
++    }
++
++    // ── Tags spanning multiple lines / odd whitespace ──
++
++    public function test_tag_spanning_multiple_lines(): void
++    {
++        $html = "<module\n  type=\"layouts\"\n  template=\"skin-1\"\n/>";
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(1, $tags);
++    }
++
++    public function test_tag_with_tabs_and_odd_whitespace(): void
++    {
++        $html = "<module\t\ttype=\"layouts\" \t template=\"skin-1\" />";
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(1, $tags);
++    }
++
++    // ── FIXED BUG: Greedy regex over-matching ──
++
++    public function test_multiple_tags_found_separately(): void
++    {
++        $html = '<module type="btn"/><p>text</p><module type="layouts"/>';
++        $tags = $this->lexer->findModuleTags($html);
++
++        $this->assertCount(2, $tags, 'TagLexer finds each tag separately');
++        $this->assertStringContainsString('type="btn"', $tags[0]['tag']);
++        $this->assertStringContainsString('type="layouts"', $tags[1]['tag']);
++    }
++
++    // ── Malformed / edge cases ──
++
++    public function test_malformed_unclosed_module_tag(): void
++    {
++        $html = '<module type="btn"';
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(0, $tags, 'Unclosed tag gracefully ignored');
++    }
++
++    public function test_module_text_outside_tag(): void
++    {
++        $html = '<p>The word module appears in text</p>';
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(0, $tags);
++    }
++
++    public function test_modulefoo_not_matched(): void
++    {
++        // <moduleFoo should not be matched — only <module followed by space/>/
++        $html = '<moduleFoo type="btn"/>';
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(0, $tags, 'Tags like <moduleFoo are not matched');
++    }
++
++    public function test_non_self_closing_module(): void
++    {
++        $html = '<module type="btn">content</module>';
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(1, $tags);
++        $this->assertFalse($tags[0]['self_closing']);
++    }
++
++    public function test_self_closing_detected(): void
++    {
++        $html = '<module type="btn" />';
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(1, $tags);
++        $this->assertTrue($tags[0]['self_closing']);
++    }
++
++    public function test_offset_is_correct(): void
++    {
++        $html = '12345<module type="btn"/>67890';
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(1, $tags);
++        $this->assertSame(5, $tags[0]['offset']);
++    }
++
++    public function test_extract_tag_strings(): void
++    {
++        $html = '<module type="a"/><div></div><module type="b"/>';
++        $strs = $this->lexer->extractTagStrings($html);
++        $this->assertCount(2, $strs);
++        $this->assertStringContainsString('type="a"', $strs[0]);
++        $this->assertStringContainsString('type="b"', $strs[1]);
++    }
++
++    public function test_single_quoted_values_with_gt(): void
++    {
++        $html = "<module type='layouts' title='a > b' template='skin-1'/>";
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(1, $tags);
++        $this->assertStringContainsString("template='skin-1'", $tags[0]['tag']);
++    }
++
++    public function test_mixed_quotes_with_gt(): void
++    {
++        $html = '<module type="layouts" title=\'a > b\' template="skin-1"/>';
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(1, $tags);
++        $this->assertStringContainsString('template="skin-1"', $tags[0]['tag']);
++    }
++
++    public function test_case_insensitive_matching(): void
++    {
++        $html = '<MODULE type="btn"/>';
++        $tags = $this->lexer->findModuleTags($html);
++        $this->assertCount(1, $tags);
++    }
++
++    public function test_nested_lt_inside_quoted_value_stops_tag(): void
++    {
++        // < outside quotes means a new tag starts — the current tag is malformed
++        $html = '<module type="btn" <span>extra</span>';
++        $tags = $this->lexer->findModuleTags($html);
++        // The < before span breaks the module tag
++        $this->assertCount(0, $tags);
++    }
++}

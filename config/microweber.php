@@ -83,4 +83,18 @@ return [
     */
     'force_https' => env('MW_FORCE_HTTPS', is_https()),
 
+    /*
+     * The ParserHelpers\LayoutProcessor pipeline (quote-aware TagLexer +
+     * AttributeParser + ModuleIdAllocator + ContentProtector + ModuleRenderer +
+     * edit-field loading + inherit resolution) is THE DEFAULT parser — validated
+     * at parity (406/406 Big layouts, homepage + stress + nested-edit + inherited
+     * pages, unit + integration + Dusk).
+     *
+     * To fall back to the legacy phpQuery parser, opt in with ANY of:
+     *   - this config / env `MW_USE_LEGACY_PARSER=true`,
+     *   - the admin option `use_legacy_parser` (group "website"),
+     *   - the per-request override `?use_legacy_parser=1` (admin / app.debug only).
+     */
+    'use_legacy_parser' => env('MW_USE_LEGACY_PARSER', false),
+
 ];

@@ -3,11 +3,12 @@
 # scripts/setup_php.sh — install Microweber's dependencies.
 #
 # Bootstraps a machine to run Microweber (Laravel 11 CMS):
-#   1. PHP (>= 8.3) + the required extensions   (apt, best-effort, needs sudo/root)
-#   2. Composer (downloaded if not on PATH)
-#   3. PHP dependencies                          (composer install)
+#   1. PHP (>= 8.3) + the required extensions   (apt)
+#   2. Composer                                  (apt: apt-get install composer)
+#   3. PHP dependencies                          (composer install, allowed to run as root)
 #   4. Node package dependencies + built bundles (npm install + npm run build)
 #
+# Must be run as root (it apt-installs packages and runs Composer as superuser).
 # Idempotent: anything already present and new enough is detected and skipped.
 #
 # Usage:
@@ -61,14 +62,8 @@ die()  { err "$*"; exit 1; }
 
 usage() { sed -n '2,40p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0; }
 
-# sudo wrapper: use sudo only when not already root and it exists.
-SUDO=""
-if [ "$(id -u)" -ne 0 ]; then
-  if command -v sudo >/dev/null 2>&1; then SUDO="sudo"; fi
-fi
-
 # ---------------------------------------------------------------------------
-# Argument parsing
+# Argument parsing (runs before the root check so --help works for anyone)
 # ---------------------------------------------------------------------------
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -81,6 +76,16 @@ while [ $# -gt 0 ]; do
   esac
   shift
 done
+
+# This script must run as root — it apt-installs system packages and runs
+# Composer (which refuses superuser unless explicitly allowed).
+if [ "$(id -u)" -ne 0 ]; then
+  die "This script must be run as root (e.g. 'sudo $0' or as the root user)."
+fi
+# Allow Composer to run as root/superuser without prompting.
+export COMPOSER_ALLOW_SUPERUSER=1
+# Running as root, so no sudo prefix is needed for apt.
+SUDO=""
 
 # ---------------------------------------------------------------------------
 # 1. PHP + extensions
@@ -169,19 +174,18 @@ ensure_composer() {
     ok "$(composer --version 2>/dev/null | head -1)"
     return
   fi
-  warn "Composer not on PATH — downloading a local copy to ${ROOT_DIR}/composer.phar"
-  local sig
-  sig="$(php -r "copy('https://composer.github.io/installer.sig', 'php://stdout');")"
-  php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-  local got; got="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
-  if [ "$got" != "$sig" ]; then
-    rm -f composer-setup.php
-    die "Composer installer checksum mismatch — aborting."
+  if [ "$SKIP_SYSTEM" -eq 1 ]; then
+    die "Composer not found and --skip-system was given. Install Composer (apt-get install composer) and re-run."
   fi
-  php composer-setup.php --quiet --install-dir="${ROOT_DIR}" --filename=composer.phar
-  rm -f composer-setup.php
-  COMPOSER_BIN="php ${ROOT_DIR}/composer.phar"
-  ok "Composer installed at ${ROOT_DIR}/composer.phar"
+  if ! command -v apt-get >/dev/null 2>&1; then
+    die "Composer not found and this isn't an apt system. Install Composer manually, then re-run."
+  fi
+  warn "Composer not on PATH — installing via apt…"
+  $SUDO apt-get update -y
+  $SUDO apt-get install -y composer || die "apt could not install Composer."
+  command -v composer >/dev/null 2>&1 || die "Composer still not on PATH after apt install."
+  COMPOSER_BIN="composer"
+  ok "$(composer --version 2>/dev/null | head -1)"
 }
 
 # ---------------------------------------------------------------------------

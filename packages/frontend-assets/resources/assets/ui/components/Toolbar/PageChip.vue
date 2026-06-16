@@ -435,7 +435,50 @@ export default {
             }, 200);
         },
 
+        // task-2026-06-15-pchipedit — build the live-edit "switch to this page"
+        // URL for each result. get_content_admin doesn't return edit_link, and
+        // the model's edit_link accessor points at the Filament form (wrong for a
+        // canvas switcher). The current canvas page keeps an empty edit_link so it
+        // renders as the current indicator; everything else becomes a real,
+        // navigable <a href="/admin/live-edit?url=…">.
+        decorateResultsWithEditLink(items) {
+            if (!Array.isArray(items)) return [];
+            var liveEditPath = window.location.pathname || '/admin/live-edit';
+
+            var normPath = function (u) {
+                if (!u) return '';
+                var s = String(u);
+                // tolerate single/double URL-encoding of the ?url= param
+                for (var i = 0; i < 2; i++) {
+                    if (/%[0-9a-fA-F]{2}/.test(s)) {
+                        try { s = decodeURIComponent(s); } catch (e) { break; }
+                    }
+                }
+                try { s = new URL(s, window.location.origin).pathname; } catch (e) { /* keep s */ }
+                return s.replace(/\/+$/, '');
+            };
+
+            var currentPath = '';
+            try {
+                var cur = new URLSearchParams(window.location.search).get('url') || '';
+                currentPath = normPath(cur);
+            } catch (e) { /* no-op */ }
+
+            return items.map(function (it) {
+                var pub = (it && (it.url || it.original_link)) || '';
+                if (pub && currentPath && normPath(pub) === currentPath) {
+                    it.edit_link = ''; // the page already open in the canvas
+                } else if (pub) {
+                    it.edit_link = liveEditPath + '?url=' + encodeURIComponent(pub);
+                } else {
+                    it.edit_link = '';
+                }
+                return it;
+            });
+        },
+
         fetchResults(keyword, callback) {
+            var self = this;
             try {
                 var apiBase = (window.mw && window.mw.settings && window.mw.settings.api_url) || '/api/';
                 // task-2026-06-06-pchipdraft — do NOT filter is_active here.
@@ -458,6 +501,15 @@ export default {
                     } else if (response.data && Array.isArray(response.data.data)) {
                         items = response.data.data.slice(0, 8);
                     }
+                    // task-2026-06-15-pchipedit — get_content_admin returns raw
+                    // content rows WITHOUT an edit_link, so every row used to render
+                    // as the no-op "current" button (v-if="!item.edit_link") and
+                    // clicking a page did nothing. Build the live-edit switch URL
+                    // here from each item's public url; blank it only for the page
+                    // already open in the canvas (so it stays the current
+                    // indicator). Erring toward a populated edit_link keeps rows
+                    // navigable even if the current-page match is imperfect.
+                    items = self.decorateResultsWithEditLink(items);
                     callback(items);
                 }).catch(function () {
                     callback([]);

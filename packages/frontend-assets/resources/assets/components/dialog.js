@@ -364,7 +364,36 @@
             this.width(this.options.width || 600);
             this.height(this.options.height || 320);
 
-            this.options.root.body.appendChild(this.dialogMain);
+            // Mount target defaults to <body>. When this dialog is opened on top
+            // of an admin (Filament) modal whose focus-trap blocks outside clicks
+            // — e.g. the Live Edit module-settings slide-over invoking the link /
+            // media picker — a dialog on <body> sits OUTSIDE the trap's container,
+            // so the trap kills every click inside it (preventDefault +
+            // stopImmediatePropagation, document capture phase) and the dialog's
+            // controls (tab switches, list selection, OK) go silently dead. Mounting
+            // inside that modal puts the dialog within the trap's allowed region.
+            //
+            // Only a modal that is NOT inside an [inert] subtree is a valid target:
+            // Filament marks the rest of the page inert while a modal is open, and a
+            // dialog nested in an inert subtree is excluded from hit-testing (clicks
+            // pass straight through to <body>). When no eligible modal is open
+            // (classic admin, WYSIWYG, public site, or a click-away-closable modal
+            // that already allows outside clicks) we fall back to <body> unchanged.
+            var mountTarget = this.options.root.body;
+            try {
+                var hostDoc = mountTarget.ownerDocument || this.options.root;
+                var openModals = hostDoc.querySelectorAll('.fi-modal[aria-modal="true"]');
+                for (var i = openModals.length - 1; i >= 0; i--) {
+                    var modal = openModals[i], node = modal, inInert = false;
+                    while (node) {
+                        if (node.nodeType === 1 && node.hasAttribute('inert')) { inInert = true; break; }
+                        node = node.parentElement;
+                    }
+                    if (!inInert) { mountTarget = modal; break; }
+                }
+            } catch (e) {}
+
+            mountTarget.appendChild(this.dialogMain);
             this.dialogMain.appendChild(this.dialogHolder);
 
             if (this.options.closeButtonAppendTo) {

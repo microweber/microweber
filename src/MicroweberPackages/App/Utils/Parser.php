@@ -279,6 +279,12 @@ class Parser
         return $layout;
     }
 
+    /**
+     * @deprecated Unused legacy parser helper — no callers remain. HTML/layout
+     *             parsing is now handled by the ParserHelpers\LayoutProcessor
+     *             pipeline (the default parser). Retained for backward
+     *             compatibility only and scheduled for removal.
+     */
     public function modify_html_preg($layout, $preg_match_all, $content = '', $action = 'append')
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
@@ -300,6 +306,12 @@ class Parser
         return $layout;
     }
 
+    /**
+     * @deprecated Unused legacy parser helper — no callers remain. HTML/layout
+     *             parsing is now handled by the ParserHelpers\LayoutProcessor
+     *             pipeline (the default parser). Retained for backward
+     *             compatibility only and scheduled for removal.
+     */
     public function modify_html($layout, $selector, $content = '', $action = 'append')
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
@@ -318,6 +330,10 @@ class Parser
         return $layout;
     }
 
+    /**
+     * @deprecated Unused legacy parser helper — no callers remain. Retained for
+     *             backward compatibility only and scheduled for removal.
+     */
     public function clean_word($html_to_save)
     {
         if (strstr($html_to_save, '<!--[if gte mso')) {
@@ -381,6 +397,10 @@ class Parser
         return $layout;
     }
 
+    /**
+     * @deprecated Unused legacy parser helper — no callers remain. Retained for
+     *             backward compatibility only and scheduled for removal.
+     */
     public function isolate_head($l)
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
@@ -403,6 +423,10 @@ class Parser
         return $res;
     }
 
+    /**
+     * @deprecated Unused legacy parser helper — no callers remain. Retained for
+     *             backward compatibility only and scheduled for removal.
+     */
     public function get_html($l, $selector = 'body')
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
@@ -451,6 +475,11 @@ class Parser
         return $l;
     }
 
+    /**
+     * @deprecated Old version of isolate_content_field(); superseded by
+     *             ParserHelpers\EditFieldExtractor in the LayoutProcessor
+     *             pipeline. No callers remain — scheduled for removal.
+     */
     public function isolate_content_field_old($l)
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
@@ -473,6 +502,10 @@ class Parser
         return $l;
     }
 
+    /**
+     * @deprecated Unused legacy parser helper — no callers remain. Retained for
+     *             backward compatibility only and scheduled for removal.
+     */
     public function setInnerHTML($DOM, $element, $content)
     {
         $DOMInnerHTML = new \DOMDocument();
@@ -500,6 +533,11 @@ class Parser
     public $module_registry = array();
     public $module_load_registry = array();
 
+    /**
+     * @deprecated Old version of load(); superseded by the ParserHelpers
+     *             module-render pipeline (ModuleRenderer / LayoutProcessor).
+     *             No callers remain — scheduled for removal.
+     */
     public function loadOLLDD($module_name, $attrs = array())
     {
 
@@ -806,6 +844,11 @@ $srsc_str
         return $layout;
     }
 
+    /**
+     * @deprecated Unused legacy parser helper — no callers remain (the encode
+     *             side, module_name_encode(), is still used). Retained for
+     *             backward compatibility only and scheduled for removal.
+     */
     public function module_name_decode($module_name)
     {
         $module_name = str_replace('__', '/', $module_name);
@@ -871,7 +914,11 @@ $srsc_str
     {
         $value = $module_tag;
         $attrs = array();
-        $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+        // Unquoted value: keep internal slashes (e.g. type=shop/products) but
+        // stop at the tag's self-closing slash so a value like type=layouts
+        // followed by a self-close does not absorb the slash. The trailing
+        // lookahead anchors the value end at whitespace, the tag end, or EOF.
+        $attribute_pattern = '@(?P<name>[a-zA-Z_][a-zA-Z0-9_-]*)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\'>]+?)(?=\s*/?>|\s|/$|$))@xsi';
         $mw_attrs_key_value_seperator = "__MW_PARSER_ATTR_VAL__";
         if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
             foreach ($attrs1 as $item) {

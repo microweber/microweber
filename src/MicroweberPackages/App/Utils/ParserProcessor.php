@@ -6,9 +6,16 @@ namespace MicroweberPackages\App\Utils;
 
 use Doctrine\DBAL\Connection;
 use Illuminate\Support\Str;
+use MicroweberPackages\App\Utils\ParserHelpers\AttributeParser;
+use MicroweberPackages\App\Utils\ParserHelpers\ContentProtector;
+use MicroweberPackages\App\Utils\ParserHelpers\EditFieldExtractor;
+use MicroweberPackages\App\Utils\ParserHelpers\LayoutProcessor;
+use MicroweberPackages\App\Utils\ParserHelpers\ModuleIdAllocator;
+use MicroweberPackages\App\Utils\ParserHelpers\ModuleRenderer;
 use MicroweberPackages\App\Utils\ParserHelpers\ParserLayoutItem;
 use MicroweberPackages\App\Utils\ParserHelpers\ParserModuleItem;
 use MicroweberPackages\App\Utils\ParserHelpers\ParserModuleItemCollection;
+use MicroweberPackages\App\Utils\ParserHelpers\TagLexer;
 use MicroweberPackages\View\MicroweberModuleTagCompiler;
 
 class ParserProcessor
@@ -42,6 +49,20 @@ class ParserProcessor
      */
     public $parser_modules_collection;
 
+    /**
+     * New helper instances (refactored from the monolithic code).
+     */
+    public TagLexer $tagLexer;
+    public AttributeParser $attributeParser;
+    public ContentProtector $contentProtector;
+    public ModuleIdAllocator $moduleIdAllocator;
+    public ModuleRenderer $moduleRenderer;
+    public EditFieldExtractor $editFieldExtractor;
+    public LayoutProcessor $layoutProcessor;
+
+    /** Re-entrancy guard for the experimental LayoutProcessor pipeline. */
+    private bool $_layoutProcessorActive = false;
+
 
     public function __construct()
     {
@@ -49,6 +70,22 @@ class ParserProcessor
         $this->utils = new ParserUtils();
         $this->registry = new ParserRegistry();
         $this->parser_modules_collection = new ParserModuleItemCollection();
+
+        // Initialize new helper classes
+        $this->tagLexer = new TagLexer();
+        $this->attributeParser = new AttributeParser();
+        $this->contentProtector = new ContentProtector();
+        $this->moduleIdAllocator = new ModuleIdAllocator();
+        $this->moduleRenderer = new ModuleRenderer();
+        $this->editFieldExtractor = new EditFieldExtractor($this->attributeParser);
+        $this->layoutProcessor = new LayoutProcessor(
+            $this->tagLexer,
+            $this->attributeParser,
+            $this->contentProtector,
+            $this->moduleIdAllocator,
+            $this->moduleRenderer,
+            $this->editFieldExtractor
+        );
 
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
 
@@ -84,6 +121,14 @@ class ParserProcessor
     {
         if ($layout == '') {
             return;
+        }
+
+        // Route a top-level, context-free layout through the default
+        // ParserHelpers\LayoutProcessor pipeline (unless legacy is opted in via
+        // use_legacy_parser). Only the simple top-level case is routed — never
+        // recursive / parent-driven / per-module sub-calls, which legacy owns.
+        if ($this->shouldUseLayoutProcessor($coming_from_parent, $prevous_mod_obj, $previous_attrs)) {
+            return $this->processWithLayoutProcessor($layout);
         }
 
         // Deferred Blade module processing: if we're currently rendering a
@@ -318,19 +363,6 @@ class ParserProcessor
             if (is_array($local_mw_replaced_modules) and !empty($local_mw_replaced_modules)) {
 
 
-                $attribute_pattern = '@
-			(?P<name>\w+)# attribute name
-			\s*=\s*
-			(
-				(?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote) # a quoted value
-				| # or
-				(?P<value_unquoted>[^\s"\']+?)(?:\s+|$)  # an unquoted value (terminated by whitespace or EOF)
-				)
-@xsi';
-
-                $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
-                $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
-
                 $attrs = array();
                 foreach ($local_mw_replaced_modules as $parse_key => $parse_item) {
 
@@ -380,7 +412,7 @@ class ParserProcessor
                         if ($value != '') {
 
 
-                            $attrs = $this->utils->parseAttributes($value);
+                            $attrs = $this->attributeParser->parse($value);
 
 
                             $m_tag = ltrim($value, '<module');
@@ -1305,6 +1337,164 @@ class ParserProcessor
     }
 
 
+    /**
+     * Whether the experimental LayoutProcessor pipeline should handle this call.
+     *
+     * Engaged only when the config flag is on AND this is a top-level call with
+     * no parent/module/attribute context (the legacy flow keeps every recursive
+     * and per-module sub-call).
+     */
+    private function shouldUseLayoutProcessor($coming_from_parent, $prevous_mod_obj, $previous_attrs): bool
+    {
+        // The LayoutProcessor pipeline is the default; only opt OUT to legacy.
+        if ($this->useLegacyParser()) {
+            return false;
+        }
+        // Re-entrancy guard: while a top-level LayoutProcessor run is active,
+        // any nested process() call (e.g. triggered from inside load() when a
+        // module renders its own sub-layout) must fall through to the legacy
+        // flow. Re-entering here would reset the shared id allocator / protector
+        // mid-render → duplicate module ids → load-cache collisions (every
+        // layout rendering the first one's content).
+        if ($this->_layoutProcessorActive) {
+            return false;
+        }
+        return !$coming_from_parent && !$prevous_mod_obj && !$previous_attrs;
+    }
+
+    /**
+     * Whether to fall back to the legacy phpQuery parser. The LayoutProcessor
+     * pipeline is the default; legacy is opt-in via config/env
+     * (microweber.use_legacy_parser / MW_USE_LEGACY_PARSER) or the admin option
+     * `use_legacy_parser`. The option lookup is cached per request.
+     *
+     * @deprecated The legacy phpQuery parser path is deprecated. The default and
+     *             validated parser is the ParserHelpers\LayoutProcessor pipeline
+     *             ({@see processWithLayoutProcessor()}); the `use_legacy_parser`
+     *             opt-out — and the legacy branch in {@see process()} it selects —
+     *             is retained only as a temporary fallback and is scheduled for
+     *             removal once the new parser is fully signed off.
+     */
+    private function useLegacyParser(): bool
+    {
+        if (config('microweber.use_legacy_parser', false)) {
+            return true;
+        }
+
+        static $optionCache = null;
+        if ($optionCache === null) {
+            $optionCache = false;
+            if (function_exists('get_option')) {
+                try {
+                    $opt = get_option('use_legacy_parser', 'website');
+                    $optionCache = in_array($opt, ['y', 'yes', '1', 1, true, 'true'], true);
+                } catch (\Throwable $e) {
+                    $optionCache = false;
+                }
+            }
+        }
+
+        return $optionCache;
+    }
+
+    /**
+     * Run the new ParserHelpers\LayoutProcessor over a layout, bridging module
+     * rendering back to the real module system via $this->load(). State is reset
+     * per top-level call so module ids restart deterministically.
+     */
+    private function processWithLayoutProcessor($layout)
+    {
+        $this->_layoutProcessorActive = true;
+        $this->moduleIdAllocator->reset();
+        $this->contentProtector->reset();
+
+        // content_id() is 0/empty when there is no current content — treat that
+        // as "no content scope" (null) so ids stay bare (module-btn, not -0).
+        $contentId = function_exists('content_id') ? (int) content_id() : 0;
+        $contentId = $contentId > 0 ? $contentId : null;
+
+        $moduleLoader = function ($moduleName, $attrs) {
+            return $this->load($moduleName, $attrs);
+        };
+
+        // Bridge to the real edit-field store so saved region content replaces
+        // each .edit default — the piece that lets real pages render their
+        // authored content through the new pipeline.
+        $editFieldLoader = function ($field, $rel, $relId, $cid) {
+            if (!$field || !$rel) {
+                return null;
+            }
+
+            // Native content-table fields (content / content_body / description
+            // / title) live on the content ROW, not in content_fields — this is
+            // where a page's MAIN edited content actually sits. Mirror the legacy
+            // loader (_is_native_content_table_field): read the row column first
+            // for content/page/post/inherit, and only fall back to edit_field.
+            $isNative = in_array($field, ['content', 'content_body', 'description', 'title'], true);
+            if ($isNative
+                && $cid
+                && in_array($rel, ['content', 'page', 'post', 'inherit'], true)) {
+                $row = app()->content_manager->get_by_id((int) $cid);
+                if (is_array($row) && isset($row[$field]) && is_string($row[$field]) && $row[$field] !== '') {
+                    return $row[$field];
+                }
+                // fall through to edit_field for content stored that way instead
+            }
+
+            $query = 'rel_type=' . rawurlencode((string) $rel)
+                . '&field=' . rawurlencode((string) $field);
+            if ($cid) {
+                $query .= '&rel_id=' . (int) $cid;
+            }
+            $value = app()->content_manager->edit_field($query);
+            return is_string($value) ? $value : null;
+        };
+
+        // Match the legacy flow: tell the Blade MicroweberModuleTagCompiler to
+        // leave <module> tags raw so load()'s rendered output contains real
+        // <module> markup for LayoutProcessor to tokenize/render itself (instead
+        // of the compiler rendering them its own way → empty/duplicated output).
+        // rel="inherit" fields resolve to the inherited (master) content — e.g.
+        // a post/product inheriting a region from its blog/shop master page.
+        $inheritedParentResolver = function ($id) {
+            $parent = app()->content_manager->get_inherited_parent((int) $id);
+            return ($parent && (int) $parent > 0) ? (int) $parent : null;
+        };
+
+        MicroweberModuleTagCompiler::disableModuleProcessing();
+        try {
+            $result = $this->layoutProcessor->process(
+                $layout, $contentId, $moduleLoader, $editFieldLoader, $inheritedParentResolver
+            );
+
+            // Nested load() calls run the LEGACY flow (re-entrancy guard), which
+            // shields <style>/<textarea>/comments/urls behind its own
+            // placeholders and normally unwinds them at the end of its own
+            // process(). Those restores don't run on this short-circuit path, so
+            // replay them here or the placeholders leak into the page.
+            global $mw_replaced_textarea_tag;
+            if (is_string($result)) {
+                if (!empty($mw_replaced_textarea_tag)) {
+                    foreach ($mw_replaced_textarea_tag as $k => $v) {
+                        if ($v !== '') {
+                            $result = str_replace($k, $v, $result);
+                        }
+                    }
+                }
+                $result = $this->_replace_tags_with_placeholders_back($result);
+                if (method_exists($this, 'replace_url_placeholders')) {
+                    $result = $this->replace_url_placeholders($result);
+                }
+            }
+
+            return $result;
+        } finally {
+            MicroweberModuleTagCompiler::enableModuleProcessing();
+            $this->_layoutProcessorActive = false;
+        }
+    }
+
+
     private function _do_we_have_more_for_parse($mod_content)
     {
         // cycle-N: PHP 8.4 deprecates passing null to preg_match_all's
@@ -1320,27 +1510,15 @@ class ParserProcessor
         if ($this->_do_we_have_more_edit_fields_for_parse($mod_content)) {
             $proceed_with_parse = true;
         } else {
-            $has_not_found = true;
-            $has_found = true;
-
-            preg_match_all('/<module.*[^>]*>/', $mod_content, $modinner);
-            if (!empty($modinner) and isset($modinner[0][0])) {
-
+            // Use TagLexer instead of brittle regex for module tag detection
+            if ($this->tagLexer->hasModuleTags($mod_content)) {
                 $proceed_with_parse = true;
-
-
             } else {
-
-
-                preg_match_all('/<mw-unprocessed-module-tag.*[^>]*>/', $mod_content, $modinner);
-                if (!empty($modinner) and isset($modinner[0][0])) {
-
+                // Also check for unprocessed module placeholders
+                if (strpos($mod_content, '<mw-unprocessed-module-tag') !== false) {
                     $proceed_with_parse = true;
-
-
                 }
             }
-
         }
         return $proceed_with_parse;
     }

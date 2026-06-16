@@ -846,6 +846,20 @@ button.btn-icon.live-edit-toolbar-buttons,
     body.fi-panel-admin .fi-ta-row > .fi-ta-cell:has(> .fi-ta-actions) {
         justify-content: flex-end;
         padding-top: 8px !important;
+        /* task-2026-06-15-ftactions — without this the actions cell collapses to
+           ~0 width (Filament's native narrow `w-full` rule for .fi-ta-actions is
+           absent from this theme build), so the Edit/Copy/Delete links overflow
+           LEFT out of the card and only a sliver shows. Force the cell + action
+           group to span the full card width and wrap. */
+        width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+    body.fi-panel-admin .fi-ta-row > .fi-ta-actions-cell > .fi-ta-actions,
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell > .fi-ta-actions {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 16px;
     }
     /* Dark-mode tints — keep the card border + background distinct
        from the page surface without losing the AI-221/AI-227 contrast
@@ -877,6 +891,20 @@ button.btn-icon.live-edit-toolbar-buttons,
     }
     /* Hide the checkbox cell label (just says "Select/deselect") */
     body.fi-panel-admin .fi-ta-row > .fi-ta-cell.fi-ta-selection-cell > .fi-ta-cell-label {
+        display: none !important;
+    }
+}
+
+/* task-2026-06-15-ftcelldesktop — In normal (desktop, >=1024px) table layout
+ * the column HEADER already names each column, so Filament's per-cell
+ * .fi-ta-cell-label must stay HIDDEN. Filament's native `sm:hidden` rule for
+ * that label is not present in this theme build, so without this the labels
+ * (e.g. "Picture" / "Name") render redundantly INSIDE every cell — most
+ * visibly on module-settings tables like Testimonials, where each row showed
+ * the column name above its value. The card-mode block above (<=1023.98px,
+ * thead hidden) re-shows them, which is where they belong. */
+@media (min-width: 1024px) {
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell > .fi-ta-cell-label {
         display: none !important;
     }
 }

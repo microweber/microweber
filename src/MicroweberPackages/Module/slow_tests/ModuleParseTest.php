@@ -173,5 +173,85 @@ HTML;
 
     }
 
+    #[Test]
+    public function it_layout_processor_is_the_default_parser(): void
+    {
+        // The LayoutProcessor pipeline is the default; legacy is opt-in via
+        // use_legacy_parser (config/env/admin option), which defaults OFF.
+        $this->assertFalse((bool) config('microweber.use_legacy_parser'),
+            'use_legacy_parser defaults to false → LayoutProcessor is the default');
+    }
+
+    #[Test]
+    public function it_use_legacy_parser_falls_back_to_legacy(): void
+    {
+        // Opt into legacy → the legacy phpQuery flow.
+        config(['microweber.use_legacy_parser' => true]);
+        try {
+            $layout = '<div class="edit" rel="content" field="content">'
+                . '<module type="btn" template="default"/>'
+                . '<module type="btn" template="default"/>'
+                . '</div>';
+
+            $parser = new \MicroweberPackages\App\Utils\ParserProcessor();
+            $out = $parser->process($layout);
+
+            // Legacy flow assigns module-btn / module-btn--1 and leaves no raw tags.
+            $this->assertStringContainsString('module-btn', $out);
+            $this->assertStringNotContainsString('<module', $out);
+        } finally {
+            config(['microweber.use_legacy_parser' => false]);
+        }
+    }
+
+    #[Test]
+    public function it_layout_processor_flag_on_renders_via_new_pipeline(): void
+    {
+        config(['microweber.use_legacy_parser' => false]);
+        try {
+            $layout = '<div class="edit" rel="content" field="content">'
+                . '<module type="btn" template="default"/>'
+                . '<module type="btn" template="default"/>'
+                . '</div>'
+                . '<!-- <module type="btn"/> -->'
+                . '<pre><module type="btn"/></pre>';
+
+            $parser = new \MicroweberPackages\App\Utils\ParserProcessor();
+            $out = $parser->process($layout);
+
+            // Modules tokenized + id-allocated by the new pipeline.
+            $this->assertStringContainsString('id="module-btn"', $out);
+            $this->assertStringContainsString('class="module module-btn"', $out);
+            // No bogus -0 suffix when there is no content scope.
+            $this->assertStringNotContainsString('id="module-btn-0"', $out);
+            // Comment + pre modules stay verbatim (protected, not rendered).
+            $this->assertStringContainsString('<!-- <module type="btn"/> -->', $out);
+            $this->assertStringContainsString('<pre><module type="btn"/></pre>', $out);
+        } finally {
+            config(['microweber.use_legacy_parser' => false]);
+        }
+    }
+
+    #[Test]
+    public function it_layout_processor_flag_on_keeps_slash_module_type(): void
+    {
+        config(['microweber.use_legacy_parser' => false]);
+        try {
+            $layout = '<div class="edit" rel="content" field="content">'
+                . '<module type=shop/products template=default />'
+                . '</div>';
+
+            $parser = new \MicroweberPackages\App\Utils\ParserProcessor();
+            $out = $parser->process($layout);
+
+            // Slash type survives: id is dashed, data-type keeps the slash.
+            $this->assertStringContainsString('id="module-shop-products"', $out);
+            $this->assertStringContainsString('data-type="shop/products"', $out);
+            $this->assertStringNotContainsString('<module', $out);
+        } finally {
+            config(['microweber.use_legacy_parser' => false]);
+        }
+    }
+
 
 }
