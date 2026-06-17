@@ -54,9 +54,29 @@ Modular PHP CMS on **Laravel 11**. This file is the fast-start map; keep it in s
 - Clear caches via `php artisan optimize:clear` / `cache:clear` / `view:clear` — never `rm` cache dirs. New Filament pages may 404 until `php artisan filament:clear-cached-components`.
 
 ## Tests
-- PHPUnit against a **real MySQL** DB `microweber_testing` (not sqlite, not mocked). Run suites in separate processes via `bash run-tests.sh` (avoids the ~6 MB/test leak that OOMs the full suite). Kill stale runs before starting; never run in parallel.
-- Do **not** use `RunInSeparateProcess`, `DatabaseTransactions`, or `RefreshDatabase`.
-- Contract tests that read source files: a `#[DataProvider]` runs **pre-boot**, so return relative paths and resolve `base_path()` per-test. When asserting the *absence* of a token, pre-strip comments (`/* */`, `//`, `{{-- --}}`, `<!-- -->`) so the assertion can't self-match its own prose.
+
+### Environment & setup
+- **Real MySQL DB `microweber_testing`** (not sqlite, not mocked). PHPUnit forces `APP_ENV=testing` (`phpunit.xml` `<php>`); the DB connection resolves to `microweber_testing` on `127.0.0.1:3306`, user `root` (see `.env.dusk` for the canonical values). Create the DB once: `mysql -uroot -e "CREATE DATABASE IF NOT EXISTS microweber_testing"`.
+- **One-time dev provisioning:** `sudo scripts/setup_php.sh --dev` installs PHP+exts, Composer (with dev deps incl. `laravel/dusk`), the Node bundles, **and** a Chrome browser + matching Dusk ChromeDriver. Run this before Dusk tests.
+- **Always kill stale runs before starting; never run suites in parallel** (shared MySQL DB + shared Chrome profile collide).
+
+### PHPUnit (unit / feature / module / contract)
+- **Run via `bash run-tests.sh`** — it runs each suite in its **own process** to dodge the ~6 MB/test PHP memory leak that OOMs the full suite (512 MB/suite is enough).
+  - `bash run-tests.sh` — all suites · `bash run-tests.sh Unit Core` — named suites · `bash run-tests.sh --modules` — only module groups · `bash run-tests.sh --list` — list suites.
+  - Exits non-zero if any suite failed; prints a PASS/FAIL summary per suite.
+- **Suites** (`phpunit.xml`): `Unit`, `Feature`, `Core` (`src/MicroweberPackages/*`), the `Modules-*` groups (`Newsletter`, `Content`, `Billing`, `Group3`–`Group6B`, `WordPressMigration` — split to bound memory), and `Templates`.
+- **Single test / filter** — `run-tests.sh` has no passthrough; call PHPUnit directly: `php vendor/bin/phpunit --filter 'MethodOrClassName'` or `php vendor/bin/phpunit path/to/Test.php`. `composer test` runs `artisan test` (whole suite in one process — fine for a small slice, OOMs at scale; prefer `run-tests.sh`).
+- **Do NOT use** `RunInSeparateProcess`, `DatabaseTransactions`, or `RefreshDatabase` (the suite manages its own DB lifecycle; these break it). Filament/Livewire tests opt into `RunTestsInSeparateProcesses` at the class level instead.
+- **Contract tests that read source files:** a `#[DataProvider]` runs **pre-boot**, so return relative paths and resolve `base_path()` per-test. When asserting the *absence* of a token, pre-strip comments (`/* */`, `//`, `{{-- --}}`, `<!-- -->`) so the assertion can't self-match its own prose.
+
+### Dusk (browser / Live Edit / admin UI)
+- **Prereqs:** Chrome + ChromeDriver (from `setup_php.sh --dev`, or `php artisan dusk:chrome-driver --detect`), and **a running server on `http://127.0.0.1:8000`** (`DuskTestCase::$siteUrl` / `.env.dusk` `APP_URL`). Start one with `php artisan serve --port=8000` (or the `serve-test` artisan command) in a separate process. `.env.dusk` points Dusk at the **same `microweber_testing`** DB.
+- **Run:** `php artisan dusk` (all) · `php artisan dusk --filter 'TestName'` (one) · `composer test-dusk`.
+- **Login:** `AdminLoginTrait::loginAsAdmin()` uses `admin@admin.com` / `admin`. One Chrome instance is shared across a run (per-PID profile under `storage/app/chrome-profiles/`) and **auto-recycles after ~40 tests** to dodge Chrome flakiness; window is `1280×1080`. Headless is **off by default** (the `--headless` arg is commented in `DuskTestCase::driver()`) — uncomment for CI / no-display.
+- **Caveats:** don't log in via `/admin/login` when Apache-fronted (returns 404) — use `php artisan serve` on :8000 or a valid session cookie to `/admin/dashboard`. Live-Edit inserts/module-settings **auto-persist to the content DB** — drive pickers non-mutatingly and test inserts only on throwaway pages. Use the `claude_agent` account (id 2) for any login that mutates; never change user 1's password or add temp routes.
+
+### Coverage, static analysis & security
+- `composer test-coverage` → `clover.xml` (needs Xdebug/PCOV). `composer insights` / `insights-summary` → PHP Insights. `composer security:check` (composer audit + `npm audit`), `security:outdated`, `security:full-scan`.
 
 ## Code style & reusable patterns
 - Inside Filament page actions use `$this->js(...)`, `$this->dispatch(...)`, `$this->mountAction(...)`; action callbacks `->action(function (array $data) { … })` with `$this` for page context.
