@@ -229,3 +229,5 @@ TODO_OLD.md_old
 
 # Local planning / scratch design & refactor docs (not part of the repo)
 /PLAN/
+/packages/frontend-assets/resources/dist
+/packages/frontend-assets/resources/dist/build
