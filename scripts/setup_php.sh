@@ -8,6 +8,10 @@
 #   3. PHP dependencies                          (composer install, allowed to run as root)
 #   4. Node package dependencies + built bundles (npm install + npm run build)
 #
+# With --dev it additionally provisions the browser-testing stack:
+#   5. A Chrome/Chromium browser (apt) + the matching Dusk ChromeDriver
+#      (laravel/dusk is already a require-dev package; --dev wires up the driver).
+#
 # Must be run as root (it apt-installs packages and runs Composer as superuser).
 # Idempotent: anything already present and new enough is detected and skipped.
 #
@@ -15,8 +19,11 @@
 #   scripts/setup_php.sh [options]
 #
 # Options:
+#   --dev             full dev setup: system + composer (with dev deps) + Node,
+#                     plus a Chrome browser and the Dusk ChromeDriver for browser
+#                     tests. Mutually exclusive with --no-dev.
 #   --no-dev          composer install without dev dependencies (production)
-#   --skip-system     do not apt-install PHP/extensions (use what's on PATH)
+#   --skip-system     do not apt-install PHP/extensions or the Chrome browser
 #   --skip-composer   do not run composer install
 #   --skip-node       do not install/build the packages/* Node bundles
 #   -h, --help        show this help and exit
@@ -39,6 +46,7 @@ REQUIRED_EXTS=(bcmath ctype curl dom fileinfo gd intl mbstring openssl pdo pdo_m
 # apt package names for those extensions (php${PHP_VERSION}-* metapackages).
 APT_PHP_PKGS=(cli common bcmath curl gd intl mbstring mysql xml zip sqlite3)
 
+DEV=0
 NO_DEV=0
 SKIP_SYSTEM=0
 SKIP_COMPOSER=0
@@ -60,13 +68,19 @@ warn() { echo -e "${YELLOW}  !${NC} $*"; }
 err()  { echo -e "${RED}  ✗${NC} $*" >&2; }
 die()  { err "$*"; exit 1; }
 
-usage() { sed -n '2,40p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0; }
+# Print the leading comment block (everything from line 2 up to, but not
+# including, the first `set -euo pipefail`), stripping the "# " markers.
+usage() {
+  sed -n '2,/^set -euo pipefail/{/^set -euo pipefail/d; s/^# \{0,1\}//; p}' "${BASH_SOURCE[0]}"
+  exit 0
+}
 
 # ---------------------------------------------------------------------------
 # Argument parsing (runs before the root check so --help works for anyone)
 # ---------------------------------------------------------------------------
 while [ $# -gt 0 ]; do
   case "$1" in
+    --dev)           DEV=1 ;;
     --no-dev)        NO_DEV=1 ;;
     --skip-system)   SKIP_SYSTEM=1 ;;
     --skip-composer) SKIP_COMPOSER=1 ;;
@@ -76,6 +90,12 @@ while [ $# -gt 0 ]; do
   esac
   shift
 done
+
+# --dev (install dev deps + browser-testing stack) and --no-dev (drop dev deps)
+# are contradictory.
+if [ "$DEV" -eq 1 ] && [ "$NO_DEV" -eq 1 ]; then
+  die "--dev and --no-dev are mutually exclusive."
+fi
 
 # This script must run as root — it apt-installs system packages and runs
 # Composer (which refuses superuser unless explicitly allowed).
@@ -232,6 +252,108 @@ install_node_deps() {
 }
 
 # ---------------------------------------------------------------------------
+# 5. Dev / browser-testing stack (--dev): Chrome browser + Dusk ChromeDriver
+# ---------------------------------------------------------------------------
+# A browser is already present if any of these resolve.
+chrome_present() {
+  command -v google-chrome >/dev/null 2>&1 || \
+  command -v google-chrome-stable >/dev/null 2>&1 || \
+  command -v chromium >/dev/null 2>&1 || \
+  command -v chromium-browser >/dev/null 2>&1
+}
+
+# Best-effort: report the installed Chrome/Chromium version string.
+chrome_version() {
+  local b
+  for b in google-chrome google-chrome-stable chromium chromium-browser; do
+    command -v "$b" >/dev/null 2>&1 && { "$b" --version 2>/dev/null; return; }
+  done
+}
+
+ensure_chrome() {
+  if chrome_present; then
+    ok "Browser present: $(chrome_version)"
+    return 0
+  fi
+  if [ "$SKIP_SYSTEM" -eq 1 ]; then
+    warn "No Chrome/Chromium found and --skip-system given — install one for Dusk and re-run."
+    return 1
+  fi
+  if ! command -v apt-get >/dev/null 2>&1; then
+    warn "No Chrome/Chromium and not an apt system — install Google Chrome or Chromium manually for Dusk."
+    return 1
+  fi
+  warn "Installing a Chrome browser via apt (for Dusk browser tests)…"
+  # Prefer Google Chrome stable from Google's own apt repo; fall back to Chromium.
+  if command -v curl >/dev/null 2>&1 || command -v wget >/dev/null 2>&1; then
+    local key=/usr/share/keyrings/google-chrome.gpg
+    if [ ! -f "$key" ]; then
+      if command -v curl >/dev/null 2>&1; then
+        curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o "$key" 2>/dev/null || true
+      else
+        wget -qO- https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o "$key" 2>/dev/null || true
+      fi
+    fi
+    if [ -f "$key" ]; then
+      echo "deb [arch=amd64 signed-by=${key}] http://dl.google.com/linux/chrome/deb/ stable main" \
+        > /etc/apt/sources.list.d/google-chrome.list
+      $SUDO apt-get update -y || true
+      $SUDO apt-get install -y google-chrome-stable || true
+    fi
+  fi
+  if ! chrome_present; then
+    warn "Google Chrome install failed or unavailable — trying Chromium…"
+    $SUDO apt-get update -y || true
+    $SUDO apt-get install -y chromium || $SUDO apt-get install -y chromium-browser || true
+  fi
+  if chrome_present; then
+    ok "Browser installed: $(chrome_version)"
+    return 0
+  fi
+  warn "Could not install a Chrome/Chromium browser automatically — install one manually for Dusk."
+  return 1
+}
+
+install_dev_tools() {
+  log "Setting up dev / browser-testing stack (--dev)"
+
+  # Laravel Dusk ships as a require-dev package; without dev deps there's no
+  # dusk:chrome-driver command to run.
+  if [ "$SKIP_COMPOSER" -eq 1 ]; then
+    warn "Composer was skipped (--skip-composer) — ensure laravel/dusk is installed for the steps below."
+  fi
+  if [ ! -d "${ROOT_DIR}/vendor/laravel/dusk" ]; then
+    warn "vendor/laravel/dusk not found — run composer install (with dev deps) first; skipping ChromeDriver."
+    return
+  fi
+
+  # 5a. Browser.
+  local have_browser=0
+  ensure_chrome && have_browser=1
+
+  # 5b. ChromeDriver matched to the installed browser.
+  if ! command -v php >/dev/null 2>&1; then
+    warn "php not on PATH — cannot run 'artisan dusk:chrome-driver'; skipping."
+    return
+  fi
+  cd "${ROOT_DIR}"
+  if [ "$have_browser" -eq 1 ]; then
+    log "Installing matching ChromeDriver (artisan dusk:chrome-driver --detect)"
+    if php artisan dusk:chrome-driver --detect; then
+      ok "ChromeDriver installed (matched to the installed browser)"
+    else
+      warn "dusk:chrome-driver --detect failed; falling back to the latest stable driver"
+      php artisan dusk:chrome-driver && ok "ChromeDriver (latest stable) installed" \
+        || warn "Could not install ChromeDriver — run 'php artisan dusk:chrome-driver' manually."
+    fi
+  else
+    log "Installing the latest stable ChromeDriver (no browser detected)"
+    php artisan dusk:chrome-driver && ok "ChromeDriver (latest stable) installed" \
+      || warn "Could not install ChromeDriver — install a browser, then 'php artisan dusk:chrome-driver --detect'."
+  fi
+}
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 echo "=========================================="
@@ -261,6 +383,10 @@ else
   install_node_deps
 fi
 
+if [ "$DEV" -eq 1 ]; then
+  install_dev_tools
+fi
+
 echo ""
 echo -e "${GREEN}==========================================${NC}"
 echo -e "${GREEN} Dependencies installed.${NC}"
@@ -269,3 +395,6 @@ echo "Next steps (not run by this script):"
 echo "  cp -n env_local .env 2>/dev/null || cp -n .env.example .env   # configure DB"
 echo "  php artisan key:generate"
 echo "  php artisan migrate   # or the Microweber installer"
+if [ "$DEV" -eq 1 ]; then
+  echo "  php artisan dusk     # browser tests (Chrome + ChromeDriver were set up)"
+fi
