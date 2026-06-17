@@ -133,7 +133,10 @@ Templates/ProteinStore2/resources/views/layouts/master.blade.php
 Templates/ProteinStore2/vite.config.js
 Templates/ProteinStore2/
 Templates/Fitpower2/
-/Templates
+# Note: no blanket /Templates ignore — core templates (Bootstrap, Big) are tracked.
+# Non-core templates are ignored individually above. Big ships in core (renamed copy of Big2).
+/Templates/Big/node_modules
+
 /photographer2
 
 # Static analysis and refactoring build artifacts
@@ -218,3 +221,11 @@ TODO.md
 TODO_OLD.md_old
 /packages/microweber-filament-theme/resources/dist/build
 /public/vendor/microweber-packages/microweber-filament-theme/build
+.mcp.json
+/public/vendor
+/packages/microweber-filament-theme/resources/dist
+/docs/migration/screenshots
+.phpunit.cache/test-results
+
+# Local planning / scratch design & refactor docs (not part of the repo)
+/PLAN/
