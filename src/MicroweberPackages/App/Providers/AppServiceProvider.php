@@ -234,6 +234,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->register(MicroweberFilamentRegistryServiceProvider::class);
 
+        $this->app->register(\MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider::class);
 
         $this->app->register(CoreServiceProvider::class);
 

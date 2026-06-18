@@ -263,136 +263,14 @@ abstract class LiveEditModuleSettings extends Page
 
     public function schemaToFormFields($schemaItemsArray, $settingsKey = 'options', $appendSettingsKey = false)
     {
-        $formFields = [];
+        $engine = \MicroweberPackages\FormBuilder\FormBuilder::fromArray($schemaItemsArray)
+            ->withState($this->options);
 
-        foreach ($schemaItemsArray as $schema) {
-            $name = $schema['name'];
-
-            if (!isset($schema['type'])) {
-                continue;
-            }
-            if (!isset($schema['label'])) {
-                $schema['label'] = titlelize($name);
-            }
-            $showField = true;
-
-
-            // Check if show_when condition exists and if any of the conditions are met
-            if (isset($schema['show_when']) && is_array($schema['show_when'])) {
-                $showField = false;
-                foreach ($schema['show_when'] as $condition) {
-
-
-                    // Check if the condition exists in the current schema or options
-                    if (isset($this->options[$condition]) and $this->options[$condition]) {
-                        $showField = true;
-                        break;
-                    } else {
-                        $showField = false;
-                    }
-                }
-            }
-
-            // $name must  start with options.
-            if ($appendSettingsKey and strpos($name, $settingsKey . '.') !== 0) {
-                // $name = $settingsKey.'.' . $name;
-                $name = $settingsKey . '.' . $name;
-            }
-
-
-            if ($schema['type'] == 'text') {
-                $formFields[] = TextInput::make($name)
-                    ->label($schema['label'])
-                    ->visible($showField)
-                    ->live()
-                    ->placeholder($schema['placeholder'] ?? '');
-
-            }
-            if ($schema['type'] == 'number') {
-                $min = $schema['options']['min'] ?? 0;
-                $max = $schema['options']['max'] ?? 100;
-                $step = $schema['options']['step'] ?? 1;
-                $formFields[] = TextInput::make($name)
-                    ->label($schema['label'])
-                    ->numeric()
-                    ->minValue($min)
-                    ->maxValue($max)
-                    ->step($step)
-                    ->visible($showField)
-                    ->live()
-                    ->placeholder($schema['placeholder'] ?? '');
-
-            }
-            if ($schema['type'] == 'textarea') {
-                $formFields[] = Textarea::make($name)
-                    ->label($schema['label'])
-                    ->visible($showField)
-                    ->live()
-                    ->placeholder($schema['placeholder'] ?? '');
-            }
-            if ($schema['type'] == 'image') {
-                $formFields[] = MwFileUpload::make($name)
-                    ->label($schema['label'])
-                    ->visible($showField)
-                    ->live()
-                    ->placeholder($schema['placeholder'] ?? '');
-            }
-            if ($schema['type'] == 'color') {
-
-                $formFields[] = MwColorPicker::make($name)
-                    ->label($schema['label'])
-                    ->visible($showField)
-                    ->hex()
-                    ->live()
-                    ->placeholder($schema['placeholder'] ?? '');
-            }
-            if ($schema['type'] == 'select') {
-                $formFields[] = Select::make($name)
-                    ->label($schema['label'])
-                    ->visible($showField)
-                    ->options($schema['options'])
-                    ->live()
-                    ->placeholder($schema['placeholder'] ?? '');
-            }
-            if ($schema['type'] == 'toggle') {
-                $formFields[] = Toggle::make($name)
-                    ->visible($showField)
-                    ->live()
-                    ->label($schema['label'] ?? '');
-            }
-            if ($schema['type'] == 'slider') {
-
-                $min = $schema['options']['min'] ?? 0;
-                $max = $schema['options']['max'] ?? 100;
-                $step = $schema['options']['step'] ?? 1;
-
-                $formFields[] = MwInputSliderGroup::make()
-                    ->live()
-                    ->label($schema['label'] ?? '')
-                    ->visible($showField)
-                    ->enableTooltips()
-                    ->sliders([
-                        MwInputSlider::make($name)
-                    ])->range([
-                        "min" => $min,
-                        "max" => $max
-                    ])->step($step);
-//
-//                $formFields[] = MwRangeSlider::make($name)
-//                    ->visible($showField)
-//                    ->live()
-////                    ->range([
-////                        "min" => $min,
-////                        "max" => $max
-////                    ])
-////                    ->step($step)
-//                    ->label($schema['label'] ?? '');
-
-
-            }
-
+        if ($appendSettingsKey) {
+            $engine->prefix($settingsKey);
         }
-        return $formFields;
+
+        return $engine->build();
     }
 
 

@@ -354,23 +354,37 @@ ensure_fonts() {
 #     Dusk driver install below) can run. Mirrors the closing "Next steps" hint
 #     but actually performs the copy under --dev.
 ensure_env() {
-  if [ -f "${ROOT_DIR}/.env" ]; then
+  local env_file="${ROOT_DIR}/.env"
+  local created_env=0
+
+  if [ -f "${env_file}" ]; then
     ok ".env present"
-    return 0
+  else
+    local cand src=""
+    for cand in env_local .env.example .env.testing; do
+      [ -f "${ROOT_DIR}/${cand}" ] && { src="$cand"; break; }
+    done
+    if [ -z "$src" ]; then
+      warn "No .env and no template (env_local/.env.example) found — create .env manually."
+      return 1
+    fi
+    cp "${ROOT_DIR}/${src}" "${env_file}"
+    created_env=1
+    ok "Created .env from ${src}"
   fi
-  local cand src=""
-  for cand in env_local .env.example .env.testing; do
-    [ -f "${ROOT_DIR}/${cand}" ] && { src="$cand"; break; }
-  done
-  if [ -z "$src" ]; then
-    warn "No .env and no template (env_local/.env.example) found — create .env manually."
-    return 1
+
+  # Some templates don't define APP_ENV; default to testing for the dev setup.
+  if ! grep -qE '^APP_ENV=' "${env_file}" 2>/dev/null; then
+    printf '\nAPP_ENV=testing\n' >> "${env_file}"
+    ok "Added APP_ENV=testing to .env"
+  elif grep -qE '^APP_ENV=[[:space:]]*$' "${env_file}" 2>/dev/null; then
+    sed -i 's/^APP_ENV=[[:space:]]*$/APP_ENV=testing/' "${env_file}"
+    ok "Set APP_ENV=testing in .env"
   fi
-  cp "${ROOT_DIR}/${src}" "${ROOT_DIR}/.env"
-  ok "Created .env from ${src}"
+
   # A freshly-copied template usually has an empty APP_KEY; generate one so
   # artisan commands don't bail.
-  if command -v php >/dev/null 2>&1 && grep -qE '^APP_KEY=[[:space:]]*$' "${ROOT_DIR}/.env" 2>/dev/null; then
+  if [ "$created_env" -eq 1 ] && command -v php >/dev/null 2>&1 && grep -qE '^APP_KEY=[[:space:]]*$' "${env_file}" 2>/dev/null; then
     ( cd "${ROOT_DIR}" && php artisan key:generate --ansi ) \
       && ok "APP_KEY generated" \
       || warn "Could not generate APP_KEY — run 'php artisan key:generate' manually."

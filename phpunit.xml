@@ -32,6 +32,7 @@
         <testsuite name="Core">
             <exclude>src/MicroweberPackages/*/Tests/Browser</exclude>
             <exclude>src/MicroweberPackages/*/tests/Browser</exclude>
+            <exclude>src/MicroweberPackages/FormBuilder/Tests</exclude>
             <directory>./src/MicroweberPackages/*/</directory>
         </testsuite>
 
@@ -162,6 +163,10 @@
 
         <testsuite name="Modules-WordPressMigration">
             <directory>Modules/WordPressMigration/Tests</directory>
+        </testsuite>
+
+        <testsuite name="FormBuilder">
+            <directory>src/MicroweberPackages/FormBuilder/Tests</directory>
         </testsuite>
 
         <testsuite name="Templates">

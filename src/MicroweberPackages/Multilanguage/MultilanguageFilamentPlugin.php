@@ -76,37 +76,42 @@ class MultilanguageFilamentPlugin implements Plugin
                     return $this;
                 }
 
-
-                $fieldName = $this->getName();
-                $fieldName = str_replace('options.', 'translatableOptions.', $fieldName);
-
-                if (class_basename($this) == 'TextInput') {
-
-                    $textInput = TextInput::make($fieldName)
-                        ->live(debounce:300)
-                        ->helperText($this->getHelperText())
-                        ->placeholder($this->getPlaceholder())
-                        ->view('mw-filament::components.text-input-option-translatable', [
-                            'supportedLanguages' => $supportedLanguages,
-                        ]);
-
-                    return $textInput;
-                } else if (class_basename($this) == 'Textarea') {
-
-                    $textarea = Textarea::make($fieldName)
-                        ->helperText($this->getHelperText())
-                        ->placeholder($this->getPlaceholder())
-                        ->live(debounce:300)
-                        ->view('mw-filament::components.textarea-option-translatable', [
-                            'supportedLanguages' => $supportedLanguages
-                        ]);
-
-                    return $textarea;
+                // Pick the per-language view for the field type. Unsupported types
+                // are returned unchanged rather than throwing — a single non-text
+                // translatable field must never break the whole form for direct
+                // callers (BtnModuleSettings, etc.).
+                $view = match (class_basename($this)) {
+                    'TextInput' => 'mw-filament::components.text-input-option-translatable',
+                    'Textarea'  => 'mw-filament::components.textarea-option-translatable',
+                    default     => null,
+                };
+                if ($view === null) {
+                    return $this;
                 }
 
-                throw new \Exception('Unsupported field type: ' . class_basename($this));
+                // Mutate the field IN PLACE rather than rebuilding it:
+                //  - rebinds the state from options.* to translatableOptions.* so
+                //    the per-language values land in the form's $translatableOptions
+                //    property (read by the save handlers),
+                //  - swaps to the per-language view (rendered inside the standard
+                //    field wrapper, so belowContent/helper text still show).
+                // Filament v5 removed the getHelperText() getter (helperText() now
+                // registers a belowContent component with no public reader), so the
+                // old "recreate + ->helperText($this->getHelperText())" approach
+                // fatals. Mutating preserves helperText, label, placeholder,
+                // required, etc. for free — no getter needed.
+                // NB: the per-language view binds via getStatePath() (the separate
+                // `statePath` property), NOT getName(), so we MUST set statePath() —
+                // name() alone does not change where the field reads/writes state.
+                $translatablePath = str_replace('options.', 'translatableOptions.', $this->getName());
 
-                return $this;
+                return $this
+                    ->name($translatablePath)
+                    ->statePath($translatablePath)
+                    ->live(debounce: 300)
+                    ->view($view, [
+                        'supportedLanguages' => $supportedLanguages,
+                    ]);
             });
 
             $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLanguages($supportedLanguages));
