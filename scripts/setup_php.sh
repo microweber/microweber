@@ -9,7 +9,9 @@
 #   4. Node package dependencies + built bundles (npm install + npm run build)
 #
 # With --dev it additionally provisions the browser-testing stack:
-#   5. A Chrome/Chromium browser (apt) + the matching Dusk ChromeDriver
+#   5. .env bootstrapped from a template if missing (+ key:generate),
+#      a Chrome/Chromium browser (apt), rendering fonts (Noto/Liberation, for
+#      non-Latin templates), and the matching Dusk ChromeDriver
 #      (laravel/dusk is already a require-dev package; --dev wires up the driver).
 #
 # Must be run as root (it apt-installs packages and runs Composer as superuser).
@@ -41,7 +43,10 @@ PHP_MIN_MINOR=3
 PHP_VERSION="${PHP_VERSION:-8.3}"
 
 # Required PHP extensions (Laravel 11 + Microweber composer.json: ext-pdo/zip/dom).
-REQUIRED_EXTS=(bcmath ctype curl dom fileinfo gd intl mbstring openssl pdo pdo_mysql tokenizer xml zip)
+# pdo_sqlite/sqlite3 back the default sqlite DB the composer post-create touches
+# and sqlite-based tests; exif/iconv are needed for media (image orientation) and
+# encoding conversions in templates.
+REQUIRED_EXTS=(bcmath ctype curl dom exif fileinfo gd iconv intl mbstring openssl pdo pdo_mysql pdo_sqlite sqlite3 tokenizer xml zip)
 
 # apt package names for those extensions (php${PHP_VERSION}-* metapackages).
 APT_PHP_PKGS=(cli common bcmath curl gd intl mbstring mysql xml zip sqlite3)
@@ -167,7 +172,9 @@ ensure_php() {
     local apt_mods=() ext mod
     for ext in $miss; do
       case "$ext" in
-        pdo|pdo_mysql) mod="mysql" ;;
+        pdo|pdo_mysql)         mod="mysql" ;;
+        pdo_sqlite|sqlite3)    mod="sqlite3" ;;
+        exif|iconv)            mod="common" ;;   # shipped in php${V}-common
         openssl|tokenizer|ctype|fileinfo|json) mod="" ;;  # built into php-cli
         *) mod="$ext" ;;
       esac
@@ -284,6 +291,11 @@ ensure_chrome() {
     return 1
   fi
   warn "Installing a Chrome browser via apt (for Dusk browser tests)…"
+  # Prerequisites for adding Google's signed apt repo (gpg --dearmor, https
+  # fetch). On a bare box these are often missing and the key/repo step would
+  # silently fail, so install them up-front.
+  $SUDO apt-get update -y || true
+  $SUDO apt-get install -y ca-certificates curl gnupg apt-transport-https wget || true
   # Prefer Google Chrome stable from Google's own apt repo; fall back to Chromium.
   if command -v curl >/dev/null 2>&1 || command -v wget >/dev/null 2>&1; then
     local key=/usr/share/keyrings/google-chrome.gpg
@@ -314,8 +326,62 @@ ensure_chrome() {
   return 1
 }
 
+# Fonts for accurate template rendering in the headless browser. Without broad
+# Unicode coverage, non-Latin templates (Cyrillic, Greek, CJK, emoji) render as
+# tofu boxes and screenshot/visual assertions are meaningless. Noto covers most
+# scripts; Liberation/DejaVu provide metric-compatible Latin faces.
+ensure_fonts() {
+  if [ "$SKIP_SYSTEM" -eq 1 ]; then
+    warn "Skipping fonts (--skip-system) — ensure Noto/Liberation fonts are present for template rendering."
+    return 0
+  fi
+  if ! command -v apt-get >/dev/null 2>&1; then
+    warn "Not an apt system — install web fonts (Liberation, Noto, DejaVu) manually for accurate rendering."
+    return 0
+  fi
+  log "Installing rendering fonts (Latin + Cyrillic/Greek + emoji) for template tests"
+  $SUDO apt-get update -y || true
+  # Core: metric-compatible Latin + broad Unicode (Noto covers Cyrillic/Greek).
+  $SUDO apt-get install -y fonts-liberation fonts-dejavu-core fonts-noto-core fonts-noto-ui-core \
+    || warn "Some core font packages failed to install."
+  # Best-effort extras (large / occasionally unavailable): CJK + colour emoji.
+  $SUDO apt-get install -y fonts-noto-cjk fonts-noto-color-emoji || true
+  command -v fc-cache >/dev/null 2>&1 && fc-cache -f >/dev/null 2>&1 || true
+  ok "Rendering fonts installed"
+}
+
+# 5a. Bootstrap .env from a template if it doesn't exist, so artisan (and the
+#     Dusk driver install below) can run. Mirrors the closing "Next steps" hint
+#     but actually performs the copy under --dev.
+ensure_env() {
+  if [ -f "${ROOT_DIR}/.env" ]; then
+    ok ".env present"
+    return 0
+  fi
+  local cand src=""
+  for cand in env_local .env.example .env.testing; do
+    [ -f "${ROOT_DIR}/${cand}" ] && { src="$cand"; break; }
+  done
+  if [ -z "$src" ]; then
+    warn "No .env and no template (env_local/.env.example) found — create .env manually."
+    return 1
+  fi
+  cp "${ROOT_DIR}/${src}" "${ROOT_DIR}/.env"
+  ok "Created .env from ${src}"
+  # A freshly-copied template usually has an empty APP_KEY; generate one so
+  # artisan commands don't bail.
+  if command -v php >/dev/null 2>&1 && grep -qE '^APP_KEY=[[:space:]]*$' "${ROOT_DIR}/.env" 2>/dev/null; then
+    ( cd "${ROOT_DIR}" && php artisan key:generate --ansi ) \
+      && ok "APP_KEY generated" \
+      || warn "Could not generate APP_KEY — run 'php artisan key:generate' manually."
+  fi
+}
+
 install_dev_tools() {
   log "Setting up dev / browser-testing stack (--dev)"
+
+  # 5a. Ensure a usable .env before any artisan call.
+  ensure_env || true
 
   # Laravel Dusk ships as a require-dev package; without dev deps there's no
   # dusk:chrome-driver command to run.
@@ -327,11 +393,12 @@ install_dev_tools() {
     return
   fi
 
-  # 5a. Browser.
+  # 5b. Browser + rendering fonts.
   local have_browser=0
   ensure_chrome && have_browser=1
+  ensure_fonts
 
-  # 5b. ChromeDriver matched to the installed browser.
+  # 5c. ChromeDriver matched to the installed browser.
   if ! command -v php >/dev/null 2>&1; then
     warn "php not on PATH — cannot run 'artisan dusk:chrome-driver'; skipping."
     return
