@@ -117,4 +117,17 @@
 
     /* ---- Dark Background ---- */
     --mw-text-on-dark-background-color: #ffffff;
+
+    /* ---- Extended Spacing Scale (Big template compat) ---- */
+    --mw-spacer: 1rem;
+
+    /* ---- Lead / Large-text Sizes ---- */
+    --mw-lead-1-size: 1.25rem;
+    --mw-lead-2-size: 1.5rem;
+    --mw-lead-3-size: 2.25rem;
+
+    /* ---- Container Fluid Padding ---- */
+    --mw-container-fluid-padding: 60px;
+    --mw-container-fluid-padding-md: 30px;
+    --mw-container-fluid-padding-sm: 10px;
 }

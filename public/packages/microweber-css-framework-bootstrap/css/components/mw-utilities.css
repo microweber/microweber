@@ -1,9 +1,10 @@
 /* ============================================================
    Component: Utilities
    Shared utility classes for spacing, sizing, visibility, etc.
+   Migrated from Big template (_styles.scss, _bootstrap_extend.scss).
    ============================================================ */
 
-/* Fullscreen sizing */
+/* ---- Fullscreen sizing ---- */
 .mw-w-fullscreen, .w-fullscreen, .w-100vw { width: 100vw; }
 .mw-h-fullscreen, .h-fullscreen, .h-100vh { height: 100vh; }
 .mw-h-50vh, .h-50vh { height: 50vh; }
@@ -14,11 +15,11 @@
     .mw-h-fullscreen, .h-fullscreen { height: auto; }
 }
 
-/* Auto sizing */
+/* ---- Auto sizing ---- */
 .mw-h-auto, .h-auto { height: auto; }
 .mw-w-auto, .w-auto { width: auto; }
 
-/* Aspect ratios */
+/* ---- Aspect ratios ---- */
 .mw-square::after, .square::after {
     content: "";
     display: block;
@@ -35,7 +36,7 @@
     padding-bottom: 50%;
 }
 
-/* Horizontal rule accent */
+/* ---- Horizontal rule accent ---- */
 .mw-accent-line, .element-hr {
     display: block;
     min-width: 65px;
@@ -46,18 +47,58 @@
     margin-bottom: 15px;
 }
 
-/* Price list spacing */
+.mw-element-hr-underlined, .element-hr-underlined {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    width: 100%;
+    display: block;
+    clear: both;
+}
+
+.mw-element-hr-underlined::before, .element-hr-underlined::before {
+    display: block;
+    content: '';
+    width: 65px;
+    height: 4px;
+    background-color: var(--mw-primary-color);
+    position: absolute;
+}
+
+.mw-element-hr-underlined::after, .element-hr-underlined::after {
+    position: absolute;
+    display: block;
+    content: '';
+    width: 100%;
+    height: 1px;
+    background-color: rgba(33, 37, 41, 0.1);
+}
+
+/* ---- Price list spacing ---- */
 .mw-price-list-hr, .price-list-hr {
     min-height: 1px;
 }
 
-/* Border widths */
+/* ---- Border widths ---- */
 .mw-border-left-2, .border-left-2 { border-left-width: 2px; }
 .mw-border-left-3, .border-left-3 { border-left-width: 3px; }
 .mw-border-left-4, .border-left-4 { border-left-width: 4px; }
 .mw-border-left-5, .border-left-5 { border-left-width: 5px; }
 
-/* Show on hover */
+.border-width-2 { border-width: 2px; }
+.border-width-3 { border-width: 3px; }
+.border-width-4 { border-width: 4px; }
+
+/* ---- Position utilities ---- */
+.top-0 { top: 0; }
+.bottom-0 { bottom: 0; }
+.left-0 { left: 0; }
+.right-0 { right: 0; }
+
+/* ---- Text decoration ---- */
+.text-decoration-no { text-decoration: none; }
+
+/* ---- Show on hover ---- */
 .mw-show-on-hover, .show-on-hover { visibility: hidden !important; }
 .mw-show-on-hover-root:hover .mw-show-on-hover,
 .show-on-hover-root:hover .show-on-hover {
@@ -66,11 +107,11 @@
     opacity: 90%;
 }
 
-/* Skip edit (for live edit) */
+/* ---- Skip edit (for live edit) ---- */
 .mw-skip-edit, .skip-edit { pointer-events: none; }
 .mw-skip-edit > *, .skip-edit > * { pointer-events: all; }
 
-/* Scroll to top button */
+/* ---- Scroll to top button ---- */
 #to-top {
     position: fixed;
     bottom: 30px;
@@ -87,7 +128,7 @@
     opacity: 1;
 }
 
-/* Google Maps */
+/* ---- Google Maps ---- */
 #map {
     height: 400px;
     width: 100%;
@@ -95,12 +136,354 @@
 
 #map img { width: inherit; }
 
-/* Spacer (live edit) */
+/* ---- Spacer (live edit) ---- */
 .mw-le-spacer span {
     color: #fff !important;
 }
 
-/* Text primary override */
+/* ---- Text primary override ---- */
 .text-primary {
     color: var(--mw-primary-color) !important;
 }
+
+/* ---- Lead text sizes (Big template) ---- */
+.lead-1 { font-size: var(--mw-lead-1-size); }
+.lead-2 { font-size: var(--mw-lead-2-size); }
+.lead-3 { font-size: var(--mw-lead-3-size); }
+
+/* ---- Button extras ---- */
+.btn-xs {
+    font-size: 0.785rem;
+    padding: 5px;
+}
+
+.btn-rounded-sm {
+    border-radius: 30px;
+}
+
+/* ---- Container responsive widths (Big template) ---- */
+@media (min-width: 768px) and (max-width: 991px) {
+    .container { width: 90%; }
+}
+
+@media (max-width: 1365px) {
+    .container { width: 90%; max-width: 90%; }
+}
+
+@media (max-width: 991px) {
+    .container { width: 100%; max-width: 100%; }
+}
+
+@media (min-width: 1400px) {
+    .container { width: 85%; }
+}
+
+@media (min-width: 1600px) {
+    .container { width: 80%; }
+}
+
+@media (min-width: 1800px) {
+    .container { width: 75%; }
+}
+
+@media (min-width: 2000px) {
+    .container { width: 70%; }
+}
+
+/* ---- Container fluid (Big template) ---- */
+.container-fluid {
+    width: 100%;
+    max-width: 100%;
+    padding-left: var(--mw-container-fluid-padding);
+    padding-right: var(--mw-container-fluid-padding);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 1361px) {
+    .container-fluid {
+        padding-left: var(--mw-container-fluid-padding-md);
+        padding-right: var(--mw-container-fluid-padding-md);
+    }
+}
+
+@media screen and (max-width: 705px) {
+    .container-fluid {
+        padding-left: var(--mw-container-fluid-padding-sm);
+        padding-right: var(--mw-container-fluid-padding-sm);
+    }
+}
+
+.container-fluid-right-col-in-container {
+    padding-right: calc((100vw - 1140px) / 2);
+}
+
+.container-fluid-left-col-in-container {
+    padding-left: calc((100vw - 1140px) / 2);
+}
+
+/* ---- Box shadow utilities (Big template) ---- */
+.shadow-0, .hover-shadow-0:hover { box-shadow: none; }
+.shadow-1, .hover-shadow-1:hover { box-shadow: 0 0 4px rgba(0, 0, 0, 0.06); }
+.shadow-2, .hover-shadow-2:hover { box-shadow: 0 0 8px rgba(0, 0, 0, 0.06); }
+.shadow-3, .hover-shadow-3:hover { box-shadow: 0 0 12px rgba(0, 0, 0, 0.06); }
+.shadow-4, .hover-shadow-4:hover { box-shadow: 0 0 18px rgba(0, 0, 0, 0.06); }
+.shadow-5, .hover-shadow-5:hover { box-shadow: 0 0 26px rgba(0, 0, 0, 0.06); }
+.shadow-6, .hover-shadow-6:hover { box-shadow: 0 0 36px rgba(0, 0, 0, 0.06); }
+.shadow-7, .hover-shadow-7:hover { box-shadow: 0 0 48px rgba(0, 0, 0, 0.06); }
+.shadow-8, .hover-shadow-8:hover { box-shadow: 0 0 60px rgba(0, 0, 0, 0.06); }
+.shadow-9, .hover-shadow-9:hover { box-shadow: 0 0 74px rgba(0, 0, 0, 0.06); }
+
+/* ---- Hover background utilities (Big template) ---- */
+.hover-bg-primary:hover { background-color: var(--mw-primary-color); }
+.hover-bg-secondary:hover { background-color: var(--mw-secondary-color); }
+.hover-bg-success:hover { background-color: #198754; }
+.hover-bg-danger:hover { background-color: #dc3545; }
+.hover-bg-warning:hover { background-color: #ffc107; }
+.hover-bg-info:hover { background-color: #0dcaf0; }
+.hover-bg-light:hover { background-color: #f8f9fa; }
+.hover-bg-white:hover { background-color: #ffffff; }
+.hover-bg-dark:hover { background-color: #212529; }
+
+.hover-bg-body:hover .bg-body {
+    background: var(--mw-primary-color) !important;
+    color: var(--mw-btn-text-color) !important;
+}
+
+.hover-bg-body:hover .bg-body i {
+    color: var(--mw-btn-text-color) !important;
+}
+
+/* ---- Hover text utilities (Big template) ---- */
+.hover-text-primary:hover { color: var(--mw-primary-color); }
+.hover-text-secondary:hover { color: var(--mw-secondary-color); }
+.hover-text-success:hover { color: #198754; }
+.hover-text-danger:hover { color: #dc3545; }
+.hover-text-warning:hover { color: #ffc107; }
+.hover-text-info:hover { color: #0dcaf0; }
+.hover-text-light:hover { color: #f8f9fa; }
+.hover-text-dark:hover { color: #212529; }
+
+/* ---- Border color utilities (Big template) ---- */
+.border-color-primary { border-color: var(--mw-primary-color); }
+.border-color-secondary { border-color: var(--mw-secondary-color); }
+.border-color-success { border-color: #198754; }
+.border-color-danger { border-color: #dc3545; }
+.border-color-warning { border-color: #ffc107; }
+.border-color-info { border-color: #0dcaf0; }
+.border-color-light { border-color: #f8f9fa; }
+.border-color-dark { border-color: #212529; }
+
+.hover-border-color-primary:hover { border-color: var(--mw-primary-color); }
+.hover-border-color-secondary:hover { border-color: var(--mw-secondary-color); }
+.hover-border-color-success:hover { border-color: #198754; }
+.hover-border-color-danger:hover { border-color: #dc3545; }
+.hover-border-color-warning:hover { border-color: #ffc107; }
+.hover-border-color-info:hover { border-color: #0dcaf0; }
+.hover-border-color-light:hover { border-color: #f8f9fa; }
+.hover-border-color-dark:hover { border-color: #212529; }
+
+/* ---- Extended spacers (Big template: 6–13 beyond Bootstrap 5) ---- */
+.p-6 { padding: 2rem !important; }
+.p-7 { padding: 3rem !important; }
+.p-8 { padding: 5rem !important; }
+.p-9 { padding: 7rem !important; }
+.p-10 { padding: 9rem !important; }
+.p-11 { padding: 11rem !important; }
+.p-12 { padding: 13rem !important; }
+.p-13 { padding: 16rem !important; }
+
+.pt-6, .py-6 { padding-top: 2rem !important; }
+.pt-7, .py-7 { padding-top: 3rem !important; }
+.pt-8, .py-8 { padding-top: 5rem !important; }
+.pt-9, .py-9 { padding-top: 7rem !important; }
+.pt-10, .py-10 { padding-top: 9rem !important; }
+.pt-11, .py-11 { padding-top: 11rem !important; }
+.pt-12, .py-12 { padding-top: 13rem !important; }
+.pt-13, .py-13 { padding-top: 16rem !important; }
+
+.pb-6, .py-6 { padding-bottom: 2rem !important; }
+.pb-7, .py-7 { padding-bottom: 3rem !important; }
+.pb-8, .py-8 { padding-bottom: 5rem !important; }
+.pb-9, .py-9 { padding-bottom: 7rem !important; }
+.pb-10, .py-10 { padding-bottom: 9rem !important; }
+.pb-11, .py-11 { padding-bottom: 11rem !important; }
+.pb-12, .py-12 { padding-bottom: 13rem !important; }
+.pb-13, .py-13 { padding-bottom: 16rem !important; }
+
+.ps-6, .px-6 { padding-left: 2rem !important; }
+.ps-7, .px-7 { padding-left: 3rem !important; }
+.ps-8, .px-8 { padding-left: 5rem !important; }
+.ps-9, .px-9 { padding-left: 7rem !important; }
+.ps-10, .px-10 { padding-left: 9rem !important; }
+
+.pe-6, .px-6 { padding-right: 2rem !important; }
+.pe-7, .px-7 { padding-right: 3rem !important; }
+.pe-8, .px-8 { padding-right: 5rem !important; }
+.pe-9, .px-9 { padding-right: 7rem !important; }
+.pe-10, .px-10 { padding-right: 9rem !important; }
+
+.m-6 { margin: 2rem !important; }
+.m-7 { margin: 3rem !important; }
+.m-8 { margin: 5rem !important; }
+.m-9 { margin: 7rem !important; }
+.m-10 { margin: 9rem !important; }
+.m-11 { margin: 11rem !important; }
+.m-12 { margin: 13rem !important; }
+.m-13 { margin: 16rem !important; }
+
+.mt-6, .my-6 { margin-top: 2rem !important; }
+.mt-7, .my-7 { margin-top: 3rem !important; }
+.mt-8, .my-8 { margin-top: 5rem !important; }
+.mt-9, .my-9 { margin-top: 7rem !important; }
+.mt-10, .my-10 { margin-top: 9rem !important; }
+.mt-11, .my-11 { margin-top: 11rem !important; }
+.mt-12, .my-12 { margin-top: 13rem !important; }
+.mt-13, .my-13 { margin-top: 16rem !important; }
+
+.mb-6, .my-6 { margin-bottom: 2rem !important; }
+.mb-7, .my-7 { margin-bottom: 3rem !important; }
+.mb-8, .my-8 { margin-bottom: 5rem !important; }
+.mb-9, .my-9 { margin-bottom: 7rem !important; }
+.mb-10, .my-10 { margin-bottom: 9rem !important; }
+.mb-11, .my-11 { margin-bottom: 11rem !important; }
+.mb-12, .my-12 { margin-bottom: 13rem !important; }
+.mb-13, .my-13 { margin-bottom: 16rem !important; }
+
+.ms-6, .mx-6 { margin-left: 2rem !important; }
+.ms-7, .mx-7 { margin-left: 3rem !important; }
+.ms-8, .mx-8 { margin-left: 5rem !important; }
+
+.me-6, .mx-6 { margin-right: 2rem !important; }
+.me-7, .mx-7 { margin-right: 3rem !important; }
+.me-8, .mx-8 { margin-right: 5rem !important; }
+
+/* ---- Negative margins (Big template) ---- */
+.m-n1 { margin: -0.25rem !important; }
+.m-n2 { margin: -0.5rem !important; }
+.m-n3 { margin: -0.75rem !important; }
+.m-n4 { margin: -1rem !important; }
+.m-n5 { margin: -1.5rem !important; }
+.mt-n1, .my-n1 { margin-top: -0.25rem !important; }
+.mt-n2, .my-n2 { margin-top: -0.5rem !important; }
+.mt-n3, .my-n3 { margin-top: -0.75rem !important; }
+.mt-n4, .my-n4 { margin-top: -1rem !important; }
+.mt-n5, .my-n5 { margin-top: -1.5rem !important; }
+.mb-n1, .my-n1 { margin-bottom: -0.25rem !important; }
+.mb-n2, .my-n2 { margin-bottom: -0.5rem !important; }
+.mb-n3, .my-n3 { margin-bottom: -0.75rem !important; }
+.mb-n4, .my-n4 { margin-bottom: -1rem !important; }
+.mb-n5, .my-n5 { margin-bottom: -1.5rem !important; }
+
+/* ---- Element sizes (Big template: fixed px width/height classes) ---- */
+.w-40 { width: 40px !important; } .h-40 { height: 40px !important; }
+.w-50 { width: 50px !important; } .h-50 { height: 50px !important; }
+.w-80 { width: 80px !important; } .h-80 { height: 80px !important; }
+.w-125 { width: 125px !important; } .h-125 { height: 125px !important; }
+.w-150 { width: 150px !important; } .h-150 { height: 150px !important; }
+.w-175 { width: 175px !important; } .h-175 { height: 175px !important; }
+.w-200 { width: 200px !important; } .h-200 { height: 200px !important; }
+.w-250 { width: 250px !important; } .h-250 { height: 250px !important; }
+.w-300 { width: 300px !important; } .h-300 { height: 300px !important; }
+.w-350 { width: 350px !important; } .h-350 { height: 350px !important; }
+.w-400 { width: 400px !important; } .h-400 { height: 400px !important; }
+.w-450 { width: 450px !important; } .h-450 { height: 450px !important; }
+.w-500 { width: 500px !important; } .h-500 { height: 500px !important; }
+.w-550 { width: 550px !important; } .h-550 { height: 550px !important; }
+.w-600 { width: 600px !important; } .h-600 { height: 600px !important; }
+.w-650 { width: 650px !important; } .h-650 { height: 650px !important; }
+.w-700 { width: 700px !important; } .h-700 { height: 700px !important; }
+.w-750 { width: 750px !important; } .h-750 { height: 750px !important; }
+.w-800 { width: 800px !important; } .h-800 { height: 800px !important; }
+.w-900 { width: 900px !important; } .h-900 { height: 900px !important; }
+
+.maxw-40 { max-width: 40px !important; } .maxh-40 { max-height: 40px !important; }
+.maxw-50 { max-width: 50px !important; } .maxh-50 { max-height: 50px !important; }
+.maxw-80 { max-width: 80px !important; } .maxh-80 { max-height: 80px !important; }
+.maxw-125 { max-width: 125px !important; } .maxh-125 { max-height: 125px !important; }
+.maxw-150 { max-width: 150px !important; } .maxh-150 { max-height: 150px !important; }
+.maxw-200 { max-width: 200px !important; } .maxh-200 { max-height: 200px !important; }
+.maxw-250 { max-width: 250px !important; } .maxh-250 { max-height: 250px !important; }
+.maxw-300 { max-width: 300px !important; } .maxh-300 { max-height: 300px !important; }
+.maxw-350 { max-width: 350px !important; } .maxh-350 { max-height: 350px !important; }
+.maxw-400 { max-width: 400px !important; } .maxh-400 { max-height: 400px !important; }
+.maxw-450 { max-width: 450px !important; } .maxh-450 { max-height: 450px !important; }
+.maxw-500 { max-width: 500px !important; } .maxh-500 { max-height: 500px !important; }
+.maxw-600 { max-width: 600px !important; } .maxh-600 { max-height: 600px !important; }
+.maxw-700 { max-width: 700px !important; } .maxh-700 { max-height: 700px !important; }
+.maxw-800 { max-width: 800px !important; } .maxh-800 { max-height: 800px !important; }
+.maxw-900 { max-width: 900px !important; } .maxh-900 { max-height: 900px !important; }
+
+/* ---- Icon sizes (Big template: icon-size-Npx) ---- */
+div[class*="icon-size-"] { pointer-events: none; }
+div[class*="icon-size-"] * { pointer-events: none; }
+div[class*="icon-size-"] h1, div[class*="icon-size-"] h2,
+div[class*="icon-size-"] h3, div[class*="icon-size-"] h4,
+div[class*="icon-size-"] h5, div[class*="icon-size-"] h6,
+div[class*="icon-size-"] i, div[class*="icon-size-"] span,
+div[class*="icon-size-"] p { pointer-events: all; }
+
+div.icon-size-12px i.fa, div.icon-size-12px i.fas, div.icon-size-12px i.far,
+div.icon-size-12px i.fab, div.icon-size-12px i.mdi, div.icon-size-12px i.material-icons,
+div.icon-size-12px [class^="mw-micon-"], div.icon-size-12px [class*=" mw-micon-"] { font-size: 12px; }
+i.icon-size-12px { font-size: 12px; }
+
+div.icon-size-16px i.fa, div.icon-size-16px i.fas, div.icon-size-16px i.far,
+div.icon-size-16px i.fab, div.icon-size-16px i.mdi, div.icon-size-16px i.material-icons,
+div.icon-size-16px [class^="mw-micon-"], div.icon-size-16px [class*=" mw-micon-"] { font-size: 16px; }
+i.icon-size-16px { font-size: 16px; }
+
+div.icon-size-20px i.fa, div.icon-size-20px i.fas, div.icon-size-20px i.far,
+div.icon-size-20px i.fab, div.icon-size-20px i.mdi, div.icon-size-20px i.material-icons,
+div.icon-size-20px [class^="mw-micon-"], div.icon-size-20px [class*=" mw-micon-"] { font-size: 20px; }
+i.icon-size-20px { font-size: 20px; }
+
+div.icon-size-24px i.fa, div.icon-size-24px i.fas, div.icon-size-24px i.far,
+div.icon-size-24px i.fab, div.icon-size-24px i.mdi, div.icon-size-24px i.material-icons,
+div.icon-size-24px [class^="mw-micon-"], div.icon-size-24px [class*=" mw-micon-"] { font-size: 24px; }
+i.icon-size-24px { font-size: 24px; }
+
+div.icon-size-30px i.fa, div.icon-size-30px i.fas, div.icon-size-30px i.far,
+div.icon-size-30px i.fab, div.icon-size-30px i.mdi, div.icon-size-30px i.material-icons,
+div.icon-size-30px [class^="mw-micon-"], div.icon-size-30px [class*=" mw-micon-"] { font-size: 30px; }
+i.icon-size-30px { font-size: 30px; }
+
+div.icon-size-36px i.fa, div.icon-size-36px i.fas, div.icon-size-36px i.far,
+div.icon-size-36px i.fab, div.icon-size-36px i.mdi, div.icon-size-36px i.material-icons,
+div.icon-size-36px [class^="mw-micon-"], div.icon-size-36px [class*=" mw-micon-"] { font-size: 36px; }
+i.icon-size-36px { font-size: 36px; }
+
+div.icon-size-42px i.fa, div.icon-size-42px i.fas, div.icon-size-42px i.far,
+div.icon-size-42px i.fab, div.icon-size-42px i.mdi, div.icon-size-42px i.material-icons,
+div.icon-size-42px [class^="mw-micon-"], div.icon-size-42px [class*=" mw-micon-"] { font-size: 42px; }
+i.icon-size-42px { font-size: 42px; }
+
+div.icon-size-48px i.fa, div.icon-size-48px i.fas, div.icon-size-48px i.far,
+div.icon-size-48px i.fab, div.icon-size-48px i.mdi, div.icon-size-48px i.material-icons,
+div.icon-size-48px [class^="mw-micon-"], div.icon-size-48px [class*=" mw-micon-"] { font-size: 48px; }
+i.icon-size-48px { font-size: 48px; }
+
+div.icon-size-56px i.fa, div.icon-size-56px i.fas, div.icon-size-56px i.far,
+div.icon-size-56px i.fab, div.icon-size-56px i.mdi, div.icon-size-56px i.material-icons,
+div.icon-size-56px [class^="mw-micon-"], div.icon-size-56px [class*=" mw-micon-"] { font-size: 56px; }
+i.icon-size-56px { font-size: 56px; }
+
+div.icon-size-64px i.fa, div.icon-size-64px i.fas, div.icon-size-64px i.far,
+div.icon-size-64px i.fab, div.icon-size-64px i.mdi, div.icon-size-64px i.material-icons,
+div.icon-size-64px [class^="mw-micon-"], div.icon-size-64px [class*=" mw-micon-"] { font-size: 64px; }
+i.icon-size-64px { font-size: 64px; }
+
+div.icon-size-72px i.fa, div.icon-size-72px i.fas, div.icon-size-72px i.far,
+div.icon-size-72px i.fab, div.icon-size-72px i.mdi, div.icon-size-72px i.material-icons,
+div.icon-size-72px [class^="mw-micon-"], div.icon-size-72px [class*=" mw-micon-"] { font-size: 72px; }
+i.icon-size-72px { font-size: 72px; }
+
+div.icon-size-80px i.fa, div.icon-size-80px i.fas, div.icon-size-80px i.far,
+div.icon-size-80px i.fab, div.icon-size-80px i.mdi, div.icon-size-80px i.material-icons,
+div.icon-size-80px [class^="mw-micon-"], div.icon-size-80px [class*=" mw-micon-"] { font-size: 80px; }
+i.icon-size-80px { font-size: 80px; }
+
+div.icon-size-88px i.fa, div.icon-size-88px i.fas, div.icon-size-88px i.far,
+div.icon-size-88px i.fab, div.icon-size-88px i.mdi, div.icon-size-88px i.material-icons,
+div.icon-size-88px [class^="mw-micon-"], div.icon-size-88px [class*=" mw-micon-"] { font-size: 88px; }
+i.icon-size-88px { font-size: 88px; }

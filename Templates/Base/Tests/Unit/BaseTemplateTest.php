@@ -305,4 +305,136 @@ class BaseTemplateTest extends TestCase
         $render = app()->parser->process($layout);
         $this->assertStringContainsString('id="background-layout--mw-base-test-1"', $render);
     }
+
+    /**
+     * Test that the master layout includes the saved color scheme loader.
+     */
+    public function testMasterLayoutHasSavedColorSchemeLoader()
+    {
+        $layoutPath = templates_path() . 'Base/resources/views/layouts/master.blade.php';
+        $content = file_get_contents($layoutPath);
+
+        $this->assertStringContainsString('mw-template-saved-design', $content, 'Saved design style block ID must exist');
+        $this->assertStringContainsString('mw-template-', $content, 'Template option group loader must exist');
+        $this->assertStringContainsString('--mw', $content, 'Must reference --mw CSS variables');
+    }
+
+    /**
+     * Test that all heading size CSS variables are defined.
+     */
+    public function testHeadingSizeCssVariablesDefined()
+    {
+        $layoutPath = templates_path() . 'Base/resources/views/layouts/master.blade.php';
+        $content = file_get_contents($layoutPath);
+
+        $this->assertStringContainsString('--mw-heading-one:', $content);
+        $this->assertStringContainsString('--mw-heading-two:', $content);
+        $this->assertStringContainsString('--mw-heading-three:', $content);
+        $this->assertStringContainsString('--mw-heading-four:', $content);
+        $this->assertStringContainsString('--mw-heading-five:', $content);
+        $this->assertStringContainsString('--mw-heading-six:', $content);
+    }
+
+    /**
+     * Test that all link CSS variables are defined.
+     */
+    public function testLinkCssVariablesDefined()
+    {
+        $layoutPath = templates_path() . 'Base/resources/views/layouts/master.blade.php';
+        $content = file_get_contents($layoutPath);
+
+        $this->assertStringContainsString('--mw-link-color:', $content);
+        $this->assertStringContainsString('--mw-link-hover-color:', $content);
+    }
+
+    /**
+     * Test that form CSS variables are defined.
+     */
+    public function testFormCssVariablesDefined()
+    {
+        $layoutPath = templates_path() . 'Base/resources/views/layouts/master.blade.php';
+        $content = file_get_contents($layoutPath);
+
+        $this->assertStringContainsString('--mw-form-control-border-radius:', $content);
+        $this->assertStringContainsString('--mw-form-control-border-color:', $content);
+        $this->assertStringContainsString('--mw-form-control-background:', $content);
+        $this->assertStringContainsString('--mw-form-control-text-color:', $content);
+    }
+
+    /**
+     * Test that the master layout loads the framework JS.
+     */
+    public function testMasterLayoutLoadsFrameworkJs()
+    {
+        $layoutPath = templates_path() . 'Base/resources/views/layouts/master.blade.php';
+        $content = file_get_contents($layoutPath);
+
+        $this->assertStringContainsString(
+            'microweber-css-framework-bootstrap/js/mw-framework.js',
+            $content,
+            'Master layout must load the framework JS'
+        );
+    }
+
+    /**
+     * Test that the Base template does not depend on Big template assets.
+     */
+    public function testBaseDoesNotDependOnBigTemplate()
+    {
+        $layoutPath = templates_path() . 'Base/resources/views/layouts/master.blade.php';
+        $content = file_get_contents($layoutPath);
+
+        $this->assertStringNotContainsString(
+            'templates/big/',
+            strtolower($content),
+            'Base template must not reference Big template assets'
+        );
+    }
+
+    /**
+     * Test that the base.css is minimal and template-specific.
+     */
+    public function testBaseCssIsMinimal()
+    {
+        $cssPath = templates_path() . 'Base/resources/assets/css/base.css';
+        $this->assertFileExists($cssPath);
+
+        $content = file_get_contents($cssPath);
+
+        // Should be small — not contain full framework rules
+        $lineCount = substr_count($content, "\n");
+        $this->assertLessThan(100, $lineCount, 'base.css should be minimal (under 100 lines)');
+
+        // Should reference Jost font
+        $this->assertStringContainsString('Jost', $content);
+    }
+
+    /**
+     * Test that the shared framework's published assets include migrated styles.
+     */
+    public function testPublishedFrameworkIncludesMigratedStyles()
+    {
+        $publicPath = public_path('packages/microweber-css-framework-bootstrap/css');
+
+        $sectionsPath = $publicPath . '/components/mw-sections.css';
+        $utilitiesPath = $publicPath . '/components/mw-utilities.css';
+        $shopPath = $publicPath . '/components/mw-shop.css';
+
+        if (file_exists($sectionsPath)) {
+            $content = file_get_contents($sectionsPath);
+            $this->assertStringContainsString('.feature-40', $content, 'Published sections must include timeline');
+            $this->assertStringContainsString('[data-overlay]', $content, 'Published sections must include overlays');
+        }
+
+        if (file_exists($utilitiesPath)) {
+            $content = file_get_contents($utilitiesPath);
+            $this->assertStringContainsString('.shadow-0', $content, 'Published utilities must include shadows');
+            $this->assertStringContainsString('.lead-1', $content, 'Published utilities must include lead sizes');
+        }
+
+        if (file_exists($shopPath)) {
+            $content = file_get_contents($shopPath);
+            $this->assertStringContainsString('.shop-inner-page', $content, 'Published shop must include inner page styles');
+        }
+    }
 }
