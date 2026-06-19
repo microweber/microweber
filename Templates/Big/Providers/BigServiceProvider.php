@@ -38,7 +38,7 @@ class BigServiceProvider extends BaseTemplateServiceProvider
         // its own adapter; the core DesignSystemService no longer hardcodes them).
         if (app()->bound('design_system')) {
             app('design_system')->registerAdapter(
-                new \MicroweberPackages\Template\Services\DesignSystem\Adapters\BigTemplateVarsAdapter()
+                new \Templates\Big\DesignSystem\BigTemplateVarsAdapter()
             );
         }
 

@@ -1,6 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Template\Services\DesignSystem\Adapters;
+namespace Templates\Bootstrap\DesignSystem;
+
+use MicroweberPackages\Template\Services\DesignSystem\Adapters\TemplateVarsAdapter;
 
 /**
  * BootstrapTemplateVarsAdapter

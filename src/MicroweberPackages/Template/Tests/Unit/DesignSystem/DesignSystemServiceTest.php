@@ -2,8 +2,8 @@
 
 namespace MicroweberPackages\Template\Tests\Unit\DesignSystem;
 
-use MicroweberPackages\Template\Services\DesignSystem\Adapters\BigTemplateVarsAdapter;
-use MicroweberPackages\Template\Services\DesignSystem\Adapters\BootstrapTemplateVarsAdapter;
+use Templates\Big\DesignSystem\BigTemplateVarsAdapter;
+use Templates\Bootstrap\DesignSystem\BootstrapTemplateVarsAdapter;
 use MicroweberPackages\Template\Services\DesignSystem\Adapters\DefaultTemplateVarsAdapter;
 use MicroweberPackages\Template\Services\DesignSystem\ColorSchemesRegistry;
 use MicroweberPackages\Template\Services\DesignSystem\DesignSystemService;

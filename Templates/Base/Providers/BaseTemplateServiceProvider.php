@@ -19,7 +19,7 @@ class BaseTemplateServiceProvider extends BaseServiceProvider
         // DesignSystemService — each template registers its own from its provider).
         if (app()->bound('design_system')) {
             app('design_system')->registerAdapter(
-                new \MicroweberPackages\Template\Services\DesignSystem\Adapters\BaseTemplateVarsAdapter()
+                new \Templates\Base\DesignSystem\BaseTemplateVarsAdapter()
             );
         }
     }
