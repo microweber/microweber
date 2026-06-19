@@ -1,0 +1,119 @@
+/* ============================================================
+   Component: Sections & Layout
+   Section containers, backgrounds, overlays.
+   ============================================================ */
+
+section.section {
+    background-color: var(--mw-section-background-color);
+    position: relative;
+}
+
+section.section::after {
+    content: '.';
+    font-size: 0;
+    display: block;
+    clear: both;
+}
+
+section.section i {
+    color: var(--mw-heading-color);
+}
+
+a i::before {
+    color: var(--mw-primary-color);
+}
+
+/* Background image holder */
+.mw-background-image-holder,
+.background-image-holder {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: static;
+}
+
+.mw-background-image-holder > div,
+.background-image-holder > div {
+    z-index: 3;
+}
+
+/* Background video holder */
+.mw-background-video-holder,
+.background-video-holder {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.mw-background-video-holder video,
+.background-video-holder video {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+}
+
+/* Slider background */
+.mw-slider-background-holder,
+.slider-background-holder {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: static;
+}
+
+/* Image as background */
+.mw-img-as-background,
+.img-as-background {
+    position: relative;
+    overflow: hidden;
+}
+
+.mw-img-as-background img,
+.img-as-background img {
+    object-fit: cover;
+    position: absolute;
+    left: -1px;
+    z-index: 0;
+    margin: 0 auto;
+    top: 0;
+    width: calc(100% + 1px);
+    height: 100%;
+}
+
+/* Dark background */
+.mw-layout-dark-background {
+    background-color: rgb(31, 41, 55) !important;
+}
+
+.mw-layout-dark-background h1,
+.mw-layout-dark-background h2,
+.mw-layout-dark-background h3,
+.mw-layout-dark-background h4,
+.mw-layout-dark-background h5,
+.mw-layout-dark-background h6,
+.mw-layout-dark-background p,
+.mw-layout-dark-background small,
+.mw-layout-dark-background ul li a {
+    color: var(--mw-text-on-dark-background-color);
+}
+
+/* Main content wrapper */
+.mw-main-content,
+.main-content {
+    overflow: hidden;
+}
+
+/* Hover primary effect */
+.mw-hover-primary:hover,
+.hover-primary:hover {
+    background-color: var(--mw-link-color);
+}
+
+.mw-hover-primary:hover *,
+.hover-primary:hover * {
+    color: var(--mw-text-on-dark-background-color) !important;
+}

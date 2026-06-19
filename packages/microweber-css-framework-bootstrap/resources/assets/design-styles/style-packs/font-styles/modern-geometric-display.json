@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Modern Geometric Display",
+                        "properties": {
+                            "--mw-body-font-family": "'Lexend', sans-serif",
+                            "--mw-heading-font-family": "'Lexend', sans-serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "37px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "16px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

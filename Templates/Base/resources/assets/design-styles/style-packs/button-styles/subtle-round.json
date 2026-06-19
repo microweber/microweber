@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Subtle Round",
+            "description": "Softly rounded corners, gentle pastel background, and a faint border for a subtle, elegant look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Subtle Round",
+                        "properties": {
+                            "--mw-btn-background": "#f3e8ff",
+                            "--mw-btn-color": "#6d28d9",
+                            "--mw-btn-border-size": "1px",
+                            "--mw-btn-border-color": "#d1c4e9",
+                            "--mw-btn-border-radius": "14px",
+                            "--mw-btn-font-size": "17px",
+                            "--mw-btn-padding-block": "13px",
+                            "--mw-btn-padding-inline": "36px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

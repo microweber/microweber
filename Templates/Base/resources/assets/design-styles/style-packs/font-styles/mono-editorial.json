@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Mono Editorial",
+                        "properties": {
+                            "--mw-body-font-family": "'Space Mono', monospace",
+                            "--mw-heading-font-family": "'Space Mono', monospace",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "35px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "15px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

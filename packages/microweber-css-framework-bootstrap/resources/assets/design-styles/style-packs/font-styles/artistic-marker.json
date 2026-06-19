@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Artistic Marker",
+                        "properties": {
+                            "--mw-body-font-family": "'Signika', sans-serif",
+                            "--mw-heading-font-family": "'Signika', sans-serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "36px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "16px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

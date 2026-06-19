@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Frosted Blue",
+            "description": "Cool blue tones with frosted glass effect and subtle border",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Frosted Blue",
+                        "properties": {
+                            "--mw-btn-background": "rgba(30, 144, 255, 0.2)",
+                            "--mw-btn-backdrop-filter": "blur(6px)",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#1e90ff",
+                            "--mw-btn-border-radius": "14px",
+                            "--mw-btn-font-size": "17px",
+                            "--mw-btn-padding-block": "13px",
+                            "--mw-btn-padding-inline": "36px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

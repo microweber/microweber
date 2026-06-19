@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Rounded Modern",
+                        "properties": {
+                            "--mw-body-font-family": "'M PLUS Rounded 1c', sans-serif",
+                            "--mw-heading-font-family": "'M PLUS Rounded 1c', sans-serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "34px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "16px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

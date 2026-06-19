@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Velvet Night",
+            "description": "Rich purples and midnight blues for a luxurious, deep look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Velvet Night",
+                        "properties": {
+                            "--mw-background-color": "#232136",
+                            "--mw-section-background-color": "#232136",
+                            "--mw-primary-color": "#7e5bef",
+                            "--mw-secondary": "#2a2a40",
+                            "--mw-textDark": "#e0def4",
+                            "--mw-textLight": "#232136",
+                            "--mw-body-color": "#e0def4",
+                            "--mw-heading-color": "#bfadf7",
+                            "--mw-paragraph-color": "#bfadf7",
+                            "--mw-link-color": "#bfadf7",
+                            "--mw-link-hover-color": "#c9cbff",
+                            "--mw-header-background-color": "#232136",
+                            "--mw-header-link-color": "#bfadf7",
+                            "--mw-header-link-hover-color": "#c9cbff",
+                            "--mw-header-link-background-hover-color": "rgba(126, 91, 239, 0.08)",
+                            "--mw-top-header-background-color": "#232136",
+                            "--mw-top-header-primary-color": "#7e5bef",
+                            "--mw-top-header-link-color": "#c9cbff",
+                            "--mw-top-header-link-hover-color": "#7e5bef",
+                            "--mw-top-header-button-background-color": "#7e5bef",
+                            "--mw-top-header-button-background-hover-color": "#c9cbff",
+                            "--mw-top-header-button-text-color": "#232136",
+                            "--mw-top-header-button-text-hover-color": "#232136",
+                            "--mw-footer-background-color": "#232136",
+                            "--mw-footer-text-color": "#e0def4",
+                            "--mw-footer-primary-color": "#7e5bef",
+                            "--mw-footer-link-color": "#c9cbff",
+                            "--mw-footer-hover-link-color": "#7e5bef",
+                            "--mw-footer-button-background-color": "#7e5bef",
+                            "--mw-footer-button-background-hover-color": "#c9cbff",
+                            "--mw-footer-button-text-color": "#232136",
+                            "--mw-footer-button-text-hover-color": "#232136",
+                            "--mw-text-decoration-color": "#7e5bef",
+                            "--text-on-dark-background": "#e0def4"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

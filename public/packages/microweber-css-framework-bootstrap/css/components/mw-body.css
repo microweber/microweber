@@ -1,0 +1,78 @@
+/* ============================================================
+   Component: Body & Typography
+   Applies --mw- design tokens to body, headings, paragraphs.
+   ============================================================ */
+
+body {
+    background-color: var(--mw-background-color);
+    color: var(--mw-body-color);
+    font-size: var(--mw-body-font-size);
+    line-height: var(--mw-line-height);
+    letter-spacing: var(--mw-letter-spacing);
+    font-weight: var(--mw-font-weight);
+    text-transform: var(--mw-text-transform);
+}
+
+.mw-main {
+    font-family: var(--mw-body-font-family);
+}
+
+.mw-main h1,
+.mw-main h2,
+.mw-main h3,
+.mw-main h4,
+.mw-main h5,
+.mw-main h6 {
+    color: var(--mw-heading-color);
+    text-transform: var(--mw-text-transform);
+    font-weight: var(--mw-font-weight);
+    letter-spacing: var(--mw-letter-spacing);
+    line-height: var(--mw-line-height);
+    font-family: var(--mw-heading-font-family);
+}
+
+.mw-main p {
+    color: var(--mw-paragraph-color);
+    font-size: var(--mw-paragraph-size);
+    line-height: var(--mw-line-height);
+    letter-spacing: var(--mw-letter-spacing);
+    font-family: var(--mw-body-font-family);
+}
+
+.mw-main small {
+    color: var(--mw-paragraph-color);
+}
+
+.mw-main .mw-text-muted {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+b, strong {
+    font-weight: 600;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* Responsive heading sizes */
+@media screen and (min-width: 615px) {
+    h1 { font-size: var(--mw-heading-one); }
+    h2 { font-size: var(--mw-heading-two); }
+    h3 { font-size: var(--mw-heading-three); }
+    h4 { font-size: var(--mw-heading-four); }
+    h5 { font-size: var(--mw-heading-five); }
+    h6 { font-size: var(--mw-heading-six); }
+}
+
+/* Typography areas (editable) */
+.mw-typography-area ul:not(.ul),
+.mw-typography-area ol:not(.ol) {
+    padding-left: 15px;
+}
+
+.mw-typography-area ul:not(.ul) li,
+.mw-typography-area ol:not(.ol) li {
+    display: list-item;
+    list-style-type: disc;
+}

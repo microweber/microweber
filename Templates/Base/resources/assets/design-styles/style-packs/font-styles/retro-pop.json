@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Retro Pop",
+                        "properties": {
+                            "--mw-body-font-family": "'Fredoka', sans-serif",
+                            "--mw-heading-font-family": "'Fredoka', sans-serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "36px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "16px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

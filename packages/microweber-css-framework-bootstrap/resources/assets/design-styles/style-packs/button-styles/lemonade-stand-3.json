@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Lemonade Stand 3",
+            "description": "Bright yellow-to-lemon gradient with a playful shadow and extra bold border for a cheerful, standout look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Lemonade Stand 3",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #fff700 0%, #ffe259 100%)",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "4px",
+                            "--mw-btn-border-color": "#ffe259",
+                            "--mw-btn-border-radius": "20px",
+                            "--mw-btn-font-size": "19px",
+                            "--mw-btn-padding-block": "16px",
+                            "--mw-btn-padding-inline": "44px",
+                            "--mw-btn-box-shadow": "0 6px 18px 0 rgba(255,247,0,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

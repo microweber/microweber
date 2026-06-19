@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Origami Fold",
+            "description": "Crisp, angular edges with a paper-fold effect and subtle shadow for a modern origami look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Origami Fold",
+                        "properties": {
+                            "--mw-btn-background": "#f7f7f7",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#bdbdbd",
+                            "--mw-btn-border-radius": "0px 16px 0px 16px",
+                            "--mw-btn-font-size": "17px",
+                            "--mw-btn-padding-block": "13px",
+                            "--mw-btn-padding-inline": "36px",
+                            "--mw-btn-box-shadow": "4px 4px 0 0 #e0e0e0"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

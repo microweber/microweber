@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Minimalist Thin",
+            "description": "Ultra-thin border, transparent background, and subtle text for a clean minimalist look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Minimalist Thin",
+                        "properties": {
+                            "--mw-btn-background": "transparent",
+                            "--mw-btn-color": "#333",
+                            "--mw-btn-border-size": "1px",
+                            "--mw-btn-border-color": "#bbb",
+                            "--mw-btn-border-radius": "6px",
+                            "--mw-btn-font-size": "16px",
+                            "--mw-btn-padding-block": "10px",
+                            "--mw-btn-padding-inline": "28px",
+                            "--mw-btn-box-shadow": "none"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

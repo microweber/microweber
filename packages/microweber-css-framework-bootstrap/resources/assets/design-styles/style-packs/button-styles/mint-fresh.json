@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Mint Fresh",
+            "description": "Cool mint green background with white border and soft shadow for a fresh, clean look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Mint Fresh",
+                        "properties": {
+                            "--mw-btn-background": "#a8ffeb",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#fff",
+                            "--mw-btn-border-radius": "16px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 2px 12px 0 rgba(168,255,235,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

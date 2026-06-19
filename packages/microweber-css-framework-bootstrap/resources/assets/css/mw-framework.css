@@ -1,0 +1,29 @@
+/* ============================================================
+   Microweber CSS Framework (Bootstrap-based)
+   
+   A shared, semantic CSS framework for Microweber templates.
+   All styling is driven by --mw- CSS custom properties so that
+   any template can theme itself by simply overriding :root vars.
+   
+   Include this file to get the complete framework — it vendors Bootstrap 5,
+   so a consuming template (e.g. Base) needs to load nothing else.
+   ============================================================ */
+
+/* Vendored Bootstrap 5 (grid + reboot + components). Imported FIRST so the
+   --mw-* token-driven rules below win the cascade. */
+@import url("vendor/bootstrap.min.css");
+
+@import url("mw-variables.css");
+@import url("components/mw-body.css");
+@import url("components/mw-links.css");
+@import url("components/mw-buttons.css");
+@import url("components/mw-forms.css");
+@import url("components/mw-header.css");
+@import url("components/mw-footer.css");
+@import url("components/mw-sections.css");
+@import url("components/mw-shop.css");
+@import url("components/mw-testimonials.css");
+@import url("components/mw-nav.css");
+@import url("components/mw-layouts.css");
+@import url("components/mw-animations.css");
+@import url("components/mw-utilities.css");

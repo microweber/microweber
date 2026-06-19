@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Sunset Horizon",
+            "description": "Warm orange-to-purple gradient with soft shadow and rounded corners",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Sunset Horizon",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #ff9966 0%, #ff5e62 100%)",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "0px",
+                            "--mw-btn-border-radius": "20px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "40px",
+                            "--mw-btn-box-shadow": "0 4px 16px 0 rgba(255,94,98,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

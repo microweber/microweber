@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Oceanic Pearl",
+            "description": "Soft blue-to-pearl gradient with a subtle shine and rounded corners for an elegant, aquatic look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Oceanic Pearl",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%)",
+                            "--mw-btn-color": "#234567",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#c2e9fb",
+                            "--mw-btn-border-radius": "16px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 4px 16px 0 rgba(162,233,251,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

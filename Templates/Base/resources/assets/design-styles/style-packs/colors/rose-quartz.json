@@ -1,0 +1,78 @@
+{
+    "settings": [
+        {
+            "title": "Rose Quartz",
+            "description": "Soft rose and quartz pinks for a gentle, elegant look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Rose Quartz",
+                        "properties": {
+                            "--mw-background-color": "#fff1f2",
+                            "--mw-section-background-color": "#fff1f2",
+                            "--mw-primary-color": "#fb7185",
+                            "--mw-secondary": "#f9a8d4",
+                            "--mw-textDark": "#831843",
+                            "--mw-textLight": "#f9a8d4",
+                            "--mw-body-color": "#831843",
+                            "--mw-heading-color": "#7e3943",
+                            "--mw-paragraph-color": "#7e3943",
+                            "--mw-link-color": "#7e3943",
+                            "--mw-link-hover-color": "#f9a8d4",
+                            "--mw-header-background-color": "#fff1f2",
+                            "--mw-header-link-color": "#7e3943",
+                            "--mw-header-link-hover-color": "#f9a8d4",
+                            "--mw-header-link-background-hover-color": "rgba(251, 113, 133, 0.08)",
+                            "--mw-top-header-background-color": "#fff1f2",
+                            "--mw-top-header-primary-color": "#fb7185",
+                            "--mw-top-header-link-color": "#be185d",
+                            "--mw-top-header-link-hover-color": "#fb7185",
+                            "--mw-top-header-button-background-color": "#fb7185",
+                            "--mw-top-header-button-background-hover-color": "#f9a8d4",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#ffffff",
+                            "--mw-footer-background-color": "#fff1f2",
+                            "--mw-footer-text-color": "#831843",
+                            "--mw-footer-primary-color": "#fb7185",
+                            "--mw-footer-link-color": "#7d546a",
+                            "--mw-footer-hover-link-color": "#fb7185",
+                            "--mw-footer-button-background-color": "#fb7185",
+                            "--mw-footer-button-background-hover-color": "#f9a8d4",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#ffffff",
+                            "--mw-text-decoration-color": "#fb7185",
+                            "--text-on-dark-background": "#ffffff",
+                            "--mw-btn-background-color": "#fb7185",
+                            "--mw-btn-background-hover-color": "#f9a8d4",
+                            "--mw-btn-text-color": "#ffffff",
+                            "--mw-btn-text-hover-color": "#ffffff",
+                            "--mw-btn-border-color": "#fb7185",
+                            "--mw-btn-secondary-background-color": "#f9a8d4",
+                            "--mw-btn-secondary-background-hover-color": "#fb7185",
+                            "--mw-btn-secondary-text-color": "#831843",
+                            "--mw-btn-secondary-text-hover-color": "#ffffff",
+                            "--mw-btn-secondary-border-color": "#f9a8d4",
+                            "--mw-btn-outline-background-color": "transparent",
+                            "--mw-btn-outline-background-hover-color": "#fb7185",
+                            "--mw-btn-outline-text-color": "#fb7185",
+                            "--mw-btn-outline-text-hover-color": "#ffffff",
+                            "--mw-btn-outline-border-color": "#fb7185",
+                            "--mw-form-control-placeholder-color": "#f9a8d4",
+                            "--mw-form-control-background": "#ffffff",
+                            "--mw-form-control-background-hover": "#fff1f2",
+                            "--mw-form-control-text-color": "#831843",
+                            "--mw-form-control-text-hover-color": "#fb7185",
+                            "--mw-form-label-color": "#fb7185",
+                            "--mw-form-control-border-color": "#f9a8d4",
+                            "--mw-text-on-dark-background-color": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

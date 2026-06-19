@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Lilac Breeze",
+            "description": "Soft lilacs and gentle purples for a calming, floral look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Lilac Breeze",
+                        "properties": {
+                            "--mw-background-color": "#f8f6ff",
+                            "--mw-section-background-color": "#f8f6ff",
+                            "--mw-primary-color": "#b39ddb",
+                            "--mw-secondary": "#9575cd",
+                            "--mw-textDark": "#4b3869",
+                            "--mw-textLight": "#f8f6ff",
+                            "--mw-body-color": "#4b3869",
+                            "--mw-heading-color": "#5a4f6e",
+                            "--mw-paragraph-color": "#5a4f6e",
+                            "--mw-link-color": "#5a4f6e",
+                            "--mw-link-hover-color": "#9575cd",
+                            "--mw-header-background-color": "#f8f6ff",
+                            "--mw-header-link-color": "#5a4f6e",
+                            "--mw-header-link-hover-color": "#9575cd",
+                            "--mw-header-link-background-hover-color": "rgba(149, 117, 205, 0.08)",
+                            "--mw-top-header-background-color": "#f8f6ff",
+                            "--mw-top-header-primary-color": "#b39ddb",
+                            "--mw-top-header-link-color": "#4b3b67",
+                            "--mw-top-header-link-hover-color": "#b39ddb",
+                            "--mw-top-header-button-background-color": "#b39ddb",
+                            "--mw-top-header-button-background-hover-color": "#9575cd",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#4b3869",
+                            "--mw-footer-background-color": "#f8f6ff",
+                            "--mw-footer-text-color": "#4b3869",
+                            "--mw-footer-primary-color": "#b39ddb",
+                            "--mw-footer-link-color": "#4b3b67",
+                            "--mw-footer-hover-link-color": "#b39ddb",
+                            "--mw-footer-button-background-color": "#b39ddb",
+                            "--mw-footer-button-background-hover-color": "#9575cd",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#4b3869",
+                            "--mw-text-decoration-color": "#b39ddb",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

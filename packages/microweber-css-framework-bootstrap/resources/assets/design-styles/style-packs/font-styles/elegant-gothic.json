@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Elegant Gothic",
+                        "properties": {
+                            "--mw-body-font-family": "'EB Garamond', serif",
+                            "--mw-heading-font-family": "'EB Garamond', serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "36px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "17px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

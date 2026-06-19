@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Bamboo Grove",
+            "description": "Fresh greens and earthy tones for a tranquil, natural look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bamboo Grove",
+                        "properties": {
+                            "--mw-background-color": "#f6fff2",
+                            "--mw-section-background-color": "#f6fff2",
+                            "--mw-primary-color": "#7bb661",
+                            "--mw-secondary": "#a3c585",
+                            "--mw-textDark": "#2e4631",
+                            "--mw-textLight": "#f6fff2",
+                            "--mw-body-color": "#2e4631",
+                            "--mw-heading-color": "#3e5b31",
+                            "--mw-paragraph-color": "#3e5b31",
+                            "--mw-link-color": "#3e5b31",
+                            "--mw-link-hover-color": "#a3c585",
+                            "--mw-header-background-color": "#f6fff2",
+                            "--mw-header-link-color": "#3e5b31",
+                            "--mw-header-link-hover-color": "#a3c585",
+                            "--mw-header-link-background-hover-color": "rgba(123, 182, 97, 0.08)",
+                            "--mw-top-header-background-color": "#f6fff2",
+                            "--mw-top-header-primary-color": "#7bb661",
+                            "--mw-top-header-link-color": "#526343",
+                            "--mw-top-header-link-hover-color": "#7bb661",
+                            "--mw-top-header-button-background-color": "#7bb661",
+                            "--mw-top-header-button-background-hover-color": "#a3c585",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#2e4631",
+                            "--mw-footer-background-color": "#f6fff2",
+                            "--mw-footer-text-color": "#2e4631",
+                            "--mw-footer-primary-color": "#7bb661",
+                            "--mw-footer-link-color": "#526343",
+                            "--mw-footer-hover-link-color": "#7bb661",
+                            "--mw-footer-button-background-color": "#7bb661",
+                            "--mw-footer-button-background-hover-color": "#a3c585",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#2e4631",
+                            "--mw-text-decoration-color": "#7bb661",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

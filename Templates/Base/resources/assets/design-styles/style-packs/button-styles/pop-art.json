@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Pop Art",
+            "description": "Bold pop art colors with thick border and playful shadow for a retro-modern look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Pop Art",
+                        "properties": {
+                            "--mw-btn-background": "#ffeb3b",
+                            "--mw-btn-color": "#e91e63",
+                            "--mw-btn-border-size": "4px",
+                            "--mw-btn-border-color": "#2196f3",
+                            "--mw-btn-border-radius": "10px",
+                            "--mw-btn-font-size": "20px",
+                            "--mw-btn-padding-block": "16px",
+                            "--mw-btn-padding-inline": "44px",
+                            "--mw-btn-box-shadow": "0 6px 18px 0 rgba(233,30,99,0.15)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Avant Garde Display",
+                        "properties": {
+                            "--mw-body-font-family": "'Prompt', sans-serif",
+                            "--mw-heading-font-family": "'Prompt', sans-serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "37px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "16px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

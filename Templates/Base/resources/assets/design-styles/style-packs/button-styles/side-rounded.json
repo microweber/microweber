@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Side Rounded",
+            "description": "Buttons with only left and right sides rounded for a unique pill effect.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Side Rounded",
+                        "properties": {
+                            "--mw-btn-background": "#f6d365",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#fda085",
+                            "--mw-btn-border-radius": "30px 0 30px 0",
+                            "--mw-btn-font-size": "17px",
+                            "--mw-btn-padding-block": "13px",
+                            "--mw-btn-padding-inline": "36px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

@@ -1,0 +1,29 @@
+/* ============================================================
+   Component: Links
+   Link styling driven by --mw- variables.
+   ============================================================ */
+
+.btn-link, a {
+    color: var(--mw-link-color);
+    line-height: var(--mw-line-height);
+    letter-spacing: var(--mw-letter-spacing);
+}
+
+.btn-link:hover, .btn-link:active,
+a:hover, a:active {
+    color: var(--mw-link-hover-color);
+}
+
+ul li a {
+    line-height: var(--mw-line-height);
+    letter-spacing: var(--mw-letter-spacing);
+    font-size: var(--mw-links-font-size);
+}
+
+/* Text decoration on section links */
+section.section a:not(.btn-primary, .btn-secondary, .btn-outline-primary, .btn-outline-secondary, .btn-outline, .btn-default) {
+    text-decoration: var(--mw-text-decoration) !important;
+    text-decoration-thickness: var(--mw-text-decoration-thickness) !important;
+    text-underline-offset: var(--mw-text-underline-offset) !important;
+    text-decoration-color: var(--mw-text-decoration-color) !important;
+}

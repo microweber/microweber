@@ -1,0 +1,96 @@
+/* ============================================================
+   Component: Buttons
+   Semantic button styles driven by --mw- variables.
+   ============================================================ */
+
+/* Primary button */
+.btn.btn-primary,
+.btn:not(.btn-secondary):not(.btn-outline):not(.btn-link) {
+    background-color: var(--mw-btn-background-color);
+    color: var(--mw-btn-text-color);
+    border-color: var(--mw-btn-border-color);
+}
+
+.btn.btn-primary:hover,
+.btn.btn-primary:active,
+.btn.btn-primary.active,
+.btn:not(.btn-secondary):not(.btn-outline):not(.btn-link):hover,
+.btn:not(.btn-secondary):not(.btn-outline):not(.btn-link):active,
+.btn:not(.btn-secondary):not(.btn-outline):not(.btn-link).active {
+    background-color: var(--mw-btn-background-hover-color);
+    color: var(--mw-btn-text-hover-color);
+}
+
+/* Secondary button */
+.btn.btn-secondary {
+    background-color: var(--mw-btn-secondary-background-color) !important;
+    color: var(--mw-btn-secondary-text-color) !important;
+    border-color: var(--mw-btn-secondary-border-color) !important;
+}
+
+.btn.btn-secondary:hover,
+.btn.btn-secondary:active,
+.btn.btn-secondary.active {
+    background-color: var(--mw-btn-secondary-background-hover-color) !important;
+    color: var(--mw-btn-secondary-text-hover-color) !important;
+}
+
+/* Outline button */
+.btn.btn-outline,
+.btn.btn-outline-primary,
+.btn.btn-outline-secondary {
+    background-color: var(--mw-btn-outline-background-color) !important;
+    color: var(--mw-btn-outline-text-color) !important;
+    border-color: var(--mw-btn-outline-border-color) !important;
+}
+
+.btn.btn-outline:hover,
+.btn.btn-outline:active,
+.btn.btn-outline.active,
+.btn.btn-outline-primary:hover,
+.btn.btn-outline-primary:active,
+.btn.btn-outline-secondary:hover,
+.btn.btn-outline-secondary:active {
+    background-color: var(--mw-btn-outline-background-hover-color) !important;
+    color: var(--mw-btn-outline-text-hover-color) !important;
+}
+
+/* Shared button shape & sizing */
+.btn:not(.btn-link, .btn-sm) {
+    padding-block: var(--mw-btn-padding-block);
+    padding-inline: var(--mw-btn-padding-inline);
+}
+
+.btn:not(.btn-link) {
+    border-radius: var(--mw-btn-border-radius);
+    border-color: var(--mw-btn-border-color);
+    border-width: var(--mw-btn-border-size);
+    border-style: var(--mw-btn-border-style);
+    font-size: var(--mw-btn-font-size);
+    color: var(--mw-btn-text-color);
+}
+
+.btn:not(.btn-link):hover,
+.btn:not(.btn-link):focus,
+.btn:not(.btn-link):active,
+.btn:not(.btn-link).active {
+    outline: 0 none !important;
+    box-shadow: none !important;
+    color: var(--mw-btn-text-hover-color);
+}
+
+/* Link button */
+.btn-link {
+    padding: 3px;
+    color: var(--mw-link-color);
+}
+
+/* Extra sizes */
+.mw-btn-xs {
+    font-size: 0.785rem;
+    padding: 5px;
+}
+
+.mw-btn-rounded {
+    border-radius: 30px;
+}

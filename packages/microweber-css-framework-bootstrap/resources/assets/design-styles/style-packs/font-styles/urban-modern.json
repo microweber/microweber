@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Urban Modern",
+                        "properties": {
+                            "--mw-body-font-family": "'Urbanist', sans-serif",
+                            "--mw-heading-font-family": "'Urbanist', sans-serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "35px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "16px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Monochrome Minimal",
+            "description": "Simple, flat, monochrome button with no border and subtle hover effect",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Monochrome Minimal",
+                        "properties": {
+                            "--mw-btn-background": "#222",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "0px",
+                            "--mw-btn-border-radius": "4px",
+                            "--mw-btn-font-size": "17px",
+                            "--mw-btn-padding-block": "12px",
+                            "--mw-btn-padding-inline": "32px",
+                            "--mw-btn-hover-background": "#444"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

@@ -1,0 +1,45 @@
+{
+    "settings": [
+        {
+            "title": "Button styles",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "previewElementsFormat": "flexZoom",
+            "previewElementsMode": "stylePackOpener",
+            "previewElements": [
+                {
+                    "tag": "button",
+                    "class": "btn",
+                    "label": "Button"
+                },
+                {
+                    "tag": "button",
+                    "class": "btn btn-secondary",
+                    "label": "Secondary"
+                },
+                {
+                    "tag": "button",
+                    "class": "btn btn-outline",
+                    "label": "Outline"
+                }
+            ],
+            "previewElementsStyleProperties": [
+                {
+                    "label": "Main Button Styles",
+                    "properties": {
+                    }
+                }
+            ],
+            "mergeFieldSettingsFromFolders": [
+                "resources/assets/design-styles/style-packs/button-styles"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                ]
+            }
+        }
+    ]
+}
+

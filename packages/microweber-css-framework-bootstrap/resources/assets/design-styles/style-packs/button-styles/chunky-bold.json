@@ -1,0 +1,37 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Chunky Bold",
+            "description": "Extra thick padding, bold font, and strong color for a statement button.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Chunky Bold",
+                        "properties": {
+                            "--mw-btn-background": "#ff595e",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "3px",
+                            "--mw-btn-border-color": "#ffca3a",
+                            "--mw-btn-border-radius": "10px",
+                            "--mw-btn-font-size": "22px",
+                            "--mw-btn-font-weight": "bold",
+                            "--mw-btn-padding-block": "20px",
+                            "--mw-btn-padding-inline": "48px",
+                            "--mw-btn-box-shadow": "0 8px 24px 0 rgba(255,89,94,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

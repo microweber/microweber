@@ -1,0 +1,86 @@
+/* ============================================================
+   Component: Footer
+   Footer styling driven by --mw- variables.
+   ============================================================ */
+
+.mw-footer-background,
+.footer-background {
+    position: relative;
+    background-color: var(--mw-footer-background-color);
+}
+
+.mw-footer-background a,
+.footer-background a {
+    color: var(--mw-footer-link-color);
+    font-size: var(--mw-footer-font-size);
+}
+
+.mw-footer-background a:hover,
+.footer-background a:hover {
+    color: var(--mw-footer-hover-link-color);
+}
+
+.mw-footer-background h1,
+.mw-footer-background h2,
+.mw-footer-background h3,
+.mw-footer-background h4,
+.mw-footer-background h5,
+.mw-footer-background h6,
+.mw-footer-background p,
+.mw-footer-background span,
+.mw-footer-background small,
+.footer-background h1,
+.footer-background h2,
+.footer-background h3,
+.footer-background h4,
+.footer-background h5,
+.footer-background h6,
+.footer-background p,
+.footer-background span,
+.footer-background small {
+    color: var(--mw-footer-text-color);
+}
+
+.mw-footer-background .btn,
+.footer-background .btn {
+    background-color: var(--mw-footer-button-background-color) !important;
+    color: var(--mw-footer-button-text-color) !important;
+    border-color: var(--mw-footer-button-background-color) !important;
+}
+
+.mw-footer-background .btn:hover,
+.mw-footer-background .btn:active,
+.footer-background .btn:hover,
+.footer-background .btn:active {
+    background-color: var(--mw-footer-button-background-hover-color) !important;
+    color: var(--mw-footer-button-text-hover-color) !important;
+    border-color: var(--mw-footer-button-background-hover-color) !important;
+}
+
+/* Footer layout helpers */
+footer .logo img {
+    max-width: 100px;
+}
+
+footer ul li {
+    display: inline-flex;
+    margin: 0 5px;
+}
+
+.mw-footer-nav ul {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+    list-style-type: none;
+}
+
+@media screen and (max-width: 999px) {
+    .mw-footer-nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.mw-footer-nav ul li a {
+    padding: 10px;
+}

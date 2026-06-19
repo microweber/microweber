@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Rustic Clay",
+            "description": "Earthy browns and terracotta for a warm, grounded look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Rustic Clay",
+                        "properties": {
+                            "--mw-background-color": "#f8f3ef",
+                            "--mw-section-background-color": "#f8f3ef",
+                            "--mw-primary-color": "#b86b4b",
+                            "--mw-secondary": "#a0522d",
+                            "--mw-textDark": "#3e2723",
+                            "--mw-textLight": "#f8f3ef",
+                            "--mw-body-color": "#3e2723",
+                            "--mw-heading-color": "#5c3626",
+                            "--mw-paragraph-color": "#5c3626",
+                            "--mw-link-color": "#5c3626",
+                            "--mw-link-hover-color": "#a0522d",
+                            "--mw-header-background-color": "#f8f3ef",
+                            "--mw-header-link-color": "#5c3626",
+                            "--mw-header-link-hover-color": "#a0522d",
+                            "--mw-header-link-background-hover-color": "rgba(176, 107, 75, 0.08)",
+                            "--mw-top-header-background-color": "#f8f3ef",
+                            "--mw-top-header-primary-color": "#b86b4b",
+                            "--mw-top-header-link-color": "#a0522d",
+                            "--mw-top-header-link-hover-color": "#b86b4b",
+                            "--mw-top-header-button-background-color": "#b86b4b",
+                            "--mw-top-header-button-background-hover-color": "#a0522d",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#3e2723",
+                            "--mw-footer-background-color": "#f8f3ef",
+                            "--mw-footer-text-color": "#3e2723",
+                            "--mw-footer-primary-color": "#b86b4b",
+                            "--mw-footer-link-color": "#a0522d",
+                            "--mw-footer-hover-link-color": "#b86b4b",
+                            "--mw-footer-button-background-color": "#b86b4b",
+                            "--mw-footer-button-background-hover-color": "#a0522d",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#3e2723",
+                            "--mw-text-decoration-color": "#b86b4b",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

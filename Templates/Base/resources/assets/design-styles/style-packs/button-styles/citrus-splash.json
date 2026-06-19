@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Citrus Splash",
+            "description": "Bright citrus gradient with rounded corners and a zesty shadow.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Citrus Splash",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #f9d423 0%, #ff4e50 100%)",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "0px",
+                            "--mw-btn-border-radius": "18px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 4px 16px 0 rgba(255,78,80,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

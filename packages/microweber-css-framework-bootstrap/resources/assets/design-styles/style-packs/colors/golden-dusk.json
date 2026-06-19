@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Golden Dusk",
+            "description": "Gilded golds and muted violets for a sophisticated, evening look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Golden Dusk",
+                        "properties": {
+                            "--mw-background-color": "#fdf6e3",
+                            "--mw-section-background-color": "#fdf6e3",
+                            "--mw-primary-color": "#e1ad01",
+                            "--mw-secondary": "#a89cc8",
+                            "--mw-textDark": "#3b2e1a",
+                            "--mw-textLight": "#fdf6e3",
+                            "--mw-body-color": "#3b2e1a",
+                            "--mw-heading-color": "#715701",
+                            "--mw-paragraph-color": "#715701",
+                            "--mw-link-color": "#715701",
+                            "--mw-link-hover-color": "#a89cc8",
+                            "--mw-header-background-color": "#fdf6e3",
+                            "--mw-header-link-color": "#715701",
+                            "--mw-header-link-hover-color": "#a89cc8",
+                            "--mw-header-link-background-hover-color": "rgba(168, 156, 200, 0.08)",
+                            "--mw-top-header-background-color": "#fdf6e3",
+                            "--mw-top-header-primary-color": "#e1ad01",
+                            "--mw-top-header-link-color": "#544e64",
+                            "--mw-top-header-link-hover-color": "#e1ad01",
+                            "--mw-top-header-button-background-color": "#e1ad01",
+                            "--mw-top-header-button-background-hover-color": "#a89cc8",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#3b2e1a",
+                            "--mw-footer-background-color": "#fdf6e3",
+                            "--mw-footer-text-color": "#3b2e1a",
+                            "--mw-footer-primary-color": "#e1ad01",
+                            "--mw-footer-link-color": "#544e64",
+                            "--mw-footer-hover-link-color": "#e1ad01",
+                            "--mw-footer-button-background-color": "#e1ad01",
+                            "--mw-footer-button-background-hover-color": "#a89cc8",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#3b2e1a",
+                            "--mw-text-decoration-color": "#e1ad01",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

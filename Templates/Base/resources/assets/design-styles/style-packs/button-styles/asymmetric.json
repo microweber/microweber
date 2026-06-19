@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Asymmetric",
+            "description": "Modern asymmetric border radius with a bold color and shadow for a unique look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Asymmetric",
+                        "properties": {
+                            "--mw-btn-background": "#00b894",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#00cec9",
+                            "--mw-btn-border-radius": "30px 5px 30px 5px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 4px 16px 0 rgba(0,184,148,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

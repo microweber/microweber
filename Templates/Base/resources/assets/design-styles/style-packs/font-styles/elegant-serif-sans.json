@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Elegant Serif & Sans",
+                        "properties": {
+                            "--mw-body-font-family": "'Merriweather', serif",
+                            "--mw-heading-font-family": "'Merriweather', serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "36px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "17px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

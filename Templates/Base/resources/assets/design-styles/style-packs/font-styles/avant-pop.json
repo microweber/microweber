@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Avant Pop",
+                        "properties": {
+                            "--mw-body-font-family": "'Chivo', sans-serif",
+                            "--mw-heading-font-family": "'Chivo', sans-serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "38px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "16px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

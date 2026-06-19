@@ -1,0 +1,34 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Emerald Flat",
+            "description": "Flat emerald green background with white text and sharp corners",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Emerald Flat",
+                        "properties": {
+                            "--mw-btn-background": "#2ecc40",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "0px",
+                            "--mw-btn-border-radius": "0px",
+                            "--mw-btn-font-size": "17px",
+                            "--mw-btn-padding-block": "12px",
+                            "--mw-btn-padding-inline": "32px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

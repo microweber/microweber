@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Sky Fade",
+            "description": "Soft blue-to-white gradient with airy shadow and rounded corners for a light, uplifting feel.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Sky Fade",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #e0eafc 0%, #a1c4fd 100%)",
+                            "--mw-btn-color": "#1976d2",
+                            "--mw-btn-border-size": "1px",
+                            "--mw-btn-border-color": "#a1c4fd",
+                            "--mw-btn-border-radius": "16px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 2px 12px 0 rgba(161,196,253,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

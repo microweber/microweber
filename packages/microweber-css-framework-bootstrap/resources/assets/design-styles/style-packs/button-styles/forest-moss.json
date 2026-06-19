@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Forest Moss",
+            "description": "Earthy green gradient with soft shadow and rounded corners for a natural look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Forest Moss",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #a8e063 0%, #56ab2f 100%)",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#56ab2f",
+                            "--mw-btn-border-radius": "16px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 2px 12px 0 rgba(86,171,47,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

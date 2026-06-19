@@ -1,0 +1,48 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Soft Rounded",
+            "description": "Buttons with generously rounded corners",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {
+                    "tag": "button",
+                    "class": "btn",
+                    "label": "Button"
+                },
+                {
+                    "tag": "button",
+                    "class": "btn btn-secondary",
+                    "label": "Secondary"
+                },
+                {
+                    "tag": "button",
+                    "class": "btn btn-outline",
+                    "label": "Outline"
+                }
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Soft Rounded",
+                        "properties": {
+                            "--mw-btn-border-radius": "40px",
+                            "--mw-btn-border-size": "1px",
+                            "--mw-btn-font-size": "16px",
+                            "--mw-btn-padding-block": "10px",
+                            "--mw-btn-padding-inline": "24px",
+                            "--mw-btn-secondary-border-radius": "40px",
+                            "--mw-btn-outline-border-radius": "40px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

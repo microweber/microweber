@@ -1,0 +1,94 @@
+/* ============================================================
+   Component: Header & Navigation
+   Header, top-header, and nav styling driven by --mw- variables.
+   ============================================================ */
+
+.mw-header-background,
+.header-background,
+.mw-vhmbgr-active-popup {
+    background-color: var(--mw-header-background-color) !important;
+    padding-block: var(--mw-header-padding-block);
+}
+
+.mw-header-background .dropdown-menu,
+.header-background .dropdown-menu,
+.mw-vhmbgr-active-popup .dropdown-menu {
+    background-color: var(--mw-header-background-color) !important;
+    border-color: var(--mw-header-background-color) !important;
+    border-radius: 0 !important;
+}
+
+.mw-header-background a,
+.mw-header-background .mw-vhmbgr-wrapper,
+.header-background a,
+.header-background .mw-vhmbgr-wrapper,
+.mw-vhmbgr-active-popup a,
+.mw-vhmbgr-active-popup .mw-vhmbgr-wrapper {
+    color: var(--mw-header-link-color) !important;
+}
+
+.mw-header-background a:hover,
+.header-background a:hover,
+.mw-vhmbgr-active-popup a:hover {
+    color: var(--mw-header-link-hover-color) !important;
+    background-color: var(--mw-header-link-background-hover-color) !important;
+}
+
+.mw-header-background ul li a,
+.header-background ul li a {
+    font-size: var(--mw-header-font-size) !important;
+}
+
+/* Top header bar */
+.mw-header-top,
+.header-top {
+    background-color: var(--mw-top-header-background-color);
+}
+
+.mw-header-top i.mdi,
+.mw-header-top a,
+.header-top i.mdi,
+.header-top a {
+    color: var(--mw-top-header-link-color);
+}
+
+.mw-header-top a:hover,
+.header-top a:hover {
+    color: var(--mw-top-header-link-hover-color);
+}
+
+.mw-header-top .btn,
+.header-top .btn {
+    background-color: var(--mw-top-header-button-background-color) !important;
+    color: var(--mw-top-header-button-text-color) !important;
+    border-color: var(--mw-top-header-button-background-color) !important;
+}
+
+.mw-header-top .btn:hover,
+.mw-header-top .btn:active,
+.header-top .btn:hover,
+.header-top .btn:active {
+    background-color: var(--mw-top-header-button-background-hover-color) !important;
+    color: var(--mw-top-header-button-text-hover-color) !important;
+    border-color: var(--mw-top-header-button-background-hover-color) !important;
+}
+
+/* Navbar */
+.navbar-collapse {
+    width: 100%;
+}
+
+.navbar .logo-text {
+    color: var(--mw-primary-color);
+}
+
+.mw-header-toggle-button,
+.header-menu-toggle-button {
+    color: var(--mw-primary-color);
+}
+
+.navbar-toggler {
+    border: 1px solid var(--mw-primary-color);
+    padding: 5px;
+    outline: 0 !important;
+}

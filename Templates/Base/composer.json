@@ -1,0 +1,27 @@
+{
+    "name": "microweber-templates/base",
+    "description": "Base template for Microweber CMS using the shared CSS framework",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\Base\\": "",
+            "Templates\\Base\\Database\\Factories\\": "database/factories/",
+            "Templates\\Base\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Templates\\Base\\Tests\\": "Tests/"
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/base/public"
+    },
+    "target-dir": "Base"
+}

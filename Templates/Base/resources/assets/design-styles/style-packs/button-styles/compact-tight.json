@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Compact Tight",
+            "description": "Compact button with tight padding and slightly rounded corners for space-saving UI.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Compact Tight",
+                        "properties": {
+                            "--mw-btn-background": "#e0e0e0",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "1px",
+                            "--mw-btn-border-color": "#bdbdbd",
+                            "--mw-btn-border-radius": "8px",
+                            "--mw-btn-font-size": "15px",
+                            "--mw-btn-padding-block": "6px",
+                            "--mw-btn-padding-inline": "18px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

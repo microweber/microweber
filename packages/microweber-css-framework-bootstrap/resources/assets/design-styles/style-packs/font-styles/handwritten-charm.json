@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Handwritten Charm",
+                        "properties": {
+                            "--mw-body-font-family": "'Nunito', sans-serif",
+                            "--mw-heading-font-family": "'Nunito', sans-serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "32px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "16px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

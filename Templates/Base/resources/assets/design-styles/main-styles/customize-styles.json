@@ -1,0 +1,72 @@
+{
+    "settings": [
+        {
+            "title": "Typography",
+            "description": "",
+            "readSettingsFromFiles": [
+                "resources/assets/design-styles/mw-styles/typography.json"
+            ],
+            "settings": [
+                {
+                    "selectors": [
+                        ":root"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Colors",
+            "description": "",
+            "readSettingsFromFiles": [
+                "resources/assets/design-styles/mw-styles/colors.json"
+            ],
+            "settings": [
+                {
+                    "selectors": [
+                        ":root"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Buttons",
+            "description": "",
+            "readSettingsFromFiles": [
+                "resources/assets/design-styles/mw-styles/buttons-sizes.json",
+                "resources/assets/design-styles/mw-styles/buttons-colors.json"
+            ]
+        },
+        {
+            "title": "Forms",
+            "description": "",
+            "readSettingsFromFiles": [
+                "resources/assets/design-styles/mw-styles/forms.json"
+            ],
+            "rootSelector": ".module-custom-fields"
+        },
+        {
+            "title": "Top Header",
+            "description": "",
+            "readSettingsFromFiles": [
+                "resources/assets/design-styles/mw-styles/top-header-colors.json"
+            ],
+            "rootSelector": ".header-top"
+        },
+        {
+            "title": "Header",
+            "description": "",
+            "readSettingsFromFiles": [
+                "resources/assets/design-styles/mw-styles/header-colors.json"
+            ],
+            "rootSelector": ".header-background"
+        },
+        {
+            "title": "Footer",
+            "description": "",
+            "readSettingsFromFiles": [
+                "resources/assets/design-styles/mw-styles/footer-colors.json"
+            ],
+            "rootSelector": ".footer-background"
+        }
+    ]
+}

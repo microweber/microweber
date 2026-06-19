@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Digital Mono",
+                        "properties": {
+                            "--mw-body-font-family": "'Share Tech Mono', monospace",
+                            "--mw-heading-font-family": "'Share Tech Mono', monospace",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "35px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "15px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

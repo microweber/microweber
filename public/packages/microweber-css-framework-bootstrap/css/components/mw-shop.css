@@ -1,0 +1,86 @@
+/* ============================================================
+   Component: Shop / E-commerce
+   Product cards, pricing, cart elements.
+   ============================================================ */
+
+.mw-shop-products .mw-product,
+.shop-products .product {
+    position: relative;
+}
+
+.mw-shop-products .mw-product .mw-product-image,
+.shop-products .product .image {
+    overflow: hidden;
+    background-color: #fff;
+    position: relative;
+    width: 100%;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.mw-shop-products .mw-product .mw-product-image img,
+.shop-products .product .image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: all 0.6s ease 0s;
+    transform: scale(1);
+}
+
+.mw-shop-products .mw-product .mw-product-image img:hover,
+.shop-products .product .image img:hover {
+    transform: scale(1.1);
+}
+
+.mw-shop-products .mw-product .mw-product-price,
+.shop-products .product .price {
+    color: var(--mw-primary-color);
+}
+
+.mw-shop-products .mw-product .mw-product-price-old,
+.shop-products .product .price-old {
+    color: #ccc;
+    text-decoration: line-through;
+    margin-right: 10px;
+}
+
+.mw-shop-products .mw-product .mw-product-label,
+.shop-products .product .product-label {
+    min-width: 60px;
+    position: absolute;
+    background: var(--mw-primary-color);
+    color: var(--mw-text-light);
+    font-size: 12px;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    right: 35px;
+    top: 20px;
+    font-weight: bold;
+    z-index: 1;
+    padding: 6px 10px;
+}
+
+.mw-shop-products .mw-product .mw-product-heading h5,
+.shop-products .product .heading-holder h5 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Product inner page */
+.mw-shop-inner .mw-shop-price-main .mw-price-current,
+.shop-inner-page .main-price .price {
+    color: var(--mw-primary-color);
+    font-size: 24px;
+}
+
+.mw-shop-inner .mw-shop-price-old,
+.shop-inner-page .main-price .price-old {
+    color: #b9b9b9;
+    font-size: 24px;
+    text-decoration: line-through;
+    margin-right: 15px;
+}

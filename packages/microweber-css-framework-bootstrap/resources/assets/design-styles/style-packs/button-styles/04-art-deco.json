@@ -1,0 +1,34 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Art Deco",
+            "description": "Art Deco inspired button with geometric corners and bold size",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Art Deco",
+                        "properties": {
+                            "--mw-btn-border-radius": "0 24px 0 24px",
+                            "--mw-btn-border-size": "3px",
+                            "--mw-btn-font-size": "20px",
+                            "--mw-btn-padding-block": "18px",
+                            "--mw-btn-padding-inline": "36px",
+                            "--mw-btn-secondary-border-radius": "0 24px 0 24px",
+                            "--mw-btn-outline-border-radius": "0 24px 0 24px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

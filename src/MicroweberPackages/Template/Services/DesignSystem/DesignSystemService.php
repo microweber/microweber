@@ -2,8 +2,7 @@
 
 namespace MicroweberPackages\Template\Services\DesignSystem;
 
-use MicroweberPackages\Template\Services\DesignSystem\Adapters\BigTemplateVarsAdapter;
-use MicroweberPackages\Template\Services\DesignSystem\Adapters\BootstrapTemplateVarsAdapter;
+use MicroweberPackages\Template\Services\DesignSystem\Adapters\DefaultTemplateVarsAdapter;
 use MicroweberPackages\Template\Services\DesignSystem\Adapters\TemplateVarsAdapter;
 
 /**
@@ -26,14 +25,18 @@ class DesignSystemService
     /** @var array<string, TemplateVarsAdapter> */
     protected array $adapters = [];
 
+    /** Fallback adapter used for templates that have not registered their own. */
+    protected ?TemplateVarsAdapter $defaultAdapter = null;
+
     public function __construct(ColorSchemesRegistry $colorSchemes, StylePackRegistry $stylePacks)
     {
         $this->colorSchemes = $colorSchemes;
         $this->stylePacks = $stylePacks;
 
-        // Register built-in adapters
-        $this->registerAdapter(new BigTemplateVarsAdapter());
-        $this->registerAdapter(new BootstrapTemplateVarsAdapter());
+        // No template adapters are hardcoded here. Each template registers its own
+        // adapter from its service provider, e.g.:
+        //   app('design_system')->registerAdapter(new BaseTemplateVarsAdapter());
+        // Unregistered templates fall back to the canonical --mw-* default below.
     }
 
     /**
@@ -62,13 +65,16 @@ class DesignSystemService
     }
 
     /**
-     * Get the adapter for a template by name.
-     * Falls back to the Big adapter if the template is unknown.
+     * Get the adapter for a template by name. Falls back to the canonical
+     * --mw-* default adapter when the template hasn't registered its own
+     * (all framework templates share the --mw-* namespace, so this is safe).
      */
     public function adapterFor(string $templateName): TemplateVarsAdapter
     {
         $key = strtolower($templateName);
-        return $this->adapters[$key] ?? $this->adapters['big'];
+
+        return $this->adapters[$key]
+            ?? ($this->defaultAdapter ??= new DefaultTemplateVarsAdapter());
     }
 
     /**

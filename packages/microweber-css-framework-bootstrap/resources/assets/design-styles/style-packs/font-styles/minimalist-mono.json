@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Minimalist Mono",
+                        "properties": {
+                            "--mw-body-font-family": "'Fira Mono', monospace",
+                            "--mw-heading-font-family": "'Fira Mono', monospace",
+                            "--mw-heading-font-weight": "600",
+                            "--mw-heading-font-size": "33px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "15px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

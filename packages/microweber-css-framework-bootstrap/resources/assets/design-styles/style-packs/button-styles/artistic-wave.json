@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Artistic Wave",
+            "description": "Wavy border radius with a colorful gradient and playful shadow for an artistic, modern look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Artistic Wave",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #ffecd2 0%, #fcb69f 100%)",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#fcb69f",
+                            "--mw-btn-border-radius": "40% 60% 60% 40%/60% 40% 60% 40%",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 4px 16px 0 rgba(252,182,159,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

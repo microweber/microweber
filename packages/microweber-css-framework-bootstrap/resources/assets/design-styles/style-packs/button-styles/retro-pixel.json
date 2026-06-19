@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Retro Pixel",
+            "description": "Pixelated, 8-bit inspired button with blocky edges and bold colors",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Retro Pixel",
+                        "properties": {
+                            "--mw-btn-background": "#ffcc00",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "3px",
+                            "--mw-btn-border-color": "#222",
+                            "--mw-btn-border-radius": "0px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "10px",
+                            "--mw-btn-padding-inline": "28px",
+                            "--mw-btn-font-family": "'Press Start 2P', monospace"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

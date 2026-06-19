@@ -1,0 +1,51 @@
+/* ============================================================
+   Component: Forms
+   Form control styling driven by --mw- variables.
+   ============================================================ */
+
+.module-custom-fields .form-label {
+    color: var(--mw-form-label-color);
+    font-size: var(--mw-form-label-font-size);
+}
+
+.module-custom-fields .form-control,
+.module-custom-fields textarea.form-control,
+.module-custom-fields select.form-control,
+.module-custom-fields select.form-select {
+    border-radius: var(--mw-form-control-border-radius);
+    border-color: var(--mw-form-control-border-color);
+    border-width: var(--mw-form-control-border-size);
+    border-style: var(--mw-form-control-border-style);
+    background-color: var(--mw-form-control-background);
+    padding-block: var(--mw-form-control-padding-block);
+    padding-inline: var(--mw-form-control-padding-inline);
+    color: var(--mw-form-control-text-color);
+}
+
+.module-custom-fields .form-control:hover,
+.module-custom-fields .form-control:focus,
+.module-custom-fields .form-control:active,
+.module-custom-fields textarea.form-control:hover,
+.module-custom-fields textarea.form-control:focus,
+.module-custom-fields select.form-control:hover,
+.module-custom-fields select.form-control:focus {
+    color: var(--mw-form-control-text-hover-color);
+    background-color: var(--mw-form-control-background);
+}
+
+.module-custom-fields .form-control::placeholder {
+    color: var(--mw-form-control-placeholder-color);
+}
+
+.module-custom-fields textarea:focus,
+.module-custom-fields input[type="text"]:focus,
+.module-custom-fields input[type="password"]:focus,
+.module-custom-fields input[type="email"]:focus,
+.module-custom-fields input[type="url"]:focus,
+.module-custom-fields input[type="search"]:focus,
+.module-custom-fields input[type="tel"]:focus,
+.module-custom-fields input[type="number"]:focus {
+    border-color: color-mix(in srgb, var(--mw-form-control-border-color) 50%, transparent);
+    box-shadow: none;
+    outline: 0 none;
+}

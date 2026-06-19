@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Micro Button",
+            "description": "Tiny, compact button with minimal padding and small font for micro-interactions.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Micro Button",
+                        "properties": {
+                            "--mw-btn-background": "#f5f5f5",
+                            "--mw-btn-color": "#333",
+                            "--mw-btn-border-size": "1px",
+                            "--mw-btn-border-color": "#bbb",
+                            "--mw-btn-border-radius": "6px",
+                            "--mw-btn-font-size": "12px",
+                            "--mw-btn-padding-block": "4px",
+                            "--mw-btn-padding-inline": "12px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Teal Breeze",
+            "description": "Cool teal gradient with white text and a breezy shadow for a fresh, modern look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Teal Breeze",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #43c6ac 0%, #191654 100%)",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#43c6ac",
+                            "--mw-btn-border-radius": "16px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 4px 16px 0 rgba(67,198,172,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

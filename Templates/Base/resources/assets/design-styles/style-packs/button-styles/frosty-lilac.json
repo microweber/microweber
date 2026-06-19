@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Frosty Lilac",
+            "description": "Light lilac gradient with a frosted effect, white border, and soft shadow for a gentle, modern style.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Frosty Lilac",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%)",
+                            "--mw-btn-color": "#6d28d9",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#fff",
+                            "--mw-btn-border-radius": "16px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 2px 12px 0 rgba(142,197,252,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

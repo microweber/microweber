@@ -1,0 +1,32 @@
+{
+    "settings": [
+        {
+            "title": "Font styles",
+            "description": "Pick the font styles you want to use for your site.",
+            "fieldType": "stylePack",
+
+            "selectors": [
+                ":root"
+            ],
+            "previewElementsFormat": "block",
+            "previewElements": [
+                {
+                    "tag": "h1",
+                    "class": "",
+                    "label": "Heading"
+                },
+                {
+                    "tag": "p",
+                    "class": "",
+                    "label": "This is your paragraph."
+                }
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "mergeFieldSettingsStylePropertiesFromFolders": [
+                    "resources/assets/design-styles/style-packs/font-styles"
+                ]
+            }
+        }
+    ]
+}

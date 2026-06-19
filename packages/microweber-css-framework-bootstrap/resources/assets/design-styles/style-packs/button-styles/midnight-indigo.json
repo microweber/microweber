@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Midnight Indigo",
+            "description": "Deep indigo-to-black gradient with soft white text and a subtle glow for a night-inspired look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Midnight Indigo",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #232526 0%, #414345 100%)",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#232526",
+                            "--mw-btn-border-radius": "16px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 4px 16px 0 rgba(35,37,38,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

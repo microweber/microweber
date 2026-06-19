@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Ruby Spark",
+            "description": "Vivid ruby red gradient with a sparkling effect and bold white text for a striking appearance.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Ruby Spark",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%)",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#ff416c",
+                            "--mw-btn-border-radius": "14px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "14px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-box-shadow": "0 0 16px 0 #ff416c"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

@@ -1,0 +1,34 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Artistic Wave",
+            "description": "Artistic button with wavy border radius and playful proportions",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Artistic Wave",
+                        "properties": {
+                            "--mw-btn-border-radius": "32px 8px 32px 8px",
+                            "--mw-btn-border-size": "3px",
+                            "--mw-btn-font-size": "21px",
+                            "--mw-btn-padding-block": "15px",
+                            "--mw-btn-padding-inline": "38px",
+                            "--mw-btn-secondary-border-radius": "32px 8px 32px 8px",
+                            "--mw-btn-outline-border-radius": "32px 8px 32px 8px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

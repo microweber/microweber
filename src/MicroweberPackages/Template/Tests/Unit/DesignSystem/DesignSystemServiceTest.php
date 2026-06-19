@@ -4,6 +4,7 @@ namespace MicroweberPackages\Template\Tests\Unit\DesignSystem;
 
 use MicroweberPackages\Template\Services\DesignSystem\Adapters\BigTemplateVarsAdapter;
 use MicroweberPackages\Template\Services\DesignSystem\Adapters\BootstrapTemplateVarsAdapter;
+use MicroweberPackages\Template\Services\DesignSystem\Adapters\DefaultTemplateVarsAdapter;
 use MicroweberPackages\Template\Services\DesignSystem\ColorSchemesRegistry;
 use MicroweberPackages\Template\Services\DesignSystem\DesignSystemService;
 use MicroweberPackages\Template\Services\DesignSystem\StylePackRegistry;
@@ -21,6 +22,12 @@ class DesignSystemServiceTest extends TestCase
         $this->colorSchemes = new ColorSchemesRegistry();
         $this->stylePacks = new StylePackRegistry();
         $this->service = new DesignSystemService($this->colorSchemes, $this->stylePacks);
+
+        // Adapters are no longer hardcoded in the service — each template registers
+        // its own from its service provider. Register the ones under test here,
+        // mirroring what the template providers do at runtime.
+        $this->service->registerAdapter(new BigTemplateVarsAdapter());
+        $this->service->registerAdapter(new BootstrapTemplateVarsAdapter());
     }
 
     public function test_color_schemes_accessor(): void
@@ -62,10 +69,12 @@ class DesignSystemServiceTest extends TestCase
         $this->assertInstanceOf(BootstrapTemplateVarsAdapter::class, $adapter);
     }
 
-    public function test_adapter_for_unknown_falls_back_to_big(): void
+    public function test_adapter_for_unknown_falls_back_to_default(): void
     {
+        // Unregistered templates fall back to the canonical --mw-* default adapter
+        // (the service is no longer coupled to the Big template).
         $adapter = $this->service->adapterFor('unknown-template');
-        $this->assertInstanceOf(BigTemplateVarsAdapter::class, $adapter);
+        $this->assertInstanceOf(DefaultTemplateVarsAdapter::class, $adapter);
     }
 
     public function test_get_palettes_for_big_template(): void

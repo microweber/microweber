@@ -34,6 +34,14 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
 
       //  View::prependNamespace('modules.layouts', __DIR__ . '/../resources/views/modules/layouts');
 
+        // Register this template's design-system adapter (each template registers
+        // its own adapter; the core DesignSystemService no longer hardcodes them).
+        if (app()->bound('design_system')) {
+            app('design_system')->registerAdapter(
+                new \MicroweberPackages\Template\Services\DesignSystem\Adapters\BootstrapTemplateVarsAdapter()
+            );
+        }
+
     }
 
     /**

@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Sharp Modern",
+                        "properties": {
+                            "--mw-body-font-family": "'Exo 2', sans-serif",
+                            "--mw-heading-font-family": "'Exo 2', sans-serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "35px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "16px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

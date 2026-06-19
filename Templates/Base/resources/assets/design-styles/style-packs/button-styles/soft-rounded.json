@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Soft Rounded",
+            "description": "Gentle pastel background with fully rounded corners and a subtle shadow for a soft, approachable look.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Soft Rounded",
+                        "properties": {
+                            "--mw-btn-background": "#e3f2fd",
+                            "--mw-btn-color": "#1976d2",
+                            "--mw-btn-border-size": "1px",
+                            "--mw-btn-border-color": "#bbdefb",
+                            "--mw-btn-border-radius": "999px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "15px",
+                            "--mw-btn-padding-inline": "48px",
+                            "--mw-btn-box-shadow": "0 2px 8px 0 rgba(187,222,251,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

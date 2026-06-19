@@ -1,0 +1,24 @@
+/* ============================================================
+   Base template — small template-specific CSS.
+
+   Everything structural/component comes from the shared Microweber
+   CSS framework (which vendors Bootstrap). This file only holds the
+   few things that are specific to the Base template itself.
+   ============================================================ */
+
+/* Template font. */
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap');
+
+/* Touch-target safety: interactive targets >= 44px (WCAG 2.5.5).
+   The framework already pads buttons; this covers bare links/icons/nav. */
+@media (pointer: coarse), (max-width: 1024px) {
+    .main a.btn,
+    .header-background a,
+    .footer-background a,
+    .menu a,
+    .navbar a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+}

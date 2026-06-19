@@ -1,0 +1,11 @@
+{
+    "name": "Base",
+    "alias": "base",
+    "description": "Base template built on the Microweber CSS framework with semantic class names and full color scheme support",
+    "keywords": [],
+    "priority": 90,
+    "providers": [
+        "Templates\\Base\\Providers\\BaseTemplateServiceProvider"
+    ],
+    "files": []
+}

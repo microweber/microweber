@@ -1,0 +1,35 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Diamond Points",
+            "description": "Diamond-shaped corners with bold color and thick border",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Diamond Points",
+                        "properties": {
+                            "--mw-btn-background": "#e67e22",
+                            "--mw-btn-color": "#fff",
+                            "--mw-btn-border-size": "4px",
+                            "--mw-btn-border-color": "#d35400",
+                            "--mw-btn-border-radius": "0px 20px 0px 20px",
+                            "--mw-btn-font-size": "18px",
+                            "--mw-btn-padding-block": "13px",
+                            "--mw-btn-padding-inline": "36px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

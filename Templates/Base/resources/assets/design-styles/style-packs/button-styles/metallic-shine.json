@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Metallic Shine",
+            "description": "Sleek metallic look with reflective gradient and subtle shadow",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Metallic Shine",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(120deg, #b8c6db 0%, #6f86d6 100%)",
+                            "--mw-btn-color": "#222",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#a0a0a0",
+                            "--mw-btn-border-radius": "10px",
+                            "--mw-btn-font-size": "17px",
+                            "--mw-btn-padding-block": "13px",
+                            "--mw-btn-padding-inline": "36px",
+                            "--mw-btn-box-shadow": "0 2px 8px 0 rgba(111,134,214,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

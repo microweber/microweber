@@ -1,0 +1,21 @@
+{
+    "settings": [
+        {
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Modernist Serif Mono",
+                        "properties": {
+                            "--mw-body-font-family": "'Crimson Pro', serif",
+                            "--mw-heading-font-family": "'Crimson Pro', serif",
+                            "--mw-heading-font-weight": "700",
+                            "--mw-heading-font-size": "35px",
+                            "--mw-paragraph-font-weight": "400",
+                            "--mw-paragraph-font-size": "15px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Bronze Age",
+            "description": "Warm bronzes and golds for a classic, elegant look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bronze Age",
+                        "properties": {
+                            "--mw-background-color": "#f9f6f2",
+                            "--mw-section-background-color": "#f9f6f2",
+                            "--mw-primary-color": "#b08d57",
+                            "--mw-secondary": "#c9b18a",
+                            "--mw-textDark": "#4b3a1e",
+                            "--mw-textLight": "#f9f6f2",
+                            "--mw-body-color": "#4b3a1e",
+                            "--mw-heading-color": "#58472c",
+                            "--mw-paragraph-color": "#58472c",
+                            "--mw-link-color": "#58472c",
+                            "--mw-link-hover-color": "#c9b18a",
+                            "--mw-header-background-color": "#f9f6f2",
+                            "--mw-header-link-color": "#58472c",
+                            "--mw-header-link-hover-color": "#c9b18a",
+                            "--mw-header-link-background-hover-color": "rgba(176, 141, 87, 0.08)",
+                            "--mw-top-header-background-color": "#f9f6f2",
+                            "--mw-top-header-primary-color": "#b08d57",
+                            "--mw-top-header-link-color": "#655945",
+                            "--mw-top-header-link-hover-color": "#b08d57",
+                            "--mw-top-header-button-background-color": "#b08d57",
+                            "--mw-top-header-button-background-hover-color": "#c9b18a",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#4b3a1e",
+                            "--mw-footer-background-color": "#f9f6f2",
+                            "--mw-footer-text-color": "#4b3a1e",
+                            "--mw-footer-primary-color": "#b08d57",
+                            "--mw-footer-link-color": "#655945",
+                            "--mw-footer-hover-link-color": "#b08d57",
+                            "--mw-footer-button-background-color": "#b08d57",
+                            "--mw-footer-button-background-hover-color": "#c9b18a",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#4b3a1e",
+                            "--mw-text-decoration-color": "#b08d57",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

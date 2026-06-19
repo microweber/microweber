@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Lavender Mist",
+            "description": "Gentle lavenders and grays for a calm, soothing look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Lavender Mist",
+                        "properties": {
+                            "--mw-background-color": "#f6f6fa",
+                            "--mw-section-background-color": "#f6f6fa",
+                            "--mw-primary-color": "#a78bfa",
+                            "--mw-secondary": "#6366f1",
+                            "--mw-textDark": "#37304a",
+                            "--mw-textLight": "#f6f6fa",
+                            "--mw-body-color": "#37304a",
+                            "--mw-heading-color": "#54467d",
+                            "--mw-paragraph-color": "#54467d",
+                            "--mw-link-color": "#54467d",
+                            "--mw-link-hover-color": "#6366f1",
+                            "--mw-header-background-color": "#f6f6fa",
+                            "--mw-header-link-color": "#54467d",
+                            "--mw-header-link-hover-color": "#6366f1",
+                            "--mw-header-link-background-hover-color": "rgba(99, 102, 241, 0.08)",
+                            "--mw-top-header-background-color": "#f6f6fa",
+                            "--mw-top-header-primary-color": "#a78bfa",
+                            "--mw-top-header-link-color": "#363940",
+                            "--mw-top-header-link-hover-color": "#a78bfa",
+                            "--mw-top-header-button-background-color": "#a78bfa",
+                            "--mw-top-header-button-background-hover-color": "#6366f1",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#ffffff",
+                            "--mw-footer-background-color": "#f6f6fa",
+                            "--mw-footer-text-color": "#37304a",
+                            "--mw-footer-primary-color": "#a78bfa",
+                            "--mw-footer-link-color": "#323379",
+                            "--mw-footer-hover-link-color": "#a78bfa",
+                            "--mw-footer-button-background-color": "#a78bfa",
+                            "--mw-footer-button-background-hover-color": "#6366f1",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#ffffff",
+                            "--mw-text-decoration-color": "#a78bfa",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

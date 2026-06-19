@@ -1,0 +1,42 @@
+{
+    "settings": [
+        {
+            "title": "Text styles",
+            "description": "",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "previewElementsFormat": "block",
+            "previewElementsMode": "stylePackOpener",
+            "previewElements": [
+                {
+                    "tag": "h1",
+                    "class": "",
+                    "label": "Heading"
+                },
+                {
+                    "tag": "p",
+                    "class": "",
+                    "label": "This is your paragraph."
+                }
+            ],
+            "previewElementsStyleProperties": [
+                {
+                    "label": "Font styles",
+                    "properties": {
+                    }
+                }
+            ],
+         
+            "mergeFieldSettingsFromFiles": [
+                "resources/assets/design-styles/style-packs/font-styles.json"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                ]
+            }
+        }
+    ]
+}
+

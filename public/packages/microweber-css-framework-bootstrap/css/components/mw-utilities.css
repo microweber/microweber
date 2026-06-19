@@ -1,0 +1,106 @@
+/* ============================================================
+   Component: Utilities
+   Shared utility classes for spacing, sizing, visibility, etc.
+   ============================================================ */
+
+/* Fullscreen sizing */
+.mw-w-fullscreen, .w-fullscreen, .w-100vw { width: 100vw; }
+.mw-h-fullscreen, .h-fullscreen, .h-100vh { height: 100vh; }
+.mw-h-50vh, .h-50vh { height: 50vh; }
+.mw-mh-fullscreen, .mh-fullscreen, .mh-100vh { min-height: 100vh; }
+.mw-mh-50vh, .mh-50vh { min-height: 50vh; }
+
+@media (max-height: 640px) {
+    .mw-h-fullscreen, .h-fullscreen { height: auto; }
+}
+
+/* Auto sizing */
+.mw-h-auto, .h-auto { height: auto; }
+.mw-w-auto, .w-auto { width: auto; }
+
+/* Aspect ratios */
+.mw-square::after, .square::after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+.mw-square-75::after, .square-75::after {
+    content: "";
+    display: block;
+    padding-bottom: 75%;
+}
+.mw-square-50::after, .square-50::after {
+    content: "";
+    display: block;
+    padding-bottom: 50%;
+}
+
+/* Horizontal rule accent */
+.mw-accent-line, .element-hr {
+    display: block;
+    min-width: 65px;
+    width: 10%;
+    height: 4px;
+    background-color: var(--mw-primary-color);
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+/* Price list spacing */
+.mw-price-list-hr, .price-list-hr {
+    min-height: 1px;
+}
+
+/* Border widths */
+.mw-border-left-2, .border-left-2 { border-left-width: 2px; }
+.mw-border-left-3, .border-left-3 { border-left-width: 3px; }
+.mw-border-left-4, .border-left-4 { border-left-width: 4px; }
+.mw-border-left-5, .border-left-5 { border-left-width: 5px; }
+
+/* Show on hover */
+.mw-show-on-hover, .show-on-hover { visibility: hidden !important; }
+.mw-show-on-hover-root:hover .mw-show-on-hover,
+.show-on-hover-root:hover .show-on-hover {
+    visibility: visible !important;
+    height: 100%;
+    opacity: 90%;
+}
+
+/* Skip edit (for live edit) */
+.mw-skip-edit, .skip-edit { pointer-events: none; }
+.mw-skip-edit > *, .skip-edit > * { pointer-events: all; }
+
+/* Scroll to top button */
+#to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    cursor: pointer;
+    opacity: .4;
+    z-index: 99;
+    padding: 12px 15px !important;
+    border-radius: 0 !important;
+    border: none !important;
+}
+
+#to-top:hover {
+    opacity: 1;
+}
+
+/* Google Maps */
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+#map img { width: inherit; }
+
+/* Spacer (live edit) */
+.mw-le-spacer span {
+    color: #fff !important;
+}
+
+/* Text primary override */
+.text-primary {
+    color: var(--mw-primary-color) !important;
+}

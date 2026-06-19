@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Arctic Ice",
+            "description": "Cool blue and white gradient with frosty border and crisp shadow.",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Arctic Ice",
+                        "properties": {
+                            "--mw-btn-background": "linear-gradient(90deg, #e0eafc 0%, #cfdef3 100%)",
+                            "--mw-btn-color": "#1a237e",
+                            "--mw-btn-border-size": "2px",
+                            "--mw-btn-border-color": "#90caf9",
+                            "--mw-btn-border-radius": "12px",
+                            "--mw-btn-font-size": "17px",
+                            "--mw-btn-padding-block": "13px",
+                            "--mw-btn-padding-inline": "36px",
+                            "--mw-btn-box-shadow": "0 4px 16px 0 rgba(144,202,249,0.18)"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+

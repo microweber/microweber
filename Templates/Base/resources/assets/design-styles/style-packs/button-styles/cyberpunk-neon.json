@@ -1,0 +1,36 @@
+{
+    "settings": [
+        {
+            "title": "Button Style: Cyberpunk Neon",
+            "description": "Bright neon colors, glowing border, and bold futuristic font",
+            "fieldType": "stylePack",
+            "selectors": [":root"],
+            "previewElementsFormat": "flexZoom",
+            "previewElements": [
+                {"tag": "button", "class": "btn", "label": "Button"},
+                {"tag": "button", "class": "btn btn-secondary", "label": "Secondary"},
+                {"tag": "button", "class": "btn btn-outline", "label": "Outline"}
+            ],
+            "rootSelector": ":root",
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Cyberpunk Neon",
+                        "properties": {
+                            "--mw-btn-background": "#0f0c29",
+                            "--mw-btn-color": "#f5f5f5",
+                            "--mw-btn-border-size": "3px",
+                            "--mw-btn-border-color": "#ff00cc",
+                            "--mw-btn-box-shadow": "0 0 12px #ff00cc, 0 0 24px #00fff0",
+                            "--mw-btn-font-size": "19px",
+                            "--mw-btn-padding-block": "15px",
+                            "--mw-btn-padding-inline": "40px",
+                            "--mw-btn-border-radius": "8px"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+
