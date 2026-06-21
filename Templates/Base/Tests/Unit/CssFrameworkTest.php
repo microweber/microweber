@@ -149,6 +149,10 @@ class CssFrameworkTest extends TestCase
         // Misc section
         $this->assertStringContainsString('.misc-12', $content, 'Misc-12 section must be migrated');
 
+        // Features-skin-2 + Big-misc-skin-5 (the two authored skins migrated in Phase 1)
+        $this->assertStringContainsString('.features-skin-2 .features-skin-2-icons', $content, 'Features-skin-2 icons must be migrated');
+        $this->assertStringContainsString('.big-misc-skin-5-image img', $content, 'Big-misc-skin-5 grayscale image must be migrated');
+
         // Overlay data attributes
         $this->assertStringContainsString('[data-overlay]', $content, 'Data overlay attributes must be migrated');
         $this->assertStringContainsString('[data-overlay="5"]', $content, 'Overlay opacity levels must be migrated');

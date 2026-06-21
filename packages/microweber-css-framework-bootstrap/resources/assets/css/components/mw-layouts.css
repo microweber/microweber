@@ -1140,6 +1140,10 @@
 .header-section-p, .header-section-p span {
   overflow-wrap: break-word; }
 
+/* PARITY GUARD — do not remove. mw-sections.css defines the [data-overlay] gradient
+   + opacity scale; this override (imported AFTER mw-sections) unsets the gradient so Base
+   matches Big's final cascade, where styles-for-template's `background-image:unset` wins over
+   _sections' overlay. Removing this makes Base show an overlay Big intentionally hides. */
 [data-overlay] .background-image-holder:after {
   background-image: unset; }
 

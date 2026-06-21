@@ -271,6 +271,15 @@ a i::before {
     letter-spacing: 0.2rem;
 }
 
+/* ---- Features-skin-2 + Big-misc-skin-5 (Big template) ---- */
+.features-skin-2 .features-skin-2-icons {
+    font-size: 48px;
+}
+
+.big-misc-skin-5-image img {
+    filter: grayscale(100%);
+}
+
 /* ---- Testimonials / digital parallax sections (Big template) ---- */
 .testimonials-21,
 .contacts-guesthouse,
