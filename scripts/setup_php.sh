@@ -6,10 +6,11 @@
 #   1. PHP (>= 8.3) + the required extensions   (apt)
 #   2. Composer                                  (apt: apt-get install composer)
 #   3. PHP dependencies                          (composer install, allowed to run as root)
-#   4. Node package dependencies + built bundles (npm install + npm run build)
+#   4. Global Laravel installer                  (composer global require laravel/installer)
+#   5. Node package dependencies + built bundles (npm install + npm run build)
 #
 # With --dev it additionally provisions the browser-testing stack:
-#   5. .env bootstrapped from a template if missing (+ key:generate),
+#   6. .env bootstrapped from a template if missing (+ key:generate),
 #      a Chrome/Chromium browser (apt), rendering fonts (Noto/Liberation, for
 #      non-Latin templates), and the matching Dusk ChromeDriver
 #      (laravel/dusk is already a require-dev package; --dev wires up the driver).
@@ -229,7 +230,30 @@ install_php_deps() {
 }
 
 # ---------------------------------------------------------------------------
-# 4. Node package dependencies + bundles
+# 4. Global Laravel installer
+# ---------------------------------------------------------------------------
+install_global_laravel_installer() {
+  log "Ensuring global Laravel installer (laravel/installer)"
+
+  local composer_home laravel_bin
+  composer_home="$($COMPOSER_BIN global config home --absolute 2>/dev/null || true)"
+  [ -n "$composer_home" ] || die "Could not resolve Composer global home."
+
+  laravel_bin="${composer_home}/vendor/bin/laravel"
+  if [ -x "${laravel_bin}" ]; then
+    ok "Global laravel/installer already present"
+  else
+    $COMPOSER_BIN global require laravel/installer --no-interaction --prefer-dist --no-progress
+    [ -x "${laravel_bin}" ] || die "laravel/installer installed but '${laravel_bin}' was not created."
+    ok "Global laravel/installer installed"
+  fi
+
+  ln -sf "${laravel_bin}" /usr/local/bin/laravel
+  ok "Linked Laravel installer to /usr/local/bin/laravel"
+}
+
+# ---------------------------------------------------------------------------
+# 5. Node package dependencies + bundles
 # ---------------------------------------------------------------------------
 install_node_deps() {
   if ! command -v npm >/dev/null 2>&1; then
@@ -259,7 +283,7 @@ install_node_deps() {
 }
 
 # ---------------------------------------------------------------------------
-# 5. Dev / browser-testing stack (--dev): Chrome browser + Dusk ChromeDriver
+# 6. Dev / browser-testing stack (--dev): Chrome browser + Dusk ChromeDriver
 # ---------------------------------------------------------------------------
 # A browser is already present if any of these resolve.
 chrome_present() {
@@ -394,7 +418,7 @@ ensure_env() {
 install_dev_tools() {
   log "Setting up dev / browser-testing stack (--dev)"
 
-  # 5a. Ensure a usable .env before any artisan call.
+  # 6a. Ensure a usable .env before any artisan call.
   ensure_env || true
 
   # Laravel Dusk ships as a require-dev package; without dev deps there's no
@@ -407,12 +431,12 @@ install_dev_tools() {
     return
   fi
 
-  # 5b. Browser + rendering fonts.
+  # 6b. Browser + rendering fonts.
   local have_browser=0
   ensure_chrome && have_browser=1
   ensure_fonts
 
-  # 5c. ChromeDriver matched to the installed browser.
+  # 6c. ChromeDriver matched to the installed browser.
   if ! command -v php >/dev/null 2>&1; then
     warn "php not on PATH — cannot run 'artisan dusk:chrome-driver'; skipping."
     return
@@ -456,6 +480,7 @@ if [ "$SKIP_COMPOSER" -eq 1 ]; then
 else
   ensure_composer
   install_php_deps
+  install_global_laravel_installer
 fi
 
 if [ "$SKIP_NODE" -eq 1 ]; then

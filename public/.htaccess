@@ -91,3 +91,36 @@ ForceType 'text/css; charset=UTF-8'
     Deny from all
   </IfModule>
 </FilesMatch>
+
+# Block sensitive configuration and metadata files
+<FilesMatch "\.mcp\.json|\.env|\.env\.(local|production|staging|testing|docker|dusk)|\.git|\.gitignore|\.gitattributes|\.babelrc|\.editorconfig|\.phpunit\.(cache|result\.cache)|webpack\.mix\.js|artisan|mix-manifest\.json|rector\.php|phpstan\.(neon|neon\.dist)|(\.trivy|\.semgrep|\.travis|\.travis|\.bowerrc|\.buildpath|\.codecov)\.yml$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# Block sensitive directories and paths
+<DirectoryMatch "^/\.">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+  </IfModule>
+</DirectoryMatch>
+
+# Block webhook config and MCP/sensitive API files
+<FilesMatch "webhook|secret|private|token|credential|\.(pem|key|crt)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+  </IfModule>
+</FilesMatch>
