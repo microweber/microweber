@@ -191,7 +191,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(\MicroweberPackages\Repository\Providers\RepositoryServiceProvider::class);
-        //   $this->app->register( \MicroweberPackages\Cache\TaggableFileCacheServiceProvider::class);
+        //   $this->app->register( \MicroweberPackages\TaggableFileCache\TaggableFileCacheServiceProvider::class);
 
 
 //        $this->register(new ViewServiceProvider($this));

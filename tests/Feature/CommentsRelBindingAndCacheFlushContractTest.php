@@ -117,7 +117,7 @@ class CommentsRelBindingAndCacheFlushContractTest extends TestCase
     public function cache_flush_deletes_the_tag_map_path_not_an_undefined_var(): void
     {
         $src = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Cache/TaggableFileStore.php'
+            'packages/microweber-taggable-file-cache/src/TaggableFileStore.php'
         ));
 
         // Locate the tag-map deletion block and assert it operates on $tagMapPath.

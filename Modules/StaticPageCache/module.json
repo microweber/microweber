@@ -1,0 +1,11 @@
+{
+    "name": "StaticPageCache",
+    "alias": "static-page-cache",
+    "description": "Full-page static cache for Microweber. Caches entire HTML responses for guest visitors.",
+    "keywords": ["cache", "performance", "static"],
+    "priority": 0,
+    "providers": [
+        "Modules\\StaticPageCache\\Providers\\StaticPageCacheServiceProvider"
+    ],
+    "files": []
+}

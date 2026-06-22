@@ -5,7 +5,7 @@ namespace MicroweberPackages\LaravelTemplates\Generators;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Console\Command as Console;
 use Illuminate\Filesystem\Filesystem;
-use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
+use MicroweberPackages\TaggableFileCache\CacheFileHandler\Facades\Cache;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
 use MicroweberPackages\LaravelTemplates\Support\TemplateGenerateConfigReader;

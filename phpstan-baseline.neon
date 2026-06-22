@@ -21352,163 +21352,163 @@ parameters:
 			message: '#^PHPDoc tag @param references unknown parameter\: \$handle$#'
 			identifier: parameter.notFound
 			count: 1
-			path: src/MicroweberPackages/Cache/CacheFileHandler/MemoryCacheFileHandler.php
+			path: packages/microweber-taggable-file-cache/src/CacheFileHandler/MemoryCacheFileHandler.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Filesystem\\Filesystem\:\:\$cacheHandler\.$#'
 			identifier: property.notFound
 			count: 6
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Filesystem\\Filesystem\:\:\$cachedDataMemory\.$#'
 			identifier: property.notFound
 			count: 5
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Filesystem\\Filesystem\:\:\$tagMapCacheMemory\.$#'
 			identifier: property.notFound
 			count: 2
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Filesystem\\Filesystem\:\:\$tagMapPathsCacheMemory\.$#'
 			identifier: property.notFound
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
-			message: '#^Attribute class MicroweberPackages\\Cache\\AllowDynamicProperties does not exist\.$#'
+			message: '#^Attribute class MicroweberPackages\\TaggableFileCache\\AllowDynamicProperties does not exist\.$#'
 			identifier: attribute.notFound
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
 			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
-			message: '#^Default value of the parameter \#3 \$seconds \(false\) of method MicroweberPackages\\Cache\\TaggableFileStore\:\:put\(\) is incompatible with type int\.$#'
+			message: '#^Default value of the parameter \#3 \$seconds \(false\) of method MicroweberPackages\\TaggableFileCache\\TaggableFileStore\:\:put\(\) is incompatible with type int\.$#'
 			identifier: parameter.defaultValue
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
 			message: '#^Method Carbon\\Carbon\:\:addYear\(\) invoked with 1 parameter, 0 required\.$#'
 			identifier: arguments.count
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
-			message: '#^Method MicroweberPackages\\Cache\\TaggableFileStore\:\:flush\(\) should return bool but empty return statement found\.$#'
+			message: '#^Method MicroweberPackages\\TaggableFileCache\\TaggableFileStore\:\:flush\(\) should return bool but empty return statement found\.$#'
 			identifier: return.empty
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
-			message: '#^Method MicroweberPackages\\Cache\\TaggableFileStore\:\:forget\(\) should return bool but return statement is missing\.$#'
+			message: '#^Method MicroweberPackages\\TaggableFileCache\\TaggableFileStore\:\:forget\(\) should return bool but return statement is missing\.$#'
 			identifier: return.missing
 			count: 2
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
-			message: '#^Method MicroweberPackages\\Cache\\TaggableFileStore\:\:put\(\) should return bool but return statement is missing\.$#'
+			message: '#^Method MicroweberPackages\\TaggableFileCache\\TaggableFileStore\:\:put\(\) should return bool but return statement is missing\.$#'
 			identifier: return.missing
 			count: 2
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$key$#'
 			identifier: parameter.notFound
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$path$#'
 			identifier: parameter.notFound
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$string$#'
 			identifier: parameter.notFound
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$tag$#'
 			identifier: parameter.notFound
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
-			message: '#^Parameter \#1 \$files of class MicroweberPackages\\Cache\\TaggableFileStore constructor expects MicroweberPackages\\Cache\\TaggableFilesystemManager, Illuminate\\Filesystem\\Filesystem given\.$#'
+			message: '#^Parameter \#1 \$files of class MicroweberPackages\\TaggableFileCache\\TaggableFileStore constructor expects MicroweberPackages\\TaggableFileCache\\TaggableFilesystemManager, Illuminate\\Filesystem\\Filesystem given\.$#'
 			identifier: argument.type
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
-			message: '#^Parameter \#2 \$key of class MicroweberPackages\\Cache\\Events\\CacheFlushed constructor expects string, array given\.$#'
+			message: '#^Parameter \#2 \$key of class MicroweberPackages\\TaggableFileCache\\Events\\CacheFlushed constructor expects string, array given\.$#'
 			identifier: argument.type
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
-			message: '#^Property MicroweberPackages\\Cache\\TaggableFileStore\:\:\$directoryData \(array\<array\>\) does not accept default value of type false\.$#'
+			message: '#^Property MicroweberPackages\\TaggableFileCache\\TaggableFileStore\:\:\$directoryData \(array\<array\>\) does not accept default value of type false\.$#'
 			identifier: property.defaultValue
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
-			message: '#^Property MicroweberPackages\\Cache\\TaggableFileStore\:\:\$directoryData \(array\<array\>\) does not accept string\.$#'
+			message: '#^Property MicroweberPackages\\TaggableFileCache\\TaggableFileStore\:\:\$directoryData \(array\<array\>\) does not accept string\.$#'
 			identifier: assign.propertyType
 			count: 1
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
 			message: '#^Variable \$tagPath might not be defined\.$#'
 			identifier: variable.undefined
 			count: 2
-			path: src/MicroweberPackages/Cache/TaggableFileStore.php
+			path: packages/microweber-taggable-file-cache/src/TaggableFileStore.php
 
 		-
-			message: '#^Call to an undefined static method MicroweberPackages\\Cache\\CacheFileHandler\\Facades\\Cache\:\:decrement\(\)\.$#'
+			message: '#^Call to an undefined static method MicroweberPackages\\TaggableFileCache\\CacheFileHandler\\Facades\\Cache\:\:decrement\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: src/MicroweberPackages/Cache/tests/TaggableFileStoreTest.php
+			path: packages/microweber-taggable-file-cache/src/tests/TaggableFileStoreTest.php
 
 		-
-			message: '#^Call to an undefined static method MicroweberPackages\\Cache\\CacheFileHandler\\Facades\\Cache\:\:flush\(\)\.$#'
+			message: '#^Call to an undefined static method MicroweberPackages\\TaggableFileCache\\CacheFileHandler\\Facades\\Cache\:\:flush\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: src/MicroweberPackages/Cache/tests/TaggableFileStoreTest.php
+			path: packages/microweber-taggable-file-cache/src/tests/TaggableFileStoreTest.php
 
 		-
-			message: '#^Call to an undefined static method MicroweberPackages\\Cache\\CacheFileHandler\\Facades\\Cache\:\:get\(\)\.$#'
+			message: '#^Call to an undefined static method MicroweberPackages\\TaggableFileCache\\CacheFileHandler\\Facades\\Cache\:\:get\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 12
-			path: src/MicroweberPackages/Cache/tests/TaggableFileStoreTest.php
+			path: packages/microweber-taggable-file-cache/src/tests/TaggableFileStoreTest.php
 
 		-
-			message: '#^Call to an undefined static method MicroweberPackages\\Cache\\CacheFileHandler\\Facades\\Cache\:\:increment\(\)\.$#'
+			message: '#^Call to an undefined static method MicroweberPackages\\TaggableFileCache\\CacheFileHandler\\Facades\\Cache\:\:increment\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: src/MicroweberPackages/Cache/tests/TaggableFileStoreTest.php
+			path: packages/microweber-taggable-file-cache/src/tests/TaggableFileStoreTest.php
 
 		-
-			message: '#^Call to an undefined static method MicroweberPackages\\Cache\\CacheFileHandler\\Facades\\Cache\:\:put\(\)\.$#'
+			message: '#^Call to an undefined static method MicroweberPackages\\TaggableFileCache\\CacheFileHandler\\Facades\\Cache\:\:put\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 6
-			path: src/MicroweberPackages/Cache/tests/TaggableFileStoreTest.php
+			path: packages/microweber-taggable-file-cache/src/tests/TaggableFileStoreTest.php
 
 		-
-			message: '#^Call to an undefined static method MicroweberPackages\\Cache\\CacheFileHandler\\Facades\\Cache\:\:tags\(\)\.$#'
+			message: '#^Call to an undefined static method MicroweberPackages\\TaggableFileCache\\CacheFileHandler\\Facades\\Cache\:\:tags\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 11
-			path: src/MicroweberPackages/Cache/tests/TaggableFileStoreTest.php
+			path: packages/microweber-taggable-file-cache/src/tests/TaggableFileStoreTest.php
 
 		-
 			message: '#^Access to an undefined property MicroweberPackages\\App\\Models\\SystemLicenses\:\:\$local_key\.$#'
@@ -26263,7 +26263,7 @@ parameters:
 			path: src/MicroweberPackages/Package/MicroweberComposerClient.php
 
 		-
-			message: '#^Call to an undefined static method MicroweberPackages\\Cache\\CacheFileHandler\\Facades\\Cache\:\:forget\(\)\.$#'
+			message: '#^Call to an undefined static method MicroweberPackages\\TaggableFileCache\\CacheFileHandler\\Facades\\Cache\:\:forget\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: src/MicroweberPackages/Package/MicroweberComposerClient.php

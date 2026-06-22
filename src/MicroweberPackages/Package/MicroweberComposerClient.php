@@ -4,7 +4,7 @@ namespace MicroweberPackages\Package;
 
 use Composer\Semver\Comparator;
 use MicroweberPackages\App\Models\SystemLicenses;
-use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
+use MicroweberPackages\TaggableFileCache\CacheFileHandler\Facades\Cache;
 use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Utils\Zip\Unzip;
 

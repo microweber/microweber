@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6600158a55df77d3f70703b2b5aaecb6",
+    "content-hash": "d384dfe5f942eb2f04f6ec084aa2efa4",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9586,6 +9586,61 @@
                 "source": "https://github.com/microweber-dev/omnipay-przelewy24/tree/0.2"
             },
             "time": "2023-04-10T09:35:09+00:00"
+        },
+        {
+            "name": "microweber-packages/blade-cache",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-blade-cache",
+                "reference": "b477db24dbb7c783d6a6d35ddbb94df870dbac6b"
+            },
+            "require": {
+                "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\BladeCache\\BladeCacheServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\BladeCache\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\BladeCache\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Blade @cache / @endcache directive for Laravel. Cache expensive Blade fragments with tags and expiration.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "microweber-packages/composer-client",

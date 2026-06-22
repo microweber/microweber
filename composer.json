@@ -137,6 +137,7 @@
         "microweber-packages/taggable-file-cache": "^1.0",
         "microweber-packages/laravel-config-extended": "^1.0",
         "microweber-packages/env-writer": "^1.0",
+        "microweber-packages/blade-cache": "^1.0",
         "intervention/image-laravel": "^1.4",
         "tapp/filament-timezone-field": "^3.0",
         "league/flysystem-bundle": "^3.4",
@@ -167,6 +168,7 @@
             "MicroweberPackages\\": "src/MicroweberPackages/",
             "MicroweberPackages\\TaggableFileCache\\": "packages/microweber-taggable-file-cache/src/",
             "MicroweberPackages\\EnvWriter\\": "packages/microweber-env-writer/src/",
+            "MicroweberPackages\\BladeCache\\": "packages/microweber-blade-cache/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
@@ -379,6 +381,14 @@
         {
             "type": "path",
             "url": "packages/microweber-env-writer",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-blade-cache",
             "options": {
                 "reference": "config",
                 "symlink": true

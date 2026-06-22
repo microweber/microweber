@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\ViewServiceProvider;
 use MicroweberPackages\App\Repositories\ProviderRepository;
-use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
+use MicroweberPackages\TaggableFileCache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\Install\UpdateMissingConfigFiles;
 
 class LaravelApplication extends Application

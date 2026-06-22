@@ -30,11 +30,6 @@ class AdminExperimentalPage extends AdminSettingsPage
                             ->helperText(new HtmlString('Enable static files delivery for better performance.<br>This is an experimental feature.'))
                             ->live(),
 
-                        Toggle::make('options.experimental.enable_full_page_cache')
-                            ->label('Full page cache')
-                            ->helperText(new HtmlString('Enable full page caching for better performance.<br>This is an experimental feature.'))
-                            ->live(),
-
                         Toggle::make('options.experimental.css_framework')
                             ->label('CSS Framework')
                             ->helperText(new HtmlString('Enable experimental CSS framework.<br>This is an experimental feature.'))

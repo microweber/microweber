@@ -1,0 +1,28 @@
+{
+    "name": "modules/static-page-cache",
+    "description": "Full-page static cache module for Microweber",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\StaticPageCache\\": "",
+            "Modules\\StaticPageCache\\Database\\Factories\\": "database/factories/",
+            "Modules\\StaticPageCache\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\StaticPageCache\\Tests\\": "Tests/"
+        }
+    }
+}

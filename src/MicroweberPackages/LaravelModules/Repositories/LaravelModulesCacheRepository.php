@@ -10,7 +10,7 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Traits\Macroable;
-use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
+use MicroweberPackages\TaggableFileCache\CacheFileHandler\Facades\Cache;
 use MicroweberPackages\LaravelModules\Contracts\LaravelModulesCacheRepositoryContract;
 use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
 use MicroweberPackages\LaravelModules\LaravelModule;
