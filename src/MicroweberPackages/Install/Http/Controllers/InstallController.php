@@ -20,6 +20,7 @@ use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\Misc\License;
 use MicroweberPackages\View\View;
 use MicroweberPackages\Install;
+use MicroweberPackages\EnvWriter\EnvWriter;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class InstallController extends Controller
@@ -892,110 +893,11 @@ class InstallController extends Controller
         }
     }
 
-    // see from https://stackoverflow.com/a/54173207/731166
     public function saveEnvValues(array $values)
     {
         $envFile = app()->environmentFilePath();
-
-        // Read existing .env content
-        $content = file_get_contents($envFile);
-        if ($content === false) {
-            return false;
-        }
-
-        // Split into lines
-        $lines = preg_split('/\r\n|\r|\n/', $content);
-        $newLines = [];
-        $processedKeys = []; // Track which keys we've already processed
-        $lastLineEmpty = false; // Track if the last added line was empty
-
-        // Process existing lines
-        foreach ($lines as $line) {
-            $line = trim($line);
-
-            // Handle empty lines - only allow one consecutive empty line
-            if (empty($line)) {
-                if (!$lastLineEmpty) {
-                    $newLines[] = '';
-                    $lastLineEmpty = true;
-                }
-                continue;
-            }
-
-            // Handle comments
-            if (strpos($line, '#') === 0) {
-                $newLines[] = $line;
-                $lastLineEmpty = false;
-                continue;
-            }
-
-            // Process key=value lines
-            if (strpos($line, '=') !== false) {
-                list($key) = explode('=', $line, 2);
-                $key = trim($key);
-
-                // Skip if we've already processed this key
-                if (isset($processedKeys[$key])) {
-                    continue;
-                }
-
-                // Mark this key as processed
-                $processedKeys[$key] = true;
-
-                // If this key is one we're updating, add with new value
-                if (isset($values[$key])) {
-                    $value = $values[$key];
-
-                    // Handle special characters
-                    if (strpos($value, ' ') !== false ||
-                        strpos($value, '#') !== false ||
-                        strpos($value, '"') !== false ||
-                        strpos($value, "'") !== false) {
-                        $value = '"' . str_replace('"', '\\"', $value) . '"';
-                    }
-
-                    $newLines[] = "{$key}={$value}";
-                } else {
-                    // Keep existing line for keys we're not updating
-                    $newLines[] = $line;
-                }
-                $lastLineEmpty = false;
-            } else {
-                // Keep other non-key=value lines
-                $newLines[] = $line;
-                $lastLineEmpty = false;
-            }
-        }
-
-        // Add any new values that weren't in the original file
-        foreach ($values as $key => $value) {
-            if (!isset($processedKeys[$key])) {
-                // Handle special characters for new values
-                if (strpos($value, ' ') !== false ||
-                    strpos($value, '#') !== false ||
-                    strpos($value, '"') !== false ||
-                    strpos($value, "'") !== false) {
-                    $value = '"' . str_replace('"', '\\"', $value) . '"';
-                }
-                $newLines[] = "{$key}={$value}";
-                $lastLineEmpty = false;
-            }
-        }
-
-        // Remove empty lines at the end
-        while (!empty($newLines) && empty(trim(end($newLines)))) {
-            array_pop($newLines);
-        }
-
-        // Ensure single newline at the end
-        $newContent = implode("\n", $newLines) . "\n";
-
-        // Only write if content has changed
-        if ($content !== $newContent) {
-            return file_put_contents($envFile, $newContent) !== false;
-        }
-
-        return true;
+        $writer = new EnvWriter();
+        return $writer->save($values, $envFile);
     }
 
     public function log($text)

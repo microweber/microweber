@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6d3fd70c34642c9fc1c9c0d2ca56ad7",
+    "content-hash": "6600158a55df77d3f70703b2b5aaecb6",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9633,6 +9633,67 @@
                 "source": "https://github.com/microweber-packages/composer-client/tree/3.0"
             },
             "time": "2025-06-13T12:12:40+00:00"
+        },
+        {
+            "name": "microweber-packages/env-writer",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-env-writer",
+                "reference": "93ecf3c368f7e3fd1be9bb930f5ffb88e38a5350"
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\EnvWriter\\EnvWriterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\EnvWriter\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\EnvWriter\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "A standalone .env file writer for Laravel. Reads, updates and appends key-value pairs while preserving comments and preventing duplicate keys.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "microweber-packages/frontend-assets",
