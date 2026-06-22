@@ -2,10 +2,12 @@
 
 namespace MicroweberPackages\Cache\Events;
 
-
-use Illuminate\Cache\Events\CacheEvent;
-
-class CacheFlushed extends CacheEvent
+/**
+ * Backwards-compatibility alias.
+ *
+ * The real implementation now lives in the standalone package
+ * microweber-packages/taggable-file-cache.
+ */
+class CacheFlushed extends \MicroweberPackages\TaggableFileCache\Events\CacheFlushed
 {
-
 }

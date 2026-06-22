@@ -134,6 +134,7 @@
         "microweber-packages/frontend-assets-libs": "^1.0",
         "microweber-packages/laravel-helper-functions": "^1.0",
         "microweber-packages/microweber-filament-theme": "^1.0",
+        "microweber-packages/taggable-file-cache": "^1.0",
         "microweber-packages/laravel-config-extended": "^1.0",
         "intervention/image-laravel": "^1.4",
         "tapp/filament-timezone-field": "^3.0",
@@ -163,6 +164,7 @@
             "App\\": "app/",
             "Microweber\\": "src/Microweber/",
             "MicroweberPackages\\": "src/MicroweberPackages/",
+            "MicroweberPackages\\TaggableFileCache\\": "packages/microweber-taggable-file-cache/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
@@ -359,6 +361,14 @@
         {
             "type": "path",
             "url": "packages/laravel-helper-functions",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-taggable-file-cache",
             "options": {
                 "reference": "config",
                 "symlink": true

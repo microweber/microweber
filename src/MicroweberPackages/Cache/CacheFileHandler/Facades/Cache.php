@@ -2,17 +2,12 @@
 
 namespace MicroweberPackages\Cache\CacheFileHandler\Facades;
 
-use Illuminate\Support\Facades\Facade;
-
-class Cache extends Facade {
-
-    /**
-     * Get the registered name of the component.
-     *
-     * @return string
-     */
-    protected static function getFacadeAccessor() {
-        return 'cache';
-    }
-
+/**
+ * Backwards-compatibility alias.
+ *
+ * The real implementation now lives in the standalone package
+ * microweber-packages/taggable-file-cache.
+ */
+class Cache extends \MicroweberPackages\TaggableFileCache\CacheFileHandler\Facades\Cache
+{
 }

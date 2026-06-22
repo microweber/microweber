@@ -13,7 +13,10 @@ class TaggableFileCacheServiceProviderTest extends TestCase
 		config(['cache.default' => 'file']);
 		app('cache')->forgetDriver('file');
 
-		$this->assertInstanceOf(\MicroweberPackages\Cache\TaggableFileStore::class, app('cache')->store()->getStore());
+		// The canonical implementation now lives in the standalone package
+		// microweber-packages/taggable-file-cache. The old MicroweberPackages\Cache\TaggableFileStore
+		// is a back-compat subclass alias, so the active (parent) store satisfies the package FQCN.
+		$this->assertInstanceOf(\MicroweberPackages\TaggableFileCache\TaggableFileStore::class, app('cache')->store()->getStore());
 	}
 
 }

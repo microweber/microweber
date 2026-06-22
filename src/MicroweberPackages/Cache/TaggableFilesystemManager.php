@@ -2,22 +2,12 @@
 
 namespace MicroweberPackages\Cache;
 
-use Illuminate\Filesystem\Filesystem;
-use MicroweberPackages\Cache\CacheFileHandler\MemoryCacheFileHandler;
-
-class TaggableFilesystemManager extends Filesystem
+/**
+ * Backwards-compatibility alias.
+ *
+ * The real implementation now lives in the standalone package
+ * microweber-packages/taggable-file-cache.
+ */
+class TaggableFilesystemManager extends \MicroweberPackages\TaggableFileCache\TaggableFilesystemManager
 {
-
-    public $cachedDataMemory = [];
-    public $tagMapCacheMemory = [];
-    public $tagMapPathsCacheMemory = [];
-    public $cacheHandler = null;
-    public function __construct()
-    {
-
-        //$this->cacheHandler = new CacheFileHandler();
-        $this->cacheHandler = new MemoryCacheFileHandler();
-
-    }
-
 }
