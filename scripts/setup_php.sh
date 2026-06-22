@@ -26,6 +26,13 @@
 #                     plus a Chrome browser and the Dusk ChromeDriver for browser
 #                     tests. Mutually exclusive with --no-dev.
 #   --no-dev          composer install without dev dependencies (production)
+#   --install         run the Microweber lazy installer after dependencies are
+#                     set up (php artisan microweber:install with no options).
+#                     Reads DB connection from environment variables (DB_HOST,
+#                     DB_USER, DB_PASS, DB_NAME, DB_ENGINE, DB_PREFIX) or the
+#                     .env file defaults. Sets up the DB, default content, and
+#                     admin account in one step. Skipped if Microweber is
+#                     already installed (storage/installed file present).
 #   --skip-system     do not apt-install PHP/extensions or the Chrome browser
 #   --skip-composer   do not run composer install
 #   --skip-node       do not install/build the packages/* Node bundles
@@ -54,6 +61,7 @@ APT_PHP_PKGS=(cli common bcmath curl gd intl mbstring mysql xml zip sqlite3)
 
 DEV=0
 NO_DEV=0
+INSTALL=0
 SKIP_SYSTEM=0
 SKIP_COMPOSER=0
 SKIP_NODE=0
@@ -88,6 +96,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --dev)           DEV=1 ;;
     --no-dev)        NO_DEV=1 ;;
+    --install)       INSTALL=1 ;;
     --skip-system)   SKIP_SYSTEM=1 ;;
     --skip-composer) SKIP_COMPOSER=1 ;;
     --skip-node)     SKIP_NODE=1 ;;
@@ -459,6 +468,35 @@ install_dev_tools() {
 }
 
 # ---------------------------------------------------------------------------
+# 7. Microweber lazy installer (--install)
+# ---------------------------------------------------------------------------
+install_microweber() {
+  log "Running Microweber lazy installer (php artisan microweber:install)"
+
+  cd "${ROOT_DIR}"
+
+  # Skip if already installed.
+  if [ -f "${ROOT_DIR}/storage/installed" ]; then
+    ok "Microweber already installed (storage/installed present) — skipping."
+    return
+  fi
+
+  if ! command -v php >/dev/null 2>&1; then
+    die "php not on PATH — cannot run the Microweber installer."
+  fi
+  if [ ! -f "${ROOT_DIR}/artisan" ]; then
+    die "'artisan' not found in ${ROOT_DIR} — is this the Microweber project root?"
+  fi
+
+  # Ensure a .env exists so artisan can boot.
+  ensure_env || true
+
+  php artisan microweber:install \
+    && ok "Microweber installed successfully." \
+    || die "Microweber installer exited with an error. Check the output above."
+}
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 echo "=========================================="
@@ -493,6 +531,10 @@ if [ "$DEV" -eq 1 ]; then
   install_dev_tools
 fi
 
+if [ "$INSTALL" -eq 1 ]; then
+  install_microweber
+fi
+
 echo ""
 echo -e "${GREEN}==========================================${NC}"
 echo -e "${GREEN} Dependencies installed.${NC}"
@@ -500,7 +542,11 @@ echo -e "${GREEN}==========================================${NC}"
 echo "Next steps (not run by this script):"
 echo "  cp -n env_local .env 2>/dev/null || cp -n .env.example .env   # configure DB"
 echo "  php artisan key:generate"
-echo "  php artisan migrate   # or the Microweber installer"
+if [ "$INSTALL" -eq 1 ]; then
+  echo "  (Microweber installer was run — site should be ready)"
+else
+  echo "  php artisan microweber:install   # or use --install flag next time"
+fi
 if [ "$DEV" -eq 1 ]; then
   echo "  php artisan dusk     # browser tests (Chrome + ChromeDriver were set up)"
 fi
