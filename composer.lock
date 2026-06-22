@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d420bc5f386907d7c4ee1ae51c6de8e7",
+    "content-hash": "c6d3fd70c34642c9fc1c9c0d2ca56ad7",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9904,6 +9904,66 @@
                 "source": "https://github.com/microweber-packages/omnipay-momo-mtn/tree/0.2"
             },
             "time": "2025-09-25T10:07:12+00:00"
+        },
+        {
+            "name": "microweber-packages/taggable-file-cache",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-taggable-file-cache",
+                "reference": "80b394d6bf4cfb4e86244e0fc0a1881103c8b3f5"
+            },
+            "require": {
+                "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\TaggableFileCache\\TaggableFileCacheServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\TaggableFileCache\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\TaggableFileCache\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Taggable File Cache driver for Laravel. Allows the use of Cache tags with a file-based cache driver. Supports multi-site environments via the --env flag.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "mobiledetect/mobiledetectlib",
