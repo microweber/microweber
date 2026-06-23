@@ -201,7 +201,7 @@ abstract class CachingModelRepository
             implode('-', $tags),
             $method,
             crc32(json_encode($hashArgs)),
-            intval(is_https())
+            intval(function_exists('is_https') ? is_https() : false)
         );
     }
 }

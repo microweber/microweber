@@ -13,8 +13,6 @@ namespace MicroweberPackages\Repository;
 
 
 use Illuminate\Support\Manager;
-use MicroweberPackages\Core\Repositories\BaseRepository;
-use MicroweberPackages\Core\Repositories\BaseRepositoryInterface;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 
@@ -49,9 +47,4 @@ class RepositoryManager extends Manager
     {
          return;
     }
-
-
-
-
-
 }

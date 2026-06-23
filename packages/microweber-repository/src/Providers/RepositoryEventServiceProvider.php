@@ -11,4 +11,3 @@ class RepositoryEventServiceProvider extends EventServiceProvider
 
     ];
 }
-

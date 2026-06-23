@@ -140,6 +140,7 @@
         "microweber-packages/blade-cache": "^1.0",
         "microweber-packages/thumbnailer": "^1.0",
         "microweber-packages/url": "^1.0",
+        "microweber-packages/repository": "^1.0",
         "intervention/image-laravel": "^1.4",
         "tapp/filament-timezone-field": "^3.0",
         "league/flysystem-bundle": "^3.4",
@@ -173,6 +174,7 @@
             "MicroweberPackages\\BladeCache\\": "packages/microweber-blade-cache/src/",
             "MicroweberPackages\\Thumbnailer\\": "packages/microweber-thumbnailer/src/",
             "MicroweberPackages\\Url\\": "packages/microweber-url/src/",
+            "MicroweberPackages\\Repository\\": "packages/microweber-repository/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
@@ -409,6 +411,14 @@
         {
             "type": "path",
             "url": "packages/microweber-url",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-repository",
             "options": {
                 "reference": "config",
                 "symlink": true

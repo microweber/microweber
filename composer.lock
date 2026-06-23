@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e121011eda944e3fa1263ec4456f4df",
+    "content-hash": "eb232ac67db34f1644394b1a817895ba",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10020,6 +10020,65 @@
                 "source": "https://github.com/microweber-packages/omnipay-momo-mtn/tree/0.2"
             },
             "time": "2025-09-25T10:07:12+00:00"
+        },
+        {
+            "name": "microweber-packages/repository",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-repository",
+                "reference": "075ab0fe986ef67122fa04ec085a20557f6e12af"
+            },
+            "require": {
+                "illuminate/cache": "^10.0|^11.0|^12.0",
+                "illuminate/database": "^10.0|^11.0|^12.0",
+                "illuminate/events": "^10.0|^11.0|^12.0",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "microweber-packages/laravel-helper-functions": "^1.0",
+                "php": "^8.2",
+                "torann/laravel-repository": "^1.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\Repository\\Providers\\RepositoryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Repository\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Repository\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Reusable Laravel repository pattern package with caching, query filtering and model observers",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "microweber-packages/taggable-file-cache",

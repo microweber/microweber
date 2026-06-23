@@ -197,14 +197,14 @@ abstract class AbstractRepository implements Repository
                 implode('-', $tag),
                 $method,
                 intval($args[0]),
-                intval(is_https())
+                intval(function_exists('is_https') ? is_https() : false)
             );
         }
 
         $hashArgs = [];
         foreach ($args as $k => $a) {
             if (is_object($a) && $a instanceof Closure) {
-                $hashArgs[$k] = hashClosure($a);
+                $hashArgs[$k] = function_exists('hashClosure') ? hashClosure($a) : spl_object_id($a);
             } else {
                 $hashArgs[$k] = $a;
             }
@@ -216,7 +216,7 @@ abstract class AbstractRepository implements Repository
             implode('-', $tag),
             $method,
             crc32(json_encode($hashArgs)),
-            intval(is_https())
+            intval(function_exists('is_https') ? is_https() : false)
         );
     }
 
@@ -443,40 +443,13 @@ abstract class AbstractRepository implements Repository
     }
 
 
-//
-//    /**
-//     * Find content by id.
-//     *
-//     * @param mixed $id
-//     *
-//     * @return Models|Collection
-//     */
-
-
     public function findById($id)
     {
-
-
-//        $cls = get_class($this->getModel());
-//        if ($this->skippedCache() !== true) {
-//            if (isset(self::$_loaded_models_cache_get[$cls][$id])) {
-//                return self::$_loaded_models_cache_get[$cls][$id];
-//            }
-//        }
         $this->newQuery();
         return $this->query
             ->where('id', $id)
             ->limit(1)
             ->first();
-
-        //  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
-//        return self::$_loaded_models_cache_get[$cls][$id] = $this->query
-//            ->where('id', $id)
-//            ->limit(1)
-//            ->first();
-
-
-        //  });
     }
 
     /**
@@ -778,8 +751,10 @@ abstract class AbstractRepository implements Repository
     public function save($data)
     {
         $this->clearCache();
-        app()->database_manager->clearCache();
 
+        if (app()->bound('database_manager')) {
+            app()->database_manager->clearCache();
+        }
 
         $updateOrCreate = 'create';
 
@@ -899,9 +874,6 @@ abstract class AbstractRepository implements Repository
     {
         return $this->getMessageBag()->has('error');
     }
-
-
-
 
 
     /**
@@ -1204,7 +1176,9 @@ abstract class AbstractRepository implements Repository
                             $this->query->$whereMethodName($paramValue);
                             unset($params[$paramKey]);
                         } elseif (in_array($paramKey, $searchable)) {
-                            $parseCompareSign = db_query_parse_compare_sign_value($paramValue);
+                            $parseCompareSign = function_exists('db_query_parse_compare_sign_value')
+                                ? db_query_parse_compare_sign_value($paramValue)
+                                : ['compare_sign' => '=', 'value' => $paramValue];
                             $this->query->where($table . '.' . $paramKey, $parseCompareSign['compare_sign'], $parseCompareSign['value']);
                         }
                     }
@@ -1266,7 +1240,7 @@ abstract class AbstractRepository implements Repository
                 } else {
                     $hookParams['hook_overwrite_type'] = 'multiple';
                 }
-                if (is_array($result)) {
+                if (is_array($result) && app()->bound('event_manager')) {
                     $overwrite = app()->event_manager->response(get_class($this) . '\\getByParams', $hookParams);
                     if (isset($overwrite['data'])) {
                         //     $result = $overwrite['data'];
@@ -1459,14 +1433,16 @@ abstract class AbstractRepository implements Repository
                     if ($item) {
                         $item = $item->toArray();
 
-                        $hookParams = [
-                            'data' => $item,
-                            'hook_overwrite_type' => 'single',
-                        ];
+                        if (app()->bound('event_manager')) {
+                            $hookParams = [
+                                'data' => $item,
+                                'hook_overwrite_type' => 'single',
+                            ];
 
-                        $overwrite = app()->event_manager->response(get_class($this) . '\\getById', $hookParams);
-                        if (isset($overwrite['data'])) {
-                            $item = $overwrite['data'];
+                            $overwrite = app()->event_manager->response(get_class($this) . '\\getById', $hookParams);
+                            if (isset($overwrite['data'])) {
+                                $item = $overwrite['data'];
+                            }
                         }
 
                         $result[$key] = $item;
@@ -1491,27 +1467,19 @@ abstract class AbstractRepository implements Repository
 
             $item = $item->toArray();
 
-            $hookParams = [
-                'data' => $item,
-                'hook_overwrite_type' => 'single',
-            ];
+            if (app()->bound('event_manager')) {
+                $hookParams = [
+                    'data' => $item,
+                    'hook_overwrite_type' => 'single',
+                ];
 
-            $overwrite = app()->event_manager->response(get_class($this) . '\\getById', $hookParams);
-            if (isset($overwrite['data'])) {
-                $item = $overwrite['data'];
+                $overwrite = app()->event_manager->response(get_class($this) . '\\getById', $hookParams);
+                if (isset($overwrite['data'])) {
+                    $item = $overwrite['data'];
+                }
             }
 
             return $item;
         });
     }
-
-
-    /*  public function getByParams($params = [])
-      {
-         return $this->cacheCallback(get_class($this).__FUNCTION__, func_get_args(), function () use ($params) {
-             $this->newQuery();
-             return MicroweberQuery::execute($this->query, $params);
-          });
-      }*/
-
 }

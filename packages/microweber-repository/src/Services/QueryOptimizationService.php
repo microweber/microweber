@@ -14,9 +14,10 @@ class QueryOptimizationService
      * Batch load categories for multiple content IDs to prevent N+1 queries
      *
      * @param array $contentIds Array of content IDs
+     * @param string|null $contentMorphClass Optional morph class name for content
      * @return array Associative array with content_id as key and categories as value
      */
-    public static function batchLoadCategories(array $contentIds): array
+    public static function batchLoadCategories(array $contentIds, ?string $contentMorphClass = null): array
     {
         if (empty($contentIds)) {
             return [];
@@ -25,13 +26,18 @@ class QueryOptimizationService
         $contentIds = array_unique($contentIds);
         $cacheKey = 'batch_categories_' . md5(implode(',', $contentIds));
 
-        return Cache::remember($cacheKey, now()->addMinutes(5), function () use ($contentIds) {
+        return Cache::remember($cacheKey, now()->addMinutes(5), function () use ($contentIds, $contentMorphClass) {
             $categories = [];
 
-            // Single query to get all category items for all content IDs
-            $categoryItems = DB::table('categories_items')
-                ->select('rel_id', 'parent_id')
-                ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
+            $query = DB::table('categories_items')
+                ->select('rel_id', 'parent_id');
+
+            if ($contentMorphClass) {
+                $morphName = function_exists('morph_name') ? morph_name($contentMorphClass) : $contentMorphClass;
+                $query->where('rel_type', $morphName);
+            }
+
+            $categoryItems = $query
                 ->whereIn('rel_id', $contentIds)
                 ->get()
                 ->groupBy('rel_id');

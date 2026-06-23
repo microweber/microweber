@@ -44,7 +44,9 @@ trait FilterableByParams
                     $query->$whereMethodName($paramValue);
                     unset($params[$paramKey]);
                 } elseif (in_array($paramKey, $searchable)) {
-                    $parseCompareSign = db_query_parse_compare_sign_value($paramValue);
+                    $parseCompareSign = function_exists('db_query_parse_compare_sign_value')
+                        ? db_query_parse_compare_sign_value($paramValue)
+                        : ['compare_sign' => '=', 'value' => $paramValue];
                     $query->where($table . '.' . $paramKey, $parseCompareSign['compare_sign'], $parseCompareSign['value']);
                 }
             }
