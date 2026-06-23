@@ -34,7 +34,7 @@ use MicroweberPackages\Filament\Providers\MicroweberFilamentServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Install\Console\Commands\InstallCommand;
 use MicroweberPackages\Install\MicroweberMigrator;
-use MicroweberPackages\LaravelConfigExtended\ConfigExtendedServiceProvider;
+use MicroweberPackages\Config\ConfigServiceProvider;
 use MicroweberPackages\Microweber\Providers\MicroweberServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -219,7 +219,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
-        //$this->app->register(ConfigExtendedServiceProvider::class);
+        $this->app->register(ConfigServiceProvider::class);
 
         //$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         if (app()->bound('debugbar')) {
@@ -252,7 +252,7 @@ class AppServiceProvider extends ServiceProvider
 
 
 //        $this->app->instance('config', new ConfigSave($this->app));
-        //  $this->app->register(ConfigExtendedServiceProvider::class);
+        // Config provider is already registered above in register()
 
         if (!defined('ADMIN_PREFIX')) {
             define('ADMIN_PREFIX', mw_admin_prefix_url_legacy());

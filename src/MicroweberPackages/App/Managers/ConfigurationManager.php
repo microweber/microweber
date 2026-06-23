@@ -13,7 +13,7 @@ class ConfigurationManager
 
     public function set($key, $val)
     {
-        return Config::get($key, $val);
+        return Config::set($key, $val);
     }
 
     public function save()
