@@ -5,11 +5,11 @@ namespace Modules\Media\Repositories;
 use Conner\Tagging\Model\Tagged;
 use Illuminate\Support\Str;
 use MicroweberPackages\Utils\System\Files;
-use MicroweberPackages\Utils\ThirdPartyLibs\PHPImageMagician\ImageLib;
+use MicroweberPackages\Thumbnailer\Libs\PHPImageMagician\ImageLib;
 use Modules\Media\Models\Media;
 use Modules\Media\Models\MediaThumbnail;
-use Modules\Media\Support\ImageRotator;
-use Modules\Media\Support\Thumbnailer;
+use MicroweberPackages\Thumbnailer\Support\ImageRotator;
+use MicroweberPackages\Thumbnailer\Support\Thumbnailer;
 
 
 class MediaManager

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d384dfe5f942eb2f04f6ec084aa2efa4",
+    "content-hash": "f5ed3d9ba5774431d1b7ebadbc08274d",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10076,6 +10076,63 @@
             "support": {
                 "email": "support@microweber.com"
             },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/thumbnailer",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-thumbnailer",
+                "reference": "7d1f25dbdb7023f016ce7c7a78c2c170e9ff90d5"
+            },
+            "require": {
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\Thumbnailer\\ThumbnailerServiceProvider"
+                    ],
+                    "aliases": {
+                        "Thumbnailer": "MicroweberPackages\\Thumbnailer\\Facades\\Thumbnailer"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Thumbnailer\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Thumbnailer\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for image thumbnail generation",
             "transport-options": {
                 "symlink": true,
                 "relative": true

@@ -1,0 +1,48 @@
+{
+    "name": "microweber-packages/thumbnailer",
+    "version": "1.0.0",
+    "description": "Standalone Laravel package for image thumbnail generation",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/http": "^10.0|^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\Thumbnailer\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\Thumbnailer\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MicroweberPackages\\Thumbnailer\\ThumbnailerServiceProvider"
+            ],
+            "aliases": {
+                "Thumbnailer": "MicroweberPackages\\Thumbnailer\\Facades\\Thumbnailer"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
