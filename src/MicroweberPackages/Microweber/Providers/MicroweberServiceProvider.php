@@ -17,6 +17,7 @@ use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\Fortify\FortifyServiceProvider;
 use MicroweberPackages\Frontend\Providers\FrontendServiceProvider;
 use MicroweberPackages\Helper\HelpersServiceProvider;
+use MicroweberPackages\Url\Providers\UrlServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\LaravelModules\LaravelModulesServiceProvider;
 use MicroweberPackages\LaravelModulesFilament\LaravelModulesFilamentServiceProvider;
@@ -79,6 +80,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
 
         $this->app->register(\MicroweberPackages\Database\DatabaseManagerServiceProvider::class);
+        $this->app->register(UrlServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
         $this->app->register(LiveEditRouteServiceProvider::class);
 

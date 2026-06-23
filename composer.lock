@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f5ed3d9ba5774431d1b7ebadbc08274d",
+    "content-hash": "6e121011eda944e3fa1263ec4456f4df",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10133,6 +10133,59 @@
                 }
             ],
             "description": "Standalone Laravel package for image thumbnail generation",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/url",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-url",
+                "reference": "8dce63896be36d289882c0ed3b1be0df1a958a0a"
+            },
+            "require": {
+                "illuminate/routing": "^10.0|^11.0|^12.0",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\Url\\Providers\\UrlServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Url\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Url\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Dev Team",
+                    "email": "support@microweber.com"
+                }
+            ],
+            "description": "URL management package for Microweber - can be used standalone with any Laravel application",
             "transport-options": {
                 "symlink": true,
                 "relative": true

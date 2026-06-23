@@ -59,12 +59,13 @@ class HelpersServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
-        /**
-         * @property \MicroweberPackages\Helper\UrlManager $url_manager
-         */
-        $this->app->singleton('url_manager', function () {
-            return new UrlManager();
-        });
+        // url_manager is now registered by MicroweberPackages\Url\Providers\UrlServiceProvider.
+        // If it hasn't been registered yet (standalone use without the Url package provider),
+        // register the legacy UrlManager as fallback.
+        if (!$this->app->bound('url_manager')) {
+            $this->app->singleton('url_manager', function () {
+                return new UrlManager();
+            });
+        }
     }
 }

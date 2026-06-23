@@ -169,6 +169,11 @@
             <directory>src/MicroweberPackages/FormBuilder/Tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberUrl">
+            <directory>packages/microweber-url/tests</directory>
+            <exclude>packages/microweber-url/tests/UrlManagerIntegratedTest.php</exclude>
+        </testsuite>
+
         <testsuite name="Templates">
             <exclude>Templates/*/Tests/Browser</exclude>
             <!--

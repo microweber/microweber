@@ -12,7 +12,7 @@ use MicroweberPackages\Database\DatabaseManager;
 use MicroweberPackages\Event\Event;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HTMLClean;
-use MicroweberPackages\Helper\UrlManager;
+use MicroweberPackages\Url\UrlManager;
 use MicroweberPackages\Helper\XSSSecurity;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
