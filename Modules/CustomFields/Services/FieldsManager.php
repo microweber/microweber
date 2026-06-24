@@ -2,7 +2,7 @@
 
 namespace Modules\CustomFields\Services;
 
-use MicroweberPackages\Helper\HTMLClean;
+use MicroweberPackages\Security\HtmlClean;
 use Modules\CustomFields\Events\CustomFieldWasDeleted;
 use Modules\CustomFields\Fields\Address;
 use Modules\CustomFields\Fields\Breakline;
@@ -324,7 +324,7 @@ class FieldsManager
             return false;
         }
 
-        $xssClean = new HTMLClean();
+        $xssClean = new HtmlClean();
         $fieldData = $xssClean->cleanArray($fieldData);
 
         if (isset($fieldData['copy_of']) and $fieldData['copy_of']) {

@@ -289,7 +289,7 @@ trait QueryFilter
                                 foreach ($to_search_keywords as $to_search_keyword) {
                                     $to_search_keyword = trim($to_search_keyword);
 
-                                    $antiXss = new \MicroweberPackages\Helper\HTMLClean();
+                                    $antiXss = new \MicroweberPackages\Security\HtmlClean();
                                     $to_search_keyword = $antiXss->clean($to_search_keyword);
 
                                     if ($to_search_keyword != false) {

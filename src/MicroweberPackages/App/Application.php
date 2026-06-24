@@ -11,7 +11,7 @@ use MicroweberPackages\App\Managers\Ui;
 use MicroweberPackages\Database\DatabaseManager;
 use MicroweberPackages\Event\Event;
 use MicroweberPackages\Helper\Format;
-use MicroweberPackages\Helper\HTMLClean;
+use MicroweberPackages\Security\HtmlClean;
 use MicroweberPackages\Url\UrlManager;
 use MicroweberPackages\Helper\XSSSecurity;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
@@ -59,7 +59,7 @@ use Modules\Shop\Services\ShopManager;
  * @desc
  *
  * @property UrlManager $url_manager
- * @property HTMLClean $html_clean
+ * @property HtmlClean $html_clean
  * @property XSSSecurity $xss_security
  * @property Format $format
  * @property ContentManager $content_manager

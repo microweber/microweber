@@ -117,8 +117,8 @@ class UrlManager
         $redirectUrl = str_replace("\r", "", $redirectUrl);
         $redirectUrl = str_replace("\n", "", $redirectUrl);
 
-        if (class_exists(\MicroweberPackages\Helper\HTMLClean::class)) {
-            $clearInput = new \MicroweberPackages\Helper\HTMLClean();
+        if (class_exists(\MicroweberPackages\Security\HtmlClean::class)) {
+            $clearInput = new \MicroweberPackages\Security\HtmlClean();
             $redirectUrl = $clearInput->clean($redirectUrl);
         }
 

@@ -178,6 +178,10 @@
             <directory>packages/microweber-database/src/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberSecurity">
+            <directory>packages/microweber-security/tests</directory>
+        </testsuite>
+
         <testsuite name="Templates">
             <exclude>Templates/*/Tests/Browser</exclude>
             <!--

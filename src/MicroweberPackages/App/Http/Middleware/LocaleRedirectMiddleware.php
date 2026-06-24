@@ -5,7 +5,6 @@ namespace MicroweberPackages\App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use GrahamCampbell\SecurityCore\Security;
-use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class LocaleRedirectMiddleware

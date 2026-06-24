@@ -142,6 +142,7 @@
         "microweber-packages/url": "^1.0",
         "microweber-packages/repository": "^1.0",
         "microweber-packages/database": "^1.0",
+        "microweber-packages/security": "^1.0",
         "intervention/image-laravel": "^1.4",
         "tapp/filament-timezone-field": "^3.0",
         "league/flysystem-bundle": "^3.4",
@@ -178,6 +179,7 @@
             "MicroweberPackages\\Config\\": "packages/microweber-config/src/",
             "MicroweberPackages\\Repository\\": "packages/microweber-repository/src/",
             "MicroweberPackages\\Database\\": "packages/microweber-database/src/",
+            "MicroweberPackages\\Security\\": "packages/microweber-security/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
@@ -442,6 +444,14 @@
         {
             "type": "path",
             "url": "packages/microweber-database",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-security",
             "options": {
                 "reference": "config",
                 "symlink": true

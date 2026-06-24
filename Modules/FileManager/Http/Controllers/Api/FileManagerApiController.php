@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\Controller;
-use MicroweberPackages\Helper\HTMLClean;
+use MicroweberPackages\Security\HtmlClean;
 
 class FileManagerApiController extends Controller {
 
@@ -291,7 +291,7 @@ class FileManagerApiController extends Controller {
         $folderName = $request->post('name', false);
         $folderPath = $request->post('path', false);
 
-        $clean = new HTMLClean();
+        $clean = new HtmlClean();
         $folderName = $clean->clean($folderName);
         $folderPath = $clean->clean($folderPath);
 

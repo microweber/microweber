@@ -42,7 +42,7 @@ trait FilterByKeywordTrait
 
 
         if ($keywordToSearch) {
-            $antiXss = new \MicroweberPackages\Helper\HTMLClean();
+            $antiXss = new \MicroweberPackages\Security\HtmlClean();
             $keywordToSearch = $antiXss->clean($keywordToSearch);
             $keywordToSearch = mb_trim($keywordToSearch);
             $keywordToSearch = e($keywordToSearch);

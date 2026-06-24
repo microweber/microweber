@@ -4,7 +4,6 @@ namespace MicroweberPackages\Option\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Option\Http\Requests\SaveOptionRequest;
 
 class SaveOptionApiController

@@ -11,7 +11,7 @@ class SecurityTest extends TestCase
 {
     #[Test]
     public function it_comments(): void {
-        $antiXss = new \MicroweberPackages\Helper\HTMLClean();
+        $antiXss = new \MicroweberPackages\Security\HtmlClean();
 
         $string = '<a href="https://example.com">test</a>';
         $content = $antiXss->onlyTags($string);
@@ -22,7 +22,7 @@ class SecurityTest extends TestCase
 
 //    public function testXssExternalLinkImg()
 //    {
-//        $antiXss = new \MicroweberPackages\Helper\HTMLClean();
+//        $antiXss = new \MicroweberPackages\Security\HtmlClean();
 //
 //        $string = '<img src="' . site_url() . 'test.jpg" />';
 //        $content = $antiXss->clean($string);
@@ -52,7 +52,7 @@ class SecurityTest extends TestCase
         // Only test every 50th payload to keep the test fast while still covering a representative sample
         $xssList = array_filter($xssList, fn($v, $k) => $k % 50 === 0, ARRAY_FILTER_USE_BOTH);
 
-        $antiXss = new \MicroweberPackages\Helper\HTMLClean();
+        $antiXss = new \MicroweberPackages\Security\HtmlClean();
 
         foreach ($xssList as $string) {
 
@@ -74,6 +74,31 @@ class SecurityTest extends TestCase
         $clean = $xssClean->clean($str);
         $this->assertEquals("class='x module module-'=alert&#40;1&#41; '", $clean);
 
+    }
+
+    /**
+     * Regression coverage moved here when the Security package was extracted
+     * (the original Security/tests/HtmlCleanTest.php was removed in that diff).
+     * Pins the Microweber-specific behaviour: <module> tags are stripped in
+     * the default mode but PRESERVED in admin_mode, while script/event-handler
+     * XSS vectors are always removed.
+     */
+    #[Test]
+    public function it_html_clean(): void {
+        $clean = new \MicroweberPackages\Security\HtmlClean();
+
+        $xss = "<script>alert('xss')</script>";
+        $xss .= "<div onmousedown='11'><script>alert('xss')</script></div>";
+        $xss .= "<module type=\"test\" onmousedown='11'><script>alert('xss')</script></module>";
+
+        // Default mode: module tag stripped along with the XSS.
+        $this->assertEquals('<div></div>', $clean->clean($xss, []));
+
+        // Admin mode: module tag preserved, XSS still removed.
+        $this->assertEquals(
+            '<div></div><module type="test"></module>',
+            $clean->clean($xss, ['admin_mode' => true])
+        );
     }
 
 }

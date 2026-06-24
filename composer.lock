@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "71d938b8709d1ab104e3b1a3549adf62",
+    "content-hash": "3e5a3c1bb4fd81db84791b9045a359e4",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10163,6 +10163,71 @@
                 }
             ],
             "description": "Reusable Laravel repository pattern package with caching, query filtering and model observers",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/security",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-security",
+                "reference": "a0efa8505384469a75a95f592d9bce0d5b880396"
+            },
+            "require": {
+                "ezyang/htmlpurifier": "^4.18",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "php": "^8.2",
+                "symfony/html-sanitizer": "^7.0",
+                "voku/anti-xss": "^4.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\Security\\SecurityServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Security\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Security\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Reusable Laravel security package with HTML sanitizer, XSS cleaner and stored-XSS stripper",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true

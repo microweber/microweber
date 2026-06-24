@@ -14,7 +14,6 @@ namespace MicroweberPackages\Option;
 
 use DB;
 use Cache;
-use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\Option\Traits\ModuleOptionTrait;
@@ -325,7 +324,7 @@ class OptionManager
             $data = parse_params($data);
         }
 
-        /*    $xssClean = new HTMLClean();
+        /*    $xssClean = new \MicroweberPackages\Security\HtmlClean();
             $data = $xssClean->cleanArray($data);*/
 
         $this->clear_memory();

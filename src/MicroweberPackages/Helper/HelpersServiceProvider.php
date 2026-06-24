@@ -13,6 +13,7 @@ namespace MicroweberPackages\Helper;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Security\HtmlClean;
 class HelpersServiceProvider extends ServiceProvider
 {
     /**
@@ -38,7 +39,7 @@ class HelpersServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('html_clean', function () {
-            return new HTMLClean();
+            return new HtmlClean();
         });
 
 
