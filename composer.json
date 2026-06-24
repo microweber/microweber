@@ -141,6 +141,7 @@
         "microweber-packages/thumbnailer": "^1.0",
         "microweber-packages/url": "^1.0",
         "microweber-packages/repository": "^1.0",
+        "microweber-packages/database": "^1.0",
         "intervention/image-laravel": "^1.4",
         "tapp/filament-timezone-field": "^3.0",
         "league/flysystem-bundle": "^3.4",
@@ -176,11 +177,15 @@
             "MicroweberPackages\\Url\\": "packages/microweber-url/src/",
             "MicroweberPackages\\Config\\": "packages/microweber-config/src/",
             "MicroweberPackages\\Repository\\": "packages/microweber-repository/src/",
+            "MicroweberPackages\\Database\\": "packages/microweber-database/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "packages/microweber-database/src/functions/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -276,6 +281,7 @@
                 "nwidart/laravel-modules",
                 "microweber-packages/microweber-app",
                 "microweber-packages/config",
+                "microweber-packages/database",
                 "laravel/passport",
                 "laravel/sanctum",
                 "laravel/cashier",
@@ -428,6 +434,14 @@
         {
             "type": "path",
             "url": "packages/microweber-repository",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-database",
             "options": {
                 "reference": "config",
                 "symlink": true

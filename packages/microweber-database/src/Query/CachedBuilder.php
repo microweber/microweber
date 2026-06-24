@@ -9,7 +9,6 @@
 namespace MicroweberPackages\Database\Query;
 
 use Illuminate\Database\Query\Builder;
-use Leafo\ScssPhp\Cache;
 
 class CachedBuilder extends Builder
 {

@@ -79,6 +79,12 @@ class MicroweberServiceProvider extends ServiceProvider
     {
 
 
+        // DatabaseManagerServiceProvider MUST be registered here (eagerly), NOT via package
+        // auto-discovery. FilamentAdminPanelProvider resolves the admin panel — and thus
+        // MultilanguageFilamentPlugin->register() → get_supported_languages() → db_get() — during its
+        // own register() phase. Discovered providers register AFTER the configured panel provider, so
+        // `database_manager` would be unbound at that point (fatal). Registering it here (before the
+        // panel provider) guarantees the binding exists. The package is in composer `dont-discover`.
         $this->app->register(\MicroweberPackages\Database\DatabaseManagerServiceProvider::class);
         $this->app->register(UrlServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);

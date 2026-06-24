@@ -1,0 +1,67 @@
+{
+    "name": "microweber-packages/database",
+    "description": "Reusable Laravel database manager package with caching, CRUD helpers, query filtering, model traits and utilities",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        },
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/database": "^10.0|^11.0|^12.0",
+        "illuminate/cache": "^10.0|^11.0|^12.0",
+        "illuminate/events": "^10.0|^11.0|^12.0",
+        "graham-campbell/markdown": "^15.0|^16.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
+    "suggest": {
+        "doctrine/dbal": "Required only for the Postgres schema-introspection path in Utils (guarded; throws a friendly error if missing)."
+    },
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\Database\\": "src/"
+        },
+        "files": [
+            "src/functions/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\Database\\tests\\": "src/tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MicroweberPackages\\Database\\DatabaseManagerServiceProvider"
+            ],
+            "aliases": {
+                "DatabaseManager": "MicroweberPackages\\Database\\DatabaseManagerFacade"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "homepage": "http://microweber.com",
+    "support": {
+        "email": "support@microweber.com"
+    }
+}

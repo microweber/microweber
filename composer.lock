@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "305e57dd58306a3a2e6b04d472740d03",
+    "content-hash": "71d938b8709d1ab104e3b1a3549adf62",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9747,6 +9747,81 @@
                 }
             ],
             "description": "Standalone Laravel config package with per-environment file loading and runtime save support. Enables multi-site configurations by loading config files from environment-specific subdirectories.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/database",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-database",
+                "reference": "7e0f586cf697a1bdea23dc08c0635b8c8afb137b"
+            },
+            "require": {
+                "graham-campbell/markdown": "^15.0|^16.0",
+                "illuminate/cache": "^10.0|^11.0|^12.0",
+                "illuminate/database": "^10.0|^11.0|^12.0",
+                "illuminate/events": "^10.0|^11.0|^12.0",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "doctrine/dbal": "Required only for the Postgres schema-introspection path in Utils (guarded; throws a friendly error if missing)."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\Database\\DatabaseManagerServiceProvider"
+                    ],
+                    "aliases": {
+                        "DatabaseManager": "MicroweberPackages\\Database\\DatabaseManagerFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Database\\": "src/"
+                },
+                "files": [
+                    "src/functions/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Database\\tests\\": "src/tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Reusable Laravel database manager package with caching, CRUD helpers, query filtering, model traits and utilities",
             "homepage": "http://microweber.com",
             "support": {
                 "email": "support@microweber.com"
