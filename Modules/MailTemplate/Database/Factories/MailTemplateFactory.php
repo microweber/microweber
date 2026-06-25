@@ -17,7 +17,10 @@ class MailTemplateFactory extends Factory
             'from_name' => $this->faker->name,
             'from_email' => $this->faker->email,
             'copy_to' => $this->faker->optional()->email,
-            'subject' => $this->faker->sentence,
+            // Use plain English words (not Faker Latin lorem ipsum) so the row is NOT
+            // excluded by MailTemplateResource's production scope, which filters out
+            // subjects containing AdminFixtureGuard Latin Faker keywords.
+            'subject' => 'Test subject ' . $this->faker->unique()->numberBetween(1, 1000000),
             'message' => '<p>' . $this->faker->paragraph . '</p>',
             'is_active' => $this->faker->boolean(80),
         ];

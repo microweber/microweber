@@ -31,25 +31,14 @@ class UserCartTest extends TestCase
     #[Test]
 
     public function it_user_cart_has_same_attributes_as_cart(): void {
+        // Cart switched from $fillable to $guarded for mass-assignment
+        // protection (AI-81). UserCart extends Cart and must inherit the exact
+        // same mass-assignment surface, so assert their $guarded lists match
+        // (getFillable() is empty under a $guarded model).
         $userCart = new UserCart();
+        $cart = new \Modules\Cart\Models\Cart();
 
-        $expectedFillable = [
-            'rel_type',
-            'rel_id',
-
-            'price',
-            'currency',
-            'qty',
-
-            'order_id',
-            'order_completed',
-
-            'description',
-            'link',
-            'other_info',
-            'custom_fields_data',
-        ];
-
-        $this->assertEquals($expectedFillable, $userCart->getFillable());
+        $this->assertSame($cart->getGuarded(), $userCart->getGuarded());
+        $this->assertSame($cart->getFillable(), $userCart->getFillable());
     }
 }

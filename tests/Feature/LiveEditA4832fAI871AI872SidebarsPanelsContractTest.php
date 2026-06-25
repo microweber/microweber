@@ -32,6 +32,7 @@ class LiveEditA4832fAI871AI872SidebarsPanelsContractTest extends TestCase
     private string $blogSettings;
     private string $shopSettings;
     private string $picturesSettings;
+    private string $picturesDesignSchema;
 
     protected function setUp(): void
     {
@@ -43,6 +44,12 @@ class LiveEditA4832fAI871AI872SidebarsPanelsContractTest extends TestCase
         $this->blogSettings       = (string) file_get_contents(base_path('Modules/Blog/Filament/BlogSettings.php'));
         $this->shopSettings       = (string) file_get_contents(base_path('Modules/Shop/Filament/ShopModuleSettings.php'));
         $this->picturesSettings   = (string) file_get_contents(base_path('Modules/Pictures/Filament/PicturesModuleSettings.php'));
+        // Supersession: task-2026-06-13-letele2 moved the Pictures
+        // Columns / Aspect Ratio / Lightbox controls OUT of the global
+        // PicturesModuleSettings "Display" tab and INTO the per-skin Design
+        // tab JSON schema (templates/default.json -> getTemplatesFormSchema).
+        // The feature still exists; it just lives in the JSON schema now.
+        $this->picturesDesignSchema = (string) file_get_contents(base_path('Modules/Pictures/resources/views/templates/default.json'));
     }
 
     // ─── AI-871 §1: Right-rail mini-labels ──────────────────────────────
@@ -195,25 +202,30 @@ class LiveEditA4832fAI871AI872SidebarsPanelsContractTest extends TestCase
     #[Test]
     public function pictures_settings_has_columns_and_aspect_ratio(): void
     {
+        // Supersession (task-2026-06-13-letele2): these controls were
+        // relocated from the PicturesModuleSettings PHP to the per-skin
+        // Design tab JSON schema (templates/default.json). Pin the new home.
         $this->assertStringContainsString(
-            "options.columns",
-            $this->picturesSettings,
-            'PicturesModuleSettings must include Columns toggle buttons.'
+            '"name": "columns"',
+            $this->picturesDesignSchema,
+            'Pictures default-skin schema must include a Columns select.'
         );
         $this->assertStringContainsString(
-            "options.aspect_ratio",
-            $this->picturesSettings,
-            'PicturesModuleSettings must include Aspect Ratio select.'
+            '"name": "aspect_ratio"',
+            $this->picturesDesignSchema,
+            'Pictures default-skin schema must include an Aspect Ratio select.'
         );
     }
 
     #[Test]
     public function pictures_settings_has_lightbox_toggle(): void
     {
+        // Supersession (task-2026-06-13-letele2): relocated to the per-skin
+        // Design tab JSON schema (templates/default.json).
         $this->assertStringContainsString(
-            "options.lightbox",
-            $this->picturesSettings,
-            'PicturesModuleSettings must include Lightbox toggle.'
+            '"name": "lightbox"',
+            $this->picturesDesignSchema,
+            'Pictures default-skin schema must include a Lightbox toggle.'
         );
     }
 
@@ -226,6 +238,10 @@ class LiveEditA4832fAI871AI872SidebarsPanelsContractTest extends TestCase
         $this->assertStringContainsString('task-2026-05-21-a4832f', $this->eseApp);
         $this->assertStringContainsString('task-2026-05-21-a4832f', $this->blogSettings);
         $this->assertStringContainsString('task-2026-05-21-a4832f', $this->shopSettings);
-        $this->assertStringContainsString('task-2026-05-21-a4832f', $this->picturesSettings);
+        // Supersession (task-2026-06-13-letele2): the AI-872 Pictures controls
+        // (and their a4832f marker) were relocated out of PicturesModuleSettings.php
+        // into the per-skin Design tab JSON schema, which cannot carry a comment
+        // marker. The current PHP file carries the letele2 relocation note instead.
+        $this->assertStringContainsString('task-2026-06-13-letele2', $this->picturesSettings);
     }
 }

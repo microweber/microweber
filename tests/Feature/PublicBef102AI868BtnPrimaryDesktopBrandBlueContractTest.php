@@ -84,25 +84,32 @@ class PublicBef102AI868BtnPrimaryDesktopBrandBlueContractTest extends TestCase
     public function btn_primary_global_rule_uses_color_primary_token(): void
     {
         // Global rule must apply brand-blue via the token with literal fallback.
+        // Updated 2026-06: the declaration now routes through the
+        // --mw-btn-background-color token FIRST (so template-configured
+        // button colours win) with var(--color-primary, #0d6efd) as the
+        // nested fallback. Match the current nested-fallback chain.
         $this->assertMatchesRegularExpression(
-            '/\.btn-primary[\s\S]*?background-color:\s*var\(--color-primary,\s*#0d6efd\)\s*!important/s',
+            '/\.btn-primary[\s\S]*?background-color:\s*var\(--mw-btn-background-color,\s*var\(--color-primary,\s*#0d6efd\)\)\s*!important/s',
             $this->stripped,
-            '.btn-primary global rule must set background-color: var(--color-primary, #0d6efd) !important.'
+            '.btn-primary global rule must set background-color: var(--mw-btn-background-color, var(--color-primary, #0d6efd)) !important.'
         );
         $this->assertMatchesRegularExpression(
-            '/\.btn-primary[\s\S]*?border-color:\s*var\(--color-primary,\s*#0d6efd\)\s*!important/s',
+            '/\.btn-primary[\s\S]*?border-color:\s*var\(--mw-btn-border-color,\s*var\(--color-primary,\s*#0d6efd\)\)\s*!important/s',
             $this->stripped,
-            '.btn-primary global rule must set border-color: var(--color-primary, #0d6efd) !important.'
+            '.btn-primary global rule must set border-color: var(--mw-btn-border-color, var(--color-primary, #0d6efd)) !important.'
         );
     }
 
     #[Test]
     public function btn_primary_hover_rule_at_global_scope(): void
     {
+        // Updated 2026-06: hover now routes through
+        // --mw-btn-background-hover-color first, with
+        // var(--color-primary-hover, #0b5ed7) as the nested fallback.
         $this->assertMatchesRegularExpression(
-            '/\.btn-primary:hover[\s\S]*?background-color:\s*var\(--color-primary-hover,\s*#0b5ed7\)\s*!important/s',
+            '/\.btn-primary:hover[\s\S]*?background-color:\s*var\(--mw-btn-background-hover-color,\s*var\(--color-primary-hover,\s*#0b5ed7\)\)\s*!important/s',
             $this->stripped,
-            '.btn-primary:hover global rule must use var(--color-primary-hover, #0b5ed7) !important.'
+            '.btn-primary:hover global rule must use var(--mw-btn-background-hover-color, var(--color-primary-hover, #0b5ed7)) !important.'
         );
     }
 

@@ -17,7 +17,9 @@ class FileManagerTest extends TestCase
         $this->loginAsAdmin();
 
         // Create new folder
-        $lastCreatedFolderName = rand(111, 999) . 'folder';
+        // Prefix with letters so the name does NOT match the file-manager
+        // list() filter that hides test folders named /^\d+folder$/.
+        $lastCreatedFolderName = 'mwtest' . rand(111, 999) . 'folder';
         $response = $this->call('POST', route('api.file-manager.create-folder'), [
             'name' => $lastCreatedFolderName
         ]);
@@ -57,7 +59,9 @@ class FileManagerTest extends TestCase
 
         for ($i = 1; $i <= 20; $i++) {
 
-            $lastCreatedFolderName = rand(111, 999) . 'folder';
+            // Prefix with letters so the name does NOT match the file-manager
+        // list() filter that hides test folders named /^\d+folder$/.
+        $lastCreatedFolderName = 'mwtest' . rand(111, 999) . 'folder';
             $response = $this->call('POST', route('api.file-manager.create-folder'), [
                 'name' => $lastCreatedFolderName
             ]);

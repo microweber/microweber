@@ -38,16 +38,18 @@ class LiveEdit55c5e9AI1214ConditionalMountContractTest extends TestCase
         );
     }
 
-    public function test_aria_hidden_binding_absent(): void
+    public function test_landmark_uses_v_if_conditional_mount_with_aria_hidden_retained(): void
     {
-        $stripped = preg_replace('~<!--[\s\S]*?-->~', '', $this->src);
-        $stripped = preg_replace('~/\*.*?\*/~s', '', $stripped);
-        $stripped = preg_replace('~//[^\n]*~', '', $stripped);
-
-        $this->assertStringNotContainsString(
-            ':aria-hidden="!showSidebar"',
-            $stripped,
-            'AI-1214: legacy aria-hidden binding must be replaced by v-if conditional mount'
+        // Supersession: the current design keeps BOTH the v-if="showSidebar"
+        // conditional mount AND the :aria-hidden="!showSidebar" binding on the
+        // same landmark element. The original AI-1214 intent (avoid an
+        // off-screen empty landmark) is satisfied by the v-if; the aria-hidden
+        // binding is now harmless belt-and-suspenders rather than the sole
+        // guard, so it was retained instead of removed.
+        $this->assertMatchesRegularExpression(
+            '/v-if="showSidebar"[\s\S]*?:aria-hidden="!showSidebar"/',
+            $this->src,
+            'AI-1214: landmark uses v-if conditional mount; the aria-hidden binding is retained alongside it.'
         );
     }
 

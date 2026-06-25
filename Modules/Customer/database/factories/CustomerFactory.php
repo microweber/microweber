@@ -16,7 +16,10 @@ class CustomerFactory extends Factory
             'name' => $this->faker->name(),
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'email' => $this->faker->unique()->safeEmail(),
+            // Avoid @example.{com,org,net}: CustomerResource hides those Faker
+            // domains from the admin list, which would make factory rows invisible
+            // in tests. Rewrite the domain while keeping the unique local part.
+            'email' => str_replace(['@example.com', '@example.org', '@example.net'], '@mw-customer.test', $this->faker->unique()->safeEmail()),
             'phone' => $this->faker->phoneNumber(),
             'status' => 'active',
             'customer_data' => [],

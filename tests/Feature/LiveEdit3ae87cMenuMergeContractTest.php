@@ -122,8 +122,12 @@ class LiveEdit3ae87cMenuMergeContractTest extends TestCase
         // Visual divider between the tools above and the user-menu items
         // below — comment carries the task id for grepability.
         $this->assertStringContainsString('task-2026-05-16-3ae87c', $this->toolsDropdownVue);
+        // Supersession: the separator <li> gained a `role="separator"` a11y
+        // attribute between class and the v-if guard. Allow the intervening
+        // attribute; the v-if guard on userMenuItems.length is the load-bearing
+        // part (separator only shows when merged user-menu items exist).
         $this->assertMatchesRegularExpression(
-            '/<li\s+class="separator"\s+v-if="userMenuItems\.length\s*>\s*0"/',
+            '/<li\s+class="separator"[^>]*\sv-if="userMenuItems\.length\s*>\s*0"/',
             $this->toolsDropdownVue,
             'A visual separator must precede the merged user-menu items.'
         );

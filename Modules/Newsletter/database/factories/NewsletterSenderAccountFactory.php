@@ -14,8 +14,10 @@ class NewsletterSenderAccountFactory extends Factory
         return [
             'name' => $this->faker->company,
             'from_name' => $this->faker->name,
-            'from_email' => $this->faker->unique()->safeEmail,
-            'reply_email' => $this->faker->unique()->safeEmail,
+            // Avoid @example.* domains: SenderAccountsResource hides those Faker
+            // emails from the admin list, making factory rows invisible in tests.
+            'from_email' => str_replace(['@example.com', '@example.org', '@example.net'], '@mw-sender.test', $this->faker->unique()->safeEmail),
+            'reply_email' => str_replace(['@example.com', '@example.org', '@example.net'], '@mw-sender.test', $this->faker->unique()->safeEmail),
             'account_type' => 'smtp',
             'smtp_username' => $this->faker->userName,
             'smtp_password' => $this->faker->password,

@@ -45,10 +45,14 @@ class SharerModuleFrontendTest extends TestCase
         $this->assertTrue(View::exists('modules.sharer::templates.default'));
         $this->assertStringContainsString('href="https://www.facebook.com/sharer/sharer.php?u=', $viewOutput);
         $this->assertStringContainsString('href="https://x.com/intent/tweet?text=', $viewOutput);
-        $this->assertStringContainsString('href="javascript:void(0);" onclick="mw.pinMarklet();"', $viewOutput);
+        // CSP migration: inline onclick was replaced by the delegated
+        // data-mw-pinmarklet handler (csp-skin-handlers.js).
+        $this->assertStringContainsString('href="javascript:void(0);" data-mw-pinmarklet', $viewOutput);
         $this->assertStringContainsString('href="https://www.linkedin.com/shareArticle?mini=true&url=', $viewOutput);
         $this->assertStringContainsString('href="#" id="viber_share"', $viewOutput);
-        $this->assertStringContainsString('href="whatsapp://send?text=', $viewOutput);
+        // AI-791: switched from the whatsapp:// deep-link to the cross-platform
+        // wa.me web URL.
+        $this->assertStringContainsString('href="https://wa.me/?text=', $viewOutput);
 
         // Clean up
         ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();

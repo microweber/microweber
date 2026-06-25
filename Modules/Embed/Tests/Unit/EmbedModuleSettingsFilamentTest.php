@@ -15,6 +15,12 @@ class EmbedModuleSettingsFilamentTest extends TestCase
 {
     #[Test]
     public function it_embed_module_settings_form(): void {
+        // EmbedModuleSettings::canAccess() is admin-only (Embed renders raw HTML
+        // — a stored-XSS surface), so the settings component only mounts for an
+        // authenticated admin; without it Livewire returns a denied (non-snapshot)
+        // response.
+        $this->loginAsAdmin();
+
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'embed';
 

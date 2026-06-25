@@ -248,19 +248,29 @@ class PostF4a791AI791PostDetailPageContractTest extends TestCase
         $this->assertStringContainsString('Copy link', $this->sharerStripped,
             'Sharer template must include a "Copy link" button.'
         );
-        $this->assertStringContainsString('navigator.clipboard', $this->sharerStripped,
-            '"Copy link" button must use the Clipboard API.'
+        // task-2026-06 CSP migration: the inline `onclick="navigator.clipboard…"`
+        // was replaced by the delegated `data-mw-copy-link` handler in
+        // csp-skin-handlers.js (strict CSP `script-src 'self'`). The Clipboard
+        // API now lives in the bundle, not inline — pin the data hook instead.
+        $this->assertStringContainsString('data-mw-copy-link', $this->sharerStripped,
+            '"Copy link" button must carry the data-mw-copy-link hook (delegated Clipboard handler).'
+        );
+        $this->assertStringNotContainsString('onclick', $this->sharerStripped,
+            'Copy link button must NOT use an inline onclick (strict CSP).'
         );
     }
 
     #[Test]
     public function sharer_copy_link_uses_data_url_not_inline_string(): void
     {
-        $this->assertStringContainsString('data-url=', $this->sharerStripped,
-            'Copy link button must pass the URL via data-url attribute to avoid Stage-5 attribute quoting issues.'
+        // The URL rides on the data attribute (not an inline-encoded JS string),
+        // which is the original Stage-5 attribute-quoting goal — now satisfied by
+        // data-mw-copy-link="…" consumed by the delegated handler.
+        $this->assertStringContainsString('data-mw-copy-link="', $this->sharerStripped,
+            'Copy link button must pass the URL via the data-mw-copy-link attribute to avoid Stage-5 attribute quoting issues.'
         );
-        $this->assertStringContainsString('b.dataset.url', $this->sharerStripped,
-            'Copy link onclick handler must read URL from b.dataset.url, not from an inline-encoded string.'
+        $this->assertStringContainsString('data-mw-copy-link-done="', $this->sharerStripped,
+            'Copy link button must pass the (translated) "Copied!" label via data-mw-copy-link-done, not an inline string.'
         );
     }
 

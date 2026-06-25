@@ -71,8 +71,8 @@
         {{-- Copy link button — uses the Clipboard API with a 2-second "Copied!" feedback state --}}
         <button type="button"
                 class="mw-share-copy-link btn btn-sm btn-outline-secondary"
-                data-url="{{ e(mw()->url->current()) }}"
-                onclick="var b=this,u=b.dataset.url,o=b.textContent;navigator.clipboard&&navigator.clipboard.writeText(u).then(function(){b.textContent='{{ e(__('Copied!')) }}';setTimeout(function(){b.textContent=o},2000)});"
+                data-mw-copy-link="{{ e(mw()->url->current()) }}"
+                data-mw-copy-link-done="{{ e(__('Copied!')) }}"
                 aria-label="{{ __('Copy link to clipboard') }}">
             {{ __('Copy link') }}
         </button>

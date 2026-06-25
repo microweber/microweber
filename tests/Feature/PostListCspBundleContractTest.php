@@ -48,6 +48,27 @@ class PostListCspBundleContractTest extends TestCase
         'Modules/Post/resources/views/templates/related_posts.blade.php',
     ];
 
+    // Updated 2026-06: skin-26 was rewritten to render purely through the
+    // <x-post-card> Blade component and no longer carries any
+    // skin-specific CSS, so it legitimately does NOT load the shared
+    // post-skins.css bundle. It is still held to the no-inline-<style>
+    // and no-onclick invariants (it stays in SKIN_PATHS for those), but
+    // is excluded from the @once/<link> bundle-load assertion.
+    private const BUNDLE_LOADING_SKIN_PATHS = [
+        'Modules/Post/resources/views/templates/skin-15.blade.php',
+        'Modules/Post/resources/views/templates/skin-16.blade.php',
+        'Modules/Post/resources/views/templates/skin-17.blade.php',
+        'Modules/Post/resources/views/templates/skin-18.blade.php',
+        'Modules/Post/resources/views/templates/skin-19.blade.php',
+        'Modules/Post/resources/views/templates/skin-20.blade.php',
+        'Modules/Post/resources/views/templates/skin-21.blade.php',
+        'Modules/Post/resources/views/templates/skin-22.blade.php',
+        'Modules/Post/resources/views/templates/skin-24.blade.php',
+        'Modules/Post/resources/views/templates/blog-pro.blade.php',
+        'Modules/Post/resources/views/templates/pro_blog.blade.php',
+        'Modules/Post/resources/views/templates/related_posts.blade.php',
+    ];
+
     #[Test]
     public function no_inline_style_block_remains_in_post_skins(): void
     {
@@ -77,7 +98,7 @@ class PostListCspBundleContractTest extends TestCase
         // Every migrated skin must emit the @once <link> block so
         // multiple Post modules on one page don't load the
         // stylesheet 13 times.
-        foreach (self::SKIN_PATHS as $rel) {
+        foreach (self::BUNDLE_LOADING_SKIN_PATHS as $rel) {
             $src = file_get_contents(base_path($rel));
             $this->assertStringContainsString(
                 "@once",

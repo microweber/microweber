@@ -144,10 +144,14 @@ class LiveEdit00bdf0AI770PickerDefaultTabAutoOpenContractTest extends TestCase
             $this->filepicker,
             'library tab render function must still exist.'
         );
+        // Supersession: AI-1140 (task-2026-05-27-287636) overrode the
+        // MediaLibrary page slug to 'media', so the Ziggy route is now
+        // 'filament.admin.pages.media' — the old 'media-library' name made
+        // Ziggy throw and broke the File link picker.
         $this->assertStringContainsString(
-            'filament.admin.pages.media-library',
+            'filament.admin.pages.media',
             $this->filepicker,
-            'library tab must still mount the filament.admin.pages.media-library iframe.'
+            'library tab must still mount the filament.admin.pages.media iframe (route slug now `media` per AI-1140).'
         );
         $this->assertStringContainsString(
             'type === "library"',

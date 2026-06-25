@@ -45,6 +45,7 @@ class CustomerResourceTest extends TestCase
         $customers = Customer::factory()->count(3)->create();
 
         Livewire::test(ManageCustomers::class)
+            ->loadTable()
             ->assertCanSeeTableRecords($customers);
     }
 
@@ -141,6 +142,7 @@ class CustomerResourceTest extends TestCase
         ]);
 
         Livewire::test(ManageCustomers::class)
+            ->loadTable()
             ->callTableAction('edit', $customer, data: [
                 'name' => 'Updated Name',
                 'user_id' => $user->id,
@@ -160,6 +162,7 @@ class CustomerResourceTest extends TestCase
         $customer = Customer::factory()->create();
 
         Livewire::test(ManageCustomers::class)
+            ->loadTable()
             ->callTableAction('delete', $customer);
 
         $this->assertDatabaseMissing('customers', [
@@ -174,6 +177,7 @@ class CustomerResourceTest extends TestCase
         $inactiveCustomer = Customer::factory()->create(['active' => false]);
 
         Livewire::test(ManageCustomers::class)
+            ->loadTable()
             ->filterTable('active')
             ->assertCanSeeTableRecords([$activeCustomer])
             ->assertCanNotSeeTableRecords([$inactiveCustomer]);

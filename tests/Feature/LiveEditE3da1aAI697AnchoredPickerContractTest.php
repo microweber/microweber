@@ -139,8 +139,14 @@ class LiveEditE3da1aAI697AnchoredPickerContractTest extends TestCase
         // .fi-modal-close-overlay is Filament's backdrop dim. We make
         // it transparent ONLY when the overlay contains the picker
         // modal — every other Filament modal keeps its default dim.
+        // Supersession (task-2026-05-17-d994e7 / AI-697 v3): the rule now
+        // comma-joins a `>`-child selector AND a descendant-variant selector
+        // (for builds where Filament nests the overlay deeper) before the `{`,
+        // and uses `transparent !important` to win the cascade. The scoped
+        // transparent-backdrop contract is unchanged; allow the comma-joined
+        // selector list between the `>` child selector and the `{`.
         $this->assertMatchesRegularExpression(
-            '/\.fi-modal:has\(>\s*\.fi-modal-window-ctn\s+\.mw-content-picker-modal\)\s*>\s*\.fi-modal-close-overlay\s*\{[^}]*background-color:\s*transparent/s',
+            '/\.fi-modal:has\(>\s*\.fi-modal-window-ctn\s+\.mw-content-picker-modal\)\s*>\s*\.fi-modal-close-overlay[\s\S]*?\{[^}]*background-color:\s*transparent/s',
             $this->blade,
             'Picker modal must NOT dim the canvas; backdrop is transparent. Scoped via :has() so other modals keep their dim.'
         );

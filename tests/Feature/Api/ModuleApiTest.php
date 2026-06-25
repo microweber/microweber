@@ -910,15 +910,19 @@ final class ModuleApiTest extends TestCase
     #[Test]
     public function coupons_public_index_hides_expired(): void
     {
-        Coupon::factory()->create(['is_active' => true, 'coupon_code' => 'ACTIVE-' . uniqid()]);
-        Coupon::factory()->create(['is_active' => false, 'coupon_code' => 'INACTIVE-' . uniqid()]);
+        $activeCode = 'ACTIVE-' . uniqid();
+        $inactiveCode = 'INACTIVE-' . uniqid();
+        Coupon::factory()->create(['is_active' => true, 'coupon_code' => $activeCode]);
+        Coupon::factory()->create(['is_active' => false, 'coupon_code' => $inactiveCode]);
 
         $response = $this->getJson('/api/module/coupons')->assertStatus(200);
         $codes = collect($response->json('data'))->pluck('coupon_code')->all();
 
-        foreach ($codes as $code) {
-            $this->assertStringStartsWith('ACTIVE-', $code);
-        }
+        // The shared testing DB may hold active coupons from other tests, so
+        // assert the actual hides-inactive behaviour against THIS test's pair
+        // rather than assuming an empty table: active appears, inactive hidden.
+        $this->assertContains($activeCode, $codes, 'Active coupon must appear in the public index.');
+        $this->assertNotContains($inactiveCode, $codes, 'Inactive coupon must be hidden from the public index.');
     }
 
     #[Test]

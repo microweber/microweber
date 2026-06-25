@@ -77,7 +77,12 @@ class MarketplaceResourceTest extends TestCase
     #[Test]
     public function it_has_bulk_install_action(): void
     {
-        Livewire::test(ListMarketplaces::class)->assertTableBulkActionExists('install');
+        // Bulk actions were removed (AI-1052); install is a per-version action
+        // nested under the per-row 'view-details' action group (not a top-level
+        // table action), so assert the list page with those controls renders.
+        Livewire::test(ListMarketplaces::class)
+            ->assertSuccessful()
+            ->assertTableActionExists('view-details');
     }
 
     #[Test]
@@ -89,7 +94,8 @@ class MarketplaceResourceTest extends TestCase
     #[Test]
     public function it_has_bulk_uninstall_action(): void
     {
-        Livewire::test(ListMarketplaces::class)->assertTableBulkActionExists('delete');
+        // Bulk actions were removed (AI-1052); uninstall is a per-row action.
+        Livewire::test(ListMarketplaces::class)->assertTableActionExists('uninstall');
     }
 
     #[Test]

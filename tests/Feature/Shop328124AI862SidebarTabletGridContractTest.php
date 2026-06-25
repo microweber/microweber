@@ -160,8 +160,15 @@ class Shop328124AI862SidebarTabletGridContractTest extends TestCase
         // AI-286 set the 3-col (lg/xl) → 2-col (md) → 1-col (sm) product
         // card grid responsive shape. AI-862 must NOT touch the inner
         // product-card grid responsive classes.
+        //
+        // Updated 2026-06 (task-2026-05-22-c58ec3 / AI-906): the grid
+        // class is now configurable via a match() on the saved Columns
+        // setting. The AI-286 cascade is the DEFAULT arm
+        // (`col-12 col-md-6 col-lg-4 col-xl-4`), and the `mb-5` spacing
+        // moved onto the wrapping <div class="{{ $mwShopGridColClass }} mb-5">.
+        // Assert the default-arm cascade is still the 1 → 2 → 3-col shape.
         $source = $this->read('Modules/Shop/resources/views/livewire/shop/default.blade.php');
-        $this->assertStringContainsString('col-12 col-md-6 col-lg-4 col-xl-4 mb-5', $source, 'AI-286 product-card grid responsive shape MUST stay intact (1 → 2 → 3-col cascade).');
+        $this->assertStringContainsString("default => 'col-12 col-md-6 col-lg-4 col-xl-4'", $source, 'AI-286 product-card grid responsive shape MUST stay intact as the default match() arm (1 → 2 → 3-col cascade).');
     }
 
     #[Test]

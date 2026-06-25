@@ -53,10 +53,13 @@ class LiveEditToolbarButtonContractTest extends TestCase
         // Each toggle MUST be a real <button type="button">. Pin the
         // aria-label of each one so we know all 5 are present
         // AND that each one is on a <button>.
+        // Updated 2026-06: two labels were renamed in the current Vue
+        // source — 'Template settings' → 'Templates & layouts' and
+        // 'Design' → 'Element styles'. The other three are unchanged.
         $required = [
             'Insert layout',
-            'Template settings',
-            'Design',
+            'Templates & layouts',
+            'Element styles',
             'Quick AI edit',
             'Advanced',
         ];

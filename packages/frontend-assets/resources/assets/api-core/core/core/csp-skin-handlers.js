@@ -29,6 +29,10 @@
  *   4. data-mw-pinmarklet
  *      Replaces: onclick="mw.pinMarklet()"
  *
+ *   5. data-mw-copy-link="<url>" + data-mw-copy-link-done="<label>"
+ *      Replaces: onclick="navigator.clipboard.writeText(...)" (Sharer
+ *      "Copy link" button).
+ *
  * The listener is attached at document level once on DOMContentLoaded
  * (idempotent guard). Click events bubble up; we walk the target's
  * ancestor chain via Element.closest() to find the data-* attribute,
@@ -109,6 +113,24 @@
             if (window.mw && typeof window.mw.pinMarklet === 'function') {
                 event.preventDefault();
                 window.mw.pinMarklet();
+                return;
+            }
+        }
+
+        // (5) Sharer "Copy link" — Clipboard API with a 2-second "Copied!"
+        // feedback state. The URL + the (translated) done-label ride on
+        // data attributes so no inline onclick is needed (strict CSP).
+        var copyLinkEl = event.target.closest('[data-mw-copy-link]');
+        if (copyLinkEl) {
+            var copyUrl = copyLinkEl.getAttribute('data-mw-copy-link');
+            if (copyUrl && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                event.preventDefault();
+                var originalLabel = copyLinkEl.textContent;
+                var doneLabel = copyLinkEl.getAttribute('data-mw-copy-link-done') || 'Copied!';
+                navigator.clipboard.writeText(copyUrl).then(function () {
+                    copyLinkEl.textContent = doneLabel;
+                    setTimeout(function () { copyLinkEl.textContent = originalLabel; }, 2000);
+                });
                 return;
             }
         }

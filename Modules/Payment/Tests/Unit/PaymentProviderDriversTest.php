@@ -20,8 +20,8 @@ class PaymentProviderDriversTest extends TestCase
     public function it_payment_provider_resource_drivers_render_method(): void {
         PaymentProvider::query()->delete();
 
-        // Test PayPal driver
-        $data = ['name' => 'PayPal', 'provider' => 'paypal', 'is_active' => 1];
+        // Test PayPal driver (webhook_id is a required setting)
+        $data = ['name' => 'PayPal', 'provider' => 'paypal', 'settings.webhook_id' => 'WH-TEST-123', 'is_active' => 1];
         $test = Livewire::test(CreatePaymentProvider::class)
             ->fillForm($data)
             ->call('create')
@@ -37,6 +37,7 @@ class PaymentProviderDriversTest extends TestCase
             'provider' => 'stripe',
             'settings.publishable_key' => 'stripe',
             'settings.secret_key' => 'stripe',
+            'settings.webhook_secret' => 'whsec_test',
             'is_active' => 1
         ];
         Livewire::test(CreatePaymentProvider::class)

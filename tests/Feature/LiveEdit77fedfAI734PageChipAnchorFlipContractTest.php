@@ -69,8 +69,12 @@ class LiveEdit77fedfAI734PageChipAnchorFlipContractTest extends TestCase
     {
         // Template uses :class with the 'mw-page-chip-popover--
         // anchor-right' class gated on popoverAnchor === 'right'.
+        // Supersession: the :class object is now multi-line and also carries
+        // anchor-left + mobile entries (task-2026-05-30-pchip01), so the
+        // original single-line exact-object regex no longer matches. Pin the
+        // anchor-right entry within the object binding.
         $this->assertMatchesRegularExpression(
-            "/:class=\"\\{\\s*'mw-page-chip-popover--anchor-right':\\s*popoverAnchor\\s*===\\s*'right'\\s*\\}\"/",
+            "/:class=\"\\{[\\s\\S]*?'mw-page-chip-popover--anchor-right':\\s*popoverAnchor\\s*===\\s*'right'/",
             $this->vueSrc,
             "Popover element must bind .mw-page-chip-popover--anchor-right class on popoverAnchor === 'right'."
         );

@@ -15,7 +15,7 @@
             [
                 'name' => 'Dashboard',
                 'icon' => 'heroicon-o-home',
-                'route' => 'filament.admin.pages.newsletter.homepage',
+                'route' => 'filament.admin-newsletter.pages.homepage',
             ],
             [
                 'name' => 'Campaigns',

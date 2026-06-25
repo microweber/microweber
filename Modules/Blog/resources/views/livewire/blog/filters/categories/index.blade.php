@@ -10,7 +10,7 @@
                             ->get();
                     @endphp
                     @foreach($categories as $category)
-                        @include('modules.blog::livewire.blog.filters.categories.category-child', ['category' => $category])
+                        @include('modules.blog::livewire.blog.filters.categories.category-child', ['category' => $category, 'selectedCategory' => $selectedCategory ?? null])
                     @endforeach
                 </div>
             </div>

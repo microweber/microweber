@@ -15,7 +15,10 @@ class RatingFactory extends Factory
             'rel_type' => 'content',
             'rel_id' => $this->faker->numberBetween(1, 100),
             'rating' => $this->faker->numberBetween(1, 5),
-            'comment' => $this->faker->optional()->sentence(),
+            // Use plain English words (not Faker Latin lorem ipsum) so the row is NOT
+            // excluded by RatingModuleResource's production scope, which filters out
+            // comments containing Latin Faker keywords.
+            'comment' => 'Customer review ' . $this->faker->unique()->numberBetween(1, 1000000),
             'session_id' => $this->faker->uuid(),
         ];
     }

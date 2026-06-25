@@ -175,10 +175,13 @@ class LiveEdit49ad9dAI770ChangeMwTabsToggleFalseContractTest extends TestCase
             $this->filepicker,
             'library tab render function must still exist.'
         );
+        // Supersession: the media-library route was renamed to the
+        // canonical `filament.admin.pages.media` (the library handler
+        // now calls moduleFrameRoute('filament.admin.pages.media')).
         $this->assertStringContainsString(
-            'filament.admin.pages.media-library',
+            'filament.admin.pages.media',
             $this->filepicker,
-            'library tab must still mount the filament.admin.pages.media-library iframe.'
+            'library tab must still mount the filament.admin.pages.media iframe.'
         );
     }
 

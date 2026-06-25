@@ -178,11 +178,13 @@ class Admin225150AI704PrimaryActionsClusterContractTest extends TestCase
     #[Test]
     public function add_button_keeps_pill_geometry(): void
     {
-        // The +Add pill is reused as-is (light-blue MW pill + pill radius).
+        // task-2026-06-13-letoolbarstyle: the +Add button matches the released
+        // v2.0.20 admin — a 4px rectangle (not the 999px/--radius-pill), still
+        // the light-blue MW fill.
         $this->assertMatchesRegularExpression(
-            '/\.fi-btn\.admin-toolbar-add[\s\S]*?\{[^}]*border-radius:\s*var\(--radius-pill/s',
+            '/\.fi-btn\.admin-toolbar-add[\s\S]*?\{[^}]*border-radius:\s*4px/s',
             $this->generalStyles,
-            '.fi-btn.admin-toolbar-add must keep its pill radius.'
+            '.fi-btn.admin-toolbar-add must keep its 4px button radius.'
         );
         $this->assertMatchesRegularExpression(
             '/\.fi-btn\.admin-toolbar-add\s+svg\s*\{[^}]*width:\s*16px\s*!important/s',

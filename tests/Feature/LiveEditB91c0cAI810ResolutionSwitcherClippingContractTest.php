@@ -178,12 +178,12 @@ class LiveEditB91c0cAI810ResolutionSwitcherClippingContractTest extends TestCase
     public function toolbar_height_token_definition_preserved(): void
     {
         // The fix relies on --toolbar-height being defined at :root.
-        // Pin its presence + the AI-698a 48px value so an unrelated
-        // change to the token doesn't break AI-810 silently.
+        // Pin its presence + the current 60px value (AI-698a's 48px was
+        // superseded by task-2026-06-13-letoolbarstyle).
         $this->assertMatchesRegularExpression(
-            '/--toolbar-height:\s*48px/',
+            '/--toolbar-height:\s*60px/',
             $this->indexCss,
-            'AI-810 depends on --toolbar-height existing at :root with the AI-698a value (48px). If this changes, the .toolbar-col anchor must follow.'
+            'AI-810 depends on --toolbar-height existing at :root (currently 60px). If this changes, the .toolbar-col anchor must follow.'
         );
     }
 

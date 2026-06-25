@@ -26,7 +26,7 @@ class PaymentProviderResourceTest extends TestCase
             ->assertFormFieldExists('is_active');
 
         // Test form submission
-        $data = ['name' => 'Paypal', 'provider' => 'paypal', 'is_active' => 1];
+        $data = ['name' => 'Paypal', 'provider' => 'paypal', 'settings.webhook_id' => 'WH-TEST-123', 'is_active' => 1];
         Livewire::test(CreatePaymentProvider::class)
             ->fillForm($data)
             ->call('create')
@@ -64,6 +64,7 @@ class PaymentProviderResourceTest extends TestCase
             'provider' => 'stripe',
             'settings.publishable_key' => 'stripe',
             'settings.secret_key' => 'stripe',
+            'settings.webhook_secret' => 'whsec_test',
             'is_active' => 1
         ];
         Livewire::test(CreatePaymentProvider::class)

@@ -25,7 +25,7 @@ class Homepage extends BaseDashboard
     {
         // task-2026-05-30-nlbread — panel id is `admin-newsletter`, so the
         // Filament-generated route name is `filament.admin-newsletter.pages.homepage`.
-        // The old `filament.admin.pages.newsletter.homepage` threw
+        // The old `filament.admin-newsletter.pages.homepage` threw
         // RouteNotFoundException and 500'd /admin/newsletter.
         return [
             route('filament.admin-newsletter.pages.homepage') => 'Newsletter',

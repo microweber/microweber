@@ -153,11 +153,18 @@ class CspOnclickSweepContractTest extends TestCase
     #[Test]
     public function cart_add_and_checkout_data_attribute_present_in_content_page_skins(): void
     {
+        // task-2026-05-17-aeb113 / AI-806 superseded: ALL price / cart /
+        // shop.js code paths were dropped entirely from the Page skin
+        // (Modules/Page/resources/views/templates/default.blade.php) —
+        // pages never carry prices, so the gated dead code (incl. the
+        // data-mw-cart-add-and-checkout attribute) was a copy-paste leak
+        // from an old Products template. It is therefore out of scope for
+        // the cart-add-and-checkout handler. The three Content list skins
+        // still carry the attribute and remain pinned.
         $cartFiles = [
             'Modules/Content/resources/views/templates/default.blade.php',
             'Modules/Content/resources/views/templates/dictionary.blade.php',
             'Modules/Content/resources/views/templates/skin-1.blade.php',
-            'Modules/Page/resources/views/templates/default.blade.php',
         ];
         foreach ($cartFiles as $rel) {
             $src = file_get_contents(base_path($rel));
@@ -201,13 +208,15 @@ class CspOnclickSweepContractTest extends TestCase
     }
 
     #[Test]
-    public function listener_handles_all_four_data_attribute_families(): void
+    public function listener_handles_all_data_attribute_families(): void
     {
         $required = [
             "event.target.closest('[data-mw-gallery]')",
             "event.target.closest('[data-mw-product-image]')",
             "event.target.closest('[data-mw-cart-add-and-checkout]')",
             "event.target.closest('[data-mw-pinmarklet]')",
+            // task-2026-06 CSP migration of the Sharer "Copy link" button.
+            "event.target.closest('[data-mw-copy-link]')",
         ];
         foreach ($required as $needle) {
             $this->assertStringContainsString(
@@ -220,11 +229,11 @@ class CspOnclickSweepContractTest extends TestCase
         // Element.closest() walks the ancestor chain so a click on an
         // inner <img> still triggers the wrapper's handler. Pin that
         // we use closest() (not target.matches() which only matches
-        // the click target itself).
+        // the click target itself) — one call per handler family.
         $this->assertSame(
-            4,
+            count($required),
             substr_count($this->listenerSrc, 'event.target.closest('),
-            'csp-skin-handlers.js: must call event.target.closest() exactly 4 times (one per handler family) for ancestor walking'
+            'csp-skin-handlers.js: must call event.target.closest() once per handler family for ancestor walking'
         );
     }
 

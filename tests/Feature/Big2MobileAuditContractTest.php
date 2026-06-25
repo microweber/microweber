@@ -127,27 +127,48 @@ class Big2MobileAuditContractTest extends TestCase
         );
     }
 
+    // task-2026-06-07-pmprod superseded AI-104: the per-template inline
+    // `<p class="mw-pictures-clean">No content added…` placeholder was
+    // centralised into the shared partial
+    // `modules.content::partials.module-empty-state`, whose markup is
+    // resolved by \Modules\Content\Services\ContentModuleEmptyState and
+    // wrapped in `@if(is_admin())`. The six list templates now `@include`
+    // that partial inside their empty branch instead of carrying the
+    // bare <p>. So the contract is now: (a) each template's empty branch
+    // includes the shared partial, and (b) the shared partial is the
+    // single `is_admin()`-guarded source of the placeholder.
+    private const EMPTY_STATE_PARTIAL = 'Modules/Content/resources/views/partials/module-empty-state.blade.php';
+
     #[Test]
     public function ai_104_empty_content_placeholder_is_admin_only(): void
     {
-        // Every Content list-skin that emits the
-        // "No content added. Please add content to the module."
-        // placeholder must wrap it in `@if(is_admin())` so it only
-        // shows to editors (admin/Live Edit) and not to anonymous
-        // public visitors.
+        // (a) Each list-skin must delegate its empty state to the shared
+        // partial (no more copy-pasted inline placeholder markup).
         foreach (self::CONTENT_PLACEHOLDER_FILES as $rel) {
             $src = $this->read($rel);
-            $stripped = preg_replace('/\\{\\{--[\\s\\S]*?--\\}\\}/', '', $src);
+            $this->assertStringContainsString(
+                "@include('modules.content::partials.module-empty-state'",
+                $src,
+                "{$rel}: empty-content placeholder must delegate to the shared `module-empty-state` partial (task-2026-06-07-pmprod)"
+            );
 
-            // Negative: bare `<p class="mw-pictures-clean">No content added`
-            // outside an `@if(is_admin())` block must be gone. Grep for
-            // the pattern that immediately follows `@if(empty($data))`
-            // — it must contain `is_admin()` BEFORE the <p> tag.
-            $this->assertMatchesRegularExpression(
-                '/@if\\s*\\(\\s*empty\\(\\s*\\$data\\s*\\)\\s*\\)[\\s\\S]{0,200}@if\\s*\\(\\s*is_admin\\(\\s*\\)\\s*\\)[\\s\\S]{0,200}<p class="mw-pictures-clean">/',
+            // Negative: the legacy inline bare placeholder must be gone.
+            $stripped = preg_replace('/\\{\\{--[\\s\\S]*?--\\}\\}/', '', $src);
+            $this->assertStringNotContainsString(
+                '<p class="mw-pictures-clean">No content added',
                 $stripped,
-                "{$rel}: empty-content placeholder must be wrapped in `@if(is_admin())`"
+                "{$rel}: legacy inline `<p class=\"mw-pictures-clean\">No content added` placeholder must be gone (centralised into the shared partial)"
             );
         }
+
+        // (b) The shared partial is the single is_admin()-guarded source
+        // of the empty-state markup, so it never leaks to anon visitors.
+        $partial = $this->read(self::EMPTY_STATE_PARTIAL);
+        $partialStripped = preg_replace('/\\{\\{--[\\s\\S]*?--\\}\\}/', '', $partial);
+        $this->assertMatchesRegularExpression(
+            '/@if\\s*\\(\\s*is_admin\\(\\s*\\)\\s*\\)/',
+            $partialStripped,
+            self::EMPTY_STATE_PARTIAL . ': shared empty-state partial must wrap its markup in `@if(is_admin())` so it never leaks onto anonymous public pages (AI-104)'
+        );
     }
 }

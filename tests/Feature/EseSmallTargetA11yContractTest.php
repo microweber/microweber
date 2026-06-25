@@ -121,16 +121,37 @@ class EseSmallTargetA11yContractTest extends TestCase
             'togglePredefinedStylesApplier',
             'toggleAiChatSettings',
         ];
+        // Supersession: the per-method inline `resetActiveStates(); announceAria()`
+        // bodies were refactored into a single shared `togglePanel(...)` helper.
+        // Each toggleX() now delegates to togglePanel(), and togglePanel() is the
+        // one place that calls resetActiveStates() then announceAria(). Pin both:
+        // (a) each method delegates to togglePanel(), and
+        // (b) togglePanel() instruments resetActiveStates() + announceAria().
         foreach ($required as $fn) {
-            // Each method body must contain `this.announceAria(`.
-            // Pin the MethodName + announceAria pair via a per-method
-            // regex so we know each one is independently instrumented.
             $this->assertMatchesRegularExpression(
-                "/{$fn}\\(\\)\\s*\\{\\s*\\n\\s*this\\.resetActiveStates\\(\\);\\s*\\n\\s*this\\.announceAria\\(/",
+                "/{$fn}\\(\\)\\s*\\{\\s*this\\.togglePanel\\(/",
                 $this->appSrc,
-                "ESE app: {$fn}() must call this.announceAria(...) right after resetActiveStates()"
+                "ESE app: {$fn}() must delegate to this.togglePanel(...) (shared aria-live announce path)"
             );
         }
+
+        // The shared helper must reset active states and announce both the
+        // open and the close transition via aria-live.
+        $this->assertMatchesRegularExpression(
+            '/togglePanel\([^)]*\)\s*\{[\s\S]*?this\.resetActiveStates\(\);[\s\S]*?this\.announceAria\(/',
+            $this->appSrc,
+            'ESE app: togglePanel() must call resetActiveStates() then announceAria() (centralised announce path)'
+        );
+        $this->assertStringContainsString(
+            "this.announceAria(label + ' panel opened');",
+            $this->appSrc,
+            'ESE app: togglePanel() must announce the panel-opened transition'
+        );
+        $this->assertStringContainsString(
+            "this.announceAria(label + ' panel closed');",
+            $this->appSrc,
+            'ESE app: togglePanel() must announce the panel-closed transition'
+        );
     }
 
     #[Test]

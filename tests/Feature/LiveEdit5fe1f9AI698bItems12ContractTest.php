@@ -254,15 +254,18 @@ class LiveEdit5fe1f9AI698bItems12ContractTest extends TestCase
         // is deferred to AI-698b-followup pending state-wiring work
         // with SettingsCustomize.vue.) Pin the 2 labels that already
         // matched as a regression guard.
+        // Supersession: AI-800b sentence-case cascade lower-cased these
+        // visible labels ("Insert Layout" → "Insert layout", "Quick AI Edit"
+        // → "Quick AI edit"). Pinned to current sentence-case reality.
         $this->assertMatchesRegularExpression(
-            '/>\s*Insert Layout\s*</',
+            '/>\s*Insert layout\s*</',
             $this->toolbarToolsDropdown,
-            'Insert Layout label must remain — matches dispatch spec.'
+            'Insert layout label must remain — matches dispatch spec (sentence-cased per AI-800b).'
         );
         $this->assertMatchesRegularExpression(
-            '/>\s*Quick AI Edit\s*</',
+            '/>\s*Quick AI edit\s*</',
             $this->toolbarToolsDropdown,
-            'Quick AI Edit label must remain — matches dispatch spec.'
+            'Quick AI edit label must remain — matches dispatch spec (sentence-cased per AI-800b).'
         );
     }
 
@@ -331,12 +334,15 @@ class LiveEdit5fe1f9AI698bItems12ContractTest extends TestCase
         // NOT remove the dropdown items NOT named by the dispatch
         // (Insert Module, Edit Element, Module Settings, Layout
         // Settings, Setup Wizard, More Settings).
-        $this->assertMatchesRegularExpression('/>\s*Insert Module\s*</', $this->toolbarToolsDropdown);
-        $this->assertMatchesRegularExpression('/>\s*Edit Element\s*</', $this->toolbarToolsDropdown);
-        $this->assertMatchesRegularExpression('/>\s*Module Settings\s*</', $this->toolbarToolsDropdown);
-        $this->assertMatchesRegularExpression('/>\s*Layout Settings\s*</', $this->toolbarToolsDropdown);
-        $this->assertMatchesRegularExpression('/>\s*Setup Wizard\s*</', $this->toolbarToolsDropdown);
-        $this->assertMatchesRegularExpression('/>\s*More Settings\s*</', $this->toolbarToolsDropdown);
+        // Supersession: AI-800b sentence-case cascade lower-cased all these
+        // visible labels (e.g. "Insert Module" → "Insert module"). Items
+        // still present, just sentence-cased.
+        $this->assertMatchesRegularExpression('/>\s*Insert module\s*</', $this->toolbarToolsDropdown);
+        $this->assertMatchesRegularExpression('/>\s*Edit element\s*</', $this->toolbarToolsDropdown);
+        $this->assertMatchesRegularExpression('/>\s*Module settings\s*</', $this->toolbarToolsDropdown);
+        $this->assertMatchesRegularExpression('/>\s*Layout settings\s*</', $this->toolbarToolsDropdown);
+        $this->assertMatchesRegularExpression('/>\s*Setup wizard\s*</', $this->toolbarToolsDropdown);
+        $this->assertMatchesRegularExpression('/>\s*More settings\s*</', $this->toolbarToolsDropdown);
     }
 
     // ─────────────────────────────────────────────────────────────────────

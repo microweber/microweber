@@ -45,8 +45,12 @@ class RagSearchService
 
     protected function searchChatHistory(string $query, int $limit): array
     {
+        // Match only on the human-entered query, never on the serialized `results`
+        // blob. Matching the blob (and then re-storing it as a result `content`)
+        // creates a self-amplifying feedback loop: every search re-ingests the
+        // previously saved blobs, nesting them deeper each time until the row
+        // exceeds max_allowed_packet.
         $searches = AgentChatSearch::where('query', 'like', '%' . $query . '%')
-            ->orWhere('results', 'like', '%' . $query . '%')
             ->orderBy('relevance_score', 'desc')
             ->orderBy('created_at', 'desc')
             ->limit($limit)
@@ -57,7 +61,10 @@ class RagSearchService
                 'type' => 'chat_history',
                 'source' => 'Previous Chat',
                 'title' => "Previous search: {$search->query}",
-                'content' => $search->results,
+                // Store a bounded excerpt, not the full results blob. Persisting
+                // the entire blob back into a new search row is what allowed the
+                // payload to grow unbounded across runs.
+                'content' => \Illuminate\Support\Str::limit((string) $search->results, 500),
                 'relevance' => $search->relevance_score ?? 0.5,
                 'metadata' => [
                     'search_id' => $search->id,

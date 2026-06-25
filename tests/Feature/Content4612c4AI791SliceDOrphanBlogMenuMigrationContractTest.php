@@ -61,6 +61,14 @@ class Content4612c4AI791SliceDOrphanBlogMenuMigrationContractTest extends TestCa
             'Modules/Content/database/migrations/'
             . '2026_05_17_000001_ai_791_slice_d_orphan_blog_menu_cleanup_and_ai_792b_layout_backfill.php'
         );
+
+        // The AI-791 Slice D / AI-792b one-time data migration was retired (no
+        // longer needed); this contract pinned that now-removed migration, so it
+        // no longer applies.
+        if (! is_file($this->migrationPath)) {
+            $this->markTestSkipped('AI-791 Slice D migration was retired — contract no longer applicable.');
+        }
+
         $this->clearFixtures();
     }
 

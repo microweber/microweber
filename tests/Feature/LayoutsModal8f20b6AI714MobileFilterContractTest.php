@@ -347,8 +347,9 @@ class LayoutsModal8f20b6AI714MobileFilterContractTest extends TestCase
             '--space-xs'          => '6px',
             '--space-sm'          => '8px',
             '--space-md'          => '13px',
-            '--radius-sm'         => '6px',
-            '--radius-md'         => '10px',
+            // v2.0.20 restyle: small radius is now 4px (was 6px).
+            '--radius-sm'         => '4px',
+            '--radius-md'         => '8px',
             '--ese-surface'       => '#ffffff',
             '--ese-text'          => '#111827',
             '--ese-text-muted'    => '#6b7280',

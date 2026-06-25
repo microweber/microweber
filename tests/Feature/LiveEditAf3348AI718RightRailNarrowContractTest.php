@@ -55,6 +55,14 @@ class LiveEditAf3348AI718RightRailNarrowContractTest extends TestCase
         $this->css = (string) file_get_contents(base_path(
             'packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-mobile.css'
         ));
+
+        // AI-718's 40px narrow-rail was SUPERSEDED by task-2026-05-27-railfit /
+        // AI-834 #2 (right rail widened to 48px to stop a 1px overflow at 390px).
+        // The current 48px rail is covered by LiveEditRailfit527MobileRightRail
+        // ContractTest, so this old 40px contract no longer applies.
+        if (strpos($this->css, 'AI-718 narrow rail') === false) {
+            $this->markTestSkipped('AI-718 40px rail superseded by task-2026-05-27-railfit (48px) — see LiveEditRailfit527 test.');
+        }
     }
 
     // ─────────────────────────────────────────────────────────────────────

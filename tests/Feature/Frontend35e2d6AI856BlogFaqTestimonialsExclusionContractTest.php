@@ -50,8 +50,14 @@ class Frontend35e2d6AI856BlogFaqTestimonialsExclusionContractTest extends TestCa
      */
     public static function ai856ExcludedPrefixProvider(): array
     {
+        // Supersession: AI-856 originally excluded `blog` too, but AI-946
+        // (task-2026-05-22) deliberately REMOVED `blog` from the exclusion
+        // list. AI-792 made createDefaultBlogPage() produce a real blog
+        // listing page (layout_file=blog.blade.php), so /blog is now a
+        // genuine DB content page that FrontendController must resolve —
+        // excluding it caused /blog to 404. `faq` + `testimonials` remain
+        // excluded (still fixture-only silent stubs).
         return [
-            'blog'         => ['blog'],
             'faq'          => ['faq'],
             'testimonials' => ['testimonials'],
         ];

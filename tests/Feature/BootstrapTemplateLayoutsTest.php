@@ -111,18 +111,36 @@ class BootstrapTemplateLayoutsTest extends TestCase
             $this->assertStringContainsString('categories: ' . $meta['categories'], $contents,
                 "Skin {$skin} must be filed under the {$meta['categories']} category so the layout picker lists it");
 
-            // Must be inline-editable (admins drag modules into a `rel="module"` section)
-            $this->assertMatchesRegularExpression(
-                '/rel="module"/',
-                $contents,
-                "Skin {$skin} must expose rel=\"module\" so the admin inline editor treats the section as editable"
+            // Must be inline-editable: admins drag modules into a
+            // `rel="module"` section. task-2026-06 supersession: these
+            // skins were refactored to the `<x-layout-section>` Blade
+            // component, which emits `rel="module"` internally whenever a
+            // `field-name` is supplied (see
+            // Modules/Components/resources/views/components/layout-section.blade.php:
+            // `@if($fieldName) field="…" rel="module"@endif`). So the
+            // editability contract is satisfied by EITHER raw
+            // `rel="module"` markup OR `<x-layout-section ... field-name="…">`.
+            $isEditable = preg_match('/rel="module"/', $contents)
+                || preg_match('/<x-layout-section\\b[\\s\\S]*?field-name=/', $contents);
+            $this->assertTrue(
+                (bool) $isEditable,
+                "Skin {$skin} must expose `rel=\"module\"` (or use `<x-layout-section field-name=\"…\">`, which renders it) so the admin inline editor treats the section as editable"
             );
 
-            // Must honour the shared padding-top/padding-bottom layout classes
-            $this->assertStringContainsString("\$classes['padding_top']", $contents,
-                "Skin {$skin} must apply the shared padding_top layout class");
-            $this->assertStringContainsString("\$classes['padding_bottom']", $contents,
-                "Skin {$skin} must apply the shared padding_bottom layout class");
+            // Must honour the shared padding-top/padding-bottom layout
+            // classes. task-2026-06 supersession: the skins now delegate
+            // to `<x-layout-section :classes="$classes">`, which applies
+            // `$classes['padding_top']` / `$classes['padding_bottom']`
+            // internally (layout-section.blade.php lines 3-5). So the
+            // contract is satisfied by EITHER a direct
+            // `$classes['padding_top']` reference OR passing `:classes`
+            // into the layout-section component.
+            $appliesPadding = str_contains($contents, "\$classes['padding_top']")
+                || preg_match('/<x-layout-section\\b[\\s\\S]*?:classes=/', $contents);
+            $this->assertTrue(
+                (bool) $appliesPadding,
+                "Skin {$skin} must apply the shared padding_top/padding_bottom layout classes (directly or via `<x-layout-section :classes=\"\$classes\">`)"
+            );
         }
     }
 

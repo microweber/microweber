@@ -178,10 +178,15 @@ class ImagePickerAiTabCspContractTest extends TestCase
         );
 
         // The 5 lifted rules must exist.
+        // Supersession: AI-771 deliberately changed .mw-filepicker-ai-tab-wrap
+        // from `max-width: 400px` to `max-width: none` — the 400px cap cramped
+        // the "full-width" Generate button (~280px effective) and broke the
+        // width hierarchy. The tab now fills the modal content width; only the
+        // secondary fields stay narrow via .mw-filepicker-ai-field-narrow.
         $this->assertMatchesRegularExpression(
-            '/\\.mw-filepicker-ai-tab-wrap\\s*\\{[^}]*max-width:\\s*400px/',
+            '/\\.mw-filepicker-ai-tab-wrap\\s*\\{[^}]*max-width:\\s*none/',
             $cssSrc,
-            'default.css: must carry .mw-filepicker-ai-tab-wrap max-width rule'
+            'default.css: must carry .mw-filepicker-ai-tab-wrap max-width rule (now `none` per AI-771)'
         );
         $this->assertMatchesRegularExpression(
             '/\\.mw-filepicker-ai-field-narrow\\s*\\{[^}]*width:\\s*200px/',

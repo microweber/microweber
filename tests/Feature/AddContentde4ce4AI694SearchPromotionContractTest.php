@@ -315,8 +315,10 @@ class AddContentde4ce4AI694SearchPromotionContractTest extends TestCase
     {
         // Auto-focus contract from the original picker — search input
         // gets focus when the modal mounts.
+        // The x-init was expanded to a multi-line $nextTick block (AI-1218),
+        // but the auto-focus-on-open behaviour is preserved.
         $this->assertStringContainsString(
-            'x-init="$nextTick(() => $refs.search && $refs.search.focus())"',
+            '$refs.search && $refs.search.focus()',
             $this->blade,
             'Auto-focus on modal open must be preserved by AI-694.'
         );

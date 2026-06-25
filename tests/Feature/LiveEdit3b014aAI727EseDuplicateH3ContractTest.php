@@ -158,10 +158,22 @@ class LiveEdit3b014aAI727EseDuplicateH3ContractTest extends TestCase
         // 'mw-element-style-editor-app'))` immediately after the
         // controlBox call must remain — that's what actually
         // mounts the Vue ESE app inside the wrapper.
+        // Supersession: the mount was refactored from an inline
+        // `appendChild(document.getElementById('mw-element-style-editor-app'))`
+        // to a null-guarded two-step:
+        //   var eseApp = document.getElementById('mw-element-style-editor-app');
+        //   if (eseApp) { guiEditor.boxContent.appendChild(eseApp); }
+        // Still mounts the same Vue ESE app into the guiEditor box. Pin both
+        // the element lookup and the appendChild onto guiEditor.boxContent.
         $this->assertMatchesRegularExpression(
-            "/guiEditor\\.boxContent\\.appendChild\\(\\s*document\\.getElementById\\(\\s*['\"]mw-element-style-editor-app['\"]/",
+            "/document\\.getElementById\\(\\s*['\"]mw-element-style-editor-app['\"]\\s*\\)/",
             $this->bootstrap,
-            'guiEditor.boxContent.appendChild(...mw-element-style-editor-app) mount call must remain — pure config change, no markup teardown.'
+            'ESE app element lookup (mw-element-style-editor-app) must remain.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/guiEditor\\.boxContent\\.appendChild\\(\\s*eseApp\\s*\\)/',
+            $this->bootstrap,
+            'guiEditor.boxContent.appendChild(eseApp) mount call must remain — pure config change, no markup teardown.'
         );
     }
 

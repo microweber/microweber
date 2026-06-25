@@ -129,8 +129,11 @@ class LiveEdit66cecaAI701PageChipContractTest extends TestCase
     #[Test]
     public function current_page_title_pulled_from_canvas_data(): void
     {
+        // Supersession: task-2026-06-06-pchiprace added a bounded-retry
+        // param (readCurrentPageTitle(retriesLeft)) because getLiveEditData()
+        // is frequently still empty on mount. The read path is unchanged.
         $this->assertMatchesRegularExpression(
-            '/readCurrentPageTitle\(\)\s*\{[\s\S]*?top\.app\.canvas\.getLiveEditData\(\)[\s\S]*?data\.content\.title/',
+            '/readCurrentPageTitle\([^)]*\)\s*\{[\s\S]*?top\.app\.canvas\.getLiveEditData\(\)[\s\S]*?data\.content\.title/',
             $this->pageChip,
             'readCurrentPageTitle must read from mw.top().app.canvas.getLiveEditData().content.title (matches Toolbar.vue pattern).'
         );
@@ -253,8 +256,13 @@ class LiveEdit66cecaAI701PageChipContractTest extends TestCase
     #[Test]
     public function outside_click_and_escape_close_popover(): void
     {
+        // Supersession: task-2026-05-30-pchip01 refactored onOutsideClick to
+        // early-return guards (`if (root.contains(event.target)) return;` plus
+        // a teleported-popover guard) instead of the wrapped
+        // `if (!root.contains(...)) { close() }` shape. Outside clicks still
+        // close the popover via the final this.close().
         $this->assertMatchesRegularExpression(
-            "/onOutsideClick\\(event\\)\\s*\\{[\\s\\S]*?if\\s*\\(!root\\.contains\\(event\\.target\\)\\)\\s*\\{[\\s\\S]*?this\\.close\\(\\)/",
+            "/onOutsideClick\\(event\\)\\s*\\{[\\s\\S]*?root\\.contains\\(event\\.target\\)[\\s\\S]*?this\\.close\\(\\)/",
             $this->pageChip,
             'onOutsideClick must close the popover when the click target is outside the chip wrapper.'
         );

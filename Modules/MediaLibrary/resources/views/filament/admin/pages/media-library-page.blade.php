@@ -741,7 +741,12 @@
      parent can show a skeleton during load and an empty state when the
      library is truly empty. The count is server-side rendered to avoid
      waiting for Livewire. Fires immediately on page load. --}}
-@php $mwMediaLibTotal = $media instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator ? (int) $media->total() : (int) $media->count(); @endphp
+@php
+    // $media is defined inside the library-tab block above; on other tabs
+    // (e.g. Unsplash) that block is skipped, so resolve it here too.
+    $media = $media ?? $this->getMediaProperty();
+    $mwMediaLibTotal = $media instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator ? (int) $media->total() : (int) $media->count();
+@endphp
 <script>
 (function () {
     var count = {{ $mwMediaLibTotal }};

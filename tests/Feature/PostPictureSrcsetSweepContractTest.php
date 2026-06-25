@@ -33,12 +33,16 @@ class PostPictureSrcsetSweepContractTest extends TestCase
      * each entry must satisfy the migration shape (helper present,
      * bare `<img src=` for the listing image gone).
      */
+    // Updated 2026-06: skin-26 was rewritten to render through the
+    // <x-post-card> Blade component, which owns the image markup itself
+    // (the skin no longer emits an <img> nor calls responsive_thumbnail()
+    // directly). It is therefore no longer part of this helper-call sweep.
     private const POST_SKINS = [
         'skin-3.blade.php', 'skin-7.blade.php', 'skin-9.blade.php',
         'skin-12.blade.php', 'skin-13.blade.php', 'skin-14.blade.php',
         'skin-15.blade.php', 'skin-16.blade.php', 'skin-17.blade.php',
         'skin-18.blade.php', 'skin-19.blade.php', 'skin-20.blade.php',
-        'skin-21.blade.php', 'skin-22.blade.php', 'skin-26.blade.php',
+        'skin-21.blade.php', 'skin-22.blade.php',
         'blog-pro.blade.php', 'post-slider.blade.php',
         'pro_blog.blade.php', 'related_posts.blade.php',
     ];

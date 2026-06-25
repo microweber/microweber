@@ -79,26 +79,25 @@ class LiveEditEc0c87AI698aToolbarHeight48pxContractTest extends TestCase
     #[Test]
     public function toolbar_height_token_locked_to_48px(): void
     {
+        // task-2026-06-13-letoolbarstyle SUPERSEDES AI-698a's 48px: the toolbar
+        // was deliberately restored to the released v2.0.20 60px (user: "old
+        // design is better, match it"). Lock the current value.
         $this->assertMatchesRegularExpression(
-            '/--toolbar-height:\s*48px\s*;/',
+            '/--toolbar-height:\s*60px\s*;/',
             $this->indexCss,
-            'Source --toolbar-height must be locked to 48px per AI-698a spec (was 60px).'
+            'Source --toolbar-height must be locked to 60px (v2.0.20 toolbar restyle).'
         );
     }
 
     #[Test]
     public function legacy_60px_value_no_longer_assigned_to_toolbar_height(): void
     {
-        // Regression guard — the previous `--toolbar-height: 60px`
-        // assignment must NOT survive. Other 60px values elsewhere
-        // in the file (e.g. `--toolbar-static-height: 70px`,
-        // `--layouts-dialog-toolbar-height: 60px`) are different
-        // tokens and stay; this guard targets ONLY the renamed
-        // toolbar-height token.
+        // The superseded AI-698a 48px value must NOT survive — the toolbar is
+        // back to 60px (task-2026-06-13-letoolbarstyle).
         $this->assertDoesNotMatchRegularExpression(
-            '/--toolbar-height:\s*60px\s*;/',
+            '/--toolbar-height:\s*48px\s*;/',
             $this->indexCss,
-            '--toolbar-height: 60px must not appear (was the pre-AI-698a value).'
+            '--toolbar-height: 48px must not appear (AI-698a value was superseded).'
         );
     }
 
@@ -193,9 +192,9 @@ class LiveEditEc0c87AI698aToolbarHeight48pxContractTest extends TestCase
             $this->markTestSkipped('packages/frontend-assets/resources/dist/build/live-edit-app.css not present — run `cd packages/frontend-assets && npm run build` to verify.');
         }
         $this->assertMatchesRegularExpression(
-            '/--toolbar-height:\s*48px/',
+            '/--toolbar-height:\s*60px/',
             $this->builtFrontendDist,
-            'Vite-built live-edit-app.css must carry the new --toolbar-height: 48px value (re-run `npm run build` if stale).'
+            'Vite-built live-edit-app.css must carry --toolbar-height: 60px (v2.0.20 restyle; re-run `npm run build` if stale).'
         );
     }
 
@@ -211,9 +210,9 @@ class LiveEditEc0c87AI698aToolbarHeight48pxContractTest extends TestCase
         // negative-lookbehind anchored to the exact toolbar-height
         // token name so other "*-toolbar-height" tokens aren't matched.
         $this->assertDoesNotMatchRegularExpression(
-            '/(?<![-a-z])--toolbar-height:\s*60px/',
+            '/(?<![-a-z])--toolbar-height:\s*48px/',
             $this->builtFrontendDist,
-            'Built live-edit-app.css must NOT carry --toolbar-height: 60px (the old value) — only --layouts-dialog-toolbar-height + --toolbar-static-height retain their original values.'
+            'Built live-edit-app.css must NOT carry the superseded --toolbar-height: 48px (AI-698a) value.'
         );
     }
 

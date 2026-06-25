@@ -116,7 +116,16 @@ class MediaLibrary8c8d0bAI855UploadModalPolishContractTest extends TestCase
         // Slice the .mw-media-upload-btn rule body. Fixed-length lookahead
         // (per the AI-816 LESSONS slice-bounding pattern) -- 800 chars
         // covers the rule body + :hover modifier.
-        $anchorPos = strpos($source, '.mw-media-upload-btn {');
+        //
+        // Updated 2026-06: the SCSS now declares the selector more than
+        // once (an earlier `.mw-media-upload-btn { height: 36px; }` sizing
+        // rule precedes the brand-blue styling block). Anchor on the
+        // occurrence whose body actually carries the `background:`
+        // declaration rather than the first textual match.
+        $anchorPos = strpos($source, ".mw-media-upload-btn {\n  display: flex;");
+        if ($anchorPos === false) {
+            $anchorPos = strpos($source, '.mw-media-upload-btn {');
+        }
         $this->assertNotFalse(
             $anchorPos,
             'AI-855: .mw-media-upload-btn rule must exist in microweber-theme-v3.scss.'

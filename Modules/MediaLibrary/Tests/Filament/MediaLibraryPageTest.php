@@ -20,7 +20,8 @@ class MediaLibraryPageTest extends TestCase
     public function it_media_library_admin_page_accessible(): void
     {
         $this->actingAsAdmin();
-        $response = $this->get('/admin/media-library');
+        // AI-1035: the page slug was overridden to /admin/media (not /media-library).
+        $response = $this->get('/admin/media');
         $response->assertSuccessful();
     }
 }

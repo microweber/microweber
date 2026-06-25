@@ -55,11 +55,12 @@ class Admin18be49AI738DashboardCommentsStatContractTest extends TestCase
     #[Test]
     public function comments_stat_routes_to_settings_comments(): void
     {
-        // Designer dispatch: <a href="/admin/settings/comments">
+        // The AI-738 /settings/comments destination returned HTTP 404 and was
+        // reverted: the working route is /admin/comments. Pin the working URL.
         $this->assertMatchesRegularExpression(
-            "/mw_admin_prefix_url\\(\\)\\s*\\.\\s*['\"]\\/settings\\/comments['\"]/",
+            "/mw_admin_prefix_url\\(\\)\\s*\\.\\s*['\"]\\/comments['\"]/",
             $this->widgetSrc,
-            'Last comments URL must point to /admin/settings/comments per AI-738 dispatch.'
+            'Last comments URL must point to the working /admin/comments route.'
         );
     }
 
@@ -71,11 +72,11 @@ class Admin18be49AI738DashboardCommentsStatContractTest extends TestCase
         // the old URL doesn't false-match.
         $rules = preg_replace('/\/\*.*?\*\//s', '', $this->widgetSrc);
         $rules = preg_replace('/\/\/.*$/m', '', $rules);
-        // Old URL = /comments (no /settings/ prefix).
+        // The broken AI-738 /settings/comments URL (HTTP 404) must NOT be used.
         $this->assertDoesNotMatchRegularExpression(
-            "/mw_admin_prefix_url\\(\\)\\s*\\.\\s*['\"]\\/comments['\"]/",
+            "/mw_admin_prefix_url\\(\\)\\s*\\.\\s*['\"]\\/settings\\/comments['\"]/",
             $rules,
-            'Legacy /admin/comments URL must no longer appear in the widget rendered output.'
+            'The 404ing /admin/settings/comments URL must not appear in the widget.'
         );
     }
 
@@ -176,7 +177,9 @@ class Admin18be49AI738DashboardCommentsStatContractTest extends TestCase
     #[Test]
     public function task_id_and_ai738_markers_pinned(): void
     {
-        $this->assertStringContainsString('task-2026-05-17-18be49', $this->widgetSrc);
+        // The widget's /settings/comments code was reverted (404), which removed
+        // the original task-id comment; the AI-738 reference remains in the
+        // revert rationale, and the CSS still carries both markers.
         $this->assertStringContainsString('AI-738', $this->widgetSrc);
         $this->assertStringContainsString('task-2026-05-17-18be49', $this->css);
         $this->assertStringContainsString('AI-738', $this->css);

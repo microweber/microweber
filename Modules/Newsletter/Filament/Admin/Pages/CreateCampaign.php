@@ -50,7 +50,7 @@ class CreateCampaign extends Page
     public function getBreadcrumbs(): array
     {
         return [
-            route('filament.admin.pages.newsletter.homepage') => 'Newsletter',
+            route('filament.admin-newsletter.pages.homepage') => 'Newsletter',
             route('filament.admin-newsletter.resources.campaigns.index') => 'Campaigns',
             'Create Campaign',
         ];

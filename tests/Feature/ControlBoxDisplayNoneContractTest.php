@@ -129,10 +129,15 @@ class ControlBoxDisplayNoneContractTest extends TestCase
         // single-panel-active invariant from the JS side. The CSS
         // display:none on inactive is the cycle-83 reinforcement;
         // hideAllBySide on show is the JS counterpart.
+        // task-2026-06 supersession: an optional `immediate` (3rd) arg
+        // was added to the hideAllBySide call in show()
+        // (`this.settings.position, this, true`) so sibling panels close
+        // synchronously when a new one opens. The single-panel-active
+        // invariant (hideAllBySide invoked FIRST in show()) is unchanged.
         $this->assertMatchesRegularExpression(
-            "/show\\(\\)\\s*\\{\\s*\\n\\s*ControlBox\\.hideAllBySide\\(this\\.settings\\.position,\\s*this\\)/s",
+            "/show\\(\\)\\s*\\{\\s*\\n\\s*ControlBox\\.hideAllBySide\\(this\\.settings\\.position,\\s*this\\s*(?:,\\s*[A-Za-z0-9_]+\\s*)?\\)/s",
             $this->controlBoxSrc,
-            'control_box.js: show() must invoke ControlBox.hideAllBySide(this.settings.position, this) FIRST so other panels on the same side are hidden before this one shows'
+            'control_box.js: show() must invoke ControlBox.hideAllBySide(this.settings.position, this[, immediate]) FIRST so other panels on the same side are hidden before this one shows'
         );
     }
 }

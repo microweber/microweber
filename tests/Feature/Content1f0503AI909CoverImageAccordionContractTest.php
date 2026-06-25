@@ -142,53 +142,74 @@ class Content1f0503AI909CoverImageAccordionContractTest extends TestCase
 
     // ─── CSS — template preview iframe cap ────────────────────────────────
 
+    // task-2026-05-22-AI-939 superseded AI-909/1f0503: the preview iframe
+    // inside the compact Create modal is no longer merely *capped* at
+    // max-height:160px + overflow:hidden — it is now hidden entirely with
+    // `display: none !important` (the homepage-with-stub-content preview
+    // was confusing; the full preview lives in the full admin form). The
+    // 160px cap rule was explicitly removed (see the comment at the rule).
     #[Test]
-    public function preview_frame_wrapper_max_height_rule_present(): void
+    public function preview_frame_wrapper_hidden_in_compact_modal(): void
     {
         $this->assertMatchesRegularExpression(
-            '~\.mw-content-form-modal\s+\.preview_frame_wrapper_holder\s*\{[^}]*max-height\s*:\s*160px~s',
+            '~\.mw-content-form-modal\s+\.preview_frame_wrapper_holder\s*\{[^}]*display\s*:\s*none~s',
             $this->cssStripped,
-            'live-edit-classes.css must declare max-height: 160px on .mw-content-form-modal .preview_frame_wrapper_holder.'
+            'live-edit-classes.css must hide .mw-content-form-modal .preview_frame_wrapper_holder with display:none (AI-939 superseded the 160px cap).'
         );
     }
 
     #[Test]
-    public function preview_frame_wrapper_overflow_hidden(): void
+    public function preview_frame_wrapper_cap_uses_important(): void
     {
+        // The hide rule must win the cascade (the preview holder has
+        // competing display rules), so it carries !important.
         $this->assertMatchesRegularExpression(
-            '~\.mw-content-form-modal\s+\.preview_frame_wrapper_holder\s*\{[^}]*overflow\s*:\s*hidden~s',
+            '~\.mw-content-form-modal\s+\.preview_frame_wrapper_holder\s*\{[^}]*display\s*:\s*none\s*!important~s',
             $this->cssStripped,
-            'The preview iframe cap must include overflow: hidden.'
+            'The preview-hide rule must use !important to win the cascade.'
         );
     }
 
     #[Test]
     public function preview_frame_wrapper_scoped_to_content_form_modal(): void
     {
-        // Rule must NOT appear as a global selector (without .mw-content-form-modal scope).
-        // Strip CSS comments then check the rule is always prefixed.
+        // The preview-hide rule must NOT appear as a global selector
+        // (without .mw-content-form-modal scope) — the settings/templates
+        // preview elsewhere must stay visible. task-2026-05-22-AI-939
+        // supersession: the scoped property is now `display` (was
+        // `max-height`). Every `display` rule on .preview_frame_wrapper_holder
+        // must be scoped to .mw-content-form-modal.
         $occurrences = preg_match_all(
-            '~\.preview_frame_wrapper_holder\s*\{[^}]*max-height~s',
+            '~\.preview_frame_wrapper_holder\s*\{[^}]*display\s*:\s*none~s',
             $this->cssStripped
         );
         $scopedOccurrences = preg_match_all(
-            '~\.mw-content-form-modal\s+\.preview_frame_wrapper_holder\s*\{[^}]*max-height~s',
+            '~\.mw-content-form-modal\s+\.preview_frame_wrapper_holder\s*\{[^}]*display\s*:\s*none~s',
             $this->cssStripped
         );
         $this->assertSame(
             $occurrences,
             $scopedOccurrences,
-            'Every max-height rule on .preview_frame_wrapper_holder must be scoped to .mw-content-form-modal.'
+            'Every display:none rule on .preview_frame_wrapper_holder must be scoped to .mw-content-form-modal.'
         );
     }
 
     #[Test]
     public function task_marker_present_in_css(): void
     {
+        // task-2026-05-22-AI-939 superseded the 1f0503 cap rule: the
+        // CSS now carries the AI-939 marker (the rule that replaced the
+        // cap) plus a `task-1f0503` back-reference in its comment. Pin
+        // the current AI-939 marker and the 1f0503 lineage back-reference.
         $this->assertStringContainsString(
-            'task-2026-05-22-1f0503',
+            'task-2026-05-22-AI-939',
             $this->css,
-            'live-edit-classes.css must carry the task-2026-05-22-1f0503 marker.'
+            'live-edit-classes.css must carry the task-2026-05-22-AI-939 marker (superseded the 1f0503 preview-cap rule).'
+        );
+        $this->assertStringContainsString(
+            '1f0503',
+            $this->css,
+            'live-edit-classes.css must keep the 1f0503 lineage back-reference in the AI-939 supersession comment.'
         );
     }
 

@@ -172,12 +172,13 @@ class AdminA596d2AI793Admin404PropagationContractTest extends TestCase
     #[Test]
     public function admin_url_unknown_returns_styled_html_404(): void
     {
-        // Designer's exact reproduction targets.
+        // Genuinely-unmatched admin URLs (original AI-793 targets like
+        // /admin/seo-settings now resolve to real routes; this contract is about
+        // ANY unmatched /admin/* URL rendering the styled 404).
         $urls = [
-            '/admin/seo-settings',
-            '/admin/language',
-            '/admin/backup',
             '/admin/this-does-not-exist',
+            '/admin/totally-fake-xyz-123',
+            '/admin/no-such-admin-page-456',
         ];
         foreach ($urls as $url) {
             $response = $this->get($url);

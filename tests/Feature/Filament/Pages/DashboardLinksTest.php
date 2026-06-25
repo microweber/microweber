@@ -40,7 +40,7 @@ class DashboardLinksTest extends TestCase
 
         $labels = array_column($stats, 'label');
         $this->assertContains('Emails', $labels);
-        $this->assertContains('Last comments', $labels);
+        $this->assertContains('Last comments (30 days)', $labels);
         $this->assertContains('Sales', $labels);
         $this->assertContains('Recent Orders', $labels);
 
@@ -52,7 +52,7 @@ class DashboardLinksTest extends TestCase
         $emailsStat = collect($stats)->firstWhere('label', 'Emails');
         $this->assertStringContainsString('/form-entries', $emailsStat['url']);
 
-        $commentsStat = collect($stats)->firstWhere('label', 'Last comments');
+        $commentsStat = collect($stats)->firstWhere('label', 'Last comments (30 days)');
         $this->assertStringContainsString('/comments', $commentsStat['url']);
 
         $salesStat = collect($stats)->firstWhere('label', 'Sales');

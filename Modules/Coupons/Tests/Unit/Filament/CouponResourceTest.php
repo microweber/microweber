@@ -32,7 +32,7 @@ class CouponResourceTest extends TestCase
     public function it_index_page_shows_all_records(): void
     {
         $coupons = Coupon::factory()->count(3)->create();
-        Livewire::test(ListCoupons::class)->assertCanSeeTableRecords($coupons);
+        Livewire::test(ListCoupons::class)->loadTable()->assertCanSeeTableRecords($coupons);
     }
 
     #[Test]
@@ -71,7 +71,7 @@ class CouponResourceTest extends TestCase
     public function it_delete_action_removes_record(): void
     {
         $coupon = Coupon::factory()->create();
-        Livewire::test(ListCoupons::class)->callTableAction('delete', $coupon);
+        Livewire::test(ListCoupons::class)->loadTable()->callTableAction('delete', $coupon);
         $this->assertDatabaseMissing('cart_coupons', ['id' => $coupon->id]);
     }
 
@@ -82,6 +82,7 @@ class CouponResourceTest extends TestCase
         $fixed = Coupon::factory()->create(['discount_type' => 'fixed_amount']);
 
         Livewire::test(ListCoupons::class)
+            ->loadTable()
             ->filterTable('discount_type', 'percentage')
             ->assertCanSeeTableRecords([$percentage])
             ->assertCanNotSeeTableRecords([$fixed]);
@@ -97,6 +98,7 @@ class CouponResourceTest extends TestCase
         $inactive = Coupon::factory()->create(['is_active' => false]);
 
         Livewire::test(ListCoupons::class)
+            ->loadTable()
             ->filterTable('is_active', true)
             ->assertCanSeeTableRecords([$active])
             ->assertCanNotSeeTableRecords([$inactive]);
@@ -109,20 +111,23 @@ class CouponResourceTest extends TestCase
         Coupon::query()->delete();
 
         // Create coupons with different attributes for sorting
+        // Names carry a digit so they aren't hidden by CouponResource's
+        // "all-letters multi-word" Faker-row filter (AI-1088); the trailing
+        // number preserves the intended A < B < C name ordering.
         $couponA = Coupon::factory()->create([
-            'coupon_name' => 'AAA Alpha Discount',
+            'coupon_name' => 'AAA Alpha Discount 1',
             'coupon_code' => 'AAA10',
             'discount_value' => 10,
             'created_at' => now()->subDays(5),
         ]);
         $couponB = Coupon::factory()->create([
-            'coupon_name' => 'ZZZ Beta Special',
+            'coupon_name' => 'ZZZ Beta Special 2',
             'coupon_code' => 'ZZZ20',
             'discount_value' => 20,
             'created_at' => now()->subDays(3),
         ]);
         $couponC = Coupon::factory()->create([
-            'coupon_name' => 'ZZZ Charlie Deal',
+            'coupon_name' => 'ZZZ Charlie Deal 3',
             'coupon_code' => 'ZZZ30',
             'discount_value' => 30,
             'created_at' => now()->subDays(1),
@@ -130,16 +135,19 @@ class CouponResourceTest extends TestCase
 
         // Test sorting by coupon_name ascending - AAA should be first
         Livewire::test(ListCoupons::class)
+            ->loadTable()
             ->sortTable('coupon_name', 'asc')
             ->assertCanSeeTableRecords([$couponA, $couponB, $couponC], inOrder: true);
 
         // Test sorting by coupon_name descending - ZZZ should be first
         Livewire::test(ListCoupons::class)
+            ->loadTable()
             ->sortTable('coupon_name', 'desc')
             ->assertCanSeeTableRecords([$couponC, $couponB, $couponA], inOrder: true);
 
         // Test sorting by discount_value descending - 30 should be first
         Livewire::test(ListCoupons::class)
+            ->loadTable()
             ->sortTable('discount_value', 'desc')
             ->assertCanSeeTableRecords([$couponC, $couponB, $couponA], inOrder: true);
     }
@@ -154,6 +162,7 @@ class CouponResourceTest extends TestCase
 
         // Select and bulk delete first two coupons
         Livewire::test(ListCoupons::class)
+            ->loadTable()
             ->callTableBulkAction('delete', [$coupon1, $coupon2])
             ->assertHasNoTableBulkActionErrors();
 

@@ -262,10 +262,21 @@ class Cart0e6cfaAI796EmptyStateContractTest extends TestCase
             $this->page,
             'page.blade.php must @extends($masterLayout) so the public navigation + footer chrome wraps the cart.'
         );
+        // task-2026-05-22 / AI-944 superseded AI-796 Slice D: the master
+        // layout is still resolved at runtime from the active template,
+        // but a `view()->exists()` Bootstrap fallback was added (for
+        // gitignored templates like Big2 on fresh clones). The candidate
+        // is built as `templates.{$activeTemplate}::layouts.master` and
+        // assigned into $masterLayout via the exists()-guarded ternary.
         $this->assertStringContainsString(
-            "\$masterLayout = \"templates.{\$activeTemplate}::layouts.master\";",
+            "\$candidateMaster = \"templates.{\$activeTemplate}::layouts.master\";",
             $this->page,
-            '$masterLayout must resolve from the active template name at runtime so the page works under any installed template.'
+            'page must build the candidate master from the active template name at runtime so the page works under any installed template.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/\\$masterLayout\\s*=\\s*view\\(\\)->exists\\(\\$candidateMaster\\)/',
+            $this->page,
+            '$masterLayout must resolve from the active template with a Bootstrap fallback (AI-944) so it never breaks on a missing template master.'
         );
     }
 

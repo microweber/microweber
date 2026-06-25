@@ -85,12 +85,13 @@ class Admin77c486DashboardMobileTouchTargetContractTest extends TestCase
     #[Test]
     public function add_button_remains_hidden_on_mobile(): void
     {
-        // +Add button is hidden at ≤768px per AI-704 design decision (in general-styles.css).
-        // Regression guard: the display:none rule must still be present there.
+        // AI-1254 / task-2026-06-08-addmobile SUPERSEDES the AI-704 mobile-hide:
+        // +Add is the primary v2 LEFT action, so it now STAYS VISIBLE on mobile,
+        // lifted to the WCAG 2.5.5 44px touch-target floor. Guard the new rule.
         $this->assertMatchesRegularExpression(
-            '~\.admin-toolbar-add[^}]*display:\s*none\s*!important~s',
+            '~@media\s*\(max-width:\s*768px\)\s*\{[\s\S]*?\.admin-toolbar-add[\s\S]*?\{[^}]*display:\s*inline-flex\s*!important[\s\S]*?min-height:\s*44px\s*!important~s',
             $this->generalStyles,
-            '.admin-toolbar-add must remain display:none !important per AI-704 mobile design decision (lives in general-styles.css).'
+            '.admin-toolbar-add must stay visible at 44px on mobile (AI-1254 supersedes the AI-704 hide).'
         );
     }
 

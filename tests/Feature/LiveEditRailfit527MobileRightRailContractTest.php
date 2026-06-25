@@ -58,8 +58,13 @@ class LiveEditRailfit527MobileRightRailContractTest extends TestCase
     #[Test]
     public function layer_a_rail_widened_to_48px_at_4_class_specificity(): void
     {
+        // Updated 2026-06: the rule block now also carries an
+        // `margin-right: 6px !important` inset (task-2026-06-04-le834),
+        // so the block is no longer width-only. Match the `width: 48px
+        // !important` declaration anywhere inside the block rather than
+        // requiring it to be the sole declaration.
         $this->assertMatchesRegularExpression(
-            '/body\.fi-panel-admin\s+\.mw-live-edit-page\s+\.mw-live-edit-right-sidebar-template-sidebar[^{]*\{\s*width:\s*48px\s*!important\s*;?\s*\}/s',
+            '/body\.fi-panel-admin\s+\.mw-live-edit-page\s+\.mw-live-edit-right-sidebar-template-sidebar[^{]*\{[^}]*width:\s*48px\s*!important/s',
             $this->mobileCss,
             'Right sidebar rail must be widened to 48px at `body.fi-panel-admin` '
             . '4-class specificity prefix so it beats the frontend-assets bundle '

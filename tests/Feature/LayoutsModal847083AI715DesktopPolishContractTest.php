@@ -306,7 +306,8 @@ class LayoutsModal847083AI715DesktopPolishContractTest extends TestCase
             '--font-label'        => '11px',
             '--font-section'      => '15px',
             '--letter-label'      => '0.01em',
-            '--radius-sm'         => '6px',
+            // v2.0.20 restyle: small radius is now 4px (was 6px).
+            '--radius-sm'         => '4px',
             '--ese-text'          => '#111827',
             '--ese-text-muted'    => '#6b7280',
             '--ese-surface'       => '#ffffff',

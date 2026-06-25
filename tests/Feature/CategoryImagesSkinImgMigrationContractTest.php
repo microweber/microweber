@@ -133,10 +133,20 @@ class CategoryImagesSkinImgMigrationContractTest extends TestCase
             $this->imagesSkin,
             'images.blade.php: aria-labelledby must stay'
         );
-        $this->assertStringContainsString(
-            'class="visually-hidden">{{ __(\'Product categories\')',
+        // task-2026-06 supersession: the visually-hidden announce-only
+        // <h2> landmark stays, but its label was made content-type-aware
+        // via the `$mwCatHeading` match (post/page/product/picture/
+        // default). `__('Product categories')` is now one branch of that
+        // match rather than an inline literal in the <h2>.
+        $this->assertMatchesRegularExpression(
+            '/class="visually-hidden">\\{\\{\\s*\\$mwCatHeading\\s*\\}\\}/',
             $this->imagesSkin,
-            'images.blade.php: visually-hidden announce-only <h2> must stay'
+            'images.blade.php: visually-hidden announce-only <h2> must stay (now renders the content-type-aware $mwCatHeading)'
+        );
+        $this->assertStringContainsString(
+            "__('Product categories')",
+            $this->imagesSkin,
+            'images.blade.php: "Product categories" heading must remain a $mwCatHeading match branch'
         );
     }
 

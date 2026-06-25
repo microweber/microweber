@@ -196,10 +196,15 @@ class LiveEdit17d95aAI832ToolsDropdownMobileContractTest extends TestCase
             $this->srcStripped,
             'AI-717 sticky SAVE button rules must still be present in live-edit-mobile.css.'
         );
+        // Supersession: the AI-717 sticky SAVE selector was made more specific
+        // (`#toolbar #save-button`) and its offset bumped from `right: 0` to
+        // `right: 4px !important` (AI-1163 mobile-overflow pass — a small gutter
+        // so the box-shadow/edge clears the toolbar border). Still rightmost
+        // sticky; pin the current right-offset shape.
         $this->assertMatchesRegularExpression(
-            '~#save-button\s*\{[^}]*right:\s*0~s',
+            '~#save-button\s*\{[^}]*right:\s*4px~s',
             $this->srcStripped,
-            'AI-717 SAVE must still be right:0 (rightmost sticky).'
+            'AI-717 SAVE must still be right-anchored (now right:4px, rightmost sticky).'
         );
     }
 }

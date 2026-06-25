@@ -13,7 +13,12 @@ class CouponFactory extends Factory
     {
         return [
             'coupon_code' => strtoupper($this->faker->bothify('????####')),
-            'coupon_name' => $this->faker->words(3, true),
+            // Name must NOT match the admin table's "hide Faker rows" filter
+            // (CouponResource excludes letters-and-spaces-only multi-word names —
+            // AI-1088). MySQL REGEXP is case-insensitive, so capitals alone don't
+            // help; a digit breaks the all-letters pattern → factory rows stay
+            // visible in tests while genuine Faker `words()` seed rows stay hidden.
+            'coupon_name' => ucwords($this->faker->words(2, true)) . ' ' . $this->faker->numberBetween(100, 9999),
             'discount_type' => 'fixed_amount',
             'discount_value' => $this->faker->numberBetween(5, 20),
             'total_amount' => $this->faker->numberBetween(50, 100),

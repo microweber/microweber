@@ -56,10 +56,18 @@ class McpClientResourceTest extends TestCase
     #[Test]
     public function it_lists_mcp_clients(): void
     {
-        $clients = McpClient::factory()->count(2)->create();
+        // The admin listing intentionally hides Faker fixture rows (AI-1105):
+        // clients with both created_by_user_id and last_used_at null are treated
+        // as test fixtures and excluded by the table's modifyQueryUsing scope.
+        // Create real-looking clients (non-null created_by_user_id) so they are
+        // visible in the listing, matching how admins actually create clients.
+        $clients = McpClient::factory()->count(2)->create([
+            'created_by_user_id' => 1,
+        ]);
 
         Livewire::test(ListMcpClients::class)
             ->assertSuccessful()
+            ->loadTable()
             ->assertCanSeeTableRecords($clients)
             ->assertTableColumnExists('name')
             ->assertTableColumnExists('allowed_scopes');
