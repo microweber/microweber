@@ -25,11 +25,19 @@ class LayoutsRenderTest extends TestCase
 
     public function testRender()
     {
+        // Pin the new parser (LayoutProcessor) so the test is deterministic.
+        // Under it, nested-module ids come from the collision-safe
+        // ModuleIdAllocator (`module-btn`, …) rather than the legacy
+        // `layout-content-skin-1-<id>-<id>-btn` scheme — so assert the layout's
+        // edit-field scope and that its nested btn module renders, not that id.
+        \Illuminate\Support\Facades\Config::set('microweber.use_legacy_parser', false);
 
         $layout = '<module template="content.skin-1" id="mw-module-test-1" data-type="layouts"  />';
         $render = app()->parser->process($layout);
         $this->assertStringContainsString('id="background-layout--mw-module-test-1"', $render);
-        $this->assertStringContainsString('layout-content-skin-1-mw-module-test-1-mw-module-test-1-btn', $render);
+        $this->assertStringContainsString('field="layout-content-skin-1-mw-module-test-1"', $render);
+        $this->assertStringContainsString('module-btn', $render);
+        $this->assertStringContainsString('data-type="btn"', $render);
 
     }
 

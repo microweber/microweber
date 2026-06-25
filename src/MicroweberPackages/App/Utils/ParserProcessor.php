@@ -1402,11 +1402,47 @@ class ParserProcessor
      * rendering back to the real module system via $this->load(). State is reset
      * per top-level call so module ids restart deterministically.
      */
+    /**
+     * Reset the shared LayoutProcessor state (module-id allocator + content
+     * protector) that is otherwise scoped to a single top-level
+     * {@see processWithLayoutProcessor()} run.
+     *
+     * In normal operation a request renders ONE top-level layout and then the
+     * process ends, so this state never needs explicit clearing between
+     * renders. But a single PHP process that performs MANY independent
+     * top-level layout renders WITHOUT going through process()'s reset path
+     * (e.g. a test that loops `load_module('layouts', …)` over hundreds of
+     * skins, or a batch/CLI renderer) would otherwise accumulate allocator
+     * counters and protected-content placeholders across renders, eventually
+     * leaking a stale module id / `&quot;` fragment from an earlier render into
+     * a later one. Call this between such independent renders to restore the
+     * same clean, isolated state each web request gets for free.
+     */
+    public function resetLayoutState(): void
+    {
+        $this->moduleIdAllocator->reset();
+        $this->contentProtector->reset();
+
+        // The nested legacy flow (run via the re-entrancy guard while a
+        // LayoutProcessor render is active) parses through phpQuery, which keeps
+        // every parsed DOM in a process-global static registry
+        // (phpQuery::$documents). The legacy parser unloads them at the end of
+        // its own render (see Parser.php), but the LayoutProcessor short-circuit
+        // never did — so across many independent top-level renders in one PHP
+        // process the registry grows unbounded (the historical OOM source) and a
+        // stale document can bleed a fragment (e.g. a Livewire `wire:snapshot`
+        // carrying `&quot;`) into a later, otherwise-clean render. Unload them at
+        // each top-level render boundary, matching the legacy path. A real
+        // request renders one layout then ends, so this is a no-op there.
+        if (class_exists(\phpQuery::class, false)) {
+            \phpQuery::unloadDocuments();
+        }
+    }
+
     private function processWithLayoutProcessor($layout)
     {
         $this->_layoutProcessorActive = true;
-        $this->moduleIdAllocator->reset();
-        $this->contentProtector->reset();
+        $this->resetLayoutState();
 
         // content_id() is 0/empty when there is no current content — treat that
         // as "no content scope" (null) so ids stay bare (module-btn, not -0).

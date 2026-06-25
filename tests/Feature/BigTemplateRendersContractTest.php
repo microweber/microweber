@@ -75,9 +75,21 @@ class BigTemplateRendersContractTest extends TestCase
                 $html = load_module('layouts', ['template' => $skin, 'id' => 'test-' . md5($skin)]);
                 $rendered = app()->parser->process($html);
 
+                // Livewire components (e.g. the `shop` module) legitimately carry
+                // HTML-escaped JSON in `wire:snapshot` / `wire:effects` attributes,
+                // which contain `&quot;` by design. The new parser renders those
+                // components inline, so strip those attribute values before the
+                // `&quot;` artifact check — we still catch genuine broken escapes
+                // elsewhere in the markup.
+                $checkHtml = preg_replace(
+                    '/\swire:(snapshot|effects)="[^"]*"/',
+                    '',
+                    $rendered
+                );
+
                 if (str_contains($rendered, '<x-')) {
                     $failures[] = "{$skin}: un-compiled <x-…> component leak";
-                } elseif (str_contains($rendered, '&quot;')) {
+                } elseif (str_contains($checkHtml, '&quot;')) {
                     $failures[] = "{$skin}: literal &quot; attribute-escape artifact";
                 }
             } catch (\Throwable $e) {

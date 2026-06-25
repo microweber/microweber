@@ -62,7 +62,17 @@ class MicroweberModuleTagCompiler extends ComponentTagCompiler
 
             $attributes = [];
          //    $getAttributes = $this->extractModuleTagAttributes($matches[0]);
-             $getAttributes = $this->getAttributesFromAttributeString($matches[0]);
+             // Normalize the self-closing slash to have a leading space before
+             // parsing attributes. An empty trailing attribute written tight
+             // against the slash (`button_size=""/>`) breaks Laravel's value
+             // regex: `"[^"]+"` needs ≥1 char so `""` isn't matched as a quoted
+             // value, the unquoted fallback `[^\s>]+` then grabs `""/` (quotes +
+             // slash), and stripQuotes() leaves a stray `"` as the value. Adding a
+             // space (`button_size="" />`) makes the empty value parse to '' while
+             // leaving every other attribute (and the `module`/full-tag shape the
+             // downstream rendering relies on) untouched.
+             $moduleTagForAttrs = preg_replace('#\s*/>\s*$#', ' />', $matches[0]);
+             $getAttributes = $this->getAttributesFromAttributeString($moduleTagForAttrs);
 
             foreach ($getAttributes as $attributeKey=>$attributeValue) {
               //  $attributes[$attributeKey] = "'".$this->compileAttributeEchos($attributeValue)."'";
