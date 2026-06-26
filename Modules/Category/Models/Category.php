@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Kirschbaum\PowerJoins\PowerJoins;
 use Modules\Category\Database\Factories\CategoryFactory;
-use MicroweberPackages\Core\Models\HasSearchableTrait;
+use MicroweberPackages\Searchable\HasSearchableTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 use MicroweberPackages\Database\Traits\HasSlugTrait;

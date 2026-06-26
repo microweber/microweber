@@ -4,7 +4,7 @@ namespace MicroweberPackages\Option\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use MicroweberPackages\Core\Models\HasSearchableTrait;
+use MicroweberPackages\Searchable\HasSearchableTrait;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Option\Events\OptionIsCreating;

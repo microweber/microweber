@@ -142,6 +142,7 @@
         "microweber-packages/url": "^1.0",
         "microweber-packages/repository": "^1.0",
         "microweber-packages/database": "^1.0",
+        "microweber-packages/searchable": "^1.0",
         "microweber-packages/security": "^1.0",
         "microweber-packages/db-migrator": "^1.0",
         "microweber-packages/db-installer": "^1.0",
@@ -184,6 +185,7 @@
             "MicroweberPackages\\DbMigrator\\": "packages/microweber-db-migrator/src/",
             "MicroweberPackages\\DbInstaller\\": "packages/microweber-db-installer/src/",
             "MicroweberPackages\\Database\\": "packages/microweber-database/src/",
+            "MicroweberPackages\\Searchable\\": "packages/microweber-searchable/src/",
             "MicroweberPackages\\Security\\": "packages/microweber-security/src/",
             "MicroweberPackages\\Event\\": "packages/microweber-event-manager/src/",
             "Modules\\": "Modules/",
@@ -207,7 +209,8 @@
         "psr-4": {
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "MicroweberPackages\\Searchable\\Tests\\": "packages/microweber-searchable/tests/"
         }
     },
     "scripts": {
@@ -477,6 +480,14 @@
         {
             "type": "path",
             "url": "packages/microweber-db-installer",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-searchable",
             "options": {
                 "reference": "config",
                 "symlink": true

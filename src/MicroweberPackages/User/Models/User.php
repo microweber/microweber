@@ -23,7 +23,7 @@ use Laravel\Passport\HasApiTokens;
 use Laravel\Passport\Contracts\OAuthenticatable;
 
 use Laravel\Socialite\Contracts\User as SocialiteUserContract;
-use MicroweberPackages\Core\Models\HasSearchableTrait;
+use MicroweberPackages\Searchable\HasSearchableTrait;
 use Modules\Customer\Models\Customer;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Casts\StripTagsCast;
