@@ -145,6 +145,7 @@
         "microweber-packages/security": "^1.0",
         "microweber-packages/db-migrator": "^1.0",
         "microweber-packages/db-installer": "^1.0",
+        "microweber-packages/event-manager": "^1.0",
         "intervention/image-laravel": "^1.4",
         "tapp/filament-timezone-field": "^3.0",
         "league/flysystem-bundle": "^3.4",
@@ -184,6 +185,7 @@
             "MicroweberPackages\\DbInstaller\\": "packages/microweber-db-installer/src/",
             "MicroweberPackages\\Database\\": "packages/microweber-database/src/",
             "MicroweberPackages\\Security\\": "packages/microweber-security/src/",
+            "MicroweberPackages\\Event\\": "packages/microweber-event-manager/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
@@ -192,7 +194,7 @@
         "files": [
             "packages/microweber-database/src/functions/helpers.php",
             "src/MicroweberPackages/Option/helpers/options.php",
-            "src/MicroweberPackages/Event/helpers.php",
+            "packages/microweber-event-manager/src/helpers.php",
             "src/MicroweberPackages/MetaTags/helpers/meta_tags_functions.php",
             "src/MicroweberPackages/Module/helpers.php",
             "src/MicroweberPackages/Template/helpers/templates.php",
@@ -298,6 +300,7 @@
                 "microweber-packages/database",
                 "microweber-packages/db-migrator",
                 "microweber-packages/db-installer",
+                "microweber-packages/event-manager",
                 "laravel/passport",
                 "laravel/sanctum",
                 "laravel/cashier",
@@ -482,6 +485,14 @@
         {
             "type": "path",
             "url": "packages/microweber-security",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-event-manager",
             "options": {
                 "reference": "config",
                 "symlink": true

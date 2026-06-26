@@ -182,6 +182,10 @@
             <directory>packages/microweber-security/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberEventManager">
+            <directory>packages/microweber-event-manager/tests/Cms</directory>
+        </testsuite>
+
         <testsuite name="Templates">
             <exclude>Templates/*/Tests/Browser</exclude>
             <!--

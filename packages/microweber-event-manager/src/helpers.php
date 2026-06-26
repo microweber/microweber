@@ -1,7 +1,13 @@
 <?php
-
-// These functions are now provided by the microweber-event-manager package.
-// The function_exists guards prevent redeclaration conflicts.
+/*
+ * This file is part of the Microweber framework.
+ *
+ * (c) Microweber CMS LTD
+ *
+ * For full license information see
+ * https://github.com/microweber/microweber/blob/master/LICENSE
+ *
+ */
 
 if (!function_exists('event_trigger')) {
     function event_trigger($api_function, $data = false)

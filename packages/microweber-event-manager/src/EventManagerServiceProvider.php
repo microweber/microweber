@@ -26,8 +26,6 @@ class EventManagerServiceProvider extends ServiceProvider implements DeferrableP
     {
 
 
-        include_once __DIR__ . '/helpers.php';
-
     }
 
     /**
