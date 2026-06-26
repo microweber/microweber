@@ -1559,57 +1559,6 @@ class FrontendController extends Controller
         return $this->module();
     }
 
-    public function sitemapxml()
-    {
-        $sm_file = mw_cache_path() . mw()->url_manager->hostname() . '_sitemap.xml';
-
-        $updateSitemap = false;
-        if (is_file($sm_file)) {
-            $filelastmodified = filemtime($sm_file);
-            // The file is old
-            if ((time() - $filelastmodified) > 3 * 3600) {
-                $updateSitemap = true;
-            }
-        }
-
-        if ($updateSitemap) {
-            $map = new \MicroweberPackages\Utils\Zip\Sitemap($sm_file);
-            $map->file = $sm_file;
-
-            // >>> Add categories
-            $categories = get_categories('no_limit=1');
-            foreach ($categories as $category) {
-                $link = category_link($category['id']);
-                $map->addPage($link, 'daily', 1, $category['updated_at']);
-            }
-            // <<< Add categories
-            $cont = get_content('is_active=1&is_deleted=0&limit=2500&fields=id,content_type,url,updated_at&orderby=updated_at desc');
-
-            if (!empty($cont)) {
-                foreach ($cont as $item) {
-                    if (!empty($item['content_type']) && !empty($item['url']) && in_array($item['content_type'], ['page', 'product', 'post'])) {
-                        $map->addPage($this->app->content_manager->link($item['id']), 'daily', 1, $item['updated_at']);
-                    }
-                }
-            }
-
-            $map = $map->create();
-        }
-        $map = $sm_file;
-        $fp = fopen($map, 'r');
-
-        // send the right headers
-        header('Content-Type: text/xml');
-        header('Content-Length: ' . filesize($map));
-
-        // dump the file and stop the script
-        fpassthru($fp);
-
-        event_trigger('mw_robot_url_hit');
-
-        exit;
-    }
-
     private function _api_response($res)
     {
         $status_code = 200;
