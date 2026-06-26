@@ -4,7 +4,7 @@ namespace MicroweberPackages\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Install\DbInstaller;
+use MicroweberPackages\DbInstaller\DbInstaller;
 use MicroweberPackages\Install\DefaultOptionsInstaller;
 use MicroweberPackages\Install\ModulesInstaller;
 
@@ -42,7 +42,7 @@ class ResetCommand extends Command
 			';
                 $tables = explode(',', $truncateTables);
             } else {
-                $dbInstaller = new DbInstaller();
+                $dbInstaller = app(DbInstaller::class);
                 $tables = array();
                 foreach ($dbInstaller->getSystemSchemas() as $schemas) {
                     if (method_exists($schemas, 'get')) {

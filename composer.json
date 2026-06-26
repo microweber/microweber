@@ -143,6 +143,8 @@
         "microweber-packages/repository": "^1.0",
         "microweber-packages/database": "^1.0",
         "microweber-packages/security": "^1.0",
+        "microweber-packages/db-migrator": "^1.0",
+        "microweber-packages/db-installer": "^1.0",
         "intervention/image-laravel": "^1.4",
         "tapp/filament-timezone-field": "^3.0",
         "league/flysystem-bundle": "^3.4",
@@ -178,6 +180,8 @@
             "MicroweberPackages\\Url\\": "packages/microweber-url/src/",
             "MicroweberPackages\\Config\\": "packages/microweber-config/src/",
             "MicroweberPackages\\Repository\\": "packages/microweber-repository/src/",
+            "MicroweberPackages\\DbMigrator\\": "packages/microweber-db-migrator/src/",
+            "MicroweberPackages\\DbInstaller\\": "packages/microweber-db-installer/src/",
             "MicroweberPackages\\Database\\": "packages/microweber-database/src/",
             "MicroweberPackages\\Security\\": "packages/microweber-security/src/",
             "Modules\\": "Modules/",
@@ -186,7 +190,15 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "packages/microweber-database/src/functions/helpers.php"
+            "packages/microweber-database/src/functions/helpers.php",
+            "src/MicroweberPackages/Option/helpers/options.php",
+            "src/MicroweberPackages/Event/helpers.php",
+            "src/MicroweberPackages/MetaTags/helpers/meta_tags_functions.php",
+            "src/MicroweberPackages/Module/helpers.php",
+            "src/MicroweberPackages/Template/helpers/templates.php",
+            "src/MicroweberPackages/LaravelTemplates/templates_helpers.php",
+            "src/MicroweberPackages/User/helpers/helpers.php",
+            "src/MicroweberPackages/User/helpers/api_user.php"
         ]
     },
     "autoload-dev": {
@@ -284,6 +296,8 @@
                 "microweber-packages/microweber-app",
                 "microweber-packages/config",
                 "microweber-packages/database",
+                "microweber-packages/db-migrator",
+                "microweber-packages/db-installer",
                 "laravel/passport",
                 "laravel/sanctum",
                 "laravel/cashier",
@@ -444,6 +458,22 @@
         {
             "type": "path",
             "url": "packages/microweber-database",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-db-migrator",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-db-installer",
             "options": {
                 "reference": "config",
                 "symlink": true

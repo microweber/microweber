@@ -1,22 +1,27 @@
 <?php
 
-namespace MicroweberPackages\Install;
+namespace MicroweberPackages\DbMigrator;
 
 use Illuminate\Database\Migrations\Migrator;
-use Illuminate\Support\Facades\Log;
-use function Illuminate\Database\Migrations;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema as DbSchema;
 
+/**
+ * Custom migrator that extends Laravel's Migrator.
+ *
+ * Key differences from the stock migrator:
+ *  - Automatically creates the `migrations` table if it is missing.
+ *  - Catches exceptions during individual migration runs and logs them
+ *    instead of aborting the whole batch.
+ */
 class MicroweberMigrator extends Migrator
 {
-
-
     /**
      * Run the pending migrations at a given path.
      *
-     * @param array|string $paths
-     * @param array $options
+     * @param  array|string  $paths
+     * @param  array         $options
      * @return array
      */
     public function run($paths = [], array $options = [])
@@ -25,25 +30,26 @@ class MicroweberMigrator extends Migrator
         parent::run($paths, $options);
     }
 
-
     /**
      * Run "up" a migration instance.
      *
-     * @param string $file
-     * @param int $batch
-     * @param bool $pretend
+     * @param  string  $file
+     * @param  int     $batch
+     * @param  bool    $pretend
      * @return void
      */
     protected function runUp($file, $batch, $pretend)
     {
         $this->ensureMigrationsTableExists();
+
         $migration = $this->resolve(
             $name = $this->getMigrationName($file)
         );
 
-        if(!$name) {
+        if (!$name) {
             return;
         }
+
         if ($pretend) {
             return $this->pretendToRun($migration, 'up');
         }
@@ -70,12 +76,12 @@ class MicroweberMigrator extends Migrator
      * Resolve a migration instance from a file.
      *
      * @param  string  $file
-     * @return object
+     * @return object|null
      */
     public function resolve($file)
     {
         $class = $this->getMigrationClass($file);
-        if(class_exists($class)){
+        if (class_exists($class)) {
             return new $class;
         }
         return null;
@@ -89,7 +95,7 @@ class MicroweberMigrator extends Migrator
         return parent::runMigration($migration, $method);
     }
 
-        private function ensureMigrationsTableExists()
+    private function ensureMigrationsTableExists(): void
     {
         if (!DbSchema::hasTable('migrations')) {
             try {
@@ -99,25 +105,29 @@ class MicroweberMigrator extends Migrator
                     $table->integer('batch');
                 });
             } catch (QueryException $e) {
-
+                // table may have been created concurrently – ignore
             }
         }
-
     }
 
+    // ------------------------------------------------------------------
+    //  Logging
+    // ------------------------------------------------------------------
+
+    /** @var object|null */
     public $logger = null;
 
-    public function log($text)
+    public function log($text): void
     {
-        if (is_object($this->logger) and method_exists($this->logger, 'log')) {
-            $this->logger->log($text);
-        }
-    }
-    public function note($text)
-    {
-        if (is_object($this->logger) and method_exists($this->logger, 'log')) {
+        if (is_object($this->logger) && method_exists($this->logger, 'log')) {
             $this->logger->log($text);
         }
     }
 
+    public function note($text): void
+    {
+        if (is_object($this->logger) && method_exists($this->logger, 'log')) {
+            $this->logger->log($text);
+        }
+    }
 }

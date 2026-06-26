@@ -558,7 +558,7 @@ class InstallController extends Controller
 
                 if (!$install_step or $install_step == 1) {
                     $this->log('Setting up database');
-                    $installer = new Install\DbInstaller();
+                    $installer = app(\MicroweberPackages\DbInstaller\DbInstaller::class);
                     $installer->logger = $this;
                     $installer->run();
                 }
@@ -627,7 +627,7 @@ class InstallController extends Controller
 //                            app()->template_manager->boot_template();
                         }
                         /*          $this->log('Running migrations after install for template' . $selected_template);
-                                  $installer = new Install\DbInstaller();
+                                  $installer = app(\MicroweberPackages\DbInstaller\DbInstaller::class);
                                   $installer->logger = $this;
                                   $installer->createSchema();*/
 

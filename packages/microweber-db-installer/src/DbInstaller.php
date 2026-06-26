@@ -1,17 +1,48 @@
 <?php
 
-namespace MicroweberPackages\Install;
+namespace MicroweberPackages\DbInstaller;
 
-use Illuminate\Database\Migrations\Migrator;
-use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Database\Utils as DbUtils;
 use Illuminate\Support\Facades\Schema as DbSchema;
 use Illuminate\Database\QueryException;
-use Cache;
+use MicroweberPackages\Database\Utils as DbUtils;
 
+/**
+ * Microweber database installer.
+ *
+ * Orchestrates first-install / self-heal of the system schema:
+ *  - ensures the sessions + migrations tables exist,
+ *  - runs the custom migrator (app()->mw_migrator, from microweber-db-migrator),
+ *  - builds each array-defined system table via the database table builder
+ *    (MicroweberPackages\Database\Utils::build_table — the single source of
+ *    truth for the array->table engine), then seeds.
+ *
+ * The system schema definitions live in the application
+ * (MicroweberPackages\Install\Schema\*) and are consumed here.
+ */
 class DbInstaller
 {
     public $logger = null;
+
+    /**
+     * System schema providers to install + seed, injected by the application
+     * (see setSystemSchemas). Kept empty by default so this package stays
+     * schema-agnostic — it never reaches back into the app for schema data.
+     *
+     * @var object[]
+     */
+    protected array $systemSchemas = [];
+
+    /**
+     * Inject the system schema providers from the application/installer.
+     *
+     * @param object[] $schemas
+     */
+    public function setSystemSchemas(array $schemas): static
+    {
+        $this->systemSchemas = $schemas;
+
+        return $this;
+    }
 
     public function run()
     {
@@ -91,20 +122,13 @@ class DbInstaller
 
     public function getSystemSchemas()
     {
-        $system =  [
-            new Schema\Base(),
-            //new Schema\Comments(),
-            new Schema\Tags(),
-            new Schema\JobsQueue(),
-            new Schema\PasswordResetsTable(),
-            new Schema\Updates(),
-        	new Schema\MailSubscribe(),
-        	new Schema\MailTemplates()
-        ];
+        // Schemas are injected by the application via setSystemSchemas() — the
+        // app-specific definitions live in MicroweberPackages\Install and are
+        // wired in (e.g. the container binding in the app's service provider),
+        // never pulled from here.
+        return $this->systemSchemas;
 
-      //  $all = array_merge($system, $this->getVendorSchemas());
-
-        return $system;
+      //  $all = array_merge($this->systemSchemas, $this->getVendorSchemas());
     }
 
     public function createSchema()

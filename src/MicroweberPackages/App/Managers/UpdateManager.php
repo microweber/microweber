@@ -243,7 +243,7 @@ class UpdateManager
             try {
                 $this->log_msg('Applying post update actions');
 
-                $system_refresh = new \MicroweberPackages\Install\DbInstaller();
+                $system_refresh = app(\MicroweberPackages\DbInstaller\DbInstaller::class);
                 $system_refresh->createSchema();
             } catch (\Exception $e) {
                 $this->log_msg('Error on DB migrations' . $e->getMessage());

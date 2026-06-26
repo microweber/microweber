@@ -233,3 +233,7 @@ TODO_OLD.md_old
 /packages/frontend-assets/resources/dist/build
 /public/packages/microweber-css-framework-bootstrap
 /packages/frontend-assets/resources/dist
+/packages/microweber-db-migrator/vendor
+/packages/microweber-db-installer/.phpunit.cache
+/packages/microweber-db-installer/vendor
+/packages/microweber-db-migrator/.phpunit.cache

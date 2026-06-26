@@ -33,7 +33,7 @@ use MicroweberPackages\Filament\Providers\MicroweberFilamentRegistryServiceProvi
 use MicroweberPackages\Filament\Providers\MicroweberFilamentServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Install\Console\Commands\InstallCommand;
-use MicroweberPackages\Install\MicroweberMigrator;
+use MicroweberPackages\DbMigrator\MicroweberMigrator;
 use MicroweberPackages\Config\ConfigServiceProvider;
 use MicroweberPackages\Microweber\Providers\MicroweberServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
@@ -204,6 +204,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('mw_migrator', function ($app) {
             $repository = $app['migration.repository'];
             return new MicroweberMigrator($repository, $app['db'], $app['files'], $app['events']);
+        });
+
+        // The db-installer package is schema-agnostic; inject this app's system
+        // schema providers (MicroweberPackages\Install\InstallSchemas) here so
+        // callers resolve a ready-to-run installer from the container.
+        $this->app->bind(\MicroweberPackages\DbInstaller\DbInstaller::class, function () {
+            return (new \MicroweberPackages\DbInstaller\DbInstaller())
+                ->setSystemSchemas(\MicroweberPackages\Install\InstallSchemas::get());
         });
 
         //  $this->app->register(TranslationServiceProvider::class);

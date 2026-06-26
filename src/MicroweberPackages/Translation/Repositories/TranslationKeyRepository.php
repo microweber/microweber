@@ -54,14 +54,7 @@ class TranslationKeyRepository extends AbstractRepository
                 });
 
             } catch (\Illuminate\Database\QueryException $e) {
-                if ( Schema::hasTable('translation_keys')) {
-                    $system_refresh = new \MicroweberPackages\Install\DbInstaller();
-                    $system_refresh->createSchema();
-                    return false;
-                } else {
-                    return false;
-                }
-
+                return false;
             }
 
 

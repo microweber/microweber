@@ -23,7 +23,7 @@ class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 
         save_option('current_template', $this->template_name, 'template');
 
-        $system_refresh = new \MicroweberPackages\Install\DbInstaller();
+        $system_refresh = app(\MicroweberPackages\DbInstaller\DbInstaller::class);
         $system_refresh->createSchema();
         app()->rebootApplication();
         try {

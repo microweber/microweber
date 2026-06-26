@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
-use MicroweberPackages\Install\DbInstaller;
+use MicroweberPackages\DbInstaller\DbInstaller;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;

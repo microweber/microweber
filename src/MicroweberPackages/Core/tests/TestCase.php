@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\App\Managers\PermalinkManager;
-use MicroweberPackages\Install\DbInstaller;
+use MicroweberPackages\DbInstaller\DbInstaller;
 use MicroweberPackages\User\Models\User;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
@@ -329,7 +329,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         $migrator = app()->mw_migrator->run(app()->migrator->paths());
 
-        $installer = new DbInstaller();
+        $installer = app(DbInstaller::class);
         $installer->logger = $this;
         $installer->createSchema();
 
