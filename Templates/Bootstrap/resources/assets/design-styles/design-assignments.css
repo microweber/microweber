@@ -136,7 +136,7 @@ small {
   color: var(--mw-paragraph-color); }
 
 .mw-layout-dark-background {
-  background-color: rgb(31, 41, 55) !important; }
+  background-color: rgb(31, 41, 55); }
 .mw-layout-dark-background h1, .mw-layout-dark-background h2, .mw-layout-dark-background h3, .mw-layout-dark-background h4, .mw-layout-dark-background h5, .mw-layout-dark-background h6, .mw-layout-dark-background p, .mw-layout-dark-background small, .mw-layout-dark-background ul li a {
   color: var(--mw-text-on-dark-background-color); }
 .mw-layout-dark-background .accordion h1, .mw-layout-dark-background .accordion h2, .mw-layout-dark-background .accordion h3, .mw-layout-dark-background .accordion h4, .mw-layout-dark-background .accordion h5, .mw-layout-dark-background .accordion h6 {

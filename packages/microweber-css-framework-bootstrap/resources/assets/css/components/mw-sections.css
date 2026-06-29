@@ -116,7 +116,7 @@ a i::before {
 
 /* ---- Dark background ---- */
 .mw-layout-dark-background {
-    background-color: rgb(31, 41, 55) !important;
+    background-color: rgb(31, 41, 55);
 }
 
 .mw-layout-dark-background h1,

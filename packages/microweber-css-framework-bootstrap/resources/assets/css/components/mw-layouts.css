@@ -1116,7 +1116,7 @@
     top: 60px;
     align-self: flex-start; } }
 .video-background-skin {
-  background-color: black !important; }
+  background-color: black; }
 
 .navbar-light .navbar-toggler {
   border-radius: 0 !important;
