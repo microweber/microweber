@@ -1,0 +1,55 @@
+{
+    "name": "microweber-packages/translation",
+    "description": "Standalone Laravel package for managing translations with database storage, import/export, and locale helpers",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/database": "^10.0|^11.0|^12.0",
+        "illuminate/translation": "^10.0|^11.0|^12.0",
+        "illuminate/cache": "^10.0|^11.0|^12.0",
+        "whitecube/lingua": "^1.1",
+        "symfony/intl": "^6.0|^7.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\Translation\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\Translation\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MicroweberPackages\\Translation\\Providers\\TranslationServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "homepage": "http://microweber.com",
+    "support": {
+        "email": "support@microweber.com"
+    }
+}

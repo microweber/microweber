@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8139f672531de07952e5bc8696f7ad24",
+    "content-hash": "4590de58732455a022d563575c54eb40",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10587,6 +10587,69 @@
                 }
             ],
             "description": "Standalone Laravel package for image thumbnail generation",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/translation",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-translation",
+                "reference": "1ad2b8487aa50eea829014dd70768aa0eb078fa2"
+            },
+            "require": {
+                "illuminate/cache": "^10.0|^11.0|^12.0",
+                "illuminate/database": "^10.0|^11.0|^12.0",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "illuminate/translation": "^10.0|^11.0|^12.0",
+                "php": "^8.2",
+                "symfony/intl": "^6.0|^7.0",
+                "whitecube/lingua": "^1.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\Translation\\Providers\\TranslationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Translation\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Translation\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for managing translations with database storage, import/export, and locale helpers",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true

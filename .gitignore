@@ -239,3 +239,5 @@ TODO_OLD.md_old
 /packages/microweber-db-migrator/.phpunit.cache
 /packages/microweber-event-manager/vendor
 /packages/microweber-searchable/vendor
+/packages/microweber-translation/vendor
+/packages/microweber-translation/.phpunit.cache

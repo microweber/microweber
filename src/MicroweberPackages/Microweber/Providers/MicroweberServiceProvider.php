@@ -43,7 +43,7 @@ use MicroweberPackages\Role\RoleServiceProvider;
 
 use MicroweberPackages\Template\TemplateEventServiceProvider;
 use MicroweberPackages\Template\TemplateManagerServiceProvider;
-use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
+use MicroweberPackages\Translation\Providers\CmsTranslationServiceProvider;
 use MicroweberPackages\Update\Providers\UpdateMigratorServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
 use MicroweberPackages\User\Providers\UserServiceProvider;
@@ -116,7 +116,7 @@ class MicroweberServiceProvider extends ServiceProvider
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);
 
         // $this->app->register(AssetsServiceProvider::class);
-        $this->app->register(TranslationServiceProvider::class);
+        $this->app->register(CmsTranslationServiceProvider::class);
      //   $this->app->register(TagsManagerServiceProvider::class);
         $this->app->register(LivewireServiceProvider::class);
 
