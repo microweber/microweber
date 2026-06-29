@@ -34,20 +34,6 @@ function icon_html($icon)
     if (!is_string($icon) || empty($icon)) {
         return '';
     }
-
-    // audit-test 2026-05-07 Accordion audit finding #4 / TICKET-AJ (SECURITY HIGH)
-    // + post-merge follow-up #2:
-    // - Cycle-33 deleted the bare-`<` catch-all that returned ANY string
-    //   starting with `<` verbatim (the universal escape hatch).
-    // - Follow-up #2: the four explicit allowlists (`<i class="`, `<svg`,
-    //   `<img`, `<span class="`) were still attribute-injection sinks
-    //   (`<i class="x" onclick="...">`, `<svg onload>`, `<img onerror>`,
-    //   `<span onmouseover>`, embedded `<script>` inside `<svg>`, etc.).
-    //   Now route every pass-through through `mw()->format->clean_xss`,
-    //   the project-blessed XSSSecurity + enshrined/svg-sanitize pipeline.
-    //   This strips event handlers, `<script>` blocks, and javascript:
-    //   URLs from href/xlink:href; the SVG-specific sanitizer enforces
-    //   the SVG tag/attribute allow-list.
     if (str_starts_with($icon, '<i class="')) {
         return mw()->format->clean_xss($icon);
     }

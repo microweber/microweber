@@ -14,7 +14,8 @@
 #      Xdebug installed (php<ver>-xdebug) and configured for coverage-only
 #      mode (xdebug.mode=coverage in /etc/php/…/conf.d/99-xdebug-coverage.ini),
 #      a Chrome/Chromium browser (apt), rendering fonts (Noto/Liberation, for
-#      non-Latin templates), and the matching Dusk ChromeDriver
+#      non-Latin templates), Xvfb virtual framebuffer (for headless servers
+#      that have no real X11 display), and the matching Dusk ChromeDriver
 #      (laravel/dusk is already a require-dev package; --dev wires up the driver).
 #
 # Must be run as root (it apt-installs packages and runs Composer as superuser).
@@ -481,6 +482,38 @@ ensure_fonts() {
   ok "Rendering fonts installed"
 }
 
+# Virtual framebuffer — needed on headless servers that have no real display.
+# Chrome (even in --headless mode) may still need DISPLAY set on some systems;
+# Dusk's non-headless mode definitely does.  Xvfb provides a lightweight
+# in-memory X11 display so both cases work without a physical screen.
+ensure_xvfb() {
+  if [ "$SKIP_SYSTEM" -eq 1 ]; then
+    warn "Skipping Xvfb (--skip-system) — ensure a virtual display is available on headless servers."
+    return 0
+  fi
+
+  # Already available?
+  if command -v Xvfb >/dev/null 2>&1; then
+    ok "Xvfb already installed: $(Xvfb -help 2>&1 | head -1 || true)"
+    return 0
+  fi
+
+  if ! command -v apt-get >/dev/null 2>&1; then
+    warn "Not an apt system — install Xvfb manually for headless browser tests."
+    return 0
+  fi
+
+  warn "Installing Xvfb (virtual framebuffer for headless Chrome/Dusk)…"
+  $SUDO apt-get update -y || true
+  # xvfb: the virtual framebuffer server.
+  # x11-utils: provides xdpyinfo (useful for display diagnostics).
+  if $SUDO apt-get install -y xvfb x11-utils; then
+    ok "Xvfb installed"
+  else
+    warn "Could not install Xvfb — headless Chrome may fail without a DISPLAY on this server."
+  fi
+}
+
 # 5a. Bootstrap .env from a template if it doesn't exist, so artisan (and the
 #     Dusk driver install below) can run. Mirrors the closing "Next steps" hint
 #     but actually performs the copy under --dev.
@@ -531,40 +564,54 @@ install_dev_tools() {
   # 6b. Xdebug for PHPUnit coverage.
   ensure_xdebug
 
-  # Laravel Dusk ships as a require-dev package; without dev deps there's no
-  # dusk:chrome-driver command to run.
-  if [ "$SKIP_COMPOSER" -eq 1 ]; then
-    warn "Composer was skipped (--skip-composer) — ensure laravel/dusk is installed for the steps below."
-  fi
-  if [ ! -d "${ROOT_DIR}/vendor/laravel/dusk" ]; then
-    warn "vendor/laravel/dusk not found — run composer install (with dev deps) first; skipping ChromeDriver."
-    return
-  fi
-
-  # 6c. Browser + rendering fonts.
+  # 6c. Browser + rendering fonts + virtual display (independent of Dusk/composer).
   local have_browser=0
   ensure_chrome && have_browser=1
   ensure_fonts
+  ensure_xvfb
 
-  # 6d. ChromeDriver matched to the installed browser.
+  # 6d. ChromeDriver — requires laravel/dusk in vendor/.
   if ! command -v php >/dev/null 2>&1; then
-    warn "php not on PATH — cannot run 'artisan dusk:chrome-driver'; skipping."
+    warn "php not on PATH — cannot install ChromeDriver; skipping."
     return
   fi
+
+  if [ "$SKIP_COMPOSER" -eq 1 ]; then
+    warn "Composer was skipped (--skip-composer) — ensure laravel/dusk is installed to set up ChromeDriver."
+  fi
+  if [ ! -d "${ROOT_DIR}/vendor/laravel/dusk" ]; then
+    warn "vendor/laravel/dusk not found — run composer install (with dev deps) first, then re-run --dev to install ChromeDriver."
+    return
+  fi
+
   cd "${ROOT_DIR}"
+
+  # Dusk's service provider only registers when APP_ENV=local.
+  # Run artisan with a temporary override so dusk:chrome-driver is available.
+  local artisan_env="APP_ENV=local"
+
+  # Sanity-check that the command is actually registered before calling it.
+  if ! env $artisan_env php artisan list --format=txt 2>/dev/null | grep -q 'dusk:chrome-driver'; then
+    warn "artisan dusk:chrome-driver not available (APP_KEY missing? DB unreachable? DuskServiceProvider not registered?)."
+    warn "Fix artisan boot errors, then run: APP_ENV=local php artisan dusk:chrome-driver --detect"
+    return
+  fi
+
   if [ "$have_browser" -eq 1 ]; then
     log "Installing matching ChromeDriver (artisan dusk:chrome-driver --detect)"
-    if php artisan dusk:chrome-driver --detect; then
-      ok "ChromeDriver installed (matched to the installed browser)"
+    if env $artisan_env php artisan dusk:chrome-driver --detect; then
+      ok "ChromeDriver installed (matched to installed browser)"
     else
-      warn "dusk:chrome-driver --detect failed; falling back to the latest stable driver"
-      php artisan dusk:chrome-driver && ok "ChromeDriver (latest stable) installed" \
-        || warn "Could not install ChromeDriver — run 'php artisan dusk:chrome-driver' manually."
+      warn "dusk:chrome-driver --detect failed — falling back to latest stable driver"
+      env $artisan_env php artisan dusk:chrome-driver \
+        && ok "ChromeDriver (latest stable) installed" \
+        || warn "Could not install ChromeDriver — run: APP_ENV=local php artisan dusk:chrome-driver --detect"
     fi
   else
-    log "Installing the latest stable ChromeDriver (no browser detected)"
-    php artisan dusk:chrome-driver && ok "ChromeDriver (latest stable) installed" \
-      || warn "Could not install ChromeDriver — install a browser, then 'php artisan dusk:chrome-driver --detect'."
+    log "Installing latest stable ChromeDriver (no browser detected)"
+    env $artisan_env php artisan dusk:chrome-driver \
+      && ok "ChromeDriver (latest stable) installed" \
+      || warn "Could not install ChromeDriver — install a browser first, then: APP_ENV=local php artisan dusk:chrome-driver --detect"
   fi
 }
 
