@@ -144,6 +144,7 @@
         "microweber-packages/database": "^1.0",
         "microweber-packages/searchable": "^1.0",
         "microweber-packages/security": "^1.0",
+        "microweber-packages/format": "^1.0",
         "microweber-packages/db-migrator": "^1.0",
         "microweber-packages/db-installer": "^1.0",
         "microweber-packages/event-manager": "^1.0",
@@ -190,6 +191,7 @@
             "MicroweberPackages\\Database\\": "packages/microweber-database/src/",
             "MicroweberPackages\\Searchable\\": "packages/microweber-searchable/src/",
             "MicroweberPackages\\Security\\": "packages/microweber-security/src/",
+            "MicroweberPackages\\Format\\": "packages/microweber-format/src/",
             "MicroweberPackages\\Event\\": "packages/microweber-event-manager/src/",
             "MicroweberPackages\\Http\\": "packages/microweber-http/src/",
             "Modules\\": "Modules/",
@@ -350,6 +352,10 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
+        {
+            "type": "path",
+            "url": "packages/microweber-format"
+        },
         {
             "type": "composer",
             "url": "https://modules.microweberapi.com/packages.json"
@@ -533,6 +539,14 @@
         {
             "type": "path",
             "url": "packages/microweber-phpquery",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-format",
             "options": {
                 "reference": "config",
                 "symlink": true

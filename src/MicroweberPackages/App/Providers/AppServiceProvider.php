@@ -31,7 +31,7 @@ use MicroweberPackages\Core\Providers\CoreServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentRegistryServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentServiceProvider;
-use MicroweberPackages\Helper\Format;
+use MicroweberPackages\Format\Format;
 use MicroweberPackages\Install\Console\Commands\InstallCommand;
 use MicroweberPackages\DbMigrator\MicroweberMigrator;
 use MicroweberPackages\Config\ConfigServiceProvider;

@@ -15,6 +15,10 @@ class SecurityServiceProvider extends ServiceProvider
         $this->app->singleton('mw-xss-clean', function () {
             return new XSSClean();
         });
+
+        $this->app->bind('xss_security', function () {
+            return new XSSSecurity();
+        });
     }
 
     public function boot(): void

@@ -23,20 +23,12 @@ class HelpersServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        /**
-         * @property \MicroweberPackages\Helper\Format $format
-         */
-        $this->app->singleton('format', function () {
-            return new Format();
-        });
-
-        /**
-         * @property \MicroweberPackages\Helper\XSSSecurity $xss_security
-         */
-        $this->app->bind('xss_security', function () {
-            return new XSSSecurity();
-        });
+        // `format` and `xss_security` are fully owned by their standalone
+        // packages now (MicroweberPackages\Format\FormatServiceProvider and
+        // MicroweberPackages\Security\SecurityServiceProvider). The CMS-only
+        // Format methods (render_item_custom_fields_data, text_to_image) were
+        // baked into the package class, so no app-side CMS subclass override
+        // is needed here anymore.
 
         $this->app->bind('html_clean', function () {
             return new HtmlClean();

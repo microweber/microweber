@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Helper;
+namespace MicroweberPackages\Security;
 
 
 /**
@@ -185,7 +185,7 @@ class XSSSecurity
     protected function xssHash()
     {
         if (!$this->xssHash) {
-            $this->xssHash = str_random(40);
+            $this->xssHash = bin2hex(random_bytes(20));
         }
 
         return $this->xssHash;
@@ -245,8 +245,8 @@ class XSSSecurity
                 $replace = [];
                 $matches = array_unique(array_map('strtolower', $matches[0]));
                 for ($i = 0, $c = count($matches); $i < $c; ++$i) {
-                    if (($char = array_search(array_get($matches, $i).';', $entities, true)) !== false) {
-                        $replace[array_get($matches, $i)] = $char;
+                    if (($char = array_search(($matches[$i] ?? '').';', $entities, true)) !== false) {
+                        $replace[$matches[$i] ?? ''] = $char;
                     }
                 }
 
