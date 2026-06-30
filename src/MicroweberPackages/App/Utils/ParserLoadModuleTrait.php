@@ -506,8 +506,6 @@ trait ParserLoadModuleTrait
         if (!$non_cached or $layout == '') {
             return $layout;
         }
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
-
         $pq = \phpQuery::newDocument($layout);
 
 

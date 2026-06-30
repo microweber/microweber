@@ -63,9 +63,6 @@ class Parser
         if (class_exists('\Debugbar', false)) {
             $this->debugbarEnabled = \Debugbar::isEnabled();
         }
-
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
-
         $this->processor = new ParserProcessor();
 
         $this->processor->debugbarEnabled = $this->debugbarEnabled;
@@ -140,11 +137,6 @@ class Parser
         }
 
         $layout = str_ireplace('{SITE_URL}','___mw-site-url-temp-replace-on-make-tags___', $layout);
-
-
-
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
-
         $pq = \phpQuery::newDocument($layout);
 
 
@@ -287,8 +279,6 @@ class Parser
      */
     public function modify_html_preg($layout, $preg_match_all, $content = '', $action = 'append')
     {
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
-
         $string_html = $layout;
         $m = preg_match_all($preg_match_all, $string_html, $match);
         if ($m) {
@@ -314,8 +304,6 @@ class Parser
      */
     public function modify_html($layout, $selector, $content = '', $action = 'append')
     {
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
-
         $pq = \phpQuery::newDocument($layout);
 
         $els = $pq[$selector];
@@ -375,8 +363,6 @@ class Parser
 
     public function get_by_id($html_element_id = false, $layout = false)
     {
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
-
         if ($html_element_id == false) {
             if (isset($_REQUEST['embed_id'])) {
                 $html_element_id = trim($_REQUEST['embed_id']);
@@ -384,7 +370,6 @@ class Parser
         }
 
         if ($html_element_id != false and trim($html_element_id) != '') {
-            require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
             $pq = \phpQuery::newDocument($layout);
             foreach ($pq ['#' . $html_element_id] as $elem) {
                 $isolated_el = pq($elem)->htmlOuter();
@@ -403,7 +388,6 @@ class Parser
      */
     public function isolate_head($l)
     {
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
         $pq = \phpQuery::newDocument($l);
         $l = pq('head')->eq(0)->html();
 
@@ -412,7 +396,6 @@ class Parser
 
     public function query($l, $selector = 'body', $return_function = 'htmlOuter')
     {
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
         $pq = \phpQuery::newDocument($l);
         $res = array();
         foreach ($pq [$selector] as $elem) {
@@ -429,7 +412,6 @@ class Parser
      */
     public function get_html($l, $selector = 'body')
     {
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
         $pq = \phpQuery::newDocument($l);
         foreach ($pq [$selector] as $elem) {
             $l = pq($elem)->htmlOuter();
@@ -442,8 +424,6 @@ class Parser
 
     public function isolate_content_field($l, $strict = false)
     {
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
-
         $pq = \phpQuery::newDocument($l);
         $found = false;
 
@@ -482,8 +462,6 @@ class Parser
      */
     public function isolate_content_field_old($l)
     {
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
-
         $pq = \phpQuery::newDocument($l);
         $found = false;
         foreach ($pq ['[field=content][rel=content]:last'] as $elem) {
@@ -579,8 +557,6 @@ class Parser
         if (!$non_cached or $layout == '') {
             return $layout;
         }
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
-
         $pq = \phpQuery::newDocument($layout);
 
 

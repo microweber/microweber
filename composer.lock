@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "29032f10c086bad2a0a4ee6ad8f71a73",
+    "content-hash": "b16a55dcf690882ce5bcf3d45cceec2c",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10357,6 +10357,63 @@
             "time": "2025-09-25T10:07:12+00:00"
         },
         {
+            "name": "microweber-packages/phpquery",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-phpquery",
+                "reference": "e34dcbdf25bdd8aa437622101eceb22fd80543a2"
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\PhpQuery\\Providers\\PhpQueryServiceProvider"
+                    ],
+                    "aliases": {
+                        "PhpQuery": "MicroweberPackages\\PhpQuery\\Facades\\PhpQueryFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\PhpQuery\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\PhpQuery\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Dev Team",
+                    "email": "support@microweber.com"
+                }
+            ],
+            "description": "PHPQuery - server-side CSS3 selector driven DOM API based on jQuery. Standalone Laravel package.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/repository",
             "version": "1.0.0",
             "dist": {
@@ -10658,13 +10715,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-translation",
-                "reference": "1ad2b8487aa50eea829014dd70768aa0eb078fa2"
+                "reference": "7a9b1315ebac0fc4d95b632ccc039c240331fec6"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0",
                 "illuminate/database": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
                 "illuminate/translation": "^10.0|^11.0|^12.0",
+                "microweber-packages/searchable": "^1.0",
                 "php": "^8.2",
                 "symfony/intl": "^6.0|^7.0",
                 "whitecube/lingua": "^1.1"

@@ -160,7 +160,8 @@
         "halaxa/json-machine": "^1.2",
         "inspector-apm/neuron-ai": "^2.0",
         "microweber-packages/omnipay-momo-mtn": "^0.2",
-        "lara-zeus/spatie-translatable": "^2.0"
+        "lara-zeus/spatie-translatable": "^2.0",
+        "microweber-packages/phpquery": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -524,6 +525,14 @@
         {
             "type": "path",
             "url": "packages/microweber-http",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-phpquery",
             "options": {
                 "reference": "config",
                 "symlink": true

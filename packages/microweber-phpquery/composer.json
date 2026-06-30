@@ -1,0 +1,47 @@
+{
+    "name": "microweber-packages/phpquery",
+    "description": "PHPQuery - server-side CSS3 selector driven DOM API based on jQuery. Standalone Laravel package.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\PhpQuery\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\PhpQuery\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Microweber Dev Team",
+            "email": "support@microweber.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.1",
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MicroweberPackages\\PhpQuery\\Providers\\PhpQueryServiceProvider"
+            ],
+            "aliases": {
+                "PhpQuery": "MicroweberPackages\\PhpQuery\\Facades\\PhpQueryFacade"
+            }
+        }
+    },
+    "version": "1.0.0"
+}

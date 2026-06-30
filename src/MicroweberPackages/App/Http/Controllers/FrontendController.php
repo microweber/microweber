@@ -1117,7 +1117,6 @@ class FrontendController extends Controller
 
             // used for preview from the admin wysiwyg
             if (isset($request_params['isolate_content_field'])) {
-                require_once MW_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
                 $pq = \phpQuery::newDocument($l);
 
                 $isolated_head = pq('head')->eq(0)->html();
@@ -1489,7 +1488,6 @@ class FrontendController extends Controller
             if ($this->isolate_by_html_id != false) {
                 $id_sel = $this->isolate_by_html_id;
                 $this->isolate_by_html_id = false;
-                require_once MW_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
                 $pq = \phpQuery::newDocument($l);
                 foreach ($pq['#' . $id_sel] as $elem) {
                     $l = pq($elem)->htmlOuter();

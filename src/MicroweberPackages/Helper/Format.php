@@ -5,7 +5,7 @@ use Crypt;
 use Modules\CustomFields\Models\CustomField;
 
 
-require_once MW_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
+// phpQuery is now loaded via the microweber-packages/phpquery composer package
 
 
 class Format

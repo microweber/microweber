@@ -86,9 +86,6 @@ class ParserProcessor
             $this->moduleRenderer,
             $this->editFieldExtractor
         );
-
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
-
     }
 
     /*
