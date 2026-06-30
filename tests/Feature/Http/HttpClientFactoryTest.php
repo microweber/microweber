@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MicroweberPackages\Utils\Http\Tests;
+namespace Tests\Feature\Http;
 
-use MicroweberPackages\Utils\Http\HttpClientFactory;
+use MicroweberPackages\Http\HttpClientFactory;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 

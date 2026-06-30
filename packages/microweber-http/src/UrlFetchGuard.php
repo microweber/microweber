@@ -1,46 +1,22 @@
 <?php
 
-namespace MicroweberPackages\Utils\Http;
+namespace MicroweberPackages\Http;
 
 /**
  * Guard against Server-Side Request Forgery (SSRF) when the application
  * fetches a URL on behalf of an end-user (image grab, RSS pull, OEmbed
  * lookup, etc.).
  *
- * Closes the OOYES_AUDITS/01_SECURITY_AUDITOR.md A10 backlog gap:
- *   - Block private-IP ranges (RFC1918 10/8, 172.16/12, 192.168/16).
- *   - Block loopback (127/8, ::1).
- *   - Block link-local (169.254/16) — including the AWS metadata
- *     endpoint 169.254.169.254 the audit explicitly called out.
- *   - Block multicast / reserved ranges.
- *   - Require http(s) scheme — refuse file://, gopher://, ftp:// etc.
- *
- * Intended call site for any future URL-fetch helper (image-URL tab in
- * the Media picker, Marketplace updater, etc.):
- *
+ * Usage:
  *     UrlFetchGuard::assertSafe($userSuppliedUrl);
- *     $body = Http::timeout(10)->get($userSuppliedUrl)
- *         ->withoutRedirecting()  // see "Redirect contract" below
- *         ->body();
- *
- * Correct usage — 5-line minimal snippet (per agent-test review reply):
- * ---------------------------------------------------------------------
- *     $url = $userSupplied;
- *     for ($hop = 0; $hop < 5; $hop++) {
- *         UrlFetchGuard::assertSafe($url);
- *         $r = Http::withoutRedirecting()->timeout(10)->get($url);
- *         if (! $r->redirect()) { return $r->body(); }
- *         $url = $r->header('Location');                  // re-validate next hop
- *     }
  *
  * Redirect contract — IMPORTANT
  * -----------------------------
  * `assertSafe()` validates ONE URL. A `301`/`302`/`307`/`308` response can
  * point at a metadata IP even after the first hop validated as public; this
  * is the classic SSRF bypass. Callers MUST disable HTTP-client auto-redirect
- * (`->withoutRedirecting()` for Laravel `Http`, `CURLOPT_FOLLOWLOCATION = 0`
- * for raw curl) and re-call `assertSafe()` for every Location header before
- * fetching the next hop. Cap the redirect count (5 above) to prevent loops.
+ * and re-call `assertSafe()` for every Location header before fetching the
+ * next hop. Cap the redirect count (5) to prevent loops.
  */
 class UrlFetchGuard
 {
@@ -68,9 +44,7 @@ class UrlFetchGuard
             $host = substr($host, 1, -1);
         }
 
-        // Resolve the host to every A/AAAA record and check each. A single
-        // attacker-controlled DNS that returns 169.254.169.254 must not
-        // pass even if the literal string is "evil.example.com".
+        // Resolve the host to every A/AAAA record and check each.
         $ips = self::resolveAll($host);
         if (empty($ips)) {
             throw new \InvalidArgumentException('Host could not be resolved.');

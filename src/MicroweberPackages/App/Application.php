@@ -28,7 +28,7 @@ use MicroweberPackages\Template\LayoutsManager;
 use MicroweberPackages\Template\TemplateManager;
 use MicroweberPackages\Translation\Translator;
 use MicroweberPackages\User\Services\UserManager;
-use MicroweberPackages\Utils\Http\Http;
+use MicroweberPackages\Http\Http;
 use Modules\Attributes\Repositories\AttributesManager;
 use Modules\Cart\Repositories\CartManager;
 use Modules\Cart\Repositories\CartRepository;

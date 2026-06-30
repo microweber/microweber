@@ -16,7 +16,7 @@ use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Package\MicroweberComposerClient;
 use MicroweberPackages\Package\MicroweberComposerPackage;
 use MicroweberPackages\User\Models\User;
-use MicroweberPackages\Utils\Http\Http;
+use MicroweberPackages\Http\Http;
 use MicroweberPackages\Utils\Misc\License;
 use MicroweberPackages\View\View;
 use MicroweberPackages\Install;

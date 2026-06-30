@@ -51,7 +51,14 @@ abstract class AbstractRepository implements Repository
     /**
      * In-memory request-scoped cache to avoid redundant cache hits.
      */
-    public static array $_cacheCallbackMemory = [];
+    // Per-instance request memo for cacheCallback(). MUST NOT be static: repositories are
+    // bound fresh per resolve (e.g. `option_repository` via `bind`, not `singleton`), but a
+    // `static` memo would persist for the whole PHP process and leak stale values across
+    // unrelated reads — most visibly in long-running processes (tests/queue/Octane), where a
+    // value cached by one test survived a later save_option() and was read back stale. The
+    // flushable tagged cache below remains the real cross-request cache; this is only an
+    // in-instance shortcut.
+    protected array $_cacheCallbackMemory = [];
 
     /**
      * In-memory cache for loaded models by ID.
@@ -238,11 +245,11 @@ abstract class AbstractRepository implements Repository
         $cacheKey = $this->getCacheKey($method, $args, $tag);
         $_cacheCallback_memory_key = implode('-', $tag) . $cacheKey;
 
-        if (isset(self::$_cacheCallbackMemory[$_cacheCallback_memory_key])) {
-            return self::$_cacheCallbackMemory[$_cacheCallback_memory_key];
+        if (isset($this->_cacheCallbackMemory[$_cacheCallback_memory_key])) {
+            return $this->_cacheCallbackMemory[$_cacheCallback_memory_key];
         }
 
-        return self::$_cacheCallbackMemory[$_cacheCallback_memory_key] = self::getCacheInstance()->tags($tag)->remember(
+        return $this->_cacheCallbackMemory[$_cacheCallback_memory_key] = self::getCacheInstance()->tags($tag)->remember(
             $cacheKey,
             $this->getCacheExpiresTime($time),
             $callback
@@ -256,7 +263,7 @@ abstract class AbstractRepository implements Repository
 
     public function clearCache()
     {
-        self::$_cacheCallbackMemory = [];
+        $this->_cacheCallbackMemory = [];
         self::$_loaded_models_cache_get = [];
 
         if ($this->eventFlushCache === false || config('repositories.cache_enabled', false) === false) {

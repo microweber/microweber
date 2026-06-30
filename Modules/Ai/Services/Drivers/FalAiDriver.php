@@ -5,7 +5,7 @@ namespace Modules\Ai\Services\Drivers;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use MicroweberPackages\Utils\Http\HttpClientFactory;
+use MicroweberPackages\Http\HttpClientFactory;
 
 class FalAiDriver extends BaseDriver implements AiImageServiceInterface
 {

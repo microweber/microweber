@@ -31,6 +31,11 @@ class WebhookSecurityTest extends TestCase
     {
         parent::setUp();
 
+        // Deterministic fixture: getPayPalProvider() resolves the *first* active
+        // paypal provider, so any row left behind by another test (payment_providers
+        // is not reset between runs) would shadow ours. Clear the table first.
+        PaymentProvider::query()->delete();
+
         $this->stripeProvider = PaymentProvider::create([
             'name' => 'Stripe Test',
             'provider' => 'stripe',

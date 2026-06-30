@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Template\Adapters;
 
-use MicroweberPackages\Utils\Http\HttpClientFactory;
+use MicroweberPackages\Http\HttpClientFactory;
 
 class GoogleFontDownloader {
 

@@ -1,6 +1,6 @@
 {
-    "name": "microweber-packages/translation",
-    "description": "Standalone Laravel package for managing translations with database storage, import/export, and locale helpers",
+    "name": "microweber-packages/http",
+    "description": "Standalone Laravel HTTP client package with Guzzle/cURL adapters, SSL enforcement, SSRF guard and URL fetch guard",
     "type": "library",
     "license": "MIT",
     "version": "1.0.0",
@@ -12,41 +12,28 @@
     ],
     "require": {
         "php": "^8.2",
+        "guzzlehttp/guzzle": "^7.0",
         "illuminate/support": "^10.0|^11.0|^12.0",
-        "illuminate/database": "^10.0|^11.0|^12.0",
-        "illuminate/translation": "^10.0|^11.0|^12.0",
-        "illuminate/cache": "^10.0|^11.0|^12.0",
-        "microweber-packages/searchable": "^1.0",
-        "whitecube/lingua": "^1.1",
-        "symfony/intl": "^6.0|^7.0"
+        "illuminate/cache": "^10.0|^11.0|^12.0"
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../microweber-searchable",
-            "options": {
-                "symlink": true
-            }
-        }
-    ],
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0",
         "phpunit/phpunit": "^10.0|^11.0"
     },
     "autoload": {
         "psr-4": {
-            "MicroweberPackages\\Translation\\": "src/"
+            "MicroweberPackages\\Http\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "MicroweberPackages\\Translation\\Tests\\": "tests/"
+            "MicroweberPackages\\Http\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "MicroweberPackages\\Translation\\Providers\\TranslationServiceProvider"
+                "MicroweberPackages\\Http\\HttpServiceProvider"
             ]
         }
     },

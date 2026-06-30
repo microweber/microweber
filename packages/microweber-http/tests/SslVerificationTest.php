@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MicroweberPackages\Utils\Http\Tests;
+namespace MicroweberPackages\Http\Tests;
 
-use MicroweberPackages\Utils\Http\Adapters\Curl;
-use MicroweberPackages\Utils\Http\Adapters\Guzzle;
-use MicroweberPackages\Utils\Http\HttpClientFactory;
+use MicroweberPackages\Http\Adapters\Curl;
+use MicroweberPackages\Http\Adapters\Guzzle;
+use MicroweberPackages\Http\HttpClientFactory;
 use PHPUnit\Framework\Attributes\Test;
-use Tests\TestCase;
 
 class SslVerificationTest extends TestCase
 {
@@ -142,7 +141,6 @@ class SslVerificationTest extends TestCase
     #[Test]
     public function it_curl_restricts_protocols_via_factory(): void
     {
-        // Protocol restrictions are now enforced in HttpClientFactory::applySslOptions
         $reflection = new \ReflectionMethod(HttpClientFactory::class, 'applySslOptions');
         $source = $this->getMethodSource($reflection);
 

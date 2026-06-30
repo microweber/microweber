@@ -1,8 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Utils\Http\Adapters;
+namespace MicroweberPackages\Http\Adapters;
 
-use MicroweberPackages\Utils\Http\HttpClientFactory;
+use MicroweberPackages\Http\HttpClientFactory;
 
 class Guzzle
 {
@@ -32,14 +32,14 @@ class Guzzle
 
     public function download($save_to_file, $post_data = array())
     {
-        // DOWNLOAD USES CURL AS GUZZLE DOWNLOAD DOES NOT WORK
-        // http://stackoverflow.com/questions/16939794/copy-remote-file-using-guzzle
-        // https://gist.github.com/romainneutron/5340930
-
         if ($save_to_file != false) {
             $dn = dirname($save_to_file);
             if (!is_dir($dn)) {
-                mkdir_recursive($dn);
+                if (function_exists('mkdir_recursive')) {
+                    mkdir_recursive($dn);
+                } else {
+                    @mkdir($dn, 0755, true);
+                }
             }
             if (is_dir($dn)) {
                 $url = $this->url;

@@ -4,7 +4,7 @@ namespace MicroweberPackages\User\Socialite;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;
 use MicroweberPackages\User\Models\SocialiteUser;
-use MicroweberPackages\Utils\Http\HttpClientFactory;
+use MicroweberPackages\Http\HttpClientFactory;
 
 class MicroweberProvider extends AbstractProvider implements ProviderInterface
 {

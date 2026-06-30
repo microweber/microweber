@@ -39,7 +39,7 @@ use MicroweberPackages\Microweber\Providers\MicroweberServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Option\Console\Commands\OptionCommand;
-use MicroweberPackages\Utils\Http\Http;
+use MicroweberPackages\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
 use Modules\Content\Models\Content;
 use Modules\Media\Models\Media;

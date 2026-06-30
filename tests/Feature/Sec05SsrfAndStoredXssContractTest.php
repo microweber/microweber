@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use MicroweberPackages\Security\StoredXssStripper;
-use MicroweberPackages\Utils\Http\Ssrf\SsrfGuard;
+use MicroweberPackages\Http\Ssrf\SsrfGuard;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 

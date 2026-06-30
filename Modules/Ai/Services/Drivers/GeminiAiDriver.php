@@ -4,7 +4,7 @@ namespace Modules\Ai\Services\Drivers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-use MicroweberPackages\Utils\Http\HttpClientFactory;
+use MicroweberPackages\Http\HttpClientFactory;
 use NeuronAI\Chat\Messages\Message;
 
 class GeminiAiDriver extends BaseDriver implements AiChatServiceInterface

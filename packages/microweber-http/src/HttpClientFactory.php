@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MicroweberPackages\Utils\Http;
+namespace MicroweberPackages\Http;
 
 use GuzzleHttp\Client as GuzzleClient;
 
@@ -26,8 +26,7 @@ class HttpClientFactory
      */
     public static function caCertPath(): string
     {
-        return dirname(__DIR__) . DIRECTORY_SEPARATOR
-            . 'Http' . DIRECTORY_SEPARATOR
+        return __DIR__ . DIRECTORY_SEPARATOR
             . 'Adapters' . DIRECTORY_SEPARATOR
             . self::CA_CERT_FILENAME;
     }

@@ -2,33 +2,15 @@
 
 declare(strict_types=1);
 
-namespace MicroweberPackages\Utils\Http\Ssrf;
+namespace MicroweberPackages\Http\Ssrf;
 
 /**
- * AI-130 / SEC-05 (cycle-123 2026-05-09): SSRF guard.
+ * SSRF guard — validates that a user-supplied URL points at an externally
+ * reachable host.
  *
- * Brief: "Block 10.x / 172.16-31.x / 192.168.x / 127.x in URL-fetch
- * helper."
- *
- * Validates that a user-supplied URL points at an externally
- * reachable host — NOT loopback, NOT a private IPv4 range, NOT a
- * link-local address, NOT localhost / .localhost / .test / .invalid
- * sandbox suffixes. Resolves the hostname (one DNS lookup) and
- * checks BOTH the ASCII hostname AND every resolved IP — so
- * `http://example.com` whose A record happens to be `127.0.0.1`
- * is also rejected.
- *
- * Callers integrate the guard at the point they accept a URL from
- * user input, BEFORE the cURL/Guzzle fetch:
- *
- *   if (!SsrfGuard::isExternallyReachable($url)) {
- *       throw new \RuntimeException('URL points at a private network');
- *   }
- *
- * The guard is intentionally conservative — it errs on the side of
- * "deny" if the host can't be resolved (so a typo / DNS-poisoning
- * attempt fails closed). For caller-controlled / known-good URLs
- * (e.g. Updater repo URL) skip the guard.
+ * Rejects loopback, private IPv4 ranges, link-local addresses,
+ * localhost / .localhost / .test / .invalid sandbox suffixes, and
+ * non-http schemes.
  */
 final class SsrfGuard
 {
@@ -91,8 +73,6 @@ final class SsrfGuard
 
         $scheme = strtolower((string) $parts['scheme']);
         if ($scheme !== 'http' && $scheme !== 'https') {
-            // Reject file://, ftp://, gopher://, dict://, etc. —
-            // classic SSRF protocol-pivot vectors.
             return false;
         }
 
@@ -107,8 +87,7 @@ final class SsrfGuard
             }
         }
 
-        // If the host parses as a literal IP, check the ranges
-        // directly (DNS bypass attempt).
+        // If the host parses as a literal IP, check the ranges directly.
         if (filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             return !self::isPrivateIpv4($host);
         }
@@ -165,9 +144,7 @@ final class SsrfGuard
     }
 
     /**
-     * IPv6 prefix membership check (string-prefix; sufficient for
-     * the well-known private prefixes — full CIDR-IPv6 math would
-     * pull in BCMath).
+     * IPv6 prefix membership check.
      */
     public static function isPrivateIpv6(string $ip): bool
     {
@@ -221,8 +198,7 @@ final class SsrfGuard
     }
 
     /**
-     * Expand a packed-binary IPv6 to its full hex form
-     * `xxxx:xxxx:...:xxxx`.
+     * Expand a packed-binary IPv6 to its full hex form.
      */
     private static function expandIpv6(string $packed): string
     {

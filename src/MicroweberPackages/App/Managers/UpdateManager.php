@@ -47,7 +47,7 @@ class UpdateManager
 
     public function http()
     {
-        return new \MicroweberPackages\Utils\Http\Http();
+        return new \MicroweberPackages\Http\Http();
     }
 
     public function collect_local_data()
@@ -330,7 +330,7 @@ class UpdateManager
             $post_params['mw_version'] = MW_VERSION;
             $post_params['php_version'] = phpversion();
 
-            $curl = new \MicroweberPackages\Utils\Http\Http($this->app);
+            $curl = new \MicroweberPackages\Http\Http($this->app);
             $curl->set_url($requestUrl);
             $curl->set_timeout(20);
 

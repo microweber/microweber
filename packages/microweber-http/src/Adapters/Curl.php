@@ -1,18 +1,15 @@
 <?php
 
-namespace MicroweberPackages\Utils\Http\Adapters;
+namespace MicroweberPackages\Http\Adapters;
 
-use MicroweberPackages\Utils\Http\HttpClientFactory;
+use MicroweberPackages\Http\HttpClientFactory;
 
-/**
- * @original_author    Jason Michels https://thebizztech@github.com/thebizztech/Simple-Codeigniter-Curl-PHP-Class.git
- */
 class Curl
 {
     public $url = '';
     public $debug = false;
     public $timeout = 60;
-    public $save_to_file = false; // path to save
+    public $save_to_file = false;
     public $mimeTypes = array(
         'txt' => 'text/plain',
         'css' => 'text/css',
@@ -21,8 +18,6 @@ class Curl
         'xml' => 'application/xml',
         'swf' => 'application/x-shockwave-flash',
         'flv' => 'video/x-flv',
-
-        // images
         'png' => 'image/png',
         'jpe' => 'image/jpeg',
         'jpeg' => 'image/jpeg',
@@ -34,37 +29,27 @@ class Curl
         'tif' => 'image/tiff',
         'svg' => 'image/svg+xml',
         'svgz' => 'image/svg+xml',
-
-        // archives
         'zip' => 'application/zip',
         'rar' => 'application/x-rar-compressed',
         'exe' => 'application/x-msdownload',
         'msi' => 'application/x-msdownload',
         'cab' => 'application/vnd.ms-cab-compressed',
-
-        // audio/video
         'mp3' => 'audio/mpeg',
         'qt' => 'video/quicktime',
         'mov' => 'video/quicktime',
-
-        // adobe
         'pdf' => 'application/pdf',
         'psd' => 'image/vnd.adobe.photoshop',
         'ai' => 'application/postscript',
         'eps' => 'application/postscript',
         'ps' => 'application/postscript',
-
-        // ms office
         'doc' => 'application/msword',
         'rtf' => 'application/rtf',
         'xls' => 'application/vnd.ms-excel',
         'ppt' => 'application/vnd.ms-powerpoint',
-
-        // open office
         'odt' => 'application/vnd.oasis.opendocument.text',
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
     );
-    private $headers = array(); //Headers are built in set_headers() and passed in execute()
+    private $headers = array();
     private $uploads = array();
     private $post_data = '';
     private $fields_string = '';
@@ -83,8 +68,6 @@ class Curl
         return $this;
     }
 
-    //Headers can be modified depending on what you need cURL to accomplish
-
     public function setHttpHeaders($headers)
     {
         $this->http_headers = $headers;
@@ -97,14 +80,16 @@ class Curl
         return $this->setHeaders()->execute();
     }
 
-    //Set the headers and process curl via a GET
-
     public function download($save_to_file, $post_data = false)
     {
         if ($save_to_file != false) {
             $dn = dirname($save_to_file);
             if (!is_dir($dn)) {
-                mkdir_recursive($dn);
+                if (function_exists('mkdir_recursive')) {
+                    mkdir_recursive($dn);
+                } else {
+                    @mkdir($dn, 0755, true);
+                }
             }
             if (is_dir($dn)) {
                 $this->save_to_file = $save_to_file;
@@ -123,8 +108,6 @@ class Curl
         }
         $this->save_to_file = false;
     }
-
-    //Set the headers and process curl via a POST
 
     public function post($data = false)
     {
@@ -181,7 +164,6 @@ class Curl
 
     private function buildPostString()
     {
-        $is_new_curl = class_exists('CurlFile', false);
         if (function_exists('curl_init')) {
             $this->fields_string = null;
             foreach ($this->post_data as $key => $value) {
@@ -217,9 +199,12 @@ class Curl
             $dl = false;
             if ($save_to != false) {
                 $save_to = trim($save_to);
-                $save_to = sanitize_path($save_to);
-
-                $save_to = normalize_path($save_to, false);
+                if (function_exists('sanitize_path')) {
+                    $save_to = sanitize_path($save_to);
+                }
+                if (function_exists('normalize_path')) {
+                    $save_to = normalize_path($save_to, false);
+                }
 
                 if (file_exists($save_to)) {
                     $dl = true;
@@ -269,7 +254,6 @@ class Curl
                 }
             }
 
-            // grab URL
             $result = curl_exec($ch);
             if ($dl != false) {
                 fclose($fp);
@@ -323,8 +307,6 @@ class Curl
 
         return $this;
     }
-
-    //Starts curl and sets headers and returns the data in a string
 
     private function is_multidim_array($myarray)
     {

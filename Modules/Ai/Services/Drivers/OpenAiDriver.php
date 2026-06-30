@@ -3,7 +3,7 @@
 namespace Modules\Ai\Services\Drivers;
 
 use Illuminate\Support\Facades\Cache;
-use MicroweberPackages\Utils\Http\HttpClientFactory;
+use MicroweberPackages\Http\HttpClientFactory;
 use OpenAI\Client;
 use OpenAI\Factory;
 

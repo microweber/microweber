@@ -1,8 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Utils\Http;
+namespace MicroweberPackages\Http;
 
-use MicroweberPackages\Utils\Http\Adapters\Guzzle;
+use MicroweberPackages\Http\Adapters\Guzzle;
 
 class Http
 {
@@ -13,7 +13,7 @@ class Http
      */
     public $adapter;
     /**
-     * An instance of the Microweber Application class.
+     * An instance of the Application class.
      *
      * @var
      */
@@ -66,16 +66,21 @@ class Http
     public function get($params = false)
     {
         $http_cache_id = 'http_cache'.crc32($this->url . json_encode($params));
-    	$check_cache = cache_get($http_cache_id, 'http_cache');
 
-    	if (!$check_cache) {
-	        $get = $this->adapter->get($params);
-	        cache_save($get, $http_cache_id, 'http_cache', $this->cache);
-	        return $get;
-    	}
+        if ($this->cache && function_exists('cache_get')) {
+            $check_cache = cache_get($http_cache_id, 'http_cache');
+            if ($check_cache) {
+                return $check_cache;
+            }
+        }
 
-    	return $check_cache;
+        $get = $this->adapter->get($params);
 
+        if ($this->cache && function_exists('cache_save')) {
+            cache_save($get, $http_cache_id, 'http_cache', $this->cache);
+        }
+
+        return $get;
     }
 
     public function post($params = false)

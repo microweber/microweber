@@ -148,6 +148,7 @@
         "microweber-packages/db-installer": "^1.0",
         "microweber-packages/event-manager": "^1.0",
         "microweber-packages/translation": "^1.0",
+        "microweber-packages/http": "^1.0",
         "intervention/image-laravel": "^1.4",
         "tapp/filament-timezone-field": "^3.0",
         "league/flysystem-bundle": "^3.4",
@@ -189,6 +190,7 @@
             "MicroweberPackages\\Searchable\\": "packages/microweber-searchable/src/",
             "MicroweberPackages\\Security\\": "packages/microweber-security/src/",
             "MicroweberPackages\\Event\\": "packages/microweber-event-manager/src/",
+            "MicroweberPackages\\Http\\": "packages/microweber-http/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
@@ -514,6 +516,14 @@
         {
             "type": "path",
             "url": "packages/microweber-translation",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-http",
             "options": {
                 "reference": "config",
                 "symlink": true

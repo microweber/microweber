@@ -2,7 +2,7 @@
 
 namespace Modules\WordPressMigration\Services\Http;
 
-use MicroweberPackages\Utils\Http\HttpClientFactory;
+use MicroweberPackages\Http\HttpClientFactory;
 
 /**
  * Default HttpProbeFetcher — delegates to HttpClientFactory::executeCurl

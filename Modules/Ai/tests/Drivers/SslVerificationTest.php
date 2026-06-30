@@ -9,7 +9,7 @@ use Modules\Ai\Services\Drivers\GeminiAiDriver;
 use Modules\Ai\Services\Drivers\OllamaAiDriver;
 use Modules\Ai\Services\Drivers\OpenRouterAiDriver;
 use Modules\Ai\Services\Drivers\ReplicateAiDriver;
-use MicroweberPackages\Utils\Http\HttpClientFactory;
+use MicroweberPackages\Http\HttpClientFactory;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
