@@ -28,7 +28,7 @@ class MultilanguageModuleOptionTest extends MultilanguageTestBase
         $dataDefaultLang['module'] = $module;
         $dataDefaultLang['option_value'] = 'ti si manqk-' . $defaultLang;
         $dataDefaultLang['option_group'] = $optionGroup;
-        mw()->option_manager->save($dataDefaultLang);
+        app()->option_manager->save($dataDefaultLang);
 
         // Check the value is the same
         $findModuleOption = ModuleOption::where('option_key', $dataDefaultLang['option_key'])
@@ -45,7 +45,7 @@ class MultilanguageModuleOptionTest extends MultilanguageTestBase
         $data['module'] = $module;
         $data['option_value'] = 'ti si manqk na BG';
         $data['option_group'] = $optionGroup;
-        mw()->option_manager->save($data);
+        app()->option_manager->save($data);
 
         $findModuleOption = ModuleOption::where('option_key', $data['option_key'])
             ->where('module', $data['module'])
@@ -69,7 +69,7 @@ class MultilanguageModuleOptionTest extends MultilanguageTestBase
         $data['module'] = $module;
         $data['option_value'] = 'ti si arabski manqk';
         $data['option_group'] = $optionGroup;
-        mw()->option_manager->save($data);
+        app()->option_manager->save($data);
 
         $findModuleOption = ModuleOption::where('option_key', $data['option_key'])
             ->where('module', $data['module'])

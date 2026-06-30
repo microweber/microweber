@@ -97,7 +97,7 @@ class FrontendController extends Controller
 
         if (Config::get('microweber.force_https') && !is_cli() && !is_https()) {
             $https = str_ireplace('http://', 'https://', url_current());
-            return mw()->url_manager->redirect($https);
+            return app()->url_manager->redirect($https);
         }
 
         return $this->frontend($request_params);
@@ -153,7 +153,7 @@ class FrontendController extends Controller
 //        }
 //
 //        if (!$favicon_image) {
-//            $ui_favicon = mw()->ui->brand_favicon();
+//            $ui_favicon = app()->ui->brand_favicon();
 //            if ($ui_favicon and trim($ui_favicon) != '') {
 //                $favicon_image = trim($ui_favicon);
 //            }
@@ -244,7 +244,7 @@ class FrontendController extends Controller
                 }
             }
 
-            if (mw()->user_manager->session_id() and $is_editmode and $is_no_editmode == false) {
+            if (app()->user_manager->session_id() and $is_editmode and $is_no_editmode == false) {
                 if ($is_editmode == 'n') {
                     $is_editmode = false;
                     $page_url = app()->url_manager->param_unset('editmode', $page_url);
@@ -293,7 +293,7 @@ class FrontendController extends Controller
                 }
             }
 
-            if (mw()->user_manager->session_id() and !$is_no_editmode) {
+            if (app()->user_manager->session_id() and !$is_no_editmode) {
                 $is_editmode = app()->user_manager->session_get('editmode');
                 if (!isset($is_editmode_iframe) or !$is_editmode_iframe) {
                     $is_editmode_iframe = app()->user_manager->session_get('editmode_iframe');
@@ -940,7 +940,7 @@ class FrontendController extends Controller
 
         if (isset($content['require_login']) and $content['require_login'] == 1) {
             if (app()->user_manager->id() == 0) {
-                return app()->url_manager->redirect(login_url() . '?redirect=' . urlencode(mw()->url_manager->current()));
+                return app()->url_manager->redirect(login_url() . '?redirect=' . urlencode(app()->url_manager->current()));
             }
         }
         if (!defined('IS_HOME')) {
@@ -967,7 +967,7 @@ class FrontendController extends Controller
 
         event_trigger('mw.front', $content);
 
-        $overwrite = mw()->event_manager->trigger('mw.front.content_data', $content);
+        $overwrite = app()->event_manager->trigger('mw.front.content_data', $content);
         if (isset($overwrite[0])) {
             $content = $overwrite[0];
         }
@@ -1148,7 +1148,7 @@ class FrontendController extends Controller
 //                            $l = str_replace('{content}', $l, $layout_toolbar);
 //                        }
 //
-//                        //$layout_toolbar = mw()->parser->process($layout_toolbar, $options = array('no_apc' => 1));
+//                        //$layout_toolbar = app()->parser->process($layout_toolbar, $options = array('no_apc' => 1));
 //                    }
                 }
             }
@@ -1158,7 +1158,7 @@ class FrontendController extends Controller
                 \Debugbar::startMeasure('render', 'Time for rendering');
             }
 
-            if ($is_editmode === null and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
+            if ($is_editmode === null and $is_admin == true and app()->user_manager->session_id() and !(app()->user_manager->session_all() == false)) {
                 //editmode fix
                 $back_to_editmode = app()->user_manager->session_get('back_to_editmode');
 
@@ -1391,7 +1391,7 @@ class FrontendController extends Controller
 
             // moved to src/MicroweberPackages/MetaTags/Entities/GeneratorHeadTag.php
 //            if (defined('MW_VERSION')) {
-//                $generator_tag = "\n" . '<meta name="generator" content="' . addslashes(mw()->ui->brand_name()) . '" />' . "\n";
+//                $generator_tag = "\n" . '<meta name="generator" content="' . addslashes(app()->ui->brand_name()) . '" />' . "\n";
 //                $l = str_ireplace('</head>', $generator_tag . '</head>', $l, $rep_count);
 //            }
 
@@ -1446,7 +1446,7 @@ class FrontendController extends Controller
 //                       // $l = $this->liveEditToolbar($l);
 //                    }
                 }
-            } elseif ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
+            } elseif ($is_editmode == false and $is_admin == true and app()->user_manager->session_id() and !(app()->user_manager->session_all() == false)) {
                 if (!isset($request_params['isolate_content_field']) and !isset($request_params['content_id'])) {
                     if (!isset($_REQUEST['preview_layout'])) {
                         if (!$is_editmode_iframe and $back_to_editmode == true) {
@@ -1495,7 +1495,7 @@ class FrontendController extends Controller
                     $l = pq($elem)->htmlOuter();
                 }
             }
-            if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false) and $is_editmode) {
+            if (app()->user_manager->session_id() and !(app()->user_manager->session_all() == false) and $is_editmode) {
                 app()->user_manager->session_set('last_content_id', CONTENT_ID);
             }
             if (isset($output_cache_content) and $enable_full_page_cache and $output_cache_timeout != false) {

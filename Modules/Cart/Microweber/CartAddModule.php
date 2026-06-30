@@ -71,7 +71,7 @@ class CartAddModule extends BaseModule
         $prices_data = false;
 
         if ($for_id !== false && $for !== false) {
-            $prices_data = mw()->shop_manager->get_product_prices($for_id, true);
+            $prices_data = app()->shop_manager->get_product_prices($for_id, true);
 
             if ($prices_data) {
                 $data = [];

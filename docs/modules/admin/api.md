@@ -25,8 +25,8 @@ The complete panel configuration. Key sections:
 | `colors.info` | `Color::Sky` | |
 | `colors.success` | `Color::Emerald` | |
 | `colors.warning` | `Color::Amber` | |
-| `brandLogo` | `mw()->ui->admin_logo()` | falls back to login logo |
-| `brandName` | `mw()->ui->brand_name()` | |
+| `brandLogo` | `app()->ui->admin_logo()` | falls back to login logo |
+| `brandName` | `app()->ui->brand_name()` | |
 | `paginationOptions` | `[10, 25, 50, 100, 250]` | default page size 25 |
 | `pages` | `FilamentRegistry::getPages()` | plugin-driven |
 | `resources` | `FilamentRegistry::getResources()` | plugin-driven |

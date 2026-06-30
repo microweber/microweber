@@ -8,7 +8,7 @@ function get_email_from($group = 'email')
         return \Illuminate\Support\Facades\Config::get('mail.from.address');
     }
 
-   return mw()->option_manager->get('email_from', $group);
+   return app()->option_manager->get('email_from', $group);
 }
 
 function get_email_from_name($group = 'email')
@@ -17,7 +17,7 @@ function get_email_from_name($group = 'email')
         return \Illuminate\Support\Facades\Config::get('mail.from.name');
     }
 
-    return mw()->option_manager->get('email_from_name', $group);
+    return app()->option_manager->get('email_from_name', $group);
 }
 
 function get_email_transport()

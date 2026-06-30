@@ -80,8 +80,8 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
     }
 
     $exportFromTables = [];
-    $prefix = mw()->database_manager->get_prefix();
-    $tablesList = mw()->database_manager->get_tables_list(true);
+    $prefix = app()->database_manager->get_prefix();
+    $tablesList = app()->database_manager->get_tables_list(true);
     foreach ($tablesList as $table) {
         $table = str_replace($prefix, false, $table);
         $columns = \Illuminate\Support\Facades\Schema::getColumnListing($table);

@@ -80,7 +80,7 @@ if (!function_exists('save_mail_template')) {
             $option['option_key'] = 'append_files';
             $option['option_group'] = 'mail_template_id_' . $findMailTemplate->id;
 
-            mw()->option_manager->save($option);
+            app()->option_manager->save($option);
 
         }
 

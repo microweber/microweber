@@ -30,7 +30,7 @@ class GoogleRecaptchaV3
             $default_score = 1;
         }
 
-        $response = mw()->http->url($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response.'&score='.$default_score.'&remoteip='.user_ip())->get();
+        $response = app()->http->url($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response.'&score='.$default_score.'&remoteip='.user_ip())->get();
         $recaptcha = @json_decode($response,true);
 
         if ($recaptcha and isset($recaptcha["success"]) and $recaptcha["success"]) {

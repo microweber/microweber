@@ -105,7 +105,7 @@ class TranslationTest extends TestCase
         $this->assertNotEmpty($installResponse);
         $this->assertArrayHasKey('success', $installResponse);
 
-        mw()->lang_helper->set_current_lang('bg_BG');
+        app()->lang_helper->set_current_lang('bg_BG');
 
         $this->assertEquals('Табло', _e('Dashboard', 'true'));
         $this->assertEquals('Настройки', _e('Settings', 'true'));
@@ -114,7 +114,7 @@ class TranslationTest extends TestCase
         $this->assertEquals('Коментари', _e('Comments', 'true'));
 
 
-        mw()->lang_helper->set_current_lang('en_US');
+        app()->lang_helper->set_current_lang('en_US');
 
         $this->assertEquals('Dashboard', _e('Dashboard', 'true'));
         $this->assertEquals('Settings', _e('Settings', 'true'));
@@ -175,7 +175,7 @@ $this->loginAsAdmin();
         $this->assertNotEmpty($importResponse);
         $this->assertArrayHasKey('success', $importResponse);
 
-        mw()->lang_helper->set_current_lang($newLocale);
+        app()->lang_helper->set_current_lang($newLocale);
 
 
         $this->assertEquals('Как си?', _e('How are you?', 'true'));
@@ -183,7 +183,7 @@ $this->loginAsAdmin();
         $this->assertEquals('Клюки', _e('Comments', 'true'));
 
 
-        mw()->lang_helper->set_current_lang('en_US');
+        app()->lang_helper->set_current_lang('en_US');
 
         $this->assertEquals('How are you?', _e('How are you?', 'true'));
         $this->assertEquals('Are you okay?', _e('Are you okay?', 'true'));

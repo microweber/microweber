@@ -28,7 +28,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="robots" content="noindex,nofollow">
-    <title>404 · {{ e(mw()->ui->brand_name() ?: 'Microweber') }}</title>
+    <title>404 · {{ e(app()->ui->brand_name() ?: 'Microweber') }}</title>
 
     {{-- Same theme bundle Filament admin loads — keeps fonts, colours,
          heroicon glyphs, and the .mw-admin-empty-state / .mw-table-empty-cta

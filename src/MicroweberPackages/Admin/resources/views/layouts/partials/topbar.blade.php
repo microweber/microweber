@@ -47,10 +47,10 @@ if (!$past_page) {
                 </li>
                 <li id="admin-logo">
                     <?php
-                    if (mw()->ui->admin_logo != false):
-                        $logo = mw()->ui->admin_logo;
-                    elseif (mw()->ui->admin_logo_login() != false):
-                        $logo = mw()->ui->admin_logo_login();
+                    if (app()->ui->admin_logo != false):
+                        $logo = app()->ui->admin_logo;
+                    elseif (app()->ui->admin_logo_login() != false):
+                        $logo = app()->ui->admin_logo_login();
                     else:
                         $logo = asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg');
                     endif;
@@ -88,7 +88,7 @@ if (!$past_page) {
                             <?php $custom_view = url_param('view'); ?>
                             <?php $custom_action = url_param('action'); ?>
                             <?php event_trigger('content.create.menu'); ?>
-                            <?php $create_content_menu = mw()->module_manager->ui('content.create.menu'); ?>
+                            <?php $create_content_menu = app()->module_manager->ui('content.create.menu'); ?>
                             <?php if (!empty($create_content_menu)): ?>
                             <?php foreach ($create_content_menu as $type => $item): ?>
                             <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>

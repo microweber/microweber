@@ -98,7 +98,7 @@ class AdminController extends Controller
         if ($force_https and !is_cli()) {
             if (!is_https()) {
                 $https = str_ireplace('http://', 'https://', url_current());
-                return mw()->url_manager->redirect($https);
+                return app()->url_manager->redirect($https);
             }
         }
 
@@ -137,7 +137,7 @@ class AdminController extends Controller
 
         //   $layout = app(StringBlade::class)->render($layout, []);
 
-        $layout = mw()->parser->process($layout);
+        $layout = app()->parser->process($layout);
         event_trigger('on_load');
 
 
@@ -151,7 +151,7 @@ class AdminController extends Controller
     private function hasNoAdmin()
     {
 
-        if (mw()->url_manager->param('mw_install_create_user')) {
+        if (app()->url_manager->param('mw_install_create_user')) {
             $this->execCreateAdmin();
         }
     }

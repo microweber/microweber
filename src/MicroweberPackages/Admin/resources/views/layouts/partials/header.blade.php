@@ -130,12 +130,12 @@ $additionalBodyClassesStr = implode(' ', $additionalBodyClasses);
 
 
 $bodyClasses[] = 'is_admin';
-if(mw()->url_manager->param('view')) {
-    $bodyClasses[] = 'view-'.mw()->url_manager->param('view');
+if(app()->url_manager->param('view')) {
+    $bodyClasses[] = 'view-'.app()->url_manager->param('view');
 }
 
-if(mw()->url_manager->param('action')) {
-    $bodyClasses[] = 'action-'.mw()->url_manager->param('action');
+if(app()->url_manager->param('action')) {
+    $bodyClasses[] = 'action-'.app()->url_manager->param('action');
 }
 
 
@@ -144,7 +144,7 @@ $bodyClassesStr = $bodyClasses ? implode(' ', $bodyClasses) : '';
 ?>
 
 
-<body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?> <?php print $additionalBodyClassesStr; ?>">
+<body class="is_admin loading view-<?php print app()->url_manager->param('view'); ?> action-<?php print app()->url_manager->param('action'); ?> <?php print $additionalBodyClassesStr; ?>">
 
 
 
@@ -161,7 +161,7 @@ $bodyClassesStr = $bodyClasses ? implode(' ', $bodyClasses) : '';
 <?php } ?>*/
 
 // must be moved to ajax and to the notification class because its too slow to load
-//$new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates');
+//$new_version_notifications = app()->notifications_manager->get('rel_type=update_check&rel_id=updates');
 
 $new_version_notifications = 0;
 ?>
@@ -179,7 +179,7 @@ if(is_shop_module_enabled_for_user()){
 //$shop_disabled = get_option('shop_disabled', 'website') == 'y';
 //
 //if (!$shop_disabled) {
-//    if (!mw()->module_manager->is_installed('shop')) {
+//    if (!app()->module_manager->is_installed('shop')) {
 //        $shop_disabled = true;
 //    }
 //}

@@ -1,12 +1,12 @@
 <?php
 function get_module_options($optionGroup, $module = false)
 {
-    return mw()->option_manager->getModuleOptions($optionGroup, $module = false);
+    return app()->option_manager->getModuleOptions($optionGroup, $module = false);
 }
 
 function get_module_option($optionKey, $optionGroup = false, $returnFull = false, $module = false)
 {
-    return mw()->option_manager->getModuleOption($optionKey, $optionGroup, $returnFull, $module);
+    return app()->option_manager->getModuleOption($optionKey, $optionGroup, $returnFull, $module);
 }
 
 function save_module_option($optionKey, $value = false, $group = false, $module = false, $lang = null)

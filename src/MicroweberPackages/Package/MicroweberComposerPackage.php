@@ -13,7 +13,7 @@ class MicroweberComposerPackage
     public static function loadLocalData()
     {
         self::$allPackages = [];
-        self::$localPackages = mw()->update->collect_local_data();
+        self::$localPackages = app()->update->collect_local_data();
 
         foreach(self::$localPackages['modules'] as $package) {
             self::$allPackages[] = $package;

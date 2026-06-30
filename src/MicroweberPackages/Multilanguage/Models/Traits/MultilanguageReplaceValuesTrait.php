@@ -7,12 +7,12 @@ trait MultilanguageReplaceValuesTrait
 {
     protected function getDefaultLocale()
     {
-        return mw()->lang_helper->default_lang();
+        return app()->lang_helper->default_lang();
     }
 
     protected function getLocale()
     {
-        return mw()->lang_helper->current_lang();
+        return app()->lang_helper->current_lang();
     }
 
     public function replaceMultilanguageValues($model,array $findTranslations = [], string $locale, string $defaultLocale)

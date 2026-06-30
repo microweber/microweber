@@ -286,22 +286,13 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
          * `project_test_architecture`. Resetting here preserves
          * production semantics and prevents cross-test pollution.
          */
-        // Pass `false` as the autoload arg so unused cleanup classes
-        // don't get autoloaded (and their class table entries don't
-        // become permanent process overhead) when a test never touched
-        // them. Reset only fires when the class is ALREADY loaded.
-        if (class_exists(\MicroweberPackages\Database\Eloquent\Builder\CachedBuilder::class, false)) {
-            \MicroweberPackages\Database\Eloquent\Builder\CachedBuilder::$_loaded_models_cache_get = [];
-        }
-        if (class_exists(\MicroweberPackages\Multilanguage\TranslateTable::class, false)) {
-            \MicroweberPackages\Multilanguage\TranslateTable::$_getTranslateTranslates = [];
-        }
-        if (class_exists(\MicroweberPackages\Multilanguage\MultilanguagePermalinkManager::class, false)) {
-            \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager::$_linkContent = [];
-        }
-        if (class_exists(\MicroweberPackages\Database\Utils::class, false)) {
-            \MicroweberPackages\Database\Utils::$get_fields_fields_memory = [];
-        }
+        // CachedBuilder::$_loaded_models_cache_get, TranslateTable::$_getTranslateTranslates,
+        // MultilanguagePermalinkManager::$_linkContent and Database\Utils::$get_fields_fields_memory
+        // were converted from `static` to instance (`protected`) properties — their holders
+        // (a fresh Eloquent builder per query, the `bind` permalink_manager, the per-test
+        // database_manager singleton) are recreated per test, so the caches no longer survive
+        // the app teardown and need no explicit reset here. (Mirrors the AbstractRepository
+        // $_cacheCallbackMemory fix.)
         // phpQuery library accumulates DOM trees in `phpQuery::$documents`
         // across every newDocument() call. Even with the per-call cleanup
         // added to Parser::make_tags / modify_html, any test that creates

@@ -21,7 +21,7 @@ Route::name('api.content.')
 ->group(function () {
     Route::get('/', [ContentApiController::class, 'index'])->name('index');
     Route::get('/get_admin_js_tree_json', function (\Illuminate\Http\Request $request) {
-        return mw()->category_manager->get_admin_js_tree_json($request->all());
+        return app()->category_manager->get_admin_js_tree_json($request->all());
     })->name('get_admin_js_tree_json')->withoutMiddleware(['throttle:public'])->middleware(['web', 'api', 'admin']);
     Route::get('/{content}', [ContentApiController::class, 'show'])->name('show');
 });
@@ -43,7 +43,7 @@ Route::name('api.')
     ->middleware(['web', 'api', 'admin'])
     ->group(function () {
         Route::get('content/get_admin_js_tree_json', function (\Illuminate\Http\Request $request) {
-            return mw()->category_manager->get_admin_js_tree_json($request->all());
+            return app()->category_manager->get_admin_js_tree_json($request->all());
         })->name('content.get_admin_js_tree_json');
 
         Route::post('save_edit', function (\Illuminate\Http\Request $request) {
@@ -119,7 +119,7 @@ Route::name('api.')
                 return;
             }
 
-            $segments = mw()->permalink_manager->link($content['id'], 'content', true);
+            $segments = app()->permalink_manager->link($content['id'], 'content', true);
             $admin_url = route('admin.content.edit', $content['id']);
 
             if (isset($content['content_type']) and $content['content_type']) {

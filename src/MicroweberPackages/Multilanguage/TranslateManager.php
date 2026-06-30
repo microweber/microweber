@@ -440,7 +440,7 @@ class TranslateManager
                     $get = array();
                     $get['id'] = $findTranslate['rel_id'];
                     $get['single'] = true;
-                    $content = mw()->category_manager->get($get);
+                    $content = app()->category_manager->get($get);
 
                     if (is_array($content) and is_array($findTranslate) and $content['url'] == $findTranslate['field_value']) {
                         // Debugbar::stopMeasure('app.category.get_by_url');
@@ -462,7 +462,7 @@ class TranslateManager
                     $get['url'] = $targetUrl;
                     $get['single'] = true;
 
-                    $content = mw()->category_manager->get($get);
+                    $content = app()->category_manager->get($get);
                     if ($content) {
                         if ($content['url'] !== $targetUrl) {
                             /**

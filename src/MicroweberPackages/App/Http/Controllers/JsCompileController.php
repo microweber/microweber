@@ -368,7 +368,7 @@ class JsCompileController extends Controller
             if (isset($_REQUEST['category_id'])) {
                 $cat_url = intval($_REQUEST['category_id']);
             } elseif (isset($_SERVER['HTTP_REFERER'])) {
-                $cat_url = mw()->category_manager->get_category_id_from_url($_SERVER['HTTP_REFERER']);
+                $cat_url = app()->category_manager->get_category_id_from_url($_SERVER['HTTP_REFERER']);
                 $cat_url = intval($cat_url);
             }
 

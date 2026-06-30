@@ -180,7 +180,7 @@ class ShippingToCountry extends AbstractShippingMethod
                     if ($shipping_country) {
                         $cost = $this->getShippingCost(['shipping_country' => $shipping_country]);
 
-                        $instructions = 'Shipping to ' . $shipping_country . ' costs ' . mw()->shop_manager->currency_format($cost);
+                        $instructions = 'Shipping to ' . $shipping_country . ' costs ' . app()->shop_manager->currency_format($cost);
 
                     }
 
@@ -207,7 +207,7 @@ class ShippingToCountry extends AbstractShippingMethod
                                 ->label('Country')
                                 ->options(function () {
                                     $countries = ['Worldwide' => 'Worldwide'];
-                                    $all_countries = mw()->forms_manager->countries_list();
+                                    $all_countries = app()->forms_manager->countries_list();
                                     foreach ($all_countries as $country) {
                                         $countries[$country] = $country;
                                     }

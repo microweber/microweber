@@ -187,7 +187,7 @@ Variables expected in `$itemsData` rows:
 
 Where:
 - `mw_cache_path()` resolves to the project's cache directory (typically `storage/cache/`).
-- `hostname` is `mw()->url_manager->hostname()` — the current request's `Host` header, normalised (no port, no scheme).
+- `hostname` is `app()->url_manager->hostname()` — the current request's `Host` header, normalised (no port, no scheme).
 - `<type>` is one of `categories`, `products`, `posts`, `pages`, `tags`.
 
 E.g. on a multi-tenant install: `storage/cache/site-a.example.com_products_sitemap.xml` and `storage/cache/site-b.example.com_products_sitemap.xml` are separate files.
@@ -256,7 +256,7 @@ The Sitemap module does not define helpers. It uses:
 |---|---|---|
 | `site_url($path)` | App | builds absolute URL with current scheme + host |
 | `mw_cache_path()` | App | returns the configured cache directory |
-| `mw()->url_manager->hostname()` | App | current request's hostname |
+| `app()->url_manager->hostname()` | App | current request's hostname |
 | `content_tags($pageId, true)` | Content | fetch the tag list for a page |
 | `get_supported_languages(true)` | Multilanguage | list of active locale codes |
 | `multilanguage_get_all_category_links()` | Multilanguage | all category links across locales |

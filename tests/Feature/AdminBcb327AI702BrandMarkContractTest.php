@@ -25,9 +25,9 @@ use Tests\TestCase;
  *      actions` Livewire hook (Filament accumulates hooks at the
  *      same name in registration order; first-registered renders
  *      leftmost). Builds the brand-mark `<a>` with logo URL from
- *      the same fallback chain `brandLogo()` uses (mw()->ui
+ *      the same fallback chain `brandLogo()` uses (app()->ui
  *      ->admin_logo() → admin_logo_login()), brand name from
- *      `mw()->ui->brand_name()`, and click route to
+ *      `app()->ui->brand_name()`, and click route to
  *      url(mw_admin_prefix_url() ?: 'admin').
  *
  *   2. general-styles.css — .mw-admin-brand-mark CSS:

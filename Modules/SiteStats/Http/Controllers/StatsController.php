@@ -63,7 +63,7 @@ class StatsController extends Controller
 
         $pingStatsViewResponse = "var mwpingstats={}; \n";
 
-        $overwriteResponse = mw()->event_manager->trigger('mw.pingstats.response');
+        $overwriteResponse = app()->event_manager->trigger('mw.pingstats.response');
         if (!empty($overwriteResponse)) {
             foreach ($overwriteResponse as $response) {
                 $pingStatsViewResponse .= $response . "\n";

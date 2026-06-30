@@ -188,7 +188,7 @@ class DatabaseSave
             return false;
         }
 
-        $downloaded = mw()->http->url($imageUrl)->download($filename);
+        $downloaded = app()->http->url($imageUrl)->download($filename);
         if ($downloaded && is_file($filename)) {
             $ext = get_file_extension($imageUrl);
 
@@ -196,7 +196,7 @@ class DatabaseSave
             $newFilename = media_uploads_path() . $photoId . '.' . $imageExt;
             @rename($filename, $newFilename);
             if (is_file($newFilename)) {
-                mw()->media_manager->save([
+                app()->media_manager->save([
                     'rel_id' => $contentId,
                     'rel_type' => morph_name(\Modules\Content\Models\Content::class),
                     'media_type' => 'picture',

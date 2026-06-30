@@ -64,7 +64,7 @@ class AdminTemplatePage extends Page
 //        $layout_options['no_cache'] = true;
 //        $layout_options['no_folder_sort'] = true;
 //
-//        $layouts = mw()->layouts_manager->get_all($layout_options);
+//        $layouts = app()->layouts_manager->get_all($layout_options);
         return $schema
             ->schema([
 

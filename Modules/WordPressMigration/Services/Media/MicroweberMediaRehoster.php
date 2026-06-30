@@ -10,7 +10,7 @@ namespace Modules\WordPressMigration\Services\Media;
  * This is the production-path rehoster. The unit tests use a
  * hand-rolled fake instead of this class because the class's
  * value-add is orchestrating three runtime globals
- * (`mw()->http`, `save_media()`, `media_base_path()`), so mocking
+ * (`app()->http`, `save_media()`, `media_base_path()`), so mocking
  * them out inside the test leaves nothing worth testing here.
  * Behavioral coverage lives in the integration test that wires
  * the rehoster through {@see \Modules\WordPressMigration\Services\WordPressContentMapper}.
@@ -52,14 +52,14 @@ class MicroweberMediaRehoster implements MediaRehoster
     /**
      * @param callable(string $url, string $targetPath): bool|null $downloader
      *   Override for the bytes-fetcher. Defaults to
-     *   `mw()->http->url($url)->download($target)`. Tests pass a
+     *   `app()->http->url($url)->download($target)`. Tests pass a
      *   closure that copies a fixture file so the production path
      *   is exercised without hitting the network.
      */
     public function __construct(?callable $downloader = null)
     {
         $this->downloader = $downloader ?? fn (string $url, string $target): bool
-            => (bool) mw()->http->url($url)->download($target);
+            => (bool) app()->http->url($url)->download($target);
     }
 
     public function rehost(string $url, array $context = []): ?string
@@ -103,7 +103,7 @@ class MicroweberMediaRehoster implements MediaRehoster
             }
         }
 
-        $publicUrl = mw()->url_manager->link_to_file($target);
+        $publicUrl = app()->url_manager->link_to_file($target);
         if (!is_string($publicUrl) || $publicUrl === '') {
             return null;
         }

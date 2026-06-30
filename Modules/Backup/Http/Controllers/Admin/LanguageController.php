@@ -33,7 +33,7 @@ class LanguageController
 			$readyData['___lang'] = $language;
 		}
 
-		$save = mw()->lang_helper->save_language_file_content($readyData);
+		$save = app()->lang_helper->save_language_file_content($readyData);
 
 		return $save;
 	}
@@ -54,9 +54,9 @@ class LanguageController
 		$exportFilename = userfiles_path() .'/'. $filename . '.xlsx';
 
 		if ($namespace == 'global') {
-			$content = mw()->lang_helper->get_language_file_content();
+			$content = app()->lang_helper->get_language_file_content();
 		} else {
-			$content = mw()->lang_helper->get_language_file_content($namespace);
+			$content = app()->lang_helper->get_language_file_content($namespace);
 		}
 
 		$rows = array();

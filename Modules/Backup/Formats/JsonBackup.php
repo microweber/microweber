@@ -42,7 +42,7 @@ class JsonBackup extends DefaultBackup
                 $dump,
                 function (&$value) {
                     if (is_string($value)) {
-                        $value = mw()->url_manager->replace_site_url($value);
+                        $value = app()->url_manager->replace_site_url($value);
                     }
                 }
             );

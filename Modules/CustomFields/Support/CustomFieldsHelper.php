@@ -12,7 +12,7 @@ class CustomFieldsHelper
         $fields .= 'Zip/Post code[type=text,field_size=4,show_placeholder=true],';
         $fields .= 'Address[type=textarea,field_size=12,show_placeholder=true]';
 
-        return mw()->fields_manager->makeDefault($relType, $relId, $fields);
+        return app()->fields_manager->makeDefault($relType, $relId, $fields);
     }
 
     public static function generateFieldNameValues($type)

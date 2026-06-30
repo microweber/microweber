@@ -85,7 +85,7 @@ Modular PHP CMS on **Laravel 11**. This file is the fast-start map; keep it in s
 - Append to CSS files with the Edit tool (old tail → tail + new block), never a Bash heredoc (duplicates mid-stream).
 - Touch targets: `min-height/min-width: 44px`; for Filament `size=lg`/checkbox use `:has(.fi-checkbox-input)` + `!important` where inline styles win.
 - Empty-state list CTA class is `.mw-table-empty-cta` (not `.mw-empty-state-cta`, owned by the dashboard widget). Grep `packages/` before naming any new CSS class — a duplicate from another bundle silently wins the cascade.
-- Use `mw()->ui->brand_name()` / `admin_logo()` (no bare `brand_name()`). `get_option(key, group)` is canonical (not `option_get`).
+- Use `app()->ui->brand_name()` / `admin_logo()` (no bare `brand_name()`). `get_option(key, group)` is canonical (not `option_get`).
 
 ## Escaping & parser footguns (the recurring bug families)
 Match the escape to the **output context**:

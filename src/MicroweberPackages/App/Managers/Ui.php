@@ -43,7 +43,7 @@ class Ui
             $faviconUrl = $this->brand_favicon();
             if (str_finish($faviconUrl, '.ico')) {
                 try {
-                    $faviconContent = mw()->url_manager->download($faviconUrl);
+                    $faviconContent = app()->url_manager->download($faviconUrl);
                     if (!empty($faviconContent)) {
                         $faviconPublic = public_path('favicon.ico');
                         file_put_contents($faviconPublic, $faviconContent);
@@ -117,7 +117,7 @@ class Ui
         $btn['class'] = 'mai-category';
         $this->module('content.create.menu', $btn);
 
-//        $notif_count = mw()->notifications_manager->get_unread_count();
+//        $notif_count = app()->notifications_manager->get_unread_count();
 //        $notif_count_html = false;
 //        if (intval($notif_count) > 0) {
 //            $notif_count_html = '<span class="badge badge-danger badge-sm badge-pill d-inline-block ml-2">' . $notif_count . '</span>';
@@ -162,7 +162,7 @@ class Ui
         $notif_count = 0;
 
 //        if (defined('MW_BACKEND') and MW_BACKEND) {
-//            $notif_count_updates_data = mw()->update->get_updates_notifications('limit=1');
+//            $notif_count_updates_data = app()->update->get_updates_notifications('limit=1');
 //
 //            if (isset($notif_count_updates_data[0])
 //                and isset($notif_count_updates_data[0]['notification_data'])

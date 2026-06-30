@@ -20,7 +20,7 @@ class UserLoginListener
                         ->orWhereNull('order_completed');
                 })
                 ->update(array('session_id' => Session::getId()));
-            mw()->cache_manager->delete('cart');
+            app()->cache_manager->delete('cart');
         }
     }
 }

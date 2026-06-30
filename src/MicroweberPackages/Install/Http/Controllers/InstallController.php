@@ -741,7 +741,7 @@ class InstallController extends Controller
             // if (!is_cli() and isset($admin_user_id)) {
             if (isset($admin_user_id) and $admin_user_id) {
                 if (!$is_cli_install) {
-                    mw()->user_manager->make_logged($admin_user_id, true);
+                    app()->user_manager->make_logged($admin_user_id, true);
                 }
             }
 
@@ -844,7 +844,7 @@ class InstallController extends Controller
 
         $layout->assign('done', $is_installed);
         $layout = $layout->__toString();
-//        $langs = mw()->lang_helper->get_all_lang_codes();
+//        $langs = app()->lang_helper->get_all_lang_codes();
 //        $viewData['langs'] = $langs;
 //        $viewData['dbDefaultLang'] = 'en_US';
 //        $templates = $this->_get_templates_for_install_screen();

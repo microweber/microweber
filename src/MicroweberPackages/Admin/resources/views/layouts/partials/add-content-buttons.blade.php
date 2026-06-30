@@ -4,7 +4,7 @@
 <?php $custom_view = url_param('view'); ?>
 <?php $custom_action = url_param('action'); ?>
 <?php event_trigger('content.create.menu'); ?>
-<?php $create_content_menu = mw()->module_manager->ui('content.create.menu'); ?>
+<?php $create_content_menu = app()->module_manager->ui('content.create.menu'); ?>
 
 <?php
 

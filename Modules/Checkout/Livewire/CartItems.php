@@ -19,7 +19,7 @@ class CartItems extends Component implements HasForms
     public function mount()
     {
         $this->cartItems = app()->cart_manager->get() ?? [];
-        $this->cartTotals = mw()->cart_manager->totals();
+        $this->cartTotals = app()->cart_manager->totals();
 
 
     }
@@ -28,7 +28,7 @@ class CartItems extends Component implements HasForms
     public function reloadCart()
     {
         $this->cartItems = app()->cart_manager->get() ?? [];
-        $this->cartTotals = mw()->cart_manager->totals();
+        $this->cartTotals = app()->cart_manager->totals();
     }
 
     public function updateQuantity($itemId, $quantity)
@@ -50,7 +50,7 @@ class CartItems extends Component implements HasForms
     {
         return view('modules.checkout::livewire.cart-items', [
             'cartItems' => app()->cart_manager->get() ?? [],
-            'cartTotals' => mw()->cart_manager->totals()
+            'cartTotals' => app()->cart_manager->totals()
         ]);
     }
 }

@@ -76,12 +76,12 @@ function api_nosession_url($str = '')
 
 function auto_link($text)
 {
-    return mw()->format->auto_link($text);
+    return app()->format->auto_link($text);
 }
 
 function prep_url($text)
 {
-    return mw()->format->prep_url($text);
+    return app()->format->prep_url($text);
 }
 
 
@@ -98,7 +98,7 @@ function prep_url($text)
  */
 function url_path($skip_ajax = false)
 {
-    return mw()->url_manager->string($skip_ajax);
+    return app()->url_manager->string($skip_ajax);
 }
 
 /**
@@ -108,27 +108,27 @@ function url_path($skip_ajax = false)
  */
 function url_string($skip_ajax = false)
 {
-    return mw()->url_manager->string($skip_ajax);
+    return app()->url_manager->string($skip_ajax);
 }
 
 function url_title($text)
 {
-    return mw()->url_manager->slug($text);
+    return app()->url_manager->slug($text);
 }
 
 function url_param($param, $skip_ajax = false)
 {
-    return mw()->url_manager->param($param, $skip_ajax);
+    return app()->url_manager->param($param, $skip_ajax);
 }
 
 function url_set_param($param, $value)
 {
-    return site_url(mw()->url_manager->param_set($param, $value));
+    return site_url(app()->url_manager->param_set($param, $value));
 }
 
 function url_unset_param($param)
 {
-    return site_url(mw()->url_manager->param_unset($param));
+    return site_url(app()->url_manager->param_unset($param));
 }
 
 /**
@@ -153,7 +153,7 @@ function url_unset_param($param)
  */
 function cache_get($cache_id, $cache_group = 'global', $expiration = false)
 {
-    return mw()->cache_manager->get($cache_id, $cache_group, $expiration);
+    return app()->cache_manager->get($cache_id, $cache_group, $expiration);
 }
 
 /**
@@ -181,7 +181,7 @@ function cache_get($cache_id, $cache_group = 'global', $expiration = false)
  */
 function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $expiration_in_seconds = false)
 {
-    return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group, $expiration_in_seconds);
+    return app()->cache_manager->save($data_to_cache, $cache_id, $cache_group, $expiration_in_seconds);
 }
 
 /**
@@ -197,9 +197,9 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $expirat
  */
 function clearcache()
 {
-    mw()->cache_manager->clear();
+    app()->cache_manager->clear();
     app()->template_manager->clear_cache();
-    mw()->ui->clear_cache();
+    app()->ui->clear_cache();
 
     $empty_folder = userfiles_path() . 'cache' . DS;
 
@@ -271,7 +271,7 @@ function clearcache()
  */
 function cache_debug()
 {
-    return mw()->cache_manager->debug();
+    return app()->cache_manager->debug();
 }
 
 /**
@@ -299,13 +299,13 @@ function cache_debug()
  */
 function cache_clear($cache_group = 'global')
 {
-    return mw()->cache_manager->delete($cache_group);
+    return app()->cache_manager->delete($cache_group);
 }
 
 //same as cache_clear
 function cache_delete($cache_group = 'global')
 {
-    return mw()->cache_manager->delete($cache_group);
+    return app()->cache_manager->delete($cache_group);
 }
 
 
@@ -319,7 +319,7 @@ function get_favicon_image()
     $favicon_image = get_option('favicon_image', 'website');
 
     if (!$favicon_image) {
-        $ui_favicon = mw()->ui->brand_favicon();
+        $ui_favicon = app()->ui->brand_favicon();
         if ($ui_favicon and trim($ui_favicon) != '') {
             $favicon_image = trim($ui_favicon);
         }
@@ -339,7 +339,7 @@ function multilanguage_route_prefix($prefix) {
 
     if (is_module('multilanguage')) {
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
-            $language = mw()->lang_helper->current_lang_display();
+            $language = app()->lang_helper->current_lang_display();
             $prefix = $language . '/' . $prefix;
         }
     }

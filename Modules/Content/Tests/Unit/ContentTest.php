@@ -206,7 +206,7 @@ class ContentTest extends TestCase
     #[Test]
 
     public function it_content_categories(): void {
-        mw()->database_manager->extended_save_set_permission(true);
+        app()->database_manager->extended_save_set_permission(true);
 
 
         $params = array(
@@ -256,7 +256,7 @@ class ContentTest extends TestCase
 
 
     public function it_content_categories2(): void {
-        mw()->database_manager->extended_save_set_permission(true);
+        app()->database_manager->extended_save_set_permission(true);
 
         $params = array(
             'title' => 'My categories page 2',
@@ -407,7 +407,7 @@ class ContentTest extends TestCase
     }
 //    public function testContentOriginalLinkRedirect()
 //    {
-//        mw()->database_manager->extended_save_set_permission(true);
+//        app()->database_manager->extended_save_set_permission(true);
 //
 //        $params = array(
 //            'title' => 'My test page testContentOriginalLinkRedirect',

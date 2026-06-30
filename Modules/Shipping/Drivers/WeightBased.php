@@ -188,7 +188,7 @@ class WeightBased extends AbstractShippingMethod
                         $instructions = sprintf(
                             'Total cart weight: %.2f kg. Shipping cost: %s',
                             $cartWeight,
-                            mw()->shop_manager->currency_format($cost)
+                            app()->shop_manager->currency_format($cost)
                         );
                     }
 

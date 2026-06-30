@@ -32,7 +32,7 @@ class Price extends DefaultField
 
         // This will append special offers module to price custom fields in admin
         if ($this->adminView) {
-            $outputHtml = mw()->parser->process($outputHtml, $options = false);
+            $outputHtml = app()->parser->process($outputHtml, $options = false);
         }
 
         return $outputHtml;

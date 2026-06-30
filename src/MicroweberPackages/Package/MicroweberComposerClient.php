@@ -56,7 +56,7 @@ class MicroweberComposerClient extends Client
         $searchPackages = $this->search();
 
         $allPackages = [];
-        $localPackages = mw()->update->collect_local_data();
+        $localPackages = app()->update->collect_local_data();
         foreach ($localPackages['modules'] as $package) {
             $allPackages[] = $package;
         }
@@ -291,15 +291,15 @@ class MicroweberComposerClient extends Client
 //            scan_for_elements('skip_cache=1&cleanup_db=1&reload_modules=1');
 
 
-            mw()->cache_manager->delete('db');
-            mw()->cache_manager->delete('update');
-            mw()->cache_manager->delete('elements');
+            app()->cache_manager->delete('db');
+            app()->cache_manager->delete('update');
+            app()->cache_manager->delete('elements');
 
-            mw()->cache_manager->delete('templates');
-            mw()->cache_manager->delete('modules');
+            app()->cache_manager->delete('templates');
+            app()->cache_manager->delete('modules');
 
             Cache::forget('livewire-marketplace');
-            mw()->cache_manager->delete('livewire-marketplace');
+            app()->cache_manager->delete('livewire-marketplace');
 
             $this->clearLog();
 

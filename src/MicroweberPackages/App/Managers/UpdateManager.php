@@ -140,20 +140,20 @@ class UpdateManager
         $params['rel_type'] = 'update_check';
         $params['rel_id'] = 'updates';
 
-        $new_version_notifications = mw()->notifications_manager->get($params);
+        $new_version_notifications = app()->notifications_manager->get($params);
         return $new_version_notifications;
     }
 
     public function marketplace_link($params = false)
     {
-        if (!isset($params['marketplace_provider_id']) and isset(mw()->ui->marketplace_provider_id) and mw()->ui->marketplace_provider_id) {
-            $params['marketplace_provider_id'] = mw()->ui->marketplace_provider_id;
+        if (!isset($params['marketplace_provider_id']) and isset(app()->ui->marketplace_provider_id) and app()->ui->marketplace_provider_id) {
+            $params['marketplace_provider_id'] = app()->ui->marketplace_provider_id;
         } elseif ($this->app->make('config')->get('microweber.marketplace_provider_id')) {
             $params['marketplace_provider_id'] = $this->app->make('config')->get('microweber.marketplace_provider_id');
         }
 
-        if (!isset($params['marketplace_access_code']) and isset(mw()->ui->marketplace_access_code)) {
-            $params['marketplace_access_code'] = mw()->ui->marketplace_access_code;
+        if (!isset($params['marketplace_access_code']) and isset(app()->ui->marketplace_access_code)) {
+            $params['marketplace_access_code'] = app()->ui->marketplace_access_code;
         }
 
         $url_resp = $this->call('market_link', $params);
@@ -272,13 +272,13 @@ class UpdateManager
 
 
 
-            mw()->cache_manager->delete('db');
-            mw()->cache_manager->delete('update');
-            mw()->cache_manager->delete('elements');
+            app()->cache_manager->delete('db');
+            app()->cache_manager->delete('update');
+            app()->cache_manager->delete('elements');
 
-            mw()->cache_manager->delete('templates');
-            mw()->cache_manager->delete('modules');
-            mw()->cache_manager->clear();
+            app()->cache_manager->delete('templates');
+            app()->cache_manager->delete('modules');
+            app()->cache_manager->clear();
             //  scan_for_modules(['no_cache'=>true]);
             //   scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
 
@@ -286,11 +286,11 @@ class UpdateManager
             scan_for_modules(['no_cache' => true, 'reload_modules' => true, 'cleanup_db' => true]);
             scan_for_elements(['no_cache' => true, 'reload_modules' => true, 'cleanup_db' => true]);
 
-            mw()->module_manager->reload_laravel_modules();
-            mw()->module_manager->reload_laravel_templates();
+            app()->module_manager->reload_laravel_modules();
+            app()->module_manager->reload_laravel_templates();
            // $this->log($output->fetch());
 
-            mw()->layouts_manager->scan();
+            app()->layouts_manager->scan();
 
 
             $output = new BufferedOutput();

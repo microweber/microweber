@@ -137,7 +137,7 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
             unlink($filename);
         }
 
-        $downloaded = mw()->http->url($url)->download($filename);
+        $downloaded = app()->http->url($url)->download($filename);
         if ($downloaded && is_file($filename)) {
             $this->importSubscribers['sourceFileRealpath'] = $filename;
         } else {

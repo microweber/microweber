@@ -54,21 +54,21 @@ class MailSender
         }
         $this->email_from_name = $email_from_name;
 
-        $this->smtp_host = trim(mw()->option_manager->get('smtp_host', 'email'));
-        $this->smtp_port = intval(mw()->option_manager->get('smtp_port', 'email'));
+        $this->smtp_host = trim(app()->option_manager->get('smtp_host', 'email'));
+        $this->smtp_port = intval(app()->option_manager->get('smtp_port', 'email'));
 
-        $this->smtp_username = trim(mw()->option_manager->get('smtp_username', 'email'));
-        $this->smtp_password = trim(mw()->option_manager->get('smtp_password', 'email'));
-        $this->smtp_auth = trim(mw()->option_manager->get('smtp_auth', 'email'));
-        $this->transport = trim(mw()->option_manager->get('email_transport', 'email'));
+        $this->smtp_username = trim(app()->option_manager->get('smtp_username', 'email'));
+        $this->smtp_password = trim(app()->option_manager->get('smtp_password', 'email'));
+        $this->smtp_auth = trim(app()->option_manager->get('smtp_auth', 'email'));
+        $this->transport = trim(app()->option_manager->get('email_transport', 'email'));
 
-        $sec = mw()->option_manager->get('smtp_secure', 'email');
+        $sec = app()->option_manager->get('smtp_secure', 'email');
 
         $this->smtp_secure = intval($sec);
 
         $email_from = get_email_from();
 
-        $hostname = mw()->url_manager->hostname();
+        $hostname = app()->url_manager->hostname();
 
 
         if ($email_from == false or trim($email_from) == '') {
@@ -248,7 +248,7 @@ class MailSender
 //
 //        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 //        $cache_group = 'notifications/email';
-//        $cache_content = mw()->cache_manager->get($function_cache_id, $cache_group);
+//        $cache_content = app()->cache_manager->get($function_cache_id, $cache_group);
 //
 //        if ($no_cache == false and ($cache_content) != false) {
 //
@@ -262,7 +262,7 @@ class MailSender
         }
 
         if ($add_hostname_to_subject != false) {
-            $subject = '[' . mw()->url_manager->hostname() . '] ' . $subject;
+            $subject = '[' . app()->url_manager->hostname() . '] ' . $subject;
         }
 
         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
@@ -338,7 +338,7 @@ class MailSender
     {
         $from_address = $from_address ?: $this->email_from;
         $from_name = $from_name ?: $this->email_from_name;
-        $text = mw()->url_manager->replace_site_url_back($text);
+        $text = app()->url_manager->replace_site_url_back($text);
 
         $content = array();
         $content['content'] = $text;
@@ -347,7 +347,7 @@ class MailSender
         $content['from'] = $from_address;
         $content['from_name'] = $from_name;
 
-        //  $reply_to = mw()->option_manager->get('email_reply', 'contact_form_default');
+        //  $reply_to = app()->option_manager->get('email_reply', 'contact_form_default');
 
         ///  escapeshellcmd() has been disabled for security reasons
         self::$last_send = $content;

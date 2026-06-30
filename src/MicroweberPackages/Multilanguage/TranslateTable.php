@@ -89,7 +89,7 @@ class TranslateTable
     }
 
 
-    public static $_getTranslateTranslates = [];
+    protected $_getTranslateTranslates = [];
     public function getTranslate($data)
     {
         if (!isset($data[$this->relId])) {
@@ -97,11 +97,11 @@ class TranslateTable
         }
         $currentLocale = $this->getCurrentLocale();
 
-        if (!empty(self::$_getTranslateTranslates[$this->relType][$currentLocale])) {
-            $translates = self::$_getTranslateTranslates[$this->relType][$currentLocale];
+        if (!empty($this->_getTranslateTranslates[$this->relType][$currentLocale])) {
+            $translates = $this->_getTranslateTranslates[$this->relType][$currentLocale];
         } else {
             $translates = app()->multilanguage_repository->getTranslationsByRelTypeAndLocale($this->relType, $currentLocale);
-            self::$_getTranslateTranslates[$this->relType][$currentLocale] = $translates;
+            $this->_getTranslateTranslates[$this->relType][$currentLocale] = $translates;
         }
 
         if ($translates) {

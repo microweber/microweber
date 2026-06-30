@@ -26,6 +26,6 @@ class Country extends DefaultField
             $this->renderSettings['required'] = $this->data['required'];
         }
 
-        $this->renderData['values'] =  mw()->forms_manager->countries_list();
+        $this->renderData['values'] =  app()->forms_manager->countries_list();
     }
 }

@@ -2,7 +2,7 @@
 
 function module_info($module_name)
 {
-    return mw()->module_manager->info($module_name);
+    return app()->module_manager->info($module_name);
 }
 
 
@@ -44,7 +44,7 @@ function module($params)
 
         if ($k != 'display') {
             if (is_array($v)) {
-                $v1 = mw()->format->array_to_base64($v);
+                $v1 = app()->format->array_to_base64($v);
                 $tags .= "{$k}=\"$v1\" ";
             } else {
                 $em = str_ireplace('{' . $k . '}', $v, $em);
@@ -54,7 +54,7 @@ function module($params)
         }
     }
 
-    $res = mw()->module_manager->load($module_name, $params);
+    $res = app()->module_manager->load($module_name, $params);
     if (isset($params['wrap']) or isset($params['data-wrap'])) {
         $module_cl = module_css_class($module_name);
         $res = "<div class='module {$module_cl}' {$tags} data-type='{$module_name}'>" . $res . '</div>';
@@ -65,12 +65,12 @@ function module($params)
 
 function is_module($module_name)
 {
-    return mw()->module_manager->exists($module_name);
+    return app()->module_manager->exists($module_name);
 }
 
 function is_module_installed($module_name)
 {
-    return mw()->module_manager->is_installed($module_name);
+    return app()->module_manager->is_installed($module_name);
 }
 
 function module_admin_url($module_name = false)
@@ -185,17 +185,17 @@ function module_admin_url($module_name = false)
 
 function module_url($module_name = false)
 {
-    return mw()->module_manager->url($module_name);
+    return app()->module_manager->url($module_name);
 }
 
 function module_dir($module_name)
 {
-    return mw()->module_manager->dir($module_name);
+    return app()->module_manager->dir($module_name);
 }
 
 function locate_module($module_name, $custom_view = false, $no_fallback_to_view = false)
 {
-    return mw()->module_manager->locate($module_name, $custom_view, $no_fallback_to_view);
+    return app()->module_manager->locate($module_name, $custom_view, $no_fallback_to_view);
 }
 
 
@@ -204,12 +204,12 @@ function locate_module($module_name, $custom_view = false, $no_fallback_to_view 
 
 function get_saved_modules_as_template($params)
 {
-    return mw()->module_manager->get_saved_modules_as_template($params);
+    return app()->module_manager->get_saved_modules_as_template($params);
 }
 
 api_expose_admin('delete_module_as_template');
 function delete_module_as_template($data)
 {
-    return mw()->module_manager->delete_module_as_template($data);
+    return app()->module_manager->delete_module_as_template($data);
 }
 

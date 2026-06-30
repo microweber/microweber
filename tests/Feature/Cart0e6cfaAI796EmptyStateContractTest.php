@@ -28,7 +28,7 @@ use Tests\TestCase;
  *
  * Fix shape — 4 slices in one ship:
  *   - Slice A: conditional-render the "Proceed to Checkout" CTA in
- *     page.blade.php only when `mw()->cart_manager->get()` is non-empty.
+ *     page.blade.php only when `app()->cart_manager->get()` is non-empty.
  *   - Slice B: brand-blue #0d6efd override on .mw-cart-standalone-checkout-cta
  *     + new .mw-cart-empty-cta class for the Livewire empty-state CTA
  *     (matches .mw-table-empty-cta colour shape from microweber-filament-theme.css).
@@ -69,7 +69,7 @@ class Cart0e6cfaAI796EmptyStateContractTest extends TestCase
         // The bottom "Proceed to Checkout" anchor must be wrapped in
         // an @if that checks a cart-items-non-empty flag.
         $this->assertStringContainsString(
-            '$mwCartCartItems = function_exists(\'mw\') ? (mw()->cart_manager->get() ?? []) : [];',
+            '$mwCartCartItems = function_exists(\'mw\') ? (app()->cart_manager->get() ?? []) : [];',
             $this->page,
             'page.blade.php must resolve $mwCartCartItems from cart_manager (coerce null→[]) so the empty-check is reliable.'
         );

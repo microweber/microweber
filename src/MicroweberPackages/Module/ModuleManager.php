@@ -179,9 +179,9 @@ class ModuleManager
     {
         $this->_install_mode = true;
 
-        mw()->cache_manager->delete('db');
-        mw()->cache_manager->clear();
-        mw()->module_repository->clearCache();
+        app()->cache_manager->delete('db');
+        app()->cache_manager->clear();
+        app()->module_repository->clearCache();
 
         $this->scan();
 
@@ -489,7 +489,7 @@ class ModuleManager
 
     public function save($data_to_save)
     {
-        if (mw()->user_manager->is_admin() == false and $this->_install_mode == false) {
+        if (app()->user_manager->is_admin() == false and $this->_install_mode == false) {
             return false;
         }
         if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
@@ -527,7 +527,7 @@ class ModuleManager
                         //   $s['position'] = intval($save[0]['position']);
                         $s['installed'] = intval($save[0]['installed']);
 
-                        $save = mw()->database_manager->save($table, $s);
+                        $save = app()->database_manager->save($table, $s);
                         // print_r($save);
                         $mname_clen = str_replace('\\', '/', $s['module']);
                         if ($s['id'] > 0) {
@@ -535,15 +535,15 @@ class ModuleManager
                             //$delid = $s["id"];
                             DB::table($table)->where('id', '!=', $s['id'])->where('module', $s['module'])->delete();
                             // $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
-                            //mw()->database_manager->q($del);
+                            //app()->database_manager->q($del);
                         }
                     } else {
 
-                        $save = mw()->database_manager->save($table, $s);
+                        $save = app()->database_manager->save($table, $s);
                     }
                 }
             } else {
-                $save = mw()->database_manager->save($table, $s);
+                $save = app()->database_manager->save($table, $s);
             }
         }
         return $save;

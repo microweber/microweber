@@ -60,7 +60,7 @@ class CacheManager
      * //store custom data in cache
      * $data = array('something' => 'some_value');
      * $cache_id = 'my_cache_id';
-     * $cache_content = mw()->cache_manager->save($data, $cache_id, 'my_cache_group');
+     * $cache_content = app()->cache_manager->save($data, $cache_id, 'my_cache_group');
      * </code>
      */
     public function save($data_to_cache, $cache_id, $cache_group = 'global', $expiration = false)
@@ -84,7 +84,7 @@ class CacheManager
      * <code>
      *
      * $cache_id = 'my_cache_'.crc32($sql_query_string);
-     * $cache_content = mw()->cache_manager->get($cache_id, 'my_cache_group');
+     * $cache_content = app()->cache_manager->get($cache_id, 'my_cache_group');
      *
      * </code>
      */
@@ -104,16 +104,16 @@ class CacheManager
      * @example
      * <code>
      * //delete the cache for the content
-     *  mw()->cache_manager->delete("content");
+     *  app()->cache_manager->delete("content");
      *
      * //delete the cache for the content with id 1
-     *  mw()->cache_manager->delete("content/1");
+     *  app()->cache_manager->delete("content/1");
      *
      * //delete the cache for users
-     *  mw()->cache_manager->delete("users");
+     *  app()->cache_manager->delete("users");
      *
      * //delete the cache for your custom table eg. my_table
-     * mw()->cache_manager->delete("my_table");
+     * app()->cache_manager->delete("my_table");
      * </code>
      */
     public function delete($cache_group = 'global')
@@ -127,7 +127,7 @@ class CacheManager
      * @example
      *          <code>
      *          //delete all cache
-     *          mw()->cache_manager->clear();
+     *          app()->cache_manager->clear();
      *          </code>
      *
      * @return bool
@@ -145,7 +145,7 @@ class CacheManager
      * @example
      * <code>
      * //get cache items info
-     *  $cached_items = mw()->cache_manager->debug();
+     *  $cached_items = app()->cache_manager->debug();
      * print_r($cached_items);
      * </code>
      */

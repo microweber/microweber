@@ -57,7 +57,7 @@
      * competing with the Livewire empty-state CTA. cart_manager->get()
      * returns null when empty; coerce to [] for the empty()-check.
      */
-    $mwCartCartItems = function_exists('mw') ? (mw()->cart_manager->get() ?? []) : [];
+    $mwCartCartItems = function_exists('mw') ? (app()->cart_manager->get() ?? []) : [];
     $mwCartHasItems = !empty($mwCartCartItems);
 @endphp
 

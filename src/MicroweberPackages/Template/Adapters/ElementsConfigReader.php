@@ -168,7 +168,7 @@ class ElementsConfigReader
 
                         $possible = $here_dir . $to_return_temp['icon'];
                         if (is_file($possible)) {
-                            $to_return_temp['icon'] = mw()->url_manager->link_to_file($possible);
+                            $to_return_temp['icon'] = app()->url_manager->link_to_file($possible);
                         } else {
                             unset($to_return_temp['icon']);
                         }
@@ -181,7 +181,7 @@ class ElementsConfigReader
                         $possible = $here_dir . $to_return_temp['image'];
 
                         if (is_file($possible)) {
-                            $to_return_temp['image'] = mw()->url_manager->link_to_file($possible);
+                            $to_return_temp['image'] = app()->url_manager->link_to_file($possible);
                         } else {
                             unset($to_return_temp['image']);
                         }
@@ -226,8 +226,8 @@ class ElementsConfigReader
                 $config_ready['screenshot_file'] = $screen;
             }
             if (isset($config_ready['screenshot_file'])) {
-                $config_ready['screenshot'] = mw()->url_manager->link_to_file($config_ready['screenshot_file']);
-                $config_ready['icon'] = mw()->url_manager->link_to_file($config_ready['screenshot_file']);
+                $config_ready['screenshot'] = app()->url_manager->link_to_file($config_ready['screenshot_file']);
+                $config_ready['icon'] = app()->url_manager->link_to_file($config_ready['screenshot_file']);
 
             }
         }

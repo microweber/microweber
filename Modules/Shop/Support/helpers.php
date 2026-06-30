@@ -11,7 +11,7 @@ if (!function_exists('delete_client')) {
 if (!function_exists('is_product_in_stock')) {
     function is_product_in_stock($content_id)
     {
-        return mw()->cart_manager->is_product_in_stock($content_id);
+        return app()->cart_manager->is_product_in_stock($content_id);
     }
 }
 
@@ -117,7 +117,7 @@ if (!function_exists('get_currency_symbol')) {
 if (!function_exists('get_currency_code')) {
     function get_currency_code()
     {
-        $curr = mw()->option_manager->get('currency', 'payments');
+        $curr = app()->option_manager->get('currency', 'payments');
         if (!$curr) {
             $curr = 'USD';
         }
@@ -140,7 +140,7 @@ if (!function_exists('is_shop_module_enabled_for_user')) {
             return false;
         }
 
-        if (!mw()->module_manager->is_installed('shop')) {
+        if (!app()->module_manager->is_installed('shop')) {
             return false;
         }
 

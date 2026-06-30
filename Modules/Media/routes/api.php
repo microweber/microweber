@@ -7,7 +7,7 @@ use Modules\Media\Http\Controllers\Api\MediaApiController;
 
 Route::post('/api/media/upload', function (\Illuminate\Http\Request $request) {
 
-    return mw()->media_manager->upload($_POST);
+    return app()->media_manager->upload($_POST);
 
 
 })->middleware(['api', 'admin', 'xss'])->name('api.media_upload');
@@ -38,12 +38,12 @@ Route::get('/api/image-generate-tn-request/{cache_id}', function ($mediaId) {
         $cache_id_data_json = $opts;
         $cache_id_data_json['cache_id'] = $check->rel_id ?? $mediaId;
 
-        $tn = mw()->media_manager->thumbnail_img($cache_id_data_json);
+        $tn = app()->media_manager->thumbnail_img($cache_id_data_json);
         return $tn;
     }
 
 
-    return mw()->media_manager->pixum_img();
+    return app()->media_manager->pixum_img();
 })->name('api.image-generate-tn-request');
 
 Route::post('/api/save_media', function (\Illuminate\Http\Request $request) {

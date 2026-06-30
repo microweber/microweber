@@ -213,7 +213,7 @@ class FieldsManager
                         $field_type = 'text';
                     }
 
-                    $fields = mw()->ui->custom_fields();
+                    $fields = app()->ui->custom_fields();
                     if (array_key_exists($field_name_lower, $fields)) {
                         $field_type = $field_name;
                     }
@@ -385,7 +385,7 @@ class FieldsManager
             $fields_csv_str .= 'Zip/Post code[type=text,field_size=4,show_placeholder=true],';
             $fields_csv_str .= 'Address[type=textarea,field_size=12,show_placeholder=true]';
 
-            $saved[] = mw()->fields_manager->makeDefault($fieldData['rel_type'], $fieldData['rel_id'], $fields_csv_str);
+            $saved[] = app()->fields_manager->makeDefault($fieldData['rel_type'], $fieldData['rel_id'], $fields_csv_str);
 
             return $saved;
         }
@@ -602,7 +602,7 @@ class FieldsManager
 
     public function getFieldNameByType($type)
     {
-        $fields = mw()->ui->custom_fields();
+        $fields = app()->ui->custom_fields();
 
         if (isset($fields[$type])) {
             return $fields[$type];

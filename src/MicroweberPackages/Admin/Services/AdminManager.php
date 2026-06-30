@@ -135,8 +135,8 @@ class AdminManager
             ->addChild('List Posts', [
                 'attributes' => ['route' => 'admin.post.index']
             ]);
-        $showServiceLink = mw()->ui->enable_service_links();
-        $showPoweredBy = mw()->ui->powered_by_link_enabled();
+        $showServiceLink = app()->ui->enable_service_links();
+        $showPoweredBy = app()->ui->powered_by_link_enabled();
 
         if($showServiceLink && $showPoweredBy) {
 
@@ -181,7 +181,7 @@ class AdminManager
 //        $favicon_image = get_option('favicon_image', 'website');
 //
 //        if (!$favicon_image) {
-//            $ui_favicon = mw()->ui->brand_favicon();
+//            $ui_favicon = app()->ui->brand_favicon();
 //            if ($ui_favicon and trim($ui_favicon) != '') {
 //                $favicon_image = trim($ui_favicon);
 //            }

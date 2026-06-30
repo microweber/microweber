@@ -132,7 +132,7 @@ class SourceSlugResolverTest extends TestCase
     #[Test]
     public function special_characters_collapse_to_single_hyphen_matching_has_slug_trait(): void
     {
-        // The slug normalizer used by HasSlugTrait (via mw()->url_manager->slug)
+        // The slug normalizer used by HasSlugTrait (via app()->url_manager->slug)
         // collapses runs of non-letter/digit chars into a single `-`.
         // Resolver mirrors that so the collision check compares apples to apples.
         $this->assertSame(

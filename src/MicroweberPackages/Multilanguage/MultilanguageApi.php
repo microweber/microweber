@@ -21,7 +21,7 @@ class MultilanguageApi
 
         if (isset($params['active'])) {
             if ($params['active'] == 'true') {
-                $defaultLang = mw()->lang_helper->default_lang();
+                $defaultLang = app()->lang_helper->default_lang();
                 $findDefaultLangInSupportedLocales = MultilanguageSupportedLocales::where('locale', $defaultLang)->first();
                 if ($findDefaultLangInSupportedLocales == null) {
                     add_supported_language($defaultLang, $defaultLang);
@@ -139,7 +139,7 @@ class MultilanguageApi
 
 
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {
-            mw()->event_manager->trigger('mw.admin.change_language');
+            app()->event_manager->trigger('mw.admin.change_language');
             $json['refresh'] = true;
             return $json;
         } else {

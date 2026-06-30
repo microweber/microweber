@@ -149,7 +149,7 @@ class MultilanguageServiceProvider extends ServiceProvider
 //                }
 //            }
 
-            $currentUrl = mw()->url_manager->current();
+            $currentUrl = app()->url_manager->current();
             if ($currentUrl !== api_url('multilanguage/change_language')) {
                 if (!defined('MW_DISABLE_MULTILANGUAGE')) {
                     if (MultilanguageHelpers::multilanguageIsEnabled()) {

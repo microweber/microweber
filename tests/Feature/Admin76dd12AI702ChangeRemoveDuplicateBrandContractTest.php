@@ -107,7 +107,7 @@ class Admin76dd12AI702ChangeRemoveDuplicateBrandContractTest extends TestCase
     #[Test]
     public function topbar_start_hook_uses_same_admin_logo_fallback_chain(): void
     {
-        // The hook reads mw()->ui->admin_logo() with a fallback to
+        // The hook reads app()->ui->admin_logo() with a fallback to
         // admin_logo_login() — same chain the removed ->brandLogo()
         // used. Pin so the audit reads continuity intentionally.
         $this->assertStringContainsString(

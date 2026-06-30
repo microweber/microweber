@@ -97,7 +97,7 @@ class DefaultOptionsInstaller
                 'is_active' => 1,
                 'shipping_cost' => 0
             );
-            $engine = mw()->database_manager->get_sql_engine();
+            $engine = app()->database_manager->get_sql_engine();
             if ($engine == 'pgsql') {
                 $highestId = DB::table('cart_shipping')->select(DB::raw('MAX(id)'))->first();
                 $save['id'] = $highestId->max + 1;

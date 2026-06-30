@@ -10,8 +10,8 @@ class DataFieldsTest extends TestCase
 {
     #[Test]
     public function it_save(): void {
-        mw()->database_manager->extended_save_set_permission(true);
-        $has_permission = mw()->database_manager->extended_save_has_permission();
+        app()->database_manager->extended_save_set_permission(true);
+        $has_permission = app()->database_manager->extended_save_has_permission();
         $params = array(
             'title' => 'My post with data fields',
             'content_type' => 'post',
@@ -29,7 +29,7 @@ class DataFieldsTest extends TestCase
     #[Test]
 
     public function it_save_data_fields(): void {
-        mw()->database_manager->extended_save_set_permission(true);
+        app()->database_manager->extended_save_set_permission(true);
         $val = 'hello there custom 1-'.rand();
         $val2 = 'hello there custom 2-'.rand();
         $params = array(
@@ -52,7 +52,7 @@ class DataFieldsTest extends TestCase
 
 
     public function it_data_fields_deleted_on_content_delete(): void {
-        mw()->database_manager->extended_save_set_permission(true);
+        app()->database_manager->extended_save_set_permission(true);
         $val = 'hello there custom 1-'.rand();
         $val2 = 'hello there custom 2-'.rand();
         $params = array(

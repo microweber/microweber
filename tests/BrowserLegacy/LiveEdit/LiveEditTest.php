@@ -53,7 +53,7 @@ class LiveEditTest extends DuskTestCase
 //                $browser->within(new ChekForJavascriptErrors(), function ($browser) {
 //                    $browser->validate();
 //                });
-//                $module_css_class = mw()->parser->module_css_class($module['module']);
+//                $module_css_class = app()->parser->module_css_class($module['module']);
 //
 //
 //

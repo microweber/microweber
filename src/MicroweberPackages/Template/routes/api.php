@@ -78,7 +78,7 @@ Route::post('api/current_template_save_custom_css', function (Request $request) 
     $data = $request->all();
     app()->template_manager->defineConstants($data);
 
-    return mw()->layouts_manager->template_save_css($data);
+    return app()->layouts_manager->template_save_css($data);
 })->name('current_template_save_custom_css')
     ->middleware(['api', 'admin', \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class]);
 
@@ -86,7 +86,7 @@ Route::post('api/layouts/template_remove_custom_css', function (Request $request
     $data = $request->all();
     app()->template_manager->defineConstants($data);
 
-    return mw()->layouts_manager->template_remove_custom_css($data);
+    return app()->layouts_manager->template_remove_custom_css($data);
 })->name('template_remove_custom_css')
     ->middleware(['api', 'admin', \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class]);
 

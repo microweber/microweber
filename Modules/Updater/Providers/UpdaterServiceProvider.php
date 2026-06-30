@@ -93,7 +93,7 @@ class UpdaterServiceProvider extends BaseModuleServiceProvider
      */
     private function isStandaloneUpdaterEnabled(): bool
     {
-        if (mw()->ui->disable_marketplace != true) {
+        if (app()->ui->disable_marketplace != true) {
             return false;
         }
         if (is_link(mw_root_path() . DS . 'src')) {

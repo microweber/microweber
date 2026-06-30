@@ -28,13 +28,13 @@ if (isset($templateViewsName) && !empty($templateViewsName)) {
     }
 }
 
-if (!isset(mw()->ui->admin_logo_login_link) || mw()->ui->admin_logo_login_link == false) {
+if (!isset(app()->ui->admin_logo_login_link) || app()->ui->admin_logo_login_link == false) {
     $mwAuthLogoLink = site_url();
 } else {
-    $mwAuthLogoLink = mw()->ui->admin_logo_login_link;
+    $mwAuthLogoLink = app()->ui->admin_logo_login_link;
 }
 
-$mwAuthLogoUrl = mw()->ui->admin_logo_login();
+$mwAuthLogoUrl = app()->ui->admin_logo_login();
 ?>
 @extends($mwAuthExtends)
 
@@ -104,7 +104,7 @@ $mwAuthLogoUrl = mw()->ui->admin_logo_login();
 <div class="mw-auth-container">
     <header class="mw-auth-header">
         <a href="<?php print e($mwAuthLogoLink); ?>" id="login-logo" class="mw-auth-logo">
-            <img src="<?php print e($mwAuthLogoUrl); ?>" alt="{{ e(mw()->ui->brand_name() ?: 'Logo') }}"/>
+            <img src="<?php print e($mwAuthLogoUrl); ?>" alt="{{ e(app()->ui->brand_name() ?: 'Logo') }}"/>
         </a>
     </header>
 

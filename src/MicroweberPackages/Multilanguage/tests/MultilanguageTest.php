@@ -27,8 +27,8 @@ class MultilanguageTest extends MultilanguageTestBase
 
         save_option($option);
 
-        mw()->lang_helper->set_current_lang($lang);
-        $this->assertEquals($lang, mw()->lang_helper->current_lang());
+        app()->lang_helper->set_current_lang($lang);
+        $this->assertEquals($lang, app()->lang_helper->current_lang());
 
         $languages = get_supported_languages();
 
@@ -37,7 +37,7 @@ class MultilanguageTest extends MultilanguageTestBase
         foreach ($languages as $language) {
             $locales[] = $language['locale'];
         }
-        $default_lang = mw()->lang_helper->default_lang();
+        $default_lang = app()->lang_helper->default_lang();
 
         $this->assertEquals(true, in_array($default_lang, $locales));
         $this->assertEquals(true, is_lang_supported($lang));
@@ -73,8 +73,8 @@ class MultilanguageTest extends MultilanguageTestBase
     #[Test]
 
     public function it_switch_language(): void {
-        mw()->lang_helper->set_current_lang('bg_BG');
-        $this->assertEquals('bg_BG', mw()->lang_helper->current_lang());
+        app()->lang_helper->set_current_lang('bg_BG');
+        $this->assertEquals('bg_BG', app()->lang_helper->current_lang());
     }
 
     #[Test]
@@ -92,8 +92,8 @@ class MultilanguageTest extends MultilanguageTestBase
     {
 
         // Switch to english language
-        mw()->lang_helper->set_current_lang('en_US');
-        $this->assertEquals('en_US', mw()->lang_helper->current_lang());
+        app()->lang_helper->set_current_lang('en_US');
+        $this->assertEquals('en_US', app()->lang_helper->current_lang());
 
         $option_group = 'new_option_test';
 
@@ -110,8 +110,8 @@ class MultilanguageTest extends MultilanguageTestBase
          * TEST BULGARIAN LANGUAGE
          * Switch to bulgarian language
          */
-        mw()->lang_helper->set_current_lang('bg_BG');
-        $this->assertEquals('bg_BG', mw()->lang_helper->current_lang());
+        app()->lang_helper->set_current_lang('bg_BG');
+        $this->assertEquals('bg_BG', app()->lang_helper->current_lang());
 
         // Update english option
         $option = array();
@@ -129,15 +129,15 @@ class MultilanguageTest extends MultilanguageTestBase
     public function it_translate_new_menu(): void {
 
         // Switch to english language
-        mw()->lang_helper->set_current_lang('en_US');
-        $this->assertEquals('en_US', mw()->lang_helper->current_lang());
+        app()->lang_helper->set_current_lang('en_US');
+        $this->assertEquals('en_US', app()->lang_helper->current_lang());
 
         $menu = array();
         $menu['title'] = 'Richest people in the world';
         $menu['url'] = 'richest-people-in-the-world';
-        mw()->menu_manager->menu_create($menu);
+        app()->menu_manager->menu_create($menu);
 
-        $get_menu = mw()->menu_manager->get_menu('url=richest-people-in-the-world&single=1');
+        $get_menu = app()->menu_manager->get_menu('url=richest-people-in-the-world&single=1');
 
         $this->assertEquals($get_menu['title'], $menu['title']);
         $this->assertEquals($get_menu['url'], $menu['url']);
@@ -147,8 +147,8 @@ class MultilanguageTest extends MultilanguageTestBase
          * TEST BULGARIAN LANGUAGE
          * Switch to bulgarian language
          */
-        mw()->lang_helper->set_current_lang('bg_BG');
-        $this->assertEquals('bg_BG', mw()->lang_helper->current_lang());
+        app()->lang_helper->set_current_lang('bg_BG');
+        $this->assertEquals('bg_BG', app()->lang_helper->current_lang());
 
         $api = new MultilanguageApi();
         $output = $api->changeLanguage([
@@ -160,9 +160,9 @@ class MultilanguageTest extends MultilanguageTestBase
         $update['title'] = 'Най-богатите хора в света';
         $update['url'] = 'nai-bogatite-xora-v-sveta';
 
-        mw()->menu_manager->menu_create($update);
+        app()->menu_manager->menu_create($update);
 
-        $get_menu = mw()->menu_manager->get_menu('id=' . $get_menu['id'] . '&single=1');
+        $get_menu = app()->menu_manager->get_menu('id=' . $get_menu['id'] . '&single=1');
 
         $this->assertEquals($get_menu['title'], $update['title']);
         $this->assertEquals($get_menu['url'], $update['url']);

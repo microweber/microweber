@@ -207,11 +207,11 @@ class MultilanguageSettingsAdmin extends AdminSettingsPage
                                             ->schema([
                                                 \Filament\Forms\Components\Placeholder::make('current_language')
                                                     ->label('Current Language')
-                                                    ->content(fn() => mw()->lang_helper->current_lang()),
+                                                    ->content(fn() => app()->lang_helper->current_lang()),
 
                                                 \Filament\Forms\Components\Placeholder::make('default_language')
                                                     ->label('Default Language')
-                                                    ->content(fn() => mw()->lang_helper->default_lang()),
+                                                    ->content(fn() => app()->lang_helper->default_lang()),
 
                                                 \Filament\Forms\Components\Placeholder::make('supported_languages_count')
                                                     ->label('Supported Languages Count')

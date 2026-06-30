@@ -273,8 +273,8 @@ class Tracker
 
         $data['visit_url'] = $last_page;
         $data['referrer'] = $ref;
-        $data['session_id'] = mw()->user_manager->session_id();
-        $data['user_id'] = mw()->user_manager->id();
+        $data['session_id'] = app()->user_manager->session_id();
+        $data['user_id'] = app()->user_manager->id();
         $data['content_id'] = content_id();
         $data['category_id'] = category_id();
 

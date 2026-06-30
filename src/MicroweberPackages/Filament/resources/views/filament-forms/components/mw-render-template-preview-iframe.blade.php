@@ -39,7 +39,7 @@
             $layout_options['no_cache'] = true;
             $layout_options['no_folder_sort'] = true;
 
-            $layout = mw()->layouts_manager->get_layout_details($layout_options);
+            $layout = app()->layouts_manager->get_layout_details($layout_options);
 
             if(!isset($url)){
             $url = '';

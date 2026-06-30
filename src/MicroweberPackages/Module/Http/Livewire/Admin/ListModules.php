@@ -49,7 +49,7 @@ class ListModules extends AdminComponent
         $findModule = \MicroweberPackages\Module\Models\Module::where('id', $id)->first();
 
         if ($findModule) {
-            mw()->module_manager->set_installed([
+            app()->module_manager->set_installed([
                 'id' => $findModule->id,
             ]);
         }

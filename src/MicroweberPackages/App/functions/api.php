@@ -30,5 +30,5 @@ function array_to_module_params($params, $filter = false)
 
 function api_link($str = '')
 {
-    return mw()->url_manager->api_link($str);
+    return app()->url_manager->api_link($str);
 }

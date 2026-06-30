@@ -15,7 +15,7 @@ class Unsplash
     public function search($keyword, $page = 1)
     {
 
-        $json = mw()->http->url('http://imglib.microweberapi.com/index.php?search=' . $keyword . '&page=' . $page)->get();
+        $json = app()->http->url('http://imglib.microweberapi.com/index.php?search=' . $keyword . '&page=' . $page)->get();
         $json = json_decode($json, TRUE);
 
         return $json;
@@ -38,7 +38,7 @@ class Unsplash
         $imageUrl = 'http://imglib.microweberapi.com/download.php?photo_id=' . $photoId;
         //$imageUrl = 'https://images.unsplash.com/photo-1504215680853-026ed2a45def?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80';
 
-        $downloaded = mw()->http->url($imageUrl)->download($filename);
+        $downloaded = app()->http->url($imageUrl)->download($filename);
 
         if ($downloaded && is_file($filename)) {
 
@@ -46,7 +46,7 @@ class Unsplash
             $tn_params['width'] = $tn_size;
             $tn_params['src'] = $filename;
             $tn_params['return_cache_path'] = true;
-            $urlThumbnailFile = mw()->media_manager->thumbnail_img($tn_params);
+            $urlThumbnailFile = app()->media_manager->thumbnail_img($tn_params);
 
             if (copy($urlThumbnailFile, $filename_tn)) {
                 $urlThumbnail = dir2url($filename_tn);

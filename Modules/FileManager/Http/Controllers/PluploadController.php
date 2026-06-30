@@ -49,7 +49,7 @@ class PluploadController extends Controller
             }
         }
 
-        if (!mw()->user_manager->session_id() or (mw()->user_manager->session_all() == false)) {
+        if (!app()->user_manager->session_id() or (app()->user_manager->session_all() == false)) {
             // //session_start();
         }
 
@@ -65,7 +65,7 @@ class PluploadController extends Controller
         }
 
 //if (!is_admin()) {
-        //$validate_token = mw()->user_manager->csrf_validate($_GET);
+        //$validate_token = app()->user_manager->csrf_validate($_GET);
 
 // validation is now on middleware
 //    if ($validate_token == false) {
@@ -73,7 +73,7 @@ class PluploadController extends Controller
 //        die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
 //    }
 
-        $is_ajax = mw()->url_manager->is_ajax();
+        $is_ajax = app()->url_manager->is_ajax();
         if (!$is_ajax) {
             header("HTTP/1.1 401 Unauthorized");
             die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
@@ -118,7 +118,7 @@ class PluploadController extends Controller
         } else {
             $uid = user_id();
             if ($uid != 0) {
-                $user = mw()->user_manager->get_by_id($uid);
+                $user = app()->user_manager->get_by_id($uid);
                 if (!empty($user) and isset($user['is_active']) and $user['is_active'] == 1) {
                     $are_allowed = 'img';
             $requestPath = 'media/' . $host_dir . DS . 'user_uploads/user/' . $user['id'] . DS;
@@ -144,7 +144,7 @@ class PluploadController extends Controller
         $rel_id = request()->input('rel_id');
 
         if (!empty($rel_type) && !empty($custom_field_id) && trim($rel_type) != '' && trim($rel_type) != 'false') {
-            $cfid = mw()->fields_manager->getById(intval($custom_field_id));
+            $cfid = app()->fields_manager->getById(intval($custom_field_id));
             if ($cfid == false) {
                 die('{"jsonrpc" : "2.0", "error" : {"code": 90, "message": "Custom field is not found"}}');
             } else {
@@ -268,7 +268,7 @@ class PluploadController extends Controller
                                     die('{"jsonrpc" : "2.0", "error" : {"code":107, "message": "Please enter the captcha answer!"}}');
                                 }
                             } else {
-                                $cap = mw()->user_manager->session_get('captcha');
+                                $cap = app()->user_manager->session_get('captcha');
                                 if ($cap == false) {
                                     header("HTTP/1.1 401 Unauthorized");
 
@@ -379,7 +379,7 @@ $path_restirct = userfiles_path(); // the path the script should access
         $cleanFileName = str_replace(' ', '-', $cleanFileName);
         $cleanFileName = str_replace('..', '-', $cleanFileName);
         $cleanFileName = strtolower($cleanFileName);
-        $cleanFileName = mw()->url_manager->clean_url_wrappers($cleanFileName);
+        $cleanFileName = app()->url_manager->clean_url_wrappers($cleanFileName);
 
 // Reconstruct filename with original extension
         $fileName = $cleanFileName . '.' . $fileNameExtension;
@@ -436,7 +436,7 @@ $path_restirct = userfiles_path(); // the path the script should access
 
 
        if (isset($_SERVER['CONTENT_LENGTH']) and isset($_FILES['file'])) {
-           $filename_log = mw()->url_manager->slug($fileName);
+           $filename_log = app()->url_manager->slug($fileName);
            $cacheKey = 'upload_size_' . $filename_log . '_' . user_ip();
            $upl_size_log = $_SERVER['CONTENT_LENGTH'];
 
@@ -712,7 +712,7 @@ $path_restirct = userfiles_path(); // the path the script should access
                     $is_image = true;
                     $filesize = filesize($filePath);
                     $rerturn['file_size'] = $filesize;
-                    $rerturn['file_size_human'] = mw()->format->human_filesize($filesize);
+                    $rerturn['file_size_human'] = app()->format->human_filesize($filesize);
                     $rerturn['image_size'] = $size;
                     // $auto_resize_treshold = 10000000; // 10MiB
                     $auto_resize_treshold = 2000000; // 2MiB
@@ -783,7 +783,7 @@ $path_restirct = userfiles_path(); // the path the script should access
             }
             if(app()->bound('log_manager')) {
                 app()->log_manager->delete('is_system=y&rel=uploader&created_at=[lt]30 min ago');
-                app()->log_manager->delete('is_system=y&rel=uploader&session_id=' . mw()->user_manager->session_id());
+                app()->log_manager->delete('is_system=y&rel=uploader&session_id=' . app()->user_manager->session_id());
             }
         }
 

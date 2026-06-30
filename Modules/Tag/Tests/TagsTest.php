@@ -18,8 +18,8 @@ class TagsTest extends TestCase
     public function it_model(): void {
 
         //legacy save
-        mw()->database_manager->extended_save_set_permission(true);
-        $has_permission = mw()->database_manager->extended_save_has_permission();
+        app()->database_manager->extended_save_set_permission(true);
+        $has_permission = app()->database_manager->extended_save_has_permission();
         $this->assertTrue($has_permission);
 
 
@@ -78,8 +78,8 @@ class TagsTest extends TestCase
     #[Test]
 
     public function it_posts(): void {
-        mw()->database_manager->extended_save_set_permission(true);
-        $has_permission = mw()->database_manager->extended_save_has_permission();
+        app()->database_manager->extended_save_set_permission(true);
+        $has_permission = app()->database_manager->extended_save_has_permission();
         $this->assertTrue($has_permission);
         $new_page = array();
         $new_page['title'] = 'Beer';

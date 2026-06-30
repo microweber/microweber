@@ -32,8 +32,8 @@ class InputTextarea extends Component
     public function render()
     {
 
-        $this->defaultLanguage = mw()->lang_helper->default_lang();
-        $this->currentLanguage = mw()->lang_helper->current_lang();
+        $this->defaultLanguage = app()->lang_helper->default_lang();
+        $this->currentLanguage = app()->lang_helper->current_lang();
 
         $this->randId = 'ml_editor_element_'.md5(str_random());
 

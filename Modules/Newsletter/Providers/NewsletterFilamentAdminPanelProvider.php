@@ -45,10 +45,10 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ->brandLogoHeight('34px')
 
             ->brandLogo(function () {
-                return mw()->ui->admin_logo();
+                return app()->ui->admin_logo();
             })
             ->brandName(function () {
-                return mw()->ui->brand_name();
+                return app()->ui->brand_name();
             })
 
             ->colors([

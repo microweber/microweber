@@ -324,7 +324,7 @@ class Order extends Model
             'single' => true,
         ];
 
-        return mw()->database_manager->get($params);
+        return app()->database_manager->get($params);
     }
 
     /**
@@ -349,7 +349,7 @@ class Order extends Model
             'limit' => 1000,
         ];
 
-        $result = mw()->database_manager->get($params);
+        $result = app()->database_manager->get($params);
         return $result ?: [];
     }
 
@@ -370,7 +370,7 @@ class Order extends Model
 
         $params['table'] = 'cart_orders';
 
-        return mw()->database_manager->get($params);
+        return app()->database_manager->get($params);
     }
 
     /**
@@ -393,7 +393,7 @@ class Order extends Model
         $order = static::find($id);
         if ($order) {
             $order->delete();
-            mw()->cache_manager->delete('cart_orders');
+            app()->cache_manager->delete('cart_orders');
             return true;
         }
 

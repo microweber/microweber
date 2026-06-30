@@ -65,7 +65,7 @@ importer.
   schedule:run` — a new `wp-migration-jobs:prune-credentials`
   command plugs into that). Re-runs after the 24h window require
   the operator to re-paste the app password.
-- **HTTP layer:** every outbound request goes through `mw()->http`
+- **HTTP layer:** every outbound request goes through `app()->http`
   (`src/MicroweberPackages/Utils/Http/Http.php`) — already covered
   by `SslVerificationTest`. The WP migrator never instantiates its
   own Guzzle client.

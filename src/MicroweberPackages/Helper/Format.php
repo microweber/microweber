@@ -961,7 +961,7 @@ class Format
 
     public function lnotif($text, $class = 'success')
     {
-        $editmode_sess = mw()->user_manager->session_get('editmode');
+        $editmode_sess = app()->user_manager->session_get('editmode');
 
 
         if (defined('MW_BACKEND') and MW_BACKEND != false) {

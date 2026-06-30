@@ -241,8 +241,8 @@ class MenuManager
         $q = app()->menu_repository->getMenusByParentId($menu_id);
 
         $multilangiageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
-        $defaultLocale = mw()->lang_helper->default_lang();
-        $currentLocale = mw()->lang_helper->current_lang();
+        $defaultLocale = app()->lang_helper->default_lang();
+        $currentLocale = app()->lang_helper->current_lang();
 
         //   dd($menu_params,$q);
         $has_items = false;

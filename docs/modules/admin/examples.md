@@ -160,7 +160,7 @@ Option::setValue('admin_logo', asset('img/brand-b-logo.svg'),     'website');
 Option::setValue('brand_name', 'Brand B Dashboard',                'website');
 ```
 
-`mw()->ui->admin_logo()` reads the option immediately.
+`app()->ui->admin_logo()` reads the option immediately.
 
 ### Override the primary color palette
 

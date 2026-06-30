@@ -1,20 +1,20 @@
 {{-- task-2026-05-22-f4a791 / AI-791 Slice E — Share section heading + wa.me URL + Copy link button --}}
 @include('modules.sharer::components.custom-css')
 
-<section class="mw-post-share-section" aria-labelledby="mw-sharer-heading-{{ e(md5(mw()->url->current())) }}">
-    <h2 id="mw-sharer-heading-{{ e(md5(mw()->url->current())) }}" class="mw-post-share-heading h6 text-muted text-uppercase mb-3">
+<section class="mw-post-share-section" aria-labelledby="mw-sharer-heading-{{ e(md5(app()->url->current())) }}">
+    <h2 id="mw-sharer-heading-{{ e(md5(app()->url->current())) }}" class="mw-post-share-heading h6 text-muted text-uppercase mb-3">
         {{ __('Share this post') }}
     </h2>
 
     <div class="mw-social-share-links d-flex flex-wrap align-items-center gap-2">
         @if($facebook_enabled)
-            <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(mw()->url->current()) }}">
+            <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(app()->url->current()) }}">
                 @svg('modules.social_links-facebook')
             </a>
         @endif
 
         @if($x_enabled)
-            <a href="https://x.com/intent/tweet?text={{ urlencode(content_title()) }}&url={{ urlencode(mw()->url->current()) }}"
+            <a href="https://x.com/intent/tweet?text={{ urlencode(content_title()) }}&url={{ urlencode(app()->url->current()) }}"
                target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-x')
             </a>
@@ -36,7 +36,7 @@
         @endif
 
         @if($linkedin_enabled)
-            <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(mw()->url->current()) }}&title={{ urlencode(page_title()) }}"
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(app()->url->current()) }}&title={{ urlencode(page_title()) }}"
                target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-linkedin')
             </a>
@@ -57,13 +57,13 @@
         @if($whatsapp_enabled)
             {{-- wa.me web URL works on all platforms (desktop + mobile) unlike the whatsapp:// deep-link --}}
             <a target="_blank" rel="noopener noreferrer"
-               href="https://wa.me/?text={{ urlencode('Check this out: ' . mw()->url->current()) }}">
+               href="https://wa.me/?text={{ urlencode('Check this out: ' . app()->url->current()) }}">
                 @svg('modules.social_links-whatsapp')
             </a>
         @endif
 
         @if($telegram_enabled)
-            <a target="_blank" rel="noopener noreferrer" href="tg://msg_url?url={{ mw()->url->current() }}&text=Check this out: {{ mw()->url->current() }}">
+            <a target="_blank" rel="noopener noreferrer" href="tg://msg_url?url={{ app()->url->current() }}&text=Check this out: {{ app()->url->current() }}">
                 @svg('modules.social_links-telegram')
             </a>
         @endif
@@ -71,7 +71,7 @@
         {{-- Copy link button — uses the Clipboard API with a 2-second "Copied!" feedback state --}}
         <button type="button"
                 class="mw-share-copy-link btn btn-sm btn-outline-secondary"
-                data-mw-copy-link="{{ e(mw()->url->current()) }}"
+                data-mw-copy-link="{{ e(app()->url->current()) }}"
                 data-mw-copy-link-done="{{ e(__('Copied!')) }}"
                 aria-label="{{ __('Copy link to clipboard') }}">
             {{ __('Copy link') }}

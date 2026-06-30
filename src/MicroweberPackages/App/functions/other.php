@@ -57,7 +57,7 @@ if (!defined('EMPTY_MOD_STR')) {
  */
 function module_templates($module_name, $template_name = false, $is_settings = false)
 {
-    return mw()->module_manager->templates($module_name, $template_name, $is_settings);
+    return app()->module_manager->templates($module_name, $template_name, $is_settings);
 }
 
 /**
@@ -79,28 +79,28 @@ function site_templates($options = false)
 
 function layouts_list($options = false)
 {
-    return mw()->layouts_manager->scan($options);
+    return app()->layouts_manager->scan($options);
 }
 
 function get_layouts_from_db($options = false)
 {
-    return mw()->layouts_manager->get($options);
+    return app()->layouts_manager->get($options);
 }
 
 function get_modules_from_db($options = false)
 {
-    return mw()->module_manager->get($options);
+    return app()->module_manager->get($options);
 }
 
 function get_modules($options = false)
 {
-    return mw()->module_manager->get($options);
+    return app()->module_manager->get($options);
 }
 
 api_expose_admin('save_module_as_template');
 function save_module_as_template($data_to_save)
 {
-    return mw()->module_manager->save_module_as_template($data_to_save);
+    return app()->module_manager->save_module_as_template($data_to_save);
 }
 
 /**
@@ -125,29 +125,29 @@ function save_module_as_template($data_to_save)
  */
 function scan_for_modules($options = false)
 {
-    return mw()->module_manager->scan_for_modules($options);
+    return app()->module_manager->scan_for_modules($options);
 }
 
 function scan_for_elements($options = array())
 {
-    return mw()->module_manager->scan_for_elements($options);
+    return app()->module_manager->scan_for_elements($options);
 }
 
 function have_license($module_name = false)
 {
-    return mw()->module_manager->license($module_name);
+    return app()->module_manager->license($module_name);
 }
 
 function load_module($module_name, $attrs = array())
 {
-    return mw()->module_manager->load($module_name, $attrs);
+    return app()->module_manager->load($module_name, $attrs);
 }
 
 
 
 function module_css_class($module_name)
 {
-    mw()->module_manager->css_class($module_name);
+    app()->module_manager->css_class($module_name);
 }
 
 function template_var($key, $new_val = false)
@@ -173,7 +173,7 @@ function template_var($key, $new_val = false)
 
 function save_form_list($params)
 {
-    return mw()->forms_manager->save_list($params);
+    return app()->forms_manager->save_list($params);
 }
 
 
@@ -181,12 +181,12 @@ function save_form_list($params)
 
 function get_form_entires($params)
 {
-    return mw()->forms_manager->get_entires($params);
+    return app()->forms_manager->get_entires($params);
 }
 
 function get_form_lists($params)
 {
-    return mw()->forms_manager->get_lists($params);
+    return app()->forms_manager->get_lists($params);
 }
 
 
@@ -194,7 +194,7 @@ function mw_post_update()
 {
     $a = is_admin();
     if ($a != false or is_cli()) {
-        $update = mw()->update->post_update();
+        $update = app()->update->post_update();
 
         if (isset($_GET['redirect_to'])) {
             return app()->url_manager->redirect($_GET['redirect_to']);
@@ -210,9 +210,9 @@ function mw_reload_modules()
     $bootstrap_cached_folder = base_path('bootstrap/cache/');
     rmdir_recursive($bootstrap_cached_folder);
 
-  //  mw()->module_manager->scan(['reload_modules' => 1, 'scan' => 1]);
-    mw()->module_manager->reload_laravel_modules();
-    mw()->module_manager->reload_laravel_templates();
+  //  app()->module_manager->scan(['reload_modules' => 1, 'scan' => 1]);
+    app()->module_manager->reload_laravel_modules();
+    app()->module_manager->reload_laravel_templates();
     mw_post_update();
     if (isset($_GET['redirect_to'])) {
         return app()->url_manager->redirect($_GET['redirect_to']);
@@ -311,7 +311,7 @@ function in_live_edit()
         return true;
     }
 
-    $editmode_sess = mw()->user_manager->session_get('editmode');
+    $editmode_sess = app()->user_manager->session_get('editmode');
 
     if ($editmode_sess == true) {
         return true;
@@ -333,7 +333,7 @@ function notif($text, $class = 'success')
 
 function lnotif($text, $class = 'success')
 {
-    $editmode_sess = mw()->user_manager->session_get('editmode');
+    $editmode_sess = app()->user_manager->session_get('editmode');
 
 
     if (defined('MW_BACKEND') and MW_BACKEND != false) {
@@ -393,7 +393,7 @@ if (!function_exists('powered_by_link')) {
 
     $cache_group = 'modules/global';
 
-    $cache_content = mw()->cache_manager->get($cache_id, $cache_group);
+    $cache_content = app()->cache_manager->get($cache_id, $cache_group);
 
     if (($cache_content) != false) {
         return $cache_content;
@@ -409,7 +409,7 @@ if (!function_exists('powered_by_link')) {
     } else {
         $dir_name = normalize_path(modules_path());
     }
-    $installed = mw()->module_manager->get('ui=any&installed=1');
+    $installed = app()->module_manager->get('ui=any&installed=1');
     $configs = false;
     if (is_array($installed) and !empty($installed)) {
         $configs = array();
@@ -423,7 +423,7 @@ if (!function_exists('powered_by_link')) {
         }
     }
 
-    mw()->cache_manager->save($configs, $function_cache_id, $cache_group);
+    app()->cache_manager->save($configs, $function_cache_id, $cache_group);
 
     return $configs;
 }
@@ -435,11 +435,11 @@ if (!function_exists('powered_by_link')) {
 //api_expose_admin('current_template_save_custom_css');
 //function current_template_save_custom_css($data)
 //{
-//    return mw()->layouts_manager->template_save_css($data);
+//    return app()->layouts_manager->template_save_css($data);
 //}
 //
 //api_expose_admin('layouts/template_remove_custom_css', function ($params) {
-//    return mw()->layouts_manager->template_remove_custom_css($params);
+//    return app()->layouts_manager->template_remove_custom_css($params);
 //
 //});
 
@@ -471,7 +471,7 @@ function mw_logo_svg()
  */
 //function captcha($params = false)
 //{
-//    return mw()->captcha_manager->render($params);
+//    return app()->captcha_manager->render($params);
 //}
 
 ///**
@@ -515,7 +515,7 @@ if (!function_exists('br2nl')) {
 if (!function_exists('titlelize')) {
     function titlelize($str)
     {
-        return mw()->format->titlelize($str);
+        return app()->format->titlelize($str);
     }
 }
 
@@ -524,7 +524,7 @@ if (!function_exists('titlelize')) {
 
 function get_date_format()
 {
-    return mw()->format->get_date_format();
+    return app()->format->get_date_format();
 }
 
 function get_date_format_raw()
@@ -534,13 +534,13 @@ function get_date_format_raw()
 
 function date_system_format($db_date)
 {
-    return mw()->format->date_system_format($db_date);
+    return app()->format->date_system_format($db_date);
 
 }
 
 function get_date_db_format($str_date)
 {
-    return mw()->format->get_date_db_format($str_date);
+    return app()->format->get_date_db_format($str_date);
 
 }
 

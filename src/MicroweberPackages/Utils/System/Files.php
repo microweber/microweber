@@ -377,7 +377,7 @@ class Files
         if (isset($params['url'])) {
             $url = $params['url'];
         } else {
-            $url = mw()->url->current(true, true);
+            $url = app()->url->current(true, true);
         }
 
         static $level = 0;

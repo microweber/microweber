@@ -16,7 +16,7 @@ class SitemapController extends Controller
 
     public function categories()
     {
-        $generatedSiteMapFile = mw_cache_path() . mw()->url_manager->hostname() . '_categories_sitemap.xml';
+        $generatedSiteMapFile = mw_cache_path() . app()->url_manager->hostname() . '_categories_sitemap.xml';
 
         $updateSitemap = $this->needToUpdateSitemap($generatedSiteMapFile);
 
@@ -31,7 +31,7 @@ class SitemapController extends Controller
 
     public function tags()
     {
-        $generatedSiteMapFile = mw_cache_path() . mw()->url_manager->hostname() . '_tags_sitemap.xml';
+        $generatedSiteMapFile = mw_cache_path() . app()->url_manager->hostname() . '_tags_sitemap.xml';
         $updateSitemap = $this->needToUpdateSitemap($generatedSiteMapFile);
 
         if ($updateSitemap) {
@@ -51,7 +51,7 @@ class SitemapController extends Controller
 
     public function products()
     {
-        $generatedSiteMapFile = mw_cache_path() . mw()->url_manager->hostname() . '_products_sitemap.xml';
+        $generatedSiteMapFile = mw_cache_path() . app()->url_manager->hostname() . '_products_sitemap.xml';
 
         $updateSitemap = $this->needToUpdateSitemap($generatedSiteMapFile);
 
@@ -66,7 +66,7 @@ class SitemapController extends Controller
 
     public function posts()
     {
-        $generatedSiteMapFile = mw_cache_path() . mw()->url_manager->hostname() . '_posts_sitemap.xml';
+        $generatedSiteMapFile = mw_cache_path() . app()->url_manager->hostname() . '_posts_sitemap.xml';
 
         $updateSitemap = $this->needToUpdateSitemap($generatedSiteMapFile);
 
@@ -81,7 +81,7 @@ class SitemapController extends Controller
 
     public function pages()
     {
-        $generatedSiteMapFile = mw_cache_path() . mw()->url_manager->hostname() . '_pages_sitemap.xml';
+        $generatedSiteMapFile = mw_cache_path() . app()->url_manager->hostname() . '_pages_sitemap.xml';
 
         $updateSitemap = $this->needToUpdateSitemap($generatedSiteMapFile);
 

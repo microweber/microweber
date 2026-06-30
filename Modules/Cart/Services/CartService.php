@@ -1052,7 +1052,7 @@ class CartService
     {
         ksort($add);
         asort($add);
-        $add = mw()->format->clean_xss($add);
+        $add = app()->format->clean_xss($add);
 
         $cart = [
             'rel_type' => trim($for),
@@ -1076,7 +1076,7 @@ class CartService
             $data['title'] = 'Product ' . $cart['rel_id'];
         }
 
-        $cart['title'] = mw()->format->clean_html($data['title']);
+        $cart['title'] = app()->format->clean_html($data['title']);
 
         // Add optional fields
         foreach (['other_info', 'description', 'image', 'item_image', 'link', 'currency'] as $field) {

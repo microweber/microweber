@@ -39,7 +39,7 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
                 $browser->addLanguage('bg_BG');
                 $browser->addLanguage('en_US');
             });
-            $currentLocale = mw()->lang_helper->current_lang();
+            $currentLocale = app()->lang_helper->current_lang();
 
             run_translate_manager();
             // reload page

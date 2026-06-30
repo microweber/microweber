@@ -49,7 +49,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
 
-    public static $_loaded_models_cache_get = [];
+    protected $_loaded_models_cache_get = [];
 
     public function get($columns = ['*'])
     {
@@ -71,13 +71,13 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
 
             $cacheMem_key = implode('-', $cacheTags) . '-' . $cacheKey;
 
-            if (isset(self::$_loaded_models_cache_get[$cacheMem_key])) {
-                return self::$_loaded_models_cache_get[$cacheMem_key];
+            if (isset($this->_loaded_models_cache_get[$cacheMem_key])) {
+                return $this->_loaded_models_cache_get[$cacheMem_key];
             }
 
             $cacheFind = \Cache::tags($cacheTags)->get($cacheKey);
             if ($cacheFind) {
-                self::$_loaded_models_cache_get[$cacheMem_key] = $cacheFind;
+                $this->_loaded_models_cache_get[$cacheMem_key] = $cacheFind;
                 return $cacheFind;
             }
         }
@@ -117,7 +117,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
 
 
         if (!$is_disabled) {
-            self::$_loaded_models_cache_get[$cacheMem_key] = $collection;
+            $this->_loaded_models_cache_get[$cacheMem_key] = $collection;
             \Cache::tags($cacheTags)->put($cacheKey, $collection, $this->cacheSeconds);
             //\Cache::tags($cacheTags)->put($cacheKey, $ready, $this->cacheSeconds);
         }
@@ -298,7 +298,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
         app()->database_manager->clearCache();
         $tags = $this->generateCacheTags();
         \Cache::tags($tags)->flush();
-        self::$_loaded_models_cache_get = [];
+        $this->_loaded_models_cache_get = [];
     }
 
 

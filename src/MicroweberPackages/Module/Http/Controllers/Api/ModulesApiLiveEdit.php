@@ -82,19 +82,19 @@ class ModulesApiLiveEdit extends Controller
                 $show_grouped_by_cats = true;
             }
 
-//            $modules = mw()->layouts_manager->get($el_params);
+//            $modules = app()->layouts_manager->get($el_params);
 //
 //            if ($modules == false) {
 //                $el_params['no_cache'] = true;
-//                mw()->module_manager->scan_for_elements($el_params);
-//                $modules = mw()->layouts_manager->get($el_params);
+//                app()->module_manager->scan_for_elements($el_params);
+//                $modules = app()->layouts_manager->get($el_params);
 //            }
 
             // if ($modules == false) {
             $modules = array();
             //   }
 
-//            $elements_from_template = mw()->layouts_manager->get_elements_from_current_site_template();
+//            $elements_from_template = app()->layouts_manager->get_elements_from_current_site_template();
 //            if (!empty($elements_from_template)) {
 //                $modules = array_merge($elements_from_template, $modules);
 //            }
@@ -118,8 +118,8 @@ class ModulesApiLiveEdit extends Controller
             $module_layouts_skins = app()->microweber->getTemplates('layouts', $active_site_template);
 
 
-            //    $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
-            //$module_layouts_skins = mw()->module_manager->templates('layouts', false, false, $template_dir);
+            //    $dynamic_layouts = app()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
+            //$module_layouts_skins = app()->module_manager->templates('layouts', false, false, $template_dir);
             $dynamic_layouts = false;
 
             if ($hide_dynamic_layouts) {
@@ -133,11 +133,11 @@ class ModulesApiLiveEdit extends Controller
 
             $modulesFromRegistry = app()->microweber->getModulesDetails();
 
-            //     $modules = mw()->module_manager->get('installed=1&ui=1');
+            //     $modules = app()->module_manager->get('installed=1&ui=1');
 
             $modules = [];
 
-           // $module_layouts = mw()->module_manager->get('installed=1&module=layouts');
+           // $module_layouts = app()->module_manager->get('installed=1&module=layouts');
             $module_layouts = [];
             $hide_from_display_list = array('layouts', 'template_settings');
             $sortout_el = array();
@@ -212,7 +212,7 @@ class ModulesApiLiveEdit extends Controller
                 }
             }
             /*
-                        $modules_from_template = mw()->module_manager->get_modules_from_current_site_template();
+                        $modules_from_template = app()->module_manager->get_modules_from_current_site_template();
                         if (!empty($modules_from_template)) {
                             if (!is_array($modules)) {
                                 $modules = array();

@@ -69,7 +69,7 @@ class Offer extends Model
             }
         }
         if (isset($offerData['offer_price'])) {
-            $offerData['offer_price'] = mw()->format->amount_to_float($offerData['offer_price']);
+            $offerData['offer_price'] = app()->format->amount_to_float($offerData['offer_price']);
         }
 
         if (isset($offerData['expires_at']) and $offerData['expires_at'] != '') {
@@ -215,7 +215,7 @@ class Offer extends Model
                     $offer['offer_value_difference'] = $answer;
                 }
 
-                $percent = mw()->format->percent($offer['offer_value_difference'], $offer['price']);
+                $percent = app()->format->percent($offer['offer_value_difference'], $offer['price']);
                 $offer['offer_value_difference_percent'] = $percent;
                 $offer['price_change_direction'] = $price_change_direction;
             }

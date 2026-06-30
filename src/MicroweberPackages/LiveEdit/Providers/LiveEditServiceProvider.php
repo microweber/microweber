@@ -250,7 +250,7 @@ class LiveEditServiceProvider extends ServiceProvider
 //            ->setExtra('orderNumber', 13);
 
 
-        if (mw()->ui->enable_service_links()) {
+        if (app()->ui->enable_service_links()) {
             \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
                 ->addChild('Report issue', [
                     'attributes' => [

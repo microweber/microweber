@@ -237,7 +237,7 @@ class UserManagerTest extends TestCase
     public function it_reset_password(): void {
         $password_reset_hash = '[like]';
 
-        $check = mw()->user_manager->get_all('exclude_shorthand=password_reset_hash&single=true&password_reset_hash=[not_null]&password_reset_hash=' . $password_reset_hash . '&username=' . self::$_username);
+        $check = app()->user_manager->get_all('exclude_shorthand=password_reset_hash&single=true&password_reset_hash=[not_null]&password_reset_hash=' . $password_reset_hash . '&username=' . self::$_username);
 
         $this->assertEquals(false, $check);
 

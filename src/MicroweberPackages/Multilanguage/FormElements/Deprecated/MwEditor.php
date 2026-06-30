@@ -12,8 +12,8 @@ class MwEditor extends \MicroweberPackages\FormBuilder\Elements\TextArea
     {
         $fieldName = $this->getAttribute('name');
 
-        $this->currentLanguage = mw()->lang_helper->current_lang();
-        $this->defaultLanguage = mw()->lang_helper->default_lang();
+        $this->currentLanguage = app()->lang_helper->current_lang();
+        $this->defaultLanguage = app()->lang_helper->default_lang();
 
         $this->randId = random_int(111,999).time();
 

@@ -17,7 +17,7 @@ use Tests\TestCase;
  *     as `<a href="{{ route('password.request') }}" class="forgot-password-link">`.
  *   - Brand logo on login form: MISSING — .auth-header had <h2>Welcome</h2> with
  *     no logo above it. This fix adds the brand logo using the same
- *     `mw()->ui->admin_logo_login()` helper as AI-794 (layout.blade.php).
+ *     `app()->ui->admin_logo_login()` helper as AI-794 (layout.blade.php).
  *
  * AI-735 status note:
  *   AI-735 (404/search/missing routes) was addressed by prior work:
@@ -52,7 +52,7 @@ class Auth1dcb94AI757AdminLoginBrandLogoContractTest extends TestCase
         $this->assertStringContainsString(
             "admin_logo_login()",
             $this->src,
-            'admin auth index must call mw()->ui->admin_logo_login() for the brand logo.'
+            'admin auth index must call app()->ui->admin_logo_login() for the brand logo.'
         );
     }
 

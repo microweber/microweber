@@ -7,7 +7,7 @@
     <?php
 
     $template = template_name();
-    $file = mw()->layouts_manager->template_check_for_custom_css($template);
+    $file = app()->layouts_manager->template_check_for_custom_css($template);
     $live_edit_css_content = '';
     if ($file and is_file($file)) {
         $live_edit_css_content = file_get_contents($file);

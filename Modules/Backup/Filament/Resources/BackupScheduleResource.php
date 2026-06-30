@@ -284,10 +284,10 @@ class BackupScheduleResource extends Resource
     private static function getDatabaseTables(): array
     {
         $tables = [];
-        $tableList = mw()->database_manager->get_tables_list();
+        $tableList = app()->database_manager->get_tables_list();
 
         foreach ($tableList as $table) {
-            $tableWithPrefix = str_replace(mw()->database_manager->get_prefix(), '', $table);
+            $tableWithPrefix = str_replace(app()->database_manager->get_prefix(), '', $table);
             $tables[$tableWithPrefix] = $tableWithPrefix;
         }
 

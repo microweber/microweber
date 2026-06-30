@@ -870,7 +870,7 @@ class UserManager
         }
         if ($force == false) {
             if (!is_cli()) {
-                $validate_token = mw()->user_manager->csrf_validate($params);
+                $validate_token = app()->user_manager->csrf_validate($params);
                 if ($validate_token == false) {
                     return array(
                         'error' => _e('Confirm edit of profile', true),

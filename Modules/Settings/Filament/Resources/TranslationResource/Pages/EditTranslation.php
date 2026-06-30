@@ -68,7 +68,7 @@ class EditTranslation extends EditRecord
 
                                         } else {
                                             // Default language fallback
-                                            $defaultLang = function_exists('mw') ? mw()->lang_helper->default_lang() : 'en_US';
+                                            $defaultLang = function_exists('mw') ? app()->lang_helper->default_lang() : 'en_US';
                                             $languages[$defaultLang] = strtoupper($defaultLang) . ' - Default';
                                         }
                                         return $languages;

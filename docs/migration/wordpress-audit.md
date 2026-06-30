@@ -72,11 +72,11 @@ categories/tags need — no WP-specific taxonomy code required.
 
 ### `DatabaseSave::downloadAndSaveMedia($imageUrl, $contentId)` — `Modules/Restore/DatabaseSave.php:171`
 
-Takes a remote image URL, downloads via `mw()->http->url()->download()`,
+Takes a remote image URL, downloads via `app()->http->url()->download()`,
 validates with `\MicroweberPackages\Utils\System\Files::is_allowed_file()`,
 moves into `media_uploads_path()` with a content-hashed filename
 (`md5($imageUrl)`), and attaches to the target content via
-`mw()->media_manager->save([...])`. Supports arrays of URLs with a
+`app()->media_manager->save([...])`. Supports arrays of URLs with a
 recursive call.
 
 **Reuse verdict:** this is the media-rehosting primitive for Phase 7
@@ -85,7 +85,7 @@ download/move/attach — it should be a thin layer that walks imported
 HTML, collects `<img src>` + `<a href>` URLs, and delegates each to
 this method.
 
-### `mw()->media_manager->save($data)` — `Modules/Media/Repositories/MediaManager.php:386`
+### `app()->media_manager->save($data)` — `Modules/Media/Repositories/MediaManager.php:386`
 
 The media-attachment seam `downloadAndSaveMedia` ends up calling.
 Accepts `rel_id`, `rel_type` (or `for` + `for-id` aliases),
@@ -153,7 +153,7 @@ during Phase-3 implementation and prefer it over hand-rolling
 All output paths. **Phase 4 (sitemap importer) has no existing reader
 to reuse**; build one under `Modules/WordPressMigration/Readers/`.
 
-### `mw()->http` — `src/MicroweberPackages/Utils/Http/Http.php`
+### `app()->http` — `src/MicroweberPackages/Utils/Http/Http.php`
 
 Unified HTTP facade used by `downloadAndSaveMedia` and everywhere
 else in the codebase that talks to a remote server. Methods:
@@ -161,7 +161,7 @@ else in the codebase that talks to a remote server. Methods:
 
 **Reuse verdict:** every remote fetch the WP migrator does —
 `wp-json` probes, feed fetches, sitemap fetches, readability scrapes,
-media downloads — must go through `mw()->http`. That gives us:
+media downloads — must go through `app()->http`. That gives us:
 - one place to adjust SSL verification (`SslVerificationTest` already
   covers the adapter);
 - one place to plumb rate-limit / retry policy;
@@ -203,7 +203,7 @@ reader doesn't assume any of these can be grepped.
   for `sitemap_index.xml` nesting (Yoast / RankMath / AIOSEO flavors).
 - **WP REST API client.** No existing WP REST client. Build
   `Modules/WordPressMigration/Clients/WpRestClient.php` on top of
-  `mw()->http`.
+  `app()->http`.
 - **WXR streaming parser.** `XmlReader` is simplexml-only; unsafe for
   large WXR. Build `Modules/WordPressMigration/Readers/WxrReader.php`
   using `\XMLReader` with a cursor-style API over `<item>` nodes.
@@ -224,8 +224,8 @@ reader doesn't assume any of these can be grepped.
 | Insert a structured post    | `DatabaseSave::savePost($dto)` (§1)                                                   | no — reuse       |
 | Insert WP categories/tags   | `DatabaseSave::getOrInsertCategories($names, $parentPageId)` (§1)                     | no — reuse       |
 | Rehost a media URL          | `DatabaseSave::downloadAndSaveMedia($url, $contentId)` (§1)                           | no — reuse       |
-| Attach media to content     | `mw()->media_manager->save([...])` (§1)                                               | no — reuse       |
-| Fetch remote HTTP           | `mw()->http->url($url)->get()` / `->download($path)` (§2)                             | no — reuse       |
+| Attach media to content     | `app()->media_manager->save([...])` (§1)                                               | no — reuse       |
+| Fetch remote HTTP           | `app()->http->url($url)->get()` / `->download($path)` (§2)                             | no — reuse       |
 | Orchestrate a job           | `Restore::setFile()` + `Restore::start()` (§2)                                        | no — reuse       |
 | Track per-step progress     | `Modules\Backup\SessionStepper` (§2)                                                  | no — reuse       |
 | Stage-then-commit writes    | `Restore::writeOnDatabase=false` branch + per-trait writers (§3)                      | thin extension   |

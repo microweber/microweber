@@ -134,7 +134,7 @@ class MediaManager
 
         if ((!isset($_FILES) or empty($_FILES)) and isset($data['file'])) {
             if (isset($data['name'])) {
-                $data['name'] = mw()->url_manager->clean_url_wrappers($data['name']);
+                $data['name'] = app()->url_manager->clean_url_wrappers($data['name']);
 
                 $is_dangerous_file = $files_utils->is_dangerous_file($data['name']);
                 if ($is_dangerous_file) {
@@ -167,7 +167,7 @@ class MediaManager
 
             //$upl = $this->app->cache_manager->save($_FILES, $cache_id, $cache_group);
             foreach ($_FILES as $item) {
-                $item['name'] = mw()->url_manager->clean_url_wrappers($item['name']);
+                $item['name'] = app()->url_manager->clean_url_wrappers($item['name']);
                 $extension = get_file_extension($item['name']);
 
                 $is_dangerous_file = $files_utils->is_dangerous_file($data['name']);
@@ -508,7 +508,7 @@ class MediaManager
                             $newfile = $move_uploaded_files_dir . $newfile;
 
                             if (!is_file($newfile)) {
-                                mw()->http->url($data['src'])->download($newfile);
+                                app()->http->url($data['src'])->download($newfile);
                             }
                             if (is_file($newfile)) {
                                 $url2dir = $this->app->url_manager->to_path($newfile);

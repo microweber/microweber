@@ -79,9 +79,9 @@ class ListBackups extends ListRecords
     {
 
         $databaseTables = [];
-        $databaseTablesList = mw()->database_manager->get_tables_list();
+        $databaseTablesList = app()->database_manager->get_tables_list();
         foreach ($databaseTablesList as $table) {
-            $tableWithPrefix = str_replace(mw()->database_manager->get_prefix(), '', $table);
+            $tableWithPrefix = str_replace(app()->database_manager->get_prefix(), '', $table);
             $databaseTables[$tableWithPrefix] = $tableWithPrefix;
         }
 

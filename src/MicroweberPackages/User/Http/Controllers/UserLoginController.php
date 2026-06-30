@@ -96,7 +96,7 @@ class UserLoginController extends Controller
 		$redirectParams = $request->only('http_redirect', 'redirect', 'where_to');
 
 		if (!empty($requestLang)) {
-            mw()->lang_helper->set_current_lang($requestLang);
+            app()->lang_helper->set_current_lang($requestLang);
             Cookie::queue('lang', $requestLang, 86400 * 30);
         }
         $is_logged_out = false;

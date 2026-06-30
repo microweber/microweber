@@ -18,7 +18,7 @@ class MultilanguagePermalinkManager extends \MicroweberPackages\App\Managers\Per
         if ($language) {
             $this->language = $language;
         } else {
-            $this->language = mw()->lang_helper->current_lang();
+            $this->language = app()->lang_helper->current_lang();
         }
 
         $this->structureMapPrefix[] = 'locale';
@@ -171,12 +171,12 @@ class MultilanguagePermalinkManager extends \MicroweberPackages\App\Managers\Per
         return false;
     }
 
-    public static $_linkContent = [];
+    protected $_linkContent = [];
 
     public function linkContent($contentId)
     {
-        if (isset(self::$_linkContent[$this->language][$contentId])) {
-            return self::$_linkContent[$this->language][$contentId];
+        if (isset($this->_linkContent[$this->language][$contentId])) {
+            return $this->_linkContent[$this->language][$contentId];
         }
 
         $link = [];
@@ -229,7 +229,7 @@ class MultilanguagePermalinkManager extends \MicroweberPackages\App\Managers\Per
 
         $link['original_slug'] = $originalSlug;
 
-        self::$_linkContent[$this->language][$contentId] = $link;
+        $this->_linkContent[$this->language][$contentId] = $link;
 
         return $link;
     }
@@ -304,7 +304,7 @@ class MultilanguagePermalinkManager extends \MicroweberPackages\App\Managers\Per
     public function clearCache()
     {
         self::$__getLinkAfterLocaleSettings = [];
-        self::$_linkContent = [];
+        $this->_linkContent = [];
     }
 
     private static $__getLinkAfterLocaleSettings = [];

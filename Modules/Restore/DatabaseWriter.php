@@ -514,7 +514,7 @@ class DatabaseWriter
 
         $this->log('Cleaning up system cache');
 
-        mw()->cache_manager->clear();
+        app()->cache_manager->clear();
 
         $zipReader = new ZipReader();
         $zipReader->clearCache();

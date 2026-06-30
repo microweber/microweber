@@ -68,7 +68,7 @@ class AdminTemplateCustomizerPage extends Page
         // value on first mount. The ticket accepts "the first available
         // option" as the default.
         if ($this->layout_file === '' && $this->selectedTemplate) {
-            $layouts = mw()->layouts_manager->get_all([
+            $layouts = app()->layouts_manager->get_all([
                 'site_template' => $this->selectedTemplate,
                 'no_cache' => true,
                 'no_folder_sort' => true,

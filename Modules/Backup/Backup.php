@@ -410,7 +410,7 @@ class Backup
             $exportFilter['ids'] = implode(',', $ids);
         }
 
-        $tableExists = mw()->database_manager->table_exists($table);
+        $tableExists = app()->database_manager->table_exists($table);
         if (!$tableExists) {
             return;
         }
@@ -540,8 +540,8 @@ class Backup
     {
         $skipTables = $this->_prepareSkipTables();
 
-        $tablesList = mw()->database_manager->get_tables_list(true);
-        $tablePrefix = mw()->database_manager->get_prefix();
+        $tablesList = app()->database_manager->get_tables_list(true);
+        $tablePrefix = app()->database_manager->get_prefix();
 
         $readyTableList = array();
         foreach ($tablesList as $tableName) {

@@ -72,7 +72,7 @@ class AdminLanguagePage extends AdminSettingsPage
                             }
                         } else {
                             // Default language fallback
-                            $defaultLang = function_exists('mw') ? mw()->lang_helper->default_lang() : 'en_US';
+                            $defaultLang = function_exists('mw') ? app()->lang_helper->default_lang() : 'en_US';
                             $supportedLanguages[$defaultLang] = strtoupper($defaultLang) . ' - Default';
                         }
                         return $supportedLanguages;
@@ -116,7 +116,7 @@ class AdminLanguagePage extends AdminSettingsPage
                             }
                         } else {
                             // Default language fallback
-                            $defaultLang = function_exists('mw') ? mw()->lang_helper->default_lang() : 'en_US';
+                            $defaultLang = function_exists('mw') ? app()->lang_helper->default_lang() : 'en_US';
                             $supportedLanguages[$defaultLang] = strtoupper($defaultLang) . ' - Default';
                         }
                         return $supportedLanguages;
@@ -342,8 +342,8 @@ class AdminLanguagePage extends AdminSettingsPage
 
         // Check if translations exist in database
         $translationsExist = false;
-        if (function_exists('mw') && mw()->lang_helper) {
-            $currentLang = mw()->lang_helper->current_lang();
+        if (function_exists('mw') && app()->lang_helper) {
+            $currentLang = app()->lang_helper->current_lang();
             $translationsExist = TranslationText::where('translation_locale', $currentLang)->count() > 0;
         }
 

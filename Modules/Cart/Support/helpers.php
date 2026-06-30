@@ -45,28 +45,28 @@ if (!function_exists('cart_total')) {
 if (!function_exists('cart_totals')) {
     function cart_totals($return = 'all')
     {
-        return mw()->cart_manager->totals($return);
+        return app()->cart_manager->totals($return);
     }
 }
 
 if (!function_exists('cart_get_tax')) {
     function cart_get_tax()
     {
-        return mw()->cart_manager->get_tax();
+        return app()->cart_manager->get_tax();
     }
 }
 
 if (!function_exists('cart_get_discount')) {
     function cart_get_discount()
     {
-        return mw()->cart_manager->get_discount();
+        return app()->cart_manager->get_discount();
     }
 }
 
 if (!function_exists('cart_get_discount_text')) {
     function cart_get_discount_text()
     {
-        return mw()->cart_manager->get_discount_text();
+        return app()->cart_manager->get_discount_text();
     }
 }
 

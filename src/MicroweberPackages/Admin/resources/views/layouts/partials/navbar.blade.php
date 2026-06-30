@@ -6,10 +6,10 @@
 
         <div class="navbar-brand">
             <?php
-            if (mw()->ui->admin_logo != false):
-                $logo = mw()->ui->admin_logo;
-            elseif (mw()->ui->admin_logo_login() != false):
-                $logo = mw()->ui->admin_logo_login();
+            if (app()->ui->admin_logo != false):
+                $logo = app()->ui->admin_logo;
+            elseif (app()->ui->admin_logo_login() != false):
+                $logo = app()->ui->admin_logo_login();
             else:
                 $logo = asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg');
             endif;

@@ -1,6 +1,6 @@
 <?php only_admin_access(); ?>
 <?php
-if (mw()->ui->disable_marketplace) {
+if (app()->ui->disable_marketplace) {
     return;
 }
 ?>

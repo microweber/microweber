@@ -96,7 +96,7 @@ class ContentDataTest extends TestCase
     #[Test]
 
     public function it_content_data_save_from_save_content_with_prefix(): void {
-        mw()->database_manager->extended_save_set_permission(true);
+        app()->database_manager->extended_save_set_permission(true);
 
 
         $title = 'My prod ' . rand();

@@ -71,7 +71,7 @@ class NotificationServiceProvider extends ServiceProvider
         // Email From
         $emailFrom = get_email_from();
         if (!$emailFrom) {
-            $hostname = mw()->url_manager->hostname();
+            $hostname = app()->url_manager->hostname();
             if ($emailFromName != '') {
                 $emailFrom = ($emailFromName) . '@' .$hostname;
             } else {

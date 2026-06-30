@@ -143,7 +143,7 @@ $order->cart           // HasCartItems trait → cart rows where order_id = this
 | `updated` | `OrderWasUpdated($order)` |
 | `deleting` | `OrderWasDeleted($order)` |
 
-### Static methods (legacy `mw()->database_manager` paths)
+### Static methods (legacy `app()->database_manager` paths)
 
 ```php
 Order::getById($id);                  // single order with relationships hydrated

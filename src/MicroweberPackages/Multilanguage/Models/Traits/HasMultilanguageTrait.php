@@ -43,7 +43,7 @@ trait HasMultilanguageTrait
             return self::$__getDefaultLocale;
         }
 
-        self::$__getDefaultLocale = mw()->lang_helper->default_lang();
+        self::$__getDefaultLocale = app()->lang_helper->default_lang();
 
         return self::$__getDefaultLocale;
     }
@@ -55,7 +55,7 @@ trait HasMultilanguageTrait
         if (self::$__getLocale) {
             return self::$__getLocale;
         }
-        self::$__getLocale = mw()->lang_helper->current_lang();
+        self::$__getLocale = app()->lang_helper->current_lang();
         return self::$__getLocale;
     }
 //    public function setMultilanguageAttribute($value)
@@ -80,7 +80,7 @@ trait HasMultilanguageTrait
             }
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
 
-                $defaultLocale = mw()->lang_helper->default_lang();
+                $defaultLocale = app()->lang_helper->default_lang();
                 $modelClass = get_class($model);
                 $skipModelClasses = [
                     ModuleOption::class,
@@ -278,7 +278,7 @@ trait HasMultilanguageTrait
     {
         $formated = [];
 
-        $locale = mw()->lang_helper->default_lang();
+        $locale = app()->lang_helper->default_lang();
         if (!empty($this->translatable)) {
             foreach ($this->translatable as $fieldName) {
                 $formated[$locale][$fieldName] = $this->getOriginal($fieldName);

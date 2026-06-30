@@ -43,7 +43,7 @@ class OrderService
     public function place_order($place_order = array())
     {
         try {
-            $sid = mw()->user_manager->session_id();
+            $sid = app()->user_manager->session_id();
             if ($sid == false) {
                 throw OrderException::invalidOrderData('session_id', 'No valid session found');
             }
@@ -135,7 +135,7 @@ class OrderService
             }
 
             event($event = new OrderWasCreated(Order::find($ord), $place_order));
-            mw()->user_manager->session_set('order_id', $ord);
+            app()->user_manager->session_set('order_id', $ord);
 
             return $ord;
         } catch (OrderException $e) {
@@ -231,7 +231,7 @@ class OrderService
             $export = array();
             foreach ($data as $item) {
                 $cart_items = Order::getOrderItems($item['id']);
-                $cart_items_str = mw()->format->array_to_ul($cart_items, 'div', 'span');
+                $cart_items_str = app()->format->array_to_ul($cart_items, 'div', 'span');
                 $cart_items_str = (strip_tags($cart_items_str, '<span>'));
                 $cart_items_str = str_replace('</span>', "\r\n", $cart_items_str);
                 $cart_items_str = (strip_tags($cart_items_str));

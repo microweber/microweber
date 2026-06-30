@@ -22,6 +22,6 @@ class Countries
     {
         $table_sql = MW_PATH.'Utils'.DS.'lib'.DS.'countries.sql';
 
-        mw()->database_manager->import_sql_file($table_sql);
+        app()->database_manager->import_sql_file($table_sql);
     }
 }

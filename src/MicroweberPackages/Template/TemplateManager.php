@@ -550,12 +550,12 @@ class TemplateManager
             //check if site is fqdn
             $site_host = parse_url(site_url());
 
-            if (isset($site_host['host']) and mw()->format->is_fqdn($site_host['host'])) {
+            if (isset($site_host['host']) and app()->format->is_fqdn($site_host['host'])) {
                 $should_replace = true;
                 $site_host = $site_host['host'];
             }
             if ($should_replace) {
-                if ($static_files_delivery_domain and mw()->format->is_fqdn($static_files_delivery_domain)) {
+                if ($static_files_delivery_domain and app()->format->is_fqdn($static_files_delivery_domain)) {
                     $should_replace = true;
                 } else {
                     $should_replace = false;

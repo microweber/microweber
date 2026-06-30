@@ -21,27 +21,27 @@ Route::name('api.menu.')
         });
 
         Route::name('delete')->post('delete', function (\Illuminate\Http\Request $request) {
-            return mw()->menu_manager->menu_delete($request->all());
+            return app()->menu_manager->menu_delete($request->all());
         });
 
         Route::name('create')->post('create', function (\Illuminate\Http\Request $request) {
-            return mw()->menu_manager->menu_create($request->all());
+            return app()->menu_manager->menu_create($request->all());
         });
 
         Route::name('item.save')->post('item/save', function (\Illuminate\Http\Request $request) {
-            return mw()->menu_manager->menu_item_save($request->all());
+            return app()->menu_manager->menu_item_save($request->all());
         });
 
         Route::name('item.edit')->post('item/edit', function (\Illuminate\Http\Request $request) {
-            return mw()->menu_manager->menu_item_save($request->all());
+            return app()->menu_manager->menu_item_save($request->all());
         });
 
         Route::name('item.delete')->post('item/delete/{id}', function ($id) {
-            return mw()->menu_manager->menu_item_delete($id);
+            return app()->menu_manager->menu_item_delete($id);
         });
 
         Route::name('item.reorder')->post('item/reorder', function (\Illuminate\Http\Request $request) {
-            return mw()->menu_manager->menu_items_reorder($request->all());
+            return app()->menu_manager->menu_items_reorder($request->all());
         });
     });
 

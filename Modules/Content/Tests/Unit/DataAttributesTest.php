@@ -14,7 +14,7 @@ class DataAttributesTest extends TestCase
         parent::setUp();
 
         // set permission to save custom fields (normally available to admin users)
-        mw()->database_manager->extended_save_set_permission(true);
+        app()->database_manager->extended_save_set_permission(true);
     }
 
     #[Test]

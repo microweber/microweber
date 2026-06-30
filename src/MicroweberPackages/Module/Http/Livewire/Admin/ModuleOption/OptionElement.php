@@ -199,8 +199,8 @@ class OptionElement extends AdminComponent
     public function populateTranslations()
     {
 
-        $this->defaultLanguage = mw()->lang_helper->default_lang();
-        $this->currentLanguage = mw()->lang_helper->current_lang();
+        $this->defaultLanguage = app()->lang_helper->default_lang();
+        $this->currentLanguage = app()->lang_helper->current_lang();
 
         if ($this->model && method_exists($this->model, 'getTranslationsFormated')) {
             $modelTranslations = $this->model->getTranslationsFormated();

@@ -175,7 +175,7 @@ class CheckoutTest extends TestCase
     #[Test]
 
     public function it_checkout_qty_update(): void {
-        mw()->database_manager->extended_save_set_permission(true);
+        app()->database_manager->extended_save_set_permission(true);
 
         $productPrice = rand(1, 9999);
         $title = 'test QTY prod ' . $productPrice;
@@ -260,7 +260,7 @@ class CheckoutTest extends TestCase
 
 
     public function it_checkout_deleted_product(): void {
-        mw()->database_manager->extended_save_set_permission(true);
+        app()->database_manager->extended_save_set_permission(true);
 
         $productPrice = rand(1, 9999);
         $title = 'test testCheckoutDeletedProduct prod ' . $productPrice;
@@ -315,7 +315,7 @@ class CheckoutTest extends TestCase
 
 
     public function it_checkout_unpublished_product(): void {
-        mw()->database_manager->extended_save_set_permission(true);
+        app()->database_manager->extended_save_set_permission(true);
 
         $productPrice = rand(1, 9999);
         $title = 'test testCheckoutUnpublishedProduct prod ' . $productPrice;

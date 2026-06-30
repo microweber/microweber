@@ -379,7 +379,7 @@ class Utils
      *
      * @since   Version 1.0
      */
-    public static $get_fields_fields_memory = [];
+    protected $get_fields_fields_memory = [];
 
     public function get_fields($table, $use_cache = true, $advanced_info = false)
     {
@@ -390,8 +390,8 @@ class Utils
         if (!$table) {
             return false;
         }
-        if ($use_cache and isset(self::$get_fields_fields_memory[$table])) {
-            return self::$get_fields_fields_memory[$table];
+        if ($use_cache and isset($this->get_fields_fields_memory[$table])) {
+            return $this->get_fields_fields_memory[$table];
         }
 
 
@@ -400,7 +400,7 @@ class Utils
 
 
         if ($use_cache) {
-            $fields = mw()->cache_manager->get($key, 'db', $expiresAt);
+            $fields = app()->cache_manager->get($key, 'db', $expiresAt);
             if ($fields) {
                 return $fields;
             }
@@ -494,8 +494,8 @@ class Utils
 
         // Caching
         if ($use_cache) {
-            self::$get_fields_fields_memory[$table] = $fields;
-            mw()->cache_manager->save($fields, $key, $cache_group, $expiresAt);
+            $this->get_fields_fields_memory[$table] = $fields;
+            app()->cache_manager->save($fields, $key, $cache_group, $expiresAt);
         }
 
         return $fields;

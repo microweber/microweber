@@ -20,7 +20,7 @@ class AskForModuleUninstallModal extends AdminModalComponent
     {
         $findModule = \MicroweberPackages\Module\Models\Module::where('id', $this->moduleId)->first();
         if ($findModule) {
-            mw()->module_manager->uninstall([
+            app()->module_manager->uninstall([
                 'id' => $findModule->id,
             ]);
         }

@@ -54,7 +54,7 @@ class LaravelCache
      * //store custom data in cache
      * $data = array('something' => 'some_value');
      * $cache_id = 'my_cache_id';
-     * $cache_content = mw()->cache->save($data, $cache_id, 'my_cache_group');
+     * $cache_content = app()->cache->save($data, $cache_id, 'my_cache_group');
      * </code>
      */
     public function save($data_to_cache, $cache_id, $cache_group = 'global', $expiration = false)
@@ -87,7 +87,7 @@ class LaravelCache
      *           <code>
      *
      * $cache_id = 'my_cache_'.crc32($sql_query_string);
-     * $cache_content = mw()->cache->get($cache_id, 'my_cache_group');
+     * $cache_content = app()->cache->get($cache_id, 'my_cache_group');
      *
      * </code>
      */
@@ -120,16 +120,16 @@ class LaravelCache
      * @example
      * <code>
      * //delete the cache for the content
-     *  mw()->cache->delete("content");
+     *  app()->cache->delete("content");
      *
      * //delete the cache for the content with id 1
-     *  mw()->cache->delete("content/1");
+     *  app()->cache->delete("content/1");
      *
      * //delete the cache for users
-     *  mw()->cache->delete("users");
+     *  app()->cache->delete("users");
      *
      * //delete the cache for your custom table eg. my_table
-     * mw()->cache->delete("my_table");
+     * app()->cache->delete("my_table");
      * </code>
      */
     public function delete($cache_group = 'global')
@@ -148,7 +148,7 @@ class LaravelCache
      * @example
      *          <code>
      *          //delete all cache
-     *          mw()->cache->clear();
+     *          app()->cache->clear();
      *          </code>
      *
      * @return bool
@@ -166,7 +166,7 @@ class LaravelCache
      * @example
      * <code>
      * //get cache items info
-     *  $cached_items = mw()->cache->debug();
+     *  $cached_items = app()->cache->debug();
      * print_r($cached_items);
      * </code>
      */

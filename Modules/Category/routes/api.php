@@ -11,7 +11,7 @@ Route::name('api.')
     ->group(function () {
 
         Route::post('category/reorder', function (\Illuminate\Http\Request $request) {
-            return mw()->category_manager->reorder($request->only('ids'));
+            return app()->category_manager->reorder($request->only('ids'));
         });
 
         Route::delete('category/delete/{id}', 'CategoryApiController@delete')->name('category.delete');

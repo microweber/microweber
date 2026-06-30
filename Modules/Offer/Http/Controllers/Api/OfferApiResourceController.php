@@ -24,7 +24,7 @@ class OfferApiResourceController extends Controller
             }
         }
         if (isset($offerData['offer_price'])) {
-            $offerData['offer_price'] = mw()->format->amount_to_float($offerData['offer_price']);
+            $offerData['offer_price'] = app()->format->amount_to_float($offerData['offer_price']);
         }
         $productPrice = (float) get_product_price($offerData['product_id']);
         if ($offerData['offer_price'] >= $productPrice) {

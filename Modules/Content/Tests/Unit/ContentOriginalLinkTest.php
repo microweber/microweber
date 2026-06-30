@@ -16,7 +16,7 @@ class ContentOriginalLinkTest extends TestCase
     #[Test]
     public function it_content_original_link_redirect(): void {
         $this->loginAsAdmin();
-        mw()->database_manager->extended_save_set_permission(true);
+        app()->database_manager->extended_save_set_permission(true);
 
         $title = 'My test page testContentOriginalLinkParentRedirect' . uniqid();
         Content::where('title', $title)->delete();

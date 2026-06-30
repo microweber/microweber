@@ -18,8 +18,8 @@ api_expose('user_send_forgot_password');
 api_expose_admin('users/register_email_send_test', function () {
 
     try {
-        mw()->option_manager->override('users', 'register_email_enabled', true);
-        $send =  mw()->user_manager->register_email_send();
+        app()->option_manager->override('users', 'register_email_enabled', true);
+        $send =  app()->user_manager->register_email_send();
         if ($send) {
             $user = Auth::user();
 
@@ -36,15 +36,15 @@ api_expose('users/register_email_send', function ($params = false) {
     if (isset($params['user_id']) and is_admin()) {
         $uid = intval($params['user_id']);
     }
-    return mw()->user_manager->register_email_send($uid);
+    return app()->user_manager->register_email_send($uid);
 });
 
 api_expose_admin('users/forgot_password_email_send_test', function () {
 
      try {
          $user = Auth::user();
-         mw()->option_manager->override('users', 'forgot_pass_email_enabled', true);
-         $send = mw()->user_manager->send_forgot_password([
+         app()->option_manager->override('users', 'forgot_pass_email_enabled', true);
+         $send = app()->user_manager->send_forgot_password([
              'email'=>$user->email
          ]);
          if ($send) {
@@ -99,18 +99,18 @@ api_expose('users/verify_email_link', function ($params) {
     if (isset($params['key'])) {
 
         try {
-            $decoded = mw()->format->decrypt($params['key']);
+            $decoded = app()->format->decrypt($params['key']);
             if ($decoded) {
                 $decoded = intval($decoded);
                 $adminUser = \User::findOrFail($decoded);
                 $adminUser->is_verified = 1;
                 $adminUser->save();
-                mw()->cache_manager->delete('users');
-                mw()->cache_manager->delete('users/' . $decoded);
+                app()->cache_manager->delete('users');
+                app()->cache_manager->delete('users/' . $decoded);
                 $params['user_id'] = $decoded;
-                mw()->event_manager->trigger('mw.user.verify_email_link', $params);
+                app()->event_manager->trigger('mw.user.verify_email_link', $params);
 
-                return mw()->url_manager->redirect(site_url());
+                return app()->url_manager->redirect(site_url());
             }
 
         } catch (Exception $e) {

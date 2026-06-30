@@ -333,7 +333,7 @@ trait ParserLoadModuleTrait
 
             $modules_dir_default = modules_path() . $module_name;
             $modules_dir_default = normalize_path($modules_dir_default, true);
-            $module_name_root = mw()->module_manager->locate_root_module($module_name);
+            $module_name_root = app()->module_manager->locate_root_module($module_name);
             $modules_dir_default_root = modules_path() . $module_name_root;
             $modules_dir_default_root = normalize_path($modules_dir_default_root, true);
 

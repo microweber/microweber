@@ -30,7 +30,7 @@ class TranslateFieldAction
                 }
 
                 $supportedLanguages = get_supported_languages();
-                $defaultLocale = mw()->lang_helper->default_lang();
+                $defaultLocale = app()->lang_helper->default_lang();
 
                 if (empty($supportedLanguages)) {
                     return [];

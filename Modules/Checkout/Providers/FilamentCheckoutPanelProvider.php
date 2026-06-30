@@ -35,7 +35,7 @@ class FilamentCheckoutPanelProvider extends PanelProvider
             ->path($this->filamentPath)
             ->navigation(false)
             ->brandLogo(function () {
-                return mw()->ui->admin_logo();
+                return app()->ui->admin_logo();
             })
             // AI-209 (task-2026-05-13-e8ebcf) — checkout primary blue now
             // shares the MwColors::Blue palette anchored at Bootstrap

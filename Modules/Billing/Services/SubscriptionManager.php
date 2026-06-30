@@ -14,11 +14,11 @@ class SubscriptionManager
 {
     private function handleCart($plan)
     {
-        mw()->cart_manager->delete_cart([
+        app()->cart_manager->delete_cart([
             'session_id' => session_id()
         ]);
 
-        mw()->cart_manager->update_cart([
+        app()->cart_manager->update_cart([
             'rel_type' => morph_name(SubscriptionPlan::class),
             'rel_id' => $plan['id'],
             'qty' => 1,

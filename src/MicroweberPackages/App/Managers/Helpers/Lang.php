@@ -44,7 +44,7 @@ class Lang
         $this->clearCache();
 
         // must not clear options cache here
-        //  mw()->option_manager->clear_memory();
+        //  app()->option_manager->clear_memory();
 
         $this->lang = $lang;
 

@@ -15,7 +15,7 @@ class AdminMarketplaceTest extends DuskTestCase
     #[Test]
     public function it_module_install(): void {
         // Remove old module
-        mw()->module_manager->uninstall(array('for_module' => 'browser_redirect'));
+        app()->module_manager->uninstall(array('for_module' => 'browser_redirect'));
         rmdir_recursive(userfiles_path() . 'modules/browser_redirect',false);
 
         DB::table('modules')

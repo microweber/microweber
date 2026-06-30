@@ -86,7 +86,7 @@ class OptionsTest extends TestCase
         $data['option_value'] = $now;
         $data['option_key'] = 'test_option_website_group';
         $data['option_group'] = 'website';
-        $save = mw()->option_manager->save($data);
+        $save = app()->option_manager->save($data);
 
 
         // test get and save
@@ -95,19 +95,19 @@ class OptionsTest extends TestCase
         $data['option_value'] = $now;
         $data['option_key'] = 'z_test';
         $data['option_group'] = 'ztest';
-        $save = mw()->option_manager->save($data);
-        $get = mw()->option_manager->get('z_test', 'ztest');
+        $save = app()->option_manager->save($data);
+        $get = app()->option_manager->get('z_test', 'ztest');
         $this->assertEquals($now, $get);
 
 
         // test other functions
-        //  $groups = mw()->option_manager->get_groups(true);
-        $groups2 = mw()->option_manager->get_groups();
+        //  $groups = app()->option_manager->get_groups(true);
+        $groups2 = app()->option_manager->get_groups();
 
 
-        $delete = mw()->option_manager->delete('z_test', 'ztest');
+        $delete = app()->option_manager->delete('z_test', 'ztest');
 
-        $get = mw()->option_manager->get('z_test', 'ztest'); // if this broke maybe you dont destroy MEMORY variable in Class when delete OPTION
+        $get = app()->option_manager->get('z_test', 'ztest'); // if this broke maybe you dont destroy MEMORY variable in Class when delete OPTION
 
         //  $this->assertTrue(in_array('website',$groups));
         $this->assertTrue(in_array('ztest', $groups2));
@@ -131,7 +131,7 @@ class OptionsTest extends TestCase
         $data['option_value'] = $now;
         $data['option_key'] = $optionKey;
         $data['option_group'] = $optionGroup;
-        $save = mw()->option_manager->save($data);
+        $save = app()->option_manager->save($data);
 
 
         $get = module_option($optionGroup, $optionKey);

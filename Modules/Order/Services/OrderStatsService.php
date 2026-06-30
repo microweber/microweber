@@ -251,7 +251,7 @@ class OrderStatsService
         $orders->groupBy($groupByFields);
         $orders->orderBy('date', 'desc');
 
-        $dbDriver = mw()->database_manager->get_sql_engine();
+        $dbDriver = app()->database_manager->get_sql_engine();
 
         if ($dbDriver == 'sqlite') {
             $data = $orders->get([

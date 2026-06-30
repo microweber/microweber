@@ -6,7 +6,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 if (!function_exists('run_translate_manager')) {
     function run_translate_manager()
     {
-        $currentLocale = mw()->lang_helper->current_lang();
+        $currentLocale = app()->lang_helper->current_lang();
         if (is_lang_correct($currentLocale)) {
            // $translate = new \MicroweberPackages\Multilanguage\TranslateManager();
 
@@ -176,9 +176,9 @@ if (!function_exists('add_supported_language')) {
 if (!function_exists('get_default_language')) {
     function get_default_language()
     {
-        $langs = mw()->lang_helper->get_all_lang_codes();
+        $langs = app()->lang_helper->get_all_lang_codes();
 
-        $defaultLang = mw()->lang_helper->default_lang();
+        $defaultLang = app()->lang_helper->default_lang();
         $defaultLang = strtolower($defaultLang);
 
         if (isset($langs[$defaultLang])) {
@@ -233,7 +233,7 @@ if (!function_exists('is_lang_correct')) {
     function is_lang_correct($lang)
     {
         $correct = false;
-        $langs = mw()->lang_helper->get_all_lang_codes();
+        $langs = app()->lang_helper->get_all_lang_codes();
         if (is_string($lang) && array_key_exists($lang, $langs)) {
             $correct = true;
         }
@@ -256,7 +256,7 @@ if (!function_exists('detect_lang_from_url')) {
     {
         $targetUrl = str_replace(site_url(), false, $targetUrl);
 
-        $targetLang = mw()->lang_helper->current_lang();
+        $targetLang = app()->lang_helper->current_lang();
         $segments = explode('/', $targetUrl);
 
         if (count($segments) > 1) {
@@ -614,7 +614,7 @@ if (!function_exists('get_geolocation_detailed')) {
         $accessKey = get_option('ipstack_api_access_key', 'multilanguage_settings');
 
         if ($geolocationProvider == 'ipstack_com') {
-            $ipInfo = mw()->http->url('http://api.ipstack.com/' . $ip . '?access_key=' . $accessKey)->get();
+            $ipInfo = app()->http->url('http://api.ipstack.com/' . $ip . '?access_key=' . $accessKey)->get();
         } else if ($geolocationProvider == 'domain_detection') {
             $countryCode = get_country_code_from_domain();
             $ipInfo = json_encode(array(
@@ -627,7 +627,7 @@ if (!function_exists('get_geolocation_detailed')) {
             ));
         } else if ($geolocationProvider == 'geoip_browser_detection') {
 
-            $defaultWebsiteLanguage = mw()->lang_helper->default_lang();
+            $defaultWebsiteLanguage = app()->lang_helper->default_lang();
             $browserCountryCode = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 3, 2);
             $browserLanguage = get_country_language_by_country_code($browserCountryCode);
 
@@ -638,11 +638,11 @@ if (!function_exists('get_geolocation_detailed')) {
             }
 
             if ($defaultWebsiteLanguage !== $browserLanguage) {
-                $ipInfo = mw()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
+                $ipInfo = app()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
             }
 
         } else {
-            $ipInfo = mw()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
+            $ipInfo = app()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
         }
 
         $geoLocation = json_decode($ipInfo, true);

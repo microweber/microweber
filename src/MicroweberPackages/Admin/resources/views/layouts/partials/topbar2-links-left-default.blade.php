@@ -38,7 +38,7 @@
 {{--                        <?php $custom_view = url_param('view'); ?>--}}
 {{--                        <?php $custom_action = url_param('action'); ?>--}}
 {{--                        <?php event_trigger('content.create.menu'); ?>--}}
-{{--                        <?php $create_content_menu = mw()->module_manager->ui('content.create.menu'); ?>--}}
+{{--                        <?php $create_content_menu = app()->module_manager->ui('content.create.menu'); ?>--}}
 {{--                        <?php if (!empty($create_content_menu)): ?>--}}
 {{--                        <?php foreach ($create_content_menu as $type => $item): ?>--}}
 {{--                        <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>--}}

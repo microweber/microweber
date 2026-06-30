@@ -1,7 +1,7 @@
 <?php
 function set_current_lang($lang = 'en')
 {
-    return mw()->lang_helper->set_current_lang($lang);
+    return app()->lang_helper->set_current_lang($lang);
 }
 
 /**
@@ -15,17 +15,17 @@ function set_current_lang($lang = 'en')
  */
 function current_lang()
 {
-    return mw()->lang_helper->current_lang();
+    return app()->lang_helper->current_lang();
 }
 
 function default_lang()
 {
-    return mw()->lang_helper->default_lang();
+    return app()->lang_helper->default_lang();
 }
 
 function current_lang_abbr()
 {
-    $lang = mw()->lang_helper->current_lang();
+    $lang = app()->lang_helper->current_lang();
     $langExp = explode('_',$lang);
 
     if (isset($langExp[0])) {
@@ -37,11 +37,11 @@ function current_lang_abbr()
 
 function lang_attributes()
 {
-    return mw()->lang_helper->lang_attributes();
+    return app()->lang_helper->lang_attributes();
 }
 function lang_is_rtl($lang = false)
 {
-    return mw()->lang_helper->lang_is_rtl($lang);
+    return app()->lang_helper->lang_is_rtl($lang);
 }
 function _lang_is_rtl($lang = false)
 {
@@ -125,7 +125,7 @@ function _output_trans_key($key) {
  */
 function _e($k, $to_return = false, $replace = [])
 {
-    $locale = mw()->lang_helper->current_lang();
+    $locale = app()->lang_helper->current_lang();
     $trans = trans('*.'.$k, $replace, $locale);
     $trans = ltrim($trans, '*.');
 
@@ -203,7 +203,7 @@ function get_available_languages()
  */
 function __store_lang_file_ns()
 {
-    return mw()->lang_helper->__store_lang_file_ns();
+    return app()->lang_helper->__store_lang_file_ns();
 }
 
 /**
@@ -213,7 +213,7 @@ function __store_lang_file_ns()
  */
 function __store_lang_file()
 {
-    return mw()->lang_helper->__store_lang_file();
+    return app()->lang_helper->__store_lang_file();
 }
 
 
@@ -236,7 +236,7 @@ api_expose_admin('send_lang_form_to_microweber', function ($data) {
 
 
 api_expose_admin('save_language_file_content', function ($data) {
-    return mw()->lang_helper->save_language_file_content($data);
+    return app()->lang_helper->save_language_file_content($data);
 });
 
 function get_flag_icon_url($locale)

@@ -120,7 +120,7 @@ abstract class LiveEditModuleSettings extends Page
 
         // $getOptions = Option::where('option_group', $this->getOptionGroup())->get();
         $getOptions = ModuleOption::where('option_group', $this->getOptionGroup())->get();
-        $defaultLocale = mw()->lang_helper->default_lang();
+        $defaultLocale = app()->lang_helper->default_lang();
 
         if ($getOptions) {
             foreach ($getOptions as $option) {
@@ -173,7 +173,7 @@ abstract class LiveEditModuleSettings extends Page
 
 
         if (MultilanguageHelpers::multilanguageIsEnabled() and isset($option['translatableOptions'])) {
-            $defaultLocale = mw()->lang_helper->default_lang();
+            $defaultLocale = app()->lang_helper->default_lang();
 
             $translateOptions = [];
             if (is_array($option['translatableOptions'])) {

@@ -35,16 +35,16 @@ function icon_html($icon)
         return '';
     }
     if (str_starts_with($icon, '<i class="')) {
-        return mw()->format->clean_xss($icon);
+        return app()->format->clean_xss($icon);
     }
     if (str_starts_with($icon, '<svg')) {
-        return mw()->format->clean_xss($icon);
+        return app()->format->clean_xss($icon);
     }
     if (str_starts_with($icon, '<img')) {
-        return mw()->format->clean_xss($icon);
+        return app()->format->clean_xss($icon);
     }
     if (str_starts_with($icon, '<span class="')) {
-        return mw()->format->clean_xss($icon);
+        return app()->format->clean_xss($icon);
     }
     if (str_starts_with($icon, 'mdi-')) {
         return '<i class="mdi ' . $icon . '"></i>';

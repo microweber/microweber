@@ -153,7 +153,7 @@ class ApiController  extends FrontendController
         $api_exposed .= 'set_language ';
         $api_exposed .= (api_expose(true));
         $api_auth_exposed = ' ';
-        if (mw()->user_manager->is_logged()) {
+        if (app()->user_manager->is_logged()) {
             $get_exposed = (api_expose_user(true));
             $api_exposed .= $get_exposed;
             $api_auth_exposed .= $get_exposed;
@@ -175,7 +175,7 @@ class ApiController  extends FrontendController
         $api_auth_exposed = array_trim($api_auth_exposed);
 
         $hooks = api_bind(true);
-        if (mw()->user_manager->is_logged()) {
+        if (app()->user_manager->is_logged()) {
             $hooks_admin = api_bind_user(true);
             if (is_array($hooks_admin)) {
                 $hooks = array_merge($hooks, $hooks_admin);
@@ -214,8 +214,8 @@ class ApiController  extends FrontendController
             if(!in_array($api_function, $api_skip_token_validation_items)) {
 
                 $request = request();
-                
-                
+
+
                 $ref = $request->headers->get('referer');
 
                 $same_site = app()->make(SameSiteRefererMiddleware::class);
@@ -528,8 +528,8 @@ class ApiController  extends FrontendController
 
             // print $api_function;`
         } else {
-            $api_function = mw()->format->clean_html($api_function);
-            $api_function = mw()->format->clean_xss($api_function);
+            $api_function = app()->format->clean_html($api_function);
+            $api_function = app()->format->clean_xss($api_function);
             return response('The api function is not defined in the allowed functions list', 403);
 
 
@@ -589,7 +589,7 @@ class ApiController  extends FrontendController
 
         if (!defined('MW_NO_SESSION')) {
             $is_ajax = app()->url_manager->is_ajax();
-            if (!mw()->user_manager->session_id() and $is_ajax == false and !defined('MW_SESS_STARTED')) {
+            if (!app()->user_manager->session_id() and $is_ajax == false and !defined('MW_SESS_STARTED')) {
                 define('MW_SESS_STARTED', true);
                 //session_start();
             }

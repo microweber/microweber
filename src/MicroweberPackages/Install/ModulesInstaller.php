@@ -30,8 +30,8 @@ class ModulesInstaller
             }
         }
 
-        mw()->module_manager->logger = $this->logger;
-        mw()->module_manager->install();
+        app()->module_manager->logger = $this->logger;
+        app()->module_manager->install();
         scan_for_modules(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
         scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
     }

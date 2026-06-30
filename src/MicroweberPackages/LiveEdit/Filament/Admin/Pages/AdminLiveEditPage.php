@@ -758,7 +758,7 @@ class AdminLiveEditPage extends Page
                 // Replicate it here so a page created with the Shop layout
                 // still becomes a shop page, and a Blog layout a dynamic page.
                 if ($contentType === 'page' && !empty($data['layout_file'])) {
-                    $layoutDetails = mw()->layouts_manager->get_layout_details([
+                    $layoutDetails = app()->layouts_manager->get_layout_details([
                         'layout_file' => $data['layout_file'],
                         'active_site_template' => $data['active_site_template'] ?? template_name(),
                         'no_cache' => true,

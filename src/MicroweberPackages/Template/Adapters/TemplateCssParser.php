@@ -45,7 +45,7 @@ class TemplateCssParser
         }
 
 
-        $token = md5(mw()->user_manager->session_id());
+        $token = md5(app()->user_manager->session_id());
 
 
         $to_generate_css_file = false;
@@ -90,7 +90,7 @@ class TemplateCssParser
         if (php_can_use_func('set_time_limit')) {
             set_time_limit(1200);
         }
-        $token = md5(mw()->user_manager->session_id());
+        $token = md5(app()->user_manager->session_id());
 
 //        if ($options['token'] !== $token) {
 //            return;
@@ -111,11 +111,11 @@ class TemplateCssParser
     public function delete_compiled($options)
     {
 
-        $optionGroup = mw()->option_manager->get_all('option_group=' . $options['option_group']);
+        $optionGroup = app()->option_manager->get_all('option_group=' . $options['option_group']);
         if (isset($options['delete_options']) and $options['delete_options']) {
             if (!empty($optionGroup)) {
                 foreach ($optionGroup as $option) {
-                    mw()->option_manager->delete($option['option_key'], $option['option_group']);
+                    app()->option_manager->delete($option['option_key'], $option['option_group']);
                 }
             }
         }

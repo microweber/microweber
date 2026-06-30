@@ -18,7 +18,7 @@ class FaviconHeadTag implements TagInterface, \Stringable
         }
 
         if (!$favicon_image) {
-            $ui_favicon = mw()->ui->brand_favicon();
+            $ui_favicon = app()->ui->brand_favicon();
             if ($ui_favicon and trim($ui_favicon) != '') {
                 $favicon_image = trim($ui_favicon);
             }

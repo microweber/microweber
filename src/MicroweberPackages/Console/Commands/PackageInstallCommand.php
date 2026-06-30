@@ -24,7 +24,7 @@ class PackageInstallCommand extends Command
 
         if ($package == 'all') {
 
-            $search = mw()->update->composer_search_packages([]);
+            $search = app()->update->composer_search_packages([]);
 
             foreach ($search as $packageName => $packageDetails) {
                 echo 'Start installing package: ' . $packageName . "\n";
@@ -41,7 +41,7 @@ class PackageInstallCommand extends Command
     {
 
         $install = ['require_name' => $package];
-        $log = mw()->update->composer_install_package_by_name($install);
+        $log = app()->update->composer_install_package_by_name($install);
 
         if (isset($log['error']) && $log['error'] !== 'Please confirm installation') {
             app()->update->log_msg($log['error']);
@@ -50,7 +50,7 @@ class PackageInstallCommand extends Command
         if (isset($log['form_data_module_params'])) {
             $confirm = ['confirm_key' => $log['form_data_module_params']['confirm_key']];
             $confirm = array_merge($confirm, $install);
-            $log = mw()->update->composer_install_package_by_name($confirm);
+            $log = app()->update->composer_install_package_by_name($confirm);
             if (isset($log['success'])) {
                 echo $log['success'] . "\n";
             } elseif (isset($log['error'])) {

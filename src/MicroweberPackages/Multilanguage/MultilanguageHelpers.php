@@ -44,7 +44,7 @@ class MultilanguageHelpers
         $translatableModuleOptions = [];
 
 //        // legacy modules, will be removed in future
-//        $modules = mw()->module_manager->get_modules('ui=any&installed=1');
+//        $modules = app()->module_manager->get_modules('ui=any&installed=1');
 //        if ($modules) {
 //            foreach ($modules as $module) {
 //                if (isset($module['settings']['translatable_options'])) {

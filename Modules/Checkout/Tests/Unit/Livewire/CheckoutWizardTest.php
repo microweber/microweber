@@ -17,7 +17,7 @@ class CheckoutWizardTest extends TestCase
         parent::setUp();
         $this->setUpFilamentPanel('checkout');
         // Add a product to cart so checkout wizard doesn't redirect on empty cart
-        mw()->database_manager->extended_save_set_permission(true);
+        app()->database_manager->extended_save_set_permission(true);
         $productId = save_content([
             'title' => 'CheckoutWizardTest Product',
             'content_type' => 'product',

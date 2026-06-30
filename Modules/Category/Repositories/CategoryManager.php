@@ -109,7 +109,7 @@ class CategoryManager
 
     public function link($id)
     {
-        return mw()->permalink_manager->link($id, 'category');
+        return app()->permalink_manager->link($id, 'category');
     }
 
     public function get_page($category_id)
@@ -613,7 +613,7 @@ class CategoryManager
 //dd($data);
         }
 
-        //$data = mw()->format->clean_xss($data);
+        //$data = app()->format->clean_xss($data);
 
         // \Log::info(print_r($data, true));
         $id = $save = $this->app->database_manager->extended_save($table, $data);
@@ -830,7 +830,7 @@ class CategoryManager
         }
 
         if (!$cat_url) {
-            $cat_url = mw()->permalink_manager->slug($url, 'category');
+            $cat_url = app()->permalink_manager->slug($url, 'category');
         }
 
         if ($cat_url != false and !is_numeric($cat_url)) {

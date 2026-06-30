@@ -306,9 +306,9 @@ class Restore
     {
         $readyTables = array();
 
-        $tables = mw()->database_manager->get_tables_list();
+        $tables = app()->database_manager->get_tables_list();
         foreach ($tables as $table) {
-            $readyTables[] = str_replace(mw()->database_manager->get_prefix(), false, $table);
+            $readyTables[] = str_replace(app()->database_manager->get_prefix(), false, $table);
         }
 
         return $readyTables;

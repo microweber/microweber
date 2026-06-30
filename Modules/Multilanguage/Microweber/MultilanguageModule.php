@@ -35,7 +35,7 @@ class MultilanguageModule extends BaseModule
         $viewData['supported_languages'] = $supportedLanguages;
 
         // Current language
-        $currentLanguageAbr = mw()->lang_helper->current_lang();
+        $currentLanguageAbr = app()->lang_helper->current_lang();
         $currentLanguage = [
             'locale' => $currentLanguageAbr,
             'language' => $currentLanguageAbr,
@@ -43,7 +43,7 @@ class MultilanguageModule extends BaseModule
         ];
 
         // Current language full text
-        $langs = mw()->lang_helper->get_all_lang_codes();
+        $langs = app()->lang_helper->get_all_lang_codes();
         if (isset($langs[$currentLanguageAbr])) {
             $currentLanguage['language'] = $langs[$currentLanguageAbr];
         }

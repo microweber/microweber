@@ -504,18 +504,18 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                      admin logo URL; falls back to brand name text when no logo is
                      configured. Mirrors the AI-794 pattern from layout.blade.php.
                 --}}
-                @php $mwAdminLoginLogo = mw()->ui->admin_logo_login(); @endphp
+                @php $mwAdminLoginLogo = app()->ui->admin_logo_login(); @endphp
                 <div class="auth-header">
                     <div class="auth-brand-logo-wrapper">
                         @if ($mwAdminLoginLogo)
-                            <a href="{{ url('/') }}" aria-label="{{ mw()->ui->brand_name() ?: 'Microweber' }}">
+                            <a href="{{ url('/') }}" aria-label="{{ app()->ui->brand_name() ?: 'Microweber' }}">
                                 <img src="{{ $mwAdminLoginLogo }}"
-                                     alt="{{ mw()->ui->brand_name() ?: 'Microweber' }}"
+                                     alt="{{ app()->ui->brand_name() ?: 'Microweber' }}"
                                      class="auth-brand-logo">
                             </a>
                         @else
-                            <a href="{{ url('/') }}" class="auth-brand-name" aria-label="{{ mw()->ui->brand_name() ?: 'Microweber' }}">
-                                {{ mw()->ui->brand_name() ?: 'Microweber' }}
+                            <a href="{{ url('/') }}" class="auth-brand-name" aria-label="{{ app()->ui->brand_name() ?: 'Microweber' }}">
+                                {{ app()->ui->brand_name() ?: 'Microweber' }}
                             </a>
                         @endif
                     </div>

@@ -140,8 +140,8 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
 
         MultilanguageHelpers::setMultilanguageEnabled(1);
 
-        mw()->lang_helper->set_current_lang('en_US');
-        $this->assertEquals('en_US', mw()->lang_helper->current_lang());
+        app()->lang_helper->set_current_lang('en_US');
+        $this->assertEquals('en_US', app()->lang_helper->current_lang());
 
 
         $title = 'Test Category';

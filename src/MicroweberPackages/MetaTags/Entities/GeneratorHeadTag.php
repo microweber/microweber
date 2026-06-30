@@ -11,7 +11,7 @@ class GeneratorHeadTag implements TagInterface, \Stringable
     {
         $generator_tag = '';
         if (defined('MW_VERSION')) {
-            $generator_tag = "\n" . '<meta name="generator" content="' . addslashes(mw()->ui->brand_name()) . '" />' . "\n";
+            $generator_tag = "\n" . '<meta name="generator" content="' . addslashes(app()->ui->brand_name()) . '" />' . "\n";
          }
 
 

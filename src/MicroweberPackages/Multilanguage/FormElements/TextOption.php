@@ -21,8 +21,8 @@ class TextOption extends \MicroweberPackages\FormBuilder\Elements\TextOption
     {
         $inputValue = '';
 
-        $this->currentLanguage = mw()->lang_helper->current_lang();
-        $this->defaultLanguage = mw()->lang_helper->default_lang();
+        $this->currentLanguage = app()->lang_helper->current_lang();
+        $this->defaultLanguage = app()->lang_helper->default_lang();
 
         $supportedLanguages = get_supported_languages(true);
 

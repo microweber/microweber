@@ -25,7 +25,7 @@ class OptionCommand extends Command
         );
 
         $this->info('Setting option...');
-        $result = mw()->option_manager->save($input);
+        $result = app()->option_manager->save($input);
         $this->info($result);
     }
 

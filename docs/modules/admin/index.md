@@ -62,7 +62,7 @@ Admin is deliberately **a harness, not a feature**. Three consequences shape the
   - `GLOBAL_SEARCH_AFTER` → injects the Live Edit button + the quick-nav search component.
   - `TABLES::TOOLBAR_SEARCH_BEFORE` → renders the category tree on Content, Post, Product list pages (scoped to those resources only).
 - **Colors**: `primary = MwColors::Blue`, danger/gray/info/success/warning each anchored to a Filament `Color::*` palette. Primary is the project's Bootstrap-aligned `#0d6efd`.
-- **Logo + brand name**: from `mw()->ui->admin_logo()` / `->brand_name()` (project-level UI service).
+- **Logo + brand name**: from `app()->ui->admin_logo()` / `->brand_name()` (project-level UI service).
 - **Plugins registered**: MicroweberFilamentTheme (custom Tailwind), UsersFilamentPlugin, MultilanguageFilamentPlugin, Socialite, TableLayoutToggle, plus everything in `FilamentRegistry::getPlugins()`.
 
 ---
