@@ -56,7 +56,7 @@ set -euo pipefail
 # ---------------------------------------------------------------------------
 PHP_MIN_MAJOR=8
 PHP_MIN_MINOR=3
-PHP_VERSION="${PHP_VERSION:-8.3}"
+PHP_VERSION="${PHP_VERSION:-8.4}"
 
 # Required PHP extensions (Laravel 11 + Microweber composer.json: ext-pdo/zip/dom).
 # pdo_sqlite/sqlite3 back the default sqlite DB the composer post-create touches
