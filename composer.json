@@ -30,7 +30,7 @@
         "composer-runtime-api": "^2.1",
         "laravel/framework": "^11",
         "filament/actions": "~5.0",
-        "filament/filament": "~5.4",
+        "filament/filament": "~5.6",
         "filament/forms": "~5.0",
         "filament/tables": "~5.0",
         "filament/infolists": "~5.0",

@@ -37,6 +37,10 @@
 #                     .env file defaults. Sets up the DB, default content, and
 #                     admin account in one step. Skipped if Microweber is
 #                     already installed (storage/installed file present).
+#   --mysql           install MySQL server and set the root password to 'root'
+#                     (creates user root@localhost with password 'root').
+#   --pgsql           install PostgreSQL server and set the postgres superuser
+#                     password to 'postgres' (postgres@localhost).
 #   --skip-system     do not apt-install PHP/extensions, Xdebug, or the Chrome browser
 #   --skip-composer   do not run composer install
 #   --skip-node       do not install/build the packages/* Node bundles
@@ -69,6 +73,8 @@ INSTALL=0
 SKIP_SYSTEM=0
 SKIP_COMPOSER=0
 SKIP_NODE=0
+MYSQL=0
+PGSQL=0
 
 # Resolve the repo root (this script lives in <root>/scripts/).
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -101,6 +107,8 @@ while [ $# -gt 0 ]; do
     --dev)           DEV=1 ;;
     --no-dev)        NO_DEV=1 ;;
     --install)       INSTALL=1 ;;
+    --mysql)         MYSQL=1 ;;
+    --pgsql)         PGSQL=1 ;;
     --skip-system)   SKIP_SYSTEM=1 ;;
     --skip-composer) SKIP_COMPOSER=1 ;;
     --skip-node)     SKIP_NODE=1 ;;
@@ -645,6 +653,77 @@ install_microweber() {
 }
 
 # ---------------------------------------------------------------------------
+# 8. MySQL server (--mysql)
+# ---------------------------------------------------------------------------
+install_mysql() {
+  log "Installing MySQL server"
+
+  if ! command -v apt-get >/dev/null 2>&1; then
+    die "Not an apt system — install MySQL manually."
+  fi
+
+  $SUDO apt-get update -y
+  # Pre-seed the root password so the interactive debconf prompt is skipped.
+  if command -v debconf-set-selections >/dev/null 2>&1; then
+    echo "mysql-server mysql-server/root_password password root"       | $SUDO debconf-set-selections
+    echo "mysql-server mysql-server/root_password_again password root" | $SUDO debconf-set-selections
+  fi
+  $SUDO apt-get install -y mysql-server || die "Could not install mysql-server."
+
+  # Start the service if not already running.
+  if command -v service >/dev/null 2>&1; then
+    $SUDO service mysql start 2>/dev/null || true
+  fi
+
+  # Set / confirm root@localhost password = 'root' regardless of auth plugin.
+  local set_sql="ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; FLUSH PRIVILEGES;"
+  if $SUDO mysql -u root --connect-expired-password -e "$set_sql" 2>/dev/null; then
+    true
+  elif $SUDO mysql --defaults-file=/etc/mysql/debian.cnf -e "$set_sql" 2>/dev/null; then
+    true
+  else
+    warn "Could not set MySQL root password automatically — run manually: mysql -u root -e \"$set_sql\""
+  fi
+  ok "MySQL server ready — root@localhost password: root"
+
+  # PHP driver: php<ver>-mysql (provides pdo_mysql + mysqli).
+  log "Installing PHP MySQL driver (php${PHP_VERSION}-mysql)"
+  $SUDO apt-get install -y "php${PHP_VERSION}-mysql" \
+    && ok "php${PHP_VERSION}-mysql installed" \
+    || warn "Could not install php${PHP_VERSION}-mysql — install it manually."
+}
+
+# ---------------------------------------------------------------------------
+# 9. PostgreSQL server (--pgsql)
+# ---------------------------------------------------------------------------
+install_pgsql() {
+  log "Installing PostgreSQL server"
+
+  if ! command -v apt-get >/dev/null 2>&1; then
+    die "Not an apt system — install PostgreSQL manually."
+  fi
+
+  $SUDO apt-get update -y
+  $SUDO apt-get install -y postgresql postgresql-contrib || die "Could not install postgresql."
+
+  # Start the service if not already running.
+  if command -v service >/dev/null 2>&1; then
+    $SUDO service postgresql start 2>/dev/null || true
+  fi
+
+  # Set postgres superuser password = 'postgres'.
+  $SUDO -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';" 2>/dev/null \
+    && ok "PostgreSQL server ready — postgres@localhost password: postgres" \
+    || warn "Could not set postgres password — run: sudo -u postgres psql -c \"ALTER USER postgres PASSWORD 'postgres';\""
+
+  # PHP driver: php<ver>-pgsql (provides pdo_pgsql + pgsql).
+  log "Installing PHP PostgreSQL driver (php${PHP_VERSION}-pgsql)"
+  $SUDO apt-get install -y "php${PHP_VERSION}-pgsql" \
+    && ok "php${PHP_VERSION}-pgsql installed" \
+    || warn "Could not install php${PHP_VERSION}-pgsql — install it manually."
+}
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 echo "=========================================="
@@ -673,6 +752,14 @@ if [ "$SKIP_NODE" -eq 1 ]; then
   warn "Skipping Node packages (--skip-node)"
 else
   install_node_deps
+fi
+
+if [ "$MYSQL" -eq 1 ]; then
+  install_mysql
+fi
+
+if [ "$PGSQL" -eq 1 ]; then
+  install_pgsql
 fi
 
 if [ "$DEV" -eq 1 ]; then
