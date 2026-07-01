@@ -170,12 +170,19 @@ ensure_php() {
       die "PHP missing and this isn't an apt system. Install PHP ${PHP_VERSION}+ (${REQUIRED_EXTS[*]}) manually, then re-run with --skip-system."
     fi
     warn "Installing PHP ${PHP_VERSION} via apt (needs sudo/root)…"
+    # PHP 8.3+ is not in the default Ubuntu repos — add Ondřej's PPA first.
+    if ! apt-cache show "php${PHP_VERSION}" >/dev/null 2>&1; then
+      log "Adding ppa:ondrej/php (PHP ${PHP_VERSION} not in default repos)…"
+      $SUDO apt-get install -y software-properties-common 2>/dev/null || true
+      $SUDO add-apt-repository -y ppa:ondrej/php
+      $SUDO apt-get update -y
+    else
+      $SUDO apt-get update -y
+    fi
     local pkgs=()
     for m in "${APT_PHP_PKGS[@]}"; do pkgs+=("php${PHP_VERSION}-${m}"); done
-    $SUDO apt-get update -y
     if ! $SUDO apt-get install -y "php${PHP_VERSION}" "${pkgs[@]}"; then
-      die "apt could not install php${PHP_VERSION}. On Ubuntu add Ondřej's PPA first: \
-'sudo add-apt-repository ppa:ondrej/php && sudo apt-get update', then re-run."
+      die "apt could not install php${PHP_VERSION} even after adding Ondřej's PPA. Check the output above."
     fi
     php_version_ok || die "PHP still < ${PHP_MIN_MAJOR}.${PHP_MIN_MINOR} after install."
     ok "PHP $(php -r 'echo PHP_VERSION;') installed"
