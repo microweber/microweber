@@ -4,7 +4,7 @@ namespace MicroweberPackages\LaravelModulesFilament;
 
 use Coolsam\Modules\ModulesPlugin;
 use Coolsam\Modules\ModulesServiceProvider;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 
 class LaravelModulesFilamentServiceProvider extends ModulesServiceProvider
 {

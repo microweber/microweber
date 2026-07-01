@@ -2,7 +2,7 @@
 
 namespace Modules\GoogleAnalytics\Providers;
 
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\GoogleAnalytics\Filament\GoogleAnalyticsModuleSettings;
 use Modules\GoogleAnalytics\Filament\Pages\AdminGoogleAnalyticsSettingsPage;

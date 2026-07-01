@@ -1,0 +1,67 @@
+{
+    "name": "microweber-packages/filament-registry",
+    "description": "Standalone Filament panel registry for dynamically registering resources, pages, widgets, plugins and clusters. Reusable across any Laravel app with Filament panels.",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\FilamentRegistry\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\FilamentRegistry\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
+        },
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        },
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0|^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0",
+        "filament/filament": "^3.0|^4.0|^5.0",
+        "livewire/livewire": "^3.0|^4.0"
+    },
+    "suggest": {
+        "filament/filament": "Required for Filament panel integration",
+        "livewire/livewire": "Required for Livewire component testing"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MicroweberPackages\\FilamentRegistry\\FilamentRegistryServiceProvider"
+            ],
+            "aliases": {
+                "FilamentRegistry": "MicroweberPackages\\FilamentRegistry\\Facades\\FilamentRegistry"
+            }
+        }
+    },
+    "homepage": "http://microweber.com",
+    "support": {
+        "email": "support@microweber.com"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}

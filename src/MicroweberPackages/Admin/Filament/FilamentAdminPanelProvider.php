@@ -16,7 +16,7 @@ use Filament\Widgets;
 use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Blade;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\Filament\Plugins\MicroweberFilamentSocialitePlugin;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;

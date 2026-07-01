@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\CookieNotice\Filament\Pages\CookieNoticeModuleSettingsAdmin;

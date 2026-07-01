@@ -6,7 +6,7 @@ namespace Modules\StaticPageCache\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use Modules\StaticPageCache\Filament\StaticPageCacheSettingsPage;
 use Modules\StaticPageCache\Http\Middleware\StaticPageCacheMiddleware;
 use Modules\StaticPageCache\Services\StaticPageCacheService;

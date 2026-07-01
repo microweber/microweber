@@ -2,7 +2,7 @@
 
 namespace Modules\Pdf\Providers;
 
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use Modules\Pdf\Filament\PdfModuleSettings;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;

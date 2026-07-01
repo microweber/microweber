@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Package;
 
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 
 class ModulePackage

@@ -5,7 +5,7 @@ namespace Modules\Captcha\Providers;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Captcha\Livewire\CaptchaConfirmModalComponent;
 use Modules\Captcha\Filament\CaptchaModuleSettings;

@@ -2,7 +2,7 @@
 
 namespace Modules\WordPressMigration\Providers;
 
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\WordPressMigration\Console\Commands\ImportWordPressCommand;
 use Modules\WordPressMigration\Console\Commands\ImportWordPressCommitCommand;

@@ -56,6 +56,9 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
          }
      }
 
+
+
+
  // Register core Filament v5 panel providers (no deprecated FilamentServiceProvider)
  $this->app->register(MicroweberFilamentThemeServiceProvider::class);
  $this->app->register(FilamentAdminPanelProvider::class);

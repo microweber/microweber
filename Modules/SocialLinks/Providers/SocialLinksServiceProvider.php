@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\SocialLinks\Filament\SocialLinksModuleSettings;
 use Modules\SocialLinks\Microweber\SocialLinksModule;

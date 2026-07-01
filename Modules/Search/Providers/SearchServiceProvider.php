@@ -5,7 +5,7 @@ namespace Modules\Search\Providers;
 use Illuminate\Support\Facades\Blade;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Search\Filament\SearchSettings;
 use Modules\Search\Livewire\SearchComponent;

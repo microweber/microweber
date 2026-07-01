@@ -3,7 +3,7 @@
 namespace Modules\Settings\Providers;
 
 
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\FileManager\Filament\Pages\FileManagerPageAdmin;
 use Modules\Settings\Filament\Pages\{AdminAdvancedPage,

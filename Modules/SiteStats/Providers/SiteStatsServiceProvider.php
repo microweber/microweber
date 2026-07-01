@@ -3,7 +3,7 @@
 namespace Modules\SiteStats\Providers;
 
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use Modules\SiteStats\Filament\SiteStatsDashboard;
 use Modules\SiteStats\Filament\SiteStatsDashboardChart;
 use Modules\SiteStats\Filament\SiteStatsEchartsWidget;

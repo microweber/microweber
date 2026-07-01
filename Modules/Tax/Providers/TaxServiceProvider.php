@@ -2,7 +2,7 @@
 
 namespace Modules\Tax\Providers;
 
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Tax\Filament\Admin\Resources\TaxResource;
 use Modules\Tax\Filament\Admin\Resources\TaxRateResource;

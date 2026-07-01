@@ -194,6 +194,7 @@
             "MicroweberPackages\\Format\\": "packages/microweber-format/src/",
             "MicroweberPackages\\Event\\": "packages/microweber-event-manager/src/",
             "MicroweberPackages\\Http\\": "packages/microweber-http/src/",
+            "MicroweberPackages\\FilamentRegistry\\": "packages/microweber-filament-registry/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
@@ -216,7 +217,8 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
             "Tests\\": "tests/",
-            "MicroweberPackages\\Searchable\\Tests\\": "packages/microweber-searchable/tests/"
+            "MicroweberPackages\\Searchable\\Tests\\": "packages/microweber-searchable/tests/",
+            "MicroweberPackages\\FilamentRegistry\\Tests\\": "packages/microweber-filament-registry/tests/"
         }
     },
     "scripts": {

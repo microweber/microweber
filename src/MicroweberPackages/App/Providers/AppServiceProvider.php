@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Jenssegers\Agent\Agent;
+use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\App\Console\Commands\ServeCodeCoverageTestCommand;
 use MicroweberPackages\App\Console\Commands\ServeTestCommand;
 use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
@@ -31,6 +32,8 @@ use MicroweberPackages\Core\Providers\CoreServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentRegistryServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentServiceProvider;
+use MicroweberPackages\FilamentRegistry\FilamentRegistryManager;
+use MicroweberPackages\FilamentRegistry\FilamentRegistryServiceProvider;
 use MicroweberPackages\Format\Format;
 use MicroweberPackages\Install\Console\Commands\InstallCommand;
 use MicroweberPackages\DbMigrator\MicroweberMigrator;
@@ -240,7 +243,14 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
-        $this->app->register(MicroweberFilamentRegistryServiceProvider::class);
+
+        $this->app->register(FilamentRegistryServiceProvider::class);
+        // Set default scope to match the Microweber admin panel provider
+        // so module registrations without explicit scope land in the admin panel.
+        $registryManager = $this->app->make(FilamentRegistryManager::class);
+        $registryManager->setDefaultScope(FilamentAdminPanelProvider::class);
+
+
 
         $this->app->register(\MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider::class);
 

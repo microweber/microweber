@@ -5,7 +5,7 @@ namespace Modules\MailTemplate\Providers;
 use Illuminate\Support\ServiceProvider;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Facades\Filament;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\MailTemplate\Filament\Resources\MailTemplateResource;
 use Modules\MailTemplate\Filament\MailTemplateModuleSettings;

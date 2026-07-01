@@ -3,7 +3,7 @@
 namespace Tests\Feature\Filament\Navigation;
 
 use Filament\Facades\Filament;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;

@@ -86,7 +86,7 @@ class WordPressImportCtaWidgetTest extends TestCase
     #[Test]
     public function widget_is_registered_against_the_admin_dashboard(): void
     {
-        $widgets = \MicroweberPackages\Filament\Facades\FilamentRegistry::getWidgets(
+        $widgets = \MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry::getWidgets(
             \App\Filament\Admin\Pages\Dashboard::class,
             'admin'
         );

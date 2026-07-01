@@ -3,7 +3,7 @@
 namespace Modules\Payment\Providers;
 
 use Illuminate\Contracts\Container\Container;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
 use Modules\Payment\Filament\Admin\Resources\PaymentResource;

@@ -2,7 +2,7 @@
 
 namespace Modules\Invoice\Providers;
 
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Invoice\Filament\Pages\AdminShopInvoicesPage;
 use Modules\Invoice\Filament\Resources\InvoiceResource;

@@ -4,7 +4,7 @@ namespace Modules\FacebookPage\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\FacebookPage\Filament\FacebookPageModuleSettings;
 

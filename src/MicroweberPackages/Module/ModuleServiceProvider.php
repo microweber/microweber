@@ -18,7 +18,7 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Events\ServingAdmin;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\ModuleResource;
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\Marketplace;
 use MicroweberPackages\Module\Http\Livewire\Admin\AskForModuleUninstallModal;

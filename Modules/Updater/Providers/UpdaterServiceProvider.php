@@ -4,7 +4,7 @@ namespace Modules\Updater\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use Modules\Settings\Filament\Pages\Settings;
 use Modules\Updater\Filament\Pages\UpdaterPage;
 use Modules\Updater\Services\UpdaterHelper;

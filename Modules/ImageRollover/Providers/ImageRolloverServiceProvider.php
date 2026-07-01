@@ -3,7 +3,7 @@
 namespace Modules\ImageRollover\Providers;
 
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\ImageRollover\Filament\ImageRolloverModuleSettings;
 use Modules\ImageRollover\Microweber\ImageRolloverModule;

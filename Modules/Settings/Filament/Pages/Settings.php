@@ -6,7 +6,7 @@ use Filament\Facades\Filament;
 use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Log;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\Filament\Support\FilamentHelpers;
 
 

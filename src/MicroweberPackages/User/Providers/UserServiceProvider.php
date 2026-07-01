@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\View;
 use Laravel\Passport\Passport;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\User\Filament\Pages\ApiApplicationsPage;
 use MicroweberPackages\User\Filament\Pages\AdminProfileRedirectPage;
 use Livewire\Livewire;

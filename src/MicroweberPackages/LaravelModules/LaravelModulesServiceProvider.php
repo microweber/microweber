@@ -5,7 +5,7 @@ namespace MicroweberPackages\LaravelModules;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Contracts\LaravelModulesCacheRepositoryContract;
 use MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\ModuleResource;
 use MicroweberPackages\LaravelModules\Filament\Resources\ModuleDependencyResource;

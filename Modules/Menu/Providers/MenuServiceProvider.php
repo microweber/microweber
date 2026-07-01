@@ -3,7 +3,7 @@
 namespace Modules\Menu\Providers;
 
 use Livewire\Livewire;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
 use MicroweberPackages\Microweber\Facades\Microweber;

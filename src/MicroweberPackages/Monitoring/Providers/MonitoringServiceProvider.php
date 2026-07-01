@@ -4,7 +4,7 @@ namespace MicroweberPackages\Monitoring\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Monitoring\Services\ErrorTrackingService;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\Monitoring\Filament\Resources\ErrorTrackingResource;
 use MicroweberPackages\Monitoring\Filament\Widgets\ErrorStatsWidget;
 use MicroweberPackages\Monitoring\Console\Commands\BootQueryAuditCommand;

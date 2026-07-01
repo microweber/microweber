@@ -2,7 +2,7 @@
 
 namespace Modules\Order\Providers;
 
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Order\Filament\Admin\Resources\OrderResource;
 use Modules\Order\Repositories\OrderManager;

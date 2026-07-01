@@ -5,7 +5,7 @@ namespace Modules\Shipping\Providers;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\App\Application;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource;
 use Modules\Shipping\Services\ShippingMethodManager;

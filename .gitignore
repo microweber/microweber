@@ -245,5 +245,7 @@ TODO_OLD.md_old
 /packages/microweber-http/.phpunit.cache
 /packages/microweber-format/vendor
 /packages/microweber-format/.phpunit.cache
+/packages/microweber-filament-registry/vendor
+/packages/microweber-filament-registry/.phpunit.cache
 /packages/frontend-assets/resources/dist
 /packages/frontend-assets/resources/dist/build
