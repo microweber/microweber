@@ -318,11 +318,11 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->renderHook(
             name: PanelsRenderHook::TOPBAR_START,
             hook: function (): string {
-                $logoUrl = app()->ui->admin_logo();
+                $logoUrl = mw()->ui->admin_logo();
                 if (empty($logoUrl)) {
-                    $logoUrl = app()->ui->admin_logo_login();
+                    $logoUrl = mw()->ui->admin_logo_login();
                 }
-                $brandName = app()->ui->brand_name() ?: 'Microweber';
+                $brandName = mw()->ui->brand_name() ?: 'Microweber';
                 $adminUrl  = url(mw_admin_prefix_url() ?: 'admin');
                 return '<a href="' . e($adminUrl) . '" class="mw-admin-brand-mark"'
                     . ' aria-label="' . e($brandName) . ' admin"'

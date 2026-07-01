@@ -266,7 +266,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
         return parent::updateOrCreate($attributes, $values);
     }
 
-    public function updateOrInsert(array $attributes, array $values = [])
+    public function updateOrInsert(array $attributes, array|callable $values = [])
     {
         $this->clearModelCache();
         return parent::updateOrInsert($attributes, $values);

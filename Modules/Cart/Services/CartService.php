@@ -1061,7 +1061,7 @@ class CartService
             'no_cache' => 1,
             'disable_triggers' => 1,
             'order_completed' => 0,
-            'custom_fields_data' => $this->app->format->array_to_base64($add),
+            'custom_fields_data' => $add,
             'custom_fields_json' => json_encode($add),
             'allow_html' => 1,
             'price' => doubleval($foundPrice),
@@ -1112,17 +1112,18 @@ class CartService
             ->where('rel_id', $cart['rel_id'])
             ->where('rel_type', $cart['rel_type']);
 
+        // custom_fields_data is stored as JSON (Cart model 'array' cast), so a
+        // variant is identified by its JSON form. Empty (no customisation)
+        // matches the legacy NULL/'' rows as well as the JSON empties ('[]'/'""').
         $cf = $cart['custom_fields_data'] ?? null;
-        if ($cf !== null && $cf !== '') {
-            $query->whereIn('custom_fields_data', array_unique([
-                $cf,
-                json_encode($cf),
-            ]));
+        if (!empty($cf)) {
+            $query->where('custom_fields_data', json_encode($cf));
         } else {
             $query->where(function ($q) {
                 $q->whereNull('custom_fields_data')
                   ->orWhere('custom_fields_data', '')
-                  ->orWhere('custom_fields_data', '""');
+                  ->orWhere('custom_fields_data', '""')
+                  ->orWhere('custom_fields_data', '[]');
             });
         }
 

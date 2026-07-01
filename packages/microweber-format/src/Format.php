@@ -1243,7 +1243,16 @@ class Format
     public function render_item_custom_fields_data(array $item): array
     {
         if (isset($item['custom_fields_data']) && $item['custom_fields_data'] !== '') {
-            $item['custom_fields_data'] = $this->base64_to_array($item['custom_fields_data']);
+            // custom_fields_data is stored as JSON (Cart model 'array' cast). It may
+            // already be an array (read via the cast) or a JSON string (read raw);
+            // fall back to the legacy base64 decoding for rows persisted by the old
+            // design so historical carts keep rendering.
+            $cfd = $item['custom_fields_data'];
+            if (is_string($cfd)) {
+                $decoded = json_decode($cfd, true);
+                $cfd = is_array($decoded) ? $decoded : $this->base64_to_array($cfd);
+            }
+            $item['custom_fields_data'] = $cfd;
 
             if (isset($item['custom_fields_data']) && is_array($item['custom_fields_data']) && !empty($item['custom_fields_data'])) {
                 $itemCustomFields = $item['custom_fields_data'];
