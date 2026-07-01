@@ -426,8 +426,14 @@ class Format
     /**
      * Auto-link URLs in text.
      */
-    public function autolink(string $text): string
+    public function autolink(?string $text): string
     {
+        // Null-tolerant (back-compat): callers such as Comment::getCommentBodyAttribute()
+        // pass a possibly-null DB column; the pre-extraction method accepted null.
+        if ($text === null || $text === '') {
+            return (string) $text;
+        }
+
         $pattern = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
 
         return preg_replace_callback($pattern, [$this, 'auto_link_text_callback'], $text);
