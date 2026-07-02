@@ -91,7 +91,7 @@ class FileUploadValidationTest extends TestCase
     #[Test]
     public function it_enforces_file_size_limits_by_category(): void
     {
-        $service = new \MicroweberPackages\Utils\System\FileUploadValidationService();
+        $service = new \MicroweberPackages\FileUploader\Validation\FileValidationService();
 
         // Image limit is 10MB
         $result = $service->validateSizeByCategory(5 * 1024 * 1024, 'images');
@@ -111,7 +111,7 @@ class FileUploadValidationTest extends TestCase
     #[Test]
     public function it_validates_mime_types(): void
     {
-        $service = new \MicroweberPackages\Utils\System\FileUploadValidationService();
+        $service = new \MicroweberPackages\FileUploader\Validation\FileValidationService();
 
         // Create a real image file
         $imageFile = UploadedFile::fake()->image('test.jpg', 100, 100);
@@ -132,7 +132,7 @@ class FileUploadValidationTest extends TestCase
     #[Test]
     public function it_validates_extension_matches_mime_type(): void
     {
-        $service = new \MicroweberPackages\Utils\System\FileUploadValidationService();
+        $service = new \MicroweberPackages\FileUploader\Validation\FileValidationService();
 
         // Create image file with correct extension
         $imageFile = UploadedFile::fake()->image('test.jpg', 100, 100);
@@ -147,7 +147,7 @@ class FileUploadValidationTest extends TestCase
     #[Test]
     public function it_generates_validation_rules(): void
     {
-        $service = new \MicroweberPackages\Utils\System\FileUploadValidationService();
+        $service = new \MicroweberPackages\FileUploader\Validation\FileValidationService();
 
         // Get rules for images
         $rules = $service->getValidationRules(['images'], 5120);
@@ -165,7 +165,7 @@ class FileUploadValidationTest extends TestCase
     #[Test]
     public function it_detects_file_types_correctly(): void
     {
-        $service = new \MicroweberPackages\Utils\System\FileUploadValidationService();
+        $service = new \MicroweberPackages\FileUploader\Validation\FileValidationService();
 
         // Create test files
         $imageFile = UploadedFile::fake()->image('test.jpg', 100, 100);
@@ -180,7 +180,7 @@ class FileUploadValidationTest extends TestCase
     #[Test]
     public function it_parses_size_formats(): void
     {
-        $service = new \MicroweberPackages\Utils\System\FileUploadValidationService();
+        $service = new \MicroweberPackages\FileUploader\Validation\FileValidationService();
 
         // Test various size formats via validation
         $result = $service->validateSize(1024 * 1024, '1M');
@@ -196,7 +196,7 @@ class FileUploadValidationTest extends TestCase
     #[Test]
     public function it_handles_upload_errors(): void
     {
-        $service = new \MicroweberPackages\Utils\System\FileUploadValidationService();
+        $service = new \MicroweberPackages\FileUploader\Validation\FileValidationService();
 
         // Test various upload error codes
         $errorMessages = [
@@ -230,7 +230,7 @@ class FileUploadValidationTest extends TestCase
         // Set custom config
         config()->set('media.upload_limits.images', 5120); // 5 MB
 
-        $service = new \MicroweberPackages\Utils\System\FileUploadValidationService();
+        $service = new \MicroweberPackages\FileUploader\Validation\FileValidationService();
         $this->assertEquals(5120, $service->getSizeLimit('images'));
 
         // Restore default
@@ -240,7 +240,7 @@ class FileUploadValidationTest extends TestCase
     #[Test]
     public function it_returns_all_mime_type_mappings(): void
     {
-        $service = new \MicroweberPackages\Utils\System\FileUploadValidationService();
+        $service = new \MicroweberPackages\FileUploader\Validation\FileValidationService();
 
         $allMappings = $service->getMimeTypeMappings('all');
         $this->assertNotEmpty($allMappings);
@@ -257,7 +257,7 @@ class FileUploadValidationTest extends TestCase
     #[Test]
     public function it_validates_comprehensive_upload(): void
     {
-        $service = new \MicroweberPackages\Utils\System\FileUploadValidationService();
+        $service = new \MicroweberPackages\FileUploader\Validation\FileValidationService();
 
         // Create a valid test file
         $imageFile = UploadedFile::fake()->image('test.jpg', 100, 100)->size(100);

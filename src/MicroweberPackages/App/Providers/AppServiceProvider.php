@@ -254,6 +254,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->register(\MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider::class);
 
+        $this->app->register(\MicroweberPackages\FileUploader\FileUploaderServiceProvider::class);
+
         $this->app->register(CoreServiceProvider::class);
 
         $this->setEnvironmentDetection();

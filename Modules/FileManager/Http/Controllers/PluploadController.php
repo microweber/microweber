@@ -2,13 +2,11 @@
 
 namespace Modules\FileManager\Http\Controllers;
 
-
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use MicroweberPackages\App\Http\Controllers\Controller;
-use MicroweberPackages\Utils\System\FileUploadValidationService;
+use MicroweberPackages\FileUploader\FileUploaderService;
 
 class PluploadController extends Controller
 {
@@ -32,22 +30,19 @@ class PluploadController extends Controller
         return $target_path;
     }
 
+    /**
+     * Get the file uploader service instance.
+     */
+    protected function getUploaderService(): FileUploaderService
+    {
+        return app('file_uploader');
+    }
+
     public function upload()
     {
-        @ini_set('memory_limit', '256M');
-
-        $files_utils = new \MicroweberPackages\Utils\System\Files();
-        $dangerous = $files_utils->get_dangerous_files_extentions();
-
-        if (!empty($this->allowedFileTypes)) {
-            foreach ($this->allowedFileTypes as $fileType) {
-                foreach ($dangerous as $iDangerous => $dangerousFileType) {
-                    if ($dangerousFileType == $fileType) {
-                        unset($dangerous[$iDangerous]);
-                    }
-                }
-            }
-        }
+        /** @var FileUploaderService $uploaderService */
+        $uploaderService = $this->getUploaderService();
+        $validator = $uploaderService->validator();
 
         if (!app()->user_manager->session_id() or (app()->user_manager->session_all() == false)) {
             // //session_start();
@@ -56,35 +51,19 @@ class PluploadController extends Controller
         $validate_token = false;
         if (!isset($_SERVER['HTTP_REFERER'])) {
             header("HTTP/1.1 401 Unauthorized");
-
             die('{"jsonrpc" : "2.0", "error" : {"code":97, "message": "You are not allowed to upload"}}');
         } elseif (!stristr($_SERVER['HTTP_REFERER'], site_url())) {
-            //    if (!is_logged()){
-//        die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload from remote domains"}}');
-//    }
+            // allow
         }
-
-//if (!is_admin()) {
-        //$validate_token = app()->user_manager->csrf_validate($_GET);
-
-// validation is now on middleware
-//    if ($validate_token == false) {
-//        header("HTTP/1.1 401 Unauthorized");
-//        die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
-//    }
 
         $is_ajax = app()->url_manager->is_ajax();
         if (!$is_ajax) {
             header("HTTP/1.1 401 Unauthorized");
             die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
         }
-//}
 
         $host = (parse_url(site_url()));
-
-//$host_dir = false;
         $host_dir = 'default';
-
 
         if (mw_is_multisite()) {
             if (isset($host['host'])) {
@@ -94,16 +73,14 @@ class PluploadController extends Controller
             }
         }
 
-
         $fileName_ext = request()->input('name', '');
+        $is_ext = strtolower(pathinfo($fileName_ext, PATHINFO_EXTENSION));
 
-        $is_ext = get_file_extension($fileName_ext);
-        $is_ext = strtolower($is_ext);
-
+        // Validate extension using the service
         if (!empty($this->allowedFileTypes)) {
             $is_allowed_file = in_array($is_ext, $this->allowedFileTypes);
         } else {
-            $is_allowed_file = $files_utils->is_allowed_file($fileName_ext);
+            $is_allowed_file = $validator->isAllowedExtension($fileName_ext);
         }
 
         if ($is_allowed_file == false) {
@@ -111,7 +88,14 @@ class PluploadController extends Controller
             die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You cannot upload scripts or executable files"}}');
         }
 
+        // Always block dangerous extensions
+        if ($validator->isDangerousExtension($fileName_ext)) {
+            header("HTTP/1.1 401 Unauthorized");
+            die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You cannot upload scripts or executable files"}}');
+        }
+
         $allowed_to_upload = false;
+        $requestPath = null;
 
         if (is_admin() != false) {
             $allowed_to_upload = true;
@@ -120,47 +104,40 @@ class PluploadController extends Controller
             if ($uid != 0) {
                 $user = app()->user_manager->get_by_id($uid);
                 if (!empty($user) and isset($user['is_active']) and $user['is_active'] == 1) {
-                    $are_allowed = 'img';
-            $requestPath = 'media/' . $host_dir . DS . 'user_uploads/user/' . $user['id'] . DS;
-            $autopath = request()->input('autopath');
-            if ($autopath == 'user_hash') {
-                $up_path = md5($user['id'] . $user['created_at']);
-                $requestPath = 'media/' . $host_dir . DS . 'user_uploads/user_hash/' . DS . $up_path . DS;
-            }
+                    $requestPath = 'media/' . $host_dir . DS . 'user_uploads/user/' . $user['id'] . DS;
+                    $autopath = request()->input('autopath');
+                    if ($autopath == 'user_hash') {
+                        $up_path = md5($user['id'] . $user['created_at']);
+                        $requestPath = 'media/' . $host_dir . DS . 'user_uploads/user_hash/' . DS . $up_path . DS;
+                    }
                     $allowed_to_upload = true;
                 }
             } else {
-            $requestPath = 'media/' . $host_dir . DS . 'user_uploads/anonymous/';
-            $allowed_to_upload = true;
+                $requestPath = 'media/' . $host_dir . DS . 'user_uploads/anonymous/';
+                $allowed_to_upload = true;
+            }
         }
 
+        if ($allowed_to_upload == false) {
+            $rel_type = request()->input('rel_type');
+            $custom_field_id = request()->input('custom_field_id');
+            $rel_id = request()->input('rel_id');
 
-    }
-
-
-    if ($allowed_to_upload == false) {
-        $rel_type = request()->input('rel_type');
-        $custom_field_id = request()->input('custom_field_id');
-        $rel_id = request()->input('rel_id');
-
-        if (!empty($rel_type) && !empty($custom_field_id) && trim($rel_type) != '' && trim($rel_type) != 'false') {
-            $cfid = app()->fields_manager->getById(intval($custom_field_id));
-            if ($cfid == false) {
-                die('{"jsonrpc" : "2.0", "error" : {"code": 90, "message": "Custom field is not found"}}');
-            } else {
-                $rel_error = false;
-                if (empty($rel_id)) {
-                    $rel_error = true;
-                }
-                if (!isset($cfid['rel_id'])) {
-                    $rel_error = true;
-                }
-
-                if ($rel_id != $cfid['rel_id']) {
-                    $rel_error = true;
-                }
-
-
+            if (!empty($rel_type) && !empty($custom_field_id) && trim($rel_type) != '' && trim($rel_type) != 'false') {
+                $cfid = app()->fields_manager->getById(intval($custom_field_id));
+                if ($cfid == false) {
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 90, "message": "Custom field is not found"}}');
+                } else {
+                    $rel_error = false;
+                    if (empty($rel_id)) {
+                        $rel_error = true;
+                    }
+                    if (!isset($cfid['rel_id'])) {
+                        $rel_error = true;
+                    }
+                    if ($rel_id != $cfid['rel_id']) {
+                        $rel_error = true;
+                    }
                     if ($rel_error) {
                         die('{"jsonrpc" : "2.0", "error" : {"code": 91, "message": "You are not allowed to upload"}}');
                     }
@@ -169,17 +146,14 @@ class PluploadController extends Controller
                 if ($cfid != false and isset($cfid['custom_field_type'])) {
                     if ($cfid['custom_field_type'] != 'upload') {
                         header("HTTP/1.1 401 Unauthorized");
-
                         die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Custom field is not file upload type"}}');
                     }
                     if ($cfid != false and (!isset($cfid['options']) or !isset($cfid['options']['file_types']))) {
                         header("HTTP/1.1 401 Unauthorized");
-
                         die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "File types is not set."}}');
                     }
                     if ($cfid != false and isset($cfid['file_types']) and empty($cfid['file_types'])) {
                         header("HTTP/1.1 401 Unauthorized");
-
                         die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "File types cannot by empty."}}');
                     }
 
@@ -187,55 +161,19 @@ class PluploadController extends Controller
                         $alloled_ft = array_values(($cfid['options']['file_types']));
                         if (empty($alloled_ft)) {
                             header("HTTP/1.1 401 Unauthorized");
-
                             die('{"jsonrpc" : "2.0", "error" : {"code": 104, "message": "File types cannot by empty."}}');
-                    } else {
-                        $are_allowed = '';
-                        $fileName_ext = request()->input('name', '');
-                        foreach ($alloled_ft as $allowed_file_type_item) {
-                                if (trim($allowed_file_type_item) != '' and $fileName_ext != '') {
-                                    $is_ext = get_file_extension($fileName_ext);
-                                    $is_ext = strtolower($is_ext);
+                        } else {
+                            $fileName_ext_check = request()->input('name', '');
+                            foreach ($alloled_ft as $allowed_file_type_item) {
+                                if (trim($allowed_file_type_item) != '' and $fileName_ext_check != '') {
+                                    $check_ext = strtolower(pathinfo($fileName_ext_check, PATHINFO_EXTENSION));
 
-                                    switch ($is_ext) {
-                                        case 'phtml':
-                                        case 'php':
-                                        case 'php12':
-                                        case 'php11':
-                                        case 'php10':
-                                        case 'php9':
-                                        case 'php8':
-                                        case 'php7':
-                                        case 'php6':
-                                        case 'php5':
-                                        case 'php4':
-                                        case 'php3':
-                                        case 'ptml':
-                                        case 'html':
-                                        case 'xhtml':
-                                        case 'phtml':
-                                        case 'shtml':
-                                        case 'htm':
-                                        case 'pl':
-                                        case 'cgi':
-                                        case 'rb':
-                                        case 'py':
-                                        case 'asp':
-                                        case 'htaccess':
-                                        case 'exe':
-                                        case 'msi':
-                                        case 'sh':
-                                        case 'bat':
-                                        case 'vbs':
-                                            $are_allowed = false;
-                                            die('{"jsonrpc" : "2.0", "error" : {"code":105, "message": "You cannot upload scripts or executables"}}');
-
-                                            break;
-
-
+                                    // Use the service to check for dangerous extensions
+                                    if ($validator->isDangerousExtension($fileName_ext_check)) {
+                                        die('{"jsonrpc" : "2.0", "error" : {"code":105, "message": "You cannot upload scripts or executables"}}');
                                     }
 
-                                    $are_allowed = $files_utils->get_allowed_files_extensions_for_upload($allowed_file_type_item);
+                                    $are_allowed = $validator->getAllowedExtensionsForCategory($allowed_file_type_item);
 
                                     $pass_type_check = false;
                                     if ($are_allowed != false) {
@@ -243,13 +181,10 @@ class PluploadController extends Controller
                                         if (!empty($are_allowed_a)) {
                                             foreach ($are_allowed_a as $are_allowed_a_item) {
                                                 $are_allowed_a_item = strtolower(trim($are_allowed_a_item));
-                                                $is_ext = strtolower(trim($is_ext));
-
                                                 if ($are_allowed_a_item == '*') {
                                                     $pass_type_check = 1;
                                                 }
-
-                                                if ($are_allowed_a_item != '' and $are_allowed_a_item == $is_ext) {
+                                                if ($are_allowed_a_item != '' and $are_allowed_a_item == $check_ext) {
                                                     $pass_type_check = 1;
                                                 }
                                             }
@@ -257,37 +192,31 @@ class PluploadController extends Controller
                                     }
                                     if ($pass_type_check == false) {
                                         header("HTTP/1.1 401 Unauthorized");
-
                                         die('{"jsonrpc" : "2.0", "error" : {"code":106, "message": "You can only upload ' . $are_allowed . ' files."}}');
-                        } else {
-                            $captcha = request()->input('captcha');
-                            if (empty($captcha)) {
-                                if (!$validate_token) {
-                                    header("HTTP/1.1 401 Unauthorized");
-
-                                    die('{"jsonrpc" : "2.0", "error" : {"code":107, "message": "Please enter the captcha answer!"}}');
-                                }
-                            } else {
-                                $cap = app()->user_manager->session_get('captcha');
-                                if ($cap == false) {
-                                    header("HTTP/1.1 401 Unauthorized");
-
-                                    die('{"jsonrpc" : "2.0", "error" : {"code":108, "message": "You must load a captcha first!"}}');
-                                }
-                                $validate_captcha = $this->app->captcha_manager->validate($captcha);
-                                if (!$validate_captcha) {
-                                    header("HTTP/1.1 401 Unauthorized");
-
-                                    die('{"jsonrpc" : "2.0", "error" : {"code":109, "message": "Invalid captcha answer! "}}');
-                                } else {
-                                    if (!request()->has('path')) {
-                                        $rel_type = request()->input('rel_type');
-                                        $_REQUEST['path'] = 'media/' . $host_dir . '/user_uploads' . DS . $rel_type . DS;
+                                    } else {
+                                        $captcha = request()->input('captcha');
+                                        if (empty($captcha)) {
+                                            if (!$validate_token) {
+                                                header("HTTP/1.1 401 Unauthorized");
+                                                die('{"jsonrpc" : "2.0", "error" : {"code":107, "message": "Please enter the captcha answer!"}}');
+                                            }
+                                        } else {
+                                            $cap = app()->user_manager->session_get('captcha');
+                                            if ($cap == false) {
+                                                header("HTTP/1.1 401 Unauthorized");
+                                                die('{"jsonrpc" : "2.0", "error" : {"code":108, "message": "You must load a captcha first!"}}');
+                                            }
+                                            $validate_captcha = app()->captcha_manager->validate($captcha);
+                                            if (!$validate_captcha) {
+                                                header("HTTP/1.1 401 Unauthorized");
+                                                die('{"jsonrpc" : "2.0", "error" : {"code":109, "message": "Invalid captcha answer! "}}');
+                                            } else {
+                                                if (!request()->has('path')) {
+                                                    $rel_type = request()->input('rel_type');
+                                                    $_REQUEST['path'] = 'media/' . $host_dir . '/user_uploads' . DS . $rel_type . DS;
                                                 }
                                             }
                                         }
-
-                                        //die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": PECATA - Not finished yet."}}');
                                     }
                                 }
                             }
@@ -296,499 +225,70 @@ class PluploadController extends Controller
                 }
             } else {
                 header("HTTP/1.1 401 Unauthorized");
-
                 die('{"jsonrpc" : "2.0", "error" : {"code": 110, "message": "Only admin can upload."}, "id" : "id"}');
             }
         }
 
-
         if (!is_admin()) {
-
             die('{"jsonrpc" : "2.0", "error" : {"code": 111, "message": "Only admin can upload."}, "id" : "id"}');
-
-        $relId = request()->input('rel_id');
-        return response(array(
-            'error' => _e('Please enter captcha answer!', true),
-            'captcha_error' => true,
-            'form_data_required' => 'captcha',
-            'form_data_required_params' => array('captcha_parent_for_id' => $relId),
-            'form_data_module' => 'captcha'
-
-        ));
         }
 
-
-// Settings
-//$target_path = media_base_path() . DS;
-//$target_path = media_base_path() . DS . $host_dir . DS . 'uploaded' . DS;
-
+        // Determine target path
         $target_path = $this->getUploadPath();
+        $path_restirct = userfiles_path();
+        $inputPath = request()->input('path');
+        $path = null;
 
-$path_restirct = userfiles_path(); // the path the script should access
-    $requestPath = request()->input('path');
-    if (!empty($requestPath) && trim($requestPath) != '' && trim($requestPath) != 'false') {
-        $path = urldecode($requestPath);
-
+        if (!empty($inputPath) && trim($inputPath) != '' && trim($inputPath) != 'false') {
+            $path = urldecode($inputPath);
             $path = html_entity_decode($path);
             $path = htmlspecialchars_decode($path, ENT_NOQUOTES);
-
-            //$path = urldecode($path);
             $path = str_replace('%2F', '/', $path);
-            //$path = str_replace('%25252F','/',$path);
-
             $path = normalize_path($path, 0);
             $path = sanitize_path($path);
             $path = str_replace($path_restirct, '', $path);
-
-            // $target_path = userfiles_path() . DS . $path;
             $target_path = media_uploads_path() . DS . $path;
             $target_path = normalize_path($target_path, 1);
         }
 
-        $targetDir = $target_path;
-        if (!is_dir($targetDir)) {
-            mkdir_recursive($targetDir);
-        }
-//$targetDir = 'uploads';
+        // Determine auto-resize settings
+        $automatic_image_resize_on_upload = get_option('automatic_image_resize_on_upload', 'website') == 'y';
+        $automatic_image_resize_on_upload_disabled = get_option('automatic_image_resize_on_upload', 'website') == 'd';
+        $autoResize = !$automatic_image_resize_on_upload_disabled && $automatic_image_resize_on_upload;
 
-        $cleanupTargetDir = true;
-// Remove old files
-        $maxFileAge = 5 * 3600;
-// Temp file age in seconds
-// 5 minutes execution time
-        @set_time_limit(5 * 60);
+        // Use the service for the actual file upload processing
+        $result = $uploaderService->upload(request(), [
+            'targetDir' => $target_path,
+            'allowedFileTypes' => $this->allowedFileTypes,
+            'autoResize' => $autoResize,
+            'maxDimension' => 1980,
+            'disk' => 'public',
+            'returnPath' => $this->returnPathResponse,
+            'storeToDisk' => false, // We handle storage below for backward compat
+        ]);
 
-// Uncomment this one to fake upload time
-// usleep(5000);
-    // Get parameters
-    $chunk = request()->input('chunk', 0);
-    $chunks = request()->input('chunks', 0);
-    $fileName = request()->input('name', '');
-
-
-// Clean the fileName for security reasons
-        $fileNameExtension = get_file_extension($fileName);
-        $fileNameWithoutExtension = pathinfo($fileName, PATHINFO_FILENAME);
-
-// Clean only the filename without extension
-        $cleanFileName = \MicroweberPackages\Helper\URLify::filter($fileNameWithoutExtension);
-        $cleanFileName = preg_replace('/\s+\d+%|\)/', '', $cleanFileName);
-        $cleanFileName = preg_replace("/[\/\&%#\$]/", "_", $cleanFileName);
-        $cleanFileName = preg_replace("/[\"\']/", " ", $cleanFileName);
-        $cleanFileName = str_replace(array('(', ')', "'", "!", "`", "*", "#", "<", ">"), '-', $cleanFileName);
-        $cleanFileName = str_replace(' ', '-', $cleanFileName);
-        $cleanFileName = str_replace('..', '-', $cleanFileName);
-        $cleanFileName = strtolower($cleanFileName);
-        $cleanFileName = app()->url_manager->clean_url_wrappers($cleanFileName);
-
-// Reconstruct filename with original extension
-        $fileName = $cleanFileName . '.' . $fileNameExtension;
-
-
-
-        $fileName_uniq = date('ymdhis') . uniqid() . $fileName;
-// Make sure the fileName is unique but only if chunking is disabled
-        if ($chunks < 2 && file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)) {
-            $ext = strrpos($fileName, '.');
-//
-//            $fileName_a = substr($fileName, 0, $ext);
-//
-//            $fileName_b = substr($fileName, $ext);
-//
-//            $fileName_b = strtolower($fileName_b);
-
-
-
-         //   $fileName = $fileName_a . '_' . uniqid() . '_' . $fileName_b;
-            $fileName = $fileName_uniq;
-
+        if (isset($result['error']) && $result['error']) {
+            $httpStatus = $result['http_status'] ?? 401;
+            $errorJson = [
+                'jsonrpc' => '2.0',
+                'error' => [
+                    'code' => $result['error_code'] ?? 100,
+                    'message' => $result['error_message'] ?? 'Upload failed',
+                ],
+                'id' => 'id',
+            ];
+            return response()->json($errorJson, $httpStatus);
         }
 
-        $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
-        $filePath_uniq = $targetDir . DIRECTORY_SEPARATOR . $fileName_uniq;
-
-// Create target dir
-        if (!is_dir($targetDir)) {
-            @mkdir_recursive($targetDir);
+        // Clean up logs
+        if (app()->bound('log_manager')) {
+            app()->log_manager->delete('is_system=y&rel=uploader&created_at=[lt]30 min ago');
+            app()->log_manager->delete('is_system=y&rel=uploader&session_id=' . app()->user_manager->session_id());
         }
 
-        $has_index = $targetDir . DIRECTORY_SEPARATOR . 'index.html';
-
-        if (!is_file($has_index)) {
-            @touch($has_index);
-        }
-
-// Remove old temp files
-        if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
-            while (($file = readdir($dir)) !== false) {
-                $tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
-
-                // Remove temp file if it is older than the max age and is not the current file
-                if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge) && ($tmpfilePath != "{$filePath}.part")) {
-                    @unlink($tmpfilePath);
-                }
-            }
-
-            closedir($dir);
-        } else {
-            die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
-        }
-
-
-       if (isset($_SERVER['CONTENT_LENGTH']) and isset($_FILES['file'])) {
-           $filename_log = app()->url_manager->slug($fileName);
-           $cacheKey = 'upload_size_' . $filename_log . '_' . user_ip();
-           $upl_size_log = $_SERVER['CONTENT_LENGTH'];
-
-           if (app()->bound('cache')) {
-               $cachedSize = Cache::get($cacheKey);
-
-               if ($cachedSize) {
-                   // Add current upload size to existing cached value
-                   $upl_size_log = intval($upl_size_log) + intval($cachedSize);
-               }
-
-               // Store the updated size in cache with 30 minutes TTL
-               Cache::put($cacheKey, $upl_size_log, 30 * 60);
-           }
-       }
-
-// Look for the content type header
-        if (isset($_SERVER['HTTP_CONTENT_TYPE'])) {
-            $contentType = $_SERVER['HTTP_CONTENT_TYPE'];
-        }
-
-        if (isset($_SERVER['CONTENT_TYPE'])) {
-            $contentType = $_SERVER['CONTENT_TYPE'];
-        }
-
-
-
-// Handle non multipart uploads older WebKit versions didn't support multipart in HTML5
-        $is_image = false;
-
-        $engine = 'plupload';
-
-
-        if ($engine == 'plupload') {
-
-
-            if (isset($contentType)) {
-                if (strpos($contentType, 'multipart') !== false) {
-                    if ($_FILES['file']['error'] === UPLOAD_ERR_OK) {
-                        //uploading successfully done
-                    } else {
-                        throw new \Exception($_FILES['file']['error']);
-                    }
-                }
-
-                if (isset($_FILES['file']['tmp_name']) && is_uploaded_file($_FILES['file']['tmp_name'])) {
-
-                    // Open temp file
-                    $out = fopen("{$filePath}.part", $chunk == 0 ? 'wb' : 'ab');
-                    if ($out) {
-                        // Read binary input stream and append it to temp file
-                        $in = fopen($_FILES['file']['tmp_name'], 'rb');
-
-                        if ($in) {
-                            while ($buff = fread($in, 4096)) {
-                                fwrite($out, $buff);
-                            }
-                        } else {
-                            header("HTTP/1.1 401 Unauthorized");
-
-                            die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
-                        }
-                        fclose($in);
-                        fclose($out);
-
-                        @unlink($_FILES['file']['tmp_name']);
-                    } else {
-                        header("HTTP/1.1 401 Unauthorized");
-
-                        die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
-                    }
-                } else {
-                    header("HTTP/1.1 401 Unauthorized");
-
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
-                }
-            } else {
-                // Open temp file
-                $out = fopen("{$filePath}.part", $chunk == 0 ? 'wb' : 'ab');
-                if ($out) {
-                    // Read binary input stream and append it to temp file
-                    $in = fopen('php://input', 'rb');
-
-                    if ($in) {
-                        while ($buff = fread($in, 4096)) {
-                            fwrite($out, $buff);
-                        }
-                    } else {
-                        header("HTTP/1.1 401 Unauthorized");
-
-                        die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
-                    }
-
-                    fclose($in);
-                    fclose($out);
-                } else {
-                    header("HTTP/1.1 401 Unauthorized");
-
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
-                }
-            }
-
-        } else {
-
-
-        }
-
-
-        $rerturn = array();
-
-
-// Check if file has been uploaded
-        if (!$chunks || $chunk == $chunks - 1) {
-            // Strip the temp .part suffix off
-
-
-            $newfile = $filePath;
-            $newfile = normalize_path($newfile,false);
-            if (is_file($newfile)) {
-
-                $newfile = $filePath_uniq;
-            }
-
-
-            rename("{$filePath}.part", $newfile);
-            $filePath = $newfile;
-
-            $automatic_image_resize_on_upload = get_option('automatic_image_resize_on_upload', 'website') == 'y';
-            $automatic_image_resize_on_upload_disabled = get_option('automatic_image_resize_on_upload', 'website') == 'd';
-
-        if (is_file($filePath) and !$chunks || $chunk == $chunks - 1) {
-        $ext = get_file_extension($filePath);
-        $ext = strtolower($ext);
-
-        // Enhanced MIME type validation using FileUploadValidationService
-        $validationService = new FileUploadValidationService();
-
-        // Determine file category from extension
-        $fileCategory = 'files';
-        $imageExts = ['jpg', 'jpeg', 'jpe', 'png', 'gif', 'webp', 'svg', 'tiff', 'bmp', 'ico'];
-        $videoExts = ['mp4', 'm4v', 'avi', 'mpg', 'mpeg', 'webm', 'ogv', 'ogg', 'mov', 'wmv', '3gp', '3g2'];
-        $audioExts = ['mp3', 'ogg', 'wav', 'flac', 'm4a', 'aac'];
-        $documentExts = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'rtf', 'txt', 'xml', 'odt'];
-        $archiveExts = ['zip', 'rar', '7z', 'gz', 'gzip', 'tar', 'tgz', 'tar.gz'];
-
-        if (in_array($ext, $imageExts)) {
-            $fileCategory = 'images';
-        } elseif (in_array($ext, $videoExts)) {
-            $fileCategory = 'videos';
-        } elseif (in_array($ext, $audioExts)) {
-            $fileCategory = 'audios';
-        } elseif (in_array($ext, $documentExts)) {
-            $fileCategory = 'documents';
-        } elseif (in_array($ext, $archiveExts)) {
-            $fileCategory = 'archives';
-        }
-
-        // Validate MIME type
-        $mimeResult = $validationService->validateMimeType($filePath, [$fileCategory]);
-        if (!$mimeResult['valid']) {
-            @unlink($filePath);
-            header("HTTP/1.1 415 Unsupported Media Type");
-            die('{"jsonrpc" : "2.0", "error" : {"code": 108, "message": "' . addslashes($mimeResult['error']) . '"}, "id" : "id"}');
-        }
-
-        // Validate file size
-        $fileSize = filesize($filePath);
-        $sizeResult = $validationService->validateSizeByCategory($fileSize, $fileCategory);
-        if (!$sizeResult['valid']) {
-            @unlink($filePath);
-            header("HTTP/1.1 413 Payload Too Large");
-            die('{"jsonrpc" : "2.0", "error" : {"code": 109, "message": "' . addslashes($sizeResult['error']) . '"}, "id" : "id"}');
-        }
-
-        // Legacy dangerous MIME check (keeping for backward compatibility)
-        if (function_exists('finfo_open') and function_exists('finfo_file')) {
-        $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
-        $mime = @finfo_file($finfo, $filePath);
-        if ($mime) {
-        $upl_mime_ext = explode('/', $mime);
-        $upl_mime_ext = end($upl_mime_ext);
-        $upl_mime_ext = explode('-', $upl_mime_ext);
-        $upl_mime_ext = end($upl_mime_ext);
-        $upl_mime_ext = strtolower($upl_mime_ext);
-
-        if (in_array($upl_mime_ext, $dangerous)) {
-        @unlink($filePath);
-        die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Cannot upload mime type ' . $upl_mime_ext . '"}, "id" : "id"}');
-        }
-        }
-        finfo_close($finfo);
-        }
-
-                if ($ext == 'gif' || $ext == 'jpg' || $ext == 'jpeg' || $ext === 'jpe' || $ext == 'png' || $ext == 'svg') {
-
-                    $exifData = $this->readExifData($filePath);
-                    $valid = false;
-                    if ($ext === 'jpg' || $ext === 'jpeg' || $ext === 'jpe') {
-
-                        // This will clear exif data - security issue
-                        $imgCreatedFromJpeg = @imagecreatefromjpeg($filePath);
-                        if ($imgCreatedFromJpeg) {
-                            $imgCreatedFromJpeg = $this->autoRotateImageIfPossible($imgCreatedFromJpeg, $exifData);
-
-                            imagejpeg($imgCreatedFromJpeg, $filePath, 100);  // this will create fresh new image without exif sensitive data
-                            $valid = true;
-                        }
-                    } else if ($ext === 'png') {
-
-                        $imgCreatedFromPng = @imagecreatefrompng($filePath);
-                        if ($imgCreatedFromPng) {
-                            $imgCreatedFromPng = $this->autoRotateImageIfPossible($imgCreatedFromPng, $exifData);
-
-                            // keep bg color transparent
-                            imagealphablending($imgCreatedFromPng, false);
-                            imagesavealpha($imgCreatedFromPng, true);
-
-                            imagepng($imgCreatedFromPng, $filePath, 9);  // this will create fresh new image without exif sensitive data
-                            $valid = true;
-                        }
-
-
-                    } else if ($ext === 'gif') {
-
-
-                        $imgCreatedFromGif = @imagecreatefromgif($filePath);
-
-                        if ($imgCreatedFromGif) {
-                            $imgCreatedFromGif = $this->autoRotateImageIfPossible($imgCreatedFromGif, $exifData);
-
-                            $filePathOld = stream_get_meta_data(tmpfile())['uri'];
-                            copy($filePath, $filePathOld);
-                            remove_exif_data($filePathOld, $filePath);
-                            unlink($filePathOld);
-
-                            $valid = true;
-                        }
-
-                    } else if ($ext === 'svg') {
-                        $valid = false;
-                        if (is_file($filePath)) {
-                            $dirtySVG = file_get_contents($filePath);
-                            $dirtySVG = $files_utils->sanitize_svg($dirtySVG);
-                            file_put_contents($filePath, $dirtySVG);
-
-                            $valid = true;
-                            //$valid = $files_utils->check_if_svg_is_valid($dirtySVG);
-                        }
-
-
-                    } else {
-                        $valid = false;
-                    }
-
-                    if (!$valid) {
-                        @unlink($filePath);
-                        //    die('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
-
-                        $error_json = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
-                        $error_json = json_decode($error_json, true);
-                        return response()->json($error_json, 422);;
-
-                    }
-                }
-
-            }
-
-
-            if ($is_ext == 'gif' || $is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
-                try {
-
-                    $size = getimagesize($filePath);
-                    $is_image = true;
-                    $filesize = filesize($filePath);
-                    $rerturn['file_size'] = $filesize;
-                    $rerturn['file_size_human'] = app()->format->human_filesize($filesize);
-                    $rerturn['image_size'] = $size;
-                    // $auto_resize_treshold = 10000000; // 10MiB
-                    $auto_resize_treshold = 2000000; // 2MiB
-
-                    if ($is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
-                        $rerturn['automatic_image_resize_is_enabled'] = $automatic_image_resize_on_upload;
-                        if (!$automatic_image_resize_on_upload and $filesize > $auto_resize_treshold) {
-                            // if image is big, ask to enable resizing
-                            $rerturn['ask_user_to_enable_auto_resizing'] = 1;
-                            $rerturn['ask_user_to_enable_auto_resizing_filesize'] = $filesize;
-
-                        }
-                        if (!$automatic_image_resize_on_upload_disabled and $automatic_image_resize_on_upload and $filesize > $auto_resize_treshold) {
-                            $maxDim = 1980;
-                            //@ini_set('memory_limit', '256M');
-
-                            list($width, $height, $type, $attr) = $size;
-                            if ($width > $maxDim || $height > $maxDim) {
-//                        $d1 = dirname($filePath);
-                                $d2 = basename($filePath);
-//                        $target_filename = $d1 . DS . 'auto_resized_' . $d2;
-                                $target_filename = $filePath;
-                                $fn = $filePath;
-                                $ratio = $size[0] / $size[1]; // width/height
-                                if ($ratio > 1) {
-                                    $width = $maxDim;
-                                    $height = $maxDim / $ratio;
-                                } else {
-                                    $width = $maxDim * $ratio;
-                                    $height = $maxDim;
-                                }
-                                $src = imagecreatefromstring(file_get_contents($fn));
-                                $dst = imagecreatetruecolor($width, $height);
-
-                                if ($is_ext == 'png') {
-                                    // save transparency in alpha channel
-                                    imagealphablending($dst, false);
-                                    imagesavealpha($dst, true);
-
-                                }
-                                imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
-                                imagedestroy($src);
-
-                                if ($is_ext == 'png') {
-                                    imagepng($dst, $target_filename, 9); // adjust format as needed
-
-                                } else if ($is_ext == 'jpg' || $is_ext == 'jpeg') {
-                                    imagejpeg($dst, $target_filename, 100); // adjust format as needed
-                                }
-
-                                $rerturn['image_was_auto_resized'] = 1;
-                                $rerturn['image_was_auto_resized_msg'] = "Image was automatically resized because it was " . $rerturn['file_size_human'];
-
-                                imagedestroy($dst);
-                            }
-                        }
-                    }
-
-
-                } catch (\Exception $e) {
-                    @unlink($filePath);
-
-                    $error_json = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
-                    $error_json = json_decode($error_json, true);
-
-                    return response()->json($error_json, 422);;
-                }
-            }
-            if(app()->bound('log_manager')) {
-                app()->log_manager->delete('is_system=y&rel=uploader&created_at=[lt]30 min ago');
-                app()->log_manager->delete('is_system=y&rel=uploader&session_id=' . app()->user_manager->session_id());
-            }
-        }
-
-        $f_name = explode(DS, $filePath);
-        $f_name = end($f_name);
+        // Build file URL (backward compatible)
+        $filePath = $result['file_path'] ?? ($target_path . DIRECTORY_SEPARATOR . ($result['name'] ?? ''));
+        $f_name = $result['name'] ?? basename($filePath);
 
         if (!isset($path)) {
             $path = '/';
@@ -796,10 +296,9 @@ $path_restirct = userfiles_path(); // the path the script should access
 
         $filenameUrl = normalize_path($path . DS . $f_name, false);
         $filenameUrl = str_replace(DS, '/', $filenameUrl);
-        $filePathUrl = media_uploads_url().$filenameUrl;
+        $filePathUrl = media_uploads_url() . $filenameUrl;
 
-
-        $isFileFullyUploaded = false;
+        $isFileFullyUploaded = $result['file_is_uploaded'] ?? false;
         $chunk = request()->input('chunk');
         $chunks = request()->input('chunks');
         if ($chunks && $chunk == $chunks - 1) {
@@ -807,75 +306,41 @@ $path_restirct = userfiles_path(); // the path the script should access
         }
 
         if ($isFileFullyUploaded) {
-
-            $fileRealPath = $filePath;
+            $fileRealPath = $target_path . DIRECTORY_SEPARATOR . $f_name;
+            if (!is_file($fileRealPath)) {
+                $fileRealPath = $filePath;
+            }
             $fileBaseName = basename($fileRealPath);
 
             $storageInstance = Storage::disk('public');
 
-            $checkDirIsValidOnStorage = $storageInstance->directoryExists($path);
-            if (!$checkDirIsValidOnStorage) {
-                $errorJson = [
-                    'jsonrpc' => '2.0',
-                    'error' => [
-                        'code' => 107,
-                        'message' => 'Invalid path!'
-                    ],
-                    'id' => 'id'
-                ];
-                return response()->json($errorJson, 422);
+            if ($path && $storageInstance->directoryExists($path)) {
+                $storedPath = $storageInstance->putFileAs($path, new File($fileRealPath), $fileBaseName);
+                if (is_file($fileRealPath)) {
+                    @unlink($fileRealPath);
+                }
+                $filePathUrl = $storageInstance->url($storedPath);
             }
-
-            $path = $storageInstance->putFileAs($path, new File($fileRealPath), $fileBaseName);
-            // Remove local file
-            unlink($fileRealPath);
-            $filePathUrl = $storageInstance->url($path);
-
         }
 
+        $jsonResponse = [];
         $jsonResponse['file_is_uploaded'] = $isFileFullyUploaded;
         $jsonResponse['name'] = $f_name;
 
         if ($this->returnPathResponse) {
             $jsonResponse['src'] = $filePathUrl;
-            if (isset($upl_size_log) and $upl_size_log > 0) {
-                $jsonResponse['bytes_uploaded'] = $upl_size_log;
+        }
+
+        // Merge extra info from the service (image size, auto-resize, etc.)
+        $extraKeys = ['file_size', 'file_size_human', 'image_size', 'automatic_image_resize_is_enabled',
+            'ask_user_to_enable_auto_resizing', 'ask_user_to_enable_auto_resizing_filesize',
+            'image_was_auto_resized', 'image_was_auto_resized_msg', 'bytes_uploaded'];
+        foreach ($extraKeys as $key) {
+            if (isset($result[$key])) {
+                $jsonResponse[$key] = $result[$key];
             }
         }
 
         return response()->json($jsonResponse, 200);
-
-    }
-
-    private function readExifData($file)
-    {
-        $exif = [];
-        if (function_exists('exif_read_data')) {
-            $exif = @exif_read_data($file);
-        }
-        return $exif;
-
-    }
-
-    private function autoRotateImageIfPossible($image, $exif)
-    {
-        if (function_exists('exif_read_data')) {
-
-            if ($exif and !empty($exif['Orientation'])) {
-                switch ($exif['Orientation']) {
-                    case 8:
-                        $image = imagerotate($image, 90, 0);
-                        break;
-                    case 3:
-                        $image = imagerotate($image, 180, 0);
-                        break;
-                    case 6:
-                        $image = imagerotate($image, -90, 0);
-                        break;
-                }
-            }
-        }
-
-        return $image;
     }
 }
