@@ -2,27 +2,25 @@
 
 namespace MicroweberPackages\Filament\Actions;
 
-use Filament\Tables\Actions\ImportAction as ImportTableAction;
+use Filament\Actions\ImportAction as BaseImportAction;
 use MicroweberPackages\Filament\MwFilamentImport;
-use Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 
-class ImportAction extends \Filament\Actions\ImportAction
+class ImportAction extends BaseImportAction
 {
     public $importedData = [];
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->action(function (\Filament\Actions\ImportAction|ImportTableAction $action, array $data) {
+        $this->action(function (BaseImportAction $action, array $data) {
 
             $this->importedData = MwFilamentImport::startImport($action, $data);
 
             if ($this->afterImport) {
                 $this->evaluate($this->afterImport);
             }
-
         });
-
     }
 
     public function getImportedData()
@@ -36,6 +34,4 @@ class ImportAction extends \Filament\Actions\ImportAction
 
         return $this;
     }
-
-
 }

@@ -46,7 +46,7 @@ class CheckoutResource extends Resource
                                         TextInput::make('first_name')
                                             ->required()
                                             ->maxLength(255)
-                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Get $get, $livewire) {
                                                 checkout_set_user_info('first_name', $state);
                                                 $livewire->dispatch('reload-cart');
                                             })
@@ -55,7 +55,7 @@ class CheckoutResource extends Resource
                                         TextInput::make('last_name')
                                             ->required()
                                             ->maxLength(255)
-                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Get $get, $livewire) {
                                                 checkout_set_user_info('last_name', $state);
                                                 $livewire->dispatch('reload-cart');
                                             })
@@ -65,7 +65,7 @@ class CheckoutResource extends Resource
                                             ->email()
                                             ->required()
                                             ->maxLength(255)
-                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Get $get, $livewire) {
                                                 checkout_set_user_info('email', $state);
                                                 $livewire->dispatch('reload-cart');
                                             })
@@ -75,7 +75,7 @@ class CheckoutResource extends Resource
                                             ->tel()
                                             ->maxLength(255)
                                             ->required()
-                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Get $get, $livewire) {
                                                 checkout_set_user_info('phone', $state);
                                                 $livewire->dispatch('reload-cart');
                                             })
@@ -91,7 +91,7 @@ class CheckoutResource extends Resource
 
                                             ->native()
                                             ->reactive()
-                                            ->afterStateUpdated(function ($state, Forms\Get $get, $component) {
+                                            ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Get $get, $component) {
                                                 /** @var Component $livewire */
                                                 $livewire = $component->getLivewire();
                                                 checkout_set_user_info('country', $state);
@@ -105,7 +105,7 @@ class CheckoutResource extends Resource
                                         TextInput::make('city')
                                             ->required()
                                             ->maxLength(255)
-                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Get $get, $livewire) {
                                                 checkout_set_user_info('city', $state);
                                                 $livewire->dispatch('reload-cart');
                                             })
@@ -114,7 +114,7 @@ class CheckoutResource extends Resource
                                         TextInput::make('state')
                                             ->required()
                                             ->maxLength(255)
-                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Get $get, $livewire) {
                                                 checkout_set_user_info('state', $state);
                                                 $livewire->dispatch('reload-cart');
                                             })
@@ -123,7 +123,7 @@ class CheckoutResource extends Resource
                                         TextInput::make('postal_code')
                                             ->required()
                                             ->maxLength(20)
-                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Get $get, $livewire) {
                                                 checkout_set_user_info('postal_code', $state);
                                                 $livewire->dispatch('reload-cart');
                                             })
@@ -133,7 +133,7 @@ class CheckoutResource extends Resource
                                             ->required()
                                             ->maxLength(255)
                                             ->columnSpanFull()
-                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Get $get, $livewire) {
                                                 checkout_set_user_info('address', $state);
                                                 $livewire->dispatch('reload-cart');
 
@@ -146,11 +146,11 @@ class CheckoutResource extends Resource
 
                                 Section::make('Shipping Method')
                                     ->icon('heroicon-m-truck')
-                                    ->visible(function (Forms\Get $get) {
+                                    ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                                         $visible = app()->shipping_method_manager->getProviders() && app()->cart_manager->get();
                                         return $visible;
                                     })
-                                    ->schema(function (Forms\Get $get) {
+                                    ->schema(function (\Filament\Schemas\Components\Utilities\Get $get) {
                                         $methods = app()->shipping_method_manager->getProviders();
                                         $options = [];
                                         foreach ($methods as $provider) {
@@ -168,7 +168,7 @@ class CheckoutResource extends Resource
                                             Radio::make('shipping_provider_id')
                                                 ->label('Shipping Method')
                                                 ->options($options)
-                                                ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                                ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Get $get, $livewire) {
                                                     checkout_set_user_info('shipping_provider_id', $state);
                                                     $livewire->dispatch('reload-cart');
                                                 })
@@ -200,7 +200,7 @@ class CheckoutResource extends Resource
 
                                 Section::make('Apply Coupon')
                                     ->icon('heroicon-m-ticket')
-                                    ->visible(function (Forms\Get $get) {
+                                    ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                                         return app()->cart_manager->get() and coupon_get_count();
                                     })
                                     ->schema([
@@ -258,7 +258,7 @@ class CheckoutResource extends Resource
 
                                             Action::make('remove_coupon')
                                                 ->label('Remove Coupon')
-                                                ->visible(fn(Forms\Get $get) => coupon_get_applied())
+                                                ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => coupon_get_applied())
                                                 ->button()
                                                 ->color('danger')
                                                 ->action(function ($state, $livewire) {
@@ -270,11 +270,11 @@ class CheckoutResource extends Resource
 
                                 Section::make('Payment Method')
                                     ->icon('heroicon-m-credit-card')
-                                    ->visible(function (Forms\Get $get) {
+                                    ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                                         $visible = app()->payment_method_manager->getProviders() && app()->cart_manager->get();
                                         return $visible;
                                     })
-                                    ->schema(function (Forms\Get $get) {
+                                    ->schema(function (\Filament\Schemas\Components\Utilities\Get $get) {
                                         $methods = app()->payment_method_manager->getProviders();
 
                                         $options = [];
@@ -292,7 +292,7 @@ class CheckoutResource extends Resource
                                             Radio::make('payment_method_id')
                                                 ->label('Payment Method')
                                                 ->options($options)
-                                                ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                                ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Get $get, $livewire) {
                                                     checkout_set_user_info('payment_provider_id', $state);
                                                 })
                                                 ->default(fn() => checkout_get_user_info('payment_provider_id'))
@@ -311,7 +311,7 @@ class CheckoutResource extends Resource
 
                                 Section::make('Terms and Conditions')
                                     ->icon('heroicon-m-document-check')
-                                    ->visible(function (Forms\Get $get) {
+                                    ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                                         return get_option('shop_require_terms', 'website') == 1;
                                     })
                                     ->schema([
@@ -319,7 +319,7 @@ class CheckoutResource extends Resource
                                             ->label('I agree to the terms and conditions')
                                             ->required()
                                             ->default(false)
-                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Get $get, $livewire) {
                                                 checkout_set_user_info('terms', $state);
                                                 $livewire->dispatch('reload-cart');
                                             })

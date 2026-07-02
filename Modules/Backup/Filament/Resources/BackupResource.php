@@ -139,7 +139,7 @@ class BackupResource extends Resource
                                         ])
                                         ->required()
 
-                                ])->afterValidation(function ($livewire, $record, Forms\Get $get) {
+                                ])->afterValidation(function ($livewire, $record, \Filament\Schemas\Components\Utilities\Get $get) {
 
                                     self::$sessionId = SessionStepper::generateSessionId(20, [
                                         'restoreFile' => $record->filename,

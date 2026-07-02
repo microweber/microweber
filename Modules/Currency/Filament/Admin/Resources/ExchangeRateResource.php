@@ -53,7 +53,7 @@ class ExchangeRateResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Exchange Rate Details')
+                \Filament\Schemas\Components\Section::make('Exchange Rate Details')
                     ->description('Define the conversion rate between two currencies')
                     ->schema([
                         Forms\Components\Select::make('from_currency')
@@ -105,7 +105,7 @@ class ExchangeRateResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Status')
+                \Filament\Schemas\Components\Section::make('Status')
                     ->schema([
                         Forms\Components\Toggle::make('is_active')
                             ->label('Active')
@@ -199,9 +199,9 @@ class ExchangeRateResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\Action::make('refreshRate')
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
+                \Filament\Actions\Action::make('refreshRate')
                     ->label('Refresh')
                     ->icon('heroicon-o-arrow-path')
                     ->color('warning')
@@ -219,9 +219,9 @@ class ExchangeRateResource extends Resource
                     }),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\BulkAction::make('refreshRates')
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\BulkAction::make('refreshRates')
                         ->label('Refresh Selected')
                         ->icon('heroicon-o-arrow-path')
                         ->requiresConfirmation()

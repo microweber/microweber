@@ -12,7 +12,7 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Pages\Page;
 use Filament\Support\Enums\IconSize;
 use Filament\Actions\Action;
-use Filament\Tables\Actions\DeleteAction;
+use Filament\Actions\DeleteAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;

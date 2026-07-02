@@ -35,14 +35,14 @@ trait HasContentFilterModuleSettings
             Select::make('options.data-page-id')
                 ->label('From Page Source')
                 ->live()
-                ->visible(function (Forms\Get $get) use ($pagesOpts) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) use ($pagesOpts) {
                     return !empty($pagesOpts);
                 })
                 ->options($pagesOpts),
             Select::make('options.data-category-id')
                 ->label('From Category Source')
                 ->live()
-                ->visible(function (Forms\Get $get) use ($categoriesOpts) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) use ($categoriesOpts) {
                     return !empty($categoriesOpts);
                 })
                 ->options($categoriesOpts),
@@ -76,63 +76,63 @@ trait HasContentFilterModuleSettings
                 ]),
 
             Checkbox::make('options.data-show-thumbnail')
-                ->visible(function (Forms\Get $get) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                     return $get('options.data-show') == 1;
                 })
                 ->label('Thumbnail')
                 ->live(),
             Checkbox::make('options.data-show-title')
-                ->visible(function (Forms\Get $get) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                     return $get('options.data-show') == 1;
                 })
                 ->label('Title')
                 ->live(),
             TextInput::make('options.data-title-limit')
-                ->visible(function (Forms\Get $get) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                     return $get('options.data-show') == 1;
                 })
                 ->label('Title Limit')
                 ->numeric()
                 ->live(),
             Checkbox::make('options.data-show-description')
-                ->visible(function (Forms\Get $get) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                     return $get('options.data-show') == 1;
                 })
                 ->label('Description')
                 ->live(),
             TextInput::make('options.data-character-limit')
-                ->visible(function (Forms\Get $get) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                     return $get('options.data-show') == 1;
                 })
                 ->label('Description Limit')
                 ->numeric()
                 ->live(),
             Checkbox::make('options.data-show-read-more')
-                ->visible(function (Forms\Get $get) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                     return $get('options.data-show') == 1;
                 })
                 ->label('Read More')
                 ->live(),
             TextInput::make('options.data-read-more-text')
-                ->visible(function (Forms\Get $get) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                     return $get('options.data-show') == 1;
                 })
                 ->label('Read more text')
                 ->live(),
             Checkbox::make('options.data-show-date')
-                ->visible(function (Forms\Get $get) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                     return $get('options.data-show') == 1;
                 })
                 ->label('Created At')
                 ->live(),
             Checkbox::make('options.data-show-author')
-                ->visible(function (Forms\Get $get) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                     return $get('options.data-show') == 1;
                 })
                 ->label('Show Author')
                 ->live(),
             TextInput::make('options.data-add-to-cart-text')
-                ->visible(function (Forms\Get $get) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                     return $get('options.data-show') == 1;
                 })
                 ->label('Add to Cart Text')

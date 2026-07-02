@@ -126,7 +126,7 @@ Forms\Components\Select::make('subscription_plan_group_id')
 Forms\Components\TextInput::make('price')
                                 ->required()
                                 ->numeric()
-                                ->prefix(fn (Forms\Get $get) => static::resolveCurrencyPrefix($get('currency')))
+                                ->prefix(fn (\Filament\Schemas\Components\Utilities\Get $get) => static::resolveCurrencyPrefix($get('currency')))
                                 ->columnSpanFull()
                                 ->helperText('The regular price shown to customers')
                                 ->minValue(0),
@@ -146,23 +146,23 @@ Forms\Components\TextInput::make('price')
                                 ->helperText('Currency for this plan'),
                             Forms\Components\TextInput::make('discount_price')
                             ->numeric()
-                            ->prefix(fn (Forms\Get $get) => static::resolveCurrencyPrefix($get('currency')))
+                            ->prefix(fn (\Filament\Schemas\Components\Utilities\Get $get) => static::resolveCurrencyPrefix($get('currency')))
                             ->columnSpanFull()
                             ->helperText('Optional discounted price')
                             ->minValue(0)
-                            ->visible(fn(Forms\Get $get) => $get('price') > 0),
+                            ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('price') > 0),
                         Forms\Components\TextInput::make('save_price')
                             ->numeric()
-                            ->prefix(fn (Forms\Get $get) => static::resolveCurrencyPrefix($get('currency')))
+                            ->prefix(fn (\Filament\Schemas\Components\Utilities\Get $get) => static::resolveCurrencyPrefix($get('currency')))
                             ->columnSpanFull()
                             ->helperText('Amount customers save (calculated automatically)')
                             ->disabled()
                             ->dehydrated(false)
-                            ->visible(fn(Forms\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
+                            ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
                         Forms\Components\TextInput::make('save_price_badge')
                             ->columnSpanFull()
                             ->helperText('Text to display for savings (e.g., "Save 20%")')
-                            ->visible(fn(Forms\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
+                            ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
                         Forms\Components\Select::make('billing_interval')
                             ->options([
                                 'monthly' => 'Monthly',
@@ -182,7 +182,7 @@ Forms\Components\TextInput::make('price')
                             ->numeric()
                             ->columnSpanFull()
                             ->helperText('ID of the annual version of this plan (if applicable)')
-                            ->visible(fn(Forms\Get $get) => in_array($get('billing_interval'), ['monthly', 'yearly'])),
+                            ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => in_array($get('billing_interval'), ['monthly', 'yearly'])),
                     ])->columns(1),
 
                 Section::make('Integration')

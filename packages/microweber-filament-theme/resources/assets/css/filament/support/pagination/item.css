@@ -1,20 +1,20 @@
 .fi-pagination-item {
     @apply border-x-0;
 
-    &:first-child > .fi-pagination-item-button {
+    &:first-child > .fi-pagination-item-btn {
         @apply !rounded-s-md;
     }
 
-    &:last-child > .fi-pagination-item-button {
+    &:last-child > .fi-pagination-item-btn {
         @apply !rounded-e-md;
     }
 
-    &:not(.fi-disabled) > .fi-pagination-item-button {
+    &:not(.fi-disabled) > .fi-pagination-item-btn {
         @apply bg-transparent dark:bg-transparent;
     }
 
     &:not(.fi-active) {
-        .fi-pagination-item-button {
+        .fi-pagination-item-btn {
             &:hover {
                 .fi-pagination-item-icon,
                 .fi-pagination-item-label {
@@ -32,7 +32,7 @@
     }
 }
 
-.fi-pagination-item-button {
+.fi-pagination-item-btn {
     @apply rounded-md;
 
     &:focus-visible {

@@ -53,7 +53,7 @@ class BackupScheduleResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Schedule Details')
+                \Filament\Schemas\Components\Section::make('Schedule Details')
                     ->icon('heroicon-m-calendar')
                     ->schema([
                         Forms\Components\TextInput::make('name')
@@ -67,13 +67,13 @@ class BackupScheduleResource extends Resource
                             ->options(BackupSchedule::getBackupTypeOptions())
                             ->required()
                             ->live()
-                            ->afterStateUpdated(fn ($state, Forms\Set $set) =>
+                            ->afterStateUpdated(fn ($state, \Filament\Schemas\Components\Utilities\Set $set) =>
                                 $set('type', $state)
                             ),
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Backup Options')
+                \Filament\Schemas\Components\Section::make('Backup Options')
                     ->icon('heroicon-m-archive-box')
                     ->schema([
                         Forms\Components\Toggle::make('include_media')
@@ -87,12 +87,12 @@ class BackupScheduleResource extends Resource
                             ->label('Tables to Backup')
                             ->options(fn () => self::getDatabaseTables())
                             ->columns(4)
-                            ->visible(fn (Forms\Get $get) => $get('type') === 'customBackup')
-                            ->required(fn (Forms\Get $get) => $get('type') === 'customBackup')
+                            ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('type') === 'customBackup')
+                            ->required(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('type') === 'customBackup')
                             ->helperText('Select which database tables to include in the backup'),
                     ]),
 
-                Forms\Components\Section::make('Frequency & Retention')
+                \Filament\Schemas\Components\Section::make('Frequency & Retention')
                     ->icon('heroicon-m-clock')
                     ->schema([
                         Forms\Components\Select::make('frequency')
@@ -100,7 +100,7 @@ class BackupScheduleResource extends Resource
                             ->options(BackupSchedule::getFrequencyOptions())
                             ->required()
                             ->live()
-                            ->afterStateUpdated(fn ($state, Forms\Set $set) =>
+                            ->afterStateUpdated(fn ($state, \Filament\Schemas\Components\Utilities\Set $set) =>
                                 $set('frequency', $state)
                             ),
 
@@ -108,19 +108,19 @@ class BackupScheduleResource extends Resource
                             ->label('Time')
                             ->type('time')
                             ->helperText('Time of day to run the backup (for daily, weekly, monthly)')
-                            ->visible(fn (Forms\Get $get) => in_array($get('frequency'), ['daily', 'weekly', 'monthly'])),
+                            ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => in_array($get('frequency'), ['daily', 'weekly', 'monthly'])),
 
                         Forms\Components\Select::make('day_of_week')
                             ->label('Day of Week')
                             ->options(BackupSchedule::getDayOfWeekOptions())
                             ->helperText('Day of the week to run the backup')
-                            ->visible(fn (Forms\Get $get) => $get('frequency') === 'weekly'),
+                            ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('frequency') === 'weekly'),
 
                         Forms\Components\Select::make('day_of_month')
                             ->label('Day of Month')
                             ->options(array_combine(range(1, 31), range(1, 31)))
                             ->helperText('Day of the month to run the backup')
-                            ->visible(fn (Forms\Get $get) => $get('frequency') === 'monthly'),
+                            ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('frequency') === 'monthly'),
 
                         Forms\Components\TextInput::make('retention_days')
                             ->label('Retention Days')
@@ -139,7 +139,7 @@ class BackupScheduleResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Schedule Status')
+                \Filament\Schemas\Components\Section::make('Schedule Status')
                     ->icon('heroicon-m-signal')
                     ->schema([
                         Forms\Components\DateTimePicker::make('last_run_at')
@@ -222,7 +222,7 @@ class BackupScheduleResource extends Resource
                     ->label('Active'),
             ])
             ->actions([
-                Tables\Actions\Action::make('runNow')
+                \Filament\Actions\Action::make('runNow')
                     ->label('Run Now')
                     ->icon('heroicon-o-play')
                     ->color('success')
@@ -234,22 +234,22 @@ class BackupScheduleResource extends Resource
                         app(\Modules\Backup\Services\AutomatedBackupService::class)->executeSchedule($record);
                     }),
 
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
 
-                Tables\Actions\DeleteAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
 
-                    Tables\Actions\BulkAction::make('activate')
+                    \Filament\Actions\BulkAction::make('activate')
                         ->label('Activate')
                         ->icon('heroicon-m-check')
                         ->action(fn ($records) =>
                             $records->each->update(['is_active' => true])
                         ),
 
-                    Tables\Actions\BulkAction::make('deactivate')
+                    \Filament\Actions\BulkAction::make('deactivate')
                         ->label('Deactivate')
                         ->icon('heroicon-m-x-mark')
                         ->action(fn ($records) =>

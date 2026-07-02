@@ -11,9 +11,9 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Pages\Page;
 use Filament\Support\Enums\IconSize;
-use Filament\Tables\Actions\CreateAction;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -295,8 +295,8 @@ class SenderAccounts extends Page implements HasTable
                 DeleteAction::make(),
             ])
             ->bulkActions([
-//                Tables\Actions\BulkActionGroup::make([
-//                    Tables\Actions\DeleteBulkAction::make(),
+//                \Filament\Actions\BulkActionGroup::make([
+//                    \Filament\Actions\DeleteBulkAction::make(),
 //                ]),
             ]);
     }

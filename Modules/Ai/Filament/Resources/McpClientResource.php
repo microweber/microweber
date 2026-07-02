@@ -145,7 +145,7 @@ class McpClientResource extends Resource
                     ->label('Active status'),
             ])
             ->actions([
-                Tables\Actions\Action::make('testConnection')
+                \Filament\Actions\Action::make('testConnection')
                     ->label('Test')
                     ->icon('heroicon-o-signal')
                     ->action(fn (McpClient $record) => static::notifyConnectionHealth($record)),

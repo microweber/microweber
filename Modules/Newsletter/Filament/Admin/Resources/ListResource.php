@@ -106,10 +106,10 @@ class ListResource extends Resource
                     ->query(fn ($query) => $query->whereHas('subscribers')),
             ])
              ->headerActions([ // Added header actions
-                 Tables\Actions\ExportAction::make()
+                 \Filament\Actions\ExportAction::make()
                      ->exporter(NewsletterListExporter::class)
                      ->icon('heroicon-m-cloud-arrow-down')
-                     ->form(function (Tables\Actions\ExportAction $action): array {
+                     ->form(function (\Filament\Actions\ExportAction $action): array {
                          $exportColumns = NewsletterListExporter::getColumns();
                          $schemaSchema = [];
                          foreach ($exportColumns as $column) {
@@ -129,14 +129,14 @@ class ListResource extends Resource
                      }),
              ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\ExportBulkAction::make()
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\ExportBulkAction::make()
                         ->exporter(NewsletterListExporter::class)
-                        ->form(function (Tables\Actions\BulkAction $action): array {
+                        ->form(function (\Filament\Actions\BulkAction $action): array {
                             $exportColumns = NewsletterListExporter::getColumns();
                             $schemaSchema = [];
                             foreach ($exportColumns as $column) {
@@ -149,19 +149,19 @@ class ListResource extends Resource
                                 ->default(false);
                             return $schemaSchema;
                         })
-                        ->action(function (array $data, Tables\Actions\BulkAction $action) {
+                        ->action(function (array $data, \Filament\Actions\BulkAction $action) {
                             $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
                             $selectedRecordIds = $action->getRecords()->pluck('id')->toArray();
                             $route = route('filament.admin-newsletter.export.lists', ['columns' => $selectedColumns, 'selected_ids' => implode(',', $selectedRecordIds), 'export_multiple' => $data['export_multiple'] ?? false]);
                             return redirect()->to($route);
                         }),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->emptyStateHeading('No lists yet')
             ->emptyStateDescription('Create a subscriber list to organize your audience into segments.')
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make()
+                \Filament\Actions\CreateAction::make()
                     ->label('Create List'),
             ]);
     }

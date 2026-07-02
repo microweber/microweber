@@ -160,11 +160,11 @@ class ModuleConfigurationResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
+                \Filament\Actions\EditAction::make()
                     ->label('Configure')
                     ->icon('heroicon-o-cog-6-tooth'),
 
-                Tables\Actions\Action::make('toggle')
+                \Filament\Actions\Action::make('toggle')
                     ->label(fn ($record) => $record->isEnabled() ? 'Disable' : 'Enable')
                     ->icon(fn ($record) => $record->isEnabled() ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
                     ->color(fn ($record) => $record->isEnabled() ? 'danger' : 'success')
@@ -185,7 +185,7 @@ class ModuleConfigurationResource extends Resource
                         return redirect()->back()->with('success', "Module {$record->getName()} has been " . ($record->isEnabled() ? 'disabled' : 'enabled') . ".");
                     }),
 
-                Tables\Actions\Action::make('refresh')
+                \Filament\Actions\Action::make('refresh')
                     ->label('Refresh Cache')
                     ->icon('heroicon-o-arrow-path')
                     ->color('secondary')
@@ -197,7 +197,7 @@ class ModuleConfigurationResource extends Resource
                     }),
             ])
             ->bulkActions([
-                Tables\Actions\BulkAction::make('enable')
+                \Filament\Actions\BulkAction::make('enable')
                     ->label('Enable Selected')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
@@ -219,7 +219,7 @@ class ModuleConfigurationResource extends Resource
                         return redirect()->back()->with('success', "{$count} modules have been enabled.");
                     }),
 
-                Tables\Actions\BulkAction::make('disable')
+                \Filament\Actions\BulkAction::make('disable')
                     ->label('Disable Selected')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')

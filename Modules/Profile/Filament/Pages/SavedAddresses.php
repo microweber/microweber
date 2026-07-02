@@ -7,8 +7,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Modules\Address\Models\Address;
@@ -104,7 +104,7 @@ class SavedAddresses extends Page implements HasTable
                     ]),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()
+                \Filament\Actions\CreateAction::make()
                     ->label(__('Add New Address'))
                     ->modalHeading(__('Add New Address'))
                     ->modalWidth('2xl')
@@ -259,8 +259,8 @@ class SavedAddresses extends Page implements HasTable
                     }),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make()
                         ->label(__('Delete Selected'))
                         ->requiresConfirmation()
                         ->modalHeading(__('Delete Selected Addresses'))
@@ -272,7 +272,7 @@ class SavedAddresses extends Page implements HasTable
             ->emptyStateDescription(__('You have not saved any addresses yet. Add your first address to speed up checkout.'))
             ->emptyStateIcon('heroicon-o-map-pin')
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make()
+                \Filament\Actions\CreateAction::make()
                     ->label(__('Add Your First Address'))
                     ->modalHeading(__('Add New Address'))
                     ->modalWidth('2xl')

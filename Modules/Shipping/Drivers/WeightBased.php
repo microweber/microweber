@@ -178,8 +178,8 @@ class WeightBased extends AbstractShippingMethod
         $instructions = $settings['shipping_instructions'] ?? 'Shipping cost will be calculated based on the total weight of your order.';
 
         return [
-            Forms\Components\Section::make()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) use ($instructions) {
+            \Filament\Schemas\Components\Section::make()
+                ->schema(function (\Filament\Schemas\Components\Section $component, \Filament\Schemas\Components\Utilities\Set $set, \Filament\Schemas\Components\Utilities\Get $get, mixed $state = null) use ($instructions) {
                     $cartWeight = $this->getCartWeight();
                     $cost = 0;
 
@@ -210,10 +210,10 @@ class WeightBased extends AbstractShippingMethod
     public function getSettingsForm(): array
     {
         return [
-            Forms\Components\Section::make()
+            \Filament\Schemas\Components\Section::make()
                 ->statePath('settings')
                 ->reactive()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) {
+                ->schema(function (\Filament\Schemas\Components\Section $component, \Filament\Schemas\Components\Utilities\Set $set, \Filament\Schemas\Components\Utilities\Get $get, mixed $state = null) {
                     $useTiers = $get('settings.use_weight_tiers') ?? false;
 
                     $schema = [
@@ -229,7 +229,7 @@ class WeightBased extends AbstractShippingMethod
                             ->numeric()
                             ->default(0)
                             ->helperText('Fixed base cost applied to all orders')
-                            ->visible(fn(Forms\Get $get) => !($get('use_weight_tiers')))
+                            ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => !($get('use_weight_tiers')))
                             ->columnSpanFull(),
 
                         Forms\Components\TextInput::make('cost_per_weight_unit')
@@ -237,13 +237,13 @@ class WeightBased extends AbstractShippingMethod
                             ->numeric()
                             ->default(0)
                             ->helperText('Cost per kg/lb added to base cost')
-                            ->visible(fn(Forms\Get $get) => !($get('use_weight_tiers')))
+                            ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => !($get('use_weight_tiers')))
                             ->columnSpanFull(),
 
                         // Show weight tiers when using tiers
                         Forms\Components\Repeater::make('weight_tiers')
                             ->label('Weight Tiers')
-                            ->visible(fn(Forms\Get $get) => $get('use_weight_tiers'))
+                            ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('use_weight_tiers'))
                             ->schema([
                                 Forms\Components\TextInput::make('min_weight')
                                     ->label('Min Weight (kg)')
@@ -293,7 +293,7 @@ class WeightBased extends AbstractShippingMethod
 
                     return $schema;
                 })
-                ->visible(fn(Forms\Get $get) => $get('provider') === 'weight_based')
+                ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('provider') === 'weight_based')
                 ->columns(1)
         ];
     }

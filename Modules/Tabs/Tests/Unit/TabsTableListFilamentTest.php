@@ -4,8 +4,8 @@ namespace Modules\Tabs\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Filament\Tables\Actions\CreateAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
 use Livewire\Livewire;
 use Modules\Tabs\Filament\TabsModuleSettings;
 use Modules\Tabs\Filament\TabsTableList;

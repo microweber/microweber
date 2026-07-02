@@ -164,10 +164,10 @@ class ShippingToCountry extends AbstractShippingMethod
 
 
         return [
-            Forms\Components\Section::make()
+            \Filament\Schemas\Components\Section::make()
                 ->live()
                 ->reactive()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) {
+                ->schema(function (\Filament\Schemas\Components\Section $component, \Filament\Schemas\Components\Utilities\Set $set, \Filament\Schemas\Components\Utilities\Get $get, mixed $state = null) {
 
                     $instructions = $this->getModel()->settings['shipping_instructions'] ?? 'Please select your shipping country to calculate shipping costs.';
 
@@ -197,7 +197,7 @@ class ShippingToCountry extends AbstractShippingMethod
     public function getSettingsForm(): array
     {
         return [
-            Forms\Components\Section::make()
+            \Filament\Schemas\Components\Section::make()
                 ->statePath('settings')
                 ->schema([
                     Forms\Components\Repeater::make('countries')
@@ -233,27 +233,27 @@ class ShippingToCountry extends AbstractShippingMethod
                             Forms\Components\TextInput::make('shipping_cost_max')
                                 ->label('Maximum Shipping Cost')
                                 ->numeric()
-                                ->visible(fn(Forms\Get $get) => $get('shipping_type') != 'fixed'),
+                                ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('shipping_type') != 'fixed'),
 
                             Forms\Components\TextInput::make('shipping_cost_above')
                                 ->label('Apply Max Cost Above Order Total')
                                 ->numeric()
-                                ->visible(fn(Forms\Get $get) => $get('shipping_type') != 'fixed'),
+                                ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('shipping_type') != 'fixed'),
 
                             Forms\Components\TextInput::make('shipping_price_per_weight')
                                 ->label('Cost Per Weight Unit')
                                 ->numeric()
-                                ->visible(fn(Forms\Get $get) => $get('shipping_type') == 'dimensions'),
+                                ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('shipping_type') == 'dimensions'),
 
                             Forms\Components\TextInput::make('shipping_price_per_size')
                                 ->label('Cost Per Size Unit')
                                 ->numeric()
-                                ->visible(fn(Forms\Get $get) => $get('shipping_type') == 'dimensions'),
+                                ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('shipping_type') == 'dimensions'),
 
                             Forms\Components\TextInput::make('shipping_price_per_item')
                                 ->label('Cost Per Item')
                                 ->numeric()
-                                ->visible(fn(Forms\Get $get) => $get('shipping_type') == 'per_item'),
+                                ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('shipping_type') == 'per_item'),
 
                             Forms\Components\Toggle::make('is_active')
                                 ->label('Active')

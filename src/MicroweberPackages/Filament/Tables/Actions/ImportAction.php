@@ -2,28 +2,22 @@
 
 namespace MicroweberPackages\Filament\Tables\Actions;
 
-use Filament\Actions\Imports\Models\Import;
-use Filament\Tables\Actions\ImportAction as ImportTableAction;
-use Illuminate\Support\Arr;
-use League\Csv\Reader as CsvReader;
-use League\Csv\Statement;
+use Filament\Actions\ImportAction as BaseImportAction;
 use MicroweberPackages\Filament\MwFilamentImport;
-use Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 
-class ImportAction extends \Filament\Tables\Actions\ImportAction
+class ImportAction extends BaseImportAction
 {
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->action(function (\Filament\Actions\ImportAction|ImportTableAction $action, array $data) {
+        $this->action(function (BaseImportAction $action, array $data) {
 
-            $import =  MwFilamentImport::startImport($action, $data);
+            $import = MwFilamentImport::startImport($action, $data);
 
-            $this->dispatchTo('subscribersImported','imported', $import);
+            $this->dispatchTo('subscribersImported', 'imported', $import);
 
             return $import;
         });
-
     }
 }

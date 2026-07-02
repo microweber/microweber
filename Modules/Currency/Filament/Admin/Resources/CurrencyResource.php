@@ -46,7 +46,7 @@ class CurrencyResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Currency Information')
+                \Filament\Schemas\Components\Section::make('Currency Information')
                     ->description('Basic currency details and formatting')
                     ->schema([
                         Forms\Components\TextInput::make('name')
@@ -77,7 +77,7 @@ class CurrencyResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Formatting Options')
+                \Filament\Schemas\Components\Section::make('Formatting Options')
                     ->description('Configure how amounts are displayed')
                     ->schema([
                         Forms\Components\TextInput::make('precision')
@@ -106,7 +106,7 @@ class CurrencyResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Status')
+                \Filament\Schemas\Components\Section::make('Status')
                     ->schema([
                         Forms\Components\Toggle::make('is_active')
                             ->label('Active')
@@ -180,8 +180,8 @@ class CurrencyResource extends Resource
                     ->native(false),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\DeleteAction::make()
                     ->before(function (Currency $record) {
                         // Prevent deleting the default currency
                         if ($record->is_default) {
@@ -195,8 +195,8 @@ class CurrencyResource extends Resource
                     }),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make()
                         ->before(function ($records) {
                             // Check if any default currencies are being deleted
                             $defaultCount = $records->where('is_default', true)->count();

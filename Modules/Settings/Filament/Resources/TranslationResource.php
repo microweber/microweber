@@ -14,8 +14,8 @@ use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
-use Filament\Tables\Actions\BulkAction;
-use Filament\Tables\Actions\Action as TableAction;
+use Filament\Actions\BulkAction;
+use Filament\Actions\Action as TableAction;
 use Filament\Actions\Action;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
@@ -215,9 +215,9 @@ class TranslationResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                \Filament\Actions\ActionGroup::make([
+                    \Filament\Actions\EditAction::make(),
+                    \Filament\Actions\DeleteAction::make(),
 
                     TableAction::make('quickTranslate')
                         ->label('Quick Translate')
@@ -271,8 +271,8 @@ class TranslationResource extends Resource
                 ->tooltip('Actions'),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
 
                     BulkAction::make('add_translation')
                         ->label('Add Translation')

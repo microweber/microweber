@@ -198,7 +198,7 @@ class MarketplaceResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\Action::make('update')
+                \Filament\Actions\Action::make('update')
                     ->label('Update')
                     ->icon('heroicon-o-arrow-path')
                     ->color('primary')
@@ -232,7 +232,7 @@ class MarketplaceResource extends Resource
                         }
                     }),
                 
-                Tables\Actions\Action::make('uninstall')
+                \Filament\Actions\Action::make('uninstall')
                     ->label('Uninstall')
                     ->icon('heroicon-o-trash')
                     ->color('danger')
@@ -263,7 +263,7 @@ class MarketplaceResource extends Resource
                         }
                     }),
                 
-                Tables\Actions\Action::make('refresh-cache')
+                \Filament\Actions\Action::make('refresh-cache')
                     ->label('Refresh')
                     ->icon('heroicon-o-arrow-path')
                     ->color('secondary')
@@ -272,7 +272,7 @@ class MarketplaceResource extends Resource
                         return redirect()->back()->with('success', 'Marketplace cache has been refreshed.');
                     }),
 
-                Tables\Actions\EditAction::make('view-details')
+                \Filament\Actions\EditAction::make('view-details')
                     ->modalHeading('View Marketplace Item')
                     ->modalCancelAction(false)
                     ->modalSubmitAction(false)

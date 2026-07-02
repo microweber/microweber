@@ -66,12 +66,12 @@
 .fi .fi-body.fi-panel-admin .fi-layout:not(.rounded-full, .noUi-touch-area, .noUi-handle-lower),
 button, a, /* Buttons & Links */
 input:not(.fi-checkbox-input, .fi-radio-input, .form-check-input), textarea, select, /* Form elements */
-.fi-btn, .fi-input, .fi-select, .fi-textarea, .fi-toggle, /* Filament form elements */
-.fi-input-wrp, .fi-select-wrp, .fi-textarea-wrp, .fi-toggle-wrp, /* Input wrappers */
-.fi-badge, .fi-card, .fi-modal, .fi-panel, .fi-box, .fi-table, /* Containers */
+.fi-btn, .fi-input, .fi-fo-select, .fi-fo-textarea, .fi-toggle, /* Filament form elements */
+.fi-input-wrp, .fi-fo-select-wrp, .fi-fo-textarea-wrp, .fi-fo-toggle, /* Input wrappers */
+.fi-badge, .fi-card, .fi-modal, .fi-panel, .fi-box, .fi-ta, /* Containers */
 .fi-alert, .fi-dropdown-menu, .fi-list-item, .fi-sidebar, .fi-tabs, /* UI Components */
 .fi-breadcrumbs, .fi-toast, .fi-widget, .fi-fieldset, /* Other UI elements */
-.fi-action, .fi-action-wrp, .fi-repeater-item-wrp, /* Actions & Repeaters */
+.fi-action, .fi-action-wrp, .fi-fo-repeater-item-wrp, /* Actions & Repeaters */
 .fi-file-upload-wrp, .fi-radio-wrp, .fi-checkbox-wrp, /* File Uploads & Form Controls */
 .fi-section-wrp, .fi-grid-wrp, .fi-flex-wrp, /* Layout Wrappers */
 .mw-live-edit-resolutions-wrapper, .mw-live-edit-right-sidebar-wrapper, /* Live Edit */
@@ -98,16 +98,16 @@ live-edit-add-content-button-wrapper .live-edit-toolbar-buttons.button,
  * design-system stylesheet hasn't loaded yet.
  *
  * AC #1 coverage: checkout input border radius is now uniform 4px
- * across .fi-input-wrp + .fi-select-wrp + .fi-textarea-wrp + .fi-btn
+ * across .fi-input-wrp + .fi-fo-select-wrp + .fi-fo-textarea-wrp + .fi-btn
  * (the Place Order button) so there is no longer a mix of 4 and 7.
  * AC #2 coverage: matches the Bootstrap public form-theme 4px.
  */
 body.fi-panel-checkout .fi-input-wrp,
-body.fi-panel-checkout .fi-select-wrp,
-body.fi-panel-checkout .fi-textarea-wrp,
+body.fi-panel-checkout .fi-fo-select-wrp,
+body.fi-panel-checkout .fi-fo-textarea-wrp,
 body.fi-panel-checkout .fi-input,
-body.fi-panel-checkout .fi-select,
-body.fi-panel-checkout .fi-textarea,
+body.fi-panel-checkout .fi-fo-select,
+body.fi-panel-checkout .fi-fo-textarea,
 body.fi-panel-checkout .fi-btn {
     border-radius: var(--radius-sm, 4px) !important;
 }
@@ -1231,7 +1231,7 @@ html.dark .mw-le-user-menu-button:focus-visible {
     @apply !block;
 }
 
-.mw-tree-wrapper .fi-fo-field-wrp-label,
+.mw-tree-wrapper .fi-fo-field-label,
 .mw-tree-wrapper .mw-tags--container {
     @apply py-3;
 }
@@ -1684,7 +1684,7 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
     @apply !bg-transparent;
 }
 
-.fi-fo-field-wrp .range-slider.noUi-target {
+.fi-fo-field .range-slider.noUi-target {
     @apply !shadow-none !border-none;
     box-shadow: none !important;
     border: none !important;
@@ -1868,7 +1868,7 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
     }
 }
 
-.fi-fo-field-wrp-helper-text {
+.fi-fo-field-helper-text {
     a {
         @apply underline underline-offset-2;
     }
@@ -3520,15 +3520,15 @@ body.fi-panel-admin .mw-admin-primary-actions--left {
 }
 
 /* The visible "+ Add" label sits next to the plus icon (was .sr-only). */
-body.fi-panel-admin .fi-btn.admin-toolbar-add .admin-toolbar-add__label {
+body.fi-panel-admin .admin-toolbar-add .fi-btn .admin-toolbar-add__label {
     font-weight: 500;
     font-size: 14px;
     line-height: 1;
     color: #182433;
 }
 
-body.fi-panel-admin .fi-btn.admin-toolbar-add,
-body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary {
+body.fi-panel-admin .admin-toolbar-add .fi-btn,
+body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary {
     background-color: #e1edf8 !important;
     color: #182433 !important;
     border: none !important;
@@ -3548,23 +3548,23 @@ body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary {
     font-size: 14px !important;
     transition: background-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) !important;
 }
-body.fi-panel-admin .fi-btn.admin-toolbar-add:hover,
-body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary:hover {
+body.fi-panel-admin .admin-toolbar-add .fi-btn:hover,
+body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary:hover {
     background-color: #c8dff5 !important;
     opacity: 1 !important;
 }
-body.fi-panel-admin .fi-btn.admin-toolbar-add:focus-visible {
+body.fi-panel-admin .admin-toolbar-add .fi-btn:focus-visible {
     outline: 2px solid var(--ese-accent, #0d6efd) !important;
     outline-offset: 2px !important;
 }
-body.fi-panel-admin .fi-btn.admin-toolbar-add svg {
+body.fi-panel-admin .admin-toolbar-add .fi-btn svg {
     width: 16px !important;
     height: 16px !important;
     color: #182433 !important;
 }
 
-body.fi-panel-admin .fi-btn.admin-toolbar-live-edit,
-body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn.fi-color-primary {
     background-color: #e2f9e6 !important;
     color: #182433 !important;
     border: none !important;
@@ -3578,24 +3578,24 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
     line-height: 1 !important;
     transition: background-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) !important;
 }
-body.fi-panel-admin .fi-btn.admin-toolbar-live-edit:hover,
-body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary:hover {
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn:hover,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn.fi-color-primary:hover {
     background-color: #c8f4ce !important;
     opacity: 1 !important;
 }
-body.fi-panel-admin .fi-btn.admin-toolbar-live-edit:focus-visible {
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn:focus-visible {
     outline: 2px solid var(--ese-accent, #0d6efd) !important;
     outline-offset: 2px !important;
 }
-body.fi-panel-admin .fi-btn.admin-toolbar-live-edit span,
-body.fi-panel-admin .fi-btn.admin-toolbar-live-edit .fi-btn-label,
-body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn span,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn .fi-btn-label,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn svg {
     color: #182433 !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    body.fi-panel-admin .fi-btn.admin-toolbar-add,
-    body.fi-panel-admin .fi-btn.admin-toolbar-live-edit {
+    body.fi-panel-admin .admin-toolbar-add .fi-btn,
+    body.fi-panel-admin .admin-toolbar-live-edit .fi-btn {
         transition: none !important;
     }
 }
@@ -3608,8 +3608,8 @@ body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
  * the always-on display:flex rule above at equal (0,4,1) specificity and
  * wins on later source order. (Supersedes the AI-704/AI-1254 mobile-hide.) */
 @media (max-width: 768px) {
-    body.fi-panel-admin .fi-btn.admin-toolbar-add,
-    body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary {
+    body.fi-panel-admin .admin-toolbar-add .fi-btn,
+    body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary {
         display: inline-flex !important;
         min-height: 44px !important;
         padding: 0 14px !important;
@@ -4297,12 +4297,12 @@ html.dark .quick-ai-type-group-header:hover {
  * Filament's default active item has a 2px left border (w-0.5) that may be invisible
  * when clipped by the sidebar container. Add a more visible active indicator:
  * brand-blue left inset border + light background tint. */
-body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-button {
+body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
     background-color: rgba(13, 110, 253, 0.08) !important;
     border-left: 3px solid #0d6efd !important;
     padding-left: calc(var(--sidebar-item-padding-x, 12px) - 3px) !important;
 }
-html.dark body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-button {
+html.dark body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
     background-color: rgba(13, 110, 253, 0.15) !important;
 }
 body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-icon,
@@ -4371,7 +4371,7 @@ html.dark .choices__item--selectable.is-highlighted {
 }
 /* Filament v5 native custom select dropdown */
 html.dark [data-headlessui-state] [role="listbox"],
-html.dark .fi-fo-field-wrp [role="listbox"],
+html.dark .fi-fo-field [role="listbox"],
 html.dark .fi-select-option-list,
 html.dark [x-floated][role="listbox"] {
     background-color: #1f2937 !important;
@@ -4379,7 +4379,7 @@ html.dark [x-floated][role="listbox"] {
     color: #f9fafb !important;
 }
 html.dark [data-headlessui-state] [role="option"],
-html.dark .fi-fo-field-wrp [role="option"] {
+html.dark .fi-fo-field [role="option"] {
     color: #f9fafb !important;
 }
 html.dark [data-headlessui-state] [role="option"]:hover,
@@ -4394,16 +4394,16 @@ html.dark [data-headlessui-state] [role="option"][aria-selected="true"] {
  * Bumping to rgba(255,255,255,0.25) provides ~4:1 on typical Filament dark bg (#1f2937). */
 html.dark body.fi-panel-admin .fi-input,
 html.dark body.fi-panel-admin .fi-input-wrp,
-html.dark body.fi-panel-admin .fi-select,
-html.dark body.fi-panel-admin .fi-select-wrp,
-html.dark body.fi-panel-admin .fi-textarea,
-html.dark body.fi-panel-admin .fi-textarea-wrp {
+html.dark body.fi-panel-admin .fi-fo-select,
+html.dark body.fi-panel-admin .fi-fo-select-wrp,
+html.dark body.fi-panel-admin .fi-fo-textarea,
+html.dark body.fi-panel-admin .fi-fo-textarea-wrp {
     border-color: rgba(255, 255, 255, 0.25) !important;
 }
 html.dark body.fi-panel-admin .fi-input:focus,
 html.dark body.fi-panel-admin .fi-input-wrp:focus-within,
-html.dark body.fi-panel-admin .fi-select:focus,
-html.dark body.fi-panel-admin .fi-textarea:focus {
+html.dark body.fi-panel-admin .fi-fo-select:focus,
+html.dark body.fi-panel-admin .fi-fo-textarea:focus {
     border-color: rgba(13, 110, 253, 0.8) !important;
     box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25) !important;
 }
@@ -4446,21 +4446,21 @@ html.dark body.fi-panel-admin .fi-fo-repeater-create-item-btn-ctn {
 /* AI-960 / task-2026-05-22 — Error state uses only red text with no border change.
  * Adds a red border to .fi-input wrappers when Filament marks them with the error state.
  * WCAG 1.4.1: don't rely solely on colour — the border change provides shape cue. */
-body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-input-wrp {
+body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-input-wrp {
     border-color: #ef4444 !important;
     box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
 }
-body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-input {
+body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-input {
     border-color: #ef4444 !important;
 }
-body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-select-wrp,
-body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-textarea-wrp {
+body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-select-wrp,
+body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-textarea-wrp {
     border-color: #ef4444 !important;
     box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
 }
-html.dark body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-input-wrp,
-html.dark body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-select-wrp,
-html.dark body.fi-panel-admin .fi-fo-field-wrp.fi-fo-field-wrp-has-error .fi-textarea-wrp {
+html.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-input-wrp,
+html.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-select-wrp,
+html.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-textarea-wrp {
     border-color: #f87171 !important;
     box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.2) !important;
 }
@@ -4645,9 +4645,9 @@ html.dark .fi-modal-footer a.fi-btn,
 .mw-fb-title-wrap .fi-fo-field-label,
 .mw-fb-title-wrap .fi-fo-field-label-ctn,
 .mw-fb-title-wrap .fi-fo-field-label-col,
-.mw-fb-title-wrap > .fi-fo-field-lbl,
-.mw-fb-title-wrap > .fi-fo-field-lbl-ctn,
-.mw-fb-title-wrap label.fi-fo-field-lbl,
+.mw-fb-title-wrap > .fi-fo-field-label,
+.mw-fb-title-wrap > .fi-fo-field-label-ctn,
+.mw-fb-title-wrap label.fi-fo-field-label,
 .mw-fb-title-wrap label.fi-fo-field-label,
 .mw-fb-title-wrap > label {
     position: absolute !important;
@@ -4676,7 +4676,7 @@ body.fi-panel-admin .fi-topbar-start .fi-logo {
 /* ── Topbar: ADD button — show label text to match old v2 "+ ADD" ────
    Old v2 showed a full text button. Filament renders an icon-only button
    with an sr-only label. Unclip the span so text is visible. */
-body.fi-panel-admin .fi-btn.admin-toolbar-add .sr-only {
+body.fi-panel-admin .admin-toolbar-add .fi-btn .sr-only {
     position: static !important;
     width: auto !important;
     height: auto !important;
@@ -4712,26 +4712,36 @@ body.fi-panel-admin .fi-sidebar {
     border-right: 1px solid #e8eef4 !important;
 }
 
-/* ── Sidebar nav items: font and spacing matching v2 ─────────────── */
-body.fi-panel-admin .fi-sidebar-item-button {
-    font-size: 14px !important;
-    font-weight: 400 !important;
+/* ── Sidebar nav items: roomier spacing + larger type to match the
+ *    Microweber v2.0.20 admin (v2 items are ~54px tall with 16px labels
+ *    and 24px icons; Filament's default is much tighter). ───────────── */
+body.fi-panel-admin .fi-sidebar-item-btn {
+    font-size: 15px !important;
+    font-weight: 500 !important;
     color: #182433 !important;
-    padding: 8px 12px !important;
+    padding: 11px 14px !important;
     border-radius: 8px !important;
-    min-height: 38px !important;
+    min-height: 48px !important;
+    gap: 14px !important;
 }
-body.fi-panel-admin .fi-sidebar-item-button:hover {
+body.fi-panel-admin .fi-sidebar-item-label {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+}
+body.fi-panel-admin .fi-sidebar-item-btn:hover {
     background-color: #f0f4fa !important;
     color: #0d6efd !important;
 }
-body.fi-panel-admin .fi-sidebar-item-button.fi-active {
+body.fi-panel-admin .fi-sidebar-item-btn.fi-active {
     background-color: #e9f2ff !important;
     color: #0d6efd !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
 }
-body.fi-panel-admin .fi-sidebar-item-button .fi-sidebar-item-icon {
+body.fi-panel-admin .fi-sidebar-item-btn .fi-sidebar-item-icon,
+body.fi-panel-admin .fi-sidebar-item-icon {
     color: inherit !important;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
 }
 
 /* ── Sidebar group headers: match v2 muted uppercase labels ────────  */
@@ -4798,36 +4808,36 @@ html.dark body.fi-panel-admin .fi-sidebar {
     background-color: #1f2937 !important;
     border-right-color: #374151 !important;
 }
-html.dark body.fi-panel-admin .fi-sidebar-item-button {
+html.dark body.fi-panel-admin .fi-sidebar-item-btn {
     color: #e5e7eb !important;
 }
-html.dark body.fi-panel-admin .fi-sidebar-item-button:hover {
+html.dark body.fi-panel-admin .fi-sidebar-item-btn:hover {
     background-color: #374151 !important;
     color: #60a5fa !important;
 }
-html.dark body.fi-panel-admin .fi-sidebar-item-button.fi-active {
+html.dark body.fi-panel-admin .fi-sidebar-item-btn.fi-active {
     background-color: #1e3a5f !important;
     color: #60a5fa !important;
 }
-html.dark body.fi-panel-admin .fi-btn.admin-toolbar-live-edit,
-html.dark body.fi-panel-admin .fi-btn.admin-toolbar-live-edit.fi-color-primary {
+html.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn,
+html.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn.fi-color-primary {
     background-color: #1a3d2b !important;
     color: #6ee7a0 !important;
 }
-html.dark body.fi-panel-admin .fi-btn.admin-toolbar-live-edit span,
-html.dark body.fi-panel-admin .fi-btn.admin-toolbar-live-edit .fi-btn-label,
-html.dark body.fi-panel-admin .fi-btn.admin-toolbar-live-edit svg {
+html.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn span,
+html.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn .fi-btn-label,
+html.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn svg {
     color: #6ee7a0 !important;
 }
-html.dark body.fi-panel-admin .fi-btn.admin-toolbar-add,
-html.dark body.fi-panel-admin .fi-btn.admin-toolbar-add.fi-color-primary {
+html.dark body.fi-panel-admin .admin-toolbar-add .fi-btn,
+html.dark body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary {
     background-color: #1a2e45 !important;
     color: #93c5fd !important;
 }
-html.dark body.fi-panel-admin .fi-btn.admin-toolbar-add .sr-only {
+html.dark body.fi-panel-admin .admin-toolbar-add .fi-btn .sr-only {
     color: #93c5fd !important;
 }
-html.dark body.fi-panel-admin .fi-btn.admin-toolbar-add svg {
+html.dark body.fi-panel-admin .admin-toolbar-add .fi-btn svg {
     color: #93c5fd !important;
 }
 
@@ -4970,8 +4980,8 @@ body.fi-panel-admin .fi-input-wrp {
 }
 
 /* ── Form labels ─────────────────────────────────────────────────── */
-body.fi-panel-admin .fi-fo-field-wrp-label label,
-body.fi-panel-admin .fi-fo-field-wrp > label {
+body.fi-panel-admin .fi-fo-field-label label,
+body.fi-panel-admin .fi-fo-field > label {
     font-size: 13px !important;
     font-weight: 500 !important;
     color: #374151 !important;
@@ -4994,7 +5004,7 @@ body.fi-panel-admin .fi-tabs {
     border-bottom: 1px solid #e8eef4 !important;
     background-color: #ffffff !important;
 }
-body.fi-panel-admin .fi-tabs-tab {
+body.fi-panel-admin .fi-tabs-item {
     font-size: 13px !important;
     font-weight: 500 !important;
     color: #6b7280 !important;
@@ -5002,11 +5012,11 @@ body.fi-panel-admin .fi-tabs-tab {
     border-bottom: 2px solid transparent !important;
     transition: color 100ms, border-color 100ms !important;
 }
-body.fi-panel-admin .fi-tabs-tab:hover {
+body.fi-panel-admin .fi-tabs-item:hover {
     color: #182433 !important;
 }
-body.fi-panel-admin .fi-tabs-tab[aria-selected="true"],
-body.fi-panel-admin .fi-tabs-tab.fi-active {
+body.fi-panel-admin .fi-tabs-item[aria-selected="true"],
+body.fi-panel-admin .fi-tabs-item.fi-active {
     color: #0d6efd !important;
     border-bottom-color: #0d6efd !important;
     font-weight: 600 !important;
@@ -5084,14 +5094,14 @@ html.dark body.fi-panel-admin .fi-tabs {
     background-color: #1f2937 !important;
     border-bottom-color: #374151 !important;
 }
-html.dark body.fi-panel-admin .fi-tabs-tab {
+html.dark body.fi-panel-admin .fi-tabs-item {
     color: #9ca3af !important;
 }
-html.dark body.fi-panel-admin .fi-tabs-tab:hover {
+html.dark body.fi-panel-admin .fi-tabs-item:hover {
     color: #e5e7eb !important;
 }
-html.dark body.fi-panel-admin .fi-tabs-tab[aria-selected="true"],
-html.dark body.fi-panel-admin .fi-tabs-tab.fi-active {
+html.dark body.fi-panel-admin .fi-tabs-item[aria-selected="true"],
+html.dark body.fi-panel-admin .fi-tabs-item.fi-active {
     color: #60a5fa !important;
     border-bottom-color: #60a5fa !important;
 }
@@ -5131,8 +5141,8 @@ html.dark body.fi-panel-admin .fi-section-content {
     background-color: #1f2937 !important;
 }
 /* Form labels */
-html.dark body.fi-panel-admin .fi-fo-field-wrp-label label,
-html.dark body.fi-panel-admin .fi-fo-field-wrp > label {
+html.dark body.fi-panel-admin .fi-fo-field-label label,
+html.dark body.fi-panel-admin .fi-fo-field > label {
     color: #d1d5db !important;
 }
 /* Pagination */
@@ -5215,8 +5225,8 @@ html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin
     border-color: #2d4a6e !important;
 }
 
-/* ── Tabs: fix .fi-tabs-item (Filament v5 uses this, not .fi-tabs-tab) ─
-   Mirror the existing .fi-tabs-tab rules onto .fi-tabs-item so tabs
+/* ── Tabs: fix .fi-tabs-item (Filament v5 uses this, not .fi-tabs-item) ─
+   Mirror the existing .fi-tabs-item rules onto .fi-tabs-item so tabs
    that exist in real pages (Marketplace, settings sections) apply. */
 body.fi-panel-admin .fi-tabs-item {
     font-size: 13px !important;

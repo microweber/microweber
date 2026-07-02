@@ -170,8 +170,8 @@ return parent::getEloquentQuery()
             // the row stays tidy; the moderation verbs keep their labels +
             // icons + confirmation inside the menu.
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\Action::make('approve')
+                \Filament\Actions\ActionGroup::make([
+                    \Filament\Actions\Action::make('approve')
                         ->label('Approve')
                         ->icon('heroicon-o-check')
                         ->color('success')
@@ -183,7 +183,7 @@ return parent::getEloquentQuery()
                             ]);
                         })
                         ->visible(fn(Comment $record) => !$record->is_moderated),
-                    Tables\Actions\Action::make('spam')
+                    \Filament\Actions\Action::make('spam')
                         ->label('Mark as spam')
                         ->icon('heroicon-o-exclamation-triangle')
                         ->color('danger')
@@ -194,14 +194,14 @@ return parent::getEloquentQuery()
                             ]);
                         })
                         ->requiresConfirmation(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                    \Filament\Actions\EditAction::make(),
+                    \Filament\Actions\DeleteAction::make(),
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\BulkAction::make('approve')
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\BulkAction::make('approve')
                         ->label('Approve Selected')
                         ->icon('heroicon-o-check')
                         ->action(function ($records) {
@@ -213,7 +213,7 @@ return parent::getEloquentQuery()
                                 ]);
                             });
                         }),
-                    Tables\Actions\BulkAction::make('mark_as_spam')
+                    \Filament\Actions\BulkAction::make('mark_as_spam')
                         ->label('Mark as Spam')
                         ->icon('heroicon-o-exclamation-triangle')
                         ->color('danger')

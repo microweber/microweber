@@ -298,7 +298,7 @@ class CampaignResource extends Resource
                     ->preload(),
             ])
             ->headerActions([ // Added header actions
-                Tables\Actions\ExportAction::make()
+                \Filament\Actions\ExportAction::make()
                     ->exporter(NewsletterCampaignExporter::class)
                     ->icon('heroicon-m-cloud-arrow-down')
                     // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #10:
@@ -306,7 +306,7 @@ class CampaignResource extends Resource
                     // Section::make('Columns to export') and the multi-file
                     // toggle in Section::make('Export options'). Gives the
                     // form fieldset / heading semantics SR users expect.
-                    ->form(function (Tables\Actions\ExportAction $action): array {
+                    ->form(function (\Filament\Actions\ExportAction $action): array {
                         $exportColumns = NewsletterCampaignExporter::getColumns();
                         $columnCheckboxes = [];
                         foreach ($exportColumns as $column) {
@@ -342,7 +342,7 @@ class CampaignResource extends Resource
             // Enter/Space activation on the confirm button).
             ->actions([
 
-                Tables\Actions\Action::make('edit')
+                \Filament\Actions\Action::make('edit')
                     ->label('Edit')
                     ->icon('heroicon-o-pencil')
                     ->hidden(function (NewsletterCampaign $campaign) {
@@ -350,7 +350,7 @@ class CampaignResource extends Resource
                     })
                     ->url(fn(NewsletterCampaign $campaign) => route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id)),
 
-                Tables\Actions\Action::make('view')
+                \Filament\Actions\Action::make('view')
                     ->label('View')
                     ->icon('heroicon-o-eye')
                     ->hidden(function (NewsletterCampaign $campaign) {
@@ -358,7 +358,7 @@ class CampaignResource extends Resource
                     })
                     ->url(fn(NewsletterCampaign $campaign) => route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id)),
 
-                Tables\Actions\Action::make('cancel')
+                \Filament\Actions\Action::make('cancel')
                     ->label('Cancel')
                     ->hidden(function (NewsletterCampaign $campaign) {
                         return !in_array($campaign->status, [
@@ -376,7 +376,7 @@ class CampaignResource extends Resource
 
                 ActionGroup::make([
 
-                    Tables\Actions\Action::make('expand-opened')
+                    \Filament\Actions\Action::make('expand-opened')
                         ->label(function (NewsletterCampaign $campaign) {
                             $html = 'Expand opened' . ' <span class="text-green-500">(' . $campaign->opened . ')</span>';
 
@@ -410,7 +410,7 @@ class CampaignResource extends Resource
                         })
                         ->icon('heroicon-o-envelope-open'),
 
-                    Tables\Actions\Action::make('expand-clicked')
+                    \Filament\Actions\Action::make('expand-clicked')
                         ->label(function (NewsletterCampaign $campaign) {
                             $html = 'Expand clicked' . ' <span class="text-green-500">(' . $campaign->clicked . ')</span>';
 
@@ -443,20 +443,20 @@ class CampaignResource extends Resource
                         })
                         ->icon('heroicon-o-cursor-arrow-rays'),
 
-Tables\Actions\DeleteAction::make(),
+\Filament\Actions\DeleteAction::make(),
                 ])
                 ->icon('heroicon-o-ellipsis-vertical')
                 ->color(Color::Gray)
                 ->iconSize('lg'),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([ // Added bulk actions
-                    Tables\Actions\ExportBulkAction::make()
+                \Filament\Actions\BulkActionGroup::make([ // Added bulk actions
+                    \Filament\Actions\ExportBulkAction::make()
                         ->exporter(NewsletterCampaignExporter::class)
                         // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #10:
                         // bulk-export form Section grouping (matches the
                         // single-export form above).
-                        ->form(function (Tables\Actions\BulkAction $action): array {
+                        ->form(function (\Filament\Actions\BulkAction $action): array {
                             $exportColumns = NewsletterCampaignExporter::getColumns();
                             $columnCheckboxes = [];
                             foreach ($exportColumns as $column) {
@@ -475,19 +475,19 @@ Tables\Actions\DeleteAction::make(),
                                     ]),
                             ];
                         })
-                        ->action(function (array $data, Tables\Actions\BulkAction $action) {
+                        ->action(function (array $data, \Filament\Actions\BulkAction $action) {
                             $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
                             $selectedRecordIds = $action->getRecords()->pluck('id')->toArray();
                             $route = route('filament.admin-newsletter.export.campaigns', ['columns' => $selectedColumns, 'selected_ids' => implode(',', $selectedRecordIds), 'export_multiple' => $data['export_multiple'] ?? false]);
                             return redirect()->to($route);
                         }),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->emptyStateHeading('No campaigns yet')
             ->emptyStateDescription('Create your first email campaign to start reaching your subscribers.')
             ->emptyStateActions([
-                Tables\Actions\Action::make('createCampaign')
+                \Filament\Actions\Action::make('createCampaign')
                     ->label('Create Campaign')
                     ->icon('heroicon-o-rocket-launch')
                     ->url(route('filament.admin-newsletter.pages.create-campaign')),

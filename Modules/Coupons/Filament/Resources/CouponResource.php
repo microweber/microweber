@@ -541,10 +541,10 @@ TextColumn::make('valid_to')
                     }),
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
+                \Filament\Actions\ActionGroup::make([
+                    \Filament\Actions\ViewAction::make(),
                     EditAction::make(),
-                    Tables\Actions\Action::make('duplicate')
+                    \Filament\Actions\Action::make('duplicate')
                         ->label('Duplicate')
                         ->icon('heroicon-m-document-duplicate')
                         ->action(function (Coupon $record) {
@@ -562,7 +562,7 @@ TextColumn::make('valid_to')
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                Tables\Actions\BulkAction::make('activate')
+                \Filament\Actions\BulkAction::make('activate')
                     ->label('Activate')
                     ->icon('heroicon-m-check-circle')
                     ->action(function ($records) {
@@ -570,7 +570,7 @@ TextColumn::make('valid_to')
                             $record->update(['is_active' => true]);
                         }
                     }),
-                Tables\Actions\BulkAction::make('deactivate')
+                \Filament\Actions\BulkAction::make('deactivate')
                     ->label('Deactivate')
                     ->icon('heroicon-m-x-circle')
                     ->action(function ($records) {

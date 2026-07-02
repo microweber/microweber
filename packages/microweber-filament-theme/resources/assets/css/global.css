@@ -259,7 +259,7 @@
         @apply translate-x-0;
     }
 
-    .fi-sidebar-overlay {
+    .fi-sidebar-close-overlay {
         @apply fixed inset-0 bg-black/50 z-40 lg:hidden;
     }
 }

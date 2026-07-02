@@ -6,7 +6,10 @@
      leak the chip into a public-facing Filament panel (storefront
      account-area, customer dashboards, etc.). --}}
 @if (is_admin())
-<div class="flex">
+{{-- Filament v5: <x-filament::button> drops the passed `class`, so the
+     `admin-toolbar-live-edit` marker lives on this WRAPPER and the CSS targets
+     `.admin-toolbar-live-edit .fi-btn` (see general-styles.css). --}}
+<div class="flex admin-toolbar-live-edit">
 <x-filament::button
     href="{{site_url('?editmode=y')}}"
     tag="a"

@@ -62,7 +62,7 @@ class McpClientTokensRelationManager extends RelationManager
                     }),
             ])
             ->actions([
-                Tables\Actions\Action::make('rotateToken')
+                \Filament\Actions\Action::make('rotateToken')
                     ->label('Rotate')
                     ->icon('heroicon-o-arrow-path')
                     ->color('warning')
@@ -81,7 +81,7 @@ class McpClientTokensRelationManager extends RelationManager
                         );
                         McpClientResource::notifyTokenIssued($generated, $record->client);
                     }),
-                Tables\Actions\Action::make('revokeToken')
+                \Filament\Actions\Action::make('revokeToken')
                     ->label('Revoke')
                     ->icon('heroicon-o-no-symbol')
                     ->color('danger')

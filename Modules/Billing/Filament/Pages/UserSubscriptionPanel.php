@@ -122,7 +122,7 @@ class UserSubscriptionPanel extends Page
     {
         return [
             ActionGroup::make([
-                Forms\Components\Actions\Action::make('save')
+                \Filament\Actions\Action::make('save')
                     ->label('Continue to Payment')
                     ->action('submit')
                     ->color('primary'),

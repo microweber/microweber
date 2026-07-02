@@ -1,6 +1,6 @@
 .fi-topbar-item {
     &:not(.fi-active) {
-        & > .fi-topbar-item-button {
+        & > .fi-topbar-item-btn {
             .fi-topbar-item-icon,
             .fi-topbar-item-label,
             .fi-topbar-group-toggle-icon {
@@ -18,7 +18,7 @@
     }
 
     &.fi-active {
-        & > .fi-topbar-item-button {
+        & > .fi-topbar-item-btn {
             @apply bg-transparent;
         }
     }
@@ -30,7 +30,7 @@
     }
 }
 
-.fi-topbar-item-button {
+.fi-topbar-item-btn {
     @apply rounded-md;
 
     &:hover {

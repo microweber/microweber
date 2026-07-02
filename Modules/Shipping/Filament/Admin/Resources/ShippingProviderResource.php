@@ -84,7 +84,7 @@ class ShippingProviderResource extends Resource
         return $schema->schema([
             \Filament\Schemas\Components\Wizard::make([
                 \Filament\Schemas\Components\Wizard\Step::make('Select Provider')
-                    ->visible(function (Forms\Get $get) {
+                    ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                         return !$get('id');
                     })
                     ->schema([
@@ -93,7 +93,7 @@ class ShippingProviderResource extends Resource
                             ->required()
                             ->padding('py-4 px-8')
                             ->gap('gap-0')
-                            ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get, string $state) use ($shippingProviders) {
+                            ->afterStateUpdated(function (\Filament\Schemas\Components\Utilities\Set $set, \Filament\Schemas\Components\Utilities\Get $get, string $state) use ($shippingProviders) {
                                 if ($state) {
 
                                  if (!$get('id') and !$get('name')) {
@@ -140,7 +140,7 @@ class ShippingProviderResource extends Resource
                             ->columnSpanFull(),
                     ]),
                 \Filament\Schemas\Components\Wizard\Step::make('Settings')
-                    ->schema(function (Forms\Get $get) use ($schema) {
+                    ->schema(function (\Filament\Schemas\Components\Utilities\Get $get) use ($schema) {
                         $shippingDriver = $get('provider');
 
                         if (!$shippingDriver) {
@@ -178,7 +178,7 @@ class ShippingProviderResource extends Resource
             ->emptyStateHeading('No shipping providers configured')
             ->emptyStateDescription('Add a shipping provider to offer delivery options at checkout.')
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make()
+                \Filament\Actions\CreateAction::make()
                     ->label('Add shipping provider')
                     ->icon('heroicon-m-plus'),
             ])
@@ -201,12 +201,12 @@ class ShippingProviderResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\DeleteAction::make()
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

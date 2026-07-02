@@ -78,7 +78,7 @@ class EditOrder extends EditRecord
                         ->maxValue($refundable)
                         ->default($refundable)
                         ->prefix($order->currency ?? '$')
-                        ->visible(fn (Forms\Get $get) => $get('type') === 'partial'),
+                        ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('type') === 'partial'),
 
                     Forms\Components\Select::make('reason')
                         ->label('Reason')

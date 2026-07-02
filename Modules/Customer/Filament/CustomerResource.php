@@ -166,7 +166,7 @@ Forms\Components\Select::make('company_id')
                 ->modalWidth('lg')
                 ->slideOver();
             }),
-            Forms\Components\Section::make('Segmentation')
+            \Filament\Schemas\Components\Section::make('Segmentation')
                 ->description('Manage customer tags and segments')
                 ->collapsible()
                 ->schema([
@@ -293,16 +293,16 @@ Forms\Components\Select::make('company_id')
             // announce `Edit "jane@example.com"` and the hover
             // tooltip matches. Anchor on email; fall back to "#{id}"
             // for not-yet-saved rows / anonymized records.
-            Tables\Actions\EditAction::make()
+            \Filament\Actions\EditAction::make()
                 ->label(fn (Model $record): string => 'Edit "' . static::customerRowLabel($record) . '"')
                 ->tooltip(fn (Model $record): string => 'Edit "' . static::customerRowLabel($record) . '"'),
-            Tables\Actions\DeleteAction::make()
+            \Filament\Actions\DeleteAction::make()
                 ->label(fn (Model $record): string => 'Delete "' . static::customerRowLabel($record) . '"')
                 ->tooltip(fn (Model $record): string => 'Delete "' . static::customerRowLabel($record) . '"'),
         ])
         ->bulkActions([
-            Tables\Actions\DeleteBulkAction::make(),
-            Tables\Actions\BulkAction::make('addTags')
+            \Filament\Actions\DeleteBulkAction::make(),
+            \Filament\Actions\BulkAction::make('addTags')
                 ->label('Add Tags')
                 ->icon('heroicon-m-tag')
                 ->requiresConfirmation()
@@ -323,7 +323,7 @@ Forms\Components\Select::make('company_id')
                     }
                 })
                 ->deselectRecordsAfterCompletion(),
-            Tables\Actions\BulkAction::make('removeTags')
+            \Filament\Actions\BulkAction::make('removeTags')
                 ->label('Remove Tags')
                 ->icon('heroicon-m-minus-circle')
                 ->requiresConfirmation()

@@ -449,7 +449,7 @@ svg[wire\:loading\.remove] {
 }
 
 // Sidebar badge (e.g., Orders "11") — MW v2 blue pill
-.fi-sidebar-item-badge {
+.fi-sidebar-item-badge-ctn {
   font-size: 0.7rem !important;
   font-weight: 500 !important;
 }
@@ -966,7 +966,7 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 // Form labels — MW v2: 16px/500 on create forms
 // ============================================================================
-.fi-fo-field-wrp-label,
+.fi-fo-field-label,
 .fi-fo-field-label {
   font-size: 16px !important;  // MW v2 exact: 16px form labels
   font-weight: 500 !important;  // MW v2 exact: 500
@@ -977,7 +977,7 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 // Form helper text / hints — MW v2: muted secondary text below fields
 // ============================================================================
-.fi-fo-field-wrp-hint,
+.fi-fo-field-hint,
 .fi-fo-helper-text {
   font-size: 12px !important;
   color: $mw-text-muted !important;
@@ -992,7 +992,7 @@ svg[wire\:loading\.remove] {
 }
 
 // Required field asterisk
-.fi-field-wrp-label sup {
+.fi-fo-field-label sup {
   color: #ef4444 !important;
   margin-left: $mw-space-hair !important;  // GR: hair(4)
 }
@@ -1020,7 +1020,7 @@ svg[wire\:loading\.remove] {
 }
 
 // Select inputs
-.fi-select-wrp {
+.fi-fo-select-wrp {
   border-radius: $mw-radius-sm !important;
 }
 
@@ -1264,7 +1264,7 @@ svg[wire\:loading\.remove] {
   box-shadow: none !important;  // Remove the inset bottom-line shadow from Filament default
 }
 
-// Tab items — Filament v5 uses button.fi-tabs-item directly (no .fi-tabs-item-button)
+// Tab items — Filament v5 uses button.fi-tabs-item directly (no .fi-tabs-item)
 // Need .fi-tabs prefix to beat global.css specificity (.fi-tabs .fi-tabs-item)
 .fi-tabs .fi-tabs-item {
   border-radius: 0 !important;
@@ -1302,7 +1302,7 @@ svg[wire\:loading\.remove] {
 }
 
 // Legacy selector fallback
-.fi-tabs-item-button {
+.fi-tabs-item {
   border-radius: 0 !important;
   font-weight: 500 !important;
   font-size: 14px !important;
@@ -1314,7 +1314,7 @@ svg[wire\:loading\.remove] {
 // Content Create/Edit Form — MW v2 style
 // ============================================================================
 // Tabs content panel — match section content padding for alignment
-.fi-tabs > .fi-tabs-tab-content {
+.fi-tabs > .fi-tabs-item-content {
   padding: $mw-space-md $mw-space-lg !important;  // GR: md(16) lg(26)
 }
 
@@ -1386,7 +1386,7 @@ svg[wire\:loading\.remove] {
 }
 
 // Toggle field — MW v2 inline label alignment
-.fi-fo-field-wrp .fi-toggle {
+.fi-fo-field .fi-toggle {
   align-items: center !important;
 }
 
@@ -1433,7 +1433,7 @@ svg[wire\:loading\.remove] {
     border-radius: $mw-border-sm;
   }
 
-  .fi-checkbox-list-option-label {
+  .fi-fo-checkbox-list-option-label {
     font-size: 14px !important;
     color: $mw-text-primary !important;
   }
@@ -1515,11 +1515,11 @@ svg[wire\:loading\.remove] {
 }
 
 // Rich editor — MW v2 styling
-.fi-rich-editor {
+.fi-fo-rich-editor {
   border-radius: $mw-radius-sm !important;
   border: 1px solid $mw-border-color !important;
 
-  .fi-rich-editor-toolbar {
+  .fi-fo-rich-editor-toolbar {
     border-bottom: 1px solid $mw-border-subtle !important;
     background-color: #fafbfc !important;
     border-radius: $mw-radius-sm $mw-radius-sm 0 0 !important;
@@ -1992,7 +1992,7 @@ svg[wire\:loading\.remove] {
 
 // Toggle — pill shape, MW v2 style
 .fi-toggle,
-.fi-toggle-button,
+.fi-toggle,
 [role="switch"] {
   border-radius: $mw-radius-pill !important;  // MW v2: pill-shaped toggles
 }
@@ -2820,13 +2820,13 @@ html.dark {
   }
 
   // Form labels in dark mode
-  .fi-fo-field-wrp-label,
+  .fi-fo-field-label,
   .fi-fo-field-label {
     color: #a0aec0 !important;
   }
 
   // Form helper text in dark mode
-  .fi-fo-field-wrp-hint,
+  .fi-fo-field-hint,
   .fi-fo-helper-text {
     color: #718096 !important;
   }
@@ -2869,14 +2869,14 @@ html.dark {
     }
   }
 
-  .fi-checkbox-list-option-label {
+  .fi-fo-checkbox-list-option-label {
     color: #e2e8f0 !important;
   }
 
-  .fi-rich-editor {
+  .fi-fo-rich-editor {
     border-color: rgba(255, 255, 255, 0.08) !important;
 
-    .fi-rich-editor-toolbar {
+    .fi-fo-rich-editor-toolbar {
       background-color: #161b26 !important;
       border-bottom-color: rgba(255, 255, 255, 0.06) !important;
     }
@@ -2909,7 +2909,7 @@ html.dark {
   // ── Form inputs, selects, textareas — unified dark treatment ──
   .fi-input,
   .fi-select-input,
-  .fi-textarea,
+  .fi-fo-textarea,
   .fi-input-wrp input,
   .fi-input-wrp select,
   .fi-input-wrp textarea {
@@ -2938,7 +2938,7 @@ html.dark {
   }
 
   // ── Toggle / switch ──
-  .fi-toggle-input {
+  .fi-toggle {
     background-color: #2d3748 !important;
 
     &:checked {
@@ -3068,7 +3068,7 @@ html.dark {
   }
 
   // ── Repeater component ──
-  .fi-repeater-item {
+  .fi-fo-repeater-item {
     background-color: #1a1f2b !important;
     border-color: rgba(255, 255, 255, 0.08) !important;
   }
@@ -3794,7 +3794,7 @@ html.dark {
 
 // Login form inputs — MW v2 style
 .fi-simple-page {
-  .fi-fo-field-wrp {
+  .fi-fo-field {
     label {
       font-size: 14px !important;
       font-weight: 500 !important;
@@ -6359,4 +6359,112 @@ html.dark .filepond--label-action {
 
 html.dark .filepond--label-action {
   text-decoration-color: rgb(229, 231, 235) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+ * task-2026-07-02 — Filament v5 overlap cleanup. This is the LAST restyle
+ * import in index.css, so it wins the cascade. After the v4→v5 `.fi-*`
+ * rename several legacy tab/sidebar rules re-activated and now stack on top
+ * of Filament v5's own indicators — producing DOUBLE underlines on tabs and
+ * an underlined + left-bordered ("double border") active sidebar item.
+ * Single source of truth for those two below.
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+/* — Tabs — Filament v5 draws its OWN active underline as an `::after` bar.
+ * Our restyle also draws a `border-bottom` underline → two lines. Suppress
+ * the native bar and keep exactly ONE border-bottom underline; also give the
+ * tabs a roomier, consistent size (they were a cramped 13px / 39px). */
+body.fi-panel-admin .fi-tabs-item::after {
+  display: none !important;
+}
+body.fi-panel-admin .fi-tabs .fi-tabs-item,
+body.fi-panel-admin .fi-tabs-item {
+  font-size: 14px !important;
+  padding: 11px 18px !important;
+  min-height: 44px !important;
+  border-bottom: 2px solid transparent !important;
+  text-decoration: none !important;
+}
+body.fi-panel-admin .fi-tabs-item.fi-active,
+body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
+  color: #0d6efd !important;
+  border-bottom-color: #0d6efd !important;
+  background-color: transparent !important;
+}
+html.dark body.fi-panel-admin .fi-tabs-item.fi-active,
+html.dark body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
+  color: #60a5fa !important;
+  border-bottom-color: #60a5fa !important;
+}
+
+/* — Sidebar active item — collapse to ONE clean treatment: a rounded tinted
+ * pill with brand-blue text. The previous state layered a 3px left accent bar
+ * ON TOP of the rounded pill, and the straight bar didn't follow the pill's
+ * rounded corner, so it read as "a border and then another border". Drop the
+ * bar + the legacy label underline; keep only the pill tint. */
+body.fi-panel-admin .fi-sidebar-item .fi-sidebar-item-label,
+body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-label,
+body.fi-panel-admin .fi-sidebar-item-btn:hover .fi-sidebar-item-label {
+  text-decoration: none !important;
+}
+/* Hide Filament's OWN active accent — a 2px `::before` bar drawn at the item's
+ * left edge — so it doesn't sit next to our pill as a second indicator. */
+body.fi-panel-admin .fi-sidebar-item-btn::before {
+  display: none !important;
+  content: none !important;
+}
+/* Give EVERY item (active + inactive) the same horizontal padding so the
+ * icon/label column lines up — the active pill previously carried an extra
+ * 14px left pad that pushed its icon inward and out of alignment. Use the
+ * logical properties too, since Filament sets padding-inline. */
+body.fi-panel-admin .fi-sidebar-nav .fi-sidebar-item-btn,
+body.fi-panel-admin .fi-sidebar-item > .fi-sidebar-item-btn {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  padding-inline-start: 10px !important;
+  padding-inline-end: 10px !important;
+  gap: 10px !important;
+}
+/* The nav is double-inset — `.fi-sidebar-nav` already has 24px side padding
+ * and `.fi-sidebar-nav-groups` adds another 16px, leaving items only ~151px
+ * wide so "Site Statistics" / "Marketplace" truncate. Trim the inner inset so
+ * full labels fit on one line. */
+body.fi-panel-admin .fi-sidebar-nav-groups {
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+  padding-inline-start: 6px !important;
+  padding-inline-end: 6px !important;
+}
+/* Labels stay on a single line — the roomier 24px icon + gap + padding was
+ * squeezing longer labels ("Marketplace", "Site Statistics") onto two rows.
+ * Trim the icon back to 20px and the label to 14px so every label fits the
+ * ~150px item width on one row, and clip with an ellipsis as a safety net. */
+body.fi-panel-admin .fi-sidebar-item-icon {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+}
+body.fi-panel-admin .fi-sidebar-item-label {
+  font-size: 14px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn,
+body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-btn {
+  border: 0 !important;
+  border-radius: 8px !important;
+  background-color: rgba(13, 110, 253, 0.10) !important;
+  box-shadow: none !important;
+  /* Match inactive padding exactly — a legacy rule (general-styles.css:4300)
+   * set 9px here and outranks the generic padding rule above, so re-assert
+   * the same 10px at equal specificity. */
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  padding-inline-start: 10px !important;
+  padding-inline-end: 10px !important;
+}
+html.dark body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn,
+html.dark body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-btn {
+  border: 0 !important;
+  background-color: rgba(96, 165, 250, 0.16) !important;
 }

@@ -30,7 +30,7 @@ class ListOrders extends ListRecords
             // two different labels + visual styles. Now both read "+ Add order"
             // with primary color, matching the AI-736 Pages-list pattern.
             Actions\CreateAction::make()
-                ->label('+ Add order')
+                ->label('Add order')
                 ->icon('heroicon-o-plus')
                 ->color('primary'),
 

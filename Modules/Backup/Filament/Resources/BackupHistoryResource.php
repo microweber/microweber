@@ -58,7 +58,7 @@ class BackupHistoryResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Backup Information')
+                \Filament\Schemas\Components\Section::make('Backup Information')
                     ->icon('heroicon-m-archive-box')
                     ->schema([
                         Forms\Components\TextInput::make('filename')
@@ -181,14 +181,14 @@ class BackupHistoryResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\Action::make('download')
+                \Filament\Actions\Action::make('download')
                     ->label('Download')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->url(fn ($record) => $record->filepath ? route('admin.backup.download', ['file' => basename($record->filepath)]) : null)
                     ->openUrlInNewTab()
                     ->visible(fn ($record) => $record->status === 'completed' && $record->fileExists()),
 
-                Tables\Actions\Action::make('restore')
+                \Filament\Actions\Action::make('restore')
                     ->label('Restore')
                     ->icon('heroicon-o-arrow-uturn-left')
                     ->color('warning')
@@ -197,14 +197,14 @@ class BackupHistoryResource extends Resource
                     ->modalDescription('Are you sure you want to restore this backup? This will overwrite your current content.')
                     ->visible(fn ($record) => $record->status === 'completed' && $record->fileExists()),
 
-                Tables\Actions\ViewAction::make()
+                \Filament\Actions\ViewAction::make()
                     ->visible(fn ($record) => $record->status === 'failed'),
 
-                Tables\Actions\DeleteAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');

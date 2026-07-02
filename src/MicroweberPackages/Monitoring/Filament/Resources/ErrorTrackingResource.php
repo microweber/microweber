@@ -238,10 +238,10 @@ class ErrorTrackingResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
+                \Filament\Actions\EditAction::make()
                     ->label('Review & Resolve'),
 
-                Tables\Actions\Action::make('markResolved')
+                \Filament\Actions\Action::make('markResolved')
                     ->label('Mark Resolved')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
@@ -251,7 +251,7 @@ class ErrorTrackingResource extends Resource
                     ->modalDescription('Are you sure you want to mark this error as resolved?')
                     ->action(fn ($record) => $record->markAsResolved()),
 
-                Tables\Actions\Action::make('markUnresolved')
+                \Filament\Actions\Action::make('markUnresolved')
                     ->label('Mark Unresolved')
                     ->icon('heroicon-o-x-circle')
                     ->color('warning')
@@ -259,29 +259,29 @@ class ErrorTrackingResource extends Resource
                     ->requiresConfirmation()
                     ->action(fn ($record) => $record->update(['is_resolved' => false, 'resolved_at' => null])),
 
-                Tables\Actions\DeleteAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('markResolved')
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\BulkAction::make('markResolved')
                         ->label('Mark as Resolved')
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
                         ->requiresConfirmation()
                         ->action(fn ($records) => $records->each->markAsResolved()),
 
-                    Tables\Actions\BulkAction::make('markUnresolved')
+                    \Filament\Actions\BulkAction::make('markUnresolved')
                         ->label('Mark as Unresolved')
                         ->icon('heroicon-o-x-circle')
                         ->color('warning')
                         ->requiresConfirmation()
                         ->action(fn ($records) => $records->each->update(['is_resolved' => false])),
 
-                    Tables\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->emptyStateActions([
-                Tables\Actions\Action::make('refresh')
+                \Filament\Actions\Action::make('refresh')
                     ->label('Refresh')
                     ->icon('heroicon-o-arrow-path')
                     ->action(fn () => null),

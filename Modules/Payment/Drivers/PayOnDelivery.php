@@ -34,8 +34,8 @@ class PayOnDelivery extends AbstractPaymentMethod
         $message = $model->settings['payment_instructions'] ?? 'Pay on delivery';
 
         return [
-            Forms\Components\Section::make()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) use ($message) {
+            \Filament\Schemas\Components\Section::make()
+                ->schema(function (\Filament\Schemas\Components\Section $component, \Filament\Schemas\Components\Utilities\Set $set, \Filament\Schemas\Components\Utilities\Get $get, mixed $state = null) use ($message) {
                     return [
                         Forms\Components\Placeholder::make('')
                             ->content($message)
@@ -47,10 +47,10 @@ class PayOnDelivery extends AbstractPaymentMethod
     public function getSettingsForm(): array
     {
         return [
-            Forms\Components\Section::make()
+            \Filament\Schemas\Components\Section::make()
                 ->statePath('settings')
                 ->reactive()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) {
+                ->schema(function (\Filament\Schemas\Components\Section $component, \Filament\Schemas\Components\Utilities\Set $set, \Filament\Schemas\Components\Utilities\Get $get, mixed $state = null) {
                     $provider = $get('provider');
 
                     return [
@@ -61,7 +61,7 @@ class PayOnDelivery extends AbstractPaymentMethod
                     ];
 
                 })
-                ->visible(function (Forms\Get $get) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                     return (
                         $get('provider') === 'pay_on_delivery'
 

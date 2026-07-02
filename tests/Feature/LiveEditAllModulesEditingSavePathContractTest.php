@@ -89,13 +89,13 @@ class LiveEditAllModulesEditingSavePathContractTest extends TestCase
             $list,
             "{$listFile} must use a standard Filament table EditAction (covered by the interceptor)."
         );
-        // Import must come from the standard Filament\Tables\Actions namespace —
-        // accept both per-line (`use Filament\Tables\Actions\CreateAction;`) and
-        // grouped (`use Filament\Tables\Actions\{CreateAction, EditAction};`) forms.
+        // Import must come from the standard Filament\Actions namespace (Filament v5.6.7) —
+        // accept both per-line (`use Filament\Actions\CreateAction;`) and
+        // grouped (`use Filament\Actions\{CreateAction, EditAction};`) forms.
         $this->assertMatchesRegularExpression(
-            '/use\s+Filament\\\\Tables\\\\Actions\\\\(CreateAction|\{)/',
+            '/use\s+Filament\\\\Actions\\\\(CreateAction|\{)/',
             $list,
-            "{$listFile} must import table actions from Filament\\Tables\\Actions (non-standard mount paths are an interceptor gap)."
+            "{$listFile} must import table actions from Filament\\Actions (non-standard mount paths are an interceptor gap)."
         );
     }
 

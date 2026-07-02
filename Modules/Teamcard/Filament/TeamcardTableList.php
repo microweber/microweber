@@ -13,7 +13,7 @@ use Filament\Forms\{
     Concerns\InteractsWithForms,
     Contracts\HasForms
 };
-use Filament\Tables\Actions\{
+use Filament\Actions\{
     Action,
     BulkActionGroup,
     CreateAction,

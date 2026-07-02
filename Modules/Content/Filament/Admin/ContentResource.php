@@ -2196,7 +2196,7 @@ return $get('id');
                     // ActionGroup); ->tooltip(fn) shows the same string
                     // on hover. The contextualRowLabel helper anchors
                     // on $title with id-fallback for untitled drafts.
-                    Tables\Actions\Action::make('live_edit')
+                    \Filament\Actions\Action::make('live_edit')
                         ->label(fn (Content $record): string => 'Edit "' . static::contextualRowLabel($record) . '"')
                         ->tooltip(fn (Content $record): string => 'Edit "' . static::contextualRowLabel($record) . '"')
                         ->url(function (Content $record) {
@@ -2206,13 +2206,13 @@ return $get('id');
                         })
                         ->icon('heroicon-o-eye'),
 
-                    Tables\Actions\EditAction::make('edit')
+                    \Filament\Actions\EditAction::make('edit')
                         ->label(fn (Content $record): string => 'Settings for "' . static::contextualRowLabel($record) . '"')
                         ->tooltip(fn (Content $record): string => 'Settings for "' . static::contextualRowLabel($record) . '"')
                         ->icon('heroicon-o-pencil'),
 
 
-                    Tables\Actions\DeleteAction::make('delete')
+                    \Filament\Actions\DeleteAction::make('delete')
                         ->label(fn (Content $record): string => 'Delete "' . static::contextualRowLabel($record) . '"')
                         ->tooltip(fn (Content $record): string => 'Delete "' . static::contextualRowLabel($record) . '"')
                         ->icon('heroicon-o-trash'),
@@ -2222,22 +2222,22 @@ return $get('id');
             ->iconSize('lg')
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('publish')
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\BulkAction::make('publish')
                         ->label('Publish')
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
                         ->requiresConfirmation()
                         ->deselectRecordsAfterCompletion()
                         ->action(fn ($records) => $records->each->update(['is_active' => 1])),
-                    Tables\Actions\BulkAction::make('unpublish')
+                    \Filament\Actions\BulkAction::make('unpublish')
                         ->label('Unpublish')
                         ->icon('heroicon-o-x-circle')
                         ->color('warning')
                         ->requiresConfirmation()
                         ->deselectRecordsAfterCompletion()
                         ->action(fn ($records) => $records->each->update(['is_active' => 0])),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

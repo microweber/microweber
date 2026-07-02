@@ -14,7 +14,7 @@ use Modules\Invoice\Filament\Exports\InvoiceExporter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Filament\Tables\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -73,7 +73,7 @@ class InvoiceResource extends Resource
             ->schema([
                 Grid::make(2)
                     ->schema([
-                        Forms\Components\Section::make('Invoice Details')
+                        \Filament\Schemas\Components\Section::make('Invoice Details')
                             ->icon('heroicon-m-document-text')
                             ->schema([
                                 Forms\Components\DatePicker::make('invoice_date')
@@ -151,7 +151,7 @@ Forms\Components\Select::make('user_id')
                             ])
                             ->columnSpanFull(),
 
-                        Forms\Components\Section::make('Invoice Items')
+                        \Filament\Schemas\Components\Section::make('Invoice Items')
                             ->icon('heroicon-m-queue-list')
                             ->schema([
                                 Forms\Components\Repeater::make('items')
@@ -285,11 +285,11 @@ Tables\Filters\SelectFilter::make('paid_status')
             ]),
         ])
         ->headerActions([
-            Tables\Actions\ExportAction::make()
+            \Filament\Actions\ExportAction::make()
                 ->exporter(InvoiceExporter::class)
                 ->icon('heroicon-m-cloud-arrow-down')
                 ->color('gray')
-                ->form(function (Tables\Actions\ExportAction $action): array {
+                ->form(function (\Filament\Actions\ExportAction $action): array {
                     $exportColumns = InvoiceExporter::getColumns();
                     $schemaSchema = [];
                     foreach ($exportColumns as $column) {
@@ -309,7 +309,7 @@ Tables\Filters\SelectFilter::make('paid_status')
                 }),
         ])
         ->actions([
-            Tables\Actions\EditAction::make(),
+            \Filament\Actions\EditAction::make(),
             Action::make('pdf')
                 ->label('Export PDF')
                 ->icon('heroicon-o-document-arrow-down')
@@ -360,9 +360,9 @@ Tables\Filters\SelectFilter::make('paid_status')
                 ->modalButton('Send Invoice'),
         ])
         ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\ExportBulkAction::make()
-                    ->form(function (Tables\Actions\BulkAction $action): array {
+            \Filament\Actions\BulkActionGroup::make([
+                \Filament\Actions\ExportBulkAction::make()
+                    ->form(function (\Filament\Actions\BulkAction $action): array {
                         $exportColumns = InvoiceExporter::getColumns();
                         $schemaSchema = [];
                         foreach ($exportColumns as $column) {
@@ -375,13 +375,13 @@ Tables\Filters\SelectFilter::make('paid_status')
                             ->default(false);
                         return $schemaSchema;
                     })
-                    ->action(function (array $data, Tables\Actions\BulkAction $action) {
+                    ->action(function (array $data, \Filament\Actions\BulkAction $action) {
                         $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
                         $selectedRecordIds = $action->getRecords()->pluck('id')->toArray();
                         $route = route('filament.admin.export.invoices', ['columns' => $selectedColumns, 'selected_ids' => implode(',', $selectedRecordIds), 'export_multiple' => $data['export_multiple'] ?? false]);
                         return redirect()->to($route);
                     }),
-                Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\DeleteBulkAction::make(),
             ]),
         ]);
     }

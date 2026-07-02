@@ -14,7 +14,7 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconSize;
 use Filament\Tables;
-use Filament\Tables\Actions\ImportAction as ImportTableAction;
+use Filament\Actions\ImportAction as ImportTableAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Arr;
@@ -200,17 +200,17 @@ class SubscribersResource extends Resource
                     ->preload(),
             ])
             ->headerActions([
-                \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importProducts')
+                \MicroweberPackages\Filament\Actions\ImportAction::make('importProducts')
                     ->icon('heroicon-m-cloud-arrow-up')
                     ->importer(NewsletterSubscriberImporter::class)
                     ->chunkSize(50),
-                Tables\Actions\ExportAction::make()
+                \Filament\Actions\ExportAction::make()
                     ->exporter(NewsletterSubscriberExporter::class)
                     ->icon('heroicon-m-cloud-arrow-down')
                     // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #10:
                     // Section::make() grouping for column checkboxes + export
                     // options (matches the CampaignResource shape).
-                    ->form(function (Tables\Actions\ExportAction $action): array {
+                    ->form(function (\Filament\Actions\ExportAction $action): array {
                         $exportColumns = NewsletterSubscriberExporter::getColumns();
                         $columnCheckboxes = [];
                         foreach ($exportColumns as $column) {
@@ -234,20 +234,20 @@ class SubscribersResource extends Resource
                         $url = route('filament.admin-newsletter.export.subscribers', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
                         return redirect()->to($url);
                     }),
-                Tables\Actions\CreateAction::make(),
+                \Filament\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\ExportBulkAction::make()
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\ExportBulkAction::make()
                         ->exporter(NewsletterSubscriberExporter::class)
                         // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #10:
                         // bulk-export Section grouping (matches the single
                         // export form above).
-                        ->form(function (Tables\Actions\BulkAction $action): array {
+                        ->form(function (\Filament\Actions\BulkAction $action): array {
                             $exportColumns = NewsletterSubscriberExporter::getColumns();
                             $columnCheckboxes = [];
                             foreach ($exportColumns as $column) {
@@ -266,20 +266,20 @@ class SubscribersResource extends Resource
                                     ]),
                             ];
                         })
-                        ->action(function (array $data, Tables\Actions\BulkAction $action) {
+                        ->action(function (array $data, \Filament\Actions\BulkAction $action) {
                             $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
                             $selectedRecordIds = implode(',', $action->getRecords()->pluck('id')->toArray());
                             $exportMultiple = $data['export_multiple'] ?? false;
                             $url = route('filament.admin-newsletter.export.subscribers', ['columns' => $selectedColumns, 'selected_ids' => $selectedRecordIds, 'export_multiple' => $exportMultiple]);
                             return redirect()->to($url);
                         }),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->emptyStateHeading('No subscribers yet')
             ->emptyStateDescription('Add subscribers manually or import them from a CSV file.')
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make()
+                \Filament\Actions\CreateAction::make()
                     ->label('Add Subscriber'),
             ]);
     }

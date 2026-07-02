@@ -130,7 +130,7 @@ class OfferResource extends Resource
             ->emptyStateHeading('No offers yet')
             ->emptyStateDescription('Create your first offer to discount specific products.')
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make()->label('+ New Offer'),
+                \Filament\Actions\CreateAction::make()->label('+ New Offer'),
             ])
             ->columns([
 
@@ -172,12 +172,12 @@ class OfferResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

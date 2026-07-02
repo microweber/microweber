@@ -180,21 +180,21 @@ class WordPressMigrationResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\Action::make('preview')
+                \Filament\Actions\ViewAction::make(),
+                \Filament\Actions\Action::make('preview')
                     ->label('Preview')
                     ->icon('heroicon-o-eye')
                     ->color('gray')
                     ->url(fn (WordPressMigrationJob $record): string => '/admin/word-press-migration-preview-page?job=' . $record->id),
-                Tables\Actions\Action::make('logs')
+                \Filament\Actions\Action::make('logs')
                     ->label('Logs')
                     ->icon('heroicon-o-list-bullet')
                     ->color('gray')
                     ->url(fn (WordPressMigrationJob $record): string => static::getUrl('logs', ['record' => $record])),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('id', 'desc');

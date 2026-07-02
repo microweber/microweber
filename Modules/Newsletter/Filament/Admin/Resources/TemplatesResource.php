@@ -81,7 +81,7 @@ class TemplatesResource extends Resource
                 //
             ])
 ->actions([
-            Tables\Actions\Action::make('preview')
+            \Filament\Actions\Action::make('preview')
                 ->icon('heroicon-o-eye')
                 ->label('Preview')
                 ->modalHeading(fn ($record) => $record->title)
@@ -92,22 +92,22 @@ class TemplatesResource extends Resource
                     . ($record->text ?: '<p style="color:#999;text-align:center;">No HTML preview available</p>')
                     . '</div>'
                 )),
-            Tables\Actions\Action::make('Edit')
+            \Filament\Actions\Action::make('Edit')
                 ->icon('heroicon-o-pencil')
                 ->url(function ($record) {
                     return route('filament.admin-newsletter.pages.template-editor') . '?id=' . $record->id;
                 }),
-            Tables\Actions\DeleteAction::make(),
+            \Filament\Actions\DeleteAction::make(),
         ])
         ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
+            \Filament\Actions\BulkActionGroup::make([
+                \Filament\Actions\DeleteBulkAction::make(),
             ]),
         ])
         ->emptyStateHeading('No designs yet')
         ->emptyStateDescription('Create an email template to use in your campaigns.')
         ->emptyStateActions([
-            Tables\Actions\CreateAction::make()
+            \Filament\Actions\CreateAction::make()
                 ->label('New Template'),
         ]);
     }

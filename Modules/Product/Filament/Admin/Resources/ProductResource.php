@@ -39,15 +39,15 @@ class ProductResource extends ContentResource
     {
         return parent::table($table)
             ->headerActions([
-                Tables\Actions\ActionGroup::make([
-                \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importProducts')
+                \Filament\Actions\ActionGroup::make([
+                \MicroweberPackages\Filament\Actions\ImportAction::make('importProducts')
                     ->icon('heroicon-m-cloud-arrow-up')
                     ->importer(ProductImporter::class)
                     ->chunkSize(50),
-                Tables\Actions\ExportAction::make()
+                \Filament\Actions\ExportAction::make()
                     ->exporter(ProductExporter::class)
                     ->icon('heroicon-m-cloud-arrow-down')
-                    ->form(function (Tables\Actions\ExportAction $action): array {
+                    ->form(function (\Filament\Actions\ExportAction $action): array {
                         $exportColumns = ProductExporter::getColumns();
                         $schemaSchema = [];
                         foreach ($exportColumns as $column) {
@@ -66,14 +66,14 @@ class ProductResource extends ContentResource
                         return redirect()->to($url);
                     }),
                 ])->icon('heroicon-o-cog-6-tooth')->tooltip('Settings')->color('gray')->button()->label(''),
-                Tables\Actions\CreateAction::make()
+                \Filament\Actions\CreateAction::make()
                     ->extraAttributes(['class' => 'hidden md:inline-flex']),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\ExportBulkAction::make()
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\ExportBulkAction::make()
                         ->exporter(ProductExporter::class)
-                        ->form(function (Tables\Actions\BulkAction $action): array {
+                        ->form(function (\Filament\Actions\BulkAction $action): array {
                             $exportColumns = ProductExporter::getColumns();
                             $schemaSchema = [];
                             foreach ($exportColumns as $column) {
@@ -86,14 +86,14 @@ class ProductResource extends ContentResource
                                 ->default(false);
                             return $schemaSchema;
                         })
-                        ->action(function (array $data, Tables\Actions\BulkAction $action) {
+                        ->action(function (array $data, \Filament\Actions\BulkAction $action) {
                             $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
                             $selectedRecordIds = implode(',', $action->getRecords()->pluck('id')->toArray());
                             $exportMultiple = $data['export_multiple'] ?? false;
                             $route = route('filament.admin.product.export', ['columns' => $selectedColumns, 'selected_ids' => $selectedRecordIds, 'export_multiple' => $exportMultiple]);
                             return redirect()->to($route);
                         }),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

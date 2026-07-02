@@ -50,9 +50,9 @@ class MediaResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->schema([
-            Forms\Components\Section::make('Media Information')
+            \Filament\Schemas\Components\Section::make('Media Information')
                 ->schema([
-                    Forms\Components\Grid::make(['default' => 1, 'md' => 2])
+                    \Filament\Schemas\Components\Grid::make(['default' => 1, 'md' => 2])
                         ->schema([
                             Forms\Components\Hidden::make('id'),
 
@@ -74,7 +74,7 @@ class MediaResource extends Resource
                         ]),
                 ]),
 
-            Forms\Components\Section::make('Media File')
+            \Filament\Schemas\Components\Section::make('Media File')
                 ->schema([
                     Forms\Components\FileUpload::make('filename')
                         ->label('Upload File')
@@ -86,7 +86,7 @@ class MediaResource extends Resource
                         ->helperText('Maximum file size: 10MB'),
                 ]),
 
-            Forms\Components\Section::make('CDN Status')
+            \Filament\Schemas\Components\Section::make('CDN Status')
                 ->visible(fn (Media $record) => $record->is_synced_to_cdn)
                 ->schema([
                     Forms\Components\TextInput::make('cdn_url')
@@ -181,9 +181,9 @@ class MediaResource extends Resource
                     ->query(fn (Builder $query) => $query->where('is_synced_to_cdn', false)),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\Action::make('syncToCdn')
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
+                \Filament\Actions\Action::make('syncToCdn')
                     ->label('Sync to CDN')
                     ->icon('heroicon-o-cloud-arrow-up')
                     ->color('success')
@@ -198,9 +198,9 @@ class MediaResource extends Resource
                     ->modalSubmitActionLabel('Yes, sync now'),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\BulkAction::make('bulkSyncToCdn')
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\BulkAction::make('bulkSyncToCdn')
                         ->label('Sync to CDN')
                         ->icon('heroicon-o-cloud-arrow-up')
                         ->color('success')

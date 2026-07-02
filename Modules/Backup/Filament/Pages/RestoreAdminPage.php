@@ -84,7 +84,7 @@ class RestoreAdminPage extends Page implements HasTable
             ])
             ->filters([])
             ->actions([
-                Tables\Actions\Action::make('restore')
+                \Filament\Actions\Action::make('restore')
                     ->label('Restore')
                     ->icon('heroicon-o-arrow-path')
                     ->color('warning')
@@ -115,14 +115,14 @@ class RestoreAdminPage extends Page implements HasTable
                             ->send();
                     }),
 
-                Tables\Actions\Action::make('download')
+                \Filament\Actions\Action::make('download')
                     ->label('Download')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->color('gray')
                     ->url(fn ($record) => route('admin.backup.download', ['filename' => $record->filename]), shouldOpenInNewTab: true)
                     ->visible(fn ($record) => file_exists(backup_location() . $record->filename)),
 
-                Tables\Actions\Action::make('delete')
+                \Filament\Actions\Action::make('delete')
                     ->label('Delete')
                     ->icon('heroicon-o-trash')
                     ->color('danger')
@@ -141,8 +141,8 @@ class RestoreAdminPage extends Page implements HasTable
                     }),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make()
                         ->action(function ($records): void {
                             foreach ($records as $record) {
                                 $filepath = backup_location() . $record->filename;

@@ -27,7 +27,7 @@ class SkillsModuleSettings extends LiveEditModuleSettings
             ->schema([
                 Repeater::make('skills')
                     ->deleteAction(
-                        function (Forms\Get $get, Forms\Set $set) {
+                        function (\Filament\Schemas\Components\Utilities\Get $get, \Filament\Schemas\Components\Utilities\Set $set) {
                             $this->skills = array_values($this->skills);
                             $set('skills', $this->skills);
                         }

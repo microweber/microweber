@@ -9,9 +9,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -169,7 +169,7 @@ class WorkflowResource extends Resource
             ->emptyStateHeading('No workflows yet')
             ->emptyStateDescription('Set up automation workflows to send emails based on triggers and schedules.')
             ->emptyStateActions([
-                \Filament\Tables\Actions\CreateAction::make()
+                \Filament\Actions\CreateAction::make()
                     ->label('Create Workflow'),
             ]);
     }

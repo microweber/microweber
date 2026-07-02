@@ -67,7 +67,7 @@ class ListPages extends \Modules\Content\Filament\Admin\ContentResource\Pages\Li
         // hide-when-≤10) and 3 (collapse row actions to ≤3) tracked
         // as AI-736a / AI-736b follow-ups.
         $actions[] = Actions\CreateAction::make()
-            ->label('+ Add page')
+            ->label('Add page')
             ->icon('heroicon-o-plus')
             ->color('primary');
 

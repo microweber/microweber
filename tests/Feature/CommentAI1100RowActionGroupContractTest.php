@@ -35,7 +35,9 @@ class CommentAI1100RowActionGroupContractTest extends TestCase
     public function row_actions_are_collapsed_into_an_action_group(): void
     {
         $this->assertMatchesRegularExpression(
-            '/->actions\(\s*\[\s*Tables\\\\Actions\\\\ActionGroup::make\(/s',
+            // Filament v5 unified actions: the group is now \Filament\Actions\ActionGroup
+            // (v4 was Tables\Actions\ActionGroup). Accept either prefix, or none.
+            '/->actions\(\s*\[\s*(?:\\\\?Filament\\\\Actions\\\\|Tables\\\\Actions\\\\)?ActionGroup::make\(/s',
             $this->src,
             'The per-row actions must be wrapped in a single ActionGroup kebab menu.'
         );

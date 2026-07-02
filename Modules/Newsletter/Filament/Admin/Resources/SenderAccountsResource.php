@@ -304,7 +304,7 @@ class SenderAccountsResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('test')
+                \Filament\Actions\Action::make('test')
                     ->label('Test')
                     ->icon('heroicon-o-paper-airplane')
                     ->requiresConfirmation()
@@ -344,12 +344,12 @@ class SenderAccountsResource extends Resource
                                 ->send();
                         }
                     }),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

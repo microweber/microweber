@@ -10,7 +10,7 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Panel;
-use Filament\Tables\Actions\Action;
+use Filament\Actions\Action;
 use MicroweberPackages\Multilanguage\FormElements\Text;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 

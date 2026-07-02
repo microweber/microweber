@@ -19,109 +19,71 @@ use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 
 class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvider
 {
- public function register()
- {
-     // Filament v5 moved all Tables\Actions\* classes to Filament\Actions\*.
-     // Register backward-compatible class aliases so existing code continues to work.
-     $tablesActionsAliases = [
-         'Filament\\Tables\\Actions\\Action'          => 'Filament\\Actions\\Action',
-         'Filament\\Tables\\Actions\\ActionGroup'     => 'Filament\\Actions\\ActionGroup',
-         'Filament\\Tables\\Actions\\BulkAction'      => 'Filament\\Actions\\BulkAction',
-         'Filament\\Tables\\Actions\\BulkActionGroup' => 'Filament\\Actions\\BulkActionGroup',
-         'Filament\\Tables\\Actions\\CreateAction'    => 'Filament\\Actions\\CreateAction',
-         'Filament\\Tables\\Actions\\DeleteAction'    => 'Filament\\Actions\\DeleteAction',
-         'Filament\\Tables\\Actions\\DeleteBulkAction'=> 'Filament\\Actions\\DeleteBulkAction',
-         'Filament\\Tables\\Actions\\EditAction'      => 'Filament\\Actions\\EditAction',
-         'Filament\\Tables\\Actions\\ExportAction'    => 'Filament\\Actions\\ExportAction',
-         'Filament\\Tables\\Actions\\ExportBulkAction'=> 'Filament\\Actions\\ExportBulkAction',
-         'Filament\\Tables\\Actions\\ViewAction'      => 'Filament\\Actions\\ViewAction',
-         'Filament\\Tables\\Actions\\ImportAction'    => 'Filament\\Actions\\ImportAction',
-     ];
-     foreach ($tablesActionsAliases as $alias => $original) {
-         if (!class_exists($alias) && class_exists($original)) {
-             class_alias($original, $alias);
-         }
-     }
+    public function register()
+    {
+        // Register core Filament v5 panel providers
+        $this->app->register(MicroweberFilamentThemeServiceProvider::class);
+        $this->app->register(FilamentAdminPanelProvider::class);
+    }
 
-     // Filament v5 moved Forms\Get and Forms\Set to Schemas\Components\Utilities
-     $formsUtilitiesAliases = [
-         'Filament\\Forms\\Get' => 'Filament\\Schemas\\Components\\Utilities\\Get',
-         'Filament\\Forms\\Set' => 'Filament\\Schemas\\Components\\Utilities\\Set',
-         'Filament\\Forms\\Components\\Section' => 'Filament\\Schemas\\Components\\Section',
-         'Filament\\Infolists\\Components\\Section' => 'Filament\\Schemas\\Components\\Section',
-     ];
-     foreach ($formsUtilitiesAliases as $alias => $original) {
-         if (!class_exists($alias) && class_exists($original)) {
-             class_alias($original, $alias);
-         }
-     }
+    public function boot()
+    {
+        // Register Livewire's JavaScript via a render hook so it is injected at
+        // render time (with full data attributes like data-update-uri, data-csrf, etc.).
+        // The custom Livewire fork does not register itself with Filament – we do it here.
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::SCRIPTS_BEFORE,
+            fn (): HtmlString => new HtmlString(
+                \Livewire\Mechanisms\FrontendAssets\FrontendAssets::scripts()
+            ),
+        );
 
+        // Inject Microweber admin JS assets (admin.js, libs, etc.) into the Filament head.
+        // Using FilamentView::registerRenderHook (global) so it fires for all admin pages.
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::HEAD_START,
+            function (): HtmlString {
+                $renderer = new \MicroweberPackages\MetaTags\AdminFilamentMetaTagsRenderer();
+                return new HtmlString($renderer->getHeadMetaTags());
+            },
+        );
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::BODY_END,
+            function (): HtmlString {
+                $renderer = new \MicroweberPackages\MetaTags\AdminFilamentMetaTagsRenderer();
+                return new HtmlString($renderer->getFooterMetaTags());
+            },
+        );
 
+        // Register custom Filament panel component views (e.g. layout.live-edit) under 'filament-panels' namespace
+        $this->loadViewsFrom(
+            __DIR__ . '/../resources/views/filament',
+            'filament-panels'
+        );
 
+        // Register custom Filament component views under 'mw-filament' namespace
+        // This replaces the deprecated 'filament-forms::components.' pattern
+        $this->loadViewsFrom(
+            __DIR__ . '/../resources/views/filament-forms',
+            'mw-filament'
+        );
 
- // Register core Filament v5 panel providers (no deprecated FilamentServiceProvider)
- $this->app->register(MicroweberFilamentThemeServiceProvider::class);
- $this->app->register(FilamentAdminPanelProvider::class);
- }
+        // Register custom Filament table column views - prepend to 'filament-tables' namespace
+        // so our custom columns (ClickableColumn, SVGColumn, BadgesColumn, etc.) are found
+        $this->loadViewsFrom(
+            __DIR__ . '/../resources/views/filament-tables',
+            'filament-tables'
+        );
 
- public function boot()
- {
-     // Register Livewire's JavaScript via a render hook so it is injected at
-     // render time (with full data attributes like data-update-uri, data-csrf, etc.).
-     // The custom Livewire fork does not register itself with Filament – we do it here.
-     FilamentView::registerRenderHook(
-         PanelsRenderHook::SCRIPTS_BEFORE,
-         fn (): HtmlString => new HtmlString(
-             \Livewire\Mechanisms\FrontendAssets\FrontendAssets::scripts()
-         ),
-     );
+        // Register custom Filament action/infolist views
+        $this->loadViewsFrom(
+            __DIR__ . '/../resources/views/filament-actions',
+            'filament-actions'
+        );
 
-     // Inject Microweber admin JS assets (admin.js, libs, etc.) into the Filament head.
-     // Using FilamentView::registerRenderHook (global) so it fires for all admin pages.
-     FilamentView::registerRenderHook(
-         PanelsRenderHook::HEAD_START,
-         function (): HtmlString {
-             $renderer = new \MicroweberPackages\MetaTags\AdminFilamentMetaTagsRenderer();
-             return new HtmlString($renderer->getHeadMetaTags());
-         },
-     );
-     FilamentView::registerRenderHook(
-         PanelsRenderHook::BODY_END,
-         function (): HtmlString {
-             $renderer = new \MicroweberPackages\MetaTags\AdminFilamentMetaTagsRenderer();
-             return new HtmlString($renderer->getFooterMetaTags());
-         },
-     );
-
- // Register custom Filament panel component views (e.g. layout.live-edit) under 'filament-panels' namespace
- $this->loadViewsFrom(
- __DIR__ . '/../resources/views/filament',
- 'filament-panels'
- );
-
- // Register custom Filament component views under 'mw-filament' namespace
- // This replaces the deprecated 'filament-forms::components.' pattern
- $this->loadViewsFrom(
- __DIR__ . '/../resources/views/filament-forms',
- 'mw-filament'
- );
-
- // Register custom Filament table column views - prepend to 'filament-tables' namespace
- // so our custom columns (ClickableColumn, SVGColumn, BadgesColumn, etc.) are found
- $this->loadViewsFrom(
- __DIR__ . '/../resources/views/filament-tables',
- 'filament-tables'
- );
-
- // Register custom Filament action/infolist views
- $this->loadViewsFrom(
- __DIR__ . '/../resources/views/filament-actions',
- 'filament-actions'
- );
-
- $this->loadViewsFrom(
- __DIR__ . '/../resources/views/filament-infolists',
- 'filament-infolists'
- );
- }
+        $this->loadViewsFrom(
+            __DIR__ . '/../resources/views/filament-infolists',
+            'filament-infolists'
+        );
+    }
 }

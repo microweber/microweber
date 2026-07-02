@@ -28,8 +28,8 @@ class PickupFromAddress extends AbstractShippingMethod
         }
 
         return [
-            Forms\Components\Section::make()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) use ($instructions) {
+            \Filament\Schemas\Components\Section::make()
+                ->schema(function (\Filament\Schemas\Components\Section $component, \Filament\Schemas\Components\Utilities\Set $set, \Filament\Schemas\Components\Utilities\Get $get, mixed $state = null) use ($instructions) {
                     return [
                         Forms\Components\Placeholder::make('')
                             ->content($instructions)
@@ -41,10 +41,10 @@ class PickupFromAddress extends AbstractShippingMethod
     public function getSettingsForm(): array
     {
         return [
-            Forms\Components\Section::make()
+            \Filament\Schemas\Components\Section::make()
                 ->statePath('settings')
                 ->reactive()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) {
+                ->schema(function (\Filament\Schemas\Components\Section $component, \Filament\Schemas\Components\Utilities\Set $set, \Filament\Schemas\Components\Utilities\Get $get, mixed $state = null) {
                     $provider = $get('provider');
 
                     return [
@@ -56,7 +56,7 @@ class PickupFromAddress extends AbstractShippingMethod
                     ];
 
                 })
-                ->visible(function (Forms\Get $get) {
+                ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) {
                     return (
                         $get('provider') === 'pickup_from_address'
 

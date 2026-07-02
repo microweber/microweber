@@ -9,7 +9,7 @@
     }
 
     &:not(.fi-active) {
-        & > .fi-sidebar-item-button {
+        & > .fi-sidebar-item-btn {
             .fi-sidebar-item-icon,
             .fi-sidebar-item-label {
                 @apply text-black dark:text-gray-400;
@@ -25,7 +25,7 @@
     }
 
     &.fi-active {
-        & > .fi-sidebar-item-button {
+        & > .fi-sidebar-item-btn {
             @apply relative bg-transparent;
 
             &:not(:has(.fi-sidebar-item-grouped-border)) {
@@ -56,7 +56,7 @@
     }
 }
 
-.fi-sidebar-item-button {
+.fi-sidebar-item-btn {
     @apply rounded-md;
 
     &:hover {
@@ -78,6 +78,6 @@
     @apply gap-y-0;
 }
 
-.fi-page .sidebar-item-button::before {
+.fi-page .fi-sidebar-item-btn::before {
     @apply hidden;
 }

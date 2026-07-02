@@ -198,11 +198,14 @@ class NewsletterAdminUxContractTest extends TestCase
         // Acceptance #1 — Edit/View/Cancel actions must come BEFORE the
         // ActionGroup() in the actions() array. DeleteAction must live
         // inside the ActionGroup. Use byte-offset comparison.
-        $editPos = strpos($this->campaignSrc, "Tables\\Actions\\Action::make('edit')");
-        $viewPos = strpos($this->campaignSrc, "Tables\\Actions\\Action::make('view')");
-        $cancelPos = strpos($this->campaignSrc, "Tables\\Actions\\Action::make('cancel')");
+        // Filament v5 unified actions into \Filament\Actions\* (v4 was Tables\Actions\*).
+        // Match namespace-agnostically on the action shape so the contract holds
+        // regardless of the import prefix.
+        $editPos = strpos($this->campaignSrc, "Action::make('edit')");
+        $viewPos = strpos($this->campaignSrc, "Action::make('view')");
+        $cancelPos = strpos($this->campaignSrc, "Action::make('cancel')");
         $actionGroupPos = strpos($this->campaignSrc, 'ActionGroup::make([');
-        $deletePos = strpos($this->campaignSrc, 'Tables\\Actions\\DeleteAction::make()');
+        $deletePos = strpos($this->campaignSrc, 'DeleteAction::make()');
 
         $this->assertNotFalse($editPos, 'CampaignResource: edit action must exist');
         $this->assertNotFalse($viewPos, 'CampaignResource: view action must exist');

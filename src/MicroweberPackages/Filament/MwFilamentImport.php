@@ -2,15 +2,15 @@
 
 namespace MicroweberPackages\Filament;
 
+use Filament\Actions\ImportAction;
 use Filament\Actions\Imports\Models\Import;
-use Filament\Tables\Actions\ImportAction as ImportTableAction;
 use Illuminate\Support\Arr;
 use League\Csv\Reader as CsvReader;
 use League\Csv\Statement;
 
 class MwFilamentImport
 {
-    public static function startImport(\Filament\Actions\ImportAction|ImportTableAction $action, array $data)
+    public static function startImport(ImportAction $action, array $data)
     {
         $csvFile = $data['file'];
 

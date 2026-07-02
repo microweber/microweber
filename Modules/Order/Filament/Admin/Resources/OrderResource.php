@@ -230,14 +230,14 @@ public static function getNavigationBadgeTooltip(): ?string
                     ->collapsible()
                     ->collapsed()
                     ->headerActions([
-                        \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importOrders')
+                        \MicroweberPackages\Filament\Actions\ImportAction::make('importOrders')
                             ->icon('heroicon-m-cloud-arrow-up')
                             ->importer(\Modules\Order\Filament\Imports\OrderImporter::class)
                             ->chunkSize(50),
-                        Tables\Actions\ExportAction::make()
+                        \Filament\Actions\ExportAction::make()
                             ->exporter(\Modules\Order\Filament\Exports\OrderExporter::class)
                             ->icon('heroicon-m-cloud-arrow-down')
-                            ->form(function (Tables\Actions\ExportAction $action): array {
+                            ->form(function (\Filament\Actions\ExportAction $action): array {
                                 $exportColumns = \Modules\Order\Filament\Exports\OrderExporter::getColumns();
                                 $schemaSchema = [];
                                 foreach ($exportColumns as $column) {
@@ -303,7 +303,7 @@ public static function getNavigationBadgeTooltip(): ?string
                         . 'Confirm this is intentional (e.g. cash payment) or toggle Is Paid on.'
                         . '</div>'
                     ))
-                    ->visible(function (\Filament\Forms\Get $get): bool {
+                    ->visible(function (\Filament\Schemas\Components\Utilities\Get $get): bool {
                         return $get('order_status') === 'completed' && !$get('is_paid');
                     }),
             ]);
@@ -484,15 +484,15 @@ public static function getNavigationBadgeTooltip(): ?string
             // ->iconButton() hides the visible label but Filament
             // still wires it to aria-label, so the AT layer gets the
             // contextual string.
-            Tables\Actions\EditAction::make()
+            \Filament\Actions\EditAction::make()
                 ->iconButton()
                 ->label(fn (Order $record): string => 'Edit "Order #' . $record->id . '"')
                 ->tooltip(fn (Order $record): string => 'Edit "Order #' . $record->id . '"'),
-            Tables\Actions\DeleteAction::make()
+            \Filament\Actions\DeleteAction::make()
                 ->iconButton()
                 ->label(fn (Order $record): string => 'Delete "Order #' . $record->id . '"')
                 ->tooltip(fn (Order $record): string => 'Delete "Order #' . $record->id . '"'),
-            Tables\Actions\Action::make('generate_invoice')
+            \Filament\Actions\Action::make('generate_invoice')
                 ->label('Generate Invoice')
                 ->iconButton()
                 ->tooltip('Generate Invoice')
@@ -534,7 +534,7 @@ public static function getNavigationBadgeTooltip(): ?string
                         return redirect()->back()->with('error', 'Failed to generate invoice: ' . $e->getMessage());
                     }
                 }),
-            Tables\Actions\Action::make('view_invoice')
+            \Filament\Actions\Action::make('view_invoice')
                 ->label('View Invoice')
                 ->iconButton()
                 ->tooltip('View Invoice')
@@ -544,12 +544,12 @@ public static function getNavigationBadgeTooltip(): ?string
                 ->openUrlInNewTab(),
         ])
 //            ->headerActions([
-//                Tables\Actions\CreateAction::make()->label('Create order')
+//                \Filament\Actions\CreateAction::make()->label('Create order')
 //            ])
             ->defaultSort('id', 'desc')
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('update_status')
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\BulkAction::make('update_status')
                         ->label('Update status')
                         ->icon('heroicon-m-arrow-path')
                         ->form([
@@ -566,9 +566,9 @@ public static function getNavigationBadgeTooltip(): ?string
                         })
                         ->deselectRecordsAfterCompletion()
                         ->successNotificationTitle('Order statuses updated'),
-                    Tables\Actions\ExportBulkAction::make()
+                    \Filament\Actions\ExportBulkAction::make()
                         ->exporter(\Modules\Order\Filament\Exports\OrderExporter::class)
-                        ->form(function (Tables\Actions\BulkAction $action): array {
+                        ->form(function (\Filament\Actions\BulkAction $action): array {
                             $exportColumns = \Modules\Order\Filament\Exports\OrderExporter::getColumns();
                             $schemaSchema = [];
                             foreach ($exportColumns as $column) {
@@ -581,14 +581,14 @@ public static function getNavigationBadgeTooltip(): ?string
                                 ->default(false);
                             return $schemaSchema;
                         })
-                        ->action(function (array $data, Tables\Actions\BulkAction $action) {
+                        ->action(function (array $data, \Filament\Actions\BulkAction $action) {
                             $selectedColumns = array_keys(array_filter(\Illuminate\Support\Arr::except($data, 'export_multiple')));
                             $selectedRecordIds = implode(',', $action->getRecords()->pluck('id')->toArray());
                             $exportMultiple = $data['export_multiple'] ?? false;
                             $route = route('filament.admin.order.export', ['columns' => $selectedColumns, 'selected_ids' => $selectedRecordIds, 'export_multiple' => $exportMultiple]);
                             return redirect()->to($route);
                         }),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -742,7 +742,7 @@ public static function getNavigationBadgeTooltip(): ?string
                     })
                     // ->options(Product::query()->whereNotNull('title')->pluck('title', 'id'))
                     ->required()
-                    ->afterStateUpdated(fn($state, Forms\Set $set) => $set('price', Product::find($state)?->price ?? 0))
+                    ->afterStateUpdated(fn($state, \Filament\Schemas\Components\Utilities\Set $set) => $set('price', Product::find($state)?->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([
@@ -771,7 +771,7 @@ public static function getNavigationBadgeTooltip(): ?string
 
                 Repeater::make('custom_fields_data')
                     ->label('Custom fields')
-                    ->hidden(function (Forms\Get $get) {
+                    ->hidden(function (\Filament\Schemas\Components\Utilities\Get $get) {
                         $relId = $get('rel_id');
                         $findCustomFields = CustomField::where('rel_id', $relId)
                             ->where('rel_type', morph_name(Content::class))
@@ -781,7 +781,7 @@ public static function getNavigationBadgeTooltip(): ?string
                         }
                         return true;
                     })
-                    ->schema(function (Forms\Get $get) {
+                    ->schema(function (\Filament\Schemas\Components\Utilities\Get $get) {
 
                         $relId = $get('rel_id');
                         $findCustomFields = CustomField::where('rel_id', $relId)
@@ -817,7 +817,7 @@ public static function getNavigationBadgeTooltip(): ?string
                                 ->hidden(),
                             Forms\Components\Select::make('field_id')
                                 ->label('Field')
-                                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) use ($customFieldsOptionsDetailed) {
+                                ->afterStateUpdated(function (\Filament\Schemas\Components\Utilities\Get $get, \Filament\Schemas\Components\Utilities\Set $set, ?string $state) use ($customFieldsOptionsDetailed) {
                                     $set('field_name', $customFieldsOptionsDetailed[$state]['name']);
                                     $set('field_name_key', $customFieldsOptionsDetailed[$state]['name_key']);
                                     $set('field_type', $customFieldsOptionsDetailed[$state]['type']);
@@ -826,17 +826,17 @@ public static function getNavigationBadgeTooltip(): ?string
                                 ->live(),
                             Forms\Components\Select::make('field_value_id')
                                 ->label('Field Value')
-                                ->hidden(function (Forms\Get $get) use ($customFieldsOptions) {
+                                ->hidden(function (\Filament\Schemas\Components\Utilities\Get $get) use ($customFieldsOptions) {
                                     if (array_key_exists($get('field_id'), $customFieldsOptions)) {
                                         return false;
                                     }
                                     return true;
                                 })
                                 ->live()
-                                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) use ($customFieldsOptionsValuesDetailed) {
+                                ->afterStateUpdated(function (\Filament\Schemas\Components\Utilities\Get $get, \Filament\Schemas\Components\Utilities\Set $set, ?string $state) use ($customFieldsOptionsValuesDetailed) {
                                     $set('field_value', $customFieldsOptionsValuesDetailed[$get('field_id')][$state]['value']);
                                 })
-                                ->options(function (Forms\Get $get) use ($customFieldsOptionsValues) {
+                                ->options(function (\Filament\Schemas\Components\Utilities\Get $get) use ($customFieldsOptionsValues) {
                                     if (isset($customFieldsOptionsValues[$get('field_id')])) {
                                         return $customFieldsOptionsValues[$get('field_id')];
                                     }

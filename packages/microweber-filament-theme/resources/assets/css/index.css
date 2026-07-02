@@ -8,6 +8,14 @@
 
 
 
+/* Tailwind base + Filament v5 pre-compiled core (.fi-* layout/components) MUST load
+ * FIRST so the Microweber overrides below win the cascade. The Theme::make registration
+ * replaces Filament's default app.css, so the custom theme must ship the core itself —
+ * but if the core is imported AFTER the Microweber overrides it re-skins the admin back
+ * to stock Filament (regresses the v2.0.20 look). Core first, Microweber skin last. */
+@import "tailwindcss";
+@import "../../../../../vendor/filament/filament/dist/theme.css";
+
 @import './filament/actions';
 @import './filament/forms';
 @import './filament/infolists/index.css';
@@ -61,7 +69,8 @@
 @import "./microweber-theme-v3.scss";
 
 
-@import "tailwindcss";
+/* (Tailwind + Filament core moved to the TOP of this file so the Microweber
+ * overrides above win the cascade — see the note at the top.) */
 
 @source not "**/*.less";
 

@@ -61,7 +61,7 @@ class CategoryResource extends Resource
             }
         }
 
-        $parentTreeSection = Forms\Components\Section::make('Parent page')
+        $parentTreeSection = \Filament\Schemas\Components\Section::make('Parent page')
             ->icon('heroicon-m-folder-open')
             ->columns(1)
             ->schema([
@@ -78,7 +78,7 @@ class CategoryResource extends Resource
                     ->extraFieldWrapperAttributes([
                         'class' => 'mw-tree-wrapper mw-fb-title-wrap',
                     ])
-                    ->required(function (Forms\Get $get) {
+                    ->required(function (\Filament\Schemas\Components\Utilities\Get $get) {
                         $required = true;
                         if ($get('parent_id')) {
                             $required = false;
@@ -95,7 +95,7 @@ class CategoryResource extends Resource
                         'selectedCategories' => $selectedCategories,
                     ])
                     ->default([])
-                    ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
+                    ->afterStateUpdated(function (\Filament\Schemas\Components\Utilities\Get $get, \Filament\Schemas\Components\Utilities\Set $set, ?array $old, ?array $state) {
                         if (!$state) {
                             $set('parent_id', '');
                             $set('rel_type', '');
@@ -290,7 +290,7 @@ class CategoryResource extends Resource
             ->default($parentSelectInitial)
             ->native(true)
             ->live()
-            ->afterStateUpdated(function (Forms\Set $set, ?string $state) {
+            ->afterStateUpdated(function (\Filament\Schemas\Components\Utilities\Set $set, ?string $state) {
                 if (!$state || !str_contains($state, ':')) {
                     $set('parent_id', '');
                     $set('rel_type', '');
@@ -354,7 +354,7 @@ class CategoryResource extends Resource
                 // so it doesn't need to demand the user's
                 // attention upfront. Title-only save is a
                 // "very easy" path now.
-                Forms\Components\Section::make('More options')
+                \Filament\Schemas\Components\Section::make('More options')
                     ->icon('heroicon-m-adjustments-horizontal')
                     ->collapsible()
                     ->collapsed()
@@ -405,13 +405,13 @@ class CategoryResource extends Resource
                 // announce `Edit "Hardware"` and the hover tooltip
                 // matches. Anchor on title; fall back to "#{id}" for
                 // categories without a title set.
-                Tables\Actions\EditAction::make()
+                \Filament\Actions\EditAction::make()
                     ->label(fn ($record): string => 'Edit "' . trim((string) ($record->title ?? ('#' . ($record->id ?? '')))) . '"')
                     ->tooltip(fn ($record): string => 'Edit "' . trim((string) ($record->title ?? ('#' . ($record->id ?? '')))) . '"'),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
 

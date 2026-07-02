@@ -6,7 +6,11 @@
      right cluster; per the PM "want it on left as before, say + Add (see
      v2 demo)" this reverts both. The explicit aria-label/title remain for
      AT users. Geometry + pill background live in general-styles.css. --}}
-<div class="flex justify-between">
+{{-- Filament v5 note: <x-filament::button> rebuilds its own class list and no
+     longer forwards the `class=""` attribute to the rendered <button>, so the
+     `admin-toolbar-add` marker (styled in general-styles.css) is applied to this
+     WRAPPER instead and the CSS targets `.admin-toolbar-add .fi-btn`. --}}
+<div class="flex justify-between admin-toolbar-add">
     <x-filament::modal width="lg">
         <x-slot name="trigger">
             <x-filament::button

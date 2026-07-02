@@ -51,7 +51,7 @@ class MobileAuditFollowupContractTest extends TestCase
     {
         $required = [
             '.fi-topbar-nav-button',          // sidebar toggle
-            '.fi-topbar-item-button',         // user profile
+            '.fi-topbar-item-btn',            // user profile (Filament v5 renamed -item-button -> -item-btn)
             '.fi-global-search-field input',  // quick-nav search
             '.fi-topbar a.mw-go-live-edit',   // Live Edit chip in topbar
         ];

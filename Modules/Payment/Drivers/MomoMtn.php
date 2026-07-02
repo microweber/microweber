@@ -46,7 +46,7 @@ class MomoMtn extends AbstractPaymentMethod
     public function getSettingsForm(): array
     {
         return [
-            Forms\Components\Section::make('MoMo MTN Configuration')
+            \Filament\Schemas\Components\Section::make('MoMo MTN Configuration')
                 ->description('Configure your MoMo MTN payment gateway settings. For sandbox testing, you can generate API credentials automatically.')
                 ->schema([
                     Forms\Components\TextInput::make('settings.subscription_key')
@@ -65,13 +65,13 @@ class MomoMtn extends AbstractPaymentMethod
                         ->helperText('Select sandbox for testing or production for live transactions.')
                         ->live(),
 
-                    Forms\Components\Actions::make([
-                        Forms\Components\Actions\Action::make('generateCredentials')
+                    \Filament\Schemas\Components\Actions::make([
+                        \Filament\Actions\Action::make('generateCredentials')
                             ->label('Generate Sandbox Credentials')
                             ->icon('heroicon-o-key')
                             ->color('success')
-                            ->visible(fn (Forms\Get $get) => $get('settings.target_environment') === 'sandbox')
-                            ->action(function (Forms\Set $set, Forms\Get $get, $state) {
+                            ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('settings.target_environment') === 'sandbox')
+                            ->action(function (\Filament\Schemas\Components\Utilities\Set $set, \Filament\Schemas\Components\Utilities\Get $get, $state) {
                                 $subscriptionKey = $get('settings.subscription_key');
 
                                 if (empty($subscriptionKey)) {
@@ -98,11 +98,11 @@ class MomoMtn extends AbstractPaymentMethod
                             ->modalSubmitActionLabel('Generate')
                             ->requiresConfirmation(),
 
-                        Forms\Components\Actions\Action::make('manualCredentials')
+                        \Filament\Actions\Action::make('manualCredentials')
                             ->label('Manual Credential Setup')
                             ->icon('heroicon-o-clipboard-document-list')
                             ->color('info')
-                            ->visible(fn (Forms\Get $get) => $get('settings.target_environment') === 'sandbox')
+                            ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('settings.target_environment') === 'sandbox')
                             ->action(function () {
                                 \Filament\Notifications\Notification::make()
                                     ->title('Manual Credential Creation')
@@ -112,7 +112,7 @@ class MomoMtn extends AbstractPaymentMethod
                                     ->send();
                             })
                     ])
-                    ->visible(fn (Forms\Get $get) => $get('settings.target_environment') === 'sandbox'),
+                    ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('settings.target_environment') === 'sandbox'),
 
                     Forms\Components\TextInput::make('settings.api_user_id')
                         ->label('API User ID')
@@ -156,8 +156,8 @@ class MomoMtn extends AbstractPaymentMethod
 
         $gateway = $this->getGateway();
         return [
-            Forms\Components\Section::make()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, mixed $state = null) use ($gateway) {
+            \Filament\Schemas\Components\Section::make()
+                ->schema(function (\Filament\Schemas\Components\Section $component, \Filament\Schemas\Components\Utilities\Set $set, \Filament\Schemas\Components\Utilities\Get $get, mixed $state = null) use ($gateway) {
                     return [
                         Forms\Components\TextInput::make('payer_phone')
                             ->label('Mobile Money Phone Number')

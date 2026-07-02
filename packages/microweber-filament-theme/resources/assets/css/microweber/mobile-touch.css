@@ -235,7 +235,7 @@
     /* Admin topbar controls — sidebar toggle, user-profile button,
        quick-nav search input. */
     .fi-topbar-nav-button,
-    .fi-topbar-item-button,
+    .fi-topbar-item-btn,
     .fi-global-search-field input {
         min-width: 44px;
         min-height: 44px;
@@ -429,7 +429,7 @@ button.btn-icon.live-edit-toolbar-buttons,
  * generic sweep above: Filament v5 renders the admin Add + Live
  * Edit buttons as `.fi-btn` inside `.fi-topbar` (not
  * `.fi-topbar-nav-button`), the user-menu wrapper as
- * `.fi-dropdown-trigger` (not `.fi-topbar-item-button`), and the
+ * `.fi-dropdown-trigger` (not `.fi-topbar-item-btn`), and the
  * View / Live edit / Edit row anchors live in custom <td> cells
  * outside `.fi-ta-actions`.
  *
@@ -734,9 +734,9 @@ button.btn-icon.live-edit-toolbar-buttons,
     body.fi-panel-checkout .fi-input,
     body.fi-panel-checkout .fi-input-wrp,
     body.fi-panel-checkout .fi-select-input,
-    body.fi-panel-checkout .fi-textarea-input,
+    body.fi-panel-checkout .fi-fo-textarea-input,
     body.fi-panel-checkout input.fi-input,
-    body.fi-panel-checkout textarea.fi-textarea-input,
+    body.fi-panel-checkout textarea.fi-fo-textarea-input,
     body.fi-panel-checkout select.fi-select-input {
         border-radius: var(--radius-sm) !important;
         border-color: var(--color-border) !important;
@@ -745,9 +745,9 @@ button.btn-icon.live-edit-toolbar-buttons,
     body.fi-panel-checkout .fi-input:focus,
     body.fi-panel-checkout .fi-input-wrp:focus-within,
     body.fi-panel-checkout .fi-select-input:focus,
-    body.fi-panel-checkout .fi-textarea-input:focus,
+    body.fi-panel-checkout .fi-fo-textarea-input:focus,
     body.fi-panel-checkout input.fi-input:focus,
-    body.fi-panel-checkout textarea.fi-textarea-input:focus,
+    body.fi-panel-checkout textarea.fi-fo-textarea-input:focus,
     body.fi-panel-checkout select.fi-select-input:focus {
         border-color: var(--color-border-focus) !important;
         /* AI-253 / task-2026-06-04-ckfocus: these checkout inputs render
@@ -765,7 +765,7 @@ button.btn-icon.live-edit-toolbar-buttons,
     /* Label alignment — checkout form labels should be the same
        gray-500 secondary-text as public form labels. */
     body.fi-panel-checkout label,
-    body.fi-panel-checkout .fi-fo-field-wrp-label {
+    body.fi-panel-checkout .fi-fo-field-label {
         color: var(--color-text-secondary);
     }
 }
@@ -990,7 +990,7 @@ button.btn-icon.live-edit-toolbar-buttons,
    targeted by class — flip via transform on the ::after itself.
    Scoped to .fi-* surfaces so non-Filament chevron pseudo-elements
    keep their orientation. */
-[dir="rtl"] .fi-sidebar-nav-item > a::after,
+[dir="rtl"] .fi-sidebar-item > a::after,
 [dir="rtl"] .fi-nav-group-button::after,
 [dir="rtl"] .fi-breadcrumbs-item:not(:last-child)::after {
     transform: scaleX(-1);
@@ -1292,8 +1292,8 @@ body.fi-panel-admin .fi-page-content > .fi-form {
  * Filament v5 emits validation errors via:
  *   - `[data-validation-error]` attribute on every error element
  *     (canonical hook used by the auto-scroll JS too).
- *   - `.fi-fo-field-wrp-error-message` class on the error text.
- *   - `.fi-fo-field-wrp-error-list` class on the multi-error <ul>.
+ *   - `.fi-fo-field-error-message` class on the error text.
+ *   - `.fi-fo-field-error-list` class on the multi-error <ul>.
  * Filament's own theme already renders these in a danger colour,
  * but the rendered shade depends on which `MwColors::Danger` weight
  * the panel imported. AI-512 anchors a single explicit red
@@ -1533,12 +1533,12 @@ body.fi-panel-checkout .fi-page-content b {
 
     /* Terms-checkbox label-row hit area. Filament's inline checkbox is
        `<input class="fi-checkbox-input">` next to a label inside a
-       `.fi-fo-field-wrp` (with optional `<label>` wrapping). Pad the
+       `.fi-fo-field` (with optional `<label>` wrapping). Pad the
        wrapper + label so the entire row is 44px tall and clickable;
        the visual checkbox stays at its native ~18x18. `:has()` is
        cross-browser supported (Chrome 105+, Safari 15.4+, Firefox 121+)
        and gracefully degrades to the existing 18x18 on older engines. */
-    body.fi-panel-checkout .fi-fo-field-wrp:has(.fi-checkbox-input) {
+    body.fi-panel-checkout .fi-fo-field:has(.fi-checkbox-input) {
         min-height: 44px;
     }
     body.fi-panel-checkout label:has(> .fi-checkbox-input),
@@ -1574,7 +1574,7 @@ body.fi-panel-checkout .fi-page-content b {
      * field-wrapper and label row both reach 44h so a fingertip on
      * the row toggles the checkbox.
      * ============================================================ */
-    body.fi-panel-profile .fi-fo-field-wrp:has(.fi-checkbox-input) {
+    body.fi-panel-profile .fi-fo-field:has(.fi-checkbox-input) {
         min-height: 44px;
     }
     body.fi-panel-profile label:has(> .fi-checkbox-input),
