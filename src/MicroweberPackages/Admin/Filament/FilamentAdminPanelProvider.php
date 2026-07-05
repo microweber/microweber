@@ -200,11 +200,13 @@ class FilamentAdminPanelProvider extends PanelProvider
                 // group-level icons are redundant and cause HTTP 500 on every admin request.
                 'Website' => NavigationGroup::make()
                     ->label('Website')
+                    ->icon('heroicon-o-globe-alt')
                     ->collapsible(true)
                     ->collapsed(true),
 
                 'Shop' => NavigationGroup::make()
                     ->label('Shop')
+                    ->icon('heroicon-o-shopping-bag')
                     ->collapsible(true)
                     ->collapsed(true),
 

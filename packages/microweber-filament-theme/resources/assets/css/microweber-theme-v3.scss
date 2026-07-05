@@ -6468,3 +6468,44 @@ html.dark body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-btn {
   border: 0 !important;
   background-color: rgba(96, 165, 250, 0.16) !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+ * task-2026-07-02 — V2 sidebar nav. The collapsible Website/Shop groups now
+ * carry an icon (globe/shopping-bag, re-added in FilamentAdminPanelProvider),
+ * so render their header as a real nav ITEM — title-case label, 20px icon,
+ * aligned with the top-level items + item-style hover — matching the
+ * Microweber v2.0.20 sidebar instead of an uppercase mini-header. Only the
+ * collapsible groups get this; the single-item groups (Marketplace/Modules/
+ * Settings/Users) hide their label via `.mw-nav-group-no-label`, and the
+ * settings sub-groups are `hidden`.
+ * ═══════════════════════════════════════════════════════════════════════ */
+body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn {
+  padding: 6px 10px !important;
+  gap: 10px !important;
+  min-height: 48px !important;
+  border-radius: 8px !important;
+}
+body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn:hover {
+  background-color: #f0f4fa !important;
+}
+body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn > svg {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  color: #182433 !important;
+  flex-shrink: 0 !important;
+}
+body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn .fi-sidebar-group-label {
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  color: #182433 !important;
+  padding: 0 !important;
+}
+html.dark body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn > svg,
+html.dark body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn .fi-sidebar-group-label {
+  color: #e5e7eb !important;
+}
+html.dark body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn:hover {
+  background-color: #374151 !important;
+}

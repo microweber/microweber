@@ -991,7 +991,7 @@ button.btn-icon.live-edit-toolbar-buttons,
    Scoped to .fi-* surfaces so non-Filament chevron pseudo-elements
    keep their orientation. */
 [dir="rtl"] .fi-sidebar-item > a::after,
-[dir="rtl"] .fi-nav-group-button::after,
+[dir="rtl"] .fi-sidebar-group-btn::after,
 [dir="rtl"] .fi-breadcrumbs-item:not(:last-child)::after {
     transform: scaleX(-1);
 }

@@ -102,8 +102,9 @@ class Ai517CheckoutTouchTargetContractTest extends TestCase
         $block = $this->ai517Block();
         // Two selectors — the field wrapper that contains a checkbox
         // input, and the label that contains it. Both must reach 44h.
+        // Filament v5 renamed the field wrapper fi-fo-field-wrp → fi-fo-field.
         $this->assertMatchesRegularExpression(
-            '/body\.fi-panel-checkout\s+\.fi-fo-field-wrp:has\(\.fi-checkbox-input\)\s*\{[^}]*min-height:\s*44px;[^}]*\}/s',
+            '/body\.fi-panel-checkout\s+\.fi-fo-field:has\(\.fi-checkbox-input\)\s*\{[^}]*min-height:\s*44px;[^}]*\}/s',
             $block,
             'Field-wrapper containing `.fi-checkbox-input` must floor 44h'
         );

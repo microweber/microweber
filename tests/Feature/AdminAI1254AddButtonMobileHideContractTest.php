@@ -36,13 +36,13 @@ class AdminAI1254AddButtonMobileHideContractTest extends TestCase
         $css = (string) file_get_contents(base_path($relative));
         $this->assertMatchesRegularExpression(
             '/@media[^{]*max-width:\s*768px[^{]*\{(?:[^{}]|\{[^{}]*\})*?'
-            . 'admin-toolbar-add\.fi-color-primary[^{}]*\{[^{}]*\}/s',
+            . 'admin-toolbar-add\s+\.fi-btn\.fi-color-primary[^{}]*\{[^{}]*\}/s',
             $css,
-            "{$relative} must carry a ≤768px @media rule targeting .admin-toolbar-add.fi-color-primary."
+            "{$relative} must carry a ≤768px @media rule targeting .admin-toolbar-add .fi-btn.fi-color-primary (Filament v5: marker on wrapper, not the button)."
         );
         preg_match(
             '/@media[^{]*max-width:\s*768px[^{]*\{(?:[^{}]|\{[^{}]*\})*?'
-            . 'admin-toolbar-add\.fi-color-primary[^{}]*\{([^{}]*)\}/s',
+            . 'admin-toolbar-add\s+\.fi-btn\.fi-color-primary[^{}]*\{([^{}]*)\}/s',
             $css,
             $m
         );

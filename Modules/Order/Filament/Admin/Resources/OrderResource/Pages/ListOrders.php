@@ -29,9 +29,10 @@ class ListOrders extends ListRecords
             // (header) vs "+ Add order" (empty state body) — same affordance,
             // two different labels + visual styles. Now both read "+ Add order"
             // with primary color, matching the AI-736 Pages-list pattern.
+            // "+" is part of the label (matches the empty-state CTA "+ Add order");
+            // no ->icon('heroicon-o-plus') or the button renders a double plus.
             Actions\CreateAction::make()
-                ->label('Add order')
-                ->icon('heroicon-o-plus')
+                ->label('+ Add order')
                 ->color('primary'),
 
             Actions\ActionGroup::make([

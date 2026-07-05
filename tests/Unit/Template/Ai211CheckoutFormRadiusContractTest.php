@@ -31,9 +31,10 @@ use PHPUnit\Framework\TestCase;
  *
  * Test pins:
  *   - The CSS rule exists, scoped to `body.fi-panel-checkout`
- *   - All 7 expected selectors (.fi-input-wrp + .fi-select-wrp +
- *     .fi-textarea-wrp + .fi-input + .fi-select + .fi-textarea +
- *     .fi-btn) appear in the selector list
+ *   - All 7 expected selectors (.fi-input-wrp + .fi-fo-select-wrp +
+ *     .fi-fo-textarea-wrp + .fi-input + .fi-fo-select + .fi-fo-textarea +
+ *     .fi-btn) appear in the selector list (Filament v5 renamed the
+ *     form field classes fi-select/fi-textarea → fi-fo-select/fi-fo-textarea)
  *   - The rule resolves `border-radius` to `var(--radius-sm, 4px)`
  *     with `!important`
  *   - The admin panel's `!rounded-[7px]` global rule is NOT regressed
@@ -58,14 +59,17 @@ class Ai211CheckoutFormRadiusContractTest extends TestCase
 
     public static function checkoutScopedSelectorsProvider(): array
     {
+        // Filament v5 renamed the form field classes: fi-select→fi-fo-select,
+        // fi-textarea→fi-fo-textarea (+ their -wrp wrappers). fi-input(-wrp)
+        // and fi-btn are unchanged.
         return [
-            'fi-input-wrp'    => ['body\.fi-panel-checkout\s+\.fi-input-wrp'],
-            'fi-select-wrp'   => ['body\.fi-panel-checkout\s+\.fi-select-wrp'],
-            'fi-textarea-wrp' => ['body\.fi-panel-checkout\s+\.fi-textarea-wrp'],
-            'fi-input'        => ['body\.fi-panel-checkout\s+\.fi-input\b'],
-            'fi-select'       => ['body\.fi-panel-checkout\s+\.fi-select\b'],
-            'fi-textarea'     => ['body\.fi-panel-checkout\s+\.fi-textarea\b'],
-            'fi-btn'          => ['body\.fi-panel-checkout\s+\.fi-btn\b'],
+            'fi-input-wrp'       => ['body\.fi-panel-checkout\s+\.fi-input-wrp'],
+            'fi-fo-select-wrp'   => ['body\.fi-panel-checkout\s+\.fi-fo-select-wrp'],
+            'fi-fo-textarea-wrp' => ['body\.fi-panel-checkout\s+\.fi-fo-textarea-wrp'],
+            'fi-input'           => ['body\.fi-panel-checkout\s+\.fi-input\b'],
+            'fi-fo-select'       => ['body\.fi-panel-checkout\s+\.fi-fo-select\b'],
+            'fi-fo-textarea'     => ['body\.fi-panel-checkout\s+\.fi-fo-textarea\b'],
+            'fi-btn'             => ['body\.fi-panel-checkout\s+\.fi-btn\b'],
         ];
     }
 

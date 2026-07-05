@@ -105,10 +105,12 @@ class Ai293RtlIconFlipContractTest extends TestCase
     {
         $css = $this->readFile(self::MOBILE_TOUCH_CSS);
 
+        // Filament v5 renamed the nav classes: fi-sidebar-nav-item→fi-sidebar-item
+        // and fi-nav-group-button→fi-sidebar-group-btn. fi-breadcrumbs-item is unchanged.
         $this->assertMatchesRegularExpression(
-            '/\[dir="rtl"\]\s+\.fi-sidebar-nav-item\s*>\s*a::after,\s*\[dir="rtl"\]\s+\.fi-nav-group-button::after,\s*\[dir="rtl"\]\s+\.fi-breadcrumbs-item:not\(:last-child\)::after\s*\{[^}]*transform:\s*scaleX\(-1\)/s',
+            '/\[dir="rtl"\]\s+\.fi-sidebar-item\s*>\s*a::after,\s*\[dir="rtl"\]\s+\.fi-sidebar-group-btn::after,\s*\[dir="rtl"\]\s+\.fi-breadcrumbs-item:not\(:last-child\)::after\s*\{[^}]*transform:\s*scaleX\(-1\)/s',
             $css,
-            'AI-293 must flip the Filament data-uri chevron pseudo-elements on .fi-sidebar-nav-item, .fi-nav-group-button, and .fi-breadcrumbs-item via transform: scaleX(-1) on ::after.'
+            'AI-293 must flip the Filament data-uri chevron pseudo-elements on .fi-sidebar-item, .fi-sidebar-group-btn, and .fi-breadcrumbs-item via transform: scaleX(-1) on ::after.'
         );
     }
 
@@ -170,9 +172,9 @@ class Ai293RtlIconFlipContractTest extends TestCase
         );
 
         $this->assertStringContainsString(
-            '[dir="rtl"] .fi-sidebar-nav-item',
+            '[dir="rtl"] .fi-sidebar-item',
             $built,
-            'Built bundle must carry the [dir="rtl"] .fi-sidebar-nav-item pseudo-element flip selector.'
+            'Built bundle must carry the [dir="rtl"] .fi-sidebar-item pseudo-element flip selector (Filament v5 renamed .fi-sidebar-nav-item → .fi-sidebar-item).'
         );
 
         $this->assertStringContainsString(

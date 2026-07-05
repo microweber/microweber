@@ -89,8 +89,9 @@ class Ai518CustomerTouchTargetContractTest extends TestCase
     public function profile_checkbox_field_wrapper_floors_44_height(): void
     {
         $block = $this->profileBlock();
+        // Filament v5 renamed the field wrapper fi-fo-field-wrp → fi-fo-field.
         $this->assertMatchesRegularExpression(
-            '/body\.fi-panel-profile\s+\.fi-fo-field-wrp:has\(\.fi-checkbox-input\)\s*\{[^}]*min-height:\s*44px;[^}]*\}/s',
+            '/body\.fi-panel-profile\s+\.fi-fo-field:has\(\.fi-checkbox-input\)\s*\{[^}]*min-height:\s*44px;[^}]*\}/s',
             $block,
             'profile panel: field-wrapper containing `.fi-checkbox-input` must floor 44h'
         );

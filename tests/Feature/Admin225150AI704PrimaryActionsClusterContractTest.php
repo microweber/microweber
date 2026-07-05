@@ -168,8 +168,10 @@ class Admin225150AI704PrimaryActionsClusterContractTest extends TestCase
     #[Test]
     public function add_button_label_has_visible_typography(): void
     {
+        // Filament v5 drops the custom `class` on <x-filament::button>, so the
+        // marker moved to the WRAPPER and the CSS is now `.admin-toolbar-add .fi-btn`.
         $this->assertMatchesRegularExpression(
-            '/\.fi-btn\.admin-toolbar-add\s+\.admin-toolbar-add__label\s*\{[^}]*font-size:\s*14px/s',
+            '/\.admin-toolbar-add\s+\.fi-btn\s+\.admin-toolbar-add__label\s*\{[^}]*font-size:\s*14px/s',
             $this->generalStyles,
             'AI-704 CHANGE: the visible .admin-toolbar-add__label must carry readable typography.'
         );
@@ -182,14 +184,14 @@ class Admin225150AI704PrimaryActionsClusterContractTest extends TestCase
         // v2.0.20 admin — a 4px rectangle (not the 999px/--radius-pill), still
         // the light-blue MW fill.
         $this->assertMatchesRegularExpression(
-            '/\.fi-btn\.admin-toolbar-add[\s\S]*?\{[^}]*border-radius:\s*4px/s',
+            '/\.admin-toolbar-add\s+\.fi-btn[\s\S]*?\{[^}]*border-radius:\s*4px/s',
             $this->generalStyles,
-            '.fi-btn.admin-toolbar-add must keep its 4px button radius.'
+            '.admin-toolbar-add .fi-btn must keep its 4px button radius.'
         );
         $this->assertMatchesRegularExpression(
-            '/\.fi-btn\.admin-toolbar-add\s+svg\s*\{[^}]*width:\s*16px\s*!important/s',
+            '/\.admin-toolbar-add\s+\.fi-btn\s+svg\s*\{[^}]*width:\s*16px\s*!important/s',
             $this->generalStyles,
-            'The Plus icon inside .fi-btn.admin-toolbar-add must stay 16px.'
+            'The Plus icon inside .admin-toolbar-add .fi-btn must stay 16px.'
         );
     }
 

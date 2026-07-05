@@ -66,9 +66,11 @@ class ListPages extends \Modules\Content\Filament\Admin\ContentResource\Pages\Li
         // AI-736's 3 compounding issues. Surfaces 2 (paginator
         // hide-when-≤10) and 3 (collapse row actions to ≤3) tracked
         // as AI-736a / AI-736b follow-ups.
+        // The "+" is part of the label (matching the empty-state CTA "+ Add page"
+        // per AI-736); do NOT also set ->icon('heroicon-o-plus') or the button
+        // renders a double plus (plus icon + literal "+" in the text).
         $actions[] = Actions\CreateAction::make()
-            ->label('Add page')
-            ->icon('heroicon-o-plus')
+            ->label('+ Add page')
             ->color('primary');
 
         // Check if there's no homepage set
