@@ -256,6 +256,12 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->register(\MicroweberPackages\FileUploader\FileUploaderServiceProvider::class);
 
+        // Autoload-only package (PSR-4 in root composer.json, no composer require),
+        // so its extra.laravel.providers is not auto-discovered — register manually,
+        // like FileUploader above. Loads the 'mw-modal-teleport' view namespace the
+        // ModalTeleportPlugin render hook renders.
+        $this->app->register(\MicroweberPackages\FilamentModalTeleport\ModalTeleportServiceProvider::class);
+
         $this->app->register(CoreServiceProvider::class);
 
         $this->setEnvironmentDetection();

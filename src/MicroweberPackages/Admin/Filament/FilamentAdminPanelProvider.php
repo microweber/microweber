@@ -22,6 +22,7 @@ use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
+use MicroweberPackages\FilamentModalTeleport\ModalTeleportPlugin;
 use Modules\Product\Filament\Admin\Resources\ProductResource;
 use Filament\Http\Middleware\Authenticate;
 
@@ -472,6 +473,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->plugin($tableToggle);
 
         $panel->plugin(new MicroweberFilamentTheme());
+        $panel->plugin(ModalTeleportPlugin::make());
         $panel->plugin(new UsersFilamentPlugin());
         //    $panel->plugin(new MarketplaceFilamentPlugin());
         $panel->plugin(new MultilanguageFilamentPlugin());

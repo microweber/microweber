@@ -13,21 +13,21 @@
  *   $data = $arguments['data'] ?? []; so the action mounts safely with or
  *   without a data key present.
  *
- * Fix 2 — JS DOM teleport (replaced broken CSS pointer-events approach):
- *   fi-modal is rendered by Filament inside fi-main-ctn. fi-main-ctn creates
- *   a CSS stacking context during Filament panel transitions (opacity, transform)
- *   that traps fi-modal-window-ctn (position:fixed, z:200) in the same
- *   compositor layer, causing Chrome's elementFromPoint to return fi-main-ctn
- *   for ALL modal coordinates — modal inputs are un-clickable.
- *   CSS-only approaches (pointer-events:none, isolation, overflow) all failed
- *   in testing. Proven fix: after each Livewire commit, an IIFE in
- *   iframe-page.blade.php teleports fi-modal to be a direct sibling of
- *   fi-main-ctn (child of fi-layout), removing it from the stacking context.
- *   Stale copies from prior commit cycles are cleaned up via :scope > .fi-modal
- *   before appending the freshly-rendered one.
+ * Fix 2 — modal `inert` neutralization (root-cause fix, package-based):
+ *   Diagnosed in-browser: an open Filament modal focus-trap marks background
+ *   content `inert`. Inline form/schema-action modals render INSIDE `.fi-main`,
+ *   so `.fi-main` (an ANCESTOR of the modal) gets `inert` and it propagates
+ *   into the modal — visible but un-clickable, every click falls through to
+ *   `.fi-main-ctn`. The microweber-filament-modal-teleport package clears
+ *   `inert` on any element that contains an open modal, IN PLACE (no DOM move,
+ *   so Livewire wire:model/wire:submit keep working). This supersedes both the
+ *   old DOM-teleport IIFE (broke Livewire when the modal left the component
+ *   root) and the CSS stacking-context attempt (inert is not CSS; had no effect).
+ *   The package is registered as a Filament plugin: ModalTeleportPlugin::make().
+ *   See: packages/microweber-filament-modal-teleport/
  *
  * References: AdminLiveEditPage.php:445, :463, :484
- *             iframe-page.blade.php (fi-modal stacking-context escape IIFE)
+ *             packages/microweber-filament-modal-teleport/
  */
 
 namespace Tests\Feature;
@@ -155,104 +155,75 @@ class LiveEditModuleSettingsPointerEventsContractTest extends TestCase
     }
 
     // -----------------------------------------------------------------------
-    // JS Fix — DOM teleport out of fi-main-ctn stacking context
+    // Fix 2 — modal `inert` neutralization (package-based, in place)
     // -----------------------------------------------------------------------
 
     /**
-     * iframe-page.blade.php must contain the teleport IIFE that moves fi-modal
-     * to be a direct child of fi-layout (sibling of fi-main-ctn) after each
-     * Livewire commit. This is the proven fix for modal inputs being blocked
-     * by fi-main-ctn's compositor layer — confirmed by elementsFromPoint
-     * returning fi-modal-window-ctn after teleport vs fi-main-ctn before.
+     * The old DOM teleport IIFE must be REMOVED from iframe-page.blade.php.
+     * The fix now lives in the microweber-filament-modal-teleport package
+     * (clears the ancestor `inert`, no DOM relocation).
      */
-    public function test_blade_contains_teleport_iife(): void
+    public function test_old_dom_teleport_iife_removed(): void
     {
-        $this->assertStringContainsString(
-            '(function ()',
-            $this->bladeSrc,
-            'Teleport IIFE must be present in iframe-page.blade.php'
-        );
-        $this->assertStringContainsString(
-            'doTeleport',
-            $this->bladeSrc,
-            'Teleport function doTeleport must be defined'
-        );
-        $this->assertStringContainsString(
+        $this->assertStringNotContainsString(
             'layout.appendChild(modal)',
-            $this->bladeSrc,
-            'Teleport must move fi-modal into fi-layout via appendChild'
+            $this->bladeExecutable,
+            'Old DOM teleport (appendChild) must be removed — replaced by the inert-fix package.'
         );
     }
 
     /**
-     * The teleport function must clean up stale copies accumulated from prior
-     * Livewire commit cycles before appending the fresh fi-modal. Livewire's
-     * morphdom re-inserts fi-modal into fi-main-ctn on each commit; without
-     * this cleanup, teleported orphans accumulate in fi-layout.
+     * iframe-page.blade.php must reference the package in a comment so
+     * developers know where the stacking-context fix now lives.
      */
-    public function test_teleport_removes_stale_copies_via_scope_selector(): void
+    public function test_blade_references_package(): void
     {
         $this->assertStringContainsString(
-            ':scope > .fi-modal',
+            'microweber-filament-modal-teleport',
             $this->bladeSrc,
-            'Teleport must clean up stale copies via :scope > .fi-modal on fi-layout'
-        );
-        $this->assertStringContainsString(
-            '.remove()',
-            $this->bladeSrc,
-            'Stale teleported copies must be removed before appending the fresh fi-modal'
+            'iframe-page.blade.php must reference the modal-teleport package.'
         );
     }
 
     /**
-     * The modal selector inside doTeleport must target .fi-modal INSIDE
-     * .fi-main-ctn — not the bare document-level .fi-modal, which would
-     * wrongly select an already-teleported copy sitting in fi-layout.
+     * The package must ship the inert-neutralization JS: the assets view must
+     * remove `inert` from elements that contain an open modal. Guards against a
+     * regression back to the (ineffective) CSS/opacity or (Livewire-breaking)
+     * DOM-teleport approaches.
      */
-    public function test_teleport_modal_selector_targets_fi_main_ctn(): void
+    public function test_package_assets_clear_inert_on_open_modals(): void
     {
+        $root = dirname(__DIR__, 2);
+        $assetsPath = $root . '/packages/microweber-filament-modal-teleport/resources/views/modal-teleport-assets.blade.php';
+        $this->assertFileExists($assetsPath, 'Package assets view must exist.');
+
+        $assets = file_get_contents($assetsPath);
         $this->assertStringContainsString(
-            ".fi-main-ctn .fi-modal",
-            $this->bladeSrc,
-            'Modal selector must be .fi-main-ctn .fi-modal (not bare .fi-modal)'
+            "removeAttribute('inert')",
+            $assets,
+            'Package must clear the ancestor `inert` that traps inline modals.'
+        );
+        // Must NOT move the modal in the DOM (that severs Livewire bindings).
+        $this->assertStringNotContainsString(
+            'appendChild(modal)',
+            $assets,
+            'Fix must be in place — no DOM relocation of the modal (breaks wire:model/wire:submit).'
         );
     }
 
     /**
-     * The teleport hook must be registered via Livewire.hook('commit') so it
-     * fires after each Livewire commit+morph cycle. The succeed callback
-     * ensures doTeleport only runs on successful commits, and requestAnimationFrame
-     * defers until after Alpine has also processed its reactive updates.
+     * ModalTeleportPlugin must be registered in the admin panel provider.
      */
-    public function test_teleport_registered_via_livewire_commit_succeed(): void
+    public function test_plugin_registered_in_admin_panel(): void
     {
-        $this->assertStringContainsString(
-            "Livewire.hook('commit'",
-            $this->bladeSrc,
-            "Teleport must register via Livewire.hook('commit', ...)"
-        );
-        $this->assertStringContainsString(
-            'ref.succeed(',
-            $this->bladeSrc,
-            'succeed callback must be used so teleport only runs on successful commits'
-        );
-        $this->assertStringContainsString(
-            'requestAnimationFrame(doTeleport)',
-            $this->bladeSrc,
-            'rAF defers teleport until after Alpine reactive updates settle'
-        );
-    }
+        $root = dirname(__DIR__, 2);
+        $providerPath = $root . '/src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php';
+        $provider = file_get_contents($providerPath);
 
-    /**
-     * The hook registration must guard for the case where Livewire is not yet
-     * initialized, by listening for livewire:initialized before registering.
-     */
-    public function test_teleport_has_livewire_initialized_fallback(): void
-    {
         $this->assertStringContainsString(
-            'livewire:initialized',
-            $this->bladeSrc,
-            'Must listen for livewire:initialized as fallback when Livewire boots after x-init'
+            'ModalTeleportPlugin::make()',
+            $provider,
+            'ModalTeleportPlugin must be registered in FilamentAdminPanelProvider.'
         );
     }
 }

@@ -1,0 +1,18 @@
+/*
+ * ═══════════════════════════════════════════════════════════════════════════
+ *  Filament Modal Inert Fix — supporting CSS
+ *  Package: microweber-packages/filament-modal-teleport
+ * ═══════════════════════════════════════════════════════════════════════════
+ *
+ * The fix is JS-only (see modal-teleport-assets.blade.php): inline form/schema
+ * action modals get trapped by an `inert` attribute placed on an ANCESTOR
+ * (`.fi-main`) by the modal focus-trap, which makes the modal itself inert —
+ * visible but un-clickable. The JS clears that `inert` in place (no DOM move,
+ * so Livewire bindings stay intact).
+ *
+ * `inert` is not a CSS property, so there is nothing to fix here. This file is
+ * intentionally (almost) empty — kept only so the plugin's `file_get_contents`
+ * has a target and so publishing/overrides have a home. Do NOT re-add
+ * opacity/transform/z-index "stacking-context" overrides: they were verified
+ * NOT to affect the bug (the cause is `inert`, not stacking).
+ */
