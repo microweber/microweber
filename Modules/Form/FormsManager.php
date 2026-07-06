@@ -506,7 +506,7 @@ class FormsManager
         }
 
         // Save Atachments
-        $files_utils = new \MicroweberPackages\Utils\System\Files();
+        $files_utils = mw_filesystem();
 
         $allowedFilesForSave = [];
         $uploadFilesValidation = [];
@@ -535,7 +535,7 @@ class FormsManager
                 if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
                     foreach ($field['options']['file_types'] as $optionFileTypes) {
                         if (!empty($optionFileTypes)) {
-                            $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
+                            $mimeTypesString = $files_utils->getAllowedExtensionsForUpload($optionFileTypes);
                             $mimeTypesArray = explode(',', $mimeTypesString);
                             $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
                         }
@@ -543,7 +543,7 @@ class FormsManager
                 }
 
                 if (empty($mimeTypes)) {
-                    $mimeTypes = $files_utils->get_allowed_files_extensions_for_upload('images');
+                    $mimeTypes = $files_utils->getAllowedExtensionsForUpload('images');
                 }
 
                 if (!empty($mimeTypes) && is_array($mimeTypes)) {
@@ -621,7 +621,7 @@ class FormsManager
                         continue;
                     }
 
-                    if ($files_utils->is_dangerous_file($file['full_path'])) {
+                    if ($files_utils->isDangerousFile($file['full_path'])) {
                         return array(
                             'form_errors' => array(
                                 $fieldName => 'This file is not allowed to be uploaded'
@@ -639,7 +639,7 @@ class FormsManager
                             // Load the dirty svg
                             $dirtySVG = file_get_contents($filePath);
                             // Pass it to the sanitizer and get it back clean
-                            $valid = $files_utils->check_if_svg_is_valid($dirtySVG);
+                            $valid = $files_utils->checkIfSvgIsValid($dirtySVG);
 
                             if (!$valid) {
                                 @unlink($filePath);

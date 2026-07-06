@@ -963,7 +963,7 @@ class CartService
         ]);
 
         $fieldRules = [];
-        $filesUtils = new \MicroweberPackages\Utils\System\Files();
+        $filesUtils = mw_filesystem();
         $inputFields = [];
         $fieldsValidationRules = [];
 
@@ -1014,17 +1014,17 @@ class CartService
      * Get MIME types for file upload validation.
      *
      * @param array $cf
-     * @param \MicroweberPackages\Utils\System\Files $filesUtils
+     * @param \MicroweberPackages\Filesystem\FilesystemService $filesUtils
      * @return array|string
      */
-    protected function getMimeTypes(array $cf, \MicroweberPackages\Utils\System\Files $filesUtils)
+    protected function getMimeTypes(array $cf, \MicroweberPackages\Filesystem\FilesystemService $filesUtils)
     {
         $mimeTypes = [];
 
         if (isset($cf['options']['file_types']) && !empty($cf['options']['file_types'])) {
             foreach ($cf['options']['file_types'] as $optionFileTypes) {
                 if (!empty($optionFileTypes)) {
-                    $mimeTypesString = $filesUtils->get_allowed_files_extensions_for_upload($optionFileTypes);
+                    $mimeTypesString = $filesUtils->getAllowedExtensionsForUpload($optionFileTypes);
                     $mimeTypesArray = explode(',', $mimeTypesString);
                     $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
                 }
@@ -1032,7 +1032,7 @@ class CartService
         }
 
         if (empty($mimeTypes)) {
-            $mimeTypes = $filesUtils->get_allowed_files_extensions_for_upload('images');
+            $mimeTypes = $filesUtils->getAllowedExtensionsForUpload('images');
         }
 
         return $mimeTypes;

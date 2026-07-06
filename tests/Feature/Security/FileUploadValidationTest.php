@@ -61,8 +61,8 @@ class FileUploadValidationTest extends TestCase
         ];
 
         foreach ($dangerousExtensions as $ext) {
-            $filesUtils = new \MicroweberPackages\Utils\System\Files();
-            $isDangerous = $filesUtils->is_dangerous_file("test.{$ext}");
+            $filesUtils = mw_filesystem();
+            $isDangerous = $filesUtils->isDangerousFile("test.{$ext}");
             $this->assertTrue($isDangerous, "Extension .{$ext} should be flagged as dangerous");
         }
     }
@@ -82,8 +82,8 @@ class FileUploadValidationTest extends TestCase
         ];
 
         foreach ($safeExtensions as $ext) {
-            $filesUtils = new \MicroweberPackages\Utils\System\Files();
-            $isAllowed = $filesUtils->is_allowed_file("test.{$ext}");
+            $filesUtils = mw_filesystem();
+            $isAllowed = $filesUtils->isAllowedFile("test.{$ext}");
             $this->assertTrue($isAllowed, "Extension .{$ext} should be allowed");
         }
     }
@@ -276,8 +276,8 @@ class FileUploadValidationTest extends TestCase
         $this->assertTrue($sizeResult['valid']);
 
         // Test dangerous file check (returns bool|null, so check for falsy value)
-        $filesUtils = new \MicroweberPackages\Utils\System\Files();
-        $isDangerous = $filesUtils->is_dangerous_file('test.jpg');
+        $filesUtils = mw_filesystem();
+        $isDangerous = $filesUtils->isDangerousFile('test.jpg');
         $this->assertTrue($isDangerous === false || $isDangerous === null);
     }
 }

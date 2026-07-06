@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a6c046dcc9bf1c824aa314056eff6f41",
+    "content-hash": "5efbc5f4d955d6ca656a566927d80819",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10149,6 +10149,73 @@
                 }
             ],
             "description": "Standalone event manager package for Laravel. Provides a simple event binding and triggering system that can be used in any Laravel application.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/filesystem",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-filesystem",
+                "reference": "9a880a29f19b8136e3d4942039c4df770858b086"
+            },
+            "require": {
+                "enshrined/svg-sanitize": "^0.18|^0.19|^0.20|^0.21|^0.22",
+                "illuminate/filesystem": "^10.0|^11.0|^12.0",
+                "illuminate/http": "^10.0|^11.0|^12.0",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\Filesystem\\FilesystemServiceProvider"
+                    ],
+                    "aliases": {
+                        "MwFilesystem": "MicroweberPackages\\Filesystem\\Facades\\MwFilesystem"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Filesystem\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Filesystem\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel filesystem service: file utilities, path normalization, directory operations, extension validation, and SVG sanitization",
             "homepage": "http://microweber.com",
             "support": {
                 "email": "support@microweber.com"

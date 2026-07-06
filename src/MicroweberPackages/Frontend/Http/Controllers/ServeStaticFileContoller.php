@@ -48,8 +48,8 @@ class ServeStaticFileContoller extends Controller
 
         abort_if(in_array(strtolower($ext), $this->skip_ext), 403);
 
-        $filesUtils = new \MicroweberPackages\Utils\System\Files();
-        if ($filesUtils->is_allowed_file($path)) {
+        $filesUtils = mw_filesystem();
+        if ($filesUtils->isAllowedFile($path)) {
             abort(403, 'File not allowed');
         }
 

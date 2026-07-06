@@ -4,7 +4,6 @@ namespace Modules\Media\Repositories;
 
 use Conner\Tagging\Model\Tagged;
 use Illuminate\Support\Str;
-use MicroweberPackages\Utils\System\Files;
 use MicroweberPackages\Thumbnailer\Libs\PHPImageMagician\ImageLib;
 use Modules\Media\Models\Media;
 use Modules\Media\Models\MediaThumbnail;
@@ -105,7 +104,7 @@ class MediaManager
     public function upload($data)
     {
 
-        $files_utils = new Files();
+        $files_utils = mw_filesystem();
 
 
         ini_set('upload_max_filesize', '2500M');
@@ -136,7 +135,7 @@ class MediaManager
             if (isset($data['name'])) {
                 $data['name'] = app()->url_manager->clean_url_wrappers($data['name']);
 
-                $is_dangerous_file = $files_utils->is_dangerous_file($data['name']);
+                $is_dangerous_file = $files_utils->isDangerousFile($data['name']);
                 if ($is_dangerous_file) {
                     return;
                 }
@@ -170,7 +169,7 @@ class MediaManager
                 $item['name'] = app()->url_manager->clean_url_wrappers($item['name']);
                 $extension = get_file_extension($item['name']);
 
-                $is_dangerous_file = $files_utils->is_dangerous_file($data['name']);
+                $is_dangerous_file = $files_utils->isDangerousFile($data['name']);
                 if ($is_dangerous_file) {
                     return;
                 }

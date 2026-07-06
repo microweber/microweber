@@ -182,8 +182,8 @@ class DatabaseSave
         $filename = media_uploads_path() . $photoId . '.tmp';
         $filenameUrl = media_uploads_url() . $photoId . '.tmp';
 
-        $files_utils = new \MicroweberPackages\Utils\System\Files();
-        $is_allowed_file = $files_utils->is_allowed_file($imageUrl);
+        $files_utils = mw_filesystem();
+        $is_allowed_file = $files_utils->isAllowedFile($imageUrl);
         if (!$is_allowed_file) {
             return false;
         }

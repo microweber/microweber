@@ -198,8 +198,8 @@ if (!function_exists('renderVideoModule')) {
 
         $thumbnailApplied = false;
         if (!empty($thumb)) {
-            $filesUtils = new \MicroweberPackages\Utils\System\Files();
-            if ($filesUtils->is_allowed_file($thumb)) {
+            $filesUtils = mw_filesystem();
+            if ($filesUtils->isAllowedFile($thumb)) {
                 $video->setThumbnail($thumb);
                 $thumbnailApplied = true;
             }

@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Utils\Zip;
 
 use Illuminate\Support\Str;
-use MicroweberPackages\Utils\System\Files;
 
 class ZipArchiveExtractor
 {
@@ -48,8 +47,8 @@ class ZipArchiveExtractor
             }
             if (!$isFilenameInvalid) {
                 if ($this->allowedFilesCheck) {
-                    $filesUtils = new Files();
-                    $isAllowed = $filesUtils->is_allowed_file($zipFileBasename);
+                    $filesUtils = mw_filesystem();
+                    $isAllowed = $filesUtils->isAllowedFile($zipFileBasename);
                     if ($isAllowed) {
                         $canIUnzipTheFile = true;
                         $selectedFilesForUnzip[] = $zipFileBasename;

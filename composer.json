@@ -133,6 +133,7 @@
         "microweber-packages/frontend-assets": "^1.0",
         "microweber-packages/frontend-assets-libs": "^1.0",
         "microweber-packages/laravel-helper-functions": "^1.0",
+        "microweber-packages/filesystem": "^1.0",
         "microweber-packages/microweber-filament-theme": "^1.0",
         "microweber-packages/taggable-file-cache": "^1.0",
         "microweber-packages/config": "^1.0",
@@ -195,6 +196,7 @@
             "MicroweberPackages\\Event\\": "packages/microweber-event-manager/src/",
             "MicroweberPackages\\Http\\": "packages/microweber-http/src/",
             "MicroweberPackages\\FileUploader\\": "packages/microweber-file-uploader/src/",
+            "MicroweberPackages\\Filesystem\\": "packages/microweber-filesystem/src/",
             "MicroweberPackages\\FilamentRegistry\\": "packages/microweber-filament-registry/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
@@ -202,6 +204,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
+            "packages/microweber-filesystem/src/helpers.php",
             "packages/microweber-database/src/functions/helpers.php",
             "src/MicroweberPackages/Option/helpers/options.php",
             "packages/microweber-event-manager/src/helpers.php",
@@ -220,7 +223,8 @@
             "Tests\\": "tests/",
             "MicroweberPackages\\Searchable\\Tests\\": "packages/microweber-searchable/tests/",
             "MicroweberPackages\\FilamentRegistry\\Tests\\": "packages/microweber-filament-registry/tests/",
-            "MicroweberPackages\\FileUploader\\Tests\\": "packages/microweber-file-uploader/tests/"
+            "MicroweberPackages\\FileUploader\\Tests\\": "packages/microweber-file-uploader/tests/",
+            "MicroweberPackages\\Filesystem\\Tests\\": "packages/microweber-filesystem/tests/"
         }
     },
     "scripts": {
@@ -359,6 +363,14 @@
         {
             "type": "path",
             "url": "packages/microweber-format"
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-filesystem",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
         },
         {
             "type": "composer",

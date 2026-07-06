@@ -60,8 +60,8 @@ class NewFormEntryAutoRespond extends Notification
 
             if ($appendFilesAll) {
                 foreach ($appendFilesAll as $appendFile) {
-                    $files_utils = new \MicroweberPackages\Utils\System\Files();
-                    $is_allowed_file = $files_utils->is_allowed_file($appendFile);
+                    $files_utils = mw_filesystem();
+                    $is_allowed_file = $files_utils->isAllowedFile($appendFile);
                     if (!$is_allowed_file) {
                         continue;
                     }

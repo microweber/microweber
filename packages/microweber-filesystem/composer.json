@@ -1,0 +1,59 @@
+{
+    "name": "microweber-packages/filesystem",
+    "description": "Standalone Laravel filesystem service: file utilities, path normalization, directory operations, extension validation, and SVG sanitization",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/filesystem": "^10.0|^11.0|^12.0",
+        "illuminate/http": "^10.0|^11.0|^12.0",
+        "enshrined/svg-sanitize": "^0.18|^0.19|^0.20|^0.21|^0.22"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\Filesystem\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\Filesystem\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MicroweberPackages\\Filesystem\\FilesystemServiceProvider"
+            ],
+            "aliases": {
+                "MwFilesystem": "MicroweberPackages\\Filesystem\\Facades\\MwFilesystem"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "homepage": "http://microweber.com",
+    "support": {
+        "email": "support@microweber.com"
+    }
+}

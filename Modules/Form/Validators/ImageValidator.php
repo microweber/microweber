@@ -11,8 +11,7 @@ class ImageValidator   {
     public function validate($attribute, $value, $parameters, Validator $validator) {
 
 
-        $files_utils = new \MicroweberPackages\Utils\System\Files();
-        $dangerous = $files_utils->get_dangerous_files_extentions();
+        $dangerous = mw_filesystem()->getDangerousExtensions();
 
         if (!method_exists($value,'clientExtension')) {
             return false;
