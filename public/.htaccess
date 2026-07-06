@@ -103,16 +103,13 @@ ForceType 'text/css; charset=UTF-8'
   </IfModule>
 </FilesMatch>
 
-# Block sensitive directories and paths
-<DirectoryMatch "^/\.">
-  <IfModule mod_authz_core.c>
-    Require all denied
-  </IfModule>
-  <IfModule !mod_authz_core.c>
-    Order deny,allow
-    Deny from all
-  </IfModule>
-</DirectoryMatch>
+# Block sensitive dot-directories and dot-files (except .well-known).
+# NOTE: <DirectoryMatch> is a server/vhost-only directive and is illegal in
+# .htaccess (causes a fatal "not allowed here" -> HTTP 500 on every request).
+# Use a mod_rewrite guard instead, which is valid in per-directory context.
+<IfModule mod_rewrite.c>
+  RewriteRule "(?:^|/)\.(?!well-known(?:/|$))" - [F,L]
+</IfModule>
 
 # Block webhook config and MCP/sensitive API files
 <FilesMatch "webhook|secret|private|token|credential|\.(pem|key|crt)$">
