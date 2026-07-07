@@ -28,7 +28,7 @@ use MicroweberPackages\Console\Commands\ReloadDatabaseCommand;
 use MicroweberPackages\Console\Commands\UpdateCommand;
 use MicroweberPackages\Console\Commands\MakeDuskColorPaletteTestCommand;
 use MicroweberPackages\Console\Commands\VendorAssetsSymlinkCommand;
-use MicroweberPackages\Core\Providers\CoreServiceProvider;
+use MicroweberPackages\Core\CoreServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentRegistryServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentServiceProvider;
@@ -184,6 +184,14 @@ class AppServiceProvider extends ServiceProvider
     {
         //  return;
         //app()->usePublicPath(base_path());
+
+        // Load every Microweber + third-party package FIRST, in a deterministic
+        // order (auto-discovery is disabled via composer `dont-discover: ["*"]`).
+        // Registered here — the app's single master provider — rather than in
+        // bootstrap/providers.php, keeping all wiring in one place (this is where
+        // the former Core\Providers\CoreServiceProvider was registered too).
+        $this->app->register(CoreServiceProvider::class);
+
         if (is_https() or (Config::get('microweber.force_https') && !is_cli())) {
             URL::forceScheme("https");
         }
@@ -261,8 +269,6 @@ class AppServiceProvider extends ServiceProvider
         // like FileUploader above. Loads the 'mw-modal-teleport' view namespace the
         // ModalTeleportPlugin render hook renders.
         $this->app->register(\MicroweberPackages\FilamentModalTeleport\ModalTeleportServiceProvider::class);
-
-        $this->app->register(CoreServiceProvider::class);
 
         $this->setEnvironmentDetection();
         $this->registerUtils();

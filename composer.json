@@ -199,6 +199,7 @@
             "MicroweberPackages\\Filesystem\\": "packages/microweber-filesystem/src/",
             "MicroweberPackages\\FilamentRegistry\\": "packages/microweber-filament-registry/src/",
             "MicroweberPackages\\FilamentModalTeleport\\": "packages/microweber-filament-modal-teleport/src/",
+            "MicroweberPackages\\Core\\": "packages/microweber-core/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
@@ -226,7 +227,8 @@
             "MicroweberPackages\\FilamentRegistry\\Tests\\": "packages/microweber-filament-registry/tests/",
             "MicroweberPackages\\FilamentModalTeleport\\Tests\\": "packages/microweber-filament-modal-teleport/tests/",
             "MicroweberPackages\\FileUploader\\Tests\\": "packages/microweber-file-uploader/tests/",
-            "MicroweberPackages\\Filesystem\\Tests\\": "packages/microweber-filesystem/tests/"
+            "MicroweberPackages\\Filesystem\\Tests\\": "packages/microweber-filesystem/tests/",
+            "MicroweberPackages\\Core\\Tests\\": "packages/microweber-core/tests/"
         }
     },
     "scripts": {
@@ -241,7 +243,6 @@
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi",
             "@publish-assets",
             "@php artisan filament:upgrade"
         ],
@@ -312,27 +313,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-                "nwidart/laravel-modules",
-                "microweber-packages/microweber-app",
-                "microweber-packages/config",
-                "microweber-packages/database",
-                "microweber-packages/db-migrator",
-                "microweber-packages/db-installer",
-                "microweber-packages/event-manager",
-                "microweber-packages/translation",
-                "laravel/passport",
-                "laravel/sanctum",
-                "laravel/cashier",
-                "laravel/fortify",
-                "wire-elements/modal",
-                "rappasoft/laravel-livewire-tables",
-                "mhmiton/laravel-modules-livewire",
-                "savannabits/filament-modules",
-                "coolsam/modules",
-                "rtconner/laravel-tagging",
-                "butschster/meta-tags"
-            ]
+            "dont-discover": ["*"]
         },
         "merge-plugin": {
             "require": [
