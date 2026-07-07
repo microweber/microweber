@@ -41,6 +41,14 @@
 #                     (creates user root@localhost with password 'root').
 #   --pgsql           install PostgreSQL server and set the postgres superuser
 #                     password to 'postgres' (postgres@localhost).
+#   --apache-fpm      install Apache2 + php<ver>-fpm, enable mod_proxy_fcgi and
+#                     the matching PHP-FPM conf so Apache forwards .php requests
+#                     to the FPM socket. Enables mod_rewrite + mod_headers too.
+#                     Mutually exclusive with --apache-fcgi.
+#   --apache-fcgi     install Apache2 + php<ver>-cgi + libapache2-mod-fcgid so
+#                     Apache executes PHP via FastCGI (mod_fcgid). Enables
+#                     mod_rewrite + mod_headers too. Mutually exclusive with
+#                     --apache-fpm.
 #   --skip-system     do not apt-install PHP/extensions, Xdebug, or the Chrome browser
 #   --skip-composer   do not run composer install
 #   --skip-node       do not install/build the packages/* Node bundles
@@ -75,6 +83,8 @@ SKIP_COMPOSER=0
 SKIP_NODE=0
 MYSQL=0
 PGSQL=0
+APACHE_FPM=0
+APACHE_FCGI=0
 
 # Resolve the repo root (this script lives in <root>/scripts/).
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -109,6 +119,8 @@ while [ $# -gt 0 ]; do
     --install)       INSTALL=1 ;;
     --mysql)         MYSQL=1 ;;
     --pgsql)         PGSQL=1 ;;
+    --apache-fpm)    APACHE_FPM=1 ;;
+    --apache-fcgi)   APACHE_FCGI=1 ;;
     --skip-system)   SKIP_SYSTEM=1 ;;
     --skip-composer) SKIP_COMPOSER=1 ;;
     --skip-node)     SKIP_NODE=1 ;;
@@ -122,6 +134,12 @@ done
 # are contradictory.
 if [ "$DEV" -eq 1 ] && [ "$NO_DEV" -eq 1 ]; then
   die "--dev and --no-dev are mutually exclusive."
+fi
+
+# --apache-fpm (PHP-FPM) and --apache-fcgi (mod_fcgid) are two different PHP
+# execution models for Apache and cannot be active simultaneously.
+if [ "$APACHE_FPM" -eq 1 ] && [ "$APACHE_FCGI" -eq 1 ]; then
+  die "--apache-fpm and --apache-fcgi are mutually exclusive."
 fi
 
 # This script must run as root — it apt-installs system packages and runs
@@ -731,6 +749,83 @@ install_pgsql() {
 }
 
 # ---------------------------------------------------------------------------
+# 10. Apache2 + PHP-FPM (--apache-fpm)
+# ---------------------------------------------------------------------------
+install_apache_fpm() {
+  log "Installing Apache2 + PHP-FPM (--apache-fpm)"
+
+  if ! command -v apt-get >/dev/null 2>&1; then
+    die "Not an apt system — install Apache2 + php${PHP_VERSION}-fpm manually."
+  fi
+
+  $SUDO apt-get update -y
+  $SUDO apt-get install -y apache2 "php${PHP_VERSION}-fpm" \
+    || die "Could not install apache2 / php${PHP_VERSION}-fpm."
+
+  # Enable the modules required for PHP-FPM proxying + Laravel .htaccess.
+  $SUDO a2enmod proxy proxy_fcgi setenvif rewrite headers 2>/dev/null \
+    || warn "Some Apache modules may already be enabled or failed."
+
+  # Enable the distro-supplied PHP-FPM Apache configuration.
+  local fpm_conf="php${PHP_VERSION}-fpm"
+  if apache2ctl -M 2>/dev/null | grep -q proxy_fcgi; then
+    if $SUDO a2enconf "$fpm_conf" 2>/dev/null; then
+      ok "Apache conf ${fpm_conf} enabled"
+    else
+      warn "a2enconf ${fpm_conf} failed — you may need to configure the FPM socket path manually."
+    fi
+  fi
+
+  # Start / restart services.
+  if command -v service >/dev/null 2>&1; then
+    $SUDO service "php${PHP_VERSION}-fpm" start  2>/dev/null || true
+    $SUDO service apache2 restart 2>/dev/null    || true
+  fi
+
+  ok "Apache2 + PHP-FPM ready"
+  warn "Point your VirtualHost DocumentRoot at ${ROOT_DIR}/public and ensure"
+  warn "  <Directory> AllowOverride All is set so Laravel's .htaccess is honoured."
+}
+
+# ---------------------------------------------------------------------------
+# 11. Apache2 + PHP FastCGI via mod_fcgid (--apache-fcgi)
+# ---------------------------------------------------------------------------
+install_apache_fcgi() {
+  log "Installing Apache2 + PHP FastCGI / mod_fcgid (--apache-fcgi)"
+
+  if ! command -v apt-get >/dev/null 2>&1; then
+    die "Not an apt system — install Apache2 + libapache2-mod-fcgid + php${PHP_VERSION}-cgi manually."
+  fi
+
+  $SUDO apt-get update -y
+  $SUDO apt-get install -y apache2 "php${PHP_VERSION}-cgi" libapache2-mod-fcgid \
+    || die "Could not install apache2 / php${PHP_VERSION}-cgi / libapache2-mod-fcgid."
+
+  # Enable mod_fcgid, mod_cgid (fallback CGI), plus Laravel's required modules.
+  $SUDO a2enmod fcgid cgid rewrite headers 2>/dev/null \
+    || warn "Some Apache modules may already be enabled or failed."
+
+  # Disable mod_php if present — it conflicts with FastCGI execution.
+  if apache2ctl -M 2>/dev/null | grep -q 'php'; then
+    $SUDO a2dismod "php${PHP_VERSION}" 2>/dev/null || true
+    ok "Disabled mod_php${PHP_VERSION} (conflicts with mod_fcgid)"
+  fi
+
+  # Start / restart Apache.
+  if command -v service >/dev/null 2>&1; then
+    $SUDO service apache2 restart 2>/dev/null || true
+  fi
+
+  ok "Apache2 + PHP FastCGI (mod_fcgid) ready"
+  warn "Point your VirtualHost DocumentRoot at ${ROOT_DIR}/public."
+  warn "Add to your VirtualHost to route PHP through fcgid:"
+  warn "  Options +ExecCGI"
+  warn "  AddHandler fcgid-script .php"
+  warn "  FcgidWrapper /usr/bin/php-cgi${PHP_VERSION} .php"
+  warn "  AllowOverride All"
+}
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 echo "=========================================="
@@ -769,6 +864,14 @@ if [ "$PGSQL" -eq 1 ]; then
   install_pgsql
 fi
 
+if [ "$APACHE_FPM" -eq 1 ]; then
+  install_apache_fpm
+fi
+
+if [ "$APACHE_FCGI" -eq 1 ]; then
+  install_apache_fcgi
+fi
+
 if [ "$DEV" -eq 1 ]; then
   install_dev_tools
 fi
@@ -792,4 +895,8 @@ fi
 if [ "$DEV" -eq 1 ]; then
   echo "  php artisan dusk          # browser tests (Chrome + ChromeDriver were set up)"
   echo "  composer test-coverage    # PHPUnit with Xdebug coverage → clover.xml"
+fi
+if [ "$APACHE_FPM" -eq 1 ] || [ "$APACHE_FCGI" -eq 1 ]; then
+  echo "  Set your VirtualHost DocumentRoot to ${ROOT_DIR}/public"
+  echo "  Ensure <Directory> AllowOverride All so Laravel .htaccess is honoured"
 fi
