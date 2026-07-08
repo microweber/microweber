@@ -33,16 +33,6 @@
             "MicroweberPackages\\Thumbnailer\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\Thumbnailer\\ThumbnailerServiceProvider"
-            ],
-            "aliases": {
-                "Thumbnailer": "MicroweberPackages\\Thumbnailer\\Facades\\Thumbnailer"
-            }
-        }
-    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }

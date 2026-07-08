@@ -35,13 +35,6 @@
             "MicroweberPackages\\Security\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\Security\\SecurityServiceProvider"
-            ]
-        }
-    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

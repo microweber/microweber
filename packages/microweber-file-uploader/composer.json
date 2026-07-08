@@ -32,16 +32,6 @@
             "MicroweberPackages\\FileUploader\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\FileUploader\\FileUploaderServiceProvider"
-            ],
-            "aliases": {
-                "FileUploader": "MicroweberPackages\\FileUploader\\Facades\\FileUploader"
-            }
-        }
-    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

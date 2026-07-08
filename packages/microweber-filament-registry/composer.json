@@ -47,16 +47,6 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\FilamentRegistry\\FilamentRegistryServiceProvider"
-            ],
-            "aliases": {
-                "FilamentRegistry": "MicroweberPackages\\FilamentRegistry\\Facades\\FilamentRegistry"
-            }
-        }
-    },
     "homepage": "http://microweber.com",
     "support": {
         "email": "support@microweber.com"

@@ -29,13 +29,6 @@
             "MicroweberPackages\\Searchable\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\Searchable\\SearchableServiceProvider"
-            ]
-        }
-    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

@@ -5,8 +5,8 @@ namespace MicroweberPackages\Core;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * CoreServiceProvider — deterministic, ordered loading of every Microweber
- * sub-package.
+ * CoreServiceProvider — deterministic, ordered loading of Microweber
+ * sub-packages only.
  *
  * Why this exists:
  *   Laravel's package auto-discovery reads `vendor/composer/installed.json`,
@@ -17,33 +17,42 @@ use Illuminate\Support\ServiceProvider;
  *   similar errors because the `files` autoload for
  *   `microweber-filesystem/src/helpers.php` has not been executed yet.
  *
- *   This provider registers every internal package provider in a fixed,
- *   deterministic order, and the `dont-discover: ["*"]` directive in the root
- *   `composer.json` tells Laravel to skip auto-discovery entirely.
+ *   This provider registers every *internal* Microweber package provider in a
+ *   fixed, deterministic order, while third-party packages are left to
+ *   Laravel's normal auto-discovery mechanism.  The `dont-discover` list in
+ *   the root `composer.json` names only Microweber packages (not "*"), so
+ *   every third-party library (Filament, Livewire, Spatie, etc.) is discovered
+ *   automatically — no need to hardcode them here.
  *
  *   In the Microweber monorepo it is registered as the very first statement of
  *   `AppServiceProvider::register()` (the app's single master provider, and the
- *   only entry in `bootstrap/providers.php`), so every package loads before the
- *   rest of the application registers.
+ *   only entry in `bootstrap/providers.php`), so every MW package loads before
+ *   the rest of the application registers.
  *
  * Usage in a standalone Laravel app:
  *   1. `composer require microweber-packages/core`
- *   2. Register `\MicroweberPackages\Core\CoreServiceProvider::class` early — as
- *      the first entry of `bootstrap/providers.php`, or from the top of your own
- *      `AppServiceProvider::register()`.
+ *   2. The CoreServiceProvider auto-discovers via its own `extra.laravel.providers`
+ *      key, or register it manually as the first entry of `bootstrap/providers.php`.
  */
 class CoreServiceProvider extends ServiceProvider
 {
     /**
+     * Third-party providers that Microweber code depends on at REGISTER time,
+     * so they must be registered before the rest of the app boots.
+     *
+     * These stay auto-discovered too (they are NOT in the root `dont-discover`
+     * list), but auto-discovery registers them only *after* AppServiceProvider —
+     * too late for MW providers that call e.g. `Livewire::component()` inside
+     * their own `register()` (which needs `livewire.finder` to already exist).
+     * Registering them here (idempotently — Laravel de-dupes) fixes the order
+     * without hardcoding the ~55 other third-party providers.
+     */
+    protected array $earlyThirdPartyProviders = [
+        \Livewire\LivewireServiceProvider::class,
+    ];
+
+    /**
      * Internal Microweber package providers, in dependency order.
-     *
-     * Lower-level packages (filesystem, helpers, config) come first so their
-     * helper functions and singletons are available when higher-level packages
-     * boot.
-     *
-     * Each entry is a fully-qualified class name.  The provider is only
-     * registered if the class actually exists (allows the core package to be
-     * used in lighter installations where not every sub-package is present).
      */
     protected array $packageProviders = [
         // ── Layer 0: Foundation helpers (functions, filesystem, format) ──
@@ -58,102 +67,41 @@ class CoreServiceProvider extends ServiceProvider
         \MicroweberPackages\BladeCache\BladeCacheServiceProvider::class,
 
         // ── Layer 2: Database, repositories, search ──
+        \MicroweberPackages\Database\DatabaseManagerServiceProvider::class,
         \MicroweberPackages\Repository\Providers\RepositoryServiceProvider::class,
         \MicroweberPackages\Searchable\SearchableServiceProvider::class,
         \MicroweberPackages\Url\Providers\UrlServiceProvider::class,
 
-        // ── Layer 3: Media / thumbnailer ──
+        // ── Layer 3: Database migrations / install ──
+        \MicroweberPackages\DbMigrator\DbMigratorServiceProvider::class,
+        \MicroweberPackages\DbInstaller\DbInstallerServiceProvider::class,
+
+        // ── Layer 4: Event system, translation ──
+        \MicroweberPackages\Event\EventManagerServiceProvider::class,
+        \MicroweberPackages\Translation\Providers\TranslationServiceProvider::class,
+
+        // ── Layer 5: Media / thumbnailer ──
         \MicroweberPackages\Thumbnailer\ThumbnailerServiceProvider::class,
 
-        // ── Layer 4: Frontend assets ──
+        // ── Layer 6: File uploader ──
+        \MicroweberPackages\FileUploader\FileUploaderServiceProvider::class,
+
+        // ── Layer 7: Frontend assets ──
         \MicroweberPackages\FrontendAssets\MicroweberFrontendAssetsServiceProvider::class,
         \MicroweberPackages\FrontendAssetsLibs\MicroweberFrontendAssetsLibsServiceProvider::class,
 
-        // ── Layer 5: PhpQuery ──
+        // ── Layer 8: CSS framework (publishes assets under the `public` tag) ──
+        \MicroweberPackages\CssFrameworkBootstrap\Providers\CssFrameworkServiceProvider::class,
+
+        // ── Layer 9: PhpQuery ──
         \MicroweberPackages\PhpQuery\Providers\PhpQueryServiceProvider::class,
-    ];
 
-    /**
-     * Third-party providers that were previously auto-discovered.
-     *
-     * Listed here so they load deterministically.  We still guard with
-     * class_exists() in case the dependency is optional or was removed.
-     */
-    protected array $thirdPartyProviders = [
-        \Carbon\Laravel\ServiceProvider::class,
-        \Akaunting\Money\Provider::class,
-        \Barryvdh\DomPDF\ServiceProvider::class,
-        \BezhanSalleh\LanguageSwitch\LanguageSwitchServiceProvider::class,
-        \BladeUI\Icons\BladeIconsServiceProvider::class,
-        \BladeUI\Heroicons\BladeHeroiconsServiceProvider::class,
-        \BobiMicroweber\FilamentFlatpickr\FilamentFlatpickrServiceProvider::class,
-        \Coolsam\Flatpickr\FlatpickrServiceProvider::class,
-        \Coolsam\Modules\ModulesServiceProvider::class,
-        \DutchCodingCompany\FilamentSocialite\FilamentSocialiteServiceProvider::class,
-        \EloquentFilter\ServiceProvider::class,
-        \Filament\Support\SupportServiceProvider::class,
-        \Filament\Actions\ActionsServiceProvider::class,
-        \Filament\FilamentServiceProvider::class,
-        \Filament\Forms\FormsServiceProvider::class,
-        \Filament\Infolists\InfolistsServiceProvider::class,
-        \Filament\Notifications\NotificationsServiceProvider::class,
-        \Filament\QueryBuilder\QueryBuilderServiceProvider::class,
-        \Filament\Schemas\SchemasServiceProvider::class,
-        \Filament\Tables\TablesServiceProvider::class,
-        \Filament\Widgets\WidgetsServiceProvider::class,
-        \Flowframe\Trend\TrendServiceProvider::class,
-        \Fruitcake\LaravelDebugbar\ServiceProvider::class,
-        \GrahamCampbell\Markdown\MarkdownServiceProvider::class,
-        \Hydrat\TableLayoutToggle\TableLayoutToggleServiceProvider::class,
-        \Intervention\Image\Laravel\ServiceProvider::class,
-        \JaOcero\RadioDeck\RadioDeckServiceProvider::class,
-        \Jenssegers\Agent\AgentServiceProvider::class,
-        \Jantinnerezo\LivewireRangeSlider\LivewireRangeSliderServiceProvider::class,
-        \Kirschbaum\PowerJoins\PowerJoinsServiceProvider::class,
-        \L5Swagger\L5SwaggerServiceProvider::class,
-        \LaraZeus\Accordion\AccordionServiceProvider::class,
-        \LaraZeus\SpatieTranslatable\SpatieTranslatableServiceProvider::class,
-        \Laravel\Passkeys\PasskeysServiceProvider::class,
-        \Laravel\Socialite\SocialiteServiceProvider::class,
-        \Laravel\Tinker\TinkerServiceProvider::class,
-        \Livewire\LivewireServiceProvider::class,
-        \Mtrajano\LaravelSwagger\SwaggerServiceProvider::class,
-        \NetTantra\FilamentSliderInputField\FilamentSliderInputFieldServiceProvider::class,
-        \NunoMaduro\Collision\Adapters\Laravel\CollisionServiceProvider::class,
-        \RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider::class,
-        \SolutionForest\FilamentTranslateField\FilamentTranslateFieldServiceProvider::class,
-        \Spatie\GoogleTagManager\GoogleTagManagerServiceProvider::class,
-        \Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
-        \Spatie\Menu\Laravel\MenuServiceProvider::class,
-        \Spatie\Permission\PermissionServiceProvider::class,
-        \Spatie\Translatable\TranslatableServiceProvider::class,
-        \Squire\CountriesServiceProvider::class,
-        \Squire\CountriesEnServiceProvider::class,
-        \Squire\CurrenciesServiceProvider::class,
-        \Squire\CurrenciesEnServiceProvider::class,
-        \Squire\ModelServiceProvider::class,
-        \Squire\RepositoryServiceProvider::class,
-        \Squire\TimezonesServiceProvider::class,
-        \Squire\TimezonesEnServiceProvider::class,
-        \Termwind\Laravel\TermwindServiceProvider::class,
-        \Tightenco\Ziggy\ZiggyServiceProvider::class,
-        \Arcanedev\SeoHelper\SeoHelperServiceProvider::class,
-        \BobiMicroweber\FilamentDropdownColumn\FilamentDropdownColumnServiceProvider::class,
-    ];
+        // ── Layer 10: Filament integration ──
+        \MicroweberPackages\FilamentRegistry\FilamentRegistryServiceProvider::class,
+        \MicroweberPackages\FilamentModalTeleport\ModalTeleportServiceProvider::class,
 
-    /**
-     * Dev / testing providers that were previously auto-discovered.
-     *
-     * These ship in `require-dev`, so their classes only exist in a dev or
-     * testing install — the `class_exists()` guard skips them in production,
-     * exactly reproducing Laravel's auto-discovery behaviour. Without these,
-     * `php artisan dusk`, `dusk:chrome-driver` and `composer insights` would
-     * silently lose their commands once auto-discovery is disabled.
-     */
-    protected array $devProviders = [
-        \Laravel\Dusk\DuskServiceProvider::class,
-        \Staudenmeir\DuskUpdater\DuskServiceProvider::class,
-        \NunoMaduro\PhpInsights\Application\Adapters\Laravel\InsightsServiceProvider::class,
+        // ── Layer 11: Config (Microweber extended config) ──
+        \MicroweberPackages\Config\ConfigServiceProvider::class,
     ];
 
     /**
@@ -161,22 +109,21 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Register Microweber internal packages first (dependency order).
+        // Third-party providers our own providers depend on at register time
+        // (e.g. Livewire) must come first — auto-discovery would load them too
+        // late. De-duped by Laravel, so auto-discovery re-registering is a no-op.
+        foreach ($this->earlyThirdPartyProviders as $provider) {
+            if (class_exists($provider)) {
+                $this->app->register($provider);
+            }
+        }
+
+        // Register Microweber internal packages in strict dependency order.
+        // The other ~55 third-party packages are auto-discovered by Laravel —
+        // they are NOT listed here.  Only our own packages are suppressed from
+        // auto-discovery (via the dont-discover list in root composer.json) and
+        // loaded manually.
         foreach ($this->packageProviders as $provider) {
-            if (class_exists($provider)) {
-                $this->app->register($provider);
-            }
-        }
-
-        // Register third-party providers that were previously auto-discovered.
-        foreach ($this->thirdPartyProviders as $provider) {
-            if (class_exists($provider)) {
-                $this->app->register($provider);
-            }
-        }
-
-        // Register dev/testing providers (only present in dev installs).
-        foreach ($this->devProviders as $provider) {
             if (class_exists($provider)) {
                 $this->app->register($provider);
             }
@@ -203,21 +150,5 @@ class CoreServiceProvider extends ServiceProvider
     public function getPackageProviders(): array
     {
         return $this->packageProviders;
-    }
-
-    /**
-     * Get the list of third-party providers.
-     */
-    public function getThirdPartyProviders(): array
-    {
-        return $this->thirdPartyProviders;
-    }
-
-    /**
-     * Get the list of dev/testing providers.
-     */
-    public function getDevProviders(): array
-    {
-        return $this->devProviders;
     }
 }

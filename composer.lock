@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ddb9281b148a1785779e5369399aa8f",
+    "content-hash": "e330b5ef67cba97dfae5f23f652b6310",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9240,19 +9240,9 @@
             "dist": {
                 "type": "path",
                 "url": "packages/filament-modules",
-                "reference": "b686e0b477da0ff3b7b288be6da7deda64b950c0"
+                "reference": "8ce90d6efea49de418c189e114eb4c83c8f5303e"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Coolsam\\Modules\\ModulesServiceProvider"
-                    ],
-                    "aliases": {
-                        "FilamentModules": "FilamentModules"
-                    }
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Coolsam\\Modules\\": "src/",
@@ -9672,7 +9662,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-blade-cache",
-                "reference": "b477db24dbb7c783d6a6d35ddbb94df870dbac6b"
+                "reference": "21f27edea0e8d3c4f371d31258540990e3e6a2ef"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
@@ -9685,13 +9675,6 @@
                 "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\BladeCache\\BladeCacheServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\BladeCache\\": "src/"
@@ -9774,7 +9757,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-config",
-                "reference": "2b6ded5ddd568157d2d36e6780c872096c3a4f4e"
+                "reference": "c560583e6326132d808adb9b2ce910d8054ef623"
             },
             "require": {
                 "illuminate/config": "^10.0|^11.0|^12.0",
@@ -9786,13 +9769,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Config\\ConfigServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Config\\": "src/"
@@ -9841,7 +9817,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-database",
-                "reference": "7e0f586cf697a1bdea23dc08c0635b8c8afb137b"
+                "reference": "91d37f1aa46c56edcb2a7d99fe7a13ca3af02024"
             },
             "require": {
                 "graham-campbell/markdown": "^15.0|^16.0",
@@ -9859,16 +9835,6 @@
                 "doctrine/dbal": "Required only for the Postgres schema-introspection path in Utils (guarded; throws a friendly error if missing)."
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Database\\DatabaseManagerServiceProvider"
-                    ],
-                    "aliases": {
-                        "DatabaseManager": "MicroweberPackages\\Database\\DatabaseManagerFacade"
-                    }
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Database\\": "src/"
@@ -9916,7 +9882,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-db-installer",
-                "reference": "b96102dc855b3b6cee3669a54e44099b38a9e237"
+                "reference": "f11cb0384bb10b0006f4780b35cfd1701ac8796b"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0",
@@ -9928,13 +9894,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\DbInstaller\\DbInstallerServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\DbInstaller\\": "src/"
@@ -9975,7 +9934,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-db-migrator",
-                "reference": "a1f3d8b78040f0c90370eb1838183444274811eb"
+                "reference": "771f71ff9a6c5abff35badbe33fafa86c63975da"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0",
@@ -9988,13 +9947,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\DbMigrator\\DbMigratorServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\DbMigrator\\": "src/"
@@ -10035,7 +9987,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-env-writer",
-                "reference": "93ecf3c368f7e3fd1be9bb930f5ffb88e38a5350"
+                "reference": "15481a8b6c1f6a17cd131c00ff463b840be938c7"
             },
             "require": {
                 "php": "^8.1"
@@ -10045,13 +9997,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\EnvWriter\\EnvWriterServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\EnvWriter\\": "src/"
@@ -10096,7 +10041,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-event-manager",
-                "reference": "0d4d6caa3416af48815bc2533dc3379024a62ac8"
+                "reference": "d704251c775be6dacc826818a19e3259e814b3ba"
             },
             "require": {
                 "illuminate/support": "^10.0|^11.0|^12.0",
@@ -10107,16 +10052,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Event\\EventManagerServiceProvider"
-                    ],
-                    "aliases": {
-                        "EventManager": "MicroweberPackages\\Event\\EventManagerFacade"
-                    }
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Event\\": "src/"
@@ -10164,7 +10099,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filesystem",
-                "reference": "9a880a29f19b8136e3d4942039c4df770858b086"
+                "reference": "3b33d70fc6f0e3bca5f6157339463595429057b5"
             },
             "require": {
                 "enshrined/svg-sanitize": "^0.18|^0.19|^0.20|^0.21|^0.22",
@@ -10178,16 +10113,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Filesystem\\FilesystemServiceProvider"
-                    ],
-                    "aliases": {
-                        "MwFilesystem": "MicroweberPackages\\Filesystem\\Facades\\MwFilesystem"
-                    }
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Filesystem\\": "src/"
@@ -10231,7 +10156,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-format",
-                "reference": "5d32525b756b7418823e1fbcdbca434c2286b8ba"
+                "reference": "f6b4ba47c75b23b1818562cf5894fe4aacf46389"
             },
             "require": {
                 "hashids/hashids": "^5.0|^4.0",
@@ -10245,13 +10170,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Format\\FormatServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Format\\": "src/"
@@ -10291,16 +10209,9 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets",
-                "reference": "37f623c75b9f34e5ab542ae21756dc41e351dc3a"
+                "reference": "8b842516bc594d6bad27884a1c0f32e252f387d2"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\FrontendAssets\\MicroweberFrontendAssetsServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\FrontendAssets\\": "src/"
@@ -10332,19 +10243,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets-libs",
-                "reference": "4ef4eee49c04cc6b81cde68e4eded824fe27bd62"
+                "reference": "46b9d9e4ef19bcd8b7a5f1b31af966a33523a524"
             },
             "require": {
                 "php": "^8.1"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\FrontendAssetsLibs\\MicroweberFrontendAssetsLibsServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\FrontendAssetsLibs\\": "src/"
@@ -10380,7 +10284,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-http",
-                "reference": "7dcff50948136eba94a82002bc8e7fdb08958c43"
+                "reference": "c410288c9c2b3b5236d2e40d0d742d846160f4cc"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.0",
@@ -10393,13 +10297,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Http\\HttpServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Http\\": "src/"
@@ -10472,15 +10369,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
-                "reference": "5767e6d1f3ab60a5d8e9380037357300a082bb99"
+                "reference": "2bda0493df48f16dc70e284d48e7243fd6e33c75"
             },
             "require": {
                 "php": "^8.1"
             },
             "type": "library",
-            "extra": {
-                "laravel": []
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\MicroweberFilamentTheme\\": "src/"
@@ -10568,7 +10462,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-phpquery",
-                "reference": "e34dcbdf25bdd8aa437622101eceb22fd80543a2"
+                "reference": "9ddb5355c057c74b14786b53011c3bdee8d201f7"
             },
             "require": {
                 "ext-dom": "*",
@@ -10581,16 +10475,6 @@
                 "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\PhpQuery\\Providers\\PhpQueryServiceProvider"
-                    ],
-                    "aliases": {
-                        "PhpQuery": "MicroweberPackages\\PhpQuery\\Facades\\PhpQueryFacade"
-                    }
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\PhpQuery\\": "src/"
@@ -10625,7 +10509,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-repository",
-                "reference": "075ab0fe986ef67122fa04ec085a20557f6e12af"
+                "reference": "18e76fad053995b7e8d6fe8f9587b37dbc93667e"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0",
@@ -10641,13 +10525,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Repository\\Providers\\RepositoryServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Repository\\": "src/"
@@ -10684,7 +10561,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-searchable",
-                "reference": "87e9b9aab027cdcfb937e9d021c8167af9f6df75"
+                "reference": "d13a3f3545cb3d6dd1e8a20ec19067ef2149d568"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0",
@@ -10696,13 +10573,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Searchable\\SearchableServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Searchable\\": "src/"
@@ -10739,7 +10609,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-security",
-                "reference": "a0efa8505384469a75a95f592d9bce0d5b880396"
+                "reference": "4a319b168cf319da958094a60dbc494e7c90484f"
             },
             "require": {
                 "ezyang/htmlpurifier": "^4.18",
@@ -10753,13 +10623,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Security\\SecurityServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Security\\": "src/"
@@ -10804,7 +10667,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-taggable-file-cache",
-                "reference": "80b394d6bf4cfb4e86244e0fc0a1881103c8b3f5"
+                "reference": "b70266608cffee97cad3be7603fbd308a6ddd546"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
@@ -10818,13 +10681,6 @@
                 "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\TaggableFileCache\\TaggableFileCacheServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\TaggableFileCache\\": "src/"
@@ -10864,7 +10720,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-thumbnailer",
-                "reference": "7d1f25dbdb7023f016ce7c7a78c2c170e9ff90d5"
+                "reference": "c5414baa4c64409d831a56dbce98ee81943a7b60"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
@@ -10877,16 +10733,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Thumbnailer\\ThumbnailerServiceProvider"
-                    ],
-                    "aliases": {
-                        "Thumbnailer": "MicroweberPackages\\Thumbnailer\\Facades\\Thumbnailer"
-                    }
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Thumbnailer\\": "src/"
@@ -10921,7 +10767,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-translation",
-                "reference": "7a9b1315ebac0fc4d95b632ccc039c240331fec6"
+                "reference": "c3eea632392d6437c7e62eab5cf52416907cc2e1"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0",
@@ -10938,13 +10784,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Translation\\Providers\\TranslationServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Translation\\": "src/"
@@ -10985,7 +10824,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-url",
-                "reference": "8dce63896be36d289882c0ed3b1be0df1a958a0a"
+                "reference": "9cd83c4ff839f8a37cc0480ff6b2706a627401a5"
             },
             "require": {
                 "illuminate/routing": "^10.0|^11.0|^12.0",
@@ -10997,13 +10836,6 @@
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Url\\Providers\\UrlServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Url\\": "src/"
@@ -11027,6 +10859,35 @@
                 }
             ],
             "description": "URL management package for Microweber - can be used standalone with any Laravel application",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber/css-framework-bootstrap",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-css-framework-bootstrap",
+                "reference": "c4b9ac26e5f502d8d135a510776a65af0e59ca4e"
+            },
+            "type": "microweber-package",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\CssFrameworkBootstrap\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Shared Microweber CSS framework based on Bootstrap with semantic --mw- CSS variables",
             "transport-options": {
                 "symlink": true,
                 "relative": true

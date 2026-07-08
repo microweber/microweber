@@ -24,13 +24,6 @@
         "sort-packages": true,
         "allow-plugins": {}
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\FrontendAssets\\MicroweberFrontendAssetsServiceProvider"
-            ]
-        }
-    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "version": "1.0.0"

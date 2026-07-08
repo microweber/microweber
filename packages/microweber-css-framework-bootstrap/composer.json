@@ -2,6 +2,7 @@
     "name": "microweber/css-framework-bootstrap",
     "description": "Shared Microweber CSS framework based on Bootstrap with semantic --mw- CSS variables",
     "type": "microweber-package",
+    "version": "1.0.0",
     "license": "MIT",
     "authors": [
         {
@@ -12,13 +13,6 @@
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\CssFrameworkBootstrap\\": ""
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\CssFrameworkBootstrap\\Providers\\CssFrameworkServiceProvider"
-            ]
         }
     }
 }

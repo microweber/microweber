@@ -30,13 +30,6 @@
             "MicroweberPackages\\DbMigrator\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\DbMigrator\\DbMigratorServiceProvider"
-            ]
-        }
-    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

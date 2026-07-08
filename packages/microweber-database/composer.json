@@ -42,16 +42,6 @@
             "MicroweberPackages\\Database\\tests\\": "src/tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\Database\\DatabaseManagerServiceProvider"
-            ],
-            "aliases": {
-                "DatabaseManager": "MicroweberPackages\\Database\\DatabaseManagerFacade"
-            }
-        }
-    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

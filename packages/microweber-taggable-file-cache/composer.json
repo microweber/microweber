@@ -34,13 +34,6 @@
             "MicroweberPackages\\TaggableFileCache\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\TaggableFileCache\\TaggableFileCacheServiceProvider"
-            ]
-        }
-    },
     "homepage": "http://microweber.com",
     "license": "MIT",
     "support": {

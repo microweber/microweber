@@ -33,15 +33,5 @@
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
         "phpunit/phpunit": "^10.0|^11.0|^12.0"
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\PhpQuery\\Providers\\PhpQueryServiceProvider"
-            ],
-            "aliases": {
-                "PhpQuery": "MicroweberPackages\\PhpQuery\\Facades\\PhpQueryFacade"
-            }
-        }
-    },
     "version": "1.0.0"
 }

@@ -43,13 +43,6 @@
             "MicroweberPackages\\Translation\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\Translation\\Providers\\TranslationServiceProvider"
-            ]
-        }
-    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

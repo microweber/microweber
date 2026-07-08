@@ -47,13 +47,6 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\FilamentModalTeleport\\ModalTeleportServiceProvider"
-            ]
-        }
-    },
     "homepage": "http://microweber.com",
     "support": {
         "email": "support@microweber.com"

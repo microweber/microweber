@@ -33,13 +33,6 @@
             "MicroweberPackages\\Repository\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\Repository\\Providers\\RepositoryServiceProvider"
-            ]
-        }
-    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

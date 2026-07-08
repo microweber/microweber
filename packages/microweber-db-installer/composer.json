@@ -29,13 +29,6 @@
             "MicroweberPackages\\DbInstaller\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\DbInstaller\\DbInstallerServiceProvider"
-            ]
-        }
-    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

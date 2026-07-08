@@ -40,16 +40,6 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\Event\\EventManagerServiceProvider"
-            ],
-            "aliases": {
-                "EventManager": "MicroweberPackages\\Event\\EventManagerFacade"
-            }
-        }
-    },
     "homepage": "http://microweber.com",
     "support": {
         "email": "support@microweber.com"

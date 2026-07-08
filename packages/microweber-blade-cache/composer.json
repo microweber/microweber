@@ -29,13 +29,6 @@
             "MicroweberPackages\\BladeCache\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\BladeCache\\BladeCacheServiceProvider"
-            ]
-        }
-    },
     "homepage": "http://microweber.com",
     "license": "MIT",
     "support": {

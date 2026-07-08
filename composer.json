@@ -132,6 +132,7 @@
         "microweber-dev/omnipay-przelewy24": "^0.2",
         "microweber-packages/frontend-assets": "^1.0",
         "microweber-packages/frontend-assets-libs": "^1.0",
+        "microweber/css-framework-bootstrap": "^1.0",
         "microweber-packages/laravel-helper-functions": "^1.0",
         "microweber-packages/filesystem": "^1.0",
         "microweber-packages/microweber-filament-theme": "^1.0",
@@ -313,7 +314,49 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": ["*"]
+            "dont-discover": [
+                "microweber-packages/core",
+                "microweber-packages/filesystem",
+                "microweber-packages/format",
+                "microweber-packages/security",
+                "microweber-packages/http",
+                "microweber-packages/taggable-file-cache",
+                "microweber-packages/env-writer",
+                "microweber-packages/blade-cache",
+                "microweber-packages/repository",
+                "microweber-packages/searchable",
+                "microweber-packages/url",
+                "microweber-packages/thumbnailer",
+                "microweber-packages/frontend-assets",
+                "microweber-packages/frontend-assets-libs",
+                "microweber-packages/phpquery",
+                "microweber-packages/config",
+                "microweber-packages/database",
+                "microweber-packages/db-migrator",
+                "microweber-packages/db-installer",
+                "microweber-packages/event-manager",
+                "microweber-packages/translation",
+                "microweber-packages/laravel-helper-functions",
+                "microweber-packages/filament-registry",
+                "microweber-packages/filament-modal-teleport",
+                "microweber-packages/microweber-filament-theme",
+                "microweber-packages/file-uploader",
+                "microweber/css-framework-bootstrap",
+                "microweber-deps/filament-modules",
+
+                "nwidart/laravel-modules",
+                "coolsam/modules",
+                "savannabits/filament-modules",
+                "mhmiton/laravel-modules-livewire",
+                "wire-elements/modal",
+                "rappasoft/laravel-livewire-tables",
+                "rtconner/laravel-tagging",
+                "butschster/meta-tags",
+                "laravel/passport",
+                "laravel/sanctum",
+                "laravel/cashier",
+                "laravel/fortify"
+            ]
         },
         "merge-plugin": {
             "require": [
@@ -350,6 +393,14 @@
         {
             "type": "path",
             "url": "packages/microweber-filesystem",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-css-framework-bootstrap",
             "options": {
                 "reference": "config",
                 "symlink": true

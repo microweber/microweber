@@ -34,16 +34,6 @@
             "MicroweberPackages\\Filesystem\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\Filesystem\\FilesystemServiceProvider"
-            ],
-            "aliases": {
-                "MwFilesystem": "MicroweberPackages\\Filesystem\\Facades\\MwFilesystem"
-            }
-        }
-    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

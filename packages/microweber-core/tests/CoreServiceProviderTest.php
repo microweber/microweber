@@ -7,8 +7,8 @@ use MicroweberPackages\Core\CoreServiceProvider;
 
 /**
  * Tests for the CoreServiceProvider — the deterministic package loader
- * that replaces Laravel's auto-discovery to eliminate race conditions
- * under php-fpm / php-cgi.
+ * that loads Microweber packages in strict order, while letting
+ * third-party packages auto-discover normally.
  */
 class CoreServiceProviderTest extends TestCase
 {
@@ -32,13 +32,32 @@ class CoreServiceProviderTest extends TestCase
     }
 
     /**
-     * The third-party providers list is not empty.
+     * CoreServiceProvider should only list Microweber providers,
+     * not third-party ones.
      */
-    public function test_third_party_providers_list_is_not_empty(): void
+    public function test_only_microweber_providers_are_listed(): void
     {
         $provider = $this->app->getProvider(CoreServiceProvider::class);
         $this->assertNotNull($provider);
-        $this->assertNotEmpty($provider->getThirdPartyProviders());
+
+        // These are the only allowed provider namespaces (our own packages)
+        $allowedPrefixes = [
+            'MicroweberPackages\\',
+        ];
+
+        foreach ($provider->getPackageProviders() as $providerClass) {
+            $allowed = false;
+            foreach ($allowedPrefixes as $prefix) {
+                if (str_starts_with($providerClass, $prefix)) {
+                    $allowed = true;
+                    break;
+                }
+            }
+            $this->assertTrue(
+                $allowed,
+                "Provider {$providerClass} should be a Microweber package, not a third-party library"
+            );
+        }
     }
 
     /**
@@ -107,25 +126,6 @@ class CoreServiceProviderTest extends TestCase
                     $providerClass,
                     $loadedProviders,
                     "Package provider {$providerClass} exists but was not registered"
-                );
-            }
-        }
-    }
-
-    /**
-     * Third-party providers that exist should be registered.
-     */
-    public function test_all_available_third_party_providers_are_registered(): void
-    {
-        $provider = $this->app->getProvider(CoreServiceProvider::class);
-        $loadedProviders = $this->app->getLoadedProviders();
-
-        foreach ($provider->getThirdPartyProviders() as $providerClass) {
-            if (class_exists($providerClass)) {
-                $this->assertArrayHasKey(
-                    $providerClass,
-                    $loadedProviders,
-                    "Third-party provider {$providerClass} exists but was not registered"
                 );
             }
         }
