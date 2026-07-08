@@ -1,3 +1,14 @@
+{{--
+    Bootstrap flex pagination — standard Laravel paginator API.
+
+    Kept as a flat, backward-compatible view name (`pagination::bootstrap-4-flex`,
+    `mw-pagination::bootstrap-4-flex`) for existing callers such as
+    Modules\Blog\FrontendFilter\Traits\PaginationTrait (its default theme).
+    Unlike the package's `bootstrap/flex` view — which uses the custom
+    MicroweberPackages\Pagination\Paginator API (resolveClass/sizeClass/elements) —
+    this one works with a plain Illuminate LengthAwarePaginator, so modules that
+    call $eloquentPaginator->links('pagination::bootstrap-4-flex') keep working.
+--}}
 @if ($paginator->hasPages())
     <nav>
         <ul class="pagination flex-wrap justify-content-center">

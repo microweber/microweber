@@ -1,0 +1,39 @@
+{
+    "name": "microweber-packages/pagination",
+    "description": "Unified, reusable pagination package for Laravel — Bootstrap, Tailwind, dropdown styles with size variants and windowed page links.",
+    "version": "1.0.0",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/pagination": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/view": "^10.0|^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\Pagination\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\Pagination\\Tests\\": "tests/"
+        }
+    },
+    "homepage": "http://microweber.com",
+    "license": "MIT",
+    "support": {
+        "email": "support@microweber.com"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -201,6 +201,7 @@
             "MicroweberPackages\\FilamentRegistry\\": "packages/microweber-filament-registry/src/",
             "MicroweberPackages\\FilamentModalTeleport\\": "packages/microweber-filament-modal-teleport/src/",
             "MicroweberPackages\\Core\\": "packages/microweber-core/src/",
+            "MicroweberPackages\\Pagination\\": "packages/microweber-pagination/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
@@ -229,7 +230,8 @@
             "MicroweberPackages\\FilamentModalTeleport\\Tests\\": "packages/microweber-filament-modal-teleport/tests/",
             "MicroweberPackages\\FileUploader\\Tests\\": "packages/microweber-file-uploader/tests/",
             "MicroweberPackages\\Filesystem\\Tests\\": "packages/microweber-filesystem/tests/",
-            "MicroweberPackages\\Core\\Tests\\": "packages/microweber-core/tests/"
+            "MicroweberPackages\\Core\\Tests\\": "packages/microweber-core/tests/",
+            "MicroweberPackages\\Pagination\\Tests\\": "packages/microweber-pagination/tests/"
         }
     },
     "scripts": {
