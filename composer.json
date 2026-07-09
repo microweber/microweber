@@ -200,6 +200,7 @@
             "MicroweberPackages\\Filesystem\\": "packages/microweber-filesystem/src/",
             "MicroweberPackages\\FilamentRegistry\\": "packages/microweber-filament-registry/src/",
             "MicroweberPackages\\FilamentModalTeleport\\": "packages/microweber-filament-modal-teleport/src/",
+            "MicroweberPackages\\AppBootstrapCache\\": "packages/microweber-app-bootstrap-cache/src/",
             "MicroweberPackages\\ConfigMerge\\": "packages/microweber-config-merge/src/",
             "MicroweberPackages\\Core\\": "packages/microweber-core/src/",
             "MicroweberPackages\\Pagination\\": "packages/microweber-pagination/src/",
@@ -231,6 +232,7 @@
             "MicroweberPackages\\FilamentModalTeleport\\Tests\\": "packages/microweber-filament-modal-teleport/tests/",
             "MicroweberPackages\\FileUploader\\Tests\\": "packages/microweber-file-uploader/tests/",
             "MicroweberPackages\\Filesystem\\Tests\\": "packages/microweber-filesystem/tests/",
+            "MicroweberPackages\\AppBootstrapCache\\Tests\\": "packages/microweber-app-bootstrap-cache/tests/",
             "MicroweberPackages\\ConfigMerge\\Tests\\": "packages/microweber-config-merge/tests/",
             "MicroweberPackages\\Core\\Tests\\": "packages/microweber-core/tests/",
             "MicroweberPackages\\Pagination\\Tests\\": "packages/microweber-pagination/tests/"

@@ -42,7 +42,6 @@ class BackupServiceProvider extends BaseModuleServiceProvider
     {
         $this->registerConfig();
         $this->registerViews();
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Database/migrations/');
 
         $this->mergeConfigFrom(
@@ -86,6 +85,8 @@ class BackupServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+
         // Configure backup filesystem disk
         Config::set('filesystems.disks.backup', [
             'driver' => 'local',

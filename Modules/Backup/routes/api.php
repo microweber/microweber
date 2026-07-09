@@ -6,6 +6,7 @@
  * Time: 2:36 PM
  */
 
+use Illuminate\Support\Facades\Route;
 
 
 Route::name('admin.backup.')

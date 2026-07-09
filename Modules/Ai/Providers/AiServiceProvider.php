@@ -41,6 +41,9 @@ class AiServiceProvider extends BaseModuleServiceProvider
 
     public function boot(): void
     {
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+
         $this->setAiConfig();
 
         // Register the agent factory
@@ -90,8 +93,6 @@ class AiServiceProvider extends BaseModuleServiceProvider
         $this->app->singleton(PassCommandRunner::class);
         $this->app->singleton(PassSecretStore::class);
         $this->app['router']->aliasMiddleware('mcp.client', AuthenticateMcpClient::class);
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         if ($this->app->runningInConsole()) {

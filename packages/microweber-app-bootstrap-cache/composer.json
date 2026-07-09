@@ -1,0 +1,48 @@
+{
+    "name": "microweber-packages/app-bootstrap-cache",
+    "description": "Versioned bootstrap cache paths for Laravel applications. Resolves cache file paths based on Laravel version and an optional application version, ensuring stale cached files are never loaded after upgrades.",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\AppBootstrapCache\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\AppBootstrapCache\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
+        },
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.1",
+        "illuminate/foundation": "^10.0|^11.0|^12.0",
+        "illuminate/support": "^10.0|^11.0|^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "homepage": "http://microweber.com",
+    "support": {
+        "email": "support@microweber.com"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}
