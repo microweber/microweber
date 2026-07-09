@@ -311,21 +311,30 @@ class ErrorTrackingResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::unresolved()->count() ?: null;
+        try {
+            return static::getModel()::unresolved()->count() ?: null;
+        } catch (\Throwable $e) {
+            // Missing table (fresh install / partial DB) must not white-screen the admin.
+            return null;
+        }
     }
 
     public static function getNavigationBadgeColor(): ?string
     {
-        $count = static::getModel()::unresolved()->count();
-        
+        try {
+            $count = static::getModel()::unresolved()->count();
+        } catch (\Throwable $e) {
+            return null;
+        }
+
         if ($count === 0) {
             return null;
         }
-        
+
         if ($count > 10) {
             return 'danger';
         }
-        
+
         return 'warning';
     }
 }

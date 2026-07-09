@@ -242,12 +242,17 @@ class AgentChatResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('is_active', true)
-            ->whereHas('messages', function ($query) {
-                $query->where('role', 'user')
-                    ->whereNull('processed_at');
-            })
-            ->count() ?: null;
+        try {
+            return static::getModel()::where('is_active', true)
+                ->whereHas('messages', function ($query) {
+                    $query->where('role', 'user')
+                        ->whereNull('processed_at');
+                })
+                ->count() ?: null;
+        } catch (\Throwable $e) {
+            // Missing table (fresh install / partial DB) must not white-screen the admin.
+            return null;
+        }
     }
 
     public static function getNavigationBadgeColor(): string | array | null

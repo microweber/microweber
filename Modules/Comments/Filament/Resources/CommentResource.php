@@ -36,9 +36,14 @@ return parent::getEloquentQuery()
 
     public static function getNavigationBadge(): ?string
     {
-        $count = static::getModel()::where('is_moderated', false)->where('is_spam', false)->count();
+        try {
+            $count = static::getModel()::where('is_moderated', false)->where('is_spam', false)->count();
 
-        return $count > 0 ? (string) $count : null;
+            return $count > 0 ? (string) $count : null;
+        } catch (\Throwable $e) {
+            // Missing table (fresh install / partial DB) must not white-screen the admin.
+            return null;
+        }
     }
 
     public static function getNavigationBadgeColor(): string | array | null

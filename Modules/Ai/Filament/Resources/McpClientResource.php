@@ -239,8 +239,13 @@ class McpClientResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $count = static::getModel()::active()->count();
-        return $count > 0 ? (string) $count : null;
+        try {
+            $count = static::getModel()::active()->count();
+            return $count > 0 ? (string) $count : null;
+        } catch (\Throwable $e) {
+            // Missing table (fresh install / partial DB) must not white-screen the admin.
+            return null;
+        }
     }
 
     public static function getNavigationBadgeColor(): string | array | null

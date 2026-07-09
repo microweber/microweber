@@ -506,7 +506,12 @@ class SubscriptionResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::whereIn('stripe_status', ['active', 'trialing'])->count() ?: null;
+        try {
+            return static::getModel()::whereIn('stripe_status', ['active', 'trialing'])->count() ?: null;
+        } catch (\Throwable $e) {
+            // Missing table (fresh install / partial DB) must not white-screen the admin.
+            return null;
+        }
     }
 
     public static function getNavigationBadgeColor(): string | array | null

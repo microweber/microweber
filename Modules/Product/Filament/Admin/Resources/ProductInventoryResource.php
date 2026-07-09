@@ -315,9 +315,14 @@ class ProductInventoryResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        // Count unresolved low stock alerts
-        $alertCount = \Modules\Product\Models\ProductInventoryAlert::unresolved()->count();
-        return $alertCount > 0 ? (string) $alertCount : null;
+        try {
+            // Count unresolved low stock alerts
+            $alertCount = \Modules\Product\Models\ProductInventoryAlert::unresolved()->count();
+            return $alertCount > 0 ? (string) $alertCount : null;
+        } catch (\Throwable $e) {
+            // Missing table (fresh install / partial DB) must not white-screen the admin.
+            return null;
+        }
     }
 
     public static function getNavigationBadgeColor(): string | array | null

@@ -46,9 +46,14 @@ public static function getNavigationBadgeTooltip(): ?string
 
     public static function getNavigationBadge(): ?string
     {
-        $count = static::getModel()::where('order_status', OrderStatus::New->value)->count();
+        try {
+            $count = static::getModel()::where('order_status', OrderStatus::New->value)->count();
 
-        return $count > 0 ? (string) $count : null;
+            return $count > 0 ? (string) $count : null;
+        } catch (\Throwable $e) {
+            // Missing table (fresh install / partial DB) must not white-screen the admin.
+            return null;
+        }
     }
 
     public static function getNavigationBadgeColor(): string | array | null

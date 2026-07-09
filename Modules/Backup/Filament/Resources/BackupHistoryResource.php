@@ -230,7 +230,12 @@ class BackupHistoryResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::running()->count() ?: null;
+        try {
+            return static::getModel()::running()->count() ?: null;
+        } catch (\Throwable $e) {
+            // Missing table (fresh install / partial DB) must not white-screen the admin.
+            return null;
+        }
     }
 
     /**
