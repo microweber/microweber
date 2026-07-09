@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Events\ServingAdmin;
-use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
+use MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\ModuleResource;
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\Marketplace;
@@ -51,7 +51,7 @@ use MicroweberPackages\Module\Repositories\ModuleRepository;
 
 class ModuleServiceProvider extends ServiceProvider
 {
-    use MergesConfig;
+    use MergesConfigFromPackage;
 
     /**
      * Register the application services.

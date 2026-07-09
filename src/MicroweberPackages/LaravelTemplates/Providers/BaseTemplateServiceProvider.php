@@ -4,9 +4,11 @@ namespace MicroweberPackages\LaravelTemplates\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
 
 abstract class BaseTemplateServiceProvider extends ServiceProvider
 {
+    use MergesConfigFromPackage;
     /**
      * Register config.
      */

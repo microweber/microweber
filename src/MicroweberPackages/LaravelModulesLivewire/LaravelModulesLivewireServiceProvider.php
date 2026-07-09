@@ -11,7 +11,7 @@ use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 
 class LaravelModulesLivewireServiceProvider extends \Mhmiton\LaravelModulesLivewire\LaravelModulesLivewireServiceProvider
 {
-    // use MergesConfig;
+    use \MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
     /**
      * Register services.
      *

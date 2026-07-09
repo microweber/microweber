@@ -12,7 +12,7 @@ namespace MicroweberPackages\Role;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
+use MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\Role\Filament\Resources\RoleResource;
 use MicroweberPackages\Role\Filament\Resources\PermissionResource;
@@ -20,7 +20,7 @@ use MicroweberPackages\Role\Services\ResourcePermissionService;
 
 class RoleServiceProvider extends ServiceProvider
 {
-    use MergesConfig;
+    use MergesConfigFromPackage;
 
     public function register()
     {

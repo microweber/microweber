@@ -2,13 +2,15 @@
 
 namespace MicroweberPackages\LaravelModules\Providers;
 
-use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use BladeUI\Icons\Factory;
+use MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
 
 abstract class BaseModuleServiceProvider extends ServiceProvider
 {
+    use MergesConfigFromPackage;
+
     /**
      * Register config.
      */
@@ -20,21 +22,6 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
         if (file_exists($configPath)) {
             $this->publishes([$configPath => config_path($this->moduleNameLower . '.php')], 'config');
             $this->mergeConfigFrom($configPath, 'modules.' . $this->moduleNameLower);
-        }
-    }
-
-    protected function mergeConfigFrom($path, $key)
-    {
-        if (!($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
-            $config = $this->app->make('config');
-            $configOfModule = require $path;
-            if (!is_array($configOfModule)) {
-                $configOfModule = [];
-            }
-
-            $config->set($key, array_merge(
-                $configOfModule, $config->get($key, [])
-            ));
         }
     }
 

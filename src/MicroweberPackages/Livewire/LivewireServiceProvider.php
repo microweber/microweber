@@ -31,6 +31,8 @@ use MicroweberPackages\Livewire\Mechanisms\HandleRequests\MwLivewireHandleReques
 
 class LivewireServiceProvider extends ServiceProvider
 {
+    use \MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
+
     /**
      * Whether or not to defer the loading of this service
      * provider until it's needed
@@ -38,13 +40,6 @@ class LivewireServiceProvider extends ServiceProvider
      * @var boolean
      */
     #   protected $defer = false;
-
-
-    protected function mergeConfigFrom($path, $key)
-    {
-        $config = $this->app['config']->get($key, []);
-        $this->app['config']->set($key, array_merge($config, require $path));
-    }
 
 
 //    protected function registerLivewireSingleton()

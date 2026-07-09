@@ -15,6 +15,7 @@ use MicroweberPackages\LiveEdit\Http\Livewire\VisualEditor\VisualEditorComponent
  */
 class VisualEditorServiceProvider extends ServiceProvider
 {
+    use \MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
     /**
      * Register services.
      */

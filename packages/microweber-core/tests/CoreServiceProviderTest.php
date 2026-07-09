@@ -194,12 +194,13 @@ class CoreServiceProviderTest extends TestCase
     }
 
     /**
-     * The MergesConfig concern should be available from the new package location.
+     * The config-merge concern now lives solely in the microweber-config-merge
+     * package (the old Core\Providers\Concerns\MergesConfig shim was removed).
      */
     public function test_merges_config_concern_is_available(): void
     {
         $this->assertTrue(
-            trait_exists(\MicroweberPackages\Core\Providers\Concerns\MergesConfig::class)
+            trait_exists(\MicroweberPackages\ConfigMerge\MergesConfigFromPackage::class)
         );
     }
 }

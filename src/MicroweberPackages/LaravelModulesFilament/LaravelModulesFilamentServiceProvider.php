@@ -8,6 +8,8 @@ use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 
 class LaravelModulesFilamentServiceProvider extends ModulesServiceProvider
 {
+    use \MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
+
     public function register(): void
     {
         parent::register();

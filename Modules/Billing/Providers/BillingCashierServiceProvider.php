@@ -12,6 +12,7 @@ use Modules\Payment\Models\PaymentProvider;
 
 class BillingCashierServiceProvider extends CashierServiceProvider
 {
+    use \MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
     public function register(): void
     {
         //  Cashier::ignoreMigrations();

@@ -4,7 +4,7 @@ namespace MicroweberPackages\LaravelTemplates;
 
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
-use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
+use MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
 use MicroweberPackages\LaravelTemplates\Contracts\LaravelTemplatesCacheRepositoryContract;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplatesRepositoryInterface;
@@ -21,7 +21,7 @@ use Nwidart\Modules\Support\Stub;
 
 class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesServiceProvider
 {
-    use MergesConfig;
+    use MergesConfigFromPackage;
     public function boot()
     {
 

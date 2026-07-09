@@ -16,6 +16,7 @@ use MicroweberPackages\AiTools\Registry\ToolRegistry;
  */
 class AiToolsServiceProvider extends ServiceProvider
 {
+    use \MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
     /**
      * Register services.
      *

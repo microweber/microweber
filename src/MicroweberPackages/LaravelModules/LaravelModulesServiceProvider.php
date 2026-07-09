@@ -4,7 +4,7 @@ namespace MicroweberPackages\LaravelModules;
 
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
-use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
+use MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Contracts\LaravelModulesCacheRepositoryContract;
 use MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\ModuleResource;
@@ -25,7 +25,7 @@ use Nwidart\Modules\Support\Stub;
 
 class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServiceProvider
 {
-    use MergesConfig;
+    use MergesConfigFromPackage;
 
     public function boot()
     {

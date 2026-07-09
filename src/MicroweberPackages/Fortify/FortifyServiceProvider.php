@@ -40,7 +40,7 @@ use Laravel\Fortify\Http\Responses\SimpleViewResponse;
 use Laravel\Fortify\Http\Responses\SuccessfulPasswordResetLinkRequestResponse;
 use Laravel\Fortify\Http\Responses\TwoFactorLoginResponse;
 use Laravel\Fortify\Http\Responses\VerifyEmailResponse;
-use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
+use MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
 use MicroweberPackages\Fortify\Actions\Fortify\CreateNewUser;
 use MicroweberPackages\Fortify\Actions\Fortify\ResetUserPassword;
 use MicroweberPackages\Fortify\Actions\Fortify\UpdateUserPassword;
@@ -50,7 +50,7 @@ use MicroweberPackages\User\Models\User;
 
 class FortifyServiceProvider extends \Laravel\Fortify\FortifyServiceProvider
 {
-use MergesConfig;
+use MergesConfigFromPackage;
 
     /**
      * Register any application services.
