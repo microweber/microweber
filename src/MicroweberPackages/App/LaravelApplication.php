@@ -94,10 +94,27 @@ class LaravelApplication extends Application
 
     private function _check_system()
     {
-        $this->ensureBootstrapCacheDirectoryExists();
+        $this->__ensure_bootstrap_cache_dir();
         $this->__ensure_storage_dir();
         $this->_ensure_storage_public_symlink();
         $this->__ensure_dot_env_file_exists();
+    }
+
+    private function __ensure_bootstrap_cache_dir()
+    {
+        /*
+         * fix of error: The bootstrap/cache directory must be present and writable.
+         *
+         * Uses base_path_local (not $this->basePath()/the package trait helper)
+         * because _check_system() runs BEFORE parent::__construct() sets the base
+         * path — so $this->basePath('bootstrap') would resolve to "/bootstrap".
+         */
+        $bootstrap_dir = $this->base_path_local . DIRECTORY_SEPARATOR . 'bootstrap';
+        $bootstrap_cache_dir = $bootstrap_dir . DIRECTORY_SEPARATOR . 'cache';
+
+        if (is_dir($bootstrap_dir) and (!is_dir($bootstrap_cache_dir) and !is_link($bootstrap_cache_dir))) {
+            mkdir($bootstrap_cache_dir);
+        }
     }
 
     private function _ensure_storage_public_symlink()

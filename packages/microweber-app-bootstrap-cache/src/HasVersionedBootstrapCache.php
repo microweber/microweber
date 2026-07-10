@@ -161,8 +161,12 @@ trait HasVersionedBootstrapCache
     /**
      * Ensure the bootstrap/cache directory exists.
      *
-     * Call this early (e.g. in the constructor) to avoid
-     * "bootstrap/cache directory must be present and writable" errors.
+     * NOTE: this resolves the path via $this->basePath(), so it is only correct
+     * AFTER the application's base path has been set (i.e. after
+     * Application::__construct()/setBasePath()). Do NOT call it from a subclass
+     * constructor *before* parent::__construct() — at that point basePath() is
+     * empty and it would target "/bootstrap". If you need it that early, create
+     * the directory from your own known base path instead.
      *
      * @return void
      */
