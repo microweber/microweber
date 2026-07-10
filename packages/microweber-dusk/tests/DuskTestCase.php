@@ -32,6 +32,12 @@ abstract class DuskTestCase extends BaseTestCase
             define('MW_UNIT_TEST', true);
         }
 
+        // Ensure ChromeDriver is alive before calling parent::setUp()
+        // (parent invokes driver() which needs the connection).
+        if (!static::runningInSail()) {
+            $this->ensureChromeDriverRunning();
+        }
+
         parent::setUp();
 
         // Follow the app's configured URL (config('app.url') reads APP_URL and is
@@ -43,10 +49,52 @@ abstract class DuskTestCase extends BaseTestCase
         if (!defined('MW_SITE_URL')) {
             define('MW_SITE_URL', $this->siteUrl);
         }
+    }
 
-        if (!static::runningInSail()) {
-            static::startChromeDriver(['--port=9515']);
+    /**
+     * Ensure ChromeDriver is running. If it has crashed or exited (common after
+     * long test methods), kill the old process and restart it.
+     */
+    protected function ensureChromeDriverRunning(): void
+    {
+        $driverUrl = $_ENV['DUSK_DRIVER_URL'] ?? env('DUSK_DRIVER_URL', 'http://localhost:9515');
+
+        // Quick health check — ChromeDriver /status endpoint
+        $ch = curl_init($driverUrl . '/status');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 2,
+            CURLOPT_CONNECTTIMEOUT => 2,
+        ]);
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode === 200 && $response) {
+            return; // ChromeDriver is alive
         }
+
+        // Kill any lingering ChromeDriver processes
+        static::stopChromeDriver();
+        usleep(500000); // 0.5s
+
+        // Restart
+        static::startChromeDriver(['--port=9515']);
+        usleep(1000000); // 1s to settle
+    }
+
+    /**
+     * Override to ensure screenshots and console logs go into the package's
+     * own tests directory, not the root project's.
+     */
+    protected function storeScreenshotsAt(): string
+    {
+        return base_path('packages/microweber-dusk/tests/Browser/screenshots');
+    }
+
+    protected function storeConsoleLogsAt(): string
+    {
+        return base_path('packages/microweber-dusk/tests/Browser/console');
     }
 
     /**
@@ -110,8 +158,8 @@ abstract class DuskTestCase extends BaseTestCase
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY, $options
             ),
-            60000,
-            60000
+            120000,  // connection timeout — enough for install + heavy pages
+            120000   // request timeout
         );
     }
 
