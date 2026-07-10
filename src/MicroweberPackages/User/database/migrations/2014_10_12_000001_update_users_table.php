@@ -17,6 +17,9 @@ return new class extends Migration
 
         try {
 
+            if (!Schema::hasTable('users')) { return; }
+
+
             Schema::table('users', function (Blueprint $table) {
                 if (Schema::hasIndex('users', 'users_username_index')) {
                     $table->dropUnique('users_username_index');

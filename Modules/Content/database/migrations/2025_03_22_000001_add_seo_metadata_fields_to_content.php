@@ -11,29 +11,49 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('content', function (Blueprint $table) {
-            // Add new SEO fields
-            $table->text('content_meta_description')->nullable()->after('content_meta_keywords');
-            $table->string('og_title', 500)->nullable()->after('content_meta_description');
-            $table->text('og_description')->nullable()->after('og_title');
-            $table->string('og_image')->nullable()->after('og_description');
-            $table->string('og_type', 50)->nullable()->after('og_image');
-            $table->string('twitter_title', 500)->nullable()->after('og_type');
-            $table->text('twitter_description')->nullable()->after('twitter_title');
-            $table->string('twitter_image')->nullable()->after('twitter_description');
-            $table->string('twitter_card', 50)->nullable()->after('twitter_image');
-            $table->string('canonical_url', 1000)->nullable()->after('twitter_card');
-            $table->string('robots_meta', 100)->nullable()->after('canonical_url');
-            $table->decimal('sitemap_priority', 2, 1)->default(0.5)->after('robots_meta');
-            $table->string('sitemap_changefreq', 20)->nullable()->after('sitemap_priority');
-            $table->boolean('exclude_from_sitemap')->default(false)->after('sitemap_changefreq');
+        if (!Schema::hasTable('content')) {
+            return;
+        }
+
+        // Only add columns that don't already exist
+        $columnsToAdd = [
+            'content_meta_description' => fn(Blueprint $t) => $t->text('content_meta_description')->nullable(),
+            'og_title' => fn(Blueprint $t) => $t->string('og_title', 500)->nullable(),
+            'og_description' => fn(Blueprint $t) => $t->text('og_description')->nullable(),
+            'og_image' => fn(Blueprint $t) => $t->string('og_image')->nullable(),
+            'og_type' => fn(Blueprint $t) => $t->string('og_type', 50)->nullable(),
+            'twitter_title' => fn(Blueprint $t) => $t->string('twitter_title', 500)->nullable(),
+            'twitter_description' => fn(Blueprint $t) => $t->text('twitter_description')->nullable(),
+            'twitter_image' => fn(Blueprint $t) => $t->string('twitter_image')->nullable(),
+            'twitter_card' => fn(Blueprint $t) => $t->string('twitter_card', 50)->nullable(),
+            'canonical_url' => fn(Blueprint $t) => $t->string('canonical_url', 1000)->nullable(),
+            'robots_meta' => fn(Blueprint $t) => $t->string('robots_meta', 100)->nullable(),
+            'sitemap_priority' => fn(Blueprint $t) => $t->decimal('sitemap_priority', 2, 1)->default(0.5),
+            'sitemap_changefreq' => fn(Blueprint $t) => $t->string('sitemap_changefreq', 20)->nullable(),
+            'exclude_from_sitemap' => fn(Blueprint $t) => $t->boolean('exclude_from_sitemap')->default(false),
+        ];
+
+        Schema::table('content', function (Blueprint $table) use ($columnsToAdd) {
+            foreach ($columnsToAdd as $col => $definition) {
+                if (!Schema::hasColumn('content', $col)) {
+                    $definition($table);
+                }
+            }
         });
 
         // Add indexes for SEO fields
-        Schema::table('content', function (Blueprint $table) {
-            $table->index('exclude_from_sitemap', 'idx_content_exclude_sitemap');
-            $table->index(['is_active', 'exclude_from_sitemap'], 'idx_content_active_sitemap');
-        });
+        try {
+            Schema::table('content', function (Blueprint $table) {
+                if (!Schema::hasIndex('content', 'idx_content_exclude_sitemap')) {
+                    $table->index('exclude_from_sitemap', 'idx_content_exclude_sitemap');
+                }
+                if (!Schema::hasIndex('content', 'idx_content_active_sitemap')) {
+                    $table->index(['is_active', 'exclude_from_sitemap'], 'idx_content_active_sitemap');
+                }
+            });
+        } catch (\Throwable $e) {
+            // Indexes may already exist
+        }
     }
 
     /**

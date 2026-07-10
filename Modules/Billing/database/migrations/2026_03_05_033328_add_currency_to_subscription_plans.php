@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('subscription_plans')) { return; }
+
         Schema::table('subscription_plans', function (Blueprint $table) {
             if (!Schema::hasColumn('subscription_plans', 'currency')) {
                 $table->string('currency')->default('USD')->after('price');

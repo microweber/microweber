@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('newsletter_lists')) { return; }
+
         Schema::table('newsletter_lists', function (Blueprint $table) {
             $table->text('description')->nullable()->after('name');
             $table->boolean('is_public')->default(true)->after('description');

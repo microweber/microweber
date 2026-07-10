@@ -22,7 +22,7 @@ return new class extends Migration
            $table->increments('id');
            $table->string('code')->nullable();
            $table->string('name')->nullable();
-           $table->integer('phonecode')->nullable();
+           $table->string('phonecode')->nullable();
        });
     }
 

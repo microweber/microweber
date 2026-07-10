@@ -13,6 +13,11 @@ return new class extends Migration {
 
 
 
+        if (!Schema::hasTable('customers')) { return; }
+
+
+
+
         Schema::table('customers', function (Blueprint $table) {
 
             if(!Schema::hasColumn('customers', 'stripe_id')) {

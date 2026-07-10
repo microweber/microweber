@@ -12,6 +12,8 @@ return new class extends Migration
      */
     public function up()
     {
+        if (!Schema::hasTable('forms_data')) { return; }
+
         Schema::table('forms_data', function (Blueprint $table) {
 
             if (Schema::hasColumn('forms_data', 'is_read')) {

@@ -235,7 +235,9 @@
             "MicroweberPackages\\AppBootstrapCache\\Tests\\": "packages/microweber-app-bootstrap-cache/tests/",
             "MicroweberPackages\\ConfigMerge\\Tests\\": "packages/microweber-config-merge/tests/",
             "MicroweberPackages\\Core\\Tests\\": "packages/microweber-core/tests/",
-            "MicroweberPackages\\Pagination\\Tests\\": "packages/microweber-pagination/tests/"
+            "MicroweberPackages\\Pagination\\Tests\\": "packages/microweber-pagination/tests/",
+            "MicroweberPackages\\Dusk\\": "packages/microweber-dusk/src/",
+            "MicroweberPackages\\Dusk\\Tests\\": "packages/microweber-dusk/tests/"
         }
     },
     "scripts": {

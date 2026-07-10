@@ -32,14 +32,7 @@ return new class extends Migration {
             $table->timestamp('ends_at')->nullable();
             $table->timestamps();
         });
-
-        try {
-            Schema::create('subscriptions', function (Blueprint $table) {
-                $table->unique('stripe_id');
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
 
     }
 

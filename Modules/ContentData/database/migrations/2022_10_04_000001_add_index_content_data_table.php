@@ -14,6 +14,8 @@ return new class extends Migration {
     {
 
         try {
+            if (!Schema::hasTable('content_data')) { return; }
+
             Schema::table('content_data', function (Blueprint $table) {
                 $table->index('rel_type');
                 $table->index('rel_id');

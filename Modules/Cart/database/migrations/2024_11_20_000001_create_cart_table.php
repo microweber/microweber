@@ -39,17 +39,7 @@ return new class extends Migration {
             $table->dateTime('created_at')->nullable();
             $table->dateTime('deleted_at')->nullable();
         });
-
-
-
-        try {
-            Schema::create('cart', function (Blueprint $table) {
-                $table->index(['rel_type', 'rel_id']);
-
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
     }
 
     /**

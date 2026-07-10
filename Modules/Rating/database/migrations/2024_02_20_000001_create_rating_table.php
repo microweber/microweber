@@ -25,15 +25,7 @@ return new class extends Migration
 
 
             });
-
-            try {
-                Schema::create('rating', function (Blueprint $table) {
-                    $table->index('rel_type');
-                    $table->index('rel_id');
-                });
-            } catch (\Exception $e) {
-                // Handle the exception if needed
-            }
+        // Indexes already added in Schema::create above
         }
     }
 

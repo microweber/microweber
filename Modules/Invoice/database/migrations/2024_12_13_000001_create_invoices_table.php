@@ -35,13 +35,7 @@ return new class extends Migration {
             $table->timestamps();
 
         });
-        try {
-            Schema::create('invoices', function (Blueprint $table) {
-                $table->unique('invoice_number');
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
 
 
     }

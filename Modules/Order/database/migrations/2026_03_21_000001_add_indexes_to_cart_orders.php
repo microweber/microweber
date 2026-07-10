@@ -47,7 +47,24 @@ return new class extends Migration
                     continue;
                 }
 
-                $table->index($column, $indexName);
+                // For TEXT/BLOB columns on MySQL, use a prefix length to
+                // avoid "BLOB/TEXT column used in key specification" errors.
+                // PostgreSQL can index TEXT columns directly.
+                $columnType = strtolower(Schema::getColumnType('cart_orders', $column));
+                $textTypes = ['text', 'longtext', 'mediumtext', 'tinytext', 'blob', 'longblob', 'mediumblob'];
+                $driver = Schema::getConnection()->getDriverName();
+                if (in_array($columnType, $textTypes, true) && $driver === 'mysql') {
+                    $table->rawIndex("`{$column}`(191)", $indexName);
+                } elseif (in_array($columnType, $textTypes, true) && $driver === 'pgsql') {
+                    // PostgreSQL: use a functional index for text columns
+                    try {
+                        $table->index($column, $indexName);
+                    } catch (\Throwable $e) {
+                        // Skip if index can't be created on text column
+                    }
+                } else {
+                    $table->index($column, $indexName);
+                }
             }
         });
     }

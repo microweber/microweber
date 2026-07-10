@@ -31,6 +31,8 @@ return new class extends Migration
         //from https://gist.github.com/Razoxane/3bc74900b4eb5c983eb0927fa13b95f5
 
         try {
+            if (!Schema::hasTable('content')) { return; }
+
             Schema::table('content', function (Blueprint $table) {
 
                 $indexColumns = $this->indexes;

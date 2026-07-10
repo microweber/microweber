@@ -17,8 +17,8 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\BeforeClass;
+use MicroweberPackages\Dusk\DuskCoverage;
 use Tests\Browser\Components\AdminMakeInstall;
-use Tests\Browser\Components\BaseComponent;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 
 abstract class DuskTestCase extends BaseTestCase
@@ -535,6 +535,6 @@ abstract class DuskTestCase extends BaseTestCase
 
     public static function saveCoverage($coverage)
     {
-        BaseComponent::saveCoverage($coverage);
+        DuskCoverage::save($coverage);
     }
 }

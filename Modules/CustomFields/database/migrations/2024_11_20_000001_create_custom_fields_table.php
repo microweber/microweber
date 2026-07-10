@@ -37,15 +37,7 @@ return new class extends Migration {
             $table->integer('copy_of_field')->nullable();
 
         });
-
-
-        try {
-            Schema::create('custom_fields', function (Blueprint $table) {
-                $table->index(['rel_type', 'rel_id', 'type']);
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
     }
 
     /**

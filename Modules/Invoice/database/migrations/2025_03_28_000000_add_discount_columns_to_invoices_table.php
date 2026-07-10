@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        if (!Schema::hasTable('invoices')) { return; }
+
         Schema::table('invoices', function (Blueprint $table) {
             $table->integer('discount')->nullable()->after('sub_total');
             $table->string('discount_type', 20)->nullable()->after('discount');

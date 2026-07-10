@@ -12,6 +12,9 @@ return new class extends Migration
             return;
         }
 
+        if (!Schema::hasTable('subscription_plans')) { return; }
+
+
         Schema::table('subscription_plans', function (Blueprint $table) {
             $table->boolean('is_active')->default(true)->after('sort_order');
         });

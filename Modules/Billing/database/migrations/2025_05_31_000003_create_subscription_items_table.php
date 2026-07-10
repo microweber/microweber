@@ -25,14 +25,7 @@ return new class extends Migration
             $table->timestamps();
 
         });
-
-        try {
-            Schema::create('subscription_items', function (Blueprint $table) {
-                $table->unique('stripe_id');
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
     }
 
     /**

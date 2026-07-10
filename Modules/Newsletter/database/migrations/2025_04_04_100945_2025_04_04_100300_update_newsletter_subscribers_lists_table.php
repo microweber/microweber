@@ -13,6 +13,9 @@ return new class extends Migration {
 
         try {
 
+            if (!Schema::hasTable('newsletter_subscribers_lists')) { return; }
+
+
             Schema::table('newsletter_subscribers_lists', function (Blueprint $table) {
 
                 $table->unique(['subscriber_id', 'list_id'], 'subscriber_list_unique');

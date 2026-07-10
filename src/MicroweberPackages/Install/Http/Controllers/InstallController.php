@@ -510,13 +510,25 @@ class InstallController extends Controller
                     $this->log('Running Laravel migrations');
                     $output = new BufferedOutput();
                     $output->setDecorated(false);
-                    Artisan::call('migrate', ['--force' => true], $output);
+                    try {
+                        Artisan::call('migrate', ['--force' => true], $output);
+                    } catch (\Throwable $e) {
+                        $this->log('Migration warning: ' . $e->getMessage());
+                    }
                     $this->log($output->fetch());
 
                     $this->log('Running install of laravel modules');
-                    app()->module_manager->reload_laravel_modules();
+                    try {
+                        app()->module_manager->reload_laravel_modules();
+                    } catch (\Throwable $e) {
+                        $this->log('Module migration warning: ' . $e->getMessage());
+                    }
                     $this->log('Running install of laravel templates');
-                    app()->module_manager->reload_laravel_templates();
+                    try {
+                        app()->module_manager->reload_laravel_templates();
+                    } catch (\Throwable $e) {
+                        $this->log('Template migration warning: ' . $e->getMessage());
+                    }
 
                     $this->log('Publishing vendor assets');
                     app()->module_manager->publish_vendor_assets();
@@ -550,7 +562,11 @@ class InstallController extends Controller
                     // migrate again
                     $output = new BufferedOutput();
                     $output->setDecorated(false);
-                    Artisan::call('migrate', ['--force' => true], $output);
+                    try {
+                        Artisan::call('migrate', ['--force' => true], $output);
+                    } catch (\Throwable $e) {
+                        $this->log('Migration warning: ' . $e->getMessage());
+                    }
                     $this->log($output->fetch());
 
 
@@ -645,7 +661,11 @@ class InstallController extends Controller
                     // load_functions_files_for_template();
                     // load_service_providers_for_template();
 
-                    $migrator = app()->mw_migrator->run(app()->migrator->paths());
+                    try {
+                        $migrator = app()->mw_migrator->run(app()->migrator->paths());
+                    } catch (\Throwable $e) {
+                        $this->log('Migration pass warning: ' . $e->getMessage());
+                    }
 
 
 //                    app()->module_manager->logger = $this;

@@ -41,15 +41,7 @@ return new class extends Migration
             $table->integer('is_hidden')->nullable();
 
         });
-
-
-        try {
-            Schema::create('subscription_plans', function (Blueprint $table) {
-                $table->unique('sku');
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
     }
 
     /**

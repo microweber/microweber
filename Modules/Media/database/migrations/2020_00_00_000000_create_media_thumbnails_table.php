@@ -28,17 +28,7 @@ return new class extends Migration {
             $table->longText('image_options')->nullable();
             $table->timestamps();
         });
-
-
-        try {
-            Schema::table('media_thumbnails', function (Blueprint $table) {
-
-                $table->index('filename');
-
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
 
     }
 

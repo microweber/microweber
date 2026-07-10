@@ -26,20 +26,7 @@ return new class extends Migration
             $table->string('tag_name', 125);
             $table->string('tag_slug', 125);
         });
-
-
-        try {
-            Schema::create('tagging_tagged', function (Blueprint $table) {
-                $table->index('tag_name');
-                $table->index('tag_slug');
-                $table->index('taggable_type');
-                $table->index('taggable_id');
-
-
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
 
     }
 

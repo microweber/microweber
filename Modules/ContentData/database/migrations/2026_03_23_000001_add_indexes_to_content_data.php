@@ -36,18 +36,33 @@ return new class extends Migration
             }
         }
 
-        Schema::table('content_data', function (Blueprint $table) {
-            // Individual indexes for single-column queries
-            if (!Schema::hasIndex('content_data', 'content_data_rel_type_index')) {
-                $table->index('rel_type', 'content_data_rel_type_index');
-            }
+        $isMySQL = \Illuminate\Support\Facades\DB::getDriverName() === 'mysql';
 
-            if (!Schema::hasIndex('content_data', 'content_data_rel_id_index')) {
-                $table->index('rel_id', 'content_data_rel_id_index');
-            }
+        Schema::table('content_data', function (Blueprint $table) use ($isMySQL) {
+            $columns = ['rel_type', 'rel_id', 'field_name'];
 
-            if (!Schema::hasIndex('content_data', 'content_data_field_name_index')) {
-                $table->index('field_name', 'content_data_field_name_index');
+            foreach ($columns as $column) {
+                $indexName = 'content_data_' . $column . '_index';
+
+                if (Schema::hasIndex('content_data', $indexName)) {
+                    continue;
+                }
+
+                if (!Schema::hasColumn('content_data', $column)) {
+                    continue;
+                }
+
+                // For TEXT/BLOB columns on MySQL, use a prefix length
+                if ($isMySQL) {
+                    $columnType = strtolower(Schema::getColumnType('content_data', $column));
+                    $textTypes = ['text', 'longtext', 'mediumtext', 'tinytext', 'blob', 'longblob', 'mediumblob'];
+                    if (in_array($columnType, $textTypes, true)) {
+                        $table->rawIndex("`{$column}`(191)", $indexName);
+                        continue;
+                    }
+                }
+
+                $table->index($column, $indexName);
             }
         });
     }

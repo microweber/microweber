@@ -24,14 +24,7 @@ return new class extends Migration {
 
 
         });
-
-        try {
-            Schema::create('tagging_tags', function (Blueprint $table) {
-                $table->index('slug');
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
     }
 
     public function down()

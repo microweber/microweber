@@ -8,23 +8,41 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
 
+    // Disable wrapping in a transaction so that individual sub-method
+    // failures (common on fresh PostgreSQL installs) don't abort the
+    // entire migration.
+    public $withinTransaction = false;
+
     public function up()
     {
+        // Each sub-method is wrapped in try-catch because this migration
+        // converts data from old Microweber versions. On fresh installs
+        // (especially PostgreSQL) some operations may fail when columns
+        // are already the correct type, and PostgreSQL aborts the entire
+        // transaction on any error, preventing subsequent operations.
+        $methods = [
+            'updateSessionsTable',
+            'updateCreatedAtFields',
+            'updateCountiesTable',
+            'updateTranslationKeysTable',
+            'updateRelFields',
+            'updateUsersTable',
+            'updateMediaTable',
+            'updateCategoriesTable',
+            'updateCustomFieldsTable',
+            'updateContentTable',
+            'updateCommentsTable',
+            'updateModulesTable',
+            'updateCouponsTable',
+        ];
 
-        $this->updateSessionsTable();
-        $this->updateCreatedAtFields();
-        $this->updateCountiesTable();
-        $this->updateTranslationKeysTable();
-        $this->updateRelFields();
-        $this->updateUsersTable();
-        $this->updateMediaTable();
-        $this->updateCategoriesTable();
-        $this->updateCustomFieldsTable();
-        $this->updateContentTable();
-        $this->updateCommentsTable();
-        $this->updateModulesTable();
-        $this->updateCouponsTable();
-
+        foreach ($methods as $method) {
+            try {
+                $this->$method();
+            } catch (\Throwable $e) {
+                // Log but don't fail — this is an upgrade-only migration
+            }
+        }
     }
 
     private function updateTranslationKeysTable()
@@ -159,22 +177,34 @@ return new class extends Migration {
                 'require_login',
             ];
             foreach ($fiedlsToConvert as $field) {
-                $fields = DB::table('content')
-                    ->whereNotNull($field)
-                    ->where(function ($query) use ($field) {
-                        $query->where($field, 'y')->orWhere($field, 'n');
-                    })
-                    ->get();
-                if ($fields) {
-                    foreach ($fields as $item) {
-                        $itemArr = (array)$item;
-                        $setval = 1;
-                        if (isset($itemArr[$field]) and $itemArr[$field] === 'n') {
-                            DB::table('content')->where('id', $item->id)->update([$field => 0]);
-                        } else if (isset($itemArr[$field]) and $itemArr[$field] === 'y') {
-                            DB::table('content')->where('id', $item->id)->update([$field => 1]);
+                // Skip if column is already integer type (fresh PostgreSQL install)
+                try {
+                    $columnType = Schema::getColumnType('content', $field);
+                    if (in_array($columnType, ['integer', 'smallint', 'bigint', 'boolean', 'tinyint'])) {
+                        continue;
+                    }
+                } catch (\Throwable $e) {
+                }
+
+                try {
+                    $fields = DB::table('content')
+                        ->whereNotNull($field)
+                        ->where(function ($query) use ($field) {
+                            $query->where($field, 'y')->orWhere($field, 'n');
+                        })
+                        ->get();
+                    if ($fields) {
+                        foreach ($fields as $item) {
+                            $itemArr = (array)$item;
+                            if (isset($itemArr[$field]) and $itemArr[$field] === 'n') {
+                                DB::table('content')->where('id', $item->id)->update([$field => 0]);
+                            } else if (isset($itemArr[$field]) and $itemArr[$field] === 'y') {
+                                DB::table('content')->where('id', $item->id)->update([$field => 1]);
+                            }
                         }
                     }
+                } catch (\Throwable $e) {
+                    // Column is not string-compatible, skip
                 }
             }
         }
@@ -188,20 +218,33 @@ return new class extends Migration {
                 'is_deleted',
             ];
             foreach ($fiedlsToConvert as $field) {
-                $fields = DB::table('categories')->whereNotNull($field)
-                    ->where(function ($query) use ($field) {
-                        $query->where($field, 'y')->orWhere($field, 'n');
-                    })
-                    ->get();
-                if ($fields) {
-                    foreach ($fields as $item) {
-                        $itemArr = (array)$item;
-                        if (isset($itemArr[$field]) and $itemArr[$field] === 'n') {
-                            DB::table('categories')->where('id', $item->id)->update([$field => 0]);
-                        } else if (isset($itemArr[$field]) and $itemArr[$field] === 'y') {
-                            DB::table('categories')->where('id', $item->id)->update([$field => 1]);
+                // Skip if column is already integer type (fresh PostgreSQL install)
+                try {
+                    $columnType = Schema::getColumnType('categories', $field);
+                    if (in_array($columnType, ['integer', 'smallint', 'bigint', 'boolean', 'tinyint'])) {
+                        continue;
+                    }
+                } catch (\Throwable $e) {
+                }
+
+                try {
+                    $fields = DB::table('categories')->whereNotNull($field)
+                        ->where(function ($query) use ($field) {
+                            $query->where($field, 'y')->orWhere($field, 'n');
+                        })
+                        ->get();
+                    if ($fields) {
+                        foreach ($fields as $item) {
+                            $itemArr = (array)$item;
+                            if (isset($itemArr[$field]) and $itemArr[$field] === 'n') {
+                                DB::table('categories')->where('id', $item->id)->update([$field => 0]);
+                            } else if (isset($itemArr[$field]) and $itemArr[$field] === 'y') {
+                                DB::table('categories')->where('id', $item->id)->update([$field => 1]);
+                            }
                         }
                     }
+                } catch (\Throwable $e) {
+                    // Column is not string-compatible, skip
                 }
             }
 
@@ -247,21 +290,34 @@ return new class extends Migration {
                     continue;
                 }
 
+                // Skip conversion if column is already an integer type (e.g. fresh PostgreSQL install)
+                try {
+                    $columnType = Schema::getColumnType('users', $field);
+                    if (in_array($columnType, ['integer', 'smallint', 'bigint', 'boolean', 'tinyint'])) {
+                        continue;
+                    }
+                } catch (\Throwable $e) {
+                    // If we can't determine type, try the conversion anyway
+                }
 
-                $fields = DB::table('users')->whereNotNull($field)
-                    ->where(function ($query) use ($field) {
-                        $query->where($field, 'y')->orWhere($field, 'n');
-                    })
-                    ->get();
-                if ($fields) {
-                    foreach ($fields as $item) {
-                        $itemArr = (array)$item;
-                        if (isset($itemArr[$field]) and $itemArr[$field] === 'n') {
-                            DB::table('users')->where('id', $item->id)->update([$field => 0]);
-                        } else if (isset($itemArr[$field]) and $itemArr[$field] === 'y') {
-                            DB::table('users')->where('id', $item->id)->update([$field => 1]);
+                try {
+                    $fields = DB::table('users')->whereNotNull($field)
+                        ->where(function ($query) use ($field) {
+                            $query->where($field, 'y')->orWhere($field, 'n');
+                        })
+                        ->get();
+                    if ($fields) {
+                        foreach ($fields as $item) {
+                            $itemArr = (array)$item;
+                            if (isset($itemArr[$field]) and $itemArr[$field] === 'n') {
+                                DB::table('users')->where('id', $item->id)->update([$field => 0]);
+                            } else if (isset($itemArr[$field]) and $itemArr[$field] === 'y') {
+                                DB::table('users')->where('id', $item->id)->update([$field => 1]);
+                            }
                         }
                     }
+                } catch (\Throwable $e) {
+                    // Column is not string-compatible, skip
                 }
             }
         }

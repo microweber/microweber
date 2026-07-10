@@ -21,16 +21,7 @@ return new class extends Migration
                 $table->timestamps();
 
             });
-
-
-            try {
-                Schema::create('newsletter_campaigns_pixel', function (Blueprint $table) {
-                    $table->index('campaign_id');
-                    $table->index('email');
-                });
-            } catch (\Exception $e) {
-                // Handle the exception if needed
-            }
+        // Indexes already added in Schema::create above
         }
     }
 

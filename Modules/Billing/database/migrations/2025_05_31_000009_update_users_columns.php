@@ -12,6 +12,10 @@ return new class extends Migration {
     {
 
 
+        if (!Schema::hasTable('users')) { return; }
+
+
+
         Schema::table('users', function (Blueprint $table) {
 
             if (!Schema::hasColumn('users', 'demo_expired')) {

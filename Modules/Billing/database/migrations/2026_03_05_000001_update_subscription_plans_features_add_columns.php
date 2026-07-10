@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('subscription_plans_features')) { return; }
+
         Schema::table('subscription_plans_features', function (Blueprint $table) {
             if (!Schema::hasColumn('subscription_plans_features', 'description')) {
                 $table->text('description')->nullable()->after('key');

@@ -17,15 +17,7 @@ return new class extends Migration {
             $table->string('name');
             $table->timestamps();
         });
-
-
-        try {
-            Schema::create('tagging_tag_groups', function (Blueprint $table) {
-                $table->index('slug');
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
     }
 
     public function down()

@@ -9,6 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         if (!Schema::hasColumn('layout_content_items', 'position')) {
+            if (!Schema::hasTable('layout_content_items')) { return; }
+
             Schema::table('layout_content_items', function (Blueprint $table) {
                 $table->integer('position')->default(0)->after('rel_id');
             });

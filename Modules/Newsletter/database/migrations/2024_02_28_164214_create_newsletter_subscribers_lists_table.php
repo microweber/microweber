@@ -19,16 +19,7 @@ return new class extends Migration
                 $table->timestamps();
 
             });
-
-
-            try {
-                Schema::create('newsletter_subscribers_lists', function (Blueprint $table) {
-                    $table->index('subscriber_id');
-                    $table->index('list_id');
-                });
-            } catch (\Exception $e) {
-                // Handle the exception if needed
-            }
+        // Indexes already added in Schema::create above
         }
     }
 

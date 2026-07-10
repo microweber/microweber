@@ -8,6 +8,8 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (!Schema::hasTable('cart_orders')) { return; }
+
         Schema::table('cart_orders', function (Blueprint $table) {
             $table->string('shipping_tracking_number')->nullable()->after('shipping_amount');
             $table->string('shipping_tracking_url')->nullable()->after('shipping_tracking_number');

@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('newsletter_campaigns')) { return; }
+
         Schema::table('newsletter_campaigns', function (Blueprint $table) {
             $table->text('content')->nullable()->after('subject');
             $table->timestamp('sent_at')->nullable()->after('scheduled_at');

@@ -14,6 +14,8 @@ return new class extends Migration
     public function up()
     {
         try {
+            if (!Schema::hasTable('users')) { return; }
+
             Schema::table('users', function (Blueprint $table) {
                 if (!Schema::hasColumn('users', 'two_factor_secret')) {
                     $table->text('two_factor_secret')->nullable();

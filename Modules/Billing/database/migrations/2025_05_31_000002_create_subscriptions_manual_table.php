@@ -23,14 +23,7 @@ return new class extends Migration
             $table->timestamps();
 
         });
-
-        try {
-            Schema::create('subscriptions_manual', function (Blueprint $table) {
-                $table->index(['user_id']);
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
     }
 
     /**

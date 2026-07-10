@@ -26,17 +26,7 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
-
-
-        try {
-            Schema::create('sessions', function (Blueprint $table) {
-                $table->index('user_id');
-
-
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
 
     }
 

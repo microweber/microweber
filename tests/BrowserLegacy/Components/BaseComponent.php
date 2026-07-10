@@ -10,14 +10,9 @@ abstract class BaseComponent extends Component
 {
     public static function saveCoverage($coverage)
     {
-        if(empty($coverage)){
-            return;
-        }
-
-        $coverageFilePath = base_path('tests/coverages/js/js-coverage-' . time() . '_' . uniqid() . '.json');
-        if (!is_dir(dirname($coverageFilePath))) {
-            mkdir(dirname($coverageFilePath), 0777, true);
-        }
-        file_put_contents($coverageFilePath, json_encode($coverage));
+        // Delegates to the single, autoloadable coverage sink in the microweber-dusk
+        // package. (This class's own namespace is PSR-4-mismatched with its path, so
+        // it isn't reliably autoloadable — the real logic lives in the package.)
+        \MicroweberPackages\Dusk\DuskCoverage::save($coverage);
     }
 }

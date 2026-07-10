@@ -58,16 +58,7 @@ return new class extends Migration {
 
 
         });
-
-
-        try {
-            Schema::create('content', function (Blueprint $table) {
-                $table->index('url');
-                $table->index('title');
-            });
-        } catch (\Exception $e) {
-            // Handle the exception if needed
-        }
+        // Indexes already added in Schema::create above
     }
 
     /**

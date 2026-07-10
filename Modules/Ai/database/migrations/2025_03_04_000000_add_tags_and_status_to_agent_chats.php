@@ -8,6 +8,8 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (!Schema::hasTable('agent_chats')) { return; }
+
         Schema::table('agent_chats', function (Blueprint $table) {
             $table->string('status')->default('active')->after('is_active');
             $table->json('tags')->nullable()->after('status');

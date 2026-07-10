@@ -46,7 +46,11 @@ class LanguagesWidget extends BaseWidget
                     // renders as a blank-looking row. Also drop tokens shorter
                     // than 2 chars since those can't be a real BCP-47 tag.
                     ->where('stats_sessions.language', '!=', '0')
-                    ->whereRaw('CHAR_LENGTH(stats_sessions.language) >= 2')
+                    // Use LENGTH (portable across MySQL + SQLite) rather than
+                    // CHAR_LENGTH (MySQL-only — SQLite has no such function, which
+                    // 500s the Site Statistics page). Language tags are ASCII, so
+                    // byte length == char length here.
+                    ->whereRaw('LENGTH(stats_sessions.language) >= 2')
                     ->groupBy('stats_sessions.language')
                     ->orderByDesc('visitor_count')
             )

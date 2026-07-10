@@ -23,19 +23,7 @@ return new class extends Migration {
 
 
         });
-
-        try {
-
-            Schema::table('categories_items', function (Blueprint $table) {
-
-
-                $table->unique(['rel_id', 'parent_id']);
-
-
-            });
-        } catch (\Exception $e) {
-            // do nothing
-        }
+        // Indexes already added in Schema::create above
     }
 
     /**
