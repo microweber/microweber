@@ -21,6 +21,10 @@ class FaqModuleSettings extends LiveEditModuleSettingsTable
     public string $module = 'faq';
     public string $modelName = Faq::class;
 
+    // Filament derives the page title from the class name (FaqModuleSettings →
+    // "Faq Module Settings"); override so the FAQ acronym is correctly cased.
+    protected static ?string $title = 'FAQ Module Settings';
+
 
     public string $tableComponentName = FaqTableList::class;
 

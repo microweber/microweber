@@ -8,6 +8,16 @@
     @apply text-white bg-blue-500 border-blue-500 hover:bg-blue-600 hover:border-blue-600;
     @apply dark:bg-blue-700 dark:border-blue-700 dark:hover:bg-blue-800 dark:hover:border-blue-800 dark:text-white;
     @apply disabled:bg-blue-300 disabled:border-blue-300 disabled:cursor-not-allowed dark:disabled:bg-blue-500 dark:disabled:border-blue-500 dark:disabled:text-gray-300;
+    /* MW brand blue (#0d6efd). Tailwind blue-500 (#3b82f6 / rendered ~#4991fc) is off the
+       brand palette — the legacy .btn-primary powers dialog/picker CTAs (e.g. the "Insert
+       image" file-picker footer) and read a washed blue vs the brand primary. Override the
+       enabled fill + hover to brand; dark/disabled keep the @apply utilities above. */
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
 }
 
 .btn-secondary {

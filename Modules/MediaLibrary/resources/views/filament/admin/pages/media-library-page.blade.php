@@ -755,3 +755,19 @@
     }
 })();
 </script>
+
+{{-- Selection bridge — relays the `mw-media-file-selected` Livewire event (dispatched by
+     MediaLibrary::selectMedia) to the parent image picker (filepicker.js) via postMessage,
+     so clicking a thumbnail enables the picker's "Insert image" button. Restores the
+     select-file wiring the legacy FileManager provided before the Filament migration.
+     No-op when the page isn't embedded in an iframe. --}}
+@script
+<script>
+    $wire.on('mw-media-file-selected', (event) => {
+        var url = event ? (Array.isArray(event) ? (event[0] || {}).url : event.url) : null;
+        if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'mw-filemanager:select-file', url: url || '' }, '*');
+        }
+    });
+</script>
+@endscript

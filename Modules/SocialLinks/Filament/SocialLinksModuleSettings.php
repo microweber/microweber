@@ -105,14 +105,14 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.telegram_enabled')),
 
                                 Toggle::make('options.youtube_enabled')
-                                    ->label('Enable Youtube Sharing')
+                                    ->label('Enable YouTube Sharing')
                                     ->live()
                                     ->default(false),
 
                                 TextInput::make('options.youtube_url')
-                                    ->label('Youtube URL')
+                                    ->label('YouTube URL')
                                     ->live()
-                                    ->placeholder('Enter Youtube URL')
+                                    ->placeholder('Enter YouTube URL')
                                     ->visible(fn($get) => $get('options.youtube_enabled')),
 
                                 Toggle::make('options.instagram_enabled')
@@ -127,47 +127,47 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.instagram_enabled')),
 
                                 Toggle::make('options.github_enabled')
-                                    ->label('Enable Github Sharing')
+                                    ->label('Enable GitHub Sharing')
                                     ->live()
                                     ->default(false),
 
                                 TextInput::make('options.github_url')
-                                    ->label('Github URL')
+                                    ->label('GitHub URL')
                                     ->live()
-                                    ->placeholder('Enter Github URL')
+                                    ->placeholder('Enter GitHub URL')
                                     ->visible(fn($get) => $get('options.github_enabled')),
 
                                 Toggle::make('options.soundcloud_enabled')
-                                    ->label('Enable Soundcloud Sharing')
+                                    ->label('Enable SoundCloud Sharing')
                                     ->live()
                                     ->default(false),
 
                                 TextInput::make('options.soundcloud_url')
-                                    ->label('Soundcloud URL')
+                                    ->label('SoundCloud URL')
                                     ->live()
-                                    ->placeholder('Enter soundcloud URL')
+                                    ->placeholder('Enter SoundCloud URL')
                                     ->visible(fn($get) => $get('options.soundcloud_enabled')),
 
                                 Toggle::make('options.discord_enabled')
-                                    ->label('Enable discord Sharing')
+                                    ->label('Enable Discord Sharing')
                                     ->live()
                                     ->default(false),
 
                                 TextInput::make('options.discord_url')
                                     ->label('Discord URL')
                                     ->live()
-                                    ->placeholder('Enter discord URL')
+                                    ->placeholder('Enter Discord URL')
                                     ->visible(fn($get) => $get('options.discord_enabled')),
 
                                 Toggle::make('options.skype_enabled')
-                                    ->label('Enable skype Sharing')
+                                    ->label('Enable Skype Sharing')
                                     ->live()
                                     ->default(false),
 
                                 TextInput::make('options.skype_url')
-                                    ->label('skyped URL')
+                                    ->label('Skype URL')
                                     ->live()
-                                    ->placeholder('Enter skype URL')
+                                    ->placeholder('Enter Skype URL')
                                     ->visible(fn($get) => $get('options.skype_enabled')),
 
 

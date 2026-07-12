@@ -848,6 +848,25 @@ mw.filePicker = function (options) {
                 };
                 window.addEventListener('message', _onRowCount);
 
+                // Selection bridge — the Filament media page posts the chosen file URL when a
+                // thumbnail is clicked (media-library-page.blade.php relays the
+                // `mw-media-file-selected` Livewire event). Wire it into the picker so the
+                // footer "Insert image" button enables; an empty url = deselect → clear.
+                // Self-cleans when this picker's DOM is gone (guards against stale listeners
+                // from a previously-closed dialog firing on a new picker).
+                var _onSelectFile = function (evt) {
+                    if (!scope.$root || !scope.$root[0] || !scope.$root[0].isConnected) {
+                        window.removeEventListener('message', _onSelectFile);
+                        return;
+                    }
+                    if (!evt.data || evt.data.type !== 'mw-filemanager:select-file') return;
+                    var url = evt.data.url;
+                    if (!url) { scope.setSectionValue(null); return; }
+                    scope.setSectionValue(url);
+                    if (scope.settings.autoSelect) { scope.result(); }
+                };
+                window.addEventListener('message', _onSelectFile);
+
                 fr.onload = function () {
                     // Wire file selection back to the picker.
                     try {

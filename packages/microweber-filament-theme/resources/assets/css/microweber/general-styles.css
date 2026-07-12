@@ -5227,23 +5227,29 @@ html.dark body.fi-panel-admin .fi-badge.fi-color-primary {
    Targets:
      • Page-level header buttons e.g. "+ Add page" (.fi-header-actions-ctn)
      • Table-level header buttons e.g. "New product" (.fi-ta-actions)
+     • Menu editor "Add menu item" (.mw-menu-editor) — a +Add CTA that lives
+       inside a Livewire toolbar, outside the two containers above, so it fell
+       through to the blue primary rule (4812). Navy matches the +Add decision.
    Excludes toolbar ADD + Live Edit (already styled separately). */
 body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
-body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
     background-color: #182433 !important;
     color: #ffffff !important;
     border-color: #182433 !important;
     box-shadow: none !important;
 }
 body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover,
-body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover {
+body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover,
+body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover {
     background-color: #243347 !important;
     color: #ffffff !important;
     border-color: #243347 !important;
 }
 /* Dark mode — keep visible but slightly lighter */
 html.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
-html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+html.dark body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
     background-color: #2d4a6e !important;
     color: #e5e7eb !important;
     border-color: #2d4a6e !important;

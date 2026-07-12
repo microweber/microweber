@@ -283,6 +283,9 @@ class MediaLibrary extends Page
         if ($this->selectedMediaId === $mediaId) {
             $this->selectedMediaId = null;
             $this->selectedMediaData = null;
+            // Clicking the already-selected item deselects it — tell the image picker
+            // (when embedded) to clear its pending value so "Insert image" disables again.
+            $this->dispatch('mw-media-file-selected', url: null);
             return;
         }
 
@@ -336,6 +339,14 @@ class MediaLibrary extends Page
             'cdn_url' => $media->cdn_url,
             'used_in' => $usedIn,
         ];
+
+        // Selection bridge for the image picker (filepicker.js loads this page in an
+        // iframe). The legacy FileManager emitted a `select-file` hash param so the picker
+        // knew a file was chosen and could enable its "Insert image" button; the Filament
+        // migration kept only the row-count bridge, so picking a thumbnail opened the detail
+        // panel but never reached the picker. Emit the chosen URL — the blade relays it to
+        // the parent picker via postMessage (harmless no-op when not embedded).
+        $this->dispatch('mw-media-file-selected', url: $media->url ?: $media->filename);
     }
 
     public function closeDetailPanel(): void

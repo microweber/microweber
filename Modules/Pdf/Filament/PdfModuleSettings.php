@@ -13,6 +13,10 @@ class PdfModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'pdf';
 
+    // Filament derives the page title from the class name (PdfModuleSettings →
+    // "Pdf Module Settings"); override so the PDF acronym is correctly cased.
+    protected static ?string $title = 'PDF Module Settings';
+
     public function form(Schema $schema): Schema
     {
         return $schema
