@@ -3404,11 +3404,23 @@ a.mw-admin-brand-mark {
 }
 
 .mw-admin-brand-mark__image {
-    height: 24px;
+    /* MW v2 demo / designer spec = 147×36px (see mobile-touch.css note); was capped at
+       24px which reads too small vs the demo. Raise the width cap so 36px isn't width-
+       constrained (natural ratio ~147/36 → ~190px at 36px tall). */
+    height: 36px;
     width: auto;
-    max-width: 160px;
+    max-width: 200px;
     display: block;
     object-fit: contain;
+}
+
+/* Desktop: give the brand a fixed column width so the toolbar items after it (the
+   "+ Add" button, search, …) line up with the main content column's left edge, as in
+   the v2 demo — the logo left-aligns inside it. Mobile keeps its collapsed layout. */
+@media (min-width: 1024px) {
+    a.mw-admin-brand-mark {
+        min-width: 230px;
+    }
 }
 
 /* Mobile (≤768px) — collapse to mark-only (16×16) to save
@@ -4761,7 +4773,9 @@ body.fi-panel-admin .fi-page {
 
 /* ── Dashboard welcome heading sizing ────────────────────────────── */
 body.fi-panel-admin .mw-welcome-widget-heading {
-    font-size: 28px !important;
+    /* Was 28px — every other admin page heading (Pages/Products/Categories/Users/Create)
+       is 24px/700. Match them so the page-title typography is consistent across all pages. */
+    font-size: 24px !important;
     font-weight: 700 !important;
     color: #182433 !important;
     letter-spacing: -0.02em !important;
@@ -4771,8 +4785,11 @@ body.fi-panel-admin .mw-welcome-widget-heading {
 body.fi-panel-admin .fi-wi-stats-overview-stat,
 body.fi-panel-admin .fi-section {
     background-color: #ffffff !important;
-    border: 1px solid #e8eef4 !important;
-    box-shadow: 0 1px 3px rgba(24, 36, 51, 0.04) !important;
+    /* Was a bluish #e8eef4 border + a near-invisible 0.04 shadow → cards read flat and
+       cool-tinted. Neutral hairline border + a proper soft shadow so each section floats
+       as a clean white surface (matches the demo). */
+    border: 1px solid #eceef1 !important;
+    box-shadow: 0 1px 4px rgba(24, 36, 51, 0.10) !important;
     border-radius: 12px !important;
 }
 
@@ -5017,26 +5034,33 @@ body.fi-panel-admin .fi-tabs-item:hover {
 }
 body.fi-panel-admin .fi-tabs-item[aria-selected="true"],
 body.fi-panel-admin .fi-tabs-item.fi-active {
-    color: #0d6efd !important;
-    border-bottom-color: #0d6efd !important;
+    /* MW v2 demo (verified against admin-product-form.png + docs/research/components/tabs.md §4):
+       the in-form authoring active tab is dark ink #182433 text + a #182433 underline —
+       NOT blue. The "blue underline" premise is corrected three times in the research. */
+    color: #182433 !important;
+    border-bottom-color: #182433 !important;
     font-weight: 600 !important;
 }
 
 /* ── Status badges: keep v2-style colors ────────────────────────── */
 body.fi-panel-admin .fi-badge.fi-color-success {
-    background-color: #dcfce7 !important;
-    color: #16a34a !important;
-    border-color: #bbf7d0 !important;
+    /* MW v2 demo palette (match the table status pills + demo marketplace badges,
+       e.g. "Installed"/"Premium") — was Tailwind default green #dcfce7/#16a34a. */
+    background-color: #eaf7ec !important;
+    color: #2fb344 !important;
+    border-color: transparent !important;
 }
 body.fi-panel-admin .fi-badge.fi-color-warning {
-    background-color: #fef9c3 !important;
-    color: #ca8a04 !important;
-    border-color: #fef08a !important;
+    /* MW v2 demo: orange "Premium" tint — was Tailwind yellow #fef9c3/#ca8a04. */
+    background-color: #fef0e6 !important;
+    color: #f76707 !important;
+    border-color: transparent !important;
 }
 body.fi-panel-admin .fi-badge.fi-color-danger {
-    background-color: #fee2e2 !important;
-    color: #dc2626 !important;
-    border-color: #fecaca !important;
+    /* MW v2 demo danger tint — was Tailwind #fee2e2/#dc2626. */
+    background-color: #fdecec !important;
+    color: #d63939 !important;
+    border-color: transparent !important;
 }
 body.fi-panel-admin .fi-badge.fi-color-info,
 body.fi-panel-admin .fi-badge.fi-color-primary {

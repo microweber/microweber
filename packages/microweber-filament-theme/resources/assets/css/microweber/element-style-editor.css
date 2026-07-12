@@ -338,14 +338,15 @@
     /* ── Semantic colour aliases (light) ──────────────────── */
     --ese-surface:        #ffffff;
     --ese-surface-muted:  #f7f8fa;
-    --ese-surface-hover:  rgba(13, 110, 253, 0.06);
+    --ese-surface-hover:  rgba(24, 36, 51, 0.05);  /* ink tint (was blue) — matches --ese-accent */
     --ese-border:         rgba(15, 23, 42, 0.12);
     --ese-border-strong:  rgba(15, 23, 42, 0.20);
     --ese-text:           #0f172a;
     --ese-text-muted:     #64748b;
     --ese-label:          #475569;
-    --ese-accent:         #0d6efd;            /* MwColors::Blue */
-    --ese-accent-soft:    rgba(13, 110, 253, 0.12);
+    --ese-accent:         #182433;            /* MW ink — active states use ink, not blue,
+                                                 to match the admin (tabs/design system). */
+    --ese-accent-soft:    rgba(24, 36, 51, 0.10);
     --ese-danger:         #dc2626;
     --ese-track:          rgba(15, 23, 42, 0.18);
     --ese-track-fill:     var(--ese-accent);
@@ -784,6 +785,23 @@ html[dir="rtl"] .reset-field {
     border-top: 1px solid var(--ese-border);
     padding-top: 8px !important;
     margin-top: 8px !important;
+}
+
+/* Section-header icon consistency — the leading icons had mixed stroke weights
+   (most 1px, Background/Shadow 1.5) and the Section-settings gear was a filled
+   Material Symbols icon (now swapped to a heroicon outline). Normalize every
+   section-header icon (the <svg> directly in the header .d-flex) to a uniform
+   1.5 outline weight so they read as one consistent set. */
+.element-style-editor-toggle-wrapper .d-flex > svg {
+    stroke-width: 1.5px;
+}
+
+/* Class tags (vue3-tags-input .v3ti-tag) ship a hardcoded blue (#317caf) from the
+   library; retint to the ESE accent token so they match the panel's ink accent
+   instead of standing out blue. */
+#mw-element-style-editor-app .v3ti-tag {
+    background-color: var(--ese-accent) !important;
+    border-radius: 4px !important;
 }
 
 /*

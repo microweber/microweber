@@ -946,11 +946,18 @@ class ContentResource extends Resource
 
     protected static function publishedSection(): Schemas\Components\Section
     {
-        return Schemas\Components\Section::make('Published')
-            ->icon('heroicon-m-signal')
+        return Schemas\Components\Section::make('Visibility')
             ->schema([
-                Forms\Components\Toggle::make('is_active')
-                    ->label('Published')
+                // MW v2 demo: Visibility is a radio group with a green "Published" pill
+                // and a red "Unpublished" pill (not a toggle). The pill styling is applied
+                // via CSS scoped to the .mw-visibility-radio class below.
+                Forms\Components\Radio::make('is_active')
+                    ->hiddenLabel()
+                    ->options([
+                        1 => 'Published',
+                        0 => 'Unpublished',
+                    ])
+                    ->extraAttributes(['class' => 'mw-visibility-radio'])
                     // AI-778 (task-2026-05-17-6d65de) — Published toggle defaults
                     // to FALSE on Create. Previously defaulted to true on Create
                     // (type-title → SAVE → live immediately = "publish on first
@@ -966,8 +973,8 @@ class ContentResource extends Resource
                     // explanatory helper text the ticket asked for. Add it so a
                     // first-time author understands why a freshly-created post is
                     // not yet visible on the public site.
-                    ->default(false)
-                    ->helperText('Drafts are only visible to you. Toggle on when ready to publish.')
+                    ->default(0)
+                    ->helperText('Drafts are only visible to you. Choose "Published" when ready to go live.')
                     ->live()
                     ->afterStateUpdated(function (Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
                         if ($get('is_active') && !$get('posted_at')) {

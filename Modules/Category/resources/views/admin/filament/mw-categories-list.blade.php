@@ -182,6 +182,12 @@
                  Modules/Content/resources/views/filament/admin/empty-state.blade.php,
                  but lands here because the categories list bypasses Filament's table. --}}
             <div class="text-center you-dont-have-any d-flex justify-content-center mt-5 flex-column align-items-center" style="min-height: 300px;">
+                {{-- Empty-state icon — the shared empty-state blade shows an illustration for
+                     Orders/Customers/etc.; Categories had none. A muted category (stacked)
+                     glyph gives it the same visual anchor without a heavy inline SVG. --}}
+                <x-filament::icon icon="heroicon-o-rectangle-stack"
+                    class="mw-admin-empty-state-icon"
+                    aria-hidden="true" />
                 <h2 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
                     You do not have any categories yet.
                 </h2>

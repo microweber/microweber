@@ -108,6 +108,8 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->login(\MicroweberPackages\Admin\Filament\Pages\Login::class)
             // ->registration()
             ->font('Inter')
+            // MW v2 avatar: light-grey chip + ink initials (Filament default is near-black).
+            ->defaultAvatarProvider(\MicroweberPackages\Admin\Filament\MwAvatarProvider::class)
             // AI-703 / task-2026-05-16-29342d — Responsive sidebar slice 1: 240px.
             // AI-926 — removed sidebarCollapsibleOnDesktop() per operator feedback:
             //   icons-only mode with no visible expand affordance confused new operators
