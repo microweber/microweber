@@ -2407,6 +2407,17 @@ html.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:
   }
 }
 
+// Option ICONS on unchecked ToggleButtons (e.g. the Align left/center/right heroicons in
+// module settings) render WHITE — Filament colours a .fi-color-primary option's icon with
+// the contrast colour, but the rule above makes the unchecked pill white, so the icon
+// vanishes. Force the unchecked-option icon to match the dark label text.
+body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:not(:checked) + label svg {
+  color: #374151 !important;
+}
+html.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:not(:checked) + label svg {
+  color: #9ca3af !important;
+}
+
 // ============================================================================
 // Links — MW v2 blue color
 // ============================================================================

@@ -544,18 +544,19 @@ button.btn-icon.live-edit-toolbar-buttons,
  * 2.5.5 / iOS HIG 44 floor MUST hold, so the revert is gated behind
  * (hover: hover) and (pointer: fine).
  *
- * Pre-2026-05-30: the revert had no media gate and silently stripped
- * the 44x44 floor for real mobile users inside Social Links / Btn /
- * Shop-Cart / Logo module-settings modals — toggles rendered 44x24
- * (height shortfall = 20px) on 390x844 viewports.
+ * task-2026-07-12: the (hover:hover)&(pointer:fine) gate FAILED on coarse-pointer
+ * browsers — including the admin's own --no-sandbox Chrome — so the max-width arm's
+ * 44x44 floor stuck and the toggle rendered as a bare CIRCLE (44x44, radius 999px) in
+ * the Btn/Social/Cart/Logo module-settings panels. The iframe is a desktop editing
+ * surface that's simply <1024px wide (the max-width arm fires on width, not on a real
+ * touch device), so revert the floor UNCONDITIONALLY here. Natural pill = 44x24, which
+ * still meets WCAG 2.5.8 AA (24px min target).
  */
-@media (hover: hover) and (pointer: fine) {
-    body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-toggle,
-    body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-fo-toggle,
-    body.fi-panel-admin main.mw-live-edit-module-settings-iframe button.fi-toggle[role="switch"] {
-        min-height: auto !important;
-        min-width: auto !important;
-    }
+body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-toggle,
+body.fi-panel-admin main.mw-live-edit-module-settings-iframe .fi-fo-toggle,
+body.fi-panel-admin main.mw-live-edit-module-settings-iframe button.fi-toggle[role="switch"] {
+    min-height: auto !important;
+    min-width: auto !important;
 }
 
 /*
