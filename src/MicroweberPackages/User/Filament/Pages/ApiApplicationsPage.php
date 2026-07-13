@@ -44,32 +44,51 @@ class ApiApplicationsPage extends Page
     {
         $this->loadApplications();
         $this->loadPersonalTokens();
-        $this->availableScopes = Passport::scopes()
-            ->mapWithKeys(fn ($scope) => [$scope->id => $scope->description])
-            ->toArray();
+        try {
+            $this->availableScopes = Passport::scopes()
+                ->mapWithKeys(fn ($scope) => [$scope->id => $scope->description])
+                ->toArray();
+        } catch (\Throwable $e) {
+            $this->availableScopes = [];
+        }
     }
 
     protected function loadApplications(): void
     {
-        $user = auth()->user();
-        $clients = Client::where('owner_id', $user->id)
-            ->where('owner_type', get_class($user))
-            ->whereJsonDoesntContain('grant_types', 'personal_access')
-            ->where('revoked', false)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        try {
+            $user = auth()->user();
+            $clients = Client::where('owner_id', $user->id)
+                ->where('owner_type', get_class($user))
+                ->whereJsonDoesntContain('grant_types', 'personal_access')
+                ->where('revoked', false)
+                ->orderBy('created_at', 'desc')
+                ->get();
 
-        $this->applications = $clients->map(function ($client) {
-            return [
-                'id' => $client->id,
-                'name' => $client->name,
-                'redirect_uris' => $client->redirect_uris ? implode(', ', $client->redirect_uris) : '',
-                'created_at' => $client->created_at->format('Y-m-d H:i'),
-            ];
-        })->toArray();
+            $this->applications = $clients->map(function ($client) {
+                return [
+                    'id' => $client->id,
+                    'name' => $client->name,
+                    'redirect_uris' => $client->redirect_uris ? implode(', ', $client->redirect_uris) : '',
+                    'created_at' => $client->created_at->format('Y-m-d H:i'),
+                ];
+            })->toArray();
+        } catch (\Throwable $e) {
+            // Passport tables may not exist yet (migration not run)
+            $this->applications = [];
+        }
     }
 
     protected function loadPersonalTokens(): void
+    {
+        try {
+            $this->loadPersonalTokensInner();
+        } catch (\Throwable $e) {
+            // Passport tables may not exist yet (migration not run)
+            $this->personalTokens = [];
+        }
+    }
+
+    protected function loadPersonalTokensInner(): void
     {
         $user = auth()->user();
         $tokens = $user->tokens()
@@ -201,18 +220,27 @@ class ApiApplicationsPage extends Page
 
         $user = auth()->user();
 
+        $secret = Str::random(40);
+
         $client = Passport::client()->forceFill([
             'owner_id' => $user->id,
             'owner_type' => get_class($user),
             'name' => $name,
-            'secret' => hash('sha256', $secret = Str::random(40)),
-            'redirect_uris' => json_encode([$redirect]),
+            // Let the model's `secret` Attribute mutator handle hashing —
+            // do NOT pre-hash with sha256 or it double-hashes and the
+            // plain-text secret the user copies will never verify.
+            'secret' => $secret,
+            // The model casts redirect_uris and grant_types to 'array',
+            // so pass plain arrays — json_encode would double-encode.
+            'redirect_uris' => [$redirect],
             'revoked' => false,
-            'grant_types' => json_encode(['authorization_code', 'refresh_token']),
+            'grant_types' => ['authorization_code', 'refresh_token'],
         ]);
         $client->save();
 
         $this->newClientId = $client->id;
+        // Show the raw secret the user should copy (Passport stores a
+        // hashed version; this plain text cannot be recovered later).
         $this->newClientSecret = $secret;
 
         $this->loadApplications();

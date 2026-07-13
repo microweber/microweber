@@ -64,7 +64,20 @@ run_dusk() {
 
     php artisan config:clear 2>/dev/null || true
 
-    php artisan dusk --configuration=phpunit.dusk.xml 2>&1 || true
+    # Pre-install via CLI (much faster and more reliable than browser-based install)
+    local install_args="--db-driver=$driver --db-prefix= --email=admin@admin.com --username=admin --password=admin --default-content=1 --app-url=http://127.0.0.1:8000 -n"
+    if [[ "$driver" == "sqlite" ]]; then
+        install_args="$install_args --db-name=storage/database.sqlite"
+    elif [[ "$driver" == "mysql" ]]; then
+        install_args="$install_args --db-host=127.0.0.1 --db-name=microweber_dusk_mysql --db-username=root --db-password=root"
+    elif [[ "$driver" == "pgsql" ]]; then
+        install_args="$install_args --db-host=127.0.0.1 --db-name=microweber_dusk_pgsql --db-username=postgres --db-password=postgres"
+    fi
+
+    echo "--- Running CLI install: php artisan microweber:install $install_args ---"
+    eval php artisan microweber:install $install_args 2>&1 || true
+
+    php vendor/bin/phpunit --configuration=phpunit.dusk.xml --testsuite="Package Dusk Suite" --no-coverage 2>&1 || true
 }
 
 if [[ "$DRIVERS" == "all" || "$DRIVERS" == "sqlite" ]]; then

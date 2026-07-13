@@ -34,7 +34,10 @@ class TopPagesWidget extends BaseWidget
             ->query(
                 Log::query()
                     ->select(
-                        'stats_visits_log.url_id',
+                        // Alias url_id as id so Filament's table identity
+                        // works without adding `stats_visits_log.id` (which
+                        // would need to be in GROUP BY for PostgreSQL).
+                        DB::raw('stats_visits_log.url_id as id'),
                         'stats_urls.url',
                         'stats_urls.content_id',
                         DB::raw('SUM(stats_visits_log.view_count) as total_views'),
@@ -43,7 +46,6 @@ class TopPagesWidget extends BaseWidget
                     ->join('stats_urls', 'stats_visits_log.url_id', '=', 'stats_urls.id')
                     ->where('stats_visits_log.updated_at', '>=', now()->subDays(30))
                     ->groupBy('stats_visits_log.url_id', 'stats_urls.url', 'stats_urls.content_id')
-                    ->orderByDesc('total_views')
             )
             ->columns([
                 TextColumn::make('url')

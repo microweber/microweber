@@ -100,9 +100,11 @@ class SiteStatsRepository
 
                 $query = $this->applyDateRangeToQueryBuilder($query, $periodRangesDatesInterval, $startDate, $endDate, $period);
                 $query->select('session_id_key');
-                $query->selectSub('count(session_id_key)', 'session_id_key_count');
+                $query->selectRaw('count(session_id_key) as session_id_key_count');
                 $query->groupBy('session_id_key');
-                $query->having('session_id_key_count', '>', 1);
+                // Use havingRaw with the expression — PostgreSQL does not
+                // allow referencing column aliases in HAVING clauses.
+                $query->havingRaw('count(session_id_key) > 1');
                 $sess = $query->get()->toArray();
 
                 if($sess) {
@@ -155,9 +157,11 @@ class SiteStatsRepository
             foreach ($periodRangesDatesIntervals as $periodRangesDatesInterval) {
 
                 $query = Log::query();
-                $query->selectSub('count(session_id_key)', 'session_id_key_count');
-                $query->having('session_id_key_count', '=', 1);
+                $query->selectRaw('count(session_id_key) as session_id_key_count');
                 $query->groupBy('session_id_key');
+                // Use havingRaw with the expression — PostgreSQL does not
+                // allow referencing column aliases in HAVING clauses.
+                $query->havingRaw('count(session_id_key) = 1');
                 $query = $this->applyDateRangeToQueryBuilder($query, $periodRangesDatesInterval, $startDate, $endDate, $period);
 
                 $sess = $query->get()->toArray();

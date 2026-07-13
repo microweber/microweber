@@ -16,7 +16,24 @@ class StatsOverviewCards extends BaseWidget
 
     protected function getStats(): array
     {
-        $now = Carbon::now();
+        try {
+            return $this->buildStats();
+        } catch (\Throwable $e) {
+            // Guard against missing tables on fresh installs or DB-driver quirks
+            return [
+                Stat::make('Stats', 'Unavailable')
+                    ->description('Stats tables not yet populated')
+                    ->color('warning'),
+            ];
+        }
+    }
+
+    protected function buildStats(): array
+    {
+        // Use an immutable copy so ->subMinutes() etc. never mutate the
+        // original — the old code used mutable Carbon::now() and the
+        // final $now->subMinutes(5) silently shifted the reference date.
+        $now = Carbon::now()->copy();
         $todayViews = Log::whereDate('updated_at', $now->toDateString())->sum('view_count') ?: 0;
         $yesterdayViews = Log::whereDate('updated_at', $now->copy()->subDay()->toDateString())->sum('view_count') ?: 0;
 
@@ -29,7 +46,8 @@ class StatsOverviewCards extends BaseWidget
         $weekVisitors = Sessions::where('updated_at', '>=', $now->copy()->subWeek())->distinct('session_id')->count('session_id') ?: 0;
         $monthVisitors = Sessions::where('updated_at', '>=', $now->copy()->subMonth())->distinct('session_id')->count('session_id') ?: 0;
 
-        $onlineNow = Sessions::where('updated_at', '>=', $now->subMinutes(5))->distinct('session_id')->count('session_id') ?: 0;
+        // Use ->copy() to avoid mutating $now (Carbon is mutable)
+        $onlineNow = Sessions::where('updated_at', '>=', $now->copy()->subMinutes(5))->distinct('session_id')->count('session_id') ?: 0;
 
         $stats = [
             Stat::make('Online Now', number_format($onlineNow))

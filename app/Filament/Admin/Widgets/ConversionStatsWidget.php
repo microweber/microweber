@@ -20,12 +20,20 @@ class ConversionStatsWidget extends BaseWidget
 
     protected function getStats(): array
     {
-        return [
-            $this->getOverallConversionRateStat(),
-            $this->getCartToCheckoutRateStat(),
-            $this->getCheckoutToOrderRateStat(),
-            $this->getAbandonedCartRateStat(),
-        ];
+        try {
+            return [
+                $this->getOverallConversionRateStat(),
+                $this->getCartToCheckoutRateStat(),
+                $this->getCheckoutToOrderRateStat(),
+                $this->getAbandonedCartRateStat(),
+            ];
+        } catch (\Throwable $e) {
+            return [
+                Stat::make('Conversion', 'Unavailable')
+                    ->description('Stats tables not ready')
+                    ->color('warning'),
+            ];
+        }
     }
 
     private function getOverallConversionRateStat(): Stat

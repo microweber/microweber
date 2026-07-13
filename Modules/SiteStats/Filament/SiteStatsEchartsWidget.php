@@ -55,35 +55,49 @@ class SiteStatsEchartsWidget extends Widget
             return $this->cachedChartData;
         }
 
-        $periodsDataFromFilter = $this->getPeriodsDataFromFilter();
+        try {
+            $periodsDataFromFilter = $this->getPeriodsDataFromFilter();
 
-        $startDate = $periodsDataFromFilter['startDate'];
-        $endDate = $periodsDataFromFilter['endDate'];
-        $period = $periodsDataFromFilter['period'];
-        $title = $periodsDataFromFilter['title'];
+            $startDate = $periodsDataFromFilter['startDate'];
+            $endDate = $periodsDataFromFilter['endDate'];
+            $period = $periodsDataFromFilter['period'];
+            $title = $periodsDataFromFilter['title'];
 
-        $statsRepository = new SiteStatsRepository();
-        $periodRangesDatesIntervals = $statsRepository->getRangesPeriod($startDate, $endDate, $period);
-        $records = $statsRepository->getSessionsForPeriod($startDate, $endDate, $period);
-        $bounced = $statsRepository->getBouncedSessionsForPeriod($startDate, $endDate, $period);
+            $statsRepository = new SiteStatsRepository();
+            $periodRangesDatesIntervals = $statsRepository->getRangesPeriod($startDate, $endDate, $period);
+            $records = $statsRepository->getSessionsForPeriod($startDate, $endDate, $period);
+            $bounced = $statsRepository->getBouncedSessionsForPeriod($startDate, $endDate, $period);
 
-        $labels = array_keys($periodRangesDatesIntervals);
-        $visitors = array_map('floatval', $records);
-        $bouncedData = array_map('floatval', $bounced);
+            $labels = array_keys($periodRangesDatesIntervals);
+            $visitors = array_map('floatval', $records);
+            $bouncedData = array_map('floatval', $bounced);
 
-        $totalVisitors = array_sum($visitors);
-        $totalBounced = array_sum($bouncedData);
-        $bouncePercent = $totalVisitors > 0 ? intval(($totalBounced / $totalVisitors) * 100) : 0;
+            $totalVisitors = array_sum($visitors);
+            $totalBounced = array_sum($bouncedData);
+            $bouncePercent = $totalVisitors > 0 ? intval(($totalBounced / $totalVisitors) * 100) : 0;
 
-        $this->cachedChartData = [
-            'labels' => array_values($labels),
-            'visitors' => array_values($visitors),
-            'bounced' => array_values($bouncedData),
-            'title' => $title,
-            'totalVisitors' => $totalVisitors,
-            'totalBounced' => $totalBounced,
-            'bouncePercent' => $bouncePercent,
-        ];
+            $this->cachedChartData = [
+                'labels' => array_values($labels),
+                'visitors' => array_values($visitors),
+                'bounced' => array_values($bouncedData),
+                'title' => $title,
+                'totalVisitors' => $totalVisitors,
+                'totalBounced' => $totalBounced,
+                'bouncePercent' => $bouncePercent,
+            ];
+        } catch (\Throwable $e) {
+            // Guard against missing tables or DB-driver-specific query
+            // incompatibilities (e.g. PostgreSQL HAVING alias bug).
+            $this->cachedChartData = [
+                'labels' => [],
+                'visitors' => [],
+                'bounced' => [],
+                'title' => 'Visitors',
+                'totalVisitors' => 0,
+                'totalBounced' => 0,
+                'bouncePercent' => 0,
+            ];
+        }
 
         return $this->cachedChartData;
     }

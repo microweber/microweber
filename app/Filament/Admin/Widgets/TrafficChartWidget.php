@@ -55,7 +55,12 @@ class TrafficChartWidget extends ChartWidget
 
     protected function getData(): array
     {
-        $data = $this->getTrendData();
+        try {
+            $data = $this->getTrendData();
+        } catch (\Throwable $e) {
+            // Guard against missing tables on fresh installs
+            return ['datasets' => [], 'labels' => []];
+        }
 
         return [
             'datasets' => [

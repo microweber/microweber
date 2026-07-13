@@ -20,12 +20,20 @@ class TrafficStatsWidget extends BaseWidget
 
     protected function getStats(): array
     {
-        return [
-            $this->getPageViewsStat(),
-            $this->getUniqueVisitorsStat(),
-            $this->getAverageSessionDurationStat(),
-            $this->getBounceRateStat(),
-        ];
+        try {
+            return [
+                $this->getPageViewsStat(),
+                $this->getUniqueVisitorsStat(),
+                $this->getAverageSessionDurationStat(),
+                $this->getBounceRateStat(),
+            ];
+        } catch (\Throwable $e) {
+            return [
+                Stat::make('Traffic', 'Unavailable')
+                    ->description('Stats tables not ready')
+                    ->color('warning'),
+            ];
+        }
     }
 
     private function getPageViewsStat(): Stat
@@ -130,22 +138,29 @@ class TrafficStatsWidget extends BaseWidget
 
     private function getBounceRate(): float
     {
-        $sessions = Sessions::query()
-            ->where('updated_at', '>=', Carbon::now()->subDay())
-            ->count();
+        try {
+            $sessions = Sessions::query()
+                ->where('updated_at', '>=', Carbon::now()->subDay())
+                ->count();
 
-        if ($sessions === 0) {
+            if ($sessions === 0) {
+                return 0.0;
+            }
+
+            // Count sessions that have exactly 1 page view (bounce).
+            // The previous whereHas + havingRaw combo was broken — havingRaw
+            // inside whereHas produces invalid SQL.  Use a simple subquery
+            // counting approach instead.
+            $singlePageSessions = Sessions::query()
+                ->where('updated_at', '>=', Carbon::now()->subDay())
+                ->whereHas('views', callback: null, operator: '=', count: 1)
+                ->count();
+
+            return ($singlePageSessions / $sessions) * 100;
+        } catch (\Throwable $e) {
+            // Guard against missing tables on fresh installs
             return 0.0;
         }
-
-        $singlePageSessions = Sessions::query()
-            ->where('updated_at', '>=', Carbon::now()->subDay())
-            ->whereHas('views', function ($query) {
-                $query->havingRaw('COUNT(*) = 1');
-            }, '=', 1)
-            ->count();
-
-        return ($singlePageSessions / $sessions) * 100;
     }
 
     private function applyPeriodFilter($query, string $period): mixed

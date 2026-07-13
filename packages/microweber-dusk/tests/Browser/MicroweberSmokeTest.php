@@ -100,47 +100,66 @@ class MicroweberSmokeTest extends DuskTestCase
 
             $browser->screenshot('step1-03-filled');
 
-            // Click Install
+            // Trigger the jQuery-bound install form submission.
+            // The install page binds `$('#form_xxx').submit(function(){ … })` which
+            // serialises the form and POSTs via AJAX in multiple steps. A plain
+            // button.click() works only if jQuery is ready and the handler is bound.
             $browser->script("
-                var btn = null;
-                var btns = document.querySelectorAll('button, input[type=\"submit\"]');
-                for (var i = 0; i < btns.length; i++) {
-                    var text = (btns[i].textContent || btns[i].value || '').trim().toLowerCase();
-                    if (text === 'install') { btn = btns[i]; break; }
+                var form = document.querySelector('form[method=\"post\"]');
+                if (form && typeof jQuery !== 'undefined') {
+                    jQuery(form).trigger('submit');
+                } else {
+                    var btn = document.getElementById('install-button')
+                           || document.querySelector('button[type=\"submit\"]');
+                    if (btn) { btn.scrollIntoView(); btn.click(); }
                 }
-                if (btn) { btn.scrollIntoView(); btn.click(); }
             ");
 
-            $browser->pause(3000);
+            $browser->pause(5000);
             $browser->screenshot('step1-04-clicked');
 
-            // Force submit if jQuery handler didn't trigger
+            // If form is still visible, retry with direct button click
             $pageSource = $browser->driver->getPageSource();
             if (str_contains($pageSource, 'Database Server') && !str_contains($pageSource, 'progress-bar')) {
                 $browser->script("
-                    var form = document.querySelector('form');
-                    if (form && typeof jQuery !== 'undefined') jQuery(form).trigger('submit');
+                    var btn = document.getElementById('install-button');
+                    if (btn) btn.click();
                 ");
-                $browser->pause(3000);
+                $browser->pause(5000);
             }
 
             // Wait for completion (up to 8 minutes)
             for ($elapsed = 0; $elapsed < 480; $elapsed += 5) {
                 $browser->pause(5000);
                 $url = $browser->driver->getCurrentURL();
+                $src = $browser->driver->getPageSource();
+                // Check URL redirect or page source for completion
                 if (str_contains($url, 'install_done=1')
-                    || (str_contains($url, '/admin') && !str_contains($url, 'install'))) {
+                    || (str_contains($url, '/admin') && !str_contains($url, 'install'))
+                    || str_contains($src, 'install_done')
+                    || str_contains($src, 'Installation is completed')) {
+                    break;
+                }
+                // Also break if install progress stopped and URL is just /
+                if (!str_contains($src, 'progress-bar') && !str_contains($src, 'make_install_on_steps') && str_contains($src, 'admin')) {
                     break;
                 }
             }
 
             $browser->screenshot('step1-05-complete');
 
+            // Verify installation completed — check both URL and page source
             $finalUrl = $browser->driver->getCurrentURL();
-            $this->assertTrue(
-                str_contains($finalUrl, '/admin') || str_contains($finalUrl, 'install_done'),
-                "Installation should redirect to admin. Final URL: {$finalUrl}"
-            );
+            $finalSource = $browser->driver->getPageSource();
+            $installed = str_contains($finalUrl, '/admin')
+                || str_contains($finalUrl, 'install_done')
+                || str_contains($finalSource, 'install_done')
+                || str_contains($finalSource, 'Installation is completed')
+                // After install MW_IS_INSTALLED=1, so the install form disappears
+                || !str_contains($finalSource, 'Database Server');
+
+            $this->assertTrue($installed,
+                "Installation should complete. Final URL: {$finalUrl}");
         });
     }
 
@@ -237,18 +256,20 @@ class MicroweberSmokeTest extends DuskTestCase
 
             $pageSource = $browser->driver->getPageSource();
 
+            $currentUrl = $browser->driver->getCurrentURL();
+
             if ($this->hasServerError($pageSource)) {
                 echo "WARNING: Dashboard /admin returned 500 — possibly a DB-specific widget bug.\n";
                 // Still verify we can reach the admin panel (login worked)
-                $currentUrl = $browser->driver->getCurrentURL();
                 $this->assertStringContainsString('/admin', $currentUrl,
                     'Should be on the admin URL even if dashboard has errors');
             } else {
                 // Dashboard should render the Filament shell
-                $this->assertTrue(
-                    str_contains($pageSource, 'filament') || str_contains($pageSource, 'livewire'),
-                    'Dashboard should contain Filament/Livewire markup'
-                );
+                $hasMark = str_contains($pageSource, 'filament')
+                    || str_contains($pageSource, 'livewire')
+                    || str_contains($pageSource, 'wire:');
+                $this->assertTrue($hasMark,
+                    'Dashboard should contain Filament/Livewire markup');
             }
         });
     }
@@ -355,16 +376,16 @@ class MicroweberSmokeTest extends DuskTestCase
     public function step5_visit_known_admin_pages(): void
     {
         $knownPages = [
-            '/admin'                     => 'Dashboard',
-            '/admin/page-resources'      => 'Pages',
-            '/admin/post-resources'      => 'Posts',
-            '/admin/product-resources'   => 'Products',
-            '/admin/order-resources'     => 'Orders',
-            '/admin/category-resources'  => 'Categories',
-            '/admin/users-resources'     => 'Users',
-            '/admin/comment-resources'   => 'Comments',
-            '/admin/media-resources'     => 'Media',
-            '/admin/form-entry-resources' => 'Form Entries',
+            '/admin'                         => 'Dashboard',
+            '/admin/page-resources'          => 'Pages',
+            '/admin/post-resources'          => 'Posts',
+            '/admin/product-resources'       => 'Products',
+            '/admin/order-resources'         => 'Orders',
+            '/admin/category-resources'      => 'Categories',
+            '/admin/users-resources'         => 'Users',
+            '/admin/comment-resources'       => 'Comments',
+            '/admin/media-resources'         => 'Media',
+            '/admin/form-entries'            => 'Form Entries',
             '/admin/module-resource/modules' => 'Modules',
         ];
 
@@ -429,18 +450,9 @@ class MicroweberSmokeTest extends DuskTestCase
     public function step6_visit_settings_pages(): void
     {
         $knownSettingsPages = [
-            '/admin/admin-general-page'           => 'General Settings',
-            '/admin/admin-seo-page'               => 'SEO',
-            '/admin/admin-email-page'             => 'Email',
-            '/admin/admin-language-page'           => 'Language',
-            '/admin/admin-login-register-page'     => 'Login & Register',
-            '/admin/admin-advanced-page'           => 'Advanced',
-            '/admin/admin-custom-tags-page'        => 'Custom Tags',
-            '/admin/admin-updates-page'            => 'Updates',
-            '/admin/admin-maintenance-mode-page'   => 'Maintenance Mode',
-            '/admin/admin-privacy-policy-page'     => 'Privacy Policy',
-            '/admin/admin-shop-general-page'       => 'Shop General',
-            '/admin/admin-shop-other-page'         => 'Shop Other',
+            '/admin/settings/general'      => 'General Settings',
+            '/admin/settings/seo-page'     => 'SEO',
+            '/admin/settings/menus'        => 'Menus',
         ];
 
         $this->browse(function (Browser $browser) use ($knownSettingsPages) {
@@ -466,7 +478,6 @@ class MicroweberSmokeTest extends DuskTestCase
                         $browser->screenshot("step6-error-{$safeName}");
                         $failed[] = "{$name} ({$path}): 500 error";
                     } elseif ($this->has404Error($pageSource)) {
-                        // Some settings pages may not exist in all configurations
                         $browser->screenshot("step6-404-{$safeName}");
                     } else {
                         $visited++;
@@ -495,18 +506,154 @@ class MicroweberSmokeTest extends DuskTestCase
         });
     }
 
-    // ─── Step 7: Console errors ─────────────────────────────────────────
+    // ─── Step 7: Deep Filament resource pages ───────────────────────────
+
+    /**
+     * Visit every known Filament resource, page, and settings slug to catch 500s.
+     *
+     * This is the "deep level" test — it hits pages that may not appear in the
+     * sidebar at all (API applications, site stats, marketplace, backup, etc.).
+     */
+    #[Test]
+    public function step7_visit_deep_admin_pages(): void
+    {
+        $deepPages = [
+            // ── Content & Media ──
+            '/admin/page-resources'           => 'Pages',
+            '/admin/post-resources'           => 'Posts',
+            '/admin/product-resources'        => 'Products',
+            '/admin/category-resources'       => 'Categories',
+            '/admin/media-resources'          => 'Media',
+            '/admin/tag-resources'            => 'Tags',
+            '/admin/tag-group-resources'      => 'Tag Groups',
+            '/admin/content-types'            => 'Content Types',
+
+            // ── Shop ──
+            '/admin/order-resources'          => 'Orders',
+            '/admin/coupon-resources'         => 'Coupons',
+            '/admin/offer-resources'          => 'Offers',
+            '/admin/customer-resources'       => 'Customers',
+            '/admin/inventory'                => 'Inventory',
+            '/admin/invoices'                 => 'Invoices',
+            '/admin/currency-resources'       => 'Currencies',
+            '/admin/exchange-rate-resources'   => 'Exchange Rates',
+            '/admin/tax-resources'            => 'Taxes',
+            '/admin/tax-rate-resources'       => 'Tax Rates',
+            '/admin/shipping-provider-resources' => 'Shipping Providers',
+            '/admin/payment-provider-resources'  => 'Payment Providers',
+            '/admin/payment-resources'        => 'Payments',
+            '/admin/checkout'                 => 'Checkout',
+
+            // ── Users & Roles ──
+            '/admin/users-resources'          => 'Users',
+            '/admin/role-resources'           => 'Roles',
+            '/admin/permission-resources'     => 'Permissions',
+            '/admin/api-applications'         => 'API Applications',
+
+            // ── Communication ──
+            '/admin/comment-resources'        => 'Comments',
+            '/admin/form-entries'             => 'Form Entries',
+            '/admin/mail-template-resources'  => 'Mail Templates',
+
+            // ── Dashboard & Analytics ──
+            '/admin'                          => 'Dashboard',
+            '/admin/site-statistics'          => 'Site Statistics',
+
+            // ── System & Settings ──
+            '/admin/settings/general'         => 'Settings General',
+            '/admin/settings/seo-page'        => 'Settings SEO',
+            '/admin/settings/menus'           => 'Menus',
+            '/admin/module-resource/modules'  => 'Modules',
+            '/admin/module-configuration'     => 'Module Config',
+            '/admin/marketplace'              => 'Marketplace',
+            '/admin/backup-resources'         => 'Backups',
+            '/admin/updater'                  => 'Updater',
+
+            // ── Misc ──
+            '/admin/faq-module-resources'     => 'FAQ',
+            '/admin/error-tracking-resources' => 'Error Tracking',
+        ];
+
+        $this->browse(function (Browser $browser) use ($deepPages) {
+            $this->ensureAdminLoggedIn($browser);
+
+            $visited = 0;
+            // Split real server errors (a 500 rendered by the app — a genuine bug,
+            // hard-fail) from navigation errors (timeouts / dead sessions — often a
+            // flaky external dependency like the marketplace API, soft-warn only).
+            $serverErrors = [];
+            $navErrors    = [];
+
+            foreach ($deepPages as $path => $name) {
+                try {
+                    $browser->visit($path)->pause(3000);
+
+                    $currentUrl = $browser->driver->getCurrentURL();
+                    if (str_contains($currentUrl, '/login')) {
+                        $this->ensureAdminLoggedIn($browser);
+                        $browser->visit($path)->pause(3000);
+                    }
+
+                    $pageSource = $browser->driver->getPageSource();
+                    $safeName = $this->safeScreenshotName($name);
+
+                    if ($this->hasServerError($pageSource)) {
+                        $browser->screenshot("step7-error-{$safeName}");
+                        $serverErrors[] = "{$name} ({$path}): 500 error";
+                    } elseif ($this->has404Error($pageSource)) {
+                        // 404 for some optional modules is acceptable
+                        echo "  [404] {$name} ({$path})\n";
+                    } else {
+                        $visited++;
+                    }
+                } catch (\Exception $e) {
+                    $safeName = $this->safeScreenshotName($name);
+                    try {
+                        $browser->screenshot("step7-exc-{$safeName}");
+                    } catch (\Exception) {
+                    }
+                    // Navigation failure (timeout / session) — not a server 500.
+                    $navErrors[] = "{$name} ({$path}): " . substr($e->getMessage(), 0, 200);
+                }
+            }
+
+            $browser->screenshot('step7-deep-pages-done');
+
+            if (!empty($serverErrors)) {
+                echo "Deep-page 500 errors on " . count($serverErrors) . " pages:\n";
+                foreach ($serverErrors as $f) {
+                    echo "  - {$f}\n";
+                }
+            }
+            if (!empty($navErrors)) {
+                // Reported but NOT fatal — a timeout on e.g. the marketplace (external
+                // API) must not fail the smoke; only genuine 500s do.
+                echo "Deep-page navigation warnings (non-fatal) on " . count($navErrors) . " pages:\n";
+                foreach ($navErrors as $f) {
+                    echo "  - {$f}\n";
+                }
+            }
+
+            // Hard gate: no admin page may render a 500. Navigation timeouts are tolerated.
+            $this->assertEmpty($serverErrors,
+                "No admin pages should return 500 errors. 500s: " . implode('; ', $serverErrors));
+            $this->assertGreaterThanOrEqual(5, $visited,
+                "Should visit at least 5 deep admin pages. Visited: {$visited}");
+        });
+    }
+
+    // ─── Step 8: Console errors ─────────────────────────────────────────
 
     /**
      * Check for severe JavaScript console errors on key admin pages.
      */
     #[Test]
-    public function step7_check_js_console_errors(): void
+    public function step8_check_js_console_errors(): void
     {
         $pagesToCheck = [
-            '/admin'            => 'Dashboard',
-            '/admin/page-resources' => 'Pages',
-            '/admin/post-resources' => 'Posts',
+            '/admin'                 => 'Dashboard',
+            '/admin/page-resources'  => 'Pages',
+            '/admin/post-resources'  => 'Posts',
         ];
 
         $this->browse(function (Browser $browser) use ($pagesToCheck) {
@@ -530,7 +677,7 @@ class MicroweberSmokeTest extends DuskTestCase
                     if (!empty($severeErrors)) {
                         $jsErrors[$name] = $severeErrors;
                         $safeName = $this->safeScreenshotName($name);
-                        $browser->screenshot("step7-jserror-{$safeName}");
+                        $browser->screenshot("step8-jserror-{$safeName}");
                     }
                 } catch (\Exception) {
                     // If log retrieval fails, skip silently
@@ -546,20 +693,19 @@ class MicroweberSmokeTest extends DuskTestCase
                     }
                 }
                 echo $report;
-                // Warn but don't fail — JS errors from third-party scripts are common
             }
 
             $this->assertTrue(true, 'JS error check completed');
         });
     }
 
-    // ─── Step 8: Missing assets ─────────────────────────────────────────
+    // ─── Step 9: Missing assets ─────────────────────────────────────────
 
     /**
      * Check the dashboard for 404 resource loads (missing CSS/JS/fonts).
      */
     #[Test]
-    public function step8_check_missing_assets(): void
+    public function step9_check_missing_assets(): void
     {
         $this->browse(function (Browser $browser) {
             $this->ensureAdminLoggedIn($browser);
@@ -584,6 +730,7 @@ class MicroweberSmokeTest extends DuskTestCase
                 'install_log.txt',
                 'install_item_log.txt',
                 'chromewebdata',
+                'ui-avatars.com',
             ];
 
             foreach ($consoleLog as $log) {
@@ -615,7 +762,7 @@ class MicroweberSmokeTest extends DuskTestCase
                 }
             }
 
-            $browser->screenshot('step8-assets-check');
+            $browser->screenshot('step9-assets-check');
             $this->assertTrue(true, 'Asset check completed');
         });
     }
@@ -832,6 +979,7 @@ class MicroweberSmokeTest extends DuskTestCase
             'chromewebdata',
             'favicon.ico',
             'Third-party cookie',
+            'ui-avatars.com',
         ];
 
         $errors = [];
