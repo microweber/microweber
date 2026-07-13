@@ -5,11 +5,7 @@ namespace MicroweberPackages\User\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Passport\Client;
-use Laravel\Passport\Passport;
-use Laravel\Passport\PersonalAccessClient;
 use Illuminate\Support\Str;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController
 {
@@ -49,7 +45,10 @@ class AuthController
 //        }
 
 
-        $token = $user->createToken('AuthToken')->plainTextToken;
+        // Passport's createToken() returns PersonalAccessTokenResult.
+        // The plain-text JWT lives in ->accessToken (not ->plainTextToken
+        // which is the Sanctum API).
+        $token = $user->createToken('AuthToken')->accessToken;
         return response()->json([
             'token' => $token,
             'token_type' => 'Bearer',

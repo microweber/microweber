@@ -2,12 +2,18 @@
 
 namespace MicroweberPackages\User\Services;
 
-use phpseclib3\Crypt\RSA;
-
-class RSAKeys extends RSA
+/**
+ * Backward-compatibility alias.
+ *
+ * The real RSA key management has moved to the microweber-passport package.
+ *
+ * @deprecated Use \MicroweberPackages\Passport\Services\RSAKeyManager
+ */
+class RSAKeys extends \phpseclib3\Crypt\RSA
 {
     public function toString($type, array $options = [])
     {
-        // TODO: Implement toString() method.
+        // Legacy stub — use RSAKeyManager::ensureKeys() instead.
+        return '';
     }
 }

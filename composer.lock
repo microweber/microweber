@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e330b5ef67cba97dfae5f23f652b6310",
+    "content-hash": "03284979be9e5932750c15f9a6df066f",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10455,6 +10455,53 @@
                 "source": "https://github.com/microweber-packages/omnipay-momo-mtn/tree/0.2"
             },
             "time": "2025-09-25T10:07:12+00:00"
+        },
+        {
+            "name": "microweber-packages/passport",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-passport",
+                "reference": "d4fcfd4e3f0d4d0f4eaf2673e2824bc6e34a35e2"
+            },
+            "require": {
+                "illuminate/database": "^11.0|^12.0",
+                "illuminate/routing": "^11.0|^12.0",
+                "illuminate/support": "^11.0|^12.0",
+                "laravel/passport": "^12.0|^13.0",
+                "php": "^8.2",
+                "phpseclib/phpseclib": "^3.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^9.0|^10.0",
+                "phpunit/phpunit": "^11.0|^12.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Passport\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Passport\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber Passport – OAuth2 API token management built on Laravel Passport. Usable standalone in any Laravel app or inside Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "microweber-packages/phpquery",

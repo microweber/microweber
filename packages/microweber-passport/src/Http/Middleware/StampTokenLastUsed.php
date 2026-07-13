@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MicroweberPackages\User\Http\Middleware;
+namespace MicroweberPackages\Passport\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\DB;
  * authenticated API request is served.
  *
  * The stamp is throttled by a short-lived cache key so a high-traffic
- * token does not generate one write per request. Only the first
- * request per token in each configured window performs the DB write;
- * every other request in the window is a no-op.
+ * token does not generate one write per request.
  */
 class StampTokenLastUsed
 {
@@ -34,25 +32,24 @@ class StampTokenLastUsed
     {
         $user = $request->user();
 
-        if (! $user || ! method_exists($user, 'token')) {
+        if (!$user || !method_exists($user, 'token')) {
             return;
         }
 
         $accessToken = $user->token();
-        $tokenId = $accessToken?->oauth_access_token_id ?? $accessToken?->id;
 
-        if (! $tokenId) {
+        // Passport 12+ stores the token ID in `id`, older versions
+        // may use `oauth_access_token_id`.
+        $tokenId = $accessToken?->id ?? $accessToken?->oauth_access_token_id ?? null;
+
+        if (!$tokenId) {
             return;
         }
 
-        $interval = max(1, (int) config('passport.token_usage_stamp_interval_seconds', 60));
+        $interval = max(1, (int) config('microweber-passport.token_usage_stamp_interval_seconds', 60));
 
-        $cacheKey = 'passport:token_last_used:' . $tokenId;
+        $cacheKey = 'mw_passport:token_last_used:' . $tokenId;
 
-        // Microweber's bundled TaggableFileStore does not return a reliable
-        // boolean from put(), which makes Cache::add() unusable as a mutex.
-        // An explicit get/put pair gives us the same "first caller wins"
-        // semantics with no dependency on that quirk.
         if (Cache::get($cacheKey) !== null) {
             return;
         }

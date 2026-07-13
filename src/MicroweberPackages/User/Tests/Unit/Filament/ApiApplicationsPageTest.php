@@ -6,7 +6,7 @@ namespace MicroweberPackages\User\Tests\Unit\Filament;
 
 use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
-use MicroweberPackages\User\Filament\Pages\ApiApplicationsPage;
+use MicroweberPackages\Passport\Filament\Pages\ApiApplicationsPage;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;

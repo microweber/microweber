@@ -15,11 +15,9 @@ use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Laravel\Passport\Passport;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\User\Filament\Pages\ApiApplicationsPage;
 use MicroweberPackages\User\Filament\Pages\AdminProfileRedirectPage;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Events\ServingAdmin;
@@ -48,6 +46,13 @@ class UserServiceProvider extends AuthServiceProvider
     public function register()
     {
         $this->app->register(\MicroweberPackages\User\Providers\AuthServiceProvider::class);
+
+        // Register the Passport package in the REGISTER phase (not boot) so its
+        // /api/passport/* routes load before AppServiceProvider::boot() loads the
+        // greedy api/{all} catch-all in App/routes/web.php — otherwise the
+        // catch-all (registered first) swallows them. Mirrors how this provider
+        // loads its own routes in register() below.
+        $this->app->register(\MicroweberPackages\Passport\Providers\MicroweberPassportServiceProvider::class);
         $this->app->singleton('user_manager', function ($app) {
             return new UserManager();
         });
@@ -90,7 +95,8 @@ class UserServiceProvider extends AuthServiceProvider
 
         Event::listen(ServingAdmin::class, [$this, 'registerMenu']);
 
-        FilamentRegistry::registerPage(ApiApplicationsPage::class);
+        // Passport Filament pages are now registered by the microweber-passport package.
+        // No need to register ApiApplicationsPage here.
 
         // task-2026-06-06-AI839 — make /admin/profile resolve (it redirects to
         // the signed-in user's edit page) instead of falling through to 404.
@@ -122,49 +128,8 @@ class UserServiceProvider extends AuthServiceProvider
          * @property \MicroweberPackages\User\Services\UserManager $user_manager
          */
 
-        [$publicKey, $privateKey] = [
-            storage_path('oauth-public.key'),
-            storage_path('oauth-private.key'),
-        ];
-
-        $need_to_generate_keys = false;
-
-        if (!is_file($publicKey) or !is_file($privateKey)) {
-            $need_to_generate_keys = true;
-        }
-
-      /*  else if (is_file($privateKey) and filesize($privateKey) < 10){
-            $need_to_generate_keys = true;
-        }*/
-
-        if ($need_to_generate_keys) {
-            $privateKeyGenerate = \MicroweberPackages\User\Services\RSAKeys::createKey(4096);
-            $publicKeyGenerate = $privateKeyGenerate->getPublicKey();
-            $privateKeyValue = $privateKeyGenerate->toString('PKCS8');
-            $publicKeyValue = $publicKeyGenerate->toString('PKCS8');
-
-            file_put_contents($publicKey, $publicKeyValue);
-            file_put_contents($privateKey, $privateKeyValue);
-            chmod($publicKey, 0600);
-            chmod($privateKey, 0600);
-        }
-        $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
         $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
-
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
-
-        Passport::tokensExpireIn(now()->addDays(15));
-        Passport::refreshTokensExpireIn(now()->addDays(30));
-        Passport::personalAccessTokensExpireIn(now()->addYear());
-
-        Passport::tokensCan(self::headlessApiScopes());
-        Passport::setDefaultScope(['*']);
-
-        /** @var \Illuminate\Routing\Router $router */
-        $router = $this->app['router'];
-        $router->aliasMiddleware('scope', \Laravel\Passport\Http\Middleware\CheckToken::class);
-        $router->aliasMiddleware('scopes', \Laravel\Passport\Http\Middleware\CheckTokenForAnyScope::class);
-        $router->aliasMiddleware('token.audit', \MicroweberPackages\User\Http\Middleware\StampTokenLastUsed::class);
 
         // Register Validators
         Validator::extendImplicit(
@@ -181,44 +146,13 @@ class UserServiceProvider extends AuthServiceProvider
     /**
      * Passport scopes for the /api/module/* headless API.
      *
-     * Each module exposes `<slug>:read` and `<slug>:write` so personal
-     * tokens can be narrowed to the subset of endpoints they actually
-     * need. Tokens issued without explicit scopes default to `['*']`
-     * (full access), which preserves pre-scoping token behaviour.
+     * Delegates to the microweber-passport package config. Kept here as a
+     * convenience accessor for CMS code that references this method.
      *
      * @return array<string, string>
      */
     public static function headlessApiScopes(): array
     {
-        $modules = [
-            'content' => 'Content',
-            'pages' => 'Pages',
-            'posts' => 'Posts',
-            'tags' => 'Tags',
-            'comments' => 'Comments',
-            'menus' => 'Menus',
-            'media' => 'Media files',
-            'forms' => 'Contact forms',
-            'products' => 'Products',
-            'categories' => 'Categories',
-            'orders' => 'Orders',
-            'coupons' => 'Coupons',
-            'shipping' => 'Shipping options',
-            'tax' => 'Tax rules',
-            'invoices' => 'Invoices',
-            'users' => 'Users',
-            'customers' => 'Customers',
-            'profile' => 'The authenticated user profile',
-            'newsletter' => 'Newsletter subscribers',
-            'settings' => 'Site settings',
-        ];
-
-        $scopes = [];
-        foreach ($modules as $slug => $label) {
-            $scopes["{$slug}:read"] = "Read {$label}";
-            $scopes["{$slug}:write"] = "Create, update and delete {$label}";
-        }
-
-        return $scopes;
+        return config('microweber-passport.scopes', []);
     }
 }

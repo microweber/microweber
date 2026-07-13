@@ -164,7 +164,8 @@
         "inspector-apm/neuron-ai": "^2.0",
         "microweber-packages/omnipay-momo-mtn": "^0.2",
         "lara-zeus/spatie-translatable": "^2.0",
-        "microweber-packages/phpquery": "^1.0"
+        "microweber-packages/phpquery": "^1.0",
+        "microweber-packages/passport": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -204,6 +205,7 @@
             "MicroweberPackages\\ConfigMerge\\": "packages/microweber-config-merge/src/",
             "MicroweberPackages\\Core\\": "packages/microweber-core/src/",
             "MicroweberPackages\\Pagination\\": "packages/microweber-pagination/src/",
+            "MicroweberPackages\\Passport\\": "packages/microweber-passport/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
@@ -236,6 +238,7 @@
             "MicroweberPackages\\ConfigMerge\\Tests\\": "packages/microweber-config-merge/tests/",
             "MicroweberPackages\\Core\\Tests\\": "packages/microweber-core/tests/",
             "MicroweberPackages\\Pagination\\Tests\\": "packages/microweber-pagination/tests/",
+            "MicroweberPackages\\Passport\\Tests\\": "packages/microweber-passport/tests/",
             "MicroweberPackages\\Dusk\\": "packages/microweber-dusk/src/",
             "MicroweberPackages\\Dusk\\Tests\\": "packages/microweber-dusk/tests/"
         }
@@ -360,6 +363,7 @@
                 "rappasoft/laravel-livewire-tables",
                 "rtconner/laravel-tagging",
                 "butschster/meta-tags",
+                "microweber-packages/passport",
                 "laravel/passport",
                 "laravel/sanctum",
                 "laravel/cashier",
@@ -605,6 +609,14 @@
         {
             "type": "path",
             "url": "packages/microweber-format",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-passport",
             "options": {
                 "reference": "config",
                 "symlink": true
