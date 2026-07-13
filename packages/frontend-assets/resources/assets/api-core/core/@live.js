@@ -67,7 +67,14 @@ export class LiveEdit {
             ) {
                 e.stopImmediatePropagation();
                 e.preventDefault();
-                mw.app.editor.dispatch("editNodeRequest", element);
+                // Images open the change-image picker on DOUBLE-click only (handled by the
+                // dblclick handler below). A single click on an already-selected image keeps
+                // it selected instead of re-opening the picker — a freshly inserted image is
+                // already selected, so one stray click used to reopen the modal. Text and
+                // other elements keep their single-click "click-again to edit" behaviour.
+                if (!liveEditHelpers.targetIsImageElement(element)) {
+                    mw.app.editor.dispatch("editNodeRequest", element);
+                }
             }
         });
 
@@ -589,7 +596,15 @@ export class LiveEdit {
             this.handles.targetIsSelected(target, this.interactionHandle) &&
             mw.top().app.liveEdit.elementHandle.getTarget() === element
         ) {
-            mw.app.editor.dispatch("editNodeRequest", element);
+            // Images open the change-image picker on DOUBLE-click only (handled by the
+            // dblclick handler below). A single click on an already-selected image keeps it
+            // selected rather than re-opening the picker — a freshly inserted image is
+            // already selected, so one stray click used to reopen the modal. Text and other
+            // elements still enter edit mode on click-again. The mw-img-placeholder is a div
+            // (not an IMG), so its single-click "Click to set image" flow is unaffected.
+            if (!liveEditHelpers.targetIsImageElement(element)) {
+                mw.app.editor.dispatch("editNodeRequest", element);
+            }
             return;
         }
 
@@ -658,11 +673,15 @@ export class LiveEdit {
         first = target;
 
         if (target && target === elementTarget) {
+            // See above — a single click never opens the image picker (double-click does).
+            var _targetIsImage = liveEditHelpers.targetIsImageElement(target);
             if (typeof event !== "undefined") {
                 event.preventDefault();
                 event.stopImmediatePropagation();
-                mw.app.editor.dispatch("editNodeRequest", target, event);
-            } else {
+                if (!_targetIsImage) {
+                    mw.app.editor.dispatch("editNodeRequest", target, event);
+                }
+            } else if (!_targetIsImage) {
                 mw.app.editor.dispatch("editNodeRequest", target);
             }
         }

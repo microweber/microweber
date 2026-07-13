@@ -116,7 +116,7 @@ a i::before {
 
 /* ---- Dark background ---- */
 .mw-layout-dark-background {
-    background-color: rgb(31, 41, 55) !important;
+    background-color: rgb(31, 41, 55);
 }
 
 .mw-layout-dark-background h1,
@@ -269,6 +269,15 @@ a i::before {
     font-weight: 600;
     margin-bottom: 30px;
     letter-spacing: 0.2rem;
+}
+
+/* ---- Features-skin-2 + Big-misc-skin-5 (Big template) ---- */
+.features-skin-2 .features-skin-2-icons {
+    font-size: 48px;
+}
+
+.big-misc-skin-5-image img {
+    filter: grayscale(100%);
 }
 
 /* ---- Testimonials / digital parallax sections (Big template) ---- */

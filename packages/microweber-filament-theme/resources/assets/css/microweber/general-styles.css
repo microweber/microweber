@@ -170,6 +170,58 @@ body.fi-panel-checkout .fi-btn {
     color: #fff;
 }
 
+/* ── Image-picker tabs → admin underline tabs ──────────────────────────────────
+   The "Select image" picker (Media library / My computer / Enter prompt / URL) reuses the
+   legacy device-switcher chip-strip (.mw-live-edit-resolutions-wrapper) and rendered as a
+   grey segmented/pill control — inconsistent with the rest of the admin, which uses
+   ink-underline tabs (active = ink #182433 text + underline, muted inactive, hairline
+   baseline). Restyle to match. Scoped to the `.mw-filepicker-component-tab-nav` marker so
+   the top-bar device switcher keeps its chip strip. Compound selectors (higher specificity)
+   beat the chip-strip base rules regardless of bundle order. */
+.mw-live-edit-resolutions-wrapper.mw-filepicker-component-tab-nav {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid #eceef1 !important;
+    max-height: none !important;
+    padding: 0 !important;
+    gap: 4px !important;
+    justify-content: flex-start !important;
+}
+.mw-live-edit-resolutions-wrapper.mw-filepicker-component-tab-nav .live-edit-toolbar-buttons {
+    background-color: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    color: #718096 !important;                 /* muted inactive (admin tab colour) */
+    box-shadow: none !important;
+    width: auto !important;                     /* override inline w-100 → left-aligned auto */
+    padding: 10px 16px !important;
+    font-weight: 500 !important;
+    margin-bottom: -1px !important;             /* overlap the container hairline baseline */
+}
+.mw-live-edit-resolutions-wrapper.mw-filepicker-component-tab-nav .live-edit-toolbar-buttons:hover,
+.mw-live-edit-resolutions-wrapper.mw-filepicker-component-tab-nav .live-edit-toolbar-buttons:focus {
+    background-color: transparent !important;
+    color: #182433 !important;
+}
+.mw-live-edit-resolutions-wrapper.mw-filepicker-component-tab-nav .live-edit-toolbar-buttons.active {
+    background-color: transparent !important;
+    color: #182433 !important;                  /* ink active label */
+    border-bottom-color: #182433 !important;    /* ink underline */
+    font-weight: 600 !important;
+}
+.dark .mw-live-edit-resolutions-wrapper.mw-filepicker-component-tab-nav {
+    border-bottom-color: rgb(55 65 81) !important;
+}
+.dark .mw-live-edit-resolutions-wrapper.mw-filepicker-component-tab-nav .live-edit-toolbar-buttons {
+    color: #9ca3af !important;
+}
+.dark .mw-live-edit-resolutions-wrapper.mw-filepicker-component-tab-nav .live-edit-toolbar-buttons:hover,
+.dark .mw-live-edit-resolutions-wrapper.mw-filepicker-component-tab-nav .live-edit-toolbar-buttons.active {
+    color: #fff !important;
+    border-bottom-color: #fff !important;
+}
+
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
     @apply rounded !p-1.5 shadow-none border-none;
