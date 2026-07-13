@@ -69,7 +69,8 @@ class FilamentProfilePanelProvider extends PanelProvider
             ->plugin(new MicroweberFilamentTheme())
             ->plugin(
                 MicroweberFilamentSocialitePlugin::make()->configure()
-            );
+            )
+            ->plugin(\MicroweberPackages\Fortify\Filament\MicroweberFortifyPlugin::make());
 
         //    ->viteTheme('resources/css/filament/profile/theme.css');
     }

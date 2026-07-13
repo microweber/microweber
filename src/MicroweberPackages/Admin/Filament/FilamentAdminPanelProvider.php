@@ -480,6 +480,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         //    $panel->plugin(new MarketplaceFilamentPlugin());
         $panel->plugin(new MultilanguageFilamentPlugin());
          $panel->plugin(MicroweberFilamentSocialitePlugin::make()->admin()->configure());
+        $panel->plugin(\MicroweberPackages\Fortify\Filament\MicroweberFortifyPlugin::make());
 
         if ($registeredPlugins) {
             foreach ($registeredPlugins as $registeredPlugin) {

@@ -16,9 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider;
-use Laravel\Fortify\Fortify;
-use Laravel\Fortify\TwoFactorAuthenticatable;
+use MicroweberPackages\Fortify\Traits\HasTwoFactorAuthentication as FortifyTwoFactorAuthentication;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Passport\Contracts\OAuthenticatable;
 
@@ -37,7 +35,7 @@ use MicroweberPackages\User\Events\UserWasUpdated;
 use MicroweberPackages\User\Models\ModelFilters\UserFilter;
 use MicroweberPackages\User\Notifications\MailResetPasswordNotification;
 use MicroweberPackages\User\Notifications\MustVerifyEmailTrait;
-use Modules\Profile\Traits\HasTwoFactorAuthentication;
+
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Validation\Rule;
 use \Illuminate\Support\Facades\Auth;
@@ -49,7 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
 {
     use HasFactory,
     Notifiable,
-    TwoFactorAuthenticatable,
+    FortifyTwoFactorAuthentication,
     \Spatie\Permission\Traits\HasRoles,
     HasApiTokens,
     Filterable,

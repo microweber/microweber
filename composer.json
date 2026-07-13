@@ -206,6 +206,7 @@
             "MicroweberPackages\\Core\\": "packages/microweber-core/src/",
             "MicroweberPackages\\Pagination\\": "packages/microweber-pagination/src/",
             "MicroweberPackages\\Passport\\": "packages/microweber-passport/src/",
+            "MicroweberPackages\\Fortify\\": "packages/microweber-fortify/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
@@ -239,6 +240,7 @@
             "MicroweberPackages\\Core\\Tests\\": "packages/microweber-core/tests/",
             "MicroweberPackages\\Pagination\\Tests\\": "packages/microweber-pagination/tests/",
             "MicroweberPackages\\Passport\\Tests\\": "packages/microweber-passport/tests/",
+            "MicroweberPackages\\Fortify\\Tests\\": "packages/microweber-fortify/tests/",
             "MicroweberPackages\\Dusk\\": "packages/microweber-dusk/src/",
             "MicroweberPackages\\Dusk\\Tests\\": "packages/microweber-dusk/tests/"
         }
