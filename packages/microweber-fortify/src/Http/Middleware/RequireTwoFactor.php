@@ -27,7 +27,7 @@ class RequireTwoFactor
         // Check if user is admin (for admin-only requirement)
         if ($requireAdmin && !$requireAll) {
             $isAdmin = false;
-            if (method_exists($user, 'is_admin') && $user->is_admin == 1) {
+            if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
                 $isAdmin = true;
             } elseif (method_exists($user, 'hasRole') && $user->hasRole('admin')) {
                 $isAdmin = true;

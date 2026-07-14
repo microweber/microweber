@@ -20,7 +20,7 @@ class AdminLoginRegisterPage extends AdminSettingsPage
 
     protected static string $description = 'Configure your login and registration settings';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'User Settings';
 
 
 
@@ -80,6 +80,30 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                                 return new HtmlString(
                                     'If you disable login, the login form will not be shown on the front-end. <br> <strong>Note:</strong> This will not disable the admin login.'
                                 );
+                            }),
+                    ]),
+
+                // Two-factor requirement — read by MicroweberPackages\Fortify's
+                // RequireTwoFactor middleware via get_option($key, 'users'),
+                // so these bind to the same options.users.* keys.
+                Section::make('Two-Factor Authentication')
+                    ->icon('heroicon-m-shield-check')
+                    ->view('mw-filament::sections.section')
+                    ->description('Require users to set up two-factor authentication (2FA) when they log in.')
+                    ->schema([
+                        Toggle::make('options.users.require2fa_all')
+                            ->label('Require 2FA for all users')
+                            ->live()
+                            ->helperText(function () {
+                                return new HtmlString('<small class="text-muted d-block mb-2">When enabled, every user is redirected to the 2FA setup page after login until they enable two-factor authentication.</small>');
+                            }),
+                        Toggle::make('options.users.require2fa_admin_only')
+                            ->label('Require 2FA for admin users only')
+                            ->live()
+                            // Mirrors the middleware: the admin-only rule only applies when "all" is off.
+                            ->visible(fn (callable $get) => ! $get('options.users.require2fa_all'))
+                            ->helperText(function () {
+                                return new HtmlString('<small class="text-muted d-block mb-2">When enabled, only admin users must set up 2FA. Ignored while "Require 2FA for all users" is on.</small>');
                             }),
                     ]),
                 Section::make('Facebook Login')

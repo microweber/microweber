@@ -74,14 +74,14 @@
         {{-- Confirmation form --}}
         @if ($showingConfirmation)
             <div class="mt-4">
-                <label for="2fa-code" class="block text-sm font-medium text-gray-700 mb-1">
+                <label for="two-factor-code" class="block text-sm font-medium text-gray-700 mb-1">
                     {{ __('Enter the 6-digit code from your authenticator app') }}
                 </label>
                 <div class="flex gap-2">
-                    <input wire:model="code" type="text" id="2fa-code" inputmode="numeric"
+                    <input wire:model="code" type="text" id="two-factor-code" inputmode="numeric"
                            maxlength="6" pattern="[0-9]{6}" placeholder="000000"
                            class="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-40" />
-                    <button wire:click="confirmTwoFactorCode" type="button"
+                    <button wire:click="confirmTwoFactorCode" type="button" id="confirm-2fa-code-btn"
                             class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                         {{ __('Confirm') }}
                     </button>

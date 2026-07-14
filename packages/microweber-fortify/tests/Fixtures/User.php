@@ -2,13 +2,14 @@
 
 namespace MicroweberPackages\Fortify\Tests\Fixtures;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use MicroweberPackages\Fortify\Traits\HasTwoFactorAuthentication;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasTwoFactorAuthentication;
+    use HasFactory, Notifiable, HasTwoFactorAuthentication;
 
     protected $fillable = [
         'name',
@@ -16,6 +17,7 @@ class User extends Authenticatable
         'username',
         'password',
         'is_admin',
+        'is_active',
     ];
 
     protected $hidden = [
@@ -29,6 +31,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'two_factor_confirmed_at' => 'datetime',
             'password' => 'hashed',
         ];
     }

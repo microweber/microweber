@@ -1,41 +1,43 @@
 <x-filament-panels::page>
-    <div>
+    <div class="space-y-6">
         @if(! auth()->user()->two_factor_secret)
             {{-- Enable 2FA --}}
-            <div class="mt-4">
-                <h2 class="text-lg font-medium">{{ __('Two Factor Authentication') }}</h2>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    {{ __('Add additional security to your account using two factor authentication.') }}
-                </p>
-                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            <x-filament::section>
+                <x-slot name="heading">{{ __('Two Factor Authentication') }}</x-slot>
+                <x-slot name="description">{{ __('Add additional security to your account using two factor authentication.') }}</x-slot>
+
+                <p class="text-sm text-gray-500 dark:text-gray-400">
                     {{ __('When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone\'s Google Authenticator application.') }}
                 </p>
-                <div class="mt-5">
+
+                <div class="mt-4">
                     <x-filament::button wire:click="enableTwoFactorAuthentication" wire:loading.attr="disabled" color="primary" id="enable-2fa-btn">
-                        <span wire:loading.remove>{{ __('Enable') }}</span>
-                        <span wire:loading>{{ __('Enabling...') }}</span>
+                        <span wire:loading.remove wire:target="enableTwoFactorAuthentication">{{ __('Enable') }}</span>
+                        <span wire:loading wire:target="enableTwoFactorAuthentication">{{ __('Enabling...') }}</span>
                     </x-filament::button>
                 </div>
-            </div>
+            </x-filament::section>
         @else
             {{-- 2FA is enabled or pending confirmation --}}
-            <div class="mt-4">
-                <h2 class="text-lg font-medium">{{ __('Two Factor Authentication') }}</h2>
+            <x-filament::section>
+                <x-slot name="heading">{{ __('Two Factor Authentication') }}</x-slot>
 
                 @if(auth()->user()->two_factor_confirmed_at)
-                    <div class="mt-2 p-3 bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg">
+                    <div class="p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
                         <p class="text-green-700 dark:text-green-300 font-medium">✓ {{ __('Two factor authentication is enabled.') }}</p>
                     </div>
                 @else
-                    <p class="mt-1 text-sm text-yellow-600 dark:text-yellow-400">
-                        {{ __('Two factor authentication is enabled but not yet confirmed. Please scan the QR code and enter a code to confirm.') }}
-                    </p>
+                    <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg">
+                        <p class="text-yellow-700 dark:text-yellow-300 text-sm">
+                            {{ __('Two factor authentication is enabled but not yet confirmed. Please scan the QR code and enter a code to confirm.') }}
+                        </p>
+                    </div>
                 @endif
 
                 @if ($showingQrCode)
                     <div class="mt-4">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
-                            {{ __('Scan the following QR code using your phone\'s authenticator application.') }}
+                            {{ __('Scan the following QR code using your phone\'s authenticator application (Google Authenticator, Authy, etc).') }}
                         </p>
                         <div class="mt-4 p-4 bg-white dark:bg-gray-900 inline-block rounded-lg shadow" id="two-factor-qr-code">
                             {!! auth()->user()->twoFactorQrCodeSvg() !!}
@@ -61,7 +63,7 @@
                         <form wire:submit.prevent="confirmTwoFactorAuthentication">
                             {{ $this->form }}
                             <div class="mt-4">
-                                <x-filament::button type="submit">
+                                <x-filament::button type="submit" id="confirm-2fa-code-btn">
                                     {{ __('Confirm') }}
                                 </x-filament::button>
                             </div>
@@ -99,33 +101,33 @@
                         {{ __('Disable') }}
                     </x-filament::button>
                 </div>
-            </div>
+            </x-filament::section>
         @endif
 
-        {{-- Password confirmation modal --}}
+        {{-- Password confirmation overlay --}}
         @if ($this->confirmingPassword)
-            <x-filament::modal id="confirm-password" wire:model="confirmingPassword"
-                               :heading="__('Confirm Password')"
-                               :description="__('For your security, please confirm your password to continue.')">
-                <form wire:submit.prevent="confirmPassword">
-                    <div>
-                        <x-filament::input.wrapper>
-                            <x-filament::input type="password" wire:model="confirmablePassword"
-                                               required autocomplete="current-password"
-                                               placeholder="{{ __('Password') }}" id="confirm-password-input" />
-                        </x-filament::input.wrapper>
-                    </div>
-                    <x-slot name="footer">
-                        <div class="flex justify-end gap-x-4">
-                            <x-filament::button wire:click="stopConfirmingPassword">{{ __('Cancel') }}</x-filament::button>
+            <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 dark:bg-gray-900/75" id="password-confirm-modal">
+                <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-gray-800">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('Confirm Password') }}</h3>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('For your security, please confirm your password to continue.') }}</p>
+
+                    <form wire:submit.prevent="confirmPassword" class="mt-4">
+                        <div>
+                            <input type="password" wire:model="confirmablePassword"
+                                   required autocomplete="current-password"
+                                   placeholder="{{ __('Password') }}" id="confirm-password-input"
+                                   class="fi-input block w-full rounded-lg border-gray-300 shadow-sm outline-none transition duration-75 focus:border-primary-500 focus:ring-1 focus:ring-inset focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm" />
+                        </div>
+                        <div class="mt-4 flex justify-end gap-x-3">
+                            <x-filament::button wire:click="stopConfirmingPassword" color="gray">{{ __('Cancel') }}</x-filament::button>
                             <x-filament::button type="submit" color="primary">
                                 <span wire:loading.remove wire:target="confirmPassword">{{ __('Confirm') }}</span>
                                 <span wire:loading wire:target="confirmPassword">{{ __('Confirming...') }}</span>
                             </x-filament::button>
                         </div>
-                    </x-slot>
-                </form>
-            </x-filament::modal>
+                    </form>
+                </div>
+            </div>
         @endif
     </div>
 </x-filament-panels::page>

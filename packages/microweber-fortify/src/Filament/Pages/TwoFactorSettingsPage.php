@@ -2,12 +2,10 @@
 
 namespace MicroweberPackages\Fortify\Filament\Pages;
 
-use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
-use Filament\Pages\Concerns\InteractsWithFormActions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
@@ -17,14 +15,13 @@ use Laravel\Fortify\Actions\GenerateNewRecoveryCodes;
 
 class TwoFactorSettingsPage extends Page
 {
-    use InteractsWithFormActions;
-
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-shield-check';
     protected static ?string $navigationLabel = 'Two-Factor Auth';
     protected static ?string $title = 'Two-Factor Authentication';
-    protected static ?string $slug = 'two-factor-settings';
-    protected static ?int $navigationSort = 99;
+    protected static string | \UnitEnum | null $navigationGroup = 'User Settings';
+    protected static ?int $navigationSort = 999;
     protected static bool $shouldRegisterNavigation = true;
+    protected static string $description = 'Configure your 2FA settings, including enabling/disabling 2FA, viewing recovery codes, and regenerating recovery codes.';
 
     protected string $view = 'microweber-fortify::filament.pages.two-factor-settings';
 
@@ -36,6 +33,11 @@ class TwoFactorSettingsPage extends Page
     public ?string $confirmablePassword = null;
     public bool $confirmingPassword = false;
     public ?string $pendingAction = null;
+
+    public static function getSlug(?\Filament\Panel $panel = null): string
+    {
+        return 'two-factor-settings';
+    }
 
     public function mount(): void
     {
@@ -60,11 +62,6 @@ class TwoFactorSettingsPage extends Page
                     ->minLength(6),
             ])
             ->statePath('data');
-    }
-
-    protected function getFormActions(): array
-    {
-        return [];
     }
 
     public function enableTwoFactorAuthentication(): void
@@ -199,10 +196,5 @@ class TwoFactorSettingsPage extends Page
     public static function shouldRegisterNavigation(): bool
     {
         return Auth::check();
-    }
-
-    public static function getNavigationGroup(): ?string
-    {
-        return __('Settings');
     }
 }

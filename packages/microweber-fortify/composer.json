@@ -12,7 +12,7 @@
     "require": {
         "php": "^8.2",
         "laravel/fortify": "^1.25",
-        "pragmarx/google2fa": "^8.0",
+        "pragmarx/google2fa": "^8.0|^9.0",
         "bacon/bacon-qr-code": "^3.0",
         "livewire/livewire": "^3.0"
     },

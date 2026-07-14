@@ -288,6 +288,14 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->label('Language Settings')
                     ->collapsed(false)
                     ->collapsible(true),
+                'User Settings' => NavigationGroup::make()
+                    ->extraSidebarAttributes([
+                        'class' => 'hidden bg-gray-50 dark:bg-gray-900',
+                    ])
+                    ->label('User Settings')
+                    ->collapsed(false)
+                    ->collapsible(true),
+
             ])
             ->navigationItems([
            /*     NavigationItem::make('E-mail Marketing')

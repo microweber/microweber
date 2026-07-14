@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Validator;
-use MicroweberPackages\Fortify\Traits\HasTwoFactorAuthentication as FortifyTwoFactorAuthentication;
+use MicroweberPackages\Fortify\Traits\HasTwoFactorAuthentication;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Passport\Contracts\OAuthenticatable;
 
@@ -47,7 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
 {
     use HasFactory,
     Notifiable,
-    FortifyTwoFactorAuthentication,
+    HasTwoFactorAuthentication,
     \Spatie\Permission\Traits\HasRoles,
     HasApiTokens,
     Filterable,

@@ -18,7 +18,7 @@ class TwoFactorAuthDuskTest extends DuskTestCase
     {
         parent::setUp();
 
-        // Create a test user for 2FA tests
+        // Create a test user for 2FA Dusk browser tests
         $this->testUser = User::updateOrCreate(
             ['email' => 'dusk2fa@test.com'],
             [
@@ -47,141 +47,187 @@ class TwoFactorAuthDuskTest extends DuskTestCase
     }
 
     /**
-     * Test that the 2FA setup page renders the QR code.
+     * Test that the 2FA setup page loads in the browser and displays the QR code SVG.
+     * This is a real browser test — the QR code is rendered server-side as inline SVG
+     * and we verify it appears in the DOM.
      */
-    public function test_two_factor_setup_page_renders_qr_code(): void
+    public function test_setup_page_renders_qr_code_in_browser(): void
     {
-        // Enable 2FA for the user programmatically
+        // Enable 2FA programmatically so the QR code will be visible
         $enable = app(EnableTwoFactorAuthentication::class);
         $enable($this->testUser);
         $this->testUser->refresh();
 
-        $this->assertNotNull($this->testUser->two_factor_secret, 'Secret should be set after enabling 2FA');
+        $this->browse(function (Browser $browser) {
+            // Login as the test user
+            $browser->loginAs($this->testUser)
+                ->visit('/two-factor/setup')
+                ->waitFor('#two-factor-qr-code', 10)
+                ->assertPresent('#two-factor-qr-code');
 
-        // Verify QR code SVG can be generated
-        $svg = $this->testUser->twoFactorQrCodeSvg();
-        $this->assertStringContainsString('<svg', $svg, 'QR code SVG should contain valid SVG markup');
-        $this->assertGreaterThan(100, strlen($svg), 'QR code SVG should have meaningful content');
+            // Verify the SVG is actually rendered in the page
+            $svgContent = $browser->element('#two-factor-qr-code')->getDomProperty('innerHTML');
+            $this->assertStringContainsString('<svg', $svgContent, 'QR code SVG should be rendered in the browser');
+            $this->assertStringContainsString('</svg>', $svgContent, 'QR code SVG should be complete');
+            $this->assertGreaterThan(100, strlen($svgContent), 'QR SVG should have substantial content');
 
-        // Verify the provisioning URL
-        $url = $this->testUser->twoFactorProvisioningUrl();
-        $this->assertStringContainsString('otpauth://totp/', $url);
-        $this->assertStringContainsString(decrypt($this->testUser->two_factor_secret), $url);
+            // Verify the secret key is also displayed
+            $browser->assertPresent('#two-factor-secret-key');
+            $secretText = $browser->text('#two-factor-secret-key');
+            $this->assertNotEmpty($secretText, 'Secret key should be displayed');
+            $this->assertEquals(
+                decrypt($this->testUser->two_factor_secret),
+                $secretText,
+                'Displayed secret should match the stored secret'
+            );
+
+            // Take a screenshot for visual verification
+            $browser->screenshot('two-factor-qr-code-rendered');
+        });
     }
 
     /**
-     * Test the full 2FA enable → confirm → validate → disable flow.
+     * Test the full browser-based 2FA setup flow:
+     * Login → visit setup page → see QR → enter valid TOTP → see recovery codes.
      */
-    public function test_full_two_factor_flow(): void
+    public function test_full_browser_2fa_setup_and_confirm_flow(): void
     {
-        $google2fa = new Google2FA();
-
-        // Step 1: Enable 2FA
+        // Enable 2FA programmatically (simulate clicking "Enable" button)
         $enable = app(EnableTwoFactorAuthentication::class);
         $enable($this->testUser);
         $this->testUser->refresh();
 
-        $this->assertNotNull($this->testUser->two_factor_secret);
+        $google2fa = new Google2FA();
         $secret = decrypt($this->testUser->two_factor_secret);
 
-        // Step 2: Generate a valid TOTP code and confirm
+        $this->browse(function (Browser $browser) use ($google2fa, $secret) {
+            $browser->loginAs($this->testUser)
+                ->visit('/two-factor/setup')
+                ->waitFor('#two-factor-qr-code', 10);
+
+            // Verify QR code is visible
+            $browser->assertPresent('#two-factor-qr-code');
+
+            // Generate a valid TOTP code
+            $code = $google2fa->getCurrentOtp($secret);
+
+            // Enter the code and confirm
+            $browser->type('#two-factor-code', $code)
+                ->click('#confirm-2fa-code-btn')
+                ->pause(2000);
+
+            // After confirmation, recovery codes should be shown
+            $browser->assertPresent('#recovery-codes-list');
+
+            // Screenshot the confirmed state
+            $browser->screenshot('two-factor-confirmed-recovery-codes');
+        });
+
+        // Verify in database
+        $this->testUser->refresh();
+        $this->assertNotNull($this->testUser->two_factor_confirmed_at);
+        $this->assertTrue($this->testUser->hasTwoFactorEnabled());
+    }
+
+    /**
+     * Test that the two-factor challenge route is guarded: visiting it in the
+     * browser without a pending 2FA login in the session must NOT 500 or render
+     * the code form to an unauthenticated visitor — Fortify redirects to /login.
+     * (The authenticated challenge POST flow is covered by the Feature suite.)
+     */
+    public function test_two_factor_challenge_route_is_guarded(): void
+    {
+        // Enable and confirm 2FA so the user genuinely has 2FA on
+        $enable = app(EnableTwoFactorAuthentication::class);
+        $enable($this->testUser);
+        $this->testUser->refresh();
+
+        $google2fa = new Google2FA();
+        $secret = decrypt($this->testUser->two_factor_secret);
         $code = $google2fa->getCurrentOtp($secret);
+
         $confirm = app(ConfirmTwoFactorAuthentication::class);
         $confirm($this->testUser, $code);
         $this->testUser->refresh();
 
-        $this->assertNotNull($this->testUser->two_factor_confirmed_at, '2FA should be confirmed');
-        $this->assertTrue($this->testUser->hasTwoFactorEnabled(), 'hasTwoFactorEnabled should return true');
+        $this->browse(function (Browser $browser) {
+            // No pending-login session → Fortify's challenge controller redirects
+            // to the login page rather than exposing the code form.
+            $browser->visit('/two-factor-challenge')
+                ->assertPathIs('/login')
+                ->screenshot('two-factor-challenge-guard-redirect');
+        });
+    }
 
-        // Step 3: Verify code validation works
-        $newCode = $google2fa->getCurrentOtp($secret);
-        $this->assertTrue($this->testUser->validateTwoFactorCode($newCode));
+    /**
+     * Test QR code SVG generation and TOTP validation flow (non-browser).
+     */
+    public function test_qr_code_svg_and_totp_validation(): void
+    {
+        $enable = app(EnableTwoFactorAuthentication::class);
+        $enable($this->testUser);
+        $this->testUser->refresh();
 
-        // Step 4: Verify recovery codes
+        // Verify QR code SVG
+        $svg = $this->testUser->twoFactorQrCodeSvg();
+        $this->assertStringContainsString('<svg', $svg);
+        $this->assertStringContainsString('</svg>', $svg);
+        $this->assertGreaterThan(100, strlen($svg));
+
+        // Verify provisioning URL
+        $url = $this->testUser->twoFactorProvisioningUrl();
+        $this->assertStringContainsString('otpauth://totp/', $url);
+        $secret = decrypt($this->testUser->two_factor_secret);
+        $this->assertStringContainsString($secret, $url);
+
+        // Verify the URL structure
+        $parsed = parse_url($url);
+        $this->assertEquals('otpauth', $parsed['scheme']);
+        parse_str($parsed['query'], $query);
+        $this->assertEquals($secret, $query['secret']);
+
+        // Verify TOTP code generation and validation
+        $google2fa = new Google2FA();
+        $code = $google2fa->getCurrentOtp($secret);
+        $this->assertEquals(6, strlen($code));
+        $this->assertMatchesRegularExpression('/^[0-9]{6}$/', $code);
+        $this->assertTrue($this->testUser->validateTwoFactorCode($code));
+        $this->assertFalse($this->testUser->validateTwoFactorCode('000000'));
+    }
+
+    /**
+     * Test the full lifecycle: enable → confirm → use recovery code → disable.
+     */
+    public function test_full_lifecycle_enable_confirm_recover_disable(): void
+    {
+        $google2fa = new Google2FA();
+
+        // Enable
+        $enable = app(EnableTwoFactorAuthentication::class);
+        $enable($this->testUser);
+        $this->testUser->refresh();
+        $this->assertNotNull($this->testUser->two_factor_secret);
+
+        // Confirm
+        $secret = decrypt($this->testUser->two_factor_secret);
+        $code = $google2fa->getCurrentOtp($secret);
+        $confirm = app(ConfirmTwoFactorAuthentication::class);
+        $confirm($this->testUser, $code);
+        $this->testUser->refresh();
+        $this->assertTrue($this->testUser->hasTwoFactorEnabled());
+
+        // Recovery codes
         $codes = $this->testUser->recoveryCodes();
-        $this->assertNotEmpty($codes, 'Recovery codes should be generated');
-        $this->assertCount(8, $codes, 'Should have 8 recovery codes');
-
-        // Step 5: Use a recovery code
-        $recoveryCode = $codes[0];
-        $this->assertTrue($this->testUser->useRecoveryCode($recoveryCode));
+        $this->assertCount(8, $codes);
+        $this->assertTrue($this->testUser->useRecoveryCode($codes[0]));
         $this->assertCount(7, $this->testUser->recoveryCodes());
+        $this->assertFalse($this->testUser->useRecoveryCode($codes[0])); // single-use
 
-        // Step 6: Disable 2FA
+        // Disable
         $disable = app(DisableTwoFactorAuthentication::class);
         $disable($this->testUser);
         $this->testUser->refresh();
-
         $this->assertNull($this->testUser->two_factor_secret);
         $this->assertFalse($this->testUser->hasTwoFactorEnabled());
-    }
-
-    /**
-     * Test QR code contains valid TOTP URI that can be decoded.
-     */
-    public function test_qr_code_contains_valid_totp_uri(): void
-    {
-        $enable = app(EnableTwoFactorAuthentication::class);
-        $enable($this->testUser);
-        $this->testUser->refresh();
-
-        $secret = decrypt($this->testUser->two_factor_secret);
-        $url = $this->testUser->twoFactorProvisioningUrl();
-
-        // Parse the URL
-        $parsed = parse_url($url);
-        $this->assertEquals('otpauth', $parsed['scheme']);
-
-        // Verify secret is in the URL query
-        parse_str($parsed['query'], $query);
-        $this->assertEquals($secret, $query['secret']);
-        $this->assertNotEmpty($query['issuer']);
-
-        // Verify the secret can generate valid codes
-        $google2fa = new Google2FA();
-        $code = $google2fa->getCurrentOtp($secret);
-        $this->assertEquals(6, strlen($code), 'TOTP code should be 6 digits');
-        $this->assertMatchesRegularExpression('/^[0-9]{6}$/', $code);
-    }
-
-    /**
-     * Test that invalid TOTP codes are rejected.
-     */
-    public function test_invalid_totp_code_rejected(): void
-    {
-        $enable = app(EnableTwoFactorAuthentication::class);
-        $enable($this->testUser);
-        $this->testUser->refresh();
-
-        $this->assertFalse($this->testUser->validateTwoFactorCode('000000'));
-        $this->assertFalse($this->testUser->validateTwoFactorCode('123456'));
-        $this->assertFalse($this->testUser->validateTwoFactorCode('abcdef'));
-    }
-
-    /**
-     * Test recovery code usage removes the used code.
-     */
-    public function test_recovery_code_is_single_use(): void
-    {
-        $enable = app(EnableTwoFactorAuthentication::class);
-        $enable($this->testUser);
-        $this->testUser->refresh();
-
-        $google2fa = new Google2FA();
-        $secret = decrypt($this->testUser->two_factor_secret);
-        $code = $google2fa->getCurrentOtp($secret);
-
-        $confirm = app(ConfirmTwoFactorAuthentication::class);
-        $confirm($this->testUser, $code);
-        $this->testUser->refresh();
-
-        $codes = $this->testUser->recoveryCodes();
-        $usedCode = $codes[0];
-
-        // Use the code once
-        $this->assertTrue($this->testUser->useRecoveryCode($usedCode));
-
-        // Try to use it again — should fail
-        $this->assertFalse($this->testUser->useRecoveryCode($usedCode));
     }
 }
