@@ -1,26 +1,3 @@
 <?php
 
-// These functions are now provided by the microweber-event-manager package.
-// The function_exists guards prevent redeclaration conflicts.
-
-if (!function_exists('event_trigger')) {
-    function event_trigger($api_function, $data = false)
-    {
-        return app()->event_manager->trigger($api_function, $data);
-    }
-}
-
-/**
- * Adds event callback.
- *
- * @param $function_name
- * @param bool|mixed|callable $callback
- *
- * @return array|mixed|false
- */
-if (!function_exists('event_bind')) {
-    function event_bind($function_name, $callback = false)
-    {
-        return app()->event_manager->on($function_name, $callback);
-    }
-}
+// moved to the event pakcage

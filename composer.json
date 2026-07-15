@@ -287,6 +287,14 @@
             "Composer\\Config::disableProcessTimeout",
             "@php artisan dusk"
         ],
+        "analyse": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpstan analyse --memory-limit=2G"
+        ],
+        "analyse-baseline": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpstan analyse --memory-limit=2G --generate-baseline=phpstan-baseline.neon"
+        ],
         "insights": [
             "Composer\\Config::disableProcessTimeout",
             "php artisan insights --no-interaction --ansi"

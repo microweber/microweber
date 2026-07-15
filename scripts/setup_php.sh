@@ -13,6 +13,7 @@
 #   6. .env bootstrapped from a template if missing (+ key:generate),
 #      Xdebug installed (php<ver>-xdebug) and configured for coverage-only
 #      mode (xdebug.mode=coverage in /etc/php/…/conf.d/99-xdebug-coverage.ini),
+#      PCOV installed (php<ver>-pcov) for faster line-coverage via php-pcov,
 #      a Chrome/Chromium browser (apt), rendering fonts (Noto/Liberation, for
 #      non-Latin templates), Xvfb virtual framebuffer (for headless servers
 #      that have no real X11 display), and the matching Dusk ChromeDriver
@@ -37,7 +38,9 @@
 #                     .env file defaults. Sets up the DB, default content, and
 #                     admin account in one step. Skipped if Microweber is
 #                     already installed (storage/installed file present).
-#   --mysql           install MySQL server and set the root password to 'root'
+#   --swoole          install the Swoole PHP extension (php<ver>-swoole via apt,
+#                     or pecl install swoole on non-apt systems) for async/octane
+#                     support.
 #                     (creates user root@localhost with password 'root').
 #   --pgsql           install PostgreSQL server and set the postgres superuser
 #                     password to 'postgres' (postgres@localhost).
@@ -49,7 +52,7 @@
 #                     Apache executes PHP via FastCGI (mod_fcgid). Enables
 #                     mod_rewrite + mod_headers too. Mutually exclusive with
 #                     --apache-fpm.
-#   --skip-system     do not apt-install PHP/extensions, Xdebug, or the Chrome browser
+#   --skip-system     do not apt-install PHP/extensions, Xdebug, PCOV, or the Chrome browser
 #   --skip-composer   do not run composer install
 #   --skip-node       do not install/build the packages/* Node bundles
 #   -h, --help        show this help and exit
@@ -83,6 +86,7 @@ SKIP_COMPOSER=0
 SKIP_NODE=0
 MYSQL=0
 PGSQL=0
+SWOOLE=0
 APACHE_FPM=0
 APACHE_FCGI=0
 
@@ -119,6 +123,7 @@ while [ $# -gt 0 ]; do
     --install)       INSTALL=1 ;;
     --mysql)         MYSQL=1 ;;
     --pgsql)         PGSQL=1 ;;
+    --swoole)        SWOOLE=1 ;;
     --apache-fpm)    APACHE_FPM=1 ;;
     --apache-fcgi)   APACHE_FCGI=1 ;;
     --skip-system)   SKIP_SYSTEM=1 ;;
@@ -269,7 +274,11 @@ install_php_deps() {
   log "Installing PHP dependencies (composer install)"
   cd "${ROOT_DIR}"
   local flags=(install --no-interaction --prefer-dist --no-progress)
-  [ "$NO_DEV" -eq 1 ] && flags+=(--no-dev --optimize-autoloader)
+  if [ "$NO_DEV" -eq 1 ]; then
+    flags+=(--no-dev --optimize-autoloader)
+  else
+    flags+=(--dev)
+  fi
   # shellcheck disable=SC2086
   $COMPOSER_BIN "${flags[@]}"
   ok "composer install complete"
@@ -425,7 +434,37 @@ INI
 }
 
 # ---------------------------------------------------------------------------
-# 6b. Chrome browser
+# 6b-2. PCOV (fast line-coverage alternative to Xdebug)
+# ---------------------------------------------------------------------------
+ensure_pcov() {
+  log "Checking PCOV (fast PHPUnit line-coverage)"
+
+  # Already loaded — nothing to do.
+  if php -m 2>/dev/null | grep -qi '^pcov$'; then
+    ok "PCOV already loaded"
+    return
+  fi
+
+  if [ "$SKIP_SYSTEM" -eq 1 ]; then
+    warn "PCOV not found and --skip-system given — install php${PHP_VERSION}-pcov manually for coverage."
+    return
+  fi
+  if ! command -v apt-get >/dev/null 2>&1; then
+    warn "Not an apt system — install PCOV manually (pecl install pcov) for coverage."
+    return
+  fi
+
+  warn "Installing php${PHP_VERSION}-pcov via apt…"
+  $SUDO apt-get update -y
+  if $SUDO apt-get install -y "php${PHP_VERSION}-pcov"; then
+    ok "PCOV installed (php${PHP_VERSION}-pcov)"
+  else
+    warn "apt could not install php${PHP_VERSION}-pcov — install it manually for coverage."
+  fi
+}
+
+# ---------------------------------------------------------------------------
+# 6c. Chrome browser
 # A browser is already present if any of these resolve.
 chrome_present() {
   command -v google-chrome >/dev/null 2>&1 || \
@@ -570,13 +609,15 @@ ensure_env() {
     ok "Created .env from ${src}"
   fi
 
-  # Some templates don't define APP_ENV; default to testing for the dev setup.
+  # Ensure APP_ENV=testing for the dev setup — add if missing, replace if different.
   if ! grep -qE '^APP_ENV=' "${env_file}" 2>/dev/null; then
     printf '\nAPP_ENV=testing\n' >> "${env_file}"
     ok "Added APP_ENV=testing to .env"
-  elif grep -qE '^APP_ENV=[[:space:]]*$' "${env_file}" 2>/dev/null; then
-    sed -i 's/^APP_ENV=[[:space:]]*$/APP_ENV=testing/' "${env_file}"
-    ok "Set APP_ENV=testing in .env"
+  elif ! grep -qE '^APP_ENV=testing$' "${env_file}" 2>/dev/null; then
+    sed -i 's/^APP_ENV=.*/APP_ENV=testing/' "${env_file}"
+    ok "Updated APP_ENV to testing in .env"
+  else
+    ok "APP_ENV=testing already set in .env"
   fi
 
   # A freshly-copied template usually has an empty APP_KEY; generate one so
@@ -596,6 +637,9 @@ install_dev_tools() {
 
   # 6b. Xdebug for PHPUnit coverage.
   ensure_xdebug
+
+  # 6b-2. PCOV for fast line-coverage (complement to Xdebug).
+  ensure_pcov
 
   # 6c. Browser + rendering fonts + virtual display (independent of Dusk/composer).
   local have_browser=0
@@ -619,14 +663,21 @@ install_dev_tools() {
 
   cd "${ROOT_DIR}"
 
-  # Dusk's service provider only registers when APP_ENV=local.
+  # Scaffold Dusk's .env.dusk and base DuskTestCase if not already present.
+  if ! env APP_ENV=testing php artisan dusk:install 2>/dev/null; then
+    warn "artisan dusk:install failed — run: APP_ENV=testing php artisan dusk:install"
+  else
+    ok "Dusk scaffolding installed (dusk:install)"
+  fi
+
+  # Dusk's service provider only registers when APP_ENV=testing.
   # Run artisan with a temporary override so dusk:chrome-driver is available.
-  local artisan_env="APP_ENV=local"
+  local artisan_env="APP_ENV=testing"
 
   # Sanity-check that the command is actually registered before calling it.
   if ! env $artisan_env php artisan list --format=txt 2>/dev/null | grep -q 'dusk:chrome-driver'; then
     warn "artisan dusk:chrome-driver not available (APP_KEY missing? DB unreachable? DuskServiceProvider not registered?)."
-    warn "Fix artisan boot errors, then run: APP_ENV=local php artisan dusk:chrome-driver --detect"
+    warn "Fix artisan boot errors, then run: APP_ENV=testing php artisan dusk:chrome-driver --detect"
     return
   fi
 
@@ -638,13 +689,13 @@ install_dev_tools() {
       warn "dusk:chrome-driver --detect failed — falling back to latest stable driver"
       env $artisan_env php artisan dusk:chrome-driver \
         && ok "ChromeDriver (latest stable) installed" \
-        || warn "Could not install ChromeDriver — run: APP_ENV=local php artisan dusk:chrome-driver --detect"
+        || warn "Could not install ChromeDriver — run: APP_ENV=testing php artisan dusk:chrome-driver --detect"
     fi
   else
     log "Installing latest stable ChromeDriver (no browser detected)"
     env $artisan_env php artisan dusk:chrome-driver \
       && ok "ChromeDriver (latest stable) installed" \
-      || warn "Could not install ChromeDriver — install a browser first, then: APP_ENV=local php artisan dusk:chrome-driver --detect"
+      || warn "Could not install ChromeDriver — install a browser first, then: APP_ENV=testing php artisan dusk:chrome-driver --detect"
   fi
 }
 
@@ -826,6 +877,47 @@ install_apache_fcgi() {
 }
 
 # ---------------------------------------------------------------------------
+# 11. Swoole extension (--swoole)
+# ---------------------------------------------------------------------------
+install_swoole() {
+  log "Installing Swoole PHP extension"
+
+  if php -m 2>/dev/null | grep -qi '^swoole$'; then
+    ok "Swoole already loaded"
+    return
+  fi
+
+  if command -v apt-get >/dev/null 2>&1; then
+    $SUDO apt-get update -y
+    if $SUDO apt-get install -y "php${PHP_VERSION}-swoole"; then
+      ok "Swoole installed (php${PHP_VERSION}-swoole)"
+      return
+    fi
+    warn "apt could not find php${PHP_VERSION}-swoole — falling back to pecl."
+  fi
+
+  if command -v pecl >/dev/null 2>&1; then
+    if $SUDO pecl install swoole; then
+      # Write a drop-in ini so the extension loads automatically.
+      local cli_conf="/etc/php/${PHP_VERSION}/cli/conf.d"
+      if [ -d "$cli_conf" ]; then
+        $SUDO tee "${cli_conf}/99-swoole.ini" > /dev/null <<'INI'
+; Auto-generated by setup_php.sh --swoole
+extension=swoole.so
+INI
+        ok "Swoole installed via pecl and enabled in ${cli_conf}/99-swoole.ini"
+      else
+        warn "Swoole installed via pecl — add 'extension=swoole.so' to your php.ini manually."
+      fi
+    else
+      warn "pecl install swoole failed — install it manually."
+    fi
+  else
+    warn "Neither apt nor pecl available — install Swoole manually."
+  fi
+}
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 echo "=========================================="
@@ -864,6 +956,10 @@ if [ "$PGSQL" -eq 1 ]; then
   install_pgsql
 fi
 
+if [ "$SWOOLE" -eq 1 ]; then
+  install_swoole
+fi
+
 if [ "$APACHE_FPM" -eq 1 ]; then
   install_apache_fpm
 fi
@@ -894,9 +990,11 @@ else
 fi
 if [ "$DEV" -eq 1 ]; then
   echo "  php artisan dusk          # browser tests (Chrome + ChromeDriver were set up)"
-  echo "  composer test-coverage    # PHPUnit with Xdebug coverage → clover.xml"
+  echo "  composer test-coverage    # PHPUnit with Xdebug/PCOV coverage → clover.xml"
 fi
-if [ "$APACHE_FPM" -eq 1 ] || [ "$APACHE_FCGI" -eq 1 ]; then
+if [ "$SWOOLE" -eq 1 ]; then
+  echo "  php artisan octane:start --server=swoole   # start Octane with Swoole"
+fi
   echo "  Set your VirtualHost DocumentRoot to ${ROOT_DIR}/public"
   echo "  Ensure <Directory> AllowOverride All so Laravel .htaccess is honoured"
 fi
