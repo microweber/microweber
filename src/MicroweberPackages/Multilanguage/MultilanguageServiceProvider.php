@@ -50,6 +50,14 @@ class MultilanguageServiceProvider extends ServiceProvider
         $this->app->singleton('translate_manager', function ($app) {
             return new TranslateManager();
         });
+
+        // Reset translate manager state on termination to prevent memory
+        // leaks during test suites and long-running processes.
+        $this->app->terminating(function () {
+            if ($this->app->resolved('translate_manager')) {
+                $this->app->make('translate_manager')->reset();
+            }
+        });
         if (!mw_is_installed()) {
             return;
         }

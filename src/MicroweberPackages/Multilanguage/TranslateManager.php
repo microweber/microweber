@@ -23,7 +23,10 @@ use MicroweberPackages\Multilanguage\TranslateTables\TranslateTestimonials;
 class TranslateManager
 {
 
-    public static $translateProviders = [];
+    /** @var list<class-string> */
+    public array $translateProviders = [];
+
+    private bool $hasRun = false;
 
     public static function setCurrentLocale($locale)
     {
@@ -32,12 +35,20 @@ class TranslateManager
 
     public function addTranslateProvider($providerClass)
     {
-        self::$translateProviders[] = $providerClass;
+        $this->translateProviders[] = $providerClass;
         return $this;
     }
 
     public function run()
     {
+        // Guard against re-binding listeners on repeated calls within the
+        // same container lifecycle. The closures reference heavy objects
+        // ($providerInstance, $this) and accumulating duplicates is the
+        // primary source of the 4 GB OOM during test runs.
+        if ($this->hasRun) {
+            return;
+        }
+        $this->hasRun = true;
         // BIND GET TABLES
         $currentLocale = $this->getCurrentLocale();
         $defaultLocale = $this->getDefaultLocale();
@@ -49,8 +60,8 @@ class TranslateManager
 //            }
 //        }
 
-        if (!empty(self::$translateProviders)) {
-            foreach (self::$translateProviders as $provider) {
+        if (!empty($this->translateProviders)) {
+            foreach ($this->translateProviders as $provider) {
 
                 $providerInstance = new $provider();
                 $providerTable = $providerInstance->getRelType();
@@ -524,5 +535,23 @@ class TranslateManager
         self::$_getDefaultLocale = app()->lang_helper->default_lang();
 
         return self::$_getDefaultLocale;
+    }
+
+    /**
+     * Reset all mutable state so the instance can be garbage-collected cleanly.
+     * Called automatically when the container terminates.
+     */
+    public function reset(): void
+    {
+        // NOTE: $translateProviders is registration data added once per provider
+        // in each module's boot() (e.g. addTranslateProvider(TranslateMenu::class)).
+        // It must NOT be cleared here: boot() does not re-run between requests, so
+        // wiping it would leave run() with nothing to bind and silently disable
+        // translation. Only the per-run/locale caches are reset (unbinding of the
+        // heavy listener closures is handled by the event manager's terminating
+        // unbindAll(), which is what actually addresses the memory growth).
+        $this->hasRun = false;
+        self::$_getCurrentLocale = false;
+        self::$_getDefaultLocale = false;
     }
 }

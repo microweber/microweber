@@ -8,84 +8,89 @@
  * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
+
 namespace MicroweberPackages\Event;
 
 /**
- * Event.
+ * High-level event manager.
  *
- * @category Event
- * @desc  Event
+ * Wraps a {@see LaravelEvent} adapter using instance (non-static) state so the
+ * garbage collector can reclaim all listeners when the container is flushed
+ * (e.g. between PHPUnit tests).
  */
 class Event
 {
-    /**
-     * An instance of the event adapter to use.
-     *
-     * @var
-     */
-    public static $adapter;
+    private LaravelEvent $adapter;
 
-    private $callbacks = array(); // array to store user callbacks
+    /** @var list<list<mixed>> */
+    private array $callbacks = [];
 
-    public function __construct()
+    public function __construct(?LaravelEvent $adapter = null)
     {
-        if (!is_object(self::$adapter)) {
-            self::$adapter = new LaravelEvent();
-        }
+        $this->adapter = $adapter ?? new LaravelEvent();
 
-        register_shutdown_function(array($this, 'callRegisteredShutdown'));
-    }
-
-    public function on($event_name, $callback)
-    {
-        return self::$adapter->listen($event_name, $callback);
+        register_shutdown_function([$this, 'callRegisteredShutdown']);
     }
 
     /**
-     * Emits event.
-     *
-     * @param $event_name
-     * @param bool|callable|mixed $data
-     *
-     * @return array|mixed|false
+     * Bind a listener to an event name.
      */
-    public function trigger($event_name, $data = false)
+    public function on(string $eventName, callable|string $callback): void
+    {
+        $this->adapter->listen($eventName, $callback);
+    }
+
+    /**
+     * Emit an event and return the collected listener responses.
+     *
+     * @return list<mixed>|null
+     */
+    public function trigger(string $eventName, mixed $data = false): ?array
     {
         $args = func_get_args();
-        $query = array_shift($args);
-        if (count($args) == 1) {
+        array_shift($args);
+
+        if (count($args) === 1) {
             $args = $args[0];
         }
 
-        return self::$adapter->fire($event_name, $args);
+        return $this->adapter->fire($eventName, $args);
     }
 
-    public function response($event_name, $criteria)
+    /**
+     * Emit an event and merge listener responses back into the criteria array.
+     *
+     * @param array<string, mixed> $criteria
+     * @return array<string, mixed>
+     */
+    public function response(string $eventName, array $criteria): array
     {
-        $override = $this->trigger($event_name, $criteria);
+        $override = $this->trigger($eventName, $criteria);
 
-        if (is_array($override) and !empty($override)) {
-            $original_criteria = $criteria;
+        if (is_array($override) && !empty($override)) {
+            $originalCriteria = $criteria;
+
             foreach ($override as $resp) {
-                if (is_array($resp) and !empty($resp)) {
-                    $keys_diff = array_diff_key($original_criteria, $resp);
-                    if ($keys_diff) {
-                        foreach ($keys_diff as $keys_diff_orig_key => $keys_diff_orig_value) {
-                            if (!isset($resp[$keys_diff_orig_key])) {
-                                unset($criteria[$keys_diff_orig_key]);
-                            }
+                if (is_array($resp) && !empty($resp)) {
+                    $keysDiff = array_diff_key($originalCriteria, $resp);
+
+                    foreach ($keysDiff as $diffKey => $diffValue) {
+                        if (!isset($resp[$diffKey])) {
+                            unset($criteria[$diffKey]);
                         }
                     }
-                    foreach ($resp as $resp_key => $resp_value) {
-                        if (is_string($resp_key) || is_numeric($resp_key)) {
-                            if (substr($resp_key, 0, 2) == '__') {
-                                $criteria[$resp_key] = $resp_value;
-                            }
-                            if (isset($original_criteria[$resp_key]) and ($original_criteria[$resp_key] != $resp_value)) {
-                                $criteria[$resp_key] = $resp_value;
-                            }
+
+                    /** @var mixed $respValue */
+                    foreach ($resp as $respKey => $respValue) {
+                        $respKeyStr = (string) $respKey;
+
+                        if (str_starts_with($respKeyStr, '__')) {
+                            $criteria[$respKeyStr] = $respValue;
                         }
 
+                        if (isset($originalCriteria[$respKeyStr]) && $originalCriteria[$respKeyStr] != $respValue) {
+                            $criteria[$respKeyStr] = $respValue;
+                        }
                     }
                 }
             }
@@ -94,32 +99,59 @@ class Event
         return $criteria;
     }
 
-    public function registerShutdownEvent()
+    /**
+     * Remove all listeners for a specific event.
+     */
+    public function unbind(string $eventName): void
     {
-        $callback = func_get_args();
+        $this->adapter->unbind($eventName);
+    }
 
-        if (empty($callback)) {
-            trigger_error('No callback passed to ' . __FUNCTION__ . ' method', E_USER_ERROR);
+    /**
+     * Remove every listener for every event, releasing all closures from memory.
+     */
+    public function unbindAll(): void
+    {
+        $this->adapter->unbindAll();
+    }
 
-            return false;
-        }
-        if (!is_callable($callback[0])) {
-            trigger_error('Invalid callback passed to the ' . $callback[0] . __FUNCTION__ . ' method', E_USER_ERROR);
+    /**
+     * Check whether any listeners are registered for an event.
+     */
+    public function hasListeners(string $eventName): bool
+    {
+        return $this->adapter->hasListeners($eventName);
+    }
 
-            return false;
-        }
-        $this->callbacks[] = $callback;
+    /**
+     * Register a callback to run during PHP shutdown.
+     */
+    public function registerShutdownEvent(callable $callback, mixed ...$args): bool
+    {
+        $this->callbacks[] = array_values([$callback, ...$args]);
 
         return true;
     }
 
-    public function callRegisteredShutdown()
+    /**
+     * Execute all registered shutdown callbacks, then clear them.
+     */
+    public function callRegisteredShutdown(): void
     {
-        if (!empty($this->callbacks)) {
-            foreach ($this->callbacks as $arguments) {
-                $callback = array_shift($arguments);
-                call_user_func_array($callback, $arguments);
-            }
+        foreach ($this->callbacks as $arguments) {
+            /** @var callable $callback */
+            $callback = array_shift($arguments);
+            call_user_func_array($callback, $arguments);
         }
+
+        $this->callbacks = [];
+    }
+
+    /**
+     * Return the underlying adapter (for testing/debugging).
+     */
+    public function getAdapter(): LaravelEvent
+    {
+        return $this->adapter;
     }
 }

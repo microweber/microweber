@@ -10,23 +10,52 @@
  */
 
 if (!function_exists('event_trigger')) {
-    function event_trigger($api_function, $data = false)
+    /**
+     * Trigger an event and return the collected listener responses.
+     *
+     * @return list<mixed>|null
+     */
+    function event_trigger(string $eventName, mixed $data = false): ?array
     {
-        return app()->event_manager->trigger($api_function, $data);
+        /** @var \MicroweberPackages\Event\Event $manager */
+        $manager = app('event_manager');
+
+        return $manager->trigger($eventName, $data);
     }
 }
 
-/**
- * Adds event callback.
- *
- * @param $function_name
- * @param bool|mixed|callable $callback
- *
- * @return array|mixed|false
- */
 if (!function_exists('event_bind')) {
-    function event_bind($function_name, $callback = false)
+    /**
+     * Bind a listener to an event name.
+     */
+    function event_bind(string $eventName, callable|string $callback): void
     {
-        return app()->event_manager->on($function_name, $callback);
+        /** @var \MicroweberPackages\Event\Event $manager */
+        $manager = app('event_manager');
+        $manager->on($eventName, $callback);
+    }
+}
+
+if (!function_exists('event_unbind')) {
+    /**
+     * Remove all listeners for a specific event.
+     */
+    function event_unbind(string $eventName): void
+    {
+        /** @var \MicroweberPackages\Event\Event $manager */
+        $manager = app('event_manager');
+        $manager->unbind($eventName);
+    }
+}
+
+if (!function_exists('event_unbind_all')) {
+    /**
+     * Remove every listener for every event, releasing all closures from memory.
+     */
+    function event_unbind_all(): void
+    {
+        /** @var \MicroweberPackages\Event\Event $manager */
+        $manager = app('event_manager');
+        $manager->unbindAll();
     }
 }

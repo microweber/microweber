@@ -33,6 +33,7 @@
         "illuminate/support": "^10.0|^11.0|^12.0"
     },
     "require-dev": {
+        "larastan/larastan": "^3.9",
         "orchestra/testbench": "^8.0|^9.0|^10.0",
         "phpunit/phpunit": "^10.0|^11.0"
     },
@@ -45,6 +46,7 @@
         "email": "support@microweber.com"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=512M"
     }
 }

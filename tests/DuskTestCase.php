@@ -227,7 +227,7 @@ abstract class DuskTestCase extends BaseTestCase
                 'db_name' => storage_path('database.sqlite'),
                 'db_username' => '',
                 'db_password' => '',
-                'db_prefix' => 'mw_test_',
+                'db_prefix' => '',
                 'admin_username' => 'admin',
                 'admin_email' => 'admin@localhost',
                 'admin_password' => 'admin',

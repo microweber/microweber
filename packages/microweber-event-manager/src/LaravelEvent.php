@@ -8,67 +8,79 @@
  * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
+
 namespace MicroweberPackages\Event;
 
-use Illuminate\Support\Facades\Event;
-
+/**
+ * Instance-based event dispatcher.
+ *
+ * All listener state is held in instance properties so the garbage collector
+ * can reclaim it when the owning container is flushed (e.g. between tests).
+ */
 class LaravelEvent
 {
-    public static $hooks = array();
+    /** @var array<string, list<callable|string>> */
+    private array $hooks = [];
 
-    public static function listen($event_name, $callback)
+    public function listen(string $eventName, callable|string $callback): void
     {
-        return self::event_bind($event_name, $callback);
+        $this->hooks[$eventName][] = $callback;
     }
 
     /**
-     * @param $event_name
-     * @param mixed $data
+     * Fire an event and return the collected listener responses.
      *
-     * @return mixed
+     * @return list<mixed>|null
      */
-    public static function fire($event_name, $data = false)
+    public function fire(string $eventName, mixed $data = false): ?array
     {
-        if (isset(self::$hooks[$event_name])) {
-            $fns = self::$hooks[$event_name];
-            if (is_array($fns)) {
-                $resp = array();
-                foreach ($fns as $key=>$fn) {
-                    if (is_callable($fn)) {
-                        $resp[] = call_user_func($fn, $data);
-                    } elseif (function_exists($fn)) {
-                        $resp[] = $fn($data);
-                    }
-                    unset($fns[$key]);
-                }
-                return $resp;
+        if (!isset($this->hooks[$eventName])) {
+            return null;
+        }
+
+        $fns = $this->hooks[$eventName];
+        $resp = [];
+
+        foreach ($fns as $fn) {
+            if (is_callable($fn)) {
+                $resp[] = call_user_func($fn, $data);
             }
         }
 
-        $args = func_get_args();
-        array_shift($args);
-        if (count($args) == 1) {
-            $args = $args[0];
-            if (is_array($args)) {
-                $args = array($args);
-            }
-        }
-
-        // Laravel event
-        // return Event::fire($api_function, $args); TODO
+        return $resp;
     }
 
-    public static function event_bind($hook_name, $callback = false)
+    /**
+     * Remove all listeners for a specific event.
+     */
+    public function unbind(string $eventName): void
     {
-        if (is_string($callback) and (function_exists($callback))) {
-            if (!isset(self::$hooks[$hook_name])) {
-                self::$hooks[$hook_name] = array();
-            }
-            self::$hooks[$hook_name][] = $callback;
-        } else {
-            // Laravel Event Listen not work properly
-            self::$hooks[$hook_name][] = $callback;
-            //Event::listen($hook_name, $callback);
-        }
+        unset($this->hooks[$eventName]);
+    }
+
+    /**
+     * Remove every listener for every event.
+     */
+    public function unbindAll(): void
+    {
+        $this->hooks = [];
+    }
+
+    /**
+     * Check whether any listeners are registered for an event.
+     */
+    public function hasListeners(string $eventName): bool
+    {
+        return !empty($this->hooks[$eventName]);
+    }
+
+    /**
+     * Return the current hooks array (mainly for testing/debugging).
+     *
+     * @return array<string, list<callable|string>>
+     */
+    public function getHooks(): array
+    {
+        return $this->hooks;
     }
 }

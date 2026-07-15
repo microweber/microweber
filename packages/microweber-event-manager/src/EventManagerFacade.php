@@ -13,15 +13,19 @@ namespace MicroweberPackages\Event;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * @method static void on(string $eventName, callable|string $callback)
+ * @method static list<mixed>|null trigger(string $eventName, mixed $data = false)
+ * @method static array<string, mixed> response(string $eventName, array<string, mixed> $criteria)
+ * @method static void unbind(string $eventName)
+ * @method static void unbindAll()
+ * @method static bool hasListeners(string $eventName)
+ *
+ * @see \MicroweberPackages\Event\Event
+ */
 class EventManagerFacade extends Facade
 {
-
-    /**
-     * Get the registered name of the component.
-     *
-     * @return string
-     */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'event_manager';
     }

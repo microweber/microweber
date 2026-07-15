@@ -41,6 +41,9 @@
 #   --swoole          install the Swoole PHP extension (php<ver>-swoole via apt,
 #                     or pecl install swoole on non-apt systems) for async/octane
 #                     support.
+#   --testing         wire up the full testing environment: npm install + build,
+#                     php artisan dusk:install, copy .env.dusk → .env, and run
+#                     php artisan microweber:install to seed a clean test site.
 #                     (creates user root@localhost with password 'root').
 #   --pgsql           install PostgreSQL server and set the postgres superuser
 #                     password to 'postgres' (postgres@localhost).
@@ -87,6 +90,7 @@ SKIP_NODE=0
 MYSQL=0
 PGSQL=0
 SWOOLE=0
+TESTING=0
 APACHE_FPM=0
 APACHE_FCGI=0
 
@@ -124,6 +128,7 @@ while [ $# -gt 0 ]; do
     --mysql)         MYSQL=1 ;;
     --pgsql)         PGSQL=1 ;;
     --swoole)        SWOOLE=1 ;;
+    --testing)       TESTING=1 ;;
     --apache-fpm)    APACHE_FPM=1 ;;
     --apache-fcgi)   APACHE_FCGI=1 ;;
     --skip-system)   SKIP_SYSTEM=1 ;;
@@ -918,6 +923,69 @@ INI
 }
 
 # ---------------------------------------------------------------------------
+# 12. Testing environment setup (--testing)
+# ---------------------------------------------------------------------------
+install_testing_env() {
+  log "Setting up testing environment (--testing)"
+
+  cd "${ROOT_DIR}"
+
+  if ! command -v npm >/dev/null 2>&1; then
+    warn "npm not found — skipping npm install / build. Install Node 18+ and re-run."
+  else
+    log "Running npm install in project root"
+    npm install --no-audit --no-fund \
+      && ok "npm install complete" \
+      || warn "npm install failed — check output above."
+
+    log "Running npm run build"
+    npm run build \
+      && ok "npm run build complete" \
+      || warn "npm run build failed — check output above."
+  fi
+
+  if ! command -v php >/dev/null 2>&1; then
+    warn "php not on PATH — cannot run artisan commands; skipping."
+    return
+  fi
+
+  # Copy .env.dusk → .env so artisan boots against the testing DB.
+  local env_dusk="${ROOT_DIR}/.env.dusk"
+  local env_file="${ROOT_DIR}/.env"
+  if [ -f "$env_dusk" ]; then
+    cp "$env_dusk" "$env_file"
+    ok "Copied .env.dusk → .env"
+    # Reset installed flag so microweber:install will run fresh.
+    if grep -qE '^MW_IS_INSTALLED=' "$env_file" 2>/dev/null; then
+      sed -i 's/^MW_IS_INSTALLED=.*/MW_IS_INSTALLED=0/' "$env_file"
+      ok "Set MW_IS_INSTALLED=0 in .env"
+    else
+      printf '\nMW_IS_INSTALLED=0\n' >> "$env_file"
+      ok "Added MW_IS_INSTALLED=0 to .env"
+    fi
+  else
+    warn ".env.dusk not found — skipping .env copy. Create .env.dusk with your testing DB credentials."
+  fi
+
+  # Scaffold Dusk's base test case and .env.dusk stub if missing.
+  if env APP_ENV=testing php artisan dusk:install 2>/dev/null; then
+    ok "Dusk scaffolding installed (dusk:install)"
+  else
+    warn "artisan dusk:install failed — run: APP_ENV=testing php artisan dusk:install"
+  fi
+
+  # Run the Microweber installer to seed a clean test site.
+  if [ -f "${ROOT_DIR}/storage/installed" ]; then
+    ok "Microweber already installed (storage/installed present) — skipping microweber:install."
+  else
+    log "Running php artisan microweber:install"
+    env APP_ENV=testing php artisan microweber:install \
+      && ok "Microweber installed successfully." \
+      || warn "microweber:install failed — check output above."
+  fi
+}
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 echo "=========================================="
@@ -972,6 +1040,10 @@ if [ "$DEV" -eq 1 ]; then
   install_dev_tools
 fi
 
+if [ "$TESTING" -eq 1 ]; then
+  install_testing_env
+fi
+
 if [ "$INSTALL" -eq 1 ]; then
   install_microweber
 fi
@@ -991,6 +1063,10 @@ fi
 if [ "$DEV" -eq 1 ]; then
   echo "  php artisan dusk          # browser tests (Chrome + ChromeDriver were set up)"
   echo "  composer test-coverage    # PHPUnit with Xdebug/PCOV coverage → clover.xml"
+fi
+if [ "$TESTING" -eq 1 ]; then
+  echo "  php artisan dusk          # run browser tests against the test site"
+  echo "  bash run-tests.sh         # run PHPUnit suites against microweber_testing DB"
 fi
 if [ "$SWOOLE" -eq 1 ]; then
   echo "  php artisan octane:start --server=swoole   # start Octane with Swoole"

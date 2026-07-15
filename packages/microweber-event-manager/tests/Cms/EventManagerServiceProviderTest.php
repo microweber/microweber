@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Event\Tests\Cms;
 
+use MicroweberPackages\Event\Event;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -10,7 +11,7 @@ class EventManagerServiceProviderTest extends TestCase
     #[Test]
     public function it_registers_event_manager_singleton(): void
     {
-        $this->assertInstanceOf(\MicroweberPackages\Event\Event::class, app('event_manager'));
+        $this->assertInstanceOf(Event::class, app('event_manager'));
     }
 
     #[Test]
