@@ -15,7 +15,7 @@ class TwoFactorChallengeComponent extends Component
         $this->recovery = !$this->recovery;
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View
     {
         return view('microweber-fortify::livewire.two-factor-challenge');
     }

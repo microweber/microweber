@@ -11,6 +11,9 @@ class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
 
+    /**
+     * @param array<string, mixed> $input
+     */
     public function create(array $input)
     {
         $userModel = config('microweber-fortify.user_model', config('auth.providers.users.model'));

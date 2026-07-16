@@ -12,7 +12,7 @@ class MicroweberFortifyPlugin implements Plugin
 
     public static function make(): static
     {
-        return new static();
+        return new static(); // @phpstan-ignore new.static
     }
 
     public function getId(): string

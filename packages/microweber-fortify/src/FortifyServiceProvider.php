@@ -1,5 +1,6 @@
 <?php
 
+// AI-129 / SEC-04 (cycle-122): Auth hardening — rate limiting & 2FA
 namespace MicroweberPackages\Fortify;
 
 use Illuminate\Cache\RateLimiting\Limit;
@@ -68,7 +69,8 @@ class FortifyServiceProvider extends ServiceProvider
         }
 
         // Register middleware alias
-        $router = $this->app['router'];
+        /** @var \Illuminate\Routing\Router $router */
+        $router = $this->app->make('router');
         $router->aliasMiddleware('require-2fa', RequireTwoFactor::class);
 
         $this->configureFortify();
@@ -83,7 +85,9 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::resetPasswordView(function (Request $request) {
             // Try Microweber view first, fall back to package view
-            if (view()->exists('user::auth.reset-password')) {
+            $factory = view();
+            /** @phpstan-ignore method.alreadyNarrowedType */
+            if ($factory->exists('user::auth.reset-password')) {
                 return view('user::auth.reset-password', [
                     'email' => $request->email,
                     'token' => $request->token,

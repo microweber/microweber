@@ -9,6 +9,10 @@ use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
+    /**
+     * @param \Illuminate\Foundation\Auth\User $user
+     * @param array<string, mixed> $input
+     */
     public function update($user, array $input): void
     {
         Validator::make($input, [
@@ -19,7 +23,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             ],
         ])->validateWithBag('updateProfileInformation');
 
-        if ($input['email'] !== $user->email && $user instanceof MustVerifyEmail) {
+        if ($input['email'] !== $user->email && $user instanceof MustVerifyEmail) { /** @phpstan-ignore property.notFound */
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
@@ -29,6 +33,10 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         }
     }
 
+    /**
+     * @param \Illuminate\Foundation\Auth\User&\Illuminate\Contracts\Auth\MustVerifyEmail $user
+     * @param array<string, mixed> $input
+     */
     protected function updateVerifiedUser($user, array $input): void
     {
         $user->forceFill([

@@ -130,4 +130,50 @@ class MiddlewareTest extends TestCase
         config(['microweber-fortify.require2fa_all' => false]);
         $user->delete();
     }
+
+    public function test_middleware_admin_only_allows_non_admin(): void
+    {
+        // require2fa_admin_only: a non-admin user is NOT forced into 2FA setup.
+        $user = $this->createFortifyTestUser(['is_admin' => 0]);
+        Auth::login($user);
+
+        config(['microweber-fortify.require2fa_all' => false]);
+        config(['microweber-fortify.require2fa_admin_only' => true]);
+
+        $middleware = new RequireTwoFactor();
+        $request = Request::create('/dashboard');
+        $request->setLaravelSession(app('session.store'));
+
+        $response = $middleware->handle($request, function ($req) {
+            return response('OK');
+        });
+
+        $this->assertEquals('OK', $response->getContent());
+
+        config(['microweber-fortify.require2fa_admin_only' => false]);
+        $user->delete();
+    }
+
+    public function test_middleware_admin_only_redirects_admin_without_2fa(): void
+    {
+        // require2fa_admin_only: an admin without 2FA IS redirected to setup.
+        $user = $this->createFortifyTestUser(['is_admin' => 1]);
+        Auth::login($user);
+
+        config(['microweber-fortify.require2fa_all' => false]);
+        config(['microweber-fortify.require2fa_admin_only' => true]);
+
+        $middleware = new RequireTwoFactor();
+        $request = Request::create('/dashboard');
+        $request->setLaravelSession(app('session.store'));
+
+        $response = $middleware->handle($request, function ($req) {
+            return response('OK');
+        });
+
+        $this->assertTrue($response->isRedirect());
+
+        config(['microweber-fortify.require2fa_admin_only' => false]);
+        $this->cleanupFortifyUser($user);
+    }
 }

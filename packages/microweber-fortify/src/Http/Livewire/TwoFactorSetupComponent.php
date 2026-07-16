@@ -9,7 +9,16 @@ use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\GenerateNewRecoveryCodes;
 use Livewire\Component;
+use MicroweberPackages\Fortify\Contracts\TwoFactorAuthenticatable;
 
+/**
+ * Livewire component for setting up and managing two-factor authentication.
+ *
+ * @property-read bool $enabled
+ * @property-read bool $pending
+ * @property-read array<int, string> $recoveryCodes
+ * @property-read string $qrCodeSvg
+ */
 class TwoFactorSetupComponent extends Component
 {
     public bool $showingQrCode = false;
@@ -22,10 +31,20 @@ class TwoFactorSetupComponent extends Component
     public ?string $errorMessage = null;
     public ?string $successMessage = null;
 
+    /**
+     * Get the authenticated user with 2FA capabilities.
+     */
+    protected function twoFactorUser(): ?TwoFactorAuthenticatable
+    {
+        /** @var TwoFactorAuthenticatable|null $user */
+        $user = Auth::user();
+        return $user;
+    }
+
     public function mount(): void
     {
-        $user = Auth::user();
-        if ($user && $user->two_factor_secret && !$user->two_factor_confirmed_at) {
+        $user = $this->twoFactorUser();
+        if ($user && $user->getTwoFactorSecret() && !$user->getTwoFactorConfirmedAt()) {
             $this->showingQrCode = true;
             $this->showingConfirmation = true;
         }
@@ -44,8 +63,8 @@ class TwoFactorSetupComponent extends Component
             return;
         }
 
-        $user = Auth::user();
-        if (!password_verify($this->confirmablePassword, $user->password)) {
+        $user = $this->twoFactorUser();
+        if (!$user || !password_verify($this->confirmablePassword, $user->getPasswordHash())) {
             $this->errorMessage = __('This password does not match our records.');
             return;
         }
@@ -54,8 +73,7 @@ class TwoFactorSetupComponent extends Component
 
         switch ($this->pendingAction) {
             case 'enable':
-                $enable = app(EnableTwoFactorAuthentication::class);
-                $enable($user);
+                app(EnableTwoFactorAuthentication::class)($user);
                 $user->refresh();
                 $this->showingQrCode = true;
                 $this->showingConfirmation = true;
@@ -63,8 +81,7 @@ class TwoFactorSetupComponent extends Component
                 break;
 
             case 'disable':
-                $disable = app(DisableTwoFactorAuthentication::class);
-                $disable($user);
+                app(DisableTwoFactorAuthentication::class)($user);
                 $user->refresh();
                 $this->showingQrCode = false;
                 $this->showingConfirmation = false;
@@ -77,8 +94,7 @@ class TwoFactorSetupComponent extends Component
                 break;
 
             case 'regenerate-codes':
-                $generate = app(GenerateNewRecoveryCodes::class);
-                $generate($user);
+                app(GenerateNewRecoveryCodes::class)($user);
                 $user->refresh();
                 $this->showingRecoveryCodes = true;
                 $this->successMessage = __('Recovery codes have been regenerated.');
@@ -104,6 +120,7 @@ class TwoFactorSetupComponent extends Component
         ]);
 
         $rateLimiterKey = '2fa_confirm_' . Auth::id();
+        /** @var int $maxAttempts */
         $maxAttempts = config('microweber-fortify.rate_limit.max_attempts', 5);
 
         if (RateLimiter::tooManyAttempts($rateLimiterKey, $maxAttempts)) {
@@ -113,16 +130,19 @@ class TwoFactorSetupComponent extends Component
             return;
         }
 
-        $user = Auth::user();
-        $code = str_pad(preg_replace('/[^0-9]/', '', $this->code), 6, '0', STR_PAD_LEFT);
+        $user = $this->twoFactorUser();
+        if (!$user) {
+            return;
+        }
+
+        $sanitised = preg_replace('/[^0-9]/', '', (string) $this->code);
+        $code = str_pad((string) $sanitised, 6, '0', STR_PAD_LEFT);
 
         try {
-            $confirm = app(ConfirmTwoFactorAuthentication::class);
-            $confirm($user, $code);
-
+            app(ConfirmTwoFactorAuthentication::class)($user, $code);
             $user->refresh();
 
-            if ($user->two_factor_confirmed_at) {
+            if ($user->getTwoFactorConfirmedAt()) {
                 RateLimiter::clear($rateLimiterKey);
                 $this->showingQrCode = false;
                 $this->showingConfirmation = false;
@@ -160,36 +180,45 @@ class TwoFactorSetupComponent extends Component
         $this->confirmingPassword = true;
     }
 
+    /** @return bool */
     public function getEnabledProperty(): bool
     {
-        $user = Auth::user();
-        return $user && !empty($user->two_factor_secret) && !is_null($user->two_factor_confirmed_at);
+        $user = $this->twoFactorUser();
+        return $user !== null && $user->getTwoFactorSecret() !== null && $user->getTwoFactorConfirmedAt() !== null;
     }
 
+    /** @return bool */
     public function getPendingProperty(): bool
     {
-        $user = Auth::user();
-        return $user && !empty($user->two_factor_secret) && is_null($user->two_factor_confirmed_at);
+        $user = $this->twoFactorUser();
+        return $user !== null && $user->getTwoFactorSecret() !== null && $user->getTwoFactorConfirmedAt() === null;
     }
 
+    /** @return array<int, string> */
     public function getRecoveryCodesProperty(): array
     {
-        $user = Auth::user();
-        if (!$user || empty($user->two_factor_recovery_codes)) {
+        $user = $this->twoFactorUser();
+        if (!$user) {
             return [];
         }
-        return json_decode(decrypt($user->two_factor_recovery_codes), true) ?? [];
+        $codes = $user->getTwoFactorRecoveryCodes();
+        if (empty($codes)) {
+            return [];
+        }
+        return json_decode(decrypt($codes), true) ?? [];
     }
 
+    /** @return string */
     public function getQrCodeSvgProperty(): string
     {
-        $user = Auth::user();
-        if (!$user || !method_exists($user, 'twoFactorQrCodeSvg')) {
+        $user = $this->twoFactorUser();
+        if (!$user) {
             return '';
         }
         return $user->twoFactorQrCodeSvg();
     }
 
+    /** @return \Illuminate\Contracts\View\View */
     public function render()
     {
         return view('microweber-fortify::livewire.two-factor-setup');

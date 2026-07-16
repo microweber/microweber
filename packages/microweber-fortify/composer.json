@@ -19,7 +19,9 @@
     "require-dev": {
         "orchestra/testbench": "^10.0",
         "phpunit/phpunit": "^11.0",
-        "laravel/dusk": "^8.0"
+        "laravel/dusk": "^8.0",
+        "larastan/larastan": "^3.0",
+        "filament/filament": "^5.0"
     },
     "autoload": {
         "psr-4": {
@@ -30,6 +32,9 @@
         "psr-4": {
             "MicroweberPackages\\Fortify\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "analyse": "phpstan analyse --memory-limit=1G"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

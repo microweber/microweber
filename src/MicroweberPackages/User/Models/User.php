@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Validator;
+use MicroweberPackages\Fortify\Contracts\TwoFactorAuthenticatable as TwoFactorAuthenticatableContract;
 use MicroweberPackages\Fortify\Traits\HasTwoFactorAuthentication;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Passport\Contracts\OAuthenticatable;
@@ -43,7 +44,25 @@ use \Illuminate\Support\Facades\Auth;
 
 use carbon\carbon;
 
-class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasName, FilamentSocialiteUserContract, OAuthenticatable
+/**
+ * @property int $id
+ * @property string|null $username
+ * @property string $password
+ * @property string|null $email
+ * @property int $is_active
+ * @property int $is_admin
+ * @property int $is_verified
+ * @property string|null $first_name
+ * @property string|null $last_name
+ * @property string|null $phone
+ * @property string|null $thumbnail
+ * @property string|null $two_factor_secret
+ * @property string|null $two_factor_recovery_codes
+ * @property \Illuminate\Support\Carbon|null $two_factor_confirmed_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ */
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasName, FilamentSocialiteUserContract, OAuthenticatable, TwoFactorAuthenticatableContract
 {
     use HasFactory,
     Notifiable,
@@ -64,6 +83,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     protected $casts = [
         'username' => StripTagsCast::class,
         'thumbnail' => ReplaceSiteUrlCast::class,
+        'two_factor_confirmed_at' => 'datetime',
     ];
 
     protected $attributes = [

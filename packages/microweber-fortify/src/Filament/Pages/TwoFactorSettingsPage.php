@@ -12,19 +12,26 @@ use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\GenerateNewRecoveryCodes;
+use MicroweberPackages\Fortify\Contracts\TwoFactorAuthenticatable;
 
+/**
+ * Filament page for managing two-factor authentication settings.
+ *
+ * @property-read bool $enabled
+ */
 class TwoFactorSettingsPage extends Page
 {
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-shield-check';
     protected static ?string $navigationLabel = 'Two-Factor Auth';
     protected static ?string $title = 'Two-Factor Authentication';
-    protected static string | \UnitEnum | null $navigationGroup = 'User Settings';
+    protected static string|\UnitEnum|null $navigationGroup = 'User Settings';
     protected static ?int $navigationSort = 999;
     protected static bool $shouldRegisterNavigation = true;
     protected static string $description = 'Configure your 2FA settings, including enabling/disabling 2FA, viewing recovery codes, and regenerating recovery codes.';
 
     protected string $view = 'microweber-fortify::filament.pages.two-factor-settings';
 
+    /** @var array<string, mixed>|null */
     public ?array $data = [];
     public bool $showingQrCode = false;
     public bool $showingRecoveryCodes = false;
@@ -34,6 +41,16 @@ class TwoFactorSettingsPage extends Page
     public bool $confirmingPassword = false;
     public ?string $pendingAction = null;
 
+    /**
+     * Get the authenticated user with 2FA capabilities.
+     */
+    protected function twoFactorUser(): ?TwoFactorAuthenticatable
+    {
+        /** @var TwoFactorAuthenticatable|null $user */
+        $user = Auth::user();
+        return $user;
+    }
+
     public static function getSlug(?\Filament\Panel $panel = null): string
     {
         return 'two-factor-settings';
@@ -41,8 +58,8 @@ class TwoFactorSettingsPage extends Page
 
     public function mount(): void
     {
-        $user = Auth::user();
-        if ($user && $user->two_factor_secret && !$user->two_factor_confirmed_at) {
+        $user = $this->twoFactorUser();
+        if ($user && $user->getTwoFactorSecret() && !$user->getTwoFactorConfirmedAt()) {
             $this->showingQrCode = true;
             $this->showingConfirmation = true;
         }
@@ -56,7 +73,7 @@ class TwoFactorSettingsPage extends Page
                     ->label(__('Confirmation Code'))
                     ->placeholder(__('Enter the 6-digit code from your authenticator app'))
                     ->required()
-                    ->visible(fn () => $this->showingConfirmation)
+                    ->visible(fn (): bool => $this->showingConfirmation)
                     ->numeric()
                     ->maxLength(6)
                     ->minLength(6),
@@ -77,12 +94,11 @@ class TwoFactorSettingsPage extends Page
             return;
         }
 
-        if (!password_verify($this->confirmablePassword, Auth::user()->password)) {
+        $user = $this->twoFactorUser();
+        if (!$user || !password_verify($this->confirmablePassword, $user->getPasswordHash())) {
             Notification::make()->danger()->title(__('This password does not match our records.'))->send();
             return;
         }
-
-        $user = Auth::user();
 
         switch ($this->pendingAction) {
             case 'enable':
@@ -143,14 +159,19 @@ class TwoFactorSettingsPage extends Page
             return;
         }
 
-        $code = str_pad(preg_replace('/[^0-9]/', '', $code), 6, '0', STR_PAD_LEFT);
-        $user = Auth::user();
+        $sanitised = preg_replace('/[^0-9]/', '', (string) $code);
+        $code = str_pad((string) $sanitised, 6, '0', STR_PAD_LEFT);
+        $user = $this->twoFactorUser();
+
+        if (!$user) {
+            return;
+        }
 
         try {
             app(ConfirmTwoFactorAuthentication::class)($user, $code);
             $user->refresh();
 
-            if ($user->two_factor_confirmed_at) {
+            if ($user->getTwoFactorConfirmedAt()) {
                 RateLimiter::clear($rateLimiterKey);
                 $this->showingQrCode = false;
                 $this->showingConfirmation = false;
@@ -187,10 +208,11 @@ class TwoFactorSettingsPage extends Page
         $this->confirmingPassword = true;
     }
 
+    /** @return bool */
     public function getEnabledProperty(): bool
     {
-        $user = Auth::user();
-        return $user && !empty($user->two_factor_secret) && !is_null($user->two_factor_confirmed_at);
+        $user = $this->twoFactorUser();
+        return $user !== null && $user->getTwoFactorSecret() !== null && $user->getTwoFactorConfirmedAt() !== null;
     }
 
     public static function shouldRegisterNavigation(): bool

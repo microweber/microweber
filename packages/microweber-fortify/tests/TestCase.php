@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Fortify\Tests;
 
 use MicroweberPackages\Core\tests\TestCase as MicroweberTestCase;
+use MicroweberPackages\Fortify\Contracts\TwoFactorAuthenticatable;
 
 abstract class TestCase extends MicroweberTestCase
 {
@@ -13,19 +14,27 @@ abstract class TestCase extends MicroweberTestCase
 
     /**
      * Create a test user using the CMS User model.
+     *
+     * @param  array<string, mixed>  $overrides
+     * @return TwoFactorAuthenticatable&\Illuminate\Foundation\Auth\User
      */
     protected function createFortifyTestUser(array $overrides = []): \Illuminate\Foundation\Auth\User
     {
         $model = config('auth.providers.users.model', \MicroweberPackages\User\Models\User::class);
-        return $model::create(array_merge([
+        /** @var TwoFactorAuthenticatable&\Illuminate\Foundation\Auth\User $user */
+        $user = $model::create(array_merge([
             'username' => 'fortify_test_' . uniqid(),
             'email' => 'fortify_test_' . uniqid() . '@example.com',
             'password' => bcrypt('password'),
             'is_active' => 1,
         ], $overrides));
+        return $user;
     }
 
-    protected function cleanupFortifyUser($user): void
+    /**
+     * Clean up a test user by resetting 2FA columns and deleting.
+     */
+    protected function cleanupFortifyUser(\Illuminate\Foundation\Auth\User $user): void
     {
         $user->forceFill([
             'two_factor_secret' => null,

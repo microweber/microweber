@@ -5,10 +5,19 @@ namespace MicroweberPackages\Fortify\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class RequireTwoFactor
 {
-    public function handle(Request $request, Closure $next, ?string $guard = null)
+    /**
+     * Handle an incoming request.
+     *
+     * @param  Request  $request
+     * @param  \Closure(Request): Response  $next
+     * @param  string|null  $guard
+     * @return Response
+     */
+    public function handle(Request $request, Closure $next, ?string $guard = null): Response
     {
         $user = Auth::guard($guard)->user();
 
@@ -26,14 +35,7 @@ class RequireTwoFactor
 
         // Check if user is admin (for admin-only requirement)
         if ($requireAdmin && !$requireAll) {
-            $isAdmin = false;
-            if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
-                $isAdmin = true;
-            } elseif (method_exists($user, 'hasRole') && $user->hasRole('admin')) {
-                $isAdmin = true;
-            } elseif (isset($user->is_admin) && $user->is_admin == 1) {
-                $isAdmin = true;
-            }
+            $isAdmin = $this->isAdminUser($user);
 
             if (!$isAdmin) {
                 return $next($request);
@@ -41,11 +43,16 @@ class RequireTwoFactor
         }
 
         // Skip if user already has 2FA enabled and confirmed
-        if ($user->two_factor_secret && $user->two_factor_confirmed_at) {
+        if ($user instanceof \MicroweberPackages\Fortify\Contracts\TwoFactorAuthenticatable) { // @phpstan-ignore instanceof.alwaysTrue
+            if ($user->getTwoFactorSecret() && $user->getTwoFactorConfirmedAt()) {
+                return $next($request);
+            }
+        } elseif (!empty($user->two_factor_secret) && !empty($user->two_factor_confirmed_at)) { // @phpstan-ignore property.notFound
             return $next($request);
         }
 
-        // Skip if already on setup route
+        // Skip if already on setup route, logout, or Livewire internal routes
+        /** @var string $setupRoute */
         $setupRoute = config('microweber-fortify.setup_route', '/two-factor/setup');
         if ($request->is(ltrim($setupRoute, '/')) || $request->is('logout') || $request->is('livewire/*')) {
             return $next($request);
@@ -56,7 +63,35 @@ class RequireTwoFactor
     }
 
     /**
-     * Get an option value - supports Microweber get_option or falls back to config.
+     * Determine if the given user is an admin, using multiple detection strategies.
+     *
+     * This method deliberately uses dynamic checks because it must work with
+     * any User model — not just the Microweber CMS User class.
+     *
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     */
+    protected function isAdminUser(object $user): bool
+    {
+        /** @phpstan-ignore booleanAnd.leftAlwaysTrue */
+        if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
+            return true;
+        }
+
+        /** @phpstan-ignore booleanAnd.leftAlwaysTrue */
+        if (method_exists($user, 'hasRole') && $user->hasRole('admin')) {
+            return true;
+        }
+
+        // Fallback: is_admin attribute
+        if (isset($user->is_admin) && (int) $user->is_admin === 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get an option value — supports Microweber get_option() or falls back to config.
      */
     protected function getOption(string $key): bool
     {

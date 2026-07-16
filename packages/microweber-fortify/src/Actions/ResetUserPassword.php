@@ -10,6 +10,10 @@ class ResetUserPassword implements ResetsUserPasswords
 {
     use PasswordValidationRules;
 
+    /**
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user
+     * @param array<string, mixed> $input
+     */
     public function reset($user, array $input): void
     {
         Validator::make($input, [

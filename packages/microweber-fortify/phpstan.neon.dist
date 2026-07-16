@@ -1,0 +1,19 @@
+includes:
+  - ../../vendor/larastan/larastan/extension.neon
+
+parameters:
+  level: 8
+  paths:
+    - src
+  excludePaths:
+    - vendor (?)
+  tmpDir: build/phpstan
+  reportUnmatchedIgnoredErrors: false
+  treatPhpDocTypesAsCertain: false
+  ignoreErrors:
+    # Trait analysis — the trait is used by consumer models, PHPStan may
+    # not see the usage when analysing the package in isolation.
+    - '#Trait .+ is used zero times and is not analysed#'
+    # Filament v5 migration allowances
+    - '#Call to deprecated method#'
+    - '#Access to deprecated property#'

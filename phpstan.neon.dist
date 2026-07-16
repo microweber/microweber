@@ -50,6 +50,8 @@ parameters:
     # Filament v5 migration allowances
     - '#Call to deprecated method#'
     - '#Access to deprecated property#'
+    # Package traits used by consumer models outside the analysed path
+    - '#Trait .+ is used zero times and is not analysed#'
     # Blade template variables are passed at runtime
     -
       message: '#Variable \$\w+ might not be defined#'

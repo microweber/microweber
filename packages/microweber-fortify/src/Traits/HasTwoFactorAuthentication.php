@@ -11,12 +11,59 @@ use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
 
+/**
+ * Provides two-factor authentication capabilities for a User model.
+ *
+ * @property string|null $two_factor_secret           Encrypted TOTP secret key.
+ * @property string|null $two_factor_recovery_codes   Encrypted JSON array of recovery codes.
+ * @property \Illuminate\Support\Carbon|null $two_factor_confirmed_at  Timestamp of 2FA confirmation.
+ * @property string|null $email
+ * @property string|null $username
+ */
 trait HasTwoFactorAuthentication
 {
     use TwoFactorAuthenticatable;
 
     /**
+     * Get the encrypted two-factor secret.
+     */
+    public function getTwoFactorSecret(): ?string
+    {
+        return $this->two_factor_secret;
+    }
+
+    /**
+     * Get the encrypted two-factor recovery codes JSON.
+     */
+    public function getTwoFactorRecoveryCodes(): ?string
+    {
+        return $this->two_factor_recovery_codes;
+    }
+
+    /**
+     * Get the two-factor confirmed-at timestamp.
+     */
+    public function getTwoFactorConfirmedAt(): ?\Illuminate\Support\Carbon
+    {
+        $value = $this->two_factor_confirmed_at;
+        if ($value instanceof \Illuminate\Support\Carbon) {
+            return $value;
+        }
+        return $value ? \Illuminate\Support\Carbon::parse($value) : null;
+    }
+
+    /**
+     * Get the user's hashed password.
+     */
+    public function getPasswordHash(): string
+    {
+        return (string) $this->password;
+    }
+
+    /**
      * Get the user's two-factor authentication recovery codes.
+     *
+     * @return array<int, string>
      */
     public function recoveryCodes(): array
     {
