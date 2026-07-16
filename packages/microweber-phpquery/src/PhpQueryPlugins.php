@@ -5,7 +5,8 @@ namespace MicroweberPackages\PhpQuery;
 use Exception;
 
 /**
- * Plugins static namespace class.
+ * Plugins namespace class — dispatches method calls to registered plugin classes
+ * or user-registered extend methods.
  *
  * @author Tobiasz Cudnik <tobiasz.cudnik/gmail.com>
  */
@@ -17,16 +18,25 @@ class PhpQueryPlugins
             $return = call_user_func_array(
                 PhpQuery::$extendStaticMethods[$method], $args
             );
-        } elseif (isset(PhpQuery::$pluginsStaticMethods[$method])) {
+
+            return $return ?? $this;
+        }
+
+        if (isset(PhpQuery::$pluginsStaticMethods[$method])) {
             $class = PhpQuery::$pluginsStaticMethods[$method];
             $realClass = "phpQueryPlugin_$class";
-            $return = call_user_func_array(
-                array($realClass, $method), $args
-            );
-
-            return isset($return) ? $return : $this;
-        } else {
-            throw new Exception("Method '{$method}' doesnt exist");
+            // Also check for namespaced plugin classes
+            if (!class_exists($realClass, false)) {
+                $realClass = "MicroweberPackages\\PhpQuery\\Plugins\\{$class}Plugin";
+            }
+            if (class_exists($realClass, false) && is_callable(array($realClass, $method))) {
+                $return = call_user_func_array(
+                    array($realClass, $method), $args
+                );
+                return $return ?? $this;
+            }
         }
+
+        throw new Exception("Method '{$method}' doesn't exist");
     }
 }

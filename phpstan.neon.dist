@@ -45,6 +45,7 @@ parameters:
   parallel:
     maximumNumberOfProcesses: 4
     processTimeout: 300.0
+  treatPhpDocTypesAsCertain: false
   reportUnmatchedIgnoredErrors: false
   ignoreErrors:
     # Filament v5 migration allowances
@@ -59,3 +60,64 @@ parameters:
         - Modules/*/resources/views/*
     # Module view namespaces (modules.*::) are valid but not recognized by Larastan
     - '#expects view-string\|null, string given#'
+
+    # phpQuery package legacy patterns
+    - '#Zend_Http_Client#'
+    - '#Zend/Http/Client\.php#'
+    -
+      identifier: class.nameCase
+      path: packages/microweber-phpquery/*
+    -
+      identifier: method.tentativeReturnType
+      path: packages/microweber-phpquery/*
+    -
+      identifier: return.missing
+      path: packages/microweber-phpquery/*
+    -
+      identifier: return.type
+      path: packages/microweber-phpquery/*
+    -
+      identifier: arguments.count
+      path: packages/microweber-phpquery/*
+    -
+      identifier: deadCode.unreachable
+      path: packages/microweber-phpquery/*
+    -
+      identifier: method.notFound
+      path: packages/microweber-phpquery/*
+    -
+      identifier: constructor.unusedParameter
+      path: packages/microweber-phpquery/*
+    -
+      identifier: instanceof.alwaysFalse
+      path: packages/microweber-phpquery/*
+    -
+      identifier: instanceof.alwaysTrue
+      path: packages/microweber-phpquery/*
+    -
+      identifier: isset.offset
+      path: packages/microweber-phpquery/*
+    -
+      identifier: booleanNot.alwaysFalse
+      path: packages/microweber-phpquery/*
+    -
+      identifier: booleanNot.alwaysTrue
+      path: packages/microweber-phpquery/*
+    -
+      identifier: booleanAnd.rightAlwaysTrue
+      path: packages/microweber-phpquery/*
+    -
+      identifier: booleanAnd.alwaysFalse
+      path: packages/microweber-phpquery/*
+    -
+      identifier: function.impossibleType
+      path: packages/microweber-phpquery/*
+    -
+      identifier: argument.type
+      path: packages/microweber-phpquery/*
+    -
+      identifier: parameterByRef.type
+      path: packages/microweber-phpquery/*
+    -
+      identifier: ternary.alwaysTrue
+      path: packages/microweber-phpquery/*

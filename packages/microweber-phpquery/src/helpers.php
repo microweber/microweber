@@ -8,7 +8,7 @@ if (function_exists('libxml_use_internal_errors')) {
 }
 
 // Initialize plugins
-if (!is_object(PhpQuery::$plugins)) {
+if (PhpQuery::$plugins === null) {
     PhpQuery::$plugins = new \MicroweberPackages\PhpQuery\PhpQueryPlugins();
 }
 

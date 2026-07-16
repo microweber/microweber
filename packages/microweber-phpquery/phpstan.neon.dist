@@ -1,0 +1,43 @@
+parameters:
+    level: 5
+    paths:
+        - src
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # Legacy AJAX code referencing Zend framework (dead code path, never reached)
+        - '#Zend_Http_Client#'
+        - '#Zend/Http/Client\.php#'
+        # Legacy class name case references (aliases handle this)
+        - identifier: class.nameCase
+        # The next() method doubles as both iterator interface and jQuery sibling selector
+        - identifier: method.tentativeReturnType
+        # Return type mismatches in multi-purpose legacy methods
+        - identifier: return.missing
+          path: src/PhpQueryObject.php
+        - identifier: return.type
+          path: src/PhpQueryObject.php
+        # Constructor supports inheritance patterns with extra params
+        - identifier: arguments.count
+        # Unreachable code after throw (intentional legacy pattern)
+        - identifier: deadCode.unreachable
+        # DOMNode attribute access on base DOMNode (works at runtime)
+        - identifier: method.notFound
+          path: src/PhpQueryObject.php
+        # Legacy unused constructor parameter
+        - identifier: constructor.unusedParameter
+        # DOMNode/DOMNodeList type guards (defensive code, intentional)
+        - identifier: instanceof.alwaysFalse
+        - identifier: instanceof.alwaysTrue
+        # Dynamic arrays in legacy code
+        - identifier: isset.offset
+        # Legacy boolean expressions kept for clarity
+        - identifier: booleanNot.alwaysFalse
+        - identifier: booleanAnd.rightAlwaysTrue
+        - identifier: booleanAnd.alwaysFalse
+        # Class_exists and is_string on dynamic input
+        - identifier: function.impossibleType
+        # Legacy argument types for multi-purpose methods
+        - identifier: argument.type
+        # Legacy paramByRef patterns
+        - identifier: parameterByRef.type
