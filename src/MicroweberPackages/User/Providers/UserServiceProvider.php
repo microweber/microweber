@@ -102,6 +102,9 @@ class UserServiceProvider extends AuthServiceProvider
         // the signed-in user's edit page) instead of falling through to 404.
         FilamentRegistry::registerPage(AdminProfileRedirectPage::class);
 
+        // Register the social login package first (provides the service),
+        // then the CMS-specific provider that populates its config from options.
+        $this->app->register(\MicroweberPackages\SocialLogin\Providers\SocialLoginServiceProvider::class);
         $this->app->register(\MicroweberPackages\User\Providers\UserSocialiteServiceProvider::class);
 
     }
