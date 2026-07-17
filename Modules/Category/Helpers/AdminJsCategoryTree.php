@@ -234,6 +234,10 @@ class AdminJsCategoryTree
         $appendPage['title'] = $page['title'];
   //      $appendPage['url'] = $page['url'];
         $appendPage['url'] = content_link($page['id']);
+        // Admin edit URL so the tree's page rows can offer an "Edit" action (like category
+        // rows do). content_edit_link() resolves the right resource per content_type
+        // (pages / posts / products / content).
+        $appendPage['admin_edit_url'] = content_edit_link($page['id']);
         $appendPage['is_active'] = $page['is_active'];
         $appendPage['subtype'] = $page['subtype'];
         $appendPage['position'] = (int)$page['position'];;
