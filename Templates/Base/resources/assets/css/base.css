@@ -22,3 +22,108 @@
         align-items: center;
     }
 }
+
+/* ============================================================
+   Shop filter (/shop sidebar) design refinements.
+
+   The filter reuses raw Bootstrap components (list-group, input-group,
+   noUiSlider), which picked up the template accent (--mw-primary-color)
+   as heavy SOLID fills: the selected category was a full orange block,
+   the "$" input prefixes were solid orange boxes, and the price slider
+   used noUiSlider's dated 34x28 grey handle. Refined below into a
+   lighter, more considered look. Accent-aware via --mw-primary-color so
+   it follows the chosen colour palette; #f4a261 is the framework default.
+   ============================================================ */
+
+/* Section headings — quiet, uppercase, consistent rhythm. !important beats the
+   framework's black `--mw-heading-color` heading rule. */
+.mw-shop-filter-heading {
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    color: #6b7280 !important;
+    margin-bottom: 0.6rem !important;
+}
+
+/* Category list — flat rows; selected = soft accent tint + accent bar,
+   not a heavy solid block. */
+.mw-shop-filter-categories .list-group-item.list-group-item-action {
+    border: 0;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 2px;
+    color: #333;
+    background: transparent;
+    font-weight: 500;
+    transition: background-color 0.12s ease, color 0.12s ease;
+}
+.mw-shop-filter-categories .list-group-item.list-group-item-action:hover {
+    background: #f4f5f7;
+    color: #111;
+}
+.mw-shop-filter-categories .list-group-item.list-group-item-action.active {
+    background: #fdf0e6; /* fallback tint */
+    background: color-mix(in srgb, var(--mw-primary-color, #f4a261) 14%, #fff);
+    color: #b8622a; /* fallback readable accent */
+    color: color-mix(in srgb, var(--mw-primary-color, #f4a261) 82%, #000);
+    font-weight: 600;
+    box-shadow: inset 3px 0 0 var(--mw-primary-color, #f4a261);
+}
+.mw-shop-filter-categories .list-group-item.list-group-item-action:focus-visible {
+    outline: 2px solid var(--mw-primary-color, #f4a261);
+    outline-offset: -2px;
+}
+
+/* Price range — subtle "$" prefix (was a solid orange box) + clean inputs. */
+.mw-shop-filter-price-range .input-group-text {
+    background: #f8f9fa !important;
+    color: #6b7280 !important;
+    border-color: #dee2e6 !important;
+    font-weight: 500;
+}
+.mw-shop-filter-price-range label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+}
+.mw-shop-filter-price-range .form-control {
+    border-color: #dee2e6;
+}
+.mw-shop-filter-price-range .form-control:focus {
+    border-color: var(--mw-primary-color, #f4a261);
+    box-shadow: none;
+}
+
+/* noUiSlider — thin rounded track + round accent handle (replaces the
+   default 34x28 grey rectangle). !important guards against noUiSlider's
+   own stylesheet, which is injected dynamically after this file. */
+.mw-shop-filter-price-range .noUi-target {
+    border: 0 !important;
+    box-shadow: none !important;
+    background: #e9ecef !important;
+    border-radius: 999px !important;
+}
+.mw-shop-filter-price-range.noUi-horizontal,
+.mw-shop-filter-price-range .noUi-horizontal {
+    height: 6px !important;
+}
+.mw-shop-filter-price-range .noUi-connect {
+    background: var(--mw-primary-color, #f4a261) !important;
+}
+.mw-shop-filter-price-range .noUi-horizontal .noUi-handle {
+    width: 18px !important;
+    height: 18px !important;
+    right: -9px !important;
+    top: -6px !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    border: 2px solid var(--mw-primary-color, #f4a261) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+    cursor: pointer;
+}
+/* Hide noUiSlider's default handle grip lines. */
+.mw-shop-filter-price-range .noUi-handle:before,
+.mw-shop-filter-price-range .noUi-handle:after {
+    display: none !important;
+}

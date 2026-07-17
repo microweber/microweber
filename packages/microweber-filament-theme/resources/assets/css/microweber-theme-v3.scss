@@ -2407,6 +2407,33 @@ html.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:
   }
 }
 
+// The CHECKED option inherited the global brand-blue `.fi-btn.fi-color-primary` fill, but
+// every other selected/active state in the admin (toggle switch ON, tabs, view toggle) is
+// ink #182433 — the blue read as an out-of-place accent. Match ink so the segmented control's
+// selection is consistent. Scoped to `.fi-color-primary` so semantic-coloured options
+// (success/danger/warning/info) keep their own hue.
+body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:checked + label.fi-btn.fi-color-primary {
+  background-color: #182433 !important;
+  border-color: #182433 !important;
+  color: #ffffff !important;
+
+  &:hover {
+    background-color: #243347 !important;
+    border-color: #243347 !important;
+  }
+
+  svg { color: #ffffff !important; }
+}
+// Dark mode — lighter navy so the selection stays visible on the dark surface.
+html.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:checked + label.fi-btn.fi-color-primary {
+  background-color: #2d4a6e !important;
+  border-color: #2d4a6e !important;
+  color: #ffffff !important;
+
+  &:hover { background-color: #35567e !important; border-color: #35567e !important; }
+  svg { color: #ffffff !important; }
+}
+
 // Option ICONS on unchecked ToggleButtons (e.g. the Align left/center/right heroicons in
 // module settings) render WHITE — Filament colours a .fi-color-primary option's icon with
 // the contrast colour, but the rule above makes the unchecked pill white, so the icon
