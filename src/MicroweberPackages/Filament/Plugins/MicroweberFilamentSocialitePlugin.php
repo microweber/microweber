@@ -4,9 +4,7 @@ namespace MicroweberPackages\Filament\Plugins;
 
 use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
 use DutchCodingCompany\FilamentSocialite\Provider;
-use Illuminate\Support\Facades\Config;
-use Laravel\Socialite\Contracts\User as SocialiteUserContract;
-use Illuminate\Contracts\Auth\Authenticatable;
+use MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract;
 
 class MicroweberFilamentSocialitePlugin extends FilamentSocialitePlugin
 {
@@ -16,8 +14,6 @@ class MicroweberFilamentSocialitePlugin extends FilamentSocialitePlugin
 
     public function admin(): MicroweberFilamentSocialitePlugin
     {
-       // $this->userClass = Config::get('auth.providers.admins.model', \App\Models\Admin::class);
-      //  $this->socialiteUserClass = Config::get('auth.providers.admins.model', \App\Models\Admin::class);
         return $this;
     }
 
@@ -25,41 +21,23 @@ class MicroweberFilamentSocialitePlugin extends FilamentSocialitePlugin
     {
         $providers = [];
 
+        /** @var SocialLoginServiceContract $socialLogin */
+        $socialLogin = app('social_login');
 
-        if (get_option('enable_user_google_registration', 'users')) {
+        $providerLabels = [
+            'google'   => 'Login with Google',
+            'facebook' => 'Login with Facebook',
+            'twitter'  => 'Login with Twitter',
+            'github'   => 'Login with Github',
+            'linkedin' => 'Login with LinkedIn',
+        ];
 
-            $providers[] = Provider::make('google')
-                ->label('Login with Google')
-                ->icon('heroicon-o-user');
-        }
-
-
-        if (get_option('enable_user_fb_registration', 'users')) {
-            $providers[] = Provider::make('facebook')
-                ->label('Login with Facebook')
-                ->icon('heroicon-o-user');
-        }
-
-        if (get_option('enable_user_twitter_registration', 'users')) {
-
-            $providers[] = Provider::make('twitter')
-                ->label('Login with Twitter')
-                ->icon('heroicon-o-user');
-        }
-
-
-        if (get_option('enable_user_github_registration', 'users')) {
-
-            $providers[] = Provider::make('github')
-                ->label('Login with Github')
-                ->icon('heroicon-o-user');
-        }
-
-        if (get_option('enable_user_linkedin_registration', 'users')) {
-
-            $providers[] = Provider::make('linkedin')
-                ->label('Login with LinkedIn')
-                ->icon('heroicon-o-user');
+        foreach ($providerLabels as $name => $label) {
+            if ($socialLogin->isProviderEnabled($name)) {
+                $providers[] = Provider::make($name)
+                    ->label($label)
+                    ->icon('heroicon-o-user');
+            }
         }
 
         return MicroweberFilamentSocialitePlugin::make()

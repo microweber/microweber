@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use Laravel\Socialite\SocialiteManager;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract;
 use MicroweberPackages\User\Http\Controllers\UserForgotPasswordController;
 use MicroweberPackages\User\Http\Controllers\UserLoginController;
 use MicroweberPackages\User\Http\Controllers\UserRegisterController;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
 use MicroweberPackages\User\Http\Requests\RegisterRequest;
 use MicroweberPackages\User\Models\User;
-use MicroweberPackages\User\Socialite\MicroweberProvider;
 use Modules\Customer\Models\Customer;
 
 class UserManager
@@ -27,10 +26,6 @@ class UserManager
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
-
-    /** @var SocialiteManager */
-    public $socialite;
-
     public function __construct($app = null)
     {
 
@@ -39,8 +34,6 @@ class UserManager
         } else {
             $this->app = mw();
         }
-
-        $this->socialite = new SocialiteManager($this->app);
     }
 
 
@@ -1318,23 +1311,13 @@ class UserManager
         }
 
         if ($provider != false and isset($params) and !empty($params)) {
-            $this->socialite_config($provider);
-            switch ($provider) {
-                case 'github':
-                    return $this->socialite->with($provider)->scopes(['user:email'])->redirect();
-
-                case 'google':
-                case 'azure':
-                    return $this->socialite->with($provider)->with(["prompt" => "select_account"])->redirect();
-            }
-
-
             try {
-                return $this->socialite->with($provider)->redirect();
+                /** @var SocialLoginServiceContract $socialLogin */
+                $socialLogin = app('social_login');
+                return $socialLogin->redirect($provider);
             } catch (\InvalidArgumentException $e) {
                 return $e->getMessage();
             }
-
         }
     }
 
@@ -1447,21 +1430,18 @@ class UserManager
             return $this->app->url_manager->redirect(site_url());
         }
 
-        $auth_provider = $provider;
-        $auth_provider = e($auth_provider);
-        $this->socialite_config($auth_provider);
-
+        $auth_provider = e($provider);
 
         try {
-            // $this->socialite_config($auth_provider);
-            $user = $this->socialite->driver($auth_provider)->stateless()->user();
+            /** @var \MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract $socialLogin */
+            $socialLogin = app('social_login');
+            $socialUser = $socialLogin->handleCallback($auth_provider);
 
-            $email = $user->getEmail();
-
-            $username = $user->getNickname();
-            $oauth_id = $user->getId();
-            $avatar = $user->getAvatar();
-            $name = $user->getName();
+            $email = $socialUser->email;
+            $username = $socialUser->nickname;
+            $oauth_id = $socialUser->id;
+            $avatar = $socialUser->avatar;
+            $name = $socialUser->name;
 
             $existing = array();
 
@@ -1483,29 +1463,17 @@ class UserManager
             $save['username'] = $username;
             $save['is_active'] = 1;
             $save['is_admin'] = 0;
-            $save['first_name'] = $name;
-            $save['last_name'] = '';
+            $save['first_name'] = $socialUser->firstName ?? $name;
+            $save['last_name'] = $socialUser->lastName ?? '';
             $save['oauth_uid'] = $oauth_id;
             $save['oauth_provider'] = $auth_provider;
 
-
-            if ($name != false) {
-                $names = explode(' ', $name);
-                if (isset($names[0])) {
-                    $save['first_name'] = array_shift($names);
-                    if (!empty($names)) {
-                        $last = implode(' ', $names);
-                        $save['last_name'] = $last;
-                    }
-                }
-            }
             $existing['single'] = true;
             $existing['limit'] = 1;
             $existing = $this->get_all($existing);
             if (!defined('MW_FORCE_USER_SAVE')) {
                 define('MW_FORCE_USER_SAVE', true);
             }
-
 
             if ($existing and isset($existing['id'])) {
                 if (!isset($existing['oauth_uid'])) {
@@ -1518,7 +1486,6 @@ class UserManager
                     }
                 }
 
-
                 if ($existing['is_active'] != 1) {
                     return;
                 }
@@ -1528,28 +1495,16 @@ class UserManager
             } else {
                 $save = array_filter($save);
 
-
                 $user = User::create($save);
                 if ($user) {
-
                     event(new Registered($user));
-
                 }
-
-
-                //  $user = new User();
-                //   $user->fill($save);
-                //  $user->save($save);
-
-
-                //   $new_user = $user->save($save);
 
                 $new_user_id = $user->id;
 
                 $this->after_register($new_user_id);
                 $this->make_logged($new_user_id);
                 $this->app->event_manager->trigger('mw.user.register', ['id' => $new_user_id]);
-
             }
         } catch (\Laravel\Socialite\Two\InvalidStateException $e) {
             //do nothing
@@ -1808,59 +1763,13 @@ class UserManager
         return csrf_token();
     }
 
+    /**
+     * @deprecated Use app('social_login') directly. Kept for backward compatibility.
+     */
     public function socialite_config($provider = false)
     {
-      //  $callback_url = api_url('social_login_process?provider=' . $provider);
-         $callback_url = api_url('social_login_process?provider=' . $provider);
-       // $callback_url  = url('oauth/callback/'.$provider);
-
-        if (get_option('enable_user_fb_registration', 'users')) {
-            Config::set('services.facebook.client_id', get_option('fb_app_id', 'users'));
-            Config::set('services.facebook.client_secret', get_option('fb_app_secret', 'users'));
-            Config::set('services.facebook.redirect', $callback_url);
-        }
-
-        if (get_option('enable_user_twitter_registration', 'users')) {
-            Config::set('services.twitter.client_id', get_option('twitter_app_id', 'users'));
-            Config::set('services.twitter.client_secret', get_option('twitter_app_secret', 'users'));
-            Config::set('services.twitter.redirect', $callback_url);
-        }
-
-        if (get_option('enable_user_google_registration', 'users')) {
-            Config::set('services.google.client_id', get_option('google_app_id', 'users'));
-            Config::set('services.google.client_secret', get_option('google_app_secret', 'users'));
-            Config::set('services.google.redirect', $callback_url);
-        }
-
-        if (get_option('enable_user_github_registration', 'users')) {
-            Config::set('services.github.client_id', get_option('github_app_id', 'users'));
-            Config::set('services.github.client_secret', get_option('github_app_secret', 'users'));
-            Config::set('services.github.redirect', $callback_url);
-        }
-
-        if (get_option('enable_user_linkedin_registration', 'users')) {
-            Config::set('services.linkedin.client_id', get_option('linkedin_app_id', 'users'));
-            Config::set('services.linkedin.client_secret', get_option('linkedin_app_secret', 'users'));
-            Config::set('services.linkedin.redirect', $callback_url);
-        }
-
-        if (get_option('enable_user_microweber_registration', 'users')) {
-            $svc = Config::get('services.microweber');
-            if (!isset($svc['client_id'])) {
-                Config::set('services.microweber.client_id', get_option('microweber_app_id', 'users'));
-            }
-            if (!isset($svc['client_secret'])) {
-                Config::set('services.microweber.client_secret', get_option('microweber_app_secret', 'users'));
-            }
-            if (!isset($svc['redirect'])) {
-                Config::set('services.microweber.redirect', $callback_url);
-            }
-            $this->socialite->extend('microweber', function ($app) {
-                $config = app()->config['services.microweber'];
-
-                return $this->socialite->buildProvider(MicroweberProvider::class, $config);
-            });
-        }
+        // Configuration is now handled by the social-login package.
+        // The UserSocialiteServiceProvider populates the config on boot.
     }
 
     public function terms_accept($tos_name, $user_id_or_email = false)

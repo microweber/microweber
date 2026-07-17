@@ -207,6 +207,7 @@
             "MicroweberPackages\\Pagination\\": "packages/microweber-pagination/src/",
             "MicroweberPackages\\Passport\\": "packages/microweber-passport/src/",
             "MicroweberPackages\\Fortify\\": "packages/microweber-fortify/src/",
+            "MicroweberPackages\\SocialLogin\\": "packages/microweber-social-login/src/",
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
@@ -241,6 +242,7 @@
             "MicroweberPackages\\Pagination\\Tests\\": "packages/microweber-pagination/tests/",
             "MicroweberPackages\\Passport\\Tests\\": "packages/microweber-passport/tests/",
             "MicroweberPackages\\Fortify\\Tests\\": "packages/microweber-fortify/tests/",
+            "MicroweberPackages\\SocialLogin\\Tests\\": "packages/microweber-social-login/tests/",
             "MicroweberPackages\\Dusk\\": "packages/microweber-dusk/src/",
             "MicroweberPackages\\Dusk\\Tests\\": "packages/microweber-dusk/tests/"
         }

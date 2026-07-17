@@ -13,78 +13,60 @@ namespace MicroweberPackages\User\Providers;
 
 use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Support\Facades\Config;
-use MicroweberPackages\User\Socialite\MicroweberProvider;
 
-
+/**
+ * Reads social login credentials from the Microweber options table and
+ * pushes them into the `social-login` package config array. The package
+ * itself is provider-agnostic; this service provider is the CMS-specific
+ * glue that wires Microweber's stored settings into the package.
+ */
 class UserSocialiteServiceProvider extends AuthServiceProvider
 {
+    /**
+     * Map of provider key → [enable_option_key, id_option_key, secret_option_key].
+     *
+     * @var array<string, array{0: string, 1: string, 2: string}>
+     */
+    private array $providerMap = [
+        'facebook'   => ['enable_user_fb_registration',        'fb_app_id',        'fb_app_secret'],
+        'google'     => ['enable_user_google_registration',     'google_app_id',    'google_app_secret'],
+        'github'     => ['enable_user_github_registration',     'github_app_id',    'github_app_secret'],
+        'twitter'    => ['enable_user_twitter_registration',    'twitter_app_id',   'twitter_app_secret'],
+        'linkedin'   => ['enable_user_linkedin_registration',   'linkedin_app_id',  'linkedin_app_secret'],
+        'microweber' => ['enable_user_microweber_registration', 'microweber_app_id','microweber_app_secret'],
+    ];
 
-
-    public function boot()
+    public function boot(): void
     {
-        if (mw_is_installed()) {
-
-            if(app()->bound('user_manager') ){
-
-                if (get_option('enable_user_fb_registration', 'users')) {
-                    $callback_url = url('oauth/callback/facebook');
-                    Config::set('services.facebook.client_id', get_option('fb_app_id', 'users'));
-                    Config::set('services.facebook.client_secret', get_option('fb_app_secret', 'users'));
-                    Config::set('services.facebook.redirect', $callback_url);
-                }
-
-                if (get_option('enable_user_twitter_registration', 'users')) {
-                    $callback_url = url('oauth/callback/twitter');
-                    Config::set('services.twitter.client_id', get_option('twitter_app_id', 'users'));
-                    Config::set('services.twitter.client_secret', get_option('twitter_app_secret', 'users'));
-                    Config::set('services.twitter.redirect', $callback_url);
-                }
-
-                 if (get_option('enable_user_google_registration', 'users')) {
-                    $callback_url = url('oauth/callback/google');
-                    Config::set('services.google.client_id', get_option('google_app_id', 'users'));
-                    Config::set('services.google.client_secret', get_option('google_app_secret', 'users'));
-                    Config::set('services.google.redirect', $callback_url);
-                }
-
-                if (get_option('enable_user_github_registration', 'users')) {
-                    $callback_url = url('oauth/callback/github');
-                    Config::set('services.github.client_id', get_option('github_app_id', 'users'));
-                    Config::set('services.github.client_secret', get_option('github_app_secret', 'users'));
-                    Config::set('services.github.redirect', $callback_url);
-                }
-
-                if (get_option('enable_user_linkedin_registration', 'users')) {
-                    Config::set('services.linkedin.client_id', get_option('linkedin_app_id', 'users'));
-                    Config::set('services.linkedin.client_secret', get_option('linkedin_app_secret', 'users'));
-                    Config::set('services.linkedin.redirect', $callback_url);
-                }
-
-                if (get_option('enable_user_microweber_registration', 'users')) {
-                    $callback_url  = url('oauth/callback/microweber');
-                    $svc = Config::get('services.microweber');
-                    if (!isset($svc['client_id'])) {
-                        Config::set('services.microweber.client_id', get_option('microweber_app_id', 'users'));
-                    }
-                    if (!isset($svc['client_secret'])) {
-                        Config::set('services.microweber.client_secret', get_option('microweber_app_secret', 'users'));
-                    }
-                    if (!isset($svc['redirect'])) {
-                        Config::set('services.microweber.redirect', $callback_url);
-                    }
-//                    $socialite = $this->app->make(\Laravel\Socialite\Contracts\Factory::class);
-//
-//                    $socialite->extend('microweber', function ($app) {
-//                        $config = app()->config['services.microweber'];
-//
-//                        return $this->socialite->buildProvider(MicroweberProvider::class, $config);
-//                    });
-                }
-
-            }
-
-
+        if (!mw_is_installed()) {
+            return;
         }
 
+        // Build the callback URL builder using the CMS api_url helper.
+        Config::set('social-login.callback_url_builder', function (string $provider): string {
+            return api_url('social_login_process?provider=' . $provider);
+        });
+
+        foreach ($this->providerMap as $provider => [$enableKey, $idKey, $secretKey]) {
+            $enabled = get_option($enableKey, 'users');
+
+            Config::set("social-login.providers.{$provider}.enabled", (bool) $enabled);
+            Config::set("social-login.providers.{$provider}.client_id", (string) get_option($idKey, 'users'));
+            Config::set("social-login.providers.{$provider}.client_secret", (string) get_option($secretKey, 'users'));
+
+            if ($provider === 'microweber') {
+                $serverUrl = get_option('microweber_app_url', 'users');
+                if (!empty($serverUrl)) {
+                    Config::set("social-login.providers.microweber.server_url", $serverUrl);
+                }
+            }
+        }
+
+        // Refresh the service so it picks up the just-set config values.
+        if ($this->app->bound('social_login')) {
+            /** @var \MicroweberPackages\SocialLogin\Services\SocialLoginService $service */
+            $service = $this->app->make('social_login');
+            $service->refreshConfig();
+        }
     }
 }
