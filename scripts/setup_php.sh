@@ -930,6 +930,24 @@ install_testing_env() {
 
   cd "${ROOT_DIR}"
 
+  # Copy .env.dusk → .env first so all subsequent commands boot correctly.
+  local env_dusk="${ROOT_DIR}/.env.dusk"
+  local env_file="${ROOT_DIR}/.env"
+  if [ -f "$env_dusk" ]; then
+    cp "$env_dusk" "$env_file"
+    ok "Copied .env.dusk → .env"
+    # Reset installed flag so microweber:install will run fresh.
+    if grep -qE '^MW_IS_INSTALLED=' "$env_file" 2>/dev/null; then
+      sed -i 's/^MW_IS_INSTALLED=.*/MW_IS_INSTALLED=0/' "$env_file"
+      ok "Set MW_IS_INSTALLED=0 in .env"
+    else
+      printf '\nMW_IS_INSTALLED=0\n' >> "$env_file"
+      ok "Added MW_IS_INSTALLED=0 to .env"
+    fi
+  else
+    warn ".env.dusk not found — skipping .env copy. Create .env.dusk with your testing DB credentials."
+  fi
+
   if ! command -v npm >/dev/null 2>&1; then
     warn "npm not found — skipping npm install / build. Install Node 18+ and re-run."
   else
@@ -947,24 +965,6 @@ install_testing_env() {
   if ! command -v php >/dev/null 2>&1; then
     warn "php not on PATH — cannot run artisan commands; skipping."
     return
-  fi
-
-  # Copy .env.dusk → .env so artisan boots against the testing DB.
-  local env_dusk="${ROOT_DIR}/.env.dusk"
-  local env_file="${ROOT_DIR}/.env"
-  if [ -f "$env_dusk" ]; then
-    cp "$env_dusk" "$env_file"
-    ok "Copied .env.dusk → .env"
-    # Reset installed flag so microweber:install will run fresh.
-    if grep -qE '^MW_IS_INSTALLED=' "$env_file" 2>/dev/null; then
-      sed -i 's/^MW_IS_INSTALLED=.*/MW_IS_INSTALLED=0/' "$env_file"
-      ok "Set MW_IS_INSTALLED=0 in .env"
-    else
-      printf '\nMW_IS_INSTALLED=0\n' >> "$env_file"
-      ok "Added MW_IS_INSTALLED=0 to .env"
-    fi
-  else
-    warn ".env.dusk not found — skipping .env copy. Create .env.dusk with your testing DB credentials."
   fi
 
   # Scaffold Dusk's base test case and .env.dusk stub if missing.

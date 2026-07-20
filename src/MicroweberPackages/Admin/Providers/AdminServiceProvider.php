@@ -11,7 +11,6 @@
 
 namespace MicroweberPackages\Admin\Providers;
 
-use BladeUI\Icons\Factory;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -26,13 +25,7 @@ class AdminServiceProvider extends ServiceProvider
 
         $this->app->register(AdminRouteServiceProvider::class);
 
-        // Register Microweber Icons set
-        $this->callAfterResolving(Factory::class, function (Factory $factory) {
-            $factory->add('mw', [
-                'path' => realpath(__DIR__ . '/../resources/mw-svg'),
-                'prefix' => 'mw',
-            ]);
-        });
+        // Icons now live in microweber-packages/svg-icons (SvgIconsServiceProvider).
 
         View::addNamespace('admin', __DIR__.'/../resources/views');
 

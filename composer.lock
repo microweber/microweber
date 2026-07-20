@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "03284979be9e5932750c15f9a6df066f",
+    "content-hash": "0aa023b421af49dd0b5196f942ace874",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10041,13 +10041,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-event-manager",
-                "reference": "d704251c775be6dacc826818a19e3259e814b3ba"
+                "reference": "40427bbf90687a2f50ad8be40d730fdb9652a7b3"
             },
             "require": {
                 "illuminate/support": "^10.0|^11.0|^12.0",
                 "php": "^8.1"
             },
             "require-dev": {
+                "larastan/larastan": "^3.9",
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
@@ -10068,6 +10069,9 @@
             "scripts": {
                 "test": [
                     "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
                 ]
             },
             "license": [
@@ -10700,6 +10704,54 @@
             ],
             "description": "Reusable Laravel security package with HTML sanitizer, XSS cleaner and stored-XSS stripper",
             "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/svg-icons",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-svg-icons",
+                "reference": "a7945ce4a7e6338ca29096ffbae8712bf6ac2ed6"
+            },
+            "require": {
+                "blade-ui-kit/blade-icons": "^1.6",
+                "illuminate/support": "^11.0||^12.0",
+                "php": "^8.3"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "orchestra/testbench": "^9.0||^10.0",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\SvgIcons\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\SvgIcons\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber SVG Icons – Blade-Icons-compatible icon set for the Microweber CMS admin panel, modules, and templates.",
+            "homepage": "https://microweber.com",
             "support": {
                 "email": "support@microweber.com"
             },

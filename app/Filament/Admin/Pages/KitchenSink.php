@@ -118,19 +118,9 @@ class KitchenSink extends Page
 
 
 
-    public function getIcons()
+    public function getIcons(): array
     {
-        $iconsPath = '/src/MicroweberPackages/Admin/resources/mw-svg';
-        $icons = scandir(base_path($iconsPath));
-        $allIcons = [];
-        foreach ($icons as $icon) {
-            if (strpos($icon, '.svg') !== false) {
-                $icon = str_replace('.svg', '', $icon);
-                $allIcons[] = $icon;
-            }
-        }
-
-        return $allIcons;
+        return \MicroweberPackages\SvgIcons\SvgIconsServiceProvider::availableIcons();
     }
 
     public function form(Schema $schema): Schema

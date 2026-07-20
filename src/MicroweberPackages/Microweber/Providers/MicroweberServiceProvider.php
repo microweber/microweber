@@ -13,6 +13,7 @@ namespace MicroweberPackages\Microweber\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
+use MicroweberPackages\SvgIcons\SvgIconsServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\Fortify\FortifyServiceProvider;
 use MicroweberPackages\Frontend\Providers\FrontendServiceProvider;
@@ -101,6 +102,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(OptionServiceProvider::class);
 
         $this->app->register(InstallServiceProvider::class);
+        $this->app->register(SvgIconsServiceProvider::class);
         $this->app->register(AdminServiceProvider::class);
 
 

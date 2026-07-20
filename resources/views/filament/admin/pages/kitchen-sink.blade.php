@@ -56,7 +56,8 @@
 
         <div x-show="activeTab == 'icons'" class="mt-4">
             <div class="text-sm text-gray-600 dark:text-gray-300">
-                Icons path: <code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">/src/MicroweberPackages/Admin/resources/mw-svg/</code>
+                Icons package: <code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">microweber-packages/svg-icons</code>
+                &mdash; path: <code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">packages/microweber-svg-icons/resources/svg/</code>
             </div>
             <div class="grid grid-cols-4 gap-4 mt-3">
                 @foreach($this->getIcons() as $icon)

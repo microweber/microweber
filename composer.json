@@ -165,7 +165,8 @@
         "microweber-packages/omnipay-momo-mtn": "^0.2",
         "lara-zeus/spatie-translatable": "^2.0",
         "microweber-packages/phpquery": "^1.0",
-        "microweber-packages/passport": "^1.0"
+        "microweber-packages/passport": "^1.0",
+        "microweber-packages/svg-icons": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -211,7 +212,8 @@
             "Modules\\": "Modules/",
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "MicroweberPackages\\SvgIcons\\": "packages/microweber-svg-icons/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -243,6 +245,7 @@
             "MicroweberPackages\\Passport\\Tests\\": "packages/microweber-passport/tests/",
             "MicroweberPackages\\Fortify\\Tests\\": "packages/microweber-fortify/tests/",
             "MicroweberPackages\\SocialLogin\\Tests\\": "packages/microweber-social-login/tests/",
+            "MicroweberPackages\\SvgIcons\\Tests\\": "packages/microweber-svg-icons/tests/",
             "MicroweberPackages\\Dusk\\": "packages/microweber-dusk/src/",
             "MicroweberPackages\\Dusk\\Tests\\": "packages/microweber-dusk/tests/"
         }
@@ -366,7 +369,6 @@
                 "microweber-packages/file-uploader",
                 "microweber/css-framework-bootstrap",
                 "microweber-deps/filament-modules",
-
                 "nwidart/laravel-modules",
                 "coolsam/modules",
                 "savannabits/filament-modules",
@@ -629,6 +631,14 @@
         {
             "type": "path",
             "url": "packages/microweber-passport",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-svg-icons",
             "options": {
                 "reference": "config",
                 "symlink": true

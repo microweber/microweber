@@ -410,7 +410,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="no-items-box no-notifications"
-                     style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_notifications.svg');">
+                     style="background-image: url('<?php print asset('vendor/microweber-packages/svg-icons/no-notifications.svg'); ?>');">
                     <h4><?php _e("No notifications for this filter"); ?></h4>
                     <p><?php _e("Here you will be able to see notifications"); ?> <br/> <?php _e("about orders, comments, email and others."); ?></p>
                     <br/>
@@ -424,7 +424,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="no-items-box no-notifications"
-                     style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_notifications.svg');">
+                     style="background-image: url('<?php print asset('vendor/microweber-packages/svg-icons/no-notifications.svg'); ?>');">
                     <h4><?php _e("You don't have any notifications"); ?></h4>
                     <p><?php _e("Here you will be able to see notifications"); ?> <br/><?php _e("about orders, comments, email and others."); ?> </p>
                     <br/>
