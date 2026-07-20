@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Console\Commands;
 
 use Illuminate\Console\Command;
-use MicroweberPackages\App\Models\SystemLicenses;
+use MicroweberPackages\SystemLicenses\Models\SystemLicense;
 
 class AddLicenseKeyCommand extends Command
 {
@@ -21,9 +21,9 @@ class AddLicenseKeyCommand extends Command
     {
         $licenseLocalKey = $this->argument('key');
 
-        $findSystemLicense = SystemLicenses::where('local_key', $licenseLocalKey)->first();
+        $findSystemLicense = SystemLicense::where('local_key', $licenseLocalKey)->first();
         if (!$findSystemLicense) {
-            $findSystemLicense = new SystemLicenses();
+            $findSystemLicense = new SystemLicense();
             $findSystemLicense->local_key = $licenseLocalKey;
             $findSystemLicense->save();
             $this->info('License key added successfully!');

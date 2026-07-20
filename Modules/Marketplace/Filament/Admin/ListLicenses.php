@@ -16,7 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\HtmlString;
 use Livewire\Component;
-use MicroweberPackages\App\Models\SystemLicenses;
+use MicroweberPackages\SystemLicenses\Models\SystemLicense;
 
 class ListLicenses extends Component implements HasForms, HasTable, HasActions
 {
@@ -62,7 +62,7 @@ class ListLicenses extends Component implements HasForms, HasTable, HasActions
                             ]),
                     ]),
             ])
-            ->query(SystemLicenses::query())
+            ->query(SystemLicense::query())
             ->columns([
                 TextColumn::make('local_key')
                     ->label('Key'),
@@ -81,7 +81,7 @@ class ListLicenses extends Component implements HasForms, HasTable, HasActions
                     ->color('danger')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->action(fn (SystemLicenses $record) => $record->delete())
+                    ->action(fn (SystemLicense $record) => $record->delete())
             ])
             ->bulkActions([
                 // ...

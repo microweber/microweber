@@ -133,10 +133,10 @@ function scan_for_elements($options = array())
     return app()->module_manager->scan_for_elements($options);
 }
 
-function have_license($module_name = false)
-{
-    return app()->module_manager->license($module_name);
-}
+// have_license() is provided by the microweber-system-licenses package
+// (packages/microweber-system-licenses/src/helpers.php) — it delegates to
+// system_licenses_manager->hasLicense(). Kept there so the licensing domain
+// lives entirely in the package.
 
 function load_module($module_name, $attrs = array())
 {

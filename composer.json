@@ -166,7 +166,8 @@
         "lara-zeus/spatie-translatable": "^2.0",
         "microweber-packages/phpquery": "^1.0",
         "microweber-packages/passport": "^1.0",
-        "microweber-packages/svg-icons": "*"
+        "microweber-packages/svg-icons": "*",
+        "microweber-packages/system-licenses": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -214,7 +215,8 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
             "MicroweberPackages\\SvgIcons\\": "packages/microweber-svg-icons/src/",
-            "MicroweberPackages\\ContentField\\": "packages/microweber-content-field/src/"
+            "MicroweberPackages\\ContentField\\": "packages/microweber-content-field/src/",
+            "MicroweberPackages\\SystemLicenses\\": "packages/microweber-system-licenses/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -248,6 +250,7 @@
             "MicroweberPackages\\SocialLogin\\Tests\\": "packages/microweber-social-login/tests/",
             "MicroweberPackages\\SvgIcons\\Tests\\": "packages/microweber-svg-icons/tests/",
             "MicroweberPackages\\ContentField\\Tests\\": "packages/microweber-content-field/tests/",
+            "MicroweberPackages\\SystemLicenses\\Tests\\": "packages/microweber-system-licenses/tests/",
             "MicroweberPackages\\Dusk\\": "packages/microweber-dusk/src/",
             "MicroweberPackages\\Dusk\\Tests\\": "packages/microweber-dusk/tests/"
         }
@@ -380,6 +383,7 @@
                 "rtconner/laravel-tagging",
                 "butschster/meta-tags",
                 "microweber-packages/passport",
+                "microweber-packages/system-licenses",
                 "laravel/passport",
                 "laravel/sanctum",
                 "laravel/cashier",
@@ -641,6 +645,14 @@
         {
             "type": "path",
             "url": "packages/microweber-svg-icons",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-system-licenses",
             "options": {
                 "reference": "config",
                 "symlink": true

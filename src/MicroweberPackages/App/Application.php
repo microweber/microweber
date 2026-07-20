@@ -13,6 +13,7 @@ use MicroweberPackages\Event\Event;
 use MicroweberPackages\Format\Format;
 use MicroweberPackages\Security\HtmlClean;
 use MicroweberPackages\Security\XSSSecurity;
+use MicroweberPackages\SystemLicenses\SystemLicensesManager;
 use MicroweberPackages\Url\UrlManager;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
@@ -113,6 +114,7 @@ use Modules\Shop\Services\ShopManager;
  * @property LaravelTemplatesFileRepository $templates
  * @property LaravelModulesFileRepository $modules
  * @property LogManager $log_manager
+ * @property SystemLicensesManager $system_licenses_manager
  */
 class Application
 {

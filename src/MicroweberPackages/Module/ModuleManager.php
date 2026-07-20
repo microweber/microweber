@@ -50,10 +50,6 @@ class ModuleManager
         }
         if (mw_is_installed()) {
             $this->activeLicenses = app()->module_repository->getSystemLicenses();
-//            $getSystemLicense = SystemLicenses::get();
-//            if ($getSystemLicense != null) {
-//                $this->activeLicenses = $getSystemLicense->toArray();
-//            }
         }
 
 

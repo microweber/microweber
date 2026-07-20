@@ -6,14 +6,18 @@ use PHPUnit\Framework\Attributes\Test;
 
 use MicroweberPackages\Utils\tests\mockery\UpdateManagerMockery;
 use Tests\TestCase;
-use MicroweberPackages\Utils\Misc\License;
 
+/**
+ * File-license (storage/licenses.json) round-trip. The former Utils\Misc\License
+ * shim was removed — this now drives the system_licenses_manager package directly.
+ * Remote validation still routes through app()->update->call('validate_licenses'),
+ * which UpdateManagerMockery stubs.
+ */
 class LicenseTest extends TestCase
 {
-
     #[Test]
-
-    public function it_license_class(): void {
+    public function it_license_file_manager(): void
+    {
         app()->singleton('update', function () {
             return new UpdateManagerMockery();
         });
@@ -21,34 +25,30 @@ class LicenseTest extends TestCase
         $randomLicenseUniqueId = uniqid();
         app()->update->setActiveLicenses([$randomLicenseUniqueId]);
 
-        $license = new License();
+        $manager = app()->system_licenses_manager;
 
         // Delete old licenses
-        $license->truncate();
+        $manager->truncateFileLicenses();
 
         // Validate right license
-        $validateLicense = $license->validateLicense($randomLicenseUniqueId, 'new-world');
+        $validateLicense = $manager->validateFileLicense($randomLicenseUniqueId, 'new-world');
         $this->assertTrue($validateLicense);
 
         // Validate fake license
-        $validateLicense = $license->validateLicense(uniqid(), 'new-world');
+        $validateLicense = $manager->validateFileLicense(uniqid(), 'new-world');
         $this->assertFalse($validateLicense);
 
-
         // Save invalid license
-        $license->saveLicense('example-generated-license');
-        $getLicenses = $license->getLicenses();
+        $manager->saveFileLicense('example-generated-license');
+        $getLicenses = $manager->getFileLicenses();
         $this->assertEmpty($getLicenses);
 
-
         // Save valid license
-        $license->saveLicense($randomLicenseUniqueId);
-        $getLicenses = $license->getLicenses();
+        $manager->saveFileLicense($randomLicenseUniqueId);
+        $getLicenses = $manager->getFileLicenses();
         $this->assertNotEmpty($getLicenses);
 
         $this->assertEquals($getLicenses['modules/white_label']['rel_type'], 'modules/white_label');
         $this->assertEquals($getLicenses['modules/white_label']['local_key'], $randomLicenseUniqueId);
-
     }
-
 }

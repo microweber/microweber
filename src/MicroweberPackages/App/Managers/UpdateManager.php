@@ -5,8 +5,6 @@ namespace MicroweberPackages\App\Managers;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
-use MicroweberPackages\App\Models\SystemLicenses;
-use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Install\UpdateMissingConfigFiles;
 use MicroweberPackages\Package\MicroweberComposerClient;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -389,26 +387,28 @@ class UpdateManager
         return $new;
     }
 
+    // ------------------------------------------------------------------
+    //  License operations — AUTHORIZATION LAYER.
+    //  The license domain (persist / validate / consume / delete / read)
+    //  lives in the microweber-system-licenses package
+    //  (app()->system_licenses_manager). These methods only gate each
+    //  package call on admin rights and bust the CMS cache after a
+    //  privileged mutation — a CMS concern the provider-agnostic package
+    //  can't own. No license logic lives here.
+    // ------------------------------------------------------------------
+
     public function consume_license($params = false)
     {
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return ['status' => 'Not allowed action.', 'active' => false];
         }
-        $table = 'system_licenses';
-        if ($table == false) {
+
+        if (!isset($params['id'])) {
             return ['status' => 'Not allowed action.', 'active' => false];
         }
 
-        $findLicense = SystemLicenses::where('id', $params['id'])->first();
-        if ($findLicense == null) {
-            return ['status' => 'License not found', 'active' => false];
-        }
-
-        $composerClient = new Client();
-        $consumeLicense = $composerClient->consumeLicense($findLicense->local_key);
-
-        return $consumeLicense;
+        return app()->system_licenses_manager->consumeLicense(intval($params['id']));
     }
 
     public function validate_license($params = false)
@@ -417,40 +417,14 @@ class UpdateManager
         if ($adm == false) {
             return;
         }
-        $table = 'system_licenses';
-        if ($table == false) {
-            return;
-        }
 
-        $lic_ids = array();
-        $licenses = $this->get_licenses($params);
+        $result = app()->system_licenses_manager->validateLicenses(is_array($params) ? $params : null);
 
-        if (!empty($licenses)) {
-            $result = $this->call('validate_licenses', $licenses);
-
-            if (!empty($result)) {
-                foreach ($result as $k => $v) {
-                    foreach ($licenses as $license) {
-                        if (!isset($license['rel_type']) or (isset($license['rel_type']) and $license['rel_type'] == $k)) {
-                            if (is_array($v) and isset($v['status'])) {
-                                $license['status'] = $v['status'];
-                                foreach ($license as $license_k => $license_v) {
-                                    if (isset($v[$license_k])) {
-                                        $license[$license_k] = $v[$license_k];
-                                    }
-                                }
-                                $lic_ids[] = $this->save_license($license);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!empty($lic_ids)) {
+        if ($result !== null && !empty($result['updates'] ?? [])) {
             clearcache();
-            return array('updates' => $lic_ids, 'success' => 'Licenses are checked');
         }
+
+        return $result;
     }
 
     public function get_licenses($params = false)
@@ -459,22 +433,8 @@ class UpdateManager
         if ($adm == false) {
             return;
         }
-        $params2 = array();
 
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-
-        $table = 'system_licenses';
-        if ($table == false) {
-            return;
-        }
-
-        $params['table'] = $table;
-        $r = $this->app->database_manager->get($params);
-
-        return $r;
+        return app()->system_licenses_manager->getAllLicenses();
     }
 
     public function delete_license($params)
@@ -483,14 +443,9 @@ class UpdateManager
         if ($adm == false) {
             return;
         }
-        $table = 'system_licenses';
-        if ($table == false) {
-            return;
-        }
 
         if (isset($params['id'])) {
-            $this->app->database_manager->delete_by_id('system_licenses', intval($params['id']));
-            return array('id' => 0, 'success' => _e('License was deleted', true));
+            return app()->system_licenses_manager->deleteLicense(intval($params['id']));
         }
     }
 
@@ -500,88 +455,8 @@ class UpdateManager
         if ($adm == false) {
             return;
         }
-        $table = 'system_licenses';
-        if ($table == false) {
-            return;
-        }
 
-        if (!isset($params['local_key'])) {
-            return;
-        }
-
-        $licenseLocalKey = trim($params['local_key']);
-
-        $composerClient = new Client();
-        $consumeLicense = $composerClient->consumeLicense($licenseLocalKey);
-        if ($consumeLicense['valid']) {
-
-            $findSystemLicense = SystemLicenses::where('local_key', $licenseLocalKey)->first();
-            if ($findSystemLicense !== null) {
-                return array('id' => $findSystemLicense->id, 'success' => 'License key already saved', 'is_active' => true);
-
-            }
-
-            if (!isset($consumeLicense['servers']) || empty($consumeLicense['servers'])) {
-                return array('is_invalid' => true, 'warning' => _e('License key is invalid', true));
-            }
-
-            $licenseServers = end($consumeLicense['servers']);
-            $licenseDetails = $licenseServers['details'];
-
-            $newSystemLicense = new SystemLicenses();
-            $newSystemLicense->local_key = $licenseLocalKey;
-
-            if (isset($licenseDetails['md5hash'])) {
-                $newSystemLicense->local_key_hash = $licenseDetails['md5hash'];
-            }
-
-            if (isset($licenseDetails['registeredname'])) {
-                $newSystemLicense->registered_name = $licenseDetails['registeredname'];
-            }
-
-            /*   if (isset($licenseDetails['registeredname'])) {
-                   $newSystemLicense->company_name = $licenseDetails['registeredname'];
-               }*/
-
-            if (isset($licenseDetails['validdomain'])) {
-                $newSystemLicense->domains = $licenseDetails['validdomain'];
-            }
-
-            /*
-            if (isset($licenseDetails['validip'])) {
-                $newSystemLicense->ips = $licenseDetails['validip'];
-            }*/
-
-            if (isset($licenseDetails['status'])) {
-                $newSystemLicense->status = $licenseDetails['status'];
-            }
-
-            if (!isset($licenseDetails['productid'])) {
-                $newSystemLicense->product_id = $licenseDetails['productid'];
-            }
-
-            if (isset($licenseDetails['serviceid'])) {
-                $newSystemLicense->service_id = $licenseDetails['serviceid'];
-            }
-
-            if (isset($licenseDetails['billingcycle'])) {
-                $newSystemLicense->billing_cycle = $licenseDetails['billingcycle'];
-            }
-
-            if (isset($licenseDetails['regdate'])) {
-                $newSystemLicense->reg_on = $licenseDetails['regdate'];
-            }
-
-            if (isset($licenseDetails['nextduedate'])) {
-                $newSystemLicense->due_on = $licenseDetails['nextduedate'];
-            }
-
-            $newSystemLicense->save();
-
-            return array('id' => $newSystemLicense->id, 'success' => 'License key saved', 'is_active' => true);
-        }
-
-        return array('is_invalid' => true, 'warning' => _e('License key is not valid', true));
+        return app()->system_licenses_manager->saveLicense($params);
     }
 
     private function install_from_remote($url)

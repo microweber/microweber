@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0aa023b421af49dd0b5196f942ace874",
+    "content-hash": "a7b755d8ba378395cefcf5191ccb24b4",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10752,6 +10752,63 @@
             ],
             "description": "Microweber SVG Icons – Blade-Icons-compatible icon set for the Microweber CMS admin panel, modules, and templates.",
             "homepage": "https://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/system-licenses",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-system-licenses",
+                "reference": "f4abc25eac567026bf20bedb9890fa9c4838b96f"
+            },
+            "require": {
+                "illuminate/cache": "^10.0|^11.0|^12.0",
+                "illuminate/database": "^10.0|^11.0|^12.0",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "microweber-packages/database": "^1.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\SystemLicenses\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\SystemLicenses\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone license management package for Laravel. Manages system_licenses table, license validation, consumption and caching.",
+            "homepage": "http://microweber.com",
             "support": {
                 "email": "support@microweber.com"
             },

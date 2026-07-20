@@ -17,7 +17,6 @@ use MicroweberPackages\Package\MicroweberComposerClient;
 use MicroweberPackages\Package\MicroweberComposerPackage;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Http\Http;
-use MicroweberPackages\Utils\Misc\License;
 use MicroweberPackages\View\View;
 use MicroweberPackages\Install;
 use MicroweberPackages\EnvWriter\EnvWriter;
@@ -48,8 +47,7 @@ class InstallController extends Controller
 
         $runner = new MicroweberComposerClient();
 
-        $license = new License();
-        $getLicenses = $license->getLicenses();
+        $getLicenses = app()->system_licenses_manager->getFileLicenses();
         if (!empty($getLicenses)) {
             $runner->setLicenses($getLicenses);
         }
@@ -74,8 +72,7 @@ class InstallController extends Controller
 
         $packageManager = new Client();
 
-        $license = new License();
-        $getLicenses = $license->getLicenses();
+        $getLicenses = app()->system_licenses_manager->getFileLicenses();
         if (!empty($getLicenses)) {
             $packageManager->setLicenses($getLicenses);
         }
@@ -140,8 +137,7 @@ class InstallController extends Controller
             $is_cli_install = $input['is_cli_install'];
         }
         if (isset($input['save_license'])) {
-            $license = new License();
-            $saveLicense = $license->saveLicense($input['license_key'], $input['license_rel_type']);
+            $saveLicense = app()->system_licenses_manager->saveFileLicense($input['license_key'], $input['license_rel_type']);
             if ($saveLicense) {
                 return ['validated' => true];
             }

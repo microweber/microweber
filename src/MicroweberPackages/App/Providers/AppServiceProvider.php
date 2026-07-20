@@ -30,7 +30,6 @@ use MicroweberPackages\Console\Commands\MakeDuskColorPaletteTestCommand;
 use MicroweberPackages\Console\Commands\VendorAssetsSymlinkCommand;
 use MicroweberPackages\Core\CoreServiceProvider;
 use MicroweberPackages\Dusk\DuskPackageServiceProvider;
-use MicroweberPackages\Filament\Providers\MicroweberFilamentRegistryServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentServiceProvider;
 use MicroweberPackages\FilamentRegistry\FilamentRegistryManager;
 use MicroweberPackages\FilamentRegistry\FilamentRegistryServiceProvider;
@@ -275,6 +274,12 @@ class AppServiceProvider extends ServiceProvider
 
         $this->registerSingletonProviders();
 
+        // Register the system licenses package with the CMS-specific validator.
+        $this->app->singleton(
+            \MicroweberPackages\SystemLicenses\Contracts\LicenseValidatorInterface::class,
+            \MicroweberPackages\App\Managers\MicroweberLicenseValidator::class
+        );
+        $this->app->register(\MicroweberPackages\SystemLicenses\SystemLicensesServiceProvider::class);
 
         $this->app->register(MicroweberServiceProvider::class);
 

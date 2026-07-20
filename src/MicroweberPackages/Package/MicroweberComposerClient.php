@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Package;
 
 use Composer\Semver\Comparator;
-use MicroweberPackages\App\Models\SystemLicenses;
+use MicroweberPackages\SystemLicenses\Models\SystemLicense;
 use MicroweberPackages\TaggableFileCache\CacheFileHandler\Facades\Cache;
 use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Utils\Zip\Unzip;
@@ -20,7 +20,7 @@ class MicroweberComposerClient extends Client
 
         // Fill the user licenses
         if (mw_is_installed()) {
-            $findLicenses = SystemLicenses::all();
+            $findLicenses = SystemLicense::all();
             if ($findLicenses !== null) {
                 $this->licenses = $findLicenses->toArray();
             }

@@ -4,8 +4,6 @@
 namespace MicroweberPackages\Module\Repositories;
 
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Module\Models\Module;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
@@ -66,25 +64,10 @@ class ModuleRepository extends AbstractRepository
     public function getSystemLicenses()
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
-
-            if(!Schema::hasTable('system_licenses')) {
-                return [];
-            }
-
-
-
-            $data = DB::table('system_licenses')->get();
-            if ($data === null) {
-                return [];
-            }
-            $data = collect($data)->map(function ($option) {
-                return (array)$option;
-            })->toArray();
-
-            if ($data === null) {
-                return [];
-            }
-            return $data;
+            // License persistence is owned by the microweber-system-licenses package;
+            // the repository is the single seam to it (the manager already guards the
+            // missing-table case and returns row-arrays).
+            return app()->system_licenses_manager->getActiveLicenses();
         });
 
     }
