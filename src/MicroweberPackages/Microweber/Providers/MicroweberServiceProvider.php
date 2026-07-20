@@ -14,6 +14,7 @@ namespace MicroweberPackages\Microweber\Providers;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
 use MicroweberPackages\SvgIcons\SvgIconsServiceProvider;
+use MicroweberPackages\ContentField\ContentFieldServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\Fortify\FortifyServiceProvider;
 use MicroweberPackages\Frontend\Providers\FrontendServiceProvider;
@@ -125,6 +126,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         //$this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register(EventManagerServiceProvider::class);
+        $this->app->register(ContentFieldServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
 
        // $this->app->register(PageServiceProvider::class);

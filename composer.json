@@ -213,7 +213,8 @@
             "Templates\\": "Templates/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "MicroweberPackages\\SvgIcons\\": "packages/microweber-svg-icons/src/"
+            "MicroweberPackages\\SvgIcons\\": "packages/microweber-svg-icons/src/",
+            "MicroweberPackages\\ContentField\\": "packages/microweber-content-field/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -246,6 +247,7 @@
             "MicroweberPackages\\Fortify\\Tests\\": "packages/microweber-fortify/tests/",
             "MicroweberPackages\\SocialLogin\\Tests\\": "packages/microweber-social-login/tests/",
             "MicroweberPackages\\SvgIcons\\Tests\\": "packages/microweber-svg-icons/tests/",
+            "MicroweberPackages\\ContentField\\Tests\\": "packages/microweber-content-field/tests/",
             "MicroweberPackages\\Dusk\\": "packages/microweber-dusk/src/",
             "MicroweberPackages\\Dusk\\Tests\\": "packages/microweber-dusk/tests/"
         }

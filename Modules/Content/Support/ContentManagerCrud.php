@@ -1343,69 +1343,19 @@ class ContentManagerCrud extends Crud
 
     public function get_edit_field($data)
     {
-        $table = 'content_fields';
-        $table_drafts = 'content_fields_drafts';
+        // Content-field reads are handled by the standalone content_field_manager
+        // package (bound by MicroweberServiceProvider).
         if (is_string($data)) {
             $data = parse_params($data);
         }
         if (!is_array($data)) {
-            $data = array();
+            $data = [];
+        }
+        if (!isset($data['rel_id']) && isset($data['data-id'])) {
+            $data['rel_id'] = $data['data-id'];
         }
 
-        if (isset($data['is_draft'])) {
-            $table = $table_drafts;
-        }
-//        if (!isset($data['rel_type'])) {
-//            if (isset($data['rel_type'])) {
-//                if ($data['rel_type'] == morph_name(\Modules\Content\Models\Content::class) or $data['rel_type'] == 'page' or $data['rel_type'] == 'post' or $data['rel_type'] == 'product') {
-//                    $data['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
-//                } else {
-//                    $data['rel_type'] = $data['rel_type'];
-//                }
-//            }
-//        }
-        if (!isset($data['rel_id'])) {
-            if (isset($data['data-id'])) {
-                $data['rel_id'] = $data['data-id'];
-            } else {
-            }
-        }
-        if ((isset($data['rel_type']) and isset($data['rel_id']))) {
-            $data['cache_group'] = ('content_fields/global/' . $data['rel_type'] . '/' . $data['rel_id']);
-        } else {
-            $data['cache_group'] = ('content_fields');
-        }
-        $data['cache_group'] = 'content_fields';
-
-        $data['table'] = $table;
-
-        if (!isset($data['all'])) {
-            $data['one'] = 1;
-            $data['limit'] = 1;
-        }
-
-        if (!isset($data['is_draft']) and !isset($data['all']) and isset($data['rel_type']) and isset($data['field'])) {
-            if (!isset($data['rel_id'])) {
-                $get = $this->app->content_repository->getEditField($data['field'], $data['rel_type']);
-
-            } else {
-                $get = $this->app->content_repository->getEditField($data['field'], $data['rel_type'], $data['rel_id']);
-            }
-        } else {
-            $get = $this->app->database_manager->get($data);
-        }
-
-
-        //getEditField
-
-
-        if (!isset($data['full']) and isset($get['value'])) {
-            return $get['value'];
-        } else {
-            return $get;
-        }
-
-        return false;
+        return app()->content_field_manager->getField($data);
     }
 
 

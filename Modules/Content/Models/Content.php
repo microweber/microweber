@@ -1046,20 +1046,9 @@ class Content extends Model
      */
     public static function getEditFieldData(string $field, string $rel_type, $rel_id = false): array|false
     {
-        $check = DB::table('content_fields');
-        $check->where('field', $field);
-        $check->where('rel_type', $rel_type);
-        if ($rel_id) {
-            $check->where('rel_id', $rel_id);
-        }
-        $check = $check->first();
+        $result = app()->content_field_manager->getFieldData($field, $rel_type, $rel_id, true);
+        $result = \Modules\Content\Support\SiteUrlFieldCast::expand($result);
 
-        if ($check && !empty($check)) {
-            $check = (array) $check;
-            $check = app()->url_manager->replace_site_url_back($check);
-            return $check;
-        }
-
-        return false;
+        return $result ?: false;
     }
 }

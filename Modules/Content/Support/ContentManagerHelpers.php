@@ -1188,22 +1188,11 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                             if ($save_global and $save_module and isset($cont_field['rel_id']) and $cont_field['rel_id'] == 0 and isset($the_field_data['attributes']['field']) and isset($the_field_data['attributes']['rel_type'])) {
                                 // we check for existing fields with rel_id = 0 and remove them
-                                $getExisting = DB::table('content_fields')
-                                    ->where('field', $the_field_data['attributes']['field'])
-                                    ->where('rel_type', $the_field_data['attributes']['rel_type'])->get();
-                                if ($getExisting) {
-                                    //if we have more than one delete the other ones
-                                    $i = 1;
-                                    foreach ($getExisting as $existing) {
-                                        if ($existing->rel_id != $cont_field['rel_id']) {
-                                            DB::table('content_fields')->where('id', $existing->id)->delete();
-                                        }
-                                        if ($i > 1) {
-                                            DB::table('content_fields')->where('id', $existing->id)->delete();
-                                        }
-                                        $i++;
-                                    }
-                                }
+                                app()->content_field_manager->deduplicateGlobalFields(
+                                    $the_field_data['attributes']['field'],
+                                    $the_field_data['attributes']['rel_type'],
+                                    $cont_field['rel_id']
+                                );
 
                             }
 

@@ -1081,12 +1081,40 @@ class ContentManager
 
     public function save_content_field($data, $delete_the_cache = true)
     {
-        return $this->helpers->save_content_field($data, $delete_the_cache);
+        if (!is_array($data)) {
+            $data = array();
+        }
+        // Preserve the legacy sanitisation that the content-field storage applied
+        // before persisting — strips <script>/<iframe>/<object>/on*="…" etc. from
+        // every field value. The content_field_manager package is provider-agnostic
+        // and does not depend on Microweber's format manager, so this XSS guard
+        // stays in the CMS glue.
+        $data = $this->app->format->strip_unsafe($data);
+        $result = app()->content_field_manager->saveField($data);
+        if ($delete_the_cache) {
+            $this->app->cache_manager->delete('content_fields');
+            if (isset($data['rel_type'])) {
+                $this->app->cache_manager->delete('content_fields/' . $data['rel_type']);
+            }
+            if (isset($data['rel_type'], $data['rel_id'])) {
+                $this->app->cache_manager->delete('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
+                $this->app->cache_manager->delete('content/' . $data['rel_id']);
+            }
+            $this->app->cache_manager->delete('repositories');
+        }
+
+        return $result;
     }
 
     public function edit_field($data)
     {
-        return $this->crud->get_edit_field($data);
+        if (is_string($data)) {
+            parse_str(str_replace('&amp;', '&', $data), $parsed);
+            $data = $parsed;
+        }
+        $result = app()->content_field_manager->getField($data);
+
+        return \Modules\Content\Support\SiteUrlFieldCast::expand($result);
     }
 
     public function prev_content($content_id = false)
