@@ -33,13 +33,13 @@ class ContactFormSkipSavingEmailsTest extends TestCase
         save_option(array(
             'option_group' => $params['for_id'],
             'option_key' => 'disable_captcha',
-            'option_value' => 'y'
+            'option_value' => 1
         ));
 
         save_option(array(
             'option_group' => $params['for_id'],
             'option_key' => 'skip_saving_emails',
-            'option_value' => 'y'
+            'option_value' => 1
         ));
 
         $formResponse = app()->forms_manager->post($params);

@@ -99,14 +99,14 @@ class MailSubscriber
 
 		    // FlexMail
 		    $flexMailSubscribe = false;
-			if (get_option('use_integration_with_flexmail', $this->subscribeFrom) == 'y') {
+			if (get_option('use_integration_with_flexmail', $this->subscribeFrom) == 1) {
                 $flexMailSubscribe = true;
             }
             $flexmailSettings = get_mail_provider_settings('flexmail');
-            if (isset($flexmailSettings['active']) && $flexmailSettings['active'] == 'y') {
+            if (isset($flexmailSettings['active']) && $flexmailSettings['active'] == 1) {
                 $flexMailSubscribe = true;
             }
-            if (isset($flexmailSettings['active']) && $flexmailSettings['active'] == 'n') {
+            if (isset($flexmailSettings['active']) && $flexmailSettings['active'] == 0) {
                 $flexMailSubscribe = false;
             }
 
@@ -118,14 +118,14 @@ class MailSubscriber
 
 			// Mailerlite
             $mailerLiteSubcribe = false;
-			if (get_option('use_integration_with_mailerlite', $this->subscribeFrom) == 'y') {
+			if (get_option('use_integration_with_mailerlite', $this->subscribeFrom) == 1) {
                 $mailerLiteSubcribe = true;
             }
             $mailerliteSettings = get_mail_provider_settings('mailerlite');
-            if (isset($mailerliteSettings['active']) && $mailerliteSettings['active'] == 'y') {
+            if (isset($mailerliteSettings['active']) && $mailerliteSettings['active'] == 1) {
                 $mailerLiteSubcribe = true;
             }
-            if (isset($mailerliteSettings['active']) && $mailerliteSettings['active'] == 'n') {
+            if (isset($mailerliteSettings['active']) && $mailerliteSettings['active'] == 0) {
                 $mailerLiteSubcribe = false;
             }
             if ($mailerLiteSubcribe) {

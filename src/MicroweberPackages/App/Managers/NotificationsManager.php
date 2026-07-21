@@ -420,7 +420,7 @@ dd(debug_backtrace(1));
 
                 }
 
-                if (get_option('skip_saving_emails') == 'y') {
+                if (get_option('skip_saving_emails') == 1) {
 	                if (isset($v['content']) and is_string($v['content'])) {
 	                	$return[$k]['content'] = $v['description'] . _e(' check your email adress.', true);
 	                }

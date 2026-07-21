@@ -77,7 +77,7 @@ public function boot(): void
 use MicroweberPackages\Option\Models\Option;
 
 $color = Option::getValue('widget_default_color', 'widget');           // '#0d6efd'
-$show  = Option::getValue('widget_show_thumbnail', 'widget') === 'y'; // bool
+$show  = Option::getValue('widget_show_thumbnail', 'widget') == 1; // bool
 $max   = (int) Option::getValue('widget_max_items', 'widget');         // 10
 ```
 

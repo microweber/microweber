@@ -78,7 +78,7 @@ abstract class AdminSettingsPage extends Page
                 }
                 if (isset($booleanFields[$option->option_group])) {
                     if (in_array($option->option_key, $booleanFields[$option->option_group])) {
-                        if ($option->option_value == 'y' || $option->option_value == 1) {
+                        if ($option->option_value == 'y' || $option->option_value == 1 || $option->option_value === true) {
                             $option->option_value = true;
                         } else {
                             $option->option_value = false;

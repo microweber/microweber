@@ -33,7 +33,7 @@ class PicturesSettingsFilamentTest extends TestCase
             ->assertFormFieldExists('options.data-use-from-post');
 
         $data = [
-            'options.data-use-from-post' => 'y',
+            'options.data-use-from-post' => '1',
 
         ];
 
@@ -41,14 +41,14 @@ class PicturesSettingsFilamentTest extends TestCase
             ->set($params)
             ->fillForm($data)
             ->assertFormSet([
-                'options.data-use-from-post' => 'y',
+                'options.data-use-from-post' => '1',
             ])
             ->call('save')
             ->assertHasNoActionErrors()
             ->assertHasNoFormErrors()
             ->assertNotified();
 
-        $this->assertDatabaseHas('options', ['option_group' => $moduleId, 'module' => $moduleType, 'option_key' => 'data-use-from-post', 'option_value' => 'y']);
+        $this->assertDatabaseHas('options', ['option_group' => $moduleId, 'module' => $moduleType, 'option_key' => 'data-use-from-post', 'option_value' => '1']);
 
 
         ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();

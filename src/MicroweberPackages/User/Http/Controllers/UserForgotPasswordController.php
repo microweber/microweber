@@ -34,7 +34,7 @@ class UserForgotPasswordController extends Controller
     public function send(Request $request)
     {
         $rules = [];
-        if (!option_is_yes('captcha_disabled', 'users')) {
+        if (get_option('captcha_disabled', 'users') != 1) {
             $rules['captcha'] = 'captcha';
         }
         $inputs = $request->only(['captcha', 'email', 'username','format']);

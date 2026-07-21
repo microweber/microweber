@@ -768,7 +768,7 @@ class AdminLiveEditPage extends Page
                         $data['subtype'] = $layoutDetails['content_type'];
                     }
                     $data['is_shop'] = (isset($layoutDetails['is_shop'])
-                        && ($layoutDetails['is_shop'] == 1 || $layoutDetails['is_shop'] === 'y')) ? 1 : 0;
+                        && $layoutDetails['is_shop'] == 1) ? 1 : 0;
                 }
 
                 $model = new Content();

@@ -227,7 +227,7 @@ class MwSelectTemplateForPage
                         $set('subtype', $layout['content_type']);
                     }
                 }
-                if (isset($layout['is_shop']) and ($layout['is_shop'] == 1 or $layout['is_shop'] == 'y')) {
+                if (isset($layout['is_shop']) and $layout['is_shop'] == 1) {
                     if (array_key_exists('is_shop', $data)) {
                         $set('is_shop', 1);
                     }

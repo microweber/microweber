@@ -26,7 +26,7 @@ class RegisterRequest extends FormRequest
 
 
         $enable_user_gesitration = get_option('enable_user_registration', 'users');
-        if ($enable_user_gesitration === 'n') {
+        if ($enable_user_gesitration == 0) {
             return false;
         }
         if (user_id()) {
@@ -71,7 +71,7 @@ class RegisterRequest extends FormRequest
             $rules['confirm_password'] = 'required|min:1|same:password';
         }
 
-        if (!option_is_yes('captcha_disabled', 'users')) {
+        if (get_option('captcha_disabled', 'users') != 1) {
             $rules['captcha'] = 'captcha';
         }
 

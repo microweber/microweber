@@ -135,7 +135,7 @@ if (!function_exists('currency_code')) {
 if (!function_exists('is_shop_module_enabled_for_user')) {
     function is_shop_module_enabled_for_user()
     {
-        $shop_disabled = option_is_yes('shop_disabled', 'website');
+        $shop_disabled = get_option('shop_disabled', 'website') == 1;
         if ($shop_disabled) {
             return false;
         }

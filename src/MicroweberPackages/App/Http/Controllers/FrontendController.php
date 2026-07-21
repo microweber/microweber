@@ -415,7 +415,7 @@ class FrontendController extends Controller
             }
         } else {
 
-            $enable_full_page_cache = $this->websiteOptions['enable_full_page_cache'] == 'y';
+            $enable_full_page_cache = $this->websiteOptions['enable_full_page_cache'] == 1;
             //   $enable_full_page_cache = 1;
             if ($is_editmode == false
                 and !$is_preview_template
@@ -495,7 +495,7 @@ class FrontendController extends Controller
         $maintenance_mode = $this->websiteOptions['maintenance_mode'];
 
 
-        if ($maintenance_mode == 'y' && !is_admin()) {
+        if ($maintenance_mode == 1 && !is_admin()) {
             if (!defined('ACTIVE_SITE_TEMPLATE')) {
                 $this->app->content_manager->define_constants();
             }

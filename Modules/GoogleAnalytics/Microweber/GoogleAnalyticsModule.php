@@ -19,7 +19,7 @@ class GoogleAnalyticsModule extends BaseModule
     {
         $viewData = parent::getViewData();
 
-        $viewData['isEnabled'] = get_option('google-measurement-enabled', 'website') == 'y';
+        $viewData['isEnabled'] = get_option('google-measurement-enabled', 'website') == 1;
         $viewData['measurementId'] = get_option('google-measurement-id', 'website');
 
 

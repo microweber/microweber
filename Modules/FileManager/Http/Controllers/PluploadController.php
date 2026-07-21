@@ -252,7 +252,7 @@ class PluploadController extends Controller
         }
 
         // Determine auto-resize settings
-        $automatic_image_resize_on_upload = get_option('automatic_image_resize_on_upload', 'website') == 'y';
+        $automatic_image_resize_on_upload = get_option('automatic_image_resize_on_upload', 'website') == 1;
         $automatic_image_resize_on_upload_disabled = get_option('automatic_image_resize_on_upload', 'website') == 'd';
         $autoResize = !$automatic_image_resize_on_upload_disabled && $automatic_image_resize_on_upload;
 

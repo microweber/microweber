@@ -22,12 +22,12 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
 
         $data = [];
-        $data['option_value'] = 'y';
+        $data['option_value'] = 1;
         $data['option_key'] = 'captcha_disabled';
         $data['option_group'] = 'users';
         save_option($data);
 
-        $captcha_disabled = get_option('captcha_disabled', 'users') == 'y';
+        $captcha_disabled = get_option('captcha_disabled', 'users') == 1;
         $this->assertTrue($captcha_disabled);
 
         $siteUrl = $this->siteUrl;
@@ -44,7 +44,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->pause('2000');
 
             $data = [];
-            $data['option_value'] = 'y';
+            $data['option_value'] = 1;
             $data['option_key'] = 'captcha_disabled';
             $data['option_group'] = 'users';
             save_option($data);
@@ -108,7 +108,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($siteUrl) {
 
             $data = [];
-            $data['option_value'] = 'y';
+            $data['option_value'] = 1;
             $data['option_key'] = 'captcha_disabled';
             $data['option_group'] = 'users';
             save_option($data);
@@ -141,7 +141,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($siteUrl) {
 
             $data = [];
-            $data['option_value'] = 'n';
+            $data['option_value'] = 0;
             $data['option_key'] = 'captcha_disabled';
             $data['option_group'] = 'users';
             save_option($data);

@@ -106,7 +106,7 @@ class PicturesModule extends BaseModule
             return true;
         }
 
-        if ($this->getOption('data-use-from-post') === 'y' && $contentId) {
+        if ($this->getOption('data-use-from-post') == 1 && $contentId) {
             return true;
         }
 

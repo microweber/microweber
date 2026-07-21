@@ -36,7 +36,7 @@ class ContactFormTest extends TestCase
         save_option(array(
             'option_group' => $params['for_id'],
             'option_key' => 'disable_captcha',
-            'option_value' => 'y'
+            'option_value' => 1
         ));
 
         $response = app()->forms_manager->post($params);
@@ -67,7 +67,7 @@ class ContactFormTest extends TestCase
       save_option(array(
           'option_group' => 'contact_form_default',
           'option_key' => 'disable_captcha',
-          'option_value' => 'y'
+          'option_value' => 1
       ));
 
       /**
@@ -76,7 +76,7 @@ class ContactFormTest extends TestCase
       save_option(array(
           'option_group' => 'contact_form_default',
           'option_key' => 'email_custom_sender',
-          'option_value' => 'y'
+          'option_value' => 1
       ));
       save_option(array(
           'option_group' => 'contact_form_default',
@@ -228,7 +228,7 @@ class ContactFormTest extends TestCase
         save_option(array(
             'option_group'=>$rel_id,
             'option_key'=> 'disable_captcha',
-            'option_value'=> 'y'
+            'option_value'=> 1
         ));
 
         $fields = app()->fields_manager->get(['rel_type'=>$rel,'rel_id'=>$rel_id]);
@@ -297,7 +297,7 @@ class ContactFormTest extends TestCase
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'disable_captcha',
-            'option_value' => 'y'
+            'option_value' => 1
         ));
 
         save_option(array(

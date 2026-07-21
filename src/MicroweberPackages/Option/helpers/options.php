@@ -122,20 +122,4 @@ function get_options($params = [])
     return $options;
 }
 
-/**
- * Whether a boolean-style option's value represents an enabled ("yes") state.
- *
- * Options that back a checkbox/toggle have two on-disk conventions: legacy data
- * stores 'y', while Filament Toggle/Checkbox fields persist '1' (a dehydrated
- * boolean). Both mean "on"; 'n', '0', '', null mean "off". Prefer this over a
- * bare `get_option(...) == 'y'`, which silently misses the '1' the Filament
- * admin actually writes. Mirrors AdminSettingsPage's own load rule (== 'y' || == 1).
- *
- * @param string      $key
- * @param string|bool $group
- * @return bool
- */
-function option_is_yes($key, $group = false): bool
-{
-    return in_array((string) get_option($key, $group), ['y', '1'], true);
-}
+

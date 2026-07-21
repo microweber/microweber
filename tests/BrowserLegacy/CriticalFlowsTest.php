@@ -363,14 +363,14 @@ class CriticalFlowsTest extends DuskTestCase
         save_option([
             'option_key' => 'shipping_gw_shop/shipping/gateways/country',
             'option_group' => 'shipping',
-            'option_value' => 'y'
+            'option_value' => 1
         ]);
 
         // Enable bank transfer payment
         save_option([
             'option_key' => 'payment_gw_shop/payments/gateways/bank_transfer',
             'option_group' => 'payments',
-            'option_value' => '1',
+            'option_value' => 1,
             'module' => 'shop/payments'
         ]);
 
@@ -378,7 +378,7 @@ class CriticalFlowsTest extends DuskTestCase
         save_option([
             'option_key' => 'payment_gw_shop/payments/gateways/paypal',
             'option_group' => 'payments',
-            'option_value' => '1',
+            'option_value' => 1,
             'module' => 'shop/payments'
         ]);
 
@@ -386,21 +386,21 @@ class CriticalFlowsTest extends DuskTestCase
         save_option([
             'option_key' => 'paypalexpress_testmode',
             'option_group' => 'payments',
-            'option_value' => 'y'
+            'option_value' => 1
         ]);
 
         // Disable multilanguage for consistent testing
         save_option([
             'option_key' => 'is_active',
             'option_group' => 'multilanguage_settings',
-            'option_value' => 'n'
+            'option_value' => 0
         ]);
 
         // Disable captcha
         save_option([
             'option_key' => 'login_captcha_enabled',
             'option_group' => 'users',
-            'option_value' => 'n'
+            'option_value' => 0
         ]);
     }
 

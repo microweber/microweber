@@ -306,7 +306,7 @@ class JsCompileController extends Controller
 
         // has error on minifier
         $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
-        if ($optimize_asset_loading == 'y') {
+        if ($optimize_asset_loading == 1) {
             $minifier = normalize_path(MW_PATH . 'Utils/lib/JShrink/Minifier.php', false);
             if (is_file($minifier)) {
                 include_once $minifier;

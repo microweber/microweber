@@ -28,7 +28,7 @@ class PicturesModuleSettings extends LiveEditModuleSettings
             $openedFromContentPageId =  $this->liveEditIframeData['content']['id'];
         }
 
-        if($picturesFromContent == 'y' and $openedFromContentPageId) {
+        if($picturesFromContent == 1 and $openedFromContentPageId) {
             $relType =morph_name(\Modules\Content\Models\Content::class);
             $relId = $openedFromContentPageId;
         }
@@ -78,10 +78,10 @@ class PicturesModuleSettings extends LiveEditModuleSettings
                                 ->live()
                                 ->inline()
                                 ->options([
-                                    'n' => 'No',
-                                    'y' => 'Yes',
+                                    '0' => 'No',
+                                    '1' => 'Yes',
                                 ])
-                                ->default('n')
+                                ->default('0')
                                 ])
                     ]),
             ]);

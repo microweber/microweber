@@ -74,7 +74,7 @@ class AdminJsCategoryTree
         $filterOnlyCategories = false;
 
         $hideShop = false;
-        if (option_is_yes('shop_disabled', 'website')) {
+        if (get_option('shop_disabled', 'website') == 1) {
             $hideShop = true;
         }
 

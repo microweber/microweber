@@ -25,7 +25,7 @@
             <module type="custom_fields" for-id="{{ $params['id'] }}" data-for="module"
                     default-fields="{{ $default_fields }}"/>
 
-            @if(isset($show_newsletter_subscription) && $show_newsletter_subscription == 'y' && !$newsletter_subscribed)
+            @if(isset($show_newsletter_subscription) && $show_newsletter_subscription == 1 && !$newsletter_subscribed)
                 <div class="mw-flex-row">
                     <div class="mw-flex-col-md-12 mw-flex-col-sm-12 mw-flex-col-xs-12">
                         <div class="form-group">

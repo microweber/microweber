@@ -802,7 +802,7 @@ class AppServiceProvider extends ServiceProvider
                 $isLocaleChangedFromMultilanguageLogics = true;
                 // $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
                 $localeSettings = app()->multilanguage_repository->getSupportedLocale($locale);
-                if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] == 'y') {
+                if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] == 1) {
                     change_language_by_locale($locale, true);
                 }
 

@@ -50,7 +50,7 @@ class UserRegisterController extends Controller
         $inputs = $request->all();
 
         $enable_user_gesitration = get_option('enable_user_registration', 'users');
-        if ($enable_user_gesitration === 'n' || $enable_user_gesitration === 0) {
+        if ($enable_user_gesitration == 0) {
             $resp = [
                 'error' => true,
                 'message' => 'User registration is disabled.',

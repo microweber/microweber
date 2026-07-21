@@ -56,7 +56,7 @@ class WebmasterHeadTags implements TagInterface, \Stringable
         $settings = get_option('settings', 'init_scwCookiedefault');
         if ($settings) {
             $getCookieNotice = json_decode($settings, true);
-            if (isset($getCookieNotice['cookies_policy']) && $getCookieNotice['cookies_policy'] == 'y') {
+            if (isset($getCookieNotice['cookies_policy']) && ($getCookieNotice['cookies_policy'] == 1 || $getCookieNotice['cookies_policy'] == 'y')) {
                 $analyticsTag = true;
                 $fbPixel = false;
                 if (Cookie::get('google-analytics-allow') == 1) {

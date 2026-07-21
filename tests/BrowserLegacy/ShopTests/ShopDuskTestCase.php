@@ -19,7 +19,7 @@ class ShopDuskTestCase extends DuskTestCase
         $save = array(
             'option_key' => 'shipping_gw_shop/shipping/gateways/country',
             'option_group' => 'shipping',
-            'option_value' => 'y'
+            'option_value' => 1
         );
         save_option($save);
 

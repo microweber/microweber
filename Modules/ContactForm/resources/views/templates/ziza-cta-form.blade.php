@@ -27,7 +27,7 @@
                 @include('modules.contact_form::partials.formSubmit')
             </div>
 
-            @if(isset($show_newsletter_subscription) && $show_newsletter_subscription == 'y' && !$newsletter_subscribed)
+            @if(isset($show_newsletter_subscription) && $show_newsletter_subscription == 1 && !$newsletter_subscribed)
                 <div class="form-group">
                     <div class="custom-control custom-checkbox my-2">
                         <label class="mw-ui-check" style="padding-top:0">

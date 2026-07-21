@@ -195,14 +195,14 @@ class FormsManager
         $terms_and_conditions_name = 'terms_contact';
         $default_mod_id = 'contact_form_default';
 
-        $dis_cap = $this->app->option_manager->get('disable_captcha', $for_id) == 'y';
+        $dis_cap = $this->app->option_manager->get('disable_captcha', $for_id) == 1;
         if (!$dis_cap) {
-            $dis_cap = $this->app->option_manager->get('disable_captcha', $default_mod_id) == 'y';
+            $dis_cap = $this->app->option_manager->get('disable_captcha', $default_mod_id) == 1;
         }
 
-        $newsletter_subscription = $this->app->option_manager->get('newsletter_subscription', $for_id) == 'y';
+        $newsletter_subscription = $this->app->option_manager->get('newsletter_subscription', $for_id) == 1;
         if (!$newsletter_subscription) {
-            $newsletter_subscription = $this->app->option_manager->get('newsletter_subscription', $default_mod_id) == 'y';
+            $newsletter_subscription = $this->app->option_manager->get('newsletter_subscription', $default_mod_id) == 1;
         }
 
         $email_redirect_after_submit = $this->app->option_manager->get('email_redirect_after_submit', $for_id);
@@ -744,7 +744,7 @@ class FormsManager
             Notification::send($adminUsers, new NewFormEntry($formModel));
         }
 
-        if ($skip_saving_emails == 'y') {
+        if ($skip_saving_emails == 1) {
             // Delete form data when skip saving
             FormData::where('id', $formModel->id)->delete();
         }

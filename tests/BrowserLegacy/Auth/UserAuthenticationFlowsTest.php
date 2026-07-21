@@ -35,7 +35,7 @@ class UserAuthenticationFlowsTest extends DuskTestCase
             save_option([
                 'option_key' => 'login_captcha_enabled',
                 'option_group' => 'users',
-                'option_value' => 'n'
+                'option_value' => 0
             ]);
 
             // Navigate to registration page
@@ -224,7 +224,7 @@ class UserAuthenticationFlowsTest extends DuskTestCase
             save_option([
                 'option_key' => 'captcha_disabled',
                 'option_group' => 'users',
-                'option_value' => 'y'
+                'option_value' => 1
             ]);
 
             // Create test user

@@ -23,7 +23,7 @@ class FormControllerTest extends TestCase
         save_option(array(
             'option_group' => $rel_id,
             'option_key' => 'disable_captcha',
-            'option_value' => 'y'
+            'option_value' => 1
         ));
 
         $fields = app()->fields_manager->get(['rel_type' => $rel, 'rel_id' => $rel_id]);

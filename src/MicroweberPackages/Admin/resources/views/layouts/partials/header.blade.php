@@ -176,7 +176,7 @@ if(is_shop_module_enabled_for_user()){
 
 
 //
-//$shop_disabled = get_option('shop_disabled', 'website') == 'y';
+//$shop_disabled = get_option('shop_disabled', 'website') == 1;
 //
 //if (!$shop_disabled) {
 //    if (!app()->module_manager->is_installed('shop')) {

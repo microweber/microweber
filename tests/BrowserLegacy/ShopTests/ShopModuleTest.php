@@ -31,7 +31,7 @@ class ShopModuleTest extends DuskTestCase
         }
         clearcache();
 
-        save_option('shop_disabled', 'n', 'website');
+        save_option('shop_disabled', 0, 'website');
 
         $pageId = $this->_generateShopPage('my-page-for-products-module-test', 'My page for products module test');
         $products = [];

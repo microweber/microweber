@@ -38,7 +38,7 @@ $hasSocialLogin = $enableFacebook || $enableGoogle || $enableGithub || $enableLi
 
 // User registration setting
 $enableUserRegistration = get_option('enable_user_registration', 'users');
-$showRegisterTab = $enableUserRegistration !== 'n' && $enableUserRegistration !== 0;
+$showRegisterTab = $enableUserRegistration != 0;
 $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 
 ?>
@@ -637,7 +637,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                             </div>
                         </div>
 
-                        @if (!option_is_yes('captcha_disabled', 'users'))
+                        @if (get_option('captcha_disabled', 'users') != 1)
                             <div class="form-group">
                                 <module type="captcha" id="login_captcha"/>
                             </div>
@@ -786,7 +786,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                                        name="password_confirmation" required>
                             </div>
 
-                            @if (!option_is_yes('captcha_disabled', 'users'))
+                            @if (get_option('captcha_disabled', 'users') != 1)
                                 <div class="form-group">
                                     <module type="captcha" id="login_captcha_register"/>
                                 </div>
@@ -834,7 +834,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                                    autofocus>
                         </div>
 
-                        @if (!option_is_yes('captcha_disabled', 'users'))
+                        @if (get_option('captcha_disabled', 'users') != 1)
                             <div class="form-group">
                                 <module type="captcha" id="login_captcha_forgot"/>
                             </div>

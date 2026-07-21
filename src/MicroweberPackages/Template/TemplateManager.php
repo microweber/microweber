@@ -533,7 +533,7 @@ class TemplateManager
     public function optimize_page_loading($layout)
     {
         $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
-        if ($optimize_asset_loading == 'y') {
+        if ($optimize_asset_loading == 1) {
 
             $asset_loading_order = new TemplateOptimizeLoadingHelper($this->app);
             $layout = $asset_loading_order->render($layout);

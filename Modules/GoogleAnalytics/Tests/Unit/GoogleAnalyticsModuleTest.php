@@ -16,9 +16,9 @@ class GoogleAnalyticsModuleTest extends TestCase
 
     public function it_tracking_code_is_not_rendered_when_disabled(): void {
         // Arrange
-        save_option('google-measurement-enabled', 'n', 'website');
+        save_option('google-measurement-enabled', 0, 'website');
         $checkOption = get_option('google-measurement-enabled', 'website');
-        $this->assertEquals($checkOption, 'n');
+        $this->assertEquals($checkOption, 0);
         // Act
         $module = app()->make(GoogleAnalyticsModule::class);
         $module->setParams(['id' => 'GoogleAnalyticsModule']);
@@ -31,10 +31,10 @@ class GoogleAnalyticsModuleTest extends TestCase
 
     public function it_tracking_code_is_rendered_when_enabled(): void {
         // Arrange
-        save_option('google-measurement-enabled', 'y', 'website');
+        save_option('google-measurement-enabled', 1, 'website');
         save_option('google-measurement-id', 'G-TEST123', 'website');
         $checkOption = get_option('google-measurement-enabled', 'website');
-        $this->assertEquals($checkOption, 'y');
+        $this->assertEquals($checkOption, 1);
         $checkOption = get_option('google-measurement-id', 'website');
         $this->assertEquals($checkOption, 'G-TEST123');
         // Act
@@ -50,7 +50,7 @@ class GoogleAnalyticsModuleTest extends TestCase
 
     public function it_events_are_converted_correctly(): void {
         // Arrange
-        save_option('google-measurement-enabled', 'y', 'website');
+        save_option('google-measurement-enabled', 1, 'website');
         save_option('google-measurement-id', 'G-TEST123', 'website');
         $dispatcher = new DispatchGoogleEventsJs();
         // Create and verify test event
@@ -74,8 +74,8 @@ class GoogleAnalyticsModuleTest extends TestCase
 
     public function it_enhanced_conversions_are_handled_correctly(): void {
         // Arrange
-        save_option('google-measurement-enabled', 'y', 'website');
-        save_option('google-enhanced-conversions-enabled', 'y', 'website');
+        save_option('google-measurement-enabled', 1, 'website');
+        save_option('google-enhanced-conversions-enabled', 1, 'website');
         save_option('google-enhanced-conversion-id', 'TEST_ID', 'website');
         save_option('google-enhanced-conversion-label', 'TEST_LABEL', 'website');
         $dispatcher = new DispatchGoogleEventsJs();

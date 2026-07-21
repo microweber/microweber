@@ -33,7 +33,7 @@ class ContactFormQuickEmailsTest extends TestCase
         save_option(array(
             'option_group' => $params['for_id'],
             'option_key' => 'disable_captcha',
-            'option_value' => 'y'
+            'option_value' => 1
         ));
 
         $formResponse = app()->forms_manager->post($params);

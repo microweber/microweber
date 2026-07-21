@@ -67,7 +67,9 @@ class DefaultOptionsInstaller
             $option = new Option();
             $option->option_key = 'enable_comments';
             $option->option_group = 'comments';
-            $option->option_value = 'y';
+            // Boolean-style option — store '1' to match the Filament-toggle convention
+            // that readers now expect (== 1); a legacy 'y' seed would read as "off".
+            $option->option_value = 1;
             $option->save();
         }
     }
@@ -83,7 +85,7 @@ class DefaultOptionsInstaller
             $option = new Option();
             $option->option_key = 'shipping_gw_shop/shipping/gateways/country';
             $option->option_group = 'shipping';
-            $option->option_value = 'y';
+            $option->option_value = 1;
             $option->save();
         }
 

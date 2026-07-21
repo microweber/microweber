@@ -24,7 +24,7 @@ class GoogleAnalyticsServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(AdminGoogleAnalyticsSettingsPage::class);
 
 
-        $isGoogleMeasurementEnabled = get_option('google-measurement-enabled', 'website') == "y";
+        $isGoogleMeasurementEnabled = get_option('google-measurement-enabled', 'website') == 1;
         if ($isGoogleMeasurementEnabled) {
             event_bind('mw.pingstats.response', function () {
                 //    @todo

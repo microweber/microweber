@@ -8,6 +8,7 @@
 #   3. PHP dependencies                          (composer install, allowed to run as root)
 #   4. Global Laravel installer                  (composer global require laravel/installer)
 #   5. Node package dependencies + built bundles (npm install + npm run build)
+#   5b. Playwright + browser binaries                (always — npm install -g playwright + playwright install --with-deps)
 #
 # With --dev it additionally provisions the browser-testing stack:
 #   6. .env bootstrapped from a template if missing (+ key:generate),
@@ -41,10 +42,14 @@
 #   --swoole          install the Swoole PHP extension (php<ver>-swoole via apt,
 #                     or pecl install swoole on non-apt systems) for async/octane
 #                     support.
+#   --minio           install MinIO local S3-compatible object storage server,
+#                     register a systemd service (API :9000, Console :9001),
+#                     and start it. Default credentials: minioadmin/minioadmin.
 #   --testing         wire up the full testing environment: npm install + build,
 #                     php artisan dusk:install, copy .env.dusk → .env, and run
 #                     php artisan microweber:install to seed a clean test site.
-#                     (creates user root@localhost with password 'root').
+#   --all             enable every flag: --dev, --install, --mysql, --swoole,
+#                     --minio, and --testing in one shot. Cannot be combined with --no-dev.
 #   --pgsql           install PostgreSQL server and set the postgres superuser
 #                     password to 'postgres' (postgres@localhost).
 #   --apache-fpm      install Apache2 + php<ver>-fpm, enable mod_proxy_fcgi and
@@ -90,7 +95,9 @@ SKIP_NODE=0
 MYSQL=0
 PGSQL=0
 SWOOLE=0
+MINIO=0
 TESTING=0
+ALL=0
 APACHE_FPM=0
 APACHE_FCGI=0
 
@@ -128,7 +135,9 @@ while [ $# -gt 0 ]; do
     --mysql)         MYSQL=1 ;;
     --pgsql)         PGSQL=1 ;;
     --swoole)        SWOOLE=1 ;;
+    --minio)         MINIO=1 ;;
     --testing)       TESTING=1 ;;
+    --all)           ALL=1 ;;
     --apache-fpm)    APACHE_FPM=1 ;;
     --apache-fcgi)   APACHE_FCGI=1 ;;
     --skip-system)   SKIP_SYSTEM=1 ;;
@@ -139,6 +148,11 @@ while [ $# -gt 0 ]; do
   esac
   shift
 done
+
+# --all expands to every install flag.
+if [ "$ALL" -eq 1 ]; then
+  DEV=1; INSTALL=1; MYSQL=1; SWOOLE=1; MINIO=1; TESTING=1
+fi
 
 # --dev (install dev deps + browser-testing stack) and --no-dev (drop dev deps)
 # are contradictory.
@@ -340,6 +354,37 @@ install_node_deps() {
       ok "packages/${name} deps installed (no build script)"
     fi
   done
+}
+
+# ---------------------------------------------------------------------------
+# 5b. Playwright (always installed — required for browser/E2E tests)
+# ---------------------------------------------------------------------------
+install_playwright() {
+  if ! command -v npm >/dev/null 2>&1; then
+    warn "npm not found — skipping Playwright install. Install Node 18+ and re-run."
+    return
+  fi
+
+  log "Installing Playwright + browsers"
+
+  # Install @playwright/test globally (includes the CLI and test runner).
+  npm install -g @playwright/test --no-audit --no-fund \
+    && ok "Playwright (@playwright/test) installed globally" \
+    || { warn "npm install -g @playwright/test failed — trying without -g."; \
+         npm install @playwright/test --no-audit --no-fund --prefix "${ROOT_DIR}" \
+           && ok "Playwright installed locally in project root" \
+           || warn "Playwright install failed — run manually: npm install -g @playwright/test"; }
+
+  # Always install / update browser binaries + OS-level dependencies.
+  if command -v playwright >/dev/null 2>&1; then
+    playwright install --with-deps \
+      && ok "Playwright browsers installed (with OS deps)" \
+      || warn "playwright install --with-deps failed — run manually: playwright install --with-deps"
+  else
+    npx playwright install --with-deps \
+      && ok "Playwright browsers installed via npx (with OS deps)" \
+      || warn "npx playwright install --with-deps failed — run manually: npx playwright install --with-deps"
+  fi
 }
 
 # ---------------------------------------------------------------------------
@@ -744,28 +789,39 @@ install_mysql() {
   fi
 
   $SUDO apt-get update -y
+
   # Pre-seed the root password so the interactive debconf prompt is skipped.
   if command -v debconf-set-selections >/dev/null 2>&1; then
     echo "mysql-server mysql-server/root_password password root"       | $SUDO debconf-set-selections
     echo "mysql-server mysql-server/root_password_again password root" | $SUDO debconf-set-selections
   fi
   $SUDO apt-get install -y mysql-server || die "Could not install mysql-server."
+  ok "mysql-server installed"
 
-  # Start the service if not already running.
-  if command -v service >/dev/null 2>&1; then
-    $SUDO service mysql start 2>/dev/null || true
+  # Always start (or restart) the service to ensure it's running.
+  if command -v systemctl >/dev/null 2>&1; then
+    $SUDO systemctl enable mysql 2>/dev/null || true
+    $SUDO systemctl restart mysql 2>/dev/null || $SUDO systemctl restart mysqld 2>/dev/null || true
+  elif command -v service >/dev/null 2>&1; then
+    $SUDO service mysql restart 2>/dev/null || $SUDO service mysqld restart 2>/dev/null || true
   fi
 
-  # Set / confirm root@localhost password = 'root' regardless of auth plugin.
-  local set_sql="ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; FLUSH PRIVILEGES;"
-  if $SUDO mysql -u root --connect-expired-password -e "$set_sql" 2>/dev/null; then
-    true
-  elif $SUDO mysql --defaults-file=/etc/mysql/debian.cnf -e "$set_sql" 2>/dev/null; then
-    true
+  # Verify server is up before trying to configure it.
+  if ! $SUDO mysqladmin ping --silent 2>/dev/null && \
+     ! $SUDO mysqladmin --defaults-file=/etc/mysql/debian.cnf ping --silent 2>/dev/null; then
+    warn "MySQL server does not appear to be running — check 'service mysql status'."
   else
-    warn "Could not set MySQL root password automatically — run manually: mysql -u root -e \"$set_sql\""
+    # Set / confirm root@localhost password = 'root' regardless of auth plugin.
+    local set_sql="ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; FLUSH PRIVILEGES;"
+    if $SUDO mysql -u root --connect-expired-password -e "$set_sql" 2>/dev/null; then
+      true
+    elif $SUDO mysql --defaults-file=/etc/mysql/debian.cnf -e "$set_sql" 2>/dev/null; then
+      true
+    else
+      warn "Could not set MySQL root password automatically — run manually: mysql -u root -e \"$set_sql\""
+    fi
+    ok "MySQL server ready — root@localhost password: root"
   fi
-  ok "MySQL server ready — root@localhost password: root"
 
   # PHP driver: php<ver>-mysql (provides pdo_mysql + mysqli).
   log "Installing PHP MySQL driver (php${PHP_VERSION}-mysql)"
@@ -786,16 +842,24 @@ install_pgsql() {
 
   $SUDO apt-get update -y
   $SUDO apt-get install -y postgresql postgresql-contrib || die "Could not install postgresql."
+  ok "postgresql installed"
 
-  # Start the service if not already running.
-  if command -v service >/dev/null 2>&1; then
-    $SUDO service postgresql start 2>/dev/null || true
+  # Always start (or restart) the service to ensure it's running.
+  if command -v systemctl >/dev/null 2>&1; then
+    $SUDO systemctl enable postgresql 2>/dev/null || true
+    $SUDO systemctl restart postgresql 2>/dev/null || true
+  elif command -v service >/dev/null 2>&1; then
+    $SUDO service postgresql restart 2>/dev/null || true
   fi
 
-  # Set postgres superuser password = 'postgres'.
-  $SUDO -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';" 2>/dev/null \
-    && ok "PostgreSQL server ready — postgres@localhost password: postgres" \
-    || warn "Could not set postgres password — run: sudo -u postgres psql -c \"ALTER USER postgres PASSWORD 'postgres';\""
+  # Verify server is up before trying to configure it.
+  if ! $SUDO -u postgres pg_isready -q 2>/dev/null; then
+    warn "PostgreSQL server does not appear to be running — check 'service postgresql status'."
+  else
+    $SUDO -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';" 2>/dev/null \
+      && ok "PostgreSQL server ready — postgres@localhost password: postgres" \
+      || warn "Could not set postgres password — run: sudo -u postgres psql -c \"ALTER USER postgres PASSWORD 'postgres';\""
+  fi
 
   # PHP driver: php<ver>-pgsql (provides pdo_pgsql + pgsql).
   log "Installing PHP PostgreSQL driver (php${PHP_VERSION}-pgsql)"
@@ -882,7 +946,98 @@ install_apache_fcgi() {
 }
 
 # ---------------------------------------------------------------------------
-# 11. Swoole extension (--swoole)
+# 11. MinIO local object storage (--minio)
+# ---------------------------------------------------------------------------
+install_minio() {
+  log "Installing MinIO server (local S3-compatible object storage)"
+
+  local minio_bin="/usr/local/bin/minio"
+  local mc_bin="/usr/local/bin/mc"
+  local minio_data="/var/lib/minio/data"
+  local minio_user="minio"
+
+  if ! command -v apt-get >/dev/null 2>&1 && ! command -v curl >/dev/null 2>&1; then
+    warn "Neither apt nor curl available — install MinIO manually from https://min.io/download"
+    return
+  fi
+
+  # Download the minio binary if not already present.
+  if [ ! -x "$minio_bin" ]; then
+    log "Downloading MinIO server binary"
+    local arch
+    arch="$(uname -m)"
+    case "$arch" in
+      x86_64)  arch="amd64" ;;
+      aarch64) arch="arm64" ;;
+      *)       warn "Unsupported arch ${arch} for MinIO — install manually."; return ;;
+    esac
+    curl -fsSL "https://dl.min.io/server/minio/release/linux-${arch}/minio" -o "$minio_bin" \
+      && $SUDO chmod +x "$minio_bin" \
+      && ok "MinIO server binary installed at ${minio_bin}" \
+      || { warn "Failed to download MinIO — check network or install manually."; return; }
+  else
+    ok "MinIO binary already present at ${minio_bin}"
+  fi
+
+  # Download the mc (MinIO Client) binary if not already present.
+  if [ ! -x "$mc_bin" ]; then
+    log "Downloading MinIO Client (mc)"
+    local arch
+    arch="$(uname -m)"
+    case "$arch" in
+      x86_64)  arch="amd64" ;;
+      aarch64) arch="arm64" ;;
+    esac
+    curl -fsSL "https://dl.min.io/client/mc/release/linux-${arch}/mc" -o "$mc_bin" \
+      && $SUDO chmod +x "$mc_bin" \
+      && ok "MinIO Client (mc) installed at ${mc_bin}" \
+      || warn "Failed to download mc — install manually from https://min.io/docs/minio/linux/reference/minio-mc.html"
+  else
+    ok "MinIO Client (mc) already present at ${mc_bin}"
+  fi
+
+  # Create data directory and a dedicated system user.
+  $SUDO mkdir -p "$minio_data"
+  if ! id "$minio_user" >/dev/null 2>&1; then
+    $SUDO useradd -r -s /sbin/nologin -d "$minio_data" "$minio_user" 2>/dev/null || true
+  fi
+  $SUDO chown -R "${minio_user}:${minio_user}" "$minio_data" 2>/dev/null || true
+
+  # Write a systemd unit if systemd is available.
+  if command -v systemctl >/dev/null 2>&1 && [ -d /etc/systemd/system ]; then
+    if [ ! -f /etc/systemd/system/minio.service ]; then
+      $SUDO tee /etc/systemd/system/minio.service > /dev/null <<SERVICE
+[Unit]
+Description=MinIO local object storage
+After=network.target
+
+[Service]
+User=${minio_user}
+Group=${minio_user}
+Environment="MINIO_ROOT_USER=minioadmin"
+Environment="MINIO_ROOT_PASSWORD=minioadmin"
+ExecStart=${minio_bin} server ${minio_data} --console-address :9001
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+SERVICE
+      ok "MinIO systemd unit written to /etc/systemd/system/minio.service"
+    fi
+    $SUDO systemctl daemon-reload 2>/dev/null || true
+    $SUDO systemctl enable minio 2>/dev/null || true
+    $SUDO systemctl restart minio 2>/dev/null \
+      && ok "MinIO service started (API :9000, Console :9001) — user/pass: minioadmin/minioadmin" \
+      || warn "MinIO service failed to start — check: journalctl -u minio"
+  else
+    warn "systemd not available — start MinIO manually:"
+    warn "  MINIO_ROOT_USER=minioadmin MINIO_ROOT_PASSWORD=minioadmin ${minio_bin} server ${minio_data} --console-address :9001 &"
+  fi
+}
+
+# ---------------------------------------------------------------------------
+# 12. Swoole extension (--swoole)
 # ---------------------------------------------------------------------------
 install_swoole() {
   log "Installing Swoole PHP extension"
@@ -943,6 +1098,16 @@ install_testing_env() {
     else
       printf '\nMW_IS_INSTALLED=0\n' >> "$env_file"
       ok "Added MW_IS_INSTALLED=0 to .env"
+    fi
+    # Ensure APP_ENV=testing is present — add if missing, replace if different.
+    if ! grep -qE '^APP_ENV=' "$env_file" 2>/dev/null; then
+      printf '\nAPP_ENV=testing\n' >> "$env_file"
+      ok "Added APP_ENV=testing to .env"
+    elif ! grep -qE '^APP_ENV=testing$' "$env_file" 2>/dev/null; then
+      sed -i 's/^APP_ENV=.*/APP_ENV=testing/' "$env_file"
+      ok "Updated APP_ENV to testing in .env"
+    else
+      ok "APP_ENV=testing already set in .env"
     fi
   else
     warn ".env.dusk not found — skipping .env copy. Create .env.dusk with your testing DB credentials."
@@ -1016,6 +1181,8 @@ else
   install_node_deps
 fi
 
+install_playwright
+
 if [ "$MYSQL" -eq 1 ]; then
   install_mysql
 fi
@@ -1026,6 +1193,10 @@ fi
 
 if [ "$SWOOLE" -eq 1 ]; then
   install_swoole
+fi
+
+if [ "$MINIO" -eq 1 ]; then
+  install_minio
 fi
 
 if [ "$APACHE_FPM" -eq 1 ]; then
@@ -1045,6 +1216,13 @@ if [ "$TESTING" -eq 1 ]; then
 fi
 
 if [ "$INSTALL" -eq 1 ]; then
+  if command -v php >/dev/null 2>&1 && [ -d "${ROOT_DIR}/vendor/laravel/dusk" ]; then
+    if env APP_ENV=testing php artisan dusk:install 2>/dev/null; then
+      ok "Dusk scaffolding installed (dusk:install)"
+    else
+      warn "artisan dusk:install failed — run: APP_ENV=testing php artisan dusk:install"
+    fi
+  fi
   install_microweber
 fi
 
@@ -1070,6 +1248,10 @@ if [ "$TESTING" -eq 1 ]; then
 fi
 if [ "$SWOOLE" -eq 1 ]; then
   echo "  php artisan octane:start --server=swoole   # start Octane with Swoole"
+fi
+if [ "$MINIO" -eq 1 ]; then
+  echo "  MinIO API  → http://127.0.0.1:9000  (key: minioadmin / secret: minioadmin)"
+  echo "  MinIO Console → http://127.0.0.1:9001"
 fi
   echo "  Set your VirtualHost DocumentRoot to ${ROOT_DIR}/public"
   echo "  Ensure <Directory> AllowOverride All so Laravel .htaccess is honoured"
