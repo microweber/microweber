@@ -9,7 +9,7 @@ use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Modules\Media\Models\Media;
 use Modules\Media\Models\MediaFolder;
-use Modules\Media\Services\CdnIntegrationService;
+use MicroweberPackages\CdnSync\Services\CdnSyncService;
 use Modules\MediaLibrary\Support\Unsplash;
 
 class MediaLibrary extends Page
@@ -438,14 +438,16 @@ class MediaLibrary extends Page
             return;
         }
 
-        $cdn = app(CdnIntegrationService::class);
+        /** @var CdnSyncService $cdn */
+        $cdn = app('cdn_sync');
 
         if (!$cdn->isConfigured()) {
             $this->dispatch('notify', type: 'warning', message: 'CDN is not configured. Set up CDN provider in settings first.');
             return;
         }
 
-        $results = $cdn->bulkSync($this->bulkSelected);
+        $models = \Modules\Media\Models\Media::whereIn('id', $this->bulkSelected)->get();
+        $results = $cdn->bulkSync($models);
 
         $successCount = count($results['success']);
         $failedCount = count($results['failed']);
@@ -462,7 +464,9 @@ class MediaLibrary extends Page
     public function isCdnConfigured(): bool
     {
         try {
-            return app(CdnIntegrationService::class)->isConfigured();
+            /** @var CdnSyncService $cdn */
+            $cdn = app('cdn_sync');
+            return $cdn->isConfigured();
         } catch (\Throwable $e) {
             return false;
         }

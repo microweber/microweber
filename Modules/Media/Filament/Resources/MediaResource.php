@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Modules\Media\Models\Media;
 use Modules\Media\Models\MediaFolder;
 use Modules\Media\Filament\Resources\MediaResource\Pages;
-use Modules\Media\Services\CdnIntegrationService;
+use MicroweberPackages\CdnSync\Services\CdnSyncService;
 
 class MediaResource extends Resource
 {
@@ -87,7 +87,7 @@ class MediaResource extends Resource
                 ]),
 
             \Filament\Schemas\Components\Section::make('CDN Status')
-                ->visible(fn (Media $record) => $record->is_synced_to_cdn)
+                ->visible(fn (Media $record) => app('cdn_sync')->isConfigured() && $record->is_synced_to_cdn)
                 ->schema([
                     Forms\Components\TextInput::make('cdn_url')
                         ->label('CDN URL')
@@ -151,7 +151,8 @@ class MediaResource extends Resource
                     ->trueIcon('heroicon-o-cloud')
                     ->falseIcon('heroicon-o-x-mark')
                     ->trueColor('success')
-                    ->falseColor('gray'),
+                    ->falseColor('gray')
+                    ->visible(fn () => app('cdn_sync')->isConfigured()),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Uploaded')
@@ -174,10 +175,12 @@ class MediaResource extends Resource
 
                 Filter::make('cdn_synced')
                     ->label('CDN Synced')
+                    ->visible(fn () => app('cdn_sync')->isConfigured())
                     ->query(fn (Builder $query) => $query->where('is_synced_to_cdn', true)),
 
                 Filter::make('not_cdn_synced')
                     ->label('Not CDN Synced')
+                    ->visible(fn () => app('cdn_sync')->isConfigured())
                     ->query(fn (Builder $query) => $query->where('is_synced_to_cdn', false)),
             ])
             ->actions([
@@ -187,10 +190,11 @@ class MediaResource extends Resource
                     ->label('Sync to CDN')
                     ->icon('heroicon-o-cloud-arrow-up')
                     ->color('success')
-                    ->visible(fn (Media $record) => !$record->is_synced_to_cdn)
+                    ->visible(fn (Media $record) => app('cdn_sync')->isConfigured() && !$record->isFullySyncedToCdn())
                     ->action(function (Media $record) {
-                        $service = new CdnIntegrationService();
-                        $service->syncMedia($record->id);
+                        /** @var CdnSyncService $service */
+                        $service = app('cdn_sync');
+                        $service->sync($record);
                     })
                     ->requiresConfirmation()
                     ->modalHeading('Sync to CDN')
@@ -205,9 +209,9 @@ class MediaResource extends Resource
                         ->icon('heroicon-o-cloud-arrow-up')
                         ->color('success')
                         ->action(function ($records) {
-                            $service = new CdnIntegrationService();
-                            $ids = $records->pluck('id')->toArray();
-                            $service->bulkSync($ids);
+                            /** @var CdnSyncService $service */
+                            $service = app('cdn_sync');
+                            $service->bulkSync($records);
                         })
                         ->requiresConfirmation()
                         ->modalHeading('Bulk Sync to CDN')

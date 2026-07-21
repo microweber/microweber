@@ -701,7 +701,7 @@
                         <span>Uploaded</span>
                         <span class="mw-media-detail-info-value">{{ $selectedMediaData['created_at'] }}</span>
                     </div>
-                    @if($selectedMediaData['is_synced_to_cdn'])
+                    @if($this->isCdnConfigured() && $selectedMediaData['is_synced_to_cdn'])
                         <div class="mw-media-detail-info-row">
                             <span>CDN</span>
                             <span class="mw-media-detail-info-value" style="color: var(--mw-success, #2fb344);">Synced</span>

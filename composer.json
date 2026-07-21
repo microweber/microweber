@@ -167,7 +167,8 @@
         "microweber-packages/phpquery": "^1.0",
         "microweber-packages/passport": "^1.0",
         "microweber-packages/svg-icons": "*",
-        "microweber-packages/system-licenses": "^1.0"
+        "microweber-packages/system-licenses": "^1.0",
+        "microweber-packages/cdn-sync": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -217,7 +218,8 @@
             "Database\\Seeders\\": "database/seeders/",
             "MicroweberPackages\\SvgIcons\\": "packages/microweber-svg-icons/src/",
             "MicroweberPackages\\ContentField\\": "packages/microweber-content-field/src/",
-            "MicroweberPackages\\SystemLicenses\\": "packages/microweber-system-licenses/src/"
+            "MicroweberPackages\\SystemLicenses\\": "packages/microweber-system-licenses/src/",
+            "MicroweberPackages\\CdnSync\\": "packages/microweber-cdn-sync/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -253,6 +255,7 @@
             "MicroweberPackages\\SvgIcons\\Tests\\": "packages/microweber-svg-icons/tests/",
             "MicroweberPackages\\ContentField\\Tests\\": "packages/microweber-content-field/tests/",
             "MicroweberPackages\\SystemLicenses\\Tests\\": "packages/microweber-system-licenses/tests/",
+            "MicroweberPackages\\CdnSync\\Tests\\": "packages/microweber-cdn-sync/tests/",
             "MicroweberPackages\\Dusk\\": "packages/microweber-dusk/src/",
             "MicroweberPackages\\Dusk\\Tests\\": "packages/microweber-dusk/tests/"
         }
@@ -655,6 +658,14 @@
         {
             "type": "path",
             "url": "packages/microweber-system-licenses",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-cdn-sync",
             "options": {
                 "reference": "config",
                 "symlink": true

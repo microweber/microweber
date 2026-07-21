@@ -5,12 +5,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\CdnSync\Contracts\CdnSyncable;
+use MicroweberPackages\CdnSync\Traits\HasCdnSync;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 use Modules\Media\Database\Factories\MediaFactory;
 
-class Media extends Model
+class Media extends Model implements CdnSyncable
 {
     //use \Conner\Tagging\Taggable;
     public $cacheTagsToClear = ['media','media_thumbnails'];
@@ -18,6 +20,7 @@ class Media extends Model
     use MaxPositionTrait;
     use CacheableQueryBuilderTrait;
     use HasFactory;
+    use HasCdnSync;
 
     protected static function newFactory()
     {
@@ -142,6 +145,35 @@ class Media extends Model
     public function scopeByType($query, string $type)
     {
         return $query->where('media_type', $type);
+    }
+
+    /**
+     * Return files to sync to CDN (CdnSyncable implementation).
+     *
+     * @return array<int, string>
+     */
+    public function getCdnSyncFiles(): array
+    {
+        if (!empty($this->filename)) {
+            return [$this->filename];
+        }
+        return [];
+    }
+
+    /**
+     * Return the CDN rel_type identifier (CdnSyncable implementation).
+     */
+    public function getCdnRelType(): string
+    {
+        return 'media';
+    }
+
+    /**
+     * Return the CDN rel_id (CdnSyncable implementation).
+     */
+    public function getCdnRelId(): int|string
+    {
+        return $this->getKey();
     }
 
     /**

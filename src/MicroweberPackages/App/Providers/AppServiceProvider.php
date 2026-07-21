@@ -280,6 +280,7 @@ class AppServiceProvider extends ServiceProvider
             \MicroweberPackages\App\Managers\MicroweberLicenseValidator::class
         );
         $this->app->register(\MicroweberPackages\SystemLicenses\SystemLicensesServiceProvider::class);
+        $this->app->register(\MicroweberPackages\CdnSync\CdnSyncServiceProvider::class);
 
         $this->app->register(MicroweberServiceProvider::class);
 

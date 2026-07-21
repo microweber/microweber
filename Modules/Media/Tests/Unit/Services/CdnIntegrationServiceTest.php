@@ -5,12 +5,16 @@ namespace Modules\Media\Tests\Unit\Services;
 use Modules\Media\Services\CdnIntegrationService;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * CdnIntegrationService is now a deprecated shim that delegates to
+ * MicroweberPackages\CdnSync\Services\CdnSyncService. These tests
+ * verify the class still exists and exposes the old API for backwards
+ * compatibility.
+ */
 class CdnIntegrationServiceTest extends TestCase
 {
     public function test_can_instantiate_service()
     {
-        // This test will fail without Laravel booted due to config() usage in constructor
-        // But we can at least verify the class exists
         $this->assertTrue(class_exists(CdnIntegrationService::class));
     }
 

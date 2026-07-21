@@ -178,6 +178,10 @@
             <directory>packages/microweber-core/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberCdnSync">
+            <directory>packages/microweber-cdn-sync/tests</directory>
+        </testsuite>
+
         <testsuite name="MicroweberDatabase">
             <directory>packages/microweber-database/src/tests</directory>
         </testsuite>
