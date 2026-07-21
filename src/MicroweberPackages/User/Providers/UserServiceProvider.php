@@ -107,6 +107,16 @@ class UserServiceProvider extends AuthServiceProvider
         $this->app->register(\MicroweberPackages\SocialLogin\Providers\SocialLoginServiceProvider::class);
         $this->app->register(\MicroweberPackages\User\Providers\UserSocialiteServiceProvider::class);
 
+        // Register the disposable email checker package.
+        // The checker is initialised only when the admin has enabled the option.
+        $this->app->register(\MicroweberPackages\DisposableEmailChecker\Providers\DisposableEmailCheckerServiceProvider::class);
+        $this->app->booted(function () {
+            // The Filament toggle stores '1' when on (empty when off) — see
+            // AdminSettingsPage::updated(); this is the only writer of the option.
+            $enabled = get_option('disable_registration_with_temporary_email', 'users') == 1;
+            config()->set('disposable-email-checker.enabled', $enabled);
+        });
+
     }
 
     public function registerMenu()

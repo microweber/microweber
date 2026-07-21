@@ -71,11 +71,13 @@ class RegisterRequest extends FormRequest
             $rules['confirm_password'] = 'required|min:1|same:password';
         }
 
-        if (get_option('captcha_disabled', 'users') !== 'y') {
+        if (!option_is_yes('captcha_disabled', 'users')) {
             $rules['captcha'] = 'captcha';
         }
 
-        if (isset($inputs['email']) && $inputs['email'] != false && ((get_option('disable_registration_with_temporary_email', 'users') == 'y'))) {
+        // The Filament toggle stores '1' when on (empty when off) — see AdminSettingsPage::updated().
+        $blockTemporaryEmail = get_option('disable_registration_with_temporary_email', 'users');
+        if (isset($inputs['email']) && $inputs['email'] != false && $blockTemporaryEmail == 1) {
             $rules['email'] = $rules['email'] . '|temporary_email_check';
         }
 

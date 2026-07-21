@@ -637,7 +637,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                             </div>
                         </div>
 
-                        @if (get_option('captcha_disabled', 'users') !== 'y')
+                        @if (!option_is_yes('captcha_disabled', 'users'))
                             <div class="form-group">
                                 <module type="captcha" id="login_captcha"/>
                             </div>
@@ -786,7 +786,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                                        name="password_confirmation" required>
                             </div>
 
-                            @if (get_option('captcha_disabled', 'users') !== 'y')
+                            @if (!option_is_yes('captcha_disabled', 'users'))
                                 <div class="form-group">
                                     <module type="captcha" id="login_captcha_register"/>
                                 </div>
@@ -834,7 +834,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                                    autofocus>
                         </div>
 
-                        @if (get_option('captcha_disabled', 'users') !== 'y')
+                        @if (!option_is_yes('captcha_disabled', 'users'))
                             <div class="form-group">
                                 <module type="captcha" id="login_captcha_forgot"/>
                             </div>

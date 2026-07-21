@@ -24,7 +24,7 @@
         @endif
     </div>
 
-    @if (get_option('captcha_disabled', 'users') !== 'y')
+    @if (!option_is_yes('captcha_disabled', 'users'))
         <div class="form-group">
             @if ($errors->has('captcha'))
                 <div class="text-danger"><strong>{{ $errors->first('captcha') }}</strong></div>

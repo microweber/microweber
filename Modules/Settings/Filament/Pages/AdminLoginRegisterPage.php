@@ -55,6 +55,13 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                                 return new HtmlString('<small class="text-muted d-block mb-2">Ask users for email verification confirmation after their registration. </small>');
                             }),
 
+                        Toggle::make('options.users.disable_registration_with_temporary_email')
+                            ->label('Block disposable / temporary email addresses')
+                            ->live()
+                            ->helperText(function () {
+                                return new HtmlString('<small class="text-muted d-block mb-2">When enabled, users cannot register with temporary or disposable email addresses (e.g. mailinator.com, guerrillamail.com).</small>');
+                            }),
+
                     ]),
 
 

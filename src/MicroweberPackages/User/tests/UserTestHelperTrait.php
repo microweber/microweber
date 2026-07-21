@@ -142,7 +142,8 @@ trait UserTestHelperTrait
 
     private function _disableUserRegistrationWithDisposableEmail()
     {
-        $data['option_value'] = 'y';
+        // Mirror what the Filament toggle actually persists ('1'), not the legacy 'y'.
+        $data['option_value'] = '1';
         $data['option_key'] = 'disable_registration_with_temporary_email';
         $data['option_group'] = 'users';
         $save = save_option($data);
