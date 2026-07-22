@@ -5,7 +5,7 @@ if (!function_exists('str_random')) {
      * If the given value is not an array, wrap it in one.
      *
      * @param mixed $value
-     * @return array
+     * @return string
      */
     function str_random($length = 16)
     {

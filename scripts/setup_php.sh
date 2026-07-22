@@ -757,12 +757,6 @@ install_microweber() {
 
   cd "${ROOT_DIR}"
 
-  # Skip if already installed.
-  if [ -f "${ROOT_DIR}/storage/installed" ]; then
-    ok "Microweber already installed (storage/installed present) — skipping."
-    return
-  fi
-
   if ! command -v php >/dev/null 2>&1; then
     die "php not on PATH — cannot run the Microweber installer."
   fi
@@ -770,10 +764,16 @@ install_microweber() {
     die "'artisan' not found in ${ROOT_DIR} — is this the Microweber project root?"
   fi
 
-  # Ensure a .env exists so artisan can boot.
+  # Ensure a .env exists and APP_ENV=testing is set before artisan boots.
   ensure_env || true
 
-  php artisan microweber:install \
+  # Remove the installed lock file so the installer always runs fresh.
+  if [ -f "${ROOT_DIR}/storage/installed" ]; then
+    $SUDO rm -f "${ROOT_DIR}/storage/installed"
+    ok "Removed storage/installed lock — running installer fresh."
+  fi
+
+  env APP_ENV=testing php artisan microweber:install \
     && ok "Microweber installed successfully." \
     || die "Microweber installer exited with an error. Check the output above."
 }
@@ -1140,14 +1140,15 @@ install_testing_env() {
   fi
 
   # Run the Microweber installer to seed a clean test site.
+  # Always remove the lock file first so the installer runs fresh.
   if [ -f "${ROOT_DIR}/storage/installed" ]; then
-    ok "Microweber already installed (storage/installed present) — skipping microweber:install."
-  else
-    log "Running php artisan microweber:install"
-    env APP_ENV=testing php artisan microweber:install \
-      && ok "Microweber installed successfully." \
-      || warn "microweber:install failed — check output above."
+    $SUDO rm -f "${ROOT_DIR}/storage/installed"
+    ok "Removed storage/installed lock — running installer fresh."
   fi
+  log "Running php artisan microweber:install"
+  env APP_ENV=testing php artisan microweber:install \
+    && ok "Microweber installed successfully." \
+    || warn "microweber:install failed — check output above."
 }
 
 # ---------------------------------------------------------------------------
