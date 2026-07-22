@@ -408,17 +408,10 @@ class Backup
             return;
         }
 
-        // Use the DbExport package for chunked, memory-friendly reads
-        $tableContent = DbExport::getTableContent($table);
-
-        // Filter by IDs when a subset is requested
-        if (!empty($ids) && !empty($tableContent)) {
-            $tableContent = array_values(array_filter($tableContent, function ($row) use ($ids) {
-                return isset($row['id']) && in_array($row['id'], $ids);
-            }));
-        }
-
-        return $tableContent;
+        // Use the DbExport package with IDs filtered at query time (not post-fetch).
+        // The third parameter tells getTableContent to add a WHERE IN clause
+        // before any data is read, so large tables are never fully loaded.
+        return DbExport::getTableContent($table, null, is_array($ids) ? $ids : []);
     }
 
     private function _skipTables()

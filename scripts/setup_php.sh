@@ -48,8 +48,8 @@
 #   --testing         wire up the full testing environment: npm install + build,
 #                     php artisan dusk:install, copy .env.dusk → .env, and run
 #                     php artisan microweber:install to seed a clean test site.
-#   --all             enable every flag: --dev, --install, --mysql, --swoole,
-#                     --minio, and --testing in one shot. Cannot be combined with --no-dev.
+#   --all             enable every flag: --dev, --install, --mysql, --pgsql,
+#                     --swoole, --minio, and --testing in one shot. Cannot be combined with --no-dev.
 #   --pgsql           install PostgreSQL server and set the postgres superuser
 #                     password to 'postgres' (postgres@localhost).
 #   --apache-fpm      install Apache2 + php<ver>-fpm, enable mod_proxy_fcgi and
@@ -151,7 +151,7 @@ done
 
 # --all expands to every install flag.
 if [ "$ALL" -eq 1 ]; then
-  DEV=1; INSTALL=1; MYSQL=1; SWOOLE=1; MINIO=1; TESTING=1
+  DEV=1; INSTALL=1; MYSQL=1; PGSQL=1; SWOOLE=1; MINIO=1; TESTING=1
 fi
 
 # --dev (install dev deps + browser-testing stack) and --no-dev (drop dev deps)

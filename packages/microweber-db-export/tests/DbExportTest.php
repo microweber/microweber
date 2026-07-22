@@ -7,6 +7,7 @@ namespace MicroweberPackages\DbExport\Tests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\DbExport\DbExportManager;
+use MicroweberPackages\DbExport\ExportFilter;
 use MicroweberPackages\DbExport\Facades\DbExport;
 use MicroweberPackages\DbExport\SchemaInspector;
 use PHPUnit\Framework\Attributes\Test;
@@ -18,7 +19,7 @@ use Tests\TestCase;
  * Uses two SQLite connections (the default 'sqlite' and a second
  * 'sqlite_target') to validate cross-connection copy, JSON
  * export/import, auto-increment preservation, index detection,
- * chunked transfers, and the getTableContent helper.
+ * chunked transfers, filters, and the getTableContent helper.
  *
  * @command php artisan test --filter DbExportTest
  */
@@ -75,14 +76,17 @@ class DbExportTest extends TestCase
         }
 
         // Clean up export files
-        foreach (glob($this->exportDir . '/*.json') as $f) {
-            unlink($f);
+        $files = glob($this->exportDir . '/*.json');
+        if (is_array($files)) {
+            foreach ($files as $f) {
+                unlink($f);
+            }
         }
         if (is_dir($this->exportDir)) {
             @rmdir($this->exportDir);
         }
         $parentDir = dirname($this->targetDb);
-        if (is_dir($parentDir) && count(scandir($parentDir)) <= 2) {
+        if (is_dir($parentDir) && count((array) scandir($parentDir)) <= 2) {
             @rmdir($parentDir);
         }
 
@@ -190,7 +194,6 @@ class DbExportTest extends TestCase
         $inspector = new SchemaInspector();
         $meta = $inspector->inspectTable(DB::connection(), 'db_export_test');
 
-        $indexNames = array_map(fn ($idx) => $idx->name, $meta->indexes);
         // SQLite may name indexes differently, just check we found some
         $this->assertNotEmpty($meta->indexes);
     }
@@ -221,6 +224,7 @@ class DbExportTest extends TestCase
             ->table('db_export_test')
             ->where('id', 1)
             ->first();
+        $this->assertNotNull($row);
         $this->assertEquals('User 1', $row->name);
         $this->assertEquals('user1@example.com', $row->email);
     }
@@ -259,6 +263,7 @@ class DbExportTest extends TestCase
             ->orderBy('id', 'desc')
             ->first();
 
+        $this->assertNotNull($lastRow);
         $this->assertGreaterThan(50, $lastRow->id,
             'Auto-increment should continue from max existing id');
     }
@@ -289,6 +294,113 @@ class DbExportTest extends TestCase
     }
 
     // ──────────────────────────────────────────────────────────────────────
+    //  ExportFilter
+    // ──────────────────────────────────────────────────────────────────────
+
+    #[Test]
+    public function it_filters_skip_tables_during_copy(): void
+    {
+        $manager = new DbExportManager();
+        $manager->filter()->setSkipTables(['db_export_no_id_test']);
+
+        $result = $manager->copy('sqlite', 'sqlite_target', ['db_export_test', 'db_export_no_id_test']);
+
+        $this->assertArrayHasKey('db_export_test', $result);
+        $this->assertArrayNotHasKey('db_export_no_id_test', $result);
+    }
+
+    #[Test]
+    public function it_filters_skip_fields_during_get_table_content(): void
+    {
+        $manager = new DbExportManager();
+        $manager->filter()->addSkipField('db_export_test', 'bio');
+        $manager->filter()->addSkipField('db_export_test', 'age');
+
+        $rows = $manager->getTableContent('db_export_test');
+
+        $this->assertNotEmpty($rows);
+        $this->assertArrayNotHasKey('bio', $rows[0]);
+        $this->assertArrayNotHasKey('age', $rows[0]);
+        $this->assertArrayHasKey('name', $rows[0]);
+        $this->assertArrayHasKey('email', $rows[0]);
+    }
+
+    #[Test]
+    public function it_filters_only_ids_during_get_table_content(): void
+    {
+        $manager = new DbExportManager();
+        $manager->filter()->addOnlyIds('db_export_test', [1, 3, 5]);
+
+        $rows = $manager->getTableContent('db_export_test');
+
+        $this->assertCount(3, $rows);
+        $ids = array_column($rows, 'id');
+        $this->assertEquals([1, 3, 5], $ids);
+    }
+
+    #[Test]
+    public function it_filters_ids_at_query_time_via_get_table_content_param(): void
+    {
+        $manager = new DbExportManager();
+
+        $rows = $manager->getTableContent('db_export_test', null, [2, 4]);
+
+        $this->assertCount(2, $rows);
+        $ids = array_column($rows, 'id');
+        $this->assertEquals([2, 4], $ids);
+    }
+
+    #[Test]
+    public function it_filters_where_conditions(): void
+    {
+        $manager = new DbExportManager();
+        $manager->filter()->addWhere('db_export_test', 'name', '=', 'User 1');
+
+        $rows = $manager->getTableContent('db_export_test');
+
+        $this->assertCount(1, $rows);
+        $this->assertEquals('User 1', $rows[0]['name']);
+    }
+
+    #[Test]
+    public function it_parses_skip_fields_from_string_pairs(): void
+    {
+        $filter = new ExportFilter();
+        $filter->setSkipFields(['content.title', 'cart.session_id']);
+
+        $this->assertEquals(['title'], $filter->getSkipFieldsForTable('content'));
+        $this->assertEquals(['session_id'], $filter->getSkipFieldsForTable('cart'));
+        $this->assertEquals([], $filter->getSkipFieldsForTable('other'));
+    }
+
+    #[Test]
+    public function it_parses_only_ids_from_string_pairs(): void
+    {
+        $filter = new ExportFilter();
+        $filter->setOnlyIds(['content.1,2,3', 'users.4,5']);
+
+        $this->assertEquals([1, 2, 3], $filter->getOnlyIdsForTable('content'));
+        $this->assertEquals([4, 5], $filter->getOnlyIdsForTable('users'));
+        $this->assertEquals([], $filter->getOnlyIdsForTable('other'));
+    }
+
+    #[Test]
+    public function it_filter_reset_clears_all(): void
+    {
+        $filter = new ExportFilter();
+        $filter->setSkipTables(['foo']);
+        $filter->addSkipField('bar', 'baz');
+        $filter->addOnlyIds('qux', [1]);
+        $filter->addWhere('test', 'col', '=', 'val');
+
+        $this->assertTrue($filter->hasFilters());
+
+        $filter->reset();
+
+        $this->assertFalse($filter->hasFilters());
+    }
+
+    // ──────────────────────────────────────────────────────────────────────
     //  JSON Export
     // ──────────────────────────────────────────────────────────────────────
 
@@ -302,8 +414,9 @@ class DbExportTest extends TestCase
 
         $this->assertFileExists($path);
 
-        $data = json_decode(file_get_contents($path), true);
+        $data = json_decode((string) file_get_contents($path), true);
         $this->assertNotNull($data);
+        $this->assertIsArray($data);
         $this->assertArrayHasKey('db_export_test', $data);
         $this->assertCount(50, $data['db_export_test']);
         $this->assertArrayHasKey('db_export_no_id_test', $data);
@@ -323,6 +436,23 @@ class DbExportTest extends TestCase
 
         $this->assertArrayHasKey('db_export_test', $reported);
         $this->assertEquals(50, $reported['db_export_test']);
+    }
+
+    #[Test]
+    public function it_exports_with_skip_fields_filter(): void
+    {
+        $path = $this->exportDir . '/export_skip_fields.json';
+
+        $manager = new DbExportManager();
+        $manager->filter()->addSkipField('db_export_test', 'bio');
+
+        $manager->exportToJson($path, null, ['db_export_test']);
+
+        $data = json_decode((string) file_get_contents($path), true);
+        $this->assertNotNull($data);
+        $this->assertIsArray($data);
+        $this->assertArrayNotHasKey('bio', $data['db_export_test'][0]);
+        $this->assertArrayHasKey('name', $data['db_export_test'][0]);
     }
 
     // ──────────────────────────────────────────────────────────────────────
@@ -487,6 +617,25 @@ class DbExportTest extends TestCase
 
         $count = DB::connection('sqlite_target')->table('db_export_test')->count();
         $this->assertEquals(50, $count);
+    }
+
+    #[Test]
+    public function it_copy_command_supports_skip_tables(): void
+    {
+        $this->artisan('microweber:db-export', [
+            'source'        => 'sqlite',
+            'target'        => 'sqlite_target',
+            '--tables'      => 'db_export_test,db_export_no_id_test',
+            '--skip-tables' => 'db_export_no_id_test',
+        ])->assertSuccessful();
+
+        $count = DB::connection('sqlite_target')->table('db_export_test')->count();
+        $this->assertEquals(50, $count);
+
+        // The skipped table should not exist
+        $this->assertFalse(
+            Schema::connection('sqlite_target')->hasTable('db_export_no_id_test')
+        );
     }
 
     #[Test]

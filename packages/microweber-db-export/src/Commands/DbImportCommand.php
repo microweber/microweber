@@ -40,7 +40,7 @@ class DbImportCommand extends Command
         $this->info("Importing from {$path}...");
 
         try {
-            $manager->importFromJson((string) $path, $connection, function (string $table, int $rows) {
+            $manager->importFromJson((string) $path, $connection, function (string $table, int $rows): void {
                 $this->line("  ✓ {$table}: {$rows} rows");
             });
 

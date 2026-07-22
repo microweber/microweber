@@ -86,6 +86,9 @@ class SchemaInspector
     //  Auto-increment detection
     // ──────────────────────────────────────────────────────────────────────
 
+    /**
+     * @param  list<ColumnMeta> $columns
+     */
     private function detectAutoIncrement(
         Connection $conn,
         string $table,
@@ -110,7 +113,10 @@ class SchemaInspector
     private function detectAutoIncrementSqlite(Connection $conn, string $table): ?string
     {
         // In SQLite, INTEGER PRIMARY KEY is auto-increment (ROWID alias).
-        $rows = $conn->select("PRAGMA table_info('{$table}')");
+        // PRAGMA requires the full prefixed table name.
+        $prefixed = $conn->getTablePrefix() . $table;
+
+        $rows = $conn->select("PRAGMA table_info('{$prefixed}')");
 
         foreach ($rows as $row) {
             $row = (array) $row;
@@ -126,12 +132,15 @@ class SchemaInspector
 
     private function detectAutoIncrementMysql(Connection $conn, string $table): ?string
     {
-        $dbName = $conn->getDatabaseName();
-        $rows   = $conn->select(
+        // Use the prefixed table name for information_schema lookup
+        $dbName      = $conn->getDatabaseName();
+        $prefixed    = $conn->getTablePrefix() . $table;
+
+        $rows = $conn->select(
             "SELECT COLUMN_NAME
              FROM information_schema.COLUMNS
              WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND EXTRA LIKE '%auto_increment%'",
-            [$dbName, $table],
+            [$dbName, $prefixed],
         );
 
         return count($rows) > 0 ? ((array) $rows[0])['COLUMN_NAME'] : null;
@@ -139,11 +148,14 @@ class SchemaInspector
 
     private function detectAutoIncrementPgsql(Connection $conn, string $table): ?string
     {
+        // Use the prefixed table name for information_schema lookup
+        $prefixed = $conn->getTablePrefix() . $table;
+
         $rows = $conn->select(
             "SELECT column_name, column_default
              FROM information_schema.columns
              WHERE table_name = ? AND column_default LIKE 'nextval%'",
-            [$table],
+            [$prefixed],
         );
 
         return count($rows) > 0 ? ((array) $rows[0])['column_name'] : null;

@@ -56,7 +56,9 @@ class JsonImporter
             $batch    = [];
             $rowCount = 0;
 
+            /** @var iterable<mixed, mixed> $rows */
             foreach ($rows as $row) {
+                /** @var array<string, mixed> $rowArray */
                 $rowArray = (array) $row;
 
                 if (! $tableExists) {
@@ -89,6 +91,9 @@ class JsonImporter
         }
     }
 
+    /**
+     * @param  array<int, array<string, mixed>> $batch
+     */
     private function insertBatch(
         \Illuminate\Database\Connection $conn,
         string $table,
@@ -104,6 +109,8 @@ class JsonImporter
     /**
      * Best-effort table creation from the first row of data when the table
      * doesn't already exist. Infers column types from PHP value types.
+     *
+     * @param  array<string, mixed> $row
      */
     private function createTableFromRow(
         \Illuminate\Database\Connection $conn,

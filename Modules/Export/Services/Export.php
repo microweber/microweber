@@ -5,6 +5,7 @@ namespace Modules\Export\Services;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use MicroweberPackages\DbExport\Facades\DbExport;
 use Modules\Backup\SessionStepper;
 use Modules\Export\Loggers\ExportLogger;
 use Modules\Export\Formats\CsvExport;
@@ -356,54 +357,15 @@ class Export
 
     private function _getTableContent($table, $ids = array())
     {
-        $exportFilter = array();
-        $exportFilter['no_limit'] = 1;
-        $exportFilter['do_not_replace_site_url'] = 1;
-
-        if (!empty($ids)) {
-            $exportFilter['ids'] = implode(',', $ids);
-        }
-
         $tableExists = app()->database_manager->table_exists($table);
         if (!$tableExists) {
             return;
         }
 
-        $dbGetQuery=DB::table($table)
-            ->select('*');
-        if ($table == 'media') {
-            $dbGetQuery->where('media_type', '!=', 'media_tn_temp');
-//            $exportFilter['media_type_without_media_tn_temp'] = function ($query_filter) {
-//                $query_filter->where('media_type', '!=', 'media_tn_temp');
-//
-//                return $query_filter;
-//            };
-
-        }
-     //   $dbGet = db_get($table, $exportFilter);
-
-        $tableContent = [];
-
-        $col_exist = Schema::hasColumn($table, 'id');
-        if ($col_exist) {
-            $dbGetQuery->orderBy('id')->chunk(1000, function ($chunkData) use (&$tableContent) {
-                foreach ($chunkData as $item) {
-                    $tableContent[] = (array)$item;
-                }
-            });
-        } else {
-            $chunkData = $dbGetQuery->get();
-            foreach ($chunkData as $item) {
-                $tableContent[] = (array)$item;
-            }
-        }
-
-
-
-
-
-      //  $dbGet = $dbGetQuery->toArray();
-        return $tableContent;
+        // Use the DbExport package with IDs filtered at query time (not post-fetch).
+        // The third parameter tells getTableContent to add a WHERE IN clause
+        // before any data is read, so large tables are never fully loaded.
+        return DbExport::getTableContent($table, null, is_array($ids) ? $ids : []);
     }
 
     private function _skipTables()
