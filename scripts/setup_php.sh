@@ -885,6 +885,28 @@ install_apache_fpm() {
   # Enable the modules required for PHP-FPM proxying + Laravel .htaccess.
   $SUDO a2enmod proxy proxy_fcgi setenvif rewrite headers 2>/dev/null \
     || warn "Some Apache modules may already be enabled or failed."
+  ok "Apache modules enabled: proxy proxy_fcgi setenvif rewrite headers"
+
+  # Write a minimal VirtualHost that enables AllowOverride All for Laravel's .htaccess.
+  local vhost_file="/etc/apache2/sites-available/microweber.conf"
+  if [ ! -f "$vhost_file" ]; then
+    $SUDO tee "$vhost_file" > /dev/null <<VHOST
+<VirtualHost *:80>
+    DocumentRoot ${ROOT_DIR}/public
+    <Directory ${ROOT_DIR}/public>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+    ErrorLog \${APACHE_LOG_DIR}/microweber_error.log
+    CustomLog \${APACHE_LOG_DIR}/microweber_access.log combined
+</VirtualHost>
+VHOST
+    $SUDO a2ensite microweber 2>/dev/null || true
+    ok "VirtualHost written and enabled: ${vhost_file}"
+  else
+    ok "VirtualHost already present: ${vhost_file}"
+  fi
 
   # Enable the distro-supplied PHP-FPM Apache configuration.
   local fpm_conf="php${PHP_VERSION}-fpm"
@@ -897,9 +919,13 @@ install_apache_fpm() {
   fi
 
   # Start / restart services.
-  if command -v service >/dev/null 2>&1; then
-    $SUDO service "php${PHP_VERSION}-fpm" start  2>/dev/null || true
-    $SUDO service apache2 restart 2>/dev/null    || true
+  if command -v systemctl >/dev/null 2>&1; then
+    $SUDO systemctl enable apache2 2>/dev/null || true
+    $SUDO systemctl restart "php${PHP_VERSION}-fpm" 2>/dev/null || true
+    $SUDO systemctl restart apache2 2>/dev/null || true
+  elif command -v service >/dev/null 2>&1; then
+    $SUDO service "php${PHP_VERSION}-fpm" restart 2>/dev/null || true
+    $SUDO service apache2 restart 2>/dev/null || true
   fi
 
   ok "Apache2 + PHP-FPM ready"
@@ -924,6 +950,7 @@ install_apache_fcgi() {
   # Enable mod_fcgid, mod_cgid (fallback CGI), plus Laravel's required modules.
   $SUDO a2enmod fcgid cgid rewrite headers 2>/dev/null \
     || warn "Some Apache modules may already be enabled or failed."
+  ok "Apache modules enabled: fcgid cgid rewrite headers"
 
   # Disable mod_php if present — it conflicts with FastCGI execution.
   if apache2ctl -M 2>/dev/null | grep -q 'php'; then
@@ -932,7 +959,10 @@ install_apache_fcgi() {
   fi
 
   # Start / restart Apache.
-  if command -v service >/dev/null 2>&1; then
+  if command -v systemctl >/dev/null 2>&1; then
+    $SUDO systemctl enable apache2 2>/dev/null || true
+    $SUDO systemctl restart apache2 2>/dev/null || true
+  elif command -v service >/dev/null 2>&1; then
     $SUDO service apache2 restart 2>/dev/null || true
   fi
 
@@ -1175,6 +1205,9 @@ else
   install_php_deps
   install_global_laravel_installer
 fi
+
+# Always ensure .env exists and APP_ENV=testing is set before any artisan call.
+ensure_env || true
 
 if [ "$SKIP_NODE" -eq 1 ]; then
   warn "Skipping Node packages (--skip-node)"

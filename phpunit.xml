@@ -182,6 +182,10 @@
             <directory>packages/microweber-cdn-sync/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberDbExport">
+            <directory>packages/microweber-db-export/tests</directory>
+        </testsuite>
+
         <testsuite name="MicroweberDatabase">
             <directory>packages/microweber-database/src/tests</directory>
         </testsuite>

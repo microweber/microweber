@@ -5,6 +5,7 @@ namespace Modules\Backup;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use MicroweberPackages\DbExport\Facades\DbExport;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Backup\Formats\JsonBackup;
 use Modules\Backup\Formats\ZipBatchBackup;
@@ -402,50 +403,21 @@ class Backup
 
     private function _getTableContent($table, $ids = array())
     {
-        $exportFilter = array();
-        $exportFilter['no_limit'] = 1;
-        $exportFilter['do_not_replace_site_url'] = 1;
-
-        if (!empty($ids)) {
-            $exportFilter['ids'] = implode(',', $ids);
-        }
-
         $tableExists = app()->database_manager->table_exists($table);
         if (!$tableExists) {
             return;
         }
 
-        $dbGetQuery = DB::table($table)
-            ->select('*');
-        if ($table == 'media') {
-            $dbGetQuery->where('media_type', '!=', 'media_tn_temp');
-//            $exportFilter['media_type_without_media_tn_temp'] = function ($query_filter) {
-//                $query_filter->where('media_type', '!=', 'media_tn_temp');
-//
-//                return $query_filter;
-//            };
+        // Use the DbExport package for chunked, memory-friendly reads
+        $tableContent = DbExport::getTableContent($table);
 
-        }
-        //   $dbGet = db_get($table, $exportFilter);
-
-        $tableContent = [];
-
-        $col_exist = Schema::hasColumn($table, 'id');
-        if ($col_exist) {
-            $dbGetQuery->orderBy('id')->chunk(1000, function ($chunkData) use (&$tableContent) {
-                foreach ($chunkData as $item) {
-                    $tableContent[] = (array)$item;
-                }
-            });
-        } else {
-            $chunkData = $dbGetQuery->get();
-            foreach ($chunkData as $item) {
-                $tableContent[] = (array)$item;
-            }
+        // Filter by IDs when a subset is requested
+        if (!empty($ids) && !empty($tableContent)) {
+            $tableContent = array_values(array_filter($tableContent, function ($row) use ($ids) {
+                return isset($row['id']) && in_array($row['id'], $ids);
+            }));
         }
 
-
-        //  $dbGet = $dbGetQuery->toArray();
         return $tableContent;
     }
 

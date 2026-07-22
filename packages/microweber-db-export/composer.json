@@ -1,0 +1,48 @@
+{
+    "name": "microweber-packages/db-export",
+    "description": "Database export, import, and cross-connection migration for Laravel. Supports SQLite, MySQL, and PostgreSQL with chunked transfers, auto-increment preservation, index detection, and JSON streaming.",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\DbExport\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\DbExport\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/database": "^10.0|^11.0|^12.0",
+        "illuminate/console": "^10.0|^11.0|^12.0",
+        "halaxa/json-machine": "^1.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.9",
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "homepage": "http://microweber.com",
+    "support": {
+        "email": "support@microweber.com"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=512M"
+    }
+}

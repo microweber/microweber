@@ -149,6 +149,7 @@
         "microweber-packages/format": "^1.0",
         "microweber-packages/db-migrator": "^1.0",
         "microweber-packages/db-installer": "^1.0",
+        "microweber-packages/db-export": "^1.0",
         "microweber-packages/event-manager": "^1.0",
         "microweber-packages/translation": "^1.0",
         "microweber-packages/http": "^1.0",
@@ -194,6 +195,7 @@
             "MicroweberPackages\\Repository\\": "packages/microweber-repository/src/",
             "MicroweberPackages\\DbMigrator\\": "packages/microweber-db-migrator/src/",
             "MicroweberPackages\\DbInstaller\\": "packages/microweber-db-installer/src/",
+            "MicroweberPackages\\DbExport\\": "packages/microweber-db-export/src/",
             "MicroweberPackages\\Database\\": "packages/microweber-database/src/",
             "MicroweberPackages\\Searchable\\": "packages/microweber-searchable/src/",
             "MicroweberPackages\\Security\\": "packages/microweber-security/src/",
@@ -256,6 +258,7 @@
             "MicroweberPackages\\ContentField\\Tests\\": "packages/microweber-content-field/tests/",
             "MicroweberPackages\\SystemLicenses\\Tests\\": "packages/microweber-system-licenses/tests/",
             "MicroweberPackages\\CdnSync\\Tests\\": "packages/microweber-cdn-sync/tests/",
+            "MicroweberPackages\\DbExport\\Tests\\": "packages/microweber-db-export/tests/",
             "MicroweberPackages\\Dusk\\": "packages/microweber-dusk/src/",
             "MicroweberPackages\\Dusk\\Tests\\": "packages/microweber-dusk/tests/"
         }
@@ -578,6 +581,14 @@
         {
             "type": "path",
             "url": "packages/microweber-db-installer",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-db-export",
             "options": {
                 "reference": "config",
                 "symlink": true

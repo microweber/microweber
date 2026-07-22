@@ -72,9 +72,10 @@ class CoreServiceProvider extends ServiceProvider
         \MicroweberPackages\Searchable\SearchableServiceProvider::class,
         \MicroweberPackages\Url\Providers\UrlServiceProvider::class,
 
-        // ── Layer 3: Database migrations / install ──
+        // ── Layer 3: Database migrations / install / export ──
         \MicroweberPackages\DbMigrator\DbMigratorServiceProvider::class,
         \MicroweberPackages\DbInstaller\DbInstallerServiceProvider::class,
+        \MicroweberPackages\DbExport\DbExportServiceProvider::class,
 
         // ── Layer 4: Event system, translation ──
         \MicroweberPackages\Event\EventManagerServiceProvider::class,
