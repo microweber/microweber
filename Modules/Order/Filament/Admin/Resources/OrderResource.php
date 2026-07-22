@@ -891,9 +891,22 @@ return parent::getEloquentQuery()
      *
      * @return array
      */
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
-        return ['order_reference_id', 'id', 'amount', 'customer.email', 'customer.name'];
+        return [
+            'order_reference_id',
+            'email',
+            'first_name',
+            'last_name',
+            'phone',
+            'city',
+            'address',
+            'promo_code',
+        ];
     }
 
     /**

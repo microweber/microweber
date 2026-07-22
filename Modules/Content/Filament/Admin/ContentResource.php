@@ -2260,9 +2260,51 @@ return $get('id');
         ];
     }
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['title', 'description', 'content_body', 'url'];
+    }
+
+    /**
+     * Extend global search to also look in the content_fields table.
+     * This catches text edited in live-edit nested layouts (stored
+     * separately from content_body) and multilanguage translations.
+     */
+    public static function modifyGlobalSearchQuery(\Illuminate\Database\Eloquent\Builder $query, string $search): void
+    {
+        $searchLower = mb_strtolower($search);
+
+        $query->orWhere(function ($q) use ($searchLower) {
+            // Search in content_fields (live-edit body text in nested layouts)
+            $q->whereExists(function ($sub) use ($searchLower) {
+                $sub->select(\Illuminate\Support\Facades\DB::raw(1))
+                    ->from('content_fields')
+                    ->whereColumn('content_fields.rel_id', 'content.id')
+                    ->where('content_fields.rel_type', 'content')
+                    ->whereRaw('LOWER(content_fields.value) LIKE ?', ["%{$searchLower}%"]);
+            });
+        });
+
+        // Also search in multilanguage translations if the table exists
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('multilanguage_translations')) {
+                $query->orWhere(function ($q) use ($searchLower) {
+                    $q->whereExists(function ($sub) use ($searchLower) {
+                        $sub->select(\Illuminate\Support\Facades\DB::raw(1))
+                            ->from('multilanguage_translations')
+                            ->whereColumn('multilanguage_translations.rel_id', 'content.id')
+                            ->where('multilanguage_translations.rel_type', 'content')
+                            ->whereRaw('LOWER(multilanguage_translations.field_value) LIKE ?', ["%{$searchLower}%"]);
+                    });
+                });
+            }
+        } catch (\Throwable $e) {
+            // Table may not exist on fresh installs
+        }
     }
 
     public static function getGlobalSearchResultTitle(Model $record): string

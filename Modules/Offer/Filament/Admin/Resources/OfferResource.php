@@ -30,6 +30,10 @@ class OfferResource extends Resource
 
     protected static string $description = 'Configure your shop offers settings';
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['offer_price', 'product.title'];

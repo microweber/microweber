@@ -22,6 +22,8 @@ use MicroweberPackages\FilamentRegistry\FilamentRegistryManager;
  * @method static array getPlugins(?string $scope = null, string $panelId = 'admin')
  * @method static array registerCluster(string $cluster, ?string $scope = null, string $panelId = 'admin')
  * @method static array getClusters(?string $scope = null, string $panelId = 'admin')
+ * @method static void registerGlobalSearchEntry(string $title, string $url, array $keywords = [], string $group = 'Settings', array $details = [], ?string $icon = null)
+ * @method static array getGlobalSearchEntries()
  * @method static static flush()
  * @method static array all(?string $scope = null, string $panelId = 'admin')
  *

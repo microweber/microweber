@@ -21,6 +21,10 @@ class ShippingProviderResource extends Resource
     protected static string | null $navigationLabel = 'Shipping Providers';
     protected static ?int $navigationSort = 15;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'provider'];

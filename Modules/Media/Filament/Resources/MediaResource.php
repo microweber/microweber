@@ -27,6 +27,10 @@ class MediaResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['title', 'filename', 'description'];

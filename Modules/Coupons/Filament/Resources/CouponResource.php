@@ -41,6 +41,10 @@ class CouponResource extends Resource
 
     protected static string $description = 'Configure your shop coupons settings';
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['coupon_name', 'coupon_code', 'description'];

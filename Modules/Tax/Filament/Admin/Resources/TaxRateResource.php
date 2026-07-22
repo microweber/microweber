@@ -36,6 +36,10 @@ class TaxRateResource extends Resource
     protected static ?string $navigationLabel = 'Tax Rates';
     protected static ?int $navigationSort = 8;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'description', 'country_code'];

@@ -67,6 +67,7 @@ class GlobalSearchTest extends FilamentResourceTestCase
             'CategoryResource' => [\Modules\Category\Filament\Admin\Resources\CategoryResource::class, 'title'],
             'OrderResource' => [\Modules\Order\Filament\Admin\Resources\OrderResource::class, 'order_reference_id'],
             'CommentResource' => [\Modules\Comments\Filament\Resources\CommentResource::class, 'comment_subject'],
+            'FormEntryResource' => [\Modules\Form\Filament\Resources\FormEntryResource::class, 'id'],
             'UsersResource' => [\MicroweberPackages\User\Filament\Resources\UsersResource::class, 'username'],
             'RoleResource' => [\MicroweberPackages\Role\Filament\Resources\RoleResource::class, 'name'],
             'PermissionResource' => [\MicroweberPackages\Role\Filament\Resources\PermissionResource::class, 'name'],

@@ -361,6 +361,10 @@ Forms\Components\Select::make('company_id')
      *
      * @return array
      */
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'first_name', 'last_name', 'email', 'phone', 'company.name'];

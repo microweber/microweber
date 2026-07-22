@@ -38,6 +38,10 @@ class TranslationResource extends Resource
 
     protected static string | null $navigationLabel = 'Translations';
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return [];

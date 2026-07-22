@@ -28,6 +28,10 @@ class TaxResource extends Resource
     protected static ?string $modelLabel = 'Tax';
     protected static ?int $navigationSort = 7;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'description'];

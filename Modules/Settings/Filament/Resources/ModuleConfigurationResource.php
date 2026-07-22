@@ -31,6 +31,10 @@ class ModuleConfigurationResource extends Resource
     protected static ?string $slug = 'module-configuration';
     public static string $description = 'Manage module settings and configurations';
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'module', 'type'];

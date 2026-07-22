@@ -41,6 +41,10 @@ class ProductPricingRuleResource extends Resource
         return ProductPricingRule::class;
     }
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'slug', 'description'];

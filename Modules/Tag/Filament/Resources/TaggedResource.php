@@ -31,6 +31,10 @@ class TaggedResource extends Resource
     protected static ?string $pluralLabel = 'Tagged Content';
     protected static bool $shouldRegisterNavigation = false;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['tag_name', 'tag_slug'];

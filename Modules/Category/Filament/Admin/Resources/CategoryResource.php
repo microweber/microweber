@@ -438,6 +438,10 @@ class CategoryResource extends Resource
         ];
     }
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['title', 'description', 'url', 'category_meta_title', 'category_meta_description'];

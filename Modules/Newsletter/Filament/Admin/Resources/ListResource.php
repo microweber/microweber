@@ -45,6 +45,10 @@ class ListResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'description'];

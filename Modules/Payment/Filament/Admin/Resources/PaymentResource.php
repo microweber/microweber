@@ -28,9 +28,13 @@ class PaymentResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?int $navigationSort = 4;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
-        return ['transaction_id', 'amount', 'payment_provider'];
+        return ['transaction_id', 'amount', 'currency', 'status'];
     }
 
     public static function getGlobalSearchResultTitle(Model $record): string

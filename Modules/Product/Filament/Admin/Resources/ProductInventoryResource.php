@@ -51,6 +51,10 @@ class ProductInventoryResource extends Resource
 
     protected static ?string $navigationLabel = 'Inventory';
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['notes', 'type', 'product.title'];

@@ -13,6 +13,7 @@ use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use MicroweberPackages\CdnSync\Filament\CdnSyncPlugin;
+use MicroweberPackages\Filament\GlobalSearch\MicroweberGlobalSearchProvider;
 use MicroweberPackages\Fortify\Filament\MicroweberFortifyPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -37,6 +38,9 @@ class AdminPanelProvider extends PanelProvider
                 'gray' => Color::Slate,
             ])
             ->font('Inter')
+            ->globalSearch(MicroweberGlobalSearchProvider::class)
+            ->globalSearchDebounce('300ms')
+            ->globalSearchKeyBindings(['super+k', 'ctrl+k'])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\Filament\Admin\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\Filament\Admin\Pages')

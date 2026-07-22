@@ -37,6 +37,10 @@ class SenderAccountsResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'from_name', 'from_email', 'account_type'];

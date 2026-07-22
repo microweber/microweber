@@ -29,6 +29,11 @@
       <exclude>tests/Feature/Filament/AuthorizationTest.php</exclude>
     </testsuite>
 
+    <testsuite name="GlobalSearch">
+      <directory>tests/Feature/Filament/GlobalSearch</directory>
+      <directory>tests/Feature/Filament/Resources</directory>
+    </testsuite>
+
         <testsuite name="Core">
             <exclude>src/MicroweberPackages/*/Tests/Browser</exclude>
             <exclude>src/MicroweberPackages/*/tests/Browser</exclude>

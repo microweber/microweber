@@ -22,6 +22,10 @@ class CurrencyResource extends Resource
 
     protected static ?int $navigationSort = 10;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'code', 'symbol'];

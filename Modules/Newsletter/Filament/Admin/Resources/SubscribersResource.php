@@ -44,6 +44,10 @@ class SubscribersResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['email', 'name'];

@@ -107,8 +107,56 @@ class FormEntryResource extends Resource
         ];
     }
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
-        return [];
+        // We use a virtual attribute; the actual search is done in modifyGlobalSearchQuery
+        return ['id'];
+    }
+
+    public static function modifyGlobalSearchQuery(\Illuminate\Database\Eloquent\Builder $query, string $search): void
+    {
+        // Override the base constraint entirely — form entries don't have
+        // a meaningful title column, so we search inside the related
+        // forms_data_values table for matching field values.
+        $query->orWhereHas('formDataValues', function ($sub) use ($search) {
+            $sub->whereRaw('LOWER(field_value) LIKE ?', ['%' . mb_strtolower($search) . '%']);
+        });
+    }
+
+    public static function getGlobalSearchResultTitle(\Illuminate\Database\Eloquent\Model $record): string
+    {
+        $name = $record->getFullName();
+        $email = $record->getEmail();
+        if ($name && $name !== 'No name') {
+            return $name;
+        }
+        if ($email && $email !== 'No email') {
+            return 'Form submission from ' . $email;
+        }
+        return 'Form submission #' . $record->id;
+    }
+
+    public static function getGlobalSearchResultDetails(\Illuminate\Database\Eloquent\Model $record): array
+    {
+        $details = [];
+        $email = $record->getEmail();
+        if ($email && $email !== 'No email') {
+            $details['Email'] = $email;
+        }
+        $subject = $record->getSubject();
+        if ($subject && $subject !== 'No subject') {
+            $details['Subject'] = \Illuminate\Support\Str::limit($subject, 60);
+        }
+        $details['Date'] = $record->created_at?->format('Y-m-d H:i') ?? '';
+        return $details;
+    }
+
+    public static function getGlobalSearchResultUrl(\Illuminate\Database\Eloquent\Model $record): ?string
+    {
+        return static::getUrl('index');
     }
 }

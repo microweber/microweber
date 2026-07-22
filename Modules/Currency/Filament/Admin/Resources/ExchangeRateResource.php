@@ -24,6 +24,10 @@ class ExchangeRateResource extends Resource
 
     protected static ?int $navigationSort = 11;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['from_currency', 'to_currency', 'source'];

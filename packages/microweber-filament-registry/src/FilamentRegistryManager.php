@@ -34,6 +34,12 @@ class FilamentRegistryManager
     public array $filamentPluginRegistry = [];
     public array $filamentClusterRegistry = [];
 
+    /**
+     * Global-search entries registered by modules (settings pages, deep links, etc.).
+     * Each entry: ['title' => …, 'url' => …, 'keywords' => [...], 'group' => …, 'details' => [...]]
+     */
+    public array $globalSearchEntries = [];
+
     // ── Configuration ───────────────────────────────────────────────
 
     /**
@@ -220,6 +226,47 @@ class FilamentRegistryManager
         return [];
     }
 
+    // ── Global Search ────────────────────────────────────────────────
+
+    /**
+     * Register a static entry (settings page, admin page, deep-link)
+     * that should appear in Filament's global search when keywords match.
+     *
+     * @param string       $title    Human-readable title shown in search results
+     * @param string       $url      Absolute or relative admin URL
+     * @param array        $keywords Lowercase keyword phrases for matching
+     * @param string       $group    Category heading in the search results dropdown
+     * @param array        $details  Key-value detail pairs shown under the title
+     * @param string|null  $icon     Optional Heroicon name
+     */
+    public function registerGlobalSearchEntry(
+        string $title,
+        string $url,
+        array  $keywords = [],
+        string $group = 'Settings',
+        array  $details = [],
+        ?string $icon = null,
+    ): void {
+        $this->globalSearchEntries[] = [
+            'title'    => $title,
+            'url'      => $url,
+            'keywords' => array_map('mb_strtolower', $keywords),
+            'group'    => $group,
+            'details'  => $details,
+            'icon'     => $icon,
+        ];
+    }
+
+    /**
+     * Retrieve all registered global-search entries.
+     *
+     * @return array<int, array{title: string, url: string, keywords: list<string>, group: string, details: array, icon: string|null}>
+     */
+    public function getGlobalSearchEntries(): array
+    {
+        return $this->globalSearchEntries;
+    }
+
     // ── Utility ──────────────────────────────────────────────────────
 
     /**
@@ -232,6 +279,7 @@ class FilamentRegistryManager
         $this->filamentWidgetRegistry = [];
         $this->filamentPluginRegistry = [];
         $this->filamentClusterRegistry = [];
+        $this->globalSearchEntries = [];
         return $this;
     }
 

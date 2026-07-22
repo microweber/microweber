@@ -29,6 +29,10 @@ class TagResource extends Resource
     protected static ?int $navigationSort = 90;
     protected static bool $shouldRegisterNavigation = false;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'slug'];

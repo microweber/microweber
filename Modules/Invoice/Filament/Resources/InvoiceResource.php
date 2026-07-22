@@ -43,6 +43,10 @@ class InvoiceResource extends Resource
         return static::$description;
     }
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['invoice_number', 'reference_number', 'customer.first_name', 'customer.last_name', 'customer.email'];

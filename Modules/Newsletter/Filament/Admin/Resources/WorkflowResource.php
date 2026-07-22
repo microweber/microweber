@@ -34,6 +34,10 @@ class WorkflowResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Campaigns';
     protected static ?int $navigationSort = 3;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'description', 'trigger_type'];

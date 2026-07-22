@@ -69,6 +69,10 @@ class CampaignResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Campaigns';
     protected static ?int $navigationSort = 2;
 
+    protected static bool $isGloballySearchable = true;
+
+    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'subject', 'from_name', 'from_email'];

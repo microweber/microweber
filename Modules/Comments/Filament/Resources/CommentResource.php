@@ -21,6 +21,8 @@ protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-
 protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 protected static string $description = 'Manage and moderate user comments';
 protected static ?string $recordTitleAttribute = 'comment_subject';
+protected static bool $isGloballySearchable = true;
+protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
 
 public static function getDescription(): string
 {
