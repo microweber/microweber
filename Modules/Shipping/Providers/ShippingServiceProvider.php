@@ -56,6 +56,13 @@ class ShippingServiceProvider extends BaseModuleServiceProvider
 
         FilamentRegistry::registerResource(ShippingProviderResource::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Shipping Provider Settings', '/admin/shipping-providers',
+            ['shipping', 'shipping provider', 'shipping method', 'delivery',
+             'shipping options', 'shipping settings', 'shipping rate',
+             'free shipping', 'flat rate', 'pickup', 'shipping zone'],
+            'Shop Settings', ['Section' => 'Shop Settings'],
+        );
     }
 
 }

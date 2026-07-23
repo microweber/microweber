@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Payment\Models\Payment;
 use Modules\Payment\Models\PaymentProvider;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class PaymentResource extends Resource
 {
     protected static ?string $model = Payment::class;
@@ -27,10 +28,7 @@ class PaymentResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?int $navigationSort = 4;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

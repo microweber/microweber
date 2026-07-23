@@ -43,8 +43,13 @@ class InvoiceServiceProvider extends BaseModuleServiceProvider
 
         FilamentRegistry::registerResource(InvoiceResource::class);
 
-
         FilamentRegistry::registerPage(AdminShopInvoicesPage::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Invoice Settings', '/admin/settings/invoices',
+            ['invoice', 'invoices', 'invoice settings', 'billing',
+             'invoice template', 'invoice number'],
+            'Shop Settings', ['Section' => 'Shop Settings'],
+        );
     }
 }

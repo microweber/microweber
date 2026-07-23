@@ -29,6 +29,7 @@ use Modules\Product\Models\Product;
 use Squire\Models\Country;
 use Squire\Models\Currency;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
@@ -891,9 +892,7 @@ return parent::getEloquentQuery()
      *
      * @return array
      */
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

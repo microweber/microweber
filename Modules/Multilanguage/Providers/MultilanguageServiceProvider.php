@@ -38,6 +38,13 @@ class MultilanguageServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(MultilanguageSettingsAdmin::class);
         FilamentRegistry::registerPage(MultilanguageSettingsAdmin::class, Settings::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Multilanguage Settings', '/admin/settings/multilanguage',
+            ['multilanguage', 'multi language', 'language', 'translation',
+             'locale', 'multilingual', 'i18n'],
+            'Settings', ['Section' => 'Website Settings'],
+        );
+
         // Register Microweber module
         Microweber::module(MultilanguageModule::class);
         Livewire::component('modules.multilanguage::languages-table', LanguagesTable::class);

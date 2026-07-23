@@ -14,6 +14,7 @@ use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use Modules\Payment\Models\PaymentProvider;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class PaymentProviderResource extends Resource
 {
     protected static ?string $model = PaymentProvider::class;
@@ -25,10 +26,7 @@ class PaymentProviderResource extends Resource
     protected static ?int $navigationSort = 14;
 
     protected static bool $shouldRegisterNavigation = false;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

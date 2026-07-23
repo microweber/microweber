@@ -68,6 +68,13 @@ class CustomFieldsServiceProvider extends BaseModuleServiceProvider
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(CustomFieldsModuleSettings::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Custom Fields', '/admin/settings/custom-fields',
+            ['custom fields', 'custom field', 'field', 'fields',
+             'form fields', 'extra fields', 'meta fields'],
+            'Admin Pages', ['Section' => 'Website'],
+        );
+
         // Register Microweber module
         Microweber::module(\Modules\CustomFields\Microweber\CustomFieldsModule::class);
 

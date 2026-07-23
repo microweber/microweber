@@ -81,6 +81,13 @@ class WhiteLabelServiceProvider extends BaseModuleServiceProvider
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(WhiteLabelSettingsAdminSettingsPage::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'White Label / Branding Settings', '/admin/settings/white-label',
+            ['white label', 'branding', 'brand name', 'powered by',
+             'rebrand', 'custom branding', 'logo branding'],
+            'Settings', ['Section' => 'Customization Settings'],
+        );
+
         // Register Microweber module
         Microweber::module(WhiteLabelModule::class);
 

@@ -76,6 +76,13 @@ class BackupServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerResource(BackupScheduleResource::class);
         FilamentRegistry::registerResource(BackupHistoryResource::class);
         FilamentRegistry::registerPage(RestoreAdminPage::class);
+
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Backup & Restore', '/admin/backups',
+            ['backup', 'restore', 'backups', 'database backup',
+             'site backup', 'export', 'import', 'data backup'],
+            'Admin Pages', ['Section' => 'System'],
+        );
     }
 
     /**

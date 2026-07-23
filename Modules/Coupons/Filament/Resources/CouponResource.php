@@ -30,6 +30,7 @@ use Modules\Coupons\Models\Coupon;
 use Modules\Coupons\Services\CouponService;
 use MicroweberPackages\Filament\Support\AdminFixtureGuard;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class CouponResource extends Resource
 {
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-ticket';
@@ -40,10 +41,7 @@ class CouponResource extends Resource
     protected static ?int $navigationSort = 12;
 
     protected static string $description = 'Configure your shop coupons settings';
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

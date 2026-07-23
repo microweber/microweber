@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Livewire\Livewire;
 use MicroweberPackages\FilamentRegistry\FilamentRegistryManager;
-use MicroweberPackages\Filament\GlobalSearch\MicroweberGlobalSearchProvider;
-use MicroweberPackages\Filament\GlobalSearch\GlobalSearchRegistrar;
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGlobalSearchProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Tests\TestCase;
@@ -347,8 +346,6 @@ class GlobalSearchIntegrationTest extends TestCase
     {
         // Ensure the registrar has run
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('meta tags');
         $categories = $this->categoryNames($results);
@@ -364,8 +361,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function payment_options_setting_is_discoverable(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('payment options');
         $titles  = $this->resultTitles($results);
@@ -377,8 +372,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function shipping_setting_is_discoverable(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('shipping');
         $titles  = $this->resultTitles($results);
@@ -390,8 +383,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function coupon_setting_is_discoverable(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('coupons');
         $titles  = $this->resultTitles($results);
@@ -410,8 +401,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function google_analytics_setting_is_discoverable(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('google analytics');
         $titles  = $this->resultTitles($results);
@@ -423,8 +412,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function seo_setting_is_discoverable(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('seo');
         $titles  = $this->resultTitles($results);
@@ -443,8 +430,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function email_setting_is_discoverable(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('smtp');
         $titles  = $this->resultTitles($results);
@@ -456,8 +441,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function privacy_policy_setting_is_discoverable(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('gdpr');
         $titles  = $this->resultTitles($results);
@@ -469,8 +452,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function maintenance_mode_setting_is_discoverable(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('maintenance');
         $titles  = $this->resultTitles($results);
@@ -482,8 +463,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function template_setting_is_discoverable(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('template');
         $titles  = $this->resultTitles($results);
@@ -495,8 +474,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function backup_page_is_discoverable(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('backup');
         $titles  = $this->resultTitles($results);
@@ -508,8 +485,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function newsletter_page_is_discoverable(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('newsletter');
         $titles  = $this->resultTitles($results);
@@ -677,8 +652,6 @@ class GlobalSearchIntegrationTest extends TestCase
     {
         // Ensure registrar has populated entries
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         // Test the provider directly since Livewire::test()->set() can
         // run into panel-rendering issues in test environments.
@@ -708,8 +681,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function settings_search_works_with_multi_word_queries(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         // "payment settings" should match entries that have both words
         $results = $this->search('payment settings');
@@ -722,8 +693,6 @@ class GlobalSearchIntegrationTest extends TestCase
     public function settings_search_with_partial_keyword(): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $registrar = new GlobalSearchRegistrar($registry);
-        $registrar->register();
 
         $results = $this->search('ship');
         $titles  = $this->resultTitles($results);

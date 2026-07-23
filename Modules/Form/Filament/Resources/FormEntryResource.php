@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Form\Models\FormData;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class FormEntryResource extends Resource
 {
     protected static ?string $model = FormData::class;
@@ -106,10 +107,7 @@ class FormEntryResource extends Resource
             'index' => \Modules\Form\Filament\Resources\FormEntryResource\Pages\ListFormEntries::route('/'),
         ];
     }
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

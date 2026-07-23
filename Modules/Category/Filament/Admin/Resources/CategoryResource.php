@@ -21,6 +21,7 @@ use Filament\Schemas\Components\Group;
 use Modules\Category\Models\Category;
 use Modules\Content\Models\Content;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class CategoryResource extends Resource
 {
     use TranslatableResource;
@@ -437,10 +438,7 @@ class CategoryResource extends Resource
             'edit' => \Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\EditCategory::route('/{record}/edit'),
         ];
     }
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

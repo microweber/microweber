@@ -27,6 +27,7 @@ use Modules\Product\Filament\Admin\Resources\ProductInventoryResource\Pages;
 use Modules\Product\Models\ProductInventoryMovement;
 use Modules\Product\Services\InventoryService;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class ProductInventoryResource extends Resource
 {
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cube';
@@ -50,10 +51,7 @@ class ProductInventoryResource extends Resource
     protected static ?string $pluralLabel = 'Inventory';
 
     protected static ?string $navigationLabel = 'Inventory';
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

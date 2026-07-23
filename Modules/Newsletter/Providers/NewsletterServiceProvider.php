@@ -76,6 +76,52 @@ class NewsletterServiceProvider extends BaseModuleServiceProvider
         // Register filament page for Microweber module settings
          FilamentRegistry::registerPage(NewsletterModuleSettings::class);
 
+        // Global search entries for the main admin panel (link to newsletter)
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Newsletter', '/admin/newsletter',
+            ['newsletter', 'email campaign', 'mailing list', 'subscribers',
+             'email marketing', 'campaign', 'bulk email'],
+            'Admin Pages', ['Section' => 'Marketing'],
+            panelId: 'admin',
+        );
+
+        // Global search entries for the newsletter's own panel
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Campaigns', '/admin/newsletter/campaigns',
+            ['campaign', 'campaigns', 'email campaign', 'send campaign',
+             'newsletter campaign', 'bulk email'],
+            'Newsletter', ['Section' => 'Newsletter'],
+            panelId: 'admin-newsletter',
+        );
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Subscribers', '/admin/newsletter/subscribers',
+            ['subscriber', 'subscribers', 'email list', 'mailing list',
+             'contacts', 'newsletter subscriber'],
+            'Newsletter', ['Section' => 'Newsletter'],
+            panelId: 'admin-newsletter',
+        );
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Templates', '/admin/newsletter/templates',
+            ['template', 'templates', 'email template', 'newsletter template',
+             'email design'],
+            'Newsletter', ['Section' => 'Newsletter'],
+            panelId: 'admin-newsletter',
+        );
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Sender Accounts', '/admin/newsletter/sender-accounts',
+            ['sender', 'sender account', 'from email', 'from name',
+             'email account', 'smtp'],
+            'Newsletter', ['Section' => 'Newsletter'],
+            panelId: 'admin-newsletter',
+        );
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Subscriber Lists', '/admin/newsletter/lists',
+            ['list', 'lists', 'subscriber list', 'mailing list',
+             'email list', 'group'],
+            'Newsletter', ['Section' => 'Newsletter'],
+            panelId: 'admin-newsletter',
+        );
+
         // Register Microweber module
         Microweber::module(\Modules\Newsletter\Microweber\NewsletterModule::class);
         $this->commands(ProcessCampaigns::class);

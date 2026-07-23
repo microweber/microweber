@@ -44,6 +44,13 @@ class CurrencyServiceProvider extends BaseModuleServiceProvider
 
         FilamentRegistry::registerResource(CurrencyResource::class);
         FilamentRegistry::registerResource(ExchangeRateResource::class);
+
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Currency Settings', '/admin/currencies',
+            ['currency', 'exchange rate', 'currency conversion',
+             'multi currency', 'currency settings'],
+            'Shop Settings', ['Section' => 'Shop Settings'],
+        );
     }
 
     /**

@@ -42,6 +42,13 @@ class FaqServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerResource(FaqModuleResource::class);
         FilamentRegistry::registerResource(FaqModuleResource::class,Settings::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'FAQ Management', '/admin/faqs',
+            ['faq', 'frequently asked questions', 'questions', 'answers',
+             'help', 'knowledge base', 'q&a'],
+            'Admin Pages', ['Section' => 'Website'],
+        );
+
         // Register Microweber module
         Microweber::module(FaqModule::class);
     }

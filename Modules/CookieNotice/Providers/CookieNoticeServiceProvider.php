@@ -35,6 +35,13 @@ class CookieNoticeServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(CookieNoticeModuleSettingsAdmin::class);
         FilamentRegistry::registerResource(CookieNoticeModuleSettingsAdmin::class,Settings::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Cookie Notice Settings', '/admin/settings/cookie-notice',
+            ['cookie', 'cookie notice', 'cookie consent', 'cookie banner',
+             'gdpr cookie', 'cookie popup', 'cookie policy'],
+            'Settings', ['Section' => 'Website Settings'],
+        );
+
 
         // Register Microweber module
         Microweber::module(CookieNoticeModule::class);

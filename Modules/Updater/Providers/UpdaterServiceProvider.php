@@ -33,6 +33,8 @@ class UpdaterServiceProvider extends BaseModuleServiceProvider
         // Register filament page
         FilamentRegistry::registerPage(UpdaterPage::class);
         FilamentRegistry::registerPage(UpdaterPage::class,Settings::class);
+
+        // Global search entry for Updates is registered by the Settings module.
     }
 
     /**

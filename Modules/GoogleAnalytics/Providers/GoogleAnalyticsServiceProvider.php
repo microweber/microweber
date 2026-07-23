@@ -23,6 +23,13 @@ class GoogleAnalyticsServiceProvider extends BaseModuleServiceProvider
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(AdminGoogleAnalyticsSettingsPage::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Google Analytics Settings', '/admin/settings/google-analytics',
+            ['google analytics', 'analytics', 'ga4', 'tracking',
+             'google tag', 'measurement id', 'website analytics'],
+            'Settings', ['Section' => 'Website Settings'],
+        );
+
 
         $isGoogleMeasurementEnabled = get_option('google-measurement-enabled', 'website') == 1;
         if ($isGoogleMeasurementEnabled) {

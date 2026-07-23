@@ -13,6 +13,7 @@ use Modules\Currency\Models\Currency;
 use Modules\Currency\Filament\Admin\Resources\ExchangeRateResource\Pages;
 use Modules\Currency\Services\CurrencyConversionService;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class ExchangeRateResource extends Resource
 {
     protected static ?string $model = ExchangeRate::class;
@@ -23,10 +24,7 @@ class ExchangeRateResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
 
     protected static ?int $navigationSort = 11;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

@@ -119,6 +119,13 @@ class AiServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerResource(McpClientResource::class);
         FilamentRegistry::registerPage(AiSettingsPage::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'AI Settings', '/admin/settings/ai',
+            ['ai', 'artificial intelligence', 'ai settings', 'openai',
+             'chatgpt', 'ai assistant', 'ai chat', 'machine learning'],
+            'Admin Pages', ['Section' => 'Settings'],
+        );
+
         LiveEditManager::addScript('mw-ai', asset('modules/ai/js/mw-ai.js'));
 
 

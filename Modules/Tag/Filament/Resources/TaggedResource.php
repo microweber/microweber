@@ -14,6 +14,7 @@ use Filament\Tables\Columns\TextColumn;
 use Modules\Tag\Filament\Resources\TaggedResource\Pages;
 use Modules\Tag\Models\Tag;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class TaggedResource extends Resource
 {
     protected static ?string $model = Tagged::class;
@@ -30,10 +31,7 @@ class TaggedResource extends Resource
 
     protected static ?string $pluralLabel = 'Tagged Content';
     protected static bool $shouldRegisterNavigation = false;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

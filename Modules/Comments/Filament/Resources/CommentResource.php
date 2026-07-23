@@ -14,6 +14,7 @@ use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Actions\Action;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class CommentResource extends Resource
 {
 protected static ?string $model = Comment::class;
@@ -21,9 +22,7 @@ protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-
 protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 protected static string $description = 'Manage and moderate user comments';
 protected static ?string $recordTitleAttribute = 'comment_subject';
-protected static bool $isGloballySearchable = true;
-protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
-
+    use MicroweberGloballySearchable;
 public static function getDescription(): string
 {
     return static::$description;

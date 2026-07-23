@@ -15,6 +15,7 @@ use Modules\Offer\Models\Offer;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Schemas\Components\Utilities\Get;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class OfferResource extends Resource
 {
     protected static ?string $model = Offer::class;
@@ -29,10 +30,7 @@ class OfferResource extends Resource
 
 
     protected static string $description = 'Configure your shop offers settings';
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

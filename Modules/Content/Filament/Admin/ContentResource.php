@@ -32,6 +32,7 @@ use Modules\Post\Models\Post;
 use SolutionForest\FilamentTranslateField\Facades\FilamentTranslateField;
 use MicroweberPackages\Multilanguage\Forms\Actions\TranslateFieldAction;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class ContentResource extends Resource
 {
     use TranslatableResource;
@@ -2259,10 +2260,7 @@ return $get('id');
             'edit' => \Modules\Content\Filament\Admin\ContentResource\Pages\EditContent::route('/{record}/edit'),
         ];
     }
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

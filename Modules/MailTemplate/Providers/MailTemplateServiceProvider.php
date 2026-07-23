@@ -38,6 +38,13 @@ class MailTemplateServiceProvider extends BaseModuleServiceProvider
             FilamentRegistry::registerResource(MailTemplateResource::class);
             FilamentRegistry::registerResource(MailTemplateResource::class,Settings::class);
 
+            FilamentRegistry::registerGlobalSearchEntry(
+                'Email Templates', '/admin/mail-templates',
+                ['mail template', 'email template', 'notification template',
+                 'email design', 'mail templates', 'email templates'],
+                'Admin Pages', ['Section' => 'Website Settings'],
+            );
+
             // Register the MailTemplateService as a singleton
             $this->app->singleton(MailTemplateService::class, function ($app) {
                 return new MailTemplateService();

@@ -29,6 +29,7 @@ use Modules\Newsletter\Models\NewsletterList;
 use Modules\Newsletter\Models\NewsletterSenderAccount;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class SubscribersResource extends Resource
 {
     protected static ?string $model = NewsletterSubscriber::class;
@@ -43,10 +44,7 @@ class SubscribersResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Subscribers';
 
     protected static ?int $navigationSort = 1;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

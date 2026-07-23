@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Filament\Support\AdminFixtureGuard;
 use Modules\MailTemplate\Services\MailTemplateService;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class MailTemplateResource extends Resource
 {
 
@@ -38,10 +39,7 @@ class MailTemplateResource extends Resource
     {
         return static::$description;
     }
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

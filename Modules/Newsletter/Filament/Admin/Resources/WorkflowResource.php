@@ -23,6 +23,7 @@ use Modules\Newsletter\Models\Workflow;
 use Modules\Newsletter\Models\WorkflowExecution;
 use Modules\Newsletter\Services\WorkflowEngine;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class WorkflowResource extends Resource
 {
     protected static ?string $model = Workflow::class;
@@ -33,10 +34,7 @@ class WorkflowResource extends Resource
     protected static ?string $pluralLabel = 'Automation Workflows';
     protected static string | \UnitEnum | null $navigationGroup = 'Campaigns';
     protected static ?int $navigationSort = 3;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

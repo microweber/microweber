@@ -69,6 +69,14 @@ $this->loadRoutesFrom(module_path($this->moduleName, 'routes/webhooks.php'));
         FilamentRegistry::registerResource(PaymentProviderResource::class);
         FilamentRegistry::registerResource(PaymentResource::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Payment Provider Settings', '/admin/payment-providers',
+            ['payment', 'payment provider', 'payment gateway', 'paypal', 'stripe',
+             'credit card', 'payment method', 'payment options', 'payment settings',
+             'bank transfer', 'cash on delivery', 'cod'],
+            'Shop Settings', ['Section' => 'Shop Settings'],
+        );
+
         // Microweber::module(PaymentModule::class);
     }
 }

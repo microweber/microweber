@@ -21,6 +21,9 @@ class BillingFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ->path(mw_admin_prefix_url().'/billing')
             ->default(false)
             ->login(false)
+            ->globalSearch(\MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGlobalSearchProvider::class)
+            ->globalSearchDebounce('300ms')
+            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->discoverResources(
                 in: __DIR__ . '/../Filament/Admin/Resources',
                 for: 'Modules\\Billing\\Filament\\Admin\\Resources'

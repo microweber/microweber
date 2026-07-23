@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class ShippingProviderResource extends Resource
 {
     protected static ?string $model = \Modules\Shipping\Models\ShippingProvider::class;
@@ -20,10 +21,7 @@ class ShippingProviderResource extends Resource
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-truck';
     protected static string | null $navigationLabel = 'Shipping Providers';
     protected static ?int $navigationSort = 15;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

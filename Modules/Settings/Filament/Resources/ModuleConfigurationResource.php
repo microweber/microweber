@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Cache;
 use MicroweberPackages\Module\ModuleManager;
 use Modules\Settings\Filament\Resources\ModuleConfigurationResource\Pages;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class ModuleConfigurationResource extends Resource
 {
     protected static ?string $model = \MicroweberPackages\Module\Models\Module::class;
@@ -30,10 +31,7 @@ class ModuleConfigurationResource extends Resource
     protected static ?string $pluralLabel = 'Module Configurations';
     protected static ?string $slug = 'module-configuration';
     public static string $description = 'Manage module settings and configurations';
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

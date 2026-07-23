@@ -40,6 +40,13 @@ class MediaLibraryServiceProvider extends BaseModuleServiceProvider
         // Register filament page for Microweber module settings
           FilamentRegistry::registerPage(\Modules\MediaLibrary\Filament\Admin\Pages\MediaLibrary::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Media Library', '/admin/media-library',
+            ['media', 'media library', 'images', 'files', 'uploads',
+             'file manager', 'image manager', 'documents'],
+            'Admin Pages', ['Section' => 'Website'],
+        );
+
         // Register Microweber module
         // Microweber::module(\Modules\MediaLibrary\Microweber\MediaLibraryModule::class);
 

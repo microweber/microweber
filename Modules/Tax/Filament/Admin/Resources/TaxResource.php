@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
 use Modules\Tax\Models\TaxType;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class TaxResource extends Resource
 {
     protected static ?string $model = TaxType::class;
@@ -27,10 +28,7 @@ class TaxResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?string $modelLabel = 'Tax';
     protected static ?int $navigationSort = 7;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

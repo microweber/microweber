@@ -1,6 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Filament\GlobalSearch;
+declare(strict_types=1);
+
+namespace MicroweberPackages\FilamentRegistry\GlobalSearch;
 
 use Filament\Facades\Filament;
 use Filament\GlobalSearch\GlobalSearchResult;
@@ -11,10 +13,11 @@ use MicroweberPackages\FilamentRegistry\FilamentRegistryManager;
 /**
  * Extended global search provider for Microweber.
  *
- * Adds three layers on top of Filament's default resource-based search:
- *  1. Registry-based static entries (settings pages, admin pages with keywords)
- *  2. Deep content-field search (live-edit body text stored in content_fields)
- *  3. Case-insensitive matching that works across SQLite, MySQL, and PostgreSQL
+ * On top of Filament's default resource-based search it adds a second layer of
+ * statically registered registry entries (settings pages, admin deep-links)
+ * that modules register via FilamentRegistry::registerGlobalSearchEntry().
+ * Registry entries are scoped to the current panel, and matching is
+ * case-insensitive (works across SQLite, MySQL and PostgreSQL).
  */
 class MicroweberGlobalSearchProvider implements GlobalSearchProvider
 {
@@ -62,20 +65,20 @@ class MicroweberGlobalSearchProvider implements GlobalSearchProvider
     }
 
     /**
-     * Match the search query against statically registered entries
-     * (settings pages, admin pages, module configurations).
+     * Match the search query against statically registered entries for the
+     * current panel (settings pages, admin pages, module configurations).
      */
     protected function addRegistryEntries(GlobalSearchResults $builder, string $search): void
     {
         $registry = app(FilamentRegistryManager::class);
-        $entries = $registry->getGlobalSearchEntries();
+        $entries = $registry->getGlobalSearchEntries($this->currentPanelId());
 
         if (empty($entries)) {
             return;
         }
 
         $searchLower = mb_strtolower($search);
-        $searchWords = array_filter(preg_split('/\s+/', $searchLower));
+        $searchWords = array_filter((array) preg_split('/\s+/', $searchLower));
 
         $grouped = [];
 
@@ -99,11 +102,14 @@ class MicroweberGlobalSearchProvider implements GlobalSearchProvider
      * Check if a registry entry matches the search query.
      * Uses word-level matching: every search word must appear
      * in either the title, keywords, or detail values.
+     *
+     * @param  array<string, mixed> $entry
+     * @param  list<string>         $searchWords
      */
     protected function entryMatches(array $entry, string $searchLower, array $searchWords): bool
     {
         // Build the haystack from title + keywords + detail values
-        $haystack = mb_strtolower($entry['title']);
+        $haystack = mb_strtolower((string) $entry['title']);
 
         foreach ($entry['keywords'] as $keyword) {
             $haystack .= ' ' . $keyword;
@@ -121,5 +127,17 @@ class MicroweberGlobalSearchProvider implements GlobalSearchProvider
         }
 
         return true;
+    }
+
+    /**
+     * The id of the panel the search is running in (defaults to 'admin').
+     */
+    protected function currentPanelId(): string
+    {
+        try {
+            return Filament::getCurrentOrDefaultPanel()?->getId() ?? 'admin';
+        } catch (\Throwable $e) {
+            return 'admin';
+        }
     }
 }

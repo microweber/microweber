@@ -22,6 +22,7 @@ use Filament\Schemas\Components\Section;
 use Illuminate\Support\Arr;
 use Modules\Invoice\Services\InvoiceService;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class InvoiceResource extends Resource
 {
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
@@ -42,10 +43,7 @@ class InvoiceResource extends Resource
 
         return static::$description;
     }
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

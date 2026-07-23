@@ -48,6 +48,13 @@ class OfferServiceProvider extends BaseModuleServiceProvider
         // FilamentRegistry::registerPage(OfferModuleSettings::class);
         FilamentRegistry::registerResource(OfferResource::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Offers & Discount Prices', '/admin/offers',
+            ['offer', 'offers', 'discount', 'discount price', 'sale price',
+             'special offer', 'deal', 'promotion', 'price reduction'],
+            'Shop Settings', ['Section' => 'Shop Settings'],
+        );
+
         // Register Microweber module
         // Microweber::module(\Modules\Offer\Microweber\OfferModule::class);
 

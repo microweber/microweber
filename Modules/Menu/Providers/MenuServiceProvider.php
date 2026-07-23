@@ -65,6 +65,13 @@ class MenuServiceProvider extends BaseModuleServiceProvider
 
         FilamentRegistry::registerPage(AdminMenusPage::class);
         FilamentRegistry::registerPage(MenuModuleSettings::class);
+
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Menu Management', '/admin/settings/menus',
+            ['menu', 'menus', 'navigation', 'nav', 'menu items',
+             'header menu', 'footer menu', 'site menu'],
+            'Admin Pages', ['Section' => 'Website'],
+        );
         Livewire::component('admin-menus-list', MenusList::class);
 
         // Register Microweber module

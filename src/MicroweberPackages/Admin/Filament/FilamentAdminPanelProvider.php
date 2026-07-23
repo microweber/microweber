@@ -97,7 +97,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel
             ->id($this->filamentId)
             ->path($this->filamentPath)
-            ->globalSearch(\MicroweberPackages\Filament\GlobalSearch\MicroweberGlobalSearchProvider::class)
+            ->globalSearch(\MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGlobalSearchProvider::class)
             ->globalSearchDebounce('300ms')
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->databaseNotifications()

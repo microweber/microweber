@@ -20,6 +20,7 @@ use Illuminate\Support\HtmlString;
 use Modules\Country\Models\Country;
 use Modules\Tax\Models\TaxRate;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class TaxRateResource extends Resource
 {
     protected static ?string $model = TaxRate::class;
@@ -35,10 +36,7 @@ class TaxRateResource extends Resource
     }
     protected static ?string $navigationLabel = 'Tax Rates';
     protected static ?int $navigationSort = 8;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

@@ -40,8 +40,12 @@ class FileManagerServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(FileManagerPageAdmin::class);
         FilamentRegistry::registerPage(FileManagerPageAdmin::class,Settings::class);
 
-        // Register filament page for Microweber module settings
-        // FilamentRegistry::registerPage(FileManagerModuleSettings::class);
+        FilamentRegistry::registerGlobalSearchEntry(
+            'File Manager', '/admin/settings/file-manager',
+            ['file manager', 'files', 'file upload', 'file browser',
+             'documents', 'download'],
+            'Admin Pages', ['Section' => 'Website'],
+        );
 
         // Register Microweber module
         // Microweber::module(\Modules\FileManager\Microweber\FileManagerModule::class);

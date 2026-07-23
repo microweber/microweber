@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\Product\Models\ProductPricingRule;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class ProductPricingRuleResource extends Resource
 {
     protected static string | \BackedEnum | null $navigationIcon = null;
@@ -40,10 +41,7 @@ class ProductPricingRuleResource extends Resource
     {
         return ProductPricingRule::class;
     }
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

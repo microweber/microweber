@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\Product\Models\ProductVariantAttribute;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class ProductVariantAttributeResource extends Resource
 {
     protected static ?string $model = ProductVariantAttribute::class;
@@ -46,10 +47,7 @@ class ProductVariantAttributeResource extends Resource
     protected static ?string $label = 'Variant Attribute';
 
     protected static ?string $pluralLabel = 'Variant Attributes';
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

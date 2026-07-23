@@ -50,6 +50,7 @@ use Modules\Newsletter\Models\NewsletterTemplate;
 use Modules\Newsletter\Support\NewsletterPlaceholderSyntax;
 use Illuminate\Support\Arr;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class CampaignResource extends Resource
 {
     protected static ?string $model = NewsletterCampaign::class;
@@ -68,10 +69,7 @@ class CampaignResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'Campaigns';
     protected static ?int $navigationSort = 2;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

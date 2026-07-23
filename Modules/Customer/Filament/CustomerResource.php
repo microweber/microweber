@@ -18,6 +18,7 @@ use Modules\Customer\Models\Customer;
 use Modules\Tag\Models\Tag;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
@@ -361,9 +362,7 @@ Forms\Components\Select::make('company_id')
      *
      * @return array
      */
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

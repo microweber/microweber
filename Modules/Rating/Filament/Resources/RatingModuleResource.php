@@ -14,6 +14,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Modules\Rating\Filament\Resources\RatingModuleResource\Pages;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class RatingModuleResource extends Resource
 {
     protected static ?string $model = Rating::class;
@@ -34,10 +35,7 @@ class RatingModuleResource extends Resource
     }
 
     protected static bool $shouldRegisterNavigation = false;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

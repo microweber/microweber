@@ -35,7 +35,8 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
         $panel
             ->id('admin-newsletter')
             ->path(mw_admin_prefix_url() . '/newsletter')
-            ->globalSearch(true)
+            ->globalSearch(\MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGlobalSearchProvider::class)
+            ->globalSearchDebounce('300ms')
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->font('Inter')
             ->unsavedChangesAlerts()

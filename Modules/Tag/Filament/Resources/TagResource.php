@@ -16,6 +16,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Modules\Tag\Filament\Resources\TagResource\Pages;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class TagResource extends Resource
 {
     protected static ?string $model = Tag::class;
@@ -28,10 +29,7 @@ class TagResource extends Resource
 
     protected static ?int $navigationSort = 90;
     protected static bool $shouldRegisterNavigation = false;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

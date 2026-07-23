@@ -64,7 +64,12 @@ class OrderServiceProvider extends BaseModuleServiceProvider
 
         FilamentRegistry::registerResource(OrderResource::class);
 
-
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Orders', '/admin/orders',
+            ['order', 'orders', 'purchase', 'buy', 'sales',
+             'order history', 'order status', 'order management'],
+            'Admin Pages', ['Section' => 'Shop'],
+        );
     }
 
 }

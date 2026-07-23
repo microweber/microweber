@@ -36,7 +36,7 @@ class FilamentRegistryManager
 
     /**
      * Global-search entries registered by modules (settings pages, deep links, etc.).
-     * Each entry: ['title' => …, 'url' => …, 'keywords' => [...], 'group' => …, 'details' => [...]]
+     * Keyed by panelId, each entry: ['title' => …, 'url' => …, 'keywords' => [...], 'group' => …, 'details' => [...], 'icon' => …]
      */
     public array $globalSearchEntries = [];
 
@@ -232,12 +232,15 @@ class FilamentRegistryManager
      * Register a static entry (settings page, admin page, deep-link)
      * that should appear in Filament's global search when keywords match.
      *
+     * Follows the same panelId-scoped pattern as registerResource / registerPage / etc.
+     *
      * @param string       $title    Human-readable title shown in search results
      * @param string       $url      Absolute or relative admin URL
      * @param array        $keywords Lowercase keyword phrases for matching
      * @param string       $group    Category heading in the search results dropdown
      * @param array        $details  Key-value detail pairs shown under the title
      * @param string|null  $icon     Optional Heroicon name
+     * @param string       $panelId  Panel ID this entry belongs to (default 'admin')
      */
     public function registerGlobalSearchEntry(
         string $title,
@@ -246,8 +249,9 @@ class FilamentRegistryManager
         string $group = 'Settings',
         array  $details = [],
         ?string $icon = null,
+        string $panelId = 'admin',
     ): void {
-        $this->globalSearchEntries[] = [
+        $this->globalSearchEntries[$panelId][] = [
             'title'    => $title,
             'url'      => $url,
             'keywords' => array_map('mb_strtolower', $keywords),
@@ -258,13 +262,14 @@ class FilamentRegistryManager
     }
 
     /**
-     * Retrieve all registered global-search entries.
+     * Retrieve all registered global-search entries for a given panel.
      *
+     * @param string $panelId  Panel ID to retrieve entries for (default 'admin')
      * @return array<int, array{title: string, url: string, keywords: list<string>, group: string, details: array, icon: string|null}>
      */
-    public function getGlobalSearchEntries(): array
+    public function getGlobalSearchEntries(string $panelId = 'admin'): array
     {
-        return $this->globalSearchEntries;
+        return $this->globalSearchEntries[$panelId] ?? [];
     }
 
     // ── Utility ──────────────────────────────────────────────────────

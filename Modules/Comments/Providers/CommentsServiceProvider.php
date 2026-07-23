@@ -63,6 +63,13 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(CommentsModuleSettingsAdmin::class);
         FilamentRegistry::registerPage(CommentsModuleSettings::class);
 
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Comments Settings', '/admin/settings/comments',
+            ['comments', 'moderation', 'comment settings', 'user comments',
+             'comment moderation', 'spam', 'comment approval'],
+            'Settings', ['Section' => 'Website Settings'],
+        );
+
         Gate::policy(GatedComment::class, CommentPolicy::class);
 
         Livewire::component('comments::user-comment-reply', UserCommentReplyComponent::class);

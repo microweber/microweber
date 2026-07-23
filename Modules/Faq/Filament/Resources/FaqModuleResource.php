@@ -17,6 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Modules\Faq\Filament\Resources\FaqModuleResource\Pages;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class FaqModuleResource extends Resource
 {
     protected static ?string $model = Faq::class;
@@ -37,10 +38,7 @@ class FaqModuleResource extends Resource
     }
 
     protected static bool $shouldRegisterNavigation = false;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

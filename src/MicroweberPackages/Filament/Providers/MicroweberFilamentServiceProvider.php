@@ -14,8 +14,6 @@ namespace MicroweberPackages\Filament\Providers;
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
-use MicroweberPackages\Filament\GlobalSearch\GlobalSearchRegistrar;
-use MicroweberPackages\FilamentRegistry\FilamentRegistryManager;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentThemeServiceProvider;
 use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 
@@ -30,17 +28,9 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
 
     public function boot()
     {
-        // Register settings pages and admin deep-links with global search
-        $this->app->booted(function () {
-            try {
-                $registrar = new GlobalSearchRegistrar(
-                    $this->app->make(FilamentRegistryManager::class)
-                );
-                $registrar->register();
-            } catch (\Throwable $e) {
-                // Gracefully degrade if the registry is not available (e.g. during install)
-            }
-        });
+        // Global-search entries are now registered by each module's own
+        // ServiceProvider via FilamentRegistry::registerGlobalSearchEntry();
+        // the old hardcoded GlobalSearchRegistrar has been removed.
 
         // Register Livewire's JavaScript via a render hook so it is injected at
         // render time (with full data attributes like data-update-uri, data-csrf, etc.).

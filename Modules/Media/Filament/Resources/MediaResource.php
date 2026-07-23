@@ -15,6 +15,7 @@ use Modules\Media\Models\MediaFolder;
 use Modules\Media\Filament\Resources\MediaResource\Pages;
 use MicroweberPackages\CdnSync\Services\CdnSyncService;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class MediaResource extends Resource
 {
     protected static ?string $model = Media::class;
@@ -26,10 +27,7 @@ class MediaResource extends Resource
     protected static ?int $navigationSort = 10;
 
     protected static ?string $recordTitleAttribute = 'title';
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

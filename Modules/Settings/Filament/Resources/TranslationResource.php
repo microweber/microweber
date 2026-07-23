@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Notifications\Notification;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class TranslationResource extends Resource
 {
     protected static ?string $model = TranslationKey::class;
@@ -37,10 +38,7 @@ class TranslationResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Language Settings';
 
     protected static string | null $navigationLabel = 'Translations';
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

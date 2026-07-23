@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Currency\Models\Currency;
 use Modules\Currency\Filament\Admin\Resources\CurrencyResource\Pages;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class CurrencyResource extends Resource
 {
     protected static ?string $model = Currency::class;
@@ -21,10 +22,7 @@ class CurrencyResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
 
     protected static ?int $navigationSort = 10;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

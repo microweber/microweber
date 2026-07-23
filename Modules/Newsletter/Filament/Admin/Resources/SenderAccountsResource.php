@@ -18,6 +18,7 @@ use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\Man
 use Modules\Newsletter\Models\NewsletterSenderAccount;
 use Modules\Newsletter\Senders\NewsletterMailSender;
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class SenderAccountsResource extends Resource
 {
     protected static ?string $model = NewsletterSenderAccount::class;
@@ -36,10 +37,7 @@ class SenderAccountsResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 1;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

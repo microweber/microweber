@@ -47,6 +47,13 @@ class TaxServiceProvider extends BaseModuleServiceProvider
 
         FilamentRegistry::registerResource(TaxResource::class);
         FilamentRegistry::registerResource(TaxRateResource::class);
+
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Tax Settings', '/admin/taxes',
+            ['tax', 'taxes', 'tax rate', 'vat', 'sales tax', 'tax settings',
+             'tax class', 'tax zone', 'tax calculation'],
+            'Shop Settings', ['Section' => 'Shop Settings'],
+        );
     }
 
 }

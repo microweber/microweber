@@ -26,6 +26,7 @@ use Illuminate\Support\Arr;
 use Filament\Forms\Components\Checkbox;
 
 
+use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class ListResource extends Resource
 {
     protected static ?string $model = NewsletterList::class;
@@ -44,10 +45,7 @@ class ListResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Campaigns';
 
     protected static ?int $navigationSort = 2;
-
-    protected static bool $isGloballySearchable = true;
-
-    protected static ?bool $isGlobalSearchForcedCaseInsensitive = true;
+    use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array
     {

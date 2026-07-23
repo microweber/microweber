@@ -45,6 +45,13 @@ class CouponsServiceProvider extends BaseModuleServiceProvider
 
 
         FilamentRegistry::registerResource(\Modules\Coupons\Filament\Resources\CouponResource::class);
+
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Coupons', '/admin/coupons',
+            ['coupon', 'coupons', 'discount code', 'promo code', 'voucher',
+             'promotional code', 'discount coupon', 'enable coupons'],
+            'Shop Settings', ['Section' => 'Shop Settings'],
+        );
     }
 
 }
