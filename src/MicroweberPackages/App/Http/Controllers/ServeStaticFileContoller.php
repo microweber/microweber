@@ -19,10 +19,19 @@ class ServeStaticFileContoller extends Controller
      */
     public function serveFromUserfiles(Request $request)
     {
-        $path = $request->path;
+        // Use the bound route segment, NOT the input property. $request->path resolves via
+        // Request::__get to the request input, so a ?path= query string overrides the {path}
+        // route segment and enables path traversal. Confine the result to userfiles_path().
+        $requested = (string) $request->route('path');
 
+        $base = realpath(userfiles_path());
+        $path = realpath(normalize_path($base . DIRECTORY_SEPARATOR . $requested, false));
 
-        $path = normalize_path(userfiles_path() . $path, false);
+        abort_if(
+            $base === false || $path === false
+            || strncmp($path, $base . DIRECTORY_SEPARATOR, strlen($base) + 1) !== 0,
+            404
+        );
 
         return $this->sendResponse($path, $request);
 
