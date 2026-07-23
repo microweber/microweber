@@ -136,13 +136,16 @@ if (!function_exists('save_picture')) {
 if (!function_exists('pixum_img')) {
     function pixum_img()
     {
-        return app()->media_manager->pixum_img();
+        // Delegate to the standalone pixum package (no exit() calls)
+        return app(\MicroweberPackages\MediaPixum\PixumGenerator::class)->url(200, 200);
     }
 }
 if (!function_exists('pixum')) {
     function pixum($width, $height)
     {
-        return app()->media_manager->pixum($width, $height);
+        // Delegate to the standalone pixum package
+        $h = ($height === false || $height <= 0) ? $width : (int) $height;
+        return app(\MicroweberPackages\MediaPixum\PixumGenerator::class)->url((int) $width, $h);
     }
 }
 

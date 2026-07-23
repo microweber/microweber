@@ -5,6 +5,7 @@ namespace MicroweberPackages\MediaThumbnail\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use MicroweberPackages\MediaPixum\PixumGenerator;
 use MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository;
 use MicroweberPackages\Thumbnailer\ThumbnailGenerator;
 
@@ -17,7 +18,8 @@ class ThumbnailController extends Controller
 {
     public function __construct(
         protected ThumbnailGenerator $generator,
-        protected MediaThumbnailRepository $repository
+        protected MediaThumbnailRepository $repository,
+        protected PixumGenerator $pixumGenerator
     ) {
     }
 
@@ -141,19 +143,19 @@ class ThumbnailController extends Controller
 
     protected function servePixum(Request $request): Response
     {
-        $rawW   = $request->input('width', 1);
-        $rawH   = $request->input('height', 1);
-        $width  = is_numeric($rawW) ? (int) $rawW : 1;
-        $height = is_numeric($rawH) ? (int) $rawH : 1;
+        $rawW   = $request->input('width', 200);
+        $rawH   = $request->input('height', 200);
+        $width  = is_numeric($rawW) ? (int) $rawW : 200;
+        $height = is_numeric($rawH) ? (int) $rawH : 200;
 
-        $path = $this->generator->pixum(max($width, 1), max($height, 1));
+        $path = $this->pixumGenerator->generate(max($width, 1), max($height, 1));
 
         return $this->serveFile($path);
     }
 
     protected function servePixumDefault(): Response
     {
-        $path = $this->generator->pixum(1, 1);
+        $path = $this->pixumGenerator->generate(200, 200);
 
         return $this->serveFile($path);
     }

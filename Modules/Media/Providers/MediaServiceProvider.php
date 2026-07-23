@@ -3,6 +3,7 @@
 namespace Modules\Media\Providers;
 
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use MicroweberPackages\MediaPixum\MediaPixumServiceProvider;
 use MicroweberPackages\MediaThumbnail\MediaThumbnailServiceProvider;
 use Modules\Media\Repositories\MediaManager;
 use Modules\Media\Repositories\MediaRepository;
@@ -60,6 +61,9 @@ class MediaServiceProvider extends BaseModuleServiceProvider
 
         // Register the standalone media-thumbnail package
         $this->app->register(MediaThumbnailServiceProvider::class);
+
+        // Register the standalone media-pixum package
+        $this->app->register(MediaPixumServiceProvider::class);
 
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(MediaModuleSettings::class);

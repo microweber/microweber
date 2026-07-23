@@ -15,9 +15,6 @@ use MicroweberPackages\MediaThumbnail\Http\Controllers\ThumbnailController;
 */
 
 Route::middleware('web')->group(function () {
-    Route::get('pixum_img', [ThumbnailController::class, 'pixumImg'])
-        ->name('media-thumbnail.pixum');
-
     Route::get('thumbnail_img', [ThumbnailController::class, 'thumbnailImg'])
         ->name('media-thumbnail.thumbnail');
 

@@ -124,7 +124,7 @@ class MediaThumbnailPackageTest extends TestCase
 
     public function test_pixum_route_returns_image(): void
     {
-        $response = $this->get(route('media-thumbnail.pixum', ['width' => 10, 'height' => 10]));
+        $response = $this->get(route('media-pixum.serve', ['width' => 10, 'height' => 10]));
 
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'image/png');

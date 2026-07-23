@@ -2,38 +2,25 @@
 
 namespace MicroweberPackages\MediaThumbnail\Tests;
 
-use MicroweberPackages\MediaThumbnail\MediaThumbnailServiceProvider;
-use MicroweberPackages\Thumbnailer\ThumbnailerServiceProvider;
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
-abstract class TestCase extends OrchestraTestCase
+/**
+ * Base test case for the media-thumbnail package.
+ *
+ * Uses the full CMS application when available.
+ */
+abstract class TestCase extends BaseTestCase
 {
-    protected function getPackageProviders($app): array
-    {
-        return [
-            ThumbnailerServiceProvider::class,
-            MediaThumbnailServiceProvider::class,
-        ];
-    }
+    use \Tests\CreatesApplication;
 
-    protected function defineEnvironment($app): void
+    protected function setUp(): void
     {
-        $thumbnailsPath = $app->storagePath('app/public/thumbnails');
+        parent::setUp();
 
-        $app['config']->set('app.key', 'base64:' . base64_encode(random_bytes(32)));
-        $app['config']->set('database.default', 'testing');
-        $app['config']->set('database.connections.testing', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ]);
-        $app['config']->set('thumbnailer.thumbnails_path', $thumbnailsPath);
-        $app['config']->set('thumbnailer.thumbnails_url', '/storage/thumbnails');
-        $app['config']->set('media-thumbnail.thumbnails_path', $thumbnailsPath);
-    }
-
-    protected function defineDatabaseMigrations(): void
-    {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $thumbnailsPath = storage_path('app/public/thumbnails-test');
+        config(['thumbnailer.thumbnails_path' => $thumbnailsPath]);
+        config(['thumbnailer.thumbnails_url' => '/storage/thumbnails']);
+        config(['media-thumbnail.thumbnails_path' => $thumbnailsPath]);
+        config(['media-pixum.cache_path' => $thumbnailsPath . '/pixum']);
     }
 }

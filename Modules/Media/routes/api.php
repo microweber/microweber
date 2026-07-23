@@ -29,6 +29,8 @@ Route::get('/api/image-generate-tn-request/{cache_id}', function ($mediaId) {
     }
 
 
+    // Serve a placeholder image (real PNG bytes, not a URL string) when the
+    // thumbnail record is missing — this route feeds <img src=…> directly.
     return app()->media_manager->pixum_img();
 })->name('api.image-generate-tn-request');
 

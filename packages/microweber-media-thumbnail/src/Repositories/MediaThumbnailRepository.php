@@ -8,7 +8,8 @@ use MicroweberPackages\MediaThumbnail\Models\MediaThumbnail;
 /**
  * Thin caching repository for MediaThumbnail lookups.
  *
- * Standalone — works with any Laravel cache driver.
+ * Uses tagged cache (tags: media, media_thumbnails) when the driver
+ * supports it, and falls back to a prefixed Cache::remember otherwise.
  */
 class MediaThumbnailRepository
 {
@@ -17,6 +18,9 @@ class MediaThumbnailRepository
     /** @var int Cache TTL in seconds (1 hour). */
     protected int $cacheTtl = 3600;
 
+    /** @var list<string> Cache tags matching the model's $cacheTagsToClear */
+    protected array $cacheTags = ['media', 'media_thumbnails'];
+
     /**
      * Look up a cached thumbnail row by its filename (cache key).
      *
@@ -24,8 +28,10 @@ class MediaThumbnailRepository
      */
     public function findByFilename(string $filename): ?array
     {
-        return Cache::remember(
-            $this->cachePrefix . $filename,
+        $key = $this->cachePrefix . $filename;
+
+        return $this->cacheStore()->remember(
+            $key,
             $this->cacheTtl,
             fn () => MediaThumbnail::findByFilename($filename)
         );
@@ -52,7 +58,7 @@ class MediaThumbnailRepository
         $model->save();
 
         // Bust the read cache
-        Cache::forget($this->cachePrefix . $filename);
+        $this->forgetCacheKey($filename);
 
         return $model;
     }
@@ -62,7 +68,7 @@ class MediaThumbnailRepository
      */
     public function removeByFilename(string $filename): int
     {
-        Cache::forget($this->cachePrefix . $filename);
+        $this->forgetCacheKey($filename);
 
         return MediaThumbnail::removeByFilename($filename);
     }
@@ -75,6 +81,65 @@ class MediaThumbnailRepository
         /** @var int $count */
         $count = MediaThumbnail::where('created_at', '<', $before)->delete();
 
+        // Flush the tag group so stale rows are not served
+        $this->flushCacheTags();
+
         return $count;
+    }
+
+    /**
+     * Get a cache store with tags when the driver supports it.
+     *
+     * @return \Illuminate\Contracts\Cache\Repository|\Illuminate\Cache\Repository
+     */
+    protected function cacheStore()
+    {
+        $store = Cache::getStore();
+
+        if (method_exists($store, 'tags')) {
+            try {
+                return Cache::tags($this->cacheTags);
+            } catch (\BadMethodCallException $e) {
+                // Driver does not actually support tagging
+            }
+        }
+
+        return Cache::store();
+    }
+
+    /**
+     * Forget a single cache key (tag-aware).
+     */
+    protected function forgetCacheKey(string $filename): void
+    {
+        $key = $this->cachePrefix . $filename;
+
+        $store = Cache::getStore();
+        if (method_exists($store, 'tags')) {
+            try {
+                Cache::tags($this->cacheTags)->forget($key);
+                return;
+            } catch (\BadMethodCallException $e) {
+                // fall through
+            }
+        }
+
+        Cache::forget($key);
+    }
+
+    /**
+     * Flush all entries for the cache tags.
+     */
+    protected function flushCacheTags(): void
+    {
+        $store = Cache::getStore();
+        if (method_exists($store, 'tags')) {
+            try {
+                Cache::tags($this->cacheTags)->flush();
+                return;
+            } catch (\BadMethodCallException $e) {
+                // fall through
+            }
+        }
     }
 }

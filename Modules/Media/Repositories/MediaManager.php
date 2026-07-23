@@ -3,6 +3,7 @@
 namespace Modules\Media\Repositories;
 
 use Conner\Tagging\Model\Tagged;
+use MicroweberPackages\MediaPixum\PixumGenerator;
 use MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository;
 use MicroweberPackages\Thumbnailer\Libs\PHPImageMagician\ImageLib;
 use Modules\Media\Models\Media;
@@ -223,7 +224,7 @@ class MediaManager
     {
         touch($target);
         if (is_writable($target) == false) {
-            exit("$target is not writable");
+            throw new \RuntimeException("Target file is not writable: {$target}");
         }
         $whandle = fopen($target, 'wb');
         stream_filter_append($whandle, 'convert.base64-decode', STREAM_FILTER_WRITE);
@@ -616,113 +617,51 @@ class MediaManager
     }
 
 
+    /**
+     * Generate a pixum placeholder URL.
+     *
+     * Delegates to the standalone microweber-media-pixum package.
+     */
     public function pixum($width = 150, $height = false)
     {
-        $cache_folder = media_base_path() . 'pixum' . DS;
-        if ($height) {
-            $h = $height;
-        } else {
-            $h = $width;
-        }
-        $h = intval($h);
+        $h = $height ? intval($height) : intval($width);
         $w = intval($width);
-        if ($h == 0) {
+        if ($h <= 0) {
             $h = 1;
         }
-
-        if ($w == 0) {
+        if ($w <= 0) {
             $w = 1;
         }
-        $extension = '.png';
 
-        $hash = 'pixum-' . ($h) . 'x' . $w;
-        $cachefile = normalize_path($cache_folder . DS . $hash . $extension, false);
-        if (!file_exists($cachefile)) {
-            $dirname_file = dirname($cachefile);
-            if (!is_dir($dirname_file)) {
-                mkdir_recursive($dirname_file);
-            }
-
-            $img = imagecreatetruecolor($w, $h);
-
-            $white = imagecolorallocatealpha($img, 239, 236, 236, 0);
-            imagefill($img, 0, 0, $white);
-            imagealphablending($img, false);
-            imagesavealpha($img, true);
-            imagepng($img, $cachefile);
-            imagedestroy($img);
-        }
-        if (file_exists($cachefile)) {
-            $url = media_base_url() . 'pixum/' . $hash . $extension;
-        } else {
-            $url = $this->app->url_manager->site('api_nosession/pixum_img') . '?width=' . $width . '&height=' . $height;
-        }
-
-        return $url;
+        return app(PixumGenerator::class)->url($w, $h);
     }
 
+    /**
+     * Serve a pixum placeholder image.
+     *
+     * Delegates image generation to the standalone microweber-media-pixum
+     * package and returns the PNG bytes as an HTTP response (no exit() calls).
+     * Callers use `return $this->pixum_img()` from route handlers, so this
+     * must resolve to a real image response — not a URL string.
+     */
     public function pixum_img()
     {
-        $mime_type = 'image/png';
-        $extension = '.png';
-        $cache_folder = media_base_path() . 'pixum' . DS;
-        $cache_folder = normalize_path($cache_folder, true);
-
-        if (!is_dir($cache_folder)) {
-            mkdir_recursive($cache_folder);
-        }
-
-        if (isset($_REQUEST['width'])) {
-            $w = $_REQUEST['width'];
-        } else {
+        $w = isset($_REQUEST['width']) ? intval($_REQUEST['width']) : 200;
+        $h = isset($_REQUEST['height']) ? intval($_REQUEST['height']) : 200;
+        if ($w <= 0) {
             $w = 1;
         }
-
-        if (isset($_REQUEST['height'])) {
-            $h = $_REQUEST['height'];
-        } else {
-            $h = 1;
-        }
-        $h = intval($h);
-        $w = intval($w);
-        if ($h == 0) {
+        if ($h <= 0) {
             $h = 1;
         }
 
-        if ($w == 0) {
-            $w = 1;
-        }
-        $hash = 'pixum-' . ($h) . 'x' . $w;
-        $cachefile = $cache_folder . '/' . $hash . $extension;
+        $path = app(PixumGenerator::class)->generate($w, $h);
 
-        header('Content-Type: image/png');
-
-        if (!file_exists($cachefile)) {
-            try {
-                $img = @imagecreatetruecolor($w, $h);
-            } catch (\Exception $e) {
-                exit;
-            }
-
-            if (!$img) {
-                exit;
-            }
-
-
-            $white = imagecolorallocatealpha($img, 239, 236, 236, 0);
-            imagefill($img, 0, 0, $white);
-            imagealphablending($img, false);
-            imagesavealpha($img, true);
-            imagepng($img, $cachefile);
-            imagedestroy($img);
-            $fp = fopen($cachefile, 'rb');
-            fpassthru($fp);
-            exit;
-        } else {
-            $fp = fopen($cachefile, 'rb');
-            fpassthru($fp);
-            exit;
-        }
+        return response(
+            (string) @file_get_contents($path),
+            200,
+            ['Content-Type' => 'image/png', 'Cache-Control' => 'public, max-age=31536000']
+        );
     }
 
     public static function guessMediaTypeFromUrl($url)

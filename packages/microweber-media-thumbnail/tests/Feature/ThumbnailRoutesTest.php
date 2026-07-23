@@ -7,17 +7,10 @@ use MicroweberPackages\MediaThumbnail\Tests\TestCase;
 
 class ThumbnailRoutesTest extends TestCase
 {
-    public function test_pixum_img_route_returns_png(): void
+    public function test_pixum_route_via_pixum_package(): void
     {
-        $response = $this->get(route('media-thumbnail.pixum', ['width' => 10, 'height' => 10]));
-
-        $response->assertStatus(200);
-        $response->assertHeader('Content-Type', 'image/png');
-    }
-
-    public function test_pixum_img_route_with_defaults(): void
-    {
-        $response = $this->get(route('media-thumbnail.pixum'));
+        // The pixum route is now served by the media-pixum package
+        $response = $this->get(route('media-pixum.serve', ['width' => 10, 'height' => 10]));
 
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'image/png');
@@ -74,7 +67,8 @@ class ThumbnailRoutesTest extends TestCase
 
     public function test_thumbnail_route_names_exist(): void
     {
-        $this->assertTrue(app('router')->has('media-thumbnail.pixum'));
+        // pixum route is now in the media-pixum package
+        $this->assertTrue(app('router')->has('media-pixum.serve'));
         $this->assertTrue(app('router')->has('media-thumbnail.thumbnail'));
         $this->assertTrue(app('router')->has('media-thumbnail.generate'));
     }

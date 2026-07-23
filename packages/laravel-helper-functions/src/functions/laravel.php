@@ -456,8 +456,17 @@ if (!function_exists('data_get')) {
     /**
      * Get an item from an array or object using "dot" notation.
      *
+     * Faithful port of Laravel's data_get(): the $key may be a dot string,
+     * an array of segments, or contain "*" wildcards. Notably, Laravel's own
+     * Arr::pluck() calls data_get($item, ['segment', ...]) with an ARRAY key —
+     * an earlier version of this override only handled string keys and returned
+     * $target unchanged for arrays, which silently broke Arr::pluck()/
+     * Collection::pluck() everywhere (e.g. Eloquent global-scope where-grouping
+     * threw "str_contains(): Argument #1 must be of type string, array given"
+     * and 500'd every scoped query). Handle string, array and wildcard keys.
+     *
      * @param mixed $target
-     * @param string $key
+     * @param string|array|int|null $key
      * @param mixed $default
      * @return mixed
      */
@@ -467,29 +476,50 @@ if (!function_exists('data_get')) {
             return $target;
         }
 
-        if (is_string($key)) {
-            foreach (explode('.', $key) as $segment) {
-                if (is_array($target)) {
-                    if (!array_key_exists($segment, $target)) {
-                        return value($default);
-                    }
+        $key = is_array($key) ? $key : explode('.', $key);
 
-                    $target = $target[$segment];
-                } elseif ($target instanceof ArrayAccess) {
-                    if (!isset($target[$segment])) {
-                        return value($default);
-                    }
+        foreach ($key as $i => $segment) {
+            unset($key[$i]);
 
-                    $target = $target[$segment];
-                } elseif (is_object($target)) {
-                    if (!isset($target->{$segment})) {
-                        return value($default);
-                    }
+            if (is_null($segment)) {
+                return $target;
+            }
 
-                    $target = $target->{$segment};
-                } else {
+            if ($segment === '*') {
+                if ($target instanceof \Illuminate\Support\Collection) {
+                    $target = $target->all();
+                } elseif (!is_iterable($target)) {
                     return value($default);
                 }
+
+                $result = [];
+                foreach ($target as $item) {
+                    $result[] = data_get($item, $key);
+                }
+
+                return in_array('*', $key) ? \Illuminate\Support\Arr::collapse($result) : $result;
+            }
+
+            if (is_array($target)) {
+                if (!array_key_exists($segment, $target)) {
+                    return value($default);
+                }
+
+                $target = $target[$segment];
+            } elseif ($target instanceof ArrayAccess) {
+                if (!isset($target[$segment])) {
+                    return value($default);
+                }
+
+                $target = $target[$segment];
+            } elseif (is_object($target)) {
+                if (!isset($target->{$segment})) {
+                    return value($default);
+                }
+
+                $target = $target->{$segment};
+            } else {
+                return value($default);
             }
         }
 

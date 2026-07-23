@@ -1,6 +1,6 @@
 {
-    "name": "microweber-packages/media-thumbnail",
-    "description": "Standalone Laravel package for media thumbnail caching and generation. Provides the MediaThumbnail model, migration, repository, and thumbnail-serving routes.",
+    "name": "microweber-packages/media-pixum",
+    "description": "Standalone Laravel package for generating and serving placeholder (pixum) images. No exit() calls — fully testable.",
     "version": "1.0.0",
     "type": "library",
     "license": "MIT",
@@ -13,28 +13,28 @@
     "require": {
         "php": "^8.1",
         "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-        "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
-        "microweber-packages/thumbnailer": "^1.0",
-        "microweber-packages/database": "^1.0",
-        "microweber-packages/laravel-helper-functions": "^1.0",
-        "microweber-packages/media-pixum": "^1.0"
+        "microweber-packages/laravel-helper-functions": "^1.0"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0",
         "phpunit/phpunit": "^10.0|^11.0",
         "larastan/larastan": "^3.9",
-        "livewire/livewire": "^3.0|^4.0"
+        "livewire/livewire": "^3.0|^4.0",
+        "laravel/dusk": "^8.0|^9.0"
     },
     "autoload": {
         "psr-4": {
-            "MicroweberPackages\\MediaThumbnail\\": "src/"
-        }
+            "MicroweberPackages\\MediaPixum\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
-            "MicroweberPackages\\MediaThumbnail\\Tests\\": "tests/"
+            "MicroweberPackages\\MediaPixum\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

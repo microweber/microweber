@@ -18,7 +18,7 @@ class MediaThumbnailLivewireTest extends TestCase
     public function test_all_media_thumbnail_routes_are_named(): void
     {
         $expectedRoutes = [
-            'media-thumbnail.pixum',
+            'media-pixum.serve',
             'media-thumbnail.thumbnail',
             'media-thumbnail.generate',
         ];
@@ -33,7 +33,7 @@ class MediaThumbnailLivewireTest extends TestCase
 
     public function test_pixum_img_smoke(): void
     {
-        $response = $this->get(route('media-thumbnail.pixum', [
+        $response = $this->get(route('media-pixum.serve', [
             'width'  => 20,
             'height' => 20,
         ]));
