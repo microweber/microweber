@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06e9b74b2ceeb62989e9ccb61e2a2145",
+    "content-hash": "efbb200deb9c22cdd04994df7b3c9a5b",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10483,6 +10483,62 @@
                 }
             ],
             "description": "Helper functions for Microweber",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/media-thumbnail",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-media-thumbnail",
+                "reference": "72dbab6ba6a62af4432c9e75db6144aca8cab145"
+            },
+            "require": {
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/thumbnailer": "^1.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.9",
+                "livewire/livewire": "^3.0|^4.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\MediaThumbnail\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\MediaThumbnail\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for media thumbnail caching and generation. Provides the MediaThumbnail model, migration, repository, and thumbnail-serving routes.",
             "transport-options": {
                 "symlink": true,
                 "relative": true

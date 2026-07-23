@@ -1,12 +1,10 @@
 <?php
 
-
 namespace Modules\Media\Repositories;
 
-
+use MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository;
 use MicroweberPackages\Repository\Repositories\CachingModelRepository;
 use Modules\Media\Models\Media;
-use Modules\Media\Models\MediaThumbnail;
 
 class MediaRepository extends CachingModelRepository
 {
@@ -19,11 +17,14 @@ class MediaRepository extends CachingModelRepository
         });
     }
 
-    public function getThumbnailCachedItem($tn_cache_id)
+    /**
+     * @return array<string, mixed>|false
+     */
+    public function getThumbnailCachedItem(string $tn_cache_id): array|false
     {
-        return $this->cached(__FUNCTION__, func_get_args(), function () use ($tn_cache_id) {
-            return MediaThumbnail::queryCachedItem($tn_cache_id);
-        });
-    }
+        // Delegate to the standalone package repository
+        $result = app(MediaThumbnailRepository::class)->findByFilename($tn_cache_id);
 
+        return $result ?? false;
+    }
 }

@@ -141,6 +141,7 @@
         "microweber-packages/env-writer": "^1.0",
         "microweber-packages/blade-cache": "^1.0",
         "microweber-packages/thumbnailer": "^1.0",
+        "microweber-packages/media-thumbnail": "^1.0",
         "microweber-packages/url": "^1.0",
         "microweber-packages/repository": "^1.0",
         "microweber-packages/database": "^1.0",
@@ -190,6 +191,7 @@
             "MicroweberPackages\\EnvWriter\\": "packages/microweber-env-writer/src/",
             "MicroweberPackages\\BladeCache\\": "packages/microweber-blade-cache/src/",
             "MicroweberPackages\\Thumbnailer\\": "packages/microweber-thumbnailer/src/",
+            "MicroweberPackages\\MediaThumbnail\\": "packages/microweber-media-thumbnail/src/",
             "MicroweberPackages\\Url\\": "packages/microweber-url/src/",
             "MicroweberPackages\\Config\\": "packages/microweber-config/src/",
             "MicroweberPackages\\Repository\\": "packages/microweber-repository/src/",
@@ -366,6 +368,7 @@
                 "microweber-packages/searchable",
                 "microweber-packages/url",
                 "microweber-packages/thumbnailer",
+                "microweber-packages/media-thumbnail",
                 "microweber-packages/frontend-assets",
                 "microweber-packages/frontend-assets-libs",
                 "microweber-packages/phpquery",
@@ -533,6 +536,14 @@
         {
             "type": "path",
             "url": "packages/microweber-thumbnailer",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-media-thumbnail",
             "options": {
                 "reference": "config",
                 "symlink": true

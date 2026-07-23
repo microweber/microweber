@@ -1,0 +1,11 @@
+includes:
+    - ../../vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - src
+    level: 5
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # site_url() is a Microweber host helper (guarded by function_exists), not standalone.
+        - '#Function site_url not found#'

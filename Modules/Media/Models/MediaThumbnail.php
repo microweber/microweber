@@ -2,77 +2,42 @@
 
 namespace Modules\Media\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
+use MicroweberPackages\MediaThumbnail\Models\MediaThumbnail as BaseMediaThumbnail;
 
-class MediaThumbnail extends Model
+/**
+ * CMS-specific MediaThumbnail model.
+ *
+ * Extends the standalone package model with CMS-specific features
+ * (CacheableQueryBuilderTrait and ReplaceSiteUrlCast).
+ */
+class MediaThumbnail extends BaseMediaThumbnail
 {
-
+    /** @var list<string> */
     public $cacheTagsToClear = ['media', 'media_thumbnails'];
 
     use CacheableQueryBuilderTrait;
-    use HasUuids;
 
-    public $table = 'media_thumbnails';
-
-    protected $guarded = ['id'];
-
-    protected $casts = [
-        'image_options' => 'json',
-        'filename' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ =>  {SITE_URL}400/200/
-    ];
-
-    public function getKeyType()
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
     {
-        return 'int';
-    }
-
-    public function getKeyName()
-    {
-        return 'id';
-    }
-
-    public function uniqueIds()
-    {
-        return ['uuid'];
-    }
-
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->uuid = $model->newUniqueId();
-        });
+        return array_merge(parent::casts(), [
+            'filename' => ReplaceSiteUrlCast::class,
+        ]);
     }
 
     /**
-     * Find a cached thumbnail item by filename.
+     * Legacy method — delegates to the package's findByFilename().
      *
-     * @return array|false
+     * @return array<string, mixed>|false
      */
-    public static function queryCachedItem(string $filename)
+    public static function queryCachedItem(string $filename): array|false
     {
-        $check = DB::table('media_thumbnails')
-            ->select(['id', 'filename', 'image_options', 'uuid'])
-            ->where('filename', $filename)
-            ->first();
+        $result = static::findByFilename($filename);
 
-        if ($check && !empty($check)) {
-            $ready = (array) $check;
-
-            if (isset($ready['image_options']) && is_string($ready['image_options'])) {
-                $ready['image_options'] = @json_decode($ready['image_options'], true);
-            }
-
-            return $ready;
-        }
-
-        return false;
+        return $result ?? false;
     }
-
 }

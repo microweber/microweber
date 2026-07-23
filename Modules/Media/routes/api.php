@@ -1,9 +1,8 @@
 <?php
 
 use \Illuminate\Support\Facades\Route;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
 use Modules\Media\Http\Controllers\Api\MediaApiController;
+use MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository;
 
 Route::post('/api/media/upload', function (\Illuminate\Http\Request $request) {
 
@@ -12,33 +11,20 @@ Route::post('/api/media/upload', function (\Illuminate\Http\Request $request) {
 
 })->middleware(['api', 'admin', 'xss'])->name('api.media_upload');
 
-Route::get('pixum_img', function (\Illuminate\Http\Request $request) {
-
-    return pixum_img();
-
-
-})->middleware('web')->name('api.pixum_img');
-
-Route::get('thumbnail_img', function (\Illuminate\Http\Request $request) {
-
-    return thumbnail_img($request->all());
-
-
-})->middleware('web')->name('api.pixum_img');
-
 
 Route::get('/api/image-generate-tn-request/{cache_id}', function ($mediaId) {
 
     $mediaId = str_replace('..', '', $mediaId);
-    $check = \Modules\Media\Models\MediaThumbnail::where('uuid', $mediaId)->first();
+    $check = app(MediaThumbnailRepository::class)->findByUuid($mediaId);
 
     if ($check) {
         $opts = $check->image_options;
-        $opts = app()->url_manager->replace_site_url_back($opts);
-        $cache_id_data_json = $opts;
-        $cache_id_data_json['cache_id'] = $check->rel_id ?? $mediaId;
+        if (is_array($opts)) {
+            $opts = app()->url_manager->replace_site_url_back($opts);
+            $opts['cache_id'] = $check->rel_id ?? $mediaId;
+        }
 
-        $tn = app()->media_manager->thumbnail_img($cache_id_data_json);
+        $tn = app()->media_manager->thumbnail_img($opts ?? []);
         return $tn;
     }
 

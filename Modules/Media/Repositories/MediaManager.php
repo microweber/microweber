@@ -3,10 +3,9 @@
 namespace Modules\Media\Repositories;
 
 use Conner\Tagging\Model\Tagged;
-use Illuminate\Support\Str;
+use MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository;
 use MicroweberPackages\Thumbnailer\Libs\PHPImageMagician\ImageLib;
 use Modules\Media\Models\Media;
-use Modules\Media\Models\MediaThumbnail;
 use MicroweberPackages\Thumbnailer\Support\ImageRotator;
 use MicroweberPackages\Thumbnailer\Support\Thumbnailer;
 
@@ -906,39 +905,26 @@ class MediaManager
         } else {
 
             if (stristr($base_src, 'pixum_img')) {
-                MediaThumbnail::where('filename', $cache_id_without_ext)->delete();
+                app(MediaThumbnailRepository::class)->removeByFilename($cache_id_without_ext);
                 return $this->pixum($width, $height);
             }
             $file_exists_local = url2dir($src);
 
             if (!@is_file($file_exists_local)) {
-                MediaThumbnail::where('filename', $cache_id_without_ext)->delete();
+                app(MediaThumbnailRepository::class)->removeByFilename($cache_id_without_ext);
                 return $this->pixum($width, $height);
             }
 
 
-//            if (!defined('MW_NO_OUTPUT_CACHE')) {
-//               define('MW_NO_OUTPUT_CACHE', true);
-//            }
-
-            // $cache_id_data['cache_path'] = $cache_path;
             $cache_id_data['cache_path_relative'] = $cache_path_relative;
-//            if (!get_option($cache_id_without_ext, 'media_tn_temp')) {
-//                save_option($cache_id_without_ext, @json_encode($cache_id_data), 'media_tn_temp');
-//            }
 
 
-            //$check = MediaThumbnail::where('filename', $cache_id_without_ext)->first();
-            $check = app()->media_repository->getThumbnailCachedItem($cache_id_without_ext);
+            $tnRepo = app(MediaThumbnailRepository::class);
+            $check = $tnRepo->findByFilename($cache_id_without_ext);
 
 
             if (!$check) {
-                $media_tn_temp = new MediaThumbnail();
-                $media_tn_temp->filename = $cache_id_without_ext;
-                $media_tn_temp->uuid = (string)Str::orderedUuid();
-                //$media_tn_temp->filename = null;
-                $media_tn_temp->image_options = $cache_id_data;
-                $media_tn_temp->save();
+                $media_tn_temp = $tnRepo->store($cache_id_without_ext, $cache_id_data);
 
                 return $this->app->url_manager->site('api/image-generate-tn-request/') . $media_tn_temp->uuid . '?saved';
             } elseif (isset($check['image_options']) and isset($check['image_options']['cache_path_relative'])) {
@@ -1068,39 +1054,21 @@ class MediaManager
 
             }
         }
-        // $cache = md5(serialize($params)) . '.' . $ext;
         $cache = $this->tn_cache_id($params) . '.' . $ext;
-
         $cache = sanitize_path($cache);
 
         if (isset($cache_id)) {
             $cache = sanitize_path($cache_id);
-
-            // $cache = url_title($cache_id);
         }
-//        if(!isset($cache_path)){
-//            $cache_path = $cd . $cache;
-//        }
         $cache_path = $cd . $cache;
         if (isset($cache_path_relative)) {
             $cache_path = normalize_path(media_base_path() . $cache_path_relative, false);
         }
-//        if (!file_exists($cache_path)) {
-//                if(!isset($cache_path)){
-//                $cache_path = $cd . $cache;
-//                }
-//        }
 
 
         if (file_exists($cache_path)) {
 
             if (!isset($return_cache_path)) {
-
-                //   if (!isset($return_cache_path) and isset($params['cache_id'])) {
-                //    delete_option($cache_id, 'media_tn_temp');
-                //   }
-
-
                 if (!headers_sent()) {
                     if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
                         $if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);
@@ -1142,12 +1110,6 @@ class MediaManager
                             mkdir_recursive($cache_path_dir);
                         }
                         $tn->createThumb($thumbOptions, $cache_path);
-
-
-//                        if (!isset($return_cache_path) and isset($params['cache_id'])) {
-//                       delete_option($params['cache_id'], 'media_tn_temp');
-//                        }
-
 
                         if (!defined('MW_NO_OUTPUT_CACHE')) {
                             define('MW_NO_OUTPUT_CACHE', true);
