@@ -171,7 +171,8 @@
         "microweber-packages/svg-icons": "*",
         "microweber-packages/system-licenses": "^1.0",
         "microweber-packages/cdn-sync": "^1.0",
-        "microweber-packages/media-pixum": "^1.0"
+        "microweber-packages/media-pixum": "^1.0",
+        "microweber-packages/image-optimization": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -225,7 +226,8 @@
             "MicroweberPackages\\ContentField\\": "packages/microweber-content-field/src/",
             "MicroweberPackages\\SystemLicenses\\": "packages/microweber-system-licenses/src/",
             "MicroweberPackages\\CdnSync\\": "packages/microweber-cdn-sync/src/",
-            "MicroweberPackages\\MediaPixum\\": "packages/microweber-media-pixum/src/"
+            "MicroweberPackages\\MediaPixum\\": "packages/microweber-media-pixum/src/",
+            "MicroweberPackages\\ImageOptimization\\": "packages/microweber-image-optimization/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -238,7 +240,8 @@
             "src/MicroweberPackages/LaravelTemplates/templates_helpers.php",
             "src/MicroweberPackages/User/helpers/helpers.php",
             "src/MicroweberPackages/User/helpers/api_user.php",
-            "packages/microweber-media-pixum/src/helpers.php"
+            "packages/microweber-media-pixum/src/helpers.php",
+            "packages/microweber-image-optimization/src/helpers.php"
         ]
     },
     "autoload-dev": {
@@ -267,7 +270,8 @@
             "MicroweberPackages\\Dusk\\": "packages/microweber-dusk/src/",
             "MicroweberPackages\\Dusk\\Tests\\": "packages/microweber-dusk/tests/",
             "MicroweberPackages\\MediaPixum\\Tests\\": "packages/microweber-media-pixum/tests/",
-            "MicroweberPackages\\MediaThumbnail\\Tests\\": "packages/microweber-media-thumbnail/tests/"
+            "MicroweberPackages\\MediaThumbnail\\Tests\\": "packages/microweber-media-thumbnail/tests/",
+            "MicroweberPackages\\ImageOptimization\\Tests\\": "packages/microweber-image-optimization/tests/"
         }
     },
     "scripts": {
@@ -374,6 +378,7 @@
                 "microweber-packages/url",
                 "microweber-packages/thumbnailer",
                 "microweber-packages/media-thumbnail",
+                "microweber-packages/image-optimization",
                 "microweber-packages/frontend-assets",
                 "microweber-packages/frontend-assets-libs",
                 "microweber-packages/phpquery",
@@ -557,6 +562,14 @@
         {
             "type": "path",
             "url": "packages/microweber-media-pixum",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-image-optimization",
             "options": {
                 "reference": "config",
                 "symlink": true

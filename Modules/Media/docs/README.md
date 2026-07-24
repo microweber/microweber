@@ -164,9 +164,9 @@ Source: `Services/CdnIntegrationService.php`.
   - `invalidateCache(array $paths): bool`
   - `getStats(): array`
 
-### `Modules\Media\Services\ImageOptimizationService`
+### `MicroweberPackages\ImageOptimization\Services\ImageOptimizationService`
 
-Source: `Services/ImageOptimizationService.php`.
+Source: `packages/microweber-image-optimization/src/Services/ImageOptimizationService.php` (standalone package).
 
   - `convertToWebp(string $sourcePath, array $options = []): ?array`
   - `getWebpOrOriginal(string $sourcePath, array $options = []): string`
@@ -245,7 +245,7 @@ Run: `php vendor/bin/phpunit Modules/Media/Tests`
 
 ## Service providers
 
-  - `Modules\Media\Providers\ImageOptimizationServiceProvider`
+  - `MicroweberPackages\ImageOptimization\ImageOptimizationServiceProvider`
   - `Modules\Media\Providers\MediaServiceProvider`
 
 ## Further reading

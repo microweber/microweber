@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Modules\Media\Models\Media;
 use Modules\Media\Models\MediaFolder;
-use Modules\Media\Services\ImageOptimizationService;
+use MicroweberPackages\ImageOptimization\Services\ImageOptimizationService;
 use NeuronAI\Tools\PropertyType;
 use NeuronAI\Tools\ToolProperty;
 

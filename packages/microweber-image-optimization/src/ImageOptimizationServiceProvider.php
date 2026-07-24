@@ -1,94 +1,107 @@
 <?php
 
-namespace Modules\Media\Providers;
+declare(strict_types=1);
+
+namespace MicroweberPackages\ImageOptimization;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Modules\Media\Services\ImageOptimizationService;
+use MicroweberPackages\ImageOptimization\Console\Commands\ClearWebpCacheCommand;
+use MicroweberPackages\ImageOptimization\Services\ImageOptimizationService;
 
 class ImageOptimizationServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     */
     public function register(): void
     {
+        $this->mergeConfigFrom(__DIR__ . '/../config/image-optimization.php', 'image-optimization');
+
         $this->app->singleton(ImageOptimizationService::class, function ($app) {
             return new ImageOptimizationService();
         });
+
+        $this->app->alias(ImageOptimizationService::class, 'image-optimization');
     }
 
-    /**
-     * Bootstrap services.
-     */
     public function boot(): void
     {
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'image-optimization');
+
         $this->registerBladeDirectives();
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ClearWebpCacheCommand::class,
+            ]);
+
+            $this->publishes([
+                __DIR__ . '/../config/image-optimization.php' => config_path('image-optimization.php'),
+            ], 'image-optimization-config');
+
+            $this->publishes([
+                __DIR__ . '/../resources/views' => resource_path('views/vendor/image-optimization'),
+            ], 'image-optimization-views');
+        }
     }
 
-    /**
-     * Register Blade directives for image optimization.
-     */
     protected function registerBladeDirectives(): void
     {
-        // @optimizedImage($src, $width, $height) - Get optimized image URL
-        Blade::directive('optimizedImage', function ($expression) {
-            return "<?php echo app(\Modules\Media\Services\ImageOptimizationService::class)->getOptimizedUrl({$expression}); ?>";
+        $serviceClass = ImageOptimizationService::class;
+
+        Blade::directive('optimizedImage', function (mixed $expression) use ($serviceClass) {
+            $expression = is_string($expression) ? $expression : '';
+
+            return "<?php echo app('{$serviceClass}')->getOptimizedUrl({$expression}); ?>";
         });
 
-        // @webpImage($src) - Get WebP version of image
-        Blade::directive('webpImage', function ($expression) {
-            return "<?php echo app(\Modules\Media\Services\ImageOptimizationService::class)->getWebpOrOriginal({$expression}); ?>";
+        Blade::directive('webpImage', function (mixed $expression) use ($serviceClass) {
+            $expression = is_string($expression) ? $expression : '';
+
+            return "<?php echo app('{$serviceClass}')->getWebpOrOriginal({$expression}); ?>";
         });
 
-        // @lazyImage($src, $alt, $attributes) - Generate lazy loading img tag
-        Blade::directive('lazyImage', function ($expression) {
-            // Parse the expression to handle multiple arguments
+        Blade::directive('lazyImage', function (mixed $expression) use ($serviceClass) {
+            $expression = is_string($expression) ? $expression : '';
             $args = $this->parseArguments($expression);
             $src = $args[0] ?? "''";
             $alt = $args[1] ?? "''";
             $attributes = $args[2] ?? '[]';
 
-            return "<?php echo app(\Modules\Media\Services\ImageOptimizationService::class)->generateLazyImage({$src}, {$alt}, {$attributes}); ?>";
+            return "<?php echo app('{$serviceClass}')->generateLazyImage({$src}, {$alt}, {$attributes}); ?>";
         });
 
-        // @responsiveImage($src, $sizes, $alt, $attributes) - Generate responsive img tag with srcset
-        Blade::directive('responsiveImage', function ($expression) {
+        Blade::directive('responsiveImage', function (mixed $expression) use ($serviceClass) {
+            $expression = is_string($expression) ? $expression : '';
             $args = $this->parseArguments($expression);
             $src = $args[0] ?? "''";
             $sizes = $args[1] ?? '[]';
             $alt = $args[2] ?? "''";
             $attributes = $args[3] ?? '[]';
 
-            return "<?php echo app(\Modules\Media\Services\ImageOptimizationService::class)->generateResponsiveImage({$src}, {$sizes}, {$alt}, {$attributes}); ?>";
+            return "<?php echo app('{$serviceClass}')->generateResponsiveImage({$src}, {$sizes}, {$alt}, {$attributes}); ?>";
         });
 
-        // @webpPicture($src, $alt, $attributes) - Generate picture element with WebP and fallback
-        Blade::directive('webpPicture', function ($expression) {
+        Blade::directive('webpPicture', function (mixed $expression) use ($serviceClass) {
+            $expression = is_string($expression) ? $expression : '';
             $args = $this->parseArguments($expression);
             $src = $args[0] ?? "''";
             $alt = $args[1] ?? "''";
             $attributes = $args[2] ?? '[]';
 
-            return $this->generateWebpPictureDirective($src, $alt, $attributes);
+            return $this->generateWebpPictureDirective($src, $alt, $attributes, $serviceClass);
         });
 
-        // @lazyCss - Include lazy loading CSS
         Blade::directive('lazyCss', function () {
             return '<style>' . $this->getLazyLoadingCss() . '</style>';
         });
 
-        // @lazyJs - Include lazy loading JavaScript
         Blade::directive('lazyJs', function () {
             return '<script>' . $this->getLazyLoadingJs() . '</script>';
         });
     }
 
     /**
-     * Parse directive arguments.
-     *
-     * @param string $expression
-     * @return array
+     * @return list<string>
      */
     protected function parseArguments(string $expression): array
     {
@@ -98,7 +111,8 @@ class ImageOptimizationServiceProvider extends ServiceProvider
         $inQuote = false;
         $quoteChar = '';
 
-        for ($i = 0; $i < strlen($expression); $i++) {
+        $length = strlen($expression);
+        for ($i = 0; $i < $length; $i++) {
             $char = $expression[$i];
 
             if (!$inQuote && ($char === '"' || $char === "'")) {
@@ -126,46 +140,33 @@ class ImageOptimizationServiceProvider extends ServiceProvider
         return $args;
     }
 
-    /**
-     * Generate WebP picture directive HTML.
-     *
-     * @param string $src
-     * @param string $alt
-     * @param string $attributes
-     * @return string
-     */
-    protected function generateWebpPictureDirective(string $src, string $alt, string $attributes): string
+    protected function generateWebpPictureDirective(string $src, string $alt, string $attributes, string $serviceClass): string
     {
-        $service = ImageOptimizationService::class;
-
         return "<?php
-            \$__service = app({$service});
+            \$__service = app('{$serviceClass}');
             \$__src = {$src};
             \$__alt = {$alt};
             \$__attrs = {$attributes};
             \$__webpSrc = \$__service->getWebpOrOriginal(\$__src);
-            
+
             echo '<picture>';
             if (\$__webpSrc !== \$__src) {
                 echo '<source srcset=\"' . htmlspecialchars(\$__webpSrc) . '\" type=\"image/webp\">';
             }
             echo '<img src=\"' . htmlspecialchars(\$__src) . '\"';
-            echo ' alt=\"' . htmlspecialchars(\$__alt) . '\"';
+            echo ' alt=\"' . htmlspecialchars((string) \$__alt) . '\"';
             echo ' loading=\"lazy\"';
             echo ' decoding=\"async\"';
-            foreach (\$__attrs as \$key => \$value) {
-                echo ' ' . \$key . '=\"' . htmlspecialchars(\$value) . '\"';
+            if (is_array(\$__attrs)) {
+                foreach (\$__attrs as \$key => \$value) {
+                    echo ' ' . \$key . '=\"' . htmlspecialchars((string) \$value) . '\"';
+                }
             }
             echo '>';
             echo '</picture>';
         ?>";
     }
 
-    /**
-     * Get lazy loading CSS.
-     *
-     * @return string
-     */
     protected function getLazyLoadingCss(): string
     {
         return '
@@ -187,15 +188,10 @@ class ImageOptimizationServiceProvider extends ServiceProvider
 }
 
 @keyframes mw-lazy-shimmer {
-    0% {
-        background-position: 200% 0;
-    }
-    100% {
-        background-position: -200% 0;
-    }
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 
-/* Dark mode support */
 @media (prefers-color-scheme: dark) {
     .mw-lazy-placeholder {
         background-color: #374151;
@@ -203,34 +199,22 @@ class ImageOptimizationServiceProvider extends ServiceProvider
     }
 }
 
-/* Respect prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-    .mw-lazy-image {
-        transition: none;
-    }
-    .mw-lazy-placeholder {
-        animation: none;
-        background-image: none;
-    }
+    .mw-lazy-image { transition: none; }
+    .mw-lazy-placeholder { animation: none; background-image: none; }
 }
 ';
     }
 
-    /**
-     * Get lazy loading JavaScript.
-     *
-     * @return string
-     */
     protected function getLazyLoadingJs(): string
     {
         return '
 (function() {
     "use strict";
-    
-    // Lazy loading with Intersection Observer
+
     function initLazyLoading() {
         const images = document.querySelectorAll("img[data-src]");
-        
+
         if ("IntersectionObserver" in window) {
             const imageObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
@@ -244,43 +228,37 @@ class ImageOptimizationServiceProvider extends ServiceProvider
                 rootMargin: "50px 0px",
                 threshold: 0.01
             });
-            
+
             images.forEach(img => imageObserver.observe(img));
         } else {
-            // Fallback for browsers without Intersection Observer
             images.forEach(loadImage);
         }
     }
-    
+
     function loadImage(img) {
         const src = img.getAttribute("data-src");
         if (!src) return;
-        
+
         img.src = src;
         img.removeAttribute("data-src");
         img.classList.add("mw-lazy-loaded");
-        
-        // Handle load event
+
         img.onload = function() {
             img.classList.add("mw-lazy-loaded");
-            img.removeEventListener("load", img.onload);
         };
-        
-        // Handle error
+
         img.onerror = function() {
             console.warn("Failed to load lazy image:", src);
             img.classList.add("mw-lazy-error");
         };
     }
-    
-    // Initialize on DOM ready
+
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", initLazyLoading);
     } else {
         initLazyLoading();
     }
-    
-    // Re-initialize for dynamically added content
+
     window.mwInitLazyLoading = initLazyLoading;
 })();
 ';

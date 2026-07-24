@@ -360,7 +360,7 @@ Include lazy loading JavaScript.
 ### Programmatic Usage in Controllers
 
 ```php
-use Modules\Media\Services\ImageOptimizationService;
+use MicroweberPackages\ImageOptimization\Services\ImageOptimizationService;
 
 class ProductController extends Controller
 {

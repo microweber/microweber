@@ -187,6 +187,11 @@
             <directory>packages/microweber-cdn-sync/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberImageOptimization">
+            <directory>packages/microweber-image-optimization/tests</directory>
+            <exclude>packages/microweber-image-optimization/tests/Dusk</exclude>
+        </testsuite>
+
         <testsuite name="MicroweberDbExport">
             <directory>packages/microweber-db-export/tests</directory>
         </testsuite>

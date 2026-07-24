@@ -2,6 +2,7 @@
 
 namespace Modules\Media\Providers;
 
+use MicroweberPackages\ImageOptimization\ImageOptimizationServiceProvider;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\MediaPixum\MediaPixumServiceProvider;
 use MicroweberPackages\MediaThumbnail\MediaThumbnailServiceProvider;
@@ -56,7 +57,7 @@ class MediaServiceProvider extends BaseModuleServiceProvider
             return new MediaManager();
         });
 
-        // Register image optimization service provider
+        // Register the standalone image-optimization package
         $this->app->register(ImageOptimizationServiceProvider::class);
 
         // Register the standalone media-thumbnail package

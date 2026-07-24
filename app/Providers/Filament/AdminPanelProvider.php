@@ -13,6 +13,7 @@ use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use MicroweberPackages\CdnSync\Filament\CdnSyncPlugin;
+use MicroweberPackages\ImageOptimization\Filament\ImageOptimizationPlugin;
 use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGlobalSearchProvider;
 use MicroweberPackages\Fortify\Filament\MicroweberFortifyPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -51,6 +52,7 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 MicroweberFortifyPlugin::make(),
                 CdnSyncPlugin::make(),
+                ImageOptimizationPlugin::make(),
             ])
             ->widgets([
                 AccountWidget::class,

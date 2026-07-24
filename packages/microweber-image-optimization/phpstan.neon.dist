@@ -1,0 +1,16 @@
+includes:
+    - ../../vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - src
+    level: 8
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # Host CMS helpers (guarded by function_exists)
+        - '#Function get_option not found#'
+        - '#Function save_option not found#'
+        - '#Function is_admin not found#'
+        - '#Function thumbnail not found#'
+        - '#Function thumbnailer_generate not found#'
+        - '#Function site_url not found#'

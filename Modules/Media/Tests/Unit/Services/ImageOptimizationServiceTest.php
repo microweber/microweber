@@ -2,9 +2,13 @@
 
 namespace Modules\Media\Tests\Unit\Services;
 
-use Modules\Media\Services\ImageOptimizationService;
+use MicroweberPackages\ImageOptimization\Services\ImageOptimizationService;
 use Tests\TestCase;
 
+/**
+ * CMS integration tests for the standalone image-optimization package.
+ * Full package coverage lives in packages/microweber-image-optimization/tests.
+ */
 class ImageOptimizationServiceTest extends TestCase
 {
     protected ImageOptimizationService $service;
@@ -12,10 +16,10 @@ class ImageOptimizationServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new ImageOptimizationService();
+        $this->service = app(ImageOptimizationService::class);
     }
 
-    public function test_can_instantiate_service()
+    public function test_can_resolve_service_from_container()
     {
         $this->assertInstanceOf(ImageOptimizationService::class, $this->service);
     }
@@ -38,12 +42,9 @@ class ImageOptimizationServiceTest extends TestCase
     {
         $result = $this->service->getWebpOrOriginal('file.pdf');
         $this->assertEquals('file.pdf', $result);
-        
+
         $result = $this->service->getWebpOrOriginal('file.txt');
         $this->assertEquals('file.txt', $result);
-        
-        $result = $this->service->getWebpOrOriginal('file.docx');
-        $this->assertEquals('file.docx', $result);
     }
 
     public function test_returns_original_path_for_existing_webp_files()
@@ -52,86 +53,21 @@ class ImageOptimizationServiceTest extends TestCase
         $this->assertEquals('image.webp', $result);
     }
 
-    public function test_handles_various_image_extensions()
-    {
-        $extensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff'];
-        
-        foreach ($extensions as $ext) {
-            $path = "image.{$ext}";
-            $result = $this->service->getWebpOrOriginal($path);
-            
-            // Should return string path
-            $this->assertIsString($result);
-        }
-    }
-
     public function test_can_generate_lazy_image_html()
     {
         $html = $this->service->generateLazyImage('/images/test.jpg', 'Test Image');
-        
+
         $this->assertStringContainsString('<img', $html);
         $this->assertStringContainsString('data-src="/images/test.jpg"', $html);
         $this->assertStringContainsString('alt="Test Image"', $html);
         $this->assertStringContainsString('loading="lazy"', $html);
-        $this->assertStringContainsString('decoding="async"', $html);
         $this->assertStringContainsString('class="mw-lazy-image"', $html);
     }
 
-    public function test_includes_placeholder_in_lazy_image()
+    public function test_helpers_are_available()
     {
-        $html = $this->service->generateLazyImage('/images/test.jpg');
-        
-        $this->assertStringContainsString('src="', $html);
-        $this->assertStringContainsString('data-src="/images/test.jpg"', $html);
-    }
-
-    public function test_can_generate_lazy_image_with_custom_attributes()
-    {
-        $html = $this->service->generateLazyImage('/images/test.jpg', 'Test', [
-            'width' => 800,
-            'height' => 600,
-            'class' => 'custom-class',
-        ]);
-        
-        $this->assertStringContainsString('width="800"', $html);
-        $this->assertStringContainsString('height="600"', $html);
-        $this->assertStringContainsString('class="custom-class mw-lazy-image"', $html);
-    }
-
-    public function test_escapes_special_characters_in_lazy_image()
-    {
-        $html = $this->service->generateLazyImage('/images/test.jpg', 'Image with "quotes"');
-        
-        $this->assertStringContainsString('alt="Image with &quot;quotes&quot;"', $html);
-    }
-
-    public function test_returns_simple_lazy_image_when_sizes_empty()
-    {
-        $html = $this->service->generateResponsiveImage('/images/test.jpg', [], 'Test Image');
-        
-        $this->assertStringContainsString('<img', $html);
-        $this->assertStringContainsString('data-src="/images/test.jpg"', $html);
-        $this->assertStringNotContainsString('srcset="', $html);
-    }
-
-    public function test_returns_empty_statistics_for_nonexistent_cache()
-    {
-        $stats = $this->service->getStatistics();
-        
-        $this->assertEquals(0, $stats['total_files']);
-        $this->assertEquals(0, $stats['total_size']);
-        $this->assertEquals('0 B', $stats['total_size_human']);
-    }
-
-    public function test_returns_zero_when_clearing_nonexistent_cache()
-    {
-        $count = $this->service->clearWebpCache();
-        $this->assertEquals(0, $count);
-    }
-
-    public function test_prevents_duplicate_webp_extension()
-    {
-        $result = $this->service->getWebpOrOriginal('image.webp');
-        $this->assertEquals('image.webp', $result);
+        $this->assertTrue(function_exists('optimized_image_url'));
+        $this->assertTrue(function_exists('lazy_image'));
+        $this->assertTrue(function_exists('image_optimization_stats'));
     }
 }

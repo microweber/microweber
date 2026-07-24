@@ -491,6 +491,7 @@ class FilamentAdminPanelProvider extends PanelProvider
          $panel->plugin(MicroweberFilamentSocialitePlugin::make()->admin()->configure());
         $panel->plugin(\MicroweberPackages\Fortify\Filament\MicroweberFortifyPlugin::make());
         $panel->plugin(\MicroweberPackages\CdnSync\Filament\CdnSyncPlugin::make());
+        $panel->plugin(\MicroweberPackages\ImageOptimization\Filament\ImageOptimizationPlugin::make());
 
         if ($registeredPlugins) {
             foreach ($registeredPlugins as $registeredPlugin) {
