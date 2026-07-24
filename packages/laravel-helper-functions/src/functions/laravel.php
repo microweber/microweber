@@ -426,13 +426,8 @@ if (!function_exists('camel_case')) {
      */
     function camel_case($value)
     {
-        static $camelCache = [];
 
-        if (isset($camelCache[$value])) {
-            return $camelCache[$value];
-        }
-
-        return $camelCache[$value] = lcfirst(studly($value));
+        return lcfirst(studly($value));
     }
 }
 
@@ -451,81 +446,6 @@ if (!function_exists('class_basename')) {
     }
 }
 
-
-if (!function_exists('data_get')) {
-    /**
-     * Get an item from an array or object using "dot" notation.
-     *
-     * Faithful port of Laravel's data_get(): the $key may be a dot string,
-     * an array of segments, or contain "*" wildcards. Notably, Laravel's own
-     * Arr::pluck() calls data_get($item, ['segment', ...]) with an ARRAY key —
-     * an earlier version of this override only handled string keys and returned
-     * $target unchanged for arrays, which silently broke Arr::pluck()/
-     * Collection::pluck() everywhere (e.g. Eloquent global-scope where-grouping
-     * threw "str_contains(): Argument #1 must be of type string, array given"
-     * and 500'd every scoped query). Handle string, array and wildcard keys.
-     *
-     * @param mixed $target
-     * @param string|array|int|null $key
-     * @param mixed $default
-     * @return mixed
-     */
-    function data_get($target, $key, $default = null)
-    {
-        if (is_null($key)) {
-            return $target;
-        }
-
-        $key = is_array($key) ? $key : explode('.', $key);
-
-        foreach ($key as $i => $segment) {
-            unset($key[$i]);
-
-            if (is_null($segment)) {
-                return $target;
-            }
-
-            if ($segment === '*') {
-                if ($target instanceof \Illuminate\Support\Collection) {
-                    $target = $target->all();
-                } elseif (!is_iterable($target)) {
-                    return value($default);
-                }
-
-                $result = [];
-                foreach ($target as $item) {
-                    $result[] = data_get($item, $key);
-                }
-
-                return in_array('*', $key) ? \Illuminate\Support\Arr::collapse($result) : $result;
-            }
-
-            if (is_array($target)) {
-                if (!array_key_exists($segment, $target)) {
-                    return value($default);
-                }
-
-                $target = $target[$segment];
-            } elseif ($target instanceof ArrayAccess) {
-                if (!isset($target[$segment])) {
-                    return value($default);
-                }
-
-                $target = $target[$segment];
-            } elseif (is_object($target)) {
-                if (!isset($target->{$segment})) {
-                    return value($default);
-                }
-
-                $target = $target->{$segment};
-            } else {
-                return value($default);
-            }
-        }
-
-        return $target;
-    }
-}
 
 
 if (!function_exists('ends_with')) {
@@ -629,18 +549,12 @@ if (!function_exists('snake_case')) {
      */
     function snake_case($value, $delimiter = '_')
     {
-        static $snakeCache = [];
-        $key = $value . $delimiter;
-
-        if (isset($snakeCache[$key])) {
-            return $snakeCache[$key];
-        }
 
         if (!ctype_lower($value)) {
             $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1' . $delimiter, $value));
         }
 
-        return $snakeCache[$key] = $value;
+        return   $value;
     }
 }
 
@@ -845,13 +759,9 @@ if (!function_exists('charsArray')) {
      */
     function charsArray()
     {
-        static $charsArray;
 
-        if (isset($charsArray)) {
-            return $charsArray;
-        }
 
-        return $charsArray = [
+        return   [
             '0' => ['°', '₀', '۰'],
             '1' => ['¹', '₁', '۱'],
             '2' => ['²', '₂', '۲'],
@@ -1377,16 +1287,11 @@ if (!function_exists('studly_case')) {
      */
     function studly_case($value)
     {
-        static $studlyCache = [];
-        $key = $value;
 
-        if (isset($studlyCache[$key])) {
-            return $studlyCache[$key];
-        }
 
         $value = ucwords(str_replace(array('-', '_'), ' ', $value));
 
-        return $studlyCache[$key] = str_replace(' ', '', $value);
+        return   str_replace(' ', '', $value);
     }
 }
 
@@ -1452,20 +1357,12 @@ if (!function_exists('studly')) {
      * Convert a value to studly caps case.
      *
      * @param string $value
+     * @alias studly_case
      * @return string
      */
     function studly($value)
     {
-        static $studlyCache = [];
-        $key = $value;
-
-        if (isset($studlyCache[$key])) {
-            return $studlyCache[$key];
-        }
-
-        $value = ucwords(str_replace(array('-', '_'), ' ', $value));
-
-        return $studlyCache[$key] = str_replace(' ', '', $value);
+        return studly_case($value);
     }
 }
 
