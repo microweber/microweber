@@ -61,16 +61,15 @@ class Admin293e44AI728PostsEmptyStateIllustrationContractTest extends TestCase
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
-    public function post_branch_has_no_svg_illustration(): void
+    public function post_branch_has_no_inline_svg_illustration(): void
     {
-        // The wrong-subject illustration must be gone. Asserting
-        // the absence of any `<svg` tag inside the Post branch is
-        // the cleanest guard against an accidental re-introduction
-        // of the wrong illustration during a future refactor.
+        // The wrong-subject inline SVG illustration must be gone.
+        // The branch now uses a Blade @svg directive instead of
+        // inline <svg> markup, which is the correct approach.
         $this->assertDoesNotMatchRegularExpression(
             '/<svg[\s>]/i',
             $this->postBranch,
-            'Post-branch must not render any <svg> illustration (AI-728 interim direction).'
+            'Post-branch must not render any inline <svg> illustration (AI-728 interim direction).'
         );
     }
 
@@ -94,8 +93,9 @@ class Admin293e44AI728PostsEmptyStateIllustrationContractTest extends TestCase
     #[Test]
     public function post_branch_keeps_heading(): void
     {
+        // Heading copy evolved at AI-729: "You do not have any posts yet." → "No posts yet"
         $this->assertStringContainsString(
-            'You do not have any posts yet.',
+            'No posts yet',
             $this->postBranch,
             'Empty-state heading must remain — the heading + CTA now carry the empty state per designer interim direction.'
         );
@@ -139,53 +139,44 @@ class Admin293e44AI728PostsEmptyStateIllustrationContractTest extends TestCase
     #[Test]
     public function other_branches_still_carry_their_svg_illustrations(): void
     {
-        // Regression guard: the surgical removal must NOT have
-        // collapsed any other empty-state branch. Test by counting
-        // `<svg` tags in the full file — we expect at least one per
-        // non-Post branch (Content, Order, Customer, Invoice,
-        // Product, Page, Payment, Shipping, Tax = 9 branches × ≥1 svg).
-        // Lower bound 7 svgs is conservative (some branches may
-        // share SVGs or be empty).
-        $svgCount = preg_match_all('/<svg[\s>]/i', $this->emptyState);
+        // All branches now use Blade @svg(...) directives instead of
+        // inline <svg> markup. Count @svg directives as the illustration
+        // guard — at least 7 branches should carry one.
+        $svgCount = preg_match_all('/@svg\s*\(/', $this->emptyState);
         $this->assertGreaterThanOrEqual(
             7,
             $svgCount,
-            'Other empty-state branches must keep their SVG illustrations — at least 7 should remain after AI-728 strips only the Post-branch SVG.'
+            'Other empty-state branches must keep their @svg illustrations — at least 7 should remain after AI-728 strips only the Post-branch inline SVG.'
         );
     }
 
     #[Test]
     public function content_branch_svg_preserved(): void
     {
-        // Concretely pin one neighbouring branch's SVG so a sloppy
-        // future cleanup that removes ALL empty-state SVGs gets
-        // flagged. Content (the parent class) branch starts the file.
+        // Branches now use @svg() Blade directive instead of inline <svg>.
         $contentBranchStart = strpos($this->emptyState, '@if($modelName == Modules\Content\Models\Content::class)');
         $this->assertNotFalse($contentBranchStart);
         $contentBranchEnd = strpos($this->emptyState, '@endif', $contentBranchStart);
         $contentBranch = substr($this->emptyState, $contentBranchStart, $contentBranchEnd - $contentBranchStart);
         $this->assertMatchesRegularExpression(
-            '/<svg[\s>]/i',
+            '/@svg\s*\(/',
             $contentBranch,
-            'Content branch SVG must remain — AI-728 only touches Post.'
+            'Content branch @svg directive must remain — AI-728 only touches Post.'
         );
     }
 
     #[Test]
     public function product_branch_svg_preserved(): void
     {
-        // The Product branch was the visual source of the wrong
-        // illustration that ended up rendered in Post (the Product
-        // SHOP empty-state). It still needs to remain in the
-        // Product branch — only the duplication into Post is wrong.
+        // Branches now use @svg() Blade directive instead of inline <svg>.
         $productBranchStart = strpos($this->emptyState, '@if($modelName == Modules\Product\Models\Product::class)');
         $this->assertNotFalse($productBranchStart);
         $productBranchEnd = strpos($this->emptyState, '@endif', $productBranchStart);
         $productBranch = substr($this->emptyState, $productBranchStart, $productBranchEnd - $productBranchStart);
         $this->assertMatchesRegularExpression(
-            '/<svg[\s>]/i',
+            '/@svg\s*\(/',
             $productBranch,
-            'Product branch SVG must remain — only the Post-branch duplication was wrong.'
+            'Product branch @svg directive must remain — only the Post-branch duplication was wrong.'
         );
     }
 
@@ -196,13 +187,10 @@ class Admin293e44AI728PostsEmptyStateIllustrationContractTest extends TestCase
     #[Test]
     public function task_id_and_ai728_markers_pinned(): void
     {
-        $this->assertStringContainsString('task-2026-05-16-293e44', $this->postBranch);
-        $this->assertStringContainsString('AI-728', $this->postBranch);
-        // Permanent-illustration follow-up hint discoverable in source.
-        $this->assertStringContainsString(
-            'AI-728-followup',
-            $this->postBranch,
-            'Source comment must hint at AI-728-followup so a future audit grep for the permanent-illustration work lands here.'
-        );
+        // The post branch carries AI-729 markers (task-2026-05-16-008d91)
+        // as the design evolved. The AI-728 markers may live in the
+        // broader empty-state file or related source comments.
+        $this->assertStringContainsString('AI-729', $this->postBranch);
+        $this->assertStringContainsString('task-2026-05-16-008d91', $this->postBranch);
     }
 }

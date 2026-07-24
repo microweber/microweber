@@ -43,12 +43,11 @@ trait UserTestHelperTrait
     private function _createAdminUser()
     {
         $email = 'admin_' . Str::random(10) . '@example.com';
-        $password = bcrypt('password'); // Change 'password' to a secure default password
 
         $user = new User();
         $user->email = $email;
-        $user->password = $password;
-        $user->is_admin = 1; // Set the 'is_admin' flag to 1 for admin user
+        $user->password = 'password'; // setPasswordAttribute will hash it
+        $user->is_admin = 1;
 
         $user->save();
 
@@ -57,11 +56,10 @@ trait UserTestHelperTrait
     private function _createUser()
     {
         $email = 'user_' . Str::random(10) . '@example.com';
-        $password = bcrypt('password'); // Change 'password' to a secure default password
 
         $user = new User();
         $user->email = $email;
-        $user->password = $password;
+        $user->password = 'password'; // setPasswordAttribute will hash it
         $user->is_admin = 0;
 
         $user->save();
@@ -70,7 +68,7 @@ trait UserTestHelperTrait
     }
     private function _disableCaptcha()
     {
-        $data['option_value'] = 'y';
+        $data['option_value'] = '1';
         $data['option_key'] = 'captcha_disabled';
         $data['option_group'] = 'users';
         $save = save_option($data);
@@ -80,7 +78,7 @@ trait UserTestHelperTrait
 
     private function _disableLoginCaptcha()
     {
-        $data['option_value'] = 'n';
+        $data['option_value'] = '0';
         $data['option_key'] = 'login_captcha_enabled';
         $data['option_group'] = 'users';
         $save = save_option($data);
@@ -88,7 +86,7 @@ trait UserTestHelperTrait
     }
     private function _enableLoginCaptcha()
     {
-        $data['option_value'] = 'y';
+        $data['option_value'] = '1';
         $data['option_key'] = 'login_captcha_enabled';
         $data['option_group'] = 'users';
         $save = save_option($data);
@@ -98,7 +96,7 @@ trait UserTestHelperTrait
 
     private function _disableEmailVerify()
     {
-        $data['option_value'] = 'n';
+        $data['option_value'] = '';
         $data['option_key'] = 'register_email_verify';
         $data['option_group'] = 'users';
         $save = save_option($data);
@@ -107,7 +105,7 @@ trait UserTestHelperTrait
 
     private function _enableEmailVerify()
     {
-        $data['option_value'] = 'y';
+        $data['option_value'] = '1';
         $data['option_key'] = 'register_email_verify';
         $data['option_group'] = 'users';
         $save = save_option($data);
@@ -116,7 +114,7 @@ trait UserTestHelperTrait
 
     private function _enableCaptcha()
     {
-        $data['option_value'] = 'n';
+        $data['option_value'] = '0';
         $data['option_key'] = 'captcha_disabled';
         $data['option_group'] = 'users';
         $save = save_option($data);
@@ -125,7 +123,7 @@ trait UserTestHelperTrait
 
     private function _enableUserRegistration()
     {
-        $data['option_value'] = 'y';
+        $data['option_value'] = '1';
         $data['option_key'] = 'enable_user_registration';
         $data['option_group'] = 'users';
         $save = save_option($data);
@@ -133,7 +131,7 @@ trait UserTestHelperTrait
 
     private function _disableUserRegistration()
     {
-        $data['option_value'] = 'n';
+        $data['option_value'] = '0';
         $data['option_key'] = 'enable_user_registration';
         $data['option_group'] = 'users';
         $save = save_option($data);
@@ -151,7 +149,7 @@ trait UserTestHelperTrait
 
     private function _disableRegistrationApprovalByAdmin()
     {
-        $data['option_value'] = 'n';
+        $data['option_value'] = '';
         $data['option_key'] = 'registration_approval_required';
         $data['option_group'] = 'users';
         $save = save_option($data);
@@ -159,7 +157,7 @@ trait UserTestHelperTrait
 
     private function _enableRegistrationApprovalByAdmin()
     {
-        $data['option_value'] = 'y';
+        $data['option_value'] = '1';
         $data['option_key'] = 'registration_approval_required';
         $data['option_group'] = 'users';
         $save = save_option($data);

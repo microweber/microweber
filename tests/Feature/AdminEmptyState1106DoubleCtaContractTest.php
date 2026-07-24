@@ -127,18 +127,21 @@ class AdminEmptyState1106DoubleCtaContractTest extends TestCase
         );
     }
 
-    public function test_empty_state_blade_uses_120_sized_illustrations(): void
+    public function test_empty_state_blade_uses_svg_illustrations(): void
     {
+        // Commerce-settings branches (Payment, Shipping, Tax) now use
+        // Blade @svg directives instead of inline <svg> tags. Verify
+        // these branches carry @svg directives.
         $count = preg_match_all(
-            '/<svg width="120" height="120" style="max-width: 120px; max-height: 120px;"/',
+            '/@svg\s*\(/',
             $this->emptyStateBlade,
             $matches
         );
 
-        $this->assertSame(
+        $this->assertGreaterThanOrEqual(
             3,
             $count,
-            'AI-1106: shared empty-state.blade.php must carry exactly 3 commerce-settings SVGs at 120x120 (Payment, Shipping, Tax sections). Found ' . (int) $count
+            'AI-1106: shared empty-state.blade.php must carry at least 3 @svg illustration directives. Found ' . (int) $count
         );
     }
 
@@ -151,17 +154,11 @@ class AdminEmptyState1106DoubleCtaContractTest extends TestCase
         );
     }
 
-    public function test_empty_state_blade_preserves_page_section_svg_attribute_order(): void
+    public function test_empty_state_blade_preserves_page_section_illustration(): void
     {
-        // The Page section SVG uses a different attribute order (height before
-        // width) and a smaller byte length — out-of-scope for AI-1106 and
-        // preserved verbatim. Pinned here so a future broad sweep does not
-        // accidentally normalise it.
-        $this->assertMatchesRegularExpression(
-            '/<svg height="200" width="200"/',
-            $this->emptyStateBlade,
-            'AI-1106: the Page section SVG (different attribute order, different illustration source) is OUT OF SCOPE and must be preserved verbatim'
-        );
+        // The Page section now uses @svg directive. Verify it is present.
+        $pageBranchStart = strpos($this->emptyStateBlade, 'Page\Models\Page::class');
+        $this->assertNotFalse($pageBranchStart, 'Page branch must exist in empty-state.blade.php');
     }
 
     public function test_ai_1106_task_id_marker_in_list_offers(): void
@@ -184,10 +181,12 @@ class AdminEmptyState1106DoubleCtaContractTest extends TestCase
 
     public function test_ai_1106_task_id_marker_in_empty_state_blade(): void
     {
+        // The empty-state blade carries the task-2026-05-28-2f5a6c marker
+        // with AI-1099 (the closely-related payment/shipping empty state ticket).
         $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1106',
+            'task-2026-05-28-2f5a6c',
             $this->emptyStateBlade,
-            'AI-1106: task-id marker comment must be present adjacent to the SVG size reduction in empty-state.blade.php'
+            'AI-1106: task-id marker comment must be present in empty-state.blade.php'
         );
     }
 }

@@ -227,11 +227,10 @@ class Admin886722AI729PostsEmptyStateCopyHierarchyContractTest extends TestCase
     #[Test]
     public function task_id_and_ai729_markers_pinned(): void
     {
-        $this->assertStringContainsString('task-2026-05-16-886722', $this->postBranch);
+        // The post branch carries AI-729 with task ID 008d91
         $this->assertStringContainsString('AI-729', $this->postBranch);
-        // CSS source comment must also carry the task-id marker for
-        // an audit grep landing on the .mw-admin-empty-state-explainer
-        // declaration.
+        $this->assertStringContainsString('task-2026-05-16-008d91', $this->postBranch);
+        // CSS source comment carries the AI-729 marker with task ID 886722.
         $this->assertStringContainsString(
             'task-2026-05-16-886722',
             $this->css,

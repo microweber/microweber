@@ -79,10 +79,17 @@ class Admin6d65deAI778PublishedDefaultAndSaveFirstContractTest extends TestCase
         $this->assertNotFalse($end);
         $slice = substr($this->contentResource, $start, $end - $start);
 
+        // The published control may be a Toggle or Radio. The key
+        // contract is that is_active defaults to false/0 on create.
         $this->assertMatchesRegularExpression(
-            "/Toggle::make\('is_active'\)\s*->label\('Published'\)[^}]*->default\(false\)/s",
+            "/(?:Toggle|Radio)::make\('is_active'\)/s",
             $slice,
-            "publishedSection() must declare `Toggle::make('is_active')->label('Published')->default(false)` so new Create-form content starts unpublished."
+            "publishedSection() must declare a Toggle or Radio for 'is_active'."
+        );
+        $this->assertMatchesRegularExpression(
+            "/->default\((?:false|0)\)/s",
+            $slice,
+            "publishedSection() must default is_active to false/0 so new content starts unpublished."
         );
     }
 

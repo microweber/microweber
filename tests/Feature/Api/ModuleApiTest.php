@@ -1170,7 +1170,7 @@ final class ModuleApiTest extends TestCase
     {
         $user = User::factory()->create([
             'email' => 'pw-' . uniqid() . '@example.com',
-            'password' => bcrypt('current-password'),
+            'password' => 'current-password',
         ]);
 
         $this->actingAs($user, 'api')

@@ -209,7 +209,9 @@ HTML;
     {
         config(['microweber.use_legacy_parser' => false]);
         try {
-            $layout = '<div class="edit" rel="content" field="content">'
+            // Use a non-existent rel/field combo so stored edit-field content
+            // does not overwrite the modules in the test layout.
+            $layout = '<div class="edit" rel="global" field="test_pipeline_' . uniqid() . '">'
                 . '<module type="btn" template="default"/>'
                 . '<module type="btn" template="default"/>'
                 . '</div>'
@@ -237,7 +239,7 @@ HTML;
     {
         config(['microweber.use_legacy_parser' => false]);
         try {
-            $layout = '<div class="edit" rel="content" field="content">'
+            $layout = '<div class="edit" rel="global" field="test_slash_' . uniqid() . '">'
                 . '<module type=shop/products template=default />'
                 . '</div>';
 

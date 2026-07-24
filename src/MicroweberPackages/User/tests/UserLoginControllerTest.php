@@ -64,6 +64,8 @@ class UserLoginControllerTest extends TestCase
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
+        $this->_disableEmailVerify();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $email = 'testusexXr_' . uniqid() . '@aa.bb';
         $password = 'pass__' . uniqid();
@@ -102,6 +104,7 @@ class UserLoginControllerTest extends TestCase
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
         $this->_disableLoginCaptcha();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $email = 'testusexXr_' . uniqid() . '@aa.bb';
         $password = 'pass__' . uniqid();
@@ -137,6 +140,7 @@ class UserLoginControllerTest extends TestCase
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
         $this->_disableLoginCaptcha();
+        $this->_disableRegistrationApprovalByAdmin();
 
 
         $email = 'testusexXr_' . uniqid() . '@aa.bb';
@@ -168,6 +172,7 @@ class UserLoginControllerTest extends TestCase
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
+        $this->_disableRegistrationApprovalByAdmin();
         $this->_enableLoginCaptcha();
 
 
@@ -201,6 +206,7 @@ class UserLoginControllerTest extends TestCase
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
         $this->_disableLoginCaptcha();
+        $this->_disableRegistrationApprovalByAdmin();
 
 
         $email = 'testusexXr_' . uniqid() . '@aa.bb';

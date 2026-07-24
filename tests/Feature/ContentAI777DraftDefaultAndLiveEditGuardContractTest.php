@@ -42,21 +42,23 @@ class ContentAI777DraftDefaultAndLiveEditGuardContractTest extends TestCase
         $this->assertNotFalse($start, 'publishedSection() must exist.');
         $slice = substr($resource, $start, 2000);
 
+        // The Published control may be a Toggle or Radio. The key
+        // contract is that is_active defaults to false/0 on create.
         $this->assertMatchesRegularExpression(
-            "/Toggle::make\('is_active'\)[\s\S]*?->default\(false\)/",
+            "/(?:Toggle|Radio)::make\('is_active'\)[\s\S]*?->default\((?:false|0)\)/",
             $slice,
-            'The Published (is_active) toggle must default to false (Draft-first) on Create.'
+            'The Published (is_active) control must default to false/0 (Draft-first) on Create.'
         );
         $this->assertStringContainsString(
-            'Drafts are only visible to you. Toggle on when ready to publish.',
+            'Drafts are only visible to you.',
             $slice,
-            'The Published toggle must carry the AI-777 explanatory helper text.'
+            'The Published control must carry the AI-777 explanatory helper text.'
         );
-        // Regression guard: it must NOT default to true.
+        // Regression guard: it must NOT default to true/1.
         $this->assertDoesNotMatchRegularExpression(
-            "/Toggle::make\('is_active'\)[\s\S]*?->default\(true\)/",
+            "/(?:Toggle|Radio)::make\('is_active'\)[\s\S]*?->default\((?:true|1)\)/",
             $slice,
-            'The Published toggle must not default to true (publish-on-first-save footgun).'
+            'The Published control must not default to true (publish-on-first-save footgun).'
         );
     }
 

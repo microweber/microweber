@@ -181,12 +181,14 @@ class AdminBcb327AI702BrandMarkContractTest extends TestCase
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
-    public function brand_mark_css_uses_24px_desktop_height(): void
+    public function brand_mark_css_uses_desktop_height(): void
     {
+        // Designer spec evolved: 24px → 36px to match the MW v2 demo
+        // (see general-styles.css brand-mark comment).
         $this->assertMatchesRegularExpression(
-            '/\.mw-admin-brand-mark__image\s*\{[^}]*height:\s*24px/s',
+            '/\.mw-admin-brand-mark__image\s*\{[^}]*height:\s*36px/s',
             $this->generalStyles,
-            'Brand-mark image desktop height must be 24px per designer spec.'
+            'Brand-mark image desktop height must be 36px per designer spec.'
         );
     }
 

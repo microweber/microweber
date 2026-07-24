@@ -23,11 +23,11 @@ class UserLivewireComponentsAccessTest extends TestCase
 {
     use \MicroweberPackages\User\tests\UserTestHelperTrait;
 
+    /** Components that require admin access. */
     public $componentsList = [
         UsersList::class,
         UpdatePasswordForm::class,
         UpdatePasswordWithoutConfirmFormModal::class,
-        TwoFactorAuthenticationForm::class,
         UpdateProfileInformationForm::class,
         UpdateStatusAndRoleForm::class,
         UserLoginAttemptsModal::class,
@@ -35,6 +35,11 @@ class UserLivewireComponentsAccessTest extends TestCase
         LogoutOtherBrowserSessionsForm::class,
         DeleteUserForm::class,
         CreateProfileInformationForm::class,
+    ];
+
+    /** Components accessible to any authenticated user (not admin-only). */
+    public $userAccessibleComponents = [
+        TwoFactorAuthenticationForm::class,
     ];
 
     #[Test]
@@ -46,12 +51,10 @@ class UserLivewireComponentsAccessTest extends TestCase
         $option['option_group'] = 'multilanguage_settings';
         save_option($option);
 
-
-
-
         $this->actingAsAdmin();
 
-        foreach ($this->componentsList as $component) {
+        $allComponents = array_merge($this->componentsList, $this->userAccessibleComponents);
+        foreach ($allComponents as $component) {
 
             try {
                 Livewire::test($component)->assertOk();
