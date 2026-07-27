@@ -271,7 +271,9 @@
             "MicroweberPackages\\Dusk\\Tests\\": "packages/microweber-dusk/tests/",
             "MicroweberPackages\\MediaPixum\\Tests\\": "packages/microweber-media-pixum/tests/",
             "MicroweberPackages\\MediaThumbnail\\Tests\\": "packages/microweber-media-thumbnail/tests/",
-            "MicroweberPackages\\ImageOptimization\\Tests\\": "packages/microweber-image-optimization/tests/"
+            "MicroweberPackages\\ImageOptimization\\Tests\\": "packages/microweber-image-optimization/tests/",
+            "MicroweberPackages\\Security\\Tests\\": "packages/microweber-security/tests/",
+            "MicroweberPackages\\Url\\Tests\\": "packages/microweber-url/tests/"
         }
     },
     "scripts": {

@@ -5,7 +5,7 @@ namespace Modules\Content\Support;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
-use MicroweberPackages\Helper\XSSClean;
+use MicroweberPackages\Security\XSSClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Category\Models\CategoryItem;
 use Modules\Content\Models\ContentRelated;

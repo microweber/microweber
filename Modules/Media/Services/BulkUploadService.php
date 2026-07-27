@@ -163,7 +163,7 @@ class BulkUploadService
     protected function generateFileName(string $originalName, string $extension): string
     {
         $baseName = pathinfo($originalName, PATHINFO_FILENAME);
-        $baseName = \MicroweberPackages\Helper\URLify::filter($baseName);
+        $baseName = \MicroweberPackages\Url\URLify::filter($baseName);
         $baseName = preg_replace('/[^a-zA-Z0-9_-]/', '-', $baseName);
         $baseName = strtolower($baseName);
 

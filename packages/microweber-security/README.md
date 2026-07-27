@@ -68,3 +68,21 @@ composer test
 ## License
 
 MIT
+## Standalone validation
+
+A minimal Laravel (Orchestra Testbench) app lives in `standalone-validation/`:
+
+```bash
+cd standalone-validation
+composer install
+./vendor/bin/phpunit
+```
+
+## Static analysis
+
+```bash
+# From monorepo root (level 7 maximized)
+composer analyse -- packages/microweber-security/src
+# Or package config
+../../vendor/bin/phpstan analyse -c phpstan.neon.dist
+```

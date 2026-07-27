@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use GrahamCampbell\SecurityCore\Security;
 use Illuminate\Support\Facades\Log;
-use MicroweberPackages\Helper\XSSClean;
+use MicroweberPackages\Security\XSSClean;
 
 class XSS
 {

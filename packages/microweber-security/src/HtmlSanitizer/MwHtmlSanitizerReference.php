@@ -29,7 +29,6 @@ class MwHtmlSanitizerReference
 
         'subtype' => true,
 
-        'field' => true,
         'field-name' => true,
         'field-value' => true,
         'data-id' => true,
@@ -623,7 +622,10 @@ class MwHtmlSanitizerReference
     ];
 
 
-    public static function getNotAllowedAttributes()
+    /**
+     * @return list<string>
+     */
+    public static function getNotAllowedAttributes(): array
     {
         return array_merge(self::MW_NOT_ALLOWED_ATTRIBUTES,
             self::ADDITIONAL_NOT_ALLOWED_ATTRIBUTES);

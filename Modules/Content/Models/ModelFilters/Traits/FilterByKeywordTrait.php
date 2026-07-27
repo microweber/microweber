@@ -8,7 +8,7 @@
 
 namespace Modules\Content\Models\ModelFilters\Traits;
 
-use MicroweberPackages\Helper\XSSClean;
+use MicroweberPackages\Security\XSSClean;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 

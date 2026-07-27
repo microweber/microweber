@@ -22,6 +22,7 @@
         "ezyang/htmlpurifier": "^4.18"
     },
     "require-dev": {
+        "larastan/larastan": "^3.9",
         "orchestra/testbench": "^8.0|^9.0|^10.0",
         "phpunit/phpunit": "^10.0|^11.0"
     },
@@ -41,7 +42,8 @@
         "sort-packages": true
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=512M -c phpstan.neon.dist"
     },
     "homepage": "http://microweber.com",
     "support": {

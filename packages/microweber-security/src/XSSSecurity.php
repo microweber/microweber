@@ -19,21 +19,22 @@ class XSSSecurity
      *
      * @var string
      */
-    protected $xssHash;
+    protected ?string $xssHash = null;
 
     /**
      * The evil attributes.
      *
      * @var string[]
      */
-    protected $evil;
+    /** @var array<int, string> */
+    protected array $evil;
 
     /**
      * Create a new security instance.
      *
      * @param string[]|null $evil
      */
-    public function __construct(array $evil = null)
+    public function __construct(?array $evil = null)
     {
         $this->evil = $evil ?: ['(?<!\w)on\w*', 'style', 'xmlns', 'formaction', 'form', 'xlink:href', 'FSCommand', 'seekSegmentTime'];
     }
@@ -42,10 +43,10 @@ class XSSSecurity
      * XSS clean.
      *
      * @param string|string[] $str
-     *
-     * @return string
+     * @param string $method
+     * @return string|string[]
      */
-    public function clean($str,$method='process')
+    public function clean($str, $method = 'process')
     {
         if (is_array($str)) {
             foreach (array_keys($str) as $key) {
@@ -71,7 +72,7 @@ class XSSSecurity
      *
      * @return string
      */
-    protected function process($str)
+    protected function process(string $str): string
     {
 
 
@@ -182,7 +183,7 @@ class XSSSecurity
      *
      * @return string
      */
-    protected function xssHash()
+    protected function xssHash(): string
     {
         if (!$this->xssHash) {
             $this->xssHash = bin2hex(random_bytes(20));
@@ -199,7 +200,7 @@ class XSSSecurity
      *
      * @return string
      */
-    protected function removeInvisibleCharacters($str, $urlEncoded = true)
+    protected function removeInvisibleCharacters(string $str, bool $urlEncoded = true): string
     {
         $nonDisplayables = [];
 
@@ -224,7 +225,7 @@ class XSSSecurity
      *
      * @return string
      */
-    protected function entityDecode($str)
+    protected function entityDecode(string $str): string
     {
         static $entities;
 
@@ -250,7 +251,7 @@ class XSSSecurity
                     }
                 }
 
-                $str = str_ireplace(array_keys($replace), array_values($replace), $str);
+                $str = str_ireplace(array_keys($replace), array_map('strval', array_values($replace)), $str);
             }
 
             $str = html_entity_decode(preg_replace('/(&#(?:x0*[0-9a-f]{2,5}(?![0-9a-f;])|(?:0*\d{2,4}(?![0-9;]))))/iS', '$1;', $str), $flags);
@@ -260,15 +261,12 @@ class XSSSecurity
     }
 
     /**
-     * Compact exploded words.
-     *
-     * @param array $matches
-     *
+     * @param array<int|string, string> $matches
      * @return string
      */
-    protected function compactExplodedWords($matches)
+    protected function compactExplodedWords(array $matches): string
     {
-        return preg_replace('/\s+/s', '', $matches[1]).$matches[2];
+        return (string) preg_replace('/\s+/s', '', $matches[1]).$matches[2];
     }
 
     /**
@@ -278,7 +276,7 @@ class XSSSecurity
      *
      * @return string
      */
-    public function removeEvilAttributes($str)
+    public function removeEvilAttributes(string $str): string
     {
         do {
             $count = $tempCount = 0;
@@ -296,26 +294,20 @@ class XSSSecurity
     }
 
     /**
-     * Sanitize naughty html.
-     *
-     * @param array $matches
-     *
+     * @param array<int|string, string> $matches
      * @return string
      */
-    protected function sanitizeNaughtyHtml($matches)
+    protected function sanitizeNaughtyHtml(array $matches): string
     {
         return '&lt;'.$matches[1].$matches[2].$matches[3]
             .str_replace(['>', '<'], ['&gt;', '&lt;'], $matches[4]);
     }
 
     /**
-     * JS link removal.
-     *
-     * @param array $match
-     *
+     * @param array<int|string, string> $match
      * @return string
      */
-    protected function jsLinkRemoval($match)
+    protected function jsLinkRemoval(array $match): string
     {
         return str_replace(
             $match[1],
@@ -329,13 +321,10 @@ class XSSSecurity
     }
 
     /**
-     * JS image removal.
-     *
-     * @param array $match
-     *
+     * @param array<int|string, string> $match
      * @return string
      */
-    protected function jsImgRemoval($match)
+    protected function jsImgRemoval(array $match): string
     {
         return str_replace(
             $match[1],
@@ -349,13 +338,10 @@ class XSSSecurity
     }
 
     /**
-     * Attribute conversion.
-     *
-     * @param array $match
-     *
+     * @param array<int|string, string> $match
      * @return string
      */
-    protected function convertAttribute($match)
+    protected function convertAttribute(array $match): string
     {
         return str_replace(['>', '<', '\\'], ['&gt;', '&lt;', '\\\\'], $match[0]);
     }
@@ -367,7 +353,7 @@ class XSSSecurity
      *
      * @return string
      */
-    protected function filterAttributes($str)
+    protected function filterAttributes(string $str): string
     {
         $out = '';
 
@@ -381,13 +367,10 @@ class XSSSecurity
     }
 
     /**
-     * HTML entity decode callback.
-     *
-     * @param array $match
-     *
+     * @param array<int|string, string> $match
      * @return string
      */
-    protected function decodeEntity($match)
+    protected function decodeEntity(array $match): string
     {
         $hash = $this->xssHash();
 
@@ -403,7 +386,7 @@ class XSSSecurity
      *
      * @return string
      */
-    protected function doNeverAllowed($str)
+    protected function doNeverAllowed(string $str): string
     {
         $never = [
             'document.cookie' => '[removed]',
@@ -432,7 +415,7 @@ class XSSSecurity
         ];
 
         foreach ($regex as $val) {
-            $str = preg_replace('#'.$val.'#is', '[removed]', $str);
+            $str = (string) preg_replace('#'.$val.'#is', '[removed]', $str);
         }
 
         return $str;

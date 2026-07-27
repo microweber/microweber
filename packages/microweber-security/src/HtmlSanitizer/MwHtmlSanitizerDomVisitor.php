@@ -97,7 +97,10 @@ class MwHtmlSanitizerDomVisitor
         // Otherwise, visit recursively
         $this->enterNode($nodeName, $domNode, $cursor);
         $this->visitChildren($domNode, $cursor);
-        $cursor->node = $cursor->node->getParent();
+        $parent = $cursor->node->getParent();
+        if ($parent !== null) {
+            $cursor->node = $parent;
+        }
     }
 
     private function enterNode(string $domNodeName, \DOMNode $domNode, Cursor $cursor): void
@@ -134,7 +137,7 @@ class MwHtmlSanitizerDomVisitor
             if ('#text' === $child->nodeName) {
 
                 // Add text directly for performance
-                $cursor->node->addChild(new MwHtmlSanitizerTextNode($cursor->node, $child->nodeValue));
+                $cursor->node->addChild(new MwHtmlSanitizerTextNode($cursor->node, (string) $child->nodeValue));
             } elseif (!$child instanceof \DOMText) {
 
 
@@ -147,11 +150,18 @@ class MwHtmlSanitizerDomVisitor
 
     /**
      * Set attributes from a DOM node to a sanitized node.
+     *
+     * @param array<string, bool> $allowedAttributes
      */
     private function setAttributes(string $domNodeName, \DOMNode $domNode, MwHtmlSanitizerDomNode $node, array $allowedAttributes = []): void
     {
-        /** @var iterable<\DOMAttr> $domAttributes */
-        if (!$domAttributes = $domNode->attributes ? $domNode->attributes->getIterator() : []) {
+        if ($domNode->attributes === null) {
+            return;
+        }
+
+        /** @var \DOMNamedNodeMap<\DOMAttr> $domAttributes */
+        $domAttributes = $domNode->attributes;
+        if ($domAttributes->length === 0) {
             return;
         }
 
@@ -159,41 +169,39 @@ class MwHtmlSanitizerDomVisitor
         foreach ($domAttributes as $attribute) {
             $name = StringSanitizer::htmlLower($attribute->name);
 
-            if (in_array($name, $neverAllowed)) {
+            if (in_array($name, $neverAllowed, true)) {
                 continue;
             }
+
             $skip = false;
-            //if start with
             foreach ($neverAllowed as $neverAllowedItem) {
-                $startsWith = Str::startsWith($name, $neverAllowedItem);
-                if($startsWith){
+                if (Str::startsWith($name, $neverAllowedItem)) {
                     $skip = true;
+                    break;
                 }
             }
 
-            if($skip){
+            if ($skip) {
                 continue;
             }
 
+            $value = $attribute->value;
 
+            // Sanitize the attribute value if there are attribute sanitizers for it
+            $attributeSanitizers = array_merge(
+                $this->attributeSanitizers[$domNodeName][$name] ?? [],
+                $this->attributeSanitizers['*'][$name] ?? [],
+                $this->attributeSanitizers[$domNodeName]['*'] ?? [],
+            );
 
-            //if (isset($allowedAttributes[$name])) {
-                $value = $attribute->value;
-
-                // Sanitize the attribute value if there are attribute sanitizers for it
-                $attributeSanitizers = array_merge(
-                    $this->attributeSanitizers[$domNodeName][$name] ?? [],
-                    $this->attributeSanitizers['*'][$name] ?? [],
-                    $this->attributeSanitizers[$domNodeName]['*'] ?? [],
-                );
-
-                foreach ($attributeSanitizers as $sanitizer) {
-                 //  / $value = $sanitizer->sanitizeAttribute($domNodeName, $name, $value, $this->config);
-                 //   $value = xss_clean($value);
+            foreach ($attributeSanitizers as $sanitizer) {
+                $sanitized = $sanitizer->sanitizeAttribute($domNodeName, $name, $value, $this->config);
+                if (is_string($sanitized)) {
+                    $value = $sanitized;
                 }
+            }
 
-                $node->setAttribute($name, $value);
-           // }
+            $node->setAttribute($name, $value);
         }
     }
 }

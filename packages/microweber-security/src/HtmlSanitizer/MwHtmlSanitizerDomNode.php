@@ -55,7 +55,9 @@ use Symfony\Component\HtmlSanitizer\Visitor\Node\TextNode;
 
     private NodeInterface $parent;
     private string $tagName;
+    /** @var array<string, string> */
     private array $attributes = [];
+    /** @var list<\Symfony\Component\HtmlSanitizer\Visitor\Node\NodeInterface> */
     private array $children = [];
 
     public function __construct(NodeInterface $parent, string $tagName)

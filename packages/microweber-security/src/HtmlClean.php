@@ -10,7 +10,7 @@ use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
 
 class HtmlClean
 {
-    public $purifierPath;
+    public string $purifierPath;
 
     public function __construct(?string $purifierPath = null)
     {
@@ -37,23 +37,29 @@ class HtmlClean
         $this->purifierPath = $purifierPath;
     }
 
-    public function cleanArray($array)
+    /**
+     * @param array<mixed> $array
+     * @return array<mixed>
+     */
+    public function cleanArray(array $array): array
     {
-        if (is_array($array)) {
-            $cleanedArray = [];
-            foreach ($array as $key => $value) {
-                if (is_array($value)) {
-                    $cleanedArray[$key] = $this->cleanArray($value);
-                } else {
-                    $cleanedArray[$key] = $this->clean($value);
-                }
+        $cleanedArray = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $cleanedArray[$key] = $this->cleanArray($value);
+            } else {
+                $cleanedArray[$key] = $this->clean($value);
             }
-
-            return $cleanedArray;
         }
+
+        return $cleanedArray;
     }
 
-    public function clean($html, $options = [])
+    /**
+     * @param mixed $html
+     * @param array<string, mixed> $options
+     */
+    public function clean(mixed $html, array $options = []): mixed
     {
         $xssClean = new XSSClean();
         $html = $xssClean->clean($html);
@@ -89,7 +95,10 @@ class HtmlClean
         return $html;
     }
 
-    public function onlyTags($html, $tags = ['i', 'a', 'strong', 'code', 'pre', 'blockquote', 'em', 'strike', 'p', 'span', 'caption', 'cite'])
+    /**
+     * @param list<string> $tags
+     */
+    public function onlyTags(string $html, array $tags = ['i', 'a', 'strong', 'code', 'pre', 'blockquote', 'em', 'strike', 'p', 'span', 'caption', 'cite']): string
     {
         $config = \HTMLPurifier_Config::createDefault();
 

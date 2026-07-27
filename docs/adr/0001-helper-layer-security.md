@@ -2,8 +2,9 @@
 
 > **Cycle-111 / AI-114 / TICKET-CR (2026-05-09)**
 > Status: Accepted
-> Context: `src/MicroweberPackages/Helper/functions/` — global helper
-> functions used throughout Blade templates + module skins.
+> Context: global helper functions (now in `packages/laravel-helper-functions`,
+> `packages/microweber-url`, `packages/microweber-security`) used throughout
+> Blade templates + module skins.
 
 ---
 

@@ -1,0 +1,13 @@
+includes:
+    - ../../vendor/larastan/larastan/extension.neon
+
+parameters:
+    # Maximized above monorepo default (5); level 8+ is mostly preg_replace nullability noise in legacy XSS/HTML code.
+    level: 7
+    paths:
+        - src
+    excludePaths:
+        - vendor(?)
+    tmpDir: build/phpstan
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false

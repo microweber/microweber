@@ -25,11 +25,11 @@ class MwHtmlSanitizer implements HtmlSanitizerInterface
     private ParserInterface $parser;
 
     /**
-     * @var array<string, DomVisitor>
+     * @var array<string, DomVisitor|MwHtmlSanitizerDomVisitor>
      */
     private array $domVisitors = [];
 
-    public function __construct(MwHtmlSanitizerConfig $config, ParserInterface $parser = null)
+    public function __construct(MwHtmlSanitizerConfig $config, ?ParserInterface $parser = null)
     {
         $this->config = $config;
         $this->parser = $parser ?? new MastermindsParser();

@@ -13,7 +13,7 @@ use Tests\TestCase;
  *
  * Pins:
  *   - PHP helper `mw_is_safe_remote_url()` exists, lives in
- *     src/MicroweberPackages/Helper/functions/url.php, accepts
+ *     packages/microweber-url/src/helpers.php (and UrlSecurity), accepts
  *     http(s) + protocol-relative `//host/path`, rejects
  *     javascript:/data:/file:/vbscript: and malformed/empty input.
  *   - JS helper `AdminTools.isAllowedFileUrl()` exists in
@@ -37,7 +37,7 @@ class ImagePickerUrlSchemeContractTest extends TestCase
     {
         parent::setUp();
         $this->urlHelperSrc = file_get_contents(base_path(
-            'src/MicroweberPackages/Helper/functions/url.php'
+            'packages/microweber-url/src/helpers.php'
         ));
         $this->adminToolsSrc = file_get_contents(base_path(
             'packages/frontend-assets/resources/assets/js/admin-tools.service.js'

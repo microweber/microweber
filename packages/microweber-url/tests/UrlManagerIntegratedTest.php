@@ -4,7 +4,6 @@ namespace MicroweberPackages\Url\Tests;
 
 use MicroweberPackages\Url\UrlManager;
 use PHPUnit\Framework\Attributes\Test;
-use Tests\TestCase;
 
 /**
  * Integrated tests for UrlManager - requires the full Microweber system.
@@ -119,16 +118,17 @@ class UrlManagerIntegratedTest extends TestCase
     }
 
     #[Test]
-    public function legacy_helper_class_extends_new_package(): void
+    public function package_url_manager_class_is_bound(): void
     {
-        $legacy = new \MicroweberPackages\Helper\UrlManager();
-        $this->assertInstanceOf(UrlManager::class, $legacy);
+        $manager = new UrlManager();
+        $this->assertInstanceOf(UrlManager::class, $manager);
+        $this->assertSame(UrlManager::class, app('url_manager')::class);
     }
 
     #[Test]
-    public function legacy_urlify_extends_new_package(): void
+    public function package_urlify_filter_works(): void
     {
-        $result = \MicroweberPackages\Helper\URLify::filter('Hello World');
+        $result = \MicroweberPackages\Url\URLify::filter('Hello World');
         $this->assertEquals('hello-world', $result);
     }
 

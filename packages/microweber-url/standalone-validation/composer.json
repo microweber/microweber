@@ -1,0 +1,30 @@
+{
+    "name": "microweber-packages/url-standalone-validation",
+    "description": "Minimal Laravel app validating microweber-url as a standalone package",
+    "type": "project",
+    "require": {
+        "php": "^8.1",
+        "microweber-packages/url": "@dev",
+        "microweber-packages/laravel-helper-functions": "@dev"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "repositories": [
+        {"type": "path", "url": "..", "options": {"symlink": true}},
+        {"type": "path", "url": "../../laravel-helper-functions", "options": {"symlink": true}}
+    ],
+    "autoload-dev": {
+        "psr-4": {
+            "UrlStandalone\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

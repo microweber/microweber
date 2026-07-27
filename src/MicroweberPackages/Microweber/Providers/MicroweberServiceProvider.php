@@ -18,7 +18,7 @@ use MicroweberPackages\ContentField\ContentFieldServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\Fortify\FortifyServiceProvider;
 use MicroweberPackages\Frontend\Providers\FrontendServiceProvider;
-use MicroweberPackages\Helper\HelpersServiceProvider;
+use MicroweberPackages\Security\SecurityServiceProvider;
 use MicroweberPackages\Url\Providers\UrlServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\LaravelModules\LaravelModulesServiceProvider;
@@ -88,8 +88,9 @@ class MicroweberServiceProvider extends ServiceProvider
         // `database_manager` would be unbound at that point (fatal). Registering it here (before the
         // panel provider) guarantees the binding exists. The package is in composer `dont-discover`.
         $this->app->register(\MicroweberPackages\Database\DatabaseManagerServiceProvider::class);
+        // URL + security extracted from the legacy Helper package into packages/*
         $this->app->register(UrlServiceProvider::class);
-        $this->app->register(HelpersServiceProvider::class);
+        $this->app->register(SecurityServiceProvider::class);
         $this->app->register(LiveEditRouteServiceProvider::class);
 
         $this->app->register(ViewServiceProvider::class);

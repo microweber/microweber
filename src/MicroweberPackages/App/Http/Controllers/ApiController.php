@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\URL;
 use MicroweberPackages\App\Http\Middleware\ApiAuth;
 use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
 use MicroweberPackages\App\Managers\Helpers\VerifyCsrfTokenHelper;
-use MicroweberPackages\Helper\XSSClean;
+use MicroweberPackages\Security\XSSClean;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;

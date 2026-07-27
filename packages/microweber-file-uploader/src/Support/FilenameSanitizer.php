@@ -53,8 +53,8 @@ class FilenameSanitizer
      */
     protected function transliterate(string $text): string
     {
-        if (class_exists(\MicroweberPackages\Helper\URLify::class)) {
-            return \MicroweberPackages\Helper\URLify::filter($text);
+        if (class_exists(\MicroweberPackages\Url\URLify::class)) {
+            return \MicroweberPackages\Url\URLify::filter($text);
         }
 
         // Basic transliteration fallback

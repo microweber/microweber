@@ -9,15 +9,15 @@ namespace MicroweberPackages\Url;
  */
 class UrlManager
 {
-    public $site_url_var;
-    public $current_url_var;
+    public mixed $site_url_var = null;
+    public mixed $current_url_var = null;
 
-    public function site($add_string = false)
+    public function site(string|false $add_string = false): string
     {
         return $this->site_url($add_string);
     }
 
-    public function hostname()
+    public function hostname(): string
     {
         static $u1;
         if ($u1 == false) {
@@ -35,7 +35,7 @@ class UrlManager
         return $u1;
     }
 
-    public function link_to_file($path)
+    public function link_to_file(mixed $path): string
     {
         $path = $this->dirToUrl($path);
 
@@ -45,17 +45,17 @@ class UrlManager
         return $path;
     }
 
-    public function set($url = false)
+    public function set(mixed $url = false): mixed
     {
         return $this->site_url_var = ($url);
     }
 
-    public function set_current($url = false)
+    public function set_current(mixed $url = false): mixed
     {
         return $this->current_url_var = ($url);
     }
 
-    public function to_path($path)
+    public function to_path(mixed $path): mixed
     {
         if (!is_string($path)) {
             return false;
@@ -80,7 +80,8 @@ class UrlManager
         return rtrim(preg_replace('#[/\\\\]+#', DIRECTORY_SEPARATOR, $path), DIRECTORY_SEPARATOR);
     }
 
-    public function redirect($url, $cookies = [])
+    /** @param array<int, mixed> $cookies */
+    public function redirect(string $url, array $cookies = []): mixed
     {
         if (trim($url) == '') {
             return false;
@@ -123,27 +124,29 @@ class UrlManager
         }
 
         if (headers_sent()) {
-            echo '<meta http-equiv="refresh" content="0;url=' . htmlspecialchars($redirectUrl, ENT_QUOTES, 'UTF-8') . '">';
-        } else {
-            if ($cookies) {
-                $redir = \Redirect::to($redirectUrl);
-                if (method_exists($redir, 'withCookie')) {
-                    foreach ($cookies as $cookie) {
-                        $redir->withCookie($cookie);
-                    }
-                }
-                return $redir;
-            }
-            return \Redirect::to($redirectUrl);
+            echo '<meta http-equiv="refresh" content="0;url=' . htmlspecialchars((string) $redirectUrl, ENT_QUOTES, 'UTF-8') . '">';
+            return true;
         }
+
+        if ($cookies) {
+            $redir = \Redirect::to($redirectUrl);
+            if (method_exists($redir, 'withCookie')) {
+                foreach ($cookies as $cookie) {
+                    $redir->withCookie($cookie);
+                }
+            }
+            return $redir;
+        }
+
+        return \Redirect::to($redirectUrl);
     }
 
-    public function params($skip_ajax = false)
+    public function params(bool $skip_ajax = false): mixed
     {
         return $this->param($param = '__MW_GET_ALL_PARAMS__', $skip_ajax);
     }
 
-    public function param($param, $skip_ajax = false, $force_url = false)
+    public function param(string $param, bool $skip_ajax = false, mixed $force_url = false): mixed
     {
         if ($_POST) {
             if (isset($_POST['search_by_keyword'])) {
@@ -157,7 +160,7 @@ class UrlManager
             $url = $force_url;
         }
         $rem = $this->site_url();
-        $url = str_ireplace($rem, '', $url);
+        $url = (string) str_ireplace($rem, '', (string) $url);
         $url = str_ireplace('?', '/', $url);
         $url = str_ireplace('=', ':', $url);
         $url = str_ireplace('&', '/', $url);
@@ -184,7 +187,7 @@ class UrlManager
         return $all_params;
     }
 
-    public function param_set($param, $value = false, $url = false)
+    public function param_set(string $param, mixed $value = false, mixed $url = false): mixed
     {
         if ($url == false) {
             $url = $this->string();
@@ -221,7 +224,7 @@ class UrlManager
         return $site;
     }
 
-    public function param_unset($param, $url = false)
+    public function param_unset(string $param, mixed $url = false): mixed
     {
         if ($url == false) {
             $url = $this->string();
@@ -251,7 +254,7 @@ class UrlManager
      *
      * @return string the url string
      */
-    public function string($skip_ajax = false)
+    public function string(bool $skip_ajax = false): mixed
     {
         if ($skip_ajax == true) {
             $url = $this->current($skip_ajax);
@@ -259,9 +262,12 @@ class UrlManager
             $url = false;
         }
 
-        $u1 = implode('/', $this->segment(-1, $url));
+        $segments = $this->segment(-1, $url);
+        if (!is_array($segments)) {
+            return is_string($segments) ? $segments : '';
+        }
 
-        return $u1;
+        return implode('/', $segments);
     }
 
     /**
@@ -272,7 +278,7 @@ class UrlManager
      *
      * @return string the url string
      */
-    public function current($skip_ajax = false, $no_get = false)
+    public function current(bool $skip_ajax = false, bool $no_get = false): mixed
     {
         $u = false;
         if ($skip_ajax == true) {
@@ -345,14 +351,19 @@ class UrlManager
      *
      * @return bool
      */
-    public function is_ajax()
+    public function is_ajax(): bool
     {
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
     }
 
-    public function strleft($s1, $s2)
+    public function strleft(string $s1, string $s2): string|false
     {
-        return substr($s1, 0, strpos($s1, $s2));
+        $pos = strpos($s1, $s2);
+        if ($pos === false) {
+            return false;
+        }
+
+        return substr($s1, 0, $pos);
     }
 
     /**
@@ -363,9 +374,9 @@ class UrlManager
      *
      * @return string|array|null the url segment(s) or null
      */
-    public function segment($num = -1, $page_url = false)
+    /** @return string|array<int, string>|null */
+    public function segment(int|string $num = -1, mixed $page_url = false): string|array|null
     {
-        $u = false;
         if ($page_url == false or $page_url == '') {
             $current_url = $this->current();
         } else {
@@ -381,29 +392,27 @@ class UrlManager
         $current_url = str_replace(' ', '%20', $current_url);
         $current_url = $this->reduceDoubleSlashes($current_url);
 
-        if (!isset($u) or $u == false) {
-            $u = explode('/', current(explode('?', $current_url, 2)));
-            if (isset($u[0])) {
-                $string = substr($u[0], 0, 1);
-                if ($string == ':') {
-                    unset($u[0]);
-                    $u = array_values($u);
-                }
+        $u = explode('/', current(explode('?', $current_url, 2)));
+        if (isset($u[0])) {
+            $string = substr($u[0], 0, 1);
+            if ($string == ':') {
+                unset($u[0]);
+                $u = array_values($u);
             }
         }
 
         if ($num != -1) {
             if (isset($u[$num])) {
                 return $u[$num];
-            } else {
-                return;
             }
-        } else {
-            return $u;
+
+            return null;
         }
+
+        return $u;
     }
 
-    public function site_url($add_string = false)
+    public function site_url(string|false $add_string = false): string
     {
         if (function_exists('site_url')) {
             return site_url($add_string);
@@ -421,30 +430,40 @@ class UrlManager
      *
      * @return array|false the url segments or false
      */
-    public function segments($page_url = false)
+    /** @return array<int, string>|false */
+    public function segments(mixed $page_url = false): array|false
     {
-        return $this->segment($k = -1, $page_url);
+        $segments = $this->segment(-1, $page_url);
+        if (!is_array($segments)) {
+            return false;
+        }
+
+        return $segments;
     }
 
-    public function slug($text)
+    public function slug(mixed $text): string
     {
+        $text = is_array($text) ? implode(' ', $text) : (string) $text;
         $text = str_replace('&quot;', '-', $text);
         $text = str_replace('&#039;', '-', $text);
-        $text = preg_replace('/[^\\pL\d]+/u', '-', $text);
+        $text = (string) preg_replace('/[^\\pL\d]+/u', '-', $text);
         $text = str_replace('""', '-', $text);
         $text = str_replace("'", '-', $text);
         $text = str_replace(':', '-', $text);
 
         $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
-        $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+        $text = (string) preg_replace('~[^\\pL\d]+~u', '-', $text);
         $text = trim($text, '-');
 
         return $text;
     }
 
-    public function download($requestUrl, $post_params = false, $save_to_file = false)
+    /**
+     * @param array<string, mixed>|false $post_params
+     */
+    public function download(string $requestUrl, array|false $post_params = false, string|false $save_to_file = false): mixed
     {
-        if ($post_params != false and is_array($post_params)) {
+        if ($post_params !== false) {
             $postdata = http_build_query($post_params);
         } else {
             $postdata = false;
@@ -464,7 +483,7 @@ class UrlManager
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 5.01; Microweber ' . $version . ';)');
             if ($post_params != false) {
-                curl_setopt($ch, CURLOPT_POST, count($post_params));
+                curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params);
             }
             $result = curl_exec($ch);
@@ -483,7 +502,7 @@ class UrlManager
         return false;
     }
 
-    public function replace_site_url($arr)
+    public function replace_site_url(mixed $arr): mixed
     {
         $site = $this->site_url();
         if (is_string($arr)) {
@@ -505,21 +524,22 @@ class UrlManager
         return $arr;
     }
 
-    public $repaced_urls = array();
+    /** @var array<string, string> */
+    public array $repaced_urls = array();
 
-    public function replace_site_url_back($arr)
+    public function replace_site_url_back(mixed $arr): mixed
     {
-        if ($arr == false) {
-            return;
+        // Preserve historical "empty return" for falsey non-array inputs (null).
+        if ($arr === false || $arr === null || $arr === '' || $arr === 0 || $arr === '0') {
+            return null;
         }
 
         if (is_string($arr)) {
             $site = $this->site_url();
-            $ret = str_replace('{SITE_URL}', $site, $arr);
-            return $ret;
+            return str_replace('{SITE_URL}', $site, $arr);
         }
 
-        if (is_array($arr) and !empty($arr)) {
+        if (is_array($arr)) {
             $ret = array();
             foreach ($arr as $k => $v) {
                 if (is_array($v)) {
@@ -531,9 +551,11 @@ class UrlManager
             }
             return $ret;
         }
+
+        return $arr;
     }
 
-    public function api_link($str = '')
+    public function api_link(string $str = ''): string
     {
         if (function_exists('api_url')) {
             return api_url($str);
@@ -542,7 +564,7 @@ class UrlManager
         return $this->site_url('api/' . ltrim($str, '/'));
     }
 
-    public function clean_url_wrappers($url_str = '')
+    public function clean_url_wrappers(mixed $url_str = ''): mixed
     {
         static $wrappers;
 
@@ -560,7 +582,7 @@ class UrlManager
             );
         }
 
-        if ($wrappers and $url_str) {
+        if ($url_str !== '' && $url_str !== null) {
             foreach ($wrappers as $item) {
                 if (is_string($item)) {
                     $url_str = str_ireplace($item . '://', '//', $url_str);
@@ -576,7 +598,7 @@ class UrlManager
      * @param string $path
      * @return string
      */
-    public function dirToUrl($path)
+    public function dirToUrl(string $path): string
     {
         if (function_exists('dir2url')) {
             return dir2url($path);
@@ -600,7 +622,7 @@ class UrlManager
      * @param string $str
      * @return string
      */
-    public function reduceDoubleSlashes($str)
+    public function reduceDoubleSlashes(string $str): string
     {
         if (function_exists('reduce_double_slashes')) {
             return reduce_double_slashes($str);

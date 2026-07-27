@@ -18,15 +18,11 @@ class MwAttrbuteSanitizer implements AttributeSanitizerInterface
 
     public function getSupportedAttributes(): ?array
     {
-        return MwHtmlSanitizerReference::MW_ATTRIBUTES;
+        return array_keys(MwHtmlSanitizerReference::MW_ATTRIBUTES);
     }
 
     public function sanitizeAttribute(string $element, string $attribute, string $value, HtmlSanitizerConfig $config): ?string
     {
-        dd(11);;
-        return ($value);
         return StringSanitizer::encodeHtmlEntities($value);
-
-
     }
 }

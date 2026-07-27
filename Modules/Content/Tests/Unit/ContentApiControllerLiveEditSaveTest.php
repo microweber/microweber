@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
-use MicroweberPackages\Helper\XSSClean;
+use MicroweberPackages\Security\XSSClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Page\Models\Page;
 
@@ -142,7 +142,7 @@ HTML;
         $_SERVER['REDIRECT_URL'] = $pageLink;
         $_SERVER['HTTP_REFERER'] = content_link($pageId);
 
-        $zipname = base_path() . '/src/MicroweberPackages/Helper/tests/misc/bootstrap-5.0.2-examples.zip';
+        $zipname = base_path() . '/Modules/Content/Tests/misc/bootstrap-5.0.2-examples.zip';
 
 
         //
@@ -271,7 +271,7 @@ HTML;
         $_SERVER['REDIRECT_URL'] = $pageLink;
         $_SERVER['HTTP_REFERER'] = content_link($pageId);
 
-        $zipname = base_path() . '/src/MicroweberPackages/Helper/tests/misc/edit-fields-other-html.zip';
+        $zipname = base_path() . '/Modules/Content/Tests/misc/edit-fields-other-html.zip';
 
 
         $zip = new \ZipArchive();
