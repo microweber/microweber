@@ -1,6 +1,4 @@
 /vendor
 /.phpunit.cache
 /composer.lock
-/standalone-validation/vendor
-/standalone-validation/composer.lock
 .phpunit.result.cache

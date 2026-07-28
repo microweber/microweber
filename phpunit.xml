@@ -197,6 +197,10 @@
             <exclude>packages/microweber-minifier/tests/Dusk</exclude>
         </testsuite>
 
+        <testsuite name="Packages-View">
+            <directory>packages/microweber-view/tests</directory>
+        </testsuite>
+
         <testsuite name="MicroweberDbExport">
             <directory>packages/microweber-db-export/tests</directory>
         </testsuite>
@@ -246,6 +250,7 @@
             <directory>packages/microweber-security/src</directory>
             <directory>packages/microweber-url/src</directory>
             <directory>packages/microweber-format/src</directory>
+            <directory>packages/microweber-view/src</directory>
             <directory>packages/laravel-helper-functions/src</directory>
         </include>
         <exclude>

@@ -173,7 +173,8 @@
         "microweber-packages/cdn-sync": "^1.0",
         "microweber-packages/media-pixum": "^1.0",
         "microweber-packages/image-optimization": "^1.0",
-        "microweber-packages/minifier": "^1.0"
+        "microweber-packages/minifier": "^1.0",
+        "microweber-packages/view": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -229,7 +230,8 @@
             "MicroweberPackages\\CdnSync\\": "packages/microweber-cdn-sync/src/",
             "MicroweberPackages\\MediaPixum\\": "packages/microweber-media-pixum/src/",
             "MicroweberPackages\\ImageOptimization\\": "packages/microweber-image-optimization/src/",
-            "MicroweberPackages\\Minifier\\": "packages/microweber-minifier/src/"
+            "MicroweberPackages\\Minifier\\": "packages/microweber-minifier/src/",
+            "MicroweberPackages\\View\\": "packages/microweber-view/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -277,7 +279,8 @@
             "MicroweberPackages\\ImageOptimization\\Tests\\": "packages/microweber-image-optimization/tests/",
             "MicroweberPackages\\Minifier\\Tests\\": "packages/microweber-minifier/tests/",
             "MicroweberPackages\\Security\\Tests\\": "packages/microweber-security/tests/",
-            "MicroweberPackages\\Url\\Tests\\": "packages/microweber-url/tests/"
+            "MicroweberPackages\\Url\\Tests\\": "packages/microweber-url/tests/",
+            "MicroweberPackages\\View\\Tests\\": "packages/microweber-view/tests/"
         }
     },
     "scripts": {
@@ -415,7 +418,8 @@
                 "laravel/passport",
                 "laravel/sanctum",
                 "laravel/cashier",
-                "laravel/fortify"
+                "laravel/fortify",
+                "microweber-packages/view"
             ]
         },
         "merge-plugin": {
@@ -730,6 +734,14 @@
         {
             "type": "path",
             "url": "packages/microweber-cdn-sync",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-view",
             "options": {
                 "reference": "config",
                 "symlink": true
