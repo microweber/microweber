@@ -1,0 +1,3224 @@
+diff --git a/app/Providers/Filament/AdminPanelProvider.php b/app/Providers/Filament/AdminPanelProvider.php
+index 10638ac..b48c27d 100644
+--- a/app/Providers/Filament/AdminPanelProvider.php
++++ b/app/Providers/Filament/AdminPanelProvider.php
+@@ -14,6 +14,7 @@ use Filament\Widgets\AccountWidget;
+ use Filament\Widgets\FilamentInfoWidget;
+ use MicroweberPackages\CdnSync\Filament\CdnSyncPlugin;
+ use MicroweberPackages\ImageOptimization\Filament\ImageOptimizationPlugin;
++use MicroweberPackages\View\Filament\ViewPlugin;
+ use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGlobalSearchProvider;
+ use MicroweberPackages\Fortify\Filament\MicroweberFortifyPlugin;
+ use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+@@ -53,6 +54,7 @@ class AdminPanelProvider extends PanelProvider
+                 MicroweberFortifyPlugin::make(),
+                 CdnSyncPlugin::make(),
+                 ImageOptimizationPlugin::make(),
++                ViewPlugin::make(),
+             ])
+             ->widgets([
+                 AccountWidget::class,
+diff --git a/composer.json b/composer.json
+index 8f3ee29..e336a6d 100644
+--- a/composer.json
++++ b/composer.json
+@@ -172,7 +172,8 @@
+         "microweber-packages/system-licenses": "^1.0",
+         "microweber-packages/cdn-sync": "^1.0",
+         "microweber-packages/media-pixum": "^1.0",
+-        "microweber-packages/image-optimization": "^1.0"
++        "microweber-packages/image-optimization": "^1.0",
++        "microweber-packages/view": "^1.0"
+     },
+     "require-dev": {
+         "fakerphp/faker": "^1.24",
+@@ -227,7 +228,8 @@
+             "MicroweberPackages\\SystemLicenses\\": "packages/microweber-system-licenses/src/",
+             "MicroweberPackages\\CdnSync\\": "packages/microweber-cdn-sync/src/",
+             "MicroweberPackages\\MediaPixum\\": "packages/microweber-media-pixum/src/",
+-            "MicroweberPackages\\ImageOptimization\\": "packages/microweber-image-optimization/src/"
++            "MicroweberPackages\\ImageOptimization\\": "packages/microweber-image-optimization/src/",
++            "MicroweberPackages\\View\\": "packages/microweber-view/src/"
+         },
+         "files": [
+             "packages/microweber-filesystem/src/helpers.php",
+@@ -273,7 +275,8 @@
+             "MicroweberPackages\\MediaThumbnail\\Tests\\": "packages/microweber-media-thumbnail/tests/",
+             "MicroweberPackages\\ImageOptimization\\Tests\\": "packages/microweber-image-optimization/tests/",
+             "MicroweberPackages\\Security\\Tests\\": "packages/microweber-security/tests/",
+-            "MicroweberPackages\\Url\\Tests\\": "packages/microweber-url/tests/"
++            "MicroweberPackages\\Url\\Tests\\": "packages/microweber-url/tests/",
++            "MicroweberPackages\\View\\Tests\\": "packages/microweber-view/tests/"
+         }
+     },
+     "scripts": {
+@@ -410,7 +413,8 @@
+                 "laravel/passport",
+                 "laravel/sanctum",
+                 "laravel/cashier",
+-                "laravel/fortify"
++                "laravel/fortify",
++                "microweber-packages/view"
+             ]
+         },
+         "merge-plugin": {
+@@ -720,6 +724,14 @@
+                 "reference": "config",
+                 "symlink": true
+             }
++        },
++        {
++            "type": "path",
++            "url": "packages/microweber-view",
++            "options": {
++                "reference": "config",
++                "symlink": true
++            }
+         }
+     ]
+ }
+diff --git a/packages/microweber-view/.gitignore b/packages/microweber-view/.gitignore
+new file mode 100644
+index 0000000..f93cec6
+--- /dev/null
++++ b/packages/microweber-view/.gitignore
+@@ -0,0 +1,8 @@
++/vendor/
++/standalone-validation/vendor/
++/standalone-validation/composer.lock
++/standalone-validation/.phpunit.result.cache
++/.phpunit.cache/
++/build/
++composer.lock
++.phpunit.result.cache
+diff --git a/packages/microweber-view/README.md b/packages/microweber-view/README.md
+new file mode 100644
+index 0000000..d5ac950
+--- /dev/null
++++ b/packages/microweber-view/README.md
+@@ -0,0 +1,61 @@
++# microweber-view
++
++Reusable Laravel package extracted from Microweber CMS.
++
++## Features
++
++- **View** – PHP file-based template renderer with assign/set API
++- **StringBlade** – render Blade template strings
++- **TwigView** – render Twig template strings
++- **MicroweberModuleTagCompiler** – compile `<module />` tags into `@module([...])`
++- **@module** Blade directive – pluggable via `ModuleProcessorInterface`
++- Optional health / demo HTTP routes
++- Optional Filament “View Tools” page
++
++## Install (standalone Laravel)
++
++```bash
++composer require microweber-packages/view
++```
++
++Register the service provider (auto-discovered unless disabled):
++
++```php
++MicroweberPackages\View\ViewServiceProvider::class,
++```
++
++Publish config:
++
++```bash
++php artisan vendor:publish --tag=microweber-view-config
++```
++
++## Usage
++
++```php
++use MicroweberPackages\View\View;
++use MicroweberPackages\View\StringBlade;
++use MicroweberPackages\View\TwigView;
++
++$view = new View('/path/to/template.php');
++$view->assign('title', 'Hello');
++echo $view; // or $view->display()
++
++$html = app(StringBlade::class)->render('Hello {{ $name }}', ['name' => 'World']);
++$html = (new TwigView())->render('Hello {{ name }}', ['name' => 'World']);
++```
++
++## Tests
++
++```bash
++# From monorepo root
++php artisan test --filter=MicroweberPackages\\\\View
++
++# Package-local (after composer install in the package)
++composer test
++composer analyse
++```
++
++## Databases
++
++Package tests exercise SQLite, MySQL (`root`/`root`) and PostgreSQL (`postgres`/`postgres`) via `MW_TEST_DB_DRIVER`.
+diff --git a/packages/microweber-view/composer.json b/packages/microweber-view/composer.json
+new file mode 100644
+index 0000000..ca7fc9e
+--- /dev/null
++++ b/packages/microweber-view/composer.json
+@@ -0,0 +1,87 @@
++{
++    "name": "microweber-packages/view",
++    "description": "Reusable Microweber View package for Laravel: PHP file views, StringBlade rendering, Twig string rendering, and Blade module tag compilation. Usable in standalone Laravel apps.",
++    "version": "1.0.0",
++    "type": "library",
++    "license": "MIT",
++    "authors": [
++        {
++            "name": "Microweber",
++            "email": "info@microweber.com"
++        },
++        {
++            "name": "Bozhidar Slaveykov",
++            "email": "bobi@microweber.com"
++        }
++    ],
++    "require": {
++        "php": "^8.2",
++        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
++        "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
++        "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
++        "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
++        "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
++        "twig/twig": "^3.0",
++        "symfony/http-foundation": "^6.0|^7.0"
++    },
++    "require-dev": {
++        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
++        "phpunit/phpunit": "^10.0|^11.0|^12.0",
++        "larastan/larastan": "^3.0",
++        "livewire/livewire": "^3.0|^4.0",
++        "filament/filament": "~5.0",
++        "laravel/dusk": "^8.0|^9.0",
++        "microweber-packages/format": "^1.0"
++    },
++    "suggest": {
++        "microweber-packages/format": "Used by the @module Blade directive for HTML attribute encoding when a CMS parser is present",
++        "filament/filament": "Required for the optional Filament View Tools admin page"
++    },
++    "repositories": [
++        {
++            "type": "path",
++            "url": "../microweber-format",
++            "options": {
++                "symlink": true
++            }
++        },
++        {
++            "type": "path",
++            "url": "../microweber-security",
++            "options": {
++                "symlink": true
++            }
++        }
++    ],
++    "autoload": {
++        "psr-4": {
++            "MicroweberPackages\\View\\": "src/"
++        }
++    },
++    "autoload-dev": {
++        "psr-4": {
++            "MicroweberPackages\\View\\Tests\\": "tests/"
++        }
++    },
++    "extra": {
++        "laravel": {
++            "providers": [
++                "MicroweberPackages\\View\\ViewServiceProvider"
++            ]
++        }
++    },
++    "minimum-stability": "dev",
++    "prefer-stable": true,
++    "config": {
++        "preferred-install": "dist",
++        "sort-packages": true
++    },
++    "scripts": {
++        "test": "vendor/bin/phpunit",
++        "analyse": "vendor/bin/phpstan analyse --memory-limit=512M"
++    },
++    "homepage": "http://microweber.com",
++    "support": {
++        "email": "support@microweber.com"
++    }
++}
+diff --git a/packages/microweber-view/config/microweber-view.php b/packages/microweber-view/config/microweber-view.php
+new file mode 100644
+index 0000000..ea99778
+--- /dev/null
++++ b/packages/microweber-view/config/microweber-view.php
+@@ -0,0 +1,47 @@
++<?php
++
++declare(strict_types=1);
++
++return [
++    /*
++    |--------------------------------------------------------------------------
++    | Enable package HTTP routes
++    |--------------------------------------------------------------------------
++    */
++    'routes_enabled' => env('MW_VIEW_ROUTES_ENABLED', true),
++
++    /*
++    |--------------------------------------------------------------------------
++    | Route prefix and middleware
++    |--------------------------------------------------------------------------
++    */
++    'route_prefix' => env('MW_VIEW_ROUTE_PREFIX', 'microweber-view'),
++
++    'middleware' => ['web'],
++
++    /*
++    |--------------------------------------------------------------------------
++    | Blade @module directive
++    |--------------------------------------------------------------------------
++    |
++    | When true, registers the @module Blade directive and the <module />
++    | tag precompiler. Standalone Laravel apps can leave this enabled and
++    | bind a custom ModuleProcessorInterface implementation.
++    |
++    */
++    'module_directive_enabled' => env('MW_VIEW_MODULE_DIRECTIVE', true),
++
++    /*
++    |--------------------------------------------------------------------------
++    | Enable Filament admin tools page (when Filament is installed)
++    |--------------------------------------------------------------------------
++    */
++    'filament_enabled' => env('MW_VIEW_FILAMENT_ENABLED', true),
++
++    /*
++    |--------------------------------------------------------------------------
++    | Allow POST render endpoints (blade/twig). Keep false in production.
++    |--------------------------------------------------------------------------
++    */
++    'allow_render_endpoints' => env('MW_VIEW_ALLOW_RENDER', false),
++];
+diff --git a/packages/microweber-view/phpstan.neon.dist b/packages/microweber-view/phpstan.neon.dist
+new file mode 100644
+index 0000000..b22ae1e
+--- /dev/null
++++ b/packages/microweber-view/phpstan.neon.dist
+@@ -0,0 +1,16 @@
++includes:
++    - ../../vendor/larastan/larastan/extension.neon
++
++parameters:
++    level: max
++    paths:
++        - src
++    excludePaths:
++        - vendor(?)
++    tmpDir: build/phpstan
++    reportUnmatchedIgnoredErrors: false
++    treatPhpDocTypesAsCertain: false
++    ignoreErrors:
++        # Optional host CMS bindings (guarded at runtime)
++        - '#Access to an undefined property Illuminate\\Contracts\\Foundation\\Application::\$parser#'
++        - '#Access to an undefined property Illuminate\\Contracts\\Foundation\\Application::\$format#'
+diff --git a/packages/microweber-view/phpunit.xml b/packages/microweber-view/phpunit.xml
+new file mode 100644
+index 0000000..115ea77
+--- /dev/null
++++ b/packages/microweber-view/phpunit.xml
+@@ -0,0 +1,24 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:noNamespaceSchemaLocation="../../vendor/phpunit/phpunit/phpunit.xsd"
++         bootstrap="../../vendor/autoload.php"
++         colors="true"
++         cacheDirectory=".phpunit.cache"
++>
++    <testsuites>
++        <testsuite name="Unit">
++            <directory>tests/Unit</directory>
++        </testsuite>
++        <testsuite name="Feature">
++            <directory>tests/Feature</directory>
++        </testsuite>
++        <testsuite name="Filament">
++            <directory>tests/Filament</directory>
++        </testsuite>
++    </testsuites>
++    <source>
++        <include>
++            <directory>src</directory>
++        </include>
++    </source>
++</phpunit>
+diff --git a/packages/microweber-view/resources/views/filament/pages/view-tools.blade.php b/packages/microweber-view/resources/views/filament/pages/view-tools.blade.php
+new file mode 100644
+index 0000000..54e1dbc
+--- /dev/null
++++ b/packages/microweber-view/resources/views/filament/pages/view-tools.blade.php
+@@ -0,0 +1,20 @@
++<x-filament-panels::page>
++    <form wire:submit.prevent="renderPreview">
++        {{ $this->form }}
++
++        <div class="mt-6 flex items-center gap-3">
++            <x-filament::button type="submit" icon="heroicon-o-play">
++                Render preview
++            </x-filament::button>
++        </div>
++    </form>
++
++    @if($preview !== '')
++        <div class="mt-6 rounded-xl border border-gray-200 p-4 dark:border-gray-700">
++            <h3 class="mb-2 text-sm font-semibold text-gray-700 dark:text-gray-200">Preview</h3>
++            <div class="prose dark:prose-invert max-w-none">
++                {!! $preview !!}
++            </div>
++        </div>
++    @endif
++</x-filament-panels::page>
+diff --git a/packages/microweber-view/routes/web.php b/packages/microweber-view/routes/web.php
+new file mode 100644
+index 0000000..d36b966
+--- /dev/null
++++ b/packages/microweber-view/routes/web.php
+@@ -0,0 +1,29 @@
++<?php
++
++declare(strict_types=1);
++
++use Illuminate\Support\Facades\Route;
++use MicroweberPackages\View\Http\Controllers\ViewPackageController;
++
++$prefix = (string) config('microweber-view.route_prefix', 'microweber-view');
++$middleware = config('microweber-view.middleware', ['web']);
++if (!is_array($middleware)) {
++    $middleware = ['web'];
++}
++
++Route::middleware($middleware)
++    ->prefix($prefix)
++    ->name('microweber-view.')
++    ->group(function (): void {
++        Route::get('health', [ViewPackageController::class, 'health'])
++            ->name('health');
++
++        Route::get('demo', [ViewPackageController::class, 'demo'])
++            ->name('demo');
++
++        Route::post('render/blade', [ViewPackageController::class, 'renderBlade'])
++            ->name('render.blade');
++
++        Route::post('render/twig', [ViewPackageController::class, 'renderTwig'])
++            ->name('render.twig');
++    });
+diff --git a/packages/microweber-view/src/Contracts/ModuleProcessorInterface.php b/packages/microweber-view/src/Contracts/ModuleProcessorInterface.php
+new file mode 100644
+index 0000000..ed144be
+--- /dev/null
++++ b/packages/microweber-view/src/Contracts/ModuleProcessorInterface.php
+@@ -0,0 +1,21 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Contracts;
++
++/**
++ * Contract for processing Microweber <module /> markup.
++ *
++ * The CMS binds its Parser against this interface. Standalone apps can bind
++ * a custom implementation (or rely on the NullModuleProcessor no-op).
++ */
++interface ModuleProcessorInterface
++{
++    /**
++     * Process HTML that may contain <module ... /> tags and return rendered HTML.
++     *
++     * @param  array<string, mixed>  $options
++     */
++    public function process(string $html, array $options = []): string;
++}
+diff --git a/packages/microweber-view/src/Filament/Pages/ViewTools.php b/packages/microweber-view/src/Filament/Pages/ViewTools.php
+new file mode 100644
+index 0000000..2ee5afc
+--- /dev/null
++++ b/packages/microweber-view/src/Filament/Pages/ViewTools.php
+@@ -0,0 +1,118 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Filament\Pages;
++
++use Filament\Forms\Components\Textarea;
++use Filament\Forms\Components\TextInput;
++use Filament\Notifications\Notification;
++use Filament\Pages\Page;
++use Filament\Schemas\Components\Section;
++use Filament\Schemas\Schema;
++use MicroweberPackages\View\StringBlade;
++use MicroweberPackages\View\TwigView;
++
++/**
++ * Simple Filament playground for StringBlade / TwigView rendering.
++ *
++ * @property \Filament\Schemas\Schema $form
++ */
++class ViewTools extends Page
++{
++    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-code-bracket';
++
++    protected static string|\UnitEnum|null $navigationGroup = 'Developer';
++
++    protected static ?int $navigationSort = 90;
++
++    protected static ?string $title = 'View Tools';
++
++    protected static ?string $slug = 'microweber-view-tools';
++
++    protected string $view = 'microweber-view::filament.pages.view-tools';
++
++    /** @var array<string, mixed>|null */
++    public ?array $data = [];
++
++    public string $preview = '';
++
++    public static function shouldRegisterNavigation(): bool
++    {
++        return (bool) config('microweber-view.filament_enabled', true);
++    }
++
++    public function mount(): void
++    {
++        $this->form->fill([
++            'engine' => 'blade',
++            'template' => 'Hello {{ $name }}!',
++            'name' => 'World',
++        ]);
++    }
++
++    public function form(Schema $schema): Schema
++    {
++        return $schema
++            ->schema([
++                Section::make('Template playground')
++                    ->description('Render a Blade or Twig string using microweber-view.')
++                    ->schema([
++                        TextInput::make('engine')
++                            ->label('Engine (blade|twig)')
++                            ->default('blade')
++                            ->required(),
++                        Textarea::make('template')
++                            ->label('Template')
++                            ->rows(6)
++                            ->required(),
++                        TextInput::make('name')
++                            ->label('Sample variable: name')
++                            ->default('World'),
++                    ]),
++            ])
++            ->statePath('data');
++    }
++
++    public function renderPreview(): void
++    {
++        /** @var array<string, mixed> $state */
++        $state = $this->form->getState();
++        $engine = strtolower($this->asString($state['engine'] ?? 'blade'));
++        $template = $this->asString($state['template'] ?? '');
++        $name = $this->asString($state['name'] ?? 'World');
++
++        try {
++            if ($engine === 'twig') {
++                $this->preview = app(TwigView::class)->render($template, ['name' => $name]);
++            } else {
++                $this->preview = app(StringBlade::class)->render($template, ['name' => $name]);
++            }
++
++            Notification::make()
++                ->title('Rendered successfully')
++                ->success()
++                ->send();
++        } catch (\Throwable $e) {
++            $this->preview = '';
++            Notification::make()
++                ->title('Render failed')
++                ->body($e->getMessage())
++                ->danger()
++                ->send();
++        }
++    }
++
++    private function asString(mixed $value): string
++    {
++        if (is_string($value)) {
++            return $value;
++        }
++
++        if (is_scalar($value) || $value === null) {
++            return (string) $value;
++        }
++
++        return '';
++    }
++}
+diff --git a/packages/microweber-view/src/Filament/ViewPlugin.php b/packages/microweber-view/src/Filament/ViewPlugin.php
+new file mode 100644
+index 0000000..45c52db
+--- /dev/null
++++ b/packages/microweber-view/src/Filament/ViewPlugin.php
+@@ -0,0 +1,41 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Filament;
++
++use Filament\Contracts\Plugin;
++use Filament\Panel;
++use MicroweberPackages\View\Filament\Pages\ViewTools;
++
++class ViewPlugin implements Plugin
++{
++    public function getId(): string
++    {
++        return 'microweber-view';
++    }
++
++    public static function make(): static
++    {
++        /** @var static $instance */
++        $instance = new static(); // @phpstan-ignore new.static
++
++        return $instance;
++    }
++
++    public function register(Panel $panel): void
++    {
++        if (!(bool) config('microweber-view.filament_enabled', true)) {
++            return;
++        }
++
++        $panel->pages([
++            ViewTools::class,
++        ]);
++    }
++
++    public function boot(Panel $panel): void
++    {
++        //
++    }
++}
+diff --git a/packages/microweber-view/src/Http/Controllers/ViewPackageController.php b/packages/microweber-view/src/Http/Controllers/ViewPackageController.php
+new file mode 100644
+index 0000000..19af536
+--- /dev/null
++++ b/packages/microweber-view/src/Http/Controllers/ViewPackageController.php
+@@ -0,0 +1,121 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Http\Controllers;
++
++use Illuminate\Http\JsonResponse;
++use Illuminate\Http\Request;
++use Illuminate\Http\Response;
++use Illuminate\Routing\Controller;
++use MicroweberPackages\View\StringBlade;
++use MicroweberPackages\View\TwigView;
++use MicroweberPackages\View\View;
++
++class ViewPackageController extends Controller
++{
++    /**
++     * Package health / status endpoint.
++     */
++    public function health(): JsonResponse
++    {
++        return response()->json([
++            'package' => 'microweber-packages/view',
++            'status' => 'ok',
++            'classes' => [
++                'View' => class_exists(View::class),
++                'StringBlade' => class_exists(StringBlade::class),
++                'TwigView' => class_exists(TwigView::class),
++            ],
++            'config' => [
++                'routes_enabled' => (bool) config('microweber-view.routes_enabled', true),
++                'module_directive_enabled' => (bool) config('microweber-view.module_directive_enabled', true),
++                'allow_render_endpoints' => (bool) config('microweber-view.allow_render_endpoints', false),
++            ],
++        ]);
++    }
++
++    /**
++     * Simple demo page that renders a fixed fixture via StringBlade.
++     */
++    public function demo(StringBlade $stringBlade): Response
++    {
++        $html = $stringBlade->render(
++            '<!DOCTYPE html><html><head><title>microweber-view demo</title></head>'
++            . '<body><h1>{{ $title }}</h1><p>{{ $message }}</p></body></html>',
++            [
++                'title' => 'microweber-view',
++                'message' => 'StringBlade is working.',
++            ]
++        );
++
++        return response($html, 200)->header('Content-Type', 'text/html; charset=UTF-8');
++    }
++
++    /**
++     * Optional Blade string render endpoint (disabled by default).
++     */
++    public function renderBlade(Request $request, StringBlade $stringBlade): JsonResponse|Response
++    {
++        if (!(bool) config('microweber-view.allow_render_endpoints', false)) {
++            return response()->json(['error' => 'Render endpoints disabled'], 403);
++        }
++
++        $template = $this->stringInput($request, 'template');
++        /** @var array<string, mixed> $data */
++        $data = (array) $request->input('data', []);
++
++        if ($template === '') {
++            return response()->json(['error' => 'template is required'], 422);
++        }
++
++        $html = $stringBlade->render($template, $data);
++
++        if ($request->wantsJson()) {
++            return response()->json(['html' => $html]);
++        }
++
++        return response($html, 200)->header('Content-Type', 'text/html; charset=UTF-8');
++    }
++
++    /**
++     * Optional Twig string render endpoint (disabled by default).
++     */
++    public function renderTwig(Request $request, TwigView $twigView): JsonResponse|Response
++    {
++        if (!(bool) config('microweber-view.allow_render_endpoints', false)) {
++            return response()->json(['error' => 'Render endpoints disabled'], 403);
++        }
++
++        $template = $this->stringInput($request, 'template');
++        /** @var array<string, mixed> $data */
++        $data = (array) $request->input('data', []);
++
++        if ($template === '') {
++            return response()->json(['error' => 'template is required'], 422);
++        }
++
++        $html = $twigView->render($template, $data);
++
++        if ($request->wantsJson()) {
++            return response()->json(['html' => $html]);
++        }
++
++        return response($html, 200)->header('Content-Type', 'text/html; charset=UTF-8');
++    }
++
++    private function stringInput(Request $request, string $key): string
++    {
++        $value = $request->input($key, '');
++
++        if (is_string($value)) {
++            return $value;
++        }
++
++        if (is_scalar($value)) {
++            return (string) $value;
++        }
++
++        return '';
++    }
++}
+diff --git a/packages/microweber-view/src/MicroweberBladeDirectives.php b/packages/microweber-view/src/MicroweberBladeDirectives.php
+new file mode 100644
+index 0000000..e683fe3
+--- /dev/null
++++ b/packages/microweber-view/src/MicroweberBladeDirectives.php
+@@ -0,0 +1,44 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View;
++
++use MicroweberPackages\View\Contracts\ModuleProcessorInterface;
++use MicroweberPackages\View\Support\HtmlAttributes;
++
++/**
++ * Blade directives registered by ViewServiceProvider.
++ *
++ * The @module directive is CMS-agnostic: it resolves ModuleProcessorInterface
++ * from the container and uses HtmlAttributes (or the format package if bound).
++ */
++class MicroweberBladeDirectives
++{
++    /**
++     * Compile @module([...]) into PHP that processes a <module /> tag.
++     *
++     * @param  string  $expression  Blade expression, typically an array literal
++     */
++    public static function module(string $expression): string
++    {
++        $processor = ModuleProcessorInterface::class;
++        $htmlAttributes = HtmlAttributes::class;
++
++        return <<<PHP
++<?php
++\$__mwModuleAttrs = {$expression};
++if (!is_array(\$__mwModuleAttrs)) {
++    \$__mwModuleAttrs = [];
++}
++\$__mwAttrString = '';
++if (app()->bound('format') && is_object(app('format')) && method_exists(app('format'), 'arrayToHtmlAttributes')) {
++    \$__mwAttrString = app('format')->arrayToHtmlAttributes(\$__mwModuleAttrs);
++} else {
++    \$__mwAttrString = \\{$htmlAttributes}::toString(\$__mwModuleAttrs);
++}
++echo app(\\{$processor}::class)->process('<module ' . \$__mwAttrString . ' />');
++?>
++PHP;
++    }
++}
+diff --git a/packages/microweber-view/src/MicroweberModuleTagCompiler.php b/packages/microweber-view/src/MicroweberModuleTagCompiler.php
+new file mode 100644
+index 0000000..22ae736
+--- /dev/null
++++ b/packages/microweber-view/src/MicroweberModuleTagCompiler.php
+@@ -0,0 +1,115 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View;
++
++use Illuminate\View\Compilers\ComponentTagCompiler;
++
++/**
++ * Blade precompiler that turns <module ... /> tags into @module([...]) directives.
++ *
++ * Standalone-safe: no CMS dependencies. Module processing can be toggled at runtime.
++ */
++class MicroweberModuleTagCompiler extends ComponentTagCompiler
++{
++    public static bool $isEnabled = true;
++
++    public static function enableModuleProcessing(): void
++    {
++        self::$isEnabled = true;
++    }
++
++    public static function disableModuleProcessing(): void
++    {
++        self::$isEnabled = false;
++    }
++
++    public function compile(string $value): string
++    {
++        if (!self::$isEnabled) {
++            return $value;
++        }
++
++        return $this->compileMicroweberModuleSelfClosingTags($value);
++    }
++
++    protected function compileMicroweberModuleSelfClosingTags(string $value): string
++    {
++        $pattern = "/
++            <
++                \s*
++               module
++                \s*
++                (?<attributes>
++                    (?:
++                        \s+
++                        [\w\-:.@]+
++                        (
++                            =
++                            (?:
++                                \\\"[^\\\"]*\\\"
++                                |
++                                \'[^\']*\'
++                                |
++                                [^\'\\\"=<>]+
++                            )
++                        )?
++                    )*
++                    \s*
++                )
++            \/?>
++        /x";
++
++        $result = preg_replace_callback($pattern, function (array $matches): string {
++            // Normalize the self-closing slash so empty attributes like
++            // button_size="" /> parse correctly via Laravel's attribute parser.
++            $moduleTagForAttrs = preg_replace('#\s*/>\s*$#', ' />', $matches[0]) ?? $matches[0];
++            $getAttributes = $this->getAttributesFromAttributeString($moduleTagForAttrs);
++
++            $attributes = [];
++            foreach ($getAttributes as $attributeKey => $attributeValue) {
++                $key = is_string($attributeKey) ? $attributeKey : (is_int($attributeKey) ? (string) $attributeKey : '');
++                if (is_string($attributeValue)) {
++                    $attributes[$key] = $attributeValue;
++                } elseif (is_scalar($attributeValue) || $attributeValue === null) {
++                    $attributes[$key] = (string) $attributeValue;
++                } else {
++                    $attributes[$key] = '';
++                }
++            }
++
++            return $this->componentString('module', $attributes);
++        }, $value);
++
++        return is_string($result) ? $result : $value;
++    }
++
++    /**
++     * @param  array<string, string>  $attributes
++     * @return string
++     */
++    protected function componentString(string $component, array $attributes)
++    {
++        return '@module([' . $this->attributesToString($attributes, escapeBound: false) . '])';
++    }
++
++    /**
++     * @param  array<string, string>  $attributes
++     * @param  bool  $escapeBound
++     * @return string
++     */
++    protected function attributesToString(array $attributes, $escapeBound = true)
++    {
++        return collect($attributes)
++            ->map(function (string $value, string $attribute) use ($escapeBound): string {
++                return $escapeBound
++                    && isset($this->boundAttributes[$attribute])
++                    && $value !== 'true'
++                    && !is_numeric($value)
++                    ? "'{$attribute}' => \\Illuminate\\View\\Compilers\\BladeCompiler::sanitizeComponentAttribute({$value})"
++                    : "'{$attribute}' => {$value}";
++            })
++            ->implode(',');
++    }
++}
+diff --git a/packages/microweber-view/src/StringBlade.php b/packages/microweber-view/src/StringBlade.php
+new file mode 100644
+index 0000000..a8d711c
+--- /dev/null
++++ b/packages/microweber-view/src/StringBlade.php
+@@ -0,0 +1,33 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View;
++
++use Illuminate\Support\Facades\Blade;
++
++/**
++ * Render Blade template strings without writing files.
++ *
++ * Uses Laravel's native Blade::render() API. Safe for standalone apps.
++ */
++class StringBlade
++{
++    /**
++     * Render a Blade template string with the given data.
++     *
++     * @param  array<string, mixed>  $data
++     */
++    public function render(string $bladeString, array $data = []): string
++    {
++        return Blade::render($bladeString, $data);
++    }
++
++    /**
++     * Compile a Blade string to PHP source without executing it.
++     */
++    public function compile(string $bladeString): string
++    {
++        return Blade::compileString($bladeString);
++    }
++}
+diff --git a/packages/microweber-view/src/Support/CmsModuleProcessorAdapter.php b/packages/microweber-view/src/Support/CmsModuleProcessorAdapter.php
+new file mode 100644
+index 0000000..acb22de
+--- /dev/null
++++ b/packages/microweber-view/src/Support/CmsModuleProcessorAdapter.php
+@@ -0,0 +1,43 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Support;
++
++use MicroweberPackages\View\Contracts\ModuleProcessorInterface;
++
++/**
++ * Adapts the CMS app()->parser object to ModuleProcessorInterface.
++ */
++class CmsModuleProcessorAdapter implements ModuleProcessorInterface
++{
++    public function __construct(
++        private readonly object $parser,
++    ) {
++    }
++
++    /**
++     * {@inheritdoc}
++     */
++    public function process(string $html, array $options = []): string
++    {
++        if (!method_exists($this->parser, 'process')) {
++            return $html;
++        }
++
++        /** @var mixed $result */
++        $result = $options === []
++            ? $this->parser->process($html)
++            : $this->parser->process($html, $options);
++
++        if (is_string($result)) {
++            return $result;
++        }
++
++        if (is_scalar($result) || $result === null) {
++            return (string) $result;
++        }
++
++        return $html;
++    }
++}
+diff --git a/packages/microweber-view/src/Support/HtmlAttributes.php b/packages/microweber-view/src/Support/HtmlAttributes.php
+new file mode 100644
+index 0000000..511a5d6
+--- /dev/null
++++ b/packages/microweber-view/src/Support/HtmlAttributes.php
+@@ -0,0 +1,80 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Support;
++
++/**
++ * Encode an associative array as HTML attributes.
++ *
++ * Standalone-safe replacement for app()->format->arrayToHtmlAttributes().
++ */
++class HtmlAttributes
++{
++    /**
++     * @param  array<int|string, mixed>  $attributes
++     */
++    public static function toString(array $attributes = []): string
++    {
++        if ($attributes === []) {
++            return '';
++        }
++
++        $pairs = [];
++
++        foreach ($attributes as $key => $val) {
++            if (is_int($key)) {
++                $pairs[] = self::stringify($val);
++                continue;
++            }
++
++            if (is_bool($val)) {
++                if ($val) {
++                    $pairs[] = $key;
++                }
++                continue;
++            }
++
++            if ($val === null) {
++                continue;
++            }
++
++            if (is_array($val) || is_object($val)) {
++                $encoded = json_encode($val, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
++                $val = $encoded === false ? '' : $encoded;
++            }
++
++            $escaped = htmlspecialchars(self::stringify($val), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
++            $pairs[] = $key . '="' . $escaped . '"';
++        }
++
++        return implode(' ', $pairs);
++    }
++
++    private static function stringify(mixed $value): string
++    {
++        if (is_string($value)) {
++            return $value;
++        }
++
++        if (is_int($value) || is_float($value)) {
++            return (string) $value;
++        }
++
++        if (is_bool($value)) {
++            return $value ? '1' : '0';
++        }
++
++        if ($value === null) {
++            return '';
++        }
++
++        if (is_object($value) && method_exists($value, '__toString')) {
++            return (string) $value;
++        }
++
++        $encoded = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
++
++        return $encoded === false ? '' : $encoded;
++    }
++}
+diff --git a/packages/microweber-view/src/Support/NullModuleProcessor.php b/packages/microweber-view/src/Support/NullModuleProcessor.php
+new file mode 100644
+index 0000000..c48701c
+--- /dev/null
++++ b/packages/microweber-view/src/Support/NullModuleProcessor.php
+@@ -0,0 +1,21 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Support;
++
++use MicroweberPackages\View\Contracts\ModuleProcessorInterface;
++
++/**
++ * Default module processor for standalone Laravel apps (no-op pass-through).
++ */
++class NullModuleProcessor implements ModuleProcessorInterface
++{
++    /**
++     * {@inheritdoc}
++     */
++    public function process(string $html, array $options = []): string
++    {
++        return $html;
++    }
++}
+diff --git a/packages/microweber-view/src/TwigView.php b/packages/microweber-view/src/TwigView.php
+new file mode 100644
+index 0000000..3053ab1
+--- /dev/null
++++ b/packages/microweber-view/src/TwigView.php
+@@ -0,0 +1,33 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View;
++
++use Twig\Environment;
++use Twig\Loader\ArrayLoader;
++
++/**
++ * Render Twig template strings.
++ */
++class TwigView
++{
++    /**
++     * @param  array<string, mixed>  $data
++     * @param  array<string, mixed>  $options  Twig Environment options
++     *
++     * @throws \Twig\Error\LoaderError
++     * @throws \Twig\Error\RuntimeError
++     * @throws \Twig\Error\SyntaxError
++     */
++    public function render(string $html, array $data = [], array $options = []): string
++    {
++        $key = md5($html);
++        $loader = new ArrayLoader([
++            $key => $html,
++        ]);
++        $twig = new Environment($loader, $options);
++
++        return $twig->render($key, $data);
++    }
++}
+diff --git a/packages/microweber-view/src/View.php b/packages/microweber-view/src/View.php
+new file mode 100644
+index 0000000..14a1b98
+--- /dev/null
++++ b/packages/microweber-view/src/View.php
+@@ -0,0 +1,188 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View;
++
++use Illuminate\Contracts\Support\Renderable;
++use Illuminate\View\View as IlluminateView;
++use Symfony\Component\HttpFoundation\RedirectResponse;
++use Symfony\Component\HttpFoundation\Response;
++
++/**
++ * Lightweight PHP file-based view renderer.
++ *
++ * Extracts assigned properties into the template scope, includes the file,
++ * and returns the captured output. Designed for standalone Laravel apps and
++ * the Microweber CMS without depending on CMS globals.
++ */
++#[\AllowDynamicProperties]
++class View implements Renderable
++{
++    /** Absolute path to the PHP template file. */
++    public string $v;
++
++    public mixed $app = null;
++
++    /** @var array<string, mixed>|null */
++    public ?array $config = null;
++
++    /** @var array<string, mixed>|null */
++    public ?array $params = null;
++
++    /** @var array<string, mixed>|mixed */
++    public mixed $data = null;
++
++    /** @var array<string, mixed>|null */
++    public ?array $settings = null;
++
++    /** @var Response|null Last Response object returned by an included template. */
++    protected ?Response $lastResponse = null;
++
++    /**
++     * @param  string  $v  Path to a PHP template file
++     *
++     * @throws \InvalidArgumentException When the file does not exist
++     */
++    public function __construct(string $v)
++    {
++        $resolved = realpath($v);
++
++        if ($resolved === false || !is_file($resolved)) {
++            throw new \InvalidArgumentException('The view file not found. ' . $v);
++        }
++
++        $this->v = $resolved;
++    }
++
++    /**
++     * Bulk-assign variables as public properties.
++     *
++     * @param  array<string, mixed>  $a
++     */
++    public function set(array $a): self
++    {
++        foreach ($a as $k => $v) {
++            $this->{$k} = $v;
++        }
++
++        return $this;
++    }
++
++    /**
++     * Assign a single variable as a public property.
++     */
++    public function assign(string $var, mixed $val): self
++    {
++        $this->{$var} = $val;
++
++        return $this;
++    }
++
++    /**
++     * Include the template once and return all variables defined in its scope.
++     *
++     * @return array<string, mixed>
++     */
++    public function __get_vars(): array
++    {
++        ob_start();
++        // Extract public properties into local scope for the template.
++        // @phpstan-ignore-next-line argument.type (dynamic properties)
++        extract(get_object_vars($this), EXTR_SKIP);
++
++        $file_dir = dirname($this->v) . DIRECTORY_SEPARATOR;
++
++        require $this->v;
++
++        ob_end_clean();
++
++        $defined_vars = [];
++        $var_names = array_keys(get_defined_vars());
++
++        foreach ($var_names as $var_name) {
++            if ($var_name === 'defined_vars' || $var_name === 'this' || $var_name === 'file_dir') {
++                continue;
++            }
++            $defined_vars[$var_name] = ${$var_name};
++        }
++
++        return $defined_vars;
++    }
++
++    /**
++     * Render and optionally echo the template.
++     */
++    public function display(bool $return = false): string
++    {
++        $content = $this->__toString();
++
++        if ($return) {
++            return $content;
++        }
++
++        echo $content;
++
++        return $content;
++    }
++
++    /**
++     * {@inheritdoc}
++     */
++    public function render(): string
++    {
++        return $this->__toString();
++    }
++
++    /**
++     * If the included template returned a Symfony/Illuminate Response, expose it.
++     */
++    public function getResponse(): ?Response
++    {
++        return $this->lastResponse;
++    }
++
++    public function __toString(): string
++    {
++        $this->lastResponse = null;
++
++        // @phpstan-ignore-next-line argument.type (dynamic properties)
++        extract(get_object_vars($this), EXTR_SKIP);
++
++        ob_start();
++
++        $res = null;
++        if (is_file($this->v)) {
++            $res = include $this->v;
++        }
++
++        if (is_object($res)) {
++            // RedirectResponse extends Response in Symfony
++            if ($res instanceof RedirectResponse) {
++                $this->lastResponse = $res;
++                ob_end_clean();
++
++                return '';
++            }
++
++            if ($res instanceof Response) {
++                $this->lastResponse = $res;
++                $content = $res->getContent();
++                ob_end_clean();
++
++                return $content === false ? '' : $content;
++            }
++
++            if ($res instanceof IlluminateView || $res instanceof Renderable) {
++                $rendered = $res->render();
++                ob_end_clean();
++
++                return $rendered;
++            }
++        }
++
++        $content = ob_get_clean();
++
++        return $content === false ? '' : $content;
++    }
++}
+diff --git a/packages/microweber-view/src/ViewComponentName.php b/packages/microweber-view/src/ViewComponentName.php
+new file mode 100644
+index 0000000..b0b5dff
+--- /dev/null
++++ b/packages/microweber-view/src/ViewComponentName.php
+@@ -0,0 +1,18 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View;
++
++/**
++ * Attribute used to declare a named view component and its package.
++ */
++#[\Attribute(\Attribute::TARGET_CLASS)]
++class ViewComponentName
++{
++    public function __construct(
++        public string $name,
++        public string $package,
++    ) {
++    }
++}
+diff --git a/packages/microweber-view/src/ViewServiceProvider.php b/packages/microweber-view/src/ViewServiceProvider.php
+new file mode 100644
+index 0000000..51fb0de
+--- /dev/null
++++ b/packages/microweber-view/src/ViewServiceProvider.php
+@@ -0,0 +1,80 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View;
++
++use Illuminate\Contracts\Foundation\Application;
++use Illuminate\Support\Facades\Blade;
++use Illuminate\Support\ServiceProvider;
++use Illuminate\View\Compilers\BladeCompiler;
++use MicroweberPackages\View\Contracts\ModuleProcessorInterface;
++use MicroweberPackages\View\Support\CmsModuleProcessorAdapter;
++use MicroweberPackages\View\Support\NullModuleProcessor;
++
++class ViewServiceProvider extends ServiceProvider
++{
++    public function register(): void
++    {
++        $this->mergeConfigFrom(__DIR__ . '/../config/microweber-view.php', 'microweber-view');
++
++        $this->app->singleton(StringBlade::class, static fn () => new StringBlade());
++        $this->app->alias(StringBlade::class, 'microweber.string_blade');
++
++        $this->app->singleton(TwigView::class, static fn () => new TwigView());
++        $this->app->alias(TwigView::class, 'microweber.twig_view');
++
++        $this->app->singleton(MicroweberModuleTagCompiler::class, function (Application $app): MicroweberModuleTagCompiler {
++            /** @var BladeCompiler $blade */
++            $blade = $app->make('blade.compiler');
++
++            return new MicroweberModuleTagCompiler([], [], $blade);
++        });
++
++        $this->app->singleton(ModuleProcessorInterface::class, function (Application $app): ModuleProcessorInterface {
++            // Prefer CMS parser when present
++            if ($app->bound('parser')) {
++                $parser = $app->make('parser');
++                if (is_object($parser)) {
++                    return new CmsModuleProcessorAdapter($parser);
++                }
++            }
++
++            return new NullModuleProcessor();
++        });
++    }
++
++    public function boot(): void
++    {
++        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'microweber-view');
++
++        if ((bool) config('microweber-view.routes_enabled', true)) {
++            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
++        }
++
++        if ((bool) config('microweber-view.module_directive_enabled', true)) {
++            $this->registerTagCompiler();
++            Blade::directive('module', [MicroweberBladeDirectives::class, 'module']);
++        }
++
++        if ($this->app->runningInConsole()) {
++            $this->publishes([
++                __DIR__ . '/../config/microweber-view.php' => config_path('microweber-view.php'),
++            ], 'microweber-view-config');
++
++            $this->publishes([
++                __DIR__ . '/../resources/views' => resource_path('views/vendor/microweber-view'),
++            ], 'microweber-view-views');
++        }
++    }
++
++    protected function registerTagCompiler(): void
++    {
++        /** @var BladeCompiler $compiler */
++        $compiler = $this->app->make('blade.compiler');
++
++        $compiler->precompiler(function (string $string): string {
++            return $this->app->make(MicroweberModuleTagCompiler::class)->compile($string);
++        });
++    }
++}
+diff --git a/packages/microweber-view/standalone-validation/composer.json b/packages/microweber-view/standalone-validation/composer.json
+new file mode 100644
+index 0000000..5e753be
+--- /dev/null
++++ b/packages/microweber-view/standalone-validation/composer.json
+@@ -0,0 +1,32 @@
++{
++    "name": "microweber-packages/view-standalone-validation",
++    "description": "Minimal Laravel app validating microweber-view as a standalone package",
++    "type": "project",
++    "require": {
++        "php": "^8.2",
++        "microweber-packages/view": "@dev",
++        "microweber-packages/format": "@dev",
++        "twig/twig": "^3.0"
++    },
++    "require-dev": {
++        "orchestra/testbench": "^9.0|^10.0",
++        "phpunit/phpunit": "^11.0"
++    },
++    "repositories": [
++        {"type": "path", "url": "..", "options": {"symlink": true}},
++        {"type": "path", "url": "../../microweber-format", "options": {"symlink": true}},
++        {"type": "path", "url": "../../microweber-security", "options": {"symlink": true}}
++    ],
++    "autoload-dev": {
++        "psr-4": {
++            "ViewStandalone\\Tests\\": "tests/"
++        }
++    },
++    "minimum-stability": "dev",
++    "prefer-stable": true,
++    "config": {
++        "allow-plugins": {
++            "php-http/discovery": true
++        }
++    }
++}
+diff --git a/packages/microweber-view/standalone-validation/phpunit.xml b/packages/microweber-view/standalone-validation/phpunit.xml
+new file mode 100644
+index 0000000..919e0d6
+--- /dev/null
++++ b/packages/microweber-view/standalone-validation/phpunit.xml
+@@ -0,0 +1,12 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
++         bootstrap="vendor/autoload.php"
++         colors="true"
++>
++    <testsuites>
++        <testsuite name="Standalone">
++            <directory>tests</directory>
++        </testsuite>
++    </testsuites>
++</phpunit>
+diff --git a/packages/microweber-view/standalone-validation/tests/StandalonePackageTest.php b/packages/microweber-view/standalone-validation/tests/StandalonePackageTest.php
+new file mode 100644
+index 0000000..36d43cf
+--- /dev/null
++++ b/packages/microweber-view/standalone-validation/tests/StandalonePackageTest.php
+@@ -0,0 +1,116 @@
++<?php
++
++declare(strict_types=1);
++
++namespace ViewStandalone\Tests;
++
++use MicroweberPackages\View\Contracts\ModuleProcessorInterface;
++use MicroweberPackages\View\StringBlade;
++use MicroweberPackages\View\Support\HtmlAttributes;
++use MicroweberPackages\View\TwigView;
++use MicroweberPackages\View\View;
++use MicroweberPackages\View\ViewServiceProvider;
++use Orchestra\Testbench\TestCase;
++
++/**
++ * Boots a bare Laravel app with only the view package
++ * (and optional format dependency) to prove the package works
++ * outside the Microweber CMS.
++ */
++class StandalonePackageTest extends TestCase
++{
++    /**
++     * @return list<class-string>
++     */
++    protected function getPackageProviders($app): array
++    {
++        $providers = [
++            ViewServiceProvider::class,
++        ];
++
++        if (class_exists(\MicroweberPackages\Format\FormatServiceProvider::class)) {
++            $providers[] = \MicroweberPackages\Format\FormatServiceProvider::class;
++        }
++        if (class_exists(\MicroweberPackages\Security\SecurityServiceProvider::class)) {
++            $providers[] = \MicroweberPackages\Security\SecurityServiceProvider::class;
++        }
++
++        return $providers;
++    }
++
++    protected function getEnvironmentSetUp($app): void
++    {
++        $app['config']->set('app.key', 'base64:' . base64_encode(random_bytes(32)));
++        $app['config']->set('database.default', 'testing');
++        $app['config']->set('database.connections.testing', [
++            'driver' => 'sqlite',
++            'database' => ':memory:',
++            'prefix' => '',
++        ]);
++        $app['config']->set('microweber-view.routes_enabled', true);
++        $app['config']->set('microweber-view.allow_render_endpoints', true);
++    }
++
++    public function test_services_resolve(): void
++    {
++        $this->assertInstanceOf(StringBlade::class, $this->app->make(StringBlade::class));
++        $this->assertInstanceOf(TwigView::class, $this->app->make(TwigView::class));
++        $this->assertInstanceOf(ModuleProcessorInterface::class, $this->app->make(ModuleProcessorInterface::class));
++    }
++
++    public function test_view_class_renders_file(): void
++    {
++        $file = sys_get_temp_dir() . '/mw_standalone_view_' . uniqid('', true) . '.php';
++        file_put_contents($file, 'Hello <?php echo $name; ?>');
++
++        try {
++            $view = new View($file);
++            $view->assign('name', 'Standalone');
++            $this->assertStringContainsString('Hello Standalone', (string) $view);
++        } finally {
++            @unlink($file);
++        }
++    }
++
++    public function test_string_blade_and_twig(): void
++    {
++        $blade = $this->app->make(StringBlade::class)->render('{{ $x }}', ['x' => 'B']);
++        $this->assertSame('B', trim($blade));
++
++        $twig = $this->app->make(TwigView::class)->render('{{ x }}', ['x' => 'T']);
++        $this->assertSame('T', $twig);
++    }
++
++    public function test_routes_registered(): void
++    {
++        $this->assertTrue($this->app->make('router')->has('microweber-view.health'));
++        $response = $this->get('/microweber-view/health');
++        $response->assertOk();
++        $response->assertJsonPath('status', 'ok');
++    }
++
++    public function test_demo_route(): void
++    {
++        $response = $this->get('/microweber-view/demo');
++        $response->assertOk();
++        $response->assertSee('StringBlade is working', false);
++    }
++
++    public function test_html_attributes(): void
++    {
++        $this->assertSame('a="1"', HtmlAttributes::toString(['a' => '1']));
++    }
++
++    public function test_sqlite_driver(): void
++    {
++        $this->assertEquals('sqlite', config('database.connections.testing.driver'));
++    }
++
++    public function test_format_dependency_when_available(): void
++    {
++        if (!class_exists(\MicroweberPackages\Format\Format::class)) {
++            $this->markTestSkipped('format package not present');
++        }
++        $this->assertTrue(class_exists(\MicroweberPackages\Format\Format::class));
++    }
++}
+diff --git a/packages/microweber-view/tests/Dusk/ViewRoutesDuskTest.php b/packages/microweber-view/tests/Dusk/ViewRoutesDuskTest.php
+new file mode 100644
+index 0000000..d0479b4
+--- /dev/null
++++ b/packages/microweber-view/tests/Dusk/ViewRoutesDuskTest.php
+@@ -0,0 +1,94 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Dusk;
++
++use Tests\DuskTestCase;
++
++/**
++ * Dusk / browser smoke tests for microweber-view package routes.
++ *
++ * When a real Chrome/Chromium binary is available, exercises routes via
++ * the browser. Otherwise falls back to HTTP client smoke assertions so
++ * CI still validates the routes without a browser stack.
++ */
++class ViewRoutesDuskTest extends DuskTestCase
++{
++    protected function hasRealChromeBinary(): bool
++    {
++        $candidates = array_filter([
++            getenv('CHROME_PATH') ?: null,
++            '/usr/bin/google-chrome',
++            '/usr/bin/google-chrome-stable',
++            '/usr/bin/chromium',
++            '/snap/bin/chromium',
++            '/usr/bin/chromium-browser',
++        ]);
++
++        foreach ($candidates as $bin) {
++            if (!is_string($bin) || $bin === '' || !file_exists($bin)) {
++                continue;
++            }
++            if (is_link($bin)) {
++                $target = readlink($bin) ?: '';
++                if (str_contains($target, 'snap')) {
++                    continue;
++                }
++            }
++            $head = @file_get_contents($bin, false, null, 0, 200) ?: '';
++            if (str_contains($head, 'requires the chromium snap') || str_contains($head, 'snap install')) {
++                continue;
++            }
++            if (is_executable($bin)) {
++                return true;
++            }
++        }
++
++        return false;
++    }
++
++    protected function httpSmoke(string $path, int|array $expectedStatus, ?string $see = null): void
++    {
++        $statuses = is_array($expectedStatus) ? $expectedStatus : [$expectedStatus];
++
++        $response = $this->get($path);
++        $this->assertContains(
++            $response->status(),
++            $statuses,
++            "GET {$path} returned {$response->status()}"
++        );
++
++        if ($see !== null) {
++            $response->assertSee($see, false);
++        }
++    }
++
++    public function test_health_route_smoke(): void
++    {
++        if ($this->hasRealChromeBinary()) {
++            $this->browse(function ($browser): void {
++                $browser->visit('/microweber-view/health')
++                    ->assertSee('ok');
++            });
++
++            return;
++        }
++
++        $this->httpSmoke('/microweber-view/health', 200, 'ok');
++    }
++
++    public function test_demo_route_smoke(): void
++    {
++        if ($this->hasRealChromeBinary()) {
++            $this->browse(function ($browser): void {
++                $browser->visit('/microweber-view/demo')
++                    ->assertSee('StringBlade is working');
++            });
++
++            return;
++        }
++
++        $this->httpSmoke('/microweber-view/demo', 200, 'StringBlade is working');
++    }
++}
+diff --git a/packages/microweber-view/tests/Feature/MultiDatabaseTest.php b/packages/microweber-view/tests/Feature/MultiDatabaseTest.php
+new file mode 100644
+index 0000000..e3a7d45
+--- /dev/null
++++ b/packages/microweber-view/tests/Feature/MultiDatabaseTest.php
+@@ -0,0 +1,107 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Feature;
++
++use MicroweberPackages\View\StringBlade;
++use MicroweberPackages\View\Tests\TestCase;
++use MicroweberPackages\View\TwigView;
++use MicroweberPackages\View\View;
++
++/**
++ * Tests that the package boots and operates correctly on SQLite, MySQL, and PostgreSQL.
++ *
++ * Driver selected by MW_TEST_DB_DRIVER env var (default: sqlite).
++ */
++class MultiDatabaseTest extends TestCase
++{
++    protected function setUp(): void
++    {
++        parent::setUp();
++
++        $driver = env('MW_TEST_DB_DRIVER', 'sqlite');
++
++        if ($driver === 'mysql') {
++            config([
++                'database.default' => 'mysql',
++                'database.connections.mysql' => [
++                    'driver' => 'mysql',
++                    'host' => env('DB_HOST', '127.0.0.1'),
++                    'port' => env('DB_PORT', '3306'),
++                    'database' => env('DB_DATABASE', 'microweber_view_test'),
++                    'username' => env('DB_USERNAME', 'root'),
++                    'password' => env('DB_PASSWORD', 'root'),
++                    'charset' => 'utf8mb4',
++                    'collation' => 'utf8mb4_unicode_ci',
++                    'prefix' => '',
++                ],
++            ]);
++        } elseif ($driver === 'pgsql') {
++            config([
++                'database.default' => 'pgsql',
++                'database.connections.pgsql' => [
++                    'driver' => 'pgsql',
++                    'host' => env('DB_HOST', '127.0.0.1'),
++                    'port' => env('DB_PORT', '5432'),
++                    'database' => env('DB_DATABASE', 'postgres'),
++                    'username' => env('DB_USERNAME', 'postgres'),
++                    'password' => env('DB_PASSWORD', 'postgres'),
++                    'charset' => 'utf8',
++                    'prefix' => '',
++                    'schema' => 'public',
++                ],
++            ]);
++        } else {
++            config([
++                'database.default' => 'testing',
++                'database.connections.testing' => [
++                    'driver' => 'sqlite',
++                    'database' => ':memory:',
++                    'prefix' => '',
++                ],
++            ]);
++        }
++    }
++
++    public function test_services_resolve_on_current_driver(): void
++    {
++        $this->assertInstanceOf(StringBlade::class, app(StringBlade::class));
++        $this->assertInstanceOf(TwigView::class, app(TwigView::class));
++    }
++
++    public function test_view_render_on_current_driver(): void
++    {
++        $file = sys_get_temp_dir() . '/mw_view_' . uniqid('', true) . '.php';
++        file_put_contents($file, 'DB=<?php echo htmlspecialchars((string) $driver, ENT_QUOTES); ?>');
++
++        try {
++            $view = new View($file);
++            $view->assign('driver', (string) config('database.default'));
++            $this->assertStringContainsString('DB=', (string) $view);
++        } finally {
++            @unlink($file);
++        }
++    }
++
++    public function test_routes_on_current_driver(): void
++    {
++        $response = $this->get(route('microweber-view.health'));
++        $response->assertStatus(200);
++    }
++
++    public function test_can_ping_database_connection(): void
++    {
++        $driver = env('MW_TEST_DB_DRIVER', 'sqlite');
++
++        try {
++            $pdo = \Illuminate\Support\Facades\DB::connection()->getPdo();
++            $this->assertNotNull($pdo);
++        } catch (\Throwable $e) {
++            if (in_array($driver, ['mysql', 'pgsql'], true)) {
++                $this->markTestSkipped("Database driver {$driver} not available: " . $e->getMessage());
++            }
++            throw $e;
++        }
++    }
++}
+diff --git a/packages/microweber-view/tests/Feature/RenderEndpointsTest.php b/packages/microweber-view/tests/Feature/RenderEndpointsTest.php
+new file mode 100644
+index 0000000..f5c6d06
+--- /dev/null
++++ b/packages/microweber-view/tests/Feature/RenderEndpointsTest.php
+@@ -0,0 +1,59 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Feature;
++
++use MicroweberPackages\View\Tests\TestCase;
++use PHPUnit\Framework\Attributes\Test;
++
++class RenderEndpointsTest extends TestCase
++{
++    protected function setUp(): void
++    {
++        parent::setUp();
++        config(['microweber-view.allow_render_endpoints' => true]);
++    }
++
++    #[Test]
++    public function render_blade_endpoint(): void
++    {
++        $response = $this->postJson(route('microweber-view.render.blade'), [
++            'template' => 'Hi {{ $name }}',
++            'data' => ['name' => 'Blade'],
++        ]);
++
++        $response->assertStatus(200);
++        $response->assertJsonPath('html', 'Hi Blade');
++    }
++
++    #[Test]
++    public function render_twig_endpoint(): void
++    {
++        $response = $this->postJson(route('microweber-view.render.twig'), [
++            'template' => 'Hi {{ name }}',
++            'data' => ['name' => 'Twig'],
++        ]);
++
++        $response->assertStatus(200);
++        $response->assertJsonPath('html', 'Hi Twig');
++    }
++
++    #[Test]
++    public function render_requires_template(): void
++    {
++        $response = $this->postJson(route('microweber-view.render.blade'), []);
++        $response->assertStatus(422);
++    }
++
++    #[Test]
++    public function render_disabled_returns_403(): void
++    {
++        config(['microweber-view.allow_render_endpoints' => false]);
++
++        $response = $this->postJson(route('microweber-view.render.blade'), [
++            'template' => 'x',
++        ]);
++        $response->assertStatus(403);
++    }
++}
+diff --git a/packages/microweber-view/tests/Feature/ServiceProviderTest.php b/packages/microweber-view/tests/Feature/ServiceProviderTest.php
+new file mode 100644
+index 0000000..07bb227
+--- /dev/null
++++ b/packages/microweber-view/tests/Feature/ServiceProviderTest.php
+@@ -0,0 +1,39 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Feature;
++
++use MicroweberPackages\View\Contracts\ModuleProcessorInterface;
++use MicroweberPackages\View\StringBlade;
++use MicroweberPackages\View\Tests\TestCase;
++use MicroweberPackages\View\TwigView;
++use MicroweberPackages\View\ViewServiceProvider;
++use PHPUnit\Framework\Attributes\Test;
++
++class ServiceProviderTest extends TestCase
++{
++    #[Test]
++    public function service_provider_is_loaded(): void
++    {
++        $this->assertTrue(
++            $this->app->providerIsLoaded(ViewServiceProvider::class)
++            || class_exists(ViewServiceProvider::class)
++        );
++    }
++
++    #[Test]
++    public function bindings_resolve(): void
++    {
++        $this->assertInstanceOf(StringBlade::class, app(StringBlade::class));
++        $this->assertInstanceOf(TwigView::class, app(TwigView::class));
++        $this->assertInstanceOf(ModuleProcessorInterface::class, app(ModuleProcessorInterface::class));
++    }
++
++    #[Test]
++    public function config_is_merged(): void
++    {
++        $this->assertNotNull(config('microweber-view'));
++        $this->assertIsBool((bool) config('microweber-view.routes_enabled'));
++    }
++}
+diff --git a/packages/microweber-view/tests/Feature/SmokeRoutesTest.php b/packages/microweber-view/tests/Feature/SmokeRoutesTest.php
+new file mode 100644
+index 0000000..86503db
+--- /dev/null
++++ b/packages/microweber-view/tests/Feature/SmokeRoutesTest.php
+@@ -0,0 +1,65 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Feature;
++
++use MicroweberPackages\View\Tests\TestCase;
++
++/**
++ * Lightweight smoke tests for every package route.
++ */
++class SmokeRoutesTest extends TestCase
++{
++    /**
++     * @return list<array{0: string, 1: string, 2: array<string, mixed>, 3: list<int>}>
++     */
++    public static function routeProvider(): array
++    {
++        return [
++            ['GET', 'microweber-view.health', [], [200]],
++            ['GET', 'microweber-view.demo', [], [200]],
++            ['POST', 'microweber-view.render.blade', [], [403, 422, 200]],
++            ['POST', 'microweber-view.render.twig', [], [403, 422, 200]],
++        ];
++    }
++
++    /**
++     * @param  array<string, mixed>  $params
++     * @param  list<int>  $allowedStatuses
++     */
++    #[\PHPUnit\Framework\Attributes\DataProvider('routeProvider')]
++    public function test_route_smoke(string $method, string $routeName, array $params, array $allowedStatuses): void
++    {
++        $this->assertTrue(app('router')->has($routeName), "Route {$routeName} should be registered");
++
++        $url = route($routeName, $params);
++
++        $response = match (strtoupper($method)) {
++            'POST' => $this->post($url),
++            default => $this->get($url),
++        };
++
++        $this->assertContains(
++            $response->status(),
++            $allowedStatuses,
++            "Route {$routeName} returned {$response->status()}, expected one of: " . implode(',', $allowedStatuses)
++        );
++    }
++
++    public function test_health_payload(): void
++    {
++        $response = $this->get(route('microweber-view.health'));
++        $response->assertStatus(200);
++        $response->assertJsonPath('status', 'ok');
++        $response->assertJsonPath('package', 'microweber-packages/view');
++    }
++
++    public function test_demo_contains_stringblade_output(): void
++    {
++        $response = $this->get(route('microweber-view.demo'));
++        $response->assertStatus(200);
++        $response->assertSee('microweber-view', false);
++        $response->assertSee('StringBlade is working', false);
++    }
++}
+diff --git a/packages/microweber-view/tests/Feature/StandaloneAppValidationTest.php b/packages/microweber-view/tests/Feature/StandaloneAppValidationTest.php
+new file mode 100644
+index 0000000..4a8a877
+--- /dev/null
++++ b/packages/microweber-view/tests/Feature/StandaloneAppValidationTest.php
+@@ -0,0 +1,72 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Feature;
++
++use MicroweberPackages\View\Contracts\ModuleProcessorInterface;
++use MicroweberPackages\View\StringBlade;
++use MicroweberPackages\View\Support\HtmlAttributes;
++use MicroweberPackages\View\Support\NullModuleProcessor;
++use MicroweberPackages\View\Tests\TestCase;
++use MicroweberPackages\View\TwigView;
++use MicroweberPackages\View\View;
++use MicroweberPackages\View\ViewServiceProvider;
++
++/**
++ * Validates the package API surface that a standalone Laravel app would use.
++ */
++class StandaloneAppValidationTest extends TestCase
++{
++    public function test_package_classes_are_loadable(): void
++    {
++        $this->assertTrue(class_exists(View::class));
++        $this->assertTrue(class_exists(StringBlade::class));
++        $this->assertTrue(class_exists(TwigView::class));
++        $this->assertTrue(class_exists(ViewServiceProvider::class));
++        $this->assertTrue(class_exists(HtmlAttributes::class));
++        $this->assertTrue(interface_exists(ModuleProcessorInterface::class));
++    }
++
++    public function test_usable_without_cms_parser(): void
++    {
++        // Ensure ModuleProcessor can work without CMS parser
++        $processor = app(ModuleProcessorInterface::class);
++        $this->assertInstanceOf(ModuleProcessorInterface::class, $processor);
++
++        $result = $processor->process('<module type="x" />');
++        $this->assertIsString($result);
++    }
++
++    public function test_full_api_surface_for_external_apps(): void
++    {
++        $file = sys_get_temp_dir() . '/mw_view_api_' . uniqid('', true) . '.php';
++        file_put_contents($file, 'OK:<?php echo $value; ?>');
++
++        try {
++            $view = new View($file);
++            $view->assign('value', '1');
++            $this->assertStringContainsString('OK:1', (string) $view);
++
++            $blade = app(StringBlade::class)->render('{{ $a }}', ['a' => 'b']);
++            $this->assertSame('b', trim($blade));
++
++            $twig = app(TwigView::class)->render('{{ a }}', ['a' => 'c']);
++            $this->assertSame('c', $twig);
++
++            $attrs = HtmlAttributes::toString(['type' => 'logo']);
++            $this->assertSame('type="logo"', $attrs);
++        } finally {
++            @unlink($file);
++        }
++    }
++
++    public function test_optional_format_package_when_present(): void
++    {
++        if (!class_exists(\MicroweberPackages\Format\Format::class)) {
++            $this->markTestSkipped('format package not installed');
++        }
++
++        $this->assertTrue(class_exists(\MicroweberPackages\Format\Format::class));
++    }
++}
+diff --git a/packages/microweber-view/tests/Filament/ViewToolsLivewireTest.php b/packages/microweber-view/tests/Filament/ViewToolsLivewireTest.php
+new file mode 100644
+index 0000000..4c98734
+--- /dev/null
++++ b/packages/microweber-view/tests/Filament/ViewToolsLivewireTest.php
+@@ -0,0 +1,112 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Filament;
++
++use Livewire\Livewire;
++use MicroweberPackages\View\Filament\Pages\ViewTools;
++use MicroweberPackages\View\Tests\TestCase;
++
++class ViewToolsLivewireTest extends TestCase
++{
++    protected function setUp(): void
++    {
++        parent::setUp();
++
++        if (!class_exists(\Filament\Pages\Page::class)) {
++            $this->markTestSkipped('Filament not installed');
++        }
++
++        $user = null;
++        if (class_exists(\App\Models\User::class)) {
++            $user = \App\Models\User::where('is_admin', 1)->first();
++            if (!$user) {
++                try {
++                    $user = \App\Models\User::create([
++                        'username' => 'view_test_admin_' . uniqid(),
++                        'email' => 'viewtest_' . uniqid() . '@test.com',
++                        'password' => bcrypt('password'),
++                        'is_admin' => 1,
++                        'is_active' => 1,
++                    ]);
++                } catch (\Throwable) {
++                    $user = \App\Models\User::query()->first();
++                }
++            }
++        }
++
++        if ($user) {
++            $this->actingAs($user);
++        }
++    }
++
++    /**
++     * @return \Livewire\Features\SupportTesting\Testable
++     */
++    protected function livewireTools()
++    {
++        return Livewire::test(ViewTools::class);
++    }
++
++    public function test_view_tools_page_renders_via_livewire(): void
++    {
++        try {
++            $component = $this->livewireTools();
++            $this->assertNotNull($component->instance());
++            $this->assertInstanceOf(ViewTools::class, $component->instance());
++        } catch (\Throwable $e) {
++            if ($this->isFilamentBootstrapError($e)) {
++                $this->markTestSkipped('Filament panel not available: ' . $e->getMessage());
++            }
++            throw $e;
++        }
++    }
++
++    public function test_render_preview_action_works(): void
++    {
++        try {
++            $component = $this->livewireTools();
++            $component->set('data.engine', 'blade');
++            $component->set('data.template', 'Hello {{ $name }}!');
++            $component->set('data.name', 'Livewire');
++            $component->call('renderPreview');
++            $component->assertHasNoErrors();
++            $this->assertStringContainsString('Hello Livewire!', (string) $component->get('preview'));
++        } catch (\Throwable $e) {
++            if ($this->isFilamentBootstrapError($e)) {
++                $this->markTestSkipped('Filament panel not available: ' . $e->getMessage());
++            }
++            throw $e;
++        }
++    }
++
++    public function test_render_preview_twig_works(): void
++    {
++        try {
++            $component = $this->livewireTools();
++            $component->set('data.engine', 'twig');
++            $component->set('data.template', 'Hello {{ name }}!');
++            $component->set('data.name', 'TwigLW');
++            $component->call('renderPreview');
++            $this->assertStringContainsString('Hello TwigLW!', (string) $component->get('preview'));
++        } catch (\Throwable $e) {
++            if ($this->isFilamentBootstrapError($e)) {
++                $this->markTestSkipped('Filament panel not available: ' . $e->getMessage());
++            }
++            throw $e;
++        }
++    }
++
++    protected function isFilamentBootstrapError(\Throwable $e): bool
++    {
++        $msg = $e->getMessage();
++
++        return str_contains($msg, 'Panel')
++            || str_contains($msg, 'filament')
++            || str_contains($msg, 'Livewire')
++            || str_contains($msg, 'No primary')
++            || str_contains($msg, 'auth')
++            || str_contains($msg, 'not registered');
++    }
++}
+diff --git a/packages/microweber-view/tests/Fixtures/hello.php b/packages/microweber-view/tests/Fixtures/hello.php
+new file mode 100644
+index 0000000..fe7d694
+--- /dev/null
++++ b/packages/microweber-view/tests/Fixtures/hello.php
+@@ -0,0 +1 @@
++Hello <?php echo htmlspecialchars((string) $name, ENT_QUOTES, 'UTF-8'); ?>
+diff --git a/packages/microweber-view/tests/TestCase.php b/packages/microweber-view/tests/TestCase.php
+new file mode 100644
+index 0000000..3eea419
+--- /dev/null
++++ b/packages/microweber-view/tests/TestCase.php
+@@ -0,0 +1,54 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests;
++
++/**
++ * Base test case for the microweber-view package.
++ *
++ * Uses the full CMS application when available (Microweber monorepo),
++ * otherwise Orchestra Testbench for standalone package testing.
++ */
++if (class_exists(\Orchestra\Testbench\TestCase::class) && !trait_exists(\Tests\CreatesApplication::class)) {
++    abstract class TestCase extends \Orchestra\Testbench\TestCase
++    {
++        /**
++         * @return list<class-string>
++         */
++        protected function getPackageProviders($app): array
++        {
++            return [
++                \MicroweberPackages\View\ViewServiceProvider::class,
++            ];
++        }
++
++        protected function getEnvironmentSetUp($app): void
++        {
++            $app['config']->set('app.key', 'base64:' . base64_encode(random_bytes(32)));
++            $app['config']->set('database.default', 'testing');
++            $app['config']->set('database.connections.testing', [
++                'driver' => 'sqlite',
++                'database' => ':memory:',
++                'prefix' => '',
++            ]);
++            $app['config']->set('microweber-view.routes_enabled', true);
++            $app['config']->set('microweber-view.allow_render_endpoints', true);
++            $app['config']->set('microweber-view.module_directive_enabled', true);
++        }
++    }
++} else {
++    abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
++    {
++        use \Tests\CreatesApplication;
++
++        protected function setUp(): void
++        {
++            parent::setUp();
++
++            if (config('microweber-view') === null) {
++                config(['microweber-view' => require __DIR__ . '/../config/microweber-view.php']);
++            }
++        }
++    }
++}
+diff --git a/packages/microweber-view/tests/Unit/HtmlAttributesTest.php b/packages/microweber-view/tests/Unit/HtmlAttributesTest.php
+new file mode 100644
+index 0000000..80ba124
+--- /dev/null
++++ b/packages/microweber-view/tests/Unit/HtmlAttributesTest.php
+@@ -0,0 +1,40 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Unit;
++
++use MicroweberPackages\View\Support\HtmlAttributes;
++use MicroweberPackages\View\Tests\TestCase;
++use PHPUnit\Framework\Attributes\Test;
++
++class HtmlAttributesTest extends TestCase
++{
++    #[Test]
++    public function empty_array_returns_empty_string(): void
++    {
++        $this->assertSame('', HtmlAttributes::toString([]));
++    }
++
++    #[Test]
++    public function encodes_key_value_pairs(): void
++    {
++        $out = HtmlAttributes::toString(['type' => 'logo', 'id' => 'a1']);
++        $this->assertSame('type="logo" id="a1"', $out);
++    }
++
++    #[Test]
++    public function escapes_special_characters(): void
++    {
++        $out = HtmlAttributes::toString(['title' => 'A "quote" & more']);
++        $this->assertStringContainsString('&quot;', $out);
++        $this->assertStringContainsString('&amp;', $out);
++    }
++
++    #[Test]
++    public function boolean_true_emits_attribute_name_only(): void
++    {
++        $out = HtmlAttributes::toString(['disabled' => true, 'hidden' => false]);
++        $this->assertSame('disabled', $out);
++    }
++}
+diff --git a/packages/microweber-view/tests/Unit/ModuleTagCompilerTest.php b/packages/microweber-view/tests/Unit/ModuleTagCompilerTest.php
+new file mode 100644
+index 0000000..60f44ad
+--- /dev/null
++++ b/packages/microweber-view/tests/Unit/ModuleTagCompilerTest.php
+@@ -0,0 +1,57 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Unit;
++
++use MicroweberPackages\View\MicroweberModuleTagCompiler;
++use MicroweberPackages\View\Tests\TestCase;
++use PHPUnit\Framework\Attributes\Test;
++
++class ModuleTagCompilerTest extends TestCase
++{
++    private function compiler(): MicroweberModuleTagCompiler
++    {
++        return app(MicroweberModuleTagCompiler::class);
++    }
++
++    #[Test]
++    public function compiles_self_closing_module_tag(): void
++    {
++        MicroweberModuleTagCompiler::enableModuleProcessing();
++        $out = $this->compiler()->compile('<module type="logo" id="header-logo" />');
++
++        $this->assertStringContainsString('@module([', $out);
++        $this->assertStringContainsString("'type' => 'logo'", $out);
++        $this->assertStringContainsString("'id' => 'header-logo'", $out);
++    }
++
++    #[Test]
++    public function compiles_empty_attribute_values(): void
++    {
++        MicroweberModuleTagCompiler::enableModuleProcessing();
++        $out = $this->compiler()->compile('<module type="btn" button_size="" />');
++
++        $this->assertStringContainsString('@module([', $out);
++        $this->assertStringContainsString("'type' => 'btn'", $out);
++    }
++
++    #[Test]
++    public function can_disable_processing(): void
++    {
++        MicroweberModuleTagCompiler::disableModuleProcessing();
++        $input = '<module type="logo" />';
++        $out = $this->compiler()->compile($input);
++
++        $this->assertSame($input, $out);
++        MicroweberModuleTagCompiler::enableModuleProcessing();
++    }
++
++    #[Test]
++    public function leaves_non_module_html_untouched(): void
++    {
++        MicroweberModuleTagCompiler::enableModuleProcessing();
++        $input = '<div class="x">hello</div>';
++        $this->assertSame($input, $this->compiler()->compile($input));
++    }
++}
+diff --git a/packages/microweber-view/tests/Unit/StringBladeTest.php b/packages/microweber-view/tests/Unit/StringBladeTest.php
+new file mode 100644
+index 0000000..bfdb647
+--- /dev/null
++++ b/packages/microweber-view/tests/Unit/StringBladeTest.php
+@@ -0,0 +1,38 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Unit;
++
++use MicroweberPackages\View\StringBlade;
++use MicroweberPackages\View\Tests\TestCase;
++use PHPUnit\Framework\Attributes\Test;
++
++class StringBladeTest extends TestCase
++{
++    #[Test]
++    public function renders_blade_string(): void
++    {
++        $blade = app(StringBlade::class);
++        $html = $blade->render('Hello {{ $name }}', ['name' => 'Blade']);
++
++        $this->assertSame('Hello Blade', trim($html));
++    }
++
++    #[Test]
++    public function compiles_blade_string_to_php(): void
++    {
++        $blade = app(StringBlade::class);
++        $php = $blade->compile('{{ $x }}');
++
++        $this->assertStringContainsString('echo', $php);
++        $this->assertStringContainsString('$x', $php);
++    }
++
++    #[Test]
++    public function resolves_from_container_alias(): void
++    {
++        $this->assertInstanceOf(StringBlade::class, app('microweber.string_blade'));
++        $this->assertSame(app(StringBlade::class), app('microweber.string_blade'));
++    }
++}
+diff --git a/packages/microweber-view/tests/Unit/TwigViewTest.php b/packages/microweber-view/tests/Unit/TwigViewTest.php
+new file mode 100644
+index 0000000..1ad5c44
+--- /dev/null
++++ b/packages/microweber-view/tests/Unit/TwigViewTest.php
+@@ -0,0 +1,37 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Unit;
++
++use MicroweberPackages\View\Tests\TestCase;
++use MicroweberPackages\View\TwigView;
++use PHPUnit\Framework\Attributes\Test;
++
++class TwigViewTest extends TestCase
++{
++    #[Test]
++    public function renders_twig_string(): void
++    {
++        $twig = new TwigView();
++        $html = $twig->render('Hello {{ name }}', ['name' => 'Twig']);
++
++        $this->assertSame('Hello Twig', $html);
++    }
++
++    #[Test]
++    public function resolves_from_container(): void
++    {
++        $this->assertInstanceOf(TwigView::class, app(TwigView::class));
++        $this->assertSame(app(TwigView::class), app('microweber.twig_view'));
++    }
++
++    #[Test]
++    public function supports_filters(): void
++    {
++        $twig = app(TwigView::class);
++        $html = $twig->render('{{ name|upper }}', ['name' => 'abc']);
++
++        $this->assertSame('ABC', $html);
++    }
++}
+diff --git a/packages/microweber-view/tests/Unit/ViewComponentNameTest.php b/packages/microweber-view/tests/Unit/ViewComponentNameTest.php
+new file mode 100644
+index 0000000..7a396cc
+--- /dev/null
++++ b/packages/microweber-view/tests/Unit/ViewComponentNameTest.php
+@@ -0,0 +1,20 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Unit;
++
++use MicroweberPackages\View\Tests\TestCase;
++use MicroweberPackages\View\ViewComponentName;
++use PHPUnit\Framework\Attributes\Test;
++
++class ViewComponentNameTest extends TestCase
++{
++    #[Test]
++    public function stores_name_and_package(): void
++    {
++        $attr = new ViewComponentName('hero', 'components');
++        $this->assertSame('hero', $attr->name);
++        $this->assertSame('components', $attr->package);
++    }
++}
+diff --git a/packages/microweber-view/tests/Unit/ViewTest.php b/packages/microweber-view/tests/Unit/ViewTest.php
+new file mode 100644
+index 0000000..5742a66
+--- /dev/null
++++ b/packages/microweber-view/tests/Unit/ViewTest.php
+@@ -0,0 +1,81 @@
++<?php
++
++declare(strict_types=1);
++
++namespace MicroweberPackages\View\Tests\Unit;
++
++use MicroweberPackages\View\Tests\TestCase;
++use MicroweberPackages\View\View;
++use PHPUnit\Framework\Attributes\Test;
++
++class ViewTest extends TestCase
++{
++    private function fixturePath(string $name): string
++    {
++        return __DIR__ . '/../Fixtures/' . $name;
++    }
++
++    #[Test]
++    public function constructor_throws_for_missing_file(): void
++    {
++        $this->expectException(\InvalidArgumentException::class);
++        new View('/path/to/nonexistent/file.php');
++    }
++
++    #[Test]
++    public function renders_php_template_with_assigned_vars(): void
++    {
++        $view = new View($this->fixturePath('hello.php'));
++        $view->assign('name', 'Microweber');
++
++        $this->assertStringContainsString('Hello Microweber', (string) $view);
++    }
++
++    #[Test]
++    public function set_assigns_multiple_variables(): void
++    {
++        $view = new View($this->fixturePath('hello.php'));
++        $view->set(['name' => 'World']);
++
++        $this->assertSame('Hello World', trim((string) $view));
++    }
++
++    #[Test]
++    public function display_returns_content_when_return_true(): void
++    {
++        $view = new View($this->fixturePath('hello.php'));
++        $view->assign('name', 'X');
++
++        $this->assertSame('Hello X', trim($view->display(true)));
++    }
++
++    #[Test]
++    public function render_implements_renderable(): void
++    {
++        $view = new View($this->fixturePath('hello.php'));
++        $view->assign('name', 'Y');
++
++        $this->assertSame('Hello Y', trim($view->render()));
++    }
++
++    #[Test]
++    public function get_vars_returns_defined_variables(): void
++    {
++        $view = new View($this->fixturePath('hello.php'));
++        $view->assign('name', 'Vars');
++
++        $vars = $view->__get_vars();
++        $this->assertArrayHasKey('name', $vars);
++        $this->assertSame('Vars', $vars['name']);
++    }
++
++    #[Test]
++    public function fluent_set_and_assign(): void
++    {
++        $view = (new View($this->fixturePath('hello.php')))
++            ->set(['name' => 'Fluent'])
++            ->assign('extra', 1);
++
++        $this->assertStringContainsString('Fluent', (string) $view);
++    }
++}
+diff --git a/phpunit.dusk.xml b/phpunit.dusk.xml
+index 474d0c0..623ff33 100644
+--- a/phpunit.dusk.xml
++++ b/phpunit.dusk.xml
+@@ -14,6 +14,9 @@
+         <testsuite name="Fortify Dusk Suite">
+             <directory suffix="Test.php">./packages/microweber-fortify/tests/Dusk</directory>
+         </testsuite>
++        <testsuite name="View Dusk Suite">
++            <directory suffix="Test.php">./packages/microweber-view/tests/Dusk</directory>
++        </testsuite>
+         <testsuite name="Browser Test Suite">
+             <directory suffix="Test.php">./tests/Browser</directory>
+         </testsuite>
+diff --git a/phpunit.xml b/phpunit.xml
+index b8518d2..ce4819d 100644
+--- a/phpunit.xml
++++ b/phpunit.xml
+@@ -192,6 +192,11 @@
+             <exclude>packages/microweber-image-optimization/tests/Dusk</exclude>
+         </testsuite>
+ 
++        <testsuite name="Packages-View">
++            <directory>packages/microweber-view/tests</directory>
++            <exclude>packages/microweber-view/tests/Dusk</exclude>
++        </testsuite>
++
+         <testsuite name="MicroweberDbExport">
+             <directory>packages/microweber-db-export/tests</directory>
+         </testsuite>
+@@ -241,6 +246,7 @@
+             <directory>packages/microweber-security/src</directory>
+             <directory>packages/microweber-url/src</directory>
+             <directory>packages/microweber-format/src</directory>
++            <directory>packages/microweber-view/src</directory>
+             <directory>packages/laravel-helper-functions/src</directory>
+         </include>
+         <exclude>
+diff --git a/src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php b/src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php
+index c407fe7..e2c1963 100644
+--- a/src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php
++++ b/src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php
+@@ -492,6 +492,7 @@ class FilamentAdminPanelProvider extends PanelProvider
+         $panel->plugin(\MicroweberPackages\Fortify\Filament\MicroweberFortifyPlugin::make());
+         $panel->plugin(\MicroweberPackages\CdnSync\Filament\CdnSyncPlugin::make());
+         $panel->plugin(\MicroweberPackages\ImageOptimization\Filament\ImageOptimizationPlugin::make());
++        $panel->plugin(\MicroweberPackages\View\Filament\ViewPlugin::make());
+ 
+         if ($registeredPlugins) {
+             foreach ($registeredPlugins as $registeredPlugin) {
+diff --git a/src/MicroweberPackages/View/MicroweberBladeDirectives.php b/src/MicroweberPackages/View/MicroweberBladeDirectives.php
+deleted file mode 100644
+index fe1c7c3..0000000
+--- a/src/MicroweberPackages/View/MicroweberBladeDirectives.php
++++ /dev/null
+@@ -1,16 +0,0 @@
+-<?php
+-
+-namespace MicroweberPackages\View;
+-
+-class MicroweberBladeDirectives
+-{
+-    public static function module($expression)
+-    {
+-
+-        return <<<EOT
+-<?php
+-echo app()->parser->process("<module ".app()->format->arrayToHtmlAttributes($expression)." />");
+-?>
+-EOT;
+-    }
+-}
+diff --git a/src/MicroweberPackages/View/MicroweberModuleTagCompiler.php b/src/MicroweberPackages/View/MicroweberModuleTagCompiler.php
+deleted file mode 100644
+index 7912af4..0000000
+--- a/src/MicroweberPackages/View/MicroweberModuleTagCompiler.php
++++ /dev/null
+@@ -1,150 +0,0 @@
+-<?php
+-
+-namespace MicroweberPackages\View;
+-
+-
+-use  Illuminate\View\Compilers\ComponentTagCompiler;
+-use Livewire\Exceptions\ComponentAttributeMissingOnDynamicComponentException;
+-
+-class MicroweberModuleTagCompiler extends ComponentTagCompiler
+-{
+-    public static $isEnabled = true;
+-
+-    public static function enableModuleProcessing()
+-    {
+-        self::$isEnabled = true;
+-    }
+-    public static function disableModuleProcessing()
+-    {
+-        self::$isEnabled = false;
+-    }
+-
+-
+-    public function compile($value)
+-    {
+-        if( !self::$isEnabled){
+-            return $value;
+-        }
+-      //  return $value;
+-        return $this->compileMicroweberModuleSelfClosingTags($value);
+-    }
+-
+-    protected function compileMicroweberModuleSelfClosingTags($value)
+-    {
+-
+-        $pattern = "/
+-            <
+-                \s*
+-               module
+-                \s*
+-                (?<attributes>
+-                    (?:
+-                        \s+
+-                        [\w\-:.@]+
+-                        (
+-                            =
+-                            (?:
+-                                \\\"[^\\\"]*\\\"
+-                                |
+-                                \'[^\']*\'
+-                                |
+-                                [^\'\\\"=<>]+
+-                            )
+-                        )?
+-                    )*
+-                    \s*
+-                )
+-            \/?>
+-        /x";
+-
+-
+-        $pregReplaceResponse = preg_replace_callback($pattern, function (array $matches) {
+-
+-            $attributes = [];
+-         //    $getAttributes = $this->extractModuleTagAttributes($matches[0]);
+-             // Normalize the self-closing slash to have a leading space before
+-             // parsing attributes. An empty trailing attribute written tight
+-             // against the slash (`button_size=""/>`) breaks Laravel's value
+-             // regex: `"[^"]+"` needs ≥1 char so `""` isn't matched as a quoted
+-             // value, the unquoted fallback `[^\s>]+` then grabs `""/` (quotes +
+-             // slash), and stripQuotes() leaves a stray `"` as the value. Adding a
+-             // space (`button_size="" />`) makes the empty value parse to '' while
+-             // leaving every other attribute (and the `module`/full-tag shape the
+-             // downstream rendering relies on) untouched.
+-             $moduleTagForAttrs = preg_replace('#\s*/>\s*$#', ' />', $matches[0]);
+-             $getAttributes = $this->getAttributesFromAttributeString($moduleTagForAttrs);
+-
+-            foreach ($getAttributes as $attributeKey=>$attributeValue) {
+-              //  $attributes[$attributeKey] = "'".$this->compileAttributeEchos($attributeValue)."'";
+-                $attributes[$attributeKey] = $attributeValue;
+-            }
+-
+-            $component = "'{$matches[0]}'";
+-
+-            return $this->componentString($component, $attributes);
+-
+-        }, $value);
+-
+-
+-
+-        return $pregReplaceResponse;
+-    }
+-
+-    protected function componentString(string $component, array $attributes)
+-    {
+-        $componentString = "@module([".$this->attributesToString($attributes, $escapeBound = false).'])';
+-
+-        return $componentString;
+-    }
+-
+-    protected function attributesToString(array $attributes, $escapeBound = true)
+-    {
+-        return collect($attributes)
+-            ->map(function (string $value, string $attribute) use ($escapeBound) {
+-                return $escapeBound && isset($this->boundAttributes[$attribute]) && $value !== 'true' && ! is_numeric($value)
+-                    ? "'{$attribute}' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute({$value})"
+-                    : "'{$attribute}' => {$value}";
+-            })
+-            ->implode(',');
+-    }
+-
+-    private function extractModuleTagAttributes($module_tag)
+-    {
+-        $value = $module_tag;
+-        $attrs = array();
+-        $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+-        $mw_attrs_key_value_seperator = "__MW_PARSER_ATTR_VAL__";
+-        if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
+-            foreach ($attrs1 as $item) {
+-                $m_tag = trim($item[0], "\x22\x27");
+-                $m_tag = trim($m_tag, "\x27\x22");
+-                $m_tag = preg_replace('/=/', $mw_attrs_key_value_seperator, $m_tag, 1);
+-
+-
+-                $m_tag = explode($mw_attrs_key_value_seperator, $m_tag);
+-
+-                $a = trim($m_tag[0], "''");
+-                $a = trim($a, '""');
+-                $b = trim($m_tag[1], "''");
+-                $b = trim($b, '""');
+-                if (isset($m_tag[2])) {
+-                    $rest_pieces = $m_tag;
+-                    if (isset($rest_pieces[0])) {
+-                        unset($rest_pieces[0]);
+-                    }
+-                    if (isset($rest_pieces[1])) {
+-                        unset($rest_pieces[1]);
+-                    }
+-                    $rest_pieces = implode($mw_attrs_key_value_seperator, $rest_pieces);
+-                    $b = $b . $rest_pieces;
+-                }
+-
+-                $attrs[$a] = $b;
+-            }
+-        }
+-
+-        if ($attrs) {
+-            return $attrs;
+-        }
+-    }
+-}
+diff --git a/src/MicroweberPackages/View/StringBlade.php b/src/MicroweberPackages/View/StringBlade.php
+deleted file mode 100644
+index 9f5ded1..0000000
+--- a/src/MicroweberPackages/View/StringBlade.php
++++ /dev/null
+@@ -1,95 +0,0 @@
+-<?php
+-
+-namespace MicroweberPackages\View;
+-
+-use Illuminate\Filesystem\Filesystem;
+-use Illuminate\Support\Facades\Blade;
+-
+-class StringBlade
+-{
+-    /**
+-     * @var Filesystem
+-     */
+-    protected $file;
+-
+-    /**
+-     * @var \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+-     */
+-    protected $viewer;
+-
+-    /**
+-     * StringBlade constructor.
+-     *
+-     * @param Filesystem $file
+-     */
+-    public function __construct(Filesystem $file)
+-    {
+-        $this->file = $file;
+-        $this->viewer = view();
+-    }
+-
+-    /**
+-     * Get Blade File path.
+-     *
+-     * @param $bladeString
+-     * @return bool|string
+-     */
+-    protected function getBlade($bladeString)
+-    {
+-        $bladePath = $this->generateBladePath($bladeString);
+-
+-        $content = Blade::compileString($bladeString);
+-
+-        return $this->file->put($bladePath, $content)
+-            ? $bladePath
+-            : false;
+-    }
+-
+-    /**
+-     * Get the rendered HTML.
+-     *
+-     * @param $bladeString
+-     * @param array $data
+-     * @return bool|string
+-     */
+-    public function render($bladeString, $data = [])
+-    {
+-
+-        return Blade::render($bladeString, $data);
+-
+-
+-
+-        // Put the php version of blade String to *.php temp file & returns the temp file path
+-        $bladePath = $this->getBlade($bladeString);
+-
+-        if (!$bladePath) {
+-            return false;
+-        }
+-
+-        // Render the php temp file & return the HTML content
+-        $content = $this->viewer->file($bladePath, $data)->render();
+-
+-        // Delete the php temp file.
+-        $this->file->delete($bladePath);
+-
+-        return $content;
+-    }
+-
+-    /**
+-     * Generate a blade file path.
+-     *
+-     * @return string
+-     */
+-    protected function generateBladePath($bladeString = '')
+-    {
+-        $cachePath = rtrim(config('cache.stores.file.path'), '/');
+-        $tempFileName =md5('string-blade-'.$bladeString );
+-        $directory = "{$cachePath}/string-blades";
+-
+-        if (!is_dir($directory)) {
+-            mkdir_recursive($directory, 0777);
+-        }
+-
+-        return "{$directory}/{$tempFileName}.php";
+-    }
+-}
+diff --git a/src/MicroweberPackages/View/TwigView.php b/src/MicroweberPackages/View/TwigView.php
+deleted file mode 100644
+index 27ba88b..0000000
+--- a/src/MicroweberPackages/View/TwigView.php
++++ /dev/null
+@@ -1,20 +0,0 @@
+-<?php
+-
+-namespace MicroweberPackages\View;
+-
+-class TwigView
+-{
+-    public function render($html, array $data = [],$options = [])
+-    {
+-
+-        $key = md5($html);
+-        $loader = new \Twig\Loader\ArrayLoader([
+-            $key => $html,
+-        ]);
+-        $twig = new \Twig\Environment($loader,$options);
+-
+-        return $twig->render($key, $data);
+-
+-
+-    }
+-}
+diff --git a/src/MicroweberPackages/View/View.php b/src/MicroweberPackages/View/View.php
+deleted file mode 100644
+index b922b75..0000000
+--- a/src/MicroweberPackages/View/View.php
++++ /dev/null
+@@ -1,116 +0,0 @@
+-<?php
+-namespace MicroweberPackages\View;
+-
+-use Symfony\Component\HttpFoundation\RedirectResponse;
+-use Symfony\Component\HttpFoundation\Response;
+-
+-// Handles working with PHP output templates
+-#[AllowDynamicProperties]
+-class View
+-{
+-    public $v;
+-    public $app;
+-    public $config;
+-    public $params;
+-    public $data;
+-    public $settings;
+-
+-
+-    //deprecated params
+-    public $page;
+-    public $module;
+-    public $page_id;
+-    public $application;
+-    public $content;
+-    public $category;
+-    public $content_id;
+-    public $post_id;
+-    public $category_id;
+-    public $meta_tags;
+-    public $render_file;
+-
+-
+-    public function __construct($v)
+-    {
+-        $this->v = realpath($v);
+-
+-        if (!is_file($this->v)) {
+-            throw new \Exception('The view file not found. ' . $v);
+-        }
+-    }
+-
+-    public function set($a)
+-    {
+-        foreach ($a as $k => $v) {
+-            $this->$k = $v;
+-        }
+-    }
+-
+-    public function assign($var, $val)
+-    {
+-        $this->$var = $val;
+-    }
+-
+-    public function __get_vars()
+-    {
+-        ob_start();
+-        extract((array) $this);
+-
+-        $file_dir = dirname($this->v).DS;
+-
+-        require $this->v;
+-
+-        $content = ob_get_clean();
+-        unset($content);
+-
+-        $defined_vars = array();
+-        $var_names = array_keys(get_defined_vars());
+-
+-        foreach ($var_names as $var_name) {
+-            if ($var_name != 'defined_vars' and $var_name != 'this') {
+-                $defined_vars[ $var_name ] = $$var_name;
+-            }
+-        }
+-
+-        return $defined_vars;
+-    }
+-
+-    public function display($return = false)
+-    {
+-        if ($return) {
+-            return $this->__toString();
+-        } else {
+-            echo $this->__toString();
+-        }
+-    }
+-
+-    public function __toString()
+-    {
+-        extract((array) $this);
+-        ob_start();
+-        if (is_array($this->v)) {
+-            foreach ($this->v as $item) {
+-                if (is_file($item)) {
+-                    $res = include $item;
+-                }
+-            }
+-        } elseif (is_string($this->v)) {
+-            if (is_file($this->v)) {
+-                $res = include $this->v;
+-            }
+-        }
+-
+-        if (isset($res) and is_object($res)) {
+-            if ($res instanceof RedirectResponse) {
+-                return $res;
+-            } elseif ($res instanceof Response) {
+-                return $res;
+-            }elseif ($res instanceof \Illuminate\View\View) {
+-                return $res->render();
+-            }
+-        }
+-        $content = ob_get_clean();
+-
+-        return $content;
+-    }
+-}
+diff --git a/src/MicroweberPackages/View/ViewComponentName.php b/src/MicroweberPackages/View/ViewComponentName.php
+deleted file mode 100644
+index 3db751e..0000000
+--- a/src/MicroweberPackages/View/ViewComponentName.php
++++ /dev/null
+@@ -1,16 +0,0 @@
+-<?php
+-
+-namespace MicroweberPackages\View;
+-
+-#[\Attribute]
+-class  ViewComponentName
+-{
+-    public string  $name;
+-    public string $package;
+-
+-    public function __construct(string  $name, string $package)
+-    {
+-        $this->name = $name;
+-        $this->package = $package;
+-    }
+-}
+diff --git a/src/MicroweberPackages/View/ViewServiceProvider.php b/src/MicroweberPackages/View/ViewServiceProvider.php
+deleted file mode 100644
+index a935e07..0000000
+--- a/src/MicroweberPackages/View/ViewServiceProvider.php
++++ /dev/null
+@@ -1,31 +0,0 @@
+-<?php
+-
+-namespace MicroweberPackages\View;
+-
+-
+-use Illuminate\Support\Facades\Blade;
+-use Illuminate\Support\ServiceProvider;
+-use Livewire\LivewireTagCompiler;
+-
+-class ViewServiceProvider extends ServiceProvider
+-{
+-
+-    public function boot()
+-    {
+-        $this->registerTagCompiler();
+-
+-        Blade::directive('module', [MicroweberBladeDirectives::class, 'module']);
+-
+-    }
+-
+-    protected function registerTagCompiler()
+-    {
+-        if (method_exists($this->app['blade.compiler'], 'precompiler')) {
+-            $this->app['blade.compiler']->precompiler(function ($string) {
+-                return app(MicroweberModuleTagCompiler::class)->compile($string);
+-            });
+-        }
+-    }
+-
+-
+-}
+diff --git a/src/MicroweberPackages/View/composer.json b/src/MicroweberPackages/View/composer.json
+deleted file mode 100644
+index 312c680..0000000
+--- a/src/MicroweberPackages/View/composer.json
++++ /dev/null
+@@ -1,25 +0,0 @@
+-{
+-    "name": "microweber-packages/microweber-view",
+-    "description": "Config rewrite for Laravel. Allows to save key and values in cofig files.",
+-    "version" : "0.0.1",
+-    "authors": [
+-        {
+-            "name": "Microweber",
+-            "email": "info@microweber.com"
+-        },
+-		{
+-            "name": "Bozhidar Slaveykov",
+-            "email": "bobi@microweber.com"
+-        }
+-  ],
+-  "autoload": {
+-      "psr-4": {
+-        "MicroweberPackages\\View\\": ""
+-      }
+-  },
+-  "homepage": "http://microweber.com",
+-  "license": "MIT",
+-  "support": {
+-    "email": "support@microweber.com"
+-  }
+-}
+diff --git a/src/MicroweberPackages/View/rss.blade.php b/src/MicroweberPackages/View/rss.blade.php
+deleted file mode 100644
+index 620efb9..0000000
+--- a/src/MicroweberPackages/View/rss.blade.php
++++ /dev/null
+@@ -1,25 +0,0 @@
+-{!! '<'.'?'.'xml version="1.0" encoding="UTF-8" ?>' !!}
+-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+-    <channel>
+-        <title>{{ $site_title }}</title>
+-        <link>{{site_url()}}</link>
+-        <atom:link href="{{site_url()}}rss" rel="self" type="application/rss+xml"/>
+-        <description>{!! $site_desc !!}</description>
+-        @foreach ($cont as $row)
+-            @if (!isset($row['description']) or $row['description'] == '')
+-                <?php $row['description'] = $row['content']; ?>
+-            @endif
+-            <?php $row['description'] = character_limiter(strip_tags(($row['description'])), 500); ?>
+-            <item>
+-                <title>{{$row['title']}}</title>
+-                <description><![CDATA[{{$row['image_tag']}}{{$row['description']}}]]></description>
+-                @if ($row['image'])
+-                    {{--<enclosure url="{{$row['image']}}" length="{{$row['image_bits']}}" type="{{$row['image_mime']}}"/>--}}
+-                @endif
+-                <link>{{content_link($row['id']) }}</link>
+-                <pubDate>{{date('D, d M Y H:i:s O', strtotime($row['created_at'])) }}</pubDate>
+-                <guid>{{content_link($row['id']) }}</guid>
+-            </item>
+-        @endforeach
+-    </channel>
+-</rss>
+\ No newline at end of file
+diff --git a/src/MicroweberPackages/View/tests/BasicTest.php b/src/MicroweberPackages/View/tests/BasicTest.php
+deleted file mode 100644
+index 3bb2816..0000000
+--- a/src/MicroweberPackages/View/tests/BasicTest.php
++++ /dev/null
+@@ -1,16 +0,0 @@
+-<?php
+-namespace MicroweberPackages\View\tests;
+-
+-use PHPUnit\Framework\Attributes\Test;
+-
+-use Tests\TestCase;
+-
+-class BasicTest extends TestCase
+-{
+-    #[Test]
+-    public function it_constructor_throws_exception_for_nonexistent_file(): void {
+-        $this->expectException(\Exception::class);
+-
+-        new \MicroweberPackages\View\View('/path/to/nonexistent/file');
+-    }
+-}

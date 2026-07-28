@@ -1,0 +1,16 @@
+includes:
+    - ../../vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: max
+    paths:
+        - src
+    excludePaths:
+        - vendor(?)
+    tmpDir: build/phpstan
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        # Optional host CMS bindings (guarded at runtime)
+        - '#Access to an undefined property Illuminate\\Contracts\\Foundation\\Application::\$parser#'
+        - '#Access to an undefined property Illuminate\\Contracts\\Foundation\\Application::\$format#'
