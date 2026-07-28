@@ -34,6 +34,10 @@ class TemplateManagerServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
 
+        // Standalone minifier package (JS/CSS) used by AssetOptimizationService.
+        // Hard dependency (microweber-packages/minifier) — register directly so a
+        // missing package fails loudly at boot instead of silently disabling minification.
+        $this->app->register(\MicroweberPackages\Minifier\MinifierServiceProvider::class);
 
         /**
          * @property \MicroweberPackages\Template\Repositories\TemplateMetaTagsRepository    $template_meta_tags

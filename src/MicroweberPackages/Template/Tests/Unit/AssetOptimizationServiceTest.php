@@ -18,7 +18,6 @@ class AssetOptimizationServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->markTestSkipped('AssetOptimizationService uses JShrink minifier which has an infinite loop bug — skipped until fixed');
 
         // Set up test configuration
         config(['assets.enabled' => true]);

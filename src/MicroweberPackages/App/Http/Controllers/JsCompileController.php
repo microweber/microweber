@@ -302,21 +302,21 @@ class JsCompileController extends Controller
 
     public function minify_js($layout)
     {
-        return $layout;
+        $optimize_asset_loading = function_exists('get_option')
+            ? get_option('optimize_asset_loading', 'website')
+            : null;
 
-        // has error on minifier
-        $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
-        if ($optimize_asset_loading == 1) {
-            $minifier = normalize_path(MW_PATH . 'Utils/lib/JShrink/Minifier.php', false);
-            if (is_file($minifier)) {
-                include_once $minifier;
-
-
-                $layout = \JShrink\Minifier::minify($layout);
-
-            }
+        if ((string) $optimize_asset_loading !== '1') {
+            return $layout;
         }
-        return $layout;
+
+        try {
+            return app(\MicroweberPackages\Minifier\Services\JsMinify::class)->minify((string) $layout);
+        } catch (\Throwable $e) {
+            // Runtime resilience only: keep the original JS if minification of
+            // this specific layout throws — never masks a missing dependency.
+            return $layout;
+        }
     }
 
 

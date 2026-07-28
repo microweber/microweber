@@ -5,8 +5,8 @@ namespace MicroweberPackages\Template\Services;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
-use MicroweberPackages\Utils\ThirdPartyLibs\JShrink\Minifier;
-use Symfony\Component\CssSelector\CssSelectorConverter;
+use MicroweberPackages\Minifier\Services\CssMinify;
+use MicroweberPackages\Minifier\Services\JsMinify;
 
 /**
  * Service for optimizing frontend assets.
@@ -217,59 +217,24 @@ class AssetOptimizationService
     }
 
     /**
-     * Minify CSS content
+     * Minify CSS content via microweber-packages/minifier.
      *
      * @param string $css CSS content
      * @return string Minified CSS
      */
     protected function minifyCss(string $css): string
     {
-        // Remove CSS comments
-        $css = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
+        try {
+            return app(CssMinify::class)->minify($css);
+        } catch (\Exception $e) {
+            Log::warning('CSS minification failed, returning original', ['error' => $e->getMessage()]);
 
-        // Backup values within single or double quotes
-        preg_match_all('/(\'[^\']*?\'|"[^"]*?")/ims', $css, $hit, PREG_PATTERN_ORDER);
-        for ($i = 0; $i < count($hit[1]); $i++) {
-            $css = str_replace($hit[1][$i], '##########' . $i . '##########', $css);
+            return $css;
         }
-
-        // Remove trailing semicolon of selector's last property
-        $css = preg_replace('/;[\s\r\n\t]*?}[\s\r\n\t]*/ims', "}\r\n", $css);
-
-        // Remove any whitespace between semicolon and property-name
-        $css = preg_replace('/;[\s\r\n\t]*?([\r\n]?[^\s\r\n\t])/ims', ';$1', $css);
-
-        // Remove any whitespace surrounding property-colon
-        $css = preg_replace('/[\s\r\n\t]*:[\s\r\n\t]*?([^\s\r\n\t])/ims', ':$1', $css);
-
-        // Remove any whitespace surrounding selector-comma
-        $css = preg_replace('/[\s\r\n\t]*,[\s\r\n\t]*?([^\s\r\n\t])/ims', ',$1', $css);
-
-        // Remove any whitespace surrounding opening parenthesis
-        $css = preg_replace('/[\s\r\n\t]*{[\s\r\n\t]*?([^\s\r\n\t])/ims', '{$1', $css);
-
-        // Remove any whitespace between numbers and units
-        $css = preg_replace('/([\d\.]+)[\s\r\n\t]+(px|em|pt|%)/ims', '$1$2', $css);
-
-        // Shorten zero-values
-        $css = preg_replace('/([^\d\.]0)(px|em|pt|%)/ims', '$1', $css);
-
-        // Constrain multiple whitespaces
-        $css = preg_replace('/\p{Zs}+/ims', ' ', $css);
-
-        // Remove newlines
-        $css = str_replace(["\r\n", "\r", "\n"], '', $css);
-
-        // Restore backupped values within single or double quotes
-        for ($i = 0; $i < count($hit[1]); $i++) {
-            $css = str_replace('##########' . $i . '##########', $hit[1][$i], $css);
-        }
-
-        return trim($css);
     }
 
     /**
-     * Minify JavaScript content
+     * Minify JavaScript content via microweber-packages/minifier.
      *
      * @param string $js JavaScript content
      * @return string Minified JavaScript
@@ -277,9 +242,10 @@ class AssetOptimizationService
     protected function minifyJs(string $js): string
     {
         try {
-            return Minifier::minify($js, ['flaggedComments' => false]);
+            return app(JsMinify::class)->minify($js, ['flaggedComments' => false]);
         } catch (\Exception $e) {
             Log::warning('JS minification failed, returning original', ['error' => $e->getMessage()]);
+
             return $js;
         }
     }

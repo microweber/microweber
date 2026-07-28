@@ -1,0 +1,9 @@
+/vendor
+/.phpunit.cache
+/phpunit.xml.bak
+composer.lock
+.phpunit.result.cache
+/standalone-validation/vendor
+/standalone-validation/composer.lock
+/standalone-validation/.phpunit.result.cache
+/standalone-validation/.phpunit.cache

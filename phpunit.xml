@@ -192,6 +192,11 @@
             <exclude>packages/microweber-image-optimization/tests/Dusk</exclude>
         </testsuite>
 
+        <testsuite name="MicroweberMinifier">
+            <directory>packages/microweber-minifier/tests</directory>
+            <exclude>packages/microweber-minifier/tests/Dusk</exclude>
+        </testsuite>
+
         <testsuite name="MicroweberDbExport">
             <directory>packages/microweber-db-export/tests</directory>
         </testsuite>
