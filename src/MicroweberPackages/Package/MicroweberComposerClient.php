@@ -6,7 +6,7 @@ use Composer\Semver\Comparator;
 use MicroweberPackages\SystemLicenses\Models\SystemLicense;
 use MicroweberPackages\TaggableFileCache\CacheFileHandler\Facades\Cache;
 use MicroweberPackages\ComposerClient\Client;
-use MicroweberPackages\Utils\Zip\Unzip;
+use MicroweberPackages\Zip\Unzip;
 
 class MicroweberComposerClient extends Client
 {

@@ -5,7 +5,7 @@ namespace Modules\Restore\Formats;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use MicroweberPackages\Restore\Formats\stringh;
-use MicroweberPackages\Utils\Zip\ZipArchiveExtractor;
+use MicroweberPackages\Zip\ZipArchiveExtractor;
 use Modules\Restore\Loggers\RestoreLogger;
 
 class ZipReader extends DefaultReader

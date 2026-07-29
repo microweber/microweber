@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Backup\SessionStepper;
 use MicroweberPackages\Template\TemplateInstaller;
-use MicroweberPackages\Utils\Zip\Unzip;
+use MicroweberPackages\Zip\Unzip;
 
 class TemplateApiController
 {

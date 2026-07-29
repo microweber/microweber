@@ -175,7 +175,8 @@
         "microweber-packages/image-optimization": "^1.0",
         "microweber-packages/minifier": "^1.0",
         "microweber-packages/mail-sender": "^1.0",
-        "microweber-packages/view": "^1.0"
+        "microweber-packages/view": "^1.0",
+        "microweber-packages/zip": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -233,7 +234,8 @@
             "MicroweberPackages\\ImageOptimization\\": "packages/microweber-image-optimization/src/",
             "MicroweberPackages\\Minifier\\": "packages/microweber-minifier/src/",
             "MicroweberPackages\\View\\": "packages/microweber-view/src/",
-            "MicroweberPackages\\MailSender\\": "packages/microweber-mail-sender/src/"
+            "MicroweberPackages\\MailSender\\": "packages/microweber-mail-sender/src/",
+            "MicroweberPackages\\Zip\\": "packages/microweber-zip/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -284,7 +286,8 @@
             "MicroweberPackages\\Security\\Tests\\": "packages/microweber-security/tests/",
             "MicroweberPackages\\Url\\Tests\\": "packages/microweber-url/tests/",
             "MicroweberPackages\\View\\Tests\\": "packages/microweber-view/tests/",
-            "MicroweberPackages\\MailSender\\Tests\\": "packages/microweber-mail-sender/tests/"
+            "MicroweberPackages\\MailSender\\Tests\\": "packages/microweber-mail-sender/tests/",
+            "MicroweberPackages\\Zip\\Tests\\": "packages/microweber-zip/tests/"
         }
     },
     "scripts": {
@@ -424,7 +427,8 @@
                 "laravel/sanctum",
                 "laravel/cashier",
                 "laravel/fortify",
-                "microweber-packages/view"
+                "microweber-packages/view",
+                "microweber-packages/zip"
             ]
         },
         "merge-plugin": {
@@ -462,6 +466,14 @@
         {
             "type": "path",
             "url": "packages/microweber-filesystem",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-zip",
             "options": {
                 "reference": "config",
                 "symlink": true
