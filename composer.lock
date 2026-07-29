@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3aea5492e704ffce8b59d31c9698da39",
+    "content-hash": "9484baa3bb9620100b24b8db801938a1",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9773,7 +9773,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-class-loader",
-                "reference": "2862a6bb13d7085f37b446bafc000ccba45d9bc1"
+                "reference": "32cfd6721efb88f4e05c87b8247d39c49198ddc0"
             },
             "require": {
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
@@ -9782,15 +9782,9 @@
                 "php": "^8.1"
             },
             "require-dev": {
-                "filament/filament": "~5.0",
                 "larastan/larastan": "^3.0",
-                "laravel/dusk": "^8.0|^9.0",
-                "livewire/livewire": "^3.0|^4.0",
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
                 "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "suggest": {
-                "filament/filament": "Required for the Filament admin inspector page"
             },
             "type": "library",
             "autoload": {
@@ -11376,6 +11370,78 @@
                 }
             ],
             "description": "Taggable File Cache driver for Laravel. Allows the use of Cache tags with a file-based cache driver. Supports multi-site environments via the --env flag.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/template-fonts",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-template-fonts",
+                "reference": "bced42a44358baf7fa5b1b164f17ef75c897f7ed"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0",
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/database": "^1.0",
+                "php": "^8.1",
+                "sabberworm/php-css-parser": "^8.4|^9.0"
+            },
+            "require-dev": {
+                "filament/filament": "~5.0",
+                "larastan/larastan": "^3.9",
+                "laravel/dusk": "^8.0|^9.0",
+                "livewire/livewire": "^3.0|^4.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "filament/filament": "Required for the Filament admin fonts manager",
+                "microweber-packages/http": "Use Microweber HttpClientFactory for secure downloads"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\TemplateFonts\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\TemplateFonts\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for template font management: Google Fonts, system fonts, custom TTF/WOFF uploads, CSS generation, and Filament admin. Reusable in any Laravel app.",
             "homepage": "http://microweber.com",
             "support": {
                 "email": "support@microweber.com"

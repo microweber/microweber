@@ -64,7 +64,7 @@ class TemplateIconFonts
         ];
 
 
-        //$enabledCustomFonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
+        // enabled fonts now via TemplateFontsManager
 
 
         return $defaultFonts;

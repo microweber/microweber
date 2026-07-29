@@ -35,27 +35,8 @@ Route::get('template-settings-sidebar', function () {
         ])
             ->name('template-style-settings');
 
-        Route::get('get-fonts',[
-            \MicroweberPackages\Template\Http\Controllers\Api\TemplateFontsController::class , 'getFonts'
-        ])
-            ->name('get-fonts');
-
-        Route::get('get-favorite-fonts',[
-            \MicroweberPackages\Template\Http\Controllers\Api\TemplateFontsController::class , 'getFavoriteFonts'
-        ])
-            ->name('get-favorite-fonts');
-
-        Route::post('remove-favorite-font',[
-            \MicroweberPackages\Template\Http\Controllers\Api\TemplateFontsController::class , 'removeFavoriteFont'
-        ])
-            ->name('remove-favorite-font');
-
-        Route::post('save-template-fonts',[
-            \MicroweberPackages\Template\Http\Controllers\Api\TemplateFontsController::class , 'saveTemplateFonts'
-        ])
-            ->name('save-template-fonts');
-
-
+        // Font routes moved to microweber-packages/template-fonts
+        // (api.template.get-fonts, get-favorite-fonts, remove-favorite-font, save-template-fonts, upload-custom-font)
 
 
 
@@ -130,15 +111,7 @@ Route::get('api/template/compile_css', function (Request $request) {
 })->name('template_compile_css')->middleware(['api', 'admin']);
 
 
-Route::any('api/template/print_custom_css_fonts', function (Request $request) {
-
-    $contents = app()->template_manager->get_custom_fonts_css_content();
-
-    $response = Response::make($contents);
-    $response->header('Content-Type', 'text/css');
-
-    return $response;
-})->name('print_custom_css_fonts');
+// print_custom_css_fonts is registered by microweber-packages/template-fonts
 
 
 Route::any('api/template/print_custom_css', function (Request $request) {

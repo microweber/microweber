@@ -87,7 +87,7 @@ trait LiveEditTrait
         $templateConfigReady['is_symlink'] = $templateConfig['is_symlink'] ?? false;
 
 
-        $fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
+        $fonts = \MicroweberPackages\TemplateFonts\Facades\TemplateFonts::getEnabledFonts();
 
         $templateConfigReady['fonts'] = $fonts ;
 

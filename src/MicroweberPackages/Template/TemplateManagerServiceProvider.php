@@ -34,6 +34,9 @@ class TemplateManagerServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
 
+        // Standalone template-fonts package (Google/custom fonts + template_fonts table).
+        $this->app->register(\MicroweberPackages\TemplateFonts\TemplateFontsServiceProvider::class);
+
         // Standalone minifier package (JS/CSS) used by AssetOptimizationService.
         // Hard dependency (microweber-packages/minifier) — register directly so a
         // missing package fails loudly at boot instead of silently disabling minification.

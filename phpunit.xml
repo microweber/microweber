@@ -205,6 +205,11 @@
             <directory>packages/microweber-mail-sender/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberTemplateFonts">
+            <directory>packages/microweber-template-fonts/tests</directory>
+            <exclude>packages/microweber-template-fonts/tests/Dusk</exclude>
+        </testsuite>
+
         <testsuite name="Packages-View">
             <directory>packages/microweber-view/tests</directory>
         </testsuite>

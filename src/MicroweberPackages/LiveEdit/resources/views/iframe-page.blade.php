@@ -1009,7 +1009,7 @@
 
             window.addEventListener('load', function () {
                 if (mw.top() && mw.top().app && mw.top().app.liveEdit && mw.top().app.fontManager) {
-                    mw.top().app.fontManager.addFonts({!! json_encode(\MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts()) !!});
+                    mw.top().app.fontManager.addFonts({!! json_encode(\MicroweberPackages\TemplateFonts\Facades\TemplateFonts::getEnabledFonts()) !!});
                 }
 
                 const scrollContainer = document.querySelector("#live-edit-frame-holder");

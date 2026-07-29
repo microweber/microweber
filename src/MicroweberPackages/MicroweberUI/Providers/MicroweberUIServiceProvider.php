@@ -3,8 +3,6 @@
 namespace MicroweberPackages\MicroweberUI\Providers;
 
 use Illuminate\Support\Facades\View;
-use Livewire\Livewire;
-use MicroweberPackages\MicroweberUI\Http\Livewire\FontPickerModalComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
