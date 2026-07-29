@@ -10,16 +10,15 @@ namespace Modules\Newsletter\EmailProviders;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Config;
-use MicroweberPackages\Utils\Mail\MailSender;
+use MicroweberPackages\MailSender\Services\MailSenderService;
 
 class PHPMailProvider extends DefaultProvider {
 
 	public function send() {
 
-		$sender = new MailSender();
-		$sender->transport = 'php';
+		$sender = app(MailSenderService::class);
 
-		$status = $sender->exec_send(
+		$status = $sender->execSend(
 			$this->toEmail, $this->subject,
 			$this->body,
 			$this->fromEmail, $this->fromName, $this->fromReplyEmail

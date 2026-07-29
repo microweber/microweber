@@ -15,7 +15,7 @@ use MicroweberPackages\Admin\Http\Controllers\AdminController;
 use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Notification\Models\Notification;
 use MicroweberPackages\User\Models\User;
-use MicroweberPackages\Utils\Mail\MailSender;
+use MicroweberPackages\MailSender\Services\MailSenderService;
 
 class NotificationController extends AdminController
 {
@@ -160,7 +160,7 @@ class NotificationController extends AdminController
 
     public function testMail(Request $request)
     {
-        $send = new MailSender();
+        $send = app(MailSenderService::class);
         return $send->test($request->all());
     }
 

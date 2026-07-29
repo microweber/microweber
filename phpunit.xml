@@ -197,6 +197,10 @@
             <exclude>packages/microweber-minifier/tests/Dusk</exclude>
         </testsuite>
 
+        <testsuite name="MicroweberMailSender">
+            <directory>packages/microweber-mail-sender/tests</directory>
+        </testsuite>
+
         <testsuite name="Packages-View">
             <directory>packages/microweber-view/tests</directory>
         </testsuite>

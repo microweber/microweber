@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b9911c13f5ab4c444fa35274e0520393",
+    "content-hash": "dd283bc821ef072aaca8423c74d712af",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10560,6 +10560,75 @@
             }
         },
         {
+            "name": "microweber-packages/mail-sender",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-mail-sender",
+                "reference": "c8824fbbfd313026a0870f7b5d74ff84891b73bb"
+            },
+            "require": {
+                "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/mail": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "filament/filament": "~5.0",
+                "larastan/larastan": "^3.0",
+                "laravel/dusk": "^8.0|^9.0",
+                "livewire/livewire": "^3.0|^4.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "filament/filament": "Required for the Filament admin settings page"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\MailSender\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\MailSender\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for sending email via configurable transports (SMTP, PHP mail, Gmail, cPanel, Plesk). Reusable in any Laravel app. Extracted from Microweber CMS MailSender.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/media-pixum",
             "version": "1.0.0",
             "dist": {
@@ -11416,12 +11485,9 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-view",
-                "reference": "014162ecdb3548cca803d62968f0a125eb9fe2dd"
+                "reference": "73a87e10a2c84af6c16bfc99e4b510fc2e7bc32a"
             },
             "require": {
-                "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
                 "php": "^8.2",
@@ -11429,16 +11495,12 @@
                 "twig/twig": "^3.0"
             },
             "require-dev": {
-                "filament/filament": "~5.0",
                 "larastan/larastan": "^3.0",
-                "laravel/dusk": "^8.0|^9.0",
-                "livewire/livewire": "^3.0|^4.0",
                 "microweber-packages/format": "^1.0",
                 "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "suggest": {
-                "filament/filament": "Required for the optional Filament View Tools admin page",
                 "microweber-packages/format": "Used by the @module Blade directive for HTML attribute encoding when a CMS parser is present"
             },
             "type": "library",

@@ -493,6 +493,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->plugin(\MicroweberPackages\CdnSync\Filament\CdnSyncPlugin::make());
         $panel->plugin(\MicroweberPackages\ImageOptimization\Filament\ImageOptimizationPlugin::make());
         $panel->plugin(\MicroweberPackages\Minifier\Filament\MinifierPlugin::make());
+        $panel->plugin(\MicroweberPackages\MailSender\Filament\MailSenderPlugin::make());
 
         if ($registeredPlugins) {
             foreach ($registeredPlugins as $registeredPlugin) {

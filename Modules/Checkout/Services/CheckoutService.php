@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Session;
 use Modules\MailTemplate\Services\MailTemplateService;
 use Modules\Order\Events\OrderWasPaid;
 use Modules\Order\Models\Order;
-use MicroweberPackages\Utils\Mail\MailSender;
 use Modules\Payment\Drivers\AbstractPaymentMethod;
 use Modules\Shipping\Models\ShippingProvider;
 use Twig\Environment;

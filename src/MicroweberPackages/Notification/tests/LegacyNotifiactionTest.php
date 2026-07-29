@@ -5,7 +5,6 @@ namespace MicroweberPackages\Notification\tests;
 use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
-use MicroweberPackages\Utils\Mail\MailSender;
 
 
 class LegacyNotifiactionTest extends TestCase

@@ -7,7 +7,6 @@ use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
-use MicroweberPackages\Utils\Mail\MailSender;
 
 
 class SaveUserApiTest extends TestCase

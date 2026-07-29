@@ -2,7 +2,6 @@
 
 namespace Modules\Checkout\Repositories;
 
-use MicroweberPackages\Utils\Mail\MailSender;
 use Modules\Checkout\Services\CheckoutService;
 use Modules\Order\Events\OrderWasPaid;
 use Modules\Order\Models\Order;

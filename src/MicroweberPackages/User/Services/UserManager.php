@@ -781,7 +781,7 @@ class UserManager
                         $twig = new \MicroweberPackages\View\TwigView();
                         $parsed_twig_email = $twig->render($register_email_content, $data);
 
-                        $sender = new \MicroweberPackages\Utils\Mail\MailSender();
+                        $sender = app(\MicroweberPackages\MailSender\Services\MailSenderService::class);
                         return $sender->send($to, $register_email_subject, $parsed_twig_email, false, false, false, false, false, false, $appendFiles);
 
                     }
