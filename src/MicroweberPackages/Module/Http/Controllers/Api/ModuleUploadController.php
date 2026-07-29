@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Module\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Utils\Zip\Unzip;
+use MicroweberPackages\Zip\Unzip;
 
 class ModuleUploadController
 {

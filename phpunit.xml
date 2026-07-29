@@ -205,6 +205,10 @@
             <directory>packages/microweber-view/tests</directory>
         </testsuite>
 
+        <testsuite name="Packages-Zip">
+            <directory>packages/microweber-zip/tests</directory>
+        </testsuite>
+
         <testsuite name="MicroweberDbExport">
             <directory>packages/microweber-db-export/tests</directory>
         </testsuite>

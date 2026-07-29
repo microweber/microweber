@@ -10,7 +10,7 @@ use MicroweberPackages\Template\Http\Livewire\Admin\StyleSettingsFirstLevelConve
 use MicroweberPackages\Utils\Misc\GoogleFonts;
 use Modules\Backup\SessionStepper;
 use MicroweberPackages\Template\TemplateInstaller;
-use MicroweberPackages\Utils\Zip\Unzip;
+use MicroweberPackages\Zip\Unzip;
 
 class TemplateFontsController
 {

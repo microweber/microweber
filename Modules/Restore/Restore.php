@@ -179,7 +179,11 @@ class Restore
                     if (in_array($table, $tablesToFixRelType)) {
 
                         if (isset($item['rel_type']) && $item['rel_type']) {
-                            $item['rel_type'] = morph_name($item['rel_type']);
+                            if (function_exists('morph_name')) {
+                                $item['rel_type'] = morph_name($item['rel_type']);
+                            } elseif (class_exists((string) $item['rel_type'])) {
+                                $item['rel_type'] = (new $item['rel_type']())->getMorphClass();
+                            }
 
                             $items[$key] = $item;
                         }

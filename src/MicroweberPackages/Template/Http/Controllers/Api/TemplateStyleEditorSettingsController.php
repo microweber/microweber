@@ -8,7 +8,7 @@ use MicroweberPackages\Template\Http\Livewire\Admin\LiveEditTemplateSettingsSide
 use MicroweberPackages\Template\Http\Livewire\Admin\StyleSettingsFirstLevelConvertor;
 use Modules\Backup\SessionStepper;
 use MicroweberPackages\Template\TemplateInstaller;
-use MicroweberPackages\Utils\Zip\Unzip;
+use MicroweberPackages\Zip\Unzip;
 
 class TemplateStyleEditorSettingsController
 {
