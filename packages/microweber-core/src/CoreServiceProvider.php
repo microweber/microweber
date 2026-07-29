@@ -55,7 +55,8 @@ class CoreServiceProvider extends ServiceProvider
      * Internal Microweber package providers, in dependency order.
      */
     protected array $packageProviders = [
-        // ── Layer 0: Foundation helpers (functions, filesystem, format) ──
+        // ── Layer 0: Foundation helpers (class loader, filesystem, format) ──
+        \MicroweberPackages\ClassLoader\ClassLoaderServiceProvider::class,
         \MicroweberPackages\Filesystem\FilesystemServiceProvider::class,
         \MicroweberPackages\Format\FormatServiceProvider::class,
         \MicroweberPackages\Security\SecurityServiceProvider::class,

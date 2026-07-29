@@ -22,6 +22,7 @@ class StandalonePackageUsageTest extends TestCase
     protected function getPackageProviderMap(): array
     {
         return [
+            'microweber-class-loader' => \MicroweberPackages\ClassLoader\ClassLoaderServiceProvider::class,
             'microweber-filesystem' => \MicroweberPackages\Filesystem\FilesystemServiceProvider::class,
             'microweber-format' => \MicroweberPackages\Format\FormatServiceProvider::class,
             'microweber-security' => \MicroweberPackages\Security\SecurityServiceProvider::class,

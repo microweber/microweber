@@ -9,7 +9,6 @@ use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Contracts\LaravelModulesCacheRepositoryContract;
 use MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\ModuleResource;
 use MicroweberPackages\LaravelModules\Filament\Resources\ModuleDependencyResource;
-use MicroweberPackages\LaravelModules\Helpers\SplClassLoader;
 use MicroweberPackages\LaravelModules\Providers\ModulesConsoleServiceProvider;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesCacheRepository;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
@@ -39,15 +38,6 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
 
     public function register()
     {
-
-        // autoload_add_namespace(base_path() . '/Modules/', 'Modules\\');
-        //  autoload_add_namespace(base_path() . '/Modules/Test3/app', 'Modules\\Test3');
-//        spl_autoload_register(function ($class) {
-//            $loader = new \MicroweberPackages\LaravelModules\Helpers\SplClassLoader();
-//            if ($loader->autoloadClass($class)) {
-//                return true;
-//            }
-//        });
 
         $this->mergeConfigFrom(__DIR__ . '/config/modules.php', 'modules');
        // $this->app->singleton(RepositoryInterface::class, LaravelModulesFileRepository::class);

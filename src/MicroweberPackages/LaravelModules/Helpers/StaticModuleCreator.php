@@ -3,9 +3,9 @@
 namespace MicroweberPackages\LaravelModules\Helpers;
 
 use Fruitcake\LaravelDebugbar\Facades\Debugbar;
+use MicroweberPackages\ClassLoader\ClassLoader;
 use MicroweberPackages\LaravelModules\LaravelModule;
 use MicroweberPackages\LaravelTemplates\LaravelTemplate;
-use MicroweberPackages\Utils\System\ClassLoader;
 use Nwidart\Modules\Json;
 
 class StaticModuleCreator
@@ -113,9 +113,7 @@ class StaticModuleCreator
             $dirname = $autoloadNamespacePathFull;
             $namespace = $autoloadNamespace;
 
-            SplClassLoader::addNamespace($namespace, $dirname);
-
-
+            self::classLoader()->addNamespace($namespace, $dirname);
         }
 
 
@@ -142,5 +140,30 @@ class StaticModuleCreator
         self::$loadModuleNamespacesPathLoadedCache[$path] = true;
     }
 
+    /**
+     * Shared instance-based class loader (container singleton when available).
+     */
+    protected static function classLoader(): ClassLoader
+    {
+        try {
+            if (function_exists('app') && app()->bound(ClassLoader::class)) {
+                /** @var ClassLoader $loader */
+                $loader = app(ClassLoader::class);
+                $loader->register();
+
+                return $loader;
+            }
+        } catch (\Throwable) {
+            // Fall through to a process-local instance.
+        }
+
+        static $fallback = null;
+        if ($fallback === null) {
+            $fallback = new ClassLoader();
+            $fallback->register();
+        }
+
+        return $fallback;
+    }
 
 }

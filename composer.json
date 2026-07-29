@@ -176,7 +176,8 @@
         "microweber-packages/minifier": "^1.0",
         "microweber-packages/mail-sender": "^1.0",
         "microweber-packages/view": "^1.0",
-        "microweber-packages/zip": "^1.0"
+        "microweber-packages/zip": "^1.0",
+        "microweber-packages/class-loader": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -235,7 +236,8 @@
             "MicroweberPackages\\Minifier\\": "packages/microweber-minifier/src/",
             "MicroweberPackages\\View\\": "packages/microweber-view/src/",
             "MicroweberPackages\\MailSender\\": "packages/microweber-mail-sender/src/",
-            "MicroweberPackages\\Zip\\": "packages/microweber-zip/src/"
+            "MicroweberPackages\\Zip\\": "packages/microweber-zip/src/",
+            "MicroweberPackages\\ClassLoader\\": "packages/microweber-class-loader/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -251,7 +253,8 @@
             "packages/microweber-media-pixum/src/helpers.php",
             "packages/microweber-image-optimization/src/helpers.php",
             "packages/microweber-minifier/src/helpers.php",
-            "packages/microweber-mail-sender/src/helpers.php"
+            "packages/microweber-mail-sender/src/helpers.php",
+            "packages/microweber-class-loader/src/helpers.php"
         ]
     },
     "autoload-dev": {
@@ -287,7 +290,8 @@
             "MicroweberPackages\\Url\\Tests\\": "packages/microweber-url/tests/",
             "MicroweberPackages\\View\\Tests\\": "packages/microweber-view/tests/",
             "MicroweberPackages\\MailSender\\Tests\\": "packages/microweber-mail-sender/tests/",
-            "MicroweberPackages\\Zip\\Tests\\": "packages/microweber-zip/tests/"
+            "MicroweberPackages\\Zip\\Tests\\": "packages/microweber-zip/tests/",
+            "MicroweberPackages\\ClassLoader\\Tests\\": "packages/microweber-class-loader/tests/"
         }
     },
     "scripts": {
@@ -428,7 +432,8 @@
                 "laravel/cashier",
                 "laravel/fortify",
                 "microweber-packages/view",
-                "microweber-packages/zip"
+                "microweber-packages/zip",
+                "microweber-packages/class-loader"
             ]
         },
         "merge-plugin": {
@@ -766,6 +771,14 @@
         {
             "type": "path",
             "url": "packages/microweber-mail-sender",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-class-loader",
             "options": {
                 "reference": "config",
                 "symlink": true

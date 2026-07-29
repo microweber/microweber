@@ -42,7 +42,8 @@ use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Option\Console\Commands\OptionCommand;
 use MicroweberPackages\Http\Http;
-use MicroweberPackages\Utils\System\ClassLoader;
+use MicroweberPackages\ClassLoader\ClassLoader;
+use MicroweberPackages\ClassLoader\PathNormalizer;
 use Modules\Content\Models\Content;
 use Modules\Media\Models\Media;
 
@@ -165,14 +166,19 @@ class AppServiceProvider extends ServiceProvider
     {
         //$this->loadPackagesComposerJson();
 
-        ClassLoader::addDirectories([
+        // Early instance-based class loader (bound before package providers boot).
+        // Replaces the former static ClassLoader to avoid memory leaks and path dupes.
+        $classLoader = new ClassLoader(new PathNormalizer(), true);
+        $classLoader->addDirectories([
             modules_path(),
             __DIR__,
         ]);
+        $classLoader->register();
+        $app->instance(ClassLoader::class, $classLoader);
 
-        ClassLoader::register();
-
-        spl_autoload_register([$this, 'autoloadModules']);
+        // Module autoloading is handled by this same ClassLoader (its registered
+        // spl_autoload handler resolves Modules\… under modules_path()) plus
+        // Composer's PSR-4 `Modules\` map — no separate autoload callback needed.
 
         $this->aliasInstance = AliasLoader::getInstance();
 
@@ -702,16 +708,6 @@ class AppServiceProvider extends ServiceProvider
                 DB::disconnect();
             }
         });
-    }
-
-    public function autoloadModules($className)
-    {
-        $filename = modules_path() . $className . '.php';
-        $filename = normalize_path($filename, false);
-
-        if (!class_exists($className, false) && is_file($filename)) {
-            require_once $filename;
-        }
     }
 
 
