@@ -61,7 +61,6 @@ class TemplateFontsManager
             'css_cache_path' => storage_path('app/public/cache'),
             'css_cache_url' => '/storage/cache',
             'compile_assets' => false,
-            'css_version' => '1.0.0',
             'migrate_legacy_options' => true,
             'legacy_option_key' => 'enabled_custom_fonts',
             'legacy_option_group' => 'template',
@@ -459,28 +458,32 @@ class TemplateFontsManager
      * Cache-busting version token embedded in the compiled fonts stylesheet
      * filename.
      *
-     * A static config version (e.g. "1.0.0") never changes, so the compiled
-     * file — which is written once and only when it does not yet exist
-     * (see getFontsStylesheetCssUrl) — would be served stale forever after a
-     * font is enabled, disabled, re-ordered or re-downloaded. We therefore
-     * fold a short signature of the actual generated CSS into the token so the
-     * filename invalidates automatically whenever the output truly changes
-     * (this also covers domain/proxy toggles, which alter the CSS but not the
-     * enabled-font list). An explicit MW_VERSION / css_version is kept as the
-     * human-readable base so platform upgrades still bump it as well.
+     * The compiled file is written once and only when it does not yet exist
+     * (see getFontsStylesheetCssUrl), so the buster is a full md5 signature of
+     * the actual generated CSS — the filename invalidates automatically whenever
+     * the output truly changes (font enabled/disabled/re-ordered/re-downloaded,
+     * and domain/proxy toggles that alter the CSS but not the enabled-font list).
+     *
+     * MW_VERSION, when running inside the CMS, is kept as an optional provenance
+     * prefix (which platform version wrote the file); it is not needed for
+     * busting and is simply omitted standalone. There is no configurable version
+     * — a static one never changes and the signature already does the work.
+     *
+     * Full md5 (not a truncated prefix): the CSS is generated from an option/
+     * table, not a file, so there is no filemtime to key on, and a truncation
+     * collision between two different font sets would be served as stale cache.
      */
     protected function resolveCssVersion(?string $css = null): string
     {
-        $base = $this->configString('css_version', '1.0.0');
-        if (defined('MW_VERSION')) {
-            $base = (string) MW_VERSION;
-        }
-
         if ($css === null) {
             $css = $this->getFontsStylesheetCss();
         }
 
-        return $base . '.' . substr(md5($css), 0, 10);
+        $signature = md5($css);
+
+        return defined('MW_VERSION')
+            ? (string) MW_VERSION . '.' . $signature
+            : $signature;
     }
 
     public function getFontsStylesheetCssUrl(?callable $apiUrlResolver = null): string

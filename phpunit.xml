@@ -210,6 +210,11 @@
             <exclude>packages/microweber-template-fonts/tests/Dusk</exclude>
         </testsuite>
 
+        <testsuite name="MicroweberTemplateCustomCss">
+            <directory>packages/microweber-template-custom-css/tests</directory>
+            <exclude>packages/microweber-template-custom-css/tests/Dusk</exclude>
+        </testsuite>
+
         <testsuite name="Packages-View">
             <directory>packages/microweber-view/tests</directory>
         </testsuite>

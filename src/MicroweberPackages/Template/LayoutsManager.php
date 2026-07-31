@@ -575,72 +575,22 @@ class LayoutsManager
         if (is_string($params)) {
             $params = parse_params($params);
         }
-        $template = false;
-        $return_styles = false;
-        if (isset($params['template']) and $params['template'] != '' and $params['template'] != false) {
-            $template = $params['template'];
-        } else {
-            $template = $this->app->option_manager->get('current_template', 'template');
+        if (!is_array($params)) {
+            $params = [];
         }
 
-        if (isset($params['return_styles'])) {
-            $return_styles = $params['return_styles'];
-        }
+        /** @var \MicroweberPackages\TemplateCustomCss\Services\TemplateCustomCssManager $cssManager */
+        $cssManager = app(\MicroweberPackages\TemplateCustomCss\Services\TemplateCustomCssManager::class);
 
-        if ($template != false) {
-            if ($return_styles == true) {
-                $tf = $this->template_check_for_custom_css($template, true);
-                $tf2 = str_ireplace('.bak', '', $tf);
-
-                if (rename($tf, $tf2)) {
-                    return array('success' => 'Custom css is returned');
-                } else {
-                    return array('error' => 'File could not be returned');
-                }
-            } else {
-                $tf = $this->template_check_for_custom_css($template);
-                $tf2 = $tf . '.bak';
-
-                $option = array();
-                $option['option_value'] = '';
-                $option['option_key'] = 'template_settings';
-                $option['option_group'] = 'template_' . $template;
-
-                $o = save_option($option);
-
-                if (is_file($tf) and rename($tf, $tf2)) {
-                    return array('success' => 'Custom css is removed');
-                } else {
-                    return array('error' => 'File could not be removed');
-                }
-            }
-        }
-
-        return $params;
+        return $cssManager->removeLiveEditFromRequest($params);
     }
 
     public function template_check_for_custom_css($template_name, $check_for_backup = false)
     {
-        $template = $template_name;
-        if (trim($template) == '') {
-            $template = 'default';
-        }
-        $final_file_blocks = array();
+        /** @var \MicroweberPackages\TemplateCustomCss\Services\LiveEditCssManager $liveEdit */
+        $liveEdit = app(\MicroweberPackages\TemplateCustomCss\Services\LiveEditCssManager::class);
 
-        if ($template != false) {
-            $template_folder = userfiles_path() . 'css' . DS . $template . DS;
-
-            $live_edit_css = $template_folder . 'live_edit.css';
-
-            // $live_edit_css = $template_folder . 'live_edit.css';
-            if ($check_for_backup == true) {
-                $live_edit_css = $live_edit_css . '.bak';
-            }
-            $fcont = '';
-            if (is_file($live_edit_css)) {
-                return $live_edit_css;
-            }
-        }
+        return $liveEdit->checkForCustomCss((string) $template_name, (bool) $check_for_backup);
     }
 
     public function template_save_css($params)
@@ -652,6 +602,9 @@ class LayoutsManager
 
         if (is_string($params)) {
             $params = parse_params($params);
+        }
+        if (!is_array($params)) {
+            $params = [];
         }
 
         $ref_page = false;
@@ -695,14 +648,19 @@ class LayoutsManager
         }
 
         if (!is_array($ref_page) or empty($ref_page)) {
-            return false;
+            // Allow direct active_site_template without content page context
+            if (isset($params['active_site_template']) || isset($params['css_file_content'])) {
+                $ref_page = $params;
+            } else {
+                return false;
+            }
         }
         $pd = $ref_page;
 
         if ($is_admin == true and is_array($pd)) {
             $save_page = $pd;
 
-            if (isset($save_page['layout_file']) and $save_page['layout_file'] == 'inherit') {
+            if (isset($save_page['layout_file']) and $save_page['layout_file'] == 'inherit' && isset($save_page['id'])) {
                 $inherit_from_id = $this->app->content_manager->get_inherited_parent($save_page['id']);
                 $inherit_from = $this->app->content_manager->get_by_id($inherit_from_id);
                 if (is_array($inherit_from) and isset($inherit_from['active_site_template'])) {
@@ -724,50 +682,24 @@ class LayoutsManager
                 }
             }
 
-            $final_file_blocks = array();
-
             if ($template != false) {
                 if (isset($_POST['save_template_settings'])) {
-                    $json = json_encode($_POST);
-                    $option = array();
-                    $option['option_value'] = $json;
-                    $option['option_key'] = 'template_settings';
-                    $option['option_group'] = 'template_' . $template;
-                    save_option($option);
+                    $params['save_template_settings'] = true;
                 }
 
-                $template_folder = templates_dir() . $template . DS;
-                $template_url = templates_url() . $template . '/';
-                $this_template_url = THIS_TEMPLATE_URL;
-
-                $template_folder = userfiles_path() . 'css' . DS . $template . DS;
-                $template_folder_url = userfiles_url() . 'css' . '/' . $template . '/';
-                if (!is_dir($template_folder)) {
-                    mkdir_recursive($template_folder);
+                $params['active_site_template'] = $template;
+                if (!isset($params['css_file_content']) && isset($save_page['css_file_content'])) {
+                    $params['css_file_content'] = $save_page['css_file_content'];
                 }
 
-                $live_edit_css = $template_folder . 'live_edit.css';
+                /** @var \MicroweberPackages\TemplateCustomCss\Services\TemplateCustomCssManager $cssManager */
+                $cssManager = app(\MicroweberPackages\TemplateCustomCss\Services\TemplateCustomCssManager::class);
 
-                $css_cont = false;
-                $css_cont_new = false;
-                if (isset($params['css_file_content'])) {
-                    $css_cont_new = $params['css_file_content'];
-
-                }
-
-                app()->template_manager->liveEditCssAdapter->saveLiveEditCssContent($css_cont_new, $template);
-                $saveCustomCssPath = app()->template_manager->liveEditCssAdapter->getLiveEditCssPath($template);
-                $saveCustomCssUrl = app()->template_manager->liveEditCssAdapter->getLiveEditCssUrl($template);
-
-                $resp = array();
-                $resp['url'] =$saveCustomCssUrl;
-
-
-                $resp['content'] = $css_cont_new;
-
-                return $resp;
+                return $cssManager->saveLiveEditFromRequest($params);
             }
         }
+
+        return false;
     }
 
     public function add_external($arr)

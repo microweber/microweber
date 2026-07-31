@@ -21,13 +21,13 @@ use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateOptimizeLoadingHelper;
 use MicroweberPackages\Template\Adapters\TemplateCssParser;
-use MicroweberPackages\Template\Adapters\TemplateCustomCss;
 use MicroweberPackages\Template\Adapters\TemplateFonts;
 use MicroweberPackages\Template\Adapters\TemplateIconFonts;
-use MicroweberPackages\Template\Adapters\TemplateLiveEditCss;
 use MicroweberPackages\Template\Adapters\TemplateStackRenderer;
 use MicroweberPackages\Template\Managers\ScriptStyleManager;
 use MicroweberPackages\Template\Managers\TemplateMetaTagManager;
+use MicroweberPackages\TemplateCustomCss\Services\CustomCssManager;
+use MicroweberPackages\TemplateCustomCss\Services\LiveEditCssManager;
 
 
 class TemplateManager
@@ -103,12 +103,12 @@ class TemplateManager
 
     /**
      *
-     * @var  $customCssAdapter TemplateCustomCss
+     * @var  $customCssAdapter CustomCssManager
      */
     public $customCssAdapter = null;
     /**
      *
-     * @var  $liveEditCssAdapter TemplateLiveEditCss
+     * @var  $liveEditCssAdapter LiveEditCssManager
      */
     public $liveEditCssAdapter = null;
 
@@ -138,8 +138,9 @@ class TemplateManager
 
         $this->setTemplateAdapter(new MicroweberTemplate());
         $this->setFontsAdapter(new TemplateFonts());
-        $this->setCustomCssAdapter(new TemplateCustomCss());
-        $this->setLiveEditCssAdapter(new TemplateLiveEditCss());
+        // CSS editing lives in microweber-packages/template-custom-css
+        $this->setCustomCssAdapter(app(CustomCssManager::class));
+        $this->setLiveEditCssAdapter(app(LiveEditCssManager::class));
         $this->setIconFontsAdapter(new TemplateIconFonts());
 
         // Initialize new manager classes for SRP
@@ -623,11 +624,14 @@ class TemplateManager
 
     public function clear_cached_custom_css()
     {
-        $url = api_url('template/print_custom_css');
-        $compile_assets = Config::get('microweber.compile_assets');
+        if ($this->customCssAdapter && method_exists($this->customCssAdapter, 'clearCache')) {
+            $this->customCssAdapter->clearCache();
+
+            return;
+        }
+
         $userfiles_dir = userfiles_path();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
-        $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . crc32(site_url()) . '.' . MW_VERSION . '.css';
         if (!is_dir($userfiles_cache_dir)) {
             return;
         }

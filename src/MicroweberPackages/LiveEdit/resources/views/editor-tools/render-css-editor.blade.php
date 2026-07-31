@@ -240,19 +240,36 @@
                     key: 'custom_css',
                     value: cssval
                 }, function() {
-                    const el = mw.top().app.canvas.getWindow().$('#mw-custom-user-css')[0];
-
-                    if (el) {
-                        const custom_fonts_stylesheet_restyled = mw.settings.api_url + 'template/print_custom_css?v=' + Math.random(0, 10000);
-                        el.href = custom_fonts_stylesheet_restyled;
-                        mw.tools.refresh(el);
-                        mw.notification.success('Custom CSS is saved');
+                    // task-2026-07-31-csssave: guard the canvas access. When the
+                    // editor is opened standalone (/admin/code-editor-module-
+                    // settings-page, no live-edit canvas) mw.top().app.canvas is
+                    // undefined and this callback threw *after* the option had
+                    // already saved — dropping the success notification. Save the
+                    // option first, then best-effort refresh the canvas link.
+                    var notified = false;
+                    try {
+                        var top = (typeof mw.top === 'function') ? mw.top() : null;
+                        if (top && top.app && top.app.canvas && typeof top.app.canvas.getWindow === 'function') {
+                            const el = top.app.canvas.getWindow().$('#mw-custom-user-css')[0];
+                            if (el) {
+                                const custom_fonts_stylesheet_restyled = mw.settings.api_url + 'template/print_custom_css?v=' + Math.random(0, 10000);
+                                el.href = custom_fonts_stylesheet_restyled;
+                                mw.tools.refresh(el);
+                            }
+                        }
+                    } catch (e) {
+                        // no live-edit canvas in this context — save still succeeded
                     }
 
                     const openerMw = getOpenerMw();
                     if (openerMw) {
                         refreshCssLink(openerMw, '#mw-custom-user-css');
                         openerMw.notification.success('Custom CSS is saved');
+                        notified = true;
+                    }
+
+                    if (!notified && mw.notification && typeof mw.notification.success === 'function') {
+                        mw.notification.success('Custom CSS is saved');
                     }
                 });
             };
@@ -263,7 +280,19 @@
 
                 const cssval = live_edit_css_code_area_editor.getValue();
 
-                var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
+                // task-2026-07-31-csssave: guard the canvas access. Standalone
+                // (no live-edit canvas) getLiveEditData() threw here, aborting
+                // the save entirely. Fall back to posting without an explicit
+                // template — the backend resolves the current template itself.
+                var liveEditIframeData = null;
+                try {
+                    var top = (typeof mw.top === 'function') ? mw.top() : null;
+                    if (top && top.app && top.app.canvas && typeof top.app.canvas.getLiveEditData === 'function') {
+                        liveEditIframeData = top.app.canvas.getLiveEditData();
+                    }
+                } catch (e) {
+                    liveEditIframeData = null;
+                }
 
                 const css = {
                     css_file_content: cssval,

@@ -65,13 +65,9 @@ return [
     'css_cache_path' => env('TEMPLATE_FONTS_CSS_CACHE_PATH', storage_path('app/public/cache')),
     'css_cache_url' => env('TEMPLATE_FONTS_CSS_CACHE_URL', '/storage/cache'),
     'compile_assets' => (bool) env('TEMPLATE_FONTS_COMPILE_ASSETS', false),
-
-    // Human-readable base for the compiled stylesheet filename only. The real
-    // cache-busting is a content signature (a hash of the generated CSS) that
-    // the manager appends automatically, so this rarely needs bumping by hand;
-    // inside the CMS MW_VERSION overrides it. Set it if you want a recognisable
-    // prefix in the cache filename (e.g. pin it to your app's release version).
-    'css_version' => env('TEMPLATE_FONTS_CSS_VERSION', '1.0.0'),
+    // No configurable css_version: the compiled filename is busted by a full-md5
+    // content signature, and MW_VERSION (in the CMS) is added automatically as an
+    // optional provenance prefix.
 
     /*
     |--------------------------------------------------------------------------

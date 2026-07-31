@@ -37,6 +37,9 @@ class TemplateManagerServiceProvider extends ServiceProvider
         // Standalone template-fonts package (Google/custom fonts + template_fonts table).
         $this->app->register(\MicroweberPackages\TemplateFonts\TemplateFontsServiceProvider::class);
 
+        // Standalone template-custom-css package (live_edit.css + user custom CSS).
+        $this->app->register(\MicroweberPackages\TemplateCustomCss\TemplateCustomCssServiceProvider::class);
+
         // Standalone minifier package (JS/CSS) used by AssetOptimizationService.
         // Hard dependency (microweber-packages/minifier) — register directly so a
         // missing package fails loudly at boot instead of silently disabling minification.

@@ -1,0 +1,27 @@
+includes:
+    - ../../vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - src
+    level: 9
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # Host CMS helpers (guarded by function_exists)
+        - '#Function get_option not found#'
+        - '#Function save_option not found#'
+        - '#Function is_admin not found#'
+        - '#Function userfiles_path not found#'
+        - '#Function userfiles_url not found#'
+        - '#Function site_url not found#'
+        - '#Function api_url not found#'
+        - '#Function in_live_edit not found#'
+        - '#Function mw_is_multisite not found#'
+        - '#Function template_name not found#'
+        - '#Function event_trigger not found#'
+        - '#Function normalize_path not found#'
+        - '#Function mkdir_recursive not found#'
+        - '#Function auth not found#'
+        - '#Constant MW_VERSION not found#'
+        - '#Constant DS not found#'

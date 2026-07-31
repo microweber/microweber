@@ -27,7 +27,7 @@ use Tests\DuskTestCase;
  *
  * Why this matters:
  *   Palette customizations are persisted as the active template's
- *   custom CSS (see {@see \MicroweberPackages\Template\Adapters\TemplateCustomCss}).
+ *   custom CSS (see {@see \MicroweberPackages\TemplateCustomCss\Services\CustomCssManager}).
  *   When a page pins `active_site_template=Bootstrap`, a guest visit
  *   must load Bootstrap's custom CSS regardless of what the site-
  *   wide `options.current_template` happens to be at that moment. A

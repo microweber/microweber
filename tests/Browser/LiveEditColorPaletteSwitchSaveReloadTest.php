@@ -22,7 +22,7 @@ use Tests\DuskTestCase;
  *   2. Assert A's variables are the ones paint on `:root`
  *      AND present in the persisted `options.template_css` row
  *      (option_group = `template_Bootstrap`, the row
- *      {@see \MicroweberPackages\Template\Adapters\TemplateLiveEditCss::saveLiveEditCssContent()}
+ *      {@see \MicroweberPackages\TemplateCustomCss\Services\LiveEditCssManager::saveLiveEditCssContent()}
  *      writes on every palette apply-save).
  *   3. Apply palette B → Save       → reload the live-edit page
  *   4. Assert B's variables now paint on `:root` AND are present in the
@@ -330,7 +330,7 @@ class LiveEditColorPaletteSwitchSaveReloadTest extends DuskTestCase
 
     /**
      * Read the stored live-edit custom CSS for the Bootstrap template.
-     * This is the same row {@see TemplateLiveEditCss::saveLiveEditCssContent()}
+     * This is the same row {@see \MicroweberPackages\TemplateCustomCss\Services\LiveEditCssManager::saveLiveEditCssContent()}
      * writes on every successful template_save_css endpoint call.
      *
      * We invalidate the cache first because the artisan-serve worker

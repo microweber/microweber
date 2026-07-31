@@ -26,7 +26,7 @@ use Tests\DuskTestCase;
  *   3. saves — this fires `cssEditor.publishIfChanged()` →
  *      `/api/current_template_save_custom_css`, persisting the pack
  *      as the active template's custom CSS (see
- *      {@see \MicroweberPackages\Template\Adapters\TemplateCustomCss});
+ *      {@see \MicroweberPackages\TemplateCustomCss\Services\CustomCssManager});
  *   4. deletes browser cookies (drops the admin session) and visits
  *      the page's public URL as a guest;
  *   5. snapshots `document.documentElement`'s computed `--mw-*` custom
@@ -42,7 +42,7 @@ use Tests\DuskTestCase;
  * Regressions this catches that the per-palette apply-to-:root tests do not:
  *   - The apply-to-:root tests only prove the *canvas iframe* receives the
  *     CSS — they stop before save. A bug in `cssEditor.publishIfChanged`
- *     (e.g. silently failing the XHR), in `TemplateCustomCss`'s disk
+ *     (e.g. silently failing the XHR), in `CustomCssManager`'s disk
  *     write, or in the frontend's custom-css injection path would
  *     escape those tests but be caught here.
  *   - The template custom CSS is injected into every public render of

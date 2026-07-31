@@ -178,7 +178,8 @@
         "microweber-packages/view": "^1.0",
         "microweber-packages/zip": "^1.0",
         "microweber-packages/class-loader": "^1.0",
-        "microweber-packages/template-fonts": "^1.0"
+        "microweber-packages/template-fonts": "^1.0",
+        "microweber-packages/template-custom-css": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -239,7 +240,8 @@
             "MicroweberPackages\\MailSender\\": "packages/microweber-mail-sender/src/",
             "MicroweberPackages\\Zip\\": "packages/microweber-zip/src/",
             "MicroweberPackages\\ClassLoader\\": "packages/microweber-class-loader/src/",
-            "MicroweberPackages\\TemplateFonts\\": "packages/microweber-template-fonts/src/"
+            "MicroweberPackages\\TemplateFonts\\": "packages/microweber-template-fonts/src/",
+            "MicroweberPackages\\TemplateCustomCss\\": "packages/microweber-template-custom-css/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -257,7 +259,8 @@
             "packages/microweber-minifier/src/helpers.php",
             "packages/microweber-mail-sender/src/helpers.php",
             "packages/microweber-class-loader/src/helpers.php",
-            "packages/microweber-template-fonts/src/helpers.php"
+            "packages/microweber-template-fonts/src/helpers.php",
+            "packages/microweber-template-custom-css/src/helpers.php"
         ]
     },
     "autoload-dev": {
@@ -295,7 +298,8 @@
             "MicroweberPackages\\MailSender\\Tests\\": "packages/microweber-mail-sender/tests/",
             "MicroweberPackages\\Zip\\Tests\\": "packages/microweber-zip/tests/",
             "MicroweberPackages\\ClassLoader\\Tests\\": "packages/microweber-class-loader/tests/",
-            "MicroweberPackages\\TemplateFonts\\Tests\\": "packages/microweber-template-fonts/tests/"
+            "MicroweberPackages\\TemplateFonts\\Tests\\": "packages/microweber-template-fonts/tests/",
+            "MicroweberPackages\\TemplateCustomCss\\Tests\\": "packages/microweber-template-custom-css/tests/"
         }
     },
     "scripts": {
@@ -438,7 +442,8 @@
                 "microweber-packages/view",
                 "microweber-packages/zip",
                 "microweber-packages/class-loader",
-                "microweber-packages/template-fonts"
+                "microweber-packages/template-fonts",
+                "microweber-packages/template-custom-css"
             ]
         },
         "merge-plugin": {
@@ -792,6 +797,14 @@
         {
             "type": "path",
             "url": "packages/microweber-template-fonts",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-template-custom-css",
             "options": {
                 "reference": "config",
                 "symlink": true

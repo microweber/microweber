@@ -46,31 +46,9 @@ Route::get('template-settings-sidebar', function () {
 
     });
 
-// audit-test 2026-05-07 PM TASK-005 / TICKET-AF (SECURITY HIGH):
-// Both `current_template_save_custom_css` and `template_remove_custom_css`
-// were on `['api', 'admin']` — neither group includes VerifyCsrfToken (only
-// the legacy `web` group does, per AppServiceProvider:608-621). SameSite=Lax
-// (config/session.php:166) mitigates most cross-origin POSTs but not top-
-// level form submission. Without CSRF an attacker page could submit
-// arbitrary CSS to production templates while the admin's session cookie is
-// active. Routed through the project's VerifyCsrfToken wrapper which returns
-// JSON 400 on token-mismatch (no HTML redirect — keeps API contract).
-Route::post('api/current_template_save_custom_css', function (Request $request) {
-    $data = $request->all();
-    app()->template_manager->defineConstants($data);
-
-    return app()->layouts_manager->template_save_css($data);
-})->name('current_template_save_custom_css')
-    ->middleware(['api', 'admin', \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class]);
-
-Route::post('api/layouts/template_remove_custom_css', function (Request $request) {
-    $data = $request->all();
-    app()->template_manager->defineConstants($data);
-
-    return app()->layouts_manager->template_remove_custom_css($data);
-})->name('template_remove_custom_css')
-    ->middleware(['api', 'admin', \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class]);
-
+// CSS save/remove/print routes are registered by
+// microweber-packages/template-custom-css (see packages/microweber-template-custom-css/routes/web.php).
+// print_custom_css_fonts is registered by microweber-packages/template-fonts.
 
 //\Route::post('api/template/delete_compiled_css', function (Request  $request) {
 //    $data = $request->all();
@@ -109,28 +87,4 @@ Route::get('api/template/compile_css', function (Request $request) {
     $response->header('Content-Type', 'text/css');
     return $response;
 })->name('template_compile_css')->middleware(['api', 'admin']);
-
-
-// print_custom_css_fonts is registered by microweber-packages/template-fonts
-
-
-Route::any('api/template/print_custom_css', function (Request $request) {
-    $data = $request->all();
-    $contents = app()->template_manager->get_custom_css($data);
-
-    // Generate ETag from content
-    $etag = md5($contents);
-
-    // Check if ETag matches
-    if ($request->header('If-None-Match') === $etag) {
-        return response()->make('', 304);
-    }
-
-    $response = Response::make($contents);
-    $response->header('Content-Type', 'text/css');
-    $response->header('ETag', $etag);
-    $response->header('Cache-Control', 'public, max-age=31536000');
-
-    return $response;
-})->name('print_custom_css');
 
