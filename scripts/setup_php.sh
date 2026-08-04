@@ -1264,6 +1264,130 @@ echo ""
 echo -e "${GREEN}==========================================${NC}"
 echo -e "${GREEN} Dependencies installed.${NC}"
 echo -e "${GREEN}==========================================${NC}"
+
+# ---------------------------------------------------------------------------
+# Validation status report — run inline checks now and print commands to re-verify
+# ---------------------------------------------------------------------------
+echo ""
+echo -e "${BLUE}==========================================${NC}"
+echo -e "${BLUE} Validation status${NC}"
+echo -e "${BLUE}==========================================${NC}"
+
+# PHP
+if command -v php >/dev/null 2>&1; then
+  ok "PHP           $(php -r 'echo PHP_VERSION;') — $(which php)"
+else
+  err "PHP           not found"
+fi
+
+# Composer
+if command -v composer >/dev/null 2>&1; then
+  ok "Composer      $(composer --version 2>/dev/null | head -1 | awk '{print $3}')"
+else
+  err "Composer      not found"
+fi
+
+# MySQL
+if command -v mysql >/dev/null 2>&1; then
+  if mysql -uroot -proot -e "SELECT 1;" >/dev/null 2>&1; then
+    ok "MySQL         running — root@localhost OK"
+  else
+    warn "MySQL         binary present but cannot connect (root/root) — check service"
+  fi
+else
+  if [ "$MYSQL" -eq 1 ]; then err "MySQL         not found after install"; fi
+fi
+
+# PostgreSQL
+if command -v psql >/dev/null 2>&1; then
+  if PGPASSWORD=postgres psql -U postgres -c "SELECT 1;" >/dev/null 2>&1; then
+    ok "PostgreSQL    running — postgres@localhost OK"
+  else
+    warn "PostgreSQL    binary present but cannot connect — check service"
+  fi
+else
+  if [ "$PGSQL" -eq 1 ]; then err "PostgreSQL    not found after install"; fi
+fi
+
+# MinIO
+if command -v minio >/dev/null 2>&1; then
+  if systemctl is-active --quiet minio 2>/dev/null; then
+    ok "MinIO         service active (API :9000, Console :9001)"
+  else
+    warn "MinIO         binary present but service not running — check: systemctl status minio"
+  fi
+else
+  if [ "$MINIO" -eq 1 ]; then err "MinIO         not found after install"; fi
+fi
+
+# Xdebug
+if php -m 2>/dev/null | grep -qi '^xdebug$'; then
+  ok "Xdebug        loaded (mode: $(php -r 'echo ini_get("xdebug.mode");' 2>/dev/null))"
+else
+  if [ "$DEV" -eq 1 ]; then warn "Xdebug        not loaded — run: php -m | grep xdebug"; fi
+fi
+
+# PCOV
+if php -m 2>/dev/null | grep -qi '^pcov$'; then
+  ok "PCOV          loaded"
+else
+  if [ "$DEV" -eq 1 ]; then warn "PCOV          not loaded — run: php -m | grep pcov"; fi
+fi
+
+# Swoole
+if php -m 2>/dev/null | grep -qi '^swoole$'; then
+  ok "Swoole        loaded"
+else
+  if [ "$SWOOLE" -eq 1 ]; then warn "Swoole        not loaded — run: php -m | grep swoole"; fi
+fi
+
+# Node / npm
+if command -v node >/dev/null 2>&1; then
+  ok "Node          $(node -v)"
+else
+  warn "Node          not found"
+fi
+
+# Playwright
+if command -v playwright >/dev/null 2>&1 || npx --no playwright --version >/dev/null 2>&1; then
+  ok "Playwright    available"
+else
+  warn "Playwright    not found — run: npm install -g @playwright/test"
+fi
+
+# .env / APP_ENV
+env_file="${ROOT_DIR}/.env"
+if [ -f "$env_file" ]; then
+  app_env="$(grep -E '^APP_ENV=' "$env_file" | cut -d= -f2 | tr -d '[:space:]')"
+  if [ "$app_env" = "testing" ]; then
+    ok ".env          present, APP_ENV=testing"
+  else
+    warn ".env          present but APP_ENV=${app_env:-<missing>} — expected 'testing'"
+  fi
+else
+  err ".env          not found"
+fi
+
+# storage/installed
+if [ -f "${ROOT_DIR}/storage/installed" ]; then
+  ok "Microweber    installed (storage/installed present)"
+else
+  if [ "$INSTALL" -eq 1 ]; then
+    warn "Microweber    storage/installed not found — installer may have failed"
+  fi
+fi
+
+echo ""
+echo -e "${BLUE}--- Re-run these to verify manually ---${NC}"
+echo "  php -v                                         # PHP version"
+echo "  php -m | grep -E 'xdebug|pcov|swoole'         # extensions"
+echo "  mysql -uroot -proot -e 'SELECT 1;'             # MySQL"
+echo "  PGPASSWORD=postgres psql -U postgres -c 'SELECT 1;'  # PostgreSQL"
+echo "  systemctl status minio                         # MinIO"
+echo "  cat ${ROOT_DIR}/.env | grep APP_ENV            # .env APP_ENV"
+echo "  ls ${ROOT_DIR}/storage/installed               # Microweber installed flag"
+
+echo ""
 echo "Next steps (not run by this script):"
 echo "  cp -n env_local .env 2>/dev/null || cp -n .env.example .env   # configure DB"
 echo "  php artisan key:generate"
@@ -1287,6 +1411,7 @@ if [ "$MINIO" -eq 1 ]; then
   echo "  MinIO API  → http://127.0.0.1:9000  (key: minioadmin / secret: minioadmin)"
   echo "  MinIO Console → http://127.0.0.1:9001"
 fi
+if [ "$APACHE_FPM" -eq 1 ] || [ "$APACHE_FCGI" -eq 1 ]; then
   echo "  Set your VirtualHost DocumentRoot to ${ROOT_DIR}/public"
   echo "  Ensure <Directory> AllowOverride All so Laravel .htaccess is honoured"
 fi
