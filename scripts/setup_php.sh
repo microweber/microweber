@@ -327,6 +327,29 @@ install_global_laravel_installer() {
 }
 
 # ---------------------------------------------------------------------------
+# 4b. Global Satis (private Composer repository builder)
+# ---------------------------------------------------------------------------
+install_global_satis() {
+  log "Ensuring global Satis (composer/satis)"
+
+  local composer_home satis_bin
+  composer_home="$($COMPOSER_BIN global config home --absolute 2>/dev/null || true)"
+  [ -n "$composer_home" ] || die "Could not resolve Composer global home."
+
+  satis_bin="${composer_home}/vendor/bin/satis"
+  if [ -x "${satis_bin}" ]; then
+    ok "Global composer/satis already present"
+  else
+    $COMPOSER_BIN global require composer/satis --no-interaction --prefer-dist --no-progress
+    [ -x "${satis_bin}" ] || { warn "composer/satis installed but '${satis_bin}' was not created — install manually."; return; }
+    ok "Global composer/satis installed"
+  fi
+
+  ln -sf "${satis_bin}" /usr/local/bin/satis
+  ok "Linked Satis to /usr/local/bin/satis"
+}
+
+# ---------------------------------------------------------------------------
 # 5. Node package dependencies + bundles
 # ---------------------------------------------------------------------------
 install_node_deps() {
@@ -1204,6 +1227,7 @@ else
   ensure_composer
   install_php_deps
   install_global_laravel_installer
+  install_global_satis
 fi
 
 # Always ensure .env exists and APP_ENV=testing is set before any artisan call.
@@ -1285,6 +1309,13 @@ if command -v composer >/dev/null 2>&1; then
   ok "Composer      $(composer --version 2>/dev/null | head -1 | awk '{print $3}')"
 else
   err "Composer      not found"
+fi
+
+# Satis
+if command -v satis >/dev/null 2>&1; then
+  ok "Satis         available — $(which satis)"
+else
+  warn "Satis         not found — run: composer global require composer/satis"
 fi
 
 # MySQL
