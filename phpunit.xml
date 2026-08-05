@@ -201,6 +201,11 @@
             <directory>packages/microweber-class-loader/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberQueue">
+            <directory>packages/microweber-queue/tests</directory>
+            <exclude>packages/microweber-queue/tests/Dusk</exclude>
+        </testsuite>
+
         <testsuite name="MicroweberMailSender">
             <directory>packages/microweber-mail-sender/tests</directory>
         </testsuite>

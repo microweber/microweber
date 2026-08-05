@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f460dc507254cc76765492920d069448",
+    "content-hash": "d18fbfcc8ec101da012098a4a7fde6b8",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -11054,6 +11054,78 @@
                 }
             ],
             "description": "PHPQuery - server-side CSS3 selector driven DOM API based on jQuery. Standalone Laravel package.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/queue",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-queue",
+                "reference": "b0e969f6ea554e4c0b5cf4f12eaa347264cc5a89"
+            },
+            "require": {
+                "illuminate/bus": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/console": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/events": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/queue": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "filament/filament": "~5.0",
+                "larastan/larastan": "^3.0",
+                "laravel/dusk": "^8.0|^9.0",
+                "livewire/livewire": "^3.0|^4.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "filament/filament": "Required for the Filament admin queue resources"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Queue\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Queue\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for queue management: process pending jobs, Filament admin for jobs/failed jobs, and chunked Bus dispatch so large workloads (e.g. newsletter bulk sends) stay under job timeout limits.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true

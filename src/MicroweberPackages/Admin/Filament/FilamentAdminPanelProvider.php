@@ -495,6 +495,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->plugin(\MicroweberPackages\TemplateFonts\Filament\TemplateFontsPlugin::make());
         $panel->plugin(\MicroweberPackages\Minifier\Filament\MinifierPlugin::make());
         $panel->plugin(\MicroweberPackages\MailSender\Filament\MailSenderPlugin::make());
+        $panel->plugin(\MicroweberPackages\Queue\Filament\QueuePlugin::make());
 
         if ($registeredPlugins) {
             foreach ($registeredPlugins as $registeredPlugin) {

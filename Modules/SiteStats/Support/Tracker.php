@@ -421,9 +421,11 @@ class Tracker
 
         if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
             return $return;
-        }
 
-        $mmdb = normalize_path(dirname(MW_PATH) . 'Utils/ThirdPartyLibs/geoip_lite/GeoLite2-Country.mmdb', false);
+
+        }
+        //Modules/SiteStats/resources/geoip_lite/GeoLite2-Country.mmdb
+        $mmdb = normalize_path(dirname(__DIR__) . '/resources/geoip_lite/GeoLite2-Country.mmdb', false);
 
         if (is_file($mmdb)) {
 

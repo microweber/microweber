@@ -1,0 +1,17 @@
+includes:
+    - ../../vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - src
+    level: 9
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        # Host CMS helpers (guarded by function_exists)
+        - '#Function is_admin not found#'
+        - '#Function mw_is_installed not found#'
+        # Filament is optional (suggest); classes resolve when host has filament
+        - '#Class Filament\\[^ ]+ not found#'
+        - '#Class BackedEnum not found#'
+        - '#Class UnitEnum not found#'

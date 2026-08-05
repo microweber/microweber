@@ -3,22 +3,14 @@
 namespace Modules\Newsletter\Console\Commands;
 
 use Carbon\Carbon;
-use Illuminate\Bus\Batch;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\DB;
-use Modules\Newsletter\Models\NewsletterCampaignClickedLink;
-use Modules\Newsletter\Models\NewsletterCampaignPixel;
-use Modules\Newsletter\Models\NewsletterList;
-use Modules\Newsletter\Models\NewsletterSubscriberList;
-use Throwable;
 use Illuminate\Console\Command;
+use MicroweberPackages\Queue\Facades\ChunkedDispatcher;
 use Modules\Newsletter\Jobs\ProcessCampaignSubscriber;
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterCampaignsSendLog;
 use Modules\Newsletter\Models\NewsletterSenderAccount;
-use Modules\Newsletter\Models\NewsletterSubscriber;
+use Modules\Newsletter\Models\NewsletterSubscriberList;
 use Modules\Newsletter\Models\NewsletterTemplate;
-use Modules\Newsletter\Senders\NewsletterMailSender;
 
 class ProcessCampaigns extends Command
 {
@@ -122,6 +114,8 @@ class ProcessCampaigns extends Command
             return 0;
         }
 
+        // Process a limited batch per command run; each subscriber becomes its own job
+        // so a campaign of 10_000 emails never runs as a single timed-out job.
         $limit = 100;
         $allSubscribersCount = NewsletterSubscriberList::where('list_id', $campaign->list_id)->count();
 
@@ -134,19 +128,29 @@ class ProcessCampaigns extends Command
 
         $countSentLog = NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)->count();
         $remainingSubscribersCount = $allSubscribersCount - $countSentLog;
-        $delay = 1;
+
+        $jobs = [];
         foreach ($batchList as $subscriber) {
-            $delay++;
-            dispatch(new ProcessCampaignSubscriber($subscriber->subscriber_id, $campaign->id));
-          //  dispatch(new ProcessCampaignSubscriber($subscriber->subscriber_id, $campaign->id))->delay(now()->addSeconds($delay));
+            $jobs[] = new ProcessCampaignSubscriber($subscriber->subscriber_id, $campaign->id);
         }
 
-        $campaignProgress = ($remainingSubscribersCount / $allSubscribersCount) * 100;
+        if ($jobs !== []) {
+            // Dispatch via chunked bus so large campaigns stay under worker timeout.
+            ChunkedDispatcher::dispatchJobs(
+                $jobs,
+                batchSize: (int) config('microweber-queue.chunk_size', 100),
+                queue: 'newsletter',
+                name: 'newsletter-campaign-' . $campaign->id,
+            );
+        }
 
+        $campaignProgress = $allSubscribersCount > 0
+            ? ($remainingSubscribersCount / $allSubscribersCount) * 100
+            : 0;
 
         $campaign->jobs_progress = round(($limit - $campaignProgress), 2);
 
-        if ($campaign->jobs_progress == 100) {
+        if ($campaign->jobs_progress == 100 || $remainingSubscribersCount <= 0) {
             $campaign->status = NewsletterCampaign::STATUS_FINISHED;
             $campaign->status_log = 'Campaign is finished';
         } else {
