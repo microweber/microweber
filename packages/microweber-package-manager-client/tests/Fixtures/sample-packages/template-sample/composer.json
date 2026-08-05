@@ -1,0 +1,15 @@
+{
+  "name": "microweber-templates/sample-theme",
+  "description": "Sample Microweber template for package manager tests",
+  "type": "microweber-template",
+  "version": "1.0.0",
+  "license": "MIT",
+  "authors": [{"name": "Microweber", "email": "info@microweber.com"}],
+  "target-dir": "SampleTheme",
+  "extra": {
+    "preview_url": "https://example.com/sample-theme",
+    "_meta": {
+      "screenshot": "https://example.com/sample-theme.png"
+    }
+  }
+}

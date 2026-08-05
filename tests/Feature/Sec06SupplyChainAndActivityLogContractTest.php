@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use MicroweberPackages\Package\PackageSignatureVerifier;
+use MicroweberPackages\PackageManagerClient\PackageSignatureVerifier;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -13,7 +13,7 @@ use Tests\TestCase;
  * Log regression coverage.
  *
  * Pins:
- *   - PackageSignatureVerifier exists at the canonical path with
+ *   - PackageSignatureVerifier exists in package-manager-client with
  *     `verifyArchive` + `isHttpsOnly` static methods.
  *   - HTTPS-only enforcement: rejects http://, ftp://, file://,
  *     etc.; accepts https://.
@@ -38,7 +38,7 @@ class Sec06SupplyChainAndActivityLogContractTest extends TestCase
     #[Test]
     public function signature_verifier_exists_with_canonical_methods(): void
     {
-        $src = $this->read('src/MicroweberPackages/Package/PackageSignatureVerifier.php');
+        $src = $this->read('packages/microweber-package-manager-client/src/PackageSignatureVerifier.php');
 
         $this->assertStringContainsString(
             'class PackageSignatureVerifier',

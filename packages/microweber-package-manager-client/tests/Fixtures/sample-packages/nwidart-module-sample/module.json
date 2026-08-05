@@ -1,0 +1,1 @@
+{"name":"SampleNwidart","alias":"sample-nwidart","description":"Sample nwidart module","priority":0,"providers":["Modules\\SampleNwidart\\Providers\\SampleNwidartServiceProvider"]}

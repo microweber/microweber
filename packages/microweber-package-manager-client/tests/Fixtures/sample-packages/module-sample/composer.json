@@ -1,0 +1,15 @@
+{
+  "name": "microweber-modules/sample-hello",
+  "description": "Sample Microweber module for package manager tests",
+  "type": "microweber-module",
+  "version": "1.0.0",
+  "license": "MIT",
+  "authors": [{"name": "Microweber", "email": "info@microweber.com"}],
+  "target-dir": "SampleHello",
+  "extra": {
+    "_meta": {
+      "screenshot": "https://example.com/sample-hello.png"
+    },
+    "categories": ["demo"]
+  }
+}

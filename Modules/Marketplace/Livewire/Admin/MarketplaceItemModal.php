@@ -6,9 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
-use MicroweberPackages\ComposerClient\Client;
-use MicroweberPackages\Package\MicroweberComposerClient;
-use MicroweberPackages\Package\MicroweberComposerPackage;
+use MicroweberPackages\PackageManagerClient\PackageFormatter;
+use MicroweberPackages\PackageManagerClient\PackageManagerClient;
 
 class MarketplaceItemModal extends AdminModalComponent
 {
@@ -29,7 +28,7 @@ class MarketplaceItemModal extends AdminModalComponent
         $foundedPackageVersions = [];
         $packageName = $this->name;
         $packages = Cache::remember('livewire-marketplace', Carbon::now()->addHours(12), function () {
-            $marketplace = new MicroweberComposerClient();
+            $marketplace = app(PackageManagerClient::class);
             return $marketplace->search();
         });
         if (!empty($packages)) {
@@ -54,7 +53,7 @@ class MarketplaceItemModal extends AdminModalComponent
         });
 
         $foundedPackage['versions'] = $foundedPackageVersions;
-        $foundedPackage = MicroweberComposerPackage::format($foundedPackage);
+        $foundedPackage = PackageFormatter::format($foundedPackage);
 
         $this->package = $foundedPackage;
     }

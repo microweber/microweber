@@ -123,7 +123,6 @@
         "whitecube/lingua": "^1.1",
         "wikimedia/composer-merge-plugin": "^2.0",
         "wikimedia/less.php": "^3.1",
-        "microweber-packages/composer-client": "^3.0",
         "mailerlite/mailerlite-api-v2-php-sdk": "^0.3",
         "microweber-deps/image-comparator": "dev-master",
         "microweber-deps/seo-helper": "dev-master",
@@ -180,7 +179,8 @@
         "microweber-packages/class-loader": "^1.0",
         "microweber-packages/template-fonts": "^1.0",
         "microweber-packages/template-custom-css": "^1.0",
-        "microweber-packages/queue": "^1.0"
+        "microweber-packages/queue": "^1.0",
+        "microweber-packages/package-manager-client": "*@dev"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -243,7 +243,8 @@
             "MicroweberPackages\\ClassLoader\\": "packages/microweber-class-loader/src/",
             "MicroweberPackages\\TemplateFonts\\": "packages/microweber-template-fonts/src/",
             "MicroweberPackages\\TemplateCustomCss\\": "packages/microweber-template-custom-css/src/",
-            "MicroweberPackages\\Queue\\": "packages/microweber-queue/src/"
+            "MicroweberPackages\\Queue\\": "packages/microweber-queue/src/",
+            "MicroweberPackages\\PackageManagerClient\\": "packages/microweber-package-manager-client/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -303,7 +304,8 @@
             "MicroweberPackages\\ClassLoader\\Tests\\": "packages/microweber-class-loader/tests/",
             "MicroweberPackages\\TemplateFonts\\Tests\\": "packages/microweber-template-fonts/tests/",
             "MicroweberPackages\\TemplateCustomCss\\Tests\\": "packages/microweber-template-custom-css/tests/",
-            "MicroweberPackages\\Queue\\Tests\\": "packages/microweber-queue/tests/"
+            "MicroweberPackages\\Queue\\Tests\\": "packages/microweber-queue/tests/",
+            "MicroweberPackages\\PackageManagerClient\\Tests\\": "packages/microweber-package-manager-client/tests/"
         }
     },
     "scripts": {
@@ -448,7 +450,8 @@
                 "microweber-packages/class-loader",
                 "microweber-packages/template-fonts",
                 "microweber-packages/template-custom-css",
-                "microweber-packages/queue"
+                "microweber-packages/queue",
+                "microweber-packages/package-manager-client"
             ]
         },
         "merge-plugin": {
@@ -481,6 +484,14 @@
     "repositories": [
         {
             "type": "path",
+            "url": "packages/microweber-package-manager-client",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
             "url": "packages/microweber-format"
         },
         {
@@ -506,10 +517,6 @@
                 "reference": "config",
                 "symlink": true
             }
-        },
-        {
-            "type": "composer",
-            "url": "https://modules.microweberapi.com/packages.json"
         },
         {
             "type": "vcs",
@@ -822,6 +829,10 @@
                 "reference": "config",
                 "symlink": true
             }
+        },
+        {
+            "type": "composer",
+            "url": "https://modules.microweberapi.com/packages.json"
         }
     ]
 }

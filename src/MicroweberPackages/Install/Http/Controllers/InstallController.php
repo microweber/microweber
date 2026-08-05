@@ -12,9 +12,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
-use MicroweberPackages\ComposerClient\Client;
-use MicroweberPackages\Package\MicroweberComposerClient;
-use MicroweberPackages\Package\MicroweberComposerPackage;
+use MicroweberPackages\PackageManagerClient\PackageFormatter;
+use MicroweberPackages\PackageManagerClient\PackageManagerClient;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Http\Http;
 use MicroweberPackages\View\View;
@@ -45,7 +44,7 @@ class InstallController extends Controller
         $params = [];
         $params['require_name'] = $packageName;
 
-        $runner = new MicroweberComposerClient();
+        $runner = app(PackageManagerClient::class);
 
         $getLicenses = app()->system_licenses_manager->getFileLicenses();
         if (!empty($getLicenses)) {
@@ -70,7 +69,7 @@ class InstallController extends Controller
     {
         $packageName = request()->get('install_template_modal');
 
-        $packageManager = new Client();
+        $packageManager = app(PackageManagerClient::class);
 
         $getLicenses = app()->system_licenses_manager->getFileLicenses();
         if (!empty($getLicenses)) {
@@ -82,7 +81,7 @@ class InstallController extends Controller
             return;
         }
 
-        $template = MicroweberComposerPackage::format($getPackage);
+        $template = PackageFormatter::format($getPackage);
 
         return view('install::install_template_modal', ['template' => $template]);
     }
@@ -953,7 +952,7 @@ class InstallController extends Controller
     private function _getMarketTemplatesForInstallScreen()
     {
         $ready = array();
-        $runner = new Client();
+        $runner = app(PackageManagerClient::class);
         $results = $runner->search();
 
         if ($results and is_array($results)) {
@@ -969,9 +968,9 @@ class InstallController extends Controller
                     continue;
                 }/*
                 if (isset($latestVersion['dist']['type']) && $latestVersion['dist']['type'] == 'zip') {
-                    $ready[] = MicroweberComposerPackage::format($latestVersion);
+                    $ready[] = PackageFormatter::format($latestVersion);
                 }*/
-                $ready[] = MicroweberComposerPackage::format($latestVersion);
+                $ready[] = PackageFormatter::format($latestVersion);
 
             }
         }
@@ -981,7 +980,7 @@ class InstallController extends Controller
 
     private function _install_package_by_name($package_name)
     {
-        $runner = new MicroweberComposerClient();
+        $runner = app(PackageManagerClient::class);
         $results = $runner->requestInstall(['require_name' => $package_name]);
         $runner->requestInstall($results['form_data_module_params']);
 

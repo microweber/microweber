@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\App\Managers;
 
-use MicroweberPackages\ComposerClient\Client;
+use MicroweberPackages\PackageManagerClient\Client;
 use MicroweberPackages\SystemLicenses\Contracts\LicenseValidatorInterface;
 
 /**

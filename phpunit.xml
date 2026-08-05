@@ -228,6 +228,11 @@
             <directory>packages/microweber-zip/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberPackageManagerClient">
+            <directory>packages/microweber-package-manager-client/tests</directory>
+            <exclude>packages/microweber-package-manager-client/tests/Browser</exclude>
+        </testsuite>
+
         <testsuite name="MicroweberDbExport">
             <directory>packages/microweber-db-export/tests</directory>
         </testsuite>

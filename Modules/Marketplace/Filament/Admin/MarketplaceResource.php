@@ -24,7 +24,7 @@ use MicroweberPackages\Filament\Support\AdminDisplayName;
 use MicroweberPackages\Filament\Tables\Columns\BadgesColumn;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Module\ModuleManager;
-use MicroweberPackages\Package\MicroweberComposerClient;
+use MicroweberPackages\PackageManagerClient\PackageManagerClient;
 use Modules\Marketplace\Models\MarketplaceItem;
 
 class MarketplaceResource extends Resource
@@ -213,7 +213,7 @@ class MarketplaceResource extends Resource
                     ->modalSubmitActionLabel('Yes, Update')
                     ->action(function (MarketplaceItem $marketplaceItem) {
                         try {
-                            $runner = new MicroweberComposerClient();
+                            $runner = app(PackageManagerClient::class);
                             $results = $runner->requestInstall([
                                 'require_name' => $marketplaceItem->internal_name,
                                 'require_version' => $marketplaceItem->version,
@@ -399,7 +399,7 @@ class MarketplaceResource extends Resource
 
                                                     try {
 
-                                                        $runner = new MicroweberComposerClient();
+                                                        $runner = app(PackageManagerClient::class);
                                                         $results = $runner->requestInstall([
                                                             'require_name' => $marketplaceItem->internal_name, 'require_version' => $data['version']
                                                         ]);

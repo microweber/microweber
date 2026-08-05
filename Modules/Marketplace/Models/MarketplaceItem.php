@@ -6,8 +6,8 @@ namespace Modules\Marketplace\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
-use MicroweberPackages\Package\MicroweberComposerClient;
-use MicroweberPackages\Package\MicroweberComposerPackage;
+use MicroweberPackages\PackageManagerClient\PackageFormatter;
+use MicroweberPackages\PackageManagerClient\PackageManagerClient;
 use Sushi\Sushi;
 
 class MarketplaceItem extends Model
@@ -18,7 +18,7 @@ class MarketplaceItem extends Model
     public function getRows()
     {
         $packages = Cache::remember('livewire-marketplace', Carbon::now()->addHours(12), function () {
-            $marketplace = new MicroweberComposerClient();
+            $marketplace = app(PackageManagerClient::class);
             return $marketplace->search();
         });
 
@@ -83,7 +83,7 @@ class MarketplaceItem extends Model
                 return version_compare($a, $b, '<');
             });
             $latestVersionPackage['versions'] = $versions;
-            $latestVersionPackage = MicroweberComposerPackage::format($latestVersionPackage);
+            $latestVersionPackage = PackageFormatter::format($latestVersionPackage);
 
             $latestVersions[$packageName] = $latestVersionPackage;
         }

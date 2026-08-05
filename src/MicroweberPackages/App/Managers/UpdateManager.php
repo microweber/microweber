@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Install\UpdateMissingConfigFiles;
-use MicroweberPackages\Package\MicroweberComposerClient;
+use MicroweberPackages\PackageManagerClient\PackageManagerClient;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
@@ -577,7 +577,7 @@ class UpdateManager
                  'trace' => $e->getTrace()
              );
          }*/
-        $mw = new MicroweberComposerClient();
+        $mw = app(PackageManagerClient::class);
         return $mw->requestInstall($params);
     }
 

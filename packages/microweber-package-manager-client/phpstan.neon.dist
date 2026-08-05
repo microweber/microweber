@@ -1,0 +1,13 @@
+includes:
+    - ../../vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 9
+    paths:
+        - src
+    excludePaths:
+        - vendor(?)
+    tmpDir: build/phpstan
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors: []

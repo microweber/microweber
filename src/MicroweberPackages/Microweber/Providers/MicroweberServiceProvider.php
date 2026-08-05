@@ -21,6 +21,7 @@ use MicroweberPackages\Frontend\Providers\FrontendServiceProvider;
 use MicroweberPackages\Security\SecurityServiceProvider;
 use MicroweberPackages\Url\Providers\UrlServiceProvider;
 use MicroweberPackages\Zip\ZipServiceProvider;
+use MicroweberPackages\PackageManagerClient\PackageManagerClientServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\LaravelModules\LaravelModulesServiceProvider;
 use MicroweberPackages\LaravelModulesFilament\LaravelModulesFilamentServiceProvider;
@@ -93,6 +94,12 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(UrlServiceProvider::class);
         $this->app->register(SecurityServiceProvider::class);
         $this->app->register(ZipServiceProvider::class);
+
+        // Package manager client (marketplace install/update) — replaces src/Package + composer-client.
+        // All bindings + CMS integration (licenses, white-label URLs) live in the
+        // package's own PackageManagerClientServiceProvider.
+        $this->app->register(PackageManagerClientServiceProvider::class);
+
         $this->app->register(LiveEditRouteServiceProvider::class);
 
         $this->app->register(ViewServiceProvider::class);
