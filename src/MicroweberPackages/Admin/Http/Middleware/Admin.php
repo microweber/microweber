@@ -84,8 +84,14 @@ class Admin
         $adminUrl = admin_url();
         $urlToCompare = site_url('admin');
 
-        if(is_ajax()){
-            return response()->json(['error' => 'Please as admin login to continue'], 401);
+        // Respond with JSON for API clients instead of a login redirect. is_ajax()
+        // only detects X-Requested-With; expectsJson() also covers callers that send
+        // `Accept: application/json` (REST/fetch clients) — otherwise they'd receive a
+        // 302 to the HTML login page instead of a machine-readable error.
+        if (is_ajax() || $request->expectsJson()) {
+            $status = (Auth::check() ? 403 : 401);
+
+            return response()->json(['error' => 'Please as admin login to continue'], $status);
         }
 
 //        if($adminUrl == $urlToCompare){

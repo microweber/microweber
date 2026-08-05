@@ -197,6 +197,10 @@ class AppServiceProvider extends ServiceProvider
         // the former Core\Providers\CoreServiceProvider was registered too).
         $this->app->register(CoreServiceProvider::class);
 
+        // Register package API routes in register() so they load before the
+        // greedy api/{all} catch-all registered in boot() via routes/web.php.
+        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/api.php');
+
         if (is_https() or (Config::get('microweber.force_https') && !is_cli())) {
             URL::forceScheme("https");
         }

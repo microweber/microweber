@@ -63,4 +63,9 @@ Route::name('api.')
             return mw_reload_modules();
         });
 
+        // Formerly api_expose_admin('save_module_as_template') / delete_module_as_template
+        Route::any('save_module_as_template', \MicroweberPackages\Module\Http\Controllers\Api\ModuleTemplateApiController::class . '@save')
+            ->name('save_module_as_template');
+        Route::any('delete_module_as_template', \MicroweberPackages\Module\Http\Controllers\Api\ModuleTemplateApiController::class . '@delete')
+            ->name('delete_module_as_template');
     });

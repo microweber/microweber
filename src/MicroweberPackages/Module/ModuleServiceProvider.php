@@ -80,12 +80,13 @@ class ModuleServiceProvider extends ServiceProvider
 
         $this->registerLivewireComponents();
 
+        // Load routes in register() so they precede the greedy api/{all} catch-all
+        // registered in AppServiceProvider::boot().
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
 
         Event::listen(ServingAdmin::class, [$this, 'registerMenu']);
-
-
-
-
     }
 
     /**
@@ -105,9 +106,6 @@ class ModuleServiceProvider extends ServiceProvider
         $aliasLoader = AliasLoader::getInstance();
         $aliasLoader->alias('ModuleManager', \MicroweberPackages\Module\Facades\ModuleManager::class);
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
-        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
-        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
     }
 
     public function registerLivewireComponents()

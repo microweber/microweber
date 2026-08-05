@@ -223,21 +223,9 @@ function __store_lang_file()
  * @internal its used via ajax in the admin panel under Settings->Language
  */
 
-api_expose_admin('send_lang_form_to_microweber', function ($data) {
-    if (is_admin() == true) {
-        $lang = current_lang();
-        $send = array();
-        $send['function_name'] = __FUNCTION__;
-        $send['language'] = $lang;
-        $send['data'] = $data;
-        return mw_send_anonymous_server_data($send);
-    }
-});
-
-
-api_expose_admin('save_language_file_content', function ($data) {
-    return app()->lang_helper->save_language_file_content($data);
-});
+// send_lang_form_to_microweber and save_language_file_content are now
+// proper routes: api/send_lang_form_to_microweber, api/save_language_file_content
+// (LangApiController in MicroweberPackages\App\Http\Controllers\Api).
 
 function get_flag_icon_url($locale)
 {

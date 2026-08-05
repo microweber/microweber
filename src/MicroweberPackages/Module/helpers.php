@@ -207,7 +207,6 @@ function get_saved_modules_as_template($params)
     return app()->module_manager->get_saved_modules_as_template($params);
 }
 
-api_expose_admin('delete_module_as_template');
 function delete_module_as_template($data)
 {
     return app()->module_manager->delete_module_as_template($data);

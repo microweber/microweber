@@ -15,6 +15,18 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 
+/**
+ * Legacy dynamic API dispatcher.
+ *
+ * @deprecated The dynamic api_expose()/api_bind() dispatch this controller
+ *   powered (via the greedy `api/{all}` catch-all → {@see api()}) has been
+ *   replaced by explicit routes + controllers + FormRequests (see the
+ *   App/Module/User routes/api.php). Do NOT route new endpoints here — define a
+ *   real route + controller instead. It is retained only as the backward-compat
+ *   catch-all fallback for the few remaining legacy `/api/*` and `/module/*`
+ *   paths ({@see api()}, {@see api_html()}, {@see module()}); once those are
+ *   migrated the class can be removed.
+ */
 class ApiController  extends FrontendController
 {
 

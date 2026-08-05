@@ -233,11 +233,10 @@ Route::group(['middleware' => ['web'], 'namespace' => '\MicroweberPackages\App\H
 
 });
 
-/*
-Route::group(['middleware' => ['public.web', \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class], 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
-    Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'ApiController@api'))->where('all', '.*')->name('api_nosession.all');
-    Route::any('/api_nosession', 'ApiController@api')->name('api_nosession');
-});*/
+// api_nosession/* specific endpoints are now registered as proper routes with
+// SessionlessMiddleware in package route files (App/routes/api.php, User/routes/api.php).
+// The former catch-all that dispatched via api_expose + ApiController was removed
+// during the api_expose refactoring.
 
 
 // 'middleware' => 'web',

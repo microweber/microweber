@@ -97,7 +97,6 @@ function get_modules($options = false)
     return app()->module_manager->get($options);
 }
 
-api_expose_admin('save_module_as_template');
 function save_module_as_template($data_to_save)
 {
     return app()->module_manager->save_module_as_template($data_to_save);
@@ -223,8 +222,6 @@ function mw_reload_modules()
 /* DEPRECATED */
 /* DEPRECATED */
 
-api_expose_admin('mw_install_market_item');
-
 function mw_install_market_item($params)
 {
     $a = is_admin();
@@ -232,8 +229,6 @@ function mw_install_market_item($params)
         return mw('update')->install_market_item($params);
     }
 }
-
-api_expose_admin('mw_apply_updates');
 
 function mw_apply_updates($params)
 {
@@ -251,7 +246,6 @@ function mw_apply_updates($params)
 /* END OF DEPRECATED */
 
 
-api_expose_admin('mw_send_anonymous_server_data');
 // function used do send us the language files
 function mw_send_anonymous_server_data($params)
 {
@@ -488,7 +482,6 @@ function mw_error($e)
     exit(1);
 }
 
-api_expose('mw_composer_install_package_by_name');
 function mw_composer_install_package_by_name($params)
 {
     if (!mw_is_installed()) {

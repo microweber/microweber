@@ -8,9 +8,85 @@
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use MicroweberPackages\User\Http\Controllers\Api\UserLegacyApiController;
 
+/*
+|--------------------------------------------------------------------------
+| Legacy user API endpoints (formerly api_expose / api_expose_admin)
+|--------------------------------------------------------------------------
+| Paths match the historical /api/{name} surface so existing clients keep working.
+*/
 
+// Public legacy endpoints
+Route::prefix('api')
+    ->middleware([
+        'api.public',
+        \MicroweberPackages\App\Http\Middleware\XSS::class,
+    ])
+    ->group(function () {
+        Route::any('user_social_login', [UserLegacyApiController::class, 'socialLogin'])
+            ->name('api.user_social_login')
+            ->middleware(['allowed_ips', 'throttle:60,1']);
 
+        Route::any('social_login_process', [UserLegacyApiController::class, 'socialLoginProcess'])
+            ->name('api.social_login_process')
+            ->middleware(['allowed_ips', 'throttle:60,1']);
+
+        Route::any('user_reset_password_from_link', [UserLegacyApiController::class, 'resetPasswordFromLink'])
+            ->name('api.user_reset_password_from_link')
+            ->middleware(['throttle:30,1']);
+
+        Route::any('is_logged', [UserLegacyApiController::class, 'isLogged'])
+            ->name('api.is_logged');
+
+        Route::any('user_send_forgot_password', [UserLegacyApiController::class, 'sendForgotPassword'])
+            ->name('api.user_send_forgot_password')
+            ->middleware(['throttle:30,1']);
+
+        Route::any('users/register_email_send', [UserLegacyApiController::class, 'registerEmailSend'])
+            ->name('api.users.register_email_send')
+            ->middleware(['throttle:30,1']);
+
+        Route::any('users/verify_email_link', [UserLegacyApiController::class, 'verifyEmailLink'])
+            ->name('api.users.verify_email_link')
+            ->middleware(['throttle:30,1']);
+
+        // Legacy path: user_register was api_expose public; prefer api/user/register but keep BC path
+        Route::any('user_register', \MicroweberPackages\User\Http\Controllers\UserRegisterController::class . '@register')
+            ->name('api.user_register')
+            ->middleware(['allowed_ips', 'throttle:30,1']);
+    });
+
+// Admin legacy endpoints
+Route::prefix('api')
+    ->middleware(['admin', 'api', \MicroweberPackages\App\Http\Middleware\XSS::class])
+    ->group(function () {
+        Route::any('user_make_logged', [UserLegacyApiController::class, 'makeLogged'])
+            ->name('api.user_make_logged');
+
+        Route::any('users/register_email_send_test', [UserLegacyApiController::class, 'registerEmailSendTest'])
+            ->name('api.users.register_email_send_test');
+
+        Route::any('users/forgot_password_email_send_test', [UserLegacyApiController::class, 'forgotPasswordEmailSendTest'])
+            ->name('api.users.forgot_password_email_send_test');
+
+        Route::any('users/search_authors', [UserLegacyApiController::class, 'searchAuthors'])
+            ->name('api.users.search_authors');
+    });
+
+// Sessionless aliases for public legacy endpoints that do not require a real session store
+Route::prefix('api_nosession')
+    ->middleware([
+        'api.public',
+        \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
+        \MicroweberPackages\App\Http\Middleware\XSS::class,
+    ])
+    ->group(function () {
+        Route::any('is_logged', [UserLegacyApiController::class, 'isLogged'])
+            ->name('api_nosession.is_logged');
+        Route::any('users/verify_email_link', [UserLegacyApiController::class, 'verifyEmailLink'])
+            ->name('api_nosession.users.verify_email_link');
+    });
 
 Route::name('api.auth.')
     ->prefix('api/auth')

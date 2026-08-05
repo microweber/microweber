@@ -1,6 +1,21 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| DEPRECATED — legacy dynamic API dispatch (api_expose / api_bind family)
+|--------------------------------------------------------------------------
+| These registered API endpoints as callbacks in a static array, served by a
+| greedy `api/{all}` catch-all (ApiController::api). That dynamic dispatch has
+| been replaced by explicit Laravel routes + controllers + FormRequests (see
+| App/Module/User routes/api.php). The functions are kept only for backward
+| compatibility with third-party/module code; do NOT add new api_expose*()
+| calls — define a real route + controller instead.
+*/
 
+/**
+ * @deprecated Use an explicit route + controller (routes/api.php) instead of
+ *             dynamic api_expose() dispatch.
+ */
 function api_expose($function_name, $callback = null)
 {
     static $index = ' ';
@@ -16,6 +31,9 @@ function api_expose($function_name, $callback = null)
     }
 }
 
+/**
+ * @deprecated Legacy dynamic API dispatch — use an explicit route + controller instead.
+ */
 function api_expose_admin($function_name, $callback = null)
 {
 
@@ -34,6 +52,9 @@ function api_expose_admin($function_name, $callback = null)
 
 }
 
+/**
+ * @deprecated Legacy dynamic API dispatch — use an explicit route + controller instead.
+ */
 function api_bind($function_name, $callback = false)
 {
     static $mw_api_binds;
@@ -49,6 +70,9 @@ function api_bind($function_name, $callback = false)
     }
 }
 
+/**
+ * @deprecated Legacy dynamic API dispatch — use an explicit route + controller instead.
+ */
 function api_bind_admin($function_name, $callback = false)
 {
     static $mw_api_binds;
@@ -65,6 +89,9 @@ function api_bind_admin($function_name, $callback = false)
 }
 
 
+/**
+ * @deprecated Legacy dynamic API dispatch — use an explicit route + controller instead.
+ */
 function api_bind_user($function_name, $callback = false)
 {
     static $mw_api_binds_user;
@@ -81,6 +108,9 @@ function api_bind_user($function_name, $callback = false)
 }
 
 
+/**
+ * @deprecated Legacy dynamic API dispatch — use an explicit route + controller instead.
+ */
 function api_expose_user($function_name, $callback = null)
 {
     static $index = ' ';
