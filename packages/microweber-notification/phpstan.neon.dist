@@ -1,0 +1,20 @@
+includes:
+    - ../../vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - src
+    level: 9
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        # Host CMS helpers (guarded by function_exists / class_exists)
+        - '#Function mw_is_installed not found#'
+        - '#Function mw_admin_prefix_url_legacy not found#'
+        - '#Function get_email_from_name not found#'
+        - '#Function get_email_from not found#'
+        - '#Function parse_params not found#'
+        - '#Function is_admin not found#'
+        - '#Function mw not found#'
+        # Optional CMS option facade (guarded by class_exists)
+        - '#Class MicroweberPackages\\Option\\Facades\\Option not found#'

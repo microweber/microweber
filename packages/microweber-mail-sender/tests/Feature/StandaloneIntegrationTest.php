@@ -26,7 +26,7 @@ class StandaloneIntegrationTest extends TestCase
         $contract = app(MailSenderContract::class);
         $this->assertInstanceOf(MailSenderService::class, $contract);
 
-        $alias = app('mail-sender');
+        $alias = app('mail_sender');
         $this->assertInstanceOf(MailSenderService::class, $alias);
     }
 

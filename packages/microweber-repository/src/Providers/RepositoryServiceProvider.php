@@ -18,7 +18,9 @@ class RepositoryServiceProvider extends ServiceProvider
             AbstractRepository::setCacheInstance($this->app['cache']);
         });
 
-        if (class_exists(\Torann\LaravelRepository\RepositoryServiceProvider::class)) {
+        if (class_exists(\Torann\LaravelRepository\RepositoryServiceProvider::class)
+            && ! $this->app->getProvider(\Torann\LaravelRepository\RepositoryServiceProvider::class)
+        ) {
             $this->app->register(\Torann\LaravelRepository\RepositoryServiceProvider::class);
         }
 

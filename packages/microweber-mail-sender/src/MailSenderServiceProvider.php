@@ -21,8 +21,8 @@ class MailSenderServiceProvider extends ServiceProvider
         $this->app->bind(MailSenderService::class, static fn () => new MailSenderService());
         $this->app->bind(MailSenderContract::class, MailSenderService::class);
 
-        $this->app->alias(MailSenderService::class, 'mail-sender');
-        $this->app->alias(MailSenderContract::class, 'mail_sender');
+        // One canonical string name for the package.
+        $this->app->alias(MailSenderService::class, 'mail_sender');
     }
 
     public function boot(): void

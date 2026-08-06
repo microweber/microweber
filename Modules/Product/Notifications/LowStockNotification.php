@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use MicroweberPackages\Notification\Channels\AppMailChannel;
 use Modules\Content\Models\Content;
 use Modules\Product\Models\ProductInventoryAlert;
 use Modules\Product\Models\ProductVariantCombination;
@@ -57,7 +58,7 @@ class LowStockNotification extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['database', AppMailChannel::class];
     }
 
     /**

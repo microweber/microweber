@@ -14,6 +14,9 @@
         <testsuite name="Fortify Dusk Suite">
             <directory suffix="Test.php">./packages/microweber-fortify/tests/Dusk</directory>
         </testsuite>
+        <testsuite name="Notification Dusk Suite">
+            <directory suffix="Test.php">./packages/microweber-notification/tests/Dusk</directory>
+        </testsuite>
         <testsuite name="Browser Test Suite">
             <directory suffix="Test.php">./tests/Browser</directory>
         </testsuite>

@@ -180,7 +180,8 @@
         "microweber-packages/template-fonts": "^1.0",
         "microweber-packages/template-custom-css": "^1.0",
         "microweber-packages/queue": "^1.0",
-        "microweber-packages/package-manager-client": "*@dev"
+        "microweber-packages/package-manager-client": "*@dev",
+        "microweber-packages/notification": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -239,6 +240,7 @@
             "MicroweberPackages\\Minifier\\": "packages/microweber-minifier/src/",
             "MicroweberPackages\\View\\": "packages/microweber-view/src/",
             "MicroweberPackages\\MailSender\\": "packages/microweber-mail-sender/src/",
+            "MicroweberPackages\\Notification\\": "packages/microweber-notification/src/",
             "MicroweberPackages\\Zip\\": "packages/microweber-zip/src/",
             "MicroweberPackages\\ClassLoader\\": "packages/microweber-class-loader/src/",
             "MicroweberPackages\\TemplateFonts\\": "packages/microweber-template-fonts/src/",
@@ -261,6 +263,7 @@
             "packages/microweber-image-optimization/src/helpers.php",
             "packages/microweber-minifier/src/helpers.php",
             "packages/microweber-mail-sender/src/helpers.php",
+            "packages/microweber-notification/src/helpers.php",
             "packages/microweber-class-loader/src/helpers.php",
             "packages/microweber-template-fonts/src/helpers.php",
             "packages/microweber-template-custom-css/src/helpers.php",
@@ -305,7 +308,8 @@
             "MicroweberPackages\\TemplateFonts\\Tests\\": "packages/microweber-template-fonts/tests/",
             "MicroweberPackages\\TemplateCustomCss\\Tests\\": "packages/microweber-template-custom-css/tests/",
             "MicroweberPackages\\Queue\\Tests\\": "packages/microweber-queue/tests/",
-            "MicroweberPackages\\PackageManagerClient\\Tests\\": "packages/microweber-package-manager-client/tests/"
+            "MicroweberPackages\\PackageManagerClient\\Tests\\": "packages/microweber-package-manager-client/tests/",
+            "MicroweberPackages\\Notification\\Tests\\": "packages/microweber-notification/tests/"
         }
     },
     "scripts": {
@@ -451,7 +455,8 @@
                 "microweber-packages/template-fonts",
                 "microweber-packages/template-custom-css",
                 "microweber-packages/queue",
-                "microweber-packages/package-manager-client"
+                "microweber-packages/package-manager-client",
+                "microweber-packages/notification"
             ]
         },
         "merge-plugin": {
@@ -793,6 +798,14 @@
         {
             "type": "path",
             "url": "packages/microweber-mail-sender",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-notification",
             "options": {
                 "reference": "config",
                 "symlink": true

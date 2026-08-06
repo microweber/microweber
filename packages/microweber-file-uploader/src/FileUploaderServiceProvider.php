@@ -11,19 +11,16 @@ class FileUploaderServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/file-uploader.php', 'file-uploader');
 
-        $this->app->singleton('file_uploader', function ($app) {
+        $this->app->singleton(FileUploaderService::class, function () {
             return new FileUploaderService(
                 new FileValidationService()
             );
         });
+        $this->app->alias(FileUploaderService::class, 'file_uploader');
 
-        // Also bind the validation service separately for direct use
+        // Also expose the uploader's own validation service for direct use.
         $this->app->singleton(FileValidationService::class, function ($app) {
-            return $app->make('file_uploader')->validator();
-        });
-
-        $this->app->singleton(FileUploaderService::class, function ($app) {
-            return $app->make('file_uploader');
+            return $app->make(FileUploaderService::class)->validator();
         });
     }
 

@@ -17,9 +17,7 @@ class UrlServiceProvider extends ServiceProvider
             return new UrlManager();
         });
 
-        $this->app->singleton('url_manager', function ($app) {
-            return $app->make(UrlManager::class);
-        });
+        $this->app->alias(UrlManager::class, 'url_manager');
     }
 
     /**

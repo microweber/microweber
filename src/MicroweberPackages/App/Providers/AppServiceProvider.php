@@ -471,7 +471,7 @@ class AppServiceProvider extends ServiceProvider
             'update' => 'UpdateManager',
             'cache_manager' => 'CacheManager',
             'config_manager' => 'ConfigurationManager',
-            'notifications_manager' => 'NotificationsManager',
+            // notifications_manager is provided by packages/microweber-notification
             //    'log_manager' => 'LogManager',
             'permalink_manager' => 'PermalinkManager',
             //    'layouts_manager' => 'LayoutsManager',

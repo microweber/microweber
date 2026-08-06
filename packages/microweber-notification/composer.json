@@ -1,0 +1,66 @@
+{
+    "name": "microweber-packages/notification",
+    "description": "Standalone Laravel package for database notifications, mail channel delivery, admin notification management, and mail logs. Extracted from Microweber CMS so it can be reused in any Laravel application.",
+    "version": "1.0.0",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/notifications": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/mail": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/bus": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/queue": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/auth": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
+        "microweber-packages/mail-sender": "^1.0",
+        "tucker-eric/eloquentfilter": "^3.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0",
+        "larastan/larastan": "^3.0",
+        "laravel/dusk": "^8.0|^9.0"
+    },
+    "suggest": {
+        "microweber-packages/mail-sender": "Configures mail transport used by AppMailChannel"
+    },
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\Notification\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\Notification\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=512M"
+    },
+    "homepage": "http://microweber.com",
+    "support": {
+        "email": "support@microweber.com"
+    }
+}

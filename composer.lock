@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "311e6abc3c732e34349132b6b0b15454",
+    "content-hash": "0bbb6ab0d7e1daef76358a69d3ca7a6c",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10864,6 +10864,81 @@
                 }
             ],
             "description": "Standalone Laravel package for JS and CSS minification. Reusable in any Laravel app. Based on fixed JShrink for JavaScript.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/notification",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-notification",
+                "reference": "316cbaaf9ab2c9eb801e3339eeb2da9bfc8d96cb"
+            },
+            "require": {
+                "illuminate/auth": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/bus": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/mail": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/notifications": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/queue": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/mail-sender": "^1.0",
+                "php": "^8.2",
+                "tucker-eric/eloquentfilter": "^3.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/dusk": "^8.0|^9.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "microweber-packages/mail-sender": "Configures mail transport used by AppMailChannel"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Notification\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Notification\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for database notifications, mail channel delivery, admin notification management, and mail logs. Extracted from Microweber CMS so it can be reused in any Laravel application.",
             "homepage": "http://microweber.com",
             "support": {
                 "email": "support@microweber.com"
