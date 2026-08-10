@@ -2,11 +2,17 @@
 
 namespace MicroweberPackages\Filesystem;
 
-use Illuminate\Support\ServiceProvider;
 
-class FilesystemServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class FilesystemServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/filesystem');
+    }
+
+    public function packageRegistered(): void
     {
         $this->app->singleton(FilesystemService::class, function () {
             return new FilesystemService();
@@ -14,7 +20,7 @@ class FilesystemServiceProvider extends ServiceProvider
 
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         //
     }

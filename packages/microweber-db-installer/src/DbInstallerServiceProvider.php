@@ -2,18 +2,24 @@
 
 namespace MicroweberPackages\DbInstaller;
 
-use Illuminate\Support\ServiceProvider;
 
-class DbInstallerServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class DbInstallerServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/db-installer');
+    }
+
+    public function packageRegistered(): void
     {
         $this->app->bind(DbInstaller::class, function () {
             return new DbInstaller();
         });
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         //
     }

@@ -4,9 +4,9 @@ namespace MicroweberPackages\MicroweberUI\Providers;
 
 use Illuminate\Support\Facades\View;
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
 
-class MicroweberUIServiceProvider extends PackageServiceProvider
+class MicroweberUIServiceProvider extends MicroweberPackageServiceProvider
 {
 
      public function configurePackage(Package $package): void
@@ -16,7 +16,7 @@ class MicroweberUIServiceProvider extends PackageServiceProvider
     }
     public function boot()
     {
-
+        parent::boot();
 
         View::prependNamespace('microweber-ui', dirname(__DIR__).'/resources/views');
 //        Blade::componentNamespace('MicroweberPackages\\View\\Views\\Components', 'mw-ui');

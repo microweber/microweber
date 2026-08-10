@@ -2,18 +2,24 @@
 
 namespace MicroweberPackages\Format;
 
-use Illuminate\Support\ServiceProvider;
 
-class FormatServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class FormatServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/format');
+    }
+
+    public function packageRegistered(): void
     {
         $this->app->singleton(FormatService::class, function () {
             return new FormatService();
         });
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         //
     }

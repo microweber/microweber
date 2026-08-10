@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Core;
 
-use Illuminate\Support\ServiceProvider;
 
 /**
  * CoreServiceProvider — deterministic, ordered loading of Microweber
@@ -34,8 +33,9 @@ use Illuminate\Support\ServiceProvider;
  *   2. The CoreServiceProvider auto-discovers via its own `extra.laravel.providers`
  *      key, or register it manually as the first entry of `bootstrap/providers.php`.
  */
-class CoreServiceProvider extends ServiceProvider
+class CoreServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+
     /**
      * Third-party providers that Microweber code depends on at REGISTER time,
      * so they must be registered before the rest of the app boots.

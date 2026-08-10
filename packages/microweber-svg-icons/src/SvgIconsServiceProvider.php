@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace MicroweberPackages\SvgIcons;
 
 use BladeUI\Icons\Factory;
-use Illuminate\Support\ServiceProvider;
-
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 /**
  * Registers the "mw" Blade-Icons set and publishes the SVG files
  * to the public vendor directory so they can be served via URL.
  */
-class SvgIconsServiceProvider extends ServiceProvider
+class SvgIconsServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/svg-icons');
+    }
+
+    public function packageRegistered(): void
     {
         $this->callAfterResolving(Factory::class, function (Factory $factory): void {
             $factory->add('mw', [
@@ -23,7 +28,7 @@ class SvgIconsServiceProvider extends ServiceProvider
         });
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         // Publish SVGs so they are accessible via public URL:
         //   public/vendor/microweber-packages/svg-icons/

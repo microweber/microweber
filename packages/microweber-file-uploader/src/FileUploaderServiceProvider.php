@@ -2,12 +2,18 @@
 
 namespace MicroweberPackages\FileUploader;
 
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\FileUploader\Validation\FileValidationService;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class FileUploaderServiceProvider extends ServiceProvider
+class FileUploaderServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/file-uploader');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/file-uploader.php', 'file-uploader');
 
@@ -22,7 +28,7 @@ class FileUploaderServiceProvider extends ServiceProvider
         });
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([

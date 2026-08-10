@@ -14,7 +14,6 @@ namespace MicroweberPackages\LiveEdit\Providers;
 use Filament\Events\ServingFilament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
@@ -41,12 +40,14 @@ use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingModuleSettings;
 use MicroweberPackages\LiveEdit\Services\LiveEditManagerService;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
 
-class LiveEditServiceProvider extends ServiceProvider
+class LiveEditServiceProvider extends MicroweberPackageServiceProvider
 {
-
-
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-live-edit');
+    }
 
     public function register()
     {

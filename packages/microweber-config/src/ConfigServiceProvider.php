@@ -3,11 +3,16 @@
 namespace MicroweberPackages\Config;
 
 use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\ServiceProvider;
-
-class ConfigServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class ConfigServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/config');
+    }
+
+    public function packageRegistered(): void
     {
         $config = new ConfigRepository($this->app);
         $this->app->instance('config', $config);

@@ -12,9 +12,8 @@ use Livewire\Features\SupportTesting\Testable;
 use Nwidart\Modules\Module;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-
-class ModulesServiceProvider extends PackageServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+class ModulesServiceProvider extends MicroweberPackageServiceProvider
 {
     public static string $name = 'modules';
 

@@ -3,16 +3,21 @@
 namespace MicroweberPackages\ContentField;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Support\ServiceProvider;
-
-class ContentFieldServiceProvider extends ServiceProvider implements DeferrableProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class ContentFieldServiceProvider extends MicroweberPackageServiceProvider implements DeferrableProvider
 {
-    public function boot(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/content-field');
+    }
+
+    public function packageBooted(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 
-    public function register(): void
+    public function packageRegistered(): void
     {
         $this->app->singleton(ContentFieldManager::class, function (): ContentFieldManager {
             return new ContentFieldManager();

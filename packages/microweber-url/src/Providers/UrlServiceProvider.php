@@ -3,16 +3,22 @@
 namespace MicroweberPackages\Url\Providers;
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Url\Facades\UrlManager;
 use MicroweberPackages\Url\UrlManagerService;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class UrlServiceProvider extends ServiceProvider
+class UrlServiceProvider extends MicroweberPackageServiceProvider
 {
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/url');
+    }
+
     /**
      * Register the application services.
      */
-    public function register(): void
+    public function packageRegistered(): void
     {
         $this->app->singleton(UrlManagerService::class, function () {
             return new UrlManagerService();
@@ -22,7 +28,7 @@ class UrlServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      */
-    public function boot(): void
+    public function packageBooted(): void
     {
         // Test-only route previously registered by the removed HelpersServiceProvider.
         if ($this->app->runningInConsole() && $this->app->runningUnitTests()) {

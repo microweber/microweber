@@ -14,7 +14,9 @@
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.0",
         "illuminate/support": "^10.0|^11.0|^12.0",
-        "illuminate/cache": "^10.0|^11.0|^12.0"
+        "illuminate/cache": "^10.0|^11.0|^12.0",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0",

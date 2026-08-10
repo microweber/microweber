@@ -1,6 +1,6 @@
 {
     "name": "microweber-packages/core",
-    "description": "Microweber Core – deterministic service-provider loader that eliminates auto-discovery race conditions under php-fpm / php-cgi.",
+    "description": "Microweber Core \u2013 deterministic service-provider loader that eliminates auto-discovery race conditions under php-fpm / php-cgi.",
     "version": "1.0.0",
     "type": "library",
     "license": "MIT",

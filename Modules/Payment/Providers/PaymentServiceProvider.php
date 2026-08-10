@@ -32,6 +32,8 @@ $this->loadRoutesFrom(module_path($this->moduleName, 'routes/webhooks.php'));
      */
     public function register(): void
     {
+        parent::register();
+
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();

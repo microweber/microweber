@@ -1,11 +1,16 @@
 <?php
 
-namespace packages\laravel-helper-functions\src\Providers;
+declare(strict_types=1);
 
-class LaravelHelperFunctionsServiceProvider
+namespace MicroweberPackages\LaravelHelperFunctions\Providers;
+
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+
+class LaravelHelperFunctionsServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
     {
-       dd(333);
+        $package->name('microweber-packages/laravel-helper-functions');
     }
 }

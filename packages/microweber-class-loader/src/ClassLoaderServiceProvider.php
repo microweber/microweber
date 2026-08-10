@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\ClassLoader;
 
-use Illuminate\Support\ServiceProvider;
 
-class ClassLoaderServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class ClassLoaderServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/class-loader');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/class-loader.php', 'class-loader');
 
@@ -59,7 +65,7 @@ class ClassLoaderServiceProvider extends ServiceProvider
         }
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([

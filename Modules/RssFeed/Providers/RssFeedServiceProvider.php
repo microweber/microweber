@@ -2,11 +2,8 @@
 
 namespace Modules\RssFeed\Providers;
 
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Package\ModulePackage;
 
 class RssFeedServiceProvider extends BaseModuleServiceProvider
 {
@@ -19,6 +16,8 @@ class RssFeedServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+        parent::register();
+
 
         $this->registerConfig();
         $this->registerViews();

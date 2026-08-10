@@ -99,6 +99,8 @@ class AiServiceProvider extends BaseModuleServiceProvider
 
     public function register(): void
     {
+        parent::register();
+
         $this->registerConfig();
         $this->registerViews();
         $this->app->singleton(McpClientTokenManager::class);

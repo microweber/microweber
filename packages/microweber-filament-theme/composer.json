@@ -20,7 +20,9 @@
         }
     ],
     "require": {
-        "php": "^8.1"
+        "php": "^8.1",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {},
     "autoload": {

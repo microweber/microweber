@@ -27,6 +27,8 @@ class TaxServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+        parent::register();
+
         $this->registerAiTools([
             TaxPreviewTool::class,
             TaxRuleLookupTool::class,

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\AiTools\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\AiTools\Contracts\ToolRegistryInterface;
 use MicroweberPackages\AiTools\Registry\ToolRegistry;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
 /**
  * Standalone service provider for the AI Tools package.
@@ -15,9 +16,14 @@ use MicroweberPackages\AiTools\Registry\ToolRegistry;
  * Domain tools are expected to register themselves via the ToolRegistry
  * (from modules, app service providers, or config/ai-tools.php).
  */
-class AiToolsServiceProvider extends ServiceProvider
+class AiToolsServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/ai-tools');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(
             __DIR__ . '/../../config/ai-tools.php',
@@ -34,7 +40,7 @@ class AiToolsServiceProvider extends ServiceProvider
         $this->app->alias(ToolRegistry::class, ToolRegistryInterface::class);
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([

@@ -3,17 +3,23 @@
 namespace MicroweberPackages\Database;
 
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class DatabaseManagerServiceProvider extends ServiceProvider
+class DatabaseManagerServiceProvider extends MicroweberPackageServiceProvider
 {
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/database');
+    }
+
     /**
      * Bootstrap the application services.
      *
      * @return void
      */
-    public function boot()
+    public function packageBooted()
     {
         Event::listen(['eloquent.saved: *', 'eloquent.created: *', 'eloquent.deleted: *'], function ($context) {
             DatabaseManager::clearCache();
@@ -25,7 +31,7 @@ class DatabaseManagerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register(): void
+    public function packageRegistered(): void
     {
         $this->app->singleton(DatabaseManagerService::class, function ($app) {
             return new DatabaseManagerService($app);

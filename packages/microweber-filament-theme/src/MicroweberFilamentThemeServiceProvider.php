@@ -3,9 +3,8 @@
 namespace MicroweberPackages\MicroweberFilamentTheme;
 
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-
-class MicroweberFilamentThemeServiceProvider extends PackageServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+class MicroweberFilamentThemeServiceProvider extends MicroweberPackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {

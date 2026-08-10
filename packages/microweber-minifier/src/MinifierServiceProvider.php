@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\Minifier;
 
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Minifier\Services\CssMinify;
 use MicroweberPackages\Minifier\Services\JsMinify;
 use MicroweberPackages\Minifier\Services\MinifierService;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class MinifierServiceProvider extends ServiceProvider
+class MinifierServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/minifier');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/minifier.php', 'minifier');
 
@@ -27,7 +33,7 @@ class MinifierServiceProvider extends ServiceProvider
 
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         // The HTTP routes exist only so the test suite can exercise
         // MinifierController end-to-end. The CMS minifies via the CssMinify /

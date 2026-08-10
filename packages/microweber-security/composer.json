@@ -19,7 +19,9 @@
         "illuminate/support": "^10.0|^11.0|^12.0",
         "symfony/html-sanitizer": "^7.0",
         "voku/anti-xss": "^4.1",
-        "ezyang/htmlpurifier": "^4.18"
+        "ezyang/htmlpurifier": "^4.18",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "larastan/larastan": "^3.9",

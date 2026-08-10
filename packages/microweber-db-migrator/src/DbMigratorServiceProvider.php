@@ -2,11 +2,17 @@
 
 namespace MicroweberPackages\DbMigrator;
 
-use Illuminate\Support\ServiceProvider;
 
-class DbMigratorServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class DbMigratorServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/db-migrator');
+    }
+
+    public function packageRegistered(): void
     {
         $this->app->singleton('mw_migrator', function ($app) {
             $repository = $app['migration.repository'];
@@ -14,7 +20,7 @@ class DbMigratorServiceProvider extends ServiceProvider
         });
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         //
     }

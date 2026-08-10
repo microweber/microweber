@@ -67,6 +67,8 @@ class WhiteLabelServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+        parent::register();
+
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();

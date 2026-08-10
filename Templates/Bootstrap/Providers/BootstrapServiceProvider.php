@@ -49,6 +49,8 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
      */
     public function register(): void
     {
+        parent::register();
+
         $this->registerConfig();
         $this->registerViews();
         //Blade::componentNamespace('Templates\\Bootstrap\\Views\\Components', 'bootstrap');

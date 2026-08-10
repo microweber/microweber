@@ -49,6 +49,8 @@ class BigServiceProvider extends BaseTemplateServiceProvider
      */
     public function register(): void
     {
+        parent::register();
+
         $this->registerConfig();
         $this->registerViews();
 

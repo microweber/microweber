@@ -28,6 +28,8 @@ class CountryServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+        parent::register();
+
         $this->registerConfig();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
 

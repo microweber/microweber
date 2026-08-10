@@ -1,6 +1,6 @@
 {
     "name": "microweber-packages/passport",
-    "description": "Microweber Passport – OAuth2 API token management built on Laravel Passport. Usable standalone in any Laravel app or inside Microweber CMS.",
+    "description": "Microweber Passport \u2013 OAuth2 API token management built on Laravel Passport. Usable standalone in any Laravel app or inside Microweber CMS.",
     "version": "1.0.0",
     "type": "library",
     "license": "MIT",
@@ -17,7 +17,9 @@
         "illuminate/database": "^11.0|^12.0",
         "illuminate/routing": "^11.0|^12.0",
         "laravel/passport": "^12.0|^13.0",
-        "phpseclib/phpseclib": "^3.0"
+        "phpseclib/phpseclib": "^3.0",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "orchestra/testbench": "^9.0|^10.0",

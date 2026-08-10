@@ -14,5 +14,9 @@
         "psr-4": {
             "MicroweberPackages\\CssFrameworkBootstrap\\": ""
         }
+    },
+    "require": {
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     }
 }

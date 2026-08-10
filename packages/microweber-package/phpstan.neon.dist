@@ -1,0 +1,15 @@
+includes:
+    - ../../vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - src
+    level: max
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # Soft CMS / Filament dependencies — resolved at runtime via class_exists
+        - '#Call to static method \w+\(\) on an unknown class MicroweberPackages\\Module\\Facades\\ModuleAdmin#'
+        - '#Call to static method \w+\(\) on an unknown class MicroweberPackages\\FilamentRegistry\\Facades\\FilamentRegistry#'
+        # Spatie base methods are intentionally untyped upstream
+        - '#Method Spatie\\LaravelPackageTools\\PackageServiceProvider::(register|boot)\(\) invoked with#'

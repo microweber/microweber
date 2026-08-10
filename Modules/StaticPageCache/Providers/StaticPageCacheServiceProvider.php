@@ -19,6 +19,8 @@ class StaticPageCacheServiceProvider extends BaseModuleServiceProvider
 
     public function register(): void
     {
+        parent::register();
+
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'static-page-cache');
 
         $this->app->singleton(StaticPageCacheService::class, function () {

@@ -29,6 +29,8 @@ class BaseTemplateServiceProvider extends BaseServiceProvider
      */
     public function register(): void
     {
+        parent::register();
+
         $this->registerConfig();
         $this->registerViews();
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');

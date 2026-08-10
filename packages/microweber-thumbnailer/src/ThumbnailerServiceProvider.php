@@ -2,11 +2,17 @@
 
 namespace MicroweberPackages\Thumbnailer;
 
-use Illuminate\Support\ServiceProvider;
 
-class ThumbnailerServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class ThumbnailerServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/thumbnailer');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/thumbnailer.php', 'thumbnailer');
 
@@ -19,7 +25,7 @@ class ThumbnailerServiceProvider extends ServiceProvider
 
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([

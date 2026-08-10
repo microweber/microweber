@@ -5,16 +5,22 @@ declare(strict_types=1);
 namespace MicroweberPackages\PackageManagerClient;
 
 use Illuminate\Contracts\Cache\Factory as CacheFactory;
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\PackageManagerClient\Adapters\MicroweberLocalPackageResolver;
 use MicroweberPackages\PackageManagerClient\Adapters\MicroweberPostInstallHook;
 use MicroweberPackages\PackageManagerClient\Contracts\LocalPackageResolverInterface;
 use MicroweberPackages\PackageManagerClient\Contracts\PostInstallHookInterface;
 use MicroweberPackages\SystemLicenses\Facades\SystemLicenses;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class PackageManagerClientServiceProvider extends ServiceProvider
+class PackageManagerClientServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/package-manager-client');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(
             __DIR__ . '/../config/package-manager-client.php',
@@ -154,7 +160,7 @@ class PackageManagerClientServiceProvider extends ServiceProvider
         );
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([

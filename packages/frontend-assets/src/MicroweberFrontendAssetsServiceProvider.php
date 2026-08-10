@@ -3,10 +3,10 @@
 namespace MicroweberPackages\FrontendAssets;
 
 
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\LaravelPackageTools\Package;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
 
-class MicroweberFrontendAssetsServiceProvider extends PackageServiceProvider
+class MicroweberFrontendAssetsServiceProvider extends MicroweberPackageServiceProvider
 {
 
     public function configurePackage(Package $package): void

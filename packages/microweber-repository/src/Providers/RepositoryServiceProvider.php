@@ -2,14 +2,20 @@
 
 namespace MicroweberPackages\Repository\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Container\Container;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use MicroweberPackages\Repository\RepositoryManager;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class RepositoryServiceProvider extends ServiceProvider
+class RepositoryServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/repository');
+    }
+
+    public function packageRegistered(): void
     {
         $this->app->afterResolving('cache', function () {
             AbstractRepository::setCacheInstance($this->app['cache']);
@@ -26,7 +32,7 @@ class RepositoryServiceProvider extends ServiceProvider
         });
     }
 
-    public function boot()
+    public function packageBooted()
     {
     }
 }

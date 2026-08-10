@@ -17,7 +17,9 @@
         "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
-        "illuminate/config": "^10.0|^11.0|^12.0|^13.0"
+        "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0",

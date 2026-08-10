@@ -15,7 +15,9 @@
         "illuminate/support": "^10.0|^11.0|^12.0",
         "illuminate/filesystem": "^10.0|^11.0|^12.0",
         "illuminate/http": "^10.0|^11.0|^12.0",
-        "enshrined/svg-sanitize": "^0.18|^0.19|^0.20|^0.21|^0.22"
+        "enshrined/svg-sanitize": "^0.18|^0.19|^0.20|^0.21|^0.22",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0",

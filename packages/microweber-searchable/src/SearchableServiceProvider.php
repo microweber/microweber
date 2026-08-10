@@ -2,16 +2,22 @@
 
 namespace MicroweberPackages\Searchable;
 
-use Illuminate\Support\ServiceProvider;
 
-class SearchableServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class SearchableServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/searchable');
+    }
+
+    public function packageRegistered(): void
     {
         //
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         //
     }

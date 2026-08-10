@@ -22,6 +22,8 @@ class WordPressMigrationServiceProvider extends BaseModuleServiceProvider
 
     public function register(): void
     {
+        parent::register();
+
         $this->registerConfig();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadViewsFrom(

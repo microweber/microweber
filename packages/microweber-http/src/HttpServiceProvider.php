@@ -2,18 +2,24 @@
 
 namespace MicroweberPackages\Http;
 
-use Illuminate\Support\ServiceProvider;
 
-class HttpServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class HttpServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/http');
+    }
+
+    public function packageRegistered(): void
     {
         $this->app->bind(HttpService::class, function ($app) {
             return new HttpService($app);
         });
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         //
     }

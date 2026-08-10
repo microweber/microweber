@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\MailSender;
 
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\MailSender\Contracts\MailSenderContract;
 use MicroweberPackages\MailSender\Services\MailConfigApplier;
 use MicroweberPackages\MailSender\Services\MailSenderService;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class MailSenderServiceProvider extends ServiceProvider
+class MailSenderServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/mail-sender');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/mail-sender.php', 'mail-sender');
 
@@ -24,7 +30,7 @@ class MailSenderServiceProvider extends ServiceProvider
         // One canonical string name for the package.
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         // Apply mail config once on boot — replaces the old per-instance configMailDriver().
         $this->app->make(MailConfigApplier::class)->apply();

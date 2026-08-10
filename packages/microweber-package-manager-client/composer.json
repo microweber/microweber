@@ -24,7 +24,9 @@
         "illuminate/cache": "^10.0|^11.0|^12.0",
         "illuminate/filesystem": "^10.0|^11.0|^12.0",
         "microweber-packages/zip": "^1.0",
-        "microweber-packages/system-licenses": "^1.0"
+        "microweber-packages/system-licenses": "^1.0",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "larastan/larastan": "^3.0",

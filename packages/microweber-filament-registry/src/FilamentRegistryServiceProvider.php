@@ -2,11 +2,17 @@
 
 namespace MicroweberPackages\FilamentRegistry;
 
-use Illuminate\Support\ServiceProvider;
 
-class FilamentRegistryServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class FilamentRegistryServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/filament-registry');
+    }
+
+    public function packageRegistered(): void
     {
         $this->app->singleton(FilamentRegistryManager::class, function () {
             return new FilamentRegistryManager();
@@ -14,7 +20,7 @@ class FilamentRegistryServiceProvider extends ServiceProvider
 
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         //
     }

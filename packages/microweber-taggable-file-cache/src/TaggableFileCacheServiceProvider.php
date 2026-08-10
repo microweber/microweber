@@ -3,17 +3,23 @@
 namespace MicroweberPackages\TaggableFileCache;
 
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\TaggableFileCache\Console\ClearTaggableFileCacheCommand;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class TaggableFileCacheServiceProvider extends ServiceProvider
+class TaggableFileCacheServiceProvider extends MicroweberPackageServiceProvider
 {
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/taggable-file-cache');
+    }
+
     /**
      * Register any application services.
      *
      * @return void
      */
-    public function register()
+    public function packageRegistered()
     {
         $this->app->afterResolving('cache', function () {
 
@@ -46,7 +52,7 @@ class TaggableFileCacheServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function packageBooted()
     {
         if ($this->app->runningInConsole()) {
             $this->commands([

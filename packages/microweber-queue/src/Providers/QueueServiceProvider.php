@@ -5,14 +5,20 @@ declare(strict_types=1);
 namespace MicroweberPackages\Queue\Providers;
 
 use Illuminate\Routing\Router;
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Queue\Http\Controllers\ProcessQueueController;
 use MicroweberPackages\Queue\Services\ChunkedDispatcherService;
 use MicroweberPackages\Queue\Services\QueueProcessor;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class QueueServiceProvider extends ServiceProvider
+class QueueServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/queue');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../../config/microweber-queue.php', 'microweber-queue');
 
@@ -21,7 +27,7 @@ class QueueServiceProvider extends ServiceProvider
 
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
 

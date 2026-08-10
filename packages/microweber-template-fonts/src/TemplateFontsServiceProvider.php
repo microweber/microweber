@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\TemplateFonts;
 
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\TemplateFonts\Services\TemplateFontsManager;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class TemplateFontsServiceProvider extends ServiceProvider
+class TemplateFontsServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/template-fonts');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/template-fonts.php', 'template-fonts');
 
@@ -38,7 +44,7 @@ class TemplateFontsServiceProvider extends ServiceProvider
 
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');

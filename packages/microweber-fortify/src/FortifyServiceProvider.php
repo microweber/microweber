@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Features;
 use Livewire\Livewire;
@@ -20,10 +19,17 @@ use MicroweberPackages\Fortify\Actions\UpdateUserProfileInformation;
 use MicroweberPackages\Fortify\Http\Livewire\TwoFactorSetupComponent;
 use MicroweberPackages\Fortify\Http\Livewire\TwoFactorChallengeComponent;
 use MicroweberPackages\Fortify\Http\Middleware\RequireTwoFactor;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class FortifyServiceProvider extends ServiceProvider
+class FortifyServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber/fortify');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/fortify.php', 'fortify');
         $this->mergeConfigFrom(__DIR__ . '/../config/microweber-fortify.php', 'microweber-fortify');
@@ -41,7 +47,7 @@ class FortifyServiceProvider extends ServiceProvider
         }
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'microweber-fortify');

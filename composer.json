@@ -182,7 +182,8 @@
         "microweber-packages/queue": "^1.0",
         "microweber-packages/package-manager-client": "*@dev",
         "microweber-packages/notification": "^1.0",
-        "microweber-packages/ai-tools": "*@dev"
+        "microweber-packages/ai-tools": "*@dev",
+        "microweber-packages/package": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -248,7 +249,8 @@
             "MicroweberPackages\\TemplateCustomCss\\": "packages/microweber-template-custom-css/src/",
             "MicroweberPackages\\Queue\\": "packages/microweber-queue/src/",
             "MicroweberPackages\\PackageManagerClient\\": "packages/microweber-package-manager-client/src/",
-            "MicroweberPackages\\AiTools\\": "packages/microweber-ai-tools/src/"
+            "MicroweberPackages\\AiTools\\": "packages/microweber-ai-tools/src/",
+            "MicroweberPackages\\Package\\": "packages/microweber-package/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -318,7 +320,8 @@
             "MicroweberPackages\\Event\\Tests\\": "packages/microweber-event-manager/tests/",
             "MicroweberPackages\\Http\\Tests\\": "packages/microweber-http/tests/",
             "MicroweberPackages\\Repository\\Tests\\": "packages/microweber-repository/tests/",
-            "MicroweberPackages\\PhpQuery\\Tests\\": "packages/microweber-phpquery/tests/"
+            "MicroweberPackages\\PhpQuery\\Tests\\": "packages/microweber-phpquery/tests/",
+            "MicroweberPackages\\Package\\Tests\\": "packages/microweber-package/tests/"
         }
     },
     "scripts": {
@@ -412,6 +415,7 @@
     "extra": {
         "laravel": {
             "dont-discover": [
+                "microweber-packages/package",
                 "microweber-packages/core",
                 "microweber-packages/filesystem",
                 "microweber-packages/format",
@@ -497,6 +501,13 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
+        {
+            "type": "path",
+            "url": "packages/microweber-package",
+            "options": {
+                "symlink": true
+            }
+        },
         {
             "type": "path",
             "url": "packages/microweber-ai-tools",

@@ -1,6 +1,6 @@
 {
     "name": "microweber/social-login",
-    "description": "Social login package for Microweber CMS and standalone Laravel apps – provides OAuth login via Facebook, Google, GitHub, Twitter, LinkedIn and Microweber",
+    "description": "Social login package for Microweber CMS and standalone Laravel apps \u2013 provides OAuth login via Facebook, Google, GitHub, Twitter, LinkedIn and Microweber",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -12,7 +12,9 @@
     "require": {
         "php": "^8.2",
         "laravel/socialite": "^5.18",
-        "illuminate/support": "^11.0|^12.0"
+        "illuminate/support": "^11.0|^12.0",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "orchestra/testbench": "^10.0",

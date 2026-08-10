@@ -1,6 +1,6 @@
 {
     "name": "microweber/disposable-email-checker",
-    "description": "Disposable / temporary email address checker for Laravel apps — usable standalone or inside Microweber CMS",
+    "description": "Disposable / temporary email address checker for Laravel apps \u2014 usable standalone or inside Microweber CMS",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -13,7 +13,9 @@
         "php": "^8.2",
         "illuminate/support": "^11.0|^12.0|^13.0",
         "illuminate/validation": "^11.0|^12.0|^13.0",
-        "illuminate/http": "^11.0|^12.0|^13.0"
+        "illuminate/http": "^11.0|^12.0|^13.0",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "orchestra/testbench": "^10.0|^11.0",

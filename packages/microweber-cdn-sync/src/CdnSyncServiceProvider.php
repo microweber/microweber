@@ -2,12 +2,18 @@
 
 namespace MicroweberPackages\CdnSync;
 
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\CdnSync\Services\CdnSyncService;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class CdnSyncServiceProvider extends ServiceProvider
+class CdnSyncServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/cdn-sync');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/cdn-sync.php', 'cdn-sync');
 
@@ -16,7 +22,7 @@ class CdnSyncServiceProvider extends ServiceProvider
         });
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 

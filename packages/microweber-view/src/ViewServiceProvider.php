@@ -6,15 +6,21 @@ namespace MicroweberPackages\View;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use MicroweberPackages\View\Contracts\ModuleProcessorInterface;
 use MicroweberPackages\View\Support\CmsModuleProcessorAdapter;
 use MicroweberPackages\View\Support\NullModuleProcessor;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class ViewServiceProvider extends ServiceProvider
+class ViewServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/view');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/microweber-view.php', 'microweber-view');
 
@@ -42,7 +48,7 @@ class ViewServiceProvider extends ServiceProvider
         });
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         if ((bool) config('microweber-view.module_directive_enabled', true)) {
             $this->registerTagCompiler();

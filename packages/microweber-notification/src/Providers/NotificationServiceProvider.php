@@ -6,7 +6,6 @@ namespace MicroweberPackages\Notification\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\MailSender\MailSenderServiceProvider;
 use MicroweberPackages\MailSender\Services\MailConfigApplier;
 use MicroweberPackages\MailSender\Services\MailSenderService;
@@ -15,10 +14,17 @@ use MicroweberPackages\Notification\Http\Controllers\Admin\NotificationControlle
 use MicroweberPackages\Notification\Services\EmailNotificationsManager;
 use MicroweberPackages\Notification\Services\NotificationsManager;
 use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class NotificationServiceProvider extends ServiceProvider
+class NotificationServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/notification');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(
             __DIR__ . '/../../config/microweber-notification.php',
@@ -50,7 +56,7 @@ class NotificationServiceProvider extends ServiceProvider
         });
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         $viewNamespaceConfig = config('microweber-notification.view_namespace', 'notification');
         $viewNamespace = is_string($viewNamespaceConfig) && $viewNamespaceConfig !== ''

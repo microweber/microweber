@@ -281,6 +281,11 @@
             <exclude>Templates/Big2/Tests/Unit/LayoutsRenderTest.php</exclude>
             <directory>Templates/*/Tests</directory>
         </testsuite>
+    
+        <testsuite name="Package-Loader">
+            <directory>packages/microweber-package/tests</directory>
+            <exclude>packages/microweber-package/tests/Dusk</exclude>
+        </testsuite>
     </testsuites>
     <source>
         <include>

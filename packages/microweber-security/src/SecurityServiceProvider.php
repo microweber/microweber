@@ -2,11 +2,17 @@
 
 namespace MicroweberPackages\Security;
 
-use Illuminate\Support\ServiceProvider;
 
-class SecurityServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class SecurityServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/security');
+    }
+
+    public function packageRegistered(): void
     {
         $this->app->singleton(HtmlClean::class, function () {
             return new HtmlClean();
@@ -21,7 +27,7 @@ class SecurityServiceProvider extends ServiceProvider
         });
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         //
     }

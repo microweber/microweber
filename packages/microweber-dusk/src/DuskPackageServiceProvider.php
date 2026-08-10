@@ -2,17 +2,23 @@
 
 namespace MicroweberPackages\Dusk;
 
-use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class DuskPackageServiceProvider extends ServiceProvider
+class DuskPackageServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber/dusk');
+    }
+
+    public function packageRegistered(): void
     {
         $this->registerBrowserMacros();
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         //
     }

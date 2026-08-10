@@ -1,6 +1,6 @@
 {
     "name": "microweber-packages/svg-icons",
-    "description": "Microweber SVG Icons – Blade-Icons-compatible icon set for the Microweber CMS admin panel, modules, and templates.",
+    "description": "Microweber SVG Icons \u2013 Blade-Icons-compatible icon set for the Microweber CMS admin panel, modules, and templates.",
     "version": "1.0.0",
     "type": "library",
     "license": "MIT",
@@ -14,7 +14,9 @@
     "require": {
         "php": "^8.3",
         "illuminate/support": "^11.0||^12.0",
-        "blade-ui-kit/blade-icons": "^1.6"
+        "blade-ui-kit/blade-icons": "^1.6",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "orchestra/testbench": "^9.0||^10.0",

@@ -2,18 +2,24 @@
 
 namespace MicroweberPackages\CssFrameworkBootstrap\Providers;
 
-use Illuminate\Support\ServiceProvider;
 
-class CssFrameworkServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class CssFrameworkServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function boot(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber/css-framework-bootstrap');
+    }
+
+    public function packageBooted(): void
     {
         $this->publishes([
             __DIR__ . '/../resources/assets' => public_path('packages/microweber-css-framework-bootstrap'),
         ], ['mw-css-framework', 'public']);
     }
 
-    public function register(): void
+    public function packageRegistered(): void
     {
         //
     }

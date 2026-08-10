@@ -4,10 +4,10 @@ namespace MicroweberPackages\Update\Providers;
 
 
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
 
 
-class UpdateMigratorServiceProvider extends PackageServiceProvider
+class UpdateMigratorServiceProvider extends MicroweberPackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {

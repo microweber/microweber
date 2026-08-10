@@ -2,12 +2,18 @@
 
 namespace MicroweberPackages\MediaThumbnail;
 
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class MediaThumbnailServiceProvider extends ServiceProvider
+class MediaThumbnailServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/media-thumbnail');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/media-thumbnail.php', 'media-thumbnail');
 
@@ -17,7 +23,7 @@ class MediaThumbnailServiceProvider extends ServiceProvider
 
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');

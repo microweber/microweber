@@ -34,6 +34,8 @@ class CurrencyServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+        parent::register();
+
         $this->registerConfig();
         $this->registerServices();
         $this->registerHelpers();

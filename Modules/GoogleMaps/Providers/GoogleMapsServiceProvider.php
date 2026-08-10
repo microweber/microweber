@@ -21,6 +21,8 @@ class GoogleMapsServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+        parent::register();
+
 
 
         $this->registerTranslations();

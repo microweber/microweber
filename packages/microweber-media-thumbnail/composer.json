@@ -19,7 +19,9 @@
         "microweber-packages/thumbnailer": "^1.0",
         "microweber-packages/database": "^1.0",
         "microweber-packages/laravel-helper-functions": "^1.0",
-        "microweber-packages/media-pixum": "^1.0"
+        "microweber-packages/media-pixum": "^1.0",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0",

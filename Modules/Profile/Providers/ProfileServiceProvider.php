@@ -30,6 +30,8 @@ class ProfileServiceProvider extends BaseModuleServiceProvider
 
     public function register(): void
     {
+        parent::register();
+
         $this->registerMiddleware();
         $this->registerConfig();
         $this->registerTranslations();

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\TemplateCustomCss;
 
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\TemplateCustomCss\Contracts\OptionStoreInterface;
 use MicroweberPackages\TemplateCustomCss\Services\CssUrlRewriter;
 use MicroweberPackages\TemplateCustomCss\Services\CssValidator;
@@ -14,10 +13,17 @@ use MicroweberPackages\TemplateCustomCss\Services\RegisteredCssFileHandler;
 use MicroweberPackages\TemplateCustomCss\Services\TemplateCustomCssManager;
 use MicroweberPackages\TemplateCustomCss\Support\ArrayOptionStore;
 use MicroweberPackages\TemplateCustomCss\Support\CmsOptionStore;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class TemplateCustomCssServiceProvider extends ServiceProvider
+class TemplateCustomCssServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/template-custom-css');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/template-custom-css.php', 'template-custom-css');
 
@@ -106,7 +112,7 @@ class TemplateCustomCssServiceProvider extends ServiceProvider
 
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'template-custom-css');

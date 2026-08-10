@@ -29,6 +29,8 @@ class ShippingServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+        parent::register();
+
         $this->registerAiTools([
             ShippingMethodLookupTool::class,
             ShippingZoneSummaryTool::class,

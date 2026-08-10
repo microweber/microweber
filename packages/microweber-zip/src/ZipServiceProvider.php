@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\Zip;
 
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Zip\Support\ZipBombGuard;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class ZipServiceProvider extends ServiceProvider
+class ZipServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/zip');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/zip.php', 'zip');
 
@@ -30,7 +36,7 @@ class ZipServiceProvider extends ServiceProvider
         });
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([

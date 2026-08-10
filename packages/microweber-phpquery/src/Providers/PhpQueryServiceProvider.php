@@ -2,15 +2,21 @@
 
 namespace MicroweberPackages\PhpQuery\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\PhpQuery\PhpQueryManager;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class PhpQueryServiceProvider extends ServiceProvider
+class PhpQueryServiceProvider extends MicroweberPackageServiceProvider
 {
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/phpquery');
+    }
+
     /**
      * Register the service provider.
      */
-    public function register()
+    public function packageRegistered()
     {
         $this->app->singleton(PhpQueryManager::class, function ($app) {
             return new PhpQueryManager();
@@ -20,7 +26,7 @@ class PhpQueryServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
+    public function packageBooted()
     {
         //
     }

@@ -2,11 +2,17 @@
 
 namespace MicroweberPackages\MediaPixum;
 
-use Illuminate\Support\ServiceProvider;
 
-class MediaPixumServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class MediaPixumServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/media-pixum');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/media-pixum.php', 'media-pixum');
 
@@ -23,7 +29,7 @@ class MediaPixumServiceProvider extends ServiceProvider
 
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 

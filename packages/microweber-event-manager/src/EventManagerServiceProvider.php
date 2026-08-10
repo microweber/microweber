@@ -3,14 +3,19 @@
 namespace MicroweberPackages\Event;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Support\ServiceProvider;
-
-class EventManagerServiceProvider extends ServiceProvider implements DeferrableProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class EventManagerServiceProvider extends MicroweberPackageServiceProvider implements DeferrableProvider
 {
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/event-manager');
+    }
+
     /**
      * Bootstrap the application services.
      */
-    public function boot(): void
+    public function packageBooted(): void
     {
         // Unbind all listeners when the application is terminating so that
         // closures (and anything they captured) can be garbage-collected.
@@ -31,7 +36,7 @@ class EventManagerServiceProvider extends ServiceProvider implements DeferrableP
      * into every {@see EventService} instance so no static state leaks between
      * container cycles (e.g. PHPUnit tests).
      */
-    public function register(): void
+    public function packageRegistered(): void
     {
         $this->app->singleton(EventService::class, function (): EventService {
             return new EventService(new LaravelEvent());

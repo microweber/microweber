@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3003c57a14e71c5a9c10425d53182ba8",
+    "content-hash": "1e917a85f6512bfe867242d75a0e36df",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9240,7 +9240,11 @@
             "dist": {
                 "type": "path",
                 "url": "packages/filament-modules",
-                "reference": "8ce90d6efea49de418c189e114eb4c83c8f5303e"
+                "reference": "1a1cc57ce53cd6741fe72929e2cbe1095ef8a8f5"
+            },
+            "require": {
+                "microweber-packages/package": "^1.0",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "type": "library",
             "autoload": {
@@ -9662,14 +9666,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-ai-tools",
-                "reference": "50f29135bced0536effbd277e8a7e8deceb2454c"
+                "reference": "0ee8ba99eaf8e908b21897ba5b525f4217470870"
             },
             "require": {
                 "illuminate/contracts": "^10.0|^11.0|^12.0",
                 "illuminate/http": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
                 "inspector-apm/neuron-ai": "^2.0",
-                "php": "^8.2"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -9725,13 +9731,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-blade-cache",
-                "reference": "21f27edea0e8d3c4f371d31258540990e3e6a2ef"
+                "reference": "788479231700e7ba21f9209abc4052adfe4a542a"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
@@ -9773,14 +9781,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-cdn-sync",
-                "reference": "08cf9ff8f81d23761c385aef86cc94c49e6e87b0"
+                "reference": "c5c03f06a03e6ea4f7a908e0cb8e2c9bdea6fa00"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0",
                 "illuminate/filesystem": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
                 "league/flysystem-aws-s3-v3": "^3.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "filament/filament": "~5.0",
@@ -9836,13 +9846,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-class-loader",
-                "reference": "32cfd6721efb88f4e05c87b8247d39c49198ddc0"
+                "reference": "19120ca463192865013b1d2e3159f2d4c5e12c77"
             },
             "require": {
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
@@ -9896,12 +9908,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-config",
-                "reference": "c560583e6326132d808adb9b2ce910d8054ef623"
+                "reference": "5587319ae133d354f0fc9c68586c34e986e880cf"
             },
             "require": {
                 "illuminate/config": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -9956,7 +9970,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-database",
-                "reference": "91d37f1aa46c56edcb2a7d99fe7a13ca3af02024"
+                "reference": "815e5bd3a91928bcce144c7c069d7268a95f2eab"
             },
             "require": {
                 "graham-campbell/markdown": "^15.0|^16.0",
@@ -9964,7 +9978,9 @@
                 "illuminate/database": "^10.0|^11.0|^12.0",
                 "illuminate/events": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
-                "php": "^8.2"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -10021,14 +10037,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-db-export",
-                "reference": "2290c7dedfdb3ea687578992b4ea775c64160162"
+                "reference": "a5782d6d77c664848b62aaa691baf14b4e63d784"
             },
             "require": {
                 "halaxa/json-machine": "^1.0",
                 "illuminate/console": "^10.0|^11.0|^12.0",
                 "illuminate/database": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
@@ -10079,12 +10097,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-db-installer",
-                "reference": "f11cb0384bb10b0006f4780b35cfd1701ac8796b"
+                "reference": "27c9d96e016007f48840bc1694bf5dbc52b5baf1"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
-                "php": "^8.2"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -10131,13 +10151,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-db-migrator",
-                "reference": "771f71ff9a6c5abff35badbe33fafa86c63975da"
+                "reference": "ea19de0168b7dba145b9c1f8d681505c26d5c068"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0",
                 "illuminate/events": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
-                "php": "^8.2"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -10184,10 +10206,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-env-writer",
-                "reference": "15481a8b6c1f6a17cd131c00ff463b840be938c7"
+                "reference": "49a436456f25e937f8139fda7f70ee5fabb700a3"
             },
             "require": {
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -10238,11 +10262,13 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-event-manager",
-                "reference": "40427bbf90687a2f50ad8be40d730fdb9652a7b3"
+                "reference": "f2e48672dd8192918c1e13ef94c19d7dad04e82e"
             },
             "require": {
                 "illuminate/support": "^10.0|^11.0|^12.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
@@ -10300,14 +10326,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filesystem",
-                "reference": "3b33d70fc6f0e3bca5f6157339463595429057b5"
+                "reference": "59903b31507b04b17abacce2ea1de47346459b22"
             },
             "require": {
                 "enshrined/svg-sanitize": "^0.18|^0.19|^0.20|^0.21|^0.22",
                 "illuminate/filesystem": "^10.0|^11.0|^12.0",
                 "illuminate/http": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
-                "php": "^8.2"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -10357,14 +10385,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-format",
-                "reference": "f6b4ba47c75b23b1818562cf5894fe4aacf46389"
+                "reference": "8ec9d3ccef35e7e059792aac9ee29c81ac766892"
             },
             "require": {
                 "hashids/hashids": "^5.0|^4.0",
                 "illuminate/encryption": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
+                "microweber-packages/package": "^1.0",
                 "microweber-packages/security": "^1.0",
-                "php": "^8.2"
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -10410,7 +10440,11 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets",
-                "reference": "8b842516bc594d6bad27884a1c0f32e252f387d2"
+                "reference": "6d55b514d9a5b37414dbb0e179e863a81f369bc5"
+            },
+            "require": {
+                "microweber-packages/package": "^1.0",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "type": "library",
             "autoload": {
@@ -10444,10 +10478,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets-libs",
-                "reference": "46b9d9e4ef19bcd8b7a5f1b31af966a33523a524"
+                "reference": "3f6a254cef83716f4f4264f585e26b5ebd26b512"
             },
             "require": {
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "type": "library",
             "autoload": {
@@ -10485,13 +10521,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-http",
-                "reference": "c410288c9c2b3b5236d2e40d0d742d846160f4cc"
+                "reference": "ba73a59552448eac745745eca1112b57e05845f5"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.0",
                 "illuminate/cache": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
-                "php": "^8.2"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -10538,7 +10576,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-image-optimization",
-                "reference": "ad6b68df86637c8a499a46abcb242510c9d7fd57"
+                "reference": "328f2758295ea88b1321ef7283ac14746c9ab45f"
             },
             "require": {
                 "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
@@ -10546,7 +10584,9 @@
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "intervention/image": "^3.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "filament/filament": "~5.0",
@@ -10609,7 +10649,11 @@
             "dist": {
                 "type": "path",
                 "url": "packages/laravel-helper-functions",
-                "reference": "f07c2364706143427cb0b593d07907112b0b3860"
+                "reference": "20d6232a8dda347a73e184188f7f3bd59e972a8d"
+            },
+            "require": {
+                "microweber-packages/package": "^1.0",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "type": "library",
             "autoload": {
@@ -10641,7 +10685,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-mail-sender",
-                "reference": "0eb8dc740ea56741d02f3f0811439f7eddb1b630"
+                "reference": "67897fa5ac70f785b7f6abec99dec9809cb52aaf"
             },
             "require": {
                 "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
@@ -10650,7 +10694,9 @@
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.2"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "filament/filament": "~5.0",
@@ -10709,14 +10755,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-media-pixum",
-                "reference": "df508b383098a0c711c6e20e553fe67bc77e0e59"
+                "reference": "8929257ea70ef3cbd115dbe04ec53fc75ca78cb5"
             },
             "require": {
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "microweber-packages/laravel-helper-functions": "^1.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
@@ -10768,7 +10816,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-media-thumbnail",
-                "reference": "5b00f5421e7f90fc8b70859c6c03cac8d4bd7947"
+                "reference": "e105d98b0a8101c57b823a92eb00c14fdabf025f"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
@@ -10778,8 +10826,10 @@
                 "microweber-packages/database": "^1.0",
                 "microweber-packages/laravel-helper-functions": "^1.0",
                 "microweber-packages/media-pixum": "^1.0",
+                "microweber-packages/package": "^1.0",
                 "microweber-packages/thumbnailer": "^1.0",
-                "php": "^8.1"
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
@@ -10827,10 +10877,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
-                "reference": "2bda0493df48f16dc70e284d48e7243fd6e33c75"
+                "reference": "eb66b3e9b49479f7e03fe8ca80092820cf343f41"
             },
             "require": {
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "type": "library",
             "autoload": {
@@ -10875,14 +10927,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-minifier",
-                "reference": "b27838c4c37ec59677f5d4c48aed9a9219adf807"
+                "reference": "7f4a3da79bb2dfe467d6a42074caac0eca9167fb"
             },
             "require": {
                 "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "filament/filament": "~5.0",
@@ -10942,7 +10996,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-notification",
-                "reference": "316cbaaf9ab2c9eb801e3339eeb2da9bfc8d96cb"
+                "reference": "b0d745e98949e5e920825199fb817bea1aaea7b8"
             },
             "require": {
                 "illuminate/auth": "^10.0|^11.0|^12.0|^13.0",
@@ -10958,7 +11012,9 @@
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
                 "microweber-packages/mail-sender": "^1.0",
+                "microweber-packages/package": "^1.0",
                 "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16",
                 "tucker-eric/eloquentfilter": "^3.0"
             },
             "require-dev": {
@@ -11057,12 +11113,73 @@
             "time": "2025-09-25T10:07:12+00:00"
         },
         {
+            "name": "microweber-packages/package",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-package",
+                "reference": "7bc6eb97b3a27515fb5b2b06da53732d0c9babb4"
+            },
+            "require": {
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "livewire/livewire": "Enables ModulePackage Live Edit / view component registration when the CMS ModuleAdmin facade is present",
+                "microweber-packages/filament-registry": "Enables ModulePackage Filament page/resource/widget/plugin registration"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Package\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Package\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M -c phpstan.neon.dist"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Microweber package loader based on spatie/laravel-package-tools. Provides an abstract service provider and optional CMS module registration helpers for use inside the CMS or any Laravel app.",
+            "homepage": "https://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/package-manager-client",
             "version": "1.0.0",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-package-manager-client",
-                "reference": "e52f5c27d8e6a516009bfeb2f277976a7a0a34a4"
+                "reference": "3335dc2fc904f5f0d117d13793118da88f009669"
             },
             "require": {
                 "composer/semver": "^3.0",
@@ -11072,9 +11189,11 @@
                 "illuminate/cache": "^10.0|^11.0|^12.0",
                 "illuminate/filesystem": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
+                "microweber-packages/package": "^1.0",
                 "microweber-packages/system-licenses": "^1.0",
                 "microweber-packages/zip": "^1.0",
-                "php": "^8.2"
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
@@ -11129,15 +11248,17 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-passport",
-                "reference": "d4fcfd4e3f0d4d0f4eaf2673e2824bc6e34a35e2"
+                "reference": "ccf6cf057a9e6c5bdd24f555635ad1377603dce8"
             },
             "require": {
                 "illuminate/database": "^11.0|^12.0",
                 "illuminate/routing": "^11.0|^12.0",
                 "illuminate/support": "^11.0|^12.0",
                 "laravel/passport": "^12.0|^13.0",
+                "microweber-packages/package": "^1.0",
                 "php": "^8.2",
-                "phpseclib/phpseclib": "^3.0"
+                "phpseclib/phpseclib": "^3.0",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^9.0|^10.0",
@@ -11176,13 +11297,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-phpquery",
-                "reference": "9ddb5355c057c74b14786b53011c3bdee8d201f7"
+                "reference": "5a6a5a58d8cd0c1dc38c3c36e0183e23ab7f6bfb"
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
@@ -11223,7 +11346,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-queue",
-                "reference": "b0e969f6ea554e4c0b5cf4f12eaa347264cc5a89"
+                "reference": "5bbd35585ec6d3cad369aa92ae39c09ab2a2f713"
             },
             "require": {
                 "illuminate/bus": "^10.0|^11.0|^12.0|^13.0",
@@ -11235,7 +11358,9 @@
                 "illuminate/queue": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.2"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "filament/filament": "~5.0",
@@ -11295,7 +11420,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-repository",
-                "reference": "18e76fad053995b7e8d6fe8f9587b37dbc93667e"
+                "reference": "4c7f702a6f7a41ffca9fed95e31c4ab5c5d39b55"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0",
@@ -11303,7 +11428,9 @@
                 "illuminate/events": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
                 "microweber-packages/laravel-helper-functions": "^1.0",
+                "microweber-packages/package": "^1.0",
                 "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16",
                 "torann/laravel-repository": "^1.0"
             },
             "require-dev": {
@@ -11347,12 +11474,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-searchable",
-                "reference": "d13a3f3545cb3d6dd1e8a20ec19067ef2149d568"
+                "reference": "ecf94660a13e9a7a3b5441366d56b6eb2109bea9"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
-                "php": "^8.2"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -11395,12 +11524,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-security",
-                "reference": "50adcbb6b7a91700a8120d28325fe8d6db6d695b"
+                "reference": "cc9c423effd54b9aae9efe49080453fb676bc080"
             },
             "require": {
                 "ezyang/htmlpurifier": "^4.18",
                 "illuminate/support": "^10.0|^11.0|^12.0",
+                "microweber-packages/package": "^1.0",
                 "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16",
                 "symfony/html-sanitizer": "^7.0",
                 "voku/anti-xss": "^4.1"
             },
@@ -11457,12 +11588,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-svg-icons",
-                "reference": "a7945ce4a7e6338ca29096ffbae8712bf6ac2ed6"
+                "reference": "420d132995413254bd6a9ac0c024df97f848eb70"
             },
             "require": {
                 "blade-ui-kit/blade-icons": "^1.6",
                 "illuminate/support": "^11.0||^12.0",
-                "php": "^8.3"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.3",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
@@ -11505,14 +11638,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-system-licenses",
-                "reference": "f4abc25eac567026bf20bedb9890fa9c4838b96f"
+                "reference": "15329762a3da8b660ea7ed5402eb90aeef3dcd82"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0",
                 "illuminate/database": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
                 "microweber-packages/database": "^1.0",
-                "php": "^8.2"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -11562,14 +11697,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-taggable-file-cache",
-                "reference": "b70266608cffee97cad3be7603fbd308a6ddd546"
+                "reference": "e12934fd1182f2744527ad4d65e0c49640ba3458"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
@@ -11615,7 +11752,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-template-custom-css",
-                "reference": "7032f1551c6f1e947bede111754308eebc7bb8ba"
+                "reference": "0eadb6bc91dc5852d8b9a596cb25f3d4722a36ba"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
@@ -11623,8 +11760,10 @@
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/package": "^1.0",
                 "php": "^8.1",
-                "sabberworm/php-css-parser": "^8.4|^9.0"
+                "sabberworm/php-css-parser": "^8.4|^9.0",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "filament/filament": "~5.0",
@@ -11684,7 +11823,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-template-fonts",
-                "reference": "bced42a44358baf7fa5b1b164f17ef75c897f7ed"
+                "reference": "cf53c72d083c848be0b11ae618de475cf4bee244"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.0",
@@ -11694,8 +11833,10 @@
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "microweber-packages/database": "^1.0",
+                "microweber-packages/package": "^1.0",
                 "php": "^8.1",
-                "sabberworm/php-css-parser": "^8.4|^9.0"
+                "sabberworm/php-css-parser": "^8.4|^9.0",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "filament/filament": "~5.0",
@@ -11756,13 +11897,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-thumbnailer",
-                "reference": "c5414baa4c64409d831a56dbce98ee81943a7b60"
+                "reference": "0db704c57d7c6f41b5d245894fa98543a7852f51"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -11860,12 +12003,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-url",
-                "reference": "dfde74adf900ca1fe06301da77db1d4213539dfc"
+                "reference": "a812ed71c6a5cfa1af50f9c3e4b0389d0ada4ed4"
             },
             "require": {
                 "illuminate/routing": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
-                "php": "^8.1"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
@@ -11915,12 +12060,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-view",
-                "reference": "73a87e10a2c84af6c16bfc99e4b510fc2e7bc32a"
+                "reference": "8343a884cce5675f930d0640d5c9c41a674896ed"
             },
             "require": {
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/package": "^1.0",
                 "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16",
                 "symfony/http-foundation": "^6.0|^7.0",
                 "twig/twig": "^3.0"
             },
@@ -11981,12 +12128,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-zip",
-                "reference": "871eca86594f3d00476e8004381184f1db8cd320"
+                "reference": "beee80a37ffd2714d6ee7a70afa5ffa98b84ebdb"
             },
             "require": {
                 "ext-zip": "*",
                 "illuminate/support": "^10.0|^11.0|^12.0",
-                "php": "^8.2"
+                "microweber-packages/package": "^1.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
@@ -12037,7 +12186,11 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-css-framework-bootstrap",
-                "reference": "c4b9ac26e5f502d8d135a510776a65af0e59ca4e"
+                "reference": "0f59386f95c5eda7b91c6a6e80674a73c867e73e"
+            },
+            "require": {
+                "microweber-packages/package": "^1.0",
+                "spatie/laravel-package-tools": "^1.16"
             },
             "type": "microweber-package",
             "autoload": {

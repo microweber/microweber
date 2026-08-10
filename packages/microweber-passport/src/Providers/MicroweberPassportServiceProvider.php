@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace MicroweberPackages\Passport\Providers;
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use MicroweberPackages\Passport\Services\RSAKeyManager;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
 /**
  * Microweber Passport service provider.
@@ -20,9 +21,14 @@ use MicroweberPackages\Passport\Services\RSAKeyManager;
  *
  * Works standalone in any Laravel 11+ app — no Microweber CMS required.
  */
-class MicroweberPassportServiceProvider extends ServiceProvider
+class MicroweberPassportServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/passport');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../../config/passport.php', 'microweber-passport');
 
@@ -42,7 +48,7 @@ class MicroweberPassportServiceProvider extends ServiceProvider
         $this->registerFilament();
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         $this->ensureRSAKeys();
         $this->configurePassport();

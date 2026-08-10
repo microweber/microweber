@@ -20,6 +20,8 @@ class OpenApiServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+        parent::register();
+
         $this->app->register(L5SwaggerServiceProvider::class);
         $this->registerConfig();
         $this->registerViews();

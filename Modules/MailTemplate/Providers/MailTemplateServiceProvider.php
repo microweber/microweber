@@ -26,6 +26,8 @@ class MailTemplateServiceProvider extends BaseModuleServiceProvider
 
     public function register(): void
     {
+        parent::register();
+
 
         {
             $this->registerTranslations();

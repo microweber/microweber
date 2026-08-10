@@ -1,6 +1,6 @@
 {
     "name": "microweber-packages/format",
-    "description": "Reusable Laravel formatting & utility package – dates, strings, arrays, encoding, XSS/HTML cleaning helpers. Accessible via app()->format facade.",
+    "description": "Reusable Laravel formatting & utility package \u2013 dates, strings, arrays, encoding, XSS/HTML cleaning helpers. Accessible via app()->format facade.",
     "type": "library",
     "license": "MIT",
     "version": "1.0.0",
@@ -15,7 +15,9 @@
         "illuminate/support": "^10.0|^11.0|^12.0",
         "illuminate/encryption": "^10.0|^11.0|^12.0",
         "hashids/hashids": "^5.0|^4.0",
-        "microweber-packages/security": "^1.0"
+        "microweber-packages/security": "^1.0",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0",

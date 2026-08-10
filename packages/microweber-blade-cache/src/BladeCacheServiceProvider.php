@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\BladeCache;
 
-use Illuminate\Support\ServiceProvider;
 
-class BladeCacheServiceProvider extends ServiceProvider
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+class BladeCacheServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/blade-cache');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/blade-cache.php', 'blade-cache');
 
@@ -17,7 +23,7 @@ class BladeCacheServiceProvider extends ServiceProvider
         });
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         $this->publishes([
             __DIR__ . '/../config/blade-cache.php' => config_path('blade-cache.php'),

@@ -8,6 +8,11 @@
          cacheDirectory=".phpunit.cache"
          backupStaticProperties="false">
     <testsuites>
+        
+        <testsuite name="PackageLoader Dusk Suite">
+            <directory suffix="Test.php">./packages/microweber-package/tests/Dusk</directory>
+        </testsuite>
+
         <testsuite name="Package Dusk Suite">
             <directory suffix="Test.php">./packages/microweber-dusk/tests/Browser</directory>
         </testsuite>

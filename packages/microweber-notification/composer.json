@@ -25,7 +25,9 @@
         "illuminate/auth": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
         "microweber-packages/mail-sender": "^1.0",
-        "tucker-eric/eloquentfilter": "^3.0"
+        "tucker-eric/eloquentfilter": "^3.0",
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0",

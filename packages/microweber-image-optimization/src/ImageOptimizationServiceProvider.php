@@ -5,13 +5,19 @@ declare(strict_types=1);
 namespace MicroweberPackages\ImageOptimization;
 
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\ImageOptimization\Console\Commands\ClearWebpCacheCommand;
 use MicroweberPackages\ImageOptimization\Services\ImageOptimizationService;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class ImageOptimizationServiceProvider extends ServiceProvider
+class ImageOptimizationServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-packages/image-optimization');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/image-optimization.php', 'image-optimization');
 
@@ -21,7 +27,7 @@ class ImageOptimizationServiceProvider extends ServiceProvider
 
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'image-optimization');

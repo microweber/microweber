@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Core\Providers;
 
-use Illuminate\Support\ServiceProvider;
 
 /**
  * Backward-compatibility shim.
@@ -17,8 +16,9 @@ use Illuminate\Support\ServiceProvider;
  *
  * @deprecated Use \MicroweberPackages\Core\CoreServiceProvider directly.
  */
-class CoreServiceProvider extends ServiceProvider
+class CoreServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+
     public function boot(): void
     {
         $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');

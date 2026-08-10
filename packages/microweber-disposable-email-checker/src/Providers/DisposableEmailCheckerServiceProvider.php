@@ -5,22 +5,28 @@ declare(strict_types=1);
 namespace MicroweberPackages\DisposableEmailChecker\Providers;
 
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract;
 use MicroweberPackages\DisposableEmailChecker\Http\Middleware\BlockDisposableEmail;
 use MicroweberPackages\DisposableEmailChecker\Services\DisposableEmailCheckerService;
 use MicroweberPackages\DisposableEmailChecker\Validators\NotDisposableEmailValidator;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class DisposableEmailCheckerServiceProvider extends ServiceProvider
+class DisposableEmailCheckerServiceProvider extends MicroweberPackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber/disposable-email-checker');
+    }
+
+    public function packageRegistered(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../../config/disposable-email-checker.php', 'disposable-email-checker');
 
         $this->app->singleton(DisposableEmailCheckerContract::class, DisposableEmailCheckerService::class);
     }
 
-    public function boot(): void
+    public function packageBooted(): void
     {
         // Publish config
         if ($this->app->runningInConsole()) {

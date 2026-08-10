@@ -40,6 +40,8 @@ class BackupServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+        parent::register();
+
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Database/migrations/');

@@ -21,7 +21,10 @@
             "role": "Developer"
         }
     ],
-    "require": {},
+    "require": {
+        "microweber-packages/package": "^1.0",
+        "spatie/laravel-package-tools": "^1.16"
+    },
     "require-dev": {},
     "autoload": {
         "psr-4": {
