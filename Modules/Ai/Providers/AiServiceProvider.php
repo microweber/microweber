@@ -2,6 +2,11 @@
 
 namespace Modules\Ai\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Ai\Tools\RagSearchTool;
+use Modules\Ai\Tools\GenerateImageTool;
+use Modules\Ai\Tools\YouTubeTranscriptionTool;
+
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Livewire;
@@ -34,6 +39,8 @@ use Modules\Ai\Services\Drivers\AiServiceInterface;
 
 class AiServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Ai';
 
     protected string $moduleNameLower = 'ai';
@@ -41,6 +48,12 @@ class AiServiceProvider extends BaseModuleServiceProvider
 
     public function boot(): void
     {
+        $this->registerAiTools([
+            RagSearchTool::class,
+            GenerateImageTool::class,
+            YouTubeTranscriptionTool::class,
+        ]);
+
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 

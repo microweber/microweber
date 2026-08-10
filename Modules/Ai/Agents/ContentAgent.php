@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Ai\Agents;
 
 use Illuminate\Support\Facades\Config;
-use Modules\Ai\Tools\MediaSearchTool;
 use NeuronAI\SystemPrompt;
 use NeuronAI\Tools\Toolkits\Tavily\TavilySearchTool;
 use NeuronAI\Workflow\WorkflowState;
@@ -66,55 +65,35 @@ class ContentAgent extends BaseAgent
 
     protected function setupTools(): void
     {
-        // Add comprehensive content management tools
-        $this->addTool(new \Modules\Ai\Tools\ContentListTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\GetContentTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\PageListTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\PostListTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\ProductListTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\ContentSearchTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\MediaSearchTool($this->dependencies));
-
-
-        // Add editing tools
-        $this->addTool(new \Modules\Ai\Tools\ContentEditTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\PostEditTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\ProductEditTool($this->dependencies));
-
-        // Add creation tools - now with simple constructors
-        $this->addTool(new \Modules\Ai\Tools\CreateContentTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\CreatePostTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\CreateProductTool($this->dependencies));
-
-        // Add RAG search tool for broader content discovery
-       // $ragService = app(\Modules\Ai\Services\RagSearchService::class);
-      //  $this->addTool(new \Modules\Ai\Tools\RagSearchTool($ragService, $this->dependencies));
-
-        // Add Google Trends tool for content research and trending topics
-        $this->addTool(new \Modules\Ai\Tools\GoogleTrendsTool($this->dependencies));
-
-        // Add Amazon scraper tool for product research and content creation
-        $this->addTool(new \Modules\Ai\Tools\AmazonScraperTool($this->dependencies));
+        $this->loadToolsFromRegistry([
+            'content_list',
+            'get_content',
+            'page_list',
+            'post_list',
+            'product_list',
+            'content_search',
+            'media_search',
+            'content_edit',
+            'post_edit',
+            'product_edit',
+            'create_content',
+            'create_post',
+            'create_product',
+            'google_trends',
+            'amazon_scraper',
+            'generate_image',
+            'generate_description',
+            'generate_seo_metadata',
+            'content_improvement',
+        ]);
 
         if (Config::get('modules.ai.drivers.tavily.enabled') and Config::get('modules.ai.drivers.tavily.api_key')) {
             $tavily = TavilySearchTool::make(Config::get('modules.ai.drivers.tavily.api_key'));
             $this->addTool($tavily);
         }
 
-        // Add Supadata tool if enabled and configured
         if (Config::get('modules.ai.drivers.supadata.enabled') && Config::get('modules.ai.drivers.supadata.api_key')) {
-            $this->addTool(new \Modules\Ai\Tools\SupadataTool($this->dependencies));
-            // Add YouTube transcription tool with Supadata
-            $this->addTool(new \Modules\Ai\Tools\YouTubeTranscriptionTool($this->dependencies));
+            $this->loadToolsFromRegistry(['supadata_search', 'get_youtube_transcription']);
         }
-
-        // Add AI Image Generation tool for creating visual content
-        $this->addTool(new \Modules\Ai\Tools\GenerateImageTool($this->dependencies));
-
-        // Add content generation AI tools for automated SEO and descriptions
-        $this->addTool(new \Modules\Ai\Tools\GenerateDescriptionTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\GenerateSeoMetadataTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\ContentImprovementTool($this->dependencies));
-
     }
 }

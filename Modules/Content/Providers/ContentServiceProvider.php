@@ -2,6 +2,20 @@
 
 namespace Modules\Content\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Content\Tools\ContentEditTool;
+use Modules\Content\Tools\ContentImprovementTool;
+use Modules\Content\Tools\ContentListTool;
+use Modules\Content\Tools\ContentSearchTool;
+use Modules\Content\Tools\CreateContentTool;
+use Modules\Content\Tools\CreatePostTool;
+use Modules\Content\Tools\GenerateDescriptionTool;
+use Modules\Content\Tools\GenerateSeoMetadataTool;
+use Modules\Content\Tools\GetContentTool;
+use Modules\Content\Tools\PageListTool;
+use Modules\Content\Tools\PostEditTool;
+use Modules\Content\Tools\PostListTool;
+
 use Livewire\Livewire;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
@@ -21,6 +35,8 @@ use Modules\Content\TranslateTables\TranslateContentFields;
 
 class ContentServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Content';
 
     protected string $moduleNameLower = 'content';
@@ -30,6 +46,21 @@ class ContentServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        $this->registerAiTools([
+            ContentEditTool::class,
+            ContentImprovementTool::class,
+            ContentListTool::class,
+            ContentSearchTool::class,
+            CreateContentTool::class,
+            CreatePostTool::class,
+            GenerateDescriptionTool::class,
+            GenerateSeoMetadataTool::class,
+            GetContentTool::class,
+            PageListTool::class,
+            PostEditTool::class,
+            PostListTool::class,
+        ]);
+
         if(app()->bound('translate_manager')) {
             app()->translate_manager->addTranslateProvider(TranslateContent::class);
             app()->translate_manager->addTranslateProvider(TranslateContentFields::class);

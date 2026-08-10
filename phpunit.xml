@@ -120,7 +120,7 @@
             <directory>Modules/Checkout/Tests</directory>
             <directory>Modules/Attributes/Tests</directory>
             <directory>Modules/AiWizard/Tests</directory>
-            <directory>Modules/Ai/tests</directory>
+            <directory>Modules/Ai/Tests</directory>
             <directory>Modules/SiteStats/Tests</directory>
             <directory>Modules/Marketplace/Tests</directory>
             <directory>Modules/FileManager/Tests</directory>
@@ -181,6 +181,11 @@
 
         <testsuite name="MicroweberCore">
             <directory>packages/microweber-core/tests</directory>
+        </testsuite>
+
+        <testsuite name="MicroweberAiTools">
+            <directory>packages/microweber-ai-tools/tests</directory>
+            <exclude>packages/microweber-ai-tools/tests/Dusk</exclude>
         </testsuite>
 
         <testsuite name="MicroweberCdnSync">

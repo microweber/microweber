@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Agents;
 
-use Modules\Ai\Tools\CustomerLookupTool;
 use NeuronAI\SystemPrompt;
 use NeuronAI\Workflow\WorkflowState;
 
@@ -45,11 +44,9 @@ class CustomerAgent extends BaseAgent
 
     protected function setupTools(): void
     {
-        // Add customer-specific tools
-        $this->addTool(new CustomerLookupTool($this->dependencies));
-        
-        // Add RAG search for broader customer-related content discovery
-        $ragService = app(\Modules\Ai\Services\RagSearchService::class);
-        $this->addTool(new \Modules\Ai\Tools\RagSearchTool($ragService, $this->dependencies));
+        $this->loadToolsFromRegistry([
+            'customer_lookup',
+            'rag_search',
+        ]);
     }
 }

@@ -2,6 +2,12 @@
 
 namespace Modules\SiteStats\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\SiteStats\Tools\AnalyticsAudienceBreakdownTool;
+use Modules\SiteStats\Tools\AnalyticsTopPagesTool;
+use Modules\SiteStats\Tools\AnalyticsTrafficReferrersTool;
+use Modules\SiteStats\Tools\AnalyticsTrafficSummaryTool;
+
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use Modules\SiteStats\Filament\SiteStatsDashboard;
@@ -12,6 +18,8 @@ use Modules\SiteStats\Filament\Pages\SiteStatsPage;
 
 class SiteStatsServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'SiteStats';
 
     protected string $moduleNameLower = 'site_stats';
@@ -21,6 +29,13 @@ class SiteStatsServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        $this->registerAiTools([
+            AnalyticsAudienceBreakdownTool::class,
+            AnalyticsTopPagesTool::class,
+            AnalyticsTrafficReferrersTool::class,
+            AnalyticsTrafficSummaryTool::class,
+        ]);
+
         event_bind('mw.pageview', function ($params = false) {
             if (get_option('stats_disabled', 'site_stats') == 1) {
                 return;

@@ -2,6 +2,10 @@
 
 namespace Modules\Shipping\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Shipping\Tools\ShippingMethodLookupTool;
+use Modules\Shipping\Tools\ShippingZoneSummaryTool;
+
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\App\Application;
@@ -13,6 +17,8 @@ use Modules\Shipping\ShippingManager;
 
 class ShippingServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Shipping';
 
     protected string $moduleNameLower = 'shipping';
@@ -23,6 +29,11 @@ class ShippingServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+        $this->registerAiTools([
+            ShippingMethodLookupTool::class,
+            ShippingZoneSummaryTool::class,
+        ]);
+
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();

@@ -2,6 +2,9 @@
 
 namespace Modules\Order\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Order\Tools\OrderSearchTool;
+
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Order\Filament\Admin\Resources\OrderResource;
@@ -12,6 +15,8 @@ use Modules\Order\Services\OrderService;
 
 class OrderServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Order';
 
     protected string $moduleNameLower = 'order';
@@ -21,6 +26,10 @@ class OrderServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        $this->registerAiTools([
+            OrderSearchTool::class,
+        ]);
+
 
 
     }

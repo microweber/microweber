@@ -11,6 +11,10 @@
         <testsuite name="Package Dusk Suite">
             <directory suffix="Test.php">./packages/microweber-dusk/tests/Browser</directory>
         </testsuite>
+
+        <testsuite name="AiTools Dusk Suite">
+            <directory suffix="Test.php">./packages/microweber-ai-tools/tests/Dusk</directory>
+        </testsuite>
         <testsuite name="Fortify Dusk Suite">
             <directory suffix="Test.php">./packages/microweber-fortify/tests/Dusk</directory>
         </testsuite>

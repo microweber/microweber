@@ -2,6 +2,9 @@
 
 namespace Modules\Customer\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Customer\Tools\CustomerLookupTool;
+
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +14,8 @@ use Modules\Customer\Filament\CustomerResource;
 
 class CustomerServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Customer';
 
     protected string $moduleNameLower = 'customer';
@@ -20,6 +25,10 @@ class CustomerServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        $this->registerAiTools([
+            CustomerLookupTool::class,
+        ]);
+
 
 
     }

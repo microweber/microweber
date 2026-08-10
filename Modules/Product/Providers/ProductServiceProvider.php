@@ -2,6 +2,12 @@
 
 namespace Modules\Product\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Product\Tools\CreateProductTool;
+use Modules\Product\Tools\ProductEditTool;
+use Modules\Product\Tools\ProductListTool;
+use Modules\Product\Tools\ProductSearchTool;
+
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
@@ -25,6 +31,8 @@ use Modules\Product\Validators\PriceValidator;
 
 class ProductServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Product';
 
     protected string $moduleNameLower = 'product';
@@ -34,6 +42,13 @@ class ProductServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        $this->registerAiTools([
+            CreateProductTool::class,
+            ProductEditTool::class,
+            ProductListTool::class,
+            ProductSearchTool::class,
+        ]);
+
         // Register event listeners
         Event::listen(OrderWasPaid::class, UpdateInventoryOnOrderPaid::class);
 

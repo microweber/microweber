@@ -2,6 +2,9 @@
 
 namespace Modules\Settings\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Settings\Tools\SettingsReadTool;
+
 
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
@@ -27,6 +30,8 @@ use Modules\Settings\Filament\Resources\TranslationResource;
 
 class SettingsServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Settings';
 
     protected string $moduleNameLower = 'settings';
@@ -36,6 +41,10 @@ class SettingsServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        $this->registerAiTools([
+            SettingsReadTool::class,
+        ]);
+
         // Register Livewire components
      }
 

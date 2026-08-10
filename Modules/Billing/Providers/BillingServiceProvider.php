@@ -2,6 +2,20 @@
 
 namespace Modules\Billing\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Billing\Tools\BillingAccountStatusTool;
+use Modules\Billing\Tools\BillingInvoiceCustomerHistoryTool;
+use Modules\Billing\Tools\BillingInvoiceDetailTool;
+use Modules\Billing\Tools\BillingInvoiceLookupTool;
+use Modules\Billing\Tools\BillingInvoiceUnpaidSummaryTool;
+use Modules\Billing\Tools\BillingMetricsSummaryTool;
+use Modules\Billing\Tools\BillingPaymentDetailTool;
+use Modules\Billing\Tools\BillingPaymentLookupTool;
+use Modules\Billing\Tools\BillingPaymentProviderHealthTool;
+use Modules\Billing\Tools\BillingPaymentWebhookHealthTool;
+use Modules\Billing\Tools\BillingPlanSummaryTool;
+use Modules\Billing\Tools\BillingSubscriptionLookupTool;
+
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Billing\Console\Commands\AutoActivateFreeTrial;
@@ -15,6 +29,8 @@ use Modules\Billing\Http\Livewire\Admin\UserSubscriptionEditModal;
 
 class BillingServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Billing';
 
     protected string $moduleNameLower = 'billing';
@@ -24,6 +40,21 @@ class BillingServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        $this->registerAiTools([
+            BillingAccountStatusTool::class,
+            BillingInvoiceCustomerHistoryTool::class,
+            BillingInvoiceDetailTool::class,
+            BillingInvoiceLookupTool::class,
+            BillingInvoiceUnpaidSummaryTool::class,
+            BillingMetricsSummaryTool::class,
+            BillingPaymentDetailTool::class,
+            BillingPaymentLookupTool::class,
+            BillingPaymentProviderHealthTool::class,
+            BillingPaymentWebhookHealthTool::class,
+            BillingPlanSummaryTool::class,
+            BillingSubscriptionLookupTool::class,
+        ]);
+
         // Navigation items are registered in BillingFilamentAdminPanelProvider::panel()
         // via ->navigationItems() method. Do not use Filament::serving() as it's deprecated in v5.
     }

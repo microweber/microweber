@@ -181,7 +181,8 @@
         "microweber-packages/template-custom-css": "^1.0",
         "microweber-packages/queue": "^1.0",
         "microweber-packages/package-manager-client": "*@dev",
-        "microweber-packages/notification": "^1.0"
+        "microweber-packages/notification": "^1.0",
+        "microweber-packages/ai-tools": "*@dev"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -246,7 +247,8 @@
             "MicroweberPackages\\TemplateFonts\\": "packages/microweber-template-fonts/src/",
             "MicroweberPackages\\TemplateCustomCss\\": "packages/microweber-template-custom-css/src/",
             "MicroweberPackages\\Queue\\": "packages/microweber-queue/src/",
-            "MicroweberPackages\\PackageManagerClient\\": "packages/microweber-package-manager-client/src/"
+            "MicroweberPackages\\PackageManagerClient\\": "packages/microweber-package-manager-client/src/",
+            "MicroweberPackages\\AiTools\\": "packages/microweber-ai-tools/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -309,7 +311,8 @@
             "MicroweberPackages\\TemplateCustomCss\\Tests\\": "packages/microweber-template-custom-css/tests/",
             "MicroweberPackages\\Queue\\Tests\\": "packages/microweber-queue/tests/",
             "MicroweberPackages\\PackageManagerClient\\Tests\\": "packages/microweber-package-manager-client/tests/",
-            "MicroweberPackages\\Notification\\Tests\\": "packages/microweber-notification/tests/"
+            "MicroweberPackages\\Notification\\Tests\\": "packages/microweber-notification/tests/",
+            "MicroweberPackages\\AiTools\\Tests\\": "packages/microweber-ai-tools/tests/"
         }
     },
     "scripts": {
@@ -456,7 +459,8 @@
                 "microweber-packages/template-custom-css",
                 "microweber-packages/queue",
                 "microweber-packages/package-manager-client",
-                "microweber-packages/notification"
+                "microweber-packages/notification",
+                "microweber-packages/ai-tools"
             ]
         },
         "merge-plugin": {
@@ -487,6 +491,13 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
+        {
+            "type": "path",
+            "url": "packages/microweber-ai-tools",
+            "options": {
+                "symlink": true
+            }
+        },
         {
             "type": "path",
             "url": "packages/microweber-package-manager-client",

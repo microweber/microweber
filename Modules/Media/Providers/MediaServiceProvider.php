@@ -2,6 +2,12 @@
 
 namespace Modules\Media\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Media\Tools\MediaAssetDetailTool;
+use Modules\Media\Tools\MediaLookupTool;
+use Modules\Media\Tools\MediaSearchTool;
+use Modules\Media\Tools\MediaStorageHealthTool;
+
 use MicroweberPackages\ImageOptimization\ImageOptimizationServiceProvider;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\MediaPixum\MediaPixumServiceProvider;
@@ -12,6 +18,8 @@ use Modules\Media\Repositories\MediaRepository;
 
 class MediaServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Media';
 
     protected string $moduleNameLower = 'media';
@@ -21,6 +29,13 @@ class MediaServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        $this->registerAiTools([
+            MediaAssetDetailTool::class,
+            MediaLookupTool::class,
+            MediaSearchTool::class,
+            MediaStorageHealthTool::class,
+        ]);
+
 
 /*
         if (!is_link(public_path('storage'))) {

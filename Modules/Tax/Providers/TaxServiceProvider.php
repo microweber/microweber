@@ -2,6 +2,10 @@
 
 namespace Modules\Tax\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Tax\Tools\TaxPreviewTool;
+use Modules\Tax\Tools\TaxRuleLookupTool;
+
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Tax\Filament\Admin\Resources\TaxResource;
@@ -11,6 +15,8 @@ use Modules\Tax\Services\TaxManager;
 
 class TaxServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Tax';
 
     protected string $moduleNameLower = 'tax';
@@ -21,6 +27,11 @@ class TaxServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+        $this->registerAiTools([
+            TaxPreviewTool::class,
+            TaxRuleLookupTool::class,
+        ]);
+
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();

@@ -2,6 +2,12 @@
 
 namespace Modules\Newsletter\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Newsletter\Tools\NewsletterAutomationStatusTool;
+use Modules\Newsletter\Tools\NewsletterCampaignLookupTool;
+use Modules\Newsletter\Tools\NewsletterSubscriberLookupTool;
+use Modules\Newsletter\Tools\NewsletterTemplateLookupTool;
+
 use BladeUI\Icons\Factory;
 use Filament\Events\ServingFilament;
 use Illuminate\Support\Facades\Blade;
@@ -27,6 +33,8 @@ use Modules\Newsletter\Console\Commands\SeedDemoData;
 use Modules\Newsletter\Listeners\NewsletterAutomationSubscriber;
 class NewsletterServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Newsletter';
 
     protected string $moduleNameLower = 'newsletter';
@@ -36,6 +44,13 @@ class NewsletterServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        $this->registerAiTools([
+            NewsletterAutomationStatusTool::class,
+            NewsletterCampaignLookupTool::class,
+            NewsletterSubscriberLookupTool::class,
+            NewsletterTemplateLookupTool::class,
+        ]);
+
 
 
     }

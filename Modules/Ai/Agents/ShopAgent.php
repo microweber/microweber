@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Agents;
 
-use Modules\Ai\Tools\OrderSearchTool;
-use Modules\Ai\Tools\ProductListTool;
-use Modules\Ai\Tools\ProductSearchTool;
 use NeuronAI\SystemPrompt;
 use NeuronAI\Workflow\WorkflowState;
 
@@ -48,19 +45,13 @@ class ShopAgent extends BaseAgent
 
     protected function setupTools(): void
     {
-        // Add shop-specific tools
-        $this->addTool(new ProductListTool($this->dependencies));
-        $this->addTool(new ProductSearchTool($this->dependencies));
-        $this->addTool(new OrderSearchTool($this->dependencies));
-        
-        // Add editing tools
-        $this->addTool(new \Modules\Ai\Tools\ProductEditTool($this->dependencies));
-        
-        // Add creation tools - now with simple constructor
-        $this->addTool(new \Modules\Ai\Tools\CreateProductTool($this->dependencies));
-        
-        // Add RAG search for broader shop-related content discovery
-        $ragService = app(\Modules\Ai\Services\RagSearchService::class);
-        $this->addTool(new \Modules\Ai\Tools\RagSearchTool($ragService, $this->dependencies));
+        $this->loadToolsFromRegistry([
+            'product_list',
+            'product_search',
+            'order_search',
+            'product_edit',
+            'create_product',
+            'rag_search',
+        ]);
     }
 }

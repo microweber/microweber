@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Agents;
 
+use MicroweberPackages\AiTools\Contracts\ToolRegistryInterface;
+use MicroweberPackages\AiTools\Facades\AiTools;
+
 use GuzzleHttp\Exception\RequestException;
 use Modules\Ai\Models\AgentChat;
 use Modules\Ai\Services\AgentChatHistory;
@@ -61,6 +64,39 @@ class BaseAgent extends Agent
     protected function setupTools(): void
     {
     }
+
+    /**
+     * Resolve and attach tools from the global AI tools registry by name.
+     *
+     * @param list<string> $toolNames
+     */
+    protected function loadToolsFromRegistry(array $toolNames): void
+    {
+        foreach ($toolNames as $name) {
+            $tool = AiTools::make($name, $this->dependencies);
+            if ($tool !== null) {
+                $this->addTool($tool);
+            }
+        }
+    }
+
+    /**
+     * Resolve and attach all registered tools for the given domains.
+     *
+     * @param list<string> $domains
+     */
+    protected function loadToolsByDomains(array $domains): void
+    {
+        /** @var ToolRegistryInterface $registry */
+        $registry = app(ToolRegistryInterface::class);
+        foreach ($domains as $domain) {
+            foreach ($registry->getByDomain($domain) as $tool) {
+                $fresh = $registry->make($tool->getName(), $this->dependencies) ?? $tool;
+                $this->addTool($fresh);
+            }
+        }
+    }
+
 
     public function setState(WorkflowState $state): void
     {

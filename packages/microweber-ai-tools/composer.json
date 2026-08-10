@@ -1,0 +1,53 @@
+{
+    "name": "microweber-packages/ai-tools",
+    "description": "Standalone Laravel AI tool-calling framework with a tool registry, base tools, and external service tools",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "homepage": "https://microweber.com",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/contracts": "^10.0|^11.0|^12.0",
+        "illuminate/http": "^10.0|^11.0|^12.0",
+        "inspector-apm/neuron-ai": "^2.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0",
+        "phpstan/phpstan": "^2.0"
+    },
+    "suggest": {
+        "illuminate/database": "Required for content repository adapters",
+        "illuminate/cache": "Recommended for external service caching (Google Trends)",
+        "illuminate/log": "Recommended for audit logging"
+    },
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\AiTools\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\AiTools\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=1G -c phpstan.neon.dist"
+    },
+    "support": {
+        "email": "support@microweber.com"
+    }
+}

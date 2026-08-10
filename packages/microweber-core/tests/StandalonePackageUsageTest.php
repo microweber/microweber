@@ -43,6 +43,7 @@ class StandalonePackageUsageTest extends TestCase
             'microweber-filament-registry' => \MicroweberPackages\FilamentRegistry\FilamentRegistryServiceProvider::class,
             'microweber-filament-modal-teleport' => \MicroweberPackages\FilamentModalTeleport\ModalTeleportServiceProvider::class,
             'microweber-phpquery' => \MicroweberPackages\PhpQuery\Providers\PhpQueryServiceProvider::class,
+            'microweber-ai-tools' => \MicroweberPackages\AiTools\Providers\AiToolsServiceProvider::class,
         ];
     }
 

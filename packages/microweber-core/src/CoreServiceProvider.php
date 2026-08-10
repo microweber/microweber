@@ -104,6 +104,9 @@ class CoreServiceProvider extends ServiceProvider
 
         // ── Layer 11: Config (Microweber extended config) ──
         \MicroweberPackages\Config\ConfigServiceProvider::class,
+
+        // ── Layer 12: AI tools framework ──
+        \MicroweberPackages\AiTools\Providers\AiToolsServiceProvider::class,
     ];
 
     /**

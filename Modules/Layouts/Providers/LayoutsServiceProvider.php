@@ -2,6 +2,11 @@
 
 namespace Modules\Layouts\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Layouts\Tools\LayoutActiveTemplateTool;
+use Modules\Layouts\Tools\LayoutAssetSummaryTool;
+use Modules\Layouts\Tools\LayoutLookupTool;
+
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
@@ -16,6 +21,8 @@ use Modules\Layouts\Microweber\LayoutsModule;
 
 class LayoutsServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Layouts';
 
     protected string $moduleNameLower = 'layouts';
@@ -25,6 +32,12 @@ class LayoutsServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        $this->registerAiTools([
+            LayoutActiveTemplateTool::class,
+            LayoutAssetSummaryTool::class,
+            LayoutLookupTool::class,
+        ]);
+
 
 
     }

@@ -2,6 +2,12 @@
 
 namespace Modules\Form\Providers;
 
+use MicroweberPackages\AiTools\Support\RegistersAiTools;
+use Modules\Form\Tools\FormActivitySummaryTool;
+use Modules\Form\Tools\FormLookupTool;
+use Modules\Form\Tools\FormSubmissionDetailTool;
+use Modules\Form\Tools\FormSubmissionSearchTool;
+
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
@@ -14,6 +20,8 @@ use Modules\Form\Filament\Resources\FormEntryResource;
 
 class FormServiceProvider extends BaseModuleServiceProvider
 {
+    use RegistersAiTools;
+
     protected string $moduleName = 'Form';
 
     protected string $moduleNameLower = 'form';
@@ -25,6 +33,13 @@ class FormServiceProvider extends BaseModuleServiceProvider
      */
     public function boot()
     {
+        $this->registerAiTools([
+            FormActivitySummaryTool::class,
+            FormLookupTool::class,
+            FormSubmissionDetailTool::class,
+            FormSubmissionSearchTool::class,
+        ]);
+
 
 
         /**

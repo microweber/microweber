@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Modules\Ai\Agents;
 
 use Illuminate\Support\Facades\Config;
-use Modules\Ai\Tools\MediaSearchTool;
-use Modules\Ai\Tools\RagSearchTool;
 use NeuronAI\SystemPrompt;
 use NeuronAI\Workflow\WorkflowState;
 
@@ -49,16 +47,13 @@ class MediaAgent extends BaseAgent
 
     protected function setupTools(): void
     {
-        // Add media-specific tools
-        $this->addTool(new MediaSearchTool($this->dependencies));
-        
-        // Add RAG search tool for media content discovery
-        $ragService = app(\Modules\Ai\Services\RagSearchService::class);
-        $this->addTool(new RagSearchTool($ragService, $this->dependencies));
-        
-        // Add YouTube transcription tool if Supadata is enabled
+        $this->loadToolsFromRegistry([
+            'media_search',
+            'rag_search',
+        ]);
+
         if (Config::get('modules.ai.drivers.supadata.enabled') && Config::get('modules.ai.drivers.supadata.api_key')) {
-            $this->addTool(new \Modules\Ai\Tools\YouTubeTranscriptionTool($this->dependencies));
+            $this->loadToolsFromRegistry(['get_youtube_transcription']);
         }
     }
 }

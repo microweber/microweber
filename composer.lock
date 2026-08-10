@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0bbb6ab0d7e1daef76358a69d3ca7a6c",
+    "content-hash": "3003c57a14e71c5a9c10425d53182ba8",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9655,6 +9655,69 @@
                 "source": "https://github.com/microweber-dev/omnipay-przelewy24/tree/0.2"
             },
             "time": "2023-04-10T09:35:09+00:00"
+        },
+        {
+            "name": "microweber-packages/ai-tools",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-ai-tools",
+                "reference": "50f29135bced0536effbd277e8a7e8deceb2454c"
+            },
+            "require": {
+                "illuminate/contracts": "^10.0|^11.0|^12.0",
+                "illuminate/http": "^10.0|^11.0|^12.0",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "inspector-apm/neuron-ai": "^2.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "illuminate/cache": "Recommended for external service caching (Google Trends)",
+                "illuminate/database": "Required for content repository adapters",
+                "illuminate/log": "Recommended for audit logging"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\AiTools\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\AiTools\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=1G -c phpstan.neon.dist"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel AI tool-calling framework with a tool registry, base tools, and external service tools",
+            "homepage": "https://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "microweber-packages/blade-cache",
@@ -28586,6 +28649,7 @@
         "finlet/flexmail": 20,
         "microweber-deps/image-comparator": 20,
         "microweber-deps/seo-helper": 20,
+        "microweber-packages/ai-tools": 20,
         "microweber-packages/package-manager-client": 20,
         "rappasoft/laravel-livewire-tables": 20
     },

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Tools;
 
+use MicroweberPackages\AiTools\Base\BaseTool;
+
 use Modules\Ai\Services\RagSearchService;
 use NeuronAI\Tools\PropertyType;
 use NeuronAI\Tools\ToolProperty;

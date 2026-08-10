@@ -6,7 +6,6 @@ namespace Modules\Ai\Agents;
 
 use Modules\Ai\Services\AgentFactory;
 use Modules\Ai\Services\RagSearchService;
-use Modules\Ai\Tools\RagSearchTool;
 use NeuronAI\SystemPrompt;
 use Illuminate\Support\Facades\Config;
 
@@ -71,93 +70,64 @@ class GeneralAgent extends BaseAgent
 
     protected function setupTools(): void
     {
-        // --- Analytics tools ---
-        $this->addTool(new \Modules\Ai\Tools\AnalyticsTrafficSummaryTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\AnalyticsTopPagesTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\AnalyticsTrafficReferrersTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\AnalyticsAudienceBreakdownTool($this->dependencies));
+        // Domain tools are registered by their owning modules into the AiTools registry.
+        $this->loadToolsFromRegistry([
+            'analytics_traffic_summary',
+            'analytics_top_pages',
+            'analytics_traffic_referrers',
+            'analytics_audience_breakdown',
+            'billing_account_status',
+            'billing_plan_summary',
+            'billing_subscription_lookup',
+            'billing_metrics_summary',
+            'billing_invoice_lookup',
+            'billing_invoice_detail',
+            'billing_invoice_customer_history',
+            'billing_invoice_unpaid_summary',
+            'billing_payment_lookup',
+            'billing_payment_detail',
+            'billing_payment_provider_health',
+            'billing_payment_webhook_health',
+            'form_lookup',
+            'form_submission_detail',
+            'form_submission_search',
+            'form_activity_summary',
+            'newsletter_campaign_lookup',
+            'newsletter_subscriber_lookup',
+            'newsletter_template_lookup',
+            'newsletter_automation_status',
+            'layout_lookup',
+            'layout_active_template',
+            'layout_asset_summary',
+            'shipping_method_lookup',
+            'shipping_zone_summary',
+            'tax_rule_lookup',
+            'tax_preview',
+            'settings_read',
+            'content_search',
+            'content_list',
+            'get_content',
+            'page_list',
+            'post_list',
+            'content_edit',
+            'post_edit',
+            'create_content',
+            'create_post',
+            'content_improvement',
+            'generate_seo_metadata',
+            'product_search',
+            'product_list',
+            'order_search',
+            'product_edit',
+            'create_product',
+            'customer_lookup',
+            'media_lookup',
+            'media_asset_detail',
+            'media_storage_health',
+            'media_search',
+            'rag_search',
+        ]);
 
-        // --- Billing tools ---
-        $this->addTool(new \Modules\Ai\Tools\BillingAccountStatusTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\BillingPlanSummaryTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\BillingSubscriptionLookupTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\BillingMetricsSummaryTool($this->dependencies));
-
-        // --- Invoice tools ---
-        $this->addTool(new \Modules\Ai\Tools\BillingInvoiceLookupTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\BillingInvoiceDetailTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\BillingInvoiceCustomerHistoryTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\BillingInvoiceUnpaidSummaryTool($this->dependencies));
-
-        // --- Payment tools ---
-        $this->addTool(new \Modules\Ai\Tools\BillingPaymentLookupTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\BillingPaymentDetailTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\BillingPaymentProviderHealthTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\BillingPaymentWebhookHealthTool($this->dependencies));
-
-        // --- Form tools ---
-        $this->addTool(new \Modules\Ai\Tools\FormLookupTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\FormSubmissionDetailTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\FormSubmissionSearchTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\FormActivitySummaryTool($this->dependencies));
-
-        // --- Newsletter tools ---
-        $this->addTool(new \Modules\Ai\Tools\NewsletterCampaignLookupTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\NewsletterSubscriberLookupTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\NewsletterTemplateLookupTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\NewsletterAutomationStatusTool($this->dependencies));
-
-        // --- Layout tools ---
-        $this->addTool(new \Modules\Ai\Tools\LayoutLookupTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\LayoutActiveTemplateTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\LayoutAssetSummaryTool($this->dependencies));
-
-        // --- Shipping tools ---
-        $this->addTool(new \Modules\Ai\Tools\ShippingMethodLookupTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\ShippingZoneSummaryTool($this->dependencies));
-
-        // --- Tax tools ---
-        $this->addTool(new \Modules\Ai\Tools\TaxRuleLookupTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\TaxPreviewTool($this->dependencies));
-
-        // --- Settings tool ---
-        $this->addTool(new \Modules\Ai\Tools\SettingsReadTool($this->dependencies));
-
-        // --- Content tools (read + write) ---
-        $this->addTool(new \Modules\Ai\Tools\ContentSearchTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\ContentListTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\GetContentTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\PageListTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\PostListTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\ContentEditTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\PostEditTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\CreateContentTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\CreatePostTool($this->dependencies));
-
-        // --- Content improvement & SEO tools ---
-        $this->addTool(new \Modules\Ai\Tools\ContentImprovementTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\GenerateSeoMetadataTool($this->dependencies));
-
-        // --- Product & Order tools ---
-        $this->addTool(new \Modules\Ai\Tools\ProductSearchTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\ProductListTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\OrderSearchTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\ProductEditTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\CreateProductTool($this->dependencies));
-
-        // --- Customer tools ---
-        $this->addTool(new \Modules\Ai\Tools\CustomerLookupTool($this->dependencies));
-
-        // --- Media tools ---
-        $this->addTool(new \Modules\Ai\Tools\MediaLookupTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\MediaAssetDetailTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\MediaStorageHealthTool($this->dependencies));
-        $this->addTool(new \Modules\Ai\Tools\MediaSearchTool($this->dependencies));
-
-        // --- RAG cross-domain search ---
-        $this->addTool(new RagSearchTool($this->ragService, $this->dependencies));
-
-        // --- Optional external tools ---
         if (Config::get('modules.ai.drivers.tavily.enabled') && Config::get('modules.ai.drivers.tavily.api_key')) {
             $this->addTool(\NeuronAI\Tools\Toolkits\Tavily\TavilySearchTool::make(Config::get('modules.ai.drivers.tavily.api_key')));
         }

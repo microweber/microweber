@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Settings\Tests\Unit\Mcp;
 
 use MicroweberPackages\AiTools\Base\BaseTool;
-use Modules\Ai\Tools\SettingsReadTool;
+use Modules\Settings\Tools\SettingsReadTool;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
