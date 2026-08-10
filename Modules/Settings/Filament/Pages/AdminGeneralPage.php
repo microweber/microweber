@@ -15,6 +15,7 @@ use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use Modules\Post\Filament\Admin\Resources\PostResource;
 use Modules\WhiteLabel\Filament\Pages\WhiteLabelSettingsAdminSettingsPage;
+use MicroweberPackages\Format\Facades\Format;
 
 class AdminGeneralPage extends AdminSettingsPage
 {
@@ -103,7 +104,7 @@ class AdminGeneralPage extends AdminSettingsPage
                             ->live()
                             ->options(function () {
                                 $options = [];
-                                foreach (app()->format->get_supported_date_formats() as $item) {
+                                foreach (Format::get_supported_date_formats() as $item) {
                                     $options[$item] = date($item, time()) . '- (' . $item . ')';
                                 }
                                 return $options;

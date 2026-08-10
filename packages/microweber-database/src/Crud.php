@@ -12,6 +12,8 @@
 namespace MicroweberPackages\Database;
 
 use function Opis\Closure\serialize as serializeClosure;
+use MicroweberPackages\Event\Facades\EventManager;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class Crud
 {
@@ -47,7 +49,7 @@ class Crud
         }
 
         if ($enable_triggers) {
-          /*  $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get.params', $params);
+          /*  $override = EventManager::trigger('mw.crud.' . $table . '.get.params', $params);
             if (is_array($override)) {
                 foreach ($override as $resp) {
                     if (is_array($resp) and !empty($resp)) {
@@ -57,7 +59,7 @@ class Crud
             }*/
         }
 
-        $get = $this->app->database_manager->get($params);
+        $get = DatabaseManager::get($params);
       //  $get =app()->content_repository->getByParams($params);
 
         $override_data = array();
@@ -75,7 +77,7 @@ class Crud
                 //do nothing on override
             } else {
 
-              /*  $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get', $override_data);
+              /*  $override = EventManager::trigger('mw.crud.' . $table . '.get', $override_data);
                 if (is_array($override)) {
                     foreach ($override as $resp) {
                         if (is_array($resp) and !empty($resp)) {
@@ -137,7 +139,7 @@ class Crud
 
         $table = $this->table;
         $params['table'] = $table;
-        $save = $this->app->database_manager->save($params);
+        $save = DatabaseManager::save($params);
 
         return $save;
     }
@@ -153,7 +155,7 @@ class Crud
         }
         $table = $this->table;
 
-        return $this->app->database_manager->delete_by_id($table, $id = $data['id'], $field_name = 'id');
+        return DatabaseManager::delete_by_id($table, $id = $data['id'], $field_name = 'id');
     }
 
     public function has_permission($params)
@@ -176,6 +178,6 @@ class Crud
     {
         $table = $this->table;
 
-        return $this->app->database_manager->table($table);
+        return DatabaseManager::table($table);
     }
 }

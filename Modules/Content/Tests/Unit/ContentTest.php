@@ -6,6 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
 use Modules\Content\Models\Content;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 
 class ContentTest extends TestCase
@@ -206,7 +207,7 @@ class ContentTest extends TestCase
     #[Test]
 
     public function it_content_categories(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
 
         $params = array(
@@ -256,7 +257,7 @@ class ContentTest extends TestCase
 
 
     public function it_content_categories2(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $params = array(
             'title' => 'My categories page 2',
@@ -407,7 +408,7 @@ class ContentTest extends TestCase
     }
 //    public function testContentOriginalLinkRedirect()
 //    {
-//        app()->database_manager->extended_save_set_permission(true);
+//        DatabaseManager::extended_save_set_permission(true);
 //
 //        $params = array(
 //            'title' => 'My test page testContentOriginalLinkRedirect',

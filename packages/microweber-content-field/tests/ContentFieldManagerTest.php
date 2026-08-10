@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\ContentField\ContentFieldManager;
 use PHPUnit\Framework\Attributes\Test;
+use MicroweberPackages\ContentField\Facades\ContentField;
 
 class ContentFieldManagerTest extends TestCase
 {
@@ -13,7 +14,7 @@ class ContentFieldManagerTest extends TestCase
 
     private function manager(): ContentFieldManager
     {
-        return app('content_field_manager');
+        return ContentField::getFacadeRoot();
     }
 
     // ------------------------------------------------------------------

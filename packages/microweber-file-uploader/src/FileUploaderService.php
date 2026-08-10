@@ -22,8 +22,8 @@ use MicroweberPackages\FileUploader\Validation\FileValidationService;
  * - Configurable via config/file-uploader.php
  *
  * Usage:
- *   app('file_uploader')->upload($request);
- *   app('file_uploader')->validator()->validateMimeType($path, ['images']);
+ *   FileUploader::upload($request);
+ *   FileUploader::validator()->validateMimeType($path, ['images']);
  */
 class FileUploaderService
 {

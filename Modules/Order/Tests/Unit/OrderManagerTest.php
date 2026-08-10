@@ -6,6 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Modules\Order\Repositories\OrderManager;
 use Modules\Order\Exceptions\OrderException;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class OrderManagerTest extends TestCase
 {
@@ -13,7 +14,7 @@ class OrderManagerTest extends TestCase
     {
         parent::setUp();
         empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
     }
 
     protected function tearDown(): void

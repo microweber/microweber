@@ -29,7 +29,7 @@ class FilesystemAllowanceCheckerTest extends TestCase
         $this->assertTrue($checker->isAllowed('data.json'));
         // Extension-less names: standalone denylist allows them; when the CMS
         // mw_filesystem() is bound it applies its own allow-list (which may reject).
-        if (!function_exists('mw_filesystem') || !app()->bound('mw_filesystem')) {
+        if (!function_exists('mw_filesystem') || !app()->bound(\MicroweberPackages\Filesystem\FilesystemService::class)) {
             $this->assertTrue($checker->isAllowed('readme'));
         }
     }

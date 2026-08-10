@@ -14,6 +14,9 @@ use Modules\Form\Notifications\NewFormEntryAutoRespond;
 use Modules\Form\Notifications\NewFormEntryToMail;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\Format\Facades\Format;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Event\Facades\EventManager;
 
 
 class FormsManager
@@ -67,7 +70,7 @@ class FormsManager
             unset($params['single']);
         }
 
-        $data = $this->app->database_manager->get($params);
+        $data = DatabaseManager::get($params);
 
         $ret = array();
         if (is_array($data)) {
@@ -124,7 +127,7 @@ class FormsManager
         }
 
         $params['table'] = $table;
-        $id = $this->app->database_manager->save($table, $params);
+        $id = DatabaseManager::save($table, $params);
         $params['id'] = $id;
         if (isset($params['for_module_id'])) {
             $data = array();
@@ -154,7 +157,7 @@ class FormsManager
 ////                }
 ////            }
 //        }
-        $before_process = $this->app->event_manager->trigger('mw.forms_manager.before_post', $params);
+        $before_process = EventManager::trigger('mw.forms_manager.before_post', $params);
         if (is_array($before_process) and !empty($before_process)) {
             foreach ($before_process as $before_process_item) {
                 if ($before_process_item === false) {
@@ -345,7 +348,7 @@ class FormsManager
                 if ($name) {
                     $subscriber_data['name'] = $name;
                 }
-                $this->app->database_manager->save('newsletter_subscribers', $subscriber_data);
+                DatabaseManager::save('newsletter_subscribers', $subscriber_data);
             }
         }
 
@@ -479,7 +482,7 @@ class FormsManager
                 foreach ($validator->messages()->toArray() as $inputFieldErros) {
                     // $validatorMessages = reset($inputFieldErros);
                     $validatorMessages = implode("\n", $inputFieldErros);
-                    //$validatorMessages = app()->format->array_to_ul($inputFieldErros);
+                    //$validatorMessages = Format::array_to_ul($inputFieldErros);
                 }
                 $validationErrorsReturn = array(
                     'form_errors' => $validator->messages()->toArray(),
@@ -709,7 +712,7 @@ class FormsManager
             return ['errors' => 'Fields data is empty'];
         }
 
-        $save = $this->app->database_manager->save($table, $to_save);
+        $save = DatabaseManager::save($table, $to_save);
         $event_params = $params;
         $event_params['saved_form_entry_id'] = $save;
 
@@ -726,7 +729,7 @@ class FormsManager
 
         $formModel = FormData::with('formDataValues')->find($save);
 
-        $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
+        EventManager::trigger('mw.forms_manager.after_post', $event_params);
 
         if (Option::getValue('email_custom_receivers', $for_id)) {
             $sendFormDataToReceivers = Option::getValue('email_to', $for_id);
@@ -935,7 +938,7 @@ class FormsManager
         $table = MW_DB_TABLE_FORMS_LISTS;
         $params['table'] = $table;
 
-        return $this->app->database_manager->get($params);
+        return DatabaseManager::get($params);
     }
 
     public function countries_list_from_json()
@@ -956,7 +959,7 @@ class FormsManager
         }
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->database_manager->delete_by_id('forms_data', $c_id);
+            DatabaseManager::delete_by_id('forms_data', $c_id);
         }
 
         $this->app->cache_manager->delete('forms_data');
@@ -974,8 +977,8 @@ class FormsManager
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->database_manager->delete_by_id('forms_lists', $c_id);
-            $this->app->database_manager->delete_by_id('forms_data', $c_id, 'list_id');
+            DatabaseManager::delete_by_id('forms_lists', $c_id);
+            DatabaseManager::delete_by_id('forms_data', $c_id, 'list_id');
         }
 
         return true;
@@ -1004,7 +1007,7 @@ class FormsManager
             foreach ($data as $formItem) {
                 if (isset($formItem['custom_fields'])) {
                     foreach ($formItem['custom_fields'] as $customFieldKey => $customFieldData) {
-                        $customFieldKey = $this->app->format->no_dashes($customFieldKey);
+                        $customFieldKey = Format::no_dashes($customFieldKey);
                         $customFieldKey = str_slug($customFieldKey);
                         $dataKeysMap[] = $customFieldKey;
                     }
@@ -1025,7 +1028,7 @@ class FormsManager
                 if (isset($formItem['custom_fields'])) {
                     foreach ($formItem['custom_fields'] as $customFieldKey => $customFieldData) {
 
-                        $customFieldKey = $this->app->format->no_dashes($customFieldKey);
+                        $customFieldKey = Format::no_dashes($customFieldKey);
                         $customFieldKey = str_slug($customFieldKey);
 
                         if (is_array($customFieldData)) {

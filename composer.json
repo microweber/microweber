@@ -312,7 +312,13 @@
             "MicroweberPackages\\Queue\\Tests\\": "packages/microweber-queue/tests/",
             "MicroweberPackages\\PackageManagerClient\\Tests\\": "packages/microweber-package-manager-client/tests/",
             "MicroweberPackages\\Notification\\Tests\\": "packages/microweber-notification/tests/",
-            "MicroweberPackages\\AiTools\\Tests\\": "packages/microweber-ai-tools/tests/"
+            "MicroweberPackages\\AiTools\\Tests\\": "packages/microweber-ai-tools/tests/",
+            "MicroweberPackages\\Format\\Tests\\": "packages/microweber-format/tests/",
+            "MicroweberPackages\\EnvWriter\\Tests\\": "packages/microweber-env-writer/tests/",
+            "MicroweberPackages\\Event\\Tests\\": "packages/microweber-event-manager/tests/",
+            "MicroweberPackages\\Http\\Tests\\": "packages/microweber-http/tests/",
+            "MicroweberPackages\\Repository\\Tests\\": "packages/microweber-repository/tests/",
+            "MicroweberPackages\\PhpQuery\\Tests\\": "packages/microweber-phpquery/tests/"
         }
     },
     "scripts": {

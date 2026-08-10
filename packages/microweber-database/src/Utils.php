@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\Format\Facades\Format;
 
 /**
  * Database Utils class.
@@ -544,7 +545,7 @@ class Utils
     public function clean_input($input)
     {
 
-//         $input = $this->app->format->clean_xss($input, true);
+//         $input = Format::clean_xss($input, true);
 
         if (is_array($input)) {
             $output = array();

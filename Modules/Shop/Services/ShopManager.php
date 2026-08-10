@@ -12,6 +12,8 @@
 namespace Modules\Shop\Services;
 
 use DB;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 /**
  * Shop module api.
@@ -110,8 +112,8 @@ class ShopManager
 
         $table = 'cart_orders';
         if (isset($data['email'])) {
-            $c_id = $this->app->database_manager->escape_string($data['email']);
-            $res = $this->app->database_manager->delete_by_id($table, $c_id, 'email');
+            $c_id = DatabaseManager::escape_string($data['email']);
+            $res = DatabaseManager::delete_by_id($table, $c_id, 'email');
             $this->app->cache_manager->delete('cart_orders');
 
             return $res;
@@ -284,7 +286,7 @@ class ShopManager
 //        $template_dir = $this->app->template_manager->dir();
 //        $file = $template_dir . 'checkout.php';
 //        if (is_file($file)) {
-//            $default_url = $this->app->url_manager->site('checkout');
+//            $default_url = UrlManager::site('checkout');
 //        } else {
 //
 //        }
@@ -301,12 +303,12 @@ class ShopManager
         if ($checkout_url_sess == false) {
             return $default_url;
         }
-        return $this->app->url_manager->site($checkout_url_sess);
+        return UrlManager::site($checkout_url_sess);
     }
 
     public function redirect_to_checkout()
     {
         $url = $this->checkout_url();
-        return app()->url_manager->redirect($url);
+        return UrlManager::redirect($url);
     }
 }

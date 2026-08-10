@@ -5,6 +5,7 @@ namespace Modules\Content\Repositories;
 
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use Modules\Content\Models\Content;
+use MicroweberPackages\Event\Facades\EventManager;
 
 /**
  * @mixin AbstractRepository
@@ -146,7 +147,7 @@ class ContentRepository extends AbstractRepository
             $hookParams['getEditField'] = true;
             $hookParams['data'] = $cacheResponse;
             $hookParams['hook_overwrite_type'] = 'single';
-            $overwrite = app()->event_manager->response(get_class($this) . '\\' . __FUNCTION__, $hookParams);
+            $overwrite = EventManager::response(get_class($this) . '\\' . __FUNCTION__, $hookParams);
             if (isset($overwrite['data'])) {
                 $cacheResponse = $overwrite['data'];
             }

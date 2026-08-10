@@ -17,7 +17,6 @@ class ThumbnailerServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->alias(ThumbnailGenerator::class, 'thumbnailer');
     }
 
     public function boot(): void

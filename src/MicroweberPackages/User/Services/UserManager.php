@@ -18,6 +18,13 @@ use MicroweberPackages\User\Http\Requests\LoginRequest;
 use MicroweberPackages\User\Http\Requests\RegisterRequest;
 use MicroweberPackages\User\Models\User;
 use Modules\Customer\Models\Customer;
+use MicroweberPackages\SocialLogin\Facades\SocialLogin;
+use MicroweberPackages\Http\Facades\Http as MicroweberHttp;
+use MicroweberPackages\Event\Facades\EventManager;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Notification\Facades\Notifications;
+use MicroweberPackages\Format\Facades\Format;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class UserManager
 {
@@ -109,7 +116,7 @@ class UserManager
      * @uses     app()->log_manager->save()
      * @uses     $this->login_set_failed_attempt()
      * @uses     $this->update_last_login_time()
-     * @uses     $this->app->event_manager->trigger()
+     * @uses     EventManager::trigger()
      * @function $this->login()
      *
      * @see      _table() For the database table fields
@@ -179,7 +186,7 @@ class UserManager
             unset($params['password_encoded']);
         }
 
-        $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
+        $override = EventManager::trigger('mw.user.before_login', $params);
 
         $redirect_after = isset($params['http_redirect']) ? $params['http_redirect'] : false;
 
@@ -204,7 +211,7 @@ class UserManager
             }
         }
         if ($overiden == true and $redirect_after != false) {
-            return $this->app->url_manager->redirect($redirect_after);
+            return UrlManager::redirect($redirect_after);
         } elseif ($overiden == true and $return_resp) {
             return $return_resp;
         }
@@ -257,7 +264,7 @@ class UserManager
 
         Auth::logout();
         Session::flush();
-        $aj = $this->app->url_manager->is_ajax();
+        $aj = UrlManager::is_ajax();
         $request = request();
         $redirect_after = $request->input('redirect', false);
         if ($redirect_after == false) {
@@ -267,10 +274,10 @@ class UserManager
             //     setcookie('editmode');
         }
 
-        $this->app->event_manager->trigger('mw.user.logout', $params);
+        EventManager::trigger('mw.user.logout', $params);
         if ($redirect_after == false and $aj == false) {
             if (isset($_SERVER['HTTP_REFERER'])) {
-                return $this->app->url_manager->redirect($_SERVER['HTTP_REFERER'], $cookie);
+                return UrlManager::redirect($_SERVER['HTTP_REFERER'], $cookie);
             }
         }
 
@@ -278,7 +285,7 @@ class UserManager
             $redir = $redirect_after;
 
             // $redir = site_url($redirect_after);
-            return $this->app->url_manager->redirect($redir, $cookie);
+            return UrlManager::redirect($redir, $cookie);
         }
 
         return true;
@@ -369,7 +376,7 @@ class UserManager
      * @uses     app()->log_manager->save()
      * @uses     $this->login_set_failed_attempt()
      * @uses     $this->update_last_login_time()
-     * @uses     $this->app->event_manager->trigger()
+     * @uses     EventManager::trigger()
      * @function $this->login()
      * @deprecated this function is deprecated
      * @see      _table() For the database table fields
@@ -402,7 +409,7 @@ class UserManager
 
         $verifyUrl = $whmcsSettings['whmcs_url'] . '/index.php?m=microweber_addon&function=verify_login_code&code=' . $code . '&domain=' . $domain;
 
-        $verifyCheck = @app()->http->url($verifyUrl)->get();
+        $verifyCheck = @MicroweberHttp::url($verifyUrl)->get();
         $verifyCheck = @json_decode($verifyCheck, true);
 
         if (isset($verifyCheck['success']) && $verifyCheck['success'] == true && isset($verifyCheck['code']) && $verifyCheck['code'] == $code) {
@@ -714,14 +721,14 @@ class UserManager
         $notif['title'] = 'New user registration';
         $notif['description'] = 'You have new user registration';
         $notif['content'] = 'You have new user registered with the username [' . $data['username'] . '] and id [' . $user_id . ']';
-        $this->app->notifications_manager->save($notif);
+        Notifications::save($notif);
 
         if(app()->bound('log_manager')) {
 
             app()->log_manager->save($notif);
             $this->register_email_send($user_id);
         }
-        $this->app->event_manager->trigger('mw.user.after_register', $data);
+        EventManager::trigger('mw.user.after_register', $data);
         if ($suppress_output == true) {
             if (ob_get_length()) {
                 ob_end_clean();
@@ -771,7 +778,7 @@ class UserManager
                 $to = $data['email'];
                 if ($register_email_content != false and trim($register_email_subject) != '') {
 
-                    $verify_email_link = $this->app->format->encrypt($data['id']);
+                    $verify_email_link = Format::encrypt($data['id']);
                     $verify_email_link = api_url('users/verify_email_link') . '?key=' . $verify_email_link;
                     $data['verify_email_link'] = $verify_email_link;
 
@@ -949,7 +956,7 @@ class UserManager
         }
         $id_to_return = false;
 
-        $data_to_save = $this->app->format->clean_xss($data_to_save);
+        $data_to_save = Format::clean_xss($data_to_save);
 
 
         if (isset($data_to_save['password2'])) {
@@ -1031,7 +1038,7 @@ class UserManager
                 $id_to_return = DB::getPdo()->lastInsertId();
             }
             $params['id'] = $id_to_return;
-            $this->app->event_manager->trigger('mw.user.save', $params);
+            EventManager::trigger('mw.user.save', $params);
         } else {
             $errorMessages = '';
             foreach ($getValidatorMessages as $validatorInputs) {
@@ -1171,7 +1178,7 @@ class UserManager
                 return false;
             }
 
-            $this->app->database_manager->delete_by_id('users', $c_id);
+            DatabaseManager::delete_by_id('users', $c_id);
 
             return $c_id;
         }
@@ -1221,7 +1228,7 @@ class UserManager
 
         $data1 = array();
         $data1['id'] = intval($params['id']);
-        $data1['password_reset_hash'] = $this->app->database_manager->escape_string($params['password_reset_hash']);
+        $data1['password_reset_hash'] = DatabaseManager::escape_string($params['password_reset_hash']);
         $table = 'users';
 
 
@@ -1233,14 +1240,14 @@ class UserManager
         }
 
         $this->force_save = true;
-        $save = $this->app->database_manager->save($table, $data1);
+        $save = DatabaseManager::save($table, $data1);
         $save_user = array();
         $save_user['id'] = intval($params['id']);
         $save_user['password'] = $params['pass1'];
         if (isset($check['email'])) {
             $save_user['email'] = $check['email'];
         }
-        $this->app->event_manager->trigger('mw.user.change_password', $save_user);
+        EventManager::trigger('mw.user.change_password', $save_user);
 
         $this->save($save_user);
         if(app()->bound('log_manager')) {
@@ -1298,7 +1305,7 @@ class UserManager
         if (isset($params['redirect'])) {
             $return_after_login = $params['redirect'];
             $this->session_set('user_after_login', $return_after_login);
-        } elseif (isset($_SERVER['HTTP_REFERER']) and stristr($_SERVER['HTTP_REFERER'], $this->app->url_manager->site())) {
+        } elseif (isset($_SERVER['HTTP_REFERER']) and stristr($_SERVER['HTTP_REFERER'], UrlManager::site())) {
             $return_after_login = $_SERVER['HTTP_REFERER'];
             $this->session_set('user_after_login', $return_after_login);
         }
@@ -1313,7 +1320,7 @@ class UserManager
         if ($provider != false and isset($params) and !empty($params)) {
             try {
                 /** @var SocialLoginServiceContract $socialLogin */
-                $socialLogin = app('social_login');
+                $socialLogin = SocialLogin::getFacadeRoot();
                 return $socialLogin->redirect($provider);
             } catch (\InvalidArgumentException $e) {
                 return $e->getMessage();
@@ -1360,7 +1367,7 @@ class UserManager
 //                    Session::setId($old_sid);
 //                    Session::save();
 
-                    $this->app->event_manager->trigger('mw.user.login', $data);
+                    EventManager::trigger('mw.user.login', $data);
                     $this->session_set('user_session', $user_session);
                     $user_session = $this->session_get('user_session');
 
@@ -1407,7 +1414,7 @@ class UserManager
             $data_to_save['last_login_ip'] = user_ip();
 
             $table = 'users';
-            $save = $this->app->database_manager->save($table, $data_to_save);
+            $save = DatabaseManager::save($table, $data_to_save);
             if(app()->bound('log_manager')) {
                 app()->log_manager->delete('is_system=y&rel_type=login_failed&user_ip=' . user_ip());
             }
@@ -1427,14 +1434,14 @@ class UserManager
         }
 
         if (empty($provider)) {
-            return $this->app->url_manager->redirect(site_url());
+            return UrlManager::redirect(site_url());
         }
 
         $auth_provider = e($provider);
 
         try {
             /** @var \MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract $socialLogin */
-            $socialLogin = app('social_login');
+            $socialLogin = SocialLogin::getFacadeRoot();
             $socialUser = $socialLogin->handleCallback($auth_provider);
 
             $email = $socialUser->email;
@@ -1504,7 +1511,7 @@ class UserManager
 
                 $this->after_register($new_user_id);
                 $this->make_logged($new_user_id);
-                $this->app->event_manager->trigger('mw.user.register', ['id' => $new_user_id]);
+                EventManager::trigger('mw.user.register', ['id' => $new_user_id]);
             }
         } catch (\Laravel\Socialite\Two\InvalidStateException $e) {
             //do nothing
@@ -1519,13 +1526,13 @@ class UserManager
 
 
         if ($user_after_login != false) {
-            if(!str_contains($user_after_login, $this->app->url_manager->site())) {
+            if(!str_contains($user_after_login, UrlManager::site())) {
                 $user_after_login = site_url($user_after_login);
             }
 
-            return $this->app->url_manager->redirect($user_after_login);
+            return UrlManager::redirect($user_after_login);
         } else {
-            return $this->app->url_manager->redirect(site_url());
+            return UrlManager::redirect(site_url());
         }
     }
 
@@ -1558,7 +1565,7 @@ class UserManager
 
         $table = 'users';
 
-        $data = $this->app->format->clean_html($params);
+        $data = Format::clean_html($params);
         $orig_data = $data;
 
         if (isset($data['ids']) and is_array($data['ids'])) {
@@ -1585,7 +1592,7 @@ class UserManager
         $data['exclude_shorthand'] = true;
         // $data['no_cache'] = 1;
 
-        $get = $this->app->database_manager->get($data);
+        $get = DatabaseManager::get($data);
 
         return $get;
     }
@@ -1609,9 +1616,9 @@ class UserManager
         $checkout_url_sess = $this->session_get('register_url');
 
         if ($checkout_url_sess == false) {
-            return $this->app->url_manager->site($default_url);
+            return UrlManager::site($default_url);
         } else {
-            return $this->app->url_manager->site($checkout_url_sess);
+            return UrlManager::site($checkout_url_sess);
         }
     }
 
@@ -1661,9 +1668,9 @@ class UserManager
         $login_url_sess = $this->session_get('login_url');
 
         if ($login_url_sess == false) {
-            return $this->app->url_manager->site($default_url);
+            return UrlManager::site($default_url);
         } else {
-            return $this->app->url_manager->site($login_url_sess);
+            return UrlManager::site($login_url_sess);
         }
     }
 
@@ -1686,9 +1693,9 @@ class UserManager
         $profile_url_sess = $this->session_get('profile_url');
 
         if ($profile_url_sess == false) {
-            return $this->app->url_manager->site($default_url);
+            return UrlManager::site($default_url);
         } else {
-            return $this->app->url_manager->site($profile_url_sess);
+            return UrlManager::site($profile_url_sess);
         }
     }
 
@@ -1708,15 +1715,15 @@ class UserManager
         }
         $checkout_url_sess = $this->session_get('forgot_password_url');
         if ($checkout_url_sess == false) {
-            return $this->app->url_manager->site($default_url);
+            return UrlManager::site($default_url);
         } else {
-            return $this->app->url_manager->site($checkout_url_sess);
+            return UrlManager::site($checkout_url_sess);
         }
     }
 
     public function session_set($name, $val)
     {
-        $this->app->event_manager->trigger('mw.user.session_set', $name, $val);
+        EventManager::trigger('mw.user.session_set', $name, $val);
 
         Session::put($name, $val);
     }
@@ -1764,7 +1771,7 @@ class UserManager
     }
 
     /**
-     * @deprecated Use app('social_login') directly. Kept for backward compatibility.
+     * @deprecated Use SocialLogin directly. Kept for backward compatibility.
      */
     public function socialite_config($provider = false)
     {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\ClassLoader\Tests\Feature;
 
-use MicroweberPackages\ClassLoader\ClassLoader;
-use MicroweberPackages\ClassLoader\Facades\ClassLoaderFacade;
+use MicroweberPackages\ClassLoader\ClassLoaderService;
+use MicroweberPackages\ClassLoader\Facades\ClassLoader;
 use MicroweberPackages\ClassLoader\Tests\TestCase;
 
 /**
@@ -15,22 +15,22 @@ class StandaloneIntegrationTest extends TestCase
 {
     public function test_singleton_and_facade_resolve_same_instance(): void
     {
-        $a = app(ClassLoader::class);
-        $b = app(ClassLoader::class);
+        $a = app(ClassLoaderService::class);
+        $b = app(ClassLoaderService::class);
         $this->assertSame($a, $b, 'ClassLoader is a container singleton.');
-        $this->assertSame($a, ClassLoaderFacade::getFacadeRoot(), 'Facade resolves the same instance.');
+        $this->assertSame($a, ClassLoader::getFacadeRoot(), 'Facade resolves the same instance.');
     }
 
     public function test_helpers_use_container(): void
     {
         $viaHelper = mw_class_loader();
-        $viaService = app(ClassLoader::class);
+        $viaService = app(ClassLoaderService::class);
         $this->assertSame($viaHelper, $viaService);
     }
 
     public function test_terminating_clears_cache(): void
     {
-        $loader = app(ClassLoader::class);
+        $loader = app(ClassLoaderService::class);
         $loader->addDirectories(sys_get_temp_dir());
         $loader->load('NoSuchForTerminate' . uniqid());
         $this->assertGreaterThanOrEqual(0, $loader->getStatistics()['not_found_cache_count']);
@@ -42,7 +42,7 @@ class StandaloneIntegrationTest extends TestCase
 
     public function test_path_dedup_through_service(): void
     {
-        $loader = app(ClassLoader::class);
+        $loader = app(ClassLoaderService::class);
         $base = sys_get_temp_dir() . '/mw-int-dedup-' . uniqid();
         $before = count($loader->getDirectories());
         $loader->addDirectories($base);

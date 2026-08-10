@@ -7,7 +7,7 @@ namespace MicroweberPackages\Url;
  *
  * Can be used standalone in any Laravel application or as part of Microweber CMS.
  */
-class UrlManager
+class UrlManagerService
 {
     public mixed $site_url_var = null;
     public mixed $current_url_var = null;

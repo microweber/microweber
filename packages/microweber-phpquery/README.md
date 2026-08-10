@@ -24,7 +24,7 @@ echo $pq->find('.intro')->text(); // "Hello World"
 ### Via Facade
 
 ```php
-use MicroweberPackages\PhpQuery\Facades\PhpQueryFacade as PhpQuery;
+use MicroweberPackages\PhpQuery\Facades\PhpQuery as PhpQuery;
 
 $pq = PhpQuery::newDocument('<ul><li>A</li><li>B</li></ul>');
 echo $pq->find('li')->length(); // 2
@@ -33,7 +33,7 @@ echo $pq->find('li')->length(); // 2
 ### Via Service Container
 
 ```php
-$phpquery = app('phpquery');
+$phpquery = PhpQuery::;
 $pq = $phpquery->newDocument('<div>Content</div>');
 ```
 
@@ -58,7 +58,7 @@ src/
 ├── Facades/            # Laravel Facade
 ├── Providers/          # Laravel ServiceProvider
 ├── PhpQuery.php        # Static entry point (factory methods)
-├── PhpQueryManager.php # Manager for DI / app('phpquery')
+├── PhpQueryManager.php # Manager for DI / PhpQuery::
 ├── PhpQueryObject.php  # Chainable query object (jQuery-like API)
 ├── PhpQueryPlugins.php # Plugin system
 └── helpers.php         # pq() function + class aliases

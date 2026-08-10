@@ -27,6 +27,7 @@ use Modules\CustomFields\Fields\TextArea;
 use Modules\CustomFields\Fields\Time;
 use Modules\CustomFields\Models\CustomField;
 use Modules\CustomFields\Models\CustomFieldValue;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 
 $_mw_made_default_fields_register = array();
@@ -186,10 +187,10 @@ class FieldsManager
 
         $saved_fields = array();
         if (isset($rel)) {
-            $rel = $this->app->database_manager->escape_string($rel);
+            $rel = DatabaseManager::escape_string($rel);
 
-            $rel = $this->app->database_manager->assoc_table_name($rel);
-            $rel_id = $this->app->database_manager->escape_string($rel_id);
+            $rel = DatabaseManager::assoc_table_name($rel);
+            $rel_id = DatabaseManager::escape_string($rel_id);
 
             $fields_csv_str = $this->parseFieldsHtml($fields_csv_str);
 
@@ -398,7 +399,7 @@ class FieldsManager
         if (isset($fieldData['rel_type'])) {
             if ($fieldData['rel_type'] == 'content' || $fieldData['rel_type'] == 'categories') {
 
-                $fieldData['rel_type'] = app()->database_manager->morphClassFromTable($fieldData['rel_type']);
+                $fieldData['rel_type'] = DatabaseManager::morphClassFromTable($fieldData['rel_type']);
 
             }
         }
@@ -653,7 +654,7 @@ class FieldsManager
         $table_custom_field = 'custom_fields';
         $params['table'] = $table_custom_field;
 
-        return $this->app->database_manager->get($params);
+        return DatabaseManager::get($params);
     }
 
     public function get($params)

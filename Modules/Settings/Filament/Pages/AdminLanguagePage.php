@@ -123,7 +123,7 @@ class AdminLanguagePage extends AdminSettingsPage
                     })
                     ->required(),
 
-                Select::make('format')
+                Select::make(\MicroweberPackages\Format\FormatService::class)
                     ->label('Export format')
                     ->options([
                         'xlsx' => '.xlsx (Excel)',

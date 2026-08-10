@@ -5,13 +5,14 @@ namespace Modules\Content\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class DataFieldsTest extends TestCase
 {
     #[Test]
     public function it_save(): void {
-        app()->database_manager->extended_save_set_permission(true);
-        $has_permission = app()->database_manager->extended_save_has_permission();
+        DatabaseManager::extended_save_set_permission(true);
+        $has_permission = DatabaseManager::extended_save_has_permission();
         $params = array(
             'title' => 'My post with data fields',
             'content_type' => 'post',
@@ -29,7 +30,7 @@ class DataFieldsTest extends TestCase
     #[Test]
 
     public function it_save_data_fields(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
         $val = 'hello there custom 1-'.rand();
         $val2 = 'hello there custom 2-'.rand();
         $params = array(
@@ -52,7 +53,7 @@ class DataFieldsTest extends TestCase
 
 
     public function it_data_fields_deleted_on_content_delete(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
         $val = 'hello there custom 1-'.rand();
         $val2 = 'hello there custom 2-'.rand();
         $params = array(

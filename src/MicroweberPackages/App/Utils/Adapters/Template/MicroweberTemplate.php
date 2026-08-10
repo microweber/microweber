@@ -1,5 +1,9 @@
 <?php
 
+use MicroweberPackages\Url\Facades\UrlManager;
+
+use MicroweberPackages\Event\Facades\EventManager;
+
 
 // moved to src/MicroweberPackages/Template/Adapters/MicroweberTemplate.php
 
@@ -82,7 +86,7 @@
 //            // return $cache_content;
 //        }
 //
-//        $override = $this->app->event_manager->trigger('mw.front.get_layout', $page);
+//        $override = EventManager::trigger('mw.front.get_layout', $page);
 //
 //        $render_file = false;
 //        $look_for_post = false;
@@ -263,7 +267,7 @@
 //
 //        if (($render_file == false)
 //             and isset($page['id'])  and $page['id'] == 0 ) {
-//            $url_file = $this->app->url_manager->string(1, 1);
+//            $url_file = UrlManager::string(1, 1);
 //            $test_file = str_replace('___', DS, $url_file);
 //            $test_file = sanitize_path($test_file);
 //            $render_file_temp = ACTIVE_TEMPLATE_DIR.DS.$test_file.'.php';
@@ -697,7 +701,7 @@
 //        }
 //
 //        if ($render_file == false and isset($page['active_site_template'])) {
-//            $url_file = $this->app->url_manager->string(1, 1);
+//            $url_file = UrlManager::string(1, 1);
 //            $test_file = str_replace('___', DS, $url_file);
 //            $template_view = ACTIVE_TEMPLATE_DIR.$test_file.'.php';
 //            $template_view = normalize_path($template_view, false);

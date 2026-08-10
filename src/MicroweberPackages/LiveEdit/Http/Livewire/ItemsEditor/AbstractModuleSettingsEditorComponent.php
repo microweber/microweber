@@ -7,6 +7,7 @@ namespace MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor;
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Renderless;
+use MicroweberPackages\Url\Facades\UrlManager;
 /**
  * @deprecated
  */
@@ -54,7 +55,7 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         $json = @json_decode($settings, true);
 
         if (!empty($json)) {
-            $json = app()->url_manager->replace_site_url_back($json);
+            $json = UrlManager::replace_site_url_back($json);
         }
 
         if ($json) {
@@ -149,7 +150,7 @@ $this->js('window.location.reload()');
     public function saveItems($allItems)
     {
         if (!empty($allItems)) {
-            $allItems = app()->url_manager->replace_site_url($allItems);
+            $allItems = UrlManager::replace_site_url($allItems);
         }
         $allItemsJson = json_encode($allItems);
         $save = array(

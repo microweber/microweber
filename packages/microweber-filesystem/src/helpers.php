@@ -1,5 +1,7 @@
 <?php
 
+use MicroweberPackages\Filesystem\Facades\MwFilesystem;
+
 /**
  * Global helper functions for the microweber-filesystem package.
  *
@@ -16,15 +18,15 @@ if (!function_exists('mw_filesystem')) {
     /**
      * Resolve the shared FilesystemService.
      *
-     * Returns the `mw_filesystem` container singleton when the app is booted,
+     * Returns the FilesystemService container singleton when the app is booted,
      * otherwise a lazily-created standalone instance (FilesystemService has no
      * container dependencies, so it is safe to construct directly). Once the
      * container is up, the singleton is always returned.
      */
     function mw_filesystem(): FilesystemService
     {
-        if (function_exists('app') && app()->bound('mw_filesystem')) {
-            return app('mw_filesystem');
+        if (function_exists('app') && app()->bound(\MicroweberPackages\Filesystem\FilesystemService::class)) {
+            return MwFilesystem::getFacadeRoot();
         }
 
         static $standalone = null;

@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\App\Managers\Helpers;
 
-use MicroweberPackages\Event\Event;
+use MicroweberPackages\Event\Facades\EventManager;
 use MicroweberPackages\Translation\LanguageHelper;
 
 
@@ -419,12 +419,10 @@ class Lang
 
                 if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
                     define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
-                    $scheduler = new Event();
                     // schedule a global scope function:
                     if ($environment != 'testing') {
-                        $scheduler->registerShutdownEvent('__store_lang_file', $lang);
+                        EventManager::registerShutdownEvent('__store_lang_file', $lang);
                     }
-                    // $scheduler->registerShutdownEvent('__store_lang_file');
                 }
             } else {
                 $namespace = trim($namespace);
@@ -442,9 +440,8 @@ class Lang
 
                     if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
                         define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
-                        $scheduler = new Event();
                         if ($environment != 'testing') {
-                            $scheduler->registerShutdownEvent('__store_lang_file_ns', $lang);
+                            EventManager::registerShutdownEvent('__store_lang_file_ns', $lang);
                         }
                     }
                 }

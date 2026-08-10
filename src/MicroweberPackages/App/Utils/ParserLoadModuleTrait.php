@@ -6,6 +6,7 @@ namespace MicroweberPackages\App\Utils;
 use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\View\View;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 
 trait ParserLoadModuleTrait
@@ -134,8 +135,8 @@ trait ParserLoadModuleTrait
         if (!isset($attrs['id'])) {
             global $mw_mod_counter;
             ++$mw_mod_counter;
-            //  $seg_clean = app()->url_manager->segment(0);
-            $seg_clean = app()->url_manager->segment(0, url_current());
+            //  $seg_clean = UrlManager::segment(0);
+            $seg_clean = UrlManager::segment(0, url_current());
 
 
             if (defined('IS_HOME')) {
@@ -282,7 +283,7 @@ trait ParserLoadModuleTrait
 
             $config['module_name_url_safe'] = $this->module_name_encode($module_name);
 
-            $find_base_url = app()->url_manager->current(1);
+            $find_base_url = UrlManager::current(1);
             if ($pos = strpos($find_base_url, ':' . $module_name) or $pos = strpos($find_base_url, ':' . $config['module_name_url_safe'])) {
                 $find_base_url = substr($find_base_url, 0, $pos) . ':' . $config['module_name_url_safe'];
             }
@@ -296,12 +297,12 @@ trait ParserLoadModuleTrait
                 $mod_api = str_replace('/admin', '', $module_name_dir);
             }
 
-            $config['module_api'] = app()->url_manager->site('api/' . $mod_api);
-            $config['module_view'] = app()->url_manager->site('module/' . $module_name);
+            $config['module_api'] = UrlManager::site('api/' . $mod_api);
+            $config['module_view'] = UrlManager::site('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);
             $config['module_class'] = $this->module_css_class($module_name);
 
-            $config['url_to_module'] = app()->url_manager->link_to_file($config['path_to_module']);
+            $config['url_to_module'] = UrlManager::link_to_file($config['path_to_module']);
 
             if (isset($attrs['id'])) {
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
@@ -367,8 +368,8 @@ trait ParserLoadModuleTrait
             if (!isset($attrs['id'])) {
                 global $mw_mod_counter;
                 ++$mw_mod_counter;
-                //  $seg_clean = app()->url_manager->segment(0);
-                $seg_clean = app()->url_manager->segment(0, url_current());
+                //  $seg_clean = UrlManager::segment(0);
+                $seg_clean = UrlManager::segment(0, url_current());
 
 
                 if (defined('IS_HOME')) {

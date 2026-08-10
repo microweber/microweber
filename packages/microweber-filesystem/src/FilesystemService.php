@@ -8,6 +8,7 @@ use RecursiveIteratorIterator;
 use FilesystemIterator;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use MicroweberPackages\FileUploader\Facades\FileUploader;
 
 /**
  * Unified filesystem service for Microweber.
@@ -371,8 +372,8 @@ class FilesystemService
     {
         // Delegate to file-uploader package when available (single source of truth)
         try {
-            if (function_exists('app') && app()->bound('file_uploader')) {
-                $fromPackage = app('file_uploader')->validator()->getDangerousExtensions();
+            if (function_exists('app') && app()->bound(\MicroweberPackages\FileUploader\FileUploaderService::class)) {
+                $fromPackage = FileUploader::validator()->getDangerousExtensions();
                 if (is_array($fromPackage) && !empty($fromPackage)) {
                     return array_values(array_unique($fromPackage));
                 }

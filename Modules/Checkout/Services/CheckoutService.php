@@ -12,6 +12,8 @@ use Modules\Payment\Drivers\AbstractPaymentMethod;
 use Modules\Shipping\Models\ShippingProvider;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
+use MicroweberPackages\Format\Facades\Format;
+use MicroweberPackages\Event\Facades\EventManager;
 
 class CheckoutService
 {
@@ -258,7 +260,7 @@ class CheckoutService
         }
 
         $variables = [
-            'cart_items' => $this->app->format->array_to_table($cart_items_info),
+            'cart_items' => Format::array_to_table($cart_items_info),
             'date' => date('F jS, Y', strtotime($ord_data['created_at'])),
             'order_id' => $ord_data['id'],
             'transaction_id' => $ord_data['transaction_id'],
@@ -301,7 +303,7 @@ class CheckoutService
 
         if (!$order->is_paid) {
             event(new OrderWasPaid($order));
-            $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $order->toArray());
+            EventManager::trigger('mw.cart.checkout.order_paid', $order->toArray());
 
             $order->is_paid = 1;
             $order->save();

@@ -6,6 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
 use Modules\Payment\Models\PaymentProvider;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class CartTest extends TestCase
 {
@@ -30,7 +31,7 @@ class CartTest extends TestCase
 
     public function it_add_to_cart(): void {
         empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $saved_id = $this->_createProduct(30);
         $get = get_content_by_id($saved_id);
@@ -62,7 +63,7 @@ class CartTest extends TestCase
     #[Test]
 
     public function it_add_to_cart_not_a_product(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $params = array(
             'title' => 'My page',

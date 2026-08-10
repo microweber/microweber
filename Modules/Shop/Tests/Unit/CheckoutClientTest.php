@@ -5,6 +5,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
 use Modules\Checkout\Repositories\CheckoutManager;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 
 class CheckoutClientTest extends TestCase
@@ -13,7 +14,7 @@ class CheckoutClientTest extends TestCase
 
     private function _addProductToCart($title)
     {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $productPrice = rand(1, 4444);
 

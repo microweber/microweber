@@ -19,10 +19,8 @@ class ViewServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/microweber-view.php', 'microweber-view');
 
         $this->app->singleton(StringBlade::class, static fn () => new StringBlade());
-        $this->app->alias(StringBlade::class, 'microweber.string_blade');
 
         $this->app->singleton(TwigView::class, static fn () => new TwigView());
-        $this->app->alias(TwigView::class, 'microweber.twig_view');
 
         $this->app->singleton(MicroweberModuleTagCompiler::class, function (Application $app): MicroweberModuleTagCompiler {
             /** @var BladeCompiler $blade */

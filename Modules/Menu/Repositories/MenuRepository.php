@@ -4,6 +4,7 @@ namespace Modules\Menu\Repositories;
 
 use MicroweberPackages\Repository\Repositories\CachingModelRepository;
 use Modules\Menu\Models\Menu;
+use MicroweberPackages\Event\Facades\EventManager;
 
 class MenuRepository extends CachingModelRepository
 {
@@ -33,7 +34,7 @@ class MenuRepository extends CachingModelRepository
             $hookParams['data'] = $menus;
             $hookParams['hook_overwrite_type'] = 'multiple';
 
-            $overwrite = app()->event_manager->response(get_class($this) . '\\' . __FUNCTION__, $hookParams);
+            $overwrite = EventManager::response(get_class($this) . '\\' . __FUNCTION__, $hookParams);
 
             if (isset($overwrite['data'])) {
                 $menus = $overwrite['data'];

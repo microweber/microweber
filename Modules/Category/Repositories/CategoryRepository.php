@@ -5,6 +5,7 @@ namespace Modules\Category\Repositories;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use Modules\Category\Models\Category;
+use MicroweberPackages\Event\Facades\EventManager;
 
 class CategoryRepository extends AbstractRepository
 {
@@ -36,7 +37,7 @@ class CategoryRepository extends AbstractRepository
                 $hookParams = [];
                 $hookParams['data'] = $getCategory;
                 $hookParams['hook_overwrite_type'] = 'single';
-                $overwrite = app()->event_manager->response(get_class($this) . '\\getByColumnNameAndColumnValue', $hookParams);
+                $overwrite = EventManager::response(get_class($this) . '\\getByColumnNameAndColumnValue', $hookParams);
 
                 if (isset($overwrite['data'])) {
                     $getCategory = $overwrite['data'];

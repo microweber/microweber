@@ -4,7 +4,7 @@ namespace MicroweberPackages\Http;
 
 use MicroweberPackages\Http\Adapters\Guzzle;
 
-class Http
+class HttpService
 {
     /**
      * An instance of the HTTP adapter to use.

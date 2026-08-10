@@ -9,6 +9,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Modules\Backup\Filament\Resources\BackupScheduleResource\Pages;
 use Modules\Backup\Models\BackupSchedule;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class BackupScheduleResource extends Resource
 {
@@ -284,10 +285,10 @@ class BackupScheduleResource extends Resource
     private static function getDatabaseTables(): array
     {
         $tables = [];
-        $tableList = app()->database_manager->get_tables_list();
+        $tableList = DatabaseManager::get_tables_list();
 
         foreach ($tableList as $table) {
-            $tableWithPrefix = str_replace(app()->database_manager->get_prefix(), '', $table);
+            $tableWithPrefix = str_replace(DatabaseManager::get_prefix(), '', $table);
             $tables[$tableWithPrefix] = $tableWithPrefix;
         }
 

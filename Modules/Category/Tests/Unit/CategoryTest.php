@@ -13,6 +13,7 @@ use Modules\Category\Models\CategoryItem;
 use Modules\Content\Models\Content;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
+use MicroweberPackages\Format\Facades\Format;
 
 
 class CategoryTest extends TestCase
@@ -98,7 +99,7 @@ class CategoryTest extends TestCase
         $categoryTreeRendered = category_tree(['return_data' => true]);
 
         foreach ($categoriesToSave as $categoryTreePlain) {
-            $categoriesToSave = app()->format->stringToTree($categoryTreePlain);
+            $categoriesToSave = Format::stringToTree($categoryTreePlain);
             $this->_assertCategoryRecursive($categoryTreeRendered, $categoriesToSave, $mainCategoryId);
         }
 

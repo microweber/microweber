@@ -10,14 +10,23 @@ composer require microweber-packages/format
 
 ## Usage
 
-```php
-// Via the container
-app()->format->limit('Hello world this is a long string', 10);
+Register via the package service provider (auto-discovered). Access through the **Format** facade (preferred) or inject `FormatService`.
 
-// Via the Facade
-use MicroweberPackages\Format\Facades\FormatFacade as Format;
+```php
+// Via the Facade (recommended)
+use MicroweberPackages\Format\Facades\Format;
+
 Format::autolink('Visit https://example.com today');
+Format::limit('Hello world this is a long string', 10);
+
+// Via dependency injection
+use MicroweberPackages\Format\FormatService;
+
+public function __construct(private FormatService $format) {}
 ```
+
+Service class: `MicroweberPackages\Format\FormatService`  
+Facade class: `MicroweberPackages\Format\Facades\Format`
 
 ## License
 

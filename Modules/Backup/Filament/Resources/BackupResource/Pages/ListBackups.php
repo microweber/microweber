@@ -24,6 +24,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Modules\Backup\SessionStepper;
 use Modules\Restore\Restore;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class ListBackups extends ListRecords
 {
@@ -79,9 +80,9 @@ class ListBackups extends ListRecords
     {
 
         $databaseTables = [];
-        $databaseTablesList = app()->database_manager->get_tables_list();
+        $databaseTablesList = DatabaseManager::get_tables_list();
         foreach ($databaseTablesList as $table) {
-            $tableWithPrefix = str_replace(app()->database_manager->get_prefix(), '', $table);
+            $tableWithPrefix = str_replace(DatabaseManager::get_prefix(), '', $table);
             $databaseTables[$tableWithPrefix] = $tableWithPrefix;
         }
 

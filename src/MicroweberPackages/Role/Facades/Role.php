@@ -9,11 +9,11 @@
  *
  */
 
-namespace MicroweberPackages\Option\Facades;
+namespace MicroweberPackages\Role\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class OptionManagerFacade extends Facade
+class Role extends Facade
 {
 
     /**
@@ -23,6 +23,6 @@ class OptionManagerFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'option_manager';
+        return 'role';
     }
 }

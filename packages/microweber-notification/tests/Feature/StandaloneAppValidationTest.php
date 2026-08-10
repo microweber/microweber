@@ -6,7 +6,7 @@ namespace MicroweberPackages\Notification\Tests\Feature;
 
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Notification\Contracts\NotificationsManagerContract;
-use MicroweberPackages\Notification\Facades\NotificationsManager as NotificationsManagerFacade;
+use MicroweberPackages\Notification\Facades\Notifications as NotificationsManagerFacade;
 use MicroweberPackages\Notification\Models\Notification;
 use MicroweberPackages\Notification\Models\NotificationMailLog;
 use MicroweberPackages\Notification\Notifications\LegacyNotification;

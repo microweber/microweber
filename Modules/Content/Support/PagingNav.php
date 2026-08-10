@@ -5,6 +5,7 @@ namespace Modules\Content\Support;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class PagingNav
 {
@@ -75,7 +76,7 @@ class PagingNav
             $paging_param = $params['paging_param'];
         }
 
-        $current_page_from_url = $this->app->url_manager->param($paging_param);
+        $current_page_from_url = UrlManager::param($paging_param);
 
         if (isset($params['current_page'])) {
             $current_page_from_url = $params['current_page'];
@@ -90,8 +91,8 @@ class PagingNav
         // Laravel pagination
         if (isset($params['laravel_pagination'])) {
 
-            if ($this->app->url_manager->is_ajax() == false) {
-                $base_url = $this->app->url_manager->current(1);
+            if (UrlManager::is_ajax() == false) {
+                $base_url = UrlManager::current(1);
             } else {
                 if ($_SERVER['HTTP_REFERER'] != false) {
                     $base_url = $_SERVER['HTTP_REFERER'];

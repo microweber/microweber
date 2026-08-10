@@ -8,6 +8,9 @@ use Modules\Order\Models\Order;
 use Modules\Payment\Drivers\AbstractPaymentMethod;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Event\Facades\EventManager;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 //use MicroweberPackages\Invoice\Address;
 //use MicroweberPackages\Invoice\Invoice;
@@ -172,7 +175,7 @@ class CheckoutManager
             $hostname = $this->get_domain_from_str($client_ip);
 
 
-            $payment_verify_token = $this->app->database_manager->escape_string($payment_verify_token);
+            $payment_verify_token = DatabaseManager::escape_string($payment_verify_token);
             $table = 'cart_orders';
 
             $query = array();
@@ -186,7 +189,7 @@ class CheckoutManager
             $query['table'] = $table;
             $query['no_cache'] = true;
 
-            $ord_data = $this->app->database_manager->get($query);
+            $ord_data = DatabaseManager::get($query);
             if (!isset($ord_data[0]) or !is_array($ord_data[0])) {
                 return array('error' => 'Order is completed or expired.');
             } else {
@@ -240,11 +243,11 @@ class CheckoutManager
 
                 //            $update_order_event_data['id'] = $ord;
     //            $update_order_event_data['payment_provider'] = $data['payment_provider'];
-    //            $ord = $this->app->database_manager->save($table_orders, $update_order_event_data);
+    //            $ord = DatabaseManager::save($table_orders, $update_order_event_data);
     //
     //
     //            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid']) {
-    //                $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
+    //                EventManager::trigger('mw.cart.checkout.order_paid', $update_order_event_data);
     //            }
     //
     //            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid'] == 1) {
@@ -271,7 +274,7 @@ class CheckoutManager
                 }
                 $return_to = $return_to . $append . 'mw_payment_success=1';
 
-                return $this->app->url_manager->redirect($return_to);
+                return UrlManager::redirect($return_to);
             }
 
             return;

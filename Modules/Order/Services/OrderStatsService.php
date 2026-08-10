@@ -5,6 +5,7 @@ namespace Modules\Order\Services;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Modules\Order\Models\Order;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class OrderStatsService
 {
@@ -163,8 +164,8 @@ class OrderStatsService
         if (isset($params['productId']) and !empty($params['productId'])) {
             $orders->where('cart.rel_id', '=', $params['productId']);
         }
-        $fullTableNameCart = app()->database_manager->real_table_name('cart');
-        $fullTableNameOrders = app()->database_manager->real_table_name('cart_orders');
+        $fullTableNameCart = DatabaseManager::real_table_name('cart');
+        $fullTableNameOrders = DatabaseManager::real_table_name('cart_orders');
 
         // TASK-021 / TICKET-J / AI-39 (cycle-61 2026-05-08): also
         // include `currency` in the projection + grouping so callers
@@ -251,7 +252,7 @@ class OrderStatsService
         $orders->groupBy($groupByFields);
         $orders->orderBy('date', 'desc');
 
-        $dbDriver = app()->database_manager->get_sql_engine();
+        $dbDriver = DatabaseManager::get_sql_engine();
 
         if ($dbDriver == 'sqlite') {
             $data = $orders->get([

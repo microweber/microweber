@@ -11,6 +11,7 @@ use Modules\Backup\Backup;
 use Modules\Backup\SessionStepper;
 use Modules\Content\Models\Content;
 use Modules\Post\Models\Post;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 /**
  * Run test
@@ -277,7 +278,7 @@ class GenerateBackupTest extends TestCase
         $sessionId = SessionStepper::generateSessionId($stepsNum);
 
         // Get all database tables for verification later
-        $allDbTables = app()->database_manager->get_tables_list();
+        $allDbTables = DatabaseManager::get_tables_list();
         $this->assertNotEmpty($allDbTables, 'No database tables found');
 
         // Count records in each table before backup

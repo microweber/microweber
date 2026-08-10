@@ -16,8 +16,6 @@ class FileUploaderServiceProvider extends ServiceProvider
                 new FileValidationService()
             );
         });
-        $this->app->alias(FileUploaderService::class, 'file_uploader');
-
         // Also expose the uploader's own validation service for direct use.
         $this->app->singleton(FileValidationService::class, function ($app) {
             return $app->make(FileUploaderService::class)->validator();

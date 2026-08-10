@@ -10,6 +10,8 @@ use MicroweberPackages\ContentField\ContentFieldModel;
 use MicroweberPackages\ContentField\ContentFieldDraftModel;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
+use MicroweberPackages\ContentField\Facades\ContentField;
+use MicroweberPackages\Url\Facades\Url as MwUrl;
 
 /**
  * Integration tests confirming the microweber-content-field package is
@@ -21,21 +23,21 @@ class ContentFieldPackageIntegrationTest extends TestCase
     #[Test]
     public function content_field_manager_is_bound(): void
     {
-        $this->assertTrue(app()->bound('content_field_manager'));
-        $this->assertInstanceOf(ContentFieldManager::class, app('content_field_manager'));
+        $this->assertTrue(app()->bound(\MicroweberPackages\ContentField\ContentFieldManager::class));
+        $this->assertInstanceOf(ContentFieldManager::class, ContentField::getFacadeRoot());
     }
 
     #[Test]
     public function content_field_manager_is_singleton(): void
     {
-        $this->assertSame(app('content_field_manager'), app('content_field_manager'));
+        $this->assertSame(ContentField::getFacadeRoot(), ContentField::getFacadeRoot());
     }
 
     #[Test]
     public function save_and_read_via_content_field_manager(): void
     {
         /** @var ContentFieldManager $cfm */
-        $cfm = app('content_field_manager');
+        $cfm = ContentField::getFacadeRoot();
 
         $id = $cfm->saveField([
             'rel_type' => 'content',
@@ -58,7 +60,7 @@ class ContentFieldPackageIntegrationTest extends TestCase
     public function content_manager_edit_field_delegates_to_package(): void
     {
         /** @var ContentFieldManager $cfm */
-        $cfm = app('content_field_manager');
+        $cfm = ContentField::getFacadeRoot();
 
         $cfm->saveField([
             'rel_type' => 'content',
@@ -87,7 +89,7 @@ class ContentFieldPackageIntegrationTest extends TestCase
         // SiteUrlFieldCast — applied CMS-side by both edit_field and getEditFieldData —
         // expands the stored {SITE_URL} placeholder to the real site URL on read.
         /** @var ContentFieldManager $cfm */
-        $cfm = app('content_field_manager');
+        $cfm = ContentField::getFacadeRoot();
 
         $cfm->saveField([
             'rel_type' => 'content',
@@ -96,7 +98,7 @@ class ContentFieldPackageIntegrationTest extends TestCase
             'value'    => '<a href="{SITE_URL}about">about</a>',
         ]);
 
-        $site = app()->url_manager->site_url();
+        $site = MwUrl::site_url();
 
         $data = \Modules\Content\Models\Content::getEditFieldData('siteurl_field', 'content', 888890);
         $this->assertIsArray($data);
@@ -128,7 +130,7 @@ class ContentFieldPackageIntegrationTest extends TestCase
         $this->assertIsInt($id);
 
         /** @var ContentFieldManager $cfm */
-        $cfm = app('content_field_manager');
+        $cfm = ContentField::getFacadeRoot();
         $value = $cfm->getFieldData('cm_integration', 'content', 777777);
         $this->assertSame('saved via content_manager', $value);
 
@@ -140,7 +142,7 @@ class ContentFieldPackageIntegrationTest extends TestCase
     public function draft_save_and_read_via_package(): void
     {
         /** @var ContentFieldManager $cfm */
-        $cfm = app('content_field_manager');
+        $cfm = ContentField::getFacadeRoot();
 
         $id = $cfm->saveField([
             'rel_type' => 'content',
@@ -171,7 +173,7 @@ class ContentFieldPackageIntegrationTest extends TestCase
     public function field_exists_check(): void
     {
         /** @var ContentFieldManager $cfm */
-        $cfm = app('content_field_manager');
+        $cfm = ContentField::getFacadeRoot();
 
         $this->assertFalse($cfm->fieldExists('nonexistent', 'content', 555555));
 
@@ -199,7 +201,7 @@ class ContentFieldPackageIntegrationTest extends TestCase
     public function update_existing_field_via_package(): void
     {
         /** @var ContentFieldManager $cfm */
-        $cfm = app('content_field_manager');
+        $cfm = ContentField::getFacadeRoot();
 
         $id1 = $cfm->saveField([
             'rel_type' => 'content',
@@ -226,7 +228,7 @@ class ContentFieldPackageIntegrationTest extends TestCase
     public function delete_by_relation_removes_all(): void
     {
         /** @var ContentFieldManager $cfm */
-        $cfm = app('content_field_manager');
+        $cfm = ContentField::getFacadeRoot();
 
         $cfm->saveField(['rel_type' => 'test', 'rel_id' => 333333, 'field' => 'a', 'value' => '1']);
         $cfm->saveField(['rel_type' => 'test', 'rel_id' => 333333, 'field' => 'b', 'value' => '2']);

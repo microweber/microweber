@@ -19,6 +19,8 @@ use Illuminate\Support\MessageBag;
 use MicroweberPackages\Repository\Traits\FilterableByParams;
 use Torann\LaravelRepository\Contracts\Repository;
 use Torann\LaravelRepository\Exceptions\RepositoryException;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Event\Facades\EventManager;
 
 
 abstract class AbstractRepository implements Repository
@@ -759,8 +761,8 @@ abstract class AbstractRepository implements Repository
     {
         $this->clearCache();
 
-        if (app()->bound('database_manager')) {
-            app()->database_manager->clearCache();
+        if (app()->bound(\MicroweberPackages\Database\DatabaseManagerService::class)) {
+            DatabaseManager::clearCache();
         }
 
         $updateOrCreate = 'create';
@@ -1247,8 +1249,8 @@ abstract class AbstractRepository implements Repository
                 } else {
                     $hookParams['hook_overwrite_type'] = 'multiple';
                 }
-                if (is_array($result) && app()->bound('event_manager')) {
-                    $overwrite = app()->event_manager->response(get_class($this) . '\\getByParams', $hookParams);
+                if (is_array($result) && app()->bound(\MicroweberPackages\Event\EventService::class)) {
+                    $overwrite = EventManager::response(get_class($this) . '\\getByParams', $hookParams);
                     if (isset($overwrite['data'])) {
                         //     $result = $overwrite['data'];
                     }
@@ -1440,13 +1442,13 @@ abstract class AbstractRepository implements Repository
                     if ($item) {
                         $item = $item->toArray();
 
-                        if (app()->bound('event_manager')) {
+                        if (app()->bound(\MicroweberPackages\Event\EventService::class)) {
                             $hookParams = [
                                 'data' => $item,
                                 'hook_overwrite_type' => 'single',
                             ];
 
-                            $overwrite = app()->event_manager->response(get_class($this) . '\\getById', $hookParams);
+                            $overwrite = EventManager::response(get_class($this) . '\\getById', $hookParams);
                             if (isset($overwrite['data'])) {
                                 $item = $overwrite['data'];
                             }
@@ -1474,13 +1476,13 @@ abstract class AbstractRepository implements Repository
 
             $item = $item->toArray();
 
-            if (app()->bound('event_manager')) {
+            if (app()->bound(\MicroweberPackages\Event\EventService::class)) {
                 $hookParams = [
                     'data' => $item,
                     'hook_overwrite_type' => 'single',
                 ];
 
-                $overwrite = app()->event_manager->response(get_class($this) . '\\getById', $hookParams);
+                $overwrite = EventManager::response(get_class($this) . '\\getById', $hookParams);
                 if (isset($overwrite['data'])) {
                     $item = $overwrite['data'];
                 }

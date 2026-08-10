@@ -24,6 +24,8 @@ class MicroweberBladeDirectives
     {
         $processor = ModuleProcessorInterface::class;
         $htmlAttributes = HtmlAttributes::class;
+        $formatService = \MicroweberPackages\Format\FormatService::class;
+        $formatFacade = \MicroweberPackages\Format\Facades\Format::class;
 
         return <<<PHP
 <?php
@@ -32,8 +34,8 @@ if (!is_array(\$__mwModuleAttrs)) {
     \$__mwModuleAttrs = [];
 }
 \$__mwAttrString = '';
-if (app()->bound('format') && is_object(app('format')) && method_exists(app('format'), 'arrayToHtmlAttributes')) {
-    \$__mwAttrString = app('format')->arrayToHtmlAttributes(\$__mwModuleAttrs);
+if (app()->bound(\\{$formatService}) && class_exists(\\{$formatFacade})) {
+    \$__mwAttrString = \\{$formatFacade}::arrayToHtmlAttributes(\$__mwModuleAttrs);
 } else {
     \$__mwAttrString = \\{$htmlAttributes}::toString(\$__mwModuleAttrs);
 }

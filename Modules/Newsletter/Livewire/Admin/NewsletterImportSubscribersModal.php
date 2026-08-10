@@ -7,6 +7,7 @@ use Modules\Newsletter\Services\ImportSubscribersFileReader;
 use Modules\Newsletter\Models\NewsletterList;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Newsletter\Models\NewsletterSubscriberList;
+use MicroweberPackages\Http\Facades\Http as MicroweberHttp;
 
 class NewsletterImportSubscribersModal extends AdminModalComponent
 {
@@ -137,7 +138,7 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
             unlink($filename);
         }
 
-        $downloaded = app()->http->url($url)->download($filename);
+        $downloaded = MicroweberHttp::url($url)->download($filename);
         if ($downloaded && is_file($filename)) {
             $this->importSubscribers['sourceFileRealpath'] = $filename;
         } else {

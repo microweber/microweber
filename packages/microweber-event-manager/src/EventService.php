@@ -18,7 +18,7 @@ namespace MicroweberPackages\Event;
  * garbage collector can reclaim all listeners when the container is flushed
  * (e.g. between PHPUnit tests).
  */
-class Event
+class EventService
 {
     private LaravelEvent $adapter;
 

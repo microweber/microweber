@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Repository;
 
 use MicroweberPackages\Database\Traits\QueryFilter;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class MicroweberQuery {
 
@@ -17,7 +18,7 @@ class MicroweberQuery {
             $params = parse_params($params);
         }
 
-      //  $model = app()->database_manager->map_filters($model,$params,$table);
+      //  $model = DatabaseManager::map_filters($model,$params,$table);
 
         $model = self::_selectLogic($model, $table, $columns, $params);
         $model = self::_closureLogic($model, $table, $columns, $params);

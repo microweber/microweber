@@ -2,6 +2,9 @@
 
 namespace Modules\Updater\Services;
 
+use MicroweberPackages\Url\Facades\UrlManager;
+
+
 class UpdaterHelper
 {
     /**
@@ -13,7 +16,7 @@ class UpdaterHelper
       return cache()->remember($key, 1440, function () use ($selectedBranch) {
             $updateApi = 'http://updater.microweberapi.com/builds/' . $selectedBranch . '/version.txt';
 
-            $version = app()->url_manager->download($updateApi);
+            $version = UrlManager::download($updateApi);
             if ($version) {
                 $version = trim($version);
                 return $version;

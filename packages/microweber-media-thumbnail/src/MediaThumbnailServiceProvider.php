@@ -15,7 +15,6 @@ class MediaThumbnailServiceProvider extends ServiceProvider
             return new MediaThumbnailRepository();
         });
 
-        $this->app->alias(MediaThumbnailRepository::class, 'media-thumbnail');
     }
 
     public function boot(): void

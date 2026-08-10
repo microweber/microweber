@@ -3,6 +3,7 @@
 namespace Modules\Backup\Formats;
 
 use Modules\Restore\EncodingFix;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class JsonBackup extends DefaultBackup
 {
@@ -42,7 +43,7 @@ class JsonBackup extends DefaultBackup
                 $dump,
                 function (&$value) {
                     if (is_string($value)) {
-                        $value = app()->url_manager->replace_site_url($value);
+                        $value = UrlManager::replace_site_url($value);
                     }
                 }
             );

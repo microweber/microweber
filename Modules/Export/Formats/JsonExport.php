@@ -3,6 +3,7 @@
 namespace Modules\Export\Formats;
 
 use Modules\Export\Formats\Helpers\EncodingFix;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class JsonExport extends DefaultExport
 {
@@ -37,7 +38,7 @@ class JsonExport extends DefaultExport
                 $dump,
                 function (&$value) {
                     if (is_string($value)) {
-                        $value = app()->url_manager->replace_site_url($value);
+                        $value = UrlManager::replace_site_url($value);
                     }
                 }
             );

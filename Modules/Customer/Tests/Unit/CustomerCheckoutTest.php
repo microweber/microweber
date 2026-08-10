@@ -11,6 +11,7 @@ use Modules\Address\Models\Address;
 use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\Customer\Models\Customer;
 use Modules\MailTemplate\Models\MailTemplate;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 /**
  * Run test
@@ -65,7 +66,7 @@ class CustomerCheckoutTest extends TestCase
 
     private function _addProductToCart($title)
     {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $productPrice = rand(100, 4444);
 

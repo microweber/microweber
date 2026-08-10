@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use League\CommonMark\CommonMarkConverter;
 use Modules\Content\Models\Content;
+use MicroweberPackages\Format\Facades\Format;
 
 class Comment extends Model
 {
@@ -87,7 +88,7 @@ class Comment extends Model
                     if ($key == 'comment_body') {
                         continue;
                     }
-                    $comment->{$key} = app()->format->clean_xss($value);
+                    $comment->{$key} = Format::clean_xss($value);
                 }
             }
         });
@@ -190,7 +191,7 @@ class Comment extends Model
 
     public function getCommentBodyAttribute()
     {
-        return app()->format->autolink($this->attributes['comment_body']);
+        return Format::autolink($this->attributes['comment_body']);
     }
 
     public function replies()

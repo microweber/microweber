@@ -11,6 +11,8 @@ use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 use Modules\Media\Database\Factories\MediaFactory;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Format\Facades\Format;
 
 class Media extends Model implements CdnSyncable
 {
@@ -190,8 +192,8 @@ class Media extends Model implements CdnSyncable
 
         if ($getMedia !== null) {
             $getMedia = (array) $getMedia;
-            $surl = app()->url_manager->site();
-            $getMedia['filename'] = app()->format->replace_once('{SITE_URL}', $surl, $getMedia['filename']);
+            $surl = UrlManager::site();
+            $getMedia['filename'] = Format::replace_once('{SITE_URL}', $surl, $getMedia['filename']);
 
             return $getMedia;
         }

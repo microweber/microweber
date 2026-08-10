@@ -2,6 +2,10 @@
 
 namespace Modules\WordPressMigration\Services\Media;
 
+use MicroweberPackages\Http\Facades\Http as MicroweberHttp;
+use MicroweberPackages\Url\Facades\UrlManager;
+
+
 /**
  * Content-hash deduplicating rehoster scoped to a single WordPress
  * migration job.
@@ -53,7 +57,7 @@ namespace Modules\WordPressMigration\Services\Media;
  * Redirects
  * ---------
  * The injected downloader is expected to follow HTTP redirects
- * transparently. The default downloader (`app()->http->url($url)->
+ * transparently. The default downloader (`MicroweberHttp::url($url)->
  * download($target)`) uses Microweber's HTTP client, which does
  * follow redirects. Two URLs redirecting to the same final
  * resource are still downloaded twice (once per unique request URL)
@@ -115,7 +119,7 @@ final class WordPressMediaRehoster implements MediaRehoster
      *
      * @param callable(string $url, string $targetPath): bool|null $downloader
      *   Override for the bytes-fetcher. Defaults to
-     *   `app()->http->url($url)->download($target)`. Tests pass a
+     *   `MicroweberHttp::url($url)->download($target)`. Tests pass a
      *   closure that writes deterministic bytes without the network.
      *
      * @param callable(array<string, mixed>): int|null|null $saver
@@ -133,7 +137,7 @@ final class WordPressMediaRehoster implements MediaRehoster
         ?string $storageRoot = null,
     ) {
         $this->downloader = $downloader ?? fn (string $url, string $target): bool
-            => (bool) app()->http->url($url)->download($target);
+            => (bool) MicroweberHttp::url($url)->download($target);
 
         $this->saver = $saver ?? fn (array $data): ?int => self::saveMediaRow($data);
 
@@ -335,7 +339,7 @@ final class WordPressMediaRehoster implements MediaRehoster
         // conventional `/userfiles/media/...` path derived from the
         // absolute location — mw() would point at the wrong docroot.
         if (!$this->storageRootIsCustom && function_exists('mw')) {
-            $url = app()->url_manager->link_to_file($absolutePath);
+            $url = UrlManager::link_to_file($absolutePath);
             return is_string($url) && $url !== '' ? $url : null;
         }
 

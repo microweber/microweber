@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Event\Tests;
 
-use MicroweberPackages\Event\EventManagerFacade;
+use MicroweberPackages\Event\Facades\EventManager;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
@@ -24,7 +24,7 @@ class TestCase extends OrchestraTestCase
     protected function getPackageAliases($app): array
     {
         return [
-            'EventManager' => EventManagerFacade::class,
+            'EventManager' => EventManager::class,
         ];
     }
 }

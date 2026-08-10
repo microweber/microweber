@@ -6,6 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
 use Modules\Product\Models\Product;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class ContentDataTest extends TestCase
 {
@@ -96,7 +97,7 @@ class ContentDataTest extends TestCase
     #[Test]
 
     public function it_content_data_save_from_save_content_with_prefix(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
 
         $title = 'My prod ' . rand();

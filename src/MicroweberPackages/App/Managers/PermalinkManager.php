@@ -6,6 +6,7 @@ use Modules\Category\Models\Category;
 use Modules\Content\Models\Content;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class PermalinkManager
 {
@@ -35,7 +36,7 @@ class PermalinkManager
     public function slug($link, $type)
     {
         if (!$link) {
-            $link = $this->app->url_manager->current(true);
+            $link = UrlManager::current(true);
         }
 
         $linkSegments = url_segment(-1, $link);

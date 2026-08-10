@@ -18,7 +18,7 @@ class TestCase extends OrchestraTestCase
     protected function getPackageAliases($app)
     {
         return [
-            'PhpQuery' => \MicroweberPackages\PhpQuery\Facades\PhpQueryFacade::class,
+            'PhpQuery' => \MicroweberPackages\PhpQuery\Facades\PhpQuery::class,
         ];
     }
 

@@ -4,44 +4,48 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use MicroweberPackages\Format\Format;
+use MicroweberPackages\Format\Facades\Format;
+use MicroweberPackages\Format\FormatService;
+use MicroweberPackages\Security\Facades\HtmlClean as HtmlCleanFacade;
+use MicroweberPackages\Security\Facades\XSSSecurity as XSSSecurityFacade;
 use MicroweberPackages\Security\HtmlClean;
 use MicroweberPackages\Security\XSSClean;
 use MicroweberPackages\Security\XSSSecurity;
+use MicroweberPackages\Url\Facades\Url as MwUrl;
 use MicroweberPackages\Url\UrlManager;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
  * Pins CMS wiring after the Helper package extraction:
- * security + url services resolve from packages/* providers.
+ * security + url services resolve from packages/* providers via facades.
  */
 class SecurityAndUrlPackageIntegrationTest extends TestCase
 {
     #[Test]
     public function format_binding_resolves(): void
     {
-        $this->assertInstanceOf(Format::class, app('format'));
+        $this->assertInstanceOf(FormatService::class, Format::getFacadeRoot());
     }
 
     #[Test]
     public function xss_security_binding_resolves(): void
     {
-        $this->assertInstanceOf(XSSSecurity::class, app('xss_security'));
+        $this->assertInstanceOf(XSSSecurity::class, XSSSecurityFacade::getFacadeRoot());
     }
 
     #[Test]
     public function html_clean_binding_resolves(): void
     {
-        $this->assertInstanceOf(HtmlClean::class, app('html_clean'));
-        $this->assertInstanceOf(HtmlClean::class, app()->html_clean);
+        $this->assertInstanceOf(HtmlClean::class, HtmlCleanFacade::getFacadeRoot());
+        $this->assertInstanceOf(HtmlClean::class, app(HtmlClean::class));
     }
 
     #[Test]
     public function url_manager_binding_resolves(): void
     {
-        $this->assertInstanceOf(UrlManager::class, app('url_manager'));
-        $this->assertInstanceOf(UrlManager::class, app()->url_manager);
+        $this->assertInstanceOf(UrlManager::class, MwUrl::getFacadeRoot());
+        $this->assertSame(app(UrlManager::class), MwUrl::getFacadeRoot());
     }
 
     #[Test]

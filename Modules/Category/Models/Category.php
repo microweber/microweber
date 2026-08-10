@@ -20,6 +20,7 @@ use Modules\ContentData\Traits\ContentDataTrait;
 use MicroweberPackages\Repository\Traits\FilterableByParams;
 use Modules\ContentField\Concerns\HasContentFieldTrait;
 use Modules\Media\Traits\MediaTrait;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class Category extends Model
 {
@@ -247,7 +248,7 @@ class Category extends Model
      */
     public static function getItemsInStockCountAll()
     {
-        $realTableName = app()->database_manager->real_table_name('content');
+        $realTableName = DatabaseManager::real_table_name('content');
         $query = CategoryItem::query()
             ->leftJoin('content', function ($join) {
                 $join->on('content.id', '=', 'categories_items.rel_id')
@@ -345,7 +346,7 @@ class Category extends Model
      */
     public static function getItemsCountAll()
     {
-        $realTableName = app()->database_manager->real_table_name('content');
+        $realTableName = DatabaseManager::real_table_name('content');
         $query = CategoryItem::query()
             ->leftJoin('content', function ($join) {
                 $join->on('content.id', '=', 'categories_items.rel_id')
@@ -398,7 +399,7 @@ class Category extends Model
     public static function getItems($categoryId, $relType = false, $relId = false)
     {
         if ($relType == 'content' || $relType == 'category') {
-            $relType = app()->database_manager->morphClassFromTable($relType);
+            $relType = DatabaseManager::morphClassFromTable($relType);
         }
 
         if (!$relType) {

@@ -33,7 +33,7 @@ Path repository (monorepo):
 ## Standalone Laravel usage
 
 ```php
-use MicroweberPackages\PackageManagerClient\PackageManagerClient;
+use MicroweberPackages\PackageManagerClient\PackageManagerClientService;
 
 $client = app(PackageManagerClient::class);
 

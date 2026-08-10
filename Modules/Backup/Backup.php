@@ -12,6 +12,7 @@ use Modules\Backup\Formats\ZipBatchBackup;
 use Modules\Backup\Loggers\BackupLogger;
 use Modules\Backup\Traits\BackupFileNameGetSet;
 use Modules\Backup\Traits\BackupGetSet;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class Backup
 {
@@ -308,7 +309,7 @@ class Backup
 
             $this->logger->setLogInfo('Backup table: <b>' . $table . '</b>');
 
-            $tableFields = app()->database_manager->get_fields($table, false, true);
+            $tableFields = DatabaseManager::get_fields($table, false, true);
 
             if ($tableFields) {
                 $tableFieldsStructure = array();
@@ -403,7 +404,7 @@ class Backup
 
     private function _getTableContent($table, $ids = array())
     {
-        $tableExists = app()->database_manager->table_exists($table);
+        $tableExists = DatabaseManager::table_exists($table);
         if (!$tableExists) {
             return;
         }
@@ -505,8 +506,8 @@ class Backup
     {
         $skipTables = $this->_prepareSkipTables();
 
-        $tablesList = app()->database_manager->get_tables_list(true);
-        $tablePrefix = app()->database_manager->get_prefix();
+        $tablesList = DatabaseManager::get_tables_list(true);
+        $tablePrefix = DatabaseManager::get_prefix();
 
         $readyTableList = array();
         foreach ($tablesList as $tableName) {

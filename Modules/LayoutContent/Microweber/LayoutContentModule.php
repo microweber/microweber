@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use MicroweberPackages\Microweber\Abstract\BaseModule;
 use Modules\LayoutContent\Filament\LayoutContentModuleSettings;
 use Modules\LayoutContent\Models\LayoutContentItem;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class LayoutContentModule extends BaseModule
 {
@@ -81,7 +82,7 @@ class LayoutContentModule extends BaseModule
         }
 
         return array_map(function($layoutContent) {
-            $layoutContent['contents'] = app()->url_manager->replace_site_url_back($layoutContent['image']);
+            $layoutContent['contents'] = UrlManager::replace_site_url_back($layoutContent['image']);
             return new LayoutContentItem($layoutContent);
         }, $defaultSettings['contents']);
     }

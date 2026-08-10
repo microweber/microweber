@@ -5,6 +5,7 @@ namespace Modules\Cart\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Modules\Cart\Services\CartTotalsService;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class CartTotalsServiceTest extends TestCase
 {
@@ -12,7 +13,7 @@ class CartTotalsServiceTest extends TestCase
     {
         parent::setUp();
         empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
     }
 
     protected function tearDown(): void

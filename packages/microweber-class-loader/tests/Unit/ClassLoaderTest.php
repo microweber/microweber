@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\ClassLoader\Tests\Unit;
 
-use MicroweberPackages\ClassLoader\ClassLoader;
+use MicroweberPackages\ClassLoader\ClassLoaderService;
 use MicroweberPackages\ClassLoader\PathNormalizer;
 use PHPUnit\Framework\TestCase;
 
@@ -12,7 +12,7 @@ class ClassLoaderTest extends TestCase
 {
     private string $fixtureRoot;
 
-    private ClassLoader $loader;
+    private ClassLoaderService $loader;
 
     protected function setUp(): void
     {
@@ -30,7 +30,7 @@ class ClassLoaderTest extends TestCase
             "<?php\nclass FlatClass { public static function ping(): string { return 'flat'; } }\n"
         );
 
-        $this->loader = new ClassLoader(new PathNormalizer(), true);
+        $this->loader = new ClassLoaderService(new PathNormalizer(), true);
     }
 
     protected function tearDown(): void
@@ -42,8 +42,8 @@ class ClassLoaderTest extends TestCase
 
     public function test_is_instance_based_not_static(): void
     {
-        $a = new ClassLoader();
-        $b = new ClassLoader();
+        $a = new ClassLoaderService();
+        $b = new ClassLoaderService();
         $a->addDirectories('/tmp/a');
         $this->assertSame([], $b->getDirectories());
         $this->assertNotSame($a->getDirectories(), $b->getDirectories());
@@ -93,7 +93,7 @@ class ClassLoaderTest extends TestCase
         // When namespace maps to the Demo folder itself, relative class is Hello
         // Better: map Demo to src
         $this->loader->reset();
-        $this->loader = new ClassLoader();
+        $this->loader = new ClassLoaderService();
         $this->loader->addNamespace('Demo', $this->fixtureRoot . '/src/Demo');
         // Wait - if namespace is Demo and class is Demo\Hello, relative is Hello
         // and path is src/Demo/Hello.php — so base should be parent of Demo folder? 

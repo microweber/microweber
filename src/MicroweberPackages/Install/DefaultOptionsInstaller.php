@@ -4,6 +4,7 @@ namespace MicroweberPackages\Install;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Option\Models\Option;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 
 class DefaultOptionsInstaller
@@ -99,7 +100,7 @@ class DefaultOptionsInstaller
                 'is_active' => 1,
                 'shipping_cost' => 0
             );
-            $engine = app()->database_manager->get_sql_engine();
+            $engine = DatabaseManager::get_sql_engine();
             if ($engine == 'pgsql') {
                 $highestId = DB::table('cart_shipping')->select(DB::raw('MAX(id)'))->first();
                 $save['id'] = $highestId->max + 1;

@@ -14,6 +14,7 @@ use MicroweberPackages\Option\Events\OptionWasDeleted;
 use MicroweberPackages\Option\Events\OptionWasRetrieved;
 use MicroweberPackages\Option\Events\OptionWasUpdated;
 use MicroweberPackages\Repository\Traits\FilterableByParams;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class Option extends Model
 {
@@ -161,7 +162,7 @@ class Option extends Model
 
         $allOptions = collect($allOptions)->map(fn($option) => (array) $option)->toArray();
 
-        $allOptions = app()->url_manager->replace_site_url_back($allOptions);
+        $allOptions = UrlManager::replace_site_url_back($allOptions);
 
         if ($allOptions === null) {
             return [];
@@ -201,7 +202,7 @@ class Option extends Model
 
         if (!empty($groupOptions)) {
             foreach ($groupOptions as $websiteOption) {
-                $websiteOption = app()->url_manager->replace_site_url_back($websiteOption);
+                $websiteOption = UrlManager::replace_site_url_back($websiteOption);
                 $websiteOptions[$websiteOption['option_key']] = $websiteOption['option_value'];
             }
         }

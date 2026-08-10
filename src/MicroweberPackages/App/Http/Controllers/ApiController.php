@@ -13,6 +13,9 @@ use MicroweberPackages\Security\XSSClean;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Format\Facades\Format;
 
 
 /**
@@ -56,11 +59,11 @@ class ApiController  extends FrontendController
         $mod_class_api_class_exist = false;
         $caller_commander = false;
         if ($api_function == false) {
-            $api_function_full = app()->url_manager->string();
-            $api_function_full = $this->app->format->replace_once('api_html', '', $api_function_full);
-            $api_function_full = $this->app->format->replace_once('api/api', 'api', $api_function_full);
+            $api_function_full = UrlManager::string();
+            $api_function_full = Format::replace_once('api_html', '', $api_function_full);
+            $api_function_full = Format::replace_once('api/api', 'api', $api_function_full);
 
-            $api_function_full = $this->app->format->replace_once('api', '', $api_function_full);
+            $api_function_full = Format::replace_once('api', '', $api_function_full);
             $api_function_full = trim($api_function_full, '/');
 
             //$api_function_full = substr($api_function_full, 4);
@@ -87,7 +90,7 @@ class ApiController  extends FrontendController
         $api_function_full = str_replace('\\', '/', $api_function_full);
         $api_function_full = str_replace('//', '/', $api_function_full);
 
-        $api_function_full = app()->database_manager->escape_string($api_function_full);
+        $api_function_full = DatabaseManager::escape_string($api_function_full);
         if (is_string($api_function_full)) {
             $mod_api_class = explode('/', $api_function_full);
         } else {
@@ -202,12 +205,12 @@ class ApiController  extends FrontendController
         }
 
         if ($api_function == false) {
-            $api_function = app()->url_manager->segment(1);
+            $api_function = UrlManager::segment(1);
         }
 
         if (!defined('MW_API_RAW')) {
             if ($mod_class_api != false) {
-                $url_segs = app()->url_manager->segment(-1);
+                $url_segs = UrlManager::segment(-1);
             }
         } else {
             if (is_array($api_function)) {
@@ -260,9 +263,9 @@ class ApiController  extends FrontendController
                 if ($params != false) {
                     $data = $params;
                 } elseif (!request()->isMethod('post')) {
-                    $data = app()->url_manager->params(true);
+                    $data = UrlManager::params(true);
                     if (empty($data)) {
-                        $data = app()->url_manager->segment(2);
+                        $data = UrlManager::segment(2);
                     }
                 } else {
 
@@ -389,9 +392,9 @@ class ApiController  extends FrontendController
                             if ($params != false) {
                                 $data = $params;
                             } elseif (!request()->isMethod('post')) {
-                                $data = app()->url_manager->params(true);
+                                $data = UrlManager::params(true);
                                 if (empty($data)) {
-                                    $data = app()->url_manager->segment(2);
+                                    $data = UrlManager::segment(2);
                                 }
                             } else {
                                 $data = request()->all();
@@ -460,10 +463,10 @@ class ApiController  extends FrontendController
             if ($mod_class_api_called == false) {
                 if (!request()->isMethod('post')) {
 
-                    //  $data = app()->url_manager->segment(2);
-                    $data = app()->url_manager->params(true);
+                    //  $data = UrlManager::segment(2);
+                    $data = UrlManager::params(true);
                     if (empty($data)) {
-                        $data = app()->url_manager->segment(2);
+                        $data = UrlManager::segment(2);
                     }
                 } else {
 
@@ -480,7 +483,7 @@ class ApiController  extends FrontendController
                 } elseif (class_exists($api_function, false)) {
 
                     //
-                    $segs = app()->url_manager->segment();
+                    $segs = UrlManager::segment();
                     $mmethod = array_pop($segs);
 
                     $class = new $api_function($this->app);
@@ -496,7 +499,7 @@ class ApiController  extends FrontendController
 
                         //
 
-                        $segs = app()->url_manager->segment();
+                        $segs = UrlManager::segment();
                         $mmethod = array_pop($segs);
 
                         $class = new $api_function_full_2($this->app);
@@ -540,8 +543,8 @@ class ApiController  extends FrontendController
 
             // print $api_function;`
         } else {
-            $api_function = app()->format->clean_html($api_function);
-            $api_function = app()->format->clean_xss($api_function);
+            $api_function = Format::clean_html($api_function);
+            $api_function = Format::clean_xss($api_function);
             return response('The api function is not defined in the allowed functions list', 403);
 
 
@@ -600,7 +603,7 @@ class ApiController  extends FrontendController
         }
 
         if (!defined('MW_NO_SESSION')) {
-            $is_ajax = app()->url_manager->is_ajax();
+            $is_ajax = UrlManager::is_ajax();
             if (!app()->user_manager->session_id() and $is_ajax == false and !defined('MW_SESS_STARTED')) {
                 define('MW_SESS_STARTED', true);
                 //session_start();
@@ -687,7 +690,7 @@ class ApiController  extends FrontendController
             $request_data['data-type'] = $request_data['data-module-name'];
 
             if (!isset($request_data['id'])) {
-                $request_data['id'] = app()->url_manager->slug($request_data['data-module-name'] . '-' . date('YmdHis'));
+                $request_data['id'] = UrlManager::slug($request_data['data-module-name'] . '-' . date('YmdHis'));
             }
         }
 
@@ -737,25 +740,25 @@ class ApiController  extends FrontendController
             $url = $from_url;
             $from_url2 = str_replace('#', '/', $from_url);
 
-            $content_id = app()->url_manager->param('content_id', false, $from_url2);
+            $content_id = UrlManager::param('content_id', false, $from_url2);
 
             if ($content_id == false) {
-                $content_id = app()->url_manager->param('editpage', false, $from_url2);
+                $content_id = UrlManager::param('editpage', false, $from_url2);
             }
             if ($content_id == false) {
-                $content_id = app()->url_manager->param('editpost', false, $from_url2);
+                $content_id = UrlManager::param('editpost', false, $from_url2);
             }
             if ($content_id == false) {
-                $is_current = app()->url_manager->param('is-current', false, $from_url2);
+                $is_current = UrlManager::param('is-current', false, $from_url2);
                 if ($is_current) {
-                    $content_id = app()->url_manager->param('content-id', false, $from_url2);
+                    $content_id = UrlManager::param('content-id', false, $from_url2);
                 } else {
-                    $content_id = app()->url_manager->param('mw-adm-content-id', false, $from_url2);
+                    $content_id = UrlManager::param('mw-adm-content-id', false, $from_url2);
                 }
             }
 
             if ($content_id == false) {
-                $action_test = app()->url_manager->param('action', false, $from_url2);
+                $action_test = UrlManager::param('action', false, $from_url2);
 
                 if ($action_test != false) {
                     $action_test = str_ireplace('editpage:', '', $action_test);
@@ -789,7 +792,7 @@ class ApiController  extends FrontendController
                     }
                 }
             } else {
-                if (trim($url) == '' or trim($url) == app()->url_manager->site()) {
+                if (trim($url) == '' or trim($url) == UrlManager::site()) {
 
                     //var_dump($from_url);
                     //$page = $this->app->content_manager->get_by_url($url);
@@ -800,7 +803,7 @@ class ApiController  extends FrontendController
                     }
 
                     if (isset($from_url2)) {
-                        $mw_quick_edit = app()->url_manager->param('mw_quick_edit', false, $from_url2);
+                        $mw_quick_edit = UrlManager::param('mw_quick_edit', false, $from_url2);
 
                         if ($mw_quick_edit) {
                             $page = false;
@@ -824,7 +827,7 @@ class ApiController  extends FrontendController
                 }
             }
         } else {
-            $url = app()->url_manager->string();
+            $url = UrlManager::string();
         }
 
         if (!defined('IS_HOME')) {
@@ -851,7 +854,7 @@ class ApiController  extends FrontendController
         }
 
         if ($custom_display == true) {
-            $u2 = app()->url_manager->site();
+            $u2 = UrlManager::site();
             $u1 = str_replace($u2, '', $url);
 
             $this->render_this_url = $u1;
@@ -864,21 +867,21 @@ class ApiController  extends FrontendController
 
         $url_last = false;
         if (!isset($request_data['module'])) {
-            $url = app()->url_manager->string(0);
+            $url = UrlManager::string(0);
             if ($url == __FUNCTION__) {
-                $url = app()->url_manager->string(0);
+                $url = UrlManager::string(0);
             }
 
             /*
-            $is_ajax = app()->url_manager->is_ajax();
+            $is_ajax = UrlManager::is_ajax();
 
             if ($is_ajax == true) {
-            $url = app()->url_manager->string(true);
+            $url = UrlManager::string(true);
             }*/
 
-            $url = $this->app->format->replace_once('module/', '', $url);
-            $url = $this->app->format->replace_once('module_api/', '', $url);
-            $url = $this->app->format->replace_once('m/', '', $url);
+            $url = Format::replace_once('module/', '', $url);
+            $url = Format::replace_once('module_api/', '', $url);
+            $url = Format::replace_once('m/', '', $url);
             if (is_module($url)) {
                 $request_data['module'] = $url;
                 $mod_from_url = $url;
@@ -914,7 +917,7 @@ class ApiController  extends FrontendController
             }
         }
 
-        $module_info = app()->url_manager->param('module_info', true);
+        $module_info = UrlManager::param('module_info', true);
 
 
         if ($module_info and isset($request_data['module'])) {
@@ -930,7 +933,7 @@ class ApiController  extends FrontendController
 
                 if (!isset($config['icon']) or $config['icon'] == false) {
                     $config['icon'] = modules_path() . '' . $request_data['module'] . '.png';
-                    $config['icon'] = app()->url_manager->link_to_file($config['icon']);
+                    $config['icon'] = UrlManager::link_to_file($config['icon']);
                 }
                 echo json_encode($config);
 
@@ -939,10 +942,10 @@ class ApiController  extends FrontendController
         }
 
 
-        $admin = app()->url_manager->param('admin', true);
+        $admin = UrlManager::param('admin', true);
 
-        $mod_to_edit = app()->url_manager->param('module_to_edit', true);
-        $embed = app()->url_manager->param('embed', true);
+        $mod_to_edit = UrlManager::param('module_to_edit', true);
+        $embed = UrlManager::param('embed', true);
 
         $mod_iframe = false;
         if ($mod_to_edit != false) {
@@ -955,7 +958,7 @@ class ApiController  extends FrontendController
         if ((request()->isMethod('post'))) {
             $data = request()->all();
         } else {
-            $url = app()->url_manager->segment();
+            $url = UrlManager::segment();
 
             if (!empty($url)) {
                 foreach ($url as $k => $v) {
@@ -1088,7 +1091,7 @@ class ApiController  extends FrontendController
                     }
 
                     if (is_array($v)) {
-                        $v1 = $this->app->format->array_to_base64($v);
+                        $v1 = Format::array_to_base64($v);
                         $tags .= "{$k}=\"$v1\" ";
                     } else {
                         $v = $this->app->module_manager->format_attr($v);
@@ -1101,10 +1104,10 @@ class ApiController  extends FrontendController
 
         if ($has_id == false) {
 //            if (defined('MW_MODULE_ONDROP')) {
-//                $mod_n = app()->url_manager->slug($mod_n) . '-' . date("YmdHis").unquid();
+//                $mod_n = UrlManager::slug($mod_n) . '-' . date("YmdHis").unquid();
 //                $tags .= "id=\"$mod_n\" ";
 //            }
-            //  $mod_n = app()->url_manager->slug($mod_n) . '-' . date("YmdHis");
+            //  $mod_n = UrlManager::slug($mod_n) . '-' . date("YmdHis");
             //  $tags .= "id=\"$mod_n\" ";
         }
 
@@ -1126,7 +1129,7 @@ class ApiController  extends FrontendController
         $httpReferer = request()->header('referer');
         if ($httpReferer) {
             $get_arr_from_ref = $httpReferer;
-            if (strstr($get_arr_from_ref, app()->url_manager->site())) {
+            if (strstr($get_arr_from_ref, UrlManager::site())) {
                 $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
                 if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
                     $restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
@@ -1150,7 +1153,7 @@ class ApiController  extends FrontendController
             $res = str_replace('{content}', $res, $layout);
         }*/
 
-        $aj = app()->url_manager->is_ajax();
+        $aj = UrlManager::is_ajax();
 
     /*    if ((isset($request_data['live_edit']) or isset($request_data['admin'])) and $aj == false) {
             $p_index = mw_includes_path() . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
@@ -1166,7 +1169,7 @@ class ApiController  extends FrontendController
 
         $res = execute_document_ready($res);
         if (!defined('MW_NO_OUTPUT')) {
-            $res = app()->url_manager->replace_site_url_back($res);
+            $res = UrlManager::replace_site_url_back($res);
             return response($res);
 
             // echo $res;

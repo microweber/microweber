@@ -15,6 +15,7 @@ namespace MicroweberPackages\Template;
 
 use MicroweberPackages\Template\Adapters\ElementsConfigReader;
 use MicroweberPackages\View\View;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class LayoutsManager
 {
@@ -355,7 +356,7 @@ class LayoutsManager
 
                                 $possible = $here_dir . $to_return_temp['icon'];
                                 if (is_file($possible)) {
-                                    $to_return_temp['icon'] = $this->app->url_manager->link_to_file($possible);
+                                    $to_return_temp['icon'] = UrlManager::link_to_file($possible);
                                 } else {
                                     unset($to_return_temp['icon']);
                                 }
@@ -368,7 +369,7 @@ class LayoutsManager
                                 $possible = $here_dir . $to_return_temp['image'];
 
                                 if (is_file($possible)) {
-                                    $to_return_temp['image'] = $this->app->url_manager->link_to_file($possible);
+                                    $to_return_temp['image'] = UrlManager::link_to_file($possible);
                                 } else {
                                     unset($to_return_temp['image']);
                                 }
@@ -468,7 +469,7 @@ class LayoutsManager
                                 $to_return_temp['screenshot_file'] = $screen;
                             }
                             if (isset($to_return_temp['screenshot_file'])) {
-                                $to_return_temp['screenshot'] = $this->app->url_manager->link_to_file($to_return_temp['screenshot_file']);
+                                $to_return_temp['screenshot'] = UrlManager::link_to_file($to_return_temp['screenshot_file']);
                             }
 
                             $configs[] = $to_return_temp;

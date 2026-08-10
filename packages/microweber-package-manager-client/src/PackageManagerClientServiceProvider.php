@@ -10,6 +10,7 @@ use MicroweberPackages\PackageManagerClient\Adapters\MicroweberLocalPackageResol
 use MicroweberPackages\PackageManagerClient\Adapters\MicroweberPostInstallHook;
 use MicroweberPackages\PackageManagerClient\Contracts\LocalPackageResolverInterface;
 use MicroweberPackages\PackageManagerClient\Contracts\PostInstallHookInterface;
+use MicroweberPackages\SystemLicenses\Facades\SystemLicenses;
 
 class PackageManagerClientServiceProvider extends ServiceProvider
 {
@@ -31,7 +32,7 @@ class PackageManagerClientServiceProvider extends ServiceProvider
             ]);
         });
 
-        $this->app->singleton(PackageManagerClient::class, function ($app): PackageManagerClient {
+        $this->app->singleton(PackageManagerClientService::class, function ($app): PackageManagerClientService {
             $config = $this->configArray($app);
 
             $servers = $config['package_servers'] ?? [];
@@ -65,7 +66,7 @@ class PackageManagerClientServiceProvider extends ServiceProvider
                 ? $app->make(PostInstallHookInterface::class)
                 : null;
 
-            return new PackageManagerClient(
+            return new PackageManagerClientService(
                 packageServers: $serversList !== [] ? $serversList : null,
                 config: [
                     'base_path' => $app->basePath(),
@@ -87,9 +88,7 @@ class PackageManagerClientServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->alias(PackageManagerClient::class, 'package-manager-client');
-
-        $this->app->bind(Client::class, static fn ($app): PackageManagerClient => $app->make(PackageManagerClient::class));
+        $this->app->bind(Client::class, static fn ($app): PackageManagerClientService => $app->make(PackageManagerClientService::class));
 
         $this->registerMicroweberIntegration();
     }
@@ -107,8 +106,8 @@ class PackageManagerClientServiceProvider extends ServiceProvider
         $this->app->singleton(PostInstallHookInterface::class, MicroweberPostInstallHook::class);
 
         $this->app->afterResolving(
-            PackageManagerClient::class,
-            static function (PackageManagerClient $client): void {
+            PackageManagerClientService::class,
+            static function (PackageManagerClientService $client): void {
                 // Licenses: once installed they live in the DB; DURING install the
                 // DB isn't ready, so they come from the JSON license file the
                 // installer saves (system_licenses_manager->getFileLicenses()). Both
@@ -128,8 +127,8 @@ class PackageManagerClientServiceProvider extends ServiceProvider
                     }
                 } else {
                     try {
-                        if (function_exists('app') && app()->bound('system_licenses_manager')) {
-                            $fileLicenses = app('system_licenses_manager')->getFileLicenses();
+                        if (function_exists('app') && app()->bound(\MicroweberPackages\SystemLicenses\SystemLicensesManager::class)) {
+                            $fileLicenses = SystemLicenses::getFileLicenses();
                             if (is_array($fileLicenses) && $fileLicenses !== []) {
                                 $client->setLicenses($fileLicenses);
                             }

@@ -6,6 +6,7 @@ use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
 use Modules\Product\Models\Product;
 use Modules\Product\Models\ProductVariant;
+use MicroweberPackages\Http\Facades\Http as MicroweberHttp;
 
 /**
  * Microweber - Backup Module Database Save
@@ -188,7 +189,7 @@ class DatabaseSave
             return false;
         }
 
-        $downloaded = app()->http->url($imageUrl)->download($filename);
+        $downloaded = MicroweberHttp::url($imageUrl)->download($filename);
         if ($downloaded && is_file($filename)) {
             $ext = get_file_extension($imageUrl);
 

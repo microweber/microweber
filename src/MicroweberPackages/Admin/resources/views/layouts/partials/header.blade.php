@@ -1,3 +1,5 @@
+use MicroweberPackages\Notification\Facades\Notifications;
+use MicroweberPackages\Url\Facades\UrlManager;
 <!DOCTYPE html>
 <html <?php print lang_attributes(); ?>>
 <head>
@@ -130,12 +132,12 @@ $additionalBodyClassesStr = implode(' ', $additionalBodyClasses);
 
 
 $bodyClasses[] = 'is_admin';
-if(app()->url_manager->param('view')) {
-    $bodyClasses[] = 'view-'.app()->url_manager->param('view');
+if(UrlManager::param('view')) {
+    $bodyClasses[] = 'view-'.UrlManager::param('view');
 }
 
-if(app()->url_manager->param('action')) {
-    $bodyClasses[] = 'action-'.app()->url_manager->param('action');
+if(UrlManager::param('action')) {
+    $bodyClasses[] = 'action-'.UrlManager::param('action');
 }
 
 
@@ -144,7 +146,7 @@ $bodyClassesStr = $bodyClasses ? implode(' ', $bodyClasses) : '';
 ?>
 
 
-<body class="is_admin loading view-<?php print app()->url_manager->param('view'); ?> action-<?php print app()->url_manager->param('action'); ?> <?php print $additionalBodyClassesStr; ?>">
+<body class="is_admin loading view-<?php print UrlManager::param('view'); ?> action-<?php print UrlManager::param('action'); ?> <?php print $additionalBodyClassesStr; ?>">
 
 
 
@@ -161,7 +163,7 @@ $bodyClassesStr = $bodyClasses ? implode(' ', $bodyClasses) : '';
 <?php } ?>*/
 
 // must be moved to ajax and to the notification class because its too slow to load
-//$new_version_notifications = app()->notifications_manager->get('rel_type=update_check&rel_id=updates');
+//$new_version_notifications = Notifications::get('rel_type=update_check&rel_id=updates');
 
 $new_version_notifications = 0;
 ?>

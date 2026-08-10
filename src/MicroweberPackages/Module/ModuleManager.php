@@ -20,6 +20,8 @@ use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use Symfony\Component\Console\Output\BufferedOutput;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 
 class ModuleManager
@@ -523,7 +525,7 @@ class ModuleManager
                         //   $s['position'] = intval($save[0]['position']);
                         $s['installed'] = intval($save[0]['installed']);
 
-                        $save = app()->database_manager->save($table, $s);
+                        $save = DatabaseManager::save($table, $s);
                         // print_r($save);
                         $mname_clen = str_replace('\\', '/', $s['module']);
                         if ($s['id'] > 0) {
@@ -531,15 +533,15 @@ class ModuleManager
                             //$delid = $s["id"];
                             DB::table($table)->where('id', '!=', $s['id'])->where('module', $s['module'])->delete();
                             // $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
-                            //app()->database_manager->q($del);
+                            //DatabaseManager::q($del);
                         }
                     } else {
 
-                        $save = app()->database_manager->save($table, $s);
+                        $save = DatabaseManager::save($table, $s);
                     }
                 }
             } else {
-                $save = app()->database_manager->save($table, $s);
+                $save = DatabaseManager::save($table, $s);
             }
         }
         return $save;
@@ -597,7 +599,7 @@ class ModuleManager
             unset($params['ui']);
         }
 
-        $data = $this->app->database_manager->get($params);
+        $data = DatabaseManager::get($params);
 
         if (is_array($data) and !empty($data)) {
             if (isset($data['settings']) and !is_array($data['settings'])) {
@@ -948,7 +950,7 @@ class ModuleManager
 
             if ($ch != false) {
                 $ch = dirname($ch);
-                $ch = $this->app->url_manager->link_to_file($ch);
+                $ch = UrlManager::link_to_file($ch);
                 $ch = $ch . '/';
                 $checked[$module_name] = $ch;
             } else {
@@ -1025,7 +1027,7 @@ class ModuleManager
                     $indx[$i] = $value2;
                     ++$i;
                 }
-                $this->app->database_manager->update_position_field($table, $indx);
+                DatabaseManager::update_position_field($table, $indx);
                 app()->module_repository->clearCache();
 
                 return $indx;
@@ -1095,7 +1097,7 @@ class ModuleManager
 
         $params['table'] = $table;
         $params['order_by'] = 'position asc';
-        $data = $this->app->database_manager->get($params);
+        $data = DatabaseManager::get($params);
 
         return $data;
     }
@@ -1117,13 +1119,13 @@ class ModuleManager
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->database_manager->delete_by_id($table, $c_id);
+            DatabaseManager::delete_by_id($table, $c_id);
         }
 
         if (isset($data['ids']) and is_array($data['ids'])) {
             foreach ($data['ids'] as $value) {
                 $c_id = intval($value);
-                $this->app->database_manager->delete_by_id($table, $c_id);
+                DatabaseManager::delete_by_id($table, $c_id);
             }
         }
         app()->module_repository->clearCache();
@@ -1143,7 +1145,7 @@ class ModuleManager
         if (!empty($data_to_save)) {
             $s = $data_to_save;
 
-            $save = $this->app->database_manager->save($table, $s);
+            $save = DatabaseManager::save($table, $s);
         }
         app()->module_repository->clearCache();
 

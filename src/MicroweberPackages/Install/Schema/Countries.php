@@ -2,6 +2,9 @@
 
 namespace MicroweberPackages\Install\Schema;
 
+use MicroweberPackages\Database\Facades\DatabaseManager;
+
+
 class Countries
 {
     public function get()
@@ -22,6 +25,6 @@ class Countries
     {
         $table_sql = MW_PATH.'Utils'.DS.'lib'.DS.'countries.sql';
 
-        app()->database_manager->import_sql_file($table_sql);
+        DatabaseManager::import_sql_file($table_sql);
     }
 }

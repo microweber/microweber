@@ -26,7 +26,7 @@ The package auto-discovers its service provider and facade.
 ### Via the Container
 
 ```php
-$uploader = app('file_uploader');
+$uploader = FileUploader::;
 
 // Upload a file from a request
 $result = $uploader->upload($request, [
@@ -53,7 +53,7 @@ $result = FileUploader::upload($request);
 ### Validation Only
 
 ```php
-$validator = app('file_uploader')->validator();
+$validator = FileUploader::->validator();
 
 // Check MIME type
 $result = $validator->validateMimeType('/path/to/file.jpg', ['images']);

@@ -8,8 +8,8 @@ class FormatServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton('format', function () {
-            return new Format();
+        $this->app->singleton(FormatService::class, function () {
+            return new FormatService();
         });
     }
 

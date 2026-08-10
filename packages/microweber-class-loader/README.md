@@ -25,7 +25,7 @@ $app->register(\MicroweberPackages\ClassLoader\ClassLoaderServiceProvider::class
 ## Usage
 
 ```php
-use MicroweberPackages\ClassLoader\ClassLoader;
+use MicroweberPackages\ClassLoader\ClassLoaderService;
 
 $loader = app(ClassLoader::class);
 

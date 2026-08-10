@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MicroweberPackages\Queue\Tests\Feature;
 
 use MicroweberPackages\Queue\Facades\ChunkedDispatcher as ChunkedDispatcherFacade;
-use MicroweberPackages\Queue\Services\ChunkedDispatcher;
+use MicroweberPackages\Queue\Services\ChunkedDispatcherService;
 use MicroweberPackages\Queue\Services\QueueProcessor;
 use MicroweberPackages\Queue\Tests\TestCase;
 

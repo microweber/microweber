@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MicroweberPackages\Queue\Tests\Unit;
 
 use Illuminate\Support\Facades\Bus;
-use MicroweberPackages\Queue\Services\ChunkedDispatcher;
+use MicroweberPackages\Queue\Services\ChunkedDispatcherService;
 use MicroweberPackages\Queue\Tests\Fixtures\FakeChunkJob;
 use MicroweberPackages\Queue\Tests\TestCase;
 

@@ -5,9 +5,10 @@ namespace Modules\Media\Services;
 use Illuminate\Support\Facades\Log;
 use MicroweberPackages\CdnSync\Services\CdnSyncService;
 use Modules\Media\Models\Media;
+use MicroweberPackages\CdnSync\Facades\CdnSync;
 
 /**
- * @deprecated Use MicroweberPackages\CdnSync\Services\CdnSyncService (app('cdn_sync')) instead.
+ * @deprecated Use MicroweberPackages\CdnSync\Services\CdnSyncService (CdnSync) instead.
  *
  * This class is a backwards-compatibility shim that delegates to the
  * microweber-packages/cdn-sync package. It will be removed in a future release.
@@ -18,11 +19,11 @@ class CdnIntegrationService
 
     public function __construct()
     {
-        $this->cdnSync = app('cdn_sync');
+        $this->cdnSync = CdnSync::getFacadeRoot();
     }
 
     /**
-     * @deprecated Use app('cdn_sync')->sync($media) instead.
+     * @deprecated Use CdnSync::sync($media) instead.
      */
     public function uploadToCdn(Media $media, bool $deleteLocal = false): bool
     {
@@ -31,7 +32,7 @@ class CdnIntegrationService
     }
 
     /**
-     * @deprecated Use app('cdn_sync')->delete($media) instead.
+     * @deprecated Use CdnSync::delete($media) instead.
      */
     public function deleteFromCdn(Media $media): bool
     {
@@ -39,7 +40,7 @@ class CdnIntegrationService
     }
 
     /**
-     * @deprecated Use app('cdn_sync')->sync($media) instead.
+     * @deprecated Use CdnSync::sync($media) instead.
      */
     public function syncMedia(int $mediaId, bool $deleteLocal = false): array
     {
@@ -57,7 +58,7 @@ class CdnIntegrationService
     }
 
     /**
-     * @deprecated Use app('cdn_sync')->bulkSync($models) instead.
+     * @deprecated Use CdnSync::bulkSync($models) instead.
      */
     public function bulkSync(array $mediaIds, bool $deleteLocal = false): array
     {
@@ -79,7 +80,7 @@ class CdnIntegrationService
     }
 
     /**
-     * @deprecated Use app('cdn_sync')->isConfigured() instead.
+     * @deprecated Use CdnSync::isConfigured() instead.
      */
     public function isConfigured(): bool
     {
@@ -87,7 +88,7 @@ class CdnIntegrationService
     }
 
     /**
-     * @deprecated Use app('cdn_sync')->getStats() instead.
+     * @deprecated Use CdnSync::getStats() instead.
      */
     public function getStats(): array
     {

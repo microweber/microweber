@@ -5,6 +5,7 @@ namespace Modules\Checkout\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class CheckoutControllerTest extends TestCase
 {
@@ -13,7 +14,7 @@ class CheckoutControllerTest extends TestCase
     #[Test]
 
     public function it_process(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $params = array(
             'title' => 'My new product',

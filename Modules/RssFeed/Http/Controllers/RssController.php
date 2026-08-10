@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Support\AdminFixtureGuard;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class RssController extends Controller
 {
@@ -72,7 +73,7 @@ class RssController extends Controller
                     $content = $item['content_body'];
                 }
                 $content = app()->parser->process($content);
-                $content = app()->url_manager->replace_site_url_back($content);
+                $content = UrlManager::replace_site_url_back($content);
 
                 $tmp['description'] = $content;
                 $tmp['tags'] = content_tags($item['id']);

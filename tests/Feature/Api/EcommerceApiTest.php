@@ -12,6 +12,7 @@ use Modules\Content\Models\Content;
 use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
 use Tests\TestCase;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class EcommerceApiTest extends TestCase
 {
@@ -478,7 +479,7 @@ class EcommerceApiTest extends TestCase
      */
     private function createTestProduct(string $title, float $price, array $extra = []): Content
     {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $data = [
             'title' => $title,

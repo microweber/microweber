@@ -8,20 +8,20 @@ class RepositoryServiceProviderTest extends TestCase
 {
     public function test_repository_manager_is_bound()
     {
-        $this->assertTrue($this->app->bound('repository_manager'));
+        $this->assertTrue($this->app->bound(\MicroweberPackages\Repository\RepositoryManager::class));
     }
 
     public function test_repository_manager_is_singleton()
     {
-        $manager1 = $this->app->make('repository_manager');
-        $manager2 = $this->app->make('repository_manager');
+        $manager1 = $this->app->make(\MicroweberPackages\Repository\RepositoryManager::class);
+        $manager2 = $this->app->make(\MicroweberPackages\Repository\RepositoryManager::class);
 
         $this->assertSame($manager1, $manager2);
     }
 
     public function test_repository_manager_is_correct_instance()
     {
-        $manager = $this->app->make('repository_manager');
+        $manager = $this->app->make(\MicroweberPackages\Repository\RepositoryManager::class);
 
         $this->assertInstanceOf(RepositoryManager::class, $manager);
     }

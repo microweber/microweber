@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class UserLogoutController extends Controller
 {
@@ -51,7 +52,7 @@ class UserLogoutController extends Controller
             $url = $redirect;
         }
 
-        return app()->url_manager->redirect($url);
+        return UrlManager::redirect($url);
     }
 
 }

@@ -8,6 +8,7 @@ use MicroweberPackages\Notification\Models\Notification;
 use MicroweberPackages\Notification\Services\NotificationsManager;
 use MicroweberPackages\User\Models\User;
 use Tests\DuskTestCase;
+use MicroweberPackages\Notification\Facades\Notifications;
 
 /**
  * Dusk / browser smoke tests for notification admin surfaces.
@@ -55,16 +56,16 @@ class NotificationAdminDuskTest extends DuskTestCase
     {
         $this->assertTrue(class_exists(Notification::class));
         $this->assertTrue(class_exists(NotificationsManager::class));
-        $this->assertTrue($this->app->bound('notifications_manager'));
+        $this->assertTrue($this->app->bound(\MicroweberPackages\Notification\Services\NotificationsManager::class));
         $this->assertInstanceOf(
             NotificationsManager::class,
-            app('notifications_manager')
+            Notifications::getFacadeRoot()
         );
     }
 
     public function test_save_legacy_notification_as_admin(): void
     {
-        $result = app('notifications_manager')->save([
+        $result = Notifications::save([
             'module' => 'dusk',
             'rel_type' => 'test',
             'rel_id' => 1,

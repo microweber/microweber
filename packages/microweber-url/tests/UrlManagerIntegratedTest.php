@@ -2,25 +2,26 @@
 
 namespace MicroweberPackages\Url\Tests;
 
-use MicroweberPackages\Url\UrlManager;
+use MicroweberPackages\Url\UrlManagerService;
 use PHPUnit\Framework\Attributes\Test;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 /**
- * Integrated tests for UrlManager - requires the full Microweber system.
+ * Integrated tests for UrlManagerService - requires the full Microweber system.
  */
 class UrlManagerIntegratedTest extends TestCase
 {
     #[Test]
     public function it_resolves_from_container(): void
     {
-        $manager = app('url_manager');
-        $this->assertInstanceOf(UrlManager::class, $manager);
+        $manager = UrlManager::getFacadeRoot();
+        $this->assertInstanceOf(UrlManagerService::class, $manager);
     }
 
     #[Test]
     public function it_returns_site_url(): void
     {
-        $manager = app('url_manager');
+        $manager = UrlManager::getFacadeRoot();
         $url = $manager->site_url();
         $this->assertNotEmpty($url);
     }
@@ -28,7 +29,7 @@ class UrlManagerIntegratedTest extends TestCase
     #[Test]
     public function it_returns_site_url_with_path(): void
     {
-        $manager = app('url_manager');
+        $manager = UrlManager::getFacadeRoot();
         $url = $manager->site_url('test/page');
         $this->assertStringContainsString('test/page', $url);
     }
@@ -36,7 +37,7 @@ class UrlManagerIntegratedTest extends TestCase
     #[Test]
     public function it_returns_site_via_alias(): void
     {
-        $manager = app('url_manager');
+        $manager = UrlManager::getFacadeRoot();
         $url = $manager->site('test');
         $this->assertStringContainsString('test', $url);
     }
@@ -44,7 +45,7 @@ class UrlManagerIntegratedTest extends TestCase
     #[Test]
     public function it_returns_hostname(): void
     {
-        $manager = app('url_manager');
+        $manager = UrlManager::getFacadeRoot();
         $hostname = $manager->hostname();
         $this->assertNotEmpty($hostname);
         $this->assertIsString($hostname);
@@ -53,7 +54,7 @@ class UrlManagerIntegratedTest extends TestCase
     #[Test]
     public function it_replaces_site_url_in_string(): void
     {
-        $manager = app('url_manager');
+        $manager = UrlManager::getFacadeRoot();
         $siteUrl = $manager->site_url();
         $result = $manager->replace_site_url($siteUrl . 'some/path');
         $this->assertStringContainsString('{SITE_URL}', $result);
@@ -62,7 +63,7 @@ class UrlManagerIntegratedTest extends TestCase
     #[Test]
     public function it_replaces_site_url_back_in_string(): void
     {
-        $manager = app('url_manager');
+        $manager = UrlManager::getFacadeRoot();
         $siteUrl = $manager->site_url();
         $result = $manager->replace_site_url_back('{SITE_URL}some/path');
         $this->assertStringContainsString($siteUrl, $result);
@@ -72,7 +73,7 @@ class UrlManagerIntegratedTest extends TestCase
     #[Test]
     public function it_replace_roundtrips(): void
     {
-        $manager = app('url_manager');
+        $manager = UrlManager::getFacadeRoot();
         $siteUrl = $manager->site_url();
         $original = $siteUrl . 'test/path/to/page';
         $replaced = $manager->replace_site_url($original);
@@ -83,7 +84,7 @@ class UrlManagerIntegratedTest extends TestCase
     #[Test]
     public function it_returns_segments(): void
     {
-        $manager = app('url_manager');
+        $manager = UrlManager::getFacadeRoot();
         $siteUrl = $manager->site_url();
         $segments = $manager->segments($siteUrl . 'page/sub');
         $this->assertIsArray($segments);
@@ -92,7 +93,7 @@ class UrlManagerIntegratedTest extends TestCase
     #[Test]
     public function it_returns_api_link(): void
     {
-        $manager = app('url_manager');
+        $manager = UrlManager::getFacadeRoot();
         $link = $manager->api_link('content/get');
         $this->assertStringContainsString('api', $link);
     }
@@ -100,7 +101,7 @@ class UrlManagerIntegratedTest extends TestCase
     #[Test]
     public function it_generates_slug(): void
     {
-        $manager = app('url_manager');
+        $manager = UrlManager::getFacadeRoot();
         $slug = $manager->slug('Test Page: Hello World');
         $this->assertEquals('Test-Page-Hello-World', $slug);
     }
@@ -108,7 +109,7 @@ class UrlManagerIntegratedTest extends TestCase
     #[Test]
     public function it_sets_and_unsets_params(): void
     {
-        $manager = app('url_manager');
+        $manager = UrlManager::getFacadeRoot();
         $manager->set_current($manager->site_url() . 'page:1/filter:active');
         $result = $manager->param_set('page', '2');
         $this->assertStringContainsString('page:2', $result);
@@ -120,9 +121,10 @@ class UrlManagerIntegratedTest extends TestCase
     #[Test]
     public function package_url_manager_class_is_bound(): void
     {
-        $manager = new UrlManager();
-        $this->assertInstanceOf(UrlManager::class, $manager);
-        $this->assertSame(UrlManager::class, app('url_manager')::class);
+        $manager = new UrlManagerService();
+        $this->assertInstanceOf(UrlManagerService::class, $manager);
+        $this->assertInstanceOf(UrlManagerService::class, UrlManager::getFacadeRoot());
+        $this->assertSame(app(UrlManagerService::class), UrlManager::getFacadeRoot());
     }
 
     #[Test]

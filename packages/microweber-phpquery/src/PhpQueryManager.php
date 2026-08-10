@@ -2,9 +2,12 @@
 
 namespace MicroweberPackages\PhpQuery;
 
+use MicroweberPackages\PhpQuery\Facades\PhpQuery;
+
+
 /**
  * PhpQuery Manager - provides an object-oriented API for the phpQuery library.
- * Can be used via app()->phpquery-> or dependency injection.
+ * Can be used via PhpQuery:: or dependency injection.
  */
 class PhpQueryManager
 {

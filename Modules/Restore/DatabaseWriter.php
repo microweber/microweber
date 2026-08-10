@@ -18,6 +18,7 @@ use Modules\Restore\Traits\DatabaseMenusWriter;
 use Modules\Restore\Traits\DatabaseModuleWriter;
 use Modules\Restore\Traits\DatabaseRelationWriter;
 use Modules\Restore\Traits\DatabaseTaggingTaggedWriter;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 /**
  * Microweber - Backup Module Database Writer
@@ -309,7 +310,7 @@ class DatabaseWriter
             if (isset($this->content->__table_structures)) {
                 $this->log('Building database tables');
 
-                app()->database_manager->build_tables($this->content->__table_structures);
+                DatabaseManager::build_tables($this->content->__table_structures);
             }
             $success = array();
 
@@ -362,7 +363,7 @@ class DatabaseWriter
         }
 
         if (isset($this->content->__table_structures)) {
-            app()->database_manager->build_tables($this->content->__table_structures);
+            DatabaseManager::build_tables($this->content->__table_structures);
         }
 
         // All db tables

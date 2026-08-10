@@ -63,9 +63,9 @@ class UserSocialiteServiceProvider extends AuthServiceProvider
         }
 
         // Refresh the service so it picks up the just-set config values.
-        if ($this->app->bound('social_login')) {
+        if ($this->app->bound(\MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract::class)) {
             /** @var \MicroweberPackages\SocialLogin\Services\SocialLoginService $service */
-            $service = $this->app->make('social_login');
+            $service = $this->app->make(\MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract::class);
             $service->refreshConfig();
         }
     }

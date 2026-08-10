@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\WordPressMigration\Services\SourceSlugResolver;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 /**
  * Feature coverage for {@see SourceSlugResolver}.
@@ -132,7 +133,7 @@ class SourceSlugResolverTest extends TestCase
     #[Test]
     public function special_characters_collapse_to_single_hyphen_matching_has_slug_trait(): void
     {
-        // The slug normalizer used by HasSlugTrait (via app()->url_manager->slug)
+        // The slug normalizer used by HasSlugTrait (via UrlManager::slug)
         // collapses runs of non-letter/digit chars into a single `-`.
         // Resolver mirrors that so the collision check compares apples to apples.
         $this->assertSame(

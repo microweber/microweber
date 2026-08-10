@@ -15,8 +15,7 @@ class SocialLoginServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../../config/social-login.php', 'social-login');
 
         $this->app->singleton(SocialLoginServiceContract::class, SocialLoginService::class);
-
-        $this->app->alias(SocialLoginServiceContract::class, 'social_login');
+        $this->app->singleton(SocialLoginService::class, SocialLoginService::class);
     }
 
     public function boot(): void

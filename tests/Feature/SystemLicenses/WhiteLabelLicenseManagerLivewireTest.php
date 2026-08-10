@@ -11,6 +11,7 @@ use PHPUnit\Framework\Attributes\Test;
 use MicroweberPackages\User\Models\User;
 use Modules\WhiteLabel\Filament\Admin\WhiteLabelLicenseManager;
 use Tests\TestCase;
+use MicroweberPackages\SystemLicenses\Facades\SystemLicenses;
 
 class WhiteLabelLicenseManagerLivewireTest extends TestCase
 {
@@ -66,7 +67,7 @@ class WhiteLabelLicenseManagerLivewireTest extends TestCase
     public function license_manager_queries_new_model(): void
     {
         $this->fakeValidator->setValidKeys(['TABLE-KEY']);
-        app()->system_licenses_manager->saveLicense(['local_key' => 'TABLE-KEY']);
+        SystemLicenses::saveLicense(['local_key' => 'TABLE-KEY']);
 
         // Verify the license is retrievable via the new model used in the component
         $records = SystemLicense::all();
@@ -79,7 +80,7 @@ class WhiteLabelLicenseManagerLivewireTest extends TestCase
     {
         $this->fakeValidator->setValidKeys(['API-KEY']);
 
-        $result = app()->system_licenses_manager->saveLicense(['local_key' => 'API-KEY']);
+        $result = SystemLicenses::saveLicense(['local_key' => 'API-KEY']);
         $this->assertTrue($result['is_active']);
         $this->assertDatabaseHas('system_licenses', ['local_key' => 'API-KEY']);
     }
@@ -88,9 +89,9 @@ class WhiteLabelLicenseManagerLivewireTest extends TestCase
     public function license_api_validate_works_via_manager(): void
     {
         $this->fakeValidator->setValidKeys(['VALIDATE-API-KEY']);
-        app()->system_licenses_manager->saveLicense(['local_key' => 'VALIDATE-API-KEY']);
+        SystemLicenses::saveLicense(['local_key' => 'VALIDATE-API-KEY']);
 
-        $result = app()->system_licenses_manager->validateLicenses();
+        $result = SystemLicenses::validateLicenses();
         $this->assertNotNull($result);
         $this->assertArrayHasKey('updates', $result);
     }
@@ -99,9 +100,9 @@ class WhiteLabelLicenseManagerLivewireTest extends TestCase
     public function license_api_delete_works_via_manager(): void
     {
         $this->fakeValidator->setValidKeys(['DELETE-API-KEY']);
-        $saved = app()->system_licenses_manager->saveLicense(['local_key' => 'DELETE-API-KEY']);
+        $saved = SystemLicenses::saveLicense(['local_key' => 'DELETE-API-KEY']);
 
-        $result = app()->system_licenses_manager->deleteLicense($saved['id']);
+        $result = SystemLicenses::deleteLicense($saved['id']);
         $this->assertArrayHasKey('success', $result);
         $this->assertDatabaseMissing('system_licenses', ['local_key' => 'DELETE-API-KEY']);
     }

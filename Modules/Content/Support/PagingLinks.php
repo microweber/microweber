@@ -2,6 +2,9 @@
 
 namespace Modules\Content\Support;
 
+use MicroweberPackages\Url\Facades\UrlManager;
+
+
 class PagingLinks
 {
     /** @var \MicroweberPackages\App\LaravelApplication */
@@ -19,8 +22,8 @@ class PagingLinks
     public function get($base_url = false, $pages_count = false, $paging_param = 'current_page', $keyword_param = 'keyword')
     {
         if ($base_url == false) {
-            if ($this->app->url_manager->is_ajax() == false) {
-                $base_url = $this->app->url_manager->current(1);
+            if (UrlManager::is_ajax() == false) {
+                $base_url = UrlManager::current(1);
             } else {
                 if ($_SERVER['HTTP_REFERER'] != false) {
                     $base_url = $_SERVER['HTTP_REFERER'];

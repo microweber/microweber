@@ -8,6 +8,7 @@ use MicroweberPackages\Microweber\Abstract\BaseModule;
 use Modules\Teamcard\Filament\TeamcardModuleSettings;
 use Modules\Teamcard\Models\Teamcard;
 use Modules\Testimonials\Models\Testimonial;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 /**
  * Team Card Module
@@ -82,7 +83,7 @@ class TeamcardModule extends BaseModule
 
 
         return array_map(function ($teamcard) {
-            $teamcard['file'] = app()->url_manager->replace_site_url_back($teamcard['file']);
+            $teamcard['file'] = UrlManager::replace_site_url_back($teamcard['file']);
 
             $teamcardModel = new Teamcard();
             $teamcardModel['rel_id'] = $this->getRelId();

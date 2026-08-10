@@ -25,9 +25,6 @@ class MinifierServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->alias(MinifierService::class, 'minifier');
-        $this->app->alias(JsMinify::class, 'js-minify');
-        $this->app->alias(CssMinify::class, 'css-minify');
     }
 
     public function boot(): void

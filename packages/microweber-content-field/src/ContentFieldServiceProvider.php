@@ -14,7 +14,7 @@ class ContentFieldServiceProvider extends ServiceProvider implements DeferrableP
 
     public function register(): void
     {
-        $this->app->singleton('content_field_manager', function (): ContentFieldManager {
+        $this->app->singleton(ContentFieldManager::class, function (): ContentFieldManager {
             return new ContentFieldManager();
         });
     }
@@ -24,6 +24,6 @@ class ContentFieldServiceProvider extends ServiceProvider implements DeferrableP
      */
     public function provides(): array
     {
-        return ['content_field_manager'];
+        return [ContentFieldManager::class];
     }
 }

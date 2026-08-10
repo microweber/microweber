@@ -7,6 +7,7 @@ use Tests\DuskTestCase;
 use function app;
 use function save_option;
 use function Tests\Browser\Multilanguage\str_contains;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class ShopDuskTestCase extends DuskTestCase
 {
@@ -65,7 +66,7 @@ class ShopDuskTestCase extends DuskTestCase
 
     protected function _browserToShopAndAddTocart($browser)
     {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
 
         $shop_page = app()->content_repository->getFirstShopPage();

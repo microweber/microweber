@@ -6,6 +6,7 @@ namespace MicroweberPackages\ImageOptimization\Tests\Unit;
 
 use MicroweberPackages\ImageOptimization\Services\ImageOptimizationService;
 use MicroweberPackages\ImageOptimization\Tests\TestCase;
+use MicroweberPackages\ImageOptimization\Facades\ImageOptimization;
 
 class ImageOptimizationServiceTest extends TestCase
 {
@@ -215,6 +216,6 @@ class ImageOptimizationServiceTest extends TestCase
         $a = app(ImageOptimizationService::class);
         $b = app(ImageOptimizationService::class);
         $this->assertSame($a, $b);
-        $this->assertSame($a, app('image-optimization'));
+        $this->assertSame($a, ImageOptimization::getFacadeRoot());
     }
 }

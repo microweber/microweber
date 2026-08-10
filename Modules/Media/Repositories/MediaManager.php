@@ -9,6 +9,11 @@ use MicroweberPackages\Thumbnailer\Libs\PHPImageMagician\ImageLib;
 use Modules\Media\Models\Media;
 use MicroweberPackages\Thumbnailer\Support\ImageRotator;
 use MicroweberPackages\Thumbnailer\Support\Thumbnailer;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Security\Facades\HtmlClean;
+use MicroweberPackages\Http\Facades\Http as MicroweberHttp;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Format\Facades\Format;
 
 
 class MediaManager
@@ -133,7 +138,7 @@ class MediaManager
 
         if ((!isset($_FILES) or empty($_FILES)) and isset($data['file'])) {
             if (isset($data['name'])) {
-                $data['name'] = app()->url_manager->clean_url_wrappers($data['name']);
+                $data['name'] = UrlManager::clean_url_wrappers($data['name']);
 
                 $is_dangerous_file = $files_utils->isDangerousFile($data['name']);
                 if ($is_dangerous_file) {
@@ -156,7 +161,7 @@ class MediaManager
 
                 $up = $this->base64_to_file($data['file'], $f);
 
-                $rerturn['src'] = $this->app->url_manager->link_to_file($f);
+                $rerturn['src'] = UrlManager::link_to_file($f);
                 $rerturn['name'] = $data['name'];
 
                 return json_encode($rerturn);
@@ -166,7 +171,7 @@ class MediaManager
 
             //$upl = $this->app->cache_manager->save($_FILES, $cache_id, $cache_group);
             foreach ($_FILES as $item) {
-                $item['name'] = app()->url_manager->clean_url_wrappers($item['name']);
+                $item['name'] = UrlManager::clean_url_wrappers($item['name']);
                 $extension = get_file_extension($item['name']);
 
                 $is_dangerous_file = $files_utils->isDangerousFile($data['name']);
@@ -190,7 +195,7 @@ class MediaManager
                         $upl = $this->app->cache_manager->save($progress, $cache_id, $cache_group);
 
                         if (move_uploaded_file($item['tmp_name'], $f)) {
-                            $rerturn['src'] = $this->app->url_manager->link_to_file($f);
+                            $rerturn['src'] = UrlManager::link_to_file($f);
                             $rerturn['name'] = $item['name'];
                         }
                     }
@@ -211,7 +216,7 @@ class MediaManager
                 //            $target = fopen($f, "w");
                 //            fseek($temp, 0, SEEK_SET);
                 //            stream_copy_to_stream($temp, $target);
-                //            $rerturn['src'] = $this->app->url_manager->link_to_file($f);
+                //            $rerturn['src'] = UrlManager::link_to_file($f);
                 //            $rerturn['name'] = $item['name'];
                 //            fclose($target);
             }
@@ -249,7 +254,7 @@ class MediaManager
                     ++$i;
                 }
 
-                $this->app->database_manager->update_position_field($table, $indx);
+                DatabaseManager::update_position_field($table, $indx);
 
                 return true;
                 // d($indx);
@@ -284,13 +289,13 @@ class MediaManager
                     }
                 }
 //                if (isset($pic_data['filename'])) {
-//                    $fn_remove = $this->app->url_manager->to_path($pic_data['filename']);
+//                    $fn_remove = UrlManager::to_path($pic_data['filename']);
 //                    if (is_file($fn_remove)) {
 //                        @unlink($fn_remove);
 //                    }
 //                }
 
-                $this->app->database_manager->delete_by_id('media', $c_id);
+                DatabaseManager::delete_by_id('media', $c_id);
             }
 
             return true;
@@ -305,7 +310,7 @@ class MediaManager
         $table = 'media';
         $params['table'] = $table;
 
-        return $this->app->database_manager->get($params);
+        return DatabaseManager::get($params);
     }
 
     public function get($params)
@@ -323,7 +328,7 @@ class MediaManager
         }
 
         if (!isset($params['rel_type']) and isset($params['for'])) {
-            $params['rel_type'] = $this->app->database_manager->assoc_table_name($params['for']);
+            $params['rel_type'] = DatabaseManager::assoc_table_name($params['for']);
 
             if ($params['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
                 $params['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
@@ -340,7 +345,7 @@ class MediaManager
         $params['table'] = $table;
         $params['order_by'] = 'position ASC';
 
-        $data = $this->app->database_manager->get($params);
+        $data = DatabaseManager::get($params);
         if (isset($params['single'])) {
             if (isset($data['image_options']) and !is_array($data['image_options'])) {
                 $data['image_options'] = @json_decode($data['image_options'], true);
@@ -364,7 +369,7 @@ class MediaManager
                 if (isset($item['title']) and $item['title'] != '') {
                     $item['title'] = html_entity_decode($item['title']);
                     $item['title'] = strip_tags($item['title']);
-                    $item['title'] = $this->app->format->clean_html($item['title']);
+                    $item['title'] = Format::clean_html($item['title']);
                 }
 
                 if (isset($item['image_options']) and !is_array($item['image_options'])) {
@@ -384,7 +389,7 @@ class MediaManager
 
     public function save($data)
     {
-        $data = app()->html_clean->cleanArray($data);
+        $data = HtmlClean::cleanArray($data);
         $data = xss_clean($data);
         $s = array();
 
@@ -403,8 +408,8 @@ class MediaManager
             //  throw new \Exception('the "for" parameter is deprecated');
 
 
-            //  $t = $this->app->database_manager->assoc_table_name($t);
-            $t = $this->app->database_manager->morphClassFromTable($t);
+            //  $t = DatabaseManager::assoc_table_name($t);
+            $t = DatabaseManager::morphClassFromTable($t);
             $s['rel_type'] = $t;
         }
         if (isset($data['rel_id'])) {
@@ -413,7 +418,7 @@ class MediaManager
         }
         if (isset($data['rel_type'])) {
             $t = $data['rel_type'];
-            $t = $this->app->database_manager->morphClassFromTable($t);
+            $t = DatabaseManager::morphClassFromTable($t);
 
             $s['rel_type'] = $t;
         }
@@ -451,7 +456,7 @@ class MediaManager
                 $host_dir = str_ireplace('.', '-', $host_dir);
             }
 
-            $url2dir = $this->app->url_manager->to_path($data['src']);
+            $url2dir = UrlManager::to_path($data['src']);
             $uploaded_files_dir = media_base_path() . DS . 'uploaded';
 
             if (isset($s['rel_type']) and isset($s['rel_id'])) {
@@ -507,17 +512,17 @@ class MediaManager
                             $newfile = $move_uploaded_files_dir . $newfile;
 
                             if (!is_file($newfile)) {
-                                app()->http->url($data['src'])->download($newfile);
+                                MicroweberHttp::url($data['src'])->download($newfile);
                             }
                             if (is_file($newfile)) {
-                                $url2dir = $this->app->url_manager->to_path($newfile);
+                                $url2dir = UrlManager::to_path($newfile);
                             }
                         }
                     }
                 }
 
                 if (is_file($url2dir)) {
-                    $data['src'] = $this->app->url_manager->link_to_file($url2dir);
+                    $data['src'] = UrlManager::link_to_file($url2dir);
                 }
             }
 
@@ -560,7 +565,7 @@ class MediaManager
         }
 
         if (isset($data['media_type'])) {
-            $t = $this->app->database_manager->escape_string($data['media_type']);
+            $t = DatabaseManager::escape_string($data['media_type']);
             $s['media_type'] = $t;
         }
 
@@ -577,13 +582,13 @@ class MediaManager
         if (isset($s['rel_type']) and isset($s['rel_id'])) {
             $s['rel_id'] = trim($s['rel_id']);
             $table = 'media';
-            $s = $this->app->database_manager->extended_save($table, $s);
+            $s = DatabaseManager::extended_save($table, $s);
             $this->app->cache_manager->delete('media');
 
             return $s;
         } elseif (isset($s['id'])) {
             $table = 'media';
-            $s = $this->app->database_manager->extended_save($table, $s);
+            $s = DatabaseManager::extended_save($table, $s);
             $this->app->cache_manager->delete('media');
 
             return $s;
@@ -758,8 +763,8 @@ class MediaManager
         $src = html_entity_decode($src);
         $src = htmlspecialchars_decode($src);
 
-        $surl = $this->app->url_manager->site();
-        //  $surl = $this->app->url_manager->site();
+        $surl = UrlManager::site();
+        //  $surl = UrlManager::site();
         $src = str_replace('{SITE_URL}', $surl, $src);
         $src = str_replace('%7BSITE_URL%7D', $surl, $src);
         $base_src = str_replace($surl, '', $src);
@@ -838,7 +843,7 @@ class MediaManager
             return $src;
         } elseif (@is_file($cache_path)) {
 
-            $cache_path = $this->app->url_manager->link_to_file($cache_path);
+            $cache_path = UrlManager::link_to_file($cache_path);
 
             return $cache_path;
         } else {
@@ -865,7 +870,7 @@ class MediaManager
             if (!$check) {
                 $media_tn_temp = $tnRepo->store($cache_id_without_ext, $cache_id_data);
 
-                return $this->app->url_manager->site('api/image-generate-tn-request/') . $media_tn_temp->uuid . '?saved';
+                return UrlManager::site('api/image-generate-tn-request/') . $media_tn_temp->uuid . '?saved';
             } elseif (isset($check['image_options']) and isset($check['image_options']['cache_path_relative'])) {
                 $file_check = normalize_path(userfiles_path() . '' . $check['image_options']['cache_path_relative'], false);
 
@@ -875,7 +880,7 @@ class MediaManager
 
             }
 
-            return $this->app->url_manager->site('api/image-generate-tn-request/') . $check['uuid'] . '?finded';
+            return UrlManager::site('api/image-generate-tn-request/') . $check['uuid'] . '?finded';
         }
 
     }
@@ -918,7 +923,7 @@ class MediaManager
         $src_orig = $src;
 
 
-        $surl = $this->app->url_manager->site();
+        $surl = UrlManager::site();
         $local = false;
 
         $media_url = media_base_url();
@@ -943,7 +948,7 @@ class MediaManager
             //$src = MW_ROOTPATH . $src;
             $src = normalize_path($src, false);
         } else {
-            $src = $this->app->url_manager->clean_url_wrappers($src);
+            $src = UrlManager::clean_url_wrappers($src);
 
             $src1 = media_base_path() . $src;
             $src1 = normalize_path($src1, false);
@@ -1023,7 +1028,7 @@ class MediaManager
             }
 
         } else {
-            $src = $this->app->url_manager->clean_url_wrappers($src);
+            $src = UrlManager::clean_url_wrappers($src);
             $ext = strtolower(get_file_extension($src));
 
             if (is_file($src)) {

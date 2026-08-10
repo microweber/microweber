@@ -36,6 +36,7 @@ use Modules\Product\Traits\CustomFieldPriceTrait;
 use MicroweberPackages\Repository\Traits\FilterableByParams;
 use Modules\Tag\Traits\TaggableTrait;
 use Spatie\Translatable\HasTranslations;
+use MicroweberPackages\ContentField\Facades\ContentField;
 
 //use Kirschbaum\PowerJoins\PowerJoins;
 
@@ -1046,7 +1047,7 @@ class Content extends Model
      */
     public static function getEditFieldData(string $field, string $rel_type, $rel_id = false): array|false
     {
-        $result = app()->content_field_manager->getFieldData($field, $rel_type, $rel_id, true);
+        $result = ContentField::getFieldData($field, $rel_type, $rel_id, true);
         $result = \Modules\Content\Support\SiteUrlFieldCast::expand($result);
 
         return $result ?: false;

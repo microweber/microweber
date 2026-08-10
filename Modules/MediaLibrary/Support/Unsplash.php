@@ -2,6 +2,9 @@
 
 namespace Modules\MediaLibrary\Support;
 
+use MicroweberPackages\Http\Facades\Http as MicroweberHttp;
+
+
 class Unsplash
 {
     /** @var \MicroweberPackages\App\LaravelApplication */
@@ -15,7 +18,7 @@ class Unsplash
     public function search($keyword, $page = 1)
     {
 
-        $json = app()->http->url('http://imglib.microweberapi.com/index.php?search=' . $keyword . '&page=' . $page)->get();
+        $json = MicroweberHttp::url('http://imglib.microweberapi.com/index.php?search=' . $keyword . '&page=' . $page)->get();
         $json = json_decode($json, TRUE);
 
         return $json;
@@ -38,7 +41,7 @@ class Unsplash
         $imageUrl = 'http://imglib.microweberapi.com/download.php?photo_id=' . $photoId;
         //$imageUrl = 'https://images.unsplash.com/photo-1504215680853-026ed2a45def?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80';
 
-        $downloaded = app()->http->url($imageUrl)->download($filename);
+        $downloaded = MicroweberHttp::url($imageUrl)->download($filename);
 
         if ($downloaded && is_file($filename)) {
 

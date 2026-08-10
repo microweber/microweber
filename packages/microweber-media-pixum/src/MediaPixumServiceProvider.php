@@ -21,7 +21,6 @@ class MediaPixumServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->alias(PixumGenerator::class, 'media-pixum');
     }
 
     public function boot(): void

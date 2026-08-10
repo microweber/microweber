@@ -13,6 +13,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 
 use Tests\TestCase;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class PermalinkTest extends TestCase
 {
@@ -34,7 +36,7 @@ class PermalinkTest extends TestCase
     #[Test]
 
     public function it_page_category_post(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         // Set format
         $option = array();
@@ -147,7 +149,7 @@ class PermalinkTest extends TestCase
     #[Test]
 
     public function it_category_post(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         // Set format
         $option = array();
@@ -279,7 +281,7 @@ class PermalinkTest extends TestCase
           $pageUrl = page_link(self::$pageId);
 
           // Set Current url for font controller
-          app()->url_manager->set_current($pageUrl);
+          UrlManager::set_current($pageUrl);
 
           // Test default controller with post
           $defaultController = new FrontendController();
@@ -294,7 +296,7 @@ class PermalinkTest extends TestCase
         $postUrl = content_link(self::$postId);
 
         // Set Current url for font controller
-        app()->url_manager->set_current($postUrl);
+        UrlManager::set_current($postUrl);
 
         // Test default controller with post
         $defaultController = new FrontendController();

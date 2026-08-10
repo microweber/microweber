@@ -325,7 +325,7 @@ class CategoryManagerTest extends TestCase
 
 
         $zip = new \ZipArchive();
-        $zip->open(base_path() . '/src/MicroweberPackages/Helper/tests/misc/xss-test-files.zip');
+        $zip->open(base_path() . '/packages/microweber-security/tests/misc/xss-test-files.zip');
         $xssList = $zip->getFromName('xss-payload-list.txt');
         $zip->close();
         $xssList = preg_replace('~\R~u', "\r\n", $xssList);

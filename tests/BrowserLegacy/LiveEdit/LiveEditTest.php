@@ -11,6 +11,7 @@ use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\LiveEditModuleAdd;
 use Tests\Browser\Components\LiveEditSaveButton;
 use Tests\DuskTestCase;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class LiveEditTest extends DuskTestCase
 {
@@ -244,7 +245,7 @@ class LiveEditTest extends DuskTestCase
                 'subtype' => 'product',
                 'is_active' => 1,
             ];
-            app()->database_manager->extended_save_set_permission(true);
+            DatabaseManager::extended_save_set_permission(true);
 
              $saved_id = save_content($params);
 

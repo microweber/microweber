@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\ClassLoader\Tests\Feature;
 
-use MicroweberPackages\ClassLoader\ClassLoader;
+use MicroweberPackages\ClassLoader\ClassLoaderService;
 use MicroweberPackages\ClassLoader\ClassLoaderServiceProvider;
-use MicroweberPackages\ClassLoader\Facades\ClassLoaderFacade;
+use MicroweberPackages\ClassLoader\Facades\ClassLoader;
 use MicroweberPackages\ClassLoader\Tests\TestCase;
 
 class ServiceProviderTest extends TestCase
@@ -18,15 +18,15 @@ class ServiceProviderTest extends TestCase
 
     public function test_class_loader_is_bound_as_singleton(): void
     {
-        $a = app(ClassLoader::class);
-        $b = app(ClassLoader::class);
+        $a = app(ClassLoaderService::class);
+        $b = app(ClassLoaderService::class);
         $this->assertSame($a, $b);
-        $this->assertInstanceOf(ClassLoader::class, $a);
+        $this->assertInstanceOf(ClassLoaderService::class, $a);
     }
 
     public function test_facade_resolves_the_singleton(): void
     {
-        $this->assertSame(app(ClassLoader::class), ClassLoaderFacade::getFacadeRoot());
+        $this->assertSame(app(ClassLoaderService::class), ClassLoader::getFacadeRoot());
     }
 
     public function test_config_is_merged(): void
@@ -42,6 +42,6 @@ class ServiceProviderTest extends TestCase
         if (!(bool) config('class-loader.enabled', true)) {
             $this->markTestSkipped('class-loader disabled');
         }
-        $this->assertTrue(app(ClassLoader::class)->isRegistered());
+        $this->assertTrue(app(ClassLoaderService::class)->isRegistered());
     }
 }

@@ -13,6 +13,10 @@ use Modules\Content\Support\ContentManagerHelpers;
 use Modules\Content\Support\PagingLinks;
 use Modules\Content\Support\PagesTree;
 use Modules\Content\Support\PagingNav;
+use MicroweberPackages\ContentField\Facades\ContentField;
+use MicroweberPackages\Event\Facades\EventManager;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Format\Facades\Format;
 
 /**
  * Class ContentManager
@@ -192,14 +196,14 @@ class ContentManager
      */
     public function save($data)
     {
-        $this->app->event_manager->trigger('content.manager.before.save', $data);
+        EventManager::trigger('content.manager.before.save', $data);
 
         $save = $this->crud->save($data);
 
         $afterSave = $data;
         $afterSave['id'] = $save;
 
-        $this->app->event_manager->trigger('content.manager.after.save', $afterSave);
+        EventManager::trigger('content.manager.after.save', $afterSave);
         event_trigger('mw_save_content', $save);
 
         return $save;
@@ -948,14 +952,14 @@ class ContentManager
         }
 
         if ($id == 0) {
-            return $this->app->url_manager->site();
+            return UrlManager::site();
         }
 
         $link = $this->get_by_id($id);
         if (!$link) {
             return;
         }
-         $site_url = $this->app->url_manager->site();
+         $site_url = UrlManager::site();
 
         if (isset($link['is_home']) and intval($link['is_home']) == 1) {
             return $site_url;
@@ -1053,7 +1057,7 @@ class ContentManager
             $data = parse_params($data);
         }
 
-        $this->app->event_manager->trigger('content.manager.before.save', $data);
+        EventManager::trigger('content.manager.before.save', $data);
         $data_to_save = $data;
         $save = $this->crud->save($data);
         $id = $save;
@@ -1068,7 +1072,7 @@ class ContentManager
         $after_save = $data_to_save;
         $after_save['id'] = $id;
 
-        $this->app->event_manager->trigger('content.manager.after.save', $after_save);
+        EventManager::trigger('content.manager.after.save', $after_save);
         event_trigger('mw_save_content', $save);
 
         return $save;
@@ -1089,8 +1093,8 @@ class ContentManager
         // every field value. The content_field_manager package is provider-agnostic
         // and does not depend on Microweber's format manager, so this XSS guard
         // stays in the CMS glue.
-        $data = $this->app->format->strip_unsafe($data);
-        $result = app()->content_field_manager->saveField($data);
+        $data = Format::strip_unsafe($data);
+        $result = ContentField::saveField($data);
         if ($delete_the_cache) {
             $this->app->cache_manager->delete('content_fields');
             if (isset($data['rel_type'])) {
@@ -1112,7 +1116,7 @@ class ContentManager
             parse_str(str_replace('&amp;', '&', $data), $parsed);
             $data = $parsed;
         }
-        $result = app()->content_field_manager->getField($data);
+        $result = ContentField::getField($data);
 
         return \Modules\Content\Support\SiteUrlFieldCast::expand($result);
     }

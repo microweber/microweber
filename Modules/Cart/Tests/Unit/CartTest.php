@@ -6,6 +6,7 @@ use Modules\Cart\Models\Cart;
 use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class CartTest extends TestCase
 {
@@ -25,7 +26,7 @@ class CartTest extends TestCase
 
     public function it_add_to_cart(): void {
         empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $params = array(
             'title' => 'My new product',
@@ -72,7 +73,7 @@ class CartTest extends TestCase
 
     public function it_add_to_cart_not_a_product(): void {
         //  empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $params = array(
             'title' => 'My page',
@@ -100,7 +101,7 @@ class CartTest extends TestCase
 
     public function it_get_cart(): void {
         empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         // Create a product first (needed when tests run in separate processes)
         $params = array(
@@ -130,7 +131,7 @@ class CartTest extends TestCase
 
     public function it_sum_cart(): void {
         empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         // Create a product first (needed when tests run in separate processes)
         $params = array(
@@ -163,7 +164,7 @@ class CartTest extends TestCase
     public function it_ignores_attacker_supplied_price_and_rel_type_for_content_products(): void
     {
         empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $productId = save_content([
             'title' => 'Canonical Price Product',
@@ -212,7 +213,7 @@ class CartTest extends TestCase
     public function it_surfaces_stock_limit_warnings_instead_of_silent_caps(): void
     {
         empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $productId = save_content([
             'title' => 'Limited Stock Product',
@@ -242,7 +243,7 @@ class CartTest extends TestCase
     public function it_surfaces_max_qty_warnings_when_updating_quantity(): void
     {
         empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $productId = save_content([
             'title' => 'Max Qty Product',
@@ -278,7 +279,7 @@ class CartTest extends TestCase
     public function it_keeps_variants_separate_by_custom_fields_data(): void
     {
         empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $productId = save_content([
             'title' => 'Variant Product',

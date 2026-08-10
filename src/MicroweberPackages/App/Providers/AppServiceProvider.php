@@ -33,7 +33,7 @@ use MicroweberPackages\Dusk\DuskPackageServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentServiceProvider;
 use MicroweberPackages\FilamentRegistry\FilamentRegistryManager;
 use MicroweberPackages\FilamentRegistry\FilamentRegistryServiceProvider;
-use MicroweberPackages\Format\Format;
+use MicroweberPackages\Format\FormatService;
 use MicroweberPackages\Install\Console\Commands\InstallCommand;
 use MicroweberPackages\DbMigrator\MicroweberMigrator;
 use MicroweberPackages\Config\ConfigServiceProvider;
@@ -41,11 +41,13 @@ use MicroweberPackages\Microweber\Providers\MicroweberServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Option\Console\Commands\OptionCommand;
-use MicroweberPackages\Http\Http;
-use MicroweberPackages\ClassLoader\ClassLoader;
+use MicroweberPackages\Http\HttpService;
+use MicroweberPackages\ClassLoader\ClassLoaderService;
 use MicroweberPackages\ClassLoader\PathNormalizer;
 use Modules\Content\Models\Content;
 use Modules\Media\Models\Media;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Event\Facades\EventManager;
 
 
 // Shop
@@ -168,13 +170,13 @@ class AppServiceProvider extends ServiceProvider
 
         // Early instance-based class loader (bound before package providers boot).
         // Replaces the former static ClassLoader to avoid memory leaks and path dupes.
-        $classLoader = new ClassLoader(new PathNormalizer(), true);
+        $classLoader = new ClassLoaderService(new PathNormalizer(), true);
         $classLoader->addDirectories([
             modules_path(),
             __DIR__,
         ]);
         $classLoader->register();
-        $app->instance(ClassLoader::class, $classLoader);
+        $app->instance(ClassLoaderService::class, $classLoader);
 
         // Module autoloading is handled by this same ClassLoader (its registered
         // spl_autoload handler resolves Modules\… under modules_path()) plus
@@ -447,12 +449,12 @@ class AppServiceProvider extends ServiceProvider
 
     protected function registerUtils()
     {
-        $this->app->bind('http', function ($app) {
-            return new Http($app);
+        $this->app->bind(HttpService::class, function ($app) {
+            return new HttpService($app);
         });
 
-        $this->app->singleton('format', function ($app) {
-            return new Format();
+        $this->app->singleton(FormatService::class, function ($app) {
+            return new FormatService();
         });
 
         $this->app->singleton('parser', function ($app) {
@@ -542,8 +544,8 @@ class AppServiceProvider extends ServiceProvider
 //        }
 
 
-        $this->app->database_manager->add_table_model('content', Content::class);
-        $this->app->database_manager->add_table_model('media', Media::class);
+        DatabaseManager::add_table_model('content', Content::class);
+        DatabaseManager::add_table_model('media', Media::class);
 
         if (is_cli()) {
             $this->commands('MicroweberPackages\Console\Commands\ResetCommand');
@@ -611,7 +613,7 @@ class AppServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
 
         if (mw_is_installed()) {
-            $this->app->event_manager->trigger('mw.after.boot', $this);
+            EventManager::trigger('mw.after.boot', $this);
         }
 
         // >>> MW Kernel add

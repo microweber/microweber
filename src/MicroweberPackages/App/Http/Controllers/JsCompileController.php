@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Response;
 use MicroweberPackages\Template\Adapters\RenderHelpers\CsrfTokenRequestInlineJsScriptGenerator;
 use MicroweberPackages\Template\Adapters\RenderHelpers\ZiggyInlineJsRouteGenerator;
 use MicroweberPackages\View\View;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 
 class JsCompileController extends Controller
@@ -181,9 +182,9 @@ class JsCompileController extends Controller
 
         $layout = implode("\n\n", $layout);
 
-        $layout = str_replace('{SITE_URL}', $this->app->url_manager->site(), $layout);
-        $layout = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $layout);
-        $layout = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $layout);
+        $layout = str_replace('{SITE_URL}', UrlManager::site(), $layout);
+        $layout = str_replace('{MW_SITE_URL}', UrlManager::site(), $layout);
+        $layout = str_replace('%7BSITE_URL%7D', UrlManager::site(), $layout);
 
         $compile_assets = $this->_should_compile_assets;
         if ($compile_assets and defined('MW_VERSION')) {
@@ -212,7 +213,7 @@ class JsCompileController extends Controller
 
      // return public_asset('public/vendor/microweber-packages/frontend-assets/js/core.js');
 
-        $url = $this->app->url_manager->site('apijs') . '?mwv=' . MW_VERSION;
+        $url = UrlManager::site('apijs') . '?mwv=' . MW_VERSION;
         $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
@@ -230,7 +231,7 @@ class JsCompileController extends Controller
 
     public function get_apijs_settings_url()
     {
-        $url = $this->app->url_manager->site('apijs_settings') . '?mwv=' . MW_VERSION;;
+        $url = UrlManager::site('apijs_settings') . '?mwv=' . MW_VERSION;;
         $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
 
 
@@ -259,7 +260,7 @@ class JsCompileController extends Controller
     public function get_apijs_combined_url()
     {
 
-        $url = $this->app->url_manager->site('apijs_combined') . '?mwv=' . MW_VERSION;
+        $url = UrlManager::site('apijs_combined') . '?mwv=' . MW_VERSION;
 
         $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
 
@@ -278,7 +279,7 @@ class JsCompileController extends Controller
 
     public function get_liveeditjs_url()
     {
-        $url = $this->app->url_manager->site('apijs_liveedit') . '?mwv=' . MW_VERSION;
+        $url = UrlManager::site('apijs_liveedit') . '?mwv=' . MW_VERSION;
         $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
@@ -337,9 +338,9 @@ class JsCompileController extends Controller
         $l->assign('inline_scripts', $inline_scripts);
 
         $l = $l->__toString();
-        $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
-        $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
-        $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
+        $l = str_replace('{SITE_URL}', UrlManager::site(), $l);
+        $l = str_replace('{MW_SITE_URL}', UrlManager::site(), $l);
+        $l = str_replace('%7BSITE_URL%7D', UrlManager::site(), $l);
         return $l;
     }
 

@@ -5,6 +5,7 @@ namespace Modules\Form\Tests;
 use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class CustomFieldsTemplatesTest extends TestCase
 {
@@ -22,7 +23,7 @@ class CustomFieldsTemplatesTest extends TestCase
         save_option('current_template', $this->template_name,'template');
 
         // set permission to save custom fields (normally available to admin users)
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
     }
 
     #[Test]

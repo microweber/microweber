@@ -7,6 +7,7 @@ use Modules\Checkout\Livewire\CheckoutWizard;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class CheckoutWizardTest extends TestCase
 {
@@ -17,7 +18,7 @@ class CheckoutWizardTest extends TestCase
         parent::setUp();
         $this->setUpFilamentPanel('checkout');
         // Add a product to cart so checkout wizard doesn't redirect on empty cart
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
         $productId = save_content([
             'title' => 'CheckoutWizardTest Product',
             'content_type' => 'product',

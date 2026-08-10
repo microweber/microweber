@@ -1,5 +1,7 @@
 <?php
 
+use MicroweberPackages\Url\Facades\UrlManager;
+
 /**
  * URL helper functions - loaded via composer autoload files.
  *
@@ -11,11 +13,11 @@ if (! function_exists('mw_url_manager')) {
     /**
      * Get the URL manager instance.
      *
-     * @return \MicroweberPackages\Url\UrlManager
+     * @return \MicroweberPackages\Url\UrlManagerService
      */
     function mw_url_manager()
     {
-        return app('url_manager');
+        return UrlManager::getFacadeRoot();
     }
 }
 

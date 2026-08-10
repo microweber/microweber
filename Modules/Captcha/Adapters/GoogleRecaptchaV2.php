@@ -3,6 +3,7 @@
 namespace Modules\Captcha\Adapters;
 
 use Illuminate\Support\Facades\Request;
+use MicroweberPackages\Http\Facades\Http as MicroweberHttp;
 
 class GoogleRecaptchaV2
 {
@@ -20,7 +21,7 @@ class GoogleRecaptchaV2
 
         // post request to server
         $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) . '&response=' . urlencode($key);
-        $response = app()->http->url($url)->get();
+        $response = MicroweberHttp::url($url)->get();
 
         $responseKeys = @json_decode($response, true);
 

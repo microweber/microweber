@@ -1,3 +1,4 @@
+use MicroweberPackages\Url\Facades\UrlManager;
 
 
 
@@ -76,7 +77,7 @@
     if (defined('CONTENT_ID') and CONTENT_ID != 0) {
         $u = app()->content_manager->link(CONTENT_ID);
     } else {
-        $u = app()->url_manager->current(1, 1);
+        $u = UrlManager::current(1, 1);
     }
 
     print $u ?>?editmode=iframe" class="mw-ui-btn">

@@ -24,7 +24,7 @@ php artisan migrate
 
 ```php
 // Resolve from the container
-$cfm = app('content_field_manager');
+$cfm = ContentField::;
 
 // Save a field
 $cfm->saveField([

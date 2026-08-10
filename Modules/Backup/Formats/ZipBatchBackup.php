@@ -5,6 +5,7 @@ namespace Modules\Backup\Formats;
 use Modules\Backup\SessionStepper;
 use Modules\Backup\Traits\BackupFileNameGetSet;
 use Modules\Backup\Traits\BackupGetSet;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class ZipBatchBackup extends DefaultBackup
 {
@@ -240,7 +241,7 @@ class ZipBatchBackup extends DefaultBackup
                 if ($ext == 'css') {
                     $this->logger->setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
                     $csscont = file_get_contents($file['filepath']);
-                    $csscont = app()->url_manager->replace_site_url($csscont);
+                    $csscont = UrlManager::replace_site_url($csscont);
                     $zip->addFromString($file['filename'], $csscont);
                 } else {
                     if (!file_exists($file['filepath'])) {
@@ -330,7 +331,7 @@ class ZipBatchBackup extends DefaultBackup
                         if ($ext == 'css') {
                             $this->logger->setLogInfo('Finalizing: Archiving CSS file <b>' . $file['filename'] . '</b>');
                             $csscont = file_get_contents($file['filepath']);
-                            $csscont = app()->url_manager->replace_site_url($csscont);
+                            $csscont = UrlManager::replace_site_url($csscont);
                             $zip->addFromString($file['filename'], $csscont);
                         } else {
                             if (!file_exists($file['filepath'])) {
@@ -415,7 +416,7 @@ class ZipBatchBackup extends DefaultBackup
                 if ($ext == 'css') {
                     $this->logger->setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
                     $csscont = file_get_contents($file['filepath']);
-                    $csscont = app()->url_manager->replace_site_url($csscont);
+                    $csscont = UrlManager::replace_site_url($csscont);
                     $zip->addFromString($file['filename'], $csscont);
                 } else {
                     if (!file_exists($file['filepath'])) {

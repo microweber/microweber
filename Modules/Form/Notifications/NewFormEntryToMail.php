@@ -10,6 +10,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Option\Facades\Option;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Format\Facades\Format;
 
 
 class NewFormEntryToMail extends Notification
@@ -70,7 +72,7 @@ class NewFormEntryToMail extends Notification
     {
         $mail = new MailMessage();
 
-        $hostname = app()->url_manager->hostname();
+        $hostname = UrlManager::hostname();
 
         $formName = Option::getValue('form_name', $this->formEntry->rel_id);
         if ($formName) {
@@ -87,7 +89,7 @@ class NewFormEntryToMail extends Notification
             }
         }
 
-        $content = app()->format->array_to_ul($formDataValues);
+        $content = Format::array_to_ul($formDataValues);
 
         $userEmails = false;
 
@@ -128,7 +130,7 @@ class NewFormEntryToMail extends Notification
     public function message()
     {
         $data = $this->notification->data;
-        $data['ago'] = app()->format->ago($data['created_at']);
+        $data['ago'] = Format::ago($data['created_at']);
 
         // >>> Move files in separate key
         if(!empty($data['form_values']) && is_array($data['form_values'])) {

@@ -9,6 +9,7 @@ use Modules\Checkout\Livewire\CheckoutWizard;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class CheckoutResourceTest extends TestCase
 {
@@ -21,7 +22,7 @@ class CheckoutResourceTest extends TestCase
         // Register CheckoutWizard component under its expected name
         app(\Livewire\LivewireManager::class)->component('checkout.checkout-wizard', CheckoutWizard::class);
         // Add a product to cart so checkout page doesn't redirect on empty cart
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
         $productId = save_content([
             'title' => 'CheckoutResourceTest Product',
             'content_type' => 'product',

@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 use Modules\SiteStats\Support\Tracker;
 use Modules\SiteStats\Support\UtmVisitorData;
 use Modules\SiteStats\Events\PingStatsEvent;
+use MicroweberPackages\Event\Facades\EventManager;
 
 class StatsController extends Controller
 {
@@ -63,7 +64,7 @@ class StatsController extends Controller
 
         $pingStatsViewResponse = "var mwpingstats={}; \n";
 
-        $overwriteResponse = app()->event_manager->trigger('mw.pingstats.response');
+        $overwriteResponse = EventManager::trigger('mw.pingstats.response');
         if (!empty($overwriteResponse)) {
             foreach ($overwriteResponse as $response) {
                 $pingStatsViewResponse .= $response . "\n";

@@ -63,10 +63,10 @@ class StandaloneAppValidationTest extends TestCase
 
     public function test_optional_format_package_when_present(): void
     {
-        if (!class_exists(\MicroweberPackages\Format\Format::class)) {
+        if (!class_exists(\MicroweberPackages\Format\FormatService::class)) {
             $this->markTestSkipped('format package not installed');
         }
 
-        $this->assertTrue(class_exists(\MicroweberPackages\Format\Format::class));
+        $this->assertTrue(class_exists(\MicroweberPackages\Format\FormatService::class));
     }
 }

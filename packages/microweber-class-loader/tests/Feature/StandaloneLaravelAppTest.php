@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\ClassLoader\Tests\Feature;
 
-use MicroweberPackages\ClassLoader\ClassLoader;
+use MicroweberPackages\ClassLoader\ClassLoaderService;
 use MicroweberPackages\ClassLoader\ClassLoaderServiceProvider;
 use MicroweberPackages\ClassLoader\Tests\TestCase;
 
@@ -20,7 +20,7 @@ class StandaloneLaravelAppTest extends TestCase
     {
         $this->assertTrue(
             $this->app->getProvider(ClassLoaderServiceProvider::class) !== null
-            || $this->app->bound(ClassLoader::class)
+            || $this->app->bound(ClassLoaderService::class)
         );
     }
 
@@ -57,7 +57,7 @@ class StandaloneLaravelAppTest extends TestCase
         );
 
         // Fresh instance — as a standalone app would construct via the container.
-        $loader = new ClassLoader();
+        $loader = new ClassLoaderService();
         $loader->addDirectories([$tmp . '/src']);
         $loader->addNamespace('Acme', $tmp . '/src/Acme');
         $loader->register();
@@ -73,7 +73,7 @@ class StandaloneLaravelAppTest extends TestCase
     public function test_no_cms_entanglement_in_core_classes(): void
     {
         $files = [
-            dirname(__DIR__, 2) . '/src/ClassLoader.php',
+            dirname(__DIR__, 2) . '/src/ClassLoaderService.php',
             dirname(__DIR__, 2) . '/src/PathNormalizer.php',
             dirname(__DIR__, 2) . '/src/ClassLoaderServiceProvider.php',
         ];

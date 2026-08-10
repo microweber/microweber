@@ -1,5 +1,9 @@
 <?php
 
+use MicroweberPackages\Url\Facades\UrlManager;
+
+use MicroweberPackages\Event\Facades\EventManager;
+
 
 function user_ip()
 {
@@ -189,7 +193,7 @@ function is_logged()
 
     $is = app()->user_manager->is_logged();
     if (defined('MW_API_CALL')) {
-        app()->event_manager->trigger('mw.user.is_logged');
+        EventManager::trigger('mw.user.is_logged');
     }
 
     return $is;
@@ -236,18 +240,18 @@ function is_live_edit()
 
 
 
-    $editModeParam = app()->url_manager->param('editmode');
+    $editModeParam = UrlManager::param('editmode');
     if ($editModeParam == 'n') {
         return false;
     }
 
 
-    $editModeParam = app()->url_manager->param('editmode');
+    $editModeParam = UrlManager::param('editmode');
     if ($editModeParam == 'y') {
         return true;
     }
 
-    $editModeParam2 = app()->url_manager->param('editmode', true);
+    $editModeParam2 = UrlManager::param('editmode', true);
     if ($editModeParam2 == 'y') {
         return true;
     }

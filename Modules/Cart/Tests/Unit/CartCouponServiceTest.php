@@ -5,6 +5,7 @@ namespace Modules\Cart\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Modules\Cart\Services\CartCouponService;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class CartCouponServiceTest extends TestCase
 {
@@ -12,7 +13,7 @@ class CartCouponServiceTest extends TestCase
     {
         parent::setUp();
         empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
         
         // Clear any existing coupon session
         if (session()->has('coupon_data')) {

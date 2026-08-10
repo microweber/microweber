@@ -2,6 +2,9 @@
 
 namespace Modules\Content\Support;
 
+use MicroweberPackages\Url\Facades\UrlManager;
+
+
 /**
  * Expands `{SITE_URL}` placeholders in a resolved content-field read result.
  *
@@ -24,8 +27,8 @@ class SiteUrlFieldCast
      */
     public static function expand($result)
     {
-        if (is_array($result) && $result !== [] && app()->bound('url_manager')) {
-            return app()->url_manager->replace_site_url_back($result);
+        if (is_array($result) && $result !== [] && app()->bound(\MicroweberPackages\Url\UrlManagerService::class)) {
+            return UrlManager::replace_site_url_back($result);
         }
 
         return $result;

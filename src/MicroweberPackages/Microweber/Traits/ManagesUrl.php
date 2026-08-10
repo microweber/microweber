@@ -2,6 +2,9 @@
 
 namespace MicroweberPackages\Microweber\Traits;
 
+use MicroweberPackages\Url\Facades\UrlManager;
+
+
 /**
  * @deprecated
  */
@@ -15,7 +18,7 @@ trait ManagesUrl
      */
     public function siteUrl($path = false) : string
     {
-        return app()->url_manager->site($path);
+        return UrlManager::site($path);
     }
 
     /**
@@ -25,7 +28,7 @@ trait ManagesUrl
      */
     public function siteHostname() : string
     {
-        return app()->url_manager->hostname();
+        return UrlManager::hostname();
     }
 
 

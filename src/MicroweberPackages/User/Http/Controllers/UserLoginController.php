@@ -18,7 +18,7 @@ use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
-use MicroweberPackages\Event\Event;
+use MicroweberPackages\Event\EventService;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
 use MicroweberPackages\User\Models\User;

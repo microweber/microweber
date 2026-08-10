@@ -8,8 +8,8 @@ class HttpServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind('http', function ($app) {
-            return new Http($app);
+        $this->app->bind(HttpService::class, function ($app) {
+            return new HttpService($app);
         });
     }
 

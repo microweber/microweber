@@ -31,7 +31,7 @@ php artisan migrate
 ### Notifications manager
 
 ```php
-use MicroweberPackages\Notification\Facades\NotificationsManager;
+use MicroweberPackages\Notification\Facades\Notifications;
 // or
 use MicroweberPackages\Notification\Services\NotificationsManager;
 

@@ -21,13 +21,11 @@ class SystemLicensesServiceProvider extends ServiceProvider
             $this->app->singleton(LicenseValidatorInterface::class, NullLicenseValidator::class);
         }
 
-        $this->app->singleton('system_licenses_manager', function ($app) {
+        $this->app->singleton(SystemLicensesManager::class, function ($app) {
             return new SystemLicensesManager(
                 $app->make(LicenseValidatorInterface::class)
             );
         });
-
-        $this->app->alias('system_licenses_manager', SystemLicensesManager::class);
     }
 
     /**
@@ -36,7 +34,6 @@ class SystemLicensesServiceProvider extends ServiceProvider
     public function provides(): array
     {
         return [
-            'system_licenses_manager',
             SystemLicensesManager::class,
             LicenseValidatorInterface::class,
         ];

@@ -12,7 +12,6 @@ class FilesystemServiceProvider extends ServiceProvider
             return new FilesystemService();
         });
 
-        $this->app->alias(FilesystemService::class, 'mw_filesystem');
     }
 
     public function boot(): void

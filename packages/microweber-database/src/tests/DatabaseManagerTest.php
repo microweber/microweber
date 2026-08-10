@@ -5,12 +5,13 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Tests\TestCase;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class DatabaseManagerTest extends TestCase
 {
     #[Test]
     public function it_build_table(): void {
-        app()->database_manager->build_table('peoples', [
+        DatabaseManager::build_table('peoples', [
             'firstName' => 'text',
             'secondName' => 'text',
             'lastName' => 'text',
@@ -18,7 +19,7 @@ class DatabaseManagerTest extends TestCase
             'created_at' => 'dateTime',
         ]);
 
-        $isTable = app()->database_manager->table_exists('peoples');
+        $isTable = DatabaseManager::table_exists('peoples');
         $this->assertTrue($isTable);
 
     }
@@ -26,7 +27,7 @@ class DatabaseManagerTest extends TestCase
     #[Test]
 
     public function it_build_tablse(): void {
-        app()->database_manager->build_tables([
+        DatabaseManager::build_tables([
             'posts'=>[
                 'name'=>'string',
                 'slug'=>'string',
@@ -42,10 +43,10 @@ class DatabaseManagerTest extends TestCase
                 'created_at' => 'dateTime',
             ],
         ]);
-        $isTable = app()->database_manager->table_exists('posts');
+        $isTable = DatabaseManager::table_exists('posts');
         $this->assertTrue($isTable);
 
-        $isTable = app()->database_manager->table_exists('categories');
+        $isTable = DatabaseManager::table_exists('categories');
         $this->assertTrue($isTable);
     }
 

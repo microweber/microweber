@@ -49,7 +49,7 @@ if (class_exists(\Orchestra\Testbench\TestCase::class)) {
                 config(['package-manager-client' => require __DIR__ . '/../config/package-manager-client.php']);
             }
 
-            if (!$this->app->bound(\MicroweberPackages\PackageManagerClient\PackageManagerClient::class)) {
+            if (!$this->app->bound(\MicroweberPackages\PackageManagerClient\PackageManagerClientService::class)) {
                 $this->app->register(PackageManagerClientServiceProvider::class);
             }
         }

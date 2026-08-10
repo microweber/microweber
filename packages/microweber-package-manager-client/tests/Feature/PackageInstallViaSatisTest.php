@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\PackageManagerClient\Tests\Feature;
 
-use MicroweberPackages\PackageManagerClient\PackageManagerClient;
+use MicroweberPackages\PackageManagerClient\PackageManagerClientService;
 use MicroweberPackages\PackageManagerClient\Tests\Support\SatisServer;
 use MicroweberPackages\PackageManagerClient\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
@@ -46,7 +46,7 @@ class PackageInstallViaSatisTest extends TestCase
 
     private function makeClient(): PackageManagerClient
     {
-        return new PackageManagerClient(
+        return new PackageManagerClientService(
             packageServers: [$this->server->packagesJsonUrl()],
             config: [
                 'base_path' => $this->workDir,
@@ -140,7 +140,7 @@ class PackageInstallViaSatisTest extends TestCase
         $this->assertDirectoryExists($this->workDir . '/Modules/SampleHello');
     }
 
-    private function assertInstallSucceeds(PackageManagerClient $client, string $packageName): void
+    private function assertInstallSucceeds(PackageManagerClientService $client, string $packageName): void
     {
         $step1 = $client->requestInstall([
             'require_name' => $packageName,

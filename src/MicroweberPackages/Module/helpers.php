@@ -1,5 +1,7 @@
 <?php
 
+use MicroweberPackages\Format\Facades\Format;
+
 function module_info($module_name)
 {
     return app()->module_manager->info($module_name);
@@ -44,7 +46,7 @@ function module($params)
 
         if ($k != 'display') {
             if (is_array($v)) {
-                $v1 = app()->format->array_to_base64($v);
+                $v1 = Format::array_to_base64($v);
                 $tags .= "{$k}=\"$v1\" ";
             } else {
                 $em = str_ireplace('{' . $k . '}', $v, $em);

@@ -64,6 +64,6 @@ class QueueAdminDuskTest extends DuskTestCase
     public function test_job_model_available_in_cms(): void
     {
         $this->assertTrue(class_exists(Job::class));
-        $this->assertTrue(class_exists(\MicroweberPackages\Queue\Services\ChunkedDispatcher::class));
+        $this->assertTrue(class_exists(\MicroweberPackages\Queue\Services\ChunkedDispatcherService::class));
     }
 }

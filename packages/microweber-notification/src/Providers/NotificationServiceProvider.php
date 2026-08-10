@@ -14,6 +14,7 @@ use MicroweberPackages\Notification\Contracts\NotificationsManagerContract;
 use MicroweberPackages\Notification\Http\Controllers\Admin\NotificationController;
 use MicroweberPackages\Notification\Services\EmailNotificationsManager;
 use MicroweberPackages\Notification\Services\NotificationsManager;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class NotificationServiceProvider extends ServiceProvider
 {
@@ -42,13 +43,11 @@ class NotificationServiceProvider extends ServiceProvider
         $this->app->singleton(NotificationsManager::class, function ($app) {
             return new NotificationsManager($app);
         });
-        $this->app->alias(NotificationsManager::class, NotificationsManagerContract::class);
-        $this->app->alias(NotificationsManager::class, 'notifications_manager');
+        $this->app->singleton(NotificationsManagerContract::class, fn ($app) => $app->make(NotificationsManager::class));
 
         $this->app->singleton(EmailNotificationsManager::class, function ($app) {
             return new EmailNotificationsManager($app);
         });
-        $this->app->alias(EmailNotificationsManager::class, 'email_notifications_manager');
     }
 
     public function boot(): void
@@ -90,13 +89,13 @@ class NotificationServiceProvider extends ServiceProvider
         }
 
         $this->app->resolving(MailSenderService::class, function (MailSenderService $sender): void {
-            if (! $this->app->bound('url_manager')) {
+            if (! $this->app->bound(\MicroweberPackages\Url\UrlManagerService::class)) {
                 return;
             }
 
             $sender->setContentTransformer(static function (string $text): string {
                 try {
-                    $urlManager = app('url_manager');
+                    $urlManager = UrlManager::getFacadeRoot();
                     if (is_object($urlManager) && method_exists($urlManager, 'replace_site_url_back')) {
                         $replaced = $urlManager->replace_site_url_back($text);
 
@@ -177,8 +176,8 @@ class NotificationServiceProvider extends ServiceProvider
     private function resolveHostname(): string
     {
         try {
-            if ($this->app->bound('url_manager')) {
-                $urlManager = $this->app->make('url_manager');
+            if ($this->app->bound(\MicroweberPackages\Url\UrlManagerService::class)) {
+                $urlManager = $this->app->make(\MicroweberPackages\Url\UrlManagerService::class);
                 if (is_object($urlManager) && method_exists($urlManager, 'hostname')) {
                     $hostname = $urlManager->hostname();
 

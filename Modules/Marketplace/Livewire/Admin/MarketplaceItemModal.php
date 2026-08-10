@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\PackageManagerClient\PackageFormatter;
-use MicroweberPackages\PackageManagerClient\PackageManagerClient;
+use MicroweberPackages\PackageManagerClient\PackageManagerClientService;
 
 class MarketplaceItemModal extends AdminModalComponent
 {

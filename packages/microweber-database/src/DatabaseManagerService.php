@@ -23,8 +23,11 @@ use Modules\Content\Models\Content;
 use Modules\CustomFields\Models\CustomField;
 use Modules\CustomFields\Models\CustomFieldValue;
 use Modules\Media\Models\Media;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Event\Facades\EventManager;
+use MicroweberPackages\Format\Facades\Format;
 
-class DatabaseManager extends DbUtils
+class DatabaseManagerService extends DbUtils
 {
     public $use_cache = true;
     public $use_model_cache = [];
@@ -421,7 +424,7 @@ class DatabaseManager extends DbUtils
             return false;
         } else {
             if (!$do_not_replace_site_url) {
-                $data = $this->app->url_manager->replace_site_url_back($data);
+                $data = UrlManager::replace_site_url_back($data);
             }
         }
 
@@ -432,7 +435,7 @@ class DatabaseManager extends DbUtils
         }
 
         if ($enable_triggers) {
-            $data = $this->app->event_manager->response('mw.database.' . $table . '.get', $data);
+            $data = EventManager::response('mw.database.' . $table . '.get', $data);
         }
 
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
@@ -614,7 +617,7 @@ class DatabaseManager extends DbUtils
        // $criteria_orig = $data;
        // $criteria = $this->map_array_to_table($table, $data);
         if ($allow_html == false) {
-            $criteria = $this->app->format->clean_html($criteria);
+            $criteria = Format::clean_html($criteria);
         } else {
             if ($allow_scripts == false) {
                $criteria = $this->clean_input($criteria);
@@ -626,7 +629,7 @@ class DatabaseManager extends DbUtils
             }
 
         }
-        $criteria = $this->app->url_manager->replace_site_url($criteria);
+        $criteria = UrlManager::replace_site_url($criteria);
 
         if (is_array($data_to_save_options) and $data_to_save_options['use_this_field_for_id'] != false) {
             $criteria['id'] = $criteria_orig[$data_to_save_options['use_this_field_for_id']];
@@ -638,7 +641,7 @@ class DatabaseManager extends DbUtils
         }
         $criteria['id'] = intval($criteria['id']);
 
-        $criteria = $criteria_overwrite = $this->app->event_manager->response('mw.database.' . $table . '.save.params', $criteria_orig);
+        $criteria = $criteria_overwrite = EventManager::response('mw.database.' . $table . '.save.params', $criteria_orig);
         $criteria = $this->map_array_to_table($table, $criteria);
 
         if(!$criteria){
@@ -716,8 +719,8 @@ class DatabaseManager extends DbUtils
 
         $criteria_overwrite['id'] = $id_to_return;
 
-        $this->app->event_manager->trigger('mw.database.' . $table . '.save.after', $criteria_overwrite);
-        $this->app->event_manager->trigger('mw.database.' . $table . '.save.after.data', $data);
+        EventManager::trigger('mw.database.' . $table . '.save.after', $criteria_overwrite);
+        EventManager::trigger('mw.database.' . $table . '.save.after.data', $data);
 
         return $id_to_return;
     }

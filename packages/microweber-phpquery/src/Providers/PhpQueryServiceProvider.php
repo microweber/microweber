@@ -12,11 +12,9 @@ class PhpQueryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('phpquery', function ($app) {
+        $this->app->singleton(PhpQueryManager::class, function ($app) {
             return new PhpQueryManager();
         });
-
-        $this->app->alias('phpquery', PhpQueryManager::class);
     }
 
     /**

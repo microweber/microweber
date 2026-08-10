@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Option\Facades\Option;
+use MicroweberPackages\Format\Facades\Format;
 
 
 class NewOrderNotification extends Notification
@@ -140,7 +141,7 @@ class NewOrderNotification extends Notification
                 $cartItemsInfo[] = $item;
             }
 
-            return app()->format->array_to_table($cartItemsInfo);
+            return Format::array_to_table($cartItemsInfo);
         }
 
         return '';
@@ -166,7 +167,7 @@ class NewOrderNotification extends Notification
     {
 
         $toView = $this->notification->data;
-        $toView['ago'] = app()->format->ago($this->notification->data['created_at']);
+        $toView['ago'] = Format::ago($this->notification->data['created_at']);
 
         $toView['is_read'] = false;
         if ($this->notification->read_at > 0) {

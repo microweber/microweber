@@ -1,5 +1,9 @@
 <?php
 
+use MicroweberPackages\Format\Facades\Format;
+
+use MicroweberPackages\Url\Facades\UrlManager;
+
 if (!function_exists('str_random')) {
     /**
      * If the given value is not an array, wrap it in one.
@@ -196,7 +200,7 @@ function mw_post_update()
         $update = app()->update->post_update();
 
         if (isset($_GET['redirect_to'])) {
-            return app()->url_manager->redirect($_GET['redirect_to']);
+            return UrlManager::redirect($_GET['redirect_to']);
         }
 
         return $update;
@@ -214,7 +218,7 @@ function mw_reload_modules()
     app()->module_manager->reload_laravel_templates();
     mw_post_update();
     if (isset($_GET['redirect_to'])) {
-        return app()->url_manager->redirect($_GET['redirect_to']);
+        return UrlManager::redirect($_GET['redirect_to']);
     }
 }
 
@@ -508,7 +512,7 @@ if (!function_exists('br2nl')) {
 if (!function_exists('titlelize')) {
     function titlelize($str)
     {
-        return app()->format->titlelize($str);
+        return Format::titlelize($str);
     }
 }
 
@@ -517,7 +521,7 @@ if (!function_exists('titlelize')) {
 
 function get_date_format()
 {
-    return app()->format->get_date_format();
+    return Format::get_date_format();
 }
 
 function get_date_format_raw()
@@ -527,13 +531,13 @@ function get_date_format_raw()
 
 function date_system_format($db_date)
 {
-    return app()->format->date_system_format($db_date);
+    return Format::date_system_format($db_date);
 
 }
 
 function get_date_db_format($str_date)
 {
-    return app()->format->get_date_db_format($str_date);
+    return Format::get_date_db_format($str_date);
 
 }
 

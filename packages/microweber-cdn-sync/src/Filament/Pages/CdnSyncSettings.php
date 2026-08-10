@@ -10,6 +10,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use MicroweberPackages\CdnSync\Services\CdnSyncService;
+use MicroweberPackages\CdnSync\Facades\CdnSync;
 
 /**
  * @property \Filament\Schemas\Schema $form
@@ -201,7 +202,7 @@ class CdnSyncSettings extends Page
         ]);
 
         /** @var CdnSyncService $service */
-        $service = app('cdn_sync');
+        $service = CdnSync::getFacadeRoot();
         $result = $service->testConnection();
 
         if ($result['success']) {

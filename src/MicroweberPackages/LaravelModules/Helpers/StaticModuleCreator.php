@@ -3,7 +3,7 @@
 namespace MicroweberPackages\LaravelModules\Helpers;
 
 use Fruitcake\LaravelDebugbar\Facades\Debugbar;
-use MicroweberPackages\ClassLoader\ClassLoader;
+use MicroweberPackages\ClassLoader\ClassLoaderService;
 use MicroweberPackages\LaravelModules\LaravelModule;
 use MicroweberPackages\LaravelTemplates\LaravelTemplate;
 use Nwidart\Modules\Json;
@@ -143,12 +143,12 @@ class StaticModuleCreator
     /**
      * Shared instance-based class loader (container singleton when available).
      */
-    protected static function classLoader(): ClassLoader
+    protected static function classLoader(): ClassLoaderService
     {
         try {
-            if (function_exists('app') && app()->bound(ClassLoader::class)) {
-                /** @var ClassLoader $loader */
-                $loader = app(ClassLoader::class);
+            if (function_exists('app') && app()->bound(ClassLoaderService::class)) {
+                /** @var ClassLoaderService $loader */
+                $loader = app(ClassLoaderService::class);
                 $loader->register();
 
                 return $loader;
@@ -159,7 +159,7 @@ class StaticModuleCreator
 
         static $fallback = null;
         if ($fallback === null) {
-            $fallback = new ClassLoader();
+            $fallback = new ClassLoaderService();
             $fallback->register();
         }
 

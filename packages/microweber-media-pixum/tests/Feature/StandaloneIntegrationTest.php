@@ -4,6 +4,7 @@ namespace MicroweberPackages\MediaPixum\Tests\Feature;
 
 use MicroweberPackages\MediaPixum\PixumGenerator;
 use MicroweberPackages\MediaPixum\Tests\TestCase;
+use MicroweberPackages\MediaPixum\Facades\Pixum;
 
 /**
  * Validates the package works as a standalone service.
@@ -28,7 +29,7 @@ class StandaloneIntegrationTest extends TestCase
 
     public function test_alias_binding(): void
     {
-        $fromAlias = app('media-pixum');
+        $fromAlias = Pixum::getFacadeRoot();
         $fromClass = app(PixumGenerator::class);
         $this->assertSame($fromAlias, $fromClass);
     }

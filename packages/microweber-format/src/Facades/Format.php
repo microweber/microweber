@@ -3,8 +3,11 @@
 namespace MicroweberPackages\Format\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use MicroweberPackages\Format\FormatService;
 
 /**
+ * Format facade — greppable public API for formatting utilities.
+ *
  * @method static string array_to_ul(array $arr, string $ul_tag = 'ul', string $li_tag = 'li')
  * @method static string array_to_table(array $array, bool $table = true)
  * @method static array  array_trim(array $variable)
@@ -51,12 +54,13 @@ use Illuminate\Support\Facades\Facade;
  * @method static array  stringToTree(string $string, string $explodeSymbol = '>')
  * @method static string notif(string $text, $class = 'success')
  *
- * @see \MicroweberPackages\Format\Format
+ * @see \MicroweberPackages\Format\FormatService
+ * @mixin \MicroweberPackages\Format\FormatService
  */
-class FormatFacade extends Facade
+class Format extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'format';
+        return FormatService::class;
     }
 }

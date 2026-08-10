@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\View\Tests\Unit;
 
+use MicroweberPackages\View\Facades\StringBlade as StringBladeFacade;
 use MicroweberPackages\View\StringBlade;
 use MicroweberPackages\View\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
@@ -30,9 +31,9 @@ class StringBladeTest extends TestCase
     }
 
     #[Test]
-    public function resolves_from_container_alias(): void
+    public function resolves_from_container_via_facade(): void
     {
-        $this->assertInstanceOf(StringBlade::class, app('microweber.string_blade'));
-        $this->assertSame(app(StringBlade::class), app('microweber.string_blade'));
+        $this->assertInstanceOf(StringBlade::class, StringBladeFacade::getFacadeRoot());
+        $this->assertSame(app(StringBlade::class), StringBladeFacade::getFacadeRoot());
     }
 }

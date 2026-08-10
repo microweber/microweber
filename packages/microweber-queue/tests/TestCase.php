@@ -98,7 +98,7 @@ if (class_exists(\Orchestra\Testbench\TestCase::class) && ! trait_exists(\Tests\
                 ))),
             ]);
 
-            if (! $this->app->bound(\MicroweberPackages\Queue\Services\ChunkedDispatcher::class)) {
+            if (! $this->app->bound(\MicroweberPackages\Queue\Services\ChunkedDispatcherService::class)) {
                 $this->app->register(\MicroweberPackages\Queue\Providers\QueueServiceProvider::class);
                 $this->app->register(\MicroweberPackages\Queue\Providers\QueueEventServiceProvider::class);
             }

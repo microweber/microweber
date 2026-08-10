@@ -9,6 +9,7 @@
 namespace Modules\Content\Models\ModelFilters\Traits;
 
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 trait OrderByTrait
 {
@@ -65,7 +66,7 @@ trait OrderByTrait
                 break;
             case 'orders':
 
-                $table = app()->database_manager->real_table_name('cart');
+                $table = DatabaseManager::real_table_name('cart');
                 $this->query->orderByLeftPowerJoinsCount('cart.order')
                     ->select(
                         'content.*',

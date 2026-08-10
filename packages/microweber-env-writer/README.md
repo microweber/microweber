@@ -12,12 +12,21 @@ The service provider is auto-discovered by Laravel.
 
 ## Usage
 
+### Via Facade (recommended)
+
+```php
+use MicroweberPackages\EnvWriter\Facades\EnvWriter;
+
+EnvWriter::save(['APP_KEY' => 'new-key'], base_path('.env'));
+$values = EnvWriter::read(base_path('.env'));
+```
+
 ### Via Dependency Injection
 
 ```php
-use MicroweberPackages\EnvWriter\EnvWriter;
+use MicroweberPackages\EnvWriter\EnvWriterService;
 
-public function install(EnvWriter $envWriter)
+public function install(EnvWriterService $envWriter)
 {
     $envWriter->save([
         'APP_KEY' => 'base64:your-key',
@@ -27,21 +36,16 @@ public function install(EnvWriter $envWriter)
 }
 ```
 
-### Via Facade
-
-```php
-use MicroweberPackages\EnvWriter\Facades\EnvWriter;
-
-EnvWriter::save(['APP_KEY' => 'new-key'], base_path('.env'));
-```
-
 ### Direct Instantiation (no Laravel required)
 
 ```php
-$writer = new \MicroweberPackages\EnvWriter\EnvWriter();
+$writer = new \MicroweberPackages\EnvWriter\EnvWriterService();
 $writer->save(['KEY' => 'value'], '/path/to/.env');
 $values = $writer->read('/path/to/.env');
 ```
+
+Service class: `MicroweberPackages\EnvWriter\EnvWriterService`  
+Facade class: `MicroweberPackages\EnvWriter\Facades\EnvWriter`
 
 ## Features
 

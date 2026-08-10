@@ -9,6 +9,7 @@
 namespace Modules\Content\Models\ModelFilters\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 trait FilterByPriceTrait
 {
@@ -67,7 +68,7 @@ trait FilterByPriceTrait
         }
 
        // $dbDriver = Config::get('database.default');
-        $dbDriver = app()->database_manager->get_sql_engine();
+        $dbDriver = DatabaseManager::get_sql_engine();
 
         $sql = $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice,$dbDriver) {
             $query->whereHas('fieldValuePrice', function ($query2) use ($minPrice, $maxPrice,$dbDriver) {

@@ -4,15 +4,12 @@ namespace MicroweberPackages\Repository\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Container\Container;
-
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use MicroweberPackages\Repository\RepositoryManager;
 
-
 class RepositoryServiceProvider extends ServiceProvider
 {
-
-    public function register() : void
+    public function register(): void
     {
         $this->app->afterResolving('cache', function () {
             AbstractRepository::setCacheInstance($this->app['cache']);
@@ -24,25 +21,12 @@ class RepositoryServiceProvider extends ServiceProvider
             $this->app->register(\Torann\LaravelRepository\RepositoryServiceProvider::class);
         }
 
-        /**
-         * @property  RepositoryManager repository_manager
-         */
-
-        $this->app->singleton('repository_manager', function ($app) {
+        $this->app->singleton(RepositoryManager::class, function ($app) {
             return new RepositoryManager($app->make(Container::class));
         });
-
     }
 
-
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
     public function boot()
     {
-
     }
-
 }

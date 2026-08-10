@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use MicroweberPackages\App\Http\Controllers\Controller;
 use MicroweberPackages\FileUploader\FileUploaderService;
+use MicroweberPackages\FileUploader\Facades\FileUploader;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class PluploadController extends Controller
 {
@@ -35,7 +37,7 @@ class PluploadController extends Controller
      */
     protected function getUploaderService(): FileUploaderService
     {
-        return app('file_uploader');
+        return FileUploader::getFacadeRoot();
     }
 
     public function upload()
@@ -56,7 +58,7 @@ class PluploadController extends Controller
             // allow
         }
 
-        $is_ajax = app()->url_manager->is_ajax();
+        $is_ajax = UrlManager::is_ajax();
         if (!$is_ajax) {
             header("HTTP/1.1 401 Unauthorized");
             die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');

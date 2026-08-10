@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Lang;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Repositories\TranslationKeyRepository;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider as PackageTranslationServiceProvider;
+use MicroweberPackages\Repository\Facades\Repository;
 
 /**
  * CMS-specific translation service provider.
@@ -37,7 +38,7 @@ class CmsTranslationServiceProvider extends PackageTranslationServiceProvider
             });
 
             $this->app->bind('translation_key_repostory', function () {
-                return $this->app->repository_manager->driver(TranslationKey::class);
+                return Repository::driver(TranslationKey::class);
             });
         }
     }

@@ -15,6 +15,8 @@ use Modules\Order\Exceptions\OrderException;
 use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
 use Modules\Product\Notifications\ProductOutOfStockNotification;
+use MicroweberPackages\Format\Facades\Format;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class OrderService
 {
@@ -70,7 +72,7 @@ class OrderService
             }
 
             try {
-                $ord = $this->app->database_manager->save('cart_orders', $place_order);
+                $ord = DatabaseManager::save('cart_orders', $place_order);
             } catch (QueryException $e) {
                 Log::error('Failed to create order in database', [
                     'exception' => $e->getMessage(),
@@ -186,7 +188,7 @@ class OrderService
             $this->app->cache_manager->delete('shop');
 
             try {
-                return $this->app->database_manager->save($table, $params);
+                return DatabaseManager::save($table, $params);
             } catch (QueryException $e) {
                 Log::error('Failed to save order', [
                     'exception' => $e->getMessage(),
@@ -231,7 +233,7 @@ class OrderService
             $export = array();
             foreach ($data as $item) {
                 $cart_items = Order::getOrderItems($item['id']);
-                $cart_items_str = app()->format->array_to_ul($cart_items, 'div', 'span');
+                $cart_items_str = Format::array_to_ul($cart_items, 'div', 'span');
                 $cart_items_str = (strip_tags($cart_items_str, '<span>'));
                 $cart_items_str = str_replace('</span>', "\r\n", $cart_items_str);
                 $cart_items_str = (strip_tags($cart_items_str));

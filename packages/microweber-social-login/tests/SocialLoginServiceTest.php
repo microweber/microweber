@@ -25,15 +25,15 @@ class SocialLoginServiceTest extends TestCase
     {
         $this->assertInstanceOf(
             SocialLoginServiceContract::class,
-            $this->app->make('social_login')
+            $this->app->make(\MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract::class)
         );
     }
 
     #[Test]
     public function service_is_singleton(): void
     {
-        $a = $this->app->make('social_login');
-        $b = $this->app->make('social_login');
+        $a = $this->app->make(\MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract::class);
+        $b = $this->app->make(\MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract::class);
 
         $this->assertSame($a, $b);
     }
@@ -42,7 +42,7 @@ class SocialLoginServiceTest extends TestCase
     public function enabled_providers_returns_configured_providers(): void
     {
         /** @var SocialLoginService $service */
-        $service = $this->app->make('social_login');
+        $service = $this->app->make(\MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract::class);
 
         $enabled = $service->enabledProviders();
 
@@ -55,7 +55,7 @@ class SocialLoginServiceTest extends TestCase
     public function is_provider_enabled_returns_true_for_configured(): void
     {
         /** @var SocialLoginService $service */
-        $service = $this->app->make('social_login');
+        $service = $this->app->make(\MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract::class);
 
         $this->assertTrue($service->isProviderEnabled('google'));
     }
@@ -64,7 +64,7 @@ class SocialLoginServiceTest extends TestCase
     public function is_provider_enabled_returns_false_for_unconfigured(): void
     {
         /** @var SocialLoginService $service */
-        $service = $this->app->make('social_login');
+        $service = $this->app->make(\MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract::class);
 
         $this->assertFalse($service->isProviderEnabled('facebook'));
     }
@@ -73,7 +73,7 @@ class SocialLoginServiceTest extends TestCase
     public function is_provider_enabled_returns_false_for_unknown(): void
     {
         /** @var SocialLoginService $service */
-        $service = $this->app->make('social_login');
+        $service = $this->app->make(\MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract::class);
 
         $this->assertFalse($service->isProviderEnabled('nonexistent'));
     }
@@ -150,7 +150,7 @@ class SocialLoginServiceTest extends TestCase
     public function refresh_config_picks_up_changes(): void
     {
         /** @var SocialLoginService $service */
-        $service = $this->app->make('social_login');
+        $service = $this->app->make(\MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract::class);
 
         $this->assertFalse($service->isProviderEnabled('github'));
 
@@ -179,7 +179,7 @@ class SocialLoginServiceTest extends TestCase
         }
 
         /** @var SocialLoginService $service */
-        $service = $this->app->make('social_login');
+        $service = $this->app->make(\MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract::class);
 
         $response = $service->redirect('google');
 

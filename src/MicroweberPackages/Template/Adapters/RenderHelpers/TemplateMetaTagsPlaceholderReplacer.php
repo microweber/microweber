@@ -2,6 +2,10 @@
 
 namespace MicroweberPackages\Template\Adapters\RenderHelpers;
 
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Format\Facades\Format;
+
+
 
 class TemplateMetaTagsPlaceholderReplacer
 {
@@ -29,7 +33,7 @@ class TemplateMetaTagsPlaceholderReplacer
             if (is_home()) {
                 $meta['content_url'] = site_url();
             } else {
-                $meta['content_url'] = app()->url_manager->current(1);
+                $meta['content_url'] = UrlManager::current(1);
             }
             $meta['og_description'] = $this->websiteOptions['website_description'];
             $meta['og_type'] = 'website';
@@ -103,19 +107,19 @@ class TemplateMetaTagsPlaceholderReplacer
                         $img = app()->media_manager->get_first_image_from_html(html_entity_decode($cont_id['content']));
 
                         if ($img != false) {
-                            $surl = app()->url_manager->site();
-                            $img = app()->format->replace_once('{SITE_URL}', $surl, $img);
+                            $surl = UrlManager::site();
+                            $img = Format::replace_once('{SITE_URL}', $surl, $img);
                             $meta['content_image'] = $img;
                         }
 
                     }
                 }
 //                if ($cont_id and isset($cont_id['content_body']) and $cont_id['content_body']) {
-//                    $meta['description'] = str_replace("\n", ' ', app()->format->limit(strip_tags($cont_id['content_body']), 500));
+//                    $meta['description'] = str_replace("\n", ' ', Format::limit(strip_tags($cont_id['content_body']), 500));
 //                } else if (isset($meta['description']) and $meta['description'] != '') {
-//                    $meta['description'] = str_replace("\n", ' ', app()->format->limit(strip_tags($meta['description']), 500));
+//                    $meta['description'] = str_replace("\n", ' ', Format::limit(strip_tags($meta['description']), 500));
 //                } else if (isset($meta['content']) and $meta['content'] != '') {
-//                    $meta['description'] = str_replace("\n", ' ', app()->format->limit(strip_tags($meta['content']), 500));
+//                    $meta['description'] = str_replace("\n", ' ', Format::limit(strip_tags($meta['content']), 500));
 //                } else {
 //                    $meta['description'] = '';
 //                }
@@ -150,16 +154,16 @@ class TemplateMetaTagsPlaceholderReplacer
                     if ($meta['description'] != false and trim($meta['description']) != '') {
                         //  $meta['description'] = $meta['description'];
                     } elseif ($meta['content'] != false and trim($meta['content']) != '') {
-                        $meta['description'] = str_replace("\n ", ' ', app()->format->limit(strip_tags($meta['content']), 1500));
+                        $meta['description'] = str_replace("\n ", ' ', Format::limit(strip_tags($meta['content']), 1500));
                     } elseif ($meta['content_body'] != false and trim($meta['content_body']) != '') {
-                        $meta['description'] = str_replace("\n ", ' ', app()->format->limit(strip_tags($meta['content_body']), 1500));
+                        $meta['description'] = str_replace("\n ", ' ', Format::limit(strip_tags($meta['content_body']), 1500));
                     }
 
                     if (isset($meta['description']) and $meta['description'] != '') {
                         $meta['og_description'] = $meta['description'];
                     } else {
                         if ($meta['content']) {
-                            $meta['og_description'] = trim(app()->format->limit(strip_tags($meta['content']), 500));
+                            $meta['og_description'] = trim(Format::limit(strip_tags($meta['content']), 500));
                         }
                     }
 
@@ -203,7 +207,7 @@ class TemplateMetaTagsPlaceholderReplacer
                 } elseif (isset($found_mod) and $found_mod != false) {
                     $meta['content_meta_title'] = ucwords(str_replace('/', ' ', $found_mod));
                 } else {
-                    $meta['content_meta_title'] = ucwords(str_replace('/', ' ', app()->url_manager->segment(0)));
+                    $meta['content_meta_title'] = ucwords(str_replace('/', ' ', UrlManager::segment(0)));
                 }
 
                 if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {

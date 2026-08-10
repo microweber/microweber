@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\Http\Tests;
 
-use MicroweberPackages\Http\Http;
+use MicroweberPackages\Http\HttpService;
 use MicroweberPackages\Http\Adapters\Guzzle;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -13,7 +13,7 @@ class HttpTest extends TestCase
     #[Test]
     public function it_creates_instance_with_guzzle_adapter(): void
     {
-        $http = new Http();
+        $http = new HttpService();
 
         $this->assertInstanceOf(Guzzle::class, $http->adapter);
     }
@@ -21,7 +21,7 @@ class HttpTest extends TestCase
     #[Test]
     public function it_set_url_returns_self_for_chaining(): void
     {
-        $http = new Http();
+        $http = new HttpService();
         $result = $http->url('https://example.com');
 
         $this->assertSame($http, $result);
@@ -32,7 +32,7 @@ class HttpTest extends TestCase
     #[Test]
     public function it_set_timeout_returns_self_for_chaining(): void
     {
-        $http = new Http();
+        $http = new HttpService();
         $result = $http->set_timeout(120);
 
         $this->assertSame($http, $result);
@@ -42,7 +42,7 @@ class HttpTest extends TestCase
     #[Test]
     public function it_set_cache_returns_self_for_chaining(): void
     {
-        $http = new Http();
+        $http = new HttpService();
         $result = $http->set_cache(3600);
 
         $this->assertSame($http, $result);
@@ -52,7 +52,7 @@ class HttpTest extends TestCase
     #[Test]
     public function it_default_cache_is_false(): void
     {
-        $http = new Http();
+        $http = new HttpService();
 
         $this->assertFalse($http->cache);
     }
@@ -60,7 +60,7 @@ class HttpTest extends TestCase
     #[Test]
     public function it_default_url_is_false(): void
     {
-        $http = new Http();
+        $http = new HttpService();
 
         $this->assertFalse($http->url);
     }

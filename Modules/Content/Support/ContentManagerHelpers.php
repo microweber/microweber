@@ -12,6 +12,11 @@ use Modules\Content\Models\ContentRelated;
 use Modules\CustomFields\Models\CustomField;
 use Modules\Menu\Models\Menu;
 use Modules\Menu\Models\MenuItem;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\ContentField\Facades\ContentField;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Event\Facades\EventManager;
+use MicroweberPackages\Format\Facades\Format;
 
 /**
  * @deprecated Legacy class, should not be used in new code
@@ -98,7 +103,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     $save['content_id'] = $content_id;
 
 
-                    $new_item = $this->app->database_manager->save($menus, $save);
+                    $new_item = DatabaseManager::save($menus, $save);
 
                     $this->app->cache_manager->delete('menus');
 
@@ -147,7 +152,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             }
         }
 
-        $this->app->event_manager->trigger('content.before.delete', $data);
+        EventManager::trigger('content.before.delete', $data);
 
         if (isset($data['ids']) and is_array($data['ids'])) {
 
@@ -177,7 +182,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     } elseif ($to_trash == false) {
                         DB::table('content')->whereParent($c_id)->update(['parent' => 0]);
 
-                        $this->app->database_manager->delete_by_id('menus', $c_id, 'content_id');
+                        DatabaseManager::delete_by_id('menus', $c_id, 'content_id');
 
 
                         DB::table('media')->where('rel_id', '=', $c_id)->where('rel_type', '=', morph_name(\Modules\Content\Models\Content::class))->delete();
@@ -248,7 +253,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $data = $data['reset'];
             }
 
-            $this->app->event_manager->trigger('content.reset_edit_field.before', $data);
+            EventManager::trigger('content.reset_edit_field.before', $data);
 
             foreach ($data as $item) {
                 if (isset($item['rel']) and ($item['rel'])) {
@@ -301,7 +306,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 }
             }
 
-            $this->app->event_manager->trigger('content.reset_edit_field.after', $data);
+            EventManager::trigger('content.reset_edit_field.after', $data);
 
         }
         $this->app->cache_manager->delete('content');
@@ -357,7 +362,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             }
         }
         if (isset($data['id'])) {
-            $this->app->event_manager->trigger('content.before.copy', $data);
+            EventManager::trigger('content.before.copy', $data);
             $cont = get_content_by_id($data['id']);
             if ($cont != false and isset($cont['id'])) {
                 $new_cont = $cont;
@@ -471,7 +476,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                     ++$i;
                 }
-                $this->app->database_manager->update_position_field('content_related', $indx);
+                DatabaseManager::update_position_field('content_related', $indx);
                 $return_res = $indx;
             }
         }
@@ -546,13 +551,13 @@ class ContentManagerHelpers extends ContentManagerCrud
                 unset($post_data['from_url']);
             }
             $the_field_data_all = $post_data;
-            $this->app->event_manager->trigger('mw.content.save_edit.before', $the_field_data_all);
+            EventManager::trigger('mw.content.save_edit.before', $the_field_data_all);
 
         } else {
             return array('error' => 'no POST?');
         }
 
-        $ustr2 = $this->app->url_manager->string(1, 1);
+        $ustr2 = UrlManager::string(1, 1);
 
         if (isset($ustr2) and trim($ustr2) == 'favicon.ico') {
             return false;
@@ -662,7 +667,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
             /*if (isset($ref_page2)) {
                 if ($ref_page2 == false) {
-                    $ustr = $this->app->url_manager->string(1);
+                    $ustr = UrlManager::string(1);
 
                     if ($this->app->module_manager->is_installed($ustr)) {
                         $ref_page = false;
@@ -678,7 +683,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             } elseif ($ustr2 == '' or $ustr2 == '/') {
                 $ref_page = $this->app->content_manager->homepage();
                 if ($ref_page_url) {
-                    $page_url_ref = $this->app->url_manager->param('content_id', $ref_page_url);
+                    $page_url_ref = UrlManager::param('content_id', $ref_page_url);
                     if ($page_url_ref !== false) {
                         if ($page_url_ref == 0) {
                             return false;
@@ -709,7 +714,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                 }
 
-                $ustr = $this->app->url_manager->string(1);
+                $ustr = UrlManager::string(1);
                 $is_module = false;
 
                 if ($newPageCreate) {
@@ -757,9 +762,9 @@ class ContentManagerHelpers extends ContentManagerCrud
                         if (isset($ref_page_url) and $ref_page_url != false) {
                             $save_page['url'] = $ref_page_url;
                         } else {
-                            $save_page['url'] = $this->app->url_manager->string(1);
+                            $save_page['url'] = UrlManager::string(1);
                         }
-                        $title = str_replace('%20', ' ', ($this->app->url_manager->string(1)));
+                        $title = str_replace('%20', ' ', (UrlManager::string(1)));
 
                         if ($title == 'editor_tools/wysiwyg' or $title == 'api/module' or $title == 'admin/view:content') {
                             return false;
@@ -767,7 +772,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                         if (!isset($save_page['title'])) {
                             $save_page['title'] = $title;
                         }
-                        if ($save_page['url'] == '' or $save_page['url'] == '/' or $save_page['url'] == $this->app->url_manager->site()) {
+                        if ($save_page['url'] == '' or $save_page['url'] == '/' or $save_page['url'] == UrlManager::site()) {
                             $save_page['url'] = 'home';
                             $home_exists = $this->app->content_manager->homepage();
                             if ($home_exists == false) {
@@ -792,11 +797,11 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                     if ($save_page != false) {
                         if (isset($save_page['url']) and $save_page['url']) {
-                            $u = str_replace($this->app->url_manager->site(), '', $save_page['url']);
+                            $u = str_replace(UrlManager::site(), '', $save_page['url']);
                             $u = $this->app->permalink_manager->slug($u, 'content');
 
                             if (!$u) {
-                                $u = str_replace($this->app->url_manager->site(), '', $save_page['url']);
+                                $u = str_replace(UrlManager::site(), '', $save_page['url']);
                             }
 
                             if ($u) {
@@ -870,7 +875,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                 $content_id = $page_id;
 
-                $url = $this->app->url_manager->string(true);
+                $url = UrlManager::string(true);
                 $some_mods = array();
                 if (isset($the_field_data) and is_array($the_field_data) and isset($the_field_data['attributes'])) {
                     if (isset($the_field_data['html'])) {
@@ -1039,7 +1044,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                         }
                         $html_to_save = $the_field_data['html'];
 
-                        $html_to_save = app()->url_manager->replace_site_url($html_to_save);
+                        $html_to_save = UrlManager::replace_site_url($html_to_save);
 
                         $html_to_save = $content = $this->app->parser->make_tags($html_to_save);
 
@@ -1117,7 +1122,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 }
 
 
-                                $this->app->event_manager->trigger('mw.content.save_edit', $cont_field);
+                                EventManager::trigger('mw.content.save_edit', $cont_field);
 
                                 $to_save = array();
                                 $to_save['id'] = $content_id;
@@ -1125,7 +1130,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $to_save = array_merge($to_save, $cont_table_save);
                                 }
 
-                                $is_native_fld = $this->app->database_manager->get_fields('content');
+                                $is_native_fld = DatabaseManager::get_fields('content');
                                 if (in_array($field, $is_native_fld)) {
                                     $to_save[$field] = ($html_to_save);
                                 }
@@ -1188,7 +1193,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                             if ($save_global and $save_module and isset($cont_field['rel_id']) and $cont_field['rel_id'] == 0 and isset($the_field_data['attributes']['field']) and isset($the_field_data['attributes']['rel_type'])) {
                                 // we check for existing fields with rel_id = 0 and remove them
-                                app()->content_field_manager->deduplicateGlobalFields(
+                                ContentField::deduplicateGlobalFields(
                                     $the_field_data['attributes']['field'],
                                     $the_field_data['attributes']['rel_type'],
                                     $cont_field['rel_id']
@@ -1199,7 +1204,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
-                                $cont_field['url'] = $this->app->url_manager->string(true);
+                                $cont_field['url'] = UrlManager::string(true);
 
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
 
@@ -1212,7 +1217,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 $history_draft = $cont_field;
                                 $history_draft['is_draft'] = 1;
-                                $history_draft['url'] = $this->app->url_manager->string(true);
+                                $history_draft['url'] = UrlManager::string(true);
                                 $history_draft['is_draft'] = 1;
                                 $history_draft['rel_type'] = $rel_ch;
                                 $history_draft['rel_id'] = $cont_field['rel_id'];
@@ -1243,7 +1248,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 }
             }
         }
-        $this->app->event_manager->trigger('mw.content.save_edit.after', $json_print);
+        EventManager::trigger('mw.content.save_edit.after', $json_print);
 
 
         if (isset($opts_saved)) {
@@ -1269,14 +1274,14 @@ class ContentManagerHelpers extends ContentManagerCrud
             $url = explode('?', $url);
             $url = $url[0];
 
-            if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {
+            if (trim($url) == '' or trim($url) == UrlManager::site()) {
                 $page = $this->app->content_manager->homepage();
 
             } else {
                 $page = $this->get_by_url($url);
             }
         } else {
-            $url = $this->app->url_manager->string();
+            $url = UrlManager::string();
         }
 
         $this->app->content_manager->define_constants($page);
@@ -1371,10 +1376,10 @@ class ContentManagerHelpers extends ContentManagerCrud
         }
 
 
-        $data = $this->app->format->strip_unsafe($data);
+        $data = Format::strip_unsafe($data);
 
         if (isset($data['is_draft']) and $data['is_draft'] and isset($data['url'])) {
-            $draft_url = $this->app->database_manager->escape_string($data['url']);
+            $draft_url = DatabaseManager::escape_string($data['url']);
             $last_saved_date = date('Y-m-d H:i:s', strtotime('-1 week'));
             $last_saved_date = date('Y-m-d H:i:s', strtotime('-5 min'));
             $history_files_params = array();
@@ -1394,13 +1399,13 @@ class ContentManagerHelpers extends ContentManagerCrud
             $history_files = $this->get_edit_field($history_files_params);
 
             if (is_array($history_files)) {
-                $history_files_ids = $this->app->format->array_values($history_files);
+                $history_files_ids = Format::array_values($history_files);
             }
 
             if (isset($history_files_ids) and is_array($history_files_ids) and !empty($history_files_ids)) {
 
                 foreach ($history_files_ids as $item) {
-                    $this->app->database_manager->delete_by_id($table, $item);
+                    DatabaseManager::delete_by_id($table, $item);
                 }
 
             }
@@ -1412,8 +1417,8 @@ class ContentManagerHelpers extends ContentManagerCrud
         }
         /*
                 if (isset($data['field']) and !isset($data['is_draft'])) {
-                    $fld = $this->app->database_manager->escape_string($data['field']);
-                    $fld_rel = $this->app->database_manager->escape_string($data['rel_type']);
+                    $fld = DatabaseManager::escape_string($data['field']);
+                    $fld_rel = DatabaseManager::escape_string($data['rel_type']);
                     $del_params = array();
                     $del_params['rel_type'] = $fld_rel;
                     $del_params['field'] = $fld;
@@ -1428,13 +1433,13 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $del_params['rel_id'] = 0;
                         }
                     }
-                    $del = $this->app->database_manager->get($del_params);
+                    $del = DatabaseManager::get($del_params);
 
 
                     if (!empty($del)) {
                         foreach ($del as $item) {
                             // TODO
-                            $this->app->database_manager->delete_by_id($table, $item['id']);
+                            DatabaseManager::delete_by_id($table, $item['id']);
                         }
                     }
                     $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
@@ -1477,7 +1482,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
         if (isset($data['is_draft']) and $data['is_draft'] and isset($data['url'])) {
 
-            //   $find = $this->app->database_manager->get($table, $filter);
+            //   $find = DatabaseManager::get($table, $filter);
 
 
             $find = false;
@@ -1499,7 +1504,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         } else {
 
 
-            $find = $this->app->database_manager->get($table, $filter);
+            $find = DatabaseManager::get($table, $filter);
 
         }
 
@@ -1508,7 +1513,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         }
 
 
-        $save = $this->app->database_manager->save($data);
+        $save = DatabaseManager::save($data);
 
         $this->app->cache_manager->delete('content_fields');
 
@@ -1525,7 +1530,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
     public function download_remote_images_from_text($text)
     {
-        $site_url = $this->app->url_manager->site();
+        $site_url = UrlManager::site();
         $images = $this->app->parser->query($text, 'img');
         $to_download = array();
         $to_replace = array();
@@ -1573,7 +1578,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                     $dl_file = $dl_dir . md5($src) . basename($src);
                     if (!is_file($dl_file)) {
-                        $is_dl = $this->app->url_manager->download($src, false, $dl_file);
+                        $is_dl = UrlManager::download($src, false, $dl_file);
                     }
                     if (is_file($dl_file)) {
                         $url_local = dir2url($dl_file);

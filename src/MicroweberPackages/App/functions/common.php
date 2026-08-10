@@ -1,5 +1,9 @@
 <?php
 
+use MicroweberPackages\Url\Facades\UrlManager;
+
+use MicroweberPackages\Format\Facades\Format;
+
 
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -76,12 +80,12 @@ function api_nosession_url($str = '')
 
 function auto_link($text)
 {
-    return app()->format->auto_link($text);
+    return Format::auto_link($text);
 }
 
 function prep_url($text)
 {
-    return app()->format->prep_url($text);
+    return Format::prep_url($text);
 }
 
 
@@ -98,7 +102,7 @@ function prep_url($text)
  */
 function url_path($skip_ajax = false)
 {
-    return app()->url_manager->string($skip_ajax);
+    return UrlManager::string($skip_ajax);
 }
 
 /**
@@ -108,27 +112,27 @@ function url_path($skip_ajax = false)
  */
 function url_string($skip_ajax = false)
 {
-    return app()->url_manager->string($skip_ajax);
+    return UrlManager::string($skip_ajax);
 }
 
 function url_title($text)
 {
-    return app()->url_manager->slug($text);
+    return UrlManager::slug($text);
 }
 
 function url_param($param, $skip_ajax = false)
 {
-    return app()->url_manager->param($param, $skip_ajax);
+    return UrlManager::param($param, $skip_ajax);
 }
 
 function url_set_param($param, $value)
 {
-    return site_url(app()->url_manager->param_set($param, $value));
+    return site_url(UrlManager::param_set($param, $value));
 }
 
 function url_unset_param($param)
 {
-    return site_url(app()->url_manager->param_unset($param));
+    return site_url(UrlManager::param_unset($param));
 }
 
 /**
@@ -247,7 +251,7 @@ function clearcache()
     }
 
     if (isset($_GET['redirect_to'])) {
-        return app()->url_manager->redirect($_GET['redirect_to']);
+        return UrlManager::redirect($_GET['redirect_to']);
     }
 
     if(function_exists('opcache_reset')){

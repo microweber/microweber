@@ -7,6 +7,7 @@ use MicroweberPackages\FileUploader\FileUploaderService;
 use MicroweberPackages\FileUploader\Validation\FileValidationService;
 use MicroweberPackages\FileUploader\Support\ImageProcessor;
 use MicroweberPackages\FileUploader\Support\FilenameSanitizer;
+use MicroweberPackages\FileUploader\Facades\FileUploader;
 
 class FileUploaderServiceTest extends TestCase
 {
@@ -16,7 +17,7 @@ class FileUploaderServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = app('file_uploader');
+        $this->service = FileUploader::getFacadeRoot();
         $this->tempDir = sys_get_temp_dir() . '/file_uploader_service_tests_' . uniqid();
         mkdir($this->tempDir, 0755, true);
         Storage::fake('public');
@@ -38,13 +39,13 @@ class FileUploaderServiceTest extends TestCase
 
     public function test_service_is_resolved_from_container(): void
     {
-        $this->assertInstanceOf(FileUploaderService::class, app('file_uploader'));
+        $this->assertInstanceOf(FileUploaderService::class, FileUploader::getFacadeRoot());
     }
 
     public function test_service_is_singleton(): void
     {
-        $a = app('file_uploader');
-        $b = app('file_uploader');
+        $a = FileUploader::getFacadeRoot();
+        $b = FileUploader::getFacadeRoot();
         $this->assertSame($a, $b);
     }
 

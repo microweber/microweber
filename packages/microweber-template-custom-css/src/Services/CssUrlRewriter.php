@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\TemplateCustomCss\Services;
 
+use MicroweberPackages\Url\Facades\UrlManager;
+
+
 /**
  * Rewrites absolute media/userfiles URLs in CSS for portable storage,
  * and restores them for backup/export (matching CMS backup behaviour).
@@ -71,9 +74,9 @@ class CssUrlRewriter
             return $css;
         }
 
-        if (function_exists('app') && app()->bound('url_manager')) {
+        if (function_exists('app') && app()->bound(\MicroweberPackages\Url\UrlManagerService::class)) {
             try {
-                $urlManager = app('url_manager');
+                $urlManager = UrlManager::getFacadeRoot();
                 if (is_object($urlManager) && method_exists($urlManager, 'replace_site_url')) {
                     $replaced = $urlManager->replace_site_url($css);
                     if (is_string($replaced)) {

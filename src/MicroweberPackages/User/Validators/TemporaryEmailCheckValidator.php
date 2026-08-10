@@ -4,6 +4,7 @@ namespace MicroweberPackages\User\Validators;
 
 use Illuminate\Validation\Validator;
 use MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract;
+use MicroweberPackages\DisposableEmailChecker\Facades\DisposableEmailChecker;
 
 /**
  * Legacy CMS validator — delegates to the new disposable-email-checker package.
@@ -21,7 +22,7 @@ class TemporaryEmailCheckValidator
         }
 
         /** @var DisposableEmailCheckerContract $checker */
-        $checker = app('disposable_email_checker');
+        $checker = DisposableEmailChecker::getFacadeRoot();
 
         return !$checker->isDisposable($email);
     }

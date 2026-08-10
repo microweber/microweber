@@ -7,6 +7,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Illuminate\Http\Request;
 use Modules\Cart\Http\Controllers\CartApiController;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class CartApiControllerTest extends TestCase
 {
@@ -39,7 +40,7 @@ class CartApiControllerTest extends TestCase
 
     public function it_update_cart(): void {
         empty_cart();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         // Create a test product
         $params = array(

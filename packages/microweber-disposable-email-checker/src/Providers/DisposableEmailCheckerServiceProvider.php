@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract;
 use MicroweberPackages\DisposableEmailChecker\Http\Middleware\BlockDisposableEmail;
-use MicroweberPackages\DisposableEmailChecker\Services\DisposableEmailChecker;
+use MicroweberPackages\DisposableEmailChecker\Services\DisposableEmailCheckerService;
 use MicroweberPackages\DisposableEmailChecker\Validators\NotDisposableEmailValidator;
 
 class DisposableEmailCheckerServiceProvider extends ServiceProvider
@@ -17,9 +17,7 @@ class DisposableEmailCheckerServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../../config/disposable-email-checker.php', 'disposable-email-checker');
 
-        $this->app->singleton(DisposableEmailCheckerContract::class, DisposableEmailChecker::class);
-
-        $this->app->alias(DisposableEmailCheckerContract::class, 'disposable_email_checker');
+        $this->app->singleton(DisposableEmailCheckerContract::class, DisposableEmailCheckerService::class);
     }
 
     public function boot(): void

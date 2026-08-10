@@ -17,7 +17,7 @@ The package uses Laravel auto-discovery, so the service provider will be registe
 ```php
 use MicroweberPackages\Url\UrlManager;
 
-$urlManager = app('url_manager');
+$urlManager = Url::getFacadeRoot();
 
 // Get site URL
 $url = $urlManager->site_url('path/to/page');

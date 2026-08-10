@@ -1,4 +1,6 @@
 <?php
+
+use MicroweberPackages\Database\Facades\DatabaseManager;
 /**
  * Created by PhpStorm.
  * User: Bojidar
@@ -156,8 +158,8 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
     }
 
     $exportFromTables = [];
-    $prefix = app()->database_manager->get_prefix();
-    $tablesList = app()->database_manager->get_tables_list(true);
+    $prefix = DatabaseManager::get_prefix();
+    $tablesList = DatabaseManager::get_tables_list(true);
     foreach ($tablesList as $table) {
         $table = str_replace($prefix, false, $table);
         $columns = \Illuminate\Support\Facades\Schema::getColumnListing($table);

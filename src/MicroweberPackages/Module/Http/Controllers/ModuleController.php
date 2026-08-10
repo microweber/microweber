@@ -7,6 +7,9 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 use Cache;
 use Module;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Format\Facades\Format;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class ModuleController extends Controller
 {
@@ -58,7 +61,7 @@ class ModuleController extends Controller
         }
 
         if (!defined('MW_NO_SESSION')) {
-            $is_ajax = $this->app->url_manager->is_ajax();
+            $is_ajax = UrlManager::is_ajax();
             if (!app()->user_manager->session_id() and $is_ajax == false) {
                 if (!defined('MW_SESS_STARTED')) {
                     define('MW_SESS_STARTED', true);
@@ -84,7 +87,7 @@ $custom_display = false;
         $requestData['data-type'] = $requestData['data-module-name'];
 
         if (!isset($requestData['id'])) {
-            $requestData['id'] = $this->app->url_manager->slug($requestData['data-module-name'].'-'.date('YmdHis'));
+            $requestData['id'] = UrlManager::slug($requestData['data-module-name'].'-'.date('YmdHis'));
         }
     }
 
@@ -129,18 +132,18 @@ $custom_display = false;
             $url = $from_url;
             $from_url2 = str_replace('#', '/', $from_url);
 
-            $content_id = $this->app->url_manager->param('content_id', false, $from_url2);
+            $content_id = UrlManager::param('content_id', false, $from_url2);
             if ($content_id == false) {
-                $content_id = $this->app->url_manager->param('editpage', false, $from_url2);
+                $content_id = UrlManager::param('editpage', false, $from_url2);
             }
             if ($content_id == false) {
-                $content_id = $this->app->url_manager->param('editpost', false, $from_url2);
+                $content_id = UrlManager::param('editpost', false, $from_url2);
             }
             if ($content_id == false) {
-                $content_id = $this->app->url_manager->param('mw-adm-content-id', false, $from_url2);
+                $content_id = UrlManager::param('mw-adm-content-id', false, $from_url2);
             }
             if ($content_id == false) {
-                $action_test = $this->app->url_manager->param('action', false, $from_url2);
+                $action_test = UrlManager::param('action', false, $from_url2);
 
                 if ($action_test != false) {
                     $action_test = str_ireplace('editpage:', '', $action_test);
@@ -170,7 +173,7 @@ $custom_display = false;
                     $url = $page['url'];
                 }
             } else {
-                if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {
+                if (trim($url) == '' or trim($url) == UrlManager::site()) {
                     //var_dump($from_url);
                     //$page = $this->app->content_manager->get_by_url($url);
                     $page = $this->app->content_manager->homepage();
@@ -180,7 +183,7 @@ $custom_display = false;
                     }
 
                     if (isset($from_url2)) {
-                        $mw_quick_edit = $this->app->url_manager->param('mw_quick_edit', false, $from_url2);
+                        $mw_quick_edit = UrlManager::param('mw_quick_edit', false, $from_url2);
 
                         if ($mw_quick_edit) {
                             $page = false;
@@ -204,7 +207,7 @@ $custom_display = false;
                 }
             }
         } else {
-            $url = $this->app->url_manager->string();
+            $url = UrlManager::string();
         }
 
         if (!defined('IS_HOME')) {
@@ -230,7 +233,7 @@ $custom_display = false;
         }
 
         if ($custom_display == true) {
-            $u2 = $this->app->url_manager->site();
+            $u2 = UrlManager::site();
             $u1 = str_replace($u2, '', $url);
 
             $this->render_this_url = $u1;
@@ -240,20 +243,20 @@ $custom_display = false;
         }
         $url_last = false;
         if (!isset($_REQUEST['module'])) {
-            $url = $this->app->url_manager->string(0);
+            $url = UrlManager::string(0);
             if ($url == __FUNCTION__) {
-                $url = $this->app->url_manager->string(0);
+                $url = UrlManager::string(0);
             }
             /*
-             $is_ajax = $this->app->url_manager->is_ajax();
+             $is_ajax = UrlManager::is_ajax();
 
              if ($is_ajax == true) {
-             $url = $this->app->url_manager->string(true);
+             $url = UrlManager::string(true);
              }*/
 
-            $url = $this->app->format->replace_once('module/', '', $url);
-            $url = $this->app->format->replace_once('module_api/', '', $url);
-            $url = $this->app->format->replace_once('m/', '', $url);
+            $url = Format::replace_once('module/', '', $url);
+            $url = Format::replace_once('module_api/', '', $url);
+            $url = Format::replace_once('m/', '', $url);
 
             if (is_module($url)) {
                 $_REQUEST['module'] = $url;
@@ -290,7 +293,7 @@ $custom_display = false;
             }
         }
 
-        $module_info = $this->app->url_manager->param('module_info', true);
+        $module_info = UrlManager::param('module_info', true);
 
         if ($module_info) {
             if ($_REQUEST['module']) {
@@ -306,7 +309,7 @@ $custom_display = false;
 
                     if (!isset($config['icon']) or $config['icon'] == false) {
                         $config['icon'] = modules_path().''.$_REQUEST['module'].'.png';
-                        $config['icon'] = $this->app->url_manager->link_to_file($config['icon']);
+                        $config['icon'] = UrlManager::link_to_file($config['icon']);
                     }
                     echo json_encode($config);
                     exit();
@@ -314,10 +317,10 @@ $custom_display = false;
             }
         }
 
-        $admin = $this->app->url_manager->param('admin', true);
+        $admin = UrlManager::param('admin', true);
 
-        $mod_to_edit = $this->app->url_manager->param('module_to_edit', true);
-        $embed = $this->app->url_manager->param('embed', true);
+        $mod_to_edit = UrlManager::param('module_to_edit', true);
+        $embed = UrlManager::param('embed', true);
 
         $mod_iframe = false;
         if ($mod_to_edit != false) {
@@ -329,7 +332,7 @@ $custom_display = false;
         if (($_POST)) {
             $data = $_POST;
         } else {
-            $url = $this->app->url_manager->segment();
+            $url = UrlManager::segment();
 
             if (!empty($url)) {
                 foreach ($url as $k => $v) {
@@ -424,12 +427,12 @@ $custom_display = false;
                     }
 
                     if (is_array($v)) {
-                        $v1 = $this->app->format->array_to_base64($v);
+                        $v1 = Format::array_to_base64($v);
                         $tags .= "{$k}=\"$v1\" ";
                     } else {
-                        $v = $this->app->format->clean_html($v);
+                        $v = Format::clean_html($v);
 
-                        //$v = $this->app->database_manager->escape_string($v);
+                        //$v = DatabaseManager::escape_string($v);
 
                         $tags .= "{$k}=\"$v\" ";
                     }
@@ -438,10 +441,10 @@ $custom_display = false;
         }
         if ($has_id == false) {
             if (defined('MW_MODULE_ONDROP')) {
-                	$mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis").uniqid();
+                	$mod_n = UrlManager::slug($mod_n) . '-' . date("YmdHis").uniqid();
                 	$tags .= "id=\"$mod_n\" ";
                                         }
-            //	$mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis");
+            //	$mod_n = UrlManager::slug($mod_n) . '-' . date("YmdHis");
             //	$tags .= "id=\"$mod_n\" ";
         }
 //dd($_REQUEST);
@@ -468,7 +471,7 @@ $custom_display = false;
 
         if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
             $get_arr_from_ref = $_SERVER['HTTP_REFERER'];
-            if (strstr($get_arr_from_ref, $this->app->url_manager->site())) {
+            if (strstr($get_arr_from_ref, UrlManager::site())) {
                 $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
                 if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
                     $restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
@@ -491,7 +494,7 @@ $custom_display = false;
             $res = str_replace('{content}', $res, $layout);
         }*/
 
-        $aj = $this->app->url_manager->is_ajax();
+        $aj = UrlManager::is_ajax();
 
         if ((isset($request_data['live_edit']) or isset($request_data['admin'])  ) and $aj == false) {
             $p_index = mw_includes_path().DS.'toolbar'.DS.'editor_tools'.DS.'module_settings'.DS.'index.php';
@@ -505,7 +508,7 @@ $custom_display = false;
 
         $res = execute_document_ready($res);
         if (!defined('MW_NO_OUTPUT')) {
-            $res = $this->app->url_manager->replace_site_url_back($res);
+            $res = UrlManager::replace_site_url_back($res);
           //  echo $res;
 
             return response($res);
@@ -553,7 +556,7 @@ $custom_display = false;
             //  event_trigger('mw_cron');
         }
 
-        $tool = $this->app->url_manager->segment(1);
+        $tool = UrlManager::segment(1);
 
         if ($tool) {
         } else {
@@ -576,14 +579,14 @@ $custom_display = false;
             $url = explode('?', $url);
             $url = $url[0];
 
-            if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {
+            if (trim($url) == '' or trim($url) == UrlManager::site()) {
                 //$page = $this->app->content_manager->get_by_url($url);
                 $page = $this->app->content_manager->homepage();
             } else {
                 $page = $this->app->content_manager->get_by_url($url);
             }
         } else {
-            $url = $this->app->url_manager->string();
+            $url = UrlManager::string();
         }
 
         if (isset($_GET['preview_template'])) {

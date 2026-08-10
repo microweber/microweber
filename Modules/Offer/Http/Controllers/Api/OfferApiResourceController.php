@@ -8,6 +8,7 @@ use Illuminate\Validation\ValidationException;
 use MicroweberPackages\App\Http\Controllers\Controller;
 use Modules\Offer\Http\Requests\OfferCreateUpdateRequest;
 use Modules\Offer\Models\Offer;
+use MicroweberPackages\Format\Facades\Format;
 
 class OfferApiResourceController extends Controller
 {
@@ -24,7 +25,7 @@ class OfferApiResourceController extends Controller
             }
         }
         if (isset($offerData['offer_price'])) {
-            $offerData['offer_price'] = app()->format->amount_to_float($offerData['offer_price']);
+            $offerData['offer_price'] = Format::amount_to_float($offerData['offer_price']);
         }
         $productPrice = (float) get_product_price($offerData['product_id']);
         if ($offerData['offer_price'] >= $productPrice) {

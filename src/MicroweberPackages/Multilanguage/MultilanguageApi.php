@@ -13,6 +13,7 @@ use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
 use MicroweberPackages\Translation\TranslationPackageInstallHelper;
+use MicroweberPackages\Event\Facades\EventManager;
 
 class MultilanguageApi
 {
@@ -139,7 +140,7 @@ class MultilanguageApi
 
 
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {
-            app()->event_manager->trigger('mw.admin.change_language');
+            EventManager::trigger('mw.admin.change_language');
             $json['refresh'] = true;
             return $json;
         } else {

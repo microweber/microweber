@@ -104,7 +104,6 @@ class TemplateCustomCssServiceProvider extends ServiceProvider
             return $manager;
         });
 
-        $this->app->alias(TemplateCustomCssManager::class, 'template-custom-css');
     }
 
     public function boot(): void

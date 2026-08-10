@@ -6,7 +6,7 @@ namespace MicroweberPackages\DisposableEmailChecker\Services;
 
 use MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract;
 
-class DisposableEmailChecker implements DisposableEmailCheckerContract
+class DisposableEmailCheckerService implements DisposableEmailCheckerContract
 {
     /**
      * @var array<int, string>  Normalised (lower-case, trimmed) blocked domains.

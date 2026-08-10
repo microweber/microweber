@@ -3,6 +3,7 @@
 namespace Modules\Log\Services;
 
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class LogManager
 {
@@ -38,7 +39,7 @@ class LogManager
             $params['user_ip'] = user_ip();
         }
 
-        $q = $this->app->database_manager->get($params);
+        $q = DatabaseManager::get($params);
 
         return $q;
     }
@@ -65,11 +66,11 @@ class LogManager
         if (is_admin() == false) {
             $params['user_ip'] = user_ip();
         }
-        $q = $this->app->database_manager->get($params);
+        $q = DatabaseManager::get($params);
         if (is_array($q)) {
             foreach ($q as $val) {
                 $c_id = intval($val['id']);
-                $this->app->database_manager->delete_by_id('log', $c_id);
+                DatabaseManager::delete_by_id('log', $c_id);
             }
         }
         $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
@@ -86,7 +87,7 @@ class LogManager
             $params['user_ip'] = user_ip();
             $params['table'] = $table;
 
-            $save = $this->app->database_manager->save($params);
+            $save = DatabaseManager::save($params);
             $id = $save;
             $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
 
@@ -113,8 +114,8 @@ class LogManager
             $c_id = intval($id);
             $table = 'logs';
             $old = date('Y-m-d H:i:s', strtotime('-1 month'));
-            app()->database_manager->table($table)->where('created_at', '<', $old)->delete();
-            app()->database_manager->table($table)->where('id', '=', $c_id)->delete();
+            DatabaseManager::table($table)->where('created_at', '<', $old)->delete();
+            DatabaseManager::table($table)->where('id', '=', $c_id)->delete();
             $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . $c_id);
 
             return $c_id;

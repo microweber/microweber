@@ -10,6 +10,7 @@ use MicroweberPackages\Repository\MicroweberQuery;
 use Modules\Category\Models\Category;
 use Modules\Content\Models\Content;
 use Modules\Menu\Database\Factories\MenuFactory;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class Menu extends Model
 {
@@ -138,11 +139,11 @@ class Menu extends Model
 
         if (!defined('MW_MENU_IS_ALREADY_MADE_ONCE')) {
             if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
-                $check = app()->database_manager->get('no_cache=1&title=' . $params['title']);
+                $check = DatabaseManager::get('no_cache=1&title=' . $params['title']);
                 if (!$check) {
                     $new_menu = app()->menu_manager->menu_create('title=' . $params['title']);
                     $params['id'] = $new_menu;
-                    $menus = app()->database_manager->get($params);
+                    $menus = DatabaseManager::get($params);
                 }
             }
             define('MW_MENU_IS_ALREADY_MADE_ONCE', true);

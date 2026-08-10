@@ -29,7 +29,7 @@ event_trigger('my_event', ['key' => 'value']);
 ### Using the service directly
 
 ```php
-$eventManager = app('event_manager');
+$eventManager = EventManager::getFacadeRoot();
 $eventManager->on('my_event', function($data) { /* ... */ });
 $eventManager->trigger('my_event', $data);
 ```

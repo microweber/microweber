@@ -1,4 +1,6 @@
 <?php
+
+use MicroweberPackages\Database\Facades\DatabaseManager;
 /*
  * This file is part of the Microweber framework.
  *
@@ -11,14 +13,14 @@
 if (!function_exists('get_table_prefix')) {
     function get_table_prefix()
     {
-        return app()->database_manager->get_prefix();
+        return DatabaseManager::get_prefix();
     }
 }
 
 if (!function_exists('db_get')) {
     function db_get($table_name_or_params, $params = null)
     {
-        return app()->database_manager->get($table_name_or_params, $params);
+        return DatabaseManager::get($table_name_or_params, $params);
     }
 }
 
@@ -119,13 +121,13 @@ if (!function_exists('db_query_parse_compare_sign_value')) {
 if (!function_exists('db_save')) {
     function db_save($table_name_or_params, $params = null)
     {
-        return app()->database_manager->save($table_name_or_params, $params);
+        return DatabaseManager::save($table_name_or_params, $params);
     }
 }
 
 if (!function_exists('db_delete')) {
     function db_delete($table_name, $id = 0, $field_name = 'id')
     {
-        return app()->database_manager->delete_by_id($table_name, $id, $field_name);
+        return DatabaseManager::delete_by_id($table_name, $id, $field_name);
     }
 }

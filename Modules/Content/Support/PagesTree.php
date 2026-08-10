@@ -3,6 +3,7 @@
 namespace Modules\Content\Support;
 
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class PagesTree
 {
@@ -97,7 +98,7 @@ class PagesTree
                 $params['is_shop'] = 0;
             }
 
-            $is_shop = $this->app->database_manager->escape_string($params['is_shop']);
+            $is_shop = DatabaseManager::escape_string($params['is_shop']);
             $is_shop = " and is_shop='{$is_shop} '";
             $include_first = false;
         }

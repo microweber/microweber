@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use MicroweberPackages\Microweber\Abstract\BaseModule;
 use Modules\Testimonials\Filament\TestimonialsModuleSettings;
 use Modules\Testimonials\Models\Testimonial;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class TestimonialsModule extends BaseModule
 {
@@ -70,7 +71,7 @@ class TestimonialsModule extends BaseModule
         }
 
         return array_map(function ($testimonial) {
-            $testimonial['client_image'] = app()->url_manager->replace_site_url_back($testimonial['client_image']);
+            $testimonial['client_image'] = UrlManager::replace_site_url_back($testimonial['client_image']);
 
             $testimonialModel = new Testimonial();
             $testimonial['rel_id'] = $this->getRelId();

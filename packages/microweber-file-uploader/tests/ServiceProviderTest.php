@@ -4,17 +4,18 @@ namespace MicroweberPackages\FileUploader\Tests;
 
 use MicroweberPackages\FileUploader\FileUploaderService;
 use MicroweberPackages\FileUploader\Validation\FileValidationService;
+use MicroweberPackages\FileUploader\Facades\FileUploader;
 
 class ServiceProviderTest extends TestCase
 {
     public function test_file_uploader_is_bound_in_container(): void
     {
-        $this->assertTrue(app()->bound('file_uploader'));
+        $this->assertTrue(app()->bound(\MicroweberPackages\FileUploader\FileUploaderService::class));
     }
 
     public function test_file_uploader_resolves_to_correct_class(): void
     {
-        $this->assertInstanceOf(FileUploaderService::class, app('file_uploader'));
+        $this->assertInstanceOf(FileUploaderService::class, FileUploader::getFacadeRoot());
     }
 
     public function test_validation_service_is_bound(): void

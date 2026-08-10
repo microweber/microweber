@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use MicroweberPackages\PackageManagerClient\InstallDirDetector;
-use MicroweberPackages\PackageManagerClient\PackageManagerClient;
+use MicroweberPackages\PackageManagerClient\PackageManagerClientService;
 use MicroweberPackages\PackageManagerClient\PackageSignatureVerifier;
 use MicroweberPackages\PackageManagerClient\Tests\Support\SatisServer;
 use PHPUnit\Framework\Attributes\Test;
@@ -48,15 +48,15 @@ class PackageManagerClientInstallTest extends TestCase
     #[Test]
     public function package_is_bound_in_container(): void
     {
-        $this->assertTrue($this->app->bound(PackageManagerClient::class));
-        $this->assertInstanceOf(PackageManagerClient::class, app(PackageManagerClient::class));
+        $this->assertTrue($this->app->bound(PackageManagerClientService::class));
+        $this->assertInstanceOf(PackageManagerClientService::class, app(PackageManagerClient::class));
         $this->assertInstanceOf(InstallDirDetector::class, app(InstallDirDetector::class));
     }
 
     #[Test]
     public function installs_sample_packages_from_satis_into_correct_dirs(): void
     {
-        $client = new PackageManagerClient(
+        $client = new PackageManagerClientService(
             packageServers: [$this->server->packagesJsonUrl()],
             config: [
                 'base_path' => $this->workDir,

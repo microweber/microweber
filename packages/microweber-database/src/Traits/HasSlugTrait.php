@@ -10,6 +10,7 @@ namespace MicroweberPackages\Database\Traits;
 
 use Illuminate\Support\Facades\DB;
 use Modules\Content\Models\Content;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 trait HasSlugTrait
 {
@@ -60,7 +61,7 @@ trait HasSlugTrait
                 $title = trim($title);
                 $title = strip_tags($title);
               //  $title = strtolower($title);
-                $slug = app()->url_manager->slug($title);
+                $slug = UrlManager::slug($title);
                 if ($slug == '') {
                     $slug = date('Y-M-d-His');
                 }
@@ -77,7 +78,7 @@ trait HasSlugTrait
             $url = trim($url);
             $url = strip_tags($url);
          //   $url = strtolower($url);
-            $slug = app()->url_manager->slug($url);
+            $slug = UrlManager::slug($url);
             if ($this->checkSlugExists($slug)) {
                 $slug = $slug . date('YmdHis');
             }
@@ -95,7 +96,7 @@ trait HasSlugTrait
 
         if (empty($hasUrl)) {
 
-            $slug = app()->url_manager->slug($hasUrl);
+            $slug = UrlManager::slug($hasUrl);
             if ($slug == '') {
                 $slug = date('Y-M-d-His');
             }

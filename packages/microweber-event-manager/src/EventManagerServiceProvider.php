@@ -1,13 +1,4 @@
 <?php
-/*
- * This file is part of the Microweber framework.
- *
- * (c) Microweber CMS LTD
- *
- * For full license information see
- * https://github.com/microweber/microweber/blob/master/LICENSE
- *
- */
 
 namespace MicroweberPackages\Event;
 
@@ -25,9 +16,9 @@ class EventManagerServiceProvider extends ServiceProvider implements DeferrableP
         // closures (and anything they captured) can be garbage-collected.
         // This is critical for long-running processes and test suites.
         $this->app->terminating(function (): void {
-            if ($this->app->resolved('event_manager')) {
-                /** @var Event $manager */
-                $manager = $this->app->make('event_manager');
+            if ($this->app->resolved(EventService::class)) {
+                /** @var EventService $manager */
+                $manager = $this->app->make(EventService::class);
                 $manager->unbindAll();
             }
         });
@@ -37,13 +28,13 @@ class EventManagerServiceProvider extends ServiceProvider implements DeferrableP
      * Register the application services.
      *
      * Uses the factory pattern: a fresh {@see LaravelEvent} adapter is injected
-     * into every {@see Event} instance so no static state leaks between
+     * into every {@see EventService} instance so no static state leaks between
      * container cycles (e.g. PHPUnit tests).
      */
     public function register(): void
     {
-        $this->app->singleton('event_manager', function (): Event {
-            return new Event(new LaravelEvent());
+        $this->app->singleton(EventService::class, function (): EventService {
+            return new EventService(new LaravelEvent());
         });
     }
 
@@ -54,6 +45,6 @@ class EventManagerServiceProvider extends ServiceProvider implements DeferrableP
      */
     public function provides(): array
     {
-        return ['event_manager'];
+        return [EventService::class];
     }
 }

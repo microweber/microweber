@@ -3,7 +3,6 @@
 namespace MicroweberPackages\FilamentRegistry;
 
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 
 class FilamentRegistryServiceProvider extends ServiceProvider
 {
@@ -13,8 +12,6 @@ class FilamentRegistryServiceProvider extends ServiceProvider
             return new FilamentRegistryManager();
         });
 
-        // Also bind the facade accessor
-        $this->app->alias(FilamentRegistryManager::class, FilamentRegistry::class);
     }
 
     public function boot(): void

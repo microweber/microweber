@@ -2,9 +2,10 @@
 
 namespace MicroweberPackages\Event\Tests\Cms;
 
-use MicroweberPackages\Event\Event;
+use MicroweberPackages\Event\EventService;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
+use MicroweberPackages\Event\Facades\EventManager;
 
 class EventTest extends TestCase
 {
@@ -37,7 +38,7 @@ class EventTest extends TestCase
     public function it_can_use_response_method(): void
     {
         /** @var Event $eventManager */
-        $eventManager = app('event_manager');
+        $eventManager = EventManager::getFacadeRoot();
 
         event_bind('modify_data_cms', function ($data) {
             return ['original_key' => $data['original_key']];
@@ -53,7 +54,7 @@ class EventTest extends TestCase
         event_bind('cms_removable', fn () => 'should not run');
 
         /** @var Event $eventManager */
-        $eventManager = app('event_manager');
+        $eventManager = EventManager::getFacadeRoot();
         $this->assertTrue($eventManager->hasListeners('cms_removable'));
 
         event_unbind('cms_removable');

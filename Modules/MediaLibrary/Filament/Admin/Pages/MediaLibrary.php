@@ -11,6 +11,7 @@ use Modules\Media\Models\Media;
 use Modules\Media\Models\MediaFolder;
 use MicroweberPackages\CdnSync\Services\CdnSyncService;
 use Modules\MediaLibrary\Support\Unsplash;
+use MicroweberPackages\CdnSync\Facades\CdnSync;
 
 class MediaLibrary extends Page
 {
@@ -439,7 +440,7 @@ class MediaLibrary extends Page
         }
 
         /** @var CdnSyncService $cdn */
-        $cdn = app('cdn_sync');
+        $cdn = CdnSync::getFacadeRoot();
 
         if (!$cdn->isConfigured()) {
             $this->dispatch('notify', type: 'warning', message: 'CDN is not configured. Set up CDN provider in settings first.');
@@ -465,7 +466,7 @@ class MediaLibrary extends Page
     {
         try {
             /** @var CdnSyncService $cdn */
-            $cdn = app('cdn_sync');
+            $cdn = CdnSync::getFacadeRoot();
             return $cdn->isConfigured();
         } catch (\Throwable $e) {
             return false;

@@ -7,6 +7,7 @@ namespace MicroweberPackages\TemplateFonts\Tests\Feature;
 use Illuminate\Http\UploadedFile;
 use MicroweberPackages\TemplateFonts\Services\TemplateFontsManager;
 use MicroweberPackages\TemplateFonts\Tests\TestCase;
+use MicroweberPackages\TemplateFonts\Facades\TemplateFonts;
 
 /**
  * End-to-end integration of manager + routes as a standalone Laravel package.
@@ -28,7 +29,7 @@ class StandaloneIntegrationTest extends TestCase
 
     public function test_alias_binding(): void
     {
-        $fromAlias = app('template-fonts');
+        $fromAlias = TemplateFonts::getFacadeRoot();
         $fromClass = app(TemplateFontsManager::class);
         $this->assertSame($fromAlias, $fromClass);
     }

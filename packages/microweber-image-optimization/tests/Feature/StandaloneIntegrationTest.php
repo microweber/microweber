@@ -28,7 +28,7 @@ class StandaloneIntegrationTest extends TestCase
 
     public function test_alias_binding(): void
     {
-        $fromAlias = app('image-optimization');
+        $fromAlias = ImageOptimization::getFacadeRoot();
         $fromClass = app(ImageOptimizationService::class);
         $this->assertSame($fromAlias, $fromClass);
     }

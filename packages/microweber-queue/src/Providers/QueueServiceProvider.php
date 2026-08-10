@@ -7,7 +7,7 @@ namespace MicroweberPackages\Queue\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Queue\Http\Controllers\ProcessQueueController;
-use MicroweberPackages\Queue\Services\ChunkedDispatcher;
+use MicroweberPackages\Queue\Services\ChunkedDispatcherService;
 use MicroweberPackages\Queue\Services\QueueProcessor;
 
 class QueueServiceProvider extends ServiceProvider
@@ -16,11 +16,9 @@ class QueueServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../../config/microweber-queue.php', 'microweber-queue');
 
-        $this->app->singleton(ChunkedDispatcher::class, static fn () => new ChunkedDispatcher());
+        $this->app->singleton(ChunkedDispatcherService::class, static fn () => new ChunkedDispatcherService());
         $this->app->singleton(QueueProcessor::class, static fn () => new QueueProcessor());
 
-        $this->app->alias(ChunkedDispatcher::class, 'microweber-queue.chunked-dispatcher');
-        $this->app->alias(QueueProcessor::class, 'microweber-queue.processor');
     }
 
     public function boot(): void

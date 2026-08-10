@@ -7,6 +7,7 @@ use  Modules\Backup\Loggers\DefaultLogger;
 use  Modules\Backup\SessionStepper;
 use  Modules\Export\Traits\ExportFileNameGetSet;
 use  Modules\Export\Traits\ExportGetSet;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 
 
@@ -158,7 +159,7 @@ class ZipBatchExport extends DefaultExport
             if ($ext == 'css') {
                 $this->logger->setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
                 $csscont = file_get_contents($file['filepath']);
-                $csscont = app()->url_manager->replace_site_url($csscont);
+                $csscont = UrlManager::replace_site_url($csscont);
                 $zip->addFromString($file['filename'], $csscont);
 
             } else {

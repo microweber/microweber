@@ -5,6 +5,7 @@ namespace MicroweberPackages\Filament\Plugins;
 use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
 use DutchCodingCompany\FilamentSocialite\Provider;
 use MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract;
+use MicroweberPackages\SocialLogin\Facades\SocialLogin;
 
 class MicroweberFilamentSocialitePlugin extends FilamentSocialitePlugin
 {
@@ -22,7 +23,7 @@ class MicroweberFilamentSocialitePlugin extends FilamentSocialitePlugin
         $providers = [];
 
         /** @var SocialLoginServiceContract $socialLogin */
-        $socialLogin = app('social_login');
+        $socialLogin = SocialLogin::getFacadeRoot();
 
         $providerLabels = [
             'google'   => 'Login with Google',

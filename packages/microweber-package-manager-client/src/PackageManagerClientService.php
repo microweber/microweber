@@ -30,7 +30,7 @@ use MicroweberPackages\PackageManagerClient\Support\ZipExtractor;
  *     message?: string
  * }
  */
-class PackageManagerClient extends Client
+class PackageManagerClientService extends Client
 {
     public string $logfile = '';
 

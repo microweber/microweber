@@ -3,11 +3,12 @@
 namespace MicroweberPackages\ContentField;
 
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\ContentField\Facades\ContentField;
 
 /**
  * Standalone service for reading, writing, and drafting content fields.
  *
- * Registered as app('content_field_manager') by the package service provider.
+ * Registered as ContentField by the package service provider.
  */
 class ContentFieldManager
 {

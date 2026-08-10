@@ -13,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Option\Facades\Option;
+use MicroweberPackages\Format\Facades\Format;
 
 class NewFormEntry extends Notification
 {
@@ -79,7 +80,7 @@ class NewFormEntry extends Notification
     public function message()
     {
         $data = $this->notification->data;
-        $data['ago'] = app()->format->ago($data['created_at']);
+        $data['ago'] = Format::ago($data['created_at']);
 
         // >>> Move files in separate key
         if(!empty($data['form_data_values']) && is_array($data['form_data_values'])) {
@@ -108,7 +109,7 @@ class NewFormEntry extends Notification
         $data['vals'] = !empty($data['form_values']) ? collect($data['form_values']) : []; //cast them to collection in order to be able to use ->split
 
 
-        $data['ago'] = app()->format->ago($this->notification->data['created_at']);
+        $data['ago'] = Format::ago($this->notification->data['created_at']);
         $data['is_read'] = false;
         if ($this->notification->read_at > 0) {
             $data['is_read'] = true;

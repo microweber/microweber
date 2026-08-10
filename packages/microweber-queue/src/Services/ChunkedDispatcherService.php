@@ -18,7 +18,7 @@ use Throwable;
  * bulk email of 10_000 recipients) by turning one logical job into many
  * smaller jobs, optionally wrapped in a Bus batch.
  */
-class ChunkedDispatcher
+class ChunkedDispatcherService
 {
     /**
      * Dispatch items as chunked jobs.

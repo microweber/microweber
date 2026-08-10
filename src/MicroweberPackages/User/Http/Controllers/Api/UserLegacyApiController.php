@@ -21,6 +21,9 @@ use MicroweberPackages\User\Http\Requests\VerifyEmailLinkRequest;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Services\UserManager;
 use Symfony\Component\HttpFoundation\Response;
+use MicroweberPackages\Format\Facades\Format;
+use MicroweberPackages\Event\Facades\EventManager;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 /**
  * Legacy /api/* user endpoints previously registered via api_expose*.
@@ -191,7 +194,7 @@ class UserLegacyApiController extends Controller
         }
 
         try {
-            $decoded = app('format')->decrypt($params['key']);
+            $decoded = Format::decrypt($params['key']);
             if ($decoded) {
                 $decoded = (int) $decoded;
                 /** @var User $adminUser */
@@ -201,9 +204,9 @@ class UserLegacyApiController extends Controller
                 app('cache_manager')->delete('users');
                 app('cache_manager')->delete('users/' . $decoded);
                 $params['user_id'] = $decoded;
-                app('event_manager')->trigger('mw.user.verify_email_link', $params);
+                EventManager::trigger('mw.user.verify_email_link', $params);
 
-                return app('url_manager')->redirect(site_url());
+                return UrlManager::redirect(site_url());
             }
         } catch (Exception $e) {
             return response('Exception: ' . e($e->getMessage()), 400);

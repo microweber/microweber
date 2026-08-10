@@ -3,8 +3,11 @@
 namespace MicroweberPackages\FileUploader\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use MicroweberPackages\FileUploader\FileUploaderService;
 
 /**
+ * FileUploader facade — greppable public API for file uploads.
+ *
  * @method static \MicroweberPackages\FileUploader\Validation\FileValidationService validator()
  * @method static \MicroweberPackages\FileUploader\Support\ImageProcessor imageProcessor()
  * @method static \MicroweberPackages\FileUploader\Support\FilenameSanitizer filenameSanitizer()
@@ -15,11 +18,12 @@ use Illuminate\Support\Facades\Facade;
  * @method static array errorResponse(int $code, string $message, int $httpStatus = 401)
  *
  * @see \MicroweberPackages\FileUploader\FileUploaderService
+ * @mixin \MicroweberPackages\FileUploader\FileUploaderService
  */
 class FileUploader extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'file_uploader';
+        return FileUploaderService::class;
     }
 }

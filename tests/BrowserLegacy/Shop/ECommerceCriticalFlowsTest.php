@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 /**
  * Critical E-commerce Flows
@@ -332,7 +333,7 @@ class ECommerceCriticalFlowsTest extends DuskTestCase
      */
     private function createTestProduct(int $uniqueId): array
     {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         // Get or create shop page
         $shopPage = app()->content_repository->getFirstShopPage();

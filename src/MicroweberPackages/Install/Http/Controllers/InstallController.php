@@ -13,13 +13,14 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use MicroweberPackages\PackageManagerClient\PackageFormatter;
-use MicroweberPackages\PackageManagerClient\PackageManagerClient;
+use MicroweberPackages\PackageManagerClient\PackageManagerClientService;
 use MicroweberPackages\User\Models\User;
-use MicroweberPackages\Http\Http;
+use MicroweberPackages\Http\HttpService;
 use MicroweberPackages\View\View;
 use MicroweberPackages\Install;
-use MicroweberPackages\EnvWriter\EnvWriter;
+use MicroweberPackages\EnvWriter\EnvWriterService;
 use Symfony\Component\Console\Output\BufferedOutput;
+use MicroweberPackages\SystemLicenses\Facades\SystemLicenses;
 
 class InstallController extends Controller
 {
@@ -46,7 +47,7 @@ class InstallController extends Controller
 
         $runner = app(PackageManagerClient::class);
 
-        $getLicenses = app()->system_licenses_manager->getFileLicenses();
+        $getLicenses = SystemLicenses::getFileLicenses();
         if (!empty($getLicenses)) {
             $runner->setLicenses($getLicenses);
         }
@@ -71,7 +72,7 @@ class InstallController extends Controller
 
         $packageManager = app(PackageManagerClient::class);
 
-        $getLicenses = app()->system_licenses_manager->getFileLicenses();
+        $getLicenses = SystemLicenses::getFileLicenses();
         if (!empty($getLicenses)) {
             $packageManager->setLicenses($getLicenses);
         }
@@ -136,7 +137,7 @@ class InstallController extends Controller
             $is_cli_install = $input['is_cli_install'];
         }
         if (isset($input['save_license'])) {
-            $saveLicense = app()->system_licenses_manager->saveFileLicense($input['license_key'], $input['license_rel_type']);
+            $saveLicense = SystemLicenses::saveFileLicense($input['license_key'], $input['license_rel_type']);
             if ($saveLicense) {
                 return ['validated' => true];
             }
@@ -889,7 +890,7 @@ class InstallController extends Controller
         }
         $postData = array();
         $postData['postdata'] = base64_encode(@json_encode($data));
-        $http = new Http(app());
+        $http = new HttpService(app());
 
         try {
             $http->url('https://installreport.services.microweberapi.com')->set_timeout(10)->post($postData);
@@ -911,7 +912,7 @@ class InstallController extends Controller
     public function saveEnvValues(array $values)
     {
         $envFile = app()->environmentFilePath();
-        $writer = new EnvWriter();
+        $writer = new EnvWriterService();
         return $writer->save($values, $envFile);
     }
 

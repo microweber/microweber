@@ -2,6 +2,11 @@
 
 namespace Modules\Category\Helpers;
 
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Event\Facades\EventManager;
+
+
 class CategoryTreeData
 {
 
@@ -50,7 +55,7 @@ class CategoryTreeData
             //  $function_cache_id .= $cat_url;
             $active_cat = $cat_url;
         } else {
-            $cat_url = $this->app->url_manager->param('categories', true);
+            $cat_url = UrlManager::param('categories', true);
             if ($cat_url != false) {
                 //      $function_cache_id .= $cat_url;
             } else {
@@ -160,7 +165,7 @@ class CategoryTreeData
                 }
 
 
-                $fors = $this->app->database_manager->get($cat_get_params);
+                $fors = DatabaseManager::get($cat_get_params);
             }
 
             if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
@@ -179,7 +184,7 @@ class CategoryTreeData
                 $cat_get_params['rel_id'] = $params['try_rel_id'];
 
 
-                $fors1 = $this->app->database_manager->get($cat_get_params);
+                $fors1 = DatabaseManager::get($cat_get_params);
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
                 }
@@ -229,7 +234,7 @@ class CategoryTreeData
                 }
             }
         } elseif (isset($params['rel_type']) and $params['rel_type'] != false and isset($params['rel_id'])) {
-            $table_assoc_name = $this->app->database_manager->assoc_table_name($params['rel_type']);
+            $table_assoc_name = DatabaseManager::assoc_table_name($params['rel_type']);
             $skip123 = true;
             $users_can_create_content_q = false;
             $cat_get_params = array();
@@ -264,7 +269,7 @@ class CategoryTreeData
                 $cat_get_params['users_can_create_content'] = $users_can_create_content;
             }
 
-            $fors = $this->app->database_manager->get($cat_get_params);
+            $fors = DatabaseManager::get($cat_get_params);
 
         }
 
@@ -284,7 +289,7 @@ class CategoryTreeData
                         }
                     }
 
-                    $override = $this->app->event_manager->trigger('category.after.get', $cat);
+                    $override = EventManager::trigger('category.after.get', $cat);
                     if (is_array($override) && isset($override[0])) {
                         $cat = $override[0];
                     }
@@ -482,7 +487,7 @@ class CategoryTreeData
             };
         }
 //dump($cat_get_params);
-        $result = $this->app->database_manager->get($cat_get_params);
+        $result = DatabaseManager::get($cat_get_params);
 
         $output = '';
 
@@ -506,7 +511,7 @@ class CategoryTreeData
                     }
                 }
 
-                $override = $this->app->event_manager->trigger('category.after.get', $item);
+                $override = EventManager::trigger('category.after.get', $item);
                 if (is_array($override) && isset($override[0])) {
                     $item = $override[0];
                 }

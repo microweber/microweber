@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\View\Tests\Unit;
 
+use MicroweberPackages\View\Facades\TwigView as TwigViewFacade;
 use MicroweberPackages\View\Tests\TestCase;
 use MicroweberPackages\View\TwigView;
 use PHPUnit\Framework\Attributes\Test;
@@ -23,7 +24,7 @@ class TwigViewTest extends TestCase
     public function resolves_from_container(): void
     {
         $this->assertInstanceOf(TwigView::class, app(TwigView::class));
-        $this->assertSame(app(TwigView::class), app('microweber.twig_view'));
+        $this->assertSame(app(TwigView::class), TwigViewFacade::getFacadeRoot());
     }
 
     #[Test]

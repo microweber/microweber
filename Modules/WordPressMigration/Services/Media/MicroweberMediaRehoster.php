@@ -2,6 +2,10 @@
 
 namespace Modules\WordPressMigration\Services\Media;
 
+use MicroweberPackages\Http\Facades\Http as MicroweberHttp;
+use MicroweberPackages\Url\Facades\UrlManager;
+
+
 /**
  * Concrete {@see MediaRehoster} that downloads remote assets via
  * Microweber's HTTP client and records them on the `media` table
@@ -52,14 +56,14 @@ class MicroweberMediaRehoster implements MediaRehoster
     /**
      * @param callable(string $url, string $targetPath): bool|null $downloader
      *   Override for the bytes-fetcher. Defaults to
-     *   `app()->http->url($url)->download($target)`. Tests pass a
+     *   `MicroweberHttp::url($url)->download($target)`. Tests pass a
      *   closure that copies a fixture file so the production path
      *   is exercised without hitting the network.
      */
     public function __construct(?callable $downloader = null)
     {
         $this->downloader = $downloader ?? fn (string $url, string $target): bool
-            => (bool) app()->http->url($url)->download($target);
+            => (bool) MicroweberHttp::url($url)->download($target);
     }
 
     public function rehost(string $url, array $context = []): ?string
@@ -103,7 +107,7 @@ class MicroweberMediaRehoster implements MediaRehoster
             }
         }
 
-        $publicUrl = app()->url_manager->link_to_file($target);
+        $publicUrl = UrlManager::link_to_file($target);
         if (!is_string($publicUrl) || $publicUrl === '') {
             return null;
         }

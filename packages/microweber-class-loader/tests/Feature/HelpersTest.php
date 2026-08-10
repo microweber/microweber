@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\ClassLoader\Tests\Feature;
 
-use MicroweberPackages\ClassLoader\ClassLoader;
+use MicroweberPackages\ClassLoader\ClassLoaderService;
 use MicroweberPackages\ClassLoader\Tests\TestCase;
 
 class HelpersTest extends TestCase
@@ -12,8 +12,8 @@ class HelpersTest extends TestCase
     public function test_mw_class_loader_helper(): void
     {
         $this->assertTrue(function_exists('mw_class_loader'));
-        $this->assertInstanceOf(ClassLoader::class, mw_class_loader());
-        $this->assertSame(app(ClassLoader::class), mw_class_loader());
+        $this->assertInstanceOf(ClassLoaderService::class, mw_class_loader());
+        $this->assertSame(app(ClassLoaderService::class), mw_class_loader());
     }
 
     public function test_add_directories_helper(): void

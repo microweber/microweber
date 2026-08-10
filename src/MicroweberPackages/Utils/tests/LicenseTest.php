@@ -6,6 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use MicroweberPackages\Utils\tests\mockery\UpdateManagerMockery;
 use Tests\TestCase;
+use MicroweberPackages\SystemLicenses\Facades\SystemLicenses;
 
 /**
  * File-license (storage/licenses.json) round-trip. The former Utils\Misc\License
@@ -25,7 +26,7 @@ class LicenseTest extends TestCase
         $randomLicenseUniqueId = uniqid();
         app()->update->setActiveLicenses([$randomLicenseUniqueId]);
 
-        $manager = app()->system_licenses_manager;
+        $manager = SystemLicenses::getFacadeRoot();
 
         // Delete old licenses
         $manager->truncateFileLicenses();

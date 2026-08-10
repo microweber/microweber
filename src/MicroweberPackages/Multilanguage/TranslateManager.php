@@ -19,6 +19,7 @@ use MicroweberPackages\Multilanguage\TranslateTables\TranslateOption;
 use MicroweberPackages\Multilanguage\TranslateTables\TranslateTaggingTagged;
 use MicroweberPackages\Multilanguage\TranslateTables\TranslateTaggingTags;
 use MicroweberPackages\Multilanguage\TranslateTables\TranslateTestimonials;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class TranslateManager
 {
@@ -267,7 +268,7 @@ class TranslateManager
                         if ($providerInstance->getRelType() == 'content_fields') {
                             $skip = false;
                             if (isset($saveData['field']) and $saveData['field']) {
-                                $is_native_fld_all = app()->database_manager->get_fields('content');
+                                $is_native_fld_all = DatabaseManager::get_fields('content');
                                 if (in_array($saveData['field'], $is_native_fld_all)) {
                                     //return $saveData;
                                     $skip = true;

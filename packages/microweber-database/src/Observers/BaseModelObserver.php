@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Database\Observers;
 
 use Illuminate\Support\Facades\Cache;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class BaseModelObserver
 {
@@ -48,7 +49,7 @@ class BaseModelObserver
     protected function clearCache($model)
     {
 
-        app()->database_manager->clearCache();
+        DatabaseManager::clearCache();
       //  clearcache();
         // TODO
     //Cache::tags($model->table)->flush();

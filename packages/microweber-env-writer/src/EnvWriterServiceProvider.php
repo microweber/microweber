@@ -8,10 +8,8 @@ class EnvWriterServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(EnvWriter::class, function () {
-            return new EnvWriter();
+        $this->app->singleton(EnvWriterService::class, function () {
+            return new EnvWriterService();
         });
-
-        $this->app->alias(EnvWriter::class, 'env-writer');
     }
 }

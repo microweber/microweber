@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Bus\Batch;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use MicroweberPackages\Queue\Services\ChunkedDispatcher;
+use MicroweberPackages\Queue\Services\ChunkedDispatcherService;
 use MicroweberPackages\Queue\Services\QueueProcessor;
 
 if (! function_exists('chunked_dispatch')) {

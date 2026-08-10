@@ -6,7 +6,7 @@ namespace MicroweberPackages\PackageManagerClient\Tests\Feature;
 
 use MicroweberPackages\PackageManagerClient\Client;
 use MicroweberPackages\PackageManagerClient\InstallDirDetector;
-use MicroweberPackages\PackageManagerClient\PackageManagerClient;
+use MicroweberPackages\PackageManagerClient\PackageManagerClientService;
 use MicroweberPackages\PackageManagerClient\PackageManagerClientServiceProvider;
 use MicroweberPackages\PackageManagerClient\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
@@ -22,7 +22,7 @@ class StandaloneLaravelAppTest extends TestCase
     {
         $this->assertTrue(
             $this->app->getProvider(PackageManagerClientServiceProvider::class) !== null
-            || $this->app->bound(PackageManagerClient::class)
+            || $this->app->bound(PackageManagerClientService::class)
         );
     }
 
@@ -62,7 +62,7 @@ class StandaloneLaravelAppTest extends TestCase
         mkdir($tmp . '/Modules', 0777, true);
         mkdir($tmp . '/Templates', 0777, true);
 
-        $client = new PackageManagerClient(
+        $client = new PackageManagerClientService(
             packageServers: ['http://127.0.0.1:1/packages.json'],
             config: [
                 'base_path' => $tmp,
@@ -93,7 +93,7 @@ class StandaloneLaravelAppTest extends TestCase
     {
         $files = [
             dirname(__DIR__, 2) . '/src/Client.php',
-            dirname(__DIR__, 2) . '/src/PackageManagerClient.php',
+            dirname(__DIR__, 2) . '/src/PackageManagerClientService.php',
             dirname(__DIR__, 2) . '/src/InstallDirDetector.php',
             dirname(__DIR__, 2) . '/src/PackageFormatter.php',
             // The service provider is the wiring layer: it does guarded (function_exists/

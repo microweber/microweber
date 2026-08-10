@@ -1,4 +1,6 @@
-<?php defined('MW_VERSION') OR die(); ?>
+<?php
+
+use MicroweberPackages\Url\Facades\UrlManager; defined('MW_VERSION') OR die(); ?>
 
 <div style="margin: 5em 0;padding:2em;background:#ECF5FA;color:#000;clear:both;"> <b>Benchmarks</b>
   <pre>
@@ -24,7 +26,7 @@ $mtime = microtime();
 <?php print number_format(memory_get_peak_usage(TRUE)); ?> bytes (process peak)
 </pre>
   <b>URL</b>
-  <pre><?php print implode('/',app()->url_manager->segment()); ?></pre>
+  <pre><?php print implode('/',UrlManager::segment()); ?></pre>
   <?php
   $ql = \DB::getQueryLog();
   if($ql)

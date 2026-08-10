@@ -8,13 +8,13 @@ use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\Notification\Services\NotificationsManager;
 use MicroweberPackages\App\Managers\Ui;
-use MicroweberPackages\Database\DatabaseManager;
-use MicroweberPackages\Event\Event;
-use MicroweberPackages\Format\Format;
+use MicroweberPackages\Database\DatabaseManagerService;
+use MicroweberPackages\Event\EventService;
+use MicroweberPackages\Format\FormatService;
 use MicroweberPackages\Security\HtmlClean;
 use MicroweberPackages\Security\XSSSecurity;
 use MicroweberPackages\SystemLicenses\SystemLicensesManager;
-use MicroweberPackages\Url\UrlManager;
+use MicroweberPackages\Url\UrlManagerService;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
 use MicroweberPackages\Microweber\Repositories\MicroweberRepository;
@@ -29,7 +29,7 @@ use MicroweberPackages\Template\LayoutsManager;
 use MicroweberPackages\Template\TemplateManager;
 use MicroweberPackages\Translation\Translator;
 use MicroweberPackages\User\Services\UserManager;
-use MicroweberPackages\Http\Http;
+use MicroweberPackages\Http\HttpService;
 use Modules\Attributes\Repositories\AttributesManager;
 use Modules\Cart\Repositories\CartManager;
 use Modules\Cart\Repositories\CartRepository;
@@ -59,10 +59,10 @@ use Modules\Shop\Services\ShopManager;
  * @category Application
  * @desc
  *
- * @property UrlManager $url_manager
+ * @property UrlManagerService $url_manager
  * @property HtmlClean $html_clean
  * @property XSSSecurity $xss_security
- * @property Format $format
+ * @property FormatService $format
  * @property ContentManager $content_manager
  * @property RepositoryManager $repository_manager
  * @property ContentRepository $content_repository
@@ -88,16 +88,16 @@ use Modules\Shop\Services\ShopManager;
  * @property OptionRepository $option_repository
  * @property CacheManager $cache_manager
  * @property UserManager $user_manager
- * @property DatabaseManager $database_manager
+ * @property DatabaseManagerService $database_manager
  * @property NotificationsManager $notifications_manager
  * @property LayoutsManager $layouts_manager
  * @property FieldsManager $fields_manager
- * @property Event $event_manager
+ * @property EventService $event_manager
  * @property ConfigurationManager $config_manager
  * @property TemplateManager $template_manager
  * @property \Modules\Captcha\Services\CaptchaManager $captcha_manager
  * @property Ui $ui
- * @property Http $http
+ * @property HttpService $http
  * @property \Modules\Form\FormsManager $forms_manager
  * @property DataFieldsManager $data_fields_manager
  * @property AttributesManager $attributes_manager

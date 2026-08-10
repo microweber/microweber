@@ -14,7 +14,7 @@ namespace MicroweberPackages\ClassLoader;
  *  - normalizes directory and namespace paths so duplicates with different
  *    separators or trailing slashes are only stored once
  */
-class ClassLoader
+class ClassLoaderService
 {
     private PathNormalizer $paths;
 

@@ -1,5 +1,7 @@
 <?php
 
+use MicroweberPackages\Url\Facades\UrlManager;
+
 use \Illuminate\Support\Facades\Route;
 use Modules\Media\Http\Controllers\Api\MediaApiController;
 use MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository;
@@ -20,7 +22,7 @@ Route::get('/api/image-generate-tn-request/{cache_id}', function ($mediaId) {
     if ($check) {
         $opts = $check->image_options;
         if (is_array($opts)) {
-            $opts = app()->url_manager->replace_site_url_back($opts);
+            $opts = UrlManager::replace_site_url_back($opts);
             $opts['cache_id'] = $check->rel_id ?? $mediaId;
         }
 

@@ -5,6 +5,7 @@ namespace Modules\Content\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class DataAttributesTest extends TestCase
 {
@@ -14,7 +15,7 @@ class DataAttributesTest extends TestCase
         parent::setUp();
 
         // set permission to save custom fields (normally available to admin users)
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
     }
 
     #[Test]

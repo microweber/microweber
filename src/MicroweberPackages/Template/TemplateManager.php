@@ -28,6 +28,8 @@ use MicroweberPackages\Template\Managers\ScriptStyleManager;
 use MicroweberPackages\Template\Managers\TemplateMetaTagManager;
 use MicroweberPackages\TemplateCustomCss\Services\CustomCssManager;
 use MicroweberPackages\TemplateCustomCss\Services\LiveEditCssManager;
+use MicroweberPackages\Format\Facades\Format;
+use MicroweberPackages\Event\Facades\EventManager;
 
 
 class TemplateManager
@@ -551,12 +553,12 @@ class TemplateManager
             //check if site is fqdn
             $site_host = parse_url(site_url());
 
-            if (isset($site_host['host']) and app()->format->is_fqdn($site_host['host'])) {
+            if (isset($site_host['host']) and Format::is_fqdn($site_host['host'])) {
                 $should_replace = true;
                 $site_host = $site_host['host'];
             }
             if ($should_replace) {
-                if ($static_files_delivery_domain and app()->format->is_fqdn($static_files_delivery_domain)) {
+                if ($static_files_delivery_domain and Format::is_fqdn($static_files_delivery_domain)) {
                     $should_replace = true;
                 } else {
                     $should_replace = false;
@@ -724,7 +726,7 @@ class TemplateManager
 //        }
 //
 //
-//        $override = app()->event_manager->trigger('mw.front.get_layout', $page);
+//        $override = EventManager::trigger('mw.front.get_layout', $page);
 //
 //        $render_file = false;
 //        $look_for_post = false;

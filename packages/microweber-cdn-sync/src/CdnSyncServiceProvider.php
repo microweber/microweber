@@ -11,11 +11,9 @@ class CdnSyncServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/cdn-sync.php', 'cdn-sync');
 
-        $this->app->singleton('cdn_sync', function ($app) {
+        $this->app->singleton(CdnSyncService::class, function ($app) {
             return new CdnSyncService();
         });
-
-        $this->app->alias('cdn_sync', CdnSyncService::class);
     }
 
     public function boot(): void

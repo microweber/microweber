@@ -2,6 +2,9 @@
 
 namespace Modules\Shop\Tests\Unit;
 
+use MicroweberPackages\Database\Facades\DatabaseManager;
+
+
 trait  ShopTestHelperTrait {
     public static $content_id = 1;
 
@@ -9,7 +12,7 @@ trait  ShopTestHelperTrait {
 
     private function _addProductToCart($title, $productPrice = false)
     {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
         if (!$productPrice) {
             $productPrice = rand(1, 4444);
         }

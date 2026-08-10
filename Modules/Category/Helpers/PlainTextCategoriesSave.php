@@ -4,6 +4,7 @@ namespace Modules\Category\Helpers;
 
 use Illuminate\Support\Str;
 use Modules\Category\Models\Category;
+use MicroweberPackages\Format\Facades\Format;
 
 class PlainTextCategoriesSave
 {
@@ -21,7 +22,7 @@ class PlainTextCategoriesSave
     public function saveCategories(array $categoriesToSave, $mainCategoryId)
     {
         foreach ($categoriesToSave as $categoryTreePlain) {
-            $categoriesToSave = app()->format->stringToTree($categoryTreePlain);
+            $categoriesToSave = Format::stringToTree($categoryTreePlain);
             $this->_addCategoryRecursive($categoriesToSave, $mainCategoryId);
         }
     }

@@ -11,6 +11,7 @@ use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\MailTemplate\Models\MailTemplate;
 use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 /**
  * Run test
@@ -175,7 +176,7 @@ class CheckoutTest extends TestCase
     #[Test]
 
     public function it_checkout_qty_update(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $productPrice = rand(1, 9999);
         $title = 'test QTY prod ' . $productPrice;
@@ -260,7 +261,7 @@ class CheckoutTest extends TestCase
 
 
     public function it_checkout_deleted_product(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $productPrice = rand(1, 9999);
         $title = 'test testCheckoutDeletedProduct prod ' . $productPrice;
@@ -315,7 +316,7 @@ class CheckoutTest extends TestCase
 
 
     public function it_checkout_unpublished_product(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $productPrice = rand(1, 9999);
         $title = 'test testCheckoutUnpublishedProduct prod ' . $productPrice;

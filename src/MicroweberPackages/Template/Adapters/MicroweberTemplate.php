@@ -5,6 +5,8 @@ namespace MicroweberPackages\Template\Adapters;
 use Illuminate\Support\Facades\Blade;
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateMetaTagsPlaceholderReplacer;
 use MicroweberPackages\View\View;
+use MicroweberPackages\Event\Facades\EventManager;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class MicroweberTemplate
 {
@@ -542,7 +544,7 @@ class MicroweberTemplate
 
         }
 
-        $override = app()->event_manager->trigger('mw.front.get_layout', $page);
+        $override = EventManager::trigger('mw.front.get_layout', $page);
 
         $render_file = false;
         $look_for_post = false;
@@ -799,7 +801,7 @@ class MicroweberTemplate
 
         if (($render_file == false)
             and isset($page['id']) and $page['id'] == 0) {
-            $url_file = app()->url_manager->string(1, 1);
+            $url_file = UrlManager::string(1, 1);
             $test_file = str_replace('___', DS, $url_file);
             $test_file = sanitize_path($test_file);
             $render_file_temp = $this->getActiveTemplateDir() . $test_file . '.php';
@@ -1305,7 +1307,7 @@ class MicroweberTemplate
         }
 
         if ($render_file == false and isset($page['active_site_template'])) {
-            $url_file = app()->url_manager->string(1, 1);
+            $url_file = UrlManager::string(1, 1);
             $test_file = str_replace('___', DS, $url_file);
             $template_view = $this->getActiveTemplateDir() . $test_file . '.php';
             $template_view = normalize_path($template_view, false);

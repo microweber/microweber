@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Option\Facades\Option;
+use MicroweberPackages\Format\Facades\Format;
 
 
 class NewFormEntryAutoRespond extends Notification
@@ -136,7 +137,7 @@ class NewFormEntryAutoRespond extends Notification
     public function message()
     {
         $toView = $this->notification->data;
-        $toView['ago'] = app()->format->ago($this->notification->data['created_at']);
+        $toView['ago'] = Format::ago($this->notification->data['created_at']);
 
         return view('form::admin.notifications.new_form_entry', $toView);
     }

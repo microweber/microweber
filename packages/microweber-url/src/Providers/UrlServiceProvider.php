@@ -4,7 +4,8 @@ namespace MicroweberPackages\Url\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Url\UrlManager;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Url\UrlManagerService;
 
 class UrlServiceProvider extends ServiceProvider
 {
@@ -13,11 +14,9 @@ class UrlServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(UrlManager::class, function () {
-            return new UrlManager();
+        $this->app->singleton(UrlManagerService::class, function () {
+            return new UrlManagerService();
         });
-
-        $this->app->alias(UrlManager::class, 'url_manager');
     }
 
     /**
@@ -28,10 +27,7 @@ class UrlServiceProvider extends ServiceProvider
         // Test-only route previously registered by the removed HelpersServiceProvider.
         if ($this->app->runningInConsole() && $this->app->runningUnitTests()) {
             Route::get('uri_test_details', function () {
-                /** @var UrlManager $urlManager */
-                $urlManager = app('url_manager');
-
-                return $urlManager->current();
+                return UrlManager::current();
             })->name('uri_test_details');
         }
     }

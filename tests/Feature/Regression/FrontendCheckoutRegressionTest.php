@@ -9,6 +9,7 @@ use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 /**
  * Full Regression Test Suite - Frontend Checkout Flow
@@ -242,7 +243,7 @@ class FrontendCheckoutRegressionTest extends TestCase
     #[Test]
     public function it_checkout_updates_product_quantity(): void
     {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $productId = $this->createTestProduct('Stock Product', 50.00, ['data_qty' => 10]);
 
@@ -294,7 +295,7 @@ class FrontendCheckoutRegressionTest extends TestCase
      */
     private function createTestProduct(string $title, float $price, array $extra = []): int
     {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $params = array_merge([
             'title' => $title,

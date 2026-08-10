@@ -4,6 +4,10 @@ namespace Modules\Category\Repositories;
 
 use DB;
 use Modules\Category\Helpers\KnpCategoryTreeRenderer;
+use MicroweberPackages\Format\Facades\Format;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Event\Facades\EventManager;
 
 /**
  * Class to work with categories.
@@ -185,9 +189,9 @@ class CategoryManager
             $params['parent_id'] = '[neq]0';
         }
 
-        $taxonomies = $this->app->database_manager->get($params);
+        $taxonomies = DatabaseManager::get($params);
 
-        //  $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
+        //  $taxonomies = DatabaseManager::query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
 
         if (!empty($taxonomies)) {
             foreach ($taxonomies as $item) {
@@ -277,10 +281,10 @@ class CategoryManager
         $params['order_by'] = 'position asc';
         $params['fields'] = 'id,parent_id';
 
-        $save = $this->app->database_manager->get($params);
+        $save = DatabaseManager::get($params);
 
         $q_cache_id = __FUNCTION__ . crc32($q);
-        // $save = $this->app->database_manager->query($q, $q_cache_id, $cache_group);
+        // $save = DatabaseManager::query($q, $q_cache_id, $cache_group);
         if (empty($save)) {
             return false;
         }
@@ -348,7 +352,7 @@ class CategoryManager
 //            $data['no_limit'] = true;
 //        }
 //
-//        $data = $this->app->database_manager->get($data);
+//        $data = DatabaseManager::get($data);
 //
 //        return $data;
 //    }
@@ -403,7 +407,7 @@ class CategoryManager
         }
 
 
-  //  $data = $this->app->database_manager->get($data);
+  //  $data = DatabaseManager::get($data);
      $data = $this->app->category_repository->getByParams($data);
 
 
@@ -524,7 +528,7 @@ class CategoryManager
                 $cs['subtype'] = 'dynamic';
                 $table_c = 'content';
 
-                $save = $this->app->database_manager->save($table_c, $cs);
+                $save = DatabaseManager::save($table_c, $cs);
             }
         }
         if ((!isset($data['id']) or $data['id'] == 0) and !isset($data['is_deleted'])) {
@@ -548,7 +552,7 @@ class CategoryManager
         }
 
         if (isset($data['url']) and trim($data['url']) != false) {
-            //  $possible_slug = $this->app->url_manager->slug($data['url']);
+            //  $possible_slug = UrlManager::slug($data['url']);
             $possible_slug = mb_strtolower($data['url']);
             $possible_slug = str_ireplace(' ', '-', $possible_slug);
             if ($possible_slug) {
@@ -613,10 +617,10 @@ class CategoryManager
 //dd($data);
         }
 
-        //$data = app()->format->clean_xss($data);
+        //$data = Format::clean_xss($data);
 
         // \Log::info(print_r($data, true));
-        $id = $save = $this->app->database_manager->extended_save($table, $data);
+        $id = $save = DatabaseManager::extended_save($table, $data);
 
 
         if ($simple_save == true) {
@@ -647,7 +651,7 @@ class CategoryManager
 
         //$this->app->cache_manager->clear('media');
 
-        // $this->app->database_manager->q($clean);
+        // DatabaseManager::q($clean);
 
         if (isset($content_ids) and !empty($content_ids)) {
             $content_ids = array_unique($content_ids);
@@ -660,7 +664,7 @@ class CategoryManager
 		AND parent_id=$save
 		AND  data_type ='{$data_type}' ";
 
-            $this->app->database_manager->q($q);
+            DatabaseManager::q($q);
 
             foreach ($content_ids as $id) {
                 $item_save = array();
@@ -675,7 +679,7 @@ class CategoryManager
 
                 $item_save['parent_id'] = intval($save);
 
-                $item_save = $this->app->database_manager->save($table_items, $item_save);
+                $item_save = DatabaseManager::save($table_items, $item_save);
 
             }
         }
@@ -686,7 +690,7 @@ class CategoryManager
         // $this->app->cache_manager->clear('categories');
 
         /* $data['id'] = $save;
-         $this->app->event_manager->trigger('category.after.save', $data);
+         EventManager::trigger('category.after.save', $data);
          */
         return $save;
     }
@@ -698,7 +702,7 @@ class CategoryManager
         $table = 'categories_items';
         $params['table'] = $table;
 
-        $save = $this->app->database_manager->save($params);
+        $save = DatabaseManager::save($params);
         if (intval($save) == 0) {
             return false;
         }
@@ -716,7 +720,7 @@ class CategoryManager
     public function get_by_url($slug)
     {
         $id = $this->get_by_id($slug, 'url');
-        $override = $this->app->event_manager->trigger('app.category.get_by_url', $slug);
+        $override = EventManager::trigger('app.category.get_by_url', $slug);
         if ($override and is_array($override) && isset($override[0])) {
             $id = $override[0];
         }
@@ -761,7 +765,7 @@ class CategoryManager
 //    {
 //        $id = app()->category_repository->getByUrl($slug);
 //
-//        $override = $this->app->event_manager->trigger('app.category.get_by_url', $slug);
+//        $override = EventManager::trigger('app.category.get_by_url', $slug);
 //        if ($override and is_array($override) && isset($override[0])) {
 //            $id = $override[0];
 //        }
@@ -777,11 +781,11 @@ class CategoryManager
             $c_id = intval($data);
         }
 
-        $del = $this->app->database_manager->delete_by_id('categories', $c_id);
-        $this->app->database_manager->delete_by_id('categories', $c_id, 'parent_id');
-        $this->app->database_manager->delete_by_id('categories_items', $c_id, 'parent_id');
+        $del = DatabaseManager::delete_by_id('categories', $c_id);
+        DatabaseManager::delete_by_id('categories', $c_id, 'parent_id');
+        DatabaseManager::delete_by_id('categories_items', $c_id, 'parent_id');
         if (defined('MODULE_DB_MENUS')) {
-            $this->app->database_manager->delete_by_id('menus', $c_id, 'categories_id');
+            DatabaseManager::delete_by_id('menus', $c_id, 'categories_id');
         }
 
         return true;
@@ -795,7 +799,7 @@ class CategoryManager
             $c_id = intval($data);
         }
 
-        return $this->app->database_manager->delete_by_id('categories_items', $c_id);
+        return DatabaseManager::delete_by_id('categories_items', $c_id);
     }
 
     public function reorder($data)
@@ -812,7 +816,7 @@ class CategoryManager
                     ++$i;
                 }
 
-                $res[] = $this->app->database_manager->update_position_field($table, $indx);
+                $res[] = DatabaseManager::update_position_field($table, $indx);
             }
         }
         $this->app->cache_manager->clear('categories');
@@ -824,9 +828,9 @@ class CategoryManager
         $cat_id = false;
 
         if ($url) {
-            $cat_url = $this->app->url_manager->param('category', true, $url);
+            $cat_url = UrlManager::param('category', true, $url);
         } else {
-            $cat_url = $this->app->url_manager->param('category', true);
+            $cat_url = UrlManager::param('category', true);
         }
 
         if (!$cat_url) {
@@ -863,7 +867,7 @@ class CategoryManager
         }
 
 
-        $override = $this->app->event_manager->trigger('app.category.get_category_id_from_url', $cat_url);
+        $override = EventManager::trigger('app.category.get_category_id_from_url', $cat_url);
         if (is_array($override) && isset($override[0])) {
             $cat_id = $override[0];
         }

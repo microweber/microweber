@@ -2,18 +2,19 @@
 
 namespace MicroweberPackages\Format\Tests;
 
-use MicroweberPackages\Format\Format;
+use MicroweberPackages\Format\FormatService;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\DataProvider;
+use MicroweberPackages\Format\Facades\Format;
 
 class FormatTest extends TestCase
 {
-    private Format $format;
+    private FormatService $format;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->format = new Format();
+        $this->format = new FormatService();
     }
 
     // ─── Container / Facade ──────────────────────────────────────────
@@ -21,14 +22,14 @@ class FormatTest extends TestCase
     #[Test]
     public function it_resolves_from_container(): void
     {
-        $format = app('format');
-        $this->assertInstanceOf(Format::class, $format);
+        $format = Format::getFacadeRoot();
+        $this->assertInstanceOf(FormatService::class, $format);
     }
 
     #[Test]
     public function it_is_a_singleton(): void
     {
-        $this->assertSame(app('format'), app('format'));
+        $this->assertSame(Format::getFacadeRoot(), Format::getFacadeRoot());
     }
 
     // ─── Array helpers ───────────────────────────────────────────────

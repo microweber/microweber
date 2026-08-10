@@ -6,8 +6,12 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Install\UpdateMissingConfigFiles;
-use MicroweberPackages\PackageManagerClient\PackageManagerClient;
+use MicroweberPackages\PackageManagerClient\PackageManagerClientService;
 use Symfony\Component\Console\Output\BufferedOutput;
+use MicroweberPackages\Notification\Facades\Notifications;
+use MicroweberPackages\SystemLicenses\Facades\SystemLicenses;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Event\Facades\EventManager;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
     define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
@@ -45,7 +49,7 @@ class UpdateManager
 
     public function http()
     {
-        return new \MicroweberPackages\Http\Http();
+        return new \MicroweberPackages\Http\HttpService();
     }
 
     public function collect_local_data()
@@ -53,7 +57,7 @@ class UpdateManager
         $data = array();
         $data['php_version'] = phpversion();
         $data['mw_version'] = MW_VERSION;
-        $data['mw_update_check_site'] = $this->app->url_manager->site();
+        $data['mw_update_check_site'] = UrlManager::site();
         $data['update_channel'] = Config::get('microweber.update_channel');
         $data['last_update'] = Config::get('microweber.updated_at');
 
@@ -138,7 +142,7 @@ class UpdateManager
         $params['rel_type'] = 'update_check';
         $params['rel_id'] = 'updates';
 
-        $new_version_notifications = app()->notifications_manager->get($params);
+        $new_version_notifications = Notifications::get($params);
         return $new_version_notifications;
     }
 
@@ -214,7 +218,7 @@ class UpdateManager
             $copyConfigs = new UpdateMissingConfigFiles();
             $copyConfigs->copyMissingConfigStubs();
 
-            $this->app->event_manager->trigger('mw.update.post');
+            EventManager::trigger('mw.update.post');
 
             $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'), true);
             rmdir_recursive($bootstrap_cached_folder);
@@ -323,12 +327,12 @@ class UpdateManager
 
 
         if ($post_params != false and is_array($post_params)) {
-            $post_params['site_url'] = $this->app->url_manager->site();
+            $post_params['site_url'] = UrlManager::site();
             $post_params['api_function'] = $method;
             $post_params['mw_version'] = MW_VERSION;
             $post_params['php_version'] = phpversion();
 
-            $curl = new \MicroweberPackages\Http\Http($this->app);
+            $curl = new \MicroweberPackages\Http\HttpService($this->app);
             $curl->set_url($requestUrl);
             $curl->set_timeout(20);
 
@@ -391,7 +395,7 @@ class UpdateManager
     //  License operations — AUTHORIZATION LAYER.
     //  The license domain (persist / validate / consume / delete / read)
     //  lives in the microweber-system-licenses package
-    //  (app()->system_licenses_manager). These methods only gate each
+    //  (SystemLicenses::getFacadeRoot()). These methods only gate each
     //  package call on admin rights and bust the CMS cache after a
     //  privileged mutation — a CMS concern the provider-agnostic package
     //  can't own. No license logic lives here.
@@ -408,7 +412,7 @@ class UpdateManager
             return ['status' => 'Not allowed action.', 'active' => false];
         }
 
-        return app()->system_licenses_manager->consumeLicense(intval($params['id']));
+        return SystemLicenses::consumeLicense(intval($params['id']));
     }
 
     public function validate_license($params = false)
@@ -418,7 +422,7 @@ class UpdateManager
             return;
         }
 
-        $result = app()->system_licenses_manager->validateLicenses(is_array($params) ? $params : null);
+        $result = SystemLicenses::validateLicenses(is_array($params) ? $params : null);
 
         if ($result !== null && !empty($result['updates'] ?? [])) {
             clearcache();
@@ -434,7 +438,7 @@ class UpdateManager
             return;
         }
 
-        return app()->system_licenses_manager->getAllLicenses();
+        return SystemLicenses::getAllLicenses();
     }
 
     public function delete_license($params)
@@ -445,7 +449,7 @@ class UpdateManager
         }
 
         if (isset($params['id'])) {
-            return app()->system_licenses_manager->deleteLicense(intval($params['id']));
+            return SystemLicenses::deleteLicense(intval($params['id']));
         }
     }
 
@@ -456,7 +460,7 @@ class UpdateManager
             return;
         }
 
-        return app()->system_licenses_manager->saveLicense($params);
+        return SystemLicenses::saveLicense($params);
     }
 
     private function install_from_remote($url)
@@ -468,7 +472,7 @@ class UpdateManager
         }
         $dl_file = $dir_c . $fname;
         if (!is_file($dl_file)) {
-            $get = $this->app->url_manager->download($url, $post_params = false, $save_to_file = $dl_file);
+            $get = UrlManager::download($url, $post_params = false, $save_to_file = $dl_file);
         }
         if (is_file($dl_file)) {
             $unzip = new \MicroweberPackages\Utils\Unzip();

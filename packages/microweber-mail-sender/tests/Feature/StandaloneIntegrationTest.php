@@ -8,6 +8,7 @@ use MicroweberPackages\MailSender\Contracts\MailSenderContract;
 use MicroweberPackages\MailSender\Services\MailConfigApplier;
 use MicroweberPackages\MailSender\Services\MailSenderService;
 use MicroweberPackages\MailSender\Tests\TestCase;
+use MicroweberPackages\MailSender\Facades\MailSender;
 
 /**
  * Integration: container bindings, config, and helpers all work together.
@@ -26,7 +27,7 @@ class StandaloneIntegrationTest extends TestCase
         $contract = app(MailSenderContract::class);
         $this->assertInstanceOf(MailSenderService::class, $contract);
 
-        $alias = app('mail_sender');
+        $alias = MailSender::getFacadeRoot();
         $this->assertInstanceOf(MailSenderService::class, $alias);
     }
 

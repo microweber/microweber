@@ -8,6 +8,8 @@ namespace Modules\Category\Helpers;
 
 use KnpCustomListRenderer as ListRenderer;
 use Microweber\Providers\Categories\Helpers\CategoryTreeData;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 
 class LegacyCategoryTreeRenderer
@@ -103,7 +105,7 @@ class LegacyCategoryTreeRenderer
             $function_cache_id .= $cat_url;
             $active_cat = $cat_url;
         } else {
-            $cat_url = $this->app->url_manager->param('categories', true);
+            $cat_url = UrlManager::param('categories', true);
             if ($cat_url != false) {
                 $function_cache_id .= $cat_url;
             }
@@ -248,7 +250,7 @@ class LegacyCategoryTreeRenderer
             }
 
             if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
-                $table_assoc_name = $this->app->database_manager->assoc_table_name($params['for']);
+                $table_assoc_name = DatabaseManager::assoc_table_name($params['for']);
                 $skip123 = true;
                 $str0 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_type=' . $table_assoc_name;
                 $cat_get_params = array();
@@ -265,13 +267,13 @@ class LegacyCategoryTreeRenderer
                     $str0 = $str0 . '&users_can_create_content=' . $users_can_create_content;
                     // unset( $cat_get_params['parent_id']);
                 }
-                $fors = $this->app->database_manager->get($cat_get_params);
+                $fors = DatabaseManager::get($cat_get_params);
             }
 
             if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
                 $skip123 = true;
                 $str1 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
-                $fors1 = $this->app->database_manager->get($str1);
+                $fors1 = DatabaseManager::get($str1);
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
                 }
@@ -320,7 +322,7 @@ class LegacyCategoryTreeRenderer
                 }
             }
         } elseif (isset($params['rel_type']) and $params['rel_type'] != false and isset($params['rel_id'])) {
-            $table_assoc_name = $this->app->database_manager->assoc_table_name($params['rel_type']);
+            $table_assoc_name = DatabaseManager::assoc_table_name($params['rel_type']);
             $skip123 = true;
             $users_can_create_content_q = false;
             $cat_get_params = array();
@@ -365,7 +367,7 @@ class LegacyCategoryTreeRenderer
 
             //  $fors = array();
             if ($cont_check != false) {
-                $fors = $this->app->database_manager->get($cat_get_params);
+                $fors = DatabaseManager::get($cat_get_params);
 
             } else {
 
@@ -535,7 +537,7 @@ d($fors);
         }
 
 
-        $table = $this->app->database_manager->real_table_name($table);
+        $table = DatabaseManager::real_table_name($table);
         $content_type = addslashes($content_type);
         $hard_limit = ' LIMIT 300 ';
         $inf_loop_fix = "  and $table.id!=$table.parent_id  ";
@@ -587,8 +589,8 @@ d($fors);
         $output = '';
 
 
-        $q = $this->app->database_manager->query($sql, $cache_id = 'html_tree_parent_cats_q_' . md5($sql), 'categories/' . intval($parent));
-        //$q = $this->app->database_manager->query($sql, false);
+        $q = DatabaseManager::query($sql, $cache_id = 'html_tree_parent_cats_q_' . md5($sql), 'categories/' . intval($parent));
+        //$q = DatabaseManager::query($sql, false);
 
         $result = $q;
 

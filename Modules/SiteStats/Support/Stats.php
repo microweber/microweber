@@ -10,6 +10,8 @@ use Modules\SiteStats\Models\Referrers;
 use Modules\SiteStats\Models\ReferrersDomains;
 use Modules\SiteStats\Models\ReferrersPaths;
 use Modules\SiteStats\Models\Sessions;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Format\Facades\Format;
 
 class Stats
 {
@@ -29,7 +31,7 @@ class Stats
         if (isset($params['period'])) {
             $period = $params['period'];
         }
-        $engine = app()->database_manager->get_sql_engine();
+        $engine = DatabaseManager::get_sql_engine();
 
         $site_url = site_url();
 
@@ -144,7 +146,7 @@ class Stats
                         $item['url_slug'] = '/';
                     }
                     if (isset($item['sessions_count'])) {
-                        $item['sessions_percent'] = app()->format->percent($item['sessions_count'], $most_sessions_count);
+                        $item['sessions_percent'] = Format::percent($item['sessions_count'], $most_sessions_count);
                     }
 
 
@@ -263,7 +265,7 @@ class Stats
                                     }
                                     if (isset($item_array['sessions_count']) and $item_array['sessions_count']) {
                                         if (isset($related_data['path_sessions_count']) and $related_data['path_sessions_count']) {
-                                            $item_array['referrer_paths'][$rel_key]['path_sessions_percent'] = app()->format->percent($related_data['path_sessions_count'], $item_array['sessions_count']);
+                                            $item_array['referrer_paths'][$rel_key]['path_sessions_percent'] = Format::percent($related_data['path_sessions_count'], $item_array['sessions_count']);
 
                                         }
                                     }
@@ -294,7 +296,7 @@ class Stats
                     foreach ($data as $item) {
                         $item_array = $item;
                         if (isset($item['sessions_count'])) {
-                            $item_array['sessions_percent'] = app()->format->percent($item['sessions_count'], $most_sessions_count);
+                            $item_array['sessions_percent'] = Format::percent($item['sessions_count'], $most_sessions_count);
                         }
                         $return[] = $item_array;
 
@@ -366,7 +368,7 @@ class Stats
                     $item_array = collection_to_array($item);
 
                     if (isset($item['sessions_count'])) {
-                        $item_array['sessions_percent'] = app()->format->percent($item['sessions_count'], $most_sessions_count);
+                        $item_array['sessions_percent'] = Format::percent($item['sessions_count'], $most_sessions_count);
                     }
                     $return[] = $item_array;
 
@@ -570,7 +572,7 @@ class Stats
             case 'visits_count_grouped_by_period':
                 $log = new Log();
                 //  $log = $log->period($period);
-                $engine = app()->database_manager->get_sql_engine();
+                $engine = DatabaseManager::get_sql_engine();
 
 
                 $group_by_key = 'date_key';

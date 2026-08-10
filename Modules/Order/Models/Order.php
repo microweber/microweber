@@ -28,6 +28,7 @@ use Modules\Order\Events\OrderWasDeleted;
 use Modules\Order\Events\OrderWasUpdated;
 use Modules\Order\Models\ModelFilters\OrderFilter;
 use Modules\Payment\Enums\PaymentStatus;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class Order extends Model
 {
@@ -324,7 +325,7 @@ class Order extends Model
             'single' => true,
         ];
 
-        return app()->database_manager->get($params);
+        return DatabaseManager::get($params);
     }
 
     /**
@@ -349,7 +350,7 @@ class Order extends Model
             'limit' => 1000,
         ];
 
-        $result = app()->database_manager->get($params);
+        $result = DatabaseManager::get($params);
         return $result ?: [];
     }
 
@@ -370,7 +371,7 @@ class Order extends Model
 
         $params['table'] = 'cart_orders';
 
-        return app()->database_manager->get($params);
+        return DatabaseManager::get($params);
     }
 
     /**

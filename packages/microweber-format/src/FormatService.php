@@ -13,7 +13,7 @@ use MicroweberPackages\Security\XSSClean;
  * the Format facade.  All methods are intentionally instance methods so the
  * class can be resolved from the container as a singleton.
  */
-class Format
+class FormatService
 {
     // ─── Array helpers ───────────────────────────────────────────────
 

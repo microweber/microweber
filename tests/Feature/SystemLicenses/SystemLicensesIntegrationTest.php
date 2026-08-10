@@ -8,6 +8,7 @@ use MicroweberPackages\SystemLicenses\SystemLicensesManager;
 use MicroweberPackages\SystemLicenses\Tests\Fixtures\FakeLicenseValidator;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
+use MicroweberPackages\SystemLicenses\Facades\SystemLicenses;
 
 class SystemLicensesIntegrationTest extends TestCase
 {
@@ -36,8 +37,8 @@ class SystemLicensesIntegrationTest extends TestCase
     #[Test]
     public function system_licenses_manager_is_bound_via_container(): void
     {
-        $this->assertTrue($this->app->bound('system_licenses_manager'));
-        $this->assertInstanceOf(SystemLicensesManager::class, app()->system_licenses_manager);
+        $this->assertTrue($this->app->bound(\MicroweberPackages\SystemLicenses\SystemLicensesManager::class));
+        $this->assertInstanceOf(SystemLicensesManager::class, SystemLicenses::getFacadeRoot());
     }
 
     #[Test]
@@ -45,12 +46,12 @@ class SystemLicensesIntegrationTest extends TestCase
     {
         $this->fakeValidator->setValidKeys(['CMS-TEST-KEY']);
 
-        $result = app()->system_licenses_manager->saveLicense(['local_key' => 'CMS-TEST-KEY']);
+        $result = SystemLicenses::saveLicense(['local_key' => 'CMS-TEST-KEY']);
 
         $this->assertTrue($result['is_active']);
         $this->assertDatabaseHas('system_licenses', ['local_key' => 'CMS-TEST-KEY']);
 
-        $licenses = app()->system_licenses_manager->getAllLicenses();
+        $licenses = SystemLicenses::getAllLicenses();
         $this->assertNotEmpty($licenses);
     }
 
@@ -61,8 +62,8 @@ class SystemLicensesIntegrationTest extends TestCase
 
         $this->assertFalse(have_license('modules/white_label'));
 
-        app()->system_licenses_manager->saveLicense(['local_key' => 'FUNC-TEST-KEY']);
-        app()->system_licenses_manager->refreshActiveLicenses();
+        SystemLicenses::saveLicense(['local_key' => 'FUNC-TEST-KEY']);
+        SystemLicenses::refreshActiveLicenses();
 
         $this->assertTrue(have_license('modules/white_label'));
     }
@@ -77,7 +78,7 @@ class SystemLicensesIntegrationTest extends TestCase
         // The update manager requires admin privileges — it returns null for non-admin
         // In integration context without a logged-in admin, this is expected.
         // We test the manager directly instead.
-        $managerResult = app()->system_licenses_manager->saveLicense(['local_key' => 'UPDATE-MGR-KEY']);
+        $managerResult = SystemLicenses::saveLicense(['local_key' => 'UPDATE-MGR-KEY']);
         $this->assertTrue($managerResult['is_active']);
     }
 
@@ -86,8 +87,8 @@ class SystemLicensesIntegrationTest extends TestCase
     {
         $this->fakeValidator->setValidKeys(['DEL-KEY']);
 
-        $saved = app()->system_licenses_manager->saveLicense(['local_key' => 'DEL-KEY']);
-        $deleted = app()->system_licenses_manager->deleteLicense($saved['id']);
+        $saved = SystemLicenses::saveLicense(['local_key' => 'DEL-KEY']);
+        $deleted = SystemLicenses::deleteLicense($saved['id']);
 
         $this->assertArrayHasKey('success', $deleted);
         $this->assertDatabaseMissing('system_licenses', ['local_key' => 'DEL-KEY']);
@@ -98,8 +99,8 @@ class SystemLicensesIntegrationTest extends TestCase
     {
         $this->fakeValidator->setValidKeys(['VAL-KEY']);
 
-        app()->system_licenses_manager->saveLicense(['local_key' => 'VAL-KEY']);
-        $result = app()->system_licenses_manager->validateLicenses();
+        SystemLicenses::saveLicense(['local_key' => 'VAL-KEY']);
+        $result = SystemLicenses::validateLicenses();
 
         $this->assertNotNull($result);
         $this->assertArrayHasKey('updates', $result);
@@ -110,8 +111,8 @@ class SystemLicensesIntegrationTest extends TestCase
     {
         $this->fakeValidator->setValidKeys(['CONSUME-KEY']);
 
-        $saved = app()->system_licenses_manager->saveLicense(['local_key' => 'CONSUME-KEY']);
-        $result = app()->system_licenses_manager->consumeLicense($saved['id']);
+        $saved = SystemLicenses::saveLicense(['local_key' => 'CONSUME-KEY']);
+        $result = SystemLicenses::consumeLicense($saved['id']);
 
         $this->assertTrue($result['valid']);
     }
@@ -119,10 +120,10 @@ class SystemLicensesIntegrationTest extends TestCase
     #[Test]
     public function rejects_empty_key(): void
     {
-        $result = app()->system_licenses_manager->saveLicense([]);
+        $result = SystemLicenses::saveLicense([]);
         $this->assertTrue($result['is_invalid']);
 
-        $result2 = app()->system_licenses_manager->saveLicense(['local_key' => '']);
+        $result2 = SystemLicenses::saveLicense(['local_key' => '']);
         $this->assertTrue($result2['is_invalid']);
     }
 
@@ -131,7 +132,7 @@ class SystemLicensesIntegrationTest extends TestCase
     {
         $this->fakeValidator->setValidKeys(['MODEL-KEY']);
 
-        app()->system_licenses_manager->saveLicense(['local_key' => 'MODEL-KEY']);
+        SystemLicenses::saveLicense(['local_key' => 'MODEL-KEY']);
 
         $model = SystemLicense::where('local_key', 'MODEL-KEY')->first();
         $this->assertNotNull($model);

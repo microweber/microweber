@@ -1,5 +1,7 @@
 <?php
 
+use MicroweberPackages\Format\Facades\Format;
+
 use Illuminate\Support\Facades\Cookie;
 use MicroweberPackages\MetaTags\Facades\FrontendMetaTags;
 
@@ -35,16 +37,16 @@ function icon_html($icon)
         return '';
     }
     if (str_starts_with($icon, '<i class="')) {
-        return app()->format->clean_xss($icon);
+        return Format::clean_xss($icon);
     }
     if (str_starts_with($icon, '<svg')) {
-        return app()->format->clean_xss($icon);
+        return Format::clean_xss($icon);
     }
     if (str_starts_with($icon, '<img')) {
-        return app()->format->clean_xss($icon);
+        return Format::clean_xss($icon);
     }
     if (str_starts_with($icon, '<span class="')) {
-        return app()->format->clean_xss($icon);
+        return Format::clean_xss($icon);
     }
     if (str_starts_with($icon, 'mdi-')) {
         return '<i class="mdi ' . $icon . '"></i>';

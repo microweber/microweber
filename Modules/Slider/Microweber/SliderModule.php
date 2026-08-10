@@ -5,6 +5,7 @@ namespace Modules\Slider\Microweber;
 use MicroweberPackages\Microweber\Abstract\BaseModule;
 use Modules\Slider\Filament\SliderModuleSettings;
 use Modules\Slider\Models\Slider;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class SliderModule extends BaseModule
 {
@@ -75,7 +76,7 @@ class SliderModule extends BaseModule
         }
 
         return array_map(function ($slide) {
-            $slide['media'] = app()->url_manager->replace_site_url_back($slide['media']);
+            $slide['media'] = UrlManager::replace_site_url_back($slide['media']);
             $sliderModel = new Slider();
             $slide['rel_id'] = $this->getRelId();
             $slide['rel_type'] = $this->getRelType();

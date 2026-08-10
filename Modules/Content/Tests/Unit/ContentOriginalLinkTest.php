@@ -8,6 +8,7 @@ use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
 use PHPUnit\Framework\Attributes\Test;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 
 class ContentOriginalLinkTest extends TestCase
@@ -16,7 +17,7 @@ class ContentOriginalLinkTest extends TestCase
     #[Test]
     public function it_content_original_link_redirect(): void {
         $this->loginAsAdmin();
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $title = 'My test page testContentOriginalLinkParentRedirect' . uniqid();
         Content::where('title', $title)->delete();

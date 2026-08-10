@@ -8,6 +8,7 @@ use MicroweberPackages\Minifier\Services\CssMinify;
 use MicroweberPackages\Minifier\Services\JsMinify;
 use MicroweberPackages\Minifier\Services\MinifierService;
 use MicroweberPackages\Minifier\Tests\TestCase;
+use MicroweberPackages\Minifier\Facades\Minifier;
 
 /**
  * Integration: container bindings, config, and helpers all work together.
@@ -25,7 +26,7 @@ class StandaloneIntegrationTest extends TestCase
         $this->assertSame($c, $d);
 
         $e = app(MinifierService::class);
-        $f = app('minifier');
+        $f = Minifier::getFacadeRoot();
         $this->assertSame($e, $f);
     }
 

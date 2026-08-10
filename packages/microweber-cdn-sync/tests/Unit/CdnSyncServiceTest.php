@@ -5,25 +5,26 @@ namespace MicroweberPackages\CdnSync\Tests\Unit;
 use MicroweberPackages\CdnSync\Models\CdnSyncLog;
 use MicroweberPackages\CdnSync\Services\CdnSyncService;
 use MicroweberPackages\CdnSync\Tests\TestCase;
+use MicroweberPackages\CdnSync\Facades\CdnSync;
 
 class CdnSyncServiceTest extends TestCase
 {
     public function test_service_can_be_resolved(): void
     {
-        $service = app('cdn_sync');
+        $service = CdnSync::getFacadeRoot();
         $this->assertInstanceOf(CdnSyncService::class, $service);
     }
 
     public function test_service_is_singleton(): void
     {
-        $a = app('cdn_sync');
-        $b = app('cdn_sync');
+        $a = CdnSync::getFacadeRoot();
+        $b = CdnSync::getFacadeRoot();
         $this->assertSame($a, $b);
     }
 
     public function test_is_not_configured_by_default(): void
     {
-        $service = app('cdn_sync');
+        $service = CdnSync::getFacadeRoot();
         $this->assertFalse($service->isConfigured());
     }
 
@@ -55,7 +56,7 @@ class CdnSyncServiceTest extends TestCase
 
     public function test_sync_returns_error_when_not_configured(): void
     {
-        $service = app('cdn_sync');
+        $service = CdnSync::getFacadeRoot();
         $model = new TestSyncableModel(['id' => 1, 'filename' => '/tmp/test.jpg']);
 
         $result = $service->sync($model);
@@ -83,7 +84,7 @@ class CdnSyncServiceTest extends TestCase
     {
         CdnSyncLog::query()->delete();
 
-        $service = app('cdn_sync');
+        $service = CdnSync::getFacadeRoot();
         $stats = $service->getStats();
 
         $this->assertArrayHasKey('total_synced', $stats);
@@ -94,7 +95,7 @@ class CdnSyncServiceTest extends TestCase
 
     public function test_test_connection_fails_when_not_configured(): void
     {
-        $service = app('cdn_sync');
+        $service = CdnSync::getFacadeRoot();
         $result = $service->testConnection();
 
         $this->assertFalse($result['success']);
@@ -186,7 +187,7 @@ class CdnSyncServiceTest extends TestCase
 
     public function test_bulk_sync_returns_expected_structure(): void
     {
-        $service = app('cdn_sync');
+        $service = CdnSync::getFacadeRoot();
         $results = $service->bulkSync([]);
 
         $this->assertEquals(0, $results['total']);
@@ -196,7 +197,7 @@ class CdnSyncServiceTest extends TestCase
 
     public function test_delete_returns_true_when_no_logs(): void
     {
-        $service = app('cdn_sync');
+        $service = CdnSync::getFacadeRoot();
         $model = new TestSyncableModel(['id' => 999, 'filename' => '/nope.jpg']);
 
         $this->assertTrue($service->delete($model));

@@ -143,7 +143,7 @@ trait ExtendedSave
                                                }
                                                $output_file = $output . $output_fn;
                                                if (!is_file($output_file)){
-                                                   $download = new \MicroweberPackages\Http\Http();
+                                                   $download = new \MicroweberPackages\Http\HttpService();
                                                    $download->set_url($image_src);
                                                    $download->download($output_file);
 

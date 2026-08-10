@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
-use MicroweberPackages\PackageManagerClient\PackageManagerClient;
+use MicroweberPackages\PackageManagerClient\PackageManagerClientService;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\DuskTestCase;

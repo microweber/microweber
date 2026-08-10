@@ -7,6 +7,7 @@ use Modules\Backup\SessionStepper;
 use Modules\Restore\Formats\ZipReader;
 use Modules\Restore\Loggers\RestoreLogger;
 use Modules\Restore\DatabaseWriter;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class Restore
 {
@@ -310,9 +311,9 @@ class Restore
     {
         $readyTables = array();
 
-        $tables = app()->database_manager->get_tables_list();
+        $tables = DatabaseManager::get_tables_list();
         foreach ($tables as $table) {
-            $readyTables[] = str_replace(app()->database_manager->get_prefix(), false, $table);
+            $readyTables[] = str_replace(DatabaseManager::get_prefix(), false, $table);
         }
 
         return $readyTables;

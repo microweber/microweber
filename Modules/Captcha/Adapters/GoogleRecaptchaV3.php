@@ -3,6 +3,7 @@
 namespace Modules\Captcha\Adapters;
 
 use Illuminate\Support\Facades\Request;
+use MicroweberPackages\Http\Facades\Http as MicroweberHttp;
 
 class GoogleRecaptchaV3
 {
@@ -30,7 +31,7 @@ class GoogleRecaptchaV3
             $default_score = 1;
         }
 
-        $response = app()->http->url($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response.'&score='.$default_score.'&remoteip='.user_ip())->get();
+        $response = MicroweberHttp::url($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response.'&score='.$default_score.'&remoteip='.user_ip())->get();
         $recaptcha = @json_decode($response,true);
 
         if ($recaptcha and isset($recaptcha["success"]) and $recaptcha["success"]) {

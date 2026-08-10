@@ -24,6 +24,7 @@ use MicroweberPackages\Multilanguage\Listeners\LocaleUpdatedListener;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 use MicroweberPackages\Multilanguage\View\Components\FormElements\InputText;
 use MicroweberPackages\Multilanguage\View\Components\FormElements\InputTextarea;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 
 class MultilanguageServiceProvider extends ServiceProvider
@@ -157,7 +158,7 @@ class MultilanguageServiceProvider extends ServiceProvider
 //                }
 //            }
 
-            $currentUrl = app()->url_manager->current();
+            $currentUrl = UrlManager::current();
             if ($currentUrl !== api_url('multilanguage/change_language')) {
                 if (!defined('MW_DISABLE_MULTILANGUAGE')) {
                     if (MultilanguageHelpers::multilanguageIsEnabled()) {

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Storage;
 use MicroweberPackages\Restore\Formats\stringh;
 use MicroweberPackages\Zip\ZipArchiveExtractor;
 use Modules\Restore\Loggers\RestoreLogger;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class ZipReader extends DefaultReader
 {
@@ -83,7 +85,7 @@ class ZipReader extends DefaultReader
                     $ext = @get_file_extension($file_check);
                     if ($ext == 'css') {
                         $csscont = file_get_contents($file_check);
-                        $csscont = app()->url_manager->replace_site_url_back($csscont);
+                        $csscont = UrlManager::replace_site_url_back($csscont);
                         @file_put_contents($file_check, $csscont);
                     }
                 }
@@ -309,9 +311,9 @@ class ZipReader extends DefaultReader
 
         $readyTables = array();
 
-        $tables = app()->database_manager->get_tables_list();
+        $tables = DatabaseManager::get_tables_list();
         foreach ($tables as $table) {
-            $readyTables[] = str_replace(app()->database_manager->get_prefix(), false, $table);
+            $readyTables[] = str_replace(DatabaseManager::get_prefix(), false, $table);
         }
 
         return $readyTables;

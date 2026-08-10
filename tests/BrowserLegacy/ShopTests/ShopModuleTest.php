@@ -13,6 +13,7 @@ use function content_link;
 use function get_option;
 use function save_content;
 use function save_option;
+use MicroweberPackages\Format\Facades\Format;
 
 class ShopModuleTest extends DuskTestCase
 {
@@ -74,7 +75,7 @@ class ShopModuleTest extends DuskTestCase
         });
 
 
-        $date_formats = app()->format->get_supported_date_formats();
+        $date_formats = Format::get_supported_date_formats();
 
         foreach ($date_formats as $date_format) {
             $setDateFormat = save_option('date_format', $date_format, 'website');

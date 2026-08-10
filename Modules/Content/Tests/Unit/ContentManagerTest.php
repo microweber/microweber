@@ -5,6 +5,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
 use Modules\Content\Models\Content;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class ContentManagerTest extends TestCase
 {
@@ -259,7 +260,7 @@ class ContentManagerTest extends TestCase
     #[Test]
 
     public function it_content_categories(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
 
         $params = array(
@@ -310,7 +311,7 @@ class ContentManagerTest extends TestCase
 
 
     public function it_content_categories2(): void {
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         $params = array(
             'title' => 'My categories page 2',
@@ -441,7 +442,7 @@ class ContentManagerTest extends TestCase
 
     public function it_content_search(): void {
         $title = 'Search By title '. uniqid('kw');
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
         $params = array(
             'title' => $title,
             'content_type' => 'post',
@@ -462,7 +463,7 @@ class ContentManagerTest extends TestCase
     public function it_content_limit_paging(): void {
 
         $title = 'New '. uniqid('New');
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
         $params = array(
             'title' => $title,
             'content_type' => 'post',
@@ -510,7 +511,7 @@ class ContentManagerTest extends TestCase
     public function it_content_group_by(): void {
         $title = 'New '. uniqid('ParentGroupBy');
         $parent = rand(1000,9999);
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
         $params = array(
             'title' => $title,
             'content_type' => 'post',
@@ -530,7 +531,7 @@ class ContentManagerTest extends TestCase
 
     public function it_content_save_itself_as_parent(): void {
         $title = 'New ' . uniqid('testContentSaveItselfAsParent');
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
         $params = array(
             'title' => $title,
             'content_type' => 'page',

@@ -8,14 +8,17 @@ use Illuminate\Bus\Batch;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
-use MicroweberPackages\Queue\Services\ChunkedDispatcher as ChunkedDispatcherService;
+use MicroweberPackages\Queue\Services\ChunkedDispatcherService;
 
 /**
+ * ChunkedDispatcher facade — greppable public API for chunked job dispatch.
+ *
  * @method static Batch|null dispatch(iterable<int, mixed> $items, callable(array<int, mixed>): \Illuminate\Contracts\Queue\ShouldQueue $jobFactory, ?int $chunkSize = null, ?string $queue = null, ?string $name = null, bool $useBatch = true)
  * @method static list<Batch> dispatchJobs(list<\Illuminate\Contracts\Queue\ShouldQueue>|Collection<int, \Illuminate\Contracts\Queue\ShouldQueue> $jobs, int $batchSize = 500, ?string $queue = null, ?string $name = null)
  * @method static int chunkCount(int $itemCount, ?int $chunkSize = null)
  *
- * @see ChunkedDispatcherService
+ * @see \MicroweberPackages\Queue\Services\ChunkedDispatcherService
+ * @mixin \MicroweberPackages\Queue\Services\ChunkedDispatcherService
  */
 class ChunkedDispatcher extends Facade
 {

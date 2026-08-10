@@ -2,8 +2,9 @@
 
 namespace MicroweberPackages\Event\Tests;
 
-use MicroweberPackages\Event\Event;
+use MicroweberPackages\Event\EventService;
 use PHPUnit\Framework\Attributes\Test;
+use MicroweberPackages\Event\Facades\EventManager;
 
 class EventTest extends TestCase
 {
@@ -75,7 +76,7 @@ class EventTest extends TestCase
     public function trigger_returns_collected_responses(): void
     {
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
 
         $manager->on('returns', fn () => 'alpha');
         $manager->on('returns', fn () => 'beta');
@@ -92,7 +93,7 @@ class EventTest extends TestCase
     public function response_preserves_unchanged_criteria(): void
     {
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
 
         event_bind('modify_data', function ($data) {
             // Return the same key with the same value — should be preserved.
@@ -107,7 +108,7 @@ class EventTest extends TestCase
     public function response_overwrites_changed_values(): void
     {
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
 
         $manager->on('overwrite', function () {
             return ['colour' => 'red'];
@@ -121,7 +122,7 @@ class EventTest extends TestCase
     public function response_passes_through_dunder_keys(): void
     {
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
 
         $manager->on('dunder', function () {
             return ['__secret' => 42];
@@ -139,7 +140,7 @@ class EventTest extends TestCase
     public function unbind_removes_listeners_for_specific_event(): void
     {
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
 
         $manager->on('removable', fn () => 'should not run');
         $this->assertTrue($manager->hasListeners('removable'));
@@ -153,7 +154,7 @@ class EventTest extends TestCase
     public function unbind_all_clears_every_event(): void
     {
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
 
         $manager->on('ev1', fn () => null);
         $manager->on('ev2', fn () => null);
@@ -169,7 +170,7 @@ class EventTest extends TestCase
         event_bind('helper_test', fn () => null);
 
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
         $this->assertTrue($manager->hasListeners('helper_test'));
 
         event_unbind('helper_test');
@@ -185,7 +186,7 @@ class EventTest extends TestCase
         event_unbind_all();
 
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
         $this->assertFalse($manager->hasListeners('all_a'));
         $this->assertFalse($manager->hasListeners('all_b'));
     }
@@ -198,7 +199,7 @@ class EventTest extends TestCase
     public function has_listeners_returns_false_when_none(): void
     {
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
         $this->assertFalse($manager->hasListeners('empty'));
     }
 
@@ -206,7 +207,7 @@ class EventTest extends TestCase
     public function has_listeners_returns_true_when_bound(): void
     {
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
         $manager->on('occupied', fn () => null);
         $this->assertTrue($manager->hasListeners('occupied'));
     }
@@ -219,7 +220,7 @@ class EventTest extends TestCase
     public function no_state_leaks_from_previous_test_part_one(): void
     {
         event_bind('leak_check', fn () => 'part_one');
-        $this->assertTrue(app('event_manager')->hasListeners('leak_check'));
+        $this->assertTrue(EventManager::hasListeners('leak_check'));
     }
 
     #[Test]
@@ -229,7 +230,7 @@ class EventTest extends TestCase
         // The container is rebuilt between Orchestra tests, so the singleton
         // and its instance adapter should be fresh.
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
         $this->assertFalse($manager->hasListeners('leak_check'));
     }
 
@@ -241,7 +242,7 @@ class EventTest extends TestCase
     public function register_shutdown_event_executes_on_call(): void
     {
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
 
         $executed = false;
         $manager->registerShutdownEvent(function () use (&$executed) {
@@ -256,7 +257,7 @@ class EventTest extends TestCase
     public function shutdown_callbacks_are_cleared_after_execution(): void
     {
         /** @var Event $manager */
-        $manager = app('event_manager');
+        $manager = EventManager::getFacadeRoot();
 
         $count = 0;
         $manager->registerShutdownEvent(function () use (&$count) {
@@ -277,7 +278,7 @@ class EventTest extends TestCase
     public function get_adapter_returns_laravel_event_instance(): void
     {
         /** @var Event $manager */
-        $manager = app('event_manager');
-        $this->assertInstanceOf(\MicroweberPackages\Event\LaravelEvent::class, $manager->getAdapter());
+        $manager = EventManager::getFacadeRoot();
+        $this->assertInstanceOf(\MicroweberPackages\Event\LaravelEventService::class, $manager->getAdapter());
     }
 }

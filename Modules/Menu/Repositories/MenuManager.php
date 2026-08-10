@@ -4,6 +4,10 @@ namespace Modules\Menu\Repositories;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Event\Facades\EventManager;
+use MicroweberPackages\Format\Facades\Format;
 
 /**
  * Content class is used to get and save content in the database.
@@ -61,7 +65,7 @@ class MenuManager
             $data_to_save['menu_name'] = $data_to_save['title'];
         }
 
-        $save = $this->app->database_manager->save($table, $data_to_save);
+        $save = DatabaseManager::save($table, $data_to_save);
         $this->app->cache_manager->delete('menus');
 
         return $save;
@@ -110,7 +114,7 @@ class MenuManager
 
 
         if (isset($data_to_save['url']) && !empty($data_to_save['url'])) {
-            $data_to_save['url'] = app()->url_manager->replace_site_url($data_to_save['url']);
+            $data_to_save['url'] = UrlManager::replace_site_url($data_to_save['url']);
         }
 
         if (isset($data_to_save['parent_id'])) {
@@ -427,7 +431,7 @@ class MenuManager
 
         foreach ($q as $item) {
 
-            /*   $override = $this->app->event_manager->trigger('menu.after.get_item', $item);
+            /*   $override = EventManager::trigger('menu.after.get_item', $item);
                if (is_array($override) && isset($override[0])) {
                    $item = $override[0];
                }*/
@@ -473,7 +477,7 @@ class MenuManager
                     $title = $cont['title'];
                     $url = $this->app->category_manager->link($cont['id']);
                 } else {
-                    $this->app->database_manager->delete_by_id($menus, $item['id']);
+                    DatabaseManager::delete_by_id($menus, $item['id']);
                     $title = false;
                     $item['title'] = false;
                 }
@@ -494,12 +498,12 @@ class MenuManager
             }
 
             $active_class = '';
-            $site_url = $this->app->url_manager->site();
-            $cur_url = $this->app->url_manager->current(1);
+            $site_url = UrlManager::site();
+            $cur_url = UrlManager::current(1);
 
             if (trim($item['url'] != '')) {
 
-                $item['url'] = $this->app->format->replace_once('{SITE_URL}', $site_url, $item['url']);
+                $item['url'] = Format::replace_once('{SITE_URL}', $site_url, $item['url']);
             }
 
 
@@ -586,7 +590,7 @@ class MenuManager
                                 $sub_menu_params['table'] = $menus;
                                 $sub_menu_params['item_type'] = 'menu_item';
                                // $sub_menu_params['count'] = true;
-                                $sub_menu_q = $this->app->database_manager->get($sub_menu_params);
+                                $sub_menu_q = DatabaseManager::get($sub_menu_params);
                                 */
 
                 $sub_menu_q = app()->menu_repository->getMenusByParentIdAndItemType($item['id'], 'menu_item');
@@ -665,7 +669,7 @@ class MenuManager
 
                 }
 
-                $override = $this->app->event_manager->trigger('menu.after.get_item', $item);
+                $override = EventManager::trigger('menu.after.get_item', $item);
                 if (is_array($override) && isset($override[0])) {
                     $item = $override[0];
                 }
@@ -962,11 +966,11 @@ class MenuManager
 
         $id = $params['id'];
 
-        $id = $this->app->database_manager->escape_string($id);
+        $id = DatabaseManager::escape_string($id);
         $id = htmlspecialchars_decode($id);
         $table = 'menus';
 
-        $this->app->database_manager->delete_by_id($table, trim($id), $field_name = 'id');
+        DatabaseManager::delete_by_id($table, trim($id), $field_name = 'id');
 
         $this->app->cache_manager->delete('menus');
 
@@ -990,7 +994,7 @@ class MenuManager
             return false;
         }
         $table = 'menus';
-        $this->app->database_manager->delete_by_id($table, intval($id), $field_name = 'id');
+        DatabaseManager::delete_by_id($table, intval($id), $field_name = 'id');
         $this->app->cache_manager->delete('menus');
 
         return true;
@@ -1103,6 +1107,6 @@ class MenuManager
         $params['table'] = $table;
         $params['item_type'] = 'menu_item';
 
-        return $this->app->database_manager->get($params);
+        return DatabaseManager::get($params);
     }
 }

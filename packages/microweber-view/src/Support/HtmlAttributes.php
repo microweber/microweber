@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\View\Support;
 
+use MicroweberPackages\Format\Facades\Format;
+
+
 /**
  * Encode an associative array as HTML attributes.
  *
- * Standalone-safe replacement for app()->format->arrayToHtmlAttributes().
+ * Standalone-safe replacement for Format::arrayToHtmlAttributes().
  */
 class HtmlAttributes
 {

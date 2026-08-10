@@ -1,4 +1,6 @@
 <?php
+
+use MicroweberPackages\Event\Facades\EventManager;
 /*
  * This file is part of the Microweber framework.
  *
@@ -17,8 +19,8 @@ if (!function_exists('event_trigger')) {
      */
     function event_trigger(string $eventName, mixed $data = false): ?array
     {
-        /** @var \MicroweberPackages\Event\Event $manager */
-        $manager = app('event_manager');
+        /** @var \MicroweberPackages\Event\EventService $manager */
+        $manager = EventManager::getFacadeRoot();
 
         return $manager->trigger($eventName, $data);
     }
@@ -30,8 +32,8 @@ if (!function_exists('event_bind')) {
      */
     function event_bind(string $eventName, callable|string $callback): void
     {
-        /** @var \MicroweberPackages\Event\Event $manager */
-        $manager = app('event_manager');
+        /** @var \MicroweberPackages\Event\EventService $manager */
+        $manager = EventManager::getFacadeRoot();
         $manager->on($eventName, $callback);
     }
 }
@@ -42,8 +44,8 @@ if (!function_exists('event_unbind')) {
      */
     function event_unbind(string $eventName): void
     {
-        /** @var \MicroweberPackages\Event\Event $manager */
-        $manager = app('event_manager');
+        /** @var \MicroweberPackages\Event\EventService $manager */
+        $manager = EventManager::getFacadeRoot();
         $manager->unbind($eventName);
     }
 }
@@ -54,8 +56,8 @@ if (!function_exists('event_unbind_all')) {
      */
     function event_unbind_all(): void
     {
-        /** @var \MicroweberPackages\Event\Event $manager */
-        $manager = app('event_manager');
+        /** @var \MicroweberPackages\Event\EventService $manager */
+        $manager = EventManager::getFacadeRoot();
         $manager->unbindAll();
     }
 }

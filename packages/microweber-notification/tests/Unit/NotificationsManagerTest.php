@@ -11,6 +11,7 @@ use MicroweberPackages\Notification\Notifications\LegacyNotification;
 use MicroweberPackages\Notification\Services\EmailNotificationsManager;
 use MicroweberPackages\Notification\Services\NotificationsManager;
 use MicroweberPackages\Notification\Tests\TestCase;
+use MicroweberPackages\Notification\Facades\Notifications;
 
 class NotificationsManagerTest extends TestCase
 {
@@ -18,11 +19,11 @@ class NotificationsManagerTest extends TestCase
     {
         $this->assertTrue($this->app->bound(NotificationsManager::class));
         $this->assertTrue($this->app->bound(NotificationsManagerContract::class));
-        $this->assertTrue($this->app->bound('notifications_manager'));
+        $this->assertTrue($this->app->bound(\MicroweberPackages\Notification\Services\NotificationsManager::class));
 
         $manager = app(NotificationsManagerContract::class);
         $this->assertInstanceOf(NotificationsManager::class, $manager);
-        $this->assertSame($manager, app('notifications_manager'));
+        $this->assertSame($manager, Notifications::getFacadeRoot());
     }
 
     public function test_helper_resolves_manager(): void

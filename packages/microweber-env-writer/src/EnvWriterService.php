@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\EnvWriter;
 
-class EnvWriter
+class EnvWriterService
 {
     /**
      * Save key-value pairs to a .env file.

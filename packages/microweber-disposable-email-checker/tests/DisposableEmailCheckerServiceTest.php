@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MicroweberPackages\DisposableEmailChecker\Tests;
 
 use MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract;
-use MicroweberPackages\DisposableEmailChecker\Services\DisposableEmailChecker;
+use MicroweberPackages\DisposableEmailChecker\Services\DisposableEmailCheckerService;
 use PHPUnit\Framework\Attributes\Test;
 
 class DisposableEmailCheckerServiceTest extends TestCase
@@ -24,15 +24,15 @@ class DisposableEmailCheckerServiceTest extends TestCase
     {
         $this->assertInstanceOf(
             DisposableEmailCheckerContract::class,
-            $this->app->make('disposable_email_checker')
+            $this->app->make(\MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract::class)
         );
     }
 
     #[Test]
     public function service_is_singleton(): void
     {
-        $a = $this->app->make('disposable_email_checker');
-        $b = $this->app->make('disposable_email_checker');
+        $a = $this->app->make(\MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract::class);
+        $b = $this->app->make(\MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract::class);
 
         $this->assertSame($a, $b);
     }
@@ -41,7 +41,7 @@ class DisposableEmailCheckerServiceTest extends TestCase
     public function detects_disposable_email(): void
     {
         /** @var DisposableEmailChecker $checker */
-        $checker = $this->app->make('disposable_email_checker');
+        $checker = $this->app->make(\MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract::class);
 
         $this->assertTrue($checker->isDisposable('test@mailinator.com'));
     }
@@ -50,7 +50,7 @@ class DisposableEmailCheckerServiceTest extends TestCase
     public function allows_legitimate_email(): void
     {
         /** @var DisposableEmailChecker $checker */
-        $checker = $this->app->make('disposable_email_checker');
+        $checker = $this->app->make(\MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract::class);
 
         $this->assertFalse($checker->isDisposable('user@gmail.com'));
     }
@@ -59,7 +59,7 @@ class DisposableEmailCheckerServiceTest extends TestCase
     public function case_insensitive_check(): void
     {
         /** @var DisposableEmailChecker $checker */
-        $checker = $this->app->make('disposable_email_checker');
+        $checker = $this->app->make(\MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract::class);
 
         $this->assertTrue($checker->isDisposable('test@MAILINATOR.COM'));
     }
@@ -68,7 +68,7 @@ class DisposableEmailCheckerServiceTest extends TestCase
     public function returns_false_for_invalid_email_without_at(): void
     {
         /** @var DisposableEmailChecker $checker */
-        $checker = $this->app->make('disposable_email_checker');
+        $checker = $this->app->make(\MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract::class);
 
         $this->assertFalse($checker->isDisposable('not-an-email'));
     }
@@ -77,7 +77,7 @@ class DisposableEmailCheckerServiceTest extends TestCase
     public function blocked_domains_returns_non_empty_array(): void
     {
         /** @var DisposableEmailChecker $checker */
-        $checker = $this->app->make('disposable_email_checker');
+        $checker = $this->app->make(\MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract::class);
 
         $domains = $checker->blockedDomains();
 
@@ -90,7 +90,7 @@ class DisposableEmailCheckerServiceTest extends TestCase
     public function add_domains_extends_blocked_list(): void
     {
         /** @var DisposableEmailChecker $checker */
-        $checker = $this->app->make('disposable_email_checker');
+        $checker = $this->app->make(\MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract::class);
 
         $checker->addDomains('custom-throwaway.org');
 
@@ -101,7 +101,7 @@ class DisposableEmailCheckerServiceTest extends TestCase
     public function add_domains_accepts_array(): void
     {
         /** @var DisposableEmailChecker $checker */
-        $checker = $this->app->make('disposable_email_checker');
+        $checker = $this->app->make(\MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract::class);
 
         $checker->addDomains(['throwaway-a.org', 'throwaway-b.org']);
 
@@ -113,7 +113,7 @@ class DisposableEmailCheckerServiceTest extends TestCase
     public function add_domains_does_not_duplicate(): void
     {
         /** @var DisposableEmailChecker $checker */
-        $checker = $this->app->make('disposable_email_checker');
+        $checker = $this->app->make(\MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract::class);
 
         $beforeCount = count($checker->blockedDomains());
         $checker->addDomains('mailinator.com'); // already in the list
@@ -140,7 +140,7 @@ class DisposableEmailCheckerServiceTest extends TestCase
         // The service itself still detects disposable domains,
         // but the validator respects the enabled flag.
         /** @var DisposableEmailChecker $checker */
-        $checker = $this->app->make('disposable_email_checker');
+        $checker = $this->app->make(\MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract::class);
 
         // Direct service call still works — the flag is checked by validator/middleware
         $this->assertTrue($checker->isDisposable('test@mailinator.com'));

@@ -2,19 +2,19 @@
 
 namespace MicroweberPackages\EnvWriter\Tests;
 
-use MicroweberPackages\EnvWriter\EnvWriter;
+use MicroweberPackages\EnvWriter\EnvWriterService;
 use PHPUnit\Framework\TestCase;
 
 class EnvWriterTest extends TestCase
 {
     private string $envFile;
-    private EnvWriter $writer;
+    private EnvWriterService $writer;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->envFile = sys_get_temp_dir() . '/test_env_' . uniqid() . '.env';
-        $this->writer = new EnvWriter();
+        $this->writer = new EnvWriterService();
     }
 
     protected function tearDown(): void

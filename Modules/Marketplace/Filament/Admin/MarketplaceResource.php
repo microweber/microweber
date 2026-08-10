@@ -24,7 +24,7 @@ use MicroweberPackages\Filament\Support\AdminDisplayName;
 use MicroweberPackages\Filament\Tables\Columns\BadgesColumn;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Module\ModuleManager;
-use MicroweberPackages\PackageManagerClient\PackageManagerClient;
+use MicroweberPackages\PackageManagerClient\PackageManagerClientService;
 use Modules\Marketplace\Models\MarketplaceItem;
 
 class MarketplaceResource extends Resource

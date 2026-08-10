@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Option\Facades\Option;
+use MicroweberPackages\Format\Facades\Format;
 
 
 class NewRegistration extends Notification implements ShouldQueue
@@ -122,7 +123,7 @@ class NewRegistration extends Notification implements ShouldQueue
         }
 
         $toView['created_at'] = $this->notification->data['created_at'];
-        $toView['ago'] = app()->format->ago($this->notification->data['created_at']);
+        $toView['ago'] = Format::ago($this->notification->data['created_at']);
 
         return view('user::admin.notifications.new_user_registration', $toView);
 

@@ -41,7 +41,7 @@ db_delete('my_table', $id);
 ### Building Tables
 
 ```php
-app()->database_manager->build_table('my_table', [
+DatabaseManager::build_table('my_table', [
     'name' => 'string',
     'email' => 'string',
     'bio' => 'text',

@@ -44,7 +44,7 @@ if (class_exists(\Orchestra\Testbench\TestCase::class) && !trait_exists(\Tests\C
                 config(['class-loader' => require __DIR__ . '/../config/class-loader.php']);
             }
 
-            if (!$this->app->bound(\MicroweberPackages\ClassLoader\ClassLoader::class)) {
+            if (!$this->app->bound(\MicroweberPackages\ClassLoader\ClassLoaderService::class)) {
                 $this->app->register(\MicroweberPackages\ClassLoader\ClassLoaderServiceProvider::class);
             }
         }

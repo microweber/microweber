@@ -8,6 +8,7 @@ use Tests\TestCase;
 use Modules\Category\Models\Category;
 use Modules\Content\Models\Content;
 use Modules\CustomFields\Models\CustomFieldValue;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class DbTest extends TestCase
 {
@@ -268,7 +269,7 @@ class DbTest extends TestCase
 
     public function it_get_fields(): void {
         $table = 'content';
-        $tableFields = app()->database_manager->get_fields($table, false, true);
+        $tableFields = DatabaseManager::get_fields($table, false, true);
 
         $this->assertIsArray($tableFields);
 

@@ -13,6 +13,9 @@ use Modules\Cart\Exceptions\CartNotFoundException;
 use Modules\Cart\Exceptions\InvalidCartItemException;
 use Modules\Cart\Models\Cart;
 use Modules\Cart\Repositories\CartRepository;
+use MicroweberPackages\Format\Facades\Format;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Event\Facades\EventManager;
 
 class CartService
 {
@@ -66,7 +69,7 @@ class CartService
         $this->normalizeRelParams($params);
 
         try {
-            $get = $this->app->database_manager->get($params);
+            $get = DatabaseManager::get($params);
         } catch (QueryException $e) {
             Log::error('Failed to retrieve cart items from database', [
                 'exception' => $e->getMessage(),
@@ -100,7 +103,7 @@ class CartService
         ];
 
         try {
-            $get = $this->app->database_manager->get($params);
+            $get = DatabaseManager::get($params);
         } catch (QueryException $e) {
             Log::error('Failed to retrieve cart items by order ID', [
                 'exception' => $e->getMessage(),
@@ -112,7 +115,7 @@ class CartService
         if (!empty($get)) {
             foreach ($get as $k => $item) {
                 if (is_array($item) && isset($item['custom_fields_data']) && $item['custom_fields_data'] != '') {
-                    $item = $this->app->format->render_item_custom_fields_data($item);
+                    $item = Format::render_item_custom_fields_data($item);
                 }
 
                 if (!isset($item['item_image']) && is_array($item) && isset($item['rel_id']) && isset($item['rel_type']) && $item['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
@@ -241,7 +244,7 @@ class CartService
         ];
 
         try {
-            $this->app->database_manager->save('cart', $cartDataToSave);
+            DatabaseManager::save('cart', $cartDataToSave);
         } catch (QueryException $e) {
             Log::error('Failed to update cart item quantity', [
                 'exception' => $e->getMessage(),
@@ -441,7 +444,7 @@ class CartService
         $willAdd = true;
 
         try {
-            $res = $this->app->database_manager->get($params);
+            $res = DatabaseManager::get($params);
         } catch (QueryException $e) {
             Log::error('Failed to retrieve cart for recovery', [
                 'exception' => $e->getMessage(),
@@ -476,7 +479,7 @@ class CartService
                         ];
 
                         try {
-                            $isEx = $this->app->database_manager->get($isExParams);
+                            $isEx = DatabaseManager::get($isExParams);
                         } catch (QueryException $e) {
                             Log::error('Failed to check existing cart item during recovery', [
                                 'exception' => $e->getMessage(),
@@ -495,7 +498,7 @@ class CartService
                     if (isset($item['order_completed']) && intval($item['order_completed']) == 1) {
                         $data['id'] = $item['id'];
                         try {
-                            $this->app->database_manager->save('cart', $data);
+                            DatabaseManager::save('cart', $data);
                         } catch (QueryException $e) {
                             Log::error('Failed to save cart item during recovery', [
                                 'exception' => $e->getMessage(),
@@ -584,7 +587,7 @@ class CartService
         }
 
         // Trigger event for cart update
-        $override = $this->app->event_manager->trigger('mw.shop.update_cart', $data);
+        $override = EventManager::trigger('mw.shop.update_cart', $data);
         if (is_array($override)) {
             foreach ($override as $resp) {
                 if (is_array($resp) && !empty($resp)) {
@@ -818,7 +821,7 @@ class CartService
                 }
 
                 if (isset($item) && $found && $k != 'price' && !in_array($k, $skipKeys)) {
-                    $add[$k] = $this->app->format->clean_html($item);
+                    $add[$k] = Format::clean_html($item);
                 }
             }
         }
@@ -1052,7 +1055,7 @@ class CartService
     {
         ksort($add);
         asort($add);
-        $add = app()->format->clean_xss($add);
+        $add = Format::clean_xss($add);
 
         $cart = [
             'rel_type' => trim($for),
@@ -1076,12 +1079,12 @@ class CartService
             $data['title'] = 'Product ' . $cart['rel_id'];
         }
 
-        $cart['title'] = app()->format->clean_html($data['title']);
+        $cart['title'] = Format::clean_html($data['title']);
 
         // Add optional fields
         foreach (['other_info', 'description', 'image', 'item_image', 'link', 'currency'] as $field) {
             if (isset($data[$field]) && is_string($data[$field])) {
-                $cart[$field] = $this->app->format->clean_html($data[$field]);
+                $cart[$field] = Format::clean_html($data[$field]);
             }
         }
 
@@ -1433,7 +1436,7 @@ class CartService
                     }
 
                     if (isset($item['custom_fields_data']) && $item['custom_fields_data'] != '') {
-                        $item = $this->app->format->render_item_custom_fields_data($item);
+                        $item = Format::render_item_custom_fields_data($item);
                     }
 
                     if (isset($item['title'])) {
@@ -1467,7 +1470,7 @@ class CartService
     {
         $title = html_entity_decode($title);
         $title = strip_tags($title);
-        $title = $this->app->format->clean_html($title);
+        $title = Format::clean_html($title);
         $title = htmlspecialchars_decode($title);
         return $title;
     }

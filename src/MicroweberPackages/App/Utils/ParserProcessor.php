@@ -17,6 +17,9 @@ use MicroweberPackages\App\Utils\ParserHelpers\ParserModuleItem;
 use MicroweberPackages\App\Utils\ParserHelpers\ParserModuleItemCollection;
 use MicroweberPackages\App\Utils\ParserHelpers\TagLexer;
 use MicroweberPackages\View\MicroweberModuleTagCompiler;
+use MicroweberPackages\Event\Facades\EventManager;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class ParserProcessor
 {
@@ -211,12 +214,12 @@ class ParserProcessor
         if (!isset($this->process_layouts_loop[$parser_modules_crc])) {
             $is_first_loop = true;
             $this->process_layouts_loop[$parser_modules_crc] = true;
-            app()->event_manager->trigger('parser.process', $layout);
+            EventManager::trigger('parser.process', $layout);
         }
 //        if (!$process_started) {
 //            $process_started = true;
 //            $is_first_loop = true;
-//            app()->event_manager->trigger('parser.process', $layout);
+//            EventManager::trigger('parser.process', $layout);
 //        }
 
         if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc])) {
@@ -672,7 +675,7 @@ class ParserProcessor
                                             if ($append_to_content_id) {
                                                 if (content_id() == 0) {
                                                     if ($last_content_id == null) {
-                                                        $last_content_id = app()->database_manager->last_id('content');
+                                                        $last_content_id = DatabaseManager::last_id('content');
                                                     }
                                                     $last_content_id = intval($last_content_id) + 1;
                                                     $append_to_id = $last_content_id;
@@ -918,7 +921,7 @@ class ParserProcessor
                                     } else {
                                         $module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
                                     }
-                                    $module_name_url = app()->url_manager->slug($module_name);
+                                    $module_name_url = UrlManager::slug($module_name);
 
 
                                     if ($mod_as_element == false) {
@@ -1325,9 +1328,9 @@ class ParserProcessor
 
 
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);
-        $layout = str_replace('{SITE_URL}', app()->url_manager->site(), $layout);
-        $layout = str_replace('{MW_SITE_URL}', app()->url_manager->site(), $layout);
-        $layout = str_replace('%7BSITE_URL%7D', app()->url_manager->site(), $layout);
+        $layout = str_replace('{SITE_URL}', UrlManager::site(), $layout);
+        $layout = str_replace('{MW_SITE_URL}', UrlManager::site(), $layout);
+        $layout = str_replace('%7BSITE_URL%7D', UrlManager::site(), $layout);
 //        //  $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
         MicroweberModuleTagCompiler::enableModuleProcessing();
         return $layout;

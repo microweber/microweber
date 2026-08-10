@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Database\Eloquent\Builder;
 
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
 {
@@ -295,7 +296,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
 
     public function clearModelCache()
     {
-        app()->database_manager->clearCache();
+        DatabaseManager::clearCache();
         $tags = $this->generateCacheTags();
         \Cache::tags($tags)->flush();
         $this->_loaded_models_cache_get = [];

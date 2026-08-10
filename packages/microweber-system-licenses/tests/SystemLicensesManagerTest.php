@@ -6,6 +6,7 @@ use MicroweberPackages\SystemLicenses\Contracts\LicenseValidatorInterface;
 use MicroweberPackages\SystemLicenses\Models\SystemLicense;
 use MicroweberPackages\SystemLicenses\SystemLicensesManager;
 use MicroweberPackages\SystemLicenses\Tests\Fixtures\FakeLicenseValidator;
+use MicroweberPackages\SystemLicenses\Facades\SystemLicenses;
 
 class SystemLicensesManagerTest extends TestCase
 {
@@ -32,14 +33,14 @@ class SystemLicensesManagerTest extends TestCase
     /** @test */
     public function it_is_bound_in_the_container(): void
     {
-        $this->assertTrue($this->app->bound('system_licenses_manager'));
-        $this->assertInstanceOf(SystemLicensesManager::class, $this->app->make('system_licenses_manager'));
+        $this->assertTrue($this->app->bound(\MicroweberPackages\SystemLicenses\SystemLicensesManager::class));
+        $this->assertInstanceOf(SystemLicensesManager::class, $this->app->make(\MicroweberPackages\SystemLicenses\SystemLicensesManager::class));
     }
 
     /** @test */
     public function it_returns_empty_licenses_when_table_is_empty(): void
     {
-        $manager = app('system_licenses_manager');
+        $manager = SystemLicenses::getFacadeRoot();
 
         $this->assertEmpty($manager->getAllLicenses());
         $this->assertFalse($manager->hasLicense());
@@ -49,7 +50,7 @@ class SystemLicensesManagerTest extends TestCase
     public function it_saves_a_valid_license(): void
     {
         $this->fakeValidator->setValidKeys(['VALID-KEY-123']);
-        $manager = app('system_licenses_manager');
+        $manager = SystemLicenses::getFacadeRoot();
 
         $result = $manager->saveLicense(['local_key' => 'VALID-KEY-123']);
 
@@ -62,7 +63,7 @@ class SystemLicensesManagerTest extends TestCase
     public function it_rejects_an_invalid_license(): void
     {
         $this->fakeValidator->setValidKeys(['VALID-KEY-123']);
-        $manager = app('system_licenses_manager');
+        $manager = SystemLicenses::getFacadeRoot();
 
         $result = $manager->saveLicense(['local_key' => 'INVALID-KEY']);
 
@@ -74,7 +75,7 @@ class SystemLicensesManagerTest extends TestCase
     public function it_prevents_duplicate_license_keys(): void
     {
         $this->fakeValidator->setValidKeys(['VALID-KEY-123']);
-        $manager = app('system_licenses_manager');
+        $manager = SystemLicenses::getFacadeRoot();
 
         $first = $manager->saveLicense(['local_key' => 'VALID-KEY-123']);
         $second = $manager->saveLicense(['local_key' => 'VALID-KEY-123']);
@@ -87,7 +88,7 @@ class SystemLicensesManagerTest extends TestCase
     public function it_deletes_a_license(): void
     {
         $this->fakeValidator->setValidKeys(['KEY-TO-DELETE']);
-        $manager = app('system_licenses_manager');
+        $manager = SystemLicenses::getFacadeRoot();
 
         $saved = $manager->saveLicense(['local_key' => 'KEY-TO-DELETE']);
         $result = $manager->deleteLicense($saved['id']);
@@ -100,7 +101,7 @@ class SystemLicensesManagerTest extends TestCase
     public function it_validates_licenses_against_remote(): void
     {
         $this->fakeValidator->setValidKeys(['REMOTE-KEY']);
-        $manager = app('system_licenses_manager');
+        $manager = SystemLicenses::getFacadeRoot();
 
         // First save a license
         $manager->saveLicense(['local_key' => 'REMOTE-KEY']);
@@ -116,7 +117,7 @@ class SystemLicensesManagerTest extends TestCase
     public function it_consumes_a_license_by_id(): void
     {
         $this->fakeValidator->setValidKeys(['CONSUME-KEY']);
-        $manager = app('system_licenses_manager');
+        $manager = SystemLicenses::getFacadeRoot();
 
         $saved = $manager->saveLicense(['local_key' => 'CONSUME-KEY']);
         $result = $manager->consumeLicense($saved['id']);
@@ -127,7 +128,7 @@ class SystemLicensesManagerTest extends TestCase
     /** @test */
     public function it_returns_error_for_nonexistent_license_consume(): void
     {
-        $manager = app('system_licenses_manager');
+        $manager = SystemLicenses::getFacadeRoot();
 
         $result = $manager->consumeLicense(999);
 
@@ -138,7 +139,7 @@ class SystemLicensesManagerTest extends TestCase
     public function have_license_helper_works(): void
     {
         $this->fakeValidator->setValidKeys(['HELPER-KEY']);
-        $manager = app('system_licenses_manager');
+        $manager = SystemLicenses::getFacadeRoot();
 
         $this->assertFalse(have_license('modules/white_label'));
 
@@ -151,7 +152,7 @@ class SystemLicensesManagerTest extends TestCase
     /** @test */
     public function it_requires_local_key_param(): void
     {
-        $manager = app('system_licenses_manager');
+        $manager = SystemLicenses::getFacadeRoot();
 
         $result = $manager->saveLicense([]);
 
@@ -162,7 +163,7 @@ class SystemLicensesManagerTest extends TestCase
     public function it_saves_license_details_from_consume_response(): void
     {
         $this->fakeValidator->setValidKeys(['DETAILS-KEY']);
-        $manager = app('system_licenses_manager');
+        $manager = SystemLicenses::getFacadeRoot();
 
         $manager->saveLicense(['local_key' => 'DETAILS-KEY']);
 
@@ -181,7 +182,7 @@ class SystemLicensesManagerTest extends TestCase
     public function file_license_operations_work(): void
     {
         $this->fakeValidator->setValidKeys(['FILE-KEY']);
-        $manager = app('system_licenses_manager');
+        $manager = SystemLicenses::getFacadeRoot();
 
         // Clean up
         $manager->truncateFileLicenses();

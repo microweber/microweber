@@ -13,13 +13,13 @@ class ClassLoaderServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/class-loader.php', 'class-loader');
 
         // Honour an instance already bound early (e.g. AppServiceProvider constructor).
-        if ($this->app->bound(ClassLoader::class)) {
+        if ($this->app->bound(ClassLoaderService::class)) {
             return;
         }
 
-        $this->app->singleton(ClassLoader::class, function (): ClassLoader {
+        $this->app->singleton(ClassLoaderService::class, function (): ClassLoaderService {
             $cache = (bool) config('class-loader.cache_lookups', true);
-            $loader = new ClassLoader(new PathNormalizer(), $cache);
+            $loader = new ClassLoaderService(new PathNormalizer(), $cache);
 
             if (!(bool) config('class-loader.enabled', true)) {
                 return $loader;
@@ -55,7 +55,7 @@ class ClassLoaderServiceProvider extends ServiceProvider
         // registering (boot runs only after every register() has completed), so
         // registering the spl_autoload handler in boot() would be too late.
         if ((bool) config('class-loader.enabled', true)) {
-            $this->app->make(ClassLoader::class)->register();
+            $this->app->make(ClassLoaderService::class)->register();
         }
     }
 
@@ -70,9 +70,9 @@ class ClassLoaderServiceProvider extends ServiceProvider
         // Free lookup caches on terminate so long-running workers / test suites
         // do not retain unbounded class-path maps.
         $this->app->terminating(function (): void {
-            if ($this->app->resolved(ClassLoader::class)) {
-                /** @var ClassLoader $loader */
-                $loader = $this->app->make(ClassLoader::class);
+            if ($this->app->resolved(ClassLoaderService::class)) {
+                /** @var ClassLoaderService $loader */
+                $loader = $this->app->make(ClassLoaderService::class);
                 $loader->clearCache();
             }
         });

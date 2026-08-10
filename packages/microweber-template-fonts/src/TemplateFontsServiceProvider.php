@@ -36,7 +36,6 @@ class TemplateFontsServiceProvider extends ServiceProvider
             return new TemplateFontsManager($config);
         });
 
-        $this->app->alias(TemplateFontsManager::class, 'template-fonts');
     }
 
     public function boot(): void

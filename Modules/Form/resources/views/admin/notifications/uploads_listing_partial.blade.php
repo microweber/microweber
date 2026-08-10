@@ -1,3 +1,4 @@
+use MicroweberPackages\Format\Facades\Format;
 @once
     <small class="text-muted">Attached files:</small>
 @endonce
@@ -8,7 +9,7 @@
             @if(isset($v['url']))
             <a href="<?php echo $v['url']; ?>" target="_blank" rel="noopener noreferrer">
                 <i class="mdi {{ pathinfo($v['file_name'], PATHINFO_EXTENSION) == 'pdf' ? 'mdi-pdf-box' : 'mdi-file-check' }} text-primary mdi-18px"></i> <?php echo str_limit(basename($v['url']),30); ?>
-                (<?php echo app()->format->human_filesize($v['file_size']); ?>)
+                (<?php echo Format::human_filesize($v['file_size']); ?>)
             </a>
             @endif
         </div>

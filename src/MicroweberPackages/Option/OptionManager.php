@@ -17,6 +17,9 @@ use Cache;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\Option\Traits\ModuleOptionTrait;
+use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Event\Facades\EventManager;
 
 
 #[AllowDynamicProperties]
@@ -61,7 +64,7 @@ class OptionManager
         //   $data['cache_group'] = 'options/global';
         $data['table'] = $table;
 
-        $get = $this->app->database_manager->get($data);
+        $get = DatabaseManager::get($data);
 
         if (!empty($get)) {
             foreach ($get as $key => $value) {
@@ -69,7 +72,7 @@ class OptionManager
                     $get[$key]['field_values'] = @unserialize(base64_decode($get[$key]['field_values']), ['allowed_classes' => false]);
                 }
                 if (isset($get[$key]['option_value']) and strval($get[$key]['option_value']) != '') {
-                    $get[$key]['option_value'] = $this->app->url_manager->replace_site_url_back($get[$key]['option_value']);
+                    $get[$key]['option_value'] = UrlManager::replace_site_url_back($get[$key]['option_value']);
                 }
             }
         }
@@ -80,7 +83,7 @@ class OptionManager
     public function get_groups($is_system = false)
     {
         $table = 'options';
-        //$query = $this->app->database_manager->table($table);
+        //$query = DatabaseManager::table($table);
 
         $query = new \MicroweberPackages\Option\Models\Option();
         $query = $query->select('option_group');
@@ -114,7 +117,7 @@ class OptionManager
     public function delete($key, $option_group = false, $module_id = false)
     {
 
-        $key = $this->app->database_manager->escape_string($key);
+        $key = DatabaseManager::escape_string($key);
 
         $query = Option::query();
         $query = $query->where('option_key', '=', $key);
@@ -215,7 +218,7 @@ class OptionManager
                 $allOptions = app()->option_repository->getByParams(['option_group'=>$optionGroup]);
     //dd($allOptions);
 
-            //    $allOptions = app()->database_manager->get('table=options&option_group=' . $optionGroup);
+            //    $allOptions = DatabaseManager::get('table=options&option_group=' . $optionGroup);
                 //   dd($allOptions);
                 $this->memoryOptionGroup[$optionGroup] = $allOptions;
                 return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
@@ -286,7 +289,7 @@ class OptionManager
         if ($options) {
             foreach ($options as $option) {
                 if ($option['option_key'] == $key) {
-                    $option['option_value'] = $this->app->url_manager->replace_site_url_back($option['option_value']);
+                    $option['option_value'] = UrlManager::replace_site_url_back($option['option_value']);
                     if ($returnFull) {
                         return $option;
                     }
@@ -329,7 +332,7 @@ class OptionManager
 
         $this->clear_memory();
         app()->option_repository->clearCache();
-        app()->database_manager->clearCache();
+        DatabaseManager::clearCache();
 
         $option_group = false;
         if (is_array($data)) {
@@ -358,7 +361,7 @@ class OptionManager
                                     $data['id'] = $chck[0]['id'];
                                 } else {
                                     $table = 'options';
-                                    $copy = $this->app->database_manager->copy_row_by_id($table, $data['id']);
+                                    $copy = DatabaseManager::copy_row_by_id($table, $data['id']);
                                     $data['id'] = $copy;
                                     $this->clear_memory();
 
@@ -404,14 +407,14 @@ class OptionManager
                 }
 
                 if (isset($data['option_value']) and $data['option_value'] != false) {
-                    $data['option_value'] = $this->app->url_manager->replace_site_url($data['option_value']);
+                    $data['option_value'] = UrlManager::replace_site_url($data['option_value']);
                 }
                 $option_val = $data['option_value'];
                 $data['allow_html'] = true;
                 $data['allow_scripts'] = true;
                 $data['table'] = 'options';
 
-                // $this->app->event_manager->trigger('option.before.save', $data);
+                // EventManager::trigger('option.before.save', $data);
 
                 if (!empty($data['module'])) {
                     $findModuleOption = ModuleOption::where('option_key', $data['option_key'])
@@ -509,7 +512,7 @@ class OptionManager
                 $this->app->cache_manager->delete('content');
                 $this->app->cache_manager->delete('repositories');
                 $this->clear_memory();
-                $this->app->database_manager->clearCache();
+                DatabaseManager::clearCache();
 
                 return $save;
             }

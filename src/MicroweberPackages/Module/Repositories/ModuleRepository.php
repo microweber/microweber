@@ -6,6 +6,7 @@ namespace MicroweberPackages\Module\Repositories;
 
 use MicroweberPackages\Module\Models\Module;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use MicroweberPackages\SystemLicenses\Facades\SystemLicenses;
 
 /** @deprecated */
 class ModuleRepository extends AbstractRepository
@@ -67,7 +68,7 @@ class ModuleRepository extends AbstractRepository
             // License persistence is owned by the microweber-system-licenses package;
             // the repository is the single seam to it (the manager already guards the
             // missing-table case and returns row-arrays).
-            return app()->system_licenses_manager->getActiveLicenses();
+            return SystemLicenses::getActiveLicenses();
         });
 
     }

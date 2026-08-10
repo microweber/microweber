@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MicroweberPackages\PackageManagerClient\Tests\Feature;
 
 use MicroweberPackages\PackageManagerClient\InstallDirDetector;
-use MicroweberPackages\PackageManagerClient\PackageManagerClient;
+use MicroweberPackages\PackageManagerClient\PackageManagerClientService;
 use MicroweberPackages\PackageManagerClient\PackageManagerClientServiceProvider;
 use MicroweberPackages\PackageManagerClient\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
@@ -15,9 +15,9 @@ class ServiceProviderTest extends TestCase
     #[Test]
     public function it_registers_client_and_detector(): void
     {
-        $this->assertTrue($this->app->bound(PackageManagerClient::class));
+        $this->assertTrue($this->app->bound(PackageManagerClientService::class));
         $this->assertTrue($this->app->bound(InstallDirDetector::class));
-        $this->assertInstanceOf(PackageManagerClient::class, $this->app->make(PackageManagerClient::class));
+        $this->assertInstanceOf(PackageManagerClientService::class, $this->app->make(PackageManagerClientService::class));
         $this->assertInstanceOf(InstallDirDetector::class, $this->app->make(InstallDirDetector::class));
     }
 

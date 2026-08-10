@@ -1,32 +1,28 @@
 <?php
-/*
- * This file is part of the Microweber framework.
- *
- * (c) Microweber CMS LTD
- *
- * For full license information see
- * https://github.com/microweber/microweber/blob/master/LICENSE
- *
- */
 
-namespace MicroweberPackages\Event;
+namespace MicroweberPackages\Event\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use MicroweberPackages\Event\EventService;
 
 /**
+ * EventManager facade — greppable public API for event bind/trigger.
+ *
  * @method static void on(string $eventName, callable|string $callback)
  * @method static list<mixed>|null trigger(string $eventName, mixed $data = false)
  * @method static array<string, mixed> response(string $eventName, array<string, mixed> $criteria)
  * @method static void unbind(string $eventName)
  * @method static void unbindAll()
  * @method static bool hasListeners(string $eventName)
+ * @method static bool registerShutdownEvent(callable $callback, mixed ...$args)
  *
- * @see \MicroweberPackages\Event\Event
+ * @see \MicroweberPackages\Event\EventService
+ * @mixin \MicroweberPackages\Event\EventService
  */
-class EventManagerFacade extends Facade
+class EventManager extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'event_manager';
+        return EventService::class;
     }
 }

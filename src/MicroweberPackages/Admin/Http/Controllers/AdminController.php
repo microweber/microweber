@@ -14,6 +14,7 @@ use MicroweberPackages\User\Models\User;
 use MicroweberPackages\View\StringBlade;
 use MicroweberPackages\View\View as MicroweberView;
 use Illuminate\Support\Facades\View as LaravelView;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class AdminController extends Controller
 {
@@ -98,7 +99,7 @@ class AdminController extends Controller
         if ($force_https and !is_cli()) {
             if (!is_https()) {
                 $https = str_ireplace('http://', 'https://', url_current());
-                return app()->url_manager->redirect($https);
+                return UrlManager::redirect($https);
             }
         }
 
@@ -151,7 +152,7 @@ class AdminController extends Controller
     private function hasNoAdmin()
     {
 
-        if (app()->url_manager->param('mw_install_create_user')) {
+        if (UrlManager::param('mw_install_create_user')) {
             $this->execCreateAdmin();
         }
     }

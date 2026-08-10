@@ -9,6 +9,7 @@ use Modules\Cart\Models\Cart;
 use Modules\CustomFields\Models\CustomField;
 use Modules\CustomFields\Models\CustomFieldValue;
 use Modules\Order\Models\Order;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 
 class CustomFieldsTest extends TestCase
@@ -34,7 +35,7 @@ class CustomFieldsTest extends TestCase
         app()->content_manager->define_constants(['active_site_template' => $this->template_name]);
 
         // set permission to save custom fields (normally available to admin users)
-        app()->database_manager->extended_save_set_permission(true);
+        DatabaseManager::extended_save_set_permission(true);
 
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             $this->app->content_manager->define_constants();

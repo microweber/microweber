@@ -1,5 +1,7 @@
 <?php
 
+use MicroweberPackages\Http\Facades\Http as MicroweberHttp;
+
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
@@ -614,7 +616,7 @@ if (!function_exists('get_geolocation_detailed')) {
         $accessKey = get_option('ipstack_api_access_key', 'multilanguage_settings');
 
         if ($geolocationProvider == 'ipstack_com') {
-            $ipInfo = app()->http->url('http://api.ipstack.com/' . $ip . '?access_key=' . $accessKey)->get();
+            $ipInfo = MicroweberHttp::url('http://api.ipstack.com/' . $ip . '?access_key=' . $accessKey)->get();
         } else if ($geolocationProvider == 'domain_detection') {
             $countryCode = get_country_code_from_domain();
             $ipInfo = json_encode(array(
@@ -638,11 +640,11 @@ if (!function_exists('get_geolocation_detailed')) {
             }
 
             if ($defaultWebsiteLanguage !== $browserLanguage) {
-                $ipInfo = app()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
+                $ipInfo = MicroweberHttp::url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
             }
 
         } else {
-            $ipInfo = app()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
+            $ipInfo = MicroweberHttp::url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
         }
 
         $geoLocation = json_decode($ipInfo, true);

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\Controller;
 use MicroweberPackages\Security\HtmlClean;
+use MicroweberPackages\Url\Facades\UrlManager;
 
 class FileManagerApiController extends Controller {
 
@@ -139,7 +140,7 @@ class FileManagerApiController extends Controller {
                 $ext = strtolower(get_file_extension($file['path']));
                 if (
                     $ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp' or $ext == 'webp' or $ext == 'svg') {
-                   // $thumbnail = thumbnail(app()->url_manager->link_to_file($file), $thumbnailSize, $thumbnailSize, false);
+                   // $thumbnail = thumbnail(UrlManager::link_to_file($file), $thumbnailSize, $thumbnailSize, false);
                     $thumbnail = $file['url'];
                 } else {
                     $thumbnail ='';
@@ -257,7 +258,7 @@ class FileManagerApiController extends Controller {
             foreach ($deletePaths as $deletePath) {
 
                 $deletePath = trim($deletePath);
-                $fnRemove = app()->url_manager->to_path($deletePath);
+                $fnRemove = UrlManager::to_path($deletePath);
 
                 if (isset($fnRemove) and trim($fnRemove) != '' and trim($fnRemove) != 'false') {
 

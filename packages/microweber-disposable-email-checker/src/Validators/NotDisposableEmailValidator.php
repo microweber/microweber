@@ -6,6 +6,7 @@ namespace MicroweberPackages\DisposableEmailChecker\Validators;
 
 use Illuminate\Validation\Validator;
 use MicroweberPackages\DisposableEmailChecker\Contracts\DisposableEmailCheckerContract;
+use MicroweberPackages\DisposableEmailChecker\Facades\DisposableEmailChecker;
 
 class NotDisposableEmailValidator
 {
@@ -31,7 +32,7 @@ class NotDisposableEmailValidator
         }
 
         /** @var DisposableEmailCheckerContract $checker */
-        $checker = app('disposable_email_checker');
+        $checker = DisposableEmailChecker::getFacadeRoot();
 
         return !$checker->isDisposable($value);
     }

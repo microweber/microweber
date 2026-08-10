@@ -19,7 +19,6 @@ class ImageOptimizationServiceProvider extends ServiceProvider
             return new ImageOptimizationService();
         });
 
-        $this->app->alias(ImageOptimizationService::class, 'image-optimization');
     }
 
     public function boot(): void

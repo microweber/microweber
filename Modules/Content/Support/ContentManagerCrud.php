@@ -11,6 +11,11 @@ use Modules\Content\Exceptions\ContentNotFoundException;
 use Modules\Content\Exceptions\InvalidContentException;
 use Modules\Content\Models\Content;
 use Modules\Content\Repositories\ContentRepository;
+use MicroweberPackages\ContentField\Facades\ContentField;
+use MicroweberPackages\Repository\Facades\Repository;
+use MicroweberPackages\Url\Facades\UrlManager;
+use MicroweberPackages\Event\Facades\EventManager;
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 
 /**
@@ -47,7 +52,7 @@ class ContentManagerCrud extends Crud
         }
 
 
-        //  $this->content_repository = $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);
+        //  $this->content_repository = Repository::driver(\MicroweberPackages\Content\Content::class);
 
 
     }
@@ -328,7 +333,7 @@ class ContentManagerCrud extends Crud
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
                 if (!$do_not_replace_site_url) {
-                    $get['full_url'] = $this->app->url_manager->site($get['url']);
+                    $get['full_url'] = UrlManager::site($get['url']);
                     if ($multilangIsEnabled) {
                         $get['url'] = content_link($get['id']);
                     }
@@ -343,7 +348,7 @@ class ContentManagerCrud extends Crud
             foreach ($get as $item) {
                 if (isset($item['url'])) {
                     if (!$do_not_replace_site_url) {
-                        $item['url'] = $this->app->url_manager->site($item['url']);
+                        $item['url'] = UrlManager::site($item['url']);
                         if ($multilangIsEnabled) {
                             $item['url'] = content_link($item['id']);
                         }
@@ -368,11 +373,11 @@ class ContentManagerCrud extends Crud
 
         $passed[$url] = 1;
         if (strval($url) == '') {
-            $url = $this->app->url_manager->string();
+            $url = UrlManager::string();
         }
 
         $u1 = $url;
-        $u2 = $this->app->url_manager->site();
+        $u2 = UrlManager::site();
 
         $u1 = rtrim($u1, '\\');
         $u1 = rtrim($u1, '/');
@@ -387,7 +392,7 @@ class ContentManagerCrud extends Crud
         $url = addslashes($url);
         $url12 = parse_url($url);
         if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
-            $u1 = $this->app->url_manager->site();
+            $u1 = UrlManager::site();
             $u2 = str_replace($u1, '', $url);
             $current_url = explode('?', $u2);
             $u2 = $current_url[0];
@@ -428,7 +433,7 @@ class ContentManagerCrud extends Crud
              $content = $this->get($get);
 
              if(!$content){
-                 $get = $this->app->event_manager->trigger('content.get_by_url.not_found', $get);
+                 $get = EventManager::trigger('content.get_by_url.not_found', $get);
                  if (is_array($get) && isset($get[0])) {
                      $content = $this->get($get[0]);
                  }
@@ -444,7 +449,7 @@ class ContentManagerCrud extends Crud
                 $contentSlug = $postSlug;
             }
 
-            $get = $this->app->event_manager->trigger('app.content.get_by_url', $contentSlug);
+            $get = EventManager::trigger('app.content.get_by_url', $contentSlug);
             if (is_array($get) && isset($get[0]) && !empty($get[0])) {
                 $content = $get[0];
             } else {
@@ -534,7 +539,7 @@ class ContentManagerCrud extends Crud
                 $data['is_active'] = 1;
             }
 
-            $this->app->event_manager->trigger('content.before.save', $data);
+            EventManager::trigger('content.before.save', $data);
             if (intval($data['id']) == 0) {
                 if (isset($data['subtype']) and $data['subtype'] == 'post' and !isset($data['content_type'])) {
                     $data['subtype'] = 'post';
@@ -631,7 +636,7 @@ class ContentManagerCrud extends Crud
 
         if (isset($data['url']) == false or $data['url'] == '') {
             if (isset($data['title']) != false and intval($data ['id']) == 0) {
-                $data['url'] = $this->app->url_manager->slug($data['title']);
+                $data['url'] = UrlManager::slug($data['title']);
                 if ($data['url'] == '') {
                     $data['url'] = date('Y-M-d-His');
                 }
@@ -695,7 +700,7 @@ class ContentManagerCrud extends Crud
         $table_cats = 'categories';
 
         if (isset($data_to_save['title']) and ($data_to_save['title'] != '') and (!isset($data['url']) or trim($data['url']) == '')) {
-            $data['url'] = $this->app->url_manager->slug($data_to_save['title']);
+            $data['url'] = UrlManager::slug($data_to_save['title']);
         }
 
         if ((isset($data['id']) and intval($data['id']) == 0) or !isset($data['id'])) {
@@ -715,10 +720,10 @@ class ContentManagerCrud extends Crud
         }
         if (isset($data['url']) and $data['url'] != false) {
             if (trim($data['url']) == '') {
-                $data['url'] = $this->app->url_manager->slug($data['title']);
+                $data['url'] = UrlManager::slug($data['title']);
             }
 
-            $data['url'] = $this->app->database_manager->escape_string($data['url']);
+            $data['url'] = DatabaseManager::escape_string($data['url']);
 
 
             $date123 = date('YmdHis');
@@ -858,7 +863,7 @@ class ContentManagerCrud extends Crud
                     $par_page_new['id'] = $par_page['id'];
                     $par_page_new['subtype'] = 'dynamic';
 
-                    $par_page_new = $this->app->database_manager->save($table, $par_page_new);
+                    $par_page_new = DatabaseManager::save($table, $par_page_new);
                     $cats_modified = true;
                 }
                 if (!isset($data_to_save['categories'])) {
@@ -927,7 +932,7 @@ class ContentManagerCrud extends Crud
                 } else {
                     $pos_params['max'] = 'position';
                 }
-                $get_max_pos = $this->app->database_manager->get($pos_params);
+                $get_max_pos = DatabaseManager::get($pos_params);
                 if (is_null($get_max_pos)) {
                     $data_to_save['position'] = 1;
                 } elseif (is_int($get_max_pos) or is_string($get_max_pos)) {
@@ -985,7 +990,7 @@ class ContentManagerCrud extends Crud
         }
 
 
-        if (isset($data_to_save['url']) and $data_to_save['url'] == $this->app->url_manager->site()) {
+        if (isset($data_to_save['url']) and $data_to_save['url'] == UrlManager::site()) {
             unset($data_to_save['url']);
         }
 
@@ -1059,7 +1064,7 @@ class ContentManagerCrud extends Crud
         $this->app->permalink_manager->clearCache();
 
         try {
-            $save = $this->app->database_manager->extended_save($table, $data_to_save);
+            $save = DatabaseManager::extended_save($table, $data_to_save);
         } catch (QueryException $e) {
             Log::error('Failed to save content', [
                 'exception' => $e->getMessage(),
@@ -1107,11 +1112,11 @@ class ContentManagerCrud extends Crud
             $upd_posted = array();
             $upd_posted['posted_at'] = $data_to_save['updated_at'];
             $upd_posted['id'] = $data_to_save['parent'];
-            $save_posted = $this->app->database_manager->save($table, $upd_posted);
+            $save_posted = DatabaseManager::save($table, $upd_posted);
         }
         $after_save = $data_to_save;
         $after_save['id'] = $id;
-        $this->app->event_manager->trigger('content.after.save', $after_save);
+        EventManager::trigger('content.after.save', $after_save);
         $this->app->cache_manager->delete('content/' . $save);
 
         $this->app->cache_manager->delete('content_fields');
@@ -1124,7 +1129,7 @@ class ContentManagerCrud extends Crud
         $this->app->cache_manager->delete('options');
         $this->app->option_repository->clearCache();
         $this->app->content_repository->clearCache();
-        $this->app->database_manager->clearCache();
+        DatabaseManager::clearCache();
 
         $this->clearCache();
 
@@ -1166,11 +1171,11 @@ class ContentManagerCrud extends Crud
         }
 
         $custom_field_table = 'custom_fields';
-        $custom_field_table = $this->app->database_manager->real_table_name($custom_field_table);
+        $custom_field_table = DatabaseManager::real_table_name($custom_field_table);
 
         $sid = $this->app->user_manager->session_id();
         $media_table = 'media';
-        $media_table = $this->app->database_manager->real_table_name($media_table);
+        $media_table = DatabaseManager::real_table_name($media_table);
 
         if ($sid != false and $sid != '' and $id != false) {
 
@@ -1242,10 +1247,10 @@ class ContentManagerCrud extends Crud
         $ids = array_unique($ids);
         $ids = array_map('intval', $ids);
         $ids_implode = implode(',', $ids);
-        $table = $this->app->database_manager->real_table_name('content');
+        $table = DatabaseManager::real_table_name('content');
         $maxpos = 0;
         $get_max_pos = "SELECT max(position) AS maxpos FROM $table  WHERE id IN ($ids_implode) ";
-        $get_max_pos = $this->app->database_manager->query($get_max_pos);
+        $get_max_pos = DatabaseManager::query($get_max_pos);
         if (is_array($get_max_pos) and isset($get_max_pos[0]['maxpos'])) {
             $maxpos = intval($get_max_pos[0]['maxpos']) + 1;
         }
@@ -1355,7 +1360,7 @@ class ContentManagerCrud extends Crud
             $data['rel_id'] = $data['data-id'];
         }
 
-        return app()->content_field_manager->getField($data);
+        return ContentField::getField($data);
     }
 
 

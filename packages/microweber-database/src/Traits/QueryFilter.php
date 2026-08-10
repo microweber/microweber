@@ -5,6 +5,7 @@ namespace MicroweberPackages\Database\Traits;
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Database\Filter;
 use MicroweberPackages\Repository\Traits\FilterableByParams;
+use MicroweberPackages\Event\Facades\EventManager;
 
 trait QueryFilter
 {
@@ -836,7 +837,7 @@ trait QueryFilter
             call_user_func_array($callback, [$query, $params[$name], $table]);
         }
 
-        $query_hook = $criteria_overwrite = $this->app->event_manager->response('mw.database.' . $table . '.get.query_filter', ['query'=>$query,'params'=>$params]);
+        $query_hook = $criteria_overwrite = EventManager::response('mw.database.' . $table . '.get.query_filter', ['query'=>$query,'params'=>$params]);
         $query = $this->map_array_to_table($table, $query_hook['query']);
 
         return $query;

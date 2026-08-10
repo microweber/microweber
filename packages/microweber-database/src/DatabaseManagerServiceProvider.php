@@ -1,19 +1,10 @@
 <?php
-/*
- * This file is part of the Microweber framework.
- *
- * (c) Microweber CMS LTD
- *
- * For full license information see
- * https://github.com/microweber/microweber/blob/master/LICENSE
- *
- */
 
 namespace MicroweberPackages\Database;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-
+use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class DatabaseManagerServiceProvider extends ServiceProvider
 {
@@ -24,13 +15,9 @@ class DatabaseManagerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-
         Event::listen(['eloquent.saved: *', 'eloquent.created: *', 'eloquent.deleted: *'], function ($context) {
-            app()->database_manager->clearCache();
+            DatabaseManager::clearCache();
         });
-
-
     }
 
     /**
@@ -38,14 +25,10 @@ class DatabaseManagerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register() : void
+    public function register(): void
     {
-        /**
-         * @property \MicroweberPackages\Database\DatabaseManager $database_manager
-         */
-        $this->app->singleton('database_manager', function ($app) {
-            return new DatabaseManager($app);
+        $this->app->singleton(DatabaseManagerService::class, function ($app) {
+            return new DatabaseManagerService($app);
         });
     }
-
 }
