@@ -2,18 +2,39 @@
 
 namespace MicroweberPackages\MediaThumbnail\Tests\Feature;
 
+use MicroweberPackages\MediaThumbnail\MediaThumbnailServiceProvider;
 use MicroweberPackages\MediaThumbnail\Models\MediaThumbnail;
 use MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository;
-use MicroweberPackages\MediaThumbnail\Tests\TestCase;
+use Orchestra\Testbench\TestCase;
 
 /**
  * Tests that the package works correctly on SQLite, MySQL, and PostgreSQL.
  *
- * Each test method runs the full CRUD lifecycle. The database driver
- * is selected by the MW_TEST_DB_DRIVER env var (default: sqlite).
+ * Each test method runs the full CRUD lifecycle against an ISOLATED per-driver
+ * database (not the shared CMS install), so it extends Orchestra Testbench
+ * directly rather than the full-CMS base. The driver is selected by the
+ * MW_TEST_DB_DRIVER env var (default: sqlite).
  */
 class MultiDatabaseTest extends TestCase
 {
+    /**
+     * @param \Illuminate\Foundation\Application $app
+     * @return list<class-string>
+     */
+    protected function getPackageProviders($app): array
+    {
+        return [MediaThumbnailServiceProvider::class];
+    }
+
+    /**
+     * Create the package's table on the configured (isolated) connection.
+     * Testbench runs these and rolls them back on tearDown.
+     */
+    protected function defineDatabaseMigrations(): void
+    {
+        $this->loadMigrationsFrom(dirname(__DIR__, 2) . '/database/migrations');
+    }
+
     protected function defineEnvironment($app): void
     {
         $app['config']->set('app.key', 'base64:' . base64_encode(random_bytes(32)));

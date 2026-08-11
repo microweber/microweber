@@ -2,17 +2,14 @@
 
 namespace MicroweberPackages\MediaThumbnail\Tests;
 
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-
 /**
  * Base test case for the media-thumbnail package.
  *
- * Uses the full CMS application when available.
+ * Extends the CMS harness (Tests\TestCase), which boots the full Microweber
+ * application via Orchestra Testbench.
  */
-abstract class TestCase extends BaseTestCase
+abstract class TestCase extends \Tests\TestCase
 {
-    use \Tests\CreatesApplication;
-
     protected function setUp(): void
     {
         parent::setUp();
