@@ -4,7 +4,7 @@ namespace Modules\Breadcrumb\Providers;
 
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Breadcrumb\Filament\BreadcrumbModuleSettings;
 use Modules\Breadcrumb\Microweber\BreadcrumbModule;
 
@@ -29,6 +29,6 @@ class BreadcrumbServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(BreadcrumbModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(BreadcrumbModule::class);
+        ModuleRegistry::module(BreadcrumbModule::class);
     }
 }

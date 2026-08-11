@@ -2,7 +2,7 @@
 
 namespace Modules\Spacer\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Spacer\Filament\SpacerModuleSettings;
 
 class SpacerModule extends BaseModule

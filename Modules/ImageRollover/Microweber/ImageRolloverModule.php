@@ -4,7 +4,7 @@ namespace Modules\ImageRollover\Microweber;
 
 
 use Modules\ImageRollover\Filament\ImageRolloverModuleSettings;
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 
 class ImageRolloverModule extends BaseModule
 {

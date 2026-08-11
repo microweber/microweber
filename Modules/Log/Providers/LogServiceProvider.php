@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 
 
 class LogServiceProvider extends BaseModuleServiceProvider
@@ -45,7 +45,7 @@ class LogServiceProvider extends BaseModuleServiceProvider
         // FilamentRegistry::registerPage(LogModuleSettings::class);
 
         // Register Microweber module
-        // Microweber::module(\Modules\Log\Microweber\LogModule::class);
+        // ModuleRegistry::module(\Modules\Log\Microweber\LogModule::class);
 
     }
 

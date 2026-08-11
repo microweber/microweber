@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Modules\Newsletter\Filament\NewsletterModuleSettings;
 use Modules\Newsletter\Livewire\Admin\Filament\NewsletterImportSubscribersActionButton;
@@ -140,7 +140,7 @@ class NewsletterServiceProvider extends BaseModuleServiceProvider
         );
 
         // Register Microweber module
-        Microweber::module(\Modules\Newsletter\Microweber\NewsletterModule::class);
+        ModuleRegistry::module(\Modules\Newsletter\Microweber\NewsletterModule::class);
         $this->commands(ProcessCampaigns::class);
         $this->commands(ProcessAbandonedCarts::class);
         $this->commands(ProcessAutomationQueue::class);

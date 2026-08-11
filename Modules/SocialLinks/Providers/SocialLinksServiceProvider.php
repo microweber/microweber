@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\SocialLinks\Filament\SocialLinksModuleSettings;
 use Modules\SocialLinks\Microweber\SocialLinksModule;
 
@@ -44,7 +44,7 @@ class SocialLinksServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(SocialLinksModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\SocialLinks\Microweber\SocialLinksModule::class);
+        ModuleRegistry::module(\Modules\SocialLinks\Microweber\SocialLinksModule::class);
 
     }
 

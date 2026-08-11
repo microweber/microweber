@@ -2,7 +2,7 @@
 
 namespace Modules\SocialLinks\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\SocialLinks\Filament\SocialLinksModuleSettings;
 use Illuminate\View\View;
 

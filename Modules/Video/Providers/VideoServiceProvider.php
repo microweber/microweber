@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Video\Filament\VideoModuleSettings;
 use Modules\Video\Microweber\VideoModule;
 
@@ -40,7 +40,7 @@ class VideoServiceProvider extends BaseModuleServiceProvider
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
         FilamentRegistry::registerPage(VideoModuleSettings::class);
-        Microweber::module( VideoModule::class);
+        ModuleRegistry::module( VideoModule::class);
 
     }
 

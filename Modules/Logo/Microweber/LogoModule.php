@@ -2,7 +2,7 @@
 
 namespace Modules\Logo\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Logo\Filament\LogoModuleSettings;
 
 class LogoModule extends BaseModule

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e917a85f6512bfe867242d75a0e36df",
+    "content-hash": "4e02271716920b5fdfdebac42a57ea3c",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10982,6 +10982,79 @@
             ],
             "description": "Standalone Laravel package for JS and CSS minification. Reusable in any Laravel app. Based on fixed JShrink for JavaScript.",
             "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/module-registry",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-module-registry",
+                "reference": "2c4daa5e22673e6856576598cc477e5485ee2841"
+            },
+            "require": {
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "illuminate/view": "^10.0|^11.0|^12.0",
+                "microweber-packages/package": "^1.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "livewire/livewire": "^3.0|^4.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "livewire/livewire": "Required for the NoSettings Livewire component used as the default module settings UI",
+                "microweber-packages/filesystem": "Provides normalize_path() used by blade template scanning",
+                "microweber-packages/url": "Provides UrlManager for the optional ManagesUrl trait"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\ModuleRegistry\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\ModuleRegistry\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M -c phpstan.neon.dist"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Standalone Microweber module registry for Laravel. Register, discover, render modules and scan blade skins/templates. Usable inside the CMS or any standalone Laravel app.",
+            "homepage": "https://microweber.com",
             "support": {
                 "email": "support@microweber.com"
             },

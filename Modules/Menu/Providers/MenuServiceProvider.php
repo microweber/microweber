@@ -6,7 +6,7 @@ use Livewire\Livewire;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\Menu\Filament\Admin\MenuFilamentPlugin;
 use Modules\Menu\Filament\Admin\Pages\AdminMenusPage;
@@ -77,7 +77,7 @@ class MenuServiceProvider extends BaseModuleServiceProvider
         Livewire::component('admin-menus-list', MenusList::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Menu\Microweber\MenuModule::class);
+        ModuleRegistry::module(\Modules\Menu\Microweber\MenuModule::class);
 
         LiveEditManager::addScript('menu-module-quick-settings', asset('modules/menu/js/menu-quick-settings.js'));
 

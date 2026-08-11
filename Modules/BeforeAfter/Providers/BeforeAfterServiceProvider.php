@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\BeforeAfter\Filament\BeforeAfterModuleSettings;
 use Modules\BeforeAfter\Microweber\BeforeAfterModule;
 
@@ -44,7 +44,7 @@ class BeforeAfterServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(BeforeAfterModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\BeforeAfter\Microweber\BeforeAfterModule::class);
+        ModuleRegistry::module(\Modules\BeforeAfter\Microweber\BeforeAfterModule::class);
 
     }
 

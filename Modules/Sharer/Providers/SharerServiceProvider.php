@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Sharer\Filament\SharerModuleSettings;
 use Modules\Sharer\Microweber\SharerModule;
 
@@ -41,7 +41,7 @@ class SharerServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(SharerModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Sharer\Microweber\SharerModule::class);
+        ModuleRegistry::module(\Modules\Sharer\Microweber\SharerModule::class);
 
     }
 

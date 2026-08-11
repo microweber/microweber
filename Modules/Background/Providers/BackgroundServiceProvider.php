@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Background\Filament\BackgroundModuleSettings;
 use Modules\Background\Microweber\BackgroundModule;
 
@@ -44,7 +44,7 @@ class BackgroundServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(BackgroundModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Background\Microweber\BackgroundModule::class);
+        ModuleRegistry::module(\Modules\Background\Microweber\BackgroundModule::class);
 
     }
 

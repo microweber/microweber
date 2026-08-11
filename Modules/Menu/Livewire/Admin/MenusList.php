@@ -477,7 +477,7 @@ class MenusList extends Component implements HasForms, HasActions
     public function editAction(): Action
     {
         $menuTemplates = [];
-        $scanTemplates = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
+        $scanTemplates = new \MicroweberPackages\ModuleRegistry\Support\ScanForBladeTemplates();
         $templatesForModule = $scanTemplates->scan('modules.menu::mega_menu_templates.menu_item');
         if ($templatesForModule) {
             foreach ($templatesForModule as $template) {

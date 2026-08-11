@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use MicroweberPackages\Multilanguage\TranslateManager;
 use MicroweberPackages\Option\TranslateTables\TranslateOption;
 use Modules\ContentField\Filament\ContentFieldModuleSettings;

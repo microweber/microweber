@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Audio\Filament\AudioModuleSettings;
 use Modules\Btn\Filament\BtnModuleSettings;
 
@@ -40,7 +40,7 @@ class BtnServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
 
         FilamentRegistry::registerPage(BtnModuleSettings::class);
-        Microweber::module( \Modules\Btn\Microweber\BtnModule::class);
+        ModuleRegistry::module( \Modules\Btn\Microweber\BtnModule::class);
 
         LiveEditManager::addScript('btn-module-quick-settings', asset('modules/btn/js/quick-settings.js'));
 

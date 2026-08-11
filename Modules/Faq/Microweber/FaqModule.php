@@ -2,7 +2,7 @@
 
 namespace Modules\Faq\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Accordion\Models\Accordion;
 use Modules\Faq\Filament\FaqModuleSettings;
 use Modules\Faq\Models\Faq;

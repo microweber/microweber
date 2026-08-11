@@ -2,7 +2,7 @@
 
 namespace Modules\CustomFields\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\CustomFields\Filament\CustomFieldsModuleSettings;
 use Modules\CustomFields\Models\CustomField;
 

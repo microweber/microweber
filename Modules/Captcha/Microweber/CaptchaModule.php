@@ -2,7 +2,7 @@
 
 namespace Modules\Captcha\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Captcha\Filament\CaptchaModuleSettings;
 
 class CaptchaModule extends BaseModule

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Testimonials\Filament\TestimonialsModuleSettings;
 use Modules\Testimonials\Filament\TestimonialsTableList;
 use Modules\Testimonials\Microweber\TestimonialsModule;
@@ -40,7 +40,7 @@ class TestimonialsServiceProvider extends BaseModuleServiceProvider
 
         Livewire::component('modules.testimonials.filament.testimonials-table-list', TestimonialsTableList::class);
         FilamentRegistry::registerPage(TestimonialsModuleSettings::class);
-        Microweber::module(TestimonialsModule::class);
+        ModuleRegistry::module(TestimonialsModule::class);
 
 
 

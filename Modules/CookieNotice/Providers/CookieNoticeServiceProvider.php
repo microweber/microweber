@@ -9,7 +9,7 @@ use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\CookieNotice\Filament\Pages\CookieNoticeModuleSettingsAdmin;
 use Modules\CookieNotice\Microweber\CookieNoticeModule;
 use Modules\Settings\Filament\Pages\Settings;
@@ -46,7 +46,7 @@ class CookieNoticeServiceProvider extends BaseModuleServiceProvider
 
 
         // Register Microweber module
-        Microweber::module(CookieNoticeModule::class);
+        ModuleRegistry::module(CookieNoticeModule::class);
         $cookieName = config('modules.cookie_notice.cookie_name') ?? 'cookie_notice_accepted';
         $hasCookie = Cookie::get($cookieName);
         if (!$hasCookie) {

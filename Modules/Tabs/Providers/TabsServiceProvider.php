@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Tabs\Filament\TabsModuleSettings;
 use Modules\Tabs\Filament\TabsTableList;
 use Modules\Tabs\Microweber\TabsModule;
@@ -40,6 +40,6 @@ class TabsServiceProvider extends BaseModuleServiceProvider
 
         Livewire::component('modules.tabs.filament.tabs-table-list', TabsTableList::class);
         FilamentRegistry::registerPage(TabsModuleSettings::class);
-        Microweber::module(TabsModule::class);
+        ModuleRegistry::module(TabsModule::class);
     }
 }

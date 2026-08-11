@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Teamcard\Filament\TeamcardModuleSettings;
 use Modules\Teamcard\Filament\TeamcardTableList;
 use Modules\Teamcard\Microweber\TeamcardModule;
@@ -48,7 +48,7 @@ class TeamcardServiceProvider extends BaseModuleServiceProvider
         Livewire::component('modules.teamcard.filament.teamcard-table-list', TeamcardTableList::class);
 
         // Register Microweber module
-        Microweber::module( \Modules\Teamcard\Microweber\TeamcardModule::class);
+        ModuleRegistry::module( \Modules\Teamcard\Microweber\TeamcardModule::class);
 
     }
 

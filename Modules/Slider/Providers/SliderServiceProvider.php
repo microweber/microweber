@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Slider\Filament\SliderModuleSettings;
 use Modules\Slider\Filament\SliderTableList;
 use Modules\Slider\Microweber\SliderModule;
@@ -45,6 +45,6 @@ class SliderServiceProvider extends BaseModuleServiceProvider
         Livewire::component('modules.slider.filament.slider-table-list', SliderTableList::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Slider\Microweber\SliderModule::class);
+        ModuleRegistry::module(\Modules\Slider\Microweber\SliderModule::class);
     }
 }

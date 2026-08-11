@@ -2,7 +2,7 @@
 
 namespace Modules\Newsletter\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Newsletter\Filament\NewsletterModuleSettings;
 
 class NewsletterModule extends BaseModule

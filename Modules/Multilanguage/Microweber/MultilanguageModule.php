@@ -2,7 +2,7 @@
 
 namespace Modules\Multilanguage\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Multilanguage\Filament\MultilanguageSettings;
 
 class MultilanguageModule extends BaseModule

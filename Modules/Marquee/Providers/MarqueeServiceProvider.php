@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Marquee\Filament\MarqueeModuleSettings;
 use Modules\Marquee\Microweber\MarqueeModule;
 
@@ -44,7 +44,7 @@ class MarqueeServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(MarqueeModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Marquee\Microweber\MarqueeModule::class);
+        ModuleRegistry::module(\Modules\Marquee\Microweber\MarqueeModule::class);
 
     }
 

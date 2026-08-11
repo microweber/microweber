@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\TextType\Filament\TextTypeModuleSettings;
 use Modules\TextType\Microweber\TextTypeModule;
 
@@ -31,6 +31,6 @@ class TextTypeServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
 
         FilamentRegistry::registerPage(TextTypeModuleSettings::class);
-        Microweber::module(\Modules\TextType\Microweber\TextTypeModule::class);
+        ModuleRegistry::module(\Modules\TextType\Microweber\TextTypeModule::class);
     }
 }

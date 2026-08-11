@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Comments\Filament\Resources\CommentResource;
 use Modules\Comments\Livewire\UserCommentListComponent;
 use Modules\Comments\Livewire\UserCommentPreviewComponent;
@@ -106,6 +106,6 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
         });
 
         // Register Microweber module
-        Microweber::module(\Modules\Comments\Microweber\CommentsModule::class);
+        ModuleRegistry::module(\Modules\Comments\Microweber\CommentsModule::class);
     }
 }

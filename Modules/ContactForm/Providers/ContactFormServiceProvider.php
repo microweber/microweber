@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\ContactForm\Filament\ContactFormModuleSettings;
 use Modules\ContactForm\Microweber\ContactFormModule;
 
@@ -53,7 +53,7 @@ HTML;
         FilamentRegistry::registerPage(ContactFormModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(ContactFormModule::class);
+        ModuleRegistry::module(ContactFormModule::class);
 
     }
 

@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\TweetEmbed\Filament\TweetEmbedModuleSettings;
 use Modules\TweetEmbed\Microweber\TweetEmbedModule;
 
@@ -44,7 +44,7 @@ class TweetEmbedServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(TweetEmbedModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\TweetEmbed\Microweber\TweetEmbedModule::class);
+        ModuleRegistry::module(\Modules\TweetEmbed\Microweber\TweetEmbedModule::class);
 
     }
 

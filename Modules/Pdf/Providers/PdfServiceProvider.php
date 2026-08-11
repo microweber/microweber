@@ -5,7 +5,7 @@ namespace Modules\Pdf\Providers;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use Modules\Pdf\Filament\PdfModuleSettings;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Pdf\Microweber\PdfModule;
 
 class PdfServiceProvider extends BaseModuleServiceProvider
@@ -36,7 +36,7 @@ class PdfServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         FilamentRegistry::registerPage(PdfModuleSettings::class);
-        Microweber::module( PdfModule::class);
+        ModuleRegistry::module( PdfModule::class);
 
     }
 

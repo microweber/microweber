@@ -9,7 +9,7 @@ use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\UnlockPackage\UnlockPackageModuleSettingsPage;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Modules\Multilanguage\Filament\MultilanguageSettings;
 use Modules\Multilanguage\Filament\Pages\MultilanguageSettingsAdmin;
@@ -48,7 +48,7 @@ class MultilanguageServiceProvider extends BaseModuleServiceProvider
         );
 
         // Register Microweber module
-        Microweber::module(MultilanguageModule::class);
+        ModuleRegistry::module(MultilanguageModule::class);
         Livewire::component('modules.multilanguage::languages-table', LanguagesTable::class);
 
 

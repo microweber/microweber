@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Captcha\Livewire\CaptchaConfirmModalComponent;
 use Modules\Captcha\Filament\CaptchaModuleSettings;
 use Modules\Captcha\Microweber\CaptchaModule;
@@ -44,7 +44,7 @@ class CaptchaServiceProvider extends BaseModuleServiceProvider
         Livewire::component('captcha-confirm-modal', CaptchaConfirmModalComponent::class);
 
         // Register Microweber module
-        Microweber::module(CaptchaModule::class);
+        ModuleRegistry::module(CaptchaModule::class);
 
         FilamentRegistry::registerPage(CaptchaModuleSettings::class);
 

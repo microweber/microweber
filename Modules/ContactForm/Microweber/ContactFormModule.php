@@ -2,7 +2,7 @@
 
 namespace Modules\ContactForm\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\ContactForm\Filament\ContactFormModuleSettings;
 use Modules\ContactForm\Models\Form;
 use Modules\Teamcard\Filament\TeamcardModuleSettings;

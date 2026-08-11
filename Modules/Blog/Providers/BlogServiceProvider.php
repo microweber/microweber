@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Blog\Filament\BlogSettings;
 use Modules\Blog\Livewire\BlogComponent;
 use Modules\Blog\Microweber\BlogModule;
@@ -35,7 +35,7 @@ class BlogServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(BlogSettings::class);
 
         // Register Microweber module
-        Microweber::module(BlogModule::class);
+        ModuleRegistry::module(BlogModule::class);
     }
 
 

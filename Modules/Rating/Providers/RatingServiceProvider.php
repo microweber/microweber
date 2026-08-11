@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Rating\Filament\RatingModuleSettings;
 use Modules\Rating\Filament\RatingTableList;
 use Modules\Rating\Filament\Resources\RatingModuleResource;
@@ -50,6 +50,6 @@ class RatingServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerResource(RatingModuleResource::class,Settings::class);
 
         // Register Microweber module
-        Microweber::module(RatingModule::class);
+        ModuleRegistry::module(RatingModule::class);
     }
 }

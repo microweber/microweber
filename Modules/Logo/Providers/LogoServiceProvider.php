@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Logo\Filament\LogoModuleSettings;
 use Modules\Logo\Microweber\LogoModule;
 
@@ -44,7 +44,7 @@ class LogoServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(LogoModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Logo\Microweber\LogoModule::class);
+        ModuleRegistry::module(\Modules\Logo\Microweber\LogoModule::class);
 
     }
 

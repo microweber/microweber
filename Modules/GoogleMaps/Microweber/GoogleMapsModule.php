@@ -2,7 +2,7 @@
 
 namespace Modules\GoogleMaps\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\GoogleMaps\Filament\GoogleMapsModuleSettings;
 
 class GoogleMapsModule extends BaseModule

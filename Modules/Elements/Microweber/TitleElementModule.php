@@ -3,7 +3,7 @@
 namespace Modules\Elements\Microweber;
 
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Embed\Filament\EmbedModuleSettings;
 
 class TitleElementModule extends BaseModule

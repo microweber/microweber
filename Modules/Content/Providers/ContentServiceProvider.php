@@ -19,7 +19,7 @@ use Modules\Content\Tools\PostListTool;
 use Livewire\Livewire;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\Content\Filament\Admin\ContentResource;
 use Modules\Content\Filament\Admin\Pages\ContentTypesPage;
@@ -110,7 +110,7 @@ class ContentServiceProvider extends BaseModuleServiceProvider
         // task-2026-05-16-299f78 / AI-732 Phase 1 — Content Types
         // listing page at /admin/content-types.
         FilamentRegistry::registerPage(ContentTypesPage::class);
-        Microweber::module(ContentModule::class);
+        ModuleRegistry::module(ContentModule::class);
 
 
 

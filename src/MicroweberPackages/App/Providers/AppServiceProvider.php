@@ -37,7 +37,7 @@ use MicroweberPackages\Format\FormatService;
 use MicroweberPackages\Install\Console\Commands\InstallCommand;
 use MicroweberPackages\DbMigrator\MicroweberMigrator;
 use MicroweberPackages\Config\ConfigServiceProvider;
-use MicroweberPackages\Microweber\Providers\MicroweberServiceProvider;
+use MicroweberPackages\App\Providers\MicroweberServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Option\Console\Commands\OptionCommand;

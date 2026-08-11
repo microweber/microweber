@@ -2,7 +2,7 @@
 
 namespace Modules\Breadcrumb\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Breadcrumb\Filament\BreadcrumbModuleSettings;
 
 class BreadcrumbModule extends BaseModule

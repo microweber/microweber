@@ -4,7 +4,7 @@ namespace Modules\GoogleMaps\Providers;
 
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\GoogleMaps\Filament\GoogleMapsModuleSettings;
 use Modules\GoogleMaps\Microweber\GoogleMapsModule;
 
@@ -33,7 +33,7 @@ class GoogleMapsServiceProvider extends BaseModuleServiceProvider
 
 
         FilamentRegistry::registerPage(GoogleMapsModuleSettings::class);
-        Microweber::module( GoogleMapsModule::class);
+        ModuleRegistry::module( GoogleMapsModule::class);
 
 
     }

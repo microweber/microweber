@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\CustomFields\Filament\Admin\ListCustomFields;
 use Modules\CustomFields\Filament\CustomFieldsModuleSettings;
@@ -78,7 +78,7 @@ class CustomFieldsServiceProvider extends BaseModuleServiceProvider
         );
 
         // Register Microweber module
-        Microweber::module(\Modules\CustomFields\Microweber\CustomFieldsModule::class);
+        ModuleRegistry::module(\Modules\CustomFields\Microweber\CustomFieldsModule::class);
 
     }
 

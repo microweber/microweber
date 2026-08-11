@@ -2,7 +2,7 @@
 
 namespace Modules\Blog\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Blog\Filament\BlogSettings;
 
 class BlogModule extends BaseModule

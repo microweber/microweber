@@ -2,7 +2,7 @@
 
 namespace Modules\Slider\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Slider\Filament\SliderModuleSettings;
 use Modules\Slider\Models\Slider;
 use MicroweberPackages\Url\Facades\UrlManager;

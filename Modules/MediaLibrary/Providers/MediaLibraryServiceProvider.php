@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 
 
 class MediaLibraryServiceProvider extends BaseModuleServiceProvider
@@ -50,7 +50,7 @@ class MediaLibraryServiceProvider extends BaseModuleServiceProvider
         );
 
         // Register Microweber module
-        // Microweber::module(\Modules\MediaLibrary\Microweber\MediaLibraryModule::class);
+        // ModuleRegistry::module(\Modules\MediaLibrary\Microweber\MediaLibraryModule::class);
 
     }
 

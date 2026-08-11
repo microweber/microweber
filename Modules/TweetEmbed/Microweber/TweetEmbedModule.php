@@ -2,7 +2,7 @@
 
 namespace Modules\TweetEmbed\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\TweetEmbed\Filament\TweetEmbedModuleSettings;
 
 class TweetEmbedModule extends BaseModule

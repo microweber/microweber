@@ -282,6 +282,14 @@
             <directory>Templates/*/Tests</directory>
         </testsuite>
     
+
+        <testsuite name="Module-Registry">
+            <directory>packages/microweber-module-registry/tests</directory>
+            <exclude>packages/microweber-module-registry/tests/Dusk</exclude>
+            <exclude>packages/microweber-module-registry/tests/TestCase.php</exclude>
+            <exclude>packages/microweber-module-registry/tests/Fixtures</exclude>
+        </testsuite>
+
         <testsuite name="Package-Loader">
             <directory>packages/microweber-package/tests</directory>
             <exclude>packages/microweber-package/tests/Dusk</exclude>
@@ -298,6 +306,7 @@
             <directory>packages/microweber-url/src</directory>
             <directory>packages/microweber-format/src</directory>
             <directory>packages/microweber-view/src</directory>
+            <directory>packages/microweber-module-registry/src</directory>
             <directory>packages/laravel-helper-functions/src</directory>
         </include>
         <exclude>

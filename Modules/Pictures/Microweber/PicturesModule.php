@@ -2,7 +2,7 @@
 
 namespace Modules\Pictures\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Content\Models\Content;
 use Modules\Media\Models\Media;
 use Modules\Pictures\Filament\PicturesModuleSettings;

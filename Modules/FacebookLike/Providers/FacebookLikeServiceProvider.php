@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\FacebookLike\Filament\FacebookLikeModuleSettings;
 use Modules\FacebookLike\Microweber\FacebookLikeModule;
 
@@ -41,6 +41,6 @@ class FacebookLikeServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(FacebookLikeModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(FacebookLikeModule::class);
+        ModuleRegistry::module(FacebookLikeModule::class);
     }
 }

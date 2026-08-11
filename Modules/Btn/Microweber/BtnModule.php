@@ -2,7 +2,7 @@
 
 namespace Modules\Btn\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Btn\Filament\BtnModuleSettings;
 
 class BtnModule extends BaseModule

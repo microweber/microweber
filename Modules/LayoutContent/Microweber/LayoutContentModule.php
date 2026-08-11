@@ -4,7 +4,7 @@ namespace Modules\LayoutContent\Microweber;
 
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\LayoutContent\Filament\LayoutContentModuleSettings;
 use Modules\LayoutContent\Models\LayoutContentItem;
 use MicroweberPackages\Url\Facades\UrlManager;

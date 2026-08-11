@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Accordion\Filament\AccordionModuleSettings;
 use Modules\Accordion\Filament\AccordionTableList;
 use Modules\Accordion\Microweber\AccordionModule;
@@ -47,7 +47,7 @@ class AccordionServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(AccordionModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(AccordionModule::class);
+        ModuleRegistry::module(AccordionModule::class);
 
     }
 

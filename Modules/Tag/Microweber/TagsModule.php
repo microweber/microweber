@@ -2,7 +2,7 @@
 
 namespace Modules\Tag\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Tag\Filament\TagsModuleSettings;
 
 class TagsModule extends BaseModule

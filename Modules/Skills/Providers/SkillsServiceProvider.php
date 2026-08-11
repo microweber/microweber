@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Skills\Filament\SkillsModuleSettings;
 use Modules\Skills\Microweber\SkillsModule;
 
@@ -41,7 +41,7 @@ class SkillsServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(SkillsModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Skills\Microweber\SkillsModule::class);
+        ModuleRegistry::module(\Modules\Skills\Microweber\SkillsModule::class);
 
     }
 

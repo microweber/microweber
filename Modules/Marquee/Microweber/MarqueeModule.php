@@ -2,7 +2,7 @@
 
 namespace Modules\Marquee\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Marquee\Filament\MarqueeModuleSettings;
 
 class MarqueeModule extends BaseModule

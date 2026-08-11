@@ -2,7 +2,7 @@
 
 namespace Modules\Sharer\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Sharer\Filament\SharerModuleSettings;
 use Illuminate\View\View;
 use Modules\SocialLinks\Filament\SocialLinksModuleSettings;

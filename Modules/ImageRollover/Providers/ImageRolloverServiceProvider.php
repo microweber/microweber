@@ -4,7 +4,7 @@ namespace Modules\ImageRollover\Providers;
 
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\ImageRollover\Filament\ImageRolloverModuleSettings;
 use Modules\ImageRollover\Microweber\ImageRolloverModule;
 
@@ -36,6 +36,6 @@ class ImageRolloverServiceProvider extends BaseModuleServiceProvider
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(ImageRolloverModuleSettings::class);
         // Register Microweber module
-        Microweber::module(ImageRolloverModule::class);
+        ModuleRegistry::module(ImageRolloverModule::class);
     }
 }

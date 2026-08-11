@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Shop\Filament\Clusters\ShopSettings;
 use Modules\Shop\Filament\ShopModuleSettings;
 use Modules\Shop\Livewire\ShopComponent;
@@ -55,7 +55,7 @@ class ShopServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(ShopModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Shop\Microweber\ShopModule::class);
+        ModuleRegistry::module(\Modules\Shop\Microweber\ShopModule::class);
 
     }
 

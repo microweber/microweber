@@ -3,7 +3,7 @@
 namespace Modules\Rating\Microweber;
 
 use Illuminate\Support\Facades\Cache;
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Rating\Filament\RatingModuleSettings;
 use Modules\Rating\Models\Rating;
 

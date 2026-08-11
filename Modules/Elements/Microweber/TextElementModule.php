@@ -2,7 +2,7 @@
 
 namespace Modules\Elements\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 
 class TextElementModule extends BaseModule
 {

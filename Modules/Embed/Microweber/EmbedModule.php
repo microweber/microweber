@@ -2,7 +2,7 @@
 
 namespace Modules\Embed\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Embed\Filament\EmbedModuleSettings;
 
 class EmbedModule extends BaseModule

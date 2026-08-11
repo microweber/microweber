@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\FileManager\Filament\Pages\FileManagerPageAdmin;
 use Modules\Settings\Filament\Pages\Settings;
 
@@ -50,7 +50,7 @@ class FileManagerServiceProvider extends BaseModuleServiceProvider
         );
 
         // Register Microweber module
-        // Microweber::module(\Modules\FileManager\Microweber\FileManagerModule::class);
+        // ModuleRegistry::module(\Modules\FileManager\Microweber\FileManagerModule::class);
 
     }
 

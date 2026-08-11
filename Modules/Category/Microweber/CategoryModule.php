@@ -2,7 +2,7 @@
 
 namespace Modules\Category\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Category\Filament\CategoryModuleSettings;
 
 class CategoryModule extends BaseModule

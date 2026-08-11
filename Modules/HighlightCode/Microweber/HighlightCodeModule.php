@@ -2,7 +2,7 @@
 
 namespace Modules\HighlightCode\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\HighlightCode\Filament\HighlightCodeModuleSettings;
 
 class HighlightCodeModule extends BaseModule

@@ -2,7 +2,7 @@
 
 namespace Modules\Pdf\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Pdf\Filament\PdfModuleSettings;
 
 class PdfModule extends BaseModule

@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 
 
 class ExportServiceProvider extends BaseModuleServiceProvider
@@ -43,7 +43,7 @@ class ExportServiceProvider extends BaseModuleServiceProvider
         // FilamentRegistry::registerPage(ExportModuleSettings::class);
 
         // Register Microweber module
-        // Microweber::module(\Modules\Export\Microweber\ExportModule::class);
+        // ModuleRegistry::module(\Modules\Export\Microweber\ExportModule::class);
 
     }
 

@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\Tag\Filament\Resources\TagGroupResource;
 use Modules\Tag\Filament\Resources\TaggedResource;
@@ -57,7 +57,7 @@ class TagServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerResource(TaggedResource::class);
 
         // Register Microweber module
-        Microweber::module(TagsModule::class);
+        ModuleRegistry::module(TagsModule::class);
 
     }
 

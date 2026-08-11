@@ -4,7 +4,7 @@ namespace Modules\Teamcard\Microweber;
 
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Teamcard\Filament\TeamcardModuleSettings;
 use Modules\Teamcard\Models\Teamcard;
 use Modules\Testimonials\Models\Testimonial;

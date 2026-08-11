@@ -4,7 +4,7 @@ namespace Modules\Cart\Providers;
 
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Cart\Filament\CartAddModuleSettings;
 use Modules\Cart\Microweber\CartAddModule;
 use Modules\Cart\Repositories\CartManager;
@@ -80,8 +80,8 @@ class CartServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(CartAddModuleSettings::class);
 
         // Register Microweber module
-        // Microweber::module(\Modules\Cart\Microweber\CartModule::class);
-        Microweber::module(CartAddModule::class);
+        // ModuleRegistry::module(\Modules\Cart\Microweber\CartModule::class);
+        ModuleRegistry::module(CartAddModule::class);
 
     }
 

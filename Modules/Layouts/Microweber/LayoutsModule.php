@@ -2,7 +2,7 @@
 
 namespace Modules\Layouts\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Layouts\Filament\LayoutsModuleSettings;
 
 class LayoutsModule extends BaseModule

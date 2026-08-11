@@ -3,7 +3,7 @@
 namespace Modules\Search\Microweber;
 
 use Illuminate\View\View;
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Search\Filament\SearchSettings;
 
 class SearchModule extends BaseModule

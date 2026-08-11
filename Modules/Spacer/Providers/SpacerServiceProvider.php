@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Spacer\Filament\SpacerModuleSettings;
 use Modules\Spacer\Microweber\SpacerModule;
 
@@ -42,6 +42,6 @@ class SpacerServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(SpacerModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(SpacerModule::class);
+        ModuleRegistry::module(SpacerModule::class);
     }
 }

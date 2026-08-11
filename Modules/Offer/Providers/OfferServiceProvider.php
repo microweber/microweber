@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Offer\Filament\Admin\Resources\OfferResource;
 use Modules\Offer\Models\Offer;
 
@@ -58,7 +58,7 @@ class OfferServiceProvider extends BaseModuleServiceProvider
         );
 
         // Register Microweber module
-        // Microweber::module(\Modules\Offer\Microweber\OfferModule::class);
+        // ModuleRegistry::module(\Modules\Offer\Microweber\OfferModule::class);
 
     }
 

@@ -4,7 +4,7 @@ namespace Modules\Category\Providers;
 
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\Category\Filament\CategoryModuleSettings;
 use Modules\Category\Models\Category;
@@ -62,7 +62,7 @@ class CategoryServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(CategoryModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Category\Microweber\CategoryModule::class);
+        ModuleRegistry::module(\Modules\Category\Microweber\CategoryModule::class);
 
     }
 

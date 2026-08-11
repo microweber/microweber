@@ -5,7 +5,7 @@ namespace Modules\FacebookPage\Providers;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\FacebookPage\Filament\FacebookPageModuleSettings;
 
 class FacebookPageServiceProvider extends BaseModuleServiceProvider
@@ -24,6 +24,6 @@ class FacebookPageServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         FilamentRegistry::registerPage(FacebookPageModuleSettings::class);
-        Microweber::module(\Modules\FacebookPage\Microweber\FacebookPageModule::class);
+        ModuleRegistry::module(\Modules\FacebookPage\Microweber\FacebookPageModule::class);
     }
 }

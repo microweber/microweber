@@ -3,7 +3,7 @@
 namespace Modules\GoogleAnalytics\Microweber;
 
 use Illuminate\Support\Facades\Blade;
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\FacebookPage\Filament\FacebookPageModuleSettings;
 
 class GoogleAnalyticsModule extends BaseModule

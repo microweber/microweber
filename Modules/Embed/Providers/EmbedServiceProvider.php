@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Embed\Filament\EmbedModuleSettings;
 use Modules\Embed\Microweber\EmbedModule;
 
@@ -42,7 +42,7 @@ class EmbedServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(EmbedModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Embed\Microweber\EmbedModule::class);
+        ModuleRegistry::module(\Modules\Embed\Microweber\EmbedModule::class);
 
     }
 

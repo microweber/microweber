@@ -2,7 +2,7 @@
 
 namespace Modules\Content\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Content\Filament\ContentModuleSettings;
 use Modules\Content\Models\Content;
 

@@ -2,7 +2,7 @@
 
 namespace Modules\TextType\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\TextType\Filament\TextTypeModuleSettings;
 
 class TextTypeModule extends BaseModule

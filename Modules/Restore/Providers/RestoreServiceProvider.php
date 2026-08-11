@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 
 
 class RestoreServiceProvider extends BaseModuleServiceProvider
@@ -43,7 +43,7 @@ class RestoreServiceProvider extends BaseModuleServiceProvider
         // FilamentRegistry::registerPage(RestoreModuleSettings::class);
 
         // Register Microweber module
-        // Microweber::module(\Modules\Restore\Microweber\RestoreModule::class);
+        // ModuleRegistry::module(\Modules\Restore\Microweber\RestoreModule::class);
 
     }
 

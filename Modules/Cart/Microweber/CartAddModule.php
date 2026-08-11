@@ -2,7 +2,7 @@
 
 namespace Modules\Cart\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Cart\Filament\CartAddModuleSettings;
 
 class CartAddModule extends BaseModule

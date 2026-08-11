@@ -49,7 +49,7 @@ class ModuleAdminManager
     public function getSettingsComponents()
     {
         $old = $this->settingsComponent;
-        $newCoponents  =  \MicroweberPackages\Microweber\Facades\Microweber::getSettingsComponents();
+        $newCoponents  =  \MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry::getSettingsComponents();
         $all = $old;
         if($newCoponents){
             $all = array_merge($old, $newCoponents);

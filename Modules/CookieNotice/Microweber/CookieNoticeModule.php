@@ -3,7 +3,7 @@
 namespace Modules\CookieNotice\Microweber;
 
 use Illuminate\Support\Facades\Cookie;
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use MicroweberPackages\Module\AbstractModule;
 use Modules\ContactForm\Filament\ContactFormModuleSettings;
 use Modules\ContactForm\Models\Form;

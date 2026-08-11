@@ -2,7 +2,7 @@
 
 namespace Modules\Shop\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Shop\Filament\ShopModuleSettings;
 
 class ShopModule extends BaseModule

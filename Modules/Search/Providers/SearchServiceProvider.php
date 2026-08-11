@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Search\Filament\SearchSettings;
 use Modules\Search\Livewire\SearchComponent;
 use Modules\Search\Microweber\SearchModule;
@@ -52,6 +52,6 @@ class SearchServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(SearchSettings::class);
 
         // Register Microweber module
-        Microweber::module(SearchModule::class);
+        ModuleRegistry::module(SearchModule::class);
     }
 }

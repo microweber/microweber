@@ -15,7 +15,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Content\Filament\ContentModuleSettings;
 use Modules\Order\Events\OrderWasPaid;
 use Modules\Product\Listeners\UpdateInventoryOnOrderPaid;
@@ -78,7 +78,7 @@ class ProductServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerResource(ProductVariantAttributeResource::class);
         FilamentRegistry::registerResource(ProductInventoryResource::class);
         FilamentRegistry::registerPage(ProductsModuleSettings::class);
-        Microweber::module(\Modules\Product\Microweber\ProductsModule::class);
+        ModuleRegistry::module(\Modules\Product\Microweber\ProductsModule::class);
 
         // Register Inventory Service
         $this->app->singleton(InventoryService::class, function ($app) {

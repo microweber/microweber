@@ -2,7 +2,7 @@
 
 namespace Modules\BeforeAfter\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\BeforeAfter\Filament\BeforeAfterModuleSettings;
 
 class BeforeAfterModule extends BaseModule

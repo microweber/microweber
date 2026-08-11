@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\AiWizard\Livewire\SectionProcessor;
 
 
@@ -47,7 +47,7 @@ class AiWizardServiceProvider extends BaseModuleServiceProvider
         Livewire::component('modules.aiwizard::section-processor', SectionProcessor::class);
 
         // Register Microweber module
-        // Microweber::module(\Modules\AiWizard\Microweber\AiWizardModule::class);
+        // ModuleRegistry::module(\Modules\AiWizard\Microweber\AiWizardModule::class);
 
     }
 

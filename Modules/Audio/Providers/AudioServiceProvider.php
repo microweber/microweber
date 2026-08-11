@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use MicroweberPackages\Module\Http\Controllers\ModuleController;
 use Modules\Audio\Filament\AudioModuleSettings;
 
@@ -41,7 +41,7 @@ class AudioServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(AudioModuleSettings::class);
 
 
-        Microweber::module(\Modules\Audio\Microweber\AudioModule::class);
+        ModuleRegistry::module(\Modules\Audio\Microweber\AudioModule::class);
 
 
     }

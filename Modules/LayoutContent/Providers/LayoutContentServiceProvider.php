@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\LayoutContent\Filament\LayoutContentModuleSettings;
 use Modules\LayoutContent\Filament\LayoutContentTableList;
 use Modules\LayoutContent\Microweber\LayoutContentModule;
@@ -48,7 +48,7 @@ class LayoutContentServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(LayoutContentModuleSettings::class);
 
         // Register Microweber module
-         Microweber::module(LayoutContentModule::class);
+         ModuleRegistry::module(LayoutContentModule::class);
 
     }
 

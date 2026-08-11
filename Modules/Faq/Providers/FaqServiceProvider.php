@@ -5,7 +5,7 @@ namespace Modules\Faq\Providers;
 use Livewire\Livewire;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Faq\Filament\FaqModuleSettings;
 use Modules\Faq\Filament\FaqTableList;
 use Modules\Faq\Filament\Resources\FaqModuleResource;
@@ -52,6 +52,6 @@ class FaqServiceProvider extends BaseModuleServiceProvider
         );
 
         // Register Microweber module
-        Microweber::module(FaqModule::class);
+        ModuleRegistry::module(FaqModule::class);
     }
 }

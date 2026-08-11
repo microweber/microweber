@@ -17,7 +17,7 @@ use MicroweberPackages\SystemLicenses\SystemLicensesManager;
 use MicroweberPackages\Url\UrlManagerService;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
-use MicroweberPackages\Microweber\Repositories\MicroweberRepository;
+use MicroweberPackages\ModuleRegistry\ModuleRegistryManager;
 use MicroweberPackages\Module\ModuleManager;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
@@ -108,7 +108,7 @@ use Modules\Shop\Services\ShopManager;
  * @property Translator $translator
  * @property MultilanguageRepository $multilanguage_repository
  * @property TranslateManager $translate_manager
- * @property  MicroweberRepository $microweber
+ * @property  ModuleRegistryManager $microweber
  * @property PaymentMethodManager $payment_method_manager
  * @property ShippingMethodManager $shipping_method_manager
  * @property LaravelTemplatesFileRepository $templates

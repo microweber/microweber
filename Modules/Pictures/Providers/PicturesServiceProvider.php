@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Pictures\Filament\PicturesModuleSettings;
 use Modules\Pictures\Filament\PicturesTableList;
 use Modules\Pictures\Microweber\PicturesModule;
@@ -43,6 +43,6 @@ class PicturesServiceProvider extends BaseModuleServiceProvider
         Livewire::component('modules.pictures.filament.pictures-table-list', PicturesTableList::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Pictures\Microweber\PicturesModule::class);
+        ModuleRegistry::module(\Modules\Pictures\Microweber\PicturesModule::class);
     }
 }

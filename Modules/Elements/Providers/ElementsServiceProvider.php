@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 
 
 class ElementsServiceProvider extends BaseModuleServiceProvider
@@ -43,13 +43,13 @@ class ElementsServiceProvider extends BaseModuleServiceProvider
         // FilamentRegistry::registerPage(ElementsModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Elements\Microweber\TitleElementModule::class);
-        Microweber::module(\Modules\Elements\Microweber\TextElementModule::class);
-        Microweber::module(\Modules\Elements\Microweber\PictureElementModule::class);
-        Microweber::module(\Modules\Elements\Microweber\EmptyElementModule::class);
-        Microweber::module(\Modules\Elements\Microweber\IconElementModule::class);
-        Microweber::module(\Modules\Elements\Microweber\InlineTableElementModule::class);
-        Microweber::module(\Modules\Elements\Microweber\MultipleColumnsElementModule::class);
+        ModuleRegistry::module(\Modules\Elements\Microweber\TitleElementModule::class);
+        ModuleRegistry::module(\Modules\Elements\Microweber\TextElementModule::class);
+        ModuleRegistry::module(\Modules\Elements\Microweber\PictureElementModule::class);
+        ModuleRegistry::module(\Modules\Elements\Microweber\EmptyElementModule::class);
+        ModuleRegistry::module(\Modules\Elements\Microweber\IconElementModule::class);
+        ModuleRegistry::module(\Modules\Elements\Microweber\InlineTableElementModule::class);
+        ModuleRegistry::module(\Modules\Elements\Microweber\MultipleColumnsElementModule::class);
 
     }
 

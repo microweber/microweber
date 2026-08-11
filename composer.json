@@ -183,7 +183,8 @@
         "microweber-packages/package-manager-client": "*@dev",
         "microweber-packages/notification": "^1.0",
         "microweber-packages/ai-tools": "*@dev",
-        "microweber-packages/package": "^1.0"
+        "microweber-packages/package": "^1.0",
+        "microweber-packages/module-registry": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -250,7 +251,8 @@
             "MicroweberPackages\\Queue\\": "packages/microweber-queue/src/",
             "MicroweberPackages\\PackageManagerClient\\": "packages/microweber-package-manager-client/src/",
             "MicroweberPackages\\AiTools\\": "packages/microweber-ai-tools/src/",
-            "MicroweberPackages\\Package\\": "packages/microweber-package/src/"
+            "MicroweberPackages\\Package\\": "packages/microweber-package/src/",
+            "MicroweberPackages\\ModuleRegistry\\": "packages/microweber-module-registry/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -321,7 +323,8 @@
             "MicroweberPackages\\Http\\Tests\\": "packages/microweber-http/tests/",
             "MicroweberPackages\\Repository\\Tests\\": "packages/microweber-repository/tests/",
             "MicroweberPackages\\PhpQuery\\Tests\\": "packages/microweber-phpquery/tests/",
-            "MicroweberPackages\\Package\\Tests\\": "packages/microweber-package/tests/"
+            "MicroweberPackages\\Package\\Tests\\": "packages/microweber-package/tests/",
+            "MicroweberPackages\\ModuleRegistry\\Tests\\": "packages/microweber-module-registry/tests/"
         }
     },
     "scripts": {
@@ -416,6 +419,7 @@
         "laravel": {
             "dont-discover": [
                 "microweber-packages/package",
+                "microweber-packages/module-registry",
                 "microweber-packages/core",
                 "microweber-packages/filesystem",
                 "microweber-packages/format",
@@ -470,7 +474,8 @@
                 "microweber-packages/queue",
                 "microweber-packages/package-manager-client",
                 "microweber-packages/notification",
-                "microweber-packages/ai-tools"
+                "microweber-packages/ai-tools",
+                "microweber-packages/module-registry"
             ]
         },
         "merge-plugin": {
@@ -866,6 +871,14 @@
         {
             "type": "path",
             "url": "packages/microweber-queue",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-module-registry",
             "options": {
                 "reference": "config",
                 "symlink": true

@@ -15,7 +15,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Layouts\Filament\LayoutsModuleSettings;
 use Modules\Layouts\Microweber\LayoutsModule;
 
@@ -60,7 +60,7 @@ class LayoutsServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(LayoutsModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Layouts\Microweber\LayoutsModule::class);
+        ModuleRegistry::module(\Modules\Layouts\Microweber\LayoutsModule::class);
   //  use Filament\Support\Assets\Js;
 
 //        FilamentAsset::register([

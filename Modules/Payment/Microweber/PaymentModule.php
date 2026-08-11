@@ -2,7 +2,7 @@
 
 namespace Modules\Payment\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Category\Filament\CategoryModuleSettings;
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
 

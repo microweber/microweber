@@ -2,7 +2,7 @@
 
 namespace Modules\Post\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Content\Microweber\ContentModule;
 use Modules\Post\Filament\PostModuleSettings;
 use Modules\Post\Models\Post;

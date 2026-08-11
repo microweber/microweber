@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Post\Filament\Admin\Resources\PostResource;
 use Modules\Post\Filament\PostModuleSettings;
 use Modules\Post\Microweber\PostModule;
@@ -40,6 +40,6 @@ class PostServiceProvider extends BaseModuleServiceProvider
 
         FilamentRegistry::registerResource(PostResource::class);
         FilamentRegistry::registerPage(PostModuleSettings::class);
-        Microweber::module(\Modules\Post\Microweber\PostModule::class);
+        ModuleRegistry::module(\Modules\Post\Microweber\PostModule::class);
     }
 }

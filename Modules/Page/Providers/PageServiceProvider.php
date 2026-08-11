@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Page\Filament\PageModuleSettings;
 use Modules\Page\Filament\Resources\PageResource;
 use Modules\Page\Microweber\PageModule;
@@ -42,7 +42,7 @@ class PageServiceProvider extends BaseModuleServiceProvider
 
         FilamentRegistry::registerResource(PageResource::class);
         FilamentRegistry::registerPage(PageModuleSettings::class);
-        Microweber::module(\Modules\Page\Microweber\PageModule::class);
+        ModuleRegistry::module(\Modules\Page\Microweber\PageModule::class);
 
     }
 

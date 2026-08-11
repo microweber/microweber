@@ -2,7 +2,7 @@
 
 namespace Modules\Comments\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use MicroweberPackages\Module\ModuleServiceProvider;
 use Modules\Comments\Filament\CommentsModuleSettings;
 use Modules\Comments\Services\CommentsManager;

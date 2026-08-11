@@ -14,7 +14,7 @@ use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\CodeEditorModul
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\ModulePresetsModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\ResetContentModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\UnlockPackage\UnlockPackageModuleSettingsPage;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Modules\Settings\Filament\Pages\Settings;
 use Modules\WhiteLabel\Filament\Admin\WhiteLabelLicenseManager;
@@ -91,7 +91,7 @@ class WhiteLabelServiceProvider extends BaseModuleServiceProvider
         );
 
         // Register Microweber module
-        Microweber::module(WhiteLabelModule::class);
+        ModuleRegistry::module(WhiteLabelModule::class);
 
 
 

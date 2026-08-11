@@ -4,7 +4,7 @@ namespace Modules\Testimonials\Microweber;
 
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Testimonials\Filament\TestimonialsModuleSettings;
 use Modules\Testimonials\Models\Testimonial;
 use MicroweberPackages\Url\Facades\UrlManager;

@@ -2,7 +2,7 @@
 
 namespace Modules\Menu\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Menu\Filament\MenuModuleSettings;
 
 class MenuModule extends BaseModule

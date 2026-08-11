@@ -2,7 +2,7 @@
 
 namespace Modules\Skills\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\Skills\Filament\SkillsModuleSettings;
 
 class SkillsModule extends BaseModule

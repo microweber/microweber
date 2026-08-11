@@ -2,7 +2,7 @@
 
 namespace Modules\FacebookLike\Microweber;
 
-use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\ModuleRegistry\Abstract\BaseModule;
 use Modules\FacebookLike\Filament\FacebookLikeModuleSettings;
 
 class FacebookLikeModule extends BaseModule
