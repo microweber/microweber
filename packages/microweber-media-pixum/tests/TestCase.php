@@ -2,19 +2,14 @@
 
 namespace MicroweberPackages\MediaPixum\Tests;
 
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-
 /**
  * Base test case for the media-pixum package.
  *
- * When running inside the CMS (Tests\CreatesApplication exists),
- * the full application is booted. For standalone usage with
- * Orchestra Testbench, extend this class and override as needed.
+ * Extends the CMS harness (Tests\TestCase), which boots the full Microweber
+ * application via Orchestra Testbench.
  */
-abstract class TestCase extends BaseTestCase
+abstract class TestCase extends \Tests\TestCase
 {
-    use \Tests\CreatesApplication;
-
     protected function setUp(): void
     {
         parent::setUp();
