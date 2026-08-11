@@ -2,12 +2,17 @@
 
 namespace Tests;
 
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithConsoleEvents;
+use MicroweberPackages\Core\tests\TestCase as MicroweberTestCase;
 
-abstract class TestCase extends \MicroweberPackages\Core\tests\TestCase
+/**
+ * Application test case — extends the CMS Testbench base.
+ *
+ * Orchestra Testbench boots the full Microweber application (via
+ * MicroweberPackages\Core\tests\TestCase::applicationBasePath()).
+ */
+abstract class TestCase extends MicroweberTestCase
 {
-    use CreatesApplication;
     use WithConsoleEvents;
 
     protected function setUp(): void
@@ -19,5 +24,4 @@ abstract class TestCase extends \MicroweberPackages\Core\tests\TestCase
     {
         parent::tearDown();
     }
-
 }

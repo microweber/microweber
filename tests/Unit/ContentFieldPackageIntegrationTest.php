@@ -11,7 +11,7 @@ use MicroweberPackages\ContentField\ContentFieldDraftModel;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use MicroweberPackages\ContentField\Facades\ContentField;
-use MicroweberPackages\Url\Facades\Url as MwUrl;
+use MicroweberPackages\Url\Facades\UrlManager as MwUrl;
 
 /**
  * Integration tests confirming the microweber-content-field package is

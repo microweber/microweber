@@ -11,8 +11,8 @@ use MicroweberPackages\Security\Facades\XSSSecurity as XSSSecurityFacade;
 use MicroweberPackages\Security\HtmlClean;
 use MicroweberPackages\Security\XSSClean;
 use MicroweberPackages\Security\XSSSecurity;
-use MicroweberPackages\Url\Facades\Url as MwUrl;
-use MicroweberPackages\Url\UrlManager;
+use MicroweberPackages\Url\Facades\UrlManager as MwUrl;
+use MicroweberPackages\Url\UrlManagerService;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -44,8 +44,8 @@ class SecurityAndUrlPackageIntegrationTest extends TestCase
     #[Test]
     public function url_manager_binding_resolves(): void
     {
-        $this->assertInstanceOf(UrlManager::class, MwUrl::getFacadeRoot());
-        $this->assertSame(app(UrlManager::class), MwUrl::getFacadeRoot());
+        $this->assertInstanceOf(UrlManagerService::class, MwUrl::getFacadeRoot());
+        $this->assertSame(app(UrlManagerService::class), MwUrl::getFacadeRoot());
     }
 
     #[Test]

@@ -34,7 +34,7 @@ if (!is_array(\$__mwModuleAttrs)) {
     \$__mwModuleAttrs = [];
 }
 \$__mwAttrString = '';
-if (app()->bound(\\{$formatService}) && class_exists(\\{$formatFacade})) {
+if (app()->bound(\\{$formatService}::class) && class_exists(\\{$formatFacade}::class)) {
     \$__mwAttrString = \\{$formatFacade}::arrayToHtmlAttributes(\$__mwModuleAttrs);
 } else {
     \$__mwAttrString = \\{$htmlAttributes}::toString(\$__mwModuleAttrs);

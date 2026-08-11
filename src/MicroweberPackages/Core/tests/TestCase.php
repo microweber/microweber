@@ -9,43 +9,97 @@ use Illuminate\Support\Facades\DB;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\DbInstaller\DbInstaller;
 use MicroweberPackages\User\Models\User;
+use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
 use Symfony\Component\Mime\Part\TextPart;
-use Tests\CreatesApplication;
 
-abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
+/**
+ * Base CMS test case powered by Orchestra Testbench.
+ *
+ * Points Testbench at the real Microweber application root so the full
+ * bootstrap/app.php stack is used, while inheriting Testbench's package-testing
+ * APIs (defineEnvironment, getEnvironmentSetUp, getPackageProviders, etc.).
+ */
+abstract class TestCase extends OrchestraTestCase
 {
-    use CreatesApplication;
-
     public $parserErrorStrings = ['mw_replace_back', 'tag-comment', 'mw-unprocessed-module-tag', 'parser_'];
+
     private $sqlite_file = 'phpunit.sqlite';
+
     public $template_name = '';
+
+    /**
+     * Full CMS needs Composer package discovery (Filament, Livewire, modules, etc.).
+     * Testbench defaults this to false for isolated package tests.
+     *
+     * @var bool
+     */
+    protected $enablesPackageDiscoveries = true;
+
+    /**
+     * Use the monorepo application root (not Testbench's default skeleton).
+     */
+    public static function applicationBasePath(): string
+    {
+        return dirname(__DIR__, 4);
+    }
+
+    /**
+     * Boot the full Microweber application instead of Testbench's skeleton.
+     *
+     * Testbench's default createApplication() re-runs LoadConfiguration via the
+     * console kernel bootstrap and replaces Microweber's ConfigRepository (with
+     * save()) with a plain Illuminate\Config\Repository. Using the real app
+     * bootstrap preserves package discovery, Filament, modules, and custom config.
+     *
+     * @return \Illuminate\Foundation\Application
+     */
+    public function createApplication()
+    {
+        $app = require static::applicationBasePath() . '/bootstrap/app.php';
+
+        $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+
+        // Honour Testbench environment hooks so package-style tests can still
+        // call defineEnvironment() / getEnvironmentSetUp().
+        $this->defineEnvironment($app);
+        $this->getEnvironmentSetUp($app);
+
+        return $app;
+    }
 
     protected function setUp(): void
     {
         ini_set('memory_limit', '4096M');
         ini_set('max_execution_time', '3000');
-        parent::setUp();
 
+        // Orchestra's setUpTheTestEnvironment() is final — install after the app boots.
+        $this->afterApplicationCreated(function () {
+            $this->ensureMicroweberInstalled();
+        });
+
+        parent::setUp();
     }
 
-    protected function setUpTheTestEnvironment(): void
+    /**
+     * Ensure the CMS is installed once per PHPUnit process (mirrors the previous
+     * setUpTheTestEnvironment install gate).
+     */
+    protected function ensureMicroweberInstalled(): void
     {
-
-
-        parent::setUpTheTestEnvironment();
-        $installed = \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
-        if (!defined('MW_UNIT_TEST')) {
+        if (! defined('MW_UNIT_TEST')) {
             define('MW_UNIT_TEST', true);
         }
 
+        $installed = \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
+
         // Also check if the database actually has tables (handles case where
         // MW_IS_INSTALLED=1 but the database is empty or freshly created)
-        if ($installed && !defined('MW_UNIT_TEST_DB_VERIFIED')) {
+        if ($installed && ! defined('MW_UNIT_TEST_DB_VERIFIED')) {
             try {
                 $hasTable = \Illuminate\Support\Facades\Schema::hasTable('options');
-                if (!$hasTable) {
+                if (! $hasTable) {
                     $installed = false;
                 }
             } catch (\Exception $e) {
@@ -54,20 +108,19 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             define('MW_UNIT_TEST_DB_VERIFIED', true);
         }
 
-        if (!$installed) {
+        if (! $installed) {
             $this->install();
         }
     }
 
     public function install()
     {
-
         $testing_env_name = 'testing';
         $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
 
         $config_folder = __DIR__ . '/../../../../config/';
 
-        if (!is_dir($config_folder)) {
+        if (! is_dir($config_folder)) {
             mkdir($config_folder);
         }
 
@@ -80,7 +133,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         // Reuse the existing app instance instead of creating a new one
         $app = $this->app ?? app();
 
-        if (!defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
+        if (! defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
 
             define('MW_UNIT_TEST_CONF_FILE_CREATED', true);
 
@@ -89,7 +142,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $environment = $app->environment();
             $this->sqlite_file = $this->normalizePath(storage_path() . '/phpunit.' . $environment . '.sqlite', false);
 
-            if (!defined('MW_UNIT_TEST_DB_CLEANED')) {
+            if (! defined('MW_UNIT_TEST_DB_CLEANED')) {
                 if (is_file($this->sqlite_file)) {
                     @unlink($this->sqlite_file);
                 }
@@ -165,15 +218,10 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $is_installed = mw_is_installed();
             $this->assertEquals(1, $is_installed);
 
-            // Persist to the env repository so setUpTheTestEnvironment() and
+            // Persist to the env repository so ensureMicroweberInstalled() and
             // assertPreConditions() see MW_IS_INSTALLED=1 in all subsequent tests
             // without re-running the installer.
             \Illuminate\Support\Env::getRepository()->set('MW_IS_INSTALLED', '1');
-
-//            Config::set('mail.driver', 'array');
-//            Config::set('queue.driver', 'sync');
-//            Config::set('mail.transport', 'array');
-//            Config::set('cache.default', 'array');
         }
 
         return $app;
@@ -219,7 +267,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $this->markTestSkipped('Not in testing environment');
         }
 
-        if (!env('MW_IS_INSTALLED')) {
+        if (! env('MW_IS_INSTALLED')) {
             $this->install();
         }
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
@@ -264,7 +312,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $emailAsArray['from'] = $emailOriginal->getFrom()[0]->getAddress();
         $emailAsArray['replyTo'] = false;
 
-        if (isset($emailOriginal->getReplyTo()[0]) && !empty($emailOriginal->getReplyTo()[0]->getAddress())) {
+        if (isset($emailOriginal->getReplyTo()[0]) && ! empty($emailOriginal->getReplyTo()[0]->getAddress())) {
             $emailAsArray['replyTo'] = $emailOriginal->getReplyTo()[0]->getAddress();
         }
 
@@ -273,7 +321,6 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     protected function tearDown(): void
     {
-
         $this->template_name = '';
 
         /*
@@ -301,7 +348,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             \phpQuery::unloadDocuments();
         }
 
-        // Use Laravel's standard tearDown which properly flushes and destroys the app
+        // Use Orchestra Testbench's standard tearDown which properly flushes and destroys the app
         parent::tearDown();
 
         // Force garbage collection
@@ -337,10 +384,10 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         $user = User::where('is_admin', 1)->first();
 
-        if (!$user) {
+        if (! $user) {
             $user = new User();
-            $user->username = 'test'.uniqid();
-            $user->password = 'test'.uniqid();
+            $user->username = 'test' . uniqid();
+            $user->password = 'test' . uniqid();
             $user->email = 'bobi@microweber.com';
             $user->is_admin = 1;
             $user->save();

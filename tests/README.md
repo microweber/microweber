@@ -11,6 +11,7 @@
 ## Source of Truth
 - `phpunit.xml` defines the canonical PHPUnit suite layout.
 - `./run-tests.sh` is the preferred broad-run entrypoint because it splits suites into separate PHP processes to avoid long-run memory fragmentation.
+- Application, module, and template tests extend `Tests\TestCase`, which is backed by **Orchestra Testbench** (`MicroweberPackages\Core\tests\TestCase`). Standalone package suites under `packages/*` may use Testbench directly.
 
 ## Common Commands
 
