@@ -194,7 +194,8 @@
         "staudenmeir/dusk-updater": "^1.5",
         "filament/upgrade": "^5.0",
         "larastan/larastan": "^3.9",
-        "nunomaduro/phpinsights": "^2.0"
+        "nunomaduro/phpinsights": "^2.0",
+        "orchestra/testbench": "^9.17"
     },
     "autoload": {
         "psr-4": {

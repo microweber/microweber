@@ -350,6 +350,25 @@ install_global_satis() {
 }
 
 # ---------------------------------------------------------------------------
+# 4c. Global Orchestra Testbench
+# ---------------------------------------------------------------------------
+install_global_testbench() {
+  log "Ensuring global Orchestra Testbench (orchestra/testbench)"
+
+  local composer_home
+  composer_home="$($COMPOSER_BIN global config home --absolute 2>/dev/null || true)"
+  [ -n "$composer_home" ] || die "Could not resolve Composer global home."
+
+  if $COMPOSER_BIN global show orchestra/testbench --no-interaction 2>/dev/null | grep -q 'orchestra/testbench'; then
+    ok "Global orchestra/testbench already present"
+  else
+    $COMPOSER_BIN global require orchestra/testbench --no-interaction --prefer-dist --no-progress \
+      && ok "Global orchestra/testbench installed" \
+      || warn "Could not install orchestra/testbench globally — install manually: composer global require orchestra/testbench"
+  fi
+}
+
+# ---------------------------------------------------------------------------
 # 5. Node package dependencies + bundles
 # ---------------------------------------------------------------------------
 install_node_deps() {
@@ -1228,6 +1247,7 @@ else
   install_php_deps
   install_global_laravel_installer
   install_global_satis
+  install_global_testbench
 fi
 
 # Always ensure .env exists and APP_ENV=testing is set before any artisan call.
@@ -1316,6 +1336,13 @@ if command -v satis >/dev/null 2>&1; then
   ok "Satis         available — $(which satis)"
 else
   warn "Satis         not found — run: composer global require composer/satis"
+fi
+
+# Orchestra Testbench
+if composer global show orchestra/testbench --no-interaction 2>/dev/null | grep -q 'orchestra/testbench'; then
+  ok "Testbench     orchestra/testbench globally installed"
+else
+  warn "Testbench     not found — run: composer global require orchestra/testbench"
 fi
 
 # MySQL
