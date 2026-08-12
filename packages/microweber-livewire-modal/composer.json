@@ -1,0 +1,61 @@
+{
+    "name": "microweber-packages/livewire-modal",
+    "description": "Standalone Livewire modal package for Laravel. Supports stacked/nested modals, unique multi-instance IDs, skins, and configurable close/backdrop/escape options. Drop-in replacement for wire-elements/modal with multi-instance fixes.",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "keywords": [
+        "laravel",
+        "livewire",
+        "modal",
+        "microweber",
+        "dialog"
+    ],
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        },
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/view": "^10.0|^11.0|^12.0",
+        "livewire/livewire": "^3.0|^4.0",
+        "spatie/laravel-package-tools": "^1.16"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.0",
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\LivewireModal\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\LivewireModal\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "homepage": "https://microweber.com",
+    "support": {
+        "email": "support@microweber.com"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=512M"
+    }
+}

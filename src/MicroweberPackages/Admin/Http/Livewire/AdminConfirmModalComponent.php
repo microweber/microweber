@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Admin\Http\Livewire;
 
 class AdminConfirmModalComponent extends AdminModalComponent
@@ -9,7 +10,8 @@ class AdminConfirmModalComponent extends AdminModalComponent
     public $button_text = 'Confirm';
     public $data = [];
 
-    public $modalSettings = [
+    /** @var array<string, mixed> */
+    public array $modalSettings = [
         'overlay' => true,
         'overlayClose' => true,
         'width' => '500px',

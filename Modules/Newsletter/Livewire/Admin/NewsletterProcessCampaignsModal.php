@@ -11,7 +11,7 @@ class NewsletterProcessCampaignsModal extends AdminModalComponent
     private $logger;
     public $logPublicUrl = '';
 
-    public $modalSettings = [
+    public array $modalSettings = [
         'width'=>'900px',
         'overlay' => true,
         'overlayClose' => true,

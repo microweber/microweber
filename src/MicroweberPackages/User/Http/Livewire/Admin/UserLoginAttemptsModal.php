@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\User\Http\Livewire\Admin;
 
-use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 
 class UserLoginAttemptsModal extends AdminModalComponent

@@ -36,7 +36,6 @@
         "filament/infolists": "~5.0",
         "filament/support": "~5.0",
         "microweber-deps/eloquent-serialize": "^1.2",
-        "wire-elements/modal": "^3.0",
         "akaunting/laravel-money": "^5.2|^6.0",
         "alexwestergaard/php-ga4": "dev-master",
         "fruitcake/laravel-debugbar": "^4.0",
@@ -184,7 +183,8 @@
         "microweber-packages/notification": "^1.0",
         "microweber-packages/ai-tools": "*@dev",
         "microweber-packages/package": "^1.0",
-        "microweber-packages/module-registry": "^1.0"
+        "microweber-packages/module-registry": "^1.0",
+        "microweber-packages/livewire-modal": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -253,7 +253,8 @@
             "MicroweberPackages\\PackageManagerClient\\": "packages/microweber-package-manager-client/src/",
             "MicroweberPackages\\AiTools\\": "packages/microweber-ai-tools/src/",
             "MicroweberPackages\\Package\\": "packages/microweber-package/src/",
-            "MicroweberPackages\\ModuleRegistry\\": "packages/microweber-module-registry/src/"
+            "MicroweberPackages\\ModuleRegistry\\": "packages/microweber-module-registry/src/",
+            "MicroweberPackages\\LivewireModal\\": "packages/microweber-livewire-modal/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -325,7 +326,8 @@
             "MicroweberPackages\\Repository\\Tests\\": "packages/microweber-repository/tests/",
             "MicroweberPackages\\PhpQuery\\Tests\\": "packages/microweber-phpquery/tests/",
             "MicroweberPackages\\Package\\Tests\\": "packages/microweber-package/tests/",
-            "MicroweberPackages\\ModuleRegistry\\Tests\\": "packages/microweber-module-registry/tests/"
+            "MicroweberPackages\\ModuleRegistry\\Tests\\": "packages/microweber-module-registry/tests/",
+            "MicroweberPackages\\LivewireModal\\Tests\\": "packages/microweber-livewire-modal/tests/"
         }
     },
     "scripts": {
@@ -457,7 +459,6 @@
                 "coolsam/modules",
                 "savannabits/filament-modules",
                 "mhmiton/laravel-modules-livewire",
-                "wire-elements/modal",
                 "rappasoft/laravel-livewire-tables",
                 "rtconner/laravel-tagging",
                 "butschster/meta-tags",
@@ -476,7 +477,8 @@
                 "microweber-packages/package-manager-client",
                 "microweber-packages/notification",
                 "microweber-packages/ai-tools",
-                "microweber-packages/module-registry"
+                "microweber-packages/module-registry",
+                "microweber-packages/livewire-modal"
             ]
         },
         "merge-plugin": {
@@ -507,6 +509,13 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
+        {
+            "type": "path",
+            "url": "packages/microweber-livewire-modal",
+            "options": {
+                "symlink": true
+            }
+        },
         {
             "type": "path",
             "url": "packages/microweber-package",

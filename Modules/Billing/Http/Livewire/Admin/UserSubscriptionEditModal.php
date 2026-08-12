@@ -3,7 +3,7 @@
 namespace Modules\Billing\Http\Livewire\Admin;
 
 use Carbon\Carbon;
-use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\LivewireModal\ModalComponent;
 use Modules\Billing\Models\SubscriptionManual;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\SaasPanel\UserDemo;

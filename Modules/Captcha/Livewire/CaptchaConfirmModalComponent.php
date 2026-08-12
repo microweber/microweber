@@ -3,7 +3,7 @@
 namespace Modules\Captcha\Livewire;
 
 use Livewire\Attributes\On;
-use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\LivewireModal\ModalComponent;
 
 class CaptchaConfirmModalComponent extends ModalComponent
 {

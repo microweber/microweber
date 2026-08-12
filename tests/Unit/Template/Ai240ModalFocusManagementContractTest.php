@@ -31,12 +31,13 @@ use PHPUnit\Framework\TestCase;
  */
 class Ai240ModalFocusManagementContractTest extends TestCase
 {
-    private const MW_MODAL_BLADE = __DIR__ . '/../../../src/MicroweberPackages/Livewire/resources/views/mw-modal.blade.php';
+    private const MW_MODAL_BLADE = __DIR__ . '/../../../packages/microweber-livewire-modal/resources/views/partials/scripts.blade.php';
+    private const MW_MODAL_SKIN = __DIR__ . '/../../../packages/microweber-livewire-modal/resources/views/skins/default.blade.php';
 
     #[Test]
     public function modal_wrapper_carries_role_dialog_aria_modal_and_tabindex(): void
     {
-        $blade = $this->readFile(self::MW_MODAL_BLADE);
+        $blade = $this->readFile(self::MW_MODAL_SKIN);
 
         $this->assertMatchesRegularExpression(
             '/class="js-modal-livewire[^"]*"[^>]*\srole="dialog"/s',
@@ -93,7 +94,7 @@ class Ai240ModalFocusManagementContractTest extends TestCase
         );
 
         $this->assertMatchesRegularExpression(
-            "/window\\.Livewire\\.dispatch\\('closeModal'\\)/",
+            "/window\\.Livewire\\.dispatch\\('closeModal'/",
             $blade,
             "AI-240: Escape handling must dispatch Livewire's 'closeModal' event so the trap close matches the click-to-close path."
         );

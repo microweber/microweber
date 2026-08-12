@@ -9,7 +9,7 @@ class NewsletterChooseTemplateModal extends AdminModalComponent
 {
     public $emailTemplates = [];
 
-    public $modalSettings = [
+    public array $modalSettings = [
         'width'=>'900px',
         'overlay' => true,
         'overlayClose' => true,

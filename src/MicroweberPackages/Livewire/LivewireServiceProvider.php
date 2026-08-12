@@ -24,7 +24,6 @@ use MicroweberPackages\Livewire\Mechanisms\HandleRequests\MwLivewireHandleReques
 
 //use Livewire\LivewireServiceProvider as BaseLivewireServiceProvider;
 //use Livewire\Mechanisms\HandleRequests\HandleRequests;
-//use LivewireUI\Modal\LivewireModalServiceProvider;
 //use MicroweberPackages\Livewire\Mechanisms\FrontendAssets\MwLivewireFrontendAssets;
 //use MicroweberPackages\Livewire\Mechanisms\HandleRequests\MwLivewireHandleRequests;
 //use Rappasoft\LaravelLivewireTables\LaravelLivewireTablesServiceProvider;
@@ -167,13 +166,8 @@ class LivewireServiceProvider extends ServiceProvider
         View::addNamespace('livewire', __DIR__ . '/resources/views');
 
 
-        // Load UI Modal
-        //       app()->register(LivewireModalServiceProvider::class);
-//        $this->mergeConfigFrom(__DIR__.'/config/livewire-ui-modal.php', 'livewire-ui-modal');
-//
-
-        // the new mw dialog
-        app()->register(LivewireMwModalServiceProvider::class);
+        // Livewire modal stack (packages/microweber-livewire-modal)
+        app()->register(\MicroweberPackages\LivewireModal\LivewireModalServiceProvider::class);
         // $resolver = app()->make(MwLivewireComponentResolver::class);
         //  dd($reg,$resolver);
         //app()->make(\Livewire\Mechanisms\ComponentRegistry::class)->resolveMissingComponent($resolver);

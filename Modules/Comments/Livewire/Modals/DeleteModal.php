@@ -3,7 +3,7 @@
 namespace Modules\Comments\Livewire\Modals;
 
 use Livewire\Component;
-use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\LivewireModal\ModalComponent;
 use Modules\Comments\Models\Comment;
 use Modules\Comments\Livewire\AuthorizesEditCommentsRequests;
 

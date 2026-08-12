@@ -3,17 +3,15 @@
 namespace Modules\Comments\Livewire\Modals;
 
 use Livewire\Component;
-use LivewireUI\Modal\Contracts\ModalComponent;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Validator;
-use LivewireUI\Modal\Modal;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
-use MicroweberPackages\Livewire\MwModal;
+use MicroweberPackages\LivewireModal\ModalComponent;
 use Modules\Comments\Livewire\AuthorizesEditCommentsRequests;
 use Modules\Comments\Models\Comment;
 use Modules\Comments\Services\CommentsManager;
 
-class EditModal extends \LivewireUI\Modal\ModalComponent
+class EditModal extends ModalComponent
 {
     use AuthorizesEditCommentsRequests;
 

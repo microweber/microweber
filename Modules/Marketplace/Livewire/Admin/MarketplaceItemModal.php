@@ -4,7 +4,6 @@ namespace Modules\Marketplace\Livewire\Admin;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
-use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\PackageManagerClient\PackageFormatter;
 use MicroweberPackages\PackageManagerClient\PackageManagerClientService;
@@ -15,7 +14,7 @@ class MarketplaceItemModal extends AdminModalComponent
     public $package = [];
     public $installVersion = '';
 
-    public $modalSettings = [
+    public array $modalSettings = [
      //   'width'=>'800px',
         'overlay' => true,
         'overlayClose' => true,

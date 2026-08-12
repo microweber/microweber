@@ -3,13 +3,14 @@
 namespace MicroweberPackages\Admin\Http\Livewire;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\LivewireModal\ModalComponent;
 
 class AdminModalComponent extends ModalComponent
 {
     use AuthorizesRequests;
 
-    public $modalSettings = [
+    /** @var array<string, mixed> */
+    public array $modalSettings = [
         'overlay' => true,
         'overlayClose' => true,
     ];

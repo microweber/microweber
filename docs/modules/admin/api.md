@@ -169,7 +169,7 @@ class MyAdminWidget extends AdminComponent
 
 ### `AdminModalComponent`
 
-`MicroweberPackages\Admin\Http\Livewire\AdminModalComponent`. Extends `LivewireUI\Modal\ModalComponent`. Provides:
+`MicroweberPackages\Admin\Http\Livewire\AdminModalComponent`. Extends `MicroweberPackages\LivewireModal\ModalComponent`. Provides:
 
 - Default modal settings (overlay on, click-outside-to-close on).
 - `authorize('isAdmin')` in `mount()`.

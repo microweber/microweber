@@ -11,7 +11,7 @@ use MicroweberPackages\Http\Facades\Http as MicroweberHttp;
 
 class NewsletterImportSubscribersModal extends AdminModalComponent
 {
-    public $modalSettings = [
+    public array $modalSettings = [
         'width'=>'700px',
         'overlay' => true,
         'overlayClose' => true,

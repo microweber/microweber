@@ -2,7 +2,7 @@
 
 namespace Modules\Billing\Http\Livewire\Admin;
 
-use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\LivewireModal\ModalComponent;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Models\SubscriptionPlanGroup;
 /* @deprecated */

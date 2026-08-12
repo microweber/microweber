@@ -9,7 +9,7 @@ class AskForModuleUninstallModal extends AdminModalComponent
     public $moduleId = '';
     public $moduleData = [];
 
-    public $modalSettings = [
+    public array $modalSettings = [
         'width'=>'400px',
         'overlay' => true,
         'overlayClose' => true,

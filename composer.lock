@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62e0715191aa54129ff7740b9b4db7c5",
+    "content-hash": "259643befe658576c2f516551deba31a",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10674,6 +10674,76 @@
                 }
             ],
             "description": "Helper functions for Microweber",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/livewire-modal",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-livewire-modal",
+                "reference": "05daa249519dc319bc8cf718aca533d5c2775157"
+            },
+            "require": {
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "illuminate/view": "^10.0|^11.0|^12.0",
+                "livewire/livewire": "^3.0|^4.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\LivewireModal\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\LivewireModal\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Standalone Livewire modal package for Laravel. Supports stacked/nested modals, unique multi-instance IDs, skins, and configurable close/backdrop/escape options. Drop-in replacement for wire-elements/modal with multi-instance fixes.",
+            "homepage": "https://microweber.com",
+            "keywords": [
+                "dialog",
+                "laravel",
+                "livewire",
+                "microweber",
+                "modal"
+            ],
+            "support": {
+                "email": "support@microweber.com"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -24627,70 +24697,6 @@
                 "source": "https://github.com/wikimedia/less.php/tree/v3.2.1"
             },
             "time": "2023-02-03T06:43:41+00:00"
-        },
-        {
-            "name": "wire-elements/modal",
-            "version": "3.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wire-elements/modal.git",
-                "reference": "3c17ed4e5d1506773db37dbbfdcacff12b037317"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wire-elements/modal/zipball/3c17ed4e5d1506773db37dbbfdcacff12b037317",
-                "reference": "3c17ed4e5d1506773db37dbbfdcacff12b037317",
-                "shasum": ""
-            },
-            "require": {
-                "livewire/livewire": "^3.2.3|^4.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.9"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.5",
-                "phpunit/phpunit": "^9.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "LivewireUI\\Modal\\LivewireModalServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "LivewireUI\\Modal\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Philo Hermans",
-                    "email": "me@philohermans.com"
-                }
-            ],
-            "description": "Laravel Livewire modal component",
-            "keywords": [
-                "laravel",
-                "livewire",
-                "modal"
-            ],
-            "support": {
-                "issues": "https://github.com/wire-elements/modal/issues",
-                "source": "https://github.com/wire-elements/modal/tree/3.0.4"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/PhiloNL",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-01-23T11:08:48+00:00"
         },
         {
             "name": "zircote/swagger-php",
