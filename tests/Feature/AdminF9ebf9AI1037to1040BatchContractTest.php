@@ -47,9 +47,9 @@ class AdminF9ebf9AI1037to1040BatchContractTest extends TestCase
         $m = preg_replace('~/\*[\s\S]*?\*/~s', '', $m);
         $this->mediaLibraryExec = $m;
 
-        $this->scssSrc = (string) file_get_contents(
-            base_path('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss')
-        );
+        $this->scssSrc =
+            (string) file_get_contents(base_path('packages/microweber-filament-theme/resources/assets/css/microweber/admin/media-library.css'))
+            . (string) file_get_contents(base_path('packages/microweber-filament-theme/resources/assets/css/microweber/admin/stats.css'));
 
         $bundlePath = base_path('public/vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css');
         $this->bundle = file_exists($bundlePath) ? (string) file_get_contents($bundlePath) : '';

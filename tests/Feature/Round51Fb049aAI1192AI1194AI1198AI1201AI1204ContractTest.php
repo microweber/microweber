@@ -136,7 +136,7 @@ class Round51Fb049aAI1192AI1194AI1198AI1201AI1204ContractTest extends TestCase
     public function test_ai1198_dark_mode_covers_button_selectors(): void
     {
         $this->assertMatchesRegularExpression(
-            '/:global\(html\.dark\)\s+\.dropdown-content\s+li\s+button/',
+            '/:global\(\.dark\)\s+\.dropdown-content\s+li\s+button/',
             $this->toolbarToolsDropdownSrc,
             'AI-1198: Dark mode CSS must cover button selectors'
         );

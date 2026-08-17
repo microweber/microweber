@@ -1,0 +1,13 @@
+/* ============================================================================
+ * External imports — Filament core, Tailwind, and frontend-assets.
+ * Load FIRST so Microweber component files win the cascade.
+ * ============================================================================ */
+
+@import "tailwindcss";
+@import "../../../../../vendor/filament/filament/dist/theme.css";
+
+@import '../../../../frontend-assets/resources/assets/css/microweber/css/default.css';
+@import '../../../../frontend-assets/resources/assets/css/scss/tree.scss';
+@import '../../../../frontend-assets/resources/assets/css/scss/editor.scss';
+@import '../../../../frontend-assets/resources/assets/css/scss/spinner.scss';
+@import '../../../../frontend-assets/resources/assets/css/scss/notification.scss';

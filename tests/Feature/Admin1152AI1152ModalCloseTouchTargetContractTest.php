@@ -31,7 +31,7 @@ class Admin1152AI1152ModalCloseTouchTargetContractTest extends TestCase
         $root = self::projectRoot();
 
         $this->themeScss = (string) file_get_contents(
-            $root . '/packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss'
+            $root . '/packages/microweber-filament-theme/resources/assets/css/filament/support/modal/theme.css'
         );
 
         $this->builtCss = (string) file_get_contents(

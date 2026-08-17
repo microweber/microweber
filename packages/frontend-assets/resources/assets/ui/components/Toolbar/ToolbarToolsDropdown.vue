@@ -381,38 +381,38 @@
 }
 
 /* Dark mode styles */
-:global(html.dark) .dropdown-trigger {
+:global(.dark) .dropdown-trigger {
     background: rgb(31, 41, 55);
     border: 1px solid #374151;
     color: #e5e7eb;
 }
 
-:global(html.dark) .dropdown-trigger:hover,
-:global(html.dark) .dropdown-trigger:focus {
+:global(.dark) .dropdown-trigger:hover,
+:global(.dark) .dropdown-trigger:focus {
     border: 1px solid #4b5563;
     background: rgb(55, 65, 81);
 }
 
-:global(html.dark) .dropdown-content {
+:global(.dark) .dropdown-content {
     background-color: rgb(24, 36, 51);
     border: 1px solid #374151;
 }
 
-:global(html.dark) .dropdown-content li a,
-:global(html.dark) .dropdown-content li button {
+:global(.dark) .dropdown-content li a,
+:global(.dark) .dropdown-content li button {
     color: #e5e7eb;
 }
 
-:global(html.dark) .dropdown-content li a:hover,
-:global(html.dark) .dropdown-content li a:focus,
-:global(html.dark) .dropdown-content li button:hover,
-:global(html.dark) .dropdown-content li button:focus {
+:global(.dark) .dropdown-content li a:hover,
+:global(.dark) .dropdown-content li a:focus,
+:global(.dark) .dropdown-content li button:hover,
+:global(.dark) .dropdown-content li button:focus {
     background-color: rgb(31, 41, 55);
     color: #ffffff;
 }
 
-:global(html.dark) .dropdown-content li a.active,
-:global(html.dark) .dropdown-content li button.active {
+:global(.dark) .dropdown-content li a.active,
+:global(.dark) .dropdown-content li button.active {
     background-color: rgb(37, 99, 235, 0.2);
     color: #60a5fa;
 }
@@ -435,7 +435,7 @@
    which composites to ~rgb(76,86,95) over the dark surface (~5:1 vs the
    background) — a clearly visible 1px divider that still reads as subtle
    chrome. Stage-2 cascade-loss dark-mode fix (same shape as AI-786 v2). */
-:global(html.dark) .separator hr {
+:global(.dark) .separator hr {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -452,8 +452,8 @@
     color: #1976d2;
 }
 
-:global(html.dark) .more-settings-item a.expanded,
-:global(html.dark) .more-settings-item button.expanded {
+:global(.dark) .more-settings-item a.expanded,
+:global(.dark) .more-settings-item button.expanded {
     background-color: rgb(31, 41, 55);
     color: #ffffff;
 }
@@ -481,7 +481,7 @@
     margin: 4px 12px 8px 12px;
 }
 
-:global(html.dark) .submenu {
+:global(.dark) .submenu {
     background-color: rgba(255, 255, 255, 0.03);
 }
 
@@ -509,10 +509,10 @@
     color: #1976d2;
 }
 
-:global(html.dark) .submenu li a:hover,
-:global(html.dark) .submenu li a:focus,
-:global(html.dark) .submenu li button:hover,
-:global(html.dark) .submenu li button:focus {
+:global(.dark) .submenu li a:hover,
+:global(.dark) .submenu li a:focus,
+:global(.dark) .submenu li button:hover,
+:global(.dark) .submenu li button:focus {
     background-color: rgba(96, 165, 250, 0.1);
     color: #60a5fa;
 }
@@ -534,7 +534,7 @@
     color: #9ca3af;
 }
 
-:global(html.dark) .section-label span {
+:global(.dark) .section-label span {
     color: #6b7280;
 }
 </style>
@@ -780,7 +780,7 @@ export default {
             if (window.mw?.top()?.admin?.theme?.toggle) {
                 window.mw.top().admin.theme.toggle();
             }
-            // Sync local theme state with the html.dark class.
+            // Sync local theme state with the .dark class.
             this.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
         },
 

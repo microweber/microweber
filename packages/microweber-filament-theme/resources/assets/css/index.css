@@ -1,88 +1,21 @@
-
-
-
-
-
-
-
-
-
-
-/* Tailwind base + Filament v5 pre-compiled core (.fi-* layout/components) MUST load
- * FIRST so the Microweber overrides below win the cascade. The Theme::make registration
- * replaces Filament's default app.css, so the custom theme must ship the core itself —
- * but if the core is imported AFTER the Microweber overrides it re-skins the admin back
- * to stock Filament (regresses the v2.0.20 look). Core first, Microweber skin last. */
-@import "tailwindcss";
-@import "../../../../../vendor/filament/filament/dist/theme.css";
-
-@import './filament/actions';
-@import './filament/forms';
-@import './filament/infolists/index.css';
-@import './filament/notifications/index.css';
-@import './filament/panels';
-@import './filament/support';
-@import './filament/tables';
-@import './filament/widgets';
-@import './filament/dashboard-loading.css';
-/*
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';*/
-
-@import './base.css';
-
-@import './microweber/filepicker.css';
-@import './microweber/live-edit-action-links.css';
-@import './microweber/live-edit-input.css';
-@import './microweber/linkpicker.css';
-@import './microweber/general-styles.css';
-@import './microweber/tomselect.css';
-
-@import '../../../../frontend-assets/resources/assets/css/microweber/css/default.css';
-@import '../../../../frontend-assets/resources/assets/css/scss/tree.scss';
-@import '../../../../frontend-assets/resources/assets/css/scss/editor.scss';
-@import '../../../../frontend-assets/resources/assets/css/scss/spinner.scss';
-@import '../../../../frontend-assets/resources/assets/css/scss/notification.scss';
-@import './microweber/grid-only.css';
-@import './microweber/pagination.css';
-@import './microweber/icon-picker.css';
-@import './microweber/buttons.css';
-@import './microweber/live-edit-classes.css';
-@import './microweber/bootstrap-classes.css';
-@import './microweber/element-style-editor.css';
-@import './microweber/live-edit-components.css';
-/*
- * AI-149 (cycle-142 2026-05-09): live-edit-mobile.css was created in
- * cycle-126 with the AI-140 sidebar-collapse + AI-141 toolbar text-
- * labels rules and extended in cycle-127 with the AI-143 / AI-144
- * mobile modal viewport-fit rules. The file was NEVER added to the
- * import chain, so all 4 fixes have been dark in the built bundle
- * since they were authored. Adding the import here re-enables them
- * in a single shot — verified via tester re-test that the sidebar
- * was still consuming ~50% of the mobile viewport (AI-149).
+/* Microweber Filament theme entry.
+ *
+ * 1. external.css     — Tailwind + stock Filament theme + frontend-assets
+ * 2. tokens/          — colors, breakpoints, sizes, typography
+ * 3. filament/        — per-component overrides (modal, tabs, cards, …)
+ * 4. microweber/      — live-edit + admin extras
+ * 5. admin.css        — remaining admin-only chrome
+ *
+ * Core first, Microweber skin last, so our files win the cascade.
  */
-@import './microweber/live-edit-mobile.css';
-@import './microweber/mobile-touch.css';
-@import "./tabler-vars.scss";
-@import "./global.css";
-@import "./microweber-theme-v3.scss";
 
-
-/* (Tailwind + Filament core moved to the TOP of this file so the Microweber
- * overrides above win the cascade — see the note at the top.) */
+@import './external.css';
+@import './tokens/index.css';
+@import './filament/index.css';
+@import './base.css';
+@import './microweber/index.css';
+@import './admin.css';
+@import './global.css';
 
 @source not "**/*.less";
-
 @config "./../../../tailwind.config.js";
-
-
-
-
-
-
-
-
-
-
-

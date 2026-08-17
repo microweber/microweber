@@ -1,0 +1,40 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 579-616 */
+/* ============================================================================ */
+/* Sections / Cards — MW v2 shadow style with rounded corners */
+/* ============================================================================ */
+.fi-section:not(.fi-aside) {
+  border-radius: var(--mw-radius-lg) !important;
+  /* Was var(--mw-shadow-sm) (~0.04 alpha → near-invisible), so white cards on the #f6f8fb */
+  /* page read flat/connected despite the 24px gaps. Demo cards float with a clearer */
+  /* soft shadow — strengthen it so each section reads as a distinct surface. */
+  box-shadow: 0 1px 4px rgba(24, 36, 51, 0.12) !important;
+  background-color: var(--mw-bg-surface) !important;
+}
+
+.fi-section-content-ctn {
+  background-color: var(--mw-bg-surface) !important;
+  border: none !important;
+  border-radius: 0 0 var(--mw-radius-lg) var(--mw-radius-lg) !important;
+  box-shadow: none !important;  /* removed — was rendering as a thin line below the section header */
+}
+
+/* Remove dark separator lines above/below section headers */
+/* MW v2 cards have no header separator — heading is inline in card body */
+.fi-section-header {
+  border: none !important;  /* MW v2: no borders at all (no top, bottom, or left accent line) */
+  padding: var(--mw-space-lg) var(--mw-space-lg) 0 !important;  /* GR: lg(26) */
+  border-radius: var(--mw-radius-lg) var(--mw-radius-lg) 0 0 !important;  /* MW v2: top corners match card */
+}
+
+/* Ensure no dark borders leak through in sections */
+.fi-section .border-t,
+.fi-section [class*="divide-"] > * + * {
+  border-color: var(--mw-border-subtle) !important;
+}
+
+/* Remove the thick border-bottom from Tailwind's divide utility in sections */
+.fi-section-content-ctn > [class*="divide-"] > * + * {
+  border-color: var(--mw-border-subtle) !important;
+}

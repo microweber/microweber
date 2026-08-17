@@ -1,3 +1,4 @@
+@import './theme.css';
 .fi-modal-window {
     @apply ring-0;
 }

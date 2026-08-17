@@ -1,0 +1,11 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 1428-1436 */
+/* ============================================================================ */
+/* Dropdowns */
+/* ============================================================================ */
+.fi-dropdown-panel {
+  border-radius: var(--mw-radius-md) !important;
+  box-shadow: var(--mw-shadow-elevated) !important;
+  border: 1px solid var(--mw-border-color) !important;
+}

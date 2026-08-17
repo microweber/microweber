@@ -41,7 +41,7 @@ use Tests\TestCase;
  *
  *   C. CSS in general-styles.css scopes `.mw-no-database-empty`
  *      flex-column container + icon/heading/description typography
- *      from ESE tokens. Dark-theme aware via `html.dark` parent.
+ *      from ESE tokens. Dark-theme aware via `.dark` parent.
  *      Token fallbacks belt-and-braces per SOUL #108.
  */
 class Admin551f7eAI774NotificationsDrawerContractTest extends TestCase

@@ -1,0 +1,247 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 1628-1872 */
+/* ============================================================================ */
+/* Content Create/Edit Form — MW v2 style */
+/* ============================================================================ */
+/* Tabs content panel — match section content padding for alignment */
+.fi-tabs > .fi-tabs-item-content {
+  padding: var(--mw-space-md) var(--mw-space-lg) !important;  /* GR: md(16) lg(26) */
+}
+
+/* 3-column grid layout — tighten gap between main content and sidebar */
+.fi-tabs .fi-grid.lg\:fi-grid-cols {
+  gap: var(--mw-space-lg) !important;  /* GR: lg(26) */
+}
+
+/* Sidebar sections (right column) — tighter vertical spacing */
+/* The right column group contains Published, Parent page, Tags, Menus */
+.fi-grid.lg\:fi-grid-cols > .fi-sc-group:last-child {
+  .fi-sc-section + .fi-sc-section {
+    margin-top: var(--mw-space-md) !important;  /* GR: md(16) */
+  }
+}
+
+/* Parent page tree — constrain height with scroll to prevent 2000px+ expansion */
+.mw--global-admin-tree {
+  max-height: 320px !important;
+  overflow-y: auto !important;
+  border: 1px solid var(--mw-border-subtle) !important;
+  border-radius: var(--mw-radius-sm) !important;
+  padding: var(--mw-space-xs) !important;  /* GR: xs(6) */
+
+  /* On the main categories list page the tree IS the page content — don't constrain it */
+  .mw-edit-categories-list & {
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+  }
+}
+
+/* Media upload zone — MW v2: dashed border, centered content */
+.fi-section-content .filepond--root,
+.fi-section-content [class*="media-browser"] {
+  border-radius: var(--mw-radius-sm) !important;
+}
+
+/* Collapsible section chevron — consistent sizing */
+.fi-section.fi-collapsible {
+  .fi-section-header {
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.02) !important;
+    }
+  }
+
+  /* Collapsed state — compact padding */
+  &.fi-collapsed .fi-section-header {
+    padding-bottom: var(--mw-space-md) !important;  /* GR: md(16) */
+  }
+}
+
+/* SEO tab sections — tighter spacing for collapsible sub-sections */
+.fi-section.fi-collapsible + .fi-section.fi-collapsible {
+  margin-top: var(--mw-space-xs) !important;  /* GR: xs(6) */
+}
+
+/* Toggle field — MW v2 inline label alignment */
+.fi-fo-field .fi-toggle {
+  align-items: center !important;
+}
+
+/* Header actions — MW v2: right-aligned, consistent button spacing */
+.fi-header-actions {
+  gap: var(--mw-space-xs) !important;  /* GR: xs(6) */
+}
+
+/* Page header — tighter bottom margin for edit/create pages */
+.fi-resource-edit-record-page .fi-header,
+.fi-resource-create-record-page .fi-header {
+  margin-bottom: 0 !important;
+}
+
+/* Tags input — MW v2: readable removable pill chips. Filament v5 renders each tag */
+/* as a .fi-badge inside .fi-fo-tags-input; the generic .fi-badge rule (line ~1321) */
+/* sizes badges to 10px — correct for table status badges, too small/cramped for */
+/* interactive removable tags. Bump to 12px with roomier padding + a clear × target. */
+.fi-tags-input-tags,
+.fi-fo-tags-input {
+  gap: var(--mw-space-hair) !important;  /* GR: hair(4) */
+
+  .fi-tags-input-tag,
+  .fi-badge {
+    border-radius: var(--mw-radius-sm) !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    padding: 3px 8px !important;
+    min-height: 24px !important;
+    gap: var(--mw-space-hair) !important;  /* GR: hair(4) — space between label and × */
+    align-items: center !important;
+  }
+
+  /* Remove (×) button — give it a usable hit area within the chip */
+  .fi-badge .fi-icon-btn,
+  .fi-tags-input-tag button {
+    min-width: 16px !important;
+    min-height: 16px !important;
+  }
+}
+
+/* Checkbox list — MW v2: tighter spacing for menu checkboxes */
+.fi-fo-checkbox-list {
+  max-height: 240px !important;
+  overflow-y: auto !important;
+  gap: var(--mw-space-xs) !important;  /* GR: xs(6) */
+
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: var(--mw-space-xs);
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: var(--mw-border-sm);
+  }
+
+  .fi-fo-checkbox-list-option-label {
+    font-size: 14px !important;
+    color: var(--mw-text-primary) !important;
+  }
+}
+
+/* Pagination — MW v2: compact "Per page" selector */
+/* The global .fi-input-wrp { min-height: 44px } rule makes the per-page select too tall for inline pagination use. */
+.fi-pagination {
+  padding: var(--mw-space-sm) var(--mw-space-lg) !important;  /* GR: sm(10) lg(26) */
+
+  .fi-input-wrp {
+    min-height: 32px !important;
+  }
+
+  select.fi-select-input,
+  .fi-input-wrp .fi-select-input {
+    padding-top: var(--mw-space-hair) !important;  /* GR: hair(4) */
+    padding-bottom: var(--mw-space-hair) !important;  /* GR: hair(4) */
+    padding-left: var(--mw-space-sm) !important;  /* GR: sm(10) */
+    padding-right: var(--mw-space-lg) !important;  /* GR: lg(26) */
+    font-size: 13px !important;
+    min-height: 32px !important;
+    line-height: 1.2 !important;
+  }
+}
+
+/* Tree component (parent page/category picker) — visible radio/checkbox checked state */
+/* The form-check-input radios in mw--global-admin-tree have white background overriding the checked indicator. */
+.mw--global-admin-tree {
+  /* Tree rows: tree-label is absolutely positioned at left:0; title has */
+  /* padding-left to make room for it. Center both vertically on the row */
+  /* and zero out the bootstrap form-check-label margin-top so the title */
+  /* sits on the same baseline as the radio (instead of 6px below it). */
+  li { line-height: 1.4 !important; }
+  .mw-tree-item-content {
+    align-items: center !important;
+    min-height: 28px;
+  }
+  .mw-tree-item-content tree-label.form-check {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    left: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+  .mw-tree-item-content tree-label.form-check input[type="radio"],
+  .mw-tree-item-content tree-label.form-check input[type="checkbox"] {
+    margin: 0 !important;
+    float: none !important;
+  }
+  .mw-tree-item-content .form-check + .mw-tree-item-title {
+    margin-top: 0 !important;  /* override mt-1.5 from general-styles.css */
+    display: inline-flex !important;
+    align-items: center !important;
+    line-height: 1.4 !important;
+  }
+  .mw-tree-item-title svg { flex-shrink: 0; }
+
+  input[type="radio"],
+  input[type="checkbox"] {
+    accent-color: var(--mw-accent) !important;
+    cursor: pointer;
+  }
+
+  input[type="radio"]:checked {
+    background-color: var(--mw-accent) !important;
+    border-color: var(--mw-accent) !important;
+    background-image: radial-gradient(circle, #ffffff 30%, transparent 35%) !important;
+  }
+
+  input[type="checkbox"]:checked {
+    background-color: var(--mw-accent) !important;
+    border-color: var(--mw-accent) !important;
+  }
+}
+
+/* Rich editor — MW v2 styling */
+.fi-fo-rich-editor {
+  border-radius: var(--mw-radius-sm) !important;
+  border: 1px solid var(--mw-border-color) !important;
+
+  .fi-fo-rich-editor-toolbar {
+    border-bottom: 1px solid var(--mw-border-subtle) !important;
+    background-color: #fafbfc !important;
+    border-radius: var(--mw-radius-sm) var(--mw-radius-sm) 0 0 !important;
+  }
+}
+
+/* Excerpt textarea — subtle visual distinction from content body */
+.fi-fo-textarea textarea {
+  border: 1px solid var(--mw-border-color) !important;
+  border-radius: var(--mw-radius-sm) !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  padding: var(--mw-space-sm) var(--mw-space-sm) !important;  /* GR: sm(10) */
+  resize: vertical !important;
+  background-color: #fafbfc !important;
+}
+
+/* Publish Date — scheduled post indicator styling */
+.fi-fo-date-time-picker .fi-input-wrp {
+  border-radius: var(--mw-radius-sm) !important;
+}

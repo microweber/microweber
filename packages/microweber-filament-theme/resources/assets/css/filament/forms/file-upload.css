@@ -3,3 +3,29 @@
 }
 
 /* TODO: after https://github.com/filamentphp/filament/issues/7296 */
+
+/* === extracted filepond dark contrast === */
+/* task-2026-05-28-af5d5b / AI-1161: Image Picker filepond drop label dark-mode contrast ≥4.5:1 (was 1.8:1) */
+.dark .filepond--drop-label,
+.dark .filepond--drop-label label,
+.dark .filepond--label-action {
+  color: rgb(229, 231, 235) !important;
+}
+
+.dark .filepond--label-action {
+  text-decoration-color: rgb(229, 231, 235) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+ * task-2026-07-02 — Filament v5 overlap cleanup. This is the LAST restyle
+ * import in index.css, so it wins the cascade. After the v4→v5 `.fi-*`
+ * rename several legacy tab/sidebar rules re-activated and now stack on top
+ * of Filament v5's own indicators — producing DOUBLE underlines on tabs and
+ * an underlined + left-bordered ("double border") active sidebar item.
+ * Single source of truth for those two below.
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+/* — Tabs — Filament v5 draws its OWN active underline as an `::after` bar.
+ * Our restyle also draws a `border-bottom` underline → two lines. Suppress
+ * the native bar and keep exactly ONE border-bottom underline; also give the
+ * tabs a roomier, consistent size (they were a cramped 13px / 39px). */

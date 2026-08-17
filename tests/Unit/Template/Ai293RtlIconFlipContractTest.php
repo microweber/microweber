@@ -23,8 +23,9 @@ use PHPUnit\Framework\TestCase;
  * inline at the top of the CSS block.
  *
  * The test pins:
- *   - the @media-less `[dir="rtl"]` selector list is present in
- *     mobile-touch.css
+ *   - the @media-less `:dir(rtl)` selector list is present in
+ *     filament/support/rtl.css (the single source; not duplicated in
+ *     mobile-touch.css)
  *   - each canonical heroicon arrow + chevron stem is covered
  *     (DataProvider runs 12+ assertions across the icon classes)
  *   - the pseudo-element chevron flip rule is in place
@@ -36,7 +37,7 @@ use PHPUnit\Framework\TestCase;
  */
 class Ai293RtlIconFlipContractTest extends TestCase
 {
-    private const MOBILE_TOUCH_CSS = __DIR__ . '/../../../packages/microweber-filament-theme/resources/assets/css/microweber/mobile-touch.css';
+    private const RTL_CSS = __DIR__ . '/../../../packages/microweber-filament-theme/resources/assets/css/filament/support/rtl.css';
     private const THEME_CSS_BUILT  = __DIR__ . '/../../../public/vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css';
 
     public static function directionalIconProvider(): array
@@ -66,10 +67,10 @@ class Ai293RtlIconFlipContractTest extends TestCase
     #[Test]
     public function each_directional_heroicon_class_is_listed_in_the_flip_selector(string $iconClass): void
     {
-        $css = $this->readFile(self::MOBILE_TOUCH_CSS);
+        $css = $this->readFile(self::RTL_CSS);
 
         $this->assertMatchesRegularExpression(
-            '/\[dir="rtl"\]\s+svg\.' . preg_quote($iconClass, '/') . '\b/',
+            '/:dir\(rtl\)\s+svg\.' . preg_quote($iconClass, '/') . '\b/',
             $css,
             "AI-293 directional-icon flip selector must include svg.{$iconClass}."
         );
@@ -78,20 +79,18 @@ class Ai293RtlIconFlipContractTest extends TestCase
     #[Test]
     public function flip_rule_resolves_to_scale_x_minus_one(): void
     {
-        $css = $this->readFile(self::MOBILE_TOUCH_CSS);
+        $css = $this->readFile(self::RTL_CSS);
 
         // The selector list spans many lines and ends with
         // `svg.heroicon-s-chevron-right { transform: scaleX(-1); }`.
         // Pin that closer to confirm the whole list resolves to the
         // flip transform.
         $this->assertMatchesRegularExpression(
-            '/\[dir="rtl"\]\s+svg\.heroicon-s-chevron-right\s*\{[^}]*transform:\s*scaleX\(-1\)/s',
+            '/:dir\(rtl\)\s+svg\.heroicon-s-chevron-right\s*\{[^}]*transform:\s*scaleX\(-1\)/s',
             $css,
-            'AI-293 directional-icon selector list must close with `svg.heroicon-s-chevron-right { transform: scaleX(-1); }` so the whole list resolves to the flip transform.'
+            'AI-293 directional-icon selector list must close with `svg.heroicon-s-chevron-right { transform: scaleX(-1); }` so the whole list flips.'
         );
 
-        // Also pin that scaleX(-1) appears at least twice in the file
-        // (icon-class list + pseudo-element list).
         $occurrences = preg_match_all('/transform:\s*scaleX\(-1\)/', $css);
         $this->assertGreaterThanOrEqual(
             2,
@@ -103,12 +102,12 @@ class Ai293RtlIconFlipContractTest extends TestCase
     #[Test]
     public function filament_pseudo_element_chevrons_also_flip(): void
     {
-        $css = $this->readFile(self::MOBILE_TOUCH_CSS);
+        $css = $this->readFile(self::RTL_CSS);
 
         // Filament v5 renamed the nav classes: fi-sidebar-nav-item→fi-sidebar-item
         // and fi-nav-group-button→fi-sidebar-group-btn. fi-breadcrumbs-item is unchanged.
         $this->assertMatchesRegularExpression(
-            '/\[dir="rtl"\]\s+\.fi-sidebar-item\s*>\s*a::after,\s*\[dir="rtl"\]\s+\.fi-sidebar-group-btn::after,\s*\[dir="rtl"\]\s+\.fi-breadcrumbs-item:not\(:last-child\)::after\s*\{[^}]*transform:\s*scaleX\(-1\)/s',
+            '/:dir\(rtl\)\s+\.fi-sidebar-item\s*>\s*a::after,\s*:dir\(rtl\)\s+\.fi-sidebar-group-btn::after,\s*:dir\(rtl\)\s+\.fi-breadcrumbs-item:not\(:last-child\)::after\s*\{[^}]*transform:\s*scaleX\(-1\)/s',
             $css,
             'AI-293 must flip the Filament data-uri chevron pseudo-elements on .fi-sidebar-item, .fi-sidebar-group-btn, and .fi-breadcrumbs-item via transform: scaleX(-1) on ::after.'
         );
@@ -131,10 +130,10 @@ class Ai293RtlIconFlipContractTest extends TestCase
     #[Test]
     public function non_directional_icons_are_not_in_the_flip_selector(string $iconClass): void
     {
-        $css = $this->readFile(self::MOBILE_TOUCH_CSS);
+        $css = $this->readFile(self::RTL_CSS);
 
         $this->assertDoesNotMatchRegularExpression(
-            '/\[dir="rtl"\]\s+svg\.' . preg_quote($iconClass, '/') . '\b/',
+            '/:dir\(rtl\)\s+svg\.' . preg_quote($iconClass, '/') . '\b/',
             $css,
             "AI-293 must NOT flip non-directional icon {$iconClass} — flipping currency / contact / decorative icons in RTL would corrupt their meaning."
         );
@@ -143,14 +142,14 @@ class Ai293RtlIconFlipContractTest extends TestCase
     #[Test]
     public function trending_arrows_are_not_flipped_data_indicators_not_navigation(): void
     {
-        $css = $this->readFile(self::MOBILE_TOUCH_CSS);
+        $css = $this->readFile(self::RTL_CSS);
 
         // arrow-trending-up + arrow-trending-down are data indicators
         // (revenue going up/down) — they are NOT navigation affordances
         // and must not flip. The user's "trending up" should look the
         // same in both LTR and RTL contexts.
         $this->assertDoesNotMatchRegularExpression(
-            '/\[dir="rtl"\]\s+svg\.heroicon-[ms]-arrow-trending-(up|down)\b/',
+            '/:dir\(rtl\)\s+svg\.heroicon-[ms]-arrow-trending-(up|down)\b/',
             $css,
             'AI-293 must NOT flip heroicon-m-arrow-trending-up/down — those are data indicators (revenue trending), not navigation affordances. Flipping them in RTL would invert their meaning.'
         );
@@ -166,21 +165,21 @@ class Ai293RtlIconFlipContractTest extends TestCase
         $built = $this->readFile(self::THEME_CSS_BUILT);
 
         $this->assertStringContainsString(
-            '[dir="rtl"] svg.heroicon-o-chevron-right',
+            ':dir(rtl) svg.heroicon-o-chevron-right',
             $built,
-            'Built bundle must carry the [dir="rtl"] svg.heroicon-o-chevron-right selector — run npm run build if missing.'
+            'Built bundle must carry the :dir(rtl) svg.heroicon-o-chevron-right selector — run npm run build if missing.'
         );
 
         $this->assertStringContainsString(
-            '[dir="rtl"] .fi-sidebar-item',
+            ':dir(rtl) .fi-sidebar-item',
             $built,
-            'Built bundle must carry the [dir="rtl"] .fi-sidebar-item pseudo-element flip selector (Filament v5 renamed .fi-sidebar-nav-item → .fi-sidebar-item).'
+            'Built bundle must carry the :dir(rtl) .fi-sidebar-item pseudo-element flip selector (Filament v5 renamed .fi-sidebar-nav-item → .fi-sidebar-item).'
         );
 
-        $this->assertStringContainsString(
-            'scaleX(-1)',
+        $this->assertMatchesRegularExpression(
+            '/transform:\s*scaleX\(-1\)/',
             $built,
-            'Built bundle must carry the scaleX(-1) transform value used by both flip rules.'
+            'Built bundle must carry the transform: scaleX(-1) value used by both flip rules.'
         );
     }
 

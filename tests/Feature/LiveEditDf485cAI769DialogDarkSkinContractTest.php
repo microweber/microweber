@@ -24,7 +24,7 @@ use Tests\TestCase;
  *   - light .mw-dialog-bottom-buttons / .mw-dialog-footer
  *   - light .mw-filepicker-component-thumbnails grid cells
  *
- * Fix: add a `html.dark .mw-dialog-skin-default { … }` block in
+ * Fix: add a `.dark .mw-dialog-skin-default { … }` block in
  * general-styles.css (right next to the AI-740 backdrop override)
  * covering all six surfaces. Scope = `.mw-dialog-skin-default`
  * (shared by filepicker, prompts, confirms — all benefit). Light
@@ -60,12 +60,12 @@ class LiveEditDf485cAI769DialogDarkSkinContractTest extends TestCase
     public function dialog_holder_dark_bg_and_text(): void
     {
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.mw-dialog-skin-default\s+\.mw-dialog-holder[^{]*\{[^}]*background-color:\s*#1f2937\s*!important/i',
+            '/\.dark\s+\.mw-dialog-skin-default\s+\.mw-dialog-holder[^{]*\{[^}]*background-color:\s*#1f2937\s*!important/i',
             $this->css,
             '.mw-dialog-holder dark-mode bg must be #1f2937 (gray-800, Filament dark surface).'
         );
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.mw-dialog-skin-default\s+\.mw-dialog-holder[^{]*\{[^}]*color:\s*#f3f4f6\s*!important/i',
+            '/\.dark\s+\.mw-dialog-skin-default\s+\.mw-dialog-holder[^{]*\{[^}]*color:\s*#f3f4f6\s*!important/i',
             $this->css,
             '.mw-dialog-holder dark-mode text color must be #f3f4f6 (gray-100).'
         );
@@ -75,14 +75,14 @@ class LiveEditDf485cAI769DialogDarkSkinContractTest extends TestCase
     public function title_bar_carries_dark_skin(): void
     {
         $this->assertStringContainsString(
-            'html.dark .mw-dialog-skin-default .mw-modal-title-holder',
+            '.dark .mw-dialog-skin-default .mw-modal-title-holder',
             $this->css,
-            'Title bar (.mw-modal-title-holder) must have a html.dark override.'
+            'Title bar (.mw-modal-title-holder) must have a .dark override.'
         );
         $this->assertStringContainsString(
-            'html.dark .mw-dialog-skin-default .mw-dialog-header',
+            '.dark .mw-dialog-skin-default .mw-dialog-header',
             $this->css,
-            'Dialog header (.mw-dialog-header) must have a html.dark override.'
+            'Dialog header (.mw-dialog-header) must have a .dark override.'
         );
     }
 
@@ -94,7 +94,7 @@ class LiveEditDf485cAI769DialogDarkSkinContractTest extends TestCase
     public function tab_anchors_dark_text_with_accent_active(): void
     {
         // Default tab text gray-200. The CSS selector list runs
-        // across multi-line (html.dark variant + .dark variant) so
+        // across multi-line (.dark variant + .dark variant) so
         // we just assert the rule body has color:#e5e7eb !important
         // inside the picker-tab-anchor declaration block.
         $this->assertMatchesRegularExpression(
@@ -104,7 +104,7 @@ class LiveEditDf485cAI769DialogDarkSkinContractTest extends TestCase
         );
         // Active tab → --ese-accent.
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.mw-dialog-skin-default\s+\.mw-filepicker-component-navigation-header\s+a\.active[^{]*\{[^}]*color:\s*var\(--ese-accent/i',
+            '/\.dark\s+\.mw-dialog-skin-default\s+\.mw-filepicker-component-navigation-header\s+a\.active[^{]*\{[^}]*color:\s*var\(--ese-accent/i',
             $this->css,
             'Active picker tab must use --ese-accent color in dark mode.'
         );
@@ -118,13 +118,13 @@ class LiveEditDf485cAI769DialogDarkSkinContractTest extends TestCase
     public function form_inputs_dark_bg(): void
     {
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.mw-dialog-skin-default\s+input\.form-control[^{]*\{[^}]*background-color:\s*#111827\s*!important/i',
+            '/\.dark\s+\.mw-dialog-skin-default\s+input\.form-control[^{]*\{[^}]*background-color:\s*#111827\s*!important/i',
             $this->css,
             'Form input dark-mode bg must be #111827 (gray-900).'
         );
         // Placeholder colour gray-400.
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.mw-dialog-skin-default\s+input\.form-control::placeholder[^{]*\{[^}]*color:\s*#9ca3af/i',
+            '/\.dark\s+\.mw-dialog-skin-default\s+input\.form-control::placeholder[^{]*\{[^}]*color:\s*#9ca3af/i',
             $this->css,
             'Form input placeholder must be #9ca3af (gray-400) in dark mode.'
         );
@@ -134,15 +134,15 @@ class LiveEditDf485cAI769DialogDarkSkinContractTest extends TestCase
     public function footer_buttons_dark_skin(): void
     {
         $this->assertStringContainsString(
-            'html.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons',
+            '.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons',
             $this->css,
-            '.mw-dialog-bottom-buttons must have a html.dark override.'
+            '.mw-dialog-bottom-buttons must have a .dark override.'
         );
         // The footer secondary-button (Cancel) rule excludes the
         // primary/danger/success/warning variants so they keep
         // their own coloured fills.
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.mw-dialog-skin-default\s+\.mw-dialog-bottom-buttons\s+\.btn:not\(\.btn-primary\):not\(\.btn-danger\)/i',
+            '/\.dark\s+\.mw-dialog-skin-default\s+\.mw-dialog-bottom-buttons\s+\.btn:not\(\.btn-primary\):not\(\.btn-danger\)/i',
             $this->css,
             'Footer button rule must use :not(.btn-primary):not(.btn-danger) to scope to secondary buttons only.'
         );
@@ -152,9 +152,9 @@ class LiveEditDf485cAI769DialogDarkSkinContractTest extends TestCase
     public function thumbnail_grid_cells_dark_bg(): void
     {
         $this->assertStringContainsString(
-            'html.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails',
+            '.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails',
             $this->css,
-            'Thumbnail grid (.mw-filepicker-component-thumbnails) must have a html.dark override.'
+            'Thumbnail grid (.mw-filepicker-component-thumbnails) must have a .dark override.'
         );
     }
 
@@ -168,7 +168,7 @@ class LiveEditDf485cAI769DialogDarkSkinContractTest extends TestCase
         // AI-769 must NOT disturb AI-740's `!bg-black/60` dark
         // backdrop override.
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.mw-dialog-skin-default\s+\.mw-dialog-overlay[^{]*\{[^}]*bg-black\/60/i',
+            '/\.dark\s+\.mw-dialog-skin-default\s+\.mw-dialog-overlay[^{]*\{[^}]*bg-black\/60/i',
             $this->css,
             'AI-740 dark-backdrop override (!bg-black/60) must remain intact.'
         );

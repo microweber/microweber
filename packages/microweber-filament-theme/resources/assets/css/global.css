@@ -249,14 +249,17 @@
     }
 }
 
-/* Sidebar responsive improvements */
-@media (max-width: 1024px) {
+/* Sidebar responsive improvements — logical inset, no transform
+ * (transform on the sidebar creates a containing block and breaks
+ * position:fixed Filament / live-edit modals). */
+@media (max-width: 1023.98px) {
     .fi-sidebar {
-        @apply transform -translate-x-full transition-transform duration-300;
+        inset-inline-start: -100%;
+        transition: inset-inline-start 300ms ease;
     }
 
     .fi-sidebar-open {
-        @apply translate-x-0;
+        inset-inline-start: 0;
     }
 
     .fi-sidebar-close-overlay {
@@ -335,109 +338,6 @@
 .fi-ta-content .grid {
     @apply !px-2 !gap-y-4 !py-4 !bg-transparent;
 }*/
-
-/*STYLE MODULES PAGE*/
-.fi-resource-modules .fi-ta-filter-indicators  {
-    @apply !border-none !bg-transparent !shadow-none !ring-0 !pb-4 !px-0 !justify-start;
-}
-.fi-resource-modules .fi-ta-record .py-4  {
-    @apply !p-0;
-}
-.fi-resource-modules .fi-ta-record .ps-4  {
-    @apply !p-0;
-}
-.fi-resource-modules .fi-ta-record  {
-
-}
-.fi-resource-modules .clickable-column {
-    @apply hover:bg-gray-500/5;
-}
-.fi-resource-modules .fi-ta-content-grid {
-    @apply !border-none !gap-8 !bg-blue-500/10 dark:!bg-gray-800/50 !rounded !p-8;
-}
-
-.fi-resource-modules .fi-ta-record {
-    @apply dark:bg-gray-900 dark:text-white;
-}
-
-.fi-resource-modules .fi-ta-text {
-    @apply dark:text-gray-200;
-}
-
-.fi-resource-modules section.flex {
-    @apply !gap-y-0 !py-0;
-}
-.fi-resource-modules .fi-ta-ctn {
-    @apply !divide-none;
-}
-.fi-resource-modules .fi-ta-header-ctn {
-    @apply !divide-none;
-}
-.fi-resource-modules {
-    @apply dark:bg-transparent p-8 mt-4;
-}
-.fi-resource-modules .fi-breadcrumbs {
-    @apply !hidden;
-}
-
-/*STYLE MARKETPLACE PAGE*/
-.fi-resource-marketplace .fi-ta-filter-indicators  {
-    @apply !border-none !bg-transparent !shadow-none !ring-0 !pb-4 !px-0 !justify-start;
-}
-.fi-resource-marketplace .fi-ta-record {
-    @apply p-0 hover:shadow-md rounded-md dark:bg-gray-900 dark:text-white;
-}
-
-.fi-resource-marketplace .fi-ta-record .fi-ta-text {
-    @apply dark:text-gray-200;
-}
-
-.fi-resource-marketplace .fi-ta-badges-column {
-    @apply dark:text-gray-300;
-}
-.fi-resource-marketplace .fi-ta-record .flex .flex  {
-    @apply p-0;
-}
-.fi-resource-marketplace .fi-ta-record .block  {
-    @apply p-0;
-}
-.fi-resource-marketplace .fi-ta-record .image-column-cropped  {
-    @apply rounded-t-md;
-}
-.fi-resource-marketplace .fi-ta-record .fi-ta-actions {
-    @apply transition opacity-0 hover:opacity-100 hover:backdrop-blur-sm hover:bg-black/10 dark:hover:bg-white/10 rounded-t-md top-0 right-0 absolute w-full h-[11rem] !flex !justify-center !items-center;
-}
-.fi-resource-marketplace .fi-ta-record .fi-ta-actions .fi-link  {
-    @apply w-full h-full;
-}
-.fi-resource-marketplace .fi-ta-record .fi-ta-actions .fi-link-icon {
-    @apply !w-8 !h-8 !text-white/30;
-}
-.fi-resource-marketplace .fi-ta-record .fi-ta-actions .fi-link span {
-    @apply !hidden;
-}
-.fi-resource-marketplace .fi-ta-badges-column  {
-    @apply mx-4 mb-3;
-}
-.fi-resource-marketplace .fi-ta-record .fi-ta-text  {
-    @apply px-4;
-}
-.fi-resource-marketplace .fi-ta-content-grid {
-    @apply !border-none !gap-8 !bg-transparent !py-8;
-}
-
-.fi-resource-marketplace .fi-ta-ctn {
-    @apply !divide-none;
-}
-.fi-resource-marketplace .fi-ta-header-ctn {
-    @apply !divide-none;
-}
-.fi-resource-marketplace .fi-ta-content-grid {
-    @apply !px-0 !pt-2;
-}
-.fi-resource-marketplace .fi-breadcrumbs {
-    @apply !hidden;
-}
 
 .fi-sidebar-group-icon {
     @apply dark:text-gray-300;

@@ -1,1 +1,13 @@
 /**/
+/* === extracted from microweber-theme-v3 === */
+/* 179-189 */
+/* ============================================================================ */
+/* Page body */
+/* ============================================================================ */
+.fi-body {
+  background-color: var(--mw-bg-page) !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px !important;  /* MW v2 exact: 14px base */
+  line-height: 20px !important;  /* MW v2 exact: 20px */
+  color: var(--mw-text-primary) !important;  /* MW v2 exact: #182433 */
+}

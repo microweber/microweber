@@ -385,14 +385,14 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     public function drawer_slide_uses_translateX_and_t_slow_transition(): void
     {
         $this->assertMatchesRegularExpression(
-            '/\.mw-main-drawer\s*\{[^}]*transform:\s*translateX\(-100%\)[^}]*transition:\s*transform\s+var\(--t-slow,\s*320ms\)/s',
+            '/\.mw-main-drawer\s*\{[^}]*inset-inline-start:\s*-100%[^}]*transition:\s*inset-inline-start\s+var\(--t-slow,\s*320ms\)/s',
             $this->generalStyles,
-            'Drawer slide-in must use translateX(-100%) baseline + transition: transform var(--t-slow, 320ms) per spec.'
+            'Drawer slide-in must use inset-inline-start: -100% + transition: inset-inline-start var(--t-slow, 320ms) so RTL works without transform.'
         );
         $this->assertMatchesRegularExpression(
-            '/\.mw-main-drawer--open\s*\{[^}]*transform:\s*translateX\(0\)/s',
+            '/\.mw-main-drawer--open\s*\{[^}]*inset-inline-start:\s*0/s',
             $this->generalStyles,
-            'Open state must set transform: translateX(0).'
+            'Open state must set inset-inline-start: 0.'
         );
     }
 
@@ -421,10 +421,10 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     {
         // Logical-property layout — RTL flips the slide direction so
         // the drawer enters from the right (inline-start in RTL).
-        $this->assertMatchesRegularExpression(
-            '/html\[dir="rtl"\]\s+\.mw-main-drawer\s*\{[^}]*transform:\s*translateX\(100%\)/s',
-            $this->generalStyles,
-            'RTL must flip the drawer slide so it enters from the inline-start (right edge in RTL).'
+        $this->assertDoesNotMatchRegularExpression(
+            '/\.mw-main-drawer\s*\{[^}]*transform:\s*translateX/s',
+            preg_replace('~/\*[\s\S]*?\*/~', '', $this->generalStyles) ?? $this->generalStyles,
+            'Drawer must not use transform translateX — that creates a containing block and breaks live-edit modals. Logical inset-inline-start handles RTL.'
         );
     }
 

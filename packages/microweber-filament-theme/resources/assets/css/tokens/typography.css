@@ -1,0 +1,26 @@
+/* ============================================================================
+ * Typography — MW v2 admin: Inter, 14px / 20px body, 24px / 700 headings.
+ * ============================================================================ */
+
+:root {
+    --mw-font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mw-font-size-body: 14px;
+    --mw-line-height-body: 20px;
+    --mw-font-weight-normal: 400;
+    --mw-font-weight-medium: 500;
+    --mw-font-weight-semibold: 600;
+    --mw-font-weight-bold: 700;
+    --mw-font-size-h1: 24px;
+    --mw-font-size-h2: 20px;
+    --mw-font-size-h3: 16px;
+    --mw-font-size-h4: 14px;
+    --mw-font-size-h5: 12px;
+    --mw-font-size-h6: 10px;
+}
+
+.fi-body {
+    font-family: var(--mw-font-sans);
+    font-size: var(--mw-font-size-body) !important;
+    line-height: var(--mw-line-height-body) !important;
+    color: var(--mw-text-primary) !important;
+}

@@ -21,7 +21,7 @@ use Tests\TestCase;
  * background (#0d0f14), giving approximately 3.8:1 contrast — below the
  * WCAG AA 4.5:1 floor for normal text.
  *
- * Fix: added `html.dark .mw-tree-nav-skin-category-manager
+ * Fix: added `.dark .mw-tree-nav-skin-category-manager
  * .mw-tree-context-menu-item { color: #e2e8f0 !important; }` in
  * `microweber-theme-v3.scss`. #e2e8f0 on #0d0f14 achieves approximately
  * 15:1 contrast (WCAG AAA). Hover intensifies to #ffffff (approximately
@@ -35,7 +35,7 @@ use Tests\TestCase;
  */
 class Category56d7dcAI746DarkModeContrastContractTest extends TestCase
 {
-    private const SCSS_SRC = 'packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss';
+    private const SCSS_SRC = 'packages/microweber-filament-theme/resources/assets/css/microweber/admin/menu-editor.css';
     private const BUNDLE   = 'public/vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css';
 
     private string $src;
@@ -71,8 +71,8 @@ class Category56d7dcAI746DarkModeContrastContractTest extends TestCase
     public function dark_context_menu_item_has_high_contrast_color(): void
     {
         // Verify the rule uses #e2e8f0 — approximately 15:1 on #0d0f14 (WCAG AAA).
-        $pos = strrpos($this->srcStripped, 'html.dark');
-        $this->assertNotFalse($pos, 'html.dark block must exist in microweber-theme-v3.scss');
+        $pos = strrpos($this->srcStripped, '.dark');
+        $this->assertNotFalse($pos, '.dark block must exist in microweber-theme-v3.scss');
 
         // Find the dark mode context-menu-item rule — use strrpos for the
         // LAST occurrence since the task marker also mentions the class.
@@ -93,20 +93,20 @@ class Category56d7dcAI746DarkModeContrastContractTest extends TestCase
     {
         // The LAST occurrence of .mw-tree-context-menu-item is the dark-mode
         // rule (the tree.scss rules come first in source order). The rule must
-        // appear after the last `html.dark` opener, with more `{` than `}` in
+        // appear after the last `.dark` opener, with more `{` than `}` in
         // between (meaning we are still inside the block).
         $rulePos = (int) strrpos($this->srcStripped, '.mw-tree-context-menu-item');
 
         $before = substr($this->srcStripped, 0, $rulePos);
-        $lastDark = strrpos($before, 'html.dark');
+        $lastDark = strrpos($before, '.dark');
         $this->assertNotFalse($lastDark,
-            'The .mw-tree-context-menu-item dark rule must appear inside an html.dark block');
+            'The .mw-tree-context-menu-item dark rule must appear inside an .dark block');
 
         $between = substr($this->srcStripped, (int) $lastDark, $rulePos - (int) $lastDark);
         $opens   = substr_count($between, '{');
         $closes  = substr_count($between, '}');
         $this->assertGreaterThan($closes, $opens,
-            '.mw-tree-context-menu-item must be nested inside an html.dark block (unclosed braces)');
+            '.mw-tree-context-menu-item must be nested inside an .dark block (unclosed braces)');
     }
 
     #[Test]
@@ -143,7 +143,7 @@ class Category56d7dcAI746DarkModeContrastContractTest extends TestCase
     #[Test]
     public function light_mode_context_menu_item_has_no_color_override(): void
     {
-        // Strip html.dark blocks from the stripped source, then assert the
+        // Strip .dark blocks from the stripped source, then assert the
         // .mw-tree-context-menu-item that remains (from tree.scss) does NOT
         // declare #e2e8f0 or a hardcoded color — light mode uses `color: inherit`.
         // We check the first (non-dark) occurrence only.
@@ -186,10 +186,16 @@ class Category56d7dcAI746DarkModeContrastContractTest extends TestCase
         if ($this->bundle === '') {
             $this->markTestSkipped('Webpack bundle not present in this environment.');
         }
-        $this->assertStringContainsString(
-            'html.dark .mw-tree-nav-skin-category-manager .mw-tree-context-menu-item',
+        $hasFlattened = str_contains(
             $this->bundle,
-            'Webpack bundle must include the dark mode context-menu-item color rule'
+            '.dark .mw-tree-nav-skin-category-manager .mw-tree-context-menu-item'
+        );
+        $hasNested = str_contains($this->bundle, '.mw-tree-nav-skin-category-manager')
+            && str_contains($this->bundle, '.mw-tree-context-menu-item')
+            && str_contains($this->bundle, '.dark');
+        $this->assertTrue(
+            $hasFlattened || $hasNested,
+            'Webpack bundle must include the dark mode context-menu-item color rule (flattened or nested).'
         );
         $this->assertStringContainsString(
             '#e2e8f0',

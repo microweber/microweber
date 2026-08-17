@@ -1,0 +1,395 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 3693-4086 */
+/* ============================================================================ */
+/* Dashboard — MW v2 Welcome Widget */
+/* ============================================================================ */
+.mw-welcome-widget {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--mw-space-xs) 0 var(--mw-space-md);  /* GR: xs(6) md(16) */
+  margin-bottom: var(--mw-space-md);  /* GR: md(16) */
+}
+
+.mw-welcome-widget-heading {
+  font-size: 24px !important;  /* match all other admin page headings (were 28px here) */
+  font-weight: 700 !important;
+  color: var(--mw-text-primary) !important;
+  line-height: 1.2 !important;
+  margin: 0 0 var(--mw-space-hair) !important;  /* GR: hair(4) */
+}
+
+.mw-welcome-widget-subtitle {
+  font-size: 14px !important;
+  color: var(--mw-text-secondary) !important;
+  margin: 0 !important;
+}
+
+/* ============================================================================ */
+/* Dashboard — MW v2 Quick Stats Cards (Emails, Comments, Sales, Orders) */
+/* ============================================================================ */
+.mw-quick-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--mw-space-md);  /* GR: md(16) */
+}
+
+@media (max-width: 640px) {
+  .mw-quick-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Fix Published/Unpublished dropdown badge clipping on mobile. */
+  /* The Split layout is flex-nowrap so content + dropdown overflow. */
+  /* Force wrapping so the dropdown badge moves below the content card. */
+  .fi-ta-split {
+    flex-wrap: wrap !important;
+  }
+
+  /* Truncate long category names in the categories tree on mobile. */
+  .mw-edit-categories-list .mw-tree-item-title {
+    display: inline-block;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  /* Fix page edit header title overflow on mobile. */
+  /* The .fi-header flex container has nowrap, so the title div and */
+  /* actions div overflow. Wrap and constrain the title. */
+  .fi-header {
+    flex-wrap: wrap !important;
+  }
+
+  .fi-header > div:first-child {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* Compact tab labels on mobile so all tabs fit without scrolling. */
+  .fi-tabs {
+    gap: var(--mw-border-xs) !important;  /* GR: border-xs(2) */
+
+    .fi-tabs-item {
+      padding: var(--mw-space-xs) var(--mw-space-xs) !important;  /* GR: xs(6) */
+      font-size: 12px !important;
+      gap: var(--mw-space-hair) !important;  /* GR: hair(4) */
+      margin-right: 0 !important;
+
+      .fi-icon {
+        display: none !important;
+      }
+
+      .fi-tabs-item-label {
+        font-size: 12px !important;
+      }
+    }
+  }
+}
+
+.mw-quick-stat-card {
+  background-color: var(--mw-bg-surface);
+  border-radius: var(--mw-radius-lg);
+  /* Unified card language: borderless, floating, lifts on hover (not flattens). */
+  box-shadow: var(--mw-card-shadow);
+  border: none;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none !important;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: var(--mw-card-shadow-hover);
+    transform: translateY(-1px);
+    text-decoration: none !important;
+  }
+}
+
+.mw-quick-stat-card-body {
+  display: flex;
+  align-items: center;
+  padding: var(--mw-space-lg) var(--mw-space-lg);  /* GR: lg(26) */
+  gap: var(--mw-space-md);  /* GR: md(16) */
+}
+
+.mw-quick-stat-card-icon {
+  width: var(--mw-space-xl);  /* GR: xl(42) */
+  height: var(--mw-space-xl);
+  min-width: var(--mw-space-xl);
+  border-radius: var(--mw-radius-tile);  /* unified icon-tile radius */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mw-quick-stat-icon-svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Color variants — MW v2 exact icon background colors */
+.mw-quick-stat-card-icon--blue {
+  background-color: #dbeafe;
+  .mw-quick-stat-icon-svg { color: #3b82f6; }
+}
+
+.mw-quick-stat-card-icon--pink {
+  background-color: #fce7f3;
+  .mw-quick-stat-icon-svg { color: #ec4899; }
+}
+
+.mw-quick-stat-card-icon--green {
+  background-color: #d1fae5;
+  .mw-quick-stat-icon-svg { color: #16a34a; }  /* green tile → green icon (was amber #f59e0b, copy-paste bug) */
+}
+
+.mw-quick-stat-card-icon--orange {
+  background-color: #ffedd5;
+  .mw-quick-stat-icon-svg { color: #f97316; }
+}
+
+.mw-quick-stat-card-content {
+  flex: 1;
+}
+
+.mw-quick-stat-card-label {
+  font-size: 14px !important;
+  color: var(--mw-text-secondary) !important;
+  margin: 0 0 var(--mw-border-xs) !important;  /* GR: border-xs(2) */
+  font-weight: 400 !important;
+}
+
+.mw-quick-stat-card-value {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: var(--mw-text-primary) !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+/* ── MW v2 demo-match: LARGE icon tiles (52px, radius 12px) across ALL dashboard */
+/*    widgets (Statistics header, Sales hero, bottom metric cards). general-styles.css */
+/*    body-scopes .mw-quick-stat-card-icon to var(--space-lg) (~26px), which outranks */
+/*    the plain-class rules above (specificity 0,0,2,1 > 0,0,1,0) regardless of import */
+/*    order — so we match its specificity + !important to restore the demo's generous */
+/*    tiles. The hero tile has no dedicated CSS at all, so it's shrink-wrapped without */
+/*    this rule. Roomier body padding + larger label/value to match the demo cards. */
+body.fi-panel-admin {
+  .mw-quick-stat-card-icon,
+  .mw-hero-stat-icon,
+  .mw-stats-card-icon {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    border-radius: 12px !important;
+    flex-shrink: 0;
+  }
+
+  .mw-quick-stat-icon-svg,
+  .mw-stats-card-icon-svg {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  .mw-quick-stat-card-body {
+    padding: 20px 22px !important;
+    gap: 16px !important;
+  }
+
+  .mw-quick-stat-card-label {
+    font-size: 14px !important;
+  }
+
+  .mw-quick-stat-card-value {
+    font-size: 26px !important;
+  }
+}
+
+/* Dark mode for dashboard widgets */
+.dark {
+  .mw-welcome-widget-heading {
+    color: #e2e8f0 !important;
+  }
+
+  .mw-welcome-widget-subtitle {
+    color: #718096 !important;
+  }
+
+  .mw-quick-stat-card {
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
+  }
+
+  .mw-quick-stat-card-label {
+    color: #718096 !important;
+  }
+
+  .mw-quick-stat-card-value {
+    color: #e2e8f0 !important;
+  }
+
+}
+
+/* ============================================================================ */
+/* AI-269 + AI-272 (task-2026-05-13-e64357) — Dashboard new-install empty- */
+/* state widget. Shows above the stats grid on a fresh install with 4 CTA */
+/* cards (Create page / Write post / Add product / Customize theme). The */
+/* widget only renders when the `content` table is empty — once any */
+/* content exists the widget vanishes and the stats grid stands alone. */
+/* */
+/* Acceptance coverage (AI-272): */
+/*   - empty-state card with iconography (#1) ✓ */
+/*   - "Create your first page" CTA ≥44×44 (#2) ✓ via .mw-empty-state-cta */
+/*   - quick-action links: Add product, Write post, Customize theme (#3) ✓ */
+/*   - stacked card layout on mobile, grid above the sm breakpoint (#6) ✓ */
+/* */
+/* Deferred to follow-ups: 3/5-step progress indicator (#4) — needs */
+/* install-state plumbing; dismissible help banner (#5) — needs user */
+/* preferences plumbing. Both intentionally out of scope for this slice. */
+/* ============================================================================ */
+.mw-dashboard-empty-state {
+  background-color: var(--mw-bg-surface);
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-lg);
+  padding: var(--mw-space-lg);
+  margin-bottom: var(--mw-space-md);
+}
+
+.mw-dashboard-empty-state-header {
+  margin-bottom: var(--mw-space-md);
+}
+
+.mw-dashboard-empty-state-heading {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: var(--mw-text-primary) !important;
+  line-height: 1.3 !important;
+  margin: 0 0 var(--mw-space-hair) !important;
+}
+
+.mw-dashboard-empty-state-subheading {
+  font-size: 14px !important;
+  color: var(--mw-text-secondary) !important;
+  margin: 0 !important;
+}
+
+.mw-empty-state-grid {
+  display: grid;
+  grid-template-columns: 1fr;            /* stacked on mobile (AC #6) */
+  gap: var(--mw-space-sm);
+}
+
+@media (min-width: 576px) {
+  .mw-empty-state-grid {
+    /* 2x2 grid on tablet+ — auto-fit keeps the layout responsive */
+    /* between sm and large viewports without breakpoint shimmies. */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+.mw-empty-state-cta {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mw-space-sm);
+  padding: var(--mw-space-sm) var(--mw-space-md);
+  background-color: var(--mw-bg-surface);
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-md);
+  text-decoration: none !important;
+  color: inherit !important;
+  /* AC #2 — every CTA must satisfy the 44×44 WCAG 2.5.5 touch target. */
+  /* padding + flex gap typically push the height past 44 already; the */
+  /* explicit floor below makes it deterministic regardless of font size. */
+  min-height: 44px;
+  min-width: 44px;
+  transition: border-color 150ms ease, transform 150ms ease,
+              background-color 150ms ease;
+
+  &:hover {
+    border-color: var(--mw-accent);
+    transform: translateY(-1px);
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--mw-accent);
+    outline-offset: 2px;
+  }
+}
+
+.mw-empty-state-cta-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--mw-radius-md);
+  flex-shrink: 0;
+
+  &--blue   { background-color: rgba(59, 130, 246, 0.10); color: #2563eb; }
+  &--green  { background-color: rgba(34, 197, 94, 0.10);  color: #16a34a; }
+  &--orange { background-color: rgba(249, 115, 22, 0.10); color: #ea580c; }
+  &--pink   { background-color: rgba(236, 72, 153, 0.10); color: #db2777; }
+}
+
+.mw-empty-state-cta-icon-svg {
+  width: 24px;
+  height: 24px;
+}
+
+.mw-empty-state-cta-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mw-empty-state-cta-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--mw-text-primary);
+  line-height: 1.3;
+}
+
+.mw-empty-state-cta-description {
+  font-size: 13px;
+  color: var(--mw-text-secondary);
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw-empty-state-cta {
+    transition: none !important;
+    &:hover { transform: none !important; }
+  }
+}
+
+/* Dark-mode tints — keep iconography legible against the darker surface */
+/* without losing the brand-color hint. */
+.dark {
+  .mw-dashboard-empty-state {
+    background-color: #1a1f2b;
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  .mw-empty-state-cta {
+    background-color: #1a1f2b;
+    border-color: rgba(255, 255, 255, 0.08);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.04);
+    }
+  }
+  .mw-empty-state-cta-icon {
+    &--blue   { background-color: rgba(59, 130, 246, 0.15); }
+    &--green  { background-color: rgba(34, 197, 94, 0.15); }
+    &--orange { background-color: rgba(249, 115, 22, 0.15); }
+    &--pink   { background-color: rgba(236, 72, 153, 0.15); }
+  }
+  .mw-dashboard-empty-state-heading { color: #f3f4f6 !important; }
+  .mw-empty-state-cta-label { color: #f3f4f6; }
+}

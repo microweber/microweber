@@ -1,0 +1,42 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 2145-2184 */
+/* ============================================================================ */
+/* Global search — clean pill-shaped search bar (MW v2 style) */
+/* ============================================================================ */
+.fi-global-search-field {
+  /* The wrapper IS the visible pill — border, bg, radius all go here. */
+  /* `overflow: hidden` is critical: without it, the inner <input>'s */
+  /* rectangular UA-default background bleeds past the pill's rounded */
+  /* corners on the right side (visible under the dark theme as a */
+  /* pale halo at the top-right + bottom-right corners). */
+  .fi-input-wrp {
+    border-radius: var(--mw-radius-pill) !important;
+    background-color: var(--mw-bg-page) !important;
+    border: 1px solid var(--mw-border-color) !important;
+    min-height: 38px !important;  /* Slightly smaller for topbar */
+    box-shadow: none !important;
+    overflow: hidden !important;
+
+    &:focus-within {
+      background-color: var(--mw-bg-surface) !important;
+      border-color: rgba(0, 0, 0, 0.5) !important;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1) !important;
+    }
+  }
+
+  /* Inner input — transparent, no border (wrapper handles it) */
+  input {
+    border: none !important;
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+
+    &:focus {
+      border: none !important;
+      box-shadow: none !important;
+      background-color: transparent !important;
+    }
+  }
+}

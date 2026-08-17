@@ -36,7 +36,7 @@ use Tests\TestCase;
  * CSS added in element-style-editor.css: .mw-ese-panel-empty-state wrapper,
  * .mw-admin-empty-state__heading (15px/600-weight), .mw-admin-empty-state__body
  * (13px/muted), .mw-ese-link-disabled. Dark-mode overrides scoped to
- * html.dark / .theme-dark / [data-theme="dark"] — light mode unchanged.
+ * .dark / .theme-dark / [data-theme="dark"] — light mode unchanged.
  *
  * Style: file-system reads only, no DB / Filament boot.
  */
@@ -261,9 +261,9 @@ class ESE48070dAI720PerPanelEmptyStateContractTest extends TestCase
     public function ese_css_has_heading_dark_override(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.mw-admin-empty-state__heading[^{]*\{[^}]*color:\s*var\(--ese-text~s',
+            '~(\.dark|\.theme-dark)[^{]*\.mw-admin-empty-state__heading[^{]*\{[^}]*color:\s*var\(--ese-text~s',
             $this->eseCssStripped,
-            'html.dark must set .mw-admin-empty-state__heading color to --ese-text'
+            '.dark must set .mw-admin-empty-state__heading color to --ese-text'
         );
     }
 
@@ -271,9 +271,9 @@ class ESE48070dAI720PerPanelEmptyStateContractTest extends TestCase
     public function ese_css_has_body_dark_override(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.mw-admin-empty-state__body[^{]*\{[^}]*color:\s*var\(--ese-text-muted~s',
+            '~(\.dark|\.theme-dark)[^{]*\.mw-admin-empty-state__body[^{]*\{[^}]*color:\s*var\(--ese-text-muted~s',
             $this->eseCssStripped,
-            'html.dark must set .mw-admin-empty-state__body color to --ese-text-muted'
+            '.dark must set .mw-admin-empty-state__body color to --ese-text-muted'
         );
     }
 

@@ -1,0 +1,265 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 951-1213 */
+/* ============================================================================ */
+/* Buttons — MW v2 style */
+/* ============================================================================ */
+.fi-btn {
+  border-radius: var(--mw-radius-sm) !important;  /* MW v2: 4px */
+  font-weight: 400 !important;  /* MW v2: 400 */
+  font-size: 14px !important;  /* MW v2: 14px */
+  transition: all 0.15s ease !important;
+  box-shadow: rgba(24, 36, 51, 0.04) 0px 1px 0px 0px, rgba(24, 36, 51, 0.2) 0px -1px 0px 0px inset !important;
+  padding: var(--mw-space-sm) var(--mw-space-lg) !important;  /* GR: sm(10) lg(26) */
+  height: 45px !important;      /* touch-target ≥44px + matches demo (h45-49) + input height (--mw-forms-min-height 45) */
+  min-height: 45px !important;  /* (was 42px; fi-size-sm/xs + compact-topbar 36px overrides still win) */
+
+  &:hover {
+    opacity: 0.9 !important;
+  }
+}
+
+/* task-2026-05-17-68e111 / AI-819 CHANGE absorption — primary button re-anchored to brand-blue */
+/* Pre-CHANGE used literal #182433 (MW v2 "btn-dark" near-black) which silently won the cascade */
+/* over the AI-819 `:root` --primary-NNN token override + hijacked every admin Save/Create/primary */
+/* CTA into the toolbar's v2 black-pill look — directly contradicting the AI-209 / AI-737 / AI-794 */
+/* / AI-816 brand-blue primary-CTA lineage. Selector was also inverted (`:not(.admin-toolbar-buttons)` */
+/* doesn't actually match the live-edit toolbar SAVE class). Per designer Stage-2 sub-variant */
+/* "token-override + downstream !important hardcode = silent override-of-override" (post-AI-819 */
+/* CHANGE absorption sister-rule to AI-771 v1 + AI-786 cascade-loss). */
+/* Selector corrected to match the dark-mode rule below (lines 2904+) — excludes BOTH toolbar variants */
+/* (admin-toolbar-add transparent text + admin-toolbar-live-edit black v2 pill per AI-699), applies */
+/* brand-blue to every other primary CTA. Now consumes `var(--primary-X)` so AI-819 :root override */
+/* flows through; brand-blue at runtime in both light + dark modes. */
+.fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) {
+  background-color: rgba(var(--primary-500), 1) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(var(--primary-600), 1) !important;
+  svg {
+    color: #ffffff !important;
+  }
+
+  &:hover {
+    background-color: rgba(var(--primary-600), 1) !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Custom Filament color buttons — override oklch to MW v2 style */
+.fi-btn[class*="fi-color-mw"],
+.fi-btn.fi-color-info {
+  background-color: #182433 !important;
+  color: #ffffff !important;
+  border: 1px solid #1f2e41 !important;
+
+  &:hover {
+    background-color: #1f2e41 !important;
+    opacity: 1 !important;
+  }
+
+  span, .fi-btn-label {
+    color: #ffffff !important;
+  }
+
+  svg {
+    color: #ffffff !important;
+  }
+}
+
+/* Page header "Live edit" button — MW v2: blue filled btn-primary */
+.fi-header-actions-ctn .fi-btn.fi-color-info {
+  background-color: #206bc4 !important;  /* MW v2 exact: btn-primary blue */
+  color: #fcfdfe !important;  /* MW v2 exact: near-white text */
+  border: 1px solid transparent !important;
+  font-weight: 400 !important;  /* MW v2 exact: 400 */
+  box-shadow: rgba(24, 36, 51, 0.04) 0px 1px 0px 0px, rgba(24, 36, 51, 0.2) 0px -1px 0px 0px inset !important;  /* MW v2 exact shadow */
+
+  &:hover {
+    background-color: #1a569d !important;
+    opacity: 1 !important;
+  }
+
+  span, .fi-btn-label {
+    color: #fcfdfe !important;
+  }
+
+  svg {
+    color: #fcfdfe !important;
+  }
+}
+
+/* Success/save button — MW v2: green #2fb344, bold text */
+.fi-btn.fi-color-success {
+  background-color: #2fb344 !important;  /* MW v2 exact */
+  color: #ffffff !important;
+  border: 1px solid transparent !important;
+  font-weight: 700 !important;  /* MW v2 exact: bold save button */
+  text-transform: uppercase !important;  /* MW v2: "SAVE" uppercase */
+
+  svg {
+    color: #ffffff !important;  /* White icon on green button */
+  }
+}
+
+/* ── Demo-matched primary actions (user decision 2026-07-11: "match the demo exactly") ── */
+/* The v2 demo shows a GREEN "SAVE" on record pages, navy "New X" on list pages, and a */
+/* navy secondary. Both Save and "New X" are .fi-color-primary (navy), so the green is */
+/* SCOPED to record (edit/create) pages' header — the list "New X" stays navy. CSS-only. */
+/* This intentionally overrides CLAUDE.md's "primary = blue" convention for these CTAs. */
+/* NB: general-styles.css `body.fi-panel-admin .fi-btn.fi-color-primary:not(...)×3` */
+/* (specificity 0,0,7,1) keeps primary buttons navy — so this must exceed it. Mirror the */
+/* :not() chain + body + page scope → 0,0,8,1. See memory [[general-styles-outranks-v3]]. */
+body.fi-panel-admin .fi-resource-edit-record-page .fi-header .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+body.fi-panel-admin .fi-resource-create-record-page .fi-header .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+  background-color: #2fb344 !important;   /* demo green SAVE */
+  border-color: #2fb344 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;   /* demo "SAVE" */
+
+  span, .fi-btn-label, svg { color: #ffffff !important; }
+  &:hover { background-color: #28a03c !important; border-color: #28a03c !important; }
+}
+
+/* "Save & Live Edit" (was info-blue) → navy outline secondary (demo). */
+.fi-resource-edit-record-page .fi-header .fi-btn.fi-color-info,
+.fi-resource-create-record-page .fi-header .fi-btn.fi-color-info {
+  background-color: #ffffff !important;
+  border-color: #182433 !important;
+  color: #182433 !important;
+
+  span, .fi-btn-label, svg { color: #182433 !important; }
+  &:hover { background-color: #f6f8fb !important; }
+}
+
+/* Empty-state list CTA ("+ Add X") → navy (demo), was brand blue #0d6efd. */
+.mw-table-empty-cta {
+  background-color: #182433 !important;
+  border-color: #182433 !important;
+  color: #ffffff !important;
+
+  &:hover { background-color: #0f1a2a !important; border-color: #0f1a2a !important; }
+}
+
+/* Empty-state icon (Categories) — muted soft anchor above the heading, matching the */
+/* visual weight of the illustration-based empty states without a heavy inline SVG. */
+.mw-admin-empty-state-icon {
+  width: 72px !important;
+  height: 72px !important;
+  color: #cbd5e1 !important;
+  margin: 0 auto !important;
+}
+
+/* MW v2 demo form sections have PLAIN-TEXT headers (no leading icon). Hide the section */
+/* header icon (a direct <svg> child of .fi-section-header). The collapse chevron sits in */
+/* a <button>, so it's unaffected. Dashboard widgets use their own classes (.mw-stats-card */
+/* etc.), not .fi-section-header, so they keep their icon tiles. */
+body.fi-panel-admin .fi-section-header > svg {
+  display: none !important;
+}
+
+/* Visibility radio (content form) → MW v2 demo: green "Published" / red "Unpublished" */
+/* pill options. Scoped to the .mw-visibility-radio class set on the Radio field. */
+.mw-visibility-radio {
+  gap: 10px !important;
+
+  .fi-fo-radio-label {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 6px 14px !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    width: -moz-fit-content !important;
+    width: fit-content !important;
+    transition: filter 0.15s ease !important;
+  }
+  /* Published (value 1) → green tint (matches the success status pill) */
+  .fi-fo-radio-label:has(input[value="1"]) {
+    background-color: #eaf7ec !important;
+    color: #2fb344 !important;
+  }
+  /* Unpublished (value 0) → red tint (matches the danger status pill) */
+  .fi-fo-radio-label:has(input[value="0"]) {
+    background-color: #fdecec !important;
+    color: #d63939 !important;
+  }
+}
+
+/* "Choose from Media Library" button — the Blade hardcodes Tailwind indigo */
+/* (bg-indigo-600, rounded-full), which is off the MW palette. Retint to brand navy + */
+/* the standard 4px button radius; focus ring to brand blue. CSS-only override. */
+body.fi-panel-admin .mw-media-browser-primary-btn {
+  background-color: #182433 !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+
+  &:hover { background-color: #0f1a2a !important; }
+  &:focus-visible { outline-color: rgb(var(--primary-600)) !important; }
+}
+
+/* Danger button — filled */
+.fi-btn.fi-color-danger {
+  background-color: #d63939 !important;  /* MW v2 exact */
+  color: #ffffff !important;
+}
+
+/* Danger button — outline variant */
+.fi-btn.fi-color-danger.fi-outlined {
+  background-color: transparent !important;
+  color: #d63939 !important;
+  border: 1px solid #d63939 !important;
+  box-shadow: none !important;
+
+  svg {
+    color: #d63939 !important;
+  }
+
+  &:hover {
+    background-color: #d63939 !important;
+    color: #ffffff !important;
+
+    svg {
+      color: #ffffff !important;
+    }
+  }
+}
+
+/* Outline / secondary buttons — MW v2: transparent bg, border, compact */
+.fi-btn.fi-color-gray {
+  border: 1px solid var(--mw-border-color) !important;
+  background-color: transparent !important;
+  color: var(--mw-text-primary) !important;
+  box-shadow: none !important;
+  height: auto !important;  /* MW v2: outline btns are more compact */
+  min-height: auto !important;
+  padding: var(--mw-space-hair) var(--mw-space-sm) !important;  /* GR: hair(4) sm(10) */
+
+  &:hover {
+    background-color: var(--mw-bg-page) !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Small buttons (table action buttons, Published dropdown) */
+.fi-btn.fi-size-sm {
+  padding: var(--mw-space-xs) var(--mw-space-sm) !important;  /* GR: xs(6) sm(10) */
+  font-size: 13px !important;
+  height: auto !important;
+}
+
+/* Extra small buttons */
+.fi-btn.fi-size-xs {
+  padding: var(--mw-space-hair) var(--mw-space-xs) !important;  /* GR: hair(4) xs(6) */
+  font-size: 12px !important;
+}
+
+/* Icon buttons (small action buttons) */
+.fi-icon-btn {
+  border-radius: var(--mw-radius-sm) !important;
+  transition: all 0.15s ease !important;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+  }
+}

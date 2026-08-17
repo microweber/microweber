@@ -1,0 +1,30 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 2007-2034 */
+/* ============================================================================ */
+/* Pagination — MW v2 style */
+/* ============================================================================ */
+.fi-pagination-item {
+  border-radius: var(--mw-radius-sm) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.fi-pagination-item-active {
+  background-color: #182433 !important;
+  color: #ffffff !important;
+}
+
+/* Per-page select — MW v2 style dropdown */
+.fi-ta-ctn .fi-input-wrp:has(.fi-select-input) {
+  background-color: var(--mw-bg-sidebar) !important;
+  border: 1px solid var(--mw-border-color) !important;
+  border-radius: var(--mw-radius-sm) !important;
+}
+
+.fi-ta-ctn .fi-select-input {
+  cursor: pointer !important;
+  padding: var(--mw-space-xs) var(--mw-space-lg) var(--mw-space-xs) var(--mw-space-xs) !important;  /* GR: xs(6) lg(26) xs(6) xs(6) */
+  font-size: 13px !important;
+  min-width: 60px !important;
+}

@@ -19,6 +19,11 @@ namespace MicroweberPackages\Admin\Filament;
  */
 class MwColors
 {
+    /**
+     * Same ladder as MicroweberFilamentTheme\Palette::Blue — kept here so
+     * existing panel providers and contract tests that reference MwColors::Blue
+     * stay valid. The Filament plugin registers Palette::colors() on every panel.
+     */
     public const Blue = [
         50  => '231, 241, 255',   // #e7f1ff — pre-100 tint
         100 => '207, 226, 255',   // #cfe2ff — Bootstrap blue-100

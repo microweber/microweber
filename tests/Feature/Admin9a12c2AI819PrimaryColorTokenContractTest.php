@@ -77,7 +77,7 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
     #[DataProvider('expectedPrimaryTokenValuesProvider')]
     public function source_scss_emits_brand_anchored_primary_token(string $tokenName, string $expectedRgbTriplet): void
     {
-        $source = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $source = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/tokens/colors.css');
 
         $this->assertStringContainsString(
             "{$tokenName}: {$expectedRgbTriplet};",
@@ -89,7 +89,7 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
     #[Test]
     public function source_carries_ai819_marker_anchored_to_the_primary_root_block(): void
     {
-        $source = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $source = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/tokens/colors.css');
 
         $this->assertStringContainsString(
             'task-2026-05-17-9a12c2 / AI-819',
@@ -176,7 +176,7 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
     {
         // Surface the $mw-accent: #4299e1 follow-up so a future
         // audit grepping `AI-819a` finds the deferred surface.
-        $source = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $source = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/tokens/colors.css');
 
         $this->assertStringContainsString(
             'AI-819a',
@@ -230,7 +230,9 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
     #[Test]
     public function ai819_change_light_mode_primary_button_uses_brand_token(): void
     {
-        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/support/button/theme.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/dark.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/panels/topbar/theme.css');
         // Strip block + line comments so the docblock prose mentioning
         // legacy #182433 doesn't false-fail the negative regression-guard.
         $exec = preg_replace('~/\*[\s\S]*?\*/~', '', $scss);
@@ -253,15 +255,15 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
     #[Test]
     public function ai819_change_dark_mode_primary_button_uses_brand_token(): void
     {
-        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/support/button/theme.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/dark.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/panels/topbar/theme.css');
         $exec = preg_replace('~/\*[\s\S]*?\*/~', '', $scss);
         $exec = preg_replace('~//[^\n]*~', '', $exec);
 
-        // The dark-mode rule lives inside `html.dark { ... }` wrapper.
-        // Slice from "html.dark" forward through the .fi-color-primary
-        // rule's closing brace to scope the assertion.
-        $darkPos = strpos($exec, 'html.dark');
-        $this->assertNotFalse($darkPos, 'AI-819 CHANGE: html.dark wrapper must exist for dark-mode primary rule.');
+        // The dark-mode rule lives inside a `.dark { ... }` wrapper.
+        $darkPos = strpos($exec, '.dark');
+        $this->assertNotFalse($darkPos, 'AI-819 CHANGE: .dark wrapper must exist for dark-mode primary rule.');
         $darkSlice = substr($exec, $darkPos);
 
         $this->assertMatchesRegularExpression(
@@ -274,7 +276,9 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
     #[Test]
     public function ai819_change_hover_uses_primary_600_token(): void
     {
-        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/support/button/theme.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/dark.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/panels/topbar/theme.css');
         $exec = preg_replace('~/\*[\s\S]*?\*/~', '', $scss);
         $exec = preg_replace('~//[^\n]*~', '', $exec);
 
@@ -296,7 +300,9 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
     #[Test]
     public function ai819_change_legacy_hardcoded_literals_removed_from_primary_rules(): void
     {
-        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/support/button/theme.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/dark.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/panels/topbar/theme.css');
         $exec = preg_replace('~/\*[\s\S]*?\*/~', '', $scss);
         $exec = preg_replace('~//[^\n]*~', '', $exec);
 
@@ -331,7 +337,9 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
     #[Test]
     public function ai819_change_obsolete_admin_toolbar_buttons_selector_removed(): void
     {
-        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/support/button/theme.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/dark.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/panels/topbar/theme.css');
         $exec = preg_replace('~/\*[\s\S]*?\*/~', '', $scss);
         $exec = preg_replace('~//[^\n]*~', '', $exec);
 
@@ -357,7 +365,9 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
         // lines 210 (.admin-toolbar-add) + 237 (.admin-toolbar-live-edit).
         // The corrected AI-819 CHANGE selector EXCLUDES both via :not(),
         // so the brand-blue re-anchor must not touch the toolbar.
-        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/support/button/theme.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/dark.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/panels/topbar/theme.css');
         $exec = preg_replace('~/\*[\s\S]*?\*/~', '', $scss);
         $exec = preg_replace('~//[^\n]*~', '', $exec);
 
@@ -365,14 +375,14 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
         // and still light-green (per AI-704). Asserts that AI-819 CHANGE
         // didn't accidentally rewrite the wrong rule.
         $this->assertMatchesRegularExpression(
-            '~\.fi-btn\.admin-toolbar-live-edit\.fi-color-primary\s*\{[^}]*background-color:\s*#e2f9e6~',
+            '~\.fi-btn\.admin-toolbar-live-edit\.fi-color-primary\s*[,{][\s\S]*?background-color:\s*#e2f9e6~',
             $exec,
             'AI-704 regression-guard: admin-toolbar-live-edit SAVE pill must keep its MW v2 light-green bg #e2f9e6 (AI-699 black-pill is rendered by Vue Toolbar SaveButton.vue, not this rule).'
         );
 
         // .admin-toolbar-add.fi-color-primary rule still light-blue
         $this->assertMatchesRegularExpression(
-            '~\.fi-btn\.admin-toolbar-add\.fi-color-primary\s*\{[^}]*background-color:\s*#e1edf8~',
+            '~\.fi-btn\.admin-toolbar-add\.fi-color-primary\s*[,{][\s\S]*?background-color:\s*#e1edf8~',
             $exec,
             'AI-704 regression-guard: admin-toolbar-add +Add pill must keep its MW v2 light-blue bg #e1edf8.'
         );
@@ -381,7 +391,9 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
     #[Test]
     public function ai819_change_task_id_marker_in_source(): void
     {
-        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss');
+        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/support/button/theme.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/dark.css')
+            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/panels/topbar/theme.css');
         $this->assertStringContainsString(
             'task-2026-05-17-68e111',
             $scss,

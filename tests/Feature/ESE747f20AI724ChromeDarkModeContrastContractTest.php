@@ -14,24 +14,24 @@ use Tests\TestCase;
  *
  *  1. Collapsed accordion section labels (Typography, Background, etc.) —
  *     inherited dark text on dark panel surface, estimated <4.5:1.
- *     Fix: html.dark .element-style-editor-toggle-wrapper .mw-admin-action-links
+ *     Fix: .dark .element-style-editor-toggle-wrapper .mw-admin-action-links
  *          { color: var(--ese-text, #f1f5f9) !important; }
  *
  *  2. Section dividers — Border section corner-angle marks use hardcoded
  *     `border: 1px solid #000` in scoped Vue styles, invisible on dark.
- *     Fix: html.dark .angle-top-left/.angle-top-right/.angle-bottom-left/
+ *     Fix: .dark .angle-top-left/.angle-top-right/.angle-bottom-left/
  *          .angle-bottom-right { border-color: rgba(255,255,255,0.35) !important; }
  *
  *  3. Right-edge icon strip (Insert layout / Template / Design / Quick AI /
  *     Advanced sidebar buttons) — dark glyphs on dark sidebar background.
- *     Fix: html.dark .mw-live-edit-right-sidebar-wrapper ... svg
+ *     Fix: .dark .mw-live-edit-right-sidebar-wrapper ... svg
  *          { fill: #f1f5f9 !important; }
  *
  *  4. Reset (↺) icon in the ESE — dark-stroke issue.
- *     Fix: html.dark #mw-element-style-editor-app .reset-field
+ *     Fix: .dark #mw-element-style-editor-app .reset-field
  *          { color: var(--ese-text-muted, #94a3b8) !important; }
  *
- * All rules html.dark / .theme-dark / [data-theme="dark"] scoped.
+ * All rules .dark / .theme-dark / [data-theme="dark"] scoped.
  * Light mode completely unchanged.
  *
  * Style: file-system reads only, no DB / Filament boot.
@@ -88,9 +88,9 @@ class ESE747f20AI724ChromeDarkModeContrastContractTest extends TestCase
     public function accordion_label_dark_color_rule_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark\s+\.element-style-editor-toggle-wrapper[^{]*\.mw-admin-action-links[^{]*\{[^}]*color:\s*var\(--ese-text~s',
+            '~\.dark\s+\.element-style-editor-toggle-wrapper[^{]*\.mw-admin-action-links[^{]*\{[^}]*color:\s*var\(--ese-text~s',
             $this->eseStripped,
-            'html.dark rule must set color: var(--ese-text) on accordion labels'
+            '.dark rule must set color: var(--ese-text) on accordion labels'
         );
     }
 
@@ -109,23 +109,23 @@ class ESE747f20AI724ChromeDarkModeContrastContractTest extends TestCase
     #[Test]
     public function accordion_label_rule_is_dark_scoped(): void
     {
-        // Verify the label color rule is INSIDE an html.dark block,
+        // Verify the label color rule is INSIDE an .dark block,
         // not at global scope — light mode must remain unchanged.
         $pos = strrpos($this->eseStripped, '.element-style-editor-toggle-wrapper');
         $this->assertNotFalse($pos);
         $before = substr($this->eseStripped, 0, (int) $pos);
-        $lastDark = strrpos($before, 'html.dark');
+        $lastDark = strrpos($before, '.dark');
         $this->assertNotFalse($lastDark,
-            'Accordion label rule must appear inside an html.dark selector context');
+            'Accordion label rule must appear inside an .dark selector context');
     }
 
     #[Test]
     public function accordion_svg_icon_dark_color_rule_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.element-style-editor-toggle-wrapper\s+svg[^{]*\{[^}]*color~s',
+            '~(\.dark|\.theme-dark)[^{]*\.element-style-editor-toggle-wrapper\s+svg[^{]*\{[^}]*color~s',
             $this->eseStripped,
-            'html.dark must set color on SVG icons inside accordion headers'
+            '.dark must set color on SVG icons inside accordion headers'
         );
     }
 
@@ -137,9 +137,9 @@ class ESE747f20AI724ChromeDarkModeContrastContractTest extends TestCase
         // SOUL #108: var(--ese-border, rgba(...)) is the correct migrated form.
         // Accept both bare rgba(…) and the token-wrapped var(--ese-border, rgba(…)) shape.
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*\.angle-top-left[^{]*\{[^}]*border-color:\s*(?:var\([^,]+,\s*)?rgba\(255,\s*255,\s*255~s',
+            '~\.dark[^{]*\.angle-top-left[^{]*\{[^}]*border-color:\s*(?:var\([^,]+,\s*)?rgba\(255,\s*255,\s*255~s',
             $this->eseStripped,
-            'html.dark must override .angle-top-left border-color to a light rgba value (bare or var()-wrapped)'
+            '.dark must override .angle-top-left border-color to a light rgba value (bare or var()-wrapped)'
         );
     }
 
@@ -168,9 +168,9 @@ class ESE747f20AI724ChromeDarkModeContrastContractTest extends TestCase
     public function right_sidebar_svg_has_html_dark_override(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*\.mw-live-edit-right-sidebar-wrapper[^{]*svg[^{]*\{[^}]*fill[^}]*#f1f5f9\s*!important~s',
+            '~\.dark[^{]*\.mw-live-edit-right-sidebar-wrapper[^{]*svg[^{]*\{[^}]*fill[^}]*#f1f5f9\s*!important~s',
             $this->leCssStripped,
-            'html.dark must set fill: #f1f5f9 !important on right sidebar SVG icons'
+            '.dark must set fill: #f1f5f9 !important on right sidebar SVG icons'
         );
     }
 
@@ -190,9 +190,9 @@ class ESE747f20AI724ChromeDarkModeContrastContractTest extends TestCase
     public function reset_icon_dark_color_rule_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*#mw-element-style-editor-app[^{]*\.reset-field[^{]*\{[^}]*color:\s*var\(--ese-text-muted~s',
+            '~\.dark[^{]*#mw-element-style-editor-app[^{]*\.reset-field[^{]*\{[^}]*color:\s*var\(--ese-text-muted~s',
             $this->eseStripped,
-            'html.dark must set color: var(--ese-text-muted) on .reset-field icons'
+            '.dark must set color: var(--ese-text-muted) on .reset-field icons'
         );
     }
 
@@ -200,9 +200,9 @@ class ESE747f20AI724ChromeDarkModeContrastContractTest extends TestCase
     public function reset_icon_svg_fill_also_set(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*\.reset-field\s+svg[^{]*\{[^}]*fill:\s*var\(--ese-text-muted~s',
+            '~\.dark[^{]*\.reset-field\s+svg[^{]*\{[^}]*fill:\s*var\(--ese-text-muted~s',
             $this->eseStripped,
-            'html.dark must also set fill: var(--ese-text-muted) on SVGs inside .reset-field'
+            '.dark must also set fill: var(--ese-text-muted) on SVGs inside .reset-field'
         );
     }
 
@@ -214,7 +214,7 @@ class ESE747f20AI724ChromeDarkModeContrastContractTest extends TestCase
         // Strip dark-mode blocks, then verify .element-style-editor-toggle-wrapper
         // does NOT get an unconditional color: #f1f5f9 (light text on light bg).
         $strippedDark = preg_replace(
-            '~html\.dark[^{]*\{[^}]*\}~s',
+            '~\.dark[^{]*\{[^}]*\}~s',
             '',
             $this->eseStripped
         );
@@ -250,9 +250,9 @@ class ESE747f20AI724ChromeDarkModeContrastContractTest extends TestCase
             $this->markTestSkipped('Webpack bundle not present.');
         }
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*\.angle-top-left~',
+            '~\.dark[^{]*\.angle-top-left~',
             $this->bundle,
-            'Bundle must include the html.dark angle-top-left border-color override'
+            'Bundle must include the .dark angle-top-left border-color override'
         );
     }
 
@@ -263,9 +263,9 @@ class ESE747f20AI724ChromeDarkModeContrastContractTest extends TestCase
             $this->markTestSkipped('Webpack bundle not present.');
         }
         $this->assertStringContainsString(
-            'html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.live-edit-toolbar-buttons svg',
+            '.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.live-edit-toolbar-buttons svg',
             $this->bundle,
-            'Bundle must include html.dark right sidebar SVG fill override'
+            'Bundle must include .dark right sidebar SVG fill override'
         );
     }
 

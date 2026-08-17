@@ -43,7 +43,7 @@ use Tests\TestCase;
 class MediaLibrary8c8d0bAI855UploadModalPolishContractTest extends TestCase
 {
     private const BLADE = 'Modules/MediaLibrary/resources/views/filament/admin/pages/media-library-page.blade.php';
-    private const SCSS = 'packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss';
+    private const SCSS = 'packages/microweber-filament-theme/resources/assets/css/microweber/admin/media-library.css';
 
     private function read(string $relativePath): string
     {

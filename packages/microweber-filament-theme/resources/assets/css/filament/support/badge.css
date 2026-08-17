@@ -19,3 +19,14 @@
         @apply text-gray-400 dark:text-gray-400;
     }
 }
+/* === extracted from microweber-theme-v3 === */
+/* 1437-1446 */
+/* ============================================================================ */
+/* Badges — MW v2 style: small rounded, not pill */
+/* ============================================================================ */
+.fi-badge {
+  border-radius: 4px !important;  /* MW v2 exact */
+  font-weight: 600 !important;
+  font-size: 10px !important;  /* MW v2 exact */
+  padding: var(--mw-space-hair) var(--mw-space-xs) !important;  /* GR: hair(4) xs(6) */
+}

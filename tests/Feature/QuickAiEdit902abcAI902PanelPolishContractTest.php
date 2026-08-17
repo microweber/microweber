@@ -254,7 +254,7 @@ class QuickAiEdit902abcAI902PanelPolishContractTest extends TestCase
     public function dark_mode_type_group_border_uses_dark_token(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark\s+\.quick-ai-type-group\s*\{[^}]*border-top-color~s',
+            '~\.dark\s+\.quick-ai-type-group\s*\{[^}]*border-top-color~s',
             $this->cssStripped,
             'Type group border must have dark-mode override using --ese-border token.'
         );

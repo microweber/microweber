@@ -279,7 +279,7 @@ class AdminC188deAI788AI789FormWidgetUmbrellaContractTest extends TestCase
         $this->assertStringContainsString('.mw-admin-empty-state__heading', $this->css);
         $this->assertStringContainsString('.mw-admin-empty-state__body', $this->css);
         $this->assertStringContainsString('.mw-admin-empty-state__cta-wrap', $this->css);
-        $this->assertStringContainsString('html.dark body.fi-panel-admin .mw-admin-empty-state__heading', $this->css);
+        $this->assertStringContainsString('.dark body.fi-panel-admin .mw-admin-empty-state__heading', $this->css);
     }
 
     #[Test]

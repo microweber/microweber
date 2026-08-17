@@ -711,7 +711,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
    Scope: any dialog using the default skin (filepicker, prompts,
    confirms) benefits — positive side-effect of the AI-740 fix
    since they share the same backdrop problem in dark mode. */
-html.dark .mw-dialog-skin-default .mw-dialog-overlay,
+.dark .mw-dialog-skin-default .mw-dialog-overlay,
 .dark .mw-dialog-skin-default .mw-dialog-overlay {
     @apply !bg-black/60;
 }
@@ -728,8 +728,8 @@ html.dark .mw-dialog-skin-default .mw-dialog-overlay,
 
    Scope: `.mw-dialog-skin-default` is shared by filepicker,
    prompts, confirms — all benefit. Light mode unchanged (no
-   overrides without the .dark / html.dark prefix). */
-html.dark .mw-dialog-skin-default .mw-dialog-holder,
+   overrides without the .dark / .dark prefix). */
+.dark .mw-dialog-skin-default .mw-dialog-holder,
 .dark .mw-dialog-skin-default .mw-dialog-holder {
     background-color: #1f2937 !important;     /* gray-800 — matches Filament dark surface */
     color: #f3f4f6 !important;                /* gray-100 — body text */
@@ -737,18 +737,18 @@ html.dark .mw-dialog-skin-default .mw-dialog-holder,
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55) !important;
 }
 
-html.dark .mw-dialog-skin-default .mw-modal-title-holder,
 .dark .mw-dialog-skin-default .mw-modal-title-holder,
-html.dark .mw-dialog-skin-default .mw-dialog-header,
+.dark .mw-dialog-skin-default .mw-modal-title-holder,
+.dark .mw-dialog-skin-default .mw-dialog-header,
 .dark .mw-dialog-skin-default .mw-dialog-header {
     background-color: #1f2937 !important;
     color: #f3f4f6 !important;
     border-bottom-color: rgba(255, 255, 255, 0.06) !important;
 }
 
-html.dark .mw-dialog-skin-default .mw-modal-title-holder *,
 .dark .mw-dialog-skin-default .mw-modal-title-holder *,
-html.dark .mw-dialog-skin-default .mw-dialog-header .modal-title,
+.dark .mw-dialog-skin-default .mw-modal-title-holder *,
+.dark .mw-dialog-skin-default .mw-dialog-header .modal-title,
 .dark .mw-dialog-skin-default .mw-dialog-header .modal-title {
     color: #f3f4f6 !important;
 }
@@ -756,35 +756,35 @@ html.dark .mw-dialog-skin-default .mw-dialog-header .modal-title,
 /* Picker tab nav anchors — light surface in dark mode would read
    as washed-out blue links on white. Force gray-200 default,
    white on hover, accent blue on active. */
-html.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a,
+.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a,
 .dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a {
     color: #e5e7eb !important;
     background-color: transparent !important;
 }
-html.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a:hover,
+.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a:hover,
 .dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a:hover {
     color: #ffffff !important;
 }
-html.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a.active,
+.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a.active,
 .dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a.active {
     color: var(--ese-accent, #0d6efd) !important;
 }
 
 /* Form inputs inside the dialog — text fields, search box,
    textareas. */
-html.dark .mw-dialog-skin-default input.form-control,
 .dark .mw-dialog-skin-default input.form-control,
-html.dark .mw-dialog-skin-default .form-control,
+.dark .mw-dialog-skin-default input.form-control,
 .dark .mw-dialog-skin-default .form-control,
-html.dark .mw-dialog-skin-default textarea,
+.dark .mw-dialog-skin-default .form-control,
+.dark .mw-dialog-skin-default textarea,
 .dark .mw-dialog-skin-default textarea {
     background-color: #111827 !important;     /* gray-900 — input field bg */
     color: #f3f4f6 !important;
     border-color: rgba(255, 255, 255, 0.12) !important;
 }
-html.dark .mw-dialog-skin-default input.form-control::placeholder,
 .dark .mw-dialog-skin-default input.form-control::placeholder,
-html.dark .mw-dialog-skin-default .form-control::placeholder,
+.dark .mw-dialog-skin-default input.form-control::placeholder,
+.dark .mw-dialog-skin-default .form-control::placeholder,
 .dark .mw-dialog-skin-default .form-control::placeholder {
     color: #9ca3af !important;                /* gray-400 — placeholder */
 }
@@ -793,16 +793,16 @@ html.dark .mw-dialog-skin-default .form-control::placeholder,
    The Insert image button keeps the primary blue from its own
    `.btn-primary` rules; the Cancel button needs an explicit dark
    border + text so it doesn't read as a light pill on dark. */
-html.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons,
 .dark .mw-dialog-skin-default .mw-dialog-bottom-buttons,
-html.dark .mw-dialog-skin-default .mw-dialog-footer,
+.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons,
+.dark .mw-dialog-skin-default .mw-dialog-footer,
 .dark .mw-dialog-skin-default .mw-dialog-footer {
     background-color: #111827 !important;     /* slightly darker than body for visual depth */
     border-top-color: rgba(255, 255, 255, 0.06) !important;
 }
-html.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning),
 .dark .mw-dialog-skin-default .mw-dialog-bottom-buttons .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning),
-html.dark .mw-dialog-skin-default .mw-dialog-footer .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning),
+.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning),
+.dark .mw-dialog-skin-default .mw-dialog-footer .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning),
 .dark .mw-dialog-skin-default .mw-dialog-footer .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning) {
     background-color: transparent !important;
     color: #e5e7eb !important;
@@ -811,9 +811,9 @@ html.dark .mw-dialog-skin-default .mw-dialog-footer .btn:not(.btn-primary):not(.
 
 /* Thumbnail grid cells in the picker's library / uploaded tabs —
    default light-gray bg looks like a white blob on dark. */
-html.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails,
 .dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails,
-html.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails > *,
+.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails,
+.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails > *,
 .dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails > * {
     background-color: #111827 !important;
     border-color: rgba(255, 255, 255, 0.06) !important;
@@ -1121,8 +1121,8 @@ html.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails > *,
     background-color: rgba(0, 0, 0, 0.06);
     border-color: rgba(0, 0, 0, 0.12);
 }
-html.dark .mw-le-user-menu-button:hover,
-html.dark .mw-le-user-menu-button:focus-visible {
+.dark .mw-le-user-menu-button:hover,
+.dark .mw-le-user-menu-button:focus-visible {
     background-color: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.18);
 }
@@ -1644,7 +1644,7 @@ select option,
     margin: 0.25rem auto 1rem;
     padding-inline: 1rem;
 }
-html.dark .mw-admin-empty-state-explainer,
+.dark .mw-admin-empty-state-explainer,
 .dark .mw-admin-empty-state-explainer {
     color: #9ca3af;
 }
@@ -2561,17 +2561,13 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     z-index: 1199;
 }
 
-/* task-2026-05-27 — Drawer must enter from the inline-start edge (LEFT in
- * LTR, RIGHT in RTL) per the AI-700 spec. Changed inset-inline-end to
- * inset-inline-start and flipped the hidden-state translateX from 100% to
- * minus-100-percent so the drawer slides in from the left in LTR. The RTL
- * override flips back to translateX(100%) so the drawer enters from the
- * right in RTL. Contract test LiveEdit7326d6AI700MainDrawerContractTest
- * pins: translateX(minus-100-percent) baseline + RTL translateX(100%). */
+/* task-2026-05-27 — Drawer enters from the inline-start edge (left in
+ * LTR, right in RTL) via logical inset. No transform — transform on this
+ * ancestor breaks position:fixed live-edit modals. */
 .mw-main-drawer {
     position: fixed;
     top: 0;
-    inset-inline-start: 0;
+    inset-inline-start: -100%;
     bottom: 0;
     width: 280px;
     max-width: 100vw;
@@ -2580,18 +2576,13 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     z-index: 1200;
     display: flex;
     flex-direction: column;
-    transform: translateX(-100%);
-    transition: transform var(--t-slow, 320ms) var(--ease, ease-out);
+    transition: inset-inline-start var(--t-slow, 320ms) var(--ease, ease-out);
     box-shadow: 0 0 24px rgba(0, 0, 0, 0.18);
     visibility: hidden;
 }
 
-html[dir="rtl"] .mw-main-drawer {
-    transform: translateX(100%);
-}
-
 .mw-main-drawer--open {
-    transform: translateX(0);
+    inset-inline-start: 0;
     visibility: visible;
 }
 
@@ -2710,43 +2701,43 @@ html[dir="rtl"] .mw-main-drawer {
 }
 
 /* Dark theme — drawer surfaces flip to dark; tokens carry dark
-   variants from ESE slice 1.1 :root override on html.dark. */
-html.dark .mw-main-drawer-backdrop {
+   variants from ESE slice 1.1 :root override on .dark. */
+.dark .mw-main-drawer-backdrop {
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-html.dark .mw-main-drawer {
+.dark .mw-main-drawer {
     background-color: var(--ese-surface, #1f2937);
     color: var(--ese-text, #f3f4f6);
     box-shadow: 0 0 24px rgba(0, 0, 0, 0.6);
 }
-html.dark .mw-main-drawer__header {
+.dark .mw-main-drawer__header {
     border-bottom-color: var(--ese-border, rgba(255, 255, 255, 0.12));
 }
-html.dark .mw-main-drawer__close {
+.dark .mw-main-drawer__close {
     color: var(--ese-text-muted, #94a3b8);
 }
-html.dark .mw-main-drawer__close:hover {
+.dark .mw-main-drawer__close:hover {
     background-color: var(--ese-surface-hover, rgba(255, 255, 255, 0.06));
     color: var(--ese-text, #f1f5f9);
 }
-html.dark .mw-main-drawer__item {
+.dark .mw-main-drawer__item {
     color: var(--ese-text, #f1f5f9);
 }
-html.dark .mw-main-drawer__item:hover {
+.dark .mw-main-drawer__item:hover {
     background-color: var(--ese-surface-hover, rgba(255, 255, 255, 0.06));
 }
-html.dark .mw-main-drawer__item svg,
-html.dark .mw-main-drawer__item-icon {
+.dark .mw-main-drawer__item svg,
+.dark .mw-main-drawer__item-icon {
     color: var(--ese-text-muted, #94a3b8);
 }
-html.dark .mw-main-drawer__item-affordance {
+.dark .mw-main-drawer__item-affordance {
     color: var(--ese-text-muted, #94a3b8);
 }
-html.dark .mw-main-drawer__footer-divider {
+.dark .mw-main-drawer__footer-divider {
     border-top-color: var(--ese-border, rgba(255, 255, 255, 0.12));
 }
-html.dark .mw-main-drawer__item--logout {
+.dark .mw-main-drawer__item--logout {
     color: var(--ese-text, #f1f5f9);
 }
 
@@ -2857,10 +2848,10 @@ html.dark .mw-main-drawer__item--logout {
     transform: none;
 }
 /* AI-934 dark mode: #94a3b8 on #1f2937 bg = 5.44:1 — passes WCAG AA, no change needed. */
-html.dark .mw-main-drawer__section-header {
+.dark .mw-main-drawer__section-header {
     color: var(--ese-text-muted, #94a3b8);
 }
-html.dark .mw-main-drawer__toggle-track {
+.dark .mw-main-drawer__toggle-track {
     background-color: rgba(255, 255, 255, 0.2);
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2980,7 +2971,7 @@ html.dark .mw-main-drawer__toggle-track {
     overflow: hidden;
 }
 
-html.dark .mw-page-chip-popover {
+.dark .mw-page-chip-popover {
     background-color: #1e2432;
     color: var(--ese-text, #f3f4f6);
     border-color: #3f4860;
@@ -2995,7 +2986,7 @@ html.dark .mw-page-chip-popover {
     flex-shrink: 0;
 }
 
-html.dark .mw-page-chip-popover__tabs {
+.dark .mw-page-chip-popover__tabs {
     border-bottom-color: #3f4860;
     background-color: #161c28;
 }
@@ -3031,11 +3022,11 @@ html.dark .mw-page-chip-popover__tabs {
     color: var(--ese-text, #111827);
 }
 
-html.dark .mw-page-chip-popover__tab {
+.dark .mw-page-chip-popover__tab {
     color: #9ca3af;
 }
 
-html.dark .mw-page-chip-popover__tab:hover {
+.dark .mw-page-chip-popover__tab:hover {
     color: #f3f4f6;
 }
 
@@ -3092,7 +3083,7 @@ html.dark .mw-page-chip-popover__tab:hover {
     border-color: var(--ese-accent, #0d6efd);
 }
 
-html.dark .mw-page-chip-popover__input {
+.dark .mw-page-chip-popover__input {
     background-color: var(--ese-surface, #111827);
     color: var(--ese-text, #f3f4f6);
     border-color: var(--ese-border, rgba(255, 255, 255, 0.12));
@@ -3133,7 +3124,7 @@ html.dark .mw-page-chip-popover__input {
     color: var(--ese-accent, #0d6efd);
 }
 
-html.dark .mw-page-chip-popover__link {
+.dark .mw-page-chip-popover__link {
     color: var(--ese-text, #f3f4f6);
 }
 
@@ -3151,7 +3142,7 @@ html.dark .mw-page-chip-popover__link {
     color: var(--ese-accent, #0d6efd);
 }
 
-html.dark .mw-page-chip-popover__link--current {
+.dark .mw-page-chip-popover__link--current {
     color: var(--ese-accent, #0d6efd);
 }
 
@@ -3245,7 +3236,7 @@ html.dark .mw-page-chip-popover__link--current {
     pointer-events: none;
 }
 
-html.dark .mw-live-edit-page .mw-toolbar-icon-btn[data-mw-label]::after {
+.dark .mw-live-edit-page .mw-toolbar-icon-btn[data-mw-label]::after {
     color: #9ca3af;
 }
 
@@ -3298,11 +3289,11 @@ html.dark .mw-live-edit-page .mw-toolbar-icon-btn[data-mw-label]::after {
     line-height: 1.4;
 }
 
-html.dark .mw-ese-empty-state__title {
+.dark .mw-ese-empty-state__title {
     color: var(--ese-text, #f3f4f6);
 }
 
-html.dark .mw-ese-empty-state__hint {
+.dark .mw-ese-empty-state__hint {
     color: #9ca3af;
 }
 
@@ -3332,7 +3323,7 @@ html.dark .mw-ese-empty-state__hint {
     background-color: var(--ese-border, rgba(0, 0, 0, 0.12));
 }
 
-html.dark .mw-main-drawer__item--depth-1::before {
+.dark .mw-main-drawer__item--depth-1::before {
     background-color: rgba(255, 255, 255, 0.12);
 }
 
@@ -3523,7 +3514,7 @@ body.fi-panel-admin .fi-sidebar {
     body.fi-panel-admin.fi-sidebar-open .fi-sidebar {
         border-inline-end: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
     }
-    html.dark body.fi-panel-admin.fi-sidebar-open .fi-sidebar {
+    .dark body.fi-panel-admin.fi-sidebar-open .fi-sidebar {
         border-inline-end-color: var(--ese-border, rgba(255, 255, 255, 0.12));
     }
 }
@@ -3810,7 +3801,7 @@ body.fi-panel-admin .mw-hero-stat-card {
     padding: var(--space-md, 13px) var(--space-lg, 21px);
     margin-block-end: var(--space-md, 13px);
 }
-html.dark body.fi-panel-admin .mw-hero-stat-card {
+.dark body.fi-panel-admin .mw-hero-stat-card {
     background-color: #1a1f2b;
     border: none;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.30);
@@ -3835,7 +3826,7 @@ body.fi-panel-admin .mw-hero-stat-label {
     font-weight: 600;
     color: #111827;
 }
-html.dark body.fi-panel-admin .mw-hero-stat-label {
+.dark body.fi-panel-admin .mw-hero-stat-label {
     color: #f3f4f6;
 }
 body.fi-panel-admin .mw-hero-stat-link {
@@ -3856,7 +3847,7 @@ body.fi-panel-admin .mw-hero-stat-tabs {
     padding: 2px;
     width: fit-content;
 }
-html.dark body.fi-panel-admin .mw-hero-stat-tabs {
+.dark body.fi-panel-admin .mw-hero-stat-tabs {
     background: rgba(255, 255, 255, 0.07);
 }
 body.fi-panel-admin .mw-hero-stat-tab {
@@ -3873,7 +3864,7 @@ body.fi-panel-admin .mw-hero-stat-tab {
 body.fi-panel-admin .mw-hero-stat-tab:hover {
     color: #111827;
 }
-html.dark body.fi-panel-admin .mw-hero-stat-tab:hover {
+.dark body.fi-panel-admin .mw-hero-stat-tab:hover {
     color: #f3f4f6;
 }
 body.fi-panel-admin .mw-hero-stat-tab--active {
@@ -3881,7 +3872,7 @@ body.fi-panel-admin .mw-hero-stat-tab--active {
     color: #111827;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
-html.dark body.fi-panel-admin .mw-hero-stat-tab--active {
+.dark body.fi-panel-admin .mw-hero-stat-tab--active {
     background: rgba(255, 255, 255, 0.12);
     color: #f3f4f6;
 }
@@ -3892,7 +3883,7 @@ body.fi-panel-admin .mw-hero-stat-value {
     line-height: 1.2;
     margin: 0;
 }
-html.dark body.fi-panel-admin .mw-hero-stat-value {
+.dark body.fi-panel-admin .mw-hero-stat-value {
     color: #f3f4f6;
 }
 body.fi-panel-admin .mw-hero-stat-orders {
@@ -4002,8 +3993,8 @@ body.fi-panel-admin .mw-quick-stat-card:focus-visible {
     outline: 2px solid var(--ese-accent, #0d6efd);
     outline-offset: 2px;
 }
-html.dark body.fi-panel-admin .mw-quick-stat-card:hover,
-html.dark body.fi-panel-admin .mw-quick-stat-card:focus-visible {
+.dark body.fi-panel-admin .mw-quick-stat-card:hover,
+.dark body.fi-panel-admin .mw-quick-stat-card:focus-visible {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 @media (prefers-reduced-motion: reduce) {
@@ -4112,7 +4103,7 @@ body.fi-panel-admin .fi-theme-switcher-btn.fi-active .fi-icon {
     color: var(--ese-accent, #0d6efd);
 }
 
-html.dark body.fi-panel-admin .fi-theme-switcher-btn.fi-active {
+.dark body.fi-panel-admin .fi-theme-switcher-btn.fi-active {
     background-color: var(--ese-accent-soft, rgba(96, 165, 250, 0.20));
     color: var(--ese-accent, #60a5fa);
     box-shadow: inset 0 0 0 1px var(--ese-accent, #60a5fa);
@@ -4162,11 +4153,11 @@ html.dark body.fi-panel-admin .fi-theme-switcher-btn.fi-active {
     margin: 0;
 }
 
-html.dark .mw-no-database-empty__heading {
+.dark .mw-no-database-empty__heading {
     color: var(--ese-text, #f3f4f6);
 }
 
-html.dark .mw-no-database-empty__description {
+.dark .mw-no-database-empty__description {
     color: var(--ese-text-muted, #9ca3af);
 }
 
@@ -4284,11 +4275,11 @@ body.fi-panel-admin .mw-admin-empty-state__cta-wrap {
     margin-top: var(--space-sm, 8px);
 }
 
-html.dark body.fi-panel-admin .mw-admin-empty-state__heading {
+.dark body.fi-panel-admin .mw-admin-empty-state__heading {
     color: var(--ese-text, #f3f4f6);
 }
 
-html.dark body.fi-panel-admin .mw-admin-empty-state__body {
+.dark body.fi-panel-admin .mw-admin-empty-state__body {
     color: var(--ese-text-muted, #9ca3af);
 }
 
@@ -4347,13 +4338,13 @@ html.dark body.fi-panel-admin .mw-admin-empty-state__body {
     line-height: 1.4;
 }
 /* Dark mode */
-html.dark .quick-ai-type-group {
+.dark .quick-ai-type-group {
     border-top-color: var(--ese-border, rgba(255, 255, 255, 0.08));
 }
-html.dark .quick-ai-type-group-header {
+.dark .quick-ai-type-group-header {
     color: var(--ese-text-muted, #9ca3af);
 }
-html.dark .quick-ai-type-group-header:hover {
+.dark .quick-ai-type-group-header:hover {
     background: var(--ese-surface-hover, rgba(255, 255, 255, 0.04));
 }
 
@@ -4366,7 +4357,7 @@ body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
     border-left: 3px solid #0d6efd !important;
     padding-left: calc(var(--sidebar-item-padding-x, 12px) - 3px) !important;
 }
-html.dark body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
+.dark body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
     background-color: rgba(13, 110, 253, 0.15) !important;
 }
 body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-icon,
@@ -4376,43 +4367,43 @@ body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-label {
 
 /* AI-956 / task-2026-05-22 — Admin dark mode: Flatpickr date-picker calendar renders
  * with white background in dark mode. Add dark theme overrides. */
-html.dark .flatpickr-calendar {
+.dark .flatpickr-calendar {
     background: #1f2937 !important;
     color: #f9fafb !important;
     border-color: rgba(255, 255, 255, 0.12) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
 }
-html.dark .flatpickr-calendar .flatpickr-day {
+.dark .flatpickr-calendar .flatpickr-day {
     color: #f9fafb !important;
 }
-html.dark .flatpickr-calendar .flatpickr-day:hover {
+.dark .flatpickr-calendar .flatpickr-day:hover {
     background: rgba(255, 255, 255, 0.1) !important;
     border-color: transparent !important;
 }
-html.dark .flatpickr-calendar .flatpickr-day.selected,
-html.dark .flatpickr-calendar .flatpickr-day.today {
+.dark .flatpickr-calendar .flatpickr-day.selected,
+.dark .flatpickr-calendar .flatpickr-day.today {
     background: #0d6efd !important;
     border-color: #0d6efd !important;
     color: #ffffff !important;
 }
-html.dark .flatpickr-calendar .flatpickr-day.disabled {
+.dark .flatpickr-calendar .flatpickr-day.disabled {
     color: rgba(255, 255, 255, 0.3) !important;
 }
-html.dark .flatpickr-calendar .flatpickr-months,
-html.dark .flatpickr-calendar .flatpickr-month,
-html.dark .flatpickr-calendar .flatpickr-current-month,
-html.dark .flatpickr-calendar .flatpickr-prev-month,
-html.dark .flatpickr-calendar .flatpickr-next-month {
+.dark .flatpickr-calendar .flatpickr-months,
+.dark .flatpickr-calendar .flatpickr-month,
+.dark .flatpickr-calendar .flatpickr-current-month,
+.dark .flatpickr-calendar .flatpickr-prev-month,
+.dark .flatpickr-calendar .flatpickr-next-month {
     background: #1f2937 !important;
     color: #f9fafb !important;
     fill: #f9fafb !important;
 }
-html.dark .flatpickr-calendar .flatpickr-weekday {
+.dark .flatpickr-calendar .flatpickr-weekday {
     color: #9ca3af !important;
     background: #1f2937 !important;
 }
-html.dark .flatpickr-calendar .flatpickr-time input,
-html.dark .flatpickr-calendar .flatpickr-time .flatpickr-am-pm {
+.dark .flatpickr-calendar .flatpickr-time input,
+.dark .flatpickr-calendar .flatpickr-time .flatpickr-am-pm {
     background: #1f2937 !important;
     color: #f9fafb !important;
     border-color: rgba(255, 255, 255, 0.12) !important;
@@ -4420,35 +4411,35 @@ html.dark .flatpickr-calendar .flatpickr-time .flatpickr-am-pm {
 
 /* AI-957 / task-2026-05-22 — Admin dark mode: multi-select tags dropdown renders
  * with white popup in dark mode. Add dark theme overrides for Filament select popups. */
-html.dark .choices__list--dropdown,
-html.dark .choices__list[aria-expanded] {
+.dark .choices__list--dropdown,
+.dark .choices__list[aria-expanded] {
     background: #1f2937 !important;
     border-color: rgba(255, 255, 255, 0.12) !important;
 }
-html.dark .choices__item--selectable,
-html.dark .choices__item--choice {
+.dark .choices__item--selectable,
+.dark .choices__item--choice {
     color: #f9fafb !important;
 }
-html.dark .choices__item--selectable:hover,
-html.dark .choices__item--selectable.is-highlighted {
+.dark .choices__item--selectable:hover,
+.dark .choices__item--selectable.is-highlighted {
     background: rgba(255, 255, 255, 0.1) !important;
 }
 /* Filament v5 native custom select dropdown */
-html.dark [data-headlessui-state] [role="listbox"],
-html.dark .fi-fo-field [role="listbox"],
-html.dark .fi-select-option-list,
-html.dark [x-floated][role="listbox"] {
+.dark [data-headlessui-state] [role="listbox"],
+.dark .fi-fo-field [role="listbox"],
+.dark .fi-select-option-list,
+.dark [x-floated][role="listbox"] {
     background-color: #1f2937 !important;
     border-color: rgba(255, 255, 255, 0.12) !important;
     color: #f9fafb !important;
 }
-html.dark [data-headlessui-state] [role="option"],
-html.dark .fi-fo-field [role="option"] {
+.dark [data-headlessui-state] [role="option"],
+.dark .fi-fo-field [role="option"] {
     color: #f9fafb !important;
 }
-html.dark [data-headlessui-state] [role="option"]:hover,
-html.dark [data-headlessui-state] [role="option"][data-active="true"],
-html.dark [data-headlessui-state] [role="option"][aria-selected="true"] {
+.dark [data-headlessui-state] [role="option"]:hover,
+.dark [data-headlessui-state] [role="option"][data-active="true"],
+.dark [data-headlessui-state] [role="option"][aria-selected="true"] {
     background-color: rgba(13, 110, 253, 0.2) !important;
 }
 
@@ -4456,18 +4447,18 @@ html.dark [data-headlessui-state] [role="option"][aria-selected="true"] {
  * Filament dark mode uses very subtle borders that blend into the dark background.
  * WCAG 1.4.11 (Non-text Contrast) requires 3:1 ratio for UI components.
  * Bumping to rgba(255,255,255,0.25) provides ~4:1 on typical Filament dark bg (#1f2937). */
-html.dark body.fi-panel-admin .fi-input,
-html.dark body.fi-panel-admin .fi-input-wrp,
-html.dark body.fi-panel-admin .fi-fo-select,
-html.dark body.fi-panel-admin .fi-fo-select-wrp,
-html.dark body.fi-panel-admin .fi-fo-textarea,
-html.dark body.fi-panel-admin .fi-fo-textarea-wrp {
+.dark body.fi-panel-admin .fi-input,
+.dark body.fi-panel-admin .fi-input-wrp,
+.dark body.fi-panel-admin .fi-fo-select,
+.dark body.fi-panel-admin .fi-fo-select-wrp,
+.dark body.fi-panel-admin .fi-fo-textarea,
+.dark body.fi-panel-admin .fi-fo-textarea-wrp {
     border-color: rgba(255, 255, 255, 0.25) !important;
 }
-html.dark body.fi-panel-admin .fi-input:focus,
-html.dark body.fi-panel-admin .fi-input-wrp:focus-within,
-html.dark body.fi-panel-admin .fi-fo-select:focus,
-html.dark body.fi-panel-admin .fi-fo-textarea:focus {
+.dark body.fi-panel-admin .fi-input:focus,
+.dark body.fi-panel-admin .fi-input-wrp:focus-within,
+.dark body.fi-panel-admin .fi-fo-select:focus,
+.dark body.fi-panel-admin .fi-fo-textarea:focus {
     border-color: rgba(13, 110, 253, 0.8) !important;
     box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25) !important;
 }
@@ -4475,13 +4466,13 @@ html.dark body.fi-panel-admin .fi-fo-textarea:focus {
 /* AI-951 / task-2026-05-22 — Admin dark mode: table alternating row stripes disappear.
  * In dark mode, even/odd row backgrounds have near-zero lightness delta.
  * Adding a subtle but perceptible stripe keeps rows distinguishable. */
-html.dark body.fi-panel-admin .fi-ta-row:nth-child(even) {
+.dark body.fi-panel-admin .fi-ta-row:nth-child(even) {
     background-color: rgba(255, 255, 255, 0.03) !important;
 }
-html.dark body.fi-panel-admin .fi-ta-row:nth-child(odd) {
+.dark body.fi-panel-admin .fi-ta-row:nth-child(odd) {
     background-color: transparent !important;
 }
-html.dark body.fi-panel-admin .fi-ta-row:hover {
+.dark body.fi-panel-admin .fi-ta-row:hover {
     background-color: rgba(255, 255, 255, 0.06) !important;
 }
 
@@ -4502,7 +4493,7 @@ body.fi-panel-admin button[wire\:click*="addRepeaterItem"]:hover {
     background: rgba(13, 110, 253, 0.08) !important;
     border-color: rgba(13, 110, 253, 0.6) !important;
 }
-html.dark body.fi-panel-admin .fi-fo-repeater-create-item-btn-ctn {
+.dark body.fi-panel-admin .fi-fo-repeater-create-item-btn-ctn {
     border-color: rgba(13, 110, 253, 0.35) !important;
     background: rgba(13, 110, 253, 0.08) !important;
 }
@@ -4522,9 +4513,9 @@ body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-textarea-wrp {
     border-color: #ef4444 !important;
     box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
 }
-html.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-input-wrp,
-html.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-select-wrp,
-html.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-textarea-wrp {
+.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-input-wrp,
+.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-select-wrp,
+.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-textarea-wrp {
     border-color: #f87171 !important;
     box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.2) !important;
 }
@@ -4580,7 +4571,7 @@ body.fi-panel-admin .fi-badge[class*="superadmin"] {
     font-weight: 600 !important;
     letter-spacing: 0.01em !important;
 }
-html.dark body.fi-panel-admin .fi-badge {
+.dark body.fi-panel-admin .fi-badge {
     /* Ensure readable text inside badges in dark mode */
     text-shadow: none !important;
 }
@@ -4590,9 +4581,9 @@ html.dark body.fi-panel-admin .fi-badge {
    illustration in dark mode. The shopping illustration uses pink/teal/yellow
    fills that clash with the dark admin background.
    ========================================================================== */
-html.dark body.fi-panel-admin .mw-admin-empty-state-posts svg,
-html.dark body.fi-panel-admin .fi-ta-empty-state svg,
-html.dark body.fi-panel-admin [class*="empty-state"] svg {
+.dark body.fi-panel-admin .mw-admin-empty-state-posts svg,
+.dark body.fi-panel-admin .fi-ta-empty-state svg,
+.dark body.fi-panel-admin [class*="empty-state"] svg {
     filter: saturate(0.3) opacity(0.6) !important;
 }
 
@@ -4688,7 +4679,7 @@ body.fi-panel-admin .fi-notification {
 
 /* task-2026-05-27-241d90 / AI-1159: modal footer <a> tags invisible in dark mode.
    Filament dark cascade targets <button> but misses <a> with fi-btn class. */
-html.dark .fi-modal-footer a.fi-btn,
+.dark .fi-modal-footer a.fi-btn,
 .theme-dark .fi-modal-footer a.fi-btn {
     color: rgb(226, 232, 240) !important;
 }
@@ -4867,46 +4858,46 @@ body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-
 }
 
 /* ── Dark mode: invert bg tokens for dark theme ─────────────────── */
-html.dark body.fi-panel-admin,
-html.dark body.fi-panel-admin .fi-main,
-html.dark body.fi-panel-admin .fi-page {
+.dark body.fi-panel-admin,
+.dark body.fi-panel-admin .fi-main,
+.dark body.fi-panel-admin .fi-page {
     background-color: #111827 !important;
 }
-html.dark body.fi-panel-admin .fi-sidebar-wrap,
-html.dark body.fi-panel-admin .fi-sidebar {
+.dark body.fi-panel-admin .fi-sidebar-wrap,
+.dark body.fi-panel-admin .fi-sidebar {
     background-color: #1f2937 !important;
     border-right-color: #374151 !important;
 }
-html.dark body.fi-panel-admin .fi-sidebar-item-btn {
+.dark body.fi-panel-admin .fi-sidebar-item-btn {
     color: #e5e7eb !important;
 }
-html.dark body.fi-panel-admin .fi-sidebar-item-btn:hover {
+.dark body.fi-panel-admin .fi-sidebar-item-btn:hover {
     background-color: #374151 !important;
     color: #60a5fa !important;
 }
-html.dark body.fi-panel-admin .fi-sidebar-item-btn.fi-active {
+.dark body.fi-panel-admin .fi-sidebar-item-btn.fi-active {
     background-color: #1e3a5f !important;
     color: #60a5fa !important;
 }
-html.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn,
-html.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn.fi-color-primary {
+.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn,
+.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn.fi-color-primary {
     background-color: #1a3d2b !important;
     color: #6ee7a0 !important;
 }
-html.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn span,
-html.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn .fi-btn-label,
-html.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn svg {
+.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn span,
+.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn .fi-btn-label,
+.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn svg {
     color: #6ee7a0 !important;
 }
-html.dark body.fi-panel-admin .admin-toolbar-add .fi-btn,
-html.dark body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary {
+.dark body.fi-panel-admin .admin-toolbar-add .fi-btn,
+.dark body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary {
     background-color: #1a2e45 !important;
     color: #93c5fd !important;
 }
-html.dark body.fi-panel-admin .admin-toolbar-add .fi-btn .sr-only {
+.dark body.fi-panel-admin .admin-toolbar-add .fi-btn .sr-only {
     color: #93c5fd !important;
 }
-html.dark body.fi-panel-admin .admin-toolbar-add .fi-btn svg {
+.dark body.fi-panel-admin .admin-toolbar-add .fi-btn svg {
     color: #93c5fd !important;
 }
 
@@ -5136,52 +5127,52 @@ body.fi-panel-admin .fi-global-search-field input:focus {
 }
 
 /* ── Dark mode — Round 2 ─────────────────────────────────────────── */
-html.dark body.fi-panel-admin .fi-breadcrumbs-item-label {
+.dark body.fi-panel-admin .fi-breadcrumbs-item-label {
     color: #60a5fa !important;
 }
-html.dark body.fi-panel-admin .fi-header-heading {
+.dark body.fi-panel-admin .fi-header-heading {
     color: #f9fafb !important;
 }
-html.dark body.fi-panel-admin .fi-header {
+.dark body.fi-panel-admin .fi-header {
     border-bottom-color: #374151 !important;
 }
-html.dark body.fi-panel-admin .fi-ta-ctn {
+.dark body.fi-panel-admin .fi-ta-ctn {
     background-color: #1f2937 !important;
     border-color: #374151 !important;
 }
-html.dark body.fi-panel-admin .fi-ta-header {
+.dark body.fi-panel-admin .fi-ta-header {
     background-color: #111827 !important;
     border-bottom-color: #374151 !important;
 }
-html.dark body.fi-panel-admin .fi-ta-row td,
-html.dark body.fi-panel-admin .fi-ta-row .fi-ta-cell {
+.dark body.fi-panel-admin .fi-ta-row td,
+.dark body.fi-panel-admin .fi-ta-row .fi-ta-cell {
     border-bottom-color: #374151 !important;
 }
-html.dark body.fi-panel-admin .fi-input {
+.dark body.fi-panel-admin .fi-input {
     background-color: #1f2937 !important;
     border-color: #374151 !important;
     color: #f9fafb !important;
 }
-html.dark body.fi-panel-admin .fi-input:focus {
+.dark body.fi-panel-admin .fi-input:focus {
     border-color: #60a5fa !important;
     box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15) !important;
 }
-html.dark body.fi-panel-admin .fi-tabs {
+.dark body.fi-panel-admin .fi-tabs {
     background-color: #1f2937 !important;
     border-bottom-color: #374151 !important;
 }
-html.dark body.fi-panel-admin .fi-tabs-item {
+.dark body.fi-panel-admin .fi-tabs-item {
     color: #9ca3af !important;
 }
-html.dark body.fi-panel-admin .fi-tabs-item:hover {
+.dark body.fi-panel-admin .fi-tabs-item:hover {
     color: #e5e7eb !important;
 }
-html.dark body.fi-panel-admin .fi-tabs-item[aria-selected="true"],
-html.dark body.fi-panel-admin .fi-tabs-item.fi-active {
+.dark body.fi-panel-admin .fi-tabs-item[aria-selected="true"],
+.dark body.fi-panel-admin .fi-tabs-item.fi-active {
     color: #60a5fa !important;
     border-bottom-color: #60a5fa !important;
 }
-html.dark body.fi-panel-admin .fi-global-search-field input {
+.dark body.fi-panel-admin .fi-global-search-field input {
     background-color: #1f2937 !important;
     border-color: #374151 !important;
     color: #f9fafb !important;
@@ -5189,74 +5180,74 @@ html.dark body.fi-panel-admin .fi-global-search-field input {
 
 /* ── Dark mode — additional table/form/section overrides ─────────── */
 /* Main table wrapper */
-html.dark body.fi-panel-admin .fi-ta {
+.dark body.fi-panel-admin .fi-ta {
     background-color: #1f2937 !important;
 }
 /* Table toolbar (search bar + filter row) */
-html.dark body.fi-panel-admin .fi-ta-header-toolbar {
+.dark body.fi-panel-admin .fi-ta-header-toolbar {
     background-color: #1f2937 !important;
     border-bottom-color: #374151 !important;
 }
 /* Column header cells */
-html.dark body.fi-panel-admin .fi-ta-header-cell {
+.dark body.fi-panel-admin .fi-ta-header-cell {
     background-color: #111827 !important;
     color: #9ca3af !important;
 }
 /* Section card in dark */
-html.dark body.fi-panel-admin .fi-section {
+.dark body.fi-panel-admin .fi-section {
     background-color: #1f2937 !important;
     border-color: #374151 !important;
 }
-html.dark body.fi-panel-admin .fi-section-header {
+.dark body.fi-panel-admin .fi-section-header {
     border-bottom-color: #374151 !important;
 }
-html.dark body.fi-panel-admin .fi-section-header-heading {
+.dark body.fi-panel-admin .fi-section-header-heading {
     color: #f9fafb !important;
 }
-html.dark body.fi-panel-admin .fi-section-content {
+.dark body.fi-panel-admin .fi-section-content {
     background-color: #1f2937 !important;
 }
 /* Form labels */
-html.dark body.fi-panel-admin .fi-fo-field-label label,
-html.dark body.fi-panel-admin .fi-fo-field > label {
+.dark body.fi-panel-admin .fi-fo-field-label label,
+.dark body.fi-panel-admin .fi-fo-field > label {
     color: #d1d5db !important;
 }
 /* Pagination */
-html.dark body.fi-panel-admin .fi-pagination {
+.dark body.fi-panel-admin .fi-pagination {
     background-color: #1f2937 !important;
     border-top-color: #374151 !important;
 }
 /* Table filter form row */
-html.dark body.fi-panel-admin .fi-ta-filters-form {
+.dark body.fi-panel-admin .fi-ta-filters-form {
     background-color: #1f2937 !important;
     border-bottom-color: #374151 !important;
 }
 /* Row action icon buttons */
-html.dark body.fi-panel-admin .fi-ta-row .fi-icon-btn {
+.dark body.fi-panel-admin .fi-ta-row .fi-icon-btn {
     color: #9ca3af !important;
 }
-html.dark body.fi-panel-admin .fi-ta-row .fi-icon-btn:hover {
+.dark body.fi-panel-admin .fi-ta-row .fi-icon-btn:hover {
     background-color: rgba(96, 165, 250, 0.1) !important;
     color: #60a5fa !important;
 }
 /* Badges — softer alpha tones for dark bg */
-html.dark body.fi-panel-admin .fi-badge.fi-color-success {
+.dark body.fi-panel-admin .fi-badge.fi-color-success {
     background-color: rgba(22, 163, 74, 0.2) !important;
     color: #4ade80 !important;
     border-color: rgba(22, 163, 74, 0.3) !important;
 }
-html.dark body.fi-panel-admin .fi-badge.fi-color-warning {
+.dark body.fi-panel-admin .fi-badge.fi-color-warning {
     background-color: rgba(202, 138, 4, 0.2) !important;
     color: #facc15 !important;
     border-color: rgba(202, 138, 4, 0.3) !important;
 }
-html.dark body.fi-panel-admin .fi-badge.fi-color-danger {
+.dark body.fi-panel-admin .fi-badge.fi-color-danger {
     background-color: rgba(220, 38, 38, 0.2) !important;
     color: #f87171 !important;
     border-color: rgba(220, 38, 38, 0.3) !important;
 }
-html.dark body.fi-panel-admin .fi-badge.fi-color-info,
-html.dark body.fi-panel-admin .fi-badge.fi-color-primary {
+.dark body.fi-panel-admin .fi-badge.fi-color-info,
+.dark body.fi-panel-admin .fi-badge.fi-color-primary {
     background-color: rgba(29, 78, 216, 0.2) !important;
     color: #60a5fa !important;
     border-color: rgba(29, 78, 216, 0.3) !important;
@@ -5299,9 +5290,9 @@ body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-
     border-color: #243347 !important;
 }
 /* Dark mode — keep visible but slightly lighter */
-html.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
-html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
-html.dark body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+.dark body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
     background-color: #2d4a6e !important;
     color: #e5e7eb !important;
     border-color: #2d4a6e !important;
@@ -5337,17 +5328,17 @@ body.fi-panel-admin .fi-tabs {
 }
 
 /* Dark mode tabs */
-html.dark body.fi-panel-admin .fi-tabs {
+.dark body.fi-panel-admin .fi-tabs {
     border-bottom-color: #374151 !important;
 }
-html.dark body.fi-panel-admin .fi-tabs-item {
+.dark body.fi-panel-admin .fi-tabs-item {
     color: #9ca3af !important;
 }
-html.dark body.fi-panel-admin .fi-tabs-item:hover {
+.dark body.fi-panel-admin .fi-tabs-item:hover {
     color: #e5e7eb !important;
 }
-html.dark body.fi-panel-admin .fi-tabs-item.fi-active,
-html.dark body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
+.dark body.fi-panel-admin .fi-tabs-item.fi-active,
+.dark body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
     color: #f9fafb !important;
     border-bottom-color: #60a5fa !important;
 }
@@ -5448,8 +5439,8 @@ body.fi-panel-admin .fi-ta-empty-state-description {
 
 /* ── Dark mode: "New X" button dark navy becomes visible navy ─────────
    Already handled above, but also ensure the label/icon colors follow */
-html.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary .fi-btn-label,
-html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary .fi-btn-label {
+.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary .fi-btn-label,
+.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary .fi-btn-label {
     color: #e5e7eb !important;
 }
 
@@ -5461,18 +5452,18 @@ html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary .fi-btn-la
  * bespoke directional icons in the admin shell / Live Edit toolbar.
  * Vertical glyphs are intentionally excluded. Mirror of the public
  * rule in frontend-assets ui.css per the both-pipelines convention. */
-html[dir="rtl"] .mdi-arrow-left,
-html[dir="rtl"] .mdi-arrow-right,
-html[dir="rtl"] .mdi-arrow-left-thin,
-html[dir="rtl"] .mdi-arrow-right-thin,
-html[dir="rtl"] .mdi-arrow-back,
-html[dir="rtl"] .mdi-arrow-forward,
-html[dir="rtl"] .mdi-chevron-left,
-html[dir="rtl"] .mdi-chevron-right,
-html[dir="rtl"] .mdi-chevron-double-left,
-html[dir="rtl"] .mdi-chevron-double-right,
-html[dir="rtl"] .mdi-menu-left,
-html[dir="rtl"] .mdi-menu-right,
-html[dir="rtl"] .mw-rtl-flip {
+:dir(rtl) .mdi-arrow-left,
+:dir(rtl) .mdi-arrow-right,
+:dir(rtl) .mdi-arrow-left-thin,
+:dir(rtl) .mdi-arrow-right-thin,
+:dir(rtl) .mdi-arrow-back,
+:dir(rtl) .mdi-arrow-forward,
+:dir(rtl) .mdi-chevron-left,
+:dir(rtl) .mdi-chevron-right,
+:dir(rtl) .mdi-chevron-double-left,
+:dir(rtl) .mdi-chevron-double-right,
+:dir(rtl) .mdi-menu-left,
+:dir(rtl) .mdi-menu-right,
+:dir(rtl) .mw-rtl-flip {
     transform: scaleX(-1);
 }

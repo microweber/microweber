@@ -34,7 +34,7 @@ use Tests\TestCase;
  * 15.  Segmented-control buttons (.mw-segmented-control button + active)
  *      Older align/justify icon strip; Bootstrap overrides ESE token color.
  *
- * All rules html.dark / .theme-dark / [data-theme="dark"] scoped.
+ * All rules .dark / .theme-dark / [data-theme="dark"] scoped.
  * Light mode completely unchanged.
  *
  * Style: file-system reads only, no DB / Filament boot.
@@ -77,9 +77,9 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
     public function preset_thumbnail_box_has_white_backplate_in_dark(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.mw-live-edit-predefines-styles-box[^{]*\{[^}]*background-color:\s*#ffffff~s',
+            '~(\.dark|\.theme-dark)[^{]*\.mw-live-edit-predefines-styles-box[^{]*\{[^}]*background-color:\s*#ffffff~s',
             $this->eseStripped,
-            'html.dark must give .mw-live-edit-predefines-styles-box a white backplate'
+            '.dark must give .mw-live-edit-predefines-styles-box a white backplate'
         );
     }
 
@@ -99,9 +99,9 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
     public function predefined_styles_rended_has_white_backplate_in_dark(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.predefined-styles-rended[^{]*\{[^}]*background-color:\s*#ffffff~s',
+            '~(\.dark|\.theme-dark)[^{]*\.predefined-styles-rended[^{]*\{[^}]*background-color:\s*#ffffff~s',
             $this->eseStripped,
-            'html.dark must give .predefined-styles-rended a white backplate'
+            '.dark must give .predefined-styles-rended a white backplate'
         );
     }
 
@@ -111,9 +111,9 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
     public function ese_holder_dark_background_rule_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.mw-ese-holder[^{]*\{[^}]*background-color:\s*var\(--ese-surface-muted~s',
+            '~(\.dark|\.theme-dark)[^{]*\.mw-ese-holder[^{]*\{[^}]*background-color:\s*var\(--ese-surface-muted~s',
             $this->eseStripped,
-            'html.dark must override .mw-ese-holder background to --ese-surface-muted'
+            '.dark must override .mw-ese-holder background to --ese-surface-muted'
         );
     }
 
@@ -121,9 +121,9 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
     public function ese_holder_dark_border_rule_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.mw-ese-holder[^{]*\{[^}]*border-color:\s*var\(--ese-border~s',
+            '~(\.dark|\.theme-dark)[^{]*\.mw-ese-holder[^{]*\{[^}]*border-color:\s*var\(--ese-border~s',
             $this->eseStripped,
-            'html.dark must override .mw-ese-holder border to --ese-border'
+            '.dark must override .mw-ese-holder border to --ese-border'
         );
     }
 
@@ -131,9 +131,9 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
     public function ese_holder_active_dark_state_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.mw-ese-holder\.active[^{]*\{[^}]*border-color:\s*var\(--ese-accent~s',
+            '~(\.dark|\.theme-dark)[^{]*\.mw-ese-holder\.active[^{]*\{[^}]*border-color:\s*var\(--ese-accent~s',
             $this->eseStripped,
-            'html.dark must set active holder border to --ese-accent'
+            '.dark must set active holder border to --ese-accent'
         );
     }
 
@@ -143,9 +143,9 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
     public function ese_label_dark_color_rule_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.mw-ese-label[^{]*\{[^}]*color:\s*var\(--ese-text-muted~s',
+            '~(\.dark|\.theme-dark)[^{]*\.mw-ese-label[^{]*\{[^}]*color:\s*var\(--ese-text-muted~s',
             $this->eseStripped,
-            'html.dark must set .mw-ese-label color to --ese-text-muted'
+            '.dark must set .mw-ese-label color to --ese-text-muted'
         );
     }
 
@@ -155,9 +155,9 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
     public function preset_btn_dark_text_color_rule_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.mw-tool-btn\.mw-tool-btn--preset[^{]*\{[^}]*color:\s*var\(--ese-text~s',
+            '~(\.dark|\.theme-dark)[^{]*\.mw-tool-btn\.mw-tool-btn--preset[^{]*\{[^}]*color:\s*var\(--ese-text~s',
             $this->eseStripped,
-            'html.dark must set .mw-tool-btn--preset color to --ese-text'
+            '.dark must set .mw-tool-btn--preset color to --ese-text'
         );
     }
 
@@ -168,9 +168,9 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
         $this->assertNotFalse($pos);
         // Find the rule after the last occurrence (the dark mode block)
         $before = substr($this->eseStripped, 0, (int) $pos);
-        $lastDark = strrpos($before, 'html.dark');
+        $lastDark = strrpos($before, '.dark');
         $this->assertNotFalse($lastDark,
-            'The last .mw-tool-btn--preset rule must be inside an html.dark block');
+            'The last .mw-tool-btn--preset rule must be inside an .dark block');
         $slice = substr($this->eseStripped, (int) $pos, 200);
         $this->assertStringContainsString('!important', $slice,
             '.mw-tool-btn--preset dark color must use !important');
@@ -182,9 +182,9 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
     public function unit_btn_dark_color_rule_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.mw-field\.unit\s+\.mw-ui-btn[^{]*\{[^}]*color:\s*var\(--ese-text-muted~s',
+            '~(\.dark|\.theme-dark)[^{]*\.mw-field\.unit\s+\.mw-ui-btn[^{]*\{[^}]*color:\s*var\(--ese-text-muted~s',
             $this->eseStripped,
-            'html.dark must set .mw-field.unit .mw-ui-btn color to --ese-text-muted'
+            '.dark must set .mw-field.unit .mw-ui-btn color to --ese-text-muted'
         );
     }
 
@@ -194,9 +194,9 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
     public function segmented_control_dark_bg_rule_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.mw-segmented-control\s+button[^{]*\{[^}]*background-color:\s*var\(--ese-surface-muted~s',
+            '~(\.dark|\.theme-dark)[^{]*\.mw-segmented-control\s+button[^{]*\{[^}]*background-color:\s*var\(--ese-surface-muted~s',
             $this->eseStripped,
-            'html.dark must set .mw-segmented-control button background to --ese-surface-muted'
+            '.dark must set .mw-segmented-control button background to --ese-surface-muted'
         );
     }
 
@@ -204,9 +204,9 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
     public function segmented_control_dark_text_rule_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.mw-segmented-control\s+button[^{]*\{[^}]*color:\s*var\(--ese-text~s',
+            '~(\.dark|\.theme-dark)[^{]*\.mw-segmented-control\s+button[^{]*\{[^}]*color:\s*var\(--ese-text~s',
             $this->eseStripped,
-            'html.dark must set .mw-segmented-control button color to --ese-text'
+            '.dark must set .mw-segmented-control button color to --ese-text'
         );
     }
 
@@ -214,9 +214,9 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
     public function segmented_control_active_dark_accent_rule_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~(html\.dark|\.theme-dark)[^{]*\.mw-segmented-control\s+button\.active[^{]*\{[^}]*color:\s*var\(--ese-accent~s',
+            '~(\.dark|\.theme-dark)[^{]*\.mw-segmented-control\s+button\.active[^{]*\{[^}]*color:\s*var\(--ese-accent~s',
             $this->eseStripped,
-            'html.dark must set .mw-segmented-control button.active color to --ese-accent'
+            '.dark must set .mw-segmented-control button.active color to --ese-accent'
         );
     }
 
@@ -228,7 +228,7 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
         // Strip dark-mode blocks then verify .mw-ese-holder at light scope
         // still uses @apply (not hardcoded dark values).
         $darkStripped = preg_replace(
-            '~html\.dark[^{]*\{[^}]*\}~s',
+            '~\.dark[^{]*\{[^}]*\}~s',
             '',
             $this->eseStripped
         );

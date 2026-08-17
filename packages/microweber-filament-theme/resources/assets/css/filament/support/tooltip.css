@@ -1,0 +1,21 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 1447-1465 */
+/* ============================================================================ */
+/* Tooltip (Tippy.js — Filament v5). Default is generic #333/white/14px; align to */
+/* the MW ink used everywhere else + a subtle shadow. Tippy leaves the arrow */
+/* border-color: initial (currentColor → mismatches the box), so pin it per */
+/* placement to the same ink. */
+/* ============================================================================ */
+.tippy-box {
+  background-color: var(--mw-text-primary) !important;  /* #182433 MW ink */
+  color: #ffffff !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  border-radius: var(--mw-radius-sm) !important;  /* 4px */
+  box-shadow: 0 4px 14px rgba(4, 32, 69, 0.18) !important;
+}
+.tippy-box[data-placement^="top"] > .tippy-arrow::before    { border-top-color: var(--mw-text-primary) !important; }
+.tippy-box[data-placement^="bottom"] > .tippy-arrow::before { border-bottom-color: var(--mw-text-primary) !important; }
+.tippy-box[data-placement^="left"] > .tippy-arrow::before   { border-left-color: var(--mw-text-primary) !important; }
+.tippy-box[data-placement^="right"] > .tippy-arrow::before  { border-right-color: var(--mw-text-primary) !important; }

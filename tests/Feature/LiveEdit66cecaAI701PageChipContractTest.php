@@ -528,9 +528,9 @@ class LiveEdit66cecaAI701PageChipContractTest extends TestCase
         );
         // Dark-mode override with visible border colour.
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.mw-page-chip-popover\s*\{[^}]*border-color:/s',
+            '/\.dark\s+\.mw-page-chip-popover\s*\{[^}]*border-color:/s',
             $this->generalStyles,
-            'html.dark .mw-page-chip-popover must have an explicit border-color override.'
+            '.dark .mw-page-chip-popover must have an explicit border-color override.'
         );
     }
 

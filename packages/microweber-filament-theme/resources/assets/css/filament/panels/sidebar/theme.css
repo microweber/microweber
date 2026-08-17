@@ -1,0 +1,189 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 352-538 */
+/* ============================================================================ */
+/* Sidebar — MW v2 pixel-perfect match */
+/* ============================================================================ */
+.fi-sidebar {
+  background-color: var(--mw-bg-sidebar) !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;  /* MW v2: no rounded corners on sidebar */
+}
+
+.fi-sidebar-header {
+  border-bottom: none !important;
+  padding: var(--mw-space-lg) var(--mw-space-md) var(--mw-space-xs) !important;  /* GR: lg(26) md(16) xs(6) */
+}
+
+.fi-sidebar-nav-groups {
+  gap: 0px !important;
+  padding: var(--mw-space-md) var(--mw-space-md) !important;  /* GR: md(16) md(16) */
+
+  /* Override Filament's default divider (we handle it on .fi-sidebar-group) */
+  > * + * {
+    border-top: none !important;
+  }
+}
+
+/* Group labels — MW v2 style: looks like parent nav items, not tiny uppercase headers */
+.fi-sidebar-group {
+  padding: 0 !important;
+  border-top: none !important;
+  margin-top: var(--mw-space-hair) !important;  /* GR: hair(4) */
+  padding-top: var(--mw-space-hair) !important;  /* GR: hair(4) */
+
+  &:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .fi-sidebar-group-label {
+    color: var(--mw-text-secondary) !important;  /* Darker than before — matches MW v2 parent items */
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    padding: 0 !important;  /* No extra padding — vertical rhythm handled by group-btn padding */
+  }
+}
+
+/* Group button — match standalone item padding (MW v2: consistent vertical rhythm) */
+.fi-sidebar-group-btn {
+  padding: var(--mw-space-sm) 0px !important;  /* GR: sm(10) */
+
+  svg {
+    color: var(--mw-text-primary) !important;
+    stroke: var(--mw-text-primary) !important;
+  }
+}
+
+/* Keyboard accessibility — visible focus ring for collapsible group headers and */
+/* the sidebar collapse toggle (a11y improvement over the v2 drag-only affordance). */
+.fi-sidebar-group-btn:focus-visible,
+.fi-sidebar-header button:focus-visible,
+button.fi-sidebar-collapse-btn:focus-visible {
+  outline: 2px solid rgb(var(--primary-600)) !important;
+  outline-offset: -2px !important;
+  border-radius: 4px !important;
+}
+
+/* Remove Filament's default 16px gap between sidebar items */
+.fi-sidebar-group-items {
+  gap: 0px !important;
+  padding-top: 0 !important;  /* Remove gap between group header and first sub-item */
+}
+
+.fi-sidebar-item {
+  .fi-sidebar-item-btn {
+    border-radius: 4px !important;  /* MW v2 exact: 4px */
+    transition: all 0.15s ease !important;
+    padding: var(--mw-space-sm) var(--mw-space-sm) var(--mw-space-sm) 52px !important;  /* GR: sm(10), left indent kept for alignment */
+    background-color: transparent !important;
+    border: none !important;  /* Remove any border/underline on sidebar items */
+    text-decoration: none !important;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.03) !important;
+    }
+  }
+
+  /* Item labels — default to sub-item style: 14px/400 (MW v2 exact dropdown-item) */
+  .fi-sidebar-item-label {
+    color: var(--mw-text-secondary) !important;  /* Sub-items: softer secondary color */
+    font-weight: 400 !important;  /* MW v2 sub-item: 400 */
+    font-size: 14px !important;  /* MW v2 sub-item: 14px */
+    line-height: 20px !important;  /* MW v2 exact: 20px */
+    white-space: normal !important;  /* Allow wrapping to prevent truncation */
+    overflow: visible !important;
+    word-break: break-word !important;
+  }
+
+  /* Items WITH icons = top-level items (Dashboard, Settings, etc.) */
+  /* MW v2 top-level: 16px font, 15px 0 padding */
+  .fi-sidebar-item-icon {
+    color: var(--mw-text-primary) !important;  /* MW v2: same as text rgb(24, 36, 51) */
+    width: 24px !important;  /* MW v2 exact: 24px */
+    height: 24px !important;
+    margin-right: var(--mw-space-md) !important;  /* GR: md(16) */
+  }
+
+  /* When item HAS an icon, it's a top-level item — override to primary color & 16px */
+  .fi-sidebar-item-icon ~ .fi-sidebar-item-label {
+    color: var(--mw-text-primary) !important;  /* Top-level: dark primary color */
+    font-size: 16px !important;  /* MW v2 top-level: 16px */
+    line-height: 22.86px !important;  /* MW v2 exact: 22.8571px */
+  }
+
+  &:has(.fi-sidebar-item-icon) {
+    .fi-sidebar-item-btn {
+      padding: var(--mw-space-sm) 0px !important;  /* GR: sm(10) */
+    }
+  }
+
+  /* Active state — the unified idiom lives in the authoritative top-level rule */
+  /* below (`html body.fi-panel-admin …`), which has to out-specify the competing */
+  /* AI-971 rule in general-styles.css. Here we only clear the old v2 top-level */
+  /* UNDERLINE so it can't double up on the unified treatment. */
+  &.fi-active .fi-sidebar-item-label {
+    text-decoration: none !important;
+  }
+
+  /* Keyboard accessibility — visible focus ring that survives the !important layer. */
+  /* (The v2 sidebar was drag-resized with no keyboard affordance; Filament's nav is */
+  /*  natively focusable, so we just make the focus state clearly visible.) */
+  .fi-sidebar-item-btn:focus-visible {
+    outline: 2px solid rgb(var(--primary-600)) !important;
+    outline-offset: -2px !important;  /* sits inside the 4px-radius button, stays crisp */
+  }
+}
+
+/* ── Active + hover idiom (authoritative) — MATCHES THE MW v2 DEMO ──────────── */
+/* The v2 demo uses a subtle GREY highlight for the active nav item (#efefef pill, */
+/* ink #182433 label/icon — NEVER blue) and a barely-there grey hover. We match */
+/* that exactly. Adding `html` to the selector out-specifies the competing AI-971 */
+/* (blue border-left + blue text) and box-shadow:none rules in general-styles.css */
+/* so this wins regardless of import order. (Keeps the a11y focus ring blue.) */
+html body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
+  background-color: #efefef !important;   /* v2 demo active grey */
+  box-shadow: none !important;            /* demo has no accent bar */
+  border-left: 0 !important;              /* supersede AI-971's blue border-left */
+}
+html body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn .fi-sidebar-item-label,
+html body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn .fi-sidebar-item-icon {
+  color: #182433 !important;              /* ink label/icon (NOT blue) */
+  text-decoration: none !important;       /* no underline idiom */
+}
+/* Hover — subtle grey, lighter than the active pill; ink text (demo hover is quiet). */
+html body.fi-panel-admin .fi-sidebar-item:not(.fi-active) > .fi-sidebar-item-btn:hover {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+html body.fi-panel-admin .fi-sidebar-item:not(.fi-active) > .fi-sidebar-item-btn:hover .fi-sidebar-item-label,
+html body.fi-panel-admin .fi-sidebar-item:not(.fi-active) > .fi-sidebar-item-btn:hover .fi-sidebar-item-icon {
+  color: #182433 !important;             /* ink on hover (no blue) */
+}
+/* Dark mode — light overlay on the dark rail (v2 demo dark: subtle light-on-dark). */
+.dark body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+  border-left: 0 !important;
+}
+.dark body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn .fi-sidebar-item-label,
+.dark body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn .fi-sidebar-item-icon {
+  color: #e5e7eb !important;
+  text-decoration: none !important;
+}
+.dark body.fi-panel-admin .fi-sidebar-item:not(.fi-active) > .fi-sidebar-item-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Hide Filament's grouped border line — MW v2 doesn't have it */
+.fi-sidebar-item-grouped-border {
+  display: none !important;
+}
+
+/* Sidebar badge (e.g., Orders "11") — MW v2 blue pill */
+.fi-sidebar-item-badge-ctn {
+  font-size: 0.7rem !important;
+  font-weight: 500 !important;
+}

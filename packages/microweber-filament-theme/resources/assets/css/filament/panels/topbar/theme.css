@@ -1,0 +1,164 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 190-351 */
+/* ============================================================================ */
+/* Topbar — clean white bar, subtle bottom border (MW v2 style) */
+/* ============================================================================ */
+.fi-topbar {
+  background-color: var(--mw-bg-surface) !important;
+  border-bottom: 1px solid var(--mw-border-color) !important;
+  box-shadow: none !important;
+  height: auto !important;
+  min-height: 49px !important;
+  max-height: none !important;
+  padding: var(--mw-space-md) var(--mw-space-md) !important;  /* GR: md (16px) */
+  align-items: center !important;
+  gap: var(--mw-space-sm) !important;  /* GR: sm (10px) */
+
+  /* Search input — smaller and compact */
+  .fi-global-search-field {
+    max-width: 200px !important;
+
+    input {
+      font-size: 13px !important;
+      padding: var(--mw-space-xs) var(--mw-space-sm) !important;  /* GR: xs(6) sm(10) */
+      height: 34px !important;
+    }
+  }
+
+  > nav {
+    background-color: var(--mw-bg-surface) !important;
+    border-bottom: 1px solid var(--mw-border-color) !important;
+    box-shadow: none !important;
+  }
+
+  .fi-topbar-item-label {
+    color: var(--mw-text-secondary);
+    font-weight: 400;
+  }
+
+  /* Logo area — MW v2: proper spacing after logo */
+  .fi-topbar-start {
+    margin-right: auto !important;  /* Push end section to the right */
+    margin-left: 0 !important;
+  }
+
+  /* Right section — consistent gap between items */
+  .fi-topbar-end {
+    margin-left: auto !important;
+    gap: var(--mw-space-sm) !important;  /* GR: sm (10px) */
+  }
+}
+
+/* Topbar "Add" button — MW v2: light blue bg with dark text */
+.fi-btn.admin-toolbar-add,
+.fi-btn.admin-toolbar-add.fi-color-primary {
+  background-color: #e1edf8 !important;  /* MW v2 exact: light blue */
+  color: var(--mw-text-primary) !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: var(--mw-radius-sm) !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 var(--mw-space-md) !important;  /* GR: md (16px) */
+  line-height: 36px !important;
+
+  &:hover {
+    background-color: #d0e1f3 !important;
+    opacity: 1 !important;
+  }
+
+  /* Override icon/text colors inside button */
+  svg, img {
+    filter: none !important;
+  }
+  span, .fi-btn-label {
+    color: var(--mw-text-primary) !important;
+  }
+}
+
+/* Topbar "Live Edit" button — MW v2: light green bg with dark text */
+.fi-btn.admin-toolbar-live-edit,
+.fi-btn.admin-toolbar-live-edit.fi-color-primary {
+  background-color: #e2f9e6 !important;  /* MW v2 exact: light green */
+  color: var(--mw-text-primary) !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: var(--mw-radius-sm) !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 var(--mw-space-md) !important;  /* GR: md (16px) */
+  line-height: 36px !important;
+
+  &:hover {
+    background-color: #d0f0d6 !important;
+    opacity: 1 !important;
+  }
+
+  span, .fi-btn-label {
+    color: var(--mw-text-primary) !important;
+  }
+}
+
+/* task-2026-06-13-letoolbarstyle — match released v2.0.20 admin top bar. The */
+/* +Add / Live Edit chips render as 999px pills via Filament's generic */
+/* `fi-color fi-bg-color-400` classes — they do NOT carry the */
+/* .admin-toolbar-add / .admin-toolbar-live-edit classes the rules above */
+/* target, so those 4px rules never reach them. The demo uses 4px rectangles; */
+/* square these off to match. Colour (#e1edf8 / #e2f9e6) and layout are kept — */
+/* this is the "don't revert, just style" alignment. The global-search pill */
+/* (intentional MW v2 style, line ~1793) is .fi-input, not fi-bg-color-*, so it */
+/* is unaffected. */
+.fi-topbar a[class*="fi-bg-color"],
+.fi-topbar button[class*="fi-bg-color"] {
+  border-radius: var(--mw-radius-sm) !important;  /* 4px, MW v2 exact */
+}
+
+/* Rebuild fix — dark-mode pastel topbar buttons. The v2 baseline (and the light */
+/* rules above) leave the ADD (#e1edf8) / Live-Edit (#e2f9e6) pills pale on the */
+/* dark canvas — a legibility gap. In dark mode, darken the fill and lighten the */
+/* text/icon while keeping the blue/green identities. Targets the semantic */
+/* .admin-toolbar-* classes; if the live chips render via the generic fi-bg-color */
+/* path (see note above), confirm the runtime class when rendering the panel. */
+.dark .fi-btn.admin-toolbar-add,
+.dark .fi-btn.admin-toolbar-add.fi-color-primary {
+  background-color: #263f63 !important;
+  color: #e5e7eb !important;
+
+  &:hover { background-color: #284672 !important; }
+  span, .fi-btn-label { color: #e5e7eb !important; }
+  svg, img { filter: none !important; }
+}
+.dark .fi-btn.admin-toolbar-live-edit,
+.dark .fi-btn.admin-toolbar-live-edit.fi-color-primary {
+  background-color: color-mix(in srgb, #34d399 22%, #1f2937) !important;
+  color: #e5e7eb !important;
+
+  &:hover { background-color: color-mix(in srgb, #34d399 30%, #1f2937) !important; }
+  span, .fi-btn-label { color: #e5e7eb !important; }
+}
+
+/* Keyboard accessibility — visible focus rings for ALL top-bar controls */
+/* (+Add / Live-Edit chips, icon buttons, user-menu trigger, notifications, */
+/* sidebar-collapse toggle, global search). Previously only .mw-admin-brand-mark */
+/* had one. Uses the canonical primary so the whole admin chrome shares one focus */
+/* treatment (light = --primary-600, dark = the lighter --primary-400). */
+.fi-topbar .fi-btn:focus-visible,
+.fi-topbar .fi-icon-btn:focus-visible,
+.fi-topbar a[class*="fi-bg-color"]:focus-visible,
+.fi-topbar button[class*="fi-bg-color"]:focus-visible,
+.fi-topbar .fi-dropdown-trigger:focus-visible,
+.fi-topbar-collapse-sidebar-btn-ctn .fi-icon-btn:focus-visible,
+.fi-global-search-field input:focus-visible {
+  outline: 2px solid rgb(var(--primary-600)) !important;
+  outline-offset: 2px !important;
+}
+.dark .fi-topbar .fi-btn:focus-visible,
+.dark .fi-topbar .fi-icon-btn:focus-visible,
+.dark .fi-topbar a[class*="fi-bg-color"]:focus-visible,
+.dark .fi-topbar button[class*="fi-bg-color"]:focus-visible,
+.dark .fi-topbar .fi-dropdown-trigger:focus-visible,
+.dark .fi-topbar-collapse-sidebar-btn-ctn .fi-icon-btn:focus-visible,
+.dark .fi-global-search-field input:focus-visible {
+  outline-color: rgb(var(--primary-400)) !important;
+}

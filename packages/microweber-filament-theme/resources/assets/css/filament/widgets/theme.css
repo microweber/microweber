@@ -1,0 +1,17 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 617-631 */
+/* ============================================================================ */
+/* Widgets — dashboard widget containers */
+/* ============================================================================ */
+.fi-wi {
+  border-radius: var(--mw-radius-lg) !important;
+  box-shadow: none !important;
+  border: none !important;  /* No border on widget container — individual cards have their own */
+  overflow: visible;
+  background-color: transparent !important;  /* MW v2: transparent, body bg shows through */
+}
+
+.fi-wi-stats-overview-stat {
+  border-radius: var(--mw-radius-md) !important;
+}

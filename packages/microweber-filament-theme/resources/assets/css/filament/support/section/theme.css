@@ -1,0 +1,10 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 1420-1427 */
+/* ============================================================================ */
+/* Card body padding — MW v2: 16px */
+/* ============================================================================ */
+.fi-section-content {
+  padding: var(--mw-space-lg) var(--mw-space-lg) !important;  /* GR: lg(26) */
+  gap: var(--mw-space-md) !important;  /* GR: md(16) */
+}

@@ -198,7 +198,7 @@ class Canvas6d65deAI780ContentModuleEmptyStateContractTest extends TestCase
         $this->assertStringContainsString('.mw-canvas-empty-state__title', $this->defaultCss);
         $this->assertStringContainsString('.mw-canvas-empty-state__body', $this->defaultCss);
         $this->assertStringContainsString('.mw-canvas-empty-state__cta', $this->defaultCss);
-        $this->assertStringContainsString('html.dark .mw-canvas-empty-state', $this->defaultCss);
+        $this->assertStringContainsString('.dark .mw-canvas-empty-state', $this->defaultCss);
     }
 
     #[Test]

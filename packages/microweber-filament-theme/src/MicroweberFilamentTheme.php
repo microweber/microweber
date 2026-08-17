@@ -5,7 +5,6 @@ namespace MicroweberPackages\MicroweberFilamentTheme;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Assets\Theme;
-use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentColor;
 use Filament\Support\Facades\FilamentIcon;
@@ -27,12 +26,7 @@ class MicroweberFilamentTheme implements Plugin
 
         $panel
             ->font('DM Sans')
-//            ->primaryColor(Color::Amber)
-//            ->secondaryColor(Color::Gray)
-//            ->warningColor(Color::Amber)
-//            ->dangerColor(Color::Rose)
-//            ->successColor(Color::Green)
-//            ->grayColor(Color::Gray)
+            ->colors(static::getColors())
             ->theme('microweber-filament-theme');
     }
 
@@ -116,12 +110,7 @@ class MicroweberFilamentTheme implements Plugin
 
     public static function getColors(): array
     {
-        return [
-            'mw-secondary' => Color::rgb('rgb(24,36,51)'),
-            'mw-primary' => Color::rgb('rgb(69, 146, 255)'),
-            'mw-sky-blue' => Color::rgb('rgb(255, 191, 0)'),
-            'mw-light-green' => Color::rgb('rgb(226, 249, 230)'),
-        ];
+        return Palette::colors();
     }
 
     public static function getIcons(): array

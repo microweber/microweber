@@ -169,12 +169,12 @@ class LiveEdit2e02e2AI771ThemeBundleRuntimeProbeContractTest extends TestCase
         // this test + audit every rule in default.css that's
         // expected on /admin/live-edit.
         $indexCss = (string) file_get_contents(base_path(
-            'packages/microweber-filament-theme/resources/assets/css/index.css'
+            'packages/microweber-filament-theme/resources/assets/css/external.css'
         ));
         $this->assertStringContainsString(
             "@import '../../../../frontend-assets/resources/assets/css/microweber/css/default.css';",
             $indexCss,
-            'Theme `index.css` must still `@import` frontend-assets default.css. If this import was removed, audit every rule in default.css that needs to reach the theme bundle + update this test.'
+            'Theme `external.css` must still `@import` frontend-assets default.css. If this import was removed, audit every rule in default.css that needs to reach the theme bundle + update this test.'
         );
     }
 

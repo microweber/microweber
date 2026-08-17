@@ -201,7 +201,7 @@ class Admin886722AI729PostsEmptyStateCopyHierarchyContractTest extends TestCase
     {
         // Dark-mode parity — gray-400-ish for AA contrast on dark surface.
         $this->assertMatchesRegularExpression(
-            '/(html\.dark|\.dark)\s+\.mw-admin-empty-state-explainer\s*\{[^}]*color:\s*#9ca3af/i',
+            '/(\.dark|\.dark)\s+\.mw-admin-empty-state-explainer\s*\{[^}]*color:\s*#9ca3af/i',
             $this->css,
             'Dark-theme override must set explainer color to gray-400 (#9ca3af) for AA contrast.'
         );

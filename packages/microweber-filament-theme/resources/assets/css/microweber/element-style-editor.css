@@ -361,7 +361,7 @@
 /* Dark theme: swap surfaces + adjust alphas. Filament toggles
    `dark` on <html>; we also accept `.theme-dark` / [data-theme]
    for non-Filament contexts. */
-html.dark,
+.dark,
 .theme-dark,
 [data-theme="dark"] {
     --ese-surface:        #1a1f2b;
@@ -644,7 +644,7 @@ html.dark,
     @apply top-[5px] right-0 w-auto block absolute z-[1];
 }
 
-html[dir="rtl"] .reset-field {
+:dir(rtl) .reset-field {
     @apply left-0 right-auto;
 }
 
@@ -878,7 +878,7 @@ html[dir="rtl"] .reset-field {
     /* N3: 1px --ese-surface ring on light (default). */
     box-shadow: 0 0 0 1px var(--ese-surface);
 }
-html.dark .mw-live-edit-slider-small .v-slider-thumb__surface,
+.dark .mw-live-edit-slider-small .v-slider-thumb__surface,
 .theme-dark .mw-live-edit-slider-small .v-slider-thumb__surface,
 [data-theme="dark"] .mw-live-edit-slider-small .v-slider-thumb__surface {
     /* N3: 2px --ese-surface-muted ring on dark — accepted per
@@ -998,8 +998,8 @@ html.dark .mw-live-edit-slider-small .v-slider-thumb__surface,
     background-size: 8px 8px;
     background-position: 0 0, 0 4px, 4px -4px, -4px 0;
 }
-html.dark .form-control-live-edit-label-wrapper .picker-button::before,
-html.dark #mw-element-style-editor-app .picker-button::before,
+.dark .form-control-live-edit-label-wrapper .picker-button::before,
+.dark #mw-element-style-editor-app .picker-button::before,
 .theme-dark .form-control-live-edit-label-wrapper .picker-button::before,
 .theme-dark #mw-element-style-editor-app .picker-button::before {
     background-image:
@@ -1421,14 +1421,14 @@ html.dark #mw-element-style-editor-app .picker-button::before,
  *   (b) Compound selectors override Tailwind @apply hardcoded colours on
  *       inputs, selects, labels; !important beats Tailwind utility output.
  *
- * Light mode is regression-guarded: all rules are scoped to html.dark /
+ * Light mode is regression-guarded: all rules are scoped to .dark /
  * .theme-dark / [data-theme="dark"] so no light mode property is touched.
  * ============================================================ */
 
 /* (a) Token bump — later in file = source-order wins over the existing
- * html.dark block at line 363. Both have the same specificity; this wins
+ * .dark block at line 363. Both have the same specificity; this wins
  * because it appears last. */
-html.dark,
+.dark,
 .theme-dark,
 [data-theme="dark"] {
     /* Bumped from 0.12 → 0.35; achieves ≈3.54:1 on #1a1f2b (≥3:1 non-text) */
@@ -1440,16 +1440,16 @@ html.dark,
 /* (b) Compound selector overrides for Tailwind-hardcoded light values */
 
 /* 1. Field labels */
-html.dark #mw-element-style-editor-app .live-edit-label,
+.dark #mw-element-style-editor-app .live-edit-label,
 .theme-dark #mw-element-style-editor-app .live-edit-label,
 [data-theme="dark"] #mw-element-style-editor-app .live-edit-label {
     color: var(--ese-label, #cbd5e1) !important;
 }
 
 /* 2. All text inputs, number inputs, selects, textareas inside ESE */
-html.dark #mw-element-style-editor-app input:not([type="color"]):not([type="range"]),
-html.dark #mw-element-style-editor-app select,
-html.dark #mw-element-style-editor-app textarea,
+.dark #mw-element-style-editor-app input:not([type="color"]):not([type="range"]),
+.dark #mw-element-style-editor-app select,
+.dark #mw-element-style-editor-app textarea,
 .theme-dark #mw-element-style-editor-app input:not([type="color"]):not([type="range"]),
 .theme-dark #mw-element-style-editor-app select,
 .theme-dark #mw-element-style-editor-app textarea {
@@ -1459,7 +1459,7 @@ html.dark #mw-element-style-editor-app textarea,
 }
 
 /* 3. Dropdown Chrome: .mw-esc select uses @apply bg-gray-100 text-gray-800 */
-html.dark #mw-element-style-editor-app .mw-esc .mw-multiple-fields .mw-field:last-child select,
+.dark #mw-element-style-editor-app .mw-esc .mw-multiple-fields .mw-field:last-child select,
 .theme-dark #mw-element-style-editor-app .mw-esc .mw-multiple-fields .mw-field:last-child select {
     background-color: var(--ese-surface-muted, #232938) !important;
     color: var(--ese-text, #f1f5f9) !important;
@@ -1469,15 +1469,15 @@ html.dark #mw-element-style-editor-app .mw-esc .mw-multiple-fields .mw-field:las
 /* 4. Color swatch outline — .picker-button border uses --ese-border-strong
  * which is bumped by token override (a) above; no extra rule needed there.
  * Ensure the inset delineation ring is still visible: */
-html.dark .form-control-live-edit-label-wrapper .picker-button,
-html.dark #mw-element-style-editor-app .picker-button,
+.dark .form-control-live-edit-label-wrapper .picker-button,
+.dark #mw-element-style-editor-app .picker-button,
 .theme-dark .form-control-live-edit-label-wrapper .picker-button,
 .theme-dark #mw-element-style-editor-app .picker-button {
     box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.45) !important;
 }
 
 /* 5. "More options:" summary text (Typography section <details>) */
-html.dark #mw-element-style-editor-app .mw-typography-advanced > summary,
+.dark #mw-element-style-editor-app .mw-typography-advanced > summary,
 .theme-dark #mw-element-style-editor-app .mw-typography-advanced > summary,
 [data-theme="dark"] #mw-element-style-editor-app .mw-typography-advanced > summary {
     color: var(--ese-text-muted, #94a3b8) !important;
@@ -1494,7 +1494,7 @@ html.dark #mw-element-style-editor-app .mw-typography-advanced > summary,
  *     (Handled in live-edit-classes.css alongside existing sidebar rules.)
  *  4. Reset icon (↺) — dark stroke on dark ESE surface.
  *
- * All rules html.dark / .theme-dark / [data-theme="dark"] scoped.
+ * All rules .dark / .theme-dark / [data-theme="dark"] scoped.
  * Light mode completely unchanged.
  * ────────────────────────────────────────────────────────────────────────── */
 
@@ -1503,7 +1503,7 @@ html.dark #mw-element-style-editor-app .mw-typography-advanced > summary,
  *    `.dark #mw-element-style-editor-app`, but Tailwind-generated link
  *    styles on `.mw-admin-action-links` can win with higher specificity in
  *    some builds — anchor here with an explicit token-driven override. */
-html.dark .element-style-editor-toggle-wrapper .mw-admin-action-links,
+.dark .element-style-editor-toggle-wrapper .mw-admin-action-links,
 .theme-dark .element-style-editor-toggle-wrapper .mw-admin-action-links,
 [data-theme="dark"] .element-style-editor-toggle-wrapper .mw-admin-action-links {
     color: var(--ese-text, #f1f5f9) !important;
@@ -1511,7 +1511,7 @@ html.dark .element-style-editor-toggle-wrapper .mw-admin-action-links,
 
 /* Accordion header SVG icons — ensure they use the muted text colour so
  * they're readable but don't compete with the active-state blue accent. */
-html.dark .element-style-editor-toggle-wrapper svg,
+.dark .element-style-editor-toggle-wrapper svg,
 .theme-dark .element-style-editor-toggle-wrapper svg,
 [data-theme="dark"] .element-style-editor-toggle-wrapper svg {
     color: var(--ese-text-muted, #94a3b8) !important;
@@ -1525,10 +1525,10 @@ html.dark .element-style-editor-toggle-wrapper svg,
  *    `border: 1px solid #000` which vanishes on a dark surface. These are
  *    scoped Vue styles; `!important` is required to override them.
  *    Uses var(--ese-border,...) with literal fallback per SOUL #108. */
-html.dark .angle-top-left,
-html.dark .angle-top-right,
-html.dark .angle-bottom-left,
-html.dark .angle-bottom-right,
+.dark .angle-top-left,
+.dark .angle-top-right,
+.dark .angle-bottom-left,
+.dark .angle-bottom-right,
 .theme-dark .angle-top-left,
 .theme-dark .angle-top-right,
 .theme-dark .angle-bottom-left,
@@ -1539,15 +1539,15 @@ html.dark .angle-bottom-right,
 /* 8. Reset (↺) icon — `.reset-field` uses `color: inherit`; `.mw-tool-field__reset`
  *    has `color: var(--ese-text-muted)` which maps to #94a3b8 in dark mode
  *    — correct. Anchor `.reset-field` explicitly so it doesn't regress. */
-html.dark #mw-element-style-editor-app .reset-field,
-html.dark #mw-element-style-editor-app .reset-field a,
-html.dark #mw-element-style-editor-app .reset-field button,
+.dark #mw-element-style-editor-app .reset-field,
+.dark #mw-element-style-editor-app .reset-field a,
+.dark #mw-element-style-editor-app .reset-field button,
 .theme-dark #mw-element-style-editor-app .reset-field,
 .theme-dark #mw-element-style-editor-app .reset-field a,
 .theme-dark #mw-element-style-editor-app .reset-field button {
     color: var(--ese-text-muted, #94a3b8) !important;
 }
-html.dark #mw-element-style-editor-app .reset-field svg,
+.dark #mw-element-style-editor-app .reset-field svg,
 .theme-dark #mw-element-style-editor-app .reset-field svg {
     fill: var(--ese-text-muted, #94a3b8) !important;
 }
@@ -1567,7 +1567,7 @@ html.dark #mw-element-style-editor-app .reset-field svg,
  * 14. Unit toggle button (px/rem/% switcher in .mw-field.unit .mw-ui-btn)
  * 15. Segmented-control buttons (.mw-segmented-control button + active state)
  *
- * All rules html.dark / .theme-dark / [data-theme="dark"] scoped.
+ * All rules .dark / .theme-dark / [data-theme="dark"] scoped.
  * Light mode completely unchanged. !important where Vue SFC scoped styles
  * or Bootstrap .btn class raise specificity beyond (0,1,0).
  * ────────────────────────────────────────────────────────────────────────── */
@@ -1576,7 +1576,7 @@ html.dark #mw-element-style-editor-app .reset-field svg,
  *    text style is visible regardless of whether the class sets dark text.
  *    This is intentionally a light island inside the dark panel: the preview
  *    shows how the text looks in its natural context. */
-html.dark .mw-live-edit-predefines-styles-box,
+.dark .mw-live-edit-predefines-styles-box,
 .theme-dark .mw-live-edit-predefines-styles-box,
 [data-theme="dark"] .mw-live-edit-predefines-styles-box {
     background-color: #ffffff;
@@ -1587,7 +1587,7 @@ html.dark .mw-live-edit-predefines-styles-box,
 
 /* 10. Selected predefined-style preview (h3.predefined-styles-rended shown
  *     when a class is already applied) — same white-island treatment. */
-html.dark .predefined-styles-rended,
+.dark .predefined-styles-rended,
 .theme-dark .predefined-styles-rended,
 [data-theme="dark"] .predefined-styles-rended {
     background-color: #ffffff;
@@ -1597,14 +1597,14 @@ html.dark .predefined-styles-rended,
 
 /* 11. Spacing diagram holder — @apply bg-gray-100 border-gray-300 compiles
  *     to hardcoded light colors; override with dark panel surface. */
-html.dark .mw-ese-holder,
+.dark .mw-ese-holder,
 .theme-dark .mw-ese-holder,
 [data-theme="dark"] .mw-ese-holder {
     background-color: var(--ese-surface-muted, #232938) !important;
     border-color: var(--ese-border, rgba(255, 255, 255, 0.35)) !important;
 }
 
-html.dark .mw-ese-holder.active,
+.dark .mw-ese-holder.active,
 .theme-dark .mw-ese-holder.active,
 [data-theme="dark"] .mw-ese-holder.active {
     background-color: var(--ese-surface, #1a1f2b) !important;
@@ -1612,7 +1612,7 @@ html.dark .mw-ese-holder.active,
 }
 
 /* 12. Spacing diagram position labels (TOP, RIGHT, BOTTOM, LEFT) */
-html.dark .mw-ese-label,
+.dark .mw-ese-label,
 .theme-dark .mw-ese-label,
 [data-theme="dark"] .mw-ese-label {
     color: var(--ese-text-muted, #94a3b8) !important;
@@ -1620,15 +1620,15 @@ html.dark .mw-ese-label,
 
 /* 13. Preset quick-action buttons (S / M / L / XL / trash) — Bootstrap .btn
  *     class can force dark text via its own specificity; re-anchor in dark. */
-html.dark #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset,
+.dark #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset,
 .theme-dark #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset,
 [data-theme="dark"] #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset {
     color: var(--ese-text, #f1f5f9) !important;
 }
 
 /* 14. Unit toggle button (px/rem/% switcher inside .mw-field.unit) */
-html.dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn,
-html.dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn i,
+.dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn,
+.dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn i,
 .theme-dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn,
 .theme-dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn i {
     color: var(--ese-text-muted, #94a3b8) !important;
@@ -1637,7 +1637,7 @@ html.dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn i,
 /* 15. Segmented-control buttons (older align/justify/position icon strip that
  *     uses .mw-segmented-control, distinct from the ESE-primitive .mw-segmented)
  *     Bootstrap styles override ESE token defaults for this component. */
-html.dark #mw-element-style-editor-app .mw-segmented-control button,
+.dark #mw-element-style-editor-app .mw-segmented-control button,
 .theme-dark #mw-element-style-editor-app .mw-segmented-control button,
 [data-theme="dark"] #mw-element-style-editor-app .mw-segmented-control button {
     color: var(--ese-text, #f1f5f9) !important;
@@ -1645,8 +1645,8 @@ html.dark #mw-element-style-editor-app .mw-segmented-control button,
     border-color: var(--ese-border, rgba(255, 255, 255, 0.35)) !important;
 }
 
-html.dark #mw-element-style-editor-app .mw-segmented-control button.active,
-html.dark #mw-element-style-editor-app .mw-segmented-control button[aria-pressed="true"],
+.dark #mw-element-style-editor-app .mw-segmented-control button.active,
+.dark #mw-element-style-editor-app .mw-segmented-control button[aria-pressed="true"],
 .theme-dark #mw-element-style-editor-app .mw-segmented-control button.active,
 .theme-dark #mw-element-style-editor-app .mw-segmented-control button[aria-pressed="true"] {
     background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.15)) !important;
@@ -1667,7 +1667,7 @@ html.dark #mw-element-style-editor-app .mw-segmented-control button[aria-pressed
  *   .mw-ese-link-disabled           — non-interactive link visual
  *
  * Scoped to #mw-element-style-editor-app where possible.
- * Dark overrides follow the html.dark / .theme-dark pattern.
+ * Dark overrides follow the .dark / .theme-dark pattern.
  * ────────────────────────────────────────────────────────────────────────── */
 
 /* Base empty-state styles (light mode) */
@@ -1699,20 +1699,20 @@ html.dark #mw-element-style-editor-app .mw-segmented-control button[aria-pressed
 }
 
 /* Dark mode overrides */
-html.dark #mw-element-style-editor-app .mw-admin-empty-state__heading,
+.dark #mw-element-style-editor-app .mw-admin-empty-state__heading,
 .theme-dark #mw-element-style-editor-app .mw-admin-empty-state__heading,
 [data-theme="dark"] #mw-element-style-editor-app .mw-admin-empty-state__heading {
     color: var(--ese-text, #f1f5f9) !important;
 }
 
-html.dark #mw-element-style-editor-app .mw-admin-empty-state__body,
+.dark #mw-element-style-editor-app .mw-admin-empty-state__body,
 .theme-dark #mw-element-style-editor-app .mw-admin-empty-state__body,
 [data-theme="dark"] #mw-element-style-editor-app .mw-admin-empty-state__body {
     color: var(--ese-text-muted, #94a3b8) !important;
 }
 
 /* Light mode regression-guard anchor (no-op selector, proves no changes to light) */
-/* task-2026-05-22-e8b42c AI-825: all rules above are html.dark scoped */
+/* task-2026-05-22-e8b42c AI-825: all rules above are .dark scoped */
 /* task-2026-05-22-747f20 AI-724: same scope discipline */
 /* task-2026-05-22-06f3f4 AI-725: same scope discipline */
 /* task-2026-05-22-48070d AI-720: per-panel empty state light styles above + dark overrides scoped */

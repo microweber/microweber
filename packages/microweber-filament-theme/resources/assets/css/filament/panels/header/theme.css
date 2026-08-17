@@ -1,0 +1,49 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 1525-1571 */
+/* ============================================================================ */
+/* Page header — MW v2: 24px heading, 700 weight */
+/* ============================================================================ */
+/* Page header container — reduce Filament's large padding/gap from --spacing * 8 */
+.fi-page-header-main-ctn {
+  padding-block: var(--mw-space-sm) !important;  /* GR: sm(10) */
+  row-gap: var(--mw-space-sm) !important;  /* GR: sm(10) */
+}
+
+.fi-header {
+  margin: 0 0 var(--mw-space-sm) !important;  /* GR: sm(10) */
+  height: auto !important;
+  min-height: 49px !important;  /* MW v2 exact: ~49px page-header height */
+  display: flex !important;
+  align-items: center !important;
+  background-color: transparent !important;  /* MW v2: transparent page header */
+  padding: 0 !important;  /* MW v2: 0 padding on page-header */
+}
+
+.fi-header-heading {
+  color: var(--mw-text-primary) !important;
+  font-weight: 700 !important;
+  font-size: 1.75rem !important;  /* 28px — prominent page title */
+  letter-spacing: normal !important;  /* MW v2 exact: normal (was -0.01em) */
+  margin-bottom: 0 !important;  /* MW v2: 0 margin-bottom (flex layout) */
+}
+
+.fi-header-subheading {
+  color: var(--mw-text-secondary) !important;
+  font-size: 0.875rem !important;
+}
+
+/* Section headings (Add New Post, Media, Published, etc.) */
+/* MW v2 uses 16px/600 for main card headings, 14px/600 for sidebar card headings */
+.fi-section-header-heading {
+  font-size: 16px !important;  /* MW v2 exact: 16px card header */
+  font-weight: 600 !important;  /* MW v2 exact: 600 */
+  color: var(--mw-text-primary) !important;
+  margin-bottom: 0 !important;
+  padding-left: 0 !important;  /* MW v2: no left padding (remove Filament's 20px icon accent padding) */
+}
+
+/* Sidebar section headings — MW v2 uses 14px/600 <strong> inline */
+/* Can't target sidebar by class (no fi-aside), so keep all headings at 16px/600 */
+/* which matches MW v2 main card headings. Sidebar "Visibility" etc. were 14px in old admin */
+/* but the visual difference is minimal at 16px. */

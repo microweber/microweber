@@ -1,3 +1,63 @@
 .fi-breadcrumbs-item-separator {
     @apply w-auto text-sm text-gray-300 dark:!text-gray-600;
 }
+/* === extracted from microweber-theme-v3 === */
+/* 1466-1524 */
+/* ============================================================================ */
+/* Breadcrumbs — MW v2: consistent across all pages */
+/* ============================================================================ */
+.fi-breadcrumbs {
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+
+  ol {
+    gap: var(--mw-space-xs) !important;  /* GR: xs(6) */
+    align-items: center !important;
+  }
+
+  li {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--mw-text-muted) !important;
+
+    a {
+      color: var(--mw-accent) !important;
+      text-decoration: none !important;
+      transition: color 0.15s ease !important;
+
+      &:hover {
+        color: #2b6cb0 !important;  /* MW v2 link hover (darker blue) */
+        text-decoration: underline !important;
+      }
+    }
+
+    /* Current page (last breadcrumb, no link) */
+    &:last-child {
+      color: var(--mw-text-primary) !important;
+      font-weight: 600 !important;
+    }
+  }
+
+  /* Separator icon (chevron) */
+  .fi-icon {
+    width: 14px !important;
+    height: 14px !important;
+    color: var(--mw-text-faint) !important;
+  }
+}
+
+/* General-styles.css body-scopes .fi-breadcrumbs to 11px and paints EVERY */
+/* .fi-breadcrumbs-item-label blue #0d6efd (0,0,2,1) — beating the plain-class rules */
+/* above and, crucially, making the current crumb (a non-link <span>) look clickable. */
+/* Match specificity to restore a readable size + mute the current crumb. See memory */
+/* [[general-styles-outranks-v3]]. */
+body.fi-panel-admin {
+  .fi-breadcrumbs { font-size: 12px !important; }
+
+  /* Ancestor crumbs are <a> links → keep the accent blue from general-styles. */
+  /* Current crumb renders as <span> (no href) → mute it so it doesn't read as a link. */
+  span.fi-breadcrumbs-item-label {
+    color: var(--mw-text-muted) !important;   /* #718096 */
+    font-weight: 500 !important;
+  }
+}

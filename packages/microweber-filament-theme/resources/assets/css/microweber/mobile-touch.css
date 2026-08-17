@@ -957,45 +957,9 @@ body.fi-panel-admin main.mw-live-edit-module-settings-iframe button.fi-toggle[ro
  * Currency / contact / decorative icons match by stem-prefix not
  * substring so they're naturally excluded.
  * ============================================================ */
-[dir="rtl"] svg.heroicon-o-arrow-left,
-[dir="rtl"] svg.heroicon-o-arrow-right,
-[dir="rtl"] svg.heroicon-o-arrow-long-left,
-[dir="rtl"] svg.heroicon-o-arrow-long-right,
-[dir="rtl"] svg.heroicon-o-arrow-uturn-left,
-[dir="rtl"] svg.heroicon-o-arrow-uturn-right,
-[dir="rtl"] svg.heroicon-o-arrow-small-left,
-[dir="rtl"] svg.heroicon-o-arrow-small-right,
-[dir="rtl"] svg.heroicon-m-arrow-left,
-[dir="rtl"] svg.heroicon-m-arrow-right,
-[dir="rtl"] svg.heroicon-m-arrow-long-left,
-[dir="rtl"] svg.heroicon-m-arrow-long-right,
-[dir="rtl"] svg.heroicon-m-arrow-uturn-left,
-[dir="rtl"] svg.heroicon-m-arrow-uturn-right,
-[dir="rtl"] svg.heroicon-s-arrow-left,
-[dir="rtl"] svg.heroicon-s-arrow-right,
-[dir="rtl"] svg.heroicon-o-chevron-left,
-[dir="rtl"] svg.heroicon-o-chevron-right,
-[dir="rtl"] svg.heroicon-o-chevron-double-left,
-[dir="rtl"] svg.heroicon-o-chevron-double-right,
-[dir="rtl"] svg.heroicon-m-chevron-left,
-[dir="rtl"] svg.heroicon-m-chevron-right,
-[dir="rtl"] svg.heroicon-m-chevron-double-left,
-[dir="rtl"] svg.heroicon-m-chevron-double-right,
-[dir="rtl"] svg.heroicon-s-chevron-left,
-[dir="rtl"] svg.heroicon-s-chevron-right {
-    transform: scaleX(-1);
-}
-
-/* Filament's expand/collapse pseudo-element renders an inline-SVG
-   chevron data-uri (general-styles.css:1681-1692). That can't be
-   targeted by class — flip via transform on the ::after itself.
-   Scoped to .fi-* surfaces so non-Filament chevron pseudo-elements
-   keep their orientation. */
-[dir="rtl"] .fi-sidebar-item > a::after,
-[dir="rtl"] .fi-sidebar-group-btn::after,
-[dir="rtl"] .fi-breadcrumbs-item:not(:last-child)::after {
-    transform: scaleX(-1);
-}
+/* AI-293 RTL directional-icon flip is defined once in
+   filament/support/rtl.css (:dir(rtl) … { transform: scaleX(-1) }) —
+   not duplicated here to keep a single source in the built bundle. */
 
 /* AI-515 — iOS safe-area-inset coverage for the notch + home-indicator
    gesture bar on iPhone X+ and modern iPads. Fixed/sticky chrome that
@@ -1121,10 +1085,10 @@ body.fi-panel-admin main.mw-live-edit-module-settings-iframe button.fi-toggle[ro
     /* Dark-mode equivalent — keep the tint visible against the
        Filament dark panel background. Filament v5 sets the dark theme
        on `<html class="dark">`. */
-    html.dark body.fi-panel-admin .fi-ta-header-cell[aria-sort="ascending"],
-    html.dark body.fi-panel-admin .fi-ta-header-cell[aria-sort="descending"],
-    html.dark body.fi-panel-checkout .fi-ta-header-cell[aria-sort="ascending"],
-    html.dark body.fi-panel-checkout .fi-ta-header-cell[aria-sort="descending"] {
+    .dark body.fi-panel-admin .fi-ta-header-cell[aria-sort="ascending"],
+    .dark body.fi-panel-admin .fi-ta-header-cell[aria-sort="descending"],
+    .dark body.fi-panel-checkout .fi-ta-header-cell[aria-sort="ascending"],
+    .dark body.fi-panel-checkout .fi-ta-header-cell[aria-sort="descending"] {
         background-color: rgba(13, 110, 253, 0.18);
     }
 
@@ -1142,10 +1106,10 @@ body.fi-panel-admin main.mw-live-edit-module-settings-iframe button.fi-toggle[ro
         z-index: 1;
         background-color: var(--bs-body-bg, #ffffff);
     }
-    html.dark body.fi-panel-admin .fi-ta-table > thead > tr > th:first-child,
-    html.dark body.fi-panel-admin .fi-ta-table > tbody > tr > td:first-child,
-    html.dark body.fi-panel-checkout .fi-ta-table > thead > tr > th:first-child,
-    html.dark body.fi-panel-checkout .fi-ta-table > tbody > tr > td:first-child {
+    .dark body.fi-panel-admin .fi-ta-table > thead > tr > th:first-child,
+    .dark body.fi-panel-admin .fi-ta-table > tbody > tr > td:first-child,
+    .dark body.fi-panel-checkout .fi-ta-table > thead > tr > th:first-child,
+    .dark body.fi-panel-checkout .fi-ta-table > tbody > tr > td:first-child {
         background-color: rgb(17, 24, 39);
     }
 
@@ -1236,8 +1200,8 @@ body.fi-panel-admin .fi-page-content > .fi-form .fi-form-actions {
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.04);
 }
 
-html.dark body.fi-panel-admin .fi-page > .fi-form .fi-form-actions,
-html.dark body.fi-panel-admin .fi-page-content > .fi-form .fi-form-actions {
+.dark body.fi-panel-admin .fi-page > .fi-form .fi-form-actions,
+.dark body.fi-panel-admin .fi-page-content > .fi-form .fi-form-actions {
     background-color: rgb(17, 24, 39);
     border-top-color: rgba(255, 255, 255, 0.08);
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.4);
@@ -1365,23 +1329,23 @@ body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) textarea {
 
 /* Dark-mode variants — lighter red for sufficient contrast on the
    admin dark panel background (Tailwind red-400). */
-html.dark body.fi-panel-admin [data-validation-error],
-html.dark body.fi-panel-checkout [data-validation-error] {
+.dark body.fi-panel-admin [data-validation-error],
+.dark body.fi-panel-checkout [data-validation-error] {
     color: #f87171;
 }
 
-html.dark body.fi-panel-admin [data-validation-error]::before,
-html.dark body.fi-panel-checkout [data-validation-error]::before {
+.dark body.fi-panel-admin [data-validation-error]::before,
+.dark body.fi-panel-checkout [data-validation-error]::before {
     background-color: #f87171;
     color: #1f2937;
 }
 
-html.dark body.fi-panel-admin .fi-fo-field:has([data-validation-error]) input:not([type="hidden"]),
-html.dark body.fi-panel-admin .fi-fo-field:has([data-validation-error]) select,
-html.dark body.fi-panel-admin .fi-fo-field:has([data-validation-error]) textarea,
-html.dark body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) input:not([type="hidden"]),
-html.dark body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) select,
-html.dark body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) textarea {
+.dark body.fi-panel-admin .fi-fo-field:has([data-validation-error]) input:not([type="hidden"]),
+.dark body.fi-panel-admin .fi-fo-field:has([data-validation-error]) select,
+.dark body.fi-panel-admin .fi-fo-field:has([data-validation-error]) textarea,
+.dark body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) input:not([type="hidden"]),
+.dark body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) select,
+.dark body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) textarea {
     border-color: #f87171 !important;
     box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.25);
 }
@@ -1476,8 +1440,8 @@ body.fi-panel-checkout .fi-section-header-description {
 }
 
 /* Dark-mode inverse — lighter shade on dark background. */
-html.dark body.fi-panel-admin .fi-section-header-description,
-html.dark body.fi-panel-checkout .fi-section-header-description {
+.dark body.fi-panel-admin .fi-section-header-description,
+.dark body.fi-panel-checkout .fi-section-header-description {
     color: #9CA3AF;
 }
 

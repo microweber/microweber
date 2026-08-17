@@ -135,7 +135,7 @@ class ESE1b5604Slice12MwSliderContractTest extends TestCase
         );
         // Dark override: 2px var(--ese-surface-muted)
         $this->assertMatchesRegularExpression(
-            '/html\.dark[\s\S]*?\.v-slider-thumb__surface,[\s\S]*?\.theme-dark[\s\S]*?\.v-slider-thumb__surface,[\s\S]*?\[data-theme="dark"\][\s\S]*?\.v-slider-thumb__surface\s*\{[^}]*box-shadow:\s*0\s+0\s+0\s+2px\s+var\(--ese-surface-muted\)/s',
+            '/\.dark[\s\S]*?\.v-slider-thumb__surface,[\s\S]*?\.theme-dark[\s\S]*?\.v-slider-thumb__surface,[\s\S]*?\[data-theme="dark"\][\s\S]*?\.v-slider-thumb__surface\s*\{[^}]*box-shadow:\s*0\s+0\s+0\s+2px\s+var\(--ese-surface-muted\)/s',
             $this->src,
             'Dark-mode thumb ring: 2px solid var(--ese-surface-muted) per N3.'
         );

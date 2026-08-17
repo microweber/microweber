@@ -1,0 +1,224 @@
+/* Responsive overrides extracted from theme-v3. Populated by extract-theme.cjs. */
+/* === extracted from microweber-theme-v3 === */
+/* 2627-2848 */
+/* ============================================================================ */
+/* Responsive — mobile/tablet */
+/* ============================================================================ */
+@media (max-width: 768px) {
+  .fi-page-header-main-ctn {
+    padding-top: var(--mw-space-sm) !important;  /* GR: sm(10) */
+    padding-bottom: var(--mw-space-sm) !important;
+    gap: var(--mw-space-sm) !important;
+  }
+
+  .fi-header {
+    padding-top: var(--mw-space-sm) !important;  /* GR: sm(10) */
+    padding-bottom: var(--mw-space-sm) !important;
+    gap: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  }
+
+  .fi-main {
+    padding-left: var(--mw-space-xs) !important;  /* GR: xs(6) */
+    padding-right: var(--mw-space-xs) !important;
+    padding-top: var(--mw-space-md) !important;  /* GR: md(16) */
+  }
+
+  /* Topbar: hide search text, show only icon; compact Live Edit */
+  .fi-topbar {
+    padding: var(--mw-space-xs) var(--mw-space-xs) !important;  /* GR: xs(6) */
+    gap: var(--mw-space-xs) !important;  /* GR: xs(6) */
+    min-height: 44px !important;
+  }
+
+  /* Collapse global search to icon-only on mobile */
+  .fi-global-search-field {
+    max-width: 36px !important;
+    overflow: hidden !important;
+
+    input {
+      width: 36px !important;
+      padding-left: var(--mw-space-lg) !important;  /* GR: lg(26) */
+      padding-right: 0 !important;
+      color: transparent !important;
+      cursor: pointer !important;
+      &::placeholder { color: transparent !important; }
+      &:focus {
+        width: 180px !important;
+        color: var(--mw-text-primary) !important;
+        &::placeholder { color: var(--mw-text-muted) !important; }
+      }
+    }
+  }
+
+  /* Hide "Live Edit" text label — show icon only */
+  .fi-topbar-end a[href*="editmode"] {
+    font-size: 0 !important;
+    padding: var(--mw-space-xs) !important;  /* GR: xs(6) */
+    min-width: 36px !important;
+    height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    svg, img { font-size: initial; width: 18px; height: 18px; }
+  }
+
+  /* Compact "Add" button on mobile */
+  .fi-btn.admin-toolbar-add {
+    padding: 0 var(--mw-space-xs) !important;  /* GR: xs(6) */
+    height: 32px !important;
+    font-size: 12px !important;
+  }
+
+  /* Page heading: truncate long titles */
+  .fi-header-heading {
+    font-size: 1.25rem !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  .fi-section-content-ctn,
+  .fi-ta-ctn,
+  .fi-wi {
+    border-radius: var(--mw-radius-sm) !important;
+  }
+
+  .fi-modal-content {
+    border-radius: var(--mw-radius-lg) !important;
+  }
+
+  .fi-wi-stats-overview-stat {
+    border-radius: var(--mw-radius-sm) !important;
+  }
+
+  .fi-empty-state {
+    padding: 1.5rem !important;
+  }
+
+  .fi-section:not(.fi-aside) {
+    border-radius: var(--mw-radius-sm) !important;
+  }
+
+  /* Media library: constrain the search icon on mobile */
+  .mw-media-search-icon {
+    position: absolute !important;
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  /* --- Generic mw-dialog mobile improvements --- */
+  .mw-dialog-holder {
+    max-width: calc(100vw - var(--mw-space-md)) !important;
+    max-height: calc(100vh - var(--mw-space-md)) !important;
+  }
+
+  .mw-dialog-container {
+    padding: var(--mw-space-sm) !important;  /* GR: sm(10) */
+  }
+
+  .mw-dialog-footer {
+    padding: var(--mw-space-xs) var(--mw-space-sm) !important;  /* GR: xs(6) sm(10) */
+    gap: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  }
+
+  .mw-dialog-footer .btn {
+    min-height: 40px;
+  }
+
+  /* --- Touch-friendly improvements --- */
+  /* Ensure all buttons and interactive elements have min 44px tap target */
+  .fi-btn {
+    min-height: 36px !important;
+  }
+
+  /* Table rows: increase vertical padding for easier tapping */
+  .fi-ta-cell {
+    padding-top: var(--mw-space-sm) !important;  /* GR: sm(10) */
+    padding-bottom: var(--mw-space-sm) !important;
+  }
+
+  /* Filament action buttons — larger touch targets */
+  .fi-ta-actions .fi-icon-btn {
+    min-width: 36px !important;
+    min-height: 36px !important;
+  }
+
+  /* Scrollable table indicator — fade hint on right edge */
+  .fi-ta-content {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Stats cards — stack to single column on mobile */
+  .fi-wi-stats-overview-stat-ctn {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Form sections — tighter padding */
+  .fi-section-content-ctn {
+    padding: var(--mw-space-sm) !important;  /* GR: sm(10) */
+  }
+
+  /* Filament modals — full width on mobile */
+  .fi-modal-content {
+    max-width: calc(100vw - var(--mw-space-md)) !important;
+    margin: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  }
+}
+
+@media (max-width: 480px) {
+  .fi-page-header-main-ctn {
+    padding-top: var(--mw-space-xs) !important;  /* GR: xs(6) */
+    padding-bottom: var(--mw-space-xs) !important;
+    gap: var(--mw-space-xs) !important;
+  }
+
+  .fi-header {
+    padding-top: var(--mw-space-xs) !important;  /* GR: xs(6) */
+    padding-bottom: var(--mw-space-xs) !important;
+  }
+
+  .fi-main {
+    padding-left: var(--mw-space-hair) !important;  /* GR: hair(4) */
+    padding-right: var(--mw-space-hair) !important;
+    padding-top: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  }
+
+  /* Hide "Add" label, show icon only */
+  .fi-btn.admin-toolbar-add {
+    font-size: 0 !important;
+    padding: 0 var(--mw-space-xs) !important;  /* GR: xs(6) */
+    gap: 0 !important;
+    svg { font-size: initial; }
+  }
+
+  .fi-section-content-ctn,
+  .fi-ta-ctn,
+  .fi-wi,
+  .fi-section:not(.fi-aside) {
+    border-radius: 6px !important;
+  }
+
+  /* Table: reduce font size to fit more content */
+  .fi-ta-cell,
+  .fi-ta-header-cell {
+    font-size: 12px !important;
+    padding-left: var(--mw-space-xs) !important;  /* GR: xs(6) */
+    padding-right: var(--mw-space-xs) !important;
+  }
+
+  /* Modals: full-screen on very small phones */
+  .fi-modal-content {
+    max-width: 100vw !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    min-height: 100vh;
+  }
+
+  /* Page action buttons: stack vertically */
+  .fi-header-actions {
+    flex-wrap: wrap !important;
+    gap: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  }
+}

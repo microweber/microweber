@@ -1,0 +1,44 @@
+/* ============================================================================
+ * RTL — :dir() + logical properties.
+ *
+ * A `transform` (or the individual `scale`/`translate`/`rotate`) on an ANCESTOR
+ * of a position:fixed element establishes a containing block and can break
+ * Filament / live-edit modal positioning — so never mirror an ancestor. The
+ * rules below only mirror leaf icons / ::after separators (no positioned
+ * descendants), so `transform: scaleX(-1)` on them is safe.
+ * ============================================================================ */
+
+:dir(rtl) svg.heroicon-o-arrow-left,
+:dir(rtl) svg.heroicon-o-arrow-right,
+:dir(rtl) svg.heroicon-o-arrow-long-left,
+:dir(rtl) svg.heroicon-o-arrow-long-right,
+:dir(rtl) svg.heroicon-o-arrow-uturn-left,
+:dir(rtl) svg.heroicon-o-arrow-uturn-right,
+:dir(rtl) svg.heroicon-o-arrow-small-left,
+:dir(rtl) svg.heroicon-o-arrow-small-right,
+:dir(rtl) svg.heroicon-m-arrow-left,
+:dir(rtl) svg.heroicon-m-arrow-right,
+:dir(rtl) svg.heroicon-m-arrow-long-left,
+:dir(rtl) svg.heroicon-m-arrow-long-right,
+:dir(rtl) svg.heroicon-m-arrow-uturn-left,
+:dir(rtl) svg.heroicon-m-arrow-uturn-right,
+:dir(rtl) svg.heroicon-s-arrow-left,
+:dir(rtl) svg.heroicon-s-arrow-right,
+:dir(rtl) svg.heroicon-o-chevron-left,
+:dir(rtl) svg.heroicon-o-chevron-right,
+:dir(rtl) svg.heroicon-o-chevron-double-left,
+:dir(rtl) svg.heroicon-o-chevron-double-right,
+:dir(rtl) svg.heroicon-m-chevron-left,
+:dir(rtl) svg.heroicon-m-chevron-right,
+:dir(rtl) svg.heroicon-m-chevron-double-left,
+:dir(rtl) svg.heroicon-m-chevron-double-right,
+:dir(rtl) svg.heroicon-s-chevron-left,
+:dir(rtl) svg.heroicon-s-chevron-right {
+    transform: scaleX(-1);
+}
+
+:dir(rtl) .fi-sidebar-item > a::after,
+:dir(rtl) .fi-sidebar-group-btn::after,
+:dir(rtl) .fi-breadcrumbs-item:not(:last-child)::after {
+    transform: scaleX(-1);
+}

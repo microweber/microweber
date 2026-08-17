@@ -280,7 +280,7 @@ body {
 }
 
 /* task-2026-05-27-8c3caf — dark mode for 3-dots tools dropdown + language selector.
- * Vue scoped :global(html.dark) rules are dropped by the Vite build pipeline,
+ * Vue scoped :global(.dark) rules are dropped by the Vite build pipeline,
  * so dark mode for .dropdown-trigger lives here in the Webpack theme bundle. */
 .dark .custom-dropdown .dropdown-trigger {
     background-color: rgb(31 41 55) !important;
@@ -364,11 +364,11 @@ body {
 
 /* task-2026-05-22-747f20 / AI-724 Fix 3 — Right-edge icon strip SVG contrast.
  * The @apply dark:!fill-white above targets Tailwind's .dark parent. Add an
- * explicit html.dark rule as belt-and-suspenders so the SVGs are always
+ * explicit .dark rule as belt-and-suspenders so the SVGs are always
  * light-coloured against the dark sidebar background regardless of which
  * dark-mode mechanism the canvas iframe uses. */
-html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.live-edit-toolbar-buttons svg,
-html.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.live-edit-toolbar-buttons svg,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
     fill: #f1f5f9 !important;
     color: #f1f5f9 !important;
 }
@@ -603,7 +603,7 @@ html.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
     z-index: 1100;
 }
 
-html.dark #user-menu-wrapper.active #user-menu {
+.dark #user-menu-wrapper.active #user-menu {
     background-color: #1f2937 !important;
 }
 
@@ -2008,11 +2008,11 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 /* AI-1139 dark mode — dim per-type tint circles for dark bg;
    task-2026-05-27-688e38: brightness(0.55) was too aggressive,
    making SVG icons invisible. Raised to 0.75 for visibility. */
-html.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon,
+.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon,
 .dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon {
     filter: brightness(0.75) saturate(0.8);
 }
-html.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon svg,
+.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon svg,
 .dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon svg {
     color: #e5e7eb !important;
 }
@@ -2130,10 +2130,10 @@ html.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-cont
 #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive svg {
     fill: var(--ese-danger, #dc2626) !important;
 }
-html.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive {
+.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive {
     color: var(--ese-danger, #ef4444) !important;
 }
-html.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive svg {
+.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive svg {
     fill: var(--ese-danger, #ef4444) !important;
 }
 /* Separator before destructive items */
@@ -2230,7 +2230,7 @@ html.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-s
 .mw-content-picker-modal .mw-add-content-modal-search-input {
     border: 1px solid rgb(209, 213, 219);
 }
-html.dark .mw-content-picker-modal .mw-add-content-modal-search-input {
+.dark .mw-content-picker-modal .mw-add-content-modal-search-input {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .dark .mw-content-picker-modal .mw-add-content-modal-search-input {
@@ -2276,14 +2276,14 @@ html.dark .mw-content-picker-modal .mw-add-content-modal-search-input {
 }
 
 /* B — dark mode: light icons */
-html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg path,
-html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg circle,
-html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg rect,
-html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg polygon,
-html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg path,
-html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg circle,
-html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg rect,
-html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg polygon,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg path,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg circle,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg rect,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg polygon,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg path,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg circle,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg rect,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg polygon,
 .dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg path,
 .dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg circle,
 .dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg rect,
@@ -2302,7 +2302,7 @@ html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg po
     height: 20px;
     object-fit: contain;
 }
-html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button img,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button img,
 .dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button img {
     filter: brightness(0) saturate(0) invert(1);
 }
@@ -2314,13 +2314,13 @@ html.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button i
     margin: 4px 0;
     width: 100%;
 }
-html.dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules hr,
+.dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules hr,
 .dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules hr {
     border-top-color: rgba(255, 255, 255, 0.15);
 }
 
 /* E — Container bottom-border dark mode (light mode fixed in scoped Vue CSS) */
-html.dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules,
+.dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules,
 .dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules {
     border-bottom-color: rgba(255, 255, 255, 0.15) !important;
 }

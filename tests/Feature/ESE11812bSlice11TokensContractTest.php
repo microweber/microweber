@@ -120,13 +120,14 @@ class ESE11812bSlice11TokensContractTest extends TestCase
     }
 
     #[Test]
-    public function accent_token_aliases_bootstrap_blue_not_a_new_colour(): void
+    public function accent_token_aliases_mw_ink_not_a_new_colour(): void
     {
-        // No new colours invented — accent must equal MwColors::Blue = #0d6efd
+        // No new colours invented — ESE active states deliberately use MW ink (#182433 =
+        // --mw-secondary / --mw-text-primary), matching the sidebar/button "ink, not blue" chrome.
         $this->assertMatchesRegularExpression(
-            '/--ese-accent:\s*#0d6efd/i',
+            '/--ese-accent:\s*#182433/i',
             $this->src,
-            '--ese-accent must alias MwColors::Blue (#0d6efd), not introduce a new colour.'
+            '--ese-accent must alias an existing MW colour (MW ink #182433), not introduce a new colour.'
         );
     }
 
@@ -134,15 +135,15 @@ class ESE11812bSlice11TokensContractTest extends TestCase
     public function dark_theme_block_overrides_surface_and_text(): void
     {
         // Dark theme: must override --ese-surface and --ese-text
-        // when the html.dark / .theme-dark / [data-theme="dark"]
+        // when the .dark / .theme-dark / [data-theme="dark"]
         // selector matches.
         $this->assertMatchesRegularExpression(
-            '/(html\.dark|\.theme-dark|\[data-theme="dark"\])[\s\S]*?\{[\s\S]*?--ese-surface:\s*#1a1f2b/s',
+            '/(\.dark|\.theme-dark|\[data-theme="dark"\])[\s\S]*?\{[\s\S]*?--ese-surface:\s*#1a1f2b/s',
             $this->src,
             'Dark theme block must override --ese-surface to #1a1f2b.'
         );
         $this->assertMatchesRegularExpression(
-            '/(html\.dark|\.theme-dark|\[data-theme="dark"\])[\s\S]*?\{[\s\S]*?--ese-text:\s*#f1f5f9/s',
+            '/(\.dark|\.theme-dark|\[data-theme="dark"\])[\s\S]*?\{[\s\S]*?--ese-text:\s*#f1f5f9/s',
             $this->src,
             'Dark theme block must override --ese-text to #f1f5f9.'
         );
@@ -221,12 +222,13 @@ class ESE11812bSlice11TokensContractTest extends TestCase
         //   - AI-720 (48070d):  8 consumers  — ESE per-panel empty state styles
         //   New sub-total: 37
         //
-        //   Total authorised: 130
+        //   - AI-1404 (filament-theme restructure reconciliation): +1 consumer
+        //   Total authorised: 131
         $stripped = preg_replace('/\/\*.*?\*\//s', '', $this->src);
         preg_match_all('/var\(--(ese-|space-|font-|weight-|line-|letter-|border-|radius-|t-fast|t-base|t-slow|ease)/', $stripped, $m);
         $useCount = count($m[0]);
-        $this->assertSame(130, $useCount,
-            "Authorised token consumers: 130 (92 from slices 1.1–1.4 + 37 from AI-821/825/724/725/720/1144 dark-mode sweep + 1 from AI-724 bare-literal-migration). "
+        $this->assertSame(131, $useCount,
+            "Authorised token consumers: 131 (92 from slices 1.1–1.4 + 37 from AI-821/825/724/725/720/1144 dark-mode sweep + 1 from AI-724 bare-literal-migration + 1 reconciled in AI-1404). "
             . "Found {$useCount}. If a new slice landed, bump this threshold + document in the comment."
         );
     }

@@ -3,8 +3,8 @@
 namespace Modules\Newsletter\Providers;
 
 use Filament\Panel;
-use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
+use MicroweberPackages\Admin\Filament\MwColors;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 use Modules\Newsletter\Filament\Admin\Pages\EditCampaign;
@@ -53,7 +53,7 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             })
 
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => MwColors::Blue,
             ])->pages([
                 Homepage::class,
                 CreateCampaign::class,

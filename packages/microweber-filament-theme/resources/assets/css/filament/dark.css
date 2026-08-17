@@ -1,0 +1,843 @@
+/* Dark-mode leftovers that do not map to a single component. */
+/* === extracted from microweber-theme-v3 === */
+/* dark mode */
+.dark {
+  .fi-body {
+    background-color: #0d0f14 !important;
+  }
+
+  .fi-sidebar {
+    background-color: #151821 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .fi-topbar,
+  .fi-topbar > nav {
+    background-color: #151821 !important;
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .fi-section-content-ctn {
+    background-color: #1a1f2b !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+  }
+
+  .fi-ta-ctn {
+    background-color: #1a1f2b !important;
+  }
+
+  .fi-ta-content {
+    background-color: #1a1f2b !important;
+  }
+
+  .fi-ta-record {
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.04) !important;
+    }
+  }
+
+  /* Table cell text — lighten for dark backgrounds */
+  .fi-ta-cell {
+    color: #e2e8f0 !important;
+  }
+
+  /* Table title links in dark mode */
+  .fi-ta-record .font-medium a {
+    color: #e2e8f0 !important;
+  }
+
+  /* Content grid card dark mode */
+  .fi-ta-record .group .font-medium a {
+    color: #e2e8f0 !important;
+
+    &:hover {
+      color: #63b3ed !important;
+    }
+  }
+
+  .fi-ta-record .group a svg {
+    color: #cbd5e0 !important;
+    fill: #cbd5e0 !important;
+  }
+
+  .fi-ta-record .group a:hover svg {
+    color: #f7fafc !important;
+    fill: #f7fafc !important;
+  }
+
+  /* Module icons — force light colors in dark mode for inline SVGs */
+  .fi-ta-record svg {
+    fill: #e2e8f0 !important;
+    color: #e2e8f0 !important;
+
+    path:not([fill="none"]), g, circle, rect:not([fill="none"]), polygon, polyline, line, ellipse {
+      fill: #e2e8f0 !important;
+    }
+  }
+
+  /* Product price dark mode */
+  .fi-ta-record .group .mw-price-current {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-ta-record .group .mw-price-original {
+    color: #718096 !important;
+  }
+
+  .fi-ta-record .group .mw-price-special {
+    color: #fc8181 !important;
+  }
+
+  .fi-ta-record .group .text-\[0\.8rem\],
+  .fi-ta-record .group .text-\[0\.8rem\] a {
+    color: #718096 !important;
+  }
+
+  .fi-ta-record .group .text-\[0\.6rem\],
+  .fi-ta-record .group .mw-content-date {
+    color: #4a5568 !important;
+  }
+
+  .fi-ta-record .group .mw-content-author {
+    color: #718096 !important;
+
+    svg {
+      color: #718096 !important;
+    }
+  }
+
+  /* Dark mode status badges — tinted backgrounds with light text */
+  .fi-ta-content .fi-badge,
+  .fi-badge {
+    &.fi-color-success {
+      background-color: rgba(47, 179, 68, 0.2) !important;
+      color: #68d391 !important;
+    }
+    &.fi-color-warning {
+      background-color: rgba(237, 137, 54, 0.2) !important;
+      color: #f6ad55 !important;
+    }
+    &.fi-color-danger {
+      background-color: rgba(245, 101, 101, 0.2) !important;
+      color: #fc8181 !important;
+    }
+    &.fi-color-info {
+      background-color: rgba(66, 153, 225, 0.2) !important;
+      color: #63b3ed !important;
+    }
+    &.fi-color-gray {
+      background-color: rgba(160, 174, 192, 0.15) !important;
+      color: #a0aec0 !important;
+    }
+  }
+
+  /* Published button in dark mode */
+  .fi-ta-content .fi-btn.fi-color-success {
+    color: #68d391 !important;
+    background-color: rgba(47, 179, 68, 0.15) !important;
+
+    span, .fi-btn-label {
+      color: #68d391 !important;
+    }
+  }
+
+  .fi-wi {
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .fi-modal-content {
+    background-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .fi-modal-slide-over .fi-modal-content {
+    background-color: transparent !important;  /* Inherit from .fi-modal-window to avoid double background */
+  }
+
+  .fi-modal-header {
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .fi-modal-heading {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-modal-description {
+    color: #a0aec0 !important;
+  }
+
+  .fi-modal-close-btn {
+    color: #718096 !important;
+
+    &:hover {
+      color: #e2e8f0 !important;
+      background-color: rgba(255, 255, 255, 0.08) !important;
+    }
+  }
+
+  .fi-modal-footer {
+    border-top-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  /* Dark mode notifications / toasts */
+  .fi-no-notification {
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow:
+      rgba(0, 0, 0, 0.4) 0px 8px 24px -4px,
+      rgba(0, 0, 0, 0.2) 0px 4px 8px -2px !important;
+
+    &.fi-status-success {
+      border-left-color: #68d391 !important;
+    }
+    &.fi-status-warning {
+      border-left-color: #f6ad55 !important;
+    }
+    &.fi-status-danger {
+      border-left-color: #fc8181 !important;
+    }
+    &.fi-status-info {
+      border-left-color: #63b3ed !important;
+    }
+  }
+
+  .fi-no-notification-title {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-no-notification-body {
+    color: #a0aec0 !important;
+  }
+
+  .fi-no-notification-date {
+    color: #718096 !important;
+  }
+
+  .fi-no-notification-close-btn {
+    color: #718096 !important;
+
+    &:hover {
+      color: #e2e8f0 !important;
+    }
+  }
+
+  .fi-no-notification-icon {
+    &.fi-color-custom {
+      &[style*="--c-400:var(--success-400)"],
+      &[style*="--c-500:var(--success-500)"] {
+        color: #68d391 !important;
+      }
+      &[style*="--c-400:var(--warning-400)"],
+      &[style*="--c-500:var(--warning-500)"] {
+        color: #f6ad55 !important;
+      }
+      &[style*="--c-400:var(--danger-400)"],
+      &[style*="--c-500:var(--danger-500)"] {
+        color: #fc8181 !important;
+      }
+      &[style*="--c-400:var(--info-400)"],
+      &[style*="--c-500:var(--info-500)"] {
+        color: #63b3ed !important;
+      }
+    }
+  }
+
+  /* Dark mode empty states */
+  .fi-empty-state-icon-bg,
+  .fi-ta-empty-state-icon-bg {
+    background-color: rgba(66, 153, 225, 0.15) !important;
+
+    svg {
+      color: #63b3ed !important;
+    }
+  }
+
+  .fi-empty-state-heading,
+  .fi-ta-empty-state-heading {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-empty-state-description,
+  .fi-ta-empty-state-description {
+    color: #718096 !important;
+  }
+
+  /* Dark mode loading states */
+  .fi-loading-indicator {
+    color: #63b3ed !important;
+  }
+
+  .fi-loading-section {
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+  }
+
+  .mw-skeleton,
+  .mw-skeleton-text,
+  .mw-skeleton-avatar,
+  .mw-skeleton-thumbnail {
+    background: linear-gradient(90deg, #1e2330 25%, #2d3748 50%, #1e2330 75%) !important;
+    background-size: 200% 100% !important;
+  }
+
+  .fi-dropdown-panel {
+    background-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .fi-input-wrp {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    background-color: #141822 !important;
+
+    &:focus-within {
+      border-color: rgba(255, 255, 255, 0.4) !important;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+
+  .fi-sidebar-item {
+    .fi-sidebar-item-btn:hover {
+      background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .fi-sidebar-item-label {
+      color: #a0aec0 !important;
+    }
+
+    .fi-sidebar-item-icon {
+      color: #718096 !important;
+    }
+
+    &.fi-active {
+      /* Sub-items (no icon): subtle bg tint */
+      .fi-sidebar-item-btn {
+        background-color: rgba(255, 255, 255, 0.06) !important;
+      }
+
+      .fi-sidebar-item-label {
+        color: #e2e8f0 !important;
+        text-decoration: none !important;
+      }
+
+      .fi-sidebar-item-icon {
+        color: #e2e8f0 !important;
+      }
+
+      /* Top-level items (with icon): underline text, transparent bg — same as light mode */
+      &:has(.fi-sidebar-item-icon) {
+        .fi-sidebar-item-btn {
+          background-color: transparent !important;
+        }
+
+        .fi-sidebar-item-label {
+          text-decoration: underline !important;
+          text-underline-offset: 4px !important;
+          text-decoration-thickness: 2px !important;
+          text-decoration-color: #e2e8f0 !important;
+        }
+      }
+    }
+  }
+
+  .fi-sidebar-group {
+    border-top-color: rgba(255, 255, 255, 0.08) !important;
+
+    .fi-sidebar-group-label {
+      color: #4a5568 !important;
+    }
+
+    /* Collapsible group buttons (Website, Shop) — light icon/text in dark mode */
+    &.fi-collapsible {
+      .fi-sidebar-group-btn {
+        color: #a0aec0 !important;
+
+        svg {
+          color: #a0aec0 !important;
+          stroke: #a0aec0 !important;
+        }
+
+        span {
+          color: #a0aec0 !important;
+        }
+      }
+    }
+  }
+
+  /* Page heading — light text in dark mode */
+  .fi-header-heading {
+    color: #e2e8f0 !important;
+  }
+
+  /* Section headings — light text in dark mode */
+  .fi-section-header-heading {
+    color: #a0aec0 !important;
+  }
+
+  /* Stat overview — light values in dark mode */
+  .fi-wi-stats-overview-stat {
+    .fi-wi-stats-overview-stat-value {
+      color: #e2e8f0 !important;
+    }
+    .fi-wi-stats-overview-stat-label {
+      color: #718096 !important;
+    }
+  }
+
+  /* Breadcrumbs — dark mode */
+  .fi-breadcrumbs {
+    li {
+      color: #718096 !important;
+
+      a {
+        color: #63b3ed !important;
+
+        &:hover {
+          color: #90cdf4 !important;
+        }
+      }
+
+      &:last-child {
+        color: #e2e8f0 !important;
+      }
+    }
+
+    .fi-icon {
+      color: #4a5568 !important;
+    }
+  }
+
+  /* Tabs — light text in dark mode */
+  .fi-tabs {
+    border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  }
+  .fi-tabs-item {
+    color: #a0aec0 !important;
+
+    &.fi-active {
+      color: #e2e8f0 !important;
+      background-color: rgba(255, 255, 255, 0.08) !important;
+      box-shadow: none !important;
+      border-bottom: var(--mw-border-xs) solid #e2e8f0 !important;  /* GR: border-xs(2) */
+    }
+  }
+
+  /* Table header cells — slightly brighter in dark mode */
+  .fi-ta-header-cell {
+    color: #718096 !important;
+  }
+
+  /* Table header container dark bg — must match `.fi-ta-ctn` / */
+  /* `.fi-ta-content` (#1a1f2b). Previously this was #1e2330, a */
+  /* slightly lighter shade; the mismatch produced a visible "step" */
+  /* at the top-rounded corners where the wrapper's clipped shape */
+  /* meets the header's own rounded background. Use the shared */
+  /* surface color and demarcate the header via the bottom border */
+  /* only. */
+  .fi-ta-header-ctn {
+    background-color: #1a1f2b !important;
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  /* Pagination text — visible in dark mode */
+  .fi-pagination-overview {
+    color: #a0aec0 !important;
+  }
+
+  /* Pagination active page — dark mode */
+  .fi-pagination-item-active {
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+  }
+
+  /* Per-page select label */
+  .fi-pagination {
+    color: #a0aec0 !important;
+  }
+
+  /* Per-page select wrapper in table — dark bg */
+  .fi-ta-ctn .fi-input-wrp:has(.fi-select-input) {
+    background-color: #141822 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* Form labels in dark mode */
+  .fi-fo-field-label,
+  .fi-fo-field-label {
+    color: #a0aec0 !important;
+  }
+
+  /* Form helper text in dark mode */
+  .fi-fo-field-hint,
+  .fi-fo-helper-text {
+    color: #718096 !important;
+  }
+
+  .fi-section-header-description {
+    color: #a0aec0 !important;
+  }
+
+  /* Links in dark mode */
+  .fi-link {
+    color: #63b3ed !important;
+    &:hover {
+      color: #90cdf4 !important;
+    }
+  }
+
+  /* Content create/edit form — dark mode */
+  .mw--global-admin-tree {
+    border-color: rgba(255, 255, 255, 0.06) !important;
+    background-color: rgba(0, 0, 0, 0.15) !important;
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  .fi-section.fi-collapsible .fi-section-header:hover {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+  }
+
+  .fi-tags-input-tags .fi-tags-input-tag {
+    background-color: rgba(66, 153, 225, 0.15) !important;
+    color: #e2e8f0 !important;
+    border-color: rgba(66, 153, 225, 0.3) !important;
+  }
+
+  .fi-fo-checkbox-list {
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  .fi-fo-checkbox-list-option-label {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-fo-rich-editor {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+
+    .fi-fo-rich-editor-toolbar {
+      background-color: #161b26 !important;
+      border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+    }
+  }
+
+  /* Excerpt textarea — dark mode */
+  .fi-fo-textarea textarea {
+    background-color: #141822 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #e2e8f0 !important;
+  }
+
+  /* ── Sections (form cards) — elevated surface ── */
+  .fi-section {
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
+
+    /* Collapsible section header hover */
+    &.fi-collapsible .fi-section-header {
+      border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+    }
+  }
+
+  .fi-section-header {
+    background-color: #1a1f2b !important;
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  /* ── Form inputs, selects, textareas — unified dark treatment ── */
+  .fi-input,
+  .fi-select-input,
+  .fi-fo-textarea,
+  .fi-input-wrp input,
+  .fi-input-wrp select,
+  .fi-input-wrp textarea {
+    background-color: #141822 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #e2e8f0 !important;
+
+    &::placeholder {
+      color: #4a5568 !important;
+    }
+  }
+
+  /* ── Checkboxes and radio buttons ── */
+  .form-check-input,
+  .fi-checkbox-input,
+  .fi-radio-input,
+  input[type="checkbox"],
+  input[type="radio"] {
+    background-color: #141822 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+
+    &:checked {
+      background-color: #4299e1 !important;
+      border-color: #4299e1 !important;
+    }
+  }
+
+  /* ── Toggle / switch ── */
+  .fi-toggle {
+    background-color: #2d3748 !important;
+
+    &:checked {
+      background-color: #4299e1 !important;
+    }
+  }
+
+  /* ── Select (native only — searchable selects use their own button) ── */
+  select.fi-select-input {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23718096' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.5rem center !important;
+    background-size: 1.5em 1.5em !important;
+  }
+
+  /* ── Topbar buttons — dark mode ── */
+  .fi-btn.admin-toolbar-add,
+  .fi-btn.admin-toolbar-add.fi-color-primary {
+    background-color: rgba(66, 153, 225, 0.15) !important;
+    color: #63b3ed !important;
+
+    svg {
+      color: #63b3ed !important;
+    }
+    span, .fi-btn-label {
+      color: #63b3ed !important;
+    }
+
+    &:hover {
+      background-color: rgba(66, 153, 225, 0.25) !important;
+    }
+  }
+
+  .fi-btn.admin-toolbar-live-edit,
+  .fi-btn.admin-toolbar-live-edit.fi-color-primary {
+    background-color: rgba(72, 187, 120, 0.15) !important;
+    color: #68d391 !important;
+
+    svg {
+      color: #68d391 !important;
+    }
+    span, .fi-btn-label {
+      color: #68d391 !important;
+    }
+
+    &:hover {
+      background-color: rgba(72, 187, 120, 0.25) !important;
+    }
+  }
+
+  /* ── Primary / secondary / danger buttons — dark mode ── */
+  /* task-2026-05-17-68e111 / AI-819 CHANGE absorption — re-anchored to brand-blue via --primary-X */
+  /* Pre-CHANGE used literal #4299e1 (pre-AI-819 Tailwind blue) which silently won the cascade */
+  /* over the AI-819 :root override. Same Stage-2 sub-variant as the light-mode rule at :775. */
+  .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) {
+    background-color: rgba(var(--primary-500), 1) !important;
+    color: #fff !important;
+
+    &:hover {
+      background-color: rgba(var(--primary-600), 1) !important;
+    }
+  }
+
+  .fi-btn.fi-color-gray {
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #a0aec0 !important;
+
+    &:hover {
+      background-color: #2d3748 !important;
+      color: #e2e8f0 !important;
+    }
+  }
+
+  .fi-btn.fi-color-danger {
+    background-color: rgba(245, 101, 101, 0.15) !important;
+    color: #fc8181 !important;
+    border-color: rgba(245, 101, 101, 0.3) !important;
+
+    &:hover {
+      background-color: rgba(245, 101, 101, 0.25) !important;
+    }
+  }
+
+  /* ── Page header / title ── */
+  .fi-header {
+    h1 {
+      color: #e2e8f0 !important;
+    }
+  }
+
+  /* ── Action buttons in header ── */
+  .fi-header-actions .fi-btn {
+    box-shadow: none !important;
+  }
+
+  /* ── Dropdown menu items ── */
+  .fi-dropdown-list-item {
+    color: #a0aec0 !important;
+
+    svg {
+      color: #a0aec0 !important;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.06) !important;
+      color: #e2e8f0 !important;
+
+      svg {
+        color: #e2e8f0 !important;
+      }
+    }
+  }
+
+  /* ── Fieldset / form group borders ── */
+  .fi-fieldset {
+    border-color: rgba(255, 255, 255, 0.07) !important;
+  }
+
+  /* ── Info list (key-value display) ── */
+  .fi-in-entry-wrp {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-in-entry-wrp-label {
+    color: #718096 !important;
+  }
+
+  /* ── Repeater component ── */
+  .fi-fo-repeater-item {
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* ── Global search field — blend with topbar ── */
+  .fi-global-search-field .fi-input-wrp {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+
+    &:focus-within {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05) !important;
+    }
+  }
+
+  .fi-global-search-field input {
+    color: #e2e8f0 !important;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.35) !important;
+    }
+  }
+
+  /* ── Global search results dropdown ── */
+  .fi-global-search-results-ctn {
+    background-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .fi-global-search-result-group-header {
+    color: #a0aec0 !important;
+  }
+
+  .fi-global-search-result-heading {
+    color: #e2e8f0 !important;
+  }
+
+  /* ── Global search results ── */
+  .fi-global-search-result {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.06) !important;
+    }
+  }
+
+  .fi-global-search-result-title {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-global-search-result-url,
+  .fi-global-search-result-details {
+    color: #718096 !important;
+  }
+
+  /* ── Color swatch inputs ── */
+  .fi-color-picker-preview {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* ── File upload area ── */
+  .fi-fo-file-upload {
+    background-color: #141822 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #a0aec0 !important;
+  }
+
+  /* ── Date picker ── */
+  .fi-date-time-picker-dropdown {
+    background-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #e2e8f0 !important;
+  }
+
+  /* ── Placeholder text in any input ── */
+  ::placeholder {
+    color: #4a5568 !important;
+  }
+
+  /* ── Horizontal rule / divider ── */
+  hr {
+    border-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  /* ── Stat card icon backgrounds in dark mode — keep tinted ── */
+  .mw-quick-stat-card-icon--blue {
+    background-color: rgba(59, 130, 246, 0.15) !important;
+  }
+  .mw-quick-stat-card-icon--pink {
+    background-color: rgba(236, 72, 153, 0.15) !important;
+  }
+  .mw-quick-stat-card-icon--green {
+    background-color: rgba(245, 158, 11, 0.15) !important;
+  }
+  .mw-quick-stat-card-icon--orange {
+    background-color: rgba(249, 115, 22, 0.15) !important;
+  }
+
+  /* ── Table column toggle button ── */
+  .fi-ta-col-toggle-btn {
+    color: #718096 !important;
+
+    &:hover {
+      color: #e2e8f0 !important;
+    }
+  }
+
+  /* ── Table filters ── */
+  .fi-ta-filters {
+    background-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* ── Action icon buttons in tables ── */
+  .fi-icon-btn {
+    color: #718096 !important;
+
+    &:hover {
+      color: #e2e8f0 !important;
+      background-color: rgba(255, 255, 255, 0.06) !important;
+    }
+  }
+
+  /* ── Marketplace card items ── */
+  .fi-ta-grid .fi-ta-record {
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+}

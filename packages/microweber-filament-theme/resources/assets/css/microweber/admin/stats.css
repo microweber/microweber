@@ -1,0 +1,191 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 4088-4275 */
+/* ============================================================================ */
+/* Dashboard — MW v2 Statistics Card (ECharts) */
+/* ============================================================================ */
+.mw-stats-card {
+  position: relative;
+  background-color: var(--mw-bg-surface);
+  border-radius: var(--mw-radius-lg);
+  /* Unified card language: borderless, floating on the shared soft shadow. */
+  border: none;
+  box-shadow: var(--mw-card-shadow);
+  overflow: hidden;
+}
+
+.mw-stats-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--mw-space-lg) var(--mw-space-lg) var(--mw-space-sm);  /* GR: lg(26) lg(26) sm(10) */
+}
+
+.mw-stats-card-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--mw-space-md);  /* GR: md(16) */
+}
+
+.mw-stats-card-icon {
+  width: var(--mw-space-xl);  /* GR: xl(42) */
+  height: var(--mw-space-xl);
+  min-width: var(--mw-space-xl);
+  border-radius: var(--mw-radius-tile);  /* unified icon-tile radius */
+  background-color: #f0f4f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mw-stats-card-icon-svg {
+  width: 24px;
+  height: 24px;
+  color: var(--mw-text-secondary);
+}
+
+.mw-stats-card-title {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: var(--mw-text-secondary) !important;
+  margin: 0 0 var(--mw-border-xs) !important;  /* GR: border-xs(2) */
+}
+
+.mw-stats-card-online {
+  display: flex;
+  align-items: baseline;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+}
+
+.mw-stats-card-online-count {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: var(--mw-text-primary) !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.mw-stats-card-online-label {
+  font-size: 14px !important;
+  color: var(--mw-text-muted) !important;
+}
+
+.mw-stats-card-header-right {
+  display: flex;
+  gap: var(--mw-space-hair);  /* GR: hair(4) */
+}
+
+.mw-stats-card-period-label {
+  cursor: pointer;
+  font-size: 14px !important;
+  color: var(--mw-text-primary) !important;
+  padding: var(--mw-space-hair) var(--mw-space-xs);  /* GR: hair(4) xs(6) */
+  border-radius: var(--mw-radius-sm);
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  span {
+    font-weight: 400;
+  }
+
+  &:hover span {
+    text-decoration: underline;
+  }
+
+  input[type="radio"]:checked ~ span {
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: var(--mw-underline-offset-sm);  /* GR: offset-sm(3) */
+    text-decoration-thickness: var(--mw-underline-base);  /* GR: base(2) */
+  }
+}
+
+.mw-stats-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--mw-space-sm) var(--mw-space-lg) var(--mw-space-md);  /* GR: sm(10) lg(26) md(16) */
+  border-top: 1px solid var(--mw-border-subtle);
+}
+
+.mw-stats-card-footer-left {
+  display: flex;
+  gap: var(--mw-space-md);  /* GR: md(16) */
+}
+
+.mw-stats-card-footer-stat {
+  display: flex;
+  align-items: center;
+  gap: var(--mw-space-hair);  /* GR: hair(4) */
+  font-size: 14px;
+  color: var(--mw-text-secondary);
+}
+
+.mw-stats-card-footer-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--mw-text-muted);
+}
+
+/* AI-1040 / task-2026-05-22-3906fc — visible text label after each stat number. */
+.mw-stats-footer-label {
+  font-size: 12px;
+  color: var(--mw-text-muted);
+}
+
+.mw-stats-card-show-more {
+  font-size: 13px !important;
+  color: #206bc4 !important;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline !important;
+  }
+}
+
+/* Dark mode for statistics card */
+.dark {
+  .mw-stats-card {
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
+  }
+
+  .mw-stats-card-icon {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .mw-stats-card-icon-svg {
+    color: #718096 !important;
+  }
+
+  .mw-stats-card-title {
+    color: #718096 !important;
+  }
+
+  .mw-stats-card-online-count {
+    color: #e2e8f0 !important;
+  }
+
+  .mw-stats-card-online-label {
+    color: #4a5568 !important;
+  }
+
+  .mw-stats-card-period-label {
+    color: #a0aec0 !important;
+  }
+
+  .mw-stats-card-footer {
+    border-top-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .mw-stats-card-footer-stat {
+    color: #718096 !important;
+  }
+
+  .mw-stats-card-show-more {
+    color: #63b3ed !important;
+  }
+}

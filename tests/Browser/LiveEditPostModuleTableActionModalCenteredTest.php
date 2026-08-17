@@ -3,7 +3,7 @@
 namespace Tests\Browser;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Hash;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\User\Models\User;

@@ -1,3 +1,47 @@
 .fi-link-badge-ctn {
     @apply rounded-full;
 }
+/* === extracted from microweber-theme-v3 === */
+/* 2448-2490 */
+/* ============================================================================ */
+/* Links — MW v2 blue color */
+/* ============================================================================ */
+.fi-link {
+  color: #206bc4 !important;  /* MW v2 exact link color */
+
+  &:hover {
+    color: #1a569d !important;  /* MW v2 exact hover */
+    text-decoration: underline !important;
+  }
+}
+
+/* Semantic-colored links (e.g. the red "Delete" row action in module-settings tables) */
+/* keep their own colour — the blanket .fi-link blue above was overriding them. */
+.fi-link.fi-color-danger {
+  color: #d63939 !important;
+  &:hover { color: #b02a2a !important; }
+}
+.fi-link.fi-color-success { color: #2fb344 !important; &:hover { color: #268a38 !important; } }
+.fi-link.fi-color-warning { color: #f76707 !important; &:hover { color: #d35400 !important; } }
+
+/* Module-settings item tables (Content/Posts/Products "Items list") render with very */
+/* tall ~85px rows for a single-line title + Edit/Delete actions. Tighten the cell and */
+/* the action-button padding for a compact list. Scoped to the module-settings iframe so */
+/* the main admin resource tables keep their own spacing. */
+.mw-live-edit-module-settings-iframe {
+  /* The action-wrapping button/link inside each cell is the row-height driver (~64px for a */
+  /* single line of text). Collapse its vertical padding for a compact list. Base cell padding */
+  /* is Filament-core-governed and left alone. */
+  .fi-ta-cell .fi-ta-col {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+  }
+  /* The text item inside the action button carries ~18px of block padding, inflating a */
+  /* single-line title cell to ~56px. Collapse it — this is the actual row-height driver. */
+  .fi-ta-cell .fi-ta-text-item {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+  /* The per-cell responsive "Title" label duplicates the column header on desktop — hide it. */
+  .fi-ta-cell-label { display: none !important; }
+}

@@ -73,7 +73,7 @@ class Ai510DataTablesDesktopContractTest extends TestCase
             'sort aria desc'             => ['fi-ta-header-cell[aria-sort="descending"]'],
             'sort tint admin panel'      => ['body.fi-panel-admin .fi-ta-header-cell[aria-sort="ascending"]'],
             'sort tint checkout panel'   => ['body.fi-panel-checkout .fi-ta-header-cell[aria-sort="ascending"]'],
-            'sort dark-mode variant'     => ['html.dark body.fi-panel-admin .fi-ta-header-cell[aria-sort="ascending"]'],
+            'sort dark-mode variant'     => ['.dark body.fi-panel-admin .fi-ta-header-cell[aria-sort="ascending"]'],
             'sticky position'            => ['position: sticky'],
             'sticky left 0'              => ['left: 0'],
             'sticky first th admin'      => ['body.fi-panel-admin .fi-ta-table > thead > tr > th:first-child'],

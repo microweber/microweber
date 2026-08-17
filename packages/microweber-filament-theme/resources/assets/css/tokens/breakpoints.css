@@ -1,0 +1,47 @@
+/* ============================================================================
+ * Unified breakpoints.
+ *
+ * Pre-refactor the theme mixed 380 / 480 / 500 / 575.98 / 576 / 600 / 640 /
+ * 767 / 767.98 / 768 / 769 / 890 / 992 / 1023.98 / 1024 / 1200 / 1280 / 1366 /
+ * 1400 / 1440 / 1800. Those collapse to this scale (Tailwind + Bootstrap
+ * companions used by the live-edit grid).
+ *
+ * CSS variables cannot be interpolated into @media in every browser, so
+ * component files use the pixel values below. The variables exist so
+ * JS / inline styles / container queries can share the same scale.
+ * ============================================================================ */
+
+:root {
+    --mw-bp-xs: 480px;
+    --mw-bp-sm: 640px;
+    --mw-bp-md: 768px;
+    --mw-bp-lg: 1024px;
+    --mw-bp-xl: 1280px;
+    --mw-bp-2xl: 1536px;
+
+    /* Bootstrap-compatible extras used by grid-only / live-edit */
+    --mw-bp-bs-sm: 576px;
+    --mw-bp-bs-lg: 992px;
+    --mw-bp-bs-xl: 1200px;
+    --mw-bp-bs-xxl: 1400px;
+
+    /* Max-width companions (avoid 1px overlap with the next min) */
+    --mw-bp-xs-max: 479.98px;
+    --mw-bp-sm-max: 639.98px;
+    --mw-bp-md-max: 767.98px;
+    --mw-bp-lg-max: 1023.98px;
+    --mw-bp-xl-max: 1279.98px;
+}
+
+/* Canonical media aliases — documented for authors; used as comments
+ * next to @media in component files:
+ *
+ *   @media (max-width: 479.98px)  → xs
+ *   @media (max-width: 639.98px)  → sm
+ *   @media (max-width: 767.98px)  → md   (was 768 / 767 / 767.98 / 769)
+ *   @media (max-width: 1023.98px) → lg   (was 1024 / 1023.98)
+ *   @media (min-width: 640px)     → min-sm
+ *   @media (min-width: 768px)     → min-md
+ *   @media (min-width: 1024px)    → min-lg
+ *   @media (min-width: 1280px)    → min-xl
+ */

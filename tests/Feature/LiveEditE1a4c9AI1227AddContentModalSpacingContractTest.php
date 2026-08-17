@@ -30,7 +30,7 @@ use Tests\TestCase;
  *    .mw-content-picker-modal .mw-add-content-modal-action-wrapper { padding: 1rem }
  *    .mw-content-picker-modal .mw-add-content-group--secondary { margin-top: 1rem }
  *    .mw-content-picker-modal .mw-add-content-modal-search-input { border: 1px solid rgb(209,213,219) }
- *    html.dark / .dark override for search input border
+ *    .dark / .dark override for search input border
  *
  * Source-of-truth:
  *   packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-classes.css
@@ -98,9 +98,9 @@ class LiveEditE1a4c9AI1227AddContentModalSpacingContractTest extends TestCase
     public function search_input_has_dark_mode_border_html_dark(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark\s+\.mw-content-picker-modal\s+\.mw-add-content-modal-search-input\s*\{[^}]*border\s*:\s*1px solid rgba\(255,\s*255,\s*255,\s*0\.1\)~s',
+            '~\.dark\s+\.mw-content-picker-modal\s+\.mw-add-content-modal-search-input\s*\{[^}]*border\s*:\s*1px solid rgba\(255,\s*255,\s*255,\s*0\.1\)~s',
             $this->cssSource,
-            'AI-1227 D4: html.dark dark-mode override on search input border MUST be present.'
+            'AI-1227 D4: .dark dark-mode override on search input border MUST be present.'
         );
     }
 

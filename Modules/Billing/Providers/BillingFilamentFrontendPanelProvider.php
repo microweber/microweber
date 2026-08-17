@@ -7,7 +7,6 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use MicroweberPackages\Filament\Plugins\MicroweberFilamentSocialitePlugin;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
@@ -35,9 +34,7 @@ class BillingFilamentFrontendPanelProvider extends PanelProvider
             ->login(Login::class)
             ->registration(Register::class)
             ->passwordReset(ForgotPassword::class)
-            ->colors([
-                'primary' => Color::Purple,
-            ])
+            ->colors(\MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme::getColors())
             ->discoverResources(
                 in: __DIR__ . '/../Filament/Frontend/Resources',
                 for: 'Modules\\Billing\\Filament\\Frontend\\Resources')

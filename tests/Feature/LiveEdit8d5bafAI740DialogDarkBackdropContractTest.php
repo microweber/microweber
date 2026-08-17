@@ -72,10 +72,10 @@ class LiveEdit8d5bafAI740DialogDarkBackdropContractTest extends TestCase
     #[Test]
     public function dark_mode_override_applies_60_percent_backdrop(): void
     {
-        // html.dark + .dark dual-selector mirror per existing
+        // .dark + .dark dual-selector mirror per existing
         // dark-mode override pattern in this file.
         $this->assertMatchesRegularExpression(
-            '/(html\.dark|\.dark)\s+\.mw-dialog-skin-default\s+\.mw-dialog-overlay[^{]*\{[^}]*bg-black\/60/i',
+            '/(\.dark|\.dark)\s+\.mw-dialog-skin-default\s+\.mw-dialog-overlay[^{]*\{[^}]*bg-black\/60/i',
             $this->css,
             'Dark-mode .mw-dialog-overlay must bump backdrop to !bg-black/60 (rgba(0,0,0,0.6)) per AI-740 fix.'
         );
@@ -87,9 +87,9 @@ class LiveEdit8d5bafAI740DialogDarkBackdropContractTest extends TestCase
         // Belt-and-braces — different parent themes use different
         // dark-mode root selectors; pin both.
         $this->assertStringContainsString(
-            'html.dark .mw-dialog-skin-default .mw-dialog-overlay',
+            '.dark .mw-dialog-skin-default .mw-dialog-overlay',
             $this->css,
-            'Dark-mode override must include `html.dark` selector for the project default theme.'
+            'Dark-mode override must include `.dark` selector for the project default theme.'
         );
         $this->assertStringContainsString(
             '.dark .mw-dialog-skin-default .mw-dialog-overlay',

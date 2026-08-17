@@ -1,0 +1,362 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 6341-6696 */
+/* ========================================
+   Menu Editor
+   ======================================== */
+
+.mw-menu-editor {
+  max-width: 800px;
+}
+
+.mw-menu-editor__selector {
+  margin-bottom: 1.25rem;
+}
+
+.mw-menu-editor__toolbar {
+  background: var(--mw-bg-page);
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-lg) var(--mw-radius-lg) 0 0;
+  padding: 0.875rem 1.25rem;
+
+  /*
+   * Toolbar inner row — fix the cramped 'Add menu item' button that
+   * was wrapping its label across three lines because the inline
+   * action wrapper had no min-width and got squeezed to ~70px on the
+   * 360px-wide live-edit module-settings panel (task-2026-04-29-0b82d9).
+   * Force the right-side action wrapper to stay on one line, give the
+   * .fi-btn inside it an explicit `white-space: nowrap`, and let the
+   * title/description block flex-grow + min-width:0 so it truncates
+   * gracefully instead of pushing the button off-screen.
+   */
+  > .flex {
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+
+    > div:first-child {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    > div:last-child {
+      flex: 0 0 auto;
+    }
+  }
+
+  .fi-btn {
+    white-space: nowrap !important;
+  }
+
+  /*
+   * Three-dot ActionGroup trigger next to the menu dropdown — was
+   * rendering as a bare ellipsis-vertical icon with no chrome
+   * (task-2026-04-29-a49ac8). Give the trigger a square 32×32 hit
+   * target with subtle hover background so it reads as an actionable
+   * button instead of static decoration. ActionGroup with size=Small
+   * + color=gray emits .fi-btn.fi-color-gray; scope our additions to
+   * the menu-editor selector area so we don't restyle every gray
+   * button on the page.
+   */
+}
+
+.mw-menu-editor__selector .fi-btn.fi-color-gray {
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  border: 1px solid var(--mw-border-subtle) !important;
+  border-radius: var(--mw-radius-sm) !important;
+  background: var(--mw-bg-surface) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  &:hover {
+    background: var(--mw-bg-page) !important;
+    border-color: var(--mw-border-color) !important;
+  }
+}
+
+/* Ensure the ActionGroup dropdown wrapper doesn't add extra vertical space */
+.mw-menu-editor__selector .fi-dropdown {
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.mw-menu-editor__tree {
+  background: var(--mw-bg-surface);
+  border: 1px solid var(--mw-border-color);
+  border-top: none;
+  border-radius: 0 0 var(--mw-radius-lg) var(--mw-radius-lg);
+  padding: 0.5rem;
+  min-height: 60px;
+
+  /* Reset nested list styles */
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  > ul {
+    padding: 0;
+  }
+
+  /* Nested levels get left indent */
+  ul ul {
+    margin-left: 1.5rem;
+    padding-left: 0;
+    border-left: 2px solid var(--mw-border-subtle);
+  }
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Sortable placeholder */
+  .ui-sortable-placeholder {
+    background: rgba(66, 153, 225, 0.06);
+    border: var(--mw-border-xs) dashed var(--mw-accent);  /* GR: border-xs(2) */
+    border-radius: var(--mw-radius-sm);
+    min-height: 44px;
+    margin: var(--mw-border-sm) 0;  /* GR: border-sm(3) */
+    visibility: visible !important;
+  }
+
+  .ui-sortable-helper {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border-radius: var(--mw-radius-sm);
+    opacity: 0.95;
+    z-index: 100;
+  }
+}
+
+.mw-menu-editor__empty {
+  background: var(--mw-bg-surface);
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-lg);
+}
+
+.mw-menu-item {
+  margin: var(--mw-border-sm) 0;  /* GR: border-sm(3) */
+}
+
+.mw-menu-item__inner {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.625rem 0.75rem;
+  background: var(--mw-bg-surface);
+  border: 1px solid var(--mw-border-subtle);
+  border-radius: var(--mw-radius-sm);
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    border-color: var(--mw-border-color);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.mw-menu-item__handle {
+  flex-shrink: 0;
+  opacity: 0.35;
+  transition: opacity 0.15s;
+  padding: var(--mw-border-xs);  /* GR: border-xs(2) */
+  color: var(--mw-text-muted);
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.mw-menu-item__type-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--mw-radius-sm);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.mw-menu-item__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mw-menu-item__title {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--mw-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mw-menu-item__url {
+  font-size: 0.6875rem;
+  color: var(--mw-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*
+ * Always-visible action buttons. The earlier opacity:0-until-hover
+ * pattern hid the Edit + Delete buttons except when the cursor was
+ * over the row — which made them invisible on first paint and gave
+ * the user no affordance that the row was clickable
+ * (task-2026-04-29-95d4a6: "they didn't [show] delete icons").
+ * Keep them visible at full opacity always; the row's hover state
+ * still gives a subtle border-color change for affordance.
+ */
+.mw-menu-item__actions {
+  flex-shrink: 0;
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+/* Dark mode — Menu editor */
+.dark {
+  .mw-menu-editor__toolbar {
+    background: #1f2937;
+    border-color: rgba(255, 255, 255, 0.1);
+
+    h3 {
+      color: #e5e7eb !important;
+    }
+
+    p {
+      color: #9ca3af !important;
+    }
+  }
+
+  .mw-menu-editor__tree {
+    background: #111827;
+    border-color: rgba(255, 255, 255, 0.1);
+
+    ul ul {
+      border-left-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .ui-sortable-placeholder {
+      background: rgba(66, 153, 225, 0.08);
+      border-color: #4299e1;
+    }
+  }
+
+  .mw-menu-editor__empty {
+    background: #111827;
+    border-color: rgba(255, 255, 255, 0.1);
+
+    h3 {
+      color: #d1d5db !important;
+    }
+
+    p {
+      color: #9ca3af !important;
+    }
+
+    svg {
+      color: #6b7280 !important;
+    }
+  }
+
+  .mw-menu-item__inner {
+    background: #1f2937;
+    border-color: rgba(255, 255, 255, 0.1);
+
+    &:hover {
+      border-color: #4b5563;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .mw-menu-item__type-icon {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .mw-menu-item__handle {
+    color: #6b7280;
+  }
+
+  .mw-menu-item__title {
+    color: #e2e8f0;
+  }
+
+  .mw-menu-item__url {
+    color: #9ca3af;
+  }
+}
+
+/* --- Categories Tree List --- */
+.mw-edit-categories-list {
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-lg);
+  background: var(--mw-bg-surface);
+  padding: 0.5rem;
+  min-height: 100px;
+}
+
+.mw-tree-nav-skin-category-manager {
+  .mw-tree-item-content {
+    border-radius: var(--mw-radius-sm) !important;
+    transition: background-color 0.15s, box-shadow 0.15s;
+
+    &:hover {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  .mw-tree-item-title svg {
+    opacity: 0.7;
+  }
+}
+
+.dark {
+  .mw-edit-categories-list {
+    border-color: rgba(255, 255, 255, 0.07);
+    background: #0d0f14;
+  }
+
+  .mw-tree-nav-skin-category-manager {
+    .mw-tree-item-content {
+      &:hover {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    /* task-2026-05-22-56d7dc / AI-746 — categories tree row action contrast */
+    /* Bootstrap link-primary (brand-blue #0d6efd) was inherited as text color */
+    /* on the dark navy background (#0d0f14), giving approximately 3.8:1 */
+    /* contrast — below the WCAG AA 4.5:1 floor for normal text. */
+    /* #e2e8f0 on #0d0f14 achieves approximately 15:1 (WCAG AAA). */
+    /* The same fix applies to ShopCategoryResource which extends CategoryResource */
+    /* and uses the identical .mw-tree-nav-skin-category-manager skin. */
+  }
+}
+
+.dark {
+  .mw-tree-nav-skin-category-manager .mw-tree-context-menu-item {
+    color: #e2e8f0 !important;
+
+    svg {
+      color: #e2e8f0 !important;
+    }
+
+    &:hover {
+      color: #ffffff !important;
+      background: rgba(255, 255, 255, 0.08) !important;
+
+      svg {
+        color: #ffffff !important;
+      }
+    }
+  }
+}

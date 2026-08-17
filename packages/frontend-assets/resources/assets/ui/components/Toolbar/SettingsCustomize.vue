@@ -70,7 +70,7 @@
     border-left: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar {
+.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar {
     background-color: var(--tblr-bg-surface, #182433);
     border-left: 1px solid rgba(255, 255, 255, 0.1);
 }

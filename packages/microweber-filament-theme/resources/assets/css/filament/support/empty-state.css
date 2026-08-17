@@ -1,0 +1,122 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 2185-2304 */
+/* ============================================================================ */
+/* Empty states — consistent "no data" styling (MW v2) */
+/* ============================================================================ */
+.fi-empty-state {
+  padding: 3rem 2rem !important;
+  text-align: center !important;
+}
+
+.fi-empty-state-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: var(--mw-space-sm) !important;  /* GR: sm(10) */
+  max-width: 320px !important;
+  margin: 0 auto !important;
+}
+
+.fi-empty-state-icon-bg {
+  width: var(--mw-space-xl) !important;  /* GR: xl(42) */
+  height: var(--mw-space-xl) !important;  /* GR: xl(42) */
+  border-radius: 50% !important;
+  background-color: var(--mw-accent-light) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: var(--mw-space-hair) !important;  /* GR: hair(4) */
+
+  svg {
+    width: 24px !important;
+    height: 24px !important;
+    color: var(--mw-accent) !important;
+  }
+}
+
+.fi-empty-state-heading {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: var(--mw-text-primary) !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
+}
+
+.fi-empty-state-description {
+  font-size: 13px !important;
+  color: var(--mw-text-muted) !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+.fi-empty-state-footer {
+  margin-top: var(--mw-space-xs) !important;  /* GR: xs(6) */
+
+  .fi-btn {
+    font-size: 13px !important;
+    padding: var(--mw-space-sm) var(--mw-space-md) !important;  /* GR: sm(10) md(16) */
+    min-height: 34px !important;
+    border-radius: var(--mw-radius-sm) !important;
+  }
+}
+
+/* Table-specific empty state */
+.fi-ta-empty-state {
+  padding: 3rem 2rem !important;
+}
+
+.fi-ta-empty-state-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: var(--mw-space-sm) !important;  /* GR: sm(10) */
+  max-width: 320px !important;
+  margin: 0 auto !important;
+}
+
+/* Give standalone tables (not wrapped in fi-section) a white card background */
+.fi-resource-list-records-page .fi-ta {
+  background-color: var(--mw-bg-surface) !important;
+  border-radius: var(--mw-radius-lg) !important;
+  box-shadow: var(--mw-shadow-sm) !important;
+  overflow: hidden;
+}
+
+.fi-ta-empty-state-icon-bg {
+  width: var(--mw-space-xl) !important;  /* GR: xl(42) */
+  height: var(--mw-space-xl) !important;  /* GR: xl(42) */
+  border-radius: 50% !important;
+  background-color: var(--mw-accent-light) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: var(--mw-space-hair) !important;  /* GR: hair(4) */
+
+  svg {
+    width: 24px !important;
+    height: 24px !important;
+    color: var(--mw-accent) !important;
+  }
+}
+
+.fi-ta-empty-state-heading {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: var(--mw-text-primary) !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
+}
+
+.fi-ta-empty-state-description {
+  font-size: 13px !important;
+  color: var(--mw-text-muted) !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+/* Schema component empty state */
+.fi-sc-empty-state {
+  padding: 2rem !important;
+  text-align: center !important;
+}

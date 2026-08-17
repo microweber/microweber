@@ -1,0 +1,58 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 1572-1627 */
+/* ============================================================================ */
+/* Tabs — MW v2: underline style, 14px text */
+/* ============================================================================ */
+.fi-tabs,
+.fi-tabs.fi-contained {
+  border-bottom: none !important;  /* MW v2: no container border, tabs float above card */
+  padding-left: var(--mw-space-lg) !important;  /* GR: lg(26) */
+  box-shadow: none !important;  /* Remove the inset bottom-line shadow from Filament default */
+}
+
+/* Tab items — Filament v5 uses button.fi-tabs-item directly (no .fi-tabs-item) */
+/* Need .fi-tabs prefix to beat global.css specificity (.fi-tabs .fi-tabs-item) */
+.fi-tabs .fi-tabs-item {
+  border-radius: 0 !important;
+  font-weight: 500 !important;  /* MW v2 inactive: 500 */
+  font-size: 15px !important;
+  color: var(--mw-text-primary) !important;  /* MW v2: dark color for all tabs */
+  padding: var(--mw-space-sm) var(--mw-space-md) !important;  /* GR: sm(10) md(16) */
+  margin-right: var(--mw-space-hair) !important;  /* GR: hair(4) */
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+  background-color: transparent !important;
+
+  .fi-tabs-item-label {
+    font-size: 15px !important;
+    font-weight: 500 !important;  /* MW v2 inactive: 500, override global.css 700 */
+    color: inherit !important;
+  }
+
+  &:hover {
+    color: var(--mw-text-primary) !important;
+    background-color: rgba(0, 0, 0, 0.04) !important;
+  }
+
+  &.fi-active {
+    color: var(--mw-text-primary) !important;
+    font-weight: 600 !important;  /* MW v2 active: 600 */
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+    border-bottom: var(--mw-border-xs) solid var(--mw-text-primary) !important;  /* GR: border-xs(2) */
+
+    .fi-tabs-item-label {
+      font-weight: 600 !important;  /* MW v2 active label: 600 */
+    }
+  }
+}
+
+/* Legacy selector fallback */
+.fi-tabs-item {
+  border-radius: 0 !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  color: var(--mw-text-primary) !important;
+  background-color: transparent !important;
+}

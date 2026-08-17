@@ -1,1 +1,105 @@
 /**/
+/* === extracted from microweber-theme-v3 === */
+/* 4277-4378 */
+/* ============================================================================ */
+/* Login Page — MW v2 Visual Design */
+/* ============================================================================ */
+/* Centered card layout with MW v2 branding, colors, and spacing. */
+/* Targets Filament's simple/auth layout used for login, registration, etc. */
+/* ============================================================================ */
+
+.fi-simple-layout {
+  background-color: var(--mw-bg-page) !important;
+}
+
+.fi-simple-main {
+  border-radius: var(--mw-radius-lg) !important;
+  box-shadow: var(--mw-shadow-card) !important;
+  max-width: 420px !important;
+  ring: none;
+
+  /* Override Filament's ring border with MW v2 border */
+  --tw-ring-shadow: none !important;
+  border: 1px solid var(--mw-border-color);
+}
+
+.fi-simple-header {
+  text-align: center;
+  padding-top: var(--mw-space-xs) !important;  /* GR: xs(6) */
+
+  /* Logo on login page — larger and centered */
+  img.fi-logo {
+    height: var(--mw-space-xl) !important;  /* GR: xl(42) */
+    width: auto !important;
+    display: block;
+    margin: 0 auto var(--mw-space-md);  /* GR: md(16) */
+    overflow: visible !important;
+  }
+
+  .fi-simple-header-heading {
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    color: var(--mw-text-primary) !important;
+    line-height: 32px;
+  }
+
+  .fi-simple-header-subheading {
+    font-size: 14px !important;
+    color: var(--mw-text-muted) !important;
+  }
+}
+
+/* Login form inputs — MW v2 style */
+.fi-simple-page {
+  .fi-fo-field {
+    label {
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      color: var(--mw-text-primary) !important;
+    }
+  }
+
+  /* Primary submit button — MW v2 dark navy style */
+  .fi-btn-primary {
+    background-color: var(--mw-text-primary) !important;
+    border-radius: var(--mw-radius-sm) !important;
+    font-weight: 600 !important;
+    box-shadow: rgba(24, 36, 51, 0.04) 0px 1px 0px 0px,
+                rgba(24, 36, 51, 0.2) 0px -1px 0px 0px inset !important;
+
+    &:hover {
+      background-color: #2a3a4d !important;
+    }
+  }
+}
+
+/* Dark mode login */
+.dark {
+  .fi-simple-layout {
+    background-color: #0d0f14 !important;
+  }
+
+  .fi-simple-main {
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
+  }
+
+  .fi-simple-header {
+    .fi-simple-header-heading {
+      color: #e2e8f0 !important;
+    }
+
+    .fi-simple-header-subheading {
+      color: #718096 !important;
+    }
+  }
+
+  .fi-simple-page .fi-btn-primary {
+    background-color: var(--mw-accent) !important;
+
+    &:hover {
+      background-color: #5aabe8 !important;
+    }
+  }
+}

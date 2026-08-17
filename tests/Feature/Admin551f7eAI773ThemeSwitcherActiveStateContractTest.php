@@ -34,7 +34,7 @@ use Tests\TestCase;
  *      packages/microweber-filament-theme/resources/assets/css/microweber/general-styles.css
  *      scopes a `body.fi-panel-admin .fi-theme-switcher-btn.fi-active`
  *      rule with accent-soft bg + 1px accent ring + accent foreground.
- *      Dark theme variant via `html.dark` parent. Token-scoping per
+ *      Dark theme variant via `.dark` parent. Token-scoping per
  *      SOUL #108 — every var() carries a literal fallback because this
  *      rule consumes :root-scoped ESE tokens from outside .mw-live-edit-page.
  *
@@ -160,9 +160,9 @@ class Admin551f7eAI773ThemeSwitcherActiveStateContractTest extends TestCase
     public function css_active_rule_has_dark_theme_override(): void
     {
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+body\.fi-panel-admin\s+\.fi-theme-switcher-btn\.fi-active\s*\{/',
+            '/\.dark\s+body\.fi-panel-admin\s+\.fi-theme-switcher-btn\.fi-active\s*\{/',
             $this->css,
-            'AI-773 must include a `html.dark` variant for the active-state rule (else the indicator drops back to the broken oklch on dark theme too).'
+            'AI-773 must include a `.dark` variant for the active-state rule (else the indicator drops back to the broken oklch on dark theme too).'
         );
     }
 

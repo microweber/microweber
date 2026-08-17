@@ -1,1 +1,145 @@
 /* TODO: after https://github.com/filamentphp/filament/issues/7295 */
+/* === extracted from microweber-theme-v3 === */
+/* 2305-2447 */
+/* ============================================================================ */
+/* Toggle / Switch */
+/* ============================================================================ */
+/* Checkboxes — visible border on unchecked state */
+.fi-checkbox-input {
+  border: 1px solid #9ca3af !important;  /* Darker border for better visibility */
+  border-radius: 4px !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+
+  &:checked {
+    border-color: transparent !important;  /* Hide border when checked (bg color shows) */
+  }
+}
+
+/* Checkbox + radio keyboard focus — brand-blue ring (both shipped a BLACK default */
+/* ring; radio.css even used outline:none + a black box-shadow). Blue :focus-visible */
+/* ring to match the input focus + a11y; suppress the black ring on mouse focus. */
+body.fi-panel-admin .fi-checkbox-input:focus-visible,
+body.fi-panel-admin .fi-radio-input:focus-visible {
+  outline: 2px solid rgb(var(--primary-600)) !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+}
+body.fi-panel-admin .fi-checkbox-input:focus:not(:focus-visible),
+body.fi-panel-admin .fi-radio-input:focus:not(:focus-visible) {
+  box-shadow: none !important;
+}
+.dark body.fi-panel-admin .fi-checkbox-input:focus-visible,
+.dark body.fi-panel-admin .fi-radio-input:focus-visible {
+  outline-color: rgb(var(--primary-400)) !important;
+}
+
+/* Toggle — pill shape, MW v2 style */
+.fi-toggle,
+.fi-toggle,
+[role="switch"] {
+  border-radius: var(--mw-radius-pill) !important;  /* MW v2: pill-shaped toggles */
+}
+
+/* Toggle knob (inner circle) */
+.fi-toggle .fi-toggle-knob,
+.fi-toggle::after {
+  border-radius: 50% !important;
+}
+
+/* Toggle switch track colours — match the v2 demo. OFF was rendering with a */
+/* TRANSPARENT track (only the knob showed, floating). Give OFF a visible light */
+/* track + hairline border, and ON the demo's navy #182433. Knob stays white. */
+body.fi-panel-admin .fi-toggle[role="switch"] {
+  background-color: #e6e8eb !important;                 /* OFF track (visible light grey) */
+  border: 1px solid rgba(4, 32, 69, 0.14) !important;   /* demo hairline */
+}
+body.fi-panel-admin .fi-toggle[role="switch"].fi-toggle-on,
+body.fi-panel-admin .fi-toggle[role="switch"][aria-checked="true"] {
+  background-color: #182433 !important;                 /* ON track (demo navy) */
+  border-color: #182433 !important;
+}
+body.fi-panel-admin .fi-toggle[role="switch"]:focus-visible {
+  outline: 2px solid rgb(var(--primary-600)) !important;  /* a11y focus ring */
+  outline-offset: 2px !important;
+}
+/* Dark mode: OFF = subtle light overlay track; ON stays navy-ish, knob light. */
+.dark body.fi-panel-admin .fi-toggle[role="switch"] {
+  background-color: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+.dark body.fi-panel-admin .fi-toggle[role="switch"].fi-toggle-on,
+.dark body.fi-panel-admin .fi-toggle[role="switch"][aria-checked="true"] {
+  background-color: rgb(var(--primary-500)) !important;   /* brand blue reads better on dark */
+  border-color: rgb(var(--primary-500)) !important;
+}
+
+/* task-2026-06-13-letele2 — ToggleButtons selected/unselected fix. */
+/* Filament ToggleButtons (e.g. the Pictures "Columns" 2/3/4 toggle) gives every */
+/* option label `.fi-btn.fi-color-primary`, and the global */
+/* `body.fi-panel-admin .fi-btn.fi-color-primary { background: primary !important }` */
+/* rule then filled ALL options solid brand-blue — erasing the selected state, so */
+/* 2/3/4 all looked identical. Dim the UNSELECTED options (input:not(:checked)+label) */
+/* to a neutral pill so only the checked option keeps the brand colour — a proper */
+/* segmented control. Specificity here (incl. label.fi-btn.fi-color-primary) is */
+/* deliberately one notch above that global rule so it wins without a layer hack. */
+body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:not(:checked) + label.fi-btn.fi-color-primary {
+  background-color: #ffffff !important;
+  color: #374151 !important;
+  border-color: #d1d5db !important;
+  box-shadow: none !important;
+
+  &:hover {
+    background-color: #f3f4f6 !important;
+    color: #111827 !important;
+  }
+}
+.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:not(:checked) + label.fi-btn.fi-color-primary {
+  background-color: #1f2937 !important;
+  color: #9ca3af !important;
+  border-color: #374151 !important;
+
+  &:hover {
+    background-color: #374151 !important;
+    color: #f9fafb !important;
+  }
+}
+
+/* The CHECKED option inherited the global brand-blue `.fi-btn.fi-color-primary` fill, but */
+/* every other selected/active state in the admin (toggle switch ON, tabs, view toggle) is */
+/* ink #182433 — the blue read as an out-of-place accent. Match ink so the segmented control's */
+/* selection is consistent. Scoped to `.fi-color-primary` so semantic-coloured options */
+/* (success/danger/warning/info) keep their own hue. */
+body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:checked + label.fi-btn.fi-color-primary {
+  background-color: #182433 !important;
+  border-color: #182433 !important;
+  color: #ffffff !important;
+
+  &:hover {
+    background-color: #243347 !important;
+    border-color: #243347 !important;
+  }
+
+  svg { color: #ffffff !important; }
+}
+/* Dark mode — lighter navy so the selection stays visible on the dark surface. */
+.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:checked + label.fi-btn.fi-color-primary {
+  background-color: #2d4a6e !important;
+  border-color: #2d4a6e !important;
+  color: #ffffff !important;
+
+  &:hover { background-color: #35567e !important; border-color: #35567e !important; }
+  svg { color: #ffffff !important; }
+}
+
+/* Option ICONS on unchecked ToggleButtons (e.g. the Align left/center/right heroicons in */
+/* module settings) render WHITE — Filament colours a .fi-color-primary option's icon with */
+/* the contrast colour, but the rule above makes the unchecked pill white, so the icon */
+/* vanishes. Force the unchecked-option icon to match the dark label text. */
+body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:not(:checked) + label svg {
+  color: #374151 !important;
+}
+.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:not(:checked) + label svg {
+  color: #9ca3af !important;
+}

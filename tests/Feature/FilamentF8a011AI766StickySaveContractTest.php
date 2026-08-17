@@ -138,7 +138,7 @@ class FilamentF8a011AI766StickySaveContractTest extends TestCase
     public function dark_mode_form_actions_background_preserved(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark\s+body\.fi-panel-admin[^{]*\.fi-form-actions\s*\{[^}]*background-color~s',
+            '~\.dark\s+body\.fi-panel-admin[^{]*\.fi-form-actions\s*\{[^}]*background-color~s',
             $this->cssStripped,
             'Dark-mode .fi-form-actions background override must be present (AI-511 regression guard)'
         );

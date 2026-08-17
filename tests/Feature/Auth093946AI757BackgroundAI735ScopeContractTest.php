@@ -97,9 +97,9 @@ class Auth093946AI757BackgroundAI735ScopeContractTest extends TestCase
     public function dark_mode_background_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark\s+\.auth-container[^{]*\{[^}]*background~s',
+            '~\.dark\s+\.auth-container[^{]*\{[^}]*background~s',
             $this->authStripped,
-            'Dark mode background override must be present on html.dark .auth-container.'
+            'Dark mode background override must be present on .dark .auth-container.'
         );
         // Dark mode uses navy tone
         $this->assertStringContainsString('#0f172a', $this->authSrc,
@@ -111,7 +111,7 @@ class Auth093946AI757BackgroundAI735ScopeContractTest extends TestCase
     public function dark_mode_card_styles_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark\s+\.auth-card[^{]*\{[^}]*background~s',
+            '~\.dark\s+\.auth-card[^{]*\{[^}]*background~s',
             $this->authStripped,
             'Dark mode .auth-card background override must be present.'
         );

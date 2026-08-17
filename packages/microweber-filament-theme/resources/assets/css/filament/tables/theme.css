@@ -1,0 +1,321 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 632-950 */
+/* ============================================================================ */
+/* Tables — clean, MW v2 style with subtle row dividers */
+/* ============================================================================ */
+.fi-ta-ctn {
+  background-color: var(--mw-bg-surface) !important;
+  border-radius: var(--mw-radius-lg) !important;
+  box-shadow: var(--mw-shadow-sm) !important;
+  border: none !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
+
+.fi-ta-header-ctn {
+  background-color: var(--mw-bg-surface) !important;
+  border-radius: var(--mw-radius-lg) var(--mw-radius-lg) 0 0 !important;
+  border-bottom: 1px solid rgba(4, 32, 69, 0.14) !important;
+
+  .fi-input-wrp {
+    border-radius: var(--mw-radius-sm) !important;
+  }
+}
+
+.fi-ta-content {
+  background-color: var(--mw-bg-surface) !important;
+}
+
+/* ── Card-row list layout — MW v2 demo, CONTENT LISTS ONLY ──────────────────── */
+/* The v2 demo content list (Pages/Posts/Products) is separated white cards on the */
+/* #F6F8FB canvas — NOT a table-in-a-card. Scope this to lists WITHOUT column */
+/* headers (`:not(:has(.fi-ta-header-cell))`) so real tables (Users, which HAS */
+/* column headers) keep their cohesive table-in-a-card look. The per-record card */
+/* styling below is already content-only (tables use <tr>, not .fi-ta-record). */
+body.fi-panel-admin .fi-ta:not(:has(.fi-ta-header-cell)) {
+  &,
+  .fi-ta-ctn,
+  .fi-ta-main,
+  .fi-ta-content,
+  .fi-ta-content-ctn,
+  .fi-ta-header-ctn {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+  }
+  .fi-ta-header-ctn { padding: 0 0 var(--mw-space-sm) 0 !important; }   /* compact top band */
+  .fi-ta-content-header { display: none !important; }             /* hide empty master-checkbox band (demo has none) */
+  /* .fi-ta-content is a CSS grid with row-gap:1px (Filament's hairline dividers). That */
+  /* 1px gap made the record cards look JOINED and swallowed the record margin-bottom. */
+  /* 16px row-gap → each record reads as a separate floating card, like the demo. */
+  .fi-ta-content { row-gap: var(--mw-space-md) !important; }
+}
+
+/* Filament v5 ships these two helper strips with a translucent */
+/* white background (`bg-white/5`). On the table card they sit between */
+/* the toolbar header and the first record (`.fi-ta-content-header`, */
+/* the master-checkbox row), and at the top of the body */
+/* (`.fi-ta-selection-indicator`, the "X rows selected" bar). The */
+/* translucent fill is invisible in light mode but renders as a */
+/* lighter strip in dark mode that the operator reads as the table */
+/* "bleeding" past its rounded corners. Zero them out so the */
+/* wrapper's solid surface bg shows through cleanly. */
+.fi-ta-content-header,
+.fi-ta-selection-indicator {
+  background-color: transparent !important;
+}
+
+/* Master-checkbox header row — the demo card-row list has no header band, so the */
+/* empty select-all strip just adds top weight. Collapse it (the per-row checkboxes */
+/* remain). Filament keeps it functional; we only remove its height/visual band. */
+.fi-ta-content-header:has(.fi-ta-selection-cell):not(:has(.fi-ta-header-cell-label)) {
+  min-height: 0 !important;
+  border: none !important;
+}
+
+/* Each record is its own CARD (v2 demo): white, radius 4, soft shadow, 16px gap. */
+.fi-ta-record {
+  background-color: var(--mw-bg-surface) !important;
+  border: none !important;
+  border-bottom: none !important;                 /* was a hairline divider */
+  border-radius: var(--mw-radius-sm) !important;         /* 4px */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16) !important;  /* MW v2 card shadow */
+  margin-bottom: 0 !important;                     /* gap now comes from .fi-ta-content row-gap (grid) */
+  transition: box-shadow 0.15s ease !important;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14) !important;  /* subtle lift, no blue wash */
+    background-color: var(--mw-bg-surface) !important;
+  }
+
+  &:last-child {
+    margin-bottom: 0 !important;
+    border-bottom: none !important;
+  }
+}
+
+.fi-ta-header-cell {
+  color: #667382 !important;  /* MW v2 exact table header color */
+  font-weight: 600 !important;
+  font-size: 10px !important;  /* MW v2 exact */
+  text-transform: uppercase !important;
+  letter-spacing: 0.4px !important;  /* MW v2 exact */
+}
+
+/* Table checkbox column — equal spacing on both sides */
+/* Must match Filament's :first-of-type/:last-of-type specificity */
+.fi-ta-selection-cell,
+.fi-ta-selection-cell:first-of-type,
+.fi-ta-selection-cell:last-of-type {
+  padding-inline-start: var(--mw-space-sm) !important;  /* GR: sm(10) */
+  padding-inline-end: var(--mw-space-sm) !important;  /* GR: sm(10) */
+  width: var(--mw-space-xl) !important;  /* GR: xl(42) */
+}
+
+/* Custom fields table column widths */
+.fi-ta-header-cell-type,
+.fi-ta-cell-type {
+  width: 50px !important;
+}
+.fi-ta-header-cell-value,
+.fi-ta-cell-value {
+  width: 120px !important;
+}
+
+/* Table actions cell — equal spacing matching checkbox column */
+.fi-ta-actions-header-cell,
+.fi-ta-cell:has(.fi-ta-actions) {
+  padding-inline-start: var(--mw-space-sm) !important;  /* GR: sm(10) */
+  padding-inline-end: var(--mw-space-sm) !important;  /* GR: sm(10) */
+  white-space: nowrap !important;
+  width: 1% !important;  /* shrink to fit content */
+}
+
+/* Prevent long text columns from stretching — allow truncation */
+.fi-ta-cell,
+.fi-ta-header-cell {
+  white-space: nowrap !important;
+}
+
+/* Selection cell should not truncate and must center checkbox with equal spacing */
+.fi-ta-selection-cell {
+  overflow: visible !important;
+  max-width: none !important;
+  text-align: center !important;
+}
+
+/* Actions cell should not truncate */
+.fi-ta-actions-header-cell,
+.fi-ta-cell:has(.fi-ta-actions) {
+  overflow: visible !important;
+  max-width: none !important;
+  text-overflow: clip !important;
+}
+
+/* ── Column-table header — uniform WHITE row (Users & other header tables) ──── */
+/* The labeled header cells rendered #F8FAFC gray while the checkbox + actions */
+/* column headers stayed white → a "gray header with 2 white side gaps" that also */
+/* blended with the #F6F8FB canvas. Make the WHOLE header row white and add one */
+/* clean bottom border so it reads as a proper header inside the white table card. */
+/* Scoped to tables WITH column headers so content card-row lists are untouched. */
+body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
+  thead tr > *,
+  .fi-ta-header-cell,
+  .fi-ta-selection-header-cell,
+  .fi-ta-actions-header-cell {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid rgba(4, 32, 69, 0.14) !important;  /* single header divider */
+  }
+
+  /* Actions column (Edit) — right-align so buttons sit flush at the row's right */
+  /* edge and line up across rows (was left-aligned / drifting). */
+  .fi-ta-actions-header-cell,
+  .fi-ta-cell:has(.fi-ta-actions) {
+    text-align: right !important;
+  }
+  .fi-ta-cell:has(.fi-ta-actions) .fi-ta-actions,
+  .fi-ta-actions {
+    justify-content: flex-end !important;
+    margin-left: auto !important;
+  }
+}
+
+/* ============================================================================ */
+/* Standard column widths — consistent across all table resources */
+/* ============================================================================ */
+/* ID column — compact, numeric */
+.fi-ta-header-cell:first-child,
+.fi-ta-cell:first-child {
+  /* Let Filament handle via grow(false); just ensure min-width for readability */
+  min-width: 60px;
+}
+
+/* Status badge columns — ensure enough room for badge + icon */
+.fi-ta-cell .fi-badge {
+  white-space: nowrap !important;
+}
+
+/* ============================================================================ */
+/* Content list grid cards — Pages/Posts/Products (MW v2 style) */
+/* ============================================================================ */
+
+/* Grid card row — clean spacing and hover state */
+.fi-ta-record .group {
+  padding: var(--mw-space-sm) 0 !important;  /* GR: sm(10) */
+  transition: background-color 0.15s ease !important;
+}
+
+/* Thumbnail in grid view — rounded, consistent size. Demo uses a larger, more */
+/* prominent product thumbnail (~72-80px); was 48px (cramped). */
+.fi-ta-record .group .h-12.w-12 {
+  width: 64px !important;
+  height: 64px !important;
+  border-radius: var(--mw-radius-sm) !important;
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Title link styling */
+.fi-ta-record .group .font-medium a {
+  color: var(--mw-text-primary) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  line-height: 1.4 !important;
+
+  &:hover {
+    color: var(--mw-accent) !important;
+  }
+}
+
+/* Parent breadcrumb and category text */
+.fi-ta-record .group .text-\[0\.8rem\] {
+  font-size: 12px !important;
+  color: var(--mw-text-muted) !important;
+  line-height: 1.4 !important;
+
+  a {
+    color: var(--mw-text-muted) !important;
+  }
+}
+
+/* Category filter buttons */
+.fi-ta-record .group .text-blue-500 {
+  font-size: 12px !important;
+  color: var(--mw-accent) !important;
+}
+
+/* Updated/Published timestamp */
+.fi-ta-record .group .text-\[0\.6rem\],
+.fi-ta-record .group .mw-content-date {
+  font-size: 11px !important;
+  color: var(--mw-text-faint) !important;
+}
+
+/* Author display in grid view (posts) */
+.fi-ta-record .group .mw-content-author {
+  font-size: 12px !important;
+  color: var(--mw-text-muted) !important;
+
+  svg {
+    color: var(--mw-text-muted) !important;
+    width: 12px !important;
+    height: 12px !important;
+  }
+}
+
+/* Content metadata row */
+.fi-ta-record .group .mw-content-meta {
+  line-height: 1.3 !important;
+}
+
+/* Product price display in grid view */
+.fi-ta-record .group .mw-product-price {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+.fi-ta-record .group .mw-price-current {
+  color: var(--mw-text-primary) !important;
+}
+
+.fi-ta-record .group .mw-price-original {
+  color: var(--mw-text-muted) !important;
+  text-decoration: line-through !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  margin-right: var(--mw-space-hair) !important;  /* GR: hair(4) */
+}
+
+.fi-ta-record .group .mw-price-special {
+  color: #e53e3e !important;  /* Sale price red */
+}
+
+/* Stock badge icon sizing in grid view */
+.fi-ta-record .group .inline-flex svg {
+  color: inherit !important;
+}
+
+/* Action icons (view, live edit, settings) — muted, hover reveal */
+.fi-ta-record .group a svg {
+  color: var(--mw-text-muted) !important;
+  transition: color 0.15s ease !important;
+}
+
+.fi-ta-record .group a:hover svg {
+  color: var(--mw-text-primary) !important;
+}
+
+/* Homepage icon */
+.fi-ta-record .group .heroicon-o-home,
+.fi-ta-record .group [class*="heroicon"] {
+  color: var(--mw-text-muted) !important;
+}
+
+/* Published/Unpublished select column */
+.fi-ta-cell .fi-ta-select {
+  min-width: 120px !important;
+}

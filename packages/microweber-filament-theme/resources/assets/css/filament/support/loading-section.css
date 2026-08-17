@@ -1,3 +1,33 @@
 .fi-loading-section > .fi-section {
     @apply !rounded-lg bg-gray-50 dark:bg-white/5;
 }
+/* === extracted from microweber-theme-v3 === */
+/* 150-178 */
+/* ============================================================================ */
+/* FIX: wire:loading spinners always visible */
+/* ============================================================================ */
+[wire\:loading\:delay\:default],
+[wire\:loading\.delay\.default],
+[wire\:loading] {
+  display: none !important;
+}
+
+[wire\:loading\.remove],
+[wire\:loading\.remove\.delay\.default] {
+  display: inline-flex !important;
+}
+
+svg[wire\:loading\.remove\.delay\.default],
+svg[wire\:loading\.remove] {
+  display: inline-block !important;
+}
+
+.livewire-is-loading [wire\:loading],
+.livewire-is-loading [wire\:loading\.delay\.default] {
+  display: inline-flex !important;
+}
+
+.livewire-is-loading [wire\:loading\.remove],
+.livewire-is-loading [wire\:loading\.remove\.delay\.default] {
+  display: none !important;
+}

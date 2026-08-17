@@ -277,7 +277,7 @@ class SettingsCustomize903d56AI903AdvancedPanelContractTest extends TestCase
     #[Test]
     public function dark_mode_danger_color_present(): void
     {
-        $this->assertStringContainsString('html.dark #mw-live-edit-advanced-panel-box', $this->leCssStripped,
+        $this->assertStringContainsString('.dark #mw-live-edit-advanced-panel-box', $this->leCssStripped,
             'Dark mode override for danger color must exist for the panel.'
         );
     }

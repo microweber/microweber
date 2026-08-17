@@ -36,7 +36,7 @@ class DashboardEmptyStateContractTest extends TestCase
     private const WIDGET_CLASS_PATH = __DIR__ . '/../../../app/Filament/Admin/Widgets/DashboardEmptyStateWidget.php';
     private const WIDGET_BLADE_PATH = __DIR__ . '/../../../resources/views/filament/admin/widgets/dashboard-empty-state-widget.blade.php';
     private const DASHBOARD_PAGE_PATH = __DIR__ . '/../../../app/Filament/Admin/Pages/Dashboard.php';
-    private const THEME_SCSS_PATH = __DIR__ . '/../../../packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss';
+    private const THEME_SCSS_PATH = __DIR__ . '/../../../packages/microweber-filament-theme/resources/assets/css/microweber/admin/dashboard.css';
     private const THEME_CSS_BUILT = __DIR__ . '/../../../public/vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css';
 
     #[Test]

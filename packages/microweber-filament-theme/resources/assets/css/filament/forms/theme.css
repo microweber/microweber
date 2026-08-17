@@ -1,0 +1,111 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 1214-1322 */
+/* ============================================================================ */
+/* Form labels — MW v2: 16px/500 on create forms */
+/* ============================================================================ */
+.fi-fo-field-label,
+.fi-fo-field-label {
+  font-size: 16px !important;  /* MW v2 exact: 16px form labels */
+  font-weight: 500 !important;  /* MW v2 exact: 500 */
+  color: var(--mw-text-primary) !important;
+  margin: var(--mw-space-xs) 0 !important;  /* GR: xs(6) */
+}
+
+/* ============================================================================ */
+/* Form helper text / hints — MW v2: muted secondary text below fields */
+/* ============================================================================ */
+.fi-fo-field-hint,
+.fi-fo-helper-text {
+  font-size: 12px !important;
+  color: var(--mw-text-muted) !important;
+  margin-top: var(--mw-space-hair) !important;  /* GR: hair(4) */
+  line-height: 1.4 !important;
+}
+
+/* Field description / helper prose rendered via the schema Text component */
+/* (`.fi-sc-text`). It inherits the panel's ink #182433 with no color of its own, so */
+/* the label (16px/500 ink) and its description (14px/400 ink) are the SAME color → */
+/* the label doesn't stand out. The MW v2 demo mutes description/helper text to grey. */
+/* Mute it so the dark label reads as the field title above lighter helper prose. */
+body.fi-panel-admin .fi-sc-text {
+  color: var(--mw-text-muted) !important;   /* #718096 — clearly lighter than the ink label */
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+/* Section descriptions — context text below section headings */
+.fi-section-header-description {
+  font-size: 13px !important;
+  color: var(--mw-text-secondary) !important;
+}
+
+/* Required field asterisk */
+.fi-fo-field-label sup {
+  color: #ef4444 !important;
+  margin-left: var(--mw-space-hair) !important;  /* GR: hair(4) */
+}
+
+/* ============================================================================ */
+/* Input fields */
+/* ============================================================================ */
+.fi-input-wrp {
+  border-radius: var(--mw-radius-sm) !important;
+  border: 1px solid var(--mw-border-color) !important;
+  transition: all 0.15s ease !important;
+  background-color: var(--mw-bg-surface) !important;
+  min-height: var(--mw-space-xl) !important;  /* GR: xl(42) */
+
+  &:focus-within {
+    /* Brand-blue focus (matches the v2 demo + the primary token) — was a black */
+    /* default ring. --primary-600 is a comma triplet, so wrap in rgb()/rgba(). */
+    border-color: rgb(var(--primary-600)) !important;
+    box-shadow: 0 0 0 2px rgba(var(--primary-600), 0.22) !important;
+  }
+
+  /* Inner input should fill wrapper height and match radius */
+  input, textarea, select {
+    border-radius: var(--mw-radius-sm) !important;  /* Fix 7px Filament default leak */
+    padding: var(--mw-space-sm) var(--mw-space-md) !important;  /* GR: sm(10) md(16) */
+  }
+}
+
+/* Placeholder text — greyed out. Without this, placeholders inherit the input's */
+/* ink color (var(--mw-text-primary) #182433) and read identical to typed text. MW v2 */
+/* uses a muted grey. opacity:1 because Firefox dims placeholder opacity by default. */
+.fi-input::placeholder,
+.fi-input-wrp input::placeholder,
+.fi-input-wrp textarea::placeholder,
+.fi-textarea::placeholder,
+.fi-fo-field-wrp input::placeholder,
+.fi-fo-field-wrp textarea::placeholder {
+  color: var(--mw-text-muted) !important;  /* #718096 */
+  opacity: 1 !important;
+}
+
+/* Select trigger placeholder (rendered as button label text, not a real ::placeholder) */
+.fi-select-input-placeholder,
+.fi-select-input-btn[data-placeholder] {
+  color: var(--mw-text-muted) !important;
+}
+
+/* Select inputs */
+.fi-fo-select-wrp {
+  border-radius: var(--mw-radius-sm) !important;
+}
+
+/* Select input container — fix clear X button dropping to second line */
+.fi-select-input-ctn {
+  display: flex !important;
+  align-items: center !important;
+
+  .fi-select-input-btn {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  .fi-select-input-value-remove-btn {
+    flex: 0 0 auto !important;
+    margin-right: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  }
+}

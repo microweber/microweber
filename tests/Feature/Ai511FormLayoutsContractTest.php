@@ -71,7 +71,7 @@ class Ai511FormLayoutsContractTest extends TestCase
             'sticky box-shadow upward'         => ['box-shadow: 0 -4px 8px'],
 
             // Dark-mode variant for sticky footer.
-            'sticky dark selector A'           => ['html.dark body.fi-panel-admin .fi-page > .fi-form .fi-form-actions'],
+            'sticky dark selector A'           => ['.dark body.fi-panel-admin .fi-page > .fi-form .fi-form-actions'],
             'sticky dark background'           => ['background-color: rgb(17, 24, 39)'],
             'sticky dark border-top'           => ['border-top-color: rgba(255, 255, 255, 0.08)'],
 

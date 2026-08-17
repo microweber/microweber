@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  * contrast in dark mode. Fix: increase contrast to ≥4.5:1."
  *
  * Implementation:
- *   - html.dark scoped rule on .filepond--drop-label + nested label +
+ *   - .dark scoped rule on .filepond--drop-label + nested label +
  *     .filepond--label-action sets color: rgb(229, 231, 235) (Tailwind
  *     gray-200), which on Filament's dark-mode body background
  *     (gray-950 / rgb(9, 9, 11)) yields ~17:1 contrast — well above
@@ -39,7 +39,7 @@ class ImagePicker1161DarkModeContrastContractTest extends TestCase
         $root = self::projectRoot();
 
         $this->themeScss = (string) file_get_contents(
-            $root . '/packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss'
+            $root . '/packages/microweber-filament-theme/resources/assets/css/filament/forms/file-upload.css'
         );
 
         $this->builtThemeCss = (string) file_get_contents(
@@ -52,27 +52,27 @@ class ImagePicker1161DarkModeContrastContractTest extends TestCase
     public function test_dark_drop_label_rule_present_in_source(): void
     {
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.filepond--drop-label[^{]*\{[^}]*color:\s*rgb\(229,\s*231,\s*235\)\s*!important/s',
+            '/\.dark\s+\.filepond--drop-label[^{]*\{[^}]*color:\s*rgb\(229,\s*231,\s*235\)\s*!important/s',
             $this->themeScss,
-            'AI-1161: html.dark .filepond--drop-label must set color: rgb(229, 231, 235) !important'
+            'AI-1161: .dark .filepond--drop-label must set color: rgb(229, 231, 235) !important'
         );
     }
 
     public function test_dark_label_action_rule_present_in_source(): void
     {
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.filepond--label-action/',
+            '/\.dark\s+\.filepond--label-action/',
             $this->themeScss,
-            'AI-1161: html.dark .filepond--label-action must be covered by the contrast fix'
+            'AI-1161: .dark .filepond--label-action must be covered by the contrast fix'
         );
     }
 
     public function test_dark_nested_label_covered_in_source(): void
     {
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.filepond--drop-label\s+label/',
+            '/\.dark\s+\.filepond--drop-label\s+label/',
             $this->themeScss,
-            'AI-1161: html.dark .filepond--drop-label label (nested label element) must be covered'
+            'AI-1161: .dark .filepond--drop-label label (nested label element) must be covered'
         );
     }
 
@@ -90,16 +90,16 @@ class ImagePicker1161DarkModeContrastContractTest extends TestCase
     public function test_dark_drop_label_rule_present_in_built_bundle(): void
     {
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.filepond--drop-label[^{]*\{[^}]*color:\s*rgb\(229,\s*231,\s*235\)\s*!important/s',
+            '/\.dark\s+\.filepond--drop-label[^{]*\{[^}]*color:\s*rgb\(229,\s*231,\s*235\)\s*!important/s',
             $this->builtThemeCss,
-            'AI-1161: built theme bundle must contain the html.dark filepond drop label contrast rule'
+            'AI-1161: built theme bundle must contain the .dark filepond drop label contrast rule'
         );
     }
 
     public function test_dark_label_action_text_decoration_in_built_bundle(): void
     {
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.filepond--label-action\s*\{[^}]*text-decoration-color:\s*rgb\(229,\s*231,\s*235\)\s*!important/s',
+            '/\.dark\s+\.filepond--label-action\s*\{[^}]*text-decoration-color:\s*rgb\(229,\s*231,\s*235\)\s*!important/s',
             $this->builtThemeCss,
             'AI-1161: built bundle must include text-decoration-color override so the underline also meets contrast'
         );

@@ -16,7 +16,7 @@
     }
 }
 
-html.dark .fi-checkbox-input {
+.dark .fi-checkbox-input {
     border-color: rgb(107, 114, 128) !important;
     background-color: #161922 !important;
 

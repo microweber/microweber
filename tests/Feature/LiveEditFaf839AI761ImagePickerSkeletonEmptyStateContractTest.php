@@ -154,7 +154,7 @@ class LiveEditFaf839AI761ImagePickerSkeletonEmptyStateContractTest extends TestC
     public function skeleton_css_has_dark_mode_variant(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*\.mw-filepicker-library-skeleton-tile\s*,|\.dark[^{]*\.mw-filepicker-library-skeleton-tile~',
+            '~\.dark[^{]*\.mw-filepicker-library-skeleton-tile\s*,|\.dark[^{]*\.mw-filepicker-library-skeleton-tile~',
             $this->cssStripped,
             'default.css must have a dark-mode variant for the skeleton tile'
         );
@@ -257,7 +257,7 @@ class LiveEditFaf839AI761ImagePickerSkeletonEmptyStateContractTest extends TestC
     public function empty_state_css_has_dark_mode_variant(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*\.mw-filepicker-library-empty|\.dark[^{]*\.mw-filepicker-library-empty~',
+            '~\.dark[^{]*\.mw-filepicker-library-empty|\.dark[^{]*\.mw-filepicker-library-empty~',
             $this->cssStripped,
             'default.css must define dark-mode variant for .mw-filepicker-library-empty'
         );

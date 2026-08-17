@@ -19,10 +19,10 @@
     pointer-events: none;
     opacity: 0;
 }
-html.dark .back-to-edit svg{
+.dark .back-to-edit svg{
     fill: white;
 }
-html.dark .back-to-edit{
+.dark .back-to-edit{
 
     background-color: rgb(24 36 51 / var(--tw-bg-opacity));
 

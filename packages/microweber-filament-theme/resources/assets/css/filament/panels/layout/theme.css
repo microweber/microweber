@@ -1,0 +1,42 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 539-578 */
+/* ============================================================================ */
+/* Main content area */
+/* ============================================================================ */
+.fi-main {
+  background-color: transparent !important;  /* MW v2: transparent, page bg shows through */
+  /* Top padding trimmed 68px → 28px: the 2xl top left a large dead band between the */
+  /* top bar and the breadcrumbs/heading. Horizontal padding unchanged (positions the */
+  /* content column + aligns with the toolbar "+ Add" button). */
+  padding: 28px var(--mw-space-2xl) 0 !important;  /* GR: 2xl(68) sides */
+
+  @media (max-width: 1440px) {
+    padding: 28px var(--mw-space-xl) 0 !important;  /* GR: xl(42) sides */
+  }
+
+  @media (max-width: 1024px) {
+    padding: 28px var(--mw-space-lg) 0 !important;  /* GR: lg(26) sides */
+  }
+}
+
+/* Main content container — MW v2: transparent bg */
+.fi-main-ctn {
+  background-color: transparent !important;
+}
+
+/* ============================================================================ */
+/* Page body — MW v2: 24px vertical margin */
+/* ============================================================================ */
+.fi-page > div {
+  margin: 0 auto var(--mw-space-lg) !important;  /* GR: lg(26) */
+  max-width: 1440px !important;
+}
+
+/* Gap between sections/cards — MW v2: 24px */
+.fi-page .fi-section + .fi-section,
+.fi-page .fi-wi + .fi-wi,
+.fi-page .fi-wi + .fi-section,
+.fi-page .fi-section + .fi-wi {
+  margin-top: var(--mw-space-lg) !important;  /* GR: lg(26) */
+}

@@ -237,9 +237,9 @@ class Admin29342dAI703ResponsiveSidebarContractTest extends TestCase
     public function css_divider_has_dark_theme_variant(): void
     {
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+body\.fi-panel-admin\.fi-sidebar-open\s+\.fi-sidebar\s*\{[^}]*border-inline-end-color:\s*var\(--ese-border/s',
+            '/\.dark\s+body\.fi-panel-admin\.fi-sidebar-open\s+\.fi-sidebar\s*\{[^}]*border-inline-end-color:\s*var\(--ese-border/s',
             $this->generalStyles,
-            'CSS must include a dark-theme override for the divider colour via html.dark.'
+            'CSS must include a dark-theme override for the divider colour via .dark.'
         );
     }
 

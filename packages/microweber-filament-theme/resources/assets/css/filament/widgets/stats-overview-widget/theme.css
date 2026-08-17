@@ -1,0 +1,22 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 1987-2006 */
+/* ============================================================================ */
+/* Stat overview cards — MW v2 style */
+/* ============================================================================ */
+.fi-wi-stats-overview-stat {
+  padding: var(--mw-space-md) !important;  /* GR: md(16) */
+
+  .fi-wi-stats-overview-stat-label {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: var(--mw-text-muted) !important;
+    text-transform: none !important;
+  }
+
+  .fi-wi-stats-overview-stat-value {
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    color: var(--mw-text-primary) !important;
+  }
+}

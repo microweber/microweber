@@ -1,0 +1,131 @@
+/* ============================================================================
+ * Admin color tokens — light + dark.
+ *
+ * Extracted from the pre-refactor computed theme (microweber-theme-v3.scss,
+ * tabler-vars, MwColors::Blue, Filament Neutral gray) so the cascade change
+ * keeps the same painted values.
+ *
+ * task-2026-05-17-9a12c2 / AI-819 — Filament primary token brand alignment.
+ * Filament v5 ColorManager emits OKLCH; this :root block re-emits the brand
+ * palette as comma-separated R,G,B triplets so `rgba(var(--primary-500), 1)`
+ * resolves. Values mirror MwColors::Blue (#e7f1ff → #010a19, slot 500 = #0d6efd).
+ *
+ * AI-819a — $mw-accent (#4299e1) is the MW v2 link / focus color and lives
+ * here as --mw-accent. Re-anchoring it to #0d6efd is a separate design slice.
+ * ============================================================================ */
+
+:root {
+    /* Brand primary — MwColors::Blue / Bootstrap #0d6efd */
+    --primary-50: 231, 241, 255;
+    --primary-100: 207, 226, 255;
+    --primary-200: 158, 197, 254;
+    --primary-300: 110, 168, 254;
+    --primary-400: 61, 139, 253;
+    --primary-500: 13, 110, 253;
+    --primary-600: 10, 88, 202;
+    --primary-700: 8, 66, 152;
+    --primary-800: 5, 44, 101;
+    --primary-900: 3, 22, 51;
+    --primary-950: 1, 10, 25;
+
+    /* Gray — Tailwind Neutral (Color::Neutral) as RGB triplets.
+     * task-2026-05-29 / AI-819b */
+    --gray-50: 250, 250, 250 !important;
+    --gray-100: 245, 245, 245 !important;
+    --gray-200: 229, 229, 229 !important;
+    --gray-300: 212, 212, 212 !important;
+    --gray-400: 163, 163, 163 !important;
+    --gray-500: 115, 115, 115 !important;
+    --gray-600: 82, 82, 82 !important;
+    --gray-700: 64, 64, 64 !important;
+    --gray-800: 38, 38, 38 !important;
+    --gray-900: 23, 23, 23 !important;
+    --gray-950: 10, 10, 10 !important;
+
+    /* Microweber surface / text / border (MW v2 exact, dusk-pinned) */
+    --mw-bg-page: #f6f8fb;
+    --mw-bg-surface: #ffffff;
+    --mw-bg-surface-translucent: rgba(255, 255, 255, 0.85);
+    --mw-bg-sidebar: #ffffff;
+    --mw-bg-muted: #f1f5f9;
+    --mw-text-primary: #182433;
+    --mw-text-secondary: #4a5568;
+    --mw-text-muted: #718096;
+    --mw-text-faint: #a0aec0;
+    --mw-border-color: #dadfe5;
+    --mw-border-subtle: #edf2f7;
+    --mw-accent: #4299e1;
+    --mw-accent-light: #ebf4ff;
+    --mw-accent-rgb: 66, 153, 225;
+    --mw-secondary: #182433;
+    --mw-secondary-rgb: 24, 36, 51;
+    --mw-sky-blue: #ffbf00;
+    --mw-light-green: #e2f9e6;
+
+    /* Semantic (Filament Color::Emerald / Amber / Rose / Sky) as RGB */
+    --success-500: 16, 185, 129;
+    --warning-500: 245, 158, 11;
+    --danger-500: 244, 63, 94;
+    --info-500: 14, 165, 233;
+
+    /* Tabler compatibility tokens used by live-edit / legacy admin chrome */
+    --tblr-primary: #2893ff;
+    --tblr-primary-fg: var(--tblr-light, #f8fafc);
+    --tblr-primary-darken: #2484e6;
+    --tblr-primary-rgb: 40, 147, 255;
+    --tblr-secondary: #616876;
+    --tblr-secondary-rgb: 97, 104, 118;
+    --tblr-success: #33a86b;
+    --tblr-success-rgb: 51, 168, 107;
+    --tblr-info: #4299e1;
+    --tblr-info-rgb: 66, 153, 225;
+    --tblr-warning: #f76707;
+    --tblr-warning-rgb: 247, 103, 7;
+    --tblr-danger: #f83b3e;
+    --tblr-danger-rgb: 248, 59, 62;
+    --tblr-light: #f8fafc;
+    --tblr-light-rgb: 248, 250, 252;
+    --tblr-dark: #1d273b;
+    --tblr-dark-rgb: 29, 39, 59;
+    --tblr-muted: #616876;
+    --tblr-blue: #2893ff;
+    --tblr-azure: #4299e1;
+    --tblr-border-color: #e6e7e9;
+    --tblr-bg-surface: #ffffff;
+    --tblr-bg-surface-secondary: var(--tblr-light);
+    --tblr-gray-50: #f8fafc;
+    --tblr-gray-100: #f1f5f9;
+    --tblr-gray-200: #e2e8f0;
+    --tblr-gray-300: #c8d3e1;
+    --tblr-gray-400: #9ba9be;
+    --tblr-gray-500: #6c7a91;
+    --tblr-gray-600: #49566c;
+    --tblr-gray-700: #313c52;
+    --tblr-gray-800: #1d273b;
+    --tblr-gray-900: #0f172a;
+}
+
+/* Dark scheme — extracted from the pre-refactor .dark computed values */
+.dark {
+    color-scheme: dark;
+
+    --mw-bg-page: #0d0f14;
+    --mw-bg-surface: #1a1f2b;
+    --mw-bg-surface-translucent: rgba(26, 31, 43, 0.92);
+    --mw-bg-sidebar: #151821;
+    --mw-bg-muted: #151821;
+    --mw-text-primary: #e2e8f0;
+    --mw-text-secondary: #a0aec0;
+    --mw-text-muted: #718096;
+    --mw-text-faint: #4a5568;
+    --mw-border-color: rgba(255, 255, 255, 0.06);
+    --mw-border-subtle: rgba(255, 255, 255, 0.04);
+    --mw-accent: #63b3ed;
+    --mw-accent-light: rgba(66, 153, 225, 0.15);
+
+    --tblr-bg-surface: #1a1f2b;
+    --tblr-border-color: #243049;
+    --tblr-dark-mode-border-color: #243049;
+    --tblr-dark-mode-border-color-light: #243049;
+    --tblr-dark-mode-border-color-active: #314264;
+}

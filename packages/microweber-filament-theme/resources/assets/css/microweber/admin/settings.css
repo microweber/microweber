@@ -1,0 +1,361 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 6698-6824 */
+/* ============================================================================ */
+/* Settings Hub — MW v2 Design */
+/* ============================================================================ */
+.mw-settings-hub {
+  margin-top: calc(-1 * var(--mw-space-xs));  /* GR: xs(6) */
+}
+
+.mw-settings-hub-group {
+  margin-bottom: var(--mw-space-lg);  /* GR: lg(26) */
+}
+
+.mw-settings-hub-group-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--mw-text-primary);
+  margin: 0 0 var(--mw-space-sm);  /* GR: sm(10) */
+  line-height: 1.3;
+}
+
+.mw-settings-hub-card {
+  background: var(--mw-bg-surface);
+  border-radius: var(--mw-radius-lg);
+  box-shadow: var(--mw-shadow-card);
+  padding: var(--mw-space-md) var(--mw-space-md);  /* GR: md(16) */
+}
+
+.mw-settings-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--mw-space-sm) var(--mw-space-md);  /* GR: sm(10) vertical, md(16) horizontal */
+}
+
+@media (min-width: 1280px) {
+  .mw-settings-hub-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .mw-settings-hub-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mw-settings-hub-item {
+  display: flex;
+  gap: var(--mw-space-md);  /* GR: md(16) */
+  align-items: center;
+  padding: var(--mw-space-md) var(--mw-space-md);  /* GR: md(16) */
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(66, 153, 225, 0.04);
+    border-color: rgba(66, 153, 225, 0.1);
+  }
+}
+
+.mw-settings-hub-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--mw-space-xl);  /* GR: xl(42) */
+  height: var(--mw-space-xl);
+  min-width: var(--mw-space-xl);
+  background: var(--mw-accent-light);
+  border-radius: 12px;
+  transition: background-color 0.15s ease;
+}
+
+.mw-settings-hub-item-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.mw-settings-hub-item-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--mw-text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.mw-settings-hub-item-description {
+  font-size: 13.5px;
+  color: var(--mw-text-muted);
+  margin: var(--mw-border-sm) 0 0;  /* GR: border-sm(3) */
+  line-height: 1.4;
+}
+
+/* Dark mode */
+.dark {
+  .mw-settings-hub-group-title {
+    color: #e2e8f0;
+  }
+
+  .mw-settings-hub-card {
+    background: #1a1f2b;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .mw-settings-hub-item {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  .mw-settings-hub-item-icon {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .mw-settings-hub-item-title {
+    color: #e2e8f0;
+  }
+
+  .mw-settings-hub-item-description {
+    color: #94a3b8;
+  }
+}
+
+/* === recovered v3 tail (6837-end) === */
+/* ============================================================================ */
+/* Settings Section Component (.mw-settings-section) */
+/* ============================================================================ */
+.mw-settings-section {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border-radius: 0.5rem;
+  padding: 3rem;
+}
+
+.dark .mw-settings-section {
+  background-color: #1a1f2b;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.dark .mw-settings-section-sidebar {
+  h3 {
+    color: #e2e8f0 !important;
+  }
+}
+
+.mw-settings-section-sidebar {
+  width: 20rem;
+  flex-shrink: 0;
+}
+
+.mw-settings-section-content {
+  background-color: rgba(59,130,246,0.05);
+  padding: 3rem;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.dark .mw-settings-section-content {
+  background-color: rgba(255,255,255,0.04);
+}
+
+@media (max-width: 768px) {
+  .mw-settings-section {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .mw-settings-section-sidebar {
+    width: 100%;
+  }
+
+  .mw-settings-section-content {
+    padding: 1rem;
+  }
+}
+
+/* task-2026-05-28-af5d5b / AI-1161: Image Picker filepond drop label dark-mode contrast ≥4.5:1 (was 1.8:1) */
+.dark .filepond--drop-label,
+.dark .filepond--drop-label label,
+.dark .filepond--label-action {
+  color: rgb(229, 231, 235) !important;
+}
+
+.dark .filepond--label-action {
+  text-decoration-color: rgb(229, 231, 235) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+ * task-2026-07-02 — Filament v5 overlap cleanup. This is the LAST restyle
+ * import in index.css, so it wins the cascade. After the v4→v5 `.fi-*`
+ * rename several legacy tab/sidebar rules re-activated and now stack on top
+ * of Filament v5's own indicators — producing DOUBLE underlines on tabs and
+ * an underlined + left-bordered ("double border") active sidebar item.
+ * Single source of truth for those two below.
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+/* — Tabs — Filament v5 draws its OWN active underline as an `::after` bar.
+ * Our restyle also draws a `border-bottom` underline → two lines. Suppress
+ * the native bar and keep exactly ONE border-bottom underline; also give the
+ * tabs a roomier, consistent size (they were a cramped 13px / 39px). */
+body.fi-panel-admin .fi-tabs-item::after {
+  display: none !important;
+}
+body.fi-panel-admin .fi-tabs .fi-tabs-item,
+body.fi-panel-admin .fi-tabs-item {
+  font-size: 14px !important;
+  padding: 11px 18px !important;
+  min-height: 44px !important;
+  border-bottom: 2px solid transparent !important;
+  text-decoration: none !important;
+}
+body.fi-panel-admin .fi-tabs-item.fi-active,
+body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
+  /* MW v2 demo (verified vs admin-product-form.png + tabs.md §4): in-form authoring
+     active tab = dark ink #182433 text + #182433 underline, NEVER blue. This is the
+     authoritative winning rule (v3 compiled last); an earlier v3 block + general-styles
+     also target this but this one overrides them. */
+  color: #182433 !important;
+  border-bottom-color: #182433 !important;
+  background-color: transparent !important;
+}
+.dark body.fi-panel-admin .fi-tabs-item.fi-active,
+.dark body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
+  color: #f9fafb !important;              /* dark mode: ink → light neutral (ink invisible on dark) */
+  border-bottom-color: #f9fafb !important;
+}
+
+/* — Sidebar active item — collapse to ONE clean treatment: a rounded tinted
+ * pill with brand-blue text. The previous state layered a 3px left accent bar
+ * ON TOP of the rounded pill, and the straight bar didn't follow the pill's
+ * rounded corner, so it read as "a border and then another border". Drop the
+ * bar + the legacy label underline; keep only the pill tint. */
+body.fi-panel-admin .fi-sidebar-item .fi-sidebar-item-label,
+body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-label,
+body.fi-panel-admin .fi-sidebar-item-btn:hover .fi-sidebar-item-label {
+  text-decoration: none !important;
+}
+/* Hide Filament's OWN active accent — a 2px `::before` bar drawn at the item's
+ * left edge — so it doesn't sit next to our pill as a second indicator. */
+body.fi-panel-admin .fi-sidebar-item-btn::before {
+  display: none !important;
+  content: none !important;
+}
+/* Give EVERY item (active + inactive) the same horizontal padding so the
+ * icon/label column lines up — the active pill previously carried an extra
+ * 14px left pad that pushed its icon inward and out of alignment. Use the
+ * logical properties too, since Filament sets padding-inline. */
+body.fi-panel-admin .fi-sidebar-nav .fi-sidebar-item-btn,
+body.fi-panel-admin .fi-sidebar-item > .fi-sidebar-item-btn {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  padding-inline-start: 10px !important;
+  padding-inline-end: 10px !important;
+  gap: 10px !important;
+}
+/* The nav is double-inset — `.fi-sidebar-nav` already has 24px side padding
+ * and `.fi-sidebar-nav-groups` adds another 16px, leaving items only ~151px
+ * wide so "Site Statistics" / "Marketplace" truncate. Trim the inner inset so
+ * full labels fit on one line. */
+body.fi-panel-admin .fi-sidebar-nav-groups {
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+  padding-inline-start: 6px !important;
+  padding-inline-end: 6px !important;
+}
+/* Labels stay on a single line — the roomier 24px icon + gap + padding was
+ * squeezing longer labels ("Marketplace", "Site Statistics") onto two rows.
+ * Trim the icon back to 20px and the label to 14px so every label fits the
+ * ~150px item width on one row, and clip with an ellipsis as a safety net. */
+body.fi-panel-admin .fi-sidebar-item-icon {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+}
+body.fi-panel-admin .fi-sidebar-item-label {
+  font-size: 14px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn,
+body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-btn {
+  border: 0 !important;
+  border-radius: 8px !important;
+  background-color: rgba(13, 110, 253, 0.10) !important;
+  box-shadow: none !important;
+  /* Match inactive padding exactly — a legacy rule (general-styles.css:4300)
+   * set 9px here and outranks the generic padding rule above, so re-assert
+   * the same 10px at equal specificity. */
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  padding-inline-start: 10px !important;
+  padding-inline-end: 10px !important;
+}
+/* Unified active idiom in dark mode — matches the light-mode treatment (tint +
+ * left accent bar), using the lighter --primary-400 for contrast on the dark rail. */
+.dark body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn,
+.dark body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-btn {
+  border: 0 !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;  /* v2 demo dark: subtle light-on-dark grey, not blue */
+  box-shadow: none !important;
+}
+/* Keyboard focus ring — lighter blue on the dark rail. */
+.dark body.fi-panel-admin .fi-sidebar-item-btn:focus-visible,
+.dark body.fi-panel-admin .fi-sidebar-group-btn:focus-visible {
+  outline: 2px solid rgb(var(--primary-400)) !important;
+  outline-offset: -2px !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+ * task-2026-07-02 — V2 sidebar nav. The collapsible Website/Shop groups now
+ * carry an icon (globe/shopping-bag, re-added in FilamentAdminPanelProvider),
+ * so render their header as a real nav ITEM — title-case label, 20px icon,
+ * aligned with the top-level items + item-style hover — matching the
+ * Microweber v2.0.20 sidebar instead of an uppercase mini-header. Only the
+ * collapsible groups get this; the single-item groups (Marketplace/Modules/
+ * Settings/Users) hide their label via `.mw-nav-group-no-label`, and the
+ * settings sub-groups are `hidden`.
+ * ═══════════════════════════════════════════════════════════════════════ */
+body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn {
+  padding: 6px 10px !important;
+  gap: 10px !important;
+  min-height: 48px !important;
+  border-radius: 8px !important;
+}
+body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn:hover {
+  background-color: #f0f4fa !important;
+}
+body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn > svg {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  color: #182433 !important;
+  flex-shrink: 0 !important;
+}
+body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn .fi-sidebar-group-label {
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  color: #182433 !important;
+  padding: 0 !important;
+}
+.dark body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn > svg,
+.dark body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn .fi-sidebar-group-label {
+  color: #e5e7eb !important;
+}
+.dark body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn:hover {
+  background-color: #374151 !important;
+}

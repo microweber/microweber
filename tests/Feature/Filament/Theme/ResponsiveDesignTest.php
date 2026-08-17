@@ -137,7 +137,7 @@ class ResponsiveDesignTest extends TestCase
         // Assert: Media queries exist
         $this->assertStringContainsString('@media', $content, 'Should have media queries');
         $this->assertStringContainsString('max-width: 768px', $content, 'Should have tablet breakpoint');
-        $this->assertStringContainsString('max-width: 1024px', $content, 'Should have desktop breakpoint');
+        $this->assertStringContainsString('max-width: 1023.98px', $content, 'Should have desktop breakpoint');
         $this->assertStringContainsString('max-width: 640px', $content, 'Should have mobile breakpoint');
     }
 
@@ -158,8 +158,8 @@ class ResponsiveDesignTest extends TestCase
 
         // Assert: Sidebar responsive styles are present
         $this->assertStringContainsString('fi-sidebar', $content, 'Should have sidebar styles');
-        $this->assertStringContainsString('-translate-x-full', $content, 'Should have sidebar hide class');
-        $this->assertStringContainsString('translate-x-0', $content, 'Should have sidebar show class');
+        $this->assertStringContainsString('inset-inline-start: -100%', $content, 'Should hide the sidebar via logical inset (no transform)');
+        $this->assertStringContainsString('inset-inline-start: 0', $content, 'Should show the sidebar via logical inset');
     }
 
     /**
@@ -564,15 +564,12 @@ class ResponsiveDesignTest extends TestCase
     public function it_action_buttons_are_responsive(): void
     {
         // Arrange: Get global CSS
-        $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
+        $cssPath = base_path('packages/microweber-filament-theme/resources/assets/css/microweber/admin/resources.css');
 
-        // Assert: File exists
-        $this->assertFileExists($globalCssPath);
+        $this->assertFileExists($cssPath);
 
-        // Read content
-        $content = file_get_contents($globalCssPath);
+        $content = file_get_contents($cssPath);
 
-        // Assert: Action button styles are present
         $this->assertStringContainsString('fi-ta-actions', $content, 'Should have action button styles');
     }
 

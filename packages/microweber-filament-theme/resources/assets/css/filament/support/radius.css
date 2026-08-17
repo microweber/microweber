@@ -1,0 +1,95 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 2516-2610 */
+/* ============================================================================ */
+/* Global border-radius fix — Filament defaults to 7px, MW v2 uses 4px */
+/* ============================================================================ */
+.fi-breadcrumbs,
+.fi-ta-record a,
+.fi-ta-record button,
+.fi-pagination-items,
+.fi-ac-btn,
+.fi-dropdown-trigger button {
+  border-radius: var(--mw-radius-sm) !important;
+}
+
+/* Table row padding — MW v2: more compact rows (~80px height) */
+.fi-ta-content > div > div {
+  padding: var(--mw-space-sm) 0 !important;  /* GR: sm(10) */
+}
+
+/* Published button in table — MW v2: green text on light green bg (soft badge style) */
+.fi-ta-content .fi-btn.fi-color-success {
+  color: #2fb344 !important;
+  background-color: #eaf7ec !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  /* MW v2 demo status pills are TITLE case ("Published"), not uppercase (verified vs */
+  /* admin-content-list.png). The global .fi-btn.fi-color-success rule (SAVE button) */
+  /* sets uppercase and leaks here since the pill shares that class — override in-table. */
+  text-transform: none !important;
+  white-space: nowrap !important;   /* keep multi-word pills ("In Stock") on one line */
+  padding: var(--mw-border-sm) var(--mw-space-xs) !important;  /* GR: border-sm(3) xs(6) */
+  border-radius: 4px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+
+  span, .fi-btn-label {
+    color: #2fb344 !important;
+  }
+  svg {
+    color: #2fb344 !important;
+  }
+}
+
+/* Other status pills — mirror the success (pale-tint) style so warning/danger/ */
+/* info/gray match the v2 demo's `bg-*-lt` pattern (pale bg + saturated text) */
+/* instead of Filament's default SATURATED fills. Fixes "Unpublished" rendering as */
+/* a bright yellow amber-400 pill with mismatched 13px/400 typography. */
+.fi-ta-content .fi-btn.fi-color-warning {
+  color: #f76707 !important;
+  background-color: #fef0e6 !important;
+  span, .fi-btn-label, svg { color: #f76707 !important; }
+}
+.fi-ta-content .fi-btn.fi-color-danger {
+  color: #d63939 !important;
+  background-color: #fdecec !important;
+  span, .fi-btn-label, svg { color: #d63939 !important; }
+}
+.fi-ta-content .fi-btn.fi-color-info {
+  color: #206bc4 !important;
+  background-color: #e1edf8 !important;
+  span, .fi-btn-label, svg { color: #206bc4 !important; }
+}
+.fi-ta-content .fi-btn.fi-color-gray,
+.fi-ta-content .fi-btn.fi-color-secondary {
+  color: #667382 !important;
+  background-color: #f1f5f9 !important;
+  span, .fi-btn-label, svg { color: #667382 !important; }
+}
+/* Shared shape/typography for all non-success status pills (match the success one). */
+/* Custom Tailwind stock badge in product rows (span.inline-flex.rounded-md) — a */
+/* filament-5 rebuild addition (not in the v2 demo). Keep "In Stock" on one line. */
+body.fi-panel-admin .fi-ta-record span.inline-flex.rounded-md,
+body.fi-panel-admin .fi-ta-content span.inline-flex.rounded-md {
+  white-space: nowrap !important;
+}
+
+.fi-ta-content .fi-btn.fi-color-warning,
+.fi-ta-content .fi-btn.fi-color-danger,
+.fi-ta-content .fi-btn.fi-color-info,
+.fi-ta-content .fi-btn.fi-color-gray,
+.fi-ta-content .fi-btn.fi-color-secondary {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  text-transform: none !important;  /* MW v2 demo: title case ("Unpublished"), not uppercase */
+  white-space: nowrap !important;   /* keep multi-word pills ("In Stock") on one line */
+  padding: var(--mw-border-sm) var(--mw-space-xs) !important;  /* GR: border-sm(3) xs(6) */
+  border-radius: 4px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+}

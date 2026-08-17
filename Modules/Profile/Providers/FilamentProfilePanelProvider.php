@@ -10,7 +10,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use MicroweberPackages\Filament\Plugins\MicroweberFilamentSocialitePlugin;
@@ -32,9 +31,7 @@ class FilamentProfilePanelProvider extends PanelProvider
             ->login(Login::class)
             ->registration(Register::class)
             ->passwordReset(ForgotPassword::class)
-            ->colors([
-                'primary' => Color::Purple,
-            ])
+            ->colors(\MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme::getColors())
 //            ->renderHook(
 //                'panels::auth.login.form.after',
 //                fn() => view('modules.profile::auth.social-login')

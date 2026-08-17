@@ -1,0 +1,19 @@
+/* Microweber Theme v3 — barrel.
+ * Styles live in tokens/ + filament/ + microweber/admin/.
+ * Kept so historical contract tests that mention this filename still resolve.
+ *
+ * task-2026-05-17-9a12c2 / AI-819 — Filament primary token brand alignment
+ * task-2026-05-17-68e111
+ * AI-819a — $mw-accent documented in tokens/colors.css
+ */
+@import './tokens/colors.css';
+@import './tokens/breakpoints.css';
+@import './tokens/sizes.css';
+@import './tokens/typography.css';
+@import './filament/support/button/theme.css';
+@import './filament/support/card.css';
+@import './filament/support/modal/theme.css';
+@import './filament/tables/theme.css';
+@import './filament/panels/sidebar/theme.css';
+@import './filament/panels/topbar/theme.css';
+@import './microweber/admin/dashboard.css';

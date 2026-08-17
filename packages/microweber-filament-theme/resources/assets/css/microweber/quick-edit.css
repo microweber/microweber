@@ -1,0 +1,107 @@
+#mw-live-edit-quickEditComponent-box:has(.edit-fields-container:empty)
+    .mw-control-box-content {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+#mw-live-edit-quickEditComponent-box .mw-ai-chat-form {
+    @apply absolute bottom-[60px] z-10 w-[calc(100%_-_40px)];
+}
+
+.edit-fields-container {
+    padding-bottom: 220px;
+}
+
+.quick-ai-card {
+    background: #7d7d7d17;
+    margin-bottom: 1rem;
+}
+
+.quick-ai-card-body .live-edit-label + input:not(:focus) {
+    border-color: #cacaca;
+}
+
+.quick-ai-card-body .live-edit-label {
+    margin: -10px 7px;
+    position: relative;
+    z-index: 1;
+    background: #f3f3f3;
+    display: inline-block;
+    line-height: 11px;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.dark .quick-ai-card-body .live-edit-label {
+    background: #2e2e31;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.quick-ai-card-body .form-control-live-edit-input {
+    font-size: 14px;
+}
+
+.quick-ai-card-body {
+    padding: 0 15px 7.5px 15px;
+}
+
+/*
+ * Quick Edit panel (live-edit toolbar → Quick AI Edit) — task-2026-04-29-ccf6e9.
+ */
+#mw-live-edit-quickEditComponent-box .btn {
+    background: transparent;
+    border: 1px solid transparent;
+    box-shadow: none;
+    padding: 6px 14px;
+    font-weight: 500;
+    color: inherit;
+    border-radius: 6px;
+}
+
+#mw-live-edit-quickEditComponent-box .btn:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.dark #mw-live-edit-quickEditComponent-box .btn:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+#mw-live-edit-quickEditComponent-box .btn.active {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+    font-weight: 600;
+}
+
+.dark #mw-live-edit-quickEditComponent-box .btn.active {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+#mw-live-edit-quickEditComponent-box .form-control-live-edit-input {
+    font-size: 14px !important;
+    line-height: 20px !important;
+    min-height: 36px !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    border: 1px solid #cacaca !important;
+}
+
+.dark #mw-live-edit-quickEditComponent-box .form-control-live-edit-input {
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    color: #e2e8f0 !important;
+}
+
+#mw-live-edit-quickEditComponent-box .form-control-live-edit-input:focus {
+    border-color: #4299e1 !important;
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2) !important;
+}
+
+#mw-live-edit-quickEditComponent-box textarea.form-control-live-edit-input {
+    min-height: 72px !important;
+    line-height: 1.4 !important;
+}

@@ -23,7 +23,7 @@ use Tests\TestCase;
  *   3. Dropdown chrome too dim — @apply bg-gray-100 text-gray-800 unchanged
  *   4. Dark colour swatches invisible — --ese-border-strong at 0.20 alpha ≈ 2.0:1
  *   5. "More options:" divider unreadable — same token issue
- * Fix: (a) Token bump in later html.dark block (source-order cascade wins);
+ * Fix: (a) Token bump in later .dark block (source-order cascade wins);
  *       (b) Compound selector !important overrides for Tailwind-hardcoded values.
  *
  * File: packages/microweber-filament-theme/resources/assets/css/microweber/element-style-editor.css
@@ -111,7 +111,7 @@ class ElementStyleEditorDarkContrastAI825AndAnnouncementHiddenAI821ContractTest 
     #[Test]
     public function dark_ese_border_token_is_bumped_to_035_alpha(): void
     {
-        // The second html.dark block (later in file) overrides --ese-border.
+        // The second .dark block (later in file) overrides --ese-border.
         // Use strrpos to find the LAST occurrence (the override block).
         $lastPos = strrpos($this->srcStripped, '--ese-border:');
         $this->assertNotFalse($lastPos);
@@ -142,9 +142,9 @@ class ElementStyleEditorDarkContrastAI825AndAnnouncementHiddenAI821ContractTest 
     public function dark_mode_label_color_override_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*#mw-element-style-editor-app[^{]*\.live-edit-label[^{]*\{[^}]*color:\s*var\(--ese-label~s',
+            '~\.dark[^{]*#mw-element-style-editor-app[^{]*\.live-edit-label[^{]*\{[^}]*color:\s*var\(--ese-label~s',
             $this->srcStripped,
-            'html.dark compound selector must override .live-edit-label color with --ese-label token.'
+            '.dark compound selector must override .live-edit-label color with --ese-label token.'
         );
     }
 
@@ -154,9 +154,9 @@ class ElementStyleEditorDarkContrastAI825AndAnnouncementHiddenAI821ContractTest 
     public function dark_mode_input_border_color_override_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*#mw-element-style-editor-app[^{]*input[^{]*\{[^}]*border-color:\s*var\(--ese-border-strong~s',
+            '~\.dark[^{]*#mw-element-style-editor-app[^{]*input[^{]*\{[^}]*border-color:\s*var\(--ese-border-strong~s',
             $this->srcStripped,
-            'html.dark must override input border-color with --ese-border-strong for ≥3:1 non-text contrast.'
+            '.dark must override input border-color with --ese-border-strong for ≥3:1 non-text contrast.'
         );
     }
 
@@ -164,9 +164,9 @@ class ElementStyleEditorDarkContrastAI825AndAnnouncementHiddenAI821ContractTest 
     public function dark_mode_input_background_override_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*#mw-element-style-editor-app[^{]*input[^{]*\{[^}]*background-color:\s*var\(--ese-surface-muted~s',
+            '~\.dark[^{]*#mw-element-style-editor-app[^{]*input[^{]*\{[^}]*background-color:\s*var\(--ese-surface-muted~s',
             $this->srcStripped,
-            'html.dark must override input background with --ese-surface-muted (defeats Tailwind @apply bg-gray-100).'
+            '.dark must override input background with --ese-surface-muted (defeats Tailwind @apply bg-gray-100).'
         );
     }
 
@@ -174,9 +174,9 @@ class ElementStyleEditorDarkContrastAI825AndAnnouncementHiddenAI821ContractTest 
     public function dark_mode_select_overrides_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*#mw-element-style-editor-app[^{]*select[^{]*\{~s',
+            '~\.dark[^{]*#mw-element-style-editor-app[^{]*select[^{]*\{~s',
             $this->srcStripped,
-            'html.dark must include select element overrides for dropdown chrome contrast.'
+            '.dark must include select element overrides for dropdown chrome contrast.'
         );
     }
 
@@ -186,9 +186,9 @@ class ElementStyleEditorDarkContrastAI825AndAnnouncementHiddenAI821ContractTest 
     public function dark_mode_picker_button_inset_shadow_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*\.picker-button[^{]*\{[^}]*box-shadow:\s*inset~s',
+            '~\.dark[^{]*\.picker-button[^{]*\{[^}]*box-shadow:\s*inset~s',
             $this->srcStripped,
-            'html.dark must set inset box-shadow on .picker-button to keep colour swatch outlines visible.'
+            '.dark must set inset box-shadow on .picker-button to keep colour swatch outlines visible.'
         );
     }
 
@@ -198,9 +198,9 @@ class ElementStyleEditorDarkContrastAI825AndAnnouncementHiddenAI821ContractTest 
     public function dark_mode_more_options_summary_color_present(): void
     {
         $this->assertMatchesRegularExpression(
-            '~html\.dark[^{]*\.mw-typography-advanced\s*>\s*summary[^{]*\{[^}]*color:\s*var\(--ese-text-muted~s',
+            '~\.dark[^{]*\.mw-typography-advanced\s*>\s*summary[^{]*\{[^}]*color:\s*var\(--ese-text-muted~s',
             $this->srcStripped,
-            'html.dark must set --ese-text-muted color on .mw-typography-advanced > summary (More options divider).'
+            '.dark must set --ese-text-muted color on .mw-typography-advanced > summary (More options divider).'
         );
     }
 
@@ -210,11 +210,11 @@ class ElementStyleEditorDarkContrastAI825AndAnnouncementHiddenAI821ContractTest 
     public function all_dark_contrast_rules_are_dark_scoped(): void
     {
         // Verify every occurrence of --ese-border in a rule body is either
-        // inside html.dark or inside the existing token definition block.
+        // inside .dark or inside the existing token definition block.
         // The key invariant: no new bare (non-dark-scoped) rule that sets
         // border-color with the bumped value.
-        $this->assertStringContainsString('html.dark', $this->srcStripped,
-            'Dark mode contrast rules must all be inside html.dark scope.'
+        $this->assertStringContainsString('.dark', $this->srcStripped,
+            'Dark mode contrast rules must all be inside .dark scope.'
         );
         // No unconditional border-color rule with the bumped token should exist
         // at global scope. We verify by checking the border bump block is
@@ -223,8 +223,8 @@ class ElementStyleEditorDarkContrastAI825AndAnnouncementHiddenAI821ContractTest 
         $this->assertNotFalse($pos);
         $beforeSlice = substr($this->srcStripped, 0, (int) $pos);
         // The last dark-selector before the 0.35 value should be present
-        $this->assertNotFalse(strrpos($beforeSlice, 'html.dark'),
-            'The 0.35 border token bump must appear inside an html.dark block.'
+        $this->assertNotFalse(strrpos($beforeSlice, '.dark'),
+            'The 0.35 border token bump must appear inside an .dark block.'
         );
     }
 

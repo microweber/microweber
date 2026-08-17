@@ -88,7 +88,7 @@ class Ai514TypographyScaleContractTest extends TestCase
 
             // Dark-mode secondary text.
             'dark secondary text #9CA3AF'  => ['color: #9CA3AF'],
-            'dark-mode prefix'             => ['html.dark body.fi-panel-admin .fi-section-header-description'],
+            'dark-mode prefix'             => ['.dark body.fi-panel-admin .fi-section-header-description'],
 
             // Emphasis weight 500.
             '.fi-emphasis class selector'  => ['body.fi-panel-admin .fi-emphasis'],

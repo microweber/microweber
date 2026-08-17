@@ -1192,15 +1192,12 @@ class DarkModeTest extends TestCase
     public function it_record_action_buttons_visible_in_dark_mode(): void
     {
         // Arrange: Get global CSS
-        $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
+        $cssPath = base_path('packages/microweber-filament-theme/resources/assets/css/microweber/admin/resources.css');
 
-        // Assert: File exists
-        $this->assertFileExists($globalCssPath);
+        $this->assertFileExists($cssPath);
 
-        // Read content
-        $content = file_get_contents($globalCssPath);
+        $content = file_get_contents($cssPath);
 
-        // Assert: Table action styles are defined
         $this->assertStringContainsString('fi-ta-actions', $content, 'Should have table action styles');
     }
 

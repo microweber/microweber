@@ -838,7 +838,7 @@
      * z-index:100000 ensures it paints above the toolbar and iframe canvas.
      *
      * Dark mode parity: no extra rule needed — the scoped Vue dark-mode
-     * selectors (html.dark .dropdown-content) remain in force.
+     * selectors (.dark .dropdown-content) remain in force.
      *
      * The trigger button itself stays at flex-shrink:0 so it is never
      * crushed off the visible edge of the toolbar. */

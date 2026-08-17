@@ -399,14 +399,14 @@ class PageAeb113AI806ProductChromeLeakContractTest extends TestCase
     {
         // Empty-state surface MUST resolve in dark theme too (the
         // canvas iframe + admin chrome both support dark theme).
-        // Source-level guard for the `html.dark .mw-canvas-empty-state*`
+        // Source-level guard for the `.dark .mw-canvas-empty-state*`
         // rule existence.
         $defaultCss = (string) file_get_contents(base_path(
             'packages/frontend-assets/resources/assets/css/microweber/css/default.css'
         ));
 
         $this->assertMatchesRegularExpression(
-            '/html\.dark\s+\.mw-canvas-empty-state\s*\{/',
+            '/\.dark\s+\.mw-canvas-empty-state\s*\{/',
             $defaultCss,
             'AI-808: dark-theme variant of .mw-canvas-empty-state MUST exist (Stage-2 cascade-loss prevention; matches the AI-786 CHANGE pattern).'
         );
