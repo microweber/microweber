@@ -570,9 +570,102 @@ class AdminLiveEditPage extends Page
             //   - per-module Edit actions (Modules\Menu\...editAction)
             //                                                      : slideOver
             ->slideOver()
-            ->extraModalWindowAttributes(['class' => 'mw-module-settings-live-edit-modal']);
+            ->extraModalWindowAttributes(['class' => 'mw-module-settings-live-edit-modal'])
+            ->modal(function (array $arguments) {
+                $data = $arguments['data'] ?? [];
+
+                return ! $this->moduleUsesMwDialog($data);
+            })
+            ->action(function (array $arguments) {
+                $data = $arguments['data'] ?? [];
+                if ($this->moduleUsesMwDialog($data)) {
+                    $this->openFilamentMwDialog($data);
+                }
+            });
 
 
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    protected function moduleUsesMwDialog(array $data): bool
+    {
+        $class = $data['moduleSettingsComponent'] ?? null;
+        if (! is_string($class) || $class === '' || ! class_exists($class)) {
+            return false;
+        }
+
+        if (method_exists($class, 'usesMwDialog')) {
+            return (bool) $class::usesMwDialog();
+        }
+
+        return \MicroweberPackages\Filament\Support\MwDialogRegistry::supports($class);
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    protected function openFilamentMwDialog(array $data): void
+    {
+        $class = $data['moduleSettingsComponent'] ?? '';
+        $params = $data['params'] ?? [];
+        $liveEditIframeData = $data['liveEditIframeData'] ?? [];
+        if (! is_array($params)) {
+            $params = [];
+        }
+        if (! is_array($liveEditIframeData)) {
+            $liveEditIframeData = [];
+        }
+
+        $options = [];
+        $title = 'Module Settings';
+        if (is_string($class) && $class !== '' && class_exists($class)) {
+            if (method_exists($class, 'mwDialogOptions')) {
+                $raw = $class::mwDialogOptions();
+                $options = is_array($raw) ? $raw : [];
+            }
+            if (method_exists($class, 'getNavigationLabel')) {
+                $label = $class::getNavigationLabel();
+                if (is_string($label) && $label !== '') {
+                    $title = $label;
+                }
+            }
+        }
+
+        $options = \MicroweberPackages\Filament\Support\MwDialogOptions::merge(array_merge(
+            $options,
+            ['title' => $title],
+        ));
+
+        $payload = [
+            'component' => 'filament-mw-dialog',
+            'arguments' => [
+                'livewireComponent' => $class,
+                'livewireParams' => $params,
+                'liveEditIframeData' => $liveEditIframeData,
+                'title' => $title,
+                'modalSettings' => $options,
+            ],
+            'modalAttributes' => array_merge([
+                'skin' => 'mw-dialog',
+                'showCloseButton' => false,
+                'showBackdrop' => false,
+                'closeOnClickAway' => (bool) ($options['overlayClose'] ?? false),
+                'closeOnEscape' => (bool) ($options['closeOnEscape'] ?? true),
+                'title' => $title,
+                'width' => $options['width'] ?? 800,
+                'autoHeight' => (bool) ($options['autoHeight'] ?? true),
+                'autosize' => (bool) ($options['autosize'] ?? true),
+                'autoScroll' => (bool) ($options['autoScroll'] ?? true),
+                'draggable' => (bool) ($options['draggable'] ?? true),
+            ], $options),
+        ];
+
+        $this->js('window.Livewire.dispatch("openModal", ' . json_encode(
+            $payload,
+            JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT
+        ) . ')');
     }
 
     /**

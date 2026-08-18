@@ -352,12 +352,26 @@ class SliderTableList extends LiveEditModuleTable implements HasForms, HasTable
 
                         $this->resetTable();
                     }), CreateAction::make('create')
-                    ->slideOver()
+                    ->mwDialog([
+                        'width' => 720,
+                        'autoHeight' => true,
+                        'autosize' => true,
+                        'autoScroll' => true,
+                        'draggable' => true,
+                        'closeButton' => true,
+                    ])
                     ->form($this->editFormArray())
             ])
             ->actions([
                 EditAction::make('edit')
-                    ->slideOver()
+                    ->mwDialog([
+                        'width' => 720,
+                        'autoHeight' => true,
+                        'autosize' => true,
+                        'autoScroll' => true,
+                        'draggable' => true,
+                        'closeButton' => true,
+                    ])
                     ->form($this->editFormArray()),
                 DeleteAction::make('delete'),
                 Action::make('copy')

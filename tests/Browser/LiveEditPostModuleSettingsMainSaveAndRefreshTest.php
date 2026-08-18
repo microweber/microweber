@@ -10,6 +10,7 @@ use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Support\LandingTestContentPurger;
+use Tests\Browser\Support\MwDialogLiveEditHelpers;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\DuskTestCase;
 
@@ -101,76 +102,38 @@ class LiveEditPostModuleSettingsMainSaveAndRefreshTest extends DuskTestCase
             );
             $browser->pause(6000);
 
-            // Wait for the iframe.
             $browser->waitUsing(20, 250, function () use ($browser) {
-                $found = $browser->script(
-                    "
-                    return Array.from(document.querySelectorAll('iframe'))
-                        .some(f => (f.src || '').indexOf('post-module-settings') !== -1) ? 1 : 0;
-                "
-                );
+                $found = $browser->script(MwDialogLiveEditHelpers::settingsSurfaceReadyScript());
                 return ($found[0] ?? 0) === 1;
             });
 
-            // Click "New post" inside the iframe + fill title via raw
-            // DOM access (faster than Dusk's withinFrame for the
-            // single click-fill pair we need; keeps the parent context
-            // available for the SAVE click + sentinel below without
-            // a frame switch).
-            $clickNew = $browser->script(
-                "
-                return (function () {
-                    var iframe = Array.from(document.querySelectorAll('iframe'))
-                        .find(f => (f.src || '').indexOf('post-module-settings') !== -1);
-                    if (!iframe || !iframe.contentDocument) return 'NO_IFRAME';
-                    var btn = Array.from(iframe.contentDocument.querySelectorAll('button, a'))
-                        .find(b => {
-                            var attrs = b.attributes;
-                            for (var i = 0; i < attrs.length; i++) {
-                                var a = attrs[i];
-                                if (!a.name.startsWith('wire:click')) continue;
-                                if ((a.value || '').indexOf(\"mountAction('create'\") !== -1) return true;
-                            }
-                            return false;
-                        });
-                    if (!btn) return 'NO_NEW_BTN';
-                    btn.click();
-                    return 'OK';
-                })();
-            "
-            );
+            $clickNew = $browser->script(MwDialogLiveEditHelpers::clickCreateTableActionScript());
             $this->assertSame('OK', (string) ($clickNew[0] ?? ''), 'Clicking New post button failed');
             $browser->pause(3000);
 
-            // Wait for the action form INSIDE the iframe.
             $browser->waitUsing(15, 250, function () use ($browser) {
-                $found = $browser->script(
-                    "
-                    var iframe = Array.from(document.querySelectorAll('iframe'))
-                        .find(f => (f.src || '').indexOf('post-module-settings') !== -1);
-                    if (!iframe || !iframe.contentDocument) return 0;
-                    var ok = ['callMountedAction', 'callMountedTableAction'];
-                    return Array.from(iframe.contentDocument.querySelectorAll('form'))
-                        .some(f => ok.indexOf(f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit')) !== -1) ? 1 : 0;
-                "
-                );
+                $found = $browser->script(MwDialogLiveEditHelpers::findMountedActionFormScript());
                 return ($found[0] ?? 0) === 1;
             });
 
-            // Fill title (still from parent context — same-origin iframe).
             $fill = $browser->script(
                 "
                 return (function () {
-                    var iframe = Array.from(document.querySelectorAll('iframe'))
-                        .find(f => (f.src || '').indexOf('post-module-settings') !== -1);
-                    if (!iframe || !iframe.contentDocument) return 'NO_IFRAME';
-                    var input = iframe.contentDocument.querySelector('input[wire\\\\:model=\"mountedActions.0.data.title\"]');
-                    if (!input) return 'NO_TITLE_INPUT';
-                    input.focus();
-                    input.value = " . json_encode($createdTitle) . ";
-                    input.dispatchEvent(new Event('input', { bubbles: true }));
-                    input.dispatchEvent(new Event('change', { bubbles: true }));
-                    return 'OK';
+                    var roots = [document];
+                    var iframe = Array.from(document.querySelectorAll('iframe')).find(function (f) {
+                        return (f.src || '').indexOf('module-settings') !== -1 && f.contentDocument;
+                    });
+                    if (iframe && iframe.contentDocument) roots.push(iframe.contentDocument);
+                    for (var r = 0; r < roots.length; r++) {
+                        var input = roots[r].querySelector('input[wire\\\\:model=\"mountedActions.0.data.title\"]');
+                        if (!input) continue;
+                        input.focus();
+                        input.value = " . json_encode($createdTitle) . ";
+                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                        input.dispatchEvent(new Event('change', { bubbles: true }));
+                        return 'OK';
+                    }
+                    return 'NO_TITLE_INPUT';
                 })();
             "
             );

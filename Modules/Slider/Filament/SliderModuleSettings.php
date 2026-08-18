@@ -16,6 +16,7 @@ class SliderModuleSettings extends LiveEditModuleSettingsTable
 {
     public string $module = 'slider';
     public string $modelName = Slider::class;
+    protected static bool $useMwDialog = true;
     public string $tableComponentName = SliderTableList::class;
 
     public function form(Schema $schema): Schema

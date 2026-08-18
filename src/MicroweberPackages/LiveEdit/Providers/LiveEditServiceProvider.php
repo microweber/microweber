@@ -27,6 +27,7 @@ use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\ModulePresetsMo
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\ResetContentModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\UnlockPackage\UnlockPackageModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\VisualEditorPage;
+use MicroweberPackages\LiveEdit\Http\Livewire\FilamentMwDialogModal;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorEditItemComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorListComponent;
@@ -64,6 +65,7 @@ class LiveEditServiceProvider extends MicroweberPackageServiceProvider
         // during resolution. We register them normally AND add a fallback
         // resolver so the Finder can locate them.
         $liveEditComponents = [
+            'filament-mw-dialog' => FilamentMwDialogModal::class,
             'microweber-live-edit::module-select-template' => ModuleTemplateSelectComponent::class,
             'microweber-live-edit::module-items-editor' => ModuleSettingsItemsEditorComponent::class,
             'microweber-live-edit::module-items-editor-list' => ModuleSettingsItemsEditorListComponent::class,

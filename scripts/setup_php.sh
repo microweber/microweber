@@ -573,53 +573,86 @@ chrome_version() {
   done
 }
 
-ensure_chrome() {
+# ---------------------------------------------------------------------------
+# Standalone Chrome/Chromium installer — called unconditionally from main.
+# ---------------------------------------------------------------------------
+install_chrome() {
+  log "Installing Chrome / Chromium browser"
+
   if chrome_present; then
-    ok "Browser present: $(chrome_version)"
+    ok "Browser already present: $(chrome_version)"
     return 0
   fi
+
   if [ "$SKIP_SYSTEM" -eq 1 ]; then
-    warn "No Chrome/Chromium found and --skip-system given — install one for Dusk and re-run."
+    warn "No Chrome/Chromium found and --skip-system given — install one manually."
     return 1
   fi
+
   if ! command -v apt-get >/dev/null 2>&1; then
-    warn "No Chrome/Chromium and not an apt system — install Google Chrome or Chromium manually for Dusk."
+    warn "Not an apt system — install Google Chrome or Chromium manually."
     return 1
   fi
-  warn "Installing a Chrome browser via apt (for Dusk browser tests)…"
-  # Prerequisites for adding Google's signed apt repo (gpg --dearmor, https
-  # fetch). On a bare box these are often missing and the key/repo step would
-  # silently fail, so install them up-front.
+
+  log "Installing prerequisites for Chrome apt repo…"
   $SUDO apt-get update -y || true
   $SUDO apt-get install -y ca-certificates curl gnupg apt-transport-https wget || true
-  # Prefer Google Chrome stable from Google's own apt repo; fall back to Chromium.
-  if command -v curl >/dev/null 2>&1 || command -v wget >/dev/null 2>&1; then
-    local key=/usr/share/keyrings/google-chrome.gpg
-    if [ ! -f "$key" ]; then
-      if command -v curl >/dev/null 2>&1; then
-        curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o "$key" 2>/dev/null || true
-      else
-        wget -qO- https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o "$key" 2>/dev/null || true
-      fi
-    fi
-    if [ -f "$key" ]; then
-      echo "deb [arch=amd64 signed-by=${key}] http://dl.google.com/linux/chrome/deb/ stable main" \
-        > /etc/apt/sources.list.d/google-chrome.list
-      $SUDO apt-get update -y || true
-      $SUDO apt-get install -y google-chrome-stable || true
+
+  # Try Google Chrome stable from Google's signed apt repo first.
+  local key=/usr/share/keyrings/google-chrome.gpg
+  if [ ! -f "$key" ]; then
+    if command -v curl >/dev/null 2>&1; then
+      curl -fsSL https://dl.google.com/linux/linux_signing_key.pub \
+        | gpg --dearmor -o "$key" 2>/dev/null || true
+    else
+      wget -qO- https://dl.google.com/linux/linux_signing_key.pub \
+        | gpg --dearmor -o "$key" 2>/dev/null || true
     fi
   fi
-  if ! chrome_present; then
-    warn "Google Chrome install failed or unavailable — trying Chromium…"
+  if [ -f "$key" ]; then
+    echo "deb [arch=amd64 signed-by=${key}] http://dl.google.com/linux/chrome/deb/ stable main" \
+      > /etc/apt/sources.list.d/google-chrome.list
     $SUDO apt-get update -y || true
-    $SUDO apt-get install -y chromium || $SUDO apt-get install -y chromium-browser || true
+    $SUDO apt-get install -y google-chrome-stable \
+      && ok "Google Chrome stable installed: $(chrome_version)" \
+      && return 0 || true
   fi
+
+  # Fall back to Chromium from the distro repo.
+  warn "Google Chrome unavailable — trying Chromium…"
+  $SUDO apt-get update -y || true
+  $SUDO apt-get install -y chromium || $SUDO apt-get install -y chromium-browser || true
+
   if chrome_present; then
-    ok "Browser installed: $(chrome_version)"
+    ok "Chromium installed: $(chrome_version)"
     return 0
   fi
-  warn "Could not install a Chrome/Chromium browser automatically — install one manually for Dusk."
+
+  warn "Could not install Chrome/Chromium automatically — install one manually."
   return 1
+}
+
+run_dusk_chrome_driver() {
+  if ! command -v php >/dev/null 2>&1; then
+    warn "php not on PATH — skipping dusk:chrome-driver --detect."
+    return
+  fi
+  if [ ! -d "${ROOT_DIR}/vendor/laravel/dusk" ]; then
+    warn "vendor/laravel/dusk not found — skipping dusk:chrome-driver --detect."
+    return
+  fi
+  log "Installing matching ChromeDriver (artisan dusk:chrome-driver --detect)"
+  if env APP_ENV=testing php artisan dusk:chrome-driver --detect 2>/dev/null; then
+    ok "ChromeDriver installed (matched to installed browser)"
+  else
+    warn "dusk:chrome-driver --detect failed — run manually: APP_ENV=testing php artisan dusk:chrome-driver --detect"
+  fi
+}
+
+ensure_chrome() {
+  # Delegates to install_chrome; used inside --dev to track have_browser state.
+  install_chrome
+  chrome_present
 }
 
 # Fonts for accurate template rendering in the headless browser. Without broad
@@ -1260,6 +1293,8 @@ else
 fi
 
 install_playwright
+install_chrome
+run_dusk_chrome_driver
 
 if [ "$MYSQL" -eq 1 ]; then
   install_mysql
@@ -1378,7 +1413,12 @@ else
   if [ "$MINIO" -eq 1 ]; then err "MinIO         not found after install"; fi
 fi
 
-# Xdebug
+# Chrome / Chromium
+if chrome_present; then
+  ok "Browser       $(chrome_version)"
+else
+  warn "Browser       no Chrome/Chromium found — run: scripts/setup_php.sh (installs automatically)"
+fi
 if php -m 2>/dev/null | grep -qi '^xdebug$'; then
   ok "Xdebug        loaded (mode: $(php -r 'echo ini_get("xdebug.mode");' 2>/dev/null))"
 else

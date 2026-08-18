@@ -87,12 +87,22 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
                     // add-post entry points — bumped from 3xl in
                     // task-2026-05-04-61e974 along with the toolbar.
                     ->modalWidth(MaxWidth::FiveExtraLarge)
+                    ->mwDialog([
+                        'width' => 900,
+                        'overlayClose' => false,
+                        'closeOnEscape' => false,
+                        'autoHeight' => true,
+                        'autosize' => true,
+                        'autoScroll' => true,
+                        'draggable' => true,
+                        'closeButton' => true,
+                    ])
                     // `mw-content-form-modal` re-enables the close-overlay
                     // backdrop tint (the microweber-filament-theme
                     // globally forces fi-modal-close-overlay to
                     // bg-transparent). CSS lives in iframe-page.blade.php
                     // + live-edit-module-settings.blade.php.
-                    ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'])
+                    ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'], merge: true)
                     // Don't let a stray backdrop click or Escape
                     // keystroke destroy a half-typed New Post form.
                     // task-2026-05-02-354958. Cancel still works via
@@ -125,7 +135,17 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
                     // task-2026-05-17-2b1020 / AI-816 — see CreateAction above.
                     ->color('primary')
                     ->modalWidth(MaxWidth::FiveExtraLarge)
-                    ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'])
+                    ->mwDialog([
+                        'width' => 900,
+                        'overlayClose' => false,
+                        'closeOnEscape' => false,
+                        'autoHeight' => true,
+                        'autosize' => true,
+                        'autoScroll' => true,
+                        'draggable' => true,
+                        'closeButton' => true,
+                    ])
+                    ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'], merge: true)
                     ->closeModalByClickingAway(false)
                     ->closeModalByEscaping(false)
                     ->stickyModalFooter()

@@ -43,8 +43,28 @@ abstract class LiveEditModuleSettings extends Page
     public array $params = [];
     public array $translatableOptions = [];
     public array $liveEditIframeData = [];
+    public bool $embeddedInDialog = false;
     protected static bool $showTopBar = false;
     protected static bool $shouldRegisterNavigation = false;
+
+    /**
+     * When true, live-edit opens this page inside mw.dialog (livewire-modal
+     * host) instead of the Filament slide-over iframe.
+     */
+    protected static bool $useMwDialog = false;
+
+    public static function usesMwDialog(): bool
+    {
+        return static::$useMwDialog;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function mwDialogOptions(): array
+    {
+        return \MicroweberPackages\Filament\Support\MwDialogOptions::defaults();
+    }
 
 
     public static function showTopBar(): bool

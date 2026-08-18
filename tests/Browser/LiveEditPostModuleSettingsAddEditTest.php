@@ -10,6 +10,7 @@ use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Support\LandingTestContentPurger;
+use Tests\Browser\Support\MwDialogLiveEditHelpers;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\DuskTestCase;
 
@@ -114,14 +115,9 @@ class LiveEditPostModuleSettingsAddEditTest extends DuskTestCase
             );
             $browser->pause(6000);
 
-            // Wait for the iframe inside the slideOver to render.
+            // Wait for mw.dialog (or the legacy iframe) to render.
             $browser->waitUsing(20, 250, function () use ($browser) {
-                $found = $browser->script(
-                    "
-                    var iframes = Array.from(document.querySelectorAll('iframe'));
-                    return iframes.some(f => (f.src || '').indexOf('post-module-settings') !== -1) ? 1 : 0;
-                "
-                );
+                $found = $browser->script(MwDialogLiveEditHelpers::settingsSurfaceReadyScript());
                 return ($found[0] ?? 0) === 1;
             });
 
@@ -132,120 +128,49 @@ class LiveEditPostModuleSettingsAddEditTest extends DuskTestCase
             // strip.
 
             // === ADD CASE ===
-            $browser->withinFrame('iframe[src*="post-module-settings"]', function (Browser $iframe) use ($createdTitle) {
-                $iframe->pause(4000);
+            $browser->pause(4000);
 
-                // Wait for the lazy-loaded table → New post button.
-                $iframe->waitUsing(20, 250, function () use ($iframe) {
-                    $found = $iframe->script(
-                        "
-                        var btns = Array.from(document.querySelectorAll('button, a'));
-                        return btns.some(b => {
-                            var attrs = b.attributes;
-                            for (var i = 0; i < attrs.length; i++) {
-                                var a = attrs[i];
-                                if (!a.name.startsWith('wire:click')) continue;
-                                var v = a.value || '';
-                                if (v.indexOf(\"mountAction('create'\") !== -1
-                                    && v.indexOf('table') !== -1) return true;
-                            }
-                            return false;
-                        }) ? 1 : 0;
+            $browser->waitUsing(20, 250, function () use ($browser) {
+                $found = $browser->script(
                     "
-                    );
-                    return ($found[0] ?? 0) === 1;
-                });
-
-                // Click New post.
-                $iframe->script(
-                    "
-                    var btn = Array.from(document.querySelectorAll('button, a')).find(b => {
-                        var attrs = b.attributes;
-                        for (var i = 0; i < attrs.length; i++) {
-                            var a = attrs[i];
-                            if (!a.name.startsWith('wire:click')) continue;
-                            var v = a.value || '';
-                            if (v.indexOf(\"mountAction('create'\") !== -1
-                                && v.indexOf('table') !== -1) return true;
-                        }
-                        return false;
-                    });
-                    if (btn) btn.click();
-                "
-                );
-                $iframe->pause(3000);
-
-                // Wait for the action form.
-                $iframe->waitUsing(15, 250, function () use ($iframe) {
-                    $found = $iframe->script(
-                        "
-                        // The Add Content modal is now position:fixed
-                        // (task-2026-05-04-b7eee8) — `offsetParent` is
-                        // null for fixed-positioned elements, so use
-                        // a layout-and-display heuristic instead.
-                        var isVisible = function (el) {
-                            var r = el.getBoundingClientRect();
-                            if (r.width === 0 || r.height === 0) return false;
-                            var cs = getComputedStyle(el);
-                            return cs.display !== 'none' && cs.visibility !== 'hidden';
-                        };
-                        var ok = ['callMountedAction', 'callMountedTableAction'];
-                        return Array.from(document.querySelectorAll('form')).some(f => {
-                            var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
-                            return ok.indexOf(v) !== -1 && isVisible(f);
-                        }) ? 1 : 0;
-                    "
-                    );
-                    return ($found[0] ?? 0) === 1;
-                });
-
-                // Set form fields via Livewire-native state-set + call the
-                // mounted action directly. DOM-fill via input.value +
-                // dispatch events does NOT reliably sync to Filament's deferred
-                // wire:model state — a subsequent form.requestSubmit() posts
-                // stale/empty data and silently re-renders without persisting.
-                //
-                // Property path is the UNIFIED `mountedActions.0.data.*` — in
-                // Filament v5 the table-action HasActions trait is deprecated
-                // and forwards to the form-action InteractsWithActions trait's
-                // single `$mountedActions` array. `$mountedTableActions` does
-                // NOT exist as a public property and `wire.set('mountedTableActions.…')`
-                // throws PublicPropertyNotFoundException. Verified against
-                // vendor/filament/tables/src/Concerns/HasActions.php (all
-                // methods @deprecated forwarders) + vendor/filament/actions/
-                // src/Concerns/InteractsWithActions.php:39 (`public ?array
-                // $mountedActions = []`).
-                //
-                // AI-778 / task-2026-05-17-6d65de — Published toggle defaults
-                // to FALSE on Create; set is_active=true explicitly so the
-                // post appears in the public posts-list render at the end.
-                $iframe->script(
-                    "
-                    return (async function () {
-                        try {
-                            var title = " . json_encode($createdTitle) . ";
-                            var roots = Array.from(document.querySelectorAll('[wire\\\\:id]'));
-                            for (var i = 0; i < roots.length; i++) {
-                                var snap = roots[i].getAttribute('wire:snapshot') || '';
-                                if (snap.indexOf('contentModel') !== -1
-                                    && snap.indexOf('tableRecordsPerPage') !== -1) {
-                                    var w = window.Livewire.find(roots[i].getAttribute('wire:id'));
-                                    if (!w) continue;
-                                    await w.set('mountedActions.0.data.title', title);
-                                    await w.set('mountedActions.0.data.is_active', true);
-                                    await w.callMountedAction();
-                                    return 'OK';
+                    return (function () {
+                        var roots = [document];
+                        var iframe = Array.from(document.querySelectorAll('iframe')).find(function (f) {
+                            return (f.src || '').indexOf('module-settings') !== -1 && f.contentDocument;
+                        });
+                        if (iframe && iframe.contentDocument) roots.push(iframe.contentDocument);
+                        for (var r = 0; r < roots.length; r++) {
+                            var found = Array.from(roots[r].querySelectorAll('button, a')).some(function (b) {
+                                var attrs = b.attributes;
+                                for (var i = 0; i < attrs.length; i++) {
+                                    var a = attrs[i];
+                                    if (!a.name.startsWith('wire:click')) continue;
+                                    if ((a.value || '').indexOf(\"mountAction('create'\") !== -1) return true;
                                 }
-                            }
-                            return 'NO_ROOT';
-                        } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
+                                return false;
+                            });
+                            if (found) return 1;
+                        }
+                        return 0;
                     })();
-                "
+                    "
                 );
-                $iframe->pause(4000);
+                return ($found[0] ?? 0) === 1;
             });
 
-            // Poll for the added row outside the iframe.
+            $clickNew = $browser->script(MwDialogLiveEditHelpers::clickCreateTableActionScript());
+            $this->assertSame('OK', (string) ($clickNew[0] ?? ''), 'Clicking New post button failed');
+            $browser->pause(3000);
+
+            $browser->waitUsing(15, 250, function () use ($browser) {
+                $found = $browser->script(MwDialogLiveEditHelpers::findMountedActionFormScript());
+                return ($found[0] ?? 0) === 1;
+            });
+
+            $this->submitMountedPostForm($browser, $createdTitle, true);
+            $browser->pause(4000);
+
+            // Poll for the added row.
             $deadline = microtime(true) + 15.0;
             $foundAdd = false;
             do {
@@ -280,110 +205,40 @@ class LiveEditPostModuleSettingsAddEditTest extends DuskTestCase
             );
             $browser->pause(6000);
 
-            // Wait for the re-mounted iframe to appear.
             $browser->waitUsing(15, 250, function () use ($browser) {
-                $found = $browser->script(
-                    "
-                    var iframes = Array.from(document.querySelectorAll('iframe'));
-                    return iframes.some(f => (f.src || '').indexOf('post-module-settings') !== -1) ? 1 : 0;
+                $found = $browser->script(MwDialogLiveEditHelpers::settingsSurfaceReadyScript());
+                return ($found[0] ?? 0) === 1;
+            });
+            $browser->pause(4000);
+
+            $browser->script(
                 "
-                );
+                (async function () {
+                    try {
+                        var rec = " . json_encode((string)$editPostId) . ";
+                        var roots = Array.from(document.querySelectorAll('[wire\\\\:id]'));
+                        for (var i = 0; i < roots.length; i++) {
+                            var snap = roots[i].getAttribute('wire:snapshot') || '';
+                            if (snap.indexOf('contentModel') !== -1
+                                && snap.indexOf('tableRecordsPerPage') !== -1) {
+                                var w = window.Livewire.find(roots[i].getAttribute('wire:id'));
+                                if (w) await w.mountTableAction('edit', rec);
+                                return;
+                            }
+                        }
+                    } catch (e) {}
+                })();
+            "
+            );
+            $browser->pause(3500);
+
+            $browser->waitUsing(15, 250, function () use ($browser) {
+                $found = $browser->script(MwDialogLiveEditHelpers::findMountedActionFormScript());
                 return ($found[0] ?? 0) === 1;
             });
 
-            $browser->withinFrame('iframe[src*="post-module-settings"]', function (Browser $iframe) use ($editPostId, $editRenamedTitle) {
-                $iframe->pause(4000);
-
-                // Wait for table.
-                $iframe->waitUsing(20, 250, function () use ($iframe) {
-                    $found = $iframe->script(
-                        "
-                        var btns = Array.from(document.querySelectorAll('button, a'));
-                        return btns.some(b => {
-                            var attrs = b.attributes;
-                            for (var i = 0; i < attrs.length; i++) {
-                                var a = attrs[i];
-                                if (!a.name.startsWith('wire:click')) continue;
-                                var v = a.value || '';
-                                if (v.indexOf(\"mountAction('create'\") !== -1
-                                    && v.indexOf('table') !== -1) return true;
-                            }
-                            return false;
-                        }) ? 1 : 0;
-                    "
-                    );
-                    return ($found[0] ?? 0) === 1;
-                });
-
-                // Mount EditAction directly via the wire (avoids
-                // pagination problem if the seeded post is off-screen).
-                $iframe->script(
-                    "
-                    (async function () {
-                        try {
-                            var rec = " . json_encode((string)$editPostId) . ";
-                            var roots = Array.from(document.querySelectorAll('[wire\\\\:id]'));
-                            for (var i = 0; i < roots.length; i++) {
-                                var snap = roots[i].getAttribute('wire:snapshot') || '';
-                                if (snap.indexOf('contentModel') !== -1
-                                    && snap.indexOf('tableRecordsPerPage') !== -1) {
-                                    var w = window.Livewire.find(roots[i].getAttribute('wire:id'));
-                                    if (w) await w.mountTableAction('edit', rec);
-                                    return;
-                                }
-                            }
-                        } catch (e) {}
-                    })();
-                "
-                );
-                $iframe->pause(3500);
-
-                // Wait for the action form.
-                $iframe->waitUsing(15, 250, function () use ($iframe) {
-                    $found = $iframe->script(
-                        "
-                        var isVisible = function (el) {
-                            var r = el.getBoundingClientRect();
-                            if (r.width === 0 || r.height === 0) return false;
-                            var cs = getComputedStyle(el);
-                            return cs.display !== 'none' && cs.visibility !== 'hidden';
-                        };
-                        var ok = ['callMountedAction', 'callMountedTableAction'];
-                        return Array.from(document.querySelectorAll('form')).some(f => {
-                            var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
-                            return ok.indexOf(v) !== -1 && isVisible(f);
-                        }) ? 1 : 0;
-                    "
-                    );
-                    return ($found[0] ?? 0) === 1;
-                });
-
-                // Livewire-native rename + submit (same shape as the ADD
-                // case above). is_active is already 1 on the seeded row.
-                $iframe->script(
-                    "
-                    return (async function () {
-                        try {
-                            var title = " . json_encode($editRenamedTitle) . ";
-                            var roots = Array.from(document.querySelectorAll('[wire\\\\:id]'));
-                            for (var i = 0; i < roots.length; i++) {
-                                var snap = roots[i].getAttribute('wire:snapshot') || '';
-                                if (snap.indexOf('contentModel') !== -1
-                                    && snap.indexOf('tableRecordsPerPage') !== -1) {
-                                    var w = window.Livewire.find(roots[i].getAttribute('wire:id'));
-                                    if (!w) continue;
-                                    await w.set('mountedActions.0.data.title', title);
-                                    await w.callMountedAction();
-                                    return 'OK';
-                                }
-                            }
-                            return 'NO_ROOT';
-                        } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
-                    })();
-                "
-                );
-                $iframe->pause(4500);
-            });
+            $this->submitMountedPostForm($browser, $editRenamedTitle, false);
+            $browser->pause(4500);
 
             // Poll for the rename outside the iframe.
             $deadline = microtime(true) + 15.0;
@@ -423,6 +278,34 @@ class LiveEditPostModuleSettingsAddEditTest extends DuskTestCase
                 'Renamed post title missing from public posts-module render.'
             );
         });
+    }
+
+    private function submitMountedPostForm(Browser $browser, string $title, bool $publish): void
+    {
+        $publishJs = $publish ? 'await w.set("mountedActions.0.data.is_active", true);' : '';
+        $browser->script(
+            "
+            return (async function () {
+                try {
+                    var title = " . json_encode($title) . ";
+                    var roots = Array.from(document.querySelectorAll('[wire\\\\:id]'));
+                    for (var i = 0; i < roots.length; i++) {
+                        var snap = roots[i].getAttribute('wire:snapshot') || '';
+                        if (snap.indexOf('contentModel') !== -1
+                            && snap.indexOf('tableRecordsPerPage') !== -1) {
+                            var w = window.Livewire.find(roots[i].getAttribute('wire:id'));
+                            if (!w) continue;
+                            await w.set('mountedActions.0.data.title', title);
+                            {$publishJs}
+                            await w.callMountedAction();
+                            return 'OK';
+                        }
+                    }
+                    return 'NO_ROOT';
+                } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
+            })();
+        "
+        );
     }
 
     private function createPostsHostPage(string $slug): int

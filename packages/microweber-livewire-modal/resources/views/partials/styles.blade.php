@@ -80,4 +80,50 @@
         outline-offset: 2px;
         background: rgba(99, 102, 241, 0.08);
     }
+
+    /* Bare / mw.dialog skins — chrome comes from mw.dialog, not this overlay. */
+    .js-modal-livewire.mw-livewire-modal-bare,
+    .js-modal-livewire.mw-livewire-modal-mw-dialog {
+        position: static;
+        width: auto;
+        height: auto;
+        overflow: visible;
+        background-color: transparent;
+        padding: 0;
+    }
+
+    .js-modal-livewire.mw-livewire-modal-bare .mw-livewire-modal-content,
+    .js-modal-livewire.mw-livewire-modal-mw-dialog .mw-livewire-modal-content {
+        margin: 0;
+        box-shadow: none;
+        background: transparent;
+        border-radius: 0;
+        max-width: none;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .js-modal-livewire.mw-livewire-modal-mw-dialog.mw-dialog-fallback,
+    .js-modal-livewire.mw-livewire-modal-bare.mw-dialog-fallback {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 8%;
+    }
+
+    .js-modal-livewire.mw-livewire-modal-mw-dialog.mw-dialog-fallback .mw-livewire-modal-content,
+    .js-modal-livewire.mw-livewire-modal-bare.mw-dialog-fallback .mw-livewire-modal-content {
+        margin: auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+        max-width: 800px;
+        max-height: calc(100vh - 100px);
+        overflow: auto;
+        padding: 16px;
+    }
 </style>

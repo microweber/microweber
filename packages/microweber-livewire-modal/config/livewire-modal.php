@@ -66,5 +66,11 @@ return [
 
         // Destroy the Livewire child component when it is closed
         'destroy_on_close' => true,
+
+        // mw.dialog wrapper defaults (used by the mw-dialog / bare skins)
+        'auto_height' => true,
+        'autosize' => true,
+        'auto_scroll' => true,
+        'draggable' => true,
     ],
 ];

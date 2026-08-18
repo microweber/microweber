@@ -2167,4 +2167,6 @@
 
     @endif
 
+    @include('microweber-live-edit::partials.filament-mw-dialog-scripts')
+
 </div>

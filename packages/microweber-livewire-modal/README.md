@@ -112,6 +112,21 @@ $dispatch('openModal', {
 })
 ```
 
+### mw.dialog / bare skins
+
+Use `skin: 'mw-dialog'` (or `bare`) when an external wrapper should provide chrome. The package JS wraps the host with `mw.dialog` when `mw.dialog` is available (drag, autosize, autoscroll, close button, backdrop). Supported options:
+
+- `closeButton` / `showCloseButton`
+- `overlay` / `showBackdrop`
+- `overlayClose` / `closeOnClickAway`
+- `closeOnEscape`
+- `autoHeight` / `autosize`
+- `autoScroll` / `scrollMode`
+- `draggable`
+- `width` / `height` / `title`
+
+If `mw.dialog` is missing, the skin falls back to a simple centered overlay.
+
 ## Testing
 
 ```bash

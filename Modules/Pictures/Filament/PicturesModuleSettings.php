@@ -15,6 +15,7 @@ class PicturesModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'pictures';
     public array $mediaIds = [];
+    protected static bool $useMwDialog = true;
 
     public function form(Schema $schema): Schema
     {

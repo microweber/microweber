@@ -21,6 +21,8 @@ class VideoModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'video';
 
+    protected static bool $useMwDialog = true;
+
     protected static string | null $navigationLabel = 'Video';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-video-camera';
 

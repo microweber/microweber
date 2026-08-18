@@ -23,6 +23,8 @@ class BtnModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'btn';
 
+    protected static bool $useMwDialog = true;
+
     public function form(Schema $schema): Schema
     {
 

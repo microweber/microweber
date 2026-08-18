@@ -47,6 +47,8 @@
                     'width' => $width,
                     'isActive' => $isActive,
                     'isTop' => $activeComponent === $id,
+                    'modalAttributes' => $modalAttributes,
+                    'modalSettings' => $modalSettings,
                 ])
             @endforeach
         @endif

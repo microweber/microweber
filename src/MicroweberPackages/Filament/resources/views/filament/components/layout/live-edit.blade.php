@@ -419,4 +419,6 @@
             </script>
         @endif
     </div>
+    @livewire('microweber-livewire-modal')
+    @include('microweber-live-edit::partials.filament-mw-dialog-scripts')
 </x-filament-panels::layout.base>

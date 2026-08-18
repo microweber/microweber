@@ -186,6 +186,26 @@ abstract class ModalComponent extends Component implements ModalComponentContrac
         return is_scalar($value) ? (string) $value : 'default';
     }
 
+    public static function modalAutoHeight(): bool
+    {
+        return (bool) config('livewire-modal.component_defaults.auto_height', true);
+    }
+
+    public static function modalAutosize(): bool
+    {
+        return (bool) config('livewire-modal.component_defaults.autosize', true);
+    }
+
+    public static function modalAutoScroll(): bool
+    {
+        return (bool) config('livewire-modal.component_defaults.auto_scroll', true);
+    }
+
+    public static function modalDraggable(): bool
+    {
+        return (bool) config('livewire-modal.component_defaults.draggable', true);
+    }
+
     /**
      * @param  array<int|string, mixed>  $events
      */

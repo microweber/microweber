@@ -883,5 +883,8 @@
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::FOOTER, scopes: $livewire->getRenderHookScopes()) }}
 
+    @livewire('microweber-livewire-modal')
+    @include('microweber-live-edit::partials.filament-mw-dialog-scripts')
+
 </x-filament-panels::layout.base>
 

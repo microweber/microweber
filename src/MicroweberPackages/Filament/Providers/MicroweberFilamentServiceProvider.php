@@ -14,6 +14,7 @@ namespace MicroweberPackages\Filament\Providers;
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
+use MicroweberPackages\Filament\Support\RegistersMwDialogMacro;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentThemeServiceProvider;
 use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 
@@ -28,6 +29,8 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
 
     public function boot()
     {
+        RegistersMwDialogMacro::register();
+
         // Global-search entries are now registered by each module's own
         // ServiceProvider via FilamentRegistry::registerGlobalSearchEntry();
         // the old hardcoded GlobalSearchRegistrar has been removed.

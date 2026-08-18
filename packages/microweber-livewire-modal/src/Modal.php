@@ -393,6 +393,22 @@ class Modal extends Component
             $skin = $this->configString('livewire-modal.skin', 'default');
         }
 
+        $autoHeight = method_exists($componentClass, 'modalAutoHeight')
+            ? (bool) $componentClass::modalAutoHeight()
+            : $this->configBool('livewire-modal.component_defaults.auto_height', true);
+
+        $autosize = method_exists($componentClass, 'modalAutosize')
+            ? (bool) $componentClass::modalAutosize()
+            : $this->configBool('livewire-modal.component_defaults.autosize', true);
+
+        $autoScroll = method_exists($componentClass, 'modalAutoScroll')
+            ? (bool) $componentClass::modalAutoScroll()
+            : $this->configBool('livewire-modal.component_defaults.auto_scroll', true);
+
+        $draggable = method_exists($componentClass, 'modalDraggable')
+            ? (bool) $componentClass::modalDraggable()
+            : $this->configBool('livewire-modal.component_defaults.draggable', true);
+
         return [
             'closeOnClickAway' => $closeOnClickAway,
             'closeOnEscape' => $closeOnEscape,
@@ -404,6 +420,13 @@ class Modal extends Component
             'maxWidth' => $maxWidth,
             'maxWidthClass' => $maxWidthClass,
             'skin' => $skin,
+            'autoHeight' => $autoHeight,
+            'autosize' => $autosize,
+            'autoScroll' => $autoScroll,
+            'draggable' => $draggable,
+            'closeButton' => $showCloseButton,
+            'overlay' => $showBackdrop,
+            'overlayClose' => $closeOnClickAway,
         ];
     }
 
@@ -438,12 +461,18 @@ class Modal extends Component
             $settings = array_merge($settings, $this->stringifyKeys($modalAttributes['modalSettings']));
         }
 
-        // Map legacy keys onto modalAttributes-compatible options.
+        // Map legacy / mw.dialog keys onto modalAttributes-compatible options.
         if (array_key_exists('overlay', $settings)) {
             $settings['showBackdrop'] = (bool) $settings['overlay'];
         }
         if (array_key_exists('overlayClose', $settings)) {
             $settings['closeOnClickAway'] = (bool) $settings['overlayClose'];
+        }
+        if (array_key_exists('closeButton', $settings)) {
+            $settings['showCloseButton'] = (bool) $settings['closeButton'];
+        }
+        if (array_key_exists('autosize', $settings) && ! array_key_exists('autoHeight', $settings)) {
+            $settings['autoHeight'] = (bool) $settings['autosize'];
         }
 
         return $settings;

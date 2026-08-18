@@ -22,6 +22,7 @@ class ContentModuleSettings extends LiveEditModuleSettings
 
     public string $module = 'content';
     public string $contentModelClass = Content::class;
+    protected static bool $useMwDialog = true;
     public function form(Schema $schema): Schema
     {
         return $schema

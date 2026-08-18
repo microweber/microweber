@@ -82,11 +82,10 @@ class LiveEditPostModuleTableActionModalCenteredTest extends DuskTestCase
             );
             $browser->pause(6000);
 
-            // Wait for the post-module-settings iframe inside the
-            // outer slideOver.
             $browser->waitUsing(20, 250, function () use ($browser) {
                 $found = $browser->script(
                     "
+                    if (document.querySelector('[data-testid=\"filament-mw-dialog-inner\"], .mw-dialog.mw-filament-mw-dialog-window')) return 1;
                     return Array.from(document.querySelectorAll('iframe'))
                         .some(f => (f.src || '').indexOf('post-module-settings') !== -1) ? 1 : 0;
                 "
@@ -94,37 +93,38 @@ class LiveEditPostModuleTableActionModalCenteredTest extends DuskTestCase
                 return ($found[0] ?? 0) === 1;
             });
 
-            // Click "New post" inside the iframe.
             $clickNew = $browser->script(
                 "
                 return (function () {
+                    var roots = [document];
                     var iframe = Array.from(document.querySelectorAll('iframe'))
-                        .find(f => (f.src || '').indexOf('post-module-settings') !== -1);
-                    if (!iframe || !iframe.contentDocument) return 'NO_IFRAME';
-                    var btn = Array.from(iframe.contentDocument.querySelectorAll('button, a'))
-                        .find(b => {
-                            var attrs = b.attributes;
-                            for (var i = 0; i < attrs.length; i++) {
-                                var a = attrs[i];
-                                if (!a.name.startsWith('wire:click')) continue;
-                                if ((a.value || '').indexOf(\"mountAction('create'\") !== -1) return true;
-                            }
-                            return false;
-                        });
-                    if (!btn) return 'NO_NEW_BTN';
-                    btn.click();
-                    return 'OK';
+                        .find(f => (f.src || '').indexOf('module-settings') !== -1 && f.contentDocument);
+                    if (iframe) roots.push(iframe.contentDocument);
+                    for (var r = 0; r < roots.length; r++) {
+                        var btn = Array.from(roots[r].querySelectorAll('button, a'))
+                            .find(b => {
+                                var attrs = b.attributes;
+                                for (var i = 0; i < attrs.length; i++) {
+                                    var a = attrs[i];
+                                    if (!a.name.startsWith('wire:click')) continue;
+                                    if ((a.value || '').indexOf(\"mountAction('create'\") !== -1) return true;
+                                }
+                                return false;
+                            });
+                        if (btn) { btn.click(); return 'OK'; }
+                    }
+                    return 'NO_NEW_BTN';
                 })();
             "
             );
             $this->assertSame('OK', (string) ($clickNew[0] ?? ''), 'Clicking New post button failed');
 
-            // Wait for the action modal to appear inside the iframe.
             $browser->waitUsing(15, 250, function () use ($browser) {
                 $found = $browser->script(
                     "
+                    if (document.querySelector('.fi-modal-window')) return 1;
                     var iframe = Array.from(document.querySelectorAll('iframe'))
-                        .find(f => (f.src || '').indexOf('post-module-settings') !== -1);
+                        .find(f => (f.src || '').indexOf('module-settings') !== -1);
                     if (!iframe || !iframe.contentDocument) return 0;
                     return iframe.contentDocument.querySelector('.fi-modal-window') ? 1 : 0;
                 "
@@ -135,10 +135,14 @@ class LiveEditPostModuleTableActionModalCenteredTest extends DuskTestCase
             $modalShape = $browser->script(
                 "
                 return (function () {
-                    var iframe = Array.from(document.querySelectorAll('iframe'))
-                        .find(f => (f.src || '').indexOf('post-module-settings') !== -1);
-                    if (!iframe || !iframe.contentDocument) return null;
-                    var modal = iframe.contentDocument.querySelector('.fi-modal-window');
+                    var modal = document.querySelector('.fi-modal-window');
+                    if (!modal) {
+                        var iframe = Array.from(document.querySelectorAll('iframe'))
+                            .find(f => (f.src || '').indexOf('module-settings') !== -1);
+                        if (iframe && iframe.contentDocument) {
+                            modal = iframe.contentDocument.querySelector('.fi-modal-window');
+                        }
+                    }
                     if (!modal) return null;
                     return {
                         classNames: modal.className,

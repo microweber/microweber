@@ -238,4 +238,22 @@ TODO_OLD.md_old
 /packages/*/.phpunit.cache
 /packages/*/node_modules
 /packages/*/composer.lock
+/packages/*/build
+
+# Tracked packages — force-include their source files
+!/packages/microweber-passport/
+!/packages/microweber-passport/**
+!/packages/microweber-fortify/
+!/packages/microweber-fortify/**
+# …but never the build artifacts / installed deps the force-include would otherwise re-track
+/packages/microweber-fortify/build
+/packages/microweber-fortify/vendor
+/packages/microweber-fortify/composer.lock
+/packages/microweber-fortify/.phpunit.cache
 modules_statuses.json
+
+# Env backups created by dusk smoke runner / ad-hoc
+.env.backup
+.env*.bak
+tree.txt
+*.diff
