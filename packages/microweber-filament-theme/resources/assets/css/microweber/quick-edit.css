@@ -97,8 +97,8 @@
 }
 
 #mw-live-edit-quickEditComponent-box .form-control-live-edit-input:focus {
-    border-color: #4299e1 !important;
-    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2) !important;
+    border-color: #182433 !important;
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.2) !important;
 }
 
 #mw-live-edit-quickEditComponent-box textarea.form-control-live-edit-input {

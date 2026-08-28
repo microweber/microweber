@@ -305,8 +305,8 @@ body {
     color: #ffffff !important;
 }
 .dark .custom-dropdown .dropdown-content li a.active {
-    background-color: rgba(37, 99, 235, 0.2) !important;
-    color: #60a5fa !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #e5e7eb !important;
 }
 
 /* task-2026-06-04-letone — tools (⋮) trigger: match the v2 calm-toolbar
@@ -687,11 +687,11 @@ body {
 }
 
 .mw_modal_live_edit_settings .modal-title {
-    @apply absolute top-[-22px] left-0 z-10 text-xs px-1.5 py-0.5 h-5 select-none cursor-grab bg-blue-600 text-white;
+    @apply absolute top-[-22px] left-0 z-10 text-xs px-1.5 py-0.5 h-5 select-none cursor-grab bg-[#182433] text-white;
 }
 
 .mw-dialog-skin-mw_modal_simple.mw_modal_live_edit_settings .mw-dialog-close {
-    @apply absolute top-[-22px] right-0 w-[26px] z-10 h-5 cursor-pointer bg-blue-600 text-white bg-no-repeat bg-center;
+    @apply absolute top-[-22px] right-0 w-[26px] z-10 h-5 cursor-pointer bg-[#182433] text-white bg-no-repeat bg-center;
     margin-inline-start: auto;
     background-image: url("data:image/svg+xml,%3Csvg fill='%23fff' xmlns='http://www.w3.org/2000/svg' height='16' viewBox='0 -960 960 960' width='16'%3E%3Cpath d='m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z'/%3E%3C/svg%3E");
 }

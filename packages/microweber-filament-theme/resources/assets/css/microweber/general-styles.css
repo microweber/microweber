@@ -150,7 +150,8 @@ body.fi-panel-checkout .fi-btn {
 }
 
 .form-check-input[type='checkbox'] {
-    @apply w-4 h-4 text-blue-600  border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600;
+    @apply w-4 h-4 text-[#182433]  border-gray-300 rounded focus:ring-[#182433] dark:focus:ring-gray-500 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600;
+    accent-color: #182433;
 }
 
 .form-check {
@@ -686,8 +687,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .mw-dialog-skin-default .mw-dialog-footer .btn-primary,
 .mw-dialog-skin-default .mw-dialog-footer .btn:last-child {
-    @apply !bg-blue-600 !border-0 !text-white;
-    @apply hover:!bg-blue-700;
+    @apply !bg-[#0d6efd] !border-0 !text-white;
+    @apply hover:!bg-[#0b5ed7];
 }
 
 .mw-dialog-skin-default .mw-dialog-footer .btn-primary:disabled,

@@ -178,8 +178,8 @@
 }
 
 .mw_modal_live_edit_link_editor_settings .form-control-live-edit-input:focus {
-    @apply border-blue-500 dark:border-blue-400;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+    @apply border-[#182433] dark:border-gray-300;
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15) !important;
 }
 
 .mw_modal_live_edit_link_editor_settings .form-control-live-edit-input::placeholder {
@@ -197,8 +197,9 @@
 }
 
 .mw_modal_live_edit_link_editor_settings .form-check-input[type="checkbox"] {
-    @apply w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 cursor-pointer;
-    @apply focus:ring-blue-500 focus:ring-2 focus:ring-offset-0;
+    @apply w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-[#182433] cursor-pointer;
+    @apply focus:ring-[#182433] focus:ring-2 focus:ring-offset-0;
+    accent-color: #182433;
 }
 
 .mw_modal_live_edit_link_editor_settings .form-check-label {
@@ -208,8 +209,8 @@
 /* ===== Radio buttons (Pages tab) ===== */
 .mw_modal_live_edit_link_editor_settings .form-check-input[type="radio"] {
     @apply w-4 h-4 rounded-full border-gray-300 dark:border-gray-600 cursor-pointer;
-    @apply focus:ring-blue-500 focus:ring-2 focus:ring-offset-0;
-    accent-color: #2563eb; /* blue-600 — makes the checked dot visible */
+    @apply focus:ring-[#182433] focus:ring-2 focus:ring-offset-0;
+    accent-color: #182433; /* ink — makes the checked dot visible */
     -webkit-appearance: auto;
     appearance: auto;
 }
@@ -260,8 +261,8 @@
 
 /* OK button — primary style (last button) */
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer button:last-child {
-    @apply bg-blue-600 border-blue-600 text-white;
-    @apply hover:bg-blue-700 hover:border-blue-700;
+    @apply bg-[#0d6efd] border-[#0d6efd] text-white;
+    @apply hover:bg-[#0b5ed7] hover:border-[#0a58ca];
 }
 
 /* ===== Search input on Pages/Content tabs ===== */
@@ -283,8 +284,8 @@
 
 .mw_modal_live_edit_link_editor_settings .mw-link-editor-posts-search input:focus,
 .mw_modal_live_edit_link_editor_settings .mw-autocomplete input:focus {
-    @apply border-blue-500;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+    @apply border-[#182433];
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15) !important;
 }
 
 /* Autocomplete list */
@@ -355,7 +356,7 @@
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-ui-field-holder:has(input.mw-uploader-input):hover {
-    @apply border-blue-400 dark:border-blue-500 bg-blue-50/30 dark:bg-blue-900/10;
+    @apply border-[#182433]/40 dark:border-gray-500 bg-[#182433]/5 dark:bg-white/5;
 }
 
 /* AI "Enter prompt" tab — the inner card already has its own white/gray
@@ -419,8 +420,8 @@
 }
 
 .mw_modal_live_edit_link_editor_settings .form-select:focus {
-    @apply border-blue-500;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+    @apply border-[#182433];
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15) !important;
 }
 
 /* ===== Misc ===== */

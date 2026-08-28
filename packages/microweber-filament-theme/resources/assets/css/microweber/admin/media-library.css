@@ -1007,7 +1007,7 @@
   }
   &.selected {
     border-color: var(--mw-accent);
-    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.25);
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.25);
   }
   &.bulk-selected {
     border-color: var(--mw-accent);
@@ -1188,8 +1188,8 @@
     border-bottom: 1px solid var(--mw-border-subtle);
 
     &:hover { background: rgba(0, 0, 0, 0.02); }
-    &.selected { background: rgba(66, 153, 225, 0.06); }
-    &.bulk-selected { background: rgba(66, 153, 225, 0.06); }
+    &.selected { background: rgba(24, 36, 51, 0.06); }
+    &.bulk-selected { background: rgba(24, 36, 51, 0.06); }
   }
 
   tbody td {

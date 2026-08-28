@@ -88,11 +88,11 @@
 .dropdown-content li a {
     display: flex;
     align-items: center;
-    padding: 10px 20px;
+    padding: 8px 16px;
     text-decoration: none;
     color: #222;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 14px;
     border-radius: 5px;
     transition: background 0.15s, color 0.15s;
     gap: 10px;
@@ -100,13 +100,13 @@
 
 .dropdown-content li a:hover,
 .dropdown-content li a:focus {
-    background-color: #f0f4fa;
-    color: #1976d2;
+    background-color: #f3f4f6;
+    color: #182433;
 }
 
 .dropdown-content li a.active {
-    background-color: #e3f2fd;
-    color: #1976d2;
+    background-color: #eceef1;
+    color: #182433;
     font-weight: 600;
 }
 

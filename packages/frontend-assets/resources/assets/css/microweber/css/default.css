@@ -4922,7 +4922,7 @@ html[dir="rtl"] .mw-text-start {
 
 .mw-canvas-empty-state__cta:hover,
 .mw-canvas-empty-state__cta:focus-visible {
-    background-color: var(--ese-accent, #0b5ed7);
+    background-color: var(--ese-accent, #182433);
     color: #ffffff !important;
     text-decoration: none;
     outline: none;

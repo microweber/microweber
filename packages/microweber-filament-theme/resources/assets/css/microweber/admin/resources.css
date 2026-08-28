@@ -12,7 +12,7 @@
     @apply hover:bg-gray-500/5;
 }
 .fi-resource-modules .fi-ta-content-grid {
-    @apply !border-none !gap-8 !bg-blue-500/10 dark:!bg-gray-800/50 !rounded !p-8;
+    @apply !border-none !gap-8 !bg-gray-500/5 dark:!bg-gray-800/50 !rounded !p-8;
 }
 
 .fi-resource-modules .fi-ta-record {
