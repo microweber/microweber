@@ -8,8 +8,8 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: var(--mw-space-xs) 0 var(--mw-space-md);  /* GR: xs(6) md(16) */
-  margin-bottom: var(--mw-space-md);  /* GR: md(16) */
+  padding: var(--mw-space-hair) 0 var(--mw-space-sm);  /* compact: hair(4) sm(10) */
+  margin-bottom: var(--mw-space-sm);  /* compact: sm(10) */
 }
 
 .mw-welcome-widget-heading {
