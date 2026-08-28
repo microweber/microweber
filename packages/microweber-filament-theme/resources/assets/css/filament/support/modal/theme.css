@@ -28,7 +28,7 @@
   .fi-modal-content {
     box-shadow: none !important;  /* No shadow inside slide-over panel */
     border: none !important;
-    padding: var(--mw-space-lg) var(--mw-space-lg) !important;  /* GR: lg(26) */
+    padding: 14px var(--mw-space-md) !important;  /* compact: 14 vertical, md(16) sides */
     background-color: transparent !important;  /* Inherit from .fi-modal-window to avoid double background */
   }
   .fi-modal-footer {
@@ -39,7 +39,7 @@
 
 /* Sidebar-aligned modals — ensure content has padding */
 .fi-modal-window.fi-align-start .fi-modal-content {
-  padding: var(--mw-space-lg) var(--mw-space-lg) !important;  /* GR: lg(26) */
+  padding: 14px var(--mw-space-md) !important;  /* compact: 14 vertical, md(16) sides */
 }
 
 /* Modal header — MW v2: 16px heading, consistent padding */

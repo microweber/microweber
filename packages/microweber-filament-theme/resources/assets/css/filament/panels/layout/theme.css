@@ -9,14 +9,14 @@
   /* Top padding trimmed 68px → 28px: the 2xl top left a large dead band between the */
   /* top bar and the breadcrumbs/heading. Horizontal padding unchanged (positions the */
   /* content column + aligns with the toolbar "+ Add" button). */
-  padding: 28px var(--mw-space-2xl) 0 !important;  /* GR: 2xl(68) sides */
+  padding: 14px var(--mw-space-2xl) 0 !important;  /* GR: 2xl(68) sides */
 
   @media (max-width: 1440px) {
-    padding: 28px var(--mw-space-xl) 0 !important;  /* GR: xl(42) sides */
+    padding: 14px var(--mw-space-xl) 0 !important;  /* GR: xl(42) sides */
   }
 
   @media (max-width: 1024px) {
-    padding: 28px var(--mw-space-lg) 0 !important;  /* GR: lg(26) sides */
+    padding: 14px var(--mw-space-lg) 0 !important;  /* GR: lg(26) sides */
   }
 }
 

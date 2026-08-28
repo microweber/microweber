@@ -1808,7 +1808,7 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
 .fi-resource-list-records-page .fi-header,
 .fi-resource-create-record-page .fi-header,
 .fi-resource-edit-record-page .fi-header {
-    @apply sticky top-[60px]  py-[16px] z-[19];
+    @apply sticky top-[60px]  py-[9px] z-[19];
     background-color: #f6f8fb !important;
 }
 
@@ -4932,7 +4932,7 @@ body.fi-panel-admin .fi-breadcrumbs-item-separator {
 
 /* ── Page heading (h1): match v2 28px bold dark heading ─────────── */
 body.fi-panel-admin .fi-header-heading {
-    font-size: 26px !important;
+    font-size: 20px !important;
     font-weight: 700 !important;
     color: #182433 !important;
     letter-spacing: -0.02em !important;
@@ -4941,9 +4941,9 @@ body.fi-panel-admin .fi-header-heading {
 
 /* ── Page header area: correct spacing and bottom border ─────────── */
 body.fi-panel-admin .fi-header {
-    padding-bottom: 16px !important;
+    padding-bottom: 9px !important;
     border-bottom: 1px solid #e8eef4 !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 12px !important;
 }
 
 /* ── Table container: white card with border and subtle shadow ───── */
@@ -5425,7 +5425,7 @@ body.fi-panel-admin .mw-marketplace-card:hover {
 /* ── Page-header title: ensure consistent with v2 bold heading ────────
    fi-page-header styling */
 body.fi-panel-admin .fi-page-header-main-ctn .fi-header-heading {
-    font-size: 24px !important;
+    font-size: 20px !important;
     font-weight: 700 !important;
     color: #182433 !important;
     letter-spacing: -0.01em !important;
