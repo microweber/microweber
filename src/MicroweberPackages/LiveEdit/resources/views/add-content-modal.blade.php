@@ -42,7 +42,7 @@
          "no results" / "all 6 options visible" as the user types,
          without any visual change for sighted users. Updates on
          `q` change via Alpine x-text. --}}
-<div class="mw-add-content-modal-root mb-6 p-2 flex flex-col gap-4"
+<div class="mw-add-content-modal-root mb-1 p-2 flex flex-col gap-3"
      {{-- AI-790 (task-2026-05-17-255d24) — Stage-5 template-attribute
           escape leak. The previous inline `x-data="{ ... }"` block
           carried embedded `//` line comments with literal `"`
@@ -103,7 +103,7 @@
                  inherited the default foreground (near-black) and washed
                  to invisible in dark mode. Contrast: gray-200 (#e5e7eb)
                  on gray-900 (#111827) ≈ 14:1 → well above WCAG AA 4.5:1. --}}
-            class="mw-add-content-modal-search-input w-full min-h-[44px] rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 px-4 py-3 pe-16 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+            class="mw-add-content-modal-search-input w-full min-h-[44px] rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 px-4 py-3 pe-16 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#182433]"
         >
         {{-- task-2026-05-16-de4ce4 / AI-694 — ⌘K shortcut affordance chip.
              Visual hint only at this slice; global ⌘K hotkey routing is
@@ -123,7 +123,7 @@
             x-show="q !== ''"
             x-on:click="q = ''; $refs.search.focus()"
             aria-label="Clear search"
-            class="mw-add-content-modal-search-clear absolute end-1 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-11 h-11 rounded-full text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-200/60 dark:hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+            class="mw-add-content-modal-search-clear absolute end-1 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-11 h-11 rounded-full text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-200/60 dark:hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#182433]"
             style="display: none;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" aria-hidden="true">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -252,7 +252,7 @@
                          (title + aria-label) per AI-691 spec — visible description
                          below primary card title created visual imbalance vs
                          secondary cards (icon + title only). --}}
-                    class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-row items-center gap-3 p-4 min-h-[72px] group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
+                    class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-row items-center gap-3 p-3 min-h-[56px] group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#182433] text-start bg-transparent">
                     <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 transition duration-150 rounded-full shrink-0">
                         @svg($action['icon'], 'h-6 w-6 transition duration-150 text-white')
                     </div>
@@ -339,7 +339,7 @@
                     x-on:keydown.arrow-right.prevent="focusNextCard($el)"
                     {{-- task-2026-05-27-4b1344 / AI-1139 items 1+2: centered
                          48px icon circles with per-type color tint + sublabels. --}}
-                    class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col items-center text-center gap-2 p-4 group transition duration-150 bg-transparent dark:bg-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.07] rounded-lg w-full border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">
+                    class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col items-center text-center gap-2 p-3 group transition duration-150 bg-transparent dark:bg-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.07] rounded-lg w-full border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#182433]">
                     <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 transition duration-150 rounded-full shrink-0" style="background-color: {{ $action['tint'] ?? '#f3f4f6' }}">
                         {{-- task-2026-05-27-de93c9 / AI-1168: text-gray-600 → text-gray-700 for WCAG 4.5:1 --}}
                         @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-700 dark:text-gray-300')

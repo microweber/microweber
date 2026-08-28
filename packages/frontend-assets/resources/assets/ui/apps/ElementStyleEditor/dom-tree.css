@@ -204,7 +204,7 @@ html.dark .mw-module-settings-sidebar-icon-background-image{
 }
 
 .mw-domtree-class {
-    color: var(--ese-accent, #0d6efd);
+    color: var(--ese-accent, #182433);
     font-weight: 400;
 }
 
@@ -233,7 +233,7 @@ html.dark .mw-module-settings-sidebar-icon-background-image{
 /* Selected row: 2px --ese-accent left bar + --ese-surface-hover bg.
    Matches the ESE selected-element-indicator spec §F3.3. */
 .mw-domtree li.selected {
-    border-inline-start-color: var(--ese-accent, #0d6efd);
+    border-inline-start-color: var(--ese-accent, #182433);
     background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
 }
 
@@ -258,7 +258,7 @@ html.dark .mw-domtree li.selected {
 }
 
 .mw-domtree li[role="treeitem"]:focus {
-    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline: 2px solid var(--ese-accent, #182433);
     outline-offset: -2px;
 }
 
@@ -267,7 +267,7 @@ html.dark .mw-domtree li.selected {
 }
 
 .mw-domtree li[role="treeitem"]:focus-visible {
-    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline: 2px solid var(--ese-accent, #182433);
     outline-offset: -2px;
 }
 

@@ -183,22 +183,22 @@ body.fi-panel-admin {
   .mw-quick-stat-card-icon,
   .mw-hero-stat-icon,
   .mw-stats-card-icon {
-    width: 52px !important;
-    height: 52px !important;
-    min-width: 52px !important;
-    border-radius: 12px !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    border-radius: 10px !important;
     flex-shrink: 0;
   }
 
   .mw-quick-stat-icon-svg,
   .mw-stats-card-icon-svg {
-    width: 26px !important;
-    height: 26px !important;
+    width: 22px !important;
+    height: 22px !important;
   }
 
   .mw-quick-stat-card-body {
-    padding: 20px 22px !important;
-    gap: 16px !important;
+    padding: 12px 16px !important;
+    gap: 12px !important;
   }
 
   .mw-quick-stat-card-label {
@@ -206,7 +206,7 @@ body.fi-panel-admin {
   }
 
   .mw-quick-stat-card-value {
-    font-size: 26px !important;
+    font-size: 20px !important;
   }
 }
 

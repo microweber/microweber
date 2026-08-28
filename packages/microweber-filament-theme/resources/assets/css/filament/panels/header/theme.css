@@ -23,7 +23,7 @@
 .fi-header-heading {
   color: var(--mw-text-primary) !important;
   font-weight: 700 !important;
-  font-size: 1.75rem !important;  /* 28px — prominent page title */
+  font-size: 1.375rem !important;  /* 22px — compact page title (was 28px) */
   letter-spacing: normal !important;  /* MW v2 exact: normal (was -0.01em) */
   margin-bottom: 0 !important;  /* MW v2: 0 margin-bottom (flex layout) */
 }

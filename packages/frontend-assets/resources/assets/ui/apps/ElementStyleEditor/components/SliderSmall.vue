@@ -152,8 +152,8 @@ export default {
 .form-control-input-range-slider:focus {
   outline: none !important;
   opacity: 1;
-  border-color: rgba(66, 153, 225, 0.6) !important;
-  background: rgba(66, 153, 225, 0.08) !important;
+  border-color: rgba(24, 36, 51, 0.4) !important;
+  background: rgba(24, 36, 51, 0.08) !important;
 }
 
 .form-control-input-range-slider:hover {
@@ -212,7 +212,7 @@ export default {
 
 .reset-field-btn:focus-visible {
   opacity: 1;
-  outline: 2px solid rgba(66, 153, 225, 0.6);
+  outline: 2px solid rgba(24, 36, 51, 0.4);
   outline-offset: 1px;
 }
 

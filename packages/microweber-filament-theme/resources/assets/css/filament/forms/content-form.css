@@ -6,7 +6,7 @@
 /* ============================================================================ */
 /* Tabs content panel — match section content padding for alignment */
 .fi-tabs > .fi-tabs-item-content {
-  padding: var(--mw-space-md) var(--mw-space-lg) !important;  /* GR: md(16) lg(26) */
+  padding: var(--mw-space-md) var(--mw-space-md) !important;  /* compact: md(16) */
 }
 
 /* 3-column grid layout — tighten gap between main content and sidebar */

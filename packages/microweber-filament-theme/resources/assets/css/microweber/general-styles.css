@@ -1218,7 +1218,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-main .flex.flex-col.gap-y-8.py-8 {
-    @apply pt-0;
+    @apply pt-0 !gap-y-4 !pb-4;
 }
 
 .mw-tree-nav-skin-category-manager
@@ -1340,7 +1340,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-control-box-content {
-    padding: 16px 20px !important;
+    padding: 12px 14px !important;
 }
 
 .mw-control-box-content > div > div {
@@ -1800,7 +1800,7 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
 .fi-resource-list-records-page .fi-header,
 .fi-resource-create-record-page .fi-header,
 .fi-resource-edit-record-page .fi-header {
-    @apply sticky top-[60px]  py-[30px] z-[19];
+    @apply sticky top-[60px]  py-[16px] z-[19];
     background-color: #f6f8fb !important;
 }
 
@@ -2045,7 +2045,7 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
     align-items: center;
     gap: 8px;
     user-select: none;
-    min-height: 44px;
+    min-height: 36px;
 }
 .element-style-editor-toggle-wrapper .d-flex:has(> svg) > svg {
     width: 20px;
@@ -4956,8 +4956,8 @@ body.fi-panel-admin .fi-ta-header {
 /* ── Table rows: padding and hover ─────────────────────────────── */
 body.fi-panel-admin .fi-ta-row td,
 body.fi-panel-admin .fi-ta-row .fi-ta-cell {
-    padding-top: 14px !important;
-    padding-bottom: 14px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
     border-bottom: 1px solid #f1f5f9 !important;
     transition: background-color 100ms ease !important;
 }
@@ -4979,7 +4979,7 @@ body.fi-panel-admin .fi-ta-row .fi-icon-btn:hover {
 
 /* ── Table toolbar (search + filters bar) ───────────────────────── */
 body.fi-panel-admin .fi-ta-header-toolbar {
-    padding: 12px 16px !important;
+    padding: 8px 12px !important;
     background-color: #ffffff !important;
     border-bottom: 1px solid #f1f5f9 !important;
 }
@@ -5050,7 +5050,7 @@ body.fi-panel-admin .fi-fo-field > label {
 
 /* ── Section headings inside forms ──────────────────────────────── */
 body.fi-panel-admin .fi-section-header {
-    padding: 16px 20px 12px !important;
+    padding: 10px 16px !important;
     border-bottom: 1px solid #f1f5f9 !important;
 }
 body.fi-panel-admin .fi-section-header-heading {
@@ -5382,8 +5382,8 @@ body.fi-panel-admin .fi-wi-stats-overview-icon-ctn {
 /* ── Product/page list rows: ensure thumbnail column is proportional ──
    v2 product rows show a 64×64 thumbnail in the first column. */
 body.fi-panel-admin .fi-ta-cell .fi-ta-image {
-    width: 56px !important;
-    height: 56px !important;
+    width: 40px !important;
+    height: 40px !important;
     border-radius: 6px !important;
     object-fit: cover !important;
 }

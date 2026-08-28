@@ -9,7 +9,7 @@
 <iframe src="{{ $iframeUrl }}"
         title="Module settings"
         aria-label="Module settings panel"
-        frameborder="0" style="width: 100%; height: calc(100vh - 10rem); min-height: 400px; max-height: 1000px;"
+        frameborder="0" style="width: 100%; height: calc(100vh - 10rem); min-height: 240px; max-height: 760px;"
         data-auto-height="false"
 ></iframe>
 </div>

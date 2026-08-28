@@ -430,7 +430,7 @@ export default {
     color: #111827;
 }
 .mw-modules-list-search-clear:focus-visible {
-    outline: 2px solid rgb(59, 130, 246);
+    outline: 2px solid #182433;
     outline-offset: 2px;
 }
 

@@ -5395,16 +5395,16 @@ body.mw-live-body-mouse-moved-outside mw-le-element {
 }
 
 .mw-sorthandle-parent-outline {
-    outline: 1px dashed rgba(13, 110, 253, 0.5);
+    outline: 1px dashed rgba(24, 36, 51, 0.5);
 }
 
 .element-active {
-    outline: 2px solid #0d6efd;
+    outline: 2px solid #182433;
     outline-offset: 0;
 }
 
 .element-active:focus-visible {
-    outline: 2px solid #0d6efd;
+    outline: 2px solid #182433;
     outline-offset: 4px;
 }
 
@@ -5414,7 +5414,7 @@ body.mw-live-body-mouse-moved-outside mw-le-element {
 html.dark .element-active,
 html[data-bs-theme="dark"] .element-active,
 body.dark-theme .element-active {
-    outline: 2px solid #60a5fa;
+    outline: 2px solid #cbd5e1;
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
 }
 

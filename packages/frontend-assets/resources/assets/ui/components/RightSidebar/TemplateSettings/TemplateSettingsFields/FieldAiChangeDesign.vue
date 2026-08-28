@@ -477,7 +477,7 @@ Critical: If the user specifies new colors for font and background, you must use
     position: absolute;
     top: -8px;
     left: 16px;
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
     color: white;
     font-size: 11px;
     font-weight: 600;
@@ -486,12 +486,12 @@ Critical: If the user specifies new colors for font and background, you must use
     letter-spacing: 0.5px;
     z-index: 10;
     text-transform: uppercase;
-    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.3);
 }
 
 /* Submit Button Styling */
 .mw-ai-chat-box .mw-ai-chat-box-submit-btn {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
     border: none;
     border-radius: 10px;
     padding: 12px 24px;
@@ -500,19 +500,19 @@ Critical: If the user specifies new colors for font and background, you must use
     font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
     position: relative;
     overflow: hidden;
 }
 
 .mw-ai-chat-box .mw-ai-chat-box-submit-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.5);
 }
 
 .mw-ai-chat-box .mw-ai-chat-box-submit-btn:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.4);
 }
 
 .mw-ai-chat-box .mw-ai-chat-box-submit-btn::before {
@@ -589,8 +589,8 @@ html.dark .mw-ai-chat-box .mw-ai-chat-box-area-field::placeholder {
 .dark .mw-ai-chat-box .mw-ai-chat-box-area-field:focus,
 html.dark .mw-ai-chat-box .mw-ai-chat-box-area-field:focus {
     background: #374151;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4);
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .dark .mw-ai-chat-box .mw-ai-chat-box-area-field:hover,
@@ -602,13 +602,13 @@ html.dark .mw-ai-chat-box .mw-ai-chat-box-area-field:hover {
 
 .dark .mw-ai-chat-box::before,
 html.dark .mw-ai-chat-box::before {
-    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
     box-shadow: 0 2px 4px rgba(79, 70, 229, 0.4);
 }
 
 .dark .mw-ai-chat-box .mw-ai-chat-box-submit-btn,
 html.dark .mw-ai-chat-box .mw-ai-chat-box-submit-btn {
-    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.5);
 }
 
@@ -619,7 +619,7 @@ html.dark .mw-ai-chat-box .mw-ai-chat-box-submit-btn:hover {
 
 .dark .mw-ai-loading-state,
 html.dark .mw-ai-loading-state {
-    color: #818cf8;
+    color: #6ea8fe;
 }
 
 .dark .mw-ai-error-state,
@@ -632,10 +632,10 @@ html.dark .mw-ai-error-state {
 .mw-ai-chat-box:has(.mw-ai-chat-box-area-field:hover) .mw-ai-chat-box-action-send,
 .mw-ai-chat-box:has(.mw-ai-chat-box-area-field:focus) .mw-ai-chat-box-action-send,
 .mw-ai-chat-box:has(.mw-ai-chat-box-area-field:active) .mw-ai-chat-box-action-send {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
     color: #fff;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3), 0 6px 20px rgba(59, 130, 246, 0.4);
-    border: 2px solid #1d4ed8;
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.3), 0 6px 20px rgba(13, 110, 253, 0.4);
+    border: 2px solid #0a58ca;
     transform: scale(1.05);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }

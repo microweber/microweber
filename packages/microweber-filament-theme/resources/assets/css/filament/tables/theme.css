@@ -203,15 +203,15 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
 
 /* Grid card row — clean spacing and hover state */
 .fi-ta-record .group {
-  padding: var(--mw-space-sm) 0 !important;  /* GR: sm(10) */
+  padding: var(--mw-space-xs) 0 !important;  /* compact: xs(6) */
   transition: background-color 0.15s ease !important;
 }
 
 /* Thumbnail in grid view — rounded, consistent size. Demo uses a larger, more */
 /* prominent product thumbnail (~72-80px); was 48px (cramped). */
 .fi-ta-record .group .h-12.w-12 {
-  width: 64px !important;
-  height: 64px !important;
+  width: 44px !important;
+  height: 44px !important;
   border-radius: var(--mw-radius-sm) !important;
   flex-shrink: 0 !important;
   overflow: hidden !important;

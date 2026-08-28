@@ -44,7 +44,7 @@
 
 /* Modal header — MW v2: 16px heading, consistent padding */
 .fi-modal-header {
-  padding: var(--mw-space-md) var(--mw-space-lg) !important;  /* GR: md(16) lg(26) */
+  padding: var(--mw-space-sm) var(--mw-space-md) !important;  /* compact: sm(10) md(16) */
   border-bottom: var(--mw-border-hair) solid var(--mw-border-color) !important;
 }
 

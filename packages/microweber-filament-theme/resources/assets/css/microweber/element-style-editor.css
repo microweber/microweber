@@ -205,9 +205,9 @@
     display: flex;
     align-items: center;
     gap: var(--space-sm, 9.9px);
-    min-height: 44px;
-    padding-block: var(--space-xs, 6.1px);
-    margin-block: var(--space-sm, 9.9px) var(--space-md, 16px);
+    min-height: 34px;
+    padding-block: 4px;
+    margin-block: 4px 8px;
 }
 .mw-live-edit-page .mw-tool-field__label {
     flex: 1 1 auto;
@@ -404,7 +404,9 @@
 }
 
 .mw-ese-holder.active {
-    @apply bg-white border-blue-500 shadow-[0_0_3px_rgba(0,134,219,0.4)];
+    @apply bg-white;
+    border-color: var(--ese-accent, #182433);
+    box-shadow: 0 0 3px rgba(24, 36, 51, 0.4);
 }
 
 .mw-ese-margin {
@@ -531,7 +533,8 @@
 }
 
 .text-align .active {
-    @apply bg-blue-600 text-white;
+    background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
+    color: var(--ese-accent, #182433);
 }
 
 .text-align > .active:before {
@@ -694,12 +697,12 @@
     transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 #mw-element-style-editor-app .mw-italic-toggle:hover {
-    border-color: rgba(96, 165, 250, 0.5);
+    border-color: rgba(24, 36, 51, 0.3);
 }
 #mw-element-style-editor-app .mw-italic-toggle.active {
-    background: rgba(59, 130, 246, 0.15);
-    border-color: rgb(96, 165, 250);
-    color: rgb(96, 165, 250);
+    background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
+    border-color: var(--ese-accent, #182433);
+    color: var(--ese-accent, #182433);
 }
 #mw-element-style-editor-app .mw-italic-toggle em {
     font-style: italic;
@@ -1252,9 +1255,9 @@
     background: rgba(127, 127, 127, 0.08);
 }
 .element-style-editor-toggle-wrapper.active .mw-live-edit-spacing-wrapper .btn.btn-icon.active {
-    background: rgb(37 99 235);     /* tw blue-600 */
-    border-color: rgb(37 99 235);
-    color: #fff;
+    background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
+    border-color: var(--ese-accent, #182433);
+    color: var(--ese-accent, #182433);
 }
 .element-style-editor-toggle-wrapper.active .mw-live-edit-spacing-wrapper .btn.btn-icon svg {
     width: 14px;

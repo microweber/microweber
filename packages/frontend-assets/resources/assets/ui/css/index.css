@@ -32,7 +32,7 @@ html {
     --iframe-height-minus: 0px;
 
     --tblr-body-color: #fff;
-    --tblr-active-bg: #4592ff;
+    --tblr-active-bg: #182433;
     --tblr-bg-surface: #fff;
     --tblr-body-bg: #f5f5f5;
     --tblr-body-bg2: #f4f4f4;
@@ -428,7 +428,8 @@ html[dir="rtl"] #user-menu {
 .mw-editor-le2 .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
 .mw-editor-le2
     .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover {
-    background-color: #4592ff;
+    background-color: #182433;
+    color: #fff;
 }
 
 .mw-editor-le2 .mw-editor-controller-component-select-values-holder {
@@ -678,7 +679,7 @@ html.dark .mw-le-layouts-dialog .modules-list {
         background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.08));
     }
     .mw-le-layouts-mobile-filter-trigger:focus-visible {
-        outline: 2px solid var(--ese-accent, #0d6efd);
+        outline: 2px solid var(--ese-accent, #182433);
         outline-offset: 2px;
     }
     .mw-le-layouts-mobile-filter-trigger-label {
@@ -757,7 +758,7 @@ html.dark .mw-le-layouts-dialog .modules-list {
         color: var(--ese-text, #111827);
     }
     .mw-le-layouts-mobile-filter-sheet__close:focus-visible {
-        outline: 2px solid var(--ese-accent, #0d6efd);
+        outline: 2px solid var(--ese-accent, #182433);
         outline-offset: 2px;
     }
     .mw-le-layouts-mobile-filter-sheet__list {
@@ -779,8 +780,8 @@ html.dark .mw-le-layouts-dialog .modules-list {
         background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
     }
     .mw-le-layouts-mobile-filter-sheet__list li.active {
-        background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12));
-        color: var(--ese-accent, #0d6efd);
+        background-color: var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
+        color: var(--ese-accent, #182433);
         font-weight: 600;
     }
     .mw-le-layouts-mobile-filter-sheet__list li.active::before {
@@ -789,7 +790,7 @@ html.dark .mw-le-layouts-dialog .modules-list {
         font-weight: 700;
     }
     .mw-le-layouts-mobile-filter-sheet__list li:focus-visible {
-        outline: 2px solid var(--ese-accent, #0d6efd);
+        outline: 2px solid var(--ese-accent, #182433);
         outline-offset: -2px;
     }
 }
@@ -1190,6 +1191,11 @@ html.dark .mw-le-layouts-dialog .modules-list {
 /* gui editor */
 
 :root {
+    /* ESE / Live Edit accent = ink #182433 (the design-language active/selected colour).
+       Defined here in the frontend bundle so it resolves for ESE controls, teleported
+       popovers and canvas-iframe styles instead of falling back to the old brand blue. */
+    --ese-accent: #182433;
+    --ese-accent-soft: rgba(24, 36, 51, 0.1);
     --sidebar-start-size: 250px;
     --sidebar-end-size: 350px;
     --sidebar-end-size-min: 300px;
@@ -1393,9 +1399,9 @@ aside.fi-sidebar {
 .mw-le-layouts-dialog .modules-list-search-field:focus,
 .modules-list-search-field:focus {
     background-color: var(--ese-surface, #ffffff);
-    border-color: var(--ese-accent, #0d6efd);
+    border-color: var(--ese-accent, #182433);
     outline: none;
-    box-shadow: 0 0 0 3px var(--ese-accent-soft, rgba(13, 110, 253, 0.12));
+    box-shadow: 0 0 0 3px var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
 }
 .mw-le-layouts-dialog .modules-list-search-field::placeholder,
 .modules-list-search-field::placeholder {
@@ -1419,8 +1425,8 @@ aside.fi-sidebar {
    for All-categories and inner `<a>` for the v-for'd categories. */
 .mw-le-layouts-dialog-col:first-child .modules-list-categories li.active,
 .mw-le-layouts-dialog-col:first-child .modules-list-categories li a.active {
-    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12)) !important;
-    color: var(--ese-accent, #0d6efd) !important;
+    background-color: var(--ese-accent-soft, rgba(24, 36, 51, 0.1)) !important;
+    color: var(--ese-accent, #182433) !important;
     border-radius: var(--radius-sm, 4px);
     font-weight: 600;
 }
@@ -1597,17 +1603,20 @@ aside.fi-sidebar {
     color: #182433;
 }
 
-/* + ADD — soft-blue background with a blue glyph (the old call-to-action look) */
+/* + ADD — the primary insert CTA. Ink #182433 (the "+Add X = navy" decision) with a white
+   glyph, matching SAVE and the admin's active/primary chrome. Was an off-palette soft-blue
+   pill (#e1edf8) with a blue glyph (#2f74d0). */
 #toolbar button[aria-label="Add content"].live-edit-toolbar-buttons {
-    background-color: #e1edf8 !important;
-    color: #182433 !important;
-    border: 1px solid #e1edf8 !important;
+    background-color: #182433 !important;
+    color: #ffffff !important;
+    border: 1px solid #182433 !important;
 }
 #toolbar button[aria-label="Add content"].live-edit-toolbar-buttons:hover {
-    background-color: #d3e3f6 !important;
+    background-color: #243347 !important;
+    border-color: #243347 !important;
 }
 #toolbar button[aria-label="Add content"].live-edit-toolbar-buttons svg {
-    color: #2f74d0;
+    color: #ffffff;
 }
 
 /* SAVE — flat dark slate square, not the navy pill; normal weight, caps via CSS */

@@ -6,10 +6,10 @@
 /* ============================================================================ */
 .fi-fo-field-label,
 .fi-fo-field-label {
-  font-size: 16px !important;  /* MW v2 exact: 16px form labels */
-  font-weight: 500 !important;  /* MW v2 exact: 500 */
+  font-size: 13px !important;  /* compact form labels */
+  font-weight: 500 !important;
   color: var(--mw-text-primary) !important;
-  margin: var(--mw-space-xs) 0 !important;  /* GR: xs(6) */
+  margin: 2px 0 4px 0 !important;  /* compact label spacing */
 }
 
 /* ============================================================================ */
@@ -54,7 +54,7 @@ body.fi-panel-admin .fi-sc-text {
   border: 1px solid var(--mw-border-color) !important;
   transition: all 0.15s ease !important;
   background-color: var(--mw-bg-surface) !important;
-  min-height: var(--mw-space-xl) !important;  /* GR: xl(42) */
+  min-height: 36px !important;  /* compact input height (was 42) */
 
   &:focus-within {
     /* Brand-blue focus (matches the v2 demo + the primary token) — was a black */

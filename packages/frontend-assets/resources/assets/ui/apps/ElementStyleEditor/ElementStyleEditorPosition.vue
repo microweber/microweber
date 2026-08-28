@@ -37,7 +37,7 @@
             <input id="zIndexInput" class="form-control" type="number" min="0" v-model.number="zIndexValue">
         </div>
 
-        <button @click="resetAllProperties">Reset All</button>
+        <button class="mw-tool-btn mw-tool-btn--preset" style="width:auto;padding:0 12px;" @click="resetAllProperties">Reset All</button>
     </div>
 
     </div>

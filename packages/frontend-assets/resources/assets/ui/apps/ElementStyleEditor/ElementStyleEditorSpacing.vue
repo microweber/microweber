@@ -8,8 +8,8 @@
 
 .mw-ese-holder.active {
     background-color: #fff;
-    border: 1px solid #0086db;
-    box-shadow: 0 0 3px rgba(0, 134, 219, .4);
+    border: 1px solid var(--ese-accent, #182433);
+    box-shadow: 0 0 3px rgba(24, 36, 51, .4);
 }
 
 

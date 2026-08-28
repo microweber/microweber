@@ -341,8 +341,9 @@
     /* task-2026-05-28-f8a3c1 / AI-1225 — items were ~38px, min-height 44px for WCAG 2.5.5 */
     display: flex;
     align-items: center;
-    min-height: 44px;
-    padding: 10px 20px;
+    min-height: 36px;
+    padding: 8px 16px;
+    font-size: 14px;
     text-decoration: none;
     color: #222;
     cursor: pointer;
@@ -362,14 +363,14 @@
 .dropdown-content li a:focus,
 .dropdown-content li button:hover,
 .dropdown-content li button:focus {
-    background-color: #f0f4fa;
-    color: #1976d2;
+    background-color: #f3f4f6;
+    color: #182433;
 }
 
 .dropdown-content li a.active,
 .dropdown-content li button.active {
-    background-color: #e3f2fd;
-    color: #1976d2;
+    background-color: #eceef1;
+    color: #182433;
     font-weight: 600;
 }
 
@@ -413,8 +414,8 @@
 
 :global(.dark) .dropdown-content li a.active,
 :global(.dark) .dropdown-content li button.active {
-    background-color: rgb(37, 99, 235, 0.2);
-    color: #60a5fa;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #e5e7eb;
 }
 
 /* Separator styling */
@@ -448,8 +449,8 @@
 
 .more-settings-item a.expanded,
 .more-settings-item button.expanded {
-    background-color: #f0f4fa;
-    color: #1976d2;
+    background-color: #f3f4f6;
+    color: #182433;
 }
 
 :global(.dark) .more-settings-item a.expanded,
@@ -505,16 +506,16 @@
 .submenu li a:focus,
 .submenu li button:hover,
 .submenu li button:focus {
-    background-color: rgba(25, 118, 210, 0.1);
-    color: #1976d2;
+    background-color: #f3f4f6;
+    color: #182433;
 }
 
 :global(.dark) .submenu li a:hover,
 :global(.dark) .submenu li a:focus,
 :global(.dark) .submenu li button:hover,
 :global(.dark) .submenu li button:focus {
-    background-color: rgba(96, 165, 250, 0.1);
-    color: #60a5fa;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #e5e7eb;
 }
 
 /* task-2026-05-28-f8a3c1 / AI-1225 — section label rows (Preferences, Session)

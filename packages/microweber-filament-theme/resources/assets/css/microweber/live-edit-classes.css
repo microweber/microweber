@@ -143,8 +143,8 @@
 }
 
 #toolbar {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
 }
 
 #user-menu-wrapper {
@@ -173,9 +173,9 @@ body {
     border-radius: 8px !important;
     box-shadow: none !important;
     border: 1px solid transparent !important;
-    height: 44px !important;
-    min-height: 44px !important;
-    max-height: 44px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
     display: inline-flex !important;
     align-items: center !important;
     padding: 0 11px !important;
@@ -219,9 +219,9 @@ body {
     border-radius: 7px !important;
     box-shadow: none !important;
     border: 1px solid #e0e0e0 !important;
-    height: 44px !important;
-    min-height: 44px !important;
-    max-height: 44px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
     padding: 3px 11px !important;
     line-height: 20px !important;
     font-size: 14px !important;
@@ -327,8 +327,17 @@ body {
 }
 
 .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active{
-    background-color: #ffffff !important;
+    background-color: #182433 !important;
     border: none !important;
+}
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active svg,
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active svg * {
+    fill: #fff !important;
+    color: #fff !important;
+    stroke: #fff !important;
+}
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active {
+    color: #fff !important;
 }
 .dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active{
     background-color: rgb(31 41 55) !important;
@@ -417,9 +426,9 @@ body {
     border: none !important;
     border-radius: var(--radius-pill, 999px) !important;
     padding: var(--space-sm, 8px) var(--space-md, 13px) !important;
-    height: 44px !important;
-    min-height: 44px !important;
-    max-height: 44px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
     font-size: 14px !important;
     line-height: 20px !important;
     display: inline-flex !important;
@@ -1191,7 +1200,7 @@ div:focus-visible {
 }
 
 .noUi-connect {
-    @apply bg-current;
+    background-color: #182433;
 }
 
 
@@ -1201,7 +1210,7 @@ div:focus-visible {
 
 .noUi-handle.noUi-active,
 .noUi-handle:focus {
-    box-shadow: 0 0 0 1px #000; /* No direct Tailwind utility for this */
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgba(24, 36, 51, 0.25); /* ink focus ring (was pure black) */
 }
 
 .noUi-horizontal {
@@ -1266,6 +1275,28 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     box-shadow: none !important;
     background-color: #fff !important;
     border: none !important;
+}
+
+/* Compact density for the Live Edit module-settings panel — it renders in a narrow
+   iframe where the roomy admin form defaults overflow. Tighten section padding, field
+   gaps and the section header so more fits without scrolling. */
+.mw-live-edit-page-wrapper .fi-section-content {
+    padding: 0.75rem !important;
+}
+.mw-live-edit-page-wrapper .fi-fo-component-ctn,
+.mw-live-edit-page-wrapper .fi-sc.fi-grid,
+.mw-live-edit-page-wrapper .fi-fo-component-ctn > .fi-fo-component {
+    gap: 0.75rem !important;
+}
+.mw-live-edit-page-wrapper .fi-fo-field-wrp {
+    gap: 0.375rem !important;
+}
+.mw-live-edit-page-wrapper .fi-section-header {
+    padding: 0.5rem 0.75rem !important;
+}
+.mw-live-edit-page-wrapper .fi-section-header-heading {
+    font-size: 0.8125rem !important;
+    line-height: 1.1rem !important;
 }
 
 .dark .mw-live-edit-page-wrapper .fi-section:not(.fi-aside),

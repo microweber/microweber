@@ -1,5 +1,5 @@
 <template>
-    <div v-if="currentLayoutModules.length > 0" class="current-layout-modules">
+    <div v-if="currentLayoutElement" class="current-layout-modules">
 
         <hr>
 
@@ -37,8 +37,10 @@
         </div>
 
         <!-- task-2026-05-28-0d7e2a / AI-1226 — module-settings-button lifted
-             from 32×32px to min 44×44px for WCAG 2.5.5 touch target. -->
-        <div class="modules-buttons">
+             from 32×32px to min 44×44px for WCAG 2.5.5 touch target.
+             Gated on module count so the Add-module button above still shows on an
+             empty layout (block now renders whenever a layout is selected). -->
+        <div v-if="currentLayoutModules.length > 0" class="modules-buttons">
             <div
                 v-for="module in currentLayoutModules"
                 :key="module.id"
@@ -80,7 +82,7 @@
             </div>
         </div>
 
-        <hr>
+        <hr v-if="currentLayoutModules.length > 0">
 
     </div>
 </template>
