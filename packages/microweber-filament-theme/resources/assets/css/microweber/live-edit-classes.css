@@ -1280,7 +1280,7 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 /* Compact density for the Live Edit module-settings panel — it renders in a narrow
    iframe where the roomy admin form defaults overflow. Tighten section padding, field
    gaps and the section header so more fits without scrolling. */
-.mw-live-edit-page-wrapper .fi-section-content {
+body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     padding: 0.75rem !important;
 }
 .mw-live-edit-page-wrapper .fi-fo-component-ctn,

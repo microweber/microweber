@@ -1438,6 +1438,13 @@ select option,
     @apply dark:!bg-gray-900 dark:!border-gray-700 rounded-none;
 }
 
+/* Compact admin form/section body padding (Filament default is a roomy 24px). Scoped to
+   the admin panel; the Live Edit settings panel overrides this to 12px with higher
+   specificity (body.fi-panel-admin .mw-live-edit-page-wrapper …). */
+body.fi-panel-admin .fi-section-content {
+    padding: 14px 16px !important;
+}
+
 .fi-section-header {
     @apply dark:!bg-gray-800;
 }
