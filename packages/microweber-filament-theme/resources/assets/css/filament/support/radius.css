@@ -59,9 +59,9 @@
   span, .fi-btn-label, svg { color: #d63939 !important; }
 }
 .fi-ta-content .fi-btn.fi-color-info {
-  color: #206bc4 !important;
+  color: #0d6efd !important;
   background-color: #e1edf8 !important;
-  span, .fi-btn-label, svg { color: #206bc4 !important; }
+  span, .fi-btn-label, svg { color: #0d6efd !important; }
 }
 .fi-ta-content .fi-btn.fi-color-gray,
 .fi-ta-content .fi-btn.fi-color-secondary {

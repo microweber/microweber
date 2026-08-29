@@ -54,8 +54,8 @@
   .fi-topbar-end a[href*="editmode"] {
     font-size: 0 !important;
     padding: var(--mw-space-xs) !important;  /* GR: xs(6) */
-    min-width: 36px !important;
-    height: 36px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -72,7 +72,7 @@
 
   /* Page heading: truncate long titles */
   .fi-header-heading {
-    font-size: 1.25rem !important;
+    font-size: 1.125rem !important;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -130,7 +130,7 @@
   /* --- Touch-friendly improvements --- */
   /* Ensure all buttons and interactive elements have min 44px tap target */
   .fi-btn {
-    min-height: 36px !important;
+    min-height: 44px !important;
   }
 
   /* Table rows: increase vertical padding for easier tapping */
@@ -141,8 +141,8 @@
 
   /* Filament action buttons — larger touch targets */
   .fi-ta-actions .fi-icon-btn {
-    min-width: 36px !important;
-    min-height: 36px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
   }
 
   /* Scrollable table indicator — fade hint on right edge */
@@ -197,7 +197,7 @@
   .fi-ta-ctn,
   .fi-wi,
   .fi-section:not(.fi-aside) {
-    border-radius: 6px !important;
+    border-radius: var(--mw-radius-sm) !important;
   }
 
   /* Table: reduce font size to fit more content */

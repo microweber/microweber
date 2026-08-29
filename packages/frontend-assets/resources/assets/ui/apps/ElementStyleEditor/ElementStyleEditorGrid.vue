@@ -19,7 +19,7 @@
 
             <div class="form-control-live-edit-label-wrapper">
                 <div class="d-flex align-items-center gap-2">
-                    <i class="mdi mdi-monitor" style="font-size: 24px;"></i>
+                    <i class="mdi mdi-monitor mw-grid-device-icon"></i>
                     <label class="live-edit-label px-0 col-4">Desktop</label>
                 </div>
                 <div class="col-12">
@@ -32,7 +32,7 @@
 
             <div class="form-control-live-edit-label-wrapper">
                <div class="d-flex align-items-center gap-2">
-                   <i class="mdi mdi-tablet" style="font-size: 24px;"></i>
+                   <i class="mdi mdi-tablet mw-grid-device-icon"></i>
                    <label class="live-edit-label px-0 col-4">Tablet</label>
                </div>
                 <div class="col-12">
@@ -45,7 +45,7 @@
 
             <div class="form-control-live-edit-label-wrapper">
                 <div class="d-flex align-items-center gap-2">
-                    <i class="mdi mdi-cellphone" style="font-size: 24px;"></i>
+                    <i class="mdi mdi-cellphone mw-grid-device-icon"></i>
                     <label class="live-edit-label px-0 col-4">Mobile</label>
                 </div>
                 <div class="col-12">
@@ -253,3 +253,9 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.mw-grid-device-icon {
+    font-size: 20px;
+}
+</style>

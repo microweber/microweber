@@ -51,8 +51,7 @@
     color: #222;
     outline: none;
     position: relative;
-    height: 35px;
-    max-height: 35px;
+    min-height: 44px;
 }
 
 .dropdown-trigger:focus,

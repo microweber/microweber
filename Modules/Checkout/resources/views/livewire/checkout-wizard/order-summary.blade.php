@@ -80,6 +80,6 @@
     .order-summary-total-amount {
         font-size: 1.25rem;
         font-weight: 700;
-        color: var(--primary-600, #2563eb);
+        color: rgb(var(--primary-600, 13 110 253));
     }
 </style>

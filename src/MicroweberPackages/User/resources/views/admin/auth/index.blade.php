@@ -119,7 +119,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
         }
 
         .auth-header h2 {
-            font-size: 28px;
+            font-size: 20px;
             font-weight: 600;
             color: #333;
             margin-bottom: 10px;
@@ -150,8 +150,19 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
             border-bottom-color: #182433;
         }
 
+        html.dark .auth-tab.active,
+        html.theme-dark .auth-tab.active {
+            color: #f9fafb;
+            border-bottom-color: #f9fafb;
+        }
+
         .auth-tab:hover {
             color: #182433;
+        }
+
+        html.dark .auth-tab:hover,
+        html.theme-dark .auth-tab:hover {
+            color: #e5e7eb;
         }
 
         .auth-tab-content {
@@ -174,13 +185,25 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
             font-size: 14px;
         }
 
+        html.dark .form-label,
+        html.theme-dark .form-label {
+            color: #e5e7eb;
+        }
+
         .form-control {
             width: 100%;
-            padding: 12px 16px;
+            padding: 8px 12px;
             border: 1px solid #d1d5db;
             border-radius: 8px;
             font-size: 14px;
             transition: border-color 0.3s;
+        }
+
+        html.dark .form-control,
+        html.theme-dark .form-control {
+            background: #0f172a;
+            color: #f1f5f9;
+            border-color: #334155;
         }
 
         .form-control:focus {
@@ -320,7 +343,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
         }
 
         .form-footer a {
-            color: #3b82f6;
+            color: #0d6efd;
             text-decoration: none;
             /* task-2026-05-18-2e95f2 / AI-865 — WCAG 2.5.5 Target Size compliance.
                Pre-fix `.form-footer a` had no display / min-height / padding override,

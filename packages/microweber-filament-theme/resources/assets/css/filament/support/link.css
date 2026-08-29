@@ -7,10 +7,10 @@
 /* Links — MW v2 blue color */
 /* ============================================================================ */
 .fi-link {
-  color: #206bc4 !important;  /* MW v2 exact link color */
+  color: #0d6efd !important;  /* MW v2 exact link color */
 
   &:hover {
-    color: #1a569d !important;  /* MW v2 exact hover */
+    color: #0b5ed7 !important;  /* MW v2 exact hover */
     text-decoration: underline !important;
   }
 }

@@ -83,7 +83,7 @@
 }
 
 .mw-settings-hub-item-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--mw-text-primary);
   margin: 0;
@@ -345,7 +345,7 @@ body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn > s
   flex-shrink: 0 !important;
 }
 body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn .fi-sidebar-group-label {
-  font-size: 15px !important;
+  font-size: 14px !important;
   font-weight: 500 !important;
   text-transform: none !important;
   letter-spacing: 0 !important;

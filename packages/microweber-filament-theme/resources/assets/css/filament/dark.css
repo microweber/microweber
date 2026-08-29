@@ -576,8 +576,8 @@
     border-color: rgba(255, 255, 255, 0.12) !important;
 
     &:checked {
-      background-color: #4299e1 !important;
-      border-color: #4299e1 !important;
+      background-color: rgba(var(--primary-500), 1) !important;
+      border-color: rgba(var(--primary-500), 1) !important;
     }
   }
 
@@ -586,7 +586,7 @@
     background-color: #2d3748 !important;
 
     &:checked {
-      background-color: #4299e1 !important;
+      background-color: rgb(var(--primary-500)) !important;
     }
   }
 

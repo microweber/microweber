@@ -68,14 +68,14 @@
 
 /* Page header "Live edit" button — MW v2: blue filled btn-primary */
 .fi-header-actions-ctn .fi-btn.fi-color-info {
-  background-color: #206bc4 !important;  /* MW v2 exact: btn-primary blue */
+  background-color: #0d6efd !important;  /* MW v2 exact: btn-primary blue */
   color: #fcfdfe !important;  /* MW v2 exact: near-white text */
   border: 1px solid transparent !important;
   font-weight: 400 !important;  /* MW v2 exact: 400 */
   box-shadow: rgba(24, 36, 51, 0.04) 0px 1px 0px 0px, rgba(24, 36, 51, 0.2) 0px -1px 0px 0px inset !important;  /* MW v2 exact shadow */
 
   &:hover {
-    background-color: #1a569d !important;
+    background-color: #0b5ed7 !important;
     opacity: 1 !important;
   }
 

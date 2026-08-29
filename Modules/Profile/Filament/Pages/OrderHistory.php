@@ -64,7 +64,7 @@ class OrderHistory extends Page implements HasTable
                     })
                     ->color(function ($state) {
                         return match ($state) {
-                            'new' => 'info',
+                            'new' => 'gray',
                             'completed' => 'success',
                             'pending' => 'warning',
                             default => 'gray',

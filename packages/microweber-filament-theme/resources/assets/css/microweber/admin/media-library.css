@@ -1590,8 +1590,8 @@
     }
 
     &.active {
-      background: rgba(66, 153, 225, 0.12);
-      color: #63b3ed;
+      background: rgba(255, 255, 255, 0.08);
+      color: #f9fafb;
     }
   }
 
@@ -1620,12 +1620,13 @@
     }
 
     &.selected {
-      border-color: #4299e1;
+      border-color: #e5e7eb;
+      box-shadow: 0 0 0 2px rgba(229, 231, 235, 0.25);
     }
 
     &.bulk-selected {
-      border-color: #63b3ed;
-      background: rgba(66, 153, 225, 0.08);
+      border-color: #e5e7eb;
+      background: rgba(255, 255, 255, 0.06);
     }
   }
 
@@ -1669,7 +1670,7 @@
         }
 
         &.selected {
-          background: rgba(66, 153, 225, 0.1);
+          background: rgba(255, 255, 255, 0.06);
         }
       }
     }
@@ -1714,13 +1715,13 @@
     color: #e2e8f0;
 
     &:focus {
-      border-color: #4299e1;
+      border-color: #e5e7eb;
     }
   }
 
   .mw-media-detail-save {
-    background: #4299e1;
-    color: #fff;
+    background: #e5e7eb;
+    color: #182433;
   }
 
   .mw-media-detail-info-row {
@@ -1783,8 +1784,8 @@
 
   .mw-media-unsplash-search-btn,
   .mw-unsplash-search-submit {
-    background: #4299e1;
-    color: #fff;
+    background: #e5e7eb;
+    color: #182433;
   }
 
   .mw-media-unsplash-overlay {

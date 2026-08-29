@@ -33,10 +33,11 @@
 .fi-btn-color-success {
     --tw-ring-color: green !important;
 
-    @apply !bg-green-500 !text-white dark:!text-white dark:bg-green-500;
+    @apply !text-white dark:!text-white;
+    background-color: #2fb344 !important;
 
     &:hover {
-        background-color: rgba(0, 255, 0, 0.44) !important;
+        background-color: #2fb344 !important;
     }
 
     svg {
@@ -151,7 +152,7 @@ body.fi-panel-checkout .fi-btn {
 
 .form-check-input[type='checkbox'] {
     @apply w-4 h-4 text-[#182433]  border-gray-300 rounded focus:ring-[#182433] dark:focus:ring-gray-500 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600;
-    accent-color: #182433;
+    accent-color: var(--mw-accent);
 }
 
 .form-check {
@@ -648,7 +649,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply text-sm text-gray-900 dark:text-white;
     @apply transition-colors duration-150;
     padding: 8px 12px !important;
-    height: 40px !important;
+    height: 36px !important;
     outline: none !important;
     box-shadow: none !important;
     border-bottom-style: solid !important;
@@ -660,8 +661,11 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-input:focus {
-    @apply !border-blue-500 dark:!border-blue-400;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+    @apply !border-[#182433] dark:!border-[#e5e7eb];
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15) !important;
+}
+.dark .mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-input:focus {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15) !important;
 }
 
 .mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-bottom-effect {
@@ -853,7 +857,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     z-index: 7;
     background: #d3d3d3;
     --thumb-size: 12px;
-    accent-color: #0078ff;
+    accent-color: var(--mw-accent);
     outline: none;
 }
 
@@ -862,7 +866,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     appearance: none;
     width: var(--thumb-size);
     height: var(--thumb-size);
-    background: #0078ff;
+    background: var(--mw-accent);
     cursor: pointer;
     border-radius: 50px;
 }
@@ -870,7 +874,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .mw-icon-selector-form-control-range::-moz-range-thumb {
     width: var(--thumb-size);
     height: var(--thumb-size);
-    background: #0078ff;
+    background: var(--mw-accent);
     cursor: pointer;
     border-radius: 50px;
 }
@@ -1294,7 +1298,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
     input.form-control.mw-modules-list-search-block {
         margin: 0 auto;
-        height: 40px !important;
+        height: 36px !important;
         border-radius: 8px !important;
         border: 1px solid #e5e7eb !important;
         box-shadow: none !important;
@@ -1305,8 +1309,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
         @apply dark:border-gray-600 dark:bg-gray-700 dark:text-white;
 
         &:focus {
-            border-color: #3b82f6 !important;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+            border-color: #0d6efd !important;
+            box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.22) !important;
         }
     }
 }
@@ -1365,11 +1369,11 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .edit-mode-option:hover {
-    @apply border-blue-300 bg-blue-50/50 dark:border-blue-500 dark:bg-blue-900/20;
+    @apply border-[#182433]/40 bg-[#182433]/5 dark:border-[#e5e7eb]/40 dark:bg-white/5;
 }
 
 .edit-mode-option.active {
-    @apply border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-900/30;
+    @apply border-[#182433] bg-[#182433]/5 dark:border-[#e5e7eb] dark:bg-white/5;
 }
 
 .bg-custom-600:not(.fi-fo-toggle) {
@@ -1819,7 +1823,7 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
 }
 
 .fi-select-input-btn {
-    @apply py-[10px];
+    padding-block: var(--mw-space-xs);
 }
 
 .fi-ac-select-action:has(select#activeLocale:not(:has(option:nth-of-type(2)))) {
@@ -1937,6 +1941,7 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
 }
 .form-check [type='radio'] {
     @apply !rounded-full;
+    accent-color: var(--mw-accent);
 }
 
 /*body > div > [role="status"].z-50 {*/
@@ -3600,7 +3605,7 @@ body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary {
     align-items: center !important;
     height: auto !important;
     min-height: 32px !important;
-    padding: 0 13px !important;
+    padding: 0 var(--space-md, 16px) !important;
     line-height: 1 !important;
     gap: 6px !important;
     font-weight: 500 !important;
@@ -3826,7 +3831,7 @@ body.fi-panel-admin .mw-hero-stat-icon {
     justify-content: center;
 }
 body.fi-panel-admin .mw-hero-stat-label {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: #111827;
 }
@@ -4130,7 +4135,7 @@ body.fi-panel-admin .fi-theme-switcher-btn.fi-active .fi-icon {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: var(--space-2xl, 32px) var(--space-md, 13px);
+    padding: var(--mw-space-2xl, 32px) var(--mw-space-md, 16px);
     gap: var(--space-sm, 8px);
     min-height: 320px;
 }
@@ -4250,7 +4255,7 @@ body.fi-panel-admin .mw-admin-empty-state {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: var(--space-2xl, 32px) var(--space-md, 13px);
+    padding: var(--mw-space-2xl, 32px) var(--mw-space-md, 16px);
     gap: var(--space-sm, 8px);
     min-height: 280px;
 }
@@ -4827,7 +4832,7 @@ body.fi-panel-admin .fi-section {
 body.fi-panel-admin .fi-ta-header-cell {
     background-color: #f8fafc !important;
     color: #6b7280 !important;
-    font-size: 12px !important;
+    font-size: 10px !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.04em !important;
@@ -4962,7 +4967,7 @@ body.fi-panel-admin .fi-ta-row .fi-icon-btn {
 }
 body.fi-panel-admin .fi-ta-row .fi-icon-btn:hover {
     background-color: #f0f4fa !important;
-    color: #0d6efd !important;
+    color: #182433 !important;
 }
 
 /* ── Table toolbar (search + filters bar) ───────────────────────── */
@@ -4988,11 +4993,15 @@ body.fi-panel-admin .fi-pagination-item-btn {
 }
 body.fi-panel-admin .fi-pagination-item-btn:hover {
     background-color: #f0f4fa !important;
-    color: #0d6efd !important;
+    color: #182433 !important;
+}
+.dark body.fi-panel-admin .fi-pagination-item-btn:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    color: #e5e7eb !important;
 }
 body.fi-panel-admin .fi-pagination-item-btn[aria-current="page"],
 body.fi-panel-admin .fi-pagination-item-btn.fi-active {
-    background-color: #0d6efd !important;
+    background-color: #182433 !important;
     color: #ffffff !important;
 }
 
@@ -5054,13 +5063,6 @@ body.fi-panel-admin .fi-tabs {
 }
 
 /* ── Status badges: keep v2-style colors ────────────────────────── */
-body.fi-panel-admin .fi-badge.fi-color-success {
-    /* MW v2 demo palette (match the table status pills + demo marketplace badges,
-       e.g. "Installed"/"Premium") — was Tailwind default green #dcfce7/#16a34a. */
-    background-color: #eaf7ec !important;
-    color: #2fb344 !important;
-    border-color: transparent !important;
-}
 body.fi-panel-admin .fi-badge.fi-color-warning {
     /* MW v2 demo: orange "Premium" tint — was Tailwind yellow #fef9c3/#ca8a04. */
     background-color: #fef0e6 !important;
@@ -5096,7 +5098,7 @@ body.fi-panel-admin .fi-global-search-field input:focus {
 
 /* ── Dark mode — Round 2 ─────────────────────────────────────────── */
 .dark body.fi-panel-admin .fi-breadcrumbs-item-label {
-    color: #60a5fa !important;
+    color: #e5e7eb !important;
 }
 .dark body.fi-panel-admin .fi-header-heading {
     color: #f9fafb !important;
@@ -5126,8 +5128,8 @@ body.fi-panel-admin .fi-global-search-field input:focus {
     color: #f9fafb !important;
 }
 .dark body.fi-panel-admin .fi-input:focus {
-    border-color: #60a5fa !important;
-    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15) !important;
+    border-color: rgb(var(--primary-400)) !important;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25) !important;
 }
 .dark body.fi-panel-admin .fi-tabs {
     background-color: #1f2937 !important;
@@ -5141,8 +5143,8 @@ body.fi-panel-admin .fi-global-search-field input:focus {
 }
 .dark body.fi-panel-admin .fi-tabs-item[aria-selected="true"],
 .dark body.fi-panel-admin .fi-tabs-item.fi-active {
-    color: #60a5fa !important;
-    border-bottom-color: #60a5fa !important;
+    color: #f9fafb !important;
+    border-bottom-color: #f9fafb !important;
 }
 .dark body.fi-panel-admin .fi-global-search-field input {
     background-color: #1f2937 !important;
@@ -5199,8 +5201,8 @@ body.fi-panel-admin .fi-global-search-field input:focus {
     color: #9ca3af !important;
 }
 .dark body.fi-panel-admin .fi-ta-row .fi-icon-btn:hover {
-    background-color: rgba(96, 165, 250, 0.1) !important;
-    color: #60a5fa !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #e5e7eb !important;
 }
 /* Badges — softer alpha tones for dark bg */
 .dark body.fi-panel-admin .fi-badge.fi-color-success {
@@ -5221,7 +5223,7 @@ body.fi-panel-admin .fi-global-search-field input:focus {
 .dark body.fi-panel-admin .fi-badge.fi-color-info,
 .dark body.fi-panel-admin .fi-badge.fi-color-primary {
     background-color: rgba(29, 78, 216, 0.2) !important;
-    color: #60a5fa !important;
+    color: #cbd5e1 !important;
     border-color: rgba(29, 78, 216, 0.3) !important;
 }
 
@@ -5325,7 +5327,7 @@ body.fi-panel-admin .fi-ta-header-ctn {
 /* ── Content-area header: tighten breadcrumb + title spacing ──────────
    v2 does not show breadcrumbs — keep them but make them very subtle */
 body.fi-panel-admin .fi-breadcrumbs {
-    font-size: 11px !important;
+    font-size: 12px !important;
     color: #9ca3af !important;
     margin-bottom: 2px !important;
 }
@@ -5354,8 +5356,8 @@ body.fi-panel-admin .fi-wi-stats-overview-icon-ctn {
 /* ── Product/page list rows: ensure thumbnail column is proportional ──
    v2 product rows show a 64×64 thumbnail in the first column. */
 body.fi-panel-admin .fi-ta-cell .fi-ta-image {
-    width: 40px !important;
-    height: 40px !important;
+    width: 36px !important;
+    height: 36px !important;
     border-radius: 6px !important;
     object-fit: cover !important;
 }
@@ -5410,6 +5412,9 @@ body.fi-panel-admin .fi-ta-empty-state-heading {
 }
 body.fi-panel-admin .fi-ta-empty-state-description {
     color: #6b7280 !important;
+}
+.dark body.fi-panel-admin .fi-ta-empty-state-description {
+    color: #9ca3af !important;
 }
 
 /* ── Dark mode: "New X" button dark navy becomes visible navy ─────────

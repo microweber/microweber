@@ -47,7 +47,7 @@ export default {
 
 <style scoped>
 .predefined-text-shadow-item {
-    border: 2px solid #e0e0e0;
+    border: 1px solid var(--ese-border, rgba(15, 23, 42, 0.12));
     border-radius: 4px;
     padding: 8px;
     cursor: pointer;
@@ -61,7 +61,7 @@ export default {
 
 .predefined-text-shadow-item.active {
     border-color: var(--ese-accent, #182433);
-    background-color: #f8f9fa;
+    background-color: var(--ese-accent-soft, rgba(24, 36, 51, 0.10));
 }
 
 .text-shadow-preview {
@@ -82,7 +82,7 @@ export default {
 .text-shadow-name {
     display: block;
     margin-top: 4px;
-    color: #666;
+    color: var(--ese-text-muted, #64748b);
     font-size: 11px;
 }
 </style>

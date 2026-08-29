@@ -13,7 +13,7 @@
 }
 
 .mw-welcome-widget-heading {
-  font-size: 24px !important;  /* match all other admin page headings (were 28px here) */
+  font-size: 18px !important;  /* match all other admin page headings (were 28px here) */
   font-weight: 700 !important;
   color: var(--mw-text-primary) !important;
   line-height: 1.2 !important;
@@ -135,7 +135,7 @@
 /* Color variants — MW v2 exact icon background colors */
 .mw-quick-stat-card-icon--blue {
   background-color: #dbeafe;
-  .mw-quick-stat-icon-svg { color: #3b82f6; }
+  .mw-quick-stat-icon-svg { color: #0d6efd; }
 }
 
 .mw-quick-stat-card-icon--pink {
@@ -266,7 +266,7 @@ body.fi-panel-admin {
 }
 
 .mw-dashboard-empty-state-heading {
-  font-size: 20px !important;
+  font-size: 18px !important;
   font-weight: 700 !important;
   color: var(--mw-text-primary) !important;
   line-height: 1.3 !important;
@@ -327,12 +327,12 @@ body.fi-panel-admin {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--mw-radius-md);
   flex-shrink: 0;
 
-  &--blue   { background-color: rgba(59, 130, 246, 0.10); color: #2563eb; }
+  &--blue   { background-color: rgba(13, 110, 253, 0.10); color: #0d6efd; }
   &--green  { background-color: rgba(34, 197, 94, 0.10);  color: #16a34a; }
   &--orange { background-color: rgba(249, 115, 22, 0.10); color: #ea580c; }
   &--pink   { background-color: rgba(236, 72, 153, 0.10); color: #db2777; }
@@ -351,7 +351,7 @@ body.fi-panel-admin {
 }
 
 .mw-empty-state-cta-label {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--mw-text-primary);
   line-height: 1.3;

@@ -424,7 +424,7 @@ body {
     background-color: var(--ese-text, #111827) !important;
     color: var(--ese-surface, #ffffff) !important;
     border: none !important;
-    border-radius: var(--radius-pill, 999px) !important;
+    border-radius: 4px !important;
     padding: var(--space-sm, 8px) var(--space-md, 13px) !important;
     height: 36px !important;
     min-height: 36px !important;

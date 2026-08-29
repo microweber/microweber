@@ -347,7 +347,6 @@
     text-decoration: none;
     color: #222;
     cursor: pointer;
-    font-size: 15px;
     border-radius: 5px;
     transition: background 0.15s, color 0.15s;
     gap: 10px;

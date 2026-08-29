@@ -58,7 +58,7 @@
 }
 
 .mw-stats-card-online-count {
-  font-size: 22px !important;
+  font-size: var(--font-section, 15px) !important;
   font-weight: 700 !important;
   color: var(--mw-text-primary) !important;
   margin: 0 !important;
@@ -137,7 +137,7 @@
 
 .mw-stats-card-show-more {
   font-size: 13px !important;
-  color: #206bc4 !important;
+  color: #0d6efd !important;
   cursor: pointer;
 
   &:hover {

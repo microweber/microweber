@@ -16,7 +16,7 @@
 .fi-tabs .fi-tabs-item {
   border-radius: 0 !important;
   font-weight: 500 !important;  /* MW v2 inactive: 500 */
-  font-size: 15px !important;
+  font-size: 14px !important;
   color: var(--mw-text-primary) !important;  /* MW v2: dark color for all tabs */
   padding: var(--mw-space-sm) var(--mw-space-md) !important;  /* GR: sm(10) md(16) */
   margin-right: var(--mw-space-hair) !important;  /* GR: hair(4) */
@@ -25,7 +25,7 @@
   background-color: transparent !important;
 
   .fi-tabs-item-label {
-    font-size: 15px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;  /* MW v2 inactive: 500, override global.css 700 */
     color: inherit !important;
   }

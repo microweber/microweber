@@ -244,7 +244,7 @@ html.preview #toolbar {
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 24px;
+    font-size: 18px;
     padding: 0 0 10px;
 }
 

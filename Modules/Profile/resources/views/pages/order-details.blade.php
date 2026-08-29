@@ -21,7 +21,7 @@
                         {{ __('Pending') }}
                     </span>
                 @else
-                    <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                    <span class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800 ring-1 ring-inset ring-gray-500/20 dark:bg-gray-700 dark:text-gray-200">
                         {{ __('New') }}
                     </span>
                 @endif
@@ -45,7 +45,7 @@
 
     <!-- Customer Information -->
     <div class="border-t pt-4">
-        <h4 class="text-sm font-semibold text-gray-900 mb-3">{{ __('Customer Information') }}</h4>
+        <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">{{ __('Customer Information') }}</h4>
         <div class="grid grid-cols-2 gap-4 text-sm">
             <div>
                 <p class="text-gray-500">{{ __('Name') }}</p>
@@ -64,7 +64,7 @@
 
     <!-- Shipping Address -->
     <div class="border-t pt-4">
-        <h4 class="text-sm font-semibold text-gray-900 mb-3">{{ __('Shipping Address') }}</h4>
+        <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">{{ __('Shipping Address') }}</h4>
         <div class="text-sm">
             <p>{{ $order->address }}</p>
             @if($order->address2)
@@ -80,7 +80,7 @@
 
     <!-- Order Items -->
     <div class="border-t pt-4">
-        <h4 class="text-sm font-semibold text-gray-900 mb-3">{{ __('Order Items') }}</h4>
+        <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">{{ __('Order Items') }}</h4>
         <div class="space-y-3">
             @forelse($order->cart as $cartItem)
                 <div class="flex items-center justify-between py-2 border-b border-gray-100">
@@ -111,13 +111,13 @@
 
     <!-- Order Totals -->
     <div class="border-t pt-4">
-        <h4 class="text-sm font-semibold text-gray-900 mb-3">{{ __('Order Total') }}</h4>
+        <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">{{ __('Order Total') }}</h4>
         <div class="space-y-2 text-sm">
             <div class="flex justify-between">
                 <span class="text-gray-600">{{ __('Subtotal') }}</span>
                 <span>{{ number_format($order->amount ?? 0, 2) }} {{ $order->currency }}</span>
             </div>
-            <div class="flex justify-between font-semibold text-base pt-2 border-t">
+            <div class="flex justify-between font-semibold text-sm pt-2 border-t">
                 <span>{{ __('Total') }}</span>
                 <span>{{ number_format($order->amount ?? 0, 2) }} {{ $order->currency }}</span>
             </div>
@@ -126,7 +126,7 @@
 
     @if($order->other_info)
         <div class="border-t pt-4">
-            <h4 class="text-sm font-semibold text-gray-900 mb-3">{{ __('Additional Information') }}</h4>
+            <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">{{ __('Additional Information') }}</h4>
             <p class="text-sm text-gray-600">{{ $order->other_info }}</p>
         </div>
     @endif

@@ -20,13 +20,13 @@
 
   /* Status left-border accent — MW v2 pattern */
   &.fi-status-success {
-    border-left: var(--mw-border-sm) solid #48bb78 !important;  /* GR: border-sm(3) */
+    border-left: var(--mw-border-sm) solid #2fb344 !important;  /* GR: border-sm(3) */
   }
   &.fi-status-warning {
-    border-left: var(--mw-border-sm) solid #ed8936 !important;  /* GR: border-sm(3) */
+    border-left: var(--mw-border-sm) solid #f76707 !important;  /* GR: border-sm(3) */
   }
   &.fi-status-danger {
-    border-left: var(--mw-border-sm) solid #f56565 !important;  /* GR: border-sm(3) */
+    border-left: var(--mw-border-sm) solid #d63939 !important;  /* GR: border-sm(3) */
   }
   &.fi-status-info {
     border-left: var(--mw-border-sm) solid var(--mw-accent) !important;  /* GR: border-sm(3) */
@@ -42,17 +42,17 @@
     /* Success green */
     &[style*="--c-400:var(--success-400)"],
     &[style*="--c-500:var(--success-500)"] {
-      color: #48bb78 !important;
+      color: #2fb344 !important;
     }
     /* Warning orange */
     &[style*="--c-400:var(--warning-400)"],
     &[style*="--c-500:var(--warning-500)"] {
-      color: #ed8936 !important;
+      color: #f76707 !important;
     }
     /* Danger red */
     &[style*="--c-400:var(--danger-400)"],
     &[style*="--c-500:var(--danger-500)"] {
-      color: #f56565 !important;
+      color: #d63939 !important;
     }
     /* Info blue */
     &[style*="--c-400:var(--info-400)"],
@@ -101,7 +101,7 @@
   .fi-btn {
     font-size: 12px !important;
     padding: var(--mw-space-hair) var(--mw-space-sm) !important;  /* GR: hair(4) sm(10) */
-    min-height: 28px !important;
+    min-height: 32px !important;
     border-radius: var(--mw-radius-sm) !important;
   }
 }

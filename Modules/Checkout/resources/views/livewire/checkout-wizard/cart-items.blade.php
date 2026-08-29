@@ -157,7 +157,7 @@
 
     .checkout-cart-add-more a {
         font-size: 0.875rem;
-        color: var(--primary-600, #2563eb);
+        color: rgb(var(--primary-600, 13 110 253));
         text-decoration: none;
         /* Cycle-161 (2026-05-10): "Add more items" link measured 98x16
            in the agent-test mobile audit — below WCAG 2.5.5 / iOS HIG

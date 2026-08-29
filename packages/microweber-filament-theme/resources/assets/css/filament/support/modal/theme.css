@@ -73,6 +73,11 @@
   }
 }
 
+/* Dark: give the close-button hover a visible light-alpha fill (no dark counterpart above) */
+.dark .fi-modal-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
 /* Modal footer — MW v2: right-aligned buttons, consistent padding */
 .fi-modal-footer {
   padding: var(--mw-space-sm) var(--mw-space-lg) !important;  /* GR: sm(10) lg(26) */

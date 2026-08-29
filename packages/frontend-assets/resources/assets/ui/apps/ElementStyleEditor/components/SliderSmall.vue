@@ -162,7 +162,7 @@ export default {
 }
 
 .form-control-input-range-slider::placeholder {
-  color: #a0aec0 !important;
+  color: var(--ese-text-muted, #6b7280) !important;
   font-size: 11px !important;
 }
 

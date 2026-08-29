@@ -1195,7 +1195,7 @@ export default {
                 }
                 .loading-text {
                     margin-top: 15px;
-                    color: #007bff;
+                    color: #0d6efd;
                     font-size: 14px;
                     font-weight: 500;
                 }
@@ -1207,7 +1207,7 @@ export default {
                 .spinner > div {
                     width: 12px;
                     height: 12px;
-                    background-color: #007bff;
+                    background-color: #0d6efd;
                     border-radius: 100%;
                     display: inline-block;
                     animation: sk-bouncedelay 1.4s infinite ease-in-out both;
@@ -1287,7 +1287,7 @@ export default {
                 backgroundColorHover: '#d7d7d7',
                 itemBackgroundColor: '#f8f9fa',
                 textColor: '#495057',
-                accentColor: '#007bff',
+                accentColor: '#0d6efd',
                 shadowColor: 'rgba(0,0,0,0.1)'
             };
 
@@ -1417,9 +1417,9 @@ export default {
 
                 .style-pack-opener:hover:after {
                     transform: translateY(-50%) translateX(3px);
-                    color: #007bff;
+                    color: #0d6efd;
                     opacity: 1;
-                    text-shadow: 0 0 5px rgba(0,123,255,0.3);
+                    text-shadow: 0 0 5px rgba(13,110,253,0.3);
                     animation: arrow-pulse 1s infinite alternate;
                 }
 
@@ -1562,7 +1562,7 @@ export default {
                     width: 20px;
                     height: 20px;
                     border: 2px solid #f3f3f3;
-                    border-top: 2px solid #007bff;
+                    border-top: 2px solid #0d6efd;
                     border-radius: 50%;
                     animation: spin 1s linear infinite;
                     z-index: 10;

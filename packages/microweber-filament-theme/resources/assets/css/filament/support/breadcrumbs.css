@@ -61,3 +61,10 @@ body.fi-panel-admin {
     font-weight: 500 !important;
   }
 }
+
+/* Dark: current crumb <span> must stay muted, not inherit the azure link color */
+/* from general-styles L5098 (higher specificity). Use a light-neutral mute. */
+.dark body.fi-panel-admin span.fi-breadcrumbs-item-label {
+  color: #9ca3af !important;
+  font-weight: 500 !important;
+}

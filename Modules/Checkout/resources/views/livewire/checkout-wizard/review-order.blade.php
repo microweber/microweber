@@ -184,7 +184,7 @@
 
     .review-edit-btn {
         font-size: 0.875rem;
-        color: var(--primary-600, #2563eb);
+        color: rgb(var(--primary-600, 13 110 253));
         background: none;
         border: none;
         cursor: pointer;
@@ -285,6 +285,6 @@
     .review-total-amount {
         font-size: 1.5rem;
         font-weight: 700;
-        color: var(--primary-600, #2563eb);
+        color: rgb(var(--primary-600, 13 110 253));
     }
 </style>

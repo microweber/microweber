@@ -373,6 +373,18 @@
     --ese-text-muted:     #94a3b8;
     --ese-label:          #cbd5e1;
     --ese-track:          rgba(255, 255, 255, 0.22);
+    --ese-accent:         #e5e7eb;
+    --ese-accent-soft:    rgba(229, 231, 235, 0.14);
+    --ese-track-fill:     #e5e7eb;
+}
+
+/* var(--ese-accent) is used as a SOLID background fill with white text
+   on the tag chip; in dark mode the accent flips to light, so keep the
+   chip on a dark surface to preserve readable text. */
+.dark #mw-element-style-editor-app .v3ti-tag,
+.theme-dark #mw-element-style-editor-app .v3ti-tag,
+[data-theme="dark"] #mw-element-style-editor-app .v3ti-tag {
+    background-color: var(--ese-surface-muted) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -761,7 +773,7 @@
 #mw-element-style-editor-app .font-picker-wrapper small,
 #mw-element-style-editor-app .font-picker-wrapper [class*="cursor-pointer"][class*="d-flex"][class*="ms-auto"] {
     font-size: 11px !important;
-    color: rgb(96, 165, 250) !important;
+    color: var(--ese-text-muted, #64748b) !important;
     padding-top: 6px !important;
     padding-bottom: 4px !important;
 }
