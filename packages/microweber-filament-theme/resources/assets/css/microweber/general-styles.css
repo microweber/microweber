@@ -5100,7 +5100,8 @@ body.fi-panel-admin .fi-global-search-field input:focus {
 .dark body.fi-panel-admin .fi-breadcrumbs-item-label {
     color: #e5e7eb !important;
 }
-.dark body.fi-panel-admin .fi-header-heading {
+.dark body.fi-panel-admin .fi-header-heading,
+.dark body.fi-panel-admin .fi-page-header-main-ctn .fi-header-heading {
     color: #f9fafb !important;
 }
 .dark body.fi-panel-admin .fi-header {
