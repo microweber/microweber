@@ -1443,7 +1443,7 @@ select option,
    the admin panel; the Live Edit settings panel overrides this to 12px with higher
    specificity (body.fi-panel-admin .mw-live-edit-page-wrapper …). */
 body.fi-panel-admin .fi-section-content {
-    padding: var(--mw-space-md) var(--mw-space-md) !important;
+    padding: 12px var(--mw-space-md) !important;
 }
 
 .fi-section-header {
