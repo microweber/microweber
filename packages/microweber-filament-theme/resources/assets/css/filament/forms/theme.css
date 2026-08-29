@@ -65,7 +65,7 @@ body.fi-panel-admin .fi-sc-text {
   /* Inner input should fill wrapper height and match radius */
   input, textarea, select {
     border-radius: var(--mw-radius-sm) !important;  /* Fix 7px Filament default leak */
-    padding: var(--mw-space-sm) var(--mw-space-md) !important;  /* GR: sm(10) md(16) */
+    padding: var(--mw-space-xs) var(--mw-space-md) !important;  /* xs(6) md(16) — 44px->~36px dense field */
   }
 }
 
