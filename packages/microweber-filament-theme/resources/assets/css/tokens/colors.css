@@ -54,9 +54,9 @@
     --mw-text-faint: #a0aec0;
     --mw-border-color: #dadfe5;
     --mw-border-subtle: #edf2f7;
-    --mw-accent: #4299e1;
-    --mw-accent-light: #ebf4ff;
-    --mw-accent-rgb: 66, 153, 225;
+    --mw-accent: #182433;         /* ink — was azure #4299e1; accent/active/selected states unify to ink */
+    --mw-accent-light: #eceef1;   /* pale ink tint — was pale blue #ebf4ff */
+    --mw-accent-rgb: 24, 36, 51;  /* ink rgb — was 66,153,225 */
     --mw-secondary: #182433;
     --mw-secondary-rgb: 24, 36, 51;
     --mw-sky-blue: #ffbf00;
