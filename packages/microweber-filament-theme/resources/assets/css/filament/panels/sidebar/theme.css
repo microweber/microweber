@@ -103,21 +103,21 @@ button.fi-sidebar-collapse-btn:focus-visible {
   /* MW v2 top-level: 16px font, 15px 0 padding */
   .fi-sidebar-item-icon {
     color: var(--mw-text-primary) !important;  /* MW v2: same as text rgb(24, 36, 51) */
-    width: 24px !important;  /* MW v2 exact: 24px */
-    height: 24px !important;
-    margin-right: var(--mw-space-md) !important;  /* GR: md(16) */
+    width: 20px !important;  /* dense: 20px (was 24 v2-mimic) */
+    height: 20px !important;
+    margin-right: var(--mw-space-sm) !important;  /* GR: sm(10) — tighter icon gutter */
   }
 
-  /* When item HAS an icon, it's a top-level item — override to primary color & 16px */
+  /* When item HAS an icon, it's a top-level item — 14px, not larger than body */
   .fi-sidebar-item-icon ~ .fi-sidebar-item-label {
     color: var(--mw-text-primary) !important;  /* Top-level: dark primary color */
-    font-size: 16px !important;  /* MW v2 top-level: 16px */
-    line-height: 22.86px !important;  /* MW v2 exact: 22.8571px */
+    font-size: 14px !important;  /* dense: 14px (was 16 — nav must not out-size body) */
+    line-height: 20px !important;
   }
 
   &:has(.fi-sidebar-item-icon) {
     .fi-sidebar-item-btn {
-      padding: var(--mw-space-sm) 0px !important;  /* GR: sm(10) */
+      padding: 6px 0px !important;  /* dense: 6px (was sm/10) — top-level row ~34px */
     }
   }
 

@@ -52,7 +52,7 @@
     }
 
     .fi-sidebar-item-label {
-        @apply transition duration-75 !text-base !font-thin;
+        @apply transition duration-75 !text-sm !font-medium;
     }
 }
 

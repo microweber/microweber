@@ -16,8 +16,8 @@
     --mw-space-sm: 10px;
     --mw-space-md: 16px;
     --mw-space-lg: 18px;
-    --mw-space-xl: 42px;
-    --mw-space-2xl: 68px;
+    --mw-space-xl: 26px;   /* was 42 — the lg18->xl42->2xl68 cliff drove oversized gutters/section gaps */
+    --mw-space-2xl: 32px;  /* was 68 — killed the wide-viewport gutter blow-out */
     --mw-space-3xl: 110px;
 
     --mw-border-hair: 1px;

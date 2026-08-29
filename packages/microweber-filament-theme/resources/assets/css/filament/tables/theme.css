@@ -210,8 +210,8 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
 /* Thumbnail in grid view — rounded, consistent size. Demo uses a larger, more */
 /* prominent product thumbnail (~72-80px); was 48px (cramped). */
 .fi-ta-record .group .h-12.w-12 {
-  width: 44px !important;
-  height: 44px !important;
+  width: 36px !important;
+  height: 36px !important;
   border-radius: var(--mw-radius-sm) !important;
   flex-shrink: 0 !important;
   overflow: hidden !important;

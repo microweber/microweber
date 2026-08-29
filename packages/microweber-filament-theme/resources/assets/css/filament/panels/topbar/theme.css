@@ -11,7 +11,7 @@
   height: auto !important;
   min-height: 49px !important;
   max-height: none !important;
-  padding: var(--mw-space-sm) var(--mw-space-md) !important;  /* GR: sm(10) vertical, md(16) sides — was md/md, trimmed to cut topbar height */
+  padding: 6px var(--mw-space-md) !important;  /* 6px vertical (search input drives height) — trims topbar 69->~56px */
   align-items: center !important;
   gap: var(--mw-space-sm) !important;  /* GR: sm (10px) */
 

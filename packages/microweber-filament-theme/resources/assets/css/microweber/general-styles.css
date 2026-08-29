@@ -1804,7 +1804,7 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
 .fi-resource-list-records-page .fi-header,
 .fi-resource-create-record-page .fi-header,
 .fi-resource-edit-record-page .fi-header {
-    @apply sticky top-[60px]  py-[9px] z-[19];
+    @apply sticky top-[60px]  py-[6px] z-[19];
     background-color: #f6f8fb !important;
 }
 
@@ -4758,16 +4758,16 @@ body.fi-panel-admin .fi-sidebar {
  *    Microweber v2.0.20 admin (v2 items are ~54px tall with 16px labels
  *    and 24px icons; Filament's default is much tighter). ───────────── */
 body.fi-panel-admin .fi-sidebar-item-btn {
-    font-size: 15px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
     color: #182433 !important;
-    padding: 11px 14px !important;
+    padding: 6px 10px !important;
     border-radius: 8px !important;
-    min-height: 48px !important;
-    gap: 14px !important;
+    min-height: 34px !important;
+    gap: 10px !important;
 }
 body.fi-panel-admin .fi-sidebar-item-label {
-    font-size: 15px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
 }
 body.fi-panel-admin .fi-sidebar-item-btn:hover {
@@ -4782,8 +4782,8 @@ body.fi-panel-admin .fi-sidebar-item-btn.fi-active {
 body.fi-panel-admin .fi-sidebar-item-btn .fi-sidebar-item-icon,
 body.fi-panel-admin .fi-sidebar-item-icon {
     color: inherit !important;
-    width: 1.5rem !important;
-    height: 1.5rem !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
 }
 
 /* ── Sidebar group headers: match v2 muted uppercase labels ────────  */
@@ -4911,7 +4911,7 @@ body.fi-panel-admin .fi-breadcrumbs-item-separator {
 
 /* ── Page heading (h1): match v2 28px bold dark heading ─────────── */
 body.fi-panel-admin .fi-header-heading {
-    font-size: 20px !important;
+    font-size: 18px !important;
     font-weight: 700 !important;
     color: #182433 !important;
     letter-spacing: -0.02em !important;
@@ -4920,9 +4920,9 @@ body.fi-panel-admin .fi-header-heading {
 
 /* ── Page header area: correct spacing and bottom border ─────────── */
 body.fi-panel-admin .fi-header {
-    padding-bottom: 9px !important;
+    padding-bottom: 6px !important;
     border-bottom: 1px solid #e8eef4 !important;
-    margin-bottom: 12px !important;
+    margin-bottom: 8px !important;
 }
 
 /* ── Table container: white card with border and subtle shadow ───── */
@@ -5389,7 +5389,7 @@ body.fi-panel-admin .mw-marketplace-card:hover {
 /* ── Page-header title: ensure consistent with v2 bold heading ────────
    fi-page-header styling */
 body.fi-panel-admin .fi-page-header-main-ctn .fi-header-heading {
-    font-size: 20px !important;
+    font-size: 18px !important;
     font-weight: 700 !important;
     color: #182433 !important;
     letter-spacing: -0.01em !important;
