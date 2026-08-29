@@ -146,12 +146,12 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
         }
 
         .auth-tab.active {
-            color: #3b82f6;
-            border-bottom-color: #3b82f6;
+            color: #182433;
+            border-bottom-color: #182433;
         }
 
         .auth-tab:hover {
-            color: #3b82f6;
+            color: #182433;
         }
 
         .auth-tab-content {
@@ -185,8 +185,8 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 
         .form-control:focus {
             outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: #182433;
+            box-shadow: 0 0 0 3px rgba(24, 36, 51, 0.1);
         }
 
         .btn {
@@ -201,12 +201,12 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
         }
 
         .btn-primary {
-            background: #3b82f6;
+            background: #0d6efd;
             color: white;
         }
 
         .btn-primary:hover {
-            background: #2563eb;
+            background: #0b5ed7;
         }
 
         .btn-social {

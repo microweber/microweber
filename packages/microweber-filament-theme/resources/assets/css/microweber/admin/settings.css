@@ -58,8 +58,8 @@
   cursor: pointer;
 
   &:hover {
-    background-color: rgba(66, 153, 225, 0.04);
-    border-color: rgba(66, 153, 225, 0.1);
+    background-color: rgba(13, 110, 253, 0.04);
+    border-color: rgba(13, 110, 253, 0.10);
   }
 }
 
@@ -140,7 +140,7 @@
   background-color: white;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   border-radius: 0.5rem;
-  padding: 3rem;
+  padding: var(--mw-space-xl);
 }
 
 .dark .mw-settings-section {
@@ -161,8 +161,8 @@
 }
 
 .mw-settings-section-content {
-  background-color: rgba(59,130,246,0.05);
-  padding: 3rem;
+  background-color: rgba(13, 110, 253, 0.05);
+  padding: var(--mw-space-lg);
   border-radius: 0.5rem;
   width: 100%;
 }

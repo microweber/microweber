@@ -170,3 +170,10 @@
 .dark .mw-admin-live-edit-page .fi-modal-window .form-control-live-edit-label-wrapper .form-control-live-edit-input {
     @apply !border-gray-600;
 }
+.dark .mw-admin-live-edit-page .fi-fo-component-ctn .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.dark .mw-admin-live-edit-page .fi-section .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.dark .mw-admin-live-edit-page .fi-section-content .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.dark .mw-admin-live-edit-page .fi-modal-window .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus {
+    @apply !border-gray-400;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18) !important;
+}

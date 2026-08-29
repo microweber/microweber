@@ -1000,10 +1000,6 @@ div:focus-visible {
     @apply rounded-[3px];
 }
 
-.noUi-connect {
-    @apply bg-[#3FB8AF];
-}
-
 .noUi-draggable {
     @apply cursor-ew-resize;
 }
@@ -1194,11 +1190,6 @@ div:focus-visible {
     @apply w-[1rem] h-[1rem] top-[-0.5rem] right-[-0.5rem] m-[1px];
 }
 
-.noUi-handle.noUi-active,
-.noUi-handle:focus {
-    @apply shadow-[0_0_0_1px_#f6f8fb,_0_0_0_0.25rem_rgba(32,_107,_196,_0.25)];
-}
-
 .noUi-connect {
     background-color: #182433;
 }
@@ -1215,10 +1206,6 @@ div:focus-visible {
 
 .noUi-horizontal {
     @apply w-full ml-auto;
-}
-
-.noUi-connect {
-    @apply bg-[#444746];
 }
 
 .mw-live-edit-pagination-tabler li {
@@ -1384,7 +1371,7 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
 }
 
 #select_edit_field > li li:hover, #select_edit_field  > li li.selected {
-    @apply !border-none text-blue-700;
+    @apply !border-none text-[#182433] dark:text-white;
 }
 
 .mw-color-important {

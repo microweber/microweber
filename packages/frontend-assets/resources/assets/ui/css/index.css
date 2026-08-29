@@ -422,7 +422,7 @@ html[dir="rtl"] #user-menu {
 }
 
 .mw-editor-le2 .mw-editor-dropdown-option:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.06);
 }
 
 .mw-editor-le2 .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
@@ -949,7 +949,6 @@ html.dark .mw-le-layouts-dialog .modules-list {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-    justify-content: space-between;
     justify-content: center;
     max-height: 100%;
     overflow: auto;
@@ -994,6 +993,13 @@ html.dark .mw-le-layouts-dialog .modules-list {
     list-style: none;
     overflow: auto;
     color: #000000;
+}
+
+html.dark .mw-le-layouts-dialog .modules-list-categories,
+html.dark .modules-list-categories,
+html.dark .modules-list-categories li,
+html.dark .mw-le-layouts-dialog-categories-title {
+    color: #e5e7eb;
 }
 
 .mw-le-layouts-dialog-categories-title:after {

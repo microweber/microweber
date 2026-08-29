@@ -1169,7 +1169,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-modal-header {
-    @apply !py-4 !px-7;
+    padding: var(--mw-space-sm) var(--mw-space-md) !important;
 
     .absolute.top-6 {
         @apply !top-[1.1rem];
@@ -1443,7 +1443,7 @@ select option,
    the admin panel; the Live Edit settings panel overrides this to 12px with higher
    specificity (body.fi-panel-admin .mw-live-edit-page-wrapper …). */
 body.fi-panel-admin .fi-section-content {
-    padding: 14px 16px !important;
+    padding: var(--mw-space-md) var(--mw-space-md) !important;
 }
 
 .fi-section-header {
@@ -1685,13 +1685,9 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
     display: none !important;
 }
 
-.fi-ta-record {
-    @apply !rounded-none;
-}
-
 .fi-section-header,
 .fi-ta-header {
-    @apply bg-gray-50 dark:bg-gray-800 !p-3 m-0 border;
+    @apply bg-gray-50 dark:bg-gray-800 !px-3 !py-4 m-0 border;
 
     border-bottom: none;
 
@@ -4356,23 +4352,6 @@ body.fi-panel-admin .mw-admin-empty-state__cta-wrap {
     background: var(--ese-surface-hover, rgba(255, 255, 255, 0.04));
 }
 
-/* AI-971 / task-2026-05-22 — Sidebar active state indistinguishable from hover state.
- * Filament's default active item has a 2px left border (w-0.5) that may be invisible
- * when clipped by the sidebar container. Add a more visible active indicator:
- * brand-blue left inset border + light background tint. */
-body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
-    background-color: rgba(13, 110, 253, 0.08) !important;
-    border-left: 3px solid #0d6efd !important;
-    padding-left: calc(var(--sidebar-item-padding-x, 12px) - 3px) !important;
-}
-.dark body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
-    background-color: rgba(13, 110, 253, 0.15) !important;
-}
-body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-icon,
-body.fi-panel-admin .fi-sidebar-item.fi-active .fi-sidebar-item-label {
-    color: #0d6efd !important;
-}
-
 /* AI-956 / task-2026-05-22 — Admin dark mode: Flatpickr date-picker calendar renders
  * with white background in dark mode. Add dark theme overrides. */
 .dark .flatpickr-calendar {
@@ -4793,11 +4772,11 @@ body.fi-panel-admin .fi-sidebar-item-label {
 }
 body.fi-panel-admin .fi-sidebar-item-btn:hover {
     background-color: #f0f4fa !important;
-    color: #0d6efd !important;
+    color: #182433 !important;
 }
 body.fi-panel-admin .fi-sidebar-item-btn.fi-active {
     background-color: #e9f2ff !important;
-    color: #0d6efd !important;
+    color: #182433 !important;
     font-weight: 600 !important;
 }
 body.fi-panel-admin .fi-sidebar-item-btn .fi-sidebar-item-icon,
@@ -4856,7 +4835,7 @@ body.fi-panel-admin .fi-ta-header-cell {
 }
 body.fi-panel-admin .fi-ta-row:hover td,
 body.fi-panel-admin .fi-ta-row:hover .fi-ta-cell {
-    background-color: #f5f9ff !important;
+    background-color: rgba(24, 36, 51, 0.03) !important; /* ink #182433 @ 3%, no blue wash */
 }
 
 /* ── Primary action buttons: consistent with v2 blue ────────────── */
@@ -4881,11 +4860,11 @@ body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-
 }
 .dark body.fi-panel-admin .fi-sidebar-item-btn:hover {
     background-color: #374151 !important;
-    color: #60a5fa !important;
+    color: #e5e7eb !important;
 }
 .dark body.fi-panel-admin .fi-sidebar-item-btn.fi-active {
     background-color: #1e3a5f !important;
-    color: #60a5fa !important;
+    color: #e5e7eb !important;
 }
 .dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn,
 .dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn.fi-color-primary {
@@ -4952,7 +4931,8 @@ body.fi-panel-admin .fi-ta-ctn {
     border: 1px solid #e8eef4 !important;
     border-radius: 12px !important;
     box-shadow: 0 1px 3px rgba(24, 36, 51, 0.04) !important;
-    overflow: hidden !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
 }
 
 /* ── Table header row ───────────────────────────────────────────── */
@@ -5072,26 +5052,6 @@ body.fi-panel-admin .fi-tabs {
     border-bottom: 1px solid #e8eef4 !important;
     background-color: #ffffff !important;
 }
-body.fi-panel-admin .fi-tabs-item {
-    font-size: 13px !important;
-    font-weight: 500 !important;
-    color: #6b7280 !important;
-    padding: 10px 16px !important;
-    border-bottom: 2px solid transparent !important;
-    transition: color 100ms, border-color 100ms !important;
-}
-body.fi-panel-admin .fi-tabs-item:hover {
-    color: #182433 !important;
-}
-body.fi-panel-admin .fi-tabs-item[aria-selected="true"],
-body.fi-panel-admin .fi-tabs-item.fi-active {
-    /* MW v2 demo (verified against admin-product-form.png + docs/research/components/tabs.md §4):
-       the in-form authoring active tab is dark ink #182433 text + a #182433 underline —
-       NOT blue. The "blue underline" premise is corrected three times in the research. */
-    color: #182433 !important;
-    border-bottom-color: #182433 !important;
-    font-weight: 600 !important;
-}
 
 /* ── Status badges: keep v2-style colors ────────────────────────── */
 body.fi-panel-admin .fi-badge.fi-color-success {
@@ -5115,9 +5075,9 @@ body.fi-panel-admin .fi-badge.fi-color-danger {
 }
 body.fi-panel-admin .fi-badge.fi-color-info,
 body.fi-panel-admin .fi-badge.fi-color-primary {
-    background-color: #dbeafe !important;
-    color: #1d4ed8 !important;
-    border-color: #bfdbfe !important;
+    background-color: #e1edf8 !important;
+    color: #0d6efd !important;
+    border-color: transparent !important;
 }
 
 /* ── Topbar search bar: match v2 subtle style ───────────────────── */
@@ -5155,6 +5115,10 @@ body.fi-panel-admin .fi-global-search-field input:focus {
 .dark body.fi-panel-admin .fi-ta-row td,
 .dark body.fi-panel-admin .fi-ta-row .fi-ta-cell {
     border-bottom-color: #374151 !important;
+}
+.dark body.fi-panel-admin .fi-ta-row:hover td,
+.dark body.fi-panel-admin .fi-ta-row:hover .fi-ta-cell {
+    background-color: rgba(255, 255, 255, 0.06) !important; /* matches existing row-level dark hover */
 }
 .dark body.fi-panel-admin .fi-input {
     background-color: #1f2937 !important;
@@ -5348,7 +5312,7 @@ body.fi-panel-admin .fi-tabs {
 .dark body.fi-panel-admin .fi-tabs-item.fi-active,
 .dark body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
     color: #f9fafb !important;
-    border-bottom-color: #60a5fa !important;
+    border-bottom-color: #f9fafb !important;
 }
 
 /* ── Table header action bar: align with v2 ───────────────────────────
@@ -5440,6 +5404,9 @@ body.fi-panel-admin [class*="empty"] svg {
 body.fi-panel-admin .fi-ta-empty-state-heading {
     color: #182433 !important;
     font-weight: 600 !important;
+}
+.dark body.fi-panel-admin .fi-ta-empty-state-heading {
+    color: #f9fafb !important;
 }
 body.fi-panel-admin .fi-ta-empty-state-description {
     color: #6b7280 !important;

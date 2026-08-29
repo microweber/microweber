@@ -176,6 +176,11 @@ html body.fi-panel-admin .fi-sidebar-item:not(.fi-active) > .fi-sidebar-item-btn
 .dark body.fi-panel-admin .fi-sidebar-item:not(.fi-active) > .fi-sidebar-item-btn:hover {
   background-color: rgba(255, 255, 255, 0.05) !important;
 }
+/* Dark hover label/icon — light ink so hover isn't ink-on-dark (mirrors dark-active). */
+.dark body.fi-panel-admin .fi-sidebar-item:not(.fi-active) > .fi-sidebar-item-btn:hover .fi-sidebar-item-label,
+.dark body.fi-panel-admin .fi-sidebar-item:not(.fi-active) > .fi-sidebar-item-btn:hover .fi-sidebar-item-icon {
+  color: #e5e7eb !important;
+}
 
 /* Hide Filament's grouped border line — MW v2 doesn't have it */
 .fi-sidebar-item-grouped-border {

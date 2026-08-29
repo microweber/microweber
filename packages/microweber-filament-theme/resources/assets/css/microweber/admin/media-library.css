@@ -97,7 +97,7 @@
 
   &:focus {
     border-color: var(--mw-accent);
-    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.15);
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15); /* ink #182433 at 15% to match the var(--mw-accent) border */
   }
 }
 
@@ -586,7 +586,7 @@
   align-items: center;
   gap: var(--mw-space-xs);  /* GR: xs(6) */
   padding: var(--mw-space-xs) var(--mw-space-sm);  /* GR: xs(6) sm(10) */
-  background: #ebf4ff;
+  background: var(--mw-accent-light);
   border-radius: var(--mw-radius-sm);
   margin-bottom: var(--mw-space-xs);  /* GR: xs(6) */
   flex-wrap: wrap;
@@ -664,7 +664,7 @@
 
   &.drag-over {
     border-color: var(--mw-accent);
-    background: rgba(66, 153, 225, 0.05);
+    background: rgba(24, 36, 51, 0.05); /* ink tint to match the ink drag-over border */
   }
 }
 
@@ -692,7 +692,7 @@
 
 .mw-media-upload-zone.is-uploading {
   border-color: var(--mw-accent);
-  background: rgba(66, 153, 225, 0.03);
+  background: rgba(24, 36, 51, 0.03); /* ink tint to match ink border */
   pointer-events: none;
 }
 
@@ -863,7 +863,7 @@
 
   &:hover { background: rgba(0, 0, 0, 0.04); }
   &.active {
-    background: rgba(66, 153, 225, 0.08);
+    background: rgba(24, 36, 51, 0.08); /* ink tint to match the ink border-left */
     border-left-color: var(--mw-accent);
     font-weight: 600;
   }
@@ -1011,7 +1011,7 @@
   }
   &.bulk-selected {
     border-color: var(--mw-accent);
-    background: rgba(66, 153, 225, 0.04);
+    background: rgba(24, 36, 51, 0.04); /* ink tint to match ink border */
   }
 }
 
@@ -1353,7 +1353,7 @@
   cursor: pointer;
   margin-top: var(--mw-space-hair);  /* GR: hair(4) */
 
-  &:hover { background: #3182ce; }
+  &:hover { background: #0f1720; }
 }
 
 .mw-media-detail-url {

@@ -33,12 +33,12 @@
         justify-content: center;
     }
     .card.active{
-        background: rgb(0 128 0 / 12%);
+        background: var(--ese-accent-soft, rgba(24, 36, 51, 0.10));
         transition: background-color .3s;
     }
     .card::after{
         content: '\2713';
-        color: green;
+        color: var(--ese-accent, #182433);
         font-weight: bold;
         font-size: 0;
     }

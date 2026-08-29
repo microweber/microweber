@@ -56,11 +56,11 @@ export default {
 }
 
 .predefined-text-shadow-item:hover {
-    border-color: #007bff;
+    border-color: var(--ese-accent, #182433);
 }
 
 .predefined-text-shadow-item.active {
-    border-color: #007bff;
+    border-color: var(--ese-accent, #182433);
     background-color: #f8f9fa;
 }
 
@@ -71,11 +71,11 @@ export default {
     justify-content: center;
     font-weight: bold;
     font-size: 14px;
-    color: #333;
+    color: var(--ese-text, #0f172a);
 }
 
 .custom-preview {
-    color: #007bff;
+    color: var(--ese-accent, #182433);
     font-size: 18px;
 }
 

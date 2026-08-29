@@ -61,7 +61,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.02) !important;
+      background-color: var(--mw-bg-muted) !important;  /* theme-aware: #f1f5f9 light / #151821 dark, gives visible hover in both modes */
     }
   }
 
@@ -114,8 +114,8 @@
   /* Remove (×) button — give it a usable hit area within the chip */
   .fi-badge .fi-icon-btn,
   .fi-tags-input-tag button {
-    min-width: 16px !important;
-    min-height: 16px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
   }
 }
 
@@ -225,7 +225,7 @@
 
   .fi-fo-rich-editor-toolbar {
     border-bottom: 1px solid var(--mw-border-subtle) !important;
-    background-color: #fafbfc !important;
+    background-color: var(--mw-bg-muted) !important;  /* #f1f5f9 light / #151821 dark */
     border-radius: var(--mw-radius-sm) var(--mw-radius-sm) 0 0 !important;
   }
 }
@@ -238,7 +238,7 @@
   line-height: 1.6 !important;
   padding: var(--mw-space-sm) var(--mw-space-sm) !important;  /* GR: sm(10) */
   resize: vertical !important;
-  background-color: #fafbfc !important;
+  background-color: var(--mw-bg-surface) !important;  /* #ffffff light / #1a1f2b dark */
 }
 
 /* Publish Date — scheduled post indicator styling */

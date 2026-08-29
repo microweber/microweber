@@ -44,6 +44,9 @@
 :is(.dark) .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper a {
     color: #9ca3af !important;
 }
+:is(.dark) .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper a:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+}
 :is(.dark) .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper a.active {
     background: #111827 !important;
     color: #ffffff !important;

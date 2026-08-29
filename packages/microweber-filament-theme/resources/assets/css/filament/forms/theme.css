@@ -4,7 +4,6 @@
 /* ============================================================================ */
 /* Form labels — MW v2: 16px/500 on create forms */
 /* ============================================================================ */
-.fi-fo-field-label,
 .fi-fo-field-label {
   font-size: 13px !important;  /* compact form labels */
   font-weight: 500 !important;
