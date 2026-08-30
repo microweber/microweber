@@ -53,7 +53,7 @@
     color: #e2e8f0 !important;
 
     &:hover {
-      color: #63b3ed !important;
+      color: #6ea8fe !important;
     }
   }
 
@@ -125,7 +125,7 @@
     }
     &.fi-color-info {
       background-color: rgba(66, 153, 225, 0.2) !important;
-      color: #63b3ed !important;
+      color: #6ea8fe !important;
     }
     &.fi-color-gray {
       background-color: rgba(160, 174, 192, 0.15) !important;
@@ -200,7 +200,7 @@
       border-left-color: #fc8181 !important;
     }
     &.fi-status-info {
-      border-left-color: #63b3ed !important;
+      border-left-color: #6ea8fe !important;
     }
   }
 
@@ -240,7 +240,7 @@
       }
       &[style*="--c-400:var(--info-400)"],
       &[style*="--c-500:var(--info-500)"] {
-        color: #63b3ed !important;
+        color: #6ea8fe !important;
       }
     }
   }
@@ -251,7 +251,7 @@
     background-color: rgba(66, 153, 225, 0.15) !important;
 
     svg {
-      color: #63b3ed !important;
+      color: #6ea8fe !important;
     }
   }
 
@@ -267,7 +267,7 @@
 
   /* Dark mode loading states */
   .fi-loading-indicator {
-    color: #63b3ed !important;
+    color: #6ea8fe !important;
   }
 
   .fi-loading-section {
@@ -392,7 +392,7 @@
       color: #718096 !important;
 
       a {
-        color: #63b3ed !important;
+        color: #6ea8fe !important;
 
         &:hover {
           color: #90cdf4 !important;
@@ -481,7 +481,7 @@
 
   /* Links in dark mode */
   .fi-link {
-    color: #63b3ed !important;
+    color: #6ea8fe !important;
     &:hover {
       color: #90cdf4 !important;
     }
@@ -602,13 +602,13 @@
   .fi-btn.admin-toolbar-add,
   .fi-btn.admin-toolbar-add.fi-color-primary {
     background-color: rgba(66, 153, 225, 0.15) !important;
-    color: #63b3ed !important;
+    color: #6ea8fe !important;
 
     svg {
-      color: #63b3ed !important;
+      color: #6ea8fe !important;
     }
     span, .fi-btn-label {
-      color: #63b3ed !important;
+      color: #6ea8fe !important;
     }
 
     &:hover {

@@ -525,7 +525,7 @@ onBeforeUnmount(() => {
 }
 
 .form-control:focus {
-    border-color: #007bff;
+    border-color: #0d6efd;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     outline: none;
 }
@@ -569,13 +569,13 @@ textarea.form-control {
 }
 
 .personality-btn:hover {
-    border-color: #007bff;
+    border-color: #0d6efd;
     background: #f8f9fa;
 }
 
 .personality-btn.active {
-    border-color: #007bff;
-    background: #007bff;
+    border-color: #0d6efd;
+    background: #0d6efd;
     color: white;
 }
 
@@ -616,13 +616,13 @@ textarea.form-control {
 }
 
 .nav-link:hover {
-    color: #007bff;
-    border-bottom-color: #007bff;
+    color: #0d6efd;
+    border-bottom-color: #0d6efd;
 }
 
 .nav-link.active {
-    color: #007bff;
-    border-bottom-color: #007bff;
+    color: #0d6efd;
+    border-bottom-color: #0d6efd;
     background: none;
 }
 
@@ -651,12 +651,12 @@ textarea.form-control {
 }
 
 .btn-primary {
-    background-color: #007bff;
+    background-color: #0d6efd;
     color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-    background-color: #0056b3;
+    background-color: #0a58ca;
 }
 
 .btn:disabled {

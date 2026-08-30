@@ -232,7 +232,7 @@ html.dark .mw-progress-track {
 
 .mw-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+    background: linear-gradient(90deg, #0d6efd 0%, #0a58ca 100%);
     border-radius: 3px;
     transition: width 0.4s ease;
     position: relative;
@@ -299,14 +299,14 @@ html.dark .mw-progress-track {
 
 /* Active and Completed States */
 .mw-step-indicator.active .step-circle {
-    background: #007bff;
+    background: #0d6efd;
     color: white;
-    border-color: #007bff;
+    border-color: #0d6efd;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
 }
 
 .mw-step-indicator.active .step-label {
-    color: #007bff;
+    color: #0d6efd;
     font-weight: 600;
 }
 
@@ -406,7 +406,7 @@ html.dark .wizard-navigation{
 }
 
 .form-control:focus {
-    border-color: #007bff;
+    border-color: #0d6efd;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
@@ -512,13 +512,13 @@ html.mw-setup-wizard-document #live-editor-frame {
 
 /* AI Trigger Button Styling */
 .wizard-step-content .btn-outline-primary {
-    border-color: #007bff;
-    color: #007bff;
+    border-color: #0d6efd;
+    color: #0d6efd;
     transition: all 0.3s ease;
 }
 
 .wizard-step-content .btn-outline-primary:hover {
-    background-color: #007bff;
+    background-color: #0d6efd;
     color: white;
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);

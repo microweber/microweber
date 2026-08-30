@@ -208,7 +208,7 @@ body.mw-livewire-loading .mw-dashboard-loading-overlay {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    background: linear-gradient(90deg, #0d6efd, #8b5cf6);
     z-index: 9999;
     transform: translateX(-100%);
     animation: mw-page-loading-bar 2s ease-in-out infinite;

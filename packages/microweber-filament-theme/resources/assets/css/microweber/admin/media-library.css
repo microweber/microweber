@@ -1032,6 +1032,7 @@
     height: var(--mw-space-md);
     cursor: pointer;
     accent-color: var(--mw-accent);
+    color: var(--mw-accent);  /* neutralize inherited #4592ff (cosmetic; checkmark is accent-color) */
   }
 }
 
@@ -1535,8 +1536,8 @@
 
     &:hover, &.active {
       background: rgba(66, 153, 225, 0.15);
-      color: #63b3ed;
-      border-color: #63b3ed;
+      color: #6ea8fe;
+      border-color: #6ea8fe;
     }
   }
 
@@ -1762,8 +1763,8 @@
     border-color: rgba(255, 255, 255, 0.1);
 
     &.drag-over {
-      border-color: #4299e1;
-      background: rgba(66, 153, 225, 0.08);
+      border-color: #6ea8fe;
+      background: rgba(110,168,254,0.10);
     }
   }
 
@@ -1822,7 +1823,7 @@
     color: #718096;
     &:hover {
       background: rgba(66, 153, 225, 0.15);
-      color: #63b3ed;
+      color: #6ea8fe;
     }
   }
 
@@ -1835,7 +1836,7 @@
     color: #4a5568;
 
     .mw-media-empty-reset {
-      color: #63b3ed;
+      color: #6ea8fe;
     }
   }
 
