@@ -97,6 +97,20 @@
         font-size: 16px;
     }
 
+    /* Touch tap-target floor. The desktop density pass sets form controls to
+       36px (var(--mw-space-xs) padding + 36px wrapper) — fine for a mouse but
+       below the 44px minimum for touch. Floor form fields + select triggers to
+       44px here; desktop (fine pointer, >1023px) keeps its 36px density. */
+    .fi-input-wrp,
+    .fi-input-wrp input,
+    .fi-input-wrp select,
+    .fi-input,
+    .fi-fo-text-input input,
+    .fi-fo-select select,
+    .fi-select-input-btn {
+        min-height: 44px !important;
+    }
+
     /* The Filament topbar global-search input has a project-specific
        override (`font-size: 13px !important` + height 34px) that beats
        the generic `input[type="search"]` rule above. Override here and
