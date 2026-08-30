@@ -41,9 +41,9 @@ body.mw-livewire-loading .mw-dashboard-loading-overlay {
     justify-content: center;
     gap: 1rem;
     padding: 2rem;
-    background-color: white;
+    background-color: var(--mw-bg-surface);
     border-radius: 0.75rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--mw-shadow-elevated);
 }
 
 .dark .mw-dashboard-loading-spinner {
@@ -54,7 +54,12 @@ body.mw-livewire-loading .mw-dashboard-loading-overlay {
 .mw-dashboard-loading-spinner-icon {
     width: 40px;
     height: 40px;
+    color: #182433;
     animation: mw-dashboard-spin 1s linear infinite;
+}
+
+.dark .mw-dashboard-loading-spinner-icon {
+    color: #cbd5e1;
 }
 
 .mw-dashboard-loading-spinner-icon circle {
@@ -208,7 +213,7 @@ body.mw-livewire-loading .mw-dashboard-loading-overlay {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #0d6efd, #8b5cf6);
+    background: linear-gradient(90deg, #182433, #0d6efd);
     z-index: 9999;
     transform: translateX(-100%);
     animation: mw-page-loading-bar 2s ease-in-out infinite;

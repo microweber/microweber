@@ -78,14 +78,14 @@ body.fi-panel-admin .fi-sc-text {
 .fi-textarea::placeholder,
 .fi-fo-field-wrp input::placeholder,
 .fi-fo-field-wrp textarea::placeholder {
-  color: var(--mw-text-muted) !important;  /* #718096 */
+  color: var(--mw-text-placeholder) !important;  /* scheme-aware AA-safe placeholder ink */
   opacity: 1 !important;
 }
 
 /* Select trigger placeholder (rendered as button label text, not a real ::placeholder) */
 .fi-select-input-placeholder,
 .fi-select-input-btn[data-placeholder] {
-  color: var(--mw-text-muted) !important;
+  color: var(--mw-text-placeholder) !important;  /* scheme-aware AA-safe placeholder ink */
 }
 
 /* Select inputs */

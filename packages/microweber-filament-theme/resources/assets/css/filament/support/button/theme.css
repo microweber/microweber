@@ -14,7 +14,7 @@
   height: 45px !important;      /* touch-target ≥44px + matches demo (h45-49) + input height (--mw-forms-min-height 45) */
   min-height: 45px !important;  /* (was 42px; fi-size-sm/xs + compact-topbar 36px overrides still win) */
 
-  &:hover {
+  &:not(.fi-disabled):not([disabled]):hover {
     opacity: 0.9 !important;
   }
 }
@@ -39,7 +39,7 @@
     color: #ffffff !important;
   }
 
-  &:hover {
+  &:not(.fi-disabled):not([disabled]):hover {
     background-color: rgba(var(--primary-600), 1) !important;
     opacity: 1 !important;
   }
@@ -52,7 +52,7 @@
   color: #ffffff !important;
   border: 1px solid #1f2e41 !important;
 
-  &:hover {
+  &:not(.fi-disabled):not([disabled]):hover {
     background-color: #1f2e41 !important;
     opacity: 1 !important;
   }
@@ -74,7 +74,7 @@
   font-weight: 400 !important;  /* MW v2 exact: 400 */
   box-shadow: rgba(24, 36, 51, 0.04) 0px 1px 0px 0px, rgba(24, 36, 51, 0.2) 0px -1px 0px 0px inset !important;  /* MW v2 exact shadow */
 
-  &:hover {
+  &:not(.fi-disabled):not([disabled]):hover {
     background-color: #0b5ed7 !important;
     opacity: 1 !important;
   }
@@ -235,7 +235,7 @@ body.fi-panel-admin .mw-media-browser-primary-btn {
   min-height: auto !important;
   padding: var(--mw-space-hair) var(--mw-space-sm) !important;  /* GR: hair(4) sm(10) */
 
-  &:hover {
+  &:not(.fi-disabled):not([disabled]):hover {
     background-color: var(--mw-bg-page) !important;
     opacity: 1 !important;
   }
@@ -259,7 +259,7 @@ body.fi-panel-admin .mw-media-browser-primary-btn {
   border-radius: var(--mw-radius-sm) !important;
   transition: all 0.15s ease !important;
 
-  &:hover {
+  &:not(.fi-disabled):not([disabled]):hover {
     background-color: rgba(0, 0, 0, 0.04) !important;
   }
 }

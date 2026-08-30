@@ -81,7 +81,7 @@ body.fi-panel-admin .fi-ta:not(:has(.fi-ta-header-cell)) {
   border: none !important;
   border-bottom: none !important;                 /* was a hairline divider */
   border-radius: var(--mw-radius-sm) !important;         /* 4px */
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16) !important;  /* MW v2 card shadow */
+  box-shadow: var(--mw-shadow-sm) !important;  /* MW v2 card shadow (tokens/sizes.css:37) */
   margin-bottom: 0 !important;                     /* gap now comes from .fi-ta-content row-gap (grid) */
   transition: box-shadow 0.15s ease !important;
 
@@ -291,7 +291,7 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
 }
 
 .fi-ta-record .group .mw-price-special {
-  color: #e53e3e !important;  /* Sale price red */
+  color: #dc2626 !important;  /* Sale price red (AA 4.83:1 on white) */
 }
 
 /* Stock badge icon sizing in grid view */

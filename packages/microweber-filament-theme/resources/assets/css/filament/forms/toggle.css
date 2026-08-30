@@ -143,3 +143,13 @@ body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:not(:check
 .dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:not(:checked) + label svg {
   color: #9ca3af !important;
 }
+
+/* Keyboard focus ring for the segmented control — the underlying radio/checkbox */
+/* <input> is visually hidden, so key the focus-visible ring off it onto the label. */
+body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:focus-visible + label {
+  outline: 2px solid rgb(var(--primary-600)) !important;
+  outline-offset: 2px !important;
+}
+.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-fo-toggle-buttons-input:focus-visible + label {
+  outline-color: rgb(var(--primary-400)) !important;
+}

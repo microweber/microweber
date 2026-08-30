@@ -7,7 +7,7 @@
                 </label>
             </div>
             <div>
-                <button @click="togglePicker" ref="colorPickerButton"  class="picker-button" type="button">Pick color</button>
+                <button @click="togglePicker" ref="colorPickerButton" :aria-label="label" class="picker-button" type="button">Pick color</button>
             </div>
         </div>
     </div>
@@ -26,6 +26,10 @@
         outline: none;
         box-shadow: none;
         font-size: 0;
+    }
+    .picker-button:focus-visible {
+        outline: 2px solid #182433;
+        outline-offset: 2px;
     }
 </style>
 

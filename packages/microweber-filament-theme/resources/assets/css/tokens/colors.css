@@ -50,8 +50,9 @@
     --mw-bg-muted: #f1f5f9;
     --mw-text-primary: #182433;
     --mw-text-secondary: #4a5568;
-    --mw-text-muted: #718096;
-    --mw-text-faint: #a0aec0;
+    --mw-text-muted: #5f6b7a;
+    --mw-text-faint: #64748b;
+    --mw-text-placeholder: #5f6b7a;   /* AA-safe placeholder ink on white input (5.43:1) */
     --mw-border-color: #dadfe5;
     --mw-border-subtle: #edf2f7;
     --mw-accent: #182433;         /* ink — was azure #4299e1; accent/active/selected states unify to ink */
@@ -118,6 +119,7 @@
     --mw-text-secondary: #a0aec0;
     --mw-text-muted: #718096;
     --mw-text-faint: #4a5568;
+    --mw-text-placeholder: #94a3b8;   /* AA-safe placeholder on #1a1f2b dark input (~6:1) */
     --mw-border-color: rgba(255, 255, 255, 0.06);
     --mw-border-subtle: rgba(255, 255, 255, 0.04);
     --mw-accent: #e5e7eb;

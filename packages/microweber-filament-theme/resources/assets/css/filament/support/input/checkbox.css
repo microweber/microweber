@@ -12,7 +12,7 @@
 
     &:focus {
         outline: none !important;
-        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15) !important;
+        box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.6) !important;
     }
 }
 
@@ -26,6 +26,6 @@
     }
 
     &:focus {
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15) !important;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6) !important;
     }
 }

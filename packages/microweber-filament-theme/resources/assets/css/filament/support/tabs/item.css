@@ -7,11 +7,16 @@
 }
 
 .fi-tabs-item:focus-visible {
-    @apply outline-none;
+    outline: 2px solid #182433;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+.dark .fi-tabs-item:focus-visible {
+    outline-color: #cbd5e1;
 }
 
 .fi-tabs-item:not(.fi-active) {
-    @apply border-transparent hover:border-gray-300 hover:bg-transparent focus-visible:bg-transparent dark:hover:border-gray-600 dark:hover:bg-transparent dark:focus-visible:bg-transparent;
+    @apply border-transparent hover:border-gray-300 hover:bg-transparent focus-visible:bg-black/5 dark:hover:border-gray-600 dark:hover:bg-transparent dark:focus-visible:bg-white/5;
 }
 
 .fi-tabs-item.fi-active {

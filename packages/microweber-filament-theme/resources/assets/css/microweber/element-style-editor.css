@@ -38,7 +38,7 @@
     justify-content: center;
     background: transparent;
     border: var(--border-hair) solid transparent;
-    border-radius: var(--radius-sm);
+    border-radius: var(--ese-radius-sm);
     color: inherit;
     cursor: pointer;
     /* default variant — small ghost icon button (reset, kebab, toolbar) */
@@ -105,7 +105,7 @@
     display: inline-flex;
     width: 100%;
     border: var(--border-xs) solid var(--ese-border-strong);
-    border-radius: var(--radius-sm);
+    border-radius: var(--ese-radius-sm);
     overflow: hidden;
 }
 .mw-live-edit-page .mw-segmented__cell {
@@ -319,8 +319,7 @@
 
     /* ── Radii ─────────────────────────────────────────────── */
     --radius-xs:   4px;       /* dense controls (slider thumb, chips) */
-    --radius-sm:   6px;       /* inputs, dropdowns, buttons (default) */
-    --radius-md:  10px;       /* cards, accordion bodies */
+    --ese-radius-sm:   6px;   /* inputs, dropdowns, buttons (default) — namespaced to avoid global :root collision with mobile-touch.css */
     --radius-pill: 999px;     /* colour swatch, status chips */
 
     /* ── Typography ───────────────────────────────────────── */

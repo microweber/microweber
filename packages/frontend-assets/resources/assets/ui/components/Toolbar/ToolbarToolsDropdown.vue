@@ -341,7 +341,7 @@
     /* task-2026-05-28-f8a3c1 / AI-1225 — items were ~38px, min-height 44px for WCAG 2.5.5 */
     display: flex;
     align-items: center;
-    min-height: 36px;
+    min-height: 44px;
     padding: 8px 16px;
     font-size: 14px;
     text-decoration: none;

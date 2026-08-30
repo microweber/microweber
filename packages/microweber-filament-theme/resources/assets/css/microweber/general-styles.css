@@ -162,7 +162,6 @@ body.fi-panel-checkout .fi-btn {
 .mw-live-edit-resolutions-wrapper,
 .mw-live-edit-right-sidebar-wrapper {
     @apply rounded p-0.5 max-h-9 flex items-center justify-center gap-2;
-    background-color: #f3f4f6 !important;
     color: inherit;
 }
 
@@ -183,7 +182,7 @@ body.fi-panel-checkout .fi-btn {
 .mw-live-edit-resolutions-wrapper.mw-filepicker-component-tab-nav {
     background-color: transparent !important;
     border-radius: 0 !important;
-    border-bottom: 1px solid #eceef1 !important;
+    border-bottom: 1px solid var(--mw-border-subtle) !important;
     max-height: none !important;
     padding: 0 !important;
     gap: 4px !important;
@@ -262,7 +261,7 @@ body.fi-panel-checkout .fi-btn {
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
     background-color: #fff !important;
-    color: #111827 !important;
+    color: var(--mw-text-primary) !important;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
     border: none;
 }
@@ -879,11 +878,26 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     border-radius: 50px;
 }
 
+.mw-icon-selector-form-control-range:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgba(24, 36, 51, 0.35);
+}
+.mw-icon-selector-form-control-range:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 3px rgba(24, 36, 51, 0.35);
+}
+.dark .mw-icon-selector-form-control-range:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.55);
+}
+.dark .mw-icon-selector-form-control-range:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.55);
+}
+
 .input-group {
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    align-items: stretch;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
     width: 100%;
 }
 
@@ -892,14 +906,6 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 .mwiconlist-settings-section-block-item .form-control {
     @apply border-0;
-    width: 200px;
-}
-
-.input-group {
-    gap: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
 }
 .mwiconlist-settings-section-block-item.input-group.input-group-flat {
     @apply shadow;
@@ -1300,7 +1306,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
         margin: 0 auto;
         height: 36px !important;
         border-radius: 8px !important;
-        border: 1px solid #e5e7eb !important;
+        border: 1px solid var(--mw-border-color) !important;
         box-shadow: none !important;
         outline: none !important;
         padding-left: 40px !important;
@@ -1337,7 +1343,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .mw-control-box-title {
     @apply text-base font-semibold;
     padding: 16px 20px !important;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--mw-border-color);
 }
 
 .dark .mw-control-box-title {
@@ -2185,7 +2191,7 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     bottom: -11px;
     background: white;
     padding: 0px 8px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--mw-border-color);
     border-radius: 11px;
 }
 
@@ -2196,7 +2202,7 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     padding: 20px 24px;
     background: white;
     @apply dark:bg-gray-800 dark:text-white;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--mw-border-color);
     border-radius: 12px;
     color: #333;
     text-decoration: none;
@@ -2990,7 +2996,7 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 /* task-2026-05-18-fd85d0 — tab bar: Pages / Posts / Products */
 .mw-page-chip-popover__tabs {
     display: flex;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--mw-border-color);
     background-color: var(--ese-surface-muted, #f7f8fa);
     flex-shrink: 0;
 }
@@ -3805,15 +3811,14 @@ body.fi-panel-admin .mw-hero-stat-card {
        mismatched #e5e7eb vs the #dadfe5 used elsewhere), floating on the shared
        soft shadow — matches .mw-stats-card / .mw-quick-stat-card exactly. */
     border: none;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(24, 36, 51, 0.08), 0 1px 2px rgba(24, 36, 51, 0.04);
+    border-radius: var(--mw-radius-lg, 4px);
+    box-shadow: var(--mw-card-shadow, 0 1px 3px rgba(24, 36, 51, 0.08), 0 1px 2px rgba(24, 36, 51, 0.04));
     padding: var(--space-md, 13px) var(--space-lg, 21px);
     margin-block-end: var(--space-md, 13px);
 }
 .dark body.fi-panel-admin .mw-hero-stat-card {
     background-color: #1a1f2b;
     border: none;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.30);
 }
 body.fi-panel-admin .mw-hero-stat-header {
     display: flex;
@@ -3833,7 +3838,7 @@ body.fi-panel-admin .mw-hero-stat-icon {
 body.fi-panel-admin .mw-hero-stat-label {
     font-size: 14px;
     font-weight: 600;
-    color: #111827;
+    color: var(--mw-text-primary);
 }
 .dark body.fi-panel-admin .mw-hero-stat-label {
     color: #f3f4f6;
@@ -3871,14 +3876,14 @@ body.fi-panel-admin .mw-hero-stat-tab {
     transition: background-color 120ms, color 120ms;
 }
 body.fi-panel-admin .mw-hero-stat-tab:hover {
-    color: #111827;
+    color: var(--mw-text-primary);
 }
 .dark body.fi-panel-admin .mw-hero-stat-tab:hover {
     color: #f3f4f6;
 }
 body.fi-panel-admin .mw-hero-stat-tab--active {
     background: #fff;
-    color: #111827;
+    color: var(--mw-text-primary);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .dark body.fi-panel-admin .mw-hero-stat-tab--active {
@@ -3888,7 +3893,7 @@ body.fi-panel-admin .mw-hero-stat-tab--active {
 body.fi-panel-admin .mw-hero-stat-value {
     font-size: 22px;
     font-weight: 700;
-    color: #111827;
+    color: var(--mw-text-primary);
     line-height: 1.2;
     margin: 0;
 }
@@ -4823,7 +4828,7 @@ body.fi-panel-admin .fi-section {
     /* Was a bluish #e8eef4 border + a near-invisible 0.04 shadow → cards read flat and
        cool-tinted. Neutral hairline border + a proper soft shadow so each section floats
        as a clean white surface (matches the demo). */
-    border: 1px solid #eceef1 !important;
+    border: 1px solid var(--mw-border-subtle) !important;
     box-shadow: 0 1px 4px rgba(24, 36, 51, 0.10) !important;
     border-radius: 12px !important;
 }
@@ -4910,7 +4915,6 @@ body.fi-panel-admin .fi-breadcrumbs-item-label:hover {
     text-decoration: underline !important;
 }
 body.fi-panel-admin .fi-breadcrumbs-item-separator {
-    color: #9ca3af !important;
     font-size: 12px !important;
 }
 
@@ -5026,8 +5030,32 @@ body.fi-panel-admin .fi-input {
     transition: border-color 150ms ease, box-shadow 150ms ease !important;
 }
 body.fi-panel-admin .fi-input:focus {
-    border-color: #0d6efd !important;
-    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12) !important;
+    border-color: rgb(var(--primary-600)) !important;
+    /* ring is owned by .fi-input-wrp:focus-within (forms/theme.css) — no box-shadow here to avoid a doubled ring */
+}
+body.fi-panel-admin .fi-input:disabled,
+body.fi-panel-admin .fi-input[readonly],
+body.fi-panel-admin .fi-input-wrp:has(:disabled),
+body.fi-panel-admin .fi-input-wrp:has([readonly]),
+body.fi-panel-admin .fi-fo-select-wrp:has(:disabled),
+body.fi-panel-admin .fi-select-input:disabled,
+body.fi-panel-admin .fi-select-input-btn:disabled,
+body.fi-panel-admin .fi-fo-textarea textarea:disabled,
+body.fi-panel-admin .fi-fo-textarea textarea[readonly] {
+    background-color: var(--mw-bg-muted) !important;
+    color: var(--mw-text-muted) !important;
+    cursor: not-allowed !important;
+    opacity: 0.7 !important;
+}
+body.fi-panel-admin .fi-input:read-only:not([type=hidden]),
+body.fi-panel-admin .fi-fo-textarea textarea:read-only {
+    background-color: var(--mw-bg-muted) !important;
+    cursor: default !important;
+}
+body.fi-panel-admin .fi-input:read-only:not([type=hidden]):focus,
+body.fi-panel-admin .fi-fo-textarea textarea:read-only:focus {
+    border-color: #d1d9e6 !important;
+    box-shadow: none !important;
 }
 body.fi-panel-admin .fi-input-wrp {
     /* task-2026-06-13-letoolbarstyle — 4px to match released v2.0.20 form

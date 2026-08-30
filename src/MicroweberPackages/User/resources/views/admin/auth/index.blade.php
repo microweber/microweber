@@ -548,16 +548,16 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 
                 <div class="alert-container" id="alertContainer"></div>
 
-                <div class="auth-tabs">
-                    <button class="auth-tab active" data-tab="login">Login</button>
+                <div class="auth-tabs" role="tablist" aria-label="Authentication">
+                    <button class="auth-tab active" data-tab="login" role="tab" id="tab-login" aria-controls="login" aria-selected="true" tabindex="0">Login</button>
                     @if($showRegisterTab)
-                        <button class="auth-tab" data-tab="register">Register</button>
+                        <button class="auth-tab" data-tab="register" role="tab" id="tab-register" aria-controls="register" aria-selected="false" tabindex="-1">Register</button>
                     @endif
-                    <button class="auth-tab d-none" data-tab="forgot">Forgot Password</button>
+                    <button class="auth-tab d-none" data-tab="forgot" role="tab" id="tab-forgot" aria-controls="forgot" aria-selected="false" tabindex="-1">Forgot Password</button>
                 </div>
 
                 <!-- Login Tab -->
-                <div class="auth-tab-content active" id="login">
+                <div class="auth-tab-content active" id="login" role="tabpanel" aria-labelledby="tab-login">
                     @if($hasSocialLogin)
                         <div class="social-login-section">
                             @if($enableFacebook)
@@ -634,22 +634,22 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 
 
                         <div class="form-group">
-                            <label class="form-label">Email or Username</label>
+                            <label class="form-label" for="auth-login-username">Email or Username</label>
                             {{-- task-2026-05-18-78caa0 / AI-864 — added autocomplete="username"
                                  per WHATWG HTML autocomplete spec §4.10.18.7 — `username` is
                                  the primary account identifier (works for both email and
                                  username login-key shapes). Adjacent audit while fixing the
                                  main Register-tab password defect; see L645/L651 for the
                                  mandatory fix. --}}
-                            <input type="text" class="form-control" autocomplete="username" name="username" value="{{ old('username') }}"
+                            <input type="text" id="auth-login-username" class="form-control" autocomplete="username" name="username" value="{{ old('username') }}"
                                    required autofocus>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Password</label>
+                            <label class="form-label" for="auth-login-password">Password</label>
                             {{-- L512 — Login Password correctly carries `current-password`
                                  (existing-account sign-in). Untouched by AI-864. --}}
-                            <input type="password" class="form-control" autocomplete="current-password" name="password"
+                            <input type="password" id="auth-login-password" class="form-control" autocomplete="current-password" name="password"
                                    required>
                         </div>
 
@@ -686,7 +686,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 
                 <!-- Register Tab -->
                 @if($showRegisterTab)
-                    <div class="auth-tab-content" id="register">
+                    <div class="auth-tab-content" id="register" role="tabpanel" aria-labelledby="tab-register">
                         @if($hasSocialLogin)
                             <div class="social-login-section">
                                 @if($enableFacebook)
@@ -764,30 +764,30 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 
 
                             <div class="form-group">
-                                <label class="form-label">Full Name</label>
+                                <label class="form-label" for="auth-register-first-name">Full Name</label>
                                 {{-- AI-864 adjacent audit — autocomplete="name" per WHATWG spec
                                      for full-name proper-name autofill. --}}
-                                <input type="text" class="form-control" autocomplete="name" name="first_name"
+                                <input type="text" id="auth-register-first-name" class="form-control" autocomplete="name" name="first_name"
                                        value="{{ old('first_name') }}" required>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Email</label>
+                                <label class="form-label" for="auth-register-email">Email</label>
                                 {{-- AI-864 adjacent audit — autocomplete="email" per WHATWG spec
                                      for email-input autofill. --}}
-                                <input type="email" class="form-control" autocomplete="email" name="email" value="{{ old('email') }}"
+                                <input type="email" id="auth-register-email" class="form-control" autocomplete="email" name="email" value="{{ old('email') }}"
                                        required>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Username</label>
+                                <label class="form-label" for="auth-register-username">Username</label>
                                 {{-- AI-864 adjacent audit — autocomplete="username" per WHATWG spec
                                      for primary-account-identifier autofill. --}}
-                                <input type="text" class="form-control" autocomplete="username" name="username" value="{{ old('username') }}">
+                                <input type="text" id="auth-register-username" class="form-control" autocomplete="username" name="username" value="{{ old('username') }}">
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Password</label>
+                                <label class="form-label" for="auth-register-password">Password</label>
                                 {{-- task-2026-05-18-78caa0 / AI-864 — autocomplete="new-password"
                                      per WHATWG HTML autocomplete spec §4.10.18.7. Pre-fix
                                      `current-password` told browsers this was an existing-account
@@ -797,15 +797,15 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                                      happy path. `new-password` instructs the browser to (a) NOT
                                      autofill prior saved credentials AND (b) offer password-manager
                                      generation for a fresh strong password. --}}
-                                <input type="password" class="form-control" autocomplete="new-password"
+                                <input type="password" id="auth-register-password" class="form-control" autocomplete="new-password"
                                        name="password" required>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Confirm Password</label>
+                                <label class="form-label" for="auth-register-password-confirmation">Confirm Password</label>
                                 {{-- AI-864 — same fix-shape applied to Confirm Password to
                                      match the primary Password field's autocomplete contract. --}}
-                                <input type="password" class="form-control" autocomplete="new-password"
+                                <input type="password" id="auth-register-password-confirmation" class="form-control" autocomplete="new-password"
                                        name="password_confirmation" required>
                             </div>
 
@@ -841,7 +841,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                 @endif
 
                 <!-- Forgot Password Tab -->
-                <div class="auth-tab-content" id="forgot">
+                <div class="auth-tab-content" id="forgot" role="tabpanel" aria-labelledby="tab-forgot">
                     <form id="forgotForm" method="POST" action="{{ route('password.email') }}">
                         @csrf
 
@@ -850,10 +850,10 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                         </p>
 
                         <div class="form-group">
-                            <label class="form-label">Email Address</label>
+                            <label class="form-label" for="auth-forgot-email">Email Address</label>
                             {{-- AI-864 adjacent audit — autocomplete="email" on Forgot Password
                                  email input so the browser autofills the user's saved email. --}}
-                            <input type="email" class="form-control" autocomplete="email" name="email" value="{{ old('email') }}" required
+                            <input type="email" id="auth-forgot-email" class="form-control" autocomplete="email" name="email" value="{{ old('email') }}" required
                                    autofocus>
                         </div>
 
@@ -887,12 +887,18 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                 tab.addEventListener('click', function () {
                     const targetTab = this.getAttribute('data-tab');
 
-                    // Remove active class from all tabs and contents
-                    tabs.forEach(t => t.classList.remove('active'));
+                    // Remove active class from all tabs and contents, and reset ARIA state
+                    tabs.forEach(t => {
+                        t.classList.remove('active');
+                        t.setAttribute('aria-selected', 'false');
+                        t.setAttribute('tabindex', '-1');
+                    });
                     tabContents.forEach(c => c.classList.remove('active'));
 
-                    // Add active class to clicked tab and corresponding content
+                    // Add active class to clicked tab and corresponding content, and sync ARIA state
                     this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+                    this.setAttribute('tabindex', '0');
                     document.getElementById(targetTab).classList.add('active');
 
                     // Clear alerts

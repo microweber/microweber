@@ -184,13 +184,18 @@ body {
     color: #1f2937 !important;
     transition: background-color 0.15s ease, color 0.15s ease;
 }
-.live-edit-toolbar-buttons-undo-redo:hover,
-.live-edit-toolbar-buttons-view:hover,
-.live-edit-toolbar-buttons-undo-redo:focus-visible,
-.live-edit-toolbar-buttons-view:focus-visible {
+.live-edit-toolbar-buttons-undo-redo:not(:disabled):hover,
+.live-edit-toolbar-buttons-view:not(:disabled):hover,
+.live-edit-toolbar-buttons-undo-redo:not(:disabled):focus-visible,
+.live-edit-toolbar-buttons-view:not(:disabled):focus-visible {
     background-color: #e9ecef !important;
     border-color: transparent !important;
     color: #111827 !important;
+}
+.live-edit-toolbar-buttons-undo-redo:disabled,
+.live-edit-toolbar-buttons-view:disabled {
+    opacity: .45 !important;
+    cursor: not-allowed !important;
 }
 
 .dark .live-edit-toolbar-buttons-undo-redo,
@@ -439,6 +444,10 @@ body {
 #save-button.mw-save-button:hover {
     background-color: var(--ese-text, #111827) !important;
     opacity: 1;
+}
+#save-button.mw-save-button:focus-visible {
+    outline: 2px solid var(--ese-accent, #182433);
+    outline-offset: 2px;
 }
 
 /* Idle: still a SOLID dark pill (v2 SAVE is always solid black, never a
@@ -887,10 +896,6 @@ h1,h2,h3,h4,h5,h6 {
     @apply text-black dark:text-white;
 }
 
-div:focus-visible {
-    @apply !outline-none;
-}
-
 .v3ti-content {
     @apply bg-white dark:bg-gray-800 border-none;
 
@@ -1014,26 +1019,6 @@ div:focus-visible {
 
 .noUi-active {
     @apply shadow-[inset_0_0_1px_#FFF,_inset_0_1px_7px_#DDD,_0_3px_6px_-3px_#BBB];
-}
-
-.noUi-handle:before,
-.noUi-handle:after {
-    content: ""; /* No direct Tailwind utility */
-    display: block;
-    @apply absolute h-[14px] w-[1px] bg-[#E8E7E6] left-[14px] top-[6px];
-}
-
-.noUi-handle:after {
-    @apply left-[17px];
-}
-
-.noUi-vertical .noUi-handle:before,
-.noUi-vertical .noUi-handle:after {
-    @apply w-[14px] h-[1px] left-[6px] top-[14px];
-}
-
-.noUi-vertical .noUi-handle:after {
-    @apply top-[17px];
 }
 
 [disabled] .noUi-connect {
@@ -2251,9 +2236,6 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
 .dark .mw-content-picker-modal .mw-add-content-modal-search-input {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
-.dark .mw-content-picker-modal .mw-add-content-modal-search-input {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
 
 /* ═══════════════════════════════════════════════════════════════════════════════
  * task-2026-05-28 / AI-1235 — Sidebar module-settings and add-module buttons:
@@ -2301,14 +2283,6 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
 .dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg path,
 .dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg circle,
 .dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg rect,
-.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg polygon,
-.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg path,
-.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg circle,
-.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg rect,
-.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg polygon,
-.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg path,
-.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg circle,
-.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg rect,
 .dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg polygon {
     fill: #f1f5f9 !important;
 }
@@ -2320,7 +2294,6 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     height: 20px;
     object-fit: contain;
 }
-.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button img,
 .dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button img {
     filter: brightness(0) saturate(0) invert(1);
 }
@@ -2332,13 +2305,11 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     margin: 4px 0;
     width: 100%;
 }
-.dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules hr,
 .dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules hr {
     border-top-color: rgba(255, 255, 255, 0.15);
 }
 
 /* E — Container bottom-border dark mode (light mode fixed in scoped Vue CSS) */
-.dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules,
 .dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules {
     border-bottom-color: rgba(255, 255, 255, 0.15) !important;
 }

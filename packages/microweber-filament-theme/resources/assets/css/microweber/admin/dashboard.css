@@ -186,7 +186,7 @@ body.fi-panel-admin {
     width: 32px !important;
     height: 32px !important;
     min-width: 32px !important;
-    border-radius: 8px !important;
+    border-radius: var(--mw-radius-tile) !important;
     flex-shrink: 0;
   }
 
@@ -385,7 +385,7 @@ body.fi-panel-admin {
     }
   }
   .mw-empty-state-cta-icon {
-    &--blue   { background-color: rgba(59, 130, 246, 0.15); }
+    &--blue   { background-color: rgba(13, 110, 253, 0.15); }
     &--green  { background-color: rgba(34, 197, 94, 0.15); }
     &--orange { background-color: rgba(249, 115, 22, 0.15); }
     &--pink   { background-color: rgba(236, 72, 153, 0.15); }

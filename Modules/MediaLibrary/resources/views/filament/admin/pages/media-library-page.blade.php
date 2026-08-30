@@ -68,8 +68,8 @@
             </label>
 
             @if($search || $typeFilter || $dateFrom || $dateTo || $selectedFolderId)
-                <button wire:click="clearFilters" class="mw-media-clear-filters" title="Clear all filters">
-                    <x-heroicon-m-x-circle class="w-4 h-4" />
+                <button wire:click="clearFilters" class="mw-media-clear-filters" title="Clear all filters" aria-label="Clear all filters">
+                    <x-heroicon-m-x-circle class="w-4 h-4" aria-hidden="true" />
                 </button>
             @endif
         </div>
@@ -81,15 +81,19 @@
                     wire:click="toggleView('grid')"
                     class="mw-media-view-btn {{ $viewMode === 'grid' ? 'active' : '' }}"
                     title="Grid view"
+                    aria-label="Grid view"
+                    aria-pressed="{{ $viewMode === 'grid' ? 'true' : 'false' }}"
                 >
-                    <x-heroicon-m-squares-2x2 class="w-4 h-4" />
+                    <x-heroicon-m-squares-2x2 class="w-4 h-4" aria-hidden="true" />
                 </button>
                 <button
                     wire:click="toggleView('list')"
                     class="mw-media-view-btn {{ $viewMode === 'list' ? 'active' : '' }}"
                     title="List view"
+                    aria-label="List view"
+                    aria-pressed="{{ $viewMode === 'list' ? 'true' : 'false' }}"
                 >
-                    <x-heroicon-m-list-bullet class="w-4 h-4" />
+                    <x-heroicon-m-list-bullet class="w-4 h-4" aria-hidden="true" />
                 </button>
             </div>
 
@@ -98,6 +102,7 @@
                 wire:click="switchTab('{{ $activeTab === 'unsplash' ? 'library' : 'unsplash' }}')"
                 class="mw-media-unsplash-btn {{ $activeTab === 'unsplash' ? 'active' : '' }}"
                 title="Search Unsplash stock photos"
+                aria-pressed="{{ $activeTab === 'unsplash' ? 'true' : 'false' }}"
             >
                 <x-heroicon-m-camera class="w-4 h-4" />
                 Unsplash
@@ -282,6 +287,7 @@
                     type="text"
                     wire:model="newFolderName"
                     placeholder="Folder name"
+                    aria-label="Folder name"
                     class="mw-media-folder-input"
                     wire:keydown.enter="createFolder"
                 />
@@ -295,6 +301,7 @@
             <button
                 wire:click="selectFolder(null)"
                 class="mw-media-folder-item {{ $selectedFolderId === null ? 'active' : '' }}"
+                @if($selectedFolderId === null) aria-current="true" @endif
             >
                 <x-heroicon-m-photo class="w-4 h-4" />
                 <span>All Media</span>
@@ -317,6 +324,7 @@
                             type="text"
                             wire:model="unsplashSearch"
                             placeholder="Search free stock photos..."
+                            aria-label="Search free stock photos"
                             class="mw-media-unsplash-input"
                         />
                         <button type="submit" class="mw-media-unsplash-search-btn">
