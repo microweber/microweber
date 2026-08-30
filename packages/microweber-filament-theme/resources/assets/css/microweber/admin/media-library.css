@@ -1036,6 +1036,19 @@
   }
 }
 
+/* Touch devices have no hover, so the hover-revealed selection checkbox above is
+   invisible/untappable — multi-select becomes impossible on phones/tablets.
+   Always show it (and enlarge the checkbox to a comfortable 20px) on touch. */
+@media (hover: none), (max-width: 1023.98px) {
+  .mw-media-grid-checkbox {
+    opacity: 1 !important;
+    input[type="checkbox"] {
+      width: 20px !important;
+      height: 20px !important;
+    }
+  }
+}
+
 /* 3-dot menu on media items (grid + list) */
 .mw-media-item-menu {
   position: relative;
