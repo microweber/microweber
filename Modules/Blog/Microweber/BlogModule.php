@@ -20,6 +20,7 @@ class BlogModule extends BaseModule
         $viewData = $this->getViewData();
 
         // Add blog-specific data
+        $viewData['title'] = $viewData['options']['title'] ?? '';
         $viewData['posts_per_page'] = $viewData['options']['posts_per_page'] ?? 10;
         $viewData['show_categories'] = $viewData['options']['show_categories'] ?? true;
         $viewData['show_tags'] = $viewData['options']['show_tags'] ?? true;

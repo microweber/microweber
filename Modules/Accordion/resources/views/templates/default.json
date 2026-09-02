@@ -4,6 +4,7 @@
             "type": "color",
             "label": "accordion color",
             "name": "accordionColor",
+            "live": true,
             "placeholder": "Select accordion style",
             "help": "The style of the accordion",
             "options": {
@@ -13,6 +14,7 @@
             "type": "color",
             "label": "accordion hover color",
             "name": "accordionHoverColor",
+            "live": true,
             "placeholder": "Select hover style",
             "help": "The style of the accordion",
             "options": {
@@ -22,6 +24,7 @@
             "type": "color",
             "label": "accordion border color",
             "name": "accordionBorderColor",
+            "live": true,
             "placeholder": "Select accordion border color",
             "help": "The style of the accordion",
             "options": {
@@ -32,6 +35,7 @@
             "type": "color",
             "label": "accordion content color",
             "name": "accordionContentColor",
+            "live": true,
             "placeholder": "Select accordion content color",
             "help": "The style of the accordion",
             "options": {
@@ -42,6 +46,7 @@
             "type": "color",
             "label": "accordion text color",
             "name": "accordionTextColor",
+            "live": true,
             "placeholder": "Select accordion text color",
             "help": "The style of the accordion",
             "options": {

@@ -82,7 +82,7 @@ class PicturesModuleSettings extends LiveEditModuleSettings
                                     '0' => 'No',
                                     '1' => 'Yes',
                                 ])
-                                ->default('0')
+                                ->default(fn () => $this->getOption('data-use-from-post', '0'))
                                 ])
                     ]),
             ]);

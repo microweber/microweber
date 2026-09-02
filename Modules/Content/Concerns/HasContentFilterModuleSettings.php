@@ -42,6 +42,7 @@ trait HasContentFilterModuleSettings
             Select::make('options.data-category-id')
                 ->label('From Category Source')
                 ->live()
+                ->default(fn () => $this->getOption('data-category-id'))
                 ->visible(function (\Filament\Schemas\Components\Utilities\Get $get) use ($categoriesOpts) {
                     return !empty($categoriesOpts);
                 })
@@ -61,7 +62,8 @@ trait HasContentFilterModuleSettings
                     'title+asc' => 'Title (ASC)',
                     'title+desc' => 'Title (DESC)',
                 ])
-                ->live(),
+                ->live()
+                ->default(fn () => $this->getOption('data-order-by', 'position+asc')),
             TextInput::make('options.data-limit')
                 ->label('Items per page')
                 ->numeric()
@@ -70,6 +72,7 @@ trait HasContentFilterModuleSettings
             Radio::make('options.data-show')
                 ->label('Display on content')
                 ->live()
+                ->default(fn () => $this->getOption('data-show', 0))
                 ->options([
                     0 => 'Default information from skin',
                     1 => 'Custom information',

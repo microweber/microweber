@@ -39,7 +39,7 @@ class EmbedModuleSettings extends LiveEditModuleSettings
                         'css'        => 'CSS',
                         'javascript' => 'JavaScript',
                     ])
-                    ->default('html')
+                    ->default(fn () => $this->getOption('code_type', 'html'))
                     ->helperText('Select the type of code you are embedding.'),
 
                 // AI-1023 / task-2026-05-22 — reactive badge shows active language mode.
@@ -51,6 +51,7 @@ class EmbedModuleSettings extends LiveEditModuleSettings
                 //   allowing the JS to update the CodeMirror mode without a full reinitialisation.
                 Textarea::make('options.source_code')
                     ->label('Embed Code')
+                    ->live(onBlur: true)
                     ->rows(10)
                     ->placeholder('Insert your embed code here')
                     ->hint(fn (Get $get): string => match ($get('options.code_type') ?? 'html') {

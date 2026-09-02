@@ -20,39 +20,39 @@ class MarqueeModuleSettings extends LiveEditModuleSettings
                     ->label('Marquee Text')
                     ->helperText('Enter the text for the marquee.')
                     ->live()
-                    ->default('Your cool text here!'),
+                    ->default(fn () => $this->getOption('text', 'Your cool text here!')),
 
                 TextInput::make('options.fontSize')
                     ->label('Font Size')
                     ->helperText('Enter the font size for the marquee text.')
                     ->live()
                     ->numeric()
-                    ->default(46),
+                    ->default(fn () => $this->getOption('fontSize', 46)),
 
                 TextInput::make('options.animationSpeed')
                     ->label('Animation Speed')
                     ->helperText('Enter the animation speed for the marquee.')
                     ->numeric()
                     ->live()
-                    ->default(100),
+                    ->default(fn () => $this->getOption('animationSpeed', 100)),
 
                 TextInput::make('options.textWeight')
                     ->label('Text Weight')
                     ->helperText('Enter the text weight for the marquee text.')
                     ->live()
-                    ->default('normal'),
+                    ->default(fn () => $this->getOption('textWeight', 'normal')),
 
                 TextInput::make('options.textStyle')
                     ->label('Text Style')
                     ->helperText('Enter the text style for the marquee text.')
                     ->live()
-                    ->default('normal'),
+                    ->default(fn () => $this->getOption('textStyle', 'normal')),
 
                 ColorPicker::make('options.textColor')
                     ->label('Text Color')
                     ->helperText('Enter the text color for the marquee text.')
                     ->live()
-                    ->default('#000000'),
+                    ->default(fn () => $this->getOption('textColor', '#000000')),
             ]);
     }
 }

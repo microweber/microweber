@@ -120,7 +120,8 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
                                                 Toggle::make('options.newsletter_subscription')
                                                     ->label('Newsletter')
                                                     ->live()
-                                                    ->helperText('Show the newsletter subscription checkbox?'),
+                                                    ->helperText('Show the newsletter subscription checkbox?')
+                                                    ->default(fn () => filter_var($this->getOption('newsletter_subscription', false), FILTER_VALIDATE_BOOLEAN)),
 
                                                 Toggle::make('options.enable_captcha')
                                                     ->label('Enable Code Verification')

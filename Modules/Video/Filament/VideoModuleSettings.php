@@ -50,7 +50,7 @@ class VideoModuleSettings extends LiveEditModuleSettings
                                     ->afterStateUpdated(function ($state, callable $set) {
 
                                     })
-                                    ->default('1'),
+                                    ->default(fn () => $this->getOption('prior', '1')),
 
                                 Group::make([
                                     // AI-1007 / task-2026-05-22 — changed from Textarea to TextInput for URL entry.
@@ -72,6 +72,7 @@ class VideoModuleSettings extends LiveEditModuleSettings
                                     Textarea::make('options.embed_code')
                                         ->label('Raw Embed Code (advanced)')
                                         ->live()
+                                        ->default(fn () => $this->getOption('embed_code', ''))
                                         ->rows(3)
                                         ->visible(fn (Get $get) => $get('options.prior') !== '2')
                                         ->helperText('Paste a custom &lt;iframe&gt; or embed HTML here. Overrides URL above when set.'),
@@ -105,11 +106,13 @@ class VideoModuleSettings extends LiveEditModuleSettings
                                     TextInput::make('options.width')
                                         ->label('Width')
                                         ->live()
+                                        ->default(fn () => $this->getOption('width', ''))
                                         ->placeholder('100%')
                                         ->helperText('e.g. "100%" for responsive or "500px" for fixed width.'),
                                     TextInput::make('options.height')
                                         ->label('Height')
                                         ->live()
+                                        ->default(fn () => $this->getOption('height', ''))
                                         ->placeholder('350px')
                                         ->helperText('e.g. "350px" or "auto" for responsive height.'),
                                 ])->columns(2),
@@ -120,35 +123,35 @@ class VideoModuleSettings extends LiveEditModuleSettings
                                     ->label('Autoplay')
                                     ->live()
                                     ->inline()
-                                    ->default('0')
+                                    ->default(fn () => $this->getOption('autoplay', '0'))
                                     ->helperText('Autoplay requires Muted to work in modern browsers.'),
 
                                 Toggle::make('options.loop')
                                     ->label('Loop')
                                     ->live()
                                     ->inline()
-                                    ->default('0')
+                                    ->default(fn () => $this->getOption('loop', '0'))
                                     ->helperText('Replay the video automatically after it finishes.'),
 
                                 Toggle::make('options.muted')
                                     ->label('Muted')
                                     ->live()
                                     ->inline()
-                                    ->default('0')
+                                    ->default(fn () => $this->getOption('muted', '0'))
                                     ->helperText('Mute the video by default when it starts playing.'),
 
                                 Toggle::make('options.hide_controls')
                                     ->label('Hide Controls')
                                     ->live()
                                     ->inline()
-                                    ->default('0')
+                                    ->default(fn () => $this->getOption('hide_controls', '0'))
                                     ->helperText('Hide the video player controls from the user.'),
 
                                 Toggle::make('options.lazy_load')
                                     ->label('Lazy Load')
                                     ->live()
                                     ->inline()
-                                    ->default('0')
+                                    ->default(fn () => $this->getOption('lazy_load', '0'))
                                     ->helperText('Delay loading the video until it is needed, improving page load times.'),
 
                                 ])->columns(2),

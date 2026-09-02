@@ -25,6 +25,7 @@ class HighlightCodeModuleSettings extends LiveEditModuleSettings
                                     ->label('Code')
                                     ->rows(10)
                                     ->placeholder('Paste your code here')
+                                    ->default(fn () => $this->getOption('text', ''))
                                     ->live(),
 
                             ]),

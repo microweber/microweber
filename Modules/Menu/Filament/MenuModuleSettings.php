@@ -43,7 +43,7 @@ class MenuModuleSettings extends LiveEditModuleSettings
             ->schema([
                 Tabs::make('Layout Settings')
                     ->schema([
-                        Tabs\Tab::make('Layout Settings')
+                        Tabs\Tab::make('Menu')
                             ->schema([
                                 Livewire::make(MenusList::class,$livewireParams),
                             ]),

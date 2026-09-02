@@ -26,7 +26,7 @@ class BreadcrumbModuleSettings extends LiveEditModuleSettings
                                         'page' => 'Page',
                                         'category' => 'Category',
                                     ])
-                                    ->default('')
+                                    ->default(fn () => $this->getOption('data-start-from', ''))
                                     ->live(),
                             ]),
                         Tabs\Tab::make('Design')

@@ -17,6 +17,7 @@ class TweetEmbedModuleSettings extends LiveEditModuleSettings
                 TextInput::make('options.twitter_url')
                     ->label('Tweet Post URL')
                     ->placeholder('Enter the URL of the tweet')
+                    ->default(fn () => $this->getOption('twitter_url'))
                     ->live(),
             ]);
     }

@@ -99,7 +99,7 @@ class GoogleMapsModuleSettings extends LiveEditModuleSettings
                                         '15' => 'Street (15)',
                                         '18' => 'Building (18)',
                                     ])
-                                    ->default('12'),
+                                    ->default(fn () => $this->getOption('data-zoom', '12')),
 
                                 Select::make('options.data-map-type')
                                     ->label('Map type')
@@ -110,12 +110,12 @@ class GoogleMapsModuleSettings extends LiveEditModuleSettings
                                         'terrain'  => 'Terrain',
                                         'hybrid'   => 'Hybrid',
                                     ])
-                                    ->default('roadmap'),
+                                    ->default(fn () => $this->getOption('data-map-type', 'roadmap')),
 
                                 Toggle::make('options.data-show-marker')
                                     ->label('Show marker')
                                     ->live()
-                                    ->default(true)
+                                    ->default(fn () => filter_var($this->getOption('data-show-marker', true), FILTER_VALIDATE_BOOLEAN))
                                     ->helperText('Display a pin at the specified location.'),
 
                                 TextInput::make('options.data-marker-label')

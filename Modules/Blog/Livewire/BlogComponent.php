@@ -50,6 +50,7 @@ class BlogComponent extends Component
             $settings = get_module_options($this->moduleId, $this->moduleType);
 
             $this->postsPerPage = $settings['options']['posts_per_page'] ?? 10;
+            $this->limit = $this->postsPerPage;
             $this->layout = $settings['options']['layout'] ?? 'grid';
             $this->showCategories = $settings['options']['show_categories'] ?? true;
             $this->showTags = $settings['options']['show_tags'] ?? true;

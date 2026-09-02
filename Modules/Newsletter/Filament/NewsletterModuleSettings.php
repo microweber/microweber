@@ -38,6 +38,7 @@ class NewsletterModuleSettings extends LiveEditModuleSettings
                                 Select::make('options.list_id')
                                     ->live()
                                     ->label('Newsletter List')
+                                    ->default(fn () => $this->getOption('list_id'))
                                     ->options(function () {
                                         return \Modules\Newsletter\Models\NewsletterList::whereNotNull('name')->pluck('name', 'id')->toArray();
                                     })->visible(function () {

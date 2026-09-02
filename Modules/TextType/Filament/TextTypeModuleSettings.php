@@ -20,28 +20,28 @@ class TextTypeModuleSettings extends LiveEditModuleSettings
                     ->label('Text')
                     ->helperText('Enter the text for the animation.')
                     ->live()
-                    ->default('Your cool text here!'),
+                    ->default(fn () => $this->getOption('text', 'Your cool text here!')),
 
                 TextInput::make('options.fontSize')
                     ->label('Font Size')
                     ->helperText('Enter the font size for the text.')
                     ->live()
                     ->numeric()
-                    ->default(46),
+                    ->default(fn () => $this->getOption('fontSize', 24)),
 
                 TextInput::make('options.animationSpeed')
                     ->label('Animation Speed')
                     ->helperText('Enter the animation speed for the text.')
                     ->numeric()
                     ->live()
-                    ->default(100), // Default speed value
+                    ->default(fn () => $this->getOption('animationSpeed', '50')), // Default speed value
 
 
                 ColorPicker::make('options.textColor')
                     ->label('Text Color')
                     ->helperText('Enter the text color for the marquee text.')
                     ->live()
-                    ->default('#000000'),
+                    ->default(fn () => $this->getOption('textColor', '#000000')),
 
                 // Other options...
             ]);

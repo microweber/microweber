@@ -29,7 +29,7 @@ class AudioModuleSettings extends LiveEditModuleSettings
                     ToggleButtons::make('options.data-audio-source')
                         ->live()
                         ->inline()
-                        ->default('file')
+                        ->default(fn () => $this->getOption('data-audio-source', 'file'))
                         ->columnSpanFull()
                         ->options([
                             'file' => 'File',

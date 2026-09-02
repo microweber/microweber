@@ -23,9 +23,10 @@ class PdfModuleSettings extends LiveEditModuleSettings
             ->schema([
                 Section::make('PDF settings')->schema([
                     ToggleButtons::make('options.data-pdf-source')
+                        ->label('PDF source')
                         ->live()
                         ->inline()
-                        ->default('file')
+                        ->default(fn () => $this->getOption('data-pdf-source', 'file'))
                         ->columnSpanFull()
                         ->options([
                             'file' => 'File',
@@ -38,7 +39,8 @@ class PdfModuleSettings extends LiveEditModuleSettings
                         })
                         ->label('Upload PDF file')
                         ->fileTypes(['pdf'])
-                        ->live(),
+                        ->live()
+                        ->default(fn () => $this->getOption('data-pdf-upload', '')),
 
                     TextInput::make('options.data-pdf-url')
                         ->hidden(function ($get) {
@@ -47,6 +49,7 @@ class PdfModuleSettings extends LiveEditModuleSettings
                         ->label('PDF file URL')
                         ->url()
                         ->live()
+                        ->default(fn () => $this->getOption('data-pdf-url', ''))
                         ->placeholder('https://www.example.com/document.pdf'),
                 ])
             ]);
