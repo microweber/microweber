@@ -49,9 +49,11 @@ abstract class LiveEditModuleSettings extends Page
 
     /**
      * When true, live-edit opens this page inside mw.dialog (livewire-modal
-     * host) instead of the Filament slide-over iframe.
+     * host) instead of the Filament slide-over iframe. Default TRUE so ALL
+     * module settings use the mw-dialog modal (as Audio/Video/Btn do); a
+     * module can still opt back to the slide-over iframe with `= false`.
      */
-    protected static bool $useMwDialog = false;
+    protected static bool $useMwDialog = true;
 
     public static function usesMwDialog(): bool
     {
