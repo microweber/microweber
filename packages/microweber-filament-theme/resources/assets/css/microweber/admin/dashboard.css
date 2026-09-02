@@ -32,7 +32,13 @@
 .mw-quick-stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--mw-space-md);  /* GR: md(16) */
+  gap: var(--mw-space-sm);  /* dense: sm(10) */
+}
+
+/* Dashboard widget-to-widget grid gap — Filament default is 24px (gap-6) and was
+   never overridden; tighten to match the dense stack. */
+body.fi-panel-admin .fi-wi {
+  gap: var(--mw-space-sm) !important;  /* 10px (was 24) */
 }
 
 @media (max-width: 640px) {

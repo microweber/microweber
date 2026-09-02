@@ -4938,7 +4938,7 @@ body.fi-panel-admin .fi-header {
 body.fi-panel-admin .fi-ta-ctn {
     background-color: #ffffff !important;
     border: 1px solid #e8eef4 !important;
-    border-radius: 12px !important;
+    border-radius: var(--mw-radius-lg, 4px) !important;  /* was 12px — align with tables/theme.css pinned 4px */
     box-shadow: 0 1px 3px rgba(24, 36, 51, 0.04) !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;

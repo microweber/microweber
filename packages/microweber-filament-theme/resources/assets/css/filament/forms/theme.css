@@ -69,6 +69,14 @@ body.fi-panel-admin .fi-sc-text {
   }
 }
 
+/* Field-to-field vertical rhythm — Filament v5 spaces schema fields via the
+   .fi-sc-has-gap grid (24px row-gap), never overridden in the admin panel, so
+   stacked fields sit ~60px apart. Tighten row-gap to 12px (keeps the horizontal
+   column gap intact for 2-col forms) so forms match the dense controls. */
+body.fi-panel-admin .fi-sc-has-gap {
+  row-gap: 12px !important;  /* 12px vertical field gap (was 24) */
+}
+
 /* Placeholder text — greyed out. Without this, placeholders inherit the input's */
 /* ink color (var(--mw-text-primary) #182433) and read identical to typed text. MW v2 */
 /* uses a muted grey. opacity:1 because Firefox dims placeholder opacity by default. */
