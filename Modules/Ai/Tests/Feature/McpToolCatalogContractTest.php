@@ -68,6 +68,7 @@ class McpToolCatalogContractTest extends TestCase
         'billing.subscription_lookup',
         'content.create',
         'category.list',
+        'comments.list',
         'content.get',
         'content.lookup',
         'menu.list',

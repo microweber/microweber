@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Ai\Services\Mcp;
 
 use Modules\Category\Tools\CategoryListTool;
+use Modules\Comments\Tools\CommentsListTool;
 use Modules\Content\Tools\ContentSearchTool;
 use Modules\Content\Tools\CreateContentTool;
 use Modules\Menu\Tools\MenuListTool;
@@ -77,6 +78,11 @@ class McpToolCatalog
                 'tool' => CategoryListTool::class,
                 'module' => 'category',
                 'title' => 'List the site content categories.',
+            ],
+            'comments.list' => [
+                'tool' => CommentsListTool::class,
+                'module' => 'comments',
+                'title' => 'List recent site comments with moderation status.',
             ],
             'content.create' => [
                 'tool' => CreateContentTool::class,
