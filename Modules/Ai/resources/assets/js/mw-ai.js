@@ -181,6 +181,78 @@ function MwAi() {
             return tmp.innerHTML;
         },
 
+        // Add !important to every declaration in a flat CSS string so AI styles
+        // win the cascade. Nested at-rule blocks (@media etc.) contain braces and
+        // are left untouched by the rule regex — acceptable, they are rare.
+        forceImportant(css) {
+            return String(css).replace(/([^{}]+)\{([^{}]*)\}/g, function (m, sel, body) {
+                const decls = body.split(';').map(function (d) {
+                    d = d.trim();
+                    if (!d) { return ''; }
+                    if (/!important\s*$/i.test(d)) { return d; }
+                    return d + ' !important';
+                }).filter(Boolean).join('; ');
+                return sel.trim() + ' { ' + decls + ' }';
+            });
+        },
+
+        // Inject AI CSS into a single global <style> kept LAST in the canvas head
+        // (so it wins by source order). Accumulates across the session.
+        injectGlobalCss(css) {
+            const doc = this.canvasDocument();
+            let el = doc.getElementById('mw-ai-global-css');
+            if (!el) {
+                el = doc.createElement('style');
+                el.id = 'mw-ai-global-css';
+            }
+            el.appendChild(doc.createTextNode('\n' + css));
+            doc.head.appendChild(el); // move/keep last
+        },
+
+        // Persist the accumulated global AI CSS to the template's custom CSS file
+        // so the design is global and survives SAVE. Reads the current file,
+        // replaces any previous AI block (sentinel-marked) and appends the fresh
+        // one after the template's own rules. Debounced + best-effort.
+        persistGlobalCss() {
+            const self = this;
+            clearTimeout(self._persistCssTimer);
+            self._persistCssTimer = setTimeout(function () { self._doPersistGlobalCss(); }, 800);
+        },
+
+        async _doPersistGlobalCss() {
+            try {
+                const doc = this.canvasDocument();
+                const el = doc.getElementById('mw-ai-global-css');
+                const aiCss = el ? el.textContent : '';
+                if (!aiCss.trim()) { return; }
+
+                const editor = mw.top().app && mw.top().app.cssEditor;
+                const settings = (editor && editor.settings) ? editor.settings : {};
+                const saveUrl = settings.saveUrl || (mw.settings.api_url + 'current_template_save_custom_css');
+                const cssUrl = settings.cssUrl;
+
+                let base = '';
+                if (cssUrl) {
+                    try { base = await fetch(cssUrl, { cache: 'no-store' }).then(function (r) { return r.text(); }); } catch (e) {}
+                }
+                // Drop any previous AI block, then append the current one last.
+                base = base.replace(/\/\* MW-AI-CSS-START \*\/[\s\S]*?\/\* MW-AI-CSS-END \*\//g, '').trim();
+                const combined = base + '\n\n/* MW-AI-CSS-START */\n' + aiCss.trim() + '\n/* MW-AI-CSS-END */\n';
+
+                const data = { css_file_content: combined };
+                try {
+                    const led = mw.top().app.canvas.getLiveEditData();
+                    if (led && led.template_name) { data.active_site_template = led.template_name; }
+                    if (led && led.content) { data.content_id = led.content.id; }
+                } catch (e) {}
+
+                const ajax = { url: saveUrl, type: 'POST', data: data };
+                const csrf = $('meta[name="csrf-token"]');
+                if (csrf.length) { ajax.headers = { 'X-CSRF-TOKEN': csrf.attr('content') }; }
+                await $.ajax(ajax);
+            } catch (e) {}
+        },
+
         // Very small flat-CSS parser: "sel { a:1; b:2 } sel2 { c:3 }" ->
         // [{selector, props:{a:'1', b:'2'}}, ...]. Rules containing nested "{"
         // (e.g. @media) are returned raw so applyCss can inject them verbatim.
@@ -227,62 +299,16 @@ function MwAi() {
                 const css = (args && args.css) ? String(args.css) : '';
                 if (!css.trim()) { return { ok: false, message: 'empty css' }; }
 
-                const editor = mw.top().app && mw.top().app.cssEditor;
-                const parsed = api.parseCss(css);
-                let applied = 0;
-
-                if (editor && editor.setPropertyForSelectorBulk) {
-                    parsed.rules.forEach(function(rule) {
-                        try {
-                            // Force !important so AI styles win over the template's
-                            // own (more specific / body-scoped) defaults — otherwise
-                            // plain-class rules like `.btn{background:…}` silently lose
-                            // the cascade to Bootstrap/general-styles.
-                            const props = {};
-                            Object.keys(rule.props).forEach(function(k) {
-                                let v = rule.props[k];
-                                if (!/!important\s*$/i.test(v)) { v = v + ' !important'; }
-                                props[k] = v;
-                            });
-                            editor.setPropertyForSelectorBulk(rule.selector, props);
-                            applied++;
-                        } catch (e) {}
-                    });
-                    editor.changed = true;
-                }
-
-                // At-rules / anything not expressible as selector→props: inject a
-                // raw <style> in the canvas so the effect is visible immediately.
-                if (parsed.raw.length) {
-                    try {
-                        const doc = api.canvasDocument();
-                        let el = doc.getElementById('mw-ai-custom-css');
-                        if (!el) {
-                            el = doc.createElement('style');
-                            el.id = 'mw-ai-custom-css';
-                            doc.head.appendChild(el);
-                        }
-                        el.appendChild(doc.createTextNode('\n' + parsed.raw.join('\n')));
-                        applied += parsed.raw.length;
-                    } catch (e) {}
-                }
-
-                // If we could not go through the editor at all, at least show it.
-                if (!editor && !parsed.raw.length) {
-                    try {
-                        const doc = api.canvasDocument();
-                        let el = doc.getElementById('mw-ai-custom-css');
-                        if (!el) {
-                            el = doc.createElement('style');
-                            el.id = 'mw-ai-custom-css';
-                            doc.head.appendChild(el);
-                        }
-                        el.appendChild(doc.createTextNode('\n' + css));
-                        applied++;
-                    } catch (e) {}
-                }
-
-                return { ok: applied > 0, message: applied + ' css rule(s) applied' };
+                // Full-scope design: write to the GLOBAL Live-Edit custom CSS, not
+                // the per-region temp style. We (1) inject it into a single global
+                // <style> appended LAST in the canvas <head> — so at equal
+                // specificity it beats the template's own rules (e.g. the shipped
+                // `.btn{…!important}`) by source order — and (2) persist it to the
+                // template's custom CSS file so it is global and survives SAVE.
+                const withImportant = api.forceImportant(css);
+                api.injectGlobalCss(withImportant);
+                api.persistGlobalCss();
+                return { ok: true, message: 'applied global css' };
             },
 
             set_text: function(args, api) {

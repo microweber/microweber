@@ -62,6 +62,15 @@ html.dark .mw-ai-conv-edit{ background:#ffffff10; color:#dfe3e8; border-color:#f
 .mw-ai-conv-edit.err{ background:#e6394614; color:#c62030; border-color:#e6394633; }
 .mw-ai-conv-edit svg{ width:15px; height:15px; }
 .mw-ai-conv-edit code{ font-size:12px; opacity:.85; }
+.mw-ai-conv-editwrap{ display:flex; flex-direction:column; gap:4px; align-self:flex-start; max-width:100%; }
+.mw-ai-conv-edit{ cursor:pointer; font-family:inherit; text-align:left; }
+.mw-ai-conv-caret{ margin-left:4px; font-size:10px; opacity:.6; }
+.mw-ai-conv-edit-details{
+    margin:0; padding:9px 11px; border-radius:9px; background:#0d1526; color:#cbd5e1;
+    font-size:11.5px; line-height:1.45; max-height:220px; overflow:auto; white-space:pre-wrap;
+    word-break:break-word; border:1px solid #ffffff14;
+}
+html:not(.dark) .mw-ai-conv-edit-details{ background:#111827; color:#e5e7eb; }
 
 .mw-ai-conv-empty{
     margin:auto; text-align:center; color:#8a94a3; padding:24px 16px; max-width:280px;
@@ -392,16 +401,57 @@ export class MwAiConversation extends MicroweberBaseClass {
         return t || mw.lang("Edit");
     }
 
+    // A short, human string of the exact tool-call arguments, shown in the
+    // collapsible details box so you can verify what actually happened.
+    editDetails(edit, result) {
+        const a = (edit && edit.args) || {};
+        const t = edit && edit.tool;
+        const parts = [];
+        if (t === "apply_css") { if (a.css) { parts.push(String(a.css)); } }
+        else if (t === "add_section") {
+            if (a.html) { parts.push(String(a.html)); }
+            if (a.css) { parts.push("/* css */\n" + String(a.css)); }
+        } else if (t === "set_text") { parts.push((a.selector || "?") + "  →  " + (a.text || "")); }
+        else if (t === "set_image") { parts.push((a.selector || "?") + "  →  " + (a.url || "")); }
+        else if (t === "insert_module") { parts.push("type: " + (a.type || "?")); }
+        else if (t === "set_module_option") { parts.push((a.key || "?") + " = " + (a.value || "")); }
+        else if (a && Object.keys(a).length) { try { parts.push(JSON.stringify(a, null, 2)); } catch (e) {} }
+        if (result && result.ok === false && result.message) { parts.push("⚠ " + String(result.message)); }
+        return parts.join("\n\n").trim();
+    }
+
     addEdit(container, edit, result) {
         const ok = !result || result.ok !== false;
-        const chip = document.createElement("div");
+        const wrap = document.createElement("div");
+        wrap.className = "mw-ai-conv-editwrap";
+
+        const chip = document.createElement("button");
+        chip.type = "button";
         chip.className = "mw-ai-conv-edit" + (ok ? "" : " err");
         const ic = ok ? (this.icon("check") || "✓") : (this.icon("close") || "✕");
-        chip.innerHTML = `${ic}<span>${this.editLabel(edit)}</span>`;
-        if (!ok && result && result.message) {
+        const detailText = this.editDetails(edit, result);
+        chip.innerHTML = `${ic}<span>${this.editLabel(edit)}</span>`
+            + (detailText ? `<span class="mw-ai-conv-caret">▸</span>` : "");
+        wrap.appendChild(chip);
+
+        if (detailText) {
+            const details = document.createElement("pre");
+            details.className = "mw-ai-conv-edit-details";
+            details.textContent = detailText;
+            details.style.display = "none";
+            wrap.appendChild(details);
+            chip.addEventListener("click", () => {
+                const open = details.style.display !== "none";
+                details.style.display = open ? "none" : "block";
+                const caret = chip.querySelector(".mw-ai-conv-caret");
+                if (caret) { caret.textContent = open ? "▸" : "▾"; }
+                if (!open) { this.scrollDown(); }
+            });
+        } else if (!ok && result && result.message) {
             chip.innerHTML += ` <code>${String(result.message)}</code>`;
         }
-        container.appendChild(chip);
+
+        container.appendChild(wrap);
         this.scrollDown();
     }
 
