@@ -16,7 +16,7 @@
         "illuminate/support": "^10.0|^11.0|^12.0",
         "illuminate/contracts": "^10.0|^11.0|^12.0",
         "illuminate/http": "^10.0|^11.0|^12.0",
-        "inspector-apm/neuron-ai": "^2.0",
+        "inspector-apm/neuron-ai": "^3.0",
         "microweber-packages/package": "^1.0",
         "spatie/laravel-package-tools": "^1.16"
     },

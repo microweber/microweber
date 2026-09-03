@@ -10,7 +10,7 @@ use MicroweberPackages\AiTools\Facades\AiTools;
 use GuzzleHttp\Exception\RequestException;
 use Modules\Ai\Models\AgentChat;
 use Modules\Ai\Services\AgentChatHistory;
-use NeuronAI\Agent;
+use NeuronAI\Agent\Agent;
 use NeuronAI\Chat\History\ChatHistoryInterface;
 use NeuronAI\Chat\Messages\Message;
 use NeuronAI\Chat\Messages\ToolCallMessage;
@@ -27,11 +27,11 @@ use NeuronAI\Providers\Mistral;
 use NeuronAI\Providers\Ollama\Ollama;
 use NeuronAI\Providers\OpenAI\OpenAI;
 use NeuronAI\StructuredOutput\JsonSchema;
-use NeuronAI\SystemPrompt;
+use NeuronAI\Agent\SystemPrompt;
 use NeuronAI\Tools\ToolInterface;
 use NeuronAI\Tools\Toolkits\ToolkitInterface;
 use NeuronAI\Tools\ProviderToolInterface;
-use NeuronAI\AgentInterface;
+use NeuronAI\Agent\AgentInterface;
 use NeuronAI\Workflow\WorkflowState;
 
 class BaseAgent extends Agent
@@ -98,13 +98,17 @@ class BaseAgent extends Agent
     }
 
 
-    public function setState(WorkflowState $state): void
+    public function setState(WorkflowState $state): \NeuronAI\Workflow\WorkflowInterface
     {
         foreach ($this->tools as $tool) {
             if (method_exists($tool, 'setState')) {
                 $tool->setState($state);
             }
         }
+
+        // NeuronAI 3.x: Workflow::setState() returns WorkflowInterface (was void
+        // in 2.x). Delegate to the parent so the base wiring runs, then return it.
+        return parent::setState($state);
     }
 
     protected function tools(): array

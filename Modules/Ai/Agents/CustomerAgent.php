@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Agents;
 
-use NeuronAI\SystemPrompt;
+use NeuronAI\Agent\SystemPrompt;
 use NeuronAI\Workflow\WorkflowState;
 
 class CustomerAgent extends BaseAgent

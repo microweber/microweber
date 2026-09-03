@@ -6,7 +6,7 @@ namespace Modules\Ai\Agents;
 
 use Modules\Ai\Services\AgentFactory;
 use Modules\Ai\Services\RagSearchService;
-use NeuronAI\SystemPrompt;
+use NeuronAI\Agent\SystemPrompt;
 use Illuminate\Support\Facades\Config;
 
 class GeneralAgent extends BaseAgent

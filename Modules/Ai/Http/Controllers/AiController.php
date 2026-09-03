@@ -209,7 +209,7 @@ class AiController extends Controller
 
             // Process with agent (which will use chat history)
             $neuronMessage = new UserMessage($message);
-            $response = $agent->chat($neuronMessage);
+            $response = $agent->chat($neuronMessage)->getMessage();
 
             // Extract response content
             $responseContent = '';

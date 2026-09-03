@@ -161,7 +161,7 @@
         "dutchcodingcompany/filament-socialite": "^3.0",
         "openai-php/client": "^0.12",
         "halaxa/json-machine": "^1.2",
-        "inspector-apm/neuron-ai": "^2.0",
+        "inspector-apm/neuron-ai": "^3.0",
         "microweber-packages/omnipay-momo-mtn": "^0.2",
         "lara-zeus/spatie-translatable": "^2.0",
         "microweber-packages/phpquery": "^1.0",

@@ -43,7 +43,7 @@ class AgentExecutionNode extends Node
             yield new ProgressEvent("💬 Processing your request with {$agentType} agent...");
 
             // Execute the agent with the user query via NeuronAI chat (supports tool-calling)
-            $chatResponse = $agent->chat(new UserMessage($userQuery));
+            $chatResponse = $agent->chat(new UserMessage($userQuery))->getMessage();
             $response = $chatResponse->getContent();
 
             yield new ProgressEvent("✅ {$agentType} agent completed successfully");

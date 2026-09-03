@@ -90,7 +90,7 @@ class MicroweberAiCommand extends Command
                 $agent->setState($state);
             }
 
-            $reply = $agent->chat(new UserMessage($prompt));
+            $reply = $agent->chat(new UserMessage($prompt))->getMessage();
             $replyText = is_object($reply) && method_exists($reply, 'getContent')
                 ? (string) $reply->getContent()
                 : (string) $reply;

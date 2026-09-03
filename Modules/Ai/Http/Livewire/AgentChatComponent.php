@@ -165,7 +165,7 @@ class AgentChatComponent extends Component
 
             // Process the message
             $message = new UserMessage($userMessage->content);
-            $response = $agent->chat($message);
+            $response = $agent->chat($message)->getMessage();
 
             // Append assistant response
             $assistantMessage = $this->chat->messages()

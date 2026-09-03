@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Ai\Agents;
 
 use Illuminate\Support\Facades\Config;
-use NeuronAI\SystemPrompt;
+use NeuronAI\Agent\SystemPrompt;
 use NeuronAI\Tools\Toolkits\Tavily\TavilySearchTool;
 use NeuronAI\Workflow\WorkflowState;
 

@@ -13,7 +13,7 @@ use NeuronAI\Chat\History\ChatHistoryInterface;
 use NeuronAI\Chat\Messages\Message;
 use NeuronAI\Chat\Messages\UserMessage;
 use NeuronAI\Chat\Messages\ToolCallMessage;
-use NeuronAI\Chat\Messages\ToolCallResultMessage;
+use NeuronAI\Chat\Messages\ToolResultMessage;
 
 class AgentChatHistory implements ChatHistoryInterface, JsonSerializable
 {
@@ -210,7 +210,7 @@ class AgentChatHistory implements ChatHistoryInterface, JsonSerializable
                 $metadata['tool_call_error'] = $e->getMessage();
                 $content = $content ?: 'Tool call execution';
             }
-        } elseif ($message instanceof ToolCallResultMessage) {
+        } elseif ($message instanceof ToolResultMessage) {
             // Store the tool result information in metadata
             $metadata['message_type'] = 'tool_result';
             // Try to get tool result data if available
@@ -252,7 +252,7 @@ class AgentChatHistory implements ChatHistoryInterface, JsonSerializable
         $metadata = $dbMessage->metadata ?? [];
 
         // Handle special message types based on metadata
-        // Note: We don't reconstruct ToolCallMessage/ToolCallResultMessage from database
+        // Note: We don't reconstruct ToolCallMessage/ToolResultMessage from database
         // because they require actual ToolInterface objects, not serialized arrays.
         // Instead, we create regular messages and preserve tool info in metadata.
         if (isset($metadata['message_type'])) {
