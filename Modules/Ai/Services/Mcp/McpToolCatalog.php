@@ -8,6 +8,7 @@ use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
 use Modules\Content\Tools\ContentSearchTool;
 use Modules\Content\Tools\CreateContentTool;
+use Modules\Faq\Tools\FaqListTool;
 use Modules\Menu\Tools\MenuListTool;
 use Modules\Testimonials\Tools\TestimonialsListTool;
 use Modules\Product\Tools\CreateProductTool;
@@ -89,6 +90,11 @@ class McpToolCatalog
                 'tool' => TestimonialsListTool::class,
                 'module' => 'testimonials',
                 'title' => 'List the site testimonials.',
+            ],
+            'faq.list' => [
+                'tool' => FaqListTool::class,
+                'module' => 'faq',
+                'title' => 'List the site FAQ entries.',
             ],
             'content.create' => [
                 'tool' => CreateContentTool::class,

@@ -7,6 +7,7 @@ namespace Modules\Ai\Tests\Feature;
 use MicroweberPackages\AiTools\Base\BaseTool;
 use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
+use Modules\Faq\Tools\FaqListTool;
 use Modules\Menu\Tools\MenuListTool;
 use Modules\Testimonials\Tools\TestimonialsListTool;
 use PHPUnit\Framework\Attributes\Test;
@@ -68,11 +69,22 @@ class McpModuleToolsTest extends TestCase
     }
 
     #[Test]
+    public function faq_list_returns_valid_json(): void
+    {
+        $out = (new FaqListTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $out);
+        $decoded = json_decode($out, true);
+        $this->assertIsArray($decoded);
+        $this->assertArrayHasKey('faqs', $decoded);
+    }
+
+    #[Test]
     public function module_tools_expose_expected_names(): void
     {
         $this->assertSame('menu_list', (new MenuListTool())->getName());
         $this->assertSame('category_list', (new CategoryListTool())->getName());
         $this->assertSame('comments_list', (new CommentsListTool())->getName());
         $this->assertSame('testimonials_list', (new TestimonialsListTool())->getName());
+        $this->assertSame('faq_list', (new FaqListTool())->getName());
     }
 }
