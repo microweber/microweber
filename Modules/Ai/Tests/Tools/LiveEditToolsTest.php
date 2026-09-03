@@ -148,6 +148,15 @@ class LiveEditToolsTest extends ToolTestCase
         $this->assertSame('get_page_context', (new GetPageContextTool())->getName());
         $this->assertSame('navigate_to_page', (new NavigateToPageTool())->getName());
         $this->assertSame('save_page', (new SavePageTool())->getName());
+        $this->assertSame('get_menu', (new \Modules\Ai\Tools\LiveEdit\GetMenuTool())->getName());
+        $this->assertSame('edit_menu_item', (new \Modules\Ai\Tools\LiveEdit\EditMenuItemTool())->getName());
+    }
+
+    #[Test]
+    public function edit_menu_item_requires_an_id(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\EditMenuItemTool();
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $tool->__invoke(id: 0));
     }
 
     #[Test]

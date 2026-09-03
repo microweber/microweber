@@ -390,12 +390,15 @@ export class MwAiConversation extends MicroweberBaseClass {
         const a = (edit && edit.args) || {};
         if (t === "reference") { return mw.lang("Read the reference design"); }
         if (t === "vision") { return mw.lang("Looked at the page"); }
+        if (t === "verify") { return mw.lang("Checking the result for bugs"); }
         if (t === "add_section") { return mw.lang("Added a section"); }
         if (t === "insert_module") { return mw.lang("Inserted module") + (a.type ? " · " + a.type : ""); }
         if (t === "set_module_option") { return mw.lang("Configured module") + (a.key ? " · " + a.key : ""); }
         if (t === "create_content") { return mw.lang("Created page") + (a.title ? " · " + a.title : ""); }
         if (t === "create_post") { return mw.lang("Created post") + (a.title ? " · " + a.title : ""); }
         if (t === "add_menu_item") { return mw.lang("Added menu link") + (a.title ? " · " + a.title : ""); }
+        if (t === "get_menu") { return mw.lang("Read the menu"); }
+        if (t === "edit_menu_item") { return mw.lang("Edited menu item"); }
         if (t === "navigate_to_page") { return mw.lang("Opened page") + (a.url ? " · " + a.url : ""); }
         if (t === "save_page") { return mw.lang("Saved the page"); }
         if (t === "apply_css") { return mw.lang("Applied styles"); }
@@ -489,6 +492,7 @@ export class MwAiConversation extends MicroweberBaseClass {
 
         let anyEdit = false;
         let navigated = false;
+        let visualEdit = false;
         const self = this;
 
         // Capture what the page looks like now so the AI can see the design.
@@ -513,6 +517,9 @@ export class MwAiConversation extends MicroweberBaseClass {
                     onTool(edit, result) {
                         anyEdit = true;
                         if (edit && edit.tool === "navigate_to_page") { navigated = true; }
+                        if (edit && ["apply_css", "add_section", "set_text", "set_image", "insert_module"].indexOf(edit.tool) !== -1) {
+                            visualEdit = true;
+                        }
                         self.addEdit(editsWrap, edit, result);
                     },
                     onError(msg) {
@@ -537,6 +544,13 @@ export class MwAiConversation extends MicroweberBaseClass {
             if (anyEdit && !navigated) {
                 try { MwAi().saveCanvas(); } catch (e) {}
             }
+
+            // Self-check: after a visual/CSS edit, screenshot the RESULT and feed
+            // it back to the agent so it can catch and fix its own bugs (invisible
+            // text, hidden menus, broken layout) in one correction pass.
+            if (visualEdit && !navigated && !this._verifying && this.settings.verify !== false) {
+                await this.runVerification(editsWrap, turn);
+            }
         } catch (e) {
             typing.remove();
             this.addEdit(editsWrap, { tool: "error" }, { ok: false, message: String(e && e.message || e) });
@@ -547,6 +561,64 @@ export class MwAiConversation extends MicroweberBaseClass {
         } finally {
             this.setPending(false);
             this.input.focus();
+        }
+    }
+
+    // Post-edit self-check: screenshot the result and feed it back to the agent
+    // (as a reference image the vision model reads) so it can spot and fix its own
+    // visual bugs — invisible/low-contrast text, hidden or missing navigation
+    // menus, overlapping/broken layout, unstyled areas — in a single pass. One
+    // round only (guarded by _verifying) so it never loops.
+    async runVerification(editsWrap, turn) {
+        let shot = null;
+        try { shot = await this.captureScreenshot(); } catch (e) {}
+        if (!shot) { return; }
+
+        this._verifying = true;
+        this.addEdit(editsWrap, { tool: "verify" }, { ok: true });
+        const typing = this.addTyping();
+        const self = this;
+
+        const verifyMsg = "SELF-CHECK your last change. The attached screenshot is exactly how the "
+            + "page looks now. Inspect it carefully for VISUAL BUGS: (1) text that is invisible or "
+            + "very low-contrast (nearly the same colour as its background); (2) navigation menus or "
+            + "links that are hidden, missing or unreadable; (3) elements overlapping or a broken/"
+            + "collapsed layout; (4) unstyled or default-looking areas that should match the design. "
+            + "If you find ANY problem, FIX it now with apply_css (styles are global and must win — use "
+            + "clear, high-contrast colours). If everything looks correct, reply exactly 'Looks good.' "
+            + "and make no tool calls.";
+
+        let fixed = false;
+        try {
+            const done = await MwAi().agentChatStream(
+                verifyMsg,
+                {
+                    chat_id: this.chatId || undefined,
+                    content_id: this.settings.contentId || undefined,
+                    reference_images: [shot]
+                },
+                {
+                    onStart(data) { if (data && data.chat_id) { self.chatId = data.chat_id; } },
+                    onReference() { self.addEdit(editsWrap, { tool: "reference" }, { ok: true }); },
+                    onTool(edit, result) { fixed = true; self.addEdit(editsWrap, edit, result); },
+                    onError(msg) { self.addEdit(editsWrap, { tool: "error" }, { ok: false, message: msg }); },
+                    onDone(data) { if (data && data.chat_id) { self.chatId = data.chat_id; } }
+                }
+            );
+            typing.remove();
+            const txt = (done && done.response) ? done.response : "";
+            if (txt) {
+                const bubble = document.createElement("div");
+                bubble.className = "mw-ai-conv-msg-bubble";
+                bubble.textContent = (fixed ? "🔧 " : "✓ ") + txt;
+                turn.appendChild(bubble);
+                this.scrollDown();
+            }
+            if (fixed) { try { MwAi().saveCanvas(); } catch (e) {} }
+        } catch (e) {
+            typing.remove();
+        } finally {
+            this._verifying = false;
         }
     }
 

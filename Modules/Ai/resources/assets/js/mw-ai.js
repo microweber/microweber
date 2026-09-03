@@ -504,6 +504,8 @@ function MwAi() {
             create_content: function() { return { ok: true, message: 'page created' }; },
             create_post: function() { return { ok: true, message: 'post created' }; },
             add_menu_item: function() { return { ok: true, message: 'menu updated' }; },
+            get_menu: function() { return { ok: true, message: 'menu read' }; },
+            edit_menu_item: function() { return { ok: true, message: 'menu item edited' }; },
             generate_image: function() {
                 return { ok: true, message: 'image generated (model will place it)' };
             },

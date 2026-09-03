@@ -7,6 +7,8 @@ namespace Modules\Ai\Agents;
 use Modules\Ai\Tools\LiveEdit\AddMenuItemTool;
 use Modules\Ai\Tools\LiveEdit\AddSectionTool;
 use Modules\Ai\Tools\LiveEdit\ApplyCssTool;
+use Modules\Ai\Tools\LiveEdit\EditMenuItemTool;
+use Modules\Ai\Tools\LiveEdit\GetMenuTool;
 use Modules\Ai\Tools\LiveEdit\GetPageContextTool;
 use Modules\Ai\Tools\LiveEdit\InsertModuleTool;
 use Modules\Ai\Tools\LiveEdit\NavigateToPageTool;
@@ -43,6 +45,8 @@ class LiveEditAgent extends BaseAgent
         $this->addTool(new CreateContentTool($this->dependencies));
         $this->addTool(new CreatePostTool($this->dependencies));
         $this->addTool(new AddMenuItemTool($this->dependencies));
+        $this->addTool(new GetMenuTool($this->dependencies));
+        $this->addTool(new EditMenuItemTool($this->dependencies));
         $this->addTool(new NavigateToPageTool($this->dependencies));
         $this->addTool(new SavePageTool($this->dependencies));
     }
@@ -60,6 +64,7 @@ class LiveEditAgent extends BaseAgent
                 'Your tools: get_page_context (read the page title/content/current custom CSS if the canvas markup is not enough); add_section (add a new content section — the way to build pages); insert_module (add a functional Microweber module: contact_form, pictures gallery, shop, map, menu, video); set_module_option (configure a module you inserted, e.g. a contact form recipient email); apply_css (visual/design changes via custom CSS); set_text (rewrite the text of an element by CSS selector); set_image (point an <img> at a given URL).',
                 'You cannot generate images. For a picture/screenshot area in a design, build a styled placeholder with add_section + apply_css (a box with a background color/gradient and a caption) rather than trying to create an image. Focus on layout, colors, typography and text — that is what makes a recreation recognizable.',
                 'For interactive features (a contact form, a gallery, a shop, a map) use insert_module — do NOT fake them with static HTML. To place a contact form, insert_module type "contact_form", then set_module_option to configure it if the user gave details.',
+                'To manage navigation: add_menu_item adds a link; get_menu lists the current items with their ids; edit_menu_item renames, relinks, reorders or removes an item by id. If the site navigation looks wrong or a menu is hidden/unreadable, fix its styling with apply_css (menus must be clearly visible and high-contrast).',
             ],
             steps: [
                 'Understand exactly what the user wants to change.',
