@@ -9,6 +9,7 @@ use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
 use Modules\Faq\Tools\FaqListTool;
 use Modules\Menu\Tools\MenuListTool;
+use Modules\Slider\Tools\SliderListTool;
 use Modules\Testimonials\Tools\TestimonialsListTool;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -79,6 +80,16 @@ class McpModuleToolsTest extends TestCase
     }
 
     #[Test]
+    public function slider_list_returns_valid_json(): void
+    {
+        $out = (new SliderListTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $out);
+        $decoded = json_decode($out, true);
+        $this->assertIsArray($decoded);
+        $this->assertArrayHasKey('slides', $decoded);
+    }
+
+    #[Test]
     public function module_tools_expose_expected_names(): void
     {
         $this->assertSame('menu_list', (new MenuListTool())->getName());
@@ -86,5 +97,6 @@ class McpModuleToolsTest extends TestCase
         $this->assertSame('comments_list', (new CommentsListTool())->getName());
         $this->assertSame('testimonials_list', (new TestimonialsListTool())->getName());
         $this->assertSame('faq_list', (new FaqListTool())->getName());
+        $this->assertSame('slider_list', (new SliderListTool())->getName());
     }
 }

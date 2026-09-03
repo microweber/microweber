@@ -10,6 +10,7 @@ use Modules\Content\Tools\ContentSearchTool;
 use Modules\Content\Tools\CreateContentTool;
 use Modules\Faq\Tools\FaqListTool;
 use Modules\Menu\Tools\MenuListTool;
+use Modules\Slider\Tools\SliderListTool;
 use Modules\Testimonials\Tools\TestimonialsListTool;
 use Modules\Product\Tools\CreateProductTool;
 use Modules\Content\Tools\GetContentTool;
@@ -95,6 +96,11 @@ class McpToolCatalog
                 'tool' => FaqListTool::class,
                 'module' => 'faq',
                 'title' => 'List the site FAQ entries.',
+            ],
+            'slider.list' => [
+                'tool' => SliderListTool::class,
+                'module' => 'slider',
+                'title' => 'List the site slider slides.',
             ],
             'content.create' => [
                 'tool' => CreateContentTool::class,
