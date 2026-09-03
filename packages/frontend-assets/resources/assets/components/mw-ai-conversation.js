@@ -393,6 +393,11 @@ export class MwAiConversation extends MicroweberBaseClass {
         if (t === "add_section") { return mw.lang("Added a section"); }
         if (t === "insert_module") { return mw.lang("Inserted module") + (a.type ? " · " + a.type : ""); }
         if (t === "set_module_option") { return mw.lang("Configured module") + (a.key ? " · " + a.key : ""); }
+        if (t === "create_content") { return mw.lang("Created page") + (a.title ? " · " + a.title : ""); }
+        if (t === "create_post") { return mw.lang("Created post") + (a.title ? " · " + a.title : ""); }
+        if (t === "add_menu_item") { return mw.lang("Added menu link") + (a.title ? " · " + a.title : ""); }
+        if (t === "navigate_to_page") { return mw.lang("Opened page") + (a.url ? " · " + a.url : ""); }
+        if (t === "save_page") { return mw.lang("Saved the page"); }
         if (t === "apply_css") { return mw.lang("Applied styles"); }
         if (t === "set_text") { return mw.lang("Updated text") + (a.selector ? " · " + a.selector : ""); }
         if (t === "set_image") { return mw.lang("Replaced image") + (a.selector ? " · " + a.selector : ""); }
@@ -483,6 +488,7 @@ export class MwAiConversation extends MicroweberBaseClass {
         const typing = this.addTyping();
 
         let anyEdit = false;
+        let navigated = false;
         const self = this;
 
         // Capture what the page looks like now so the AI can see the design.
@@ -506,6 +512,7 @@ export class MwAiConversation extends MicroweberBaseClass {
                     },
                     onTool(edit, result) {
                         anyEdit = true;
+                        if (edit && edit.tool === "navigate_to_page") { navigated = true; }
                         self.addEdit(editsWrap, edit, result);
                     },
                     onError(msg) {
@@ -525,9 +532,10 @@ export class MwAiConversation extends MicroweberBaseClass {
             turn.appendChild(bubble);
             this.scrollDown();
 
-            // Nudge Live Edit that there are unsaved changes.
-            if (anyEdit) {
-                try { mw.top().app.registerAskUserToStay(true); } catch (e) {}
+            // Auto-save the model's edits so nothing is lost (unless a navigation
+            // this turn already saved before leaving the page).
+            if (anyEdit && !navigated) {
+                try { MwAi().saveCanvas(); } catch (e) {}
             }
         } catch (e) {
             typing.remove();

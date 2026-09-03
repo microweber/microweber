@@ -10,6 +10,8 @@ use Modules\Ai\Tools\LiveEdit\AddSectionTool;
 use Modules\Ai\Tools\LiveEdit\ApplyCssTool;
 use Modules\Ai\Tools\LiveEdit\GetPageContextTool;
 use Modules\Ai\Tools\LiveEdit\InsertModuleTool;
+use Modules\Ai\Tools\LiveEdit\NavigateToPageTool;
+use Modules\Ai\Tools\LiveEdit\SavePageTool;
 use Modules\Ai\Tools\LiveEdit\SetImageTool;
 use Modules\Ai\Tools\LiveEdit\SetModuleOptionTool;
 use Modules\Ai\Tools\LiveEdit\SetTextTool;
@@ -122,6 +124,19 @@ class LiveEditToolsTest extends ToolTestCase
     }
 
     #[Test]
+    public function navigate_and_save_tools_behave(): void
+    {
+        $nav = new NavigateToPageTool();
+        $ok = $nav->__invoke(url: 'features');
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $ok);
+        $this->assertStringContainsString('features', $ok);
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $nav->__invoke(url: ''));
+
+        // save_page is a side-effect-free frontend trigger — always confirms.
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, (new SavePageTool())->__invoke());
+    }
+
+    #[Test]
     public function tools_expose_the_expected_names(): void
     {
         $this->assertSame('add_section', (new AddSectionTool())->getName());
@@ -131,6 +146,8 @@ class LiveEditToolsTest extends ToolTestCase
         $this->assertSame('set_text', (new SetTextTool())->getName());
         $this->assertSame('set_image', (new SetImageTool())->getName());
         $this->assertSame('get_page_context', (new GetPageContextTool())->getName());
+        $this->assertSame('navigate_to_page', (new NavigateToPageTool())->getName());
+        $this->assertSame('save_page', (new SavePageTool())->getName());
     }
 
     #[Test]

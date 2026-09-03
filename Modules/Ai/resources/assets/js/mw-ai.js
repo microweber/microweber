@@ -104,6 +104,26 @@ function MwAi() {
             return document;
         },
 
+        // Trigger the normal Live-Edit SAVE (content + custom CSS). Used by the
+        // save_page tool and by the conversation's auto-save after each AI turn.
+        saveCanvas() {
+            let done = false;
+            try {
+                if (mw.liveEditSaveService && typeof mw.liveEditSaveService.save === 'function') {
+                    mw.liveEditSaveService.save();
+                    done = true;
+                }
+            } catch (e) {}
+            if (!done) {
+                try {
+                    const btn = mw.top().doc.querySelector('#save-button');
+                    if (btn) { btn.click(); done = true; }
+                } catch (e) {}
+            }
+            try { if (mw.top().app.cssEditor) { mw.top().app.cssEditor.publishIfChanged(); } } catch (e) {}
+            return done;
+        },
+
         // The id of the content/page currently open in Live Edit (0 if unknown).
         canvasContentId() {
             try {
@@ -444,8 +464,35 @@ function MwAi() {
                 }
             },
 
-            // generate_image runs server-side (it returns a URL to the model,
-            // which then calls set_image). Nothing to apply on the canvas here.
+            save_page: function(args, api) {
+                const ok = api.saveCanvas();
+                return { ok: ok, message: ok ? 'saved' : 'save unavailable' };
+            },
+
+            navigate_to_page: function(args, api) {
+                const raw = (args && args.url) ? String(args.url).trim() : '';
+                if (!raw) { return { ok: false, message: 'no url' }; }
+                let full = raw;
+                if (!/^https?:/i.test(raw)) {
+                    const base = String(mw.settings.site_url || '').replace(/\/+$/, '');
+                    full = (raw === '/' || raw === '') ? base + '/' : base + '/' + raw.replace(/^\/+/, '');
+                }
+                try {
+                    // Save before leaving so nothing is lost, then load the page.
+                    try { api.saveCanvas(); } catch (e) {}
+                    mw.top().app.canvas.setUrl(full);
+                    return { ok: true, message: 'navigating to ' + raw };
+                } catch (e) {
+                    return { ok: false, message: String(e && e.message || e) };
+                }
+            },
+
+            // These run server-side (create_content/create_post/add_menu_item do
+            // real DB work; generate_image needs a provider). Nothing for the
+            // canvas to apply — the SSE frame is just shown as a chip.
+            create_content: function() { return { ok: true, message: 'page created' }; },
+            create_post: function() { return { ok: true, message: 'post created' }; },
+            add_menu_item: function() { return { ok: true, message: 'menu updated' }; },
             generate_image: function() {
                 return { ok: true, message: 'image generated (model will place it)' };
             },
