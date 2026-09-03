@@ -8,6 +8,7 @@ use MicroweberPackages\AiTools\Base\BaseTool;
 use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
 use Modules\Country\Tools\CountryListTool;
+use Modules\Coupons\Tools\CouponsListTool;
 use Modules\Currency\Tools\CurrencyRatesTool;
 use Modules\Faq\Tools\FaqListTool;
 use Modules\Menu\Tools\MenuListTool;
@@ -104,6 +105,14 @@ class McpModuleToolsTest extends TestCase
     }
 
     #[Test]
+    public function coupons_list_returns_valid_json(): void
+    {
+        $out = (new CouponsListTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $out);
+        $this->assertArrayHasKey('coupons', json_decode($out, true));
+    }
+
+    #[Test]
     public function module_tools_expose_expected_names(): void
     {
         $this->assertSame('menu_list', (new MenuListTool())->getName());
@@ -114,5 +123,6 @@ class McpModuleToolsTest extends TestCase
         $this->assertSame('slider_list', (new SliderListTool())->getName());
         $this->assertSame('country_list', (new CountryListTool())->getName());
         $this->assertSame('currency_rates', (new CurrencyRatesTool())->getName());
+        $this->assertSame('coupons_list', (new CouponsListTool())->getName());
     }
 }

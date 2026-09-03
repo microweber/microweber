@@ -8,6 +8,7 @@ use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
 use Modules\Content\Tools\ContentSearchTool;
 use Modules\Country\Tools\CountryListTool;
+use Modules\Coupons\Tools\CouponsListTool;
 use Modules\Currency\Tools\CurrencyRatesTool;
 use Modules\Content\Tools\CreateContentTool;
 use Modules\Faq\Tools\FaqListTool;
@@ -113,6 +114,11 @@ class McpToolCatalog
                 'tool' => CurrencyRatesTool::class,
                 'module' => 'currency',
                 'title' => 'List configured currency exchange rates.',
+            ],
+            'coupons.list' => [
+                'tool' => CouponsListTool::class,
+                'module' => 'coupons',
+                'title' => 'List the shop discount coupons.',
             ],
             'content.create' => [
                 'tool' => CreateContentTool::class,
