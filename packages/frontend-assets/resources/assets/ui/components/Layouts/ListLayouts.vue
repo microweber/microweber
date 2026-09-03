@@ -46,10 +46,15 @@
                 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">{{ $lang('Insert layout') }}</h2>
 
             <!-- Close Button -->
+            <!-- task: the close X sat ~10px below the "All categories · N LAYOUTS"
+                 result-header row. The button is a 44px flex-centred tap target, so
+                 at top:16px its centred glyph landed at ~28px below the dialog top
+                 while the header row centres at ~18px. top:6px re-centres the 44px
+                 box on the header row (verified: close centreY == header centreY). -->
             <button
                 :aria-label="$lang('Close picker')"
                 class="mw-le-dialog-close-btn"
-                style="position:absolute;top:16px;right:16px;z-index:10;background:none;border:none;font-size:2rem;line-height:1;cursor:pointer;"
+                style="position:absolute;top:6px;right:16px;z-index:10;background:none;border:none;font-size:2rem;line-height:1;cursor:pointer;"
                 type="button"
                 @click="showModal = false"
             >
