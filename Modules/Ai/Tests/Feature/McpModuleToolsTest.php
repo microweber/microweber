@@ -7,6 +7,8 @@ namespace Modules\Ai\Tests\Feature;
 use MicroweberPackages\AiTools\Base\BaseTool;
 use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
+use Modules\Country\Tools\CountryListTool;
+use Modules\Currency\Tools\CurrencyRatesTool;
 use Modules\Faq\Tools\FaqListTool;
 use Modules\Menu\Tools\MenuListTool;
 use Modules\Slider\Tools\SliderListTool;
@@ -90,6 +92,18 @@ class McpModuleToolsTest extends TestCase
     }
 
     #[Test]
+    public function country_and_currency_return_valid_json(): void
+    {
+        $c = (new CountryListTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $c);
+        $this->assertArrayHasKey('countries', json_decode($c, true));
+
+        $r = (new CurrencyRatesTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $r);
+        $this->assertArrayHasKey('rates', json_decode($r, true));
+    }
+
+    #[Test]
     public function module_tools_expose_expected_names(): void
     {
         $this->assertSame('menu_list', (new MenuListTool())->getName());
@@ -98,5 +112,7 @@ class McpModuleToolsTest extends TestCase
         $this->assertSame('testimonials_list', (new TestimonialsListTool())->getName());
         $this->assertSame('faq_list', (new FaqListTool())->getName());
         $this->assertSame('slider_list', (new SliderListTool())->getName());
+        $this->assertSame('country_list', (new CountryListTool())->getName());
+        $this->assertSame('currency_rates', (new CurrencyRatesTool())->getName());
     }
 }

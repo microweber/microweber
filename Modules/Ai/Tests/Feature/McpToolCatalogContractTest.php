@@ -71,6 +71,8 @@ class McpToolCatalogContractTest extends TestCase
         'comments.list',
         'content.get',
         'content.lookup',
+        'country.list',
+        'currency.rates',
         'faq.list',
         'menu.list',
         'slider.list',

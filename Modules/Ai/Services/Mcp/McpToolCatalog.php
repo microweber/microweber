@@ -7,6 +7,8 @@ namespace Modules\Ai\Services\Mcp;
 use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
 use Modules\Content\Tools\ContentSearchTool;
+use Modules\Country\Tools\CountryListTool;
+use Modules\Currency\Tools\CurrencyRatesTool;
 use Modules\Content\Tools\CreateContentTool;
 use Modules\Faq\Tools\FaqListTool;
 use Modules\Menu\Tools\MenuListTool;
@@ -101,6 +103,16 @@ class McpToolCatalog
                 'tool' => SliderListTool::class,
                 'module' => 'slider',
                 'title' => 'List the site slider slides.',
+            ],
+            'country.list' => [
+                'tool' => CountryListTool::class,
+                'module' => 'country',
+                'title' => 'Look up countries (name, ISO code, phone code).',
+            ],
+            'currency.rates' => [
+                'tool' => CurrencyRatesTool::class,
+                'module' => 'currency',
+                'title' => 'List configured currency exchange rates.',
             ],
             'content.create' => [
                 'tool' => CreateContentTool::class,
