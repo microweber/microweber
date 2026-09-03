@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Services\Mcp;
 
+use Modules\Category\Tools\CategoryListTool;
 use Modules\Content\Tools\ContentSearchTool;
 use Modules\Content\Tools\CreateContentTool;
+use Modules\Menu\Tools\MenuListTool;
 use Modules\Product\Tools\CreateProductTool;
 use Modules\Content\Tools\GetContentTool;
 use Modules\SiteStats\Tools\AnalyticsAudienceBreakdownTool;
@@ -65,6 +67,16 @@ class McpToolCatalog
                 'tool' => GetContentTool::class,
                 'module' => 'content',
                 'title' => 'Retrieve detailed information for a Microweber content item by ID.',
+            ],
+            'menu.list' => [
+                'tool' => MenuListTool::class,
+                'module' => 'menu',
+                'title' => 'List the site navigation menus and their items.',
+            ],
+            'category.list' => [
+                'tool' => CategoryListTool::class,
+                'module' => 'category',
+                'title' => 'List the site content categories.',
             ],
             'content.create' => [
                 'tool' => CreateContentTool::class,
