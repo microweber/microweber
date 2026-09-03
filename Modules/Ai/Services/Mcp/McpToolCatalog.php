@@ -6,12 +6,14 @@ namespace Modules\Ai\Services\Mcp;
 
 use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
+use Modules\Company\Tools\CompanyListTool;
 use Modules\Content\Tools\ContentSearchTool;
 use Modules\Country\Tools\CountryListTool;
 use Modules\Coupons\Tools\CouponsListTool;
 use Modules\Currency\Tools\CurrencyRatesTool;
 use Modules\Content\Tools\CreateContentTool;
 use Modules\Faq\Tools\FaqListTool;
+use Modules\MailTemplate\Tools\MailTemplateListTool;
 use Modules\Menu\Tools\MenuListTool;
 use Modules\Offer\Tools\OfferListTool;
 use Modules\Slider\Tools\SliderListTool;
@@ -131,6 +133,16 @@ class McpToolCatalog
                 'tool' => TagListTool::class,
                 'module' => 'tag',
                 'title' => 'List the site content tags.',
+            ],
+            'mailtemplate.list' => [
+                'tool' => MailTemplateListTool::class,
+                'module' => 'mailtemplate',
+                'title' => 'List the site email/mail templates.',
+            ],
+            'company.list' => [
+                'tool' => CompanyListTool::class,
+                'module' => 'company',
+                'title' => 'List the site companies.',
             ],
             'content.create' => [
                 'tool' => CreateContentTool::class,

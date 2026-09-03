@@ -7,10 +7,12 @@ namespace Modules\Ai\Tests\Feature;
 use MicroweberPackages\AiTools\Base\BaseTool;
 use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
+use Modules\Company\Tools\CompanyListTool;
 use Modules\Country\Tools\CountryListTool;
 use Modules\Coupons\Tools\CouponsListTool;
 use Modules\Currency\Tools\CurrencyRatesTool;
 use Modules\Faq\Tools\FaqListTool;
+use Modules\MailTemplate\Tools\MailTemplateListTool;
 use Modules\Menu\Tools\MenuListTool;
 use Modules\Offer\Tools\OfferListTool;
 use Modules\Slider\Tools\SliderListTool;
@@ -127,8 +129,22 @@ class McpModuleToolsTest extends TestCase
     }
 
     #[Test]
+    public function mailtemplate_and_company_return_valid_json(): void
+    {
+        $m = (new MailTemplateListTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $m);
+        $this->assertArrayHasKey('templates', json_decode($m, true));
+
+        $c = (new CompanyListTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $c);
+        $this->assertArrayHasKey('companies', json_decode($c, true));
+    }
+
+    #[Test]
     public function module_tools_expose_expected_names(): void
     {
+        $this->assertSame('mail_template_list', (new MailTemplateListTool())->getName());
+        $this->assertSame('company_list', (new CompanyListTool())->getName());
         $this->assertSame('menu_list', (new MenuListTool())->getName());
         $this->assertSame('category_list', (new CategoryListTool())->getName());
         $this->assertSame('comments_list', (new CommentsListTool())->getName());
