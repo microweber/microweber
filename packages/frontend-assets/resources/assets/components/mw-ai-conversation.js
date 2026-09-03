@@ -121,8 +121,10 @@ html.dark .mw-ai-conv-history{ background:#1b1e22; }
 }
 .mw-ai-conv-history-item:hover{ background:#1824330d; }
 html.dark .mw-ai-conv-history-item:hover{ background:#ffffff12; }
-.mw-ai-conv-history-item .t{ font-weight:500; }
-.mw-ai-conv-history-item .s{ font-size:12px; color:#8a94a3; }
+.mw-ai-conv-history-item.active{ background:#0a63c814; box-shadow:inset 3px 0 0 #0a63c8; }
+.mw-ai-conv-history-item .t{ font-weight:500; display:flex; align-items:center; gap:6px; }
+.mw-ai-conv-history-item .t .badge{ font-style:normal; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:#0a63c8; background:#0a63c81f; border-radius:5px; padding:1px 6px; }
+.mw-ai-conv-history-item .s{ font-size:12px; color:#8a94a3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .mw-ai-conv-history-list{ overflow-y:auto; flex:1; }
 
 .mw-ai-conv-attachments{ display:flex; flex-wrap:wrap; gap:8px; padding:6px 4px 0; }
@@ -179,8 +181,11 @@ export class MwAiConversation extends MicroweberBaseClass {
             <input type="file" class="mw-ai-conv-file" accept="image/*" multiple style="display:none">
             <div class="mw-ai-conv-history">
                 <div class="mw-ai-conv-head">
-                    <div class="mw-ai-conv-title">${mw.lang("Chat history")}</div>
-                    <button type="button" class="mw-ai-conv-iconbtn mw-ai-conv-history-close" aria-label="${mw.lang("Close")}">${this.icon("close") || "✕"}</button>
+                    <div class="mw-ai-conv-title">${mw.lang("Chat sessions")}</div>
+                    <div class="mw-ai-conv-head-actions">
+                        <button type="button" class="mw-ai-conv-iconbtn mw-ai-conv-history-new" title="${mw.lang("New chat")}" aria-label="${mw.lang("New chat")}">${this.icon("plus") || "+"}</button>
+                        <button type="button" class="mw-ai-conv-iconbtn mw-ai-conv-history-close" aria-label="${mw.lang("Close")}">${this.icon("close") || "✕"}</button>
+                    </div>
                 </div>
                 <div class="mw-ai-conv-history-list"></div>
             </div>
@@ -229,6 +234,7 @@ export class MwAiConversation extends MicroweberBaseClass {
         this.root.querySelector(".mw-ai-conv-new-btn").addEventListener("click", () => this.newChat());
         this.root.querySelector(".mw-ai-conv-history-btn").addEventListener("click", () => this.openHistory());
         this.root.querySelector(".mw-ai-conv-history-close").addEventListener("click", () => this.closeHistory());
+        this.root.querySelector(".mw-ai-conv-history-new").addEventListener("click", () => this.newChat());
 
         // Paste a design screenshot straight into the box to recreate it.
         this.input.addEventListener("paste", (e) => this.handlePaste(e));
@@ -631,21 +637,40 @@ export class MwAiConversation extends MicroweberBaseClass {
         this.historyPanel.classList.remove("open");
     }
 
+    // Short relative-time label from an ISO timestamp ("5m", "3h", "2d").
+    relativeTime(iso) {
+        if (!iso) { return ""; }
+        const t = Date.parse(iso);
+        if (isNaN(t)) { return ""; }
+        const s = Math.max(0, Math.floor((Date.now() - t) / 1000));
+        if (s < 60) { return mw.lang("just now"); }
+        const m = Math.floor(s / 60);
+        if (m < 60) { return m + "m"; }
+        const h = Math.floor(m / 60);
+        if (h < 24) { return h + "h"; }
+        return Math.floor(h / 24) + "d";
+    }
+
     loadChats() {
         this.historyList.innerHTML = `<div class="mw-ai-conv-history-item"><span class="s">${mw.lang("Loading…")}</span></div>`;
         const url = mw.settings.site_url + "api/ai/user-chats";
         $.get(url).then((res) => {
             const list = (res && res.data && res.data.data) ? res.data.data : [];
             if (!list.length) {
-                this.historyList.innerHTML = `<div class="mw-ai-conv-history-item"><span class="s">${mw.lang("No previous chats")}</span></div>`;
+                this.historyList.innerHTML = `<div class="mw-ai-conv-history-item"><span class="s">${mw.lang("No previous chats — start a new one.")}</span></div>`;
                 return;
             }
             this.historyList.innerHTML = "";
             list.forEach((chat) => {
                 const item = document.createElement("div");
-                item.className = "mw-ai-conv-history-item";
+                item.className = "mw-ai-conv-history-item" + (chat.id === this.chatId ? " active" : "");
                 const last = (chat.messages && chat.messages[0]) ? chat.messages[0].content : "";
-                item.innerHTML = `<span class="t">${chat.title || mw.lang("Chat")}</span><span class="s">${(last || "").slice(0, 60)}</span>`;
+                const when = this.relativeTime(chat.updated_at || chat.created_at);
+                const count = (typeof chat.messages_count !== "undefined") ? chat.messages_count : "";
+                const title = (chat.title && chat.title.trim()) ? chat.title : mw.lang("Untitled chat");
+                item.innerHTML =
+                    `<span class="t">${title}${chat.id === this.chatId ? ' <em class="badge">' + mw.lang("current") + '</em>' : ''}</span>`
+                    + `<span class="s">${when}${count !== "" ? " · " + count + " " + mw.lang("msgs") : ""}${last ? " · " + String(last).replace(/\s+/g, " ").slice(0, 48) : ""}</span>`;
                 item.addEventListener("click", () => this.loadChat(chat.id));
                 this.historyList.appendChild(item);
             });
@@ -660,6 +685,8 @@ export class MwAiConversation extends MicroweberBaseClass {
             const data = res && res.data;
             const messages = (data && data.messages && data.messages.data) ? data.messages.data : [];
             this.chatId = id;
+            this.pendingImages = [];
+            this.renderAttachments();
             this.thread.innerHTML = "";
             messages.forEach((m) => {
                 if (m.role === "user" || m.role === "assistant") {
@@ -668,6 +695,7 @@ export class MwAiConversation extends MicroweberBaseClass {
             });
             if (!messages.length) { this.renderEmpty(); }
             this.closeHistory();
+            this.input.focus();
         }).catch(() => {
             mw.notification && mw.notification.error(mw.lang("Could not load chat"));
         });

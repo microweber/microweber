@@ -308,7 +308,12 @@ class AiController extends Controller
         $message = $request->input('message');
         $agentType = $request->input('agent_type', 'liveedit');
         $chatId = $request->input('chat_id');
-        $chatTitle = $request->input('chat_title', 'Live Edit - ' . now()->format('M j, H:i'));
+        // Title new sessions by their first message so they are recognizable in
+        // the resume list; fall back to a timestamp for empty/image-only turns.
+        $chatTitle = $request->input('chat_title')
+            ?: (trim((string) $message) !== ''
+                ? \Illuminate\Support\Str::limit(trim((string) $message), 48)
+                : 'Live Edit - ' . now()->format('M j, H:i'));
         $contentId = (int) $request->input('content_id', 0);
         $canvasHtml = (string) $request->input('canvas_html', '');
         $screenshot = (string) $request->input('screenshot', '');
@@ -626,8 +631,9 @@ class AiController extends Controller
                 ->with(['messages' => function($query) {
                     $query->latest()->limit(1);
                 }])
+                ->withCount('messages')
                 ->orderBy('updated_at', 'desc')
-                ->paginate($request->input('per_page', 20));
+                ->paginate($request->input('per_page', 30));
 
             return response()->json([
                 'success' => true,
