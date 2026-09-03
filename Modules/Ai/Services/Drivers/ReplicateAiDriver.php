@@ -14,7 +14,7 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
      *
      * @var string
      */
-    protected string $apiToken;
+    protected string $apiToken = '';
 
     /**
      * The API endpoint for Replicate.
@@ -53,7 +53,9 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
     {
         parent::__construct($config);
 
-        $this->apiToken = $config['api_key'] ?? env('REPLICATE_API_TOKEN');
+        // Keep this a string even when unconfigured — assigning null to the typed
+        // property throws a TypeError that would abort the whole agent turn.
+        $this->apiToken = (string) ($config['api_key'] ?? env('REPLICATE_API_TOKEN') ?? '');
         $this->defaultImageModel = $config['model'] ?? 'google/imagen-3';
         $this->useCache = $config['use_cache'] ?? false;
         $this->cacheDuration = $config['cache_duration'] ?? 600;

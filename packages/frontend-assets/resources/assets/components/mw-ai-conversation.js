@@ -115,6 +115,24 @@ html.dark .mw-ai-conv-history-item:hover{ background:#ffffff12; }
 .mw-ai-conv-history-item .t{ font-weight:500; }
 .mw-ai-conv-history-item .s{ font-size:12px; color:#8a94a3; }
 .mw-ai-conv-history-list{ overflow-y:auto; flex:1; }
+
+.mw-ai-conv-attachments{ display:flex; flex-wrap:wrap; gap:8px; padding:6px 4px 0; }
+.mw-ai-conv-attachments:empty{ display:none; }
+.mw-ai-conv-thumb{ position:relative; width:60px; height:60px; border-radius:8px; overflow:hidden; border:1px solid #18243326; }
+.mw-ai-conv-thumb img{ width:100%; height:100%; object-fit:cover; }
+.mw-ai-conv-thumb button{
+    position:absolute; top:-6px; right:-6px; width:20px; height:20px; border-radius:50%;
+    border:none; background:#182433; color:#fff; cursor:pointer; font-size:12px; line-height:1;
+    display:flex; align-items:center; justify-content:center;
+}
+.mw-ai-conv-attach-btn{
+    width:40px; height:44px; min-width:40px; border:none; background:transparent; cursor:pointer;
+    color:#8a94a3; display:inline-flex; align-items:center; justify-content:center; border-radius:10px;
+}
+.mw-ai-conv-attach-btn:hover{ background:#1824330f; color:inherit; }
+.mw-ai-conv-attach-btn svg{ width:20px; height:20px; }
+.mw-ai-conv-msg-images{ display:flex; flex-wrap:wrap; gap:6px; }
+.mw-ai-conv-msg-images img{ max-width:180px; max-height:140px; border-radius:10px; border:1px solid #18243322; }
 `;
 
 export class MwAiConversation extends MicroweberBaseClass {
@@ -143,10 +161,13 @@ export class MwAiConversation extends MicroweberBaseClass {
                 </div>
             </div>
             <div class="mw-ai-conv-thread" role="log" aria-live="polite"></div>
+            <div class="mw-ai-conv-attachments" aria-label="${mw.lang("Attached reference images")}"></div>
             <form class="mw-ai-conv-form">
-                <textarea class="mw-ai-conv-input" rows="1" placeholder="${mw.lang("Ask AI to change your site…")}" aria-label="${mw.lang("Message AI assistant")}"></textarea>
+                <button type="button" class="mw-ai-conv-attach-btn" title="${mw.lang("Attach a reference image")}" aria-label="${mw.lang("Attach a reference image")}">${this.icon("image") || this.icon("image-change") || "🖼"}</button>
+                <textarea class="mw-ai-conv-input" rows="1" placeholder="${mw.lang("Ask AI, or paste a design screenshot to recreate…")}" aria-label="${mw.lang("Message AI assistant")}"></textarea>
                 <button type="submit" class="mw-ai-conv-send" disabled aria-label="${mw.lang("Send")}">${this.icon("send") || "→"}</button>
             </form>
+            <input type="file" class="mw-ai-conv-file" accept="image/*" multiple style="display:none">
             <div class="mw-ai-conv-history">
                 <div class="mw-ai-conv-head">
                     <div class="mw-ai-conv-title">${mw.lang("Chat history")}</div>
@@ -165,6 +186,10 @@ export class MwAiConversation extends MicroweberBaseClass {
         this.sendBtn = el.querySelector(".mw-ai-conv-send");
         this.historyPanel = el.querySelector(".mw-ai-conv-history");
         this.historyList = el.querySelector(".mw-ai-conv-history-list");
+        this.attachments = el.querySelector(".mw-ai-conv-attachments");
+        this.attachBtn = el.querySelector(".mw-ai-conv-attach-btn");
+        this.fileInput = el.querySelector(".mw-ai-conv-file");
+        this.pendingImages = [];
 
         this.wire();
         this.renderEmpty();
@@ -177,7 +202,7 @@ export class MwAiConversation extends MicroweberBaseClass {
             this.input.style.height = Math.min(this.input.scrollHeight, 140) + "px";
         };
         this.input.addEventListener("input", () => {
-            this.sendBtn.disabled = !this.input.value.trim() || this.pending;
+            this.sendBtn.disabled = (!this.input.value.trim() && !this.pendingImages.length) || this.pending;
             autosize();
         });
         this.input.addEventListener("keydown", (e) => {
@@ -189,12 +214,65 @@ export class MwAiConversation extends MicroweberBaseClass {
         this.form.addEventListener("submit", (e) => {
             e.preventDefault();
             const v = this.input.value.trim();
-            if (v && !this.pending) { this.send(v); }
+            if ((v || this.pendingImages.length) && !this.pending) { this.send(v); }
         });
 
         this.root.querySelector(".mw-ai-conv-new-btn").addEventListener("click", () => this.newChat());
         this.root.querySelector(".mw-ai-conv-history-btn").addEventListener("click", () => this.openHistory());
         this.root.querySelector(".mw-ai-conv-history-close").addEventListener("click", () => this.closeHistory());
+
+        // Paste a design screenshot straight into the box to recreate it.
+        this.input.addEventListener("paste", (e) => this.handlePaste(e));
+        this.attachBtn.addEventListener("click", () => this.fileInput.click());
+        this.fileInput.addEventListener("change", () => {
+            Array.from(this.fileInput.files || []).forEach((f) => this.addPendingImage(f));
+            this.fileInput.value = "";
+        });
+    }
+
+    handlePaste(e) {
+        const items = (e.clipboardData && e.clipboardData.items) || [];
+        let handled = false;
+        for (let i = 0; i < items.length; i++) {
+            const it = items[i];
+            if (it.type && it.type.indexOf("image") === 0) {
+                const blob = it.getAsFile();
+                if (blob) { this.addPendingImage(blob); handled = true; }
+            }
+        }
+        if (handled) { e.preventDefault(); }
+    }
+
+    addPendingImage(blob) {
+        if (!blob || this.pendingImages.length >= 4) { return; }
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.pendingImages.push(String(reader.result));
+            this.renderAttachments();
+            this.sendBtn.disabled = this.pending;
+        };
+        reader.readAsDataURL(blob);
+    }
+
+    renderAttachments() {
+        this.attachments.innerHTML = "";
+        this.pendingImages.forEach((src, i) => {
+            const thumb = document.createElement("div");
+            thumb.className = "mw-ai-conv-thumb";
+            const img = document.createElement("img");
+            img.src = src;
+            const rm = document.createElement("button");
+            rm.type = "button";
+            rm.textContent = "×";
+            rm.setAttribute("aria-label", mw.lang("Remove image"));
+            rm.addEventListener("click", () => {
+                this.pendingImages.splice(i, 1);
+                this.renderAttachments();
+            });
+            thumb.appendChild(img);
+            thumb.appendChild(rm);
+            this.attachments.appendChild(thumb);
+        });
     }
 
     renderEmpty() {
@@ -263,17 +341,27 @@ export class MwAiConversation extends MicroweberBaseClass {
         }
     }
 
-    addMessage(role, text) {
+    addMessage(role, text, images) {
         // Clear the empty state on first real message.
         const empty = this.thread.querySelector(".mw-ai-conv-empty");
         if (empty) { empty.remove(); }
 
         const msg = document.createElement("div");
         msg.className = "mw-ai-conv-msg " + role;
+        if (images && images.length) {
+            const wrap = document.createElement("div");
+            wrap.className = "mw-ai-conv-msg-images";
+            images.forEach((src) => {
+                const im = document.createElement("img");
+                im.src = src;
+                wrap.appendChild(im);
+            });
+            msg.appendChild(wrap);
+        }
         const bubble = document.createElement("div");
         bubble.className = "mw-ai-conv-msg-bubble";
         bubble.textContent = text || "";
-        msg.appendChild(bubble);
+        if (text || !images || !images.length) { msg.appendChild(bubble); }
         this.thread.appendChild(msg);
         this.scrollDown();
         return { msg, bubble };
@@ -291,6 +379,7 @@ export class MwAiConversation extends MicroweberBaseClass {
     editLabel(edit) {
         const t = edit && edit.tool;
         const a = (edit && edit.args) || {};
+        if (t === "reference") { return mw.lang("Read the reference design"); }
         if (t === "vision") { return mw.lang("Looked at the page"); }
         if (t === "add_section") { return mw.lang("Added a section"); }
         if (t === "insert_module") { return mw.lang("Inserted module") + (a.type ? " · " + a.type : ""); }
@@ -318,13 +407,18 @@ export class MwAiConversation extends MicroweberBaseClass {
 
     setPending(v) {
         this.pending = v;
-        this.sendBtn.disabled = v || !this.input.value.trim();
+        this.sendBtn.disabled = v || (!this.input.value.trim() && !this.pendingImages.length);
         this.input.disabled = v;
     }
 
     async send(text) {
+        // Consume any pasted/attached reference images for this turn.
+        const refImages = this.pendingImages.slice();
+        this.pendingImages = [];
+        this.renderAttachments();
+
         this.setPending(true);
-        this.addMessage("user", text);
+        this.addMessage("user", (text || (refImages.length ? mw.lang("Recreate this design") : "")), refImages);
         this.input.value = "";
         this.input.style.height = "auto";
 
@@ -346,11 +440,15 @@ export class MwAiConversation extends MicroweberBaseClass {
 
         try {
             const done = await MwAi().agentChatStream(
-                text,
-                { chat_id: this.chatId || undefined, content_id: this.settings.contentId || undefined, screenshot: screenshot },
+                (text || (refImages.length ? "Recreate this design as closely as possible on the page." : "")),
+                { chat_id: this.chatId || undefined, content_id: this.settings.contentId || undefined, screenshot: screenshot, reference_images: refImages },
                 {
                     onStart(data) {
                         if (data && data.chat_id) { self.chatId = data.chat_id; }
+                    },
+                    onReference(data) {
+                        // The AI read the pasted reference design — show a chip.
+                        self.addEdit(editsWrap, { tool: "reference" }, { ok: true });
                     },
                     onVision(data) {
                         // The AI looked at a screenshot of the page — show a chip.

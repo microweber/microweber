@@ -462,6 +462,12 @@ function MwAi() {
             // Optional canvas screenshot so the backend vision model can describe
             // the current design to the (text-only) editing model.
             if (options.screenshot) { body.screenshot = options.screenshot; }
+            // Optional reference images (pasted/attached design screenshots) the
+            // user wants the AI to recreate. The backend reads them with the
+            // vision model into a build spec for the editing model.
+            if (options.reference_images && options.reference_images.length) {
+                body.reference_images = options.reference_images;
+            }
 
             const headers = { 'Content-Type': 'application/json', 'Accept': 'text/event-stream' };
             const csrf = $('meta[name="csrf-token"]');
@@ -492,6 +498,8 @@ function MwAi() {
                     if (handlers.onStart) { handlers.onStart(data); }
                 } else if (eventName === 'vision') {
                     if (handlers.onVision) { handlers.onVision(data); }
+                } else if (eventName === 'reference') {
+                    if (handlers.onReference) { handlers.onReference(data); }
                 } else if (eventName === 'tool') {
                     const result = self.applyEdit(data);
                     if (handlers.onTool) { handlers.onTool(data, result); }

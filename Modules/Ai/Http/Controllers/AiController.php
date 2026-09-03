@@ -292,6 +292,8 @@ class AiController extends Controller
             'content_id' => 'sometimes|integer',
             'canvas_html' => 'sometimes|string',
             'screenshot' => 'sometimes|string',
+            'reference_images' => 'sometimes|array|max:4',
+            'reference_images.*' => 'string',
         ];
 
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
@@ -310,9 +312,10 @@ class AiController extends Controller
         $contentId = (int) $request->input('content_id', 0);
         $canvasHtml = (string) $request->input('canvas_html', '');
         $screenshot = (string) $request->input('screenshot', '');
+        $referenceImages = (array) $request->input('reference_images', []);
 
         $response = new \Symfony\Component\HttpFoundation\StreamedResponse(function () use (
-            $userId, $message, $agentType, $chatId, $chatTitle, $contentId, $canvasHtml, $screenshot, $request
+            $userId, $message, $agentType, $chatId, $chatTitle, $contentId, $canvasHtml, $screenshot, $referenceImages, $request
         ) {
             $emitter = new \Modules\Ai\Services\SseToolEmitter();
 
@@ -362,6 +365,19 @@ class AiController extends Controller
                     $canvasContext = $this->summarizeCanvas($canvasHtml);
                     if ($canvasContext !== '') {
                         $preamble .= "\n\n[Current page canvas markup]\n" . $canvasContext;
+                    }
+
+                    // Reference design: the user pasted/attached screenshot(s) of a
+                    // design to recreate. Read them with the vision model into a
+                    // concrete build spec for the (text-only) editing model.
+                    if (!empty($referenceImages)) {
+                        $spec = $this->describeReference($referenceImages, $message);
+                        if ($spec !== '') {
+                            $emitter->emit('reference', ['spec' => $spec]);
+                            $preamble .= "\n\n[REFERENCE DESIGN TO RECREATE — the user pasted a screenshot of the design they want. "
+                                . "Rebuild it on the page section by section with add_section (+css) to match this as closely as possible:\n"
+                                . $spec . "]";
+                        }
                     }
 
                     // Vision: let the (text-only) editing model "see" the page by
@@ -496,6 +512,58 @@ class AiController extends Controller
             if ($res->successful()) {
                 $text = trim((string) ($res->json('response') ?? ''));
                 return mb_substr($text, 0, 1200);
+            }
+        } catch (\Throwable $e) {
+            // best-effort only
+        }
+        return '';
+    }
+
+    /**
+     * Read one or more reference screenshots (a design the user pasted to
+     * recreate) with the vision model and return a concrete, section-by-section
+     * build spec the text-only editing model can follow. Best-effort.
+     */
+    protected function describeReference(array $images, string $userRequest): string
+    {
+        $b64s = [];
+        foreach ($images as $img) {
+            $s = (string) $img;
+            if (str_contains($s, ',')) {
+                $s = substr($s, strpos($s, ',') + 1);
+            }
+            if (strlen($s) > 100) {
+                $b64s[] = $s;
+            }
+        }
+        if (empty($b64s)) {
+            return '';
+        }
+
+        $base = rtrim((string) (config('modules.ai.drivers.ollama.url') ?: env('OLLAMA_API_URL', 'http://localhost:11434/api')), '/');
+        $model = (string) (config('modules.ai.vision_model') ?: env('AI_VISION_MODEL', 'gemma4:cloud'));
+
+        $prompt = "This is a screenshot of a website design the user wants to recreate. "
+            . "Produce a precise build spec another AI can follow to rebuild it. List every section "
+            . "from top to bottom; for each section give: the heading text and any eyebrow/label, the "
+            . "body/subtitle text, any cards or columns (title + short description), button/link labels, "
+            . "the background color (hex), the text color, and the layout (centered / grid-of-N / two-column). "
+            . "Then give the overall color palette as hex values and the font style (e.g. modern sans-serif). "
+            . "Be concrete and exhaustive; use short lines.";
+        if (trim($userRequest) !== '') {
+            $prompt .= " User note: \"" . mb_substr($userRequest, 0, 300) . "\".";
+        }
+
+        try {
+            $res = \Illuminate\Support\Facades\Http::timeout(40)->post($base . '/generate', [
+                'model' => $model,
+                'prompt' => $prompt,
+                'images' => $b64s,
+                'stream' => false,
+                'options' => ['temperature' => 0.2, 'num_predict' => 900],
+            ]);
+            if ($res->successful()) {
+                return mb_substr(trim((string) ($res->json('response') ?? '')), 0, 4000);
             }
         } catch (\Throwable $e) {
             // best-effort only
