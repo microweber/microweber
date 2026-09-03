@@ -203,8 +203,28 @@ export class LayoutHandleContent {
 
         const primaryNavigation = [
 
-
-
+            // task: mobile block toolbar — expose an explicit "Insert module"
+            // action directly in the block/layout handle. Previously the only
+            // insert affordances were the separate .insert-abs-module-button and
+            // the right rail, both easy to miss / clipped on mobile. Dispatching
+            // 'insertModuleRequest' (same as the module handle) lets the picker
+            // auto-detect free vs. normal layout, so it works in every block.
+            {
+                title: this.rootScope.lang('Insert module'),
+                text: '',
+                icon: '<svg fill="currentColor" height="24" viewBox="0 -960 960 960" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/></svg>',
+                className: 'mw-handle-insert-button mw-handle-layout-insert-module-button',
+                onTarget: function(target, selfNode) {
+                    if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
+                        selfNode.classList.remove('mw-le-handle-menu-button-disabled');
+                    } else {
+                        selfNode.classList.add('mw-le-handle-menu-button-disabled');
+                    }
+                },
+                action: function (target) {
+                    mw.app.editor.dispatch('insertModuleRequest', target);
+                }
+            },
 
             {
                 title: this.rootScope.lang('Clone'),

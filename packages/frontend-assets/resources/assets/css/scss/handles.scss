@@ -847,3 +847,39 @@ html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
         padding: 6px !important;
     }
 }
+
+/* task: mobile block/element handle toolbar overflow + missing insert button.
+   The floating handle button row (Settings · Insert · Duplicate · Favorite ·
+   Move ↑↓ · Delete · …) is laid out nowrap — `.mw-le-handle-menu-buttons` is
+   inline-block/white-space:nowrap (line ~324) and the element handle bar
+   `#mw-handle-item-element-menu` is a nowrap flex (line ~104). On a narrow
+   viewport the rightmost buttons — including the new Insert-module button and
+   any ⋮ overflow — clip off the screen edge and become unreachable (the
+   reported bug). Line ~820 deferred horizontal clamping as "needs JS", but
+   pure CSS solves reachability by letting the row WRAP inside the holder and
+   capping the holder to the viewport width: nothing is ever clipped, the chip
+   just grows to a second row. Applies to whichever handle is active
+   (module / element / layout), so it is robust to which one the user selected.
+   NOTE: this fixes clipping via wrap; if the holder is *positioned* partly
+   off-screen on some elements, that anchor clamp is the JS-side follow-up the
+   earlier comment referred to. */
+@media (max-width: 800px), (pointer: coarse) {
+    .mw-handle-item .mw-handle-item-menus-holder {
+        max-width: calc(100vw - 16px);
+        flex-wrap: wrap;
+    }
+    .mw-le-handle-menu-buttons {
+        white-space: normal;   /* was nowrap — allow the row to wrap */
+        max-width: 100%;
+    }
+    #mw-handle-item-element-menu {
+        flex-wrap: wrap;
+        max-width: calc(100vw - 16px);
+    }
+    /* Labelled (wide) buttons like "Settings"/"Delete" must not force their
+       own overflow row — let the label truncate rather than push width out. */
+    .mw-le-handle-menu-buttons > .mw-le-handle-menu-button.mw-handle-button-wide {
+        max-width: 100%;
+        overflow: hidden;
+    }
+}
