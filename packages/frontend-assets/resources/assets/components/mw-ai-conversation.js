@@ -1,4 +1,5 @@
 import MicroweberBaseClass from "../api-core/services/containers/base-class.js";
+import html2canvas from "html2canvas";
 
 /**
  * Live-Edit AI conversation panel — a Claude-style chat that edits the live site.
@@ -233,6 +234,35 @@ export class MwAiConversation extends MicroweberBaseClass {
         this.thread.scrollTop = this.thread.scrollHeight;
     }
 
+    // Rasterise the live canvas so the AI can SEE the current design. The
+    // backend runs this through a vision model and feeds the description to the
+    // editing model. Best-effort: bounded height, downscaled, JPEG — and never
+    // blocks the turn (returns null on any failure/timeout).
+    async captureScreenshot() {
+        try {
+            const doc = mw.top().app.canvas.getDocument();
+            if (!doc || !doc.body) { return null; }
+            const maxH = 2200;
+            const height = Math.min(doc.body.scrollHeight || maxH, maxH);
+            const shot = html2canvas(doc.body, {
+                backgroundColor: "#ffffff",
+                scale: 0.4,
+                useCORS: true,
+                allowTaint: true,
+                logging: false,
+                width: doc.documentElement.clientWidth || 1280,
+                height: height,
+                windowHeight: height,
+            });
+            const timeout = new Promise((resolve) => setTimeout(() => resolve(null), 6000));
+            const canvas = await Promise.race([shot, timeout]);
+            if (!canvas || !canvas.toDataURL) { return null; }
+            return canvas.toDataURL("image/jpeg", 0.6);
+        } catch (e) {
+            return null;
+        }
+    }
+
     addMessage(role, text) {
         // Clear the empty state on first real message.
         const empty = this.thread.querySelector(".mw-ai-conv-empty");
@@ -261,6 +291,7 @@ export class MwAiConversation extends MicroweberBaseClass {
     editLabel(edit) {
         const t = edit && edit.tool;
         const a = (edit && edit.args) || {};
+        if (t === "vision") { return mw.lang("Looked at the page"); }
         if (t === "add_section") { return mw.lang("Added a section"); }
         if (t === "insert_module") { return mw.lang("Inserted module") + (a.type ? " · " + a.type : ""); }
         if (t === "set_module_option") { return mw.lang("Configured module") + (a.key ? " · " + a.key : ""); }
@@ -310,13 +341,20 @@ export class MwAiConversation extends MicroweberBaseClass {
         let anyEdit = false;
         const self = this;
 
+        // Capture what the page looks like now so the AI can see the design.
+        const screenshot = await this.captureScreenshot();
+
         try {
             const done = await MwAi().agentChatStream(
                 text,
-                { chat_id: this.chatId || undefined, content_id: this.settings.contentId || undefined },
+                { chat_id: this.chatId || undefined, content_id: this.settings.contentId || undefined, screenshot: screenshot },
                 {
                     onStart(data) {
                         if (data && data.chat_id) { self.chatId = data.chat_id; }
+                    },
+                    onVision(data) {
+                        // The AI looked at a screenshot of the page — show a chip.
+                        self.addEdit(editsWrap, { tool: "vision" }, { ok: true });
                     },
                     onTool(edit, result) {
                         anyEdit = true;

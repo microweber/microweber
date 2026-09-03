@@ -28,6 +28,7 @@
         "a-color-picker": "^1.2.1",
         "axios": "^1.7.7",
         "filerobot-image-editor": "^4.8.1",
+        "html2canvas": "^1.4.1",
         "mitt": "^3.0.1",
         "moveable": "^0.53.0",
         "postcss-import": "^16.1.0",

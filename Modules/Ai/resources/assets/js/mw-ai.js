@@ -459,6 +459,9 @@ function MwAi() {
             };
             if (options.chat_id) { body.chat_id = options.chat_id; }
             if (options.chat_title) { body.chat_title = options.chat_title; }
+            // Optional canvas screenshot so the backend vision model can describe
+            // the current design to the (text-only) editing model.
+            if (options.screenshot) { body.screenshot = options.screenshot; }
 
             const headers = { 'Content-Type': 'application/json', 'Accept': 'text/event-stream' };
             const csrf = $('meta[name="csrf-token"]');
@@ -487,6 +490,8 @@ function MwAi() {
                 try { data = dataStr ? JSON.parse(dataStr) : {}; } catch (e) { data = { raw: dataStr }; }
                 if (eventName === 'start') {
                     if (handlers.onStart) { handlers.onStart(data); }
+                } else if (eventName === 'vision') {
+                    if (handlers.onVision) { handlers.onVision(data); }
                 } else if (eventName === 'tool') {
                     const result = self.applyEdit(data);
                     if (handlers.onTool) { handlers.onTool(data, result); }

@@ -291,6 +291,7 @@ class AiController extends Controller
             'chat_title' => 'sometimes|string|max:255',
             'content_id' => 'sometimes|integer',
             'canvas_html' => 'sometimes|string',
+            'screenshot' => 'sometimes|string',
         ];
 
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
@@ -308,9 +309,10 @@ class AiController extends Controller
         $chatTitle = $request->input('chat_title', 'Live Edit - ' . now()->format('M j, H:i'));
         $contentId = (int) $request->input('content_id', 0);
         $canvasHtml = (string) $request->input('canvas_html', '');
+        $screenshot = (string) $request->input('screenshot', '');
 
         $response = new \Symfony\Component\HttpFoundation\StreamedResponse(function () use (
-            $userId, $message, $agentType, $chatId, $chatTitle, $contentId, $canvasHtml, $request
+            $userId, $message, $agentType, $chatId, $chatTitle, $contentId, $canvasHtml, $screenshot, $request
         ) {
             $emitter = new \Modules\Ai\Services\SseToolEmitter();
 
@@ -361,6 +363,17 @@ class AiController extends Controller
                     if ($canvasContext !== '') {
                         $preamble .= "\n\n[Current page canvas markup]\n" . $canvasContext;
                     }
+
+                    // Vision: let the (text-only) editing model "see" the page by
+                    // describing a screenshot of the live canvas with a vision model.
+                    if ($screenshot !== '') {
+                        $visual = $this->describeCanvas($screenshot, $message);
+                        if ($visual !== '') {
+                            $emitter->emit('vision', ['description' => $visual]);
+                            $preamble .= "\n\n[What the page looks like right now, from a screenshot: " . $visual . "]";
+                        }
+                    }
+
                     $promptText = $preamble . "\n\n" . $message;
                 }
 
@@ -438,6 +451,56 @@ class AiController extends Controller
         }
 
         return $html;
+    }
+
+    /**
+     * Describe a screenshot of the live canvas with a vision model so the
+     * text-only editing model can "see" the current design.
+     *
+     * Kimi (the tool-caller) has no vision, so we route the base64 screenshot
+     * to a local vision model (gemma3:4b by default) and feed its short
+     * description back into the prompt. Best-effort: any failure/timeout returns
+     * '' and the turn proceeds on markup context alone.
+     */
+    protected function describeCanvas(string $screenshot, string $userRequest): string
+    {
+        $b64 = $screenshot;
+        if (str_contains($b64, ',')) {
+            // Strip the "data:image/jpeg;base64," prefix.
+            $b64 = substr($b64, strpos($b64, ',') + 1);
+        }
+        if (strlen($b64) < 100) {
+            return '';
+        }
+
+        $base = rtrim((string) (config('modules.ai.drivers.ollama.url') ?: env('OLLAMA_API_URL', 'http://localhost:11434/api')), '/');
+        // Default to a cloud vision model — it is GPU-backed and fast (~1s),
+        // whereas a local vision model on a CPU-only host takes minutes and would
+        // always hit the timeout below. Override with AI_VISION_MODEL.
+        $model = (string) (config('modules.ai.vision_model') ?: env('AI_VISION_MODEL', 'gemma4:cloud'));
+
+        $prompt = "You are looking at a screenshot of a web page that is being edited in a website builder. "
+            . "In 3-5 sentences, describe its current visual design: overall layout and sections top-to-bottom, "
+            . "the color scheme, typography and spacing, and any obvious visual problems (misalignment, clashing "
+            . "colors, unstyled or broken areas). Be concrete. This will help another AI make edits for the "
+            . "request: \"" . mb_substr($userRequest, 0, 300) . "\".";
+
+        try {
+            $res = \Illuminate\Support\Facades\Http::timeout(25)->post($base . '/generate', [
+                'model' => $model,
+                'prompt' => $prompt,
+                'images' => [$b64],
+                'stream' => false,
+                'options' => ['temperature' => 0.2],
+            ]);
+            if ($res->successful()) {
+                $text = trim((string) ($res->json('response') ?? ''));
+                return mb_substr($text, 0, 1200);
+            }
+        } catch (\Throwable $e) {
+            // best-effort only
+        }
+        return '';
     }
 
     /**
