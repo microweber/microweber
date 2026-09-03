@@ -11,7 +11,13 @@ class ModulesApiLiveEdit extends Controller
     {
 
         $lockedLayouts = true;
-        if (have_license('modules/white_label')) {
+        // have_license() is provided by the optional microweber-system-licenses
+        // package (see App/functions/other.php:139) and is absent in this build.
+        // Called unqualified it resolves to this namespace then global, finds
+        // neither, and fatals — 500ing the entire module list so the Live-Edit
+        // "Insert module" picker renders empty. Guard with function_exists()
+        // like Modules/WhiteLabel does; default stays locked when it's absent.
+        if (function_exists('have_license') && have_license('modules/white_label')) {
             $lockedLayouts = false;
         }
 
