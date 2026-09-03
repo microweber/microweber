@@ -174,44 +174,14 @@ export class LayoutHandleContent {
 
         const editNavigation = [
             {
-                title: this.rootScope.lang('Settings'),
-                text: '',
-                icon: mw.top().app.iconService.icon('settings'),
-                className: 'mw-handle-edit-layout-button',
-                action: function(target) {
-
-                    layoutSettingsDispatch(target);
-                }
-
-            }
-
-
-           /* ,
-
-            {
-                title: this.rootScope.lang('Quick Edit'),
-                text: '',
-                icon: mw.top().app.iconService.icon('edit'),
-                className: 'mw-handle-edit-layout-button',
-                action: function(target) {
-                    mw.app.liveEditWidgets.openQuickEditComponent()
-                    mw.top().app.liveEditWidgets.setQuickEditorForNode(target);
-                }
-
-            }*/
-        ];
-
-        // task (user request): collapse ALL block/layout actions into a single
-        // ⋮ dropdown, leaving only an icon-only Settings button inline, so the
-        // block handle never overflows the (mobile) viewport. Each action keeps
-        // its icon and shows its label inside the dropdown (titleVisible:true).
-        // Structure mirrors the module handle's "Quick Settings" pattern
-        // (module.js): a tail node with `menu: [{ name, nodes }]` renders a
-        // trigger button whose sub-menu holds these nodes.
-        const dropdownNodes = [
-            {
+                // task (user request): the Insert-module (+) button is now the
+                // prominent INLINE action on the block handle (Settings moved into
+                // the ⋮ dropdown). Inserting from the layout menu drops the module
+                // INSIDE the layout's first drop container — the empty ".allow-drop"
+                // region rendered as "Enter text or drop element" — rather than as a
+                // sibling of the whole block. Falls back to the block itself if the
+                // layout has no drop container.
                 title: this.rootScope.lang('Insert module'),
-                titleVisible: true,
                 text: '',
                 icon: '<svg fill="currentColor" height="24" viewBox="0 -960 960 960" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/></svg>',
                 className: 'mw-handle-layout-insert-module-button',
@@ -223,7 +193,29 @@ export class LayoutHandleContent {
                     }
                 },
                 action: function (target) {
-                    mw.app.editor.dispatch('insertModuleRequest', target);
+                    var dropContainer = (target && target.querySelector) ? target.querySelector('.allow-drop') : null;
+                    mw.app.editor.dispatch('insertModuleRequest', dropContainer || target);
+                }
+            }
+        ];
+
+        // task (user request): collapse ALL block/layout actions into a single
+        // ⋮ dropdown, leaving only an icon-only Settings button inline, so the
+        // block handle never overflows the (mobile) viewport. Each action keeps
+        // its icon and shows its label inside the dropdown (titleVisible:true).
+        // Structure mirrors the module handle's "Quick Settings" pattern
+        // (module.js): a tail node with `menu: [{ name, nodes }]` renders a
+        // trigger button whose sub-menu holds these nodes.
+        const dropdownNodes = [
+            {
+                // Settings lives in the dropdown now (the inline slot is the + button).
+                title: this.rootScope.lang('Settings'),
+                titleVisible: true,
+                text: '',
+                icon: mw.top().app.iconService.icon('settings'),
+                className: 'mw-handle-layout-settings-button',
+                action: function(target) {
+                    layoutSettingsDispatch(target);
                 }
             },
             {
