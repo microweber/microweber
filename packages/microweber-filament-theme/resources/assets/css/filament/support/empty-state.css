@@ -19,8 +19,8 @@
 }
 
 .fi-empty-state-icon-bg {
-  width: var(--mw-space-xl) !important;  /* GR: xl(42) */
-  height: var(--mw-space-xl) !important;  /* GR: xl(42) */
+  width: 40px !important;  /* fixed ring around 24px glyph */
+  height: 40px !important;  /* fixed ring around 24px glyph */
   border-radius: 50% !important;
   background-color: var(--mw-accent-light) !important;
   display: flex !important;
@@ -84,8 +84,8 @@
 }
 
 .fi-ta-empty-state-icon-bg {
-  width: var(--mw-space-xl) !important;  /* GR: xl(42) */
-  height: var(--mw-space-xl) !important;  /* GR: xl(42) */
+  width: 40px !important;  /* fixed ring around 24px glyph */
+  height: 40px !important;  /* fixed ring around 24px glyph */
   border-radius: 50% !important;
   background-color: var(--mw-accent-light) !important;
   display: flex !important;

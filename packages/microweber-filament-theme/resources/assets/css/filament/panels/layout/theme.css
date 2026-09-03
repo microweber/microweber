@@ -9,14 +9,14 @@
   /* Top padding trimmed 68px → 28px: the 2xl top left a large dead band between the */
   /* top bar and the breadcrumbs/heading. Horizontal padding unchanged (positions the */
   /* content column + aligns with the toolbar "+ Add" button). */
-  padding: 14px var(--mw-space-2xl) 0 !important;  /* GR: 2xl(68) sides */
+  padding: 10px var(--mw-space-xl) 0 !important;  /* dense: 10px top, xl(26) sides (>1440) */
 
   @media (max-width: 1440px) {
-    padding: 14px var(--mw-space-xl) 0 !important;  /* GR: xl(42) sides */
+    padding: 10px var(--mw-space-lg) 0 !important;  /* lg(18) sides */
   }
 
   @media (max-width: 1024px) {
-    padding: 14px var(--mw-space-lg) 0 !important;  /* GR: lg(26) sides */
+    padding: 10px var(--mw-space-md) 0 !important;  /* md(16) sides */
   }
 }
 
@@ -29,14 +29,14 @@
 /* Page body — MW v2: 24px vertical margin */
 /* ============================================================================ */
 .fi-page > div {
-  margin: 0 auto var(--mw-space-lg) !important;  /* GR: lg(26) */
+  margin: 0 auto var(--mw-space-sm) !important;  /* dense: sm(10) */
   max-width: 1440px !important;
 }
 
-/* Gap between sections/cards — MW v2: 24px */
+/* Gap between sections/cards — dense stack */
 .fi-page .fi-section + .fi-section,
 .fi-page .fi-wi + .fi-wi,
 .fi-page .fi-wi + .fi-section,
 .fi-page .fi-section + .fi-wi {
-  margin-top: var(--mw-space-lg) !important;  /* GR: lg(26) */
+  margin-top: var(--mw-space-sm) !important;  /* dense: sm(10) */
 }

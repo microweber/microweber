@@ -36,28 +36,34 @@ class CommentsModuleSettings extends LiveEditModuleSettings
             ->schema([
                 Section::make('Comments Settings')
                     ->schema([
-                        Toggle::make('options.require_approval')
+                        Toggle::make('options.enable_moderation')
                             ->label('Require Approval')
-                            ->default(true),
-                        Toggle::make('options.notify_authors')
-                            ->label('Notify Authors')
-                            ->default(true),
+                            ->live()
+                            ->default(fn () => filter_var($this->getOption('enable_moderation', false), FILTER_VALIDATE_BOOL)),
+                        Toggle::make('options.notify_admin')
+                            ->label('Notify Admin')
+                            ->live()
+                            ->default(fn () => filter_var($this->getOption('notify_admin', false), FILTER_VALIDATE_BOOLEAN)),
+                        Toggle::make('options.notify_users')
+                            ->label('Notify Users on Reply')
+                            ->live()
+                            ->default(fn () => filter_var($this->getOption('notify_users', false), FILTER_VALIDATE_BOOLEAN)),
                         Toggle::make('options.show_on_current_content')
                             ->label('Show Comments on Current Content')
-                            ->default(true),
+                            ->default(fn () => filter_var($this->getOption('show_on_current_content', true), FILTER_VALIDATE_BOOLEAN))->live(),
                         TextInput::make('options.comments_per_page')
                             ->label('Comments Per Page')
-                            ->default(10),
+                            ->default(fn () => $this->getOption('comments_per_page', 10))->live()->numeric(),
                         Select::make('options.sort_order')
                             ->label('Sort Order')
                             ->options([
                                 'newest' => 'Newest First',
                                 'oldest' => 'Oldest First'
                             ])
-                            ->default('newest'),
+                            ->default(fn () => $this->getOption('sort_order', 'newest'))->live(),
                         Toggle::make('options.show_user_avatar')
                             ->label('Show User Avatar')
-                            ->default(true)
+                            ->default(fn () => filter_var($this->getOption('show_user_avatar', true), FILTER_VALIDATE_BOOL))->live()
                     ])
             ]);
     }

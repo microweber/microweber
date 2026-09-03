@@ -87,7 +87,7 @@ class BtnModuleSettings extends LiveEditModuleSettings
                                     ->helperText('Enable to open the link in a new window.')
                                     ->live()
                                     ->label('Open link in new window')
-                                    ->default(false)
+                                    ->default(fn () => filter_var($this->getOption('urlBlank', false), FILTER_VALIDATE_BOOLEAN))
                                     ->columnSpanFull(),
 
                             ]),
@@ -100,7 +100,8 @@ class BtnModuleSettings extends LiveEditModuleSettings
                                         MwIconPicker::make('options.icon')
                                             ->label('Button Icon')
                                             ->helperText('Select an icon to display on the button.')
-                                            ->live(),
+                                            ->live()
+                                            ->default(fn () => $this->getOption('icon', '')),
 
                                         ToggleButtons::make('options.iconPosition')
                                             ->label('Button Icon Position ')
@@ -115,7 +116,7 @@ class BtnModuleSettings extends LiveEditModuleSettings
                                                 'left' => 'heroicon-o-bars-3-bottom-left',
                                                 'right' => 'heroicon-o-bars-3-bottom-right',
                                             ])
-                                            ->default('left'),
+                                            ->default(fn () => $this->getOption('iconPosition', 'left')),
                                     ]),
 
 //                                Select::make('options.style')
@@ -171,7 +172,7 @@ class BtnModuleSettings extends LiveEditModuleSettings
 //                                            'submit' => 'Submit',
 //                                            'reset' => 'Reset',
                 ])
-                ->default('none'),
+                ->default(fn () => $this->getOption('action', 'default')),
             //popupcontent if action is popoup
             Textarea::make('options.popupContent')
                 ->label('Popup Content')
@@ -181,7 +182,7 @@ class BtnModuleSettings extends LiveEditModuleSettings
                     return $get('options.action') === 'popup';
 
                 })
-                ->default(''),
+                ->default(fn () => $this->getOption('popupContent', '')),
 
 
             //backgroundColor
@@ -189,31 +190,31 @@ class BtnModuleSettings extends LiveEditModuleSettings
             ColorPicker::make('options.backgroundColor')
                 ->label('Background Color')
                 ->live()
-                ->default(''),
+                ->default(fn () => $this->getOption('backgroundColor', '')),
 
 
             ColorPicker::make('options.color')
                 ->label('Text Color')
                 ->live()
-                ->default(''),
+                ->default(fn () => $this->getOption('color', '')),
 
 
             ColorPicker::make('options.borderColor')
                 ->label('Border color')
                 ->live()
-                ->default(''),
+                ->default(fn () => $this->getOption('borderColor', '')),
 
             TextInput::make('options.borderWidth')
                 ->label('Border width')
                 ->live()
                 ->numeric()
-                ->default(''),
+                ->default(fn () => $this->getOption('borderWidth', '')),
 
             TextInput::make('options.borderRadius')
                 ->label('Border radius')
                 ->live()
                 ->numeric()
-                ->default(''),
+                ->default(fn () => $this->getOption('borderRadius', '')),
 
 
             // task-2026-05-31-d8c2a1 / AI-1197 — duplicate-word typo "Hover hover color".
@@ -223,25 +224,25 @@ class BtnModuleSettings extends LiveEditModuleSettings
             ColorPicker::make('options.hovercolor')
                 ->label('Hover text color')
                 ->live()
-                ->default(''),
+                ->default(fn () => $this->getOption('hovercolor', '')),
 
             ColorPicker::make('options.hoverbackgroundColor')
                 ->label('Hover background color')
                 ->live()
-                ->default(''),
+                ->default(fn () => $this->getOption('hoverbackgroundColor', '')),
 
 
             ColorPicker::make('options.hoverborderColor')
                 ->label('Hover border color')
                 ->live()
-                ->default(''),
+                ->default(fn () => $this->getOption('hoverborderColor', '')),
 
 
             TextInput::make('options.customSize')
                 ->label('Custom size')
                 ->live()
                 ->numeric()
-                ->default(''),
+                ->default(fn () => $this->getOption('customSize', '')),
 
 
         ])->collapsed();

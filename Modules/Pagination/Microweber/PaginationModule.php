@@ -27,7 +27,13 @@ class PaginationModule extends BaseModule
         $pages_count = $viewData['pages_count'];
         $paging_param = $viewData['paging_param'];
 
-        $pagination_links = paging("num={$pages_count}&paging_param={$paging_param}&return_as_array=1&show_first_last=1&limit=5");
+        $options = $viewData['options'] ?? [];
+        $show_first_last_raw = $options['show_first_last'] ?? $viewData['show_first_last'] ?? true;
+        $limit_raw = $options['limit'] ?? $viewData['limit'] ?? 5;
+        $show_first_last = filter_var($show_first_last_raw, FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
+        $limit = (int) $limit_raw;
+
+        $pagination_links = paging("num={$pages_count}&paging_param={$paging_param}&return_as_array=1&show_first_last={$show_first_last}&limit={$limit}");
 
         $viewData['pagination_links'] = $pagination_links;
 

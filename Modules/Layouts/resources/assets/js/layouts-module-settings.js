@@ -204,6 +204,7 @@ window.layoutSettings = function layoutSettings(activeTab, optionGroup) {
             if (!bgSize) {
                 bgSize = 'auto';
             }
+            this.backgroundSize = bgSize;
 
 
             var _app = mw.top().app || mw.app;

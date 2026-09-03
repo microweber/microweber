@@ -43,6 +43,7 @@ class SliderModuleSettings extends LiveEditModuleSettingsTable
                                 Toggle::make('options.autoplay')
                                     ->label('Autoplay')
                                     ->live()
+                                    ->default(fn () => filter_var($this->getOption('autoplay', true), FILTER_VALIDATE_BOOLEAN))
                                     ->helperText('Automatically advance slides without user interaction.'),
 
                                 // AI-1013 / task-2026-05-22 — replaced preset Select with free TextInput
@@ -53,14 +54,14 @@ class SliderModuleSettings extends LiveEditModuleSettingsTable
                                     ->minValue(500)
                                     ->maxValue(30000)
                                     ->step(500)
-                                    ->default('3000')
+                                    ->default(fn () => $this->getOption('autoplay_speed', '3000'))
                                     ->helperText('Delay in ms between slides (e.g. 3000 = 3 seconds). Minimum 500ms.'),
 
                                 // AI-1014 / task-2026-05-22 — loop Toggle with default true
                                 Toggle::make('options.loop')
                                     ->label('Loop')
                                     ->live()
-                                    ->default(true)
+                                    ->default(fn () => filter_var($this->getOption('loop', true), FILTER_VALIDATE_BOOLEAN))
                                     ->helperText('Return to first slide after the last slide.'),
 
                                 // AI-1015 / task-2026-05-22 — transition effect selector
@@ -72,7 +73,7 @@ class SliderModuleSettings extends LiveEditModuleSettingsTable
                                         'fade'       => 'Fade',
                                         'coverflow'  => 'Coverflow',
                                     ])
-                                    ->default('slide')
+                                    ->default(fn () => $this->getOption('effect', 'slide'))
                                     ->helperText('Animation style when advancing to the next slide.'),
 
                                 Toggle::make('options.show_arrows')
@@ -84,7 +85,7 @@ class SliderModuleSettings extends LiveEditModuleSettingsTable
                                 Toggle::make('options.show_dots')
                                     ->label('Pagination dots')
                                     ->live()
-                                    ->default(true)
+                                    ->default(fn () => filter_var($this->getOption('show_dots', true), FILTER_VALIDATE_BOOLEAN))
                                     ->helperText('Show dot indicators for each slide.'),
                             ]),
                         Tabs\Tab::make('Design')

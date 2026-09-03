@@ -19,13 +19,13 @@ class BeforeAfterModuleSettings extends LiveEditModuleSettings
                     ->label('Before Image URL')
                     ->helperText('Enter the URL of the before image.')
                     ->live()
-                    ->default(asset('modules/before_after/img/white-car.jpg')),
+                    ->default(fn () => $this->getOption('before', asset('modules/before_after/img/white-car.jpg'))),
 
                 MwFileUpload::make('options.after')
                     ->label('After Image URL')
                     ->helperText('Enter the URL of the after image.')
                     ->live()
-                    ->default(asset('modules/before_after/img/blue-car.jpg')),
+                    ->default(fn () => $this->getOption('after', asset('modules/before_after/img/blue-car.jpg'))),
             ]);
     }
 }

@@ -24,7 +24,7 @@ class FacebookLikeModuleSettings extends LiveEditModuleSettings
                         'button' => 'Button',
                         'box_count' => 'Box count',
                     ])
-                    ->default('standard')
+                    ->default(fn () => $this->getOption('layout', 'standard'))
                     ->live(),
 
                 Select::make('options.color')
@@ -33,18 +33,19 @@ class FacebookLikeModuleSettings extends LiveEditModuleSettings
                         'light' => 'Light',
                         'dark' => 'Dark',
                     ])
-                    ->default('light')
+                    ->default(fn () => $this->getOption('color', 'light'))
                     ->live(),
 
                 Toggle::make('options.show_faces')
                     ->label('Show Faces')
-                    ->default(true)
+                    ->default(fn () => filter_var($this->getOption('show_faces', true), FILTER_VALIDATE_BOOLEAN))
                     ->live(),
 
                 TextInput::make('options.url')
                     ->label('Custom URL')
                     ->url()
                     ->live()
+                    ->default(fn () => $this->getOption('url', ''))
                     ->placeholder('https://www.example.com'),
             ]);
     }

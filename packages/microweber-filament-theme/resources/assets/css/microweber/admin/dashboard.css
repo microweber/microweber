@@ -32,7 +32,13 @@
 .mw-quick-stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--mw-space-md);  /* GR: md(16) */
+  gap: var(--mw-space-sm);  /* dense: sm(10) */
+}
+
+/* Dashboard widget-to-widget grid gap — Filament default is 24px (gap-6) and was
+   never overridden; tighten to match the dense stack. */
+body.fi-panel-admin .fi-wi {
+  gap: var(--mw-space-sm) !important;  /* 10px (was 24) */
 }
 
 @media (max-width: 640px) {
@@ -186,7 +192,7 @@ body.fi-panel-admin {
     width: 32px !important;
     height: 32px !important;
     min-width: 32px !important;
-    border-radius: 8px !important;
+    border-radius: var(--mw-radius-tile) !important;
     flex-shrink: 0;
   }
 
@@ -385,7 +391,7 @@ body.fi-panel-admin {
     }
   }
   .mw-empty-state-cta-icon {
-    &--blue   { background-color: rgba(59, 130, 246, 0.15); }
+    &--blue   { background-color: rgba(13, 110, 253, 0.15); }
     &--green  { background-color: rgba(34, 197, 94, 0.15); }
     &--orange { background-color: rgba(249, 115, 22, 0.15); }
     &--pink   { background-color: rgba(236, 72, 153, 0.15); }

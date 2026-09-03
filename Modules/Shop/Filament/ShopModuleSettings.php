@@ -47,6 +47,7 @@ class ShopModuleSettings extends LiveEditModuleSettings
                                             ->pluck('title', 'id'))
                                         ->searchable()
                                         ->live()
+                                        ->default(fn () => $this->getOption('content_from_id', null))
                                         ->placeholder('Select a shop page'),
 
                                     Select::make('options.default_sort')
@@ -58,6 +59,7 @@ class ShopModuleSettings extends LiveEditModuleSettings
                                             'price_desc' => 'Price (High to Low)',
                                         ])
                                         ->live()
+                                        ->default(fn () => $this->getOption('default_sort', 'created_by_desc'))
                                         ->placeholder('Select sort order'),
 
                                     TextInput::make('options.default_limit')
@@ -65,7 +67,7 @@ class ShopModuleSettings extends LiveEditModuleSettings
                                         ->numeric()
                                         ->minValue(1)
                                         ->maxValue(100)
-                                        ->default(10)
+                                        ->default(fn () => $this->getOption('default_limit', 10))
                                         ->live(),
 
                                     // task-2026-05-21-a4832f / AI-872 Slice 1 — Shop: Columns + toggles
@@ -78,7 +80,7 @@ class ShopModuleSettings extends LiveEditModuleSettings
                                             '3' => '3',
                                             '4' => '4',
                                         ])
-                                        ->default('3'),
+                                        ->default(fn () => $this->getOption('columns', '3')),
 
                                     Toggle::make('options.show_price')
                                         ->label('Show Price')

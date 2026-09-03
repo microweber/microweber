@@ -6,14 +6,14 @@
 /* ============================================================================ */
 /* Page header container — reduce Filament's large padding/gap from --spacing * 8 */
 .fi-page-header-main-ctn {
-  padding-block: var(--mw-space-sm) !important;  /* GR: sm(10) */
-  row-gap: var(--mw-space-sm) !important;  /* GR: sm(10) */
+  padding-block: var(--mw-space-hair) !important;  /* dense: hair(4) */
+  row-gap: var(--mw-space-xs) !important;  /* dense: xs(6) */
 }
 
 .fi-header {
-  margin: 0 0 var(--mw-space-sm) !important;  /* GR: sm(10) */
+  margin: 0 0 var(--mw-space-xs) !important;  /* dense: xs(6) */
   height: auto !important;
-  min-height: 49px !important;  /* MW v2 exact: ~49px page-header height */
+  min-height: 40px !important;  /* dense page-header height (was 49) */
   display: flex !important;
   align-items: center !important;
   background-color: transparent !important;  /* MW v2: transparent page header */

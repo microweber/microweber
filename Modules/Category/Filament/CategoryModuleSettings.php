@@ -32,6 +32,7 @@ class CategoryModuleSettings extends LiveEditModuleSettings
                                         ->options(Page::query()->whereNotNull('title')->pluck('title', 'id'))
                                         ->searchable()
                                         ->live()
+                                        ->default(fn () => $this->getOption('data-content-id'))
                                         ->placeholder('Select a page'),
 
                                     Select::make('options.data-category-id')
@@ -39,20 +40,24 @@ class CategoryModuleSettings extends LiveEditModuleSettings
                                         ->options(Category::query()->whereNotNull('title')->pluck('title', 'id'))
                                         ->searchable()
                                         ->live()
+                                        ->default(fn () => $this->getOption('data-category-id'))
                                         ->placeholder('Select a category'),
 
                                     Select::make('options.data-max-depth')
                                         ->label('Max Depth')
                                         ->options(array_combine(range(0, 10), range(0, 10)))
                                         ->live()
+                                        ->default(fn () => $this->getOption('data-max-depth'))
                                         ->placeholder('None'),
 
                                     Toggle::make('options.single_only')
                                         ->live()
+                                        ->default(fn () => filter_var($this->getOption('single_only', false), FILTER_VALIDATE_BOOLEAN))
                                         ->label('Show Only Parent Category'),
 
                                     Toggle::make('options.show_subcats')
                                         ->live()
+                                        ->default(fn () => filter_var($this->getOption('show_subcats', false), FILTER_VALIDATE_BOOLEAN))
                                         ->label('Show Subcategories'),
 
                                     Toggle::make('options.hide_pages')

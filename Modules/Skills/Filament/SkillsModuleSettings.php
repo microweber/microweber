@@ -56,6 +56,7 @@ class SkillsModuleSettings extends LiveEditModuleSettings
                                 'success' => 'Success',
                                 'info' => 'Info',
                             ])
+                            ->default('primary')
                             ->live(),
                     ])
                     ->minItems(0)
@@ -67,6 +68,12 @@ class SkillsModuleSettings extends LiveEditModuleSettings
     {
         parent::updated($propertyName, $value);
         $this->saveOption('skills', json_encode($this->skills));
+        $this->dispatch('mw-option-saved',
+            optionGroup: $this->getOptionGroup(),
+            optionKey: 'skills',
+            optionValue: $this->skills,
+            module: $this->module
+        );
     }
 
     public function save(): void

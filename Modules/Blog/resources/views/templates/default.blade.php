@@ -12,6 +12,9 @@ description: Default blog template
     @endphp
 
     <div class="module-blog-wrapper">
+        @if(!empty($title))
+            <h2 class="blog-title">{{ $title }}</h2>
+        @endif
         <livewire:module-blog :module-id="$moduleId" />
     </div>
 </div>

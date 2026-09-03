@@ -134,7 +134,7 @@
   }
   &::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.15);
-    border-radius: var(--mw-border-sm);
+    border-radius: 3px;
   }
 
   .fi-fo-checkbox-list-option-label {

@@ -23,7 +23,8 @@ class CaptchaModuleSettings extends LiveEditModuleSettings
                         'google_recaptcha_v2' => __('Google ReCaptcha V2'),
                         'google_recaptcha_v3' => __('Google ReCaptcha V3'),
                     ])
-                    ->reactive(),
+                    ->default(fn () => $this->getOption('provider', 'microweber'))
+                    ->live(),
 
                 TextInput::make('options.recaptcha_v2_site_key')
                     ->label(__('Google Recaptcha V2 Site Key'))
@@ -31,19 +32,25 @@ class CaptchaModuleSettings extends LiveEditModuleSettings
 
                 TextInput::make('options.recaptcha_v2_secret_key')
                     ->label(__('Google ReCaptcha V2 Secret Key'))
+                    ->live()
                     ->visible(fn ($get) => $get('options.provider') === 'google_recaptcha_v2'),
 
                 TextInput::make('options.recaptcha_v3_site_key')
                     ->label(__('Google Recaptcha V3 Site Key'))
+                    ->live()
+                    ->default(fn () => $this->getOption('recaptcha_v3_site_key', ''))
                     ->visible(fn ($get) => $get('options.provider') === 'google_recaptcha_v3'),
 
                 TextInput::make('options.recaptcha_v3_secret_key')
                     ->label(__('Google ReCaptcha V3 Secret Key'))
+                    ->live()
                     ->visible(fn ($get) => $get('options.provider') === 'google_recaptcha_v3'),
 
                 TextInput::make('options.recaptcha_v3_score')
                     ->label(__('Google ReCaptcha V3 Score'))
                     ->placeholder('0.5')
+                    ->live()
+                    ->default(fn () => $this->getOption('recaptcha_v3_score', '0.5'))
                     ->visible(fn ($get) => $get('options.provider') === 'google_recaptcha_v3'),
             ]);
     }

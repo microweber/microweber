@@ -44,7 +44,7 @@ class PaginationModuleSettings extends LiveEditModuleSettings
                                     ->live()
                                     ->label('Limit')
                                     ->numeric()
-                                    ->default(5)
+                                    ->default(fn () => $this->getOption('limit', 5))
                                     ->helperText('Number of pagination links to show'),
                             ]),
                         Tabs\Tab::make('Design')

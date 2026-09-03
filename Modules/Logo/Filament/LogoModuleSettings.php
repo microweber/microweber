@@ -33,7 +33,7 @@ class LogoModuleSettings extends LiveEditModuleSettings
                                     ->label('Logo Size')
                                     ->numeric()
                                     ->live()
-                                  ,
+                                    ->default(fn () => $this->getOption('size', '100')),
 
 
 
@@ -59,7 +59,8 @@ class LogoModuleSettings extends LiveEditModuleSettings
                                 TextInput::make('options.text')
                                     ->label('Logo Text')
                                     ->helperText('This logo text will appear when image not applied')
-                                    ->live(),
+                                    ->live()
+                                    ->default(fn () => $this->getOption('text', '')),
                                 MwColorPicker::make('options.text_color')
                                     ->label('Text Color')
                                     ->live()

@@ -23,10 +23,6 @@
     cursor: default !important
 }
 
-.focus .ts-control {
-    box-shadow: none
-}
-
 .ts-control > * {
     display: inline-block;
     vertical-align: baseline

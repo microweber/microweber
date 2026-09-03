@@ -17,6 +17,7 @@
   background-color: var(--mw-bg-surface) !important;
   border-radius: var(--mw-radius-lg) var(--mw-radius-lg) 0 0 !important;
   border-bottom: 1px solid rgba(4, 32, 69, 0.14) !important;
+  padding: 8px var(--mw-space-md) !important;  /* dense toolbar band (was Filament p-4/16px); content-lists override below */
 
   .fi-input-wrp {
     border-radius: var(--mw-radius-sm) !important;
@@ -45,12 +46,15 @@ body.fi-panel-admin .fi-ta:not(:has(.fi-ta-header-cell)) {
     border-radius: 0 !important;
     border: none !important;
   }
-  .fi-ta-header-ctn { padding: 0 0 var(--mw-space-sm) 0 !important; }   /* compact top band */
+  .fi-ta-header-ctn { padding: 0 0 var(--mw-space-xs) 0 !important; }   /* dense top band: xs(6) */
   .fi-ta-content-header { display: none !important; }             /* hide empty master-checkbox band (demo has none) */
   /* .fi-ta-content is a CSS grid with row-gap:1px (Filament's hairline dividers). That */
   /* 1px gap made the record cards look JOINED and swallowed the record margin-bottom. */
   /* 16px row-gap → each record reads as a separate floating card, like the demo. */
-  .fi-ta-content { row-gap: var(--mw-space-md) !important; }
+  .fi-ta-content { row-gap: 8px !important; }   /* dense: 8px inter-card (was md/16) */
+  /* Filament wraps each record in .fi-ta-record-content-ctn with 10px/10px
+     vertical padding — the last ~20px keeping content rows off the ~48px target. */
+  .fi-ta-record-content-ctn { padding: var(--mw-space-hair) 0 !important; }  /* dense: 4px (was 10) */
 }
 
 /* Filament v5 ships these two helper strips with a translucent */
@@ -81,7 +85,7 @@ body.fi-panel-admin .fi-ta:not(:has(.fi-ta-header-cell)) {
   border: none !important;
   border-bottom: none !important;                 /* was a hairline divider */
   border-radius: var(--mw-radius-sm) !important;         /* 4px */
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16) !important;  /* MW v2 card shadow */
+  box-shadow: var(--mw-shadow-sm) !important;  /* MW v2 card shadow (tokens/sizes.css:37) */
   margin-bottom: 0 !important;                     /* gap now comes from .fi-ta-content row-gap (grid) */
   transition: box-shadow 0.15s ease !important;
 
@@ -203,15 +207,14 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
 
 /* Grid card row — clean spacing and hover state */
 .fi-ta-record .group {
-  padding: var(--mw-space-xs) 0 !important;  /* compact: xs(6) */
+  padding: var(--mw-space-hair) 0 !important;  /* dense: hair(4) — was xs(6) */
   transition: background-color 0.15s ease !important;
 }
 
-/* Thumbnail in grid view — rounded, consistent size. Demo uses a larger, more */
-/* prominent product thumbnail (~72-80px); was 48px (cramped). */
+/* Thumbnail in grid view — dense 28px inline media (Cloudflare-tight rows). */
 .fi-ta-record .group .h-12.w-12 {
-  width: 36px !important;
-  height: 36px !important;
+  width: 28px !important;
+  height: 28px !important;
   border-radius: var(--mw-radius-sm) !important;
   flex-shrink: 0 !important;
   overflow: hidden !important;
@@ -220,10 +223,10 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
 /* Title link styling */
 .fi-ta-record .group .font-medium a {
   color: var(--mw-text-primary) !important;
-  font-size: 14px !important;
+  font-size: 13px !important;
   font-weight: 500 !important;
   text-decoration: none !important;
-  line-height: 1.4 !important;
+  line-height: 1.3 !important;
 
   &:hover {
     color: var(--mw-accent) !important;
@@ -291,7 +294,7 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
 }
 
 .fi-ta-record .group .mw-price-special {
-  color: #e53e3e !important;  /* Sale price red */
+  color: #dc2626 !important;  /* Sale price red (AA 4.83:1 on white) */
 }
 
 /* Stock badge icon sizing in grid view */

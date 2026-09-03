@@ -24,7 +24,8 @@ class CartAddModuleSettings extends LiveEditModuleSettings
                                 ->label('Button Text')
                                 ->live()
                                 ->placeholder('Add to cart')
-                                ->helperText('Custom text for the add to cart button'),
+                                ->helperText('Custom text for the add to cart button')
+                                ->default(fn () => $this->getOption('button_text', '')),
 
 
                         ]),

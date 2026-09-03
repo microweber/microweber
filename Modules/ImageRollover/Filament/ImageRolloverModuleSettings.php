@@ -29,7 +29,7 @@ class ImageRolloverModuleSettings extends LiveEditModuleSettings
                 TextInput::make('options.size')
                     ->label('Image Size')
                     ->helperText('Enter image size in pixels or "auto"')
-                    ->default('350')
+                    ->default(fn () => $this->getOption('size', '350'))
                     ->live(),
 
                 TextInput::make('options.text')
@@ -41,7 +41,8 @@ class ImageRolloverModuleSettings extends LiveEditModuleSettings
                     ->label('Link URL')
                     ->helperText('Type the URL for the link')
                     ->placeholder('http://')
-                    ->live(),
+                    ->live()
+                    ->default(fn () => $this->getOption('href-url')),
             ]);
     }
 }

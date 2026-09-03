@@ -23,7 +23,7 @@ description: Default
                     <div class="card-header" id="heading-{{ $params['id'] }}-{{ $item->id }}">
                         <h5 class="mb-0">
                             <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $params['id'] }}-{{ $item->id }}" aria-expanded="true" aria-controls="collapse-{{ $params['id'] }}-{{ $item->id }}">
-                                {{ $item->title }}
+                                {!! !empty($item->icon) ? icon_html($item->icon) . ' ' : '' !!}{{ $item->title }}
                             </button>
                         </h5>
                     </div>

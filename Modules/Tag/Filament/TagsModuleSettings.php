@@ -39,12 +39,13 @@ class TagsModuleSettings extends LiveEditModuleSettings
 
                                         return $options;
                                     })
+                                    ->default(fn () => $this->getOption('data-root-page-id', 0))
                                     ->helperText('Select the page to show tags from'),
 
                                 Toggle::make('options.show_tag_counts')
                                     ->live()
                                     ->label('Show Tag Counts')
-                                    ->default(true)
+                                    ->default(fn () => filter_var($this->getOption('show_tag_counts', true), FILTER_VALIDATE_BOOLEAN))
                                     ->helperText('Show the number of items tagged with each tag'),
                             ]),
                         Tabs\Tab::make('Design')
@@ -53,11 +54,13 @@ class TagsModuleSettings extends LiveEditModuleSettings
                                     ->schema([
                                         ColorPicker::make('options.tag_color')
                                             ->label('Tag Color')
-                                            ->live(),
+                                            ->live()
+                                            ->default(fn () => $this->getOption('tag_color')),
 
                                         ColorPicker::make('options.tag_hover_color')
                                             ->label('Tag Hover Color')
-                                            ->live(),
+                                            ->live()
+                                            ->default(fn () => $this->getOption('tag_hover_color')),
 
                                         Select::make('options.tag_size')
                                             ->label('Tag Size')
@@ -67,7 +70,7 @@ class TagsModuleSettings extends LiveEditModuleSettings
                                                 'medium' => 'Medium',
                                                 'large' => 'Large'
                                             ])
-                                            ->default('medium'),
+                                            ->default(fn () => $this->getOption('tag_size', 'medium')),
                                     ]),
 
                                 // Add template settings

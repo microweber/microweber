@@ -24,8 +24,6 @@ class BackgroundModuleSettings extends LiveEditModuleSettings
             $optionGroup = $this->params['data-parent-module-id'];
         } elseif (isset($this->params['module-id'])) {
             $optionGroup = $this->params['module-id'];
-        } elseif (isset($this->params['module-id'])) {
-            $optionGroup = $this->params['module-id'];
         } else {
             $optionGroup = $this->getOptionGroup();
         }
