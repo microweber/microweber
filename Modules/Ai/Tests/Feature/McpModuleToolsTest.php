@@ -8,6 +8,7 @@ use MicroweberPackages\AiTools\Base\BaseTool;
 use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
 use Modules\Menu\Tools\MenuListTool;
+use Modules\Testimonials\Tools\TestimonialsListTool;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -57,10 +58,21 @@ class McpModuleToolsTest extends TestCase
     }
 
     #[Test]
+    public function testimonials_list_returns_valid_json(): void
+    {
+        $out = (new TestimonialsListTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $out);
+        $decoded = json_decode($out, true);
+        $this->assertIsArray($decoded);
+        $this->assertArrayHasKey('testimonials', $decoded);
+    }
+
+    #[Test]
     public function module_tools_expose_expected_names(): void
     {
         $this->assertSame('menu_list', (new MenuListTool())->getName());
         $this->assertSame('category_list', (new CategoryListTool())->getName());
         $this->assertSame('comments_list', (new CommentsListTool())->getName());
+        $this->assertSame('testimonials_list', (new TestimonialsListTool())->getName());
     }
 }

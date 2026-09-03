@@ -9,6 +9,7 @@ use Modules\Comments\Tools\CommentsListTool;
 use Modules\Content\Tools\ContentSearchTool;
 use Modules\Content\Tools\CreateContentTool;
 use Modules\Menu\Tools\MenuListTool;
+use Modules\Testimonials\Tools\TestimonialsListTool;
 use Modules\Product\Tools\CreateProductTool;
 use Modules\Content\Tools\GetContentTool;
 use Modules\SiteStats\Tools\AnalyticsAudienceBreakdownTool;
@@ -83,6 +84,11 @@ class McpToolCatalog
                 'tool' => CommentsListTool::class,
                 'module' => 'comments',
                 'title' => 'List recent site comments with moderation status.',
+            ],
+            'testimonials.list' => [
+                'tool' => TestimonialsListTool::class,
+                'module' => 'testimonials',
+                'title' => 'List the site testimonials.',
             ],
             'content.create' => [
                 'tool' => CreateContentTool::class,

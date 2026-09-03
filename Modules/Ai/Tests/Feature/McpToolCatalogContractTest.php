@@ -72,6 +72,7 @@ class McpToolCatalogContractTest extends TestCase
         'content.get',
         'content.lookup',
         'menu.list',
+        'testimonials.list',
         'forms.activity_summary',
         'forms.form_lookup',
         'forms.submission_detail',
