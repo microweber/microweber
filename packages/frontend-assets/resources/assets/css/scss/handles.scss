@@ -361,14 +361,53 @@ html.dark, html[data-mw-theme="dark"]{
     }
 }
 
+/* task (user request): the block/layout handle's Settings button is icon-only
+   — the wide "Settings" text label made the handle overflow the mobile
+   viewport. Keep it a compact 44px icon button; the label is kept in the a11y
+   tree via sr-only (never display:none, which would drop it) plus the button's
+   title/tooltip. */
 #mw-handle-item-layout-root .mw-handle-edit-layout-button {
-    width: 100%;
-    text-align: left;
-    justify-content: start;
+    width: 44px;
+    justify-content: center;
+    text-align: center;
 }
 #mw-handle-item-layout-root .mw-handle-edit-layout-button .mw-le-handle-menu-button-content-title{
-    font-size: 15px;
-    padding-inline-end: 6px;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* task (user request): all other block/layout actions live in a single ⋮ "More"
+   dropdown (built in layout.js). Render its fly-out as a vertical, labelled
+   list (the default sub-menu is a horizontal icon strip) capped to the
+   viewport so it never overflows, and show each action's label. */
+#mw-handle-item-layout-root .mw-le-handle-menu-button-sub-menu {
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    min-width: 190px;
+    max-width: calc(100vw - 24px);
+    padding: 6px !important;
+    gap: 2px;
+}
+#mw-handle-item-layout-root .mw-le-handle-menu-button-sub-menu .mw-le-handle-menu-button {
+    width: 100% !important;
+    height: auto !important;
+    justify-content: flex-start !important;
+    text-align: left;
+    gap: 10px;
+    padding: 8px 10px !important;
+    white-space: nowrap;
+}
+#mw-handle-item-layout-root .mw-le-handle-menu-button-sub-menu .mw-le-handle-menu-button-content-title{
+    display: inline-block;
+    font-size: 14px;
 }
 
 html[dir="rtl"] {

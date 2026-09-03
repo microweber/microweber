@@ -201,19 +201,20 @@ export class LayoutHandleContent {
             }*/
         ];
 
-        const primaryNavigation = [
-
-            // task: mobile block toolbar — expose an explicit "Insert module"
-            // action directly in the block/layout handle. Previously the only
-            // insert affordances were the separate .insert-abs-module-button and
-            // the right rail, both easy to miss / clipped on mobile. Dispatching
-            // 'insertModuleRequest' (same as the module handle) lets the picker
-            // auto-detect free vs. normal layout, so it works in every block.
+        // task (user request): collapse ALL block/layout actions into a single
+        // ⋮ dropdown, leaving only an icon-only Settings button inline, so the
+        // block handle never overflows the (mobile) viewport. Each action keeps
+        // its icon and shows its label inside the dropdown (titleVisible:true).
+        // Structure mirrors the module handle's "Quick Settings" pattern
+        // (module.js): a tail node with `menu: [{ name, nodes }]` renders a
+        // trigger button whose sub-menu holds these nodes.
+        const dropdownNodes = [
             {
                 title: this.rootScope.lang('Insert module'),
+                titleVisible: true,
                 text: '',
                 icon: '<svg fill="currentColor" height="24" viewBox="0 -960 960 960" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/></svg>',
-                className: 'mw-handle-insert-button mw-handle-layout-insert-module-button',
+                className: 'mw-handle-layout-insert-module-button',
                 onTarget: function(target, selfNode) {
                     if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
                         selfNode.classList.remove('mw-le-handle-menu-button-disabled');
@@ -225,12 +226,12 @@ export class LayoutHandleContent {
                     mw.app.editor.dispatch('insertModuleRequest', target);
                 }
             },
-
             {
                 title: this.rootScope.lang('Clone'),
+                titleVisible: true,
                 text: '',
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M178.087-70.717q-27.698 0-48.034-20.336t-20.336-48.034v-600.848h68.37v600.848h471.848v68.37H178.087Zm128.131-128.37q-27.599 0-47.865-20.266-20.266-20.266-20.266-47.865v-555.695q0-27.698 20.266-48.034t47.865-20.336h435.695q27.698 0 48.034 20.336t20.336 48.034v555.695q0 27.599-20.336 47.865-20.336 20.266-48.034 20.266H306.218Zm0-68.131h435.695v-555.695H306.218v555.695Zm0 0v-555.695 555.695Z"/></svg>',
-                className: 'mw-handle-insert-button',
+                className: 'mw-handle-layout-clone-button',
                 onTarget: function(target, selfNode) {
 
                     if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
@@ -243,9 +244,9 @@ export class LayoutHandleContent {
                     layoutActions.cloneLayout(target);
                 }
             },
-
             {
                 title: this.rootScope.lang('Presets'),
+                titleVisible: true,
                 text: '',
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>',
                 className: 'mw-handle-presets-button',
@@ -268,9 +269,10 @@ export class LayoutHandleContent {
             },
             {
                 title: this.rootScope.lang('Move Down'),
+                titleVisible: true,
                 text: '',
                 icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" /></svg>',
-                className: 'mw-handle-insert-button',
+                className: 'mw-handle-layout-move-down-button',
                 onTarget: function(target, selfNode) {
                     if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module']) && target.nextElementSibling !== null) {
                         selfNode.classList.remove('mw-le-handle-menu-button-disabled');
@@ -287,9 +289,10 @@ export class LayoutHandleContent {
             },
             {
                 title: this.rootScope.lang('Move up'),
+                titleVisible: true,
                 text: '',
                 icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" /></svg>',
-                className: 'mw-handle-insert-button',
+                className: 'mw-handle-layout-move-up-button',
                 onTarget: function (target, selfNode, rootScope) {
                     if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module']) && target.previousElementSibling !== null) {
                         selfNode.classList.remove('mw-le-handle-menu-button-disabled');
@@ -302,19 +305,12 @@ export class LayoutHandleContent {
                     layoutActions.moveUp(target)
                 }
             },
-
-
-
-
-        ];
-
-        const tail = [
             {
                 title: this.rootScope.lang('Delete'),
-                text:  this.rootScope.lang('Delete'),
+                titleVisible: true,
+                text: '',
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"></path></svg>',
-                className: 'mw-handle-button-wide mw-handle-layout-delete-button',
-
+                className: 'mw-handle-layout-delete-button',
                 onTarget: function(target, selfNode) {
                     let selfVisible = true;
 
@@ -333,6 +329,22 @@ export class LayoutHandleContent {
                 action: function (target, selfNode, rootScope) {
                     layoutActions.deleteLayout(target);
                 }
+            }
+        ];
+
+        const primaryNavigation = [];
+
+        const tail = [
+            {
+                title: this.rootScope.lang('More'),
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960" fill="currentColor"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg>',
+                className: 'mw-handle-layout-more-button',
+                menu: [
+                    {
+                        name: 'layoutActions',
+                        nodes: dropdownNodes
+                    }
+                ]
             }
         ];
         this.menu = new HandleMenu({
