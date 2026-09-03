@@ -10,6 +10,7 @@ use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
 use Modules\Company\Tools\CompanyListTool;
 use Modules\Country\Tools\CountryListTool;
+use Modules\CustomFields\Tools\CustomFieldsListTool;
 use Modules\Coupons\Tools\CouponsListTool;
 use Modules\Currency\Tools\CurrencyRatesTool;
 use Modules\Faq\Tools\FaqListTool;
@@ -155,8 +156,17 @@ class McpModuleToolsTest extends TestCase
     }
 
     #[Test]
+    public function custom_fields_list_returns_valid_json(): void
+    {
+        $out = (new CustomFieldsListTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $out);
+        $this->assertArrayHasKey('fields', json_decode($out, true));
+    }
+
+    #[Test]
     public function module_tools_expose_expected_names(): void
     {
+        $this->assertSame('custom_fields_list', (new CustomFieldsListTool())->getName());
         $this->assertSame('rating_list', (new RatingListTool())->getName());
         $this->assertSame('attributes_list', (new AttributesListTool())->getName());
         $this->assertSame('mail_template_list', (new MailTemplateListTool())->getName());

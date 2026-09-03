@@ -12,6 +12,7 @@ use Modules\Content\Tools\ContentSearchTool;
 use Modules\Country\Tools\CountryListTool;
 use Modules\Coupons\Tools\CouponsListTool;
 use Modules\Currency\Tools\CurrencyRatesTool;
+use Modules\CustomFields\Tools\CustomFieldsListTool;
 use Modules\Content\Tools\CreateContentTool;
 use Modules\Faq\Tools\FaqListTool;
 use Modules\MailTemplate\Tools\MailTemplateListTool;
@@ -155,6 +156,11 @@ class McpToolCatalog
                 'tool' => AttributesListTool::class,
                 'module' => 'attributes',
                 'title' => 'List content/product custom attributes.',
+            ],
+            'customfields.list' => [
+                'tool' => CustomFieldsListTool::class,
+                'module' => 'customfields',
+                'title' => 'List custom field definitions.',
             ],
             'content.create' => [
                 'tool' => CreateContentTool::class,
