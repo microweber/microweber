@@ -6,6 +6,7 @@ namespace Modules\Ai\Tests\Tools;
 
 use MicroweberPackages\AiTools\Base\BaseTool;
 use Modules\Ai\Services\ToolCallCollector;
+use Modules\Ai\Tools\LiveEdit\AddSectionTool;
 use Modules\Ai\Tools\LiveEdit\ApplyCssTool;
 use Modules\Ai\Tools\LiveEdit\GetPageContextTool;
 use Modules\Ai\Tools\LiveEdit\SetImageTool;
@@ -80,8 +81,25 @@ class LiveEditToolsTest extends ToolTestCase
     }
 
     #[Test]
+    public function add_section_confirms_valid_html_and_rejects_module_tags(): void
+    {
+        $tool = new AddSectionTool();
+
+        $ok = $tool->__invoke(html: '<section class="hero"><h1>Hi</h1></section>', css: '.hero{color:#fff}');
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $ok);
+
+        // Structural safety: never let Microweber <module> markup through.
+        $bad = $tool->__invoke(html: '<module type="contact_form"/>');
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $bad);
+
+        $empty = $tool->__invoke(html: '   ');
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $empty);
+    }
+
+    #[Test]
     public function tools_expose_the_expected_names(): void
     {
+        $this->assertSame('add_section', (new AddSectionTool())->getName());
         $this->assertSame('apply_css', (new ApplyCssTool())->getName());
         $this->assertSame('set_text', (new SetTextTool())->getName());
         $this->assertSame('set_image', (new SetImageTool())->getName());

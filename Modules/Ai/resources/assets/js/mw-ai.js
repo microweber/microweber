@@ -141,6 +141,46 @@ function MwAi() {
             return html;
         },
 
+        // Find the page's main editable content region — where built sections
+        // must live so the Live-Edit SAVE persists them. Prefer the biggest
+        // .edit[rel][field] content area; fall back to the largest layout, then
+        // the canvas body.
+        contentRegion() {
+            const doc = this.canvasDocument();
+            const regions = Array.from(doc.querySelectorAll('.edit[rel][field]'))
+                .filter((el) => !el.classList.contains('module'));
+            if (regions.length) {
+                // Prefer a content field; otherwise the tallest region.
+                const byField = regions.filter((el) => (el.getAttribute('field') || '').toLowerCase().indexOf('content') !== -1);
+                const pool = byField.length ? byField : regions;
+                pool.sort((a, b) => b.getBoundingClientRect().height - a.getBoundingClientRect().height);
+                return pool[0];
+            }
+            const layout = doc.querySelector('.module-layouts, .edit');
+            return layout || doc.body;
+        },
+
+        // Sanitise AI-authored section HTML before it touches the canvas: no
+        // scripts, styles, iframes, Microweber <module> tags, or inline event
+        // handlers / javascript: URLs. Returns a safe HTML string.
+        sanitizeSectionHtml(html) {
+            const doc = this.canvasDocument();
+            const tmp = doc.createElement('div');
+            tmp.innerHTML = String(html || '');
+            tmp.querySelectorAll('script,style,iframe,object,embed,link,module').forEach((n) => n.remove());
+            tmp.querySelectorAll('*').forEach((el) => {
+                Array.from(el.attributes).forEach((attr) => {
+                    const name = attr.name.toLowerCase();
+                    const val = String(attr.value || '');
+                    if (name.indexOf('on') === 0) { el.removeAttribute(attr.name); return; }
+                    if ((name === 'href' || name === 'src') && /^\s*javascript:/i.test(val)) {
+                        el.removeAttribute(attr.name);
+                    }
+                });
+            });
+            return tmp.innerHTML;
+        },
+
         // Very small flat-CSS parser: "sel { a:1; b:2 } sel2 { c:3 }" ->
         // [{selector, props:{a:'1', b:'2'}}, ...]. Rules containing nested "{"
         // (e.g. @media) are returned raw so applyCss can inject them verbatim.
@@ -194,7 +234,17 @@ function MwAi() {
                 if (editor && editor.setPropertyForSelectorBulk) {
                     parsed.rules.forEach(function(rule) {
                         try {
-                            editor.setPropertyForSelectorBulk(rule.selector, rule.props);
+                            // Force !important so AI styles win over the template's
+                            // own (more specific / body-scoped) defaults — otherwise
+                            // plain-class rules like `.btn{background:…}` silently lose
+                            // the cascade to Bootstrap/general-styles.
+                            const props = {};
+                            Object.keys(rule.props).forEach(function(k) {
+                                let v = rule.props[k];
+                                if (!/!important\s*$/i.test(v)) { v = v + ' !important'; }
+                                props[k] = v;
+                            });
+                            editor.setPropertyForSelectorBulk(rule.selector, props);
                             applied++;
                         } catch (e) {}
                     });
@@ -266,6 +316,62 @@ function MwAi() {
                 }
                 try { mw.top().app.registerChangedState(el); } catch (e) {}
                 return { ok: true, message: 'image updated' };
+            },
+
+            add_section: function(args, api) {
+                const html = (args && args.html) ? String(args.html) : '';
+                if (!html.trim()) { return { ok: false, message: 'no html' }; }
+                const doc = api.canvasDocument();
+                const region = api.contentRegion();
+                if (!region) { return { ok: false, message: 'no editable content region on this page' }; }
+
+                // Dedup guard: small local models sometimes call add_section twice
+                // for the same section. Skip if a section with the same text is
+                // already on the page so duplicates never reach the canvas.
+                const norm = function (s) { return String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase().slice(0, 240); };
+                const incomingText = norm(html);
+                if (incomingText.length > 20) {
+                    const dup = Array.from(region.querySelectorAll('.mw-ai-built-section'))
+                        .some(function (s) { return norm(s.textContent) === incomingText; });
+                    if (dup) { return { ok: true, message: 'duplicate section skipped' }; }
+                }
+
+                // Build the node. If the AI already provided a single block-level
+                // root (e.g. <section class="hero">), use it directly so its own
+                // class is the section handle — avoids <section><section> nesting
+                // and keeps the AI's selectors matching the top-level element.
+                const tmp = doc.createElement('div');
+                tmp.innerHTML = api.sanitizeSectionHtml(html);
+                const roots = Array.from(tmp.children);
+                const blockTags = ['SECTION', 'DIV', 'HEADER', 'FOOTER', 'ARTICLE', 'ASIDE', 'MAIN', 'NAV'];
+                let section;
+                if (roots.length === 1 && blockTags.indexOf(roots[0].tagName) !== -1) {
+                    section = roots[0];
+                } else {
+                    section = doc.createElement('section');
+                    while (tmp.firstChild) { section.appendChild(tmp.firstChild); }
+                }
+                section.classList.add('mw-ai-built-section');
+                section.id = 'mw-ai-sec-' + Math.floor(Math.random() * 1e9).toString(36);
+
+                const position = (args && args.position === 'prepend') ? 'prepend' : 'append';
+                if (position === 'prepend' && region.firstChild) {
+                    region.insertBefore(section, region.firstChild);
+                } else {
+                    region.appendChild(section);
+                }
+
+                try { mw.top().app.registerChangedState(section); } catch (e) {}
+
+                // Atomic build+style: if the model passed css with the section,
+                // apply it now (via the same !important path) so the section looks
+                // right even if the model never makes a separate apply_css call.
+                let styled = '';
+                if (args && args.css && String(args.css).trim()) {
+                    const r = api.frontendTools.apply_css({ css: String(args.css) }, api);
+                    if (r && r.ok) { styled = ' + styled'; }
+                }
+                return { ok: true, message: 'section added (' + section.children.length + ' blocks)' + styled };
             },
 
             // generate_image runs server-side (it returns a URL to the model,

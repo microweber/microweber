@@ -261,6 +261,7 @@ export class MwAiConversation extends MicroweberBaseClass {
     editLabel(edit) {
         const t = edit && edit.tool;
         const a = (edit && edit.args) || {};
+        if (t === "add_section") { return mw.lang("Added a section"); }
         if (t === "apply_css") { return mw.lang("Applied styles"); }
         if (t === "set_text") { return mw.lang("Updated text") + (a.selector ? " · " + a.selector : ""); }
         if (t === "set_image") { return mw.lang("Replaced image") + (a.selector ? " · " + a.selector : ""); }
