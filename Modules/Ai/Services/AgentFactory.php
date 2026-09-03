@@ -7,6 +7,7 @@ use Modules\Ai\Agents\BaseAgent;
 use Modules\Ai\Agents\ContentAgent;
 use Modules\Ai\Agents\CustomerAgent;
 use Modules\Ai\Agents\GeneralAgent;
+use Modules\Ai\Agents\LiveEditAgent;
 use Modules\Ai\Agents\MediaAgent;
 use Modules\Ai\Agents\ShopAgent;
 use Modules\Ai\Models\AgentChat;
@@ -22,6 +23,7 @@ class AgentFactory
         'shop' => ShopAgent::class,
         'media' => MediaAgent::class,
         'general' => GeneralAgent::class,
+        'liveedit' => LiveEditAgent::class,
     ];
 
     public function __construct(Container $app)
