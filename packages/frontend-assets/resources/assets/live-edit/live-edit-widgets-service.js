@@ -1,5 +1,6 @@
 
 import { QuickEditComponent } from "../components/quick-ai-edit.js";
+import { MwAiConversation } from "../components/mw-ai-conversation.js";
 import BaseComponent from "../containers/base-class.js";
 
 import {ElementManager} from "../api-core/core/classes/element.js";
@@ -225,8 +226,46 @@ export class LiveEditWidgetsService extends BaseComponent{
 
         this.#closeQuickEditComponentBox = box;
 
-        box.boxContent.appendChild(tabs);
-        box.boxContent.appendChild(this.quickEditComponent.editor());
+        // Primary AI surface: a Claude-style conversation that edits the live
+        // site via streamed frontend tool calls (see MwAiConversation). The
+        // classic field editor stays available behind an "Edit fields" tab so
+        // its existing behaviour + Dusk hooks are preserved.
+        let _contentId = 0;
+        try {
+            const _led = mw.top().app.canvas.getLiveEditData();
+            _contentId = (_led && _led.content && _led.content.id) ? _led.content.id : 0;
+        } catch (_) {}
+
+        this.aiConversation = new MwAiConversation({ contentId: _contentId });
+
+        const modeBar = ElementManager(`
+            <div class="mw-ai-quick-modes flex gap-2 mb-3">
+                <button type="button" class="btn active" data-mode="chat">${mw.lang('AI Chat')}</button>
+                <button type="button" class="btn" data-mode="fields">${mw.lang('Edit fields')}</button>
+            </div>
+        `).get(0);
+
+        const chatView = this.aiConversation.root;
+        chatView.style.minHeight = '60vh';
+
+        const fieldsView = document.createElement('div');
+        fieldsView.style.display = 'none';
+        fieldsView.appendChild(tabs);
+        fieldsView.appendChild(this.quickEditComponent.editor());
+
+        modeBar.addEventListener('click', (e) => {
+            const btn = e.target.closest('button[data-mode]');
+            if (!btn) { return; }
+            modeBar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const isChat = btn.dataset.mode === 'chat';
+            chatView.style.display = isChat ? '' : 'none';
+            fieldsView.style.display = isChat ? 'none' : '';
+        });
+
+        box.boxContent.appendChild(modeBar);
+        box.boxContent.appendChild(chatView);
+        box.boxContent.appendChild(fieldsView);
 
         box.show();
         this.status.quickEditComponent = true;

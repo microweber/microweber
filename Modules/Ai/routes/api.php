@@ -17,6 +17,11 @@ Route::middleware(['admin'])->group(function () {
     // Agent chat with memory/history
     Route::post('api/ai/agent-chat', [Modules\Ai\Http\Controllers\AiController::class, 'agentChat'])
         ->name('api.ai.agent-chat');
+
+    // Streaming Live-Edit chat (Server-Sent Events): tool calls stream to the
+    // browser as they happen so frontend tools apply edits on the live canvas.
+    Route::post('api/ai/agent-chat-stream', [Modules\Ai\Http\Controllers\AiController::class, 'agentChatStream'])
+        ->name('api.ai.agent-chat-stream');
     
     Route::get('api/ai/chat-history/{chatId}', [Modules\Ai\Http\Controllers\AiController::class, 'getChatHistory'])
         ->name('api.ai.chat-history');

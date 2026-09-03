@@ -274,6 +274,173 @@ class AiController extends Controller
     }
 
     /**
+     * Streaming Live-Edit chat over Server-Sent Events.
+     *
+     * The Live-Edit tools are frontend tools: the model calls them, and this
+     * endpoint streams each call to the browser as an `event: tool` frame the
+     * instant it happens, so the canvas applies the edit live (see mw-ai.js
+     * frontendTools). The whole page canvas is passed up as context so the model
+     * writes correct selectors. Backend tools/agents are unchanged.
+     */
+    public function agentChatStream(Request $request)
+    {
+        $rules = [
+            'message' => 'required|string|max:4000',
+            'agent_type' => 'sometimes|string|in:general,content,customer,shop,media,liveedit',
+            'chat_id' => 'sometimes|integer|exists:agent_chats,id',
+            'chat_title' => 'sometimes|string|max:255',
+            'content_id' => 'sometimes|integer',
+            'canvas_html' => 'sometimes|string',
+        ];
+
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->toArray(),
+            ], 422);
+        }
+
+        $userId = auth()->id();
+        $message = $request->input('message');
+        $agentType = $request->input('agent_type', 'liveedit');
+        $chatId = $request->input('chat_id');
+        $chatTitle = $request->input('chat_title', 'Live Edit - ' . now()->format('M j, H:i'));
+        $contentId = (int) $request->input('content_id', 0);
+        $canvasHtml = (string) $request->input('canvas_html', '');
+
+        $response = new \Symfony\Component\HttpFoundation\StreamedResponse(function () use (
+            $userId, $message, $agentType, $chatId, $chatTitle, $contentId, $canvasHtml, $request
+        ) {
+            $emitter = new \Modules\Ai\Services\SseToolEmitter();
+
+            try {
+                $agentFactory = app(AgentFactory::class);
+
+                if ($chatId) {
+                    $chat = AgentChat::findOrFail($chatId);
+                    if ($chat->user_id && $chat->user_id !== $userId) {
+                        $emitter->emit('error', ['message' => 'Unauthorized access to chat']);
+                        return;
+                    }
+                } else {
+                    $chat = $agentFactory->createOrGetChat(
+                        agentType: $agentType,
+                        title: $chatTitle,
+                        userId: $userId
+                    );
+                }
+
+                $emitter->emit('start', ['chat_id' => $chat->id, 'agent_type' => $agentType]);
+
+                $agent = $agentFactory->agentWithChat($chat);
+                $agent->observe($emitter);
+
+                AgentChatMessage::create([
+                    'chat_id' => $chat->id,
+                    'role' => 'user',
+                    'content' => $message,
+                    'metadata' => [
+                        'user_id' => $userId,
+                        'timestamp' => now()->toISOString(),
+                        'ip_address' => $request->ip(),
+                    ],
+                ]);
+
+                // Build the prompt: Live-Edit context + a cleaned excerpt of the
+                // real page canvas so the model targets existing selectors.
+                $promptText = $message;
+                if ($agentType === 'liveedit') {
+                    $preamble = '[Live-Edit session';
+                    if ($contentId > 0) {
+                        $preamble .= " editing content_id={$contentId}";
+                    }
+                    $preamble .= '. Apply visual/content changes by calling your tools; they run live on the canvas.]';
+
+                    $canvasContext = $this->summarizeCanvas($canvasHtml);
+                    if ($canvasContext !== '') {
+                        $preamble .= "\n\n[Current page canvas markup]\n" . $canvasContext;
+                    }
+                    $promptText = $preamble . "\n\n" . $message;
+                }
+
+                $neuronMessage = new UserMessage($promptText);
+                $result = $agent->chat($neuronMessage)->getMessage();
+
+                $responseContent = '';
+                if ($result instanceof \NeuronAI\Chat\Messages\Message) {
+                    $responseContent = (string) $result->getContent();
+                } elseif (is_string($result)) {
+                    $responseContent = $result;
+                }
+                if ($responseContent === '') {
+                    $responseContent = 'Done.';
+                }
+
+                $assistantMessage = AgentChatMessage::create([
+                    'chat_id' => $chat->id,
+                    'role' => 'assistant',
+                    'content' => $responseContent,
+                    'agent_type' => $agentType,
+                    'metadata' => [
+                        'processed_by' => $agentType,
+                        'timestamp' => now()->toISOString(),
+                        'edits' => count($emitter->all()),
+                    ],
+                    'processed_at' => now(),
+                ]);
+
+                $emitter->emit('done', [
+                    'response' => $responseContent,
+                    'chat_id' => $chat->id,
+                    'message_id' => $assistantMessage->id,
+                    'agent_type' => $agentType,
+                    'chat_title' => $chat->title,
+                    // Repeat the ordered tool calls so clients that batch-apply at
+                    // the end (rather than live) get the full list.
+                    'edits' => $emitter->all(),
+                ]);
+            } catch (\Throwable $e) {
+                $emitter->emit('error', ['message' => 'Error: ' . $e->getMessage()]);
+            }
+        });
+
+        $response->headers->set('Content-Type', 'text/event-stream');
+        $response->headers->set('Cache-Control', 'no-cache');
+        $response->headers->set('X-Accel-Buffering', 'no');
+        $response->headers->set('Connection', 'keep-alive');
+
+        return $response;
+    }
+
+    /**
+     * Reduce raw canvas HTML to a compact, model-friendly excerpt: strip
+     * script/style/svg/comments, collapse whitespace, cap length. Keeps enough
+     * structure (tags, classes, ids, text) for the model to write selectors.
+     */
+    protected function summarizeCanvas(string $html): string
+    {
+        $html = trim($html);
+        if ($html === '') {
+            return '';
+        }
+
+        $html = preg_replace('#<script\b[^>]*>.*?</script>#is', '', $html) ?? $html;
+        $html = preg_replace('#<style\b[^>]*>.*?</style>#is', '', $html) ?? $html;
+        $html = preg_replace('#<svg\b[^>]*>.*?</svg>#is', '', $html) ?? $html;
+        $html = preg_replace('#<!--.*?-->#s', '', $html) ?? $html;
+        $html = preg_replace('/\s+/', ' ', $html) ?? $html;
+        $html = trim($html);
+
+        $max = 9000;
+        if (mb_strlen($html) > $max) {
+            $html = mb_substr($html, 0, $max) . ' …[truncated]';
+        }
+
+        return $html;
+    }
+
+    /**
      * Get chat history for a specific chat
      */
     public function getChatHistory(Request $request, int $chatId)

@@ -79,6 +79,299 @@ function MwAi() {
 
                     });
             })
+        },
+
+        // ------------------------------------------------------------------
+        // Live-Edit AI: frontend tools + streaming transport
+        //
+        // The Live-Edit tools are FRONTEND tools: the backend agent (NeuronAI +
+        // Kimi) only decides which to call; the actual work runs here, on the
+        // live canvas, in real time. The server streams each tool call as a
+        // Server-Sent Event ({tool, args}); applyEdit() dispatches it to the
+        // matching frontendTools implementation below. Every edit goes through
+        // the normal Live-Edit primitives so the existing SAVE button persists
+        // it (CSS via cssEditor, content via registerChangedState).
+        // ------------------------------------------------------------------
+
+        // Return the live canvas document (the page the user is editing).
+        canvasDocument() {
+            try {
+                if (mw.top().app && mw.top().app.canvas && mw.top().app.canvas.getDocument) {
+                    return mw.top().app.canvas.getDocument();
+                }
+            } catch (e) {}
+            // Fallback: if mw-ai runs inside the canvas frame itself.
+            return document;
+        },
+
+        // The id of the content/page currently open in Live Edit (0 if unknown).
+        canvasContentId() {
+            try {
+                const data = mw.top().app.canvas.getLiveEditData();
+                if (data && data.content && data.content.id) {
+                    return parseInt(data.content.id, 10) || 0;
+                }
+            } catch (e) {}
+            return 0;
+        },
+
+        // A cleaned snapshot of the canvas markup to send to the model as
+        // context, so it writes selectors that actually exist on the page.
+        collectCanvas(maxLen = 12000) {
+            let html = '';
+            try {
+                const doc = this.canvasDocument();
+                html = (doc && doc.body) ? doc.body.innerHTML : '';
+            } catch (e) {
+                html = '';
+            }
+            if (!html) {
+                return '';
+            }
+            html = html
+                .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
+                .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '')
+                .replace(/<svg\b[^>]*>[\s\S]*?<\/svg>/gi, '')
+                .replace(/<!--[\s\S]*?-->/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+            if (html.length > maxLen) {
+                html = html.slice(0, maxLen) + ' …';
+            }
+            return html;
+        },
+
+        // Very small flat-CSS parser: "sel { a:1; b:2 } sel2 { c:3 }" ->
+        // [{selector, props:{a:'1', b:'2'}}, ...]. Rules containing nested "{"
+        // (e.g. @media) are returned raw so applyCss can inject them verbatim.
+        parseCss(css) {
+            const rules = [];
+            const raw = [];
+            const re = /([^{}]+)\{([^{}]*)\}/g;
+            let m;
+            let matchedTo = 0;
+            while ((m = re.exec(css)) !== null) {
+                const selector = m[1].trim();
+                const body = m[2].trim();
+                if (!selector) { continue; }
+                if (/@/.test(selector) || selector.indexOf('{') !== -1) {
+                    raw.push(m[0]);
+                    matchedTo = re.lastIndex;
+                    continue;
+                }
+                const props = {};
+                body.split(';').forEach(function(decl) {
+                    const idx = decl.indexOf(':');
+                    if (idx > 0) {
+                        const prop = decl.slice(0, idx).trim();
+                        const val = decl.slice(idx + 1).trim();
+                        if (prop && val) { props[prop] = val; }
+                    }
+                });
+                if (Object.keys(props).length) {
+                    rules.push({ selector: selector, props: props });
+                }
+                matchedTo = re.lastIndex;
+            }
+            // Anything the rule regex could not structure (at-rules etc.) keeps
+            // its visual effect via a raw injected block.
+            if (matchedTo < css.length && /@/.test(css.slice(matchedTo))) {
+                raw.push(css.slice(matchedTo));
+            }
+            return { rules: rules, raw: raw };
+        },
+
+        // The frontend tool implementations. Keyed by the backend tool name.
+        frontendTools: {
+            apply_css: function(args, api) {
+                const css = (args && args.css) ? String(args.css) : '';
+                if (!css.trim()) { return { ok: false, message: 'empty css' }; }
+
+                const editor = mw.top().app && mw.top().app.cssEditor;
+                const parsed = api.parseCss(css);
+                let applied = 0;
+
+                if (editor && editor.setPropertyForSelectorBulk) {
+                    parsed.rules.forEach(function(rule) {
+                        try {
+                            editor.setPropertyForSelectorBulk(rule.selector, rule.props);
+                            applied++;
+                        } catch (e) {}
+                    });
+                    editor.changed = true;
+                }
+
+                // At-rules / anything not expressible as selector→props: inject a
+                // raw <style> in the canvas so the effect is visible immediately.
+                if (parsed.raw.length) {
+                    try {
+                        const doc = api.canvasDocument();
+                        let el = doc.getElementById('mw-ai-custom-css');
+                        if (!el) {
+                            el = doc.createElement('style');
+                            el.id = 'mw-ai-custom-css';
+                            doc.head.appendChild(el);
+                        }
+                        el.appendChild(doc.createTextNode('\n' + parsed.raw.join('\n')));
+                        applied += parsed.raw.length;
+                    } catch (e) {}
+                }
+
+                // If we could not go through the editor at all, at least show it.
+                if (!editor && !parsed.raw.length) {
+                    try {
+                        const doc = api.canvasDocument();
+                        let el = doc.getElementById('mw-ai-custom-css');
+                        if (!el) {
+                            el = doc.createElement('style');
+                            el.id = 'mw-ai-custom-css';
+                            doc.head.appendChild(el);
+                        }
+                        el.appendChild(doc.createTextNode('\n' + css));
+                        applied++;
+                    } catch (e) {}
+                }
+
+                return { ok: applied > 0, message: applied + ' css rule(s) applied' };
+            },
+
+            set_text: function(args, api) {
+                const selector = (args && args.selector) ? String(args.selector) : '';
+                const text = (args && typeof args.text !== 'undefined') ? String(args.text) : '';
+                if (!selector) { return { ok: false, message: 'no selector' }; }
+                const doc = api.canvasDocument();
+                const el = doc.querySelector(selector);
+                if (!el) { return { ok: false, message: 'no element for ' + selector }; }
+                el.textContent = text;
+                try { mw.top().app.registerChangedState(el); } catch (e) {}
+                return { ok: true, message: 'text updated' };
+            },
+
+            set_image: function(args, api) {
+                const selector = (args && args.selector) ? String(args.selector) : '';
+                const url = (args && args.url) ? String(args.url) : '';
+                if (!selector || !url) { return { ok: false, message: 'selector+url required' }; }
+                const doc = api.canvasDocument();
+                let el = doc.querySelector(selector);
+                if (!el) { return { ok: false, message: 'no element for ' + selector }; }
+                if (el.tagName !== 'IMG') {
+                    const inner = el.querySelector('img');
+                    if (inner) { el = inner; }
+                }
+                if (el.tagName === 'IMG') {
+                    el.src = url;
+                    el.removeAttribute('srcset');
+                } else {
+                    el.style.backgroundImage = 'url("' + url + '")';
+                }
+                try { mw.top().app.registerChangedState(el); } catch (e) {}
+                return { ok: true, message: 'image updated' };
+            },
+
+            // generate_image runs server-side (it returns a URL to the model,
+            // which then calls set_image). Nothing to apply on the canvas here.
+            generate_image: function() {
+                return { ok: true, message: 'image generated (model will place it)' };
+            },
+
+            get_page_context: function() {
+                return { ok: true, message: 'context read' };
+            }
+        },
+
+        // Apply one streamed tool call to the live canvas.
+        applyEdit(edit) {
+            if (!edit || !edit.tool) { return { ok: false, message: 'no tool' }; }
+            const impl = this.frontendTools[edit.tool];
+            if (!impl) { return { ok: false, message: 'unknown tool ' + edit.tool }; }
+            try {
+                return impl(edit.args || {}, this);
+            } catch (e) {
+                return { ok: false, message: String(e && e.message || e) };
+            }
+        },
+
+        // Streaming Live-Edit chat. Opens the SSE endpoint, applies each tool
+        // call to the canvas as it arrives, and calls the provided handlers.
+        //
+        //   handlers = {
+        //     onStart(data), onTool(edit, result), onError(msg), onDone(data)
+        //   }
+        async agentChatStream(message, options = {}, handlers = {}) {
+            const self = this;
+            const body = {
+                message: message,
+                agent_type: options.agent_type || 'liveedit',
+                content_id: (typeof options.content_id !== 'undefined')
+                    ? options.content_id : self.canvasContentId(),
+                canvas_html: (typeof options.canvas_html !== 'undefined')
+                    ? options.canvas_html : self.collectCanvas()
+            };
+            if (options.chat_id) { body.chat_id = options.chat_id; }
+            if (options.chat_title) { body.chat_title = options.chat_title; }
+
+            const headers = { 'Content-Type': 'application/json', 'Accept': 'text/event-stream' };
+            const csrf = $('meta[name="csrf-token"]');
+            if (csrf.length) { headers['X-CSRF-TOKEN'] = csrf.attr('content'); }
+
+            const res = await fetch(mw.settings.site_url + 'api/ai/agent-chat-stream', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(body),
+                credentials: 'same-origin'
+            });
+
+            if (!res.ok || !res.body) {
+                const msg = 'AI stream failed (' + res.status + ')';
+                if (handlers.onError) { handlers.onError(msg); }
+                throw new Error(msg);
+            }
+
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+            let done = null;
+
+            const dispatch = function(eventName, dataStr) {
+                let data = {};
+                try { data = dataStr ? JSON.parse(dataStr) : {}; } catch (e) { data = { raw: dataStr }; }
+                if (eventName === 'start') {
+                    if (handlers.onStart) { handlers.onStart(data); }
+                } else if (eventName === 'tool') {
+                    const result = self.applyEdit(data);
+                    if (handlers.onTool) { handlers.onTool(data, result); }
+                } else if (eventName === 'error') {
+                    if (handlers.onError) { handlers.onError(data.message || 'error'); }
+                } else if (eventName === 'done') {
+                    done = data;
+                    if (handlers.onDone) { handlers.onDone(data); }
+                }
+            };
+
+            // Parse the SSE stream frame by frame ("event:"/"data:" blocks).
+            for (;;) {
+                const chunk = await reader.read();
+                if (chunk.done) { break; }
+                buffer += decoder.decode(chunk.value, { stream: true });
+
+                let sep;
+                while ((sep = buffer.indexOf('\n\n')) !== -1) {
+                    const frame = buffer.slice(0, sep);
+                    buffer = buffer.slice(sep + 2);
+                    let eventName = 'message';
+                    const dataLines = [];
+                    frame.split('\n').forEach(function(line) {
+                        if (line.indexOf('event:') === 0) {
+                            eventName = line.slice(6).trim();
+                        } else if (line.indexOf('data:') === 0) {
+                            dataLines.push(line.slice(5).trim());
+                        }
+                    });
+                    dispatch(eventName, dataLines.join('\n'));
+                }
+            }
+
+            return done || { response: '', edits: [] };
         }
     }
 }
