@@ -1000,6 +1000,16 @@ html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-group-dropdown-trig
     justify-content: flex-start !important;
 }
 
+/* task: "make the live-edit sidebar look the same as admin". The only remaining
+   difference is the nav inset — Filament core gives .fi-sidebar-nav 24px side
+   padding (admin: icon at x=40), but in the live-edit context it computes to 0
+   (icon at x=16), so the icons sit ~24px further left than in the admin panel.
+   Restore the 24px inset so the two sidebars align identically. */
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-nav {
+    padding-inline-start: 24px !important;
+    padding-inline-end: 24px !important;
+}
+
 /* Reported: at <768px, hovering a sidebar row makes the WHOLE ROW jump up →
    the cursor loses it → flicker loop → the item is unclickable. No intentional
    MW rule moves the row, so the culprit is a hover lift from Filament core /
