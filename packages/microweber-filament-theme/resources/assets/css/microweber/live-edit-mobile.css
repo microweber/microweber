@@ -999,3 +999,27 @@ html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item-btn,
 html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-group-dropdown-trigger-btn {
     justify-content: flex-start !important;
 }
+
+/* Reported: at <768px, hovering a sidebar row makes the WHOLE ROW jump up →
+   the cursor loses it → flicker loop → the item is unclickable. No intentional
+   MW rule moves the row, so the culprit is a hover lift from Filament core /
+   a (hover:hover) rule (which our --no-sandbox headless Chrome doesn't apply,
+   so it can't be reproduced here). Defensively pin the row geometry: hover must
+   never translate the row or re-position its label/icon, so the layout is
+   identical hovered vs. not and there is nothing to flicker against. */
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item:hover,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item:focus-within,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item-btn:hover,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-group-dropdown-trigger-btn:hover {
+    transform: none !important;
+    margin-top: 0 !important;
+    top: auto !important;
+}
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item:hover .fi-sidebar-item-label,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item:focus-within .fi-sidebar-item-label {
+    position: static !important;
+    transform: none !important;
+    top: auto !important;
+    left: auto !important;
+}

@@ -750,13 +750,18 @@ html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
             // task-2026-05-28-571193 — transition defined at base state so exit
             // (unhover) also animates; previously transition was only in :hover
             // which caused items to snap to opacity:0 instantly on mouse-out.
-            .mw-le-handle-menu-button ~ *{
+            // NOTE: this desktop hover-reveal hides every sibling AFTER the first
+            // handle button. The block handle is now [+ Add layout][⋮ More], and
+            // the ⋮ trigger must stay visible at all times (it opens the actions
+            // dropdown) — so exempt .mw-handle-layout-more-button from the hide,
+            // otherwise the 3-dots button is invisible until the row is hovered.
+            .mw-le-handle-menu-button ~ *:not(.mw-handle-layout-more-button){
                 height: 0;
                 opacity: 0;
                 transition: opacity .2s, height .2s;
             }
             &:not(:hover) {
-                .mw-le-handle-menu-button ~ *{
+                .mw-le-handle-menu-button ~ *:not(.mw-handle-layout-more-button){
                     height: 0;
                     opacity: 0;
                     padding: 0 !important;
