@@ -374,6 +374,50 @@ function MwAi() {
                 return { ok: true, message: 'section added (' + section.children.length + ' blocks)' + styled };
             },
 
+            insert_module: function(args, api) {
+                const type = (args && args.type) ? String(args.type).trim() : '';
+                if (!type) { return { ok: false, message: 'no module type' }; }
+                const region = api.contentRegion();
+                if (!region) { return { ok: false, message: 'no editable content region' }; }
+                const position = (args && args.position === 'top') ? 'top' : 'bottom';
+                try {
+                    const app = mw.top().app;
+                    const edit = mw.top().tools.firstParentOrCurrentWithClass(region, 'edit') || region;
+                    app.registerChangedState(edit, true);
+                    // insertModule may be async; apply optimistically and finalise on resolve.
+                    const p = app.editor.insertModule(type, {}, position, region);
+                    Promise.resolve(p).then(function (itm) {
+                        try {
+                            if (itm) {
+                                if (!itm.id) { itm.id = 'mw-ai-mod-' + Math.floor(Math.random() * 1e9).toString(36); }
+                                mw.top().app._mwAiLastModule = { id: itm.id, type: type };
+                            }
+                            app.registerChangedState(edit, true);
+                        } catch (e) {}
+                    });
+                    return { ok: true, message: 'inserting module "' + type + '"' };
+                } catch (e) {
+                    return { ok: false, message: String(e && e.message || e) };
+                }
+            },
+
+            set_module_option: function(args, api) {
+                const key = (args && args.key) ? String(args.key) : '';
+                const value = (args && typeof args.value !== 'undefined') ? args.value : '';
+                if (!key) { return { ok: false, message: 'no option key' }; }
+                const last = mw.top().app._mwAiLastModule || {};
+                const group = (args && args.module_id) ? String(args.module_id) : (last.id || '');
+                if (!group) { return { ok: false, message: 'no module to configure (insert one first or pass module_id)' }; }
+                try {
+                    const opt = { group: group, key: key, value: value };
+                    if (last.type) { opt.module = last.type; }
+                    mw.top().options.saveOption(opt);
+                    return { ok: true, message: 'set ' + key + ' on module ' + group };
+                } catch (e) {
+                    return { ok: false, message: String(e && e.message || e) };
+                }
+            },
+
             // generate_image runs server-side (it returns a URL to the model,
             // which then calls set_image). Nothing to apply on the canvas here.
             generate_image: function() {

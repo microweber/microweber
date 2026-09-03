@@ -8,7 +8,9 @@ use Modules\Ai\Tools\GenerateImageTool;
 use Modules\Ai\Tools\LiveEdit\AddSectionTool;
 use Modules\Ai\Tools\LiveEdit\ApplyCssTool;
 use Modules\Ai\Tools\LiveEdit\GetPageContextTool;
+use Modules\Ai\Tools\LiveEdit\InsertModuleTool;
 use Modules\Ai\Tools\LiveEdit\SetImageTool;
+use Modules\Ai\Tools\LiveEdit\SetModuleOptionTool;
 use Modules\Ai\Tools\LiveEdit\SetTextTool;
 use NeuronAI\Agent\SystemPrompt;
 
@@ -28,6 +30,8 @@ class LiveEditAgent extends BaseAgent
     {
         $this->addTool(new GetPageContextTool($this->dependencies));
         $this->addTool(new AddSectionTool($this->dependencies));
+        $this->addTool(new InsertModuleTool($this->dependencies));
+        $this->addTool(new SetModuleOptionTool($this->dependencies));
         $this->addTool(new ApplyCssTool($this->dependencies));
         $this->addTool(new SetTextTool($this->dependencies));
         $this->addTool(new SetImageTool($this->dependencies));
@@ -43,7 +47,8 @@ class LiveEditAgent extends BaseAgent
                 'You make real changes to the site by calling your tools. Each tool call is applied live on the canvas the moment you make it. You do NOT just describe changes — you apply them.',
                 'The current page markup is provided to you in the message as "[Current page canvas markup]" — read it to choose correct selectors (existing tags, ids and classes) instead of guessing.',
                 'You can BUILD a whole page from scratch: add each section with add_section (plain semantic HTML with your own class names), then style it with apply_css. This lets you recreate or design entire sites.',
-                'Your tools: get_page_context (read the page title/content/current custom CSS if the canvas markup is not enough); add_section (add a new content section — the way to build pages); apply_css (visual/design changes via custom CSS); set_text (rewrite the text of an element by CSS selector); set_image (swap an image\'s src by selector); generate_image (create an image from a text prompt — then use set_image to place it).',
+                'Your tools: get_page_context (read the page title/content/current custom CSS if the canvas markup is not enough); add_section (add a new content section — the way to build pages); insert_module (add a functional Microweber module: contact_form, pictures gallery, shop, map, menu, video); set_module_option (configure a module you inserted, e.g. a contact form recipient email); apply_css (visual/design changes via custom CSS); set_text (rewrite the text of an element by CSS selector); set_image (swap an image\'s src by selector); generate_image (create an image from a text prompt — then use set_image to place it).',
+                'For interactive features (a contact form, a gallery, a shop, a map) use insert_module — do NOT fake them with static HTML. To place a contact form, insert_module type "contact_form", then set_module_option to configure it if the user gave details.',
             ],
             steps: [
                 'Understand exactly what the user wants to change.',

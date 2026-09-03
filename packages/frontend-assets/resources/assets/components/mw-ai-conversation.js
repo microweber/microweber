@@ -262,6 +262,8 @@ export class MwAiConversation extends MicroweberBaseClass {
         const t = edit && edit.tool;
         const a = (edit && edit.args) || {};
         if (t === "add_section") { return mw.lang("Added a section"); }
+        if (t === "insert_module") { return mw.lang("Inserted module") + (a.type ? " · " + a.type : ""); }
+        if (t === "set_module_option") { return mw.lang("Configured module") + (a.key ? " · " + a.key : ""); }
         if (t === "apply_css") { return mw.lang("Applied styles"); }
         if (t === "set_text") { return mw.lang("Updated text") + (a.selector ? " · " + a.selector : ""); }
         if (t === "set_image") { return mw.lang("Replaced image") + (a.selector ? " · " + a.selector : ""); }

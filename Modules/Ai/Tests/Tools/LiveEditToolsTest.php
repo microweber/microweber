@@ -9,7 +9,9 @@ use Modules\Ai\Services\ToolCallCollector;
 use Modules\Ai\Tools\LiveEdit\AddSectionTool;
 use Modules\Ai\Tools\LiveEdit\ApplyCssTool;
 use Modules\Ai\Tools\LiveEdit\GetPageContextTool;
+use Modules\Ai\Tools\LiveEdit\InsertModuleTool;
 use Modules\Ai\Tools\LiveEdit\SetImageTool;
+use Modules\Ai\Tools\LiveEdit\SetModuleOptionTool;
 use Modules\Ai\Tools\LiveEdit\SetTextTool;
 use NeuronAI\Observability\Events\ToolCalled;
 use PHPUnit\Framework\Attributes\Test;
@@ -97,9 +99,34 @@ class LiveEditToolsTest extends ToolTestCase
     }
 
     #[Test]
+    public function insert_module_requires_a_type(): void
+    {
+        $tool = new InsertModuleTool();
+        $ok = $tool->__invoke(type: 'contact_form', position: 'bottom');
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $ok);
+        $this->assertStringContainsString('contact_form', $ok);
+
+        $bad = $tool->__invoke(type: '');
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $bad);
+    }
+
+    #[Test]
+    public function set_module_option_requires_a_key(): void
+    {
+        $tool = new SetModuleOptionTool();
+        $ok = $tool->__invoke(key: 'email', value: 'hi@example.com');
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $ok);
+
+        $bad = $tool->__invoke(key: '', value: 'x');
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $bad);
+    }
+
+    #[Test]
     public function tools_expose_the_expected_names(): void
     {
         $this->assertSame('add_section', (new AddSectionTool())->getName());
+        $this->assertSame('insert_module', (new InsertModuleTool())->getName());
+        $this->assertSame('set_module_option', (new SetModuleOptionTool())->getName());
         $this->assertSame('apply_css', (new ApplyCssTool())->getName());
         $this->assertSame('set_text', (new SetTextTool())->getName());
         $this->assertSame('set_image', (new SetImageTool())->getName());
