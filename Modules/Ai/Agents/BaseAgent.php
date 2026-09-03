@@ -46,6 +46,13 @@ class BaseAgent extends Agent
 
     public function __construct(?string $providerName = null, ?string $model = null, protected array $dependencies = [])
     {
+        // NeuronAI 3.x: Agent extends Workflow, whose constructor initializes the
+        // workflow executor + persistence + middleware. In 2.x the base ctor was a
+        // no-op so BaseAgent never chained to it; under 3.x that leaves
+        // Workflow::$executor uninitialized and chat() fatals
+        // ("$executor must not be accessed before initialization"). Chain up first.
+        parent::__construct();
+
         if ($providerName) {
             $this->providerName = $providerName;
         } else {
