@@ -243,8 +243,7 @@ function MwAi() {
             try {
                 const doc = this.canvasDocument();
                 const el = doc.getElementById('mw-ai-global-css');
-                const aiCss = el ? el.textContent : '';
-                if (!aiCss.trim()) { return; }
+                if (!el || !el.textContent.trim()) { return; }
 
                 const editor = mw.top().app && mw.top().app.cssEditor;
                 const settings = (editor && editor.settings) ? editor.settings : {};
@@ -255,9 +254,21 @@ function MwAi() {
                 if (cssUrl) {
                     try { base = await fetch(cssUrl, { cache: 'no-store' }).then(function (r) { return r.text(); }); } catch (e) {}
                 }
-                // Drop any previous AI block, then append the current one last.
+                // The AI block is CUMULATIVE across pages. On the first persist of
+                // this page load, seed the (freshly-created) style element with the
+                // block already saved by earlier pages/turns, so styling this page
+                // ADDS to the site design instead of replacing it. After seeding,
+                // the element is the single source of truth and we just re-save it.
+                const prev = (base.match(/\/\* MW-AI-CSS-START \*\/([\s\S]*?)\/\* MW-AI-CSS-END \*\//) || [null, ''])[1].trim();
+                if (el.dataset.seeded !== '1') {
+                    if (prev) { el.textContent = prev + '\n' + el.textContent; }
+                    el.dataset.seeded = '1';
+                }
+                const aiCss = el.textContent.trim();
+                if (!aiCss) { return; }
+
                 base = base.replace(/\/\* MW-AI-CSS-START \*\/[\s\S]*?\/\* MW-AI-CSS-END \*\//g, '').trim();
-                const combined = base + '\n\n/* MW-AI-CSS-START */\n' + aiCss.trim() + '\n/* MW-AI-CSS-END */\n';
+                const combined = base + '\n\n/* MW-AI-CSS-START */\n' + aiCss + '\n/* MW-AI-CSS-END */\n';
 
                 const data = { css_file_content: combined };
                 try {
