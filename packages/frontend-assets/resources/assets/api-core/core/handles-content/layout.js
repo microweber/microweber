@@ -174,16 +174,38 @@ export class LayoutHandleContent {
 
         const editNavigation = [
             {
-                // task (user request): the Insert-module (+) button is now the
-                // prominent INLINE action on the block handle (Settings moved into
-                // the ⋮ dropdown). Inserting from the layout menu drops the module
-                // INSIDE the layout's first drop container — the empty ".allow-drop"
-                // region rendered as "Enter text or drop element" — rather than as a
-                // sibling of the whole block. Falls back to the block itself if the
-                // layout has no drop container.
-                title: this.rootScope.lang('Insert module'),
+                // task (user request): the inline + inserts a LAYOUT (opens the
+                // Insert-Layout picker, same as the ADD LAYOUT buttons). Sitting next
+                // to "ADD LAYOUT", a + that inserted a *module* was misread as "add
+                // layout", so it now actually adds a layout. Insert-module moved back
+                // into the ⋮ dropdown (keeping its smart drop-container targeting).
+                title: this.rootScope.lang('Add layout'),
                 text: '',
                 icon: '<svg fill="currentColor" height="24" viewBox="0 -960 960 960" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/></svg>',
+                className: 'mw-handle-layout-add-layout-button',
+                action: function (target) {
+                    mw.app.editor.dispatch('insertLayoutRequestOnBottom', target);
+                }
+            }
+        ];
+
+        // task (user request): collapse ALL block/layout actions into a single
+        // ⋮ dropdown, leaving only an icon-only Settings button inline, so the
+        // block handle never overflows the (mobile) viewport. Each action keeps
+        // its icon and shows its label inside the dropdown (titleVisible:true).
+        // Structure mirrors the module handle's "Quick Settings" pattern
+        // (module.js): a tail node with `menu: [{ name, nodes }]` renders a
+        // trigger button whose sub-menu holds these nodes.
+        const dropdownNodes = [
+            {
+                // Insert-module is back in the dropdown. It drops the module INSIDE
+                // the block's most suitable drop column: prefer an EMPTY .allow-drop
+                // (the "Enter text or drop element" placeholder), else the
+                // least-crowded column, else the first; fall back to the block itself.
+                title: this.rootScope.lang('Insert module'),
+                titleVisible: true,
+                text: '',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960" fill="currentColor"><path d="M120-520v-320h320v320H120Zm0 400v-320h320v320H120Zm400-400v-320h320v320H520Zm0 400v-320h320v320H520Z"/></svg>',
                 className: 'mw-handle-layout-insert-module-button',
                 onTarget: function(target, selfNode) {
                     if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
@@ -193,12 +215,6 @@ export class LayoutHandleContent {
                     }
                 },
                 action: function (target) {
-                    // Pick the most suitable drop container inside the block:
-                    // prefer an EMPTY .allow-drop column (the "Enter text or drop
-                    // element" placeholder region — the obvious place for new
-                    // content); otherwise the least-crowded column (fewest modules);
-                    // otherwise the first. Fall back to the block element itself if
-                    // the layout exposes no drop container at all.
                     var dropContainer = null;
                     if (target && target.querySelectorAll) {
                         var drops = Array.prototype.slice.call(target.querySelectorAll('.allow-drop'));
@@ -214,17 +230,7 @@ export class LayoutHandleContent {
                     }
                     mw.app.editor.dispatch('insertModuleRequest', dropContainer || target);
                 }
-            }
-        ];
-
-        // task (user request): collapse ALL block/layout actions into a single
-        // ⋮ dropdown, leaving only an icon-only Settings button inline, so the
-        // block handle never overflows the (mobile) viewport. Each action keeps
-        // its icon and shows its label inside the dropdown (titleVisible:true).
-        // Structure mirrors the module handle's "Quick Settings" pattern
-        // (module.js): a tail node with `menu: [{ name, nodes }]` renders a
-        // trigger button whose sub-menu holds these nodes.
-        const dropdownNodes = [
+            },
             {
                 // Settings lives in the dropdown now (the inline slot is the + button).
                 title: this.rootScope.lang('Settings'),
