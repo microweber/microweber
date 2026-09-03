@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Ai\Tests\Feature;
 
 use MicroweberPackages\AiTools\Base\BaseTool;
+use Modules\Attributes\Tools\AttributesListTool;
 use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
 use Modules\Company\Tools\CompanyListTool;
@@ -15,6 +16,7 @@ use Modules\Faq\Tools\FaqListTool;
 use Modules\MailTemplate\Tools\MailTemplateListTool;
 use Modules\Menu\Tools\MenuListTool;
 use Modules\Offer\Tools\OfferListTool;
+use Modules\Rating\Tools\RatingListTool;
 use Modules\Slider\Tools\SliderListTool;
 use Modules\Tag\Tools\TagListTool;
 use Modules\Testimonials\Tools\TestimonialsListTool;
@@ -141,8 +143,22 @@ class McpModuleToolsTest extends TestCase
     }
 
     #[Test]
+    public function rating_and_attributes_return_valid_json(): void
+    {
+        $r = (new RatingListTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $r);
+        $this->assertArrayHasKey('ratings', json_decode($r, true));
+
+        $a = (new AttributesListTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $a);
+        $this->assertArrayHasKey('attributes', json_decode($a, true));
+    }
+
+    #[Test]
     public function module_tools_expose_expected_names(): void
     {
+        $this->assertSame('rating_list', (new RatingListTool())->getName());
+        $this->assertSame('attributes_list', (new AttributesListTool())->getName());
         $this->assertSame('mail_template_list', (new MailTemplateListTool())->getName());
         $this->assertSame('company_list', (new CompanyListTool())->getName());
         $this->assertSame('menu_list', (new MenuListTool())->getName());

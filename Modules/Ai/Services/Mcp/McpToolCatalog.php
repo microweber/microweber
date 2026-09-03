@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Services\Mcp;
 
+use Modules\Attributes\Tools\AttributesListTool;
 use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
 use Modules\Company\Tools\CompanyListTool;
@@ -16,6 +17,7 @@ use Modules\Faq\Tools\FaqListTool;
 use Modules\MailTemplate\Tools\MailTemplateListTool;
 use Modules\Menu\Tools\MenuListTool;
 use Modules\Offer\Tools\OfferListTool;
+use Modules\Rating\Tools\RatingListTool;
 use Modules\Slider\Tools\SliderListTool;
 use Modules\Tag\Tools\TagListTool;
 use Modules\Testimonials\Tools\TestimonialsListTool;
@@ -143,6 +145,16 @@ class McpToolCatalog
                 'tool' => CompanyListTool::class,
                 'module' => 'company',
                 'title' => 'List the site companies.',
+            ],
+            'rating.list' => [
+                'tool' => RatingListTool::class,
+                'module' => 'rating',
+                'title' => 'List content/product ratings (with average per item).',
+            ],
+            'attributes.list' => [
+                'tool' => AttributesListTool::class,
+                'module' => 'attributes',
+                'title' => 'List content/product custom attributes.',
             ],
             'content.create' => [
                 'tool' => CreateContentTool::class,
