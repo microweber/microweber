@@ -149,9 +149,10 @@ class AiController extends Controller
     {
         $rules = [
             'message' => 'required|string|max:2000',
-            'agent_type' => 'required|string|in:general,content,customer,shop,media',
+            'agent_type' => 'required|string|in:general,content,customer,shop,media,liveedit',
             'chat_id' => 'sometimes|integer|exists:agent_chats,id',
             'chat_title' => 'sometimes|string|max:255',
+            'content_id' => 'sometimes|integer',
             'options' => 'sometimes|array',
         ];
 
@@ -194,6 +195,13 @@ class AiController extends Controller
             // Create agent with chat history
             $agent = $agentFactory->agentWithChat($chat);
 
+            // Collect the tool calls the agent makes this turn. The Live-Edit
+            // tools are side-effect-free command emitters; the canvas applies the
+            // collected { tool, args } to the real DOM and marks them dirty for the
+            // normal Live-Edit SAVE.
+            $toolCallCollector = new \Modules\Ai\Services\ToolCallCollector();
+            $agent->observe($toolCallCollector);
+
             // Save user message to database
             $userMessage = AgentChatMessage::create([
                 'chat_id' => $chat->id,
@@ -207,8 +215,15 @@ class AiController extends Controller
                 ],
             ]);
 
-            // Process with agent (which will use chat history)
-            $neuronMessage = new UserMessage($message);
+            // Process with agent (which will use chat history). For Live-Edit,
+            // prepend the page context so the model knows which page it is editing
+            // and can pass content_id to tools that need it.
+            $contentId = (int) $request->input('content_id', 0);
+            $promptText = $message;
+            if ($agentType === 'liveedit' && $contentId > 0) {
+                $promptText = "[Live-Edit context: you are editing the page with content_id={$contentId}. Pass this content_id to any tool that needs it.]\n\n" . $message;
+            }
+            $neuronMessage = new UserMessage($promptText);
             $response = $agent->chat($neuronMessage)->getMessage();
 
             // Extract response content
@@ -244,6 +259,9 @@ class AiController extends Controller
                     'agent_type' => $agentType,
                     'chat_title' => $chat->title,
                     'message_count' => $chat->getMessageCount(),
+                    // Ordered tool calls this turn: [{tool, args}]. The Live-Edit
+                    // canvas applies these to the real DOM (apply_css, etc.).
+                    'edits' => $toolCallCollector->all(),
                 ]
             ]);
 
