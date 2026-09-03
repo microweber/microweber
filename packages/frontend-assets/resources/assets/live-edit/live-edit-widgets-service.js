@@ -260,9 +260,29 @@ export class LiveEditWidgetsService extends BaseComponent{
         mw.top().doc.querySelector('aside.fi-sidebar').classList.add('active')
         mw.top().doc.documentElement.classList.add( 'mw-live-edit-sidebar-start');
         this.#zIndex(mw.top().doc.querySelector('aside.fi-sidebar'));
+        // Flip Filament's Alpine sidebar store to "open" so the sidebar renders
+        // EXPANDED: item labels show (x-show="$store.sidebar.isOpen") AND grouped
+        // nav (Website / Shop) renders as labelled headers with their sub-items
+        // instead of unlabelled icon-only dropdown triggers. Without this,
+        // live-edit reveals the sidebar via `.active` but Filament still thinks
+        // it's collapsed, so every label is hidden. Pairs with the CSS in
+        // live-edit-mobile.css (html.mw-live-edit-sidebar-start …) which shows
+        // the labels + left-aligns the icons.
+        this.#setFilamentSidebarOpen(true);
         this.dispatch('adminSidebarOpen');
         return this;
 
+    }
+
+    #setFilamentSidebarOpen(isOpen) {
+        try {
+            var topWin = mw.top().doc.defaultView;
+            var Alpine = (topWin && topWin.Alpine) || (typeof window !== 'undefined' && window.Alpine);
+            if (Alpine && typeof Alpine.store === 'function') {
+                var sb = Alpine.store('sidebar');
+                if (sb) { sb.isOpen = isOpen; }
+            }
+        } catch (e) { /* no-op — sidebar labels degrade to icon-only */ }
     }
 
     closeAdminSidebar() {
@@ -271,6 +291,9 @@ export class LiveEditWidgetsService extends BaseComponent{
         }
         this.status.adminSidebarOpened = false;
         mw.top().doc.querySelector('aside.fi-sidebar').classList.remove('active');
+        // Restore Filament's collapsed state so we don't leave its own mobile
+        // sidebar overlay flagged open after the live-edit panel closes.
+        this.#setFilamentSidebarOpen(false);
         if(!this.#hasOpened()) {
             mw.top().doc.documentElement.classList.remove( 'mw-live-edit-sidebar-start');
 
