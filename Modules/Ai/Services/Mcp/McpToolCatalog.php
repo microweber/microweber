@@ -13,7 +13,9 @@ use Modules\Currency\Tools\CurrencyRatesTool;
 use Modules\Content\Tools\CreateContentTool;
 use Modules\Faq\Tools\FaqListTool;
 use Modules\Menu\Tools\MenuListTool;
+use Modules\Offer\Tools\OfferListTool;
 use Modules\Slider\Tools\SliderListTool;
+use Modules\Tag\Tools\TagListTool;
 use Modules\Testimonials\Tools\TestimonialsListTool;
 use Modules\Product\Tools\CreateProductTool;
 use Modules\Content\Tools\GetContentTool;
@@ -119,6 +121,16 @@ class McpToolCatalog
                 'tool' => CouponsListTool::class,
                 'module' => 'coupons',
                 'title' => 'List the shop discount coupons.',
+            ],
+            'offer.list' => [
+                'tool' => OfferListTool::class,
+                'module' => 'offer',
+                'title' => 'List the shop product special offers.',
+            ],
+            'tag.list' => [
+                'tool' => TagListTool::class,
+                'module' => 'tag',
+                'title' => 'List the site content tags.',
             ],
             'content.create' => [
                 'tool' => CreateContentTool::class,

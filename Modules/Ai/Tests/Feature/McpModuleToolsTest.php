@@ -12,7 +12,9 @@ use Modules\Coupons\Tools\CouponsListTool;
 use Modules\Currency\Tools\CurrencyRatesTool;
 use Modules\Faq\Tools\FaqListTool;
 use Modules\Menu\Tools\MenuListTool;
+use Modules\Offer\Tools\OfferListTool;
 use Modules\Slider\Tools\SliderListTool;
+use Modules\Tag\Tools\TagListTool;
 use Modules\Testimonials\Tools\TestimonialsListTool;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -113,6 +115,18 @@ class McpModuleToolsTest extends TestCase
     }
 
     #[Test]
+    public function offer_and_tag_return_valid_json(): void
+    {
+        $o = (new OfferListTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $o);
+        $this->assertArrayHasKey('offers', json_decode($o, true));
+
+        $t = (new TagListTool())->__invoke(limit: 5);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $t);
+        $this->assertArrayHasKey('tags', json_decode($t, true));
+    }
+
+    #[Test]
     public function module_tools_expose_expected_names(): void
     {
         $this->assertSame('menu_list', (new MenuListTool())->getName());
@@ -124,5 +138,7 @@ class McpModuleToolsTest extends TestCase
         $this->assertSame('country_list', (new CountryListTool())->getName());
         $this->assertSame('currency_rates', (new CurrencyRatesTool())->getName());
         $this->assertSame('coupons_list', (new CouponsListTool())->getName());
+        $this->assertSame('offer_list', (new OfferListTool())->getName());
+        $this->assertSame('tag_list', (new TagListTool())->getName());
     }
 }
