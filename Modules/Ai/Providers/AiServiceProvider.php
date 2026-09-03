@@ -121,6 +121,7 @@ class AiServiceProvider extends BaseModuleServiceProvider
                 McpPruneAuditCommand::class,
                 McpServeCommand::class,
                 MicroweberAiCommand::class,
+                \Modules\Ai\Console\Commands\LoopStateCommand::class,
             ]);
         }
 
