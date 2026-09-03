@@ -795,7 +795,15 @@
     .mw-admin-live-edit-page #toolbar,
     .mw-live-edit-page #toolbar {
         position: relative !important;
-        padding-right: 64px !important;
+        /* Reserve the right zone for the absolutely-positioned #save-button
+           (right:4px, ~64px wide) so the last in-flow toolbar button — the
+           MainDrawer hamburger (#mw-live-edit-main-drawer-button) — does not
+           slide under SAVE and its left fade-shadow. #toolbar is
+           display:flex/justify-content:space-between, so this padding is what
+           bounds the right edge of the in-flow button group. 64px only cleared
+           the button box (4+64=68 minus the 8px shadow bleed → ~4px overlap);
+           92px = 4(right) + 64(save) + 8(shadow) + ~16(gap) for a clean gap. */
+        padding-right: 92px !important;
     }
     /* task-2026-05-27-mobile-overflow / AI-1163: bumped from 35px → 44px
        to meet WCAG 2.5.5 44×44 touch target. `top:50%;
