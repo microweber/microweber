@@ -12,5 +12,9 @@
     },
     "dependencies": {
         "bootstrap": "^5.3.3"
+    },
+    "allowScripts": {
+        "esbuild": true,
+        "@parcel/watcher": true
     }
 }

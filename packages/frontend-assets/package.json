@@ -40,5 +40,10 @@
         "vue3-click-away": "^1.2.4",
         "vue3-tags-input": "^1.0.12",
         "vuetify": "^3.7.3"
+    },
+    "allowScripts": {
+        "esbuild": true,
+        "vue-demi": true,
+        "@parcel/watcher": true
     }
 }

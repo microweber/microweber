@@ -1,6 +1,7 @@
 import { exec } from 'child_process';
 import  fs  from 'fs';
 import path from 'path';
+import { approveBlockedScripts } from './scripts/npm-approve-scripts.mjs';
 
 // Directories to scan for second-level subfolders
 const directories = ['packages', 'Modules', 'Templates'];
@@ -17,6 +18,15 @@ const runNpmScript = (folder) => {
             console.log(`Output from npm install in ${folder}:`, stdout);
             if (stderr) {
                 console.error(`Stderr from npm install in ${folder}:`, stderr);
+            }
+
+            // npm >= 12 skips dependency install scripts (esbuild's postinstall,
+            // vue-demi's, ...) until they are approved in package.json. Approve
+            // and reinstall here, or the build below fails on a half-linked binary.
+            try {
+                approveBlockedScripts(folder);
+            } catch (approveErr) {
+                console.error(`Error approving install scripts in ${folder}:`, approveErr);
             }
 
             console.log(`Running 'npm run build' in ${folder}`);
