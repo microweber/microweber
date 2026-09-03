@@ -1051,12 +1051,21 @@ export default {
                                           // the iframe enters view.
                 threshold: 0.01,
             });
-            // Observe every wrapper that's currently in the DOM. Both
-            // the masonry and list templates use refs collected as
-            // arrays.
-            const wrappers = []
-                .concat(this.$refs.iframeWrappersMasonry || [])
-                .concat(this.$refs.iframeWrappersList || []);
+            // Observe every wrapper currently in the DOM. Prefer a direct DOM
+            // query over $refs: a `ref` inside `v-for` — here spread across the
+            // masonry/list/full sub-trees AND the grouped category sections — does
+            // NOT reliably collect every node in Vue 3; in practice $refs.
+            // iframeWrappersList held only the LAST wrapper, so only a single
+            // preview iframe ever mounted while every other card stayed on its
+            // title placeholder. Querying the rendered dialog for the stable
+            // [data-mw-iframe-key] hook is authoritative and order-independent.
+            var scope = document.querySelector('.mw-le-layouts-dialog') || document;
+            var wrappers = Array.prototype.slice.call(scope.querySelectorAll('[data-mw-iframe-key]'));
+            // Fallback to the ref arrays in case the markup hook ever changes.
+            if (!wrappers.length) {
+                wrappers = [].concat(this.$refs.iframeWrappersMasonry || [])
+                             .concat(this.$refs.iframeWrappersList || []);
+            }
             wrappers.forEach(function (el) {
                 if (el && el.nodeType === 1) {
                     self.iframeObserver.observe(el);
@@ -1142,6 +1151,21 @@ export default {
         filterCategory: function (newValue, oldValue) {
             console.log("filter category:" + newValue);
             this.filterLayouts();
+        },
+        // task: the layout-preview iframes never loaded (cards showed only the
+        // title placeholder). The IntersectionObserver that lazy-mounts each
+        // preview iframe is set up via filterLayouts()'s $nextTick, which runs at
+        // data-load time — while the modal is still CLOSED. The card wrappers are
+        // behind v-if="showModal", so at that point they are not in the DOM and
+        // the observer observes nothing; opening the modal later never re-ran it,
+        // so no preview ever entered "in view" and the iframes stayed unmounted.
+        // Re-run the observer once the modal opens and its cards have rendered.
+        showModal: function (isOpen) {
+            if (isOpen) {
+                this.$nextTick(() => {
+                    this.setupIframeObserver();
+                });
+            }
         }
     },
     computed: {
