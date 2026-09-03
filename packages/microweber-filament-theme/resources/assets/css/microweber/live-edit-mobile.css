@@ -967,3 +967,35 @@
         align-items: center;
     }
 }
+
+/* ==========================================================================
+   Live-Edit admin sidebar — show labels + left-align icons.
+
+   openAdminSidebar() (live-edit-widgets-service.js) reveals the Filament admin
+   sidebar by adding `.active` to aside.fi-sidebar and `.mw-live-edit-sidebar-
+   start` to <html>, but it never flips Filament's Alpine sidebar store. On the
+   narrow live-edit viewport Filament therefore treats the sidebar as collapsed:
+   every item label is x-show-hidden (inline display:none) and the item buttons
+   centre their icons (justify-content:center) — so the panel rendered as a
+   280px-wide column of centred icons with NO text (reported bug).
+
+   Scope to the `html.mw-live-edit-sidebar-start` hook (present only while the
+   live-edit sidebar is open) so normal admin pages are untouched: force the
+   labels visible and left-align the item + group-trigger buttons, giving a
+   proper labelled, aligned navigation. (Grouped items still collapse to
+   Filament icon-dropdown triggers whose labels live in a fly-out — those stay
+   icon-only but are now left-aligned and consistent with the rest.)
+   ========================================================================== */
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item-label,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-group-label {
+    display: block !important;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    clip: auto !important;
+    margin: 0 !important;
+}
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item-btn,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-group-dropdown-trigger-btn {
+    justify-content: flex-start !important;
+}
