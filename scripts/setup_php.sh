@@ -387,6 +387,10 @@ install_node_deps() {
     else
       ( cd "$pkg" && npm install --no-audit --no-fund )
     fi
+    # npm >= 12 blocks dependency install scripts until package.json approves
+    # them; approve + reinstall so esbuild & friends link their binaries.
+    node "${ROOT_DIR}/scripts/npm-approve-scripts.mjs" "$pkg" || \
+      warn "  packages/${name}: install-script approval failed (continuing)"
     # Build only packages that expose a "build" script.
     if node -e "process.exit(require('${pkg}package.json').scripts?.build?0:1)" 2>/dev/null; then
       log "  packages/${name}: npm run build"

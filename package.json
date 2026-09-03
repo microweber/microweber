@@ -38,5 +38,8 @@
         "node-libs-browser": "^2.2.1",
         "picomatch": ">=2.3.2",
         "follow-redirects": ">=1.16.0"
+    },
+    "allowScripts": {
+        "esbuild": true
     }
 }
