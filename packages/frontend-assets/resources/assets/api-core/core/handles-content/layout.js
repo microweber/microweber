@@ -193,7 +193,25 @@ export class LayoutHandleContent {
                     }
                 },
                 action: function (target) {
-                    var dropContainer = (target && target.querySelector) ? target.querySelector('.allow-drop') : null;
+                    // Pick the most suitable drop container inside the block:
+                    // prefer an EMPTY .allow-drop column (the "Enter text or drop
+                    // element" placeholder region — the obvious place for new
+                    // content); otherwise the least-crowded column (fewest modules);
+                    // otherwise the first. Fall back to the block element itself if
+                    // the layout exposes no drop container at all.
+                    var dropContainer = null;
+                    if (target && target.querySelectorAll) {
+                        var drops = Array.prototype.slice.call(target.querySelectorAll('.allow-drop'));
+                        if (drops.length) {
+                            var moduleCount = function (d) { return d.querySelectorAll('.module').length; };
+                            dropContainer = drops.filter(function (d) { return moduleCount(d) === 0; })[0];
+                            if (!dropContainer) {
+                                dropContainer = drops.slice().sort(function (a, b) {
+                                    return moduleCount(a) - moduleCount(b);
+                                })[0];
+                            }
+                        }
+                    }
                     mw.app.editor.dispatch('insertModuleRequest', dropContainer || target);
                 }
             }
