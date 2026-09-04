@@ -318,9 +318,10 @@ class AiController extends Controller
         $canvasHtml = (string) $request->input('canvas_html', '');
         $screenshot = (string) $request->input('screenshot', '');
         $referenceImages = (array) $request->input('reference_images', []);
+        $lastModule = (array) $request->input('last_module', []);
 
         $response = new \Symfony\Component\HttpFoundation\StreamedResponse(function () use (
-            $userId, $message, $agentType, $chatId, $chatTitle, $contentId, $canvasHtml, $screenshot, $referenceImages, $request
+            $userId, $message, $agentType, $chatId, $chatTitle, $contentId, $canvasHtml, $screenshot, $referenceImages, $lastModule, $request
         ) {
             $emitter = new \Modules\Ai\Services\SseToolEmitter();
 
@@ -366,6 +367,17 @@ class AiController extends Controller
                         $preamble .= " editing content_id={$contentId}";
                     }
                     $preamble .= '. Apply visual/content changes by calling your tools; they run live on the canvas.]';
+
+                    // Tell the model which module it just inserted, so it can target
+                    // it with get_module_settings / set_module_option / add_form_field
+                    // (the SSE stream is one-way — the model can't read the DOM back).
+                    $lmId = trim((string) ($lastModule['id'] ?? ''));
+                    if ($lmId !== '') {
+                        $lmType = trim((string) ($lastModule['type'] ?? ''));
+                        $preamble .= "\n\n[Last inserted module: id={$lmId}"
+                            . ($lmType !== '' ? " type={$lmType}" : '')
+                            . '. Use this module_id when calling get_module_settings, set_module_option or add_form_field.]';
+                    }
 
                     $canvasContext = $this->summarizeCanvas($canvasHtml);
                     if ($canvasContext !== '') {

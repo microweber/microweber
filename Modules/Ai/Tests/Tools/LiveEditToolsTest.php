@@ -150,6 +150,72 @@ class LiveEditToolsTest extends ToolTestCase
         $this->assertSame('save_page', (new SavePageTool())->getName());
         $this->assertSame('get_menu', (new \Modules\Ai\Tools\LiveEdit\GetMenuTool())->getName());
         $this->assertSame('edit_menu_item', (new \Modules\Ai\Tools\LiveEdit\EditMenuItemTool())->getName());
+        $this->assertSame('insert_layout', (new \Modules\Ai\Tools\LiveEdit\InsertLayoutTool())->getName());
+        $this->assertSame('get_module_settings', (new \Modules\Ai\Tools\LiveEdit\GetModuleSettingsTool())->getName());
+        $this->assertSame('add_form_field', (new \Modules\Ai\Tools\LiveEdit\AddFormFieldTool())->getName());
+    }
+
+    #[Test]
+    public function insert_layout_confirms_valid_call_and_rejects_empty(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\InsertLayoutTool();
+
+        $ok = $tool->__invoke(layout: 'two-column');
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $ok);
+        $this->assertStringContainsString('two-column', $ok);
+        // Side-effect-free frontend emitter — no persistence on the backend.
+        $this->assertStringContainsString('Save', $ok);
+
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $tool->__invoke(layout: '  '));
+    }
+
+    #[Test]
+    public function get_module_settings_requires_a_module_id(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\GetModuleSettingsTool();
+
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $tool->__invoke(module_id: ''));
+
+        // A missing module id reads back as an empty settings set, not an error.
+        $ok = $tool->__invoke(module_id: 'no-such-module-xyz');
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $ok);
+        $this->assertStringContainsString('"count":0', $ok);
+    }
+
+    #[Test]
+    public function add_form_field_requires_module_id_and_name(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\AddFormFieldTool();
+
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $tool->__invoke(module_id: '', name: 'X'));
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $tool->__invoke(module_id: 'm', name: ''));
+    }
+
+    #[Test]
+    public function add_form_field_creates_a_custom_field_on_the_module(): void
+    {
+        $moduleId = 'ai-test-resform-' . uniqid();
+        $tool = new \Modules\Ai\Tools\LiveEdit\AddFormFieldTool();
+
+        $result = $tool->__invoke(module_id: $moduleId, name: 'Number of guests', type: 'number', required: true);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $result);
+
+        $field = \Modules\CustomFields\Models\CustomField::where('rel_type', 'module')
+            ->where('rel_id', $moduleId)->first();
+        $this->assertNotNull($field);
+        $this->assertSame('Number of guests', $field->name);
+        $this->assertSame('number', $field->type);
+        $this->assertSame('number-of-guests', $field->name_key);
+        $this->assertEquals(1, (int) $field->required);
+
+        // Unknown types fall back to text (never persist an invalid type).
+        $tool->__invoke(module_id: $moduleId, name: 'Weird', type: 'not-a-type');
+        $weird = \Modules\CustomFields\Models\CustomField::where('rel_id', $moduleId)
+            ->where('name', 'Weird')->first();
+        $this->assertSame('text', $weird->type);
+
+        \Modules\CustomFields\Models\CustomField::where('rel_type', 'module')
+            ->where('rel_id', $moduleId)->delete();
     }
 
     #[Test]

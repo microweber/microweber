@@ -207,6 +207,13 @@ function MwAi() {
             return layout || doc.body;
         },
 
+        // Escape a plain string for safe insertion into HTML text.
+        escapeHtml(s) {
+            return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        },
+
         // Sanitise AI-authored section HTML before it touches the canvas: no
         // scripts, styles, iframes, Microweber <module> tags, or inline event
         // handlers / javascript: URLs. Returns a safe HTML string.
@@ -485,6 +492,76 @@ function MwAi() {
                 }
             },
 
+            insert_layout: function(args, api) {
+                const raw = (args && args.layout) ? String(args.layout).trim().toLowerCase() : '';
+                if (!raw) { return { ok: false, message: 'no layout' }; }
+                const doc = api.canvasDocument();
+                const region = api.contentRegion();
+                if (!region) { return { ok: false, message: 'no editable content region' }; }
+
+                // Map a preset (or a plain column count) to a set of column widths
+                // that add up to a 12-col Bootstrap row.
+                let cols;
+                switch (raw) {
+                    case '1': case 'one-column': cols = [12]; break;
+                    case '2': case 'two-column': cols = [6, 6]; break;
+                    case '3': case 'three-column': cols = [4, 4, 4]; break;
+                    case '4': case 'four-column': cols = [3, 3, 3, 3]; break;
+                    case 'sidebar-left': cols = [4, 8]; break;
+                    case 'sidebar-right': cols = [8, 4]; break;
+                    case 'hero': cols = [12]; break;
+                    case 'grid': cols = [6, 6, 6, 6]; break;
+                    default: {
+                        const n = parseInt(raw, 10);
+                        cols = (n >= 1 && n <= 6) ? Array(n).fill(Math.max(1, Math.floor(12 / n))) : [6, 6];
+                    }
+                }
+
+                const section = doc.createElement('section');
+                section.classList.add('mw-ai-built-section', 'mw-ai-layout');
+                section.id = 'mw-ai-lay-' + Math.floor(Math.random() * 1e9).toString(36);
+                if (raw === 'hero') { section.classList.add('mw-ai-layout-hero'); }
+
+                let inner = '';
+                const heading = (args && args.heading) ? String(args.heading) : '';
+                if (heading) { inner += '<h2 class="mw-ai-layout-heading">' + api.escapeHtml(heading) + '</h2>'; }
+                inner += '<div class="row mw-ai-row">';
+                cols.forEach(function (w, i) {
+                    inner += '<div class="col-md-' + w + ' mw-ai-col edit" data-col="' + (i + 1)
+                        + '"><p>Column ' + (i + 1) + '</p></div>';
+                });
+                inner += '</div>';
+                section.innerHTML = inner;
+
+                const position = (args && args.position === 'top') ? 'prepend' : 'append';
+                if (position === 'prepend' && region.firstChild) {
+                    region.insertBefore(section, region.firstChild);
+                } else {
+                    region.appendChild(section);
+                }
+                try { mw.top().app.registerChangedState(section); } catch (e) {}
+                return { ok: true, message: 'layout "' + raw + '" added (' + cols.length + ' columns)' };
+            },
+
+            // Server-side: read a module's saved settings. Nothing for the canvas
+            // to apply — the returned JSON is shown as a chip / used by the model.
+            get_module_settings: function() { return { ok: true, message: 'module settings read' }; },
+
+            // Server-side: add_form_field writes a CustomField definition on the
+            // module. Reload the affected module on the canvas so the new field
+            // renders in the form without a full page refresh.
+            add_form_field: function(args, api) {
+                const id = (args && args.module_id) ? String(args.module_id) : '';
+                setTimeout(function () {
+                    try {
+                        api.reloadCanvasModule(id
+                            ? ('#' + id + ', [id="' + id + '"]')
+                            : '.module[data-type="contact_form"]');
+                    } catch (e) {}
+                }, 300);
+                return { ok: true, message: 'form field added (reloading form)' };
+            },
+
             set_module_option: function(args, api) {
                 const key = (args && args.key) ? String(args.key) : '';
                 const value = (args && typeof args.value !== 'undefined') ? args.value : '';
@@ -585,6 +662,13 @@ function MwAi() {
             };
             if (options.chat_id) { body.chat_id = options.chat_id; }
             if (options.chat_title) { body.chat_title = options.chat_title; }
+            // Surface the last module inserted this session so the backend can tell
+            // the model which module id to target with get_module_settings /
+            // set_module_option / add_form_field (the SSE stream is one-way).
+            try {
+                const lm = mw.top().app._mwAiLastModule;
+                if (lm && lm.id) { body.last_module = { id: lm.id, type: lm.type || '' }; }
+            } catch (e) {}
             // Optional canvas screenshot so the backend vision model can describe
             // the current design to the (text-only) editing model.
             if (options.screenshot) { body.screenshot = options.screenshot; }

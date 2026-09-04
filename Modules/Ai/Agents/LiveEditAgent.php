@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Agents;
 
+use Modules\Ai\Tools\LiveEdit\AddFormFieldTool;
 use Modules\Ai\Tools\LiveEdit\AddMenuItemTool;
 use Modules\Ai\Tools\LiveEdit\AddSectionTool;
 use Modules\Ai\Tools\LiveEdit\ApplyCssTool;
 use Modules\Ai\Tools\LiveEdit\EditMenuItemTool;
 use Modules\Ai\Tools\LiveEdit\GetMenuTool;
+use Modules\Ai\Tools\LiveEdit\GetModuleSettingsTool;
 use Modules\Ai\Tools\LiveEdit\GetPageContextTool;
+use Modules\Ai\Tools\LiveEdit\InsertLayoutTool;
 use Modules\Ai\Tools\LiveEdit\InsertModuleTool;
 use Modules\Ai\Tools\LiveEdit\NavigateToPageTool;
 use Modules\Ai\Tools\LiveEdit\SavePageTool;
@@ -38,7 +41,10 @@ class LiveEditAgent extends BaseAgent
         $this->addTool(new GetPageContextTool($this->dependencies));
         $this->addTool(new AddSectionTool($this->dependencies));
         $this->addTool(new InsertModuleTool($this->dependencies));
+        $this->addTool(new InsertLayoutTool($this->dependencies));
+        $this->addTool(new GetModuleSettingsTool($this->dependencies));
         $this->addTool(new SetModuleOptionTool($this->dependencies));
+        $this->addTool(new AddFormFieldTool($this->dependencies));
         $this->addTool(new SetCustomFieldTool($this->dependencies));
         $this->addTool(new ApplyCssTool($this->dependencies));
         $this->addTool(new SetTextTool($this->dependencies));
@@ -65,7 +71,9 @@ class LiveEditAgent extends BaseAgent
                 'You can build a WHOLE MULTI-PAGE SITE from this box: create_content makes a new page (give it a title, url and content HTML); create_post makes a blog post; add_menu_item adds a page to the main navigation; navigate_to_page opens a page in the editor so the user can see it; save_page saves the current page. Your apply_css styles are GLOBAL, so a design system you build once applies to every page.',
                 'Your tools: get_page_context (read the page title/content/current custom CSS if the canvas markup is not enough); add_section (add a new content section — the way to build pages); insert_module (add a functional Microweber module: contact_form, pictures gallery, shop, map, menu, video); set_module_option (configure a module you inserted, e.g. a contact form recipient email); apply_css (visual/design changes via custom CSS); set_text (rewrite the text of an element by CSS selector); set_image (point an <img> at a given URL).',
                 'You cannot generate images. For a picture/screenshot area in a design, build a styled placeholder with add_section + apply_css (a box with a background color/gradient and a caption) rather than trying to create an image. Focus on layout, colors, typography and text — that is what makes a recreation recognizable.',
-                'For interactive features (a contact form, a gallery, a shop, a map) use insert_module — do NOT fake them with static HTML. To place a contact form, insert_module type "contact_form", then set_module_option to configure it if the user gave details.',
+                'For interactive features (a contact form, a gallery, a shop, a map, a video) use insert_module — do NOT fake them with static HTML. Module types: "contact_form", "pictures", "shop", "google_maps" (a map), "video", "menu". After you insert a module its id is reported back to you as "[Last inserted module: id=… type=…]" — use that module_id with get_module_settings (to read its current settings), set_module_option (to configure it, e.g. a video url, a map location/address, a form recipient email) and add_form_field.',
+                'To build a form that collects specific information (e.g. a RESERVATION form): insert_module type "contact_form", then call add_form_field once per field you need, passing the module_id, the field name and its type. For a restaurant reservation use: Name (text), Email (email), Phone (text), Reservation date (date), Time (time), Number of guests (number). Only fields you add via add_form_field appear on the form.',
+                'To structure content in columns, use insert_layout (presets: two-column, three-column, sidebar-left, hero, grid), then fill the columns with set_text or insert_module.',
                 'To manage navigation: add_menu_item adds a link; get_menu lists the current items with their ids; edit_menu_item renames, relinks, reorders or removes an item by id. If the site navigation looks wrong or a menu is hidden/unreadable, fix its styling with apply_css (menus must be clearly visible and high-contrast).',
                 'To edit a page/product custom field (sku, qty, brand, or any custom key), use set_custom_field with the content_id, field name and value — the affected module reloads on the canvas so the change shows.',
             ],
