@@ -207,6 +207,34 @@ function MwAi() {
             return layout || doc.body;
         },
 
+        // Collect the editable fields/regions + module instances on the canvas so
+        // the backend get_edit_fields tool can tell the model where it can write
+        // text or drop a module (instead of guessing selectors).
+        collectEditFields() {
+            const out = [];
+            try {
+                const doc = this.canvasDocument();
+                doc.querySelectorAll('.edit[rel][field]').forEach((el) => {
+                    if (el.classList.contains('module')) { return; }
+                    out.push({
+                        kind: 'region',
+                        field: el.getAttribute('field') || '',
+                        rel: el.getAttribute('rel') || '',
+                        tag: el.tagName.toLowerCase(),
+                        id: el.id || '',
+                    });
+                });
+                doc.querySelectorAll('.module[type], .module[data-type], [id^="module-"]').forEach((el) => {
+                    out.push({
+                        kind: 'module',
+                        id: el.id || '',
+                        type: el.getAttribute('type') || el.getAttribute('data-type') || '',
+                    });
+                });
+            } catch (e) {}
+            return out.slice(0, 200);
+        },
+
         // Escape a plain string for safe insertion into HTML text.
         escapeHtml(s) {
             return String(s == null ? '' : s)
@@ -525,6 +553,8 @@ function MwAi() {
             get_module_settings: function() { return { ok: true, message: 'module settings read' }; },
             get_modules: function() { return { ok: true, message: 'modules listed' }; },
             get_layouts: function() { return { ok: true, message: 'layouts listed' }; },
+            get_dom: function() { return { ok: true, message: 'dom read' }; },
+            get_edit_fields: function() { return { ok: true, message: 'edit fields read' }; },
 
             // Server-side: add_form_field writes a CustomField definition on the
             // module. Reload the affected module on the canvas so the new field
@@ -647,6 +677,12 @@ function MwAi() {
             try {
                 const lm = mw.top().app._mwAiLastModule;
                 if (lm && lm.id) { body.last_module = { id: lm.id, type: lm.type || '' }; }
+            } catch (e) {}
+            // The editable regions/modules on the canvas, so the get_edit_fields
+            // tool can tell the model exactly where it can act.
+            try {
+                const ef = self.collectEditFields();
+                if (ef && ef.length) { body.edit_fields = ef; }
             } catch (e) {}
             // Optional canvas screenshot so the backend vision model can describe
             // the current design to the (text-only) editing model.

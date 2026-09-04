@@ -155,6 +155,47 @@ class LiveEditToolsTest extends ToolTestCase
         $this->assertSame('add_form_field', (new \Modules\Ai\Tools\LiveEdit\AddFormFieldTool())->getName());
         $this->assertSame('get_modules', (new \Modules\Ai\Tools\LiveEdit\GetModulesTool())->getName());
         $this->assertSame('get_layouts', (new \Modules\Ai\Tools\LiveEdit\GetLayoutsTool())->getName());
+        $this->assertSame('get_dom', (new \Modules\Ai\Tools\LiveEdit\GetDomTool())->getName());
+        $this->assertSame('get_edit_fields', (new \Modules\Ai\Tools\LiveEdit\GetEditFieldsTool())->getName());
+    }
+
+    #[Test]
+    public function get_dom_returns_the_bound_canvas_and_can_narrow_by_selector(): void
+    {
+        app()->instance('mw.ai.liveedit.context', [
+            'dom' => '<body><div class="edit" rel="content" field="content"><h1 id="hero">Hi</h1></div></body>',
+            'edit_fields' => [],
+        ]);
+        $tool = new \Modules\Ai\Tools\LiveEdit\GetDomTool();
+
+        $all = $tool->__invoke();
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $all);
+        $this->assertStringContainsString('hero', $all);
+
+        $part = json_decode($tool->__invoke(selector: '#hero'), true);
+        $this->assertStringContainsString('<h1', $part['html']);
+        $this->assertStringContainsString('Hi', $part['html']);
+
+        // No context bound -> clean error, not a crash.
+        app()->forgetInstance('mw.ai.liveedit.context');
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, (new \Modules\Ai\Tools\LiveEdit\GetDomTool())->__invoke());
+    }
+
+    #[Test]
+    public function get_edit_fields_returns_regions_and_modules_from_context(): void
+    {
+        app()->instance('mw.ai.liveedit.context', [
+            'dom' => '',
+            'edit_fields' => [
+                ['kind' => 'region', 'field' => 'content', 'rel' => 'content', 'tag' => 'div', 'id' => ''],
+                ['kind' => 'module', 'id' => 'module-layouts-20', 'type' => 'layouts'],
+            ],
+        ]);
+        $out = json_decode((new \Modules\Ai\Tools\LiveEdit\GetEditFieldsTool())->__invoke(), true);
+        $this->assertSame(2, $out['count']);
+        $this->assertSame('content', $out['edit_regions'][0]['field']);
+        $this->assertSame('layouts', $out['modules'][0]['type']);
+        app()->forgetInstance('mw.ai.liveedit.context');
     }
 
     #[Test]

@@ -319,6 +319,14 @@ class AiController extends Controller
         $screenshot = (string) $request->input('screenshot', '');
         $referenceImages = (array) $request->input('reference_images', []);
         $lastModule = (array) $request->input('last_module', []);
+        $editFields = (array) $request->input('edit_fields', []);
+
+        // Bind the live canvas context for this request so the read tools
+        // (get_dom, get_edit_fields) can return the real current page state.
+        app()->instance('mw.ai.liveedit.context', [
+            'dom' => $canvasHtml,
+            'edit_fields' => $editFields,
+        ]);
 
         $response = new \Symfony\Component\HttpFoundation\StreamedResponse(function () use (
             $userId, $message, $agentType, $chatId, $chatTitle, $contentId, $canvasHtml, $screenshot, $referenceImages, $lastModule, $request
