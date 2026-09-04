@@ -124,6 +124,33 @@ function MwAi() {
             return done;
         },
 
+        // Reload one (or all) module(s) on the canvas so a server-side edit
+        // (module option, custom field) shows without a full page refresh. Uses
+        // the canvas frame's mw.reload_module. Pass a module id/element, a CSS
+        // selector, or nothing (reload every .module on the page).
+        reloadCanvasModule(target) {
+            try {
+                const doc = this.canvasDocument();
+                const win = doc.defaultView || (mw.top().app.canvas.getWindow && mw.top().app.canvas.getWindow());
+                const reload = win && win.mw && win.mw.reload_module;
+                if (!reload) { return false; }
+
+                let els = [];
+                if (!target) {
+                    els = Array.from(doc.querySelectorAll('.module[data-type], .module[type]'));
+                } else if (typeof target === 'string') {
+                    const byId = doc.getElementById(target);
+                    els = byId ? [byId] : Array.from(doc.querySelectorAll(target));
+                } else if (target && target.nodeType) {
+                    els = [target];
+                }
+                els.forEach(function (el) { try { reload.call(win.mw, el); } catch (e) {} });
+                return els.length > 0;
+            } catch (e) {
+                return false;
+            }
+        },
+
         // The id of the content/page currently open in Live Edit (0 if unknown).
         canvasContentId() {
             try {
@@ -469,10 +496,23 @@ function MwAi() {
                     const opt = { group: group, key: key, value: value };
                     if (last.type) { opt.module = last.type; }
                     mw.top().options.saveOption(opt);
-                    return { ok: true, message: 'set ' + key + ' on module ' + group };
+                    // Reload the module on the canvas so the new setting shows.
+                    setTimeout(function () { try { api.reloadCanvasModule(group); } catch (e) {} }, 250);
+                    return { ok: true, message: 'set ' + key + ' on module ' + group + ' (reloading)' };
                 } catch (e) {
                     return { ok: false, message: String(e && e.message || e) };
                 }
+            },
+
+            // set_custom_field runs server-side (writes content-data). Reload the
+            // product/shop modules on the canvas so the new value shows.
+            set_custom_field: function(args, api) {
+                setTimeout(function () {
+                    try {
+                        api.reloadCanvasModule('.module[data-type="shop"], .module[data-type="products"], .module[data-type="shop/products"]');
+                    } catch (e) {}
+                }, 300);
+                return { ok: true, message: 'custom field saved (reloading modules)' };
             },
 
             save_page: function(args, api) {

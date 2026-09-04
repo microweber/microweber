@@ -400,6 +400,7 @@ export class MwAiConversation extends MicroweberBaseClass {
         if (t === "add_section") { return mw.lang("Added a section"); }
         if (t === "insert_module") { return mw.lang("Inserted module") + (a.type ? " · " + a.type : ""); }
         if (t === "set_module_option") { return mw.lang("Configured module") + (a.key ? " · " + a.key : ""); }
+        if (t === "set_custom_field") { return mw.lang("Set custom field") + (a.field ? " · " + a.field : ""); }
         if (t === "create_content") { return mw.lang("Created page") + (a.title ? " · " + a.title : ""); }
         if (t === "create_post") { return mw.lang("Created post") + (a.title ? " · " + a.title : ""); }
         if (t === "add_menu_item") { return mw.lang("Added menu link") + (a.title ? " · " + a.title : ""); }
