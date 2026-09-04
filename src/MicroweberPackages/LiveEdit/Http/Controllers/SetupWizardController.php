@@ -53,7 +53,7 @@ class SetupWizardController extends AdminController
             'NotaryServices2',
 
 
-            'Big2',
+            'Big',
             'MobileApp2'
 
         ];

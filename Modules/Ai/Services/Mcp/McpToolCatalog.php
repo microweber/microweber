@@ -50,6 +50,8 @@ use Modules\Form\Tools\FormActivitySummaryTool;
 use Modules\Form\Tools\FormLookupTool;
 use Modules\Form\Tools\FormSubmissionDetailTool;
 use Modules\Form\Tools\FormSubmissionSearchTool;
+use Modules\Ai\Tools\LiveEdit\GetLayoutsTool;
+use Modules\Ai\Tools\LiveEdit\GetModulesTool;
 use Modules\Layouts\Tools\LayoutActiveTemplateTool;
 use Modules\Layouts\Tools\LayoutAssetSummaryTool;
 use Modules\Layouts\Tools\LayoutLookupTool;
@@ -236,6 +238,16 @@ class McpToolCatalog
                 'tool' => LayoutAssetSummaryTool::class,
                 'module' => 'layouts',
                 'title' => 'Summarize template asset categories and safe relative design/style references.',
+            ],
+            'layouts.list' => [
+                'tool' => GetLayoutsTool::class,
+                'module' => 'layouts',
+                'title' => 'List the active template\'s ready-made layouts (the Insert-layout modal source).',
+            ],
+            'modules.list' => [
+                'tool' => GetModulesTool::class,
+                'module' => 'modules',
+                'title' => 'List the insertable Microweber modules (the Insert-module modal source).',
             ],
             'analytics.traffic_summary' => [
                 'tool' => AnalyticsTrafficSummaryTool::class,

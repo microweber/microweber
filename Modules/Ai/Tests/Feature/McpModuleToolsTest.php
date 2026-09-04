@@ -183,8 +183,26 @@ class McpModuleToolsTest extends TestCase
     }
 
     #[Test]
+    public function modules_list_and_layouts_list_return_the_picker_sources(): void
+    {
+        // modules.list mirrors the Insert-module modal (getModulesDetails()).
+        $modules = (new \Modules\Ai\Tools\LiveEdit\GetModulesTool())->__invoke();
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $modules);
+        $decoded = json_decode($modules, true);
+        $this->assertArrayHasKey('modules', $decoded);
+        $this->assertGreaterThan(0, $decoded['count']);
+
+        // layouts.list mirrors the Insert-layout modal (getTemplates('layouts', …)).
+        $layouts = (new \Modules\Ai\Tools\LiveEdit\GetLayoutsTool())->__invoke();
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $layouts);
+        $this->assertArrayHasKey('layouts', json_decode($layouts, true));
+    }
+
+    #[Test]
     public function module_tools_expose_expected_names(): void
     {
+        $this->assertSame('get_modules', (new \Modules\Ai\Tools\LiveEdit\GetModulesTool())->getName());
+        $this->assertSame('get_layouts', (new \Modules\Ai\Tools\LiveEdit\GetLayoutsTool())->getName());
         $this->assertSame('custom_fields_list', (new CustomFieldsListTool())->getName());
         $this->assertSame('custom_field_values', (new CustomFieldValuesTool())->getName());
         $this->assertSame('content_data_get', (new ContentDataTool())->getName());

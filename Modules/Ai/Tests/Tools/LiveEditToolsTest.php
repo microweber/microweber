@@ -153,20 +153,61 @@ class LiveEditToolsTest extends ToolTestCase
         $this->assertSame('insert_layout', (new \Modules\Ai\Tools\LiveEdit\InsertLayoutTool())->getName());
         $this->assertSame('get_module_settings', (new \Modules\Ai\Tools\LiveEdit\GetModuleSettingsTool())->getName());
         $this->assertSame('add_form_field', (new \Modules\Ai\Tools\LiveEdit\AddFormFieldTool())->getName());
+        $this->assertSame('get_modules', (new \Modules\Ai\Tools\LiveEdit\GetModulesTool())->getName());
+        $this->assertSame('get_layouts', (new \Modules\Ai\Tools\LiveEdit\GetLayoutsTool())->getName());
     }
 
     #[Test]
-    public function insert_layout_confirms_valid_call_and_rejects_empty(): void
+    public function insert_layout_takes_a_template_from_get_layouts_and_rejects_empty(): void
     {
         $tool = new \Modules\Ai\Tools\LiveEdit\InsertLayoutTool();
 
-        $ok = $tool->__invoke(layout: 'two-column');
+        // A real template layout value (as returned by get_layouts).
+        $ok = $tool->__invoke(template: 'content/skin-1');
         $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $ok);
-        $this->assertStringContainsString('two-column', $ok);
+        $this->assertStringContainsString('content/skin-1', $ok);
         // Side-effect-free frontend emitter — no persistence on the backend.
         $this->assertStringContainsString('Save', $ok);
 
-        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $tool->__invoke(layout: '  '));
+        // No hardcoded presets — an empty template is rejected and points at get_layouts.
+        $err = $tool->__invoke(template: '  ');
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $err);
+        $this->assertStringContainsString('get_layouts', $err);
+    }
+
+    #[Test]
+    public function get_modules_lists_insertable_module_types(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\GetModulesTool();
+
+        $all = $tool->__invoke();
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $all);
+        $decoded = json_decode($all, true);
+        $this->assertIsArray($decoded);
+        $this->assertArrayHasKey('modules', $decoded);
+        $this->assertGreaterThan(0, $decoded['count']);
+
+        // The list is filterable by type/name and returns the real type string.
+        $video = json_decode($tool->__invoke(search: 'video'), true);
+        $types = array_column($video['modules'], 'module');
+        $this->assertContains('video', $types);
+    }
+
+    #[Test]
+    public function get_layouts_lists_template_layouts_not_hardcoded(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\GetLayoutsTool();
+
+        $result = $tool->__invoke();
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $result);
+        $decoded = json_decode($result, true);
+        $this->assertIsArray($decoded);
+        $this->assertArrayHasKey('layouts', $decoded);
+        $this->assertArrayHasKey('template', $decoded);
+        // Each layout carries the `template` value insert_layout consumes.
+        foreach ($decoded['layouts'] as $layout) {
+            $this->assertArrayHasKey('template', $layout);
+        }
     }
 
     #[Test]

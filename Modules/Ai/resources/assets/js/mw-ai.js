@@ -492,60 +492,39 @@ function MwAi() {
                 }
             },
 
+            // Insert a ready-made TEMPLATE layout using the same editor call the
+            // "Insert layout" modal uses (ListLayouts.vue -> insertLayout):
+            // mw.app.editor.insertLayout({template}, location, target). The layout
+            // list is NOT hardcoded — the model discovers it via get_layouts.
             insert_layout: function(args, api) {
-                const raw = (args && args.layout) ? String(args.layout).trim().toLowerCase() : '';
-                if (!raw) { return { ok: false, message: 'no layout' }; }
-                const doc = api.canvasDocument();
+                const template = (args && args.template) ? String(args.template).trim() : '';
+                if (!template) { return { ok: false, message: 'no layout template (call get_layouts first)' }; }
                 const region = api.contentRegion();
                 if (!region) { return { ok: false, message: 'no editable content region' }; }
-
-                // Map a preset (or a plain column count) to a set of column widths
-                // that add up to a 12-col Bootstrap row.
-                let cols;
-                switch (raw) {
-                    case '1': case 'one-column': cols = [12]; break;
-                    case '2': case 'two-column': cols = [6, 6]; break;
-                    case '3': case 'three-column': cols = [4, 4, 4]; break;
-                    case '4': case 'four-column': cols = [3, 3, 3, 3]; break;
-                    case 'sidebar-left': cols = [4, 8]; break;
-                    case 'sidebar-right': cols = [8, 4]; break;
-                    case 'hero': cols = [12]; break;
-                    case 'grid': cols = [6, 6, 6, 6]; break;
-                    default: {
-                        const n = parseInt(raw, 10);
-                        cols = (n >= 1 && n <= 6) ? Array(n).fill(Math.max(1, Math.floor(12 / n))) : [6, 6];
-                    }
+                try {
+                    const app = mw.top().app;
+                    const edit = mw.top().tools.firstParentOrCurrentWithClass(region, 'edit') || region;
+                    app.registerChangedState(edit, true);
+                    const location = (args && args.position === 'top') ? 'top' : 'bottom';
+                    // target: the current layout container if one is known, else the
+                    // content region — the same target the modal passes.
+                    const target = (app.liveEdit && app.liveEdit.layoutHandle && app.liveEdit.layoutHandle.getTarget())
+                        || edit;
+                    const p = app.editor.insertLayout({ template: template }, location, target);
+                    Promise.resolve(p).then(function () {
+                        try { app.registerChangedState(edit, true); } catch (e) {}
+                    });
+                    return { ok: true, message: 'inserting layout "' + template + '"' };
+                } catch (e) {
+                    return { ok: false, message: String(e && e.message || e) };
                 }
-
-                const section = doc.createElement('section');
-                section.classList.add('mw-ai-built-section', 'mw-ai-layout');
-                section.id = 'mw-ai-lay-' + Math.floor(Math.random() * 1e9).toString(36);
-                if (raw === 'hero') { section.classList.add('mw-ai-layout-hero'); }
-
-                let inner = '';
-                const heading = (args && args.heading) ? String(args.heading) : '';
-                if (heading) { inner += '<h2 class="mw-ai-layout-heading">' + api.escapeHtml(heading) + '</h2>'; }
-                inner += '<div class="row mw-ai-row">';
-                cols.forEach(function (w, i) {
-                    inner += '<div class="col-md-' + w + ' mw-ai-col edit" data-col="' + (i + 1)
-                        + '"><p>Column ' + (i + 1) + '</p></div>';
-                });
-                inner += '</div>';
-                section.innerHTML = inner;
-
-                const position = (args && args.position === 'top') ? 'prepend' : 'append';
-                if (position === 'prepend' && region.firstChild) {
-                    region.insertBefore(section, region.firstChild);
-                } else {
-                    region.appendChild(section);
-                }
-                try { mw.top().app.registerChangedState(section); } catch (e) {}
-                return { ok: true, message: 'layout "' + raw + '" added (' + cols.length + ' columns)' };
             },
 
-            // Server-side: read a module's saved settings. Nothing for the canvas
-            // to apply — the returned JSON is shown as a chip / used by the model.
+            // Server-side read tools. Nothing for the canvas to apply — the
+            // returned JSON is shown as a chip / used by the model.
             get_module_settings: function() { return { ok: true, message: 'module settings read' }; },
+            get_modules: function() { return { ok: true, message: 'modules listed' }; },
+            get_layouts: function() { return { ok: true, message: 'layouts listed' }; },
 
             // Server-side: add_form_field writes a CustomField definition on the
             // module. Reload the affected module on the canvas so the new field

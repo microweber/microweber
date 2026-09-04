@@ -9,35 +9,30 @@ use NeuronAI\Tools\PropertyType;
 use NeuronAI\Tools\ToolProperty;
 
 /**
- * Live-Edit frontend tool: insert a ready-made layout (a responsive grid row)
- * into the page.
+ * Live-Edit frontend tool: insert a ready-made template layout into the page.
  *
- * Where add_section adds a freeform HTML block, insert_layout drops a structural
- * multi-column layout — a Bootstrap row with editable columns — so the agent can
- * lay out content in columns and then fill each column (with set_text, or an
- * insert_module such as pictures/contact_form). Frontend tool: the browser builds
- * the grid on the live canvas (see mw-ai.js frontendTools.insert_layout); backend
- * is a thin declaration.
+ * Inserts one of the active template's real layouts (the same ones the
+ * "Insert layout" modal offers) — the agent should first call get_layouts to
+ * see what the template provides, then pass the chosen layout's `template`
+ * value here. Frontend tool: the browser calls
+ * mw.app.editor.insertLayout({ template }, location, target) on the live canvas
+ * (see mw-ai.js frontendTools.insert_layout), exactly like the modal. Backend
+ * is a thin declaration; the layout list is NOT hardcoded — it comes from the
+ * template via get_layouts.
  */
 class InsertLayoutTool extends BaseTool
 {
     protected string $domain = 'liveedit';
 
-    /** Named layout presets the frontend understands. */
-    private const LAYOUTS = [
-        'one-column', 'two-column', 'three-column', 'four-column',
-        'sidebar-left', 'sidebar-right', 'hero', 'grid',
-    ];
-
     public function __construct(protected array $dependencies = [])
     {
         parent::__construct(
             'insert_layout',
-            'Insert a ready-made layout (a responsive column grid) into the page — '
-            . 'use it to structure content in columns before filling it. Presets: '
-            . implode(', ', self::LAYOUTS) . '. After inserting a layout you can put '
-            . 'text in a column with set_text or a module in it with insert_module. '
-            . 'The layout is added live; the user saves with the Live-Edit Save button.'
+            'Insert a ready-made layout from the active template into the page. FIRST '
+            . 'call get_layouts to see the template\'s layouts, then pass the chosen '
+            . 'layout\'s `template` value here (e.g. "content/skin-1", "default", '
+            . '"skin-1"). The layout is added live; the user saves with the Live-Edit '
+            . 'Save button.'
         );
     }
 
@@ -45,17 +40,11 @@ class InsertLayoutTool extends BaseTool
     {
         return [
             new ToolProperty(
-                name: 'layout',
+                name: 'template',
                 type: PropertyType::STRING,
-                description: 'The layout preset: ' . implode(', ', self::LAYOUTS)
-                    . '. You may also pass a plain column count "2"/"3"/"4".',
+                description: 'The layout\'s `template` value from get_layouts, e.g. '
+                    . '"content/skin-1", "default", "skin-1".',
                 required: true,
-            ),
-            new ToolProperty(
-                name: 'heading',
-                type: PropertyType::STRING,
-                description: 'Optional heading shown above the layout row.',
-                required: false,
             ),
             new ToolProperty(
                 name: 'position',
@@ -68,13 +57,14 @@ class InsertLayoutTool extends BaseTool
 
     public function __invoke(...$args): string
     {
-        $layout = trim((string) ($args['layout'] ?? ''));
-        if ($layout === '') {
-            return $this->handleError('No layout preset was provided.');
+        $template = trim((string) ($args['template'] ?? ''));
+        if ($template === '') {
+            return $this->handleError(
+                'No layout was provided. Call get_layouts first, then pass a layout\'s `template` value.'
+            );
         }
 
-        return "OK — inserting a \"{$layout}\" layout on the page (live). You can now "
-            . "fill its columns with set_text or insert_module. The user saves with the "
-            . "Live-Edit Save button.";
+        return "OK — inserting the \"{$template}\" layout on the page (live). The user "
+            . "saves it with the Live-Edit Save button.";
     }
 }
