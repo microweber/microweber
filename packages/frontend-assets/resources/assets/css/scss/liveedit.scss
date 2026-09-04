@@ -248,12 +248,21 @@ mw-editor-button .mdi,
 .mw-editor-controller-component,
 .mw-editor-controller-component .mdi,
 .mw-bar-control-item,
-.mw-bar-control-item .mdi {
+.mw-bar-control-item .mdi,
+.mw-editor-link-tooltip,
+[class*="mw-editor-option-dropdown"],
+[class*="mw-editor-option-dropdown"] * {
     color: #2b2b2b !important;
 }
 mw-editor-button svg,
 .mw-editor-controller-component svg,
 .mw-bar-control-item svg {
     fill: #2b2b2b !important;
+}
+/* The link tooltip's URL is a real link — keep it a readable blue (not the page's
+ * inherited white) so the box isn't just two icons on an empty white bar. */
+.mw-editor-link-tooltip-url,
+.mw-editor-link-tooltip a {
+    color: #0a63c8 !important;
 }
 
