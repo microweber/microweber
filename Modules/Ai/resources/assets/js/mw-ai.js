@@ -104,6 +104,22 @@ function MwAi() {
             return document;
         },
 
+        // The Live-Edit element actions (deleteElement/cloneElement/… with a
+        // skipConfirm arg), reached via the element handle. Null if unavailable.
+        elementActions() {
+            try {
+                const le = mw.top().app.liveEdit;
+                if (le && le.elementHandle && le.elementHandle.elementActions) {
+                    return le.elementHandle.elementActions;
+                }
+                if (le && le.handles && le.handles.get) {
+                    const h = le.handles.get('element');
+                    if (h && h.elementActions) { return h.elementActions; }
+                }
+            } catch (e) {}
+            return null;
+        },
+
         // Trigger the normal Live-Edit SAVE (content + custom CSS). Used by the
         // save_page tool and by the conversation's auto-save after each AI turn.
         saveCanvas() {
@@ -485,6 +501,103 @@ function MwAi() {
                 }
                 try { mw.top().app.registerChangedState(el); } catch (e) {}
                 return { ok: true, message: 'image updated' };
+            },
+
+            // Delete an element/section/module. Reuses the canonical
+            // elementActions.deleteElement with skipConfirm=true (no modal for the
+            // AI); falls back to a direct remove + changed-state registration.
+            delete_element: function(args, api) {
+                const selector = (args && args.selector) ? String(args.selector) : '';
+                if (!selector) { return { ok: false, message: 'no selector' }; }
+                const doc = api.canvasDocument();
+                const el = doc.querySelector(selector);
+                if (!el) { return { ok: false, message: 'no element for ' + selector }; }
+                try {
+                    const editParent = mw.top().tools.firstParentOrCurrentWithClass(el, 'edit');
+                    const ea = api.elementActions();
+                    if (ea && ea.deleteElement) {
+                        ea.deleteElement(el, true);
+                    } else {
+                        if (editParent) { mw.top().app.registerChangedState(editParent, true); }
+                        el.remove();
+                    }
+                    if (editParent) { try { mw.top().app.registerChangedState(editParent, true); } catch (e) {} }
+                    return { ok: true, message: 'deleted ' + selector };
+                } catch (e) { return { ok: false, message: String(e && e.message || e) }; }
+            },
+
+            // Reorder an element among its siblings (up/down/top/bottom).
+            move_element: function(args, api) {
+                const selector = (args && args.selector) ? String(args.selector) : '';
+                const dir = (args && args.direction) ? String(args.direction).toLowerCase() : 'up';
+                if (!selector) { return { ok: false, message: 'no selector' }; }
+                const doc = api.canvasDocument();
+                const el = doc.querySelector(selector);
+                if (!el) { return { ok: false, message: 'no element for ' + selector }; }
+                const parent = el.parentElement;
+                if (!parent) { return { ok: false, message: 'element has no parent' }; }
+                try {
+                    if (dir === 'top') {
+                        parent.insertBefore(el, parent.firstElementChild);
+                    } else if (dir === 'bottom') {
+                        parent.appendChild(el);
+                    } else if (dir === 'down') {
+                        const n = el.nextElementSibling;
+                        if (n) { parent.insertBefore(n, el); }
+                    } else { // up
+                        const p = el.previousElementSibling;
+                        if (p) { parent.insertBefore(el, p); }
+                    }
+                    const editParent = mw.top().tools.firstParentOrCurrentWithClass(el, 'edit') || parent;
+                    try { mw.top().app.registerChangedState(editParent, true); } catch (e) {}
+                    return { ok: true, message: 'moved ' + selector + ' ' + dir };
+                } catch (e) { return { ok: false, message: String(e && e.message || e) }; }
+            },
+
+            // Duplicate (clone) an element/section — copy inserted right after it.
+            duplicate_element: function(args, api) {
+                const selector = (args && args.selector) ? String(args.selector) : '';
+                if (!selector) { return { ok: false, message: 'no selector' }; }
+                const doc = api.canvasDocument();
+                const el = doc.querySelector(selector);
+                if (!el) { return { ok: false, message: 'no element for ' + selector }; }
+                try {
+                    const ea = api.elementActions();
+                    if (ea && ea.cloneElement) {
+                        ea.cloneElement(el);
+                    } else {
+                        const clone = el.cloneNode(true);
+                        if (clone.id) { clone.id = 'mw-ai-dup-' + Math.floor(Math.random() * 1e9).toString(36); }
+                        el.after(clone);
+                    }
+                    const editParent = mw.top().tools.firstParentOrCurrentWithClass(el, 'edit');
+                    if (editParent) { try { mw.top().app.registerChangedState(editParent, true); } catch (e) {} }
+                    return { ok: true, message: 'duplicated ' + selector };
+                } catch (e) { return { ok: false, message: String(e && e.message || e) }; }
+            },
+
+            // Set (or clear) the href of a link/button.
+            set_link: function(args, api) {
+                const selector = (args && args.selector) ? String(args.selector) : '';
+                const url = (args && typeof args.url !== 'undefined') ? String(args.url) : '';
+                if (!selector) { return { ok: false, message: 'no selector' }; }
+                const doc = api.canvasDocument();
+                let el = doc.querySelector(selector);
+                if (!el) { return { ok: false, message: 'no element for ' + selector }; }
+                if (el.tagName !== 'A') {
+                    const inner = el.querySelector('a');
+                    if (inner) { el = inner; }
+                }
+                if (el.tagName !== 'A') {
+                    return { ok: false, message: 'no anchor at ' + selector + ' (set_link needs an <a>)' };
+                }
+                if (url.trim()) {
+                    el.setAttribute('href', url.trim());
+                } else {
+                    el.removeAttribute('href');
+                }
+                try { mw.top().app.registerChangedState(el); } catch (e) {}
+                return { ok: true, message: url.trim() ? ('linked ' + selector) : ('unlinked ' + selector) };
             },
 
             add_section: function(args, api) {

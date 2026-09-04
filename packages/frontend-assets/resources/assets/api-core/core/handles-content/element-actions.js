@@ -87,7 +87,7 @@ export class ElementActions extends MicroweberBaseClass {
     }
 
 
-    deleteElement(el) {
+    deleteElement(el, skipConfirm = false) {
 
 
         // todo: placeholder improvements
@@ -138,7 +138,9 @@ export class ElementActions extends MicroweberBaseClass {
         }
 
 
-        mw.confirm(mw.lang('Are you sure you want to delete this element') + '?', () => {
+        // Extracted so callers (e.g. the AI Live-Edit tools) can delete without
+        // the confirm modal by passing skipConfirm=true.
+        const doDelete = () => {
             var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['regular-mode', 'edit', 'safe-mode']);
 
             if (edit) {
@@ -150,7 +152,14 @@ export class ElementActions extends MicroweberBaseClass {
 
                 mw.app.liveEdit.handles.get('element').set(null);
             }
-        })
+        };
+
+        if (skipConfirm) {
+            doDelete();
+            return;
+        }
+
+        mw.confirm(mw.lang('Are you sure you want to delete this element') + '?', doDelete);
     }
 
     cloneElementFirstClonableParent(target) {

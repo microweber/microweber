@@ -8,6 +8,8 @@ use Modules\Ai\Tools\LiveEdit\AddFormFieldTool;
 use Modules\Ai\Tools\LiveEdit\AddMenuItemTool;
 use Modules\Ai\Tools\LiveEdit\AddSectionTool;
 use Modules\Ai\Tools\LiveEdit\ApplyCssTool;
+use Modules\Ai\Tools\LiveEdit\DeleteElementTool;
+use Modules\Ai\Tools\LiveEdit\DuplicateElementTool;
 use Modules\Ai\Tools\LiveEdit\EditMenuItemTool;
 use Modules\Ai\Tools\LiveEdit\GetComputedStylesTool;
 use Modules\Ai\Tools\LiveEdit\GetDomTool;
@@ -19,10 +21,12 @@ use Modules\Ai\Tools\LiveEdit\GetModuleSettingsTool;
 use Modules\Ai\Tools\LiveEdit\GetPageContextTool;
 use Modules\Ai\Tools\LiveEdit\InsertLayoutTool;
 use Modules\Ai\Tools\LiveEdit\InsertModuleTool;
+use Modules\Ai\Tools\LiveEdit\MoveElementTool;
 use Modules\Ai\Tools\LiveEdit\NavigateToPageTool;
 use Modules\Ai\Tools\LiveEdit\SavePageTool;
 use Modules\Ai\Tools\LiveEdit\SetCustomFieldTool;
 use Modules\Ai\Tools\LiveEdit\SetImageTool;
+use Modules\Ai\Tools\LiveEdit\SetLinkTool;
 use Modules\Ai\Tools\LiveEdit\SetModuleOptionTool;
 use Modules\Ai\Tools\LiveEdit\SetTextTool;
 use Modules\Content\Tools\CreateContentTool;
@@ -59,6 +63,11 @@ class LiveEditAgent extends BaseAgent
         $this->addTool(new ApplyCssTool($this->dependencies));
         $this->addTool(new SetTextTool($this->dependencies));
         $this->addTool(new SetImageTool($this->dependencies));
+        $this->addTool(new SetLinkTool($this->dependencies));
+        // Canvas manipulation: remove / reorder / clone elements & modules.
+        $this->addTool(new DeleteElementTool($this->dependencies));
+        $this->addTool(new MoveElementTool($this->dependencies));
+        $this->addTool(new DuplicateElementTool($this->dependencies));
         // Multi-page site management, all from the box.
         $this->addTool(new CreateContentTool($this->dependencies));
         $this->addTool(new CreatePostTool($this->dependencies));
@@ -95,6 +104,7 @@ class LiveEditAgent extends BaseAgent
                 'To build or recreate a page/site: call add_section once per section IN ORDER (top to bottom). ALWAYS pass BOTH html (semantic HTML with your own class names) AND css (the styles for those classes) in the SAME add_section call, so each section looks right immediately. Prefer a few larger sections over many tiny ones. Call add_section EXACTLY ONCE for each section — never repeat a section you already added. Use apply_css only for later tweaks to existing sections.',
                 'For a visual/design change, write the minimal correct CSS rule(s) and call apply_css.',
                 'NEVER leave debug or marker styles. Do not paint an element a bright colour (e.g. background:red) to locate it — use get_dom / get_computed_styles to find and inspect elements. If you ever add a temporary style, you MUST remove/overwrite it before you finish, so no debug colour is left on the page.',
+                'To restructure the page: delete_element removes a section/module/element by selector (use this to remove a DUPLICATE section instead of hiding it with CSS); move_element reorders a section (up/down/top/bottom); duplicate_element clones one; set_link sets the href of a link/button. Prefer delete_element over display:none for anything that should not be on the page.',
                 'For a wording/content change, call set_text with a selector and the new text.',
                 'For an image area, build a styled placeholder box (add_section + apply_css) or point an existing <img> at a URL with set_image — do not attempt to generate images.',
                 'To build a multi-page site: first establish the global design with apply_css (colors, typography, buttons, cards), then for each page either build it in place with add_section or create it with create_content (title + url + content HTML using your design classes). Add each page to the nav with add_menu_item. ALWAYS call save_page before navigate_to_page so nothing is lost, and navigate_to_page after building a page so the user can see it.',

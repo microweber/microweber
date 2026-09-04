@@ -158,6 +158,37 @@ class LiveEditToolsTest extends ToolTestCase
         $this->assertSame('get_dom', (new \Modules\Ai\Tools\LiveEdit\GetDomTool())->getName());
         $this->assertSame('get_edit_fields', (new \Modules\Ai\Tools\LiveEdit\GetEditFieldsTool())->getName());
         $this->assertSame('get_computed_styles', (new \Modules\Ai\Tools\LiveEdit\GetComputedStylesTool())->getName());
+        $this->assertSame('delete_element', (new \Modules\Ai\Tools\LiveEdit\DeleteElementTool())->getName());
+        $this->assertSame('move_element', (new \Modules\Ai\Tools\LiveEdit\MoveElementTool())->getName());
+        $this->assertSame('duplicate_element', (new \Modules\Ai\Tools\LiveEdit\DuplicateElementTool())->getName());
+        $this->assertSame('set_link', (new \Modules\Ai\Tools\LiveEdit\SetLinkTool())->getName());
+    }
+
+    #[Test]
+    public function canvas_manipulation_tools_confirm_valid_calls_and_reject_missing_selector(): void
+    {
+        $del = new \Modules\Ai\Tools\LiveEdit\DeleteElementTool();
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $del->__invoke(selector: '.pixel-hero'));
+        $this->assertStringContainsString('.pixel-hero', $del->__invoke(selector: '.pixel-hero'));
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $del->__invoke(selector: ''));
+
+        $move = new \Modules\Ai\Tools\LiveEdit\MoveElementTool();
+        $ok = $move->__invoke(selector: '.card', direction: 'down');
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $ok);
+        $this->assertStringContainsString('down', $ok);
+        // Unknown direction falls back to "up" (never errors on a bad direction).
+        $this->assertStringContainsString('up', $move->__invoke(selector: '.card', direction: 'sideways'));
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $move->__invoke(selector: ''));
+
+        $dup = new \Modules\Ai\Tools\LiveEdit\DuplicateElementTool();
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $dup->__invoke(selector: '.card'));
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $dup->__invoke(selector: ''));
+
+        $link = new \Modules\Ai\Tools\LiveEdit\SetLinkTool();
+        $this->assertStringContainsString('https://x.io', $link->__invoke(selector: '.cta', url: 'https://x.io'));
+        // Empty url = remove the link (still a valid, non-error call).
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $link->__invoke(selector: '.cta', url: ''));
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $link->__invoke(selector: '', url: 'https://x.io'));
     }
 
     #[Test]

@@ -176,14 +176,16 @@ export class LayoutActions extends MicroweberBaseClass {
         }, 300)
     }
 
-    deleteLayout(target) {
+    deleteLayout(target, skipConfirm = false) {
         var edit = mw.tools.firstParentWithClass(target, 'edit');
 
         if (edit) {
             mw.app.registerUndoState(edit)
         }
 
-        mw.confirm('Are you sure you want to delete this layout?', function () {
+        // Extracted so callers (e.g. the AI Live-Edit tools) can delete a layout
+        // without the confirm modal by passing skipConfirm=true.
+        const doDelete = function () {
 
             target.remove();
             mw.app.registerChange(edit);
@@ -197,6 +199,13 @@ export class LayoutActions extends MicroweberBaseClass {
             mw.app.dispatch('layoutDeleted', edit);
 
             afterLayoutChange(edit)
-        })
+        };
+
+        if (skipConfirm) {
+            doDelete();
+            return;
+        }
+
+        mw.confirm('Are you sure you want to delete this layout?', doDelete);
     }
 }
