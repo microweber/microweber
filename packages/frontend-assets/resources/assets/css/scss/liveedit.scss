@@ -228,3 +228,32 @@ body.mw-editmode-show-spacer-labels .mw-le-spacer-info-content {
     pointer-events: all;
  }
 
+
+/*
+ * Inline WYSIWYG editor toolbar must stay readable regardless of the edited
+ * page's text colour.
+ *
+ * The editor toolbar is injected INTO the canvas for inline text editing, so it
+ * inherits the page's cascade. Pages (incl. AI-generated ones) commonly set
+ * `body { color: #fff !important }`, which bleeds into the toolbar's
+ * currentColor icon glyphs (.mdi) and SVGs — turning them white on the white
+ * toolbar (invisible). The toolbar's own colour is non-important, so the page's
+ * `!important` wins. Force a dark colour with !important on the editor-only
+ * button classes (safe: `mw-editor-button` / `mw-editor-controller-component` /
+ * `mw-bar-control-item` exist only in the editor toolbar). Only the icon COLOUR
+ * is forced — active-state backgrounds/accents are untouched.
+ */
+mw-editor-button,
+mw-editor-button .mdi,
+.mw-editor-controller-component,
+.mw-editor-controller-component .mdi,
+.mw-bar-control-item,
+.mw-bar-control-item .mdi {
+    color: #2b2b2b !important;
+}
+mw-editor-button svg,
+.mw-editor-controller-component svg,
+.mw-bar-control-item svg {
+    fill: #2b2b2b !important;
+}
+

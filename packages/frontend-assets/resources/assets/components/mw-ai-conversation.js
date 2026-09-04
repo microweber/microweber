@@ -100,9 +100,23 @@ html.dark .mw-ai-conv-form{ border-top-color:#ffffff1f; }
     flex:1 1 auto; resize:none; border:1px solid #18243326; border-radius:12px;
     padding:11px 13px; font-size:14px; line-height:1.4; max-height:140px; min-height:44px;
     background:#fff; color:#182433; font-family:inherit;
+    overflow-y:auto; scrollbar-width:thin; scrollbar-color:#18243330 transparent;
 }
 html.dark .mw-ai-conv-input{ background:#1f2226; color:#e8eaed; border-color:#ffffff26; }
-.mw-ai-conv-input:focus{ outline:none; border-color:#182433; }
+.mw-ai-conv-input:focus{ outline:none; border-color:#182433; box-shadow:0 0 0 3px #18243312; }
+html.dark .mw-ai-conv-input:focus{ border-color:#e8eaed; box-shadow:0 0 0 3px #ffffff1a; }
+/* Thin scrollbar with NO up/down arrow buttons (those made the input look
+   unfinished on webkit when the placeholder/text overflowed). */
+.mw-ai-conv-input::-webkit-scrollbar,
+.mw-ai-conv-thread::-webkit-scrollbar{ width:8px; height:8px; }
+.mw-ai-conv-input::-webkit-scrollbar-button,
+.mw-ai-conv-thread::-webkit-scrollbar-button{ display:none; width:0; height:0; }
+.mw-ai-conv-input::-webkit-scrollbar-track,
+.mw-ai-conv-thread::-webkit-scrollbar-track{ background:transparent; }
+.mw-ai-conv-input::-webkit-scrollbar-thumb,
+.mw-ai-conv-thread::-webkit-scrollbar-thumb{ background:#18243326; border-radius:8px; }
+html.dark .mw-ai-conv-input::-webkit-scrollbar-thumb,
+html.dark .mw-ai-conv-thread::-webkit-scrollbar-thumb{ background:#ffffff2a; }
 .mw-ai-conv-send{
     width:44px; height:44px; min-width:44px; border-radius:12px; border:none; cursor:pointer;
     background:#182433; color:#fff; display:inline-flex; align-items:center; justify-content:center;
@@ -175,7 +189,7 @@ export class MwAiConversation extends MicroweberBaseClass {
             <div class="mw-ai-conv-attachments" aria-label="${mw.lang("Attached reference images")}"></div>
             <form class="mw-ai-conv-form">
                 <button type="button" class="mw-ai-conv-attach-btn" title="${mw.lang("Attach a reference image")}" aria-label="${mw.lang("Attach a reference image")}">${this.icon("image") || this.icon("image-change") || "🖼"}</button>
-                <textarea class="mw-ai-conv-input" rows="1" placeholder="${mw.lang("Ask AI, or paste a design screenshot to recreate…")}" aria-label="${mw.lang("Message AI assistant")}"></textarea>
+                <textarea class="mw-ai-conv-input" rows="1" placeholder="${mw.lang("Ask AI, or paste a design…")}" aria-label="${mw.lang("Message AI assistant")}"></textarea>
                 <button type="submit" class="mw-ai-conv-send" disabled aria-label="${mw.lang("Send")}">${this.icon("send") || "→"}</button>
             </form>
             <input type="file" class="mw-ai-conv-file" accept="image/*" multiple style="display:none">
