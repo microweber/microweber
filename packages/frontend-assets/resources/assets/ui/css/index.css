@@ -1680,3 +1680,128 @@ aside.fi-sidebar {
 #toolbar .mw-page-chip:hover {
     background-color: #e6e6e6 !important;
 }
+
+/* ------------------------------------------------------------------ *
+ * Quick AI Edit panel — finish the sidebar box (tabs, field cards,    *
+ * empty state) so it reads as a polished, complete UI rather than     *
+ * unstyled default .btn rows. Palette matches the AI chat (ink        *
+ * #182433) and supports light + dark. task: style-quick-ai-panel      *
+ * ------------------------------------------------------------------ */
+#mw-live-edit-quickEditComponent-box .mw-control-box-content {
+    padding: 14px 14px 12px;
+}
+
+/* Segmented control: AI Chat / Edit fields */
+.mw-ai-quick-modes {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    margin: 0 0 14px;
+    background: #f2f3f5;
+    border-radius: 12px;
+}
+html.dark .mw-ai-quick-modes { background: #2a2d31; }
+.mw-ai-quick-modes .btn {
+    flex: 1 1 0;
+    border: none !important;
+    background: transparent !important;
+    color: #5b6472 !important;
+    padding: 8px 12px !important;
+    border-radius: 9px !important;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    box-shadow: none !important;
+    transition: background .15s ease, color .15s ease;
+}
+.mw-ai-quick-modes .btn:hover { color: #182433 !important; background: transparent !important; }
+html.dark .mw-ai-quick-modes .btn { color: #9aa3af !important; }
+html.dark .mw-ai-quick-modes .btn:hover { color: #e8eaed !important; }
+.mw-ai-quick-modes .btn.active,
+.mw-ai-quick-modes .btn.active:hover {
+    background: #fff !important;
+    color: #182433 !important;
+    box-shadow: 0 1px 2px rgba(24, 36, 51, .12) !important;
+}
+html.dark .mw-ai-quick-modes .btn.active,
+html.dark .mw-ai-quick-modes .btn.active:hover {
+    background: #3a3f45 !important;
+    color: #e8eaed !important;
+    box-shadow: none !important;
+}
+
+/* Edit-fields tab: section cards + collapsible type groups */
+.edit-fields-container { display: flex; flex-direction: column; gap: 12px; }
+.quick-ai-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #18243318;
+    border-radius: 12px;
+}
+html.dark .quick-ai-card { background: #1f2226; border-color: #ffffff1f; }
+.quick-ai-type-group { display: flex; flex-direction: column; gap: 6px; }
+.quick-ai-type-group-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    padding: 2px 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: #8a94a3;
+}
+.quick-ai-type-group-header::before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 4px solid currentColor;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    transform: rotate(90deg);
+    transition: transform .15s ease;
+    opacity: .8;
+}
+.quick-ai-type-group[data-open="false"] .quick-ai-type-group-header::before { transform: rotate(0deg); }
+.quick-ai-type-group[data-open="false"] .quick-ai-type-group-body { display: none; }
+.quick-ai-type-group-body { display: flex; flex-direction: column; gap: 8px; }
+
+/* Field rows */
+.form-control-live-edit-label-wrapper { display: flex; flex-direction: column; gap: 4px; }
+.live-edit-label { font-size: 12px; font-weight: 600; color: #5b6472; }
+html.dark .live-edit-label { color: #9aa3af; }
+.form-control-live-edit-input {
+    width: 100%;
+    border: 1px solid #18243326;
+    border-radius: 9px;
+    padding: 9px 11px;
+    font-size: 13px;
+    line-height: 1.4;
+    background: #fff;
+    color: #182433;
+    font-family: inherit;
+}
+.form-control-live-edit-input:focus { outline: none; border-color: #182433; box-shadow: 0 0 0 3px #18243314; }
+html.dark .form-control-live-edit-input { background: #1f2226; color: #e8eaed; border-color: #ffffff26; }
+html.dark .form-control-live-edit-input:focus { border-color: #e8eaed; box-shadow: 0 0 0 3px #ffffff1f; }
+
+/* Edit-fields empty state (no section selected) */
+.mw-quick-ai-edit-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    color: #8a94a3;
+    padding: 34px 18px;
+}
+.mw-quick-ai-edit-empty-state__icon { opacity: .55; }
+.mw-quick-ai-edit-empty-state__text { margin: 0; font-size: 13px; line-height: 1.5; max-width: 240px; }
