@@ -235,6 +235,56 @@ function MwAi() {
             return out.slice(0, 200);
         },
 
+        // Collect a compact computed-style summary of the design-critical elements
+        // so the backend get_computed_styles tool can let the model SEE rendered
+        // CSS (colours, backgrounds, fonts, padding, borders) — a screenshot alone
+        // does not reveal these, so unstyled areas (e.g. a nav with a transparent
+        // background) are otherwise invisible to the model.
+        collectComputedStyles() {
+            const out = [];
+            try {
+                const doc = this.canvasDocument();
+                const win = doc.defaultView || window;
+                const pick = function (el, selector) {
+                    const c = win.getComputedStyle(el);
+                    return {
+                        selector: selector,
+                        text: (el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40),
+                        color: c.color,
+                        background: c.backgroundColor,
+                        backgroundImage: (c.backgroundImage || 'none').slice(0, 60),
+                        fontFamily: (c.fontFamily || '').slice(0, 40),
+                        fontSize: c.fontSize,
+                        fontWeight: c.fontWeight,
+                        padding: c.padding,
+                        margin: c.margin,
+                        border: c.border,
+                        borderRadius: c.borderRadius,
+                        boxShadow: (c.boxShadow || 'none').slice(0, 60),
+                        display: c.display,
+                        textAlign: c.textAlign,
+                    };
+                };
+                // Design-critical selectors + the AI's own sections and their key children.
+                const sels = ['body', 'nav', 'header', 'nav a', 'header a', 'h1', 'h2', 'h3',
+                    'p', 'a', '.btn', 'button'];
+                doc.querySelectorAll('.mw-ai-built-section, .element[class]').forEach(function (s) {
+                    const cls = (s.className || '').split(/\s+/).filter(function (x) {
+                        return x && x !== 'element' && x !== 'mw-ai-built-section' && x !== 'edit' && x !== 'module';
+                    })[0];
+                    if (cls) { sels.push('.' + cls); }
+                });
+                const seen = {};
+                sels.forEach(function (sel) {
+                    if (seen[sel]) { return; }
+                    seen[sel] = 1;
+                    const el = doc.querySelector(sel);
+                    if (el) { out.push(pick(el, sel)); }
+                });
+            } catch (e) {}
+            return out.slice(0, 60);
+        },
+
         // Escape a plain string for safe insertion into HTML text.
         escapeHtml(s) {
             return String(s == null ? '' : s)
@@ -555,6 +605,7 @@ function MwAi() {
             get_layouts: function() { return { ok: true, message: 'layouts listed' }; },
             get_dom: function() { return { ok: true, message: 'dom read' }; },
             get_edit_fields: function() { return { ok: true, message: 'edit fields read' }; },
+            get_computed_styles: function() { return { ok: true, message: 'computed styles read' }; },
 
             // Server-side: add_form_field writes a CustomField definition on the
             // module. Reload the affected module on the canvas so the new field
@@ -683,6 +734,12 @@ function MwAi() {
             try {
                 const ef = self.collectEditFields();
                 if (ef && ef.length) { body.edit_fields = ef; }
+            } catch (e) {}
+            // Rendered computed styles of key elements, so the get_computed_styles
+            // tool can let the model see actual CSS and catch unstyled areas.
+            try {
+                const cstyles = self.collectComputedStyles();
+                if (cstyles && cstyles.length) { body.computed_styles = cstyles; }
             } catch (e) {}
             // Optional canvas screenshot so the backend vision model can describe
             // the current design to the (text-only) editing model.

@@ -9,6 +9,7 @@ use Modules\Ai\Tools\LiveEdit\AddMenuItemTool;
 use Modules\Ai\Tools\LiveEdit\AddSectionTool;
 use Modules\Ai\Tools\LiveEdit\ApplyCssTool;
 use Modules\Ai\Tools\LiveEdit\EditMenuItemTool;
+use Modules\Ai\Tools\LiveEdit\GetComputedStylesTool;
 use Modules\Ai\Tools\LiveEdit\GetDomTool;
 use Modules\Ai\Tools\LiveEdit\GetEditFieldsTool;
 use Modules\Ai\Tools\LiveEdit\GetLayoutsTool;
@@ -45,6 +46,7 @@ class LiveEditAgent extends BaseAgent
         $this->addTool(new GetPageContextTool($this->dependencies));
         $this->addTool(new GetDomTool($this->dependencies));
         $this->addTool(new GetEditFieldsTool($this->dependencies));
+        $this->addTool(new GetComputedStylesTool($this->dependencies));
         $this->addTool(new AddSectionTool($this->dependencies));
         $this->addTool(new GetModulesTool($this->dependencies));
         $this->addTool(new InsertModuleTool($this->dependencies));
@@ -78,7 +80,7 @@ class LiveEditAgent extends BaseAgent
                 'You can BUILD a whole page from scratch: add each section with add_section (plain semantic HTML with your own class names), then style it with apply_css. This lets you recreate or design entire sites.',
                 'You can build a WHOLE MULTI-PAGE SITE from this box: create_content makes a new page (give it a title, url and content HTML); create_post makes a blog post; add_menu_item adds a page to the main navigation; navigate_to_page opens a page in the editor so the user can see it; save_page saves the current page. Your apply_css styles are GLOBAL, so a design system you build once applies to every page.',
                 'You can SEE the page: a screenshot of the live canvas is captured (via html2canvas) and described to you each turn under "[What the page looks like right now …]". When the user pastes a design screenshot, recreate it from what you SEE — never expect the user to paste HTML. After a visual change, look at the updated screenshot and correct anything that does not match.',
-                'To inspect the page precisely, use get_dom (returns the real current canvas HTML — optionally a selector) and get_edit_fields (lists the editable regions and module instances you can target). Prefer reading these over guessing selectors.',
+                'To inspect the page precisely, use get_dom (returns the real current canvas HTML — optionally a selector), get_edit_fields (lists the editable regions and module instances you can target), and get_computed_styles (returns the RENDERED CSS — colours, backgrounds, fonts, padding, borders — of nav/headings/links/buttons/sections). A screenshot does not reveal actual style values, so use get_computed_styles to catch UNSTYLED areas: an element with a transparent background, no padding and no border/radius is unstyled and needs styling. In particular always check the nav/header — if its links have no background and no padding, style them to match the design.',
                 'Your tools: get_page_context (read the page title/content/current custom CSS if the canvas markup is not enough); get_dom (the live page HTML); get_edit_fields (the editable regions/modules); add_section (add a new content section — the way to build pages); insert_module (add a functional Microweber module: contact_form, pictures gallery, shop, map, menu, video); set_module_option (configure a module you inserted, e.g. a contact form recipient email); apply_css (visual/design changes via custom CSS); set_text (rewrite the text of an element by CSS selector); set_image (point an <img> at a given URL).',
                 'You cannot generate images. For a picture/screenshot area in a design, build a styled placeholder with add_section + apply_css (a box with a background color/gradient and a caption) rather than trying to create an image. Focus on layout, colors, typography and text — that is what makes a recreation recognizable.',
                 'For interactive features (a contact form, a gallery, a shop, a map, a video) use insert_module — do NOT fake them with static HTML. Module types: "contact_form", "pictures", "shop", "google_maps" (a map), "video", "menu". After you insert a module its id is reported back to you as "[Last inserted module: id=… type=…]" — use that module_id with get_module_settings (to read its current settings), set_module_option (to configure it, e.g. a video url, a map location/address, a form recipient email) and add_form_field.',

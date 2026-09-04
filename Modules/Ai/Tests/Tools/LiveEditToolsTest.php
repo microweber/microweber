@@ -157,6 +157,30 @@ class LiveEditToolsTest extends ToolTestCase
         $this->assertSame('get_layouts', (new \Modules\Ai\Tools\LiveEdit\GetLayoutsTool())->getName());
         $this->assertSame('get_dom', (new \Modules\Ai\Tools\LiveEdit\GetDomTool())->getName());
         $this->assertSame('get_edit_fields', (new \Modules\Ai\Tools\LiveEdit\GetEditFieldsTool())->getName());
+        $this->assertSame('get_computed_styles', (new \Modules\Ai\Tools\LiveEdit\GetComputedStylesTool())->getName());
+    }
+
+    #[Test]
+    public function get_computed_styles_returns_rendered_css_and_filters_by_selector(): void
+    {
+        app()->instance('mw.ai.liveedit.context', [
+            'computed_styles' => [
+                ['selector' => 'nav', 'text' => 'PIXEL OFFICE', 'background' => 'rgba(0, 0, 0, 0)', 'padding' => '0px'],
+                ['selector' => '.pixel-hero', 'text' => 'Hi', 'background' => 'rgb(11, 31, 69)', 'padding' => '64px'],
+            ],
+        ]);
+        $tool = new \Modules\Ai\Tools\LiveEdit\GetComputedStylesTool();
+
+        $all = json_decode($tool->__invoke(), true);
+        $this->assertSame(2, $all['count']);
+
+        $nav = json_decode($tool->__invoke(selector: 'nav'), true);
+        $this->assertSame(1, $nav['count']);
+        $this->assertSame('nav', $nav['elements'][0]['selector']);
+
+        // No context bound -> clean error.
+        app()->forgetInstance('mw.ai.liveedit.context');
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, (new \Modules\Ai\Tools\LiveEdit\GetComputedStylesTool())->__invoke());
     }
 
     #[Test]
