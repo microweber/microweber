@@ -13,6 +13,8 @@ use Modules\Country\Tools\CountryListTool;
 use Modules\Coupons\Tools\CouponsListTool;
 use Modules\Currency\Tools\CurrencyRatesTool;
 use Modules\CustomFields\Tools\CustomFieldsListTool;
+use Modules\CustomFields\Tools\CustomFieldValuesTool;
+use Modules\ContentData\Tools\ContentDataTool;
 use Modules\Content\Tools\CreateContentTool;
 use Modules\Faq\Tools\FaqListTool;
 use Modules\MailTemplate\Tools\MailTemplateListTool;
@@ -161,6 +163,16 @@ class McpToolCatalog
                 'tool' => CustomFieldsListTool::class,
                 'module' => 'customfields',
                 'title' => 'List custom field definitions.',
+            ],
+            'customfields.values' => [
+                'tool' => CustomFieldValuesTool::class,
+                'module' => 'customfields',
+                'title' => 'Read the option values of a custom field definition.',
+            ],
+            'contentdata.get' => [
+                'tool' => ContentDataTool::class,
+                'module' => 'contentdata',
+                'title' => 'Read the custom data (metadata) stored on a content item.',
             ],
             'content.create' => [
                 'tool' => CreateContentTool::class,

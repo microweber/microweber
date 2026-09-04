@@ -9,8 +9,10 @@ use Modules\Attributes\Tools\AttributesListTool;
 use Modules\Category\Tools\CategoryListTool;
 use Modules\Comments\Tools\CommentsListTool;
 use Modules\Company\Tools\CompanyListTool;
+use Modules\ContentData\Tools\ContentDataTool;
 use Modules\Country\Tools\CountryListTool;
 use Modules\CustomFields\Tools\CustomFieldsListTool;
+use Modules\CustomFields\Tools\CustomFieldValuesTool;
 use Modules\Coupons\Tools\CouponsListTool;
 use Modules\Currency\Tools\CurrencyRatesTool;
 use Modules\Faq\Tools\FaqListTool;
@@ -164,9 +166,28 @@ class McpModuleToolsTest extends TestCase
     }
 
     #[Test]
+    public function content_data_and_custom_field_values_connect_and_validate(): void
+    {
+        // content_data: needs a content id; returns the metadata store shape.
+        $cd = (new ContentDataTool())->__invoke(rel_id: 1);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $cd);
+        $this->assertArrayHasKey('data', json_decode($cd, true));
+        // missing rel_id is a clean error.
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, (new ContentDataTool())->__invoke(rel_id: 0));
+
+        // custom field values: connects a definition to its options.
+        $cv = (new CustomFieldValuesTool())->__invoke(custom_field_id: 1);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $cv);
+        $this->assertArrayHasKey('values', json_decode($cv, true));
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, (new CustomFieldValuesTool())->__invoke(custom_field_id: 0));
+    }
+
+    #[Test]
     public function module_tools_expose_expected_names(): void
     {
         $this->assertSame('custom_fields_list', (new CustomFieldsListTool())->getName());
+        $this->assertSame('custom_field_values', (new CustomFieldValuesTool())->getName());
+        $this->assertSame('content_data_get', (new ContentDataTool())->getName());
         $this->assertSame('rating_list', (new RatingListTool())->getName());
         $this->assertSame('attributes_list', (new AttributesListTool())->getName());
         $this->assertSame('mail_template_list', (new MailTemplateListTool())->getName());
