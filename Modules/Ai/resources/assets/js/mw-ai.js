@@ -167,6 +167,58 @@ function MwAi() {
             }
         },
 
+        // Which canvas modules a given tool's data change affects — so after the
+        // AI edits module-backed data (a menu, product field, form, post…) we can
+        // reload exactly those modules on the canvas instead of a full refresh.
+        // Returns a CSS selector (or null). Menu edits are the common case: adding
+        // a nav item must reload the menu module for the link to appear.
+        moduleReloadSelectorForTool(tool, args) {
+            const MENU = '.module[data-type="menu"], .module[type="menu"], .module-menu, [data-mw-title][data-type="menu"]';
+            switch (tool) {
+                case 'add_menu_item':
+                case 'edit_menu_item':
+                    return MENU;
+                case 'create_content':
+                    // A new page is usually added to the navigation → refresh menus.
+                    return MENU;
+                case 'create_post':
+                    return '.module[data-type="posts"], .module[data-type="post"], .module[type="posts"]';
+                case 'set_custom_field':
+                    return '.module[data-type="shop"], .module[data-type="products"], .module[data-type="shop/products"]';
+                case 'add_form_field': {
+                    const id = args && args.module_id ? String(args.module_id) : '';
+                    return id ? ('#' + id + ', [id="' + id + '"]') : '.module[data-type="contact_form"]';
+                }
+                case 'set_module_option': {
+                    const g = args && args.module_id ? String(args.module_id) : '';
+                    return g ? ('#' + g + ', [id="' + g + '"]') : null;
+                }
+                default:
+                    return null;
+            }
+        },
+
+        // Capture a module selector to reload when the current AI turn finishes.
+        _moduleReloadQueue: [],
+        queueModuleReload(tool, args) {
+            const sel = this.moduleReloadSelectorForTool(tool, args);
+            if (sel && this._moduleReloadQueue.indexOf(sel) === -1) {
+                this._moduleReloadQueue.push(sel);
+            }
+        },
+
+        // Reload every module captured during the turn (once), then clear.
+        flushModuleReloads() {
+            const q = this._moduleReloadQueue.slice();
+            this._moduleReloadQueue = [];
+            if (!q.length) { return; }
+            const self = this;
+            // Small delay so any server-side write has fully committed first.
+            setTimeout(function () {
+                q.forEach(function (sel) { try { self.reloadCanvasModule(sel); } catch (e) {} });
+            }, 300);
+        },
+
         // The id of the content/page currently open in Live Edit (0 if unknown).
         canvasContentId() {
             try {
@@ -808,6 +860,9 @@ function MwAi() {
         // Apply one streamed tool call to the live canvas.
         applyEdit(edit) {
             if (!edit || !edit.tool) { return { ok: false, message: 'no tool' }; }
+            // Capture which canvas module(s) this edit affects so we can reload
+            // them when the turn ends (menus, products, forms, posts…).
+            try { this.queueModuleReload(edit.tool, edit.args || {}); } catch (e) {}
             const impl = this.frontendTools[edit.tool];
             if (!impl) { return { ok: false, message: 'unknown tool ' + edit.tool }; }
             try {
@@ -902,6 +957,9 @@ function MwAi() {
                     if (handlers.onError) { handlers.onError(data.message || 'error'); }
                 } else if (eventName === 'done') {
                     done = data;
+                    // Reload the modules edited this turn so the changes (new menu
+                    // items, product fields, form fields…) show on the canvas.
+                    try { self.flushModuleReloads(); } catch (e) {}
                     if (handlers.onDone) { handlers.onDone(data); }
                 }
             };
