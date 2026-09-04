@@ -552,11 +552,16 @@ export class MwAiConversation extends MicroweberBaseClass {
                 try { MwAi().saveCanvas(); } catch (e) {}
             }
 
-            // Self-check: after a visual/CSS edit, screenshot the RESULT and feed
-            // it back to the agent so it can catch and fix its own bugs (invisible
-            // text, hidden menus, broken layout) in one correction pass.
-            if (visualEdit && !navigated && !this._verifying && this.settings.verify !== false) {
-                await this.runVerification(editsWrap, turn);
+            // Verify by screenshot. When the user pasted a design to recreate,
+            // run the autonomous MATCH LOOP: screenshot the result, compare it to
+            // the target, fix the differences, and repeat until it matches (or a
+            // round cap). Otherwise do the one-round self-check for visual bugs.
+            if (!navigated && !this._verifying && this.settings.verify !== false) {
+                if (refImages.length) {
+                    await this.runRecreationLoop(editsWrap, turn);
+                } else if (visualEdit) {
+                    await this.runVerification(editsWrap, turn);
+                }
             }
         } catch (e) {
             typing.remove();
@@ -624,6 +629,73 @@ export class MwAiConversation extends MicroweberBaseClass {
             if (fixed) { try { MwAi().saveCanvas(); } catch (e) {} }
         } catch (e) {
             typing.remove();
+        } finally {
+            this._verifying = false;
+        }
+    }
+
+    // Autonomous recreation MATCH LOOP. Used when the user pasted a design to
+    // recreate: after the first build, screenshot the current page, ask the agent
+    // to compare it to the target design (which it read from the pasted reference
+    // earlier in this conversation) and fix the differences, then repeat. Stops
+    // when the agent makes no edits / replies DONE, or after maxRounds. Each round
+    // sends the current screenshot via the `screenshot` param so the vision model
+    // describes "what the page looks like now" for the text-only editing model.
+    async runRecreationLoop(editsWrap, turn, maxRounds = 5) {
+        this._verifying = true;
+        const self = this;
+        const compareMsg = "You are recreating the target design the user pasted earlier in this "
+            + "conversation. The attached screenshot is the CURRENT state of the page. Compare CURRENT "
+            + "to that TARGET design and make them match: if a section is MISSING add it (add_section "
+            + "with matching css); if colours/spacing/typography/backgrounds differ fix them (apply_css, "
+            + "styles are global and must win); if text differs fix it (set_text). Change only what does "
+            + "not match yet — do NOT re-add sections that are already present. When the page already "
+            + "closely matches the target, reply exactly 'DONE' and make no tool calls.";
+
+        try {
+            for (let round = 0; round < maxRounds; round++) {
+                let shot = null;
+                try { shot = await this.captureScreenshot(); } catch (e) {}
+                if (!shot) { break; }
+
+                this.addEdit(editsWrap, { tool: "verify" }, { ok: true });
+                const typing = this.addTyping();
+                let fixed = false;
+                let reply = "";
+
+                const done = await MwAi().agentChatStream(
+                    compareMsg,
+                    {
+                        chat_id: this.chatId || undefined,
+                        content_id: this.settings.contentId || undefined,
+                        screenshot: shot
+                    },
+                    {
+                        onStart(data) { if (data && data.chat_id) { self.chatId = data.chat_id; } },
+                        onVision() { self.addEdit(editsWrap, { tool: "vision" }, { ok: true }); },
+                        onTool(edit, result) { fixed = true; self.addEdit(editsWrap, edit, result); },
+                        onError(msg) { self.addEdit(editsWrap, { tool: "error" }, { ok: false, message: msg }); },
+                        onDone(data) { if (data && data.chat_id) { self.chatId = data.chat_id; } }
+                    }
+                );
+                typing.remove();
+                reply = (done && done.response) ? done.response : "";
+                if (reply) {
+                    const bubble = document.createElement("div");
+                    bubble.className = "mw-ai-conv-msg-bubble";
+                    bubble.textContent = (fixed ? "🔧 " : "✓ ") + reply;
+                    turn.appendChild(bubble);
+                    this.scrollDown();
+                }
+                if (fixed) { try { MwAi().saveCanvas(); } catch (e) {} }
+
+                // Stop when the agent reports a match or makes no further edits.
+                if (!fixed || /\bDONE\b/i.test(reply) || /looks good|matches/i.test(reply)) {
+                    break;
+                }
+            }
+        } catch (e) {
+            // best-effort loop
         } finally {
             this._verifying = false;
         }
