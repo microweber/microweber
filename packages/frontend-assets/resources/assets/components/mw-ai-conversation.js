@@ -605,13 +605,18 @@ export class MwAiConversation extends MicroweberBaseClass {
         const typing = this.addTyping();
         const self = this;
 
-        const verifyMsg = "SELF-CHECK your last change. The attached screenshot is exactly how the "
-            + "page looks now. Inspect it carefully for VISUAL BUGS: (1) text that is invisible or "
-            + "very low-contrast (nearly the same colour as its background); (2) navigation menus or "
-            + "links that are hidden, missing or unreadable; (3) elements overlapping or a broken/"
-            + "collapsed layout; (4) unstyled or default-looking areas that should match the design. "
-            + "If you find ANY problem, FIX it now with apply_css (styles are global and must win — use "
-            + "clear, high-contrast colours). If everything looks correct, reply exactly 'Looks good.' "
+        const verifyMsg = "CRITIQUE your last change like a HARSH design reviewer who assumes it is broken. "
+            + "The attached screenshot is EXACTLY how the page looks now — judge only what you SEE, and be "
+            + "honest. Check, in order: (1) IS THE PAGE EMPTY OR BROKEN? Did content disappear — is the page "
+            + "now mostly blank/coloured bands with no visible hero, text or sections? If the content is gone "
+            + "or collapsed, your last change broke it — you MUST fix or REVERT it. (2) READABILITY: is any "
+            + "text invisible or low-contrast (nearly the same colour as its background)? Every text colour "
+            + "must clearly contrast its background. Use get_computed_styles to confirm suspect elements. "
+            + "(3) NAVIGATION: menus/links hidden, missing or unreadable? (4) LAYOUT: anything overlapping, "
+            + "clipped, squashed or pushed off-screen? (5) UNSTYLED default-looking areas that clash. "
+            + "List every problem you find, then FIX each with apply_css (global, high-contrast colours) — if "
+            + "a rule hid or broke content, remove/override it. NEVER approve a page that is empty, broken or "
+            + "unreadable. ONLY if the page is genuinely complete and readable, reply exactly 'Looks good.' "
             + "and make no tool calls.";
 
         let fixed = false;
