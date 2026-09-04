@@ -158,6 +158,27 @@ html.dark .mw-ai-conv-history-item:hover{ background:#ffffff12; }
 .mw-ai-conv-attach-btn svg{ width:20px; height:20px; }
 .mw-ai-conv-msg-images{ display:flex; flex-wrap:wrap; gap:6px; }
 .mw-ai-conv-msg-images img{ max-width:180px; max-height:140px; border-radius:10px; border:1px solid #18243322; }
+
+/* Rendered markdown inside assistant bubbles */
+.mw-ai-md > *:first-child{ margin-top:0; }
+.mw-ai-md > *:last-child{ margin-bottom:0; }
+.mw-ai-md p{ margin:0 0 8px; }
+.mw-ai-md h1,.mw-ai-md h2,.mw-ai-md h3,.mw-ai-md h4{ margin:10px 0 6px; line-height:1.25; font-weight:700; }
+.mw-ai-md h1{ font-size:1.25em; } .mw-ai-md h2{ font-size:1.15em; } .mw-ai-md h3{ font-size:1.05em; } .mw-ai-md h4{ font-size:1em; }
+.mw-ai-md ul,.mw-ai-md ol{ margin:4px 0 8px; padding-left:20px; }
+.mw-ai-md li{ margin:2px 0; }
+.mw-ai-md a{ color:#0a63c8; text-decoration:underline; }
+html.dark .mw-ai-md a{ color:#6aa9ff; }
+.mw-ai-md code{ background:#18243312; border-radius:4px; padding:1px 5px; font-size:.9em; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+html.dark .mw-ai-md code{ background:#ffffff1f; }
+.mw-ai-md pre{ background:#0d1526; color:#e5e7eb; border-radius:9px; padding:10px 12px; overflow:auto; margin:6px 0 8px; }
+.mw-ai-md pre code{ background:none; padding:0; color:inherit; font-size:.88em; }
+.mw-ai-md-table{ border-collapse:collapse; width:100%; margin:6px 0 8px; font-size:.92em; display:block; overflow-x:auto; }
+.mw-ai-md-table th,.mw-ai-md-table td{ border:1px solid #18243326; padding:5px 9px; text-align:left; }
+.mw-ai-md-table th{ background:#18243310; font-weight:600; }
+html.dark .mw-ai-md-table th,html.dark .mw-ai-md-table td{ border-color:#ffffff26; }
+html.dark .mw-ai-md-table th{ background:#ffffff14; }
+.mw-ai-md strong{ font-weight:700; }
 `;
 
 export class MwAiConversation extends MicroweberBaseClass {
@@ -257,6 +278,17 @@ export class MwAiConversation extends MicroweberBaseClass {
             Array.from(this.fileInput.files || []).forEach((f) => this.addPendingImage(f));
             this.fileInput.value = "";
         });
+
+        // Save before leaving the page: if the AI made edits this session that are
+        // not yet persisted, flush a save when the page is about to unload (the
+        // model doesn't always call save_page, and edits would otherwise be lost).
+        this._beforeUnload = () => {
+            if (this._dirty) {
+                try { MwAi().saveCanvas(); } catch (e) {}
+                this._dirty = false;
+            }
+        };
+        window.addEventListener("beforeunload", this._beforeUnload);
     }
 
     handlePaste(e) {
@@ -389,11 +421,83 @@ export class MwAiConversation extends MicroweberBaseClass {
         }
         const bubble = document.createElement("div");
         bubble.className = "mw-ai-conv-msg-bubble";
-        bubble.textContent = text || "";
+        // Render the assistant's markdown (bold, lists, tables, code…); keep the
+        // user's own message as plain text.
+        if (role === "assistant" && text) {
+            bubble.classList.add("mw-ai-md");
+            bubble.innerHTML = this.renderMarkdown(text);
+        } else {
+            bubble.textContent = text || "";
+        }
         if (text || !images || !images.length) { msg.appendChild(bubble); }
         this.thread.appendChild(msg);
         this.scrollDown();
         return { msg, bubble };
+    }
+
+    // Compact, safe Markdown -> HTML renderer for assistant replies. Escapes all
+    // HTML first, then handles fenced code, GFM tables, headings, bold/italic,
+    // inline code, links, ordered/unordered lists and paragraphs. No external
+    // dependency; output is built from escaped text so it is XSS-safe.
+    renderMarkdown(src) {
+        const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        let s = String(src == null ? "" : src);
+        // Strip Kimi's stray <think> tags.
+        s = s.replace(/<\/?think>/gi, "").replace(/\r\n/g, "\n");
+
+        // Pull out fenced code blocks first so their contents aren't parsed.
+        const codeBlocks = [];
+        s = s.replace(/```[a-z]*\n?([\s\S]*?)```/gi, (_m, code) => {
+            codeBlocks.push(code.replace(/\n$/, ""));
+            return " CB" + (codeBlocks.length - 1) + " ";
+        });
+
+        s = esc(s);
+
+        // GFM tables: a header row, a |---|---| separator, then body rows.
+        s = s.replace(/(?:^\|.*\|[ \t]*\n)(?:^\|[ \t:|-]+\|[ \t]*\n)(?:^\|.*\|[ \t]*\n?)*/gm, (block) => {
+            const rows = block.trim().split("\n").map((r) => r.trim());
+            const cells = (r) => r.replace(/^\||\|$/g, "").split("|").map((c) => c.trim());
+            const head = cells(rows[0]);
+            const body = rows.slice(2).map(cells);
+            let h = "<table class='mw-ai-md-table'><thead><tr>" + head.map((c) => "<th>" + c + "</th>").join("") + "</tr></thead><tbody>";
+            body.forEach((r) => { h += "<tr>" + r.map((c) => "<td>" + c + "</td>").join("") + "</tr>"; });
+            return h + "</tbody></table>\n";
+        });
+
+        // Headings.
+        s = s.replace(/^###### (.*)$/gm, "<h6>$1</h6>")
+             .replace(/^##### (.*)$/gm, "<h5>$1</h5>")
+             .replace(/^#### (.*)$/gm, "<h4>$1</h4>")
+             .replace(/^### (.*)$/gm, "<h3>$1</h3>")
+             .replace(/^## (.*)$/gm, "<h2>$1</h2>")
+             .replace(/^# (.*)$/gm, "<h1>$1</h1>");
+
+        // Inline: bold, italic, inline code, links.
+        s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+        s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        s = s.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+        s = s.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+        s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, "<a href=\"$2\" target=\"_blank\" rel=\"noopener\">$1</a>");
+
+        // Lists: group runs of - / * / 1. lines.
+        s = s.replace(/(?:^[ \t]*(?:[-*]|\d+\.)[ \t]+.*(?:\n|$))+/gm, (block) => {
+            const ordered = /^[ \t]*\d+\./.test(block);
+            const items = block.trim().split("\n").map((l) => l.replace(/^[ \t]*(?:[-*]|\d+\.)[ \t]+/, "").trim());
+            return "<" + (ordered ? "ol" : "ul") + ">" + items.map((i) => "<li>" + i + "</li>").join("") + "</" + (ordered ? "ol" : "ul") + ">\n";
+        });
+
+        // Paragraphs / line breaks for the remaining plain lines.
+        s = s.split(/\n{2,}/).map((chunk) => {
+            const t = chunk.trim();
+            if (!t) { return ""; }
+            if (/^<(h\d|ul|ol|table|pre|blockquote)/.test(t)) { return t; }
+            return "<p>" + t.replace(/\n/g, "<br>") + "</p>";
+        }).join("");
+
+        // Restore code blocks.
+        s = s.replace(/ CB(\d+) /g, (_m, i) => "<pre><code>" + esc(codeBlocks[i]) + "</code></pre>");
+        return s;
     }
 
     addTyping() {
@@ -537,6 +641,7 @@ export class MwAiConversation extends MicroweberBaseClass {
                     },
                     onTool(edit, result) {
                         anyEdit = true;
+                        self._dirty = true;
                         if (edit && edit.tool === "navigate_to_page") { navigated = true; }
                         if (edit && ["apply_css", "add_section", "set_text", "set_image", "insert_module"].indexOf(edit.tool) !== -1) {
                             visualEdit = true;
@@ -555,15 +660,17 @@ export class MwAiConversation extends MicroweberBaseClass {
             typing.remove();
             const replyText = (done && done.response) ? done.response : mw.lang("Done.");
             const bubble = document.createElement("div");
-            bubble.className = "mw-ai-conv-msg-bubble";
-            bubble.textContent = replyText;
+            bubble.className = "mw-ai-conv-msg-bubble mw-ai-md";
+            bubble.innerHTML = this.renderMarkdown(replyText);
             turn.appendChild(bubble);
             this.scrollDown();
 
             // Auto-save the model's edits so nothing is lost (unless a navigation
             // this turn already saved before leaving the page).
             if (anyEdit && !navigated) {
-                try { MwAi().saveCanvas(); } catch (e) {}
+                try { MwAi().saveCanvas(); self._dirty = false; } catch (e) {}
+            } else if (navigated) {
+                self._dirty = false;
             }
 
             // Verify by screenshot. When the user pasted a design to recreate,
@@ -640,8 +747,8 @@ export class MwAiConversation extends MicroweberBaseClass {
             const txt = (done && done.response) ? done.response : "";
             if (txt) {
                 const bubble = document.createElement("div");
-                bubble.className = "mw-ai-conv-msg-bubble";
-                bubble.textContent = (fixed ? "🔧 " : "✓ ") + txt;
+                bubble.className = "mw-ai-conv-msg-bubble mw-ai-md";
+                bubble.innerHTML = (fixed ? "🔧 " : "✓ ") + this.renderMarkdown(txt);
                 turn.appendChild(bubble);
                 this.scrollDown();
             }
@@ -701,8 +808,8 @@ export class MwAiConversation extends MicroweberBaseClass {
                 reply = (done && done.response) ? done.response : "";
                 if (reply) {
                     const bubble = document.createElement("div");
-                    bubble.className = "mw-ai-conv-msg-bubble";
-                    bubble.textContent = (fixed ? "🔧 " : "✓ ") + reply;
+                    bubble.className = "mw-ai-conv-msg-bubble mw-ai-md";
+                    bubble.innerHTML = (fixed ? "🔧 " : "✓ ") + this.renderMarkdown(reply);
                     turn.appendChild(bubble);
                     this.scrollDown();
                 }

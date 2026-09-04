@@ -162,6 +162,25 @@ class LiveEditToolsTest extends ToolTestCase
         $this->assertSame('move_element', (new \Modules\Ai\Tools\LiveEdit\MoveElementTool())->getName());
         $this->assertSame('duplicate_element', (new \Modules\Ai\Tools\LiveEdit\DuplicateElementTool())->getName());
         $this->assertSame('set_link', (new \Modules\Ai\Tools\LiveEdit\SetLinkTool())->getName());
+        $this->assertSame('get_selected_element', (new \Modules\Ai\Tools\LiveEdit\GetSelectedElementTool())->getName());
+        $this->assertSame('get_selected_layout', (new \Modules\Ai\Tools\LiveEdit\GetSelectedLayoutTool())->getName());
+    }
+
+    #[Test]
+    public function get_selected_element_resolves_this_from_the_selection_context(): void
+    {
+        app()->instance('mw.ai.liveedit.context', [
+            'selected_element' => ['selector' => '#hero-1', 'tag' => 'h1', 'text' => 'Hello'],
+            'selected_layout' => ['selector' => '#sec-1', 'tag' => 'section'],
+        ]);
+        $el = json_decode((new \Modules\Ai\Tools\LiveEdit\GetSelectedElementTool())->__invoke(), true);
+        $this->assertSame('#hero-1', $el['selected_element']['selector']);
+        $lay = json_decode((new \Modules\Ai\Tools\LiveEdit\GetSelectedLayoutTool())->__invoke(), true);
+        $this->assertSame('#sec-1', $lay['selected_layout']['selector']);
+
+        // No selection -> a clean error telling the model to ask the user to click.
+        app()->forgetInstance('mw.ai.liveedit.context');
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, (new \Modules\Ai\Tools\LiveEdit\GetSelectedElementTool())->__invoke());
     }
 
     #[Test]

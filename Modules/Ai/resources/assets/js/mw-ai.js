@@ -353,6 +353,43 @@ function MwAi() {
             return out.slice(0, 60);
         },
 
+        // Capture the element/layout the user has currently SELECTED in Live Edit,
+        // so phrases like "change THIS to red" resolve to a real target. Assigns a
+        // stable id if the selected node has none and returns a selector + a small
+        // description the get_selected_element / get_selected_layout tools expose.
+        capturedSelection() {
+            const out = {};
+            const describe = (el) => {
+                if (!el || !el.tagName) { return null; }
+                if (!el.id) { el.id = 'mw-ai-sel-' + Math.floor(Math.random() * 1e9).toString(36); }
+                let styles = {};
+                try {
+                    const win = el.ownerDocument.defaultView;
+                    const c = win.getComputedStyle(el);
+                    styles = { color: c.color, background: c.backgroundColor, fontSize: c.fontSize, padding: c.padding, borderRadius: c.borderRadius };
+                } catch (e) {}
+                return {
+                    selector: '#' + el.id,
+                    tag: el.tagName.toLowerCase(),
+                    id: el.id,
+                    classes: String(el.className || '').split(/\s+/).filter(function (x) { return x && x.indexOf('mw-ai-sel-') !== 0; }).slice(0, 8),
+                    text: (el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 100),
+                    styles: styles,
+                };
+            };
+            try {
+                const le = mw.top().app.liveEdit;
+                const handles = le && le.handles;
+                if (handles && handles.get) {
+                    const elH = handles.get('element');
+                    const layH = handles.get('layout');
+                    out.element = describe(elH && elH.getTarget && elH.getTarget());
+                    out.layout = describe(layH && layH.getTarget && layH.getTarget());
+                }
+            } catch (e) {}
+            return out;
+        },
+
         // Escape a plain string for safe insertion into HTML text.
         escapeHtml(s) {
             return String(s == null ? '' : s)
@@ -771,6 +808,8 @@ function MwAi() {
             get_dom: function() { return { ok: true, message: 'dom read' }; },
             get_edit_fields: function() { return { ok: true, message: 'edit fields read' }; },
             get_computed_styles: function() { return { ok: true, message: 'computed styles read' }; },
+            get_selected_element: function() { return { ok: true, message: 'selection read' }; },
+            get_selected_layout: function() { return { ok: true, message: 'selection read' }; },
 
             // Server-side: add_form_field writes a CustomField definition on the
             // module. Reload the affected module on the canvas so the new field
@@ -908,6 +947,13 @@ function MwAi() {
             try {
                 const cstyles = self.collectComputedStyles();
                 if (cstyles && cstyles.length) { body.computed_styles = cstyles; }
+            } catch (e) {}
+            // The element/layout the user has selected in the editor, so "this"/"that"
+            // resolves (get_selected_element / get_selected_layout).
+            try {
+                const sel = self.capturedSelection();
+                if (sel && sel.element) { body.selected_element = sel.element; }
+                if (sel && sel.layout) { body.selected_layout = sel.layout; }
             } catch (e) {}
             // Optional canvas screenshot so the backend vision model can describe
             // the current design to the (text-only) editing model.

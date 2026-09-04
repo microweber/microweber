@@ -19,6 +19,8 @@ use Modules\Ai\Tools\LiveEdit\GetMenuTool;
 use Modules\Ai\Tools\LiveEdit\GetModulesTool;
 use Modules\Ai\Tools\LiveEdit\GetModuleSettingsTool;
 use Modules\Ai\Tools\LiveEdit\GetPageContextTool;
+use Modules\Ai\Tools\LiveEdit\GetSelectedElementTool;
+use Modules\Ai\Tools\LiveEdit\GetSelectedLayoutTool;
 use Modules\Ai\Tools\LiveEdit\InsertLayoutTool;
 use Modules\Ai\Tools\LiveEdit\InsertModuleTool;
 use Modules\Ai\Tools\LiveEdit\MoveElementTool;
@@ -51,6 +53,8 @@ class LiveEditAgent extends BaseAgent
         $this->addTool(new GetDomTool($this->dependencies));
         $this->addTool(new GetEditFieldsTool($this->dependencies));
         $this->addTool(new GetComputedStylesTool($this->dependencies));
+        $this->addTool(new GetSelectedElementTool($this->dependencies));
+        $this->addTool(new GetSelectedLayoutTool($this->dependencies));
         $this->addTool(new AddSectionTool($this->dependencies));
         $this->addTool(new GetModulesTool($this->dependencies));
         $this->addTool(new InsertModuleTool($this->dependencies));
@@ -89,6 +93,7 @@ class LiveEditAgent extends BaseAgent
                 'You can BUILD a whole page from scratch: add each section with add_section (plain semantic HTML with your own class names), then style it with apply_css. This lets you recreate or design entire sites.',
                 'You can build a WHOLE MULTI-PAGE SITE from this box: create_content makes a new page (give it a title, url and content HTML); create_post makes a blog post; add_menu_item adds a page to the main navigation; navigate_to_page opens a page in the editor so the user can see it; save_page saves the current page. Your apply_css styles are GLOBAL, so a design system you build once applies to every page.',
                 'You can SEE the page: a screenshot of the live canvas is captured (via html2canvas) and described to you each turn under "[What the page looks like right now …]". When the user pastes a design screenshot, recreate it from what you SEE — never expect the user to paste HTML. After a visual change, look at the updated screenshot and correct anything that does not match.',
+                'RESOLVE "THIS"/"THAT"/"IT"/"HERE" via the SELECTION. When the user refers to something without giving a selector — "make this red", "bigger", "move it up", "delete this section" — they mean whatever they have SELECTED on the canvas. If the message includes "[The user has SELECTED an element: selector=…]", use that selector directly. Otherwise call get_selected_element (for an element) or get_selected_layout (for a whole section) to get its selector, then act on it with apply_css / set_text / set_image / delete_element / move_element. Do not guess a selector when a selection is available.',
                 'DESIGN WORKFLOW — ALWAYS INSPECT BEFORE YOU STYLE. Before writing any CSS you MUST understand the current design: (1) read the screenshot description under "[What the page looks like right now …]"; (2) call get_dom to read the real markup and class names; (3) call get_computed_styles to read the ACTUAL rendered styles — colours, backgrounds, fonts, sizes, spacing, borders — of the KEY GLOBAL ELEMENTS: the body/page background, headings (h1/h2/h3), paragraphs, links (a), buttons/CTAs, the nav/menu, and each section. A screenshot alone does not reveal real values, and get_computed_styles is how you catch UNSTYLED areas (transparent background + no padding + no radius = unstyled). Do this inspection at the start of every design task.',
                 'STYLE GLOBALLY AND COHESIVELY — do not stop at the one element named. apply_css is GLOBAL, so treat the page as a design SYSTEM: when asked to style or improve the look, style ALL elements of each kind together (every heading, every paragraph, every link, every button/CTA, the nav, cards, sections) and the page background/spacing — not just one instance — so the whole page is consistent. Reuse the colours, fonts and radii already on the page (learn them from get_computed_styles) so new styles MATCH the existing design. Even when the user names a single component (e.g. "style the menu"), first make that component right, then check the surrounding global elements with get_computed_styles and fix any that are unstyled or clash. Always check the nav/header — links with no background/padding are unstyled.',
                 'VERIFY WITH THE SCREENSHOT + COMPUTED STYLES, then keep going until it is right. After applying CSS, look at the updated screenshot and call get_computed_styles again to confirm the change took effect and looks consistent across the page. If anything is still unstyled, low-contrast, mis-aligned or inconsistent, fix it and re-check — iterate until the design is cohesive, not just after one pass.',
