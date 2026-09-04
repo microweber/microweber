@@ -85,6 +85,16 @@ class ContentAgent extends BaseAgent
             'generate_description',
             'generate_seo_metadata',
             'content_improvement',
+            // Content structure + metadata context.
+            'menu_list',
+            'category_list',
+            'tag_list',
+            'faq_list',
+            'testimonials_list',
+            'comments_list',
+            'custom_fields_list',
+            'custom_field_values',
+            'content_data_get',
         ]);
 
         if (Config::get('modules.ai.drivers.tavily.enabled') and Config::get('modules.ai.drivers.tavily.api_key')) {

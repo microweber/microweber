@@ -126,6 +126,25 @@ class GeneralAgent extends BaseAgent
             'media_storage_health',
             'media_search',
             'rag_search',
+            // Module data tools (menus, taxonomy, commerce extras, custom fields).
+            'menu_list',
+            'category_list',
+            'tag_list',
+            'comments_list',
+            'testimonials_list',
+            'faq_list',
+            'slider_list',
+            'country_list',
+            'currency_rates',
+            'coupons_list',
+            'offer_list',
+            'rating_list',
+            'attributes_list',
+            'mail_template_list',
+            'company_list',
+            'custom_fields_list',
+            'custom_field_values',
+            'content_data_get',
         ]);
 
         if (Config::get('modules.ai.drivers.tavily.enabled') && Config::get('modules.ai.drivers.tavily.api_key')) {

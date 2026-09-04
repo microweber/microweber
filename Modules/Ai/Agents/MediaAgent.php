@@ -49,6 +49,9 @@ class MediaAgent extends BaseAgent
     {
         $this->loadToolsFromRegistry([
             'media_search',
+            'media_lookup',
+            'media_asset_detail',
+            'media_storage_health',
             'rag_search',
         ]);
 

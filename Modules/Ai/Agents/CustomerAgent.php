@@ -47,6 +47,17 @@ class CustomerAgent extends BaseAgent
         $this->loadToolsFromRegistry([
             'customer_lookup',
             'rag_search',
+            // A customer's orders + billing/subscription/invoice history.
+            'order_search',
+            'billing_account_status',
+            'billing_subscription_lookup',
+            'billing_invoice_customer_history',
+            'billing_invoice_lookup',
+            'billing_payment_lookup',
+            // Support context.
+            'company_list',
+            'comments_list',
+            'rating_list',
         ]);
     }
 }

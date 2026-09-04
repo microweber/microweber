@@ -52,6 +52,23 @@ class ShopAgent extends BaseAgent
             'product_edit',
             'create_product',
             'rag_search',
+            // Commerce catalogue + pricing context.
+            'category_list',
+            'attributes_list',
+            'coupons_list',
+            'offer_list',
+            'currency_rates',
+            'rating_list',
+            'tag_list',
+            // Product custom fields (sku, brand, specs …).
+            'custom_fields_list',
+            'custom_field_values',
+            'content_data_get',
+            // Checkout economics.
+            'tax_preview',
+            'tax_rule_lookup',
+            'shipping_method_lookup',
+            'shipping_zone_summary',
         ]);
     }
 }

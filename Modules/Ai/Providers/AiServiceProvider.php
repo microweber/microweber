@@ -54,6 +54,32 @@ class AiServiceProvider extends BaseModuleServiceProvider
             YouTubeTranscriptionTool::class,
         ]);
 
+        // Module data tools: these are exposed over MCP (McpToolCatalog) but their
+        // owning modules never registered them into the AiTools registry, so the
+        // conversational agents could not use them. Register them here (the Ai
+        // module already references these classes via the MCP catalog) so agents
+        // can load them by name via loadToolsFromRegistry().
+        $this->registerAiTools([
+            \Modules\Menu\Tools\MenuListTool::class,
+            \Modules\Category\Tools\CategoryListTool::class,
+            \Modules\Comments\Tools\CommentsListTool::class,
+            \Modules\Testimonials\Tools\TestimonialsListTool::class,
+            \Modules\Faq\Tools\FaqListTool::class,
+            \Modules\Slider\Tools\SliderListTool::class,
+            \Modules\Country\Tools\CountryListTool::class,
+            \Modules\Currency\Tools\CurrencyRatesTool::class,
+            \Modules\Coupons\Tools\CouponsListTool::class,
+            \Modules\Offer\Tools\OfferListTool::class,
+            \Modules\Tag\Tools\TagListTool::class,
+            \Modules\MailTemplate\Tools\MailTemplateListTool::class,
+            \Modules\Company\Tools\CompanyListTool::class,
+            \Modules\Rating\Tools\RatingListTool::class,
+            \Modules\Attributes\Tools\AttributesListTool::class,
+            \Modules\CustomFields\Tools\CustomFieldsListTool::class,
+            \Modules\CustomFields\Tools\CustomFieldValuesTool::class,
+            \Modules\ContentData\Tools\ContentDataTool::class,
+        ]);
+
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
