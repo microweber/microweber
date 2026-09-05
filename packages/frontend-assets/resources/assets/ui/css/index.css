@@ -1805,3 +1805,50 @@ html.dark .form-control-live-edit-input:focus { border-color: #e8eaed; box-shado
 }
 .mw-quick-ai-edit-empty-state__icon { opacity: .55; }
 .mw-quick-ai-edit-empty-state__text { margin: 0; font-size: 13px; line-height: 1.5; max-width: 240px; }
+
+/* ------------------------------------------------------------------ *
+ * Quick AI Edit — MOBILE. The panel goes full-screen (100vw) on phones,
+ * but the chat box was locked to a 60vh block that scrolled as one lump,
+ * wasting space and letting the input scroll off. Make the panel a real
+ * full-height flex column: tabs on top, the chat filling the rest with
+ * its OWN scrolling thread and the input pinned at the bottom (a proper
+ * messaging-app layout). task: quick-ai-mobile
+ * ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    /* Make the whole panel a flex column so the content fills the space BELOW
+       the panel header (no fragile calc that forgets the header height). */
+    #mw-live-edit-quickEditComponent-box {
+        display: flex !important;
+        flex-direction: column;
+    }
+    #mw-live-edit-quickEditComponent-box .mw-control-box-content {
+        flex: 1 1 auto;
+        min-height: 0;
+        height: auto !important;
+        max-height: none !important;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding: 10px 12px 12px;
+        gap: 0;
+    }
+    /* tab switcher stays fixed at the top */
+    #mw-live-edit-quickEditComponent-box .mw-ai-quick-modes { flex: 0 0 auto; margin-bottom: 10px; }
+    /* the AI chat (and the Edit-fields view) fill the remaining height */
+    #mw-live-edit-quickEditComponent-box .mw-ai-conv {
+        flex: 1 1 auto;
+        min-height: 0 !important;   /* beat the inline 60vh min-height */
+        height: auto !important;
+    }
+    #mw-live-edit-quickEditComponent-box .mw-ai-conv-thread { min-height: 0; }
+    /* the classic Edit-fields container also scrolls within the panel */
+    #mw-live-edit-quickEditComponent-box .mw-control-box-content > div:last-child { min-height: 0; overflow-y: auto; }
+    /* the input row sits flush at the bottom, with comfortable tap targets */
+    #mw-live-edit-quickEditComponent-box .mw-ai-conv-form { padding-bottom: max(6px, env(safe-area-inset-bottom)); }
+    /* 16px input prevents iOS Safari from zooming the page on focus */
+    #mw-live-edit-quickEditComponent-box .mw-ai-conv-input { font-size: 16px; }
+    /* bigger tap targets for the tabs */
+    #mw-live-edit-quickEditComponent-box .mw-ai-quick-modes .btn { padding: 10px 12px; min-height: 40px; }
+    /* keep suggestion chips easy to tap */
+    #mw-live-edit-quickEditComponent-box .mw-ai-conv-suggest button { padding: 9px 13px; }
+}
