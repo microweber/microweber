@@ -613,41 +613,54 @@ MWEditor.controllers = {
                         });
                 }, 100);
 
+                // task-2026-09-07-aitochat — the ⚡ text generator now routes the
+                // instruction through the Quick AI Edit CHAT about the SELECTED
+                // element, instead of the old external textcomplete endpoint.
+                // Flow (user-chosen): open the chat box (which builds the
+                // conversation), select the element so it's sent as "this"
+                // context, then send the instruction there — the reply streams in
+                // the box and the element is edited live.
                 document.getElementById("ai-text-generator-submit").onclick =
                     function () {
-                        document.getElementById(
-                            "ai-text-generator-submit"
-                        ).innerHTML = "Generating...";
-
-                        mw.spinner({
-                            element: document.getElementById(
-                                "ai-text-generator-submit"
-                            ),
-                            decorate: true,
-                            size: 25,
-                        });
-
-                        var instruction = document.getElementById(
+                        var instruction = (document.getElementById(
                             "ai-text-generator-topic"
-                        ).value;
+                        ).value || "").trim();
+                        if (!instruction) { return; }
 
-                        var mwAdapter = {
-                            url:
-                                "https://textcomplete.microweberapi.com/?q=" +
-                                encodeURIComponent(actionTarget.textContent) +
-                                "&instruction=" +
-                                encodeURIComponent(instruction),
-                            method: "GET",
-                        };
+                        try { aiTextAutocompleteDialog.remove(); } catch (e) {}
+                        try {
+                            if (mw.top().app.richTextEditor && mw.top().app.richTextEditor.smallEditor) {
+                                mw.top().app.richTextEditor.smallEditor.hide();
+                            }
+                        } catch (e) {}
 
-                        fetch(mwAdapter.url, mwAdapter).then(function (res) {
-                            res.json().then(function (json) {
-                                //  actionTarget.innerHTML = actionTarget.innerHTML + ' ' + json.text;
-                                actionTarget.innerHTML = json.text;
-                                aiTextAutocompleteDialog.remove();
-                                mw.app.registerUndoState(actionTarget);
-                            });
-                        });
+                        // Select the element so capturedSelection() sends it as
+                        // the "this" context with the chat message.
+                        try {
+                            var handle = mw.top().app.liveEdit.handles.get("element");
+                            if (handle && actionTarget) { handle.set(actionTarget); }
+                            if (mw.top().app.liveEdit.selectNode && actionTarget) {
+                                mw.top().app.liveEdit.selectNode(actionTarget);
+                            }
+                        } catch (e) {}
+
+                        try {
+                            var widgets = mw.top().app.liveEditWidgets;
+                            if (widgets) {
+                                if (!widgets.status || !widgets.status.quickEditComponent) {
+                                    widgets.openQuickEditComponent();
+                                }
+                                // Let the box mount, then send in its conversation.
+                                setTimeout(function () {
+                                    try {
+                                        var conv = widgets.aiConversation;
+                                        if (conv && typeof conv.send === "function") {
+                                            conv.send(instruction);
+                                        }
+                                    } catch (e) {}
+                                }, 80);
+                            }
+                        } catch (e) {}
                     };
             });
             return el;
