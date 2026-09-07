@@ -149,6 +149,46 @@ var moduleButtonColorSetting = {
 
 moduleButtonSettings.push(moduleButtonColorSetting);
 
+// task-2026-09-07-btnquick — Type (style) + Size quick-settings, matching the
+// reference button panel. Both persist a dedicated module option ('style' /
+// 'size') that the btn template applies directly as a class: `btn {style} {size}`.
+var BTN_TYPES = [
+    ['Solid', 'btn-primary'],
+    ['Outline', 'btn-outline-primary'],
+    ['Soft', 'btn-light'],
+];
+function btnTypeIcon(kind) {
+    if (kind === 'btn-primary') { return '<svg viewBox="0 0 22 14" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="20" height="12" rx="6" fill="currentColor"/></svg>'; }
+    if (kind === 'btn-outline-primary') { return '<svg viewBox="0 0 22 14" xmlns="http://www.w3.org/2000/svg"><rect x="1.6" y="1.6" width="18.8" height="10.8" rx="5.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>'; }
+    return '<svg viewBox="0 0 22 14" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="20" height="12" rx="6" fill="currentColor" opacity="0.28"/></svg>';
+}
+var moduleButtonTypeSetting = {
+    title: 'Type',
+    icon: '<svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="16" height="8" rx="4" fill="currentColor"/></svg>',
+    menu: BTN_TYPES.map(function (t) {
+        return {
+            name: 'type-' + t[0].toLowerCase(),
+            nodes: [{ title: t[0], text: '', icon: btnTypeIcon(t[1]), action: function (el) { saveBtnOption(el, 'button_style', t[1]); } }],
+        };
+    }),
+};
+moduleButtonSettings.push(moduleButtonTypeSetting);
+
+// Size — Small / Medium / Large → Bootstrap btn-sm / (default) / btn-lg.
+function btnSizeIcon(px) {
+    return '<svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><text x="11" y="16" text-anchor="middle" font-size="' + px + '" font-family="sans-serif" font-weight="700" fill="currentColor">A</text></svg>';
+}
+var moduleButtonSizeSetting = {
+    title: 'Size',
+    icon: '<svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><text x="4" y="16" font-size="9" font-family="sans-serif" font-weight="700" fill="currentColor">A</text><text x="12" y="16" font-size="14" font-family="sans-serif" font-weight="700" fill="currentColor">A</text></svg>',
+    menu: [
+        { name: 'size-small', nodes: [{ title: 'Small', text: '', icon: btnSizeIcon(9), action: function (el) { saveBtnOption(el, 'button_size', 'btn-sm'); } }] },
+        { name: 'size-medium', nodes: [{ title: 'Medium', text: '', icon: btnSizeIcon(12), action: function (el) { saveBtnOption(el, 'button_size', ''); } }] },
+        { name: 'size-large', nodes: [{ title: 'Large', text: '', icon: btnSizeIcon(16), action: function (el) { saveBtnOption(el, 'button_size', 'btn-lg'); } }] },
+    ],
+};
+moduleButtonSettings.push(moduleButtonSizeSetting);
+
 function saveBtnAlign(el, align) {
 
     let moduleId = el.getAttribute('id');
