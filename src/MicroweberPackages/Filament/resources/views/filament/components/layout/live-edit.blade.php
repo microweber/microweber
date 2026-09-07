@@ -197,6 +197,18 @@
 
     }
 
+    /* task-2026-09-07-mobilescroll — the hidden admin drawer (position:absolute,
+       parked off the right edge via transform) escapes .fi-layout's
+       overflow-x-clip, so on narrow screens it extended the page width and the
+       whole live-edit page — plus any centered modal — scrolled sideways (the
+       modal then centered on the too-wide scroll area and drifted off-centre).
+       Clip horizontal overflow at the root; the on-screen .active slide-in is
+       unaffected. This <style> only loads on the live-edit page. */
+    html, body {
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+    }
+
     /* task-2026-05-26-da6eab: Filament modals inside the live-edit layout
        suffer from a hit-testing issue — the iframe inside
        #live-edit-frame-holder absorbs pointer events that should reach

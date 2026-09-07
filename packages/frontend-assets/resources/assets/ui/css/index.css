@@ -1990,3 +1990,57 @@ html.dark .form-control-live-edit-input:focus { border-color: #e8eaed; box-shado
 .mw-editor-more-menu__item svg { flex: 0 0 auto; opacity: .9; }
 .mw-editor-more-menu__item.is-danger:hover { background: rgba(220, 57, 57, .38); }
 html.dark .mw-editor-more-menu { background: #0f1722; box-shadow: 0 10px 30px rgba(0, 0, 0, .55); }
+
+/* task-2026-09-07-devicedark — device dropdown panel dark-mode rules live here
+ * (non-scoped): this project's Vite build drops Vue <style scoped> .dark rules,
+ * so the scoped :global(html.dark) panel rule never applied — the panel stayed
+ * white and the theme's light segmented-cell icons rendered faded on it. */
+html.dark .mw-device-switch__panel,
+.dark .mw-device-switch__panel {
+    background: #1b1e22 !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .5) !important;
+}
+html.dark .mw-device-switch__panel .mw-segmented__cell,
+.dark .mw-device-switch__panel .mw-segmented__cell {
+    color: #e5e7eb !important;
+}
+html.dark .mw-device-switch__panel .mw-segmented__cell.is-active,
+html.dark .mw-device-switch__panel .mw-segmented__cell.live-edit-resolution-active,
+.dark .mw-device-switch__panel .mw-segmented__cell.is-active,
+.dark .mw-device-switch__panel .mw-segmented__cell.live-edit-resolution-active {
+    background: rgba(255, 255, 255, .16) !important;
+    color: #ffffff !important;
+}
+
+/* task-2026-09-07-devicemobile — `@media (max-width:1200px){#preview-nav{display:none}}`
+ * hid the device nav on small screens (device preview was originally desktop-
+ * only). Now that it lives inside the single-icon dropdown, force it visible
+ * INSIDE the panel at every width, and give the cells explicit compact sizing
+ * (the theme's inline-pill rules make them flex:1 1 0 / ~96px, which overflows
+ * the little dropdown). Three fixed 44x40 tap targets in a row. */
+.mw-device-switch__panel #preview-nav,
+.mw-device-switch__panel .mw-live-edit-resolutions-wrapper {
+    display: flex !important;
+    width: auto !important;
+    gap: 4px;
+}
+.mw-device-switch__panel .mw-segmented__cell {
+    flex: 0 0 auto !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    padding: 0 !important;
+}
+.mw-device-switch__panel .mw-segmented__cell svg {
+    width: 20px !important;
+    height: 20px !important;
+}
+/* shrink-to-fit the three cells, stay on-screen, open right-aligned */
+.mw-device-switch__panel {
+    right: 0;
+    left: auto;
+    width: auto;
+    max-width: calc(100vw - 16px);
+    overflow: hidden;
+}

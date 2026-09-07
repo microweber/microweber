@@ -328,6 +328,25 @@ MWEditor.controllers = {
             });
             return m;
         }
+        function topDocument(el) {
+            // window.top.document is the top-window DOM (where the live-edit app
+            // + index.css live). NOT mw.top().document — mw.top() returns the
+            // top window's `mw` namespace object, which has no `.document`.
+            try { if (window.top && window.top.document) { return window.top.document; } } catch (e) {}
+            try { return el.get(0).ownerDocument; } catch (e) { return document; }
+        }
+        // If the toolbar button lives inside the canvas iframe, translate its
+        // viewport rect into the TOP window's coordinate space so the (top-window)
+        // menu lands under it. Also the menu MUST live in the top document — that's
+        // where index.css (which styles .mw-editor-more-menu) is loaded.
+        function frameOffset(el) {
+            try {
+                if (el.get(0).ownerDocument === topDocument(el)) { return { x: 0, y: 0 }; }
+                var fr = mw.top().app.canvas.getFrame();
+                var fRect = fr.getBoundingClientRect();
+                return { x: fRect.left, y: fRect.top };
+            } catch (e) { return { x: 0, y: 0 }; }
+        }
         this.render = function () {
             var iconSVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>';
             var el = MWEditor.core.button({
@@ -335,26 +354,26 @@ MWEditor.controllers = {
             });
             el.on("click", (e) => {
                 var btn = el.get(0);
-                var doc = btn.ownerDocument;
-                if (!menuEl) { menuEl = buildMenu(doc); doc.body.appendChild(menuEl); }
+                var topDoc = topDocument(el);
+                if (!menuEl || menuEl.ownerDocument !== topDoc) { menuEl = buildMenu(topDoc); topDoc.body.appendChild(menuEl); }
                 if (menuEl.style.display === 'block') { closeMenu(); return; }
                 menuEl.style.display = 'block';
                 var r = btn.getBoundingClientRect();
-                var win = doc.defaultView || window;
+                var off = frameOffset(el);
+                var win = topDoc.defaultView || window;
                 var mWidth = menuEl.offsetWidth || 190;
-                var left = Math.min(r.left, win.innerWidth - mWidth - 8);
-                menuEl.style.top = Math.round(r.bottom + 6) + 'px';
+                var left = Math.min(r.left + off.x, win.innerWidth - mWidth - 8);
+                menuEl.style.top = Math.round(r.bottom + off.y + 6) + 'px';
                 menuEl.style.left = Math.round(Math.max(8, left)) + 'px';
             });
-            // Outside-click closes (bind on the button's own document).
-            var btnNode = el.get(0);
-            if (btnNode && btnNode.ownerDocument) {
-                btnNode.ownerDocument.addEventListener('click', function (ev) {
-                    if (!menuEl || menuEl.style.display !== 'block') { return; }
-                    if (btnNode.contains(ev.target) || menuEl.contains(ev.target)) { return; }
-                    closeMenu();
-                }, true);
-            }
+            // Outside-click closes — bind on the TOP document (where the menu lives).
+            var topDoc = topDocument(el);
+            topDoc.addEventListener('click', function (ev) {
+                if (!menuEl || menuEl.style.display !== 'block') { return; }
+                var btn = el.get(0);
+                if (btn.contains(ev.target) || menuEl.contains(ev.target)) { return; }
+                closeMenu();
+            }, true);
             return el;
         };
         this.checkSelection = function (opt, ee, tt) {
@@ -2304,16 +2323,22 @@ MWEditor.controllers = {
             });
             el.on("click", function (e) {
                 if ((e.which || e.button) === 1) {
+                    // task-2026-09-07-tableedit — each cell needs a <br> caret
+                    // target: a truly empty <td></td> cannot hold a text caret,
+                    // so clicking it placed no cursor and the table read as
+                    // "not editable". The <br> gives a clickable caret position
+                    // and a minimum cell height; data-mwplaceholder still shows
+                    // the hint until the user types.
                     var table = `
                     <div class="element">
                         <table class="mw-ui-table" border="1" width="100%">
                             <tr>
-                                <td data-mwplaceholder="This is sample text for your page"></td>
-                                <td data-mwplaceholder="This is sample text for your page"></td>
+                                <td data-mwplaceholder="This is sample text for your page"><br></td>
+                                <td data-mwplaceholder="This is sample text for your page"><br></td>
                             </tr>
                             <tr>
-                                <td data-mwplaceholder="This is sample text for your page"></td>
-                                <td data-mwplaceholder="This is sample text for your page"></td>
+                                <td data-mwplaceholder="This is sample text for your page"><br></td>
+                                <td data-mwplaceholder="This is sample text for your page"><br></td>
                             </tr>
                         </table>
                     </div>
