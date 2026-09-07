@@ -77,6 +77,23 @@ html.dark .mw-ai-conv-edit{ background:#ffffff0d; color:#dfe3e8; border-color:#f
 }
 html:not(.dark) .mw-ai-conv-edit-details{ background:#111827; color:#e5e7eb; }
 
+/* offer_choices — the AI presents options as clickable pills. */
+.mw-ai-conv-choices{ display:flex; flex-direction:column; gap:8px; align-self:stretch; }
+.mw-ai-conv-choices-prompt{ font-size:13px; line-height:1.45; color:#182433; }
+html.dark .mw-ai-conv-choices-prompt{ color:#e8eaed; }
+.mw-ai-conv-choices-pills{ display:flex; flex-wrap:wrap; gap:7px; }
+.mw-ai-conv-choice{
+    padding:8px 13px; border-radius:999px; border:1px solid #18243322; background:#18243308;
+    color:inherit; cursor:pointer; font-size:12.5px; font-weight:500; text-align:left; font-family:inherit; line-height:1.25;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease, transform .1s ease;
+}
+.mw-ai-conv-choice:hover{ background:#0d6efd; border-color:#0d6efd; color:#fff; }
+.mw-ai-conv-choice:active{ transform:scale(.97); }
+.mw-ai-conv-choice.picked{ background:#0d6efd; border-color:#0d6efd; color:#fff; }
+.mw-ai-conv-choice:disabled{ opacity:.5; pointer-events:none; }
+html.dark .mw-ai-conv-choice{ background:#ffffff0d; border-color:#ffffff26; }
+html.dark .mw-ai-conv-choice:hover{ background:#0d6efd; border-color:#0d6efd; color:#fff; }
+
 .mw-ai-conv-empty{
     margin:auto; text-align:center; color:#8a94a3; padding:20px 12px; max-width:280px;
 }
@@ -631,6 +648,43 @@ export class MwAiConversation extends MicroweberBaseClass {
         this.scrollDown();
     }
 
+    // Render an offer_choices tool call as a prompt + clickable pills. Clicking a
+    // pill sends that choice as the user's next message so the agent applies it.
+    addChoices(container, edit) {
+        const a = (edit && edit.args) || {};
+        const prompt = String(a.prompt || "").trim();
+        const choices = String(a.choices || "")
+            .split(/\r\n|\r|\n|\|/).map((s) => s.trim()).filter(Boolean).slice(0, 8);
+        if (!choices.length) { return; }
+
+        const wrap = document.createElement("div");
+        wrap.className = "mw-ai-conv-choices";
+        if (prompt) {
+            const p = document.createElement("div");
+            p.className = "mw-ai-conv-choices-prompt";
+            p.textContent = prompt;
+            wrap.appendChild(p);
+        }
+        const pills = document.createElement("div");
+        pills.className = "mw-ai-conv-choices-pills";
+        choices.forEach((c) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = "mw-ai-conv-choice";
+            b.textContent = c;
+            b.addEventListener("click", () => {
+                if (this.pending) { return; }
+                wrap.querySelectorAll(".mw-ai-conv-choice").forEach((x) => { x.disabled = true; });
+                b.classList.add("picked");
+                this.send(c);
+            });
+            pills.appendChild(b);
+        });
+        wrap.appendChild(pills);
+        container.appendChild(wrap);
+        this.scrollDown();
+    }
+
     setPending(v) {
         this.pending = v;
         this.sendBtn.disabled = v || (!this.input.value.trim() && !this.pendingImages.length);
@@ -683,6 +737,12 @@ export class MwAiConversation extends MicroweberBaseClass {
                         self.addEdit(editsWrap, { tool: "vision" }, { ok: true });
                     },
                     onTool(edit, result) {
+                        // offer_choices isn't a canvas edit — render the options
+                        // as clickable pills and wait for the user to pick one.
+                        if (edit && edit.tool === "offer_choices") {
+                            self.addChoices(turn, edit);
+                            return;
+                        }
                         anyEdit = true;
                         self._dirty = true;
                         if (edit && edit.tool === "navigate_to_page") { navigated = true; }

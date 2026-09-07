@@ -573,6 +573,14 @@ function MwAi() {
 
         // The frontend tool implementations. Keyed by the backend tool name.
         frontendTools: {
+            // task-2026-09-07-choices — the model offers the user options; the
+            // conversation panel (mw-ai-conversation.js onTool) renders them as
+            // clickable pills. No canvas mutation here — just acknowledge so
+            // applyEdit doesn't flag it as an unknown tool.
+            offer_choices: function(args, api) {
+                return { ok: true, message: 'offered choices' };
+            },
+
             apply_css: function(args, api) {
                 const css = (args && args.css) ? String(args.css) : '';
                 if (!css.trim()) { return { ok: false, message: 'empty css' }; }

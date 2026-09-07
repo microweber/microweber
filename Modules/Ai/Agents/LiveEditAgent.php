@@ -26,6 +26,7 @@ use Modules\Ai\Tools\LiveEdit\InsertModuleTool;
 use Modules\Ai\Tools\LiveEdit\MoveElementTool;
 use Modules\Ai\Tools\LiveEdit\NavigateToPageTool;
 use Modules\Ai\Tools\LiveEdit\SavePageTool;
+use Modules\Ai\Tools\LiveEdit\OfferChoicesTool;
 use Modules\Ai\Tools\LiveEdit\SetCustomFieldTool;
 use Modules\Ai\Tools\LiveEdit\SetImageTool;
 use Modules\Ai\Tools\LiveEdit\SetLinkTool;
@@ -80,6 +81,7 @@ class LiveEditAgent extends BaseAgent
         $this->addTool(new EditMenuItemTool($this->dependencies));
         $this->addTool(new NavigateToPageTool($this->dependencies));
         $this->addTool(new SavePageTool($this->dependencies));
+        $this->addTool(new OfferChoicesTool($this->dependencies));
     }
 
     public function instructions(): string
@@ -107,6 +109,7 @@ class LiveEditAgent extends BaseAgent
                 'For site navigation ALWAYS PREFER a real menu MODULE over hand-built HTML links: insert_module type "menu" renders the site menu and stays in sync with add_menu_item / edit_menu_item (adding a nav link then updates the menu automatically). Do NOT build a nav bar out of plain <a> tags when the page needs navigation — insert the menu module and style it with apply_css. Only hand-build a nav if the user explicitly asks for static links.',
                 'To manage navigation: add_menu_item adds a link; get_menu lists the current items with their ids; edit_menu_item renames, relinks, reorders or removes an item by id. If the site navigation looks wrong or a menu is hidden/unreadable, fix its styling with apply_css (menus must be clearly visible and high-contrast).',
                 'To edit a page/product custom field (sku, qty, brand, or any custom key), use set_custom_field with the content_id, field name and value — the affected module reloads on the canvas so the change shows.',
+                'OFFER OPTIONS AS PILLS, not as a text list. Whenever you would present the user with a few options to choose between — alternative titles, colour schemes, button styles, layouts, tones, wording — call offer_choices (a short prompt + one option per line) so they appear as clickable pills. Do NOT also repeat the options as a bullet list in your reply. After calling offer_choices, STOP and wait: the user clicks a pill and their choice arrives as their next message, and only then do you apply it (e.g. with set_text or apply_css).',
             ],
             steps: [
                 'Understand exactly what the user wants to change.',
