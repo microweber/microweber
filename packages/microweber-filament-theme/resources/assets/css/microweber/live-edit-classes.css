@@ -359,6 +359,15 @@ body {
     color: #182433 !important;
     stroke: #182433 !important;
 }
+/* The label is an ::after pseudo-element with its own colour (#e5e7eb light),
+   which is invisible on the light active pill — recolour it to contrast the
+   pill: dark on the light dark-mode pill, white on the ink light-mode pill. */
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons::after{
+    color: #ffffff !important;
+}
+.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons::after{
+    color: #182433 !important;
+}
 /* An accent ring reinforces the open panel (kept inside the pill so it never
    clips against the adjacent panel). */
 .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active{
