@@ -52,11 +52,13 @@ class LiveEdit571193HandleMenuIconFadeContractTest extends TestCase
     public function base_state_has_transition_property(): void
     {
         // The @media (min-width: 801px) block must define transition on the
-        // base (non-hover) sibling-selector rule so unhover fades out.
+        // base (non-hover) sibling-selector rule so unhover fades out. The base
+        // hidden rule now carries `:not(.mw-handle-layout-more-button)` (added so
+        // the ⋮ more-button stays visible), so match that variant.
         $this->assertMatchesRegularExpression(
-            '/@media\s*\(\s*min-width\s*:\s*801px\s*\)[\s\S]{0,500}?\.mw-le-handle-menu-button ~ \*\s*\{[^}]*transition\s*:/m',
+            '/@media\s*\(\s*min-width\s*:\s*801px\s*\)[\s\S]{0,900}?\.mw-le-handle-menu-button ~ \*:not\(\.mw-handle-layout-more-button\)\s*\{[^}]*transition\s*:/m',
             $this->scssStripped,
-            'task-571193: base state `.mw-le-handle-menu-button ~ *` inside the desktop @media block MUST carry a transition property so icons fade out on unhover.'
+            'task-571193: base state `.mw-le-handle-menu-button ~ *:not(.mw-handle-layout-more-button)` inside the desktop @media block MUST carry a transition property so icons fade out on unhover.'
         );
     }
 
@@ -77,11 +79,13 @@ class LiveEdit571193HandleMenuIconFadeContractTest extends TestCase
     #[Test]
     public function served_css_base_rule_has_transition(): void
     {
-        // The first (base) rule for the sibling selector must contain transition.
+        // The base (hidden) rule for the sibling selector must contain
+        // transition. It compiles to the `:not(.mw-handle-layout-more-button)`
+        // variant (the more-button is exempt from the hover-hide).
         $this->assertMatchesRegularExpression(
-            '/\.mw-le-handle-menu-button~\*\{height:0;opacity:0;transition:opacity \.2s/',
+            '/\.mw-le-handle-menu-button~\*:not\(\.mw-handle-layout-more-button\)\{height:0;opacity:0;transition:opacity \.2s/',
             $this->servedCss,
-            'task-571193: compiled liveedit.css base state rule for `.mw-le-handle-menu-button~*` MUST include transition:opacity .2s so exit animations work.'
+            'task-571193: compiled liveedit.css base state rule for `.mw-le-handle-menu-button~*:not(.mw-handle-layout-more-button)` MUST include transition:opacity .2s so exit animations work.'
         );
     }
 
@@ -106,7 +110,7 @@ class LiveEdit571193HandleMenuIconFadeContractTest extends TestCase
         // After fix: transition is in the base state too (checked in Group A).
         // Guard: the base state rule must NOT be missing transition while hover has it.
         $hasBaseTransition = (bool) preg_match(
-            '/@media\s*\(\s*min-width\s*:\s*801px\s*\)[\s\S]{0,700}?\.mw-le-handle-menu-button ~ \*\s*\{[^}]*transition\s*:/m',
+            '/@media\s*\(\s*min-width\s*:\s*801px\s*\)[\s\S]{0,900}?\.mw-le-handle-menu-button ~ \*:not\(\.mw-handle-layout-more-button\)\s*\{[^}]*transition\s*:/m',
             $this->scssStripped
         );
         $this->assertTrue(
