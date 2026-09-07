@@ -2044,3 +2044,47 @@ html.dark .mw-device-switch__panel .mw-segmented__cell.live-edit-resolution-acti
     max-width: calc(100vw - 16px);
     overflow: hidden;
 }
+
+/* task-2026-09-07-devicetrigger — the single device-preview trigger inherited a
+   light #f0f0f0 pill, which reads as a jarring white box on the dark toolbar.
+   In dark mode make it a subtle translucent-light pill with light glyphs. */
+html.dark #toolbar .mw-device-switch__trigger,
+.dark #toolbar .mw-device-switch__trigger {
+    background-color: rgba(255, 255, 255, .08) !important;
+    border-color: transparent !important;
+    color: #e5e7eb !important;
+}
+html.dark #toolbar .mw-device-switch__trigger:hover,
+.dark #toolbar .mw-device-switch__trigger:hover {
+    background-color: rgba(255, 255, 255, .16) !important;
+}
+
+/* task-2026-09-07-panelfill — the Quick AI Edit panel must fill the sidebar at
+   ALL widths so the composer sits flush at the bottom. Previously only the
+   max-width:767px block made it a flex column, so on desktop the content was
+   content-height and the composer floated up with dead space below it (and the
+   box itself, height:100% at top:toolbar, overflowed the viewport). Bound the
+   box height and make the box → content → conv a filling flex column. */
+#mw-live-edit-quickEditComponent-box.mw-control-box-right {
+    height: calc(100dvh - var(--toolbar-height)) !important;
+    max-height: calc(100dvh - var(--toolbar-height)) !important;
+    bottom: 0;
+    display: flex !important;
+    flex-direction: column;
+}
+#mw-live-edit-quickEditComponent-box .mw-control-box-content {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto !important;
+    max-height: none !important;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+#mw-live-edit-quickEditComponent-box .mw-ai-quick-modes { flex: 0 0 auto; }
+#mw-live-edit-quickEditComponent-box .mw-ai-conv {
+    flex: 1 1 auto;
+    min-height: 0 !important;
+    height: auto !important;
+}
+#mw-live-edit-quickEditComponent-box .mw-ai-conv-thread { min-height: 0; }
