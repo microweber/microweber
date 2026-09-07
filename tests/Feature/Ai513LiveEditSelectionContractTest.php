@@ -87,8 +87,9 @@ class Ai513LiveEditSelectionContractTest extends TestCase
     public static function shapeFactsProvider(): array
     {
         return [
-            // Selected element — strong solid 2px blue outline.
-            'selected outline width + style + color' => ['outline: 2px solid #0d6efd'],
+            // Selected element — strong solid 2px ink outline (brand ink
+            // #182433; user chose ink over the earlier Bootstrap blue).
+            'selected outline width + style + color' => ['outline: 2px solid #182433'],
             'selected outline-offset 0'              => ['outline-offset: 0'],
             'selected selector'                      => ['.element-active'],
 
@@ -97,8 +98,8 @@ class Ai513LiveEditSelectionContractTest extends TestCase
             'hover selector'              => ['.moveit-hover'],
             'hover :hover sibling'        => ['.moveit-hover:hover'],
 
-            // Parent outline — translucent blue dashed.
-            'parent translucent blue dashed' => ['outline: 1px dashed rgba(13, 110, 253, 0.5)'],
+            // Parent outline — translucent ink dashed.
+            'parent translucent ink dashed' => ['outline: 1px dashed rgba(24, 36, 51, 0.5)'],
             'parent selector'                => ['.mw-sorthandle-parent-outline'],
 
             // Keyboard focus — outline-offset 4px stacked atop selection.
@@ -120,18 +121,18 @@ class Ai513LiveEditSelectionContractTest extends TestCase
     }
 
     #[Test]
-    public function ai513_selected_color_matches_project_primary_blue(): void
+    public function ai513_selected_color_matches_project_ink(): void
     {
         $block = $this->ai513Block();
 
-        // Bootstrap #0d6efd is the MwColors::Blue 500 anchor (RGB 13,110,253).
-        // The rgba() variant in the parent rule must use the same triplet
-        // so the colour family stays unified across selection states.
-        $this->assertStringContainsString('#0d6efd', $block);
+        // Brand ink #182433 (RGB 24,36,51) — the user chose ink over the earlier
+        // Bootstrap blue for element selection. The rgba() variant in the parent
+        // rule must use the same triplet so the colour family stays unified.
+        $this->assertStringContainsString('#182433', $block);
         $this->assertMatchesRegularExpression(
-            '/rgba\(\s*13\s*,\s*110\s*,\s*253\s*,\s*0\.5\s*\)/',
+            '/rgba\(\s*24\s*,\s*36\s*,\s*51\s*,\s*0\.5\s*\)/',
             $block,
-            'Parent-outline translucent rgba must use the same 13,110,253 triplet as MwColors::Blue 500.'
+            'Parent-outline translucent rgba must use the same 24,36,51 ink triplet.'
         );
     }
 
@@ -174,7 +175,7 @@ class Ai513LiveEditSelectionContractTest extends TestCase
         // same shape.
         $mirrorBlock = $this->ai513Block(self::LIVEEDIT_CSS_MIRROR);
         $this->assertStringContainsString('.element-active', $mirrorBlock);
-        $this->assertStringContainsString('outline: 2px solid #0d6efd', $mirrorBlock);
+        $this->assertStringContainsString('outline: 2px solid #182433', $mirrorBlock);
         $this->assertStringContainsString('outline-offset: 4px', $mirrorBlock);
     }
 

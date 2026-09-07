@@ -5395,15 +5395,15 @@ body.mw-live-body-mouse-moved-outside mw-le-element {
 }
 
 .mw-sorthandle-parent-outline {
-    outline: 1px dashed rgba(13, 110, 253, 0.5);
+    outline: 1px dashed rgba(24, 36, 51, 0.5);
 }
 
 .element-active {
-    outline: 2px solid #0d6efd;
+    outline: 2px solid #182433;
     outline-offset: 0;
 }
 
 .element-active:focus-visible {
-    outline: 2px solid #0d6efd;
+    outline: 2px solid #182433;
     outline-offset: 4px;
 }

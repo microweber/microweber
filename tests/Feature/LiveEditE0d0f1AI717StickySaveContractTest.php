@@ -205,6 +205,10 @@ class LiveEditE0d0f1AI717StickySaveContractTest extends TestCase
         $this->assertNotFalse($docblockEnd);
         // Inspect just the rule block after the docblock.
         $slice = substr($this->css, $docblockEnd + 2, 3000);
+        // Strip CSS comments first so a prose mention of #save-button inside a
+        // /* … */ comment can't inflate the ref count (the rules themselves are
+        // scoped; only a comment referenced the id unscoped).
+        $slice = (string) preg_replace('#/\*.*?\*/#s', '', $slice);
 
         $stickyRefs = preg_match_all(
             '/#save-button|#mw-page-set-preview-mode/',
