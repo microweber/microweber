@@ -344,14 +344,35 @@ body {
 .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active {
     color: #fff !important;
 }
-.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active{
-    background-color: rgb(31 41 55) !important;
-    color: white !important;
+/* task-2026-09-07-activerail — the active rail icon was rgb(31 41 55), DARKER
+   than the inactive #475569 slate pills, so in dark mode the open panel's icon
+   receded instead of standing out — you couldn't tell which was active. Make it
+   a clearly LIGHTER filled pill with a dark glyph, plus an accent bar. */
+.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons{
+    background-color: #e8eaed !important;
+    border-color: #e8eaed !important;
+    color: #182433 !important;
+}
+.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons svg,
+.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons svg *{
+    fill: #182433 !important;
+    color: #182433 !important;
+    stroke: #182433 !important;
+}
+/* An accent ring reinforces the open panel (kept inside the pill so it never
+   clips against the adjacent panel). */
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active{
+    box-shadow: 0 0 0 2px #0d6efd !important;
 }
 
 .mw-live-edit-right-sidebar-template-sidebar {
     background-color: #fff !important;
     border-inline-start: 1px solid #e5e7eb;
+    /* task-2026-09-07-railfit — lift the bottom (settings) icon off the viewport
+       edge so it isn't clipped on shorter screens; scroll only if truly needed. */
+    padding-bottom: 12px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .dark .mw-live-edit-right-sidebar-template-sidebar {
