@@ -308,7 +308,24 @@ MWEditor.controllers = {
             m.setAttribute('role', 'menu');
             var items = [
                 { label: rootScope.lang('Duplicate'), icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M9 3h9a2 2 0 0 1 2 2v9h-2V5H9V3zM5 7h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm0 2v10h9V9H5z"/></svg>', run: function (el) { var a = elementActions(); if (a) { a.cloneElement(el); } } },
-                { label: rootScope.lang('Edit styles'), icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>', run: function (el) { var a = elementActions(); if (a) { a.openElementStyleEditor(el); } } },
+                { label: rootScope.lang('Edit styles'), icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>', run: function (el) {
+                    // The editNodeStyleRequest handler only show()s the ESE — it
+                    // does NOT bind the node. Normally the element-handle selection
+                    // fires mw.elementStyleEditor.refreshNode; from the RTE toolbar
+                    // nothing does, so the ESE opens with no target and the font /
+                    // spacing controls do nothing. So: exit text editing, SELECT the
+                    // element in the handle, open the ESE, and fire refreshNode so it
+                    // binds to this element.
+                    try { if (mw.top().app.richTextEditor && mw.top().app.richTextEditor.smallEditor) { mw.top().app.richTextEditor.smallEditor.hide(); } } catch (e) {}
+                    try {
+                        var handle = mw.top().app.liveEdit.handles.get("element");
+                        if (handle) { handle.set(el); }
+                        if (mw.top().app.liveEdit.selectNode) { mw.top().app.liveEdit.selectNode(el); }
+                    } catch (e) {}
+                    var a = elementActions(); if (a) { a.openElementStyleEditor(el); }
+                    try { mw.top().app.dispatch('mw.elementStyleEditor.refreshNode', el); } catch (e) {}
+                    setTimeout(function () { try { mw.top().app.dispatch('mw.elementStyleEditor.refreshNode', el); } catch (e) {} }, 80);
+                } },
                 { label: rootScope.lang('Delete'), icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zM6 9h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 9z"/></svg>', danger: true, run: function (el) { var a = elementActions(); if (a) { a.deleteElement(el); } } },
             ];
             items.forEach(function (it) {
