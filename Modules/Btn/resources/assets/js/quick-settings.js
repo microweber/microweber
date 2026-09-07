@@ -93,6 +93,62 @@ let moduleButtonSettings = [
     }
 ];
 
+// task-2026-09-06-quickactions — generic quick-setting saver for the btn module.
+// Mirrors the pagy/framer button popover (color chip → applies instantly).
+// Persists a single module option via mw.options.saveOption and refreshes the
+// module on the canvas, same round-trip saveBtnAlign uses.
+function saveBtnOption(el, key, value) {
+    let moduleId = el.getAttribute('id');
+    let moduleType = el.getAttribute('data-type') || el.getAttribute('type');
+    mw.options.saveOption({
+        option_group: moduleId,
+        option_key: key,
+        option_value: value,
+        module: moduleType,
+    }, function () {
+        mw.app.editor.dispatch('onModuleSettingsChanged', { 'moduleId': moduleId });
+    });
+}
+
+// task-2026-09-06-quickactions — Color quick-setting: a swatch palette that
+// sets the button's background (and a contrasting text colour) in one click.
+function swatchIcon(color) {
+    return '<svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">'
+        + '<circle cx="11" cy="11" r="8" fill="' + color + '" stroke="rgba(0,0,0,.18)" stroke-width="1"/></svg>';
+}
+
+// [background, contrasting text] pairs; last one clears back to the theme default.
+var BTN_QUICK_COLORS = [
+    ['#0d6efd', '#ffffff', 'Blue'],
+    ['#2fb344', '#ffffff', 'Green'],
+    ['#dc2626', '#ffffff', 'Red'],
+    ['#f59e0b', '#182433', 'Amber'],
+    ['#7c3aed', '#ffffff', 'Purple'],
+    ['#182433', '#ffffff', 'Ink'],
+    ['#ffffff', '#182433', 'White'],
+];
+
+var moduleButtonColorSetting = {
+    title: 'Color',
+    icon: '<svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 3a8 8 0 1 0 0 16c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.2 0-.9.7-1.5 1.5-1.5H15a4 4 0 0 0 4-4c0-3.9-3.6-7-8-7Zm-4.5 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z" fill="currentColor"/></svg>',
+    menu: BTN_QUICK_COLORS.map(function (c) {
+        return {
+            name: 'color-' + c[2].toLowerCase(),
+            nodes: [{
+                title: c[2],
+                text: '',
+                icon: swatchIcon(c[0]),
+                action: function (el) {
+                    saveBtnOption(el, 'backgroundColor', c[0]);
+                    saveBtnOption(el, 'color', c[1]);
+                },
+            }],
+        };
+    }),
+};
+
+moduleButtonSettings.push(moduleButtonColorSetting);
+
 function saveBtnAlign(el, align) {
 
     let moduleId = el.getAttribute('id');

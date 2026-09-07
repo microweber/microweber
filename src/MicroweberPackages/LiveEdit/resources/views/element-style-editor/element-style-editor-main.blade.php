@@ -170,6 +170,13 @@
     body {
         background: #fff !important;
     }
+    /* task-2026-09-06-darkaudit — this standalone ESE page forced a white body
+       with no dark counterpart; if it ever loads in dark mode the light ESE
+       text would be white-on-white. Give it a dark surface to match the live
+       ESE container (iframe-page.blade.php uses rgb(31 41 55)). */
+    html.dark body {
+        background: rgb(31, 41, 55) !important;
+    }
 </style>
 
 

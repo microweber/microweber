@@ -1173,6 +1173,13 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .fa.fa-trash {
     content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="black"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>');
 }
+/* The fa-trash icon above is a hardcoded black-fill data-URI (right-rail
+   Template Settings "Clear all" — FieldClearAll.vue). On the dark right rail
+   it renders black-on-dark and vanishes. Invert only in dark mode so light
+   mode keeps the black ink. */
+html.dark .fa.fa-trash {
+    filter: invert(1) !important;
+}
 
 .progress-bar {
     flex-direction: row;
@@ -2489,6 +2496,16 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     color: white !important;
 }
 
+/* task-2026-09-06-ledark — DEFECT 4: dark placeholder contrast for the
+   custom live-edit text inputs (design sidebar, file-manager/filepicker
+   search + URL fields — all carry .form-control-live-edit-input). The
+   dark bg above is rgb(17 24 39); #94a3b8 clears AA against it. Covers
+   every .form-control-live-edit-input context in one non-scoped rule.
+   Filament's own .fi-input is deliberately excluded (it flips itself). */
+.dark .form-control-live-edit-input::placeholder {
+    color: #94a3b8 !important;
+}
+
 /* Design sidebar — style pack items and previews */
 .dark #preview-content,
 .dark .style-pack-item {
@@ -3104,6 +3121,13 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     border-color: var(--ese-border, rgba(255, 255, 255, 0.12));
 }
 
+/* task-2026-09-06-ledark — DEFECT 4: the page-chip search placeholder
+   measured #4a5568 on the dark input bg (fails AA). #94a3b8 reads ~AA on
+   the dark field surface. Filament .fi-input is intentionally untouched. */
+.dark .mw-page-chip-popover__input::placeholder {
+    color: #94a3b8 !important;
+}
+
 .mw-page-chip-popover__list {
     list-style: none;
     margin: 0;
@@ -3264,6 +3288,27 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 
 .mw-live-edit-page .mw-toolbar-icon-btn.live-edit-right-sidebar-active::after {
     color: var(--ese-accent, #0d6efd) !important;
+}
+
+/* task-2026-09-06-woww — right-rail active icon white-on-white fix.
+   AI-871 §2 (above) paints the active button with a LIGHT accent-soft
+   background (specificity 0,3,0 !important), which outranks the dark
+   #182433 active pill in live-edit-classes.css
+   (`.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active`,
+   specificity 0,2,0). But that same file still forces the icon WHITE via
+   `.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active svg`
+   (0,2,1 !important) — leaving a white glyph stranded on the light fill
+   (invisible in the normal admin theme). Recolour the active icon to the
+   SAME accent as the border-right + ::after label so it reads as the
+   intended accent highlight. Specificity here is 0,3,1, so it wins over the
+   0,2,1 white rule in both light and dark modes without touching the
+   (correct) dark-pill active state used by the non-.mw-toolbar-icon-btn
+   right-rail buttons. */
+.mw-live-edit-page .mw-toolbar-icon-btn.live-edit-right-sidebar-active svg,
+.mw-live-edit-page .mw-toolbar-icon-btn.live-edit-right-sidebar-active svg * {
+    fill: var(--ese-accent, #0d6efd) !important;
+    color: var(--ese-accent, #0d6efd) !important;
+    stroke: var(--ese-accent, #0d6efd) !important;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -4820,6 +4865,31 @@ body.fi-panel-admin .mw-welcome-widget-heading {
     color: #182433 !important;
     letter-spacing: -0.02em !important;
 }
+/* task-2026-09-06-darkaudit — the welcome heading kept navy #182433 with no
+   dark counterpart, so it was invisible on the dark dashboard. */
+.dark body.fi-panel-admin .mw-welcome-widget-heading {
+    color: #f9fafb !important;
+}
+
+/* task-2026-09-06-darkaudit — GoogleMaps module-settings map preview. The
+   inline Filament --gray-* tokens are a fixed palette that does NOT flip in
+   dark mode, so the empty-state helper text (#6b7280) failed AA on the dark
+   modal and the light borders read as light lines. Color/border moved off the
+   inline style onto these classes with a dark override. */
+.mw-map-preview-empty {
+    color: #6b7280;
+    border: 1px dashed #d1d5db;
+}
+.dark .mw-map-preview-empty {
+    color: #9aa4b2;
+    border-color: rgba(255, 255, 255, 0.18);
+}
+.mw-map-preview-iframe {
+    border: 1px solid #e5e7eb;
+}
+.dark .mw-map-preview-iframe {
+    border-color: rgba(255, 255, 255, 0.14);
+}
 
 /* ── Cards/widgets: clean white bg with subtle shadow ────────────── */
 body.fi-panel-admin .fi-wi-stats-overview-stat,
@@ -5001,6 +5071,12 @@ body.fi-panel-admin .fi-pagination-item-btn:hover {
 }
 .dark body.fi-panel-admin .fi-pagination-item-btn:hover {
     background-color: rgba(255, 255, 255, 0.06) !important;
+    color: #e5e7eb !important;
+}
+/* task-2026-09-06-darkaudit — the BASE page-number color stayed navy #182433
+   on the dark pagination bar (only :hover had a dark rule), so page numbers
+   were invisible on every paginated list. */
+.dark body.fi-panel-admin .fi-pagination-item-btn {
     color: #e5e7eb !important;
 }
 body.fi-panel-admin .fi-pagination-item-btn[aria-current="page"],

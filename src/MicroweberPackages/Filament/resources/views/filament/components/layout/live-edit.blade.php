@@ -172,12 +172,22 @@
        sets the identity transform. User-visible symptom before the fix:
        clicking the live-edit toolbar hamburger added `.active` but no
        menu content appeared (sidebar was rendering off-screen left). */
+    /* task-2026-09-05-adminrail — single-sidebar consolidation. The admin
+       nav drawer (aside.fi-sidebar) now slides in from the RIGHT instead of
+       the left, so Live Edit has one sidebar. It docks at right:56px — just
+       left of the right icon rail (.mw-live-edit-right-sidebar-template-
+       sidebar, width 56px) — so the rail's new "Admin" button stays visible
+       and clickable as the open/close toggle. (Filament's own close-overlay
+       only flips its Alpine store, not our .active class, so a visible
+       toggle is required to close the drawer.) The horizontal translate is
+       flipped to +100% so the hidden state parks it off the right edge. */
     .fi-sidebar{
         position: absolute  !important;
         top:0;
-        left:0;
+        left:auto !important;
+        right:56px !important;
         translate: none !important;
-        transform: translateX(-100%) !important;
+        transform: translateX(calc(100% + 56px)) !important;
         transition: var(--toolbar-height-animation-speed) !important;
         z-index: 101 !important;
     }

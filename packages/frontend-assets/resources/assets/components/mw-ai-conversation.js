@@ -28,9 +28,10 @@ html.dark .mw-ai-conv{ color:#e8eaed; }
 .mw-ai-conv-title svg{ width:18px; height:18px; }
 .mw-ai-conv-head-actions{ display:flex; gap:6px; }
 .mw-ai-conv-iconbtn{
-    width:36px; height:36px; min-width:36px; border-radius:10px; border:none;
+    width:44px; height:44px; min-width:44px; border-radius:10px; border:none;
     display:inline-flex; align-items:center; justify-content:center; cursor:pointer;
     background:transparent; color:inherit;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, color .15s ease;
 }
 .mw-ai-conv-iconbtn:hover{ background:#1824330f; }
 html.dark .mw-ai-conv-iconbtn:hover{ background:#ffffff14; }
@@ -80,6 +81,7 @@ html:not(.dark) .mw-ai-conv-edit-details{ background:#111827; color:#e5e7eb; }
 .mw-ai-conv-suggest button{
     padding:6px 11px; border-radius:16px; border:1px solid #18243322; background:transparent;
     color:inherit; cursor:pointer; font-size:12.5px;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, color .15s ease;
 }
 .mw-ai-conv-suggest button:hover{ background:#1824330f; }
 html.dark .mw-ai-conv-suggest button{ border-color:#ffffff2a; }
@@ -101,6 +103,7 @@ html.dark .mw-ai-conv-form{ border-top-color:#ffffff1f; }
     padding:11px 13px; font-size:14px; line-height:1.4; max-height:140px; min-height:44px;
     background:#fff; color:#182433; font-family:inherit;
     overflow-y:auto; scrollbar-width:thin; scrollbar-color:#18243330 transparent;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, color .15s ease;
 }
 html.dark .mw-ai-conv-input{ background:#1f2226; color:#e8eaed; border-color:#ffffff26; }
 .mw-ai-conv-input:focus{ outline:none; border-color:#182433; box-shadow:0 0 0 3px #18243312; }
@@ -120,6 +123,7 @@ html.dark .mw-ai-conv-thread::-webkit-scrollbar-thumb{ background:#ffffff2a; }
 .mw-ai-conv-send{
     width:44px; height:44px; min-width:44px; border-radius:12px; border:none; cursor:pointer;
     background:#182433; color:#fff; display:inline-flex; align-items:center; justify-content:center;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, color .15s ease;
 }
 .mw-ai-conv-send:disabled{ opacity:.45; pointer-events:none; }
 .mw-ai-conv-send svg{ width:20px; height:20px; }
@@ -132,6 +136,7 @@ html.dark .mw-ai-conv-history{ background:#1b1e22; }
 .mw-ai-conv-history.open{ display:flex; }
 .mw-ai-conv-history-item{
     padding:11px 12px; border-radius:10px; cursor:pointer; display:flex; flex-direction:column; gap:2px;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, color .15s ease;
 }
 .mw-ai-conv-history-item:hover{ background:#1824330d; }
 html.dark .mw-ai-conv-history-item:hover{ background:#ffffff12; }
@@ -151,8 +156,9 @@ html.dark .mw-ai-conv-history-item:hover{ background:#ffffff12; }
     display:flex; align-items:center; justify-content:center;
 }
 .mw-ai-conv-attach-btn{
-    width:40px; height:44px; min-width:40px; border:none; background:transparent; cursor:pointer;
+    width:44px; height:44px; min-width:44px; border:none; background:transparent; cursor:pointer;
     color:#8a94a3; display:inline-flex; align-items:center; justify-content:center; border-radius:10px;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, color .15s ease;
 }
 .mw-ai-conv-attach-btn:hover{ background:#1824330f; color:inherit; }
 .mw-ai-conv-attach-btn svg{ width:20px; height:20px; }
@@ -179,6 +185,19 @@ html.dark .mw-ai-md code{ background:#ffffff1f; }
 html.dark .mw-ai-md-table th,html.dark .mw-ai-md-table td{ border-color:#ffffff26; }
 html.dark .mw-ai-md-table th{ background:#ffffff14; }
 .mw-ai-md strong{ font-weight:700; }
+
+/* task-2026-09-06-darkaudit — the edit/plus icon SVGs ship with NO fill
+   attribute (default #000) and icon() is called without {fill:'currentColor'},
+   so the header pencil, the empty-state pencil and the "+" (new chat) rendered
+   black — invisible on the dark #1F2937 panel. Force the panel's monochrome
+   icons to inherit currentColor (which .mw-ai-conv already flips: #182433 light
+   / #e8eaed dark). currentColor icons (send/image) are unaffected. */
+.mw-ai-conv-title svg, .mw-ai-conv-iconbtn svg, .mw-ai-conv-empty svg,
+.mw-ai-conv-attach-btn svg, .mw-ai-conv-send svg, .mw-ai-conv-edit svg{ fill: currentColor; }
+
+/* task-2026-09-06-darkaudit — the error tool-chip had no dark override (only the
+   success chip did), so dark red on the dark panel was ~2:1. */
+html.dark .mw-ai-conv-edit.err{ background:#e6394622; color:#ff8a93; border-color:#e6394655; }
 `;
 
 export class MwAiConversation extends MicroweberBaseClass {

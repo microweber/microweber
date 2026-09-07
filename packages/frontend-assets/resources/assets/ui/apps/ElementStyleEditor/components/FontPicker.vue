@@ -135,6 +135,33 @@ export default {
                     this.updateSelectElement();
                 }
             });
+
+            // task-2026-09-06-addfont (FIX 3) — apply the font chosen in the
+            // "Add more fonts" modal. loadMoreFonts() -> fontManager.manageFonts()
+            // -> dispatch('showFontsManager') opens FontsManager.vue; picking a
+            // font there calls fontManager.selectFont(), which dispatches
+            // 'fontsManagerSelectedFont'. Previously nothing in the ESE listened
+            // to that event, so the chosen font was added to the list (via
+            // fontsManagerChange) but never SELECTED in this <select> nor applied
+            // to the active element. subscribeToSelectedFont() wires that gap:
+            // set the value, make sure the option exists, and emit `change` so
+            // the parent Typography editor writes font-family onto the node.
+            mw.top().app.fontManager.subscribeToSelectedFont((selected) => {
+                if (!selected || typeof selected.fontFamily !== 'string' || selected.fontFamily === '') {
+                    return;
+                }
+                const family = selected.fontFamily;
+                // Make sure the freshly-added font has an <option> to select.
+                if (!this.supportedFonts.includes(family)) {
+                    this.supportedFonts = mw.top().app.fontManager.getFonts();
+                }
+                this.fontFamily = family;
+                this.updateSelectElement();
+                // Propagate to the parent (ElementStyleEditorTypography.handleFontChange)
+                // which sets fontFamily and applies it to the active node.
+                this.$emit('change', family);
+                this.$emit('input', family);
+            });
         }, 1000);
     },
 

@@ -61,7 +61,11 @@ class GoogleMapsModuleSettings extends LiveEditModuleSettings
 
                                         if (empty($parts)) {
                                             return new HtmlString(
-                                                '<div class="mw-map-preview-empty" style="padding:14px;border:1px dashed var(--gray-300,#d1d5db);border-radius:8px;color:var(--gray-500,#6b7280);font-size:.8125rem;">'
+                                                // task-2026-09-06-darkaudit — color/border moved to the
+                                                // .mw-map-preview-empty class (with a .dark override); the
+                                                // inline Filament --gray-* tokens are a fixed palette that
+                                                // did not flip, so the text failed AA on the dark modal.
+                                                '<div class="mw-map-preview-empty" style="padding:14px;border-radius:8px;font-size:.8125rem;">'
                                                 . e(__('Enter an address above to preview the map.'))
                                                 . '</div>'
                                             );
@@ -78,7 +82,7 @@ class GoogleMapsModuleSettings extends LiveEditModuleSettings
                                             '<iframe class="mw-map-preview-iframe" src="' . e($src) . '"'
                                             . ' loading="lazy" referrerpolicy="no-referrer-when-downgrade"'
                                             . ' title="' . e(__('Map preview')) . '"'
-                                            . ' style="width:100%;height:220px;border:1px solid var(--gray-200,#e5e7eb);border-radius:8px;"></iframe>'
+                                            . ' style="width:100%;height:220px;border-radius:8px;"></iframe>'
                                         );
                                     }),
                             ]),

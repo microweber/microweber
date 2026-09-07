@@ -306,5 +306,16 @@ html[dir='rtl'] {
     }
 }
 
+/* task-2026-09-06-darkaudit — the dialog close "×" is a hardcoded BLACK
+   data-URI icon (fill %23000000) rendered at .3 opacity via ::after. On the
+   dark dialog header (#1f2937) that is invisible. Invert it to white and lift
+   the opacity in dark mode. filter is unset elsewhere, so this wins regardless
+   of which stylesheet's background-image ultimately paints the glyph. */
+html.dark .mw-dialog .mw-dialog-close::after,
+html.dark .mw-dialog-close::after {
+    filter: invert(1) !important;
+    opacity: 0.65 !important;
+}
+
 
 

@@ -382,6 +382,23 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
             border: 1px solid #bbf7d0;
         }
 
+        /* task-2026-09-06-darkaudit — the logged-in user name (#333) was
+           invisible on the dark auth card, and the alert boxes stayed bright.
+           Add html.dark overrides to match the rest of this screen. */
+        html.dark .user-info h3 {
+            color: #f1f5f9;
+        }
+        html.dark .alert-danger {
+            background: rgba(220, 38, 38, 0.15);
+            color: #fecaca;
+            border-color: rgba(220, 38, 38, 0.4);
+        }
+        html.dark .alert-success {
+            background: rgba(22, 163, 74, 0.15);
+            color: #bbf7d0;
+            border-color: rgba(22, 163, 74, 0.4);
+        }
+
         /* task-2026-05-22-834339 — WCAG 2.5.5 touch-target floor on
            Remember me + Terms checkboxes. Tester measured 18×18px (checkbox)
            and 93×20px (label) at 390×844 — both below the 44×44 floor.

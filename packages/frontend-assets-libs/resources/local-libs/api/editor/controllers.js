@@ -286,6 +286,93 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
+    // task-2026-09-07-elementmenu — the "⋮" button opens a small action menu:
+    // Duplicate / Edit styles / Delete. Duplicate + Delete call the SAME
+    // ElementActions the element handle uses — cloneElement (NOT
+    // cloneElementFirstClonableParent, which silently no-ops when the element
+    // has no cloneable/mw-col ancestor, the reason the old standalone buttons
+    // "did nothing") and deleteElement. The menu is plain same-document DOM so
+    // it needs no le2 dropdown/iframe plumbing.
+    elementMore: function (scope, api, rootScope) {
+        this.target = null;
+        var self = this;
+        var menuEl = null;
+
+        function elementActions() {
+            try { return mw.top().app.liveEdit.elementHandleContent.elementActions; } catch (e) { return null; }
+        }
+        function closeMenu() { if (menuEl) { menuEl.style.display = 'none'; } }
+        function buildMenu(doc) {
+            var m = doc.createElement('div');
+            m.className = 'mw-editor-more-menu';
+            m.setAttribute('role', 'menu');
+            var items = [
+                { label: rootScope.lang('Duplicate'), icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M9 3h9a2 2 0 0 1 2 2v9h-2V5H9V3zM5 7h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm0 2v10h9V9H5z"/></svg>', run: function (el) { var a = elementActions(); if (a) { a.cloneElement(el); } } },
+                { label: rootScope.lang('Edit styles'), icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>', run: function (el) { var a = elementActions(); if (a) { a.openElementStyleEditor(el); } } },
+                { label: rootScope.lang('Delete'), icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zM6 9h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 9z"/></svg>', danger: true, run: function (el) { var a = elementActions(); if (a) { a.deleteElement(el); } } },
+            ];
+            items.forEach(function (it) {
+                var row = doc.createElement('button');
+                row.type = 'button';
+                row.className = 'mw-editor-more-menu__item' + (it.danger ? ' is-danger' : '');
+                row.setAttribute('role', 'menuitem');
+                row.innerHTML = it.icon + '<span>' + it.label + '</span>';
+                row.addEventListener('mousedown', function (ev) { ev.preventDefault(); ev.stopPropagation(); });
+                row.addEventListener('click', function (ev) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    closeMenu();
+                    if (self.target) { it.run(self.target); }
+                });
+                m.appendChild(row);
+            });
+            return m;
+        }
+        this.render = function () {
+            var iconSVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>';
+            var el = MWEditor.core.button({
+                props: { id: "mw-element-more-editor-button", tooltip: rootScope.lang("More"), innerHTML: iconSVG },
+            });
+            el.on("click", (e) => {
+                var btn = el.get(0);
+                var doc = btn.ownerDocument;
+                if (!menuEl) { menuEl = buildMenu(doc); doc.body.appendChild(menuEl); }
+                if (menuEl.style.display === 'block') { closeMenu(); return; }
+                menuEl.style.display = 'block';
+                var r = btn.getBoundingClientRect();
+                var win = doc.defaultView || window;
+                var mWidth = menuEl.offsetWidth || 190;
+                var left = Math.min(r.left, win.innerWidth - mWidth - 8);
+                menuEl.style.top = Math.round(r.bottom + 6) + 'px';
+                menuEl.style.left = Math.round(Math.max(8, left)) + 'px';
+            });
+            // Outside-click closes (bind on the button's own document).
+            var btnNode = el.get(0);
+            if (btnNode && btnNode.ownerDocument) {
+                btnNode.ownerDocument.addEventListener('click', function (ev) {
+                    if (!menuEl || menuEl.style.display !== 'block') { return; }
+                    if (btnNode.contains(ev.target) || menuEl.contains(ev.target)) { return; }
+                    closeMenu();
+                }, true);
+            }
+            return el;
+        };
+        this.checkSelection = function (opt, ee, tt) {
+            var allowed = false, elementNode = null;
+            var sel = api.getSelection();
+            var focusNode = sel.focusNode;
+            if (focusNode) {
+                elementNode = api.elementNode(focusNode);
+                if (elementNode && mw.top().app.liveEdit) {
+                    elementNode = mw.tools.firstParentOrCurrentWithAnyOfClasses(elementNode, ["edit", "element"]);
+                    allowed = !!elementNode;
+                }
+            }
+            if (!allowed) { rootScope.hide(opt.controller.element.get(0), true); this.target = null; closeMenu(); }
+            else { rootScope.show(opt.controller.element.get(0)); this.target = elementNode; }
+        };
+        this.element = this.render();
+    },
     plus: function (scope, api, rootScope) {
         this.target = null;
 
@@ -1190,7 +1277,46 @@ MWEditor.controllers = {
                 }
             });
 
-            return dropdown.root;
+            // task-2026-09-07-fontsize-stepper — wrap the size dropdown with
+            // compact − / + steppers so the whole thing is ONE font-size
+            // component (the old standalone big −/+ toolbar buttons are gone).
+            // The wrapper delegates displayValue() and is find()-able, so the
+            // existing checkSelection (opt.controller.element.displayValue / find)
+            // keeps working unchanged.
+            function currentSizePx() {
+                try {
+                    var sel = api.getSelection();
+                    var node = sel && sel.focusNode ? api.elementNode(sel.focusNode) : null;
+                    if (node) {
+                        var win = node.ownerDocument && node.ownerDocument.defaultView ? node.ownerDocument.defaultView : window;
+                        return parseInt(win.getComputedStyle(node).fontSize, 10) || 16;
+                    }
+                } catch (e) {}
+                return 16;
+            }
+            function stepFont(dir) {
+                var next = Math.max(8, Math.min(200, currentSizePx() + dir));
+                try { api.cleanStyle("font-size"); api.fontSize(next); } catch (e) {}
+            }
+
+            var minusBtn = MWEditor.core.button({
+                props: { className: "mw-editor-fontsize-step mw-editor-fontsize-step--minus", tooltip: rootScope.lang("Smaller text"), innerHTML: '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M5 11h14v2H5z"/></svg>' },
+            });
+            var plusBtn = MWEditor.core.button({
+                props: { className: "mw-editor-fontsize-step mw-editor-fontsize-step--plus", tooltip: rootScope.lang("Larger text"), innerHTML: '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>' },
+            });
+            minusBtn.on("click", function () { stepFont(-1); });
+            plusBtn.on("click", function () { stepFont(1); });
+
+            var stepperWrap = MWEditor.core.element({
+                props: { className: "mw-editor-controller-component mw-editor-fontsize-stepper" },
+            });
+            stepperWrap.append(minusBtn);
+            stepperWrap.append(dropdown.root);
+            stepperWrap.append(plusBtn);
+            // Delegate the hooks the bar's checkSelection calls on the control element.
+            stepperWrap.displayValue = function (val) { return dropdown.root.displayValue(val); };
+            return stepperWrap;
         };
         this.element = this.render();
     },

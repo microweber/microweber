@@ -101,9 +101,9 @@
     width: 100% !important;
     padding: 14px 16px !important;
     border-radius: 10px !important;
-    background: rgba(0, 0, 0, 0.03) !important;
-    border: 1px solid rgba(0, 0, 0, 0.06) !important;
-    color: #374151 !important;
+    background: var(--ese-surface, rgba(0,0,0,0.03)) !important;
+    border: 1px solid var(--ese-border, rgba(0,0,0,0.08)) !important;
+    color: var(--ese-text, #374151) !important;
     text-decoration: none !important;
     font-size: 14px !important;
     font-weight: 500 !important;
@@ -114,24 +114,15 @@
     min-height: 48px !important;
 }
 
-.dark .tools-panel .mw-live-edit-advanced-settings-popup {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: #e5e7eb !important;
-}
-
 .tools-panel .mw-live-edit-advanced-settings-popup:hover {
-    background: rgba(0, 0, 0, 0.08) !important;
-    border-color: rgba(0, 0, 0, 0.12) !important;
-    transform: translateY(-1px) scale(1.01) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    background: var(--ese-surface-hover, rgba(0,0,0,0.05)) !important;
+    border-color: var(--ese-border-strong, rgba(0,0,0,0.12)) !important;
     color: #1f2937 !important;
 }
 
 .dark .tools-panel .mw-live-edit-advanced-settings-popup:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
     color: #ffffff !important;
 }
 
@@ -139,13 +130,9 @@
     width: 20px !important;
     height: 20px !important;
     margin-right: 12px !important;
-    fill: #6b7280 !important;
+    fill: var(--ese-text-muted, #6b7280) !important;
     flex-shrink: 0 !important;
     transition: all 0.2s ease !important;
-}
-
-.dark .tools-panel .mw-live-edit-advanced-settings-popup svg {
-    fill: #9ca3af !important;
 }
 
 .tools-panel .mw-live-edit-advanced-settings-popup:hover svg {
@@ -157,31 +144,6 @@
     fill: #e5e7eb !important;
 }
 
-/* Add a subtle ripple effect */
-.tools-panel .mw-live-edit-advanced-settings-popup::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 0%, transparent 70%);
-    opacity: 0;
-    transform: scale(0);
-    transition: all 0.3s ease;
-}
-
-.dark .tools-panel .mw-live-edit-advanced-settings-popup::before {
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-}
-
-.tools-panel .mw-live-edit-advanced-settings-popup:active::before {
-    opacity: 1;
-    transform: scale(1);
-}
-
-
-
 </style>
 
 
@@ -189,6 +151,28 @@
 
 
     <div :class="'mw-live-edit-right-sidebar-template-' + template" class="mw-live-edit-right-sidebar-wrapper me-2 ">
+
+        <!-- task-2026-09-06-darkaudit — Admin moved to the TOP of the rail (per
+             user request). Toggles the admin nav drawer (aside.fi-sidebar,
+             right overlay) via mw.app.liveEditWidgets.toggleAdminSidebar(). -->
+        <button type="button"
+             :class="{'live-edit-right-sidebar-active': buttonIsActiveAdmin }"
+             class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-admin mw-toolbar-icon-btn"
+             aria-label="Admin"
+             title="Admin"
+             data-mw-label="Admin"
+             :aria-pressed="buttonIsActiveAdmin"
+             v-on:click="handleAdmin()"
+             v-on:keydown.enter.prevent="handleAdmin()"
+             v-on:keydown.space.prevent="handleAdmin()">
+            <v-tooltip activator="parent" location="start">
+                <Lang>Admin</Lang>
+            </v-tooltip>
+            <svg fill="currentColor" height="22" viewBox="0 -960 960 960" width="22"
+                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M520-600v-240h320v240H520ZM120-440v-400h320v400H120Zm400 320v-400h320v400H520Zm-400 0v-240h320v240H120Zm80-400h160v-240H200v240Zm400 320h160v-240H600v240Zm0-480h160v-80H600v80ZM200-200h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360-280Z"/>
+            </svg>
+        </button>
 
 
         <!-- AI-64 / TICKET-PP (cycle-77 2026-05-08): these icon
@@ -446,13 +430,34 @@ export default {
         },
         handleAdvanced() {
             // task-2026-05-22-903d56 / AI-903 — toggle right-rail panel (was popup)
+            // task-2026-09-05-adminrail — single-sidebar mutual exclusion:
+            // opening Advanced closes the admin drawer so the two don't stack.
+            mw.top().app.liveEditWidgets?.closeAdminSidebar();
             mw.app.advancedPanelWidget?.toggle();
+        },
+        handleAdmin() {
+            // task-2026-09-05-adminrail — toggle the Filament admin sidebar
+            // (aside.fi-sidebar) from the right rail. This is the single
+            // entry point after the left drawer was merged into the right
+            // sidebar. Close any other right-rail panel first so the admin
+            // nav doesn't stack over the ESE / Template-settings / Advanced /
+            // Quick-AI panels — one sidebar surface visible at a time.
+            this.emitter.emit('live-edit-ui-show', 'admin-sidebar');
+            mw.app.advancedPanelWidget?.hide();
+            mw.top().app.templateSettingsWidget?.hide();
+            CSSGUIService.hide();
+            mw.top().app.liveEditWidgets.toggleAdminSidebar();
         },
         show: function (name) {
 
             this.emitter.emit('live-edit-ui-show', name);
             this.$refs.moreSettingsDropdown?.classList.remove('show');
             mw.app.advancedPanelWidget?.hide();
+            // task-2026-09-05-adminrail — single-sidebar mutual exclusion on
+            // the global-event path too (MainDrawer "Theme settings",
+            // mw.open-template-settings): close the admin drawer so a second
+            // right surface never opens on top of it.
+            mw.top().app.liveEditWidgets?.closeAdminSidebar();
         },
         toggle: function (name) {
             // task-2026-05-29-eaf3a1 / AI-1157 — right-rail button path must emit
@@ -465,6 +470,10 @@ export default {
 
             this.$refs.moreSettingsDropdown?.classList.remove('show');
             mw.app.advancedPanelWidget?.hide();
+            // task-2026-09-05-adminrail — single-sidebar mutual exclusion:
+            // opening Templates & layouts / Element styles closes the admin
+            // drawer so only one right sidebar surface shows at a time.
+            mw.top().app.liveEditWidgets?.closeAdminSidebar();
 
             if (name !== 'style-editor') {
                 CSSGUIService.hide()
@@ -628,6 +637,17 @@ export default {
                 this.buttonIsActiveQuickEdit = false
             })
 
+            // task-2026-09-05-adminrail — reflect the admin sidebar open
+            // state on the rail Admin button. The widget dispatches these
+            // on open/close (incl. when closeAll() closes it because
+            // another panel opened), so the button highlight stays in sync.
+            mw.top().app.liveEditWidgets.on('adminSidebarOpen', () => {
+                this.buttonIsActiveAdmin = true
+            })
+            mw.top().app.liveEditWidgets.on('adminSidebarClose', () => {
+                this.buttonIsActiveAdmin = false
+            })
+
         });
 
         mw.top().app.canvas.on('liveEditCanvasLoaded', () => {
@@ -662,6 +682,7 @@ export default {
             buttonIsActive: false,
             buttonIsActiveStyleEditor: false,
             buttonIsActiveQuickEdit: false,
+            buttonIsActiveAdmin: false,      // task-2026-09-05-adminrail — admin sidebar open state
             buttonIsActiveAdvanced: false,   // task-2026-05-22-903d56 / AI-903
             advancedPanelBoxCreated: false,  // task-2026-05-22-903d56 / AI-903 — set true after controlBox created
             insertLayoutVisible: false,

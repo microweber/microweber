@@ -2315,5 +2315,87 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
 }
 
 
+/* ================================================================== *
+ * task-2026-09-06-ledark — Live Edit toolbar dark-mode contrast fixes *
+ * ------------------------------------------------------------------- *
+ * Three defect families found live in html.dark admin:                *
+ *  (1) Device/resolution segmented switch: in dark mode it must be a   *
+ *      DARK pill with LIGHT icons (the earlier build forced a light    *
+ *      track from the index.css #toolbar rule, giving a white switch   *
+ *      with ink glyphs on the dark toolbar). We override the track +   *
+ *      cells to a translucent-light-on-dark surface and repaint the    *
+ *      glyphs #e5e7eb. The stray white fill also came from the         *
+ *      Tailwind @apply in general-styles.css:277-280 /                 *
+ *      live-edit-classes.css:374-377, which compiles (NOT dead) to     *
+ *      fill:var(--color-white) under &:is(.dark *) — (0,3,1)!important. *
+ *      We beat it with an #toolbar-anchored, .mw-segmented-scoped      *
+ *      selector so ONLY the top-bar device switch is affected (never   *
+ *      the filepicker tab-nav which reuses the wrapper class), and     *
+ *      light mode stays exactly as-is.                                 *
+ *  (2)/(3) The 3-dots Tools dropdown (+ its nested "More settings"     *
+ *      submenu) LI <button> items + their currentColor icons stayed    *
+ *      #222 on the dark panel, because the webpack dark theme only     *
+ *      had .dark .custom-dropdown .dropdown-content li a rules (the    *
+ *      matching li button rules and the component's own :global(.dark) *
+ *      scoped rules are dropped by the Vite build). Mirror the <a>     *
+ *      dark rules for <button> so both read #e5e7eb on the dark panel. *
+ * ================================================================== */
+
+/* (1) Device/resolution segmented switch — DARK pill + LIGHT icons in dark
+   mode. task-2026-09-06-ledark2 supersedes the earlier dark-ink forcing:
+   the switch now paints a dark surface on the dark toolbar (was a white
+   track from index.css #toolbar rule), so its glyphs must be LIGHT, not
+   ink. Track goes translucent-light-on-dark; inactive cells transparent
+   with #e5e7eb icons; the active/checked cell gets a slightly lighter
+   pill. Scoped to #toolbar + .mw-segmented so the filepicker tab-nav
+   (which reuses .mw-live-edit-resolutions-wrapper) is never touched.
+   Specificity (1 id, 3+ class, 1 elem) + !important beats the index.css
+   light-track rule (1 id, 2 class) AND the compiled Tailwind white-fill
+   @apply (0,3,1)!important. Light mode is left entirely as-is. */
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons {
+    background-color: transparent !important;
+}
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons,
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons svg,
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons svg * {
+    color: #e5e7eb !important;
+    fill: #e5e7eb !important;
+}
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons:hover {
+    background-color: rgba(255, 255, 255, 0.10) !important;
+}
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons.is-active,
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons.live-edit-resolution-active,
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons[aria-checked="true"] {
+    background-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+/* (2)/(3) Tools dropdown + submenu <button> items — mirror the <a> dark
+   rules so button labels + currentColor icons read light on the dark
+   panel. .dropdown-content descendant selector also covers the nested
+   .submenu (More settings) buttons. */
+.dark .custom-dropdown .dropdown-content li button {
+    color: #e5e7eb !important;
+}
+.dark .custom-dropdown .dropdown-content li button:hover,
+.dark .custom-dropdown .dropdown-content li button:focus {
+    background-color: rgb(31 41 55) !important;
+    color: #ffffff !important;
+}
+.dark .custom-dropdown .dropdown-content li button.active,
+.dark .custom-dropdown .dropdown-content li button.expanded {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #e5e7eb !important;
+}
+/* Icons inside dropdown/submenu buttons use fill="currentColor"; keep
+   them locked to the button's (light) text colour in dark mode so a
+   stray global fill rule can't repaint them dark-on-dark. */
+.dark .custom-dropdown .dropdown-content li button svg {
+    fill: currentColor !important;
+    color: inherit !important;
+}
 
 

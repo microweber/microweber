@@ -297,7 +297,14 @@ export class LiveEditWidgetsService extends BaseComponent{
         this.closeAll();
         this.status.adminSidebarOpened = true;
         mw.top().doc.querySelector('aside.fi-sidebar').classList.add('active')
-        mw.top().doc.documentElement.classList.add( 'mw-live-edit-sidebar-start');
+        // `mw-live-edit-sidebar-start` drives the admin sidebar's expanded
+        // label styling (live-edit-mobile.css). `mw-live-edit-admin-open`
+        // (task-2026-09-06-darkaudit) additionally marks that the drawer is the
+        // RIGHT admin overlay — the canvas-shift rule excludes it via
+        // :not(.mw-live-edit-admin-open) so the canvas is NOT pushed 250px right
+        // (which left a black gap on the left). The Layers panel keeps its left
+        // shift because it only sets `mw-live-edit-sidebar-start`.
+        mw.top().doc.documentElement.classList.add( 'mw-live-edit-sidebar-start', 'mw-live-edit-admin-open');
         this.#zIndex(mw.top().doc.querySelector('aside.fi-sidebar'));
         // Flip Filament's Alpine sidebar store to "open" so the sidebar renders
         // EXPANDED: item labels show (x-show="$store.sidebar.isOpen") AND grouped
@@ -308,9 +315,36 @@ export class LiveEditWidgetsService extends BaseComponent{
         // live-edit-mobile.css (html.mw-live-edit-sidebar-start …) which shows
         // the labels + left-aligns the icons.
         this.#setFilamentSidebarOpen(true);
+        this.#bindAdminOverlayClose();
         this.dispatch('adminSidebarOpen');
         return this;
 
+    }
+
+    // task-2026-09-05-adminrail — mobile/tablet outside-tap close.
+    // On viewports < lg (1024px) Filament shows `.fi-sidebar-close-overlay`
+    // (z-index 30) whenever its Alpine sidebar store is open — which we flip
+    // on via #setFilamentSidebarOpen(true). That backdrop covers the right
+    // rail (z-index 2), so the rail "Admin" toggle can't be tapped to close,
+    // and the overlay's own handler only calls $store.sidebar.close() (flips
+    // the store, NOT our `.active` class) — leaving the drawer stuck open.
+    // Bind a click on the overlay that fully closes our drawer too. Guarded
+    // on the element (dataset) so it's attached at most once even across
+    // repeated opens. On desktop the overlay is `lg:hidden`, so this is a
+    // no-op there.
+    #bindAdminOverlayClose() {
+        try {
+            const overlay = mw.top().doc.querySelector('.fi-sidebar-close-overlay');
+            if (!overlay || overlay.dataset.mwAdminCloseBound) {
+                return;
+            }
+            overlay.dataset.mwAdminCloseBound = '1';
+            overlay.addEventListener('click', () => {
+                if (this.status.adminSidebarOpened) {
+                    this.closeAdminSidebar();
+                }
+            });
+        } catch (e) { /* no-op — rail Admin button remains the close path */ }
     }
 
     #setFilamentSidebarOpen(isOpen) {
@@ -333,6 +367,7 @@ export class LiveEditWidgetsService extends BaseComponent{
         // Restore Filament's collapsed state so we don't leave its own mobile
         // sidebar overlay flagged open after the live-edit panel closes.
         this.#setFilamentSidebarOpen(false);
+        mw.top().doc.documentElement.classList.remove('mw-live-edit-admin-open');
         if(!this.#hasOpened()) {
             mw.top().doc.documentElement.classList.remove( 'mw-live-edit-sidebar-start');
 

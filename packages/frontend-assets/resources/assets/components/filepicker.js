@@ -296,7 +296,7 @@ mw.filePicker = function (options) {
                 '<span class="form-control-live-edit-bottom-effect"></span>'
             );
             $input.after(
-                '<small class="form-control-live-edit-url-helper" style="display:block;color:#6b7280;font-size:0.85em;margin-top:6px;">' +
+                '<small class="form-control-live-edit-url-helper" style="display:block;color:var(--ese-text-muted, #6b7280);font-size:0.85em;margin-top:6px;">' +
                     mw.lang("Paste a direct link to a JPG, PNG, GIF, or WebP file.") +
                     "</small>"
             );
@@ -306,7 +306,7 @@ mw.filePicker = function (options) {
             // The actual security guarantee lives server-side
             // (mw.tools.isAllowedFileUrl) — this is UX, not the gate.
             var $err = $(
-                '<small class="form-control-live-edit-url-error" data-mw-filepicker-url-error style="display:none;color:#c81e1e;font-size:0.85em;margin-top:4px;"></small>'
+                '<small class="form-control-live-edit-url-error" data-mw-filepicker-url-error style="display:none;color:var(--ese-danger, #c81e1e);font-size:0.85em;margin-top:4px;"></small>'
             );
             $input.after($err);
 

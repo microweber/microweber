@@ -82,14 +82,18 @@ class ModuleRendererTest extends TestCase
 
     // ── As element ──
 
+    // task-2026-09-07-aselement — as_element FULLY UNWRAPS (legacy behavior):
+    // the module tag is replaced by its content directly, with no wrapper div.
     public function test_as_element_rendering(): void
     {
         $result = $this->renderer->render(
             'btn', 'module-btn-1', ['data-type' => 'btn'],
-            'content', 'div', false, '', true
+            '<a class="element">content</a>', 'div', false, '', true
         );
 
-        $this->assertStringContainsString('class="element btn"', $result);
+        // No wrapper at all — content returned as-is.
+        $this->assertSame('<a class="element">content</a>', $result);
+        $this->assertStringNotContainsString('<div', $result);
         $this->assertStringNotContainsString('class="module', $result);
     }
 
@@ -98,6 +102,38 @@ class ModuleRendererTest extends TestCase
         $this->assertTrue($this->renderer->isAsElement(['class' => 'module-as-element custom']));
         $this->assertFalse($this->renderer->isAsElement(['class' => 'module custom']));
         $this->assertFalse($this->renderer->isAsElement([]));
+    }
+
+    // task-2026-09-07-aselement — the insert flow supplies the flag as an
+    // `as_element` ATTRIBUTE, not the legacy `module-as-element` class; detect
+    // both (and only those two forms).
+    public function test_is_as_element_detection_via_attribute(): void
+    {
+        $this->assertTrue($this->renderer->isAsElement(['as_element' => 'true']));
+        $this->assertTrue($this->renderer->isAsElement(['as_element' => '1']));
+        $this->assertTrue($this->renderer->isAsElement(['as_element' => true]));
+        $this->assertTrue($this->renderer->isAsElement(['as_element' => null])); // bare HTML flag
+        // Explicit false-ish values do NOT trigger as_element.
+        $this->assertFalse($this->renderer->isAsElement(['as_element' => 'false']));
+        $this->assertFalse($this->renderer->isAsElement(['as_element' => '0']));
+        $this->assertFalse($this->renderer->isAsElement(['as_element' => '']));
+    }
+
+    public function test_as_element_via_attribute_fully_unwraps(): void
+    {
+        // The reported bug: an inserted title with as_element="true" (attribute,
+        // no marker class) rendered as a plain `module` wrapper. It must now
+        // fully unwrap to just its content (the <h1 class="element">).
+        $attrs = ['data-type' => 'title', 'as_element' => 'true'];
+        $result = $this->renderer->render(
+            'title', 'module-title-1', $attrs,
+            '<h1 class="element">Hi</h1>', 'div', false, '',
+            $this->renderer->isAsElement($attrs)
+        );
+        $this->assertSame('<h1 class="element">Hi</h1>', $result);
+        $this->assertStringNotContainsString('<div', $result);
+        $this->assertStringNotContainsString('class="module', $result);
+        $this->assertStringNotContainsString('as_element', $result);
     }
 
     // ── User-defined class ──

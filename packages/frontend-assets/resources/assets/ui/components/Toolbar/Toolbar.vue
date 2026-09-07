@@ -51,7 +51,18 @@ html.mw-setup-wizard-document .back-to-edit{
     <div id="toolbar" role="toolbar" aria-label="Live edit toolbar" class="shadow-sm md:px-6 px-3 gap-3 " :style="{'display': toolbarDisplay}">
         <div class="toolbar-nav toolbar-nav-hover col-xxl-3 col-auto d-flex justify-content-start">
 
-            <a id="mw-live-edit-toolbar-back-to-admin-link" aria-label="Back to admin" class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" :href="backToAdminLink">
+            <!--
+              task-2026-09-05-adminrail — the "Back to admin" arrow link is
+              hidden: admin access is now the right-rail "Admin" button
+              (SettingsCustomize.vue → toggleAdminSidebar). The ☰ hamburger
+              (MainDrawer) still carries its own "Back to admin" item. This
+              element is KEPT (display:none, not removed) because Dusk tests
+              pin it — LiveEditMultilanguageTest reads its href,
+              AdminLiveEditDropdownAndButtonsTest asserts its presence — and
+              the layout's DOMContentLoaded handler still binds its click.
+              Inline !important so the mobile force-show rule can't reveal it.
+            -->
+            <a id="mw-live-edit-toolbar-back-to-admin-link" aria-label="Back to admin" aria-hidden="true" tabindex="-1" style="display:none !important;" class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" :href="backToAdminLink">
                 <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                     <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
                         <circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle>
@@ -165,12 +176,26 @@ html.mw-setup-wizard-document .back-to-edit{
                       hidden for Dusk-test back-compat per
                       task-2026-05-16-3ae87c.
                     -->
+                    <!--
+                      task-2026-09-06-menumerge — the ☰ hamburger is HIDDEN:
+                      the Navigation drawer's items (Pages, Back to admin,
+                      Users, View public site) were merged into the 3-dots
+                      ToolbarToolsDropdown, so Live Edit has a single overflow
+                      menu. The button + MainDrawer are KEPT in the DOM
+                      (display:none) for Dusk back-compat and because
+                      LiveEdit7326d6AI700MainDrawerContractTest still pins the
+                      #mw-live-edit-main-drawer-button trigger. Inline
+                      !important so no rule can re-reveal it.
+                    -->
                     <button
                         type="button"
                         id="mw-live-edit-main-drawer-button"
                         class="btn-icon live-edit-toolbar-buttons mw-toolbar-icon-btn mw-main-drawer-trigger"
                         aria-label="Open menu"
                         aria-haspopup="true"
+                        aria-hidden="true"
+                        tabindex="-1"
+                        style="display:none !important;"
                         title="Open menu"
                         @click="$refs.mainDrawer && $refs.mainDrawer.open()"
                     >

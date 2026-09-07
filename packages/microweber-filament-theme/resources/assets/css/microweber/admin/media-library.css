@@ -1109,6 +1109,21 @@
   }
 }
 
+/* task-2026-09-06-darkaudit — the per-tile "…" actions menu hardcoded white
+   backgrounds (trigger + dropdown) that did NOT flip in dark mode, while the
+   text used --mw-text-primary (which DOES flip light) → light-on-white,
+   invisible items + a glaring white popover on the dark grid. Flip the two
+   hardcoded surfaces; the text/hover tokens already darken. */
+.dark .mw-media-item-menu-btn {
+  background: rgba(255, 255, 255, 0.06);
+  &:hover { background: rgba(255, 255, 255, 0.14); }
+}
+.dark .mw-media-item-menu-dropdown {
+  background: #1f2937;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
 .mw-media-grid-thumb {
   width: 100%;
   aspect-ratio: 4 / 3;

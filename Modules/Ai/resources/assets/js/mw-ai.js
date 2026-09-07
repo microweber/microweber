@@ -140,6 +140,36 @@ function MwAi() {
             return done;
         },
 
+        // Awaitable save. Resolves once the content save round-trips (or a
+        // safety timeout). Uses the canvas window's promise-based saveLiveEdit
+        // (live-edit-page-scripts.js), which clears `.edit.changed` AND
+        // `mw.askusertostay` on success — so callers can then navigate without
+        // tripping the browser's native "Leave site? Changes may not be saved"
+        // beforeunload dialog. Falls back to the sync saveCanvas() path when the
+        // canvas promise isn't available. task-2026-09-06-aisave.
+        saveCanvasAsync() {
+            const api = this;
+            return new Promise(function (resolve) {
+                let settled = false;
+                const finish = function (ok) { if (!settled) { settled = true; resolve(ok); } };
+                // Publish any global/custom CSS edits first (synchronous).
+                try { if (mw.top().app.cssEditor) { mw.top().app.cssEditor.publishIfChanged(); } } catch (e) {}
+                try {
+                    const cwin = mw.top().app.canvas.getWindow && mw.top().app.canvas.getWindow();
+                    if (cwin && cwin.mw && typeof cwin.mw.saveLiveEdit === 'function') {
+                        cwin.mw.saveLiveEdit().then(function (ok) { finish(!!ok); },
+                                                   function () { finish(false); });
+                        // Safety net so a hung XHR can't block navigation forever.
+                        setTimeout(function () { finish(true); }, 4000);
+                        return;
+                    }
+                } catch (e) {}
+                // Fallback: fire the sync save path, resolve after a short beat.
+                try { api.saveCanvas(); } catch (e) {}
+                setTimeout(function () { finish(true); }, 600);
+            });
+        },
+
         // Reload one (or all) module(s) on the canvas so a server-side edit
         // (module option, custom field) shows without a full page refresh. Uses
         // the canvas frame's mw.reload_module. Pass a module id/element, a CSS
@@ -869,14 +899,20 @@ function MwAi() {
                     const base = String(mw.settings.site_url || '').replace(/\/+$/, '');
                     full = (raw === '/' || raw === '') ? base + '/' : base + '/' + raw.replace(/^\/+/, '');
                 }
-                try {
-                    // Save before leaving so nothing is lost, then load the page.
-                    try { api.saveCanvas(); } catch (e) {}
-                    mw.top().app.canvas.setUrl(full);
-                    return { ok: true, message: 'navigating to ' + raw };
-                } catch (e) {
-                    return { ok: false, message: String(e && e.message || e) };
-                }
+                // Autosave, WAIT for it to finish, then clear the canvas dirty
+                // flag so the iframe's beforeunload guard can't pop the native
+                // "Leave site? Changes you made may not be saved" dialog, and
+                // only THEN load the page. Previously saveCanvas() fired async
+                // and setUrl() ran immediately, so navigation raced the save and
+                // hit the block. task-2026-09-06-aisave.
+                api.saveCanvasAsync().then(function () {
+                    try {
+                        const cwin = mw.top().app.canvas.getWindow && mw.top().app.canvas.getWindow();
+                        if (cwin && cwin.mw) { cwin.mw.askusertostay = false; }
+                    } catch (e) {}
+                    try { mw.top().app.canvas.setUrl(full); } catch (e) {}
+                });
+                return { ok: true, message: 'saving, then navigating to ' + raw };
             },
 
             // These run server-side (create_content/create_post/add_menu_item do
@@ -1006,6 +1042,11 @@ function MwAi() {
                     // Reload the modules edited this turn so the changes (new menu
                     // items, product fields, form fields…) show on the canvas.
                     try { self.flushModuleReloads(); } catch (e) {}
+                    // Persist the edits this turn made so they aren't lost and the
+                    // page isn't left "dirty but unsaved" (which pops the browser's
+                    // "Leave site?" prompt on the next navigation). Fire-and-forget
+                    // — the save round-trips in the background. task-2026-09-06-aisave.
+                    try { self.saveCanvasAsync(); } catch (e) {}
                     if (handlers.onDone) { handlers.onDone(data); }
                 }
             };

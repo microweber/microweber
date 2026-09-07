@@ -113,7 +113,7 @@ export default {
 }
 
 .color-palette-item:hover {
-    background-color: var(--tblr-bg-surface, #f8f9fa);
+    background-color: var(--ese-surface-hover, rgba(0,0,0,0.04));
 }
 
 .color-swatch {
@@ -121,11 +121,11 @@ export default {
     width: 100%;
     height: 40px;
     min-width: 40px;
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid var(--ese-border, rgba(0,0,0,0.08));
 }
 
 .palette-label {
     text-align: center;
-    color: var(--tblr-text-muted, #6c757d);
+    color: var(--ese-text-muted, #6b7280);
 }
 </style>

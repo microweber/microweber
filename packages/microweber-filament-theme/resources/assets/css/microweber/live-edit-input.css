@@ -49,7 +49,9 @@
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled,
 .form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled {
-    @apply bg-[#f0f0f0] opacity-70;
+    /* task-2026-09-06-darkaudit — added dark variant; the flat #f0f0f0 disabled
+       fill was a light-gray block on the dark legacy option form. */
+    @apply bg-[#f0f0f0] opacity-70 dark:bg-gray-700 dark:opacity-60;
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus,

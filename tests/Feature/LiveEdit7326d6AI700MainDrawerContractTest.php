@@ -324,14 +324,24 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     }
 
     #[Test]
-    public function toolbar_renders_visible_hamburger_button(): void
+    public function toolbar_keeps_hidden_hamburger_button(): void
     {
-        // New visible hamburger button — id, class, aria-label, click
-        // handler all pinned.
+        // task-2026-09-06-menumerge — the ☰ hamburger is now HIDDEN: its
+        // Navigation items were merged into the 3-dots ToolbarToolsDropdown so
+        // Live Edit has a single overflow menu. The button + its id, aria-label
+        // and MainDrawer.open() click handler are KEPT in the DOM (for Dusk
+        // back-compat + the mount assertion above), but it must carry an inline
+        // display:none so it isn't visible.
         $this->assertMatchesRegularExpression(
             '/<button[^>]*id="mw-live-edit-main-drawer-button"[\s\S]*?aria-label="Open menu"[\s\S]*?@click="\$refs\.mainDrawer && \$refs\.mainDrawer\.open\(\)"/',
             $this->toolbar,
-            'Toolbar.vue must render a visible #mw-live-edit-main-drawer-button hamburger triggering MainDrawer.open().'
+            'Toolbar.vue must keep the #mw-live-edit-main-drawer-button trigger (hidden) wired to MainDrawer.open().'
+        );
+        // Pin that it is hidden — the visible menu is now the 3-dots dropdown.
+        $this->assertMatchesRegularExpression(
+            '/<button[^>]*id="mw-live-edit-main-drawer-button"[^>]*style="display:none[^"]*"/',
+            $this->toolbar,
+            'The #mw-live-edit-main-drawer-button hamburger must be hidden (display:none) after the menu merge.'
         );
     }
 

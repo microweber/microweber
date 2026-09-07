@@ -109,11 +109,16 @@ html.live-edit-gui-editor-opened #live_edit_side_holder {
     width: calc(100% - var(--sidebar-end-size));
 }
 
-html.mw-live-edit-sidebar-start #live_edit_side_holder {
+/* task-2026-09-06-darkaudit — only the LEFT-docked Layers panel shifts the
+   canvas right. The admin drawer now opens as a RIGHT overlay but reuses
+   `mw-live-edit-sidebar-start` (for its expanded-label styling); excluding
+   `.mw-live-edit-admin-open` stops it pushing the canvas 250px right, which had
+   exposed a black gap on the left. */
+html.mw-live-edit-sidebar-start:not(.mw-live-edit-admin-open) #live_edit_side_holder {
     left: var(--sidebar-start-size);
     max-width: calc(100% - var(--sidebar-start-size));
 }
-html.mw-live-edit-sidebar-start.live-edit-gui-editor-opened
+html.mw-live-edit-sidebar-start:not(.mw-live-edit-admin-open).live-edit-gui-editor-opened
     #live_edit_side_holder {
     max-width: calc(100% - var(--sidebar-start-size) - var(--sidebar-end-size));
 }
@@ -1208,6 +1213,23 @@ html.dark .mw-le-layouts-dialog-categories-title {
     --sidebar-end-size-max: 700px;
 }
 
+/* task-2026-09-06-darkaudit — SYSTEMIC dark-mode fix. The light-only :root
+   block above re-declares --ese-accent / --ese-accent-soft, and because this
+   frontend bundle loads AFTER the filament theme it SHADOWS the theme's global
+   .dark flip of these two tokens (element-style-editor.css:375-376). Result:
+   --ese-accent stayed #182433 (dark ink) in dark mode everywhere it's used for
+   a colour/fill/border — active rail icon+text, layout/module handles, tabs,
+   ~57 chrome sites — i.e. dark-on-dark. Re-flip the two shadowed tokens in dark
+   with an html.dark-anchored selector (specificity 0,1,1) so it deterministically
+   wins over both :root and .dark (0,1,0) regardless of load order. Mirrors the
+   theme's own dark values; also repairs --ese-accent INSIDE the ESE (the shadow
+   was silently breaking it there too). Canvas iframe / public site carry no
+   html.dark, so the light :root above still governs them. */
+html.dark, html.dark :root, .dark, .theme-dark, [data-theme="dark"] {
+    --ese-accent: #e5e7eb;
+    --ese-accent-soft: rgba(229, 231, 235, 0.14);
+}
+
 #css-editor-template {
     position: fixed;
     top: var(--toolbar-height);
@@ -1348,7 +1370,11 @@ html .mw-control-box-right .mw-control-box-content {
     overflow: auto;
 }
 
-html.mw-live-edit-sidebar-start #live-edit-frame-holder {
+/* task-2026-09-06-darkaudit — exclude the RIGHT admin overlay from the LEFT
+   Layers canvas-shift (it reuses mw-live-edit-sidebar-start for label styling).
+   Without this the canvas was pushed 250px right on admin-open, exposing a
+   black gap on the left. */
+html.mw-live-edit-sidebar-start:not(.mw-live-edit-admin-open) #live-edit-frame-holder {
     left: var(--sidebar-start-size);
 }
 
@@ -1681,6 +1707,57 @@ aside.fi-sidebar {
     background-color: #e6e6e6 !important;
 }
 
+/* task-2026-09-06-ledark — DEFECT 2: page-chip trigger ("Home ▾") is a
+   WHITE pill in dark mode (the light #f0f0f0/#182433 rule above wins with
+   its #toolbar id-specificity). PageChip.vue is Vue-scoped so its own
+   .dark rules are dropped by the Vite build — put the dark override here
+   in this non-scoped sheet. #toolbar-anchored (1 id, 2 class, 1 elem) so
+   it beats the light #toolbar .mw-page-chip rule. Light mode unchanged. */
+html.dark #toolbar .mw-page-chip {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #f1f5f9 !important;
+}
+html.dark #toolbar .mw-page-chip:hover,
+html.dark #toolbar .mw-page-chip.mw-page-chip--open {
+    background-color: rgba(255, 255, 255, 0.14) !important;
+}
+html.dark #toolbar .mw-page-chip .mw-page-chip__label,
+html.dark #toolbar .mw-page-chip .mw-page-chip__chevron {
+    color: #f1f5f9 !important;
+}
+
+/* task-2026-09-06-ledark — DEFECT 3: PREVIEW and SAVE looked nearly
+   identical in dark mode (both dark navy). Keep SAVE the solid ink CTA
+   and demote PREVIEW to a GHOST/outline button in BOTH themes so the two
+   are obviously distinct. Targets the unique #mw-page-set-preview-mode id
+   (NOT the shared .live-edit-toolbar-buttons-view, which also skins
+   undo/redo/+ADD) so only PREVIEW becomes an outline. id + !important
+   beats the .dark .live-edit-toolbar-buttons-view fill and the generic
+   #toolbar .btn light rule. */
+#toolbar #mw-page-set-preview-mode.live-edit-toolbar-buttons {
+    background-color: transparent !important;
+    border: 1px solid #cbd2da !important;
+    color: #182433 !important;
+}
+#toolbar #mw-page-set-preview-mode.live-edit-toolbar-buttons:hover,
+#toolbar #mw-page-set-preview-mode.live-edit-toolbar-buttons:focus-visible {
+    background-color: rgba(24, 36, 51, 0.06) !important;
+    border-color: #182433 !important;
+    color: #182433 !important;
+}
+html.dark #toolbar #mw-page-set-preview-mode.live-edit-toolbar-buttons {
+    background-color: transparent !important;
+    border: 1px solid #4b5563 !important;
+    color: #e5e7eb !important;
+}
+html.dark #toolbar #mw-page-set-preview-mode.live-edit-toolbar-buttons:hover,
+html.dark #toolbar #mw-page-set-preview-mode.live-edit-toolbar-buttons:focus-visible {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border-color: #9ca3af !important;
+    color: #ffffff !important;
+}
+
 /* ------------------------------------------------------------------ *
  * Quick AI Edit panel — finish the sidebar box (tabs, field cards,    *
  * empty state) so it reads as a polished, complete UI rather than     *
@@ -1852,3 +1929,64 @@ html.dark .form-control-live-edit-input:focus { border-color: #e8eaed; box-shado
     /* keep suggestion chips easy to tap */
     #mw-live-edit-quickEditComponent-box .mw-ai-conv-suggest button { padding: 9px 13px; }
 }
+
+/* ==================================================================
+ * task-2026-09-07-elementmenu / fontsize-stepper — RTE toolbar additions
+ * ------------------------------------------------------------------
+ * (1) fontSize is now a composite: compact − / + steppers flanking the
+ *     size dropdown, so the three read as ONE component (the old
+ *     standalone full-size −/+ buttons are removed).
+ * (2) the "⋮" button opens a small action menu (Duplicate / Edit
+ *     styles / Delete) rendered into the toolbar's document body.
+ * ================================================================== */
+.mw-editor-fontsize-stepper {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+}
+.mw-editor-fontsize-stepper .mw-editor-fontsize-step {
+    width: 24px;
+    min-width: 24px;
+    height: 28px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    opacity: .85;
+}
+.mw-editor-fontsize-stepper .mw-editor-fontsize-step:hover { opacity: 1; }
+.mw-editor-fontsize-stepper .mw-editor-fontsize-step svg { width: 15px; height: 15px; }
+/* the dropdown sits between the two steppers with no extra gap */
+.mw-editor-fontsize-stepper .mw-editor-font-size-selector { margin: 0; }
+
+.mw-editor-more-menu {
+    display: none;
+    position: fixed;
+    z-index: 100060;
+    min-width: 178px;
+    padding: 6px;
+    border-radius: 10px;
+    background: #182433;
+    color: #e5e7eb;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .34), 0 1px 3px rgba(0, 0, 0, .22);
+}
+.mw-editor-more-menu__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 10px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 13px;
+    line-height: 1;
+    text-align: left;
+    cursor: pointer;
+}
+.mw-editor-more-menu__item:hover { background: rgba(255, 255, 255, .12); }
+.mw-editor-more-menu__item svg { flex: 0 0 auto; opacity: .9; }
+.mw-editor-more-menu__item.is-danger:hover { background: rgba(220, 57, 57, .38); }
+html.dark .mw-editor-more-menu { background: #0f1722; box-shadow: 0 10px 30px rgba(0, 0, 0, .55); }

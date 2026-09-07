@@ -13,11 +13,13 @@ use Tests\TestCase;
  * regression coverage.
  *
  * Pins:
- *   - All 5 `.btn-icon.live-edit-toolbar-buttons` toggles in
+ *   - All 6 `.btn-icon.live-edit-toolbar-buttons` toggles in
  *     SettingsCustomize.vue are real <button type="button">
  *     elements (not <div> or <span> with role="button"). Real
  *     <button> gets native focus ring, native form-submit
  *     semantics, and native keyboard activation.
+ *     (task-2026-09-05-adminrail added the 6th toggle, "Admin",
+ *     which merges the old left admin drawer into the right rail.)
  *   - The marker class `mw-toolbar-icon-btn` is added to each
  *     so the cycle-77 CSS sizing override scopes correctly.
  *   - The mobile-touch.css 44x44 sizing rule targets the marker
@@ -48,19 +50,22 @@ class LiveEditToolbarButtonContractTest extends TestCase
     }
 
     #[Test]
-    public function five_toolbar_toggles_are_real_button_elements(): void
+    public function six_toolbar_toggles_are_real_button_elements(): void
     {
         // Each toggle MUST be a real <button type="button">. Pin the
-        // aria-label of each one so we know all 5 are present
+        // aria-label of each one so we know all 6 are present
         // AND that each one is on a <button>.
         // Updated 2026-06: two labels were renamed in the current Vue
         // source — 'Template settings' → 'Templates & layouts' and
         // 'Design' → 'Element styles'. The other three are unchanged.
+        // Updated 2026-09 (task-2026-09-05-adminrail): 'Admin' toggle
+        // added to the right rail (single-sidebar consolidation).
         $required = [
             'Insert layout',
             'Templates & layouts',
             'Element styles',
             'Quick AI edit',
+            'Admin',
             'Advanced',
         ];
         foreach ($required as $label) {
@@ -75,9 +80,9 @@ class LiveEditToolbarButtonContractTest extends TestCase
         // <button> defaults to type="submit" and would submit any
         // ancestor form when clicked.
         $this->assertSame(
-            5,
+            6,
             substr_count($this->vueSrc, 'type="button"'),
-            'SettingsCustomize.vue: must have exactly 5 type="button" attributes (one per toggle)'
+            'SettingsCustomize.vue: must have exactly 6 type="button" attributes (one per toggle)'
         );
     }
 
@@ -105,9 +110,9 @@ class LiveEditToolbarButtonContractTest extends TestCase
         // live-edit-classes.css line 162 would clamp the button to
         // 35px tall and the 44x44 floor would be lost.
         $this->assertSame(
-            5,
+            6,
             substr_count($this->vueSrc, 'mw-toolbar-icon-btn'),
-            'SettingsCustomize.vue: must have exactly 5 mw-toolbar-icon-btn occurrences (one per toggle)'
+            'SettingsCustomize.vue: must have exactly 6 mw-toolbar-icon-btn occurrences (one per toggle)'
         );
     }
 

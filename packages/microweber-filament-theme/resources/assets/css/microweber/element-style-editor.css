@@ -457,7 +457,12 @@
 }
 
 .mw-ese-label {
-    @apply block text-[10px] uppercase;
+    display: block;
+    font-size: var(--font-label,11px);
+    text-transform: none;
+    font-weight: var(--weight-label,500);
+    letter-spacing: var(--letter-label,0.01em);
+    color: var(--ese-label);
 }
 
 .mw-ese-padding .mw-ese-label {
@@ -489,7 +494,13 @@
 }
 
 .mw-esc label {
-    @apply block text-[10px] uppercase pb-[2px];
+    display: block;
+    padding-bottom: 2px;
+    font-size: var(--font-label,11px);
+    text-transform: none;
+    font-weight: var(--weight-label,500);
+    letter-spacing: var(--letter-label,0.01em);
+    color: var(--ese-label);
 }
 
 .mw-esc .mw-multiple-fields .mw-field:first-child {
@@ -521,7 +532,13 @@
 }
 
 .s-field label {
-    @apply w-[100px] self-center uppercase text-[10px] text-gray-500;
+    width: 100px;
+    align-self: center;
+    font-size: var(--font-label,11px);
+    text-transform: none;
+    font-weight: var(--weight-label,500);
+    letter-spacing: var(--letter-label,0.01em);
+    color: var(--ese-label);
 }
 
 .s-field-content {
@@ -1625,6 +1642,19 @@
     border-color: var(--ese-accent, #0d6efd) !important;
 }
 
+/* 11b. Spacing-editor value inputs — @apply border-gray-300 is a hardcoded
+ *      light border with no dark counterpart, so in dark mode the four
+ *      margin/padding inputs kept a pale ring on the dark panel. Retint to the
+ *      ESE border token (mirrors the 5b source change in ElementStyleEditorSpacing.vue,
+ *      whose scoped <style> is not emitted into any Vite bundle). */
+.dark .mw-element-spacing-editor .input input,
+.theme-dark .mw-element-spacing-editor .input input,
+[data-theme="dark"] .mw-element-spacing-editor .input input {
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.35)) !important;
+    background-color: var(--ese-surface, #1a1f2b) !important;
+    color: var(--ese-text, #f1f5f9) !important;
+}
+
 /* 12. Spacing diagram position labels (TOP, RIGHT, BOTTOM, LEFT) */
 .dark .mw-ese-label,
 .theme-dark .mw-ese-label,
@@ -1730,3 +1760,66 @@
 /* task-2026-05-22-747f20 AI-724: same scope discipline */
 /* task-2026-05-22-06f3f4 AI-725: same scope discipline */
 /* task-2026-05-22-48070d AI-720: per-panel empty state light styles above + dark overrides scoped */
+
+/* task-2026-09-06-darkaudit — two keyboard focus rings used the ink color
+   (#182433 / rgba(24,36,51,.4)) which is invisible on the dark ESE panel.
+   These live in Vue <style scoped> which Vite drops for .dark rules, so the
+   dark override must live here in the webpack theme. Light mode keeps its ink
+   ring (these rules are .dark-scoped). */
+.dark #mw-element-style-editor-app .picker-button:focus-visible,
+.theme-dark #mw-element-style-editor-app .picker-button:focus-visible,
+:root[data-theme="dark"] #mw-element-style-editor-app .picker-button:focus-visible {
+    outline-color: var(--ese-accent, #e5e7eb) !important;
+}
+.dark #mw-element-style-editor-app .reset-field-btn:focus-visible,
+.theme-dark #mw-element-style-editor-app .reset-field-btn:focus-visible,
+:root[data-theme="dark"] #mw-element-style-editor-app .reset-field-btn:focus-visible {
+    outline: 2px solid var(--ese-accent, #e5e7eb) !important;
+}
+
+/* task-2026-09-06-darkalign (FIX 1) — Typography ALIGN active cell rendered
+   as a near-black box (#171717) in dark mode. The active pill background/color
+   for the .mw-segmented__cell.active state came from Align.vue's own scoped
+   <style> (an ink pill sized for light mode); Vite drops the scoped `.dark`
+   variant, so no dark override shipped. The correct look already exists for
+   the `.is-active` twin at the `.mw-segmented__cell.is-active` rule above
+   (accent-soft tint + accent text + inset accent ring). Re-assert that look
+   for the `.active` class in dark ONLY, scoped to the ESE app so the
+   TemplateSettings `.mw-segmented__cell.active` (outside #mw-element-style-editor-app)
+   and ResolutionSwitch (aria-checked / .is-active, not .active) are untouched.
+   In dark, --ese-accent = #e5e7eb and --ese-accent-soft = rgba(229,231,235,.14),
+   so the active cell becomes a light tint with a light icon — clearly "active".
+   LIGHT MODE is deliberately not touched (its ink pill stays). */
+.dark #mw-element-style-editor-app .mw-segmented__cell.active,
+.theme-dark #mw-element-style-editor-app .mw-segmented__cell.active,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-segmented__cell.active {
+    background: var(--ese-accent-soft) !important;
+    color: var(--ese-accent) !important;
+    box-shadow: inset 0 0 0 1px var(--ese-accent) !important;
+}
+/* The generic `.dark .element-style-editor-toggle-wrapper svg` rule forces every
+   ESE svg to --ese-text-muted; re-anchor the ACTIVE align cell's icon to the
+   accent so the glyph reads as selected (higher specificity + !important wins). */
+.dark #mw-element-style-editor-app .mw-segmented__cell.active svg,
+.theme-dark #mw-element-style-editor-app .mw-segmented__cell.active svg,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-segmented__cell.active svg {
+    color: var(--ese-accent) !important;
+    fill: currentColor !important;
+}
+
+/* task-2026-09-06-darksep (FIX 2) — ESE accordion section separators invisible
+   in dark mode. The visible section list (Typography / Background / Spacing / …)
+   is built from `.element-style-editor-toggle-wrapper` items (NOT `.mw-accordion`,
+   which is unused inside the ESE Vue app) separated only by a 4px `mb-1` gap — no
+   divider line, so on the dark panel the sections blur together. Add a subtle
+   hairline between consecutive section items in dark only. Every item except the
+   first DOM sibling gets a top divider (the adjacent-sibling combinator ignores
+   the v-show `display:none` state of a preceding hidden section, so the first
+   visible section still reads with a clean top edge). Light mode reads fine
+   already, so this stays dark-scoped to avoid any regression. */
+.dark #mw-element-style-editor-app .element-style-editor-toggle-wrapper + .element-style-editor-toggle-wrapper,
+.theme-dark #mw-element-style-editor-app .element-style-editor-toggle-wrapper + .element-style-editor-toggle-wrapper,
+:root[data-theme="dark"] #mw-element-style-editor-app .element-style-editor-toggle-wrapper + .element-style-editor-toggle-wrapper {
+    border-top: 1px solid rgba(255, 255, 255, 0.10);
+    padding-top: 10px;
+}

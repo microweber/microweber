@@ -2,7 +2,7 @@
 
 .mw-ese-holder {
     background-color: #f5f5f5;
-    border: 1px solid #cfcfcf;
+    border: 1px solid var(--ese-border, rgba(15,23,42,0.12));
     transition: .2s;
 }
 
@@ -34,9 +34,9 @@
 .mw-element-spacing-editor .input input {
     width: 40px;
     height: 22px;
-    border-radius: 3px;
+    border-radius: var(--radius-xs, 4px);
     line-height: 20px;
-    border: 1px solid #cfcfcf;
+    border: 1px solid var(--ese-border, rgba(15,23,42,0.12));
     padding: 0 3px;
     text-align: center;
     font-size: 12px;

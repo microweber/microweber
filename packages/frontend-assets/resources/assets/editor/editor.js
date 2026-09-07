@@ -63,6 +63,8 @@ export const EditorComponent = function () {
                 }
             },
             'format',
+            // task-2026-09-07-fontsize-stepper — fontSize is now a composite
+            // component with built-in − / + steppers (no standalone buttons).
             'fontSize',
             {
                 group: {
@@ -95,6 +97,10 @@ export const EditorComponent = function () {
             'table',
 
             'removeFormat',
+            // task-2026-09-07-elementmenu — single "⋮" opens an action menu
+            // (Duplicate / Edit styles / Delete). Replaces the standalone
+            // duplicate + delete buttons.
+            'elementMore',
             'pin',
             'backToElementSettings',
 

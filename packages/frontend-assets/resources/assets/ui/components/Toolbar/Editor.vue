@@ -1,6 +1,12 @@
 <script>
 import liveEditHelpers from "../../../api-core/core/live-edit-helpers.service.js";
-import {EditorComponent} from "../../../api-core/services/components/editor/editor";
+// task-2026-09-07-toolbarunify — import the CANONICAL editor.js
+// (resources/assets/editor/editor.js) — the file the editor-toolbar contract
+// test pins and the one meant to be the single source of truth. Previously
+// this pulled a DIVERGED duplicate under api-core/ that was the only bundled
+// copy, so edits to the canonical file silently did nothing on `npm run
+// build`. The api-core duplicate has been removed; there is now ONE editor.js.
+import {EditorComponent} from "../../../editor/editor";
 import {liveEditComponent} from "../../../api-core/services/components/live-edit/live-edit";
 import {DomService} from "../../../api-core/core/classes/dom.js";
 import CSSGUIService from "../../../api-core/services/services/css-gui.service.js";

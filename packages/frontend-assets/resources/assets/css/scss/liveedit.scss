@@ -266,3 +266,92 @@ mw-editor-button svg,
     color: #0a63c8 !important;
 }
 
+/*
+ * DARK MODE contrast fix for the inline WYSIWYG toolbar.
+ *
+ * When the admin runs in dark mode the editor.js theme sync stamps the toolbar
+ * with `.mw-small-editor-skin-dark` (see setSmallEditorSkin(theme) in
+ * services/components/editor/editor.js), which turns the toolbar surface dark
+ * (bg rgb(30,30,30) in editor.scss). BUT the unconditional
+ * `color/fill: #2b2b2b !important` block directly above — added to defeat
+ * AI-page `body{color:#fff !important}` bleed in LIGHT mode — also fires in
+ * dark mode, forcing the glyphs dark-on-dark (near-invisible: the reported
+ * "dark icons on a dark near-black bar" defect). Its `!important` outranks the
+ * skin-dark rule's non-important `color: rgba(255,255,255,.9)`.
+ *
+ * Fix: re-force the glyphs LIGHT with !important, scoped to the dark skin so
+ * LIGHT mode is untouched. The extra `.mw-small-editor-skin-dark` /
+ * `html.dark`/`html[data-mw-theme="dark"]` ancestor raises specificity above
+ * the bare unconditional override, so equal-!important + higher-specificity
+ * wins. The toolbar lives inside the canvas iframe (which stays light, no
+ * html.dark), so `.mw-small-editor-skin-dark` — stamped on the element itself —
+ * is the load-bearing hook; the html-scoped variants only cover a top-document
+ * render. Only COLOUR is touched; sizing/active-accent (blue #4592ff) untouched.
+ * Also re-tint the dark surface + its popovers to the ink token #182433 (same as
+ * --dark-bg / the select-values-holder) so the bar reads as ink chrome, not a
+ * flat near-black box.
+ */
+.mw-small-editor-skin-dark mw-editor-button,
+.mw-small-editor-skin-dark mw-editor-button .mdi,
+.mw-small-editor-skin-dark .mw-editor-controller-component,
+.mw-small-editor-skin-dark .mw-editor-controller-component .mdi,
+.mw-small-editor-skin-dark .mw-bar-control-item,
+.mw-small-editor-skin-dark .mw-bar-control-item .mdi,
+.mw-small-editor-skin-dark [class*="mw-editor-option-dropdown"],
+.mw-small-editor-skin-dark [class*="mw-editor-option-dropdown"] *,
+html.dark .mw-small-editor mw-editor-button,
+html.dark .mw-small-editor mw-editor-button .mdi,
+html.dark .mw-small-editor .mw-editor-controller-component,
+html.dark .mw-small-editor .mw-editor-controller-component .mdi,
+html.dark .mw-small-editor .mw-bar-control-item,
+html.dark .mw-small-editor .mw-bar-control-item .mdi,
+html.dark .mw-small-editor [class*="mw-editor-option-dropdown"],
+html.dark .mw-small-editor [class*="mw-editor-option-dropdown"] *,
+html[data-mw-theme="dark"] .mw-small-editor mw-editor-button,
+html[data-mw-theme="dark"] .mw-small-editor mw-editor-button .mdi,
+html[data-mw-theme="dark"] .mw-small-editor .mw-editor-controller-component,
+html[data-mw-theme="dark"] .mw-small-editor .mw-editor-controller-component .mdi,
+html[data-mw-theme="dark"] .mw-small-editor .mw-bar-control-item,
+html[data-mw-theme="dark"] .mw-small-editor .mw-bar-control-item .mdi,
+html[data-mw-theme="dark"] .mw-small-editor [class*="mw-editor-option-dropdown"],
+html[data-mw-theme="dark"] .mw-small-editor [class*="mw-editor-option-dropdown"] * {
+    color: #e5e7eb !important;
+}
+.mw-small-editor-skin-dark mw-editor-button svg,
+.mw-small-editor-skin-dark .mw-editor-controller-component svg,
+.mw-small-editor-skin-dark .mw-bar-control-item svg,
+html.dark .mw-small-editor mw-editor-button svg,
+html.dark .mw-small-editor .mw-editor-controller-component svg,
+html.dark .mw-small-editor .mw-bar-control-item svg,
+html[data-mw-theme="dark"] .mw-small-editor mw-editor-button svg,
+html[data-mw-theme="dark"] .mw-small-editor .mw-editor-controller-component svg,
+html[data-mw-theme="dark"] .mw-small-editor .mw-bar-control-item svg {
+    fill: #e5e7eb !important;
+}
+/* Active/selected control keeps the blue accent bg — force its glyphs pure white
+ * so they stay crisp on #4592ff (beats the light-grey icon colour above). */
+.mw-small-editor-skin-dark .mw-editor-controller-button.active-control,
+.mw-small-editor-skin-dark .mw-editor-controller-button.active-control .mdi,
+.mw-small-editor-skin-dark .mw-editor-controller-button.active-control svg,
+html.dark .mw-small-editor .mw-editor-controller-button.active-control,
+html.dark .mw-small-editor .mw-editor-controller-button.active-control .mdi,
+html.dark .mw-small-editor .mw-editor-controller-button.active-control svg {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+}
+/* Ink surface (matches --dark-bg #182433 used by the handles + select holder).
+ * No !important needed: same/greater specificity than editor.scss and emitted
+ * later in the compiled liveedit.css, so it wins the cascade. */
+.mw-small-editor.mw-small-editor-skin-dark,
+html.dark .mw-small-editor,
+html[data-mw-theme="dark"] .mw-small-editor {
+    background-color: #182433;
+}
+.mw-small-editor-skin-dark .mw-bar-control-item-group-contents,
+.mw-small-editor-skin-dark .mw-editor-controller-component-select-values-holder,
+.mw-small-editor-skin-dark .mw-editor-font-size-selector .mw-editor-controller-component-select-values-holder,
+html.dark .mw-small-editor .mw-bar-control-item-group-contents,
+html.dark .mw-small-editor .mw-editor-controller-component-select-values-holder {
+    background-color: #182433;
+}
+

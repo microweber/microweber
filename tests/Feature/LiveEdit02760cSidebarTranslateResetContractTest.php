@@ -60,10 +60,20 @@ class LiveEdit02760cSidebarTranslateResetContractTest extends TestCase
     #[Test]
     public function fi_sidebar_keeps_transform_based_slide_in(): void
     {
+        // task-2026-09-05-adminrail — single-sidebar consolidation flipped
+        // the admin drawer to slide in from the RIGHT (docked left of the
+        // 56px right rail). The hidden state now parks it off the RIGHT edge
+        // via `translateX(calc(100% + 56px))` (100% of its own width + the
+        // 56px dock offset) instead of the old `translateX(-100%)`. The
+        // invariant this test protects is unchanged: the hidden state pushes
+        // the drawer fully off-screen via the `transform` property (the
+        // `translate: none !important` reset above keeps Tailwind's utility
+        // from interfering), and `.active` restores translateX(0%).
         $this->assertMatchesRegularExpression(
-            '/\.fi-sidebar\s*\{[^}]*transform:\s*translateX\(-100%\)\s*!important/s',
+            '/\.fi-sidebar\s*\{[^}]*transform:\s*translateX\(calc\(100%\s*\+\s*56px\)\)\s*!important/s',
             $this->blade,
-            '.fi-sidebar default state must still translate -100% via the transform property.'
+            '.fi-sidebar default (hidden) state must translate fully off the RIGHT edge '
+            . 'via the transform property (translateX(calc(100% + 56px))).'
         );
         $this->assertMatchesRegularExpression(
             '/\.fi-sidebar\.active\s*\{[^}]*transform:\s*translateX\(0%\)\s*!important/s',

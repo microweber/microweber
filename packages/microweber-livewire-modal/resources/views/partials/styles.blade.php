@@ -76,9 +76,9 @@
     }
 
     .mw-modal-close-x:focus-visible {
-        outline: 2px solid #6366f1;
+        outline: 2px solid var(--ese-accent, #182433);
         outline-offset: 2px;
-        background: rgba(99, 102, 241, 0.08);
+        background: var(--ese-accent-soft, rgba(24,36,51,0.1));
     }
 
     /* Bare / mw.dialog skins — chrome comes from mw.dialog, not this overlay. */
@@ -125,5 +125,14 @@
         max-height: calc(100vh - 100px);
         overflow: auto;
         padding: 16px;
+    }
+
+    /* task-2026-09-06-darkaudit — the fallback (mw.dialog JS unavailable) modal
+       hardcoded a white surface with no dark counterpart; if it ever fires in
+       dark mode the whole modal is white-on-dark. Latent, but cheap to cover. */
+    html.dark .js-modal-livewire.mw-livewire-modal-mw-dialog.mw-dialog-fallback .mw-livewire-modal-content,
+    html.dark .js-modal-livewire.mw-livewire-modal-bare.mw-dialog-fallback .mw-livewire-modal-content {
+        background-color: #1f2937;
+        color: #f3f4f6;
     }
 </style>

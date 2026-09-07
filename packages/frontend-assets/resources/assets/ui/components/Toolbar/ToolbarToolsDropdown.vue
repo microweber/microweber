@@ -200,39 +200,11 @@
                     </button>
                 </li>
 
-                <!--
-                    task-2026-05-16-3ae87c: user-menu items merged in here.
-                    task-2026-05-28-f8a3c1 / AI-1225: reorganised into a
-                    "Session" section. "Back to Admin" filtered in
-                    fetchUserMenu() — it duplicates MainDrawer Navigate.
-                    The original `#user-menu-wrapper` stays in the DOM
-                    hidden — see Toolbar.vue for the back-compat note.
-                -->
-                <li class="separator" role="separator" v-if="userMenuItems.length > 0">
-                    <hr>
-                </li>
-
-                <li class="section-label" role="none" aria-hidden="true" v-if="userMenuItems.length > 0">
-                    <span>Session</span>
-                </li>
-
-                <li role="none" v-for="(menuItem, idx) in userMenuItems" :key="'um-' + idx">
-                    <a
-                        role="menuitem"
-                        tabindex="-1"
-                        :href="menuItem.href"
-                        :onclick="menuItem.onclick"
-                        :target="menuItem.target"
-                        :id="menuItem.id ? menuItem.id + '-tools' : null"
-                        :class="menuItem.class || ''"
-                        @click="hideToolsDropdown"
-                    >
-                        <span v-html="menuItem.icon_html"></span>
-                        {{ menuItem.title }}
-                    </a>
-                </li>
-
-                <!-- Expandable More Settings Content -->
+                <!-- Expandable More Settings Content — task-2026-09-06-menumerge:
+                     moved to sit immediately UNDER the "More settings" toggle
+                     (was previously rendered at the very bottom, after the
+                     Session section, so expanding it pushed the items below
+                     Log out). -->
                 <li class="more-settings-content" role="none" v-show="moreSettingsExpanded">
                     <ul class="submenu" id="mw-tools-more-settings" role="menu" aria-labelledby="mw-tools-dropdown-trigger">
                         <li role="none">
@@ -272,6 +244,79 @@
                         </li>
                     </ul>
                 </li>
+
+                <!-- task-2026-09-06-menumerge — NAVIGATE section, merged in
+                     from the now-removed hamburger (MainDrawer). Pages / Back
+                     to admin / Users / View public site live here so the 3-dots
+                     menu is the single overflow menu in Live Edit. -->
+                <li class="separator" role="separator">
+                    <hr>
+                </li>
+                <li class="section-label" role="none" aria-hidden="true">
+                    <span>Navigate</span>
+                </li>
+                <li role="none">
+                    <button type="button" role="menuitem" tabindex="-1" data-mw-drawer-item="pages" @click="openPagesList">
+                        <svg fill="currentColor" height="20" viewBox="0 -960 960 960" width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-560v-160H240v640h480v-480H520ZM240-800v160-160 640-640Z"/>
+                        </svg>
+                        Pages
+                    </button>
+                </li>
+                <li role="none" v-if="backToAdminLink">
+                    <a role="menuitem" tabindex="-1" :href="backToAdminLink" data-mw-drawer-item="back-to-admin" @click="hideToolsDropdown">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                        Back to admin
+                    </a>
+                </li>
+                <li role="none">
+                    <a role="menuitem" tabindex="-1" :href="usersUrl" data-mw-drawer-item="users" @click="hideToolsDropdown">
+                        <svg fill="currentColor" height="20" viewBox="0 -960 960 960" width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm720 0v-120q0-44-24.5-84.5T666-434q51 6 96 20.5t84 35.5q36 20 55 44.5t19 53.5v120H760ZM360-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm400-160q0 66-47 113t-113 47q-11 0-28-2.5t-28-5.5q27-32 41.5-71t14.5-81q0-42-14.5-81T544-792q14-5 28-6.5t28-1.5q66 0 113 47t47 113Z"/>
+                        </svg>
+                        Users
+                    </a>
+                </li>
+                <!-- "View public site" intentionally omitted here: the Session
+                     section below already carries "See website" (same target)
+                     from the top-right-menu API, so adding it in Navigate too
+                     would duplicate the nav target. task-2026-09-06-menumerge. -->
+
+                <!--
+                    task-2026-05-16-3ae87c: user-menu items merged in here.
+                    task-2026-05-28-f8a3c1 / AI-1225: reorganised into a
+                    "Session" section. "Back to Admin" filtered in
+                    fetchUserMenu() — it now feeds the Navigate section above
+                    (backToAdminLink) instead of duplicating a drawer.
+                    The original `#user-menu-wrapper` stays in the DOM
+                    hidden — see Toolbar.vue for the back-compat note.
+                -->
+                <li class="separator" role="separator" v-if="userMenuItems.length > 0">
+                    <hr>
+                </li>
+
+                <li class="section-label" role="none" aria-hidden="true" v-if="userMenuItems.length > 0">
+                    <span>Session</span>
+                </li>
+
+                <li role="none" v-for="(menuItem, idx) in userMenuItems" :key="'um-' + idx">
+                    <a
+                        role="menuitem"
+                        tabindex="-1"
+                        :href="menuItem.href"
+                        :onclick="menuItem.onclick"
+                        :target="menuItem.target"
+                        :id="menuItem.id ? menuItem.id + '-tools' : null"
+                        :class="menuItem.class || ''"
+                        @click="hideToolsDropdown"
+                    >
+                        <span v-html="menuItem.icon_html"></span>
+                        {{ menuItem.title }}
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>
@@ -291,7 +336,7 @@
     align-items: center;
     gap: 8px;
     background: #fff;
-    border-radius: 7px;
+    border-radius: 8px;
     border: 1px solid #e0e0e0;
     box-shadow: none;
     transition: border 0.2s, box-shadow 0.2s;
@@ -320,7 +365,7 @@
     right: 0;
     background-color: #fff;
     min-width: 200px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+    box-shadow: 0 4px 16px rgba(24,36,51,0.08);
     border-radius: 8px;
     padding: 8px 0;
     z-index: 1000;
@@ -396,6 +441,7 @@
 :global(.dark) .dropdown-content {
     background-color: rgb(24, 36, 51);
     border: 1px solid #374151;
+    box-shadow: none;
 }
 
 :global(.dark) .dropdown-content li a,
@@ -565,6 +611,21 @@ export default {
             // task-2026-05-16-3ae87c: user-menu items merged in.
             userMenuItems: [],
             theme: 'light',
+            // task-2026-09-06-menumerge — Navigate section URLs (merged from
+            // the removed hamburger/MainDrawer). backToAdminLink + usersUrl +
+            // seeWebsiteUrl are captured from the top-right-menu API in
+            // fetchUserMenu(); usersUrl falls back to the Ziggy route and
+            // seeWebsiteUrl to the public root when the API hasn't loaded.
+            backToAdminLink: '',
+            usersUrl: (function () {
+                try {
+                    if (typeof window !== 'undefined' && typeof window.route === 'function') {
+                        return window.route('filament.admin.resources.users.index');
+                    }
+                } catch (e) { /* no-op */ }
+                return '/admin/users';
+            })(),
+            seeWebsiteUrl: '/',
         }
     },
     methods: {
@@ -752,6 +813,19 @@ export default {
             this.moreSettingsExpanded = !this.moreSettingsExpanded;
         },
 
+        // task-2026-09-06-menumerge — open the topbar PageChip popover, the
+        // same verb-bridge the removed hamburger used (PageChip.vue listens
+        // for `mwOpenPageChip`). Close the dropdown first so the chip is
+        // visible + focus is released, then dispatch on the next frame.
+        openPagesList() {
+            this.hideToolsDropdown();
+            try {
+                window.requestAnimationFrame(function () {
+                    window.dispatchEvent(new CustomEvent('mwOpenPageChip'));
+                });
+            } catch (e) { /* no-op */ }
+        },
+
         // task-2026-05-16-3ae87c: user-menu integration.
         async fetchUserMenu() {
             try {
@@ -762,12 +836,21 @@ export default {
                 if (!resp.ok) return;
                 const data = await resp.json();
                 if (Array.isArray(data)) {
-                    // task-2026-05-28-f8a3c1 / AI-1225 — filter "Back to Admin"
-                    // which is already present in MainDrawer Navigate section;
-                    // showing it here too creates a duplicate nav target and
-                    // mixes session/navigation concerns inside the editing-tools
-                    // menu. All other top_right_menu items remain.
-                    this.userMenuItems = data.filter(item => item.id !== 'js-live-edit-back-to-admin-link');
+                    // task-2026-09-06-menumerge — capture the URLs the Navigate
+                    // section needs (merged from the removed hamburger) before
+                    // filtering. Back to admin + View public site move up into
+                    // Navigate, so they're filtered out of the Session list to
+                    // avoid duplicate nav targets.
+                    data.forEach((item) => {
+                        if (!item || !item.id) { return; }
+                        const href = (item.href && item.href !== '#') ? item.href : null;
+                        if (item.id === 'js-live-edit-back-to-admin-link' && href) { this.backToAdminLink = href; }
+                        if (item.id === 'users-link' && href) { this.usersUrl = href; }
+                        if (item.id === 'see-website-link' && href) { this.seeWebsiteUrl = href; }
+                    });
+                    this.userMenuItems = data.filter(item =>
+                        item.id !== 'js-live-edit-back-to-admin-link'
+                        && item.id !== 'see-website-link');
                 }
             } catch (e) {
                 // Non-blocking — the toolbar still works without the user menu.
