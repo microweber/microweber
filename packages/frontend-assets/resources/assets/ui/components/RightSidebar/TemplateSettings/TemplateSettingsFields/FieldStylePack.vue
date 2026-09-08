@@ -1079,7 +1079,13 @@ export default {
             const displayFormat = this.previewElementsFormat;
             previewDiv.className = `preview-display-${displayFormat} cursor-pointer style-pack-preview`;
 
-            if (this.setting.previewElements && this.setting.previewElements.length > 0) {
+            if (this.isStylePackOpenerMode) {
+                // task-2026-09-08-themegrid — reference-style theme card: an "Aa"
+                // font sample + a Button + a colour palette, all styled from the
+                // pack's own properties. Scoped to the template theme picker
+                // (opener mode) so other style-pack pickers keep their preview.
+                this.buildReferenceCard(stylePackDiv, previewDiv, stylePack, iframeDoc);
+            } else if (this.setting.previewElements && this.setting.previewElements.length > 0) {
                 // Use actual preview elements
                 this.setting.previewElements.forEach(preview => {
                     const previewElement = iframeDoc.createElement('div');
@@ -1153,6 +1159,82 @@ export default {
 
             stylePackDiv.appendChild(innerDiv);
             return stylePackDiv;
+        },
+
+        // task-2026-09-08-themegrid — build the reference theme card: Aa + Button
+        // + colour palette, styled from the pack's own --mw-* properties.
+        buildReferenceCard(stylePackDiv, previewDiv, stylePack, iframeDoc) {
+            const props = (stylePack && stylePack.properties) || {};
+            // Cascade the pack's CSS vars onto the card so .btn etc. pick them up.
+            Object.keys(props).forEach((p) => {
+                if (p.indexOf('--') === 0) { stylePackDiv.style.setProperty(p, props[p]); }
+            });
+
+            const row = iframeDoc.createElement('div');
+            row.className = 'mw-sp-row';
+
+            // Aa font sample.
+            const aa = iframeDoc.createElement('div');
+            aa.className = 'mw-sp-aa';
+            aa.textContent = 'Aa';
+            this.applyFontProperties(aa, props, 'h2');
+            const headingColor = props['--mw-heading-color'] || props['--mw-body-color'] || props['--mw-text-color'] || props['--mw-primary-color'];
+            if (headingColor) { aa.style.color = headingColor; }
+
+            // Button — styled by the pack's button variables + .btn class.
+            const btn = iframeDoc.createElement('button');
+            btn.type = 'button';
+            btn.className = 'mw-sp-btn btn btn-primary';
+            btn.textContent = 'Button';
+            Object.keys(props).forEach((p) => {
+                if (p.indexOf('--') === 0) { btn.style.setProperty(p, props[p]); }
+            });
+
+            // Colour palette.
+            const palette = iframeDoc.createElement('div');
+            palette.className = 'mw-sp-palette';
+            this.extractPackColors(stylePack).forEach((col) => {
+                const dot = iframeDoc.createElement('span');
+                dot.className = 'mw-sp-dot';
+                dot.style.backgroundColor = col;
+                palette.appendChild(dot);
+            });
+
+            row.appendChild(aa);
+            row.appendChild(btn);
+            row.appendChild(palette);
+            previewDiv.appendChild(row);
+        },
+
+        // Pull a small representative colour palette from a pack's properties —
+        // prefer semantic brand/text colours, then any other colour values.
+        extractPackColors(stylePack) {
+            const props = (stylePack && stylePack.properties) || {};
+            const isColor = (v) => typeof v === 'string' && /^(#|rgb|hsl)/i.test(v.trim());
+            const seen = {};
+            const out = [];
+            const push = (v) => {
+                if (!isColor(v)) { return; }
+                const key = v.trim().toLowerCase();
+                if (seen[key]) { return; }
+                seen[key] = true;
+                out.push(v.trim());
+            };
+            const rank = (name) => {
+                const n = name.toLowerCase();
+                if (n.indexOf('primary') !== -1) { return 0; }
+                if (n.indexOf('secondary') !== -1 || n.indexOf('accent') !== -1) { return 1; }
+                if (n.indexOf('heading') !== -1) { return 2; }
+                if (n.indexOf('link') !== -1) { return 3; }
+                if (n.indexOf('body') !== -1 || n.indexOf('background') !== -1 || n.indexOf('bg') !== -1) { return 4; }
+                if (n.indexOf('color') !== -1) { return 5; }
+                return 9;
+            };
+            Object.keys(props)
+                .filter((k) => isColor(props[k]))
+                .sort((a, b) => rank(a) - rank(b))
+                .forEach((k) => { if (out.length < 5) { push(props[k]); } });
+            return out;
         },
 
         getSelectorName(selector) {
@@ -1347,6 +1429,44 @@ export default {
                     display: flex;
                     flex-direction: column;
                     gap: 15px;
+                }
+
+                /* task-2026-09-08-themegrid — reference theme card layout:
+                   Aa (font) + Button + colour palette on one row. */
+                .mw-sp-row {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    width: 100%;
+                }
+                .mw-sp-aa {
+                    flex: 0 0 auto;
+                    font-size: 24px;
+                    font-weight: 700;
+                    line-height: 1;
+                    color: var(--text-color);
+                }
+                .mw-sp-btn {
+                    flex: 0 0 auto;
+                    font-size: 12px;
+                    line-height: 1;
+                    padding: 6px 12px;
+                    border-radius: 6px;
+                    border: 1px solid transparent;
+                    cursor: pointer;
+                    white-space: nowrap;
+                }
+                .mw-sp-palette {
+                    display: flex;
+                    gap: 5px;
+                    margin-left: auto;
+                    flex: 0 0 auto;
+                }
+                .mw-sp-dot {
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
                 }
 
                 /*
