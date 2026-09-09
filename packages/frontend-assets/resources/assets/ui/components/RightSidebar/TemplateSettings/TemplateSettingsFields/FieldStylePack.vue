@@ -1487,14 +1487,21 @@ export default {
                     border-radius: 8px;
                     transition: all 0.2s;
                     border: 4px solid transparent;
-                    margin-bottom: 10px;
+                    margin-bottom: 12px;
                     background-color: var(--background-color);
+                    /* task-2026-09-09 — the dark theme sets border-color == card
+                       bg (both #f2f2f2), so cards ran together with no visible
+                       separation. Give every card a real ring + soft shadow so
+                       each reads as a distinct card in light AND dark. */
+                    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12),
+                                0 0 0 1px rgba(0, 0, 0, 0.08);
                     zoom: 87%;
 
                     &:hover, &:focus, &:active, &.active {
                         transform: scale(1.0);
                         border: 4px solid gold;
-                        box-shadow: 0 2px 4px var(--shadow-color) !important;
+                        box-shadow: 0 2px 6px var(--shadow-color),
+                                    0 0 0 1px rgba(0, 0, 0, 0.08) !important;
                     }
                 }
 
