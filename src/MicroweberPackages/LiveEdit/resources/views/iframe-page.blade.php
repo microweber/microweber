@@ -1906,6 +1906,31 @@
                 box-shadow: none;
             }
 
+            /* task-2026-09-10 — Add-content picker BLEED fix.
+               The modal WINDOW (and therefore its header row, its
+               footer, and the rounded top corners) was fully
+               transparent: only Filament's `.fi-modal-content`
+               carried a surface colour, so the "Add new content"
+               header and the corner radii let the live-edit canvas
+               bleed straight through the panel chrome. Give the whole
+               window an opaque surface that matches the content panel
+               (white in light, ink #1e2330 in dark — the same value
+               `.fi-modal-content` already computes) and clip inner
+               square corners to the window radius. Scoped to BOTH the
+               picker and the content-form window (same root cause,
+               same latent defect). */
+            .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal,
+            .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-picker-modal {
+                background-color: #ffffff;
+                overflow: hidden;
+            }
+            html.dark .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal,
+            html.dark .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-picker-modal,
+            .dark .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal,
+            .dark .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-picker-modal {
+                background-color: #1e2330;
+            }
+
             /* #8 Restore focus rings — Filament's default ring
                was being suppressed by the theme. Bring it back
                on the title input, picker cards, and close X. */
