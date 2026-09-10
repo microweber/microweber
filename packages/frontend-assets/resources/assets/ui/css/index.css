@@ -36,6 +36,35 @@ html {
     --tblr-bg-surface: #fff;
     --tblr-body-bg: #f5f5f5;
     --tblr-body-bg2: #f4f4f4;
+
+    /* ── Live Edit redesign ("Pagy") token foundation — Phase 1 (additive only) ──
+       task-2026-09-10-le-redesign. These are NEW tokens for the in-place redesign.
+       NEUTRAL grays + radius are wired into the shell in Phase 2.
+       ACCENT — USER DECISION (2026-09-10): keep brand INK #182433, NOT the designer's
+       indigo #4F63E8. So --le-accent == the existing --ese-accent / .element-active ink;
+       those stay untouched and their contract tests (Ai513, ESE11812b) stay green.
+       The redesign lands the Pagy LAYOUT + neutral grays with the ink accent. */
+    --le-accent: #182433;      /* brand ink — user chose ink over designer indigo */
+    --le-canvas: #F3F3F1;      /* editor canvas background */
+    --le-page: #E9E9E6;        /* page/backdrop */
+    --le-frame: #ffffff;       /* centered page-frame surface */
+    --le-ink: #1C1C1A;         /* primary text */
+    --le-muted: #77776F;       /* muted text */
+    --le-hairline: #E6E6E2;    /* dividers / borders */
+    --le-radius-frame: 14px;   /* frames / cards */
+    --le-radius-control: 8px;  /* buttons / inputs / chips */
+}
+
+/* Dark re-flip for the additive neutral tokens (top window toggles html.dark).
+   Specificity (0,1,1) so it wins by load order over the html{} defaults above.
+   Accent stays the same value in both themes; grays invert toward near-black. */
+html.dark {
+    --le-canvas: #0B0B0C;
+    --le-page: #000000;
+    --le-frame: #ffffff;       /* the page frame stays WHITE in dark (it is the real site) */
+    --le-ink: #E9E9E6;
+    --le-muted: #9a9a90;
+    --le-hairline: #23232a;
 }
 
 *,
@@ -79,6 +108,11 @@ a {
     align-items: flex-start;
     justify-content: center;
     overflow: hidden;
+    /* LE redesign Phase 2a — neutral canvas behind a centered page-frame card.
+       --le-canvas auto-flips to near-black under html.dark (token reflip in html{}),
+       so dark chrome comes for free; the frame itself stays white (--le-frame). */
+    background: var(--le-canvas, #F3F3F1);
+    padding: 18px 18px 22px;
 }
 
 #live-editor-frame.resizing {
@@ -88,7 +122,18 @@ a {
     width: 100%;
     height: 100%;
     min-width: 340px;
+    max-width: 100%;
     resize: horizontal;
+    /* LE redesign Phase 2a — the canvas reads as a centered rounded white card. */
+    background: var(--le-frame, #fff);
+    border-radius: var(--le-radius-frame, 14px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.10), 0 12px 30px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+}
+/* Frame stays white in dark (page = real site); deepen the shadow so the card
+   still reads against the near-black canvas. */
+html.dark #live-editor-frame {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.55), 0 14px 34px rgba(0, 0, 0, 0.5);
 }
 
 #toolbar {
