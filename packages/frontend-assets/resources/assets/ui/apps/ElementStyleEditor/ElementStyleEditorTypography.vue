@@ -30,19 +30,40 @@
 
             <ColorPicker v-model="color" v-bind:color=color :label="'Color'" @change="handleFontColorChange"/>
 
-            <SliderSmall
-                label="Size"
-                v-model="fontSize"
-                :min="0"
-                :max="100"
-                :step="1"
-            ></SliderSmall>
+            <!-- LE redesign (frame 1c) — Size as an S/M/L/XL segmented preset.
+                 The exact-px slider moves under "More options" for fine control. -->
+            <div class="form-control-live-edit-label-wrapper mw-ese-size">
+                <label class="live-edit-label">Size</label>
+                <div class="s-field-content">
+                    <div class="mw-segmented mw-ese-size__seg">
+                        <span v-for="s in sizePresets" :key="s.key"
+                              class="mw-segmented__cell mw-ese-size__cell"
+                              :class="{ 'active': isSizeActive(s.px), 'is-active': isSizeActive(s.px) }"
+                              role="button" tabindex="0"
+                              :aria-label="'Size ' + s.label"
+                              :aria-pressed="isSizeActive(s.px) ? 'true' : 'false'"
+                              @click="setSizePreset(s.px)"
+                              @keydown.enter.prevent="setSizePreset(s.px)"
+                              @keydown.space.prevent="setSizePreset(s.px)">
+                            {{ s.label }}
+                        </span>
+                    </div>
+                </div>
+            </div>
 
 
             <details class="mw-typography-advanced">
                 <summary class="cursor-pointer text-xs opacity-70 hover:opacity-100 py-2">
                     More options
                 </summary>
+
+                <SliderSmall
+                    label="Exact size (px)"
+                    v-model="fontSize"
+                    :min="0"
+                    :max="100"
+                    :step="1"
+                ></SliderSmall>
 
                 <div class="my-4">
                     <FontPicker v-model="fontFamily" v-bind:value=fontFamily @change="handleFontChange" :label="'Family'"/>
@@ -125,6 +146,13 @@ export default {
             'showTypography': false,
             'activeNode': null,
             'isReady': false,
+            // LE redesign (frame 1c) — Size preset scale (px).
+            'sizePresets': [
+                {"key": "s", "label": "S", "px": 20},
+                {"key": "m", "label": "M", "px": 28},
+                {"key": "l", "label": "L", "px": 40},
+                {"key": "xl", "label": "XL", "px": 56},
+            ],
             'textTransformOptions': [
                 {"key": 'none', "value": "None"},
                 {"key": "capitalize", "value": "Capitalize"},
@@ -282,6 +310,13 @@ export default {
         setTextAlignment: function (alignment) {
             this.textAlign = alignment;
 
+        },
+        // LE redesign (frame 1c) — Size segmented presets.
+        setSizePreset: function (px) {
+            this.fontSize = px;
+        },
+        isSizeActive: function (px) {
+            return parseInt(this.fontSize, 10) === px;
         },
         handleFontChange: function (fontFamily) {
             this.fontFamily = fontFamily;

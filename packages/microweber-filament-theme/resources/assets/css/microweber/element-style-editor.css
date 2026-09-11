@@ -1957,3 +1957,43 @@
 #mw-element-style-editor-app .mw-ese-visibility__toggle.is-active {
     color: var(--ese-accent, #182433);
 }
+
+/* LE redesign (frame 1c) — Size S/M/L/XL segmented (explicit, so it doesn't
+   depend on the generic .mw-segmented cascade reaching the ESE). */
+.mw-live-edit-page .mw-ese-size__seg,
+#mw-element-style-editor-app .mw-ese-size__seg {
+    display: inline-flex;
+    width: 100%;
+    border: 1px solid var(--ese-border-strong, #d9d9d4);
+    border-radius: var(--ese-radius-sm, 8px);
+    overflow: hidden;
+    margin-top: 6px;
+}
+.mw-live-edit-page .mw-ese-size__cell,
+#mw-element-style-editor-app .mw-ese-size__cell {
+    flex: 1 1 0;
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: var(--font-label, 13px);
+    font-weight: 500;
+    color: var(--ese-text, #1c1c1a);
+    border-inline-start: 1px solid var(--ese-border, #e6e6e2);
+    transition: background .12s ease, color .12s ease;
+}
+.mw-live-edit-page .mw-ese-size__cell:first-child,
+#mw-element-style-editor-app .mw-ese-size__cell:first-child {
+    border-inline-start: 0;
+}
+.mw-live-edit-page .mw-ese-size__cell:hover,
+#mw-element-style-editor-app .mw-ese-size__cell:hover {
+    background: var(--ese-surface-hover, #f3f3f1);
+}
+.mw-live-edit-page .mw-ese-size__cell.is-active,
+#mw-element-style-editor-app .mw-ese-size__cell.is-active {
+    background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
+    color: var(--ese-accent, #182433);
+    box-shadow: inset 0 0 0 1px var(--ese-accent, #182433);
+}
