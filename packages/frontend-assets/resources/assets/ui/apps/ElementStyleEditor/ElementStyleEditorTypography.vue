@@ -181,6 +181,32 @@ export default {
         currentTag: function () {
             return this.activeNode ? (this.activeNode.tagName || '').toLowerCase() : '';
         },
+        // LE redesign — recommended color swatches from the SAME service the MW
+        // color picker uses (site colors + palette memory). Depends on activeNode
+        // so it refreshes per selection. Falls back to a neutral set.
+        colorSwatches: function () {
+            // eslint-disable-next-line no-unused-vars
+            var _dep = this.activeNode;
+            try {
+                var mgr = mw.top().app.templateSettings
+                    && mw.top().app.templateSettings.colorPaletteManager;
+                if (mgr && mgr.getColors) {
+                    var colors = mgr.getColors() || [];
+                    var seen = {};
+                    var filtered = colors.filter(function (c) {
+                        if (!c || typeof c !== 'string') return false;
+                        if (!/^#([0-9a-fA-F]{3,8})$/.test(c)) return false;
+                        var low = c.toLowerCase();
+                        if (low === '#00000000' || low === '#000000ff' && false) return false;
+                        if (seen[low]) return false;
+                        seen[low] = true;
+                        return true;
+                    });
+                    if (filtered.length) return filtered.slice(0, 6);
+                }
+            } catch (e) { /* fall through */ }
+            return ['#182433', '#6b6b64', '#f0a06a', '#d98c4a', '#ffffff'];
+        },
     },
     data() {
         return {
@@ -194,8 +220,8 @@ export default {
                 {"key": "l", "label": "L", "px": 40},
                 {"key": "xl", "label": "XL", "px": 56},
             ],
-            // LE redesign (frame 1c) — Color preset swatches + Space-around scale.
-            'colorSwatches': ['#182433', '#6b6b64', '#f0a06a', '#d98c4a', '#ffffff'],
+            // colorSwatches is a computed sourced from the MW color-palette
+            // service (same colors as the mw color picker).
             // px values align to the Bootstrap spacing scale so the None/S/M/L
             // presets map cleanly to p-0/p-2/p-3/p-5 (or m-*) utility classes.
             'spacePresets': [
