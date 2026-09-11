@@ -144,69 +144,54 @@
          legacy classes remain as DOM hooks for external code. -->
     <div v-if="showSpacing" @click.stop>
 
+        <!-- LE redesign — Inner space = padding, Outer space = margin, applied as
+             Bootstrap p-*/m-* utility CLASSES via the reusable SpaceAround
+             control (soft-pill None/S/M/L). Per-side px fine-tune moves under
+             "More options" (unchanged box-model editor). -->
+        <SpaceAround label="Inner space" mode="padding" :show-mode-dropdown="false"
+                     :value="innerSpace" @update="onInnerUpdate"/>
+        <SpaceAround label="Outer space" mode="margin" :show-mode-dropdown="false"
+                     :value="outerSpace" @update="onOuterUpdate"/>
 
-        <div class="mb-3">
-            <div class="form-label live-edit-label ">Inner space</div>
-            <div class="form-group">
-                <div class="flex gap-1 mw-live-edit-spacing-wrapper" style="margin: auto">
-                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Small inner space" role="button" tabindex="0" :aria-pressed="activePadding === 30 ? 'true' : 'false'" :class="{ 'active': activePadding === 30, 'is-active': activePadding === 30 }" @click="setPaddingOnAllSides(30)" @keydown.enter.prevent="setPaddingOnAllSides(30)" @keydown.space.prevent="setPaddingOnAllSides(30)">S</a>
-                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Medium inner space" role="button" tabindex="0" :aria-pressed="activePadding === 40 ? 'true' : 'false'" :class="{ 'active': activePadding === 40, 'is-active': activePadding === 40 }" @click="setPaddingOnAllSides(40)" @keydown.enter.prevent="setPaddingOnAllSides(40)" @keydown.space.prevent="setPaddingOnAllSides(40)">M</a>
-                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Large inner space" role="button" tabindex="0" :aria-pressed="activePadding === 50 ? 'true' : 'false'" :class="{ 'active': activePadding === 50, 'is-active': activePadding === 50 }" @click="setPaddingOnAllSides(50)" @keydown.enter.prevent="setPaddingOnAllSides(50)" @keydown.space.prevent="setPaddingOnAllSides(50)">L</a>
-                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Extra-large inner space" role="button" tabindex="0" :aria-pressed="activePadding === 100 ? 'true' : 'false'" :class="{ 'active': activePadding === 100, 'is-active': activePadding === 100 }" @click="setPaddingOnAllSides(100)" @keydown.enter.prevent="setPaddingOnAllSides(100)" @keydown.space.prevent="setPaddingOnAllSides(100)">XL</a>
-                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Remove inner space" role="button" tabindex="0" :aria-pressed="activePadding === 0 ? 'true' : 'false'" :class="{ 'active': activePadding === 0, 'is-active': activePadding === 0 }" @click="setPaddingOnAllSides(0)" @keydown.enter.prevent="setPaddingOnAllSides(0)" @keydown.space.prevent="setPaddingOnAllSides(0)" v-html="iconResolver('trash')">
-
-                    </a>
-                    <a class="btn btn-icon mw-tool-btn" title="Fine-tune each side" @click="toggleMarginAndPaddingControlls()"  v-html="iconResolver('settings')"></a>
+        <details class="mw-typography-advanced">
+            <summary class="cursor-pointer text-xs opacity-70 hover:opacity-100 py-2">
+                More options
+            </summary>
+            <div class="mw-element-spacing-editor mt-2">
+                <span class="mw-ese-label">Margin</span>
+                <div class="mw-ese-holder mw-ese-margin">
+                    <span class="input mw-ese-top"><input type="number" v-model="marginTop"></span>
+                    <span class="input mw-ese-right"><input type="number" v-model="marginRight"></span>
+                    <span class="input mw-ese-bottom"><input type="number" v-model="marginBottom"></span>
+                    <span class="input mw-ese-left"><input type="number" v-model="marginLeft"></span>
+                    <div class="mw-ese-holder mw-ese-padding">
+                        <span class="input mw-ese-top"><input type="number" min="0" v-model="paddingTop"></span>
+                        <span class="input mw-ese-right"><input type="number" min="0" v-model="paddingRight"></span>
+                        <span class="input mw-ese-bottom"><input type="number" min="0" v-model="paddingBottom"></span>
+                        <span class="input mw-ese-left"><input type="number" min="0" v-model="paddingLeft"></span>
+                        <span class="mw-ese-label">Padding</span>
+                    </div>
                 </div>
             </div>
-        </div>
-
-
-        <div class="mb-3">
-            <div class="form-label live-edit-label ">Outer space</div>
-            <div class="form-group">
-                <div class="flex gap-1 mw-live-edit-spacing-wrapper" style="margin: auto">
-                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Small outer space" role="button" tabindex="0" :aria-pressed="activeMargin === 30 ? 'true' : 'false'" :class="{ 'active': activeMargin === 30, 'is-active': activeMargin === 30 }" @click="setMarginOnAllSides(30)" @keydown.enter.prevent="setMarginOnAllSides(30)" @keydown.space.prevent="setMarginOnAllSides(30)">S</a>
-                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Medium outer space" role="button" tabindex="0" :aria-pressed="activeMargin === 40 ? 'true' : 'false'" :class="{ 'active': activeMargin === 40, 'is-active': activeMargin === 40 }" @click="setMarginOnAllSides(40)" @keydown.enter.prevent="setMarginOnAllSides(40)" @keydown.space.prevent="setMarginOnAllSides(40)">M</a>
-                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Large outer space" role="button" tabindex="0" :aria-pressed="activeMargin === 50 ? 'true' : 'false'" :class="{ 'active': activeMargin === 50, 'is-active': activeMargin === 50 }" @click="setMarginOnAllSides(50)" @keydown.enter.prevent="setMarginOnAllSides(50)" @keydown.space.prevent="setMarginOnAllSides(50)">L</a>
-                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Extra-large outer space" role="button" tabindex="0" :aria-pressed="activeMargin === 100 ? 'true' : 'false'" :class="{ 'active': activeMargin === 100, 'is-active': activeMargin === 100 }" @click="setMarginOnAllSides(100)" @keydown.enter.prevent="setMarginOnAllSides(100)" @keydown.space.prevent="setMarginOnAllSides(100)">XL</a>
-                    <a class="btn btn-icon mw-tool-btn mw-tool-btn--preset" title="Remove outer space" role="button" tabindex="0" :aria-pressed="activeMargin === 0 ? 'true' : 'false'" :class="{ 'active': activeMargin === 0, 'is-active': activeMargin === 0 }" @click="setMarginOnAllSides(0)" @keydown.enter.prevent="setMarginOnAllSides(0)" @keydown.space.prevent="setMarginOnAllSides(0)" v-html="iconResolver('trash')">
-
-                </a>
-                    <a class="btn btn-icon mw-tool-btn" title="Fine-tune each side" @click="toggleMarginAndPaddingControlls()"   v-html="iconResolver('settings')"></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="mw-element-spacing-editor mt-4" v-show="showMarginAndPaddingControlls">
-            <span class="mw-ese-label">Margin</span>
-            <div class="mw-ese-holder mw-ese-margin">
-                <span class="input mw-ese-top"><input type="number" v-model="marginTop"></span>
-                <span class="input mw-ese-right"><input type="number" v-model="marginRight"></span>
-                <span class="input mw-ese-bottom"><input type="number" v-model="marginBottom"></span>
-                <span class="input mw-ese-left"><input type="number" v-model="marginLeft"></span>
-                <div class="mw-ese-holder mw-ese-padding">
-                    <span class="input mw-ese-top"><input type="number" min="0" v-model="paddingTop"></span>
-                    <span class="input mw-ese-right"><input type="number" min="0" v-model="paddingRight"></span>
-                    <span class="input mw-ese-bottom"><input type="number" min="0" v-model="paddingBottom"></span>
-                    <span class="input mw-ese-left"><input type="number" min="0" v-model="paddingLeft"></span>
-                    <span class="mw-ese-label">Padding</span>
-                </div>
-            </div>
-        </div>
+        </details>
     </div>
 
 </template>
 
 <script>
+import SpaceAround from './components/SpaceAround.vue';
 
 export default {
-
+    components: { SpaceAround },
 
     data() {
         return {
             'activePadding': null,
             'activeMargin': null,
+            // LE redesign — current p-*/m-* class size (px) for the SpaceAround
+            // active-state (Inner=padding, Outer=margin).
+            'innerSpace': null,
+            'outerSpace': null,
             'showSpacing': false,
             'showMarginAndPaddingControlls': false,
             'activeNode': null,
@@ -255,6 +240,10 @@ export default {
                 this.resetAllProperties();
                 this.activeNode = node;
 
+                // LE redesign — reflect current p-*/m-* class in the SpaceAround controls.
+                this.innerSpace = this._readSpaceClass('p');
+                this.outerSpace = this._readSpaceClass('m');
+
                 this.populateCssPadding(css);
                 this.populateCssMargin(css);
 
@@ -264,6 +253,43 @@ export default {
             }
         },
 
+
+        // LE redesign — SpaceAround (Inner=padding / Outer=margin) applies a
+        // Bootstrap p-*/m-* utility class. px<->step: 0->0,8->2,16->3,48->5.
+        _pxToStep: function (px) {
+            var m = {0: '0', 8: '2', 16: '3', 48: '5', 4: '1', 24: '4'};
+            return m[px] != null ? m[px] : '3';
+        },
+        _stepToPx: function (step) {
+            var m = {'0': 0, '1': 4, '2': 8, '3': 16, '4': 24, '5': 48};
+            return m[step] != null ? m[step] : null;
+        },
+        _applySpaceClass: function (prefix, px) {
+            var node = this.activeNode;
+            if (!node) return;
+            var re = new RegExp('^' + prefix + '-[0-5]$');
+            Array.from(node.classList).forEach(function (c) { if (re.test(c)) node.classList.remove(c); });
+            node.classList.add(prefix + '-' + this._pxToStep(px));
+            try { mw.top().app.registerChange(node); } catch (e) { /* noop */ }
+        },
+        _readSpaceClass: function (prefix) {
+            var node = this.activeNode;
+            if (!node) return null;
+            var re = new RegExp('^' + prefix + '-([0-5])$');
+            var self = this, found = null;
+            try { Array.from(node.classList).forEach(function (c) { var m = re.exec(c); if (m) found = self._stepToPx(m[1]); }); } catch (e) {}
+            return found;
+        },
+        onInnerUpdate: function (payload) {
+            var px = payload && typeof payload === 'object' ? payload.px : payload;
+            this.innerSpace = px;
+            this._applySpaceClass('p', px);
+        },
+        onOuterUpdate: function (payload) {
+            var px = payload && typeof payload === 'object' ? payload.px : payload;
+            this.outerSpace = px;
+            this._applySpaceClass('m', px);
+        },
 
         setPaddingOnAllSides: function (val) {
             this.paddingTop = val;

@@ -19,7 +19,7 @@
     <div class="form-control-live-edit-label-wrapper mw-ese-space">
         <div class="mw-ese-space__head">
             <label class="live-edit-label">{{ label }}</label>
-            <select class="mw-ese-space__mode"
+            <select v-if="showModeDropdown" class="mw-ese-space__mode"
                     v-model="selectedMode"
                     @change="onModeChange"
                     aria-label="Apply spacing as padding or margin">
@@ -57,13 +57,17 @@ export default {
             type: String,
             default: 'padding',
         },
+        showModeDropdown: {
+            type: Boolean,
+            default: true,
+        },
         presets: {
             type: Array,
             default: () => ([
                 { key: 'none', label: 'None', px: 0 },
                 { key: 's', label: 'S', px: 8 },
                 { key: 'm', label: 'M', px: 16 },
-                { key: 'l', label: 'L', px: 32 },
+                { key: 'l', label: 'L', px: 48 },
             ]),
         },
         modes: {
