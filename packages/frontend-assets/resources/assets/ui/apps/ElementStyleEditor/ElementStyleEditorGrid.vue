@@ -15,46 +15,54 @@
         </div>
 
         <!-- task-2026-05-16-ea56d3: @click.stop — see ElementStyleEditorTypography.vue -->
+        <!-- LE redesign (frame 1c) — three near-identical 12-row dropdowns collapse
+             to a Screen breakpoint segmented (each cell captions its stored width
+             so the responsive overview survives) + one Width segmented that rebinds
+             to the active breakpoint. Full 1–12 granularity + clear stay in the
+             Exact columns dropdown under More options. -->
         <div v-if="showGridSettings" @click.stop>
 
+            <!-- Screen — pick the breakpoint; caption shows each device's width. -->
             <div class="form-control-live-edit-label-wrapper">
-                <div class="d-flex align-items-center gap-2">
-                    <i class="mdi mdi-monitor mw-grid-device-icon"></i>
-                    <label class="live-edit-label px-0 col-4">Desktop</label>
-                </div>
-                <div class="col-12">
-                    <DropdownSmall
-                        :options="colOptionsDesktop"
-                        v-model="selectedColDesktop"
-                    ></DropdownSmall>
+                <label class="live-edit-label">Screen</label>
+                <div class="mw-segmented mw-ese-seg">
+                    <span v-for="d in gridDevices" :key="d.key"
+                          class="mw-segmented__cell mw-ese-screen-cell"
+                          :class="{ 'active': activeBreakpoint === d.key, 'is-active': activeBreakpoint === d.key }"
+                          role="button" tabindex="0"
+                          :aria-label="d.label + ' width ' + deviceCaption(d.key)"
+                          :aria-pressed="activeBreakpoint === d.key ? 'true' : 'false'"
+                          @click="activeBreakpoint = d.key"
+                          @keydown.enter.prevent="activeBreakpoint = d.key"
+                          @keydown.space.prevent="activeBreakpoint = d.key">
+                        <i class="mdi mw-grid-device-icon" :class="d.icon"></i>
+                        <span class="mw-ese-screen-cell__cap">{{ deviceCaption(d.key) }}</span>
+                    </span>
                 </div>
             </div>
 
+            <!-- Width — Bootstrap col-{bp}-{n} class for the active breakpoint. -->
             <div class="form-control-live-edit-label-wrapper">
-               <div class="d-flex align-items-center gap-2">
-                   <i class="mdi mdi-tablet mw-grid-device-icon"></i>
-                   <label class="live-edit-label px-0 col-4">Tablet</label>
-               </div>
-                <div class="col-12">
-                    <DropdownSmall
-                        :options="colOptionsTablet"
-                        v-model="selectedColTablet"
-                    ></DropdownSmall>
+                <label class="live-edit-label">Width</label>
+                <div class="mw-segmented mw-ese-seg">
+                    <span v-for="w in widthPresets" :key="w.key"
+                          class="mw-segmented__cell"
+                          :class="{ 'active': isWidthActive(w.n), 'is-active': isWidthActive(w.n) }"
+                          role="button" tabindex="0"
+                          :aria-label="w.label"
+                          :aria-pressed="isWidthActive(w.n) ? 'true' : 'false'"
+                          @click="setActiveColNum(w.n)"
+                          @keydown.enter.prevent="setActiveColNum(w.n)"
+                          @keydown.space.prevent="setActiveColNum(w.n)">{{ w.label }}</span>
                 </div>
             </div>
 
-            <div class="form-control-live-edit-label-wrapper">
-                <div class="d-flex align-items-center gap-2">
-                    <i class="mdi mdi-cellphone mw-grid-device-icon"></i>
-                    <label class="live-edit-label px-0 col-4">Mobile</label>
-                </div>
-                <div class="col-12">
-                    <DropdownSmall
-                        :options="colOptionsMobile"
-                        v-model="selectedColMobile"
-                    ></DropdownSmall>
-                </div>
-            </div>
+            <details class="mw-typography-advanced">
+                <summary class="cursor-pointer text-xs opacity-70 hover:opacity-100 py-2">
+                    More options
+                </summary>
+                <DropdownSmall :options="exactColOptions" v-model="exactColModel" label="Exact columns"/>
+            </details>
         </div>
     </div>
 </template>
@@ -122,10 +130,75 @@ export default {
             selectedColDesktop: '',
             selectedColTablet: '',
             selectedColMobile: '',
+
+            // LE redesign — breakpoint selector + width presets.
+            activeBreakpoint: 'desktop',
+            gridDevices: [
+                {key: 'desktop', label: 'Desktop', icon: 'mdi-monitor'},
+                {key: 'tablet', label: 'Tablet', icon: 'mdi-tablet'},
+                {key: 'mobile', label: 'Mobile', icon: 'mdi-cellphone'},
+            ],
+            widthPresets: [
+                {key: 'full', label: 'Full', n: 12},
+                {key: 'half', label: '½', n: 6},
+                {key: 'third', label: '⅓', n: 4},
+                {key: 'twothird', label: '⅔', n: 8},
+                {key: 'quarter', label: '¼', n: 3},
+                {key: 'threequarter', label: '¾', n: 9},
+            ],
+            exactColOptions: [
+                {key: '', value: 'None'},
+                {key: 1, value: '1'}, {key: 2, value: '2'}, {key: 3, value: '3'},
+                {key: 4, value: '4'}, {key: 5, value: '5'}, {key: 6, value: '6'},
+                {key: 7, value: '7'}, {key: 8, value: '8'}, {key: 9, value: '9'},
+                {key: 10, value: '10'}, {key: 11, value: '11'}, {key: 12, value: '12'},
+            ],
         };
     },
 
+    computed: {
+        // LE redesign — Bootstrap breakpoint prefix + the data key for the
+        // active Screen; a single Width control rebinds to whichever is active.
+        _bpPrefix: function () {
+            return {desktop: 'lg', tablet: 'md', mobile: 'sm'}[this.activeBreakpoint];
+        },
+        _activeSelectedKey: function () {
+            return {
+                desktop: 'selectedColDesktop',
+                tablet: 'selectedColTablet',
+                mobile: 'selectedColMobile',
+            }[this.activeBreakpoint];
+        },
+        activeColNum: function () {
+            var v = this[this._activeSelectedKey];
+            var m = v && /col-(?:lg|md|sm)-(\d+)/.exec(v);
+            return m ? parseInt(m[1], 10) : null;
+        },
+        // v-model proxy for the Exact columns dropdown.
+        exactColModel: {
+            get: function () { return this.activeColNum || ''; },
+            set: function (v) { this.setActiveColNum(v ? parseInt(v, 10) : null); },
+        },
+    },
+
     methods: {
+        // LE redesign — set/read the col-{bp}-{n} class for the active Screen.
+        setActiveColNum: function (n) {
+            var key = this._activeSelectedKey;
+            this[key] = n ? ('col-' + this._bpPrefix + '-' + n) : '';
+        },
+        isWidthActive: function (n) {
+            return this.activeColNum === n;
+        },
+        deviceCaption: function (device) {
+            var k = 'selectedCol' + device.charAt(0).toUpperCase() + device.slice(1);
+            var v = this[k];
+            var m = v && /col-(?:lg|md|sm)-(\d+)/.exec(v);
+            if (!m) return '—';
+            var n = parseInt(m[1], 10);
+            var frac = {12: 'Full', 9: '¾', 8: '⅔', 6: '½', 4: '⅓', 3: '¼'};
+            return frac[n] || (n + '/12');
+        },
         toggleGridSettings: function () {
             this.showGridSettings = !this.showGridSettings;
             this.emitter.emit('element-style-editor-show', 'grid');
@@ -195,9 +268,12 @@ export default {
                     for (const gridOption of allGridOption) {
                         this.activeGridNode.classList.remove(gridOption.key);
                     }
-                    // add vals
+                    // add vals (skip empty — classList.add('') throws, and an
+                    // empty breakpoint simply means "no explicit width there")
                     for (const val of vals) {
-                        this.activeGridNode.classList.add(val);
+                        if (val) {
+                            this.activeGridNode.classList.add(val);
+                        }
                     }
 
                 }
@@ -257,5 +333,23 @@ export default {
 <style scoped>
 .mw-grid-device-icon {
     font-size: 20px;
+}
+
+/* LE redesign — Screen cell stacks a device icon over a tiny width caption so
+   the 3-device responsive overview survives inside one segmented row. */
+.mw-ese-screen-cell {
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 1.1;
+}
+.mw-ese-screen-cell .mw-grid-device-icon {
+    font-size: 16px;
+}
+.mw-ese-screen-cell__cap {
+    font-size: 10px;
+    font-weight: 500;
+    opacity: 0.7;
 }
 </style>
