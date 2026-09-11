@@ -15,51 +15,95 @@
     </div>
 
     <!-- task-2026-05-16-ea56d3: @click.stop — see ElementStyleEditorTypography.vue -->
+    <!-- LE redesign (frame 1c) — the ~90% action (pick a common roundness) is a
+         single segmented row applying REAL Bootstrap rounded-* classes
+         (rounded-0/1/2/4/pill). The full 12-step preset scale, per-corner editor
+         and a uniform px slider survive verbatim under More options. -->
     <div :style="'display: ' + (showRoundedCorners ? '' : 'none') " @click.stop>
 
-        <!-- task-2026-05-16-5fe1f9 / AI-687 (ESE 1.4 MwField) —
-             proof-of-pattern migration: predefined border-radius
-             selector now uses the .mw-tool-field primitive
-             (single-row label + control + reset slot per spec §4.1).
-             Legacy classes (.form-control-live-edit-label-wrapper,
-             .live-edit-label, .form-control-live-edit-input,
-             .form-select) kept alongside the new .mw-tool-field*
-             classes for back-compat — other components / external
-             scripts may target the old hooks. The rest of the four
-             ad-hoc patterns (Spacing, Grid, UlOl) migrate in AI-687a
-             follow-up. -->
-        <div class="form-control-live-edit-label-wrapper my-4 mw-tool-field">
-
-            <label class="live-edit-label mw-tool-field__label" for="borderRadiusSelect">Select predefined border radius:</label>
-            <span class="mw-tool-field__control">
-                <select class="form-control-live-edit-input form-select" id="borderRadiusSelect"
-                        v-model="selectedBorderRadius"
-                        @change="applyPredefinedRadius">
-                    <option v-for="(radius, key) in predefinedBorderRadiusValues" :key="key" :value="radius.value">{{
-                            radius.label
-                        }}
-                    </option>
-                </select>
-            </span>
+        <!-- Radius — Bootstrap rounded-* class presets. -->
+        <div class="form-control-live-edit-label-wrapper">
+            <label class="live-edit-label">Radius</label>
+            <div class="mw-segmented mw-ese-seg">
+                <span v-for="r in radiusPresets" :key="r.key" class="mw-segmented__cell"
+                      :class="{ 'active': isRadiusActive(r.cls), 'is-active': isRadiusActive(r.cls) }"
+                      role="button" tabindex="0"
+                      :aria-pressed="isRadiusActive(r.cls) ? 'true' : 'false'"
+                      @click="setRadiusPreset(r.cls)"
+                      @keydown.enter.prevent="setRadiusPreset(r.cls)"
+                      @keydown.space.prevent="setRadiusPreset(r.cls)">{{ r.label }}</span>
+            </div>
         </div>
 
-        <div class="d-flex flex-column gap-3">
+        <details class="mw-typography-advanced">
+            <summary class="cursor-pointer text-xs opacity-70 hover:opacity-100 py-2">
+                More options
+            </summary>
 
-            <BorderRadius v-model="borderRadius"></BorderRadius>
-        </div>
+            <!-- Link corners — Off reveals the per-corner editor + stops syncing. -->
+            <div class="form-control-live-edit-label-wrapper mw-ese-visibility__row">
+                <label class="live-edit-label">Link corners</label>
+                <button type="button"
+                        class="mw-tool-btn mw-tool-btn--toggle mw-ese-visibility__toggle"
+                        :class="{ 'is-active': linkCorners }"
+                        :aria-pressed="linkCorners ? 'true' : 'false'"
+                        @click="linkCorners = !linkCorners">{{ linkCorners ? 'On' : 'Off' }}</button>
+            </div>
+
+            <!-- Uniform radius (px) — fine fallback; clears the active preset. -->
+            <SliderSmall v-if="linkCorners" label="Uniform radius" v-model="uniformRadius"
+                         :min="0" :max="60" :step="1"></SliderSmall>
+
+            <!-- task-2026-05-16-5fe1f9 / AI-687 (ESE 1.4 MwField) — predefined
+                 border-radius selector on the .mw-tool-field primitive. Legacy
+                 classes kept for back-compat (external scripts target the old
+                 hooks). -->
+            <div class="form-control-live-edit-label-wrapper my-4 mw-tool-field">
+                <label class="live-edit-label mw-tool-field__label" for="borderRadiusSelect">Radius scale</label>
+                <span class="mw-tool-field__control">
+                    <select class="form-control-live-edit-input form-select" id="borderRadiusSelect"
+                            v-model="selectedBorderRadius"
+                            @change="applyPredefinedRadius">
+                        <option v-for="(radius, key) in predefinedBorderRadiusValues" :key="key" :value="radius.value">{{
+                                radius.label
+                            }}
+                        </option>
+                    </select>
+                </span>
+            </div>
+
+            <!-- Per-corner editor — revealed when Link corners = Off. -->
+            <div v-if="!linkCorners" class="d-flex flex-column gap-3">
+                <BorderRadius v-model="borderRadius"></BorderRadius>
+            </div>
+        </details>
     </div>
 </template>
 
 <script>
 import BorderRadius from "./components/BorderRadius.vue";
+import SliderSmall from "./components/SliderSmall.vue";
 
 export default {
-    components: {BorderRadius},
+    components: {BorderRadius, SliderSmall},
     data() {
         return {
             'showRoundedCorners': false,
             'activeNode': null,
             'isReady': false,
+            // LE redesign — primary Radius presets apply REAL Bootstrap classes
+            // (present in the Templates/Big build). rounded-3/rounded-5 exist too
+            // but 5 pills is the sweet spot; the dropdown scale covers the rest.
+            'radiusPresets': [
+                {key: 'none', label: 'None', cls: 'rounded-0'},
+                {key: 's', label: 'S', cls: 'rounded-1'},
+                {key: 'm', label: 'M', cls: 'rounded-2'},
+                {key: 'l', label: 'L', cls: 'rounded-4'},
+                {key: 'full', label: 'Full', cls: 'rounded-pill'},
+            ],
+            'activeRadiusClass': null,
+            'linkCorners': true,
+            'uniformRadius': 0,
             'borderRadius': {
                 borderTopLeftRadius: '',
                 borderTopRightRadius: '',
@@ -92,7 +136,45 @@ export default {
             this.emitter.emit('element-style-editor-show', 'roundedCorners');
         },
 
+        // LE redesign — strip any Bootstrap rounded-* class so a fresh preset (or
+        // a px override) governs cleanly.
+        _stripRoundedClasses: function (node) {
+            if (!node) return;
+            var re = /^rounded(-(0|1|2|3|4|5|sm|md|lg|xl|pill|circle))?$/;
+            Array.from(node.classList).forEach(function (c) { if (re.test(c)) node.classList.remove(c); });
+        },
+        _detectRadiusClass: function (node) {
+            if (!node) return null;
+            var found = null;
+            this.radiusPresets.forEach(function (p) {
+                try { if (node.classList.contains(p.cls)) found = p.cls; } catch (e) {}
+            });
+            return found;
+        },
+        isRadiusActive: function (cls) {
+            return this.activeRadiusClass === cls;
+        },
+        setRadiusPreset: function (cls) {
+            var node = this.activeNode;
+            if (!node) return;
+            this._stripRoundedClasses(node);
+            if (cls) node.classList.add(cls);
+            // Clear any px radius so the class governs (a #id px rule with
+            // !important would otherwise outrank the utility class).
+            this.applyPropertyToActiveNode('border-radius', '');
+            this.applyPropertyToActiveNode('border-top-left-radius', '');
+            this.applyPropertyToActiveNode('border-top-right-radius', '');
+            this.applyPropertyToActiveNode('border-bottom-left-radius', '');
+            this.applyPropertyToActiveNode('border-bottom-right-radius', '');
+            this.activeRadiusClass = cls;
+            this.selectedBorderRadius = '';
+            try { mw.top().app.registerChange(node); } catch (e) { /* noop */ }
+        },
+
         applyPredefinedRadius() {
+            // dropdown scale writes px — strip the class preset so they don't fight
+            if (this.activeNode) this._stripRoundedClasses(this.activeNode);
+            this.activeRadiusClass = null;
             const selectedRadius = this.predefinedBorderRadiusValues.find(radius => radius.value === this.selectedBorderRadius);
 
             if (selectedRadius) {
@@ -124,6 +206,10 @@ export default {
                 this.isReady = false;
                 this.resetAllProperties();
                 this.activeNode = node;
+
+                // LE redesign — reflect the current Bootstrap rounded-* class in
+                // the segmented (reactive; classList changes aren't reactive).
+                this.activeRadiusClass = this._detectRadiusClass(node);
 
                 this.populateCssBorderRadius(css);
 
@@ -237,6 +323,15 @@ export default {
             this.applyPropertyToActiveNode('border-radius', borderRadiusValue);
 
 
+        },
+        // LE redesign — uniform px slider overrides the class preset on all corners.
+        uniformRadius: function (newValue) {
+            if (!this.isReady) return;
+            var node = this.activeNode;
+            if (node) this._stripRoundedClasses(node);
+            this.activeRadiusClass = null;
+            this.applyPropertyToActiveNode('border-radius', newValue + 'px');
+            try { if (node) mw.top().app.registerChange(node); } catch (e) { /* noop */ }
         },
     },
 };
