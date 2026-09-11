@@ -13,21 +13,27 @@
     </div>
 
     <!-- task-2026-05-16-ea56d3: @click.stop — see ElementStyleEditorTypography.vue -->
+    <!-- LE redesign (frame 1c) — the Box/Text choice is now a soft-pill segmented
+         "Shadow type" (replacing the two text links). -->
     <div v-if="showShadow" @click.stop>
-        <!-- Tab Navigation -->
-        <div class="mw-admin-action-links-holder mb-3">
-            <span
-                class="mw-admin-action-links mw-adm-liveedit-tabs"
-                :class="{'active': activeTab === 'box'}"
-                @click="setActiveTab('box')">
-                Box Shadow
-            </span>
-            <span
-                class="mw-admin-action-links mw-adm-liveedit-tabs ms-2"
-                :class="{'active': activeTab === 'text'}"
-                @click="setActiveTab('text')">
-                Text Shadow
-            </span>
+        <div class="form-control-live-edit-label-wrapper">
+            <label class="live-edit-label">Shadow type</label>
+            <div class="mw-segmented mw-ese-seg">
+                <span class="mw-segmented__cell"
+                      :class="{ 'active': activeTab === 'box', 'is-active': activeTab === 'box' }"
+                      role="button" tabindex="0"
+                      :aria-pressed="activeTab === 'box' ? 'true' : 'false'"
+                      @click="setActiveTab('box')"
+                      @keydown.enter.prevent="setActiveTab('box')"
+                      @keydown.space.prevent="setActiveTab('box')">Box</span>
+                <span class="mw-segmented__cell"
+                      :class="{ 'active': activeTab === 'text', 'is-active': activeTab === 'text' }"
+                      role="button" tabindex="0"
+                      :aria-pressed="activeTab === 'text' ? 'true' : 'false'"
+                      @click="setActiveTab('text')"
+                      @keydown.enter.prevent="setActiveTab('text')"
+                      @keydown.space.prevent="setActiveTab('text')">Text</span>
+            </div>
         </div>
 
         <!-- Tab Content -->

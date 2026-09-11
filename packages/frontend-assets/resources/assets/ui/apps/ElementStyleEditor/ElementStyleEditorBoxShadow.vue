@@ -1,5 +1,26 @@
 <template>
     <div>
+        <!-- LE redesign (frame 1c) — Depth is a soft-pill segmented applying REAL
+             Bootstrap shadow-* classes (None/S/M/L → shadow-none/-sm/shadow/-lg),
+             mirroring the verified rounded-* class pattern. The full preset grid
+             + custom options fold into More options. -->
+        <div class="form-control-live-edit-label-wrapper">
+            <label class="live-edit-label">Depth</label>
+            <div class="mw-segmented mw-ese-seg">
+                <span v-for="d in depthPresets" :key="d.key" class="mw-segmented__cell"
+                      :class="{ 'active': isDepthActive(d.cls), 'is-active': isDepthActive(d.cls) }"
+                      role="button" tabindex="0"
+                      :aria-pressed="isDepthActive(d.cls) ? 'true' : 'false'"
+                      @click="setDepthPreset(d.cls)"
+                      @keydown.enter.prevent="setDepthPreset(d.cls)"
+                      @keydown.space.prevent="setDepthPreset(d.cls)">{{ d.label }}</span>
+            </div>
+        </div>
+
+        <details class="mw-typography-advanced">
+            <summary class="cursor-pointer text-xs opacity-70 hover:opacity-100 py-2">
+                More options
+            </summary>
         <div class="box-shadow-options">
             <PredefinedBoxShadowsSelect :predefinedShadows="predefinedShadows"
                                         :selectedShadow="selectedShadow"
@@ -78,6 +99,7 @@
 
 
         </div>
+        </details>
     </div>
 </template>
 
@@ -98,6 +120,14 @@ export default {
         return {
             'activeNode': null,
             'isReady': false,
+            // LE redesign — primary Depth presets → Bootstrap shadow-* classes.
+            'depthPresets': [
+                {key: 'none', label: 'None', cls: 'shadow-none'},
+                {key: 's', label: 'S', cls: 'shadow-sm'},
+                {key: 'm', label: 'M', cls: 'shadow'},
+                {key: 'l', label: 'L', cls: 'shadow-lg'},
+            ],
+            'activeDepthClass': null,
             selectedShadow: '',
             canCustomizeBoxShadowOptions: false,
             boxShadowOptions: {
@@ -123,6 +153,13 @@ export default {
     },
 
     mounted() {
+        // LE redesign — this subpanel mounts lazily (v-if on the Shadow section),
+        // so it can miss the already-set selection (the emitter event fires before
+        // this listener registers). Populate immediately if an element is selected.
+        if (this.$root.selectedElement) {
+            this.populateStyleEditor(this.$root.selectedElement);
+        }
+
         this.emitter.on("element-style-editor-show", () => {
             if (this.$root.selectedElement) {
                 this.populateStyleEditor(this.$root.selectedElement);
@@ -173,6 +210,38 @@ export default {
                 this.$root.applyPropertyToActiveNode(this.activeNode, prop, val);
             }
         },
+        // LE redesign — class-based Depth presets (mirrors rounded-* pattern).
+        _stripShadowClasses: function (node) {
+            if (!node) return;
+            var re = /^shadow(-(sm|lg|none))?$/;
+            Array.from(node.classList).forEach(function (c) { if (re.test(c)) node.classList.remove(c); });
+        },
+        _detectShadowClass: function (node) {
+            if (!node) return null;
+            var found = null;
+            this.depthPresets.forEach(function (d) {
+                try { if (node.classList.contains(d.cls)) found = d.cls; } catch (e) {}
+            });
+            return found;
+        },
+        isDepthActive: function (cls) {
+            return this.activeDepthClass === cls;
+        },
+        setDepthPreset: function (cls) {
+            // fall back to the root selection if this lazily-mounted subpanel
+            // hasn't populated yet.
+            var node = this.activeNode || (this.$root && this.$root.selectedElement) || null;
+            if (!node) return;
+            this.activeNode = node;
+            this._stripShadowClasses(node);
+            if (cls) node.classList.add(cls);
+            // Clear any inline box-shadow so the class governs (a #id inline rule
+            // with !important would otherwise outrank the utility class).
+            this.applyPropertyToActiveNode('boxShadow', '');
+            this.activeDepthClass = cls;
+            this.selectedShadow = '';
+            try { mw.top().app.registerChange(node); } catch (e) { /* noop */ }
+        },
         handleBoxShadowOptionsChange(updatedOptions, index) {
             this.boxShadowOptionsGroups[index] = updatedOptions;
 
@@ -210,6 +279,10 @@ export default {
                 this.isReady = false;
                 this.resetAllProperties();
                 this.activeNode = node;
+
+                // LE redesign — reflect the current shadow-* class in the Depth
+                // segmented (reactive; classList mutation isn't reactive).
+                this.activeDepthClass = this._detectShadowClass(node);
 
                 this.populateCssBoxShadow(css);
 
