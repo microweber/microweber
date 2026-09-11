@@ -249,7 +249,47 @@ export default {
         },
     },
 
+    watch: {
+        // LE redesign (frame 1c) — the inspector should present its primary
+        // controls immediately on selection, not an all-collapsed list. When a
+        // new element is selected, auto-expand the first relevant section
+        // (Typography for text/headings, else the first visible one). Runs after
+        // the cssEditorSettings event has set which sections are visible.
+        selectedElement(el) {
+            if (!el) return;
+            this.$nextTick(() => {
+                setTimeout(() => this.autoExpandPrimarySection(), 80);
+            });
+        },
+    },
+
     methods: {
+        // LE redesign — open the primary section on selection (once). Leaves a
+        // user-opened section alone; only acts when nothing is expanded yet.
+        autoExpandPrimarySection() {
+            const anyActive = this.isTypographyActive || this.isBackgroundActive
+                || this.isSpacingActive || this.isBorderActive || this.isContainerActive
+                || this.isGridActive || this.isAnimationsActive || this.isRoundedCornersActive
+                || this.isShadowActive || this.isClassApplierActive || this.isLayoutSettingsActive
+                || this.isListStyleEditorActive || this.isPredefinedStylesApplierSettingsActive
+                || this.isAiChatSettingsActive;
+            if (anyActive) return;
+            const order = [
+                ['showTypography', 'toggleTypography'],
+                ['showBackground', 'toggleBackground'],
+                ['showSpacing', 'toggleSpacing'],
+                ['showLayoutSettings', 'toggleLayoutSettings'],
+                ['showContainer', 'toggleContainer'],
+                ['showGrid', 'toggleGrid'],
+            ];
+            for (const [showFlag, toggleFn] of order) {
+                if (this[showFlag] && typeof this[toggleFn] === 'function') {
+                    this[toggleFn]();
+                    return;
+                }
+            }
+        },
+
         // LE redesign helpers for the header name/breadcrumb.
         _closestModuleType(el) {
             try {
