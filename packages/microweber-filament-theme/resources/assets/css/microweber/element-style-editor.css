@@ -1823,3 +1823,45 @@
     border-top: 1px solid rgba(255, 255, 255, 0.10);
     padding-top: 10px;
 }
+
+/* ============================================================
+ * LE redesign (frame 1c) — Inspector footer: Duplicate / Delete.
+ * Two buttons at the bottom of the ESE panel: Duplicate is neutral,
+ * Delete is danger-tinted. Uses the --ese-* token set so it inherits
+ * light/dark automatically. task-2026-09-11-le-redesign-ese.
+ * ============================================================ */
+.mw-live-edit-page .mw-ese-footer,
+#mw-element-style-editor-app .mw-ese-footer {
+    display: flex;
+    gap: 8px;
+    padding: 12px 2px 4px;
+    margin-top: 10px;
+    border-top: 1px solid var(--ese-border, #e6e6e2);
+}
+.mw-live-edit-page .mw-ese-footer__btn,
+#mw-element-style-editor-app .mw-ese-footer__btn {
+    flex: 1 1 0;
+    min-height: 40px;
+    border-radius: var(--ese-radius-sm, 8px);
+    border: 1px solid var(--ese-border-strong, #d9d9d4);
+    background: var(--ese-surface, #fff);
+    color: var(--ese-text, #1c1c1a);
+    font-size: var(--font-label, 13px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .12s ease, border-color .12s ease, color .12s ease;
+}
+.mw-live-edit-page .mw-ese-footer__btn--duplicate:hover,
+#mw-element-style-editor-app .mw-ese-footer__btn--duplicate:hover {
+    background: var(--ese-surface-hover, #f3f3f1);
+}
+.mw-live-edit-page .mw-ese-footer__btn--delete,
+#mw-element-style-editor-app .mw-ese-footer__btn--delete {
+    color: #dc2626;
+    border-color: rgba(220, 38, 38, 0.28);
+}
+.mw-live-edit-page .mw-ese-footer__btn--delete:hover,
+#mw-element-style-editor-app .mw-ese-footer__btn--delete:hover {
+    background: rgba(220, 38, 38, 0.08);
+    border-color: rgba(220, 38, 38, 0.5);
+}

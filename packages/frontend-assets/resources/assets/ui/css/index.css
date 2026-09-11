@@ -124,11 +124,10 @@ a {
     min-width: 340px;
     max-width: 100%;
     resize: horizontal;
-    /* LE redesign Phase 2a — the canvas reads as a centered rounded white card. */
+    /* LE redesign Phase 2a — the canvas reads as a centered white card on the
+       neutral canvas. Square corners (no radius) per user request. */
     background: var(--le-frame, #fff);
-    border-radius: var(--le-radius-frame, 14px);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.10), 0 12px 30px rgba(0, 0, 0, 0.07);
-    overflow: hidden;
 }
 /* Frame stays white in dark (page = real site); deepen the shadow so the card
    still reads against the near-black canvas. */

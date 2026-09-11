@@ -98,6 +98,25 @@
         </div>
     </div>
 
+    <!-- LE redesign (frame 1c) — inspector footer: Duplicate / Delete.
+         Shown only when an element is selected. Wired to the existing
+         element-handle actions used by the canvas block toolbar, so no
+         new delete/clone path is introduced. -->
+    <div v-if="selectedElement" class="mw-ese-footer">
+        <button type="button"
+                class="mw-ese-footer__btn mw-ese-footer__btn--duplicate"
+                @click="duplicateSelectedElement"
+                aria-label="Duplicate element" title="Duplicate">
+            Duplicate
+        </button>
+        <button type="button"
+                class="mw-ese-footer__btn mw-ese-footer__btn--delete"
+                @click="deleteSelectedElement"
+                aria-label="Delete element" title="Delete">
+            Delete
+        </button>
+    </div>
+
 
 </template>
 
@@ -320,6 +339,46 @@ export default {
                 prop: prop,
                 val: val
             });
+        },
+
+        // LE redesign (frame 1c) — footer Duplicate/Delete. Route through the
+        // existing element-handle actions (the same clone/delete the canvas
+        // block toolbar uses) so behaviour + undo stay consistent. Defensive:
+        // the actions live on the elementActions prototype; guard typeof.
+        _elementActions() {
+            try {
+                return mw.top().app.liveEdit
+                    && mw.top().app.liveEdit.elementHandleContent
+                    && mw.top().app.liveEdit.elementHandleContent.elementActions;
+            } catch (e) {
+                return null;
+            }
+        },
+        duplicateSelectedElement() {
+            const el = this.selectedElement;
+            if (!el) return;
+            const ea = this._elementActions();
+            try {
+                if (ea && typeof ea.cloneElement === 'function') {
+                    ea.cloneElement(el);
+                } else {
+                    mw.top().app.dispatch('mw.elementStyleEditor.cloneNode', { node: el });
+                }
+            } catch (e) { console.warn('ESE: duplicate failed', e); }
+        },
+        deleteSelectedElement() {
+            const el = this.selectedElement;
+            if (!el) return;
+            const ea = this._elementActions();
+            try {
+                if (ea && typeof ea.deleteElement === 'function') {
+                    ea.deleteElement(el);
+                } else if (el.remove) {
+                    el.remove();
+                    mw.top().app.registerChange && mw.top().app.registerChange(document.body);
+                }
+                this.selectedElement = null;
+            } catch (e) { console.warn('ESE: delete failed', e); }
         },
 
     },
