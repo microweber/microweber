@@ -2104,6 +2104,24 @@
     border: 0;
     padding: 0;
 }
+/* Space around — label + Padding/Margin mode dropdown on one row. */
+#mw-element-style-editor-app .mw-ese-space__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+#mw-element-style-editor-app .mw-ese-space__mode {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ese-text, #1c1c1a);
+    background: var(--ese-surface, #fff);
+    border: 1px solid var(--ese-border, #e6e6e2);
+    border-radius: 6px;
+    padding: 3px 6px;
+    cursor: pointer;
+    line-height: 1.2;
+}
 /* Dark: lift the segmented track + active pill so they stay distinct. */
 .dark #mw-element-style-editor-app .mw-segmented,
 .dark #mw-element-style-editor-app .mw-ese-size__seg,

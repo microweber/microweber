@@ -80,22 +80,9 @@
                 </div>
             </div>
 
-            <!-- Space around (margin) None/S/M/L segmented. -->
-            <div class="form-control-live-edit-label-wrapper">
-                <label class="live-edit-label">Space around</label>
-                <div class="mw-segmented mw-ese-seg">
-                    <span v-for="sp in spacePresets" :key="sp.key"
-                          class="mw-segmented__cell"
-                          :class="{ 'active': isSpaceActive(sp.px), 'is-active': isSpaceActive(sp.px) }"
-                          role="button" tabindex="0"
-                          :aria-label="'Space around ' + sp.label"
-                          :aria-pressed="isSpaceActive(sp.px) ? 'true' : 'false'"
-                          @click="setSpaceAround(sp.px)"
-                          @keydown.enter.prevent="setSpaceAround(sp.px)" @keydown.space.prevent="setSpaceAround(sp.px)">
-                        {{ sp.label }}
-                    </span>
-                </div>
-            </div>
+            <!-- Space around — reusable component with a Padding/Margin dropdown. -->
+            <SpaceAround :value="spaceAround" :mode="spaceMode" :presets="spacePresets"
+                         @update="onSpaceUpdate" @update:mode="onSpaceModeChange"/>
 
 
             <details class="mw-typography-advanced">
@@ -183,10 +170,11 @@ import Dropdown from '../../components/Form/Dropdown.vue';
 import FontPicker from "./components/FontPicker.vue";
 import ColorPicker from "./components/ColorPicker.vue";
 import SliderSmall from "./components/SliderSmall.vue";
+import SpaceAround from "./components/SpaceAround.vue";
 import Slider from '@vueform/slider';
 
 export default {
-    components: {ColorPicker, FontPicker, Dropdown, Input, Slider, Align, DropdownSmall, SliderSmall},
+    components: {ColorPicker, FontPicker, Dropdown, Input, Slider, Align, DropdownSmall, SliderSmall, SpaceAround},
     computed: {
         // LE redesign (frame 1c) — Level control visibility + active tag.
         isHeading: function () {
@@ -217,6 +205,7 @@ export default {
                 {"key": "l", "label": "L", "px": 32},
             ],
             'spaceAround': null,
+            'spaceMode': 'padding',
             'textTransformOptions': [
                 {"key": 'none', "value": "None"},
                 {"key": "capitalize", "value": "Capitalize"},
@@ -314,6 +303,9 @@ export default {
                 this.resetAllProperties();
                 this.activeNode = node;
 
+                // LE redesign — reflect the element's current padding/margin in
+                // the Space-around control for the active mode.
+                this.spaceAround = this.readSpace(node, this.spaceMode);
 
                 this.populateCssTextAlign(css);
                 this.populateCssTextDecoration(css);
@@ -407,13 +399,35 @@ export default {
             const inp = this.$refs.customColorInput;
             if (inp && inp.click) inp.click();
         },
-        // LE redesign (frame 1c) — Space around (margin) presets.
-        setSpaceAround: function (px) {
+        // LE redesign (frame 1c) — Space around = padding OR margin (mode chosen
+        // in the SpaceAround dropdown). Apply the chosen mode's property.
+        onSpaceUpdate: function (payload) {
+            var px = payload && typeof payload === 'object' ? payload.px : payload;
+            var mode = payload && payload.mode ? payload.mode : this.spaceMode;
+            this.spaceMode = mode;
             this.spaceAround = px;
-            this.applyPropertyToActiveNode('margin', px + 'px');
+            this.applyPropertyToActiveNode(mode === 'margin' ? 'margin' : 'padding', px + 'px');
         },
-        isSpaceActive: function (px) {
-            return this.spaceAround === px;
+        onSpaceModeChange: function (mode) {
+            this.spaceMode = mode;
+            // Re-read the current value for the newly selected mode so the
+            // active preset reflects the element's real padding/margin.
+            this.spaceAround = this.readSpace(this.activeNode, mode);
+        },
+        readSpace: function (node, mode) {
+            if (!node) return null;
+            var side = mode === 'margin' ? 'marginTop' : 'paddingTop';
+            var shorthand = mode === 'margin' ? 'margin' : 'padding';
+            try {
+                var v = parseInt((node.style && node.style[shorthand]) || '', 10);
+                if (!Number.isFinite(v)) {
+                    var win = node.ownerDocument && node.ownerDocument.defaultView;
+                    if (win) v = parseInt(win.getComputedStyle(node)[side], 10);
+                }
+                return Number.isFinite(v) ? v : null;
+            } catch (e) {
+                return null;
+            }
         },
         handleFontChange: function (fontFamily) {
             this.fontFamily = fontFamily;
