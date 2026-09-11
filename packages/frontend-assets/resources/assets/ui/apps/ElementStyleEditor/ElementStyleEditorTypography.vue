@@ -74,9 +74,7 @@
                             :title="sw"
                             @click="color = sw"></button>
                     <span class="mw-ese-swatches__spacer"></span>
-                    <button type="button" class="mw-ese-custom-link" @click="openCustomColor">Custom</button>
-                    <input ref="customColorInput" type="color" class="mw-ese-color-native"
-                           v-model="color" tabindex="-1" aria-hidden="true"/>
+                    <button type="button" class="mw-ese-custom-link" @click="openCustomColor($event)">Custom</button>
                 </div>
             </div>
 
@@ -397,9 +395,20 @@ export default {
             return String(this.color).replace(/\s/g, '').toLowerCase()
                 === String(sw).replace(/\s/g, '').toLowerCase();
         },
-        openCustomColor: function () {
-            const inp = this.$refs.customColorInput;
-            if (inp && inp.click) inp.click();
+        // Open the Microweber color picker (same as the other ESE sections)
+        // anchored to the Custom button; the callback applies via the `color`
+        // model watcher.
+        openCustomColor: function (event) {
+            var el = event && event.currentTarget ? event.currentTarget : null;
+            var current = this.color || '#ffffff';
+            var self = this;
+            var picker = (typeof mw !== 'undefined' && mw.app && mw.app.colorPicker)
+                ? mw.app.colorPicker
+                : ((typeof mw !== 'undefined' && mw.top && mw.top().app && mw.top().app.colorPicker)
+                    ? mw.top().app.colorPicker : null);
+            if (picker && picker.openColorPicker) {
+                picker.openColorPicker(current, function (color) { self.color = color; }, el);
+            }
         },
         // LE redesign (frame 1c) — Space around applies a Bootstrap spacing
         // utility CLASS (p-*/m-*) for the chosen mode, so it persists with the
