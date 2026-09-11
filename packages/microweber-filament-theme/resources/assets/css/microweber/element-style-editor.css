@@ -2104,6 +2104,66 @@
     border: 0;
     padding: 0;
 }
+/* ============================================================
+ * LE redesign — consistent control primitives across ALL ESE panels
+ * (Spacing, Border, Rounded corners, Shadow, …) so every section reads
+ * with the same soft look as the Typography inspector.
+ * ============================================================ */
+/* Preset buttons (Spacing S/M/L/XL, border-radius presets, …). */
+#mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset {
+    min-height: 30px;
+    min-width: 34px;
+    padding: 0 8px;
+    border-radius: 7px;
+    border: 1px solid var(--ese-border, #e6e6e2) !important;
+    background: var(--ese-surface, #fff);
+    color: var(--ese-text, #1c1c1a);
+    font-size: 12px;
+    font-weight: 500;
+}
+#mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset:hover {
+    background: var(--ese-surface-hover, #f3f3f1);
+}
+#mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset.is-active,
+#mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset[aria-pressed="true"] {
+    background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1)) !important;
+    border-color: var(--ese-accent, #182433) !important;
+    color: var(--ese-accent, #182433) !important;
+}
+/* Toggle buttons (italic, bold, …) — consistent radius + active accent. */
+#mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--toggle {
+    border-radius: 7px;
+    border: 1px solid var(--ese-border, #e6e6e2) !important;
+    min-height: 30px;
+}
+#mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--toggle.is-active,
+#mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--toggle[aria-pressed="true"] {
+    background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1)) !important;
+    border-color: var(--ese-accent, #182433) !important;
+    color: var(--ese-accent, #182433) !important;
+}
+/* Ghost tool buttons (reset / kebab / trash / gear). */
+#mw-element-style-editor-app .mw-tool-btn:not(.mw-tool-btn--preset):not(.mw-tool-btn--toggle) {
+    border-radius: 6px;
+    color: var(--ese-text-muted, #77776f);
+}
+#mw-element-style-editor-app .mw-tool-btn:not(.mw-tool-btn--preset):not(.mw-tool-btn--toggle):hover {
+    background: var(--ese-surface-hover, #f3f3f1);
+    color: var(--ese-text, #1c1c1a);
+}
+/* Selects / dropdowns (Boldness, Letter case, Background Size/Repeat/Position). */
+#mw-element-style-editor-app select,
+#mw-element-style-editor-app .mw-dropdown-small select,
+#mw-element-style-editor-app .form-control-live-edit-select {
+    border-radius: 7px;
+    border: 1px solid var(--ese-border, #e6e6e2);
+    background: var(--ese-surface, #fff);
+    color: var(--ese-text, #1c1c1a);
+    font-size: 12px;
+    min-height: 32px;
+    padding: 2px 8px;
+}
+
 /* Space around — label + Padding/Margin mode dropdown on one row. */
 #mw-element-style-editor-app .mw-ese-space__head {
     display: flex;
