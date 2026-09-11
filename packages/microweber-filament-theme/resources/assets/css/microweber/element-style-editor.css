@@ -1903,3 +1903,40 @@
     font-size: 12px;
     color: var(--ese-text-muted, #77776f);
 }
+
+/* ============================================================
+ * LE redesign (frame 1c) — "Advanced" collapsible group header.
+ * task-2026-09-11-le-redesign-ese.
+ * ============================================================ */
+.mw-live-edit-page .mw-ese-advanced-header,
+#mw-element-style-editor-app .mw-ese-advanced-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 8px;
+    margin: 4px 0;
+    border-radius: var(--ese-radius-sm, 8px);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ese-text, #1c1c1a);
+    transition: background .12s ease;
+}
+.mw-live-edit-page .mw-ese-advanced-header:hover,
+#mw-element-style-editor-app .mw-ese-advanced-header:hover {
+    background: var(--ese-surface-hover, #f3f3f1);
+}
+.mw-live-edit-page .mw-ese-advanced-header__chevron,
+#mw-element-style-editor-app .mw-ese-advanced-header__chevron {
+    color: var(--ese-text-muted, #77776f);
+    transition: transform .18s ease;
+    flex: 0 0 auto;
+}
+.mw-live-edit-page .mw-ese-advanced-header.is-open .mw-ese-advanced-header__chevron,
+#mw-element-style-editor-app .mw-ese-advanced-header.is-open .mw-ese-advanced-header__chevron {
+    transform: rotate(90deg);
+}
+.mw-live-edit-page .mw-ese-advanced-body,
+#mw-element-style-editor-app .mw-ese-advanced-body {
+    padding-left: 2px;
+}

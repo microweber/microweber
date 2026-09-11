@@ -62,32 +62,48 @@
                 <ElementStyleEditorSpacing ref="spacingComp"></ElementStyleEditorSpacing>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer" aria-label="Container" title="Container" role="button" tabindex="0" :aria-expanded="isContainerActive" @keydown.enter.prevent="toggleContainer" @keydown.space.prevent="toggleContainer">
-                <ElementStyleEditorContainer ref="containerComp"></ElementStyleEditorContainer>
-            </div>
-
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isGridActive}" v-show="showGrid" @click="toggleGrid" aria-label="Grid" title="Grid" role="button" tabindex="0" :aria-expanded="isGridActive" @keydown.enter.prevent="toggleGrid" @keydown.space.prevent="toggleGrid">
-                <ElementStyleEditorGrid ref="gridComp"></ElementStyleEditorGrid>
-            </div>
-
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBorderActive}" v-show="showBorder" @click="toggleBorder" aria-label="Border" title="Border" role="button" tabindex="0" :aria-expanded="isBorderActive" @keydown.enter.prevent="toggleBorder" @keydown.space.prevent="toggleBorder">
-                <ElementStyleEditorBorder ref="borderComp"></ElementStyleEditorBorder>
-            </div>
-
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isRoundedCornersActive}" v-show="showRoundedCorners" @click="toggleRoundedCorners" aria-label="Rounded corners" title="Rounded corners" role="button" tabindex="0" :aria-expanded="isRoundedCornersActive" @keydown.enter.prevent="toggleRoundedCorners" @keydown.space.prevent="toggleRoundedCorners">
-                <ElementStyleEditorRoundedCorners ref="roundedCornersComp"></ElementStyleEditorRoundedCorners>
-            </div>
-
+            <!-- Animation stays a top-level collapsible (frame 1c). -->
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations" aria-label="Animations" title="Animations" role="button" tabindex="0" :aria-expanded="isAnimationsActive" @keydown.enter.prevent="toggleAnimations" @keydown.space.prevent="toggleAnimations">
                 <ElementStyleEditorAnimations ref="animationsComp"></ElementStyleEditorAnimations>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isShadowActive}" v-show="showClassApplier" @click="toggleShadow" aria-label="Shadow" title="Shadow" role="button" tabindex="0" :aria-expanded="isShadowActive" @keydown.enter.prevent="toggleShadow" @keydown.space.prevent="toggleShadow">
-                <ElementStyleEditorShadow ref="shadowComp"></ElementStyleEditorShadow>
+            <!-- LE redesign (frame 1c) — "Advanced" group. Folds the structural /
+                 rarely-used controls (Container, Grid, Border, Rounded corners,
+                 Shadow, CSS classes) behind one collapsible so the top of the
+                 inspector stays curated. The inner rows keep their own accordion
+                 behaviour + Dusk-relevant aria markup unchanged. -->
+            <div v-show="selectedElement && (showContainer || showGrid || showBorder || showRoundedCorners || showClassApplier)"
+                 class="mw-ese-advanced-header" :class="{'is-open': isAdvancedOpen}"
+                 @click="toggleAdvanced" role="button" tabindex="0" :aria-expanded="isAdvancedOpen"
+                 aria-label="Advanced" title="Advanced"
+                 @keydown.enter.prevent="toggleAdvanced" @keydown.space.prevent="toggleAdvanced">
+                <span class="mw-ese-advanced-header__label">Advanced</span>
+                <svg class="mw-ese-advanced-header__chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </div>
+            <div v-show="isAdvancedOpen" class="mw-ese-advanced-body">
+                <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer" aria-label="Container" title="Container" role="button" tabindex="0" :aria-expanded="isContainerActive" @keydown.enter.prevent="toggleContainer" @keydown.space.prevent="toggleContainer">
+                    <ElementStyleEditorContainer ref="containerComp"></ElementStyleEditorContainer>
+                </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isClassApplierActive}" v-show="showClassApplier" @click="toggleClassApplier" aria-label="CSS class applier" title="CSS class applier" role="button" tabindex="0" :aria-expanded="isClassApplierActive" @keydown.enter.prevent="toggleClassApplier" @keydown.space.prevent="toggleClassApplier">
-                <ElementStyleEditorClassApplier ref="classApplierComp"></ElementStyleEditorClassApplier>
+                <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isGridActive}" v-show="showGrid" @click="toggleGrid" aria-label="Grid" title="Grid" role="button" tabindex="0" :aria-expanded="isGridActive" @keydown.enter.prevent="toggleGrid" @keydown.space.prevent="toggleGrid">
+                    <ElementStyleEditorGrid ref="gridComp"></ElementStyleEditorGrid>
+                </div>
+
+                <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBorderActive}" v-show="showBorder" @click="toggleBorder" aria-label="Border" title="Border" role="button" tabindex="0" :aria-expanded="isBorderActive" @keydown.enter.prevent="toggleBorder" @keydown.space.prevent="toggleBorder">
+                    <ElementStyleEditorBorder ref="borderComp"></ElementStyleEditorBorder>
+                </div>
+
+                <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isRoundedCornersActive}" v-show="showRoundedCorners" @click="toggleRoundedCorners" aria-label="Rounded corners" title="Rounded corners" role="button" tabindex="0" :aria-expanded="isRoundedCornersActive" @keydown.enter.prevent="toggleRoundedCorners" @keydown.space.prevent="toggleRoundedCorners">
+                    <ElementStyleEditorRoundedCorners ref="roundedCornersComp"></ElementStyleEditorRoundedCorners>
+                </div>
+
+                <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isShadowActive}" v-show="showClassApplier" @click="toggleShadow" aria-label="Shadow" title="Shadow" role="button" tabindex="0" :aria-expanded="isShadowActive" @keydown.enter.prevent="toggleShadow" @keydown.space.prevent="toggleShadow">
+                    <ElementStyleEditorShadow ref="shadowComp"></ElementStyleEditorShadow>
+                </div>
+
+                <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isClassApplierActive}" v-show="showClassApplier" @click="toggleClassApplier" aria-label="CSS class applier" title="CSS class applier" role="button" tabindex="0" :aria-expanded="isClassApplierActive" @keydown.enter.prevent="toggleClassApplier" @keydown.space.prevent="toggleClassApplier">
+                    <ElementStyleEditorClassApplier ref="classApplierComp"></ElementStyleEditorClassApplier>
+                </div>
             </div>
             <!--
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isPositionActive}" v-show="showPosition" @click="togglePosition" aria-label="Position" title="Position" role="button" tabindex="0" :aria-expanded="isPositionActive" @keydown.enter.prevent="togglePosition" @keydown.space.prevent="togglePosition">
@@ -212,6 +228,9 @@ export default {
             isPredefinedStylesApplierSettingsActive: false,
             isAiChatSettingsActive: false,
 
+            // LE redesign (frame 1c) — "Advanced" group open/closed state.
+            isAdvancedOpen: false,
+
             // AI-63 / TICKET-NN (cycle-76 2026-05-08): announce
             // panel-open transitions to screen readers via the
             // aria-live region above. Updated by announceAria()
@@ -288,6 +307,11 @@ export default {
                     return;
                 }
             }
+        },
+
+        // LE redesign (frame 1c) — toggle the Advanced group open/closed.
+        toggleAdvanced() {
+            this.isAdvancedOpen = !this.isAdvancedOpen;
         },
 
         // LE redesign helpers for the header name/breadcrumb.
