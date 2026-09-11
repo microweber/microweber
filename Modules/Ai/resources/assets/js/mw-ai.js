@@ -448,21 +448,6 @@ function MwAi() {
             return tmp.innerHTML;
         },
 
-        // Add !important to every declaration in a flat CSS string so AI styles
-        // win the cascade. Nested at-rule blocks (@media etc.) contain braces and
-        // are left untouched by the rule regex — acceptable, they are rare.
-        forceImportant(css) {
-            return String(css).replace(/([^{}]+)\{([^{}]*)\}/g, function (m, sel, body) {
-                const decls = body.split(';').map(function (d) {
-                    d = d.trim();
-                    if (!d) { return ''; }
-                    if (/!important\s*$/i.test(d)) { return d; }
-                    return d + ' !important';
-                }).filter(Boolean).join('; ');
-                return sel.trim() + ' { ' + decls + ' }';
-            });
-        },
-
         // Inject AI CSS into a single global <style> kept LAST in the canvas head
         // (so it wins by source order). Accumulates across the session.
         injectGlobalCss(css) {
@@ -586,13 +571,15 @@ function MwAi() {
                 if (!css.trim()) { return { ok: false, message: 'empty css' }; }
 
                 // Full-scope design: write to the GLOBAL Live-Edit custom CSS, not
-                // the per-region temp style. We (1) inject it into a single global
-                // <style> appended LAST in the canvas <head> — so at equal
-                // specificity it beats the template's own rules (e.g. the shipped
-                // `.btn{…!important}`) by source order — and (2) persist it to the
-                // template's custom CSS file so it is global and survives SAVE.
-                const withImportant = api.forceImportant(css);
-                api.injectGlobalCss(withImportant);
+                // the per-region temp style. Inject it into a single global <style>
+                // appended LAST in the canvas <head> — so at equal specificity it
+                // already wins by SOURCE ORDER — and persist it to the template's
+                // custom CSS file so it is global and survives SAVE.
+                // task-2026-09-11: do NOT force !important. !important on AI-written
+                // selector rules blocked Live Edit from ever re-editing those styles
+                // (the ESE / user overrides can't beat !important) — the exact bug
+                // behind "color not applying". Source-order precedence is enough.
+                api.injectGlobalCss(css);
                 api.persistGlobalCss();
                 return { ok: true, message: 'applied global css' };
             },
