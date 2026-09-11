@@ -17,10 +17,42 @@
             </div>
         </div>
 
+        <!-- Color — palette swatches + Custom. Choosing a color switches to inline
+             mode: it strips the shadow-* class and rebuilds the shadow from the
+             current Depth step's canonical offset/blur (resolves class/inline
+             ambiguity). -->
+        <div class="form-control-live-edit-label-wrapper">
+            <label class="live-edit-label">Color</label>
+            <div class="mw-ese-swatches">
+                <button v-for="sw in colorSwatches" :key="sw" type="button" class="mw-ese-swatch"
+                        :class="{ 'is-active': isColorActive(sw) }"
+                        :style="{ backgroundColor: sw }" :title="sw" :aria-label="'Shadow color ' + sw"
+                        @click="setShadowColor(sw)"></button>
+                <span class="mw-ese-swatches__spacer"></span>
+                <button type="button" class="mw-ese-custom-link" @click="openCustomColor($event)">Custom</button>
+            </div>
+        </div>
+
         <details class="mw-typography-advanced">
             <summary class="cursor-pointer text-xs opacity-70 hover:opacity-100 py-2">
                 More options
             </summary>
+
+        <!-- Custom shadow — any change forces inline mode (seeded from the active
+             Depth step) so the numeric shadow and the class never fight. -->
+        <SliderSmall label="Horizontal offset" v-model="customShadow.h" :min="-300" :max="300" :step="1" @change="onCustomShadowChange"/>
+        <SliderSmall label="Vertical offset" v-model="customShadow.v" :min="-300" :max="300" :step="1" @change="onCustomShadowChange"/>
+        <SliderSmall label="Blur" v-model="customShadow.blur" :min="0" :max="30" :step="1" @change="onCustomShadowChange"/>
+        <SliderSmall label="Spread" v-model="customShadow.spread" :min="0" :max="30" :step="1" @change="onCustomShadowChange"/>
+        <div class="form-control-live-edit-label-wrapper mw-ese-visibility__row">
+            <label class="live-edit-label">Inset</label>
+            <button type="button"
+                    class="mw-tool-btn mw-tool-btn--toggle mw-ese-visibility__toggle"
+                    :class="{ 'is-active': customShadow.inset }"
+                    :aria-pressed="customShadow.inset ? 'true' : 'false'"
+                    @click="toggleInset">{{ customShadow.inset ? 'On' : 'Off' }}</button>
+        </div>
+
         <div class="box-shadow-options">
             <PredefinedBoxShadowsSelect :predefinedShadows="predefinedShadows"
                                         :selectedShadow="selectedShadow"
@@ -128,6 +160,13 @@ export default {
                 {key: 'l', label: 'L', cls: 'shadow-lg'},
             ],
             'activeDepthClass': null,
+            // LE redesign — inline custom shadow model + canonical per-depth seeds.
+            'customShadow': {h: 0, v: 4, blur: 8, spread: 0, color: '', inset: false},
+            'depthCanonical': {
+                'shadow-sm': {h: 0, v: 2, blur: 4},
+                'shadow': {h: 0, v: 4, blur: 8},
+                'shadow-lg': {h: 0, v: 10, blur: 20},
+            },
             selectedShadow: '',
             canCustomizeBoxShadowOptions: false,
             boxShadowOptions: {
@@ -200,7 +239,95 @@ export default {
             deep: true,
         },
     },
+    computed: {
+        // Recommended swatches from the SAME MW color-palette service.
+        colorSwatches: function () {
+            // eslint-disable-next-line no-unused-vars
+            var _dep = this.activeNode;
+            try {
+                var mgr = mw.top().app.templateSettings
+                    && mw.top().app.templateSettings.colorPaletteManager;
+                if (mgr && mgr.getColors) {
+                    var colors = mgr.getColors() || [];
+                    var seen = {};
+                    var filtered = colors.filter(function (c) {
+                        if (!c || typeof c !== 'string') return false;
+                        if (!/^#([0-9a-fA-F]{3,8})$/.test(c)) return false;
+                        var low = c.toLowerCase();
+                        if (seen[low]) return false;
+                        seen[low] = true;
+                        return true;
+                    });
+                    if (filtered.length) return filtered.slice(0, 6);
+                }
+            } catch (e) { /* fall through */ }
+            return ['#182433', '#6b6b64', '#f0a06a', '#d98c4a', '#ffffff'];
+        },
+    },
+
     methods: {
+        // LE redesign — custom inline shadow (with the class→inline transition).
+        isColorActive: function (sw) {
+            var v = this.customShadow.color;
+            if (!v) return false;
+            return String(v).replace(/\s/g, '').toLowerCase() === String(sw).replace(/\s/g, '').toLowerCase();
+        },
+        _seedFromDepth: function () {
+            var canon = this.depthCanonical[this.activeDepthClass];
+            if (canon) {
+                this.customShadow.h = canon.h;
+                this.customShadow.v = canon.v;
+                this.customShadow.blur = canon.blur;
+            }
+        },
+        _activateInline: function () {
+            // once the numeric shadow is edited, the utility class must go so the
+            // inline #id rule isn't fighting it.
+            if (this.activeDepthClass) {
+                this._seedFromDepth();
+                if (this.activeNode) this._stripShadowClasses(this.activeNode);
+                this.activeDepthClass = null;
+            }
+            this.selectedShadow = 'custom';
+        },
+        _buildInline: function () {
+            var s = this.customShadow;
+            var color = s.color || 'rgba(0,0,0,0.2)';
+            return (s.inset ? 'inset ' : '') + s.h + 'px ' + s.v + 'px ' + s.blur + 'px ' + s.spread + 'px ' + color;
+        },
+        applyCustomShadow: function () {
+            var node = this.activeNode || (this.$root && this.$root.selectedElement) || null;
+            if (!node) return;
+            this.activeNode = node;
+            this.$root.applyPropertyToActiveNode(node, 'boxShadow', this._buildInline());
+            try { mw.top().app.registerChange(node); } catch (e) { /* noop */ }
+        },
+        setShadowColor: function (hex) {
+            this._activateInline();
+            this.customShadow.color = hex;
+            this.applyCustomShadow();
+        },
+        openCustomColor: function (event) {
+            var el = event && event.currentTarget ? event.currentTarget : null;
+            var current = this.customShadow.color || '#182433';
+            var self = this;
+            var picker = (typeof mw !== 'undefined' && mw.app && mw.app.colorPicker)
+                ? mw.app.colorPicker
+                : ((typeof mw !== 'undefined' && mw.top && mw.top().app && mw.top().app.colorPicker)
+                    ? mw.top().app.colorPicker : null);
+            if (picker && picker.openColorPicker) {
+                picker.openColorPicker(current, function (color) { self.setShadowColor(color); }, el);
+            }
+        },
+        onCustomShadowChange: function () {
+            this._activateInline();
+            this.applyCustomShadow();
+        },
+        toggleInset: function () {
+            this.customShadow.inset = !this.customShadow.inset;
+            this._activateInline();
+            this.applyCustomShadow();
+        },
         applyPropertyToActiveNode: function (prop, val) {
             if (!this.isReady) {
                 return;
@@ -262,6 +389,7 @@ export default {
 
         resetAllProperties: function () {
             this.selectedShadow = '';
+            this.customShadow = {h: 0, v: 4, blur: 8, spread: 0, color: '', inset: false};
             this.boxShadowOptions = {
                 horizontalLength: '',
                 verticalLength: '',
@@ -309,6 +437,20 @@ export default {
                     this.selectedShadow = boxShadowVal;
                 } else {
                     this.selectedShadow = 'custom';
+                    // LE redesign — seed the custom sliders/color from the inline value.
+                    try {
+                        var parsed = this.parseShadowValues(boxShadowVal);
+                        if (parsed && parsed[0]) {
+                            var p = parsed[0];
+                            var num = function (s) { return parseInt(String(s).replace(/px|em|%/g, ''), 10) || 0; };
+                            this.customShadow.h = num(p.horizontalLength);
+                            this.customShadow.v = num(p.verticalLength);
+                            this.customShadow.blur = num(p.blurRadius);
+                            this.customShadow.spread = num(p.spreadRadius);
+                            this.customShadow.color = p.shadowColor || '';
+                            this.customShadow.inset = !!p.inset;
+                        }
+                    } catch (e) { /* keep defaults */ }
                 }
                 //this.selectedShadow = boxShadowVal;
                 //this.selectedShadow = boxShadowVal;
