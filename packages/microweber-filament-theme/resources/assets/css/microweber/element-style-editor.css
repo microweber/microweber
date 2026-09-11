@@ -1997,3 +1997,75 @@
     color: var(--ese-accent, #182433);
     box-shadow: inset 0 0 0 1px var(--ese-accent, #182433);
 }
+
+/* ============================================================
+ * LE redesign — adapt ESE controls to the frame-1c design styles:
+ * sentence-case muted labels, soft "pill" segmented controls (light
+ * track + white active pill w/ shadow), consistent block rhythm.
+ * task-2026-09-11-le-redesign-ese-neat.
+ * ============================================================ */
+/* Labels — sentence case, 12px, muted (design: #77776F / weight 500). */
+#mw-element-style-editor-app .live-edit-label {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ese-text-muted, #77776f);
+}
+/* Soft "pill" segmented — Align (.mw-segmented) + Size (.mw-ese-size__seg)
+   + any future Level/Space-around. Light track, white active pill. */
+#mw-element-style-editor-app .mw-segmented,
+#mw-element-style-editor-app .mw-ese-size__seg {
+    background: var(--ese-surface-muted, #f4f4f2);
+    border: 0;
+    border-radius: 8px;
+    padding: 2px;
+    gap: 2px;
+    overflow: visible;
+    margin-top: 6px;
+}
+#mw-element-style-editor-app .mw-segmented__cell,
+#mw-element-style-editor-app .mw-ese-size__cell {
+    border: 0 !important;
+    border-inline-start: 0 !important;
+    border-radius: 6px;
+    min-height: 30px;
+    color: #55554f;
+    background: transparent;
+    box-shadow: none;
+}
+#mw-element-style-editor-app .mw-segmented__cell.is-active,
+#mw-element-style-editor-app .mw-segmented__cell.active,
+#mw-element-style-editor-app .mw-ese-size__cell.is-active,
+#mw-element-style-editor-app .mw-ese-size__cell.active {
+    background: var(--ese-surface, #ffffff) !important;
+    color: var(--ese-text, #1c1c1a) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10) !important;
+}
+/* Consistent vertical rhythm between control rows in a section body. */
+#mw-element-style-editor-app .element-style-editor-toggle-wrapper .form-control-live-edit-label-wrapper {
+    margin-bottom: 16px;
+}
+/* Dark: lift the segmented track + active pill so they stay distinct. */
+.dark #mw-element-style-editor-app .mw-segmented,
+.dark #mw-element-style-editor-app .mw-ese-size__seg,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-segmented,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-ese-size__seg {
+    background: rgba(255, 255, 255, 0.06);
+}
+.dark #mw-element-style-editor-app .mw-segmented__cell,
+.dark #mw-element-style-editor-app .mw-ese-size__cell,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-segmented__cell,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-ese-size__cell {
+    color: #b8b8b0;
+}
+.dark #mw-element-style-editor-app .mw-segmented__cell.is-active,
+.dark #mw-element-style-editor-app .mw-segmented__cell.active,
+.dark #mw-element-style-editor-app .mw-ese-size__cell.is-active,
+.dark #mw-element-style-editor-app .mw-ese-size__cell.active,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-segmented__cell.is-active,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-ese-size__cell.is-active {
+    background: rgba(255, 255, 255, 0.14) !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+}
