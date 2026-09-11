@@ -80,46 +80,81 @@
     </div>
 
     <!-- task-2026-05-16-ea56d3: @click.stop — see ElementStyleEditorTypography.vue -->
+    <!-- LE redesign (frame 1c) — Apply-to side scope + Style/Width/Color lead as
+         soft-pill segmented / swatches; a single control writes to the scoped
+         side via computed routing (activeStyleModel/activeWidthModel/active
+         color) over the existing per-side data + watchers. Rare styles, an
+         exact-px slider and the latent border-image fold into More options.
+         Radius is intentionally NOT here — the Rounded corners panel owns it. -->
     <div v-if="showBorder" @click.stop>
 
+        <!-- Apply to — which side the controls below affect (state only). -->
+        <div class="form-control-live-edit-label-wrapper">
+            <label class="live-edit-label">Apply to</label>
+            <div class="mw-segmented mw-ese-seg">
+                <span v-for="p in borderPositionOptions" :key="p.key" class="mw-segmented__cell"
+                      :class="{ 'active': borderPosition === p.key, 'is-active': borderPosition === p.key }"
+                      role="button" tabindex="0"
+                      :aria-pressed="borderPosition === p.key ? 'true' : 'false'"
+                      @click="borderPosition = p.key"
+                      @keydown.enter.prevent="borderPosition = p.key"
+                      @keydown.space.prevent="borderPosition = p.key">{{ p.value }}</span>
+            </div>
+        </div>
 
-        <!-- task-2026-06-06-AI824: the side selector is now "Apply to" (clearer
-             that it scopes which side the controls below affect); the dependent
-             Style/Size/Color captions dropped their per-side prefix because the
-             selected side is already named by the "Apply to" dropdown above. -->
-        <DropdownSmall v-model="borderPosition" :options="borderPositionOptions" label="Apply to"/>
+        <!-- Style — primary line styles (rare ones under More options). -->
+        <div class="form-control-live-edit-label-wrapper">
+            <label class="live-edit-label">Style</label>
+            <div class="mw-segmented mw-ese-seg">
+                <span v-for="s in borderStylePrimary" :key="s.key" class="mw-segmented__cell"
+                      :class="{ 'active': activeStyleValue === s.key, 'is-active': activeStyleValue === s.key }"
+                      role="button" tabindex="0"
+                      :aria-pressed="activeStyleValue === s.key ? 'true' : 'false'"
+                      @click="setActiveStyle(s.key)"
+                      @keydown.enter.prevent="setActiveStyle(s.key)"
+                      @keydown.space.prevent="setActiveStyle(s.key)">{{ s.value }}</span>
+            </div>
+        </div>
 
+        <!-- Width — preset widths (exact px slider under More options). -->
+        <div class="form-control-live-edit-label-wrapper">
+            <label class="live-edit-label">Width</label>
+            <div class="mw-segmented mw-ese-seg">
+                <span v-for="w in borderWidthPresets" :key="w.key" class="mw-segmented__cell"
+                      :class="{ 'active': Number(activeWidthValue) === w.px, 'is-active': Number(activeWidthValue) === w.px }"
+                      role="button" tabindex="0"
+                      :aria-pressed="Number(activeWidthValue) === w.px ? 'true' : 'false'"
+                      @click="setActiveWidth(w.px)"
+                      @keydown.enter.prevent="setActiveWidth(w.px)"
+                      @keydown.space.prevent="setActiveWidth(w.px)">{{ w.value }}</span>
+            </div>
+        </div>
 
-        <DropdownSmall v-if="borderPosition == 'all'" v-model="borderStyle" :options="borderStylesOptions" label="Style"/>
+        <!-- Color — palette swatches + Custom (MW picker), scoped to the side. -->
+        <div class="form-control-live-edit-label-wrapper">
+            <label class="live-edit-label">Color</label>
+            <div class="mw-ese-swatches">
+                <button v-for="sw in colorSwatches" :key="sw" type="button" class="mw-ese-swatch"
+                        :class="{ 'is-active': isColorActive(sw) }"
+                        :style="{ backgroundColor: sw }" :title="sw" :aria-label="'Color ' + sw"
+                        @click="setActiveColor(sw)"></button>
+                <span class="mw-ese-swatches__spacer"></span>
+                <button type="button" class="mw-ese-custom-link" @click="openCustomColor($event)">Custom</button>
+            </div>
+        </div>
 
+        <details class="mw-typography-advanced">
+            <summary class="cursor-pointer text-xs opacity-70 hover:opacity-100 py-2">
+                More options
+            </summary>
 
-        <DropdownSmall v-if="borderPosition == 'top'" v-model="borderStyleTop" :options="borderStylesOptions" label="Style"/>
+            <DropdownSmall v-model="activeStyleModel" :options="borderStylesMore" label="More border styles"/>
 
+            <SliderSmall label="Exact width" v-model="activeWidthModel" :min="0" :max="30" :step="1"></SliderSmall>
 
-        <DropdownSmall v-if="borderPosition == 'left'" v-model="borderStyleLeft" :options="borderStylesOptions" label="Style"/>
-        <DropdownSmall v-if="borderPosition == 'right'" v-model="borderStyleRight" :options="borderStylesOptions" label="Style"/>
-        <DropdownSmall v-if="borderPosition == 'bottom'" v-model="borderStyleBottom" :options="borderStylesOptions" label="Style"/>
-
-        <SliderSmall v-if="borderPosition == 'all'" label="Size" v-model="borderSize" :min="0" :max="30" :step="1"></SliderSmall>
-
-        <SliderSmall v-if="borderPosition == 'top'" label="Size" v-model="borderSizeTop" :min="0" :max="30" :step="1"></SliderSmall>
-        <SliderSmall v-if="borderPosition == 'left'" label="Size" v-model="borderSizeLeft" :min="0" :max="30" :step="1"></SliderSmall>
-        <SliderSmall v-if="borderPosition == 'right'" label="Size" v-model="borderSizeRight" :min="0" :max="30" :step="1"></SliderSmall>
-        <SliderSmall v-if="borderPosition == 'bottom'" label="Size" v-model="borderSizeBottom" :min="0" :max="30" :step="1"></SliderSmall>
-
-
-
-        <ColorPicker v-if="borderPosition == 'all'" v-model="borderColor" v-bind:color=borderColor :label="'Color'"
-                     @change="handleBorderColorChange"/>
-
-
-
-        <ColorPicker v-if="borderPosition == 'top'" v-model="borderColorTop" v-bind:color="borderColorTop" :label="'Color'" @change="handleBorderColorTopChange"/>
-        <ColorPicker v-if="borderPosition == 'left'" v-model="borderColorLeft" v-bind:color="borderColorLeft" :label="'Color'" @change="handleBorderColorLeftChange"/>
-        <ColorPicker v-if="borderPosition == 'right'" v-model="borderColorRight" v-bind:color="borderColorRight" :label="'Color'" @change="handleBorderColorRightChange"/>
-        <ColorPicker v-if="borderPosition == 'bottom'" v-model="borderColorBottom" v-bind:color="borderColorBottom" :label="'Color'" @change="handleBorderColorBottomChange"/>
-
-
+            <ImagePicker label="Border image" v-model="borderImage" v-bind:file="borderImageUrl"
+                         @change="handleBorderImageChange"/>
+        </details>
 
     </div>
 
@@ -133,12 +168,13 @@ import FontPicker from "./components/FontPicker.vue";
 import ColorPicker from "./components/ColorPicker.vue";
 import DropdownSmall from "./components/DropdownSmall.vue";
 import SliderSmall from "./components/SliderSmall.vue";
+import ImagePicker from './components/ImagePicker.vue';
 
 import Slider from '@vueform/slider';
 
 export default {
 
-    components: {Dropdown, Input, FontPicker, ColorPicker, Slider, DropdownSmall, SliderSmall},
+    components: {Dropdown, Input, FontPicker, ColorPicker, Slider, DropdownSmall, SliderSmall, ImagePicker},
 
     data() {
         return {
@@ -164,6 +200,28 @@ export default {
                 {"key": "ridge", "value": "Ridge"},
                 {"key": "inset", "value": "Inset"},
                 {"key": "outset", "value": "Outset"}
+            ],
+
+            // LE redesign — primary (segmented) line styles; the 5 rare styles
+            // stay reachable via the "More border styles" dropdown under More.
+            'borderStylePrimary': [
+                {"key": "none", "value": "None"},
+                {"key": "solid", "value": "Solid"},
+                {"key": "dashed", "value": "Dashed"},
+                {"key": "dotted", "value": "Dotted"},
+            ],
+            'borderStylesMore': [
+                {"key": "double", "value": "Double"},
+                {"key": "groove", "value": "Groove"},
+                {"key": "ridge", "value": "Ridge"},
+                {"key": "inset", "value": "Inset"},
+                {"key": "outset", "value": "Outset"},
+            ],
+            'borderWidthPresets': [
+                {"key": "none", "value": "None", "px": 0},
+                {"key": "s", "value": "S", "px": 1},
+                {"key": "m", "value": "M", "px": 3},
+                {"key": "l", "value": "L", "px": 5},
             ],
 
             'borderPosition': null,
@@ -195,10 +253,85 @@ export default {
         };
     },
 
+    computed: {
+        // LE redesign — the "Apply to" side scope. '' = all; else 'Top'/'Right'/
+        // 'Bottom'/'Left' so the single Style/Width/Color controls route to the
+        // matching per-side data prop (which already has an apply watcher).
+        _sideSuffix: function () {
+            var p = this.borderPosition;
+            if (!p || p === 'all') return '';
+            return p.charAt(0).toUpperCase() + p.slice(1);
+        },
+        activeStyleValue: function () { return this['borderStyle' + this._sideSuffix]; },
+        activeWidthValue: function () { return this['borderSize' + this._sideSuffix]; },
+        activeColorValue: function () { return this['borderColor' + this._sideSuffix]; },
+        // v-model proxies for the More-options dropdown + slider.
+        activeStyleModel: {
+            get: function () { return this['borderStyle' + this._sideSuffix]; },
+            set: function (v) { this['borderStyle' + this._sideSuffix] = v; },
+        },
+        activeWidthModel: {
+            get: function () { return this['borderSize' + this._sideSuffix]; },
+            set: function (v) { this['borderSize' + this._sideSuffix] = v; },
+        },
+        // Recommended swatches from the SAME MW color-palette service.
+        colorSwatches: function () {
+            // eslint-disable-next-line no-unused-vars
+            var _dep = this.activeNode;
+            try {
+                var mgr = mw.top().app.templateSettings
+                    && mw.top().app.templateSettings.colorPaletteManager;
+                if (mgr && mgr.getColors) {
+                    var colors = mgr.getColors() || [];
+                    var seen = {};
+                    var filtered = colors.filter(function (c) {
+                        if (!c || typeof c !== 'string') return false;
+                        if (!/^#([0-9a-fA-F]{3,8})$/.test(c)) return false;
+                        var low = c.toLowerCase();
+                        if (seen[low]) return false;
+                        seen[low] = true;
+                        return true;
+                    });
+                    if (filtered.length) return filtered.slice(0, 6);
+                }
+            } catch (e) { /* fall through */ }
+            return ['#182433', '#6b6b64', '#f0a06a', '#d98c4a', '#ffffff'];
+        },
+    },
+
     methods: {
         toggleBorder: function () {
             this.showBorder = !this.showBorder;
             this.emitter.emit('element-style-editor-show', 'border');
+        },
+        // LE redesign — segmented/swatch setters route to the scoped side.
+        setActiveStyle: function (key) { this['borderStyle' + this._sideSuffix] = key; },
+        setActiveWidth: function (px) { this['borderSize' + this._sideSuffix] = px; },
+        setActiveColor: function (hex) { this['borderColor' + this._sideSuffix] = hex; },
+        isColorActive: function (sw) {
+            var v = this.activeColorValue;
+            if (!v) return false;
+            return String(v).replace(/\s/g, '').toLowerCase()
+                === String(sw).replace(/\s/g, '').toLowerCase();
+        },
+        openCustomColor: function (event) {
+            var el = event && event.currentTarget ? event.currentTarget : null;
+            var current = this.activeColorValue || '#182433';
+            var self = this;
+            var picker = (typeof mw !== 'undefined' && mw.app && mw.app.colorPicker)
+                ? mw.app.colorPicker
+                : ((typeof mw !== 'undefined' && mw.top && mw.top().app && mw.top().app.colorPicker)
+                    ? mw.top().app.colorPicker : null);
+            if (picker && picker.openColorPicker) {
+                picker.openColorPicker(current, function (color) { self.setActiveColor(color); }, el);
+            }
+        },
+        handleBorderImageChange: function (url) {
+            if (url && url !== '' && url !== 'none' && url !== 'inherit' && url !== 'initial') {
+                this.borderImageUrl = url;
+            } else {
+                this.borderImageUrl = '';
+            }
         },
         handleBorderColorChange(color) {
             if (typeof (color) != 'string') {
