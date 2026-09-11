@@ -20,10 +20,10 @@
     <div v-if="showTypography" @click.stop>
         <div>
 
-            <div class="my-4">
-                <FontPicker v-model="fontFamily" v-bind:value=fontFamily @change="handleFontChange" :label="'Family'"/>
-            </div>
-
+            <!-- LE redesign (frame 1c) — curated primary set: Align · Color · Size.
+                 Everything else (Family, Boldness, Letter case, Italic, Line
+                 height, spacing, writing direction) moves under "More options"
+                 so the inspector stays tight. Models + watchers unchanged. -->
 
             <Align :textAlign="textAlign" @update:textAlign="setTextAlignment"/>
 
@@ -31,7 +31,7 @@
             <ColorPicker v-model="color" v-bind:color=color :label="'Color'" @change="handleFontColorChange"/>
 
             <SliderSmall
-                label="Font Size"
+                label="Size"
                 v-model="fontSize"
                 :min="0"
                 :max="100"
@@ -39,77 +39,64 @@
             ></SliderSmall>
 
 
-            <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Boldness'"/>
-            <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Letter case'"/>
-            <!--
-              task-2026-05-05-854d66 (QW3) — Italic was a 2-option
-              dropdown (Normal / Italic). A binary state belongs in
-              a toggle, not a select. Render as a single toggle
-              button with the same `fontStyle` model — clicking
-              flips between 'normal' and 'italic'.
-
-              task-2026-05-16-f69d54 (AI-684 / F1.1) — migrated to
-              the `MwToolButton` toggle primitive per spec §4.5.
-              Same DOM, new class names (.mw-tool-btn.mw-tool-btn--
-              toggle.is-active replaces .mw-italic-toggle.active).
-              The .mw-italic-toggle class is kept alongside for
-              back-compat with any external references; the new
-              primitive owns the actual styling now.
-            -->
-            <div class="form-control-live-edit-label-wrapper my-4 d-flex justify-content-between align-items-center">
-                <label class="live-edit-label">Italic</label>
-                <button
-                    type="button"
-                    class="mw-italic-toggle mw-tool-btn mw-tool-btn--toggle"
-                    :class="{ 'active': fontStyle === 'italic', 'is-active': fontStyle === 'italic' }"
-                    :aria-pressed="fontStyle === 'italic'"
-                    title="Italic"
-                    @click="fontStyle = (fontStyle === 'italic' ? 'normal' : 'italic')">
-                    <em>I</em>
-                </button>
-            </div>
-
-
-            <SliderSmall
-                label="Line height"
-                v-model="lineHeight"
-                :min="0"
-                :max="100"
-                :step="1"
-            ></SliderSmall>
-
-
-            <SliderSmall
-                label="Space between letters"
-                v-model="letterSpacing"
-                :min="1"
-                :max="100"
-                :step="1"
-            ></SliderSmall>
-
-
-            <SliderSmall
-                label="Space between words"
-                v-model="wordSpacing"
-                :min="1"
-                :max="100"
-                :step="1"
-            ></SliderSmall>
-
-
-
             <details class="mw-typography-advanced">
                 <summary class="cursor-pointer text-xs opacity-70 hover:opacity-100 py-2">
                     More options
                 </summary>
 
+                <div class="my-4">
+                    <FontPicker v-model="fontFamily" v-bind:value=fontFamily @change="handleFontChange" :label="'Family'"/>
+                </div>
+
+                <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Boldness'"/>
+                <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Letter case'"/>
+                <!--
+                  task-2026-05-05-854d66 (QW3) — Italic toggle (binary state as a
+                  toggle button, not a select). task-2026-05-16-f69d54 migrated it
+                  to the MwToolButton toggle primitive; .mw-italic-toggle kept for
+                  back-compat. Moved under "More options" for the frame-1c curation.
+                -->
+                <div class="form-control-live-edit-label-wrapper my-4 d-flex justify-content-between align-items-center">
+                    <label class="live-edit-label">Italic</label>
+                    <button
+                        type="button"
+                        class="mw-italic-toggle mw-tool-btn mw-tool-btn--toggle"
+                        :class="{ 'active': fontStyle === 'italic', 'is-active': fontStyle === 'italic' }"
+                        :aria-pressed="fontStyle === 'italic'"
+                        title="Italic"
+                        @click="fontStyle = (fontStyle === 'italic' ? 'normal' : 'italic')">
+                        <em>I</em>
+                    </button>
+                </div>
+
+                <SliderSmall
+                    label="Line height"
+                    v-model="lineHeight"
+                    :min="0"
+                    :max="100"
+                    :step="1"
+                ></SliderSmall>
+
+                <SliderSmall
+                    label="Space between letters"
+                    v-model="letterSpacing"
+                    :min="1"
+                    :max="100"
+                    :step="1"
+                ></SliderSmall>
+
+                <SliderSmall
+                    label="Space between words"
+                    v-model="wordSpacing"
+                    :min="1"
+                    :max="100"
+                    :step="1"
+                ></SliderSmall>
+
                 <DropdownSmall v-model="textWritingMode" :options="textWritingModeOptions" :label="'Writing direction'"/>
 
-
                 <div v-if="textWritingMode !== 'horizontal-tb' && textWritingMode !== ''">
-
                     <DropdownSmall v-model="textOrientation" :options="textOrientationOptions" :label="'Text orientation'"/>
-
                 </div>
             </details>
 
