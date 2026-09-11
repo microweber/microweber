@@ -5183,3 +5183,23 @@ html[dir="rtl"] .mw-rtl-flip {
 [class*="module-"] .post-holder h4 a {
     overflow-wrap: break-word;
 }
+
+/* ============================================================
+ * LE redesign — per-device Visibility utility classes.
+ * Written to elements by the Element Style Editor's "Visibility"
+ * control. Defined here in default.css so they apply on the LIVE
+ * site (this sheet is enqueued on every public page) as well as
+ * inside the editor canvas. display:none is used (no display-type
+ * assumption) and each rule is scoped to one breakpoint band:
+ *   mobile  < 768px · tablet 768–991px · desktop ≥ 992px
+ * (Bootstrap 5 breakpoints). task-2026-09-11-le-redesign-ese.
+ * ============================================================ */
+@media (max-width: 767.98px) {
+    .mw-visibility-hide-mobile { display: none !important; }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .mw-visibility-hide-tablet { display: none !important; }
+}
+@media (min-width: 992px) {
+    .mw-visibility-hide-desktop { display: none !important; }
+}

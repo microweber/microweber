@@ -1940,3 +1940,20 @@
 #mw-element-style-editor-app .mw-ese-advanced-body {
     padding-left: 2px;
 }
+
+/* LE redesign — Visibility per-device rows: label left, eye toggle right. */
+.mw-live-edit-page .mw-ese-visibility__row,
+#mw-element-style-editor-app .mw-ese-visibility__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 2px;
+}
+.mw-live-edit-page .mw-ese-visibility__row .live-edit-label,
+#mw-element-style-editor-app .mw-ese-visibility__row .live-edit-label {
+    margin: 0;
+}
+.mw-live-edit-page .mw-ese-visibility__toggle.is-active,
+#mw-element-style-editor-app .mw-ese-visibility__toggle.is-active {
+    color: var(--ese-accent, #182433);
+}

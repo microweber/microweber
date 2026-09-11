@@ -67,6 +67,12 @@
                 <ElementStyleEditorAnimations ref="animationsComp"></ElementStyleEditorAnimations>
             </div>
 
+            <!-- LE redesign (frame 1c) — Visibility: per-device show/hide toggles.
+                 Top-level basic control alongside Animation. -->
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isVisibilityActive}" v-show="showVisibility" @click="toggleVisibility" aria-label="Visibility" title="Visibility" role="button" tabindex="0" :aria-expanded="isVisibilityActive" @keydown.enter.prevent="toggleVisibility" @keydown.space.prevent="toggleVisibility">
+                <ElementStyleEditorVisibility ref="visibilityComp"></ElementStyleEditorVisibility>
+            </div>
+
             <!-- LE redesign (frame 1c) — "Advanced" group. Folds the structural /
                  rarely-used controls (Container, Grid, Border, Rounded corners,
                  Shadow, CSS classes) behind one collapsible so the top of the
@@ -172,9 +178,11 @@ import ElementStyleEditorPosition from "./ElementStyleEditorPosition.vue";
 import ElementStyleEditorUlOlListStyleEditor from "./ElementStyleEditorUlOlListStyleEditor.vue";
 import ElementStyleEditorPredefinesStylesApplier from "./ElementStyleEditorPredefinesStylesApplier.vue";
 import ElementStyleEditorAiChat from "./ElementStyleEditorAiChat.vue";
+import ElementStyleEditorVisibility from "./ElementStyleEditorVisibility.vue";
 
 export default {
     components: {
+        ElementStyleEditorVisibility,
         ElementStyleEditorAiChat,
         ElementStyleEditorActiveNode,
         ElementStyleEditorBackground,
@@ -214,6 +222,7 @@ export default {
             showImageSettings: true,
             showPredefinedStylesApplierSettings: true,
             showAiChatSettings: true,
+            showVisibility: true,
 
             // Active states for when the user has clicked to open
             isTypographyActive: false,
@@ -231,6 +240,7 @@ export default {
             isLayoutSettingsActive: false,
             isPredefinedStylesApplierSettingsActive: false,
             isAiChatSettingsActive: false,
+            isVisibilityActive: false,
 
             // LE redesign (frame 1c) — "Advanced" group open/closed state.
             isAdvancedOpen: false,
@@ -295,7 +305,7 @@ export default {
                 || this.isGridActive || this.isAnimationsActive || this.isRoundedCornersActive
                 || this.isShadowActive || this.isClassApplierActive || this.isLayoutSettingsActive
                 || this.isListStyleEditorActive || this.isPredefinedStylesApplierSettingsActive
-                || this.isAiChatSettingsActive;
+                || this.isAiChatSettingsActive || this.isVisibilityActive;
             if (anyActive) return;
             const order = [
                 ['showTypography', 'toggleTypography'],
@@ -373,6 +383,7 @@ export default {
             this.isLayoutSettingsActive = false;
             this.isPredefinedStylesApplierSettingsActive = false;
             this.isAiChatSettingsActive = false;
+            this.isVisibilityActive = false;
         },
 
         /**
@@ -464,6 +475,7 @@ export default {
         toggleLayoutSettings()       { this.togglePanel('isLayoutSettingsActive', null, null, 'Layout settings'); },
         togglePredefinedStylesApplier() { this.togglePanel('isPredefinedStylesApplierSettingsActive', null, null, 'Predefined styles applier'); },
         toggleAiChatSettings()       { this.togglePanel('isAiChatSettingsActive', null, null, 'AI chat settings'); },
+        toggleVisibility()           { this.togglePanel('isVisibilityActive', 'visibilityComp', 'showVisibility', 'Visibility'); },
 
         applyPropertyToActiveNode(activeNode, prop, val) {
 
