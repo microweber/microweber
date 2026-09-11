@@ -2016,6 +2016,10 @@
    + any future Level/Space-around. Light track, white active pill. */
 #mw-element-style-editor-app .mw-segmented,
 #mw-element-style-editor-app .mw-ese-size__seg {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    width: 100%;
     background: var(--ese-surface-muted, #f4f4f2);
     border: 0;
     border-radius: 8px;
@@ -2026,6 +2030,9 @@
 }
 #mw-element-style-editor-app .mw-segmented__cell,
 #mw-element-style-editor-app .mw-ese-size__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 0 !important;
     border-inline-start: 0 !important;
     border-radius: 6px;
@@ -2045,6 +2052,57 @@
 /* Consistent vertical rhythm between control rows in a section body. */
 #mw-element-style-editor-app .element-style-editor-toggle-wrapper .form-control-live-edit-label-wrapper {
     margin-bottom: 16px;
+}
+/* Align segmented icons — small line-marks like the design (Align.vue's scoped
+   `svg{width:20px}` reads huge inside the soft pills). */
+#mw-element-style-editor-app .text-align .mw-segmented__cell svg,
+#mw-element-style-editor-app .mw-segmented .mw-segmented__cell svg {
+    width: 15px !important;
+    height: 15px !important;
+}
+/* Color — preset swatch row + Custom link (frame 1c). */
+#mw-element-style-editor-app .mw-ese-swatches {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+#mw-element-style-editor-app .mw-ese-swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--ese-border, #e6e6e2);
+    padding: 0;
+    cursor: pointer;
+    flex: 0 0 auto;
+    background-clip: padding-box;
+    transition: outline .12s ease;
+}
+#mw-element-style-editor-app .mw-ese-swatch.is-active {
+    outline: 2px solid var(--ese-accent, #182433);
+    outline-offset: 2px;
+}
+#mw-element-style-editor-app .mw-ese-swatches__spacer {
+    flex: 1 1 auto;
+}
+#mw-element-style-editor-app .mw-ese-custom-link {
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ese-accent, #182433);
+    flex: 0 0 auto;
+}
+#mw-element-style-editor-app .mw-ese-color-native {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    border: 0;
+    padding: 0;
 }
 /* Dark: lift the segmented track + active pill so they stay distinct. */
 .dark #mw-element-style-editor-app .mw-segmented,

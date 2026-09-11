@@ -20,34 +20,80 @@
     <div v-if="showTypography" @click.stop>
         <div>
 
-            <!-- LE redesign (frame 1c) — curated primary set: Align · Color · Size.
-                 Everything else (Family, Boldness, Letter case, Italic, Line
-                 height, spacing, writing direction) moves under "More options"
-                 so the inspector stays tight. Models + watchers unchanged. -->
+            <!-- LE redesign (frame 1c) — curated primary controls in order:
+                 Level (headings) · Size · Align · Color · Space around.
+                 Everything else moves under "More options". -->
 
-            <Align :textAlign="textAlign" @update:textAlign="setTextAlignment"/>
+            <!-- Level (H1-H4) — headings only; changes the element tag. -->
+            <div v-if="isHeading" class="form-control-live-edit-label-wrapper">
+                <label class="live-edit-label">Level</label>
+                <div class="mw-segmented mw-ese-seg">
+                    <span v-for="lv in ['h1','h2','h3','h4']" :key="lv"
+                          class="mw-segmented__cell"
+                          :class="{ 'active': currentTag === lv, 'is-active': currentTag === lv }"
+                          role="button" tabindex="0"
+                          :aria-label="'Level ' + lv.toUpperCase()"
+                          :aria-pressed="currentTag === lv ? 'true' : 'false'"
+                          @click="setLevel(lv)"
+                          @keydown.enter.prevent="setLevel(lv)" @keydown.space.prevent="setLevel(lv)">
+                        {{ lv.toUpperCase() }}
+                    </span>
+                </div>
+            </div>
 
-
-            <ColorPicker v-model="color" v-bind:color=color :label="'Color'" @change="handleFontColorChange"/>
-
-            <!-- LE redesign (frame 1c) — Size as an S/M/L/XL segmented preset.
-                 The exact-px slider moves under "More options" for fine control. -->
+            <!-- Size S/M/L/XL segmented (exact px under More options). -->
             <div class="form-control-live-edit-label-wrapper mw-ese-size">
                 <label class="live-edit-label">Size</label>
-                <div class="s-field-content">
-                    <div class="mw-segmented mw-ese-size__seg">
-                        <span v-for="s in sizePresets" :key="s.key"
-                              class="mw-segmented__cell mw-ese-size__cell"
-                              :class="{ 'active': isSizeActive(s.px), 'is-active': isSizeActive(s.px) }"
-                              role="button" tabindex="0"
-                              :aria-label="'Size ' + s.label"
-                              :aria-pressed="isSizeActive(s.px) ? 'true' : 'false'"
-                              @click="setSizePreset(s.px)"
-                              @keydown.enter.prevent="setSizePreset(s.px)"
-                              @keydown.space.prevent="setSizePreset(s.px)">
-                            {{ s.label }}
-                        </span>
-                    </div>
+                <div class="mw-segmented mw-ese-size__seg">
+                    <span v-for="s in sizePresets" :key="s.key"
+                          class="mw-segmented__cell mw-ese-size__cell"
+                          :class="{ 'active': isSizeActive(s.px), 'is-active': isSizeActive(s.px) }"
+                          role="button" tabindex="0"
+                          :aria-label="'Size ' + s.label"
+                          :aria-pressed="isSizeActive(s.px) ? 'true' : 'false'"
+                          @click="setSizePreset(s.px)"
+                          @keydown.enter.prevent="setSizePreset(s.px)"
+                          @keydown.space.prevent="setSizePreset(s.px)">
+                        {{ s.label }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Align -->
+            <Align :textAlign="textAlign" @update:textAlign="setTextAlignment"/>
+
+            <!-- Color — preset swatch row + Custom (native picker). -->
+            <div class="form-control-live-edit-label-wrapper">
+                <label class="live-edit-label">Color</label>
+                <div class="mw-ese-swatches">
+                    <button v-for="sw in colorSwatches" :key="sw" type="button"
+                            class="mw-ese-swatch"
+                            :class="{ 'is-active': isColorActive(sw) }"
+                            :style="{ backgroundColor: sw }"
+                            :aria-label="'Color ' + sw"
+                            :title="sw"
+                            @click="color = sw"></button>
+                    <span class="mw-ese-swatches__spacer"></span>
+                    <button type="button" class="mw-ese-custom-link" @click="openCustomColor">Custom</button>
+                    <input ref="customColorInput" type="color" class="mw-ese-color-native"
+                           v-model="color" tabindex="-1" aria-hidden="true"/>
+                </div>
+            </div>
+
+            <!-- Space around (margin) None/S/M/L segmented. -->
+            <div class="form-control-live-edit-label-wrapper">
+                <label class="live-edit-label">Space around</label>
+                <div class="mw-segmented mw-ese-seg">
+                    <span v-for="sp in spacePresets" :key="sp.key"
+                          class="mw-segmented__cell"
+                          :class="{ 'active': isSpaceActive(sp.px), 'is-active': isSpaceActive(sp.px) }"
+                          role="button" tabindex="0"
+                          :aria-label="'Space around ' + sp.label"
+                          :aria-pressed="isSpaceActive(sp.px) ? 'true' : 'false'"
+                          @click="setSpaceAround(sp.px)"
+                          @keydown.enter.prevent="setSpaceAround(sp.px)" @keydown.space.prevent="setSpaceAround(sp.px)">
+                        {{ sp.label }}
+                    </span>
                 </div>
             </div>
 
@@ -141,6 +187,15 @@ import Slider from '@vueform/slider';
 
 export default {
     components: {ColorPicker, FontPicker, Dropdown, Input, Slider, Align, DropdownSmall, SliderSmall},
+    computed: {
+        // LE redesign (frame 1c) — Level control visibility + active tag.
+        isHeading: function () {
+            return this.activeNode ? /^h[1-6]$/i.test(this.activeNode.tagName || '') : false;
+        },
+        currentTag: function () {
+            return this.activeNode ? (this.activeNode.tagName || '').toLowerCase() : '';
+        },
+    },
     data() {
         return {
             'showTypography': false,
@@ -153,6 +208,15 @@ export default {
                 {"key": "l", "label": "L", "px": 40},
                 {"key": "xl", "label": "XL", "px": 56},
             ],
+            // LE redesign (frame 1c) — Color preset swatches + Space-around scale.
+            'colorSwatches': ['#182433', '#6b6b64', '#f0a06a', '#d98c4a', '#ffffff'],
+            'spacePresets': [
+                {"key": "none", "label": "None", "px": 0},
+                {"key": "s", "label": "S", "px": 8},
+                {"key": "m", "label": "M", "px": 16},
+                {"key": "l", "label": "L", "px": 32},
+            ],
+            'spaceAround': null,
             'textTransformOptions': [
                 {"key": 'none', "value": "None"},
                 {"key": "capitalize", "value": "Capitalize"},
@@ -317,6 +381,39 @@ export default {
         },
         isSizeActive: function (px) {
             return parseInt(this.fontSize, 10) === px;
+        },
+        // LE redesign (frame 1c) — Level (heading tag swap).
+        setLevel: function (tag) {
+            const el = this.activeNode;
+            if (!el || !/^h[1-6]$/i.test(el.tagName) || el.tagName.toLowerCase() === tag) return;
+            const doc = el.ownerDocument;
+            const newEl = doc.createElement(tag);
+            Array.from(el.attributes).forEach((a) => {
+                try { newEl.setAttribute(a.name, a.value); } catch (e) { /* noop */ }
+            });
+            newEl.innerHTML = el.innerHTML;
+            el.replaceWith(newEl);
+            this.activeNode = newEl;
+            try { mw.top().app.registerChange(newEl); } catch (e) { /* noop */ }
+            try { mw.top().app.dispatch('mw.elementStyleEditor.selectNode', newEl); } catch (e) { /* noop */ }
+        },
+        // LE redesign (frame 1c) — Color swatches + Custom.
+        isColorActive: function (sw) {
+            if (!this.color) return false;
+            return String(this.color).replace(/\s/g, '').toLowerCase()
+                === String(sw).replace(/\s/g, '').toLowerCase();
+        },
+        openCustomColor: function () {
+            const inp = this.$refs.customColorInput;
+            if (inp && inp.click) inp.click();
+        },
+        // LE redesign (frame 1c) — Space around (margin) presets.
+        setSpaceAround: function (px) {
+            this.spaceAround = px;
+            this.applyPropertyToActiveNode('margin', px + 'px');
+        },
+        isSpaceActive: function (px) {
+            return this.spaceAround === px;
         },
         handleFontChange: function (fontFamily) {
             this.fontFamily = fontFamily;
