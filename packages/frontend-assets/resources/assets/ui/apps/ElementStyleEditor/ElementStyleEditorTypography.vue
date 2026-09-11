@@ -198,11 +198,13 @@ export default {
             ],
             // LE redesign (frame 1c) — Color preset swatches + Space-around scale.
             'colorSwatches': ['#182433', '#6b6b64', '#f0a06a', '#d98c4a', '#ffffff'],
+            // px values align to the Bootstrap spacing scale so the None/S/M/L
+            // presets map cleanly to p-0/p-2/p-3/p-5 (or m-*) utility classes.
             'spacePresets': [
                 {"key": "none", "label": "None", "px": 0},
                 {"key": "s", "label": "S", "px": 8},
                 {"key": "m", "label": "M", "px": 16},
-                {"key": "l", "label": "L", "px": 32},
+                {"key": "l", "label": "L", "px": 48},
             ],
             'spaceAround': null,
             'spaceMode': 'padding',
@@ -399,35 +401,51 @@ export default {
             const inp = this.$refs.customColorInput;
             if (inp && inp.click) inp.click();
         },
-        // LE redesign (frame 1c) — Space around = padding OR margin (mode chosen
-        // in the SpaceAround dropdown). Apply the chosen mode's property.
+        // LE redesign (frame 1c) — Space around applies a Bootstrap spacing
+        // utility CLASS (p-*/m-*) for the chosen mode, so it persists with the
+        // element + works on the live site (Bootstrap is loaded).
+        // px <-> Bootstrap step: 0->0, 8->2, 16->3, 48->5.
+        _pxToStep: function (px) {
+            var map = {0: '0', 8: '2', 16: '3', 48: '5', 4: '1', 24: '4'};
+            return map[px] != null ? map[px] : '3';
+        },
+        _stepToPx: function (step) {
+            var map = {'0': 0, '1': 4, '2': 8, '3': 16, '4': 24, '5': 48};
+            return map[step] != null ? map[step] : null;
+        },
         onSpaceUpdate: function (payload) {
             var px = payload && typeof payload === 'object' ? payload.px : payload;
             var mode = payload && payload.mode ? payload.mode : this.spaceMode;
             this.spaceMode = mode;
             this.spaceAround = px;
-            this.applyPropertyToActiveNode(mode === 'margin' ? 'margin' : 'padding', px + 'px');
+            var node = this.activeNode;
+            if (!node) return;
+            var prefix = mode === 'margin' ? 'm' : 'p';
+            // strip existing same-prefix spacing classes (p-0..p-5 / m-0..m-5)
+            var re = new RegExp('^' + prefix + '-[0-5]$');
+            Array.from(node.classList).forEach(function (c) {
+                if (re.test(c)) node.classList.remove(c);
+            });
+            node.classList.add(prefix + '-' + this._pxToStep(px));
+            try { mw.top().app.registerChange(node); } catch (e) { /* noop */ }
         },
         onSpaceModeChange: function (mode) {
             this.spaceMode = mode;
-            // Re-read the current value for the newly selected mode so the
-            // active preset reflects the element's real padding/margin.
             this.spaceAround = this.readSpace(this.activeNode, mode);
         },
         readSpace: function (node, mode) {
             if (!node) return null;
-            var side = mode === 'margin' ? 'marginTop' : 'paddingTop';
-            var shorthand = mode === 'margin' ? 'margin' : 'padding';
+            var prefix = mode === 'margin' ? 'm' : 'p';
+            var re = new RegExp('^' + prefix + '-([0-5])$');
+            var self = this;
+            var found = null;
             try {
-                var v = parseInt((node.style && node.style[shorthand]) || '', 10);
-                if (!Number.isFinite(v)) {
-                    var win = node.ownerDocument && node.ownerDocument.defaultView;
-                    if (win) v = parseInt(win.getComputedStyle(node)[side], 10);
-                }
-                return Number.isFinite(v) ? v : null;
-            } catch (e) {
-                return null;
-            }
+                Array.from(node.classList).forEach(function (c) {
+                    var m = re.exec(c);
+                    if (m) found = self._stepToPx(m[1]);
+                });
+            } catch (e) { /* noop */ }
+            return found;
         },
         handleFontChange: function (fontFamily) {
             this.fontFamily = fontFamily;
