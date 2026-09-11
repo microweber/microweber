@@ -291,7 +291,19 @@ export class StylesheetEditor extends MicroweberBaseClass {
             this._temp.children[media].children[sel].attributes = {};
         }
 
-        this._temp.children[media].children[sel].attributes[prop] = val;
+        // LE redesign (task-2026-09-11) — write Live-Edit per-element rules with
+        // !important so they beat template/user !important (e.g. the template's
+        // `h1,h2,h3{color:...!important}` that made ESE colour edits silently do
+        // nothing). Safe because every `sel` here is #id-scoped AND the rule is
+        // emitted INSIDE the resolution media query, so this stays per-element,
+        // responsive (per breakpoint), and re-editable — the next edit rewrites
+        // the same rule. Undo history still records the clean value (below).
+        let storeVal = val;
+        if (storeVal !== '' && storeVal !== '!important' && storeVal !== undefined
+            && storeVal !== null && !/!important\s*$/i.test(String(storeVal))) {
+            storeVal = String(storeVal) + ' !important';
+        }
+        this._temp.children[media].children[sel].attributes[prop] = storeVal;
 
         if (val === '' || val === '!important' || val === undefined || val === null) {
             const prop_val = '';
