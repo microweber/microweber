@@ -72,7 +72,7 @@
                  Shadow, CSS classes) behind one collapsible so the top of the
                  inspector stays curated. The inner rows keep their own accordion
                  behaviour + Dusk-relevant aria markup unchanged. -->
-            <div v-show="selectedElement && (showContainer || showGrid || showBorder || showRoundedCorners || showClassApplier)"
+            <div v-show="selectedElement && (showContainer || showGrid || showBorder || showRoundedCorners || showClassApplier || showListStyleEditor || showLayoutSettings || showPredefinedStylesApplierSettings || showAiChatSettings)"
                  class="mw-ese-advanced-header" :class="{'is-open': isAdvancedOpen}"
                  @click="toggleAdvanced" role="button" tabindex="0" :aria-expanded="isAdvancedOpen"
                  aria-label="Advanced" title="Advanced"
@@ -104,26 +104,30 @@
                 <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isClassApplierActive}" v-show="showClassApplier" @click="toggleClassApplier" aria-label="CSS class applier" title="CSS class applier" role="button" tabindex="0" :aria-expanded="isClassApplierActive" @keydown.enter.prevent="toggleClassApplier" @keydown.space.prevent="toggleClassApplier">
                     <ElementStyleEditorClassApplier ref="classApplierComp"></ElementStyleEditorClassApplier>
                 </div>
+
+                <!-- LE redesign — every remaining ESE panel also lives under
+                     Advanced (basic editing stays at the top; Advanced shows ALL).
+                     Each row is its own collapsible. -->
+                <div class="element-style-editor-toggle-wrapper" :class="{'active': isListStyleEditorActive}" v-show="showListStyleEditor" @click="toggleListStyleEditor" aria-label="List style editor" title="List style editor" role="button" tabindex="0" :aria-expanded="isListStyleEditorActive" @keydown.enter.prevent="toggleListStyleEditor" @keydown.space.prevent="toggleListStyleEditor">
+                    <ElementStyleEditorUlOlListStyleEditor></ElementStyleEditorUlOlListStyleEditor>
+                </div>
+
+                <div class="element-style-editor-toggle-wrapper" :class="{'active': isLayoutSettingsActive}" v-show="showLayoutSettings" @click="toggleLayoutSettings" aria-label="Layout settings" title="Layout settings" role="button" tabindex="0" :aria-expanded="isLayoutSettingsActive" @keydown.enter.prevent="toggleLayoutSettings" @keydown.space.prevent="toggleLayoutSettings">
+                    <ElementStyleEditorLayoutSettings></ElementStyleEditorLayoutSettings>
+                </div>
+
+                <div class="element-style-editor-toggle-wrapper" :class="{'active': isPredefinedStylesApplierSettingsActive}" v-show="showPredefinedStylesApplierSettings" @click="togglePredefinedStylesApplier" aria-label="Predefined styles" title="Predefined styles" role="button" tabindex="0" :aria-expanded="isPredefinedStylesApplierSettingsActive" @keydown.enter.prevent="togglePredefinedStylesApplier" @keydown.space.prevent="togglePredefinedStylesApplier">
+                    <ElementStyleEditorPredefinesStylesApplier></ElementStyleEditorPredefinesStylesApplier>
+                </div>
+
+                <div class="element-style-editor-toggle-wrapper" :class="{'active': isAiChatSettingsActive}" v-show="showAiChatSettings" @click="toggleAiChatSettings" aria-label="AI chat settings" title="AI chat settings" role="button" tabindex="0" :aria-expanded="isAiChatSettingsActive" @keydown.enter.prevent="toggleAiChatSettings" @keydown.space.prevent="toggleAiChatSettings">
+                    <ElementStyleEditorAiChat></ElementStyleEditorAiChat>
+                </div>
             </div>
             <!--
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isPositionActive}" v-show="showPosition" @click="togglePosition" aria-label="Position" title="Position" role="button" tabindex="0" :aria-expanded="isPositionActive" @keydown.enter.prevent="togglePosition" @keydown.space.prevent="togglePosition">
                             <ElementStyleEditorPosition></ElementStyleEditorPosition>
                         </div>-->
-
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isListStyleEditorActive}" v-show="showListStyleEditor" @click="toggleListStyleEditor" aria-label="List style editor" title="List style editor" role="button" tabindex="0" :aria-expanded="isListStyleEditorActive" @keydown.enter.prevent="toggleListStyleEditor" @keydown.space.prevent="toggleListStyleEditor">
-                <ElementStyleEditorUlOlListStyleEditor></ElementStyleEditorUlOlListStyleEditor>
-            </div>
-
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isLayoutSettingsActive}" v-show="showLayoutSettings" @click="toggleLayoutSettings" aria-label="Layout settings" title="Layout settings" role="button" tabindex="0" :aria-expanded="isLayoutSettingsActive" @keydown.enter.prevent="toggleLayoutSettings" @keydown.space.prevent="toggleLayoutSettings">
-                <ElementStyleEditorLayoutSettings></ElementStyleEditorLayoutSettings>
-            </div>
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isPredefinedStylesApplierSettingsActive}" v-show="showPredefinedStylesApplierSettings" @click="togglePredefinedStylesApplier" aria-label="Predefined styles" title="Predefined styles" role="button" tabindex="0" :aria-expanded="isPredefinedStylesApplierSettingsActive" @keydown.enter.prevent="togglePredefinedStylesApplier" @keydown.space.prevent="togglePredefinedStylesApplier">
-                <ElementStyleEditorPredefinesStylesApplier></ElementStyleEditorPredefinesStylesApplier>
-            </div>
-
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isAiChatSettingsActive}" v-show="showAiChatSettings" @click="toggleAiChatSettings" aria-label="AI chat settings" title="AI chat settings" role="button" tabindex="0" :aria-expanded="isAiChatSettingsActive" @keydown.enter.prevent="toggleAiChatSettings" @keydown.space.prevent="toggleAiChatSettings">
-                <ElementStyleEditorAiChat></ElementStyleEditorAiChat>
-            </div>
 
         </div>
     </div>
