@@ -592,6 +592,17 @@ export default {
         },
         color: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('color', newValue);
+            // Some templates / user live_edit.css set heading color with
+            // `!important` (e.g. `h1,h2,h3 { color: ... !important }`), which the
+            // ESE's stylesheet rule can't beat — so the picked color silently did
+            // nothing. Apply the user's choice as inline !important (only on real
+            // user changes, guarded by isReady) so it wins and persists.
+            if (this.isReady && this.activeNode && newValue) {
+                try {
+                    this.activeNode.style.setProperty('color', newValue, 'important');
+                    mw.top().app.registerChange(this.activeNode);
+                } catch (e) { /* noop */ }
+            }
         },
         textTransform: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('textTransform', newValue);
