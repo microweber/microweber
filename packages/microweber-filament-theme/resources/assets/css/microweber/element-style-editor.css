@@ -1865,3 +1865,41 @@
     background: rgba(220, 38, 38, 0.08);
     border-color: rgba(220, 38, 38, 0.5);
 }
+
+/* ============================================================
+ * LE redesign (frame 1c) — Inspector header: block icon + name +
+ * parent-module breadcrumb. task-2026-09-11-le-redesign-ese.
+ * ============================================================ */
+.mw-live-edit-page .mw-ese-header,
+#mw-element-style-editor-app .mw-ese-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 2px 12px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--ese-border, #e6e6e2);
+}
+.mw-live-edit-page .mw-ese-header__icon,
+#mw-element-style-editor-app .mw-ese-header__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
+    color: var(--ese-accent, #182433);
+    flex: 0 0 auto;
+}
+.mw-live-edit-page .mw-ese-header__name,
+#mw-element-style-editor-app .mw-ese-header__name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ese-text, #1c1c1a);
+}
+.mw-live-edit-page .mw-ese-header__crumb,
+#mw-element-style-editor-app .mw-ese-header__crumb {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--ese-text-muted, #77776f);
+}

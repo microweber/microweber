@@ -33,6 +33,20 @@
         <p class="mw-ese-empty-state__hint">Typography, background, spacing, borders and more</p>
     </div>
 
+    <!-- LE redesign (frame 1c) — inspector header: block-type icon + friendly
+         block name + parent-module breadcrumb. Derived from the selected node
+         (tag / module type); purely presentational. -->
+    <div v-if="selectedElement" class="mw-ese-header">
+        <span class="mw-ese-header__icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 9h18M9 21V9"/>
+            </svg>
+        </span>
+        <span class="mw-ese-header__name">{{ blockDisplayName }}</span>
+        <span v-if="blockBreadcrumb" class="mw-ese-header__crumb">{{ blockBreadcrumb }} ›</span>
+    </div>
+
     <div class="mb-4" :class="{'style-editor-disabled': !selectedElement}">
         <div class="d-flex flex-column">
 
@@ -207,7 +221,59 @@ export default {
         }
     },
 
+    computed: {
+        // LE redesign (frame 1c) — friendly block name for the inspector header,
+        // derived from the selected node's tag / module type.
+        blockDisplayName() {
+            const el = this.selectedElement;
+            if (!el) return '';
+            const tag = (el.tagName || '').toLowerCase();
+            const cls = (el.className || '').toString();
+            if (/^h[1-6]$/.test(tag)) return 'Heading';
+            if (tag === 'p') return 'Text';
+            if (tag === 'button' || (tag === 'a' && /\bbtn\b/.test(cls))) return 'Button';
+            if (tag === 'a') return 'Link';
+            if (tag === 'img') return 'Image';
+            if (tag === 'ul' || tag === 'ol' || tag === 'li') return 'List';
+            if (tag === 'blockquote') return 'Quote';
+            const t = this._closestModuleType(el);
+            if (t) return this._friendlyModuleName(t);
+            return tag ? tag.charAt(0).toUpperCase() + tag.slice(1) : 'Element';
+        },
+        // Parent module/section name for the breadcrumb (e.g. "Hero ›").
+        blockBreadcrumb() {
+            const el = this.selectedElement;
+            if (!el || !el.closest) return '';
+            const t = this._closestModuleType(el);
+            return t ? this._friendlyModuleName(t) : '';
+        },
+    },
+
     methods: {
+        // LE redesign helpers for the header name/breadcrumb.
+        _closestModuleType(el) {
+            try {
+                // Walk up, skipping generic layout/content wrappers so the
+                // breadcrumb names a real module (Posts/Shop/…) or nothing —
+                // never the meaningless "Layouts".
+                const generic = /^(layouts?|main-content|module-layouts|content|col|row|container)$/i;
+                let node = el.closest && el.closest('[type], [data-type], .module');
+                while (node) {
+                    const t = node.getAttribute('type') || node.getAttribute('data-type') || '';
+                    if (t && !generic.test(t)) return t;
+                    const parent = node.parentElement;
+                    node = parent && parent.closest ? parent.closest('[type], [data-type], .module') : null;
+                }
+                return '';
+            } catch (e) { return ''; }
+        },
+        _friendlyModuleName(type) {
+            if (!type) return '';
+            // last path segment, title-cased ("shop/products" -> "Products").
+            const seg = String(type).split('/').pop().replace(/[_-]+/g, ' ').trim();
+            return seg ? seg.charAt(0).toUpperCase() + seg.slice(1) : '';
+        },
+
         // AI-63 / TICKET-NN (cycle-76 2026-05-08): push a message
         // into the aria-live region. Two-step write (clear, then
         // set on next tick) so the SR re-announces even when the
