@@ -14,29 +14,71 @@
     </div>
 
     <!-- task-2026-05-16-ea56d3: @click.stop — see ElementStyleEditorTypography.vue -->
+    <!-- LE redesign (frame 1c) — Color (swatch row + None + Custom) and Image
+         lead; the image-shaping controls (Size, Position) appear only when an
+         image is set; Repeat / Crop area / Blend mode fold into More options. -->
     <div v-if="showBackground" @click.stop>
 
-        <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Color'"
-                     @change="handleBackgroundColorChange"/>
-
+        <!-- Color — None (bg-transparent) + palette swatches + Custom (MW picker). -->
+        <div class="form-control-live-edit-label-wrapper">
+            <label class="live-edit-label">Color</label>
+            <div class="mw-ese-swatches">
+                <button type="button" class="mw-ese-swatch mw-ese-swatch--none"
+                        :class="{ 'is-active': isNoneActive }"
+                        aria-label="No background color" title="None"
+                        @click="selectNoBackground"></button>
+                <button v-for="sw in colorSwatches" :key="sw" type="button"
+                        class="mw-ese-swatch"
+                        :class="{ 'is-active': isColorActive(sw) }"
+                        :style="{ backgroundColor: sw }"
+                        :aria-label="'Color ' + sw"
+                        :title="sw"
+                        @click="selectColor(sw)"></button>
+                <span class="mw-ese-swatches__spacer"></span>
+                <button type="button" class="mw-ese-custom-link" @click="openCustomColor($event)">Custom</button>
+            </div>
+        </div>
 
         <ImagePicker label="Image" v-model="backgroundImage" v-bind:file="backgroundImageUrl"
                      @change="handleBackgroundImageChange"/>
 
-        <DropdownSmall v-model="backgroundSize" :options="backgroundSizeOptions" :label="'Size'"/>
+        <!-- Size — segmented (image only). -->
+        <div class="form-control-live-edit-label-wrapper" v-if="hasBackgroundImage">
+            <label class="live-edit-label">Size</label>
+            <div class="mw-segmented mw-ese-seg">
+                <span v-for="s in backgroundSizeOptions" :key="s.key" class="mw-segmented__cell"
+                      :class="{ 'active': backgroundSize === s.key, 'is-active': backgroundSize === s.key }"
+                      role="button" tabindex="0"
+                      :aria-pressed="backgroundSize === s.key ? 'true' : 'false'"
+                      @click="backgroundSize = s.key"
+                      @keydown.enter.prevent="backgroundSize = s.key"
+                      @keydown.space.prevent="backgroundSize = s.key">{{ s.value }}</span>
+            </div>
+        </div>
 
-
-        <DropdownSmall v-model="backgroundRepeat" :options="backgroundRepeatOptions" :label="'Repeat'"/>
-
-
-        <DropdownSmall v-model="backgroundPosition" :options="backgroundPositionOptions"
-                       :label="'Position'"/>
-
+        <!-- Position — 3×3 anchor grid + None (image only). -->
+        <div class="form-control-live-edit-label-wrapper" v-if="hasBackgroundImage">
+            <label class="live-edit-label">Position</label>
+            <div class="mw-ese-position">
+                <div class="mw-ese-position-grid">
+                    <button v-for="p in backgroundPositionAnchors" :key="p.key" type="button"
+                            class="mw-ese-position-grid__dot"
+                            :class="{ 'is-active': backgroundPosition === p.key }"
+                            :aria-label="p.value" :title="p.value"
+                            @click="backgroundPosition = p.key"></button>
+                </div>
+                <button type="button" class="mw-ese-custom-link"
+                        :class="{ 'is-active': !backgroundPosition }"
+                        @click="backgroundPosition = null">None</button>
+            </div>
+        </div>
 
         <details class="mw-typography-advanced">
             <summary class="cursor-pointer text-xs opacity-70 hover:opacity-100 py-2">
                 More options
             </summary>
+
+            <DropdownSmall v-model="backgroundRepeat" :options="backgroundRepeatOptions" :label="'Repeat'"/>
 
             <DropdownSmall v-model="backgroundClip" :options="backgroundClipOptions"
                            :label="'Crop area'"/>
@@ -131,7 +173,88 @@ export default {
         };
     },
 
+    computed: {
+        // LE redesign — image-shaping controls (Size/Position) show only when a
+        // background image is set.
+        hasBackgroundImage: function () {
+            var u = this.backgroundImageUrl;
+            return !!(u && u !== '' && u !== 'none' && u !== 'inherit' && u !== 'initial');
+        },
+        // 9 real anchor points for the 3×3 position grid (drops the null "None").
+        backgroundPositionAnchors: function () {
+            return this.backgroundPositionOptions.filter(function (o) { return o.key !== null; });
+        },
+        // None (bg-transparent) is active when the class is present and no color set.
+        isNoneActive: function () {
+            // eslint-disable-next-line no-unused-vars
+            var _dep = this.activeNode;
+            var hasClass = false;
+            try { hasClass = !!(this.activeNode && this.activeNode.classList.contains('bg-transparent')); } catch (e) {}
+            return hasClass && !this.backgroundColor;
+        },
+        // LE redesign — recommended swatches from the SAME service the MW color
+        // picker uses (site colors + palette memory); refreshes per selection.
+        colorSwatches: function () {
+            // eslint-disable-next-line no-unused-vars
+            var _dep = this.activeNode;
+            try {
+                var mgr = mw.top().app.templateSettings
+                    && mw.top().app.templateSettings.colorPaletteManager;
+                if (mgr && mgr.getColors) {
+                    var colors = mgr.getColors() || [];
+                    var seen = {};
+                    var filtered = colors.filter(function (c) {
+                        if (!c || typeof c !== 'string') return false;
+                        if (!/^#([0-9a-fA-F]{3,8})$/.test(c)) return false;
+                        var low = c.toLowerCase();
+                        if (seen[low]) return false;
+                        seen[low] = true;
+                        return true;
+                    });
+                    if (filtered.length) return filtered.slice(0, 6);
+                }
+            } catch (e) { /* fall through */ }
+            return ['#182433', '#6b6b64', '#f0a06a', '#d98c4a', '#ffffff'];
+        },
+    },
+
     methods: {
+        // LE redesign (frame 1c) — Color swatches + None + Custom.
+        isColorActive: function (sw) {
+            if (!this.backgroundColor) return false;
+            return String(this.backgroundColor).replace(/\s/g, '').toLowerCase()
+                === String(sw).replace(/\s/g, '').toLowerCase();
+        },
+        selectColor: function (sw) {
+            // strip the bg-transparent None affordance (its !important would outrank)
+            try { if (this.activeNode) this.activeNode.classList.remove('bg-transparent'); } catch (e) {}
+            this.backgroundColor = sw; // watcher applies backgroundColor
+            try { if (this.activeNode) mw.top().app.registerChange(this.activeNode); } catch (e) {}
+        },
+        selectNoBackground: function () {
+            var node = this.activeNode;
+            if (node) {
+                try { node.classList.add('bg-transparent'); } catch (e) {}
+            }
+            this.backgroundColor = null; // watcher clears the applied color
+            this.applyPropertyToActiveNode('backgroundColor', '');
+            try { if (node) mw.top().app.registerChange(node); } catch (e) {}
+        },
+        // Open the Microweber color picker anchored to the Custom button; the
+        // callback routes through selectColor (strips bg-transparent + applies).
+        openCustomColor: function (event) {
+            var el = event && event.currentTarget ? event.currentTarget : null;
+            var current = this.backgroundColor || '#ffffff';
+            var self = this;
+            var picker = (typeof mw !== 'undefined' && mw.app && mw.app.colorPicker)
+                ? mw.app.colorPicker
+                : ((typeof mw !== 'undefined' && mw.top && mw.top().app && mw.top().app.colorPicker)
+                    ? mw.top().app.colorPicker : null);
+            if (picker && picker.openColorPicker) {
+                picker.openColorPicker(current, function (color) { self.selectColor(color); }, el);
+            }
+        },
+
         toggleBackground: function () {
             // this.showBackground = !this.showBackground;
             //    this.emitter.emit('element-style-editor-show', 'background');

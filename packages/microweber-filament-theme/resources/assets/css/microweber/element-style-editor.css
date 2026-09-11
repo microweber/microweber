@@ -2205,3 +2205,78 @@
     color: #ffffff !important;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
 }
+
+/* LE redesign (frame 1c) — Background Position: 3×3 anchor grid + None.
+   New primitive: a soft square track with nine dots; the chosen anchor lights
+   up in the ink accent. Sits next to a "None" link that clears the position. */
+#mw-element-style-editor-app .mw-ese-position {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
+}
+#mw-element-style-editor-app .mw-ese-position-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5px;
+    width: 68px;
+    height: 68px;
+    padding: 7px;
+    background: var(--ese-surface-muted, #f4f4f2);
+    border: 1px solid var(--ese-border, #e6e6e2);
+    border-radius: 8px;
+    flex: 0 0 auto;
+}
+#mw-element-style-editor-app .mw-ese-position-grid__dot {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #c9c9c2;
+    cursor: pointer;
+    transition: background 0.12s ease, transform 0.12s ease;
+}
+#mw-element-style-editor-app .mw-ese-position-grid__dot:hover {
+    background: #8a8a82;
+}
+#mw-element-style-editor-app .mw-ese-position-grid__dot.is-active {
+    background: var(--ese-accent, #182433);
+    transform: scale(1.18);
+}
+/* Dark: lift the track + neutral dots so the active ink dot still reads. */
+.dark #mw-element-style-editor-app .mw-ese-position-grid,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-ese-position-grid {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+.dark #mw-element-style-editor-app .mw-ese-position-grid__dot,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-ese-position-grid__dot {
+    background: rgba(255, 255, 255, 0.22);
+}
+.dark #mw-element-style-editor-app .mw-ese-position-grid__dot.is-active,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-ese-position-grid__dot.is-active {
+    background: #ffffff;
+}
+/* None swatch — checkerboard + diagonal slash so "no color" reads at a glance. */
+#mw-element-style-editor-app .mw-ese-swatch--none {
+    background-color: #fff;
+    background-image:
+        linear-gradient(45deg, #e6e6e2 25%, transparent 25%, transparent 75%, #e6e6e2 75%),
+        linear-gradient(45deg, #e6e6e2 25%, transparent 25%, transparent 75%, #e6e6e2 75%);
+    background-size: 10px 10px;
+    background-position: 0 0, 5px 5px;
+    position: relative;
+}
+#mw-element-style-editor-app .mw-ese-swatch--none::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(to top right,
+        transparent calc(50% - 1px), #d64545 calc(50% - 1px),
+        #d64545 calc(50% + 1px), transparent calc(50% + 1px));
+}
