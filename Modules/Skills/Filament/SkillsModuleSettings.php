@@ -13,7 +13,7 @@ use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSett
 class SkillsModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'skills';
-    public array $skills;
+    public array $skills = [];
 
     public function mount(): void
     {

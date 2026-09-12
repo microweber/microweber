@@ -2,16 +2,11 @@
 
 namespace Modules\Logo\Filament;
 
-use Filament\Forms\Components\ColorPicker;
-use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\Select;
 use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
-use MicroweberPackages\Filament\Forms\Components\MwInputSlider;
-use MicroweberPackages\Filament\Forms\Components\MwInputSliderGroup;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class LogoModuleSettings extends LiveEditModuleSettings
@@ -32,27 +27,9 @@ class LogoModuleSettings extends LiveEditModuleSettings
                                 TextInput::make('options.size')
                                     ->label('Logo Size')
                                     ->numeric()
+                                    ->helperText('Logo width in pixels')
                                     ->live()
                                     ->default(fn () => $this->getOption('size', '100')),
-
-
-
-                                MwInputSliderGroup::make()
-                                    ->live()
-                                    ->sliders([
-                                        MwInputSlider::make('options.size')
-                                            ->label('Logo Size')
-
-                                        ,
-                                    ])
-                                    ->enableTooltips()
-
-
-                                    ->range([
-                                        "min" => 0,
-                                        "max" => 600
-                                    ])
-                                    ->label('Set Size'),
                             ]),
                         Tabs\Tab::make('Text')
                             ->schema([
@@ -68,28 +45,11 @@ class LogoModuleSettings extends LiveEditModuleSettings
                                 TextInput::make('options.font_size')
                                     ->label('Font Size')
                                     ->numeric()
-                                    ->live(),
-                                MwInputSliderGroup::make()
+                                    ->helperText('Logo text size in pixels')
                                     ->live()
-                                    ->sliders([
-                                        MwInputSlider::make('options.font_size')
-                                            ->label('Font Size')
-
-                                        ,
-                                    ])
-                                    ->enableTooltips()
-
-
-                                    ->range([
-                                        "min" => 0,
-                                        "max" => 120
-                                    ])
-                                    ->label('Set Font Size'),
-
-
-
+                                    ->default(fn () => $this->getOption('font_size', '')),
                             ]),
-                        Tabs\Tab::make('Template')
+                        Tabs\Tab::make('Design')
                             ->schema(
                                 $this->getTemplatesFormSchema()
 

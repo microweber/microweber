@@ -62,10 +62,12 @@ class CategoryModuleSettings extends LiveEditModuleSettings
 
                                     Toggle::make('options.hide_pages')
                                         ->live()
+                                        ->default(fn () => filter_var($this->getOption('hide_pages', false), FILTER_VALIDATE_BOOLEAN))
                                         ->label('Hide Pages'),
 
                                     Toggle::make('options.filter_only_in_stock')
                                         ->live()
+                                        ->default(fn () => filter_var($this->getOption('filter_only_in_stock', false), FILTER_VALIDATE_BOOLEAN))
                                         ->label('Show Only Products in Stock'),
                                 ]
                             ),

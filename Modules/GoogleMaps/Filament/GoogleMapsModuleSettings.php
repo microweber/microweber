@@ -66,7 +66,7 @@ class GoogleMapsModuleSettings extends LiveEditModuleSettings
                                                 // inline Filament --gray-* tokens are a fixed palette that
                                                 // did not flip, so the text failed AA on the dark modal.
                                                 '<div class="mw-map-preview-empty" style="padding:14px;border-radius:8px;font-size:.8125rem;">'
-                                                . e(__('Enter an address above to preview the map.'))
+                                                . e(_e('Enter an address above to preview the map.', true))
                                                 . '</div>'
                                             );
                                         }

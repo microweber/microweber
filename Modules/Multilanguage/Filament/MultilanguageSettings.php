@@ -2,20 +2,13 @@
 
 namespace Modules\Multilanguage\Filament;
 
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
-use Livewire\Livewire;
-use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use Modules\Multilanguage\Filament\Pages\MultilanguageSettingsAdmin;
-use Modules\Multilanguage\Livewire\LanguagesTable;
 
 class MultilanguageSettings extends LiveEditModuleSettings
 {
@@ -55,19 +48,11 @@ class MultilanguageSettings extends LiveEditModuleSettings
                                     ->helperText('Enable or disable multilanguage functionality for your website')
                                     ->default(fn () => (bool) $this->getOption('multilanguage.is_active', false))
                                     ->live(),
-//
-//
-//                                Section::make('Manage Languages')
-//                                    ->visible(fn(Get $get) => $get('options.multilanguage.is_active') === true)
-//
-//                                    ->schema([
-//                                        \Filament\Forms\Components\Livewire::make(LanguagesTable::class)
-//                                    ]),
                             ]),
 
 
                         // Add template settings
-                        Tabs\Tab::make('Templates')
+                        Tabs\Tab::make('Design')
                             ->schema($this->getTemplatesFormSchema()),
                     ])
             ]);

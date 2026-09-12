@@ -2,10 +2,10 @@
 
 namespace Modules\Marquee\Filament;
 
-use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
+use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class MarqueeModuleSettings extends LiveEditModuleSettings
@@ -36,21 +36,29 @@ class MarqueeModuleSettings extends LiveEditModuleSettings
                     ->live()
                     ->default(fn () => $this->getOption('animationSpeed', 100)),
 
-                TextInput::make('options.textWeight')
+                Select::make('options.textWeight')
                     ->label('Text Weight')
-                    ->helperText('Enter the text weight for the marquee text.')
+                    ->helperText('The font weight of the marquee text.')
+                    ->options([
+                        'normal' => 'Normal',
+                        'bold' => 'Bold',
+                    ])
                     ->live()
                     ->default(fn () => $this->getOption('textWeight', 'normal')),
 
-                TextInput::make('options.textStyle')
+                Select::make('options.textStyle')
                     ->label('Text Style')
-                    ->helperText('Enter the text style for the marquee text.')
+                    ->helperText('The font style of the marquee text.')
+                    ->options([
+                        'normal' => 'Normal',
+                        'italic' => 'Italic',
+                    ])
                     ->live()
                     ->default(fn () => $this->getOption('textStyle', 'normal')),
 
-                ColorPicker::make('options.textColor')
+                MwColorPicker::make('options.textColor')
                     ->label('Text Color')
-                    ->helperText('Enter the text color for the marquee text.')
+                    ->helperText('The color of the marquee text.')
                     ->live()
                     ->default(fn () => $this->getOption('textColor', '#000000')),
             ]);

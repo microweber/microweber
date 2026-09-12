@@ -16,14 +16,14 @@ class BeforeAfterModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 MwFileUpload::make('options.before')
-                    ->label('Before Image URL')
-                    ->helperText('Enter the URL of the before image.')
+                    ->label('Before image')
+                    ->helperText('The image shown before the slider is dragged.')
                     ->live()
                     ->default(fn () => $this->getOption('before', asset('modules/before_after/img/white-car.jpg'))),
 
                 MwFileUpload::make('options.after')
-                    ->label('After Image URL')
-                    ->helperText('Enter the URL of the after image.')
+                    ->label('After image')
+                    ->helperText('The image revealed as the slider is dragged.')
                     ->live()
                     ->default(fn () => $this->getOption('after', asset('modules/before_after/img/blue-car.jpg'))),
             ]);
