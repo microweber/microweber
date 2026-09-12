@@ -28,7 +28,7 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
 
                 Tabs::make('Contact Form')
                     ->schema([
-                        Tabs\Tab::make('Main settings')
+                        Tabs\Tab::make('Content')
                             ->schema([
 
                                 \Filament\Schemas\Components\Section::make('From Fields')

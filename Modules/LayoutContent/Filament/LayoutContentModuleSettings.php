@@ -27,7 +27,7 @@ class LayoutContentModuleSettings extends LiveEditModuleSettingsTable
             ->schema([
                 Tabs::make('Layout Content')
                     ->schema([
-                        Tabs\Tab::make('Main settings')
+                        Tabs\Tab::make('Content')
                             ->schema([
                                 Livewire::make($this->tableComponentName, [
                                     'rel_id' => $relId,

@@ -53,7 +53,7 @@ class TeamcardModuleSettings extends LiveEditModuleSettingsTable
     protected function buildMainSettingsTab(): Tabs\Tab
     {
 
-        return Tabs\Tab::make('Main settings')
+        return Tabs\Tab::make('Content')
             ->schema([
                 Livewire::make($this->tableComponentName, [
                     'rel_id' => $this->getRelId(),

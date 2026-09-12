@@ -34,7 +34,7 @@ class FaqModuleSettings extends LiveEditModuleSettingsTable
             ->schema([
                 Tabs::make('Faq')
                     ->schema([
-                        Tabs\Tab::make('Main settings')
+                        Tabs\Tab::make('Content')
                             ->schema([
                                 Livewire::make(FaqTableList::class, [
                                     'rel_id' => $this->params['id'] ?? null,

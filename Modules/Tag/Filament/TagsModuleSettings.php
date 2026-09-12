@@ -21,7 +21,7 @@ class TagsModuleSettings extends LiveEditModuleSettings
             ->schema([
                 Tabs::make('Tags settings')
                     ->schema([
-                        Tabs\Tab::make('Main settings')
+                        Tabs\Tab::make('Content')
                             ->schema([
                                 Select::make('options.data-root-page-id')
                                     ->label('Show Tags from')

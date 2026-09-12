@@ -40,7 +40,7 @@ class PicturesModuleSettings extends LiveEditModuleSettings
             ->schema([
                 Tabs::make('Pictures')
                     ->schema([
-                        Tabs\Tab::make('Main settings')
+                        Tabs\Tab::make('Content')
                             ->schema([
 
 

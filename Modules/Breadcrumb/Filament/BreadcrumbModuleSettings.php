@@ -17,7 +17,7 @@ class BreadcrumbModuleSettings extends LiveEditModuleSettings
             ->schema([
                 Tabs::make('Breadcrumb settings')
                     ->schema([
-                        Tabs\Tab::make('Main settings')
+                        Tabs\Tab::make('Content')
                             ->schema([
                                 Select::make('options.data-start-from')
                                     ->label('Root level')

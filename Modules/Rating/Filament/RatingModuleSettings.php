@@ -20,7 +20,7 @@ class RatingModuleSettings extends LiveEditModuleSettingsTable
             ->schema([
                 Tabs::make('Rating')
                     ->schema([
-                        Tabs\Tab::make('Main settings')
+                        Tabs\Tab::make('Content')
                             ->schema([
                                 Livewire::make(RatingTableList::class, [
                                     'rel_id' => $this->params['rel_id'] ?? $this->params['rel-id'] ?? $this->params['id'] ?? null,
