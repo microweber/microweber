@@ -18,21 +18,21 @@
         badge: 'Mq',
         sections: [
             { type: 'text', label: 'Text', key: 'text', placeholder: 'Your text here' },
-            { type: 'swatches', label: 'Color', key: 'textColor' },
+            { type: 'swatches', label: 'Color', key: 'textColor', def: '#000000' },
             {
-                type: 'segmented', label: 'Size', key: 'fontSize',
+                type: 'segmented', label: 'Size', key: 'fontSize', def: 46,
                 options: [{ label: 'S', value: 24 }, { label: 'M', value: 46 }, { label: 'L', value: 72 }]
             },
             {
-                type: 'segmented', label: 'Speed', key: 'animationSpeed',
+                type: 'segmented', label: 'Speed', key: 'animationSpeed', def: 100,
                 options: [{ label: 'Slow', value: 50 }, { label: 'Normal', value: 100 }, { label: 'Fast', value: 200 }]
             },
             {
-                type: 'segmented', label: 'Weight', key: 'textWeight',
+                type: 'segmented', label: 'Weight', key: 'textWeight', def: 'normal',
                 options: [{ label: 'Normal', value: 'normal' }, { label: 'Bold', value: 'bold' }]
             },
             {
-                type: 'segmented', label: 'Style', key: 'textStyle',
+                type: 'segmented', label: 'Style', key: 'textStyle', def: 'normal',
                 options: [{ label: 'Normal', value: 'normal' }, { label: 'Italic', value: 'italic' }]
             },
             { type: 'advanced', label: 'Advanced', hint: 'All marquee settings' }
@@ -60,10 +60,52 @@
         badge: 'Br',
         sections: [
             {
-                type: 'segmented', label: 'Start from', key: 'data-start-from',
+                type: 'segmented', label: 'Start from', key: 'data-start-from', def: '',
                 options: [{ label: 'Default', value: '' }, { label: 'Page', value: 'page' }, { label: 'Category', value: 'category' }]
             },
             { type: 'advanced', label: 'Advanced', hint: 'All breadcrumb settings' }
+        ]
+    });
+
+    // ── Google Maps ── options: data-map-type, data-zoom, data-show-marker,
+    //    data-marker-label (address + API key live in Advanced). ─────────────
+    K.register({
+        type: 'google_maps',
+        title: 'Google Maps',
+        badge: 'Gm',
+        sections: [
+            {
+                type: 'select', label: 'Map type', key: 'data-map-type', def: 'roadmap',
+                options: [
+                    { label: 'Road map', value: 'roadmap' }, { label: 'Satellite', value: 'satellite' },
+                    { label: 'Terrain', value: 'terrain' }, { label: 'Hybrid', value: 'hybrid' }
+                ]
+            },
+            {
+                type: 'select', label: 'Zoom', key: 'data-zoom', def: '12',
+                options: [
+                    { label: 'Country', value: '5' }, { label: 'City', value: '10' }, { label: 'District', value: '12' },
+                    { label: 'Street', value: '15' }, { label: 'Building', value: '18' }
+                ]
+            },
+            { type: 'toggle', label: 'Show marker', key: 'data-show-marker', def: '1', onValue: '1', offValue: '0' },
+            { type: 'text', label: 'Marker label', key: 'data-marker-label', placeholder: 'e.g. Our office' },
+            { type: 'advanced', label: 'Advanced', hint: 'Address, size, API key' }
+        ]
+    });
+
+    // ── Video ── options: autoplay, loop, muted, hide_controls (0/1);
+    //    source (embed / upload) + thumbnail live in Advanced. ───────────────
+    K.register({
+        type: 'video',
+        title: 'Video',
+        badge: 'Vi',
+        sections: [
+            { type: 'toggle', label: 'Autoplay', key: 'autoplay', hint: 'Starts muted until interaction', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Loop', key: 'loop', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Muted', key: 'muted', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Hide controls', key: 'hide_controls', onValue: '1', offValue: '0' },
+            { type: 'advanced', label: 'Advanced', hint: 'Source, size, thumbnail' }
         ]
     });
 })();
