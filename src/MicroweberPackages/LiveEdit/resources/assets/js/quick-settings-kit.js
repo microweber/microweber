@@ -186,8 +186,11 @@
         }
         if (c.type === 'text') {
             var suffix = c.suffix ? '<span class="mw-qs-suffix">' + esc(lang(c.suffix)) + '</span>' : '';
+            // enableKey: a companion boolean option written alongside this field
+            // (1 when non-empty, 0 when cleared) — e.g. SocialLinks' <net>_enabled.
+            var enableAttr = c.enableKey ? ' data-enable-key="' + esc(c.enableKey) + '"' : '';
             return '<div class="mw-qs-section">' + label + '<div class="mw-qs-field">'
-                + '<input type="' + (c.inputType || 'text') + '" class="mw-qs-input" data-ctl="text" data-key="' + esc(c.key) + '"'
+                + '<input type="' + (c.inputType || 'text') + '" class="mw-qs-input" data-ctl="text" data-key="' + esc(c.key) + '"' + enableAttr
                 + ' placeholder="' + esc(lang(c.placeholder || '')) + '" value="' + esc(cur) + '">' + suffix + '</div></div>';
         }
         if (c.type === 'toggle') {
@@ -301,7 +304,12 @@
             s.addEventListener('change', function () { saveOption(el, s.dataset.key, s.value); });
         });
         _el.querySelectorAll('[data-ctl="text"]').forEach(function (inp) {
-            var save = function () { saveOption(el, inp.dataset.key, inp.value); };
+            var save = function () {
+                saveOption(el, inp.dataset.key, inp.value);
+                if (inp.dataset.enableKey) {
+                    saveOption(el, inp.dataset.enableKey, inp.value.trim() ? '1' : '0');
+                }
+            };
             inp.addEventListener('change', save);
             inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); save(); } });
         });

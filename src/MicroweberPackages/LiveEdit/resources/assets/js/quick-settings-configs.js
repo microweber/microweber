@@ -310,6 +310,23 @@
         ]
     });
 
+    // Social links — per network <net>_url (auto-sets <net>_enabled via
+    //   enableKey). Common networks here; the rest (github, skype, discord,
+    //   soundcloud, pinterest, viber) → Advanced.
+    K.register({
+        type: 'social_links', title: 'Social links', badge: 'So',
+        sections: [
+            { type: 'text', label: 'Facebook', key: 'facebook_url', enableKey: 'facebook_enabled', placeholder: 'facebook.com/…' },
+            { type: 'text', label: 'Instagram', key: 'instagram_url', enableKey: 'instagram_enabled', placeholder: 'instagram.com/…' },
+            { type: 'text', label: 'X (Twitter)', key: 'x_url', enableKey: 'x_enabled', placeholder: 'x.com/…' },
+            { type: 'text', label: 'LinkedIn', key: 'linkedin_url', enableKey: 'linkedin_enabled', placeholder: 'linkedin.com/…' },
+            { type: 'text', label: 'YouTube', key: 'youtube_url', enableKey: 'youtube_enabled', placeholder: 'youtube.com/…' },
+            { type: 'text', label: 'WhatsApp', key: 'whatsapp_url', enableKey: 'whatsapp_enabled', placeholder: 'wa.me/…' },
+            { type: 'text', label: 'Telegram', key: 'telegram_url', enableKey: 'telegram_enabled', placeholder: 't.me/…' },
+            { type: 'advanced', label: 'Advanced', hint: 'GitHub, Pinterest, Skype, Discord, SoundCloud, Viber' }
+        ]
+    });
+
     // Background — Overlay (data-background-overlay) + Fit (data-background-size)
     //   added to the module; Color = data-background-color. Image/video → Advanced.
     K.register({
