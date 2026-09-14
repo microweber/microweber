@@ -562,7 +562,15 @@
                 css.left = css.left - ((css.left + holderWidth) - $window.width());
             }
 
-            if (dtop) {
+            // task-2026-09-14-modal-drag: honour a user-dragged position on the
+            // VERTICAL axis too. `_dragged` already guards css.left above; without
+            // the same guard here, every center() caller (the 333ms
+            // observeDimensions interval, containmentManage, the window
+            // resize/orientationchange autoCenter handler) re-applied dtop and
+            // snapped a dragged dialog's top back to the viewport middle — the
+            // Live-Edit "Module Settings" modal kept re-centering after being
+            // dragged. A fresh (not yet dragged) dialog still centres normally.
+            if (dtop && !scope._dragged) {
                 css.top = dtop > 0 ? dtop : 0;
             }
 
