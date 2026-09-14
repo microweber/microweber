@@ -934,7 +934,8 @@ var MWEditor = function (options) {
         var id = mw.id("mw.editor-group-");
         var el = mw.element({
             props: {
-                className: "mw-bar-control-item mw-bar-control-item-group",
+                className: "mw-bar-control-item mw-bar-control-item-group" +
+                    (group.className ? " " + group.className : ""),
                 id: id,
             },
         });

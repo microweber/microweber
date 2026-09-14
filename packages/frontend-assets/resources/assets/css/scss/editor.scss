@@ -922,3 +922,62 @@ html[data-mw-theme="dark"] .mw-small-editor,
 html[data-mw-theme="dark"] .mw-small-editor .mw-editor-color-picker .mw-editor-color-picker-color-indicator {
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
 }
+
+/* task-2026-09-14-editor-minimal — the "⋯" overflow renders as a compact popover
+   MENU (a wrapped grid), not the full horizontal toolbar row. Wide select-style
+   controls (font / line-height / font-size) take a full row; the icon buttons
+   wrap below. The caret next to the dots is dropped. */
+.mw-small-editor .mw-editor-overflow-menu .mw-editor-group-button-caret {
+    display: none !important;
+}
+.mw-small-editor .mw-editor-overflow-menu .mw-bar-control-item-group-contents {
+    left: auto;
+    right: 0;
+    width: 240px;
+    max-width: calc(100vw - 24px);
+    padding: 6px;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-content: flex-start;
+}
+.mw-small-editor .mw-editor-overflow-menu.active .mw-bar-control-item-group-contents {
+    display: flex !important;
+}
+/* wide select-style controls span a full row */
+.mw-small-editor .mw-editor-overflow-menu .mw-bar-control-item-group-contents > .mw-editor-fontsize-stepper,
+.mw-small-editor .mw-editor-overflow-menu .mw-bar-control-item-group-contents > *:has(.mw-editor-controller-component-select-values-holder) {
+    flex: 1 0 100%;
+    max-width: 100%;
+}
+/* the select TRIGGER fills its full-width row (label left, caret right) so the
+   font / line-height rows read like proper menu items, not tiny left labels. */
+.mw-small-editor .mw-editor-overflow-menu .mw-bar-control-item-group-contents > * > .mw-editor-controller-component-select,
+.mw-small-editor .mw-editor-overflow-menu .mw-bar-control-item-group-contents > .mw-editor-controller-component-select {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 5px 8px;
+    border-radius: 8px;
+}
+.mw-small-editor .mw-editor-overflow-menu .mw-editor-controller-component-select:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-overflow-menu .mw-editor-controller-component-select:hover,
+html[data-mw-theme="dark"] .mw-small-editor .mw-editor-overflow-menu .mw-editor-controller-component-select:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+/* the SUB-dropdown option lists: sensible size + scroll instead of a tall,
+   narrow strip (14 fonts were rendering ~128px × 509px). */
+.mw-small-editor .mw-editor-overflow-menu .mw-editor-controller-component-select-values-holder {
+    min-width: 180px;
+    max-height: 240px;
+    overflow-y: auto;
+    z-index: 5;
+}
+/* icon buttons wrap into rows, evenly sized */
+.mw-small-editor .mw-editor-overflow-menu .mw-bar-control-item-group-contents > .mw-editor-controller-button {
+    flex: 0 0 auto;
+}

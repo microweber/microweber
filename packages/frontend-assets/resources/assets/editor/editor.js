@@ -74,9 +74,13 @@ export const EditorComponent = function () {
             // ✦ Rewrite (AI).
             'ai',
 
-            // "⋯" overflow — everything else.
+            // Pin / unpin the toolbar — kept on the main bar.
+            'pin',
+
+            // "⋯" overflow — everything else, in a compact dropdown menu.
             {
                 group: {
+                    className: 'mw-editor-overflow-menu',
                     icon: moreMenuIcon,
                     controls: [
                         'fontSize',
@@ -94,7 +98,6 @@ export const EditorComponent = function () {
                         // task-2026-09-07-elementmenu — "⋮" element action menu
                         // (Duplicate / Edit styles / Delete).
                         'elementMore',
-                        'pin',
                         'backToElementSettings',
                     ]
                 }
