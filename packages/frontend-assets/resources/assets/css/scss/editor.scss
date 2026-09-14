@@ -878,3 +878,47 @@ html[data-mw-theme="dark"] .mw-small-editor,
         color: inherit !important;
     }
 }
+
+/* task-2026-09-14-editor-minimal — AI "Rewrite" button: sparkle icon + a
+   persistent text label (auto-width pill instead of a fixed square). */
+.mw-small-editor .mw-editor-controller-button:has(.mw-editor-ai-label) {
+    width: auto;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding-inline: 8px;
+}
+.mw-small-editor .mw-editor-ai-label {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* task-2026-09-14-editor-minimal — Text color shown as a filled circle swatch of
+   the current color (hide the "A" glyph; the JS color-indicator becomes the
+   swatch). checkSelection sets the indicator's inline background-color. */
+.mw-small-editor .mw-editor-controller-button.mw-editor-color-picker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.mw-small-editor .mw-editor-controller-button.mw-editor-color-picker > svg {
+    display: none;
+}
+.mw-small-editor .mw-editor-color-picker .mw-editor-color-picker-color-indicator {
+    position: static;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    overflow: visible;
+    vertical-align: middle;
+    background-color: currentColor;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-color-picker .mw-editor-color-picker-color-indicator,
+html[data-mw-theme="dark"] .mw-small-editor .mw-editor-color-picker .mw-editor-color-picker-color-indicator {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}

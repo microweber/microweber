@@ -474,13 +474,15 @@ MWEditor.controllers = {
     },
     ai: function (scope, api, rootScope) {
         this.render = function () {
+            // task-2026-09-14-editor-minimal — sparkle icon + persistent "Rewrite"
+            // label to match the toolbar design (was a bare lightning glyph).
             var aiIconSVG =
-                '<svg color="gray.100" fill="currentColor" height="22" viewBox="0 0 22 22" width="22" xmlns="http://www.w3.org/2000/svg" class="ai-writer-container-1fy6kej"><path d="M12 0h-1L5 14h5v8h1l6-14h-5V0z"></path></svg>';
+                '<svg fill="currentColor" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg" class="ai-writer-container-1fy6kej"><path d="M11 3l1.9 4.6L17.5 9.5l-4.6 1.9L11 16l-1.9-4.6L4.5 9.5l4.6-1.9L11 3z"></path><path d="M18 13l.8 2.2L21 16l-2.2.8L18 19l-.8-2.2L15 16l2.2-.8L18 13z"></path></svg>';
             var scope = this;
             var el = MWEditor.core.button({
                 props: {
                     tooltip: rootScope.lang("AI Text Generator"),
-                    innerHTML: aiIconSVG,
+                    innerHTML: aiIconSVG + '<span class="mw-editor-ai-label">' + rootScope.lang("Rewrite") + '</span>',
                 },
             });
             el.on("click", function (e) {
