@@ -992,7 +992,19 @@ html[data-mw-theme="dark"] .mw-small-editor .mw-editor-color-group .mw-bar-contr
     padding: 5px 8px;
     border-radius: 8px;
 }
-/* the select's value/label sits left, caret pinned to the right edge */
+/* the inner display button (label + caret) must grow to fill the row so the
+   label sits left and the caret pins right — otherwise it stays a 58px cluster
+   at the left of a 228px row. */
+.mw-small-editor .mw-editor-overflow-menu .mw-bar-control-item-group-contents .mw-editor-controller-component-select > .mw-editor-select-display-value {
+    flex: 1 1 auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.mw-small-editor .mw-editor-overflow-menu .mw-editor-select-display-value .mw-editor-group-button-caret {
+    margin-left: auto;
+}
 .mw-small-editor .mw-editor-overflow-menu .mw-editor-controller-component-select > .mw-editor-group-button-caret {
     margin-left: auto;
 }
