@@ -119,30 +119,6 @@ class BtnModuleSettings extends LiveEditModuleSettings
                                             ->default(fn () => $this->getOption('iconPosition', 'left')),
                                     ]),
 
-//                                Select::make('options.style')
-//                                    ->label('Button Style')
-//                                    ->helperText('Select the style of the button.')
-//                                    ->live()
-//                                    ->options([
-//                                        'normal' => 'Normal',
-//                                        'primary' => 'Primary',
-//                                        'secondary' => 'Secondary',
-//                                        'outline'=> 'Outline',
-//                                        'link' => 'Link',
-//                                    ])
-//                                    ->default('btn-primary'),
-//
-//                                Select::make('options.size')
-//                                    ->label('Button Size')
-//                                    ->helperText('Select the size of the button.')
-//                                    ->live()
-//                                    ->options([
-//                                        'default' => 'Default',
-//                                        'large' => 'Large',
-//                                        'medium' => 'Medium',
-//                                        'small' => 'Small',
-//                                        'mini' => 'Mini',
-//                                    ]),
                                 Section::make('Design Settings')->schema(
                                     $this->getTemplatesFormSchema()),
 

@@ -6,7 +6,6 @@ use Filament\Schemas\Components\Livewire;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
-use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettingsTable;
 use Modules\Testimonials\Models\Testimonial;
 
@@ -34,7 +33,6 @@ class TestimonialsModuleSettings extends LiveEditModuleSettingsTable
                                         'rel_type' => $relType,
                                         'module_id' => $moduleId,
                                     ])
-                                    ->reactive()
                                     ->live(),
                             ]),
                         Tabs\Tab::make('Design')

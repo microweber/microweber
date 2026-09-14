@@ -3,17 +3,11 @@
 namespace Modules\Content\Filament;
 
 use Filament\Schemas\Components\Livewire;
-use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Schema;
-use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use Modules\Content\Concerns\HasContentFilterModuleSettings;
 use Modules\Content\Models\Content;
-use Modules\Product\Models\Product;
 
 class ContentModuleSettings extends LiveEditModuleSettings
 {

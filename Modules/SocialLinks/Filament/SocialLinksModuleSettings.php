@@ -28,7 +28,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
 
 
                                 Toggle::make('options.facebook_enabled')
-                                    ->label('Enable Facebook Sharing')
+                                    ->label('Enable Facebook')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('facebook_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 
@@ -40,7 +40,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.facebook_enabled')),
 
                                 Toggle::make('options.x_enabled')
-                                    ->label('Enable X Sharing')
+                                    ->label('Enable X')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('x_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 
@@ -52,7 +52,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.x_enabled')),
 
                                 Toggle::make('options.pinterest_enabled')
-                                    ->label('Enable Pinterest Sharing')
+                                    ->label('Enable Pinterest')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('pinterest_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 
@@ -64,7 +64,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.pinterest_enabled')),
 
                                 Toggle::make('options.linkedin_enabled')
-                                    ->label('Enable LinkedIn Sharing')
+                                    ->label('Enable LinkedIn')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('linkedin_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 
@@ -76,7 +76,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.linkedin_enabled')),
 
                                 Toggle::make('options.viber_enabled')
-                                    ->label('Enable Viber Sharing')
+                                    ->label('Enable Viber')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('viber_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 
@@ -88,7 +88,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.viber_enabled')),
 
                                 Toggle::make('options.whatsapp_enabled')
-                                    ->label('Enable WhatsApp Sharing')
+                                    ->label('Enable WhatsApp')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('whatsapp_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 
@@ -100,7 +100,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.whatsapp_enabled')),
 
                                 Toggle::make('options.telegram_enabled')
-                                    ->label('Enable Telegram Sharing')
+                                    ->label('Enable Telegram')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('telegram_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 
@@ -112,7 +112,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.telegram_enabled')),
 
                                 Toggle::make('options.youtube_enabled')
-                                    ->label('Enable YouTube Sharing')
+                                    ->label('Enable YouTube')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('youtube_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 
@@ -124,7 +124,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.youtube_enabled')),
 
                                 Toggle::make('options.instagram_enabled')
-                                    ->label('Enable Instagram Sharing')
+                                    ->label('Enable Instagram')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('instagram_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 
@@ -136,7 +136,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.instagram_enabled')),
 
                                 Toggle::make('options.github_enabled')
-                                    ->label('Enable GitHub Sharing')
+                                    ->label('Enable GitHub')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('github_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 
@@ -148,7 +148,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.github_enabled')),
 
                                 Toggle::make('options.soundcloud_enabled')
-                                    ->label('Enable SoundCloud Sharing')
+                                    ->label('Enable SoundCloud')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('soundcloud_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 
@@ -160,7 +160,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.soundcloud_enabled')),
 
                                 Toggle::make('options.discord_enabled')
-                                    ->label('Enable Discord Sharing')
+                                    ->label('Enable Discord')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('discord_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 
@@ -172,7 +172,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->visible(fn($get) => $get('options.discord_enabled')),
 
                                 Toggle::make('options.skype_enabled')
-                                    ->label('Enable Skype Sharing')
+                                    ->label('Enable Skype')
                                     ->live()
                                     ->default(fn () => filter_var($this->getOption('skype_enabled', false), FILTER_VALIDATE_BOOLEAN)),
 

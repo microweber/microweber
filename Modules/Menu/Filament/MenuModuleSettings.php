@@ -5,11 +5,7 @@ namespace Modules\Menu\Filament;
 use Filament\Schemas\Components\Livewire;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
-use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
-use Filament\Support\Components\ViewComponent;
-use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use Modules\Menu\Livewire\Admin\MenusList;
 

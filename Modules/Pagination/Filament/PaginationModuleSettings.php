@@ -4,7 +4,6 @@ namespace Modules\Pagination\Filament;
 
 use Filament\Forms\Components\ColorPicker;
 use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;

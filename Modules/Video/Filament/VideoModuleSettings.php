@@ -2,10 +2,7 @@
 
 namespace Modules\Video\Filament;
 
-use Filament\Forms\Components\ColorPicker;
 use Filament\Schemas\Components\Group;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -15,7 +12,6 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
-use MicroweberPackages\Modules\Tabs\Models\TabItem;
 
 class VideoModuleSettings extends LiveEditModuleSettings
 {
@@ -33,7 +29,7 @@ class VideoModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
 
-                Tabs::make('Settings')
+                Tabs::make('Video Settings')
                     ->schema([
                         Tabs\Tab::make('Video')
                             ->columnSpanFull()
@@ -75,7 +71,7 @@ class VideoModuleSettings extends LiveEditModuleSettings
                                         ->default(fn () => $this->getOption('embed_code', ''))
                                         ->rows(3)
                                         ->visible(fn (Get $get) => $get('options.prior') !== '2')
-                                        ->helperText('Paste a custom &lt;iframe&gt; or embed HTML here. Overrides URL above when set.'),
+                                        ->helperText('Paste a custom <iframe> or embed HTML here. Overrides URL above when set.'),
 
                                     MwFileUpload::make('options.upload')
                                         ->label('Upload Video')

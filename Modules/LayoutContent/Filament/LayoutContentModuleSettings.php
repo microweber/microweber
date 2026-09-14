@@ -34,7 +34,6 @@ class LayoutContentModuleSettings extends LiveEditModuleSettingsTable
                                     'rel_type' => $relType,
                                     'module_id' => $moduleId,
                                 ])
-                                    ->reactive()
                                     ->live(),
                             ]),
                         Tabs\Tab::make('Design')
