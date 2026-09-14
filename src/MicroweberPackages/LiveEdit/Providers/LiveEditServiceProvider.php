@@ -134,6 +134,13 @@ class LiveEditServiceProvider extends MicroweberPackageServiceProvider
 
         $this->registerMenu();
 
+        // task-2026-09-14-qskit — shared Live-Edit "quick settings" framework +
+        // the per-module configs that drive it. The kit must load before the
+        // configs (which call mw.quickSettingsKit.register). Served static from
+        // public/live-edit-quick-settings (source in resources/assets/js).
+        \MicroweberPackages\LiveEdit\Facades\LiveEditManager::addScript('mw-quick-settings-kit', asset('live-edit-quick-settings/quick-settings-kit.js'));
+        \MicroweberPackages\LiveEdit\Facades\LiveEditManager::addScript('mw-quick-settings-configs', asset('live-edit-quick-settings/quick-settings-configs.js'));
+
 
         Event::listen(ServingFilament::class, function () {
             try {
