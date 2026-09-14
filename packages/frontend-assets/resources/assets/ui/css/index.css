@@ -2238,3 +2238,18 @@ html.dark #toolbar .mw-device-switch__trigger:hover,
     color: #fff;
     border-color: #182433;
 }
+
+/* task-2026-09-14-ai-close — the AI Rewrite popup's re-homed close button. */
+.mw-ai-popup-close.mw-dialog-close {
+    top: 10px !important;
+    right: 10px !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 8px !important;
+    color: #77776f !important;
+    z-index: 3;
+}
+.mw-ai-popup-close.mw-dialog-close:hover {
+    background-color: #f4f4f2 !important;
+    color: #182433 !important;
+}

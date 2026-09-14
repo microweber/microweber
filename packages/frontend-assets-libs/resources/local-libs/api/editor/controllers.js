@@ -579,6 +579,14 @@ MWEditor.controllers = {
                 });
                 aiTextAutocompleteDialog.dialogHeader.style.display = "none";
                 aiTextAutocompleteDialog.dialogContainer.style.padding = "5px";
+                // task-2026-09-14-ai-close — the close (×) lives inside the header
+                // we just hid; re-home it onto the holder so it stays visible.
+                if (aiTextAutocompleteDialog.closeButton && aiTextAutocompleteDialog.dialogHolder) {
+                    aiTextAutocompleteDialog.closeButton.classList.add("mw-ai-popup-close");
+                    aiTextAutocompleteDialog.dialogHolder.appendChild(
+                        aiTextAutocompleteDialog.closeButton
+                    );
+                }
 
                 setTimeout(function () {
                     document
