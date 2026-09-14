@@ -338,4 +338,35 @@
             { type: 'advanced', label: 'Advanced', hint: 'Image / video, all background settings' }
         ]
     });
+
+    // ── List modules — DISPLAY options only (item CRUD stays in full settings) ─
+
+    // Shop — default_sort, default_limit, columns, show_price, show_add_to_cart.
+    //   Source products / filters → Advanced (the item list is DB-backed).
+    K.register({
+        type: 'shop', title: 'Shop', badge: 'Sp',
+        sections: [
+            { type: 'select', label: 'Sort', key: 'default_sort', def: 'created_by_desc', options: [{ label: 'Newest', value: 'created_by_desc' }, { label: 'Oldest', value: 'created_by_asc' }, { label: 'Price ↑', value: 'price_asc' }, { label: 'Price ↓', value: 'price_desc' }] },
+            { type: 'text', label: 'Products per page', key: 'default_limit', inputType: 'number', def: 10 },
+            { type: 'segmented', label: 'Columns', key: 'columns', def: '3', options: [{ label: '2', value: '2' }, { label: '3', value: '3' }, { label: '4', value: '4' }] },
+            { type: 'toggle', label: 'Show price', key: 'show_price', def: '1', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Add-to-cart button', key: 'show_add_to_cart', def: '1', onValue: '1', offValue: '0' },
+            { type: 'advanced', label: 'Advanced', hint: 'Source products, filters' }
+        ]
+    });
+
+    // Comments — moderation, notifications, per-page, sort, avatars.
+    K.register({
+        type: 'comments', title: 'Comments', badge: 'Cm',
+        sections: [
+            { type: 'toggle', label: 'Moderate before publish', key: 'enable_moderation', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Notify admin', key: 'notify_admin', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Notify users', key: 'notify_users', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Show on this page', key: 'show_on_current_content', def: '1', onValue: '1', offValue: '0' },
+            { type: 'text', label: 'Comments per page', key: 'comments_per_page', inputType: 'number', def: 10 },
+            { type: 'select', label: 'Sort', key: 'sort_order', def: 'newest', options: [{ label: 'Newest first', value: 'newest' }, { label: 'Oldest first', value: 'oldest' }] },
+            { type: 'toggle', label: 'User avatars', key: 'show_user_avatar', def: '1', onValue: '1', offValue: '0' },
+            { type: 'advanced', label: 'Advanced' }
+        ]
+    });
 })();
