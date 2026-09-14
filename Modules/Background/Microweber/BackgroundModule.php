@@ -54,6 +54,16 @@ class BackgroundModule extends BaseModule
 
         if ($background_color != '') {
             $style_attributes_overlay[] = 'background-color: ' . $background_color;
+        } else {
+            // task-2026-09-14-qskit — Overlay preset (none|light|dark) from the
+            // quick-settings panel: a translucent scrim over the media when no
+            // explicit solid colour is set. Explicit colour always wins.
+            $overlay_preset = $this->getOption('data-background-overlay');
+            if ($overlay_preset === 'light') {
+                $style_attributes_overlay[] = 'background-color: rgba(255,255,255,0.35)';
+            } elseif ($overlay_preset === 'dark') {
+                $style_attributes_overlay[] = 'background-color: rgba(0,0,0,0.4)';
+            }
         }
         $video_url = $background_video;
         if ($video_url == 'none') {
@@ -82,10 +92,16 @@ class BackgroundModule extends BaseModule
         }
 
 
+        // task-2026-09-14-qskit — Fit maps the (existing) data-background-size to
+        // the <img> object-fit in the default template (in-block already uses it
+        // as CSS background-size). cover | contain; anything else → cover.
+        $background_fit = in_array($background_size, ['cover', 'contain'], true) ? $background_size : 'cover';
+
         return [
             'background_image' => $background_image,
             'background_video' => $video_url,
             'background_color' => $background_color ?? $background_color_option ?? $this->params['data-background-color'] ?? '',
+            'background_fit' => $background_fit,
             'style_attr' => $style_attr,
             'style_attr_overlay' => $style_attr_overlay,
             'video_html' => $video_html,

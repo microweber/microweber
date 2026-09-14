@@ -309,4 +309,16 @@
             { type: 'advanced', label: 'Advanced', hint: 'Source content, depth' }
         ]
     });
+
+    // Background — Overlay (data-background-overlay) + Fit (data-background-size)
+    //   added to the module; Color = data-background-color. Image/video → Advanced.
+    K.register({
+        type: 'background', title: 'Background', badge: 'Bg',
+        sections: [
+            { type: 'segmented', label: 'Overlay', key: 'data-background-overlay', def: '', options: [{ label: 'None', value: '' }, { label: 'Light', value: 'light' }, { label: 'Dark', value: 'dark' }] },
+            { type: 'segmented', label: 'Fit', key: 'data-background-size', def: 'cover', options: [{ label: 'Cover', value: 'cover' }, { label: 'Contain', value: 'contain' }] },
+            { type: 'swatches', label: 'Color', key: 'data-background-color' },
+            { type: 'advanced', label: 'Advanced', hint: 'Image / video, all background settings' }
+        ]
+    });
 })();

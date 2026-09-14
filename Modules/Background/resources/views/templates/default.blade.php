@@ -23,7 +23,7 @@
                  loading="eager"
                  decoding="async"
                  class="position-absolute top-0 start-0 w-100 h-100"
-                 style="object-fit: cover; z-index: 0;"
+                 style="object-fit: {{ $background_fit ?? 'cover' }}; z-index: 0;"
                  aria-hidden="true">
         @endif
 
