@@ -369,4 +369,32 @@
             { type: 'advanced', label: 'Advanced' }
         ]
     });
+
+    // Slider — autoplay, autoplay_speed, loop, effect, show_arrows, show_dots.
+    //   Slides (DB-backed) → Advanced.
+    K.register({
+        type: 'slider', title: 'Slider', badge: 'Sl',
+        sections: [
+            { type: 'select', label: 'Effect', key: 'effect', def: 'slide', options: [{ label: 'Slide', value: 'slide' }, { label: 'Fade', value: 'fade' }, { label: 'Coverflow', value: 'coverflow' }] },
+            { type: 'toggle', label: 'Autoplay', key: 'autoplay', def: '1', onValue: '1', offValue: '0' },
+            { type: 'text', label: 'Autoplay speed', key: 'autoplay_speed', inputType: 'number', def: 3000, suffix: 'ms' },
+            { type: 'toggle', label: 'Loop', key: 'loop', def: '1', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Arrows', key: 'show_arrows', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Dots', key: 'show_dots', onValue: '1', offValue: '0' },
+            { type: 'advanced', label: 'Advanced', hint: 'Slides' }
+        ]
+    });
+
+    // Contact form — button_text, thank_you_message, autoresponder, newsletter.
+    //   Fields + email settings → Advanced.
+    K.register({
+        type: 'contact_form', title: 'Contact form', badge: 'Cf',
+        sections: [
+            { type: 'text', label: 'Button text', key: 'button_text', placeholder: 'Send' },
+            { type: 'text', label: 'Thank-you message', key: 'thank_you_message', placeholder: 'Thanks — we’ll be in touch' },
+            { type: 'toggle', label: 'Autoresponder', key: 'email_autorespond_enable', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Newsletter opt-in', key: 'newsletter_subscription', onValue: '1', offValue: '0' },
+            { type: 'advanced', label: 'Advanced', hint: 'Fields, email settings' }
+        ]
+    });
 })();
