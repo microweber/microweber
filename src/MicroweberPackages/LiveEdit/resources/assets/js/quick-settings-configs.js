@@ -271,4 +271,42 @@
             { type: 'advanced', label: 'Advanced', hint: 'Upload PDF' }
         ]
     });
+
+    // ── Batch 4 (scalar modules) ─────────────────────────────────────────────
+
+    // Newsletter — title, description, require_terms. Mailing list → Advanced.
+    K.register({
+        type: 'newsletter', title: 'Newsletter', badge: 'Nl',
+        sections: [
+            { type: 'text', label: 'Title', key: 'title', placeholder: 'Subscribe' },
+            { type: 'text', label: 'Description', key: 'description' },
+            { type: 'toggle', label: 'Require terms', key: 'require_terms', onValue: '1', offValue: '0' },
+            { type: 'advanced', label: 'Advanced', hint: 'Mailing list, fields' }
+        ]
+    });
+
+    // Tags — show_tag_counts, tag_size, tag_color, tag_hover_color. Root page → Advanced.
+    K.register({
+        type: 'tags', title: 'Tags', badge: 'Tg',
+        sections: [
+            { type: 'toggle', label: 'Show counts', key: 'show_tag_counts', def: '1', onValue: '1', offValue: '0' },
+            { type: 'segmented', label: 'Size', key: 'tag_size', def: 'medium', options: [{ label: 'S', value: 'small' }, { label: 'M', value: 'medium' }, { label: 'L', value: 'large' }] },
+            { type: 'swatches', label: 'Color', key: 'tag_color' },
+            { type: 'swatches', label: 'Hover color', key: 'tag_hover_color' },
+            { type: 'advanced', label: 'Advanced', hint: 'Source page' }
+        ]
+    });
+
+    // Categories — single_only, show_subcats, hide_pages, filter_only_in_stock.
+    //   Source content / max depth → Advanced.
+    K.register({
+        type: 'categories', title: 'Categories', badge: 'Ct',
+        sections: [
+            { type: 'toggle', label: 'Single category only', key: 'single_only', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Show subcategories', key: 'show_subcats', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Hide pages', key: 'hide_pages', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Only in stock', key: 'filter_only_in_stock', onValue: '1', offValue: '0' },
+            { type: 'advanced', label: 'Advanced', hint: 'Source content, depth' }
+        ]
+    });
 })();
