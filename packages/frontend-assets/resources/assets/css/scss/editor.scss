@@ -1002,6 +1002,13 @@ html[data-mw-theme="dark"] .mw-small-editor .mw-editor-color-group .mw-bar-contr
     align-items: center;
     justify-content: space-between;
 }
+/* the row is full-width now, so drop the 80px truncation that was cutting
+   "Line height" → "Line hei…" (overrides the skin rule's max-width:80px). */
+.mw-small-editor .mw-editor-overflow-menu .mw-editor-controller-component-select .mw-editor-select-display-value-content {
+    max-width: none !important;
+    overflow: visible;
+    text-overflow: clip;
+}
 .mw-small-editor .mw-editor-overflow-menu .mw-editor-select-display-value .mw-editor-group-button-caret {
     margin-left: auto;
 }
