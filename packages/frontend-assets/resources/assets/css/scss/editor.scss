@@ -107,7 +107,7 @@ $editorSpacing: 5px;
     }
     .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
     .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover{
-        background-color: #4592ff;
+        background-color: #182433;
         color: white;
     }
 
@@ -439,7 +439,7 @@ html[data-mw-theme="dark"] .mw-small-editor,
     }
     .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
     .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover{
-        background-color: #4592ff;
+        background-color: #182433;
         color: white;
     }
 
@@ -1042,4 +1042,13 @@ html[data-mw-theme="dark"] .mw-small-editor .mw-editor-overflow-menu .mw-editor-
 /* icon buttons wrap into rows, evenly sized */
 .mw-small-editor .mw-editor-overflow-menu .mw-bar-control-item-group-contents > .mw-editor-controller-button {
     flex: 0 0 auto;
+}
+
+/* task-2026-09-14-ink-sweep — selected dropdown option: ink on light, neutral
+   overlay on dark (was legacy blue #4592ff; retinted to #182433 above). */
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover,
+html[data-mw-theme="dark"] .mw-small-editor .mw-editor-dropdown-option.mw-editor-dropdown-option-active {
+    background-color: rgba(255, 255, 255, 0.16);
+    color: #fff;
 }

@@ -2253,3 +2253,62 @@ html.dark #toolbar .mw-device-switch__trigger:hover,
     background-color: #f4f4f2 !important;
     color: #182433 !important;
 }
+
+/* task-2026-09-14-ink-sweep — AI Rewrite popup: dark mode + touch targets
+   (swarm ranks 4 & 6). The popup was light-only on a dark-honouring surface. */
+.ai-text-generator-container #ai-text-generator-submit,
+.ai-text-generator-container .mw-aiwriter-tab button {
+    min-height: 36px;
+}
+.ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+}
+@media (max-width: 767px) {
+    .ai-text-generator-container #ai-text-generator-submit,
+    .ai-text-generator-container .mw-aiwriter-tab button,
+    .ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs {
+        min-height: 44px;
+    }
+    .ai-text-generator-container .form-control { font-size: 16px; }
+}
+/* dark mode */
+html.dark .ai-text-generator-container .form-control,
+.dark .ai-text-generator-container .form-control {
+    background: #1f2226;
+    color: #e8eaed;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+html.dark .ai-text-generator-container .form-control::placeholder,
+.dark .ai-text-generator-container .form-control::placeholder { color: #9aa3af; }
+html.dark .ai-text-generator-container .form-control:focus,
+.dark .ai-text-generator-container .form-control:focus {
+    border-color: #e8eaed;
+    box-shadow: 0 0 0 3px rgba(232, 234, 237, 0.14);
+}
+html.dark .ai-text-generator-container .mw-aiwriter-tab button,
+.dark .ai-text-generator-container .mw-aiwriter-tab button {
+    background: #2a2d31;
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #e8eaed;
+}
+html.dark .ai-text-generator-container .mw-aiwriter-tab button:hover,
+.dark .ai-text-generator-container .mw-aiwriter-tab button:hover {
+    background: #e8eaed;
+    color: #182433;
+    border-color: #e8eaed;
+}
+html.dark .ai-text-generator-container nav[role="tablist"],
+.dark .ai-text-generator-container nav[role="tablist"] { border-bottom-color: rgba(255, 255, 255, 0.12); }
+html.dark .ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs,
+.dark .ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs { color: #9aa3af !important; }
+html.dark .ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs:hover,
+html.dark .ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs.active,
+html.dark .ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs.active-info,
+.dark .ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs:hover,
+.dark .ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs.active,
+.dark .ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs.active-info {
+    color: #e8eaed !important;
+    border-bottom-color: #e8eaed !important;
+}
