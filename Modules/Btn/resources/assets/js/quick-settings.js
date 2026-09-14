@@ -138,6 +138,8 @@ function btnPanelInjectCss() {
         'html.dark .mw-btn-panel__input{background:#22262c;color:#e8eaed;border-color:#ffffff26;}',
         '.mw-btn-panel__pick{flex:0 0 auto;padding:8px 12px;border:1px solid #18243318;border-radius:9px;background:#18243308;color:inherit;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;}',
         '.mw-btn-panel__pick:hover{background:#1824330d;}',
+        '.mw-btn-panel__icoprev{display:inline-flex;align-items:center;}',
+        '.mw-btn-panel__icoprev i,.mw-btn-panel__icoprev svg{width:16px;height:16px;font-size:16px;line-height:1;}',
         'html.dark .mw-btn-panel__pick{background:#ffffff0d;border-color:#ffffff1f;}'
     ].join('');
     doc.head.appendChild(s);
@@ -159,6 +161,19 @@ function btnPanelSeg(label, group, items, current) {
         + '<div class="mw-btn-panel__seg mw-btn-panel__seg--eq">' + cells + '</div></div>';
 }
 
+// task-2026-09-14-btn-settings — reusable colour-swatch section (recommended
+// palette + Custom). `target` is the option key it writes ('backgroundColor' or
+// 'color'). Background also sets a contrasting text colour as a smart default.
+function btnSwatchSection(label, target, current) {
+    var cur = (current || '').toLowerCase();
+    var sw = btnRecommendedColors().map(function (c) {
+        var active = (c[0].toLowerCase() === cur) ? ' active' : '';
+        return '<button type="button" class="mw-btn-panel__sw' + active + '" data-target="' + target + '" data-bg="' + c[0] + '" data-fg="' + c[1] + '" style="background:' + c[0] + '"></button>';
+    }).join('')
+        + '<button type="button" class="mw-btn-panel__sw mw-btn-panel__sw--custom" data-act="custom-color" data-target="' + target + '" title="' + mw.lang('Custom') + '">+</button>';
+    return '<div class="mw-btn-panel__section"><div class="mw-btn-panel__label">' + label + '</div><div class="mw-btn-panel__swatches">' + sw + '</div></div>';
+}
+
 function openBtnPanel(el) {
     btnPanelInjectCss();
     var doc = btnTopDoc();
@@ -166,16 +181,21 @@ function openBtnPanel(el) {
     var curType = opts.style || '';
     var curSize = (typeof opts.size !== 'undefined') ? opts.size : '';
     var curBg = (opts.backgroundColor || '').toLowerCase();
+    var curColor = (opts.color || '').toLowerCase();
     var curWidth = /\bw-100\b/.test(opts.class || '') ? 'w-100' : '';
     var curAlign = opts.align || 'left';
     var curUrl = opts.url || '';
+    var curIcon = opts.icon || '';
+    var curIconPos = opts.iconPosition || 'left';
 
-    var swatches = btnRecommendedColors().map(function (c) {
-        var active = (c[0].toLowerCase() === curBg) ? ' active' : '';
-        return '<button type="button" class="mw-btn-panel__sw' + active + '" data-bg="' + c[0] + '" data-fg="' + c[1] + '" style="background:' + c[0] + '"></button>';
-    }).join('')
-        // "Custom" swatch — opens the shared MW colour picker.
-        + '<button type="button" class="mw-btn-panel__sw mw-btn-panel__sw--custom" data-act="custom-color" title="' + mw.lang('Custom') + '">+</button>';
+    var iconSection = '<div class="mw-btn-panel__section"><div class="mw-btn-panel__label">' + mw.lang('Icon') + '</div>'
+        + '<div class="mw-btn-panel__link">'
+        + '  <button type="button" class="mw-btn-panel__pick" data-act="pick-icon" style="flex:1 1 auto;">'
+        + (curIcon ? ('<span class="mw-btn-panel__icoprev">' + curIcon + '</span> ' + mw.lang('Change')) : ('+ ' + mw.lang('Add icon'))) + '</button>'
+        + (curIcon ? '<button type="button" class="mw-btn-panel__pick" data-act="remove-icon" title="' + mw.lang('Remove') + '">✕</button>' : '')
+        + '</div>'
+        + (curIcon ? btnPanelSeg(mw.lang('Icon position'), 'iconPosition', [{ label: mw.lang('Left'), value: 'left' }, { label: mw.lang('Right'), value: 'right' }], curIconPos) : '')
+        + '</div>';
 
     var dupIco = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h9a2 2 0 0 1 2 2v9h-2V5H9V3zM5 7h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm0 2v10h9V9H5z"/></svg>';
     var delIco = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zM6 9h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 9z"/></svg>';
@@ -190,7 +210,9 @@ function openBtnPanel(el) {
         + '  </div>'
         + '</div>'
         + btnPanelSeg(mw.lang('Type'), 'style', BTN_TYPES, curType)
-        + '<div class="mw-btn-panel__section"><div class="mw-btn-panel__label">' + mw.lang('Color') + '</div><div class="mw-btn-panel__swatches">' + swatches + '</div></div>'
+        + btnSwatchSection(mw.lang('Color'), 'backgroundColor', curBg)
+        + btnSwatchSection(mw.lang('Text color'), 'color', curColor)
+        + iconSection
         + btnPanelSeg(mw.lang('Size'), 'size', BTN_SIZES, curSize)
         + btnPanelSeg(mw.lang('Width'), 'width', [{ label: mw.lang('Fit'), value: '' }, { label: mw.lang('Fill'), value: 'w-100' }], curWidth)
         + btnPanelSeg(mw.lang('Align'), 'align', [{ label: mw.lang('Left'), value: 'left' }, { label: mw.lang('Center'), value: 'center' }, { label: mw.lang('Right'), value: 'right' }], curAlign)
@@ -249,10 +271,18 @@ function openBtnPanel(el) {
     _btnPanelEl.querySelectorAll('.mw-btn-panel__sw').forEach(function (sw) {
         sw.addEventListener('click', function () {
             if (!sw.dataset.bg) { return; } // the "Custom" swatch is handled below
-            _btnPanelEl.querySelectorAll('.mw-btn-panel__sw').forEach(function (x) { x.classList.remove('active'); });
+            var target = sw.dataset.target || 'backgroundColor';
+            var scope = sw.closest('.mw-btn-panel__swatches') || _btnPanelEl;
+            scope.querySelectorAll('.mw-btn-panel__sw').forEach(function (x) { x.classList.remove('active'); });
             sw.classList.add('active');
-            btnSaveOption(el, 'backgroundColor', sw.dataset.bg);
-            btnSaveOption(el, 'color', sw.dataset.fg);
+            if (target === 'backgroundColor') {
+                // background sets a contrasting text colour as a smart default;
+                // the Text-colour section can override it.
+                btnSaveOption(el, 'backgroundColor', sw.dataset.bg);
+                btnSaveOption(el, 'color', sw.dataset.fg);
+            } else {
+                btnSaveOption(el, target, sw.dataset.bg);
+            }
         });
     });
 
@@ -283,17 +313,44 @@ function openBtnPanel(el) {
             if (act === 'custom-color') {
                 // Open the shared MW colour picker with the site's recommended
                 // colours (same service the ESE / other pickers use).
+                var tgt = b.dataset.target || 'backgroundColor';
                 var picker = (mw.top().app && mw.top().app.colorPicker)
                     || (mw.app && mw.app.colorPicker) || null;
-                var current = (btnReadOptions(el).backgroundColor) || '#182433';
+                var current = (btnReadOptions(el)[tgt]) || '#182433';
                 if (picker && picker.openColorPicker) {
                     picker.openColorPicker(current, function (color) {
                         if (!color) { return; }
-                        _btnPanelEl.querySelectorAll('.mw-btn-panel__sw').forEach(function (x) { x.classList.remove('active'); });
-                        btnSaveOption(el, 'backgroundColor', color);
-                        btnSaveOption(el, 'color', btnContrast(color));
+                        var scope = b.closest('.mw-btn-panel__swatches') || _btnPanelEl;
+                        scope.querySelectorAll('.mw-btn-panel__sw').forEach(function (x) { x.classList.remove('active'); });
+                        if (tgt === 'backgroundColor') {
+                            btnSaveOption(el, 'backgroundColor', color);
+                            btnSaveOption(el, 'color', btnContrast(color));
+                        } else {
+                            btnSaveOption(el, tgt, color);
+                        }
                     }, b);
                 }
+                return;
+            }
+            if (act === 'pick-icon') {
+                // Shared MW icon picker; save the chosen <i> markup to options.icon.
+                try {
+                    var ipSvc = (mw.top().app && mw.top().app.get) ? mw.top().app.get('iconPicker')
+                        : (mw.app && mw.app.get ? mw.app.get('iconPicker') : null);
+                    if (ipSvc && ipSvc.pickIcon) {
+                        var holder = btnTopDoc().createElement('i');
+                        var picked = ipSvc.pickIcon(holder);
+                        picked.promise().then(function (data) {
+                            try { data.render(); } catch (e) {}
+                            var iconHtml = (picked.target && picked.target.outerHTML) || holder.outerHTML;
+                            btnSaveOption(el, 'icon', iconHtml, function () { openBtnPanel(el); });
+                        });
+                    }
+                } catch (e) {}
+                return;
+            }
+            if (act === 'remove-icon') {
+                btnSaveOption(el, 'icon', '', function () { openBtnPanel(el); });
                 return;
             }
         });
