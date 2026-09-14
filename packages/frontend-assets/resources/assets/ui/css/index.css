@@ -2132,3 +2132,92 @@ html.dark #toolbar .mw-device-switch__trigger:hover,
     height: auto !important;
 }
 #mw-live-edit-quickEditComponent-box .mw-ai-conv-thread { min-height: 0; }
+
+/* task-2026-09-14-ai-rewrite — style the AI "Rewrite" popup (mw.dialog content,
+   rendered in the top window). Its tabs (Rewrite / Tone) and action chips
+   (Simplify / Paraphrase / …) had no styles and rendered as plain inline text. */
+.ai-text-generator-container {
+    padding: 12px 14px 14px;
+    min-width: 360px;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.ai-text-generator-container .form-control {
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+}
+.ai-text-generator-container .form-control:focus {
+    border-color: #182433;
+    box-shadow: 0 0 0 3px rgba(24, 36, 51, 0.12);
+}
+.ai-text-generator-container #ai-text-generator-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    background: #182433;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+}
+.ai-text-generator-container #ai-text-generator-submit:hover { background: #26364a; }
+.ai-text-generator-container #ai-text-generator-submit svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.ai-text-generator-container #ai-text-generator-options { margin-top: 12px; }
+.ai-text-generator-container nav[role="tablist"] {
+    display: flex;
+    gap: 2px;
+    border-bottom: 1px solid #ececec;
+    margin-bottom: 10px;
+}
+.ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs {
+    text-decoration: none;
+    color: #77776f;
+    font-weight: 500;
+    font-size: 13px;
+    padding: 7px 12px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none !important;
+    cursor: pointer;
+}
+.ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs:hover { color: #182433; }
+.ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs.active,
+.ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs.mw-active,
+.ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs[aria-selected="true"] {
+    color: #182433;
+    border-bottom-color: #182433;
+}
+.ai-text-generator-container .mw-aiwriter-tab {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+.ai-text-generator-container .mw-aiwriter-tab button {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 14px;
+    border: 1px solid #e6e6e2;
+    border-radius: 999px;
+    background: #f4f4f2;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.2;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .12s, color .12s, border-color .12s;
+}
+.ai-text-generator-container .mw-aiwriter-tab button:hover {
+    background: #182433;
+    color: #fff;
+    border-color: #182433;
+}
