@@ -274,3 +274,6 @@ Templates/Bootstrap/resources/assets/dist/
 !/packages/microweber-filament-theme/resources/dist/.gitkeep
 /packages/filament-modules/resources/dist/*
 !/packages/filament-modules/resources/dist/.gitkeep
+
+# Local scratchpad/design folders (screenshots, planning docs)
+scratchpad-*/
