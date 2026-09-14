@@ -2226,6 +2226,8 @@ MWEditor.controllers = {
                     api.execCommandSimple("foreColor", false, val, false);
                 }
             });
+            // task-2026-09-14 — distinguish text vs background colour controls.
+            try { el.get(0).classList.add('mw-editor-color-text'); } catch (e) {}
             return el;
         };
         this.checkSelection = function (opt) {
@@ -2308,6 +2310,8 @@ MWEditor.controllers = {
                     api.execCommandSimple("backcolor", false, val, false);
                 }
             });
+            // task-2026-09-14 — distinguish text vs background colour controls.
+            try { el.get(0).classList.add('mw-editor-color-bg'); } catch (e) {}
             return el;
         };
         this.checkSelection = function (opt) {

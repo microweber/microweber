@@ -896,38 +896,68 @@ html[data-mw-theme="dark"] .mw-small-editor,
     white-space: nowrap;
 }
 
-/* task-2026-09-14-editor-minimal — Text color shown as a filled circle swatch of
-   the current color (hide the "A" glyph; the JS color-indicator becomes the
-   swatch). checkSelection sets the indicator's inline background-color. */
-.mw-small-editor .mw-editor-controller-button.mw-editor-color-picker {
-    display: inline-flex;
+/* task-2026-09-14-editor-minimal — Colour dropdown: text color ("A" glyph) and
+   background color ("bucket" glyph) grouped under one trigger. They are
+   distinguishable by icon AND by a text label in the flyout; each keeps its
+   small colour-underline indicator (checkSelection sets its background). */
+.mw-small-editor .mw-editor-color-group .mw-bar-control-item-group-contents {
+    left: 0;
+    right: auto;
+    min-width: 156px;
+    padding: 4px;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 2px;
+}
+.mw-small-editor .mw-editor-color-group.active .mw-bar-control-item-group-contents {
+    display: flex !important;
+}
+/* each colour control becomes a full-width labelled menu row */
+.mw-small-editor .mw-editor-color-group .mw-bar-control-item-group-contents .mw-editor-color-picker {
+    display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 8px;
+    box-sizing: border-box;
 }
-.mw-small-editor .mw-editor-controller-button.mw-editor-color-picker > svg {
-    display: none;
+.mw-small-editor .mw-editor-color-group .mw-bar-control-item-group-contents .mw-editor-color-picker svg {
+    flex: 0 0 auto;
 }
-.mw-small-editor .mw-editor-color-picker .mw-editor-color-picker-color-indicator {
+/* turn each control's (normally-hidden) tooltip into a visible inline label —
+   "Text color" / "Text background color" — so the two are clearly distinguishable. */
+.mw-small-editor .mw-editor-color-group .mw-bar-control-item-group-contents .mw-editor-color-picker[data-tooltip]::after {
+    content: attr(data-tooltip);
     position: static;
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    overflow: visible;
-    vertical-align: middle;
-    background-color: currentColor;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+    transform: none;
+    opacity: 1;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0;
+    white-space: nowrap;
+    pointer-events: none;
 }
-.mw-small-editor.mw-small-editor-skin-dark .mw-editor-color-picker .mw-editor-color-picker-color-indicator,
-html[data-mw-theme="dark"] .mw-small-editor .mw-editor-color-picker .mw-editor-color-picker-color-indicator {
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+.mw-small-editor .mw-editor-color-group .mw-bar-control-item-group-contents .mw-editor-color-picker:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-color-group .mw-bar-control-item-group-contents .mw-editor-color-picker:hover,
+html[data-mw-theme="dark"] .mw-small-editor .mw-editor-color-group .mw-bar-control-item-group-contents .mw-editor-color-picker:hover {
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 /* task-2026-09-14-editor-minimal — the "⋯" overflow renders as a compact popover
    MENU (a wrapped grid), not the full horizontal toolbar row. Wide select-style
    controls (font / line-height / font-size) take a full row; the icon buttons
    wrap below. The caret next to the dots is dropped. */
-.mw-small-editor .mw-editor-overflow-menu .mw-editor-group-button-caret {
+/* hide ONLY the "⋯" button's own caret (its direct child) — NOT the select
+   controls' carets inside the menu, which they need to read as dropdowns. */
+.mw-small-editor .mw-editor-overflow-menu > .mw-editor-group-button > .mw-editor-group-button-caret {
     display: none !important;
 }
 .mw-small-editor .mw-editor-overflow-menu .mw-bar-control-item-group-contents {
@@ -961,6 +991,19 @@ html[data-mw-theme="dark"] .mw-small-editor .mw-editor-color-picker .mw-editor-c
     box-sizing: border-box;
     padding: 5px 8px;
     border-radius: 8px;
+}
+/* the select's value/label sits left, caret pinned to the right edge */
+.mw-small-editor .mw-editor-overflow-menu .mw-editor-controller-component-select > .mw-editor-group-button-caret {
+    margin-left: auto;
+}
+/* the font-size stepper stretches end-to-end: − left, value centered, + right */
+.mw-small-editor .mw-editor-overflow-menu .mw-bar-control-item-group-contents > .mw-editor-fontsize-stepper {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2px 6px;
 }
 .mw-small-editor .mw-editor-overflow-menu .mw-editor-controller-component-select:hover {
     background-color: rgba(0, 0, 0, 0.05);

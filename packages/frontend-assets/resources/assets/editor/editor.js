@@ -68,8 +68,15 @@ export const EditorComponent = function () {
                 }
             },
 
-            // Text color (the swatch button).
-            'textColor',
+            // Colour — text + background in one small dropdown (distinguishable
+            // by icon: "A" = text, bucket = background).
+            {
+                group: {
+                    className: 'mw-editor-color-group',
+                    controller: 'textColor',
+                    controls: ['textColor', 'textBackgroundColor']
+                }
+            },
 
             // ✦ Rewrite (AI).
             'ai',
@@ -91,7 +98,6 @@ export const EditorComponent = function () {
                         'image',
                         'table',
                         'unlink',
-                        'textBackgroundColor',
                         'textEffectClassApplier',
                         'removeFormat',
                         'plus',
