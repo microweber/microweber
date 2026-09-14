@@ -775,8 +775,11 @@
             --mw-radius-lg: 12px;
             --mw-shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.18),
                                0 0 0 1px rgba(0, 0, 0, 0.04);
-            --mw-accent-ring: rgb(13, 110, 253);
+            --mw-accent-ring: #182433;
         }
+        /* task-2026-09-14-ink-sweep — ink focus ring is low-contrast on dark;
+           lift it to near-white there (mirrors the swarm rank-1 fix). */
+        html.dark, .dark { --mw-accent-ring: #f9fafb; }
         .mw-content-form-modal .fi-modal-heading,
         .mw-content-picker-modal .fi-modal-heading {
             font-size: 1.125rem !important;

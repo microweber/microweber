@@ -261,8 +261,8 @@
 
 /* OK button — primary style (last button) */
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer button:last-child {
-    @apply bg-[#0d6efd] border-[#0d6efd] text-white;
-    @apply hover:bg-[#0b5ed7] hover:border-[#0a58ca];
+    @apply bg-[#182433] border-[#182433] text-white;
+    @apply hover:bg-[#1C1C1A] hover:border-[#1C1C1A];
 }
 
 /* ===== Search input on Pages/Content tabs ===== */

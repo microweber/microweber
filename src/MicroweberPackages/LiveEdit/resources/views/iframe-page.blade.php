@@ -1846,8 +1846,10 @@
                 --mw-radius-lg: 12px;
                 --mw-shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.18),
                                    0 0 0 1px rgba(0, 0, 0, 0.04);
-                --mw-accent-ring: rgb(59, 130, 246);
+                --mw-accent-ring: #182433;
             }
+            /* task-2026-09-14-ink-sweep — near-white ring on dark. */
+            html.dark, .dark { --mw-accent-ring: #f9fafb; }
 
             /* #2 Modal heading collapse — promote the title to a
                clear top of the type ladder. Filament's base

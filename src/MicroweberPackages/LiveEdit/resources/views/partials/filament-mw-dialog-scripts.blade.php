@@ -296,8 +296,11 @@
         max-width: min(900px, calc(100vw - 48px)) !important;
         max-height: calc(100vh - 48px) !important;
         overflow: auto;
-        border-radius: 8px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+        /* task-2026-09-14-ink-sweep — match the 12px-pill / layered-elevation
+           language of the sibling content-form + picker modals (was 8px + flat). */
+        border-radius: 12px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18),
+                    0 0 0 1px rgba(0, 0, 0, 0.04);
     }
     .mw-filament-mw-dialog-header {
         cursor: move;

@@ -507,7 +507,7 @@ body {
 
 @keyframes mw-save-button-pulse {
     0%  { box-shadow: 0 0 0 0 transparent; }
-    0.5% { box-shadow: 0 0 0 4px var(--ese-accent, #0d6efd); }
+    0.5% { box-shadow: 0 0 0 4px var(--ese-accent, #182433); }
     2%  { box-shadow: 0 0 0 4px transparent; }
     100% { box-shadow: 0 0 0 0 transparent; }
 }
@@ -2071,17 +2071,17 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
    the section) inside the picker modal. */
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper {
     background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12));
-    border-color: var(--ese-accent, #0d6efd);
+    border-color: var(--ese-accent, #182433);
     min-height: calc(var(--space-xl, 42px) * 1.5);
     padding-block: var(--space-md, 13px);
 }
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:hover {
     background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.16));
-    border-color: var(--ese-accent, #0d6efd);
+    border-color: var(--ese-accent, #182433);
 }
 /* task-2026-05-27-4b1344 / AI-1139 item 5: filled brand-blue circle */
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-icon {
-    background-color: var(--ese-accent, #0d6efd);
+    background-color: var(--ese-accent, #182433);
     border-radius: 50%;
 }
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-icon svg {
@@ -2090,7 +2090,7 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
 /* Keep blue icon on hover — prevent generic hover rule from flipping it */
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon,
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon {
-    background-color: var(--ese-accent, #0d6efd) !important;
+    background-color: var(--ese-accent, #182433) !important;
 }
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon svg,
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
@@ -2203,7 +2203,7 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
 }
 .mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon svg,
 .mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
-    color: var(--ese-accent, #0d6efd) !important;
+    color: var(--ese-accent, #182433) !important;
 }
 
 /* ─────────────────────────────────────────────────────────────────
