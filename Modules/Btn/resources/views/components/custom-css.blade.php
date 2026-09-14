@@ -60,14 +60,18 @@
     {{ $cssWrapper }}
 }
 @endif
+{{-- task-2026-09-14-btn-settings — the button is wrapped in .mw-btn-align-wrap
+     (added for alignment), so the old `#id > a` direct-child selectors no longer
+     matched and background/text/border colours silently did nothing. Target the
+     button by its own id + .btn class instead, so it applies through the wrapper. --}}
 @if($cssButton)
-#{{ $params['id'] }} > #{{ $btnId }}, #{{ $params['id'] }} > a, #{{ $params['id'] }} > button {
+#{{ $params['id'] }} #{{ $btnId }}, #{{ $params['id'] }} .btn {
  {{ $cssButton }}
 }
 @endif
 
 @if($cssHoverButton)
-#{{ $params['id'] }} > #{{ $btnId }}:hover, #{{ $params['id'] }} > a:hover, #{{ $params['id'] }} > button:hover {
+#{{ $params['id'] }} #{{ $btnId }}:hover, #{{ $params['id'] }} .btn:hover {
  {{ $cssHoverButton }}
 }
 @endif

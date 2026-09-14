@@ -2,7 +2,7 @@
 
 namespace Modules\Btn\Filament;
 
-use Filament\Forms\Components\ColorPicker;
+use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;
@@ -59,6 +59,33 @@ class BtnModuleSettings extends LiveEditModuleSettings
                                     ->default(fn () => $this->getOption('url', ''))
 
                                     ->columnSpanFull(),
+
+                                // task-2026-09-14-btn-settings — Type + Size were
+                                // exposed by the Live-Edit quick panel but MISSING from
+                                // the general settings form. Same option keys the
+                                // template renders as classes ($style / $size) and the
+                                // quick panel now writes.
+                                Select::make('options.style')
+                                    ->label('Type')
+                                    ->helperText('The button style.')
+                                    ->options([
+                                        'btn-primary' => 'Solid',
+                                        'btn-outline-primary' => 'Outline',
+                                        'btn-light' => 'Soft',
+                                    ])
+                                    ->live()
+                                    ->default(fn () => $this->getOption('style', 'btn-primary')),
+
+                                Select::make('options.size')
+                                    ->label('Size')
+                                    ->helperText('The button size.')
+                                    ->options([
+                                        'btn-sm' => 'Small',
+                                        '' => 'Medium',
+                                        'btn-lg' => 'Large',
+                                    ])
+                                    ->live()
+                                    ->default(fn () => $this->getOption('size', '')),
 
 
                                 // task-2026-05-22-cd4d21 / AI-913 — Align ToggleButtons renders
@@ -163,19 +190,19 @@ class BtnModuleSettings extends LiveEditModuleSettings
 
             //backgroundColor
 
-            ColorPicker::make('options.backgroundColor')
+            MwColorPicker::make('options.backgroundColor')
                 ->label('Background Color')
                 ->live()
                 ->default(fn () => $this->getOption('backgroundColor', '')),
 
 
-            ColorPicker::make('options.color')
+            MwColorPicker::make('options.color')
                 ->label('Text Color')
                 ->live()
                 ->default(fn () => $this->getOption('color', '')),
 
 
-            ColorPicker::make('options.borderColor')
+            MwColorPicker::make('options.borderColor')
                 ->label('Border color')
                 ->live()
                 ->default(fn () => $this->getOption('borderColor', '')),
@@ -197,18 +224,18 @@ class BtnModuleSettings extends LiveEditModuleSettings
             // This picker controls TEXT colour on hover (sibling to hoverbackgroundColor +
             // hoverborderColor). Renamed to "Hover text color" so the AT-announced label,
             // the visual label, and the field semantics agree.
-            ColorPicker::make('options.hovercolor')
+            MwColorPicker::make('options.hovercolor')
                 ->label('Hover text color')
                 ->live()
                 ->default(fn () => $this->getOption('hovercolor', '')),
 
-            ColorPicker::make('options.hoverbackgroundColor')
+            MwColorPicker::make('options.hoverbackgroundColor')
                 ->label('Hover background color')
                 ->live()
                 ->default(fn () => $this->getOption('hoverbackgroundColor', '')),
 
 
-            ColorPicker::make('options.hoverborderColor')
+            MwColorPicker::make('options.hoverborderColor')
                 ->label('Hover border color')
                 ->live()
                 ->default(fn () => $this->getOption('hoverborderColor', '')),
