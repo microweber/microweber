@@ -1310,6 +1310,64 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     border: none !important;
 }
 
+/* task-2026-09-14-modsettings-spacing — unify the INNER spacing of the Live
+   Edit "Module Settings" panel across EVERY tab and EVERY module.
+
+   Root cause of the prior inconsistency:
+   - Tabbed modules (Btn, Logo, Shop, ...) render their fields inside a
+     .fi-sc-tabs-tab panel that carries Filament's default 24px padding, so
+     their fields sat ~32px from the panel edge, while untabbed modules
+     (Spacer, ...) only had the 8px wrapper gutter and sat at 8px.
+   - Design-tab Section cards add a .fi-section-content / -content-ctn inset,
+     nesting those fields a further ~10-12px deeper than the flat
+     Content-tab fields.
+   Net effect: field left-edges and vertical rhythm jumped between tabs and
+   between modules. The rules below pin ONE gutter + ONE rhythm everywhere.
+   They are padding/gap only (color-independent) so they hold in light AND
+   dark, and touch-target heights are untouched (>= 44px enforced elsewhere in
+   mobile-touch.css). Scoped to .mw-live-edit-page-wrapper, which only exists
+   on the module-settings surface, so nothing leaks to full-page admin. */
+.mw-live-edit-page-wrapper {
+    --mw-modset-gutter: 0.5rem;      /* outer content gutter (matches wrapper !p-2) */
+    --mw-modset-field-gap: 0.75rem;  /* vertical gap between fields */
+    --mw-modset-label-gap: 0.375rem; /* gap between a field label and its control */
+}
+/* Consistent outer content gutter for tabbed AND untabbed modules, on the
+   standalone /admin/<x>-module-settings page and inside the live-edit iframe. */
+.mw-live-edit-page-wrapper {
+    padding-left: var(--mw-modset-gutter) !important;
+    padding-right: var(--mw-modset-gutter) !important;
+}
+/* Tab panels: drop Filament's oversized 24px side padding so tabbed-module
+   fields align to the same gutter as untabbed modules; keep vertical rhythm
+   under the tab bar. */
+.mw-live-edit-page-wrapper .fi-sc-tabs-tab {
+    padding: var(--mw-modset-field-gap) 0 !important;
+}
+/* Section cards (Design tabs): borders/shadows are already stripped above, so
+   collapse their horizontal inset to 0 — sectioned fields now line up with the
+   flat fields and the section heading at the shared gutter. Vertical padding is
+   kept for header/content separation. */
+body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
+    padding: var(--mw-modset-field-gap) 0 0 !important;
+}
+.mw-live-edit-page-wrapper .fi-section-content-ctn {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+.mw-live-edit-page-wrapper .fi-section-header {
+    padding: 0.5rem 0 !important;
+}
+/* Consistent vertical gap between every field — flat or inside a section. */
+.mw-live-edit-page-wrapper .fi-fo-component-ctn,
+.mw-live-edit-page-wrapper .fi-sc.fi-grid,
+.mw-live-edit-page-wrapper .fi-fo-component-ctn > .fi-fo-component {
+    gap: var(--mw-modset-field-gap) !important;
+}
+.mw-live-edit-page-wrapper .fi-fo-field-wrp {
+    gap: var(--mw-modset-label-gap) !important;
+}
+
 .mw-dropzone{
     text-align: center;
     cursor: pointer;
