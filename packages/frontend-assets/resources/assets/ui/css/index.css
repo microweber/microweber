@@ -2170,31 +2170,48 @@ html.dark #toolbar .mw-device-switch__trigger:hover,
 .ai-text-generator-container #ai-text-generator-submit:hover { background: #26364a; }
 .ai-text-generator-container #ai-text-generator-submit svg { width: 16px; height: 16px; flex: 0 0 auto; }
 .ai-text-generator-container #ai-text-generator-options { margin-top: 12px; }
+/* Popup tabs (.mw-adm-liveedit-tabs inside any mw-dialog / the AI popup) styled
+   to match the module-settings Filament tabs: muted → ink, ink underline,
+   sentence case. !important overrides the leftover .btn / .btn-link /
+   .active-info / padding-inline:0 rules from the admin styles. */
+.mw-dialog nav[role="tablist"],
 .ai-text-generator-container nav[role="tablist"] {
     display: flex;
-    gap: 2px;
-    border-bottom: 1px solid #ececec;
-    margin-bottom: 10px;
+    gap: 4px;
+    border-bottom: 1px solid #e6e6e2;
+    margin-bottom: 12px;
+    padding: 0;
 }
+.mw-dialog nav[role="tablist"] a.mw-adm-liveedit-tabs,
 .ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs {
-    text-decoration: none;
-    color: #77776f;
+    text-decoration: none !important;
+    color: #77776f !important;
     font-weight: 500;
     font-size: 13px;
-    padding: 7px 12px;
-    border: 0;
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
-    background: transparent;
+    line-height: 1.2;
+    padding: 9px 14px !important;
+    margin: 0 0 -1px 0 !important;
+    border: 0 !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    background: transparent !important;
     box-shadow: none !important;
     cursor: pointer;
+    flex: 0 0 auto;
 }
-.ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs:hover { color: #182433; }
+.mw-dialog nav[role="tablist"] a.mw-adm-liveedit-tabs:hover,
+.ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs:hover {
+    color: #182433 !important;
+}
+.mw-dialog nav[role="tablist"] a.mw-adm-liveedit-tabs.active,
+.mw-dialog nav[role="tablist"] a.mw-adm-liveedit-tabs.active-info,
+.mw-dialog nav[role="tablist"] a.mw-adm-liveedit-tabs[aria-selected="true"],
 .ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs.active,
-.ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs.mw-active,
+.ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs.active-info,
 .ai-text-generator-container nav[role="tablist"] a.mw-adm-liveedit-tabs[aria-selected="true"] {
-    color: #182433;
-    border-bottom-color: #182433;
+    color: #182433 !important;
+    border-bottom-color: #182433 !important;
+    background: transparent !important;
 }
 .ai-text-generator-container .mw-aiwriter-tab {
     display: flex;
