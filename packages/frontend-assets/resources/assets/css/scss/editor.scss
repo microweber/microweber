@@ -843,3 +843,38 @@ html[data-mw-theme="dark"] .mw-small-editor,
     place-content: flex-start !important;
     flex-flow: wrap !important;
 }
+
+/* task-2026-09-14-editor-minimal — compact "pill" polish for the redesigned
+   floating text toolbar (Heading · B I U S · link · align · color · Rewrite · ⋯).
+   Desktop only; the max-width:800 rules above keep the mobile full-width sheet.
+   The active state becomes a neutral rounded square (matches the design, not the
+   old brand-blue fill). */
+@media (min-width: 801px) {
+    .mw-small-editor.mw-small-editor-skin-light,
+    .mw-small-editor.mw-small-editor-skin-dark {
+        border-radius: 12px;
+        padding: 4px;
+    }
+    .mw-small-editor .mw-bar-row {
+        padding-inline: 4px;
+        align-items: center;
+        gap: 1px;
+    }
+    .mw-small-editor.mw-small-editor-skin-light .mw-bar .mw-editor-controller-button,
+    .mw-small-editor.mw-small-editor-skin-dark .mw-bar .mw-editor-controller-button,
+    .mw-small-editor .mw-bar .mw-editor-group-button {
+        border-radius: 8px !important;
+    }
+    /* neutral active state — dark skin */
+    .mw-small-editor.mw-small-editor-skin-dark .mw-bar .mw-editor-controller-button.active-control,
+    html[data-mw-theme="dark"] .mw-small-editor .mw-bar .mw-editor-controller-button.active-control {
+        background-color: rgba(255, 255, 255, 0.16) !important;
+        color: #fff !important;
+    }
+    /* neutral active state — light skin */
+    .mw-small-editor.mw-small-editor-skin-light .mw-bar .mw-editor-controller-button.active-control,
+    .mw-small-editor.mw-small-editor-skin-light .mw-bar mw-editor-button.mw-editor-controller-button.active-control {
+        background-color: rgba(0, 0, 0, 0.08) !important;
+        color: inherit !important;
+    }
+}

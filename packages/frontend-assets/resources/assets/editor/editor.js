@@ -37,35 +37,30 @@ export const EditorComponent = function () {
     const frame = mw.app.canvas.getFrame();
     frame.contentWindow.fontFamilyProvider = fontFamilyProvider;
 
+    // task-2026-09-14-editor-minimal — compact floating text toolbar.
+    // Primary pill mirrors the design: Heading dropdown · B I U S · link ·
+    // align · color · ✦ Rewrite · ⋯. EVERY other control moves into the "⋯"
+    // overflow group so the bar stays a small pill; nothing is removed, just
+    // relocated. Strings render inline; { group: { icon, controls } } renders a
+    // flyout menu (see MWEditor.addControllerGroup).
+    const moreMenuIcon =
+        '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z" /></svg>';
+
     const editorControls = [
         [
-
-
-            'plus',
-            'ai',
-            {
-                group: {
-                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5,4V7H10.5V19H13.5V7H19V4H5Z" /></svg>',
-                    controls: [
-                        'lineHeight',
-                        'fontSelector',
-                        ,
-                    ]
-                }
-            },
-
-
-
-            {
-                group: {
-                    controller: 'bold',
-                    controls: ['italic', 'underline', 'strikeThrough']
-                }
-            },
+            // Heading / paragraph block format ("Heading 1 ▾").
             'format',
-            // task-2026-09-07-fontsize-stepper — fontSize is now a composite
-            // component with built-in − / + steppers (no standalone buttons).
-            'fontSize',
+
+            // Inline text styles — shown as separate buttons.
+            'bold',
+            'italic',
+            'underline',
+            'strikeThrough',
+
+            // Link.
+            'link',
+
+            // Text alignment — single button, alignment options in its flyout.
             {
                 group: {
                     controller: 'alignLeft',
@@ -73,37 +68,37 @@ export const EditorComponent = function () {
                 }
             },
 
+            // Text color (the swatch button).
+            'textColor',
+
+            // ✦ Rewrite (AI).
+            'ai',
+
+            // "⋯" overflow — everything else.
             {
                 group: {
-                    controller: 'ul',
-                    controls: ['ol']
+                    icon: moreMenuIcon,
+                    controls: [
+                        'fontSize',
+                        'lineHeight',
+                        'fontSelector',
+                        'ul',
+                        'ol',
+                        'image',
+                        'table',
+                        'unlink',
+                        'textBackgroundColor',
+                        'textEffectClassApplier',
+                        'removeFormat',
+                        'plus',
+                        // task-2026-09-07-elementmenu — "⋮" element action menu
+                        // (Duplicate / Edit styles / Delete).
+                        'elementMore',
+                        'pin',
+                        'backToElementSettings',
+                    ]
                 }
             },
-
-
-            'image',
-            {
-                group: {
-                    controller: 'link',
-                    controls: ['unlink']
-                }
-            },
-            {
-                group: {
-                    controller: 'textColor',
-                    controls: ['textColor','textBackgroundColor','textEffectClassApplier']
-                }
-            },
-            'table',
-
-            'removeFormat',
-            // task-2026-09-07-elementmenu — single "⋮" opens an action menu
-            // (Duplicate / Edit styles / Delete). Replaces the standalone
-            // duplicate + delete buttons.
-            'elementMore',
-            'pin',
-            'backToElementSettings',
-
         ]
     ];
 
