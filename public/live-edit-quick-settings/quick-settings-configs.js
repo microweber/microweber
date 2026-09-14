@@ -108,4 +108,152 @@
             { type: 'advanced', label: 'Advanced', hint: 'Source, size, thumbnail' }
         ]
     });
+
+    // ── Batch 3 (scalar modules) ─────────────────────────────────────────────
+
+    // Audio — data-audio-source (file|url), data-audio-url. Upload → Advanced.
+    K.register({
+        type: 'audio', title: 'Audio', badge: 'Au',
+        sections: [
+            { type: 'segmented', label: 'Source', key: 'data-audio-source', def: 'file', options: [{ label: 'File', value: 'file' }, { label: 'URL', value: 'url' }] },
+            { type: 'text', label: 'Audio URL', key: 'data-audio-url', placeholder: 'https://…/audio.mp3' },
+            { type: 'advanced', label: 'Advanced', hint: 'Upload, all audio settings' }
+        ]
+    });
+
+    // Facebook page — fbPage, width, height, friends, timeline.
+    K.register({
+        type: 'facebook_page', title: 'Facebook page', badge: 'Fb',
+        sections: [
+            { type: 'text', label: 'Page URL', key: 'fbPage', placeholder: 'facebook.com/YourPage' },
+            { type: 'text', label: 'Width', key: 'width', inputType: 'number', def: 380, suffix: 'px' },
+            { type: 'text', label: 'Height', key: 'height', inputType: 'number', def: 300, suffix: 'px' },
+            { type: 'toggle', label: "Show friends' faces", key: 'friends', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Show timeline', key: 'timeline', onValue: '1', offValue: '0' },
+            { type: 'advanced', label: 'Advanced' }
+        ]
+    });
+
+    // Facebook like — layout, color, show_faces, url.
+    K.register({
+        type: 'facebook_like', title: 'Facebook like', badge: 'FL',
+        sections: [
+            { type: 'select', label: 'Layout', key: 'layout', def: 'standard', options: [{ label: 'Standard', value: 'standard' }, { label: 'Button count', value: 'button_count' }, { label: 'Button', value: 'button' }, { label: 'Box count', value: 'box_count' }] },
+            { type: 'segmented', label: 'Color', key: 'color', def: 'light', options: [{ label: 'Light', value: 'light' }, { label: 'Dark', value: 'dark' }] },
+            { type: 'toggle', label: 'Show faces', key: 'show_faces', def: '1', onValue: '1', offValue: '0' },
+            { type: 'text', label: 'URL', key: 'url', placeholder: 'Page to like (blank = this page)' },
+            { type: 'advanced', label: 'Advanced' }
+        ]
+    });
+
+    // Sharer — per-network *_enabled toggles.
+    K.register({
+        type: 'sharer', title: 'Share buttons', badge: 'Sh',
+        sections: [
+            { type: 'toggle', label: 'Facebook', key: 'facebook_enabled', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'X (Twitter)', key: 'x_enabled', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Pinterest', key: 'pinterest_enabled', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'LinkedIn', key: 'linkedin_enabled', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Viber', key: 'viber_enabled', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'WhatsApp', key: 'whatsapp_enabled', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Telegram', key: 'telegram_enabled', onValue: '1', offValue: '0' },
+            { type: 'advanced', label: 'Advanced' }
+        ]
+    });
+
+    // Tweet embed — twitter_url.
+    K.register({
+        type: 'tweet_embed', title: 'Tweet embed', badge: 'Tw',
+        sections: [
+            { type: 'text', label: 'Tweet URL', key: 'twitter_url', placeholder: 'https://x.com/…/status/…' },
+            { type: 'advanced', label: 'Advanced' }
+        ]
+    });
+
+    // Embed — code_type, hide_in_live_edit. Source code → Advanced.
+    K.register({
+        type: 'embed', title: 'Embed', badge: 'Em',
+        sections: [
+            { type: 'select', label: 'Code type', key: 'code_type', def: 'html', options: [{ label: 'HTML', value: 'html' }, { label: 'CSS', value: 'css' }, { label: 'JavaScript', value: 'javascript' }] },
+            { type: 'toggle', label: 'Hide in Live Edit', key: 'hide_in_live_edit', onValue: '1', offValue: '0' },
+            { type: 'advanced', label: 'Edit source code' }
+        ]
+    });
+
+    // Rating — starColor, starBgColor, starSize.
+    K.register({
+        type: 'rating', title: 'Rating', badge: 'Ra',
+        sections: [
+            { type: 'swatches', label: 'Star color', key: 'starColor', def: '#FFD700' },
+            { type: 'swatches', label: 'Star background', key: 'starBgColor', def: 'transparent' },
+            { type: 'text', label: 'Star size', key: 'starSize', inputType: 'number', def: 24, suffix: 'px' },
+            { type: 'advanced', label: 'Advanced' }
+        ]
+    });
+
+    // Logo — text, text_color, font_size, size (image). Logo image → Advanced.
+    K.register({
+        type: 'logo', title: 'Logo', badge: 'Lo',
+        sections: [
+            { type: 'text', label: 'Text', key: 'text', placeholder: 'Brand name' },
+            { type: 'swatches', label: 'Text color', key: 'text_color' },
+            { type: 'text', label: 'Font size', key: 'font_size', inputType: 'number', suffix: 'px' },
+            { type: 'text', label: 'Image size', key: 'size', inputType: 'number', def: 100, suffix: 'px' },
+            { type: 'advanced', label: 'Advanced', hint: 'Logo image' }
+        ]
+    });
+
+    // Pagination — show_first_last, limit, active_color, link_color.
+    K.register({
+        type: 'pagination', title: 'Pagination', badge: 'Pg',
+        sections: [
+            { type: 'toggle', label: 'Show first / last', key: 'show_first_last', onValue: '1', offValue: '0' },
+            { type: 'text', label: 'Visible pages', key: 'limit', inputType: 'number', def: 5 },
+            { type: 'swatches', label: 'Active color', key: 'active_color' },
+            { type: 'swatches', label: 'Link color', key: 'link_color' },
+            { type: 'advanced', label: 'Advanced' }
+        ]
+    });
+
+    // Text type — text, textColor, fontSize, animationSpeed (typing text).
+    K.register({
+        type: 'text_type', title: 'Typed text', badge: 'Tt',
+        sections: [
+            { type: 'text', label: 'Text', key: 'text', placeholder: 'Your text here' },
+            { type: 'swatches', label: 'Color', key: 'textColor', def: '#000000' },
+            { type: 'segmented', label: 'Size', key: 'fontSize', def: 24, options: [{ label: 'S', value: 18 }, { label: 'M', value: 24 }, { label: 'L', value: 36 }] },
+            { type: 'segmented', label: 'Speed', key: 'animationSpeed', def: 50, options: [{ label: 'Slow', value: 30 }, { label: 'Normal', value: 50 }, { label: 'Fast', value: 100 }] },
+            { type: 'advanced', label: 'Advanced' }
+        ]
+    });
+
+    // Image rollover — size, text, href-url. Images → Advanced.
+    K.register({
+        type: 'image_rollover', title: 'Image rollover', badge: 'Ir',
+        sections: [
+            { type: 'text', label: 'Size', key: 'size', inputType: 'number', def: 350, suffix: 'px' },
+            { type: 'text', label: 'Text', key: 'text' },
+            { type: 'link', label: 'Link', key: 'href-url' },
+            { type: 'advanced', label: 'Advanced', hint: 'Default + rollover image' }
+        ]
+    });
+
+    // Captcha — provider. API keys → Advanced.
+    K.register({
+        type: 'captcha', title: 'Captcha', badge: 'Ca',
+        sections: [
+            { type: 'select', label: 'Provider', key: 'provider', def: 'microweber', options: [{ label: 'Microweber', value: 'microweber' }, { label: 'reCAPTCHA v2', value: 'google_recaptcha_v2' }, { label: 'reCAPTCHA v3', value: 'google_recaptcha_v3' }] },
+            { type: 'advanced', label: 'Advanced', hint: 'API keys' }
+        ]
+    });
+
+    // PDF — data-pdf-source (file|url), data-pdf-url. Upload → Advanced.
+    K.register({
+        type: 'pdf', title: 'PDF', badge: 'Pd',
+        sections: [
+            { type: 'segmented', label: 'Source', key: 'data-pdf-source', def: 'file', options: [{ label: 'File', value: 'file' }, { label: 'URL', value: 'url' }] },
+            { type: 'text', label: 'PDF URL', key: 'data-pdf-url', placeholder: 'https://…/document.pdf' },
+            { type: 'advanced', label: 'Advanced', hint: 'Upload PDF' }
+        ]
+    });
 })();
