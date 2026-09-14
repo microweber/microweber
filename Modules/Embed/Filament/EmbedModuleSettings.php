@@ -5,6 +5,7 @@ namespace Modules\Embed\Filament;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
@@ -30,6 +31,7 @@ class EmbedModuleSettings extends LiveEditModuleSettings
     {
         return $schema
             ->schema([
+                Section::make('Embed code')->schema([
                 // task-2026-05-22-slice2-ai872 / AI-872 Slice 2 — Embed: code type + resizable textarea
                 Select::make('options.code_type')
                     ->label('Code type')
@@ -69,7 +71,9 @@ class EmbedModuleSettings extends LiveEditModuleSettings
 
                 Toggle::make('options.hide_in_live_edit')
                     ->label('Hide in Live Edit')
-                    ->live(),
+                    ->live()
+                    ->default(fn () => filter_var($this->getOption('hide_in_live_edit', false), FILTER_VALIDATE_BOOLEAN)),
+                ]),
             ]);
     }
 }

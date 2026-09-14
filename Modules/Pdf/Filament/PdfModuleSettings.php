@@ -3,6 +3,7 @@
 namespace Modules\Pdf\Filament;
 
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
@@ -21,37 +22,46 @@ class PdfModuleSettings extends LiveEditModuleSettings
     {
         return $schema
             ->schema([
-                Section::make('PDF settings')->schema([
-                    ToggleButtons::make('options.data-pdf-source')
-                        ->label('PDF source')
-                        ->live()
-                        ->inline()
-                        ->default(fn () => $this->getOption('data-pdf-source', 'file'))
-                        ->columnSpanFull()
-                        ->options([
-                            'file' => 'File',
-                            'url' => 'URL',
-                        ]),
+                Tabs::make('PDF')
+                    ->schema([
+                        Tabs\Tab::make('Content')
+                            ->schema([
+                                Section::make('PDF settings')->schema([
+                                    ToggleButtons::make('options.data-pdf-source')
+                                        ->label('PDF source')
+                                        ->live()
+                                        ->inline()
+                                        ->default(fn () => $this->getOption('data-pdf-source', 'file'))
+                                        ->columnSpanFull()
+                                        ->options([
+                                            'file' => 'File',
+                                            'url' => 'URL',
+                                        ]),
 
-                    MwFileUpload::make('options.data-pdf-upload')
-                        ->hidden(function ($get) {
-                            return $get('options.data-pdf-source') === 'url';
-                        })
-                        ->label('Upload PDF file')
-                        ->fileTypes(['pdf'])
-                        ->live()
-                        ->default(fn () => $this->getOption('data-pdf-upload', '')),
+                                    MwFileUpload::make('options.data-pdf-upload')
+                                        ->hidden(function ($get) {
+                                            return $get('options.data-pdf-source') === 'url';
+                                        })
+                                        ->label('Upload PDF file')
+                                        ->fileTypes(['pdf'])
+                                        ->live()
+                                        ->default(fn () => $this->getOption('data-pdf-upload', '')),
 
-                    TextInput::make('options.data-pdf-url')
-                        ->hidden(function ($get) {
-                            return $get('options.data-pdf-source') === 'file';
-                        })
-                        ->label('PDF file URL')
-                        ->url()
-                        ->live()
-                        ->default(fn () => $this->getOption('data-pdf-url', ''))
-                        ->placeholder('https://www.example.com/document.pdf'),
-                ])
+                                    TextInput::make('options.data-pdf-url')
+                                        ->hidden(function ($get) {
+                                            return $get('options.data-pdf-source') === 'file';
+                                        })
+                                        ->label('PDF file URL')
+                                        ->url()
+                                        ->live()
+                                        ->default(fn () => $this->getOption('data-pdf-url', ''))
+                                        ->placeholder('https://www.example.com/document.pdf'),
+                                ]),
+                            ]),
+
+                        Tabs\Tab::make('Design')
+                            ->schema($this->getTemplatesFormSchema()),
+                    ]),
             ]);
     }
 }

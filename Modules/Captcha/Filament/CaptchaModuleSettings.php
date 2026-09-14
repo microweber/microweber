@@ -4,7 +4,7 @@ namespace Modules\Captcha\Filament;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
@@ -16,6 +16,7 @@ class CaptchaModuleSettings extends LiveEditModuleSettings
     {
         return $schema
             ->schema([
+                Section::make('Captcha')->schema([
                 Select::make('options.provider')
                     ->label(__('Captcha provider'))
                     ->options([
@@ -55,6 +56,7 @@ class CaptchaModuleSettings extends LiveEditModuleSettings
                     ->live()
                     ->default(fn () => $this->getOption('recaptcha_v3_score', '0.5'))
                     ->visible(fn ($get) => $get('options.provider') === 'google_recaptcha_v3'),
+                ]),
             ]);
     }
 }

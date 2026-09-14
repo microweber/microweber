@@ -5,6 +5,7 @@ namespace Modules\FacebookLike\Filament;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
@@ -16,6 +17,7 @@ class FacebookLikeModuleSettings extends LiveEditModuleSettings
     {
         return $schema
             ->schema([
+                Section::make('Facebook Like')->schema([
                 Select::make('options.layout')
                     ->label('Layout')
                     ->options([
@@ -47,6 +49,7 @@ class FacebookLikeModuleSettings extends LiveEditModuleSettings
                     ->live()
                     ->default(fn () => $this->getOption('url', ''))
                     ->placeholder('https://www.example.com'),
+                ]),
             ]);
     }
 }

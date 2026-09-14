@@ -4,6 +4,7 @@ namespace Modules\TextType\Filament;
 
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
@@ -15,6 +16,7 @@ class TextTypeModuleSettings extends LiveEditModuleSettings
     {
         return $schema
             ->schema([
+                Section::make('Text animation')->schema([
                 TextInput::make('options.text')
                     ->label('Text')
                     ->helperText('Enter the text for the animation.')
@@ -38,11 +40,10 @@ class TextTypeModuleSettings extends LiveEditModuleSettings
 
                 ColorPicker::make('options.textColor')
                     ->label('Text Color')
-                    ->helperText('Enter the text color for the marquee text.')
+                    ->helperText('The color of the animated text.')
                     ->live()
                     ->default(fn () => $this->getOption('textColor', '#000000')),
-
-                // Other options...
+                ]),
             ]);
     }
 }

@@ -25,8 +25,9 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                     ->schema([
                         Tabs\Tab::make('Content')
                             ->schema([
-
-
+                                Section::make('Social networks')
+                                    ->description('Turn a network on and enter its profile URL.')
+                                    ->schema([
                                 Toggle::make('options.facebook_enabled')
                                     ->label('Enable Facebook')
                                     ->live()
@@ -182,8 +183,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->placeholder('Enter Skype URL')
                                     ->default(fn () => $this->getOption('skype_url', ''))
                                     ->visible(fn($get) => $get('options.skype_enabled')),
-
-
+                                    ]),
                             ]),
 
                         Tabs\Tab::make('Design')
