@@ -68,6 +68,25 @@ class AudioModuleSettings extends LiveEditModuleSettings
                         ->url()
                         ->live()
                         ->placeholder('https://www.example.com/audio.mp3'),
+
+                    // task-2026-09-14-qskit — playback options (also on the
+                    // Live-Edit quick-settings panel). Rendered as <audio>
+                    // attributes by the template; "Show controls" defaults ON.
+                    \Filament\Forms\Components\Toggle::make('options.autoplay')
+                        ->label('Autoplay')
+                        ->helperText('Starts muted until the visitor interacts.')
+                        ->live()
+                        ->default(fn () => filter_var($this->getOption('autoplay', false), FILTER_VALIDATE_BOOLEAN)),
+
+                    \Filament\Forms\Components\Toggle::make('options.loop')
+                        ->label('Loop')
+                        ->live()
+                        ->default(fn () => filter_var($this->getOption('loop', false), FILTER_VALIDATE_BOOLEAN)),
+
+                    \Filament\Forms\Components\Toggle::make('options.show_controls')
+                        ->label('Show controls')
+                        ->live()
+                        ->default(fn () => filter_var($this->getOption('show_controls', true), FILTER_VALIDATE_BOOLEAN)),
                 ])
             ]);
     }

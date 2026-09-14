@@ -24,6 +24,14 @@ class BeforeAfterModule extends BaseModule
         $viewData['after'] = $this->getOption('after',  asset('modules/before_after/img/blue-car.jpg'));
         $viewData['id'] = $this->params['id'];
 
+        // task-2026-09-14-qskit — comparison-slider options (also on the
+        // Live-Edit quick-settings panel). Passed straight into twentytwenty:
+        // orientation = direction, default_offset_pct = starting split.
+        $direction = $this->getOption('direction', 'horizontal');
+        $viewData['direction'] = in_array($direction, ['horizontal', 'vertical'], true) ? $direction : 'horizontal';
+        $startsAt = (int) $this->getOption('starts_at', 50);
+        $viewData['startsAt'] = ($startsAt > 0 && $startsAt < 100) ? $startsAt : 50;
+
         return $viewData;
     }
 

@@ -111,13 +111,17 @@
 
     // ── Batch 3 (scalar modules) ─────────────────────────────────────────────
 
-    // Audio — data-audio-source (file|url), data-audio-url. Upload → Advanced.
+    // Audio — data-audio-source (file|url), data-audio-url, autoplay, loop,
+    //   show_controls (added to the module for the full design). Upload → Advanced.
     K.register({
         type: 'audio', title: 'Audio', badge: 'Au',
         sections: [
             { type: 'segmented', label: 'Source', key: 'data-audio-source', def: 'file', options: [{ label: 'File', value: 'file' }, { label: 'URL', value: 'url' }] },
             { type: 'text', label: 'Audio URL', key: 'data-audio-url', placeholder: 'https://…/audio.mp3' },
-            { type: 'advanced', label: 'Advanced', hint: 'Upload, all audio settings' }
+            { type: 'toggle', label: 'Autoplay', key: 'autoplay', hint: 'Muted until the visitor interacts', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Loop', key: 'loop', onValue: '1', offValue: '0' },
+            { type: 'toggle', label: 'Show controls', key: 'show_controls', def: '1', onValue: '1', offValue: '0' },
+            { type: 'advanced', label: 'Advanced', hint: 'Upload audio file' }
         ]
     });
 
@@ -244,6 +248,17 @@
         sections: [
             { type: 'select', label: 'Provider', key: 'provider', def: 'microweber', options: [{ label: 'Microweber', value: 'microweber' }, { label: 'reCAPTCHA v2', value: 'google_recaptcha_v2' }, { label: 'reCAPTCHA v3', value: 'google_recaptcha_v3' }] },
             { type: 'advanced', label: 'Advanced', hint: 'API keys' }
+        ]
+    });
+
+    // Before / After — direction, starts_at (added to the module); images →
+    //   Advanced. Feeds twentytwenty orientation + default_offset_pct.
+    K.register({
+        type: 'before_after', title: 'Before / After', badge: 'BA',
+        sections: [
+            { type: 'segmented', label: 'Direction', key: 'direction', def: 'horizontal', options: [{ label: 'Horizontal', value: 'horizontal' }, { label: 'Vertical', value: 'vertical' }] },
+            { type: 'segmented', label: 'Starts at', key: 'starts_at', def: '50', options: [{ label: '25%', value: '25' }, { label: '50%', value: '50' }, { label: '75%', value: '75' }] },
+            { type: 'advanced', label: 'Advanced', hint: 'Before + after image' }
         ]
     });
 

@@ -71,7 +71,10 @@
                     .find('img')
                     .remove()
                 container.append(images);
-                setTimeout(() => container.twentytwenty({default_offset_pct: 0.5}));
+                setTimeout(() => container.twentytwenty({
+                    default_offset_pct: {{ (int) $startsAt / 100 }},
+                    orientation: '{{ $direction }}'
+                }));
             });
     })();
 

@@ -44,9 +44,21 @@ class AudioModule extends BaseModule
             $audio = ' ';
         }
 
+        // task-2026-09-14-qskit — playback options exposed by the quick-settings
+        // panel + the full settings form. "Show controls" defaults ON (an audio
+        // player with no controls is useless unless deliberately hidden).
+        $autoplay = filter_var(get_module_option('autoplay', $this->params['id']), FILTER_VALIDATE_BOOLEAN);
+        $loop = filter_var(get_module_option('loop', $this->params['id']), FILTER_VALIDATE_BOOLEAN);
+        $controlsOpt = get_module_option('show_controls', $this->params['id']);
+        $controls = ($controlsOpt === null || $controlsOpt === '' || $controlsOpt === false)
+            ? true : filter_var($controlsOpt, FILTER_VALIDATE_BOOLEAN);
+
         return [
             'audio' => $audio,
-            'id' => $id
+            'id' => $id,
+            'autoplay' => $autoplay,
+            'loop' => $loop,
+            'controls' => $controls,
         ];
     }
 }
