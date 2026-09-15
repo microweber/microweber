@@ -60,6 +60,24 @@
         });
     }
 
+    // ── authed JSON request (mirrors mw-ai.js: CSRF meta + same-origin) ─────
+    function qsHttp(method, path, body) {
+        var base = (mw.settings && mw.settings.site_url) ? mw.settings.site_url : '/';
+        var headers = { 'Accept': 'application/json' };
+        if (body) { headers['Content-Type'] = 'application/json'; }
+        try {
+            var meta = topDoc().querySelector('meta[name="csrf-token"]')
+                || document.querySelector('meta[name="csrf-token"]');
+            if (meta) { headers['X-CSRF-TOKEN'] = meta.getAttribute('content'); }
+        } catch (e) {}
+        return fetch(base + path, {
+            method: method,
+            headers: headers,
+            credentials: 'same-origin',
+            body: body ? JSON.stringify(body) : undefined
+        }).then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); });
+    }
+
     // ── curated colour palette (site palette → recommended swatches) ────────
     function contrast(hex) {
         try {
@@ -148,7 +166,32 @@
             '.mw-qs-advanced{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;border:0;border-top:1px solid #18243314;background:transparent;color:inherit;cursor:pointer;font:inherit;padding:12px 0 2px;margin-top:4px;text-align:left;}',
             '.mw-qs-advanced small{display:block;color:#8a94a3;font-size:10.5px;margin-top:1px;font-weight:400;}',
             '.mw-qs-advanced__t{font-size:12.5px;font-weight:600;}',
-            'html.dark .mw-qs-advanced{border-color:#ffffff14;}'
+            'html.dark .mw-qs-advanced{border-color:#ffffff14;}',
+            // inline item list
+            '.mw-qs-items{display:flex;flex-direction:column;gap:6px;}',
+            '.mw-qs-item{border:1px solid #18243318;border-radius:9px;background:#18243305;overflow:hidden;}',
+            'html.dark .mw-qs-item{border-color:#ffffff1f;background:#ffffff08;}',
+            '.mw-qs-item__head{display:flex;align-items:center;gap:6px;padding:7px 8px;}',
+            '.mw-qs-item__toggle{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:6px;border:0;background:transparent;color:inherit;cursor:pointer;font:inherit;font-size:12.5px;text-align:left;padding:0;}',
+            '.mw-qs-item__toggle span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}',
+            '.mw-qs-item__caret{flex:0 0 auto;transition:transform .15s;color:#8a94a3;}',
+            '.mw-qs-item.open .mw-qs-item__caret{transform:rotate(90deg);}',
+            '.mw-qs-item__actions{flex:0 0 auto;display:flex;gap:1px;}',
+            '.mw-qs-item__act{width:24px;height:24px;border:0;border-radius:6px;background:transparent;color:#8a94a3;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}',
+            '.mw-qs-item__act:hover{background:#18243312;color:#182433;}',
+            'html.dark .mw-qs-item__act:hover{background:#ffffff16;color:#e8eaed;}',
+            '.mw-qs-item__act.is-danger:hover{background:rgba(220,57,57,.28);color:#dc2626;}',
+            '.mw-qs-item__act[disabled]{opacity:.3;cursor:default;background:transparent;}',
+            '.mw-qs-item__body{padding:0 8px 8px;display:flex;flex-direction:column;gap:6px;}',
+            '.mw-qs-item__body textarea.mw-qs-input{min-height:56px;resize:vertical;}',
+            '.mw-qs-items__empty{color:#8a94a3;font-size:12px;padding:6px 2px;}',
+            '.mw-qs-items__add{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;}',
+            '.mw-qs-add{border:1px dashed #18243340;border-radius:9px;background:transparent;color:#182433;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;padding:8px 10px;flex:1 1 auto;}',
+            '.mw-qs-add:hover{border-color:#182433;background:#18243308;}',
+            'html.dark .mw-qs-add{color:#e8eaed;border-color:#ffffff33;}',
+            '.mw-qs-ai{flex:0 0 auto;border:0;border-radius:9px;background:#18243310;color:#182433;cursor:pointer;font:inherit;font-size:12px;font-weight:500;padding:8px 10px;display:inline-flex;align-items:center;gap:4px;}',
+            '.mw-qs-ai:hover{background:#18243320;}',
+            'html.dark .mw-qs-ai{background:#ffffff14;color:#e8eaed;}'
         ].join('');
         doc.head.appendChild(s);
     }
@@ -205,6 +248,17 @@
             return '<div class="mw-qs-section">' + label + '<div class="mw-qs-field">'
                 + '<input type="text" class="mw-qs-input" data-ctl="text" data-key="' + esc(c.key) + '" placeholder="' + esc(lang('Paste a URL')) + '" value="' + esc(cur) + '">'
                 + '<button type="button" class="mw-qs-pick" data-ctl="open-settings">' + esc(lang('Page')) + '</button></div></div>';
+        }
+        if (c.type === 'itemlist') {
+            // Async: rendered empty here; wire() fetches + fills it. Endpoint +
+            // field defs are stashed on the container as JSON.
+            var cfg = JSON.stringify({ endpoint: c.endpoint, fields: c.fields || [{ key: 'title' }], ai: !!c.ai });
+            return '<div class="mw-qs-section">' + label
+                + '<div class="mw-qs-items" data-ctl="itemlist" data-cfg="' + esc(cfg) + '"><div class="mw-qs-items__empty">' + esc(lang('Loading…')) + '</div></div>'
+                + '<div class="mw-qs-items__add">'
+                + '<button type="button" class="mw-qs-add" data-ctl="itemlist-add">+ ' + esc(lang(c.addLabel || 'Add item')) + '</button>'
+                + (c.ai ? '<button type="button" class="mw-qs-ai" data-ctl="itemlist-ai" title="' + esc(lang('Create with AI')) + '">✦ ' + esc(lang('AI')) + '</button>' : '')
+                + '</div></div>';
         }
         if (c.type === 'advanced') {
             return '<button type="button" class="mw-qs-advanced" data-ctl="open-settings"><span class="mw-qs-advanced__t">' + esc(lang(c.label || 'Advanced'))
@@ -356,6 +410,118 @@
         });
         _el.querySelectorAll('[data-ctl="close"]').forEach(function (b) {
             b.addEventListener('click', function () { close(); });
+        });
+
+        // ── inline item list (DB-backed via the module's CRUD API) ──────────
+        _el.querySelectorAll('[data-ctl="itemlist"]').forEach(function (container) {
+            var cfg = {};
+            try { cfg = JSON.parse(container.dataset.cfg || '{}'); } catch (e) {}
+            var endpoint = cfg.endpoint;
+            var fields = (cfg.fields && cfg.fields.length) ? cfg.fields : [{ key: 'title' }];
+            var relId = el.getAttribute('id');
+            var items = [];
+            var reload = function () { try { mw.app.editor.dispatch('onModuleSettingsChanged', { moduleId: relId }); } catch (e) {} };
+            var titleText = function (it) {
+                return String(it[fields[0].key] || '').replace(/<[^>]*>/g, '').trim().slice(0, 60) || lang('Untitled');
+            };
+
+            var render = function () {
+                if (!items.length) {
+                    container.innerHTML = '<div class="mw-qs-items__empty">' + esc(lang('No items yet')) + '</div>';
+                    return;
+                }
+                container.innerHTML = items.map(function (it, i) {
+                    var body = fields.map(function (f) {
+                        var v = esc(it[f.key]);
+                        var ph = esc(lang(f.label || f.key));
+                        return f.multiline
+                            ? '<textarea class="mw-qs-input" data-field="' + esc(f.key) + '" placeholder="' + ph + '">' + v + '</textarea>'
+                            : '<input type="text" class="mw-qs-input" data-field="' + esc(f.key) + '" placeholder="' + ph + '" value="' + v + '">';
+                    }).join('');
+                    return '<div class="mw-qs-item" data-id="' + esc(it.id) + '">'
+                        + '<div class="mw-qs-item__head">'
+                        + '<button type="button" class="mw-qs-item__toggle"><span class="mw-qs-item__caret">▸</span><span>' + esc(titleText(it)) + '</span></button>'
+                        + '<div class="mw-qs-item__actions">'
+                        + '<button type="button" class="mw-qs-item__act" data-act="up"' + (i === 0 ? ' disabled' : '') + '>↑</button>'
+                        + '<button type="button" class="mw-qs-item__act" data-act="down"' + (i === items.length - 1 ? ' disabled' : '') + '>↓</button>'
+                        + '<button type="button" class="mw-qs-item__act is-danger" data-act="del">✕</button>'
+                        + '</div></div>'
+                        + '<div class="mw-qs-item__body" style="display:none">' + body + '</div>'
+                        + '</div>';
+                }).join('');
+                bind();
+            };
+
+            var move = function (id, dir) {
+                var ids = items.map(function (x) { return String(x.id); });
+                var idx = ids.indexOf(String(id));
+                var to = idx + dir;
+                if (idx < 0 || to < 0 || to >= ids.length) { return; }
+                var moved = items.splice(idx, 1)[0];
+                items.splice(to, 0, moved);
+                render();
+                qsHttp('POST', 'api/' + endpoint + '/reorder', { ids: items.map(function (x) { return x.id; }) }).then(reload);
+            };
+
+            var bind = function () {
+                container.querySelectorAll('.mw-qs-item').forEach(function (row) {
+                    var id = row.dataset.id;
+                    row.querySelector('.mw-qs-item__toggle').addEventListener('click', function () {
+                        var open = !row.classList.contains('open');
+                        container.querySelectorAll('.mw-qs-item').forEach(function (r) {
+                            r.classList.remove('open'); r.querySelector('.mw-qs-item__body').style.display = 'none';
+                        });
+                        if (open) { row.classList.add('open'); row.querySelector('.mw-qs-item__body').style.display = ''; }
+                    });
+                    row.querySelectorAll('[data-field]').forEach(function (inp) {
+                        inp.addEventListener('change', function () {
+                            var payload = {}; payload[inp.dataset.field] = inp.value;
+                            qsHttp('POST', 'api/' + endpoint + '/' + id, payload).then(function () {
+                                var found = items.filter(function (x) { return String(x.id) === String(id); })[0];
+                                if (found) { found[inp.dataset.field] = inp.value; }
+                                if (inp.dataset.field === fields[0].key) {
+                                    var lbl = row.querySelector('.mw-qs-item__toggle span:last-child');
+                                    if (lbl) { lbl.textContent = titleText(found || {}); }
+                                }
+                                reload();
+                            });
+                        });
+                    });
+                    row.querySelector('[data-act="del"]').addEventListener('click', function () {
+                        qsHttp('DELETE', 'api/' + endpoint + '/' + id).then(function () { load(); reload(); });
+                    });
+                    row.querySelector('[data-act="up"]').addEventListener('click', function () { move(id, -1); });
+                    row.querySelector('[data-act="down"]').addEventListener('click', function () { move(id, 1); });
+                });
+            };
+
+            var load = function () {
+                qsHttp('GET', 'api/' + endpoint + '?rel_id=' + encodeURIComponent(relId)).then(function (res) {
+                    items = (res && res.items) || [];
+                    render();
+                }).catch(function () {
+                    container.innerHTML = '<div class="mw-qs-items__empty">' + esc(lang('Could not load items')) + '</div>';
+                });
+            };
+
+            var section = container.closest('.mw-qs-section') || container.parentElement;
+            var addBtn = section ? section.querySelector('[data-ctl="itemlist-add"]') : null;
+            if (addBtn) {
+                addBtn.addEventListener('click', function () {
+                    var payload = { rel_id: relId };
+                    qsHttp('POST', 'api/' + endpoint, payload).then(function () { load(); reload(); });
+                });
+            }
+            var aiBtn = section ? section.querySelector('[data-ctl="itemlist-ai"]') : null;
+            if (aiBtn) {
+                // Full "Create with AI" lives in the module settings editor.
+                aiBtn.addEventListener('click', function () {
+                    try { mw.top().app.editor.dispatch('onModuleSettingsRequest', el); } catch (e) {}
+                    close();
+                });
+            }
+
+            load();
         });
     }
 

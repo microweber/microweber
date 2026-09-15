@@ -24,8 +24,9 @@ class AccordionServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-
-
+        // task-2026-09-15-qskit — accordion item CRUD API for the Live-Edit
+        // quick-settings inline list (admin-guarded).
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
     }
 
     /**

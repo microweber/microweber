@@ -385,6 +385,22 @@
         ]
     });
 
+    // Accordion — inline item list (DB-backed via /api/accordion-items).
+    //   Each item = title + content. "Create with AI" opens the full editor.
+    K.register({
+        type: 'accordion', title: 'Accordion', badge: 'Ac',
+        sections: [
+            {
+                type: 'itemlist', label: 'Items', endpoint: 'accordion-items', addLabel: 'Add item', ai: true,
+                fields: [
+                    { key: 'title', label: 'Title' },
+                    { key: 'content', label: 'Content', multiline: true }
+                ]
+            },
+            { type: 'advanced', label: 'Advanced', hint: 'Icons, design, animation' }
+        ]
+    });
+
     // Contact form — button_text, thank_you_message, autoresponder, newsletter.
     //   Fields + email settings → Advanced.
     K.register({
