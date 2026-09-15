@@ -531,4 +531,41 @@
             { type: 'advanced', label: 'Advanced', hint: 'Fields, email settings' }
         ]
     });
+
+    // ── Final batch — remaining placeable modules ────────────────────────────
+
+    // Highlight code — options.text is the code block (rendered verbatim by the
+    //   template). A monospace multiline field edits it inline.
+    K.register({
+        type: 'highlight_code', title: 'Code', badge: 'Co',
+        sections: [
+            { type: 'text', label: 'Code', key: 'text', multiline: true, placeholder: '<your code here>' },
+            { type: 'advanced', label: 'Advanced' }
+        ]
+    });
+
+    // Add to cart — options.button_text is the button label (the module renders
+    //   it directly). Product source is inherited from the page context.
+    K.register({
+        type: 'shop/cart_add', title: 'Add to cart', badge: 'Ca',
+        sections: [
+            { type: 'text', label: 'Button text', key: 'button_text', placeholder: 'Add to cart' },
+            { type: 'advanced', label: 'Advanced' }
+        ]
+    });
+
+    // Content / Page — data-source content listings (chosen in the full editor,
+    //   like Posts/Products). Lightweight panel: Duplicate/Delete + shortcut.
+    K.register({
+        type: 'content', title: 'Content', badge: 'Cn',
+        sections: [{ type: 'advanced', label: 'Choose content', hint: 'Source & layout' }]
+    });
+    K.register({
+        type: 'page', title: 'Page', badge: 'Pg',
+        sections: [{ type: 'advanced', label: 'Choose page', hint: 'Source & layout' }]
+    });
+    K.register({
+        type: 'layout_content', title: 'Layout content', badge: 'Lc',
+        sections: [{ type: 'advanced', label: 'Edit content', hint: 'Source & layout' }]
+    });
 })();
