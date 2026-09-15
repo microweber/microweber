@@ -193,7 +193,20 @@
             'html.dark .mw-qs-add{color:#e8eaed;border-color:#ffffff33;}',
             '.mw-qs-ai{flex:0 0 auto;border:0;border-radius:9px;background:#18243310;color:#182433;cursor:pointer;font:inherit;font-size:12px;font-weight:500;padding:8px 10px;display:inline-flex;align-items:center;gap:4px;}',
             '.mw-qs-ai:hover{background:#18243320;}',
-            'html.dark .mw-qs-ai{background:#ffffff14;color:#e8eaed;}'
+            'html.dark .mw-qs-ai{background:#ffffff14;color:#e8eaed;}',
+            // image gallery
+            '.mw-qs-images{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}',
+            '.mw-qs-image{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid #18243318;background:#18243308;}',
+            'html.dark .mw-qs-image{border-color:#ffffff1f;background:#ffffff08;}',
+            '.mw-qs-image img{width:100%;height:100%;object-fit:cover;display:block;}',
+            '.mw-qs-image__del{position:absolute;top:3px;right:3px;width:20px;height:20px;border:0;border-radius:50%;background:rgba(24,36,51,.72);color:#fff;cursor:pointer;font-size:11px;line-height:1;display:inline-flex;align-items:center;justify-content:center;opacity:0;transition:opacity .12s;}',
+            '.mw-qs-image:hover .mw-qs-image__del{opacity:1;}',
+            '.mw-qs-image__del:hover{background:#dc2626;}',
+            '.mw-qs-image__nav{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;opacity:0;transition:opacity .12s;}',
+            '.mw-qs-image:hover .mw-qs-image__nav{opacity:1;}',
+            '.mw-qs-image__nav button{width:22px;height:22px;border:0;background:rgba(24,36,51,.6);color:#fff;cursor:pointer;font-size:13px;line-height:1;}',
+            '.mw-qs-image__nav button:hover{background:rgba(24,36,51,.85);}',
+            '.mw-qs-image__nav button[disabled]{opacity:.25;cursor:default;}'
         ].join('');
         doc.head.appendChild(s);
     }
@@ -261,6 +274,15 @@
                 + '<button type="button" class="mw-qs-add" data-ctl="itemlist-add">+ ' + esc(lang(c.addLabel || 'Add item')) + '</button>'
                 + (c.ai ? '<button type="button" class="mw-qs-ai" data-ctl="itemlist-ai" title="' + esc(lang('Create with AI')) + '">✦ ' + esc(lang('AI')) + '</button>' : '')
                 + '</div></div>';
+        }
+        if (c.type === 'imagelist') {
+            // Async image gallery: wire() fetches + fills; add opens the shared
+            // media picker (mw.filePickerDialog).
+            var icfg = JSON.stringify({ endpoint: c.endpoint });
+            return '<div class="mw-qs-section">' + label
+                + '<div class="mw-qs-images" data-ctl="imagelist" data-cfg="' + esc(icfg) + '"><div class="mw-qs-items__empty">' + esc(lang('Loading…')) + '</div></div>'
+                + '<div class="mw-qs-items__add"><button type="button" class="mw-qs-add" data-ctl="imagelist-add">+ ' + esc(lang(c.addLabel || 'Add image')) + '</button></div>'
+                + '</div>';
         }
         if (c.type === 'advanced') {
             return '<button type="button" class="mw-qs-advanced" data-ctl="open-settings"><span class="mw-qs-advanced__t">' + esc(lang(c.label || 'Advanced'))
@@ -542,6 +564,81 @@
                 aiBtn.addEventListener('click', function () {
                     try { mw.top().app.editor.dispatch('onModuleSettingsRequest', el); } catch (e) {}
                     close();
+                });
+            }
+
+            load();
+        });
+
+        // ── inline image gallery (Media-backed via the module's CRUD API) ────
+        _el.querySelectorAll('[data-ctl="imagelist"]').forEach(function (container) {
+            var cfg = {};
+            try { cfg = JSON.parse(container.dataset.cfg || '{}'); } catch (e) {}
+            var endpoint = cfg.endpoint;
+            var relId = el.getAttribute('id');
+            var images = [];
+            var reload = function () { try { mw.app.editor.dispatch('onModuleSettingsChanged', { moduleId: relId }); } catch (e) {} };
+
+            var render = function () {
+                if (!images.length) {
+                    container.innerHTML = '<div class="mw-qs-items__empty">' + esc(lang('No images yet')) + '</div>';
+                    return;
+                }
+                container.innerHTML = images.map(function (it, i) {
+                    return '<div class="mw-qs-image" data-id="' + esc(it.id) + '">'
+                        + '<img src="' + esc(it.url) + '" alt="" loading="lazy">'
+                        + '<button type="button" class="mw-qs-image__del" data-act="del" title="' + esc(lang('Remove')) + '">✕</button>'
+                        + (images.length > 1 ? '<div class="mw-qs-image__nav">'
+                            + '<button type="button" data-act="left"' + (i === 0 ? ' disabled' : '') + '>‹</button>'
+                            + '<button type="button" data-act="right"' + (i === images.length - 1 ? ' disabled' : '') + '>›</button></div>' : '')
+                        + '</div>';
+                }).join('');
+                bind();
+            };
+
+            var move = function (id, dir) {
+                var ids = images.map(function (x) { return String(x.id); });
+                var idx = ids.indexOf(String(id));
+                var to = idx + dir;
+                if (idx < 0 || to < 0 || to >= ids.length) { return; }
+                var moved = images.splice(idx, 1)[0];
+                images.splice(to, 0, moved);
+                render();
+                qsHttp('POST', 'api/' + endpoint + '/reorder', { rel_id: relId, ids: images.map(function (x) { return x.id; }) }).then(reload);
+            };
+
+            var bind = function () {
+                container.querySelectorAll('.mw-qs-image').forEach(function (row) {
+                    var id = row.dataset.id;
+                    row.querySelector('[data-act="del"]').addEventListener('click', function () {
+                        qsHttp('DELETE', 'api/' + endpoint + '/' + id + '?rel_id=' + encodeURIComponent(relId)).then(function () { load(); reload(); });
+                    });
+                    var l = row.querySelector('[data-act="left"]'), rt = row.querySelector('[data-act="right"]');
+                    if (l) { l.addEventListener('click', function () { move(id, -1); }); }
+                    if (rt) { rt.addEventListener('click', function () { move(id, 1); }); }
+                });
+            };
+
+            var load = function () {
+                qsHttp('GET', 'api/' + endpoint + '?rel_id=' + encodeURIComponent(relId)).then(function (res) {
+                    images = (res && res.items) || [];
+                    render();
+                }).catch(function () {
+                    container.innerHTML = '<div class="mw-qs-items__empty">' + esc(lang('Could not load images')) + '</div>';
+                });
+            };
+
+            var section = container.closest('.mw-qs-section');
+            var addBtn = section ? section.querySelector('[data-ctl="imagelist-add"]') : null;
+            if (addBtn) {
+                addBtn.addEventListener('click', function () {
+                    // Shared media picker → create a Media row with the chosen file.
+                    try {
+                        mw.filePickerDialog({ pickerOptions: { type: 'images' } }, function (url) {
+                            if (!url) { return; }
+                            qsHttp('POST', 'api/' + endpoint, { rel_id: relId, filename: String(url) }).then(function () { load(); reload(); });
+                        });
+                    } catch (e) {}
                 });
             }
 

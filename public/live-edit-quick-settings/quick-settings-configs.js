@@ -469,6 +469,16 @@
         ]
     });
 
+    // Pictures — inline image gallery (Media-backed via /api/picture-items).
+    //   Add opens the shared media picker; delete + reorder on hover.
+    K.register({
+        type: 'pictures', title: 'Gallery', badge: 'Pi',
+        sections: [
+            { type: 'imagelist', label: 'Images', endpoint: 'picture-items', addLabel: 'Add image' },
+            { type: 'advanced', label: 'Advanced', hint: 'Source, design' }
+        ]
+    });
+
     // Skills — inline item list (JSON-option backed via /api/skill-items).
     //   skill (text) + percent (number) + style (select).
     K.register({
