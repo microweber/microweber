@@ -156,7 +156,7 @@
             '.mw-qs-panel__ico{width:30px;height:30px;border:0;border-radius:7px;background:transparent;color:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;}',
             '.mw-qs-panel__ico:hover{background:#18243310;}',
             'html.dark .mw-qs-panel__ico:hover{background:#ffffff16;}',
-            '.mw-qs-panel__ico.is-danger:hover{background:rgba(220,57,57,.35);}',
+            '.mw-qs-panel__ico.is-danger:hover{background:rgba(220,38,38,.35);}',
             '.mw-qs-panel__ico svg{width:16px;height:16px;}',
             '.mw-qs-tabs{display:flex;gap:4px;background:#18243308;border-radius:9px;padding:3px;margin-bottom:12px;}',
             '.mw-qs-tab{flex:1 1 0;min-height:32px;border:0;border-radius:7px;background:transparent;color:#77776f;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;}',
@@ -175,24 +175,36 @@
             '.mw-qs-sw:hover{transform:scale(1.08);}',
             '.mw-qs-sw.active{box-shadow:0 0 0 2px #fff,0 0 0 4px #182433;}',
             'html.dark .mw-qs-sw.active{box-shadow:0 0 0 2px #1b1e22,0 0 0 4px #e8eaed;}',
+            'html.dark .mw-qs-sw{border-color:rgba(255,255,255,.18);}',
             '.mw-qs-sw--custom{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:#8a94a3;border:1px dashed #18243340;font-size:16px;line-height:1;}',
             '.mw-qs-sw--custom:hover{color:#182433;border-color:#18243366;transform:none;}',
             'html.dark .mw-qs-sw--custom{background:#22262c;color:#9aa3af;border-color:#ffffff33;}',
+            'html.dark .mw-qs-sw--custom:hover{color:#e8eaed;border-color:#ffffff66;transform:none;}',
             '.mw-qs-row{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:36px;}',
             '.mw-qs-row__txt{min-width:0;}.mw-qs-row__txt small{display:block;color:#8a94a3;font-size:10.5px;margin-top:1px;}',
-            '.mw-qs-input,.mw-qs-select{width:100%;border:1px solid #18243326;border-radius:9px;padding:8px 10px;font:inherit;font-size:12.5px;background:#fff;color:#182433;outline:none;}',
+            '.mw-qs-input,.mw-qs-select{width:100%;min-width:0;border:1px solid #18243326;border-radius:9px;padding:8px 10px;font:inherit;font-size:12.5px;background:#fff;color:#182433;outline:none;}',
             '.mw-qs-input:focus,.mw-qs-select:focus{border-color:#182433;box-shadow:0 0 0 3px #1824331f;}',
             'html.dark .mw-qs-input,html.dark .mw-qs-select{background:#22262c;color:#e8eaed;border-color:#ffffff26;}',
+            'html.dark .mw-qs-input:focus,html.dark .mw-qs-select:focus{border-color:#e8eaed;box-shadow:0 0 0 3px rgba(232,234,237,.22);}',
+            '.mw-qs-input::placeholder,.mw-qs-select::placeholder{color:#8a94a3;opacity:1;}',
+            // custom ink caret on selects (native OS arrow is low-contrast on the dark fill)
+            '.mw-qs-select,select.mw-qs-input{-webkit-appearance:none;-moz-appearance:none;appearance:none;padding-right:28px;background-image:url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' fill=\'none\' stroke=\'%23182433\' stroke-width=\'2\'><path d=\'M4 6l4 4 4-4\'/></svg>");background-repeat:no-repeat;background-position:right 10px center;}',
+            'html.dark .mw-qs-select,html.dark select.mw-qs-input{background-image:url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' fill=\'none\' stroke=\'%23e8eaed\' stroke-width=\'2\'><path d=\'M4 6l4 4 4-4\'/></svg>");}',
             '.mw-qs-field{display:flex;gap:6px;align-items:center;}',
+            '.mw-qs-field .mw-qs-input,.mw-qs-field .mw-qs-select{flex:1 1 auto;}',
             '.mw-qs-suffix{flex:0 0 auto;color:#8a94a3;font-size:11.5px;}',
             '.mw-qs-pick{flex:0 0 auto;padding:8px 12px;border:1px solid #18243318;border-radius:9px;background:#18243308;color:inherit;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;}',
             '.mw-qs-pick:hover{background:#1824330d;}',
             'html.dark .mw-qs-pick{background:#ffffff0d;border-color:#ffffff1f;}',
+            'html.dark .mw-qs-pick:hover{background:#ffffff16;}',
             // quiet toggle
             '.mw-qs-toggle{position:relative;width:38px;height:22px;border-radius:22px;border:0;background:#c9ccd2;cursor:pointer;flex:0 0 auto;transition:background .15s;padding:0;}',
             '.mw-qs-toggle::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 2px rgba(0,0,0,.25);}',
+            '.mw-qs-toggle:hover{background:#b4b8bf;}',
             '.mw-qs-toggle.on{background:#182433;}.mw-qs-toggle.on::after{transform:translateX(16px);}',
+            '.mw-qs-toggle.on:hover{background:#0f1722;}',
             'html.dark .mw-qs-toggle{background:#4b4f57;}html.dark .mw-qs-toggle.on{background:#e8eaed;}html.dark .mw-qs-toggle.on::after{background:#182433;}',
+            'html.dark .mw-qs-toggle:hover{background:#565a63;}html.dark .mw-qs-toggle.on:hover{background:#ffffff;}',
             // advanced row
             '.mw-qs-advanced{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;border:0;border-top:1px solid #18243314;background:transparent;color:inherit;cursor:pointer;font:inherit;padding:12px 0 2px;margin-top:4px;text-align:left;}',
             '.mw-qs-advanced small{display:block;color:#8a94a3;font-size:10.5px;margin-top:1px;font-weight:400;}',
@@ -211,7 +223,7 @@
             '.mw-qs-item__act{width:24px;height:24px;border:0;border-radius:6px;background:transparent;color:#8a94a3;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}',
             '.mw-qs-item__act:hover{background:#18243312;color:#182433;}',
             'html.dark .mw-qs-item__act:hover{background:#ffffff16;color:#e8eaed;}',
-            '.mw-qs-item__act.is-danger:hover{background:rgba(220,57,57,.28);color:#dc2626;}',
+            '.mw-qs-item__act.is-danger:hover{background:rgba(220,38,38,.28);color:#dc2626;}',
             '.mw-qs-item__act[disabled]{opacity:.3;cursor:default;background:transparent;}',
             '.mw-qs-item__body{padding:0 8px 8px;display:flex;flex-direction:column;gap:8px;}',
             '.mw-qs-item__body textarea.mw-qs-input{min-height:56px;resize:vertical;}',
@@ -222,9 +234,11 @@
             '.mw-qs-add{border:1px dashed #18243340;border-radius:9px;background:transparent;color:#182433;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;padding:8px 10px;flex:1 1 auto;}',
             '.mw-qs-add:hover{border-color:#182433;background:#18243308;}',
             'html.dark .mw-qs-add{color:#e8eaed;border-color:#ffffff33;}',
+            'html.dark .mw-qs-add:hover{border-color:#e8eaed;background:#ffffff0d;}',
             '.mw-qs-ai{flex:0 0 auto;border:0;border-radius:9px;background:#18243310;color:#182433;cursor:pointer;font:inherit;font-size:12px;font-weight:500;padding:8px 10px;display:inline-flex;align-items:center;gap:4px;}',
             '.mw-qs-ai:hover{background:#18243320;}',
             'html.dark .mw-qs-ai{background:#ffffff14;color:#e8eaed;}',
+            'html.dark .mw-qs-ai:hover{background:#ffffff22;}',
             // image gallery
             '.mw-qs-images{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}',
             '.mw-qs-image{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid #18243318;background:#18243308;}',
@@ -237,7 +251,22 @@
             '.mw-qs-image:hover .mw-qs-image__nav{opacity:1;}',
             '.mw-qs-image__nav button{width:22px;height:22px;border:0;background:rgba(24,36,51,.6);color:#fff;cursor:pointer;font-size:13px;line-height:1;}',
             '.mw-qs-image__nav button:hover{background:rgba(24,36,51,.85);}',
-            '.mw-qs-image__nav button[disabled]{opacity:.25;cursor:default;}'
+            '.mw-qs-image__nav button[disabled]{opacity:.25;cursor:default;}',
+            // imagelist empty/loading message spans the full grid, not a 1/3 sliver
+            '.mw-qs-images .mw-qs-items__empty{grid-column:1/-1;}',
+            // reveal image controls for keyboard focus + touch (not only pointer hover)
+            '.mw-qs-image:focus-within .mw-qs-image__del,.mw-qs-image:focus-within .mw-qs-image__nav{opacity:1;}',
+            '@media (hover:none){.mw-qs-image__del,.mw-qs-image__nav{opacity:1;}}',
+            // larger tap targets on isolated controls (no ::before insets on tight clusters)
+            '.mw-qs-panel__ico{width:34px;height:34px;}',
+            '.mw-qs-item__act{width:28px;height:28px;}',
+            '.mw-qs-image__del{width:22px;height:22px;}',
+            '.mw-qs-image__del::before{content:"";position:absolute;inset:-8px;}',
+            '.mw-qs-image__nav button{height:26px;min-width:26px;}',
+            // one coherent ink focus-visible ring across every custom button control
+            '.mw-qs-cell:focus-visible,.mw-qs-tab:focus-visible,.mw-qs-sw:focus-visible,.mw-qs-toggle:focus-visible,.mw-qs-panel__ico:focus-visible,.mw-qs-item__act:focus-visible,.mw-qs-item__toggle:focus-visible,.mw-qs-advanced:focus-visible,.mw-qs-pick:focus-visible,.mw-qs-add:focus-visible,.mw-qs-ai:focus-visible,.mw-qs-image__del:focus-visible,.mw-qs-image__nav button:focus-visible{outline:2px solid #182433;outline-offset:2px;}',
+            'html.dark .mw-qs-cell:focus-visible,html.dark .mw-qs-tab:focus-visible,html.dark .mw-qs-sw:focus-visible,html.dark .mw-qs-toggle:focus-visible,html.dark .mw-qs-panel__ico:focus-visible,html.dark .mw-qs-item__act:focus-visible,html.dark .mw-qs-item__toggle:focus-visible,html.dark .mw-qs-advanced:focus-visible,html.dark .mw-qs-pick:focus-visible,html.dark .mw-qs-add:focus-visible,html.dark .mw-qs-ai:focus-visible,html.dark .mw-qs-image__del:focus-visible,html.dark .mw-qs-image__nav button:focus-visible{outline-color:#e8eaed;}',
+            '.mw-qs-image__del:focus-visible,.mw-qs-image__nav button:focus-visible{opacity:1;outline:2px solid #fff;outline-offset:-2px;}'
         ].join('');
         doc.head.appendChild(s);
     }
@@ -260,18 +289,27 @@
         }
         if (c.type === 'swatches') {
             var low = String(cur || '').toLowerCase();
+            var matched = false;
             var sw = recommendedColors().map(function (col) {
-                return '<button type="button" class="mw-qs-sw' + (col.toLowerCase() === low ? ' active' : '') + '"'
-                    + ' data-ctl="swatch" data-key="' + esc(c.key) + '" data-col="' + esc(col) + '" style="background:' + esc(col) + '"></button>';
+                var isOn = col.toLowerCase() === low;
+                if (isOn) { matched = true; }
+                return '<button type="button" class="mw-qs-sw' + (isOn ? ' active' : '') + '"'
+                    + ' data-ctl="swatch" data-key="' + esc(c.key) + '" data-col="' + esc(col) + '" aria-label="' + esc(col) + '"'
+                    + ' style="background:' + esc(col) + '"></button>';
             }).join('');
-            sw += '<button type="button" class="mw-qs-sw mw-qs-sw--custom" data-ctl="swatch-custom" data-key="' + esc(c.key) + '" title="' + esc(lang('Custom')) + '">+</button>';
+            // Custom chip: when the saved colour isn't a recommended swatch, show
+            // it AS the custom chip (filled + active) so the applied colour is visible.
+            var customUnmatched = cur && !matched;
+            sw += '<button type="button" class="mw-qs-sw mw-qs-sw--custom' + (customUnmatched ? ' active' : '') + '"'
+                + ' data-ctl="swatch-custom" data-key="' + esc(c.key) + '" title="' + esc(lang('Custom')) + '"'
+                + (customUnmatched ? ' style="background:' + esc(cur) + '"' : '') + '>' + (customUnmatched ? '' : '+') + '</button>';
             return '<div class="mw-qs-section">' + label + '<div class="mw-qs-swatches">' + sw + '</div></div>';
         }
         if (c.type === 'select') {
             var os = (c.options || []).map(function (o) {
                 return '<option value="' + esc(o.value) + '"' + (eq(o.value, cur) ? ' selected' : '') + '>' + esc(lang(o.label)) + '</option>';
             }).join('');
-            return '<div class="mw-qs-section">' + label + '<select class="mw-qs-select" data-ctl="select" data-key="' + esc(c.key) + '">' + os + '</select></div>';
+            return '<div class="mw-qs-section">' + label + '<select class="mw-qs-select" data-ctl="select" data-key="' + esc(c.key) + '" aria-label="' + esc(lang(c.label || c.key)) + '">' + os + '</select></div>';
         }
         if (c.type === 'text') {
             var suffix = c.suffix ? '<span class="mw-qs-suffix">' + esc(lang(c.suffix)) + '</span>' : '';
@@ -280,6 +318,7 @@
             var enableAttr = c.enableKey ? ' data-enable-key="' + esc(c.enableKey) + '"' : '';
             return '<div class="mw-qs-section">' + label + '<div class="mw-qs-field">'
                 + '<input type="' + (c.inputType || 'text') + '" class="mw-qs-input" data-ctl="text" data-key="' + esc(c.key) + '"' + enableAttr
+                + ' aria-label="' + esc(lang(c.label || c.placeholder || c.key)) + '"'
                 + ' placeholder="' + esc(lang(c.placeholder || '')) + '" value="' + esc(cur) + '">' + suffix + '</div></div>';
         }
         if (c.type === 'toggle') {
@@ -288,11 +327,12 @@
             var hint = c.hint ? '<small>' + esc(lang(c.hint)) + '</small>' : '';
             return '<div class="mw-qs-section"><div class="mw-qs-row"><div class="mw-qs-row__txt">' + esc(lang(c.label)) + hint + '</div>'
                 + '<button type="button" class="mw-qs-toggle' + (on ? ' on' : '') + '" data-ctl="toggle" data-key="' + esc(c.key) + '"'
+                + ' role="switch" aria-checked="' + (on ? 'true' : 'false') + '" aria-label="' + esc(lang(c.label)) + '"'
                 + ' data-on="' + esc(typeof c.onValue !== 'undefined' ? c.onValue : '1') + '" data-off="' + esc(typeof c.offValue !== 'undefined' ? c.offValue : '') + '"></button></div></div>';
         }
         if (c.type === 'link') {
             return '<div class="mw-qs-section">' + label + '<div class="mw-qs-field">'
-                + '<input type="text" class="mw-qs-input" data-ctl="text" data-key="' + esc(c.key) + '" placeholder="' + esc(lang('Paste a URL')) + '" value="' + esc(cur) + '">'
+                + '<input type="text" class="mw-qs-input" data-ctl="text" data-key="' + esc(c.key) + '" aria-label="' + esc(lang(c.label || 'Link')) + '" placeholder="' + esc(lang('Paste a URL')) + '" value="' + esc(cur) + '">'
                 + '<button type="button" class="mw-qs-pick" data-ctl="open-settings">' + esc(lang('Page')) + '</button></div></div>';
         }
         if (c.type === 'itemlist') {
@@ -337,7 +377,7 @@
     }
 
     // ── panel lifecycle ─────────────────────────────────────────────────────
-    var _el = null, _docClick = null, _closeOnOutside = true;
+    var _el = null, _docClick = null, _docKey = null, _closeOnOutside = true;
     function close() { if (_el) { _el.style.display = 'none'; } }
 
     function sectionsHtml(sections, opts) {
@@ -428,10 +468,19 @@
                 if (t && t.closest && t.closest('.mw-qs-panel, .mw-color-picker, .mw-dropdown, .modal, .fi-modal, .mw-dialog, .mw-filepicker')) { return; }
                 close();
             };
+            // Escape closes the panel (keyboard dismissal), bound on both docs.
+            _docKey = function (ev) {
+                if (!_el || _el.style.display !== 'block') { return; }
+                if (ev.key === 'Escape' || ev.key === 'Esc') { ev.stopPropagation(); close(); }
+            };
             setTimeout(function () {
                 doc.addEventListener('click', _docClick, true);
+                doc.addEventListener('keydown', _docKey, true);
                 var cd = canvasDoc();
-                if (cd && cd !== doc) { try { cd.addEventListener('click', _docClick, true); } catch (e) {} }
+                if (cd && cd !== doc) {
+                    try { cd.addEventListener('click', _docClick, true); } catch (e) {}
+                    try { cd.addEventListener('keydown', _docKey, true); } catch (e) {}
+                }
             }, 0);
         }
     }
@@ -469,17 +518,26 @@
             inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); save(); } });
         });
         _el.querySelectorAll('[data-ctl="toggle"]').forEach(function (tg) {
-            tg.addEventListener('click', function () {
+            var flip = function () {
                 var on = !tg.classList.contains('on');
                 tg.classList.toggle('on', on);
+                tg.setAttribute('aria-checked', on ? 'true' : 'false');
                 saveOption(el, tg.dataset.key, on ? tg.dataset.on : tg.dataset.off);
-            });
+            };
+            tg.addEventListener('click', flip);
+            // Clicking the label row also flips the switch (larger target).
+            var row = tg.closest('.mw-qs-row');
+            var txt = row && row.querySelector('.mw-qs-row__txt');
+            if (txt) { txt.style.cursor = 'pointer'; txt.addEventListener('click', flip); }
         });
         _el.querySelectorAll('[data-ctl="swatch"]').forEach(function (sw) {
             sw.addEventListener('click', function () {
                 var scope = sw.closest('.mw-qs-swatches') || _el;
                 scope.querySelectorAll('.mw-qs-sw').forEach(function (x) { x.classList.remove('active'); });
                 sw.classList.add('active');
+                // Reset the custom chip back to the "+" affordance.
+                var cust = scope.querySelector('.mw-qs-sw--custom');
+                if (cust) { cust.style.background = ''; cust.textContent = '+'; }
                 saveOption(el, sw.dataset.key, sw.dataset.col);
             });
         });
@@ -492,6 +550,10 @@
                         if (!color) { return; }
                         var scope = b.closest('.mw-qs-swatches') || _el;
                         scope.querySelectorAll('.mw-qs-sw').forEach(function (x) { x.classList.remove('active'); });
+                        // Show the chosen colour ON the custom chip so it's visible.
+                        b.classList.add('active');
+                        b.style.background = color;
+                        b.textContent = '';
                         saveOption(el, b.dataset.key, color);
                     }, b);
                 }
@@ -553,9 +615,9 @@
                         + '<div class="mw-qs-item__head">'
                         + '<button type="button" class="mw-qs-item__toggle"><span class="mw-qs-item__caret">▸</span><span>' + esc(titleText(it)) + '</span></button>'
                         + '<div class="mw-qs-item__actions">'
-                        + '<button type="button" class="mw-qs-item__act" data-act="up"' + (i === 0 ? ' disabled' : '') + '>↑</button>'
-                        + '<button type="button" class="mw-qs-item__act" data-act="down"' + (i === items.length - 1 ? ' disabled' : '') + '>↓</button>'
-                        + '<button type="button" class="mw-qs-item__act is-danger" data-act="del">✕</button>'
+                        + '<button type="button" class="mw-qs-item__act" data-act="up" title="' + esc(lang('Move up')) + '"' + (i === 0 ? ' disabled' : '') + '>↑</button>'
+                        + '<button type="button" class="mw-qs-item__act" data-act="down" title="' + esc(lang('Move down')) + '"' + (i === items.length - 1 ? ' disabled' : '') + '>↓</button>'
+                        + '<button type="button" class="mw-qs-item__act is-danger" data-act="del" title="' + esc(lang('Remove')) + '">✕</button>'
                         + '</div></div>'
                         + '<div class="mw-qs-item__body" style="display:none">' + body + '</div>'
                         + '</div>';
@@ -657,8 +719,8 @@
                         + '<img src="' + esc(it.url) + '" alt="" loading="lazy">'
                         + '<button type="button" class="mw-qs-image__del" data-act="del" title="' + esc(lang('Remove')) + '">✕</button>'
                         + (images.length > 1 ? '<div class="mw-qs-image__nav">'
-                            + '<button type="button" data-act="left"' + (i === 0 ? ' disabled' : '') + '>‹</button>'
-                            + '<button type="button" data-act="right"' + (i === images.length - 1 ? ' disabled' : '') + '>›</button></div>' : '')
+                            + '<button type="button" data-act="left" title="' + esc(lang('Move left')) + '"' + (i === 0 ? ' disabled' : '') + '>‹</button>'
+                            + '<button type="button" data-act="right" title="' + esc(lang('Move right')) + '"' + (i === images.length - 1 ? ' disabled' : '') + '>›</button></div>' : '')
                         + '</div>';
                 }).join('');
                 bind();

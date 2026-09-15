@@ -84,6 +84,29 @@ function btnTopDoc() {
     return document;
 }
 
+// Canvas iframe document — clicks there don't reach the top-window listener,
+// so outside-click-close must listen on it too (matches the kit).
+function btnCanvasDoc() {
+    try {
+        var fr = mw.top().app.canvas.getFrame();
+        return fr.contentDocument || (fr.contentWindow && fr.contentWindow.document) || null;
+    } catch (e) { return null; }
+}
+
+// Real module icon from the cached modules service (no new request), matching
+// the kit's header. Returns HTML or null so the caller can fall back.
+function btnModuleIcon() {
+    try {
+        var svc = (mw.top && mw.top().app && mw.top().app.modules) ? mw.top().app.modules
+            : (mw.app && mw.app.modules ? mw.app.modules : null);
+        if (svc && typeof svc.getModuleIcon === 'function' && svc.modulesListData) {
+            var html = svc.getModuleIcon('btn');
+            if (html && typeof html === 'string') { return html; }
+        }
+    } catch (e) {}
+    return null;
+}
+
 // The button module lives in the canvas iframe; the panel mounts in the TOP
 // window, so translate the button's viewport rect into top-window coords.
 function btnFrameOffset() {
@@ -100,18 +123,21 @@ function btnPanelInjectCss() {
     var s = doc.createElement('style');
     s.id = 'mw-btn-panel-css';
     s.textContent = [
-        '.mw-btn-panel{position:fixed;z-index:100061;width:270px;max-width:calc(100vw - 16px);',
+        '.mw-btn-panel{position:fixed;z-index:100061;width:300px;max-width:calc(100vw - 16px);max-height:calc(100vh - 24px);overflow:auto;',
         'background:#fff;color:#182433;border-radius:14px;padding:14px;',
         'box-shadow:0 10px 34px rgba(24,36,51,.16),0 2px 8px rgba(24,36,51,.08);',
         'font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:13px;}',
         'html.dark .mw-btn-panel{background:#1b1e22;color:#e8eaed;box-shadow:0 12px 40px rgba(0,0,0,.6);}',
-        '.mw-btn-panel__head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}',
-        '.mw-btn-panel__title{font-weight:600;font-size:14px;}',
-        '.mw-btn-panel__head-actions{display:flex;gap:2px;}',
-        '.mw-btn-panel__ico{width:30px;height:30px;border:0;border-radius:7px;background:transparent;color:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;}',
+        '.mw-btn-panel__head{display:flex;align-items:center;gap:8px;margin-bottom:12px;}',
+        '.mw-btn-panel__badge{width:28px;height:28px;border-radius:8px;background:#F4F4F2;color:#182433;padding:4px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;}',
+        '.mw-btn-panel__badge svg{width:20px;height:20px;display:block;}',
+        'html.dark .mw-btn-panel__badge{background:#2a2e34;color:#e8eaed;}',
+        '.mw-btn-panel__title{font-weight:600;font-size:14px;flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}',
+        '.mw-btn-panel__head-actions{display:flex;gap:2px;flex:0 0 auto;}',
+        '.mw-btn-panel__ico{width:34px;height:34px;border:0;border-radius:7px;background:transparent;color:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;}',
         '.mw-btn-panel__ico:hover{background:#18243310;}',
         'html.dark .mw-btn-panel__ico:hover{background:#ffffff16;}',
-        '.mw-btn-panel__ico.is-danger:hover{background:rgba(220,57,57,.35);}',
+        '.mw-btn-panel__ico.is-danger:hover{background:rgba(220,38,38,.35);}',
         '.mw-btn-panel__ico svg{width:16px;height:16px;}',
         '.mw-btn-panel__section{margin-bottom:12px;}',
         '.mw-btn-panel__section:last-child{margin-bottom:0;}',
@@ -129,24 +155,32 @@ function btnPanelInjectCss() {
         '.mw-btn-panel__sw:hover{transform:scale(1.08);}',
         '.mw-btn-panel__sw.active{box-shadow:0 0 0 2px #fff,0 0 0 4px #182433;}',
         'html.dark .mw-btn-panel__sw.active{box-shadow:0 0 0 2px #1b1e22,0 0 0 4px #e8eaed;}',
+        'html.dark .mw-btn-panel__sw{border-color:rgba(255,255,255,.18);}',
         '.mw-btn-panel__sw--custom{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:#8a94a3;border:1px dashed #18243340;font-size:16px;font-weight:400;line-height:1;}',
         '.mw-btn-panel__sw--custom:hover{color:#182433;border-color:#18243366;transform:none;}',
         'html.dark .mw-btn-panel__sw--custom{background:#22262c;color:#9aa3af;border-color:#ffffff33;}',
+        'html.dark .mw-btn-panel__sw--custom:hover{color:#e8eaed;border-color:#ffffff66;}',
         '.mw-btn-panel__link{display:flex;gap:6px;}',
         '.mw-btn-panel__input{flex:1 1 auto;min-width:0;border:1px solid #18243326;border-radius:9px;padding:8px 10px;font:inherit;font-size:12.5px;background:#fff;color:#182433;outline:none;}',
         '.mw-btn-panel__input:focus{border-color:#182433;box-shadow:0 0 0 3px #1824331f;}',
         'html.dark .mw-btn-panel__input{background:#22262c;color:#e8eaed;border-color:#ffffff26;}',
+        'html.dark .mw-btn-panel__input:focus{border-color:#e8eaed;box-shadow:0 0 0 3px rgba(232,234,237,.22);}',
+        '.mw-btn-panel__input::placeholder{color:#8a94a3;opacity:1;}',
         '.mw-btn-panel__pick{flex:0 0 auto;padding:8px 12px;border:1px solid #18243318;border-radius:9px;background:#18243308;color:inherit;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;}',
         '.mw-btn-panel__pick:hover{background:#1824330d;}',
         '.mw-btn-panel__icoprev{display:inline-flex;align-items:center;}',
         '.mw-btn-panel__icoprev i,.mw-btn-panel__icoprev svg{width:16px;height:16px;font-size:16px;line-height:1;}',
-        'html.dark .mw-btn-panel__pick{background:#ffffff0d;border-color:#ffffff1f;}'
+        'html.dark .mw-btn-panel__pick{background:#ffffff0d;border-color:#ffffff1f;}',
+        'html.dark .mw-btn-panel__pick:hover{background:#ffffff16;}',
+        '.mw-btn-panel__cell:focus-visible,.mw-btn-panel__sw:focus-visible,.mw-btn-panel__pick:focus-visible,.mw-btn-panel__ico:focus-visible{outline:2px solid #182433;outline-offset:2px;}',
+        'html.dark .mw-btn-panel__cell:focus-visible,html.dark .mw-btn-panel__sw:focus-visible,html.dark .mw-btn-panel__pick:focus-visible,html.dark .mw-btn-panel__ico:focus-visible{outline-color:#e8eaed;}'
     ].join('');
     doc.head.appendChild(s);
 }
 
 var _btnPanelEl = null;
 var _btnPanelDocClick = null;
+var _btnPanelDocKey = null;
 
 function btnClosePanel() {
     if (_btnPanelEl) { _btnPanelEl.style.display = 'none'; }
@@ -182,11 +216,16 @@ function btnPanelSeg(label, group, items, current) {
 // 'color'). Background also sets a contrasting text colour as a smart default.
 function btnSwatchSection(label, target, current) {
     var cur = (current || '').toLowerCase();
+    var matched = false;
     var sw = btnRecommendedColors().map(function (c) {
-        var active = (c[0].toLowerCase() === cur) ? ' active' : '';
-        return '<button type="button" class="mw-btn-panel__sw' + active + '" data-target="' + target + '" data-bg="' + c[0] + '" data-fg="' + c[1] + '" style="background:' + c[0] + '"></button>';
-    }).join('')
-        + '<button type="button" class="mw-btn-panel__sw mw-btn-panel__sw--custom" data-act="custom-color" data-target="' + target + '" title="' + mw.lang('Custom') + '">+</button>';
+        var isOn = c[0].toLowerCase() === cur;
+        if (isOn) { matched = true; }
+        return '<button type="button" class="mw-btn-panel__sw' + (isOn ? ' active' : '') + '" data-target="' + target + '" data-bg="' + c[0] + '" data-fg="' + c[1] + '" aria-label="' + c[0] + '" style="background:' + c[0] + '"></button>';
+    }).join('');
+    // Custom chip carries the applied colour when it isn't a recommended swatch.
+    var customUnmatched = current && !matched;
+    sw += '<button type="button" class="mw-btn-panel__sw mw-btn-panel__sw--custom' + (customUnmatched ? ' active' : '') + '" data-act="custom-color" data-target="' + target + '" title="' + mw.lang('Custom') + '"'
+        + (customUnmatched ? ' style="background:' + current + '"' : '') + '>' + (customUnmatched ? '' : '+') + '</button>';
     return '<div class="mw-btn-panel__section"><div class="mw-btn-panel__label">' + label + '</div><div class="mw-btn-panel__swatches">' + sw + '</div></div>';
 }
 
@@ -215,14 +254,17 @@ function openBtnPanel(el) {
         + '</div>';
 
     var dupIco = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h9a2 2 0 0 1 2 2v9h-2V5H9V3zM5 7h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm0 2v10h9V9H5z"/></svg>';
-    var delIco = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zM6 9h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 9z"/></svg>';
+    var setIco = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
+    // Real module icon (falls back to a button glyph) — matches the kit header.
+    var badgeIco = btnModuleIcon() || '<svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 7h14M4 11h9M4 15h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="11" r="2.4" fill="currentColor"/></svg>';
 
     var html = ''
         + '<div class="mw-btn-panel__head">'
+        + '  <span class="mw-btn-panel__badge">' + badgeIco + '</span>'
         + '  <span class="mw-btn-panel__title">' + mw.lang('Button') + '</span>'
         + '  <div class="mw-btn-panel__head-actions">'
         + '    <button type="button" class="mw-btn-panel__ico" data-act="duplicate" title="' + mw.lang('Duplicate') + '">' + dupIco + '</button>'
-        + '    <button type="button" class="mw-btn-panel__ico is-danger" data-act="delete" title="' + mw.lang('Delete') + '">' + delIco + '</button>'
+        + '    <button type="button" class="mw-btn-panel__ico" data-act="pick-page" title="' + mw.lang('Settings') + '">' + setIco + '</button>'
         + '    <button type="button" class="mw-btn-panel__ico" data-act="close" title="' + mw.lang('Close') + '">✕</button>'
         + '  </div>'
         + '</div>'
@@ -252,7 +294,7 @@ function openBtnPanel(el) {
     var r = el.getBoundingClientRect();
     var off = btnFrameOffset();
     var win = doc.defaultView || window;
-    var pw = _btnPanelEl.offsetWidth || 270;
+    var pw = _btnPanelEl.offsetWidth || 300;
     var left = Math.min(r.left + off.x, win.innerWidth - pw - 10);
     var top = r.bottom + off.y + 8;
     if (top + (_btnPanelEl.offsetHeight || 360) > win.innerHeight - 8) {
@@ -292,6 +334,8 @@ function openBtnPanel(el) {
             var scope = sw.closest('.mw-btn-panel__swatches') || _btnPanelEl;
             scope.querySelectorAll('.mw-btn-panel__sw').forEach(function (x) { x.classList.remove('active'); });
             sw.classList.add('active');
+            var cust = scope.querySelector('.mw-btn-panel__sw--custom');
+            if (cust) { cust.style.background = ''; cust.textContent = '+'; }
             if (target === 'backgroundColor') {
                 // background sets a contrasting text colour as a smart default;
                 // the Text-colour section can override it.
@@ -339,6 +383,8 @@ function openBtnPanel(el) {
                         if (!color) { return; }
                         var scope = b.closest('.mw-btn-panel__swatches') || _btnPanelEl;
                         scope.querySelectorAll('.mw-btn-panel__sw').forEach(function (x) { x.classList.remove('active'); });
+                        // Show the chosen colour ON the custom chip.
+                        b.classList.add('active'); b.style.background = color; b.textContent = '';
                         if (tgt === 'backgroundColor') {
                             btnSaveOption(el, 'backgroundColor', color);
                             btnSaveOption(el, 'color', btnContrast(color));
@@ -373,14 +419,30 @@ function openBtnPanel(el) {
         });
     });
 
-    // Outside-click closes (bound once on the top document).
+    // Outside-click / Escape close — bound once on BOTH the top window and the
+    // canvas iframe (matches the kit). Clicks inside a spawned picker/dialog the
+    // panel opened must NOT dismiss it.
     if (!_btnPanelDocClick) {
         _btnPanelDocClick = function (ev) {
             if (!_btnPanelEl || _btnPanelEl.style.display !== 'block') { return; }
-            if (_btnPanelEl.contains(ev.target)) { return; }
+            var t = ev.target;
+            if (_btnPanelEl.contains(t)) { return; }
+            if (t && t.closest && t.closest('.mw-btn-panel, .mw-color-picker, .mw-dropdown, .modal, .fi-modal, .mw-dialog, .mw-filepicker')) { return; }
             btnClosePanel();
         };
-        setTimeout(function () { doc.addEventListener('click', _btnPanelDocClick, true); }, 0);
+        _btnPanelDocKey = function (ev) {
+            if (!_btnPanelEl || _btnPanelEl.style.display !== 'block') { return; }
+            if (ev.key === 'Escape' || ev.key === 'Esc') { ev.stopPropagation(); btnClosePanel(); }
+        };
+        setTimeout(function () {
+            doc.addEventListener('click', _btnPanelDocClick, true);
+            doc.addEventListener('keydown', _btnPanelDocKey, true);
+            var cd = btnCanvasDoc();
+            if (cd && cd !== doc) {
+                try { cd.addEventListener('click', _btnPanelDocClick, true); } catch (e) {}
+                try { cd.addEventListener('keydown', _btnPanelDocKey, true); } catch (e) {}
+            }
+        }, 0);
     }
 }
 
