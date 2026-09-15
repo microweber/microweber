@@ -477,6 +477,14 @@
             });
             mw.$(this.dialogMain).addClass('active');
             this.center();
+            // task-2026-09-15-modal-scroll: async dialog content (Livewire module
+            // settings) can finish rendering AFTER this initial center(), and the
+            // ResizeObserver-based re-center isn't guaranteed to fire in every
+            // browser. Re-center as the content settles so the modal can't be
+            // left below the fold. center() respects a user drag + is a no-op
+            // once the modal is already correctly placed.
+            setTimeout(function () { try { scope.center(); } catch (e) {} }, 350);
+            setTimeout(function () { try { scope.center(); } catch (e) {} }, 900);
             this._afterSize();
             mw.$(this).trigger('Show');
             mw.trigger('mwDialogShow', this);
@@ -572,6 +580,27 @@
             // dragged. A fresh (not yet dragged) dialog still centres normally.
             if (dtop && !scope._dragged) {
                 css.top = dtop > 0 ? dtop : 0;
+            }
+
+            // task-2026-09-15-modal-scroll: safety clamp — keep the dialog fully
+            // inside the viewport on EVERY center(), independent of the
+            // intuitive-growth guard above. Async content (Livewire module
+            // settings) can finish rendering after the first center(), and when
+            // the observeDimensions re-center doesn't fire, the intuitive guard
+            // leaves the modal at the position computed from its small
+            // pre-content height — sitting below the fold ("Module Settings opens
+            // below the scroll"). This runs regardless and is a no-op when the
+            // modal is already in view. If it's taller than the viewport, pin it
+            // near the top and let the container scroll internally.
+            if (!scope._dragged) {
+                var _winH = $window.height();
+                var _margin = 12;
+                var _curTop = (typeof css.top !== 'undefined') ? css.top : (parseFloat($holder.css('top')) || 0);
+                if (holderHeight + _margin * 2 <= _winH) {
+                    css.top = Math.min(Math.max(_curTop, _margin), _winH - holderHeight - _margin);
+                } else {
+                    css.top = _margin;
+                }
             }
 
 
