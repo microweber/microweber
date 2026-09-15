@@ -22,8 +22,8 @@ class SkillsServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-
-
+        // task-2026-09-15-qskit — Skills item CRUD API for the Live-Edit inline list.
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
     }
 
     /**

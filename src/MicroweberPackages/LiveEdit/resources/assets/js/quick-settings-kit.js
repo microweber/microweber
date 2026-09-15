@@ -182,8 +182,10 @@
             'html.dark .mw-qs-item__act:hover{background:#ffffff16;color:#e8eaed;}',
             '.mw-qs-item__act.is-danger:hover{background:rgba(220,57,57,.28);color:#dc2626;}',
             '.mw-qs-item__act[disabled]{opacity:.3;cursor:default;background:transparent;}',
-            '.mw-qs-item__body{padding:0 8px 8px;display:flex;flex-direction:column;gap:6px;}',
+            '.mw-qs-item__body{padding:0 8px 8px;display:flex;flex-direction:column;gap:8px;}',
             '.mw-qs-item__body textarea.mw-qs-input{min-height:56px;resize:vertical;}',
+            '.mw-qs-item__field{display:flex;flex-direction:column;gap:3px;}',
+            '.mw-qs-item__flabel{font-size:10.5px;font-weight:600;letter-spacing:.02em;color:#8a94a3;}',
             '.mw-qs-items__empty{color:#8a94a3;font-size:12px;padding:6px 2px;}',
             '.mw-qs-items__add{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;}',
             '.mw-qs-add{border:1px dashed #18243340;border-radius:9px;background:transparent;color:#182433;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;padding:8px 10px;flex:1 1 auto;}',
@@ -433,10 +435,20 @@
                 container.innerHTML = items.map(function (it, i) {
                     var body = fields.map(function (f) {
                         var v = esc(it[f.key]);
-                        var ph = esc(lang(f.label || f.key));
-                        return f.multiline
-                            ? '<textarea class="mw-qs-input" data-field="' + esc(f.key) + '" placeholder="' + ph + '">' + v + '</textarea>'
-                            : '<input type="text" class="mw-qs-input" data-field="' + esc(f.key) + '" placeholder="' + ph + '" value="' + v + '">';
+                        var ph = esc(lang(f.placeholder || f.label || f.key));
+                        var ctl;
+                        if (f.multiline || f.type === 'textarea') {
+                            ctl = '<textarea class="mw-qs-input" data-field="' + esc(f.key) + '" placeholder="' + ph + '">' + v + '</textarea>';
+                        } else if (f.type === 'select') {
+                            var opts = (f.options || []).map(function (o) {
+                                return '<option value="' + esc(o.value) + '"' + (String(o.value) === String(it[f.key]) ? ' selected' : '') + '>' + esc(lang(o.label)) + '</option>';
+                            }).join('');
+                            ctl = '<select class="mw-qs-input" data-field="' + esc(f.key) + '">' + opts + '</select>';
+                        } else {
+                            ctl = '<input type="' + (f.type === 'number' ? 'number' : 'text') + '" class="mw-qs-input" data-field="' + esc(f.key) + '" placeholder="' + ph + '" value="' + v + '">';
+                        }
+                        var flabel = f.label ? '<div class="mw-qs-item__flabel">' + esc(lang(f.label)) + '</div>' : '';
+                        return '<div class="mw-qs-item__field">' + flabel + ctl + '</div>';
                     }).join('');
                     return '<div class="mw-qs-item" data-id="' + esc(it.id) + '">'
                         + '<div class="mw-qs-item__head">'
@@ -460,7 +472,7 @@
                 var moved = items.splice(idx, 1)[0];
                 items.splice(to, 0, moved);
                 render();
-                qsHttp('POST', 'api/' + endpoint + '/reorder', { ids: items.map(function (x) { return x.id; }) }).then(reload);
+                qsHttp('POST', 'api/' + endpoint + '/reorder', { rel_id: relId, ids: items.map(function (x) { return x.id; }) }).then(reload);
             };
 
             var bind = function () {
@@ -475,7 +487,10 @@
                     });
                     row.querySelectorAll('[data-field]').forEach(function (inp) {
                         inp.addEventListener('change', function () {
-                            var payload = {}; payload[inp.dataset.field] = inp.value;
+                            // rel_id is redundant for DB-keyed controllers (global
+                            // id) but REQUIRED for JSON-option ones where the id is
+                            // an array index scoped to the module.
+                            var payload = { rel_id: relId }; payload[inp.dataset.field] = inp.value;
                             qsHttp('POST', 'api/' + endpoint + '/' + id, payload).then(function () {
                                 var found = items.filter(function (x) { return String(x.id) === String(id); })[0];
                                 if (found) { found[inp.dataset.field] = inp.value; }
@@ -488,7 +503,7 @@
                         });
                     });
                     row.querySelector('[data-act="del"]').addEventListener('click', function () {
-                        qsHttp('DELETE', 'api/' + endpoint + '/' + id).then(function () { load(); reload(); });
+                        qsHttp('DELETE', 'api/' + endpoint + '/' + id + '?rel_id=' + encodeURIComponent(relId)).then(function () { load(); reload(); });
                     });
                     row.querySelector('[data-act="up"]').addEventListener('click', function () { move(id, -1); });
                     row.querySelector('[data-act="down"]').addEventListener('click', function () { move(id, 1); });

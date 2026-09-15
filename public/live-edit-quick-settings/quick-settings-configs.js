@@ -469,6 +469,29 @@
         ]
     });
 
+    // Skills — inline item list (JSON-option backed via /api/skill-items).
+    //   skill (text) + percent (number) + style (select).
+    K.register({
+        type: 'skills', title: 'Skills', badge: 'Sk',
+        sections: [
+            {
+                type: 'itemlist', label: 'Skills', endpoint: 'skill-items', addLabel: 'Add skill',
+                fields: [
+                    { key: 'skill', label: 'Skill' },
+                    { key: 'percent', label: 'Percent', type: 'number', placeholder: '0–100' },
+                    {
+                        key: 'style', label: 'Color', type: 'select',
+                        options: [
+                            { label: 'Primary', value: 'primary' }, { label: 'Success', value: 'success' },
+                            { label: 'Info', value: 'info' }, { label: 'Warning', value: 'warning' }, { label: 'Danger', value: 'danger' }
+                        ]
+                    }
+                ]
+            },
+            { type: 'advanced', label: 'Advanced', hint: 'Design' }
+        ]
+    });
+
     // Contact form — button_text, thank_you_message, autoresponder, newsletter.
     //   Fields + email settings → Advanced.
     K.register({
