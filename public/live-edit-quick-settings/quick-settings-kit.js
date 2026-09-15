@@ -38,6 +38,14 @@
             return { x: r.left, y: r.top };
         } catch (e) { return { x: 0, y: 0 }; }
     }
+    // The canvas is a separate iframe document — clicks there don't reach the
+    // top-window click listener, so outside-click-close needs to listen on it too.
+    function canvasDoc() {
+        try {
+            var fr = mw.top().app.canvas.getFrame();
+            return fr.contentDocument || (fr.contentWindow && fr.contentWindow.document) || null;
+        } catch (e) { return null; }
+    }
 
     // ── module option round-trip (identical contract to the Btn panel) ──────
     function readOptions(el) {
@@ -293,7 +301,7 @@
     }
 
     // ── panel lifecycle ─────────────────────────────────────────────────────
-    var _el = null, _docClick = null;
+    var _el = null, _docClick = null, _closeOnOutside = true;
     function close() { if (_el) { _el.style.display = 'none'; } }
 
     function sectionsHtml(sections, opts) {
@@ -356,15 +364,28 @@
 
         wire(el, config);
 
+        // Close-on-outside-click, gated by a per-module flag so a module can
+        // opt out (config.closeOnOutsideClick === false). The listener is bound
+        // once on BOTH the top window and the canvas iframe (clicks on the page
+        // content live in a different document and otherwise never reach it).
+        _closeOnOutside = (config.closeOnOutsideClick !== false);
         if (!_docClick) {
             _docClick = function (ev) {
                 if (!_el || _el.style.display !== 'block') { return; }
-                if (_el.contains(ev.target)) { return; }
-                // colour-picker / icon-picker popups live outside the panel
-                if (ev.target.closest && ev.target.closest('.mw-color-picker, .mw-dropdown, .modal, .fi-modal')) { return; }
+                if (!_closeOnOutside) { return; }
+                var t = ev.target;
+                if (_el.contains(t)) { return; }
+                // Interacting with a picker / dialog / dropdown the panel spawned
+                // (colour picker, icon picker, media picker, module settings) must
+                // not close it.
+                if (t && t.closest && t.closest('.mw-qs-panel, .mw-color-picker, .mw-dropdown, .modal, .fi-modal, .mw-dialog, .mw-filepicker')) { return; }
                 close();
             };
-            setTimeout(function () { doc.addEventListener('click', _docClick, true); }, 0);
+            setTimeout(function () {
+                doc.addEventListener('click', _docClick, true);
+                var cd = canvasDoc();
+                if (cd && cd !== doc) { try { cd.addEventListener('click', _docClick, true); } catch (e) {} }
+            }, 0);
         }
     }
 
