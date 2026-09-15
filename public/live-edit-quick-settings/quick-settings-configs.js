@@ -469,6 +469,23 @@
         ]
     });
 
+    // Data-source / builder modules — no inline-editable quick properties
+    // (their content is chosen / built in the full editor). The panel still
+    // adds the quick Duplicate / Delete actions + a labeled shortcut to the
+    // right editor, consistent with every other module handle.
+    K.register({
+        type: 'custom_fields', title: 'Custom fields', badge: 'Cu',
+        sections: [{ type: 'advanced', label: 'Manage fields', hint: 'Add, edit & remove fields' }]
+    });
+    K.register({
+        type: 'posts', title: 'Posts', badge: 'Po',
+        sections: [{ type: 'advanced', label: 'Manage posts', hint: 'Choose posts & layout' }]
+    });
+    K.register({
+        type: 'shop/products', title: 'Products', badge: 'Pr',
+        sections: [{ type: 'advanced', label: 'Choose products', hint: 'Source, layout & filters' }]
+    });
+
     // Pictures — inline image gallery (Media-backed via /api/picture-items).
     //   Add opens the shared media picker; delete + reorder on hover.
     K.register({
