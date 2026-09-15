@@ -312,16 +312,25 @@
         _el.innerHTML = head + body;
         _el.style.display = 'block';
 
-        // position near the module
+        // Position near the module, then HARD-CLAMP fully into the viewport so
+        // the panel can never open off-screen — a large module (video), a
+        // scrolled canvas, or the canvas-frame offset would otherwise push it
+        // out. Prefer just below the module; flip above if that overflows the
+        // bottom; then clamp both axes. The panel CSS caps max-height + scrolls
+        // internally, so a panel taller than the viewport pins to the top margin.
         var r = el.getBoundingClientRect(), off = frameOffset(), win = doc.defaultView || window;
-        var pw = _el.offsetWidth || 300;
-        var left = Math.min(r.left + off.x, win.innerWidth - pw - 10);
-        var top = r.bottom + off.y + 8;
-        if (top + (_el.offsetHeight || 380) > win.innerHeight - 8) {
-            top = Math.max(8, r.top + off.y - (_el.offsetHeight || 380) - 8);
-        }
-        _el.style.left = Math.round(Math.max(8, left)) + 'px';
-        _el.style.top = Math.round(Math.max(8, top)) + 'px';
+        var margin = 8;
+        var winW = win.innerWidth, winH = win.innerHeight;
+        var pw = _el.offsetWidth || 300, ph = _el.offsetHeight || 380;
+        var anchorLeft = r.left + off.x;
+        var below = r.bottom + off.y + margin;
+        var above = r.top + off.y - ph - margin;
+        var top = below;
+        if (below + ph > winH - margin && above >= margin) { top = above; }
+        var left = Math.min(Math.max(anchorLeft, margin), Math.max(margin, winW - pw - margin));
+        top = Math.min(Math.max(top, margin), Math.max(margin, winH - ph - margin));
+        _el.style.left = Math.round(left) + 'px';
+        _el.style.top = Math.round(top) + 'px';
 
         wire(el, config);
 
