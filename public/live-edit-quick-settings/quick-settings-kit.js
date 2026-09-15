@@ -47,6 +47,23 @@
         } catch (e) { return null; }
     }
 
+    // Real module icon from the modules service Live Edit already loads
+    // (mw.app.modules — Modules.list() runs on boot, data is cached; NO new
+    // request). Returns processed icon HTML (<img> data-URI SVG or inline SVG),
+    // or null so the caller can fall back to the 2-letter badge.
+    function moduleIcon(type) {
+        if (!type) { return null; }
+        try {
+            var svc = (mw.top && mw.top().app && mw.top().app.modules) ? mw.top().app.modules
+                : (mw.app && mw.app.modules ? mw.app.modules : null);
+            if (svc && typeof svc.getModuleIcon === 'function' && svc.modulesListData) {
+                var html = svc.getModuleIcon(type);
+                if (html && typeof html === 'string') { return html; }
+            }
+        } catch (e) {}
+        return null;
+    }
+
     // ── module option round-trip (identical contract to the Btn panel) ──────
     function readOptions(el) {
         try {
@@ -128,6 +145,12 @@
             '.mw-qs-panel__head{display:flex;align-items:center;gap:8px;margin-bottom:12px;}',
             '.mw-qs-panel__badge{width:28px;height:28px;border-radius:8px;background:#182433;color:#fff;font-weight:600;font-size:11px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;letter-spacing:.02em;}',
             'html.dark .mw-qs-panel__badge{background:#e8eaed;color:#182433;}',
+            // real module icon: light surface + ink glyph (the icon SVGs use
+            // currentColor / are dark, so an ink-on-light chip reads correctly).
+            '.mw-qs-panel__badge--icon{background:#F4F4F2;color:#182433;padding:4px;}',
+            '.mw-qs-panel__badge--icon img,.mw-qs-panel__badge--icon svg{width:20px;height:20px;display:block;object-fit:contain;}',
+            'html.dark .mw-qs-panel__badge--icon{background:#2a2e34;color:#e8eaed;}',
+            'html.dark .mw-qs-panel__badge--icon img{filter:invert(1) brightness(1.6);}',
             '.mw-qs-panel__title{font-weight:600;font-size:14px;flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}',
             '.mw-qs-panel__head-actions{display:flex;gap:2px;flex:0 0 auto;}',
             '.mw-qs-panel__ico{width:30px;height:30px;border:0;border-radius:7px;background:transparent;color:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;}',
@@ -316,8 +339,15 @@
         var dupIco = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h9a2 2 0 0 1 2 2v9h-2V5H9V3zM5 7h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm0 2v10h9V9H5z"/></svg>';
         var setIco = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
 
+        // Prefer the real module icon (from the modules service Live Edit
+        // already loaded); fall back to the 2-letter badge only if unavailable.
+        var iconHtml = moduleIcon(el.getAttribute('data-type') || el.getAttribute('type') || config.type);
+        var badge = iconHtml
+            ? '<span class="mw-qs-panel__badge mw-qs-panel__badge--icon">' + iconHtml + '</span>'
+            : (config.badge ? '<span class="mw-qs-panel__badge">' + esc(config.badge) + '</span>' : '');
+
         var head = '<div class="mw-qs-panel__head">'
-            + (config.badge ? '<span class="mw-qs-panel__badge">' + esc(config.badge) + '</span>' : '')
+            + badge
             + '<span class="mw-qs-panel__title">' + esc(lang(config.title || 'Settings')) + '</span>'
             + '<div class="mw-qs-panel__head-actions">'
             + '<button type="button" class="mw-qs-panel__ico" data-ctl="duplicate" title="' + esc(lang('Duplicate')) + '">' + dupIco + '</button>'
