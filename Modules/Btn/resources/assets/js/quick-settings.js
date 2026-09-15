@@ -152,6 +152,22 @@ function btnClosePanel() {
     if (_btnPanelEl) { _btnPanelEl.style.display = 'none'; }
 }
 
+// task-2026-09-15-qs — cross-panel coordination: opening any quick panel closes
+// every other one (incl. the shared kit's .mw-qs-panel). Decoupled via a
+// top-window event; the kit emits + listens for the same event.
+function btnQsWin() { try { return btnTopDoc().defaultView || window; } catch (e) { return window; } }
+function btnAnnounceOpen() {
+    try { btnQsWin().dispatchEvent(new CustomEvent('mwQuickSettingsWillOpen', { detail: { source: 'btn' } })); } catch (e) {}
+}
+(function () {
+    try {
+        btnQsWin().addEventListener('mwQuickSettingsWillOpen', function (e) {
+            if (e && e.detail && e.detail.source === 'btn') { return; }
+            btnClosePanel();
+        });
+    } catch (e) {}
+})();
+
 function btnPanelSeg(label, group, items, current) {
     var cells = items.map(function (it) {
         var active = (String(it.value) === String(current)) ? ' active' : '';
@@ -176,6 +192,7 @@ function btnSwatchSection(label, target, current) {
 
 function openBtnPanel(el) {
     btnPanelInjectCss();
+    btnAnnounceOpen();
     var doc = btnTopDoc();
     var opts = btnReadOptions(el);
     var curType = opts.style || '';

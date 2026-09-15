@@ -323,6 +323,19 @@
         return '';
     }
 
+    // ── cross-panel coordination ────────────────────────────────────────────
+    // Opening any quick panel must close every other one — including panels from
+    // OTHER implementations (e.g. the Btn module's own .mw-btn-panel). Decoupled
+    // via a top-window event: on open a panel announces itself; every panel but
+    // the announcer closes. Panels from other bundles just listen for the same
+    // event + emit it on their own open.
+    // The real top WINDOW (mw.top() returns the top mw-namespace object, which
+    // has no addEventListener) — use the top document's defaultView.
+    function qsWin() { try { return topDoc().defaultView || window; } catch (e) { return window; } }
+    function announceOpen(source) {
+        try { qsWin().dispatchEvent(new CustomEvent('mwQuickSettingsWillOpen', { detail: { source: source } })); } catch (e) {}
+    }
+
     // ── panel lifecycle ─────────────────────────────────────────────────────
     var _el = null, _docClick = null, _closeOnOutside = true;
     function close() { if (_el) { _el.style.display = 'none'; } }
@@ -333,6 +346,10 @@
 
     function open(el, config) {
         injectCss();
+        // Close any other quick panel (incl. other implementations) before this
+        // one shows. The kit reuses a single _el, so it never needs to close a
+        // prior KIT panel — but this closes e.g. the Btn module's own panel.
+        announceOpen('kit');
         var doc = topDoc();
         var opts = readOptions(el);
 
@@ -697,9 +714,18 @@
         });
     }
 
+    // When any OTHER quick panel announces it's opening, close this kit panel.
+    try {
+        qsWin().addEventListener('mwQuickSettingsWillOpen', function (e) {
+            if (e && e.detail && e.detail.source === 'kit') { return; }
+            close();
+        });
+    } catch (e) {}
+
     // ── public API ──────────────────────────────────────────────────────────
     mw.quickSettingsKit = {
         open: open,
+        closeAll: function () { announceOpen('external'); close(); },
         recommendedColors: recommendedColors,
         register: function (config) {
             if (!config || !config.type) { return; }
