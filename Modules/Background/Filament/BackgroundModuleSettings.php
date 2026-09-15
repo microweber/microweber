@@ -4,6 +4,7 @@ namespace Modules\Background\Filament;
 
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
@@ -35,6 +36,26 @@ class BackgroundModuleSettings extends LiveEditModuleSettings
                     'optionGroup' => $optionGroup,
                     'showOnlyBackgroundSettings' => true,
                 ]),
+
+                // task-2026-09-15-qskit — Overlay + Fit, matching the Live-Edit
+                // quick panel. Appended as their own fields (NOT edited into the
+                // shared layouts background-settings view). data-background-overlay
+                // → scrim; data-background-size → object-fit (both consumed by the
+                // Background module template).
+                ToggleButtons::make('options.data-background-overlay')
+                    ->label('Overlay')
+                    ->helperText('A translucent scrim over the image / video.')
+                    ->inline()
+                    ->live()
+                    ->options(['' => 'None', 'light' => 'Light', 'dark' => 'Dark'])
+                    ->default(fn () => $this->getOption('data-background-overlay', '')),
+
+                ToggleButtons::make('options.data-background-size')
+                    ->label('Fit')
+                    ->inline()
+                    ->live()
+                    ->options(['cover' => 'Cover', 'contain' => 'Contain'])
+                    ->default(fn () => $this->getOption('data-background-size', 'cover')),
 
 //                MwFileUpload::make('options.data-background-image')
 //                    ->label('Background Image URL')
