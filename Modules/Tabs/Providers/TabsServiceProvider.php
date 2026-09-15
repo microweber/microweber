@@ -24,6 +24,8 @@ class TabsServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        // task-2026-09-15-qskit — Tabs item CRUD API for the Live-Edit inline list.
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
     }
 
     /**

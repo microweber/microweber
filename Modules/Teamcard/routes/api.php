@@ -1,19 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Teamcard\Http\Controllers\TeamcardController;
+use Modules\Teamcard\Http\Controllers\TeamcardItemsController;
 
-/*
- *--------------------------------------------------------------------------
- * API Routes
- *--------------------------------------------------------------------------
- *
- * Here is where you can register API routes for your application. These
- * routes are loaded by the RouteServiceProvider within a group which
- * is assigned the "api" middleware group. Enjoy building your API!
- *
-*/
-
-//Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-//    Route::apiResource('teamcard', TeamcardController::class)->names('teamcard');
-//});
+// task-2026-09-15-qskit — Teamcard item CRUD for the Live-Edit inline list (admin-guarded).
+Route::middleware(['admin'])->group(function () {
+    Route::get('api/teamcard-items', [TeamcardItemsController::class, 'index']);
+    Route::post('api/teamcard-items', [TeamcardItemsController::class, 'store']);
+    Route::post('api/teamcard-items/reorder', [TeamcardItemsController::class, 'reorder']);
+    Route::post('api/teamcard-items/{id}', [TeamcardItemsController::class, 'update']);
+    Route::delete('api/teamcard-items/{id}', [TeamcardItemsController::class, 'destroy']);
+});

@@ -401,6 +401,65 @@
         ]
     });
 
+    // FAQ — inline item list (DB-backed via /api/faq-items). question + answer.
+    K.register({
+        type: 'faq', title: 'FAQ', badge: 'Fq',
+        sections: [
+            {
+                type: 'itemlist', label: 'Questions', endpoint: 'faq-items', addLabel: 'Add question', ai: true,
+                fields: [{ key: 'question', label: 'Question' }, { key: 'answer', label: 'Answer', multiline: true }]
+            },
+            { type: 'advanced', label: 'Advanced', hint: 'Design' }
+        ]
+    });
+
+    // Tabs — inline item list (DB-backed via /api/tab-items). title + content.
+    K.register({
+        type: 'tabs', title: 'Tabs', badge: 'Tb',
+        sections: [
+            {
+                type: 'itemlist', label: 'Tabs', endpoint: 'tab-items', addLabel: 'Add tab', ai: true,
+                fields: [{ key: 'title', label: 'Title' }, { key: 'content', label: 'Content', multiline: true }]
+            },
+            { type: 'advanced', label: 'Advanced', hint: 'Icons, design' }
+        ]
+    });
+
+    // Testimonials — inline item list (DB-backed via /api/testimonial-items).
+    //   Client photo stays in the full editor.
+    K.register({
+        type: 'testimonials', title: 'Testimonials', badge: 'Ts',
+        sections: [
+            {
+                type: 'itemlist', label: 'Testimonials', endpoint: 'testimonial-items', addLabel: 'Add testimonial', ai: true,
+                fields: [
+                    { key: 'name', label: 'Name' },
+                    { key: 'content', label: 'Quote', multiline: true },
+                    { key: 'client_role', label: 'Role' },
+                    { key: 'client_company', label: 'Company' }
+                ]
+            },
+            { type: 'advanced', label: 'Advanced', hint: 'Photos, design, source' }
+        ]
+    });
+
+    // Team cards — inline item list (DB-backed via /api/teamcard-items).
+    //   Member photo stays in the full editor.
+    K.register({
+        type: 'teamcard', title: 'Team', badge: 'Tm',
+        sections: [
+            {
+                type: 'itemlist', label: 'Members', endpoint: 'teamcard-items', addLabel: 'Add member', ai: true,
+                fields: [
+                    { key: 'name', label: 'Name' },
+                    { key: 'role', label: 'Role' },
+                    { key: 'bio', label: 'Bio', multiline: true }
+                ]
+            },
+            { type: 'advanced', label: 'Advanced', hint: 'Photos, design' }
+        ]
+    });
+
     // Contact form — button_text, thank_you_message, autoresponder, newsletter.
     //   Fields + email settings → Advanced.
     K.register({
