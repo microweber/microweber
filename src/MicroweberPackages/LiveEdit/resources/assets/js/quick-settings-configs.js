@@ -375,6 +375,15 @@
     K.register({
         type: 'slider', title: 'Slider', badge: 'Sl',
         sections: [
+            {
+                type: 'itemlist', label: 'Slides', endpoint: 'slider-slides', addLabel: 'Add slide', ai: true,
+                fields: [
+                    { key: 'name', label: 'Title' },
+                    { key: 'description', label: 'Description', multiline: true },
+                    { key: 'button_text', label: 'Button text' },
+                    { key: 'link', label: 'Button link' }
+                ]
+            },
             { type: 'select', label: 'Effect', key: 'effect', def: 'slide', options: [{ label: 'Slide', value: 'slide' }, { label: 'Fade', value: 'fade' }, { label: 'Coverflow', value: 'coverflow' }] },
             { type: 'toggle', label: 'Autoplay', key: 'autoplay', def: '1', onValue: '1', offValue: '0' },
             { type: 'text', label: 'Autoplay speed', key: 'autoplay_speed', inputType: 'number', def: 3000, suffix: 'ms' },
