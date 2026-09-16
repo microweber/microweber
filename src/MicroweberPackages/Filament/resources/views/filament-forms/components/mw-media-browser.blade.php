@@ -77,20 +77,16 @@
             @php
                 $mwMediaBrowserPickerHandler = "() => { mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => { if (!Array.isArray(url)) { url = [url]; } \$wire.callSchemaComponentMethod('" . $statePath . "', 'addMediaItemMultiple', { data: { urls: url } }); }); }";
             @endphp
+            {{-- Drag-and-drop is bound by a GLOBAL observer in the theme bundle
+                 (mw-media-browser.js) keyed off data-mw-media-dropzone — NOT an
+                 inline x-init/script, which was unreliable inside the Live Edit
+                 modal. The observer reads data-state-path and calls the Livewire
+                 component via Livewire.find(). --}}
             <div
                 id="mw-image-dropzone"
+                data-mw-media-dropzone="1"
+                data-state-path="{{ $statePath }}"
                 class="mw-media-browser-dropzone w-full flex flex-col p-4 items-center justify-center border-2 border-dashed border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
-                x-init="(function (elx, wire) {
-                    var setup = function () {
-                        if (typeof mw === 'undefined' || !mw.dropZone) { return setTimeout(setup, 120); }
-                        if (elx._mwDzBound) { return; }
-                        elx._mwDzBound = true;
-                        mw.dropZone(elx).on('fileUploaded', function (res) {
-                            wire.callSchemaComponentMethod('{{ $statePath }}', 'addMediaItem', { data: { url: res.src } });
-                        });
-                    };
-                    setup();
-                })($el, $wire)"
             >
 
                 <x-heroicon-o-photo class="w-8 h-8 text-gray-400 mb-3" />
