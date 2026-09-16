@@ -290,18 +290,18 @@ function openBtnPanel(el) {
     _btnPanelEl.innerHTML = html;
     _btnPanelEl.style.display = 'block';
 
-    // Position under/near the button.
+    // Position near the module's TOP-LEFT (by the handle toolbar), then clamp
+    // fully into the viewport — matches the shared kit.
     var r = el.getBoundingClientRect();
     var off = btnFrameOffset();
     var win = doc.defaultView || window;
-    var pw = _btnPanelEl.offsetWidth || 300;
-    var left = Math.min(r.left + off.x, win.innerWidth - pw - 10);
-    var top = r.bottom + off.y + 8;
-    if (top + (_btnPanelEl.offsetHeight || 360) > win.innerHeight - 8) {
-        top = Math.max(8, r.top + off.y - (_btnPanelEl.offsetHeight || 360) - 8);
-    }
-    _btnPanelEl.style.left = Math.round(Math.max(8, left)) + 'px';
-    _btnPanelEl.style.top = Math.round(Math.max(8, top)) + 'px';
+    var margin = 8;
+    var winW = win.innerWidth, winH = win.innerHeight;
+    var pw = _btnPanelEl.offsetWidth || 300, ph = _btnPanelEl.offsetHeight || 360;
+    var left = Math.min(Math.max(r.left + off.x, margin), Math.max(margin, winW - pw - margin));
+    var top = Math.min(Math.max(r.top + off.y, margin), Math.max(margin, winH - ph - margin));
+    _btnPanelEl.style.left = Math.round(left) + 'px';
+    _btnPanelEl.style.top = Math.round(top) + 'px';
 
     // ── wiring ──
     var setActive = function (group, val) {

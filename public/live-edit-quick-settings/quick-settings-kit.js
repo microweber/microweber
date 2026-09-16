@@ -282,10 +282,13 @@
 
         if (c.type === 'segmented') {
             var cells = (c.options || []).map(function (o) {
-                return '<button type="button" class="mw-qs-cell' + (eq(o.value, cur) ? ' active' : '') + '"'
+                var on = eq(o.value, cur);
+                return '<button type="button" class="mw-qs-cell' + (on ? ' active' : '') + '"'
+                    + ' role="radio" aria-checked="' + (on ? 'true' : 'false') + '"'
                     + ' data-ctl="segmented" data-key="' + esc(c.key) + '" data-val="' + esc(o.value) + '">' + esc(lang(o.label)) + '</button>';
             }).join('');
-            return '<div class="mw-qs-section">' + label + '<div class="mw-qs-seg">' + cells + '</div></div>';
+            return '<div class="mw-qs-section">' + label + '<div class="mw-qs-seg" role="radiogroup"'
+                + (c.label ? ' aria-label="' + esc(lang(c.label)) + '"' : '') + '>' + cells + '</div></div>';
         }
         if (c.type === 'swatches') {
             var low = String(cur || '').toLowerCase();
@@ -414,11 +417,15 @@
 
         var body;
         if (config.tabs && config.tabs.length) {
-            var tabsNav = '<div class="mw-qs-tabs">' + config.tabs.map(function (t, i) {
-                return '<button type="button" class="mw-qs-tab' + (i === 0 ? ' active' : '') + '" data-tab="' + i + '">' + esc(lang(t.name)) + '</button>';
+            var tid = 'mwqs-' + (el.getAttribute('id') || 'x');
+            var tabsNav = '<div class="mw-qs-tabs" role="tablist">' + config.tabs.map(function (t, i) {
+                return '<button type="button" class="mw-qs-tab' + (i === 0 ? ' active' : '') + '" data-tab="' + i + '"'
+                    + ' role="tab" id="' + tid + '-t' + i + '" aria-controls="' + tid + '-p' + i + '" aria-selected="' + (i === 0 ? 'true' : 'false') + '">'
+                    + esc(lang(t.name)) + '</button>';
             }).join('') + '</div>';
             var panes = config.tabs.map(function (t, i) {
-                return '<div class="mw-qs-pane" data-pane="' + i + '"' + (i === 0 ? '' : ' style="display:none"') + '>' + sectionsHtml(t.sections, opts) + '</div>';
+                return '<div class="mw-qs-pane" data-pane="' + i + '" role="tabpanel" id="' + tid + '-p' + i + '" aria-labelledby="' + tid + '-t' + i + '"'
+                    + (i === 0 ? '' : ' style="display:none"') + '>' + sectionsHtml(t.sections, opts) + '</div>';
             }).join('');
             body = tabsNav + panes;
         } else {
@@ -429,21 +436,20 @@
         _el.innerHTML = head + body;
         _el.style.display = 'block';
 
-        // Position near the module, then HARD-CLAMP fully into the viewport so
-        // the panel can never open off-screen — a large module (video), a
-        // scrolled canvas, or the canvas-frame offset would otherwise push it
-        // out. Prefer just below the module; flip above if that overflows the
-        // bottom; then clamp both axes. The panel CSS caps max-height + scrolls
-        // internally, so a panel taller than the viewport pins to the top margin.
+        // Position near the module's TOP-LEFT — i.e. next to the handle toolbar,
+        // which always sits at the module's top edge. Anchoring to the top (not
+        // below the whole module) keeps the panel by the toolbar for a tall
+        // module like Video instead of dropping it near the module's bottom.
+        // Then HARD-CLAMP fully into the viewport so it can never open off-screen
+        // (a scrolled canvas / the canvas-frame offset would otherwise push it
+        // out). The panel CSS caps max-height + scrolls internally, so a panel
+        // taller than the viewport pins to the top margin.
         var r = el.getBoundingClientRect(), off = frameOffset(), win = doc.defaultView || window;
         var margin = 8;
         var winW = win.innerWidth, winH = win.innerHeight;
         var pw = _el.offsetWidth || 300, ph = _el.offsetHeight || 380;
         var anchorLeft = r.left + off.x;
-        var below = r.bottom + off.y + margin;
-        var above = r.top + off.y - ph - margin;
-        var top = below;
-        if (below + ph > winH - margin && above >= margin) { top = above; }
+        var top = r.top + off.y;
         var left = Math.min(Math.max(anchorLeft, margin), Math.max(margin, winW - pw - margin));
         top = Math.min(Math.max(top, margin), Math.max(margin, winH - ph - margin));
         _el.style.left = Math.round(left) + 'px';
@@ -490,14 +496,20 @@
         _el.querySelectorAll('.mw-qs-tab').forEach(function (t) {
             t.addEventListener('click', function () {
                 var i = t.dataset.tab;
-                _el.querySelectorAll('.mw-qs-tab').forEach(function (x) { x.classList.toggle('active', x === t); });
+                _el.querySelectorAll('.mw-qs-tab').forEach(function (x) {
+                    var on = x === t;
+                    x.classList.toggle('active', on);
+                    x.setAttribute('aria-selected', on ? 'true' : 'false');
+                });
                 _el.querySelectorAll('.mw-qs-pane').forEach(function (p) { p.style.display = (p.dataset.pane === i) ? '' : 'none'; });
             });
         });
 
         var setActive = function (key, val) {
             _el.querySelectorAll('[data-ctl="segmented"][data-key="' + key + '"]').forEach(function (b) {
-                b.classList.toggle('active', eq(b.dataset.val, val));
+                var on = eq(b.dataset.val, val);
+                b.classList.toggle('active', on);
+                b.setAttribute('aria-checked', on ? 'true' : 'false');
             });
         };
 
