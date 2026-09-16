@@ -242,13 +242,22 @@
                                  CSS (general-styles.css:707) already declares absolute+cover
                                  via Tailwind utilities, so a real <img> with object-fit:cover
                                  inside a <span> wrapper preserves the visual exactly. --}}
+                            {{-- task-2026-09-16-sortable — draggable="false" on the
+                                 thumbnail image. Filament x-sortable uses SortableJS
+                                 native HTML5 DnD with the item as the handle, but an
+                                 <img> is natively draggable, so grabbing a thumbnail
+                                 started a native IMAGE drag (dragging the picture out)
+                                 instead of the reorder — "can't drag them to reorder".
+                                 Disabling native image drag lets SortableJS take the
+                                 drag. --}}
                             <span class="mw-post-media-img" data-id="{{ $item->id }}">
                                 <img src="{{ $item->filename }}"
                                      alt=""
                                      loading="lazy"
                                      decoding="async"
+                                     draggable="false"
                                      class="d-block w-100 h-100"
-                                     style="object-fit: cover;">
+                                     style="object-fit: cover; -webkit-user-drag: none; user-select: none;">
                             </span>
 
 
