@@ -74,11 +74,17 @@
                 module) — out of scope for the bounded slice here.
             --}}
             @php
-                $mwMediaBrowserPickerHandler = "() => { mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => { if (!Array.isArray(url)) { url = [url]; } \$wire.callSchemaComponentMethod('" . $statePath . "', 'addMediaItemMultiple', { data: { urls: url } }); }); }";
+                $mwMediaBrowserPickerHandler = "() => { mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => { if (!Array.isArray(url)) { url = [url]; } \$wire.callSchemaComponentMethod('" . $getKey() . "', 'addMediaItemMultiple', { data: { urls: url } }); }); }";
             @endphp
+            {{-- task-2026-09-16-key — data-component-key is the ABSOLUTE schema key
+                 (e.g. "form.mediaIds"), NOT the state path ("mediaIds"):
+                 $wire.callSchemaComponentMethod resolves the component via
+                 getSchemaComponent(), which REQUIRES a dotted key and silently
+                 returns null (no-op, nothing saves) for a bare state path. --}}
             <div
                 id="mw-image-dropzone"
                 data-mw-media-dropzone="1"
+                data-component-key="{{ $getKey() }}"
                 data-state-path="{{ $statePath }}"
                 class="mw-media-browser-dropzone w-full flex flex-col p-4 items-center justify-center border-2 border-dashed border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
             >

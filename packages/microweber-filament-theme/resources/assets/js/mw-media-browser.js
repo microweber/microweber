@@ -6,6 +6,14 @@ document.addEventListener('alpine:init', () => {
         selectedImages: [],
 
 
+        // Absolute schema key (e.g. "form.mediaIds") for
+        // $wire.callSchemaComponentMethod — a bare state path ("mediaIds") has no
+        // dot and silently resolves to null on the server (nothing happens).
+        mwComponentKey() {
+            const dz = this.$el.closest('[data-mw-media-dropzone]');
+            return (dz && dz.getAttribute('data-component-key')) || 'form.mediaIds';
+        },
+
         init() {
             this.$watch('selectedImages', (value) => {
                 this.showBulkDeleteButton = value.length > 0;
@@ -35,7 +43,7 @@ document.addEventListener('alpine:init', () => {
             if (!dz || dz._mwDzBound) {
                 return;
             }
-            const statePath = dz.getAttribute('data-state-path') || 'mediaIds';
+            const componentKey = this.mwComponentKey();
             const self = this;
             const bind = () => {
                 if (typeof mw === 'undefined' || !mw.dropZone) {
@@ -44,7 +52,7 @@ document.addEventListener('alpine:init', () => {
                 }
                 dz._mwDzBound = true;
                 mw.dropZone(dz).on('fileUploaded', (res) => {
-                    self.$wire.callSchemaComponentMethod(statePath, 'addMediaItem', { data: { url: res.src } });
+                    self.$wire.callSchemaComponentMethod(componentKey, 'addMediaItem', { data: { url: res.src } });
                 });
             };
             bind();
@@ -57,8 +65,7 @@ document.addEventListener('alpine:init', () => {
         // too early and saved a stale/off-by-one order) — and persist it.
         initMediaSortPersistence() {
             const root = this.$root;
-            const dz = this.$el.closest('[data-mw-media-dropzone]');
-            const statePath = dz ? (dz.getAttribute('data-state-path') || 'mediaIds') : 'mediaIds';
+            const componentKey = this.mwComponentKey();
             const self = this;
             root.addEventListener('end', () => {
                 setTimeout(() => {
@@ -73,15 +80,13 @@ document.addEventListener('alpine:init', () => {
                     if (!ids.length) {
                         return;
                     }
-                    self.$wire.callSchemaComponentMethod(statePath, 'mediaItemsSort', { itemsSortedIds: ids });
+                    self.$wire.callSchemaComponentMethod(componentKey, 'mediaItemsSort', { itemsSortedIds: ids });
                 }, 0);
             });
         },
 
         editMediaOptionsById(id) {
-            // Get the current state path from the form event
-            const statePath = this.$el.closest('[x-data-id]').getAttribute('x-data-id');
-            this.$wire.mountFormComponentAction(statePath, 'edit', {id: id});
+            this.$wire.mountFormComponentAction(this.mwComponentKey(), 'edit', {id: id});
         },
 
         selectAllMedia() {
@@ -97,8 +102,7 @@ document.addEventListener('alpine:init', () => {
         bulkDeleteSelectedMedia() {
             if (this.selectedImages && this.selectedImages.length > 0) {
                 if (confirm('Are you sure you want to delete the selected images?')) {
-                    const statePath = this.$root.querySelector('[x-data-id]').getAttribute('x-data-id');
-                    this.$wire.callSchemaComponentMethod(statePath, 'deleteMediaItemsByIds', {
+                    this.$wire.callSchemaComponentMethod(this.mwComponentKey(), 'deleteMediaItemsByIds', {
                         ids: this.selectedImages
                     });
                     this.selectedImages = [];
@@ -109,8 +113,7 @@ document.addEventListener('alpine:init', () => {
         async deleteMediaById(id) {
             const dialogConfirm = await mw.confirm('Are you sure you want to delete this image?').promise()
             if (dialogConfirm) {
-                const statePath = this.$el.closest('[x-data-id]').getAttribute('x-data-id');
-                this.$wire.callSchemaComponentMethod(statePath, 'deleteMediaItemById', {
+                this.$wire.callSchemaComponentMethod(this.mwComponentKey(), 'deleteMediaItemById', {
                     id: id
                 });
             }
@@ -118,8 +121,7 @@ document.addEventListener('alpine:init', () => {
 
         async editImageFilename(id, url) {
             const editedImage = await mw.top().app.editImageDialog.editImageUrl(url);
-            const statePath = this.$el.closest('[x-data-id]').getAttribute('x-data-id');
-            this.$wire.callSchemaComponentMethod(statePath, 'updateImageFilename', {
+            this.$wire.callSchemaComponentMethod(this.mwComponentKey(), 'updateImageFilename', {
                 data: { id: id, filename: editedImage }
             });
         }
