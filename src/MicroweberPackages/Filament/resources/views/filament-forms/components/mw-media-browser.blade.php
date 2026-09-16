@@ -28,17 +28,16 @@
 
         <div>
 
-            <script>
-                document.addEventListener('livewire:init', function () {
-                    mw.dropZone('#mw-image-dropzone').on('fileUploaded', res => {
-                        var data = {}
-                        data.url = res.src
-
-                        $wire.callSchemaComponentMethod('{{ $statePath }}', 'addMediaItem', {data: data})
-
-                    })
-                });
-            </script>
+            {{-- task-2026-09-16-dropzone — drag-and-drop was wired inside
+                 document.addEventListener('livewire:init', …), which fires ONCE
+                 at initial page boot. This component renders inside a
+                 dynamically-opened modal (Module Settings), long after boot, so
+                 that listener never ran and mw.dropZone was never attached — the
+                 "drag images directly into this box" affordance silently did
+                 nothing (the buttons worked because they use Alpine x-on:click).
+                 Fixed: initialise from Alpine x-init on the dropzone element (see
+                 below), which runs when the element mounts and has $el/$wire in
+                 scope. --}}
 
             {{--
                 NOVICE #9 (task-2026-05-13-899d57) — affordance rewrite.
@@ -81,6 +80,17 @@
             <div
                 id="mw-image-dropzone"
                 class="mw-media-browser-dropzone w-full flex flex-col p-4 items-center justify-center border-2 border-dashed border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+                x-init="(function (elx, wire) {
+                    var setup = function () {
+                        if (typeof mw === 'undefined' || !mw.dropZone) { return setTimeout(setup, 120); }
+                        if (elx._mwDzBound) { return; }
+                        elx._mwDzBound = true;
+                        mw.dropZone(elx).on('fileUploaded', function (res) {
+                            wire.callSchemaComponentMethod('{{ $statePath }}', 'addMediaItem', { data: { url: res.src } });
+                        });
+                    };
+                    setup();
+                })($el, $wire)"
             >
 
                 <x-heroicon-o-photo class="w-8 h-8 text-gray-400 mb-3" />
