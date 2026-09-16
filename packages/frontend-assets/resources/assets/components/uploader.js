@@ -191,6 +191,14 @@
             if (!!this.settings.dropZone) {
                 mw.$(this.settings.dropZone).each(function () {
                     $(this)
+                    // task-2026-09-16-dropzone — also preventDefault on dragenter.
+                    // dragover alone is enough in Chrome, but some browsers only
+                    // accept the drop when dragenter is prevented too; without it a
+                    // real OS file drag can be rejected before drop fires.
+                    .on('dragenter', function (e) {
+                        $(this).addClass("mw-dropzone--drag-over");
+                        e.preventDefault();
+                    })
                     .on('dragleave', function (e) {
                         $(this).removeClass("mw-dropzone--drag-over");
                     })
