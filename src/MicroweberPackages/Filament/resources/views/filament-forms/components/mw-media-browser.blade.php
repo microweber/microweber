@@ -28,16 +28,15 @@
 
         <div>
 
-            {{-- task-2026-09-16-dropzone — drag-and-drop was wired inside
-                 document.addEventListener('livewire:init', …), which fires ONCE
-                 at initial page boot. This component renders inside a
-                 dynamically-opened modal (Module Settings), long after boot, so
-                 that listener never ran and mw.dropZone was never attached — the
-                 "drag images directly into this box" affordance silently did
-                 nothing (the buttons worked because they use Alpine x-on:click).
-                 Fixed: initialise from Alpine x-init on the dropzone element (see
-                 below), which runs when the element mounts and has $el/$wire in
-                 scope. --}}
+            {{-- task-2026-09-16-dropzone — drag-and-drop upload + thumbnail
+                 reorder are wired in the Alpine component's init()
+                 (mwMediaManagerComponent, theme bundle mw-media-browser.js), NOT
+                 an inline livewire:init/x-init script. Those never fired reliably
+                 inside the dynamically-opened Live Edit Module Settings modal, and
+                 only this.$wire.callSchemaComponentMethod (the same call the
+                 delete actions use) actually round-trips to the server —
+                 Livewire.find(id)... does not. The dropzone (an ancestor of the
+                 component) is found via [data-mw-media-dropzone] + data-state-path. --}}
 
             {{--
                 NOVICE #9 (task-2026-05-13-899d57) — affordance rewrite.
@@ -77,11 +76,6 @@
             @php
                 $mwMediaBrowserPickerHandler = "() => { mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => { if (!Array.isArray(url)) { url = [url]; } \$wire.callSchemaComponentMethod('" . $statePath . "', 'addMediaItemMultiple', { data: { urls: url } }); }); }";
             @endphp
-            {{-- Drag-and-drop is bound by a GLOBAL observer in the theme bundle
-                 (mw-media-browser.js) keyed off data-mw-media-dropzone — NOT an
-                 inline x-init/script, which was unreliable inside the Live Edit
-                 modal. The observer reads data-state-path and calls the Livewire
-                 component via Livewire.find(). --}}
             <div
                 id="mw-image-dropzone"
                 data-mw-media-dropzone="1"
@@ -141,27 +135,15 @@
                                 mediaIds: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
                                 showBulkDeleteButton: true,
                                 selectedImages: [],
-                                itemsSortedIds: [],
-                                itemsSortedIdsArray: [],
-
                             })"
 
-
-
-                            x-on:end="
-
-
-                                itemsSortedIds = $event.target.querySelectorAll('[x-sortable-item]');
-
-                                itemsSortedIdsArray = [];
-                                for (var i = 0; i < itemsSortedIds.length; i++) {
-                                    itemsSortedIdsArray.push(itemsSortedIds[i].getAttribute('x-sortable-item'));
-                                }
-                                $wire.callSchemaComponentMethod('{{ $statePath }}', 'mediaItemsSort', {
-                                    itemsSortedIds: itemsSortedIdsArray
-                                })
-                                mediaIds = itemsSortedIdsArray
-                    "
+                            {{-- task-2026-09-16-sortable-save — reorder persistence
+                                 was an inline x-on:end that read the DOM order before
+                                 Filament's SortableJS onEnd correction, so it saved a
+                                 stale/off-by-one order ("saves on the second drag").
+                                 It's now in mwMediaManagerComponent.init(): a delegated
+                                 SortableJS 'end' listener reads the SETTLED order
+                                 (deferred) and persists via $wire → mediaItemsSort. --}}
                             class="admin-thumbs-holder-wrapper"
                         >
 
