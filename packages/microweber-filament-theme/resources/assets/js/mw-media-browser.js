@@ -58,31 +58,62 @@ document.addEventListener('alpine:init', () => {
             bind();
         },
 
-        // Persist thumbnail reorder. Listen for SortableJS's bubbling `end`
-        // CustomEvent on this component's root (survives Livewire re-renders /
-        // Sortable re-inits), then read the SETTLED order — deferred so Filament's
-        // own SortableJS onEnd correction runs first (the old inline x-on:end read
-        // too early and saved a stale/off-by-one order) — and persist it.
+        // Make the thumbnails reliably draggable AND persist the new order.
+        //
+        // Filament's x-sortable uses SortableJS in NATIVE HTML5 DnD mode. Inside
+        // the Live Edit "Module Settings" dialog that never let the thumbnails be
+        // picked up (the items are only draggable at mousedown, and the drag
+        // collides with the surrounding dropzone's own native drag handlers).
+        // Re-create the Sortable in forceFallback (pointer-based) mode — it does
+        // not depend on the draggable attribute and does not fight the dropzone —
+        // and persist the settled order from its onEnd via $wire → mediaItemsSort.
+        // Re-applied whenever Livewire re-renders a fresh holder.
         initMediaSortPersistence() {
             const root = this.$root;
             const componentKey = this.mwComponentKey();
             const self = this;
-            root.addEventListener('end', () => {
-                setTimeout(() => {
-                    const holder = root.querySelector('.admin-thumbs-holder[x-sortable]');
-                    if (!holder) {
-                        return;
-                    }
-                    const ids = Array.prototype.map.call(
-                        holder.querySelectorAll(':scope > [x-sortable-item]'),
-                        (n) => n.getAttribute('x-sortable-item')
-                    );
-                    if (!ids.length) {
-                        return;
-                    }
+
+            const persist = (holder) => {
+                const ids = Array.prototype.map.call(
+                    holder.querySelectorAll(':scope > [x-sortable-item]'),
+                    (n) => n.getAttribute('x-sortable-item')
+                );
+                if (ids.length) {
                     self.$wire.callSchemaComponentMethod(componentKey, 'mediaItemsSort', { itemsSortedIds: ids });
-                }, 0);
-            });
+                }
+            };
+
+            const applyFallbackSortable = (holder) => {
+                if (!holder || holder._mwFallbackSortable) { return; }
+                if (typeof window.Sortable === 'undefined') { return; }
+                // Filament may not have created its Sortable yet — wait for it, then
+                // replace it with a forceFallback instance.
+                if (!holder.sortable) {
+                    setTimeout(() => applyFallbackSortable(holder), 150);
+                    return;
+                }
+                holder._mwFallbackSortable = true;
+                try { holder.sortable.destroy(); } catch (e) { /* no-op */ }
+                holder.sortable = window.Sortable.create(holder, {
+                    draggable: '[x-sortable-item]',
+                    handle: '[x-sortable-handle]',
+                    dataIdAttr: 'x-sortable-item',
+                    animation: 150,
+                    forceFallback: true,
+                    fallbackTolerance: 3,
+                    ghostClass: 'fi-sortable-ghost',
+                    onEnd: () => { setTimeout(() => persist(holder), 0); },
+                });
+            };
+
+            const scan = () => {
+                const holder = root.querySelector('.admin-thumbs-holder[x-sortable]');
+                if (holder) { applyFallbackSortable(holder); }
+            };
+
+            scan();
+            // Re-apply after Livewire re-renders swap in a fresh holder.
+            new MutationObserver(scan).observe(root, { childList: true, subtree: true });
         },
 
         editMediaOptionsById(id) {
