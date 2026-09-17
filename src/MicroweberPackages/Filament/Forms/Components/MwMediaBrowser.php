@@ -74,6 +74,7 @@ class MwMediaBrowser extends Field
         }
 
         $this->refreshMediaData();
+        $this->reflectOnCanvas();
 
     }
     #[ExposedLivewireMethod]
@@ -85,6 +86,7 @@ class MwMediaBrowser extends Field
         Media::where('id', $id)->delete();
 
         $this->refreshMediaData();
+        $this->reflectOnCanvas();
     }
     public function addMediaItemSingle($url) {
         $itemsQuery = $this->getQueryBuilder();
@@ -129,6 +131,7 @@ class MwMediaBrowser extends Field
         }
 
         $this->refreshMediaData();
+        $this->reflectOnCanvas();
 
         $this->state($this->mediaIds);
     }
@@ -159,6 +162,7 @@ class MwMediaBrowser extends Field
         $this->addMediaItemSingle($url);
 
         $this->refreshMediaData();
+        $this->reflectOnCanvas();
 
         $this->state($this->mediaIds);
     }
@@ -180,6 +184,7 @@ class MwMediaBrowser extends Field
             $media->filename = $filename;
             $media->save();
             $this->refreshMediaData();
+            $this->reflectOnCanvas();
         }
     }
 
@@ -230,6 +235,25 @@ class MwMediaBrowser extends Field
         $media->save();
 
         $this->refreshMediaData();
+        $this->reflectOnCanvas();
+    }
+
+    /**
+     * Re-render the module on the Live Edit canvas after a change here, so the
+     * template reflects it (new/removed images, reorder, caption/alt/link/crop).
+     * Reuses the module-settings layout's `mw-option-saved` listener, which
+     * reloads `#<optionGroup>`; for a module-scoped gallery relId IS that
+     * module's id. No-op outside the module context (e.g. use-from-post).
+     */
+    protected function reflectOnCanvas(): void
+    {
+        if ($this->relType === 'module' && !empty(trim((string) $this->relId))) {
+            try {
+                $this->getLivewire()->dispatch('mw-option-saved', optionGroup: $this->relId);
+            } catch (\Throwable $e) {
+                // best-effort canvas refresh
+            }
+        }
     }
 
     /**
@@ -268,6 +292,7 @@ class MwMediaBrowser extends Field
 
             $this->addMediaItemSingle($url);
             $this->refreshMediaData();
+            $this->reflectOnCanvas();
             $this->state($this->mediaIds);
 
             return ['success' => true, 'url' => $url];
@@ -381,6 +406,7 @@ class MwMediaBrowser extends Field
         Media::whereIn('id', $mediaId)->delete();
 
         $this->refreshMediaData();
+        $this->reflectOnCanvas();
     }
 
 

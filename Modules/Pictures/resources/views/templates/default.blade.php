@@ -66,21 +66,25 @@ description: Default Picture List
                     @php
                         // task-2026-09-17 — per-image detail-panel fields stored in the
                         // image_options JSON by the media browser: Alt text, external
-                        // Link (overrides the lightbox), and Thumbnail crop → object-
-                        // position (only meaningful when an aspect ratio forces
-                        // object-fit: cover; otherwise the whole image already shows).
+                        // Link (overrides the lightbox), and Thumbnail crop.
                         $mwItemOpts = $item['image_options'] ?? [];
                         if (!is_array($mwItemOpts)) { $mwItemOpts = []; }
                         $mwItemAlt = $mwItemOpts['alt-text'] ?? ($item['title'] ?? $item['description'] ?? __('Image'));
                         $mwItemLink = trim((string) ($mwItemOpts['link'] ?? ''));
-                        $mwItemCrop = $mwItemOpts['crop'] ?? 'center';
-                        $mwItemCropPos = $mwItemOpts['crop-position'] ?? '';
-                        $mwItemObjPos = $mwItemCrop === 'top'
-                            ? 'center top'
-                            : (($mwItemCrop === 'custom' && $mwItemCropPos) ? $mwItemCropPos : '');
+
+                        // crop_position is precomputed by PicturesModule::withCropPositions()
+                        // ('' = center default, 'center top', or a custom 'x% y%').
+                        $mwItemCropPos = $item['crop_position'] ?? '';
                         $mwItemStyle = $mwPicGridAspectStyle;
-                        if ($mwPicGridAspectStyle !== '' && $mwItemObjPos !== '') {
-                            $mwItemStyle .= ' object-position: ' . $mwItemObjPos . ';';
+                        if ($mwItemCropPos !== '') {
+                            // A crop focal point only shows on a COVER image. If the
+                            // gallery has no aspect ratio (auto), give THIS cropped image
+                            // a square cover box so the crop is honored on the page;
+                            // uncropped images keep their natural size.
+                            if ($mwItemStyle === '') {
+                                $mwItemStyle = 'aspect-ratio: 1 / 1; object-fit: cover; width: 100%;';
+                            }
+                            $mwItemStyle .= ' object-position: ' . $mwItemCropPos . ';';
                         }
                     @endphp
 
