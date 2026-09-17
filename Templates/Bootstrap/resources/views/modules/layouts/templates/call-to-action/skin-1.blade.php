@@ -3,7 +3,7 @@
 type: layout
 name: Call To Action 1 - Centered
 position: 1
-categories: Call To Action
+categories: Call to Action
 */
 ?>
 <x-layout-section

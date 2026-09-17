@@ -3,7 +3,7 @@
 type: layout
 name: Contacts 2 - Details and form
 position: 2
-categories: Contacts
+categories: Contact Us
 */
 ?>
 <x-layout-section

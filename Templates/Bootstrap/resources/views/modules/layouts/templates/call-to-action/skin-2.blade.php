@@ -3,7 +3,7 @@
 type: layout
 name: Call To Action 2 - Split
 position: 2
-categories: Call To Action
+categories: Call to Action
 */
 ?>
 <x-layout-section

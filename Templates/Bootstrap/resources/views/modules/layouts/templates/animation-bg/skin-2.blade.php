@@ -3,7 +3,7 @@
 type: layout
 name: Animation Bg 2 - Gradient Band
 position: 2
-categories: Animation Bg
+categories: Animated Backgrounds
 */
 ?>
 <x-layout-section

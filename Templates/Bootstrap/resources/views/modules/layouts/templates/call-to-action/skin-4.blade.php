@@ -3,7 +3,7 @@
 type: layout
 name: Call To Action 4 - Boxed Card
 position: 4
-categories: Call To Action
+categories: Call to Action
 */
 ?>
 <x-layout-section

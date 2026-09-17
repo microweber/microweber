@@ -3,7 +3,7 @@
 type: layout
 name: Call To Action 3 - Newsletter
 position: 3
-categories: Call To Action
+categories: Call to Action
 */
 ?>
 <x-layout-section

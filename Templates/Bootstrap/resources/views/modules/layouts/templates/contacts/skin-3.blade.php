@@ -3,7 +3,7 @@
 type: layout
 name: Contacts 3 - Get in touch centered
 position: 3
-categories: Contacts
+categories: Contact Us
 */
 ?>
 <x-layout-section

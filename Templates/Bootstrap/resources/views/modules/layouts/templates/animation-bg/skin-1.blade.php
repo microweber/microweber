@@ -3,7 +3,7 @@
 type: layout
 name: Animation Bg 1 - Centered Gradient Hero
 position: 1
-categories: Animation Bg
+categories: Animated Backgrounds
 */
 ?>
 <x-layout-section

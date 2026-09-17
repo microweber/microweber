@@ -3,7 +3,7 @@
 type: layout
 name: Animation Bg 3 - Gradient Stats
 position: 3
-categories: Animation Bg
+categories: Animated Backgrounds
 */
 ?>
 <x-layout-section
