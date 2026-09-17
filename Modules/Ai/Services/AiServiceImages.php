@@ -120,6 +120,27 @@ class AiServiceImages
     }
 
     /**
+     * Whether image generation can actually run right now: the active driver is
+     * one that implements generateImage (only replicate + fal do — openai/gemini
+     * are stubbed) AND it is enabled in config. Used to gate the "+ Generate" UI
+     * so it never offers a dead action.
+     */
+    public function isImageGenerationAvailable(): bool
+    {
+        try {
+            $driverName = $this->getActiveDriver();
+        } catch (\Throwable $e) {
+            return false;
+        }
+
+        if (!in_array($driverName, ['replicate', 'fal'], true)) {
+            return false;
+        }
+
+        return (bool) ($this->config[$driverName]['enabled'] ?? false);
+    }
+
+    /**
      * Set the active AI driver.
      *
      * @param string $driver

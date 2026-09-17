@@ -21,6 +21,8 @@
 
     @php
         $mwMediaBrowserPickerHandler = "() => { mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => { if (!Array.isArray(url)) { url = [url]; } \$wire.callSchemaComponentMethod('" . $componentKey . "', 'addMediaItemMultiple', { data: { urls: url } }); }); }";
+        // "+ Generate" only renders when a working AI image driver is configured.
+        $mwGenerateAvailable = $field->isGenerateAvailable();
     @endphp
 
     <div
@@ -55,13 +57,16 @@
                     <x-heroicon-m-arrow-up-tray class="mw-mb-btn-ico" aria-hidden="true" />
                     <span>Upload</span>
                 </button>
-                <button type="button" class="mw-mb-btn mw-mb-btn--ghost" @click="toggleGenerate()">
-                    <x-heroicon-m-sparkles class="mw-mb-btn-ico" aria-hidden="true" />
-                    <span>Generate</span>
-                </button>
+                @if($mwGenerateAvailable)
+                    <button type="button" class="mw-mb-btn mw-mb-btn--ghost" @click="toggleGenerate()">
+                        <x-heroicon-m-sparkles class="mw-mb-btn-ico" aria-hidden="true" />
+                        <span>Generate</span>
+                    </button>
+                @endif
             </div>
         </div>
 
+        @if($mwGenerateAvailable)
         {{-- +Generate prompt row (revealed by the Generate button) --}}
         <div class="mw-mb-generate" x-show="showGenerate" x-cloak x-transition>
             <input type="text" class="mw-mb-input mw-mb-generate-input"
@@ -75,6 +80,7 @@
             <button type="button" class="mw-mb-btn" @click="toggleGenerate()">Cancel</button>
         </div>
         <p class="mw-mb-generate-error" x-show="generateError" x-cloak x-text="generateError"></p>
+        @endif
 
         {{-- ── Body: grid (left) + detail panel (right) ───────────────────── --}}
         <div class="mw-mb-body">

@@ -506,6 +506,19 @@ class MwMediaBrowser extends Field
     }
 
 
+    /**
+     * Whether the "+ Generate" button should render — only when a working AI
+     * image driver (replicate / fal) is configured and enabled. Fails closed.
+     */
+    public function isGenerateAvailable(): bool
+    {
+        try {
+            return (bool) \Modules\Ai\Facades\AiImages::isImageGenerationAvailable();
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
     public function setRelType($relType)
     {
         $this->relType = $relType;
