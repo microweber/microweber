@@ -922,59 +922,141 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply gap-y-4;
 }
 
+/* task-2026-09-17-thumbgrid — media-browser thumbnail grid redesign (design-
+   critic swarm). Was: inline-block float host + fixed 147px items + a
+   :first-child 2x2 "hero" mosaic that made the grid look broken. Now a uniform
+   responsive CSS grid of equal square tiles, ink chrome, light+dark, states. */
 .mw-post-media-img {
-    @apply block bg-no-repeat bg-center bg-cover cursor-grab bg-[#f2f3f5] overflow-hidden absolute top-0 left-0 w-full h-full;
+    @apply block bg-no-repeat bg-center bg-cover cursor-grab overflow-hidden absolute top-0 left-0 w-full h-full;
+    background-color: #F4F4F2;
+    border-radius: inherit;
 }
+.dark .mw-post-media-img { background-color: #111827; }
 
 .admin-thumbs-holder {
-    @apply pt-0 inline-block align-top w-full;
+    @apply pt-0 w-full;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    align-content: start;
 }
 
 .admin-thumb-item {
-    --admin-thumb-item-size: 147px;
-    --admin-thumb-item-gap: 8px;
-    @apply block relative float-left  my-0 border border-[#cfcfcf] cursor-grab;
-    width: var(--admin-thumb-item-size);
-    height: var(--admin-thumb-item-size);
-    margin: calc(var(--admin-thumb-item-gap) / 2);
+    @apply block relative m-0 overflow-hidden cursor-grab;
+    aspect-ratio: 1 / 1;
+    width: auto;
+    height: auto;
+    border: 1px solid #E6E6E2;
+    border-radius: 10px;
+    background: #F4F4F2;
+    transition: box-shadow .15s ease, border-color .15s ease;
+}
+.dark .admin-thumb-item { border-color: #2b3542; background: #111827; }
+
+/* hover / focus / selected — constant border thickness (shadow ring), no grid shift */
+.admin-thumb-item:hover {
+    border-color: #182433;
+    box-shadow: 0 2px 8px rgba(24, 36, 51, .18);
+}
+.admin-thumb-item:focus-within,
+.admin-thumb-item:has(.form-check-input:checked) {
+    border-color: #182433;
+    box-shadow: 0 0 0 2px #182433;
+}
+.dark .admin-thumb-item:hover {
+    border-color: #8a94a3;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .45);
+}
+.dark .admin-thumb-item:focus-within,
+.dark .admin-thumb-item:has(.form-check-input:checked) {
+    border-color: #E6E6E2;
+    box-shadow: 0 0 0 2px #E6E6E2;
 }
 
-.admin-thumbs-holder .admin-thumb-item:first-child {
-    width: calc(
-        (var(--admin-thumb-item-size) * 2) + var(--admin-thumb-item-gap)
-    );
-    height: calc(
-        (var(--admin-thumb-item-size) * 2) + var(--admin-thumb-item-gap)
-    );
+/* selected wash (non-color signal pairs with the ring above) */
+.admin-thumb-item:has(.form-check-input:checked)::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(24, 36, 51, .12);
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 1;
+}
+.dark .admin-thumb-item:has(.form-check-input:checked)::after {
+    background: rgba(255, 255, 255, .14);
 }
 
-.admin-thumb-item:after {
-    @apply absolute block content-[''] w-full h-full top-0 left-0;
-}
+/* SortableJS reorder feedback (forceFallback → sortable-fallback/-drag; ghost = fi-sortable-ghost) */
+.admin-thumb-item:active { cursor: grabbing; }
+.admin-thumb-item.sortable-chosen { box-shadow: 0 6px 16px rgba(24, 36, 51, .30); }
+.admin-thumb-item.sortable-fallback,
+.admin-thumb-item.sortable-drag { cursor: grabbing; box-shadow: 0 8px 20px rgba(24, 36, 51, .35); }
+.admin-thumb-item.fi-sortable-ghost { border-style: dashed; border-color: #182433; }
+.dark .admin-thumb-item.fi-sortable-ghost { border-color: #8a94a3; }
 
+/* bulk checkbox — top-left, always visible, legible chip */
 .admin-thumb-item .form-check {
-    @apply transition-all duration-300 absolute left-0 top-0;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    margin: 0;
+    padding: 2px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, .85);
+    z-index: 12;
+    transition: all .3s;
 }
+.dark .admin-thumb-item .form-check { background: rgba(24, 36, 51, .85); }
 
-.admin-thumbs-holder .admin-thumb-item.mw-post-media-img {
-    @apply inline-block w-full h-full;
-}
-
+/* action-icon overlay — top-right ink scrim; empty middle passes drags to the sortable item */
 .mw-post-media-img--header {
-    @apply absolute top-[0px] left-[0px] flex justify-end items-center w-full relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 6px;
+    z-index: 10;
+    background: linear-gradient(to bottom, rgba(24, 36, 51, .55), rgba(24, 36, 51, 0));
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    pointer-events: none;
 }
+.mw-post-media-img--header > * { pointer-events: auto; }
 
+/* ink action chips — visible at rest (touch iframe has no hover), stronger on hover/focus */
 .image-settings {
-    @apply fill-white text-[20px] text-white w-[20px] h-[20px] !cursor-pointer  transition-all duration-300 opacity-70 border-0 z-10;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 5px;
+    border-radius: 8px;
+    fill: #fff;
+    color: #fff;
+    font-size: 20px;
+    background: rgba(24, 36, 51, .55);
+    opacity: .9;
+    cursor: pointer;
+    border: 0;
+    z-index: 10;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .35));
+    transition: opacity .15s ease, background .15s ease, box-shadow .15s ease;
 }
-
-.admin-thumb-item:hover .image-settings {
-    @apply opacity-100;
+.admin-thumb-item:hover .image-settings,
+.admin-thumb-item:focus-within .image-settings { opacity: 1; }
+.image-settings:hover { opacity: 1; background: rgba(24, 36, 51, .92); }
+.image-settings:focus-visible {
+    outline: none;
+    opacity: 1;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #182433;
 }
-
-.admin-thumb-item:hover .image-settings.remove-image {
-    @apply fill-[#ff4f52];
-}
+.image-settings.image-settings--delete:hover { background: #ff4f52; }
 
 .mw-tree-item-content-root {
     @apply ms-3;
