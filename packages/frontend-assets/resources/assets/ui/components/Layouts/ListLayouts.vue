@@ -25,7 +25,7 @@
              role="dialog"
              aria-modal="true"
              aria-labelledby="mw-le-layouts-dialog-title"
-             :class="['mw-le-dialog-block mw-le-layouts-dialog w-100 active', pickerSkin === 'add-content' ? 'mw-le-dialog--addcontent' : '']"
+             :class="['mw-le-dialog-block mw-le-layouts-dialog w-100 active', pickerSkin === 'add-content' ? 'mw-le-dialog--addcontent' : '', pickerSkin === 'create-page' ? 'mw-le-dialog--createpage' : '']"
              style="inset:20px; transform:none; animation-duration: .3s; z-index: 1000;"
         >
 
@@ -675,6 +675,120 @@
                 </div>
             </div>
 
+            <!-- ── create-page skin (two-pane form + preview) ──────────────── -->
+            <div v-if="pickerSkin === 'create-page'" class="mw-le-cp">
+                <!-- LEFT: form -->
+                <section class="mw-le-cp-form">
+                    <div class="mw-le-cp-head">
+                        <span class="mw-le-cp-badge">Pg</span>
+                        <span class="mw-le-cp-head-title">{{ $lang('New page') }}</span>
+                    </div>
+
+                    <input type="text" class="mw-le-cp-title-input"
+                           v-model="cpTitle" @input="cpOnTitleInput"
+                           :placeholder="$lang('Page title')"
+                           @keydown.enter.prevent="cpCreate(false)">
+
+                    <div class="mw-le-cp-slug">
+                        <span class="mw-le-cp-slug-host">mysite.com/</span>
+                        <template v-if="!cpSlugEditing">
+                            <span class="mw-le-cp-slug-value">{{ cpEffectiveSlug() }}</span>
+                            <button type="button" class="mw-le-cp-link" @click="cpSlugEditing = true">{{ $lang('Edit') }}</button>
+                        </template>
+                        <template v-else>
+                            <input type="text" class="mw-le-cp-slug-input" v-model="cpSlug"
+                                   @input="cpSlugEdited = true" @blur="cpSlugEditing = false"
+                                   @keydown.enter.prevent="cpSlugEditing = false">
+                        </template>
+                    </div>
+
+                    <div class="mw-le-cp-field">
+                        <div class="mw-le-cp-field-head">
+                            <span class="mw-le-cp-label">{{ $lang('Start from') }}</span>
+                            <button type="button" class="mw-le-cp-link" @click="cpAllLayouts()">{{ $lang('All layouts') }} →</button>
+                        </div>
+                        <div class="mw-le-cp-starts">
+                            <button v-for="o in cpStartFromOptions" :key="o.key" type="button"
+                                    class="mw-le-cp-start" :class="{ 'is-on': cpStartFrom === o.key }"
+                                    @click="cpSetStartFrom(o.key)">
+                                <span class="mw-le-cp-start-thumb" :class="'mw-le-cp-start-thumb--' + o.key"></span>
+                                <span class="mw-le-cp-start-label">{{ o.label }}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mw-le-cp-field">
+                        <div class="mw-le-cp-field-head">
+                            <span class="mw-le-cp-label">{{ $lang('Content') }} <span class="mw-le-cp-muted">· {{ $lang('optional') }}</span></span>
+                            <button type="button" class="mw-le-cp-link" @click="cpDraftFromTitle()">✦ {{ $lang('Draft from title') }}</button>
+                        </div>
+                        <textarea class="mw-le-cp-textarea" rows="2" v-model="cpContent"
+                                  :placeholder="$lang('Add a few notes or paste text — you can edit everything on the page afterwards.')"></textarea>
+                    </div>
+
+                    <div class="mw-le-cp-rows">
+                        <label class="mw-le-cp-row">
+                            <span class="mw-le-cp-row-main">
+                                <input type="checkbox" class="mw-le-cp-check" v-model="cpCoverImage" true-value="pending" false-value="">
+                                <span>{{ $lang('Cover image') }}</span>
+                            </span>
+                            <span class="mw-le-cp-row-value">{{ cpCoverImage ? $lang('Selected') : $lang('None') }}</span>
+                        </label>
+                        <label class="mw-le-cp-row">
+                            <span class="mw-le-cp-row-main">
+                                <input type="checkbox" class="mw-le-cp-check" :checked="!!cpParentId" @change="cpParentId = ''">
+                                <span>{{ $lang('Parent page') }}</span>
+                            </span>
+                            <span class="mw-le-cp-row-value">{{ cpParentId ? cpParentId : $lang('Top level') }} ▾</span>
+                        </label>
+                        <label class="mw-le-cp-row">
+                            <span class="mw-le-cp-row-main">
+                                <span>{{ $lang('Add to main menu') }}</span>
+                            </span>
+                            <span class="mw-le-cp-toggle" :class="{ 'is-on': cpAddToMenu }" @click="cpAddToMenu = !cpAddToMenu">
+                                <span class="mw-le-cp-toggle-knob"></span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <button type="button" class="mw-le-cp-more" @click="cpMoreOpen = !cpMoreOpen">
+                        {{ $lang('More settings — visibility, SEO, template') }} ▾
+                    </button>
+                    <div v-show="cpMoreOpen" class="mw-le-cp-more-body">
+                        <p class="mw-le-cp-muted">{{ $lang('Full visibility, SEO and template options open in the editor after creating.') }}</p>
+                    </div>
+                </section>
+
+                <!-- RIGHT: preview + create -->
+                <aside class="mw-le-cp-preview">
+                    <div class="mw-le-cp-preview-head">
+                        <span>{{ $lang('Preview') }}</span>
+                    </div>
+                    <div class="mw-le-cp-preview-frame">
+                        <div class="mw-le-cp-skeleton" :class="'mw-le-cp-skeleton--' + cpStartFrom">
+                            <span class="sk sk-title"></span>
+                            <span class="sk sk-hero"></span>
+                            <span class="sk sk-line"></span>
+                            <span class="sk sk-line sk-short"></span>
+                            <span class="sk sk-grid">
+                                <span></span><span></span><span></span>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="mw-le-cp-preview-desc">
+                        <strong>{{ cpActiveStartFrom().label }}</strong> — {{ cpActiveStartFrom().description }}
+                    </p>
+                    <p class="mw-le-cp-error" v-show="cpError">{{ cpError }}</p>
+                    <button type="button" class="mw-le-cp-create" :disabled="cpCreating" @click="cpCreate(false)">
+                        <span v-if="!cpCreating">{{ $lang('Create and open editor') }}</span>
+                        <span v-else>{{ $lang('Creating') }}…</span>
+                    </button>
+                    <button type="button" class="mw-le-cp-draft-link" :disabled="cpCreating" @click="cpCreate(true)">
+                        {{ $lang('Create as draft') }}
+                    </button>
+                </aside>
+            </div>
+
         </div>
     </Transition>
 
@@ -1021,6 +1135,136 @@
     .mw-le-addcontent-rail { flex-basis: auto; border-right: 0; border-bottom: 1px solid var(--ac-hairline); }
     .mw-le-addcontent-blocks { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ── create-page skin ───────────────────────────────────────────────────── */
+.mw-le-layouts-dialog.mw-le-dialog--createpage {
+    inset: auto !important;
+    left: 50% !important; top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: min(760px, 96vw) !important;
+    max-width: 760px !important;
+    height: auto !important;
+    max-height: 92vh !important;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(24, 36, 51, .28);
+}
+.mw-le-cp {
+    --ac-ink: #182433; --ac-muted: #77776f; --ac-hairline: #e6e6e2;
+    --ac-surface: #f4f4f2; --ac-accent: #4f63e8;
+    display: flex; min-height: 420px; max-height: 92vh; color: var(--ac-ink); text-align: left;
+}
+.mw-le-cp-form { flex: 1 1 auto; padding: 26px 28px; overflow-y: auto; min-width: 0; }
+.mw-le-cp-preview {
+    flex: 0 0 260px; max-width: 260px; background: #fbfbfa;
+    border-left: 1px solid var(--ac-hairline); padding: 22px; display: flex; flex-direction: column;
+}
+
+/* head */
+.mw-le-cp-head { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+.mw-le-cp-badge {
+    width: 26px; height: 26px; border-radius: 7px; background: #e6ecff; color: #4a4a63;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;
+}
+.mw-le-cp-head-title { font-size: 15px; font-weight: 600; color: var(--ac-muted); }
+
+/* title + slug */
+.mw-le-cp-title-input {
+    width: 100%; border: 0; border-bottom: 2px solid var(--ac-hairline); background: transparent;
+    font-size: 28px; font-weight: 700; color: var(--ac-ink); padding: 4px 0 10px; margin-bottom: 10px;
+}
+.mw-le-cp-title-input::placeholder { color: #c4c4be; }
+.mw-le-cp-title-input:focus { outline: none; border-bottom-color: var(--ac-accent); }
+.mw-le-cp-slug { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ac-muted); margin-bottom: 22px; }
+.mw-le-cp-slug-host { color: #a7a79f; }
+.mw-le-cp-slug-value { color: var(--ac-ink); border-bottom: 1px dashed var(--ac-hairline); }
+.mw-le-cp-slug-input { border: 1px solid var(--ac-hairline); border-radius: 6px; padding: 3px 8px; font-size: 13px; }
+.mw-le-cp-link { background: none; border: 0; padding: 0; color: var(--ac-accent); font-size: 13px; font-weight: 600; cursor: pointer; }
+.mw-le-cp-link:hover { text-decoration: underline; }
+
+/* fields */
+.mw-le-cp-field { margin-bottom: 20px; }
+.mw-le-cp-field-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.mw-le-cp-label { font-size: 13px; font-weight: 600; color: var(--ac-ink); }
+.mw-le-cp-muted { color: var(--ac-muted); font-weight: 400; }
+
+/* start-from cards */
+.mw-le-cp-starts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.mw-le-cp-start {
+    display: flex; flex-direction: column; gap: 8px; padding: 8px; cursor: pointer;
+    border: 1px solid var(--ac-hairline); border-radius: 10px; background: #fff; transition: border-color .12s, box-shadow .12s;
+}
+.mw-le-cp-start:hover { border-color: #cfd6ff; }
+.mw-le-cp-start.is-on { border-color: var(--ac-ink); box-shadow: 0 0 0 1px var(--ac-ink); }
+.mw-le-cp-start-thumb { display: block; height: 46px; border-radius: 6px; background: var(--ac-surface); overflow: hidden; position: relative; }
+.mw-le-cp-start-label { font-size: 12px; font-weight: 600; text-align: center; }
+.mw-le-cp-start-thumb--blank { background: var(--ac-surface); }
+.mw-le-cp-start-thumb--blank::after { content: ''; position: absolute; left: 10px; right: 10px; top: 12px; height: 4px; background: #dfe1e5; border-radius: 2px; box-shadow: 0 8px 0 #e8e9ec, 0 16px 0 #eceded; }
+.mw-le-cp-start-thumb--hero::before { content: ''; position: absolute; left: 8px; right: 8px; top: 7px; height: 20px; background: linear-gradient(135deg,#c7cef0,#d7c9ea); border-radius: 4px; }
+.mw-le-cp-start-thumb--hero::after { content: ''; position: absolute; left: 8px; right: 8px; bottom: 7px; height: 4px; background: #dfe1e5; border-radius: 2px; box-shadow: 0 7px 0 #e8e9ec; }
+.mw-le-cp-start-thumb--article::after { content: ''; position: absolute; left: 12px; right: 12px; top: 9px; height: 3px; background: #cfd1d6; border-radius: 2px; box-shadow: 0 8px 0 #dfe1e5, 0 15px 0 #dfe1e5, 0 22px 0 #e8e9ec; }
+.mw-le-cp-start-thumb--landing::before { content: ''; position: absolute; left: 8px; right: 8px; top: 6px; height: 14px; background: linear-gradient(135deg,#c7cef0,#d7c9ea); border-radius: 3px; }
+.mw-le-cp-start-thumb--landing::after { content: ''; position: absolute; left: 8px; right: 8px; bottom: 6px; height: 16px; background: repeating-linear-gradient(90deg,#dfe1e5 0 26%, transparent 26% 33%); border-radius: 3px; }
+
+/* content textarea */
+.mw-le-cp-textarea {
+    width: 100%; border: 1px solid var(--ac-hairline); border-radius: 10px; padding: 10px 12px;
+    font-size: 13px; color: var(--ac-ink); resize: vertical; min-height: 60px; background: #fff;
+}
+.mw-le-cp-textarea:focus { outline: none; border-color: var(--ac-accent); box-shadow: 0 0 0 3px rgba(79, 99, 232, .12); }
+.mw-le-cp-textarea::placeholder { color: #b3b3ac; }
+
+/* option rows */
+.mw-le-cp-rows { border-top: 1px solid var(--ac-hairline); margin-top: 4px; }
+.mw-le-cp-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid var(--ac-hairline); margin: 0; cursor: pointer; font-size: 14px;
+}
+.mw-le-cp-row-main { display: inline-flex; align-items: center; gap: 10px; }
+.mw-le-cp-check { width: 16px; height: 16px; accent-color: var(--ac-accent); }
+.mw-le-cp-row-value { font-size: 13px; color: var(--ac-muted); }
+.mw-le-cp-toggle { width: 38px; height: 22px; border-radius: 999px; background: #d3d3ce; position: relative; transition: background .15s; flex: none; cursor: pointer; }
+.mw-le-cp-toggle.is-on { background: var(--ac-accent); }
+.mw-le-cp-toggle-knob { position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .15s; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+.mw-le-cp-toggle.is-on .mw-le-cp-toggle-knob { transform: translateX(16px); }
+
+/* more settings */
+.mw-le-cp-more { background: none; border: 0; padding: 14px 0 0; color: var(--ac-muted); font-size: 13px; cursor: pointer; }
+.mw-le-cp-more:hover { color: var(--ac-ink); }
+.mw-le-cp-more-body { padding-top: 8px; }
+
+/* preview pane */
+.mw-le-cp-preview-head { font-size: 13px; font-weight: 600; color: var(--ac-muted); margin-bottom: 12px; }
+.mw-le-cp-preview-frame { background: #fff; border: 1px solid var(--ac-hairline); border-radius: 12px; padding: 14px; flex: 1 1 auto; overflow: hidden; margin-bottom: 12px; }
+.mw-le-cp-skeleton { display: flex; flex-direction: column; gap: 10px; }
+.mw-le-cp-skeleton .sk { display: block; border-radius: 5px; background: #e4e4e0; }
+.mw-le-cp-skeleton .sk-title { height: 12px; width: 40%; background: #d0d0ca; }
+.mw-le-cp-skeleton .sk-hero { height: 70px; width: 100%; background: linear-gradient(135deg,#c7cef0,#d7c9ea); }
+.mw-le-cp-skeleton .sk-line { height: 8px; width: 90%; }
+.mw-le-cp-skeleton .sk-line.sk-short { width: 60%; }
+.mw-le-cp-skeleton .sk-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 4px; }
+.mw-le-cp-skeleton .sk-grid span { height: 48px; border-radius: 6px; background: #ececea; }
+/* per start-from tweaks */
+.mw-le-cp-skeleton--blank .sk-hero, .mw-le-cp-skeleton--blank .sk-grid { display: none; }
+.mw-le-cp-skeleton--article .sk-hero, .mw-le-cp-skeleton--article .sk-grid { display: none; }
+.mw-le-cp-skeleton--article .sk-line { width: 95%; }
+.mw-le-cp-skeleton--hero .sk-grid span:nth-child(n) { }
+.mw-le-cp-preview-desc { font-size: 12px; color: var(--ac-muted); line-height: 1.5; margin: 0 0 14px; }
+.mw-le-cp-error { color: #c02a2a; font-size: 12px; margin: -6px 0 10px; }
+.mw-le-cp-create {
+    width: 100%; min-height: 44px; border: 0; border-radius: 10px; background: var(--ac-ink); color: #fff;
+    font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 8px;
+}
+.mw-le-cp-create:hover { background: #0f1722; }
+.mw-le-cp-create[disabled], .mw-le-cp-draft-link[disabled] { opacity: .6; cursor: default; }
+.mw-le-cp-draft-link { width: 100%; background: none; border: 0; color: var(--ac-ink); font-size: 13px; font-weight: 600; cursor: pointer; padding: 6px; }
+.mw-le-cp-draft-link:hover { text-decoration: underline; }
+
+@media (max-width: 720px) {
+    .mw-le-cp { flex-direction: column; }
+    .mw-le-cp-preview { flex-basis: auto; max-width: none; border-left: 0; border-top: 1px solid var(--ac-hairline); }
+    .mw-le-cp-starts { grid-template-columns: repeat(2, 1fr); }
+}
 </style>
 
 <script>
@@ -1119,6 +1363,11 @@ export default {
                 this.addContentOpenLayouts(type.layoutCategory || '');
                 return;
             }
+            // Page opens the full two-pane create-page dialog (same modal, skin).
+            if (type.key === 'page') {
+                this.openCreatePageSkin();
+                return;
+            }
             this.showModal = false;
             if (type.createAction) {
                 window.dispatchEvent(new CustomEvent('liveEditOpenCreateContent', {
@@ -1181,6 +1430,128 @@ export default {
                 this.addContentError = 'Could not create ' + type.label.toLowerCase() + '.';
             } finally {
                 this.addContentCreating = false;
+            }
+        },
+
+        // ── create-page dialog ───────────────────────────────────────────────
+        openCreatePageSkin() {
+            this.pickerSkin = 'create-page';
+            this.cpTitle = '';
+            this.cpSlug = '';
+            this.cpSlugEdited = false;
+            this.cpSlugEditing = false;
+            this.cpContent = '';
+            this.cpStartFrom = 'blank';
+            this.cpCoverImage = '';
+            this.cpParentId = '';
+            this.cpAddToMenu = true;
+            this.cpMoreOpen = false;
+            this.cpError = '';
+            this.showModal = true;
+            setTimeout(() => {
+                const el = document.querySelector('.mw-le-cp-title-input');
+                if (el) { el.focus(); }
+            }, 120);
+        },
+        cpSlugify(text) {
+            return (text || '').toString().toLowerCase().trim()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+                .slice(0, 120);
+        },
+        cpOnTitleInput() {
+            if (!this.cpSlugEdited) {
+                this.cpSlug = this.cpSlugify(this.cpTitle);
+            }
+        },
+        cpEffectiveSlug() {
+            return this.cpSlug || this.cpSlugify(this.cpTitle) || 'page-title';
+        },
+        cpActiveStartFrom() {
+            return this.cpStartFromOptions.find((o) => o.key === this.cpStartFrom) || this.cpStartFromOptions[0];
+        },
+        cpSetStartFrom(key) {
+            this.cpStartFrom = key;
+        },
+        // "Draft from title" — a light client-side starter paragraph (AI draft is
+        // a follow-up); only fills an empty content box.
+        cpDraftFromTitle() {
+            const t = (this.cpTitle || '').trim();
+            if (!t) { return; }
+            if ((this.cpContent || '').trim()) { return; }
+            this.cpContent = 'Welcome to ' + t + '. '
+                + 'Use this space to introduce ' + t.toLowerCase() + ' — what it is, who it is for, '
+                + 'and why it matters. You can edit everything in the editor after creating the page.';
+        },
+        cpAllLayouts() {
+            // Jump to the full layouts picker (Start-from "All layouts →").
+            this.pickerSkin = 'layouts';
+            this.filterCategory = '';
+            this.filterKeyword = '';
+            this.filterLayouts();
+            this.$nextTick(() => { this.setupIframeObserver(); });
+        },
+        async cpCreate(draft) {
+            if (this.cpCreating) { return; }
+            const title = (this.cpTitle || '').trim();
+            if (!title) {
+                this.cpError = 'Give the page a title first.';
+                const el = document.querySelector('.mw-le-cp-title-input');
+                if (el) { el.focus(); }
+                return;
+            }
+            this.cpCreating = true;
+            this.cpError = '';
+            try {
+                const base = mw.settings.site_url;
+                const tokenEl = document.querySelector('meta[name="csrf-token"]');
+                const token = (tokenEl && tokenEl.content) || (mw.settings && mw.settings.csrf) || '';
+                const payload = {
+                    content_type: 'page',
+                    title: title,
+                    url: this.cpEffectiveSlug(),
+                    is_active: draft ? 0 : 1,
+                    is_deleted: 0,
+                    layout_file: (this.cpActiveStartFrom() || {}).layout || 'clean',
+                    add_content_to_menu: this.cpAddToMenu ? 1 : 0,
+                };
+                if ((this.cpContent || '').trim()) { payload.content = this.cpContent; }
+                if (this.cpParentId) { payload.parent = this.cpParentId; }
+                const res = await fetch(base + 'api/save_content', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': token,
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(payload),
+                });
+                const raw = await res.text();
+                let id = null;
+                try {
+                    const j = JSON.parse(raw);
+                    id = (typeof j === 'number') ? j : (j.id || (j.data && j.data.id) || null);
+                } catch (e) { id = parseInt(raw, 10) || null; }
+                if (!res.ok || !id) {
+                    this.cpError = 'Could not create the page.';
+                    return;
+                }
+                let url = '';
+                try {
+                    const g = await fetch(base + 'api/content/' + id, { credentials: 'include', headers: { Accept: 'application/json' } });
+                    const gd = await g.json();
+                    url = (gd && gd.data && gd.data.url) || (gd && gd.url) || '';
+                } catch (e) { /* fall back */ }
+                this.showModal = false;
+                window.location.href = base + 'admin/live-edit' + (url
+                    ? ('?url=' + encodeURIComponent(base + url))
+                    : ('?content_id=' + id));
+            } catch (e) {
+                this.cpError = 'Could not create the page.';
+            } finally {
+                this.cpCreating = false;
             }
         },
         insertLayout(layout, target) {
@@ -1556,6 +1927,11 @@ export default {
             instance.openAddContentPickerSkin();
         });
 
+        // task-2026-09-17-createpage — open the two-pane Create-page dialog.
+        window.addEventListener('openCreatePageDialog', function () {
+            instance.openCreatePageSkin();
+        });
+
         // this.emitter.on("live-edit-ui-show", show => {
         //
         // });
@@ -1690,11 +2066,35 @@ export default {
             addContentTitle: '',
             addContentCreating: false,
             addContentError: '',
+
+            // ── create-page dialog (two-pane form + preview) ──────────────────
+            cpTitle: '',
+            cpSlug: '',
+            cpSlugEdited: false,
+            cpSlugEditing: false,
+            cpContent: '',
+            cpStartFrom: 'blank',
+            cpCoverImage: '',
+            cpParentId: '',
+            cpAddToMenu: true,
+            cpMoreOpen: false,
+            cpCreating: false,
+            cpError: '',
+            cpStartFromOptions: [
+                { key: 'blank',   label: 'Blank',   layout: 'clean',
+                  description: 'An empty page — start from scratch.' },
+                { key: 'hero',    label: 'Hero',    layout: 'default',
+                  description: 'Full-width image, title over it, then an intro and a content grid.' },
+                { key: 'article', label: 'Article', layout: 'default',
+                  description: 'A centered title and a readable single-column body — great for text.' },
+                { key: 'landing', label: 'Landing', layout: 'default',
+                  description: 'A hero, feature sections and a call to action — a marketing page.' },
+            ],
             addContentTypes: [
                 { key: 'block', label: 'Block', group: 'this-page', badge: '+', shortcut: '',
                   description: 'Add a block to this page.' },
                 { key: 'page', label: 'Page', group: 'content', badge: 'Pg', shortcut: 'P',
-                  createAction: 'addPageAction', tint: '#e6ecff', quickCreate: true,
+                  createAction: 'addPageAction', tint: '#e6ecff',
                   description: 'A standalone page in your site navigation.' },
                 { key: 'post', label: 'Post', group: 'content', badge: 'Po', shortcut: 'O',
                   createAction: 'addPostAction', tint: '#e3f5ec', quickCreate: true,
