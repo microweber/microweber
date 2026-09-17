@@ -99,8 +99,17 @@ final class CmsHelpers
 
         try {
             $app = app();
-            if (is_object($app) && isset($app->templates) && is_object($app->templates)) {
-                return $app->templates;
+            // NB: use bound()/make() — NOT isset($app->templates). `templates` is
+            // a container-bound service resolved via the Application's __get
+            // magic, and isset() on a magic property is false (no __isset), so
+            // the old isset() guard always failed → allTemplates()/findTemplate()
+            // returned empty → getTemplates() scanned NO template's skins and the
+            // layout picker showed only the 3 base-module layouts.
+            if (is_object($app) && method_exists($app, 'bound') && $app->bound('templates')) {
+                $repo = $app->make('templates');
+                if (is_object($repo)) {
+                    return $repo;
+                }
             }
         } catch (\Throwable) {
             return null;
