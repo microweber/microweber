@@ -438,6 +438,10 @@
                         @foreach($media as $item)
                             <div
                                 wire:click="selectMedia({{ $item->id }})"
+                                {{-- task-2026-09-17 — double-click a thumbnail to insert it
+                                     straight away: post the URL to the parent image picker,
+                                     which inserts (filepicker.js listens for insert-file). --}}
+                                x-on:dblclick="window.parent && window.parent !== window && window.parent.postMessage({ type: 'mw-filemanager:insert-file', url: @js($item->filename) }, '*')"
                                 class="mw-media-grid-item {{ $selectedMediaId === $item->id ? 'selected' : '' }} {{ in_array($item->id, $bulkSelected) ? 'bulk-selected' : '' }}"
                             >
                                 {{-- Bulk checkbox --}}
@@ -553,6 +557,7 @@
                                 @foreach($media as $item)
                                     <tr
                                         wire:click="selectMedia({{ $item->id }})"
+                                        x-on:dblclick="window.parent && window.parent !== window && window.parent.postMessage({ type: 'mw-filemanager:insert-file', url: @js($item->filename) }, '*')"
                                         class="{{ $selectedMediaId === $item->id ? 'selected' : '' }} {{ in_array($item->id, $bulkSelected) ? 'bulk-selected' : '' }}"
                                     >
                                         <td>

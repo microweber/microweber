@@ -867,6 +867,23 @@ mw.filePicker = function (options) {
                 };
                 window.addEventListener('message', _onSelectFile);
 
+                // task-2026-09-17 — double-click a thumbnail in the media-library
+                // iframe to insert it immediately (posts mw-filemanager:insert-file).
+                // Sets the value then finalises the picker (same as the footer
+                // "Insert image" button), so no extra click is needed.
+                var _onInsertFile = function (evt) {
+                    if (!scope.$root || !scope.$root[0] || !scope.$root[0].isConnected) {
+                        window.removeEventListener('message', _onInsertFile);
+                        return;
+                    }
+                    if (!evt.data || evt.data.type !== 'mw-filemanager:insert-file') return;
+                    var url = evt.data.url;
+                    if (!url) return;
+                    scope.setSectionValue(url);
+                    scope.result();
+                };
+                window.addEventListener('message', _onInsertFile);
+
                 fr.onload = function () {
                     // Wire file selection back to the picker.
                     try {

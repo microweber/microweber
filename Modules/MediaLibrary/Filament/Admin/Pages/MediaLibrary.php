@@ -588,8 +588,11 @@ class MediaLibrary extends Page
      * Uses the existing thumbnail() helper which handles {SITE_URL} placeholders,
      * caching, and webp conversion.
      */
-    public function getThumbnailUrl(string $filename, int $width = 300): string
+    public function getThumbnailUrl(?string $filename, int $width = 300): string
     {
+        // task-2026-09-17 — accept null: a single media row with a null filename
+        // (bad/legacy data) otherwise throws a TypeError and 500s the entire
+        // media library / image picker. Null/empty → no thumbnail.
         if (empty($filename)) {
             return '';
         }

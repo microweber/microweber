@@ -186,6 +186,13 @@ body.fi-panel-checkout .fi-btn {
     max-height: none !important;
     padding: 0 !important;
     gap: 4px !important;
+    /* task-2026-09-17 — force a horizontal tab ROW. The shared wrapper defaults
+       to flex-direction:column, which stacked the picker's tabs (Media library /
+       My computer / Enter prompt / URL) vertically. */
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
     justify-content: flex-start !important;
 }
 .mw-live-edit-resolutions-wrapper.mw-filepicker-component-tab-nav .live-edit-toolbar-buttons {
