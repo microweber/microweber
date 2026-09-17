@@ -162,16 +162,10 @@
                 </div>
             </div>
 
-            {{-- RIGHT: detail panel --}}
-            <div class="mw-mb-detail">
-                {{-- empty state --}}
-                <div class="mw-mb-detail-empty" x-show="!detailId">
-                    <x-heroicon-o-photo class="mw-mb-detail-empty-ico" aria-hidden="true" />
-                    <p>Select an image to edit its details.</p>
-                </div>
-
-                {{-- populated state --}}
-                <div class="mw-mb-detail-body" x-show="detailId" x-cloak>
+            {{-- RIGHT: detail panel — mounted only once an image is selected, so
+                 the grid uses the full modal width until then. --}}
+            <div class="mw-mb-detail" x-show="detailId" x-cloak>
+                <div class="mw-mb-detail-body">
                     <div class="mw-mb-detail-head">
                         <span class="mw-mb-detail-thumb"><img :src="detail.filename" alt=""></span>
                         <div class="mw-mb-detail-headmeta">
