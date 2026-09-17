@@ -734,13 +734,24 @@
                             </span>
                             <span class="mw-le-cp-row-value">{{ cpCoverImage ? $lang('Selected') : $lang('None') }}</span>
                         </label>
-                        <label class="mw-le-cp-row">
-                            <span class="mw-le-cp-row-main">
-                                <input type="checkbox" class="mw-le-cp-check" :checked="!!cpParentId" @change="cpParentId = ''">
-                                <span>{{ $lang('Parent page') }}</span>
-                            </span>
-                            <span class="mw-le-cp-row-value">{{ cpParentId ? cpParentId : $lang('Top level') }} ▾</span>
-                        </label>
+                        <div class="mw-le-cp-row mw-le-cp-row--dropdown">
+                            <span class="mw-le-cp-row-main"><span>{{ $lang('Parent page') }}</span></span>
+                            <div class="mw-le-cp-parentpick">
+                                <button type="button" class="mw-le-cp-row-value mw-le-cp-row-value--btn" @click="cpToggleParent()">
+                                    {{ cpParentLabel || $lang('Top level') }} ▾
+                                </button>
+                                <div v-show="cpParentOpen" class="mw-le-cp-parent-menu">
+                                    <input type="text" class="mw-le-cp-parent-search"
+                                           :placeholder="$lang('Filter pages') + '…'" v-model="cpParentFilter">
+                                    <div class="mw-le-cp-parent-list">
+                                        <button type="button" class="mw-le-cp-parent-item" @click="cpPickParent(null)">{{ $lang('Top level') }}</button>
+                                        <button v-for="p in cpFilteredParents()" :key="p.id" type="button"
+                                                class="mw-le-cp-parent-item" @click="cpPickParent(p)">{{ p.title }}</button>
+                                        <div v-if="!cpParentLoaded" class="mw-le-cp-parent-empty">{{ $lang('Loading') }}…</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <label class="mw-le-cp-row">
                             <span class="mw-le-cp-row-main">
                                 <span>{{ $lang('Add to main menu') }}</span>
@@ -1223,6 +1234,23 @@
 .mw-le-cp-row-main { display: inline-flex; align-items: center; gap: 10px; }
 .mw-le-cp-check { width: 16px; height: 16px; accent-color: var(--ac-accent); }
 .mw-le-cp-row-value { font-size: 13px; color: var(--ac-muted); }
+.mw-le-cp-row--dropdown { cursor: default; }
+.mw-le-cp-parentpick { position: relative; }
+.mw-le-cp-row-value--btn { background: none; border: 0; padding: 0; cursor: pointer; font-weight: 600; color: var(--ac-ink); }
+.mw-le-cp-parent-menu {
+    position: absolute; top: calc(100% + 6px); right: 0; z-index: 30; width: 260px; max-width: 80vw;
+    background: #fff; border: 1px solid var(--ac-hairline); border-radius: 10px; padding: 8px;
+    box-shadow: 0 12px 30px rgba(24, 36, 51, .18);
+}
+.mw-le-cp-parent-search { width: 100%; min-height: 34px; padding: 6px 10px; border: 1px solid var(--ac-hairline); border-radius: 8px; font-size: 13px; }
+.mw-le-cp-parent-search:focus { outline: none; border-color: var(--ac-accent); }
+.mw-le-cp-parent-list { max-height: 200px; overflow-y: auto; margin-top: 6px; display: flex; flex-direction: column; }
+.mw-le-cp-parent-item {
+    flex: 0 0 auto; text-align: left; padding: 7px 8px; border: 0; background: none; border-radius: 6px;
+    font-size: 13px; color: var(--ac-ink); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mw-le-cp-parent-item:hover { background: var(--ac-surface); }
+.mw-le-cp-parent-empty { padding: 8px; font-size: 12px; color: var(--ac-muted); }
 .mw-le-cp-toggle { width: 38px; height: 22px; border-radius: 999px; background: #d3d3ce; position: relative; transition: background .15s; flex: none; cursor: pointer; }
 .mw-le-cp-toggle.is-on { background: var(--ac-accent); }
 .mw-le-cp-toggle-knob { position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .15s; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
@@ -1482,6 +1510,40 @@ export default {
             this.cpContent = 'Welcome to ' + t + '. '
                 + 'Use this space to introduce ' + t.toLowerCase() + ' — what it is, who it is for, '
                 + 'and why it matters. You can edit everything in the editor after creating the page.';
+        },
+        // Parent-page dropdown (searchable). Pages come from the public content
+        // API filtered client-side to real pages (content_type === 'page').
+        cpToggleParent() {
+            this.cpParentOpen = !this.cpParentOpen;
+            if (this.cpParentOpen && !this.cpParentLoaded) { this.cpLoadParentPages(); }
+        },
+        async cpLoadParentPages() {
+            try {
+                const base = mw.settings.site_url;
+                const r = await fetch(base + 'api/content?content_type=page&limit=500&is_active=1', {
+                    credentials: 'include', headers: { Accept: 'application/json' },
+                });
+                const d = await r.json();
+                const items = (d && d.data) ? d.data : (Array.isArray(d) ? d : []);
+                this.cpParentPages = items
+                    .filter((x) => x && x.content_type === 'page' && x.title)
+                    .map((x) => ({ id: x.id, title: x.title }))
+                    .sort((a, b) => String(a.title).localeCompare(String(b.title)));
+                this.cpParentLoaded = true;
+            } catch (e) {
+                this.cpParentPages = [];
+            }
+        },
+        cpFilteredParents() {
+            const q = (this.cpParentFilter || '').toLowerCase().trim();
+            if (!q) { return this.cpParentPages; }
+            return this.cpParentPages.filter((p) => (p.title || '').toLowerCase().includes(q));
+        },
+        cpPickParent(p) {
+            if (p) { this.cpParentId = p.id; this.cpParentLabel = p.title; }
+            else { this.cpParentId = ''; this.cpParentLabel = ''; }
+            this.cpParentOpen = false;
+            this.cpParentFilter = '';
         },
         cpAllLayouts() {
             // Jump to the full layouts picker (Start-from "All layouts →").
@@ -2076,6 +2138,11 @@ export default {
             cpStartFrom: 'blank',
             cpCoverImage: '',
             cpParentId: '',
+            cpParentLabel: '',
+            cpParentOpen: false,
+            cpParentPages: [],
+            cpParentLoaded: false,
+            cpParentFilter: '',
             cpAddToMenu: true,
             cpMoreOpen: false,
             cpCreating: false,
