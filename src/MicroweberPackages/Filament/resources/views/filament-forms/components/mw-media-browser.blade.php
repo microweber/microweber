@@ -11,9 +11,13 @@
 
 
     <div>
-        {{-- task-2026-09-17-thumbgrid — removed a dead runtime <style> that used
-             @apply (a build-time directive, no-op at runtime) and fought the
-             real .mw-post-media-img--header rule in general-styles.css. --}}
+        <style>
+
+            .mw-post-media-img--header {
+                @apply absolute top-[5px] left-[5px] z-10
+            }
+
+        </style>
 
         @php
             $suffix = '';
@@ -242,14 +246,8 @@
 
 
 
-                                  {{-- task-2026-09-17-thumbgrid — action icons in a
-                                       top-right ink scrim; checkbox is a sibling
-                                       (top-left), independent of the icon cluster.
-                                       Styling lives in general-styles.css. --}}
-                                  <div class="mw-post-media-img--header">
+                                  <div class="flex gap-2 items-center mw-post-media-img--header bg-black p-1 cursor-pointer z-10 items-center">
                                       <a @click="editImageFilename('{{ $item->id }}','{{ $item->filename }}')"
-                                         role="button" tabindex="0" aria-label="Edit image"
-                                         x-on:keydown.enter.space.prevent="$el.click()"
                                          class="image-settings settings-img" x-data="{}" x-tooltip="{
                                                                               content: 'Edit Image',
                                                                               theme: $store.theme,
@@ -258,8 +256,6 @@
                                       </a>
 
                                       <a @click="editMediaOptionsById('{{ $item->id }}')"
-                                         role="button" tabindex="0" aria-label="Image settings"
-                                         x-on:keydown.enter.space.prevent="$el.click()"
                                          class="image-settings settings-img" x-data="{}" x-tooltip="{
                                                                               content: 'Image Settings',
                                                                               theme: $store.theme,
@@ -268,19 +264,18 @@
                                       </a>
 
                                       <a @click="deleteMediaById('{{ $item->id }}')"
-                                         role="button" tabindex="0" aria-label="Delete image"
-                                         x-on:keydown.enter.space.prevent="$el.click()"
-                                         class="image-settings settings-img image-settings--delete" x-data="{}" x-tooltip="{
+                                         class="image-settings settings-img" x-data="{}" x-tooltip="{
                                                                               content: 'Delete Image',
                                                                               theme: $store.theme,
                                                                           }">
                                           @svg('mw-media-item-delete-small')
                                       </a>
+
+                                      <label class="form-check form-check-inline">
+                                          <input type="checkbox" x-model="selectedImages" value="{{ $item->id }}"
+                                                 class="form-check-input">
+                                      </label>
                                   </div>
-                                  <label class="form-check form-check-inline">
-                                      <input type="checkbox" x-model="selectedImages" value="{{ $item->id }}"
-                                             class="form-check-input">
-                                  </label>
 
                                     </div>
 
