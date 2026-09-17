@@ -642,9 +642,30 @@
                                 <span class="sk sk-line sk-short"></span>
                             </div>
 
+                            <label v-if="addContentActiveType.quickCreate" class="mw-le-addcontent-field">
+                                <span class="mw-le-addcontent-field-label">{{ $lang('Title') }}</span>
+                                <input type="text" class="mw-le-addcontent-input"
+                                       v-model="addContentTitle"
+                                       :placeholder="$lang('Untitled') + ' ' + addContentActiveType.label.toLowerCase()"
+                                       @keydown.enter.prevent="addContentQuickCreate(addContentActiveType, false)">
+                            </label>
+                            <p class="mw-le-addcontent-create-error" v-show="addContentError">{{ addContentError }}</p>
+
                             <div class="mw-le-addcontent-detail-foot">
                                 <span class="mw-le-addcontent-detail-hint">{{ $lang('Opens in the editor after creating') }}</span>
-                                <button type="button" class="mw-le-addcontent-create" @click="addContentCreate(addContentActiveType)">
+                                <span v-if="addContentActiveType.quickCreate" class="mw-le-addcontent-create-actions">
+                                    <button type="button" class="mw-le-addcontent-draft" :disabled="addContentCreating"
+                                            @click="addContentQuickCreate(addContentActiveType, true)">
+                                        {{ $lang('Draft') }}
+                                    </button>
+                                    <button type="button" class="mw-le-addcontent-create" :disabled="addContentCreating"
+                                            @click="addContentQuickCreate(addContentActiveType, false)">
+                                        <span v-if="!addContentCreating">{{ $lang('Create') }} {{ addContentActiveType.label.toLowerCase() }}</span>
+                                        <span v-else>{{ $lang('Creating') }}…</span>
+                                    </button>
+                                </span>
+                                <button v-else type="button" class="mw-le-addcontent-create"
+                                        @click="addContentCreate(addContentActiveType)">
                                     {{ $lang('Create') }} {{ addContentActiveType.label.toLowerCase() }}
                                 </button>
                             </div>
@@ -975,6 +996,25 @@
     text-transform: capitalize;
 }
 .mw-le-addcontent-create:hover { background: #0f1722; }
+.mw-le-addcontent-create[disabled], .mw-le-addcontent-draft[disabled] { opacity: .6; cursor: default; }
+
+/* inline quick-create (2a) */
+.mw-le-addcontent-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.mw-le-addcontent-field-label { font-size: 12px; font-weight: 600; color: var(--ac-ink); }
+.mw-le-addcontent-input {
+    width: 100%; min-height: 42px; padding: 9px 12px;
+    border: 1px solid var(--ac-hairline); border-radius: 10px; font-size: 14px; background: #fff; color: var(--ac-ink);
+}
+.mw-le-addcontent-input:focus { outline: none; border-color: #b9c2ff; box-shadow: 0 0 0 3px rgba(90, 110, 240, .15); }
+.mw-le-addcontent-create-error { color: #c02a2a; font-size: 12px; margin: -6px 0 12px; }
+.mw-le-addcontent-create-actions { display: inline-flex; align-items: center; gap: 8px; }
+.mw-le-addcontent-draft {
+    min-height: 42px; padding: 0 16px; border: 1px solid var(--ac-hairline); border-radius: 10px;
+    background: #fff; color: var(--ac-ink); font-size: 14px; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 5px;
+}
+.mw-le-addcontent-draft::before { content: '✎'; font-size: 12px; color: var(--ac-muted); }
+.mw-le-addcontent-draft:hover { background: var(--ac-surface); }
 
 @media (max-width: 720px) {
     .mw-le-addcontent-row { flex-direction: column; }
@@ -1084,6 +1124,63 @@ export default {
                 window.dispatchEvent(new CustomEvent('liveEditOpenCreateContent', {
                     detail: { action: type.createAction },
                 }));
+            }
+        },
+        // Inline quick-create (mockup 2a): create the content with just a title
+        // via POST api/content, then open it in Live Edit. draft => is_active 0.
+        async addContentQuickCreate(type, draft) {
+            if (!type || this.addContentCreating) { return; }
+            const title = (this.addContentTitle || '').trim() || ('Untitled ' + type.label.toLowerCase());
+            this.addContentCreating = true;
+            this.addContentError = '';
+            try {
+                const base = mw.settings.site_url;
+                const tokenEl = document.querySelector('meta[name="csrf-token"]');
+                const token = (tokenEl && tokenEl.content) || (mw.settings && mw.settings.csrf) || '';
+                // api/save_content = the classic session-authed (web+admin) create;
+                // api/content needs the API-token guard (401 with a session cookie).
+                const res = await fetch(base + 'api/save_content', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': token,
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ content_type: type.key, title: title, is_active: draft ? 0 : 1, is_deleted: 0 }),
+                });
+                const raw = await res.text();
+                let id = null;
+                try {
+                    const j = JSON.parse(raw);
+                    id = (typeof j === 'number') ? j : (j.id || (j.data && j.data.id) || null);
+                } catch (e) {
+                    id = parseInt(raw, 10) || null;
+                }
+                if (!res.ok || !id) {
+                    this.addContentError = 'Could not create ' + type.label.toLowerCase() + '.';
+                    return;
+                }
+
+                // Resolve the new content's url (public show route) to open it in Live Edit.
+                let url = '';
+                try {
+                    const g = await fetch(base + 'api/content/' + id, { credentials: 'include', headers: { Accept: 'application/json' } });
+                    const gd = await g.json();
+                    url = (gd && gd.data && gd.data.url) || (gd && gd.url) || '';
+                } catch (e) { /* fall back to content_id */ }
+
+                this.showModal = false;
+                this.addContentTitle = '';
+                const target = base + 'admin/live-edit' + (url
+                    ? ('?url=' + encodeURIComponent(base + url))
+                    : ('?content_id=' + id));
+                window.location.href = target;
+            } catch (e) {
+                this.addContentError = 'Could not create ' + type.label.toLowerCase() + '.';
+            } finally {
+                this.addContentCreating = false;
             }
         },
         insertLayout(layout, target) {
@@ -1589,17 +1686,21 @@ export default {
             // a preview/create pane (mockup 2a) + a block grid (mockup 2b).
             pickerSkin: 'layouts',
             addContentSelectedType: 'block',
+            // inline quick-create (mockup 2a): Title + Draft/Create for page/post/product
+            addContentTitle: '',
+            addContentCreating: false,
+            addContentError: '',
             addContentTypes: [
                 { key: 'block', label: 'Block', group: 'this-page', badge: '+', shortcut: '',
                   description: 'Add a block to this page.' },
                 { key: 'page', label: 'Page', group: 'content', badge: 'Pg', shortcut: 'P',
-                  createAction: 'addPageAction', tint: '#e6ecff',
+                  createAction: 'addPageAction', tint: '#e6ecff', quickCreate: true,
                   description: 'A standalone page in your site navigation.' },
                 { key: 'post', label: 'Post', group: 'content', badge: 'Po', shortcut: 'O',
-                  createAction: 'addPostAction', tint: '#e3f5ec',
+                  createAction: 'addPostAction', tint: '#e3f5ec', quickCreate: true,
                   description: 'A blog article with a cover image, date and author. It appears in your Blog page and any category you assign.' },
                 { key: 'product', label: 'Product', group: 'content', badge: 'Pr', shortcut: 'R',
-                  createAction: 'addProductAction', tint: '#ffe9df',
+                  createAction: 'addProductAction', tint: '#ffe9df', quickCreate: true,
                   description: 'A shop product with price, gallery and Add-to-cart.' },
                 { key: 'image', label: 'Image', group: 'content', badge: 'Im', shortcut: 'I',
                   createAction: 'addImageAction', tint: '#f2e6ff',
