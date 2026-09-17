@@ -1668,6 +1668,22 @@ aside.fi-sidebar {
     background-color: #e6e6e6;
 }
 
+/* task-2026-09-17 — device/resolution dropdown trigger sizing. It inherited the
+   36px / 4px-radius icon-button size, so it rendered SMALLER and sat lower than
+   the Tools (.mw-tool-btn) button right beside it (44px tall, 8px radius). Match
+   the Tools button so the two adjacent gray toolbar buttons are consistent. */
+#toolbar .mw-device-switch__trigger.btn-icon.live-edit-toolbar-buttons {
+    height: 44px;
+    min-height: 44px;
+    border-radius: 8px !important;
+    padding: 0 10px;
+    background-color: #f1f3f5;
+    border-color: #f1f3f5;
+}
+#toolbar .mw-device-switch__trigger.btn-icon.live-edit-toolbar-buttons:hover {
+    background-color: #e6e6e6;
+}
+
 /* Secondary buttons (undo, redo, VIEW/PREVIEW) — flat gray pills */
 #toolbar .btn.live-edit-toolbar-buttons:not(.btn-dark):not(.mw-save-button):not([aria-label="Add content"]) {
     background-color: #f0f0f0;
