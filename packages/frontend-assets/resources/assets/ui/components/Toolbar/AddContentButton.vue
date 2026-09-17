@@ -24,8 +24,10 @@ export default {
             this.emitter.emit('live-edit-ui-show', name);
         },
         openContentAddModal: function () {
-            var event = new Event('openAddContentAction');
-            window.dispatchEvent(event);
+            // task-2026-09-17-addcontent — open the redesigned Add-content dialog
+            // (the ListLayouts picker in its 'add-content' skin) instead of the
+            // old Filament add-content modal.
+            window.dispatchEvent(new Event('openAddContentPicker'));
         },
     },
     data() {

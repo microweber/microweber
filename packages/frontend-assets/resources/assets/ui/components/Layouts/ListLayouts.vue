@@ -25,7 +25,7 @@
              role="dialog"
              aria-modal="true"
              aria-labelledby="mw-le-layouts-dialog-title"
-             class="mw-le-dialog-block mw-le-layouts-dialog w-100 active"
+             :class="['mw-le-dialog-block mw-le-layouts-dialog w-100 active', pickerSkin === 'add-content' ? 'mw-le-dialog--addcontent' : '']"
              style="inset:20px; transform:none; animation-duration: .3s; z-index: 1000;"
         >
 
@@ -61,7 +61,7 @@
                 <span aria-hidden="true">&times;</span>
             </button>
 
-            <div class="modules-list modules-list-defaultModules">
+            <div v-if="pickerSkin === 'layouts'" class="modules-list modules-list-defaultModules">
                 <div class="mw-le-layouts-dialog-row">
 
                     <div v-if=" layoutsList?.categories?.length" class="mw-le-layouts-dialog-col">
@@ -563,6 +563,97 @@
                 </div>
             </div>
 
+            <!-- ── add-content skin (hybrid of mockups 2a + 2b) ────────────── -->
+            <div v-if="pickerSkin === 'add-content'" class="mw-le-addcontent">
+                <div class="mw-le-addcontent-row">
+
+                    <!-- LEFT RAIL: content types -->
+                    <aside class="mw-le-addcontent-rail">
+                        <div class="mw-le-addcontent-rail-title">{{ $lang('Add new') }}</div>
+
+                        <div class="mw-le-addcontent-rail-group">{{ $lang('This page') }}</div>
+                        <button v-for="t in addContentThisPage" :key="t.key" type="button"
+                                class="mw-le-addcontent-rail-item"
+                                :class="{ 'is-active': addContentSelectedType === t.key }"
+                                @click="addContentSelect(t.key)">
+                            <span class="mw-le-addcontent-rail-badge mw-le-addcontent-rail-badge--plus">+</span>
+                            <span class="mw-le-addcontent-rail-label">{{ t.label }}</span>
+                        </button>
+
+                        <div class="mw-le-addcontent-rail-group">{{ $lang('Site content') }}</div>
+                        <button v-for="t in addContentSiteContent" :key="t.key" type="button"
+                                class="mw-le-addcontent-rail-item"
+                                :class="{ 'is-active': addContentSelectedType === t.key }"
+                                @click="addContentSelect(t.key)">
+                            <span class="mw-le-addcontent-rail-badge" :style="{ background: t.tint }">{{ t.badge }}</span>
+                            <span class="mw-le-addcontent-rail-label">{{ t.label }}</span>
+                            <span v-if="t.shortcut" class="mw-le-addcontent-rail-key">{{ t.shortcut }}</span>
+                        </button>
+                    </aside>
+
+                    <!-- MAIN -->
+                    <section class="mw-le-addcontent-main">
+
+                        <!-- BLOCK mode (2b): search + block grid + create-content pills -->
+                        <div v-if="addContentSelectedType === 'block'">
+                            <div class="mw-le-addcontent-search input-icon">
+                                <svg class="mw-le-addcontent-search-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                <input type="search" class="form-control" v-model="filterKeyword"
+                                       :aria-label="$lang('Search blocks and content')"
+                                       :placeholder="$lang('Search blocks and content')">
+                            </div>
+
+                            <div class="mw-le-addcontent-blocks">
+                                <button v-for="b in addContentBlocks" :key="b.key" type="button"
+                                        class="mw-le-addcontent-block" @click="addContentBlockClick(b)">
+                                    <span class="mw-le-addcontent-block-thumb" :class="'mw-le-addcontent-block-thumb--' + b.key"></span>
+                                    <span class="mw-le-addcontent-block-label">{{ b.label }}</span>
+                                </button>
+                            </div>
+
+                            <div class="mw-le-addcontent-allblocks">
+                                <button type="button" class="mw-le-addcontent-link" @click="addContentOpenLayouts('')">
+                                    {{ $lang('All blocks') }} →
+                                </button>
+                            </div>
+
+                            <div class="mw-le-addcontent-sep">
+                                <span>{{ $lang('Or create site content') }}</span>
+                            </div>
+                            <div class="mw-le-addcontent-pills">
+                                <button v-for="t in addContentSiteContent" :key="'pill-' + t.key" type="button"
+                                        class="mw-le-addcontent-pill" @click="addContentCreate(t)">
+                                    <span class="mw-le-addcontent-pill-dot" :style="{ background: t.tint }"></span>
+                                    {{ t.label }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- CONTENT-TYPE mode (2a): description + preview + inline create -->
+                        <div v-else-if="addContentActiveType" class="mw-le-addcontent-detail">
+                            <h3 class="mw-le-addcontent-detail-title">{{ addContentActiveType.label }}</h3>
+                            <p class="mw-le-addcontent-detail-desc">{{ addContentActiveType.description }}</p>
+
+                            <div class="mw-le-addcontent-preview">
+                                <span class="sk sk-title"></span>
+                                <span class="sk sk-meta"></span>
+                                <span class="sk sk-hero"></span>
+                                <span class="sk sk-line"></span>
+                                <span class="sk sk-line sk-short"></span>
+                            </div>
+
+                            <div class="mw-le-addcontent-detail-foot">
+                                <span class="mw-le-addcontent-detail-hint">{{ $lang('Opens in the editor after creating') }}</span>
+                                <button type="button" class="mw-le-addcontent-create" @click="addContentCreate(addContentActiveType)">
+                                    {{ $lang('Create') }} {{ addContentActiveType.label.toLowerCase() }}
+                                </button>
+                            </div>
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+
         </div>
     </Transition>
 
@@ -744,6 +835,152 @@
 .module-icon-wrapper {
     pointer-events: auto;
 }
+
+/* ── add-content skin (hybrid 2a + 2b) ──────────────────────────────────── */
+.mw-le-layouts-dialog.mw-le-dialog--addcontent {
+    inset: auto !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: min(980px, 94vw) !important;
+    max-width: 980px !important;
+    height: auto !important;
+    max-height: 88vh !important;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(24, 36, 51, .28);
+}
+.mw-le-addcontent {
+    --ac-ink: #182433;
+    --ac-muted: #77776f;
+    --ac-hairline: #e6e6e2;
+    --ac-surface: #f4f4f2;
+    display: flex;
+    min-height: 420px;
+    max-height: 88vh;
+    color: var(--ac-ink);
+}
+.mw-le-addcontent-row { display: flex; width: 100%; }
+
+/* rail */
+.mw-le-addcontent-rail {
+    flex: 0 0 220px;
+    border-right: 1px solid var(--ac-hairline);
+    background: #fbfbfa;
+    padding: 22px 14px;
+    overflow-y: auto;
+}
+.mw-le-addcontent-rail-title { font-size: 16px; font-weight: 700; padding: 0 8px 14px; }
+.mw-le-addcontent-rail-group {
+    font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: #a7a79f; padding: 14px 8px 6px;
+}
+.mw-le-addcontent-rail-item {
+    display: flex; align-items: center; gap: 10px; width: 100%;
+    padding: 8px; border: 0; background: none; border-radius: 8px; cursor: pointer;
+    font-size: 14px; font-weight: 500; color: var(--ac-ink); text-align: left;
+    transition: background .12s ease;
+}
+.mw-le-addcontent-rail-item:hover { background: #f1f1ee; }
+.mw-le-addcontent-rail-item.is-active { background: #edeeff; }
+.mw-le-addcontent-rail-badge {
+    flex: none; width: 26px; height: 26px; border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #4a4a63; background: var(--ac-surface);
+}
+.mw-le-addcontent-rail-badge--plus { background: var(--ac-ink); color: #fff; font-size: 15px; }
+.mw-le-addcontent-rail-label { flex: 1 1 auto; }
+.mw-le-addcontent-rail-key {
+    flex: none; font-size: 11px; font-weight: 600; color: #b3b3ac;
+    border: 1px solid var(--ac-hairline); border-radius: 5px; padding: 1px 6px; background: #fff;
+}
+
+/* main */
+.mw-le-addcontent-main { flex: 1 1 auto; padding: 26px 28px; overflow-y: auto; min-width: 0; }
+
+/* block mode (2b) */
+.mw-le-addcontent-search { position: relative; margin-bottom: 20px; }
+.mw-le-addcontent-search-ico { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #a7a79f; pointer-events: none; }
+.mw-le-addcontent-search .form-control {
+    width: 100%; min-height: 44px; padding: 10px 14px 10px 42px;
+    border: 1px solid var(--ac-hairline); border-radius: 10px; font-size: 14px; background: #fff;
+}
+.mw-le-addcontent-search .form-control:focus { outline: none; border-color: #b9c2ff; box-shadow: 0 0 0 3px rgba(90, 110, 240, .15); }
+
+.mw-le-addcontent-blocks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.mw-le-addcontent-block {
+    display: flex; flex-direction: column; gap: 8px; padding: 12px;
+    border: 1px solid var(--ac-hairline); border-radius: 12px; background: #fff; cursor: pointer;
+    transition: border-color .12s ease, box-shadow .12s ease;
+}
+.mw-le-addcontent-block:hover { border-color: #cfd6ff; box-shadow: 0 2px 10px rgba(24, 36, 51, .1); }
+.mw-le-addcontent-block-thumb { display: block; height: 46px; border-radius: 8px; background: var(--ac-surface); }
+.mw-le-addcontent-block-label { font-size: 13px; font-weight: 600; text-align: center; }
+/* lightweight glyph hints per block */
+.mw-le-addcontent-block-thumb--text { background:
+    linear-gradient(#c9ccd2,#c9ccd2) 12px 14px/60% 4px no-repeat,
+    linear-gradient(#dfe1e5,#dfe1e5) 12px 24px/40% 4px no-repeat, var(--ac-surface); }
+.mw-le-addcontent-block-thumb--image,
+.mw-le-addcontent-block-thumb--gallery { background: linear-gradient(135deg,#c7cef0,#d7c9ea); }
+.mw-le-addcontent-block-thumb--button { background: var(--ac-surface); position: relative; }
+.mw-le-addcontent-block-thumb--button::after { content: ''; position: absolute; inset: 15px 22px; background: #182433; border-radius: 5px; }
+.mw-le-addcontent-block-thumb--video { background: #182433; }
+.mw-le-addcontent-block-thumb--divider { background: var(--ac-surface); position: relative; }
+.mw-le-addcontent-block-thumb--divider::after { content: ''; position: absolute; left: 18%; right: 18%; top: 50%; height: 3px; background: #c9ccd2; border-radius: 2px; }
+.mw-le-addcontent-block-thumb--columns { background:
+    linear-gradient(#cbd0e6,#cbd0e6) 14px 12px/26% 22px no-repeat,
+    linear-gradient(#cbd0e6,#cbd0e6) center 12px/26% 22px no-repeat,
+    linear-gradient(#cbd0e6,#cbd0e6) right 14px top 12px/26% 22px no-repeat, var(--ac-surface); }
+.mw-le-addcontent-block-thumb--form { background:
+    linear-gradient(#dfe1e5,#dfe1e5) 12px 14px/70% 6px no-repeat,
+    linear-gradient(#dfe1e5,#dfe1e5) 12px 28px/50% 6px no-repeat, var(--ac-surface); }
+
+.mw-le-addcontent-allblocks { text-align: right; margin-top: 14px; }
+.mw-le-addcontent-link { background: none; border: 0; color: #4b62d6; font-size: 13px; font-weight: 600; cursor: pointer; padding: 0; }
+.mw-le-addcontent-link:hover { text-decoration: underline; }
+
+.mw-le-addcontent-sep { border-top: 1px solid var(--ac-hairline); margin: 20px 0 14px; position: relative; }
+.mw-le-addcontent-sep span {
+    font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #a7a79f;
+    position: relative; top: 14px;
+}
+.mw-le-addcontent-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.mw-le-addcontent-pill {
+    display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px;
+    border: 1px solid var(--ac-hairline); border-radius: 999px; background: #fff; cursor: pointer;
+    font-size: 13px; font-weight: 600; color: var(--ac-ink);
+}
+.mw-le-addcontent-pill:hover { background: var(--ac-surface); }
+.mw-le-addcontent-pill-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--ac-surface); }
+
+/* content-type mode (2a) */
+.mw-le-addcontent-detail { display: flex; flex-direction: column; height: 100%; }
+.mw-le-addcontent-detail-title { font-size: 18px; font-weight: 700; margin: 0 0 6px; }
+.mw-le-addcontent-detail-desc { font-size: 14px; color: var(--ac-muted); line-height: 1.5; margin: 0 0 18px; max-width: 46ch; }
+.mw-le-addcontent-preview {
+    flex: 1 1 auto; border: 1px solid var(--ac-hairline); border-radius: 12px; background: #fbfbfa;
+    padding: 20px; display: flex; flex-direction: column; gap: 12px; min-height: 180px; margin-bottom: 18px;
+}
+.mw-le-addcontent-preview .sk { display: block; border-radius: 6px; background: #e4e4e0; }
+.mw-le-addcontent-preview .sk-title { height: 14px; width: 55%; background: #d3d3ce; }
+.mw-le-addcontent-preview .sk-meta { height: 9px; width: 28%; }
+.mw-le-addcontent-preview .sk-hero { height: 96px; width: 100%; background: linear-gradient(135deg,#c7cef0,#d7c9ea); }
+.mw-le-addcontent-preview .sk-line { height: 9px; width: 80%; }
+.mw-le-addcontent-preview .sk-line.sk-short { width: 55%; }
+.mw-le-addcontent-detail-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.mw-le-addcontent-detail-hint { font-size: 13px; color: var(--ac-muted); }
+.mw-le-addcontent-create {
+    min-height: 42px; padding: 0 20px; border: 0; border-radius: 10px;
+    background: var(--ac-ink); color: #fff; font-size: 14px; font-weight: 600; cursor: pointer;
+    text-transform: capitalize;
+}
+.mw-le-addcontent-create:hover { background: #0f1722; }
+
+@media (max-width: 720px) {
+    .mw-le-addcontent-row { flex-direction: column; }
+    .mw-le-addcontent-rail { flex-basis: auto; border-right: 0; border-bottom: 1px solid var(--ac-hairline); }
+    .mw-le-addcontent-blocks { grid-template-columns: repeat(2, 1fr); }
+}
 </style>
 
 <script>
@@ -776,6 +1013,54 @@ export default {
             this.$nextTick(() => {
                 this.setupIframeObserver();
             });
+        },
+
+        // ── add-content skin ────────────────────────────────────────────────
+        // Open THIS modal as the "Add content" dialog (the AddContentButton
+        // toolbar action routes here instead of the old Filament modal).
+        openAddContentPickerSkin() {
+            this.pickerSkin = 'add-content';
+            this.addContentSelectedType = 'block';
+            this.filterKeyword = '';
+            this.showModal = true;
+            setTimeout(() => {
+                const el = document.querySelector('.mw-le-addcontent-search input');
+                if (el) { el.focus(); }
+            }, 120);
+        },
+        addContentTypeObj(key) {
+            return this.addContentTypes.find((t) => t.key === (key || this.addContentSelectedType));
+        },
+        addContentSelect(key) {
+            this.addContentSelectedType = key;
+        },
+        // Drill the SAME modal from the add-content skin into the layouts grid,
+        // optionally pre-filtered to a category (blocks map to categories).
+        addContentOpenLayouts(category) {
+            this.pickerSkin = 'layouts';
+            this.filterCategory = category || '';
+            this.filterKeyword = '';
+            this.filterLayouts();
+            this.$nextTick(() => { this.setupIframeObserver(); });
+        },
+        addContentBlockClick(block) {
+            this.addContentOpenLayouts(block.layoutCategory || '');
+        },
+        // "Create <type>" — hand off to the existing create flow. Layout drills
+        // into the layouts grid; content types open their create action via the
+        // window-event bridge the old picker used (crosses the teleport boundary).
+        addContentCreate(type) {
+            if (!type) { return; }
+            if (type.key === 'block' || type.key === 'layout') {
+                this.addContentOpenLayouts(type.layoutCategory || '');
+                return;
+            }
+            this.showModal = false;
+            if (type.createAction) {
+                window.dispatchEvent(new CustomEvent('liveEditOpenCreateContent', {
+                    detail: { action: type.createAction },
+                }));
+            }
         },
         insertLayout(layout, target) {
             if (this.isInserting) {
@@ -1087,6 +1372,9 @@ export default {
         mw.app.on('ready', () => {
 
             const showModal = () => {
+                // Always open the layout-insert flows in the layouts skin (the
+                // add-content skin may have left pickerSkin flipped).
+                instance.pickerSkin = 'layouts';
                 instance.showModal = true;
                 setTimeout(() => {
                     const searchField = document.querySelector('.mw-le-layouts-dialog input.modules-list-search-field');
@@ -1129,6 +1417,22 @@ export default {
                 instance.layoutInsertLocation = 'bottom';
                 mw.app.registerChangedState(element);
             });
+
+            // task-2026-09-17-addcontent — open THIS modal as the Add-content
+            // dialog (add-content skin). The insert target is the canvas content
+            // root so a layout drilled into from here still appends correctly.
+            mw.app.editor.on('openAddContentPicker', function (element) {
+                instance.target = element || instance.target;
+                instance.layoutInsertLocation = 'append';
+                instance.openAddContentPickerSkin();
+            });
+        });
+
+        // Also accept the plain window event the toolbar button dispatches, so
+        // the Add-content button opens this picker without the old Filament modal.
+        window.addEventListener('openAddContentPicker', function () {
+            instance.layoutInsertLocation = 'append';
+            instance.openAddContentPickerSkin();
         });
 
         // this.emitter.on("live-edit-ui-show", show => {
@@ -1189,7 +1493,17 @@ export default {
                 .filter(name => !featuredSet.has(name))
                 .slice()
                 .sort((a, b) => String(a).localeCompare(String(b)));
-        }
+        },
+        // add-content skin: the rail is split into "THIS PAGE" + "SITE CONTENT".
+        addContentThisPage() {
+            return this.addContentTypes.filter((t) => t.group === 'this-page');
+        },
+        addContentSiteContent() {
+            return this.addContentTypes.filter((t) => t.group === 'content');
+        },
+        addContentActiveType() {
+            return this.addContentTypes.find((t) => t.key === this.addContentSelectedType) || null;
+        },
     },
     data() {
         return {
@@ -1226,6 +1540,48 @@ export default {
             layoutsListLoaded: false,
             layoutInsertLocation: 'top',
             showModal: false,
+
+            // task-2026-09-17-addcontent — this same picker component is reused
+            // for the "Add content" dialog via a skin. pickerSkin flips the whole
+            // modal body between the layouts grid ('layouts', default) and the
+            // hybrid add-content dialog ('add-content'): a content-type rail with
+            // a preview/create pane (mockup 2a) + a block grid (mockup 2b).
+            pickerSkin: 'layouts',
+            addContentSelectedType: 'block',
+            addContentTypes: [
+                { key: 'block', label: 'Block', group: 'this-page', badge: '+', shortcut: '',
+                  description: 'Add a block to this page.' },
+                { key: 'page', label: 'Page', group: 'content', badge: 'Pg', shortcut: 'P',
+                  createAction: 'addPageAction', tint: '#e6ecff',
+                  description: 'A standalone page in your site navigation.' },
+                { key: 'post', label: 'Post', group: 'content', badge: 'Po', shortcut: 'O',
+                  createAction: 'addPostAction', tint: '#e3f5ec',
+                  description: 'A blog article with a cover image, date and author. It appears in your Blog page and any category you assign.' },
+                { key: 'product', label: 'Product', group: 'content', badge: 'Pr', shortcut: 'R',
+                  createAction: 'addProductAction', tint: '#ffe9df',
+                  description: 'A shop product with price, gallery and Add-to-cart.' },
+                { key: 'image', label: 'Image', group: 'content', badge: 'Im', shortcut: 'I',
+                  createAction: 'addImageAction', tint: '#f2e6ff',
+                  description: 'Upload an image straight onto the page.' },
+                { key: 'category', label: 'Category', group: 'content', badge: 'Ca', shortcut: 'C',
+                  createAction: 'addCategoryAction', tint: '#e0f5f5',
+                  description: 'A group that organizes your posts or products.' },
+                { key: 'layout', label: 'Layout', group: 'content', badge: 'La', shortcut: 'L',
+                  layoutCategory: '', tint: '#efe6ff',
+                  description: 'Insert a ready-made section layout from the library.' },
+            ],
+            // Each block maps to a layout category — clicking it drills the SAME
+            // modal into the layouts skin filtered to that category.
+            addContentBlocks: [
+                { key: 'text', label: 'Text', layoutCategory: 'Text Block' },
+                { key: 'image', label: 'Image', layoutCategory: 'Gallery' },
+                { key: 'gallery', label: 'Gallery', layoutCategory: 'Gallery' },
+                { key: 'button', label: 'Button', layoutCategory: 'Call To Action' },
+                { key: 'columns', label: 'Columns', layoutCategory: 'Grids' },
+                { key: 'form', label: 'Form', layoutCategory: 'Contacts' },
+                { key: 'video', label: 'Video', layoutCategory: 'Videos' },
+                { key: 'divider', label: 'Divider', layoutCategory: 'Misc' },
+            ],
             isInserting: false,
             target: undefined,
             siteUrl: '',
