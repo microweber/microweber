@@ -226,7 +226,9 @@ document.addEventListener('alpine:init', () => {
             else if (field === 'link') { payload.link = this.detail.link; }
             else if (field === 'crop') {
                 payload.crop = this.detail.crop;
-                payload.cropPosition = this.detail.crop === 'custom' ? this.detail.cropPosition : '';
+                // Read the slider values directly so a save never depends on
+                // onCropRange having run first.
+                payload.cropPosition = this.detail.crop === 'custom' ? (this.cropX + '% ' + this.cropY + '%') : '';
             }
             this.$wire.callSchemaComponentMethod(this.mwComponentKey(), 'updateMediaItemMeta', { data: payload });
         },
@@ -241,6 +243,15 @@ document.addEventListener('alpine:init', () => {
 
         onCropRange() {
             this.detail.cropPosition = this.cropX + '% ' + this.cropY + '%';
+        },
+
+        // Live CSS object-position for the crop — drives the in-editor preview on
+        // the active tile + panel thumbnail so dragging the custom sliders shows
+        // an immediate effect (reads cropX/cropY, which are reactive via x-model).
+        cropObjectPosition() {
+            if (this.detail.crop === 'top') { return 'center top'; }
+            if (this.detail.crop === 'custom') { return this.cropX + '% ' + this.cropY + '%'; }
+            return 'center center';
         },
 
         async writeAltForMe() {

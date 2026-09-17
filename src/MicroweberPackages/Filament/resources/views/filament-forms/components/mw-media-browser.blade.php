@@ -119,7 +119,9 @@
                                      decoding="async"
                                      draggable="false"
                                      class="d-block w-100 h-100"
-                                     style="object-fit: cover; -webkit-user-drag: none; user-select: none;">
+                                     style="object-fit: cover; -webkit-user-drag: none; user-select: none;"
+                                     {{-- live crop preview: only the active tile follows the panel's crop --}}
+                                     :style="String(detailId) === '{{ $item->id }}' ? { 'object-position': cropObjectPosition() } : {}">
                             </span>
 
                             {{-- bulk-select checkbox, top-left --}}
@@ -173,7 +175,7 @@
             <div class="mw-mb-detail" x-show="detailId" x-cloak>
                 <div class="mw-mb-detail-body">
                     <div class="mw-mb-detail-head">
-                        <span class="mw-mb-detail-thumb"><img :src="detail.filename" alt=""></span>
+                        <span class="mw-mb-detail-thumb"><img :src="detail.filename" :style="{ 'object-position': cropObjectPosition() }" alt=""></span>
                         <div class="mw-mb-detail-headmeta">
                             <div class="mw-mb-detail-name" x-text="detailName()"></div>
                             <div class="mw-mb-detail-dims" x-show="detail.w && detail.h" x-cloak>
