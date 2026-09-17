@@ -86,7 +86,7 @@
                 data-mw-media-dropzone="1"
                 data-component-key="{{ $getKey() }}"
                 data-state-path="{{ $statePath }}"
-                class="mw-media-browser-dropzone w-full flex flex-col p-4 items-center justify-center border-2 border-dashed border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+                class="mw-media-browser-dropzone w-full flex flex-col p-5 items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-200 bg-[#F4F4F2]/40 dark:bg-white/5 hover:bg-[#F4F4F2] dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent focus:ring-[#182433]"
             >
 
                 <x-heroicon-o-photo class="w-8 h-8 text-gray-400 mb-3" />
@@ -95,7 +95,7 @@
                 <div class="flex flex-col items-center gap-2 mb-2">
                     <button
                         type="button"
-                        class="mw-media-browser-primary-btn inline-flex items-center justify-center px-4 py-2 rounded-full bg-indigo-600 text-white font-semibold text-sm shadow hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                        class="mw-media-browser-primary-btn inline-flex items-center justify-center px-4 py-2 rounded-full bg-[#182433] text-white font-semibold text-sm shadow hover:bg-[#0f1722] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#182433] dark:focus-visible:outline-white"
                         style="min-height:44px !important;"
                         title="Browse images already in your Media Library"
                         x-on:click="{{ $mwMediaBrowserPickerHandler }}">
@@ -105,7 +105,7 @@
 
                     <button
                         type="button"
-                        class="mw-media-browser-secondary-btn inline-flex items-center justify-center text-sm font-medium text-indigo-600 underline underline-offset-4 hover:text-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 rounded"
+                        class="mw-media-browser-secondary-btn inline-flex items-center justify-center text-sm font-medium text-[#182433] dark:text-gray-200 underline underline-offset-4 hover:text-[#0f1722] dark:hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#182433] dark:focus-visible:outline-white rounded"
                         style="min-height:44px !important;"
                         title="Pick an image from your phone or computer to add to the Media Library"
                         x-on:click="{{ $mwMediaBrowserPickerHandler }}">
