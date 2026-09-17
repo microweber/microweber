@@ -1044,7 +1044,31 @@ export default {
             this.$nextTick(() => { this.setupIframeObserver(); });
         },
         addContentBlockClick(block) {
-            this.addContentOpenLayouts(block.layoutCategory || '');
+            if (block.module) {
+                this.addContentInsertModule(block.module);
+            } else {
+                this.addContentOpenLayouts(block.layoutCategory || '');
+            }
+        },
+        // Insert a single module block at the bottom of the page content. Falls
+        // back to the canvas content root when no explicit target was set (the
+        // toolbar Add button opens the picker with no selected element).
+        addContentInsertModule(moduleType) {
+            let target = this.target;
+            try {
+                if ((!target || !target.ownerDocument) && mw.app.canvas && mw.app.canvas.getDocument) {
+                    const doc = mw.app.canvas.getDocument();
+                    target = doc.querySelector('.edit.main-content, .edit[field="content"], .edit');
+                }
+            } catch (e) { /* canvas not ready */ }
+            if (!target) { return; }
+            this.showModal = false;
+            try {
+                mw.app.registerChangedState(target);
+                mw.app.editor.insertModule(moduleType, {}, 'bottom', target);
+            } catch (e) {
+                console.warn('mw add-content: insert module failed', e);
+            }
         },
         // "Create <type>" — hand off to the existing create flow. Layout drills
         // into the layouts grid; content types open their create action via the
@@ -1446,6 +1470,23 @@ export default {
                 instance.showModal = false;
             }
         });
+
+        // task-2026-09-17-addcontent — letter shortcuts in the add-content skin
+        // (the P/O/R/I/C/L hints in the rail). Ignored while typing in a field.
+        document.addEventListener('keydown', function (evt) {
+            if (!instance.showModal || instance.pickerSkin !== 'add-content') { return; }
+            const tag = (evt.target && evt.target.tagName) || '';
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || evt.metaKey || evt.ctrlKey || evt.altKey) { return; }
+            const map = { b: 'block', p: 'page', o: 'post', r: 'product', i: 'image', c: 'category', l: 'layout' };
+            const key = (evt.key || '').toLowerCase();
+            if (map[key]) {
+                instance.addContentSelectedType = map[key];
+                evt.preventDefault();
+            } else if (evt.key === 'Enter') {
+                const t = instance.addContentActiveType;
+                if (t) { instance.addContentCreate(t); evt.preventDefault(); }
+            }
+        });
     },
     watch: {
         filterKeyword: function (newValue, oldValue) {
@@ -1570,17 +1611,18 @@ export default {
                   layoutCategory: '', tint: '#efe6ff',
                   description: 'Insert a ready-made section layout from the library.' },
             ],
-            // Each block maps to a layout category — clicking it drills the SAME
-            // modal into the layouts skin filtered to that category.
+            // Blocks with a real module type insert that module directly; the
+            // rest (no single-module equivalent) drill the SAME modal into the
+            // layouts grid filtered to a related category.
             addContentBlocks: [
                 { key: 'text', label: 'Text', layoutCategory: 'Text Block' },
                 { key: 'image', label: 'Image', layoutCategory: 'Gallery' },
-                { key: 'gallery', label: 'Gallery', layoutCategory: 'Gallery' },
-                { key: 'button', label: 'Button', layoutCategory: 'Call To Action' },
+                { key: 'gallery', label: 'Gallery', module: 'pictures' },
+                { key: 'button', label: 'Button', module: 'btn' },
                 { key: 'columns', label: 'Columns', layoutCategory: 'Grids' },
                 { key: 'form', label: 'Form', layoutCategory: 'Contacts' },
-                { key: 'video', label: 'Video', layoutCategory: 'Videos' },
-                { key: 'divider', label: 'Divider', layoutCategory: 'Misc' },
+                { key: 'video', label: 'Video', module: 'video' },
+                { key: 'divider', label: 'Divider', module: 'spacer' },
             ],
             isInserting: false,
             target: undefined,
