@@ -711,7 +711,9 @@
                             <button v-for="o in cpStartFromOptions" :key="o.key" type="button"
                                     class="mw-le-cp-start" :class="{ 'is-on': cpStartFrom === o.key }"
                                     @click="cpSetStartFrom(o.key)">
-                                <span class="mw-le-cp-start-thumb" :class="'mw-le-cp-start-thumb--' + o.key"></span>
+                                <span class="mw-le-cp-start-thumb" :class="{ ['mw-le-cp-start-thumb--blank']: !o.screenshot }">
+                                    <img v-if="o.screenshot" :src="o.screenshot" :alt="o.label" loading="lazy">
+                                </span>
                                 <span class="mw-le-cp-start-label">{{ o.label }}</span>
                             </button>
                         </div>
@@ -776,14 +778,15 @@
                         <span>{{ $lang('Preview') }}</span>
                     </div>
                     <div class="mw-le-cp-preview-frame">
-                        <div class="mw-le-cp-skeleton" :class="'mw-le-cp-skeleton--' + cpStartFrom">
+                        <img v-if="cpActiveStartFrom().screenshot" class="mw-le-cp-preview-img"
+                             :src="cpActiveStartFrom().screenshot" :alt="cpActiveStartFrom().label">
+                        <iframe v-else-if="cpActiveStartFrom().previewUrl" class="mw-le-cp-preview-iframe"
+                                :src="cpActiveStartFrom().previewUrl" loading="lazy" title="Layout preview"></iframe>
+                        <div v-else class="mw-le-cp-skeleton">
                             <span class="sk sk-title"></span>
                             <span class="sk sk-hero"></span>
                             <span class="sk sk-line"></span>
                             <span class="sk sk-line sk-short"></span>
-                            <span class="sk sk-grid">
-                                <span></span><span></span><span></span>
-                            </span>
                         </div>
                     </div>
                     <p class="mw-le-cp-preview-desc">
@@ -1263,7 +1266,11 @@
 
 /* preview pane */
 .mw-le-cp-preview-head { font-size: 13px; font-weight: 600; color: var(--ac-muted); margin-bottom: 12px; }
-.mw-le-cp-preview-frame { background: #fff; border: 1px solid var(--ac-hairline); border-radius: 12px; padding: 14px; flex: 1 1 auto; overflow: hidden; margin-bottom: 12px; }
+.mw-le-cp-preview-frame { background: #fff; border: 1px solid var(--ac-hairline); border-radius: 12px; padding: 0; flex: 1 1 auto; overflow: hidden; margin-bottom: 12px; position: relative; min-height: 180px; }
+.mw-le-cp-preview-frame .mw-le-cp-skeleton { padding: 14px; }
+.mw-le-cp-preview-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.mw-le-cp-preview-iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; }
+.mw-le-cp-start-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
 .mw-le-cp-skeleton { display: flex; flex-direction: column; gap: 10px; }
 .mw-le-cp-skeleton .sk { display: block; border-radius: 5px; background: #e4e4e0; }
 .mw-le-cp-skeleton .sk-title { height: 12px; width: 40%; background: #d0d0ca; }
@@ -1462,6 +1469,26 @@ export default {
         },
 
         // ── create-page dialog ───────────────────────────────────────────────
+        // Build the "Start from" cards from REAL page-level (Content category)
+        // layouts — same data + screenshots the admin layout picker uses.
+        cpBuildStartFrom() {
+            const all = (this.layoutsList && Array.isArray(this.layoutsList.layouts)) ? this.layoutsList.layouts : [];
+            const isContent = (l) => Array.isArray(l.categories) ? l.categories.includes('Content') : l.categories === 'Content';
+            const content = all.filter(isContent);
+            if (!content.length) { return; } // keep the static fallback
+            const clean = content.find((l) => l.template === 'clean') || content[0];
+            const rest = content.filter((l) => l !== clean).slice(0, 3);
+            const picks = [clean].concat(rest).filter(Boolean);
+            this.cpStartFromOptions = picks.map((l, i) => ({
+                key: l.template,
+                label: (i === 0 ? 'Blank' : l.name),
+                layout: l.template,
+                screenshot: l.screenshot || '',
+                previewUrl: l.preview_url || '',
+                description: l.description || l.name || '',
+            }));
+            this.cpStartFrom = this.cpStartFromOptions[0].key;
+        },
         openCreatePageSkin() {
             this.pickerSkin = 'create-page';
             this.cpTitle = '';
@@ -1472,9 +1499,12 @@ export default {
             this.cpStartFrom = 'blank';
             this.cpCoverImage = '';
             this.cpParentId = '';
+            this.cpParentLabel = '';
             this.cpAddToMenu = true;
             this.cpMoreOpen = false;
             this.cpError = '';
+            // Populate Start-from from real layouts (sets cpStartFrom to a real key).
+            this.cpBuildStartFrom();
             this.showModal = true;
             setTimeout(() => {
                 const el = document.querySelector('.mw-le-cp-title-input');
