@@ -34,6 +34,7 @@ description: Skin-1
                 $itemDescription = false;
                 $itemLink = false;
                 $itemAltText = 'Open';
+                $cropPos = $item['crop_position'] ?? '';
                 if (isset($item['image_options']) && is_array($item['image_options'])) {
                     if (isset($item['image_options']['title'])) {
                         $itemTitle = $item['image_options']['title'];
@@ -54,7 +55,8 @@ description: Skin-1
                 <div class="d-block position-relative show-on-hover-root">
                     <div class="img-as-background mh-400 mb-3">
                         <img alt="{{ $itemAltText }}"
-                             src="{{ thumbnail($item['filename'] ?? '', 1080, 1080, true) }}"/>
+                             src="{{ thumbnail($item['filename'] ?? '', 1080, 1080, true) }}"
+                             @if($cropPos) style="object-position: {{ $cropPos }}" @endif/>
                     </div>
 
                     @if($itemTitle || $itemDescription || $itemLink)

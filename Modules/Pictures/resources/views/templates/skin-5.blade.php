@@ -82,6 +82,7 @@ description: Skin-5
                     $itemDescription = false;
                     $itemLink = false;
                     $itemAltText = 'Open';
+                    $cropPos = $item['crop_position'] ?? '';
                     if (isset($item['image_options']) && is_array($item['image_options'])) {
                         if (isset($item['image_options']['title'])) {
                             $itemTitle = $item['image_options']['title'];
@@ -108,7 +109,7 @@ description: Skin-5
 
                         <div class="img-as-background mh-350 mb-3">
                             {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                            {!! responsive_thumbnail($item['filename'] ?? '', 350, 350, ['alt' => $item['title'] ?? $item['description'] ?? __('Image'), 'class' => 'img-fluid', 'crop' => true]) !!}
+                            {!! responsive_thumbnail($item['filename'] ?? '', 350, 350, array_filter(['alt' => $item['title'] ?? $item['description'] ?? __('Image'), 'class' => 'img-fluid', 'crop' => true, 'style' => $cropPos ? 'object-position: ' . $cropPos : ''])) !!}
                         </div>
                     </div>
                 </div>

@@ -68,7 +68,11 @@ description: Skin-16 for Logos
                      the prior background-size:contain visual. Hover transform CSS rule above continues to
                      work since it targets the parent .background-image-holder div which still wraps the img. --}}
                 @foreach($data as $item)
-                    @php $count++; @endphp
+                    @php
+                        $count++;
+                        $cropPos = $item['crop_position'] ?? '';
+                        $imgStyle = 'object-fit: contain;' . ($cropPos ? ' object-position: ' . $cropPos . ';' : '');
+                    @endphp
                     <div class="col-sm-6 col-md-4 col-lg-3 pb-3 px-2">
                         <a data-index="{{ $count }}"
                            href="{{ $item['filename'] ?? '' }}">
@@ -77,7 +81,7 @@ description: Skin-16 for Logos
                                 {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
                                     'alt' => $item['title'] ?? $item['description'] ?? __('Product image'),
                                     'class' => 'd-block w-100 h-100',
-                                    'style' => 'object-fit: contain;',
+                                    'style' => $imgStyle,
                                 ]) !!}
                             </div>
                         </a>

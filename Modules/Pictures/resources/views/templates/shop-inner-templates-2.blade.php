@@ -103,7 +103,8 @@ description: Default skin for shop inner of the templates 2
                 @endif
             @endif
 
-            <img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}" id="{{ $pictureElementId }}" alt="{{ __('Product image') }}"  class="img-fluid"/>
+            @php $cropPos = $data[0]['crop_position'] ?? ''; @endphp
+            <img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}" id="{{ $pictureElementId }}" alt="{{ __('Product image') }}"  class="img-fluid" @if($cropPos !== '') style="object-position: {{ $cropPos }}" @endif/>
         </div>
     </div>
 

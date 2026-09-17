@@ -70,10 +70,11 @@ description: Pictures Skin 7 - Justify
             @else
                 @foreach($data as $item)
                     @php $count++; @endphp
+                    @php $cropPos = $item['crop_position'] ?? ''; @endphp
                     <a data-index="{{ $count }}"
                        href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}">
                         {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                        {!! responsive_thumbnail($item['filename'] ?? '', 600, 600, ['class' => 'img-fluid']) !!}
+                        {!! responsive_thumbnail($item['filename'] ?? '', 600, 600, array_merge(['class' => 'img-fluid'], $cropPos !== '' ? ['style' => 'object-position: ' . $cropPos] : [])) !!}
                     </a>
                 @endforeach
             @endif

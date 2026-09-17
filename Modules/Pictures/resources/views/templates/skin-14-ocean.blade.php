@@ -25,7 +25,8 @@ description: Skin 14 - ocean
     <div class="new-skin-shop">
         <div class="shop-inner-gallery ocean-14 row">
             <div class="shop-inner-big-image position-relative ps-lg-0">
-                <img src="{{ $data[0]['filename'] ?? '' }}" id="{{ $pictureElementId }}" alt="{{ __('Image') }}" />
+                @php $heroCropPos = $data[0]['crop_position'] ?? ''; @endphp
+                <img src="{{ $data[0]['filename'] ?? '' }}" id="{{ $pictureElementId }}" alt="{{ __('Image') }}" @if($heroCropPos) style="object-position: {{ $heroCropPos }}" @endif />
             </div>
 
             @if(sizeof($data) > 1)

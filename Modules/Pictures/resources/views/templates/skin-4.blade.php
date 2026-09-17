@@ -70,6 +70,7 @@ description: Skin-4
                     $itemDescription = false;
                     $itemLink = false;
                     $itemAltText = 'Open';
+                    $cropPos = $item['crop_position'] ?? '';
                     if (isset($item['image_options']) && is_array($item['image_options'])) {
                         if (isset($item['image_options']['title'])) {
                             $itemTitle = $item['image_options']['title'];
@@ -90,7 +91,7 @@ description: Skin-4
                     <div>
 <img data-large-image="{{ thumbnail($item['filename'] ?? '', 2000, 2000, false) }}"
                                  src="{{ thumbnail($item['filename'] ?? '', 1200, 1200, false) }}"
-                                 class="m-auto" alt="{{ __('Gallery image') }}"/>
+                                 class="m-auto" alt="{{ __('Gallery image') }}"@if($cropPos) style="object-position: {{ $cropPos }}"@endif/>
                         @if($itemTitle)
                             <h5 class="pt-3">{{ $itemTitle }}</h5>
                         @endif

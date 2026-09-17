@@ -32,11 +32,12 @@ description: Skin 6
                     <a class="mx-0"
                        href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}"
                        data-mw-product-image="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}" data-mw-product-image-target="{{ $pictureElementId }}" data-mw-product-image-index="{{ $count }}">
+                        @php $cropPos = $item['crop_position'] ?? ''; @endphp
                         {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                        {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
+                        {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, array_merge([
                             'alt' => $item['title'] ?? $item['description'] ?? __('Product image'),
                             'class' => 'img-fluid d-block',
-                        ]) !!}
+                        ], $cropPos !== '' ? ['style' => 'object-position: ' . $cropPos] : [])) !!}
                     </a>
                 @endforeach
                 @endif
@@ -70,8 +71,9 @@ description: Skin 6
                 @endif
             @endif
 
+@php $bigCropPos = $data[0]['crop_position'] ?? ''; @endphp
 <img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}"
-                         id="{{ $pictureElementId }}" alt="{{ __('Product image') }}"  class="img-fluid"/>
+                         id="{{ $pictureElementId }}" alt="{{ __('Product image') }}"  class="img-fluid"@if($bigCropPos !== '') style="object-position: {{ $bigCropPos }}"@endif/>
         </div>
     </div>
 

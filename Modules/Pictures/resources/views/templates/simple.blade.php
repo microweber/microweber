@@ -37,7 +37,7 @@ description: Simple Pictures List Template
                 @endif
             @else
                 @foreach($data as $item)
-                    @php $count++; @endphp
+                    @php $count++; $cropPos = $item['crop_position'] ?? ''; @endphp
                     <div class="mw-pictures-item mw-pictures-item-{{ $item['id'] ?? '' }}">
                         <div class="thumbnail"
                              data-mw-gallery="{{ $mwGalleryGalleryJson }}" data-mw-gallery-index="{{ $count }}">
@@ -45,10 +45,11 @@ description: Simple Pictures List Template
                                 <span class="pic-valign-cell">
                                     {{-- task-2026-05-05-d71799 — lazy-load gallery image. --}}
                                     {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                                    {!! responsive_thumbnail($item['filename'] ?? '', 300, null, [
+                                    {!! responsive_thumbnail($item['filename'] ?? '', 300, null, array_filter([
                                         'alt' => $item['title'] ?? $item['description'] ?? __('Image'),
                                         'class' => 'img-fluid',
-                                    ]) !!}
+                                        'style' => $cropPos !== '' ? 'object-position: ' . $cropPos : '',
+                                    ])) !!}
                                 </span>
                             </span>
                         </div>

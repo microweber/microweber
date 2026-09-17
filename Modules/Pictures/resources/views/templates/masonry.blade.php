@@ -64,11 +64,11 @@ description: Masonry
             @endif
         @else
             @foreach($data as $item)
-                @php $count++; @endphp
+                @php $count++; $cropPos = $item['crop_position'] ?? ''; @endphp
                 <div class="masonry-item" data-mw-gallery="{{ $mwGalleryGalleryJson }}" data-mw-gallery-index="{{ $count }}">
                     {{-- task-2026-05-05-90021f — lazy-load gallery images. --}}
                     {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                    {!! responsive_thumbnail($item['filename'] ?? '', 300, null, ['alt' => $item['title'] ?? $item['description'] ?? __('Image'), 'class' => 'img-fluid']) !!}
+                    {!! responsive_thumbnail($item['filename'] ?? '', 300, null, array_filter(['alt' => $item['title'] ?? $item['description'] ?? __('Image'), 'class' => 'img-fluid', 'style' => $cropPos !== '' ? 'object-position: ' . $cropPos : ''])) !!}
                     @if(isset($item['title']) && $item['title'] != '')
                         <div class="masonry-item-description">{{ $item['title'] }}</div>
                     @endif

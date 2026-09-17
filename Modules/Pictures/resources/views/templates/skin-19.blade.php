@@ -99,6 +99,7 @@ description: Skin-19
                     $itemDescription = false;
                     $itemLink = false;
                     $itemAltText = 'Open';
+                    $cropPos = $item['crop_position'] ?? '';
                     if (isset($item['image_options']) && is_array($item['image_options'])) {
                         if (isset($item['image_options']['title'])) {
                             $itemTitle = $item['image_options']['title'];
@@ -119,7 +120,7 @@ description: Skin-19
                     <a data-index="{{ $count }}"
                        href="{{ $item['filename'] ?? '' }}">
                         <img class="w-100 h-100"
-                             style="max-height: 350px; object-fit: cover;"
+                             style="max-height: 350px; object-fit: cover;@if($cropPos) object-position: {{ $cropPos }};@endif"
                              src="{{ $item['filename'] ?? '' }}"
                              alt=""/>
                         <div class="mw-pictures-19-text">

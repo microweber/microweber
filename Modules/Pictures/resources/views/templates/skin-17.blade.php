@@ -100,6 +100,7 @@ description: Skin-17
                     $itemDescription = false;
                     $itemLink = false;
                     $itemAltText = 'Open';
+                    $cropPos = $item['crop_position'] ?? '';
                     if (isset($item['image_options']) && is_array($item['image_options'])) {
                         if (isset($item['image_options']['title'])) {
                             $itemTitle = $item['image_options']['title'];
@@ -119,7 +120,7 @@ description: Skin-17
                 <div class="col-sm-6 col-md-4 p-0 mw-pictures-17-wrapper position-relative">
                     <a data-index="{{ $count }}"
                        href="{{ $item['filename'] ?? '' }}">
-                        <img style="object-fit: cover; max-height: 500px; width: 100%; height: 100%;"
+                        <img style="object-fit: cover; max-height: 500px; width: 100%; height: 100%;@if($cropPos) object-position: {{ $cropPos }};@endif"
                              src="{{ $item['filename'] ?? '' }}"
                              alt=""/>
 

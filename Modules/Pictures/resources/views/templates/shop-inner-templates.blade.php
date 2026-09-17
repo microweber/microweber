@@ -86,14 +86,16 @@ description: Default skin for shop inner of the templates
             @endif
 
             @if(isset($data[0]['filename']))
+                @php $cropPos = $data[0]['crop_position'] ?? ''; @endphp
                 {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper.
                      loading=eager because this is the gallery's primary above-the-fold image. --}}
-                {!! responsive_thumbnail($data[0]['filename'], 1080, 1080, [
+                {!! responsive_thumbnail($data[0]['filename'], 1080, 1080, array_filter([
                     'alt' => $item['title'] ?? $item['description'] ?? __('Product image'),
                     'class' => 'img-fluid',
                     'id' => $pictureElementId,
                     'loading' => 'eager',
-                ]) !!}
+                    'style' => $cropPos !== '' ? 'object-position: ' . $cropPos : '',
+                ])) !!}
             @else
                 {{-- AI-61 / TICKET-EE (cycle-80 2026-05-08): hero
                      image fallback when no product image is set.

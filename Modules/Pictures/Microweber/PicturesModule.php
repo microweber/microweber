@@ -121,12 +121,54 @@ class PicturesModule extends BaseModule
      */
     private function fetchPictures(array $relationData): array
     {
-        return Media::query()
+        $pictures = Media::query()
             ->where('rel_type', $relationData['type'])
             ->where('rel_id', $relationData['id'])
             ->orderBy('position', 'asc')
             ->get()
             ->toArray();
+
+        return self::withCropPositions($pictures);
+    }
+
+    /**
+     * task-2026-09-17 — Thumbnail crop, honored across every skin.
+     *
+     * The media browser stores a per-image crop focal point in
+     * image_options: crop = center | top | custom (+ crop-position "x% y%"
+     * for custom). Precompute a single CSS position string per item —
+     * `crop_position` — so each skin can drop it straight into an <img>'s
+     * `object-position` (cover images) or a holder's `background-position`
+     * without re-deriving the logic. Empty string = center (the CSS default),
+     * so a skin can skip emitting the property entirely.
+     *
+     * @param array $pictures
+     * @return array
+     */
+    public static function withCropPositions(array $pictures): array
+    {
+        foreach ($pictures as &$item) {
+            if (!is_array($item)) {
+                continue;
+            }
+            $opts = $item['image_options'] ?? [];
+            if (!is_array($opts)) {
+                $opts = [];
+            }
+            $crop = $opts['crop'] ?? 'center';
+            $cropPos = trim((string) ($opts['crop-position'] ?? ''));
+
+            if ($crop === 'top') {
+                $item['crop_position'] = 'center top';
+            } elseif ($crop === 'custom' && $cropPos !== '') {
+                $item['crop_position'] = $cropPos;
+            } else {
+                $item['crop_position'] = '';
+            }
+        }
+        unset($item);
+
+        return $pictures;
     }
 
     /**

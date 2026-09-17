@@ -65,6 +65,7 @@ description: Skin-15
             @else
                 @foreach($data as $item)
                     @php $count++; @endphp
+                    @php $cropPos = $item['crop_position'] ?? ''; @endphp
                     {{-- AI-113 / TICKET-CP (cycle-103 2026-05-09): inline
                          `style="background-image: url({{ thumbnail(...) }})"`
                          lifted to a real `<img>` (CSP + apostrophe-injection
@@ -76,6 +77,7 @@ description: Skin-15
                             <img src="{{ thumbnail($item['filename'] ?? '', 1080, 1080, true) }}"
                                  alt="{{ $item['title'] ?? '' }}"
                                  loading="lazy" decoding="async"
+                                 @if($cropPos) style="object-position: {{ $cropPos }}" @endif
                                  class="img-fluid w-100 h-auto">
                         </a>
                     </div>

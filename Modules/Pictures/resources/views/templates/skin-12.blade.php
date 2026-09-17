@@ -52,12 +52,14 @@ description: Skin-12
             @else
                 @foreach($data as $item)
                 @php $count++; @endphp
+                @php $cropPos = $item['crop_position'] ?? ''; @endphp
                 @if($count == 0 || $count == 5)
                     <div class="col-holder col-8">
                         <div class="item pictures picture-{{ $item['id'] ?? '' }}"
                              data-mw-gallery="{{ $mwGalleryGalleryJson }}" data-mw-gallery-index="{{ $count }}">
                             <img class="w-100"
                                  src="{{ thumbnail($item['filename'] ?? '', 800, 800, true) }}"
+                                 @if($cropPos) style="object-position: {{ $cropPos }}" @endif
                                  alt="">
                         </div>
                     </div>
@@ -70,6 +72,7 @@ description: Skin-12
                          data-mw-gallery="{{ $mwGalleryGalleryJson }}" data-mw-gallery-index="{{ $count }}">
                         <img class="w-100"
                              src="{{ thumbnail($item['filename'] ?? '', 500, 500, true) }}"
+                             @if($cropPos) style="object-position: {{ $cropPos }}" @endif
                              alt="">
                     </div>
 

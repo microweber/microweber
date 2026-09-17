@@ -54,11 +54,12 @@ description: Skin-9
                 @foreach($data as $item)
                 @php $count++; @endphp
                 <div class="col-sm-6 col-md-4 mb-4">
+                    @php $cropPos = $item['crop_position'] ?? ''; @endphp
                     <a data-index="{{ $count }}"
                        href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}">
                         <img class="w-100 h-100"
                              src="{{ thumbnail($item['filename'] ?? '', 600, 600) }}"
-                             alt=""/>
+                             alt=""@if($cropPos !== '') style="object-position: {{ $cropPos }}"@endif/>
                     </a>
                 </div>
             @endforeach

@@ -83,11 +83,12 @@ description: Skin for sliding Logos
                     <a class="lg-carousel-item"
                        role="listitem"
                        href="{{ $itemLink ?? '#' }}">
+                        @php $cropPos = $item['crop_position'] ?? ''; @endphp
                         {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                        {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
+                        {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, array_merge([
                             'alt' => $item['title'] ?? $item['description'] ?? __('Image'),
                             'class' => 'img-fluid',
-                        ]) !!}
+                        ], $cropPos !== '' ? ['style' => 'object-position: ' . $cropPos] : [])) !!}
                     </a>
                 @endforeach
                 @endif
@@ -117,11 +118,12 @@ description: Skin for sliding Logos
                     <a class="lg-carousel-item"
                        role="listitem"
                        href="{{ $itemLink ?? '#' }}">
+                        @php $cropPos = $item['crop_position'] ?? ''; @endphp
                         {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                        {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
+                        {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, array_merge([
                             'alt' => $item['title'] ?? $item['description'] ?? __('Image'),
                             'class' => 'img-fluid',
-                        ]) !!}
+                        ], $cropPos !== '' ? ['style' => 'object-position: ' . $cropPos] : [])) !!}
                     </a>
                 @endforeach
             @endif

@@ -51,10 +51,11 @@ description: Skin-3 beauty
                 @else
                     @foreach($data as $count => $item)
                         @if($count == 0)
+                            @php $cropPos = $item['crop_position'] ?? ''; @endphp
                             <div class="item pictures picture-{{ $item['id'] ?? '' }}"
                                  data-mw-gallery="{{ $mwGalleryGalleryJson }}" data-mw-gallery-index="{{ $count }}">
                                 {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                                {!! responsive_thumbnail($item['filename'] ?? '', 1400, 1400, ['class' => 'img-fluid', 'crop' => true]) !!}
+                                {!! responsive_thumbnail($item['filename'] ?? '', 1400, 1400, array_filter(['class' => 'img-fluid', 'crop' => true, 'style' => $cropPos ? 'object-position: ' . $cropPos : ''])) !!}
                             </div>
                         @endif
                     @endforeach
@@ -63,10 +64,11 @@ description: Skin-3 beauty
             <div class="col-holder col-md-6">
                 @foreach($data as $count => $item)
                     @if($count == 1 || $count == 2)
+                        @php $cropPos = $item['crop_position'] ?? ''; @endphp
                         <div class="item pictures picture-{{ $item['id'] ?? '' }}"
                              data-mw-gallery="{{ $mwGalleryGalleryJson }}" data-mw-gallery-index="{{ $count }}">
                             {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                            {!! responsive_thumbnail($item['filename'] ?? '', 1400, 695, ['class' => 'img-fluid', 'crop' => true]) !!}
+                            {!! responsive_thumbnail($item['filename'] ?? '', 1400, 695, array_filter(['class' => 'img-fluid', 'crop' => true, 'style' => $cropPos ? 'object-position: ' . $cropPos : ''])) !!}
                         </div>
                     @endif
                 @endforeach

@@ -135,6 +135,7 @@ description: Pictures Skin 18 - Masonry
                     $itemDescription = false;
                     $itemLink = false;
                     $itemAltText = 'Open';
+                    $cropPos = $item['crop_position'] ?? '';
                     if (isset($item['image_options']) && is_array($item['image_options'])) {
                         if (isset($item['image_options']['title'])) {
                             $itemTitle = $item['image_options']['title'];
@@ -154,7 +155,13 @@ description: Pictures Skin 18 - Masonry
                 <a class="mw-pictures-18-wrapper grid-item"
                    data-index="{{ $count }}"
                    href="{{ $item['filename'] ?? '' }}">
-                    {!! responsive_thumbnail($item['filename'] ?? '', 800, null, ['alt' => $item['title'] ?? $item['description'] ?? __('Image')]) !!}
+                    @php
+                        $imgAttrs = ['alt' => $item['title'] ?? $item['description'] ?? __('Image')];
+                        if ($cropPos) {
+                            $imgAttrs['style'] = 'object-position: ' . $cropPos . ';';
+                        }
+                    @endphp
+                    {!! responsive_thumbnail($item['filename'] ?? '', 800, null, $imgAttrs) !!}
                     <div class="mw-pictures-18-text">
                         @if($itemTitle)
                             <h5 class="mw-pictures-18-title">{{ $itemTitle }}</h5>

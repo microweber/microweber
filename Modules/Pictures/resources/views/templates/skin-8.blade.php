@@ -57,8 +57,9 @@ description: Skin-8
                     <a data-index="{{ $count }}"
                        href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}">
                         <div class="img-as-background mh-400">
+                            @php $cropPos = $item['crop_position'] ?? ''; @endphp
                             {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
-                            {!! responsive_thumbnail($item['filename'] ?? '', 1080, 1080, ['alt' => $item['title'] ?? $item['description'] ?? __('Image'), 'class' => 'img-fluid', 'crop' => true]) !!}
+                            {!! responsive_thumbnail($item['filename'] ?? '', 1080, 1080, array_merge(['alt' => $item['title'] ?? $item['description'] ?? __('Image'), 'class' => 'img-fluid', 'crop' => true], $cropPos !== '' ? ['style' => 'object-position: ' . $cropPos] : [])) !!}
                         </div>
                     </a>
                 </div>

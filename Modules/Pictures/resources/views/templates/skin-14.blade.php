@@ -17,12 +17,17 @@ description: Skin 14
                      adds srcset + sizes + decoding=async on top of the
                      existing alt + lazy. The hero is above-the-fold so
                      loading=eager. --}}
-                {!! responsive_thumbnail($data[0]['filename'] ?? '', 1080, 1080, [
-                    'id' => $pictureElementId,
-                    'alt' => $item['title'] ?? $item['description'] ?? __('Product image'),
-                    'class' => 'img-fluid',
-                    'loading' => 'eager',
-                ]) !!}
+                @php
+                    $heroCropPos = $data[0]['crop_position'] ?? '';
+                    $mwHeroAttrs = [
+                        'id' => $pictureElementId,
+                        'alt' => $item['title'] ?? $item['description'] ?? __('Product image'),
+                        'class' => 'img-fluid',
+                        'loading' => 'eager',
+                    ];
+                    if ($heroCropPos !== '') { $mwHeroAttrs['style'] = 'object-position: ' . $heroCropPos; }
+                @endphp
+                {!! responsive_thumbnail($data[0]['filename'] ?? '', 1080, 1080, $mwHeroAttrs) !!}
             </div>
 
             @if(sizeof($data) > 1)

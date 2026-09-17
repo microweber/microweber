@@ -65,10 +65,11 @@ description: Blog pro
                         $itemAltText = $item['image_options']['alt-text'];
                     }
                 }
+                $cropPos = $item['crop_position'] ?? '';
             @endphp
 
             <div class="card-header-single">
-                {!! responsive_thumbnail($item['filename'] ?? '', 800, null, ['alt' => $itemAltText, 'class' => 'img-fluid']) !!}
+                {!! responsive_thumbnail($item['filename'] ?? '', 800, null, array_filter(['alt' => $itemAltText, 'class' => 'img-fluid', 'style' => $cropPos !== '' ? 'object-position: ' . $cropPos : ''])) !!}
             </div>
         @endforeach
     @endif

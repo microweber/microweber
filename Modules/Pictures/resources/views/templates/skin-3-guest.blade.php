@@ -167,9 +167,9 @@ description: Skin-3-guest
                     @endif
                 @else
                     @foreach($data as $item)
-                        @php $count++; @endphp
+                        @php $count++; $cropPos = $item['crop_position'] ?? ''; @endphp
                         <div class="slide item pictures picture-{{ $item['id'] ?? '' }}">
-                            <img data-src="{{ thumbnail($item['filename'] ?? '', 880, 550, true) }}" alt="" class="img-fluid">
+                            <img data-src="{{ thumbnail($item['filename'] ?? '', 880, 550, true) }}" alt="" class="img-fluid"@if($cropPos) style="object-position: {{ $cropPos }}"@endif>
                         </div>
                     @endforeach
                 @endif
