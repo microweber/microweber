@@ -1,6 +1,7 @@
 @php
     $mediaItems = $getMediaItemsArray();
     $statePath = $getStatePath();
+    $componentKey = $getKey();
 @endphp
 
 <x-dynamic-component
@@ -8,232 +9,103 @@
     :field="$field"
     :inline-label-vertical-alignment="\Filament\Support\Enums\VerticalAlignment::Center"
 >
+    {{-- task-2026-09-17-mediabrowser-redesign — two-pane Pictures editor.
+         LEFT: thumbnail grid (server-rendered @foreach, x-sortable reorder) +
+         the drop target + top action row. RIGHT: per-image detail panel
+         (Caption / Alt text + AI / Link + Page picker / Thumbnail crop / Remove).
+         All server round-trips go through this.$wire.callSchemaComponentMethod
+         (the only call that reaches the server inside the Live Edit modal) using
+         the ABSOLUTE dotted component key ($getKey() = "form.mediaIds"); a bare
+         state path silently no-ops. Drag-drop upload + reorder persistence are
+         bound in mwMediaManagerComponent.init() (theme bundle mw-media-browser.js). --}}
 
+    @php
+        $mwMediaBrowserPickerHandler = "() => { mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => { if (!Array.isArray(url)) { url = [url]; } \$wire.callSchemaComponentMethod('" . $componentKey . "', 'addMediaItemMultiple', { data: { urls: url } }); }); }";
+    @endphp
 
-    <div>
-        <style>
+    <div
+        class="mw-mb"
+        data-mw-media-dropzone="1"
+        data-component-key="{{ $componentKey }}"
+        data-state-path="{{ $statePath }}"
+        id="mw-image-dropzone"
+        x-data="mwMediaManagerComponent({
+            mediaIds: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
+            showBulkDeleteButton: true,
+            selectedImages: [],
+        })"
+    >
 
-            .mw-post-media-img--header {
-                @apply absolute top-[5px] left-[5px] z-10
-            }
+        {{-- ── Top action row ─────────────────────────────────────────────── --}}
+        <div class="mw-mb-toolbar">
+            <label class="mw-mb-selectall">
+                <input type="checkbox"
+                       class="mw-mb-selectall-cb"
+                       @change="$event.target.checked ? selectAllMedia() : deselectAllMedia()"
+                       :checked="mediaIds.length && selectedImages.length === mediaIds.length">
+                <span>Select all</span>
+            </label>
 
-        </style>
+            <div class="mw-mb-actions">
+                <button type="button" class="mw-mb-btn" x-on:click="{{ $mwMediaBrowserPickerHandler }}">
+                    <x-heroicon-m-photo class="mw-mb-btn-ico" aria-hidden="true" />
+                    <span>Media library</span>
+                </button>
+                <button type="button" class="mw-mb-btn" x-on:click="{{ $mwMediaBrowserPickerHandler }}">
+                    <x-heroicon-m-arrow-up-tray class="mw-mb-btn-ico" aria-hidden="true" />
+                    <span>Upload</span>
+                </button>
+                <button type="button" class="mw-mb-btn mw-mb-btn--ghost" @click="toggleGenerate()">
+                    <x-heroicon-m-sparkles class="mw-mb-btn-ico" aria-hidden="true" />
+                    <span>Generate</span>
+                </button>
+            </div>
+        </div>
 
-        @php
-            $suffix = '';
+        {{-- +Generate prompt row (revealed by the Generate button) --}}
+        <div class="mw-mb-generate" x-show="showGenerate" x-cloak x-transition>
+            <input type="text" class="mw-mb-input mw-mb-generate-input"
+                   placeholder="Describe the image to generate…"
+                   x-model="generatePrompt"
+                   @keydown.enter.prevent="runGenerate()">
+            <button type="button" class="mw-mb-btn mw-mb-btn--primary" @click="runGenerate()" :disabled="generating">
+                <span x-show="!generating">Generate</span>
+                <span x-show="generating" x-cloak>Generating…</span>
+            </button>
+            <button type="button" class="mw-mb-btn" @click="toggleGenerate()">Cancel</button>
+        </div>
+        <p class="mw-mb-generate-error" x-show="generateError" x-cloak x-text="generateError"></p>
 
-            $suffix = $this->getId();
+        {{-- ── Body: grid (left) + detail panel (right) ───────────────────── --}}
+        <div class="mw-mb-body">
 
-        @endphp
-
-        <div>
-
-            {{-- task-2026-09-16-dropzone — drag-and-drop upload + thumbnail
-                 reorder are wired in the Alpine component's init()
-                 (mwMediaManagerComponent, theme bundle mw-media-browser.js), NOT
-                 an inline livewire:init/x-init script. Those never fired reliably
-                 inside the dynamically-opened Live Edit Module Settings modal, and
-                 only this.$wire.callSchemaComponentMethod (the same call the
-                 delete actions use) actually round-trips to the server —
-                 Livewire.find(id)... does not. The dropzone (an ancestor of the
-                 component) is found via [data-mw-media-dropzone] + data-state-path. --}}
-
-            {{--
-                NOVICE #9 (task-2026-05-13-899d57) — affordance rewrite.
-
-                The previous single-button copy read "Select media file or
-                **Upload**" — neither word was clickable in a way the user
-                could distinguish, and "media file" is jargon a novice site
-                owner doesn't speak. Worse, both words triggered the same
-                file-picker dialog, so the user who clicked "Upload"
-                expecting an upload flow got the same browser dialog as
-                someone clicking "Select" — and bounced because the dialog
-                "looked like the OS dialog, not the Microweber media
-                library" (audit verbatim).
-
-                Replaced with TWO clearly-distinct buttons inside the
-                drop zone:
-
-                  1. PRIMARY:  "Choose from Media Library" (pill button)
-                  2. SECONDARY: "Upload from your device"  (underline link)
-
-                Both still dispatch `mw.filePickerDialog` because that's
-                the canonical Microweber file-browser entry — the dialog
-                itself contains both library + upload tabs. The visual
-                split tells the user "you have options" up front, which
-                was the missing affordance.
-
-                Copy: "media file" → "image". Added a named tip line for
-                the drop zone so the drag-and-drop affordance is
-                explicit, not implicit.
-
-                Deferred to a separate ticket: a recent-uploads thumbnail
-                strip directly inside this picker. That would need a new
-                Livewire endpoint exposing the latest N media rows
-                site-wide (not just the ones already attached to THIS
-                module) — out of scope for the bounded slice here.
-            --}}
-            @php
-                $mwMediaBrowserPickerHandler = "() => { mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => { if (!Array.isArray(url)) { url = [url]; } \$wire.callSchemaComponentMethod('" . $getKey() . "', 'addMediaItemMultiple', { data: { urls: url } }); }); }";
-            @endphp
-            {{-- task-2026-09-16-key — data-component-key is the ABSOLUTE schema key
-                 (e.g. "form.mediaIds"), NOT the state path ("mediaIds"):
-                 $wire.callSchemaComponentMethod resolves the component via
-                 getSchemaComponent(), which REQUIRES a dotted key and silently
-                 returns null (no-op, nothing saves) for a bare state path. --}}
-            <div
-                id="mw-image-dropzone"
-                data-mw-media-dropzone="1"
-                data-component-key="{{ $getKey() }}"
-                data-state-path="{{ $statePath }}"
-                class="mw-media-browser-dropzone w-full flex flex-col p-5 items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-200 bg-[#F4F4F2]/40 dark:bg-white/5 hover:bg-[#F4F4F2] dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent focus:ring-[#182433]"
-            >
-
-                <x-heroicon-o-photo class="w-8 h-8 text-gray-400 mb-3" />
-
-                {{-- task-2026-05-30-mediabrowser AI-1137 — primary + secondary buttons carry inline min-height:44px !important for WCAG 2.5.5 touch-target floor. Tailwind JIT min-h-[44px] arbitrary class is NOT picked up post-build on this Blade (same constraint as task-2026-05-30-tplcust). --}}
-                <div class="flex flex-col items-center gap-2 mb-2">
-                    <button
-                        type="button"
-                        class="mw-media-browser-primary-btn inline-flex items-center justify-center px-4 py-2 rounded-full bg-[#182433] text-white font-semibold text-sm shadow hover:bg-[#0f1722] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#182433] dark:focus-visible:outline-white"
-                        style="min-height:44px !important;"
-                        title="Browse images already in your Media Library"
-                        x-on:click="{{ $mwMediaBrowserPickerHandler }}">
-                        <x-heroicon-m-photo class="w-4 h-4 me-2 -ms-1" aria-hidden="true" />
-                        Choose from Media Library
-                    </button>
-
-                    <button
-                        type="button"
-                        class="mw-media-browser-secondary-btn inline-flex items-center justify-center text-sm font-medium text-[#182433] dark:text-gray-200 underline underline-offset-4 hover:text-[#0f1722] dark:hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#182433] dark:focus-visible:outline-white rounded"
-                        style="min-height:44px !important;"
-                        title="Pick an image from your phone or computer to add to the Media Library"
-                        x-on:click="{{ $mwMediaBrowserPickerHandler }}">
-                        Upload from your device
-                    </button>
-                </div>
-
-                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
-                    Tip: you can also drag images directly into this box.
-                </p>
-
-                <style>
-                    .admin-thumbs-holder-images-wrap:not(:has(.background-image-holder)) .admin-thumbs-holder-bulk-actions {
-                     display: none;
-
-                     }
-
-
-                </style>
-
-
-
-                <hr class="h-px mb-8 mt-4 bg-gray-200 border-0 dark:bg-gray-700 w-full">
-
-
-                <div class="admin-thumbs-holder-images-wrap w-full mb-3" >
-
-
+            {{-- LEFT --}}
+            <div class="mw-mb-left">
+                <div class="admin-thumbs-holder mw-mb-grid" x-sortable>
+                    @foreach($mediaItems as $item)
+                        @php
+                            $mwItemPayload = [
+                                'id' => $item->id,
+                                'filename' => $item->filename,
+                                'caption' => $item->mw_caption,
+                                'alt' => $item->mw_alt,
+                                'link' => $item->mw_link,
+                                'crop' => $item->mw_crop ?: 'center',
+                                'cropPosition' => $item->mw_crop_position,
+                                'w' => $item->mw_w,
+                                'h' => $item->mw_h,
+                                'size' => $item->mw_size,
+                            ];
+                        @endphp
                         <div
-
-
-                            x-data="mwMediaManagerComponent({
-                                mediaIds: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
-                                showBulkDeleteButton: true,
-                                selectedImages: [],
-                            })"
-
-                            {{-- task-2026-09-16-sortable-save — reorder persistence
-                                 was an inline x-on:end that read the DOM order before
-                                 Filament's SortableJS onEnd correction, so it saved a
-                                 stale/off-by-one order ("saves on the second drag").
-                                 It's now in mwMediaManagerComponent.init(): a delegated
-                                 SortableJS 'end' listener reads the SETTLED order
-                                 (deferred) and persists via $wire → mediaItemsSort. --}}
-                            class="admin-thumbs-holder-wrapper"
+                            x-sortable-handle
+                            x-sortable-item="{{ $item->id }}"
+                            x-data-id="{{ $item->id }}"
+                            data-mb-item="{{ json_encode($mwItemPayload) }}"
+                            class="admin-thumb-item background-image-holder ui-sortable-handle mw-mb-tile"
+                            :class="{ 'is-selected': selectedImages.includes('{{ $item->id }}'), 'is-active': String(detailId) === '{{ $item->id }}' }"
+                            @click="selectImage($event.currentTarget)"
                         >
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                @if($mediaItems and !empty($mediaItems))
-
-
-
-
-
-
-                                <div class="mw-media-browser-delete-btn-wrapper">
-
-
-                                    <div x-show="showBulkDeleteButton"
-
-                                         class="admin-thumbs-holder-bulk-actions">
-
-                                        <x-filament::button size="xs" icon="heroicon-m-check-circle" color="success" @click="selectAllMedia()">
-                                            Select All
-                                        </x-filament::button>
-
-                                        <x-filament::button size="xs" icon="heroicon-m-x-circle" color="warning" @click="deselectAllMedia()">
-                                            Deselect All
-                                        </x-filament::button>
-
-                                        <x-filament::button size="xs" icon="heroicon-m-trash" color="danger" @click="bulkDeleteSelectedMedia()">
-                                            Delete selected
-                                        </x-filament::button>
-
-                                    </div>
-
-
-
-                                </div>
-
-
-
-
-
-
-
-
-                                <div class="admin-thumbs-holder" x-sortable>
-                                @foreach($mediaItems as $item)
-
-                                    <div
-                                        x-sortable-handle
-                                        x-sortable-item="{{ $item->id }}"
-                                        x-data-id="{{ $item->id }}"
-                                        class="background-image-holder admin-thumb-item ui-sortable-handle"
-
-                                    >
-
-
-
-
-                            {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB cycle-52 sweep:
-                                 admin media-browser thumbnail. The existing .mw-post-media-img
-                                 CSS (general-styles.css:707) already declares absolute+cover
-                                 via Tailwind utilities, so a real <img> with object-fit:cover
-                                 inside a <span> wrapper preserves the visual exactly. --}}
-                            {{-- task-2026-09-16-sortable — draggable="false" on the
-                                 thumbnail image. Filament x-sortable uses SortableJS
-                                 native HTML5 DnD with the item as the handle, but an
-                                 <img> is natively draggable, so grabbing a thumbnail
-                                 started a native IMAGE drag (dragging the picture out)
-                                 instead of the reorder — "can't drag them to reorder".
-                                 Disabling native image drag lets SortableJS take the
-                                 drag. --}}
                             <span class="mw-post-media-img" data-id="{{ $item->id }}">
                                 <img src="{{ $item->filename }}"
                                      alt=""
@@ -244,57 +116,144 @@
                                      style="object-fit: cover; -webkit-user-drag: none; user-select: none;">
                             </span>
 
+                            {{-- bulk-select checkbox, top-left --}}
+                            <label class="mw-mb-check" @click.stop>
+                                <input type="checkbox" x-model="selectedImages" value="{{ $item->id }}">
+                                <span class="mw-mb-check-box" aria-hidden="true"></span>
+                            </label>
 
-
-                                  <div class="flex gap-2 items-center mw-post-media-img--header bg-black p-1 cursor-pointer z-10 items-center">
-                                      <a @click="editImageFilename('{{ $item->id }}','{{ $item->filename }}')"
-                                         class="image-settings settings-img" x-data="{}" x-tooltip="{
-                                                                              content: 'Edit Image',
-                                                                              theme: $store.theme,
-                                                                          }">
-                                          @svg('mw-image-edit')
-                                      </a>
-
-                                      <a @click="editMediaOptionsById('{{ $item->id }}')"
-                                         class="image-settings settings-img" x-data="{}" x-tooltip="{
-                                                                              content: 'Image Settings',
-                                                                              theme: $store.theme,
-                                                                          }">
-                                          @svg('mw-media-item-edit-small')
-                                      </a>
-
-                                      <a @click="deleteMediaById('{{ $item->id }}')"
-                                         class="image-settings settings-img" x-data="{}" x-tooltip="{
-                                                                              content: 'Delete Image',
-                                                                              theme: $store.theme,
-                                                                          }">
-                                          @svg('mw-media-item-delete-small')
-                                      </a>
-
-                                      <label class="form-check form-check-inline">
-                                          <input type="checkbox" x-model="selectedImages" value="{{ $item->id }}"
-                                                 class="form-check-input">
-                                      </label>
-                                  </div>
-
-                                    </div>
-
-                                @endforeach
-
-
+                            {{-- quick actions, top-right --}}
+                            <div class="mw-mb-tile-actions" @click.stop>
+                                @if($item->mw_link)
+                                    <span class="mw-mb-chip" title="This image links to {{ $item->mw_link }}">
+                                        @svg('mw-image-edit', 'mw-mb-chip-ico')
+                                    </span>
+                                @endif
+                                <button type="button" class="mw-mb-chip mw-mb-chip--danger"
+                                        title="Remove image" @click.stop="deleteMediaById('{{ $item->id }}')">
+                                    @svg('mw-media-item-delete-small', 'mw-mb-chip-ico')
+                                </button>
                             </div>
-                            @endif
 
+                            {{-- filename ribbon on the active tile --}}
+                            <div class="mw-mb-tile-name" x-show="String(detailId) === '{{ $item->id }}'" x-cloak>
+                                {{ basename(parse_url($item->filename, PHP_URL_PATH) ?: $item->filename) }}
+                            </div>
                         </div>
+                    @endforeach
 
+                    {{-- Add-or-drop tile --}}
+                    <button type="button" class="mw-mb-addtile" x-on:click="{{ $mwMediaBrowserPickerHandler }}">
+                        <x-heroicon-o-plus class="mw-mb-addtile-ico" aria-hidden="true" />
+                        <span>Add or drop</span>
+                    </button>
+                </div>
 
+                <div class="mw-mb-underbar">
+                    <p class="mw-mb-hint">Drag images to reorder</p>
+                    <div class="mw-mb-bulk" x-show="selectedImages.length" x-cloak>
+                        <button type="button" class="mw-mb-linklike" @click="deselectAllMedia()">
+                            Clear (<span x-text="selectedImages.length"></span>)
+                        </button>
+                        <button type="button" class="mw-mb-linklike mw-mb-linklike--danger" @click="bulkDeleteSelectedMedia()">
+                            Delete selected
+                        </button>
+                    </div>
                 </div>
             </div>
 
+            {{-- RIGHT: detail panel --}}
+            <div class="mw-mb-detail">
+                {{-- empty state --}}
+                <div class="mw-mb-detail-empty" x-show="!detailId">
+                    <x-heroicon-o-photo class="mw-mb-detail-empty-ico" aria-hidden="true" />
+                    <p>Select an image to edit its details.</p>
+                </div>
 
+                {{-- populated state --}}
+                <div class="mw-mb-detail-body" x-show="detailId" x-cloak>
+                    <div class="mw-mb-detail-head">
+                        <span class="mw-mb-detail-thumb"><img :src="detail.filename" alt=""></span>
+                        <div class="mw-mb-detail-headmeta">
+                            <div class="mw-mb-detail-name" x-text="detailName()"></div>
+                            <div class="mw-mb-detail-dims" x-show="detail.w && detail.h" x-cloak>
+                                <span x-text="detail.w"></span> × <span x-text="detail.h"></span><span x-show="detail.size" x-cloak> · <span x-text="humanSize(detail.size)"></span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="mw-mb-field">
+                        <span class="mw-mb-label">Caption</span>
+                        <input type="text" class="mw-mb-input" x-model="detail.caption"
+                               @change="saveMeta('caption')" placeholder="Add a caption">
+                    </label>
+
+                    <label class="mw-mb-field">
+                        <span class="mw-mb-label-row">
+                            <span class="mw-mb-label">Alt text</span>
+                            <button type="button" class="mw-mb-writeforme" @click="writeAltForMe()" :disabled="writingAlt">
+                                <x-heroicon-m-sparkles class="mw-mb-writeforme-ico" aria-hidden="true" />
+                                <span x-show="!writingAlt">Write for me</span>
+                                <span x-show="writingAlt" x-cloak>Writing…</span>
+                            </button>
+                        </span>
+                        <input type="text" class="mw-mb-input" x-model="detail.alt"
+                               @change="saveMeta('altText')" placeholder="Describe the image">
+                    </label>
+
+                    <div class="mw-mb-field">
+                        <span class="mw-mb-label">Link</span>
+                        <div class="mw-mb-link-row">
+                            <input type="text" class="mw-mb-input" x-model="detail.link"
+                                   @change="saveMeta('link')" placeholder="https://">
+                            <div class="mw-mb-pagepick">
+                                <button type="button" class="mw-mb-btn mw-mb-btn--sm" @click="togglePagePicker()">Page</button>
+                                <div class="mw-mb-pagepick-menu" x-show="showPagePicker" x-cloak @click.outside="showPagePicker = false">
+                                    <input type="text" class="mw-mb-input mw-mb-input--sm" placeholder="Filter pages…" x-model="pageFilter">
+                                    <div class="mw-mb-pagepick-list">
+                                        <template x-for="p in filteredPages()" :key="p.url">
+                                            <button type="button" class="mw-mb-pagepick-item" @click="pickPage(p)" x-text="p.title"></button>
+                                        </template>
+                                        <div class="mw-mb-pagepick-empty" x-show="!pages.length" x-cloak>Loading pages…</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mw-mb-field">
+                        <span class="mw-mb-label">Thumbnail crop</span>
+                        <div class="mw-mb-seg" role="tablist" aria-label="Thumbnail crop">
+                            <button type="button" class="mw-mb-seg-cell" role="tab"
+                                    :class="{ 'is-on': detail.crop === 'center' }"
+                                    :aria-selected="detail.crop === 'center'"
+                                    @click="setCrop('center')">Center</button>
+                            <button type="button" class="mw-mb-seg-cell" role="tab"
+                                    :class="{ 'is-on': detail.crop === 'top' }"
+                                    :aria-selected="detail.crop === 'top'"
+                                    @click="setCrop('top')">Top</button>
+                            <button type="button" class="mw-mb-seg-cell" role="tab"
+                                    :class="{ 'is-on': detail.crop === 'custom' }"
+                                    :aria-selected="detail.crop === 'custom'"
+                                    @click="setCrop('custom')">Custom</button>
+                        </div>
+                        <div class="mw-mb-crop-custom" x-show="detail.crop === 'custom'" x-cloak>
+                            <label class="mw-mb-crop-range">
+                                <span>Horizontal</span>
+                                <input type="range" min="0" max="100" x-model.number="cropX" @input="onCropRange()" @change="saveMeta('crop')">
+                            </label>
+                            <label class="mw-mb-crop-range">
+                                <span>Vertical</span>
+                                <input type="range" min="0" max="100" x-model.number="cropY" @input="onCropRange()" @change="saveMeta('crop')">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mw-mb-detail-foot">
+                        <button type="button" class="mw-mb-btn mw-mb-btn--danger-outline" @click="removeDetail()">Remove</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-
-
 </x-dynamic-component>

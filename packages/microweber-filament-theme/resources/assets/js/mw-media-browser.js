@@ -5,6 +5,23 @@ document.addEventListener('alpine:init', () => {
         showBulkDeleteButton: false,
         selectedImages: [],
 
+        // ── detail panel (right pane) ──────────────────────────────────────
+        detailId: null,
+        detail: { filename: '', caption: '', alt: '', link: '', crop: 'center', cropPosition: '', w: null, h: null, size: null },
+        cropX: 50,
+        cropY: 50,
+        writingAlt: false,
+        // +Generate
+        showGenerate: false,
+        generatePrompt: '',
+        generating: false,
+        generateError: '',
+        // Link → Page picker
+        showPagePicker: false,
+        pages: [],
+        pagesLoaded: false,
+        pageFilter: '',
+
 
         // Absolute schema key (e.g. "form.mediaIds") for
         // $wire.callSchemaComponentMethod — a bare state path ("mediaIds") has no
@@ -155,6 +172,159 @@ document.addEventListener('alpine:init', () => {
             this.$wire.callSchemaComponentMethod(this.mwComponentKey(), 'updateImageFilename', {
                 data: { id: id, filename: editedImage }
             });
+        },
+
+        // ── detail panel ───────────────────────────────────────────────────
+        // A tile carries its per-image data as JSON on data-mb-item; clicking it
+        // populates the right panel and marks it selected (blue ring / checkbox).
+        selectImage(el) {
+            if (!el) { return; }
+            let data = {};
+            try { data = JSON.parse(el.getAttribute('data-mb-item') || '{}'); } catch (e) { data = {}; }
+            this.detailId = data.id;
+            this.detail = {
+                filename: data.filename || '',
+                caption: data.caption || '',
+                alt: data.alt || '',
+                link: data.link || '',
+                crop: data.crop || 'center',
+                cropPosition: data.cropPosition || '',
+                w: data.w || null,
+                h: data.h || null,
+                size: data.size || null,
+            };
+            // seed the custom-crop sliders from a stored "x% y%"
+            const m = /(-?\d+(?:\.\d+)?)%\s+(-?\d+(?:\.\d+)?)%/.exec(this.detail.cropPosition || '');
+            this.cropX = m ? parseFloat(m[1]) : 50;
+            this.cropY = m ? parseFloat(m[2]) : 50;
+            // clicking selects (union), matching the mockup's multi-select
+            const idStr = String(data.id);
+            if (!this.selectedImages.includes(idStr)) {
+                this.selectedImages = [...this.selectedImages, idStr];
+            }
+        },
+
+        detailName() {
+            const f = (this.detail.filename || '').split('?')[0].split('#')[0];
+            return f.substring(f.lastIndexOf('/') + 1) || 'Image';
+        },
+
+        humanSize(bytes) {
+            if (!bytes && bytes !== 0) { return ''; }
+            if (bytes < 1024) { return bytes + ' B'; }
+            const kb = bytes / 1024;
+            if (kb < 1024) { return Math.round(kb) + ' KB'; }
+            return (kb / 1024).toFixed(1) + ' MB';
+        },
+
+        // Persist one panel field into image_options (server merges by key).
+        saveMeta(field) {
+            if (!this.detailId) { return; }
+            const payload = { id: this.detailId };
+            if (field === 'caption') { payload.caption = this.detail.caption; }
+            else if (field === 'altText') { payload.altText = this.detail.alt; }
+            else if (field === 'link') { payload.link = this.detail.link; }
+            else if (field === 'crop') {
+                payload.crop = this.detail.crop;
+                payload.cropPosition = this.detail.crop === 'custom' ? this.detail.cropPosition : '';
+            }
+            this.$wire.callSchemaComponentMethod(this.mwComponentKey(), 'updateMediaItemMeta', { data: payload });
+        },
+
+        setCrop(value) {
+            this.detail.crop = value;
+            if (value === 'custom') {
+                this.onCropRange();
+            }
+            this.saveMeta('crop');
+        },
+
+        onCropRange() {
+            this.detail.cropPosition = this.cropX + '% ' + this.cropY + '%';
+        },
+
+        async writeAltForMe() {
+            if (!this.detailId || this.writingAlt) { return; }
+            this.writingAlt = true;
+            try {
+                const res = await this.$wire.callSchemaComponentMethod(this.mwComponentKey(), 'generateAltText', { data: { id: this.detailId } });
+                if (res && res.success && res.altText) {
+                    this.detail.alt = res.altText;
+                } else if (res && res.message) {
+                    mw.notification ? mw.notification.error(res.message) : alert(res.message);
+                }
+            } catch (e) {
+                alert('Could not generate alt text.');
+            } finally {
+                this.writingAlt = false;
+            }
+        },
+
+        // ── +Generate ───────────────────────────────────────────────────────
+        toggleGenerate() {
+            this.showGenerate = !this.showGenerate;
+            this.generateError = '';
+        },
+
+        async runGenerate() {
+            const prompt = (this.generatePrompt || '').trim();
+            if (!prompt || this.generating) { return; }
+            this.generating = true;
+            this.generateError = '';
+            try {
+                const res = await this.$wire.callSchemaComponentMethod(this.mwComponentKey(), 'generateMediaItem', { data: { prompt: prompt } });
+                if (res && res.success) {
+                    this.generatePrompt = '';
+                    this.showGenerate = false;
+                } else {
+                    this.generateError = (res && res.message) ? res.message : 'Image generation failed.';
+                }
+            } catch (e) {
+                this.generateError = 'Image generation failed.';
+            } finally {
+                this.generating = false;
+            }
+        },
+
+        // ── Link → Page picker ────────────────────────────────────────────────
+        togglePagePicker() {
+            this.showPagePicker = !this.showPagePicker;
+            if (this.showPagePicker && !this.pagesLoaded) {
+                this.loadPages();
+            }
+        },
+
+        async loadPages() {
+            try {
+                const res = await this.$wire.callSchemaComponentMethod(this.mwComponentKey(), 'getSitePages');
+                this.pages = Array.isArray(res) ? res : [];
+                this.pagesLoaded = true;
+            } catch (e) {
+                this.pages = [];
+            }
+        },
+
+        filteredPages() {
+            const q = (this.pageFilter || '').toLowerCase().trim();
+            if (!q) { return this.pages; }
+            return this.pages.filter((p) => (p.title || '').toLowerCase().includes(q));
+        },
+
+        pickPage(p) {
+            this.detail.link = p.url;
+            this.showPagePicker = false;
+            this.pageFilter = '';
+            this.saveMeta('link');
+        },
+
+        async removeDetail() {
+            if (!this.detailId) { return; }
+            const id = this.detailId;
+            const dialogConfirm = await mw.confirm('Are you sure you want to remove this image?').promise();
+            if (dialogConfirm) {
+                this.$wire.callSchemaComponentMethod(this.mwComponentKey(), 'deleteMediaItemById', { id: id });
+                this.detailId = null;
+            }
         }
     }));
 });

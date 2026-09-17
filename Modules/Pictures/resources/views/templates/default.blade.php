@@ -63,10 +63,34 @@ description: Default Picture List
                         @continue
                     @endif
 
+                    @php
+                        // task-2026-09-17 — per-image detail-panel fields stored in the
+                        // image_options JSON by the media browser: Alt text, external
+                        // Link (overrides the lightbox), and Thumbnail crop → object-
+                        // position (only meaningful when an aspect ratio forces
+                        // object-fit: cover; otherwise the whole image already shows).
+                        $mwItemOpts = $item['image_options'] ?? [];
+                        if (!is_array($mwItemOpts)) { $mwItemOpts = []; }
+                        $mwItemAlt = $mwItemOpts['alt-text'] ?? ($item['title'] ?? $item['description'] ?? __('Image'));
+                        $mwItemLink = trim((string) ($mwItemOpts['link'] ?? ''));
+                        $mwItemCrop = $mwItemOpts['crop'] ?? 'center';
+                        $mwItemCropPos = $mwItemOpts['crop-position'] ?? '';
+                        $mwItemObjPos = $mwItemCrop === 'top'
+                            ? 'center top'
+                            : (($mwItemCrop === 'custom' && $mwItemCropPos) ? $mwItemCropPos : '');
+                        $mwItemStyle = $mwPicGridAspectStyle;
+                        if ($mwPicGridAspectStyle !== '' && $mwItemObjPos !== '') {
+                            $mwItemStyle .= ' object-position: ' . $mwItemObjPos . ';';
+                        }
+                    @endphp
+
                     {{-- task-2026-05-22-b45297 / AI-907: column class from settings. --}}
                     <div class="mw-pictures-clean-item mw-pictures-clean-item-{{ $item['id'] }} {{ $mwPicGridColClass }}">
-                        {{-- task-2026-05-22-b45297 / AI-907: gate lightbox anchor on setting. --}}
-                        @if($mwPicGridLightbox)
+                        {{-- A per-image Link overrides the lightbox anchor; else lightbox
+                             gated on the setting (task-2026-05-22-b45297 / AI-907). --}}
+                        @if($mwItemLink)
+                        <a href="{{ $mwItemLink }}">
+                        @elseif($mwPicGridLightbox)
                         <a href="{{ isset($item['filename']) ? $item['filename'] : '' }}"
                            data-mw-gallery="{{ $mwGalleryGalleryJson }}" data-mw-gallery-index="{{ $count }}">
                         @endif
@@ -81,11 +105,11 @@ description: Default Picture List
                             {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                             {{-- task-2026-05-22-b45297 / AI-907: aspect ratio style applied via attributes array. --}}
                             {!! responsive_thumbnail($item['filename'] ?? '', 600, null, array_filter([
-                                'alt'   => $item['title'] ?? $item['description'] ?? __('Image'),
+                                'alt'   => $mwItemAlt,
                                 'class' => 'img-fluid',
-                                'style' => $mwPicGridAspectStyle,
+                                'style' => $mwItemStyle,
                             ])) !!}
-                        @if($mwPicGridLightbox)
+                        @if($mwItemLink || $mwPicGridLightbox)
                         </a>
                         @endif
                     </div>

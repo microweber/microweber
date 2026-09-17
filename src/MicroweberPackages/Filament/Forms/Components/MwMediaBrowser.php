@@ -183,6 +183,184 @@ class MwMediaBrowser extends Field
         }
     }
 
+    /**
+     * Persist the per-image detail-panel fields (Caption / Alt text / Link) into
+     * the Media `image_options` JSON — the SAME keys the Pictures skins read
+     * (`caption`, `alt-text`, `link`, `title`). The legacy edit action only wrote
+     * the `title`/`description` DB columns, which the frontend never reads, so
+     * captions/alt/links silently never rendered. Only keys present in $data are
+     * touched, so a blur on one field never wipes the others.
+     */
+    #[ExposedLivewireMethod]
+    public function updateMediaItemMeta($data = [])
+    {
+        $id = is_array($data) ? ($data['id'] ?? false) : false;
+        if (!$id) {
+            return;
+        }
+        $media = Media::find($id);
+        if (!$media) {
+            return;
+        }
+
+        $opts = is_array($media->image_options) ? $media->image_options : [];
+
+        if (array_key_exists('caption', $data)) {
+            $opts['caption'] = (string) $data['caption'];
+        }
+        if (array_key_exists('altText', $data)) {
+            $opts['alt-text'] = (string) $data['altText'];
+        }
+        if (array_key_exists('link', $data)) {
+            $opts['link'] = (string) $data['link'];
+        }
+        if (array_key_exists('title', $data)) {
+            $opts['title'] = (string) $data['title'];
+        }
+        // Thumbnail crop focal point: 'center' | 'top' | 'custom'. When custom,
+        // an explicit object-position string (e.g. "40% 65%") rides in cropPosition.
+        if (array_key_exists('crop', $data)) {
+            $opts['crop'] = (string) $data['crop'];
+        }
+        if (array_key_exists('cropPosition', $data)) {
+            $opts['crop-position'] = (string) $data['cropPosition'];
+        }
+
+        $media->image_options = $opts;
+        $media->save();
+
+        $this->refreshMediaData();
+    }
+
+    /**
+     * "+ Generate" — turn a text prompt into a gallery image via the configured
+     * AI image driver (replicate / fal), then attach the returned URL like any
+     * other media item. Returns a {success, message?} payload the panel surfaces
+     * (e.g. "driver not enabled" when no image driver is configured).
+     */
+    #[ExposedLivewireMethod]
+    public function generateMediaItem($data = [])
+    {
+        $prompt = is_array($data) ? trim((string) ($data['prompt'] ?? '')) : trim((string) $data);
+        if ($prompt === '') {
+            return ['success' => false, 'message' => 'Describe the image you want to generate.'];
+        }
+
+        try {
+            $response = \Modules\Ai\Facades\AiImages::generateImage(
+                [['role' => 'user', 'content' => $prompt]],
+                []
+            );
+
+            $url = null;
+            if (is_string($response)) {
+                $url = $response;
+            } elseif (is_array($response)) {
+                $url = $response['url'] ?? $response['image'] ?? ($response['data'] ?? null);
+                if (is_array($url)) {
+                    $url = $url['url'] ?? ($url[0] ?? null);
+                }
+            }
+
+            if (!$url || !is_string($url)) {
+                return ['success' => false, 'message' => 'Image generation did not return a URL.'];
+            }
+
+            $this->addMediaItemSingle($url);
+            $this->refreshMediaData();
+            $this->state($this->mediaIds);
+
+            return ['success' => true, 'url' => $url];
+        } catch (\Throwable $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+    }
+
+    /**
+     * "Write for me" — ask the AI chat driver for a concise alt text (seeded with
+     * the caption + filename), persist it into image_options['alt-text'], and
+     * return it so the panel field updates. Surfaces the driver error otherwise.
+     */
+    #[ExposedLivewireMethod]
+    public function generateAltText($data = [])
+    {
+        $id = is_array($data) ? ($data['id'] ?? false) : $data;
+        if (!$id) {
+            return ['success' => false, 'message' => 'No image selected.'];
+        }
+        $media = Media::find($id);
+        if (!$media) {
+            return ['success' => false, 'message' => 'Image not found.'];
+        }
+
+        $opts = is_array($media->image_options) ? $media->image_options : [];
+        $caption = $opts['caption'] ?? '';
+        $path = parse_url((string) $media->filename, PHP_URL_PATH) ?: (string) $media->filename;
+        $name = basename($path);
+
+        $prompt = 'Write one concise, descriptive alt text (max 120 characters, plain text, '
+            . "no surrounding quotes, do not start with \"image of\") for a website gallery image.";
+        if ($caption !== '') {
+            $prompt .= " Caption: \"{$caption}\".";
+        }
+        $prompt .= " Filename: \"{$name}\". Reply with only the alt text.";
+
+        try {
+            $response = \Modules\Ai\Facades\Ai::sendToChat(
+                [['role' => 'user', 'content' => $prompt]],
+                []
+            );
+
+            $text = is_string($response)
+                ? $response
+                : ($response['content'] ?? ($response['message'] ?? ($response['data'] ?? '')));
+            $text = trim(trim((string) $text), "\"'");
+
+            if ($text === '') {
+                return ['success' => false, 'message' => 'The AI did not return any alt text.'];
+            }
+
+            $opts['alt-text'] = $text;
+            $media->image_options = $opts;
+            $media->save();
+            $this->refreshMediaData();
+
+            return ['success' => true, 'altText' => $text];
+        } catch (\Throwable $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+    }
+
+    /**
+     * Site pages for the Link → "Page" picker dropdown: [{title, url}, …].
+     */
+    #[ExposedLivewireMethod]
+    public function getSitePages()
+    {
+        $pages = \Modules\Content\Models\Content::query()
+            ->where('content_type', 'page')
+            ->where('is_deleted', 0)
+            ->where('is_active', 1)
+            ->orderBy('position', 'asc')
+            ->orderBy('title', 'asc')
+            ->limit(300)
+            ->get(['id', 'title', 'url']);
+
+        return $pages->map(function ($p) {
+            $url = $p->url;
+            if (!$url) {
+                $url = site_url();
+            } elseif (!preg_match('#^https?://#i', $url)) {
+                $url = site_url($url);
+            }
+
+            return [
+                'title' => $p->title ?: ('Page #' . $p->id),
+                'url' => $url,
+            ];
+        })->values()->toArray();
+    }
+
     public function deleteAction(): Action
     {
         return Action::make('delete')
@@ -257,7 +435,74 @@ class MwMediaBrowser extends Field
     {
         $this->refreshMediaData();
 
+        // Enrich each row with the per-image detail-panel fields (read from the
+        // image_options JSON the skins use) plus best-effort intrinsic
+        // dimensions / file size, so the blade can render the right-hand panel
+        // and the "1920 × 1280 · 412 KB" line without a per-select round-trip.
+        foreach ($this->mediaItems as $item) {
+            $opts = is_array($item->image_options) ? $item->image_options : [];
+            $item->mw_caption = $opts['caption'] ?? '';
+            $item->mw_alt = $opts['alt-text'] ?? '';
+            $item->mw_link = $opts['link'] ?? '';
+            $item->mw_crop = $opts['crop'] ?? 'center';
+            $item->mw_crop_position = $opts['crop-position'] ?? '';
+
+            $meta = $this->mediaFileMeta($item->filename);
+            $item->mw_w = $meta['w'];
+            $item->mw_h = $meta['h'];
+            $item->mw_size = $meta['size'];
+        }
+
         return $this->mediaItems;
+    }
+
+    /**
+     * Resolve a stored media filename (usually an absolute site URL) back to a
+     * local public path, or null when it isn't a local file (external URL /
+     * missing). Used only for best-effort intrinsic dimensions + size.
+     */
+    protected function resolveLocalPath($filename)
+    {
+        if (!$filename || !is_string($filename)) {
+            return null;
+        }
+
+        $filename = preg_replace('/[?#].*$/', '', $filename);
+
+        foreach ([function_exists('site_url') ? site_url() : null, rtrim((string) config('app.url'), '/') . '/'] as $base) {
+            if ($base && str_starts_with($filename, $base)) {
+                $filename = ltrim(substr($filename, strlen($base)), '/');
+                break;
+            }
+        }
+
+        if (preg_match('#^https?://#i', $filename)) {
+            return null; // still an external URL
+        }
+
+        $path = public_path(ltrim($filename, '/'));
+
+        return is_file($path) ? $path : null;
+    }
+
+    public function mediaFileMeta($filename)
+    {
+        $out = ['w' => null, 'h' => null, 'size' => null];
+
+        $path = $this->resolveLocalPath($filename);
+        if ($path) {
+            $info = @getimagesize($path);
+            if ($info) {
+                $out['w'] = $info[0] ?? null;
+                $out['h'] = $info[1] ?? null;
+            }
+            $bytes = @filesize($path);
+            if ($bytes !== false) {
+                $out['size'] = $bytes;
+            }
+        }
+
+        return $out;
     }
 
 
