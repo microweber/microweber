@@ -1602,16 +1602,31 @@ export default {
                 const base = mw.settings.site_url;
                 const tokenEl = document.querySelector('meta[name="csrf-token"]');
                 const token = (tokenEl && tokenEl.content) || (mw.settings && mw.settings.csrf) || '';
+                // The page itself is a clean editable page; the chosen "Start
+                // from" LAYOUT (a Content-category section) is inserted into it
+                // after the new page's canvas loads (see the liveEditCanvasLoaded
+                // handler) — the Content skins are section layouts, not page
+                // templates, so they can't be used as layout_file.
+                const startFrom = this.cpActiveStartFrom() || {};
                 const payload = {
                     content_type: 'page',
                     title: title,
                     url: this.cpEffectiveSlug(),
                     is_active: draft ? 0 : 1,
                     is_deleted: 0,
-                    layout_file: (this.cpActiveStartFrom() || {}).layout || 'clean',
+                    layout_file: 'clean.blade.php',
                     add_content_to_menu: this.cpAddToMenu ? 1 : 0,
                 };
-                if ((this.cpContent || '').trim()) { payload.content = this.cpContent; }
+                // Start from a layout = embed the layouts module (referencing the
+                // chosen skin) into the page's content field; MW renders it as
+                // that layout. Blank/Clean just uses the optional notes.
+                const notes = (this.cpContent || '').trim();
+                if (startFrom.layout && startFrom.layout !== 'clean' && startFrom.key !== 'blank') {
+                    payload.content = '<module type="layouts" template="' + startFrom.layout + '" />'
+                        + (notes ? ('<p>' + notes + '</p>') : '');
+                } else if (notes) {
+                    payload.content = notes;
+                }
                 if (this.cpParentId) { payload.parent = this.cpParentId; }
                 const res = await fetch(base + 'api/save_content', {
                     method: 'POST',
