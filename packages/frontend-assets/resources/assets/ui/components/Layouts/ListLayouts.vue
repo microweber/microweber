@@ -729,13 +729,6 @@
                     </div>
 
                     <div class="mw-le-cp-rows">
-                        <label class="mw-le-cp-row">
-                            <span class="mw-le-cp-row-main">
-                                <input type="checkbox" class="mw-le-cp-check" v-model="cpCoverImage" true-value="pending" false-value="">
-                                <span>{{ $lang('Cover image') }}</span>
-                            </span>
-                            <span class="mw-le-cp-row-value">{{ cpCoverImage ? $lang('Selected') : $lang('None') }}</span>
-                        </label>
                         <div class="mw-le-cp-row mw-le-cp-row--dropdown">
                             <span class="mw-le-cp-row-main"><span>{{ $lang('Parent page') }}</span></span>
                             <div class="mw-le-cp-parentpick">
@@ -1498,7 +1491,6 @@ export default {
             this.cpSlugEditing = false;
             this.cpContent = '';
             this.cpStartFrom = 'blank';
-            this.cpCoverImage = '';
             this.cpParentId = '';
             this.cpParentLabel = '';
             this.cpAddToMenu = true;
@@ -2167,7 +2159,6 @@ export default {
             cpSlugEditing: false,
             cpContent: '',
             cpStartFrom: 'blank',
-            cpCoverImage: '',
             cpParentId: '',
             cpParentLabel: '',
             cpParentOpen: false,
