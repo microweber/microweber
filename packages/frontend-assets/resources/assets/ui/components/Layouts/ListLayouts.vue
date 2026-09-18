@@ -1237,9 +1237,12 @@
 .mw-le-cp-parentpick { position: relative; }
 .mw-le-cp-row-value--btn { background: none; border: 0; padding: 0; cursor: pointer; font-weight: 600; color: var(--ac-ink); }
 .mw-le-cp-parent-menu {
-    position: absolute; top: calc(100% + 6px); right: 0; z-index: 30; width: 260px; max-width: 80vw;
+    /* Open UPWARD — the Parent row sits low in the form, so anchoring the menu
+       above the trigger keeps it inside the dialog instead of spilling past the
+       bottom edge. */
+    position: absolute; bottom: calc(100% + 6px); right: 0; z-index: 30; width: 260px; max-width: 80vw;
     background: #fff; border: 1px solid var(--ac-hairline); border-radius: 10px; padding: 8px;
-    box-shadow: 0 12px 30px rgba(24, 36, 51, .18);
+    box-shadow: 0 -12px 30px rgba(24, 36, 51, .18);
 }
 .mw-le-cp-parent-search { width: 100%; min-height: 34px; padding: 6px 10px; border: 1px solid var(--ac-hairline); border-radius: 8px; font-size: 13px; }
 .mw-le-cp-parent-search:focus { outline: none; border-color: var(--ac-accent); }
