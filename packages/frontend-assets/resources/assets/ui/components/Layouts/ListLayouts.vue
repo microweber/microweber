@@ -1612,10 +1612,12 @@ export default {
                     content_type: 'page',
                     title: title,
                     url: this.cpEffectiveSlug(),
+                    // Draft = unpublished (is_active 0) AND kept out of the main
+                    // menu — an unpublished page must not leave a live nav link.
                     is_active: draft ? 0 : 1,
                     is_deleted: 0,
                     layout_file: 'clean.blade.php',
-                    add_content_to_menu: this.cpAddToMenu ? 1 : 0,
+                    add_content_to_menu: (!draft && this.cpAddToMenu) ? 1 : 0,
                 };
                 // Start from a layout = embed the layouts module (referencing the
                 // chosen skin) into the page's content field; MW renders it as
