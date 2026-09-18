@@ -2023,6 +2023,16 @@ export default {
             instance.openCreatePageSkin();
         });
 
+        // Close the create-page Parent dropdown on an outside click (Vue has no
+        // @click.outside). mousedown fires before the trigger's @click, and the
+        // trigger/menu live inside .mw-le-cp-parentpick so clicking them is not
+        // treated as "outside".
+        document.addEventListener('mousedown', function (e) {
+            if (!instance.cpParentOpen) { return; }
+            const inside = e.target && e.target.closest && e.target.closest('.mw-le-cp-parentpick');
+            if (!inside) { instance.cpParentOpen = false; }
+        });
+
         // this.emitter.on("live-edit-ui-show", show => {
         //
         // });
