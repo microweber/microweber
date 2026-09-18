@@ -680,7 +680,9 @@
                 <!-- LEFT: form -->
                 <section class="mw-le-cp-form">
                     <div class="mw-le-cp-head">
-                        <span class="mw-le-cp-badge">Pg</span>
+                        <span class="mw-le-cp-badge">
+                            <svg viewBox="0 96 960 960" fill="currentColor" width="17" height="17" aria-hidden="true"><path d="M329.59 801.127h300.82v-50.254H329.59v50.254Zm0-164.871h300.82v-50.255H329.59v50.255Zm-87.025 319.743q-25.788 0-44.176-18.388t-18.388-44.176v-634.87q0-25.788 18.388-44.176t44.176-18.388h337.59l199.844 199.844v497.59q0 25.788-18.388 44.176t-44.176 18.388h-474.87Zm312.462-536.513v-173.23H242.565q-4.616 0-8.462 3.847-3.847 3.846-3.847 8.462v634.87q0 4.616 3.847 8.462 3.846 3.847 8.462 3.847h474.87q4.616 0 8.462-3.847 3.847-3.846 3.847-8.462V419.486H555.027Zm-324.771-173.23v173.23-173.23V905.744 246.256Z"/></svg>
+                        </span>
                         <span class="mw-le-cp-head-title">{{ $lang('New page') }}</span>
                     </div>
 
@@ -1170,9 +1172,10 @@
 /* head */
 .mw-le-cp-head { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
 .mw-le-cp-badge {
-    width: 26px; height: 26px; border-radius: 7px; background: #e6ecff; color: #4a4a63;
-    display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;
+    width: 28px; height: 28px; border-radius: 7px; background: #e6ecff; color: #4f63e8;
+    display: inline-flex; align-items: center; justify-content: center;
 }
+.mw-le-cp-badge svg { display: block; }
 .mw-le-cp-head-title { font-size: 15px; font-weight: 600; color: var(--ac-muted); }
 
 /* title + slug */
