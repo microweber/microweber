@@ -13,6 +13,32 @@ Route::name('api.')
         Route::apiResource('product', \Modules\Product\Http\Controllers\Api\ProductApiController::class);
         Route::apiResource('product_variant', \Modules\Product\Http\Controllers\Api\ProductVariantApiController::class);
 
+        // task-2026-09-21-createproduct — session-authed (admin) price save for the
+        // Live Edit create dialogs. Product price is a 'price'-type custom field;
+        // the token-guarded product store + the whitelisted fields/save endpoint
+        // aren't reachable from the admin session, so expose a minimal saver here.
+        Route::post('save_product_price', function (\Illuminate\Http\Request $request) {
+            $id = intval($request->input('rel_id') ?: $request->input('id'));
+            if (!$id) {
+                return response()->json(['success' => false, 'message' => 'missing rel_id'], 422);
+            }
+            if (!\Modules\Content\Models\Content::where('id', $id)->exists()) {
+                return response()->json(['success' => false, 'message' => 'not found'], 404);
+            }
+            if (!function_exists('save_custom_field')) {
+                return response()->json(['success' => false, 'message' => 'unavailable'], 500);
+            }
+            $price = $request->input('price');
+            if ($price !== null && $price !== '') {
+                save_custom_field(['field' => 'price', 'value' => (float) $price, 'rel_type' => 'content', 'rel_id' => $id, 'type' => 'price']);
+            }
+            $special = $request->input('special_price');
+            if ($special !== null && $special !== '') {
+                save_custom_field(['field' => 'special_price', 'value' => (float) $special, 'rel_type' => 'content', 'rel_id' => $id, 'type' => 'price']);
+            }
+            return response()->json(['success' => true, 'id' => $id]);
+        })->name('save_product_price');
+
 
     });
 

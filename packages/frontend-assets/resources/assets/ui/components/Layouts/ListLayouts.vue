@@ -649,6 +649,32 @@
                                        :placeholder="$lang('Untitled') + ' ' + addContentActiveType.label.toLowerCase()"
                                        @keydown.enter.prevent="addContentQuickCreate(addContentActiveType, false)">
                             </label>
+
+                            <div v-if="addContentActiveType.quickCreate" class="mw-le-addcontent-field">
+                                <span class="mw-le-addcontent-field-label">{{ $lang('Image') }}</span>
+                                <div class="mw-le-ni-image-row">
+                                    <button v-if="!niImage" type="button" class="mw-le-ni-add" @click="niPickImage()">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                        {{ $lang('Add image') }}
+                                    </button>
+                                    <template v-else>
+                                        <span class="mw-le-ni-thumb"><img :src="niImage" alt=""></span>
+                                        <button type="button" class="mw-le-addcontent-link" @click="niPickImage()">{{ $lang('Change') }}</button>
+                                        <button type="button" class="mw-le-addcontent-link mw-le-ni-remove" @click="niRemoveImage()">{{ $lang('Remove') }}</button>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div v-if="addContentSelectedType === 'product'" class="mw-le-ni-prices">
+                                <label class="mw-le-ni-price-col">
+                                    <span class="mw-le-addcontent-field-label">{{ $lang('Price') }}</span>
+                                    <input type="number" step="0.01" min="0" class="mw-le-addcontent-input" v-model="niPrice" placeholder="0.00">
+                                </label>
+                                <label class="mw-le-ni-price-col">
+                                    <span class="mw-le-addcontent-field-label">{{ $lang('Special price') }}</span>
+                                    <input type="number" step="0.01" min="0" class="mw-le-addcontent-input" v-model="niSpecialPrice" placeholder="0.00">
+                                </label>
+                            </div>
                             <p class="mw-le-addcontent-create-error" v-show="addContentError">{{ addContentError }}</p>
 
                             <div class="mw-le-addcontent-detail-foot">
@@ -728,6 +754,21 @@
                         </div>
                         <textarea class="mw-le-cp-textarea" rows="2" v-model="cpContent"
                                   :placeholder="$lang('Add a few notes or paste text — you can edit everything on the page afterwards.')"></textarea>
+                    </div>
+
+                    <div class="mw-le-cp-field">
+                        <span class="mw-le-cp-label">{{ $lang('Image') }} <span class="mw-le-cp-muted">· {{ $lang('optional') }}</span></span>
+                        <div class="mw-le-ni-image-row">
+                            <button v-if="!niImage" type="button" class="mw-le-ni-add" @click="niPickImage()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                {{ $lang('Add image') }}
+                            </button>
+                            <template v-else>
+                                <span class="mw-le-ni-thumb"><img :src="niImage" alt=""></span>
+                                <button type="button" class="mw-le-cp-link" @click="niPickImage()">{{ $lang('Change') }}</button>
+                                <button type="button" class="mw-le-cp-link mw-le-ni-remove" @click="niRemoveImage()">{{ $lang('Remove') }}</button>
+                            </template>
+                        </div>
                     </div>
 
                     <div class="mw-le-cp-rows">
@@ -1300,6 +1341,20 @@
 .mw-le-cp-draft-link { width: 100%; background: none; border: 0; color: var(--ac-ink); font-size: 13px; font-weight: 600; cursor: pointer; padding: 6px; }
 .mw-le-cp-draft-link:hover { text-decoration: underline; }
 
+/* new-item image + price (shared: create-page + add-content inline) */
+.mw-le-ni-image-row { display: flex; align-items: center; gap: 10px; }
+.mw-le-ni-add {
+    display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 0 14px;
+    border: 1px dashed #cfcfca; border-radius: 10px; background: transparent; color: #77776f;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.mw-le-ni-add:hover { border-color: #4f63e8; color: #4f63e8; background: rgba(79, 99, 232, .04); }
+.mw-le-ni-thumb { width: 46px; height: 46px; border-radius: 8px; overflow: hidden; background: #f4f4f2; border: 1px solid #e6e6e2; flex: none; }
+.mw-le-ni-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mw-le-ni-remove { color: #d64545 !important; }
+.mw-le-ni-prices { display: flex; gap: 12px; margin-bottom: 16px; }
+.mw-le-ni-price-col { display: flex; flex-direction: column; gap: 6px; flex: 1 1 0; margin: 0; }
+
 @media (max-width: 720px) {
     .mw-le-cp { flex-direction: column; }
     .mw-le-cp-preview { flex-basis: auto; max-width: none; border-left: 0; border-top: 1px solid var(--ac-hairline); }
@@ -1346,6 +1401,9 @@ export default {
             this.pickerSkin = 'add-content';
             this.addContentSelectedType = 'block';
             this.filterKeyword = '';
+            this.niImage = '';
+            this.niPrice = '';
+            this.niSpecialPrice = '';
             this.showModal = true;
             setTimeout(() => {
                 const el = document.querySelector('.mw-le-addcontent-search input');
@@ -1354,6 +1412,46 @@ export default {
         },
         addContentTypeObj(key) {
             return this.addContentTypes.find((t) => t.key === (key || this.addContentSelectedType));
+        },
+
+        // ── shared: new-item image (attached as media after create) + price ──
+        niPickImage() {
+            try {
+                mw.filePickerDialog({ pickerOptions: { multiple: false } }, (url) => {
+                    if (Array.isArray(url)) { url = url[0]; }
+                    if (url) { this.niImage = url; }
+                });
+            } catch (e) { /* picker unavailable */ }
+        },
+        niRemoveImage() { this.niImage = ''; },
+        async niAttachImage(contentId) {
+            if (!this.niImage || !contentId) { return; }
+            try {
+                const base = mw.settings.site_url;
+                const token = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
+                await fetch(base + 'api/save_media', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-TOKEN': token },
+                    credentials: 'include',
+                    body: JSON.stringify({ filename: this.niImage, rel_type: 'content', rel_id: contentId, media_type: 'picture' }),
+                });
+            } catch (e) { /* best-effort */ }
+        },
+        async niSavePrice(contentId) {
+            if (!contentId) { return; }
+            const price = (this.niPrice || '').toString().trim();
+            const special = (this.niSpecialPrice || '').toString().trim();
+            if (price === '' && special === '') { return; }
+            try {
+                const base = mw.settings.site_url;
+                const token = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
+                await fetch(base + 'api/save_product_price', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-TOKEN': token },
+                    credentials: 'include',
+                    body: JSON.stringify({ rel_id: contentId, price: price, special_price: special }),
+                });
+            } catch (e) { /* best-effort */ }
         },
         addContentSelect(key) {
             this.addContentSelectedType = key;
@@ -1452,6 +1550,9 @@ export default {
                     return;
                 }
 
+                await this.niAttachImage(id);
+                if (type.key === 'product') { await this.niSavePrice(id); }
+
                 // Resolve the new content's url (public show route) to open it in Live Edit.
                 let url = '';
                 try {
@@ -1508,6 +1609,7 @@ export default {
             this.cpMoreOpen = false;
             this.cpError = '';
             this.cpMenuId = null;
+            this.niImage = '';
             this.cpResolveMainMenu();
             // Populate Start-from from real layouts (sets cpStartFrom to a real key).
             this.cpBuildStartFrom();
@@ -1674,6 +1776,7 @@ export default {
                     this.cpError = 'Could not create the page.';
                     return;
                 }
+                await this.niAttachImage(id);
                 let url = '';
                 try {
                     const g = await fetch(base + 'api/content/' + id, { credentials: 'include', headers: { Accept: 'application/json' } });
@@ -2212,6 +2315,10 @@ export default {
             addContentTitle: '',
             addContentCreating: false,
             addContentError: '',
+            // new-item image (page/post/product) + product price fields
+            niImage: '',
+            niPrice: '',
+            niSpecialPrice: '',
 
             // ── create-page dialog (two-pane form + preview) ──────────────────
             cpTitle: '',
