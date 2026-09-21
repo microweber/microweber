@@ -622,7 +622,7 @@
                             </div>
                             <div class="mw-le-addcontent-pills">
                                 <button v-for="t in addContentSiteContent" :key="'pill-' + t.key" type="button"
-                                        class="mw-le-addcontent-pill" @click="addContentCreate(t)">
+                                        class="mw-le-addcontent-pill" @click="addContentSelect(t.key)">
                                     <span class="mw-le-addcontent-pill-dot" :style="{ background: t.tint }"></span>
                                     {{ t.label }}
                                 </button>
@@ -633,14 +633,6 @@
                         <div v-else-if="addContentActiveType" class="mw-le-addcontent-detail">
                             <h3 class="mw-le-addcontent-detail-title">{{ addContentActiveType.label }}</h3>
                             <p class="mw-le-addcontent-detail-desc">{{ addContentActiveType.description }}</p>
-
-                            <div class="mw-le-addcontent-preview">
-                                <span class="sk sk-title"></span>
-                                <span class="sk sk-meta"></span>
-                                <span class="sk sk-hero"></span>
-                                <span class="sk sk-line"></span>
-                                <span class="sk sk-line sk-short"></span>
-                            </div>
 
                             <label v-if="addContentActiveType.quickCreate" class="mw-le-addcontent-field">
                                 <span class="mw-le-addcontent-field-label">{{ $lang('Title') }}</span>
@@ -664,6 +656,29 @@
                                     </template>
                                 </div>
                             </div>
+
+                            <!-- Page: real create fields inline (no second-step dialog) -->
+                            <template v-if="addContentSelectedType === 'page'">
+                                <div class="mw-le-addcontent-field">
+                                    <span class="mw-le-addcontent-field-label">{{ $lang('Start from') }}</span>
+                                    <div class="mw-le-cp-starts mw-le-ac-starts">
+                                        <button v-for="o in cpStartFromOptions" :key="o.key" type="button"
+                                                class="mw-le-cp-start" :class="{ 'is-on': cpStartFrom === o.key }"
+                                                @click="cpSetStartFrom(o.key)">
+                                            <span class="mw-le-cp-start-thumb" :class="{ ['mw-le-cp-start-thumb--blank']: !o.screenshot }">
+                                                <img v-if="o.screenshot" :src="o.screenshot" :alt="o.label" loading="lazy">
+                                            </span>
+                                            <span class="mw-le-cp-start-label">{{ o.label }}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mw-le-addcontent-field mw-le-ac-menu-row">
+                                    <span class="mw-le-addcontent-field-label">{{ $lang('Add to main menu') }}</span>
+                                    <span class="mw-le-cp-toggle" :class="{ 'is-on': cpAddToMenu }" @click="cpAddToMenu = !cpAddToMenu">
+                                        <span class="mw-le-cp-toggle-knob"></span>
+                                    </span>
+                                </div>
+                            </template>
 
                             <div v-if="addContentSelectedType === 'product'" class="mw-le-ni-prices">
                                 <label class="mw-le-ni-price-col">
@@ -1165,6 +1180,10 @@
 /* inline quick-create (2a) */
 .mw-le-addcontent-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
 .mw-le-addcontent-field-label { font-size: 12px; font-weight: 600; color: var(--ac-ink); }
+/* Inline Page create: compact Start-from cards + a horizontal main-menu toggle row. */
+.mw-le-ac-starts .mw-le-cp-start-thumb { height: 40px; }
+.mw-le-ac-menu-row { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; }
+.mw-le-ac-menu-row .mw-le-addcontent-field-label { font-size: 13px; }
 .mw-le-addcontent-input {
     width: 100%; min-height: 42px; padding: 9px 12px;
     border: 1px solid var(--ac-hairline); border-radius: 10px; font-size: 14px; background: #fff; color: var(--ac-ink);
@@ -1455,6 +1474,26 @@ export default {
         },
         addContentSelect(key) {
             this.addContentSelectedType = key;
+            // Fresh new-item fields whenever a creatable content type is opened.
+            if (key === 'page' || key === 'post' || key === 'product') {
+                this.addContentTitle = '';
+                this.niImage = '';
+                this.niPrice = '';
+                this.niSpecialPrice = '';
+                this.addContentError = '';
+            }
+            // Page now creates inline: seed the real Start-from cards + main-menu
+            // id so the fields render with live data (no second-step dialog).
+            if (key === 'page') {
+                this.cpStartFrom = 'blank';
+                this.cpAddToMenu = true;
+                this.cpParentId = '';
+                this.cpParentLabel = '';
+                this.cpParentOpen = false;
+                this.cpMenuId = null;
+                this.cpResolveMainMenu();
+                this.cpBuildStartFrom();
+            }
         },
         // Drill the SAME modal from the add-content skin into the layouts grid,
         // optionally pre-filtered to a category (blocks map to categories).
@@ -1501,9 +1540,9 @@ export default {
                 this.addContentOpenLayouts(type.layoutCategory || '');
                 return;
             }
-            // Page opens the full two-pane create-page dialog (same modal, skin).
-            if (type.key === 'page') {
-                this.openCreatePageSkin();
+            // Page/Post/Product create inline in the detail pane (no second step).
+            if (type.quickCreate) {
+                this.addContentSelect(type.key);
                 return;
             }
             this.showModal = false;
@@ -1526,6 +1565,22 @@ export default {
                 const token = (tokenEl && tokenEl.content) || (mw.settings && mw.settings.csrf) || '';
                 // api/save_content = the classic session-authed (web+admin) create;
                 // api/content needs the API-token guard (401 with a session cookie).
+                const payload = { content_type: type.key, title: title, is_active: draft ? 0 : 1, is_deleted: 0 };
+                // Page gets its real inline options: a clean editable page that
+                // embeds the chosen Start-from layout, plus the main-menu link.
+                if (type.key === 'page') {
+                    payload.layout_file = 'clean.blade.php';
+                    const startFrom = this.cpActiveStartFrom() || {};
+                    if (startFrom.layout && startFrom.layout !== 'clean' && startFrom.key !== 'blank') {
+                        payload.content = '<module type="layouts" template="' + startFrom.layout + '" />';
+                    }
+                    // Draft stays out of the nav; a published page joins the main
+                    // menu (save_content needs an ARRAY of menu container ids).
+                    if (!draft && this.cpAddToMenu && this.cpMenuId) {
+                        payload.add_content_to_menu = [this.cpMenuId];
+                    }
+                    if (this.cpParentId) { payload.parent = this.cpParentId; }
+                }
                 const res = await fetch(base + 'api/save_content', {
                     method: 'POST',
                     headers: {
@@ -1535,7 +1590,7 @@ export default {
                         'X-CSRF-TOKEN': token,
                     },
                     credentials: 'include',
-                    body: JSON.stringify({ content_type: type.key, title: title, is_active: draft ? 0 : 1, is_deleted: 0 }),
+                    body: JSON.stringify(payload),
                 });
                 const raw = await res.text();
                 let id = null;
@@ -2352,7 +2407,7 @@ export default {
                 { key: 'block', label: 'Block', group: 'this-page', badge: '+', shortcut: '',
                   description: 'Add a block to this page.' },
                 { key: 'page', label: 'Page', group: 'content', badge: 'Pg', shortcut: 'P',
-                  createAction: 'addPageAction', tint: '#e6ecff',
+                  createAction: 'addPageAction', tint: '#e6ecff', quickCreate: true,
                   description: 'A standalone page in your site navigation.' },
                 { key: 'post', label: 'Post', group: 'content', badge: 'Po', shortcut: 'O',
                   createAction: 'addPostAction', tint: '#e3f5ec', quickCreate: true,
