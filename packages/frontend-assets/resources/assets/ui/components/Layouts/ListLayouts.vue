@@ -1507,6 +1507,8 @@ export default {
             this.cpAddToMenu = true;
             this.cpMoreOpen = false;
             this.cpError = '';
+            this.cpMenuId = null;
+            this.cpResolveMainMenu();
             // Populate Start-from from real layouts (sets cpStartFrom to a real key).
             this.cpBuildStartFrom();
             this.showModal = true;
@@ -1514,6 +1516,22 @@ export default {
                 const el = document.querySelector('.mw-le-cp-title-input');
                 if (el) { el.focus(); }
             }, 120);
+        },
+        // Resolve the site's main (header) menu id so "Add to main menu" adds the
+        // new page to it. save_content adds to menu only when add_content_to_menu
+        // is an ARRAY of menu container ids.
+        async cpResolveMainMenu() {
+            try {
+                const base = mw.settings.site_url;
+                const r = await fetch(base + 'api/module/menus', { credentials: 'include', headers: { Accept: 'application/json' } });
+                const d = await r.json();
+                const items = (d && d.data) ? d.data : (Array.isArray(d) ? d : []);
+                const menus = items.filter((m) => m && m.item_type === 'menu');
+                const header = menus.find((m) => m.title === 'header_menu') || menus[0];
+                this.cpMenuId = header ? header.id : null;
+            } catch (e) {
+                this.cpMenuId = null;
+            }
         },
         cpSlugify(text) {
             return (text || '').toString().toLowerCase().trim()
@@ -1617,8 +1635,13 @@ export default {
                     is_active: draft ? 0 : 1,
                     is_deleted: 0,
                     layout_file: 'clean.blade.php',
-                    add_content_to_menu: (!draft && this.cpAddToMenu) ? 1 : 0,
                 };
+                // Add to the main menu only for a published page with the toggle on.
+                // save_content expects an ARRAY of menu container ids (an integer 1
+                // is silently ignored).
+                if (!draft && this.cpAddToMenu && this.cpMenuId) {
+                    payload.add_content_to_menu = [this.cpMenuId];
+                }
                 // Start from a layout = embed the layouts module (referencing the
                 // chosen skin) into the page's content field; MW renders it as
                 // that layout. Blank/Clean just uses the optional notes.
@@ -2204,6 +2227,7 @@ export default {
             cpParentLoaded: false,
             cpParentFilter: '',
             cpAddToMenu: true,
+            cpMenuId: null,
             cpMoreOpen: false,
             cpCreating: false,
             cpError: '',
