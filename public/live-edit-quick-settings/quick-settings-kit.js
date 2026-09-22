@@ -26,6 +26,9 @@
 
     function lang(s) { try { return mw.lang ? mw.lang(s) : s; } catch (e) { return s; } }
 
+    // 6-dot grip icon for the drag handle.
+    var dragDots = '<svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><circle cx="6" cy="4" r="1.25"/><circle cx="10" cy="4" r="1.25"/><circle cx="6" cy="8" r="1.25"/><circle cx="10" cy="8" r="1.25"/><circle cx="6" cy="12" r="1.25"/><circle cx="10" cy="12" r="1.25"/></svg>';
+
     // ── top-window plumbing (the panel mounts above the canvas iframe) ──────
     function topDoc() {
         try { if (window.top && window.top.document) { return window.top.document; } } catch (e) {}
@@ -238,6 +241,23 @@
             // to a sliver under the capped height instead of overflowing).
             '.mw-qs-menuitems{max-height:300px;overflow-y:auto;overflow-x:hidden;margin:0 -2px;padding:2px;}',
             '.mw-qs-menuitems .mw-qs-item{flex:0 0 auto;}',
+            '.mw-qs-items__add--top{margin:0 0 8px;}',
+            // drag handle + drop hints
+            '.mw-qs-item__drag{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:18px;color:#b3b9c2;cursor:grab;user-select:none;}',
+            '.mw-qs-item__drag:active{cursor:grabbing;}',
+            'html.dark .mw-qs-item__drag{color:#6b7280;}',
+            '.mw-qs-item--dragging{opacity:.45;}',
+            '.mw-qs-item--over-top{box-shadow:inset 0 2px 0 0 #182433;}',
+            '.mw-qs-item--over-bot{box-shadow:inset 0 -2px 0 0 #182433;}',
+            'html.dark .mw-qs-item--over-top{box-shadow:inset 0 2px 0 0 #e8eaed;}',
+            'html.dark .mw-qs-item--over-bot{box-shadow:inset 0 -2px 0 0 #e8eaed;}',
+            // add-item picker popup
+            '.mw-qs-add-pop{position:fixed;z-index:100062;background:#fff;color:#182433;border-radius:14px;box-shadow:0 12px 40px rgba(24,36,51,.28);padding:12px;}',
+            'html.dark .mw-qs-add-pop{background:#1b1e22;color:#e8eaed;box-shadow:0 12px 40px rgba(0,0,0,.6);}',
+            '.mw-qs-add-pop__head{display:flex;align-items:center;justify-content:space-between;font-weight:600;font-size:13px;margin-bottom:10px;}',
+            '.mw-qs-add-pop__link{width:100%;margin-bottom:10px;}',
+            '.mw-qs-add-pop__tree{max-height:320px;overflow:auto;border:1px solid #18243318;border-radius:9px;padding:6px;}',
+            'html.dark .mw-qs-add-pop__tree{border-color:#ffffff1f;}',
             '.mw-qs-items__add{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;}',
             '.mw-qs-add{border:1px dashed #18243340;border-radius:9px;background:transparent;color:#182433;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;padding:8px 10px;flex:1 1 auto;}',
             '.mw-qs-add:hover{border-color:#182433;background:#18243308;}',
@@ -375,10 +395,11 @@
         }
         if (c.type === 'menuitems') {
             // The selected menu's links — expandable rows with a Page/Link/Category
-            // badge, inline label/url edit, reorder, delete, add. Wired in wire().
+            // badge, inline label/url edit, drag-reorder, delete. The Add button
+            // sits ON TOP and opens a picker popup (wired in wire()).
             return '<div class="mw-qs-section">' + label
-                + '<div class="mw-qs-items mw-qs-menuitems" data-ctl="menuitems"><div class="mw-qs-items__empty">' + esc(lang('Loading…')) + '</div></div>'
-                + '<div class="mw-qs-items__add"><button type="button" class="mw-qs-add" data-ctl="menuitems-add">+ ' + esc(lang(c.addLabel || 'Add menu item')) + '</button></div></div>';
+                + '<div class="mw-qs-items__add mw-qs-items__add--top"><button type="button" class="mw-qs-add" data-ctl="menuitems-add">+ ' + esc(lang(c.addLabel || 'Add menu item')) + '</button></div>'
+                + '<div class="mw-qs-items mw-qs-menuitems" data-ctl="menuitems"><div class="mw-qs-items__empty">' + esc(lang('Loading…')) + '</div></div></div>';
         }
         if (c.type === 'advanced') {
             return '<button type="button" class="mw-qs-advanced" data-ctl="open-settings"><span class="mw-qs-advanced__t">' + esc(lang(c.label || 'Advanced'))
@@ -403,7 +424,11 @@
 
     // ── panel lifecycle ─────────────────────────────────────────────────────
     var _el = null, _docClick = null, _docKey = null, _closeOnOutside = true;
-    function close() { if (_el) { _el.style.display = 'none'; } }
+    function close() {
+        if (_el) { _el.style.display = 'none'; }
+        // Remove any open add-item picker popup (lives outside _el).
+        try { var p = topDoc().querySelector('.mw-qs-add-pop'); if (p) { p.remove(); } } catch (e) {}
+    }
 
     function sectionsHtml(sections, opts) {
         return (sections || []).map(function (c) { return renderControl(c, opts); }).join('');
@@ -821,24 +846,23 @@
             if (!selectEl && !itemsBox) { return; }
             var opts = readOptions(el);
             var currentName = opts.menu_name || el.getAttribute('data-name') || el.getAttribute('data-menu_name') || 'header_menu';
-            var menus = [], currentMenuId = null, _items = [];
+            var menus = [], currentMenuId = null, _items = [], _dragId = null, _addPop = null;
             var reloadCanvas = function () { try { mw.app.editor.dispatch('onModuleSettingsChanged', { moduleId: el.getAttribute('id') }); } catch (e) {} };
 
             var renderItems = function () {
                 if (!itemsBox) { return; }
                 if (!_items.length) { itemsBox.innerHTML = '<div class="mw-qs-items__empty">' + esc(lang('No items yet')) + '</div>'; return; }
-                itemsBox.innerHTML = _items.map(function (it, i) {
+                itemsBox.innerHTML = _items.map(function (it) {
                     var urlField = (it.type === 'Link') ? '<div class="mw-qs-item__field"><div class="mw-qs-item__flabel">' + esc(lang('URL')) + '</div>'
                         + '<input type="text" class="mw-qs-input" data-field="url" value="' + esc(it.url) + '"></div>' : '';
                     var body = '<div class="mw-qs-item__field"><div class="mw-qs-item__flabel">' + esc(lang('Label')) + '</div>'
                         + '<input type="text" class="mw-qs-input" data-field="title" value="' + esc(it.label) + '"></div>' + urlField;
                     return '<div class="mw-qs-item" data-id="' + esc(it.id) + '">'
                         + '<div class="mw-qs-item__head">'
+                        + '<span class="mw-qs-item__drag" draggable="true" title="' + esc(lang('Drag to reorder')) + '" aria-label="' + esc(lang('Drag to reorder')) + '">' + dragDots + '</span>'
                         + '<button type="button" class="mw-qs-item__toggle"><span class="mw-qs-item__caret">▸</span><span>' + esc(it.label) + '</span></button>'
                         + '<div class="mw-qs-item__actions">'
                         + '<span class="mw-qs-mi-badge">' + esc(lang(it.type)) + '</span>'
-                        + '<button type="button" class="mw-qs-item__act" data-act="up" title="' + esc(lang('Move up')) + '"' + (i === 0 ? ' disabled' : '') + '>↑</button>'
-                        + '<button type="button" class="mw-qs-item__act" data-act="down" title="' + esc(lang('Move down')) + '"' + (i === _items.length - 1 ? ' disabled' : '') + '>↓</button>'
                         + '<button type="button" class="mw-qs-item__act is-danger" data-act="del" title="' + esc(lang('Remove')) + '">✕</button>'
                         + '</div></div>'
                         + '<div class="mw-qs-item__body" style="display:none">' + body + '</div></div>';
@@ -846,11 +870,18 @@
                 bindItems();
             };
 
-            var moveItem = function (id, dir) {
-                var ids = _items.map(function (x) { return String(x.id); });
-                var idx = ids.indexOf(String(id)), to = idx + dir;
-                if (idx < 0 || to < 0 || to >= ids.length) { return; }
-                var m = _items.splice(idx, 1)[0]; _items.splice(to, 0, m); renderItems();
+            var clearDropHints = function () {
+                itemsBox.querySelectorAll('.mw-qs-item').forEach(function (r) { r.classList.remove('mw-qs-item--dragging', 'mw-qs-item--over-top', 'mw-qs-item--over-bot'); });
+            };
+            var dropReorder = function (dragId, targetId, before) {
+                if (dragId == null || String(dragId) === String(targetId)) { return; }
+                var moved = _items.filter(function (x) { return String(x.id) === String(dragId); })[0];
+                if (!moved) { return; }
+                _items = _items.filter(function (x) { return String(x.id) !== String(dragId); });
+                var tIdx = _items.map(function (x) { return String(x.id); }).indexOf(String(targetId));
+                if (tIdx < 0) { tIdx = _items.length - 1; }
+                _items.splice(before ? tIdx : tIdx + 1, 0, moved);
+                renderItems();
                 qsHttp('POST', 'api/menu/item/reorder', { ids: _items.map(function (x) { return x.id; }) }).then(reloadCanvas);
             };
 
@@ -861,6 +892,29 @@
                         var open = !row.classList.contains('open');
                         itemsBox.querySelectorAll('.mw-qs-item').forEach(function (r) { r.classList.remove('open'); r.querySelector('.mw-qs-item__body').style.display = 'none'; });
                         if (open) { row.classList.add('open'); row.querySelector('.mw-qs-item__body').style.display = ''; }
+                    });
+                    // Drag-to-reorder via the left handle.
+                    var handle = row.querySelector('.mw-qs-item__drag');
+                    handle.addEventListener('dragstart', function (e) {
+                        _dragId = id; row.classList.add('mw-qs-item--dragging');
+                        try { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', id); } catch (_) {}
+                    });
+                    handle.addEventListener('dragend', function () { _dragId = null; clearDropHints(); });
+                    row.addEventListener('dragover', function (e) {
+                        if (_dragId == null) { return; }
+                        e.preventDefault();
+                        try { e.dataTransfer.dropEffect = 'move'; } catch (_) {}
+                        var rect = row.getBoundingClientRect(); var before = (e.clientY - rect.top) < rect.height / 2;
+                        row.classList.toggle('mw-qs-item--over-top', before);
+                        row.classList.toggle('mw-qs-item--over-bot', !before);
+                    });
+                    row.addEventListener('dragleave', function () { row.classList.remove('mw-qs-item--over-top', 'mw-qs-item--over-bot'); });
+                    row.addEventListener('drop', function (e) {
+                        if (_dragId == null) { return; }
+                        e.preventDefault();
+                        var rect = row.getBoundingClientRect(); var before = (e.clientY - rect.top) < rect.height / 2;
+                        var dId = _dragId; _dragId = null; clearDropHints();
+                        dropReorder(dId, id, before);
                     });
                     row.querySelectorAll('[data-field]').forEach(function (inp) {
                         inp.addEventListener('change', function () {
@@ -879,8 +933,6 @@
                     row.querySelector('[data-act="del"]').addEventListener('click', function () {
                         qsHttp('POST', 'api/menu/item/delete/' + id).then(function () { loadItems(); reloadCanvas(); });
                     });
-                    row.querySelector('[data-act="up"]').addEventListener('click', function () { moveItem(id, -1); });
-                    row.querySelector('[data-act="down"]').addEventListener('click', function () { moveItem(id, 1); });
                 });
             };
 
@@ -891,12 +943,51 @@
                     .catch(function () { itemsBox.innerHTML = '<div class="mw-qs-items__empty">' + esc(lang('Could not load items')) + '</div>'; });
             };
 
-            if (addBtn) {
-                addBtn.addEventListener('click', function () {
-                    if (!currentMenuId) { return; }
-                    qsHttp('POST', 'api/menu/item/save', { menu_id: currentMenuId, title: lang('New item'), url: '#' }).then(function () { loadItems(); reloadCanvas(); });
+            // ── "Add menu item" popup: pick a page/category from the site tree,
+            //    or add a custom link. Adds via api/menu/item/save then reloads.
+            var closeAddPop = function () {
+                // Remove by selector (not just the _addPop ref) so a leftover popup
+                // from an earlier open can never linger as a duplicate.
+                try { topDoc().querySelectorAll('.mw-qs-add-pop').forEach(function (x) { x.remove(); }); } catch (e) {}
+                _addPop = null;
+                _closeOnOutside = (config.closeOnOutsideClick !== false);
+            };
+            var openAddPop = function () {
+                if (!currentMenuId) { return; }
+                closeAddPop();
+                _closeOnOutside = false; // keep the panel open while the popup is up
+                var doc = topDoc();
+                var pop = doc.createElement('div');
+                pop.className = 'mw-qs-add-pop';
+                pop.innerHTML = '<div class="mw-qs-add-pop__head"><span>' + esc(lang('Add menu item')) + '</span>'
+                    + '<button type="button" class="mw-qs-panel__ico" data-x title="' + esc(lang('Close')) + '">✕</button></div>'
+                    + '<button type="button" class="mw-qs-add mw-qs-add-pop__link" data-link>+ ' + esc(lang('Custom link')) + '</button>'
+                    + '<div class="mw-qs-add-pop__tree" id="mw-qs-menu-add-tree"><div class="mw-qs-items__empty">' + esc(lang('Loading…')) + '</div></div>';
+                doc.body.appendChild(pop);
+                _addPop = pop;
+                var win = doc.defaultView || window, pr = _el.getBoundingClientRect();
+                var pw = 300, ph = Math.min(430, win.innerHeight - 24);
+                pop.style.width = pw + 'px';
+                pop.style.left = Math.round(Math.min(Math.max(8, pr.left), win.innerWidth - pw - 8)) + 'px';
+                pop.style.top = Math.round(Math.min(Math.max(8, pr.top), win.innerHeight - ph - 8)) + 'px';
+                pop.querySelector('[data-x]').addEventListener('click', closeAddPop);
+                pop.querySelector('[data-link]').addEventListener('click', function () {
+                    qsHttp('POST', 'api/menu/item/save', { menu_id: currentMenuId, title: lang('New link'), url: '#' })
+                        .then(function () { closeAddPop(); loadItems(); reloadCanvas(); });
                 });
-            }
+                try {
+                    mw.widget.tree('#mw-qs-menu-add-tree', { options: { selectable: true, singleSelect: true } }).then(function (tree) {
+                        tree.tree.on('selectionChange', function () {
+                            var sel = (tree.tree.getSelected() || [])[0];
+                            if (!sel) { return; }
+                            var payload = { menu_id: currentMenuId };
+                            if (sel.type === 'category') { payload.categories_id = sel.id; } else { payload.content_id = sel.id; }
+                            qsHttp('POST', 'api/menu/item/save', payload).then(function () { closeAddPop(); loadItems(); reloadCanvas(); });
+                        });
+                    });
+                } catch (e) {}
+            };
+            if (addBtn) { addBtn.addEventListener('click', openAddPop); }
             if (selectEl) {
                 selectEl.addEventListener('change', function () {
                     saveOption(el, selectEl.dataset.key || 'menu_name', selectEl.value);
