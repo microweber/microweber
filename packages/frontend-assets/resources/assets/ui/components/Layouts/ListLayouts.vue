@@ -25,7 +25,7 @@
              role="dialog"
              aria-modal="true"
              aria-labelledby="mw-le-layouts-dialog-title"
-             :class="['mw-le-dialog-block mw-le-layouts-dialog w-100 active', pickerSkin === 'add-content' ? 'mw-le-dialog--addcontent' : '', pickerSkin === 'create-page' ? 'mw-le-dialog--createpage' : '']"
+             :class="['mw-le-dialog-block mw-le-layouts-dialog w-100 active', pickerSkin === 'add-content' ? 'mw-le-dialog--addcontent' : '', pickerSkin === 'create-page' ? 'mw-le-dialog--createpage' : '', pickerSkin === 'edit-content' ? 'mw-le-dialog--editcontent' : '']"
              style="inset:20px; transform:none; animation-duration: .3s; z-index: 1000;"
         >
 
@@ -869,6 +869,121 @@
                 </aside>
             </div>
 
+            <!-- ── edit-content skin (Page settings) ───────────────────────── -->
+            <div v-if="pickerSkin === 'edit-content'" class="mw-le-ec">
+                <div class="mw-le-ec-head">
+                    <span class="mw-le-ec-badge">{{ ecBadge }}</span>
+                    <span class="mw-le-ec-head-label">{{ ecTypeLabel }} {{ $lang('settings') }}</span>
+                    <span class="mw-le-ec-status" :class="{ 'is-draft': !ecPublished }">
+                        <span class="mw-le-ec-status-dot"></span>{{ ecPublished ? $lang('Published') : $lang('Draft') }}
+                    </span>
+                </div>
+
+                <div v-if="ecLoading" class="mw-le-ec-loading">{{ $lang('Loading') }}…</div>
+                <template v-else>
+                    <input type="text" class="mw-le-ec-title" v-model="ecTitle" @input="ecTouch('title')"
+                           :placeholder="$lang('Untitled')">
+
+                    <div class="mw-le-ec-url">
+                        <span class="mw-le-ec-url-host">{{ ecHost }}/</span>
+                        <template v-if="!ecSlugEditing">
+                            <span class="mw-le-ec-url-slug">{{ ecSlug }}</span>
+                            <button type="button" class="mw-le-ec-link" @click="ecSlugEditing = true">{{ $lang('Edit') }}</button>
+                        </template>
+                        <input v-else type="text" class="mw-le-ec-url-input" v-model="ecSlug"
+                               @input="ecTouch('url')" @blur="ecSlugEditing = false" @keydown.enter.prevent="ecSlugEditing = false">
+                        <button type="button" class="mw-le-ec-open" @click="ecOpenPage()">{{ $lang('Open page') }} ↗</button>
+                    </div>
+
+                    <!-- Design -->
+                    <div class="mw-le-ec-row">
+                        <span class="mw-le-ec-thumb mw-le-ec-thumb--design"></span>
+                        <div class="mw-le-ec-row-main">
+                            <div class="mw-le-ec-row-title">{{ $lang('Design') }}</div>
+                            <div class="mw-le-ec-row-sub">{{ ecDesign.template }} · {{ ecDesign.layout }}</div>
+                        </div>
+                        <button type="button" class="mw-le-ec-btn" @click="ecOpenAdvanced()">{{ $lang('Change') }}</button>
+                    </div>
+
+                    <!-- Visibility -->
+                    <div class="mw-le-ec-row">
+                        <div class="mw-le-ec-row-main">
+                            <div class="mw-le-ec-row-title">{{ $lang('Visibility') }}</div>
+                            <div class="mw-le-ec-row-sub">
+                                <template v-if="ecPublished">{{ $lang('Live since') }} {{ ecLiveDate || '—' }}</template>
+                                <template v-else>{{ $lang('Not published yet') }}</template>
+                            </div>
+                        </div>
+                        <div class="mw-le-ec-seg">
+                            <button type="button" :class="{ active: ecPublished }" @click="ecSetPublished(true)">{{ $lang('Published') }}</button>
+                            <button type="button" :class="{ active: !ecPublished }" @click="ecSetPublished(false)">{{ $lang('Draft') }}</button>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="mw-le-ec-row">
+                        <div class="mw-le-ec-row-main">
+                            <div class="mw-le-ec-row-title">{{ $lang('Location') }}</div>
+                            <div class="mw-le-ec-row-sub">{{ ecBreadcrumbText }}<span v-if="ecIsHome" class="mw-le-ec-muted"> ({{ $lang('is homepage') }})</span></div>
+                        </div>
+                        <button type="button" class="mw-le-ec-btn" @click="ecOpenAdvanced()">{{ $lang('Move') }}</button>
+                    </div>
+
+                    <!-- Show in main menu -->
+                    <div class="mw-le-ec-row">
+                        <div class="mw-le-ec-row-main">
+                            <div class="mw-le-ec-row-title">{{ $lang('Show in main menu') }}</div>
+                            <div class="mw-le-ec-row-sub">
+                                <template v-if="ecInMenu">{{ $lang('Appears as') }} “{{ ecMenuLabel || ecTitle }}”<template v-if="ecMenuPosition">, {{ $lang('position') }} {{ ecMenuPosition }}</template></template>
+                                <template v-else>{{ $lang('Not in the menu') }}</template>
+                            </div>
+                        </div>
+                        <span class="mw-le-cp-toggle" :class="{ 'is-on': ecInMenu }" @click="ecToggleMenu()"><span class="mw-le-cp-toggle-knob"></span></span>
+                    </div>
+
+                    <!-- Cover image -->
+                    <div class="mw-le-ec-row">
+                        <span class="mw-le-ec-thumb" :class="{ 'mw-le-ec-thumb--empty': !ecCover }">
+                            <img v-if="ecCover" :src="ecCover.url" alt="">
+                        </span>
+                        <div class="mw-le-ec-row-main">
+                            <div class="mw-le-ec-row-title">{{ $lang('Cover image') }}</div>
+                            <div class="mw-le-ec-row-sub">
+                                <template v-if="ecCover">{{ ecCover.name }} · {{ $lang('used for sharing previews') }}</template>
+                                <template v-else>{{ $lang('No cover image') }}</template>
+                            </div>
+                        </div>
+                        <button type="button" class="mw-le-ec-btn" @click="ecReplaceCover()">{{ ecCover ? $lang('Replace') : $lang('Add') }}</button>
+                    </div>
+
+                    <!-- Search & sharing -->
+                    <div class="mw-le-ec-row mw-le-ec-row--top">
+                        <div class="mw-le-ec-row-main">
+                            <div class="mw-le-ec-row-title">{{ $lang('Search & sharing') }}</div>
+                            <div v-if="!ecSeoEditing" class="mw-le-ec-row-sub">
+                                <template v-if="ecMetaDescription">“{{ ecMetaTrunc }}”</template>
+                                <template v-else>{{ $lang('No description yet') }}</template>
+                            </div>
+                            <textarea v-else class="mw-le-ec-seo" v-model="ecMetaDescription" @input="ecTouch('meta')" rows="2"
+                                      :placeholder="$lang('A short summary for search engines and social shares.')"></textarea>
+                        </div>
+                        <button type="button" class="mw-le-ec-btn" @click="ecSeoEditing = !ecSeoEditing">{{ ecSeoEditing ? $lang('Done') : $lang('Edit') }}</button>
+                    </div>
+
+                    <p class="mw-le-ec-error" v-show="ecError">{{ ecError }}</p>
+
+                    <div class="mw-le-ec-foot">
+                        <button type="button" class="mw-le-ec-delete" @click="ecDelete()">{{ $lang('Delete') }} {{ ecTypeLabel.toLowerCase() }}</button>
+                        <span class="mw-le-ec-foot-spacer"></span>
+                        <span v-if="ecDirtyCount" class="mw-le-ec-dirty">{{ ecDirtyCount }} {{ ecDirtyCount > 1 ? $lang('unsaved changes') : $lang('unsaved change') }}</span>
+                        <button type="button" class="mw-le-ec-cancel" @click="showModal = false">{{ $lang('Cancel') }}</button>
+                        <button type="button" class="mw-le-ec-save" :disabled="ecSaving || !ecDirtyCount" @click="ecSave()">
+                            {{ ecSaving ? $lang('Saving') + '…' : $lang('Save') }}
+                        </button>
+                    </div>
+                </template>
+            </div>
+
         </div>
     </Transition>
 
@@ -1247,6 +1362,91 @@
     --ac-surface: #f4f4f2; --ac-accent: #4f63e8;
     display: flex; min-height: 420px; max-height: 92vh; color: var(--ac-ink); text-align: left;
 }
+
+/* ── edit-content (Page settings) skin ─────────────────────────────────────── */
+.mw-le-layouts-dialog.mw-le-dialog--editcontent {
+    inset: auto !important;
+    left: 50% !important; top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: min(680px, 96vw) !important;
+    max-width: 680px !important;
+    height: auto !important;
+    max-height: 92vh !important;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(24, 36, 51, .28);
+}
+.mw-le-ec {
+    --ac-ink: #182433; --ac-muted: #77776f; --ac-hairline: #ececE8;
+    --ac-surface: #f6f6f4; --ac-accent: #4f63e8; --ac-danger: #c02a2a;
+    color: var(--ac-ink); text-align: left; padding: 22px 26px 18px;
+    max-height: 92vh; overflow-y: auto; display: flex; flex-direction: column;
+}
+.mw-le-ec-head { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; }
+.mw-le-ec-badge {
+    width: 24px; height: 24px; border-radius: 7px; background: #eef0fb; color: #4f63e8;
+    font-size: 10.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center;
+}
+.mw-le-ec-head-label { font-size: 13.5px; font-weight: 600; }
+.mw-le-ec-status { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--ac-muted); margin-left: 2px; }
+.mw-le-ec-status::before { content: '·'; margin-right: 3px; color: #c9ccd2; }
+.mw-le-ec-status-dot { width: 7px; height: 7px; border-radius: 50%; background: #2fb46b; }
+.mw-le-ec-status.is-draft .mw-le-ec-status-dot { background: #c9a23b; }
+.mw-le-ec-loading { padding: 40px 0; text-align: center; color: var(--ac-muted); }
+.mw-le-ec-title {
+    width: 100%; border: 0; outline: none; background: transparent; color: var(--ac-ink);
+    font-size: 26px; font-weight: 700; letter-spacing: -.01em; padding: 2px 0 6px; margin: 0;
+}
+.mw-le-ec-title::placeholder { color: #c3c6cc; }
+.mw-le-ec-url { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ac-muted); padding-bottom: 16px; border-bottom: 1px solid var(--ac-hairline); flex-wrap: wrap; }
+.mw-le-ec-url-host { color: var(--ac-muted); }
+.mw-le-ec-url-slug { color: var(--ac-ink); font-weight: 500; }
+.mw-le-ec-url-input { border: 1px solid var(--ac-hairline); border-radius: 7px; padding: 4px 8px; font: inherit; font-size: 13px; color: var(--ac-ink); min-width: 140px; }
+.mw-le-ec-link { border: 0; background: transparent; color: var(--ac-accent); cursor: pointer; font: inherit; font-size: 13px; font-weight: 500; padding: 0; }
+.mw-le-ec-open { margin-left: auto; border: 0; background: transparent; color: var(--ac-ink); cursor: pointer; font: inherit; font-size: 13px; font-weight: 500; }
+.mw-le-ec-open:hover { color: var(--ac-accent); }
+.mw-le-ec-row { display: flex; align-items: center; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--ac-hairline); }
+.mw-le-ec-row--top { align-items: flex-start; }
+.mw-le-ec-row-main { flex: 1 1 auto; min-width: 0; }
+.mw-le-ec-row-title { font-size: 14px; font-weight: 600; }
+.mw-le-ec-row-sub { font-size: 12.5px; color: var(--ac-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; }
+.mw-le-ec-muted { color: #a7abb3; }
+.mw-le-ec-thumb {
+    flex: 0 0 auto; width: 54px; height: 40px; border-radius: 8px; overflow: hidden; background: var(--ac-surface);
+    border: 1px solid var(--ac-hairline); display: inline-flex; align-items: center; justify-content: center;
+}
+.mw-le-ec-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mw-le-ec-thumb--design { background: linear-gradient(135deg, #eef0fb 0%, #e3e6f6 100%); position: relative; }
+.mw-le-ec-thumb--design::after { content: ''; position: absolute; left: 8px; right: 8px; top: 9px; height: 5px; border-radius: 3px; background: #c7cdf0; box-shadow: 0 9px 0 #d7dbf3; }
+.mw-le-ec-thumb--empty { background: repeating-linear-gradient(45deg, #f2f2ef, #f2f2ef 6px, #ededea 6px, #ededea 12px); }
+.mw-le-ec-btn {
+    flex: 0 0 auto; border: 1px solid var(--ac-hairline); border-radius: 9px; background: #fff; color: var(--ac-ink);
+    cursor: pointer; font: inherit; font-size: 13px; font-weight: 500; padding: 7px 14px;
+}
+.mw-le-ec-btn:hover { border-color: #cfd2d8; background: #fafafa; }
+.mw-le-ec-seg { flex: 0 0 auto; display: inline-flex; background: var(--ac-surface); border-radius: 9px; padding: 3px; }
+.mw-le-ec-seg button {
+    border: 0; background: transparent; color: var(--ac-muted); cursor: pointer; font: inherit; font-size: 12.5px;
+    font-weight: 500; padding: 6px 12px; border-radius: 7px;
+}
+.mw-le-ec-seg button.active { background: #fff; color: var(--ac-ink); box-shadow: 0 1px 3px rgba(24, 36, 51, .12); }
+.mw-le-ec-seg button.active:first-child { color: #1c7a44; }
+.mw-le-ec-seo { width: 100%; border: 1px solid var(--ac-hairline); border-radius: 9px; padding: 8px 10px; font: inherit; font-size: 13px; resize: vertical; margin-top: 4px; }
+.mw-le-ec-error { color: var(--ac-danger); font-size: 12.5px; margin: 10px 0 0; }
+.mw-le-ec-foot { display: flex; align-items: center; gap: 12px; padding-top: 16px; margin-top: 4px; }
+.mw-le-ec-foot-spacer { flex: 1 1 auto; }
+.mw-le-ec-delete { border: 0; background: transparent; color: var(--ac-danger); cursor: pointer; font: inherit; font-size: 13px; font-weight: 500; padding: 0; }
+.mw-le-ec-dirty { font-size: 12.5px; color: var(--ac-muted); }
+.mw-le-ec-cancel { border: 0; background: transparent; color: var(--ac-ink); cursor: pointer; font: inherit; font-size: 13.5px; font-weight: 500; padding: 8px 12px; }
+.mw-le-ec-save {
+    border: 0; border-radius: 10px; background: var(--ac-ink); color: #fff; cursor: pointer; font: inherit;
+    font-size: 13.5px; font-weight: 600; padding: 9px 22px;
+}
+.mw-le-ec-save:hover { background: #0f1722; }
+.mw-le-ec-save:disabled { opacity: .5; cursor: default; }
+html.dark .mw-le-dialog--editcontent { background: #1b1e22; }
+html.dark .mw-le-ec { --ac-ink: #e8eaed; --ac-hairline: #2c3138; --ac-surface: #22262c; color: #e8eaed; }
+html.dark .mw-le-ec-btn, html.dark .mw-le-ec-seg button.active { background: #22262c; }
 .mw-le-cp-form { flex: 1 1 auto; padding: 26px 28px; overflow-y: auto; min-width: 0; }
 .mw-le-cp-preview {
     flex: 0 0 260px; max-width: 260px; background: #fbfbfa;
@@ -1467,6 +1667,148 @@ export default {
             } catch (e) { /* picker unavailable */ }
         },
         niRemoveImage() { this.niImage = ''; },
+
+        // ── edit-content (Page settings) ──────────────────────────────────────
+        _qsHttp(method, path, body) {
+            const base = mw.settings.site_url;
+            const token = (document.querySelector('meta[name="csrf-token"]') || {}).content || (mw.settings && mw.settings.csrf) || '';
+            const headers = { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-TOKEN': token };
+            if (body) { headers['Content-Type'] = 'application/json'; }
+            return fetch(base + path, { method, headers, credentials: 'include', body: body ? JSON.stringify(body) : undefined });
+        },
+        openEditContentSkin(id) {
+            this.pickerSkin = 'edit-content';
+            this.showModal = true;
+            this.ecId = id || null;
+            this.ecError = '';
+            this.ecDirty = {};
+            this.ecSeoEditing = false;
+            this.ecSlugEditing = false;
+            this.ecLoad();
+        },
+        async ecLoad() {
+            if (!this.ecId) { return; }
+            this.ecLoading = true;
+            try {
+                const r = await this._qsHttp('GET', 'api/live-edit/content-settings?id=' + encodeURIComponent(this.ecId));
+                const d = await r.json();
+                if (!r.ok || !d.success) { this.ecError = this.$lang('Could not load the page settings.'); return; }
+                this.ecTitle = d.title || '';
+                this.ecSlug = d.url || '';
+                this.ecContentType = d.content_type || 'page';
+                this.ecPublished = !!d.is_active;
+                this.ecIsHome = !!d.is_home;
+                this.ecDesign = d.design || { template: '', layout: '' };
+                this.ecLiveDate = d.live_date || '';
+                this.ecBreadcrumb = d.breadcrumb || [];
+                this.ecInMenu = !!d.in_menu;
+                this.ecMenuPosition = d.menu_position || null;
+                this.ecMenuLabel = d.menu_label || '';
+                this.ecCover = d.cover || null;
+                this.ecMetaDescription = d.meta_description || '';
+                this.ecOpenUrl = d.open_url || '';
+                this.ecEditUrl = d.edit_url || '';
+                this.ecDirty = {};
+            } catch (e) {
+                this.ecError = this.$lang('Could not load the page settings.');
+            } finally {
+                this.ecLoading = false;
+            }
+        },
+        ecTouch(key) { this.ecDirty = Object.assign({}, this.ecDirty, { [key]: true }); },
+        ecSetPublished(v) { if (this.ecPublished !== v) { this.ecPublished = v; this.ecTouch('is_active'); } },
+        ecToggleMenu() { this.ecInMenu = !this.ecInMenu; this.ecTouch('menu'); },
+        ecReplaceCover() {
+            try {
+                mw.filePickerDialog({ pickerOptions: { multiple: false } }, (url) => {
+                    if (Array.isArray(url)) { url = url[0]; }
+                    if (url) {
+                        this.ecCover = { url: url, name: String(url).split('/').pop() };
+                        this.ecTouch('cover');
+                    }
+                });
+            } catch (e) { /* picker unavailable */ }
+        },
+        ecOpenPage() {
+            const base = mw.settings.site_url;
+            let link = this.ecOpenUrl || this.ecSlug;
+            if (link && !/^https?:\/\//i.test(link)) { link = base + String(link).replace(/^\/+/, ''); }
+            window.location.href = base + 'admin/live-edit?url=' + encodeURIComponent(link);
+        },
+        ecOpenAdvanced() {
+            if (this.ecEditUrl) { window.open(this.ecEditUrl, '_blank'); }
+        },
+        async ecDelete() {
+            if (!this.ecId) { return; }
+            const label = (this.ecTypeLabel || 'page').toLowerCase();
+            const ok = window.confirm(this.$lang('Delete this ' + label + '? This cannot be undone.'));
+            if (!ok) { return; }
+            try {
+                await this._qsHttp('POST', 'api/save_content', { id: this.ecId, is_deleted: 1 });
+                this.showModal = false;
+                window.location.href = mw.settings.site_url + 'admin/live-edit';
+            } catch (e) { this.ecError = this.$lang('Could not delete.'); }
+        },
+        async ecResolveMenuId() {
+            if (this.ecMenuId) { return this.ecMenuId; }
+            try {
+                const r = await this._qsHttp('GET', 'api/module/menus');
+                const d = await r.json();
+                const items = (d && d.data) ? d.data : (Array.isArray(d) ? d : []);
+                const menus = items.filter((m) => m && m.item_type === 'menu');
+                const header = menus.find((m) => m.title === 'header_menu') || menus[0];
+                this.ecMenuId = header ? header.id : null;
+            } catch (e) { this.ecMenuId = null; }
+            return this.ecMenuId;
+        },
+        async ecSave() {
+            if (!this.ecId || this.ecSaving) { return; }
+            this.ecSaving = true;
+            this.ecError = '';
+            try {
+                // Core fields via the classic session-authed save.
+                const payload = {
+                    id: this.ecId,
+                    title: (this.ecTitle || '').trim() || 'Untitled',
+                    url: (this.ecSlug || '').trim(),
+                    is_active: this.ecPublished ? 1 : 0,
+                    is_deleted: 0,
+                };
+                if (this.ecDirty.meta) { payload.content_meta_description = this.ecMetaDescription; }
+                // Menu add/remove.
+                if (this.ecDirty.menu && this.ecInMenu) {
+                    const mid = await this.ecResolveMenuId();
+                    if (mid) { payload.add_content_to_menu = [mid]; }
+                }
+                await this._qsHttp('POST', 'api/save_content', payload);
+
+                // Menu removal (save_content only adds).
+                if (this.ecDirty.menu && !this.ecInMenu) {
+                    try {
+                        const r = await this._qsHttp('GET', 'api/module/menus?parent_id=');
+                        // find this content's menu item(s) and delete them
+                        const list = await (await this._qsHttp('GET', 'api/menu/items?menu_id=' + (await this.ecResolveMenuId()))).json();
+                        const mine = (list.items || []).filter((x) => String(x.content_id) === String(this.ecId));
+                        for (const it of mine) { await this._qsHttp('POST', 'api/menu/item/delete/' + it.id); }
+                    } catch (e) { /* best-effort */ }
+                }
+
+                // Cover image attach.
+                if (this.ecDirty.cover && this.ecCover && this.ecCover.url) {
+                    await this._qsHttp('POST', 'api/save_media', { filename: this.ecCover.url, rel_type: 'content', rel_id: this.ecId, media_type: 'picture' });
+                }
+
+                this.ecDirty = {};
+                // Refresh the canvas to reflect the change, then close.
+                try { mw.app.canvas.reload(); } catch (e) {}
+                this.showModal = false;
+            } catch (e) {
+                this.ecError = this.$lang('Could not save changes.');
+            } finally {
+                this.ecSaving = false;
+            }
+        },
+
         async niAttachImage(contentId) {
             if (!this.niImage || !contentId) { return; }
             try {
@@ -2357,6 +2699,13 @@ export default {
             instance.openCreatePageSkin();
         });
 
+        // task-2026-09-22 — open the redesigned "Page settings" (edit content)
+        // dialog for a specific content id (passed from the toolbar page chip).
+        window.addEventListener('openEditContentDialog', function (e) {
+            var id = (e && e.detail && e.detail.contentId) ? e.detail.contentId : null;
+            if (id) { instance.openEditContentSkin(parseInt(id, 10)); }
+        });
+
         // Close the create-page Parent dropdown on an outside click (Vue has no
         // @click.outside). mousedown fires before the trigger's @click, and the
         // trigger/menu live inside .mw-le-cp-parentpick so clicking them is not
@@ -2454,6 +2803,35 @@ export default {
         addContentActiveType() {
             return this.addContentTypes.find((t) => t.key === this.addContentSelectedType) || null;
         },
+        // ── edit-content computeds ────────────────────────────────────────────
+        ecTypeLabel() {
+            const map = { page: 'Page', post: 'Post', product: 'Product' };
+            return this.$lang(map[this.ecContentType] || 'Page');
+        },
+        ecBadge() {
+            const map = { page: 'Pg', post: 'Po', product: 'Pr' };
+            return map[this.ecContentType] || 'Pg';
+        },
+        ecHost() {
+            try {
+                const u = new URL(mw.settings.site_url);
+                return u.host;
+            } catch (e) { return 'mysite.com'; }
+        },
+        ecBreadcrumbText() {
+            const parts = [this.$lang('Site root')].concat((this.ecBreadcrumb || []).map((c) => c.title));
+            if (!this.ecBreadcrumb || !this.ecBreadcrumb.length) {
+                parts.push(this.ecTitle || this.$lang('Untitled'));
+            }
+            return parts.join(' › ');
+        },
+        ecMetaTrunc() {
+            const s = (this.ecMetaDescription || '').trim();
+            return s.length > 90 ? (s.slice(0, 90) + '…') : s;
+        },
+        ecDirtyCount() {
+            return Object.keys(this.ecDirty || {}).length;
+        },
     },
     data() {
         return {
@@ -2511,6 +2889,31 @@ export default {
             catDescription: '',
             catRelId: 0,
             catParentId: 0,
+
+            // ── edit-content (Page settings) skin ─────────────────────────────
+            ecId: null,
+            ecLoading: false,
+            ecSaving: false,
+            ecError: '',
+            ecTitle: '',
+            ecSlug: '',
+            ecSlugEditing: false,
+            ecContentType: 'page',
+            ecPublished: true,
+            ecIsHome: false,
+            ecDesign: { template: '', layout: '' },
+            ecLiveDate: '',
+            ecBreadcrumb: [],
+            ecInMenu: false,
+            ecMenuPosition: null,
+            ecMenuLabel: '',
+            ecCover: null,
+            ecMetaDescription: '',
+            ecSeoEditing: false,
+            ecOpenUrl: '',
+            ecEditUrl: '',
+            ecDirty: {},
+            ecMenuId: null,
 
             // ── create-page dialog (two-pane form + preview) ──────────────────
             cpTitle: '',

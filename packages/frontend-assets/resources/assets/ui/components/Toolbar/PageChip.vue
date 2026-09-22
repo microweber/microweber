@@ -381,7 +381,8 @@ export default {
                 if (d && d.content && d.content.id) { contentId = d.content.id; }
             } catch (_) { /* canvas not ready */ }
             try {
-                window.dispatchEvent(new CustomEvent('liveEditEditCurrentContent', { detail: { contentId } }));
+                // Redesigned "Page settings" dialog (Vue, ListLayouts skin).
+                window.dispatchEvent(new CustomEvent('openEditContentDialog', { detail: { contentId } }));
             } catch (_) { /* bridge not present */ }
         },
 
