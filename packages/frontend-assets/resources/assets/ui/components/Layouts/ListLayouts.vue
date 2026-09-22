@@ -902,7 +902,21 @@
                             <div class="mw-le-ec-row-title">{{ $lang('Design') }}</div>
                             <div class="mw-le-ec-row-sub">{{ ecDesign.template }} · {{ ecDesign.layout }}</div>
                         </div>
-                        <button type="button" class="mw-le-ec-btn" @click="ecOpenAdvanced()">{{ $lang('Change') }}</button>
+                        <button type="button" class="mw-le-ec-btn" :class="{ 'is-on': ecDesignOpen }" @click="ecDesignOpen = !ecDesignOpen">{{ ecDesignOpen ? $lang('Done') : $lang('Change') }}</button>
+                    </div>
+                    <div v-if="ecDesignOpen" class="mw-le-ec-expand">
+                        <label class="mw-le-ec-field">
+                            <span class="mw-le-ec-field-label">{{ $lang('Template') }}</span>
+                            <select class="mw-le-ec-select" v-model="ecTemplateKey" @change="ecOnTemplateChange()">
+                                <option v-for="t in ecTemplates" :key="t.dir" :value="t.dir">{{ t.name }}</option>
+                            </select>
+                        </label>
+                        <label class="mw-le-ec-field">
+                            <span class="mw-le-ec-field-label">{{ $lang('Layout') }}</span>
+                            <select class="mw-le-ec-select" v-model="ecLayoutKey" @change="ecTouch('design')">
+                                <option v-for="l in ecLayouts" :key="l.file" :value="l.file">{{ l.name }}</option>
+                            </select>
+                        </label>
                     </div>
 
                     <!-- Visibility -->
@@ -926,7 +940,16 @@
                             <div class="mw-le-ec-row-title">{{ $lang('Location') }}</div>
                             <div class="mw-le-ec-row-sub">{{ ecBreadcrumbText }}<span v-if="ecIsHome" class="mw-le-ec-muted"> ({{ $lang('is homepage') }})</span></div>
                         </div>
-                        <button type="button" class="mw-le-ec-btn" @click="ecOpenAdvanced()">{{ $lang('Move') }}</button>
+                        <button type="button" class="mw-le-ec-btn" :class="{ 'is-on': ecMoveOpen }" @click="ecToggleMove()">{{ ecMoveOpen ? $lang('Done') : $lang('Move') }}</button>
+                    </div>
+                    <div v-if="ecMoveOpen" class="mw-le-ec-expand">
+                        <label class="mw-le-ec-field">
+                            <span class="mw-le-ec-field-label">{{ $lang('Parent page') }}</span>
+                            <select class="mw-le-ec-select" v-model="ecParentId" @change="ecTouch('parent')">
+                                <option :value="0">{{ $lang('Top level') }}</option>
+                                <option v-for="p in ecParentPages" :key="p.id" :value="p.id" :disabled="p.id === ecId">{{ p.title }}</option>
+                            </select>
+                        </label>
                     </div>
 
                     <!-- Show in main menu -->
@@ -1372,6 +1395,7 @@
     max-width: 680px !important;
     height: auto !important;
     max-height: 92vh !important;
+    background: #fff !important;
     border-radius: 18px;
     overflow: hidden;
     box-shadow: 0 30px 80px rgba(24, 36, 51, .28);
@@ -1424,6 +1448,17 @@
     cursor: pointer; font: inherit; font-size: 13px; font-weight: 500; padding: 7px 14px;
 }
 .mw-le-ec-btn:hover { border-color: #cfd2d8; background: #fafafa; }
+.mw-le-ec-btn.is-on { border-color: var(--ac-ink); background: var(--ac-ink); color: #fff; }
+/* inline expand panel (Change design / Move) */
+.mw-le-ec-expand { display: flex; gap: 12px; padding: 4px 0 16px; border-bottom: 1px solid var(--ac-hairline); }
+.mw-le-ec-field { flex: 1 1 0; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.mw-le-ec-field-label { font-size: 11.5px; font-weight: 600; color: var(--ac-muted); }
+.mw-le-ec-select {
+    width: 100%; min-height: 38px; padding: 8px 10px; border: 1px solid var(--ac-hairline);
+    border-radius: 9px; font: inherit; font-size: 13px; background: #fff; color: var(--ac-ink); cursor: pointer;
+}
+.mw-le-ec-select:focus { outline: none; border-color: #b9c2ff; box-shadow: 0 0 0 3px rgba(90, 110, 240, .15); }
+html.dark .mw-le-ec-select { background: #22262c; color: #e8eaed; border-color: #2c3138; }
 .mw-le-ec-seg { flex: 0 0 auto; display: inline-flex; background: var(--ac-surface); border-radius: 9px; padding: 3px; }
 .mw-le-ec-seg button {
     border: 0; background: transparent; color: var(--ac-muted); cursor: pointer; font: inherit; font-size: 12.5px;
@@ -1708,6 +1743,13 @@ export default {
                 this.ecMetaDescription = d.meta_description || '';
                 this.ecOpenUrl = d.open_url || '';
                 this.ecEditUrl = d.edit_url || '';
+                this.ecTemplateKey = d.template_key || '';
+                this.ecLayoutKey = d.layout_key || '';
+                this.ecTemplates = d.templates || [];
+                this.ecLayouts = d.layouts || [];
+                this.ecParentId = (d.breadcrumb && d.breadcrumb.length) ? d.breadcrumb[d.breadcrumb.length - 1].id : 0;
+                this.ecDesignOpen = false;
+                this.ecMoveOpen = false;
                 this.ecDirty = {};
             } catch (e) {
                 this.ecError = this.$lang('Could not load the page settings.');
@@ -1716,6 +1758,34 @@ export default {
             }
         },
         ecTouch(key) { this.ecDirty = Object.assign({}, this.ecDirty, { [key]: true }); },
+        async ecOnTemplateChange() {
+            this.ecTouch('design');
+            try {
+                const r = await this._qsHttp('GET', 'api/live-edit/template-layouts?template=' + encodeURIComponent(this.ecTemplateKey));
+                const d = await r.json();
+                this.ecLayouts = (d && d.layouts) || [];
+                // keep current layout if still available, else pick the first
+                if (!this.ecLayouts.some((l) => l.file === this.ecLayoutKey)) {
+                    this.ecLayoutKey = this.ecLayouts.length ? this.ecLayouts[0].file : '';
+                }
+            } catch (e) { /* keep existing */ }
+        },
+        ecToggleMove() {
+            this.ecMoveOpen = !this.ecMoveOpen;
+            if (this.ecMoveOpen && !this.ecParentLoaded) { this.ecLoadParentPages(); }
+        },
+        async ecLoadParentPages() {
+            try {
+                const r = await this._qsHttp('GET', 'api/content?content_type=page&limit=500&is_active=1');
+                const d = await r.json();
+                const items = (d && d.data) ? d.data : (Array.isArray(d) ? d : []);
+                this.ecParentPages = items
+                    .filter((x) => x && x.content_type === 'page' && x.title && x.id !== this.ecId)
+                    .map((x) => ({ id: x.id, title: x.title }))
+                    .sort((a, b) => String(a.title).localeCompare(String(b.title)));
+                this.ecParentLoaded = true;
+            } catch (e) { this.ecParentPages = []; }
+        },
         ecSetPublished(v) { if (this.ecPublished !== v) { this.ecPublished = v; this.ecTouch('is_active'); } },
         ecToggleMenu() { this.ecInMenu = !this.ecInMenu; this.ecTouch('menu'); },
         ecReplaceCover() {
@@ -1775,6 +1845,11 @@ export default {
                     is_deleted: 0,
                 };
                 if (this.ecDirty.meta) { payload.content_meta_description = this.ecMetaDescription; }
+                if (this.ecDirty.design) {
+                    payload.active_site_template = this.ecTemplateKey;
+                    payload.layout_file = this.ecLayoutKey;
+                }
+                if (this.ecDirty.parent) { payload.parent = this.ecParentId || 0; }
                 // Menu add/remove.
                 if (this.ecDirty.menu && this.ecInMenu) {
                     const mid = await this.ecResolveMenuId();
@@ -2914,6 +2989,16 @@ export default {
             ecEditUrl: '',
             ecDirty: {},
             ecMenuId: null,
+            // Change design (template + layout) + Move (parent)
+            ecTemplateKey: '',
+            ecLayoutKey: '',
+            ecTemplates: [],
+            ecLayouts: [],
+            ecDesignOpen: false,
+            ecMoveOpen: false,
+            ecParentId: 0,
+            ecParentPages: [],
+            ecParentLoaded: false,
 
             // ── create-page dialog (two-pane form + preview) ──────────────────
             cpTitle: '',

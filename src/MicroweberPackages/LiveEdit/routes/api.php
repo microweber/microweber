@@ -103,6 +103,25 @@ Route::name('api.live-edit.')
             $liveDate = null;
             try { if ($c->created_at) { $liveDate = $c->created_at->format('j M Y'); } } catch (\Throwable $e) {}
 
+            // Available templates + layouts (for the inline "Change design" picker).
+            $activeTpl = (string) ($c->active_site_template ?: (function_exists('template_name') ? template_name() : 'default'));
+            $templatesList = [];
+            if (function_exists('site_templates')) {
+                foreach ((array) site_templates() as $t) {
+                    if (!empty($t['dir_name'])) {
+                        $templatesList[] = ['dir' => $t['dir_name'], 'name' => $t['name'] ?? $t['dir_name']];
+                    }
+                }
+            }
+            $layoutsList = [];
+            try {
+                foreach ((array) app()->layouts_manager->get_all(['site_template' => $activeTpl, 'no_cache' => true, 'no_folder_sort' => true]) as $l) {
+                    if (!empty($l['layout_file'])) {
+                        $layoutsList[] = ['file' => $l['layout_file'], 'name' => $l['name'] ?? $l['layout_file']];
+                    }
+                }
+            } catch (\Throwable $e) {}
+
             return response()->json([
                 'success' => true,
                 'id' => $id,
@@ -112,6 +131,10 @@ Route::name('api.live-edit.')
                 'is_active' => (int) $c->is_active === 1,
                 'is_home' => $isHome,
                 'design' => ['template' => $templateName, 'layout' => $layoutName],
+                'template_key' => $activeTpl,
+                'layout_key' => $layoutFile,
+                'templates' => $templatesList,
+                'layouts' => $layoutsList,
                 'live_date' => $liveDate,
                 'breadcrumb' => $crumbs,
                 'in_menu' => $inMenu,
@@ -123,5 +146,22 @@ Route::name('api.live-edit.')
                 'edit_url' => function_exists('admin_url') ? admin_url('content/edit?id=' . $id) : '',
             ]);
         })->name('content-settings');
+
+        // Layouts available for a given site template (the "Change design" picker
+        // refreshes this when the template changes).
+        Route::get('template-layouts', function (\Illuminate\Http\Request $request) {
+            $tpl = (string) $request->get('template', '');
+            $out = [];
+            if ($tpl !== '') {
+                try {
+                    foreach ((array) app()->layouts_manager->get_all(['site_template' => $tpl, 'no_cache' => true, 'no_folder_sort' => true]) as $l) {
+                        if (!empty($l['layout_file'])) {
+                            $out[] = ['file' => $l['layout_file'], 'name' => $l['name'] ?? $l['layout_file']];
+                        }
+                    }
+                } catch (\Throwable $e) {}
+            }
+            return response()->json(['success' => true, 'layouts' => $out]);
+        })->name('template-layouts');
 
     });
