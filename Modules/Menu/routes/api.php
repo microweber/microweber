@@ -66,11 +66,7 @@ Route::name('api.menu.')
             if (!$menuId) {
                 return response()->json(['success' => true, 'items' => []]);
             }
-            $rows = \Modules\Menu\Models\Menu::where('parent_id', $menuId)
-                ->where('item_type', '!=', 'menu')
-                ->orderBy('position')->orderBy('id')->get();
-            $items = [];
-            foreach ($rows as $m) {
+            $shape = function ($m, $depth) {
                 $label = $m->title;
                 $type = 'Link';
                 if ($m->content_id) {
@@ -92,15 +88,35 @@ Route::name('api.menu.')
                     $type = 'Link';
                     if (!$label) { $label = $m->url; }
                 }
-                $items[] = [
+                return [
                     'id' => (int) $m->id,
                     'label' => $label ?: 'Item',
                     'type' => $type,
                     'url' => $m->url,
                     'content_id' => $m->content_id ? (int) $m->content_id : null,
+                    'parent_id' => (int) $m->parent_id,
+                    'depth' => $depth,
                     'position' => $m->position,
                 ];
-            }
+            };
+            // Walk the whole menu subtree depth-first so nested items (submenus)
+            // are returned too, each carrying its depth for indentation. Guarded
+            // against cycles by a visited set + a hard depth cap.
+            $items = [];
+            $seen = [];
+            $walk = function ($parentId, $depth) use (&$walk, &$items, &$seen, $shape) {
+                if ($depth > 6) { return; }
+                $rows = \Modules\Menu\Models\Menu::where('parent_id', $parentId)
+                    ->where('item_type', '!=', 'menu')
+                    ->orderBy('position')->orderBy('id')->get();
+                foreach ($rows as $m) {
+                    if (isset($seen[$m->id])) { continue; }
+                    $seen[$m->id] = true;
+                    $items[] = $shape($m, $depth);
+                    $walk($m->id, $depth + 1);
+                }
+            };
+            $walk($menuId, 0);
             return response()->json(['success' => true, 'items' => $items]);
         });
     });

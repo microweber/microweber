@@ -255,9 +255,17 @@
             '.mw-qs-add-pop{position:fixed;z-index:100062;background:#fff;color:#182433;border-radius:14px;box-shadow:0 12px 40px rgba(24,36,51,.28);padding:12px;}',
             'html.dark .mw-qs-add-pop{background:#1b1e22;color:#e8eaed;box-shadow:0 12px 40px rgba(0,0,0,.6);}',
             '.mw-qs-add-pop__head{display:flex;align-items:center;justify-content:space-between;font-weight:600;font-size:13px;margin-bottom:10px;}',
-            '.mw-qs-add-pop__link{width:100%;margin-bottom:10px;}',
-            '.mw-qs-add-pop__tree{max-height:320px;overflow:auto;border:1px solid #18243318;border-radius:9px;padding:6px;}',
-            'html.dark .mw-qs-add-pop__tree{border-color:#ffffff1f;}',
+            '.mw-qs-add-pop__link{width:100%;margin-bottom:8px;}',
+            '.mw-qs-add-pop__search{margin-bottom:8px;}',
+            '.mw-qs-add-pop__list{max-height:320px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:4px;padding:2px;}',
+            '.mw-qs-pick-row{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;border:1px solid #18243314;border-radius:8px;background:#18243305;color:inherit;cursor:pointer;font:inherit;font-size:12.5px;padding:8px 10px;}',
+            '.mw-qs-pick-row:hover{background:#1824330d;border-color:#18243230;}',
+            '.mw-qs-pick-row__t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}',
+            'html.dark .mw-qs-pick-row{background:#ffffff08;border-color:#ffffff1f;}',
+            'html.dark .mw-qs-pick-row:hover{background:#ffffff14;}',
+            // nested (submenu) rows: indented via inline margin + a hierarchy accent
+            '.mw-qs-item--nested{border-left:2px solid #18243326;}',
+            'html.dark .mw-qs-item--nested{border-left-color:#ffffff2e;}',
             '.mw-qs-items__add{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;}',
             '.mw-qs-add{border:1px dashed #18243340;border-radius:9px;background:transparent;color:#182433;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;padding:8px 10px;flex:1 1 auto;}',
             '.mw-qs-add:hover{border-color:#182433;background:#18243308;}',
@@ -846,7 +854,7 @@
             if (!selectEl && !itemsBox) { return; }
             var opts = readOptions(el);
             var currentName = opts.menu_name || el.getAttribute('data-name') || el.getAttribute('data-menu_name') || 'header_menu';
-            var menus = [], currentMenuId = null, _items = [], _dragId = null, _addPop = null;
+            var menus = [], currentMenuId = null, _items = [], _dragId = null, _addPop = null, _pickables = [];
             var reloadCanvas = function () { try { mw.app.editor.dispatch('onModuleSettingsChanged', { moduleId: el.getAttribute('id') }); } catch (e) {} };
 
             var renderItems = function () {
@@ -857,7 +865,8 @@
                         + '<input type="text" class="mw-qs-input" data-field="url" value="' + esc(it.url) + '"></div>' : '';
                     var body = '<div class="mw-qs-item__field"><div class="mw-qs-item__flabel">' + esc(lang('Label')) + '</div>'
                         + '<input type="text" class="mw-qs-input" data-field="title" value="' + esc(it.label) + '"></div>' + urlField;
-                    return '<div class="mw-qs-item" data-id="' + esc(it.id) + '">'
+                    var indent = it.depth ? ' style="margin-left:' + (it.depth * 14) + 'px"' : '';
+                    return '<div class="mw-qs-item' + (it.depth ? ' mw-qs-item--nested' : '') + '" data-id="' + esc(it.id) + '"' + indent + '>'
                         + '<div class="mw-qs-item__head">'
                         + '<span class="mw-qs-item__drag" draggable="true" title="' + esc(lang('Drag to reorder')) + '" aria-label="' + esc(lang('Drag to reorder')) + '">' + dragDots + '</span>'
                         + '<button type="button" class="mw-qs-item__toggle"><span class="mw-qs-item__caret">▸</span><span>' + esc(it.label) + '</span></button>'
@@ -962,7 +971,8 @@
                 pop.innerHTML = '<div class="mw-qs-add-pop__head"><span>' + esc(lang('Add menu item')) + '</span>'
                     + '<button type="button" class="mw-qs-panel__ico" data-x title="' + esc(lang('Close')) + '">✕</button></div>'
                     + '<button type="button" class="mw-qs-add mw-qs-add-pop__link" data-link>+ ' + esc(lang('Custom link')) + '</button>'
-                    + '<div class="mw-qs-add-pop__tree" id="mw-qs-menu-add-tree"><div class="mw-qs-items__empty">' + esc(lang('Loading…')) + '</div></div>';
+                    + '<input type="text" class="mw-qs-input mw-qs-add-pop__search" data-search placeholder="' + esc(lang('Search pages, posts, products…')) + '">'
+                    + '<div class="mw-qs-add-pop__list" data-list><div class="mw-qs-items__empty">' + esc(lang('Loading…')) + '</div></div>';
                 doc.body.appendChild(pop);
                 _addPop = pop;
                 var win = doc.defaultView || window, pr = _el.getBoundingClientRect();
@@ -970,22 +980,60 @@
                 pop.style.width = pw + 'px';
                 pop.style.left = Math.round(Math.min(Math.max(8, pr.left), win.innerWidth - pw - 8)) + 'px';
                 pop.style.top = Math.round(Math.min(Math.max(8, pr.top), win.innerHeight - ph - 8)) + 'px';
-                pop.querySelector('[data-x]').addEventListener('click', closeAddPop);
-                pop.querySelector('[data-link]').addEventListener('click', function () {
-                    qsHttp('POST', 'api/menu/item/save', { menu_id: currentMenuId, title: lang('New link'), url: '#' })
-                        .then(function () { closeAddPop(); loadItems(); reloadCanvas(); });
-                });
-                try {
-                    mw.widget.tree('#mw-qs-menu-add-tree', { options: { selectable: true, singleSelect: true } }).then(function (tree) {
-                        tree.tree.on('selectionChange', function () {
-                            var sel = (tree.tree.getSelected() || [])[0];
-                            if (!sel) { return; }
-                            var payload = { menu_id: currentMenuId };
-                            if (sel.type === 'category') { payload.categories_id = sel.id; } else { payload.content_id = sel.id; }
-                            qsHttp('POST', 'api/menu/item/save', payload).then(function () { closeAddPop(); loadItems(); reloadCanvas(); });
+                var listEl = pop.querySelector('[data-list]');
+                var searchEl = pop.querySelector('[data-search]');
+
+                var addItem = function (payload) {
+                    var done = function () { closeAddPop(); loadItems(); reloadCanvas(); };
+                    qsHttp('POST', 'api/menu/item/save', Object.assign({ menu_id: currentMenuId }, payload)).then(done, done);
+                };
+                var renderPick = function (q) {
+                    var ql = (q || '').toLowerCase();
+                    var list;
+                    if (ql) {
+                        list = _pickables.filter(function (x) { return String(x.title).toLowerCase().indexOf(ql) >= 0; }).slice(0, 200);
+                    } else {
+                        // Balanced default so every type is visible without searching
+                        // (a site with 200+ pages would otherwise bury posts/products).
+                        var per = { Page: 0, Post: 0, Product: 0, Category: 0 }, cap = 25;
+                        list = [];
+                        _pickables.forEach(function (x) { if (per[x.type] !== undefined && per[x.type] < cap) { per[x.type]++; list.push(x); } });
+                    }
+                    if (!list.length) { listEl.innerHTML = '<div class="mw-qs-items__empty">' + esc(lang('No matches')) + '</div>'; return; }
+                    listEl.innerHTML = list.slice(0, 200).map(function (x) {
+                        return '<button type="button" class="mw-qs-pick-row" data-kind="' + esc(x.kind) + '" data-id="' + esc(x.id) + '">'
+                            + '<span class="mw-qs-pick-row__t">' + esc(x.title) + '</span>'
+                            + '<span class="mw-qs-mi-badge">' + esc(lang(x.type)) + '</span></button>';
+                    }).join('');
+                    listEl.querySelectorAll('.mw-qs-pick-row').forEach(function (b) {
+                        b.addEventListener('click', function () {
+                            addItem(b.dataset.kind === 'category' ? { categories_id: b.dataset.id } : { content_id: b.dataset.id });
                         });
                     });
-                } catch (e) {}
+                };
+
+                pop.querySelector('[data-x]').addEventListener('click', closeAddPop);
+                pop.querySelector('[data-link]').addEventListener('click', function () { addItem({ title: lang('New link'), url: '#' }); });
+                searchEl.addEventListener('input', function () { renderPick(searchEl.value); });
+
+                // Pickable targets: pages/posts/products (content) + categories.
+                if (_pickables.length) { renderPick(''); }
+                else {
+                    Promise.all([
+                        qsHttp('GET', 'api/content?limit=500&is_active=1').catch(function () { return {}; }),
+                        qsHttp('GET', 'api/module/categories?limit=500').catch(function () { return {}; })
+                    ]).then(function (r) {
+                        var carr = (r[0] && (r[0].data || r[0].items)) || (Array.isArray(r[0]) ? r[0] : []);
+                        var content = carr.filter(function (x) { return x && x.title && ['page', 'post', 'product'].indexOf(x.content_type) >= 0; })
+                            .map(function (x) { return { kind: 'content', id: x.id, title: x.title, type: x.content_type === 'post' ? 'Post' : (x.content_type === 'product' ? 'Product' : 'Page') }; });
+                        var catarr = (r[1] && (r[1].data || r[1].items)) || (Array.isArray(r[1]) ? r[1] : []);
+                        var categories = catarr.filter(function (x) { return x && x.title; })
+                            .map(function (x) { return { kind: 'category', id: x.id, title: x.title, type: 'Category' }; });
+                        var ord = { Page: 0, Post: 1, Product: 2, Category: 3 };
+                        _pickables = content.concat(categories).sort(function (a, b) { return (ord[a.type] - ord[b.type]) || String(a.title).localeCompare(String(b.title)); });
+                        if (_addPop === pop) { renderPick(''); }
+                    });
+                }
             };
             if (addBtn) { addBtn.addEventListener('click', openAddPop); }
             if (selectEl) {
