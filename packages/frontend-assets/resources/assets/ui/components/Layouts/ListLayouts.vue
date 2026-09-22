@@ -872,7 +872,7 @@
             <!-- ── edit-content skin (Page settings) ───────────────────────── -->
             <div v-if="pickerSkin === 'edit-content'" class="mw-le-ec">
                 <div class="mw-le-ec-head">
-                    <span class="mw-le-ec-badge">{{ ecBadge }}</span>
+                    <span class="mw-le-ec-badge mw-le-ec-badge--icon" v-html="ecBadgeIcon"></span>
                     <span class="mw-le-ec-head-label">{{ ecTypeLabel }} {{ $lang('settings') }}</span>
                     <span class="mw-le-ec-status" :class="{ 'is-draft': !ecPublished }">
                         <span class="mw-le-ec-status-dot"></span>{{ ecPublished ? $lang('Published') : $lang('Draft') }}
@@ -995,6 +995,12 @@
                         </div>
                         <button type="button" class="mw-le-ec-btn" @click="ecSeoEditing = !ecSeoEditing">{{ ecSeoEditing ? $lang('Done') : $lang('Edit') }}</button>
                     </div>
+
+                    <!-- Advanced settings (full admin form) -->
+                    <button type="button" class="mw-le-ec-advanced" @click="ecOpenAdvanced()">
+                        <span>{{ $lang('Advanced settings') }}<small>{{ $lang('SEO, custom fields, tags, scheduling') }}</small></span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+                    </button>
 
                     <p class="mw-le-ec-error" v-show="ecError">{{ ecError }}</p>
 
@@ -1411,9 +1417,21 @@
 }
 .mw-le-ec-head { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; }
 .mw-le-ec-badge {
-    width: 24px; height: 24px; border-radius: 7px; background: #eef0fb; color: #4f63e8;
-    font-size: 10.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 7px; background: #eef0fb; color: #4f63e8;
+    font-size: 10.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
 }
+.mw-le-ec-badge--icon svg { width: 16px; height: 16px; display: block; }
+html.dark .mw-le-ec-badge { background: #2a2e34; color: #aab4ff; }
+.mw-le-ec-advanced {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%;
+    margin-top: 16px; padding: 12px 14px; border: 1px solid var(--ac-hairline); border-radius: 12px;
+    background: #fff; cursor: pointer; font: inherit; text-align: left;
+}
+.mw-le-ec-advanced:hover { background: #fafafa; border-color: #cfd2d8; }
+.mw-le-ec-advanced > span { display: flex; flex-direction: column; font-size: 13.5px; font-weight: 600; color: var(--ac-ink); }
+.mw-le-ec-advanced small { font-weight: 400; font-size: 11.5px; color: var(--ac-muted); margin-top: 1px; }
+.mw-le-ec-advanced svg { color: var(--ac-muted); flex: 0 0 auto; }
+html.dark .mw-le-ec-advanced { background: #22262c; }
 .mw-le-ec-head-label { font-size: 13.5px; font-weight: 600; }
 .mw-le-ec-status { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--ac-muted); margin-left: 2px; }
 .mw-le-ec-status::before { content: '·'; margin-right: 3px; color: #c9ccd2; }
@@ -1452,8 +1470,9 @@
 }
 .mw-le-ec-btn:hover { border-color: #cfd2d8; background: #fafafa; }
 .mw-le-ec-btn.is-on { border-color: var(--ac-ink); background: var(--ac-ink); color: #fff; }
-/* inline expand panel (Change design / Move) */
-.mw-le-ec-expand { display: flex; gap: 12px; padding: 4px 0 16px; border-bottom: 1px solid var(--ac-hairline); }
+/* inline expand panel (Change design / Move) — a clearly bounded sub-card so
+   it never reads as ambiguous against the rows (e.g. Cover's Replace) below. */
+.mw-le-ec-expand { display: flex; gap: 12px; margin: 2px 0 14px; padding: 14px; background: var(--ac-surface); border-radius: 12px; border: 1px solid var(--ac-hairline); }
 .mw-le-ec-field { flex: 1 1 0; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
 .mw-le-ec-field-label { font-size: 11.5px; font-weight: 600; color: var(--ac-muted); }
 .mw-le-ec-select {
@@ -2918,6 +2937,15 @@ export default {
         ecBadge() {
             const map = { page: 'Pg', post: 'Po', product: 'Pr' };
             return map[this.ecContentType] || 'Pg';
+        },
+        ecBadgeIcon() {
+            // Real content-type glyphs (same visual family as the create-page
+            // dialog's document badge) — page = file, post = article, product = tag.
+            const page = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>';
+            const post = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 10h16M4 15h10M4 20h7"/></svg>';
+            const product = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.4"/></svg>';
+            const map = { page, post, product };
+            return map[this.ecContentType] || page;
         },
         ecHost() {
             try {

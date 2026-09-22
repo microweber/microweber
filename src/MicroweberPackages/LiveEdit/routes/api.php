@@ -143,7 +143,13 @@ Route::name('api.live-edit.')
                 'cover' => $cover,
                 'meta_description' => $metaDescription,
                 'open_url' => (string) content_link($id),
-                'edit_url' => function_exists('admin_url') ? admin_url('content/edit?id=' . $id) : '',
+                'edit_url' => (function () use ($c, $id) {
+                    try {
+                        return \Modules\Content\Filament\Admin\ContentResource::getUrl('edit', ['record' => $c]);
+                    } catch (\Throwable $e) {
+                        return function_exists('admin_url') ? admin_url('content/edit?id=' . $id) : '';
+                    }
+                })(),
             ]);
         })->name('content-settings');
 
