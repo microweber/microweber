@@ -1901,22 +1901,12 @@ export default {
                     payload.layout_file = this.ecLayoutKey;
                 }
                 if (this.ecDirty.parent) { payload.parent = this.ecParentId || 0; }
-                // Menu add/remove.
-                if (this.ecDirty.menu && this.ecInMenu) {
-                    const mid = await this.ecResolveMenuId();
-                    if (mid) { payload.add_content_to_menu = [mid]; }
-                }
                 await this._qsHttp('POST', 'api/save_content', payload);
 
-                // Menu removal (save_content only adds).
-                if (this.ecDirty.menu && !this.ecInMenu) {
-                    try {
-                        const r = await this._qsHttp('GET', 'api/module/menus?parent_id=');
-                        // find this content's menu item(s) and delete them
-                        const list = await (await this._qsHttp('GET', 'api/menu/items?menu_id=' + (await this.ecResolveMenuId()))).json();
-                        const mine = (list.items || []).filter((x) => String(x.content_id) === String(this.ecId));
-                        for (const it of mine) { await this._qsHttp('POST', 'api/menu/item/delete/' + it.id); }
-                    } catch (e) { /* best-effort */ }
+                // Menu add/remove — handled server-side so removal clears every
+                // menu link to this content, not just the header menu.
+                if (this.ecDirty.menu) {
+                    await this._qsHttp('POST', 'api/live-edit/content-menu', { id: this.ecId, in_menu: this.ecInMenu ? 1 : 0 });
                 }
 
                 // Cover image attach.

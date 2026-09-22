@@ -153,6 +153,34 @@ Route::name('api.live-edit.')
             ]);
         })->name('content-settings');
 
+        // Add/remove a content from the main menu (the Page-settings toggle).
+        // Server-side so removal reliably clears EVERY menu link to the content
+        // (the client can't cheaply hunt them across menus).
+        Route::post('content-menu', function (\Illuminate\Http\Request $request) {
+            $id = (int) $request->input('id');
+            $inMenu = filter_var($request->input('in_menu'), FILTER_VALIDATE_BOOLEAN);
+            if (!$id) {
+                return response()->json(['success' => false, 'message' => 'missing id'], 422);
+            }
+            if ($inMenu) {
+                $exists = \Modules\Menu\Models\Menu::where('content_id', $id)->where('item_type', '!=', 'menu')->exists();
+                if (!$exists) {
+                    $menu = \Modules\Menu\Models\Menu::where('item_type', 'menu')->where('title', 'header_menu')->first()
+                        ?: \Modules\Menu\Models\Menu::where('item_type', 'menu')->first();
+                    if ($menu) {
+                        app()->menu_manager->menu_item_save(['menu_id' => $menu->id, 'content_id' => $id]);
+                    }
+                }
+            } else {
+                $items = \Modules\Menu\Models\Menu::where('content_id', $id)->where('item_type', '!=', 'menu')->get();
+                foreach ($items as $it) {
+                    app()->menu_manager->menu_item_delete($it->id);
+                }
+            }
+            try { app()->cache_manager->delete('menus'); app()->cache_manager->delete('content'); } catch (\Throwable $e) {}
+            return response()->json(['success' => true]);
+        })->name('content-menu');
+
         // Layouts available for a given site template (the "Change design" picker
         // refreshes this when the template changes).
         Route::get('template-layouts', function (\Illuminate\Http\Request $request) {
