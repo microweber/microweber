@@ -2383,7 +2383,8 @@ export default {
             if (!instance.showModal || instance.pickerSkin !== 'add-content') { return; }
             const tag = (evt.target && evt.target.tagName) || '';
             if (tag === 'INPUT' || tag === 'TEXTAREA' || evt.metaKey || evt.ctrlKey || evt.altKey) { return; }
-            const map = { b: 'block', p: 'page', o: 'post', r: 'product', i: 'image', c: 'category', l: 'layout' };
+            // Image (i) + Layout (l) hidden for now — task-2026-09-22.
+            const map = { b: 'block', p: 'page', o: 'post', r: 'product', c: 'category' };
             const key = (evt.key || '').toLowerCase();
             if (map[key]) {
                 instance.addContentSelectedType = map[key];
@@ -2549,15 +2550,18 @@ export default {
                 { key: 'product', label: 'Product', group: 'content', badge: 'Pr', shortcut: 'R',
                   createAction: 'addProductAction', tint: '#ffe9df', quickCreate: true,
                   description: 'A shop product with price, gallery and Add-to-cart.' },
-                { key: 'image', label: 'Image', group: 'content', badge: 'Im', shortcut: 'I',
-                  createAction: 'addImageAction', tint: '#f2e6ff',
-                  description: 'Upload an image straight onto the page.' },
                 { key: 'category', label: 'Category', group: 'content', badge: 'Ca', shortcut: 'C',
                   createAction: 'addCategoryAction', tint: '#e0f5f5', quickCreate: true,
                   description: 'A group that organizes your posts or products.' },
-                { key: 'layout', label: 'Layout', group: 'content', badge: 'La', shortcut: 'L',
-                  layoutCategory: '', tint: '#efe6ff',
-                  description: 'Insert a ready-made section layout from the library.' },
+                // Image + Layout hidden for now (task-2026-09-22). The handlers
+                // (addImageAction handoff, layout → layouts grid) remain in place;
+                // re-add these entries to bring the rail options back.
+                // { key: 'image', label: 'Image', group: 'content', badge: 'Im', shortcut: 'I',
+                //   createAction: 'addImageAction', tint: '#f2e6ff',
+                //   description: 'Upload an image straight onto the page.' },
+                // { key: 'layout', label: 'Layout', group: 'content', badge: 'La', shortcut: 'L',
+                //   layoutCategory: '', tint: '#efe6ff',
+                //   description: 'Insert a ready-made section layout from the library.' },
             ],
             // Blocks with a real module type insert that module directly; the
             // rest (no single-module equivalent) drill the SAME modal into the
