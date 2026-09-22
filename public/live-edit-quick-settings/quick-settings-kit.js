@@ -657,7 +657,16 @@
         });
         _el.querySelectorAll('[data-ctl="duplicate"]').forEach(function (b) {
             b.addEventListener('click', function () {
-                try { mw.top().app.liveEdit.elementHandleContent.elementActions.cloneElement(el); } catch (e) {}
+                try {
+                    // Duplicate THIS module (cloneElement copies the element itself;
+                    // cloneElementFirstClonableParent would copy the whole column).
+                    mw.top().app.liveEdit.elementHandleContent.elementActions.cloneElement(el);
+                    // cloneElement only registers sync/undo — NOT the changed state,
+                    // so the toolbar Save never activated and the leave-guard never
+                    // prompted. registerChangedState resolves the edit field, marks
+                    // it changed and sets askUserToStay.
+                    mw.top().app.registerChangedState(el, true);
+                } catch (e) {}
                 close();
             });
         });

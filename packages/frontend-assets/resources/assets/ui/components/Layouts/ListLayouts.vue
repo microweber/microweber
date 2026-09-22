@@ -1114,7 +1114,9 @@
 .mw-le-addcontent-main { flex: 1 1 auto; padding: 26px 28px; overflow-y: auto; min-width: 0; }
 
 /* block mode (2b) */
-.mw-le-addcontent-search { position: relative; margin-bottom: 20px; }
+/* Reserve room at the top-right for the absolute close (×) button so it never
+   overlaps the full-width search field (× sits at right:16px, ~44px wide). */
+.mw-le-addcontent-search { position: relative; margin-bottom: 20px; padding-right: 40px; }
 .mw-le-addcontent-search-ico { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #a7a79f; pointer-events: none; }
 .mw-le-addcontent-search .form-control {
     width: 100%; min-height: 44px; padding: 10px 14px 10px 42px;
