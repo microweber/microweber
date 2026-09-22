@@ -230,6 +230,8 @@
             '.mw-qs-item__field{display:flex;flex-direction:column;gap:3px;}',
             '.mw-qs-item__flabel{font-size:10.5px;font-weight:600;letter-spacing:.02em;color:#8a94a3;}',
             '.mw-qs-items__empty{color:#8a94a3;font-size:12px;padding:6px 2px;}',
+            '.mw-qs-mi-badge{font-size:10px;font-weight:600;letter-spacing:.02em;color:#77776f;background:#18243310;border-radius:6px;padding:2px 7px;align-self:center;white-space:nowrap;}',
+            'html.dark .mw-qs-mi-badge{color:#c3c8d0;background:#ffffff14;}',
             '.mw-qs-items__add{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;}',
             '.mw-qs-add{border:1px dashed #18243340;border-radius:9px;background:transparent;color:#182433;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;padding:8px 10px;flex:1 1 auto;}',
             '.mw-qs-add:hover{border-color:#182433;background:#18243308;}',
@@ -357,6 +359,20 @@
                 + '<div class="mw-qs-images" data-ctl="imagelist" data-cfg="' + esc(icfg) + '"><div class="mw-qs-items__empty">' + esc(lang('Loading…')) + '</div></div>'
                 + '<div class="mw-qs-items__add"><button type="button" class="mw-qs-add" data-ctl="imagelist-add">+ ' + esc(lang(c.addLabel || 'Add image')) + '</button></div>'
                 + '</div>';
+        }
+        if (c.type === 'menuselect') {
+            // Which menu the module shows. Options fetched in wire() (api/menu/list);
+            // change writes the module's menu_name option + reloads the item list.
+            return '<div class="mw-qs-section">' + label
+                + '<select class="mw-qs-select" data-ctl="menuselect" data-key="' + esc(c.key || 'menu_name') + '" aria-label="' + esc(lang(c.label || 'Menu')) + '">'
+                + '<option>' + esc(lang('Loading…')) + '</option></select></div>';
+        }
+        if (c.type === 'menuitems') {
+            // The selected menu's links — expandable rows with a Page/Link/Category
+            // badge, inline label/url edit, reorder, delete, add. Wired in wire().
+            return '<div class="mw-qs-section">' + label
+                + '<div class="mw-qs-items mw-qs-menuitems" data-ctl="menuitems"><div class="mw-qs-items__empty">' + esc(lang('Loading…')) + '</div></div>'
+                + '<div class="mw-qs-items__add"><button type="button" class="mw-qs-add" data-ctl="menuitems-add">+ ' + esc(lang(c.addLabel || 'Add menu item')) + '</button></div></div>';
         }
         if (c.type === 'advanced') {
             return '<button type="button" class="mw-qs-advanced" data-ctl="open-settings"><span class="mw-qs-advanced__t">' + esc(lang(c.label || 'Advanced'))
@@ -786,6 +802,118 @@
 
             load();
         });
+
+        // ── menu editor (menu selector + its links) ─────────────────────────
+        // Menu items belong to a MENU container (parent_id), not the module
+        // rel_id, and use the dedicated api/menu/* endpoints — so this is a
+        // bespoke pair (menuselect + menuitems) coordinated by the resolved
+        // current menu id.
+        (function wireMenu() {
+            var selectEl = _el.querySelector('[data-ctl="menuselect"]');
+            var itemsBox = _el.querySelector('[data-ctl="menuitems"]');
+            var addBtn = _el.querySelector('[data-ctl="menuitems-add"]');
+            if (!selectEl && !itemsBox) { return; }
+            var opts = readOptions(el);
+            var currentName = opts.menu_name || el.getAttribute('data-name') || el.getAttribute('data-menu_name') || 'header_menu';
+            var menus = [], currentMenuId = null, _items = [];
+            var reloadCanvas = function () { try { mw.app.editor.dispatch('onModuleSettingsChanged', { moduleId: el.getAttribute('id') }); } catch (e) {} };
+
+            var renderItems = function () {
+                if (!itemsBox) { return; }
+                if (!_items.length) { itemsBox.innerHTML = '<div class="mw-qs-items__empty">' + esc(lang('No items yet')) + '</div>'; return; }
+                itemsBox.innerHTML = _items.map(function (it, i) {
+                    var urlField = (it.type === 'Link') ? '<div class="mw-qs-item__field"><div class="mw-qs-item__flabel">' + esc(lang('URL')) + '</div>'
+                        + '<input type="text" class="mw-qs-input" data-field="url" value="' + esc(it.url) + '"></div>' : '';
+                    var body = '<div class="mw-qs-item__field"><div class="mw-qs-item__flabel">' + esc(lang('Label')) + '</div>'
+                        + '<input type="text" class="mw-qs-input" data-field="title" value="' + esc(it.label) + '"></div>' + urlField;
+                    return '<div class="mw-qs-item" data-id="' + esc(it.id) + '">'
+                        + '<div class="mw-qs-item__head">'
+                        + '<button type="button" class="mw-qs-item__toggle"><span class="mw-qs-item__caret">▸</span><span>' + esc(it.label) + '</span></button>'
+                        + '<div class="mw-qs-item__actions">'
+                        + '<span class="mw-qs-mi-badge">' + esc(lang(it.type)) + '</span>'
+                        + '<button type="button" class="mw-qs-item__act" data-act="up" title="' + esc(lang('Move up')) + '"' + (i === 0 ? ' disabled' : '') + '>↑</button>'
+                        + '<button type="button" class="mw-qs-item__act" data-act="down" title="' + esc(lang('Move down')) + '"' + (i === _items.length - 1 ? ' disabled' : '') + '>↓</button>'
+                        + '<button type="button" class="mw-qs-item__act is-danger" data-act="del" title="' + esc(lang('Remove')) + '">✕</button>'
+                        + '</div></div>'
+                        + '<div class="mw-qs-item__body" style="display:none">' + body + '</div></div>';
+                }).join('');
+                bindItems();
+            };
+
+            var moveItem = function (id, dir) {
+                var ids = _items.map(function (x) { return String(x.id); });
+                var idx = ids.indexOf(String(id)), to = idx + dir;
+                if (idx < 0 || to < 0 || to >= ids.length) { return; }
+                var m = _items.splice(idx, 1)[0]; _items.splice(to, 0, m); renderItems();
+                qsHttp('POST', 'api/menu/item/reorder', { ids: _items.map(function (x) { return x.id; }) }).then(reloadCanvas);
+            };
+
+            var bindItems = function () {
+                itemsBox.querySelectorAll('.mw-qs-item').forEach(function (row) {
+                    var id = row.dataset.id;
+                    row.querySelector('.mw-qs-item__toggle').addEventListener('click', function () {
+                        var open = !row.classList.contains('open');
+                        itemsBox.querySelectorAll('.mw-qs-item').forEach(function (r) { r.classList.remove('open'); r.querySelector('.mw-qs-item__body').style.display = 'none'; });
+                        if (open) { row.classList.add('open'); row.querySelector('.mw-qs-item__body').style.display = ''; }
+                    });
+                    row.querySelectorAll('[data-field]').forEach(function (inp) {
+                        inp.addEventListener('change', function () {
+                            var payload = { menu_id: currentMenuId, id: id }; payload[inp.dataset.field] = inp.value;
+                            qsHttp('POST', 'api/menu/item/save', payload).then(function () {
+                                if (inp.dataset.field === 'title') {
+                                    var lbl = row.querySelector('.mw-qs-item__toggle span:last-child');
+                                    if (lbl) { lbl.textContent = inp.value; }
+                                    var found = _items.filter(function (x) { return String(x.id) === String(id); })[0];
+                                    if (found) { found.label = inp.value; }
+                                }
+                                reloadCanvas();
+                            });
+                        });
+                    });
+                    row.querySelector('[data-act="del"]').addEventListener('click', function () {
+                        qsHttp('POST', 'api/menu/item/delete/' + id).then(function () { loadItems(); reloadCanvas(); });
+                    });
+                    row.querySelector('[data-act="up"]').addEventListener('click', function () { moveItem(id, -1); });
+                    row.querySelector('[data-act="down"]').addEventListener('click', function () { moveItem(id, 1); });
+                });
+            };
+
+            var loadItems = function () {
+                if (!itemsBox) { return; }
+                if (!currentMenuId) { itemsBox.innerHTML = '<div class="mw-qs-items__empty">' + esc(lang('No menu selected')) + '</div>'; return; }
+                qsHttp('GET', 'api/menu/items?menu_id=' + currentMenuId).then(function (res) { _items = (res && res.items) || []; renderItems(); })
+                    .catch(function () { itemsBox.innerHTML = '<div class="mw-qs-items__empty">' + esc(lang('Could not load items')) + '</div>'; });
+            };
+
+            if (addBtn) {
+                addBtn.addEventListener('click', function () {
+                    if (!currentMenuId) { return; }
+                    qsHttp('POST', 'api/menu/item/save', { menu_id: currentMenuId, title: lang('New item'), url: '#' }).then(function () { loadItems(); reloadCanvas(); });
+                });
+            }
+            if (selectEl) {
+                selectEl.addEventListener('change', function () {
+                    saveOption(el, selectEl.dataset.key || 'menu_name', selectEl.value);
+                    var cur = menus.filter(function (m) { return String(m.title) === String(selectEl.value); })[0];
+                    currentMenuId = cur ? cur.id : null;
+                    loadItems();
+                });
+            }
+
+            qsHttp('GET', 'api/menu/list').then(function (res) {
+                menus = (res && res.items) || [];
+                if (selectEl) {
+                    selectEl.innerHTML = menus.map(function (m) {
+                        return '<option value="' + esc(m.title) + '"' + (String(m.title) === String(currentName) ? ' selected' : '') + '>' + esc(m.label || m.title) + '</option>';
+                    }).join('') || ('<option>' + esc(lang('No menus')) + '</option>');
+                }
+                var cur = menus.filter(function (m) { return String(m.title) === String(currentName); })[0] || menus[0];
+                currentMenuId = cur ? cur.id : null;
+                loadItems();
+            }).catch(function () {
+                if (itemsBox) { itemsBox.innerHTML = '<div class="mw-qs-items__empty">' + esc(lang('Could not load menus')) + '</div>'; }
+            });
+        })();
     }
 
     // When any OTHER quick panel announces it's opening, close this kit panel.

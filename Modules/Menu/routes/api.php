@@ -43,6 +43,66 @@ Route::name('api.menu.')
         Route::name('item.reorder')->post('item/reorder', function (\Illuminate\Http\Request $request) {
             return app()->menu_manager->menu_items_reorder($request->all());
         });
+
+        // task-2026-09-22 — reads for the Live Edit Menu quick-settings panel.
+        // list = menu containers (id + pretty label); items = the shaped links
+        // of one menu with a resolved label + a Page/Post/Product/Category/Link
+        // type badge (the raw menus row keeps title null for content links).
+        Route::name('list')->get('list', function () {
+            $rows = \Modules\Menu\Models\Menu::where('item_type', 'menu')
+                ->orderBy('position')->orderBy('id')->get(['id', 'title']);
+            $items = $rows->map(function ($m) {
+                return [
+                    'id' => (int) $m->id,
+                    'title' => $m->title,
+                    'label' => ucfirst(trim(str_replace('_', ' ', (string) $m->title))),
+                ];
+            });
+            return response()->json(['success' => true, 'items' => $items]);
+        });
+
+        Route::name('items')->get('items', function (\Illuminate\Http\Request $request) {
+            $menuId = (int) $request->get('menu_id');
+            if (!$menuId) {
+                return response()->json(['success' => true, 'items' => []]);
+            }
+            $rows = \Modules\Menu\Models\Menu::where('parent_id', $menuId)
+                ->where('item_type', '!=', 'menu')
+                ->orderBy('position')->orderBy('id')->get();
+            $items = [];
+            foreach ($rows as $m) {
+                $label = $m->title;
+                $type = 'Link';
+                if ($m->content_id) {
+                    $c = \Modules\Content\Models\Content::find($m->content_id);
+                    if ($c) {
+                        if (!$label) { $label = $c->title; }
+                        $ct = $c->content_type;
+                        $type = $ct === 'post' ? 'Post' : ($ct === 'product' ? 'Product' : 'Page');
+                    } else {
+                        $type = 'Page';
+                    }
+                } elseif ($m->categories_id) {
+                    $type = 'Category';
+                    if (!$label) {
+                        $cat = \Modules\Category\Models\Category::find($m->categories_id);
+                        if ($cat) { $label = $cat->title; }
+                    }
+                } elseif ($m->url) {
+                    $type = 'Link';
+                    if (!$label) { $label = $m->url; }
+                }
+                $items[] = [
+                    'id' => (int) $m->id,
+                    'label' => $label ?: 'Item',
+                    'type' => $type,
+                    'url' => $m->url,
+                    'content_id' => $m->content_id ? (int) $m->content_id : null,
+                    'position' => $m->position,
+                ];
+            }
+            return response()->json(['success' => true, 'items' => $items]);
+        });
     });
 
 
