@@ -430,6 +430,29 @@
         try { qsWin().dispatchEvent(new CustomEvent('mwQuickSettingsWillOpen', { detail: { source: source } })); } catch (e) {}
     }
 
+    // Can this module be duplicated? Reuse the element handle's own eligibility
+    // rule (shouldShowCloneButtonInMoreButton) — true only when the module (or an
+    // ancestor) is `cloneable`, i.e. it sits inside an editable field. Modules
+    // dropped straight into a layout (not in an edit field) aren't cloneable, so
+    // the panel's Duplicate button must hide for them.
+    function canClone(el) {
+        try {
+            var v = mw.top().app.liveEdit.elementHandleContent.elementHandleButtonsVisibility;
+            if (v && typeof v.shouldShowCloneButtonInMoreButton === 'function') {
+                return !!v.shouldShowCloneButtonInMoreButton(el);
+            }
+        } catch (e) {}
+        // Fallback: `cloneable` on the element or any ancestor.
+        try {
+            var n = el;
+            while (n && n.classList) {
+                if (n.classList.contains('cloneable')) { return true; }
+                n = n.parentElement;
+            }
+        } catch (e) {}
+        return false;
+    }
+
     // ── panel lifecycle ─────────────────────────────────────────────────────
     var _el = null, _docClick = null, _docKey = null, _closeOnOutside = true;
     function close() {
@@ -461,11 +484,17 @@
             ? '<span class="mw-qs-panel__badge mw-qs-panel__badge--icon">' + iconHtml + '</span>'
             : (config.badge ? '<span class="mw-qs-panel__badge">' + esc(config.badge) + '</span>' : '');
 
+        // Only offer Duplicate when the module actually can be cloned (it lives
+        // inside an editable field) — mirrors the element handle's own rule.
+        var dupBtn = canClone(el)
+            ? '<button type="button" class="mw-qs-panel__ico" data-ctl="duplicate" title="' + esc(lang('Duplicate')) + '">' + dupIco + '</button>'
+            : '';
+
         var head = '<div class="mw-qs-panel__head">'
             + badge
             + '<span class="mw-qs-panel__title">' + esc(lang(config.title || 'Settings')) + '</span>'
             + '<div class="mw-qs-panel__head-actions">'
-            + '<button type="button" class="mw-qs-panel__ico" data-ctl="duplicate" title="' + esc(lang('Duplicate')) + '">' + dupIco + '</button>'
+            + dupBtn
             + '<button type="button" class="mw-qs-panel__ico" data-ctl="open-settings" title="' + esc(lang('Settings')) + '">' + setIco + '</button>'
             + '<button type="button" class="mw-qs-panel__ico" data-ctl="close" title="' + esc(lang('Close')) + '">✕</button>'
             + '</div></div>';
