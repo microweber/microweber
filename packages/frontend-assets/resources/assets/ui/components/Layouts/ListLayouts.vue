@@ -682,12 +682,12 @@
 
                             <!-- Category: real create fields inline (no second-step handoff) -->
                             <template v-if="addContentSelectedType === 'category'">
-                                <label class="mw-le-addcontent-field">
+                                <div class="mw-le-addcontent-field">
                                     <span class="mw-le-addcontent-field-label">{{ $lang('Add to') }}</span>
-                                    <select class="mw-le-addcontent-input mw-le-ac-select" v-model="catParent">
-                                        <option v-for="o in catParentOptions" :key="o.value" :value="o.value">{{ o.label }}</option>
-                                    </select>
-                                </label>
+                                    <!-- Same mw.widget.tree picker the admin category form uses
+                                         (pick a parent page → rel_id, or a category → parent_id). -->
+                                    <div id="mw-le-cat-tree" class="mw-le-cat-tree" wire:ignore></div>
+                                </div>
                                 <label class="mw-le-addcontent-field">
                                     <span class="mw-le-addcontent-field-label">{{ $lang('Description') }} <span class="mw-le-cp-muted">· {{ $lang('optional') }}</span></span>
                                     <textarea class="mw-le-addcontent-input mw-le-ac-textarea" rows="2" v-model="catDescription"
@@ -1199,8 +1199,12 @@
 .mw-le-ac-starts .mw-le-cp-start-thumb { height: 40px; }
 .mw-le-ac-menu-row { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; }
 .mw-le-ac-menu-row .mw-le-addcontent-field-label { font-size: 13px; }
-/* Inline Category create: native select + optional description textarea. */
-.mw-le-ac-select { appearance: auto; -webkit-appearance: auto; cursor: pointer; background-image: none; }
+/* Inline Category create: mw.tree "Add to" picker + optional description. */
+.mw-le-cat-tree {
+    border: 1px solid var(--ac-hairline); border-radius: 10px; padding: 8px 10px;
+    max-height: 200px; overflow: auto; background: #fff;
+}
+.mw-le-cat-tree:empty::before { content: 'Loading…'; color: var(--ac-muted, #77776f); font-size: 13px; }
 .mw-le-ac-textarea { min-height: 62px; resize: vertical; line-height: 1.45; font-family: inherit; }
 .mw-le-addcontent-input {
     width: 100%; min-height: 42px; padding: 9px 12px;
@@ -1490,49 +1494,42 @@ export default {
                 });
             } catch (e) { /* best-effort */ }
         },
-        // Build the category "Add to" options: the page currently open in the
-        // Live Edit canvas (default — the new category lands under its listing,
-        // matching the Filament compact form), Top level, then existing
-        // categories to nest under. `page:<id>` → rel_id, `category:<id>` →
-        // parent_id, '' → top level.
-        catBuildParentOptions() {
-            const opts = [];
+        // Mount the same mw.widget.tree picker the admin category form uses:
+        // a single-select tree of pages + categories, defaulting to the page
+        // currently open in the Live Edit canvas. Selecting a page sets rel_id;
+        // selecting a category sets parent_id (nest under it).
+        catMountTree() {
+            this.catRelId = 0;
+            this.catParentId = 0;
             let curId = '';
-            let curTitle = '';
             try {
                 const d = mw.top().app.canvas.getLiveEditData();
-                if (d && d.content && d.content.id) {
-                    curId = String(d.content.id);
-                    curTitle = d.content.title || this.$lang('This page');
-                }
+                if (d && d.content && d.content.id) { curId = String(d.content.id); }
             } catch (e) { /* canvas not ready */ }
-            if (curId) {
-                opts.push({ value: 'page:' + curId, label: this.$lang('This page') + ' — ' + curTitle });
-            }
-            opts.push({ value: '', label: this.$lang('Top level') });
-            this.catParentOptions = opts;
-            this.catParent = curId ? ('page:' + curId) : '';
-            // Append existing categories asynchronously (nest-under choices).
-            if (this.catParentLoaded) { this.catAppendCategories(this._catCache || []); return; }
-            (async () => {
-                try {
-                    const base = mw.settings.site_url;
-                    const r = await fetch(base + 'api/module/categories?limit=500', { credentials: 'include', headers: { Accept: 'application/json' } });
-                    const d = await r.json();
-                    const items = (d && d.data) ? d.data : (Array.isArray(d) ? d : []);
-                    this._catCache = items;
-                    this.catParentLoaded = true;
-                    this.catAppendCategories(items);
-                } catch (e) { /* categories optional */ }
-            })();
-        },
-        catAppendCategories(items) {
-            const cats = (items || [])
-                .filter((c) => c && c.title && (c.data_type === 'category' || !c.data_type))
-                .map((c) => ({ value: 'category:' + c.id, label: this.$lang('Under') + ': ' + c.title }));
-            // Rebuild so we don't duplicate on repeat opens.
-            const base = this.catParentOptions.filter((o) => !String(o.value).startsWith('category:'));
-            this.catParentOptions = base.concat(cats);
+            if (curId) { this.catRelId = parseInt(curId, 10) || 0; }
+            this.$nextTick(() => {
+                setTimeout(async () => {
+                    const el = document.querySelector('#mw-le-cat-tree');
+                    if (!el || !(window.mw && mw.widget && mw.widget.tree)) { return; }
+                    el.innerHTML = '';
+                    const opts = { options: { selectable: true, singleSelect: true } };
+                    if (curId) { opts.options.selectedData = [{ id: curId, type: 'page' }]; }
+                    try {
+                        const tree = await mw.widget.tree('#mw-le-cat-tree', opts);
+                        this._catTree = tree;
+                        tree.tree.on('selectionChange', () => {
+                            const items = tree.tree.getSelected() || [];
+                            let rel = 0, parent = 0;
+                            items.forEach((it) => {
+                                if (it.type === 'category') { parent = it.id; }
+                                if (it.type === 'page') { rel = it.id; }
+                            });
+                            this.catParentId = parseInt(parent, 10) || 0;
+                            this.catRelId = parseInt(rel, 10) || 0;
+                        });
+                    } catch (e) { /* tree unavailable */ }
+                }, 60);
+            });
         },
         addContentSelect(key) {
             this.addContentSelectedType = key;
@@ -1548,7 +1545,7 @@ export default {
             // existing categories) and reset its fields.
             if (key === 'category') {
                 this.catDescription = '';
-                this.catBuildParentOptions();
+                this.catMountTree();
             }
             // Page now creates inline: seed the real Start-from cards + main-menu
             // id so the fields render with live data (no second-step dialog).
@@ -1718,15 +1715,14 @@ export default {
                 const payload = { title: title, is_active: draft ? 0 : 1, is_hidden: draft ? 1 : 0, is_deleted: 0 };
                 const notes = (this.catDescription || '').trim();
                 if (notes) { payload.description = notes; }
-                const v = this.catParent || '';
-                if (v.indexOf('page:') === 0) {
-                    payload.rel_id = parseInt(v.slice(5), 10) || 0;
-                    payload.parent_id = 0;
-                } else if (v.indexOf('category:') === 0) {
-                    payload.parent_id = parseInt(v.slice(9), 10) || 0;
+                // Tree single-select: a category parent wins (nest under it,
+                // rel_id cleared); otherwise attach to the chosen page.
+                if (this.catParentId) {
+                    payload.parent_id = this.catParentId;
+                    payload.rel_id = 0;
                 } else {
                     payload.parent_id = 0;
-                    payload.rel_id = 0;
+                    payload.rel_id = this.catRelId || 0;
                 }
                 const res = await fetch(base + 'api/category', {
                     method: 'POST',
@@ -2507,11 +2503,11 @@ export default {
             niImage: '',
             niPrice: '',
             niSpecialPrice: '',
-            // inline category create: description + "Add to" (page rel_id / parent category)
+            // inline category create: description + mw.tree "Add to" selection
+            // (a parent page → rel_id, or a parent category → parent_id)
             catDescription: '',
-            catParent: '',
-            catParentOptions: [],
-            catParentLoaded: false,
+            catRelId: 0,
+            catParentId: 0,
 
             // ── create-page dialog (two-pane form + preview) ──────────────────
             cpTitle: '',
