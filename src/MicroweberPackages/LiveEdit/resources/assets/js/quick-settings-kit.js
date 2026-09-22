@@ -465,14 +465,73 @@
         return (sections || []).map(function (c) { return renderControl(c, opts); }).join('');
     }
 
+    // Make the panel draggable by its header (grabbing the badge/title area, not
+    // the duplicate/settings/close buttons). Re-bound on every open since the
+    // header markup is rebuilt each time.
+    function makeDraggable() {
+        var head = _el && _el.querySelector('.mw-qs-panel__head');
+        if (!head) { return; }
+        head.style.cursor = 'move';
+        head.addEventListener('mousedown', function (e) {
+            if (e.button !== 0) { return; }
+            // Don't start a drag from the header action buttons.
+            if (e.target.closest && e.target.closest('.mw-qs-panel__ico')) { return; }
+            var doc = topDoc(), win = doc.defaultView || window;
+            var r = _el.getBoundingClientRect();
+            var startX = e.clientX, startY = e.clientY, startLeft = r.left, startTop = r.top;
+            e.preventDefault();
+            var prevUserSelect = doc.body.style.userSelect;
+            doc.body.style.userSelect = 'none';
+            var move = function (ev) {
+                var m = 4, pw = _el.offsetWidth, ph = _el.offsetHeight;
+                var nl = startLeft + (ev.clientX - startX);
+                var nt = startTop + (ev.clientY - startY);
+                nl = Math.min(Math.max(m, nl), Math.max(m, win.innerWidth - pw - m));
+                nt = Math.min(Math.max(m, nt), Math.max(m, win.innerHeight - ph - m));
+                _el.style.left = Math.round(nl) + 'px';
+                _el.style.top = Math.round(nt) + 'px';
+            };
+            var up = function () {
+                doc.removeEventListener('mousemove', move, true);
+                doc.removeEventListener('mouseup', up, true);
+                doc.body.style.userSelect = prevUserSelect;
+            };
+            doc.addEventListener('mousemove', move, true);
+            doc.addEventListener('mouseup', up, true);
+        });
+    }
+
+    // Fetch a module's saved options as a key=>value map — the fallback for
+    // layout-embedded modules (logo/menu/spacer) that emit NO inline settings
+    // <script>, so readOptions() can't see their values and every field would
+    // otherwise open blank even after a save.
+    function fetchModuleOptions(el) {
+        try {
+            return qsHttp('GET', 'api/live-edit/module-options?id=' + encodeURIComponent(el.getAttribute('id') || ''))
+                .then(function (r) { return (r && r.options) || {}; })
+                .catch(function () { return {}; });
+        } catch (e) { return Promise.resolve({}); }
+    }
+
     function open(el, config) {
         injectCss();
         // Close any other quick panel (incl. other implementations) before this
         // one shows. The kit reuses a single _el, so it never needs to close a
         // prior KIT panel — but this closes e.g. the Btn module's own panel.
         announceOpen('kit');
-        var doc = topDoc();
         var opts = readOptions(el);
+        // Content modules ship the inline settings <script> (readOptions has
+        // data → render immediately). Layout modules don't, so fetch their saved
+        // options first, then render — a small delay beats blank fields.
+        if (opts && Object.keys(opts).length) {
+            renderPanel(el, config, opts);
+        } else {
+            fetchModuleOptions(el).then(function (srv) { renderPanel(el, config, srv || {}); });
+        }
+    }
+
+    function renderPanel(el, config, opts) {
+        var doc = topDoc();
 
         var dupIco = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h9a2 2 0 0 1 2 2v9h-2V5H9V3zM5 7h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm0 2v10h9V9H5z"/></svg>';
         var setIco = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
@@ -540,6 +599,7 @@
         _el.style.top = Math.round(top) + 'px';
 
         wire(el, config);
+        makeDraggable();
 
         // Close-on-outside-click, gated by a per-module flag so a module can
         // opt out (config.closeOnOutsideClick === false). The listener is bound
