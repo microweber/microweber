@@ -14,27 +14,57 @@ Route::name('api.')
         Route::apiResource('product_variant', \Modules\Product\Http\Controllers\Api\ProductVariantApiController::class);
 
         // task-2026-09-21-createproduct — session-authed (admin) price save for the
-        // Live Edit create dialogs. Product price is a 'price'-type custom field;
-        // the token-guarded product store + the whitelisted fields/save endpoint
-        // aren't reachable from the admin session, so expose a minimal saver here.
+        // Live Edit create dialogs (the token-guarded product store + the
+        // whitelisted fields/save endpoint aren't reachable from the admin
+        // session, so expose a minimal saver here).
+        //
+        // task-2026-09-22 — go through the Product MODEL, not save_custom_field:
+        // CustomFieldPriceTrait stores `price` as a ProductPrice custom field and
+        // `special_price` as an OFFER (a discount tied to that price). The old
+        // save_custom_field('special_price', type:'price') wrote a SECOND price
+        // field, so the shop rendered two prices / two Add-to-cart buttons instead
+        // of a struck-through discount.
         Route::post('save_product_price', function (\Illuminate\Http\Request $request) {
             $id = intval($request->input('rel_id') ?: $request->input('id'));
             if (!$id) {
                 return response()->json(['success' => false, 'message' => 'missing rel_id'], 422);
             }
-            if (!\Modules\Content\Models\Content::where('id', $id)->exists()) {
+            $product = \Modules\Product\Models\Product::find($id);
+            if (!$product) {
                 return response()->json(['success' => false, 'message' => 'not found'], 404);
             }
-            if (!function_exists('save_custom_field')) {
-                return response()->json(['success' => false, 'message' => 'unavailable'], 500);
+            // Drop any EXTRA price-type custom field left by the earlier (wrong)
+            // save path. save_custom_field auto-renamed the second 'price' to
+            // 'price-2' (or 'special_price'), and the shop renders every
+            // price-type field as its own price / Add-to-cart. The one true
+            // price is name_key='price' (kept/rebuilt by CustomFieldPriceTrait).
+            $strayPriceFields = \Modules\CustomFields\Models\CustomField::where('rel_id', $id)
+                ->where('type', 'price')
+                ->where('name_key', '!=', 'price')
+                ->get();
+            foreach ($strayPriceFields as $cf) {
+                $cf->fieldValue()->delete();
+                $cf->delete();
             }
+
             $price = $request->input('price');
             if ($price !== null && $price !== '') {
-                save_custom_field(['field' => 'price', 'value' => (float) $price, 'rel_type' => 'content', 'rel_id' => $id, 'type' => 'price']);
+                $product->price = (float) $price;
+                $product->save();
             }
+            // Reload so priceModel resolves the just-saved price when the trait
+            // builds the offer for the special (discount) price.
             $special = $request->input('special_price');
             if ($special !== null && $special !== '') {
-                save_custom_field(['field' => 'special_price', 'value' => (float) $special, 'rel_type' => 'content', 'rel_id' => $id, 'type' => 'price']);
+                $product = \Modules\Product\Models\Product::find($id);
+                // Two things make a special price render as a DISCOUNT:
+                //   • the Offer (via the `special_price` fillable) → the sale value
+                //     that Content::getSpecialPriceAttribute() reads;
+                //   • a content_data `special_price` row → Content::hasSpecialPrice()
+                //     gates the struck-through old-price on this, NOT the offer.
+                $product->special_price = (float) $special;
+                $product->setContentData(['special_price' => (float) $special]);
+                $product->save();
             }
             return response()->json(['success' => true, 'id' => $id]);
         })->name('save_product_price');
