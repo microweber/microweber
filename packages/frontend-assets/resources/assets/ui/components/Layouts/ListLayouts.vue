@@ -942,14 +942,17 @@
                         </div>
                         <button type="button" class="mw-le-ec-btn" :class="{ 'is-on': ecMoveOpen }" @click="ecToggleMove()">{{ ecMoveOpen ? $lang('Done') : $lang('Move') }}</button>
                     </div>
-                    <div v-if="ecMoveOpen" class="mw-le-ec-expand">
-                        <label class="mw-le-ec-field">
-                            <span class="mw-le-ec-field-label">{{ $lang('Parent page') }}</span>
-                            <select class="mw-le-ec-select" v-model="ecParentId" @change="ecTouch('parent')">
-                                <option :value="0">{{ $lang('Top level') }}</option>
-                                <option v-for="p in ecParentPages" :key="p.id" :value="p.id" :disabled="p.id === ecId">{{ p.title }}</option>
-                            </select>
-                        </label>
+                    <div v-if="ecMoveOpen" class="mw-le-ec-expand mw-le-ec-expand--col">
+                        <div class="mw-le-ec-field">
+                            <div class="mw-le-ec-field-head">
+                                <span class="mw-le-ec-field-label">{{ $lang('Parent page') }}</span>
+                                <span class="mw-le-ec-field-val">{{ ecParentCurrentLabel }}</span>
+                            </div>
+                            <button type="button" class="mw-le-ec-toplevel" :class="{ 'is-on': !ecParentId }" @click="ecPickParent(0, '')">
+                                {{ $lang('Top level') }}
+                            </button>
+                            <div id="mw-le-ec-parent-tree" class="mw-le-ec-tree" wire:ignore></div>
+                        </div>
                     </div>
 
                     <!-- Show in main menu -->
@@ -1459,6 +1462,17 @@
 }
 .mw-le-ec-select:focus { outline: none; border-color: #b9c2ff; box-shadow: 0 0 0 3px rgba(90, 110, 240, .15); }
 html.dark .mw-le-ec-select { background: #22262c; color: #e8eaed; border-color: #2c3138; }
+.mw-le-ec-expand--col { flex-direction: column; gap: 8px; }
+.mw-le-ec-field-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.mw-le-ec-field-val { font-size: 12px; color: var(--ac-ink); font-weight: 500; max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mw-le-ec-toplevel {
+    align-self: flex-start; border: 1px solid var(--ac-hairline); border-radius: 8px; background: #fff;
+    color: var(--ac-ink); cursor: pointer; font: inherit; font-size: 12.5px; font-weight: 500; padding: 6px 12px;
+}
+.mw-le-ec-toplevel.is-on { border-color: var(--ac-ink); box-shadow: inset 0 0 0 1px var(--ac-ink); }
+html.dark .mw-le-ec-toplevel { background: #22262c; }
+.mw-le-ec-tree { max-height: 220px; overflow: auto; border: 1px solid var(--ac-hairline); border-radius: 10px; padding: 6px 8px; background: #fff; }
+html.dark .mw-le-ec-tree { background: #22262c; border-color: #2c3138; }
 .mw-le-ec-seg { flex: 0 0 auto; display: inline-flex; background: var(--ac-surface); border-radius: 9px; padding: 3px; }
 .mw-le-ec-seg button {
     border: 0; background: transparent; color: var(--ac-muted); cursor: pointer; font: inherit; font-size: 12.5px;
@@ -1772,19 +1786,37 @@ export default {
         },
         ecToggleMove() {
             this.ecMoveOpen = !this.ecMoveOpen;
-            if (this.ecMoveOpen && !this.ecParentLoaded) { this.ecLoadParentPages(); }
+            if (this.ecMoveOpen) { this.ecMountParentTree(); }
         },
-        async ecLoadParentPages() {
-            try {
-                const r = await this._qsHttp('GET', 'api/content?content_type=page&limit=500&is_active=1');
-                const d = await r.json();
-                const items = (d && d.data) ? d.data : (Array.isArray(d) ? d : []);
-                this.ecParentPages = items
-                    .filter((x) => x && x.content_type === 'page' && x.title && x.id !== this.ecId)
-                    .map((x) => ({ id: x.id, title: x.title }))
-                    .sort((a, b) => String(a.title).localeCompare(String(b.title)));
-                this.ecParentLoaded = true;
-            } catch (e) { this.ecParentPages = []; }
+        // Parent picker uses the same mw.widget.tree as the category picker so a
+        // very long page title scrolls inside a fixed box instead of blowing a
+        // native <select> off-screen. Only page nodes set the parent.
+        ecMountParentTree() {
+            var self = this;
+            this.$nextTick(function () {
+                setTimeout(function () {
+                    var el = document.querySelector('#mw-le-ec-parent-tree');
+                    if (!el || !(window.mw && mw.widget && mw.widget.tree)) { return; }
+                    el.innerHTML = '';
+                    var opts = { options: { selectable: true, singleSelect: true } };
+                    if (self.ecParentId) { opts.options.selectedData = [{ id: String(self.ecParentId), type: 'page' }]; }
+                    try {
+                        mw.widget.tree('#mw-le-ec-parent-tree', opts).then(function (tree) {
+                            tree.tree.on('selectionChange', function () {
+                                var items = tree.tree.getSelected() || [];
+                                var pageNode = items.filter(function (it) { return it.type === 'page'; })[0];
+                                if (pageNode) { self.ecPickParent(parseInt(pageNode.id, 10), pageNode.title || ''); }
+                            });
+                        });
+                    } catch (e) { /* tree unavailable */ }
+                }, 60);
+            });
+        },
+        ecPickParent(id, label) {
+            if (parseInt(id, 10) === this.ecId) { return; } // can't parent to self
+            this.ecParentId = id || 0;
+            this.ecParentLabel = label || '';
+            this.ecTouch('parent');
         },
         ecSetPublished(v) { if (this.ecPublished !== v) { this.ecPublished = v; this.ecTouch('is_active'); } },
         ecToggleMenu() { this.ecInMenu = !this.ecInMenu; this.ecTouch('menu'); },
@@ -2907,6 +2939,13 @@ export default {
         ecDirtyCount() {
             return Object.keys(this.ecDirty || {}).length;
         },
+        ecParentCurrentLabel() {
+            if (!this.ecParentId) { return this.$lang('Top level'); }
+            if (this.ecParentLabel) { return this.ecParentLabel; }
+            const b = this.ecBreadcrumb || [];
+            const last = b.length ? b[b.length - 1] : null;
+            return (last && last.title) ? last.title : ('#' + this.ecParentId);
+        },
     },
     data() {
         return {
@@ -2997,8 +3036,7 @@ export default {
             ecDesignOpen: false,
             ecMoveOpen: false,
             ecParentId: 0,
-            ecParentPages: [],
-            ecParentLoaded: false,
+            ecParentLabel: '',
 
             // ── create-page dialog (two-pane form + preview) ──────────────────
             cpTitle: '',
