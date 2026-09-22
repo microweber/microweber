@@ -232,6 +232,12 @@
             '.mw-qs-items__empty{color:#8a94a3;font-size:12px;padding:6px 2px;}',
             '.mw-qs-mi-badge{font-size:10px;font-weight:600;letter-spacing:.02em;color:#77776f;background:#18243310;border-radius:6px;padding:2px 7px;align-self:center;white-space:nowrap;}',
             'html.dark .mw-qs-mi-badge{color:#c3c8d0;background:#ffffff14;}',
+            // Cap the menu item list so a long menu scrolls INSIDE the panel
+            // instead of stretching it to the full viewport height. The list is
+            // a flex column, so its rows must NOT flex-shrink (they would squash
+            // to a sliver under the capped height instead of overflowing).
+            '.mw-qs-menuitems{max-height:300px;overflow-y:auto;overflow-x:hidden;margin:0 -2px;padding:2px;}',
+            '.mw-qs-menuitems .mw-qs-item{flex:0 0 auto;}',
             '.mw-qs-items__add{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;}',
             '.mw-qs-add{border:1px dashed #18243340;border-radius:9px;background:transparent;color:#182433;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;padding:8px 10px;flex:1 1 auto;}',
             '.mw-qs-add:hover{border-color:#182433;background:#18243308;}',
