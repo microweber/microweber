@@ -261,6 +261,63 @@ class AdminLiveEditPage extends Page
     }
 
     /**
+     * task-2026-09-22 — "Edit current content" from the toolbar page dropdown.
+     * Opens the SAME compact content form as the create actions, but pre-filled
+     * with the content currently open in the Live Edit canvas and saving updates
+     * that record (title / url / published / parent / cover / pricing) instead of
+     * creating a new one. Dispatched via the existing `liveEditOpenCreateContent`
+     * bridge with action 'editCurrentContentAction'.
+     */
+    public function editCurrentContentAction(): Action
+    {
+        $id = $this->resolveCurrentLiveEditPageId();
+        $record = $id ? Content::find($id) : null;
+        $contentType = ($record && $record->content_type) ? $record->content_type : 'page';
+
+        // Same lean live-edit schema as the create flow, scoped to this record
+        // (id drives the media browser + hidden fields).
+        $formArray = ContentResource::formArrayCompact([
+            'contentType' => $contentType,
+            'id' => $id,
+        ]);
+
+        $heading = $record && trim((string) $record->title) !== ''
+            ? __('Edit') . ' ' . mb_strimwidth((string) $record->title, 0, 40, '…')
+            : __('Edit') . ' ' . $contentType;
+
+        return Action::make('editCurrentContentAction')
+            ->label($heading)
+            ->modalHeading($heading)
+            ->color('primary')
+            ->modalWidth(MaxWidth::ThreeExtraLarge)
+            ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'])
+            ->closeModalByClickingAway(false)
+            ->closeModalByEscaping(false)
+            ->stickyModalFooter()
+            // Pre-fill from the record's stored attributes; Filament maps the
+            // matching form field state paths (title/url/is_active/parent/…).
+            ->fillForm(fn () => $record ? $record->getAttributes() : [])
+            ->form($formArray)
+            ->action(function (array $data) use ($id) {
+                $model = $id ? Content::find($id) : null;
+                if (!$model) {
+                    Notification::make()->danger()->title(__('Content not found'))->send();
+                    return;
+                }
+                // Editing, not converting — never change the content type.
+                unset($data['content_type']);
+                $model->fill($data);
+                $model->save();
+
+                Notification::make()->success()->title(__('Saved'))->send();
+
+                // Reflect the edit in the canvas (title/url/settings may change).
+                $this->dispatch('liveEditAddContentSaved', url: (string) content_link($model->id));
+            })
+            ->modalSubmitActionLabel(__('Save'));
+    }
+
+    /**
      * AI-148 (cycle-142) → task-2026-05-13-f18a79 rewrite.
      *
      * Real in-place upload modal. Previously this action was a

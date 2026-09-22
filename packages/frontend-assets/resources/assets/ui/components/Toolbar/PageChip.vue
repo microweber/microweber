@@ -169,7 +169,7 @@
                     {{ q !== '' ? ('No ' + activeTabLabel + ' found.') : ('No ' + activeTabLabel + ' yet.') }}
                 </div>
 
-                <!-- Footer: New page/post/product shortcut -->
+                <!-- Footer: New page/post/product shortcut + Edit-current -->
                 <div class="mw-page-chip-popover__footer">
                     <a :href="newItemHref" class="mw-page-chip-popover__new-page" @click="close()">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -178,6 +178,15 @@
                         </svg>
                         <span>New {{ activeTabSingular }}</span>
                     </a>
+                    <!-- Opens the compact content form pre-filled with the page
+                         currently open in the canvas (edit, not create). -->
+                    <button type="button" class="mw-page-chip-popover__new-page mw-page-chip-popover__edit-current" @click="editCurrentContent()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 20h9"></path>
+                            <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
+                        </svg>
+                        <span>Edit current content</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -357,6 +366,17 @@ export default {
 
         toggle() {
             this.isOpen ? this.close() : this.open();
+        },
+
+        // Open the compact content form for the page currently in the canvas.
+        // Reuses the existing liveEditOpenCreateContent bridge (caught at the
+        // Live Edit page root, which mounts the editCurrentContentAction with an
+        // intact $wire). The action resolves the current content id itself.
+        editCurrentContent() {
+            this.close();
+            try {
+                window.dispatchEvent(new CustomEvent('liveEditOpenCreateContent', { detail: { action: 'editCurrentContentAction' } }));
+            } catch (_) { /* bridge not present */ }
         },
 
         // task-2026-05-18-fd85d0 — switch tab, clear search, reload
