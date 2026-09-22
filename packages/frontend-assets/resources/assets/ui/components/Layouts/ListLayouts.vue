@@ -982,23 +982,9 @@
                         <button type="button" class="mw-le-ec-btn" @click="ecReplaceCover()">{{ ecCover ? $lang('Replace') : $lang('Add') }}</button>
                     </div>
 
-                    <!-- Search & sharing -->
-                    <div class="mw-le-ec-row mw-le-ec-row--top">
-                        <div class="mw-le-ec-row-main">
-                            <div class="mw-le-ec-row-title">{{ $lang('Search & sharing') }}</div>
-                            <div v-if="!ecSeoEditing" class="mw-le-ec-row-sub">
-                                <template v-if="ecMetaDescription">“{{ ecMetaTrunc }}”</template>
-                                <template v-else>{{ $lang('No description yet') }}</template>
-                            </div>
-                            <textarea v-else class="mw-le-ec-seo" v-model="ecMetaDescription" @input="ecTouch('meta')" rows="2"
-                                      :placeholder="$lang('A short summary for search engines and social shares.')"></textarea>
-                        </div>
-                        <button type="button" class="mw-le-ec-btn" @click="ecSeoEditing = !ecSeoEditing">{{ ecSeoEditing ? $lang('Done') : $lang('Edit') }}</button>
-                    </div>
-
-                    <!-- Advanced settings (full admin form) -->
+                    <!-- Open in admin (full form — SEO, sharing, custom fields, …) -->
                     <button type="button" class="mw-le-ec-advanced" @click="ecOpenAdvanced()">
-                        <span>{{ $lang('Advanced settings') }}<small>{{ $lang('SEO, custom fields, tags, scheduling') }}</small></span>
+                        <span>{{ $lang('Open in admin') }}<small>{{ $lang('Advanced settings — SEO, sharing, custom fields, tags, scheduling') }}</small></span>
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
                     </button>
 
@@ -1895,7 +1881,6 @@ export default {
                     is_active: this.ecPublished ? 1 : 0,
                     is_deleted: 0,
                 };
-                if (this.ecDirty.meta) { payload.content_meta_description = this.ecMetaDescription; }
                 if (this.ecDirty.design) {
                     payload.active_site_template = this.ecTemplateKey;
                     payload.layout_file = this.ecLayoutKey;
