@@ -233,18 +233,23 @@ class ContentResource extends Resource
                 // Wrapped in a collapsible Section (collapsed by default, same
                 // pattern as "More options") so the primary path (Title →
                 // Template → Layout) is always above the fold.
-                Schemas\Components\Section::make(__('Cover image'))
-                    ->icon('heroicon-m-photo')
-                    ->collapsible()
-                    ->collapsed()
-                    ->extraAttributes(['class' => 'mw-fb-cover-image-accordion'])
-                    ->schema([
-                        static::mediaSection($relType, $relId, $mediaIds)
-                            ->heading(null)
-                            ->icon(null)
-                            ->extraAttributes(['class' => 'mw-fb-media-section']),
-                    ])
-                    ->columnSpanFull(),
+                // Cover image accordion — hidden when the caller opts out
+                // (e.g. the Live Edit "Edit current content" modal, which edits
+                // an existing page and doesn't offer a cover here).
+                ...(($params['hideCover'] ?? false) ? [] : [
+                    Schemas\Components\Section::make(__('Cover image'))
+                        ->icon('heroicon-m-photo')
+                        ->collapsible()
+                        ->collapsed()
+                        ->extraAttributes(['class' => 'mw-fb-cover-image-accordion'])
+                        ->schema([
+                            static::mediaSection($relType, $relId, $mediaIds)
+                                ->heading(null)
+                                ->icon(null)
+                                ->extraAttributes(['class' => 'mw-fb-media-section']),
+                        ])
+                        ->columnSpanFull(),
+                ]),
 
                 // Pricing kept VISIBLE upfront for products —
                 // user explicitly asked: "on add new product in
@@ -287,8 +292,8 @@ class ContentResource extends Resource
                         static::compactBodyAndExcerptGroup(),
                     ])
                     ->columnSpanFull()
-                    ->visible(function (Schemas\Components\Utilities\Get $get) {
-                        return $get('content_type') !== 'page';
+                    ->visible(function (Schemas\Components\Utilities\Get $get) use ($params) {
+                        return !($params['hideBody'] ?? false) && $get('content_type') !== 'page';
                     }),
 
                 // Page-specific upfront fields
@@ -317,14 +322,19 @@ class ContentResource extends Resource
                             ->columnSpanFull(),
                         // task-2026-05-22-AI-936 — replaced RichEditor with Textarea to reduce
                         // modal scroll depth. Full editor available after save in live-edit canvas.
-                        Forms\Components\Textarea::make('content_body')
-                            ->label('Page content (optional)')
-                            ->placeholder('You can add or edit content in the editor after creating the page.')
-                            ->rows(3)
-                            ->columnSpanFull()
-                            ->hintAction(
-                                TranslateFieldAction::make('content_body')->label('')
-                            ),
+                        // hideBody: the Live Edit "Edit current content" modal drops this — the
+                        // page body is edited live on the canvas, and its filled state rendered
+                        // as "[object Object]" for an existing record.
+                        ...(($params['hideBody'] ?? false) ? [] : [
+                            Forms\Components\Textarea::make('content_body')
+                                ->label('Page content (optional)')
+                                ->placeholder('You can add or edit content in the editor after creating the page.')
+                                ->rows(3)
+                                ->columnSpanFull()
+                                ->hintAction(
+                                    TranslateFieldAction::make('content_body')->label('')
+                                ),
+                        ]),
                     ])
                     ->columnSpanFull()
                     ->visible(function (Schemas\Components\Utilities\Get $get) {

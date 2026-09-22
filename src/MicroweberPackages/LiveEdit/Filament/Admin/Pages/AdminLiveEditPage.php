@@ -275,10 +275,15 @@ class AdminLiveEditPage extends Page
         $contentType = ($record && $record->content_type) ? $record->content_type : 'page';
 
         // Same lean live-edit schema as the create flow, scoped to this record
-        // (id drives the media browser + hidden fields).
+        // (id drives the media browser + hidden fields). Cover image is hidden
+        // for editing an existing page.
         $formArray = ContentResource::formArrayCompact([
             'contentType' => $contentType,
             'id' => $id,
+            'hideCover' => true,
+            // Body is edited live on the canvas — and its filled state rendered
+            // as "[object Object]" for an existing record — so drop it here.
+            'hideBody' => true,
         ]);
 
         $heading = $record && trim((string) $record->title) !== ''
@@ -294,8 +299,10 @@ class AdminLiveEditPage extends Page
             ->closeModalByClickingAway(false)
             ->closeModalByEscaping(false)
             ->stickyModalFooter()
-            // Pre-fill from the record's stored attributes; Filament maps the
-            // matching form field state paths (title/url/is_active/parent/…).
+            // Pre-fill from the record's stored attributes (keeps content_type,
+            // id, layout_file, template… so the right page/post/product form
+            // renders with the record's real values). The body field is hidden
+            // (hideBody), so the "[object Object]" content state can't appear.
             ->fillForm(fn () => $record ? $record->getAttributes() : [])
             ->form($formArray)
             ->action(function (array $data) use ($id) {

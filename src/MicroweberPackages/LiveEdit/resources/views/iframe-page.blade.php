@@ -1190,6 +1190,21 @@
             }
 
             /*
+             * task-2026-09-22 — vertically centre the modal close (×) button
+             * with the heading. The 44px touch-target close is absolutely
+             * positioned at top:16px, so on the short compact header its centre
+             * lands ~16px BELOW the heading text ("out of place"). Anchor it to
+             * the header centre instead.
+             */
+            .mw-content-form-modal .fi-modal-header {
+                position: relative;
+            }
+            .mw-content-form-modal .fi-modal-header .fi-modal-close-btn {
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            /*
              * UX-engineer audit (task-2026-05-05-02f93f):
              * validation failure on the compact "what's the title?"
              * surface was too easy to miss, which made failed save feel
