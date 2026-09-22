@@ -642,7 +642,7 @@
                                        @keydown.enter.prevent="addContentQuickCreate(addContentActiveType, false)">
                             </label>
 
-                            <div v-if="addContentActiveType.quickCreate" class="mw-le-addcontent-field">
+                            <div v-if="addContentActiveType.quickCreate && addContentSelectedType !== 'category'" class="mw-le-addcontent-field">
                                 <span class="mw-le-addcontent-field-label">{{ $lang('Image') }}</span>
                                 <div class="mw-le-ni-image-row">
                                     <button v-if="!niImage" type="button" class="mw-le-ni-add" @click="niPickImage()">
@@ -680,6 +680,21 @@
                                 </div>
                             </template>
 
+                            <!-- Category: real create fields inline (no second-step handoff) -->
+                            <template v-if="addContentSelectedType === 'category'">
+                                <label class="mw-le-addcontent-field">
+                                    <span class="mw-le-addcontent-field-label">{{ $lang('Add to') }}</span>
+                                    <select class="mw-le-addcontent-input mw-le-ac-select" v-model="catParent">
+                                        <option v-for="o in catParentOptions" :key="o.value" :value="o.value">{{ o.label }}</option>
+                                    </select>
+                                </label>
+                                <label class="mw-le-addcontent-field">
+                                    <span class="mw-le-addcontent-field-label">{{ $lang('Description') }} <span class="mw-le-cp-muted">· {{ $lang('optional') }}</span></span>
+                                    <textarea class="mw-le-addcontent-input mw-le-ac-textarea" rows="2" v-model="catDescription"
+                                              :placeholder="$lang('What does this group organize?')"></textarea>
+                                </label>
+                            </template>
+
                             <div v-if="addContentSelectedType === 'product'" class="mw-le-ni-prices">
                                 <label class="mw-le-ni-price-col">
                                     <span class="mw-le-addcontent-field-label">{{ $lang('Price') }}</span>
@@ -695,7 +710,7 @@
                             <div class="mw-le-addcontent-detail-foot">
                                 <span class="mw-le-addcontent-detail-hint">{{ $lang('Opens in the editor after creating') }}</span>
                                 <span v-if="addContentActiveType.quickCreate" class="mw-le-addcontent-create-actions">
-                                    <button type="button" class="mw-le-addcontent-draft" :disabled="addContentCreating"
+                                    <button v-if="addContentSelectedType !== 'category'" type="button" class="mw-le-addcontent-draft" :disabled="addContentCreating"
                                             @click="addContentQuickCreate(addContentActiveType, true)">
                                         {{ $lang('Draft') }}
                                     </button>
@@ -1184,6 +1199,9 @@
 .mw-le-ac-starts .mw-le-cp-start-thumb { height: 40px; }
 .mw-le-ac-menu-row { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; }
 .mw-le-ac-menu-row .mw-le-addcontent-field-label { font-size: 13px; }
+/* Inline Category create: native select + optional description textarea. */
+.mw-le-ac-select { appearance: auto; -webkit-appearance: auto; cursor: pointer; background-image: none; }
+.mw-le-ac-textarea { min-height: 62px; resize: vertical; line-height: 1.45; font-family: inherit; }
 .mw-le-addcontent-input {
     width: 100%; min-height: 42px; padding: 9px 12px;
     border: 1px solid var(--ac-hairline); border-radius: 10px; font-size: 14px; background: #fff; color: var(--ac-ink);
@@ -1472,15 +1490,65 @@ export default {
                 });
             } catch (e) { /* best-effort */ }
         },
+        // Build the category "Add to" options: the page currently open in the
+        // Live Edit canvas (default — the new category lands under its listing,
+        // matching the Filament compact form), Top level, then existing
+        // categories to nest under. `page:<id>` → rel_id, `category:<id>` →
+        // parent_id, '' → top level.
+        catBuildParentOptions() {
+            const opts = [];
+            let curId = '';
+            let curTitle = '';
+            try {
+                const d = mw.top().app.canvas.getLiveEditData();
+                if (d && d.content && d.content.id) {
+                    curId = String(d.content.id);
+                    curTitle = d.content.title || this.$lang('This page');
+                }
+            } catch (e) { /* canvas not ready */ }
+            if (curId) {
+                opts.push({ value: 'page:' + curId, label: this.$lang('This page') + ' — ' + curTitle });
+            }
+            opts.push({ value: '', label: this.$lang('Top level') });
+            this.catParentOptions = opts;
+            this.catParent = curId ? ('page:' + curId) : '';
+            // Append existing categories asynchronously (nest-under choices).
+            if (this.catParentLoaded) { this.catAppendCategories(this._catCache || []); return; }
+            (async () => {
+                try {
+                    const base = mw.settings.site_url;
+                    const r = await fetch(base + 'api/module/categories?limit=500', { credentials: 'include', headers: { Accept: 'application/json' } });
+                    const d = await r.json();
+                    const items = (d && d.data) ? d.data : (Array.isArray(d) ? d : []);
+                    this._catCache = items;
+                    this.catParentLoaded = true;
+                    this.catAppendCategories(items);
+                } catch (e) { /* categories optional */ }
+            })();
+        },
+        catAppendCategories(items) {
+            const cats = (items || [])
+                .filter((c) => c && c.title && (c.data_type === 'category' || !c.data_type))
+                .map((c) => ({ value: 'category:' + c.id, label: this.$lang('Under') + ': ' + c.title }));
+            // Rebuild so we don't duplicate on repeat opens.
+            const base = this.catParentOptions.filter((o) => !String(o.value).startsWith('category:'));
+            this.catParentOptions = base.concat(cats);
+        },
         addContentSelect(key) {
             this.addContentSelectedType = key;
             // Fresh new-item fields whenever a creatable content type is opened.
-            if (key === 'page' || key === 'post' || key === 'product') {
+            if (key === 'page' || key === 'post' || key === 'product' || key === 'category') {
                 this.addContentTitle = '';
                 this.niImage = '';
                 this.niPrice = '';
                 this.niSpecialPrice = '';
                 this.addContentError = '';
+            }
+            // Category creates inline: build the "Add to" options (current page +
+            // existing categories) and reset its fields.
+            if (key === 'category') {
+                this.catDescription = '';
+                this.catBuildParentOptions();
             }
             // Page now creates inline: seed the real Start-from cards + main-menu
             // id so the fields render with live data (no second-step dialog).
@@ -1556,6 +1624,8 @@ export default {
         // via POST api/content, then open it in Live Edit. draft => is_active 0.
         async addContentQuickCreate(type, draft) {
             if (!type || this.addContentCreating) { return; }
+            // Category has its own endpoint (api/category) + navigation.
+            if (type.key === 'category') { return this.catCreate(draft); }
             const title = (this.addContentTitle || '').trim() || ('Untitled ' + type.label.toLowerCase());
             this.addContentCreating = true;
             this.addContentError = '';
@@ -1624,6 +1694,69 @@ export default {
                 window.location.href = target;
             } catch (e) {
                 this.addContentError = 'Could not create ' + type.label.toLowerCase() + '.';
+            } finally {
+                this.addContentCreating = false;
+            }
+        },
+        // Inline category create → POST api/category (session-authed admin
+        // apiResource store). "Add to" maps to rel_id (a page) or parent_id (a
+        // parent category). Draft = hidden/inactive. On success, reopen the
+        // category's frontend page in Live Edit via the returned frontend_link.
+        async catCreate(draft) {
+            if (this.addContentCreating) { return; }
+            const title = (this.addContentTitle || '').trim();
+            if (!title) {
+                this.addContentError = 'Give the category a title first.';
+                return;
+            }
+            this.addContentCreating = true;
+            this.addContentError = '';
+            try {
+                const base = mw.settings.site_url;
+                const tokenEl = document.querySelector('meta[name="csrf-token"]');
+                const token = (tokenEl && tokenEl.content) || (mw.settings && mw.settings.csrf) || '';
+                const payload = { title: title, is_active: draft ? 0 : 1, is_hidden: draft ? 1 : 0, is_deleted: 0 };
+                const notes = (this.catDescription || '').trim();
+                if (notes) { payload.description = notes; }
+                const v = this.catParent || '';
+                if (v.indexOf('page:') === 0) {
+                    payload.rel_id = parseInt(v.slice(5), 10) || 0;
+                    payload.parent_id = 0;
+                } else if (v.indexOf('category:') === 0) {
+                    payload.parent_id = parseInt(v.slice(9), 10) || 0;
+                } else {
+                    payload.parent_id = 0;
+                    payload.rel_id = 0;
+                }
+                const res = await fetch(base + 'api/category', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': token,
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(payload),
+                });
+                const raw = await res.text();
+                let data = null;
+                try { const j = JSON.parse(raw); data = j.data || j; } catch (e) { data = null; }
+                const id = data && data.id;
+                if (!res.ok || !id) {
+                    this.addContentError = 'Could not create the category.';
+                    return;
+                }
+                this.showModal = false;
+                this.addContentTitle = '';
+                this.catDescription = '';
+                let link = (data && data.frontend_link) || '';
+                if (link && !/^https?:\/\//i.test(link)) { link = base + link.replace(/^\/+/, ''); }
+                window.location.href = base + 'admin/live-edit' + (link
+                    ? ('?url=' + encodeURIComponent(link))
+                    : ('?content_id=' + (data.rel_id || id)));
+            } catch (e) {
+                this.addContentError = 'Could not create the category.';
             } finally {
                 this.addContentCreating = false;
             }
@@ -2374,6 +2507,11 @@ export default {
             niImage: '',
             niPrice: '',
             niSpecialPrice: '',
+            // inline category create: description + "Add to" (page rel_id / parent category)
+            catDescription: '',
+            catParent: '',
+            catParentOptions: [],
+            catParentLoaded: false,
 
             // ── create-page dialog (two-pane form + preview) ──────────────────
             cpTitle: '',
@@ -2419,7 +2557,7 @@ export default {
                   createAction: 'addImageAction', tint: '#f2e6ff',
                   description: 'Upload an image straight onto the page.' },
                 { key: 'category', label: 'Category', group: 'content', badge: 'Ca', shortcut: 'C',
-                  createAction: 'addCategoryAction', tint: '#e0f5f5',
+                  createAction: 'addCategoryAction', tint: '#e0f5f5', quickCreate: true,
                   description: 'A group that organizes your posts or products.' },
                 { key: 'layout', label: 'Layout', group: 'content', badge: 'La', shortcut: 'L',
                   layoutCategory: '', tint: '#efe6ff',

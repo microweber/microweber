@@ -63,6 +63,12 @@ class  CategoryApiController extends AdminDefaultController
         }
 
         $result->admin_edit_url = get_category_edit_link($result->id);
+        // task-2026-09-22 — the Live Edit inline "Create category" flow needs the
+        // category's FRONTEND link (parent-page-url/category-url) to reopen the
+        // new category page in the editor; category_link() is the authority.
+        if (function_exists('category_link')) {
+            $result->frontend_link = category_link($result->id);
+        }
 
         return (new JsonResource($result))->response();
 
