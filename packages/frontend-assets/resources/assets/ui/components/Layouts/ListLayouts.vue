@@ -934,13 +934,13 @@
                         </div>
                     </div>
 
-                    <!-- Location -->
+                    <!-- Parent page -->
                     <div class="mw-le-ec-row">
                         <div class="mw-le-ec-row-main">
-                            <div class="mw-le-ec-row-title">{{ $lang('Location') }}</div>
-                            <div class="mw-le-ec-row-sub">{{ ecBreadcrumbText }}<span v-if="ecIsHome" class="mw-le-ec-muted"> ({{ $lang('is homepage') }})</span></div>
+                            <div class="mw-le-ec-row-title">{{ $lang('Parent page') }}</div>
+                            <div class="mw-le-ec-row-sub">{{ ecParentCurrentLabel }}<span v-if="ecIsHome" class="mw-le-ec-muted"> ({{ $lang('is homepage') }})</span></div>
                         </div>
-                        <button type="button" class="mw-le-ec-btn" :class="{ 'is-on': ecMoveOpen }" @click="ecToggleMove()">{{ ecMoveOpen ? $lang('Done') : $lang('Move') }}</button>
+                        <button type="button" class="mw-le-ec-btn" :class="{ 'is-on': ecMoveOpen }" @click="ecToggleMove()">{{ ecMoveOpen ? $lang('Done') : $lang('Change') }}</button>
                     </div>
                     <div v-if="ecMoveOpen" class="mw-le-ec-expand mw-le-ec-expand--col">
                         <div class="mw-le-ec-field">
