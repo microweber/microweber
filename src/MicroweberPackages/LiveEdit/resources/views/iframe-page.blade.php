@@ -219,6 +219,22 @@
                 if (act) { swapAction(act, {}); }
             });
 
+            // Edit-current-content: the toolbar passes the id of the page shown in
+            // the canvas. Set it on the component FIRST (so the action resolves the
+            // right record even when the mounted url is stale), then mount.
+            window.addEventListener('liveEditEditCurrentContent', (e) => {
+                const id = (e && e.detail && e.detail.contentId) ? e.detail.contentId : null;
+                const mount = () => swapAction('editCurrentContentAction', {});
+                if (id) {
+                    try {
+                        const r = $wire.set('editCurrentContentId', parseInt(id, 10));
+                        if (r && typeof r.then === 'function') { r.then(mount); } else { mount(); }
+                    } catch (_) { mount(); }
+                } else {
+                    mount();
+                }
+            });
+
             // task-2026-06-05-addcontent-save: SAVE the create form from a
             // teleported action modal. The modal is hoisted to .fi-layout to
             // escape the stacking trap, which leaves its form with NO wire:id

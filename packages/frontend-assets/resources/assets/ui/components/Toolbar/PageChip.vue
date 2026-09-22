@@ -369,13 +369,19 @@ export default {
         },
 
         // Open the compact content form for the page currently in the canvas.
-        // Reuses the existing liveEditOpenCreateContent bridge (caught at the
-        // Live Edit page root, which mounts the editCurrentContentAction with an
-        // intact $wire). The action resolves the current content id itself.
+        // Pass the current content id (the canvas always knows it) so the action
+        // edits the right record even if the mounted ?url= has gone stale after
+        // in-canvas navigation. Handled at the Live Edit page root where $wire
+        // is intact.
         editCurrentContent() {
             this.close();
+            let contentId = null;
             try {
-                window.dispatchEvent(new CustomEvent('liveEditOpenCreateContent', { detail: { action: 'editCurrentContentAction' } }));
+                const d = window.mw && mw.top && mw.top().app && mw.top().app.canvas && mw.top().app.canvas.getLiveEditData();
+                if (d && d.content && d.content.id) { contentId = d.content.id; }
+            } catch (_) { /* canvas not ready */ }
+            try {
+                window.dispatchEvent(new CustomEvent('liveEditEditCurrentContent', { detail: { contentId } }));
             } catch (_) { /* bridge not present */ }
         },
 

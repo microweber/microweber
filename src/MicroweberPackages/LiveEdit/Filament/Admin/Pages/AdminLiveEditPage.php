@@ -49,6 +49,12 @@ class AdminLiveEditPage extends Page
      */
     public string $liveEditUrl = '';
 
+    // task-2026-09-22 — the content id the client (PageChip) is currently
+    // showing in the canvas, set via $wire.set before mounting the edit action.
+    // Authoritative over resolveCurrentLiveEditPageId(), whose liveEditUrl can go
+    // stale after in-canvas navigation (→ null → a blank "Edit page" modal).
+    public ?int $editCurrentContentId = null;
+
     public function mount(): void
     {
         $this->liveEditUrl = (string) request()->get('url', '');
@@ -270,7 +276,9 @@ class AdminLiveEditPage extends Page
      */
     public function editCurrentContentAction(): Action
     {
-        $id = $this->resolveCurrentLiveEditPageId();
+        // Prefer the client-supplied id (always the page in the canvas); fall
+        // back to the url-derived resolver only when it wasn't provided.
+        $id = $this->editCurrentContentId ?: $this->resolveCurrentLiveEditPageId();
         $record = $id ? Content::find($id) : null;
         $contentType = ($record && $record->content_type) ? $record->content_type : 'page';
 
