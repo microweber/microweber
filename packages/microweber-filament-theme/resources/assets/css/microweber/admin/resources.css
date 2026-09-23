@@ -1,3 +1,16 @@
+/* task-2026-09-23 — kill the stray ~5px horizontal scrollbar on the admin
+ * content tables (Pages/Posts/Products/Content). These use Filament's
+ * "content layout" (stacked card rows, never columnar) so they never need
+ * horizontal scroll, but the filter button's badge (.fi-icon-btn-badge-ctn)
+ * pokes a few px past the right edge and trips the container's overflow-x:auto.
+ * `clip` removes the scrollbar while leaving overflow-y visible (so row action
+ * menus / tooltips still escape), unlike `hidden` which would create a scroll
+ * container on the other axis. */
+body.fi-panel-admin .fi-ta-ctn.fi-ta-ctn-with-content-layout,
+body.fi-panel-admin .fi-ta-ctn-with-content-layout .fi-ta-content-ctn {
+    overflow-x: clip !important;
+}
+
 /*STYLE MODULES PAGE*/
 .fi-resource-modules .fi-ta-filter-indicators  {
     @apply !border-none !bg-transparent !shadow-none !ring-0 !pb-4 !px-0 !justify-start;

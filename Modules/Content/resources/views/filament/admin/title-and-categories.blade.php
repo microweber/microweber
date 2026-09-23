@@ -1,8 +1,16 @@
 <div class="flex flex-col w-full gap-0.5">
 
-    {{-- Line 1: title (+ home indicator, inline so the svg stays constrained) --}}
-    <div class="font-medium w-full overflow-hidden">
-        <a href="{{$content->editLink()}}" class="truncate align-middle">{{$content->title}}</a>@if($content->is_home)<span class="mx-1 align-middle">{{ svg('heroicon-o-home', 'inline-block w-4 h-4 text-gray-400') }}</span>@endif
+    {{-- Line 1: title (+ homepage badge). task-2026-09-23 — the old faint gray
+         home icon was easy to miss; use a clear labelled pill so the homepage row
+         is obvious at a glance (matches the "set homepage" action). --}}
+    <div class="flex items-center gap-2 font-medium w-full overflow-hidden">
+        <a href="{{$content->editLink()}}" class="truncate align-middle">{{$content->title}}</a>
+        @if($content->is_home)
+            <span class="mw-home-badge inline-flex items-center gap-1 flex-none rounded-full px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
+                  title="{{ _e('This page is the homepage') }}">
+                {{ svg('heroicon-s-home', 'inline-block w-3 h-3') }}{{ _e('Homepage') }}
+            </span>
+        @endif
     </div>
 
     {{-- Line 2: a single dense meta row — breadcrumb · categories · date --}}
