@@ -16,9 +16,10 @@
 /* task-2026-09-23 — pages tree block: give the search/tree group the same top
  * spacing as the Link-text field above it (was cramped directly under the input),
  * and style the async loading/error placeholders. */
-.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root .form-group:has(.mw-tree-nav),
-.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root .form-group:has(.mw-link-editor-tree-loading),
-.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root .form-group:has(.mw-link-editor-tree-error) {
+/* Consistent vertical rhythm between field blocks on EVERY tab: the first field
+ * (Link text) and the next block (search / pages tree / content select) rendered
+ * flush with no gap. Space every block after the first in the controller body. */
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root > div > * + * {
     margin-top: 16px !important;
 }
 .mw_modal_live_edit_link_editor_settings .mw-link-editor-tree-loading,
