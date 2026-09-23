@@ -303,6 +303,38 @@ function openBtnPanel(el) {
     _btnPanelEl.style.left = Math.round(left) + 'px';
     _btnPanelEl.style.top = Math.round(top) + 'px';
 
+    // Draggable by the header (matches the shared kit). Grabbing the header
+    // background/title moves the panel; the action icons keep working.
+    (function () {
+        var head = _btnPanelEl.querySelector('.mw-btn-panel__head');
+        if (!head) { return; }
+        head.style.cursor = 'move';
+        head.addEventListener('mousedown', function (e) {
+            if (e.button !== 0) { return; }
+            if (e.target.closest && e.target.closest('.mw-btn-panel__ico')) { return; }
+            var d = btnTopDoc(), w = d.defaultView || window;
+            var rr = _btnPanelEl.getBoundingClientRect();
+            var sx = e.clientX, sy = e.clientY, sl = rr.left, st = rr.top;
+            e.preventDefault();
+            var prevSel = d.body.style.userSelect;
+            d.body.style.userSelect = 'none';
+            var mv = function (ev) {
+                var m = 4, pw2 = _btnPanelEl.offsetWidth, ph2 = _btnPanelEl.offsetHeight;
+                var nl = Math.min(Math.max(m, sl + (ev.clientX - sx)), Math.max(m, w.innerWidth - pw2 - m));
+                var nt = Math.min(Math.max(m, st + (ev.clientY - sy)), Math.max(m, w.innerHeight - ph2 - m));
+                _btnPanelEl.style.left = Math.round(nl) + 'px';
+                _btnPanelEl.style.top = Math.round(nt) + 'px';
+            };
+            var up = function () {
+                d.removeEventListener('mousemove', mv, true);
+                d.removeEventListener('mouseup', up, true);
+                d.body.style.userSelect = prevSel;
+            };
+            d.addEventListener('mousemove', mv, true);
+            d.addEventListener('mouseup', up, true);
+        });
+    })();
+
     // ── wiring ──
     var setActive = function (group, val) {
         _btnPanelEl.querySelectorAll('[data-group="' + group + '"]').forEach(function (b) {

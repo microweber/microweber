@@ -280,6 +280,10 @@
             '.mw-qs-image{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid #18243318;background:#18243308;}',
             'html.dark .mw-qs-image{border-color:#ffffff1f;background:#ffffff08;}',
             '.mw-qs-image img{width:100%;height:100%;object-fit:cover;display:block;}',
+            '.mw-qs-image[draggable="true"]{cursor:grab;}',
+            '.mw-qs-image--dragging{opacity:.4;}',
+            '.mw-qs-image--over{box-shadow:0 0 0 2px #182433;}',
+            'html.dark .mw-qs-image--over{box-shadow:0 0 0 2px #e8eaed;}',
             '.mw-qs-image__del{position:absolute;top:3px;right:3px;width:20px;height:20px;border:0;border-radius:50%;background:rgba(24,36,51,.72);color:#fff;cursor:pointer;font-size:11px;line-height:1;display:inline-flex;align-items:center;justify-content:center;opacity:0;transition:opacity .12s;}',
             '.mw-qs-image:hover .mw-qs-image__del{opacity:1;}',
             '.mw-qs-image__del:hover{background:#dc2626;}',
@@ -880,8 +884,8 @@
                     return;
                 }
                 container.innerHTML = images.map(function (it, i) {
-                    return '<div class="mw-qs-image" data-id="' + esc(it.id) + '">'
-                        + '<img src="' + esc(it.url) + '" alt="" loading="lazy">'
+                    return '<div class="mw-qs-image" data-id="' + esc(it.id) + '"' + (images.length > 1 ? ' draggable="true"' : '') + '>'
+                        + '<img src="' + esc(it.url) + '" alt="" loading="lazy" draggable="false">'
                         + '<button type="button" class="mw-qs-image__del" data-act="del" title="' + esc(lang('Remove')) + '">✕</button>'
                         + (images.length > 1 ? '<div class="mw-qs-image__nav">'
                             + '<button type="button" data-act="left" title="' + esc(lang('Move left')) + '"' + (i === 0 ? ' disabled' : '') + '>‹</button>'
@@ -891,6 +895,9 @@
                 bind();
             };
 
+            var persistOrder = function () {
+                qsHttp('POST', 'api/' + endpoint + '/reorder', { rel_id: relId, ids: images.map(function (x) { return x.id; }) }).then(reload);
+            };
             var move = function (id, dir) {
                 var ids = images.map(function (x) { return String(x.id); });
                 var idx = ids.indexOf(String(id));
@@ -899,8 +906,20 @@
                 var moved = images.splice(idx, 1)[0];
                 images.splice(to, 0, moved);
                 render();
-                qsHttp('POST', 'api/' + endpoint + '/reorder', { rel_id: relId, ids: images.map(function (x) { return x.id; }) }).then(reload);
+                persistOrder();
             };
+            var dropMove = function (dragId, targetId, before) {
+                if (dragId == null || String(dragId) === String(targetId)) { return; }
+                var moved = images.filter(function (x) { return String(x.id) === String(dragId); })[0];
+                if (!moved) { return; }
+                images = images.filter(function (x) { return String(x.id) !== String(dragId); });
+                var tIdx = images.map(function (x) { return String(x.id); }).indexOf(String(targetId));
+                if (tIdx < 0) { tIdx = images.length - 1; }
+                images.splice(before ? tIdx : tIdx + 1, 0, moved);
+                render();
+                persistOrder();
+            };
+            var _dragId = null;
 
             var bind = function () {
                 container.querySelectorAll('.mw-qs-image').forEach(function (row) {
@@ -911,6 +930,31 @@
                     var l = row.querySelector('[data-act="left"]'), rt = row.querySelector('[data-act="right"]');
                     if (l) { l.addEventListener('click', function () { move(id, -1); }); }
                     if (rt) { rt.addEventListener('click', function () { move(id, 1); }); }
+                    // Drag-to-reorder (the arrows stay as a fallback).
+                    row.addEventListener('dragstart', function (e) {
+                        _dragId = id; row.classList.add('mw-qs-image--dragging');
+                        try { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', id); } catch (_) {}
+                    });
+                    row.addEventListener('dragend', function () {
+                        _dragId = null;
+                        container.querySelectorAll('.mw-qs-image').forEach(function (r) { r.classList.remove('mw-qs-image--dragging', 'mw-qs-image--over'); });
+                    });
+                    row.addEventListener('dragover', function (e) {
+                        if (_dragId == null) { return; }
+                        e.preventDefault();
+                        try { e.dataTransfer.dropEffect = 'move'; } catch (_) {}
+                        if (String(_dragId) !== String(id)) { row.classList.add('mw-qs-image--over'); }
+                    });
+                    row.addEventListener('dragleave', function () { row.classList.remove('mw-qs-image--over'); });
+                    row.addEventListener('drop', function (e) {
+                        if (_dragId == null) { return; }
+                        e.preventDefault();
+                        var rect = row.getBoundingClientRect();
+                        var before = (e.clientX - rect.left) < rect.width / 2;
+                        var dId = _dragId; _dragId = null;
+                        container.querySelectorAll('.mw-qs-image').forEach(function (r) { r.classList.remove('mw-qs-image--dragging', 'mw-qs-image--over'); });
+                        dropMove(dId, id, before);
+                    });
                 });
             };
 
