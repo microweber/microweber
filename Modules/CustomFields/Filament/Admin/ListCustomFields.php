@@ -275,7 +275,14 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable, Has
                                             ->required()
                                             ->live()
                                             ->color('primary')
-                                            ->columns(3),
+                                            // task-2026-09-23 — compact type picker: RadioDeck cards
+                                            // were tall (big icon-gap + wrapping description) so the
+                                            // ~18 types overflowed the modal. Tag every card with
+                                            // .mw-cf-type-card so the Filament theme can shrink ONLY
+                                            // this deck (RadioDeck is shared by ~17 other screens),
+                                            // driven by --mw-cf-* tokens. Grid widened to 4 columns.
+                                            ->extraCardsAttributes(['class' => 'mw-cf-type-card'])
+                                            ->columns(4),
                                     ]),
                                 Wizard\Step::make('Settings')
                                     ->schema($editForm),

@@ -1,0 +1,68 @@
+/* ============================================================================
+ * Custom Fields — compact "Create Custom Field" type picker.
+ *
+ * The type step is a JaOcero RadioDeck (shared by ~17 other admin screens), so
+ * nothing here targets RadioDeck globally — every rule keys off the
+ * .mw-cf-type-card marker added ONLY to this deck
+ * (ListCustomFields::table() -> ->extraCardsAttributes([...])).
+ *
+ * The stock cards are tall (h-6 icon, gap-5 icon→text, px-4 py-2, a wrapping
+ * description) so the ~18 field types overflow the modal. Everything below is
+ * driven by --mw-cf-* tokens so the density can be retuned from one block.
+ * !important is required because the deck's look is Tailwind utility classes
+ * (px-4 / py-2 / gap-5 / text-sm) baked onto the elements.
+ * ============================================================================ */
+
+:root {
+    --mw-cf-cols:            4;        /* type-grid columns */
+    --mw-cf-grid-gap:        8px;      /* gap between cards */
+    --mw-cf-card-pad-y:      8px;
+    --mw-cf-card-pad-x:      10px;
+    --mw-cf-card-radius:     10px;
+    --mw-cf-card-icon:       20px;     /* icon box (was h-6 = 24px) */
+    --mw-cf-card-icon-gap:   9px;      /* icon → text (was gap-5 = 20px) */
+    --mw-cf-card-label-size: 12px;
+    --mw-cf-card-label-lh:   1.2;
+    --mw-cf-card-desc-size:  11px;
+    --mw-cf-card-desc-lh:    1.3;
+    --mw-cf-card-desc-lines: 2;        /* clamp the description */
+}
+
+/* Grid that holds the tagged cards: <div grid> <label> <input> <div.card> */
+.fi-body div:has(> label > .mw-cf-type-card) {
+    display: grid !important;
+    grid-template-columns: repeat(var(--mw-cf-cols), minmax(0, 1fr)) !important;
+    gap: var(--mw-cf-grid-gap) !important;
+}
+.fi-body label:has(> .mw-cf-type-card) {
+    gap: 0 !important;
+}
+
+/* The card itself */
+.fi-body .mw-cf-type-card {
+    padding: var(--mw-cf-card-pad-y) var(--mw-cf-card-pad-x) !important;
+    gap: var(--mw-cf-card-icon-gap) !important;
+    border-radius: var(--mw-cf-card-radius) !important;
+    align-items: flex-start !important;
+    line-height: 1.2 !important;
+}
+.fi-body .mw-cf-type-card > svg,
+.fi-body .mw-cf-type-card .fi-icon,
+.fi-body .mw-cf-type-card [class*="fi-icon"] svg {
+    height: var(--mw-cf-card-icon) !important;
+    width: var(--mw-cf-card-icon) !important;
+    margin-top: 1px;
+}
+.fi-body .mw-cf-type-card .font-medium {
+    font-size: var(--mw-cf-card-label-size) !important;
+    line-height: var(--mw-cf-card-label-lh) !important;
+}
+.fi-body .mw-cf-type-card p {
+    font-size: var(--mw-cf-card-desc-size) !important;
+    line-height: var(--mw-cf-card-desc-lh) !important;
+    margin-top: 2px !important;
+    display: -webkit-box;
+    -webkit-line-clamp: var(--mw-cf-card-desc-lines);
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
