@@ -1872,6 +1872,9 @@ export default {
             if (!this.ecId || this.ecSaving) { return; }
             this.ecSaving = true;
             this.ecError = '';
+            // A design/layout or slug change re-renders the whole page → full
+            // canvas reload; a plain menu/cover/title change can refresh in place.
+            var needFull = !!(this.ecDirty.design || this.ecDirty.url);
             try {
                 // Core fields via the classic session-authed save.
                 const payload = {
@@ -1886,28 +1889,52 @@ export default {
                     payload.layout_file = this.ecLayoutKey;
                 }
                 if (this.ecDirty.parent) { payload.parent = this.ecParentId || 0; }
-                await this._qsHttp('POST', 'api/save_content', payload);
+                // fetch() only rejects on network errors — treat a non-2xx as a
+                // failure too so we never reload on an unsaved change.
+                var ok = function (r) { if (!r || !r.ok) { throw new Error('save failed'); } return r; };
+                ok(await this._qsHttp('POST', 'api/save_content', payload));
 
                 // Menu add/remove — handled server-side so removal clears every
                 // menu link to this content, not just the header menu.
                 if (this.ecDirty.menu) {
-                    await this._qsHttp('POST', 'api/live-edit/content-menu', { id: this.ecId, in_menu: this.ecInMenu ? 1 : 0 });
+                    ok(await this._qsHttp('POST', 'api/live-edit/content-menu', { id: this.ecId, in_menu: this.ecInMenu ? 1 : 0 }));
                 }
 
                 // Cover image attach.
                 if (this.ecDirty.cover && this.ecCover && this.ecCover.url) {
-                    await this._qsHttp('POST', 'api/save_media', { filename: this.ecCover.url, rel_type: 'content', rel_id: this.ecId, media_type: 'picture' });
+                    ok(await this._qsHttp('POST', 'api/save_media', { filename: this.ecCover.url, rel_type: 'content', rel_id: this.ecId, media_type: 'picture' }));
                 }
-
-                this.ecDirty = {};
-                // Refresh the canvas to reflect the change, then close.
-                try { mw.app.canvas.reload(); } catch (e) {}
-                this.showModal = false;
             } catch (e) {
+                // A save failed — surface the error and DON'T reload (the user's
+                // changes stay in the still-open modal to retry).
                 this.ecError = this.$lang('Could not save changes.');
-            } finally {
                 this.ecSaving = false;
+                return;
             }
+
+            // All saves succeeded → now it's safe to refresh + close.
+            this.ecDirty = {};
+            this.ecSaving = false;
+            this.showModal = false;
+            try {
+                var refreshed = false;
+                try {
+                    var cdoc = mw.app.canvas.getDocument();
+                    var menus = cdoc ? cdoc.querySelectorAll('[data-type="menu"]') : [];
+                    // Plain menu/cover/title change → re-render the menu module(s)
+                    // in place; design/slug change → full reload below.
+                    if (menus.length && !needFull) {
+                        menus.forEach(function (m) {
+                            try { mw.app.editor.dispatch('onModuleSettingsChanged', { moduleId: m.getAttribute('id') }); } catch (e) {}
+                        });
+                        refreshed = true;
+                    }
+                } catch (e) {}
+                if (!refreshed) {
+                    var cwin = mw.app.canvas.getWindow && mw.app.canvas.getWindow();
+                    if (cwin && cwin.location) { cwin.location.reload(); }
+                }
+            } catch (e) {}
         },
 
         async niAttachImage(contentId) {
