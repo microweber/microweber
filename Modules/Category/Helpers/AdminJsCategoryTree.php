@@ -294,7 +294,12 @@ class AdminJsCategoryTree
         if ($page['is_home'] == 1) {
             $appendPage['icon'] = 'home';
         }
-        $appendPage = xss_clean($appendPage);
+        // task-2026-09-23 — only the user-supplied `title` can carry injected
+        // HTML; every other field here is an int, an enum (content_type/subtype),
+        // or a framework-generated URL (content_link/content_edit_link). Cleaning
+        // the whole array ran xss_clean ~13×/node (≈10k calls for a big tree);
+        // clean just the title so the sanitiser runs once per node.
+        $appendPage['title'] = xss_clean($appendPage['title']);
         $this->output[] = $appendPage;
     }
 
@@ -367,7 +372,12 @@ class AdminJsCategoryTree
                 }
             }
         }
-        $appendCategory = xss_clean($appendCategory);
+        // task-2026-09-23 — clean only the user-supplied titles (node + parent
+        // page); the rest are ints / enums / framework URLs. See appendPage().
+        $appendCategory['title'] = xss_clean($appendCategory['title']);
+        if (isset($appendCategory['parent_page']['title'])) {
+            $appendCategory['parent_page']['title'] = xss_clean($appendCategory['parent_page']['title']);
+        }
 
         $this->output[] = $appendCategory;
     }
