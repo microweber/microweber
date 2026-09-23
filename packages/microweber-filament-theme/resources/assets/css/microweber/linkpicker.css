@@ -13,6 +13,36 @@
     transform: none !important;
 }
 
+/* task-2026-09-23 — pages tree block: give the search/tree group the same top
+ * spacing as the Link-text field above it (was cramped directly under the input),
+ * and style the async loading/error placeholders. */
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root .form-group:has(.mw-tree-nav),
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root .form-group:has(.mw-link-editor-tree-loading),
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root .form-group:has(.mw-link-editor-tree-error) {
+    margin-top: 16px !important;
+}
+.mw_modal_live_edit_link_editor_settings .mw-link-editor-tree-loading,
+.mw_modal_live_edit_link_editor_settings .mw-link-editor-tree-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 2px;
+    font-size: 13px;
+    color: var(--mw-text-muted, #64748b);
+}
+.mw_modal_live_edit_link_editor_settings .mw-link-editor-tree-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--mw-border-color, #dadfe5);
+    border-top-color: var(--mw-text-secondary, #4a5568);
+    border-radius: 50%;
+    animation: mw-link-editor-spin 0.6s linear infinite;
+    flex: none;
+}
+@keyframes mw-link-editor-spin {
+    to { transform: rotate(360deg); }
+}
+
 /* ===== Link Picker Dialog ===== */
 
 /* task-2026-09-23 — Defense-in-depth for the "picker opened from a menu / module

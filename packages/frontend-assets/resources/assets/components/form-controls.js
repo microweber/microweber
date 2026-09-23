@@ -992,7 +992,7 @@ mw.emitter = {
             var _linkText = '', _linkUrl = '', _target = '';
             UIFormControllers._title(this.settings, root)
             var treeEl = document.createElement('div');
-            treeEl.className = 'form-group';
+            treeEl.className = 'form-group mw-link-editor-tree-group';
             treeEl.style.marginInline = '15px;';
             if (options.text) {
                 _linkText = mw.controlFields.field({
@@ -1011,6 +1011,15 @@ mw.emitter = {
             }
             var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
 
+            // task-2026-09-23 — settings.dataUrl() can return null when
+            // mw.top().settings isn't ready at build time, which left the pages
+            // tree silently blank. Fall back to a resolvable API base.
+            if (!url) {
+                var _apiBase = '/api/';
+                try { _apiBase = (mw.top && mw.top().settings && mw.top().settings.api_url) || (window.mw && mw.settings && mw.settings.api_url) || '/api/'; } catch (e) {}
+                url = _apiBase + 'content/get_admin_js_tree_json';
+            }
+
             if(_linkText) {
                 scope.shouldChange = !_linkText.querySelector('input').value.trim();
 
@@ -1019,9 +1028,8 @@ mw.emitter = {
 
             var currentVal = {}
 
-
-            $.getJSON(url, function (res){
-
+            var buildTree = function (res){
+                treeEl.innerHTML = '';
                 scope.tree = new mw.tree({
                     data: res,
                     element: treeEl,
@@ -1056,7 +1064,22 @@ mw.emitter = {
                         scope._confirm.forEach(function(f){ f(scope.getValue()); });
                     }
                 });
-            });
+            };
+
+            // task-2026-09-23 — was $.getJSON, which in the Live Edit top window
+            // could fire late / silently no-op, leaving the tree blank. Native
+            // fetch (with the admin session cookie) is reliable; show a loading
+            // spinner while the endpoint responds and a visible error on failure
+            // instead of an empty panel.
+            var _lang = function (s) { return (window.mw && mw.lang) ? mw.lang(s) : s; };
+            treeEl.innerHTML = '<div class="mw-link-editor-tree-loading"><span class="mw-link-editor-tree-spinner" aria-hidden="true"></span>' + _lang('Loading pages…') + '</div>';
+            fetch(url, { credentials: 'include', headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(function (r) { if (!r.ok) { throw new Error('HTTP ' + r.status); } return r.json(); })
+                .then(function (res) { buildTree(res); })
+                .catch(function (err) {
+                    try { console.warn('LinkEditor: pages tree failed to load', err); } catch (e) {}
+                    treeEl.innerHTML = '<div class="mw-link-editor-tree-error">' + _lang('Could not load pages') + '</div>';
+                });
 
             if (options.target) {
                 _target = mw.controlFields.checkbox({

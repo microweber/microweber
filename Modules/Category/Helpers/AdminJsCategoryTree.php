@@ -43,8 +43,43 @@ class AdminJsCategoryTree
 
     }
 
+    /**
+     * Cache group for the built tree. Kept as 'content' on purpose: both the
+     * Content/Page and Category models list 'content' in $cacheTagsToClear, so
+     * every page/category/content create-edit-delete already flushes this tag
+     * (via CacheableQueryBuilderTrait) — no extra invalidation wiring needed.
+     */
+    public $cacheGroup = 'content';
+
+    /**
+     * Build a cache id that captures everything that can change the output:
+     * the active language (multilanguage), the admin/public context (category
+     * rows only expose admin_edit_url for admins), the http/https scheme (URLs
+     * are absolute) and the request filters.
+     */
+    public function getCacheId()
+    {
+        $lang = function_exists('current_lang') ? current_lang() : app()->getLocale();
+
+        $keyParts = [
+            'admin_js_tree',
+            $lang,
+            (function_exists('is_admin') && is_admin()) ? 'admin' : 'public',
+            (function_exists('is_https') && is_https()) ? 'https' : 'http',
+            json_encode($this->filters),
+        ];
+
+        return 'admin_js_tree_' . md5(implode('|', $keyParts));
+    }
+
     public function get()
     {
+
+        $cacheId = $this->getCacheId();
+        $cached = app()->cache_manager->get($cacheId, $this->cacheGroup);
+        if (is_array($cached)) {
+            return $cached;
+        }
 
         $filterSkipCategories = false;
         if (!empty($this->filters)) {
@@ -60,6 +95,8 @@ class AdminJsCategoryTree
         }
 
         $this->buildPages();
+
+        app()->cache_manager->save($this->output, $cacheId, $this->cacheGroup);
 
         return $this->output;
     }
