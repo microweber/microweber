@@ -1,0 +1,215 @@
+/* ============================================================================
+ * Content edit page redesign — "Admin Edit Page" mock.
+ *
+ * Scoped to the Filament EditRecord page for the Content resource:
+ *   .fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products)
+ * (also covers Page / Post / Product, which all extend ContentResource).
+ *
+ * EVERYTHING here is driven by --mw-edit-* custom properties declared in the
+ * :root / .dark blocks below, so the whole look can be retuned from one place
+ * without touching the rules. Existing --mw-* / --primary-* tokens are reused
+ * as fallbacks where they already carry the right value.
+ *
+ * Approach: "restructure form + theme CSS". The ContentResource form already
+ * emits the two-column layout (left group columnSpan lg=2, right group lg=1)
+ * inside .fi-tabs.fi-contained; this file only restyles that structure into
+ * the mock's card + hairline + underline-tab look.
+ * ============================================================================ */
+
+:root {
+    /* Surfaces */
+    --mw-edit-bg:            #f4f4f2;                 /* page canvas */
+    --mw-edit-card-bg:       #ffffff;
+    --mw-edit-card-muted:    #fafaf8;                 /* inset / drop-zone fill */
+
+    /* Ink + text ramp */
+    --mw-edit-ink:           #1c1c1a;                 /* headings, primary text */
+    --mw-edit-text:          #2b2b28;                 /* body text */
+    --mw-edit-muted:         #77776f;                 /* labels */
+    --mw-edit-faint:         #9a9a93;                 /* hints / meta */
+
+    /* Lines + accent */
+    --mw-edit-hairline:      #e6e6e2;                 /* card ring / dividers */
+    --mw-edit-hairline-soft: #eeeeeb;
+    --mw-edit-accent:        #4f63e8;                 /* links / active affordances */
+
+    /* Card geometry */
+    --mw-edit-card-radius:   12px;
+    --mw-edit-card-ring:     0 0 0 1px var(--mw-edit-hairline);
+    --mw-edit-card-pad-y:    20px;
+    --mw-edit-card-pad-x:    24px;
+    --mw-edit-card-gap:      20px;                    /* gap between left-column cards */
+    --mw-edit-aside-gap:     12px;                    /* gap between right-column cards */
+
+    /* Controls */
+    --mw-edit-btn-radius:    8px;
+    --mw-edit-input-radius:  8px;
+
+    /* Shell */
+    --mw-edit-maxw:          1120px;
+    --mw-edit-font:          'Geist', 'Geist Sans', var(--mw-font-sans);
+    --mw-edit-header-blur:   8px;
+    --mw-edit-header-bg:     rgba(244, 244, 242, .92);
+    --mw-edit-header-top:    60px;                   /* clears the admin topbar */
+}
+
+.dark {
+    --mw-edit-bg:            #0d0f14;
+    --mw-edit-card-bg:       #1a1f2b;
+    --mw-edit-card-muted:    #151821;
+    --mw-edit-ink:           #f2f4f7;
+    --mw-edit-text:          #e2e8f0;
+    --mw-edit-muted:         #a0aec0;
+    --mw-edit-faint:         #718096;
+    --mw-edit-hairline:      rgba(255, 255, 255, .08);
+    --mw-edit-hairline-soft: rgba(255, 255, 255, .05);
+    --mw-edit-accent:        #93a1f3;
+    --mw-edit-header-bg:     rgba(13, 15, 20, .92);
+    --mw-edit-card-ring:     0 0 0 1px var(--mw-edit-hairline);
+}
+
+/* ---- Page canvas + type ------------------------------------------------- */
+/* general-styles.css paints the canvas via `body.fi-panel-admin .fi-main
+ * { background: #f6f8fb !important }`, so the page-scoped override must both
+ * carry !important and out-specify it (the :has() boost does that). */
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) {
+    font-family: var(--mw-edit-font);
+    color: var(--mw-edit-text);
+}
+/* Beats `body.fi-panel-admin .fi-page` (0,2,1 !important) and .fi-main paint. */
+.fi-body.fi-panel-admin .fi-page.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products),
+.fi-body.fi-panel-admin .fi-main:has(.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products)) {
+    background: var(--mw-edit-bg) !important;
+}
+
+/* Constrain the whole page to the mock's centered column. */
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-page-header,
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) > .fi-page-content,
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-form {
+    max-width: var(--mw-edit-maxw);
+    margin-inline: auto;
+}
+
+/* ---- Header ------------------------------------------------------------- */
+/* general-styles.css `.fi-resource-edit-record-page .fi-header` (0,2,0
+ * !important) paints it opaque #f6f8fb at top:60px; override with !important. */
+.fi-body.fi-panel-admin .fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-header {
+    position: sticky;
+    top: var(--mw-edit-header-top) !important;
+    z-index: 19;
+    padding-block: 14px 16px;
+    margin-bottom: 4px;
+    background: var(--mw-edit-header-bg) !important;
+    -webkit-backdrop-filter: blur(var(--mw-edit-header-blur));
+    backdrop-filter: blur(var(--mw-edit-header-blur));
+    border-bottom: 1px solid var(--mw-edit-hairline);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-header-heading {
+    font-family: var(--mw-edit-font);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--mw-edit-ink);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-breadcrumbs,
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-breadcrumbs-item {
+    font-size: 12px;
+    color: var(--mw-edit-faint);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-breadcrumbs-item a {
+    color: var(--mw-edit-muted);
+}
+
+/* Header action buttons → mock's rounded, quiet chrome (colours untouched). */
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-header .fi-btn {
+    border-radius: var(--mw-edit-btn-radius);
+}
+
+/* ---- Tabs: contained pills → mock's underline bar ---------------------- */
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-tabs.fi-contained {
+    background: transparent;
+    box-shadow: none;
+    border: 0;
+    border-bottom: 1px solid var(--mw-edit-hairline);
+    border-radius: 0;
+    padding: 0;
+    gap: 4px;
+    margin-bottom: var(--mw-edit-card-gap);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-tabs.fi-contained .fi-tabs-item {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 8px 12px;
+    margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
+    color: var(--mw-edit-muted);
+    font-weight: 500;
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-tabs.fi-contained .fi-tabs-item:hover {
+    color: var(--mw-edit-ink);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-tabs.fi-contained .fi-tabs-item.fi-active {
+    background: transparent;
+    color: var(--mw-edit-ink);
+    border-bottom-color: var(--mw-edit-ink);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-tabs.fi-contained .fi-tabs-item .fi-tabs-item-label {
+    color: inherit;
+}
+
+/* ---- Sections → cards --------------------------------------------------- */
+/* `body.fi-panel-admin .fi-section { … !important }` in general-styles.css sets
+ * bg/border/shadow/radius, so mirror those four with !important here to keep the
+ * card look driven by --mw-edit-* tokens. */
+.fi-body.fi-panel-admin .fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-section {
+    background: var(--mw-edit-card-bg) !important;
+    border-radius: var(--mw-edit-card-radius) !important;
+    box-shadow: var(--mw-edit-card-ring) !important;
+    border: 0 !important;
+    padding: var(--mw-edit-card-pad-y) var(--mw-edit-card-pad-x);
+}
+/* Column gaps: left column cards + right aside cards. */
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-fieldset,
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-sc-component-ctn > .fi-sc,
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-tabs-panel {
+    gap: var(--mw-edit-card-gap);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-section-header {
+    padding: 0 0 4px;
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-section-header-heading {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--mw-edit-ink);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-section-header-description {
+    font-size: 12px;
+    color: var(--mw-edit-muted);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-section-content-ctn {
+    border: 0;
+}
+
+/* ---- Field labels + inputs --------------------------------------------- */
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-fo-field-wrp-label,
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-fo-field-wrp-label * {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mw-edit-muted);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-fo-field-wrp-hint,
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-fo-field-wrp-helper-text {
+    color: var(--mw-edit-faint);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-input-wrp {
+    border-radius: var(--mw-edit-input-radius);
+    box-shadow: 0 0 0 1px var(--mw-edit-hairline);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-input-wrp:focus-within {
+    box-shadow: 0 0 0 2px var(--mw-edit-accent);
+}
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) a,
+.fi-resource-edit-record-page:is(.fi-resource-contents,.fi-resource-pages,.fi-resource-posts,.fi-resource-products) .fi-link {
+    color: var(--mw-edit-accent);
+}
