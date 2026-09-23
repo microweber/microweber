@@ -391,9 +391,63 @@
     background-color: oklch(0.371 0 0); /* gray-700 */
     @apply text-white;
 }
-.mw_modal_live_edit_link_editor_settings .ts-wrapper.single .ts-control,
+/* task-2026-09-23 — style the "Search for content" TomSelect (All-content tab)
+ * to match the picker's other inputs (was the bare TomSelect default look). */
+.mw_modal_live_edit_link_editor_settings .ts-wrapper.single .ts-control {
+    min-height: 40px !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--mw-border-color, #dadfe5) !important;
+    background-color: #fff !important;
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    transition: border-color .15s, box-shadow .15s;
+}
+.dark .mw_modal_live_edit_link_editor_settings .ts-wrapper.single .ts-control {
+    background-color: oklch(0.269 0 0) !important; /* gray-800 */
+    border-color: oklch(0.371 0 0) !important;     /* gray-600 */
+}
 .mw_modal_live_edit_link_editor_settings .ts-wrapper.single .ts-control input {
     background-color: transparent !important;
+    font-size: 13px !important;
+    color: var(--mw-text-primary, #182433) !important;
+}
+.mw_modal_live_edit_link_editor_settings .ts-wrapper.single.focus .ts-control {
+    border-color: #182433 !important;
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15) !important;
+}
+.dark .mw_modal_live_edit_link_editor_settings .ts-wrapper.single.focus .ts-control {
+    border-color: #93a1f3 !important;
+    box-shadow: 0 0 0 2px rgba(147, 161, 243, 0.25) !important;
+}
+/* selected single item + placeholder */
+.mw_modal_live_edit_link_editor_settings .ts-control .item {
+    font-size: 13px;
+    color: var(--mw-text-primary, #182433);
+}
+.dark .mw_modal_live_edit_link_editor_settings .ts-control .item { color: #e2e8f0; }
+
+/* dropdown option rows: roomy, rounded hover, avatar thumbs */
+.mw_modal_live_edit_link_editor_settings .ts-dropdown .dropdown-item {
+    padding: 8px 10px !important;
+    margin: 2px 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.mw_modal_live_edit_link_editor_settings .ts-dropdown .dropdown-item img {
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex: none;
+}
+.mw_modal_live_edit_link_editor_settings .ts-dropdown .dropdown-item .icon {
+    display: flex;
+    align-items: center;
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-autocomplete-list li a {
