@@ -40,6 +40,13 @@ export class ColorPicker extends MicroweberBaseClass {
             colorPickerDialog.overlay.style.backgroundColor = 'transparent';
             colorPickerDialog.overlay.style.backdropFilter = 'none';
         }
+        // task-2026-09-23 — the colour picker is opened from panels that sit at a
+        // very high z-index (e.g. the Btn quick-settings panel, z-index 100061),
+        // so the picker dialog's default stacking left it BEHIND the panel and the
+        // user couldn't pick a colour. Lift it above those panels.
+        [colorPickerDialog.dialogMain, colorPickerDialog.dialogHolder].forEach(function (n) {
+            if (n) { n.style.zIndex = '100100'; }
+        });
 
 
         this.colorPickerInstances.push(colorPickerDialog);
@@ -99,6 +106,10 @@ export class ColorPicker extends MicroweberBaseClass {
             colorPickerDialog.overlay.style.backgroundColor = 'transparent';
             colorPickerDialog.overlay.style.backdropFilter = 'none';
         }
+        // task-2026-09-23 — lift above high-z-index host panels (see openColorPicker).
+        [colorPickerDialog.dialogMain, colorPickerDialog.dialogHolder].forEach(function (n) {
+            if (n) { n.style.zIndex = '100100'; }
+        });
 
         this.colorPickerInstances.push(colorPickerDialog);
 
