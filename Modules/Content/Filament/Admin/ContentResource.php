@@ -914,8 +914,10 @@ class ContentResource extends Resource
                     // configured symbol (€ / £ / ¥ / …).
                     ->prefix(fn () => (function_exists('currency_symbol') ? currency_symbol() : null) ?: '$')
                     ->placeholder('19.99')
-                    ->helperText('Price shown to customers')
-                    ->required(),
+                    ->helperText('Price shown to customers'),
+                    // task-2026-09-23 — price is no longer required: products can
+                    // be saved without a price (e.g. "call for price", draft, or
+                    // price set later / via variants).
 
                 // task-2026-05-05-1db9bd (Audit-#9) — "Special price"
                 // is colloquial; industry-standard term for this field
