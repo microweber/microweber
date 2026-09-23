@@ -174,6 +174,18 @@ body.fi-panel-admin .fi-section-header > svg {
     width: fit-content !important;
     transition: filter 0.15s ease !important;
   }
+  /* Filament gives the radio input a top margin so it aligns to the first line
+   * of a multi-line label; in these single-line pills that fights align-items:
+   * center and drops the circle ~3px below the text. Zero it so the circle and
+   * label are truly centered. */
+  .fi-radio-input {
+    margin-top: 0 !important;
+    align-self: center !important;
+  }
+  .fi-fo-radio-label-text,
+  .fi-fo-radio-label-text p {
+    margin: 0 !important;
+  }
   /* Published (value 1) → green tint (matches the success status pill) */
   .fi-fo-radio-label:has(input[value="1"]) {
     background-color: #eaf7ec !important;
