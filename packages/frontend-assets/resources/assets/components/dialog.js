@@ -379,12 +379,25 @@
             // pass straight through to <body>). When no eligible modal is open
             // (classic admin, WYSIWYG, public site, or a click-away-closable modal
             // that already allows outside clicks) we fall back to <body> unchanged.
+            //
+            // task-2026-09-23 — the modal must also be actually OPEN + visible.
+            // Filament keeps closed modals in the DOM (x-show → display:none) but
+            // `aria-modal="true"` is a STATIC attribute on every modal, so the bare
+            // `.fi-modal[aria-modal="true"]` selector also matched hidden stubs.
+            // Mounting the picker inside a display:none modal rendered it at 0×0
+            // (invisible), and inside a mis-sized/off-screen one clipped it — the
+            // "menu edit link picker is broken" report. Require Filament's own
+            // `.fi-modal-open` isOpen flag AND a painted `.fi-modal-window` so we
+            // only ever host inside the genuinely-open modal the user is looking at.
             var mountTarget = this.options.root.body;
             try {
                 var hostDoc = mountTarget.ownerDocument || this.options.root;
-                var openModals = hostDoc.querySelectorAll('.fi-modal[aria-modal="true"]');
+                var openModals = hostDoc.querySelectorAll('.fi-modal.fi-modal-open[aria-modal="true"]');
                 for (var i = openModals.length - 1; i >= 0; i--) {
-                    var modal = openModals[i], node = modal, inInert = false;
+                    var modal = openModals[i];
+                    var win = modal.querySelector('.fi-modal-window');
+                    if (!win || !win.getClientRects().length) { continue; }
+                    var node = modal, inInert = false;
                     while (node) {
                         if (node.nodeType === 1 && node.hasAttribute('inert')) { inInert = true; break; }
                         node = node.parentElement;
