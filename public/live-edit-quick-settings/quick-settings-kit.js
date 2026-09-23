@@ -874,9 +874,25 @@
             var cfg = {};
             try { cfg = JSON.parse(container.dataset.cfg || '{}'); } catch (e) {}
             var endpoint = cfg.endpoint;
-            var relId = el.getAttribute('id');
+            var moduleId = el.getAttribute('id');
+            // task-2026-09-23 — a Pictures module with rel="content" renders the
+            // CURRENT CONTENT's media (the product/page gallery), not its own
+            // module media. Point the CRUD at that store (rel_type=content,
+            // rel_id=content id) so edits actually show; otherwise they save to
+            // rel_type='module'/<module id> and the gallery never updates.
+            var relId = moduleId;
+            var relType = 'module';
+            var moduleRel = (el.getAttribute('rel') || el.getAttribute('data-rel') || '').toLowerCase();
+            if (moduleRel === 'content') {
+                relType = 'content';
+                var cid = el.getAttribute('rel-id') || el.getAttribute('data-rel-id') || '';
+                if (!cid) { try { cid = mw.top().app.canvas.getLiveEditData().content.id; } catch (e) {} }
+                if (cid) { relId = String(cid); }
+            }
+            var relQuery = 'rel_id=' + encodeURIComponent(relId) + '&rel_type=' + encodeURIComponent(relType);
             var images = [];
-            var reload = function () { try { mw.app.editor.dispatch('onModuleSettingsChanged', { moduleId: relId }); } catch (e) {} };
+            // dispatch on the MODULE id so the module re-renders in place.
+            var reload = function () { try { mw.app.editor.dispatch('onModuleSettingsChanged', { moduleId: moduleId }); } catch (e) {} };
 
             var render = function () {
                 if (!images.length) {
@@ -896,7 +912,7 @@
             };
 
             var persistOrder = function () {
-                qsHttp('POST', 'api/' + endpoint + '/reorder', { rel_id: relId, ids: images.map(function (x) { return x.id; }) }).then(reload);
+                qsHttp('POST', 'api/' + endpoint + '/reorder', { rel_id: relId, rel_type: relType, ids: images.map(function (x) { return x.id; }) }).then(reload);
             };
             var move = function (id, dir) {
                 var ids = images.map(function (x) { return String(x.id); });
@@ -925,7 +941,7 @@
                 container.querySelectorAll('.mw-qs-image').forEach(function (row) {
                     var id = row.dataset.id;
                     row.querySelector('[data-act="del"]').addEventListener('click', function () {
-                        qsHttp('DELETE', 'api/' + endpoint + '/' + id + '?rel_id=' + encodeURIComponent(relId)).then(function () { load(); reload(); });
+                        qsHttp('DELETE', 'api/' + endpoint + '/' + id + '?' + relQuery).then(function () { load(); reload(); });
                     });
                     var l = row.querySelector('[data-act="left"]'), rt = row.querySelector('[data-act="right"]');
                     if (l) { l.addEventListener('click', function () { move(id, -1); }); }
@@ -959,7 +975,7 @@
             };
 
             var load = function () {
-                qsHttp('GET', 'api/' + endpoint + '?rel_id=' + encodeURIComponent(relId)).then(function (res) {
+                qsHttp('GET', 'api/' + endpoint + '?' + relQuery).then(function (res) {
                     images = (res && res.items) || [];
                     render();
                 }).catch(function () {
@@ -975,7 +991,7 @@
                     try {
                         mw.filePickerDialog({ pickerOptions: { type: 'images' } }, function (url) {
                             if (!url) { return; }
-                            qsHttp('POST', 'api/' + endpoint, { rel_id: relId, filename: String(url) }).then(function () { load(); reload(); });
+                            qsHttp('POST', 'api/' + endpoint, { rel_id: relId, rel_type: relType, filename: String(url) }).then(function () { load(); reload(); });
                         });
                     } catch (e) {}
                 });
