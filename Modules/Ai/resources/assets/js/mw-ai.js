@@ -137,6 +137,9 @@ function MwAi() {
                 } catch (e) {}
             }
             try { if (mw.top().app.cssEditor) { mw.top().app.cssEditor.publishIfChanged(); } } catch (e) {}
+            // Persist the AI global CSS immediately (don't wait on its debounce) so
+            // the design survives even if the user refreshes right after saving.
+            try { this.flushGlobalCss(); } catch (e) {}
             return done;
         },
 
@@ -154,6 +157,9 @@ function MwAi() {
                 const finish = function (ok) { if (!settled) { settled = true; resolve(ok); } };
                 // Publish any global/custom CSS edits first (synchronous).
                 try { if (mw.top().app.cssEditor) { mw.top().app.cssEditor.publishIfChanged(); } } catch (e) {}
+                // Persist the AI global CSS immediately (cancel its debounce) so the
+                // design is written at the end of every turn, not 800ms later.
+                try { api.flushGlobalCss(); } catch (e) {}
                 try {
                     const cwin = mw.top().app.canvas.getWindow && mw.top().app.canvas.getWindow();
                     if (cwin && cwin.mw && typeof cwin.mw.saveLiveEdit === 'function') {
@@ -585,6 +591,25 @@ function MwAi() {
             self._persistCssTimer = setTimeout(function () { self._doPersistGlobalCss(); }, 800);
         },
 
+        // Persist the AI CSS RIGHT NOW, cancelling any pending debounce. Called
+        // from the save paths so clicking Save (or a turn ending) writes the
+        // global design immediately instead of waiting on the 800ms debounce —
+        // which a quick refresh could otherwise beat, losing the CSS. Returns the
+        // persist promise so callers can await it.
+        flushGlobalCss() {
+            clearTimeout(this._persistCssTimer);
+            try { return this._doPersistGlobalCss(); } catch (e) { return Promise.resolve(); }
+        },
+
+        // Mark the design as having unsaved changes so leaving/refreshing the page
+        // trips Live Edit's "Leave site? Changes may not be saved" prompt. Global
+        // CSS / CSS-var edits aren't tied to an `.edit.changed` region (which is
+        // what registerChangedState flags for content), so they need this explicit
+        // dirty signal — otherwise a refresh silently discarded the AI CSS design.
+        markDesignDirty() {
+            try { mw.top().app.registerAskUserToStay(true); } catch (e) {}
+        },
+
         async _doPersistGlobalCss() {
             try {
                 const doc = this.canvasDocument();
@@ -695,6 +720,7 @@ function MwAi() {
                 // behind "color not applying". Source-order precedence is enough.
                 api.injectGlobalCss(css);
                 api.persistGlobalCss();
+                api.markDesignDirty();
                 return { ok: true, message: 'applied global css' };
             },
 
@@ -723,6 +749,7 @@ function MwAi() {
                 const css = ':root {\n' + decls.join('\n') + '\n}';
                 api.injectGlobalCss(css);
                 api.persistGlobalCss();
+                api.markDesignDirty();
                 return { ok: true, message: 'set ' + decls.length + ' css var(s)' };
             },
 
