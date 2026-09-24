@@ -2200,6 +2200,22 @@ html.dark #toolbar .mw-device-switch__trigger:hover,
 .ai-text-generator-container #ai-text-generator-submit:hover { background: #26364a; }
 .ai-text-generator-container #ai-text-generator-submit svg { width: 16px; height: 16px; flex: 0 0 auto; }
 .ai-text-generator-container #ai-text-generator-options { margin-top: 12px; }
+/* task-2026-09-24 — Link-editor / picker footer: the OK (primary) button sat
+   16px BELOW Cancel (misaligned footer). The form-field STACK-SPACING rule
+   `.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root > div > * + *`
+   adds margin-top:16px!important to every 2nd+ sibling, and it also caught the
+   footer's second button. Center both buttons on one row and, with a selector
+   specific enough to beat that stack rule (0,3,1 > 0,2,1), zero the stray
+   vertical margin so Cancel and OK line up. */
+.mw-ui-form-controllers-footer {
+    align-items: center;
+    gap: 8px;
+}
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer > button.mw-liveedit-button-animation-component,
+.mw-ui-form-controllers-footer > button.mw-liveedit-button-animation-component {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
 /* Popup tabs (.mw-adm-liveedit-tabs inside any mw-dialog / the AI popup) styled
    to match the module-settings Filament tabs: muted → ink, ink underline,
    sentence case. !important overrides the leftover .btn / .btn-link /

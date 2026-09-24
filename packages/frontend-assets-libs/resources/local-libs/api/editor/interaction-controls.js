@@ -123,7 +123,9 @@ MWEditor.interactionControls = {
                 return;
             }
 
-            var $target = $(data.target);
+            // Anchor the tooltip to the LINK element itself, not the clicked inner
+            // node — a padded button-link would otherwise place it over the text.
+            var $target = $(tg);
             this.$target = $target;
             var css = $target.offset();
             css.top += $target.height();
