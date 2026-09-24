@@ -651,8 +651,30 @@ function MwAi() {
                 const ajax = { url: saveUrl, type: 'POST', data: data };
                 const csrf = $('meta[name="csrf-token"]');
                 if (csrf.length) { ajax.headers = { 'X-CSRF-TOKEN': csrf.attr('content') }; }
-                await $.ajax(ajax);
-            } catch (e) {}
+                // Await + verify. If the save fails (validation, auth, network) do NOT
+                // swallow it silently — the design would be lost with no sign. Retry
+                // once, then surface a clear error so the user knows to re-save.
+                try {
+                    const res = await $.ajax(ajax);
+                    // The endpoint echoes back {url, content}; treat a missing/blank
+                    // content as a failure worth retrying.
+                    const okContent = res && (typeof res.content === 'string');
+                    if (!okContent) { throw new Error('save response had no content'); }
+                    return res;
+                } catch (firstErr) {
+                    try {
+                        const res2 = await $.ajax(ajax);
+                        return res2;
+                    } catch (secondErr) {
+                        const msg = (secondErr && (secondErr.responseText || secondErr.statusText || secondErr.message)) || 'unknown error';
+                        try { console.error('[mw-ai] global CSS save failed:', msg); } catch (e) {}
+                        try { mw.top().notification && mw.top().notification.error(mw.lang('The design CSS could not be saved. Please try Save again.'), 6000); } catch (e) {}
+                        throw secondErr;
+                    }
+                }
+            } catch (e) {
+                try { console.error('[mw-ai] persistGlobalCss error:', e && (e.message || e)); } catch (_) {}
+            }
         },
 
         // Very small flat-CSS parser: "sel { a:1; b:2 } sel2 { c:3 }" ->

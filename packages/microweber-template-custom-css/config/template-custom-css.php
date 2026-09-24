@@ -93,7 +93,13 @@ return [
             'option_group_prefix' => 'template_',
             'multisite' => true,
             'rewrite_urls' => true,
-            'validate' => true,
+            // Live-Edit design CSS (incl. AI-authored apply_css) is machine-written
+            // and updated constantly. Strict Sabberworm validation can reject
+            // cutting-edge but valid syntax and, because the save then THROWS, the
+            // whole design is silently dropped (the front-end persist is fire-and-
+            // forget). Don't gate the design file on strict validation — never lose
+            // a save over a parser quirk.
+            'validate' => false,
         ],
         'custom' => [
             'filename' => null,
