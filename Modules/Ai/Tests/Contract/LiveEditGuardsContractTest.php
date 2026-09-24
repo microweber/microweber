@@ -88,6 +88,40 @@ final class LiveEditGuardsContractTest extends TestCase
     }
 
     #[Test]
+    public function apply_css_forces_important_and_spares_keyframes(): void
+    {
+        $src = $this->mwAiSource();
+        $this->assertStringContainsString('forceImportant', $src,
+            'forceImportant() must exist so AI CSS wins the cascade.');
+        // apply_css must run the incoming CSS through forceImportant.
+        $applyCss = $this->sliceFunction($src, 'apply_css: function');
+        $this->assertStringContainsString('forceImportant', $applyCss,
+            'apply_css must force !important on its CSS.');
+        // The transform must NOT add !important inside @keyframes/@font-face.
+        $force = $this->sliceFunction($src, 'forceImportant(css)');
+        $this->assertMatchesRegularExpression('/keyframes|font-face|@\(media\|supports\)|media\|supports/i', $force,
+            'forceImportant must special-case at-rules (recurse @media/@supports, skip @keyframes/@font-face).');
+    }
+
+    #[Test]
+    public function agent_prompt_uses_tokens_for_theme_regions(): void
+    {
+        $prompt = $this->agentSource();
+        $this->assertStringContainsString('--mw-footer-background-color', $prompt,
+            'Agent must know the footer background token for set_css_var.');
+        $this->assertMatchesRegularExpression(
+            '/THEME REGIONS painted by TOKENS|set_css_var.*footer|footer.*set_css_var/i',
+            $prompt,
+            'Agent must be told to recolour header/footer/menu via set_css_var tokens.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/DID NOT TAKE EFFECT, ESCALATE|verify with get_computed_styles/i',
+            $prompt,
+            'Agent must verify a style took effect and escalate if not.'
+        );
+    }
+
+    #[Test]
     public function agent_prompt_forbids_dom_menu_edits_and_delete_to_redo(): void
     {
         $prompt = $this->agentSource();

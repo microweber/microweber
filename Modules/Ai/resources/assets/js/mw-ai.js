@@ -596,6 +596,42 @@ function MwAi() {
             return out.trim() + '\n';
         },
 
+        // Force `!important` on every declaration so AI design CSS reliably WINS the
+        // cascade over the template's own rules (user request — the footer/header/
+        // menu etc. otherwise kept the template colour). Brace-aware: recurses into
+        // @media / @supports, but leaves @keyframes / @font-face / @import verbatim
+        // (where !important is invalid). Declarations that already have !important
+        // are left as-is (idempotent, so re-merged CSS doesn't stack it).
+        forceImportant(css) {
+            const self = this;
+            const bumpDecls = function (body) {
+                return String(body).split(';').map(function (decl) {
+                    const d = decl.trim();
+                    if (!d) { return ''; }
+                    if (/!important\s*$/i.test(d)) { return d; }
+                    if (d.indexOf(':') < 0) { return d; }
+                    return d + ' !important';
+                }).filter(Boolean).join('; ');
+            };
+            let out = '';
+            this.splitTopLevelCss(css || '').forEach(function (b) {
+                if (b.type === 'rule') {
+                    const body = bumpDecls(b.body);
+                    if (body) { out += b.selector + ' { ' + body + '; }\n'; }
+                    return;
+                }
+                // at-rule
+                const m = b.text.match(/^\s*([^{]+?)\s*\{([\s\S]*)\}\s*$/);
+                const header = m ? m[1].trim() : '';
+                if (m && /^@(media|supports)\b/i.test(header)) {
+                    out += header + ' {\n' + self.forceImportant(m[2]) + '}\n'; // recurse into nested rules
+                } else {
+                    out += b.text.trim() + '\n'; // @keyframes/@font-face/@import — verbatim
+                }
+            });
+            return out.trim() + '\n';
+        },
+
         // Persist the accumulated global AI CSS to the template's custom CSS file
         // so the design is global and survives SAVE. Reads the current file,
         // replaces any previous AI block (sentinel-marked) and appends the fresh
@@ -751,11 +787,14 @@ function MwAi() {
                 // appended LAST in the canvas <head> — so at equal specificity it
                 // already wins by SOURCE ORDER — and persist it to the template's
                 // custom CSS file so it is global and survives SAVE.
-                // task-2026-09-11: do NOT force !important. !important on AI-written
-                // selector rules blocked Live Edit from ever re-editing those styles
-                // (the ESE / user overrides can't beat !important) — the exact bug
-                // behind "color not applying". Source-order precedence is enough.
-                api.injectGlobalCss(css);
+                // task-2026-09-24: FORCE !important (user request). Source-order
+                // precedence was not enough — the template's own header/footer/menu
+                // rules (often more specific or body-scoped) outranked AI CSS, so
+                // "make the footer green" appeared to do nothing. Forcing !important
+                // makes AI design CSS win the cascade. Trade-off: the ESE can no
+                // longer override these rules; re-styling is done by the AI itself
+                // (apply_css again). @keyframes/@font-face are left untouched.
+                api.injectGlobalCss(api.forceImportant(css));
                 api.persistGlobalCss();
                 api.markDesignDirty();
                 return { ok: true, message: 'applied global css' };
