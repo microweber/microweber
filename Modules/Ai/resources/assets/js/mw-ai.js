@@ -457,8 +457,90 @@ function MwAi() {
                 el = doc.createElement('style');
                 el.id = 'mw-ai-global-css';
             }
-            el.appendChild(doc.createTextNode('\n' + css));
+            // Merge the new CSS into the accumulated block BY SELECTOR rather than
+            // blindly appending. Repeated apply_css calls (the model iterating on a
+            // design) otherwise stack contradictory rules — the classic failure being
+            // a later "background:#fff" landing on top of an earlier "color:#fff",
+            // leaving white text on a white background (invisible section). Merging
+            // keeps the latest value per property, and when a rule restates the
+            // background without the text colour (or vice-versa) the now-orphaned
+            // counterpart is dropped so contrast can't silently break. @media / at-
+            // rule blocks are preserved verbatim (deduped by text).
+            el.textContent = this.mergeGlobalCss(el.textContent || '', css);
             doc.head.appendChild(el); // move/keep last
+        },
+
+        // Split CSS into top-level blocks, respecting brace nesting so @media / at-
+        // rules keep their nested content. Returns [{type:'rule', selector, body} |
+        // {type:'at', text}].
+        splitTopLevelCss(css) {
+            const blocks = [];
+            let i = 0; const n = css.length; let buf = '';
+            while (i < n) {
+                const ch = css[i];
+                if (ch === '{') {
+                    let depth = 1; let j = i + 1;
+                    while (j < n && depth > 0) {
+                        if (css[j] === '{') { depth++; }
+                        else if (css[j] === '}') { depth--; }
+                        j++;
+                    }
+                    const header = buf.trim();
+                    const inner = css.slice(i + 1, j - 1);
+                    if (header.charAt(0) === '@') { blocks.push({ type: 'at', text: header + ' {' + inner + '}' }); }
+                    else if (header) { blocks.push({ type: 'rule', selector: header, body: inner }); }
+                    buf = '';
+                    i = j;
+                } else { buf += ch; i++; }
+            }
+            return blocks;
+        },
+
+        // Merge `add` CSS into `existing`, deduping flat rules by selector (later
+        // declarations win) and dropping an orphaned color/background when only its
+        // counterpart is restated. At-rule blocks are kept verbatim (deduped).
+        mergeGlobalCss(existingCss, addCss) {
+            const order = []; const bySel = {}; const atSeen = {}; const ats = [];
+            const parseProps = function (body) {
+                const p = {};
+                String(body).split(';').forEach(function (decl) {
+                    const idx = decl.indexOf(':');
+                    if (idx > 0) {
+                        const k = decl.slice(0, idx).trim(); const v = decl.slice(idx + 1).trim();
+                        if (k && v) { p[k] = v; }
+                    }
+                });
+                return p;
+            };
+            const handle = (blocks) => {
+                blocks.forEach(function (b) {
+                    if (b.type === 'at') {
+                        const key = b.text.replace(/\s+/g, ' ').trim();
+                        if (key && !atSeen[key]) { atSeen[key] = 1; ats.push(b.text); }
+                        return;
+                    }
+                    const sel = b.selector;
+                    if (!bySel[sel]) { bySel[sel] = {}; order.push(sel); }
+                    const props = bySel[sel];
+                    const np = parseProps(b.body);
+                    const setsBg = ('background' in np) || ('background-color' in np);
+                    const setsColor = ('color' in np);
+                    if (setsBg && !setsColor) { delete props['color']; }
+                    if (setsColor && !setsBg) { delete props['background']; delete props['background-color']; }
+                    Object.keys(np).forEach(function (k) { props[k] = np[k]; });
+                });
+            };
+            handle(this.splitTopLevelCss(existingCss || ''));
+            handle(this.splitTopLevelCss(addCss || ''));
+            let out = '';
+            order.forEach(function (sel) {
+                const props = bySel[sel];
+                const keys = Object.keys(props);
+                if (!keys.length) { return; }
+                out += sel + ' {\n' + keys.map(function (k) { return '  ' + k + ': ' + props[k] + ';'; }).join('\n') + '\n}\n';
+            });
+            ats.forEach(function (t) { out += '\n' + t.trim() + '\n'; });
+            return out.trim() + '\n';
         },
 
         // Persist the accumulated global AI CSS to the template's custom CSS file

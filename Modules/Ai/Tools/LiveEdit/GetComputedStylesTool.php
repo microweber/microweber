@@ -81,6 +81,15 @@ class GetComputedStylesTool extends BaseTool
         return json_encode([
             'count' => count($rows),
             'elements' => $rows,
+            // These values are a snapshot taken at the START of this turn. They do
+            // NOT reflect apply_css / set_text edits you make during this same turn
+            // (the canvas is only re-measured on the next turn). Apply your CSS once
+            // and trust it — do NOT call get_computed_styles again this turn to
+            // "verify" a change you just made; it will show the old values and send
+            // you into a correction loop that stacks contradictory rules.
+            'note' => 'Snapshot from the start of this turn — does not reflect edits '
+                . 'made during this turn. Do not re-verify your own apply_css changes '
+                . 'here in the same turn.',
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 }

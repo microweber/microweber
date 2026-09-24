@@ -44,7 +44,7 @@
                 <input type="checkbox"
                        class="mw-mb-selectall-cb"
                        @change="$event.target.checked ? selectAllMedia() : deselectAllMedia()"
-                       :checked="mediaIds.length && selectedImages.length === mediaIds.length">
+                       :checked="(mediaIds?.length || 0) > 0 && selectedImages.length === mediaIds.length">
                 <span>Select all</span>
             </label>
 
