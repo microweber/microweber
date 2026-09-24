@@ -779,6 +779,11 @@ export class MwAiConversation extends MicroweberBaseClass {
         let anyEdit = false;
         let navigated = false;
         let visualEdit = false;
+        let wroteEdit = false; // did the model call a real WRITE tool (not just read)?
+        const WRITE_TOOLS = ['apply_css','set_css_var','set_text','set_image','set_link','add_section',
+            'insert_module','insert_layout','delete_element','move_element','duplicate_element',
+            'add_menu_item','edit_menu_item','set_module_option','add_form_field','set_custom_field',
+            'create_content','create_post','generate_image'];
         const self = this;
 
         // Capture what the page looks like now so the AI can see the design.
@@ -813,6 +818,7 @@ export class MwAiConversation extends MicroweberBaseClass {
                         if (edit && ["apply_css", "add_section", "set_text", "set_image", "insert_module"].indexOf(edit.tool) !== -1) {
                             visualEdit = true;
                         }
+                        if (edit && WRITE_TOOLS.indexOf(edit.tool) !== -1 && result && result.ok !== false) { wroteEdit = true; }
                         self.addEdit(editsWrap, edit, result);
                     },
                     onError(msg) {
@@ -840,6 +846,21 @@ export class MwAiConversation extends MicroweberBaseClass {
                 self._dirty = false;
             }
 
+            // "Already done" HALLUCINATION guard. Small local models sometimes call
+            // only READ tools (get_dom / get_computed_styles / get_css_vars) and then
+            // claim they changed the design — so nothing actually happens. If a turn
+            // made NO write edit yet the reply asserts completion, push back ONCE and
+            // force it to call the real editing tools. Bounded by _noWriteRetry.
+            const claimsDone = /\b(done|i['’]?ve|i have|shifted|changed|updated|applied|made it|set the|adjusted|restyled|improved|recolou?red|added)\b/i.test(replyText);
+            if (!wroteEdit && !navigated && !this._noWriteRetry && !this._verifying && claimsDone && String(text || '').trim()) {
+                this._noWriteRetry = true;
+                try {
+                    await this.retryNoWrite(editsWrap, turn);
+                } finally {
+                    this._noWriteRetry = false;
+                }
+            }
+
             // Verify by screenshot. When the user pasted a design to recreate,
             // run the autonomous MATCH LOOP: screenshot the result, compare it to
             // the target, fix the differences, and repeat until it matches (or a
@@ -864,6 +885,59 @@ export class MwAiConversation extends MicroweberBaseClass {
             // Send anything the user typed while this turn was streaming.
             this.drainQueue();
         }
+    }
+
+    // The model claimed it changed the design but called only read tools. Send one
+    // corrective turn that forces it to actually call the editing tools, and apply
+    // whatever edits come back into the same turn. Guarded so it runs only once.
+    async retryNoWrite(editsWrap, turn) {
+        const self = this;
+        this._verifying = true; // reuse the guard so nested loops don't fire
+        const note = document.createElement('div');
+        note.className = 'mw-ai-conv-edit';
+        note.textContent = '↻ ' + mw.lang('No changes were applied — retrying');
+        editsWrap.appendChild(note);
+        this.scrollDown();
+        let wrote = false;
+        const msg = 'STOP — last turn you only INSPECTED the page (get_dom / get_computed_styles / '
+            + 'get_css_vars) and did NOT call any editing tool, so the site did not change at all. '
+            + 'Do not describe edits you have not made. Now ACTUALLY make the change the user asked '
+            + 'for by CALLING THE TOOLS: use set_css_var to shift theme tokens '
+            + '(e.g. --mw-primary-color, --mw-btn-background-color, --mw-btn-secondary-background-color, '
+            + '--mw-link-color, --mw-heading-color, --mw-background-color, --mw-footer-background-color) '
+            + 'and apply_css for anything else. Emit the tool calls now; do not reply with prose only.';
+        try {
+            const done = await MwAi().agentChatStream(msg, {
+                chat_id: this.chatId || undefined,
+                content_id: this.settings.contentId || undefined,
+            }, {
+                onStart(data) { if (data && data.chat_id) { self._rememberChat(data.chat_id); } },
+                onTool(edit, result) {
+                    if (edit && edit.tool === 'offer_choices') { return; }
+                    wrote = true;
+                    self._dirty = true;
+                    self.addEdit(editsWrap, edit, result);
+                },
+                onError(msg2) { self.addEdit(editsWrap, { tool: 'error' }, { ok: false, message: msg2 }); },
+                onDone(data) { if (data && data.chat_id) { self._rememberChat(data.chat_id); } }
+            });
+            if (wrote) {
+                try { MwAi().saveCanvas(); self._dirty = false; } catch (e) {}
+                const extra = (done && done.response) ? done.response : '';
+                if (extra) {
+                    const b = document.createElement('div');
+                    b.className = 'mw-ai-conv-msg-bubble mw-ai-md';
+                    b.innerHTML = this.renderMarkdown(extra);
+                    turn.appendChild(b);
+                }
+            }
+        } catch (e) {
+            self.addEdit(editsWrap, { tool: 'error' }, { ok: false, message: String(e && e.message || e) });
+        } finally {
+            this._verifying = false;
+            this.scrollDown();
+        }
+        return wrote;
     }
 
     // Post-edit self-check: screenshot the result and feed it back to the agent
