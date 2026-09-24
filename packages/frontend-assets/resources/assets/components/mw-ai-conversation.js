@@ -349,6 +349,10 @@ export class MwAiConversation extends MicroweberBaseClass {
             }
         };
         window.addEventListener("beforeunload", this._beforeUnload);
+
+        // Restore the last-used chat so closing/reopening the panel keeps the
+        // conversation + its history instead of dropping to an empty new chat.
+        this.restoreSession();
     }
 
     handlePaste(e) {
@@ -422,6 +426,7 @@ export class MwAiConversation extends MicroweberBaseClass {
 
     newChat() {
         this.chatId = null;
+        this._forgetChat();     // don't snap back to the old thread on the next open
         this.closeHistory();
         this.renderEmpty();
         this.input.value = "";
@@ -726,7 +731,7 @@ export class MwAiConversation extends MicroweberBaseClass {
                 { chat_id: this.chatId || undefined, content_id: this.settings.contentId || undefined, screenshot: screenshot, reference_images: refImages },
                 {
                     onStart(data) {
-                        if (data && data.chat_id) { self.chatId = data.chat_id; }
+                        if (data && data.chat_id) { self._rememberChat(data.chat_id); }
                     },
                     onReference(data) {
                         // The AI read the pasted reference design — show a chip.
@@ -755,7 +760,7 @@ export class MwAiConversation extends MicroweberBaseClass {
                         self.addEdit(editsWrap, { tool: "error" }, { ok: false, message: msg });
                     },
                     onDone(data) {
-                        if (data && data.chat_id) { self.chatId = data.chat_id; }
+                        if (data && data.chat_id) { self._rememberChat(data.chat_id); }
                     },
                 }
             );
@@ -839,11 +844,11 @@ export class MwAiConversation extends MicroweberBaseClass {
                     reference_images: [shot]
                 },
                 {
-                    onStart(data) { if (data && data.chat_id) { self.chatId = data.chat_id; } },
+                    onStart(data) { if (data && data.chat_id) { self._rememberChat(data.chat_id); } },
                     onReference() { self.addEdit(editsWrap, { tool: "reference" }, { ok: true }); },
                     onTool(edit, result) { fixed = true; self.addEdit(editsWrap, edit, result); },
                     onError(msg) { self.addEdit(editsWrap, { tool: "error" }, { ok: false, message: msg }); },
-                    onDone(data) { if (data && data.chat_id) { self.chatId = data.chat_id; } }
+                    onDone(data) { if (data && data.chat_id) { self._rememberChat(data.chat_id); } }
                 }
             );
             typing.remove();
@@ -900,11 +905,11 @@ export class MwAiConversation extends MicroweberBaseClass {
                         screenshot: shot
                     },
                     {
-                        onStart(data) { if (data && data.chat_id) { self.chatId = data.chat_id; } },
+                        onStart(data) { if (data && data.chat_id) { self._rememberChat(data.chat_id); } },
                         onVision() { self.addEdit(editsWrap, { tool: "vision" }, { ok: true }); },
                         onTool(edit, result) { fixed = true; self.addEdit(editsWrap, edit, result); },
                         onError(msg) { self.addEdit(editsWrap, { tool: "error" }, { ok: false, message: msg }); },
-                        onDone(data) { if (data && data.chat_id) { self.chatId = data.chat_id; } }
+                        onDone(data) { if (data && data.chat_id) { self._rememberChat(data.chat_id); } }
                     }
                 );
                 typing.remove();
@@ -981,12 +986,14 @@ export class MwAiConversation extends MicroweberBaseClass {
         });
     }
 
-    loadChat(id) {
+    loadChat(id, opts) {
+        opts = opts || {};
         const url = mw.settings.site_url + "api/ai/chat-history/" + id;
         $.get(url).then((res) => {
             const data = res && res.data;
             const messages = (data && data.messages && data.messages.data) ? data.messages.data : [];
             this.chatId = id;
+            this._rememberChat();               // persist so a close/reopen keeps this session
             this.pendingImages = [];
             this.renderAttachments();
             this.thread.innerHTML = "";
@@ -997,9 +1004,53 @@ export class MwAiConversation extends MicroweberBaseClass {
             });
             if (!messages.length) { this.renderEmpty(); }
             this.closeHistory();
-            this.input.focus();
+            if (!opts.silent) { this.input.focus(); }
         }).catch(() => {
-            mw.notification && mw.notification.error(mw.lang("Could not load chat"));
+            // A remembered chat may have been deleted — fall back rather than error.
+            if (typeof opts.fallback === "function") { opts.fallback(); return; }
+            if (!opts.silent) { mw.notification && mw.notification.error(mw.lang("Could not load chat")); }
         });
+    }
+
+    // --- Session persistence (task-2026-09-24) -----------------------------
+    // Closing the AI panel used to lose the current chat: a fresh MwAiConversation
+    // starts with chatId=null and shows an empty thread. Remember the last-used
+    // chat id in localStorage and, on (re)open, reload it so the history is still
+    // there. If the user hasn't been in a chat yet, fall back to their most recent
+    // one; New chat clears the memory so it doesn't snap back to the old thread.
+    _chatKey() {
+        let uid = "";
+        try { uid = (mw.settings && (mw.settings.user_id || mw.settings.logged_user_id)) || ""; } catch (e) {}
+        return "mw_ai_last_chat" + (uid ? "_" + uid : "");
+    }
+
+    _rememberChat(id) {
+        if (id) { this.chatId = id; }
+        try { if (this.chatId) { localStorage.setItem(this._chatKey(), String(this.chatId)); } } catch (e) {}
+    }
+
+    _forgetChat() {
+        try { localStorage.removeItem(this._chatKey()); } catch (e) {}
+    }
+
+    restoreSession() {
+        let saved = null;
+        try { saved = localStorage.getItem(this._chatKey()); } catch (e) {}
+        const id = saved ? parseInt(saved, 10) : 0;
+        if (id) {
+            this.loadChat(id, { silent: true, fallback: () => this.loadLatestChat() });
+            return;
+        }
+        this.loadLatestChat();
+    }
+
+    loadLatestChat() {
+        const url = mw.settings.site_url + "api/ai/user-chats";
+        $.get(url).then((res) => {
+            const list = (res && res.data && res.data.data) ? res.data.data : [];
+            if (list.length && list[0] && list[0].id) {
+                this.loadChat(list[0].id, { silent: true });
+            }
+        }).catch(() => {});
     }
 }
