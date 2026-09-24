@@ -321,16 +321,19 @@ class AiController extends Controller
         $lastModule = (array) $request->input('last_module', []);
         $editFields = (array) $request->input('edit_fields', []);
         $computedStyles = (array) $request->input('computed_styles', []);
+        $cssVars = (array) $request->input('css_vars', []);
         $selectedElement = (array) $request->input('selected_element', []);
         $selectedLayout = (array) $request->input('selected_layout', []);
 
         // Bind the live canvas context for this request so the read tools
-        // (get_dom, get_edit_fields, get_computed_styles, get_selected_element,
-        // get_selected_layout) can return the real current page state.
+        // (get_dom, get_edit_fields, get_computed_styles, get_css_vars,
+        // get_selected_element, get_selected_layout) can return the real current
+        // page state.
         app()->instance('mw.ai.liveedit.context', [
             'dom' => $canvasHtml,
             'edit_fields' => $editFields,
             'computed_styles' => $computedStyles,
+            'css_vars' => $cssVars,
             'selected_element' => $selectedElement,
             'selected_layout' => $selectedLayout,
         ]);

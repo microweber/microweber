@@ -383,6 +383,38 @@ function MwAi() {
             return out.slice(0, 60);
         },
 
+        // Collect the template's CSS custom properties (design tokens) from the
+        // canvas :root/body so the backend get_css_vars tool can let the model SEE
+        // the theme palette — brand colour, button colours, link colour, text and
+        // background tokens, fonts, radii. Without this the model writes buttons
+        // that inherit e.g. --mw-primary-color (orange) and end up orange-on-orange
+        // against a section it also tinted with the same token. Brand/colour tokens
+        // are sorted first and the list is capped to keep the payload small.
+        collectCssVars() {
+            const map = {};
+            try {
+                const doc = this.canvasDocument();
+                const win = doc.defaultView || window;
+                [doc.documentElement, doc.body].filter(Boolean).forEach(function (el) {
+                    const cs = win.getComputedStyle(el);
+                    for (let i = 0; i < cs.length; i++) {
+                        const prop = cs[i];
+                        if (prop && prop.indexOf('--') === 0 && !(prop in map)) {
+                            const val = cs.getPropertyValue(prop).trim();
+                            if (val) { map[prop] = val.slice(0, 80); }
+                        }
+                    }
+                });
+            } catch (e) {}
+            const isBrand = function (k) {
+                return /primary|secondary|accent|brand|colou?r|\bbg\b|background|link|text|btn|button|border|heading|paragraph|font|radius/i.test(k);
+            };
+            const keys = Object.keys(map).sort(function (a, b) { return (isBrand(b) ? 1 : 0) - (isBrand(a) ? 1 : 0); });
+            const out = {};
+            keys.slice(0, 90).forEach(function (k) { out[k] = map[k]; });
+            return out;
+        },
+
         // Capture the element/layout the user has currently SELECTED in Live Edit,
         // so phrases like "change THIS to red" resolve to a real target. Assigns a
         // stable id if the selected node has none and returns a selector + a small
@@ -666,6 +698,34 @@ function MwAi() {
                 return { ok: true, message: 'applied global css' };
             },
 
+            // Set (override) one or more template CSS custom properties globally,
+            // e.g. retint the brand colour: {"vars": {"--mw-primary-color": "#0d6efd"}}
+            // or a single {"name": "--mw-btn-background-color", "value": "#111"}.
+            // Writes a `:root { … }` rule through the same global-CSS path as
+            // apply_css so it wins by source order and persists on SAVE.
+            set_css_var: function(args, api) {
+                let vars = null;
+                if (args && args.vars) {
+                    if (typeof args.vars === 'object') { vars = args.vars; }
+                    else if (typeof args.vars === 'string') { try { vars = JSON.parse(args.vars); } catch (e) { vars = null; } }
+                }
+                if (!vars && args && args.name) { vars = {}; vars[String(args.name)] = String(args.value != null ? args.value : ''); }
+                if (!vars || !Object.keys(vars).length) { return { ok: false, message: 'no css vars given (pass {vars:{"--x":"y"}} or {name,value})' }; }
+                const decls = [];
+                Object.keys(vars).forEach(function (k) {
+                    let name = String(k).trim();
+                    if (!name) { return; }
+                    if (name.indexOf('--') !== 0) { name = '--' + name.replace(/^-+/, ''); } // tolerate a bare token
+                    const val = String(vars[k] != null ? vars[k] : '').trim();
+                    if (val) { decls.push('  ' + name + ': ' + val + ';'); }
+                });
+                if (!decls.length) { return { ok: false, message: 'no valid css var declarations' }; }
+                const css = ':root {\n' + decls.join('\n') + '\n}';
+                api.injectGlobalCss(css);
+                api.persistGlobalCss();
+                return { ok: true, message: 'set ' + decls.length + ' css var(s)' };
+            },
+
             set_text: function(args, api) {
                 const selector = (args && args.selector) ? String(args.selector) : '';
                 const text = (args && typeof args.text !== 'undefined') ? String(args.text) : '';
@@ -935,6 +995,7 @@ function MwAi() {
             get_dom: function() { return { ok: true, message: 'dom read' }; },
             get_edit_fields: function() { return { ok: true, message: 'edit fields read' }; },
             get_computed_styles: function() { return { ok: true, message: 'computed styles read' }; },
+            get_css_vars: function() { return { ok: true, message: 'css vars read' }; },
             get_selected_element: function() { return { ok: true, message: 'selection read' }; },
             get_selected_layout: function() { return { ok: true, message: 'selection read' }; },
 
@@ -1080,6 +1141,14 @@ function MwAi() {
             try {
                 const cstyles = self.collectComputedStyles();
                 if (cstyles && cstyles.length) { body.computed_styles = cstyles; }
+            } catch (e) {}
+            // The template's CSS custom properties (design tokens) so the
+            // get_css_vars tool can show the model the theme palette — brand colour,
+            // button/link colours, text/background tokens — and it can match them or
+            // override them (avoids e.g. an orange button on an orange section).
+            try {
+                const cvars = self.collectCssVars();
+                if (cvars && Object.keys(cvars).length) { body.css_vars = cvars; }
             } catch (e) {}
             // The element/layout the user has selected in the editor, so "this"/"that"
             // resolves (get_selected_element / get_selected_layout).

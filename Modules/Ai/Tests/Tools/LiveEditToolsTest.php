@@ -234,6 +234,58 @@ class LiveEditToolsTest extends ToolTestCase
     }
 
     #[Test]
+    public function get_css_vars_returns_template_tokens_and_filters(): void
+    {
+        $this->assertSame('get_css_vars', (new \Modules\Ai\Tools\LiveEdit\GetCssVarsTool())->getName());
+        app()->instance('mw.ai.liveedit.context', [
+            'css_vars' => [
+                '--mw-primary-color' => '#f4a261',
+                '--mw-btn-background-color' => '#f4a261',
+                '--mw-btn-text-color' => '#fff',
+                '--mw-heading-color' => '#000',
+            ],
+        ]);
+        $tool = new \Modules\Ai\Tools\LiveEdit\GetCssVarsTool();
+
+        $all = json_decode($tool->__invoke(), true);
+        $this->assertSame(4, $all['count']);
+        $this->assertSame('#f4a261', $all['vars']['--mw-primary-color']);
+
+        $btn = json_decode($tool->__invoke(filter: 'btn'), true);
+        $this->assertSame(2, $btn['count']);
+        $this->assertArrayHasKey('--mw-btn-text-color', $btn['vars']);
+
+        // Unknown filter -> clean error; no context -> clean error.
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $tool->__invoke(filter: 'nope-xyz'));
+        app()->forgetInstance('mw.ai.liveedit.context');
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, (new \Modules\Ai\Tools\LiveEdit\GetCssVarsTool())->__invoke());
+    }
+
+    #[Test]
+    public function set_css_var_accepts_map_single_and_json_string_and_rejects_empty(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\SetCssVarTool();
+        $this->assertSame('set_css_var', $tool->getName());
+
+        // vars map
+        $out = $tool->__invoke(vars: ['--mw-primary-color' => '#0d6efd', '--mw-btn-text-color' => '#fff']);
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $out);
+        $this->assertStringContainsString('--mw-primary-color: #0d6efd;', $out);
+
+        // single name/value + bare token gets the -- prefix
+        $single = $tool->__invoke(name: 'mw-link-color', value: '#111');
+        $this->assertStringContainsString('--mw-link-color: #111;', $single);
+
+        // JSON-string vars (some models stringify the object)
+        $jsonStr = $tool->__invoke(vars: '{"--mw-heading-color":"#222"}');
+        $this->assertStringContainsString('--mw-heading-color: #222;', $jsonStr);
+
+        // nothing valid -> clean error
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $tool->__invoke());
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER, $tool->__invoke(vars: []));
+    }
+
+    #[Test]
     public function get_dom_returns_the_bound_canvas_and_can_narrow_by_selector(): void
     {
         app()->instance('mw.ai.liveedit.context', [
