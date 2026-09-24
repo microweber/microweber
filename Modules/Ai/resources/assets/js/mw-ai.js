@@ -465,6 +465,21 @@ function MwAi() {
                 .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         },
 
+        // Is this node inside a NAVIGATION MENU module? Menus are DB-backed modules
+        // rendered from menu-item records, so editing their text/link/visibility in
+        // the DOM does NOT persist (a reload/reload_module re-renders from the DB).
+        // Returns {menuId, itemId} when the node is in a menu (itemId '' if the menu
+        // container but not a specific item), or null when it isn't a menu at all.
+        menuTargetInfo(el) {
+            if (!el || !el.closest) { return null; }
+            const menu = el.closest('.module[data-type="menu"], .module[type="menu"], [data-type="menu"], .module-menu, .mw-menu-skin-com, nav .menu, ul.nav, .navbar-nav');
+            if (!menu) { return null; }
+            const item = el.closest('[data-item-id], [data-id], .nav-item, .menu-item, li');
+            const itemId = item ? (item.getAttribute('data-item-id') || item.getAttribute('data-id') || '') : '';
+            const menuModule = el.closest('.module[data-type="menu"], .module[type="menu"], [data-type="menu"], .module-menu');
+            return { menuId: (menuModule && menuModule.id) || '', itemId: String(itemId || '') };
+        },
+
         // Sanitise AI-authored section HTML before it touches the canvas: no
         // scripts, styles, iframes, Microweber <module> tags, or inline event
         // handlers / javascript: URLs. Returns a safe HTML string.
@@ -782,6 +797,13 @@ function MwAi() {
                 const doc = api.canvasDocument();
                 const el = doc.querySelector(selector);
                 if (!el) { return { ok: false, message: 'no element for ' + selector }; }
+                // A navigation menu is a DB-backed module — a DOM text edit is thrown
+                // away on the next render. Redirect to edit_menu_item so it persists.
+                const menu = api.menuTargetInfo(el);
+                if (menu) {
+                    return { ok: false, message: 'That is a NAVIGATION MENU item' + (menu.itemId ? (' (id ' + menu.itemId + ')') : '')
+                        + '. Menu items are a database-backed module, so set_text on the DOM will NOT persist. Use edit_menu_item(id=' + (menu.itemId || '<get it from get_menu>') + ', title="' + text + '") to rename it (or url / content_id to change where it points). Call get_menu first if you need the id.' };
+                }
                 el.textContent = text;
                 try { mw.top().app.registerChangedState(el); } catch (e) {}
                 return { ok: true, message: 'text updated' };
@@ -817,6 +839,27 @@ function MwAi() {
                 const doc = api.canvasDocument();
                 const el = doc.querySelector(selector);
                 if (!el) { return { ok: false, message: 'no element for ' + selector }; }
+                // Safety guards — delete_element is for a single duplicate/unwanted
+                // element, NOT for wiping the page. Refuse structural containers so a
+                // bad selector can't blank the whole content.
+                const tag = (el.tagName || '').toUpperCase();
+                if (tag === 'BODY' || tag === 'HTML' || tag === 'HEAD') {
+                    return { ok: false, message: 'refused: cannot delete <' + tag.toLowerCase() + '>.' };
+                }
+                if (el.matches && el.matches('.edit[rel][field]')) {
+                    return { ok: false, message: 'refused: "' + selector + '" is the page CONTENT REGION, not a section. Delete a specific section/element inside it, or hide something with apply_css. Deleting the region would wipe the whole page.' };
+                }
+                // Deleting the content region's ONLY / outermost content wrapper would
+                // empty the page — make the model target the actual sub-section.
+                const region = api.contentRegion();
+                if (region && (el === region || el.contains(region))) {
+                    return { ok: false, message: 'refused: "' + selector + '" contains the whole page content. Target a specific section inside it instead.' };
+                }
+                // Menu = DB-backed module; a DOM removal won't persist.
+                const menuD = api.menuTargetInfo(el);
+                if (menuD && menuD.itemId) {
+                    return { ok: false, message: 'That is a NAVIGATION MENU item (id ' + menuD.itemId + '). Use edit_menu_item(id=' + menuD.itemId + ', remove=true) to delete it so it persists.' };
+                }
                 try {
                     const editParent = mw.top().tools.firstParentOrCurrentWithClass(el, 'edit');
                     const ea = api.elementActions();
@@ -889,6 +932,13 @@ function MwAi() {
                 const doc = api.canvasDocument();
                 let el = doc.querySelector(selector);
                 if (!el) { return { ok: false, message: 'no element for ' + selector }; }
+                // Menu links live in a DB-backed module — set the target via the menu
+                // tool so it persists instead of a throwaway DOM href.
+                const menuL = api.menuTargetInfo(el);
+                if (menuL) {
+                    return { ok: false, message: 'That is a NAVIGATION MENU item' + (menuL.itemId ? (' (id ' + menuL.itemId + ')') : '')
+                        + '. Use edit_menu_item(id=' + (menuL.itemId || '<get it from get_menu>') + ', url="' + url + '") (or content_id for an internal page) so the link persists — a DOM href on a menu item is not saved.' };
+                }
                 if (el.tagName !== 'A') {
                     const inner = el.querySelector('a');
                     if (inner) { el = inner; }
