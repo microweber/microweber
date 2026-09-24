@@ -298,17 +298,28 @@ export class LiveEditWidgetsService extends BaseComponent{
         this.status.adminSidebarOpened = true;
         const adminSidebarEl = mw.top().doc.querySelector('aside.fi-sidebar');
         adminSidebarEl.classList.add('active')
-        // task-2026-09-24 — open from the LEFT (was a right overlay). The Admin
-        // button now lives top-left, so the sidebar slides in from the left.
-        // Inline !important beats the prior right-positioning rule regardless of
-        // where it lives.
+        // task-2026-09-24 — render the admin nav as a clean LEFT drawer that
+        // slides in from the left (was a right overlay that flew across the whole
+        // screen). Pin the drawer box below the toolbar with a transform-only
+        // transition, start it off-screen left, then slide to 0 on the next frame.
+        // Inline !important beats Filament's own `transition:all` + translateX and
+        // the prior right-positioning rule.
+        const _tb = 'var(--toolbar-height, 48px)';
+        adminSidebarEl.style.setProperty('position', 'fixed', 'important');
         adminSidebarEl.style.setProperty('left', '0', 'important');
         adminSidebarEl.style.setProperty('right', 'auto', 'important');
         adminSidebarEl.style.setProperty('inset-inline-start', '0', 'important');
         adminSidebarEl.style.setProperty('inset-inline-end', 'auto', 'important');
-        // task-2026-09-24 — a "Back to admin" affordance at the top of the sidebar
-        // that leaves Live Edit for the full admin dashboard.
+        adminSidebarEl.style.setProperty('top', _tb, 'important');
+        adminSidebarEl.style.setProperty('height', 'calc(100dvh - ' + _tb + ')', 'important');
+        adminSidebarEl.style.setProperty('transition', 'transform .25s ease', 'important');
+        adminSidebarEl.style.setProperty('transform', 'translateX(-100%)', 'important');
+        // "Back to admin" affordance at the top of the drawer.
         this.#injectAdminBackButton(adminSidebarEl);
+        const _win = (mw.top().doc.defaultView || window);
+        _win.requestAnimationFrame(() => _win.requestAnimationFrame(() => {
+            adminSidebarEl.style.setProperty('transform', 'translateX(0)', 'important');
+        }));
         // `mw-live-edit-sidebar-start` drives the admin sidebar's expanded
         // label styling (live-edit-mobile.css). `mw-live-edit-admin-open`
         // (task-2026-09-06-darkaudit) additionally marks that the drawer is the
@@ -387,9 +398,7 @@ export class LiveEditWidgetsService extends BaseComponent{
             a.href = url;
             a.setAttribute('aria-label', 'Back to admin');
             a.setAttribute('title', 'Back to admin');
-            // margin-top clears the fixed Live-Edit toolbar (which overlays the
-            // sidebar's top edge) so the shortcut is visible, not hidden behind it.
-            a.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:var(--toolbar-height,48px);padding:12px 16px;font-weight:600;font-size:13px;color:inherit;text-decoration:none;border-bottom:1px solid rgba(128,128,128,.2);flex:0 0 auto;';
+            a.style.cssText = 'display:flex;align-items:center;gap:8px;padding:12px 16px;font-weight:600;font-size:13px;color:inherit;text-decoration:none;border-bottom:1px solid rgba(128,128,128,.2);flex:0 0 auto;';
             a.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/></svg><span>Back to admin</span>';
             sidebarEl.insertBefore(a, sidebarEl.firstChild);
         } catch (e) { /* non-blocking — sidebar still usable without the shortcut */ }
@@ -400,15 +409,27 @@ export class LiveEditWidgetsService extends BaseComponent{
             return this;
         }
         this.status.adminSidebarOpened = false;
-        mw.top().doc.querySelector('aside.fi-sidebar').classList.remove('active');
-        // Restore Filament's collapsed state so we don't leave its own mobile
-        // sidebar overlay flagged open after the live-edit panel closes.
-        this.#setFilamentSidebarOpen(false);
-        mw.top().doc.documentElement.classList.remove('mw-live-edit-admin-open');
-        if(!this.#hasOpened()) {
-            mw.top().doc.documentElement.classList.remove( 'mw-live-edit-sidebar-start');
-
-        }
+        const sb = mw.top().doc.querySelector('aside.fi-sidebar');
+        // task-2026-09-24 — slide the drawer OUT to the left first, then tear down
+        // (remove .active, collapse Filament's store, clear the drawer inline
+        // styles). Doing the teardown after the slide avoids the old "collapses to
+        // an icon strip in the middle" flash.
+        if (sb) { sb.style.setProperty('transform', 'translateX(-100%)', 'important'); }
+        const finish = () => {
+            if (sb) {
+                sb.classList.remove('active');
+                ['position', 'left', 'right', 'inset-inline-start', 'inset-inline-end', 'top', 'height', 'transition', 'transform']
+                    .forEach((p) => sb.style.removeProperty(p));
+            }
+            // Restore Filament's collapsed state so we don't leave its own mobile
+            // sidebar overlay flagged open after the live-edit panel closes.
+            this.#setFilamentSidebarOpen(false);
+            mw.top().doc.documentElement.classList.remove('mw-live-edit-admin-open');
+            if(!this.#hasOpened()) {
+                mw.top().doc.documentElement.classList.remove('mw-live-edit-sidebar-start');
+            }
+        };
+        try { (mw.top().doc.defaultView || window).setTimeout(finish, 260); } catch (e) { finish(); }
         this.dispatch('adminSidebarClose');
         return this;
     }

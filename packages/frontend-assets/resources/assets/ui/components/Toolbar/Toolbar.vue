@@ -46,6 +46,31 @@ html.mw-setup-wizard-document .back-to-edit{
     margin-left: 20px;
 }
 
+/* task-2026-09-24 — the toolbar Admin button: an outline button with icon +
+   label (bigger, reads as a real button like the other toolbar buttons). */
+.mw-toolbar-admin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--mw-border-color, #dadfe5);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--mw-text-primary, #182433);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color .15s, border-color .15s, color .15s;
+}
+.mw-toolbar-admin-btn svg { flex: 0 0 auto; }
+.mw-toolbar-admin-btn:hover { background: var(--mw-bg-page, #f6f8fb); border-color: var(--mw-text-muted, #9aa3af); }
+.mw-toolbar-admin-btn.is-active { background: var(--mw-text-primary, #182433); border-color: var(--mw-text-primary, #182433); color: #fff; }
+.dark .mw-toolbar-admin-btn { border-color: rgba(255,255,255,.18); color: #e8eaed; }
+.dark .mw-toolbar-admin-btn:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.3); }
+.dark .mw-toolbar-admin-btn.is-active { background: #e8eaed; color: #182433; border-color: #e8eaed; }
+
 </style>
 <template>
     <div id="toolbar" role="toolbar" aria-label="Live edit toolbar" class="shadow-sm md:px-6 px-3 gap-3 " :style="{'display': toolbarDisplay}">
@@ -55,8 +80,8 @@ html.mw-setup-wizard-document .back-to-edit{
                  rail per user request. Toggles the admin nav sidebar
                  (aside.fi-sidebar, now a LEFT overlay) via toggleAdminSidebar(). -->
             <button type="button"
-                 class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-admin mw-toolbar-icon-btn mw-toolbar-admin-btn"
-                 :class="{'live-edit-right-sidebar-active': adminSidebarActive}"
+                 class="live-edit-toolbar-buttons live-edit-toolbar-button-admin mw-toolbar-admin-btn"
+                 :class="{'is-active': adminSidebarActive}"
                  aria-label="Admin"
                  title="Admin"
                  data-mw-label="Admin"
@@ -64,10 +89,11 @@ html.mw-setup-wizard-document .back-to-edit{
                  v-on:click="handleAdmin()"
                  v-on:keydown.enter.prevent="handleAdmin()"
                  v-on:keydown.space.prevent="handleAdmin()">
-                <svg fill="currentColor" height="20" viewBox="0 -960 960 960" width="20"
+                <svg fill="currentColor" height="18" viewBox="0 -960 960 960" width="18"
                      xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path d="M520-600v-240h320v240H520ZM120-440v-400h320v400H120Zm400 320v-400h320v400H520Zm-400 0v-240h320v240H120Zm80-400h160v-240H200v240Zm400 320h160v-240H600v240Zm0-480h160v-80H600v80ZM200-200h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360-280Z"/>
                 </svg>
+                <span>Admin</span>
             </button>
 
             <!--
