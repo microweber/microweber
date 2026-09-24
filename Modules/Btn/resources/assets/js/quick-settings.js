@@ -124,7 +124,7 @@ function btnPanelInjectCss() {
     s.id = 'mw-btn-panel-css';
     s.textContent = [
         '.mw-btn-panel{position:fixed;z-index:100061;width:300px;max-width:calc(100vw - 16px);max-height:calc(100vh - 24px);overflow:auto;',
-        'background:#fff;color:#182433;border-radius:14px;padding:14px;',
+        'background:#fff;color:#182433;border-radius:14px;padding:12px;',
         'box-shadow:0 10px 34px rgba(24,36,51,.16),0 2px 8px rgba(24,36,51,.08);',
         'font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:13px;}',
         'html.dark .mw-btn-panel{background:#1b1e22;color:#e8eaed;box-shadow:0 12px 40px rgba(0,0,0,.6);}',
@@ -139,19 +139,25 @@ function btnPanelInjectCss() {
         'html.dark .mw-btn-panel__ico:hover{background:#ffffff16;}',
         '.mw-btn-panel__ico.is-danger:hover{background:rgba(220,38,38,.35);}',
         '.mw-btn-panel__ico svg{width:16px;height:16px;}',
-        '.mw-btn-panel__section{margin-bottom:12px;}',
+        '.mw-btn-panel__section{margin-bottom:9px;}',
         '.mw-btn-panel__section:last-child{margin-bottom:0;}',
-        '.mw-btn-panel__label{font-size:11px;font-weight:600;letter-spacing:.02em;color:#8a94a3;margin-bottom:6px;}',
-        '.mw-btn-panel__seg{display:flex;gap:6px;}',
+        // task-2026-09-24 — compact: pair short sections side-by-side in a row.
+        '.mw-btn-panel__row{display:flex;gap:10px;margin-bottom:9px;}',
+        '.mw-btn-panel__row>.mw-btn-panel__section{flex:1 1 0;min-width:0;margin-bottom:0;}',
+        '.mw-btn-panel__label{font-size:10.5px;font-weight:600;letter-spacing:.02em;color:#8a94a3;margin-bottom:4px;}',
+        '.mw-btn-panel__seg{display:flex;gap:5px;}',
         '.mw-btn-panel__seg--eq .mw-btn-panel__cell{flex:1 1 0;}',
-        '.mw-btn-panel__cell{flex:0 0 auto;min-height:36px;padding:7px 10px;border:1px solid #18243318;border-radius:9px;background:#18243305;color:inherit;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;transition:background-color .15s,border-color .15s,color .15s;}',
+        '.mw-btn-panel__cell{flex:0 0 auto;min-height:30px;padding:5px 8px;border:1px solid #18243318;border-radius:8px;background:#18243305;color:inherit;cursor:pointer;font:inherit;font-size:12px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;transition:background-color .15s,border-color .15s,color .15s;}',
+        // icon-only cells (e.g. Align) — square-ish, centered glyph.
+        '.mw-btn-panel__cell--icon{padding:5px 4px;}',
+        '.mw-btn-panel__cell--icon svg{width:16px;height:16px;display:block;}',
         '.mw-btn-panel__cell:hover{background:#1824330d;border-color:#18243230;}',
         '.mw-btn-panel__cell.active{border-color:#182433;box-shadow:inset 0 0 0 1px #182433;color:#182433;}',
         'html.dark .mw-btn-panel__cell{background:#ffffff08;border-color:#ffffff1f;}',
         'html.dark .mw-btn-panel__cell:hover{background:#ffffff14;}',
         'html.dark .mw-btn-panel__cell.active{border-color:#e8eaed;box-shadow:inset 0 0 0 1px #e8eaed;color:#e8eaed;}',
-        '.mw-btn-panel__swatches{display:flex;flex-wrap:wrap;gap:8px;}',
-        '.mw-btn-panel__sw{width:26px;height:26px;border-radius:50%;border:1px solid rgba(0,0,0,.12);cursor:pointer;padding:0;position:relative;transition:transform .1s;}',
+        '.mw-btn-panel__swatches{display:flex;flex-wrap:wrap;gap:6px;}',
+        '.mw-btn-panel__sw{width:22px;height:22px;border-radius:50%;border:1px solid rgba(0,0,0,.12);cursor:pointer;padding:0;position:relative;transition:transform .1s;}',
         '.mw-btn-panel__sw:hover{transform:scale(1.08);}',
         '.mw-btn-panel__sw.active{box-shadow:0 0 0 2px #fff,0 0 0 4px #182433;}',
         'html.dark .mw-btn-panel__sw.active{box-shadow:0 0 0 2px #1b1e22,0 0 0 4px #e8eaed;}',
@@ -205,10 +211,20 @@ function btnAnnounceOpen() {
 function btnPanelSeg(label, group, items, current) {
     var cells = items.map(function (it) {
         var active = (String(it.value) === String(current)) ? ' active' : '';
-        return '<button type="button" class="mw-btn-panel__cell' + active + '" data-group="' + group + '" data-val="' + it.value + '">' + it.label + '</button>';
+        // task-2026-09-24 — an item may carry an `icon` (SVG) instead of text
+        // (e.g. Align). Keep the label as title/aria for a11y.
+        var iconCls = it.icon ? ' mw-btn-panel__cell--icon' : '';
+        var attrs = it.icon ? (' title="' + it.label + '" aria-label="' + it.label + '"') : '';
+        var content = it.icon ? it.icon : it.label;
+        return '<button type="button" class="mw-btn-panel__cell' + active + iconCls + '" data-group="' + group + '" data-val="' + it.value + '"' + attrs + '>' + content + '</button>';
     }).join('');
     return '<div class="mw-btn-panel__section"><div class="mw-btn-panel__label">' + label + '</div>'
         + '<div class="mw-btn-panel__seg mw-btn-panel__seg--eq">' + cells + '</div></div>';
+}
+
+// task-2026-09-24 — pair short sections side-by-side to keep the panel compact.
+function btnPanelRow() {
+    return '<div class="mw-btn-panel__row">' + Array.prototype.slice.call(arguments).join('') + '</div>';
 }
 
 // task-2026-09-14-btn-settings — reusable colour-swatch section (recommended
@@ -258,6 +274,12 @@ function openBtnPanel(el) {
     // Real module icon (falls back to a button glyph) — matches the kit header.
     var badgeIco = btnModuleIcon() || '<svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 7h14M4 11h9M4 15h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="11" r="2.4" fill="currentColor"/></svg>';
 
+    // task-2026-09-24 — align icons (left / center / right) for a compact,
+    // icon-based Align control instead of three text buttons.
+    var alignLeftIco = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h13"/></svg>';
+    var alignCenterIco = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M5 18h14"/></svg>';
+    var alignRightIco = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M10 12h10M7 18h13"/></svg>';
+
     var html = ''
         + '<div class="mw-btn-panel__head">'
         + '  <span class="mw-btn-panel__badge">' + badgeIco + '</span>'
@@ -269,12 +291,20 @@ function openBtnPanel(el) {
         + '  </div>'
         + '</div>'
         + btnPanelSeg(mw.lang('Type'), 'style', BTN_TYPES, curType)
-        + btnSwatchSection(mw.lang('Color'), 'backgroundColor', curBg)
-        + btnSwatchSection(mw.lang('Text color'), 'color', curColor)
+        + btnPanelRow(
+            btnSwatchSection(mw.lang('Color'), 'backgroundColor', curBg),
+            btnSwatchSection(mw.lang('Text color'), 'color', curColor)
+          )
+        + btnPanelRow(
+            btnPanelSeg(mw.lang('Size'), 'size', BTN_SIZES, curSize),
+            btnPanelSeg(mw.lang('Width'), 'width', [{ label: mw.lang('Fit'), value: '' }, { label: mw.lang('Fill'), value: 'w-100' }], curWidth)
+          )
+        + btnPanelSeg(mw.lang('Align'), 'align', [
+            { label: mw.lang('Left'), value: 'left', icon: alignLeftIco },
+            { label: mw.lang('Center'), value: 'center', icon: alignCenterIco },
+            { label: mw.lang('Right'), value: 'right', icon: alignRightIco }
+          ], curAlign)
         + iconSection
-        + btnPanelSeg(mw.lang('Size'), 'size', BTN_SIZES, curSize)
-        + btnPanelSeg(mw.lang('Width'), 'width', [{ label: mw.lang('Fit'), value: '' }, { label: mw.lang('Fill'), value: 'w-100' }], curWidth)
-        + btnPanelSeg(mw.lang('Align'), 'align', [{ label: mw.lang('Left'), value: 'left' }, { label: mw.lang('Center'), value: 'center' }, { label: mw.lang('Right'), value: 'right' }], curAlign)
         + '<div class="mw-btn-panel__section"><div class="mw-btn-panel__label">' + mw.lang('Link') + '</div>'
         + '  <div class="mw-btn-panel__link">'
         + '    <input type="text" class="mw-btn-panel__input" data-link placeholder="' + mw.lang('Paste a URL') + '" value="' + String(curUrl).replace(/"/g, '&quot;') + '">'
