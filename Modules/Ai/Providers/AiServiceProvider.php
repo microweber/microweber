@@ -168,7 +168,12 @@ class AiServiceProvider extends BaseModuleServiceProvider
             'Admin Pages', ['Section' => 'Settings'],
         );
 
-        LiveEditManager::addScript('mw-ai', asset('modules/ai/js/mw-ai.js'));
+        // Cache-bust on file mtime so a deployed mw-ai.js update reaches the
+        // browser instead of being served from cache (stale frontendTools were
+        // why fixes appeared not to apply — e.g. the CSS-save flush).
+        $mwAiPath = public_path('modules/ai/js/mw-ai.js');
+        $mwAiVer = is_file($mwAiPath) ? filemtime($mwAiPath) : null;
+        LiveEditManager::addScript('mw-ai', asset('modules/ai/js/mw-ai.js') . ($mwAiVer ? ('?v=' . $mwAiVer) : ''));
 
 
     }

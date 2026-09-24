@@ -174,6 +174,15 @@ export default {
                 }
                 return;
             }
+            // Persist the AI-authored GLOBAL CSS (apply_css / set_css_var) as part
+            // of this save. It lives in the canvas #mw-ai-global-css <style> and is
+            // otherwise only written by an 800ms debounce — so a Save + quick
+            // refresh could beat it and lose the design. Flush it immediately here.
+            try {
+                var _MwAi = (canvasWindow.mw && canvasWindow.mw.top && canvasWindow.mw.top().win && canvasWindow.mw.top().win.MwAi) || (mw.top().win && mw.top().win.MwAi);
+                if (typeof _MwAi === 'function') { _MwAi().flushGlobalCss(); }
+            } catch (_) { /* no-op */ }
+
             var saved = canvasWindow.mw.drag.save();
 
             var finishSave = function (result) {
