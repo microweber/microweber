@@ -732,42 +732,88 @@ function MwAi() {
                     if (dup) { return { ok: true, message: 'duplicate section skipped' }; }
                 }
 
-                // Build the node. If the AI already provided a single block-level
-                // root (e.g. <section class="hero">), use it directly so its own
-                // class is the section handle — avoids <section><section> nesting
-                // and keeps the AI's selectors matching the top-level element.
+                // Parse the AI HTML into its top-level block(s) and tag each as a
+                // draggable `.element`. Previously the raw section was appended into
+                // the content region as-is, so Live Edit never recognised it (no
+                // `.element` handle, no server-registered layout field) — the blocks
+                // could not be selected, moved, or deleted, and did not persist
+                // reliably. See Option 1 below.
                 const tmp = doc.createElement('div');
                 tmp.innerHTML = api.sanitizeSectionHtml(html);
-                const roots = Array.from(tmp.children);
-                const blockTags = ['SECTION', 'DIV', 'HEADER', 'FOOTER', 'ARTICLE', 'ASIDE', 'MAIN', 'NAV'];
-                let section;
-                if (roots.length === 1 && blockTags.indexOf(roots[0].tagName) !== -1) {
-                    section = roots[0];
-                } else {
-                    section = doc.createElement('section');
-                    while (tmp.firstChild) { section.appendChild(tmp.firstChild); }
+                let blocks = Array.from(tmp.children).filter(function (n) { return n.nodeType === 1; });
+                if (!blocks.length) {
+                    // AI returned bare inline/text — wrap it so there is a block to tag.
+                    const s = doc.createElement('section');
+                    while (tmp.firstChild) { s.appendChild(tmp.firstChild); }
+                    blocks = [s];
                 }
-                section.classList.add('mw-ai-built-section');
-                section.id = 'mw-ai-sec-' + Math.floor(Math.random() * 1e9).toString(36);
+                const secMark = 'mw-ai-sec-' + Math.floor(Math.random() * 1e9).toString(36);
+                blocks.forEach(function (b) {
+                    b.classList.add('element');            // standard Live-Edit draggable/selectable handle
+                    b.classList.add('mw-ai-built-section'); // marker for dedup + self-check
+                    b.setAttribute('data-mw-ai-sec', secMark);
+                });
 
-                const position = (args && args.position === 'prepend') ? 'prepend' : 'append';
-                if (position === 'prepend' && region.firstChild) {
-                    region.insertBefore(section, region.firstChild);
-                } else {
-                    region.appendChild(section);
+                const css = (args && args.css && String(args.css).trim()) ? String(args.css) : '';
+                const position = (args && args.position === 'prepend') ? 'top' : 'bottom';
+
+                // Fallback: append the blocks straight into the content region (the
+                // old behaviour) so a section is never lost if the layout machinery
+                // is unavailable for any reason.
+                const finishRaw = function () {
+                    const frag = doc.createDocumentFragment();
+                    blocks.forEach(function (b) { frag.appendChild(b); });
+                    if (position === 'top' && region.firstChild) {
+                        region.insertBefore(frag, region.firstChild);
+                    } else {
+                        region.appendChild(frag);
+                    }
+                    try { mw.top().app.registerChangedState(region, true); } catch (e) {}
+                    if (css) { try { api.frontendTools.apply_css({ css: css }, api); } catch (e) {} }
+                };
+
+                // OPTION 1 — route the section through the real layouts module so its
+                // blocks are detected, draggable and persist. Insert the "clean"
+                // layout skin (a single full-width `.allow-select.allow-drop` column
+                // behind a server-registered `field="layout-content-<id>"`), then move
+                // the AI blocks into that column as `.element` nodes. This is the same
+                // machinery the "Insert layout" modal uses (editor.insertLayout).
+                try {
+                    const app = mw.top().app;
+                    const edit = mw.top().tools.firstParentOrCurrentWithClass(region, 'edit') || region;
+                    // Snapshot existing layout fields so we can identify the new one.
+                    const beforeFields = new Set(
+                        Array.from(edit.querySelectorAll('[field^="layout-content-"]'))
+                            .map(function (n) { return n.getAttribute('field'); })
+                    );
+                    app.registerChangedState(edit, true);
+                    const p = app.editor.insertLayout({ template: 'clean' }, position, edit);
+                    Promise.resolve(p).then(function () {
+                        try {
+                            const after = Array.from(edit.querySelectorAll('[field^="layout-content-"]'));
+                            let field = null;
+                            for (let i = after.length - 1; i >= 0; i--) {
+                                if (!beforeFields.has(after[i].getAttribute('field'))) { field = after[i]; break; }
+                            }
+                            if (!field) { field = after.length ? after[after.length - 1] : null; }
+                            const slot = field
+                                ? (field.querySelector('.allow-drop') || field.querySelector('.allow-select') || field)
+                                : null;
+                            if (!slot) { finishRaw(); return; }
+                            slot.innerHTML = ''; // drop the skin's "My title / My text content" placeholder
+                            blocks.forEach(function (b) { slot.appendChild(b); });
+                            if (css) { try { api.frontendTools.apply_css({ css: css }, api); } catch (e) {} }
+                            try { app.registerChangedState(field, true); } catch (e) {}
+                            try { app.registerChangedState(edit, true); } catch (e) {}
+                        } catch (e) {
+                            finishRaw();
+                        }
+                    }, function () { finishRaw(); });
+                    return { ok: true, message: 'section added in a draggable layout (' + blocks.length + ' block' + (blocks.length === 1 ? '' : 's') + ')' };
+                } catch (e) {
+                    finishRaw();
+                    return { ok: true, message: 'section added (' + blocks.length + ' block' + (blocks.length === 1 ? '' : 's') + ')' };
                 }
-
-                try { mw.top().app.registerChangedState(section); } catch (e) {}
-
-                // Atomic build+style: if the model passed css with the section,
-                // apply it now (via the same !important path) so the section looks
-                // right even if the model never makes a separate apply_css call.
-                let styled = '';
-                if (args && args.css && String(args.css).trim()) {
-                    const r = api.frontendTools.apply_css({ css: String(args.css) }, api);
-                    if (r && r.ok) { styled = ' + styled'; }
-                }
-                return { ok: true, message: 'section added (' + section.children.length + ' blocks)' + styled };
             },
 
             insert_module: function(args, api) {
