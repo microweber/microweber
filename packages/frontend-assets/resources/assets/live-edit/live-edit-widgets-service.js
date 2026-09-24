@@ -296,7 +296,19 @@ export class LiveEditWidgetsService extends BaseComponent{
     openAdminSidebar() {
         this.closeAll();
         this.status.adminSidebarOpened = true;
-        mw.top().doc.querySelector('aside.fi-sidebar').classList.add('active')
+        const adminSidebarEl = mw.top().doc.querySelector('aside.fi-sidebar');
+        adminSidebarEl.classList.add('active')
+        // task-2026-09-24 — open from the LEFT (was a right overlay). The Admin
+        // button now lives top-left, so the sidebar slides in from the left.
+        // Inline !important beats the prior right-positioning rule regardless of
+        // where it lives.
+        adminSidebarEl.style.setProperty('left', '0', 'important');
+        adminSidebarEl.style.setProperty('right', 'auto', 'important');
+        adminSidebarEl.style.setProperty('inset-inline-start', '0', 'important');
+        adminSidebarEl.style.setProperty('inset-inline-end', 'auto', 'important');
+        // task-2026-09-24 — a "Back to admin" affordance at the top of the sidebar
+        // that leaves Live Edit for the full admin dashboard.
+        this.#injectAdminBackButton(adminSidebarEl);
         // `mw-live-edit-sidebar-start` drives the admin sidebar's expanded
         // label styling (live-edit-mobile.css). `mw-live-edit-admin-open`
         // (task-2026-09-06-darkaudit) additionally marks that the drawer is the
@@ -356,6 +368,31 @@ export class LiveEditWidgetsService extends BaseComponent{
                 if (sb) { sb.isOpen = isOpen; }
             }
         } catch (e) { /* no-op — sidebar labels degrade to icon-only */ }
+    }
+
+    // task-2026-09-24 — prepend a "Back to admin" shortcut to the admin sidebar
+    // (once) that leaves Live Edit for the full admin dashboard.
+    #injectAdminBackButton(sidebarEl) {
+        try {
+            if (!sidebarEl || sidebarEl.querySelector('.mw-le-admin-back')) { return; }
+            const doc = sidebarEl.ownerDocument;
+            let url = '/admin';
+            try {
+                url = (typeof mw !== 'undefined' && mw.settings && mw.settings.adminUrl)
+                    ? mw.settings.adminUrl
+                    : ((mw.top().mw && mw.top().mw.settings && mw.top().mw.settings.adminUrl) || '/admin');
+            } catch (e) {}
+            const a = doc.createElement('a');
+            a.className = 'mw-le-admin-back';
+            a.href = url;
+            a.setAttribute('aria-label', 'Back to admin');
+            a.setAttribute('title', 'Back to admin');
+            // margin-top clears the fixed Live-Edit toolbar (which overlays the
+            // sidebar's top edge) so the shortcut is visible, not hidden behind it.
+            a.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:var(--toolbar-height,48px);padding:12px 16px;font-weight:600;font-size:13px;color:inherit;text-decoration:none;border-bottom:1px solid rgba(128,128,128,.2);flex:0 0 auto;';
+            a.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/></svg><span>Back to admin</span>';
+            sidebarEl.insertBefore(a, sidebarEl.firstChild);
+        } catch (e) { /* non-blocking — sidebar still usable without the shortcut */ }
     }
 
     closeAdminSidebar() {

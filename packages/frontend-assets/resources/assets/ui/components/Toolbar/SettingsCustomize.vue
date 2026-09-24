@@ -152,27 +152,10 @@
 
     <div :class="'mw-live-edit-right-sidebar-template-' + template" class="mw-live-edit-right-sidebar-wrapper me-2 ">
 
-        <!-- task-2026-09-06-darkaudit — Admin moved to the TOP of the rail (per
-             user request). Toggles the admin nav drawer (aside.fi-sidebar,
-             right overlay) via mw.app.liveEditWidgets.toggleAdminSidebar(). -->
-        <button type="button"
-             :class="{'live-edit-right-sidebar-active': buttonIsActiveAdmin }"
-             class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-admin mw-toolbar-icon-btn"
-             aria-label="Admin"
-             title="Admin"
-             data-mw-label="Admin"
-             :aria-pressed="buttonIsActiveAdmin"
-             v-on:click="handleAdmin()"
-             v-on:keydown.enter.prevent="handleAdmin()"
-             v-on:keydown.space.prevent="handleAdmin()">
-            <v-tooltip activator="parent" location="start">
-                <Lang>Admin</Lang>
-            </v-tooltip>
-            <svg fill="currentColor" height="22" viewBox="0 -960 960 960" width="22"
-                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M520-600v-240h320v240H520ZM120-440v-400h320v400H120Zm400 320v-400h320v400H520Zm-400 0v-240h320v240H120Zm80-400h160v-240H200v240Zm400 320h160v-240H600v240Zm0-480h160v-80H600v80ZM200-200h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360-280Z"/>
-            </svg>
-        </button>
+        <!-- task-2026-09-24 — Admin button moved OUT of the right rail to the
+             top-left toolbar (Toolbar.vue). handleAdmin()/buttonIsActiveAdmin
+             below are retained (still wired to the adminSidebar events) in case
+             other code references them, but no button renders here now. -->
 
 
         <!-- AI-64 / TICKET-PP (cycle-77 2026-05-08): these icon

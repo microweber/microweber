@@ -49,7 +49,26 @@ html.mw-setup-wizard-document .back-to-edit{
 </style>
 <template>
     <div id="toolbar" role="toolbar" aria-label="Live edit toolbar" class="shadow-sm md:px-6 px-3 gap-3 " :style="{'display': toolbarDisplay}">
-        <div class="toolbar-nav toolbar-nav-hover col-xxl-3 col-auto d-flex justify-content-start">
+        <div class="toolbar-nav toolbar-nav-hover col-xxl-3 col-auto d-flex justify-content-start align-items-center">
+
+            <!-- task-2026-09-24 — Admin moved here (1st, top-left) from the right
+                 rail per user request. Toggles the admin nav sidebar
+                 (aside.fi-sidebar, now a LEFT overlay) via toggleAdminSidebar(). -->
+            <button type="button"
+                 class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-admin mw-toolbar-icon-btn mw-toolbar-admin-btn"
+                 :class="{'live-edit-right-sidebar-active': adminSidebarActive}"
+                 aria-label="Admin"
+                 title="Admin"
+                 data-mw-label="Admin"
+                 :aria-pressed="adminSidebarActive"
+                 v-on:click="handleAdmin()"
+                 v-on:keydown.enter.prevent="handleAdmin()"
+                 v-on:keydown.space.prevent="handleAdmin()">
+                <svg fill="currentColor" height="20" viewBox="0 -960 960 960" width="20"
+                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M520-600v-240h320v240H520ZM120-440v-400h320v400H120Zm400 320v-400h320v400H520Zm-400 0v-240h320v240H120Zm80-400h160v-240H200v240Zm400 320h160v-240H600v240Zm0-480h160v-80H600v80ZM200-200h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360-280Z"/>
+                </svg>
+            </button>
 
             <!--
               task-2026-09-05-adminrail — the "Back to admin" arrow link is
@@ -372,11 +391,23 @@ export default {
 
         },
 
+        // task-2026-09-24 — toolbar Admin button (moved from the right rail).
+        // Toggles the Filament admin sidebar overlay; closes any other panel
+        // first so only one surface shows at a time.
+        handleAdmin() {
+            try {
+                mw.app.advancedPanelWidget?.hide();
+                mw.top().app.templateSettingsWidget?.hide();
+            } catch (e) { /* panels may not be mounted yet */ }
+            try { mw.top().app.liveEditWidgets.toggleAdminSidebar(); } catch (e) {}
+        },
+
     },
     data() {
         return {
             menu: [],
             toolbarDisplay: 'none',
+            adminSidebarActive: false,
             backToAdminLink: '',
             theme: window.mw.top().admin.theme.getTheme()
         }
@@ -389,6 +420,13 @@ export default {
         mw.top().admin.theme.on('change', () => {
             this.theme = mw.top().admin.theme.getTheme();
         })
+
+        // task-2026-09-24 — keep the toolbar Admin button's active state in sync
+        // with the admin sidebar overlay (opened/closed from anywhere).
+        try {
+            mw.top().app.liveEditWidgets.on('adminSidebarOpen', () => { this.adminSidebarActive = true; });
+            mw.top().app.liveEditWidgets.on('adminSidebarClose', () => { this.adminSidebarActive = false; });
+        } catch (e) { /* widgets service may init later; button still toggles via handleAdmin */ }
 
 
 
