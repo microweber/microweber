@@ -21,9 +21,16 @@ export const insertModule = (target = null, module, options = {}, insertLocation
 
             mw.spinner({element: target, decorate: true}).show()
 
-            const itm = await target.ownerDocument.defaultView.mw.module.insert(target, module, options, insertLocation, mw.liveEditState, explicitAction);
-
-            mw.spinner({element: target, decorate: true}).remove()
+            // Always tear the decorate-spinner down, even if the module insert
+            // rejects or hangs — otherwise the `.mw-spinner.mw-spinner-mode-append`
+            // node is left inside the edit region and, since Save doesn't strip it,
+            // gets persisted into the content and reappears on every reload.
+            let itm;
+            try {
+                itm = await target.ownerDocument.defaultView.mw.module.insert(target, module, options, insertLocation, mw.liveEditState, explicitAction);
+            } finally {
+                mw.spinner({element: target, decorate: true}).remove()
+            }
 
 
 

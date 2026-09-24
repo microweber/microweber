@@ -157,6 +157,16 @@ if(window.self !== window.top) {
 
 
             mw.$('.mw-skip-and-remove,script', body).remove();
+            // Transient Live-Edit chrome must never be persisted. `.mw-spinner` is
+            // the decorate-spinner shown during a module/layout insert (insert-
+            // module.js); if an insert failed/hung it can linger in the edit region
+            // and would otherwise be saved into the content and reappear on reload.
+            // Empty `#mw-module-*` divs are the matching insert placeholders (the
+            // module never rendered into them) — dead nodes, safe to drop.
+            mw.$('.mw-spinner', body).remove();
+            mw.$('[id^="mw-module-"]', body).each(function () {
+                if (!this.innerHTML.trim()) { mw.$(this).remove(); }
+            });
             return body;
         },
         animationsClearFix: function (body) {
@@ -458,6 +468,25 @@ if(window.self !== window.top) {
 
 
     });
+
+    // Scrub any transient insert artifacts a previous session may have persisted
+    // into the saved content — a lingering decorate-spinner (insert-module.js) or
+    // an empty `#mw-module-*` insert placeholder (see cleanUnwantedTags). Runs
+    // independently of the `load` event (which may already have fired by the time
+    // this script evaluates) and repeats on a short backstop for content the
+    // editor injects after boot. Only touches nodes INSIDE editable regions, so
+    // real content is never removed.
+    function _scrubPersistedInsertArtifacts() {
+        try {
+            document.querySelectorAll('.edit .mw-spinner').forEach(function (n) { n.remove(); });
+            document.querySelectorAll('.edit [id^="mw-module-"]').forEach(function (n) {
+                if (!n.innerHTML.trim()) { n.remove(); }
+            });
+        } catch (e) {}
+    }
+    _scrubPersistedInsertArtifacts();
+    if (document.readyState !== 'complete') { window.addEventListener('load', _scrubPersistedInsertArtifacts); }
+    setTimeout(_scrubPersistedInsertArtifacts, 1500);
 
 
     let _beforeUnload = null;

@@ -1320,6 +1320,20 @@ html.dark, html.dark :root, .dark, .theme-dark, [data-theme="dark"] {
     right: 0;
 }
 
+/* task-2026-09-24 — when the right AI / quick-edit panel is open, shrink the
+   canvas holder so the whole page (and its horizontal scrollbar) stays visible
+   to the LEFT of the 350px panel instead of being hidden underneath it. The
+   panel is the fixed 350px box #mw-live-edit-quickEditComponent-box.active; we
+   scope to it via :has() so this never fires for centered modals or other
+   chrome (the reason the generic .live-edit-gui-editor-opened rule was disabled
+   in RightSidebar.vue). Desktop-only, so the mobile full-screen overlay
+   (#live-edit-frame-holder { right: 0 } below) is left untouched. */
+@media (min-width: 768px) {
+    body:has(#mw-live-edit-quickEditComponent-box.active) #live-edit-frame-holder {
+        right: var(--sidebar-end-size);
+    }
+}
+
 @media (max-width: 767px) {
     :root {
         --sidebar-end-size: 100vw;
