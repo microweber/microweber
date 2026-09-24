@@ -57,6 +57,15 @@ html.dark .mw-ai-conv-msg.user .mw-ai-conv-msg-bubble{ background:#39424f; color
     background:transparent; color:inherit; padding:0; max-width:100%;
 }
 
+/* Messages queued while the AI is thinking — muted, right-aligned pills. */
+.mw-ai-conv-queue{ display:flex; flex-direction:column; gap:6px; align-items:flex-end; }
+.mw-ai-conv-queued{
+    align-self:flex-end; max-width:86%; padding:8px 12px; border-radius:14px;
+    background:#18243310; color:#182433; opacity:.7; font-size:13px; line-height:1.4;
+    border:1px dashed #18243333; white-space:pre-wrap; word-wrap:break-word;
+}
+html.dark .mw-ai-conv-queued{ background:#ffffff12; color:#e8eaed; border-color:#ffffff2e; }
+
 .mw-ai-conv-edits{ display:flex; flex-direction:column; gap:5px; }
 .mw-ai-conv-edit{
     display:inline-flex; align-items:center; gap:7px; align-self:flex-start;
@@ -247,6 +256,7 @@ export class MwAiConversation extends MicroweberBaseClass {
         this.settings = Object.assign({ contentId: 0 }, options);
         this.chatId = null;
         this.pending = false;
+        this.queue = [];        // messages typed while a turn is streaming, sent in order after it
         this.root = null;
         this.build();
     }
@@ -311,7 +321,9 @@ export class MwAiConversation extends MicroweberBaseClass {
             this.input.style.height = Math.min(this.input.scrollHeight, 140) + "px";
         };
         this.input.addEventListener("input", () => {
-            this.sendBtn.disabled = (!this.input.value.trim() && !this.pendingImages.length) || this.pending;
+            // Enabled whenever there's something to send — even mid-turn, where
+            // pressing send QUEUES the message rather than being blocked.
+            this.sendBtn.disabled = (!this.input.value.trim() && !this.pendingImages.length);
             autosize();
         });
         this.input.addEventListener("keydown", (e) => {
@@ -323,7 +335,9 @@ export class MwAiConversation extends MicroweberBaseClass {
         this.form.addEventListener("submit", (e) => {
             e.preventDefault();
             const v = this.input.value.trim();
-            if ((v || this.pendingImages.length) && !this.pending) { this.send(v); }
+            if (v || this.pendingImages.length) {
+                if (this.pending) { this.queueMessage(v); } else { this.send(v); }
+            }
         });
 
         this.root.querySelector(".mw-ai-conv-new-btn").addEventListener("click", () => this.newChat());
@@ -692,8 +706,53 @@ export class MwAiConversation extends MicroweberBaseClass {
 
     setPending(v) {
         this.pending = v;
-        this.sendBtn.disabled = v || (!this.input.value.trim() && !this.pendingImages.length);
-        this.input.disabled = v;
+        // Keep the textarea usable while the AI is thinking so the user can compose
+        // (and queue) the next message; the send button just needs some content.
+        this.input.disabled = false;
+        this.sendBtn.disabled = (!this.input.value.trim() && !this.pendingImages.length);
+    }
+
+    // Typed a message mid-turn — hold it and send when the current turn finishes.
+    queueMessage(text) {
+        const t = String(text || '').trim();
+        if (!t && !this.pendingImages.length) { return; }
+        this.queue.push({ text: t, images: this.pendingImages.slice() });
+        this.pendingImages = [];
+        this.renderAttachments();
+        this.input.value = '';
+        this.input.style.height = 'auto';
+        this.sendBtn.disabled = true;
+        this.renderQueue();
+    }
+
+    // Show queued messages as muted "pending" pills so the user sees what's lined up.
+    renderQueue() {
+        if (this._queueEl) { this._queueEl.remove(); this._queueEl = null; }
+        if (!this.queue.length) { return; }
+        const el = document.createElement('div');
+        el.className = 'mw-ai-conv-queue';
+        this.queue.forEach((q) => {
+            const pill = document.createElement('div');
+            pill.className = 'mw-ai-conv-queued';
+            pill.textContent = '⏳ ' + (q.text || (q.images.length ? mw.lang('Queued image') : ''));
+            el.appendChild(pill);
+        });
+        this.thread.appendChild(el);
+        this._queueEl = el;
+        this.scrollDown();
+    }
+
+    // After a turn ends, send the next queued message (which re-enters send() and
+    // chains to the following one on its own completion).
+    drainQueue() {
+        if (this.pending || !this.queue.length) { return false; }
+        const next = this.queue.shift();
+        if (this._queueEl) { this._queueEl.remove(); this._queueEl = null; }
+        this.renderQueue();
+        this.pendingImages = (next.images || []).slice();
+        this.renderAttachments();
+        this.send(next.text || '');
+        return true;
     }
 
     async send(text) {
@@ -802,6 +861,8 @@ export class MwAiConversation extends MicroweberBaseClass {
         } finally {
             this.setPending(false);
             this.input.focus();
+            // Send anything the user typed while this turn was streaming.
+            this.drainQueue();
         }
     }
 
