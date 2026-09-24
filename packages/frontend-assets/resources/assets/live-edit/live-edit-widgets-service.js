@@ -298,12 +298,12 @@ export class LiveEditWidgetsService extends BaseComponent{
         this.status.adminSidebarOpened = true;
         const adminSidebarEl = mw.top().doc.querySelector('aside.fi-sidebar');
         adminSidebarEl.classList.add('active')
-        // task-2026-09-24 — render the admin nav as a clean LEFT drawer that
-        // slides in from the left (was a right overlay that flew across the whole
-        // screen). Pin the drawer box below the toolbar with a transform-only
-        // transition, start it off-screen left, then slide to 0 on the next frame.
-        // Inline !important beats Filament's own `transition:all` + translateX and
-        // the prior right-positioning rule.
+        // task-2026-09-24 — pin the admin nav as a LEFT drawer below the toolbar.
+        // NO transform / NO transition: Filament's base `transition:all` animated
+        // the left<->right change and made the sidebar fly across the screen; we
+        // kill the transition so it just appears on the left instantly (per user
+        // request to remove the transform). Inline !important beats Filament's own
+        // transitions/translate and the prior right-positioning rule.
         const _tb = 'var(--toolbar-height, 48px)';
         adminSidebarEl.style.setProperty('position', 'fixed', 'important');
         adminSidebarEl.style.setProperty('left', '0', 'important');
@@ -312,14 +312,16 @@ export class LiveEditWidgetsService extends BaseComponent{
         adminSidebarEl.style.setProperty('inset-inline-end', 'auto', 'important');
         adminSidebarEl.style.setProperty('top', _tb, 'important');
         adminSidebarEl.style.setProperty('height', 'calc(100dvh - ' + _tb + ')', 'important');
-        adminSidebarEl.style.setProperty('transition', 'transform .25s ease', 'important');
-        adminSidebarEl.style.setProperty('transform', 'translateX(-100%)', 'important');
+        adminSidebarEl.style.setProperty('transition', 'none', 'important');
+        adminSidebarEl.style.setProperty('transform', 'none', 'important');
+        adminSidebarEl.style.setProperty('translate', 'none', 'important');
+        // task-2026-09-24 — hide the sidebar's logo header in Live Edit; the
+        // "Back to admin" row + the nav are enough, the Microweber logo header is
+        // redundant here.
+        const _hdr = adminSidebarEl.querySelector('.fi-sidebar-header-ctn') || adminSidebarEl.querySelector('.fi-sidebar-header');
+        if (_hdr) { _hdr.style.setProperty('display', 'none', 'important'); }
         // "Back to admin" affordance at the top of the drawer.
         this.#injectAdminBackButton(adminSidebarEl);
-        const _win = (mw.top().doc.defaultView || window);
-        _win.requestAnimationFrame(() => _win.requestAnimationFrame(() => {
-            adminSidebarEl.style.setProperty('transform', 'translateX(0)', 'important');
-        }));
         // `mw-live-edit-sidebar-start` drives the admin sidebar's expanded
         // label styling (live-edit-mobile.css). `mw-live-edit-admin-open`
         // (task-2026-09-06-darkaudit) additionally marks that the drawer is the
@@ -410,26 +412,24 @@ export class LiveEditWidgetsService extends BaseComponent{
         }
         this.status.adminSidebarOpened = false;
         const sb = mw.top().doc.querySelector('aside.fi-sidebar');
-        // task-2026-09-24 — slide the drawer OUT to the left first, then tear down
-        // (remove .active, collapse Filament's store, clear the drawer inline
-        // styles). Doing the teardown after the slide avoids the old "collapses to
-        // an icon strip in the middle" flash.
-        if (sb) { sb.style.setProperty('transform', 'translateX(-100%)', 'important'); }
-        const finish = () => {
-            if (sb) {
-                sb.classList.remove('active');
-                ['position', 'left', 'right', 'inset-inline-start', 'inset-inline-end', 'top', 'height', 'transition', 'transform']
-                    .forEach((p) => sb.style.removeProperty(p));
-            }
-            // Restore Filament's collapsed state so we don't leave its own mobile
-            // sidebar overlay flagged open after the live-edit panel closes.
-            this.#setFilamentSidebarOpen(false);
-            mw.top().doc.documentElement.classList.remove('mw-live-edit-admin-open');
-            if(!this.#hasOpened()) {
-                mw.top().doc.documentElement.classList.remove('mw-live-edit-sidebar-start');
-            }
-        };
-        try { (mw.top().doc.defaultView || window).setTimeout(finish, 260); } catch (e) { finish(); }
+        // task-2026-09-24 — instant teardown (no slide). Hide first (.active
+        // removed), then clear the drawer inline styles; with no transition there's
+        // no fly-out and no "collapses to an icon strip in the middle" flash.
+        if (sb) {
+            sb.classList.remove('active');
+            ['position', 'left', 'right', 'inset-inline-start', 'inset-inline-end', 'top', 'height', 'transition', 'transform', 'translate']
+                .forEach((p) => sb.style.removeProperty(p));
+            // restore the logo header we hid on open
+            const hdr = sb.querySelector('.fi-sidebar-header-ctn') || sb.querySelector('.fi-sidebar-header');
+            if (hdr) { hdr.style.removeProperty('display'); }
+        }
+        // Restore Filament's collapsed state so we don't leave its own mobile
+        // sidebar overlay flagged open after the live-edit panel closes.
+        this.#setFilamentSidebarOpen(false);
+        mw.top().doc.documentElement.classList.remove('mw-live-edit-admin-open');
+        if(!this.#hasOpened()) {
+            mw.top().doc.documentElement.classList.remove('mw-live-edit-sidebar-start');
+        }
         this.dispatch('adminSidebarClose');
         return this;
     }
