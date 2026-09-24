@@ -830,26 +830,17 @@ class ContentResource extends Resource
                         return $get('content_type') === 'post';
                     }),
 
-                // URL slug moved out of the top-of-form field stack
-                // AI-1029 / task-2026-05-22 — Permalink section expanded by default
-                // so editors can see and set the SEO-critical URL slug upfront.
-                // Previously collapsed; task-2026-05-02-4c244f rationale ("power users
-                // can expand when needed") updated per designer feedback that hiding it
-                // by default caused operators to miss the SEO field entirely.
-                Schemas\Components\Section::make('Permalink')
-                    ->description('URL slug for this content. Leave blank to auto-generate from the title.')
-                    ->collapsible()
-                    ->compact()
-                    ->columnSpanFull()
-                    ->schema([
-                        Forms\Components\TextInput::make('url')
-                            ->label('URL slug')
-                            ->maxLength(255)
-                            ->placeholder('auto-generated from title')
-                            ->hintAction(
-                                TranslateFieldAction::make('url')->label('')
-                            )->columnSpanFull(),
-                    ]),
+                // task-2026-09-24 — Permalink is a plain inline text field now
+                // (was a collapsible Section). Same SEO-critical URL slug, but
+                // flattened into the form so it reads as a normal field, not a card.
+                Forms\Components\TextInput::make('url')
+                    ->label('Permalink')
+                    ->helperText('URL slug for this content. Leave blank to auto-generate from the title.')
+                    ->maxLength(255)
+                    ->placeholder('auto-generated from title')
+                    ->hintAction(
+                        TranslateFieldAction::make('url')->label('')
+                    )->columnSpanFull(),
             ])
             ->columnSpanFull()
             ->columns(2);
