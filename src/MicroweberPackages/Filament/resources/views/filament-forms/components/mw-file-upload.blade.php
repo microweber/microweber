@@ -202,6 +202,21 @@
     .mw-uploader .mw-up-error{padding:.75rem;}
     .mw-uploader .mw-up-drag{padding:2rem 1rem;}
     .mw-uploader.mw-uploader--compact .mw-up-drag{padding:1.25rem 1rem;}
+    /* Buttons: sizing and colours owned here too — the Tailwind padding, height
+       and text-size utilities are among the purged ones, so the controls
+       otherwise had no padding or height and collapsed onto each other. */
+    .mw-uploader .mw-up-btn{display:inline-flex;align-items:center;justify-content:center;height:2.25rem;padding:0 .75rem;border-radius:.5rem;border:1px solid transparent;background:transparent;font-size:.875rem;font-weight:500;line-height:1;white-space:nowrap;cursor:pointer;transition:background-color .12s,opacity .12s;}
+    .mw-uploader.mw-uploader--compact .mw-up-btn{height:2rem;padding:0 .625rem;font-size:.8125rem;}
+    .mw-uploader .mw-up-btn--ghost{border-color:#e5e7eb;background:#fff;color:#374151;}
+    .mw-uploader .mw-up-btn--ghost:hover{background:#f9fafb;}
+    .mw-uploader .mw-up-btn--primary{background:#111827;color:#fff;}
+    .mw-uploader .mw-up-btn--primary:hover{opacity:.9;}
+    .mw-uploader .mw-up-btn--icon{width:2rem;height:2rem;padding:0;color:#9ca3af;}
+    .mw-uploader .mw-up-btn--icon:hover{background:#f9fafb;color:#374151;}
+    .dark .mw-uploader .mw-up-btn--ghost{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#e5e7eb;}
+    .dark .mw-uploader .mw-up-btn--ghost:hover{background:rgba(255,255,255,.1);}
+    .dark .mw-uploader .mw-up-btn--primary{background:#fff;color:#111827;}
+    .dark .mw-uploader .mw-up-btn--icon:hover{background:rgba(255,255,255,.1);color:#fff;}
 </style>
 @endassets
 
@@ -249,13 +264,9 @@
                     </div>
                 </div>
                 <div class="mw-up-actions">
-                    <button type="button" x-on:click="openLibrary()"
-                        class="rounded-lg border border-gray-200 dark:border-white/15 bg-white dark:bg-white/5 font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/10"
-                        :class="cfg.compact ? 'px-2.5 h-8 text-xs' : 'px-3 h-9 text-sm'"
+                    <button type="button" x-on:click="openLibrary()" class="mw-up-btn mw-up-btn--ghost"
                         x-text="cfg.compact ? '{{ __('Choose') }}' : '{{ __('Media library') }}'"></button>
-                    <button type="button" x-on:click="openUpload()"
-                        class="rounded-lg bg-gray-900 dark:bg-white font-medium text-white dark:text-gray-900 hover:opacity-90"
-                        :class="cfg.compact ? 'px-2.5 h-8 text-xs' : 'px-3 h-9 text-sm'">{{ __('Upload') }}</button>
+                    <button type="button" x-on:click="openUpload()" class="mw-up-btn mw-up-btn--primary">{{ __('Upload') }}</button>
                 </div>
             </div>
         </div>
@@ -282,10 +293,10 @@
                 <div class="text-sm font-medium text-gray-800 dark:text-gray-100 truncate" x-text="fileName"></div>
                 <div class="text-xs text-gray-400" x-text="fileMeta"></div>
             </div>
-            <div class="flex-none flex items-center gap-1.5">
-                <button type="button" x-show="!cfg.compact" x-on:click="openLibrary()" class="px-2.5 h-8 rounded-lg border border-gray-200 dark:border-white/15 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/10">{{ $lblEdit }}</button>
-                <button type="button" x-on:click="openUpload()" class="px-2.5 h-8 rounded-lg border border-gray-200 dark:border-white/15 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/10" x-text="cfg.compact ? '{{ __('Change') }}' : '{{ $lblReplace }}'"></button>
-                <button type="button" x-show="!cfg.compact" x-on:click="clear()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/10" aria-label="{{ $lblRemove }}" title="{{ $lblRemove }}">
+            <div class="mw-up-actions">
+                <button type="button" x-show="!cfg.compact" x-on:click="openLibrary()" class="mw-up-btn mw-up-btn--ghost">{{ $lblEdit }}</button>
+                <button type="button" x-on:click="openUpload()" class="mw-up-btn mw-up-btn--ghost" x-text="cfg.compact ? '{{ __('Change') }}' : '{{ $lblReplace }}'"></button>
+                <button type="button" x-show="!cfg.compact" x-on:click="clear()" class="mw-up-btn mw-up-btn--icon" aria-label="{{ $lblRemove }}" title="{{ $lblRemove }}">
                     <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"/></svg>
                 </button>
             </div>
@@ -298,7 +309,7 @@
                 <div class="text-sm font-medium text-gray-800 dark:text-gray-100 truncate"><span x-text="errorName"></span> {{ __("couldn't be uploaded") }}</div>
                 <div class="text-xs text-red-600 dark:text-red-300" x-text="errorMsg"></div>
             </div>
-            <button type="button" x-on:click="tryAnother()" class="flex-none px-3 h-8 rounded-lg border border-gray-200 dark:border-white/15 bg-white dark:bg-white/5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/10">{{ __('Try another') }}</button>
+            <button type="button" x-on:click="tryAnother()" class="mw-up-btn mw-up-btn--ghost flex-none">{{ __('Try another') }}</button>
         </div>
     </div>
 </div>
