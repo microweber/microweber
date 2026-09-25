@@ -19,6 +19,25 @@ function btnSaveOption(el, key, value, cb) {
     });
 }
 
+// Save several options in one go, reloading the module only ONCE at the end.
+// Used when a single choice (e.g. Type = Outline) must reconcile multiple options
+// (style + background/border/text colour) atomically.
+function btnSaveOptions(el, obj, cb) {
+    var moduleId = el.getAttribute('id');
+    var moduleType = el.getAttribute('data-type') || el.getAttribute('type');
+    var keys = Object.keys(obj);
+    var i = 0;
+    (function next() {
+        if (i >= keys.length) {
+            mw.app.editor.dispatch('onModuleSettingsChanged', { 'moduleId': moduleId });
+            if (typeof cb === 'function') { cb(); }
+            return;
+        }
+        var k = keys[i++];
+        mw.options.saveOption({ option_group: moduleId, option_key: k, option_value: obj[k], module: moduleType }, next);
+    })();
+}
+
 function btnReadOptions(el) {
     try {
         var d = mw.top().app.modules.getModuleInlineViewData(el.getAttribute('id'));
@@ -382,6 +401,22 @@ function openBtnPanel(el) {
                 btnSaveOption(el, 'class', cls);
             } else if (group === 'align') {
                 btnSaveOption(el, 'align', val);
+            } else if (group === 'style') {
+                // Type must RECONCILE the colours, otherwise a previously chosen
+                // fill colour (custom-css emits background-color:…!important) keeps
+                // covering the outline, so "Outline" appeared to do nothing.
+                var o = btnReadOptions(el);
+                var accent = o.backgroundColor || o.borderColor || o.color || '#0d6efd';
+                if (val === 'btn-outline-primary') {
+                    // transparent fill, accent border + text.
+                    btnSaveOptions(el, { style: val, backgroundColor: '', borderColor: accent, color: accent });
+                } else if (val === 'btn-primary') {
+                    // solid fill in the accent, contrasting text, no border override.
+                    btnSaveOptions(el, { style: val, backgroundColor: accent, color: btnContrast(accent), borderColor: '' });
+                } else {
+                    // soft / light — clear inline overrides so the class styling shows.
+                    btnSaveOptions(el, { style: val, backgroundColor: '', borderColor: '', color: '' });
+                }
             } else {
                 btnSaveOption(el, group, val);
             }
@@ -399,10 +434,16 @@ function openBtnPanel(el) {
             var cust = scope.querySelector('.mw-btn-panel__sw--custom');
             if (cust) { cust.style.background = ''; cust.textContent = '+'; }
             if (target === 'backgroundColor') {
-                // background sets a contrasting text colour as a smart default;
-                // the Text-colour section can override it.
-                btnSaveOption(el, 'backgroundColor', sw.dataset.bg);
-                btnSaveOption(el, 'color', sw.dataset.fg);
+                // On an OUTLINE button the "Color" is the border+text accent, not a
+                // fill — otherwise the fill covers the outline. Keep bg transparent.
+                var curStyle = (btnReadOptions(el).style || '');
+                if (curStyle === 'btn-outline-primary') {
+                    btnSaveOptions(el, { backgroundColor: '', borderColor: sw.dataset.bg, color: sw.dataset.bg });
+                } else {
+                    // background sets a contrasting text colour as a smart default;
+                    // the Text-colour section can override it.
+                    btnSaveOptions(el, { backgroundColor: sw.dataset.bg, color: sw.dataset.fg });
+                }
             } else {
                 btnSaveOption(el, target, sw.dataset.bg);
             }
@@ -465,6 +506,31 @@ function openBtnPanel(el) {
                     if (ipSvc && ipSvc.pickIcon) {
                         var holder = btnTopDoc().createElement('i');
                         var picked = ipSvc.pickIcon(holder);
+                        // The icon picker dialog opens BELOW this panel (z-index
+                        // 100061), so it was hidden behind it. Raise the picker (and
+                        // any dialog holder/overlay) above the panel once it renders.
+                        (function raiseIconPicker() {
+                            var td = btnTopDoc();
+                            var bump = function (node) {
+                                if (!node || !node.style) { return; }
+                                node.style.setProperty('z-index', '100200', 'important');
+                            };
+                            try {
+                                if (picked && picked.picker && typeof picked.picker.dialog === 'function') {
+                                    var dlg = picked.picker.dialog();
+                                    bump(dlg && (dlg.get ? dlg.get(0) : (dlg.nodeType ? dlg : dlg[0])));
+                                }
+                            } catch (e) {}
+                            var scan = function () {
+                                try {
+                                    td.querySelectorAll('.mw-dialog-holder, .mw-dialog, .mw-ui-modal, [class*="icon-selector"], [class*="icon-picker"]').forEach(function (n) {
+                                        var z = parseInt((td.defaultView.getComputedStyle(n).zIndex) || '0', 10);
+                                        if (isNaN(z) || z < 100062) { bump(n); }
+                                    });
+                                } catch (e) {}
+                            };
+                            scan(); setTimeout(scan, 60); setTimeout(scan, 200);
+                        })();
                         picked.promise().then(function (data) {
                             try { data.render(); } catch (e) {}
                             var iconHtml = (picked.target && picked.target.outerHTML) || holder.outerHTML;
