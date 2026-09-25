@@ -31,7 +31,7 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
                         Tabs\Tab::make('Content')
                             ->schema([
 
-                                \Filament\Schemas\Components\Section::make('From Fields')
+                                \Filament\Schemas\Components\Section::make('Form Fields')
                                     ->icon('heroicon-o-rectangle-stack')
                                     ->collapsible()
                                     ->schema(function () use ($relId) {
@@ -54,7 +54,7 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
                                     ->schema([
                                                 Toggle::make('options.email_autorespond_enable')
                                                     ->label('Enable auto respond message to user')
-                                                    ->helperText('Allow users to receive "Thank you emails after subscription."')
+                                                    ->helperText('Send users a "thank you" email after they submit the form.')
                                                     ->live(),
 
                                                 TextInput::make('options.email_autorespond_subject')

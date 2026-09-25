@@ -45,6 +45,7 @@ class AudioModuleSettings extends LiveEditModuleSettings
                         })
                         ->label('Upload audio file')
                         ->fileTypes(['audio/mpeg', 'audio/wav', 'audio/ogg'])
+                        ->acceptExtensions(['mp3', 'wav', 'ogg', 'm4a', 'aac'])
                         ->helperText('Only audio files are allowed (MP3, WAV, OGG)')
                         ->live()
                         ->rules([

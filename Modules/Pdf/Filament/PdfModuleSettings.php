@@ -44,6 +44,8 @@ class PdfModuleSettings extends LiveEditModuleSettings
                                         })
                                         ->label('Upload PDF file')
                                         ->fileTypes(['pdf'])
+                                        ->acceptExtensions(['pdf'])
+                                        ->helperText('Only PDF files are allowed.')
                                         ->live()
                                         ->default(fn () => $this->getOption('data-pdf-upload', '')),
 

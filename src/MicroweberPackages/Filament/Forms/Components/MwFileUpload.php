@@ -60,6 +60,23 @@ class MwFileUpload extends Field
         return $this->compactMode;
     }
 
+    // The noun shown in the empty-state copy ("Drop an image here" vs "Drop a
+    // file here") and header ("Image" vs "File"). Derived from the accepted
+    // extensions: if they are ALL image types it's an image field; otherwise it's
+    // a generic file field (audio, PDF, …). Prevents non-image uploaders from
+    // wrongly reading "Drop an image here / PNG, SVG, JPG".
+    public function getFileNoun(): string
+    {
+        $imageExts = ['png', 'svg', 'jpg', 'jpeg', 'gif', 'webp', 'ico', 'bmp', 'avif', 'apng'];
+        $exts = array_map('strtolower', $this->getAcceptExtensions());
+
+        if (! empty($exts) && count(array_diff($exts, $imageExts)) === 0) {
+            return 'image';
+        }
+
+        return 'file';
+    }
+
 //    protected function setUp(): void
 //    {
 //        parent::setUp();

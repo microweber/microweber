@@ -20,6 +20,14 @@
     $accept = implode(',', array_map(fn ($e) => '.' . ltrim($e, '.'), $exts));
     $typesDisplay = strtoupper(implode(', ', array_slice($exts, 0, 3)));
 
+    // Noun for the empty-state copy + header — "image" only when every accepted
+    // extension is an image type, otherwise the generic "file" (audio, PDF, …).
+    $fileNoun = $getFileNoun();
+    $nounHeader = ucfirst($fileNoun);
+    $nounArticle = $fileNoun === 'image' ? 'an' : 'a';
+    $dropTitle = __('Drop ' . $nounArticle . ' ' . $fileNoun . ' here');
+    $addTitle = __('Add ' . $nounArticle . ' ' . $fileNoun);
+
     $lblRemove = __('Remove');
     $lblEdit = __('Edit');
     $lblReplace = __('Replace');
@@ -236,7 +244,7 @@
 
         {{-- Header: field label + type/size hint (the card's only label) --}}
         <div class="mw-up-head">
-            <span class="text-[13px] font-medium text-gray-700 dark:text-gray-200">{{ $getLabel() ?: __('Image') }}</span>
+            <span class="text-[13px] font-medium text-gray-700 dark:text-gray-200">{{ $getLabel() ?: __($nounHeader) }}</span>
             <span class="text-xs text-gray-400 dark:text-gray-500">{{ $typesDisplay }} &middot; {{ __('up to') }} {{ $maxMb }} MB</span>
         </div>
 
@@ -259,7 +267,7 @@
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
                     </span>
                     <div class="min-w-0">
-                        <div class="mw-up-title text-sm font-semibold text-gray-800 dark:text-gray-100" x-text="cfg.compact ? '{{ __('Add an image') }}' : '{{ __('Drop an image here') }}'"></div>
+                        <div class="mw-up-title text-sm font-semibold text-gray-800 dark:text-gray-100" x-text="cfg.compact ? '{{ $addTitle }}' : '{{ $dropTitle }}'"></div>
                         <div x-show="!cfg.compact" class="text-xs text-gray-400">{{ __('or pick one below') }}</div>
                     </div>
                 </div>
