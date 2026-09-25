@@ -9,6 +9,53 @@ export class LiveEditWidgetsService extends BaseComponent{
     constructor(){
         super();
         this.quickEditor();
+        this.#bindAutoCloseAdminSidebar();
+    }
+
+    // Auto-close the admin nav drawer whenever ANY other editing panel opens
+    // (module settings, quick-settings panel, module/preset/layout pickers, the
+    // insert-module search). The admin sidebar is a LEFT overlay in Live Edit and
+    // would otherwise sit on top of / compete with the panel the user just opened.
+    // closeAdminSidebar() is a no-op when the drawer isn't open, so this is safe
+    // to fire on every open signal. Reuses existing events where they already
+    // exist (mwQuickSettingsWillOpen, openModuleSettingsAction) instead of adding
+    // new ones.
+    #bindAutoCloseAdminSidebar() {
+        const closeIfOpen = () => { try { this.closeAdminSidebar(); } catch (e) {} };
+        // Editor-level open requests (mw.app.editor event bus). NOTE: this service
+        // is constructed BEFORE `mw.app.editor` exists (live-edit.js creates the
+        // widgets service, then the editor on the next line), so binding here at
+        // construction silently no-ops. Defer to `mw.app.on('ready')`, and also
+        // try once immediately in case the editor already exists.
+        let editorBound = false;
+        const bindEditor = () => {
+            if (editorBound) { return true; }
+            try {
+                const ed = mw.top().app.editor;
+                if (ed && typeof ed.on === 'function') {
+                    editorBound = true;
+                    ['onModuleSettingsRequest', 'onLayoutSettingsRequest', 'onModulePresetsRequest',
+                     'insertModuleRequest', 'insertFreeModuleRequest'].forEach((ev) => ed.on(ev, closeIfOpen));
+                }
+            } catch (e) {}
+            return editorBound;
+        };
+        // Poll until the editor exists — it is created on the line AFTER this
+        // service in live-edit.js, so it is never present at construction and the
+        // 'ready' event proved unreliable here. Retry briefly on a timer instead.
+        const tryBind = (attempts) => {
+            if (bindEditor() || attempts <= 0) { return; }
+            setTimeout(() => tryBind(attempts - 1), 100);
+        };
+        tryBind(60);
+        // DOM-level panel-open announcements dispatched on the top window
+        // (quick-settings kit + Btn panel → mwQuickSettingsWillOpen;
+        //  Filament module / layout / preset settings slide-over → openModuleSettingsAction).
+        try {
+            const w = (mw.top().doc && mw.top().doc.defaultView) || window;
+            ['mwQuickSettingsWillOpen', 'openModuleSettingsAction'].forEach((ev) =>
+                w.addEventListener(ev, closeIfOpen, true));
+        } catch (e) {}
     }
 
     quickEditor(options) {
