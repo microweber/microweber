@@ -195,15 +195,32 @@
         ]
     });
 
-    // Logo — text, text_color, font_size, size (image). Logo image → Advanced.
+    // Logo — Image vs Text mode. The module renders an image when logoimage is
+    // set, otherwise the text; so the panel mirrors that with two tabs and opens
+    // on the Image tab when an image is already set (activeWhen). Setting an image
+    // = image mode; removing it falls back to text mode.
     K.register({
         type: 'logo', title: 'Logo', badge: 'Lo',
+        tabs: [
+            {
+                name: 'Image',
+                activeWhen: function (o) { return !!(o && o.logoimage); },
+                sections: [
+                    { type: 'image', label: 'Logo image', key: 'logoimage' },
+                    { type: 'text', label: 'Image size', key: 'size', inputType: 'number', def: 100, suffix: 'px' }
+                ]
+            },
+            {
+                name: 'Text',
+                sections: [
+                    { type: 'text', label: 'Text', key: 'text', placeholder: 'Brand name' },
+                    { type: 'swatches', label: 'Text color', key: 'text_color' },
+                    { type: 'text', label: 'Font size', key: 'font_size', inputType: 'number', suffix: 'px' }
+                ]
+            }
+        ],
         sections: [
-            { type: 'text', label: 'Text', key: 'text', placeholder: 'Brand name' },
-            { type: 'swatches', label: 'Text color', key: 'text_color' },
-            { type: 'text', label: 'Font size', key: 'font_size', inputType: 'number', suffix: 'px' },
-            { type: 'text', label: 'Image size', key: 'size', inputType: 'number', def: 100, suffix: 'px' },
-            { type: 'advanced', label: 'Advanced', hint: 'Logo image' }
+            { type: 'advanced', label: 'Advanced', hint: 'All logo options' }
         ]
     });
 

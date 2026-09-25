@@ -275,6 +275,21 @@
             '.mw-qs-ai:hover{background:#18243320;}',
             'html.dark .mw-qs-ai{background:#ffffff14;color:#e8eaed;}',
             'html.dark .mw-qs-ai:hover{background:#ffffff22;}',
+            // single-image picker (logo / favicon style)
+            '.mw-qs-imgpick{display:flex;align-items:center;gap:10px;}',
+            '.mw-qs-imgpick__thumb{flex:none;width:48px;height:48px;border-radius:8px;background-color:#18243308;border:1px solid #18243318;background-size:cover;background-position:center;background-repeat:no-repeat;display:flex;align-items:center;justify-content:center;color:#18243366;}',
+            'html.dark .mw-qs-imgpick__thumb{background-color:#ffffff08;border-color:#ffffff1f;color:#ffffff66;}',
+            '.mw-qs-imgpick.has-img .mw-qs-imgpick__ph{display:none;}',
+            '.mw-qs-imgpick__act{display:flex;gap:6px;flex-wrap:wrap;}',
+            '.mw-qs-btn2{height:30px;padding:0 12px;border-radius:8px;border:1px solid transparent;background:#182433;color:#fff;font:inherit;font-size:12px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;}',
+            '.mw-qs-btn2:hover{opacity:.9;}',
+            '.mw-qs-btn2--ghost{background:#fff;color:#182433;border-color:#18243322;}',
+            '.mw-qs-btn2--ghost:hover{background:#18243308;opacity:1;}',
+            'html.dark .mw-qs-btn2{background:#e8eaed;color:#182433;}',
+            'html.dark .mw-qs-btn2--ghost{background:transparent;color:#e8eaed;border-color:#ffffff1f;}',
+            '.mw-qs-imgpick:not(.has-img) [data-act="remove"]{display:none;}',
+            '.mw-qs-btn2:focus-visible{outline:2px solid #182433;outline-offset:2px;}',
+            'html.dark .mw-qs-btn2:focus-visible{outline-color:#e8eaed;}',
             // image gallery
             '.mw-qs-images{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}',
             '.mw-qs-image{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid #18243318;background:#18243308;}',
@@ -377,6 +392,21 @@
             return '<div class="mw-qs-section">' + label + '<div class="mw-qs-field">'
                 + '<input type="text" class="mw-qs-input" data-ctl="text" data-key="' + esc(c.key) + '" aria-label="' + esc(lang(c.label || 'Link')) + '" placeholder="' + esc(lang('Paste a URL')) + '" value="' + esc(cur) + '">'
                 + '<button type="button" class="mw-qs-pick" data-ctl="open-settings">' + esc(lang('Page')) + '</button></div></div>';
+        }
+        if (c.type === 'image') {
+            // Single image option (e.g. Logo's logoimage). Thumb + Choose/Remove;
+            // wire() opens the shared media picker and writes opts[key] = url.
+            var iurl = cur ? String(cur) : '';
+            var thumbStyle = iurl ? ' style="background-image:url(' + esc(iurl) + ')"' : '';
+            return '<div class="mw-qs-section">' + label
+                + '<div class="mw-qs-imgpick' + (iurl ? ' has-img' : '') + '" data-ctl="imagepick" data-key="' + esc(c.key) + '">'
+                + '<span class="mw-qs-imgpick__thumb"' + thumbStyle + '>'
+                + '<svg class="mw-qs-imgpick__ph" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>'
+                + '</span>'
+                + '<div class="mw-qs-imgpick__act">'
+                + '<button type="button" class="mw-qs-btn2" data-act="pick">' + esc(lang(c.pickLabel || 'Choose image')) + '</button>'
+                + '<button type="button" class="mw-qs-btn2 mw-qs-btn2--ghost" data-act="remove">' + esc(lang('Remove')) + '</button>'
+                + '</div></div></div>';
         }
         if (c.type === 'itemlist') {
             // Async: rendered empty here; wire() fetches + fills it. Endpoint +
@@ -565,16 +595,26 @@
         var body;
         if (config.tabs && config.tabs.length) {
             var tid = 'mwqs-' + (el.getAttribute('id') || 'x');
+            // Which tab opens active: the first whose activeWhen(opts) is true
+            // (e.g. Logo's Image tab when a logoimage is set), else the first.
+            var activeIdx = 0;
+            for (var ti = 0; ti < config.tabs.length; ti++) {
+                var aw = config.tabs[ti].activeWhen;
+                if (typeof aw === 'function' && aw(opts)) { activeIdx = ti; break; }
+            }
             var tabsNav = '<div class="mw-qs-tabs" role="tablist">' + config.tabs.map(function (t, i) {
-                return '<button type="button" class="mw-qs-tab' + (i === 0 ? ' active' : '') + '" data-tab="' + i + '"'
-                    + ' role="tab" id="' + tid + '-t' + i + '" aria-controls="' + tid + '-p' + i + '" aria-selected="' + (i === 0 ? 'true' : 'false') + '">'
+                var on = (i === activeIdx);
+                return '<button type="button" class="mw-qs-tab' + (on ? ' active' : '') + '" data-tab="' + i + '"'
+                    + ' role="tab" id="' + tid + '-t' + i + '" aria-controls="' + tid + '-p' + i + '" aria-selected="' + (on ? 'true' : 'false') + '">'
                     + esc(lang(t.name)) + '</button>';
             }).join('') + '</div>';
             var panes = config.tabs.map(function (t, i) {
                 return '<div class="mw-qs-pane" data-pane="' + i + '" role="tabpanel" id="' + tid + '-p' + i + '" aria-labelledby="' + tid + '-t' + i + '"'
-                    + (i === 0 ? '' : ' style="display:none"') + '>' + sectionsHtml(t.sections, opts) + '</div>';
+                    + (i === activeIdx ? '' : ' style="display:none"') + '>' + sectionsHtml(t.sections, opts) + '</div>';
             }).join('');
             body = tabsNav + panes;
+            // Shared sections (e.g. Advanced) render below the tabs, always visible.
+            if (config.sections && config.sections.length) { body += sectionsHtml(config.sections, opts); }
         } else {
             body = sectionsHtml(config.sections, opts);
         }
@@ -718,6 +758,29 @@
                     }, b);
                 }
             });
+        });
+        // ── single image picker (opens shared media picker, writes opts[key]) ──
+        _el.querySelectorAll('[data-ctl="imagepick"]').forEach(function (box) {
+            var key = box.dataset.key;
+            var thumb = box.querySelector('.mw-qs-imgpick__thumb');
+            var pickBtn = box.querySelector('[data-act="pick"]');
+            var rmBtn = box.querySelector('[data-act="remove"]');
+            var apply = function (url) {
+                if (url) { box.classList.add('has-img'); if (thumb) { thumb.style.backgroundImage = 'url(' + url + ')'; } }
+                else { box.classList.remove('has-img'); if (thumb) { thumb.style.backgroundImage = ''; } }
+                saveOption(el, key, url || '');
+            };
+            if (pickBtn) {
+                pickBtn.addEventListener('click', function () {
+                    try {
+                        mw.filePickerDialog({ pickerOptions: { type: 'images' } }, function (url) {
+                            var u = Array.isArray(url) ? url[0] : url;
+                            if (u) { apply(String(u)); }
+                        });
+                    } catch (e) {}
+                });
+            }
+            if (rmBtn) { rmBtn.addEventListener('click', function () { apply(''); }); }
         });
         _el.querySelectorAll('[data-ctl="duplicate"]').forEach(function (b) {
             b.addEventListener('click', function () {
