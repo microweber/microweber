@@ -2,8 +2,10 @@
 
 namespace Modules\Logo\Filament;
 
-use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
@@ -17,44 +19,67 @@ class LogoModuleSettings extends LiveEditModuleSettings
     {
         return $schema
             ->schema([
+                // Image / Text — the two ways to render a logo. Presented as two
+                // top-level tabs (matching the redesign mockup); the previous
+                // "Design"/template skin options move under a collapsed Advanced
+                // section so the common controls stay front-and-centre.
                 Tabs::make('Options')
+                    ->contained(false)
                     ->schema([
                         Tabs\Tab::make('Image')
                             ->schema([
                                 MwFileUpload::make('options.logoimage')
-                                    ->label('Logo Image')
+                                    ->label('Logo image')
+                                    ->helperText('Tip: a transparent PNG or SVG works best on coloured headers.')
                                     ->live(),
-                                TextInput::make('options.size')
-                                    ->label('Logo Size')
-                                    ->numeric()
-                                    ->helperText('Logo width in pixels')
+
+                                ToggleButtons::make('options.size')
+                                    ->label('Size')
+                                    ->inline()
                                     ->live()
-                                    ->default(fn () => $this->getOption('size', '100')),
+                                    ->options([
+                                        '80' => 'Small',
+                                        '120' => 'Medium',
+                                        '180' => 'Large',
+                                    ])
+                                    ->helperText('Logo width in pixels.')
+                                    ->default(fn () => (string) $this->getOption('size', '120')),
                             ]),
+
                         Tabs\Tab::make('Text')
                             ->schema([
                                 TextInput::make('options.text')
-                                    ->label('Logo Text')
-                                    ->helperText('This logo text will appear when image not applied')
+                                    ->label('Logo text')
+                                    ->placeholder('Brand name')
+                                    ->helperText('Shown when no logo image is set.')
                                     ->live()
                                     ->default(fn () => $this->getOption('text', '')),
+
                                 MwColorPicker::make('options.text_color')
-                                    ->label('Text Color')
+                                    ->label('Colour')
+                                    ->hint('Matches theme')
                                     ->live()
                                     ->rgba(),
-                                TextInput::make('options.font_size')
-                                    ->label('Font Size')
-                                    ->numeric()
-                                    ->helperText('Logo text size in pixels')
-                                    ->live()
-                                    ->default(fn () => $this->getOption('font_size', '')),
-                            ]),
-                        Tabs\Tab::make('Design')
-                            ->schema(
-                                $this->getTemplatesFormSchema()
 
-                            ),
+                                ToggleButtons::make('options.font_size')
+                                    ->label('Size')
+                                    ->inline()
+                                    ->live()
+                                    ->options([
+                                        '18' => 'Small',
+                                        '24' => 'Medium',
+                                        '36' => 'Large',
+                                    ])
+                                    ->helperText('Logo text size in pixels.')
+                                    ->default(fn () => (string) $this->getOption('font_size', '24')),
+                            ]),
                     ]),
+
+                // Template skin / advanced design options — kept, but tucked away.
+                Section::make('Advanced')
+                    ->collapsible()
+                    ->collapsed()
+                    ->schema($this->getTemplatesFormSchema()),
             ]);
     }
 }
