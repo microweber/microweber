@@ -195,7 +195,13 @@
             'html.dark .mw-qs-select,html.dark select.mw-qs-input{background-image:url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' fill=\'none\' stroke=\'%23e8eaed\' stroke-width=\'2\'><path d=\'M4 6l4 4 4-4\'/></svg>");}',
             '.mw-qs-field{display:flex;gap:6px;align-items:center;}',
             '.mw-qs-field .mw-qs-input,.mw-qs-field .mw-qs-select{flex:1 1 auto;}',
-            '.mw-qs-suffix{flex:0 0 auto;color:#8a94a3;font-size:11.5px;}',
+            '.mw-qs-suffix{flex:0 0 auto;color:#6b7280;font-size:11.5px;}',
+            // unit suffix (px, %) sits INSIDE the input on the right, not as loose
+            // text hanging off the field edge — so the input keeps full width and a
+            // single clean right edge.
+            '.mw-qs-field--unit{position:relative;}',
+            '.mw-qs-field--unit .mw-qs-input{padding-right:30px;}',
+            '.mw-qs-field--unit .mw-qs-suffix{position:absolute;right:11px;top:50%;transform:translateY(-50%);pointer-events:none;}',
             '.mw-qs-pick{flex:0 0 auto;padding:8px 12px;border:1px solid #18243318;border-radius:9px;background:#18243308;color:inherit;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;}',
             '.mw-qs-pick:hover{background:#1824330d;}',
             'html.dark .mw-qs-pick{background:#ffffff0d;border-color:#ffffff1f;}',
@@ -374,7 +380,7 @@
             // enableKey: a companion boolean option written alongside this field
             // (1 when non-empty, 0 when cleared) — e.g. SocialLinks' <net>_enabled.
             var enableAttr = c.enableKey ? ' data-enable-key="' + esc(c.enableKey) + '"' : '';
-            return '<div class="mw-qs-section">' + label + '<div class="mw-qs-field">'
+            return '<div class="mw-qs-section">' + label + '<div class="mw-qs-field' + (c.suffix ? ' mw-qs-field--unit' : '') + '">'
                 + '<input type="' + (c.inputType || 'text') + '" class="mw-qs-input" data-ctl="text" data-key="' + esc(c.key) + '"' + enableAttr
                 + ' aria-label="' + esc(lang(c.label || c.placeholder || c.key)) + '"'
                 + ' placeholder="' + esc(lang(c.placeholder || '')) + '" value="' + esc(cur) + '">' + suffix + '</div></div>';

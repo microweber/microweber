@@ -340,7 +340,7 @@
             { type: 'text', label: 'YouTube', key: 'youtube_url', enableKey: 'youtube_enabled', placeholder: 'youtube.com/…' },
             { type: 'text', label: 'WhatsApp', key: 'whatsapp_url', enableKey: 'whatsapp_enabled', placeholder: 'wa.me/…' },
             { type: 'text', label: 'Telegram', key: 'telegram_url', enableKey: 'telegram_enabled', placeholder: 't.me/…' },
-            { type: 'advanced', label: 'Advanced', hint: 'GitHub, Pinterest, Skype, Discord, SoundCloud, Viber' }
+            { type: 'advanced', label: 'Advanced', hint: 'More networks & options' }
         ]
     });
 

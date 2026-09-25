@@ -42,7 +42,7 @@ class LogoModuleSettings extends LiveEditModuleSettings
                                         '120' => 'Medium',
                                         '180' => 'Large',
                                     ])
-                                    ->helperText('Logo width in pixels.')
+                                    ->helperText('How large the logo appears.')
                                     ->default(fn () => (string) $this->getOption('size', '120')),
                             ]),
 
@@ -70,7 +70,7 @@ class LogoModuleSettings extends LiveEditModuleSettings
                                         '24' => 'Medium',
                                         '36' => 'Large',
                                     ])
-                                    ->helperText('Logo text size in pixels.')
+                                    ->helperText('How large the text appears.')
                                     ->default(fn () => (string) $this->getOption('font_size', '24')),
                             ]),
                     ]),
