@@ -39,6 +39,12 @@
     ]));
 @endphp
 
+{{-- The factory + layout CSS are wrapped in Livewire's @assets so they load once
+     at page level and — crucially — still execute when this field arrives inside a
+     Livewire/Filament modal via AJAX morph (morphdom does NOT run injected <script>
+     tags, so a bare inline <script> left window.mwFileUploader undefined in Live
+     Edit's module-settings modal, and x-data init silently failed → blank body). --}}
+@assets
 <script>
     window.mwFileUploader = window.mwFileUploader || function (stateProxy, cfg) {
         return {
@@ -183,6 +189,7 @@
     .mw-uploader .mw-up-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .mw-uploader .mw-up-actions{flex:none;display:flex;align-items:center;gap:.5rem;}
 </style>
+@endassets
 
 <div>
     <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3 mb-1.5">
