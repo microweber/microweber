@@ -1366,6 +1366,18 @@ MWEditor.controllers = {
             });
             minusBtn.on("click", function () { stepFont(-1); });
             plusBtn.on("click", function () { stepFont(1); });
+            // Preserve the text selection on click. Without a mousedown-preventDefault
+            // the button steals focus from the editor, the selection collapses, and
+            // the floating toolbar (with this overflow dropdown) hides — so "+"/"−"
+            // appeared to just CLOSE the dropdown instead of resizing the selection.
+            [minusBtn, plusBtn].forEach(function (b) {
+                try {
+                    var node = b.get ? b.get(0) : (b.node || b.element);
+                    if (node && node.addEventListener) {
+                        node.addEventListener("mousedown", function (ev) { ev.preventDefault(); }, true);
+                    }
+                } catch (e) {}
+            });
 
             var stepperWrap = MWEditor.core.element({
                 props: { className: "mw-editor-controller-component mw-editor-fontsize-stepper" },
