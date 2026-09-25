@@ -199,8 +199,8 @@
     >
         <input type="file" x-ref="fileInput" class="hidden" accept="{{ $accept }}" x-on:change="onPick($event)" />
 
-        {{-- Header: type/size hint (hidden in compact) --}}
-        <div x-show="!cfg.compact" class="flex items-center justify-between mb-2">
+        {{-- Header: label + type/size hint (shown for both variants) --}}
+        <div class="flex items-center justify-between mb-2">
             <span class="text-[13px] font-medium text-gray-700 dark:text-gray-200">{{ $getLabel() ?: __('Image') }}</span>
             <span class="text-xs text-gray-400 dark:text-gray-500">{{ $typesDisplay }} &middot; {{ __('up to') }} {{ $maxMb }} MB</span>
         </div>
