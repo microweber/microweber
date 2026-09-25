@@ -184,30 +184,43 @@
      narrow grid column. These own-namespace rules guarantee the empty row wraps
      and the label never breaks word-by-word regardless of what got purged. --}}
 <style>
-    .mw-uploader .mw-up-row{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;}
+    /* Structural spacing is owned here, not via Tailwind spacing utilities
+       (padding and gap): the Filament theme build purges the ones not
+       referenced elsewhere, so the card rendered with 0 padding inside the
+       Live Edit modal. */
+    .mw-uploader{padding:1rem;}
+    .mw-uploader.mw-uploader--compact{padding:.75rem;}
+    .mw-uploader .mw-up-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-bottom:.625rem;}
+    .mw-uploader.mw-uploader--compact .mw-up-head{margin-bottom:.5rem;}
+    .mw-uploader .mw-up-row{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;padding:1rem;}
+    .mw-uploader.mw-uploader--compact .mw-up-row{padding:.625rem;}
     .mw-uploader .mw-up-info{display:flex;align-items:center;gap:.75rem;flex:1 1 10rem;min-width:0;}
     .mw-uploader .mw-up-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .mw-uploader .mw-up-actions{flex:none;display:flex;align-items:center;gap:.5rem;}
+    /* filled / uploading / error single rows */
+    .mw-uploader .mw-up-state{display:flex;align-items:center;gap:.75rem;}
+    .mw-uploader .mw-up-error{padding:.75rem;}
+    .mw-uploader .mw-up-drag{padding:2rem 1rem;}
+    .mw-uploader.mw-uploader--compact .mw-up-drag{padding:1.25rem 1rem;}
 </style>
 @endassets
 
 <div>
-    <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3 mb-1.5">
-        <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">{{ $getLabel() }}</span>
-    </label>
-
+    {{-- The card is self-contained (its header carries the field label), matching
+         the mockup — so no separate outer field <label> here, which would print
+         the label a second time above the card. --}}
     <div
         x-data="mwFileUploader($wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }}, JSON.parse(atob('{{ $uploaderConfig }}')))"
         x-on:dragover="onDragOver($event)"
         x-on:dragleave="onDragLeave($event)"
         x-on:drop="onDrop($event)"
-        class="mw-uploader rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 p-3 sm:p-4"
+        class="mw-uploader rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5"
         :class="{ 'mw-uploader--compact': cfg.compact }"
     >
         <input type="file" x-ref="fileInput" class="hidden" accept="{{ $accept }}" x-on:change="onPick($event)" />
 
-        {{-- Header: label + type/size hint (shown for both variants) --}}
-        <div class="flex items-center justify-between mb-2">
+        {{-- Header: field label + type/size hint (the card's only label) --}}
+        <div class="mw-up-head">
             <span class="text-[13px] font-medium text-gray-700 dark:text-gray-200">{{ $getLabel() ?: __('Image') }}</span>
             <span class="text-xs text-gray-400 dark:text-gray-500">{{ $typesDisplay }} &middot; {{ __('up to') }} {{ $maxMb }} MB</span>
         </div>
@@ -220,12 +233,12 @@
              class="rounded-lg border border-dashed transition-colors"
              :class="ui === 'dragging' ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-500/10' : 'border-gray-300 dark:border-white/15'">
             {{-- dragging label --}}
-            <div x-show="ui === 'dragging'" class="flex flex-col items-center justify-center gap-1 text-indigo-600 dark:text-indigo-300" :class="cfg.compact ? 'py-5' : 'py-8'">
+            <div x-show="ui === 'dragging'" class="mw-up-drag flex flex-col items-center justify-center gap-1 text-indigo-600 dark:text-indigo-300">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
                 <span class="text-sm font-medium">{{ __('Release to upload') }}</span>
             </div>
             {{-- idle empty --}}
-            <div x-show="ui !== 'dragging'" class="mw-up-row" :class="cfg.compact ? 'p-2.5' : 'p-4'">
+            <div x-show="ui !== 'dragging'" class="mw-up-row">
                 <div class="mw-up-info">
                     <span class="flex-none rounded-lg bg-gray-100 dark:bg-white/10 flex items-center justify-center text-gray-400" :class="cfg.compact ? 'w-8 h-8' : 'w-9 h-9'">
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
@@ -248,7 +261,7 @@
         </div>
 
         {{-- 3 · UPLOADING --}}
-        <div x-show="ui === 'uploading'" x-cloak class="flex items-center gap-3">
+        <div x-show="ui === 'uploading'" x-cloak class="mw-up-state flex items-center gap-3">
             <span class="flex-none w-16 h-14 rounded-md bg-gray-100 dark:bg-white/10 bg-center bg-cover" :style="thumb ? ('background-image:url(' + thumb + ')') : ''"></span>
             <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between gap-2">
@@ -263,7 +276,7 @@
         </div>
 
         {{-- 4 · FILLED --}}
-        <div x-show="isFilled" x-cloak class="flex items-center gap-3">
+        <div x-show="isFilled" x-cloak class="mw-up-state flex items-center gap-3">
             <span class="flex-none w-16 h-14 rounded-md bg-gray-100 dark:bg-white/10 bg-center bg-cover border border-gray-100 dark:border-white/10" :style="thumb ? ('background-image:url(' + thumb + ')') : ''"></span>
             <div class="flex-1 min-w-0">
                 <div class="text-sm font-medium text-gray-800 dark:text-gray-100 truncate" x-text="fileName"></div>
@@ -279,7 +292,7 @@
         </div>
 
         {{-- 5 · ERROR --}}
-        <div x-show="ui === 'error'" x-cloak class="flex items-center gap-3 rounded-lg border border-red-200 dark:border-red-500/30 bg-red-50/60 dark:bg-red-500/10 p-3">
+        <div x-show="ui === 'error'" x-cloak class="mw-up-state mw-up-error flex items-center gap-3 rounded-lg border border-red-200 dark:border-red-500/30 bg-red-50/60 dark:bg-red-500/10">
             <span class="flex-none w-7 h-7 rounded-full bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-300 flex items-center justify-center font-bold" aria-hidden="true">!</span>
             <div class="flex-1 min-w-0">
                 <div class="text-sm font-medium text-gray-800 dark:text-gray-100 truncate"><span x-text="errorName"></span> {{ __("couldn't be uploaded") }}</div>
