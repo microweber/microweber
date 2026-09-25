@@ -13,9 +13,14 @@
   border-radius: var(--mw-radius-sm) !important;
 }
 
-/* Table row padding — MW v2: more compact rows (~80px height) */
+/* Table row padding — roomier list rows. NOTE: Filament sets the record
+   container's block padding as a Tailwind @layer utility, which this bundle's
+   own rules (also layered) cannot outrank even with !important. The winning
+   override is injected UNLAYERED via a STYLES_AFTER render hook in
+   MicroweberFilamentServiceProvider (mw-roomier-table-rows). Keep this note so
+   the padding isn't "fixed" here again and silently lost. */
 .fi-ta-content > div > div {
-  padding: var(--mw-space-sm) 0 !important;  /* GR: sm(10) */
+  padding-inline: 0 !important;
 }
 
 /* Published button in table — MW v2: green text on light green bg (soft badge style) */

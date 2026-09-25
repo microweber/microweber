@@ -62,6 +62,23 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
             },
         );
 
+        // Roomier list-table rows. Filament sets the record content container's
+        // block padding as a Tailwind @layer utility; the theme bundle's own
+        // rules are ALSO layered, so even !important cannot outrank it. An
+        // UNLAYERED <style> injected after the panel styles wins cleanly — this
+        // is the only reliable lever (verified: layered overrides stay at 4px).
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::STYLES_AFTER,
+            fn (): HtmlString => new HtmlString(
+                '<style id="mw-roomier-table-rows">'
+                . 'body.fi-panel-admin .fi-ta-content .fi-ta-record > .fi-ta-record-content-ctn,'
+                . 'body.fi-panel-checkout .fi-ta-content .fi-ta-record > .fi-ta-record-content-ctn,'
+                . 'body.fi-panel-profile .fi-ta-content .fi-ta-record > .fi-ta-record-content-ctn{'
+                . 'padding-top:16px !important;padding-bottom:16px !important;}'
+                . '</style>'
+            ),
+        );
+
         // Register custom Filament panel component views (e.g. layout.live-edit) under 'filament-panels' namespace
         $this->loadViewsFrom(
             __DIR__ . '/../resources/views/filament',

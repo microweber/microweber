@@ -27,3 +27,15 @@
 .mw-nav-group-no-label > .fi-sidebar-group-btn {
     @apply hidden;
 }
+
+/* Icon-only sidebar alignment: the collapsed group dropdown-trigger icon
+   (Website / Shop groups) rendered at the lg size (24px, .fi-icon.fi-size-lg)
+   and lacked the standalone item icon's 10px label-gutter margin, so it centred
+   ~5px to the right and looked larger — visibly out of line with the rest of
+   the rail. Mirror the standalone item icon (20px + 10px margin) so every rail
+   icon lines up. */
+.fi-sidebar-group-dropdown-trigger-btn .fi-icon {
+    height: 1.25rem !important;
+    width: 1.25rem !important;
+    margin-right: 10px !important;
+}
