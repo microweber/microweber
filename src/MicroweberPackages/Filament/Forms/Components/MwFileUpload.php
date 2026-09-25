@@ -16,6 +16,50 @@ class MwFileUpload extends Field
 
     protected bool|Closure $isMultiple = false;
 
+    // Redesigned uploader: accepted extensions shown to the user, max size, and a
+    // compact layout for narrow side-panel fields (e.g. favicon).
+    protected array $acceptExtensions = ['png', 'svg', 'jpg', 'jpeg', 'gif', 'webp'];
+
+    protected int $maxSizeMb = 10;
+
+    protected bool $compactMode = false;
+
+    public function acceptExtensions(array $exts): static
+    {
+        $this->acceptExtensions = array_map('strtolower', $exts);
+
+        return $this;
+    }
+
+    public function getAcceptExtensions(): array
+    {
+        return $this->acceptExtensions;
+    }
+
+    public function maxSizeMb(int $mb): static
+    {
+        $this->maxSizeMb = $mb;
+
+        return $this;
+    }
+
+    public function getMaxSizeMb(): int
+    {
+        return $this->maxSizeMb;
+    }
+
+    public function compact(bool $condition = true): static
+    {
+        $this->compactMode = $condition;
+
+        return $this;
+    }
+
+    public function isCompact(): bool
+    {
+        return $this->compactMode;
+    }
+
 //    protected function setUp(): void
 //    {
 //        parent::setUp();

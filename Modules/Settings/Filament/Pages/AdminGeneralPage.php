@@ -139,6 +139,9 @@ class AdminGeneralPage extends AdminSettingsPage
                             MwFileUpload::make('options.website.favicon_image')
                                 ->label('Website Favicon')
                                 ->helperText('Select an icon for your website.')
+                                ->compact()
+                                ->acceptExtensions(['png', 'svg', 'ico'])
+                                ->maxSizeMb(1)
                                 ->live(),
                         ])
 
