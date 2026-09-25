@@ -6,13 +6,18 @@
     padding: 10px 16px; /* GR: sm(10) md(16) */
 }
 
+/* Keyboard focus indicator: a subtle background tint, NOT a full outline box.
+   These are underline-style tabs (contained(false)); the active tab is already
+   marked by its bottom underline, and a surrounding outline box drew a second
+   competing frame around it when the modal autofocused the active tab. A tint
+   keeps the focus affordance (a11y) while leaving only the one bottom line. */
 .fi-tabs-item:focus-visible {
-    outline: 2px solid #182433;
-    outline-offset: 2px;
-    border-radius: 4px;
+    outline: none;
+    border-radius: 6px;
+    background: rgba(24, 36, 51, .06);
 }
 .dark .fi-tabs-item:focus-visible {
-    outline-color: #cbd5e1;
+    background: rgba(255, 255, 255, .08);
 }
 
 .fi-tabs-item:not(.fi-active) {
