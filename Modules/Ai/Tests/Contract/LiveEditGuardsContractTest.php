@@ -88,6 +88,38 @@ final class LiveEditGuardsContractTest extends TestCase
     }
 
     #[Test]
+    public function set_text_refuses_images_and_skips_noops(): void
+    {
+        $setText = $this->sliceFunction($this->mwAiSource(), 'set_text: function');
+        $this->assertMatchesRegularExpression("/tagName === 'IMG'|tagName===.IMG./", $setText,
+            'set_text must refuse <img> and point to set_image.');
+        $this->assertStringContainsString('set_image', $setText);
+        $this->assertMatchesRegularExpression('/already set|no change/i', $setText,
+            'set_text must no-op when the text is unchanged (avoids loops).');
+    }
+
+    #[Test]
+    public function delete_element_caps_deletes_per_turn(): void
+    {
+        $src = $this->mwAiSource();
+        $this->assertStringContainsString('_turnDeletes', $src,
+            'delete_element must track a per-turn delete counter.');
+        // The cap check lives right next to the counter.
+        $near = substr($src, strpos($src, '_turnDeletes'), 300);
+        $this->assertMatchesRegularExpression('/> 3|>= 3|> 4/', $near,
+            'delete_element must refuse after a small number of deletes per turn.');
+    }
+
+    #[Test]
+    public function agent_prompt_discourages_repeat_edits_and_delete_rebuild(): void
+    {
+        $p = $this->agentSource();
+        $this->assertMatchesRegularExpression('/ONE set_text PER ELEMENT|at most ONCE per element/i', $p);
+        $this->assertMatchesRegularExpression('/BUILD NEW CONTENT WITH add_section/i', $p);
+        $this->assertMatchesRegularExpression('/NEVER DELETE TO REBUILD/i', $p);
+    }
+
+    #[Test]
     public function apply_css_forces_important_and_spares_keyframes(): void
     {
         $src = $this->mwAiSource();

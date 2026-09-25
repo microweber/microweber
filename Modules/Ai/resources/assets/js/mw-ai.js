@@ -843,6 +843,16 @@ function MwAi() {
                     return { ok: false, message: 'That is a NAVIGATION MENU item' + (menu.itemId ? (' (id ' + menu.itemId + ')') : '')
                         + '. Menu items are a database-backed module, so set_text on the DOM will NOT persist. Use edit_menu_item(id=' + (menu.itemId || '<get it from get_menu>') + ', title="' + text + '") to rename it (or url / content_id to change where it points). Call get_menu first if you need the id.' };
                 }
+                // set_text is for TEXT — never an <img> (or a logo image). Setting
+                // textContent on an image does nothing useful; use set_image.
+                if (el.tagName === 'IMG') {
+                    return { ok: false, message: 'That is an <img>, which has no text. Use set_image(selector, url) to change the picture/logo — set_text does nothing on an image.' };
+                }
+                // No-op guard: the element already shows this exact text. Skip so the
+                // model does not "update" the same element over and over (looping).
+                if (String(el.textContent).trim() === text.trim()) {
+                    return { ok: true, message: 'text already set (no change)' };
+                }
                 el.textContent = text;
                 try { mw.top().app.registerChangedState(el); } catch (e) {}
                 return { ok: true, message: 'text updated' };
@@ -898,6 +908,14 @@ function MwAi() {
                 const menuD = api.menuTargetInfo(el);
                 if (menuD && menuD.itemId) {
                     return { ok: false, message: 'That is a NAVIGATION MENU item (id ' + menuD.itemId + '). Use edit_menu_item(id=' + menuD.itemId + ', remove=true) to delete it so it persists.' };
+                }
+                // Per-turn delete cap. The model sometimes deletes many elements to
+                // "redo" a design and wipes the page. Allow a few genuine duplicate
+                // removals, then refuse — restyle instead of deleting. Reset each turn
+                // (a fresh MwAi instance per stream => _turnDeletes starts undefined).
+                api._turnDeletes = (api._turnDeletes || 0) + 1;
+                if (api._turnDeletes > 3) {
+                    return { ok: false, message: 'refused: you have already deleted 3 elements this turn. Deleting more risks wiping the page. Do NOT delete content to redo a design — RESTYLE it in place with apply_css / set_css_var instead. Only delete a genuine duplicate the user explicitly asked to remove.' };
                 }
                 try {
                     const editParent = mw.top().tools.firstParentOrCurrentWithClass(el, 'edit');
