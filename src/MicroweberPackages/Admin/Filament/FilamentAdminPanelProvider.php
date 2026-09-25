@@ -141,7 +141,11 @@ class FilamentAdminPanelProvider extends PanelProvider
             // at lg+ and the overlay drawer below lg.
             // AI-703a follow-up candidate: shift sidebarCollapsibleOnDesktop
             // breakpoint from 1024px to 1280px when ready.
-            ->sidebarCollapsibleOnDesktop()
+            // task-2026-09-25 — removed sidebarCollapsibleOnDesktop() (again, per
+            //   AI-926): operators want the FULL sidebar with text labels on
+            //   desktop, not the icon-only "rail" collapsed state. Desktop is now
+            //   always pinned-open with labels; below 1024px Filament falls back
+            //   to its responsive hamburger overlay (also with labels).
             ->sidebarWidth('240px')
             ->colors([
                 'primary' => MwColors::Blue,
@@ -198,19 +202,21 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->label('')
                     ->collapsible(false),
 
-                // AI-943 — removed group-level ->icon() from Website and Shop.
-                // Filament v5 forbids both group icon AND per-item icons simultaneously.
-                // Items under these groups already carry individual icons, so the
-                // group-level icons are redundant and cause HTTP 500 on every admin request.
+                // AI-943 / task-2026-09-25 — NO group-level ->icon() on Website and
+                // Shop. Filament v5 forbids a group icon AND per-item icons at the
+                // same time in the full (non-collapsible) sidebar — it throws
+                // "group has an icon but one or more of its items also have icons"
+                // → HTTP 500 on every admin request. The items under these groups
+                // carry their own icons, so the group is a text header only.
+                // (The group icons were only tolerated while sidebarCollapsibleOnDesktop
+                // was on, for the icon rail — that mode has been removed.)
                 'Website' => NavigationGroup::make()
                     ->label('Website')
-                    ->icon('heroicon-o-globe-alt')
                     ->collapsible(true)
                     ->collapsed(true),
 
                 'Shop' => NavigationGroup::make()
                     ->label('Shop')
-                    ->icon('heroicon-o-shopping-bag')
                     ->collapsible(true)
                     ->collapsed(true),
 
