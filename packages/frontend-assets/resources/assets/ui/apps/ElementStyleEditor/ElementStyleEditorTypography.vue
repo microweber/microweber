@@ -195,8 +195,14 @@ export default {
                     var seen = {};
                     var filtered = colors.filter(function (c) {
                         if (!c || typeof c !== 'string') return false;
-                        if (!/^#([0-9a-fA-F]{3,8})$/.test(c)) return false;
-                        var low = c.toLowerCase();
+                        // Accept hex AND rgb()/rgba()/hsl()/hsla(): a custom
+                        // colour picked via the MW picker is often stored in an
+                        // rgb() form, and a hex-only test silently dropped it so
+                        // the picked colour never appeared as a suggestion swatch.
+                        if (!/^#([0-9a-fA-F]{3,8})$/.test(c)
+                            && !/^rgba?\(/i.test(c)
+                            && !/^hsla?\(/i.test(c)) return false;
+                        var low = c.replace(/\s+/g, '').toLowerCase();
                         if (low === '#00000000' || low === '#000000ff' && false) return false;
                         if (seen[low]) return false;
                         seen[low] = true;
