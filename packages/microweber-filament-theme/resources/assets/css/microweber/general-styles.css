@@ -3683,6 +3683,23 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     stroke: var(--ese-accent, #0d6efd) !important;
 }
 
+/* task-2026-09-26 — right-rail active LABEL white-on-white fix.
+   Companion to the woww icon fix above: the ::after mini-label
+   (data-mw-label, e.g. "Style") was still forced WHITE by
+   live-edit-classes.css
+   `.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons::after`
+   (specificity 0,4,1 !important), which outranks the accent label rule in
+   AI-871 §2 above (0,3,1). That white rule assumes a dark ink pill, but the
+   active .mw-toolbar-icon-btn actually gets the LIGHT --ese-accent-soft pill
+   (see §2), so the white label vanishes. Recolour the active label to the
+   SAME accent as the icon + border-right. Selector specificity is 0,6,1 so
+   it beats the 0,4,1 white rule; still scoped to .mw-toolbar-icon-btn so the
+   (correct) dark-pill / white-label active state on the non-.mw-toolbar-icon-btn
+   right-rail buttons is untouched. */
+.mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons.mw-toolbar-icon-btn::after {
+    color: var(--ese-accent, #0d6efd) !important;
+}
+
 @media (prefers-reduced-motion: no-preference) {
     .mw-live-edit-page .mw-toolbar-icon-btn.live-edit-right-sidebar-active {
         transition: background-color 0.1s ease, border-color 0.1s ease;
