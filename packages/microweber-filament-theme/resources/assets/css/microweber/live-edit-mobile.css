@@ -1033,3 +1033,35 @@ html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item:focus-within .
     top: auto !important;
     left: auto !important;
 }
+
+/* ------------------------------------------------------------------
+ * Tablet / mobile horizontal-scroll fix (task-2026-09-26).
+ *
+ * Two off-canvas chrome elements park just past the right edge in
+ * their CLOSED state and, on a viewport <=768px, poke beyond it and
+ * add a phantom horizontal scrollbar to the whole Live-Edit window:
+ *
+ *   1. The ESE / element-style-editor drawers — `.mw-control-box-right`
+ *      (and `-left`) are `position:fixed` and hide via
+ *      `transform: translateX(100%)`. On a 1280 desktop the parked box
+ *      still lands inside the viewport, so no scroll; at <=768px it
+ *      extends past the edge. `overflow-x:hidden` on <body>/<html>
+ *      cannot clip a fixed element, so the ONLY reliable lever is to
+ *      drop the parked box out of the layout entirely.
+ *   2. The Filament admin sidebar (`aside.fi-sidebar`) — parked to the
+ *      right in its closed state; same overflow, same fix.
+ *
+ * Both are only hidden while CLOSED (`:not(.active)` — the class our
+ * openAdminSidebar()/ESE open path adds), so opening either still
+ * shows it. Closing is an instant teardown (no slide) here, so there
+ * is no animation to preserve on mobile. Scoped with
+ * `body:has(.mw-live-edit-page)` so it never touches the normal admin
+ * nav sidebar on other panels.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    body:has(.mw-live-edit-page) .mw-control-box-default.mw-control-box-right:not(.active),
+    body:has(.mw-live-edit-page) .mw-control-box-default.mw-control-box-left:not(.active),
+    body:has(.mw-live-edit-page) aside.fi-sidebar:not(.active) {
+        display: none !important;
+    }
+}

@@ -75,6 +75,18 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
                 . 'body.fi-panel-checkout .fi-ta-content .fi-ta-record > .fi-ta-record-content-ctn,'
                 . 'body.fi-panel-profile .fi-ta-content .fi-ta-record > .fi-ta-record-content-ctn{'
                 . 'padding-top:16px !important;padding-bottom:16px !important;}'
+                // Tablet/mobile row clipping: the record content container is a
+                // nowrap flexbox whose first child (columns wrapper) and the
+                // growable name column both default to min-width:auto, so a long
+                // page/product title refuses to shrink and pushes the trailing
+                // status + actions column off the right edge (the row-level ⋮
+                // menu becomes unreachable at ~768px and narrower). Restoring
+                // min-width:0 down that flex chain lets the already-truncating
+                // title cell (.truncate) clip with an ellipsis so every column
+                // stays on screen. Harmless on desktop — it only engages when
+                // horizontal space is actually constrained.
+                . '.fi-ta-record-content-ctn > *{min-width:0;}'
+                . '.fi-ta-record-content-ctn .fi-ta-col.fi-growable{min-width:0;}'
                 . '</style>'
             ),
         );
