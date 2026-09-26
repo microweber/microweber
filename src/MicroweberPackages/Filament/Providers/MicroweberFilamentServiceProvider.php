@@ -123,6 +123,50 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
             ),
         );
 
+        // Hide the "0" filter-count badge on the table Filter button. Filament's
+        // core table view unconditionally sets the trigger badge to the active
+        // filter count (`->badge($activeFiltersCount)`), and because Laravel's
+        // filled(0) is TRUE (0 is numeric, not blank), a lone "0" badge renders
+        // on every unfiltered table — reading as a stray glitch. We cannot fix it
+        // via ->filtersTriggerAction() (the core view overwrites the badge at
+        // render) and CSS cannot match text, so a tiny scoped script hides the
+        // badge container only while it reads "0"/empty and reveals it again as
+        // soon as the count is >0. Scoped to the two filter-trigger containers
+        // (dropdown + collapsible layouts) so real column/other badges of "0"
+        // are untouched; re-runs after Livewire updates so applying/clearing a
+        // filter keeps it correct.
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::BODY_END,
+            fn (): HtmlString => new HtmlString(<<<'HTML'
+<script>
+(function () {
+    var SEL = '.fi-ta-filters-dropdown .fi-icon-btn-badge-ctn,'
+            + '.fi-ta-filters-trigger-action-ctn .fi-icon-btn-badge-ctn';
+    function fix() {
+        try {
+            document.querySelectorAll(SEL).forEach(function (ctn) {
+                var t = (ctn.textContent || '').trim();
+                ctn.style.display = (t === '' || t === '0') ? 'none' : '';
+            });
+        } catch (e) {}
+    }
+    function schedule() { requestAnimationFrame(fix); }
+    if (document.readyState !== 'loading') { schedule(); }
+    document.addEventListener('DOMContentLoaded', schedule);
+    document.addEventListener('livewire:navigated', schedule);
+    document.addEventListener('livewire:init', function () {
+        try {
+            window.Livewire.hook('morph.updated', schedule);
+            window.Livewire.hook('morphed', schedule);
+            window.Livewire.hook('commit', function (o) { if (o && o.respond) { o.respond(schedule); } });
+        } catch (e) {}
+    });
+})();
+</script>
+HTML
+            ),
+        );
+
         // Register custom Filament panel component views (e.g. layout.live-edit) under 'filament-panels' namespace
         $this->loadViewsFrom(
             __DIR__ . '/../resources/views/filament',
