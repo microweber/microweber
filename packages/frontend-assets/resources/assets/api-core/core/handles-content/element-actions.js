@@ -215,6 +215,41 @@ export class ElementActions extends MicroweberBaseClass {
 
     }
 
+    // cloneElement() copies element styles for [id] DESCENDANTS correctly
+    // (syncEach assigns the new id BEFORE calling cloneNodeStyles), but for the
+    // TOP-LEVEL element it calls cloneNodeStyles(el, clone) while the clone still
+    // carries the source's id (the new id is only assigned on the next line).
+    // At that moment generateSelectorForNode(el) === generateSelectorForNode(clone)
+    // (both "#<sourceId>"), so the element's own live-edit styles get copied onto
+    // their own selector — a no-op — and the duplicate renders unstyled.
+    //
+    // cloneElementWithStyles extends cloneElement: it performs the normal clone,
+    // then re-copies the top-level element's styles from the SOURCE selector to
+    // the (now-assigned) NEW id's selector, so the duplicated element keeps its
+    // CSS. Returns the new node.
+    cloneElementWithStyles(el) {
+        // Mirror cloneElement's IMG-in-A normalisation so our post-clone lookup
+        // of the new node (el.nextElementSibling) targets the element that was
+        // actually cloned.
+        if (el && el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
+            el = el.parentNode;
+        }
+
+        this.cloneElement(el);
+
+        var newNode = ElementManager(el).next().get(0);
+        if (newNode && el && el.id && newNode.id && el.id !== newNode.id) {
+            // el keeps its original id (source), newNode has the fresh id — so
+            // this copies "#sourceId" styles onto "#newId" for real this time.
+            mw.top().app.cssEditor.cloneNodeStyles(el, newNode);
+            try {
+                mw.top().app.registerChangedState(newNode);
+            } catch (e) { /* noop */ }
+        }
+
+        return newNode;
+    }
+
     removeLink(el) {
         //check if is IMG and is in A tag, then select A tag
         var closestLink = el.closest("a");

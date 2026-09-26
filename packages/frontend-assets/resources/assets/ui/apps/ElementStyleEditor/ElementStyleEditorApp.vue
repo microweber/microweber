@@ -505,7 +505,12 @@ export default {
             if (!el) return;
             const ea = this._elementActions();
             try {
-                if (ea && typeof ea.cloneElement === 'function') {
+                // Prefer cloneElementWithStyles so the duplicate keeps the
+                // element's live-edit CSS (plain cloneElement loses the
+                // top-level element's own styles — see element-actions.js).
+                if (ea && typeof ea.cloneElementWithStyles === 'function') {
+                    ea.cloneElementWithStyles(el);
+                } else if (ea && typeof ea.cloneElement === 'function') {
                     ea.cloneElement(el);
                 } else {
                     mw.top().app.dispatch('mw.elementStyleEditor.cloneNode', { node: el });
