@@ -100,6 +100,13 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
                 . '.mw-livewire-modal-content .fi-ta-empty-state{padding-top:28px !important;padding-bottom:28px !important;}'
                 . '.fi-modal .fi-ta-empty-state-icon-ctn,'
                 . '.mw-livewire-modal-content .fi-ta-empty-state-icon-ctn{width:2.75rem !important;height:2.75rem !important;}'
+                // Also collapse the toolbar band on in-modal list tables that have
+                // NO search field configured (faq, products, …): Filament still
+                // reserves a full-width tinted band that reads as a broken/empty
+                // search input with the action button floating beside it. Tables
+                // that DO configure search (e.g. slider) keep their search field.
+                . '.fi-modal .fi-ta-header-toolbar:not(:has(input:not([type=checkbox]):not([type=hidden]))),'
+                . '.mw-livewire-modal-content .fi-ta-header-toolbar:not(:has(input:not([type=checkbox]):not([type=hidden]))){display:none !important;}'
                 . '</style>'
             ),
         );
