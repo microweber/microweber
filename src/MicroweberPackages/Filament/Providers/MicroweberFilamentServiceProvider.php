@@ -79,6 +79,31 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
             ),
         );
 
+        // Empty-state cleanup for the in-modal list/repeater tables used by module
+        // settings (accordion, tabs, faq, testimonials, posts, custom fields, …).
+        // When a table has ZERO rows Filament still renders the bulk-action / sort
+        // toolbar band AND the column-header row, leaving a tall empty void with a
+        // tiny "No items found" floating in the middle. When empty, drop that
+        // toolbar band + the column header, and tighten the empty-state padding so
+        // it reads as intentional. Injected UNLAYERED so it beats Filament's own
+        // layered table utilities. Scoped to modal/slide-over tables so the
+        // full-page admin resource tables are untouched.
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::STYLES_AFTER,
+            fn (): HtmlString => new HtmlString(
+                '<style id="mw-empty-table-cleanup">'
+                . '.fi-modal .fi-ta:has(.fi-ta-empty-state) .fi-ta-header-toolbar,'
+                . '.mw-livewire-modal-content .fi-ta:has(.fi-ta-empty-state) .fi-ta-header-toolbar,'
+                . '.fi-modal .fi-ta:has(.fi-ta-empty-state) thead,'
+                . '.mw-livewire-modal-content .fi-ta:has(.fi-ta-empty-state) thead{display:none !important;}'
+                . '.fi-modal .fi-ta-empty-state,'
+                . '.mw-livewire-modal-content .fi-ta-empty-state{padding-top:28px !important;padding-bottom:28px !important;}'
+                . '.fi-modal .fi-ta-empty-state-icon-ctn,'
+                . '.mw-livewire-modal-content .fi-ta-empty-state-icon-ctn{width:2.75rem !important;height:2.75rem !important;}'
+                . '</style>'
+            ),
+        );
+
         // Register custom Filament panel component views (e.g. layout.live-edit) under 'filament-panels' namespace
         $this->loadViewsFrom(
             __DIR__ . '/../resources/views/filament',
