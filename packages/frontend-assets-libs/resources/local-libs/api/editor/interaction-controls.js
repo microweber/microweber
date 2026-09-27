@@ -127,11 +127,39 @@ MWEditor.interactionControls = {
             // node — a padded button-link would otherwise place it over the text.
             var $target = $(tg);
             this.$target = $target;
-            var css = $target.offset();
-            css.top += $target.height();
+
+            // Populate + show first so the tooltip has its real height available
+            // for the placement maths below.
+            this.element.urlElement.html(tg.href);
+            this.element.urlElement.prop("href", tg.href);
+            this.element.show();
+
+            var tipEl = this.element.get(0);
+            var off = $target.offset();
+            var linkH = $target.outerHeight();
+            var tipH = (tipEl && tipEl.offsetHeight) || 40;
+            // Gap so the tooltip never sits flush on the link text (previously it
+            // was placed at exactly link-bottom with 0 gap, so it read as covering
+            // the text being edited).
+            var gap = 8;
+
+            var doc = tg.ownerDocument;
+            var win = doc.defaultView || window;
+            var scrollTop = win.pageYOffset || doc.documentElement.scrollTop || 0;
+            var viewH = win.innerHeight || doc.documentElement.clientHeight || 0;
+
+            var belowTop = off.top + linkH + gap;
+            var aboveTop = off.top - tipH - gap;
+            // Prefer below (with the gap); flip ABOVE the link when placing below
+            // would push the tooltip out of / to the very bottom of the editing
+            // viewport, as long as there is room above. Either way there is always
+            // a clear gap between the link and the tooltip.
+            var placeAbove = (belowTop + tipH) > (scrollTop + viewH) && aboveTop >= scrollTop;
+
+            var css = { left: off.left, top: placeAbove ? aboveTop : belowTop };
 
             if (!this._interactParent) {
-                this._interactParent = $(this.element.get(0))
+                this._interactParent = $(tipEl)
                     .parents()
                     .filter((i, node) => {
                         const pos = getComputedStyle(node).position;
@@ -140,14 +168,12 @@ MWEditor.interactionControls = {
             }
 
             if (this._interactParent) {
-                const off = $(this._interactParent).offset();
-                css.top -= off.top;
-                css.left -= off.left;
+                const ipOff = $(this._interactParent).offset();
+                css.top -= ipOff.top;
+                css.left -= ipOff.left;
             }
 
-            this.element.urlElement.html(tg.href);
-            this.element.urlElement.prop("href", tg.href);
-            this.element.css(css).show();
+            this.element.css(css);
         };
         this.element = this.render();
     },
