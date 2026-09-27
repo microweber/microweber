@@ -306,8 +306,9 @@ export default {
                         window.mw.app.editor.dispatch('onModuleSettingsRequest', this.currentElement);
                     }
                 } else {
-                    // Trigger module settings request
-                    window.mw.app.editor.dispatch('onModuleSettingsRequest', this.currentElement);
+                    // Quick-settings first (handler falls back to main settings if
+                    // the module has no quick-settings panel).
+                    window.mw.app.editor.dispatch('onModuleQuickSettingsOrMainSettingsRequest', this.currentElement);
                 }
             } catch (error) {
                 console.error('Error editing current element:', error);

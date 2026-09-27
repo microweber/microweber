@@ -9,6 +9,7 @@ import { ElementHandleContent } from "./handles-content/element.js";
 import {
     ModuleHandleContent,
     moduleSettingsDispatch,
+    moduleQuickSettingsOrMainSettingsDispatch,
 } from "./handles-content/module.js";
 import { LayoutHandleContent } from "./handles-content/layout.js";
 import { ElementManager } from "./classes/element.js";
@@ -1164,7 +1165,8 @@ export class LiveEdit {
                 (module.contains(e.target) ||
                     e.target.id === "mw-handle-item-module-root")
             ) {
-                moduleSettingsDispatch(module);
+                // Quick-settings first on double-click (falls back to main settings).
+                moduleQuickSettingsOrMainSettingsDispatch(module);
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 return false;

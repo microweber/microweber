@@ -17,6 +17,23 @@ export const moduleSettingsDispatch = function (target) {
     }
 }
 
+// task-2026-09-27 — quick-settings-first entry point for editing a module
+// (double-click + the module handle "Edit" tooltip). Dispatches a SEPARATE
+// event from onModuleSettingsRequest (which is left untouched and still opens
+// the main settings). Its handler (ModuleSettings service) opens the module's
+// quick-settings panel when one is registered, and otherwise falls back to the
+// main settings. The quick-settings panel's own gear/"Settings" button then
+// dispatches onModuleSettingsRequest to open the full settings.
+export const moduleQuickSettingsOrMainSettingsDispatch = function (target) {
+    if (!target) { return; }
+    mw.app.editor.dispatch('onModuleQuickSettingsOrMainSettingsRequest', target);
+    var type = target.dataset.type || target.getAttribute('type');
+    if (type) {
+        type = type.trim();
+        mw.app.editor.dispatch('onModuleQuickSettingsOrMainSettingsRequest@' + type, target);
+    }
+}
+
 const moduleNamesMap = {
     btn: 'Button'
 }
@@ -82,7 +99,8 @@ export class ModuleHandleContent {
                 "icon": handleIcons.icon('edit'),
                 action: () => {
                     const target = mw.app.liveEdit.handles.get('module').getTarget();
-                    moduleSettingsDispatch(target);
+                    // Quick-settings first (falls back to main settings if none).
+                    moduleQuickSettingsOrMainSettingsDispatch(target);
 
                 },
                 onTarget: function (target, selfNode) {

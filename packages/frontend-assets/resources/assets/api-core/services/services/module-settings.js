@@ -44,7 +44,40 @@ export class ModuleSettings extends MicroweberBaseClass {
         mw.app.editor.on('onLayoutSettingsRequest', module => this.moduleOrLayoutSettingsRequestHandle(module, true));
         mw.app.editor.on('onModulePresetsRequest', module => this.moduleOrLayoutPresetsRequestHandle(module));
 
+        // task-2026-09-27 — quick-settings-first entry point. When editing a
+        // module (double-click / module handle "Edit" / context edit button),
+        // open its quick-settings panel if one is registered; otherwise fall
+        // back to the main settings via the untouched onModuleSettingsRequest.
+        mw.app.editor.on('onModuleQuickSettingsOrMainSettingsRequest', module => this.moduleQuickSettingsOrMainSettingsRequestHandle(module));
 
+
+    }
+
+    moduleQuickSettingsOrMainSettingsRequestHandle(module) {
+        var type = module && (
+            (module.dataset && module.dataset.type) ||
+            (module.getAttribute && module.getAttribute('type'))
+        );
+        type = type ? String(type).trim() : null;
+
+        var qs = type && window.mw && mw.quickSettings && mw.quickSettings[type];
+        if (qs && qs[0] && typeof qs[0].action === 'function') {
+            // The module has a quick-settings panel — open it instead of the
+            // full settings dialog.
+            try {
+                qs[0].action(module);
+                return;
+            } catch (e) {
+                mw.log && mw.log('quick-settings action failed, falling back to main settings: ' + e);
+            }
+        }
+
+        // No quick settings (or it errored) — open the main settings. Mirror
+        // moduleSettingsDispatch so type-scoped listeners still fire.
+        mw.app.editor.dispatch('onModuleSettingsRequest', module);
+        if (type) {
+            mw.app.editor.dispatch('onModuleSettingsRequest@' + type, module);
+        }
     }
 
     moduleOrLayoutSettingsRequestHandle(module, isLayout) {
