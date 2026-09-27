@@ -368,6 +368,15 @@ export class StylesheetEditor extends MicroweberBaseClass {
     }
 
     cloneNodeStyles(fromNode, toNode) {
+        // Commit any pending in-session edits before cloning. Styles applied via
+        // the ESE (setPropertyForSelector) live in `this._temp` until save()
+        // merges them into `this.json`; cloneStyles() reads ONLY `this.json`, so
+        // without this a style the user just applied — e.g. a colour set right
+        // before hitting Duplicate — is invisible to the clone and the duplicate
+        // comes out unstyled. save() merges _temp -> json so the source's current
+        // rules are actually present when we read them below.
+        this.save();
+
         const selectorFromNode = mw.tools.generateSelectorForNode(fromNode);
         const selToNode = mw.tools.generateSelectorForNode(toNode);
 
