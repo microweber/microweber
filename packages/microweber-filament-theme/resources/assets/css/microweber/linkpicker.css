@@ -497,9 +497,46 @@
 .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .block.p-6:hover {
     background: transparent !important;
 }
-/* Even field rhythm via gap (replaces ragged per-field margins + empty rows). */
+/* COMPACT wrap layout — prompt on its own row, then all the dimension
+ * controls (aspect ratio + width + height + number of images) grouped on ONE
+ * row, then reference + Generate full-width. Tight enough that the whole form
+ * fits with no inner scrollbar. */
 .mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap {
-    @apply flex flex-col gap-4;
+    @apply flex flex-wrap items-start;
+    /* the element ships a `flex-col` utility class; force row so the dimension
+     * controls share a horizontal line (flex-basis was sizing height instead). */
+    flex-direction: row !important;
+    gap: 10px 12px !important;
+}
+/* Full-width rows: prompt, reference image, Generate button, status. */
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .form-control-live-edit-label-wrapper:has(input[name="prompt"]),
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .form-control-live-edit-label-wrapper:has(input[type="file"]),
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > button.btn-pill,
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .mw-filepicker-ai-status {
+    flex: 1 1 100% !important;
+}
+/* Dimension row — aspect ratio | width + height | number of images.
+ * width:auto is required to beat the base wrapper's width:100% !important,
+ * otherwise each control keeps a full-width line and they stack. */
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .form-control-live-edit-label-wrapper:has(select[name="aspect_ratio"]) {
+    flex: 1 1 130px !important;
+    width: auto !important;
+}
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .flex.gap-4 {
+    flex: 1.6 1 200px !important;
+    width: auto !important;
+}
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .form-control-live-edit-label-wrapper:has(input[name="number_of_images"]) {
+    flex: 1 1 120px !important;
+    width: auto !important;
+}
+/* Keep the dimension labels on one line so the controls stay aligned. */
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .form-control-live-edit-label-wrapper:has(select[name="aspect_ratio"]) label,
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .form-control-live-edit-label-wrapper:has(input[name="number_of_images"]) label,
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .flex.gap-4 label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .form-control-live-edit-label-wrapper {
     max-width: none !important;
@@ -556,10 +593,10 @@
 }
 /* Prompt field — taller, top-aligned so it reads as a prompt box. */
 .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai input[name="prompt"] {
-    min-height: 72px !important;
+    min-height: 56px !important;
     height: auto !important;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+    padding-top: 9px !important;
+    padding-bottom: 9px !important;
 }
 /* Width / Height — 2-col row. */
 .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .flex.gap-4 {
@@ -569,6 +606,13 @@
     width: auto !important;
     flex: 1 1 0;
 }
+/* Collapse the empty reference-image preview (its .d-none wasn't hiding it,
+ * leaving ~80px of dead space that forced an inner scrollbar). When a
+ * reference is picked JS removes .d-none and the preview shows again. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .refference-image-pick-preview.d-none {
+    display: none !important;
+}
+
 /* "Select image" (reference image) — clean secondary button, not a raw pill. */
 .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai button.btn-pill,
 .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .mw-filepicker-ai-reference-image-button {
