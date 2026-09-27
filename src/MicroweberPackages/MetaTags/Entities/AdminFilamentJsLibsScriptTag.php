@@ -20,7 +20,6 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         $jqueryUi = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.js';
         $jqueryUiCss = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.css';
         $jqueryUiNestedSortable = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-nested-sortable/jquery.mjs.nestedSortable.js';
-        $lib_tynymce = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/tinymce/tinymce.js';
         $nouislider = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/nouislider/nouislider.js';
         $mwMediaBrowser = public_asset() . 'vendor/microweber-packages/microweber-filament-theme/build/mw-media-browser.js';
         $mwMediaFilamentTranslatable = public_asset() . 'vendor/microweber-packages/microweber-filament-theme/build/filament-translatable.js';

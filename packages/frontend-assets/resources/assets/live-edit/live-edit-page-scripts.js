@@ -8,10 +8,7 @@ if(window.self !== window.top) {
 
    // mw.require('liveedit.css');
 
-
-
-     mw.lib.require('tinymce');
-
+   // TinyMCE removed (task-2026-09-27).
 
     mw.liveEditSaveService = {
         grammarlyFix: function (data) {

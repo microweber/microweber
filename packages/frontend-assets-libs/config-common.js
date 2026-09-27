@@ -30,7 +30,6 @@ const nodeModulesScripts = [
     {target: `jquery-ui`, path: `node_modules/jquery-ui/dist/jquery-ui.js`},
 
     {target: `nouislider`, path: `node_modules/nouislider/dist/nouislider.js`},
-    {target: `tinymce`, path: `node_modules/tinymce/tinymce.js`},
     {target: `bxslider`, path: `node_modules/bxslider/dist/jquery.bxslider.min.js`},
     {target: `slick`, path: `node_modules/slick-carousel/slick/slick.js`},
     //{target: `swiper`, path: `node_modules/swiper/swiper.js`},
@@ -100,15 +99,6 @@ const assets = [
     {target: `slick`, path: `node_modules/slick-carousel/slick/ajax-loader.gif`},
     {target: `bxslider`, path: `node_modules/bxslider/dist/images`},
 
-    {
-        target: `tinymce`,
-        path: [
-            `node_modules/tinymce/icons`,
-            `node_modules/tinymce/plugins`,
-            `node_modules/tinymce/skins`,
-            `node_modules/tinymce/themes`,
-        ]
-    },
     {
         target: `mdi/css`,
         path: [

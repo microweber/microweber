@@ -3,113 +3,105 @@
         :field="$field"
         class="relative z-0"
 >
+    {{-- task-2026-09-27 — MwRichEditor now runs on the Microweber MWEditor engine
+         (mw.Editor), the same editor Live Edit uses. TinyMCE has been removed.
+         The editor lib is lazy-loaded once from frontend-assets-libs and attached
+         in "div" mode to the field's textarea, which it keeps in sync (its
+         _syncTextArea writes back to the textarea on every change). --}}
+    @once
+        <script>
+            window.mwEnsureRichEditorLib = window.mwEnsureRichEditorLib || function () {
+                if (window.__mwRichEditorLibPromise) return window.__mwRichEditorLibPromise;
+                window.__mwRichEditorLibPromise = new Promise(function (resolve) {
+                    var base = '{{ public_asset('vendor/microweber-packages/frontend-assets-libs/') }}';
+                    // Editor styles (once).
+                    ['api/editor/editor.css', 'api/editor/area-styles.css'].forEach(function (href) {
+                        if (!document.querySelector('link[data-mw-editor-css="' + href + '"]')) {
+                            var l = document.createElement('link');
+                            l.rel = 'stylesheet';
+                            l.href = base + href;
+                            l.setAttribute('data-mw-editor-css', href);
+                            document.head.appendChild(l);
+                        }
+                    });
+                    var ready = function () {
+                        // mw.Editor pulls its deps in via mw.require; poll until ready.
+                        var tries = 0;
+                        (function wait() {
+                            if (window.mw && typeof window.mw.Editor === 'function') { resolve(); return; }
+                            if (tries++ > 100) { resolve(); return; }
+                            setTimeout(wait, 50);
+                        })();
+                    };
+                    if (window.mw && typeof window.mw.Editor === 'function') { resolve(); return; }
+                    var existing = document.querySelector('script[data-mw-editor-lib]');
+                    if (existing) { ready(); return; }
+                    var s = document.createElement('script');
+                    s.src = base + 'api/editor.js';
+                    s.setAttribute('data-mw-editor-lib', '1');
+                    s.onload = ready;
+                    s.onerror = function () { resolve(); };
+                    document.head.appendChild(s);
+                });
+                return window.__mwRichEditorLibPromise;
+            };
+        </script>
+    @endonce
 
-
-<script>
-
-
-</script>
     <div
-            x-data="{ state: $wire.entangle('{{ $getStatePath() }}'), initialized: false }"
-
-            ax-load-src="{{ public_asset('vendor/microweber-packages/microweber-filament-theme/build/tiny-editor.js') }}"
-
-
+            x-data="{ state: $wire.entangle('{{ $getStatePath() }}'), editor: null }"
             x-init="(() => {
-            $nextTick(async () => {
-                // tinymce.createEditor('tiny-editor-{{ $getId() }}', {
+                $nextTick(async () => {
+                    await window.mwEnsureRichEditorLib();
+                    if (!(window.mw && typeof mw.Editor === 'function')) { return; }
 
-                  mw.richTextEditor({
-                    target: document.querySelector('[data-id=\'tiny-editor-{{ $getId() }}\']'),
-                    deprecation_warnings: false,
+                    const ta = $refs.mweditor;
+                    if (!ta) { return; }
+                    // Seed the textarea with the current state so div-mode picks it up.
+                    ta.value = (state === null || state === undefined) ? '' : state;
 
+                    editor = mw.Editor({
+                        mode: 'div',
+                        selector: ta,
+                        skin: 'le2',
+                        minHeight: {{ (int) ($getPreviewMinHeight() ?: 220) }},
+                        controls: [[
+                            'format', 'bold', 'italic', 'underline', 'strikeThrough',
+                            'link', 'unlink', 'ul', 'ol',
+                            { group: { controller: 'alignLeft', controls: ['alignLeft','alignCenter','alignRight','alignJustify'] } },
+                            { group: { className: 'mw-editor-color-group', controller: 'textColor', controls: ['textColor','textBackgroundColor'] } },
+                            'removeFormat'
+                        ]],
+                    });
 
-                    toolbar_sticky_offset: 64,
+                    $refs.mweditorHolder.appendChild(editor.wrapper);
 
+                    // Editor -> Livewire state.
+                    $(editor).on('change', function (e, html) {
+                        if (html !== state) { state = html; }
+                    });
 
-                    setup: function(editor) {
-                        if(!window.tinySettingsCopy) {
-                            window.tinySettingsCopy = [];
-                        }
-
-                        if (!window.tinySettingsCopy.some(obj => obj.id === editor.settings.id)) {
-                            window.tinySettingsCopy.push(editor.settings);
-                        }
-
-                        editor.on('blur', function(e) {
-                            state = editor.getContent()
-                        })
-
-                        editor.on('init', function(e) {
-                            if (state != null) {
-                                editor.setContent(state)
-                            }
-                        })
-
-                        editor.on('OpenWindow', function(e) {
-                            target = e.target.container.closest('.fi-modal')
-                            if (target) target.setAttribute('x-trap.noscroll', 'false')
-
-                            target = e.target.container.closest('.jetstream-modal')
-                            if (target) {
-                                targetDiv = target.children[1]
-                                targetDiv.setAttribute('x-trap.inert.noscroll', 'false')
-                            }
-                        })
-
-                        editor.on('CloseWindow', function(e) {
-                            target = e.target.container.closest('.fi-modal')
-                            if (target) target.setAttribute('x-trap.noscroll', 'isOpen')
-
-                            target = e.target.container.closest('.jetstream-modal')
-                            if (target) {
-                                targetDiv = target.children[1]
-                                targetDiv.setAttribute('x-trap.inert.noscroll', 'show')
-                            }
-                        })
-
-                        function putCursorToEnd() {
-                            editor.selection.select(editor.getBody(), true);
-                            editor.selection.collapse(false);
-                        }
-
-                        $watch('state', function(newstate) {
-                            // unfortunately livewire doesn't provide a way to 'unwatch' so this listener sticks
-                            // around even after this component is torn down. Which means that we need to check
-                            // that editor.container exists. If it doesn't exist we do nothing because that means
-                            // the editor was removed from the DOM
-                            if (editor.container && newstate !== editor.getContent()) {
-                                editor.resetContent(newstate || '');
-                                putCursorToEnd();
-                            }
-                        });
-                    },
-
-                })
-            });
-
-
-            if (!window.tinyMceInitialized) {
-                window.tinyMceInitialized = true;
-                $nextTick(() => {
-                    Livewire.hook('morph.removed', (el, component) => {
-                        if (el.el.nodeName === 'INPUT' && el.el.getAttribute('x-ref') === 'tinymce') {
-                            tinymce.get(el.el.id)?.remove();
+                    // Livewire state -> editor (external programmatic changes).
+                    $watch('state', function (newState) {
+                        if (!editor || !editor.editArea) { return; }
+                        var current = editor.editArea.innerHTML;
+                        if ((newState || '') !== current) {
+                            editor.setContent(newState || '', false);
                         }
                     });
                 });
-            }
-        })()"
+            })()"
             x-cloak
             class="overflow-hidden"
             wire:ignore
     >
         @unless($isDisabled())
+            <div x-ref="mweditorHolder" class="mw-rich-editor-holder"></div>
             <textarea
-                    data-id="tiny-editor-{{ $getId() }}"
-
-                    x-ref="tinymce"
+                    x-ref="mweditor"
+                    data-id="mw-rich-editor-{{ $getId() }}"
                     placeholder="{{ $getPlaceholder() }}"
+                    style="display:none"
             ></textarea>
         @else
             <div
