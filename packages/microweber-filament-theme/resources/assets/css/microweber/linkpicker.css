@@ -543,6 +543,34 @@
     box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15) !important;
 }
 
+/* ===== File-manager (media browser) layout fix — task-2026-09-27 =====
+ * The File tab embeds the /admin/media library page in an auto-growing
+ * iframe (.mw-editor-frame). JS resizes that iframe to its FULL content
+ * height (~1800px), so the whole link-editor dialog inherited a giant
+ * scroll region: the media library's own toolbar + grid pushed the
+ * Cancel/OK footer far below the fold and the browser felt broken.
+ *
+ * Constrain the media iframe to a contained panel that scrolls INTERNALLY
+ * (its own content document handles overflow), so the dialog keeps a fixed
+ * height with the footer pinned — the media library reads as a proper
+ * embedded picker instead of an endless page. Height overrides the inline
+ * height:1800px JS sets (CSS !important beats a non-important inline style).
+ * Scoped to the link-editor modal so /admin/media standalone (which is
+ * correctly full-height) is untouched. */
+.mw_modal_live_edit_link_editor_settings .mw-editor-frame {
+    height: 60vh !important;
+    max-height: 620px !important;
+    min-height: 380px !important;
+    width: 100% !important;
+    border: 0 !important;
+}
+/* The label-wrapper that holds the iframe also auto-sized to ~1800px; let it
+ * collapse to the constrained iframe so no dead space remains below it. */
+.mw_modal_live_edit_link_editor_settings .form-control-live-edit-label-wrapper:has(> .mw-editor-frame) {
+    height: auto !important;
+    min-height: 0 !important;
+}
+
 /* ===== Misc ===== */
 
 /* Override the global form-control-live-edit-label-wrapper margin inside link picker */
