@@ -478,24 +478,114 @@
     @apply border-[#182433]/40 dark:border-gray-500 bg-[#182433]/5 dark:bg-white/5;
 }
 
-/* AI "Enter prompt" tab — the inner card already has its own white/gray
- * card styling from filepicker.js (max-w-sm + p-6 + border + rounded-lg).
- * Make the wrapping label-wrapper transparent so the card sits cleanly
- * in the modal without inheriting any input chrome from the parent. */
+/* ===== AI "Enter prompt" tab — full redesign (task-2026-09-27) =====
+ * Shipped as a generic clickable card: a whole-panel hover-grey, ragged
+ * oversized vertical gaps, a disabled-looking aspect-ratio dropdown and a
+ * nested scrollbar. Rebuild it as a clean, evenly-spaced form matching the
+ * rest of the link picker — flat container, consistent 40px rounded
+ * controls, a taller prompt field, a 2-col Width/Height row and a proper
+ * secondary "Select image" button. Scoped to the link-editor modal. */
 .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai {
     @apply w-full max-w-2xl mx-auto;
 }
-.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai > div:first-child {
-    @apply w-full;
+/* Flat container — strip the clickable-card chrome (border, shadow, hover bg). */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai > div:first-child,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .block.p-6 {
+    @apply w-full p-0 bg-transparent border-0 shadow-none rounded-none;
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai > div:first-child:hover,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .block.p-6:hover {
+    background: transparent !important;
+}
+/* Even field rhythm via gap (replaces ragged per-field margins + empty rows). */
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap {
+    @apply flex flex-col gap-4;
 }
 .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .form-control-live-edit-label-wrapper {
     max-width: none !important;
     width: 100% !important;
-    margin: 0 0 12px !important;
+    margin: 0 !important;
+    padding: 0 !important; /* base live-edit-input padding added ~24px dead height per field */
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .form-control-live-edit-label-wrapper:empty {
+    display: none !important;
+}
+/* Legacy underline-animation span added dead vertical height — drop it. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .form-control-live-edit-bottom-effect {
+    display: none !important;
+}
+/* Labels */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-200;
+    margin-bottom: 6px !important;
+}
+/* Controls — consistent rounded 40px inputs / selects. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai input,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai select,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .mw-native-select {
+    @apply w-full rounded-lg border border-gray-300 text-sm text-gray-900 dark:text-white;
+    background-color: white !important;
+    padding: 8px 12px !important;
+    min-height: 40px !important;
+    height: 40px !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+.dark .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai input,
+.dark .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai select,
+.dark .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .mw-native-select {
+    background-color: oklch(0.269 0 0) !important; /* gray-800 */
+    border-color: oklch(0.371 0 0) !important;     /* gray-600 */
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai input:focus,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai select:focus,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .mw-native-select:focus {
+    @apply border-[#182433];
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15) !important;
+}
+/* Aspect-ratio customizable <select> button — remove the greyed/disabled look. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .mw-native-select button {
+    background: transparent !important;
+    border: 0 !important;
+    color: inherit !important;
+    width: 100% !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+/* Prompt field — taller, top-aligned so it reads as a prompt box. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai input[name="prompt"] {
+    min-height: 72px !important;
+    height: auto !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+/* Width / Height — 2-col row. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .flex.gap-4 {
+    @apply flex gap-4;
 }
 .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .flex.gap-4 .form-control-live-edit-label-wrapper {
     width: auto !important;
     flex: 1 1 0;
+}
+/* "Select image" (reference image) — clean secondary button, not a raw pill. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai button.btn-pill,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .mw-filepicker-ai-reference-image-button {
+    @apply w-full rounded-lg border border-gray-300 bg-white text-gray-800 dark:text-gray-100 text-sm font-medium;
+    height: 40px !important;
+    box-shadow: none !important;
+    background-image: none !important;
+}
+.dark .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai button.btn-pill {
+    background-color: oklch(0.269 0 0) !important;
+    border-color: oklch(0.371 0 0) !important;
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai button.btn-pill:hover:not(:disabled) {
+    @apply bg-gray-50 border-gray-400 dark:bg-gray-700;
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai button.btn-pill:disabled {
+    @apply opacity-60 cursor-not-allowed;
 }
 
 /* File picker navigation header tabs */
