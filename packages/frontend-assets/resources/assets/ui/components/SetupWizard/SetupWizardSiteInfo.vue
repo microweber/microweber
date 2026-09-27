@@ -1,7 +1,7 @@
 <script setup>
 import {ref, defineEmits, onMounted, onBeforeUnmount} from 'vue'
 import axios from 'axios'
-import {QuickEditComponent} from '../../../components/quick-ai-edit'
+import {AIChatForm} from '../../../components/ai-chat'
 
 // Component props and emits
 const emit = defineEmits(['update:siteTitle', 'update:siteDescription', 'update:siteKeywords', 'ai-request-start', 'ai-request-end', 'form-submit-result'])
@@ -20,6 +20,7 @@ const aiPrompt = ref('')
 const aiLoading = ref(false)
 const aiError = ref('')
 let wizardAiChat = ref(null)
+let aiChatFormInstance = null
 
 
 // Debounce timers for auto-save
@@ -73,88 +74,55 @@ onMounted(async () => {
     // Load website info
     await loadWebsiteInfo()
 
-    const quickEdit = new QuickEditComponent({
-        target: mw.top().doc.body,
+    const aiChatForm = new AIChatForm({
+        multiLine: true,
         submitOnEnter: true,
-        disableSync: true,
-        generateSiteInfo: true,
-        chatOptions: () => {
-
-        }
+        placeholder: mw.lang('Describe your website\u2026'),
+        ariaLabel: mw.lang('Describe your website for AI generation')
     });
+    aiChatFormInstance = aiChatForm;
 
-
-
-
-
-
-
-
-
-    quickEdit.on('aiRequestStart', () => {
-
-        emit('ai-request-start')
-    });
-    quickEdit.on('aiRequestEnd', () => {
-        aiLoading.value = false
-        aiError.value = ''
-
-
-
-        //must enable  the parent wizard next  button
-        // advance the setup wizard on the next setep
-        emit('ai-request-end')
-    });    // Listen for wizard events to trigger form submission
-    const handleWizardFormSubmit = async (event) => {
-        // If AI is available and we're on the AI tab, don't allow manual advancement
-        if (isAIAvailable.value && activeTab.value === 'ai') {
-
-
-            if (quickEdit) {
-
-                let val = quickEdit.aiChatForm.area.value;
-
-                if (val) {
-
-                    // quickEdit.aiChatForm.dispatch('formSubmit');
-                    // quickEdit.dispatch('formSubmit');
-
-                    await quickEdit.ai(val);
-
-                    // await generateSiteInfoWithAI(val)
-
-                    emit('form-submit-result', false);
-
-
-                    return false;
-
-                } else {
-                    emit('form-submit-result', true);
-                    return true;
-                }
-                // Prevent advancement when using AI - let AI completion handle it
-                // return false;
-            }
+    // Run AI site-info generation from the chatbox value (Enter or Send button).
+    const runGenerate = async (value) => {
+        value = (value || '').trim();
+        if (!value) {
+            emit('form-submit-result', true);
+            return true;
         }
-
-
+        emit('ai-request-start');
+        try { aiChatForm.disable(); } catch (e) {}
+        try {
+            await generateSiteInfoWithAI(value);
+        } finally {
+            try { aiChatForm.enable(); } catch (e) {}
+        }
+        emit('ai-request-end');
+        emit('form-submit-result', false);
+        return false;
     };
 
-    // Fallback to window event listener
+    aiChatForm.on('submit', (value) => { runGenerate(value); });
+    aiChatForm.on('areaValue', (value) => { aiPrompt.value = value; });
+
+    // The wizard "Next / Select Styles" button dispatches this to submit the AI form.
+    const handleWizardFormSubmit = async () => {
+        if (isAIAvailable.value && activeTab.value === 'ai') {
+            return await runGenerate(aiChatForm.area ? aiChatForm.area.value : '');
+        }
+    };
     window.addEventListener('setupWizard.triggerFormSubmit', handleWizardFormSubmit);
 
-    // Store reference for cleanup
-
-
     setTimeout(() => {
-    if(wizardAiChat.value) {
-        wizardAiChat.value.appendChild(quickEdit.editor());
-        wizardAiChat.value._wizardEventHandler = handleWizardFormSubmit;
-        emit('exposeQuickEdit', quickEdit);
-    }
-
-
-
+        if (wizardAiChat.value) {
+            wizardAiChat.value.appendChild(aiChatForm.form);
+            wizardAiChat.value._wizardEventHandler = handleWizardFormSubmit;
+            // Adapter kept compatible with the parent's getQuickEdit()
+            // (it sets .aiChatForm.area.value and calls .ai(prompt)).
+            emit('exposeQuickEdit', {
+                aiChatForm: aiChatForm,
+                ai: (p) => runGenerate(p)
+            });
+        }
     }, 300);
 
 

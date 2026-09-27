@@ -57,10 +57,11 @@ const AIChatFormCSS = `
      .mw-ai-chat-box-area{
         position:relative;
         display: block;
-        background: rgb(205 205 205);
-        border: none;
-        border-radius: 20px;
+        background: #ffffff;
+        border: 1px solid #d1d5db;
+        border-radius: 14px;
         padding-bottom: 1px;
+        transition: border-color .15s ease, box-shadow .15s ease;
      }
 
     html.dark .mw-ai-chat-box-area textareat::placeholder {
@@ -68,14 +69,18 @@ const AIChatFormCSS = `
         opacity: 0.5;
     }
     html.dark .mw-ai-chat-box-area{
-
-        background: rgba(var(--gray-700), var(--tw-bg-opacity, 1));
-
-
+        background: rgba(var(--gray-800), var(--tw-bg-opacity, 1));
+        border-color: rgba(var(--gray-600), var(--tw-bg-opacity, 1));
      }
 
+     /* Modern focus state — ink ring instead of the old (undefined) tw-ring vars. */
      .mw-ai-chat-box-area:has(.mw-ai-chat-box-area-field:focus){
-        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+        border-color: #182433;
+        box-shadow: 0 0 0 2px rgba(24, 36, 51, .15);
+     }
+     html.dark .mw-ai-chat-box-area:has(.mw-ai-chat-box-area-field:focus){
+        border-color: #6b7fa0;
+        box-shadow: 0 0 0 2px rgba(107, 127, 160, .25);
      }
 
 
