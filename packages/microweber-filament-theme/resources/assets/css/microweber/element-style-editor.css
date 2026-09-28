@@ -835,6 +835,18 @@
     border-radius: 4px !important;
 }
 
+/* The chip background is always dark here (ink accent in light mode,
+   --ese-surface-muted in dark mode), so the label + remove (×) must be white in
+   BOTH modes. The base .v3ti-tag-content ships `text-black` in light mode, which
+   rendered the class name dark-on-dark on the ink chip. Force white. */
+#mw-element-style-editor-app .v3ti-tag,
+#mw-element-style-editor-app .v3ti-tag-content,
+#mw-element-style-editor-app .v3ti-tag .v3ti-remove-tag,
+#mw-element-style-editor-app .v3ti-tag .v3ti-remove-tag svg {
+    color: #ffffff !important;
+    fill: currentColor;
+}
+
 /*
  * task-2026-05-16-1b5604 — ESE Slice 1.2 / AI-689 / F1.6 MwSlider
  * geometry. Spec §4.2 locks slider geometry at token level so the
