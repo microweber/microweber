@@ -1887,7 +1887,10 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 2px 2px 12px;
+    /* Reserve room on the right for the panel's absolutely-positioned close
+       (.mw-control-boxclose, ~44px from the panel edge) so the margin-left:auto
+       breadcrumb never renders underneath the ✕. */
+    padding: 2px 46px 12px 2px;
     margin-bottom: 10px;
     border-bottom: 1px solid var(--ese-border, #e6e6e2);
 }
