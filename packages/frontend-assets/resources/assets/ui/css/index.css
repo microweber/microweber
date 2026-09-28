@@ -1332,6 +1332,18 @@ html.dark, html.dark :root, .dark, .theme-dark, [data-theme="dark"] {
     body:has(#mw-live-edit-quickEditComponent-box.active) #live-edit-frame-holder {
         right: var(--sidebar-end-size);
     }
+
+    /* task-2026-09-28 — same shrink for the docked GUI editor panel (Style /
+       Layout / Template / element-style-editor = #mw-live-edit-gui-editor-box).
+       That panel opens --sidebar-end-size wide at the far right with the fixed
+       60px icon rail immediately to its LEFT, so the holder must clear
+       rail(60) + panel or the canvas keeps its full width and its vertical
+       scrollbar hides underneath the panel (no way to scroll the canvas while
+       the sidebar is open). Scoped via :has(...active) so it never fires for
+       the closed dock or centered modals. */
+    body:has(#mw-live-edit-gui-editor-box.active) #live-edit-frame-holder {
+        right: calc(var(--sidebar-end-size) + 60px);
+    }
 }
 
 @media (max-width: 767px) {
