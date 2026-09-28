@@ -81,69 +81,6 @@
 
 
 
-.tools-panel ul {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 8px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    list-style: none !important;
-}
-
-.tools-panel li {
-    width: 100% !important;
-}
-
-.tools-panel .mw-live-edit-advanced-settings-popup {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    width: 100% !important;
-    padding: 14px 16px !important;
-    border-radius: 10px !important;
-    background: var(--ese-surface, rgba(0,0,0,0.03)) !important;
-    border: 1px solid var(--ese-border, rgba(0,0,0,0.08)) !important;
-    color: var(--ese-text, #374151) !important;
-    text-decoration: none !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    cursor: pointer !important;
-    position: relative !important;
-    overflow: hidden !important;
-    min-height: 48px !important;
-}
-
-.tools-panel .mw-live-edit-advanced-settings-popup:hover {
-    background: var(--ese-surface-hover, rgba(0,0,0,0.05)) !important;
-    border-color: var(--ese-border-strong, rgba(0,0,0,0.12)) !important;
-    color: #1f2937 !important;
-}
-
-.dark .tools-panel .mw-live-edit-advanced-settings-popup:hover {
-    background: rgba(255, 255, 255, 0.08) !important;
-    border-color: rgba(255, 255, 255, 0.16) !important;
-    color: #ffffff !important;
-}
-
-.tools-panel .mw-live-edit-advanced-settings-popup svg {
-    width: 20px !important;
-    height: 20px !important;
-    margin-right: 12px !important;
-    fill: var(--ese-text-muted, #6b7280) !important;
-    flex-shrink: 0 !important;
-    transition: all 0.2s ease !important;
-}
-
-.tools-panel .mw-live-edit-advanced-settings-popup:hover svg {
-    fill: #374151 !important;
-    transform: scale(1.05) !important;
-}
-
-.dark .tools-panel .mw-live-edit-advanced-settings-popup:hover svg {
-    fill: #e5e7eb !important;
-}
-
 </style>
 
 
@@ -291,35 +228,13 @@
         </div>
 
 
-        <!-- task-2026-05-22-903d56 / AI-903: Teleport ToolsButtons into the Advanced right-rail panel -->
-        <Teleport to="#mw-advanced-panel-content" v-if="advancedPanelBoxCreated">
-            <div class="tools-panel">
-                <ToolsButtons template="menu"></ToolsButtons>
-            </div>
-        </Teleport>
-
-        <div style="margin-top:auto;">
-            <button type="button"
-                 :class="{'live-edit-right-sidebar-active': buttonIsActiveAdvanced }"
-                 class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-advanced mw-toolbar-icon-btn"
-                 aria-label="Advanced"
-                 title="Advanced"
-                 data-mw-label="More"
-                 :aria-pressed="buttonIsActiveAdvanced"
-                 v-on:click="handleAdvanced()"
-                 v-on:keydown.enter.prevent="handleAdvanced()"
-                 v-on:keydown.space.prevent="handleAdvanced()">
-                <v-tooltip activator="parent" location="start">
-                    <Lang>Advanced</Lang>
-                </v-tooltip>
-                <svg fill="#e8eaed" height="24px" viewBox="0 -960 960 960" width="24px"
-                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path
-                        d="M480-320q17 0 28.5-11.5T520-360q0-17-11.5-28.5T480-400q-17 0-28.5 11.5T440-360q0 17 11.5 28.5T480-320Zm-40-120h80v-200h-80v200ZM370-80l-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm40-320Z"/>
-                </svg>
-
-            </button>
-        </div>
+        <!-- task-2026-09-28 — the "More" (Advanced) right-rail button and its
+             teleported ToolsButtons panel were removed. Every action it exposed
+             (Setup wizard, Code editor, Reset content, Layers, Layout settings,
+             Clear cache) already lives in the toolbar 3-dots menu
+             (ToolbarToolsDropdown.vue), so the rail keeps only the primary
+             surfaces (Templates & layouts / Element styles / Quick AI edit /
+             context actions) and the 3-dots is the single overflow menu. -->
 
     </div>
 </template>
@@ -328,7 +243,6 @@
 <script>
 
 
-import ToolsButtons from "../RightSidebar/ToolsButtons.vue";
 import ToolbarMulilanguageSelector from "./ToolbarMulilanguageSelector.vue";
 import CurrentLayoutSettingsButtons from "../ContextMenu/CurrentLayoutSettingsButtons.vue";
 import CurrentContextMenu from "../ContextMenu/CurrentContextMenu.vue";
@@ -339,7 +253,6 @@ import CSSGUIService from "../../../api-core/services/services/css-gui.service.j
 
 export default {
     components: {
-        ToolsButtons,
         ToolbarMulilanguageSelector,
         CurrentContextMenu,
         CurrentNodeTextEditButton,
@@ -410,13 +323,6 @@ export default {
         },
         handleQuickEdit: function () {
             mw.app.liveEditWidgets.toggleQuickEditComponent()
-        },
-        handleAdvanced() {
-            // task-2026-05-22-903d56 / AI-903 — toggle right-rail panel (was popup)
-            // task-2026-09-05-adminrail — single-sidebar mutual exclusion:
-            // opening Advanced closes the admin drawer so the two don't stack.
-            mw.top().app.liveEditWidgets?.closeAdminSidebar();
-            mw.app.advancedPanelWidget?.toggle();
         },
         handleAdmin() {
             // task-2026-09-05-adminrail — toggle the Filament admin sidebar
@@ -636,25 +542,6 @@ export default {
         mw.top().app.canvas.on('liveEditCanvasLoaded', () => {
             this.canShowSettingsCustomize = !!mw.top().app.canvas.getLiveEditData()
         });
-
-        // task-2026-05-22-903d56 / AI-903: create Advanced right-rail panel (replaces popup)
-        if (!mw.app.advancedPanelWidget) {
-            mw.app.advancedPanelWidget = new (mw.top()).controlBox({
-                content: '<div id="mw-advanced-panel-content"></div>',
-                position: 'right',
-                id: 'mw-live-edit-advanced-panel-box',
-                closeButton: true,
-                title: mw.lang('Advanced'),
-                width: 'var(--sidebar-end-size)',
-            });
-        }
-        this.advancedPanelBoxCreated = true;
-        mw.app.advancedPanelWidget.on('show', () => {
-            this.buttonIsActiveAdvanced = true;
-        });
-        mw.app.advancedPanelWidget.on('hide', () => {
-            this.buttonIsActiveAdvanced = false;
-        });
     },
     data() {
 
@@ -666,8 +553,6 @@ export default {
             buttonIsActiveStyleEditor: false,
             buttonIsActiveQuickEdit: false,
             buttonIsActiveAdmin: false,      // task-2026-09-05-adminrail — admin sidebar open state
-            buttonIsActiveAdvanced: false,   // task-2026-05-22-903d56 / AI-903
-            advancedPanelBoxCreated: false,  // task-2026-05-22-903d56 / AI-903 — set true after controlBox created
             insertLayoutVisible: false,
             iconInsertlayout: mw.top().app?.iconService?.icon('add-layout'),
         }
