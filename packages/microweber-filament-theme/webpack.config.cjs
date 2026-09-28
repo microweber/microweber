@@ -18,7 +18,6 @@ module.exports = {
                 { from: path.resolve(__dirname, 'resources/assets/js/mw-media-browser.js'), to: outputPath },
                 { from: path.resolve(__dirname, 'resources/assets/js/filament-translatable.js'), to: outputPath },
                 { from: path.resolve(__dirname, 'resources/assets/js/mw-tree-component.js'), to: outputPath },
-                { from: path.resolve(__dirname, 'resources/assets/js/tiny-editor.js'), to: outputPath },
             ],
         }),
     ],
