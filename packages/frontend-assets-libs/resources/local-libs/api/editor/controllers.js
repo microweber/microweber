@@ -623,13 +623,13 @@ MWEditor.controllers = {
                         });
                 }, 100);
 
-                // task-2026-09-07-aitochat — the ⚡ text generator now routes the
-                // instruction through the Quick AI Edit CHAT about the SELECTED
-                // element, instead of the old external textcomplete endpoint.
-                // Flow (user-chosen): open the chat box (which builds the
-                // conversation), select the element so it's sent as "this"
-                // context, then send the instruction there — the reply streams in
-                // the box and the element is edited live.
+                // task-2026-09-29-rewrite — the ✦ Rewrite generator now makes a
+                // one-shot custom API call (POST api/ai/rewrite-text) and
+                // replaces the selected block's text INLINE, instead of opening
+                // the full Quick AI Edit chat panel. Opening the whole AI panel
+                // for a single "simplify / paraphrase / fix grammar" was
+                // heavyweight; this keeps the edit in place and persists via
+                // registerChangedState so the normal SAVE button ships it.
                 document.getElementById("ai-text-generator-submit").onclick =
                     function () {
                         var instruction = (document.getElementById(
@@ -637,40 +637,73 @@ MWEditor.controllers = {
                         ).value || "").trim();
                         if (!instruction) { return; }
 
-                        try { aiTextAutocompleteDialog.remove(); } catch (e) {}
+                        var originalText = (actionTarget && actionTarget.textContent)
+                            ? actionTarget.textContent : "";
+                        if (!actionTarget || !originalText.trim()) {
+                            try { aiTextAutocompleteDialog.remove(); } catch (e) {}
+                            try { mw.notification.warning(mw.lang("No text to rewrite.")); } catch (e) {}
+                            return;
+                        }
+
+                        var submitBtn = document.getElementById("ai-text-generator-submit");
+                        if (submitBtn) {
+                            submitBtn.disabled = true;
+                            submitBtn.classList.add("mw-ai-generating");
+                        }
+
+                        var siteUrl = (typeof mw !== "undefined" && mw.settings && mw.settings.site_url)
+                            ? mw.settings.site_url : "/";
+                        var headers = { "Content-Type": "application/json", "Accept": "application/json" };
                         try {
-                            if (mw.top().app.richTextEditor && mw.top().app.richTextEditor.smallEditor) {
-                                mw.top().app.richTextEditor.smallEditor.hide();
-                            }
+                            var csrf = mw.top().document.querySelector('meta[name="csrf-token"]')
+                                || document.querySelector('meta[name="csrf-token"]');
+                            if (csrf) { headers["X-CSRF-TOKEN"] = csrf.getAttribute("content"); }
                         } catch (e) {}
 
-                        // Select the element so capturedSelection() sends it as
-                        // the "this" context with the chat message.
-                        try {
-                            var handle = mw.top().app.liveEdit.handles.get("element");
-                            if (handle && actionTarget) { handle.set(actionTarget); }
-                            if (mw.top().app.liveEdit.selectNode && actionTarget) {
-                                mw.top().app.liveEdit.selectNode(actionTarget);
-                            }
-                        } catch (e) {}
-
-                        try {
-                            var widgets = mw.top().app.liveEditWidgets;
-                            if (widgets) {
-                                if (!widgets.status || !widgets.status.quickEditComponent) {
-                                    widgets.openQuickEditComponent();
+                        var finish = function () {
+                            try { aiTextAutocompleteDialog.remove(); } catch (e) {}
+                            try {
+                                if (mw.top().app.richTextEditor && mw.top().app.richTextEditor.smallEditor) {
+                                    mw.top().app.richTextEditor.smallEditor.hide();
                                 }
-                                // Let the box mount, then send in its conversation.
-                                setTimeout(function () {
+                            } catch (e) {}
+                        };
+
+                        fetch(siteUrl + "api/ai/rewrite-text", {
+                            method: "POST",
+                            headers: headers,
+                            credentials: "same-origin",
+                            body: JSON.stringify({ text: originalText, instruction: instruction })
+                        })
+                            .then(function (r) { return r.json(); })
+                            .then(function (res) {
+                                if (res && res.success && res.text) {
                                     try {
-                                        var conv = widgets.aiConversation;
-                                        if (conv && typeof conv.send === "function") {
-                                            conv.send(instruction);
+                                        // Record before/after on the .edit region so
+                                        // the rewrite is undoable, then persist.
+                                        var editRegion = (mw.tools && mw.tools.firstParentOrCurrentWithClass)
+                                            ? (mw.tools.firstParentOrCurrentWithClass(actionTarget, "edit") || actionTarget)
+                                            : actionTarget;
+                                        if (rootScope.state && rootScope.state.record) {
+                                            rootScope.state.record({ target: editRegion, value: editRegion.innerHTML });
                                         }
+                                        actionTarget.textContent = res.text;
+                                        if (rootScope.state && rootScope.state.record) {
+                                            rootScope.state.record({ target: editRegion, value: editRegion.innerHTML });
+                                        }
+                                        mw.top().app.registerChangedState(actionTarget);
                                     } catch (e) {}
-                                }, 80);
-                            }
-                        } catch (e) {}
+                                    try { mw.notification.success(mw.lang("Text rewritten")); } catch (e) {}
+                                } else {
+                                    var msg = (res && typeof res.message === "string")
+                                        ? res.message : mw.lang("Rewrite failed");
+                                    try { mw.notification.error(msg); } catch (e) {}
+                                }
+                            })
+                            .catch(function () {
+                                try { mw.notification.error(mw.lang("Rewrite failed")); } catch (e) {}
+                            })
+                            .then(finish);
                     };
             });
             return el;

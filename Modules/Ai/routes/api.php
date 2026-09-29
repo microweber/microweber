@@ -11,6 +11,11 @@ Route::middleware(['admin'])->group(function () {
     Route::post('api/ai/chat', [Modules\Ai\Http\Controllers\AiController::class, 'chat'])
         ->name('api.ai.chat');
 
+    // task-2026-09-29-rewrite — one-shot text rewrite for the Live Edit text
+    // toolbar's ✦ Rewrite (replaces text inline instead of opening the AI panel).
+    Route::post('api/ai/rewrite-text', [Modules\Ai\Http\Controllers\AiController::class, 'rewriteText'])
+        ->name('api.ai.rewrite-text');
+
     Route::post('api/ai/generateImage', [Modules\Ai\Http\Controllers\AiController::class, 'generateImage'])
         ->name('api.ai.generateImage');
 

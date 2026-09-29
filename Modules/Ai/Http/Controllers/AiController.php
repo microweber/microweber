@@ -143,6 +143,91 @@ class AiController extends Controller
     }
 
     /**
+     * Rewrite a piece of text according to an instruction.
+     *
+     * task-2026-09-29-rewrite — the Live Edit text toolbar's ✦ Rewrite used to
+     * open the full Quick-AI chat panel and stream the edit there. That is
+     * heavyweight for a one-shot "simplify / paraphrase / fix grammar" on a
+     * single block, so the toolbar now calls this dedicated endpoint and
+     * replaces the selected element's text inline. Returns ONLY the rewritten
+     * text (already normalized to a plain string) so the client can drop it
+     * straight into the element.
+     */
+    public function rewriteText(Request $request)
+    {
+        $rules = [
+            'text' => 'required|string|max:20000',
+            'instruction' => 'required|string|max:2000',
+        ];
+
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->toArray(),
+            ], 422);
+        }
+
+        $text = trim((string) $request->input('text'));
+        $instruction = trim((string) $request->input('instruction'));
+
+        if ($text === '') {
+            return response()->json([
+                'success' => false,
+                'message' => 'No text to rewrite',
+            ], 422);
+        }
+
+        $system = 'You are a text rewriting assistant embedded in a website editor. '
+            . 'Rewrite the text the user provides according to their instruction. '
+            . 'Return ONLY the rewritten text — no preamble, no surrounding quotes, '
+            . 'no markdown, no explanation. Preserve the original language of the text '
+            . 'and keep it roughly the same length unless the instruction asks otherwise.';
+
+        $messages = [
+            ['role' => 'system', 'content' => $system],
+            ['role' => 'user', 'content' => $instruction . "\n\nText:\n" . $text],
+        ];
+
+        try {
+            $response = Ai::sendToChat($messages, []);
+
+            // sendToChat returns string|array (array for function/tool calls).
+            if (is_array($response)) {
+                $response = $response['content'] ?? ($response['text'] ?? '');
+            }
+            $rewritten = is_string($response) ? trim($response) : '';
+
+            // Models sometimes wrap the whole reply in matching quotes — strip a
+            // single surrounding pair only (never touch inner apostrophes).
+            if (strlen($rewritten) >= 2) {
+                $first = $rewritten[0];
+                $last = $rewritten[strlen($rewritten) - 1];
+                if (($first === '"' && $last === '"') || ($first === "'" && $last === "'")) {
+                    $rewritten = trim(substr($rewritten, 1, -1));
+                }
+            }
+
+            if ($rewritten === '') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'The AI returned an empty response',
+                ], 502);
+            }
+
+            return response()->json([
+                'success' => true,
+                'text' => $rewritten,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
      * Chat with AI agent using persistent memory/history
      */
     public function agentChat(Request $request)
