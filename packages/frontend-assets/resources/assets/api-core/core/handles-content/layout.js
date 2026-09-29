@@ -403,11 +403,14 @@ export class LayoutHandleContent {
         });
     }
 
-    // task-2026-09-29-layoutmods — collect the direct-child, editable, accessible
-    // modules of a layout target (same shape the sidebar's
-    // CurrentLayoutSettingsButtons shows), so the ⋮ dropdown can list "the
-    // modules this layout contains". Runs against the canvas DOM element passed
-    // to the layout handle's targetChange.
+    // task-2026-09-29-layoutmods — collect the editable, accessible modules a
+    // layout contains so the ⋮ dropdown can list them. Uses the SAME detection
+    // as the Layout Settings modal (getTargets in layouts-module-settings.js):
+    // ALL descendant .module elements, not just direct children. The strict
+    // direct-child version missed modules in layouts that wrap them in an extra
+    // container (e.g. the site header, which lives OUTSIDE .edit) — the modal
+    // showed those modules but the handle did not. Matching the modal keeps the
+    // two surfaces consistent.
     getLayoutInnerModules(layoutElement) {
         const result = [];
         if (!layoutElement || !layoutElement.querySelectorAll) {
@@ -417,31 +420,8 @@ export class LayoutHandleContent {
         const all = layoutElement.querySelectorAll(
             '.module[data-type]:not([data-type=""]):not(.module-layouts)'
         );
+        const seen = new Set();
         all.forEach((moduleEl) => {
-            // Direct child only: bail if another module sits between this one
-            // and the layout (nested modules belong to their own parent).
-            let parent = moduleEl.parentElement;
-            let isDirect = false;
-            while (parent && parent !== layoutElement) {
-                if (
-                    parent.classList &&
-                    parent.classList.contains('module') &&
-                    parent.hasAttribute('data-type') &&
-                    parent.getAttribute('data-type') !== '' &&
-                    !parent.classList.contains('module-layouts')
-                ) {
-                    isDirect = false;
-                    break;
-                }
-                parent = parent.parentElement;
-            }
-            if (parent === layoutElement) {
-                isDirect = true;
-            }
-            if (!isDirect) {
-                return;
-            }
-
             // Skip inaccessible modules (same helper the rest of Live Edit uses).
             try {
                 const helpers = mw.top().app.liveEdit &&
@@ -457,6 +437,11 @@ export class LayoutHandleContent {
             if (!type || excluded.indexOf(type.toLowerCase()) !== -1) {
                 return;
             }
+
+            // De-dupe by element id so the same module can't appear twice.
+            const key = moduleEl.id || (type + '::' + result.length);
+            if (seen.has(key)) { return; }
+            seen.add(key);
 
             let title = type;
             let icon = '';
