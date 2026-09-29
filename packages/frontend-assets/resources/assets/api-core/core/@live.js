@@ -463,6 +463,11 @@ export class LiveEdit {
             this.layoutHandleContent.menu.setTarget(target);
             this.layoutHandleContent.menu.setTitle(title);
 
+            // task-2026-09-29-layoutmods — populate the ⋮ dropdown with the
+            // modules this layout contains (each opens its own settings), so the
+            // layout handle mirrors the sidebar's inner-module list.
+            this.layoutHandleContent.refreshInnerModules(target);
+
             if (scope.elementAnalyzer.isEditOrInEdit(target)) {
                 if (this.layoutHandleContent.plusTop) {
                     this.layoutHandleContent.plusTop.show();

@@ -350,6 +350,11 @@ export class LayoutHandleContent {
 
         const primaryNavigation = [];
 
+        // task-2026-09-29-layoutmods — keep a reference to the static action
+        // nodes so refreshInnerModules() can rebuild the ⋮ dropdown per target
+        // (static layout actions + the layout's live inner-module list).
+        this.dropdownNodes = dropdownNodes;
+
         const tail = [
             {
                 title: this.rootScope.lang('More'),
@@ -363,6 +368,10 @@ export class LayoutHandleContent {
                 ]
             }
         ];
+
+        // Keep a handle to the ⋮ "More" node so refreshInnerModules() can graft
+        // the inner-module group onto its submenu as the target layout changes.
+        this.tailNode = tail[0];
         this.menu = new HandleMenu({
             id: 'mw-handle-item-element-menu-layout',
             title: 'Module',
@@ -392,6 +401,127 @@ export class LayoutHandleContent {
                 }
             ],
         });
+    }
+
+    // task-2026-09-29-layoutmods — collect the direct-child, editable, accessible
+    // modules of a layout target (same shape the sidebar's
+    // CurrentLayoutSettingsButtons shows), so the ⋮ dropdown can list "the
+    // modules this layout contains". Runs against the canvas DOM element passed
+    // to the layout handle's targetChange.
+    getLayoutInnerModules(layoutElement) {
+        const result = [];
+        if (!layoutElement || !layoutElement.querySelectorAll) {
+            return result;
+        }
+        const excluded = ['layouts', 'layout', 'text', 'spacer', 'divider'];
+        const all = layoutElement.querySelectorAll(
+            '.module[data-type]:not([data-type=""]):not(.module-layouts)'
+        );
+        all.forEach((moduleEl) => {
+            // Direct child only: bail if another module sits between this one
+            // and the layout (nested modules belong to their own parent).
+            let parent = moduleEl.parentElement;
+            let isDirect = false;
+            while (parent && parent !== layoutElement) {
+                if (
+                    parent.classList &&
+                    parent.classList.contains('module') &&
+                    parent.hasAttribute('data-type') &&
+                    parent.getAttribute('data-type') !== '' &&
+                    !parent.classList.contains('module-layouts')
+                ) {
+                    isDirect = false;
+                    break;
+                }
+                parent = parent.parentElement;
+            }
+            if (parent === layoutElement) {
+                isDirect = true;
+            }
+            if (!isDirect) {
+                return;
+            }
+
+            // Skip inaccessible modules (same helper the rest of Live Edit uses).
+            try {
+                const helpers = mw.top().app.liveEdit &&
+                    mw.top().app.liveEdit.liveEditHelpers;
+                if (helpers && helpers.targetIsInacesibleModule &&
+                    helpers.targetIsInacesibleModule(moduleEl)) {
+                    return;
+                }
+            } catch (e) { /* non-fatal */ }
+
+            const type = moduleEl.getAttribute('data-type') ||
+                moduleEl.getAttribute('type');
+            if (!type || excluded.indexOf(type.toLowerCase()) !== -1) {
+                return;
+            }
+
+            let title = type;
+            let icon = '';
+            try {
+                const modules = mw.top().app.modules;
+                if (modules) {
+                    const info = modules.getModuleInfo(type);
+                    if (info && info.name) { title = info.name; }
+                    icon = modules.getModuleIcon(type) || '';
+                }
+            } catch (e) { /* registry not ready — fall back to type */ }
+
+            result.push({ element: moduleEl, type, title, icon });
+        });
+
+        return result.slice(0, 12);
+    }
+
+    // Build ⋮-dropdown menu nodes for the layout's inner modules. Each node
+    // captures its own module element and opens that module's settings
+    // (quick-settings-first, falling back to the main settings form).
+    buildInnerModuleNodes(layoutElement) {
+        const fallbackIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" height="24" width="24" fill="currentColor"><path d="M120-520v-320h320v320H120Zm0 400v-320h320v320H120Zm400-400v-320h320v320H520Zm0 400v-320h320v320H520Z"/></svg>';
+        return this.getLayoutInnerModules(layoutElement).map((mod) => {
+            const moduleEl = mod.element;
+            return {
+                title: mod.title,
+                titleVisible: true,
+                text: '',
+                icon: mod.icon || fallbackIcon,
+                className: 'mw-handle-layout-inner-module-button',
+                action: function () {
+                    try {
+                        if (moduleEl && moduleEl.scrollIntoView) {
+                            moduleEl.scrollIntoView({ block: 'center' });
+                        }
+                    } catch (e) { /* non-fatal */ }
+                    mw.app.editor.dispatch(
+                        'onModuleQuickSettingsOrMainSettingsRequest',
+                        moduleEl
+                    );
+                }
+            };
+        });
+    }
+
+    // Rebuild the ⋮ "More" dropdown for the current target: static layout
+    // actions first, then a grouped list of the modules this layout contains.
+    refreshInnerModules(target) {
+        if (!this.tailNode || !this.menu) {
+            return;
+        }
+        const moduleNodes = this.buildInnerModuleNodes(target);
+        const submenu = [
+            { name: 'layoutActions', nodes: this.dropdownNodes }
+        ];
+        if (moduleNodes.length) {
+            submenu.push({
+                name: 'layoutModules',
+                nodes: moduleNodes,
+                holder: true
+            });
+        }
+        this.tailNode.menu = submenu;
+        this.menu.setMenu('tail', [this.tailNode]);
     }
 
     positionButtons(target) {
