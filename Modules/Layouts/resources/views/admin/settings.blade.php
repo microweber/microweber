@@ -1,5 +1,14 @@
 <div>
+    {{-- task-2026-09-29-layoutmods — this settings view is injected into the
+         Live Edit mw-dialog via a Livewire morph, and morphdom does NOT execute
+         injected <script src> tags — so window.layoutSettings was left undefined,
+         the x-data factory threw, and the whole tab (background UI + the
+         "This layout contains these modules" list) rendered empty. Wrap the
+         factory script in Livewire's @assets so it loads once at page level and
+         actually runs (same fix as mw-file-upload.blade.php). --}}
+    @assets
     <script src="{{ asset('modules/layouts/js/layouts-module-settings.js') }}"></script>
+    @endassets
     <div
         x-data="layoutSettings('image', '{{ $optionGroup }}')"
     >
