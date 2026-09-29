@@ -499,10 +499,14 @@ export class LayoutHandleContent {
             { name: 'layoutActions', nodes: this.dropdownNodes }
         ];
         if (moduleNodes.length) {
+            // NB: do NOT wrap these in a `holder: true` group. handles.scss hides
+            // every `.mw-le-handle-menu-button-holder` inside the layout handle for
+            // header/footer layouts ([data-header-footer="true"]), which silently
+            // hid the modules there. Adding them as plain nodes keeps them visible
+            // on header/footer too (they render like the always-visible Settings).
             submenu.push({
                 name: 'layoutModules',
-                nodes: moduleNodes,
-                holder: true
+                nodes: moduleNodes
             });
         }
         this.tailNode.menu = submenu;
