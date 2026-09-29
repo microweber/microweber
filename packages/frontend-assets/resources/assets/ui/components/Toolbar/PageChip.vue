@@ -225,6 +225,7 @@ export default {
             _outsideHandler: null,
             _keyHandler: null,
             _resizeHandler: null,
+            _canvasClickHandler: null,
             _mqList: null,
             _mqHandler: null,
         };
@@ -583,6 +584,19 @@ export default {
         window.addEventListener('keydown', this._keyHandler);
         window.addEventListener('resize', this._resizeHandler);
 
+        // task-2026-09-29-pchipcanvasclose — the document-level outside-click
+        // handler above never fires for clicks INSIDE the canvas iframe (a
+        // separate document), so clicking the page content left the popover
+        // stuck open. Close it on the framework's canvasDocumentClick event,
+        // which is re-bound across canvas reloads (same hook ToolbarToolsDropdown
+        // uses). Guarded — canvas may not exist yet in some mount orders.
+        this._canvasClickHandler = () => { if (this.isOpen) this.close(); };
+        try {
+            if (window.mw && mw.app && mw.app.canvas && typeof mw.app.canvas.on === 'function') {
+                mw.app.canvas.on('canvasDocumentClick', this._canvasClickHandler);
+            }
+        } catch (_) { /* no-op */ }
+
         // task-2026-05-30-pchip01 — track viewport via matchMedia so the
         // Teleport flips synchronously when the user rotates or resizes
         // across the 768px breakpoint. Mirrors live-edit-mobile.css.
@@ -629,6 +643,9 @@ export default {
         if (this._keyHandler) window.removeEventListener('keydown', this._keyHandler);
         if (this._resizeHandler) window.removeEventListener('resize', this._resizeHandler);
         if (this._openVerbHandler) window.removeEventListener('mwOpenPageChip', this._openVerbHandler);
+        if (this._canvasClickHandler) {
+            try { mw.app.canvas.off('canvasDocumentClick', this._canvasClickHandler); } catch (_) { /* no-op */ }
+        }
         if (this._mqList && this._mqHandler) {
             if (this._mqList.removeEventListener) {
                 this._mqList.removeEventListener('change', this._mqHandler);
@@ -645,6 +662,9 @@ export default {
         if (this._keyHandler) window.removeEventListener('keydown', this._keyHandler);
         if (this._resizeHandler) window.removeEventListener('resize', this._resizeHandler);
         if (this._openVerbHandler) window.removeEventListener('mwOpenPageChip', this._openVerbHandler);
+        if (this._canvasClickHandler) {
+            try { mw.app.canvas.off('canvasDocumentClick', this._canvasClickHandler); } catch (_) { /* no-op */ }
+        }
         if (this._mqList && this._mqHandler) {
             if (this._mqList.removeEventListener) {
                 this._mqList.removeEventListener('change', this._mqHandler);
