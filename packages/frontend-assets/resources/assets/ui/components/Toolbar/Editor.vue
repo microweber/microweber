@@ -140,6 +140,15 @@ export default {
             })
 
             mw.app.editor.on('editNodeStyleRequest', async (element) => {
+                // task-2026-09-29-esetarget — the droplet on the element handle
+                // dispatches this with the element to style. Previously the arg
+                // was ignored and only the panel was shown, so the ESE kept the
+                // node it had cached from a previous open (e.g. the Logo) instead
+                // of the just-inserted/selected element. Point the ESE at THIS
+                // element before showing it.
+                if (element) {
+                    try { mw.top().app.dispatch('mw.elementStyleEditor.selectNode', element); } catch (e) { /* non-fatal */ }
+                }
                 CSSGUIService.show()
             });
 
