@@ -1563,6 +1563,17 @@ html.dark .fa.fa-trash {
     .absolute.top-6 {
         @apply !top-[1.1rem];
     }
+
+    /* task-2026-09-29-modalx — Filament v4 renamed the modal/slide-over close
+       button to .fi-modal-close-btn (the old .absolute.top-6 override above no
+       longer matches it). The touch-target min-height:44px override makes the
+       44px button's fixed top (~20px) sit well below the heading in this
+       compact 10px-padded header (heading centred ~24px, button centred ~42px).
+       Pin its top so the 44px box centres on the heading — the whole theme uses
+       this compact header, so this aligns the X everywhere. */
+    .fi-modal-close-btn {
+        top: 2px !important;
+    }
 }
 
 .fi-modal-header .fi-modal-heading {
