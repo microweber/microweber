@@ -52,8 +52,14 @@ class MWSiteMobileMenuService {
     }
 
     buildMobileMenu(targetMenu) {
+        // Remove the previous clone + overlay so a rebuild (e.g. after a Live
+        // Edit menu change) never stacks duplicate popups/overlays.
         if (this.currentMenu) {
             this.currentMenu.remove();
+        }
+        if (this.$overlay) {
+            this.$overlay.remove();
+            this.$overlay = null;
         }
         var ul = document.createElement("ul");
         if (ul && targetMenu.querySelector("ul")) {
@@ -67,6 +73,7 @@ class MWSiteMobileMenuService {
             this.$block = block;
             const ovl = document.createElement("div");
             ovl.className = "mw-vhmbgr-active-overlay";
+            this.$overlay = ovl;
             block.className = this.settings.popupTemplate;
             this.currentMenu = block;
 
@@ -79,6 +86,17 @@ class MWSiteMobileMenuService {
             block.append(ul);
             document.body.append(ovl);
             document.body.append(block);
+        }
+    }
+
+    // Rebuild the cloned popup from the CURRENT menu DOM. The popup is a
+    // one-time clone of the menu's inner HTML; when Live Edit reloads the menu
+    // module (add / rename / reorder / delete items) the original updates but
+    // this clone would stay stale. Re-cloning here keeps the ☰ dropdown in sync.
+    reInit() {
+        const nav = document.querySelector(".mw-vhmbgr--navigation");
+        if (nav) {
+            this.buildMobileMenu(nav);
         }
     }
 
@@ -148,6 +166,15 @@ class MWSiteMobileMenuService {
                 e.stopPropagation();
             });
         });
+
+        // Live Edit: rebuild the cloned ☰ popup whenever a menu module is
+        // reloaded (module-settings dispatches this on the canvas window). The
+        // .mw-vhmbgr--navigation wrapper + hamburger button persist across the
+        // reload; only the inner menu <ul> changes, so re-cloning is enough.
+        if (!this._reInitBound) {
+            this._reInitBound = () => this.reInit();
+            window.addEventListener("mw-mobile-menu-reinit", this._reInitBound);
+        }
     }
 }
 

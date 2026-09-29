@@ -21,11 +21,23 @@ export class ModuleSettings extends MicroweberBaseClass {
 
             var el = mw.app.canvas.getWindow().$('#' + $data.moduleId)[0];
             var el2 = mw.app.canvas.getWindow().$('[data-module-id-from-preset="' + $data.moduleId + '"]')[0];
+            // task-2026-09-29-menuclone — the mobile ☰ dropdown is a one-time
+            // JS clone of the menu (MWSiteMobileMenu). After a menu reload it
+            // would stay stale, so signal the canvas to rebuild it.
+            var _isMenu = el && (el.getAttribute('data-type') === 'menu' || el.getAttribute('type') === 'menu');
+            var _reinitMobileMenu = function () {
+                if (!_isMenu) { return; }
+                try {
+                    var cwin = mw.app.canvas.getWindow();
+                    cwin.dispatchEvent(new cwin.Event('mw-mobile-menu-reinit'));
+                } catch (e) { /* non-fatal */ }
+            };
             if (el !== null) {
                 mw.app.registerChangedState(el);
                 mw.app.canvas.getWindow().mw.reload_module('#' + $data.moduleId,function () {
                  //  onModuleReloaded is moved to api.js
                     //   mw.app.dispatch('onModuleReloaded', $data.moduleId);
+                    _reinitMobileMenu();
                 });
             }
 
