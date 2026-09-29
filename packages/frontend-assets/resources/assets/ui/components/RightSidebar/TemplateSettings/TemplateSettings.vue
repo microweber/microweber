@@ -13,9 +13,8 @@
               v-for) — AI-712a follow-up candidate: convert to
               MwField rows with trailing MwToolButton chevron once
               AI-687 (ESE 1.4 MwField primitive) ships.
-           3. AI Assistant (FieldAiChangeDesign) — AI-712a follow-up
-              candidate: collapse to a single MwField with inline
-              send icon once AI-687 ships.
+           (task-2026-09-29 — the AI Assistant box (FieldAiChangeDesign)
+           was removed from this panel per user request.)
          Section headers visually unified via
          .mw-template-settings-section-header consuming
          --font-label / --weight-label / --letter-label /
@@ -231,10 +230,6 @@
                 </div>
             </div>
 
-
-            <!-- AI Design Button -->
-            <FieldAiChangeDesign v-if="hasStyleSettings && !isSingleSettingMode" :is-ai-available="isAIAvailable"
-                                 @batch-update="handleBatchUpdate"/>
         </div>
     </div>
 
@@ -255,7 +250,6 @@ import axios from 'axios';
 import ColorPicker from '../../../apps/ElementStyleEditor/components/ColorPicker.vue';
 import NestedSettingsItem from './NestedSettingsItem.vue';
 import FieldRangeSlider from './TemplateSettingsFields/FieldRangeSlider.vue';
-import FieldAiChangeDesign from './TemplateSettingsFields/FieldAiChangeDesign.vue';
 import FieldSettingsGroups from './TemplateSettingsFields/FieldSettingsGroups.vue';
 import FieldBackButton from './TemplateSettingsFields/FieldBackButton.vue';
 import {reactive} from 'vue';
@@ -265,7 +259,6 @@ export default {
         ColorPicker,
         NestedSettingsItem,
         FieldRangeSlider,
-        FieldAiChangeDesign,
         FieldSettingsGroups,
         FieldBackButton
     },
