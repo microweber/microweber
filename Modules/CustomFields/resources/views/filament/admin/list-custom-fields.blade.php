@@ -57,8 +57,34 @@
                 });
             };
 
+            // task-2026-09-30-cflines — remove ALL the divider lines from the
+            // custom-fields table (header band, column-header row, and every body
+            // row/cell). The theme draws these with high-specificity !important
+            // rules (e.g. body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell)
+            // .fi-ta-header-cell), which a scoped stylesheet rule can't reliably
+            // out-specify — so set the borders inline (inline !important always
+            // wins) and re-apply after every Livewire re-render. Scoped to the
+            // wrapper so no other admin table is touched.
+            var LINE_SEL = [
+                '.fi-ta-header-ctn',
+                '.fi-ta-table thead', '.fi-ta-table thead tr', '.fi-ta-table thead th',
+                '.fi-ta-table tbody', '.fi-ta-table tbody tr', '.fi-ta-table .fi-ta-row',
+                '.fi-ta-table td', '.fi-ta-table th', '.fi-ta-table .fi-ta-cell',
+                '.fi-ta-header-cell', '.fi-ta-table-stacked-header-cell',
+                '.fi-ta-actions-header-cell', '.fi-ta-selection-cell', '.fi-ta-selection-header-cell'
+            ].join(',');
+            var stripBorders = function (wrap) {
+                wrap.querySelectorAll(LINE_SEL).forEach(function (el) {
+                    el.style.setProperty('border-top', '0', 'important');
+                    el.style.setProperty('border-bottom', '0', 'important');
+                });
+            };
+
             var scan = function () {
-                document.querySelectorAll('.cf-custom-fields-table-wrap').forEach(bind);
+                document.querySelectorAll('.cf-custom-fields-table-wrap').forEach(function (wrap) {
+                    bind(wrap);
+                    stripBorders(wrap);
+                });
             };
 
             // Initial bind + re-bind after Livewire re-renders the table (reorder,
