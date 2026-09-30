@@ -283,7 +283,22 @@ export class LiveEditWidgetsService extends BaseComponent{
             _contentId = (_led && _led.content && _led.content.id) ? _led.content.id : 0;
         } catch (_) {}
 
-        this.aiConversation = new MwAiConversation({ contentId: _contentId });
+        // task-2026-09-30-aiglobal — the AI chat is a GLOBAL singleton: created
+        // once and reused across every open/close of the sidebar, so the chat
+        // thread, the text being typed, queued/streaming turns and attached
+        // reference images all survive closing the panel (previously a fresh
+        // MwAiConversation was built on every open, losing everything). Its root
+        // DOM node is simply re-appended to the new box below — moving a node
+        // preserves its state. On first creation only, restore the last chat from
+        // the server so it also survives a full page reload.
+        if (!this.aiConversation) {
+            this.aiConversation = new MwAiConversation({ contentId: _contentId });
+            try { this.aiConversation.restoreSession && this.aiConversation.restoreSession(); } catch (e) {}
+        } else {
+            // Reused instance — keep its live state, just refresh the content id
+            // context in case the canvas navigated to another page.
+            try { this.aiConversation.settings.contentId = _contentId; } catch (e) {}
+        }
 
         const modeBar = ElementManager(`
             <div class="mw-ai-quick-modes flex gap-2 mb-3">
