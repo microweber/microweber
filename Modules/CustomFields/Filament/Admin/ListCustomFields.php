@@ -312,7 +312,26 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable, Has
 
             ->columns([
 
-
+                // task-2026-09-30-cfreorder — always-visible drag handle so the
+                // custom fields can be reordered by dragging WITHOUT first
+                // toggling Filament's "Reorder records" mode (which hides the
+                // Edit/Delete actions). The handle is wired to Livewire's
+                // reorderTable() by SortableJS in the view; the record id is read
+                // from each row's wire:key. reorderable('position') stays enabled
+                // so reorderTable() is allowed.
+                // A plain text drag glyph (⠿) — NOT ->html(), because Filament's
+                // HTML sanitiser strips inline <svg>, which collapsed the cell to
+                // 0px. The handle class goes on the CELL via extraAttributes so
+                // SortableJS (view) can use it as the drag handle.
+                TextColumn::make('__cf_reorder_handle')
+                    ->label('')
+                    ->grow(false)
+                    ->state('⠿')
+                    ->extraAttributes([
+                        'class' => 'cf-reorder-handle',
+                        'title' => __('Drag to reorder'),
+                        'style' => 'cursor:grab;color:#9ca3af;font-size:20px;line-height:1;user-select:none;touch-action:none;text-align:center;',
+                    ]),
 
                     IconColumn::make('type')
                         ->action( EditAction::make('custom-field-edit'))
