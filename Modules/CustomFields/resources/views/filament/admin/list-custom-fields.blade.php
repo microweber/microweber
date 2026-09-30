@@ -38,6 +38,11 @@
                     handle: '.cf-reorder-handle',
                     draggable: 'tr',
                     animation: 150,
+                    // Use the mouse/pointer fallback instead of native HTML5 DnD:
+                    // more reliable on touch devices and inside the Live-Edit
+                    // modal (native DnD misbehaves with Livewire-managed rows).
+                    forceFallback: true,
+                    fallbackTolerance: 3,
                     onEnd: function () {
                         var ids = Array.prototype.slice.call(tbody.querySelectorAll('tr'))
                             .map(recordIdFromRow)
