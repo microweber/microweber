@@ -24,13 +24,29 @@
                 return m ? m[1] : null;
             };
 
+            // Stamp each row with a clean, stable data-cf-id (the record id) so the
+            // reorder reads from an attribute we own rather than re-parsing wire:key
+            // at drop time. Re-stamped on every scan, so rows added via "Add custom
+            // field" get tagged too. SortableJS reads this via dataIdAttr/toArray().
+            var tagRows = function (wrap) {
+                var tbody = wrap.querySelector('.fi-ta-table tbody');
+                if (!tbody) { return; }
+                Array.prototype.forEach.call(tbody.querySelectorAll('tr'), function (tr) {
+                    var rid = recordIdFromRow(tr);
+                    if (rid !== null) { tr.setAttribute('data-cf-id', rid); }
+                });
+            };
+
             var bind = function (wrap) {
                 if (!wrap || !window.Sortable) { return; }
                 var tbody = wrap.querySelector('.fi-ta-table tbody');
                 if (!tbody || !tbody.querySelector('.cf-reorder-handle')) { return; }
-                // Re-bind if Livewire replaced the tbody element.
-                if (tbody.__cfSortable && tbody.__cfSortable.el === tbody) { return; }
-                if (tbody.__cfSortable) { try { tbody.__cfSortable.destroy(); } catch (e) {} }
+
+                // Always rebuild the Sortable after a (re)render — a stale instance
+                // left over from before an add/delete/reorder can desync from the
+                // morphed rows and silently stop working (e.g. reorder not working
+                // after creating a new field). Destroy + recreate keeps it in sync.
+                if (tbody.__cfSortable) { try { tbody.__cfSortable.destroy(); } catch (e) {} tbody.__cfSortable = null; }
 
                 var component = wrap.closest('[wire\\:id]');
 
@@ -38,30 +54,25 @@
                     handle: '.cf-reorder-handle',
                     draggable: 'tr',
                     animation: 150,
+                    // Read row order from our own data-cf-id (via toArray) — robust
+                    // against wire:key churn and the fallback clone's attributes.
+                    dataIdAttr: 'data-cf-id',
                     // Use the mouse/pointer fallback instead of native HTML5 DnD:
                     // more reliable on touch devices and inside the Live-Edit
                     // modal (native DnD misbehaves with Livewire-managed rows).
                     forceFallback: true,
                     fallbackTolerance: 3,
                     onEnd: function () {
-                        // Build the new id order from the real record rows only —
-                        // skip SortableJS's ghost/clone/chosen helper rows (they can
-                        // carry a duplicated or missing wire:key) and de-duplicate,
-                        // so reorderTable never receives an empty/garbage array (which
-                        // builds invalid `case end ... 0 = 1` SQL and 500s).
+                        // SortableJS's own view of the order (data-cf-id of each row
+                        // in its current position). De-dupe + drop blanks so
+                        // reorderTable never gets an empty/garbage array (which built
+                        // invalid `case end ... 0 = 1` SQL and 500'd).
                         var seen = {};
-                        var ids = Array.prototype.slice.call(tbody.querySelectorAll('tr'))
-                            .filter(function (tr) {
-                                return !tr.classList.contains('sortable-ghost')
-                                    && !tr.classList.contains('sortable-fallback')
-                                    && !tr.classList.contains('sortable-chosen');
-                            })
-                            .map(recordIdFromRow)
-                            .filter(function (v) {
-                                if (v === null || v === '' || seen[v]) { return false; }
-                                seen[v] = true;
-                                return true;
-                            });
+                        var ids = (this.toArray() || []).filter(function (v) {
+                            if (!v || seen[v]) { return false; }
+                            seen[v] = true;
+                            return true;
+                        });
                         if (ids.length < 2) { return; }
                         var id = component ? component.getAttribute('wire:id') : null;
                         if (id && window.Livewire) {
@@ -97,6 +108,7 @@
 
             var scan = function () {
                 document.querySelectorAll('.cf-custom-fields-table-wrap').forEach(function (wrap) {
+                    tagRows(wrap);
                     bind(wrap);
                     stripBorders(wrap);
                 });
