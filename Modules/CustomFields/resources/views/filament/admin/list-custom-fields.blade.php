@@ -44,10 +44,25 @@
                     forceFallback: true,
                     fallbackTolerance: 3,
                     onEnd: function () {
+                        // Build the new id order from the real record rows only —
+                        // skip SortableJS's ghost/clone/chosen helper rows (they can
+                        // carry a duplicated or missing wire:key) and de-duplicate,
+                        // so reorderTable never receives an empty/garbage array (which
+                        // builds invalid `case end ... 0 = 1` SQL and 500s).
+                        var seen = {};
                         var ids = Array.prototype.slice.call(tbody.querySelectorAll('tr'))
+                            .filter(function (tr) {
+                                return !tr.classList.contains('sortable-ghost')
+                                    && !tr.classList.contains('sortable-fallback')
+                                    && !tr.classList.contains('sortable-chosen');
+                            })
                             .map(recordIdFromRow)
-                            .filter(function (v) { return v !== null; });
-                        if (!ids.length) { return; }
+                            .filter(function (v) {
+                                if (v === null || v === '' || seen[v]) { return false; }
+                                seen[v] = true;
+                                return true;
+                            });
+                        if (ids.length < 2) { return; }
                         var id = component ? component.getAttribute('wire:id') : null;
                         if (id && window.Livewire) {
                             var c = window.Livewire.find(id);

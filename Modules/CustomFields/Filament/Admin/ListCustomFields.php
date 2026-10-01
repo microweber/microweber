@@ -39,9 +39,32 @@ use Modules\CustomFields\Models\CustomField;
 
 class ListCustomFields extends AdminComponent implements HasForms, HasTable, HasActions
 {
-    use InteractsWithTable;
+    use InteractsWithTable {
+        reorderTable as protected baseReorderTable;
+    }
     use InteractsWithForms;
     use InteractsWithActions;
+
+    // task-2026-10-01-cfreorderguard — harden reorderTable against an empty /
+    // malformed order array. The custom-fields drag-reorder calls reorderTable
+    // with the new id order; if the client ever sends an empty (or all-null)
+    // array, Filament's base method builds broken SQL —
+    // `set "position" = case end ... where ... and 0 = 1` — which throws
+    // SQLSTATE[HY000] syntax error. Filter to real ids and bail when there is
+    // nothing meaningful to reorder, so the DB update never runs with no rows.
+    public function reorderTable(array $order, int | string | null $draggedRecordKey = null): void
+    {
+        $order = array_values(array_filter(
+            $order,
+            fn ($v) => $v !== null && $v !== '' && $v !== 0 && $v !== '0'
+        ));
+
+        if (count($order) < 2) {
+            return;
+        }
+
+        $this->baseReorderTable($order, $draggedRecordKey);
+    }
 
     public $relType = '';
     public $relId = '';
