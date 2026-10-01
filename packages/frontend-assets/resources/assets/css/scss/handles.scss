@@ -118,6 +118,43 @@ $handleholderHeight: 56;
     }
 }
 
+/* task-2026-10-01-layoutcorner — "compact" layout handle: when a child of the
+   layout is selected (you're editing the layout), the ⋮/settings cluster stays
+   put in the layout's top-right corner (the holder is already pinned there) but
+   shrinks to a small badge so it doesn't compete with the element/module handle.
+   Scale the inner menu (not the holder) so the holder keeps its JS-driven
+   scroll-follow transform. */
+/* task-2026-10-01-layoutcorner — "compact" layout handle: when a child of the
+   layout is selected (you're editing the layout) the ⋮/settings cluster stays in
+   the layout's top-right corner (the holder is already pinned there) but shrinks
+   to a small badge so it doesn't compete with the element/module handle. We
+   shrink the button box sizes (not transform: scale — the holder sits in a
+   context where transform is ignored, and crisp small buttons beat a blurry
+   scale anyway). */
+.mw-handle-item.mw-layout-handle-compact #mw-handle-item-layout-root {
+    .mw-handle-item-menus-holder {
+        opacity: 0.92;
+        transition: opacity .12s ease;
+    }
+    .mw-handle-item-menus-holder:hover {
+        opacity: 1;
+    }
+    .mw-le-handle-menu-button {
+        width: 24px !important;
+        height: 24px !important;
+        min-width: 24px !important;
+        font-size: 12px !important;
+        margin: 0 1px !important;
+    }
+    .mw-le-handle-menu-button svg {
+        width: 14px !important;
+        height: 14px !important;
+    }
+    .mw-le-handle-menu-button-content-title {
+        font-size: 10px !important;
+    }
+}
+
 .mw-handle-item {
 
     .mw-handle-item-menus-holder, .mw-le-handle-menu-button-sub-menu{

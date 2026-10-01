@@ -1061,10 +1061,36 @@ export class LiveEdit {
                 }
 
                 if (!layoutHasSelectedTarget) {
+                    // Hovering the layout itself (no child selected) — full handle.
                     this.handles.set("layout", layout);
+                    try {
+                        this.handles.get("layout").wrapper.removeClass("mw-layout-handle-compact");
+                        this.layoutHandleContent.positionButtons(layout);
+                    } catch (e) {}
                 } else {
-                    this.handles.set("layout", null);
-                    this.handles.get("layout").hide();
+                    // A child element/module of this layout is selected.
+                    // task-2026-10-01-layoutcorner — keep the layout controls
+                    // reachable while "editing the layout": instead of hiding them,
+                    // shrink the ⋮/settings cluster into the layout's top-right
+                    // corner (compact mode) and drop the big "ADD LAYOUT" bars. BUT
+                    // when TEXT is being edited (a contenteditable region is active)
+                    // hide them entirely so they never cover the rich-text toolbar.
+                    var _isTextEditing = false;
+                    try { _isTextEditing = !!(this.document && this.document.querySelector('[contenteditable="true"]')); } catch (e) {}
+                    if (_isTextEditing) {
+                        this.handles.set("layout", null);
+                        this.handles.get("layout").hide();
+                        try {
+                            this.handles.get("layout").wrapper.removeClass("mw-layout-handle-compact");
+                            this.layoutHandleContent.positionButtons(null);
+                        } catch (e) {}
+                    } else {
+                        this.handles.set("layout", layout);
+                        try {
+                            this.handles.get("layout").wrapper.addClass("mw-layout-handle-compact");
+                            this.layoutHandleContent.positionButtons(null);
+                        } catch (e) {}
+                    }
                 }
             }
 
