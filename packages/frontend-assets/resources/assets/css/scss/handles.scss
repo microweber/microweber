@@ -118,40 +118,56 @@ $handleholderHeight: 56;
     }
 }
 
-/* task-2026-10-01-layoutcorner — "compact" layout handle: when a child of the
-   layout is selected (you're editing the layout), the ⋮/settings cluster stays
-   put in the layout's top-right corner (the holder is already pinned there) but
-   shrinks to a small badge so it doesn't compete with the element/module handle.
-   Scale the inner menu (not the holder) so the holder keeps its JS-driven
-   scroll-follow transform. */
-/* task-2026-10-01-layoutcorner — "compact" layout handle: when a child of the
-   layout is selected (you're editing the layout) the ⋮/settings cluster stays in
-   the layout's top-right corner (the holder is already pinned there) but shrinks
-   to a small badge so it doesn't compete with the element/module handle. We
-   shrink the button box sizes (not transform: scale — the holder sits in a
-   context where transform is ignored, and crisp small buttons beat a blurry
-   scale anyway). */
+/* task-2026-10-01-layoutcorner — compact layout handle. When a child of the
+   layout is selected (you're editing the layout) the ⋮/settings cluster stays
+   pinned in the layout's top-right corner (the holder is already anchored there)
+   and collapses to a small ICON-ONLY pill so it doesn't compete with the
+   element/module handle. (Full handle on hover; hidden entirely while editing
+   text.) We shrink box sizes + drop the text labels rather than transform:scale
+   — the holder sits in a context where transform is ignored, and crisp small
+   icons beat a blurry scale. */
 .mw-handle-item.mw-layout-handle-compact #mw-handle-item-layout-root {
     .mw-handle-item-menus-holder {
+        padding: 3px !important;
+        border-radius: 9px;
+        gap: 1px;
         opacity: 0.92;
-        transition: opacity .12s ease;
+        transition: opacity .12s ease, box-shadow .12s ease;
     }
     .mw-handle-item-menus-holder:hover {
         opacity: 1;
     }
-    .mw-le-handle-menu-button {
-        width: 24px !important;
-        height: 24px !important;
-        min-width: 24px !important;
-        font-size: 12px !important;
-        margin: 0 1px !important;
-    }
-    .mw-le-handle-menu-button svg {
-        width: 14px !important;
-        height: 14px !important;
-    }
+
+    /* Icon-only: the inline "Add layout" / "More" text labels overlapped badly
+       at this size — hide them and keep just the glyphs. */
     .mw-le-handle-menu-button-content-title {
-        font-size: 10px !important;
+        display: none !important;
+    }
+
+    .mw-le-handle-menu-button {
+        width: 26px !important;
+        height: 26px !important;
+        min-width: 26px !important;
+        margin: 0 1px !important;
+        padding: 0 !important;
+        border-radius: 6px !important;
+        font-size: 12px !important;
+    }
+
+    /* The "Add layout" button is normally a wide text pill — square it off so it
+       matches the other icon buttons in compact mode. */
+    .mw-le-handle-menu-button.mw-handle-button-wide {
+        display: inline-flex !important;
+        width: 26px !important;
+        height: 26px !important;
+        border: 0 !important;
+        text-align: center !important;
+        justify-content: center !important;
+    }
+
+    .mw-le-handle-menu-button svg {
+        width: 15px !important;
+        height: 15px !important;
     }
 }
 
