@@ -79,6 +79,9 @@ class CustomerResource extends Resource
                     ->preload()
                     ->reactive()
                     ->searchable()
+                    // Default to the currently logged-in user so the field is
+                    // pre-filled on create; still required (no empty submit).
+                    ->default(fn () => auth()->id())
                     ->required(),
 Forms\Components\Select::make('company_id')
 ->label('Company')
