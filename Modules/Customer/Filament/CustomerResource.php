@@ -73,6 +73,7 @@ class CustomerResource extends Resource
                 Forms\Components\Toggle::make('active')
                     ->label('Active')
                     ->required()
+                    ->default(true)
                     ->inline(false),
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'username')
@@ -188,36 +189,33 @@ Forms\Components\Select::make('company_id')
                             ->modalWidth('lg')
                             ->slideOver();
                     }),
-                \Filament\Schemas\Components\Section::make('Segmentation')
-                    ->description('Manage customer tags and segments')
-                    ->collapsible()
-                    ->columnSpanFull()
-                    ->schema([
-                        Forms\Components\Select::make('tags')
-                            ->label('Tags')
-                            ->multiple()
-                            ->relationship('tags', 'name')
-                            ->preload()
-                            ->searchable()
-                            ->createOptionForm([
-                                Forms\Components\TextInput::make('name')
-                                    ->required()
-                                    ->maxLength(255),
-                                Forms\Components\TextInput::make('slug')
-                                    ->maxLength(255)
-                                    ->helperText('Leave empty to auto-generate from name'),
-                                Forms\Components\Textarea::make('description')
-                                    ->maxLength(65535),
-                            ])
-                            ->createOptionAction(function ($action) {
-                                return $action
-                                    ->modalHeading('Create Tag')
-                                    ->modalSubmitActionLabel('Create Tag')
-                                    ->modalWidth('lg')
-                                    ->slideOver();
-                            })
-                            ->helperText('Assign tags to categorize and segment this customer'),
-                    ]),
+                // Segmentation is no longer a collapsible section — the Tags
+                // field sits directly in the Advanced tab's main row, beside
+                // Currency.
+                Forms\Components\Select::make('tags')
+                    ->label('Tags')
+                    ->multiple()
+                    ->relationship('tags', 'name')
+                    ->preload()
+                    ->searchable()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('slug')
+                            ->maxLength(255)
+                            ->helperText('Leave empty to auto-generate from name'),
+                        Forms\Components\Textarea::make('description')
+                            ->maxLength(65535),
+                    ])
+                    ->createOptionAction(function ($action) {
+                        return $action
+                            ->modalHeading('Create Tag')
+                            ->modalSubmitActionLabel('Create Tag')
+                            ->modalWidth('lg')
+                            ->slideOver();
+                    })
+                    ->helperText('Assign tags to categorize and segment this customer'),
                             ]),
                     ]),
             ]);
