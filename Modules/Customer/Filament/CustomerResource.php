@@ -4,6 +4,7 @@ namespace Modules\Customer\Filament;
 
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -40,6 +41,18 @@ class CustomerResource extends Resource
     {
         return $schema
             ->schema([
+                // task-2026-10-02-custtabs — split the customer form into a
+                // Details tab (the core identity fields) and an Advanced tab
+                // (Currency + Segmentation). Currency is now optional and has
+                // NO default — it stays null unless the operator picks one,
+                // rather than being pre-seeded with the site/default currency.
+                Tabs::make('Customer')
+                    ->columnSpanFull()
+                    ->tabs([
+                        Tabs\Tab::make('Details')
+                            ->icon('heroicon-o-user')
+                            ->columns(2)
+                            ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
@@ -67,48 +80,6 @@ class CustomerResource extends Resource
                     ->reactive()
                     ->searchable()
                     ->required(),
-                Forms\Components\Select::make('currency_id')
-                    ->label('Currency')
-                    ->relationship('currency', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->default(fn () => \Modules\Currency\Models\Currency::getDefault()?->id)
-                    ->required()
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('name')
-                            ->required()
-                            ->maxLength(255)
-                            ->placeholder('US Dollar'),
-                        Forms\Components\TextInput::make('code')
-                            ->required()
-                            ->maxLength(3)
-                            ->minLength(3)
-                            ->placeholder('USD')
-                            ->unique()
-                            ->dehydrateStateUsing(fn (string $state): string => strtoupper($state)),
-                        Forms\Components\TextInput::make('symbol')
-                            ->required()
-                            ->maxLength(10)
-                            ->placeholder('$'),
-                        Forms\Components\TextInput::make('precision')
-                            ->numeric()
-                            ->default(2)
-                            ->minValue(0)
-                            ->maxValue(8),
-                        Forms\Components\TextInput::make('thousand_separator')
-                            ->maxLength(1)
-                            ->default(','),
-                        Forms\Components\TextInput::make('decimal_separator')
-                            ->maxLength(1)
-                            ->default('.'),
-                    ])
-                    ->createOptionAction(function ($action) {
-                        return $action
-                            ->modalHeading('Create Currency')
-                            ->modalSubmitActionLabel('Create Currency')
-                            ->modalWidth('lg')
-                            ->slideOver();
-                    }),
 Forms\Components\Select::make('company_id')
 ->label('Company')
 ->relationship('company', 'name')
@@ -167,36 +138,86 @@ Forms\Components\Select::make('company_id')
                 ->modalWidth('lg')
                 ->slideOver();
             }),
-            \Filament\Schemas\Components\Section::make('Segmentation')
-                ->description('Manage customer tags and segments')
-                ->collapsible()
-                ->schema([
-                    Forms\Components\Select::make('tags')
-                        ->label('Tags')
-                        ->multiple()
-                        ->relationship('tags', 'name')
-                        ->preload()
-                        ->searchable()
-                        ->createOptionForm([
-                            Forms\Components\TextInput::make('name')
-                                ->required()
-                                ->maxLength(255),
-                            Forms\Components\TextInput::make('slug')
-                                ->maxLength(255)
-                                ->helperText('Leave empty to auto-generate from name'),
-                            Forms\Components\Textarea::make('description')
-                                ->maxLength(65535),
-                        ])
-                        ->createOptionAction(function ($action) {
-                            return $action
-                                ->modalHeading('Create Tag')
-                                ->modalSubmitActionLabel('Create Tag')
-                                ->modalWidth('lg')
-                                ->slideOver();
-                        })
-                        ->helperText('Assign tags to categorize and segment this customer'),
-                ]),
-        ]);
+                            ]),
+                        Tabs\Tab::make('Advanced')
+                            ->icon('heroicon-o-adjustments-horizontal')
+                            ->columns(2)
+                            ->schema([
+                Forms\Components\Select::make('currency_id')
+                    ->label('Currency')
+                    ->relationship('currency', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->placeholder('Use the site currency')
+                    ->helperText('Leave empty to use the site currency.')
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('US Dollar'),
+                        Forms\Components\TextInput::make('code')
+                            ->required()
+                            ->maxLength(3)
+                            ->minLength(3)
+                            ->placeholder('USD')
+                            ->unique()
+                            ->dehydrateStateUsing(fn (string $state): string => strtoupper($state)),
+                        Forms\Components\TextInput::make('symbol')
+                            ->required()
+                            ->maxLength(10)
+                            ->placeholder('$'),
+                        Forms\Components\TextInput::make('precision')
+                            ->numeric()
+                            ->default(2)
+                            ->minValue(0)
+                            ->maxValue(8),
+                        Forms\Components\TextInput::make('thousand_separator')
+                            ->maxLength(1)
+                            ->default(','),
+                        Forms\Components\TextInput::make('decimal_separator')
+                            ->maxLength(1)
+                            ->default('.'),
+                    ])
+                    ->createOptionAction(function ($action) {
+                        return $action
+                            ->modalHeading('Create Currency')
+                            ->modalSubmitActionLabel('Create Currency')
+                            ->modalWidth('lg')
+                            ->slideOver();
+                    }),
+                \Filament\Schemas\Components\Section::make('Segmentation')
+                    ->description('Manage customer tags and segments')
+                    ->collapsible()
+                    ->columnSpanFull()
+                    ->schema([
+                        Forms\Components\Select::make('tags')
+                            ->label('Tags')
+                            ->multiple()
+                            ->relationship('tags', 'name')
+                            ->preload()
+                            ->searchable()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('slug')
+                                    ->maxLength(255)
+                                    ->helperText('Leave empty to auto-generate from name'),
+                                Forms\Components\Textarea::make('description')
+                                    ->maxLength(65535),
+                            ])
+                            ->createOptionAction(function ($action) {
+                                return $action
+                                    ->modalHeading('Create Tag')
+                                    ->modalSubmitActionLabel('Create Tag')
+                                    ->modalWidth('lg')
+                                    ->slideOver();
+                            })
+                            ->helperText('Assign tags to categorize and segment this customer'),
+                    ]),
+                            ]),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table
