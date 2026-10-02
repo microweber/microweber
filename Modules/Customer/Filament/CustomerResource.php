@@ -316,10 +316,21 @@ Forms\Components\Select::make('company_id')
             // announce `Edit "jane@example.com"` and the hover
             // tooltip matches. Anchor on email; fall back to "#{id}"
             // for not-yet-saved rows / anonymized records.
+            // Render as icon-only buttons so the record-contextual label
+            // (Edit "jane@example.com") no longer prints as visible text — that
+            // long string was ballooning the actions column and forcing the
+            // table into horizontal scroll. The descriptive label is kept: on an
+            // icon button it becomes the aria-label (screen readers still
+            // announce `Edit "jane@example.com"`), and the tooltip shows it on
+            // hover. Preserves TASK-020 / TICKET-K / AI-38 accessibility.
             \Filament\Actions\EditAction::make()
+                ->iconButton()
+                ->icon('heroicon-m-pencil-square')
                 ->label(fn (Model $record): string => 'Edit "' . static::customerRowLabel($record) . '"')
                 ->tooltip(fn (Model $record): string => 'Edit "' . static::customerRowLabel($record) . '"'),
             \Filament\Actions\DeleteAction::make()
+                ->iconButton()
+                ->icon('heroicon-m-trash')
                 ->label(fn (Model $record): string => 'Delete "' . static::customerRowLabel($record) . '"')
                 ->tooltip(fn (Model $record): string => 'Delete "' . static::customerRowLabel($record) . '"'),
         ])
