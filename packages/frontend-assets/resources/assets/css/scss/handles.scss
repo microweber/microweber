@@ -169,6 +169,29 @@ $handleholderHeight: 56;
         width: 15px !important;
         height: 15px !important;
     }
+
+    /* The ⋮ dropdown (.mw-le-handle-menu-button-sub-menu) is nested INSIDE the
+       inline "More" button, so the icon-only shrink rules above would also
+       collapse its rows to 26px squares with hidden labels — leaving a blank
+       white panel (text present but no-width / display:none). Restore the
+       dropdown items to their normal full-width text rows. Higher specificity
+       (extra .sub-menu class) so this wins over the shrink rules above. */
+    .mw-le-handle-menu-button-sub-menu .mw-le-handle-menu-button {
+        width: 100% !important;
+        height: auto !important;
+        min-width: 0 !important;
+        margin: 0 2px !important;
+        padding: 8px 10px !important;
+        border-radius: 3px !important;
+        font-size: 19px !important;
+    }
+    .mw-le-handle-menu-button-sub-menu .mw-le-handle-menu-button-content-title {
+        display: block !important;
+    }
+    .mw-le-handle-menu-button-sub-menu .mw-le-handle-menu-button svg {
+        width: 25px !important;
+        height: 25px !important;
+    }
 }
 
 .mw-handle-item {
