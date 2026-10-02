@@ -5404,6 +5404,17 @@ body.fi-panel-admin .fi-header {
     margin-bottom: 8px !important;
 }
 
+/* ── Form action row (Create / Save / Cancel …) ──────────────────────
+   task-2026-10-02-formrhythm — the submit-button row (.fi-sc-actions > .fi-ac)
+   inherited Filament's 12px gap, slightly looser than the rest of the admin's
+   6px rhythm and wider than it needs to be next to the 18px button padding.
+   Pin it to the sm token (10px) so every resource form's buttons sit at the
+   same proportional spacing. Scoped to .fi-sc-actions so the generic .fi-ac
+   used by table-row / header actions is untouched. */
+body.fi-panel-admin .fi-sc-actions > .fi-ac {
+    gap: var(--mw-space-sm) !important; /* 10px */
+}
+
 /* ── Table container: white card with border and subtle shadow ───── */
 body.fi-panel-admin .fi-ta-ctn {
     background-color: #ffffff !important;
@@ -5834,7 +5845,11 @@ body.fi-panel-admin .fi-ta-header-ctn {
 body.fi-panel-admin .fi-breadcrumbs {
     font-size: 12px !important;
     color: #9ca3af !important;
-    margin-bottom: 2px !important;
+    /* task-2026-10-02-formrhythm — was 2px, which crammed the breadcrumb
+       against the page heading while ~6px sat below it (asymmetric, read as
+       inconsistent). Use the xs token so the gap above the heading matches the
+       header's bottom padding — a balanced, consistent rhythm on every page. */
+    margin-bottom: var(--mw-space-xs) !important; /* 6px */
 }
 body.fi-panel-admin .fi-breadcrumbs-item {
     color: #9ca3af !important;
