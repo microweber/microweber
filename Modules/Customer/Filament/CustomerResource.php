@@ -227,11 +227,20 @@ Forms\Components\Select::make('company_id')
         // task-2026-05-26 / AI-1095 — exclude multi-seed-source test customers.
         // PHPUnit factories produce @example.com emails and Faker names that
         // contaminate admin list with mismatched name columns.
+        // task-2026-10-02 — KEEP customers with no email. Email is optional, so a
+        // real customer can be created with only a name (email NULL). The bare
+        // `email NOT LIKE '%@example.com'` chain silently dropped those rows,
+        // because in SQL `NULL NOT LIKE …` is NULL (not TRUE) — so name-only
+        // customers vanished from the list. Allow NULL email through; only the
+        // actual @example.* seed emails are excluded.
         ->modifyQueryUsing(fn (EloquentBuilder $query) => $query
             ->where(function (EloquentBuilder $q) {
-                $q->where('email', 'NOT LIKE', '%@example.com')
-                  ->where('email', 'NOT LIKE', '%@example.org')
-                  ->where('email', 'NOT LIKE', '%@example.net');
+                $q->whereNull('email')
+                  ->orWhere(function (EloquentBuilder $q2) {
+                      $q2->where('email', 'NOT LIKE', '%@example.com')
+                         ->where('email', 'NOT LIKE', '%@example.org')
+                         ->where('email', 'NOT LIKE', '%@example.net');
+                  });
             })
         )
         ->emptyState(function (Table $table) {
