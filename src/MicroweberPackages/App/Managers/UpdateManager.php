@@ -581,7 +581,7 @@ class UpdateManager
                  'trace' => $e->getTrace()
              );
          }*/
-        $mw = app(PackageManagerClient::class);
+        $mw = app(PackageManagerClientService::class);
         return $mw->requestInstall($params);
     }
 

@@ -18,7 +18,7 @@ class MarketplaceItem extends Model
     public function getRows()
     {
         $packages = Cache::remember('livewire-marketplace', Carbon::now()->addHours(12), function () {
-            $marketplace = app(PackageManagerClient::class);
+            $marketplace = app(PackageManagerClientService::class);
             return $marketplace->search();
         });
 

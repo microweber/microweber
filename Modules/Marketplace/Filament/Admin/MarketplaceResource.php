@@ -213,7 +213,7 @@ class MarketplaceResource extends Resource
                     ->modalSubmitActionLabel('Yes, Update')
                     ->action(function (MarketplaceItem $marketplaceItem) {
                         try {
-                            $runner = app(PackageManagerClient::class);
+                            $runner = app(PackageManagerClientService::class);
                             $results = $runner->requestInstall([
                                 'require_name' => $marketplaceItem->internal_name,
                                 'require_version' => $marketplaceItem->version,
@@ -399,7 +399,7 @@ class MarketplaceResource extends Resource
 
                                                     try {
 
-                                                        $runner = app(PackageManagerClient::class);
+                                                        $runner = app(PackageManagerClientService::class);
                                                         $results = $runner->requestInstall([
                                                             'require_name' => $marketplaceItem->internal_name, 'require_version' => $data['version']
                                                         ]);

@@ -45,7 +45,7 @@ class InstallController extends Controller
         $params = [];
         $params['require_name'] = $packageName;
 
-        $runner = app(PackageManagerClient::class);
+        $runner = app(PackageManagerClientService::class);
 
         $getLicenses = SystemLicenses::getFileLicenses();
         if (!empty($getLicenses)) {
@@ -70,7 +70,7 @@ class InstallController extends Controller
     {
         $packageName = request()->get('install_template_modal');
 
-        $packageManager = app(PackageManagerClient::class);
+        $packageManager = app(PackageManagerClientService::class);
 
         $getLicenses = SystemLicenses::getFileLicenses();
         if (!empty($getLicenses)) {
@@ -953,7 +953,7 @@ class InstallController extends Controller
     private function _getMarketTemplatesForInstallScreen()
     {
         $ready = array();
-        $runner = app(PackageManagerClient::class);
+        $runner = app(PackageManagerClientService::class);
         $results = $runner->search();
 
         if ($results and is_array($results)) {
@@ -981,7 +981,7 @@ class InstallController extends Controller
 
     private function _install_package_by_name($package_name)
     {
-        $runner = app(PackageManagerClient::class);
+        $runner = app(PackageManagerClientService::class);
         $results = $runner->requestInstall(['require_name' => $package_name]);
         $runner->requestInstall($results['form_data_module_params']);
 

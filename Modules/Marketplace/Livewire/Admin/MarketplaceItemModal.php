@@ -27,7 +27,7 @@ class MarketplaceItemModal extends AdminModalComponent
         $foundedPackageVersions = [];
         $packageName = $this->name;
         $packages = Cache::remember('livewire-marketplace', Carbon::now()->addHours(12), function () {
-            $marketplace = app(PackageManagerClient::class);
+            $marketplace = app(PackageManagerClientService::class);
             return $marketplace->search();
         });
         if (!empty($packages)) {
