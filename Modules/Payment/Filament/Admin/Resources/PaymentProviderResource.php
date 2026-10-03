@@ -106,11 +106,20 @@ class PaymentProviderResource extends Resource
                             ->required()
                             ->padding('py-4 px-8')
                             ->gap('gap-0')
-                            ->afterStateUpdated(function (\Filament\Schemas\Components\Utilities\Set $set, \Filament\Schemas\Components\Utilities\Get $get, string $state) use ($paymentProviders) {
+                            ->afterStateUpdated(function (\Filament\Schemas\Components\Utilities\Set $set, \Filament\Schemas\Components\Utilities\Get $get, ?string $old, ?string $state) use ($paymentProviders) {
                                 if ($state) {
-
-                                   if(!$get('id') and !$get('name')){
-                                        $set('name', $paymentProviders[$state] ?? null);
+                                    // Update the default Name when creating, as long as the
+                                    // user hasn't typed a custom one. "Hasn't customized" =
+                                    // the Name is empty OR still equals the PREVIOUSLY selected
+                                    // provider's default title. Without the $old check the Name
+                                    // got stuck on the first provider picked (e.g. switching
+                                    // Pay on delivery -> Stripe kept showing "Pay on delivery").
+                                    if (!$get('id')) {
+                                        $currentName = $get('name');
+                                        $oldDefault = $old ? ($paymentProviders[$old] ?? null) : null;
+                                        if (!$currentName || $currentName === $oldDefault) {
+                                            $set('name', $paymentProviders[$state] ?? null);
+                                        }
                                     }
                                     if(!$get('is_active')) {
                                         $set('is_active', 1);
