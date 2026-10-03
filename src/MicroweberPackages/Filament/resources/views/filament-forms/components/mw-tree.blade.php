@@ -14,10 +14,21 @@
         $suffix = $this->getId();
     @endphp
 
+    {{-- task-2026-10-03 — wire:ignore the whole widget. This field is ->live(),
+         so selecting a parent (and the following Title sync) re-renders the form;
+         without this, morphdom re-ran Alpine's init() and mw.widget.tree built a
+         SECOND tree into the (preserved) container — the tree rendered twice. The
+         inner container is also wire:ignore'd; the init() guard below is a belt-
+         and-suspenders against any re-entry. --}}
     <div
+        wire:ignore
         x-data="{
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
             async init() {
+                var _box = document.getElementById('mw-tree-edit-content-{{$suffix}}');
+                if (!_box || _box.dataset.mwTreeBuilt === '1') { return; }
+                _box.dataset.mwTreeBuilt = '1';
+
                 var skip = [];
                 var selectedData = [];
                 var options = {
