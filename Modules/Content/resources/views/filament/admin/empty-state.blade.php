@@ -138,8 +138,8 @@ You do not have any products yet.
 
                 {{-- task-2026-05-16-fd0d1d: primary CTA on the empty state. --}}
                 <div class="text-center mw-table-empty-cta-wrap">
-                    <a href="{{ route('filament.admin.resources.payment-providers.index') }}" class="mw-table-empty-cta" aria-label="Configure payment providers">
-                        + Configure payment providers
+                    <a href="{{ route('filament.admin.resources.payment-providers.create') }}" class="mw-table-empty-cta" aria-label="Add payment provider">
+                        + Add payment provider
                     </a>
                 </div>
 
@@ -160,8 +160,8 @@ You do not have any products yet.
 
             {{-- task-2026-05-16-fd0d1d: primary CTA on the empty state. --}}
             <div class="text-center mw-table-empty-cta-wrap">
-                <a href="{{ route('filament.admin.resources.shipping-providers.index') }}" class="mw-table-empty-cta" aria-label="Configure shipping providers">
-                    + Configure shipping providers
+                <a href="{{ route('filament.admin.resources.shipping-providers.create') }}" class="mw-table-empty-cta" aria-label="Add shipping provider">
+                    + Add shipping provider
                 </a>
             </div>
 
@@ -177,8 +177,8 @@ You do not have any products yet.
 
                 {{-- task-2026-05-16-fd0d1d: primary CTA on the empty state. --}}
                 <div class="text-center mw-table-empty-cta-wrap">
-                    <a href="{{ route('filament.admin.resources.taxes.index') }}" class="mw-table-empty-cta" aria-label="Configure taxes">
-                        + Configure taxes
+                    <a href="{{ route('filament.admin.resources.taxes.create') }}" class="mw-table-empty-cta" aria-label="Add tax">
+                        + Add tax
                     </a>
                 </div>
 
