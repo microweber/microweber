@@ -143,7 +143,12 @@ You do not have any products yet.
                     </a>
                 </div>
 
-@svg('mw-payments', 'mw-admin-empty-state-illustration', ['style' => 'max-width:200px;max-height:200px;width:200px;height:200px;'])
+{{-- task-2026-10-03 — payments/shipping/taxes have no detailed "no-*"
+     illustration, only a plain 24x24 stroke glyph. Rendered at 200px like the
+     real illustrations it read as a giant, heavy icon. Render these glyphs
+     small + muted so they act as a subtle empty-state mark, not a wall-sized
+     card. --}}
+@svg('mw-payments', 'mw-admin-empty-state-glyph', ['style' => 'display:block;width:84px;height:84px;max-width:84px;max-height:84px;color:#aab6c6;margin:8px auto 0;'])
 
             @endif
 
@@ -160,7 +165,7 @@ You do not have any products yet.
                 </a>
             </div>
 
-@svg('mw-shipping', 'mw-admin-empty-state-illustration', ['style' => 'max-width:200px;max-height:200px;width:200px;height:200px;'])
+@svg('mw-shipping', 'mw-admin-empty-state-glyph', ['style' => 'display:block;width:84px;height:84px;max-width:84px;max-height:84px;color:#aab6c6;margin:8px auto 0;'])
 
         @endif
 
@@ -177,7 +182,7 @@ You do not have any products yet.
                     </a>
                 </div>
 
-@svg('mw-taxes', 'mw-admin-empty-state-illustration', ['style' => 'max-width:200px;max-height:200px;width:200px;height:200px;'])
+@svg('mw-taxes', 'mw-admin-empty-state-glyph', ['style' => 'display:block;width:84px;height:84px;max-width:84px;max-height:84px;color:#aab6c6;margin:8px auto 0;'])
 
             @endif
 
