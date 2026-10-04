@@ -853,6 +853,11 @@ class ContentResource extends Resource
             ->schema([
                 MwMediaBrowser::make('mediaIds')
                     ->label('Add images')
+                    // The "Media" section heading already names this block, so the
+                    // field's own "Add images" label is redundant. Hide it visually
+                    // (sr-only via .mw-mb-field-hide-label — keeps it in the a11y
+                    // tree, unlike ->hiddenLabel()/display:none).
+                    ->extraFieldWrapperAttributes(['class' => 'mw-mb-field-hide-label'])
                     ->setRelType($relType)
                     ->setRelId($relId)
                     ->default(function () use ($relType, $relId, $mediaIds) {

@@ -5415,6 +5415,23 @@ body.fi-panel-admin .fi-sc-actions > .fi-ac {
     gap: var(--mw-space-sm) !important; /* 10px */
 }
 
+/* ── Opt-in: hide a field's own label (sr-only, not display:none) ─────
+   task-2026-10-04 — the content Media section's MwMediaBrowser carries an
+   "Add images" label that duplicates the "Media" section heading. Fields that
+   add .mw-mb-field-hide-label get their label visually removed while staying in
+   the accessibility tree (WCAG-safe, unlike ->hiddenLabel()/display:none). */
+body.fi-panel-admin .mw-mb-field-hide-label > .fi-fo-field-label-col {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
 /* ── Table container: white card with border and subtle shadow ───── */
 body.fi-panel-admin .fi-ta-ctn {
     background-color: #ffffff !important;

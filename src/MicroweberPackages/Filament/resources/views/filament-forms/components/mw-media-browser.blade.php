@@ -40,7 +40,9 @@
 
         {{-- ── Top action row ─────────────────────────────────────────────── --}}
         <div class="mw-mb-toolbar">
-            <label class="mw-mb-selectall">
+            {{-- "Select all" is meaningless with zero images — only show it once
+                 there's something to select. --}}
+            <label class="mw-mb-selectall" x-show="(mediaIds?.length || 0) > 0" x-cloak>
                 <input type="checkbox"
                        class="mw-mb-selectall-cb"
                        @change="$event.target.checked ? selectAllMedia() : deselectAllMedia()"
