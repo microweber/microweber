@@ -1689,6 +1689,29 @@ html.dark .fa.fa-trash {
     @apply py-3;
 }
 
+/* task-2026-10-04 — keep a selected tag/chip from overflowing its field. The
+   tree's selected "parent" chip (Where to put it / Parent page pickers) showed
+   the full internal name (e.g. testCategoryJsonTreeAdminPageStatic0_6ab3ac…)
+   which spilled out of the panel. Let the chip shrink to the container and
+   ellipsis-truncate the title; the × stays visible. */
+.mw-tags--container { min-width: 0; }
+.mw-tags--container .mw-tag-wrapper {
+    max-width: 100%;
+    min-width: 0;
+}
+.mw-tags--container .mw-tag-single {
+    max-width: 100%;
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+}
+.mw-tags--container .mw-tag-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
 .mw-le-modules-dialog .modules-list-defaultModules {
     @apply bg-white dark:bg-gray-800 rounded-xl overflow-hidden;
 
