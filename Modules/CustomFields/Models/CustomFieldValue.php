@@ -33,12 +33,18 @@ class CustomFieldValue extends Model
 
     public function save(array $options = [])
     {
-        if(!isset($this->id)) {
-            //Create
+        // Only auto-assign a position on create when one wasn't explicitly set
+        // (Filament's repeater ->orderColumn('position') supplies it on reorder).
+        if (!isset($this->id) && !array_key_exists('position', $this->getAttributes())) {
             $position = CustomFieldValue::where('custom_field_id', $this->custom_field_id)->max('position');
-            $this->position = $position+1;
+            $this->position = $position + 1;
         }
 
-        parent::save($options);
+        // MUST return parent::save()'s bool. Filament's relationship repeater does
+        // `$record = $relationship->save($record)`, and Eloquent's HasMany::save()
+        // returns `$model->save() ? $model : false`. Without this return, save()
+        // yielded null -> the relationship returned false -> callAfterCreate() got
+        // false and threw a TypeError when saving a custom field with values.
+        return parent::save($options);
     }
 }

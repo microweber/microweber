@@ -159,6 +159,9 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable, Has
         $editForm[] = Repeater::make('fieldValue')
             ->relationship('fieldValue')
             ->reorderable()
+            // Persist drag-reorder to the position column (the relationship is
+            // ordered by position), otherwise the new order was lost on save.
+            ->orderColumn('position')
             ->cloneable()
             ->collapsible()
             ->addable()

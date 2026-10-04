@@ -6,6 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
 use Modules\CustomFields\Models\CustomField;
+use Modules\CustomFields\Models\CustomFieldValue;
 use Modules\Product\Models\Product;
 
 class CustomFieldModelTest extends TestCase
@@ -75,6 +76,43 @@ class CustomFieldModelTest extends TestCase
 
         $this->assertEquals($customField->value, $customFieldFind->value);
 
+    }
+
+    /**
+     * Regression: CustomFieldValue::save() must return parent::save()'s bool.
+     * Filament's relationship repeater does `$relationship->save($record)`, and
+     * Eloquent's HasMany::save() returns `$model->save() ? $model : false`.
+     * When save() returned null the relationship returned false and
+     * Repeater::callAfterCreate() threw a TypeError (saving a custom field with
+     * dropdown/radio/checkbox values 500'd).
+     */
+    #[Test]
+    public function it_custom_field_value_save_returns_bool_and_persists_via_relationship(): void
+    {
+        $customField = new CustomField();
+        $customField->type = 'dropdown';
+        $customField->name = 'Regression Options';
+        $customField->save();
+
+        // Bare save() returns a real bool.
+        $value = new CustomFieldValue();
+        $value->custom_field_id = $customField->id;
+        $value->value = 'Option A';
+        $this->assertTrue($value->save());
+
+        // The relationship save path (what Filament calls) returns the model,
+        // never false — so callAfterCreate() receives a Model.
+        $viaRelationship = $customField->fieldValue()->save(
+            (new CustomFieldValue())->fill(['value' => 'Option B'])
+        );
+        $this->assertInstanceOf(CustomFieldValue::class, $viaRelationship);
+        $this->assertNotFalse($viaRelationship);
+
+        // An explicitly-set position (reorder via ->orderColumn('position')) is
+        // honored rather than overwritten by the auto-increment default.
+        $viaRelationship->position = 0;
+        $this->assertTrue($viaRelationship->save());
+        $this->assertSame(0, (int) $viaRelationship->fresh()->position);
     }
 
     #[Test]
