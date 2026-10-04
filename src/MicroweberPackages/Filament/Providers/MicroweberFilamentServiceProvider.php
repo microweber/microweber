@@ -85,6 +85,12 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
                 // title cell (.truncate) clip with an ellipsis so every column
                 // stays on screen. Harmless on desktop — it only engages when
                 // horizontal space is actually constrained.
+                // The content container ITSELF is a flex child of .fi-ta-record
+                // (sibling to the selection checkbox); without min-width:0 it keeps
+                // its content size (e.g. 359px) and overflows the row on mobile —
+                // the fix on its children alone wasn't enough. Shrink the container
+                // too so the whole record stays within the viewport.
+                . '.fi-ta-record-content-ctn{min-width:0;}'
                 . '.fi-ta-record-content-ctn > *{min-width:0;}'
                 . '.fi-ta-record-content-ctn .fi-ta-col.fi-growable{min-width:0;}'
                 . '</style>'

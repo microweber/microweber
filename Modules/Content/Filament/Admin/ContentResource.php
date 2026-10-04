@@ -1985,6 +1985,10 @@ return $get('id');
 
         return [
 
+            // ->from('md'): keep the content + status side-by-side on desktop but
+            // STACK them below md. On narrow screens the horizontal split pushed the
+            // status dropdown off the right edge (clipped) on wide rows — e.g. the
+            // homepage row with its extra HOMEPAGE badge.
             Tables\Columns\Layout\Split::make([
 
 
@@ -2013,7 +2017,7 @@ return $get('id');
                     }),
 
 
-            ])->columnSpanFull(),
+            ])->from('md')->columnSpanFull(),
 
         ];
     }

@@ -3949,16 +3949,22 @@ a.mw-admin-brand-mark {
     }
 }
 
-/* Mobile (≤768px) — collapse to mark-only (16×16) to save
-   horizontal width per designer spec. The wordmark image is the
-   same asset; the size reduction keeps it readable without
-   asset-swap. */
+/* Mobile (≤768px) — the logo asset is the WORDMARK (~147×36). Forcing it into
+   a 16×16 box with object-fit:contain scaled it to a ~16×4px illegible sliver
+   (read as a broken image). Keep the wordmark legible at a reduced height with
+   a width cap so it doesn't crowd the +Add / search / Live-Edit controls. */
 @media (max-width: 768px) {
     .mw-admin-brand-mark__image {
-        height: 16px;
-        width: 16px;
-        max-width: 16px;
+        height: 24px;
+        width: auto;
+        max-width: 130px;
         object-fit: contain;
+    }
+    /* Drop the desktop logo gutter so the wordmark sits snug on the left. */
+    .fi-topbar a.mw-admin-brand-mark,
+    a.mw-admin-brand-mark {
+        margin-inline-end: var(--space-xs, 6px);
+        padding-inline: var(--space-xs, 6px);
     }
 }
 
