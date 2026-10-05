@@ -29,6 +29,14 @@ class TopPagesWidget extends BaseWidget
 
     public function table(Table $table): Table
     {
+        // Qualify raw-SQL table refs with the DB table prefix. The grammar
+        // prefixes string columns in select/join/where/groupBy automatically,
+        // but DB::raw() is passed through verbatim — on a prefixed DB (e.g.
+        // mwdev_code_) the bare "stats_visits_log.col" pointed at a table that
+        // doesn't exist and 500'd ("no such column: stats_visits_log.url_id").
+        // getTablePrefix() is '' on unprefixed DBs, so this is a no-op there.
+        $logTable = DB::getTablePrefix() . (new Log)->getTable();
+
         return $table
             ->striped()
             ->query(
@@ -37,11 +45,11 @@ class TopPagesWidget extends BaseWidget
                         // Alias url_id as id so Filament's table identity
                         // works without adding `stats_visits_log.id` (which
                         // would need to be in GROUP BY for PostgreSQL).
-                        DB::raw('stats_visits_log.url_id as id'),
+                        DB::raw($logTable . '.url_id as id'),
                         'stats_urls.url',
                         'stats_urls.content_id',
-                        DB::raw('SUM(stats_visits_log.view_count) as total_views'),
-                        DB::raw('COUNT(DISTINCT stats_visits_log.session_id_key) as unique_sessions')
+                        DB::raw('SUM(' . $logTable . '.view_count) as total_views'),
+                        DB::raw('COUNT(DISTINCT ' . $logTable . '.session_id_key) as unique_sessions')
                     )
                     ->join('stats_urls', 'stats_visits_log.url_id', '=', 'stats_urls.id')
                     ->where('stats_visits_log.updated_at', '>=', now()->subDays(30))

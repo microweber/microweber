@@ -29,6 +29,10 @@ class BrowsersWidget extends BaseWidget
 
     public function table(Table $table): Table
     {
+        // Prefix-qualify the raw table ref (DB::raw is verbatim; grammar-wrapped
+        // columns are prefixed automatically). No-op on unprefixed DBs.
+        $sessTable = DB::getTablePrefix() . 'stats_sessions';
+
         return $table
             ->striped()
             ->query(
@@ -37,7 +41,7 @@ class BrowsersWidget extends BaseWidget
                         'stats_sessions.browser_id',
                         'stats_browser_agents.browser',
                         'stats_browser_agents.platform',
-                        DB::raw('COUNT(DISTINCT stats_sessions.session_id) as visitor_count')
+                        DB::raw('COUNT(DISTINCT ' . $sessTable . '.session_id) as visitor_count')
                     )
                     ->join('stats_browser_agents', 'stats_sessions.browser_id', '=', 'stats_browser_agents.id')
                     ->where('stats_sessions.updated_at', '>=', now()->subDays(30))

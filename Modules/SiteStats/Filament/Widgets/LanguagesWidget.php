@@ -29,13 +29,17 @@ class LanguagesWidget extends BaseWidget
 
     public function table(Table $table): Table
     {
+        // Prefix-qualify the raw table ref (DB::raw is verbatim; grammar-wrapped
+        // columns are prefixed automatically). No-op on unprefixed DBs.
+        $sessTable = DB::getTablePrefix() . 'stats_sessions';
+
         return $table
             ->striped()
             ->query(
                 Sessions::query()
                     ->select(
                         'stats_sessions.language',
-                        DB::raw('COUNT(DISTINCT stats_sessions.session_id) as visitor_count')
+                        DB::raw('COUNT(DISTINCT ' . $sessTable . '.session_id) as visitor_count')
                     )
                     ->where('stats_sessions.updated_at', '>=', now()->subDays(30))
                     ->whereNotNull('stats_sessions.language')
@@ -50,7 +54,7 @@ class LanguagesWidget extends BaseWidget
                     // CHAR_LENGTH (MySQL-only — SQLite has no such function, which
                     // 500s the Site Statistics page). Language tags are ASCII, so
                     // byte length == char length here.
-                    ->whereRaw('LENGTH(stats_sessions.language) >= 2')
+                    ->whereRaw('LENGTH(' . $sessTable . '.language) >= 2')
                     ->groupBy('stats_sessions.language')
                     ->orderByDesc('visitor_count')
             )

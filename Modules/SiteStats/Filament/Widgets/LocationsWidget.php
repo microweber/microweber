@@ -29,6 +29,10 @@ class LocationsWidget extends BaseWidget
 
     public function table(Table $table): Table
     {
+        // Prefix-qualify the raw table ref (DB::raw is verbatim; grammar-wrapped
+        // columns are prefixed automatically). No-op on unprefixed DBs.
+        $sessTable = DB::getTablePrefix() . 'stats_sessions';
+
         return $table
             ->striped()
             ->query(
@@ -37,7 +41,7 @@ class LocationsWidget extends BaseWidget
                         'stats_sessions.geoip_id',
                         'stats_geoip.country_code',
                         'stats_geoip.country_name',
-                        DB::raw('COUNT(DISTINCT stats_sessions.session_id) as visitor_count')
+                        DB::raw('COUNT(DISTINCT ' . $sessTable . '.session_id) as visitor_count')
                     )
                     ->join('stats_geoip', 'stats_sessions.geoip_id', '=', 'stats_geoip.id')
                     ->where('stats_sessions.updated_at', '>=', now()->subDays(30))

@@ -29,6 +29,10 @@ class ReferrersWidget extends BaseWidget
 
     public function table(Table $table): Table
     {
+        // Prefix-qualify the raw table ref (DB::raw is verbatim; grammar-wrapped
+        // columns are prefixed automatically). No-op on unprefixed DBs.
+        $sessTable = DB::getTablePrefix() . 'stats_sessions';
+
         return $table
             ->striped()
             ->query(
@@ -36,7 +40,7 @@ class ReferrersWidget extends BaseWidget
                     ->select(
                         'stats_sessions.referrer_domain_id',
                         'stats_referrers_domains.referrer_domain',
-                        DB::raw('COUNT(DISTINCT stats_sessions.session_id) as session_count')
+                        DB::raw('COUNT(DISTINCT ' . $sessTable . '.session_id) as session_count')
                     )
                     ->join('stats_referrers_domains', 'stats_sessions.referrer_domain_id', '=', 'stats_referrers_domains.id')
                     ->where('stats_sessions.updated_at', '>=', now()->subDays(30))
