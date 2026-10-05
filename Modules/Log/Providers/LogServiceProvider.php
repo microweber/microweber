@@ -41,6 +41,10 @@ class LogServiceProvider extends BaseModuleServiceProvider
         $this->app->singleton('log_manager', function ($app) {
             return new \Modules\Log\Services\LogManager();
         });
+
+        // Read-only Filament admin log viewer.
+        FilamentRegistry::registerResource(\Modules\Log\Filament\LogResource::class);
+
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(LogModuleSettings::class);
 
