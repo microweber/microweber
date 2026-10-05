@@ -106,7 +106,10 @@
             drill-down. Previously the cards sat above the chart so users had
             to scan past 8 KPI boxes before reaching the trend line.
         --}}
-        @livewire(\Modules\SiteStats\Filament\Widgets\VisitorsChartWidget::class)
+        {{-- Use the SAME ECharts widget as the admin dashboard (smooth #4299e1
+             line + gradient area, online count, period toggle) so the analytics
+             chart matches the dashboard exactly — not Filament's Chart.js widget. --}}
+        @livewire(\Modules\SiteStats\Filament\SiteStatsEchartsWidget::class)
 
         <div class="mt-6">
             @livewire(\Modules\SiteStats\Filament\Widgets\StatsOverviewCards::class)

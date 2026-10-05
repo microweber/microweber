@@ -37,7 +37,8 @@ class SiteStatsPage extends Page
     {
         return [
             \Modules\SiteStats\Filament\Widgets\StatsOverviewCards::class,
-            \Modules\SiteStats\Filament\Widgets\VisitorsChartWidget::class,
+            // ECharts chart (same as the admin dashboard), not the Chart.js one.
+            \Modules\SiteStats\Filament\SiteStatsEchartsWidget::class,
             \Modules\SiteStats\Filament\Widgets\TopPagesWidget::class,
             \Modules\SiteStats\Filament\Widgets\ReferrersWidget::class,
             \Modules\SiteStats\Filament\Widgets\LocationsWidget::class,
