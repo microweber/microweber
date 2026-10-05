@@ -5,6 +5,7 @@ namespace Modules\ContentData\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\ContentData\Repositories\DataFieldsManager;
@@ -42,6 +43,9 @@ class ContentDataServiceProvider extends BaseModuleServiceProvider
         $this->app->singleton('data_fields_manager', function ($app) {
             return new DataFieldsManager();
         });
+
+        // Filament admin CRUD for raw content_data key/value entries.
+        FilamentRegistry::registerResource(\Modules\ContentData\Filament\ContentDataResource::class);
 
 
 

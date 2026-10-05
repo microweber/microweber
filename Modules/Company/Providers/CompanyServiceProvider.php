@@ -38,6 +38,8 @@ class CompanyServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
+        // Filament admin CRUD for companies (linked to customers).
+        FilamentRegistry::registerResource(\Modules\Company\Filament\CompanyResource::class);
 
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(CompanyModuleSettings::class);
