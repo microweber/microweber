@@ -224,9 +224,13 @@
                     <span class="mw-stats-footer-label">bounced</span>
                 </div>
             </div>
+            {{-- "View more" links to the Site Statistics page — hide it when the
+                 widget is already rendered on that page (it'd be a no-op). --}}
+            @unless(request()->routeIs('filament.admin.pages.site-statistics'))
             <div class="mw-stats-card-footer-right">
                 <a href="{{ url('/admin/site-statistics') }}" class="mw-stats-card-show-more" style="text-decoration: none; cursor: pointer;">View more</a>
             </div>
+            @endunless
         </div>
     </div>
 </x-filament-widgets::widget>
