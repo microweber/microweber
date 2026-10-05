@@ -2,6 +2,7 @@
 
 namespace Modules\Attributes\Providers;
 
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Attributes\Repositories\AttributesManager;
 
@@ -38,6 +39,9 @@ class AttributesServiceProvider extends BaseModuleServiceProvider
         $this->app->singleton('attributes_manager', function ($app) {
             return new AttributesManager();
         });
+
+        // Filament admin CRUD for product/content attributes.
+        FilamentRegistry::registerResource(\Modules\Attributes\Filament\AttributeResource::class);
 
 
     }

@@ -39,6 +39,9 @@ class AddressServiceProvider extends BaseModuleServiceProvider
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
 
+        // Filament admin CRUD for addresses.
+        FilamentRegistry::registerResource(\Modules\Address\Filament\AddressResource::class);
+
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(AddressModuleSettings::class);
 

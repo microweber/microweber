@@ -45,7 +45,8 @@ class ContentFieldServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
-
+        // Filament admin CRUD for content_fields key/value entries.
+        FilamentRegistry::registerResource(\Modules\ContentField\Filament\ContentFieldResource::class);
     }
 
 }

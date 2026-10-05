@@ -5,6 +5,7 @@ namespace Modules\Country\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Country\Repositories\CountryManager;
 
@@ -39,6 +40,9 @@ class CountryServiceProvider extends BaseModuleServiceProvider
         $this->app->singleton('country_manager', function ($app) {
             return new CountryManager();
         });
+
+        // Filament admin CRUD for the countries reference list.
+        FilamentRegistry::registerResource(\Modules\Country\Filament\CountryResource::class);
 
     }
 
