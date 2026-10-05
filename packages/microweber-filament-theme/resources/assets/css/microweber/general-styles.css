@@ -65,10 +65,13 @@
 
 /*}*/
 .fi .fi-body.fi-panel-admin .fi-layout:not(.rounded-full, .noUi-touch-area, .noUi-handle-lower),
-button, a, /* Buttons & Links */
+/* :not([role="switch"]) — a Filament toggle is a <button role="switch"> and must
+   stay a PILL. Without this exclusion the bare `button` + `.fi-toggle` selectors
+   below forced it to a 7px rounded square (looked like a broken checkbox). */
+button:not([role="switch"]), a, /* Buttons & Links */
 input:not(.fi-checkbox-input, .fi-radio-input, .form-check-input), textarea, select, /* Form elements */
-.fi-btn, .fi-input, .fi-fo-select, .fi-fo-textarea, .fi-toggle, /* Filament form elements */
-.fi-input-wrp, .fi-fo-select-wrp, .fi-fo-textarea-wrp, .fi-fo-toggle, /* Input wrappers */
+.fi-btn, .fi-input, .fi-fo-select, .fi-fo-textarea, /* Filament form elements */
+.fi-input-wrp, .fi-fo-select-wrp, .fi-fo-textarea-wrp, /* Input wrappers */
 .fi-badge, .fi-card, .fi-modal, .fi-panel, .fi-box, .fi-ta, /* Containers */
 .fi-alert, .fi-dropdown-menu, .fi-list-item, .fi-sidebar, .fi-tabs, /* UI Components */
 .fi-breadcrumbs, .fi-toast, .fi-widget, .fi-fieldset, /* Other UI elements */
