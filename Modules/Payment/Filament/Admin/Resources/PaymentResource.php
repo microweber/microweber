@@ -27,8 +27,8 @@ class PaymentResource extends Resource
     protected static ?string $recordTitleAttribute = 'transaction_id';
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-banknotes';
-    protected static string | \UnitEnum | null $navigationGroup = 'Billing';
-    protected static ?int $navigationSort = 2;
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop';
+    protected static ?int $navigationSort = 21;
     use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array

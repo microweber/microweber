@@ -49,9 +49,8 @@ class CustomerServiceProvider extends BaseModuleServiceProvider
 
 
         $this->app->register(CustomerEventServiceProvider::class);
+        // Customers live in the sidebar under the Shop group.
         FilamentRegistry::registerResource(CustomerResource::class);
-        // Also list Customers in the Billing section of the Settings page.
-        FilamentRegistry::registerResource(CustomerResource::class, \Modules\Settings\Filament\Pages\Settings::class);
     }
 
 }

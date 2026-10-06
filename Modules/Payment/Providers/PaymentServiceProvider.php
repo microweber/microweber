@@ -68,10 +68,11 @@ $this->loadRoutesFrom(module_path($this->moduleName, 'routes/webhooks.php'));
         });
 
 
+        // Payments live in the sidebar under the Shop group. Payment Providers
+        // stays hidden from the sidebar and is surfaced only in the Shop
+        // Settings section of the Settings page.
         FilamentRegistry::registerResource(PaymentProviderResource::class);
         FilamentRegistry::registerResource(PaymentResource::class);
-        // Also list Payments + Payment Providers in the Billing section of the Settings page.
-        FilamentRegistry::registerResource(PaymentResource::class, \Modules\Settings\Filament\Pages\Settings::class);
         FilamentRegistry::registerResource(PaymentProviderResource::class, \Modules\Settings\Filament\Pages\Settings::class);
 
         FilamentRegistry::registerGlobalSearchEntry(

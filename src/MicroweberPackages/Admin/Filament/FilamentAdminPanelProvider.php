@@ -241,10 +241,11 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->collapsible(true)
                     ->collapsed(true),
 
-                'Billing' => NavigationGroup::make()
-                    ->label('Billing')
-                    ->collapsible(true)
-                    ->collapsed(true),
+                // Billing items (Subscriptions, Payments, Customers, Invoices)
+                // live at the bottom of the Shop group — Filament navigation
+                // groups are flat, so this is the closest to a Billing
+                // sub-section under Shop. See the high navigationSort values on
+                // those resources + the Subscriptions nav item below.
 
                 'Marketplace' => NavigationGroup::make()
                     ->label('Marketplace')
@@ -342,8 +343,8 @@ class FilamentAdminPanelProvider extends PanelProvider
                 // Resolve the URL from the panel itself rather than hardcoding it.
                 NavigationItem::make('Subscriptions')
                     ->url(fn (): string => \Filament\Facades\Filament::getPanel('admin-billing')->getUrl())
-                    ->group('Billing')
-                    ->sort(1)
+                    ->group('Shop')
+                    ->sort(20)
                     ->icon('heroicon-o-credit-card'),
 
             ])

@@ -22,8 +22,8 @@ class PaymentProviderResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-credit-card';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Billing';
-    protected static ?int $navigationSort = 14;
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
+    protected static ?int $navigationSort = 24;
     protected static ?string $navigationLabel = 'Payment Providers';
 
     // Hidden from the sidebar (managed via the "Add Payment Provider" flow), but
