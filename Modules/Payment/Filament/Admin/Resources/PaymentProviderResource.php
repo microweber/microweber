@@ -22,9 +22,12 @@ class PaymentProviderResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-credit-card';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Billing';
-    protected static ?int $navigationSort = 4;
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
+    protected static ?int $navigationSort = 14;
     protected static ?string $navigationLabel = 'Payment Providers';
+
+    // Managed via the "Add Payment Provider" flow; hidden from the sidebar.
+    protected static bool $shouldRegisterNavigation = false;
     use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array

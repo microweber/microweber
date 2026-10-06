@@ -25,7 +25,7 @@ use Modules\Invoice\Services\InvoiceService;
 use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchable;
 class InvoiceResource extends Resource
 {
-    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Billing';
     protected static ?string $model = Invoice::class;
     protected static ?string $recordTitleAttribute = 'invoice_number';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-currency-dollar';
@@ -33,7 +33,7 @@ class InvoiceResource extends Resource
     protected static string | null $navigationLabel = 'Invoices';
     protected static ?string $modelLabel = 'Invoice';
     protected static ?string $slug = 'invoices';
-    protected static ?int $navigationSort = 120;
+    protected static ?int $navigationSort = 4;
 
 
 
