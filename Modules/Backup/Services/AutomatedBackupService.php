@@ -102,18 +102,22 @@ class AutomatedBackupService
             // Configure based on backup type
             $this->configureBackupByType($backup, $schedule);
 
-            // Execute backup
-            $result = $backup->start();
+            // Execute backup. start() is a multi-step SessionStepper operation
+            // (the admin UI loops it over AJAX); server-side we must drive it to
+            // completion ourselves to receive the final filename/path.
+            $result = $this->runBackupToCompletion($backup);
 
             if (isset($result['error'])) {
                 throw new \Exception($result['error']);
             }
 
-            // Get file size
-            $size = file_exists($backupPath) ? filesize($backupPath) : 0;
+            // Prefer the filename/path the backup actually produced over our
+            // pre-generated guess, so the history row matches the real file.
+            [$finalName, $finalPath] = $this->resolveBackupFile($result, $filename, $backupPath);
+            $size = file_exists($finalPath) ? filesize($finalPath) : 0;
 
             // Mark as completed
-            $history->markAsCompleted($filename, $backupPath, $size);
+            $history->markAsCompleted($finalName, $finalPath, $size);
 
             // Send success notification
             $this->sendSuccessNotification($history);
@@ -124,7 +128,7 @@ class AutomatedBackupService
             Log::info('Scheduled backup completed successfully', [
                 'schedule_id' => $schedule->id,
                 'history_id' => $history->id,
-                'filename' => $filename,
+                'filename' => $finalName,
                 'size' => $size,
             ]);
 
@@ -207,22 +211,26 @@ class AutomatedBackupService
                 $backup->setBackupWithZip(true);
             }
 
-            // Execute backup
-            $result = $backup->start();
+            // Execute backup. start() is a multi-step SessionStepper operation
+            // (the admin UI loops it over AJAX); server-side we must drive it to
+            // completion ourselves to receive the final filename/path.
+            $result = $this->runBackupToCompletion($backup);
 
             if (isset($result['error'])) {
                 throw new \Exception($result['error']);
             }
 
-            // Get file size
-            $size = file_exists($backupPath) ? filesize($backupPath) : 0;
+            // Prefer the filename/path the backup actually produced over our
+            // pre-generated guess, so the history row matches the real file.
+            [$finalName, $finalPath] = $this->resolveBackupFile($result, $filename, $backupPath);
+            $size = file_exists($finalPath) ? filesize($finalPath) : 0;
 
             // Mark as completed
-            $history->markAsCompleted($filename, $backupPath, $size);
+            $history->markAsCompleted($finalName, $finalPath, $size);
 
             Log::info('Manual backup completed successfully', [
                 'history_id' => $history->id,
-                'filename' => $filename,
+                'filename' => $finalName,
                 'size' => $size,
             ]);
 
@@ -277,6 +285,68 @@ class AutomatedBackupService
     }
 
     /**
+     * Drive a backup's multi-step SessionStepper loop to completion.
+     *
+     * Backup::start() processes one step per call and returns a progress array
+     * (current_step/total_steps/percentage) until the final step, when it
+     * returns the completion result carrying filepath/filename. The admin UI
+     * loops this over AJAX; server-side we loop it here.
+     *
+     * @param Backup $backup
+     * @return array<string, mixed> The final (completion or error) result.
+     * @throws \Exception if the backup never completes within the step cap.
+     */
+    private function runBackupToCompletion(Backup $backup): array
+    {
+        $maxIterations = 1000; // hard safety cap against a runaway stepper
+        $result = [];
+
+        for ($i = 0; $i < $maxIterations; $i++) {
+            $result = $backup->start();
+
+            if (!is_array($result)) {
+                throw new \Exception('Backup returned an unexpected response.');
+            }
+
+            // Terminal states: an error, or a completion result that carries
+            // the produced file (top-level or nested) / an explicit success.
+            if (isset($result['error'])
+                || !empty($result['filepath'])
+                || !empty($result['data']['filepath'])
+                || isset($result['success'])) {
+                return $result;
+            }
+
+            // Otherwise this was an in-progress step — keep stepping.
+        }
+
+        throw new \Exception('Backup did not complete within the step limit.');
+    }
+
+    /**
+     * Resolve the real filename/path the backup produced.
+     *
+     * Backup::start() returns the file the zip exporter actually wrote, either
+     * at the top level or nested under 'data'. Fall back to the pre-generated
+     * guess when the result doesn't carry them.
+     *
+     * @param array<string, mixed> $result
+     * @param string $fallbackName
+     * @param string $fallbackPath
+     * @return array{0: string, 1: string} [filename, filepath]
+     */
+    private function resolveBackupFile(array $result, string $fallbackName, string $fallbackPath): array
+    {
+        $name = $result['filename'] ?? ($result['data']['filename'] ?? null);
+        $path = $result['filepath'] ?? ($result['data']['filepath'] ?? null);
+
+        return [
+            is_string($name) && $name !== '' ? $name : $fallbackName,
+            is_string($path) && $path !== '' ? $path : $fallbackPath,
+        ];
+    }
+
+    /**
      * Generate filename for backup.
      *
      * @param BackupSchedule|null $schedule
@@ -288,12 +358,12 @@ class AutomatedBackupService
         $type = $backupType ?? ($schedule?->type ?? 'backup');
         $timestamp = date('Y-m-d_H-i-s');
         $name = $schedule?->name ?? 'auto';
-        $filename = "{$name}_{$type}_{$timestamp}.zip";
+        // Sanitize the name/type parts only, then append the extension so the
+        // ".zip" dot survives (slashes/backslashes are stripped, so no traversal).
+        $name = preg_replace('/[^a-zA-Z0-9_-]/', '_', $name);
+        $type = preg_replace('/[^a-zA-Z0-9_-]/', '_', $type);
 
-        // Sanitize filename
-        $filename = preg_replace('/[^a-zA-Z0-9_-]/', '_', $filename);
-
-        return $filename;
+        return "{$name}_{$type}_{$timestamp}.zip";
     }
 
     /**
