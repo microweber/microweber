@@ -60,6 +60,27 @@ class FilamentAdminPanelProvider extends PanelProvider
                 // task-2026-05-27-305605 / AI-1132
                 ->stackedOnMobile();
         });
+
+        // Keep data tables compact so they don't overflow into horizontal
+        // scroll: default the standard record actions to icon-only buttons
+        // with a tooltip (Filament keeps the aria-label, so a11y is intact).
+        // A per-resource ->label()/->button() chained afterwards still wins.
+        $recordActionClasses = [
+            \Filament\Actions\ViewAction::class,
+            \Filament\Actions\EditAction::class,
+            \Filament\Actions\DeleteAction::class,
+            \Filament\Actions\ReplicateAction::class,
+            \Filament\Actions\RestoreAction::class,
+            \Filament\Actions\ForceDeleteAction::class,
+        ];
+
+        foreach ($recordActionClasses as $recordActionClass) {
+            $recordActionClass::configureUsing(function (\Filament\Actions\Action $action): void {
+                $action
+                    ->iconButton()
+                    ->tooltip(fn (\Filament\Actions\Action $action): ?string => $action->getLabel());
+            });
+        }
     }
 
     public function getPanelPages(): array
@@ -318,8 +339,9 @@ class FilamentAdminPanelProvider extends PanelProvider
 
                 // Subscriptions live in the separate admin-billing panel; surface
                 // a link to it under the Billing group in the main sidebar.
+                // Resolve the URL from the panel itself rather than hardcoding it.
                 NavigationItem::make('Subscriptions')
-                    ->url(fn (): string => url('admin/billing'))
+                    ->url(fn (): string => \Filament\Facades\Filament::getPanel('admin-billing')->getUrl())
                     ->group('Billing')
                     ->sort(1)
                     ->icon('heroicon-o-credit-card'),

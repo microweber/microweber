@@ -228,6 +228,8 @@ class BackupScheduleResource extends Resource
             ->actions([
                 \Filament\Actions\Action::make('runNow')
                     ->label('Run Now')
+                    ->tooltip('Run Now')
+                    ->iconButton()
                     ->icon('heroicon-o-play')
                     ->color('success')
                     ->requiresConfirmation()
