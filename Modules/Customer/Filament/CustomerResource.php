@@ -25,12 +25,9 @@ class CustomerResource extends Resource
     protected static ?string $model = Customer::class;
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user-group';
-    protected static string | \UnitEnum | null $navigationGroup = 'Shop';
+    protected static string | \UnitEnum | null $navigationGroup = 'Billing';
 
-    // Surfaced on the Settings page (registered with Settings as parent), not the sidebar.
-    protected static bool $shouldRegisterNavigation = false;
-
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $recordTitleAttribute = 'name';
 

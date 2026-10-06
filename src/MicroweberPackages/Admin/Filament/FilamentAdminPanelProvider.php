@@ -220,6 +220,11 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->collapsible(true)
                     ->collapsed(true),
 
+                'Billing' => NavigationGroup::make()
+                    ->label('Billing')
+                    ->collapsible(true)
+                    ->collapsed(true),
+
                 'Marketplace' => NavigationGroup::make()
                     ->label('Marketplace')
                     ->collapsible(false)
@@ -311,6 +316,13 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->sort(2)
                     ->icon('heroicon-o-megaphone'),*/
 
+                // Subscriptions live in the separate admin-billing panel; surface
+                // a link to it under the Billing group in the main sidebar.
+                NavigationItem::make('Subscriptions')
+                    ->url(fn (): string => url('admin/billing'))
+                    ->group('Billing')
+                    ->sort(1)
+                    ->icon('heroicon-o-credit-card'),
 
             ])
             ->widgets([
