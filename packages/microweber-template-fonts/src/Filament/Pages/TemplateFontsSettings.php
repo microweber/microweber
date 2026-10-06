@@ -19,6 +19,8 @@ use MicroweberPackages\TemplateFonts\Services\TemplateFontsManager;
 class TemplateFontsSettings extends Page
 {
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cog-6-tooth';
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Set the default fonts and typography for your site.';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website Settings';
 

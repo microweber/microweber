@@ -26,6 +26,8 @@ class JobResource extends Resource
     protected static ?string $model = Job::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-queue-list';
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Inspect pending background queue jobs.';
 
     protected static string|\UnitEnum|null $navigationGroup = null;
 

@@ -42,6 +42,8 @@ class WordPressMigrationResource extends Resource
     protected static ?string $recordTitleAttribute = 'source_host';
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-down-on-square-stack';
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Import content from an existing WordPress site.';
 
     // Grouped under "System Settings" alongside Backup and the
     // other import / restore tools so operators find every

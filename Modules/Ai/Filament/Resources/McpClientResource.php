@@ -37,6 +37,8 @@ class McpClientResource extends Resource
     protected static ?string $recordTitleAttribute = 'name';
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-key';
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Manage MCP client connections and credentials.';
 
     protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 

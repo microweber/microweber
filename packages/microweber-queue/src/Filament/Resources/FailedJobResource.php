@@ -26,6 +26,8 @@ class FailedJobResource extends Resource
     protected static ?string $model = FailedJob::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-exclamation-triangle';
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Review and retry failed background jobs.';
 
     protected static string|\UnitEnum|null $navigationGroup = null;
 

@@ -19,6 +19,8 @@ use MicroweberPackages\ImageOptimization\Services\ImageOptimizationService;
 class ImageOptimizationSettings extends Page
 {
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-photo';
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Automatically compress and resize uploaded images.';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website Settings';
 

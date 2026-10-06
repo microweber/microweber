@@ -26,6 +26,9 @@ class ContentDataResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Content';
 
+    // Hidden from the sidebar (still reachable at /admin/content-data).
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?int $navigationSort = 20;
 
     protected static ?string $navigationLabel = 'Content data';

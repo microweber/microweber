@@ -19,6 +19,8 @@ use MicroweberPackages\Minifier\Services\MinifierService;
 class MinifierSettings extends Page
 {
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-scissors';
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Minify and combine CSS and JS for faster page loads.';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website Settings';
 

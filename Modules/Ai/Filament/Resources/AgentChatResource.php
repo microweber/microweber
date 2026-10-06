@@ -25,6 +25,8 @@ class AgentChatResource extends Resource
     protected static ?string $model = AgentChat::class;
     protected static ?string $recordTitleAttribute = 'title';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Browse saved AI agent chat sessions.';
       protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     protected static ?int $navigationSort = 1100;

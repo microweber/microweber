@@ -19,6 +19,8 @@ use MicroweberPackages\MailSender\Services\MailSenderService;
 class MailSenderSettings extends Page
 {
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-envelope';
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Configure how outgoing email is sent (SMTP and drivers).';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website Settings';
 

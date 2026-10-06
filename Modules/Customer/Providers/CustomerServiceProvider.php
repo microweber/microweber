@@ -50,6 +50,8 @@ class CustomerServiceProvider extends BaseModuleServiceProvider
 
         $this->app->register(CustomerEventServiceProvider::class);
         FilamentRegistry::registerResource(CustomerResource::class);
+        // Also list Customers as an entry on the Settings page (hidden from the sidebar).
+        FilamentRegistry::registerResource(CustomerResource::class, \Modules\Settings\Filament\Pages\Settings::class);
     }
 
 }

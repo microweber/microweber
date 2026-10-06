@@ -27,6 +27,8 @@ class TemplateFontResource extends Resource
     protected static ?string $model = TemplateFont::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-language';
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Manage the custom fonts available to your templates.';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website Settings';
 

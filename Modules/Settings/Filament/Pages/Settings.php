@@ -20,6 +20,16 @@ class Settings extends Page
 
     protected static ?int $navigationSort = 97;
 
+    /**
+     * URL-path => description, built from every panel page/resource that declares
+     * a static $description (or getDescription()). Nav-item cards that have no
+     * description of their own fall back to this, so each Settings card shows a
+     * subtitle regardless of which code path rendered it.
+     *
+     * @var array<string,string>
+     */
+    protected array $classDescriptions = [];
+
 
     public function getTitle(): string
     {
@@ -64,6 +74,8 @@ class Settings extends Page
                 $settingsPages[] = new $registeredSettingsResource;
             }
         }
+
+        $this->classDescriptions = $this->buildClassDescriptionMap();
 
         $settingsGroups = [];
         $panelNavigationItems = Filament::getCurrentPanel()->getNavigation();
@@ -301,7 +313,94 @@ class Settings extends Page
             $itemData['description'] = FilamentHelpers::getNavigationItemDescription($item);
         }
 
+        // Authoritative fallback: if the card still has no real description (or it
+        // just echoes the title via the navigation label), use the target page/
+        // resource's declared $description, matched by URL path.
+        $urlPath = $this->normaliseUrlPath($itemData['url'] ?? '');
+        if ($urlPath !== '' && isset($this->classDescriptions[$urlPath])) {
+            if (empty($itemData['description']) || $itemData['description'] === $itemData['title']) {
+                $itemData['description'] = $this->classDescriptions[$urlPath];
+            }
+        }
+
         return $itemData;
+    }
+
+    /** Strip scheme/host so panel-item URLs and class URLs compare equal. */
+    private function normaliseUrlPath(?string $url): string
+    {
+        if (!$url) {
+            return '';
+        }
+        $path = parse_url($url, PHP_URL_PATH);
+        return rtrim((string) ($path ?: $url), '/');
+    }
+
+    /**
+     * Build a URL-path => description map from every registered panel page and
+     * resource that declares a $description (or getDescription()).
+     *
+     * @return array<string,string>
+     */
+    private function buildClassDescriptionMap(): array
+    {
+        $map = [];
+        $panel = Filament::getCurrentPanel();
+
+        $readDescription = function (string $class): string {
+            try {
+                if (method_exists($class, 'getDescription')) {
+                    $d = (new $class)->getDescription();
+                    if (is_string($d) && $d !== '') {
+                        return $d;
+                    }
+                }
+            } catch (\Throwable $e) {
+                // fall through to the property
+            }
+            try {
+                $rc = new \ReflectionClass($class);
+                if ($rc->hasProperty('description')) {
+                    $v = $rc->getProperty('description')->getValue();
+                    if (is_string($v) && $v !== '') {
+                        return $v;
+                    }
+                }
+            } catch (\Throwable $e) {
+                // ignore
+            }
+            return '';
+        };
+
+        foreach ((array) $panel->getPages() as $pageClass) {
+            try {
+                $desc = $readDescription($pageClass);
+                if ($desc !== '' && method_exists($pageClass, 'getNavigationUrl')) {
+                    $url = $this->normaliseUrlPath($pageClass::getNavigationUrl());
+                    if ($url !== '') {
+                        $map[$url] = $desc;
+                    }
+                }
+            } catch (\Throwable $e) {
+                // skip pages that can't resolve a URL in this context
+            }
+        }
+
+        foreach ((array) $panel->getResources() as $resourceClass) {
+            try {
+                $desc = $readDescription($resourceClass);
+                if ($desc !== '' && method_exists($resourceClass, 'getUrl')) {
+                    $url = $this->normaliseUrlPath($resourceClass::getUrl());
+                    if ($url !== '') {
+                        $map[$url] = $desc;
+                    }
+                }
+            } catch (\Throwable $e) {
+                // skip resources that can't resolve a URL in this context
+            }
+        }
+
+        return $map;
     }
 
     private function buildNavFromPanelNavGroup(NavigationGroup $navGroup): array

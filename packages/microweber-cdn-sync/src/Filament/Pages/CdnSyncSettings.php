@@ -19,6 +19,8 @@ class CdnSyncSettings extends Page
 {
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cloud';
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Sync your site assets to a CDN for faster global delivery.';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website Settings';
 

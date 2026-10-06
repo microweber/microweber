@@ -45,6 +45,8 @@ use Illuminate\Support\Facades\DB;
 class ContentTypesPage extends Page
 {
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Manage the content types used across your website.';
     protected static bool $shouldRegisterNavigation = true;
     protected static ?string $title = 'Content Types';
     // task-2026-06-06-AI835 — the sidebar nav label derived from $title

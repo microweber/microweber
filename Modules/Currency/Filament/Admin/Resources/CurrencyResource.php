@@ -18,6 +18,8 @@ class CurrencyResource extends Resource
     protected static ?string $recordTitleAttribute = 'name';
 
     protected static string | \BackedEnum | null $navigationIcon = null;
+    // Shown as the subtitle on the Settings page card.
+    protected static string $description = 'Manage the currencies available in your shop.';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
 
