@@ -69,15 +69,23 @@ class BackupServiceProvider extends BaseModuleServiceProvider
             Big2InstallContentCommand::class,
         ]);
 
-        // Register Filament resources and pages (task-2026-05-22-f83bf6 / AI-764)
-        // task-2026-05-22-AI-929 — keep only global registration; the Settings hub nav-loop
-        // already captures BackupResource from the "System Settings" nav-group (ends with "Settings").
-        // The previously-added Settings::class-scoped registration caused a duplicate card because
-        // the nav-loop extracted a blank slug while the resource produced a real slug — dedup failed.
+        // Register Filament resources and pages (task-2026-05-22-f83bf6 / AI-764).
+        // The four backup entries live in a dedicated "Backup" nav-group with
+        // shouldRegisterNavigation=false, so they're hidden from the sidebar and
+        // surface only in the Backup section of the Settings page via the
+        // Settings::class-scoped registrations below. Because path B (the nav-loop)
+        // no longer captures them, the old duplicate-card issue can't recur.
         FilamentRegistry::registerResource(BackupResource::class);
         FilamentRegistry::registerResource(BackupScheduleResource::class);
         FilamentRegistry::registerResource(BackupHistoryResource::class);
         FilamentRegistry::registerPage(RestoreAdminPage::class);
+
+        // Group all backup-related entries into a "Backup" section on the Settings page.
+        $settingsHub = Settings::class;
+        FilamentRegistry::registerResource(BackupResource::class, $settingsHub);
+        FilamentRegistry::registerResource(BackupScheduleResource::class, $settingsHub);
+        FilamentRegistry::registerResource(BackupHistoryResource::class, $settingsHub);
+        FilamentRegistry::registerPage(RestoreAdminPage::class, $settingsHub);
 
         FilamentRegistry::registerGlobalSearchEntry(
             'Backup & Restore', '/admin/backups',

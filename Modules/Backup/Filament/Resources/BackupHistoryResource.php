@@ -18,7 +18,10 @@ class BackupHistoryResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-clock';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Backup';
+
+    // Hidden from the sidebar; shown in the Backup section of the Settings page.
+    protected static bool $shouldRegisterNavigation = false;
 
     protected static string $description = 'View and manage backup history';
 

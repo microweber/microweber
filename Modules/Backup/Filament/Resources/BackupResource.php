@@ -26,7 +26,10 @@ class BackupResource extends Resource
 {
     // task-2026-05-22-f83bf6 / AI-764 — surfaces the Backup admin page at
     // /admin/backup and adds it to the Settings sidebar.
-    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Backup';
+
+    // Hidden from the sidebar; shown in the Backup section of the Settings page.
+    protected static bool $shouldRegisterNavigation = false;
 
     protected static ?string $model = Backup::class;
 
