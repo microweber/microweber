@@ -21,6 +21,9 @@ class AttributeResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Shop';
 
+    // Hidden from the sidebar (still reachable at /admin/attributes).
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?int $navigationSort = 7;
 
     protected static ?string $recordTitleAttribute = 'attribute_name';

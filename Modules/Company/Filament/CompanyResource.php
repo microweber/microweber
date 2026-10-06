@@ -26,6 +26,9 @@ class CompanyResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Shop';
 
+    // Managed inline from the customer form; hidden from the sidebar (still at /admin/companies).
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?int $navigationSort = 5;
 
     protected static ?string $recordTitleAttribute = 'name';

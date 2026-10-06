@@ -21,6 +21,9 @@ class AddressResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Shop';
 
+    // Hidden from the sidebar (still reachable at /admin/addresses).
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?int $navigationSort = 6;
 
     protected static ?string $recordTitleAttribute = 'name';

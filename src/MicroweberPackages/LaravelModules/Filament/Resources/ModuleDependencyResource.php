@@ -20,6 +20,9 @@ class ModuleDependencyResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrows-right-left';
 
+    // Hidden from the sidebar — still reachable by URL, just not a primary nav item.
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static string | \UnitEnum | null $navigationGroup = 'Customization Settings';
 
     protected static string $description = 'Manage module dependency relationships';

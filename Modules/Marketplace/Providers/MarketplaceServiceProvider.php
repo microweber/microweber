@@ -43,6 +43,8 @@ class MarketplaceServiceProvider extends BaseModuleServiceProvider
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
         FilamentRegistry::registerResource(MarketplaceResource::class);
+        // Also list Marketplace as an entry on the Settings page (it's hidden from the sidebar).
+        FilamentRegistry::registerResource(MarketplaceResource::class, \Modules\Settings\Filament\Pages\Settings::class);
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(MarketplaceModuleSettings::class);
         Livewire::component('admin-list-licenses', ListLicenses::class);

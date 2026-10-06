@@ -83,6 +83,8 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
 //            return new Laravel\LaravelFileRepository($app, $path);
 //        });
         FilamentRegistry::registerResource(ModuleResource::class);
+        // Also list Modules as an entry on the Settings page (it's hidden from the sidebar).
+        FilamentRegistry::registerResource(ModuleResource::class, \Modules\Settings\Filament\Pages\Settings::class);
 FilamentRegistry::registerResource(ModuleDependencyResource::class);
 
         $this->app->singleton(LaravelModulesCacheRepositoryContract::class, LaravelModulesCacheRepository::class);

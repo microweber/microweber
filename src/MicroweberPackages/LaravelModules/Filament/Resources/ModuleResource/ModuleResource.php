@@ -27,6 +27,9 @@ class ModuleResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'Modules';
 
+    // Surfaced on the Settings page (registered with Settings as parent), not the sidebar.
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $label = 'Modules';
 
     protected static ?int $navigationSort = 1;

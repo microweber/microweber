@@ -21,6 +21,9 @@ class ContentFieldResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Content';
 
+    // Hidden from the sidebar (still reachable at /admin/content-fields).
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?int $navigationSort = 21;
 
     protected static ?string $navigationLabel = 'Content fields';

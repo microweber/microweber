@@ -37,6 +37,9 @@ class MarketplaceResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Marketplace';
     protected static ?int $navigationSort = 1;
 
+    // Surfaced on the Settings page (registered with Settings as parent), not the sidebar.
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $breadcrumb = 'Marketplace';
 
     // task-2026-05-23-b66561 / AI-1047 — match sidebar nav label (singular 'Marketplace').
