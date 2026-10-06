@@ -65,6 +65,11 @@ class AutomatedBackupService
      */
     public function executeSchedule(BackupSchedule $schedule): BackupHistory
     {
+        // Generate the target filename/path up-front so the pending record is
+        // complete — filename/filepath are NOT NULL on the history table.
+        $filename = $this->generateFilename($schedule);
+        $backupPath = backup_location() . $filename;
+
         // Create history record
         $history = new BackupHistory();
         $history->backup_schedule_id = $schedule->id;
@@ -72,6 +77,8 @@ class AutomatedBackupService
         $history->backup_type = $schedule->type;
         $history->tables = $schedule->tables;
         $history->include_media = $schedule->include_media;
+        $history->filename = $filename;
+        $history->filepath = $backupPath;
         $history->status = 'pending';
         $history->save();
 
@@ -79,10 +86,6 @@ class AutomatedBackupService
             // Mark as running
             $history->markAsRunning();
             $schedule->markAsRun();
-
-            // Generate filename
-            $filename = $this->generateFilename($schedule);
-            $backupPath = backup_location() . $filename;
 
             // Configure and execute backup
             $backup = new Backup();
@@ -154,22 +157,25 @@ class AutomatedBackupService
      */
     public function executeManualBackup(string $backupType, array $options = []): BackupHistory
     {
+        // Generate the target filename/path up-front so the pending record is
+        // complete — filename/filepath are NOT NULL on the history table.
+        $filename = $this->generateFilename(null, $backupType);
+        $backupPath = backup_location() . $filename;
+
         // Create history record
         $history = new BackupHistory();
         $history->type = 'manual';
         $history->backup_type = $backupType;
         $history->tables = $options['tables'] ?? null;
         $history->include_media = $options['include_media'] ?? true;
+        $history->filename = $filename;
+        $history->filepath = $backupPath;
         $history->status = 'pending';
         $history->save();
 
         try {
             // Mark as running
             $history->markAsRunning();
-
-            // Generate filename
-            $filename = $this->generateFilename(null, $backupType);
-            $backupPath = backup_location() . $filename;
 
             // Configure and execute backup
             $backup = new Backup();
@@ -279,9 +285,9 @@ class AutomatedBackupService
      */
     private function generateFilename(?BackupSchedule $schedule, ?string $backupType = null): string
     {
-        $type = $backupType ?? ($schedule->type ?? 'backup');
+        $type = $backupType ?? ($schedule?->type ?? 'backup');
         $timestamp = date('Y-m-d_H-i-s');
-        $name = $schedule->name ?? 'auto';
+        $name = $schedule?->name ?? 'auto';
         $filename = "{$name}_{$type}_{$timestamp}.zip";
 
         // Sanitize filename
