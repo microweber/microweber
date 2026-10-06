@@ -55,13 +55,16 @@ if (!function_exists('currency_format')) {
     /**
      * Format an amount with the current currency.
      *
-     * @param float $amount
+     * Accepts string/int too — prices often arrive as strings from the DB/views;
+     * cast defensively so a non-numeric string can't TypeError on the float param.
+     *
+     * @param float|int|string|null $amount
      * @param string|null $currencyCode
      * @return string
      */
-    function currency_format(float $amount, ?string $currencyCode = null): string
+    function currency_format(float|int|string|null $amount, ?string $currencyCode = null): string
     {
-        return currency_manager()->format($amount, $currencyCode);
+        return currency_manager()->format((float) $amount, $currencyCode);
     }
 }
 
@@ -73,9 +76,9 @@ if (!function_exists('currency_format_plain')) {
      * @param string|null $currencyCode
      * @return string
      */
-    function currency_format_plain(float $amount, ?string $currencyCode = null): string
+    function currency_format_plain(float|int|string|null $amount, ?string $currencyCode = null): string
     {
-        return currency_manager()->formatPlain($amount, $currencyCode);
+        return currency_manager()->formatPlain((float) $amount, $currencyCode);
     }
 }
 

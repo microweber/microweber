@@ -18,8 +18,11 @@
     <div class="flex flex-row sm:flex-row items-center mt-2 sm:mt-0 w-full sm:w-auto justify-start sm:justify-end gap-3">
         @if($content->content_type === 'product')
             @php
-                $price = $content->price ?? 0;
-                $specialPrice = function_exists('offers_get_price') ? $content->getSpecialPriceAttribute() : null;
+                // Cast to float — prices can come back as strings (or empty) from
+                // the DB/custom fields, and number_format() requires int|float on
+                // PHP 8 (non-numeric string -> TypeError).
+                $price = (float) ($content->price ?? 0);
+                $specialPrice = function_exists('offers_get_price') ? (float) $content->getSpecialPriceAttribute() : null;
                 $currencySymbol = get_option('currency_symbol', 'e-commerce') ?: '$';
 
                 $trackQty = $content->getContentDataByFieldName('track_quantity');
