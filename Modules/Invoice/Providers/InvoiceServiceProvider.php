@@ -44,6 +44,8 @@ class InvoiceServiceProvider extends BaseModuleServiceProvider
         });
 
         FilamentRegistry::registerResource(InvoiceResource::class);
+        // Also list Invoices in the Billing section of the Settings page.
+        FilamentRegistry::registerResource(InvoiceResource::class, \Modules\Settings\Filament\Pages\Settings::class);
 
         FilamentRegistry::registerPage(AdminShopInvoicesPage::class);
 

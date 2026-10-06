@@ -70,6 +70,9 @@ $this->loadRoutesFrom(module_path($this->moduleName, 'routes/webhooks.php'));
 
         FilamentRegistry::registerResource(PaymentProviderResource::class);
         FilamentRegistry::registerResource(PaymentResource::class);
+        // Also list Payments + Payment Providers in the Billing section of the Settings page.
+        FilamentRegistry::registerResource(PaymentResource::class, \Modules\Settings\Filament\Pages\Settings::class);
+        FilamentRegistry::registerResource(PaymentProviderResource::class, \Modules\Settings\Filament\Pages\Settings::class);
 
         FilamentRegistry::registerGlobalSearchEntry(
             'Payment Provider Settings', '/admin/payment-providers',

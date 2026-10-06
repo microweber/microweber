@@ -22,11 +22,12 @@ class PaymentProviderResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-credit-card';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Billing';
     protected static ?int $navigationSort = 14;
     protected static ?string $navigationLabel = 'Payment Providers';
 
-    // Managed via the "Add Payment Provider" flow; hidden from the sidebar.
+    // Hidden from the sidebar (managed via the "Add Payment Provider" flow), but
+    // surfaced in the Billing section of the Settings page via the hub registration.
     protected static bool $shouldRegisterNavigation = false;
     use MicroweberGloballySearchable;
 
