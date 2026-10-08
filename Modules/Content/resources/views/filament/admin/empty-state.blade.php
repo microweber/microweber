@@ -199,12 +199,18 @@ You do not have any products yet.
             </h2>
 
             <p class="text-center mt-3" style="opacity: 0.7;">
-                Set up payment providers to start accepting payments.
+                Record a payment manually, or set up payment providers to start accepting payments automatically.
             </p>
 
             <div class="text-center mw-table-empty-cta-wrap">
-                <a href="{{ route('filament.admin.resources.payment-providers.index') }}" class="mw-table-empty-cta" aria-label="Configure payment providers">
-                    + Configure payment providers
+                <a href="{{ route('filament.admin.resources.payments.create') }}" class="mw-table-empty-cta" aria-label="Add payment">
+                    + Add payment
+                </a>
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="{{ route('filament.admin.resources.payment-providers.index') }}" aria-label="Configure payment providers" style="text-decoration: underline; opacity: 0.75;">
+                    Configure payment providers
                 </a>
             </div>
         @endif

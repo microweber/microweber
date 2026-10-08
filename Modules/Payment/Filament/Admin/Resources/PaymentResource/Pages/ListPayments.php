@@ -15,15 +15,13 @@ class ListPayments extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        // task-2026-05-28-2f5a6c / AI-1099 — header CreateAction hides when the
-        // table has zero rows so the empty-state CTA (configure payment
-        // providers) is the only primary affordance on the empty page. The
-        // Payment Provider Settings shortcut is downgraded to ->color('gray')
-        // so the two header actions no longer render as competing primary
-        // blue buttons (double-primary defect).
+        // Always expose "New payment" so a payment can be recorded manually
+        // (e.g. offline/bank-transfer payments), alongside the Payment Provider
+        // Settings shortcut (kept gray so the two don't read as competing
+        // primary buttons — the double-primary defect from AI-1099).
         return [
             Actions\CreateAction::make()
-                ->visible(fn (): bool => static::getResource()::getEloquentQuery()->exists()),
+                ->label('Add payment'),
             Action::make('settings')
                 ->label('Payment Provider Settings')
                 ->url(PaymentProviderResource::getUrl('index'))
