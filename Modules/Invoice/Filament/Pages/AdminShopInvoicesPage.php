@@ -60,6 +60,20 @@ class AdminShopInvoicesPage extends AdminSettingsPage
                             ->selectablePlaceholder(false)
                             ->live(),
 
+                        // Opt-in: create a draft invoice automatically when a new
+                        // order is placed. Only relevant while invoicing is on.
+                        Select::make('options.shop.auto_generate_invoices')
+                            ->label('Auto-generate invoices for new orders')
+                            ->helperText('When enabled, a draft invoice is created automatically whenever a new order is placed.')
+                            ->options([
+                                '1' => 'Enabled',
+                                'n' => 'Disabled',
+                            ])
+                            ->default('n')
+                            ->selectablePlaceholder(false)
+                            ->visible(fn (callable $get): bool => in_array($get('options.shop.enable_invoices'), ['1', 'y', true, 1], true))
+                            ->live(),
+
                         MwFileUpload::make('options.shop.invoice_company_logo')
                             ->label('Company Logo')
                             ->helperText('Select an Company Logo for your website.')

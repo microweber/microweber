@@ -289,6 +289,30 @@ public function updateInvoicePaidStatus(int $invoice_id, string $paid_status): a
     }
 
     /**
+     * Whether a draft invoice should be auto-generated for each new order.
+     * Opt-in: disabled unless explicitly enabled on the shop invoice settings
+     * page, and only when invoicing itself is enabled.
+     */
+    public function autoGenerateEnabled(): bool
+    {
+        if (! $this->invoicingEnabled()) {
+            return false;
+        }
+
+        $value = get_option('auto_generate_invoices', 'shop');
+
+        if ($value === null || $value === '') {
+            return false;
+        }
+
+        if (is_bool($value)) {
+            return $value;
+        }
+
+        return in_array(strtolower(trim((string) $value)), ['1', 'y', 'yes', 'true', 'on'], true);
+    }
+
+    /**
      * Resolve the configured company logo to a base64 data URI so DomPDF can
      * embed it without remote fetching (enable_remote is off by default).
      * Returns null when no readable local logo file is configured.

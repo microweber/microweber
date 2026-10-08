@@ -19,7 +19,12 @@ class InvoiceServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-
+        // Auto-generate a draft invoice when a new order is placed, when the
+        // shop invoice settings opt into it (see AdminShopInvoicesPage).
+        \Illuminate\Support\Facades\Event::listen(
+            \Modules\Order\Events\OrderWasCreated::class,
+            \Modules\Invoice\Listeners\GenerateInvoiceForNewOrder::class
+        );
     }
 
     /**
