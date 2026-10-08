@@ -75,10 +75,21 @@
     </style>
 </head>
 <body>
+    @php($company = $company ?? [])
+    @php($cur = function_exists('currency_symbol') ? (currency_symbol() ?: '$') : '$')
     <div class="invoice-header clearfix">
         <div class="company-details">
             <h1 class="invoice-title">INVOICE</h1>
-            <p>{{ config('app.name') }}</p>
+            @if(!empty($company['logo']))
+                <img src="{{ $company['logo'] }}" alt="{{ $company['name'] ?? '' }}" style="max-height:60px; max-width:220px; margin-bottom:8px;"><br>
+            @endif
+            <strong>{{ $company['name'] ?? config('app.name') }}</strong><br>
+            @if(!empty($company['address'])){{ $company['address'] }}<br>@endif
+            @if(!empty($company['city']) || !empty($company['country']))
+                {{ trim(($company['city'] ?? '') . (!empty($company['city']) && !empty($company['country']) ? ', ' : '') . ($company['country'] ?? '')) }}<br>
+            @endif
+            @if(!empty($company['vat_number']))VAT: {{ $company['vat_number'] }}<br>@endif
+            @if(!empty($company['company_number']))Company No: {{ $company['company_number'] }}<br>@endif
         </div>
     </div>
 
@@ -119,9 +130,9 @@
             <tr>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->description }}</td>
-                <td class="text-right">${{ $item->formatted_price }}</td>
+                <td class="text-right">{{ $cur }}{{ $item->formatted_price }}</td>
                 <td class="text-right">{{ $item->quantity }}</td>
-                <td class="text-right">${{ $item->formatted_subtotal }}</td>
+                <td class="text-right">{{ $cur }}{{ $item->formatted_subtotal }}</td>
             </tr>
             @endforeach
         </tbody>
@@ -132,7 +143,7 @@
             <table width="100%">
                 <tr>
                     <td><strong>Subtotal:</strong></td>
-                    <td class="text-right">${{ $invoice->formatted_sub_total }}</td>
+                    <td class="text-right">{{ $cur }}{{ $invoice->formatted_sub_total }}</td>
                 </tr>
             </table>
         </div>
@@ -141,7 +152,7 @@
             <table width="100%">
                 <tr>
                     <td><strong>Discount:</strong></td>
-                    <td class="text-right">${{ $invoice->formatted_discount_val }}</td>
+                    <td class="text-right">{{ $cur }}{{ $invoice->formatted_discount_val }}</td>
                 </tr>
             </table>
         </div>
@@ -150,10 +161,25 @@
             <table width="100%">
                 <tr>
                     <td><strong>Total:</strong></td>
-                    <td class="text-right">${{ $invoice->formatted_total }}</td>
+                    <td class="text-right">{{ $cur }}{{ $invoice->formatted_total }}</td>
                 </tr>
             </table>
         </div>
     </div>
+
+    @if(!empty($company['bank_details']) || !empty($company['additional_info']))
+        <div class="clearfix"></div>
+        @if(!empty($company['bank_details']))
+        <div style="margin-top:40px; padding-top:16px; border-top:1px solid #dee2e6; white-space:pre-line;">
+            <strong>Bank transfer details</strong><br>
+            {{ $company['bank_details'] }}
+        </div>
+        @endif
+        @if(!empty($company['additional_info']))
+        <div style="margin-top:16px; white-space:pre-line;">
+            {{ $company['additional_info'] }}
+        </div>
+        @endif
+    @endif
 </body>
 </html>

@@ -508,7 +508,7 @@ public static function getNavigationBadgeTooltip(): ?string
                 ->modalDescription('This will create a new invoice based on this order data.')
                 ->requiresConfirmation()
                 ->modalButton('Generate Invoice')
-                ->visible(fn(Order $record): bool => !$record->invoice_id)
+                ->visible(fn(Order $record): bool => !$record->invoice_id && app(InvoiceService::class)->invoicingEnabled())
                 ->action(function (Order $record) {
                     try {
                         $invoiceService = app(InvoiceService::class);

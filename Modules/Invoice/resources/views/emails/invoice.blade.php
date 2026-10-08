@@ -92,7 +92,7 @@
     <div class="container">
         <div class="header">
             <h1>INVOICE</h1>
-            <p style="color: #718096; margin: 10px 0 0 0;">From {{ config('app.name') }}</p>
+            <p style="color: #718096; margin: 10px 0 0 0;">From {{ $company['name'] ?? config('app.name') }}</p>
         </div>
 
         <div class="content">
@@ -177,7 +177,7 @@
         <div class="footer">
             <p>If you have any questions about this invoice, please contact us.</p>
             <p style="margin-top: 20px;">
-                &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
+                &copy; {{ date('Y') }} {{ $company['name'] ?? config('app.name') }}. All rights reserved.
             </p>
         </div>
     </div>

@@ -219,8 +219,118 @@ public function updateInvoicePaidStatus(int $invoice_id, string $paid_status): a
      */
     public function generatePdf(Invoice $invoice): string
     {
-        $pdf = Pdf::loadView('modules.invoice::pdf', ['invoice' => $invoice]);
+        $pdf = Pdf::loadView('modules.invoice::pdf', [
+            'invoice' => $invoice,
+            'company' => $this->getCompanyDetails(),
+        ]);
         return $pdf->output();
+    }
+
+    /**
+     * Collect the company/invoice details configured on the shop invoice
+     * settings page (admin/admin-shop-invoices-page) so they can be rendered
+     * on the generated invoice (PDF + email). Falls back to the app name when
+     * no company name has been configured.
+     *
+     * @return array<string, mixed>
+     */
+    public function getCompanyDetails(): array
+    {
+        $countries = [
+            'US' => 'United States', 'CA' => 'Canada', 'GB' => 'United Kingdom',
+            'AU' => 'Australia', 'DE' => 'Germany', 'NL' => 'Netherlands',
+            'SE' => 'Sweden', 'NO' => 'Norway', 'DK' => 'Denmark', 'FI' => 'Finland',
+            'IE' => 'Ireland', 'CH' => 'Switzerland', 'AT' => 'Austria',
+            'BE' => 'Belgium', 'LU' => 'Luxembourg', 'FR' => 'France', 'IT' => 'Italy',
+            'ES' => 'Spain', 'PT' => 'Portugal', 'GR' => 'Greece', 'CZ' => 'Czech Republic',
+            'PL' => 'Poland', 'HU' => 'Hungary', 'RO' => 'Romania', 'BG' => 'Bulgaria',
+            'HR' => 'Croatia', 'RS' => 'Serbia', 'SI' => 'Slovenia', 'SK' => 'Slovakia',
+            'LT' => 'Lithuania', 'LV' => 'Latvia', 'EE' => 'Estonia', 'MT' => 'Malta',
+            'CY' => 'Cyprus',
+        ];
+
+        $countryCode = (string) get_option('invoice_company_country', 'shop');
+
+        return [
+            'enabled'       => $this->invoicingEnabled(),
+            'name'          => get_option('invoice_company_name', 'shop') ?: config('app.name'),
+            'logo'          => $this->resolveCompanyLogo(),
+            'country_code'  => $countryCode,
+            'country'       => $countries[$countryCode] ?? $countryCode,
+            'city'          => (string) get_option('invoice_company_city', 'shop'),
+            'address'       => (string) get_option('invoice_company_address', 'shop'),
+            'vat_number'    => (string) get_option('invoice_company_vat_number', 'shop'),
+            'company_number' => (string) get_option('invoice_id_company_number', 'shop'),
+            'bank_details'  => (string) get_option('invoice_company_bank_details', 'shop'),
+            'additional_info' => (string) get_option('invoice_company_additional_info', 'shop'),
+        ];
+    }
+
+    /**
+     * Whether invoicing is enabled on the shop invoice settings page.
+     * Unset (never saved) is treated as enabled so existing sites keep working;
+     * only an explicit "off" disables it.
+     */
+    public function invoicingEnabled(): bool
+    {
+        $value = get_option('enable_invoices', 'shop');
+
+        // Never configured -> enabled (don't break existing sites).
+        if ($value === null) {
+            return true;
+        }
+
+        if (is_bool($value)) {
+            return $value;
+        }
+
+        // Only an explicit truthy value keeps it enabled; '0'/''/'n' disable it.
+        return in_array(strtolower(trim((string) $value)), ['1', 'y', 'yes', 'true', 'on'], true);
+    }
+
+    /**
+     * Resolve the configured company logo to a base64 data URI so DomPDF can
+     * embed it without remote fetching (enable_remote is off by default).
+     * Returns null when no readable local logo file is configured.
+     */
+    private function resolveCompanyLogo(): ?string
+    {
+        $logo = trim((string) get_option('invoice_company_logo', 'shop'));
+
+        if ($logo === '') {
+            return null;
+        }
+
+        // Reduce a full URL to its path, then try the common local roots.
+        $path = parse_url($logo, PHP_URL_PATH) ?: $logo;
+        $path = ltrim($path, '/');
+
+        $candidates = [
+            $logo,                              // already an absolute filesystem path
+            public_path($path),
+            base_path($path),
+        ];
+
+        foreach ($candidates as $candidate) {
+            if ($candidate && is_file($candidate) && is_readable($candidate)) {
+                $data = @file_get_contents($candidate);
+                if ($data === false) {
+                    continue;
+                }
+                $ext = strtolower(pathinfo($candidate, PATHINFO_EXTENSION));
+                $mime = match ($ext) {
+                    'png' => 'image/png',
+                    'gif' => 'image/gif',
+                    'svg' => 'image/svg+xml',
+                    'webp' => 'image/webp',
+                    default => 'image/jpeg',
+                };
+
+                return 'data:' . $mime . ';base64,' . base64_encode($data);
+            }
+        }
+
+        return null;
     }
 
     /**

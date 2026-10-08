@@ -3,7 +3,6 @@
 namespace Modules\Invoice\Filament\Pages;
 
 use Filament\Actions\Action;
-use Filament\Forms\Components\Checkbox;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -48,8 +47,17 @@ class AdminShopInvoicesPage extends AdminSettingsPage
                     ->view('mw-filament::sections.section')
                     ->description('Configure your shop invoices settings.')
                     ->schema([
-                        Checkbox::make('options.shop.enable_invoices')
+                        // Stored as '1'/'n' (not a bool): Microweber's option store
+                        // drops falsy values, so an unchecked checkbox could never
+                        // persist a disabled state. A select keeps both states.
+                        Select::make('options.shop.enable_invoices')
                             ->label('Enable invoicing')
+                            ->options([
+                                '1' => 'Enabled',
+                                'n' => 'Disabled',
+                            ])
+                            ->default('1')
+                            ->selectablePlaceholder(false)
                             ->live(),
 
                         MwFileUpload::make('options.shop.invoice_company_logo')
@@ -126,7 +134,7 @@ class AdminShopInvoicesPage extends AdminSettingsPage
                             ->placeholder('Enter your ID company number')
                             ->live(),
 
-                        Textarea::make('options.shop.invoice_company_bank_details')
+                        Textarea::make('options.shop.invoice_company_additional_info')
                             ->label('Additional information')
                             ->live()
                             ->rows(5)

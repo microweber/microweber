@@ -58,6 +58,7 @@ class InvoiceMail extends Mailable
             ->with([
                 'invoice' => $this->invoice,
                 'customMessage' => $this->customMessage,
+                'company' => app(\Modules\Invoice\Services\InvoiceService::class)->getCompanyDetails(),
             ]);
 
         // Attach PDF if provided
