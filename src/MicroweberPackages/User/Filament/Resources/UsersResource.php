@@ -125,6 +125,13 @@ public static function form(Schema $schema): Schema
             BulkActionGroup::make([
                 DeleteBulkAction::make(),
             ]),
+        ])
+        ->emptyStateHeading('No users yet')
+        ->emptyStateDescription('People with access to your admin appear here. Add your first user to get started.')
+        ->emptyStateIcon('heroicon-o-users')
+        ->emptyStateActions([
+            \Filament\Actions\CreateAction::make()
+                ->label('Add user'),
         ]);
     }
 
