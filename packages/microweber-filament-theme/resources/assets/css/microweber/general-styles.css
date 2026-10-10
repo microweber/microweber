@@ -1592,32 +1592,39 @@ html.dark .fa.fa-trash {
 }
 
 .fi-sidebar-nav {
+    /* The gutter is reserved so the scrollbar never shifts the nav items; the
+       scrollbar itself stays a thin, muted pill that only fades in on hover —
+       no chunky gray bar popping in. */
     scrollbar-gutter: stable both-edges;
-
-    &::-webkit-scrollbar {
-        width: 0;
-        scrollbar-gutter: stable both-edges;
-    }
+    scrollbar-width: thin;                         /* Firefox */
+    scrollbar-color: transparent transparent;      /* Firefox: thumb hidden until hover */
 
     &:hover {
-        &::-webkit-scrollbar {
-            width: 5px !important;
-        }
+        scrollbar-color: rgba(100, 116, 139, 0.35) transparent; /* Firefox: subtle slate thumb */
     }
 
-    /* Track */
+    /* Keep a constant 6px within the reserved gutter so width never changes. */
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    /* Track: always transparent. */
     &::-webkit-scrollbar-track {
-        background: #f1f1f1;
+        background: transparent;
     }
 
-    /* Handle */
+    /* Handle: hidden until hover, then a subtle rounded slate pill. */
     &::-webkit-scrollbar-thumb {
-        background: #888;
+        background: transparent;
+        border-radius: 9999px;
     }
 
-    /* Handle on hover */
+    &:hover::-webkit-scrollbar-thumb {
+        background: rgba(100, 116, 139, 0.35);
+    }
+
     &::-webkit-scrollbar-thumb:hover {
-        background: #555;
+        background: rgba(100, 116, 139, 0.55);
     }
 }
 
