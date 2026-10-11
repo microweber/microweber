@@ -180,6 +180,7 @@
         "microweber-packages/view": "^1.0",
         "microweber-packages/zip": "^1.0",
         "microweber-packages/class-loader": "^1.0",
+        "microweber-packages/template": "^1.0",
         "microweber-packages/template-fonts": "^1.0",
         "microweber-packages/template-custom-css": "^1.0",
         "microweber-packages/queue": "^1.0",
@@ -268,6 +269,7 @@
             "MicroweberPackages\\Notification\\": "packages/microweber-notification/src/",
             "MicroweberPackages\\Zip\\": "packages/microweber-zip/src/",
             "MicroweberPackages\\ClassLoader\\": "packages/microweber-class-loader/src/",
+            "MicroweberPackages\\Template\\": "packages/microweber-template/src/",
             "MicroweberPackages\\TemplateFonts\\": "packages/microweber-template-fonts/src/",
             "MicroweberPackages\\TemplateCustomCss\\": "packages/microweber-template-custom-css/src/",
             "MicroweberPackages\\Queue\\": "packages/microweber-queue/src/",
@@ -296,7 +298,7 @@
             "packages/microweber-event-manager/src/helpers.php",
             "packages/microweber-meta-tags/src/helpers/meta_tags_functions.php",
             "src/MicroweberPackages/Module/helpers.php",
-            "src/MicroweberPackages/Template/helpers/templates.php",
+            "packages/microweber-template/src/helpers/templates.php",
             "packages/microweber-laravel-templates/src/templates_helpers.php",
             "src/MicroweberPackages/User/helpers/helpers.php",
             "src/MicroweberPackages/User/helpers/api_user.php",
@@ -914,6 +916,13 @@
             "url": "packages/microweber-class-loader",
             "options": {
                 "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-template",
+            "options": {
                 "symlink": true
             }
         },

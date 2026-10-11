@@ -253,6 +253,11 @@
             <exclude>packages/microweber-template-custom-css/tests/Dusk</exclude>
         </testsuite>
 
+        <testsuite name="MicroweberTemplate">
+            <directory>packages/microweber-template/src/tests</directory>
+            <directory>packages/microweber-template/src/Tests</directory>
+        </testsuite>
+
         <testsuite name="Packages-View">
             <directory>packages/microweber-view/tests</directory>
         </testsuite>
