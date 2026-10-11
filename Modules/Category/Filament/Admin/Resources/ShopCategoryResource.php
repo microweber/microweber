@@ -13,6 +13,9 @@ class ShopCategoryResource extends CategoryResource
     protected static ?string $navigationLabel = 'Product Categories';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-squares-2x2';
 
+    // Hidden from the sidebar; reached from the Shop > More hub page.
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function getPages(): array
     {
         return [

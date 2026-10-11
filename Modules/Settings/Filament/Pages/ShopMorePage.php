@@ -31,6 +31,15 @@ class ShopMorePage extends Page
     {
         $cards = [];
 
+        if (class_exists(\Modules\Category\Filament\Admin\Resources\ShopCategoryResource::class)) {
+            $cards[] = [
+                'title' => 'Product Categories',
+                'description' => 'Organise products into categories and sub-categories.',
+                'icon' => 'heroicon-o-squares-2x2',
+                'url' => \Modules\Category\Filament\Admin\Resources\ShopCategoryResource::getUrl('index'),
+            ];
+        }
+
         // Subscriptions live in the separate admin-billing panel.
         try {
             $cards[] = [
