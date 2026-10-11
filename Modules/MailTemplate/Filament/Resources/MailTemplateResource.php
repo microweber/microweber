@@ -163,6 +163,15 @@ class MailTemplateResource extends Resource
                                     );
                                 }
 
+                                // A saved record can carry a legacy/unknown type that is no
+                                // longer one of the options — tell the user so they can fix it
+                                // (instead of a confusing empty select + "no variables").
+                                if (! array_key_exists($type, $service->getTemplateTypes())) {
+                                    return new \Illuminate\Support\HtmlString(
+                                        '<p style="color:#b45309;font-size:13.5px;margin:0;">This template\'s saved type (<code style="color:#b45309;">' . e($type) . '</code>) is no longer one of the available types. Pick a type above to continue.</p>'
+                                    );
+                                }
+
                                 $variables = $service->getAvailableVariables($type);
                                 if (empty($variables)) {
                                     return new \Illuminate\Support\HtmlString(
