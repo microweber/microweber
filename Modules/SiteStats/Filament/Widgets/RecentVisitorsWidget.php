@@ -54,16 +54,28 @@ class RecentVisitorsWidget extends BaseWidget
 
                 TextColumn::make('browser')
                     ->label('Browser')
-                    ->placeholder('Unknown'),
+                    ->placeholder('Unknown')
+                    // Unidentifiable agents (bots/scanners) parse to '0'/'';
+                    // show those as 'Unknown' like the null path.
+                    ->formatStateUsing(fn ($state) => $state && (string) $state !== '0'
+                        ? $state
+                        : 'Unknown'),
 
                 TextColumn::make('platform')
                     ->label('Platform')
                     ->badge()
-                    ->placeholder('Unknown'),
+                    ->placeholder('Unknown')
+                    ->formatStateUsing(fn ($state) => $state && (string) $state !== '0'
+                        ? $state
+                        : 'Unknown'),
 
                 TextColumn::make('language')
                     ->label('Language')
-                    ->placeholder('--'),
+                    ->placeholder('--')
+                    // Older rows stored unknown language as '0'; show '--'.
+                    ->formatStateUsing(fn ($state) => $state && (string) $state !== '0'
+                        ? $state
+                        : '--'),
             ])
             ->defaultSort('updated_at', 'desc')
             ->paginated([10, 25, 50]);

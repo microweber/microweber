@@ -52,12 +52,19 @@ class BrowsersWidget extends BaseWidget
             ->columns([
                 TextColumn::make('browser')
                     ->label('Browser')
-                    ->searchable(),
+                    ->searchable()
+                    // Unidentifiable agents (bots/scanners) parse to '0'/''.
+                    ->formatStateUsing(fn ($state) => $state && (string) $state !== '0'
+                        ? $state
+                        : 'Unknown'),
 
                 TextColumn::make('platform')
                     ->label('Platform')
                     ->badge()
-                    ->searchable(),
+                    ->searchable()
+                    ->formatStateUsing(fn ($state) => $state && (string) $state !== '0'
+                        ? $state
+                        : 'Unknown'),
 
                 TextColumn::make('visitor_count')
                     ->label('Visitors')

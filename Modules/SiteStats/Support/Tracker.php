@@ -137,23 +137,50 @@ class Tracker
                 ) {
 
                     $hash = $item['session_id'];
-                    $related_data = new Sessions();
-                    $related_data = $related_data->firstOrCreate([
-                        'session_id' => $hash
-                    ], [
-                        'browser_id' => $browser_id,
-                        'referrer_id' => $session_original_ref_id,
-                        'language' => $language,
-                        'session_id' => $hash,
-                        'geoip_id' => $this->_geo_ip_id($item['user_ip']),
-                        'referrer_domain_id' => $this->_referrer_domain_id($ref),
-                        'referrer_path_id' => $this->_referrer_path_id($ref),
-                        'user_id' => $item['user_id'],
-                        'user_ip' => $item['user_ip']
-                    ]);
-                    if ($related_data->id) {
-                        $item['session_id_key'] = $related_data->id;
+                    $geoip_id = $this->_geo_ip_id($item['user_ip']);
 
+                    $session = Sessions::firstOrNew(['session_id' => $hash]);
+
+                    if (!$session->exists) {
+                        // New session — record everything we collected. Store
+                        // unknown values as null (not 0/'0') so the UI shows the
+                        // proper "Unknown"/"--" placeholder.
+                        $session->fill([
+                            'browser_id' => $browser_id ?: null,
+                            'referrer_id' => $session_original_ref_id ?: null,
+                            'language' => $language ?: null,
+                            'session_id' => $hash,
+                            'geoip_id' => $geoip_id ?: null,
+                            'referrer_domain_id' => $this->_referrer_domain_id($ref),
+                            'referrer_path_id' => $this->_referrer_path_id($ref),
+                            'user_id' => $item['user_id'],
+                            'user_ip' => $item['user_ip'],
+                        ]);
+                    } else {
+                        // Existing session — backfill any detail the first ping
+                        // missed, so a visitor whose first hit lacked the
+                        // User-Agent/language/geoip doesn't stay "Unknown"
+                        // forever once a later ping carries the data.
+                        if (empty($session->browser_id) && $browser_id) {
+                            $session->browser_id = $browser_id;
+                        }
+                        if ((empty($session->language) || $session->language === '0') && $language) {
+                            $session->language = $language;
+                        }
+                        if (empty($session->geoip_id) && $geoip_id) {
+                            $session->geoip_id = $geoip_id;
+                        }
+                    }
+
+                    // Bump last-seen so "Recent Visitors" reflects real activity.
+                    if (isset($item['updated_at'])) {
+                        $session->updated_at = $item['updated_at'];
+                    }
+
+                    $session->save();
+
+                    if ($session->id) {
+                        $item['session_id_key'] = $session->id;
                     }
                 }
 
