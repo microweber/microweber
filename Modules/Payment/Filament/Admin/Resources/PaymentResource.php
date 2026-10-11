@@ -29,6 +29,9 @@ class PaymentResource extends Resource
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-banknotes';
     protected static string | \UnitEnum | null $navigationGroup = 'Shop';
     protected static ?int $navigationSort = 21;
+
+    // Hidden from the sidebar; reached from the Shop → More hub page.
+    protected static bool $shouldRegisterNavigation = false;
     use MicroweberGloballySearchable;
 
     public static function getGloballySearchableAttributes(): array

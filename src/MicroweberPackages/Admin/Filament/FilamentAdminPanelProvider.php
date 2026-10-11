@@ -338,14 +338,9 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->sort(2)
                     ->icon('heroicon-o-megaphone'),*/
 
-                // Subscriptions live in the separate admin-billing panel; surface
-                // a link to it under the Billing group in the main sidebar.
-                // Resolve the URL from the panel itself rather than hardcoding it.
-                NavigationItem::make('Subscriptions')
-                    ->url(fn (): string => \Filament\Facades\Filament::getPanel('admin-billing')->getUrl())
-                    ->group('Shop')
-                    ->sort(20)
-                    ->icon('heroicon-o-credit-card'),
+                // Subscriptions, Payments, Customers and Invoices are reached from
+                // the Shop → More hub page (ShopMorePage), so they are no longer
+                // listed individually in the Shop sidebar group.
 
             ])
             ->widgets([

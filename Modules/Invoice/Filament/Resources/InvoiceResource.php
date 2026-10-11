@@ -26,6 +26,8 @@ use MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGloballySearchabl
 class InvoiceResource extends Resource
 {
     protected static string | \UnitEnum | null $navigationGroup = 'Shop';
+    // Hidden from the sidebar; reached from the Shop → More hub page.
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $model = Invoice::class;
     protected static ?string $recordTitleAttribute = 'invoice_number';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-currency-dollar';

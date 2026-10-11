@@ -24,6 +24,7 @@ use Modules\Settings\Filament\Pages\{AdminAdvancedPage,
     AdminShopOtherPage,
     AdminTemplateCustomizerPage,
     AdminTemplatePage,
+    ShopMorePage,
     Settings};
 use Modules\Settings\Filament\Resources\ModuleConfigurationResource;
 use Modules\Settings\Filament\Resources\TranslationResource;
@@ -64,6 +65,8 @@ class SettingsServiceProvider extends BaseModuleServiceProvider
 
         // Register main settings page
         FilamentRegistry::registerPage(Settings::class);
+        // "More" hub under the Shop group (Subscriptions, Payments, Customers, Invoices).
+        FilamentRegistry::registerPage(ShopMorePage::class);
 
         // Register translation resource
         FilamentRegistry::registerResource(TranslationResource::class);

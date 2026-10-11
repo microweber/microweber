@@ -29,6 +29,9 @@ class CustomerResource extends Resource
 
     protected static ?int $navigationSort = 22;
 
+    // Hidden from the sidebar; reached from the Shop → More hub page.
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $recordTitleAttribute = 'name';
 
     public static string $description = 'Manage customers for your shop';
