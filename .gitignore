@@ -277,3 +277,11 @@ Templates/Bootstrap/resources/assets/dist/
 
 # Local scratchpad/design folders (screenshots, planning docs)
 scratchpad-*/
+
+# Grok task harness — local dev tooling, not part of the project
+/scripts/grok-task.py
+/scripts/grok-eval.py
+/scripts/grok-scrape.py
+/plan/grok-tasks/
+/scripts/migrate-one.sh
+/scripts/migrate-all.sh
