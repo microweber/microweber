@@ -209,6 +209,10 @@
             <directory>packages/microweber-meta-tags/src/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberOption">
+            <directory>packages/microweber-option/src/tests</directory>
+        </testsuite>
+
         <testsuite name="MicroweberUtils">
             <directory>packages/microweber-utils/src/tests</directory>
         </testsuite>
