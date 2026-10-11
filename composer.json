@@ -134,6 +134,7 @@
         "microweber-packages/laravel-helper-functions": "^1.0",
         "microweber-packages/filesystem": "^1.0",
         "microweber-packages/microweber-filament-theme": "^1.0",
+        "microweber-packages/filament": "^1.0",
         "microweber-packages/taggable-file-cache": "^1.0",
         "microweber-packages/config": "^1.0",
         "microweber-packages/env-writer": "^1.0",
@@ -239,6 +240,7 @@
             "MicroweberPackages\\Http\\": "packages/microweber-http/src/",
             "MicroweberPackages\\FileUploader\\": "packages/microweber-file-uploader/src/",
             "MicroweberPackages\\Filesystem\\": "packages/microweber-filesystem/src/",
+            "MicroweberPackages\\Filament\\": "packages/microweber-filament/src/",
             "MicroweberPackages\\FilamentRegistry\\": "packages/microweber-filament-registry/src/",
             "MicroweberPackages\\FilamentModalTeleport\\": "packages/microweber-filament-modal-teleport/src/",
             "MicroweberPackages\\AppBootstrapCache\\": "packages/microweber-app-bootstrap-cache/src/",
@@ -545,6 +547,13 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
+        {
+            "type": "path",
+            "url": "packages/microweber-filament",
+            "options": {
+                "symlink": true
+            }
+        },
         {
             "type": "path",
             "url": "packages/microweber-activity-log",

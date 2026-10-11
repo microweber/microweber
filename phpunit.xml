@@ -186,6 +186,10 @@
             <directory>packages/microweber-console/src/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberFilament">
+            <directory>packages/microweber-filament/src/tests</directory>
+        </testsuite>
+
         <testsuite name="MicroweberAiTools">
             <directory>packages/microweber-ai-tools/tests</directory>
             <exclude>packages/microweber-ai-tools/tests/Dusk</exclude>
