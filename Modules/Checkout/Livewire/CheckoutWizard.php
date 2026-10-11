@@ -312,12 +312,24 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                     Radio::make('shipping_provider_id')
                         ->label(__('Shipping Options'))
                         ->options($options)
-                        ->required()
+                        // Only require a choice when shipping methods are actually
+                        // configured. A store with no shipping method set up must
+                        // still be able to check out (shipping is treated as free),
+                        // otherwise this required-but-empty field is a dead-end.
+                        ->required(fn () => !empty($options))
+                        ->visible(fn () => !empty($options))
                         ->live()
                         ->afterStateUpdated(function ($state) {
                             checkout_set_user_info('shipping_provider_id', $state);
                             $this->dispatch('shipping-changed');
                         }),
+
+                    // Shown when no shipping methods exist so the step is not a
+                    // dead-end; the order proceeds with zero shipping cost.
+                    Placeholder::make('no_shipping_methods')
+                        ->label('')
+                        ->content(__('Free shipping — no delivery charge for this order.'))
+                        ->visible(fn () => empty($options)),
 
                     Placeholder::make('shipping_info')
                         ->label('')
