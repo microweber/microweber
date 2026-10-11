@@ -2,7 +2,9 @@
 
 namespace Tests\Browser;
 
+use Illuminate\Support\Facades\Hash;
 use Laravel\Dusk\Browser;
+use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\DuskTestCase;
 use Tests\Browser\Traits\AdminLoginTrait;
@@ -27,9 +29,47 @@ class AdminNavChangesTest extends DuskTestCase
         // Skip parent — we rely on the already-running server's database
     }
 
+    /**
+     * Ensure the canonical Dusk admin exists before logging in, so the suite
+     * is self-provisioning on a fresh database. Credentials come from the same
+     * ResolvesWorkflowEnvironment knobs AdminLoginTrait logs in with
+     * (DUSK_ADMIN_EMAIL / DUSK_ADMIN_PASSWORD, defaulting to admin@admin.com /
+     * admin), so the created account always matches the login.
+     */
+    private function ensureAdminUser(): void
+    {
+        $email = $this->workflowAdminEmail();
+        $password = $this->workflowAdminPassword();
+
+        $user = User::where('email', $email)->first();
+
+        if (! $user) {
+            $user = new User();
+            $user->email = $email;
+            $user->username = 'admin';
+            $user->password = Hash::make($password);
+            $user->is_admin = 1;
+            $user->is_active = 1;
+            $user->is_verified = 1;
+            $user->first_name = 'Admin';
+            $user->last_name = 'User';
+            $user->save();
+
+            return;
+        }
+
+        // Keep an existing account usable as an admin login.
+        $dirty = false;
+        if ((int) $user->is_admin !== 1) { $user->is_admin = 1; $dirty = true; }
+        if ((int) $user->is_active !== 1) { $user->is_active = 1; $dirty = true; }
+        if ($dirty) { $user->save(); }
+    }
+
     #[Test]
     public function shop_more_page_loads_with_cards(): void
     {
+        $this->ensureAdminUser();
+
         $this->browse(function (Browser $browser) {
             $this->loginAsAdmin($browser);
 
@@ -58,6 +98,8 @@ class AdminNavChangesTest extends DuskTestCase
     #[Test]
     public function shop_sidebar_shows_more_and_product_categories(): void
     {
+        $this->ensureAdminUser();
+
         $this->browse(function (Browser $browser) {
             $this->loginAsAdmin($browser);
 
@@ -102,6 +144,8 @@ class AdminNavChangesTest extends DuskTestCase
     #[Test]
     public function payments_page_has_add_payment(): void
     {
+        $this->ensureAdminUser();
+
         $this->browse(function (Browser $browser) {
             $this->loginAsAdmin($browser);
 
@@ -123,6 +167,8 @@ class AdminNavChangesTest extends DuskTestCase
     #[Test]
     public function payments_create_page_loads(): void
     {
+        $this->ensureAdminUser();
+
         $this->browse(function (Browser $browser) {
             $this->loginAsAdmin($browser);
 
@@ -142,6 +188,8 @@ class AdminNavChangesTest extends DuskTestCase
     #[Test]
     public function backup_settings_section_on_settings_page(): void
     {
+        $this->ensureAdminUser();
+
         $this->browse(function (Browser $browser) {
             $this->loginAsAdmin($browser);
 
@@ -161,6 +209,8 @@ class AdminNavChangesTest extends DuskTestCase
     #[Test]
     public function invoice_settings_label_is_distinct(): void
     {
+        $this->ensureAdminUser();
+
         $this->browse(function (Browser $browser) {
             $this->loginAsAdmin($browser);
 
