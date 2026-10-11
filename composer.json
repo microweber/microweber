@@ -206,6 +206,7 @@
         "microweber-packages/core": "^1.0",
         "microweber-packages/admin": "^1.0",
         "microweber-packages/role": "^1.0",
+        "microweber-packages/user": "^1.0",
         "microweber-packages/microweber-ui": "^1.0"
     },
     "require-dev": {
@@ -297,6 +298,7 @@
             "MicroweberPackages\\Install\\": "packages/microweber-install/src/",
             "MicroweberPackages\\Admin\\": "packages/microweber-admin/src/",
             "MicroweberPackages\\Role\\": "packages/microweber-role/src/",
+            "MicroweberPackages\\User\\": "packages/microweber-user/src/",
             "MicroweberPackages\\MicroweberUI\\": "packages/microweber-microweber-ui/src/"
         },
         "files": [
@@ -308,8 +310,8 @@
             "packages/microweber-module/src/helpers.php",
             "packages/microweber-template/src/helpers/templates.php",
             "packages/microweber-laravel-templates/src/templates_helpers.php",
-            "src/MicroweberPackages/User/helpers/helpers.php",
-            "src/MicroweberPackages/User/helpers/api_user.php",
+            "packages/microweber-user/src/helpers/helpers.php",
+            "packages/microweber-user/src/helpers/api_user.php",
             "packages/microweber-media-pixum/src/helpers.php",
             "packages/microweber-image-optimization/src/helpers.php",
             "packages/microweber-minifier/src/helpers.php",
@@ -1074,6 +1076,13 @@
         {
             "type": "path",
             "url": "packages/microweber-role",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-user",
             "options": {
                 "symlink": true
             }

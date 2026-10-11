@@ -339,6 +339,11 @@
             <directory>packages/microweber-role/src/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberUser">
+            <directory>packages/microweber-user/src/tests</directory>
+            <directory>packages/microweber-user/src/Tests</directory>
+        </testsuite>
+
         <testsuite name="MicroweberAdmin">
             <directory>packages/microweber-admin/src/tests</directory>
         </testsuite>
