@@ -33,12 +33,17 @@ class Settings extends Page
 
     public function getTitle(): string
     {
-        return '';
+        return 'Settings';
     }
 
     public function getHeading(): string|\Illuminate\Contracts\Support\Htmlable
     {
-        return '';
+        return 'Settings';
+    }
+
+    public function getSubheading(): string|\Illuminate\Contracts\Support\Htmlable|null
+    {
+        return 'Configure your site, shop, and system — search above or browse the sections below.';
     }
 
 
@@ -258,6 +263,75 @@ class Settings extends Page
             });
             $settingsGroups[$group] = $items;
         }
+
+        // ---- Settings-hub IA/UX polish ----
+
+        // 1) Relabel vague card titles so they're self-explanatory, and drop
+        //    dev-only entries that aren't real settings.
+        $renameMap = [
+            'Types' => 'Content Types',
+            'System Settings' => 'Server & Environment', // collides with its own section name
+        ];
+        $hideTitles = ['Kitchen Sink'];
+        foreach ($settingsGroups as $group => $items) {
+            if (!is_array($items)) {
+                continue;
+            }
+            $items = array_values(array_filter($items, static fn ($c) => ! in_array(trim((string) ($c['title'] ?? '')), $hideTitles, true)));
+            foreach ($items as $i => $card) {
+                $t = trim((string) ($card['title'] ?? ''));
+                if (isset($renameMap[$t])) {
+                    $items[$i]['title'] = $renameMap[$t];
+                    $items[$i]['heading'] = $renameMap[$t];
+                }
+            }
+            $settingsGroups[$group] = $items;
+        }
+
+        // 2) Merge the tiny one/two-card sections into one "Extend & customize".
+        $mergeInto = 'Extend & customize';
+        foreach (['Customization Settings', 'Modules', 'Marketplace'] as $src) {
+            if (! empty($settingsGroups[$src]) && is_array($settingsGroups[$src])) {
+                foreach ($settingsGroups[$src] as $card) {
+                    $settingsGroups[$mergeInto][] = $card;
+                }
+            }
+            unset($settingsGroups[$src]);
+        }
+
+        // 3) "Most used" — clone the highest-traffic cards into a row up top.
+        $mostUsed = [];
+        foreach (['General', 'Template', 'SEO settings', 'Main Shop Settings', 'Payment Providers', 'Email'] as $wanted) {
+            foreach ($settingsGroups as $items) {
+                if (! is_array($items)) {
+                    continue;
+                }
+                foreach ($items as $card) {
+                    if (trim((string) ($card['title'] ?? '')) === $wanted) {
+                        $mostUsed[] = $card;
+                        continue 3;
+                    }
+                }
+            }
+        }
+
+        // 4) Final section order: Most used first, Extend & customize last.
+        $ordered = [];
+        if (! empty($mostUsed)) {
+            $ordered['Most used'] = $mostUsed;
+        }
+        foreach (['Website Settings', 'Shop Settings', 'Taxonomy', 'Email Settings', 'System Settings', 'Language Settings', 'User Settings', 'Backup', 'Extend & customize'] as $g) {
+            if (! empty($settingsGroups[$g]) && is_array($settingsGroups[$g])) {
+                $ordered[$g] = $settingsGroups[$g];
+                unset($settingsGroups[$g]);
+            }
+        }
+        foreach ($settingsGroups as $g => $items) {
+            if (is_array($items) && ! empty($items)) {
+                $ordered[$g] = $items;
+            }
+        }
+        $settingsGroups = $ordered;
 
         return [
             'settingsGroups' => $settingsGroups,

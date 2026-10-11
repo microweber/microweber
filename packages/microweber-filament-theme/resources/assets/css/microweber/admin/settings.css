@@ -359,3 +359,61 @@ body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn .fi
 .dark body.fi-panel-admin .fi-sidebar-group.fi-collapsible > .fi-sidebar-group-btn:hover {
   background-color: #374151 !important;
 }
+
+/* ---- Settings hub: search + filtering ---- */
+.mw-settings-search-wrap {
+  position: relative;
+  max-width: 520px;
+  margin: 0 0 var(--mw-space-md);
+}
+.mw-settings-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  color: var(--mw-text-muted, #6b7280);
+  pointer-events: none;
+}
+.mw-settings-search {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px 0 44px;
+  border-radius: var(--mw-radius-lg, 12px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: var(--mw-bg-surface, #fff);
+  box-shadow: var(--mw-shadow-card, 0 1px 2px rgba(0, 0, 0, 0.05));
+  font-size: 15px;
+  color: var(--mw-text-primary, #182433);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.mw-settings-search::placeholder { color: var(--mw-text-muted, #9ca3af); }
+.mw-settings-search:focus {
+  border-color: rgba(13, 110, 253, 0.5);
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+}
+
+/* JS-driven filter hide. */
+.mw-settings-hidden { display: none !important; }
+
+.mw-settings-no-results {
+  padding: var(--mw-space-lg, 26px);
+  text-align: center;
+  color: var(--mw-text-muted, #6b7280);
+  font-size: 15px;
+}
+
+/* "Most used" gets a subtle accent so the fast path reads as primary. */
+.mw-settings-hub-group:first-child .mw-settings-hub-card {
+  background: linear-gradient(0deg, var(--mw-bg-surface, #fff), var(--mw-bg-surface, #fff)) padding-box,
+              linear-gradient(90deg, rgba(13, 110, 253, 0.25), rgba(13, 110, 253, 0.05)) border-box;
+  border: 1px solid transparent;
+}
+
+.dark .mw-settings-search {
+  background: #1f2937;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #e5e7eb;
+}
+.dark .mw-settings-search-icon { color: #9ca3af; }
