@@ -350,6 +350,10 @@
         <testsuite name="MicroweberLaravelModules">
             <directory>packages/microweber-laravel-modules/src/Tests</directory>
         </testsuite>
+
+        <testsuite name="MicroweberModule">
+            <directory>packages/microweber-module/src/tests</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>

@@ -190,6 +190,7 @@
         "microweber-packages/ai-tools": "*@dev",
         "microweber-packages/package": "^1.0",
         "microweber-packages/module-registry": "^1.0",
+        "microweber-packages/module": "^1.0",
         "microweber-packages/livewire-modal": "^1.0",
         "microweber-packages/livewire": "^1.0",
         "microweber-packages/live-edit": "^1.0",
@@ -281,6 +282,7 @@
             "MicroweberPackages\\AiTools\\": "packages/microweber-ai-tools/src/",
             "MicroweberPackages\\Package\\": "packages/microweber-package/src/",
             "MicroweberPackages\\ModuleRegistry\\": "packages/microweber-module-registry/src/",
+            "MicroweberPackages\\Module\\": "packages/microweber-module/src/",
             "MicroweberPackages\\LivewireModal\\": "packages/microweber-livewire-modal/src/",
             "MicroweberPackages\\Livewire\\": "packages/microweber-livewire/src/",
             "MicroweberPackages\\LiveEdit\\": "packages/microweber-live-edit/src/",
@@ -303,7 +305,7 @@
             "packages/microweber-option/src/helpers/options.php",
             "packages/microweber-event-manager/src/helpers.php",
             "packages/microweber-meta-tags/src/helpers/meta_tags_functions.php",
-            "src/MicroweberPackages/Module/helpers.php",
+            "packages/microweber-module/src/helpers.php",
             "packages/microweber-template/src/helpers/templates.php",
             "packages/microweber-laravel-templates/src/templates_helpers.php",
             "src/MicroweberPackages/User/helpers/helpers.php",
@@ -982,6 +984,13 @@
             "url": "packages/microweber-module-registry",
             "options": {
                 "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-module",
+            "options": {
                 "symlink": true
             }
         },
