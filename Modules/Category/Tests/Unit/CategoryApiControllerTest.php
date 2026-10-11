@@ -87,4 +87,37 @@ class CategoryApiControllerTest extends TestCase
 
     }
 
+    #[Test]
+    public function it_prevents_moving_a_category_into_itself_or_a_descendant(): void
+    {
+        /** @var \Modules\Category\Repositories\CategoryRepositoryApi $repo */
+        $repo = app(\Modules\Category\Repositories\CategoryRepositoryApi::class);
+
+        // Build a chain A -> B -> C
+        $a = Category::create(['title' => 'A move ' . rand(), 'parent_id' => 0]);
+        $b = Category::create(['title' => 'B move ' . rand(), 'parent_id' => $a->id]);
+        $c = Category::create(['title' => 'C move ' . rand(), 'parent_id' => $b->id]);
+
+        // Into itself -> blocked, parent unchanged
+        $repo->moveBulk([$a->id], [$a->id], false);
+        $this->assertEquals(0, (int) $a->fresh()->parent_id, 'A must not become its own child');
+
+        // Into a descendant (C) -> blocked, and the subtree is not reset
+        $result = $repo->moveBulk([$a->id], [$c->id], false);
+        $this->assertContains($a->id, $result['blocked']);
+        $this->assertEquals(0, $result['moved']);
+        $this->assertEquals(0, (int) $a->fresh()->parent_id, 'A must not move under its descendant');
+        $this->assertEquals($b->id, (int) $c->fresh()->parent_id, 'C parent must be untouched');
+
+        // A valid move (C under A) still works, without disturbing B
+        $valid = $repo->moveBulk([$c->id], [$a->id], false);
+        $this->assertEquals(1, $valid['moved']);
+        $this->assertEquals($a->id, (int) $c->fresh()->parent_id);
+        $this->assertEquals($a->id, (int) $b->fresh()->parent_id, 'B parent must be untouched');
+
+        $c->delete();
+        $b->delete();
+        $a->delete();
+    }
+
 }

@@ -85,7 +85,17 @@ export class CategoriesAdminListBulkService {
                 },
                 success: function (data) {
                     mw.reload_module('categories/manage');
-                    mw.notification.success(mw.lang('Categories are moved'));
+                    // The server rejects moving a category into itself or one of
+                    // its own descendants; surface that instead of claiming success.
+                    var blocked = (data && data.blocked) ? data.blocked.length : 0;
+                    var moved = (data && typeof data.moved !== 'undefined') ? data.moved : 1;
+                    if (blocked > 0 && moved === 0) {
+                        mw.notification.warning(mw.lang("A category can't be moved into itself or one of its sub-categories"));
+                    } else if (blocked > 0) {
+                        mw.notification.warning(mw.lang('Some categories were skipped (a category can\'t be moved into itself or its sub-categories)'));
+                    } else {
+                        mw.notification.success(mw.lang('Categories are moved'));
+                    }
                     mw.top().trigger('pagesTreeRefresh');
 
                     dialog.remove();
