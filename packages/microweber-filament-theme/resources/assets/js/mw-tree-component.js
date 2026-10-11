@@ -4,6 +4,15 @@ document.addEventListener('alpine:init', () => {
             state,
 
             async init() {
+                // Guard against double-mount: this field is ->live(), so a form
+                // re-render can re-run init(); without this the tree widget would
+                // build a SECOND tree into the same container.
+                const container = document.getElementById(`mw-tree-edit-content-${options.suffix}`);
+                if (!container || container.dataset.mwTreeBuilt === '1') {
+                    return;
+                }
+                container.dataset.mwTreeBuilt = '1';
+
                 const defaultOptions = {
                     selectable: true,
                     singleSelect: options.singleSelect || false,

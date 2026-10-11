@@ -1070,6 +1070,7 @@ class ContentResource extends Resource
                         'skipPageId' => $record?->id,
                         'isShopFilter' => 0,
                         'selectedCategories' => [],
+                        'treeKey' => 'parent',
                     ];
                     // Sub-section 2: Categories (full tree with
                     // category nodes visible + multi-select for
@@ -1088,6 +1089,7 @@ class ContentResource extends Resource
                         'skipPageId' => $record?->id,
                         'isShopFilter' => 0,
                         'selectedCategories' => $categoryIds,
+                        'treeKey' => 'categories',
                     ];
                     return [
                         Schemas\Components\Section::make('Parent page')
@@ -1116,7 +1118,8 @@ class ContentResource extends Resource
                     'contentType' => $contentTypeFilter,
                     'skipPageId' => $record?->id,
                     'isShopFilter' => $isShopFilter,
-                    'selectedCategories' => $categoryIds
+                    'selectedCategories' => $categoryIds,
+                    'treeKey' => 'main',
                 ];
 
                 return [

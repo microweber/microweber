@@ -9,7 +9,11 @@
 
 <div>
     @php
-        $suffix = $this->getId();
+        // Unique per tree field: $this->getId() is the Livewire component id,
+        // which is the SAME for every mw-tree on the form — so without the
+        // per-field treeKey, two trees (e.g. a post's Parent page + Categories)
+        // share one container id and render into the same spot (duplicated).
+        $suffix = $this->getId() . '-' . ($treeKey ?? 'main');
 
         // Prepare the options array
         $options = [
