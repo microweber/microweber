@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Support\LandingTestContentPurger;
 use Tests\Browser\Traits\AdminLoginTrait;
+use Tests\Browser\Traits\EnsuresAdminUser;
 use Tests\Browser\Traits\CleansColorPaletteTestFixtures;
 use Tests\Browser\Traits\LiveEditColorPaletteTrait;
 use Tests\DuskTestCase;
@@ -70,6 +71,7 @@ use Tests\DuskTestCase;
 class LiveEditColorPaletteCrossTemplateTest extends DuskTestCase
 {
     use AdminLoginTrait;
+    use EnsuresAdminUser;
     use CleansColorPaletteTestFixtures;
     use LiveEditColorPaletteTrait;
 
@@ -345,43 +347,6 @@ class LiveEditColorPaletteCrossTemplateTest extends DuskTestCase
             'link' => $link,
             'title' => $title,
         ];
-    }
-
-    /**
-     * Admin bootstrap parallel to the factories. Kept here instead of
-     * reused from ColorPaletteFactory because that factory hardcodes
-     * `active_site_template = Bootstrap` in `save_content` — we can't
-     * flip that at call time, so we duplicate the small admin-seed
-     * helper rather than complicate the factory's signature.
-     */
-    private function ensureAdminUser(): void
-    {
-        $user = User::where('email', 'admin@admin.com')->first();
-        if (!$user) {
-            $user = new User();
-            $user->email = 'admin@admin.com';
-            $user->username = 'admin';
-            $user->password = Hash::make('admin');
-            $user->is_admin = 1;
-            $user->is_active = 1;
-            $user->is_verified = 1;
-            $user->first_name = 'Admin';
-            $user->last_name = 'User';
-            $user->save();
-            return;
-        }
-        $dirty = false;
-        if ((int)$user->is_admin !== 1) {
-            $user->is_admin = 1;
-            $dirty = true;
-        }
-        if ((int)$user->is_active !== 1) {
-            $user->is_active = 1;
-            $dirty = true;
-        }
-        if ($dirty) {
-            $user->save();
-        }
     }
 
     /**

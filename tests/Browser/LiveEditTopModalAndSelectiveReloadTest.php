@@ -10,6 +10,7 @@ use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Support\LandingTestContentPurger;
 use Tests\Browser\Traits\AdminLoginTrait;
+use Tests\Browser\Traits\EnsuresAdminUser;
 use Tests\DuskTestCase;
 
 /**
@@ -51,6 +52,7 @@ use Tests\DuskTestCase;
 class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
 {
     use AdminLoginTrait;
+    use EnsuresAdminUser;
 
     private const ADMIN_EMAIL = 'admin@admin.com';
     private const ADMIN_PASSWORD = 'admin';
@@ -299,28 +301,6 @@ class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
         }
         $this->createdIds[] = (int) $id;
         return (int) $id;
-    }
-
-    private function ensureAdminUser(): void
-    {
-        $user = User::where('email', self::ADMIN_EMAIL)->first();
-        if (!$user) {
-            $user = new User();
-            $user->email = self::ADMIN_EMAIL;
-            $user->username = 'admin';
-            $user->password = Hash::make(self::ADMIN_PASSWORD);
-            $user->is_admin = 1;
-            $user->is_active = 1;
-            $user->is_verified = 1;
-            $user->first_name = 'Admin';
-            $user->last_name = 'User';
-            $user->save();
-            return;
-        }
-        $dirty = false;
-        if ((int) $user->is_admin !== 1) { $user->is_admin = 1; $dirty = true; }
-        if ((int) $user->is_active !== 1) { $user->is_active = 1; $dirty = true; }
-        if ($dirty) { $user->save(); }
     }
 
     private function ensureBootstrapActive(): void

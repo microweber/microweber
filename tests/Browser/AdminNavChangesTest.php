@@ -8,6 +8,7 @@ use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\DuskTestCase;
 use Tests\Browser\Traits\AdminLoginTrait;
+use Tests\Browser\Traits\EnsuresAdminUser;
 
 /**
  * Admin navigation changes
@@ -23,46 +24,11 @@ use Tests\Browser\Traits\AdminLoginTrait;
 class AdminNavChangesTest extends DuskTestCase
 {
     use AdminLoginTrait;
+    use EnsuresAdminUser;
 
     protected function assertPreConditions(): void
     {
         // Skip parent — we rely on the already-running server's database
-    }
-
-    /**
-     * Ensure the canonical Dusk admin exists before logging in, so the suite
-     * is self-provisioning on a fresh database. Credentials come from the same
-     * ResolvesWorkflowEnvironment knobs AdminLoginTrait logs in with
-     * (DUSK_ADMIN_EMAIL / DUSK_ADMIN_PASSWORD, defaulting to admin@admin.com /
-     * admin), so the created account always matches the login.
-     */
-    private function ensureAdminUser(): void
-    {
-        $email = $this->workflowAdminEmail();
-        $password = $this->workflowAdminPassword();
-
-        $user = User::where('email', $email)->first();
-
-        if (! $user) {
-            $user = new User();
-            $user->email = $email;
-            $user->username = 'admin';
-            $user->password = Hash::make($password);
-            $user->is_admin = 1;
-            $user->is_active = 1;
-            $user->is_verified = 1;
-            $user->first_name = 'Admin';
-            $user->last_name = 'User';
-            $user->save();
-
-            return;
-        }
-
-        // Keep an existing account usable as an admin login.
-        $dirty = false;
-        if ((int) $user->is_admin !== 1) { $user->is_admin = 1; $dirty = true; }
-        if ((int) $user->is_active !== 1) { $user->is_active = 1; $dirty = true; }
-        if ($dirty) { $user->save(); }
     }
 
     #[Test]
