@@ -202,9 +202,35 @@ class Settings extends Page
             ];
         }
 
+        // Taxonomy — Categories + Tags editing in one place. Tags have no
+        // sidebar entry of their own, so this is their editing home.
+        if (class_exists(\Modules\Category\Filament\Admin\Resources\CategoryResource::class)) {
+            $settingsGroups['Taxonomy'][] = [
+                'title' => 'Categories',
+                'description' => 'Organise content into categories and sub-categories.',
+                'heading' => 'Categories',
+                'slug' => 'categories',
+                'icon' => 'heroicon-o-folder',
+                'url' => \Modules\Category\Filament\Admin\Resources\CategoryResource::getUrl('index'),
+                'position' => 1,
+            ];
+        }
+        if (class_exists(\Modules\Tag\Filament\Resources\TagResource::class)) {
+            $settingsGroups['Taxonomy'][] = [
+                'title' => 'Tags',
+                'description' => 'Create and edit the tags used across your content.',
+                'heading' => 'Tags',
+                'slug' => 'tags',
+                'icon' => 'heroicon-o-tag',
+                'url' => \Modules\Tag\Filament\Resources\TagResource::getUrl('index'),
+                'position' => 2,
+            ];
+        }
+
         $topOrder = [
             'Website Settings',
             'Shop Settings',
+            'Taxonomy',
             'Customization Settings',
             'Email Settings',
             'System Settings',
