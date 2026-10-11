@@ -309,6 +309,10 @@
             <directory>packages/microweber-package/tests</directory>
             <exclude>packages/microweber-package/tests/Dusk</exclude>
         </testsuite>
+
+        <testsuite name="MicroweberInstall">
+            <directory>packages/microweber-install/src/tests</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>

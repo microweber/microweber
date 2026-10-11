@@ -193,7 +193,8 @@
         "microweber-packages/console": "^1.0",
         "microweber-packages/frontend": "^1.0",
         "microweber-packages/update": "^1.0",
-        "microweber-packages/monitoring": "^1.0"
+        "microweber-packages/monitoring": "^1.0",
+        "microweber-packages/install": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -272,7 +273,8 @@
             "MicroweberPackages\\Console\\": "packages/microweber-console/src/",
             "MicroweberPackages\\Frontend\\": "packages/microweber-frontend/src/",
             "MicroweberPackages\\Update\\": "packages/microweber-update/src/",
-            "MicroweberPackages\\Monitoring\\": "packages/microweber-monitoring/src/"
+            "MicroweberPackages\\Monitoring\\": "packages/microweber-monitoring/src/",
+            "MicroweberPackages\\Install\\": "packages/microweber-install/src/"
         },
         "files": [
             "packages/microweber-filesystem/src/helpers.php",
@@ -972,6 +974,13 @@
         {
             "type": "path",
             "url": "packages/microweber-monitoring",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-install",
             "options": {
                 "symlink": true
             }
