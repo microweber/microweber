@@ -1,0 +1,24 @@
+{
+    "name": "microweber-packages/meta-tags",
+    "description": "Microweber CMS – head/footer meta-tag rendering (head tags, scripts, SEO).",
+    "version": "1.0.0",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://microweber.com",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
+    ],
+    "require": {
+        "php": "^8.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\MetaTags\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

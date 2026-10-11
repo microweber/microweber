@@ -201,6 +201,10 @@
             <exclude>packages/microweber-minifier/tests/Dusk</exclude>
         </testsuite>
 
+        <testsuite name="MicroweberMetaTags">
+            <directory>packages/microweber-meta-tags/src/tests</directory>
+        </testsuite>
+
         <testsuite name="MicroweberClassLoader">
             <directory>packages/microweber-class-loader/tests</directory>
         </testsuite>

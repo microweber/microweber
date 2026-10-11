@@ -142,6 +142,7 @@
         "microweber-packages/media-thumbnail": "^1.0",
         "microweber-packages/url": "^1.0",
         "microweber-packages/form-builder": "^1.0",
+        "microweber-packages/meta-tags": "^1.0",
         "microweber-packages/repository": "^1.0",
         "microweber-packages/database": "^1.0",
         "microweber-packages/searchable": "^1.0",
@@ -228,6 +229,7 @@
             "MicroweberPackages\\ConfigMerge\\": "packages/microweber-config-merge/src/",
             "MicroweberPackages\\Core\\": "packages/microweber-core/src/",
             "MicroweberPackages\\FormBuilder\\": "packages/microweber-form-builder/src/",
+            "MicroweberPackages\\MetaTags\\": "packages/microweber-meta-tags/src/",
             "MicroweberPackages\\Pagination\\": "packages/microweber-pagination/src/",
             "MicroweberPackages\\Passport\\": "packages/microweber-passport/src/",
             "MicroweberPackages\\Fortify\\": "packages/microweber-fortify/src/",
@@ -263,7 +265,7 @@
             "packages/microweber-database/src/functions/helpers.php",
             "src/MicroweberPackages/Option/helpers/options.php",
             "packages/microweber-event-manager/src/helpers.php",
-            "src/MicroweberPackages/MetaTags/helpers/meta_tags_functions.php",
+            "packages/microweber-meta-tags/src/helpers/meta_tags_functions.php",
             "src/MicroweberPackages/Module/helpers.php",
             "src/MicroweberPackages/Template/helpers/templates.php",
             "src/MicroweberPackages/LaravelTemplates/templates_helpers.php",
@@ -900,6 +902,13 @@
         {
             "type": "path",
             "url": "packages/microweber-form-builder",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-meta-tags",
             "options": {
                 "symlink": true
             }
