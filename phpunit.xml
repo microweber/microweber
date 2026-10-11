@@ -213,6 +213,10 @@
             <directory>packages/microweber-utils/src/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberLivewire">
+            <directory>packages/microweber-livewire/src/tests</directory>
+        </testsuite>
+
         <testsuite name="MicroweberClassLoader">
             <directory>packages/microweber-class-loader/tests</directory>
         </testsuite>

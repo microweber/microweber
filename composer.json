@@ -187,6 +187,7 @@
         "microweber-packages/package": "^1.0",
         "microweber-packages/module-registry": "^1.0",
         "microweber-packages/livewire-modal": "^1.0",
+        "microweber-packages/livewire": "^1.0",
         "microweber-packages/activity-log": "^1.0",
         "microweber-packages/utils": "^1.0",
         "microweber-packages/console": "^1.0",
@@ -264,6 +265,7 @@
             "MicroweberPackages\\Package\\": "packages/microweber-package/src/",
             "MicroweberPackages\\ModuleRegistry\\": "packages/microweber-module-registry/src/",
             "MicroweberPackages\\LivewireModal\\": "packages/microweber-livewire-modal/src/",
+            "MicroweberPackages\\Livewire\\": "packages/microweber-livewire/src/",
             "MicroweberPackages\\ActivityLog\\": "packages/microweber-activity-log/src/",
             "MicroweberPackages\\Utils\\": "packages/microweber-utils/src/",
             "MicroweberPackages\\Console\\": "packages/microweber-console/src/",
@@ -534,6 +536,13 @@
         {
             "type": "path",
             "url": "packages/microweber-livewire-modal",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-livewire",
             "options": {
                 "symlink": true
             }
