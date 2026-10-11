@@ -1,0 +1,15 @@
+{
+    "name": "microweber-packages/live-edit",
+    "description": "Microweber CMS.",
+    "version": "1.0.0",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://microweber.com",
+    "authors": [
+        { "name": "Microweber", "email": "info@microweber.com" }
+    ],
+    "require": { "php": "^8.3" },
+    "autoload": { "psr-4": { "MicroweberPackages\\LiveEdit\\": "src/" } },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

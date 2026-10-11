@@ -229,6 +229,10 @@
             <directory>packages/microweber-livewire/src/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberLiveEdit">
+            <directory>packages/microweber-live-edit/src/tests</directory>
+        </testsuite>
+
         <testsuite name="MicroweberClassLoader">
             <directory>packages/microweber-class-loader/tests</directory>
         </testsuite>

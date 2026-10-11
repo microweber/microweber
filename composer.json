@@ -192,6 +192,7 @@
         "microweber-packages/module-registry": "^1.0",
         "microweber-packages/livewire-modal": "^1.0",
         "microweber-packages/livewire": "^1.0",
+        "microweber-packages/live-edit": "^1.0",
         "microweber-packages/laravel-templates": "^1.0",
         "microweber-packages/activity-log": "^1.0",
         "microweber-packages/utils": "^1.0",
@@ -281,6 +282,7 @@
             "MicroweberPackages\\ModuleRegistry\\": "packages/microweber-module-registry/src/",
             "MicroweberPackages\\LivewireModal\\": "packages/microweber-livewire-modal/src/",
             "MicroweberPackages\\Livewire\\": "packages/microweber-livewire/src/",
+            "MicroweberPackages\\LiveEdit\\": "packages/microweber-live-edit/src/",
             "MicroweberPackages\\LaravelTemplates\\": "packages/microweber-laravel-templates/src/",
             "MicroweberPackages\\ActivityLog\\": "packages/microweber-activity-log/src/",
             "MicroweberPackages\\Utils\\": "packages/microweber-utils/src/",
@@ -571,6 +573,13 @@
         {
             "type": "path",
             "url": "packages/microweber-livewire",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-live-edit",
             "options": {
                 "symlink": true
             }
