@@ -285,3 +285,4 @@ scratchpad-*/
 /plan/grok-tasks/
 /scripts/migrate-one.sh
 /scripts/migrate-all.sh
+/scripts/__pycache__/
