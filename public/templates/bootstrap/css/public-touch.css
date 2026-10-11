@@ -2072,6 +2072,15 @@ button.btn.btn-sm:not(.btn-outline-primary):not(.btn-danger):not(.btn-outline-da
         max-width: 100%;
     }
 
+    /* Shop products grid: the products module nests
+       .row > .col-lg-12 > .row.big-news, and with the container padding the
+       rows' negative gutters skew the stacked cards to one side on phones.
+       Zero the horizontal gutters so the cards sit symmetrically. */
+    [data-layout-container] .module-shop-products .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
     /* Breadcrumbs: a long page title (one unbreakable token) must wrap/break
        instead of pushing the trail past the viewport edge. */
     [data-layout-container] .breadcrumb {

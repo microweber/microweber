@@ -38,10 +38,8 @@ trait SeedsLayoutModules
             'contacts/skin-1',
             'titles/skin-1',
             'text-block/skin-1',
+            'ecommerce/skin-1',
             'footers/skin-1',
-            // NOTE: ecommerce/* skins embed the dynamic products-listing module,
-            // whose grid is owned by the shop module (not the layout skin), so
-            // its mobile layout is out of scope for this layout-padding test.
         ];
     }
 

@@ -87,16 +87,20 @@ class BaseTemplateMobileLayoutsTest extends DuskTestCase
             $overflow = [];
             $lopsided = [];
             foreach ($measurements as $m) {
-                // Content bleeding past the right edge (negative right inset).
-                if ($m['right'] < -3) {
-                    $overflow[] = $m['skin'] . ' (right ' . $m['right'] . 'px)';
+                // Overflow: ANY element bleeding past the right edge.
+                if ($m['worstR'] !== null && $m['worstR'] < -3) {
+                    $overflow[] = $m['skin'] . ' (right ' . $m['worstR'] . 'px)';
                 }
 
-                // Only judge symmetry for skins that actually have side padding;
-                // intentional full-bleed sections (~0/0) are left alone.
-                $hasPadding = $m['left'] > 4 || $m['right'] > 4;
-                if ($hasPadding && abs($m['left'] - $m['right']) > self::SYMMETRY_TOLERANCE) {
-                    $lopsided[] = $m['skin'] . ' (L' . $m['left'] . '/R' . $m['right'] . ')';
+                // Lopsided padding is judged on TEXT content alignment, not on
+                // images / list rows (a card can have a full-bleed image plus
+                // inset text and still be perfectly symmetric). Intentional
+                // full-bleed text sections (~0/0) are left alone.
+                if ($m['textSeen']) {
+                    $hasPadding = $m['tL'] > 4 || $m['tR'] > 4;
+                    if ($hasPadding && abs($m['tL'] - $m['tR']) > self::SYMMETRY_TOLERANCE) {
+                        $lopsided[] = $m['skin'] . ' (L' . $m['tL'] . '/R' . $m['tR'] . ')';
+                    }
                 }
             }
 
@@ -112,19 +116,22 @@ class BaseTemplateMobileLayoutsTest extends DuskTestCase
     }
 
     /**
-     * JS that measures, per skin marker, the smallest left/right inset of real
-     * content from the client-area edges. Off-canvas carousel slides (left far
-     * off-screen) are ignored so a swiper does not read as overflow.
+     * JS that measures, per skin marker:
+     *   - tL / tR: smallest left/right inset of TEXT content (padding symmetry);
+     *   - worstR: smallest right inset of ANY element (right-edge overflow).
+     * Off-canvas carousel slides and breadcrumbs (page-title driven) are ignored.
      */
     private function measurementScript(): string
     {
         return <<<'JS'
 var cw = document.documentElement.clientWidth;
+var TEXT = 'h1,h2,h3,h4,h5,h6,p,a.btn,.btn';
+var ALL = 'h1,h2,h3,h4,h5,h6,p,a.btn,.btn,li,img,input,textarea';
 var out = [];
 document.querySelectorAll('[data-skin-marker]').forEach(function (sec) {
     var skin = sec.getAttribute('data-skin-marker');
-    var minL = 99999, minR = 99999, seen = false;
-    sec.querySelectorAll('h1,h2,h3,h4,h5,h6,p,a.btn,.btn,li,img,input,textarea').forEach(function (el) {
+    var tL = 99999, tR = 99999, worstR = 99999, textSeen = false;
+    sec.querySelectorAll(ALL).forEach(function (el) {
         // Breadcrumb width is driven by the page title (site content), not the
         // skin's responsive layout, so a long title must not fail a skin test.
         if (el.closest('.breadcrumb')) { return; }
@@ -134,11 +141,19 @@ document.querySelectorAll('[data-skin-marker]').forEach(function (sec) {
         var right = Math.round(cw - b.right);
         // Ignore clearly off-canvas elements (carousel slides etc.).
         if (left < -50 || right < -50) { return; }
-        seen = true;
-        if (left < minL) { minL = left; }
-        if (right < minR) { minR = right; }
+        if (right < worstR) { worstR = right; }
+        if (el.matches(TEXT)) {
+            textSeen = true;
+            if (left < tL) { tL = left; }
+            if (right < tR) { tR = right; }
+        }
     });
-    if (seen) { out.push({ skin: skin, left: minL, right: minR }); }
+    out.push({
+        skin: skin,
+        tL: tL, tR: tR,
+        worstR: (worstR === 99999 ? null : worstR),
+        textSeen: textSeen
+    });
 });
 return out;
 JS;
