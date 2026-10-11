@@ -197,6 +197,7 @@
         "microweber-packages/monitoring": "^1.0",
         "microweber-packages/install": "^1.0",
         "microweber-packages/core": "^1.0",
+        "microweber-packages/admin": "^1.0",
         "microweber-packages/role": "^1.0"
     },
     "require-dev": {
@@ -279,6 +280,7 @@
             "MicroweberPackages\\Update\\": "packages/microweber-update/src/",
             "MicroweberPackages\\Monitoring\\": "packages/microweber-monitoring/src/",
             "MicroweberPackages\\Install\\": "packages/microweber-install/src/",
+            "MicroweberPackages\\Admin\\": "packages/microweber-admin/src/",
             "MicroweberPackages\\Role\\": "packages/microweber-role/src/"
         },
         "files": [
@@ -1007,6 +1009,13 @@
         {
             "type": "path",
             "url": "packages/microweber-role",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-admin",
             "options": {
                 "symlink": true
             }
