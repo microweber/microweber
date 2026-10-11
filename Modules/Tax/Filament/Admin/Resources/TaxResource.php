@@ -51,7 +51,7 @@ class TaxResource extends Resource
     }
 
 
-    protected static string $description = 'Configure your shop taxes settings';
+    protected static string $description = 'Set up tax types and turn tax on or off (regional percentages live in Tax Rates).';
 
 
     public function getDescription(): string

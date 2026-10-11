@@ -58,7 +58,8 @@ class Settings extends Page
 
         $settingsPages[] = new AdminShopGeneralPage();
          $settingsPages[] = new AdminShopAutoRespondEmailPage();
-        $settingsPages[] = new AdminShopOtherPage();
+        // AdminShopOtherPage intentionally omitted: its form is empty, so the
+        // card was a dead-end (opened a blank settings page).
 
         $registeredSettingsPages = FilamentRegistry::getPages(self::class, Filament::getCurrentPanel()->getId());
         $registeredSettingsResources = FilamentRegistry::getResources(self::class, Filament::getCurrentPanel()->getId());

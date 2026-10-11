@@ -9,6 +9,10 @@ class ShopCategoryResource extends CategoryResource
     protected static string | \UnitEnum | null $navigationGroup = 'Shop';
     protected static ?int $navigationSort = 3;
 
+    // Distinct label/icon so this isn't confused with the Website "Categories".
+    protected static ?string $navigationLabel = 'Product Categories';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-squares-2x2';
+
     public static function getPages(): array
     {
         return [

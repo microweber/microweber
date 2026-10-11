@@ -18,7 +18,7 @@ class AdminShopInvoicesPage extends AdminSettingsPage
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
-    protected static ?string $title = 'Invoices';
+    protected static ?string $title = 'Invoice Settings';
 
     protected static string $description = 'Configure your shop invoices settings';
 

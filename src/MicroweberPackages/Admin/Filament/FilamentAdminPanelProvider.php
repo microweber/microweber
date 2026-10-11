@@ -234,12 +234,15 @@ class FilamentAdminPanelProvider extends PanelProvider
                 'Website' => NavigationGroup::make()
                     ->label('Website')
                     ->collapsible(true)
-                    ->collapsed(true),
+                    // Expanded by default: Pages/Posts are the highest-frequency
+                    // tasks; collapsing hid them from first-time operators.
+                    ->collapsed(false),
 
                 'Shop' => NavigationGroup::make()
                     ->label('Shop')
                     ->collapsible(true)
-                    ->collapsed(true),
+                    // Expanded by default: Products/Orders are high-frequency.
+                    ->collapsed(false),
 
                 // Billing items (Subscriptions, Payments, Customers, Invoices)
                 // live at the bottom of the Shop group — Filament navigation
