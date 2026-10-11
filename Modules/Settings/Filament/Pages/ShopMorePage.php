@@ -70,8 +70,64 @@ class ShopMorePage extends Page
             ];
         }
 
-        return [
-            'cards' => $cards,
+        $groups = [
+            ['title' => 'Shop', 'items' => $cards],
         ];
+
+        // Mirror the "Shop Settings" section from the main Settings page so every
+        // shop setting is reachable from here too. Reuse the Settings hub's own
+        // computation rather than rebuilding it, and drop any card that already
+        // appears above (deduped by URL — e.g. Billing == Subscriptions).
+        $shopSettings = $this->getShopSettingsCards($cards);
+        if (! empty($shopSettings)) {
+            $groups[] = ['title' => 'Shop settings', 'items' => $shopSettings];
+        }
+
+        return [
+            'groups' => $groups,
+        ];
+    }
+
+    /**
+     * Pull the "Shop Settings" cards from the main Settings hub, excluding any
+     * whose URL is already shown in the primary cards.
+     *
+     * @param array<int, array<string, mixed>> $primaryCards
+     * @return array<int, array<string, mixed>>
+     */
+    private function getShopSettingsCards(array $primaryCards): array
+    {
+        try {
+            $settingsData = (new Settings())->getViewData();
+        } catch (\Throwable $e) {
+            return [];
+        }
+
+        $shopSettings = $settingsData['settingsGroups']['Shop Settings'] ?? [];
+        if (! is_array($shopSettings)) {
+            return [];
+        }
+
+        $seen = [];
+        foreach ($primaryCards as $card) {
+            $seen[$this->normalisePath($card['url'] ?? '')] = true;
+        }
+
+        return array_values(array_filter($shopSettings, function ($item) use (&$seen) {
+            $path = $this->normalisePath($item['url'] ?? '');
+            if ($path === '' || isset($seen[$path])) {
+                return false;
+            }
+            $seen[$path] = true; // also dedupe within the settings list itself
+
+            return ! empty($item['title']);
+        }));
+    }
+
+    private function normalisePath(string $url): string
+    {
+        $path = parse_url($url, PHP_URL_PATH) ?: $url;
+
+        return rtrim($path, '/');
     }
 }
