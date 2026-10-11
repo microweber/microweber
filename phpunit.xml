@@ -346,6 +346,10 @@
         <testsuite name="MicroweberCore">
             <directory>packages/microweber-core/src/tests</directory>
         </testsuite>
+
+        <testsuite name="MicroweberLaravelModules">
+            <directory>packages/microweber-laravel-modules/src/Tests</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>
