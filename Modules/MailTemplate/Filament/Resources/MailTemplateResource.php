@@ -69,51 +69,64 @@ class MailTemplateResource extends Resource
             ->schema([
                 Section::make('Template Details')
                     ->icon('heroicon-m-document-text')
+                    ->description('What this email is and who it is sent from.')
+                    ->columns(2)
                     ->schema([
                         TextInput::make('name')
+                            ->label('Template name')
                             ->required()
                             ->maxLength(255)
-                            ->placeholder('Template Name')
+                            ->placeholder('e.g. Order confirmation')
+                            ->helperText('Internal name — not shown to recipients.')
                             ->columnSpanFull(),
 
                         Select::make('type')
+                            ->label('Template type')
                             ->options($service->getTemplateTypes())
                             ->required()
                             ->reactive()
+                            ->searchable()
+                            ->helperText('Determines which variables are available below.')
                             ->columnSpanFull(),
 
                         TextInput::make('from_name')
+                            ->label('From name')
                             ->required()
                             ->maxLength(255)
                             ->placeholder('From Name')
-                            ->default($service->getDefaultFromName())
-                            ->columnSpanFull(),
+                            ->default($service->getDefaultFromName()),
 
                         TextInput::make('from_email')
+                            ->label('From email')
                             ->email()
                             ->required()
                             ->maxLength(255)
-                            ->placeholder('From Email')
-                            ->default($service->getDefaultFromEmail())
-                            ->columnSpanFull(),
+                            ->placeholder('you@example.com')
+                            ->default($service->getDefaultFromEmail()),
 
                         TextInput::make('copy_to')
+                            ->label('Copy to (BCC)')
                             ->email()
                             ->maxLength(255)
-                            ->placeholder('Copy To Email (Optional)')
+                            ->placeholder('Optional')
+                            ->helperText('Send a hidden copy of every email to this address.')
                             ->columnSpanFull(),
 
                         TextInput::make('subject')
+                            ->label('Subject')
                             ->required()
                             ->maxLength(255)
-                            ->placeholder('Email Subject')
+                            ->placeholder('e.g. Your order {order_id} is confirmed')
+                            ->helperText('Supports variables — click one below to copy it.')
                             ->columnSpanFull(),
                     ]),
 
                 Section::make('Template Content')
                     ->icon('heroicon-m-pencil-square')
+                    ->description('The email body. Click a variable below to copy, then paste it here.')
                     ->schema([
                         RichEditor::make('message')
+                            ->label('Message')
                             ->required()
                             ->toolbarButtons([
                                 'bold',
@@ -126,33 +139,51 @@ class MailTemplateResource extends Resource
                                 'undo',
                                 'redo',
                             ])
-                            ->placeholder('Email Content')
+                            ->placeholder('Write your email…')
+                            ->helperText('Supports the variables listed below (e.g. {customer_name}).')
                             ->columnSpanFull(),
 
                         Toggle::make('is_active')
                             ->label('Active')
-                            ->default(true)
-                            ->columnSpanFull(),
+                            ->helperText('Inactive templates are never sent.')
+                            ->default(true),
                     ]),
 
                 Section::make('Available Variables')
                     ->icon('heroicon-m-code-bracket')
+                    ->description('Click any variable to copy it, then paste into the subject or content.')
                     ->schema([
                         Forms\Components\Placeholder::make('variables')
+                            ->hiddenLabel()
                             ->content(function ($get) use ($service) {
                                 $type = $get('type');
-                                if (!$type) {
-                                    return 'Select a template type to see available variables.';
+                                if (! $type) {
+                                    return new \Illuminate\Support\HtmlString(
+                                        '<p style="color:#6b7280;font-size:13.5px;margin:0;">Select a template type above to see the variables you can use.</p>'
+                                    );
                                 }
 
                                 $variables = $service->getAvailableVariables($type);
-                                $content = '<div class="space-y-2">';
-                                foreach ($variables as $var => $desc) {
-                                    $content .= "<div><code class='text-primary-600'>{$var}</code> - {$desc}</div>";
+                                if (empty($variables)) {
+                                    return new \Illuminate\Support\HtmlString(
+                                        '<p style="color:#6b7280;font-size:13.5px;margin:0;">No variables for this template type.</p>'
+                                    );
                                 }
-                                $content .= '</div>';
 
-                                return new \Illuminate\Support\HtmlString($content);
+                                $chips = '';
+                                foreach ($variables as $var => $desc) {
+                                    $chips .= '<button type="button" data-var="' . e($var) . '" '
+                                        . 'onclick="navigator.clipboard&&navigator.clipboard.writeText(this.dataset.var);this.style.background=\'#dcfce7\';this.style.borderColor=\'#16a34a\';var s=this;setTimeout(function(){s.style.background=\'#f8fafc\';s.style.borderColor=\'rgba(0,0,0,.12)\';},900);" '
+                                        . 'title="Copy ' . e($var) . '" '
+                                        . 'style="display:inline-flex;align-items:center;gap:8px;margin:0 8px 8px 0;padding:6px 11px;border:1px solid rgba(0,0,0,.12);border-radius:8px;background:#f8fafc;cursor:pointer;font-size:13px;line-height:1.3;transition:background .15s,border-color .15s;">'
+                                        . '<code style="color:#0d6efd;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;">' . e($var) . '</code>'
+                                        . '<span style="color:#6b7280;">' . e($desc) . '</span>'
+                                        . '</button>';
+                                }
+
+                                return new \Illuminate\Support\HtmlString(
+                                    '<div style="display:flex;flex-wrap:wrap;">' . $chips . '</div>'
+                                );
                             })
                             ->columnSpanFull(),
                     ])
