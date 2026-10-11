@@ -91,6 +91,18 @@ class CartAddModule extends BaseModule
                 $title = $product['title'];
             }
         }
+        // Relational product variants (admin "Variants" tab). Empty attributes
+        // means the product has no variant combinations and nothing renders.
+        $variantOptions = ['attributes' => [], 'variants' => []];
+        if ($for_id !== false && intval($for_id) > 0) {
+            try {
+                $variantOptions = app(\Modules\Product\Services\ProductVariantService::class)
+                    ->getVariantOptions((int) $for_id);
+            } catch (\Throwable $e) {
+                // Leave empty on any error — never break the add-to-cart widget.
+            }
+        }
+
         $viewData['params'] = $params;
         $viewData['for_id'] = $for_id;
         $viewData['for'] = $for;
@@ -98,6 +110,7 @@ class CartAddModule extends BaseModule
         $viewData['in_stock'] = $in_stock;
         $viewData['button_text'] = $button_text;
         $viewData['title'] = $title;
+        $viewData['variantOptions'] = $variantOptions;
 
 
         $viewName = $this->getViewName($viewData['template'] ?? 'default');

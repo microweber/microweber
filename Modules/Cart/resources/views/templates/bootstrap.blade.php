@@ -40,6 +40,8 @@ Description: Bootstrap-styled cart add template with modern design
         <div class="card-body">
             <module type="custom_fields" data-content-id="{{ intval($for_id) }}" data-skip-type="price" id="cart_fields_{{ $params['id'] ?? '' }}"/>
 
+            @include('modules.cart::templates.partials.variants', ['variantOptions' => $variantOptions ?? ['attributes' => [], 'variants' => []]])
+
             @if(is_array($data))
                 @php $i = 1; @endphp
                 @foreach($data as $key => $v)

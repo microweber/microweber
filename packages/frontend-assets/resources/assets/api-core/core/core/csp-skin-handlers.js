@@ -135,4 +135,65 @@
             }
         }
     }, false);
+
+    // (6) Product variant selects (admin "Variants" tab) — when a variant is
+    // chosen, update the displayed price and the add-to-cart button's data-price
+    // so the UI matches the variant. The authoritative price is still resolved
+    // server-side in CartService; this only keeps the display in sync. Variant
+    // definitions ride on data-mw-variants (JSON) so no inline script is needed.
+    document.addEventListener('change', function (event) {
+        var sel = event.target.closest ? event.target.closest('.mw-variant-select') : null;
+        if (!sel) {
+            return;
+        }
+
+        var holder = sel.closest('.mw-add-to-cart-holder');
+        var wrap = sel.closest('.mw-variant-fields');
+        if (!holder || !wrap) {
+            return;
+        }
+
+        var variants;
+        try {
+            variants = JSON.parse(wrap.getAttribute('data-mw-variants') || '[]');
+        } catch (e) {
+            return;
+        }
+        if (!Array.isArray(variants) || !variants.length) {
+            return;
+        }
+
+        var chosen = {};
+        wrap.querySelectorAll('.mw-variant-select').forEach(function (s) {
+            chosen[s.getAttribute('data-attr-key')] = s.value;
+        });
+
+        var match = null;
+        for (var i = 0; i < variants.length; i++) {
+            var attrs = variants[i].attributes || {};
+            var ok = true;
+            for (var key in chosen) {
+                if (Object.prototype.hasOwnProperty.call(chosen, key) && String(attrs[key]) !== String(chosen[key])) {
+                    ok = false;
+                    break;
+                }
+            }
+            if (ok) {
+                match = variants[i];
+                break;
+            }
+        }
+        if (!match) {
+            return;
+        }
+
+        var prefix = wrap.getAttribute('data-currency-prefix') || '$';
+        var priceText = prefix + Number(match.price).toFixed(2);
+        holder.querySelectorAll('.price-value, .price-holder .price, h5.price, h4.price-value').forEach(function (el) {
+            el.textContent = priceText;
+        });
+        holder.querySelectorAll('.mw-add-to-cart-btn').forEach(function (btn) {
+            btn.setAttribute('data-price', String(match.price));
+        });
+    }, false);
 })();

@@ -346,6 +346,12 @@ class CartService
             return ['error' => 'Invalid data for_id'];
         }
 
+        // Relational product-variant selection (admin "Variants" tab). Pull it out
+        // before custom-field processing so the mw_variant array is not mangled by
+        // the custom-fields loop; it is resolved to a combination further down.
+        $variantSelection = $this->extractVariantSelection($data);
+        unset($data['mw_variant']);
+
         $updateQty = $this->extractQty($data);
         $contentData = [];
 
@@ -370,6 +376,21 @@ class CartService
                 if (isset($modifier['selected_price_modifier_from_user'])) {
                     $foundPrice += floatval($modifier['selected_price_modifier_from_user']);
                 }
+            }
+        }
+
+        // Resolve the chosen product variant combination (admin "Variants" tab):
+        // its price wins, its selected options are recorded on the line so they
+        // display and keep each variant a separate cart item, and its stock is
+        // enforced here before the item is added.
+        $variant = $this->resolveVariant($forId, $variantSelection);
+        if ($variant !== null) {
+            if (!$variant['in_stock']) {
+                return ['error' => _e('The selected variant is out of stock', true)];
+            }
+            $foundPrice = $variant['price'];
+            foreach ($variant['fields'] as $label => $value) {
+                $add[$label] = $value;
             }
         }
 
@@ -856,6 +877,73 @@ class CartService
         }
 
         return sprintf('%.6F', (float) $price);
+    }
+
+    /**
+     * Pull the relational product-variant selection (admin "Variants" tab) out of
+     * the posted cart data. Posted as mw_variant[<attributeKey>] = <valueKey>.
+     *
+     * @return array<string, string> attributeKey => valueKey (empty if none)
+     */
+    protected function extractVariantSelection(array $data): array
+    {
+        $selection = $data['mw_variant'] ?? null;
+        if (!is_array($selection)) {
+            return [];
+        }
+
+        $clean = [];
+        foreach ($selection as $attributeKey => $valueKey) {
+            if (is_string($attributeKey) && (is_string($valueKey) || is_numeric($valueKey)) && $valueKey !== '') {
+                $clean[$attributeKey] = (string) $valueKey;
+            }
+        }
+
+        return $clean;
+    }
+
+    /**
+     * Resolve a product-variant selection to its combination and return the data
+     * the cart needs: the variant price (combination price, or the base price when
+     * the combination has none), its stock state, and a readable label map
+     * (Attribute name => Value name) to record on the cart line.
+     *
+     * @param array<string, string> $selection attributeKey => valueKey
+     * @return array{price: float, sku: ?string, in_stock: bool, combination_id: int, fields: array<string, string>}|null
+     */
+    protected function resolveVariant(int $forId, array $selection): ?array
+    {
+        if (empty($selection)) {
+            return null;
+        }
+
+        try {
+            $service = app(\Modules\Product\Services\ProductVariantService::class);
+            $combination = $service->findCombinationByAttributeKeys($forId, $selection);
+        } catch (\Throwable $e) {
+            return null;
+        }
+
+        if (!$combination) {
+            return null;
+        }
+
+        $combination->loadMissing('attributeValues.attribute');
+
+        $fields = [];
+        foreach ($combination->attributeValues as $value) {
+            $attribute = $value->attribute;
+            $label = $attribute->name ?? $attribute->key ?? 'Variant';
+            $fields[$label] = $value->value ?? $value->key;
+        }
+
+        return [
+            'price' => (float) $combination->getFinalPrice(),
+            'sku' => $combination->sku,
+            'in_stock' => $combination->isInStock(),
+            'combination_id' => (int) $combination->id,
+            'fields' => $fields,
+        ];
     }
 
     /**

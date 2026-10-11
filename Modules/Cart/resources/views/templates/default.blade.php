@@ -81,6 +81,8 @@ Description: Default cart add template with prices and add to cart button
 
         <module type="custom_fields" data-content-id="{{ intval($for_id) }}" data-skip-type="price" id="cart_fields_{{ $params['id'] ?? '' }}"/>
 
+        @include('modules.cart::templates.partials.variants', ['variantOptions' => $variantOptions ?? ['attributes' => [], 'variants' => []]])
+
         <div class="price">
             @php $i = 1; @endphp
             @foreach($data as $key => $v)

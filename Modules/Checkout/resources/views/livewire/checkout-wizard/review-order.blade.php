@@ -102,6 +102,17 @@
                     @endif
                     <div class="review-item-info">
                         <p class="review-item-title">{{ $item['title'] ?? '' }}</p>
+                        {{-- Selected variant / custom-field options (escaped text; the
+                             pre-built $item['custom_fields'] HTML has unescaped values). --}}
+                        @if(!empty($item['custom_fields_data']) && is_array($item['custom_fields_data']))
+                            <p class="review-item-fields" style="color:#6b7280;font-size:0.85em;margin:0.1rem 0;">
+                                @foreach($item['custom_fields_data'] as $cfKey => $cfVal)
+                                    @if(is_string($cfVal) && trim($cfVal) !== '')
+                                        {{ ucwords(str_replace('_', ' ', (string) $cfKey)) }}: {{ $cfVal }}@if(!$loop->last), @endif
+                                    @endif
+                                @endforeach
+                            </p>
+                        @endif
                         <p class="review-item-qty">{{ __('Qty') }}: {{ $item['qty'] ?? 1 }}</p>
                     </div>
                     <div class="review-item-price">

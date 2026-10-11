@@ -25,9 +25,17 @@
                             {{ $item['title'] ?? '' }}
                         </h4>
 
-                        @if(!empty($item['custom_fields']))
+                        {{-- Render the selected options (variants / custom fields) as
+                             escaped text. $item['custom_fields'] is a pre-built HTML
+                             string with unescaped values, so printing it with {{ }}
+                             leaked raw <ul><li> tags; iterate the data array instead. --}}
+                        @if(!empty($item['custom_fields_data']) && is_array($item['custom_fields_data']))
                             <p class="checkout-cart-item-fields">
-                                {{ $item['custom_fields'] }}
+                                @foreach($item['custom_fields_data'] as $cfKey => $cfVal)
+                                    @if(is_string($cfVal) && trim($cfVal) !== '')
+                                        <span class="checkout-cart-item-field">{{ ucwords(str_replace('_', ' ', (string) $cfKey)) }}: {{ $cfVal }}</span>@if(!$loop->last)<span class="checkout-cart-item-field-sep">, </span>@endif
+                                    @endif
+                                @endforeach
                             </p>
                         @endif
 

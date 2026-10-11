@@ -310,4 +310,59 @@ class CartTest extends TestCase
         $this->assertSame(['Blue', 'Purple'], $colors);
     }
 
+    #[Test]
+    public function it_applies_relational_variant_combination_price_and_records_label(): void
+    {
+        empty_cart();
+        DatabaseManager::extended_save_set_permission(true);
+
+        $productId = save_content([
+            'title' => 'Relational Variant Product',
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'price' => 25,
+            'is_active' => 1,
+        ]);
+
+        // Relational variants (admin "Variants" tab): Size → Small / Medium, with
+        // the Medium combination priced at 30 and in stock.
+        $service = app(\Modules\Product\Services\ProductVariantService::class);
+        $attributeKey = 'size_' . $productId;
+        $attribute = $service->createAttribute([
+            'name' => 'Size',
+            'key' => $attributeKey,
+            'type' => 'select',
+            'is_active' => true,
+            'values' => [
+                ['value' => 'Small', 'key' => 'small', 'is_active' => true],
+                ['value' => 'Medium', 'key' => 'medium', 'is_active' => true],
+            ],
+        ]);
+
+        $product = \Modules\Content\Models\Content::find($productId);
+        $service->generateVariantCombinations($product, [$attribute->id]);
+
+        $mediumValue = $attribute->values()->where('key', 'medium')->first();
+        $mediumCombo = $service->findCombinationByValues($productId, [$mediumValue->id]);
+        $service->updateCombination($mediumCombo->id, [
+            'price' => 30,
+            'quantity' => 5,
+            'track_quantity' => false,
+        ]);
+
+        update_cart([
+            'content_id' => $productId,
+            'mw_variant' => [$attributeKey => 'medium'],
+        ]);
+
+        $cartItems = array_values(get_cart());
+
+        $this->assertCount(1, $cartItems);
+        // The combination price wins over the base price...
+        $this->assertEquals(30.0, (float) $cartItems[0]['price']);
+        // ...and the chosen option is recorded on the line (for display + to keep
+        // each variant a separate cart item).
+        $this->assertSame('Medium', $cartItems[0]['custom_fields_data']['Size'] ?? null);
+    }
+
 }
