@@ -7,7 +7,10 @@ return [
     | Minification toggles
     |--------------------------------------------------------------------------
     */
-    'enabled' => env('MW_MINIFIER_ENABLED', env('MINIFIER_ENABLED', true)),
+    // Master switch is OFF by default on new installs — minification only kicks in
+    // once an admin enables it on the Asset Minifier page (System Settings). The
+    // per-type switches default ON so enabling the master switch "just works".
+    'enabled' => env('MW_MINIFIER_ENABLED', env('MINIFIER_ENABLED', false)),
     'minify_js' => env('MW_MINIFIER_JS', env('MINIFIER_JS', true)),
     'minify_css' => env('MW_MINIFIER_CSS', env('MINIFIER_CSS', true)),
 

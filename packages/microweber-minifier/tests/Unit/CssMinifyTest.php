@@ -55,6 +55,39 @@ CSS;
         $this->assertSame('', $service->minify(''));
     }
 
+    public function test_preserves_calc_spaces(): void
+    {
+        // The spaces around the operator in calc() are significant — dropping them
+        // produces invalid CSS (calc(100%-10px)).
+        $minified = CssMinifier::minify('.a{width:calc(100% - 10px)}');
+        $this->assertStringContainsString('calc(100% - 10px)', $minified);
+    }
+
+    public function test_does_not_strip_percent_from_zero(): void
+    {
+        // 0% must survive inside color functions (hsl saturation/lightness) where
+        // a bare 0 is invalid.
+        $minified = CssMinifier::minify('.a{color:hsl(120, 0%, 50%)}');
+        $this->assertStringContainsString('0%', $minified);
+        $this->assertStringContainsString('50%', $minified);
+    }
+
+    public function test_does_not_glue_tokens_across_newlines(): void
+    {
+        // A value split across lines must not become "10px10px".
+        $minified = CssMinifier::minify(".a{margin:10px\n10px}");
+        $this->assertStringNotContainsString('10px10px', $minified);
+        $this->assertStringContainsString('10px 10px', $minified);
+    }
+
+    public function test_keeps_brace_balance(): void
+    {
+        $css = ".a{color:red}\n.b{color:blue}\n.c{color:green}";
+        $minified = CssMinifier::minify($css);
+        $this->assertSame(substr_count($css, '{'), substr_count($minified, '{'));
+        $this->assertSame(substr_count($css, '}'), substr_count($minified, '}'));
+    }
+
     public function test_service_minify(): void
     {
         $service = new CssMinify();

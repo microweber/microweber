@@ -66,4 +66,48 @@ class MinifierServiceTest extends TestCase
         $this->assertInstanceOf(JsMinify::class, $this->service->getJsMinify());
         $this->assertInstanceOf(CssMinify::class, $this->service->getCssMinify());
     }
+
+    public function test_master_switch_disables_minification(): void
+    {
+        config(['minifier.enabled' => false]);
+
+        $this->assertFalse($this->service->isEnabled());
+        $this->assertFalse($this->service->isJsEnabled());
+        $this->assertFalse($this->service->isCssEnabled());
+
+        $js = "function a() {\n    return 1;\n}";
+        $css = ".a {\n    color: red;\n}";
+        // Disabled ⇒ returns the input untouched.
+        $this->assertSame($js, $this->service->minifyJs($js));
+        $this->assertSame($css, $this->service->minifyCss($css));
+    }
+
+    public function test_per_type_switch_is_independent(): void
+    {
+        config([
+            'minifier.enabled' => true,
+            'minifier.minify_css' => false,
+            'minifier.minify_js' => true,
+        ]);
+
+        $this->assertTrue($this->service->isEnabled());
+        $this->assertFalse($this->service->isCssEnabled());
+        $this->assertTrue($this->service->isJsEnabled());
+    }
+
+    public function test_option_to_bool_handles_off_sentinel(): void
+    {
+        // The Microweber option store drops '0'/'' (get_option returns null), so a
+        // false toggle is persisted as the 'off' sentinel. Parsing must round-trip.
+        $page = \MicroweberPackages\Minifier\Filament\Pages\MinifierSettings::class;
+
+        $this->assertTrue($page::optionToBool('1'));
+        $this->assertTrue($page::optionToBool('on'));
+        $this->assertTrue($page::optionToBool(true));
+        $this->assertFalse($page::optionToBool('off'));
+        $this->assertFalse($page::optionToBool('0'));
+        $this->assertFalse($page::optionToBool(''));
+        $this->assertFalse($page::optionToBool(false));
+        $this->assertNull($page::optionToBool('maybe'));
+    }
 }

@@ -33,8 +33,51 @@ class MinifierServiceProvider extends MicroweberPackageServiceProvider
 
     }
 
+    /**
+     * Load the Asset Minifier settings saved on the System Settings page
+     * (options group "minifier") into runtime config so the toggles actually
+     * take effect across requests. Without this, config('minifier.*') only ever
+     * reflects the static config/env defaults and the page's Save does nothing
+     * beyond the request it ran in.
+     */
+    protected function loadPersistedSettings(): void
+    {
+        // Skip CLI (except the test runner) so migrations / package:discover
+        // never hit the options table before it exists.
+        if ($this->app->runningInConsole() && !$this->app->runningUnitTests()) {
+            return;
+        }
+
+        if (!function_exists('get_option')) {
+            return;
+        }
+
+        $map = [
+            'minifier_enabled' => 'minifier.enabled',
+            'minifier_minify_js' => 'minifier.minify_js',
+            'minifier_minify_css' => 'minifier.minify_css',
+            'minifier_js_flagged_comments' => 'minifier.js.flaggedComments',
+        ];
+
+        try {
+            foreach ($map as $optionKey => $configKey) {
+                $value = get_option($optionKey, 'minifier');
+                $bool = \MicroweberPackages\Minifier\Filament\Pages\MinifierSettings::optionToBool($value);
+                // Only override the default when the option explicitly stored a
+                // boolean token; an unset option (null) keeps the config default.
+                if ($bool !== null && $value !== null && $value !== '') {
+                    config([$configKey => $bool]);
+                }
+            }
+        } catch (\Throwable) {
+            // Keep the static config defaults if options are unavailable.
+        }
+    }
+
     public function packageBooted(): void
     {
+        $this->loadPersistedSettings();
+
         // The HTTP routes exist only so the test suite can exercise
         // MinifierController end-to-end. The CMS minifies via the CssMinify /
         // JsMinify services directly (see AssetOptimizationService), so there is

@@ -312,7 +312,11 @@ class JsCompileController extends Controller
         }
 
         try {
-            return app(\MicroweberPackages\Minifier\Services\JsMinify::class)->minify((string) $layout);
+            // Route through MinifierService so the Asset Minifier (System Settings)
+            // JS toggle governs this path too — it returns the original JS unchanged
+            // when JS minification is disabled there.
+            return app(\MicroweberPackages\Minifier\Services\MinifierService::class)
+                ->minifyJs((string) $layout, ['flaggedComments' => (bool) config('minifier.js.flaggedComments', false)]);
         } catch (\Throwable $e) {
             // Runtime resilience only: keep the original JS if minification of
             // this specific layout throws — never masks a missing dependency.

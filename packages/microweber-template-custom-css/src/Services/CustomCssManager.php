@@ -82,11 +82,75 @@ class CustomCssManager implements CssFileHandlerInterface
     }
 
     /**
+     * The custom CSS as served to the public — the assembled content, minified
+     * when the Asset Minifier (System Settings) is enabled for CSS. This is the
+     * single source both the live endpoint and the compiled cache file use, so
+     * the cache filename signature (md5 of content) stays consistent between the
+     * write (getCustomCss) and the read (getCustomCssUrl).
+     */
+    protected function renderedCss(): string
+    {
+        return $this->minifyCssIfEnabled($this->getCustomCssContent());
+    }
+
+    /**
+     * Minify CSS when the Asset Minifier is enabled for CSS. Never minifies
+     * while editing (Live Edit canvas needs readable CSS) and always falls back
+     * to the original CSS if minification is unavailable or throws.
+     */
+    protected function minifyCssIfEnabled(string $css): string
+    {
+        if ($css === '') {
+            return $css;
+        }
+
+        if (function_exists('in_live_edit') && in_live_edit()) {
+            return $css;
+        }
+
+        if (!function_exists('css_minify') || !$this->minifierCssEnabled()) {
+            return $css;
+        }
+
+        try {
+            $minified = css_minify($css);
+
+            if (!is_string($minified) || $minified === '') {
+                return $css;
+            }
+
+            // Structural safety net: never serve CSS whose block structure changed
+            // (e.g. a malformed comment or quote swallowing a brace). If the brace
+            // balance differs from the source, fall back to the original CSS.
+            if (substr_count($minified, '{') !== substr_count($css, '{')
+                || substr_count($minified, '}') !== substr_count($css, '}')) {
+                return $css;
+            }
+
+            return $minified;
+        } catch (\Throwable) {
+            return $css;
+        }
+    }
+
+    protected function minifierCssEnabled(): bool
+    {
+        try {
+            // config('minifier.*') is seeded from the saved options at boot by
+            // MinifierServiceProvider, so this honors the System Settings toggles.
+            return (bool) config('minifier.enabled', false)
+                && (bool) config('minifier.minify_css', true);
+        } catch (\Throwable) {
+            return false;
+        }
+    }
+
+    /**
      * Returns CSS content and optionally writes compile cache.
      */
     public function getCustomCss(): string
     {
-        $content = $this->getCustomCssContent();
+        $content = $this->renderedCss();
 
         if ($this->shouldCompileAssets()) {
             $cacheFile = $this->cacheFilename($content);
@@ -109,7 +173,7 @@ class CustomCssManager implements CssFileHandlerInterface
      */
     public function getCustomCssUrl(): string|false
     {
-        $content = $this->getCustomCssContent();
+        $content = $this->renderedCss();
         if (trim($content) === '') {
             return false;
         }

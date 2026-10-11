@@ -22,7 +22,7 @@ class MinifierSettings extends Page
     // Shown as the subtitle on the Settings page card.
     protected static string $description = 'Minify and combine CSS and JS for faster page loads.';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Website Settings';
+    protected static string|\UnitEnum|null $navigationGroup = 'System Settings';
 
     protected static ?int $navigationSort = 56;
 
@@ -37,11 +37,24 @@ class MinifierSettings extends Page
 
     public function mount(): void
     {
+        // The Statistics fields are disabled + dehydrated(false); their ->default()
+        // closures do NOT apply when fill() is called with an explicit array, so we
+        // seed the engine names here or they render blank.
+        $engine = [];
+        try {
+            $stats = app(MinifierService::class)->getStatistics();
+            $engine = is_array($stats['engine'] ?? null) ? $stats['engine'] : [];
+        } catch (\Throwable) {
+            // keep defaults below
+        }
+
         $this->form->fill([
-            'enabled' => (bool) $this->getOptionOrConfig('enabled', true),
+            'enabled' => (bool) $this->getOptionOrConfig('enabled', false),
             'minify_js' => (bool) $this->getOptionOrConfig('minify_js', true),
             'minify_css' => (bool) $this->getOptionOrConfig('minify_css', true),
             'js_flagged_comments' => (bool) $this->getOptionOrConfig('js_flagged_comments', false),
+            'stats_js_engine' => is_string($engine['js'] ?? null) ? $engine['js'] : 'JsMinifier',
+            'stats_css_engine' => is_string($engine['css'] ?? null) ? $engine['css'] : 'CssMinifier',
         ]);
     }
 
@@ -50,8 +63,9 @@ class MinifierSettings extends Page
         if (function_exists('get_option')) {
             $val = get_option('minifier_' . $key, 'minifier');
             if ($val !== null && $val !== '') {
-                if ($val === '1' || $val === '0') {
-                    return $val === '1';
+                $bool = self::optionToBool($val);
+                if ($bool !== null) {
+                    return $bool;
                 }
 
                 return $val;
@@ -64,6 +78,30 @@ class MinifierSettings extends Page
         };
 
         return config($configKey, $default);
+    }
+
+    /**
+     * Interpret a stored option value as a boolean, tolerating the legacy '1'/'0'
+     * pair as well as the 'off' sentinel we persist for a false toggle.
+     * Returns null when the value is not a recognised boolean token.
+     */
+    public static function optionToBool(mixed $val): ?bool
+    {
+        if (is_bool($val)) {
+            return $val;
+        }
+
+        $token = is_string($val) ? strtolower(trim($val)) : $val;
+
+        if (in_array($token, ['1', 'on', 'yes', 'true', 1, true], true)) {
+            return true;
+        }
+
+        if (in_array($token, ['0', 'off', 'no', 'false', '', 0], true)) {
+            return false;
+        }
+
+        return null;
     }
 
     public function form(Schema $schema): Schema
@@ -149,11 +187,15 @@ class MinifierSettings extends Page
     {
         $formData = $this->form->getState();
 
+        // Microweber's option store treats '0' (and '') as "unset" — get_option
+        // returns null for them — so an OFF toggle stored as '0' would silently
+        // read back as its (true) default and the setting could never be turned
+        // off. Persist OFF as the non-empty sentinel 'off' instead.
         $mapping = [
-            'enabled' => !empty($formData['enabled']) ? '1' : '0',
-            'minify_js' => !empty($formData['minify_js']) ? '1' : '0',
-            'minify_css' => !empty($formData['minify_css']) ? '1' : '0',
-            'js_flagged_comments' => !empty($formData['js_flagged_comments']) ? '1' : '0',
+            'enabled' => !empty($formData['enabled']) ? '1' : 'off',
+            'minify_js' => !empty($formData['minify_js']) ? '1' : 'off',
+            'minify_css' => !empty($formData['minify_css']) ? '1' : 'off',
+            'js_flagged_comments' => !empty($formData['js_flagged_comments']) ? '1' : 'off',
         ];
 
         foreach ($mapping as $key => $value) {

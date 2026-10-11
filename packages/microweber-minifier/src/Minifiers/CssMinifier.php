@@ -34,9 +34,16 @@ class CssMinifier
             $css = is_string($stripped) ? $stripped : $css;
         }
 
+        // Normalize every line break and tab to a single space *before* collapsing
+        // whitespace, so tokens that sit on separate lines (e.g. a multi-line value)
+        // can never be glued together when the whitespace is removed. Single spaces
+        // inside values — calc(100% - 10px), multi-value shorthands — are preserved.
+        $normalized = preg_replace('/[\r\n\t]+/', ' ', $css);
+        $css = is_string($normalized) ? $normalized : $css;
+
         $patterns = [
             // trailing semicolon of selector's last property
-            ['/;[\s\r\n\t]*?}[\s\r\n\t]*/ims', "}\r\n"],
+            ['/;[\s\r\n\t]*?}[\s\r\n\t]*/ims', '}'],
             // whitespace between semicolon and property-name
             ['/;[\s\r\n\t]*?([\r\n]?[^\s\r\n\t])/ims', ';$1'],
             // whitespace surrounding property-colon
@@ -55,16 +62,17 @@ class CssMinifier
         }
 
         if ($shortenZeros) {
-            $result = preg_replace('/([^\d\.]0)(px|em|pt|%)/ims', '$1', $css);
+            // Only strip the unit from a zero *length* — never from 0% (percentages
+            // are semantically required inside hsl()/hsla()/color-mix() and gradient
+            // stops, where 0 and 0% are NOT interchangeable).
+            $result = preg_replace('/([^\d\.]0)(px|em|pt)\b/ims', '$1', $css);
             $css = is_string($result) ? $result : $css;
         }
 
-        // Constrain multiple unicode spaces
+        // Constrain multiple unicode spaces (newlines/tabs were normalized to spaces
+        // above, so there is nothing left to glue together here).
         $result = preg_replace('/\p{Zs}+/uims', ' ', $css);
         $css = is_string($result) ? $result : $css;
-
-        // Remove newlines
-        $css = str_replace(["\r\n", "\r", "\n"], '', $css);
 
         // Restore quoted strings
         foreach ($quoted as $i => $quote) {
