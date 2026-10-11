@@ -213,6 +213,10 @@
             <directory>packages/microweber-option/src/tests</directory>
         </testsuite>
 
+        <testsuite name="MicroweberMultilanguage">
+            <directory>packages/microweber-multilanguage/src/tests</directory>
+        </testsuite>
+
         <testsuite name="MicroweberUtils">
             <directory>packages/microweber-utils/src/tests</directory>
         </testsuite>
