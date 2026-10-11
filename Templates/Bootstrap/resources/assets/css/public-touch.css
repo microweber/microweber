@@ -1991,3 +1991,98 @@ button.btn.btn-sm:not(.btn-outline-primary):not(.btn-danger):not(.btn-outline-da
     border-color: var(--mw-btn-border-color, #0d6efd) !important;
     color: #fff !important;
 }
+
+/* =========================================================================
+ * Mobile layout normalizer (task-2026-10-11 — Base/Big layout parity)
+ *
+ * Shared by the Base and Big templates (both load this file). Keeps layout
+ * skin sections from (a) bleeding content past the viewport edge and
+ * (b) sitting lop-sided on phones. Everything is scoped to the layout
+ * container ([data-layout-container]) so admin/form chrome is never touched,
+ * and gated below the Bootstrap md breakpoint so desktop layouts are intact.
+ *
+ * The skin .blade files are byte-identical between Base and Big, so these
+ * fixes apply to both templates from one place (the per-skin cause is the
+ * same in both — e.g. a .me-4 flex gap that only makes sense once the row is
+ * a flex row at >=md, but still pushes content left once the row stacks).
+ * ========================================================================= */
+@media (max-width: 767.98px) {
+    /* (1) Nothing inside a layout section may exceed the viewport width. */
+    [data-layout-container] img,
+    [data-layout-container] video,
+    [data-layout-container] iframe,
+    [data-layout-container] table {
+        max-width: 100% !important;
+        height: auto;
+    }
+
+    [data-layout-container] h1,
+    [data-layout-container] h2,
+    [data-layout-container] h3,
+    [data-layout-container] h4,
+    [data-layout-container] h5,
+    [data-layout-container] h6,
+    [data-layout-container] p,
+    [data-layout-container] a,
+    [data-layout-container] span,
+    [data-layout-container] li {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+
+    /* (2) Horizontal spacing utilities (me / ms) that only exist to gap a
+     *     DESKTOP flex row (.d-md-flex / .d-lg-flex) collapse to 0 once the row
+     *     stacks on mobile, so they stop pushing content to one side. */
+    [data-layout-container] .d-md-flex > .me-1,
+    [data-layout-container] .d-md-flex > .me-2,
+    [data-layout-container] .d-md-flex > .me-3,
+    [data-layout-container] .d-md-flex > .me-4,
+    [data-layout-container] .d-md-flex > .me-5,
+    [data-layout-container] .d-lg-flex > .me-1,
+    [data-layout-container] .d-lg-flex > .me-2,
+    [data-layout-container] .d-lg-flex > .me-3,
+    [data-layout-container] .d-lg-flex > .me-4,
+    [data-layout-container] .d-lg-flex > .me-5 {
+        /* Bootstrap .me-* use the logical margin-inline-end (RTL-aware), so the
+           override must use the same property to win the cascade. */
+        margin-inline-end: 0 !important;
+    }
+
+    [data-layout-container] .d-md-flex > .ms-1,
+    [data-layout-container] .d-md-flex > .ms-2,
+    [data-layout-container] .d-md-flex > .ms-3,
+    [data-layout-container] .d-md-flex > .ms-4,
+    [data-layout-container] .d-md-flex > .ms-5,
+    [data-layout-container] .d-lg-flex > .ms-1,
+    [data-layout-container] .d-lg-flex > .ms-2,
+    [data-layout-container] .d-lg-flex > .ms-3,
+    [data-layout-container] .d-lg-flex > .ms-4,
+    [data-layout-container] .d-lg-flex > .ms-5 {
+        margin-inline-start: 0 !important;
+    }
+
+    /* Columns that only define a >=md width (no base col / col-sm) size to their
+       content on phones instead of stacking, which leaves the grid lop-sided.
+       Force those full-width. Columns WITH an explicit mobile width
+       (col / col-1..12 / col-sm-*) are excluded so intended multi-up mobile
+       layouts (e.g. col-6 col-lg-3) are preserved. */
+    [data-layout-container] .row > [class*="col-md-"]:not([class~="col"]):not([class~="col-1"]):not([class~="col-2"]):not([class~="col-3"]):not([class~="col-4"]):not([class~="col-5"]):not([class~="col-6"]):not([class~="col-7"]):not([class~="col-8"]):not([class~="col-9"]):not([class~="col-10"]):not([class~="col-11"]):not([class~="col-12"]):not([class*="col-sm-"]),
+    [data-layout-container] .row > [class*="col-lg-"]:not([class~="col"]):not([class~="col-1"]):not([class~="col-2"]):not([class~="col-3"]):not([class~="col-4"]):not([class~="col-5"]):not([class~="col-6"]):not([class~="col-7"]):not([class~="col-8"]):not([class~="col-9"]):not([class~="col-10"]):not([class~="col-11"]):not([class~="col-12"]):not([class*="col-sm-"]):not([class*="col-md-"]) {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    /* Breadcrumbs: a long page title (one unbreakable token) must wrap/break
+       instead of pushing the trail past the viewport edge. */
+    [data-layout-container] .breadcrumb {
+        flex-wrap: wrap;
+    }
+    [data-layout-container] .breadcrumb-item,
+    [data-layout-container] .breadcrumb-item > a {
+        min-width: 0;
+        flex-shrink: 1;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+}
