@@ -1214,8 +1214,10 @@ class ContentResource extends Resource
             Tabs::make('ContentTabs')
                 ->schema([
                     Tabs\Tab::make('Content')
+                        ->icon('heroicon-o-document-text')
                         ->schema($mainForm),
                     Tabs\Tab::make('Template')
+                        ->icon('heroicon-o-rectangle-group')
                         ->schema([
                             Schemas\Components\Section::make('Select Template')
                                 ->schema([
@@ -1230,6 +1232,7 @@ class ContentResource extends Resource
                             return $get('content_type') == 'page';
                         }),
                     Tabs\Tab::make('Product Details')
+                        ->icon('heroicon-o-cube')
                         ->schema(
                             static::productDetailsSection()
                         )
@@ -1250,6 +1253,7 @@ class ContentResource extends Resource
                             return $get('content_type') == 'product';
                         }),
                     Tabs\Tab::make('Custom Fields')
+                        ->icon('heroicon-o-adjustments-horizontal')
                         ->schema(function (Content|null $record) {
                             $relId = 0;
                             if (isset($record->id)) {
@@ -1268,10 +1272,12 @@ class ContentResource extends Resource
                             return [Livewire::make('admin-list-custom-fields', $customFieldParams)];
                         }),
                     Tabs\Tab::make('SEO')
+                        ->icon('heroicon-o-magnifying-glass')
                         ->schema(
                             static::seoSection()
                         ),
                     Tabs\Tab::make('Advanced')
+                        ->icon('heroicon-o-wrench-screwdriver')
                         ->schema(static::advancedSection()),
                 ])->columnSpanFull()
         ];
