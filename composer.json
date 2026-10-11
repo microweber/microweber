@@ -141,6 +141,7 @@
         "microweber-packages/thumbnailer": "^1.0",
         "microweber-packages/media-thumbnail": "^1.0",
         "microweber-packages/url": "^1.0",
+        "microweber-packages/form-builder": "^1.0",
         "microweber-packages/repository": "^1.0",
         "microweber-packages/database": "^1.0",
         "microweber-packages/searchable": "^1.0",
@@ -226,6 +227,7 @@
             "MicroweberPackages\\AppBootstrapCache\\": "packages/microweber-app-bootstrap-cache/src/",
             "MicroweberPackages\\ConfigMerge\\": "packages/microweber-config-merge/src/",
             "MicroweberPackages\\Core\\": "packages/microweber-core/src/",
+            "MicroweberPackages\\FormBuilder\\": "packages/microweber-form-builder/src/",
             "MicroweberPackages\\Pagination\\": "packages/microweber-pagination/src/",
             "MicroweberPackages\\Passport\\": "packages/microweber-passport/src/",
             "MicroweberPackages\\Fortify\\": "packages/microweber-fortify/src/",
@@ -291,6 +293,7 @@
             "MicroweberPackages\\AppBootstrapCache\\Tests\\": "packages/microweber-app-bootstrap-cache/tests/",
             "MicroweberPackages\\ConfigMerge\\Tests\\": "packages/microweber-config-merge/tests/",
             "MicroweberPackages\\Core\\Tests\\": "packages/microweber-core/tests/",
+            "MicroweberPackages\\FormBuilder\\Tests\\": "packages/microweber-form-builder/tests/",
             "MicroweberPackages\\Pagination\\Tests\\": "packages/microweber-pagination/tests/",
             "MicroweberPackages\\Passport\\Tests\\": "packages/microweber-passport/tests/",
             "MicroweberPackages\\Fortify\\Tests\\": "packages/microweber-fortify/tests/",
@@ -891,6 +894,13 @@
             "url": "packages/microweber-module-registry",
             "options": {
                 "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-form-builder",
+            "options": {
                 "symlink": true
             }
         },
