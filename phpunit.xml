@@ -313,6 +313,10 @@
         <testsuite name="MicroweberInstall">
             <directory>packages/microweber-install/src/tests</directory>
         </testsuite>
+
+        <testsuite name="MicroweberCore">
+            <directory>packages/microweber-core/src/tests</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>

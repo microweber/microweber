@@ -1,48 +1,15 @@
 {
     "name": "microweber-packages/core",
-    "description": "Microweber Core \u2013 deterministic service-provider loader that eliminates auto-discovery race conditions under php-fpm / php-cgi.",
+    "description": "Microweber CMS.",
     "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "homepage": "https://microweber.com",
     "authors": [
-        {
-            "name": "Microweber",
-            "email": "info@microweber.com"
-        }
+        { "name": "Microweber", "email": "info@microweber.com" }
     ],
-    "require": {
-        "php": "^8.3",
-        "illuminate/support": "^11.0",
-        "illuminate/contracts": "^11.0"
-    },
-    "require-dev": {
-        "orchestra/testbench": "^9.0",
-        "phpunit/phpunit": "^11.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "MicroweberPackages\\Core\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "MicroweberPackages\\Core\\Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "MicroweberPackages\\Core\\CoreServiceProvider"
-            ]
-        }
-    },
-    "config": {
-        "sort-packages": true
-    },
+    "require": { "php": "^8.3" },
+    "autoload": { "psr-4": { "MicroweberPackages\\Core\\": "src/" } },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "support": {
-        "email": "support@microweber.com"
-    }
+    "prefer-stable": true
 }
