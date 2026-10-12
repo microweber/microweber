@@ -1,0 +1,17 @@
+includes:
+    - ../../phpstan.neon.dist
+parameters:
+    level: 0
+    # Larastan's env() ban is not tied to a PHPStan level. The calls are in
+    # src/config/modules.php (package config) and LaravelModule's Vapor path
+    # check. They cannot be fixed with a type or PHPDoc.
+    # Level 1 is blocked by createModule() being called with 5 arguments
+    # (signature accepts 3) and by a redundant empty() check. Fixing either
+    # would change the signature or control flow, not just add a type.
+    noEnvCallsOutsideOfConfig: false
+    paths!:
+        - src
+    # ModuleDependency relations reference Models\Module, which has no class
+    # in this package. The stub is analysis-only and is not autoloaded.
+    scanFiles:
+        - phpstan/missing-classes.stub

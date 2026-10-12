@@ -17,11 +17,14 @@ use Spatie\LaravelPackageTools\Package;
  * (config/views/translations).
  *
  * Concrete providers declare `$moduleName` / `$moduleNameLower` themselves
- * (legacy modules may use untyped properties).
+ * (legacy modules may use untyped properties). Those properties cannot be
+ * declared on this class: a native `string` type fatals untyped children, and
+ * an untyped property fatals `string` children.
  *
  * @property string $moduleName
  * @property string $moduleNameLower
  */
+#[\AllowDynamicProperties]
 abstract class BaseModuleServiceProvider extends MicroweberPackageServiceProvider
 {
     use MergesConfigFromPackage;

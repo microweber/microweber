@@ -1,0 +1,11 @@
+<?php
+
+namespace MicroweberPackages\LaravelModules\Models;
+
+/**
+ * Referenced by ModuleDependency relations. No concrete class exists in this
+ * package. Scanned by PHPStan only — this file is not autoloaded.
+ */
+class Module
+{
+}

@@ -6,28 +6,25 @@ use Illuminate\Filesystem\Filesystem;
 use Nwidart\Modules\Collection;
 use Nwidart\Modules\Exceptions\InvalidJsonException;
 
+/**
+ * @phpstan-consistent-constructor
+ */
 class ModuleJsonFromArray extends \Nwidart\Modules\Json
 {
     /**
      * The file path.
-     *
-     * @var string
      */
-    protected $path;
+    protected string $path;
 
     /**
      * The laravel filesystem instance.
-     *
-     * @var \Illuminate\Filesystem\Filesystem
      */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     /**
      * The attributes collection.
-     *
-     * @var \Illuminate\Support\Collection
      */
-    protected $attributes;
+    protected ?\Illuminate\Support\Collection $attributes;
 
     public function __construct($path, ?Filesystem $filesystem = null, $attributes = [])
     {
@@ -46,12 +43,12 @@ class ModuleJsonFromArray extends \Nwidart\Modules\Json
 
     }
 
-    public static function make($path, ?Filesystem $filesystem = null, $attributes = [])
+    public static function make($path, ?Filesystem $filesystem = null, $attributes = []): static
     {
         return new static($path, $filesystem, $attributes);
     }
 
-    public function getAttributes()
+    public function getAttributes(): array
     {
         if ($this->attributes) {
             return $this->attributes->toArray();
