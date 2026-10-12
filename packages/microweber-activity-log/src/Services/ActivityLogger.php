@@ -61,14 +61,19 @@ final class ActivityLogger
 
     /**
      * Convenience: record a successful login.
+     *
+     * @param object|null         $user
+     * @param array<string, mixed> $metadata
      */
-    public static function recordLogin($user, array $metadata = []): void
+    public static function recordLogin(?object $user, array $metadata = []): void
     {
         self::record('auth.login', user: $user, metadata: $metadata);
     }
 
     /**
      * Convenience: record a failed login (no user object available).
+     *
+     * @param array<string, mixed> $metadata
      */
     public static function recordFailedLogin(string $attemptedEmail, array $metadata = []): void
     {
@@ -88,6 +93,9 @@ final class ActivityLogger
         }
     }
 
+    /**
+     * @param object|null $entity
+     */
     private static function idOf($entity): ?int
     {
         if (!$entity) {
@@ -99,6 +107,9 @@ final class ActivityLogger
         return is_numeric($id) ? (int) $id : null;
     }
 
+    /**
+     * @param object|null $entity
+     */
     private static function emailOf($entity): ?string
     {
         if (!$entity) {
