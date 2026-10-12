@@ -22,7 +22,7 @@ use MicroweberPackages\Url\Facades\UrlManager;
 use MicroweberPackages\Event\Facades\EventManager;
 
 
-#[AllowDynamicProperties]
+#[\AllowDynamicProperties]
 class OptionManager
 {
     public $app;
@@ -50,7 +50,7 @@ class OptionManager
     public function get_all($params = '')
     {
         if (is_string($params)) {
-            $params = parse_str($params, $params2);
+            parse_str($params, $params2);
             $params = $params2;
         }
 
@@ -99,11 +99,10 @@ class OptionManager
         }
 
         $res = $query->get();
+        $res1 = array();
 
-
-        if ($res and !empty($res)) {
+        if ($res) {
             $res = $res->toArray();
-            $res1 = array();
             foreach ($res as $item) {
                 $item = (array)$item;
 
@@ -544,7 +543,7 @@ class OptionManager
 
         if (mw_is_installed() == true) {
             $table = 'options';
-            $ttl = now()->addYear(1);
+            $ttl = now()->addYear();
 
             $cache_key = $table . '_items_per_page_' . $group;
             $items_per_page = Cache::tags($table)->remember($cache_key, $ttl, function () use ($table, $group) {

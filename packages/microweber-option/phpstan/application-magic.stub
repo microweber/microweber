@@ -1,0 +1,58 @@
+<?php
+
+// PHPStan-only @property types. Empty shells let the stub validator resolve
+// project classes; they are not the real class definitions.
+
+namespace MicroweberPackages\Option;
+
+class OptionManager
+{
+}
+
+namespace MicroweberPackages\Option\Repositories;
+
+class OptionRepository
+{
+}
+
+namespace MicroweberPackages\Repository\Repositories;
+
+class AbstractRepository
+{
+    /**
+     * Declared `@return self` on the real method, but the body returns the
+     * filtered rows (or a count), not the repository.
+     *
+     * @param array<string, mixed>|string $params
+     * @return array<mixed>|int|null
+     */
+    public function getByParams($params = [])
+    {
+    }
+}
+
+namespace MicroweberPackages\App\Managers\Helpers;
+
+class Lang
+{
+}
+
+namespace MicroweberPackages\Multilanguage;
+
+class TranslateManager
+{
+}
+
+namespace Illuminate\Foundation;
+
+/**
+ * Container aliases resolved through Application::__get().
+ *
+ * @property \MicroweberPackages\Option\OptionManager $option_manager
+ * @property \MicroweberPackages\Option\Repositories\OptionRepository $option_repository
+ * @property \MicroweberPackages\App\Managers\Helpers\Lang $lang_helper
+ * @property \MicroweberPackages\Multilanguage\TranslateManager $translate_manager
+ */
+class Application
+{
+}

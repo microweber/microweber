@@ -6,6 +6,14 @@ use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
+/**
+ * @property string|null $option_key
+ * @property string|null $option_value
+ * @property string|null $option_group
+ * @property string|null $module
+ * @property string|null $lang
+ * @property array<mixed>|null $multilanguage
+ */
 class ModuleOption extends Model
 {
 

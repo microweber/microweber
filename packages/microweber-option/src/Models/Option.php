@@ -16,6 +16,14 @@ use MicroweberPackages\Option\Events\OptionWasUpdated;
 use MicroweberPackages\Repository\Traits\FilterableByParams;
 use MicroweberPackages\Url\Facades\UrlManager;
 
+/**
+ * @property string|null $option_key
+ * @property string|null $option_value
+ * @property string|null $option_group
+ * @property string|null $module
+ * @property int|null $is_system
+ * @property string|null $lang
+ */
 class Option extends Model
 {
     /*

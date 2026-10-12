@@ -108,8 +108,8 @@ function delete_option($key, $group = false, $module_id = false)
 /**
  * Getting multiple options from the database by params.
  *
- * @param $params array - query params, e.g. ['option_group' => 'my_group']
- * @return array
+ * @param array<string, mixed>|string $params query params, e.g. ['option_group' => 'my_group']
+ * @return array<mixed>|int
  * Example usage:
  * get_options(['option_group' => 'my_group']);
  */
