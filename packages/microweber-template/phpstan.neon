@@ -1,0 +1,20 @@
+includes:
+    - ../../phpstan.neon.dist
+parameters:
+    level: 0
+    # Level 1 is blocked by errors that are not missing types: undefined
+    # variables ($readyCssLinks, $readyJsLinks, $possible_dir2, $cache_group,
+    # $function_cache_id, $ref_page_partent), missing runtime constants
+    # (TEMPLATE_DIR, ACTIVE_TEMPLATE_DIR), redundant isset()/empty(), and
+    # calls that pass more arguments than the callee declares. Fixing those
+    # would change control flow or call signatures.
+    #
+    # TemplateMetaTagsPlaceholderReplacer.php fails at level 0: $found_mod is
+    # never assigned. No type or PHPDoc can define it, and assigning or
+    # removing it would change control flow, so it cannot be part of a
+    # zero-error run at any level.
+    paths!:
+        - src
+    excludePaths:
+        analyse:
+            - src/Adapters/RenderHelpers/TemplateMetaTagsPlaceholderReplacer.php

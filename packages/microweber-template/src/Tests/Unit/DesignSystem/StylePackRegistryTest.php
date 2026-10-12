@@ -182,7 +182,7 @@ class StylePackRegistryTest extends TestCase
 
     // --- Helpers ---
 
-    private function makePack(string $title, array $properties = null): array
+    private function makePack(string $title, ?array $properties = null): array
     {
         return [
             'title' => $title,
@@ -203,7 +203,7 @@ class StylePackRegistryTest extends TestCase
         ];
     }
 
-    private function makePackFile(string $title, array $properties = null): array
+    private function makePackFile(string $title, ?array $properties = null): array
     {
         return ['settings' => [$this->makePack($title, $properties)]];
     }

@@ -180,7 +180,7 @@ class ColorSchemesRegistryTest extends TestCase
 
     // --- Helpers ---
 
-    private function makePalette(string $name, array $properties = null): array
+    private function makePalette(string $name, ?array $properties = null): array
     {
         return [
             'name' => $name,
