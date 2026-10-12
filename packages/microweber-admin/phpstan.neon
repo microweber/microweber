@@ -1,0 +1,21 @@
+includes:
+    - ../../phpstan.neon.dist
+parameters:
+    level: 0
+    # Level 1 reports two errors in add-content-buttons.blade.php that are not
+    # missing types: isset($isIframe) is redundant because $isIframe is always
+    # assigned just above, and $showEditContentButtonForContentId (an @props
+    # value) might be undefined in the compiled view. Fixing either would
+    # change control flow, so the level stays 0.
+    # These paths fail at level 0 with errors that no type or PHPDoc can fix,
+    # so they cannot be part of a zero-error run at any level.
+    # - AdminSettingsPage.php reads $formState, which is never assigned
+    # - header.blade.php calls a global UrlManager class that does not exist
+    # - navabar-bottom-menu-lang-switch.blade.php ends with whitespace after ?>
+    paths!:
+        - src
+    excludePaths:
+        analyse:
+            - src/Filament/Pages/Abstract/AdminSettingsPage.php
+            - src/resources/views/layouts/partials/header.blade.php
+            - src/resources/views/layouts/partials/navabar-bottom-menu-lang-switch.blade.php
