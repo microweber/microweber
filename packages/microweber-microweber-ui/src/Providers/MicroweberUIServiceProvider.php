@@ -14,7 +14,7 @@ class MicroweberUIServiceProvider extends MicroweberPackageServiceProvider
         $package->name('microweber-ui');
         $package->hasViews('microweber-ui');
     }
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 
