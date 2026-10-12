@@ -8,11 +8,15 @@ use Livewire\Features\SupportLegacyModels\EloquentModelSynth;
 
 class MwEloquentModelSynth extends EloquentModelSynth
 {
+    /**
+     * @param array{class: class-string<Model>, key?: int|string|array<int|string>, connection?: string|null, relations?: list<string>} $meta
+     */
     protected function loadModel($meta): ?Model
     {
         $class = $meta['class'];
 
-        // If no alias found, this returns `null`
+        // If no alias found, this returns `null`. Morph-map values are model class names.
+        /** @var class-string<Model>|null $aliasClass */
         $aliasClass = Relation::getMorphedModel($class);
 
         if (! is_null($aliasClass)) {

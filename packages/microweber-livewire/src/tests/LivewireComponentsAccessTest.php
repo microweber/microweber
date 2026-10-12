@@ -13,6 +13,7 @@ use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
 
 class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {
+    /** @var string */
     public $template_name = 'big';
 
     #[Test]

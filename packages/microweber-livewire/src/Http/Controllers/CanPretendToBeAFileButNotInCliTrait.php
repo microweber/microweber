@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\App;
 
 trait CanPretendToBeAFileButNotInCliTrait
 {
-    public function pretendResponseIsFile($file, $mimeType = 'application/javascript')
+    public function pretendResponseIsFile(string $file, string $mimeType = 'application/javascript'): \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\Response
     {
 
         $expires = strtotime('+1 year');
@@ -30,14 +30,17 @@ trait CanPretendToBeAFileButNotInCliTrait
         ]);
     }
 
-    protected function matchesCache($lastModified)
+    protected function matchesCache(int|false $lastModified): bool
     {
         $ifModifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'] ?? '';
 
         return @strtotime($ifModifiedSince) === $lastModified;
     }
 
-    protected function httpDate($timestamp)
+    /**
+     * @param int|false $timestamp filemtime() or strtotime() result
+     */
+    protected function httpDate(int|false $timestamp): string
     {
         return sprintf('%s GMT', gmdate('D, d M Y H:i:s', $timestamp));
     }

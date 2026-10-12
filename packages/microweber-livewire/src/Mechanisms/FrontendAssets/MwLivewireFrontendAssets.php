@@ -8,7 +8,13 @@ use MicroweberPackages\Livewire\LivewireFronterdAssetsManager;
 class MwLivewireFrontendAssets extends FrontendAssets
 {
 
-    protected static function usePublishedAssetsIfAvailable($url, $manifest, $nonce)
+    /**
+     * @param string $url
+     * @param array<string, string> $manifest
+     * @param string $nonce
+     * @return array{0: string, 1: null}
+     */
+    protected static function usePublishedAssetsIfAvailable($url, $manifest, $nonce): array
     {
         $assetWarning = null;
 

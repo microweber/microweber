@@ -1,0 +1,27 @@
+<?php
+
+namespace Illuminate\Database\Migrations;
+
+class Migrator
+{
+}
+
+namespace MicroweberPackages\DbMigrator;
+
+class MicroweberMigrator
+{
+}
+
+namespace Illuminate\Foundation;
+
+/**
+ * Container services resolved through Application::__get(), and
+ * LaravelApplication::rebootApplication() on the running Microweber app.
+ *
+ * @property \Illuminate\Database\Migrations\Migrator $migrator
+ * @property \MicroweberPackages\DbMigrator\MicroweberMigrator $mw_migrator
+ * @method void rebootApplication()
+ */
+class Application
+{
+}

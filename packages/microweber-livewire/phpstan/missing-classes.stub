@@ -1,0 +1,21 @@
+<?php
+
+namespace Livewire\Controllers;
+
+/**
+ * Livewire 2 asset controller. Removed upstream; the local subclass still extends it.
+ * Scanned by PHPStan only — this file is not autoloaded.
+ */
+class LivewireJavaScriptAssets
+{
+}
+
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
+
+/**
+ * Class name kept on the component access-test skip list. The class file is gone.
+ * Scanned by PHPStan only — this file is not autoloaded.
+ */
+class DropdownMappingPreview
+{
+}

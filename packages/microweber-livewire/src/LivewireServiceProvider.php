@@ -32,12 +32,6 @@ class LivewireServiceProvider extends ServiceProvider
 {
     use \MicroweberPackages\ConfigMerge\MergesConfigFromPackage;
 
-    /**
-     * Whether or not to defer the loading of this service
-     * provider until it's needed
-     *
-     * @var boolean
-     */
     #   protected $defer = false;
 
 
@@ -77,7 +71,7 @@ class LivewireServiceProvider extends ServiceProvider
 //            app($mechanism)->register();
 //        }
 //    }
-    public function boot()
+    public function boot(): void
     {
 
         if (defined('MW_SERVED_FROM_BASE_PATH')) {
@@ -125,7 +119,7 @@ class LivewireServiceProvider extends ServiceProvider
 
     }
 
-    public function ensureLivewiereFilesAreCopiedToPublicPath()
+    public function ensureLivewiereFilesAreCopiedToPublicPath(): void
     {
         //check if assets are copied
 //        $check = public_path('vendor/livewire/livewire.min.js');
@@ -178,7 +172,7 @@ class LivewireServiceProvider extends ServiceProvider
 
     }
 
-    protected function registerRoutes()
+    protected function registerRoutes(): void
     {
 
 

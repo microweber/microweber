@@ -1,0 +1,10 @@
+includes:
+    - ../../phpstan.neon.dist
+parameters:
+    level: 3
+    paths!:
+        - src
+    stubFiles:
+        - phpstan/application-magic.stub
+    scanFiles:
+        - phpstan/missing-classes.stub

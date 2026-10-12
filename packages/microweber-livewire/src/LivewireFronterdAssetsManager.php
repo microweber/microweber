@@ -6,7 +6,7 @@ use \Livewire\LivewireManager as BaseLivewireManager;
 
 class LivewireFronterdAssetsManager extends BaseLivewireManager
 {
-    public function copyAssets()
+    public function copyAssets(): void
     {
         $livewireCacheFolder = userfiles_path() . 'cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/';
         $livewireCacheFolder = normalize_path($livewireCacheFolder,true);
@@ -42,7 +42,7 @@ class LivewireFronterdAssetsManager extends BaseLivewireManager
             }
         }
     }
-    public function getAssetPath()
+    public function getAssetPath(): string
     {
         $livewireCacheFolder = 'userfiles/cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/livewire.min.js';
         return site_url($livewireCacheFolder);
