@@ -286,3 +286,5 @@ scratchpad-*/
 /scripts/migrate-one.sh
 /scripts/migrate-all.sh
 /scripts/__pycache__/
+/scripts/phpstan-one.sh
+/scripts/phpstan-all.sh
