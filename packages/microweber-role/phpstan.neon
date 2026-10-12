@@ -1,0 +1,6 @@
+includes:
+    - ../../phpstan.neon.dist
+parameters:
+    level: 0
+    paths!:
+        - src
