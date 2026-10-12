@@ -1,0 +1,11 @@
+includes:
+    - ../../phpstan.neon.dist
+parameters:
+    level: 1
+    # Larastan's env() ban is not tied to a PHPStan level, and the calls in
+    # src/tests bootstrap the installer from the environment. They cannot be
+    # fixed with a type or PHPDoc. Level 2 is blocked by Model::filter(),
+    # which is not declared on Illuminate\Database\Eloquent\Model.
+    noEnvCallsOutsideOfConfig: false
+    paths!:
+        - src
