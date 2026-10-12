@@ -4,19 +4,23 @@ namespace MicroweberPackages\Frontend\Http\Controllers;
 
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 
 
 class ServeStaticFileContoller extends Controller
 {
-    public $skip_ext = ['php', 'phtml', 'php7', '.htaccess', '.env'];
-    public $inline_disposition = ['pdf', 'docx', 'doc', 'xls'];
+    /** @var list<string> */
+    public array $skip_ext = ['php', 'phtml', 'php7', '.htaccess', '.env'];
+
+    /** @var list<string> */
+    public array $inline_disposition = ['pdf', 'docx', 'doc', 'xls'];
 
     /**
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function serveFromUserfiles(Request $request)
+    public function serveFromUserfiles(Request $request): Response
     {
         $path = $request->path;
 
@@ -27,7 +31,7 @@ class ServeStaticFileContoller extends Controller
 
     }
 
-    private function sendResponse($path, $request)
+    private function sendResponse(string $path, $request): Response
     {
         $hasFile = false;
 
