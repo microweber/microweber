@@ -37,7 +37,7 @@ class TemplateMakeCommand extends Command
 
 
         foreach ($names as $name) {
-            $code = with(new TemplateGenerator($name))
+            $code = (new TemplateGenerator($name))
                 ->setFilesystem($this->laravel['files'])
                 ->setModule($this->laravel['templates'])
                 ->setConfig($this->laravel['config'])

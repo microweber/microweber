@@ -14,14 +14,16 @@ use Spatie\LaravelPackageTools\Package;
  * Uses the standalone Microweber package loader so templates share the same
  * Spatie-based lifecycle as packages/* and modules.
  *
- * Concrete providers declare `$moduleName` / `$moduleNameLower` themselves.
- *
- * @property string $moduleName
- * @property string $moduleNameLower
+ * Concrete providers set `$moduleName` / `$moduleNameLower`
+ * (see Templates/* and the scaffold stub).
  */
 abstract class BaseTemplateServiceProvider extends MicroweberPackageServiceProvider
 {
     use MergesConfigFromPackage;
+
+    protected string $moduleName;
+
+    protected string $moduleNameLower;
 
     protected bool $requiresModuleType = false;
 

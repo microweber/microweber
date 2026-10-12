@@ -1,0 +1,10 @@
+includes:
+    - ../../phpstan.neon.dist
+parameters:
+    level: 0
+    # Larastan's env() ban is not tied to a PHPStan level. The calls are in
+    # src/config/templates.php (package config) and LaravelTemplate's Vapor
+    # path check. They cannot be fixed with a type or PHPDoc.
+    noEnvCallsOutsideOfConfig: false
+    paths!:
+        - src

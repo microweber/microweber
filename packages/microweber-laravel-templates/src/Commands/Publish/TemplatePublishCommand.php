@@ -28,7 +28,7 @@ class TemplatePublishCommand extends BaseCommand
         $module = app('templates')->findOrFail($name);
 
         $this->components->task("Publishing Assets <fg=cyan;options=bold>{$module->getName()}</> Template", function () use ($module) {
-            with(new TemplateAssetPublisher($module))
+            (new TemplateAssetPublisher($module))
                 ->setRepository($this->laravel['templates'])
                 ->setConsole($this)
                 ->publish();
