@@ -206,6 +206,47 @@
             padding: 0.25rem 0;
         }
 
+        /* Qty <input type=number>: Tailwind w-20/py-1.5 not loaded, so it
+           stretched to ~213px and overflowed its column. Constrain to a compact
+           field. (The @media touch-target rule above still bumps it to 44px on
+           coarse-pointer / narrow viewports via !important.) */
+        #mw-cart-standalone-page input[type="number"] {
+            width: 4.5rem;
+            max-width: 100%;
+            height: 38px;
+            padding: 0 0.5rem;
+            text-align: center;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            background: #fff;
+            color: #111827;
+        }
+        /* Remove button: Tailwind bg-red-600/p-3/rounded-md and the icon's
+           w-5/h-5 aren't loaded, so the button was background-less with a 0x0
+           invisible icon. Style it explicitly. */
+        #mw-cart-standalone-page button[wire\:click^="removeItem"] {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            background: #dc2626;
+            color: #fff;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            flex: 0 0 auto;
+            transition: background-color 120ms ease;
+        }
+        #mw-cart-standalone-page button[wire\:click^="removeItem"]:hover,
+        #mw-cart-standalone-page button[wire\:click^="removeItem"]:focus-visible {
+            background: #b91c1c;
+        }
+        #mw-cart-standalone-page button[wire\:click^="removeItem"] svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+        }
+
         /*
          * task-2026-05-17-0e6cfa / AI-796 Slice B — brand-blue override
          * for the Proceed-to-Checkout CTA. Big2's active template ships
