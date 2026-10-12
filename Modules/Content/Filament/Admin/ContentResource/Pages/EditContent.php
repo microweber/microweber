@@ -82,14 +82,18 @@ class EditContent extends EditRecord
         // label gave no signal of that, leaving users unsure whether unsaved
         // edits were kept. Match the CreateContent precedent (AI-1028) where the
         // same button reads "Save & Live Edit".
-        // NOTE: no ->labeledFrom('md') — that utility (.fi-labeled-from-md) is not
-        // built into this project's custom Filament theme, so it collapsed the
-        // button to icon-only at every width. Render a standard labeled button
-        // (icon + text), matching CreateContent::getHeaderActions().
+        // ->button() is REQUIRED here: FilamentAdminPanelProvider globally does
+        // EditAction::configureUsing(fn ($a) => $a->iconButton()->tooltip(...)) to
+        // keep *table* record actions compact. That hook also hits these header
+        // EditActions, collapsing them to icon-only. The provider's contract is
+        // "a ->label()/->button() chained afterwards still wins" — so force the
+        // full labeled button view back. (CreateContent is unaffected because it
+        // uses plain Action::make(), which the EditAction hook never touches.)
         $editAction->icon('heroicon-m-eye')
             ->label('Save & Live Edit')
             ->size('xl')
-            ->color('info');
+            ->color('info')
+            ->button();
 
 
 
@@ -109,7 +113,8 @@ class EditContent extends EditRecord
             ->icon('heroicon-o-check-circle')
             ->size('xl')
             ->label('Save')
-            ->color('primary');
+            ->color('primary')
+            ->button(); // override the global EditAction->iconButton() hook (see above)
 
         $isMultilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
         if ($isMultilanguageEnabled) {
