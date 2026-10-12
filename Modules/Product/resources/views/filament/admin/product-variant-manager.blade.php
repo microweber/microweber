@@ -63,12 +63,16 @@
                                     wire:click="generateCombinations"
                                     wire:loading.attr="disabled"
                                     class="fi-btn fi-btn-size-md relative inline-grid grid-flow-col items-center justify-center gap-1.5 rounded-lg bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm outline-none transition duration-75 hover:bg-primary-500 focus-visible:ring-2 dark:bg-primary-500 dark:hover:bg-primary-400 disabled:opacity-70">
-                                <wire:loading wire:target="generateCombinations">
+                                {{-- Attribute form (not the <wire:loading> element): Livewire's
+                                     default "hide until loading" CSS targets the attribute
+                                     [wire\:loading]{display:none}, so the element form was never
+                                     hidden and the spinner showed permanently. --}}
+                                <span wire:loading wire:target="generateCombinations" class="inline-flex">
                                     <x-heroicon-m-arrow-path class="h-4 w-4 animate-spin" />
-                                </wire:loading>
-                                <wire:loading.remove wire:target="generateCombinations">
+                                </span>
+                                <span wire:loading.remove wire:target="generateCombinations" class="inline-flex">
                                     <x-heroicon-m-bolt class="h-4 w-4" />
-                                </wire:loading.remove>
+                                </span>
                                 Generate Combinations
                             </button>
                             <span class="text-xs text-gray-500 dark:text-gray-400">
