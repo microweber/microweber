@@ -1,0 +1,42 @@
+<?php
+
+// PHPStan-only @property types. Empty shells let the stub validator resolve
+// project classes; they are not the real class definitions.
+
+namespace MicroweberPackages\Template;
+
+class TemplateManager
+{
+}
+
+namespace MicroweberPackages\Option\Repositories;
+
+class OptionRepository
+{
+}
+
+namespace MicroweberPackages\User\Services;
+
+class UserManager
+{
+}
+
+namespace MicroweberPackages\App\Managers;
+
+class Ui
+{
+}
+
+namespace Illuminate\Foundation;
+
+/**
+ * Container aliases resolved through Application::__get().
+ *
+ * @property \MicroweberPackages\Template\TemplateManager $template_manager
+ * @property \MicroweberPackages\Option\Repositories\OptionRepository $option_repository
+ * @property \MicroweberPackages\User\Services\UserManager $user_manager
+ * @property \MicroweberPackages\App\Managers\Ui $ui
+ */
+class Application
+{
+}
