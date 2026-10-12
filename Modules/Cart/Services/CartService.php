@@ -704,22 +704,25 @@ class CartService
 
         if ($for == $contentType) {
             $cont = $this->app->content_manager->get_by_id($forId);
-
-            if (isset($cont['is_active']) && $cont['is_active'] != 1) {
-                $cont = false;
-            }
-            if (isset($cont['is_deleted']) && $cont['is_deleted'] == 1) {
-                $cont = false;
-            }
-            if (isset($cont['content_type']) && $cont['content_type'] != 'product') {
-                $cont = false;
-            }
-
             $contentData = $this->app->content_manager->data($forId);
 
-            if ($cont === false) {
-                return ['error' => 'Invalid product?'];
-            } elseif (is_array($cont) && isset($cont['title']) && $cont['title']) {
+            // Specific rejection reasons instead of a single opaque "Invalid
+            // product?" — an admin previewing an unpublished draft (the common
+            // case) now sees WHY the item could not be added to the cart.
+            if (!is_array($cont) || empty($cont['id'])) {
+                return ['error' => _e('Product not found', true)];
+            }
+            if (isset($cont['is_deleted']) && $cont['is_deleted'] == 1) {
+                return ['error' => _e('This product is no longer available', true)];
+            }
+            if (isset($cont['content_type']) && $cont['content_type'] != 'product') {
+                return ['error' => _e('This item cannot be added to the cart', true)];
+            }
+            if (isset($cont['is_active']) && $cont['is_active'] != 1) {
+                return ['error' => _e('This product is not published yet', true)];
+            }
+
+            if (isset($cont['title']) && $cont['title']) {
                 $title = $cont['title'];
             }
 
