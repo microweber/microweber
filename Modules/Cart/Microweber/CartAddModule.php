@@ -103,6 +103,27 @@ class CartAddModule extends BaseModule
             }
         }
 
+        // A product can be priced entirely through its variants, with no base
+        // "price" custom field. Then get_product_prices() is empty, $data stays
+        // false, and the template falls into the no-price branch — which drops
+        // the variant <select> AND the add-to-cart button, so the product can't
+        // be bought at all. Seed a base price from the variants (default variant,
+        // else the first) so the full add-to-cart UI renders; the variant select
+        // then drives the live price via data-mw-variants.
+        if (empty($data) && !empty($variantOptions['attributes']) && !empty($variantOptions['variants'])) {
+            $seedPrice = null;
+            foreach ($variantOptions['variants'] as $variantRow) {
+                if (!empty($variantRow['is_default'])) {
+                    $seedPrice = $variantRow['price'] ?? null;
+                    break;
+                }
+            }
+            if ($seedPrice === null) {
+                $seedPrice = $variantOptions['variants'][0]['price'] ?? 0;
+            }
+            $data = ['price' => $seedPrice];
+        }
+
         $viewData['params'] = $params;
         $viewData['for_id'] = $for_id;
         $viewData['for'] = $for;
