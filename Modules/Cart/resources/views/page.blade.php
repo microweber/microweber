@@ -150,6 +150,63 @@
         }
 
         /*
+         * task-2026-10-12 — the CartItems Livewire view is authored entirely in
+         * Tailwind utilities (flex, w-20/h-20, gap-*), but Tailwind ships only
+         * with the Filament admin panel, not public templates. On the standalone
+         * /cart page that left the rows unlaid-out AND the no-image heroicon
+         * <svg> placeholder rendering at its full intrinsic size (~1264px — the
+         * "giant cube" that broke the page). Re-create the intended layout in
+         * plain CSS, scoped to the standalone wrap so the admin/checkout usage
+         * (where Tailwind IS loaded) is untouched.
+         */
+        /* Product thumbnail: the real <img> is caught by the rule above; the
+           no-image heroicon-o-cube <svg> needs its own constraint. a > svg
+           targets only the thumbnail link — the remove button is a button>svg. */
+        #mw-cart-standalone-page a > svg {
+            width: 80px;
+            height: 80px;
+            max-width: 80px;
+            max-height: 80px;
+            flex: 0 0 auto;
+        }
+        /* Each cart line = flex row. Item rows carry .flex; the totals block
+           (a .mt-8 sibling) does not, so it is left to the :not(.flex) rule. */
+        #mw-cart-standalone-page .gap-y-4 > .flex {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #fff;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        #mw-cart-standalone-page .flex-1 {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+        #mw-cart-standalone-page .w-24 {
+            flex: 0 0 auto;
+            width: 6rem;
+        }
+        #mw-cart-standalone-page .text-right {
+            text-align: right;
+        }
+        /* Cart Totals block + its rows. */
+        #mw-cart-standalone-page .gap-y-4 > div:not(.flex) {
+            background: #fff;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        #mw-cart-standalone-page .gap-y-2 > .flex {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+        }
+
+        /*
          * task-2026-05-17-0e6cfa / AI-796 Slice B — brand-blue override
          * for the Proceed-to-Checkout CTA. Big2's active template ships
          * .btn-primary as a salmon orange (~#E69462), which collides
