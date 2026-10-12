@@ -936,6 +936,27 @@ class AdminLiveEditPage extends Page
                         && $layoutDetails['is_shop'] == 1) ? 1 : 0;
                 }
 
+                // task-2026-10-12 — enforce a UNIQUE slug. This create path
+                // persists via the Eloquent model directly (not save_content()),
+                // which does NOT dedup the URL. Without this a new page could be
+                // saved with a slug already owned by a product/page and then be
+                // shadowed by it on the frontend (the OTHER content is served at
+                // that URL, so "I made a page but see a product"). Append a
+                // numeric suffix until the slug is free.
+                $desiredUrl = trim((string) ($data['url'] ?? ''));
+                if ($desiredUrl === '') {
+                    $desiredUrl = \Illuminate\Support\Str::slug((string) ($data['title'] ?? ''));
+                }
+                if ($desiredUrl !== '') {
+                    $baseUrl = $desiredUrl;
+                    $suffix = 1;
+                    while (Content::where('url', $desiredUrl)->exists()) {
+                        $desiredUrl = $baseUrl . '-' . $suffix;
+                        $suffix++;
+                    }
+                    $data['url'] = $desiredUrl;
+                }
+
                 $model = new Content();
                 $model->fill($data);
                 $model->save();
