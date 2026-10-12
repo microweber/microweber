@@ -3,9 +3,9 @@
 namespace MicroweberPackages\Monitoring\Filament\Resources;
 
 use MicroweberPackages\Monitoring\Models\ErrorTracking;
-use Filament\TextInput;
-use Filament\Textarea;
-use Filament\Toggle;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
@@ -14,6 +14,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @extends Resource<ErrorTracking>
+ */
 class ErrorTrackingResource extends Resource
 {
     protected static ?string $model = ErrorTracking::class;
@@ -34,11 +37,17 @@ class ErrorTrackingResource extends Resource
         return ['message', 'exception_class', 'file', 'url'];
     }
 
+    /**
+     * @param ErrorTracking $record
+     */
     public static function getGlobalSearchResultTitle(Model $record): string
     {
         return \Illuminate\Support\Str::limit($record->message ?? 'Error #' . $record->id, 80);
     }
 
+    /**
+     * @param ErrorTracking $record
+     */
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         $details = [];

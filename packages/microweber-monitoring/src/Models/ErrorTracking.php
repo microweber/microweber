@@ -6,6 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property string $level
+ * @property string $message
+ * @property string|null $exception_class
+ * @property string|null $file
+ * @property int|null $line
+ * @property string|null $trace
+ * @property string|null $url
+ * @property string|null $method
+ * @property int|null $user_id
+ * @property string|null $user_ip
+ * @property bool $is_resolved
+ * @property int $occurrence_count
+ * @property \Illuminate\Support\Carbon|null $last_occurred_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ */
 class ErrorTracking extends Model
 {
     use HasFactory;
