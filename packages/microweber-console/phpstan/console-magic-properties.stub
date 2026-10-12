@@ -1,0 +1,51 @@
+<?php
+
+// PHPStan-only @property types. Empty shells let the stub validator resolve
+// project classes; they are not the real class definitions.
+
+namespace MicroweberPackages\Module;
+
+class ModuleManager
+{
+}
+
+namespace MicroweberPackages\App\Managers;
+
+class UpdateManager
+{
+}
+
+namespace MicroweberPackages\LaravelModules\Repositories;
+
+class LaravelModulesFileRepository
+{
+}
+
+namespace MicroweberPackages\LaravelTemplates\Repositories;
+
+class LaravelTemplatesFileRepository
+{
+}
+
+namespace Illuminate\Foundation;
+
+/**
+ * Container aliases resolved through Application::__get().
+ *
+ * @property \MicroweberPackages\Module\ModuleManager $module_manager
+ * @property \MicroweberPackages\App\Managers\UpdateManager $update
+ * @property \MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository $modules
+ * @property \MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository $templates
+ */
+class Application
+{
+}
+
+namespace MicroweberPackages\SystemLicenses\Models;
+
+/**
+ * @property string|null $local_key
+ */
+class SystemLicense
+{
+}

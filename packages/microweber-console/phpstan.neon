@@ -1,0 +1,8 @@
+includes:
+    - ../../phpstan.neon.dist
+parameters:
+    level: 3
+    paths!:
+        - src
+    stubFiles:
+        - phpstan/console-magic-properties.stub
