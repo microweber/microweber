@@ -7,6 +7,7 @@ class ContentExport
 
 	protected $exportContentTypes = array();
 	protected $exportFormatType = 'json';
+	protected $exportContentType;
 
 	public function __construct($data = array()) {
 

@@ -1,0 +1,18 @@
+includes:
+    - ../../phpstan.neon.dist
+parameters:
+    level: 0
+    paths!:
+        - src
+    # Symbols called from this package that are not defined anywhere in the repo.
+    # Scanned for symbols only — not autoloaded, not analysed, not a baseline.
+    scanFiles:
+        - phpstan/missing-symbols.stub
+    # Level 0 errors that are not fixable with a type or PHPDoc:
+    # - PclZip.php has always-undefined variables ($v_file, $v_header_list).
+    #   phpstan.neon.dist already excludes the pre-move copy of this file.
+    # - PhpPsdReader.php instantiates a PHP 4-style constructor (new.noConstructor
+    #   on PHP 8). Adding a constructor would change runtime behaviour.
+    excludePaths:
+        - src/ThirdPartyLibs/PclZip.php
+        - src/ThirdPartyLibs/PHPImageMagician/PhpPsdReader.php

@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * Analysis-only symbols. This file is not autoloaded.
+ *
+ * get_mail_provider_settings(), get_mail_subscriber(), save_mail_subscriber(),
+ * get_comments(), and MicroweberPackages\Utils\Misc\Import are called from this
+ * package but have no definition anywhere in the repository. Signatures match
+ * the call sites.
+ */
+
+namespace {
+    /**
+     * @return array<string, mixed>
+     */
+    function get_mail_provider_settings(string $provider): array
+    {
+        return [];
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    function get_mail_subscriber(string $email, string $subscribeSource, string $subscribeSourceId, string $provider): ?array
+    {
+        return null;
+    }
+
+    function save_mail_subscriber(string $email, string $subscribeSource, string $subscribeSourceId, string $provider): void
+    {
+    }
+
+    /**
+     * @param string|array<string, mixed>|false $params
+     * @return array<int, array<string, mixed>>
+     */
+    function get_comments(string|array|false $params = false): array
+    {
+        return [];
+    }
+}
+
+namespace MicroweberPackages\Utils\Misc {
+    class Import
+    {
+        public function readfile_chunked(string $path): void
+        {
+        }
+    }
+}
