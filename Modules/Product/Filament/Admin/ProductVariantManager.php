@@ -18,8 +18,9 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Select;
-use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Support\Enums\Width as MaxWidth;
 use Illuminate\Contracts\View\View;
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
@@ -136,77 +137,87 @@ class ProductVariantManager extends AdminComponent implements HasForms, HasTable
 
     protected function getCombinationFormSchema(): array
     {
+        // Tabs (not stacked sections) so the edit modal stays short and never runs
+        // off-screen — only one pane is visible at a time.
         return [
-            Section::make('Pricing')
-                ->schema([
-                    TextInput::make('price')
-                        ->numeric()
-                        ->rules(['nullable', 'regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                        ->helperText('Leave empty to use the product default price.'),
+            Tabs::make('Variant')
+                ->tabs([
+                    Tab::make('Pricing')
+                        ->icon('heroicon-m-currency-dollar')
+                        ->schema([
+                            TextInput::make('price')
+                                ->numeric()
+                                ->rules(['nullable', 'regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                ->helperText('Leave empty to use the product default price.'),
 
-                    TextInput::make('compare_price')
-                        ->label('Compare at Price')
-                        ->numeric()
-                        ->rules(['nullable', 'regex:/^\d{1,6}(\.\d{0,2})?$/']),
+                            TextInput::make('compare_price')
+                                ->label('Compare at Price')
+                                ->numeric()
+                                ->rules(['nullable', 'regex:/^\d{1,6}(\.\d{0,2})?$/']),
 
-                    TextInput::make('cost_price')
-                        ->label('Cost Price')
-                        ->numeric()
-                        ->rules(['nullable', 'regex:/^\d{1,6}(\.\d{0,2})?$/']),
+                            TextInput::make('cost_price')
+                                ->label('Cost Price')
+                                ->numeric()
+                                ->rules(['nullable', 'regex:/^\d{1,6}(\.\d{0,2})?$/']),
+                        ])
+                        ->columns(3),
+
+                    Tab::make('Inventory')
+                        ->icon('heroicon-m-archive-box')
+                        ->schema([
+                            TextInput::make('sku')
+                                ->label('SKU')
+                                ->maxLength(255),
+
+                            TextInput::make('barcode')
+                                ->maxLength(255),
+
+                            Toggle::make('track_quantity')
+                                ->label('Track Quantity')
+                                ->live()
+                                ->default(true),
+
+                            Group::make([
+                                TextInput::make('quantity')
+                                    ->numeric()
+                                    ->default(0),
+
+                                TextInput::make('low_stock_threshold')
+                                    ->numeric()
+                                    ->label('Low Stock Threshold')
+                                    ->helperText('Alert when stock falls below this.')
+                                    ->default(10),
+
+                                Toggle::make('allow_backorders')
+                                    ->label('Allow Backorders')
+                                    ->default(false),
+                            ])->visible(fn($get) => $get('track_quantity')),
+                        ])
+                        ->columns(2),
+
+                    Tab::make('Shipping')
+                        ->icon('heroicon-m-truck')
+                        ->schema([
+                            TextInput::make('weight')
+                                ->numeric()
+                                ->rules(['nullable', 'regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                ->suffix('kg'),
+                        ]),
+
+                    Tab::make('Status')
+                        ->icon('heroicon-m-check-badge')
+                        ->schema([
+                            Toggle::make('is_default')
+                                ->label('Default Variant')
+                                ->helperText('The default variant is pre-selected on the product page.'),
+
+                            Toggle::make('is_active')
+                                ->label('Active')
+                                ->default(true),
+                        ])
+                        ->columns(2),
                 ])
-                ->columns(3),
-
-            Section::make('Inventory')
-                ->schema([
-                    TextInput::make('sku')
-                        ->label('SKU')
-                        ->maxLength(255),
-
-                    TextInput::make('barcode')
-                        ->maxLength(255),
-
-                    Toggle::make('track_quantity')
-                        ->label('Track Quantity')
-                        ->live()
-                        ->default(true),
-
-                    Group::make([
-                        TextInput::make('quantity')
-                            ->numeric()
-                            ->default(0),
-
-                        TextInput::make('low_stock_threshold')
-                            ->numeric()
-                            ->label('Low Stock Threshold')
-                            ->helperText('Alert when stock falls below this.')
-                            ->default(10),
-
-                        Toggle::make('allow_backorders')
-                            ->label('Allow Backorders')
-                            ->default(false),
-                    ])->visible(fn($get) => $get('track_quantity')),
-                ])
-                ->columns(2),
-
-            Section::make('Shipping')
-                ->schema([
-                    TextInput::make('weight')
-                        ->numeric()
-                        ->rules(['nullable', 'regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                        ->suffix('kg'),
-                ]),
-
-            Section::make('Status')
-                ->schema([
-                    Toggle::make('is_default')
-                        ->label('Default Variant')
-                        ->helperText('The default variant is pre-selected on the product page.'),
-
-                    Toggle::make('is_active')
-                        ->label('Active')
-                        ->default(true),
-                ])
-                ->columns(2),
+                ->columnSpanFull(),
         ];
     }
 
