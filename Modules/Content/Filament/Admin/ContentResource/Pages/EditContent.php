@@ -82,11 +82,14 @@ class EditContent extends EditRecord
         // label gave no signal of that, leaving users unsure whether unsaved
         // edits were kept. Match the CreateContent precedent (AI-1028) where the
         // same button reads "Save & Live Edit".
+        // NOTE: no ->labeledFrom('md') — that utility (.fi-labeled-from-md) is not
+        // built into this project's custom Filament theme, so it collapsed the
+        // button to icon-only at every width. Render a standard labeled button
+        // (icon + text), matching CreateContent::getHeaderActions().
         $editAction->icon('heroicon-m-eye')
             ->label('Save & Live Edit')
             ->size('xl')
-            ->color('info')
-            ->labeledFrom('md');
+            ->color('info');
 
 
 
@@ -106,8 +109,7 @@ class EditContent extends EditRecord
             ->icon('heroicon-o-check-circle')
             ->size('xl')
             ->label('Save')
-            ->color('primary')
-            ->labeledFrom('md');
+            ->color('primary');
 
         $isMultilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
         if ($isMultilanguageEnabled) {
