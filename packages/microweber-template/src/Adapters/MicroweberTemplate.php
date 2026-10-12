@@ -1438,30 +1438,34 @@ class MicroweberTemplate
             }
         }
 
-        // task-2026-10-12 — the single-product ("inner") layout must render ONLY
-        // for products. A non-product page that ends up pointed at product(.blade)
-        // .php — via a bad layout_file, a slug collision, or inheritance — would
-        // otherwise render the product-detail UI (price, add-to-cart, pictures
-        // rel=content), which is meaningless for a page. Downgrade such content to
-        // a normal page/content layout of the same template.
-        if ($render_file != false
-            and isset($page['content_type'])
-            and $page['content_type'] !== 'product') {
+        // task-2026-10-12 — type-specific "inner" layouts must only render for
+        // their own content type. A non-product pointed at product(.blade).php,
+        // a non-post pointed at post(.blade).php, or a non-shop page pointed at
+        // shop(.blade).php — via a bad layout_file, a slug collision, or
+        // inheritance — would otherwise render the wrong detail UI (e.g. a page
+        // showing the product price + add-to-cart, or the single-post template).
+        // Downgrade such content to the template's generic page/clean layout.
+        if ($render_file != false and isset($page['content_type'])) {
             $renderBasename = strtolower(basename((string) $render_file));
+            $contentType = $page['content_type'];
             $isShopPage = !empty($page['is_shop']) && (int) $page['is_shop'] === 1;
-            // Single-product layout: never allowed on a non-product.
-            // Shop-listing layout: allowed only on an actual shop page.
-            $shouldDowngrade = in_array($renderBasename, ['product.blade.php', 'product.php'], true)
+
+            $shouldDowngrade =
+                (in_array($renderBasename, ['product.blade.php', 'product.php'], true) && $contentType !== 'product')
+                || (in_array($renderBasename, ['post.blade.php', 'post.php'], true) && $contentType !== 'post')
                 || (in_array($renderBasename, ['shop.blade.php', 'shop.php'], true) && !$isShopPage);
+
             if ($shouldDowngrade) {
-                $templateDir = $this->getActiveTemplateDir();
+                // Resolve the downgrade target from the directory of the layout
+                // we are replacing (correct real-folder case; getActiveTemplateDir()
+                // can return a case-mismatched folder on case-sensitive disks). The
+                // generic page/clean layout lives alongside the type layout.
+                $viewsDir = rtrim(dirname((string) $render_file), '/\\') . DS;
                 $downgradeCandidates = [
-                    $templateDir . 'resources/views/page.blade.php',
-                    $templateDir . 'resources/views/clean.blade.php',
-                    $templateDir . 'page.php',
-                    $templateDir . 'layouts/page.php',
-                    $templateDir . 'clean.php',
-                    $templateDir . 'layouts/clean.php',
+                    $viewsDir . 'page.blade.php',
+                    $viewsDir . 'clean.blade.php',
+                    $viewsDir . 'page.php',
+                    $viewsDir . 'clean.php',
                 ];
                 foreach ($downgradeCandidates as $downgradeCandidate) {
                     $downgradeCandidate = normalize_path($downgradeCandidate, false);
