@@ -156,17 +156,52 @@ class MicroweberTemplate
         ) {
             $option = app()->option_manager->get('current_template', 'template');
             if ($option) {
-                $this->templateFolderName = $option;
+                $this->templateFolderName = $this->resolveTemplateFolderName($option);
             }
         }
 
         if (!$this->templateFolderName) {
             $fallbackFromConfig = config('microweber.install_default_template') ?? $this->getFallbackTemplateFolderName();
 
-            $this->templateFolderName = $fallbackFromConfig;
+            $this->templateFolderName = $this->resolveTemplateFolderName($fallbackFromConfig);
         }
 
         return $this->templateFolderName;
+    }
+
+    /**
+     * Resolve a template name to the real on-disk folder, matching
+     * case-insensitively. Template names are stored inconsistently (the
+     * `current_template` option may be 'big' while the folder is 'Big', and
+     * content rows may carry 'Bootstrap'); on case-sensitive filesystems that
+     * mismatch makes every layout path miss, so the frontend fails to detect a
+     * layout (blank / "page not found"). Returns the input unchanged when it
+     * already resolves to a directory, is a special name, or has no match.
+     *
+     * @param string|mixed $name
+     * @return string|mixed
+     */
+    protected function resolveTemplateFolderName($name)
+    {
+        if (!is_string($name) || $name === '' || $name === 'default' || $name === 'mw_default') {
+            return $name;
+        }
+        $dir = templates_dir();
+        if (is_dir($dir . $name)) {
+            return $name;
+        }
+        $entries = @scandir($dir);
+        if (is_array($entries)) {
+            foreach ($entries as $entry) {
+                if ($entry === '.' || $entry === '..') {
+                    continue;
+                }
+                if (strcasecmp($entry, $name) === 0 && is_dir($dir . $entry)) {
+                    return $entry;
+                }
+            }
+        }
+        return $name;
     }
 
     public function renderBlade($params = array())
@@ -551,6 +586,10 @@ class MicroweberTemplate
         $template_view_set_inner = false;
         $fallback_render_internal_file = false;
         $site_template_settings = app()->option_manager->get('current_template', 'template') ?? $this->getFallbackTemplateFolderName();
+        // Normalize to the real on-disk folder case so content that falls back to
+        // the active-template option (e.g. a parentless product with no
+        // active_site_template) resolves its layout on case-sensitive filesystems.
+        $site_template_settings = $this->resolveTemplateFolderName($site_template_settings);
 
         //  dd($site_template_settings,$this->getFallbackTemplateFolderName(),$page,$site_template_settings);
         if (!isset($page['active_site_template']) and !$site_template_settings) {
@@ -586,6 +625,7 @@ class MicroweberTemplate
         }
         if (isset($page['active_site_template'])) {
             $page['active_site_template'] = sanitize_path($page['active_site_template']);
+            $page['active_site_template'] = $this->resolveTemplateFolderName($page['active_site_template']);
         }
         if (is_array($override)) {
             foreach ($override as $resp) {
