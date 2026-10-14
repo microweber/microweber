@@ -188,8 +188,18 @@
         right:56px !important;
         translate: none !important;
         transform: translateX(calc(100% + 56px)) !important;
-        transition: var(--toolbar-height-animation-speed) !important;
+        /* task-2026-10-14-sidebarflash — NO transition on initial load. The
+           shorthand `transition: 0.4s` animates ALL properties, so when this
+           CSS (and Filament's Alpine) move the sidebar from its default
+           visible position to this parked one on page load, the browser
+           animated it across the screen — a visible flash on every Live Edit
+           visit. Parking is now instant; the slide animation is re-enabled
+           (transform only) once the page is ready so open/close still animates. */
+        transition: none !important;
         z-index: 101 !important;
+    }
+    body.mw-le-sidebar-ready .fi-sidebar{
+        transition: transform var(--toolbar-height-animation-speed) ease !important;
     }
      .fi-sidebar.active{
 
@@ -221,6 +231,23 @@
     }
  </style>
  <script>
+    // task-2026-10-14-sidebarflash — enable the sidebar slide animation only after
+    // the first paint. The drawer's CSS transition is disabled until <body> gets
+    // .mw-le-sidebar-ready, so it parks off-screen instantly on load (no flash on
+    // entering Live Edit); open/close still animates afterwards. Robust to the
+    // page's readyState and to Livewire body swaps (re-applies on navigation).
+    (function () {
+        function enable() { if (document.body) { document.body.classList.add('mw-le-sidebar-ready'); } }
+        function enableNextPaint() { requestAnimationFrame(function () { requestAnimationFrame(enable); }); }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', enableNextPaint);
+        } else {
+            enableNextPaint();
+        }
+        document.addEventListener('livewire:navigated', enableNextPaint);
+        setTimeout(enable, 1000);
+    })();
+
     document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('click', function(e) {
             var openModal = document.querySelector('.fi-modal.fi-modal-open');
