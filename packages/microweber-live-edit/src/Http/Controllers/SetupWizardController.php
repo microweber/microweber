@@ -66,19 +66,20 @@ class SetupWizardController extends AdminController
         $getFallbackTemplateDir = 'bootstrap';
 
         foreach ($getTemplates as $template) {
+            // Show EVERY installable template. Previously two filters hid
+            // templates: (1) `continue` when no screenshot key — which dropped
+            // screenshot-less templates entirely; (2) a hardcoded skip of the
+            // 'bootstrap' fallback — which hid Bootstrap from the wizard. Now a
+            // missing screenshot just falls back to a name placeholder in the
+            // view, and the fallback template is selectable like any other.
             if (!isset($template['screenshot'])) {
-                continue;
+                $template['screenshot'] = '';
             }
 
             $templateCategories = [];
             $templateColors = [];
             $templateDescription  = '';
             $templateJson = templates_path() . $template['dir_name'] . '/composer.json';
-
-
-            if(strtolower($template['dir_name']) == strtolower($getFallbackTemplateDir)) {
-                continue;
-            }
 
 
             if (is_file($templateJson)) {

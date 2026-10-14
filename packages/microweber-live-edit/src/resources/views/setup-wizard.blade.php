@@ -78,16 +78,24 @@
                     {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB cycle-52 sweep:
                          <img> migration. Empty <div bg-image> had nothing on top so
                          <img> is the simpler shape; click handler kept on the wrapper. --}}
+                    {{-- Fixed-height preview box so every card is uniform: a tall
+                         screenshot (e.g. Big's full-page capture) is cropped to the
+                         top instead of blowing out the card height; a template with
+                         no screenshot shows its name on a neutral placeholder. --}}
                     <div class="template-preview"
                          onclick="installTemplate('{{ $template['dir_name'] }}')"
-                         style="cursor:pointer; background-color: {{ empty($template['screenshot']) ? '#e5e7eb' : 'transparent' }};">
+                         style="cursor:pointer; height: 220px; overflow: hidden; display:flex; align-items:center; justify-content:center; background-color: {{ empty($template['screenshot']) ? '#e5e7eb' : 'transparent' }};">
                         @if(!empty($template['screenshot']))
                             <img src="{{ $template['screenshot'] }}"
                                  alt="{{ $template['name'] ?? 'Template' }}"
                                  loading="lazy"
                                  decoding="async"
                                  class="d-block w-100"
-                                 style="object-fit: cover;">
+                                 style="width:100%; height:100%; object-fit: cover; object-position: top;">
+                        @else
+                            <span style="color:#6b7280; font-size:1rem; font-weight:600; letter-spacing:.02em;">
+                                {{ preg_replace('/\s*\d+$/', '', $template['name'] ?? 'Template') }}
+                            </span>
                         @endif
                     </div>
                     <div class="template-info">
@@ -336,6 +344,23 @@
         // Initialize first category as active
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.category-filter').classList.add('bg-gray-100', 'text-gray-900');
+
+            // Wire the primary "Use this template" CTA. It was refactored to a
+            // data-mw-action + delegated listener that was supposed to live in a
+            // setup-wizard.js — but that file is not loaded here, so the button was
+            // dead (only the preview image's inline onclick ran the installer).
+            // Delegate from the document so a click on the button (or any element
+            // inside it) triggers the same install flow.
+            document.addEventListener('click', function (event) {
+                if (!event.target || typeof event.target.closest !== 'function') {
+                    return;
+                }
+                var installBtn = event.target.closest('[data-mw-action="install-template"]');
+                if (installBtn) {
+                    event.preventDefault();
+                    installTemplate(installBtn.getAttribute('data-mw-template'));
+                }
+            });
         });
 
 
