@@ -74,6 +74,48 @@ if (!function_exists('media_base_path')) {
 
 }
 
+if (!function_exists('media_base_path_relative')) {
+    /**
+     * Media base path RELATIVE to the "public" filesystem disk root
+     * (storage/app/public). Mirrors media_base_path() but as a Flysystem
+     * path, so the same string addresses local uploads and S3 objects.
+     *
+     * Already per-site: MW_USERFILES_FOLDER_NAME is "userfiles/<domain>" when a
+     * multisite domain is active (see microweber-packages/multisite), so the
+     * S3 key gets a per-site subfolder for free.
+     */
+    function media_base_path_relative()
+    {
+        $rel = MW_USERFILES_FOLDER_NAME . '/' . MW_MEDIA_FOLDER_NAME . '/';
+
+        return str_replace('\\', '/', $rel);
+    }
+}
+
+if (!function_exists('media_upload_disk')) {
+    /**
+     * Which Laravel filesystem disk new media uploads are written to.
+     *
+     * Default "public" (local). Set MEDIA_UPLOAD_DISK=s3 to upload straight to
+     * S3 via Laravel's filesystem — no move_uploaded_file, disk-agnostic. Falls
+     * back to "public" if s3 is selected but not actually configured, so a
+     * missing bucket never silently drops uploads.
+     */
+    function media_upload_disk()
+    {
+        $disk = config('media.upload_disk');
+        if (!$disk) {
+            $disk = env('MEDIA_UPLOAD_DISK', 'public');
+        }
+
+        if ($disk === 's3' && !config('filesystems.disks.s3.bucket')) {
+            return 'public';
+        }
+
+        return $disk ?: 'public';
+    }
+}
+
 if (!function_exists('content_picture')) {
     function content_picture($rel_id, $full = false)
     {

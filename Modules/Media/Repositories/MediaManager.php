@@ -131,7 +131,17 @@ class MediaManager
         $target_path = media_base_path() . 'uploaded' . DS;
         $target_path = normalize_path($target_path, 1);
 
-        if (!is_dir($target_path)) {
+        // Writes go through Laravel's filesystem (local "public" disk by
+        // default, or "s3" when MEDIA_UPLOAD_DISK=s3) — never move_uploaded_file,
+        // so uploads keep working with hardened PHP upload settings and can land
+        // directly on S3. The relative dir is already per-site (userfiles/<site>)
+        // via MW_USERFILES_FOLDER_NAME, giving per-site S3 subfolders for free.
+        $disk = media_upload_disk();
+        $isLocalDisk = in_array($disk, ['public', 'local'], true);
+        $relDir = media_base_path_relative() . 'uploaded/';
+        $storage = \Illuminate\Support\Facades\Storage::disk($disk);
+
+        if ($isLocalDisk && !is_dir($target_path)) {
             mkdir_recursive($target_path);
         }
         $rerturn = array();
@@ -145,23 +155,24 @@ class MediaManager
                     return;
                 }
 
-
-                $f = $target_path . $data['name'];
-                if (is_file($f)) {
-                    $f = $target_path . date('YmdHis') . $data['name'];
+                $name = $data['name'];
+                if ($isLocalDisk && is_file($target_path . $name)) {
+                    $name = date('YmdHis') . $data['name'];
                 }
+                $relPath = $relDir . $name;
 
-                $df = strpos($data['file'], 'base64,');
+                $payload = $data['file'];
+                $df = strpos($payload, 'base64,');
                 if ($df != false) {
-                    //   $df = substr($data['file'], 0, $df);
-                    $data['file'] = substr($data['file'], $df + 7);
-                    $data['file'] = str_replace(' ', '+', $data['file']);
-                    //    d($data['file']);
+                    $payload = substr($payload, $df + 7);
+                    $payload = str_replace(' ', '+', $payload);
                 }
 
-                $up = $this->base64_to_file($data['file'], $f);
+                $storage->put($relPath, base64_decode($payload), ['visibility' => 'public']);
 
-                $rerturn['src'] = UrlManager::link_to_file($f);
+                $rerturn['src'] = $isLocalDisk
+                    ? UrlManager::link_to_file($target_path . $name)
+                    : $storage->url($relPath);
                 $rerturn['name'] = $data['name'];
 
                 return json_encode($rerturn);
@@ -185,17 +196,29 @@ class MediaManager
                     } else {
                         $upl = $this->app->cache_manager->save($item, $cache_id, $cache_group);
 
-                        $f = $target_path . $item['name'];
-                        if (is_file($f)) {
-                            $f = $target_path . date('YmdHis') . $item['name'];
+                        $name = $item['name'];
+                        if ($isLocalDisk && is_file($target_path . $name)) {
+                            $name = date('YmdHis') . $item['name'];
                         }
+                        $relPath = $relDir . $name;
+                        $f = $target_path . $name;
 
                         $progress = (array)$item;
                         $progress['f'] = $f;
                         $upl = $this->app->cache_manager->save($progress, $cache_id, $cache_group);
 
-                        if (move_uploaded_file($item['tmp_name'], $f)) {
-                            $rerturn['src'] = UrlManager::link_to_file($f);
+                        // Stream the temp file to the target disk via Laravel —
+                        // no move_uploaded_file / is_uploaded_file, so it works
+                        // with locked-down PHP upload handling and targets S3.
+                        $uploaded = new \Illuminate\Http\UploadedFile(
+                            $item['tmp_name'], $item['name'], $item['type'] ?? null, $item['error'] ?? 0, true
+                        );
+                        $stored = $storage->putFileAs($relDir, $uploaded, $name, ['visibility' => 'public']);
+
+                        if ($stored) {
+                            $rerturn['src'] = $isLocalDisk
+                                ? UrlManager::link_to_file($f)
+                                : $storage->url($relPath);
                             $rerturn['name'] = $item['name'];
                         }
                     }
