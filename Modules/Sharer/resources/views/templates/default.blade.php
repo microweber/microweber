@@ -72,12 +72,18 @@
              it swaps to a checkmark for 2s via a CSS class toggle (see
              csp-skin-handlers.js); the class toggle preserves the <svg> (a
              textContent swap would wipe it). sr-only label keeps it accessible. --}}
-        <button type="button"
-                class="mw-share-copy-link"
-                data-mw-copy-link="{{ e(app()->url->current()) }}"
-                data-mw-copy-link-done="{{ e(__('Copied!')) }}"
-                aria-label="{{ __('Copy link to clipboard') }}"
-                title="{{ __('Copy link to clipboard') }}">
+        {{-- Rendered as an <a role="button"> (not a <button>) so it inherits the
+             template's link colour exactly like the social <a> icons next to it;
+             a <button> would fall back to the default text colour. The copy JS
+             (csp-skin-handlers.js) calls preventDefault(), so the href="#" never
+             navigates. --}}
+        <a href="#"
+           role="button"
+           class="mw-share-copy-link"
+           data-mw-copy-link="{{ e(app()->url->current()) }}"
+           data-mw-copy-link-done="{{ e(__('Copied!')) }}"
+           aria-label="{{ __('Copy link to clipboard') }}"
+           title="{{ __('Copy link to clipboard') }}">
             <span class="mw-share-copy-link-icon" aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
@@ -90,7 +96,7 @@
                 </svg>
             </span>
             <span class="visually-hidden">{{ __('Copy link') }}</span>
-        </button>
+        </a>
 
         @if(!$facebook_enabled && !$x_enabled && !$pinterest_enabled && !$linkedin_enabled && !$viber_enabled && !$whatsapp_enabled)
             {!! lnotif('No sharing options enabled. Please enable at least one sharing option in the settings.') !!}

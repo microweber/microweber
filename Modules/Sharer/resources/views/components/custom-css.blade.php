@@ -41,7 +41,10 @@
         padding: 0;
         line-height: 0;
         cursor: pointer;
-        color: inherit;
+        text-decoration: none;
+        /* no `color: inherit` — let it keep the <a> link colour so the icon
+           matches the social icons; the svg rule below still honours a
+           configured iconColor when one is set. */
     }
     #{{ $params['id'] }} .mw-share-copy-link svg {
         width: {{$iconSize}};
