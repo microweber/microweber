@@ -147,6 +147,18 @@ class TemplateCustomCssServiceProvider extends MicroweberPackageServiceProvider
             $config['css_cache_url'] = rtrim(userfiles_url(), '/') . '/cache';
             $config['userfiles_url'] = rtrim(userfiles_url(), '/') . '/';
         }
+        // When userfiles are backed by a remote disk (S3), hand the manager the
+        // disk name + the disk-relative css folder so it can mirror live_edit.css
+        // to the bucket and serve it from there. Empty disk => local only.
+        if (function_exists('userfiles_disk')) {
+            $config['disk'] = userfiles_disk();
+            if (function_exists('userfiles_base_relpath')) {
+                $config['css_base_relpath'] = userfiles_base_relpath('css');
+            }
+            if (function_exists('userfiles_disk_is_remote')) {
+                $config['disk_is_remote'] = userfiles_disk_is_remote();
+            }
+        }
         if (function_exists('mw_is_multisite')) {
             $config['multisite'] = (bool) mw_is_multisite();
         }

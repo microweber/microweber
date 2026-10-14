@@ -103,11 +103,12 @@ if (!function_exists('media_upload_disk')) {
      */
     function media_upload_disk()
     {
-        $disk = config('media.upload_disk');
-        if (!$disk) {
-            $disk = env('MEDIA_UPLOAD_DISK', 'public');
+        // Single source of truth lives in the App paths helpers.
+        if (function_exists('userfiles_disk')) {
+            return userfiles_disk();
         }
 
+        $disk = config('media.upload_disk') ?: env('MEDIA_UPLOAD_DISK', 'public');
         if ($disk === 's3' && !config('filesystems.disks.s3.bucket')) {
             return 'public';
         }

@@ -24,6 +24,50 @@ function userfiles_folder_name()
     return MW_USERFILES_FOLDER_NAME;
 }
 
+/**
+ * Which Laravel filesystem disk userfiles (media, custom CSS, fonts, …) are
+ * written to / served from.
+ *
+ * Default "public" (local). Set MEDIA_UPLOAD_DISK=s3 to push userfiles to an
+ * S3-compatible bucket. Falls back to "public" if s3 is selected but not
+ * configured, so a missing bucket never silently drops writes. Single source
+ * of truth for every userfiles writer (media_upload_disk() delegates here).
+ */
+function userfiles_disk()
+{
+    $disk = Config::get('media.upload_disk');
+    if (!$disk) {
+        $disk = env('MEDIA_UPLOAD_DISK', 'public');
+    }
+
+    if ($disk === 's3' && !Config::get('filesystems.disks.s3.bucket')) {
+        return 'public';
+    }
+
+    return $disk ?: 'public';
+}
+
+/**
+ * Path of a userfiles sub-resource RELATIVE to the "public" disk root
+ * (storage/app/public), e.g. userfiles_base_relpath('css') =>
+ * "userfiles/<site>/css". Already per-site via MW_USERFILES_FOLDER_NAME, so the
+ * same string addresses the local file and its S3 object (per-site subfolder).
+ */
+function userfiles_base_relpath($sub = '')
+{
+    $rel = MW_USERFILES_FOLDER_NAME . ($sub !== '' ? '/' . trim($sub, '/') : '');
+
+    return str_replace('\\', '/', $rel);
+}
+
+/**
+ * True when userfiles are backed by a remote (non-local) disk such as S3.
+ */
+function userfiles_disk_is_remote()
+{
+    return !in_array(userfiles_disk(), ['public', 'local'], true);
+}
+
 
 function userfiles_url()
 {

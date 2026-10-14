@@ -123,6 +123,21 @@ class LiveEditCssManager implements CssFileHandlerInterface
             return null;
         }
 
+        // Serve from the remote disk (S3) when userfiles are remote-backed. The
+        // local file (source of truth) is mirrored on every save, so the bucket
+        // object is current; use the local mtime as the cache-buster.
+        $remoteDisk = $this->remoteDisk();
+        $remoteRel = $remoteDisk ? $this->remoteRelPath($template) : null;
+        if ($remoteDisk !== null && $remoteRel !== null) {
+            try {
+                $url = \Illuminate\Support\Facades\Storage::disk($remoteDisk)->url($remoteRel);
+
+                return $url . '?version=' . filemtime($path);
+            } catch (\Throwable) {
+                // fall through to the local URL
+            }
+        }
+
         $mtime = filemtime($path);
         $baseUrl = rtrim($this->cssBaseUrl(), '/') . '/' . $template . '/';
         // URL always uses the base filename for public links (legacy behaviour);
@@ -192,6 +207,11 @@ class LiveEditCssManager implements CssFileHandlerInterface
             // Ensure empty file exists for consistent paths after clear
             file_put_contents($path, '');
         }
+
+        // Mirror to the remote disk (S3) so the public URL can be served from
+        // the bucket. Local file stays the source of truth; a mirror failure
+        // never breaks the save.
+        $this->mirrorToRemoteDisk($template, $css);
 
         return $css;
     }
@@ -331,6 +351,56 @@ class LiveEditCssManager implements CssFileHandlerInterface
         return $path === false
             ? PathHelper::normalize($this->getLiveEditCssSaveFolder($template) . $this->getLiveEditCssFilename(), false)
             : $path;
+    }
+
+    /**
+     * The remote disk name (e.g. "s3") when userfiles are remote-backed, else null.
+     */
+    protected function remoteDisk(): ?string
+    {
+        if (!$this->configBool('disk_is_remote', false)) {
+            return null;
+        }
+        $disk = $this->configString('disk', '');
+
+        return $disk !== '' ? $disk : null;
+    }
+
+    /**
+     * Disk-relative path of this template's live_edit.css within the remote
+     * disk (e.g. userfiles/<site>/css/<template>/live_edit.css), or null when
+     * the relative base isn't configured.
+     */
+    protected function remoteRelPath(string $template): ?string
+    {
+        $base = $this->configString('css_base_relpath', '');
+        if ($base === '') {
+            return null;
+        }
+        $filename = $this->isMultisite()
+            ? $this->getLiveEditCssFilenameMultisite()
+            : $this->getLiveEditCssFilename();
+
+        return trim($base, '/') . '/' . $template . '/' . $filename;
+    }
+
+    /**
+     * Mirror the current CSS to the remote disk. No-op on local-only installs;
+     * never throws (a CDN mirror failure must not break the save).
+     */
+    protected function mirrorToRemoteDisk(string $template, string $css): void
+    {
+        $disk = $this->remoteDisk();
+        $rel = $disk ? $this->remoteRelPath($template) : null;
+        if ($disk === null || $rel === null) {
+            return;
+        }
+
+        try {
+            \Illuminate\Support\Facades\Storage::disk($disk)->put($rel, $css, ['visibility' => 'public']);
+        } catch (\Throwable) {
+            // mirror is best-effort; local file remains the source of truth
+        }
     }
 
     protected function cssBasePath(): string
