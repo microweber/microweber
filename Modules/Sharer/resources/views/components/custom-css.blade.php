@@ -30,4 +30,43 @@
         }
     }
 
+    /* Copy-link is a plain icon button (no pill/outline) matching the social
+       icons: same size/color/spacing, link icon that swaps to a checkmark on copy. */
+    #{{ $params['id'] }} .mw-share-copy-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        line-height: 0;
+        cursor: pointer;
+        color: inherit;
+    }
+    #{{ $params['id'] }} .mw-share-copy-link svg {
+        width: {{$iconSize}};
+        height: {{$iconSize}};
+        color: {{$iconColor}};
+        margin-inline: {{$iconSpacing}};
+    }
+    #{{ $params['id'] }} .mw-share-copy-link:hover svg {
+        color: {{$iconHoverColor}};
+    }
+    #{{ $params['id'] }} .mw-share-copy-link-icon,
+    #{{ $params['id'] }} .mw-share-copy-link-check {
+        display: inline-flex;
+    }
+    #{{ $params['id'] }} .mw-share-copy-link-check {
+        display: none;
+    }
+    #{{ $params['id'] }} .mw-share-copy-link--copied .mw-share-copy-link-icon {
+        display: none;
+    }
+    #{{ $params['id'] }} .mw-share-copy-link--copied .mw-share-copy-link-check {
+        display: inline-flex;
+    }
+    #{{ $params['id'] }} .mw-share-copy-link--copied .mw-share-copy-link-check svg {
+        color: #16a34a;
+    }
+
 </style>

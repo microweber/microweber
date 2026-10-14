@@ -125,11 +125,20 @@
             var copyUrl = copyLinkEl.getAttribute('data-mw-copy-link');
             if (copyUrl && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
                 event.preventDefault();
-                var originalLabel = copyLinkEl.textContent;
                 var doneLabel = copyLinkEl.getAttribute('data-mw-copy-link-done') || 'Copied!';
+                // Icon button (Sharer): swap the link icon for a checkmark via a
+                // CSS class so the <svg> markup is preserved — a textContent swap
+                // would wipe the icon. Text button: swap textContent as before.
+                var isIconCopyLink = !!copyLinkEl.querySelector('.mw-share-copy-link-check');
+                var originalLabel = isIconCopyLink ? null : copyLinkEl.textContent;
                 navigator.clipboard.writeText(copyUrl).then(function () {
-                    copyLinkEl.textContent = doneLabel;
-                    setTimeout(function () { copyLinkEl.textContent = originalLabel; }, 2000);
+                    if (isIconCopyLink) {
+                        copyLinkEl.classList.add('mw-share-copy-link--copied');
+                        setTimeout(function () { copyLinkEl.classList.remove('mw-share-copy-link--copied'); }, 2000);
+                    } else {
+                        copyLinkEl.textContent = doneLabel;
+                        setTimeout(function () { copyLinkEl.textContent = originalLabel; }, 2000);
+                    }
                 });
                 return;
             }

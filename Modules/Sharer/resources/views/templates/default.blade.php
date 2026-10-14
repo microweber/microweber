@@ -68,13 +68,28 @@
             </a>
         @endif
 
-        {{-- Copy link button — uses the Clipboard API with a 2-second "Copied!" feedback state --}}
+        {{-- Copy link — ICON button (link icon, matching the social icons). On copy
+             it swaps to a checkmark for 2s via a CSS class toggle (see
+             csp-skin-handlers.js); the class toggle preserves the <svg> (a
+             textContent swap would wipe it). sr-only label keeps it accessible. --}}
         <button type="button"
-                class="mw-share-copy-link btn btn-sm btn-outline-secondary"
+                class="mw-share-copy-link"
                 data-mw-copy-link="{{ e(app()->url->current()) }}"
                 data-mw-copy-link-done="{{ e(__('Copied!')) }}"
-                aria-label="{{ __('Copy link to clipboard') }}">
-            {{ __('Copy link') }}
+                aria-label="{{ __('Copy link to clipboard') }}"
+                title="{{ __('Copy link to clipboard') }}">
+            <span class="mw-share-copy-link-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+            </span>
+            <span class="mw-share-copy-link-check" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                </svg>
+            </span>
+            <span class="visually-hidden">{{ __('Copy link') }}</span>
         </button>
 
         @if(!$facebook_enabled && !$x_enabled && !$pinterest_enabled && !$linkedin_enabled && !$viber_enabled && !$whatsapp_enabled)
