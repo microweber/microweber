@@ -8,6 +8,16 @@
 @use "tooltip.scss";
 
 
+/* task-2026-10-14-canvasscroll — in Live Edit the canvas document picks up
+   ~a scrollbar-width of horizontal overflow (the off-screen control-box
+   container / 100vw-vs-vertical-scrollbar), which shows a spurious horizontal
+   scrollbar at the bottom of the canvas. Nothing real sits in that gutter, so
+   clip it. <html> carries .mw-has-live-live-edit--true only in editmode, and
+   overflow-x:clip leaves vertical scrolling + sticky/position untouched; the
+   control boxes slide in WITHIN the viewport so they are unaffected. */
+html.mw-has-live-live-edit--true {
+    overflow-x: clip;
+}
 
 .mw-le--hide-selection ::selection {
     color: revert-layer !important;
