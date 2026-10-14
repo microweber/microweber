@@ -62,9 +62,14 @@ return [
 
 		's3' => [
 			'driver' => 's3',
-			'key'    => 'your-key',
-			'secret' => 'your-secret',
-			'bucket' => 'your-bucket',
+			'key'    => env('CDN_SYNC_KEY', env('AWS_ACCESS_KEY_ID')),
+			'secret' => env('CDN_SYNC_SECRET', env('AWS_SECRET_ACCESS_KEY')),
+			'region' => env('CDN_SYNC_REGION', env('AWS_DEFAULT_REGION', 'us-east-1')),
+			'bucket' => env('CDN_SYNC_BUCKET', env('AWS_BUCKET')),
+			'endpoint' => env('CDN_SYNC_ENDPOINT', env('AWS_ENDPOINT')),
+			'use_path_style_endpoint' => (bool) env('CDN_SYNC_USE_PATH_STYLE', env('AWS_USE_PATH_STYLE_ENDPOINT', false)),
+			'throw' => false,
+			'visibility' => 'public',
 		],
 
 		'rackspace' => [
