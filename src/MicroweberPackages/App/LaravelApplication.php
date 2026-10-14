@@ -171,9 +171,31 @@ class LaravelApplication extends Application
         $existingKey = env('APP_KEY');
 
         if (!$existingKey) {
-            $key = 'base64:' . base64_encode(random_bytes(32)) . "\n";
-            @file_put_contents($this->base_path_local . DIRECTORY_SEPARATOR . '.env', PHP_EOL . 'APP_KEY=' . $key, FILE_APPEND);
+            $envFile = $this->base_path_local . DIRECTORY_SEPARATOR . '.env';
+            $key = 'base64:' . base64_encode(random_bytes(32));
+
+            // Write APP_KEY through the env-writer, which updates the key IN
+            // PLACE and collapses any duplicate APP_KEY lines. The old code
+            // appended with FILE_APPEND on every boot that read an empty key,
+            // stacking a new APP_KEY line each time (the duplicates this fixes).
+            // Instantiated directly — this runs before the container is ready.
+            $written = false;
+            try {
+                $written = (new \MicroweberPackages\EnvWriter\EnvWriterService())->save(['APP_KEY' => $key], $envFile);
+            } catch (\Throwable $e) {
+                $written = false;
+            }
+            if (!$written) {
+                // Last-resort fallback (env-writer unavailable / unwritable path).
+                @file_put_contents($envFile, PHP_EOL . 'APP_KEY=' . $key . PHP_EOL, FILE_APPEND);
+            }
+
+            // Keep this process in sync so env('APP_KEY') no longer reads empty
+            // and the key is never re-written within the same request/boot.
             Config::set('app.key', $key);
+            $_ENV['APP_KEY'] = $key;
+            $_SERVER['APP_KEY'] = $key;
+            putenv('APP_KEY=' . $key);
         }
     }
 
