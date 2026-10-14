@@ -38,6 +38,18 @@ class TemplateFontsServiceProvider extends MicroweberPackageServiceProvider
             if (config('microweber.compile_assets') !== null) {
                 $config['compile_assets'] = (bool) config('microweber.compile_assets');
             }
+            // Remote (S3) userfiles: hand the manager the disk + disk-relative
+            // cache folder so the compiled fonts stylesheet mirrors to the bucket
+            // and serves from there. Empty/local disk => unchanged local behaviour.
+            if (function_exists('userfiles_disk')) {
+                $config['disk'] = userfiles_disk();
+                if (function_exists('userfiles_base_relpath')) {
+                    $config['css_cache_relpath'] = userfiles_base_relpath('cache');
+                }
+                if (function_exists('userfiles_disk_is_remote')) {
+                    $config['disk_is_remote'] = userfiles_disk_is_remote();
+                }
+            }
 
             return new TemplateFontsManager($config);
         });

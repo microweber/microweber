@@ -514,7 +514,41 @@ class TemplateFontsManager
             }
         }
 
+        // Mirror the compiled stylesheet to the remote disk (S3) and serve from
+        // the bucket when userfiles are remote-backed. Best-effort; falls back
+        // to the local cache URL on failure or on local-only installs.
+        $remoteUrl = $this->mirrorFontsCssToRemote($filename, $css);
+        if ($remoteUrl !== null) {
+            return $remoteUrl;
+        }
+
         return rtrim($this->configString('css_cache_url', '/storage/cache'), '/') . '/' . $filename;
+    }
+
+    /**
+     * Mirror the compiled fonts stylesheet to the remote disk and return its
+     * public URL, or null when userfiles are local-only or the mirror fails.
+     */
+    protected function mirrorFontsCssToRemote(string $filename, string $css): ?string
+    {
+        if (!$this->configBool('disk_is_remote', false)) {
+            return null;
+        }
+        $disk = $this->configString('disk', '');
+        $relBase = $this->configString('css_cache_relpath', '');
+        if ($disk === '' || $relBase === '') {
+            return null;
+        }
+
+        $rel = trim($relBase, '/') . '/' . $filename;
+        try {
+            $storage = \Illuminate\Support\Facades\Storage::disk($disk);
+            $storage->put($rel, $css, ['visibility' => 'public']);
+
+            return $storage->url($rel);
+        } catch (\Throwable) {
+            return null;
+        }
     }
 
     public function clearCssCache(): void
