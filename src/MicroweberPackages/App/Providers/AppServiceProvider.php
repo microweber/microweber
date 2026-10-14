@@ -192,6 +192,13 @@ class AppServiceProvider extends ServiceProvider
         //  return;
         //app()->usePublicPath(base_path());
 
+        // Multisite FIRST: per-site cache/session (and media) isolation must be
+        // applied before the cache/session managers are resolved. A no-op unless
+        // the current Host maps to a config/<domain>/microweber.php site. The
+        // userfiles folder is already scoped earlier, at autoload time, via the
+        // package's helpers.php (MW_USERFILES_FOLDER_NAME = "userfiles/<site>").
+        $this->app->register(\MicroweberPackages\Multisite\MultisiteServiceProvider::class);
+
         // Load every Microweber + third-party package FIRST, in a deterministic
         // order (auto-discovery is disabled via composer `dont-discover: ["*"]`).
         // Registered here — the app's single master provider — rather than in
@@ -424,6 +431,17 @@ class AppServiceProvider extends ServiceProvider
 //                }
 
                 if (!$domain) {
+                    return app()->environment();
+                }
+
+                // Delegate to the multisite package so host→site resolution has a
+                // single source of truth (incl. path-traversal hardening). Falls
+                // back to the original inline check if the package is absent.
+                if (class_exists(\MicroweberPackages\Multisite\MultisiteManager::class)) {
+                    $site = \MicroweberPackages\Multisite\MultisiteManager::detectSiteFromHost($domain, config_path());
+                    if ($site !== null) {
+                        return $site;
+                    }
                     return app()->environment();
                 }
 

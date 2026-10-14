@@ -34,6 +34,38 @@ does **not** exist, the app falls back to the default environment
 
 ---
 
+## Per-site isolation (cache, media, sessions)
+
+Environment detection alone only swaps the **database** (via `.env.<domain>`).
+Cache, sessions and media/userfiles used to be shared across every domain. The
+[`microweber-packages/multisite`](../packages/microweber-multisite) package
+closes that gap. It depends on the env-writer package and is a standalone
+Laravel package (usable in a clean Laravel app as a PoC).
+
+Once a domain is detected, each site gets its own:
+
+| Subsystem | `domain-a.com` |
+|-----------|----------------|
+| Database | `.env.domain-a.com` → own `DB_DATABASE` |
+| Cache prefix | `mw_domain_a_com_cache` |
+| Cache files | `storage/framework/cache/sites/domain-a.com` |
+| Session cookie | `mw_domain_a_com_session` |
+| Session files | `storage/framework/sessions/sites/domain-a.com` |
+| Userfiles / media | `storage/app/public/userfiles/domain-a.com` |
+
+Two seams do the work: a composer `autoload.files` helper defines
+`MW_USERFILES_FOLDER_NAME = "userfiles/<domain>"` at autoload time (before
+Microweber's `bootstrap.php`), and `MultisiteServiceProvider` applies the
+cache/session config overrides from an `app->booted()` callback (after
+Microweber swaps in its own config repository). Both are a complete no-op on a
+single-site install. Toggle each subsystem in `config/multisite.php`.
+
+```bash
+php artisan multisite:list      # configured sites + their isolated paths
+```
+
+---
+
 ## Setup
 
 1. Create a directory named after each domain under `config/`.
@@ -55,6 +87,13 @@ config/
 4. Repeat for every domain.
 
 Both files can start empty — the install flow populates them.
+
+Or scaffold the marker **and** write `.env.<domain>` in one step:
+
+```bash
+php artisan multisite:install domain-a.com \
+    --db-name=mw_domain_a --db-username=root --db-password=secret
+```
 
 ---
 

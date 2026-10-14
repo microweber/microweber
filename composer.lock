@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4a82193dc2e985cf5e44e6e1cefaffb",
+    "content-hash": "63d38ff852b4e034a84582ca45ea220d",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9664,6 +9664,72 @@
             "time": "2023-04-10T09:35:09+00:00"
         },
         {
+            "name": "microweber-packages/activity-log",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-activity-log",
+                "reference": "b9d691d65174a89f415bd4f0d8ac2184e1e85457"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\ActivityLog\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/admin",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-admin",
+                "reference": "4db99ff113b199588a0a497a37a0ab5e495351c7"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Admin\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/ai-tools",
             "version": "1.0.0",
             "dist": {
@@ -9962,6 +10028,72 @@
             "support": {
                 "email": "support@microweber.com"
             },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/console",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-console",
+                "reference": "5b5c7ae6fabe451c0d20f7e74e598e4bc8c638d7"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Console\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/core",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-core",
+                "reference": "566110f1b03debcf53d96ea48e16dfc29e7f7fc3"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Core\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -10324,6 +10456,39 @@
             }
         },
         {
+            "name": "microweber-packages/filament",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-filament",
+                "reference": "6f24b2119414028fce2cde26736e3d9f820ba1c7"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Filament\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/filesystem",
             "version": "1.0.0",
             "dist": {
@@ -10383,6 +10548,44 @@
             }
         },
         {
+            "name": "microweber-packages/form-builder",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-form-builder",
+                "reference": "c8247f442fb756c1f29fd0c00ea75209ec2147f7"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\FormBuilder\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\FormBuilder\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber Form Builder – field-type registry and form-definition engine.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/format",
             "version": "1.0.0",
             "dist": {
@@ -10434,6 +10637,39 @@
                 "email": "support@microweber.com"
             },
             "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/frontend",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-frontend",
+                "reference": "b9924be21b105453bd7ca8a70d9ac522c79a421d"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Frontend\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
                 "relative": true
             }
         },
@@ -10647,6 +10883,39 @@
             }
         },
         {
+            "name": "microweber-packages/install",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-install",
+                "reference": "3c76f445023a13686dbaa74870c323af2aa8966d"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Install\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/laravel-helper-functions",
             "version": "1.0.0",
             "dist": {
@@ -10677,6 +10946,138 @@
                 }
             ],
             "description": "Helper functions for Microweber",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/laravel-modules",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-laravel-modules",
+                "reference": "a8695b4a8cc6de057869bbbe7b3cc4f921556c37"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\LaravelModules\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/laravel-templates",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-laravel-templates",
+                "reference": "bff55794120b9de7a3e78f75e9a71a1d41745ab3"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\LaravelTemplates\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/live-edit",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-live-edit",
+                "reference": "35df47cff5aacae3edb5c50c5cfddac034e1e042"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\LiveEdit\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/livewire",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-livewire",
+                "reference": "37c4bdce846e58e48c66f70c2ad1d2ca68671f82"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Livewire\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -10945,6 +11346,39 @@
             }
         },
         {
+            "name": "microweber-packages/meta-tags",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-meta-tags",
+                "reference": "bbadba73f4c98b87016bee2843b6718076908791"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\MetaTags\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS – head/footer meta-tag rendering (head tags, scripts, SEO).",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/microweber-filament-theme",
             "version": "1.0.0",
             "dist": {
@@ -10989,6 +11423,39 @@
                 "issues": "https://github.com/microweber-packages/microweber-filament-theme/issues",
                 "source": "https://github.com/microweber-packages/microweber-filament-theme"
             },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-ui",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-microweber-ui",
+                "reference": "57921775b668f98a3b817460f47893d6ac7a4ab5"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\MicroweberUI\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -11064,6 +11531,39 @@
             }
         },
         {
+            "name": "microweber-packages/module",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-module",
+                "reference": "3a32069273222875bfd399c100043bec77f8e634"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Module\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/module-registry",
             "version": "1.0.0",
             "dist": {
@@ -11128,6 +11628,142 @@
             ],
             "description": "Standalone Microweber module registry for Laravel. Register, discover, render modules and scan blade skins/templates. Usable inside the CMS or any standalone Laravel app.",
             "homepage": "https://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/monitoring",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-monitoring",
+                "reference": "d34e16a9db945ffccdc1d3ccbab40b4032e663a2"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Monitoring\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/multilanguage",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-multilanguage",
+                "reference": "bafe4e83af2de85c7d840dead1e0fac4c3d47dfe"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Multilanguage\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/multisite",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-multisite",
+                "reference": "7250a10d6851f0c8ff18aec459cc951a6096cd22"
+            },
+            "require": {
+                "microweber-packages/env-writer": "^1.0",
+                "microweber-packages/package": "^1.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\Multisite\\MultisiteServiceProvider"
+                    ],
+                    "aliases": {
+                        "Multisite": "MicroweberPackages\\Multisite\\Facades\\Multisite"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Multisite\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Multisite\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Per-domain multisite isolation for Laravel/Microweber: resolves a site from the Host header (config/<domain>/microweber.php marker) and gives each site its own database, cache, session and media/userfiles tree on one shared codebase.",
+            "homepage": "http://microweber.com",
             "support": {
                 "email": "support@microweber.com"
             },
@@ -11257,6 +11893,39 @@
                 "source": "https://github.com/microweber-packages/omnipay-momo-mtn/tree/0.2"
             },
             "time": "2025-09-25T10:07:12+00:00"
+        },
+        {
+            "name": "microweber-packages/option",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-option",
+                "reference": "8baa00f1c12e8febb87e7d8dc77f15c5fd470262"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Option\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "microweber-packages/package",
@@ -11615,6 +12284,39 @@
             }
         },
         {
+            "name": "microweber-packages/role",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-role",
+                "reference": "03817f7c320d94ead65207b05aa6b73f3c6d901c"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Role\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/searchable",
             "version": "1.0.0",
             "dist": {
@@ -11893,6 +12595,39 @@
             }
         },
         {
+            "name": "microweber-packages/template",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-template",
+                "reference": "5ba229759d29e122bb7477f2c6ddaf897f8f8970"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Template\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/template-custom-css",
             "version": "1.0.0",
             "dist": {
@@ -12144,6 +12879,39 @@
             }
         },
         {
+            "name": "microweber-packages/update",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-update",
+                "reference": "48210a0267679f553bd677adcf91450307c7d609"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Update\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/url",
             "version": "1.0.0",
             "dist": {
@@ -12195,6 +12963,72 @@
                 }
             ],
             "description": "URL management package for Microweber - can be used standalone with any Laravel application",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/user",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-user",
+                "reference": "58361180613689c3bf57d7a0eec2c04f342552ed"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\User\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/utils",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-utils",
+                "reference": "4c138a8e34724b4103603759db30178e86ceab72"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Utils\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
             "transport-options": {
                 "symlink": true,
                 "relative": true

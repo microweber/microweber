@@ -138,6 +138,7 @@
         "microweber-packages/taggable-file-cache": "^1.0",
         "microweber-packages/config": "^1.0",
         "microweber-packages/env-writer": "^1.0",
+        "microweber-packages/multisite": "^1.0",
         "microweber-packages/blade-cache": "^1.0",
         "microweber-packages/thumbnailer": "^1.0",
         "microweber-packages/media-thumbnail": "^1.0",
@@ -227,6 +228,7 @@
             "MicroweberPackages\\": "src/MicroweberPackages/",
             "MicroweberPackages\\TaggableFileCache\\": "packages/microweber-taggable-file-cache/src/",
             "MicroweberPackages\\EnvWriter\\": "packages/microweber-env-writer/src/",
+            "MicroweberPackages\\Multisite\\": "packages/microweber-multisite/src/",
             "MicroweberPackages\\BladeCache\\": "packages/microweber-blade-cache/src/",
             "MicroweberPackages\\Thumbnailer\\": "packages/microweber-thumbnailer/src/",
             "MicroweberPackages\\MediaThumbnail\\": "packages/microweber-media-thumbnail/src/",
@@ -320,7 +322,8 @@
             "packages/microweber-class-loader/src/helpers.php",
             "packages/microweber-template-fonts/src/helpers.php",
             "packages/microweber-template-custom-css/src/helpers.php",
-            "packages/microweber-queue/src/helpers.php"
+            "packages/microweber-queue/src/helpers.php",
+            "packages/microweber-multisite/src/helpers.php"
         ]
     },
     "autoload-dev": {
@@ -367,6 +370,7 @@
             "MicroweberPackages\\AiTools\\Tests\\": "packages/microweber-ai-tools/tests/",
             "MicroweberPackages\\Format\\Tests\\": "packages/microweber-format/tests/",
             "MicroweberPackages\\EnvWriter\\Tests\\": "packages/microweber-env-writer/tests/",
+            "MicroweberPackages\\Multisite\\Tests\\": "packages/microweber-multisite/tests/",
             "MicroweberPackages\\Event\\Tests\\": "packages/microweber-event-manager/tests/",
             "MicroweberPackages\\Http\\Tests\\": "packages/microweber-http/tests/",
             "MicroweberPackages\\Repository\\Tests\\": "packages/microweber-repository/tests/",
@@ -476,6 +480,7 @@
                 "microweber-packages/http",
                 "microweber-packages/taggable-file-cache",
                 "microweber-packages/env-writer",
+                "microweber-packages/multisite",
                 "microweber-packages/blade-cache",
                 "microweber-packages/repository",
                 "microweber-packages/searchable",
@@ -721,6 +726,14 @@
         {
             "type": "path",
             "url": "packages/microweber-env-writer",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-multisite",
             "options": {
                 "reference": "config",
                 "symlink": true

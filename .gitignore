@@ -33,6 +33,14 @@ phpinfo.php
 .vscode
 .env
 .env.testing
+# Multisite per-domain env files (.env.<domain>) hold that site's DB
+# credentials — never commit them. Keep the tracked env templates below.
+.env.*
+!.env.docker
+!.env.dusk
+!.env.example
+!.env.production
+!.env.staging
 dwsync.xml
 /userfiles/backup
 /userfiles/*.log
