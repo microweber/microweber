@@ -99,8 +99,11 @@ class MenusList extends Component implements HasForms, HasActions
             ->icon('heroicon-m-trash')
             ->color('danger')
             ->requiresConfirmation()
-            ->action(function (array $arguments) {
-                $record = static::findMenuOrFail($arguments['id']);
+            // Use the component's current menu_id directly. Filament v5 does not
+            // carry an ActionGroup child's definition-time ->arguments() through
+            // to the mounted callback, so $arguments['id'] was undefined here.
+            ->action(function () {
+                $record = static::findMenuOrFail($this->menu_id);
                 if ($record) {
                     if ($record->item_type === 'menu') {
                         Menu::where('parent_id', $record->id)
@@ -123,8 +126,10 @@ class MenusList extends Component implements HasForms, HasActions
             // backdrop click or Escape keystroke.
             ->closeModalByClickingAway(false)
             ->closeModalByEscaping(false)
-            ->mountUsing(function (Schema $schema, array $arguments) {
-                $record = static::findMenuOrFail($arguments['id']);
+            ->mountUsing(function (Schema $schema) {
+                // $this->menu_id, not $arguments['id'] — Filament v5 drops the
+                // group child's definition-time ->arguments() by mount time.
+                $record = static::findMenuOrFail($this->menu_id);
                 if ($record) {
                     $schema->fill(['title' => $record->title]);
                 }
@@ -135,8 +140,8 @@ class MenusList extends Component implements HasForms, HasActions
                     ->maxLength(200)
                     ->label('Menu name'),
             ])
-            ->action(function (array $data, array $arguments) {
-                $record = static::findMenuOrFail($arguments['id']);
+            ->action(function (array $data) {
+                $record = static::findMenuOrFail($this->menu_id);
                 if ($record) {
                     $record->title = $data['title'];
                     $record->save();

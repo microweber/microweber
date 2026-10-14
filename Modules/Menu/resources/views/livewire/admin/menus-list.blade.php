@@ -1,5 +1,19 @@
 <div>
 
+    {{-- task-2026-10-14-menudropdown — the Menu-actions (⋮) dropdown rendered its
+         items cramped (36px rows, 8px padding, 1px gap). Give them room to breathe.
+         Scoped to this component's document (the menu settings panel), where the
+         only .fi-dropdown is this actions menu — the Menu <select> uses different
+         markup, so it's unaffected. --}}
+    <style>
+        /* Taller rows + a real gap for breathing room; keep the horizontal
+           padding modest + widen the panel so "Create new main menu" never
+           truncates. */
+        .fi-dropdown-panel { min-width: 14rem; }
+        .fi-dropdown-list { gap: 0.25rem; padding: 0.5rem; }
+        .fi-dropdown-list-item { padding-top: 0.6rem; padding-bottom: 0.6rem; }
+    </style>
+
     @script
     <script>
         document.addEventListener('livewire:initialized', async () => {
