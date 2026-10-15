@@ -121,7 +121,23 @@ class ConfigRepository extends Repository
             $key = reset($parts);
 
             if ($key !== '' && $extension === 'php') {
-                $this->set($key, require $dir . DIRECTORY_SEPARATOR . $file);
+                $envConfig = require $dir . DIRECTORY_SEPARATOR . $file;
+
+                // Deep-merge the environment-specific config OVER the base config
+                // key, so a partial (or empty) config/<env>/<key>.php overrides
+                // only its own keys and preserves the rest — per this class's
+                // contract ("default config files are preserved and only
+                // overridden by environment-specific files"). A plain set() here
+                // would REPLACE the whole key: an empty multisite marker
+                // (config/<domain>/microweber.php = []) wiped the entire
+                // 'microweber' config, incl. is_installed, breaking every
+                // multisite site ("not installed" -> 404, no options, no template).
+                $existing = $this->get($key, null);
+                if (is_array($existing) && is_array($envConfig)) {
+                    $this->set($key, array_replace_recursive($existing, $envConfig));
+                } else {
+                    $this->set($key, $envConfig);
+                }
             }
         }
     }
