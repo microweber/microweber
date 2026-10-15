@@ -178,6 +178,22 @@ class MultisiteManager
                 return null;
             }
 
+            // For WEB requests, export APP_ENV=<domain> now — this file runs as a
+            // composer autoload-file, i.e. before the framework's
+            // LoadEnvironmentVariables bootstrapper. That bootstrapper decides
+            // which env file to load from APP_ENV, so this is what makes Laravel
+            // load .env.<domain> and thus the per-site database / credentials.
+            // Laravel only switches when .env.<domain> actually exists (else it
+            // falls back to .env), so a domain without a per-site env is safe.
+            // CLI is left alone — its env file is already resolved from the
+            // APP_ENV the operator passed (e.g. `APP_ENV=domain-a.com php artisan`).
+            if ((!empty($_SERVER['HTTP_HOST']) || !empty($_SERVER['SERVER_NAME']))
+                && getenv('APP_ENV') !== $site) {
+                putenv('APP_ENV=' . $site);
+                $_ENV['APP_ENV'] = $site;
+                $_SERVER['APP_ENV'] = $site;
+            }
+
             $defaults = self::defaultConfig();
             if (!($defaults['isolate']['userfiles'] ?? true)) {
                 return $site;
