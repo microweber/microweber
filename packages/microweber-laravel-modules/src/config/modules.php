@@ -269,7 +269,16 @@ return [
         'file' => [
             'class' => \MicroweberPackages\LaravelModules\Activators\LaravelModulesFileActivator::class,
 
-            'statuses-file' => storage_path('modules_statuses.json'),
+            // Per-site on multisite: each domain gets its own
+            // storage/sites/<domain>/modules_statuses.json (seeded from the base
+            // file on first use), so disabling a module on one site never
+            // affects another. Single-site keeps the shared file. The database
+            // activator would avoid the disk entirely but currently crashes boot
+            // (unbound modules.factory) and mis-seeds — opt in via MODULES_ACTIVATOR
+            // only once fixed.
+            'statuses-file' => (function_exists('mw_multisite_statuses_path')
+                ? mw_multisite_statuses_path('modules_statuses.json')
+                : storage_path('modules_statuses.json')),
             'cache-key' => 'modules_activator.installed',
             'cache-lifetime' => 604800,
         ],
@@ -281,5 +290,8 @@ return [
         ],
     ],
 
+    // Per-site isolation is handled via the per-site statuses-file above (the
+    // file activator is battle-tested). An explicit MODULES_ACTIVATOR=database
+    // can opt into DB storage once that activator's boot crash is fixed.
     'activator' => env('MODULES_ACTIVATOR', 'file'),
 ];

@@ -215,7 +215,13 @@ return [
     'activators' => [
         'file' => [
             'class' => \MicroweberPackages\LaravelTemplates\Activators\TemplatesFileActivator::class,
-            'statuses-file' => storage_path('templates_statuses.json'),
+            // Per-site on multisite: each domain gets its own
+            // storage/sites/<domain>/templates_statuses.json (seeded from the
+            // base file on first use), so enabling/disabling a template on one
+            // site never affects another. Single-site keeps the shared file.
+            'statuses-file' => (function_exists('mw_multisite_statuses_path')
+                ? mw_multisite_statuses_path('templates_statuses.json')
+                : storage_path('templates_statuses.json')),
             'cache-key' => 'templates_activator.installed',
             'cache-lifetime' => 604800,
         ],
@@ -227,5 +233,6 @@ return [
         ],
     ],
 
+    // Per-site isolation is handled via the per-site statuses-file above.
     'activator' => env('TEMPLATES_ACTIVATOR', 'file')
 ];
