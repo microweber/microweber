@@ -805,6 +805,16 @@ class MediaManager
             $height = intval($height);
         }
 
+        // S3-hosted userfiles: generate the thumbnail straight from the bucket
+        // (stream source -> resize -> upload thumb -> serve S3 URL). Returns null
+        // for non-remote / non-bucket sources, so the local flow below runs.
+        if (function_exists('userfiles_disk_is_remote') && userfiles_disk_is_remote()) {
+            $remoteThumb = $this->_remote_thumbnail($src, $width, $height, $crop);
+            if ($remoteThumb !== null) {
+                return $remoteThumb;
+            }
+        }
+
         $cd = $this->_thumbnails_path() . $width . DS;
         $cd_relative = $this->thumbnails_path_in_userfiles . DS . $width . DS;
 
@@ -1186,6 +1196,97 @@ class MediaManager
     {
         if (function_exists('imagewebp') and $_SERVER and isset($_SERVER['HTTP_ACCEPT']) and is_string($_SERVER['HTTP_ACCEPT']) and strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false) {
             return true;
+        }
+    }
+
+    /**
+     * Generate a thumbnail for an image that lives on the remote (S3) userfiles
+     * disk. Streams the source from the bucket to a temp file, resizes it with
+     * the thumbnailer, uploads the thumbnail back to the bucket (per-site path),
+     * caches the mapping in the DB and returns the public S3 URL.
+     *
+     * Returns null when $src is not one of our bucket URLs (so the caller falls
+     * back to the normal local flow) or on any failure (best-effort). Uses only
+     * GetObject/PutObject — never list/head — matching restricted bucket creds.
+     * Local disk use is limited to short-lived temp files.
+     */
+    private function _remote_thumbnail($src, $width, $height, $crop)
+    {
+        if (!function_exists('userfiles_disk') || !function_exists('media_base_path_relative')) {
+            return null;
+        }
+        $disk = userfiles_disk();
+
+        try {
+            $storage = \Illuminate\Support\Facades\Storage::disk($disk);
+
+            // Derive the bucket base URL from the disk itself, then the object's
+            // disk-relative path. Bail if $src isn't served by this bucket.
+            $probe = $storage->url('__MW_TN_PROBE__');
+            $pos = strpos($probe, '__MW_TN_PROBE__');
+            if ($pos === false) {
+                return null;
+            }
+            $base = substr($probe, 0, $pos);
+            if ($base === '' || strpos($src, $base) !== 0) {
+                return null;
+            }
+            $srcRel = ltrim(strtok(substr($src, strlen($base)), '?'), '/');
+            if ($srcRel === '') {
+                return null;
+            }
+
+            $ext = strtolower(pathinfo($srcRel, PATHINFO_EXTENSION));
+            if ($ext === 'svg') {
+                return $src; // vector — no raster thumbnail needed
+            }
+            if (!in_array($ext, ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'], true)) {
+                return null;
+            }
+            if (!$height) {
+                $height = $width;
+            }
+
+            $cacheKey = 'tn-' . crc32($srcRel . '|' . $width . '|' . $height . '|' . json_encode($crop));
+            $thumbRel = rtrim(media_base_path_relative(), '/') . '/cache/thumbnails/' . $width . '/' . $cacheKey . '.' . $ext;
+
+            // Already generated? Return the cached bucket URL (DB cache — never
+            // probes S3, since head/list are denied on restricted creds).
+            $tnRepo = app(\MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository::class);
+            $existing = $tnRepo->findByFilename($cacheKey);
+            if ($existing && isset($existing['image_options']['remote_url'])) {
+                return $existing['image_options']['remote_url'];
+            }
+
+            // Stream the original down to a temp file (GetObject).
+            $stream = $storage->readStream($srcRel);
+            if (!$stream) {
+                return null;
+            }
+            $tmpSrc = tempnam(sys_get_temp_dir(), 'mwtn') . '.' . $ext;
+            file_put_contents($tmpSrc, $stream);
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+
+            // Resize locally (temp in / temp out), then upload + clean up.
+            $tmpThumb = app(\MicroweberPackages\Thumbnailer\ThumbnailGenerator::class)
+                ->generate($tmpSrc, (int) $width, (int) $height, $crop);
+            @unlink($tmpSrc);
+
+            if (!$tmpThumb || !is_file($tmpThumb)) {
+                return null;
+            }
+
+            $storage->put($thumbRel, file_get_contents($tmpThumb), ['visibility' => 'public']);
+            @unlink($tmpThumb);
+
+            $url = $storage->url($thumbRel);
+            $tnRepo->store($cacheKey, ['remote_url' => $url, 'cache_path_relative' => $thumbRel]);
+
+            return $url;
+        } catch (\Throwable $e) {
+            return null;
         }
     }
 
