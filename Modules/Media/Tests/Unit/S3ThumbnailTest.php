@@ -83,6 +83,15 @@ class S3ThumbnailTest extends TestCase
         $this->seedRemoteImage($relKey);
         Storage::disk('s3')->assertExists($relKey);
 
+        // Start from a clean cache/DB slate for this deterministic key. The
+        // thumbnail repo caches findByFilename() in the (persistent) file cache,
+        // so a previous run's entry would otherwise make _remote_thumbnail
+        // short-circuit to the cached URL without re-uploading to the fresh
+        // faked disk. Mirror _remote_thumbnail's key exactly.
+        $expectedKey = 'tn-' . crc32($relKey . '|120|90|' . json_encode(null));
+        app(\MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository::class)
+            ->removeByFilename($expectedKey);
+
         $src = Storage::disk('s3')->url($relKey);
 
         $result = app()->media_manager->thumbnail($src, 120, 90);
@@ -117,7 +126,8 @@ class S3ThumbnailTest extends TestCase
         $this->assertSame(1, MediaThumbnail::where('filename', $cacheKey)->count());
 
         // Cleanup our specific row so the shared table stays tidy.
-        MediaThumbnail::removeByFilename($cacheKey);
+        app(\MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository::class)
+            ->removeByFilename($cacheKey);
     }
 
     #[Test]
