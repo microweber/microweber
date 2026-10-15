@@ -96,25 +96,37 @@ class BulkUploadService
         $extension = $file->getClientOriginalExtension();
         $fileName = $this->generateFileName($originalName, $extension);
 
-        // Determine storage path
+        // Determine storage path + disk. The disk is the configured media
+        // upload disk (S3 when userfiles are remote), and the path is already
+        // per-site (userfiles/<site>/media/uploaded/...) via getStoragePath().
         $folder = $this->getFolder();
         $storagePath = $this->getStoragePath($folder);
+        $disk = function_exists('media_upload_disk') ? media_upload_disk() : 'public';
+        $mediaType = $this->guessMediaType($extension);
 
-        // Store file
-        $path = $file->storeAs($storagePath, $fileName, 'public');
+        // Auto-resize the temp upload BEFORE storing — operating on the temp
+        // file makes it disk-agnostic (S3 has no Storage::disk()->path()).
+        if ($mediaType === 'picture'
+            && !empty($options['auto_resize'])
+            && $file->getSize() > ($options['resize_threshold'] ?? 2000000)) {
+            $this->autoResizeImage($file->getRealPath(), $options['max_dimension'] ?? 1980);
+        }
+
+        // Store file — streamed to the target disk via Laravel (no move_uploaded_file).
+        $path = $file->storeAs($storagePath, $fileName, $disk);
 
         if (!$path) {
             throw new \Exception('Failed to store file');
         }
 
-        // Get file metadata
-        $fileSize = $file->getSize();
+        // Get file metadata (after any resize)
+        clearstatcache(true, $file->getRealPath());
+        $fileSize = @filesize($file->getRealPath()) ?: $file->getSize();
         $fileHash = md5_file($file->getRealPath());
-        $mediaType = $this->guessMediaType($extension);
 
         // Create media record
         $mediaData = [
-            'filename' => Storage::disk('public')->url($path),
+            'filename' => Storage::disk($disk)->url($path),
             'title' => $options['title'] ?? pathinfo($originalName, PATHINFO_FILENAME),
             'description' => $options['description'] ?? null,
             'folder_id' => $this->folderId,
@@ -127,16 +139,11 @@ class BulkUploadService
             'created_by' => $options['created_by'] ?? user_id(),
         ];
 
-        // Process image-specific data
+        // Process image-specific data (reads the temp file, so reflects resize)
         if ($mediaType === 'picture') {
             $imageInfo = $this->getImageInfo($file);
             if ($imageInfo) {
                 $mediaData['image_options'] = $imageInfo;
-            }
-
-            // Auto-resize if enabled
-            if (!empty($options['auto_resize']) && $fileSize > ($options['resize_threshold'] ?? 2000000)) {
-                $this->autoResizeImage($path, $options['max_dimension'] ?? 1980);
             }
         }
 
@@ -195,7 +202,13 @@ class BulkUploadService
      */
     protected function getStoragePath(?MediaFolder $folder): string
     {
-        $basePath = 'uploaded';
+        // Store under the per-site media tree (userfiles/<site>/media/uploaded)
+        // so bulk uploads live where the rest of media does and are isolated per
+        // site; on S3 this becomes the per-site bucket subfolder.
+        $prefix = function_exists('media_base_path_relative')
+            ? rtrim(media_base_path_relative(), '/') . '/'
+            : '';
+        $basePath = $prefix . 'uploaded';
 
         if ($folder) {
             $folderPath = $this->getFolderPath($folder);
@@ -278,10 +291,8 @@ class BulkUploadService
      * @param int $maxDimension
      * @return void
      */
-    protected function autoResizeImage(string $path, int $maxDimension): void
+    protected function autoResizeImage(string $fullPath, int $maxDimension): void
     {
-        $fullPath = Storage::disk('public')->path($path);
-
         if (!file_exists($fullPath)) {
             return;
         }
