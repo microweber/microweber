@@ -730,6 +730,11 @@ class MicroweberTemplate
                     $render_file = $render_file_module_temp;
                 } elseif ($layout_file_for_content_type and is_file($layout_file_for_content_type)) {
                     $render_file = $layout_file_for_content_type;
+                } elseif ($parent_template_view = $this->resolveParentTemplateViewFile($template_d, $page['layout_file'], ($page['content_type'] ?? ''))) {
+                    // Thin child template: inherit the view from its parent_template
+                    // chain (ultimately Base) instead of downgrading to clean. Lets
+                    // a child ship only the views it overrides (e.g. index + clean).
+                    $render_file = $parent_template_view;
                 } elseif (is_file($laravel_template_view_clean)) {
                     $render_file = $laravel_template_view_clean;
                 } elseif (is_file($render_use_default)) {
@@ -1695,6 +1700,52 @@ class MicroweberTemplate
         if (isset($config['parent_template']) and $config['parent_template']) {
             return $config['parent_template'];
         }
+        return false;
+    }
+
+    /**
+     * Walk a template's parent_template chain and return the first existing view
+     * file (the requested layout_file, else <content_type>.blade.php) under a
+     * parent's resources/views. This is what lets a thin child template inherit
+     * post/product/shop/blog/… from its parent (ultimately Base) while shipping
+     * only the views it actually overrides. Returns false when no ancestor has it.
+     *
+     * @param string $templateName active (child) template folder name
+     * @param string $layoutFile   e.g. "post.blade.php"
+     * @param string $contentType  e.g. "post"
+     * @return string|false absolute view path
+     */
+    public function resolveParentTemplateViewFile($templateName, $layoutFile, $contentType = '')
+    {
+        $seen = [strtolower((string) $templateName) => true];
+        $current = $templateName;
+
+        for ($i = 0; $i < 10; $i++) {
+            $parent = $this->getParentTemplate($current);
+            if (!$parent || isset($seen[strtolower($parent)])) {
+                break;
+            }
+            $seen[strtolower($parent)] = true;
+            $parent = $this->resolveTemplateFolderName($parent);
+
+            $parentViewsDir = templates_dir() . $parent . '/resources/views/';
+
+            if ($layoutFile) {
+                $candidate = normalize_path($parentViewsDir . $layoutFile, false);
+                if (is_file($candidate)) {
+                    return $candidate;
+                }
+            }
+            if ($contentType) {
+                $candidate = normalize_path($parentViewsDir . $contentType . '.blade.php', false);
+                if (is_file($candidate)) {
+                    return $candidate;
+                }
+            }
+
+            $current = $parent;
+        }
+
         return false;
     }
 

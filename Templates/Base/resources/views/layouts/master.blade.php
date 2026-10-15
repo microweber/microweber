@@ -142,6 +142,30 @@
         </style>
     @endif
 
+    {{-- 6. Active child template's baked design CSS (its Live Edit design, e.g.
+         Art / Yoga / Barbershop). A thin child of Base ships its whole identity as
+         resources/assets/css/live_edit.css → public templates/<name>/css/live_edit.css.
+         Loaded LAST so the child's :root tokens + rules win over Base's defaults and
+         the saved scheme. No-op on Base itself (it has no live_edit.css). --}}
+    @php
+        // The active (possibly child) template. template_name() can resolve to the
+        // parent (Base) when a child inherits the master, so prefer the globally
+        // selected current_template option, which always names the chosen template.
+        $mwActiveTpl = '';
+        if (function_exists('get_option')) {
+            $mwActiveTpl = (string) (get_option('current_template', 'template') ?: '');
+        }
+        if ($mwActiveTpl === '' && function_exists('template_name')) {
+            $mwActiveTpl = (string) template_name();
+        }
+        $mwActiveTplLower = strtolower($mwActiveTpl);
+        $mwChildCssRel = 'templates/' . $mwActiveTplLower . '/css/base.css';
+        $mwChildCssFile = function_exists('public_path') ? public_path($mwChildCssRel) : '';
+    @endphp
+    @if ($mwActiveTplLower !== '' && $mwActiveTplLower !== 'base' && $mwChildCssFile && is_file($mwChildCssFile))
+        <link rel="stylesheet" href="{{ asset($mwChildCssRel) }}" id="mw-template-design" type="text/css" media="all">
+    @endif
+
     <script>
         mw.iconLoader()
             .addIconSet('iconsMindLine')

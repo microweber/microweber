@@ -1,0 +1,21 @@
+{
+    "name": "microweber-templates/art",
+    "description": "Art — a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": ["website", "cms", "template", "art", "child", "base"],
+    "autoload": {
+        "psr-4": {
+            "Templates\\Art\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/art/public"
+    },
+    "target-dir": "Art"
+}

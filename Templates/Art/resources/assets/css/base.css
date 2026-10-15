@@ -1,0 +1,230 @@
+@media screen, print {
+	:root {
+		--mw-heading-font-weight: 600;
+		--mw-heading-font-size: 36px;
+		--mw-paragraph-font-weight: 400;
+		--mw-paragraph-font-size: 16px;
+		--mw-body-font-family: Noticia Text, serif;
+		--mw-font-family-sans-serif: Noticia Text;
+		--mw-background-color: #ffffff;
+		--mw-section-background-color: #ffffff;
+		--mw-primary-color: #9e0000;
+		--mw-secondary: #c72d2d;
+		--mw-textDark: #212529;
+		--mw-textLight: #6c757d;
+		--mw-body-font-size: 16px;
+		--mw-body-color: #212529;
+		--mw-heading-color: #9e0000;
+		--mw-paragraph-color: #212529;
+		--mw-link-color: #9e0000;
+		--mw-link-hover-color: #7d0000;
+		--mw-header-background-color: #212529;
+		--mw-header-link-color: #ffffff;
+		--mw-header-link-hover-color: #9e0000;
+		--mw-header-link-background-hover-color: rgba(158, 0, 0, 0.1);
+		--mw-header-padding-block: 20px;
+		--mw-header-font-size: 16px;
+		--mw-top-header-background-color: #9e0000;
+		--mw-top-header-primary-color: #9e0000;
+		--mw-top-header-link-color: #ffffff;
+		--mw-top-header-link-hover-color: #ffffff;
+		--mw-top-header-button-background-color: #7d0000;
+		--mw-top-header-button-background-hover-color: #6a0000;
+		--mw-top-header-button-text-color: #ffffff;
+		--mw-top-header-button-text-hover-color: #ffffff;
+		--mw-footer-background-color: #212529;
+		--mw-footer-text-color: #ffffff;
+		--mw-footer-primary-color: #9e0000;
+		--mw-footer-link-color: #9e0000;
+		--mw-footer-hover-link-color: #7d0000;
+		--mw-footer-button-background-color: #9e0000;
+		--mw-footer-button-background-hover-color: #7d0000;
+		--mw-footer-button-text-color: #ffffff;
+		--mw-footer-button-text-hover-color: #ffffff;
+		--mw-footer-font-size: 14px;
+		--mw-links-font-size: 16px;
+		--mw-line-height: 1.6;
+		--mw-letter-spacing: 0px;
+		--mw-font-weight: 400;
+		--mw-text-transform: none;
+		--mw-paragraph-size: 16px;
+		--mw-text-align: left;
+		--mw-text-decoration: none;
+		--mw-text-decoration-thickness: 1px;
+		--mw-text-underline-offset: 2px;
+		--mw-text-decoration-color: #9e0000;
+		--mw-heading-one: 36px;
+		--mw-heading-two: 32px;
+		--mw-heading-three: 28px;
+		--mw-heading-four: 24px;
+		--mw-heading-five: 20px;
+		--mw-heading-six: 18px;
+		--text-on-dark-background: #ffffff;
+		--mw-btn-border-radius: 1px;
+		--mw-btn-border-size: 1px;
+		--mw-btn-border-style: solid;
+		--mw-btn-padding-block: 12px;
+		--mw-btn-padding-inline: 27px;
+		--mw-btn-font-size: 16px;
+		--mw-btn-background-color: #9e0000;
+		--mw-btn-background-hover-color: #890000;
+		--mw-btn-text-color: #ffffff;
+		--mw-btn-text-hover-color: #ffffff;
+		--mw-btn-border-color: #9e0000;
+		--mw-btn-secondary-background-color: #c72d2d;
+		--mw-btn-secondary-background-hover-color: #9e0000;
+		--mw-btn-secondary-text-color: #ffffff;
+		--mw-btn-secondary-text-hover-color: #ffffff;
+		--mw-btn-secondary-border-color: #c72d2d;
+		--mw-btn-outline-background-color: transparent;
+		--mw-btn-outline-background-hover-color: #9e0000;
+		--mw-btn-outline-text-color: #9e0000;
+		--mw-btn-outline-text-hover-color: #ffffff;
+		--mw-btn-outline-border-color: #9e0000;
+		--mw-form-control-border-radius: 4px;
+		--mw-form-control-border-size: 1px;
+		--mw-form-control-border-style: solid;
+		--mw-form-control-padding-block: 12px;
+		--mw-form-control-padding-inline: 16px;
+		--mw-form-label-font-size: 14px;
+		--mw-form-control-placeholder-color: #6c757d;
+		--mw-form-control-background: #ffffff;
+		--mw-form-control-background-hover: #f8f9fa;
+		--mw-form-control-text-color: #212529;
+		--mw-form-control-text-hover-color: #9e0000;
+		--mw-form-label-color: #9e0000;
+		--mw-form-control-border-color: #dee2e6;
+		--mw-text-on-dark-background-color: #ffffff;
+		--mw-heading-font-family: Noticia Text, serif;
+	}
+	#mw-element-1754473496598 {
+		text-align: left;
+	}
+	#mw-element-1754473496603 {
+		max-width: 100%;
+		text-align: left;
+	}
+	#mw-element-1754473496611 {
+		font-weight: 700;
+	}
+	#mw-element-1754473496616 {
+		font-weight: 700;
+	}
+	#mw-element-1754473496622 {
+		font-weight: 700;
+	}
+	#mw-element-1754473496609 {
+		max-width: 100%;
+		width: 408px;
+		min-height: 24px;
+	}
+	#mw-element-1754473494274 {
+		font-weight: 700;
+	}
+	#mw-element-1754473496633 {
+		background-color: #212529;
+		padding-top: 0px;
+		padding-right: 120px;
+		padding-bottom: 20px;
+		padding-left: 120px;
+		margin-left: 100px;
+		margin-top: 100px;
+		margin-right: 100px;
+		margin-bottom: 100px;
+		border-radius: 0px 0px 0px 150px;
+	}
+	#mw-element-1754473496634 {
+		border-radius: 0px 0px 0px 150px;
+		max-width: 100%;
+		width: 955px;
+		height: auto;
+	}
+	#mw-element-1754473496646 {
+		color: #ffffff;
+		font-size: 52px;
+	}
+	#mw-element-1754473495288 {
+		text-align: left;
+	}
+	#mw-element-1754473496655 {
+		max-width: 100%;
+		text-align: right;
+	}
+	#mw-element-1754483832109 {
+		text-align: left;
+	}
+	#mw-element-1754473496662 {
+		max-width: 100%;
+		width: 247px;
+	}
+	#mw-element-1754473496640 {
+		max-width: 100%;
+		width: 167px;
+		border-radius: 100px 100px 100px 100px;
+	}
+	#mw-element-1754473495650 {
+		max-width: 100%;
+		width: 512px;
+	}
+	#mw-element-1754473496673 {
+		max-width: 100%;
+	}
+	#mw-element-1754484425595 {
+		max-width: 100%;
+		text-align: right;
+	}
+	#mw-element-1754473496703 {
+		text-align: right;
+	}
+	#mw-element-1754473496714 {
+		text-align: right;
+	}
+	#mw-element-1754473496724 {
+		text-align: right;
+	}
+	#mw-element-1754473496736 {
+		text-align: right;
+	}
+	#mw-element-1754473496737 {
+		font-size: 52px;
+	}
+	#mw-element-1754473496697 {
+		border-left-color: #9e0000;
+	}
+	#mw-element-1754473496701 {
+		border-left-color: #9e0000;
+	}
+	#mw-element-1754473496712 {
+		border-left-color: #9e0000;
+	}
+	#mw-element-1754473496722 {
+		border-left-color: #9e0000;
+	}
+	#mw-element-1754473496734 {
+		border-left-color: #9e0000;
+	}
+	#mw-element-1754485957295 {
+		text-align: right;
+	}
+	#mw-element-1754485957296 {
+		font-size: 62px;
+		text-align: left;
+	}
+	#mw-element-1754485957317 {
+		background-image: url({SITE_URL}storage/sophie-louisnard-degtnqphkxs-unsplashjpg.jpg);
+	}
+	#mw-element-1754489315282 {
+		text-align: center;
+		font-size: 62px;
+	}
+	#mw-element-1754489341761 {
+		text-align: center;
+		font-size: 20px;
+	}
+	#mw-element-1754490498753 {
+		font-size: 92px;
+	}
+	#mw-element-1754490500851 {
+		font-size: 20px;
+	}
+}

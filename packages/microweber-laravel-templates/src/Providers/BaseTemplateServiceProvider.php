@@ -77,10 +77,65 @@ abstract class BaseTemplateServiceProvider extends MicroweberPackageServiceProvi
 
         $this->publishes([$sourcePath => $viewPath], ['views', $this->moduleNameLower . '-template-views']);
 
-        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), 'templates.' . $this->moduleNameLower);
+        // Own views first, then the parent chain as fallbacks: a thin child
+        // template (parent_template in config/config.php) can ship only the views
+        // it overrides (e.g. index + clean) and inherit everything else — master
+        // layout, post/product/shop/blog, the whole skin library — from its
+        // parent (ultimately Base). Laravel's view finder tries paths in order,
+        // so the child's own views always win.
+        $paths = array_merge($this->getPublishableViewPaths(), [$sourcePath]);
+        foreach ($this->parentTemplateViewPaths() as $parentViewPath) {
+            $paths[] = $parentViewPath;
+        }
+        $this->loadViewsFrom($paths, 'templates.' . $this->moduleNameLower);
 
         $componentNamespace = str_replace('/', '\\', config('templates.namespace') . '\\' . $this->moduleName . '\\' . ltrim(config('templates.paths.generator.component-class.path'), config('templates.paths.app_folder', '')));
         Blade::componentNamespace($componentNamespace, 'templates.' . $this->moduleNameLower);
+    }
+
+    /**
+     * Resolve the parent_template chain's view directories (walking up
+     * parent_template config, cycle-guarded), so a child inherits its parent's
+     * views. Returns absolute, existing paths in nearest-ancestor-first order.
+     *
+     * @return array<string>
+     */
+    protected function parentTemplateViewPaths(): array
+    {
+        $paths = [];
+        $seen = [strtolower($this->moduleName) => true];
+        $current = $this->moduleName;
+
+        for ($i = 0; $i < 10; $i++) {
+            $parent = $this->readParentTemplateName($current);
+            if (!$parent || isset($seen[strtolower($parent)])) {
+                break;
+            }
+            $seen[strtolower($parent)] = true;
+
+            $parentViews = template_path($parent, 'resources/views');
+            if (is_dir($parentViews)) {
+                $paths[] = $parentViews;
+            }
+            $current = $parent;
+        }
+
+        return $paths;
+    }
+
+    /**
+     * Read a template's parent_template from its config/config.php (no container
+     * / merged-config dependency, so it is safe during registration).
+     */
+    protected function readParentTemplateName(string $templateName): ?string
+    {
+        $file = template_path($templateName, 'config/config.php');
+        if (!is_file($file)) {
+            return null;
+        }
+        $data = include $file;
+
+        return (is_array($data) && !empty($data['parent_template'])) ? (string) $data['parent_template'] : null;
     }
 
     /**

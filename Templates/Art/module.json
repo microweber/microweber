@@ -1,0 +1,11 @@
+{
+    "name": "Art",
+    "alias": "art",
+    "description": "Art — a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Art\\Providers\\ArtTemplateServiceProvider"
+    ],
+    "files": []
+}
