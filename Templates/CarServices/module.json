@@ -1,0 +1,11 @@
+{
+    "name": "CarServices",
+    "alias": "carservices",
+    "description": "CarServices \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\CarServices\\Providers\\CarServicesTemplateServiceProvider"
+    ],
+    "files": []
+}

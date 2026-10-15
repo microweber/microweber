@@ -1,0 +1,11 @@
+{
+    "name": "Coffeeshop",
+    "alias": "coffeeshop",
+    "description": "Coffeeshop \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Coffeeshop\\Providers\\CoffeeshopTemplateServiceProvider"
+    ],
+    "files": []
+}

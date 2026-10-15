@@ -1,0 +1,11 @@
+{
+    "name": "Conference",
+    "alias": "conference",
+    "description": "Conference \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Conference\\Providers\\ConferenceTemplateServiceProvider"
+    ],
+    "files": []
+}

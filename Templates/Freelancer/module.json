@@ -1,0 +1,11 @@
+{
+    "name": "Freelancer",
+    "alias": "freelancer",
+    "description": "Freelancer \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Freelancer\\Providers\\FreelancerTemplateServiceProvider"
+    ],
+    "files": []
+}

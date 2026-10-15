@@ -1,0 +1,11 @@
+{
+    "name": "HomeRestoration",
+    "alias": "homerestoration",
+    "description": "HomeRestoration \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\HomeRestoration\\Providers\\HomeRestorationTemplateServiceProvider"
+    ],
+    "files": []
+}

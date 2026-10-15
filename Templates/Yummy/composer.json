@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/yummy",
+    "description": "Yummy \u2014 a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": [
+        "website",
+        "cms",
+        "template",
+        "yummy",
+        "child",
+        "base"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\Yummy\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/yummy/public"
+    },
+    "target-dir": "Yummy"
+}

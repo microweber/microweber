@@ -1,0 +1,11 @@
+{
+    "name": "OnlineLearning",
+    "alias": "onlinelearning",
+    "description": "OnlineLearning \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\OnlineLearning\\Providers\\OnlineLearningTemplateServiceProvider"
+    ],
+    "files": []
+}

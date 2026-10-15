@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/photographer",
+    "description": "Photographer \u2014 a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": [
+        "website",
+        "cms",
+        "template",
+        "photographer",
+        "child",
+        "base"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\Photographer\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/photographer/public"
+    },
+    "target-dir": "Photographer"
+}

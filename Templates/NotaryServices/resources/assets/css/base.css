@@ -1,0 +1,51 @@
+@media screen, print {
+	:root {
+		--mw-font-family-sans-serif: Jost,sans-serif;
+		--mw-primary-color: #bd9700;
+		--mw-link-color: #bd9700;
+		--mw-header-link-color: #ffffff;
+		--mw-header-link-hover-color: #ffe1c9;
+		--mw-footer-background-color: #333333;
+		--mw-footer-text-color: #ffffff;
+		--mw-footer-primary-color: #bd9700;
+		--mw-footer-link-color: #bd9700;
+		--mw-footer-button-background-color: #bd9700;
+		--mw-footer-button-background-hover-color: #bd9700;
+	}
+	.btn {
+		--mw-btn-background-color: #bd9700;
+		--mw-btn-background-hover-color: #bd9700;
+		--mw-btn-border-color: #bd9700;
+		--mw-btn-padding-inline: 55px;
+		--mw-btn-padding-block: 12px;
+		--mw-btn-border-size: 1px;
+		--mw-btn-border-radius: 1px;
+		--mw-btn-text-color: #ffffff;
+		--mw-btn-outline-background-hover-color: #bd9700;
+		--mw-btn-outline-text-color: #bd9700;
+		--mw-btn-outline-border-color: #bd9700;
+	}
+	#mw-element-1743505476315 {
+		text-align: left;
+		font-weight: 700;
+	}
+	#mw-element-1743505478245 {
+		text-align: left;
+		font-size: 28px;
+	}
+	#mw-element-1743505478261 {
+		font-weight: 700;
+	}
+	#mw-element-1743505478258 {
+		max-width: 100%;
+		width: 722px;
+		height: 955px;
+	}
+	#mw-element-1743505478265 {
+		font-weight: 700;
+	}
+	#mw-element-1743505478292 {
+		box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+		padding-top: 40px;
+	}
+}

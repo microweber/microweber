@@ -1,0 +1,67 @@
+@media screen, print {
+	:root {
+		--mw-primary-color: #8370ee;
+		--mw-link-color: #8370ee;
+		--mw-btn-border-radius: 54px;
+		--mw-btn-padding-block: 7px;
+		--mw-btn-padding-inline: 37px;
+		--mw-btn-background-color: #7a6ada;
+		--mw-btn-background-hover-color: #574cff;
+		--mw-btn-border-color: #ffffff;
+		--mw-btn-secondary-background-color: #7a6ad8;
+		--mw-btn-secondary-background-hover-color: #ffffff;
+		--mw-btn-secondary-text-hover-color: #7a6ad8;
+		--mw-btn-secondary-border-color: #7a6ad8;
+		--mw-btn-outline-background-color: #ffffff;
+		--mw-btn-outline-background-hover-color: #7a6ad8;
+		--mw-btn-outline-text-color: #7a6ad8;
+		--mw-btn-outline-border-color: #7a6ada;
+		--mw-body-font-family: 'Baloo 2', cursive;
+		--mw-heading-font-family: 'Baloo 2', cursive;
+		--mw-heading-font-weight: 700;
+		--mw-heading-font-size: 37px;
+		--mw-paragraph-font-weight: 400;
+		--mw-paragraph-font-size: 16px;
+	}
+	.module-custom-fields {
+		--mw-form-control-background: #8d7dde;
+		--mw-form-control-text-color: #ffffff;
+		--mw-form-control-border-color: #8d7dde;
+		--mw-form-control-placeholder-color: #ffffff;
+		--mw-form-control-border-radius: 25px;
+		--mw-form-control-padding-block: 13px;
+		--mw-form-label-color: #ffffff;
+		--mw-form-control-padding-inline: 22px;
+	}
+	.footer-background {
+		--mw-footer-background-color: #7a6ad8;
+		--mw-footer-text-color: #ffffff;
+		--mw-footer-primary-color: #ffffff;
+		--mw-footer-link-color: #ffffff;
+		--mw-footer-link-hover-color: #ffffff;
+		--mw-footer-button-background-color: #ffffff;
+		--mw-footer-button-background-hover-color: #ffffff;
+		--mw-footer-button-text-color: #000000;
+		--mw-footer-button-text-hover-color: #000000;
+	}
+	.header-background {
+		--mw-header-background-color: #7a6ada;
+		--mw-header-link-color: #ffffff;
+		--mw-header-link-hover-color: #ffffff;
+		--mw-header-link-background-hover-color: #7a6ada;
+		--mw-header-padding-block: 1px;
+	}
+	#mw-element-1753174316582 {
+		max-width: 100%;
+		font-weight: 700;
+	}
+	#mw-element-1753178326822 {
+		color: #7a6ad8;
+		font-weight: 700;
+	}
+	#mw-element-1753961285878 {
+		max-width: 100%;
+		color: #7a6ada;
+		font-weight: 700;
+	}
+}

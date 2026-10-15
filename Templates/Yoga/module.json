@@ -1,0 +1,11 @@
+{
+    "name": "Yoga",
+    "alias": "yoga",
+    "description": "Yoga \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Yoga\\Providers\\YogaTemplateServiceProvider"
+    ],
+    "files": []
+}

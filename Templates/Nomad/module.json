@@ -1,0 +1,11 @@
+{
+    "name": "Nomad",
+    "alias": "nomad",
+    "description": "Nomad \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Nomad\\Providers\\NomadTemplateServiceProvider"
+    ],
+    "files": []
+}

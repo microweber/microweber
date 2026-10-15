@@ -1,0 +1,11 @@
+{
+    "name": "ProteinStore",
+    "alias": "proteinstore",
+    "description": "ProteinStore \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\ProteinStore\\Providers\\ProteinStoreTemplateServiceProvider"
+    ],
+    "files": []
+}

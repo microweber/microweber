@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/carservices",
+    "description": "CarServices \u2014 a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": [
+        "website",
+        "cms",
+        "template",
+        "carservices",
+        "child",
+        "base"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\CarServices\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/carservices/public"
+    },
+    "target-dir": "CarServices"
+}

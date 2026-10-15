@@ -1,0 +1,11 @@
+{
+    "name": "MobileApp",
+    "alias": "mobileapp",
+    "description": "MobileApp \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\MobileApp\\Providers\\MobileAppTemplateServiceProvider"
+    ],
+    "files": []
+}

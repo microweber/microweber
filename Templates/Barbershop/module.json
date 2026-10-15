@@ -1,0 +1,11 @@
+{
+    "name": "Barbershop",
+    "alias": "barbershop",
+    "description": "Barbershop \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Barbershop\\Providers\\BarbershopTemplateServiceProvider"
+    ],
+    "files": []
+}

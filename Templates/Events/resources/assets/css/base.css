@@ -1,0 +1,121 @@
+@media screen, print {
+	:root {
+		--mw-font-family-sans-serif: Jost,sans-serif;
+		--mw-primary-color: #0dcaf0;
+		--mw-link-color: #0dcaf0;
+		--mw-header-background-color: #0e152e;
+		--mw-header-link-color: #ffffff;
+		--mw-header-link-hover-color: #0d6efd;
+		--mw-footer-primary-color: #000000;
+		--mw-footer-link-color: #000000;
+		--mw-footer-button-background-color: #0d6efd;
+		--mw-footer-button-background-hover-color: #0d6efd;
+		--mw-btn-padding-block: 9px;
+		--mw-btn-padding-inline: 29px;
+		--mw-btn-background-color: #0d6efd;
+		--mw-btn-background-hover-color: #0d6efd;
+		--mw-btn-border-color: #0d6efd;
+		--mw-btn-secondary-background-color: #273053;
+		--mw-btn-secondary-background-hover-color: #0dcaf0;
+		--mw-btn-secondary-border-color: #273053;
+		--mw-btn-outline-background-hover-color: #0dcaf0;
+		--mw-btn-outline-text-color: #0dcaf0;
+		--mw-btn-outline-border-color: #0dcaf0;
+	}
+
+	#mw-element-1744284407946 {
+		font-weight: 700;
+	}
+	#mw-element-1744284407945 {
+		font-weight: 700;
+	}
+	#mw-element-1744284407947 {
+		font-weight: 700;
+	}
+	#mw-element-1744284407948 {
+		font-weight: 700;
+	}
+	#mw-element-1744284407950 {
+		font-weight: 700;
+	}
+	#mw-element-1744284406165 {
+		font-weight: 700;
+	}
+	#mw-element-1744285378808 {
+		font-size: 32px;
+	}
+	#mw-element-1744285378810 {
+		font-size: 32px;
+	}
+	#mw-element-1744285378811 {
+		font-size: 32px;
+	}
+	#mw-element-1744285378823 {
+		font-weight: 700;
+	}
+	#mw-element-1744285378827 {
+		background-color: rgb(13, 202, 240);
+	}
+	#mw-element-1744285378809 {
+		background-color: rgb(13, 202, 240);
+	}
+	#mw-element-1744285378829 {
+		background-color: rgb(13, 202, 240);
+	}
+	#mw-element-1744287914754 {
+		font-weight: 700;
+	}
+	#mw-element-1744287914756 {
+		font-size: 17px;
+	}
+	#mw-1744287854129 {
+		font-weight: 700;
+	}
+	#mw-1744287854130 {
+		font-size: 17px;
+	}
+	#mw-element-1744287914763 {
+		max-width: 100%;
+	}
+	#mw-1744287854188 {
+		font-weight: 700;
+	}
+	#mw-1744287854189 {
+		font-size: 17px;
+	}
+	#mw-1744287854192 {
+		max-width: 100%;
+	}
+	#mw-element-1744287914768 {
+		font-weight: 700;
+	}
+	#mw-1744287854286 {
+		font-weight: 700;
+	}
+	#mw-1744287854289 {
+		max-width: 100%;
+		width: auto;
+		height: auto;
+	}
+	#mw-element-1744287914784 {
+		max-width: 100%;
+	}
+	#mw-element-1744287914785 {
+		max-width: 100%;
+	}
+	#mw-element-1744287914787 {
+		font-weight: 700;
+	}
+	#mw-1744287854476 {
+		font-weight: 700;
+	}
+	#mw-1744287854480 {
+		max-width: 100%;
+	}
+	#mw-1744287854481 {
+		max-width: 100%;
+	}
+	#mw-element-1744287914793 {
+		max-width: 100%;
+	}
+}

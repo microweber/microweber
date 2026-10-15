@@ -1,0 +1,11 @@
+{
+    "name": "Hospital",
+    "alias": "hospital",
+    "description": "Hospital \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Hospital\\Providers\\HospitalTemplateServiceProvider"
+    ],
+    "files": []
+}

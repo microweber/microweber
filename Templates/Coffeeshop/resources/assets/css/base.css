@@ -1,0 +1,53 @@
+@media screen, print {
+	:root {
+		--mw-font-family-sans-serif: Jost,sans-serif;
+		--mw-primary-color: #986b46;
+		--mw-link-color: #986b46;
+		--mw-header-link-color: #986b46;
+		--mw-header-link-hover-color: #986b46;
+		--mw-footer-background-color: #333333;
+		--mw-footer-text-color: #ffffff;
+		--mw-footer-primary-color: #805e00;
+		--mw-footer-link-color: #805e00;
+		--mw-footer-button-background-color: #805e00;
+		--mw-footer-button-background-hover-color: #805e00;
+	}
+	.btn {
+		--mw-btn-border-radius: 1px;
+		--mw-btn-background-color: #805e00;
+		--mw-btn-background-hover-color: #805e00;
+		--mw-btn-border-color: #805e00;
+	}
+	#mw-element-1743427509055 {
+		font-weight: 700;
+	}
+	#mw-element-1743427509056 {
+		font-size: 20px;
+	}
+	#mw-element-1743427509064 {
+		font-weight: 700;
+	}
+	#mw-element-1743427509065 {
+		font-weight: 700;
+	}
+	#mw-element-1743427509067 {
+		font-weight: 700;
+	}
+	#mw-element-1743427509069 {
+		font-weight: 700;
+	}
+	#mw-element-1743427509079 {
+		background-color: rgba(254,255,254,0.53);
+		color: #ffffff;
+		padding-top: 50px;
+		padding-right: 50px;
+		padding-bottom: 50px;
+		padding-left: 50px;
+	}
+	#mw-element-1743431099709 {
+		text-align: center;
+	}
+	#mw-element-1743431099710 {
+		text-align: center;
+	}
+}

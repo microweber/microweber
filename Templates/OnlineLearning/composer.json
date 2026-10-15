@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/onlinelearning",
+    "description": "OnlineLearning \u2014 a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": [
+        "website",
+        "cms",
+        "template",
+        "onlinelearning",
+        "child",
+        "base"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\OnlineLearning\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/onlinelearning/public"
+    },
+    "target-dir": "OnlineLearning"
+}

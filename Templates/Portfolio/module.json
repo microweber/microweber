@@ -1,0 +1,11 @@
+{
+    "name": "Portfolio",
+    "alias": "portfolio",
+    "description": "Portfolio \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Portfolio\\Providers\\PortfolioTemplateServiceProvider"
+    ],
+    "files": []
+}

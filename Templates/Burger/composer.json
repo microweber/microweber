@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/burger",
+    "description": "Burger \u2014 a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": [
+        "website",
+        "cms",
+        "template",
+        "burger",
+        "child",
+        "base"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\Burger\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/burger/public"
+    },
+    "target-dir": "Burger"
+}

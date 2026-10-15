@@ -1,0 +1,11 @@
+{
+    "name": "Yummy",
+    "alias": "yummy",
+    "description": "Yummy \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Yummy\\Providers\\YummyTemplateServiceProvider"
+    ],
+    "files": []
+}

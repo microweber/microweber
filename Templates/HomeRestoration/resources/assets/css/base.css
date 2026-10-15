@@ -1,0 +1,17 @@
+@media screen, print {
+	:root {
+		--mw-primary-color: #ff822e;
+		--mw-link-color: #ff822e;
+		--mw-btn-border-radius: 10px;
+		--mw-btn-padding-block: 16px;
+		--mw-btn-padding-inline: 32px;
+		--mw-btn-background-color: #ff822e;
+		--mw-btn-border-color: #ff822e;
+		--mw-btn-secondary-background-color: #ff822e;
+	}
+	.header-background {
+		--mw-header-background-color: #044382;
+		--mw-header-link-color: #ffffff;
+		--mw-header-link-hover-color: #ffffff;
+	}
+}

@@ -1,0 +1,172 @@
+@media screen, print {
+	:root {
+		--mw-font-family-sans-serif: Fira Sans;
+		--mw-body-font-family: Fira Sans, sans-serif;
+		--mw-letter-spacing: 1px;
+		--mw-paragraph-size: 20px;
+		--mw-paragraph-font-size: 20px;
+		--mw-font-weight: 300;
+		--mw-paragraph-font-weight: 300;
+		--mw-heading-font-weight: 400;
+		--mw-body-font-weight: 300;
+		--mw-primary-color: #c500b5;
+		--mw-link-color: #c500b5;
+		--mw-link-hover-color: #8d0081;
+		--mw-secondary: #8d0081;
+		--mw-background-color: #ffffff;
+		--mw-section-background-color: #ffffff;
+		--mw-body-color: #333333;
+		--mw-heading-color: #333333;
+		--mw-paragraph-color: #333333;
+		--mw-textDark: #333333;
+		--mw-textLight: #666666;
+		--mw-body-font-size: 20px;
+		--mw-heading-font-size: 36px;
+		--mw-links-font-size: 20px;
+		--mw-header-background-color: #000000;
+		--mw-header-link-color: #ffffff;
+		--mw-header-link-hover-color: #c400b4;
+		--mw-header-link-background-hover-color: rgba(196, 0, 180, 0.1);
+		--mw-header-padding-block: 20px;
+		--mw-header-font-size: 16px;
+		--mw-top-header-background-color: #f8f8f8;
+		--mw-top-header-primary-color: #c500b5;
+		--mw-top-header-link-color: #c500b5;
+		--mw-top-header-link-hover-color: #8d0081;
+		--mw-top-header-button-background-color: #c500b5;
+		--mw-top-header-button-background-hover-color: #c500b5;
+		--mw-top-header-button-text-color: #ffffff;
+		--mw-top-header-button-text-hover-color: #ffffff;
+		--mw-footer-background-color: #000000;
+		--mw-footer-text-color: #ffffff;
+		--mw-footer-primary-color: #c500b5;
+		--mw-footer-link-color: #c500b5;
+		--mw-footer-hover-link-color: #8d0081;
+		--mw-footer-button-background-color: #c500b5;
+		--mw-footer-button-background-hover-color: #ffffff;
+		--mw-footer-button-text-color: #ffffff;
+		--mw-footer-button-text-hover-color: #c500b5;
+		--mw-footer-font-size: 16px;
+		--mw-btn-background-color: #c500b5;
+		--mw-btn-background-hover-color: #64015c;
+		--mw-btn-text-color: #ffffff;
+		--mw-btn-text-hover-color: #ffffff;
+		--mw-btn-border-color: #c500b5;
+		--mw-btn-border-hover-color: #64015c;
+		--mw-btn-outline-border-color: #c500b5;
+		--mw-btn-outline-background-color: transparent;
+		--mw-btn-outline-background-hover-color: #c500b5;
+		--mw-btn-outline-text-color: #c500b5;
+		--mw-btn-outline-text-hover-color: #ffffff;
+		--mw-btn-border-radius: 1px;
+		--mw-btn-padding-block: 12px;
+		--mw-btn-padding-inline: 45px;
+		--mw-btn-font-size: 16px;
+		--mw-btn-font-weight: 400;
+		--mw-btn-letter-spacing: 1px;
+		--mw-input-border-color: #dddddd;
+		--mw-input-border-focus-color: #c500b5;
+		--mw-input-background-color: #ffffff;
+		--mw-input-text-color: #333333;
+		--mw-input-placeholder-color: #999999;
+		--mw-input-border-radius: 1px;
+		--mw-input-padding: 12px 15px;
+		--mw-card-background-color: #ffffff;
+		--mw-card-border-color: #eeeeee;
+		--mw-card-shadow: 0 2px 10px rgba(0,0,0,0.1);
+		--mw-border-radius: 1px;
+		--mw-box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+	}
+	#mw-element-1754039062142 {
+		font-weight: 300;
+		font-size: 64px;
+	}
+	#mw-element-1754039063951 {
+		font-weight: 700;
+		font-size: 72px;
+		text-align: center;
+	}
+	#mw-element-1754039063952 {
+		text-align: center;
+	}
+	.header-background {
+		--mw-header-padding-block: 1px;
+	}
+	#mw-element-1754039062279 {
+		font-size: 62px;
+		font-weight: 700;
+	}
+	#mw-element-1754041393730 {
+		max-width: 100%;
+		min-height: 30px;
+	}
+	#mw-element-1754041390589 {
+		font-weight: 700;
+	}
+	#mw-element-1754041390587 {
+		color: #c500b5;
+		font-weight: 700;
+	}
+	#mw-element-1754041390662 {
+		font-weight: 700;
+	}
+	#mw-element-1754041390660 {
+		color: #c500b5;
+	}
+	#mw-element-1754041393750 {
+		text-align: center;
+	}
+	#mw-element-1754041390724 {
+		font-weight: 700;
+	}
+	#mw-element-1754042558408 {
+		font-weight: 700;
+	}
+	#mw-element-1754042558596 {
+		font-weight: 700;
+	}
+	#mw-element-1754042558670 {
+		font-weight: 700;
+	}
+	#mw-element-1754042561062 {
+		font-size: 20px;
+	}
+	#mw-element-1754042558875 {
+		font-weight: 700;
+	}
+	#mw-element-1754047170618 {
+		font-size: 82px;
+	}
+	#mw-element-1754046270526 {
+		max-width: 100%;
+	}
+	#mw-element-1754047571645 {
+		text-align: left;
+		color: #ffffff;
+	}
+	#mw-element-1754046275791 {
+		text-align: left;
+	}
+	#mw-element-1754047781010 {
+		text-align: left;
+	}
+	#mw-element-1754048611071 {
+		text-align: left;
+	}
+	#mw-element-1754048611072 {
+		text-align: left;
+		max-width: 100%;
+	}
+	#mw-element-1754048489643 {
+		font-weight: 700;
+	}
+	#mw-element-1754048489651 {
+		font-weight: 700;
+	}
+	#mw-element-1754048489663 {
+		font-weight: 700;
+	}
+	#mw-element-1754048611140 {
+		font-weight: 700;
+	}
+}

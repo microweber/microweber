@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/fitpower",
+    "description": "Fitpower \u2014 a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": [
+        "website",
+        "cms",
+        "template",
+        "fitpower",
+        "child",
+        "base"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\Fitpower\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/fitpower/public"
+    },
+    "target-dir": "Fitpower"
+}

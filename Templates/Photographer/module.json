@@ -1,0 +1,11 @@
+{
+    "name": "Photographer",
+    "alias": "photographer",
+    "description": "Photographer \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Photographer\\Providers\\PhotographerTemplateServiceProvider"
+    ],
+    "files": []
+}

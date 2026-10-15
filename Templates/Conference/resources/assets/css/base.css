@@ -1,0 +1,110 @@
+@media screen, print {
+	:root {
+		--mw-font-family-sans-serif: Jost,sans-serif;
+		--mw-primary-color: #640a7b;
+		--mw-link-color: #640a7b;
+		--mw-header-background-color: #640a7b;
+		--mw-header-link-color: #ffffff;
+		--mw-header-link-hover-color: #ffffff;
+		--mw-footer-background-color: #000000;
+		--mw-footer-text-color: #ffffff;
+		--mw-footer-primary-color: #640a7b;
+		--mw-footer-link-color: #640a7b;
+		--mw-footer-button-background-color: #640a7b;
+		--mw-footer-button-background-hover-color: #4c0a5d;
+		--mw-paragraph-size: 20px;
+		--mw-font-weight: 300;
+		--mw-btn-border-radius: 1px;
+		--mw-btn-padding-block: 23px;
+		--mw-btn-padding-inline: 43px;
+		--mw-btn-background-color: #640a7b;
+		--mw-btn-background-hover-color: #4a0a5a;
+		--mw-btn-border-color: #640a7b;
+		--mw-btn-outline-background-hover-color: #640a7b;
+		--mw-btn-outline-text-color: #640a7b;
+		--mw-btn-outline-border-color: #640a7b;
+		--mw-btn-outline-text-hover-color: #ffffff;
+	}
+
+	#mw-element-1743085644418 {
+		text-align: center;
+	}
+	#mw-element-1743085644420 {
+		text-align: left;
+		font-weight: 700;
+		font-size: 82px;
+	}
+	#mw-element-1743085647381 {
+		text-align: left;
+	}
+	#mw-element-1743085644422 {
+		font-size: 20px;
+	}
+	#mw-element-1743085647386 {
+		text-align: left;
+	}
+	#mw-element-1743086726836 {
+		color: #640a7b;
+	}
+	#mw-element-1743086726843 {
+		max-width: 100%;
+	}
+	#mw-element-1743087714374 {
+		text-align: center;
+	}
+	#mw-element-1743087714364 {
+		text-align: center;
+	}
+	#mw-element-1743087714360 {
+		text-align: center;
+	}
+	#mw-element-1743087714368 {
+		text-align: center;
+	}
+	#mw-element-1743087714363 {
+		text-align: center;
+	}
+	#mw-element-1743087932047 {
+		text-align: center;
+	}
+	#mw-element-1743088964843 {
+		max-width: 100%;
+	}
+	#mw-element-1743088964851 {
+		max-width: 100%;
+	}
+	#mw-element-1743088962937 {
+		font-size: 24px;
+	}
+	#mw-element-1743088962948 {
+		font-size: 24px;
+	}
+	#mw-element-1743089512521 {
+		font-weight: 700;
+	}
+	#mw-element-1743090391417 {
+		text-align: center;
+	}
+	#mw-element-1743090391414 {
+		text-align: center;
+		font-weight: 700;
+		color: #640a7b;
+	}
+	#mw-element-1743086726847 {
+		font-weight: 700;
+	}
+	#mw-element-1743090391419 {
+		background-image: url('{SITE_URL}storage/ablo-heimplatz-zodcbkeohk8-unsplashjpg.jpg');
+	}
+	#mw-element-1743090391420 {
+		background-image: url('{SITE_URL}storage/lexander-popov-jfomm1mton4-unsplash-1jpg.jpg');
+	}
+	#mw-element-1743090391421 {
+		background-image: url('{SITE_URL}storage/lexander-popov-f3e6yno3y98-unsplashjpg.jpg');
+	}
+	#mw-element-1743090391449 {
+		max-width: 100%;
+		width: 176px;
+		height: auto;
+	}
+}

@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/conference",
+    "description": "Conference \u2014 a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": [
+        "website",
+        "cms",
+        "template",
+        "conference",
+        "child",
+        "base"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\Conference\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/conference/public"
+    },
+    "target-dir": "Conference"
+}

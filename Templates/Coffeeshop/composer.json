@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/coffeeshop",
+    "description": "Coffeeshop \u2014 a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": [
+        "website",
+        "cms",
+        "template",
+        "coffeeshop",
+        "child",
+        "base"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\Coffeeshop\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/coffeeshop/public"
+    },
+    "target-dir": "Coffeeshop"
+}

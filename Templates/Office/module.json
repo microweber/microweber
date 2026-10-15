@@ -1,0 +1,11 @@
+{
+    "name": "Office",
+    "alias": "office",
+    "description": "Office \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Office\\Providers\\OfficeTemplateServiceProvider"
+    ],
+    "files": []
+}

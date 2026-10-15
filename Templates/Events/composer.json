@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/events",
+    "description": "Events \u2014 a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": [
+        "website",
+        "cms",
+        "template",
+        "events",
+        "child",
+        "base"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\Events\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/events/public"
+    },
+    "target-dir": "Events"
+}

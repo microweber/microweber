@@ -1,0 +1,159 @@
+@media screen, print {
+	:root {
+		--mw-header-background-color: #000000;
+		--mw-header-padding-block: 30px;
+		--mw-header-link-color: #ffffff;
+		--mw-header-link-hover-color: #3e98d4;
+		--mw-primary-color: #5100ff;
+		--mw-link-color: #5100ff;
+		--mw-font-family-sans-serif: Jost, sans-serif;
+		--mw-footer-background-color: #000000;
+		--mw-footer-text-color: #ffffff;
+		--mw-footer-primary-color: #3b9cdc;
+		--mw-footer-link-color: #5100ff;
+		--mw-footer-button-background-color: #5100ff;
+		--mw-footer-button-background-hover-color: #000000;
+	}
+	#mw-element-1712826854462 {
+		text-align: center;
+	}
+	#mw-element-1712826854467 {
+		font-size: 20px;
+		text-align: center;
+	}
+	#mw-element-1712826854935 {
+		font-size: 20px;
+	}
+	#mw-element-1712826855446 {
+		font-size: 20px;
+		text-align: left;
+	}
+	#mw-element-1712831988627 {
+		background-color: #000000;
+	}
+	#mw-element-1712831988658 {
+		text-align: left;
+	}
+	#mw-element-1712831988663 {
+		background-color: rgba(62,152,213,0.66);
+	}
+	#mw-element-1712831988802 {
+		background-color: rgba(121,201,255,0.44);
+	}
+	#mw-element-1712831989110 {
+		background-color: #000000;
+	}
+	#mw-element-1712831989141 {
+		color: #a85656;
+	}
+	#mw-element-1712831820416 {
+		max-width: 100%;
+	}
+	#mw-1712831989151 {
+		background-color: #000000;
+	}
+	#mw-element-1712834114704 {
+		background-color: rgba(62,152,212,0.85);
+	}
+	#mw-element-1712834114728 {
+		background-color: rgba(0,0,0,0.84);
+	}
+	#mw-element-1712834114814 {
+		background-color: rgba(62,152,212,0.83);
+	}
+	#mw-element-1712834114848 {
+		background-color: rgba(0,0,0,0.85);
+	}
+	#mw-element-1712834114982 {
+		color: #3b9cdc;
+	}
+	#mw-element-1712836916691 {
+		background-color: rgba(0,0,0,0.63);
+	}
+	#mw-element-1712836916939 {
+		background-color: rgba(59,156,220,0.61);
+	}
+	#mw-element-1712836917159 {
+		background-color: rgba(59,156,220,0.61);
+	}
+	#mw-element-1712836917207 {
+		background-color: rgba(0,0,0,0.74);
+	}
+	#mw-element-1712838570494 {
+		background-color: rgba(0,0,0,0.64);
+	}
+	#mw-element-1712838570495 {
+		background-color: rgba(59,156,220,0.5);
+	}
+	#mw-element-1712838570496 {
+		background-color: rgba(0,0,0,0.54);
+	}
+	#mw-element-1712838570497 {
+		background-color: rgba(59,156,220,0.62);
+	}
+	.btn {
+		--mw-btn-border-radius: 1px;
+		--mw-btn-padding-block: 12px;
+		--mw-btn-background-color: #5100ff;
+		--mw-btn-border-color: #3b9cdc;
+		--mw-btn-background-hover-color: rgba(231,111,81,0);
+	}
+	.module-custom-fields {
+		--mw-form-control-background: #5100ff;
+		--mw-form-control-placeholder-color: #ffffff;
+	}
+	#mw-element-1712840618163 {
+		max-width: 100%;
+	}
+	#mw-element-1712826855418 {
+		text-align: center;
+	}
+	#mw-element-1712915776286 {
+		font-size: 32px;
+	}
+	#mw-element-1712915776382 {
+		max-width: 100%;
+	}
+	#mw-element-1712915776405 {
+		font-size: NaNpx;
+	}
+	#mw-element-1712915776418 {
+		line-height: 2;
+	}
+	#mw-element-1712915776416 {
+		line-height: 2;
+	}
+	#mw-element-1712915776415 {
+		line-height: 2;
+	}
+	#mw-element-1712915776414 {
+		line-height: 2;
+	}
+	#mw-element-1712915776413 {
+		line-height: 2;
+	}
+	#mw-element-1712915776412 {
+		line-height: 2;
+	}
+	#mw-element-1712915776428 {
+		line-height: 2;
+	}
+	#mw-element-1712915776442 {
+		line-height: 2;
+	}
+	#mw-element-1712915776436 {
+		line-height: 2;
+	}
+	#mw-element-1713169906048 {
+		font-weight: 700;
+	}
+	#mw-element-1713169906049 {
+		font-weight: 700;
+	}
+	#mw-element-1713171933486 {
+		color: #5100ff;
+	}
+	#mw-element-1713171664888 {
+		color: #ffffff;
+	}
+}

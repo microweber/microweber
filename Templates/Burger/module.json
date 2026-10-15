@@ -1,0 +1,11 @@
+{
+    "name": "Burger",
+    "alias": "burger",
+    "description": "Burger \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Burger\\Providers\\BurgerTemplateServiceProvider"
+    ],
+    "files": []
+}

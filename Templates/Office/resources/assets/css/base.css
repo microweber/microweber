@@ -1,0 +1,101 @@
+@media screen, print {
+	:root {
+		--mw-font-family-sans-serif: Jost, sans-serif;
+		--mw-primary-color: #007bff;
+		--mw-link-color: #007bff;
+		--mw-header-link-color: #000000;
+		--mw-header-link-hover-color: #000000;
+		--mw-background-color: #f9f9f9;
+		--mw-section-background-color: #f9f9f9;
+		--mw-footer-background-color: #303668;
+		--mw-footer-text-color: #ffffff;
+		--mw-footer-primary-color: #29a744;
+		--mw-footer-link-color: #29a744;
+		--mw-footer-button-background-color: #29a744;
+		--mw-footer-button-background-hover-color: #29a744;
+	}
+	.btn {
+		--mw-btn-background-color: #007bff;
+		--mw-btn-background-hover-color: #007bff;
+		--mw-btn-border-color: #007bff;
+		--mw-btn-border-radius: 100px;
+		--mw-btn-border-size: 1px;
+		--mw-btn-padding-block: 10px;
+		--mw-btn-padding-inline: 44px;
+		--mw-btn-font-size: 20px;
+		--mw-btn-secondary-background-color: #29a744;
+		--mw-btn-secondary-background-hover-color: #29a744;
+		--mw-btn-secondary-border-color: #29a744;
+	}
+	#element_1649314830575 {
+		font-weight: 700;
+	}
+	#element_1649314830581 {
+		font-weight: 700;
+		color: #2b2f62;
+	}
+	#element_1649314830580 {
+		font-weight: 700;
+		color: #2b2f62;
+	}
+	#element_1649314830579 {
+		font-weight: 700;
+		color: #2b2f62;
+	}
+	#mw-element-1726130771467 {
+		font-weight: 700;
+	}
+	#mw-element-1726130771841 {
+		font-size: 20px;
+	}
+	#mw-element-1726131320472 {
+		font-weight: 700;
+		color: #2b2f62;
+	}
+	#mw-element-1726131320481 {
+		font-weight: 700;
+		color: #007bff;
+	}
+	#mw-element-1726131320484 {
+		font-size: 20px;
+	}
+	#mw-element-1726131614189 {
+		text-align: start;
+	}
+	#mw-element-1726131614190 {
+		text-align: start;
+	}
+	#mw-element-1726131614163 {
+		border-style: dashed;
+		border-width: 6px;
+		border-color: #007bff;
+		border-right-style: none;
+		border-right-width: 8px;
+		border-radius: 30px 30px 30px 30px;
+		border-position: all;
+		border-left-width: 7px;
+		border-left-style: none;
+	}
+	.module-custom-fields {
+		--mw-form-control-border-radius: 46px;
+		--mw-form-control-border-size: 1px;
+		--mw-form-control-padding-inline: 28px;
+		--mw-form-control-padding-block: 10px;
+		--mw-form-control-placeholder-color: #6a6a6a;
+		--mw-form-control-border-color: #2b2f62;
+	}
+	#mw-element-1726131863387 {
+		font-weight: 700;
+		color: #2b2f62;
+	}
+	#mw-element-1726131863388 {
+		font-size: 20px;
+	}
+	#mw-element-1726131863396 {
+		font-weight: 700;
+		color: #2b2f62;
+	}
+	#mw-element-1726131614154 {
+		font-weight: 700;
+	}
+}

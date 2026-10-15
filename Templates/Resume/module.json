@@ -1,0 +1,11 @@
+{
+    "name": "Resume",
+    "alias": "resume",
+    "description": "Resume \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Resume\\Providers\\ResumeTemplateServiceProvider"
+    ],
+    "files": []
+}

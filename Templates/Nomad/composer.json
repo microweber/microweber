@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/nomad",
+    "description": "Nomad \u2014 a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": [
+        "website",
+        "cms",
+        "template",
+        "nomad",
+        "child",
+        "base"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\Nomad\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/nomad/public"
+    },
+    "target-dir": "Nomad"
+}

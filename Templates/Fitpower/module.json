@@ -1,0 +1,11 @@
+{
+    "name": "Fitpower",
+    "alias": "fitpower",
+    "description": "Fitpower \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Fitpower\\Providers\\FitpowerTemplateServiceProvider"
+    ],
+    "files": []
+}

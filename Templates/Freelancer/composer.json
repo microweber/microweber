@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/freelancer",
+    "description": "Freelancer \u2014 a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": [
+        "website",
+        "cms",
+        "template",
+        "freelancer",
+        "child",
+        "base"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\Freelancer\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/freelancer/public"
+    },
+    "target-dir": "Freelancer"
+}

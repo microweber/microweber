@@ -1,0 +1,11 @@
+{
+    "name": "WebDesigner",
+    "alias": "webdesigner",
+    "description": "WebDesigner \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\WebDesigner\\Providers\\WebDesignerTemplateServiceProvider"
+    ],
+    "files": []
+}

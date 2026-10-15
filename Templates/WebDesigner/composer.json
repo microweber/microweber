@@ -1,0 +1,28 @@
+{
+    "name": "microweber-templates/webdesigner",
+    "description": "WebDesigner \u2014 a thin child of the Base template.",
+    "type": "microweber-template",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "keywords": [
+        "website",
+        "cms",
+        "template",
+        "webdesigner",
+        "child",
+        "base"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Templates\\WebDesigner\\": ""
+        }
+    },
+    "extra": {
+        "preview_url": "https://templates.microweber.com/webdesigner/public"
+    },
+    "target-dir": "WebDesigner"
+}

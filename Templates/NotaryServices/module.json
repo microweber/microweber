@@ -1,0 +1,11 @@
+{
+    "name": "NotaryServices",
+    "alias": "notaryservices",
+    "description": "NotaryServices \u2014 a thin child of the Base template.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\NotaryServices\\Providers\\NotaryServicesTemplateServiceProvider"
+    ],
+    "files": []
+}
