@@ -232,6 +232,13 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
             return $statuses;
         }
 
+        // Resilience: if the status table isn't present (fresh/partial install, or
+        // an install-order gap under the per-site database activator), fall back
+        // to the on-disk manifest defaults instead of 500-ing.
+        if (!$this->statusTableExists()) {
+            return $this->manifestStatuses();
+        }
+
 
         $modules = SystemModules::all();
 
@@ -377,6 +384,51 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
      * with its manifest "active" flag (default enabled) — matching a fresh
      * file-activator install. Returns the number of modules seeded.
      */
+    /**
+     * Whether the status table physically exists (guards a fresh/partial install
+     * where the activator runs before its table is created).
+     */
+    protected function statusTableExists(): bool
+    {
+        if (empty($this->getTableName())) {
+            return false;
+        }
+        try {
+            return \Illuminate\Support\Facades\Schema::connection($this->connection->getName())
+                ->hasTable($this->getTableName());
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
+    /**
+     * On-disk default statuses from the module manifests (name => active flag,
+     * default enabled). Safe fallback when the status table is unavailable.
+     *
+     * @return array<string, bool>
+     */
+    protected function manifestStatuses(): array
+    {
+        $statuses = [];
+        $path = $this->app['config']->get($this->configPrefix . '.paths.modules');
+        if (!$path || !is_dir($path)) {
+            return $statuses;
+        }
+        $files = new Filesystem();
+        $manifests = $files->glob(
+            rtrim($path, '/\\') . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'module.json'
+        );
+        foreach ((array) $manifests as $manifest) {
+            $json = Json::make($manifest);
+            $name = $json->get('name');
+            if ($name) {
+                $statuses[$name] = (bool) $json->get('active', 1);
+            }
+        }
+
+        return $statuses;
+    }
+
     protected function seedFromManifests(): int
     {
         if (empty($this->getTableName())) {

@@ -143,6 +143,14 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
             return $statuses;
         }
 
+        // Resilience: if the status table isn't present yet (a fresh/partial
+        // install, or an install-order gap under the per-site database activator),
+        // don't 500 — fall back to the on-disk manifest defaults so templates
+        // still load. The table is normally created by its migration.
+        if (!$this->statusTableExists()) {
+            return $this->manifestStatuses();
+        }
+
         $templates = SystemTemplates::all();
 
         foreach ($templates as $template) {
@@ -248,6 +256,52 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
      * exists, otherwise uses the manifest "active" flag (default enabled).
      * Returns the number of templates seeded.
      */
+    /**
+     * Whether the status table physically exists (guards against a fresh/partial
+     * install where the activator runs before its table is created).
+     */
+    protected function statusTableExists(): bool
+    {
+        if (empty($this->getTableName())) {
+            return false;
+        }
+        try {
+            return \Illuminate\Support\Facades\Schema::connection($this->connection->getName())
+                ->hasTable($this->getTableName());
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
+    /**
+     * On-disk default statuses read straight from the template manifests
+     * (name => active flag, default enabled). Used as a safe fallback when the
+     * status table is unavailable so templates still render.
+     *
+     * @return array<string, bool>
+     */
+    protected function manifestStatuses(): array
+    {
+        $statuses = [];
+        $path = $this->app['config']->get($this->configPrefix . '.paths.modules');
+        if (!$path || !is_dir($path)) {
+            return $statuses;
+        }
+        $files = new Filesystem();
+        $manifests = $files->glob(
+            rtrim($path, '/\\') . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'module.json'
+        );
+        foreach ((array) $manifests as $manifest) {
+            $json = Json::make($manifest);
+            $name = $json->get('name');
+            if ($name) {
+                $statuses[$name] = (bool) $json->get('active', 1);
+            }
+        }
+
+        return $statuses;
+    }
+
     protected function seedFromManifests(): int
     {
         if (empty($this->getTableName())) {
