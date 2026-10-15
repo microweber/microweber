@@ -43,10 +43,10 @@ class MultilanguageSettings extends LiveEditModuleSettings
 
                                 ]),
 
-                                Toggle::make('options.multilanguage.is_active')
+                                Toggle::make('options.is_active')
                                     ->label('Multilanguage is active')
                                     ->helperText('Enable or disable multilanguage functionality for your website')
-                                    ->default(fn () => (bool) $this->getOption('multilanguage.is_active', false))
+                                    ->default(fn () => (bool) $this->getOption('is_active', false))
                                     ->live(),
                             ]),
 
