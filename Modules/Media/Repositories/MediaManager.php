@@ -534,11 +534,33 @@ class MediaManager
                             $newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
                             $newfile = $move_uploaded_files_dir . $newfile;
 
-                            if (!is_file($newfile)) {
-                                MicroweberHttp::url($data['src'])->download($newfile);
-                            }
-                            if (is_file($newfile)) {
-                                $url2dir = UrlManager::to_path($newfile);
+                            if (function_exists('userfiles_disk_is_remote') && userfiles_disk_is_remote()) {
+                                // Remote userfiles (S3): fetch to a temp file and
+                                // push the external image to the media disk under
+                                // the per-site downloaded/ path, then use the bucket
+                                // URL. Best-effort — never break the add-media flow.
+                                $tmp = tempnam(sys_get_temp_dir(), 'mwdl');
+                                try {
+                                    MicroweberHttp::url($data['src'])->download($tmp);
+                                    if (is_file($tmp) && filesize($tmp) > 0) {
+                                        $rel = str_replace('\\', '/', rtrim(media_base_path_relative(), '/')
+                                            . '/downloaded/' . $s['rel_type'] . '/external/'
+                                            . ($dl_host_host_dir ?: 'ext') . '/' . basename($newfile));
+                                        $st = \Illuminate\Support\Facades\Storage::disk(userfiles_disk());
+                                        $st->put($rel, file_get_contents($tmp), ['visibility' => 'public']);
+                                        $data['src'] = $st->url($rel);
+                                    }
+                                } catch (\Throwable $e) {
+                                    // keep the original external src on failure
+                                }
+                                @unlink($tmp);
+                            } else {
+                                if (!is_file($newfile)) {
+                                    MicroweberHttp::url($data['src'])->download($newfile);
+                                }
+                                if (is_file($newfile)) {
+                                    $url2dir = UrlManager::to_path($newfile);
+                                }
                             }
                         }
                     }
