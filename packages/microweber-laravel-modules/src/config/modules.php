@@ -285,13 +285,19 @@ return [
         'database' => [
             'class' => \MicroweberPackages\LaravelModules\Activators\LaravelModulesDatabaseActivator::class,
             'table' => 'system_modules',
-            'cache-key' => 'modules_activator.installed',
+            // Distinct from the file activator's key so switching MODULES_ACTIVATOR
+            // between file and database never serves the other's stale cache.
+            'cache-key' => 'modules_db_activator.installed',
             'cache-lifetime' => 604800,
         ],
     ],
 
-    // Per-site isolation is handled via the per-site statuses-file above (the
-    // file activator is battle-tested). An explicit MODULES_ACTIVATOR=database
-    // can opt into DB storage once that activator's boot crash is fixed.
-    'activator' => env('MODULES_ACTIVATOR', 'file'),
+    // On a multisite domain, store module enable/disable state in the per-site
+    // database (system_modules) — no local-disk writes, isolated per site. The
+    // database activator self-seeds from the module.json manifests (preserving
+    // any current file-activator state) on first use. Single-site keeps the file
+    // activator (+ per-site statuses-file above as a fallback if forced to file).
+    // An explicit MODULES_ACTIVATOR env always wins.
+    'activator' => env('MODULES_ACTIVATOR')
+        ?: ((function_exists('mw_multisite_active') && mw_multisite_active()) ? 'database' : 'file'),
 ];

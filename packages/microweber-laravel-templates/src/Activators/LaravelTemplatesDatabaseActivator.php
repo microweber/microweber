@@ -150,10 +150,9 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
         }
 
         if (empty($statuses)) {
-            $all_enabled_templates = $this->scanJson();
-            $this->syncTemplate($all_enabled_templates);
+            $seeded = $this->seedFromManifests();
 
-            if (count($all_enabled_templates) > 0) {
+            if ($seeded > 0) {
                 return $this->readStatus();
             }
         }
@@ -239,40 +238,72 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
      *
      * @return array
      */
-    public function scanJson(): array
+    /**
+     * Seed system_templates from the on-disk template manifests when the table
+     * is empty. Reads manifests DIRECTLY — no template factory, no Module
+     * objects, no ActivatorInterface resolution — so it is safe to run from this
+     * activator's own constructor. (The previous version called an unbound
+     * 'templates.factory', which crashed boot, and seeded every template as
+     * status=0.) Preserves the current file-activator state when a statuses file
+     * exists, otherwise uses the manifest "active" flag (default enabled).
+     * Returns the number of templates seeded.
+     */
+    protected function seedFromManifests(): int
     {
-        $templates = [];
-        $paths = $this->app['config']->get($this->configPrefix . '.paths', []);
+        if (empty($this->getTableName())) {
+            return 0;
+        }
+
+        $templatesPath = $this->app['config']->get($this->configPrefix . '.paths.modules');
+        if (!$templatesPath || !is_dir($templatesPath)) {
+            return 0;
+        }
 
         $files = new Filesystem();
+        $manifests = $files->glob(
+            rtrim($templatesPath, '/\\') . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'module.json'
+        );
+        if (!is_array($manifests) || empty($manifests)) {
+            return 0;
+        }
 
-        foreach ($paths as $path) {
-            $manifests = $files->glob("{$path}/*/module.json");
-
-            is_array($manifests) || $manifests = [];
-
-            foreach ($manifests as $manifest) {
-                $name = Json::make($manifest)->get('name');
-
-                if ($name) {
-                    $templates[$name] = $this->app->make('templates.factory')->make(
-                        $name,
-                        dirname($manifest)
-                    );
-                }
+        $fileStatuses = [];
+        $statusesFile = $this->app['config']->get($this->configPrefix . '.activators.file.statuses-file');
+        if ($statusesFile && is_file($statusesFile)) {
+            $decoded = json_decode((string) file_get_contents($statusesFile), true);
+            if (is_array($decoded)) {
+                $fileStatuses = $decoded;
             }
         }
 
-        if ($templates) {
-            uasort($templates, function (Module $a, Module $b) {
-                if ($a->get('priority') === $b->get('priority')) {
-                    return 0;
-                }
+        $count = 0;
+        foreach ($manifests as $manifest) {
+            $json = Json::make($manifest);
+            $name = $json->get('name');
+            if (!$name) {
+                continue;
+            }
 
-                return $a->get('priority') > $b->get('priority') ? 1 : -1;
-            });
+            $status = array_key_exists($name, $fileStatuses)
+                ? (bool) $fileStatuses[$name]
+                : (bool) $json->get('active', 1);
+
+            $row = SystemTemplates::getByName($name) ?: new SystemTemplates();
+            $row->fill([
+                'name' => $name,
+                'alias' => (string) ($json->get('alias') ?: strtolower($name)),
+                'description' => (string) $json->get('description', ''),
+                'path' => dirname($manifest),
+                'version' => (string) $json->get('version', 'dev'),
+                'type' => (string) $json->get('type', '1'),
+                'priority' => (string) $json->get('priority', '1024'),
+                'sort' => (string) $json->get('order', '0'),
+                'status' => (int) $status,
+            ]);
+            $row->save();
+            $count++;
         }
 
-        return $templates;
+        return $count;
     }
 }

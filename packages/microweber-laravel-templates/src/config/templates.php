@@ -228,11 +228,15 @@ return [
         'database' => [
             'class' => \MicroweberPackages\LaravelTemplates\Activators\LaravelTemplatesDatabaseActivator::class,
             'table' => 'system_templates',
-            'cache-key' => 'templates_activator.installed',
+            // Distinct from the file activator's key (see modules.php).
+            'cache-key' => 'templates_db_activator.installed',
             'cache-lifetime' => 604800,
         ],
     ],
 
-    // Per-site isolation is handled via the per-site statuses-file above.
-    'activator' => env('TEMPLATES_ACTIVATOR', 'file')
+    // On a multisite domain, store template enable/disable state in the per-site
+    // database (system_templates). Single-site keeps the file activator. An
+    // explicit TEMPLATES_ACTIVATOR env always wins.
+    'activator' => env('TEMPLATES_ACTIVATOR')
+        ?: ((function_exists('mw_multisite_active') && mw_multisite_active()) ? 'database' : 'file')
 ];

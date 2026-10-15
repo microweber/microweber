@@ -240,11 +240,9 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
         }
 
         if (empty($statuses)) {
-            $all_enabled_modules = $this->scanJson();
+            $seeded = $this->seedFromManifests();
 
-            $this->syncModule($all_enabled_modules);
-
-            if (count($all_enabled_modules) > 0) {
+            if ($seeded > 0) {
                 return $this->readStatus();
             }
         }
@@ -363,40 +361,79 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
      *
      * @return array
      */
-    public function scanJson(): array
+    /**
+     * Seed system_modules from the on-disk module.json manifests when the table
+     * is empty (fresh site / first switch to the database activator).
+     *
+     * Reads the manifests DIRECTLY — no module factory, no Module objects, no
+     * ActivatorInterface resolution — so it is safe to run from this activator's
+     * own constructor. (Building a Nwidart Module here would resolve
+     * ActivatorInterface, which is mid-construction → a circular dependency.
+     * The previous implementation also called an unbound 'modules.factory',
+     * which crashed boot outright.)
+     *
+     * Each module seeds with the current file-activator status when a statuses
+     * file exists (so switching activators preserves the enabled set), otherwise
+     * with its manifest "active" flag (default enabled) — matching a fresh
+     * file-activator install. Returns the number of modules seeded.
+     */
+    protected function seedFromManifests(): int
     {
-        $modules = [];
-        $paths = $this->app['config']->get($this->configPrefix . '.paths', []);
+        if (empty($this->getTableName())) {
+            return 0;
+        }
+
+        $modulesPath = $this->app['config']->get($this->configPrefix . '.paths.modules');
+        if (!$modulesPath || !is_dir($modulesPath)) {
+            return 0;
+        }
 
         $files = new Filesystem();
+        $manifests = $files->glob(
+            rtrim($modulesPath, '/\\') . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'module.json'
+        );
+        if (!is_array($manifests) || empty($manifests)) {
+            return 0;
+        }
 
-        foreach ($paths as $path) {
-            $manifests = $files->glob("{$path}/*/module.json");
-
-            is_array($manifests) || $manifests = [];
-
-            foreach ($manifests as $manifest) {
-                $name = Json::make($manifest)->get('name');
-
-                if ($name) {
-                    $modules[$name] = $this->app->make('modules.factory')->make(
-                        $name,
-                        dirname($manifest)
-                    );
-                }
+        // Preserve the current file-activator state when available.
+        $fileStatuses = [];
+        $statusesFile = $this->app['config']->get($this->configPrefix . '.activators.file.statuses-file');
+        if ($statusesFile && is_file($statusesFile)) {
+            $decoded = json_decode((string) file_get_contents($statusesFile), true);
+            if (is_array($decoded)) {
+                $fileStatuses = $decoded;
             }
         }
 
-        if ($modules) {
-            uasort($modules, function (Module $a, Module $b) {
-                if ($a->get('priority') === $b->get('priority')) {
-                    return 0;
-                }
+        $count = 0;
+        foreach ($manifests as $manifest) {
+            $json = Json::make($manifest);
+            $name = $json->get('name');
+            if (!$name) {
+                continue;
+            }
 
-                return $a->get('priority') > $b->get('priority') ? 1 : -1;
-            });
+            $status = array_key_exists($name, $fileStatuses)
+                ? (bool) $fileStatuses[$name]
+                : (bool) $json->get('active', 1);
+
+            $row = SystemModules::getByName($name) ?: new SystemModules();
+            $row->fill([
+                'name' => $name,
+                'alias' => (string) ($json->get('alias') ?: strtolower($name)),
+                'description' => (string) $json->get('description', ''),
+                'path' => dirname($manifest),
+                'version' => (string) $json->get('version', 'dev'),
+                'type' => (string) $json->get('type', '1'),
+                'priority' => (string) $json->get('priority', '1024'),
+                'sort' => (string) $json->get('order', '0'),
+                'status' => (int) $status,
+            ]);
+            $row->save();
+            $count++;
         }
 
-        return $modules;
+        return $count;
     }
 }
