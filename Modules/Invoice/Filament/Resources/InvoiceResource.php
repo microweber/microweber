@@ -79,6 +79,9 @@ class InvoiceResource extends Resource
                     ->schema([
                         \Filament\Schemas\Components\Section::make('Invoice Details')
                             ->icon('heroicon-m-document-text')
+                            // Two columns so the meta fields pair up instead of
+                            // stacking into one long scroll (task-2026-10-15-inv).
+                            ->columns(2)
                             ->schema([
                                 Forms\Components\DatePicker::make('invoice_date')
                                     ->required()
@@ -97,30 +100,69 @@ class InvoiceResource extends Resource
 
                                 Forms\Components\Select::make('customer_id')
                                     ->relationship('customer', 'name')
-                                    ->getOptionLabelFromRecordUsing(fn($record) => "[{$record->id}] {$record->getFullName()} ({$record->getEmail()})")                                    ->createOptionForm([
+                                    ->getOptionLabelFromRecordUsing(fn($record) => "[{$record->id}] {$record->getFullName()} ({$record->getEmail()})")
+                                    ->columnSpanFull()
+                                    ->createOptionForm([
+                                        // Individual vs Company. Company customers
+                                        // capture the extra billing details
+                                        // (company name / number / VAT) that end up
+                                        // on the invoice (task-2026-10-15-inv).
+                                        Forms\Components\ToggleButtons::make('customer_type')
+                                            ->label('Customer type')
+                                            ->options([
+                                                'individual' => 'Individual',
+                                                'company' => 'Company',
+                                            ])
+                                            ->icons([
+                                                'individual' => 'heroicon-m-user',
+                                                'company' => 'heroicon-m-building-office-2',
+                                            ])
+                                            ->default('individual')
+                                            ->inline()
+                                            ->live()
+                                            ->columnSpanFull(),
 
-Forms\Components\Select::make('user_id')
-->relationship('user', 'email')
-->searchable()
-->preload()
-->required(),
+                                        Forms\Components\Select::make('user_id')
+                                            ->label('Linked user (optional)')
+                                            ->relationship('user', 'email')
+                                            ->searchable()
+                                            ->preload()
+                                            ->columnSpanFull(),
 
-
+                                        // Individual
                                         Forms\Components\TextInput::make('name')
-                                            ->required(),
+                                            ->label('Full name')
+                                            ->required(fn(\Filament\Schemas\Components\Utilities\Get $get) => ($get('customer_type') ?? 'individual') === 'individual')
+                                            ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => ($get('customer_type') ?? 'individual') === 'individual')
+                                            ->columnSpanFull(),
+
+                                        // Company
+                                        Forms\Components\TextInput::make('company_name')
+                                            ->label('Company name')
+                                            ->required(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('customer_type') === 'company')
+                                            ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('customer_type') === 'company')
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\TextInput::make('company_number')
+                                            ->label('Company number')
+                                            ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('customer_type') === 'company'),
+
+                                        Forms\Components\TextInput::make('vat_number')
+                                            ->label('VAT number')
+                                            ->visible(fn(\Filament\Schemas\Components\Utilities\Get $get) => $get('customer_type') === 'company'),
 
                                         Forms\Components\TextInput::make('email')
                                             ->email()
                                             ->required(),
 
                                         Forms\Components\TextInput::make('phone')
-                                            ->tel()
-                                            ->required(),
+                                            ->tel(),
 
                                         Forms\Components\Textarea::make('address')
                                             ->rows(2)
-                                            ->required(),
+                                            ->columnSpanFull(),
                                     ])
+                                    ->createOptionUsing(fn(array $data) => static::createCustomerFromOption($data))
                                     ->createOptionAction(function ($action) {
                                         return $action
                                             ->modalHeading('Create Customer')
@@ -192,7 +234,8 @@ Forms\Components\Select::make('user_id')
                                             ->content(function ($get) {
                                                 $price = $get('price') ?? 0;
                                                 $quantity = $get('quantity') ?? 0;
-                                                return '$' . number_format($price * $quantity, 2);
+                                                $symbol = (function_exists('currency_symbol') ? currency_symbol() : null) ?: '$';
+                                                return $symbol . number_format($price * $quantity, 2);
                                             }),
                                     ])
                                     ->columns(3)
@@ -204,7 +247,8 @@ Forms\Components\Select::make('user_id')
                                         $total = collect($get('items') ?? [])->reduce(function ($sum, $item) {
                                             return $sum + ($item['price'] ?? 0) * ($item['quantity'] ?? 0);
                                         }, 0);
-                                        return 'Total: $' . number_format($total, 2);
+                                        $symbol = (function_exists('currency_symbol') ? currency_symbol() : null) ?: '$';
+                                        return 'Total: ' . $symbol . number_format($total, 2);
                                     })
                                     ->columnSpanFull(),
                             ])
@@ -212,6 +256,56 @@ Forms\Components\Select::make('user_id')
                     ]),
             ]);
     }
+
+/**
+ * Create a customer (individual or company) from the invoice's inline
+ * "Create Customer" modal and return its id. For a company customer we also
+ * create + link a Company record carrying the billing details (company name,
+ * number, VAT, address) that appear on the invoice. The free-text address is
+ * kept in customer_data for individuals (the customers table has no address
+ * column) so it is no longer silently dropped.
+ */
+protected static function createCustomerFromOption(array $data): int
+{
+    $type = (($data['customer_type'] ?? 'individual') === 'company') ? 'company' : 'individual';
+
+    $customerData = ['type' => $type];
+    if (!empty($data['address'])) {
+        $customerData['address'] = $data['address'];
+    }
+
+    $companyId = null;
+    $displayName = $data['name'] ?? null;
+
+    if ($type === 'company') {
+        $displayName = $data['company_name'] ?? $displayName ?? '';
+
+        $company = \Modules\Company\Models\Company::create([
+            'name' => $displayName,
+            'company_number' => $data['company_number'] ?? null,
+            'vat_number' => $data['vat_number'] ?? null,
+            'email' => $data['email'] ?? null,
+            'phone' => $data['phone'] ?? null,
+            'address' => $data['address'] ?? null,
+        ]);
+        $companyId = $company->getKey();
+
+        $customerData['company_number'] = $data['company_number'] ?? null;
+        $customerData['vat_number'] = $data['vat_number'] ?? null;
+    }
+
+    $customer = \Modules\Customer\Models\Customer::create([
+        'name' => $displayName,
+        'email' => $data['email'] ?? null,
+        'phone' => $data['phone'] ?? null,
+        'user_id' => $data['user_id'] ?? null,
+        'company_id' => $companyId,
+        'customer_data' => $customerData,
+        'status' => 'active',
+    ]);
+
+    return (int) $customer->getKey();
+}
 
 public static function getEloquentQuery(): Builder
 {

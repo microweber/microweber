@@ -225,4 +225,57 @@ class InvoiceResourceTest extends TestCase
     {
         $this->assertEquals(Invoice::class, InvoiceResource::getModel());
     }
+
+    #[Test]
+    public function it_creates_a_company_customer_with_a_linked_company(): void
+    {
+        $create = new \ReflectionMethod(InvoiceResource::class, 'createCustomerFromOption');
+        $create->setAccessible(true);
+
+        $id = $create->invoke(null, [
+            'customer_type' => 'company',
+            'company_name' => 'Acme Ltd',
+            'company_number' => 'C-123',
+            'vat_number' => 'VAT-999',
+            'email' => 'bill@acme.test',
+            'phone' => '+100',
+            'address' => '1 Main St',
+        ]);
+
+        $customer = Customer::find($id);
+        $this->assertNotNull($customer);
+        $this->assertSame('Acme Ltd', $customer->name);
+        $this->assertNotNull($customer->company_id);
+        $this->assertSame('company', $customer->customer_data['type'] ?? null);
+
+        $company = \Modules\Company\Models\Company::find($customer->company_id);
+        $this->assertNotNull($company);
+        $this->assertSame('Acme Ltd', $company->name);
+        $this->assertSame('C-123', $company->company_number);
+        $this->assertSame('VAT-999', $company->vat_number);
+        $this->assertSame('1 Main St', $company->address);
+
+        $company->delete();
+    }
+
+    #[Test]
+    public function it_creates_an_individual_customer_without_a_company(): void
+    {
+        $create = new \ReflectionMethod(InvoiceResource::class, 'createCustomerFromOption');
+        $create->setAccessible(true);
+
+        $id = $create->invoke(null, [
+            'customer_type' => 'individual',
+            'name' => 'Jane Doe',
+            'email' => 'jane@test.test',
+            'address' => '2 Side St',
+        ]);
+
+        $customer = Customer::find($id);
+        $this->assertNotNull($customer);
+        $this->assertSame('Jane Doe', $customer->name);
+        $this->assertNull($customer->company_id);
+        $this->assertSame('individual', $customer->customer_data['type'] ?? null);
+        $this->assertSame('2 Side St', $customer->customer_data['address'] ?? null);
+    }
 }

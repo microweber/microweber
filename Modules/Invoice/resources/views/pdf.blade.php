@@ -95,7 +95,20 @@
 
     <div class="customer-details">
         <strong>Bill To:</strong><br>
-        {{ $invoice->customer->getFullName() }}<br>
+        @php($cust = $invoice->customer)
+        @php($custCompany = $cust?->company)
+        @if($custCompany)
+            <strong>{{ $custCompany->name ?: $cust?->getFullName() }}</strong><br>
+            @if($custCompany->company_number)Company No: {{ $custCompany->company_number }}<br>@endif
+            @if($custCompany->vat_number)VAT: {{ $custCompany->vat_number }}<br>@endif
+            @if($custCompany->address){{ $custCompany->address }}<br>@endif
+        @else
+            {{ $cust?->getFullName() }}<br>
+            @php($custAddr = data_get($cust?->customer_data, 'address'))
+            @if($custAddr){{ $custAddr }}<br>@endif
+        @endif
+        @if($cust?->getEmail()){{ $cust->getEmail() }}<br>@endif
+        @if($cust?->phone){{ $cust->phone }}<br>@endif
     </div>
 
     <div class="invoice-info">
