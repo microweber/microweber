@@ -92,6 +92,7 @@ class MultisiteInstallCommand extends Command
         $this->newLine();
         $this->line("Site <info>{$domain}</info> provisioned:");
         $this->table(['Setting', 'Value'], [
+            ['APP_URL', $values['APP_URL']],
             ['Userfiles folder', $manager->userfilesFolder($domain)],
             ['Cache prefix', $manager->cachePrefix($domain)],
             ['Cache path', $manager->cachePath($domain)],

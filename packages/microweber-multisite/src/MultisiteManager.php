@@ -53,6 +53,7 @@ class MultisiteManager
                 'session' => true,
                 'userfiles' => true,
                 'public_disk' => false,
+                'app_url' => true,
             ],
             'paths' => [
                 'userfiles_base' => 'userfiles',
@@ -379,6 +380,28 @@ class MultisiteManager
                 'session.cookie' => $this->sessionCookie($site),
                 'session.files' => $this->sessionPath($site),
             ]);
+        }
+
+        // Point APP_URL at the actual request host for this domain, so URL
+        // generation and content routing resolve against the site's own domain —
+        // even if .env.<domain> carries a stale/placeholder APP_URL (a common
+        // cause of 404s on a freshly provisioned multisite domain). Web requests
+        // only; there is no host in CLI.
+        if (($isolate['app_url'] ?? true) && function_exists('request') && function_exists('app')) {
+            try {
+                $request = request();
+                $rootUrl = ($request && method_exists($request, 'getSchemeAndHttpHost'))
+                    ? $request->getSchemeAndHttpHost()
+                    : null;
+                if ($rootUrl) {
+                    config(['app.url' => $rootUrl]);
+                    if (app()->bound('url')) {
+                        app('url')->forceRootUrl($rootUrl);
+                    }
+                }
+            } catch (\Throwable $e) {
+                // best-effort — never break the request over a URL tweak
+            }
         }
 
         // Clean-Laravel media isolation: repoint the "public" disk at a per-site

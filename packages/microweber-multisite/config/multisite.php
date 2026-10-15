@@ -36,6 +36,10 @@ return [
         'session' => true,
         'userfiles' => true,
         'public_disk' => false,
+        // app_url — point APP_URL (+ the URL generator root) at the request host
+        // for this domain, so URLs + content routing resolve against the site's
+        // own domain even if .env.<domain> has a stale/placeholder APP_URL.
+        'app_url' => true,
     ],
 
     /*
