@@ -180,17 +180,22 @@ if (!function_exists('get_default_language')) {
     {
         $langs = app()->lang_helper->get_all_lang_codes();
 
-        $defaultLang = app()->lang_helper->default_lang();
-        $defaultLang = strtolower($defaultLang);
-
-        if (isset($langs[$defaultLang])) {
-            return array('locale' => $defaultLang, 'language' => $langs[$defaultLang]);
-        }
-
-        $locale = app()->getLocale();
-        $locale = strtolower($locale);
-        if (isset($langs[$locale])) {
-            return array('locale' => $locale, 'language' => $langs[$locale]);
+        // The code table is keyed by the canonical locale (en_US, af_NA, …).
+        // Match case-insensitively — the old code lowercased the locale
+        // (en_US -> en_us) before the lookup, so it NEVER matched and
+        // get_default_language() always returned false.
+        foreach ([app()->lang_helper->default_lang(), app()->getLocale()] as $candidate) {
+            if ($candidate === null || $candidate === '') {
+                continue;
+            }
+            if (isset($langs[$candidate])) {
+                return array('locale' => $candidate, 'language' => $langs[$candidate]);
+            }
+            foreach ($langs as $code => $name) {
+                if (strcasecmp((string) $code, (string) $candidate) === 0) {
+                    return array('locale' => $code, 'language' => $name);
+                }
+            }
         }
 
         return false;
