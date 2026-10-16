@@ -7,13 +7,11 @@ use Illuminate\Config\Repository as Config;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
-use MicroweberPackages\LaravelModules\Activators\Concerns\ResolvesModuleDefaultStatus;
 use Nwidart\Modules\Activators\FileActivator;
 use Nwidart\Modules\Module;
 
 class LaravelModulesFileActivator extends FileActivator
 {
-    use ResolvesModuleDefaultStatus;
 
     public $configPrefix = 'modules';
 
@@ -118,13 +116,7 @@ class LaravelModulesFileActivator extends FileActivator
         $name = $module instanceof Module ? $module->getName() : $module;
 
         if (! isset($this->modulesStatuses[$name])) {
-            // A module not listed in the statuses file defaults to its manifest
-            // "active" flag (default TRUE). Microweber ships with all bundled
-            // modules enabled, so a newly-added module is ON by default unless
-            // it opts out (module.json "active": false) or is explicitly
-            // disabled in the statuses file. (Templates override this method and
-            // keep the absent-means-disabled behaviour — only one is ever active.)
-            return $status === $this->defaultActiveStatus($module, $name);
+            return $status === false;
         }
 
         return $this->modulesStatuses[$name] === $status;
