@@ -188,6 +188,12 @@
     @if(empty($disable_header))
     <div class="navigation-holder">
         <module type="layouts" template="menus/skin-1" template-filter="menus" id="header-layout"/>
+        {{-- Frontend language switcher. The multilanguage module renders nothing
+             unless the site has 2+ active languages, so this is a safe no-op on
+             single-language sites. --}}
+        <div class="mw-header-language-switcher d-flex justify-content-end align-items-center px-3">
+            <module type="multilanguage" template="default"/>
+        </div>
     </div>
     @endif
 
