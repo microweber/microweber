@@ -46,6 +46,13 @@ use Modules\Customer\Models\CustomerTag;
 class Customer extends Model
 {
     use HasFactory;
+
+    // Lifecycle events so other modules can react to customer changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Customer\Events\CustomerWasCreated::class,
+        'updated' => \Modules\Customer\Events\CustomerWasUpdated::class,
+        'deleted' => \Modules\Customer\Events\CustomerWasDeleted::class,
+    ];
     use Filterable;
     use CacheableQueryBuilderTrait;
     use Billable;

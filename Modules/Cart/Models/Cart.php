@@ -19,6 +19,13 @@ use Modules\Order\Models\Order;
 
 class Cart extends Model
 {
+    // Lifecycle events so other modules can react to cart changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Cart\Events\CartWasCreated::class,
+        'updated' => \Modules\Cart\Events\CartWasUpdated::class,
+        'deleted' => \Modules\Cart\Events\CartWasDeleted::class,
+    ];
+
     public $table = 'cart';
 
     /**

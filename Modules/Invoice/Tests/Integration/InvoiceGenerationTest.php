@@ -219,7 +219,9 @@ class InvoiceGenerationTest extends TestCase
         $invoice = Invoice::find($result['invoice_id']);
         $this->assertNotNull($invoice);
         $this->assertEquals($order->customer_id, $invoice->customer_id);
-        $this->assertEquals(Invoice::STATUS_DRAFT, $invoice->status);
+        // The order is paid, so linking the invoice to it fires OrderWasUpdated
+        // and MarkInvoicePaidOnOrderPaid marks the invoice paid (status + paid).
+        $this->assertEquals(Invoice::STATUS_PAID, $invoice->status);
         $this->assertEquals(Invoice::STATUS_PAID, $invoice->paid_status);
         $this->assertStringContainsString('ORDER-ORD-2024-001', $invoice->reference_number);
 

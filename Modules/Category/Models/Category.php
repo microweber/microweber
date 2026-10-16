@@ -24,6 +24,13 @@ use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class Category extends Model
 {
+    // Lifecycle events so other modules can react to category changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Category\Events\CategoryWasCreated::class,
+        'updated' => \Modules\Category\Events\CategoryWasUpdated::class,
+        'deleted' => \Modules\Category\Events\CategoryWasDeleted::class,
+    ];
+
     // use HasAttributes;
 
     use HasFactory;

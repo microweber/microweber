@@ -14,6 +14,9 @@ use Modules\Product\FrontendFilter\ShopFilter;
 use Modules\Product\Models\ModelFilters\ProductFilter;
 use Modules\Product\Support\CartesianProduct;
 use Modules\Product\Traits\CustomFieldPriceTrait;
+use Modules\Product\Events\ProductWasCreated;
+use Modules\Product\Events\ProductWasUpdated;
+use Modules\Product\Events\ProductWasDeleted;
 
 class Product extends Content
 {
@@ -22,12 +25,14 @@ class Product extends Content
         return ProductFactory::new();
     }
 
-//    protected $dispatchesEvents = [
-//        'updated' =>  ProductWasUpdated::class,
-//     //   'updating' =>  ProductWasUpdated::class,
-//      //  'updating' =>  ProductWasUpdated::class,
-//     //   'deleted' => ProductWasUpdated::class,
-//    ];
+    // Fire product lifecycle events so other modules can react to product
+    // create/update/delete. Products override Content's event map (below), so a
+    // product save dispatches ProductWas*, not ContentWas*.
+    protected $dispatchesEvents = [
+        'created' => ProductWasCreated::class,
+        'updated' => ProductWasUpdated::class,
+        'deleted' => ProductWasDeleted::class,
+    ];
 
 
     /**

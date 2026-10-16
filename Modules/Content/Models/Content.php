@@ -59,7 +59,8 @@ class Content extends Model
     use CacheableQueryBuilderTrait;
 
     //   use PowerJoins;
-    use HasEvents;
+    // HasEvents is already provided by the base Eloquent Model; re-using it
+    // explicitly here conflicts with the class-level $dispatchesEvents map.
     use HasMultilanguageTrait;
     use MaxPositionTrait;
     use ParentCannotBeSelfTrait;
@@ -75,6 +76,15 @@ class Content extends Model
     {
         return ContentFactory::new();
     }
+
+    // Fire content lifecycle events so other modules can react to content
+    // create/update/delete. Subclasses with their own $dispatchesEvents (e.g.
+    // Product) override this and dispatch their own events instead.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Content\Events\ContentWasCreated::class,
+        'updated' => \Modules\Content\Events\ContentWasUpdated::class,
+        'deleted' => \Modules\Content\Events\ContentWasDeleted::class,
+    ];
 
     protected $table = 'content';
     protected $content_type = 'content';

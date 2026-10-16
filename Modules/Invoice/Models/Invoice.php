@@ -11,6 +11,13 @@ class Invoice extends Model
 {
     use HasFactory;
 
+    // Lifecycle events so other modules can react to invoice changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Invoice\Events\InvoiceWasCreated::class,
+        'updated' => \Modules\Invoice\Events\InvoiceWasUpdated::class,
+        'deleted' => \Modules\Invoice\Events\InvoiceWasDeleted::class,
+    ];
+
     protected static string $factory = \Modules\Invoice\Database\Factories\InvoiceFactory::class;
     const STATUS_DRAFT = 'draft';
     const STATUS_SENT = 'sent';
