@@ -2,7 +2,9 @@
 
 namespace Modules\DigitalProduct\Providers;
 
+use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use Modules\DigitalProduct\Filament\Resources\ProductDownloadableFileResource;
 use Modules\DigitalProduct\Services\DigitalProductService;
 
 class DigitalProductServiceProvider extends BaseModuleServiceProvider
@@ -24,6 +26,14 @@ class DigitalProductServiceProvider extends BaseModuleServiceProvider
 
         // Grant downloads when an order is paid.
         $this->app->register(DigitalProductEventServiceProvider::class);
+
+        FilamentRegistry::registerResource(ProductDownloadableFileResource::class);
+
+        FilamentRegistry::registerGlobalSearchEntry(
+            'Downloadable files', '/admin/product-downloadable-files',
+            ['digital', 'download', 'downloadable', 'digital product', 'file', 'ebook'],
+            'Shop', ['Section' => 'Shop'],
+        );
     }
 
     public function boot(): void
