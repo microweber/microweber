@@ -1,0 +1,11 @@
+{
+    "name": "DigitalProduct",
+    "alias": "digitalproduct",
+    "description": "Sell downloadable/digital products. Attaches downloadable files to products and grants secure, tokenized downloads after purchase.",
+    "keywords": ["digital", "download", "downloadable", "product", "ebook", "file"],
+    "priority": 0,
+    "providers": [
+        "Modules\\DigitalProduct\\Providers\\DigitalProductServiceProvider"
+    ],
+    "files": []
+}

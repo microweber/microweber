@@ -1,0 +1,21 @@
+{
+    "name": "microweber-modules/digital-product",
+    "description": "Sell downloadable/digital products in Microweber.",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\DigitalProduct\\": ""
+        }
+    }
+}
