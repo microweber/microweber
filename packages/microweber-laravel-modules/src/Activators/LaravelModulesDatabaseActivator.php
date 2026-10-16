@@ -17,6 +17,8 @@ use Nwidart\Modules\Module;
 
 class LaravelModulesDatabaseActivator implements ActivatorInterface
 {
+    use \MicroweberPackages\LaravelModules\Activators\Concerns\ResolvesModuleDefaultStatus;
+
     /**
      * Configuration prefix.
      *
@@ -153,7 +155,11 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
         $name = $module instanceof Module ? $module->getName() : $module;
 
         if (!isset($this->modulesStatuses[$name])) {
-            return $status === false;
+            // Same default as the file activator: a module absent from the
+            // status table defaults to its manifest "active" flag (default
+            // TRUE) — all bundled modules ship enabled. (The templates DB
+            // activator overrides this and keeps absent-means-disabled.)
+            return $status === $this->defaultActiveStatus($module, $name);
         }
 
         return $this->modulesStatuses[$name] === $status;
