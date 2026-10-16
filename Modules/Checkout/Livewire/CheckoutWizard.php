@@ -99,7 +99,7 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
 
     protected function getWizardSteps(): array
     {
-        return [
+        $steps = [
             Step::make('cart')
                 ->label(__('Cart Review'))
                 ->icon('heroicon-o-shopping-cart')
@@ -109,22 +109,78 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                 ->label(__('Contact Information'))
                 ->icon('heroicon-o-user')
                 ->schema($this->getContactStepSchema()),
+        ];
 
-            Step::make('shipping')
+        // Digital-only orders (every line item is a product flagged as not
+        // requiring shipping) skip the shipping step entirely. Physical or
+        // mixed carts keep it. The step already treats "no method" as free, so
+        // omitting it leaves the order with zero shipping cost — no downstream
+        // breakage in payment/review/submit.
+        if ($this->cartRequiresShipping()) {
+            $steps[] = Step::make('shipping')
                 ->label(__('Shipping'))
                 ->icon('heroicon-o-truck')
-                ->schema($this->getShippingStepSchema()),
+                ->schema($this->getShippingStepSchema());
+        }
 
-            Step::make('payment')
-                ->label(__('Payment'))
-                ->icon('heroicon-o-credit-card')
-                ->schema($this->getPaymentStepSchema()),
+        $steps[] = Step::make('payment')
+            ->label(__('Payment'))
+            ->icon('heroicon-o-credit-card')
+            ->schema($this->getPaymentStepSchema());
 
-            Step::make('review')
-                ->label(__('Review & Confirm'))
-                ->icon('heroicon-o-clipboard-document-check')
-                ->schema($this->getReviewStepSchema()),
-        ];
+        $steps[] = Step::make('review')
+            ->label(__('Review & Confirm'))
+            ->icon('heroicon-o-clipboard-document-check')
+            ->schema($this->getReviewStepSchema());
+
+        return $steps;
+    }
+
+    /**
+     * Whether the current cart needs the shipping step. True unless EVERY line
+     * item is a product explicitly flagged non-shipping (content_data
+     * requires_shipping === '0'). Defaults to requiring shipping for safety
+     * (empty/unknown cart, products without the flag).
+     */
+    protected function cartRequiresShipping(): bool
+    {
+        $items = !empty($this->cartItems) ? $this->cartItems : (app()->cart_manager->get() ?? []);
+
+        $productIds = [];
+        foreach ((array) $items as $item) {
+            $productIds[] = is_array($item) ? ($item['rel_id'] ?? null) : ($item->rel_id ?? null);
+        }
+
+        return static::productsRequireShipping($productIds);
+    }
+
+    /**
+     * Pure decision helper (testable without Livewire): returns true if any of
+     * the given product ids requires shipping. A product requires shipping
+     * unless its content_data 'requires_shipping' is explicitly '0'.
+     *
+     * @param array<int|string|null> $productIds
+     */
+    public static function productsRequireShipping(array $productIds): bool
+    {
+        if (empty($productIds)) {
+            return true;
+        }
+
+        foreach ($productIds as $productId) {
+            if (!$productId) {
+                return true; // unknown item → require shipping (safe default)
+            }
+
+            $flag = function_exists('content_data') ? content_data($productId, 'requires_shipping') : null;
+            $nonShipping = ($flag === '0' || $flag === 0);
+
+            if (!$nonShipping) {
+                return true; // at least one physical / unflagged item
+            }
+        }
+
+        return false; // every item explicitly non-shipping → skip shipping
     }
 
     protected function getCartStepSchema(): array
