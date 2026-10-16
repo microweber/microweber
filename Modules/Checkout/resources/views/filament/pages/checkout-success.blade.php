@@ -10,13 +10,20 @@
             <p class="mt-2 text-gray-600 dark:text-gray-400">
                 Thank you for your purchase. Your order has been successfully processed.
             </p>
-            <div class="mt-6">
+            <div class="mt-6 flex items-center justify-center gap-3">
                 <x-filament::button
                     color="primary"
                     tag="a"
                     href="{{ url('/') }}"
                 >
                     Continue Shopping
+                </x-filament::button>
+                <x-filament::button
+                    color="gray"
+                    tag="a"
+                    href="{{ \Illuminate\Support\Facades\Route::has('filament.profile.pages.order-history') ? route('filament.profile.pages.order-history') : url('profile/order-history') }}"
+                >
+                    View Your Orders
                 </x-filament::button>
             </div>
         </div>

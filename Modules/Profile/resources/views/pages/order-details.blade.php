@@ -124,6 +124,39 @@
         </div>
     </div>
 
+    {{-- Digital downloads for this order (guarded: no-op if the DigitalProduct
+         module is not installed). --}}
+    @if(class_exists(\Modules\DigitalProduct\Models\DigitalProductDownload::class))
+        @php
+            $mwOrderDownloads = \Modules\DigitalProduct\Models\DigitalProductDownload::with('file')
+                ->where('order_id', $order->id)
+                ->get();
+        @endphp
+        @if($mwOrderDownloads->isNotEmpty())
+            <div class="border-t pt-4">
+                <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">{{ __('Downloads') }}</h4>
+                <div class="space-y-2">
+                    @foreach($mwOrderDownloads as $mwDl)
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="truncate">{{ optional($mwDl->file)->original_name ?: __('File') }}</span>
+                            @if($mwDl->canDownload())
+                                <a href="{{ route('digital-product.download', ['token' => $mwDl->token]) }}"
+                                   target="_blank" rel="noopener"
+                                   class="inline-flex items-center rounded-md bg-primary-600 px-2.5 py-1 text-xs font-medium text-white hover:bg-primary-500">
+                                    {{ __('Download') }}
+                                </a>
+                            @else
+                                <span class="text-xs text-gray-400">
+                                    {{ $mwDl->isExpired() ? __('Expired') : __('Limit reached') }}
+                                </span>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+    @endif
+
     @if($order->other_info)
         <div class="border-t pt-4">
             <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">{{ __('Additional Information') }}</h4>
