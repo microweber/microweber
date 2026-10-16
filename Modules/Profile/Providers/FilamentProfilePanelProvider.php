@@ -42,11 +42,11 @@ class FilamentProfilePanelProvider extends PanelProvider
             ->discoverPages(
                 in: __DIR__ . '/../Filament/Pages',
                 for: 'Modules\\Profile\\Filament\\Pages')
-            ->pages([
+            ->pages(array_merge([
                 Pages\Dashboard::class,
                 EditProfile::class,
                 TwoFactorAuth::class,
-            ])
+            ], \MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry::getPages('profile', 'profile')))
             ->discoverWidgets(in: __DIR__ . '/../Filament/Widgets',
                 for: 'Modules\\Profile\\Filament\\Widgets')
             ->widgets([

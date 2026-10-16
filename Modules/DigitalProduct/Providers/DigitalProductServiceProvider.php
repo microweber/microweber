@@ -17,6 +17,7 @@ class DigitalProductServiceProvider extends BaseModuleServiceProvider
     {
         parent::register();
 
+        $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
@@ -28,6 +29,14 @@ class DigitalProductServiceProvider extends BaseModuleServiceProvider
         $this->app->register(DigitalProductEventServiceProvider::class);
 
         FilamentRegistry::registerResource(ProductDownloadableFileResource::class);
+
+        // Customer "My Downloads" page in the profile panel (the panel consumes
+        // FilamentRegistry::getPages('profile', 'profile')).
+        FilamentRegistry::registerPage(
+            \Modules\DigitalProduct\Filament\Pages\MyDownloads::class,
+            'profile',
+            'profile'
+        );
 
         FilamentRegistry::registerGlobalSearchEntry(
             'Downloadable files', '/admin/product-downloadable-files',
