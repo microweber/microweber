@@ -226,6 +226,7 @@
             "App\\": "app/",
             "Microweber\\": "src/Microweber/",
             "MicroweberPackages\\": "src/MicroweberPackages/",
+            "MicroweberPackages\\App\\": "packages/microweber-app/src/",
             "MicroweberPackages\\TaggableFileCache\\": "packages/microweber-taggable-file-cache/src/",
             "MicroweberPackages\\EnvWriter\\": "packages/microweber-env-writer/src/",
             "MicroweberPackages\\Multisite\\": "packages/microweber-multisite/src/",
@@ -323,7 +324,10 @@
             "packages/microweber-template-fonts/src/helpers.php",
             "packages/microweber-template-custom-css/src/helpers.php",
             "packages/microweber-queue/src/helpers.php",
-            "packages/microweber-multisite/src/helpers.php"
+            "packages/microweber-multisite/src/helpers.php",
+            "packages/microweber-app/src/functions/api.php",
+            "packages/microweber-app/src/functions/laravel.php",
+            "packages/microweber-app/src/functions/common.php"
         ]
     },
     "autoload-dev": {
