@@ -31,6 +31,13 @@ use MicroweberPackages\User\Models\User;
  */
 class ProductInventoryMovement extends Model
 {
+    // Lifecycle events so other modules can react to ProductInventoryMovement changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Product\Events\ProductInventoryMovementWasCreated::class,
+        'updated' => \Modules\Product\Events\ProductInventoryMovementWasUpdated::class,
+        'deleted' => \Modules\Product\Events\ProductInventoryMovementWasDeleted::class,
+    ];
+
     use HasFactory;
     use CacheableQueryBuilderTrait;
 

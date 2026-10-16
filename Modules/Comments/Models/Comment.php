@@ -11,6 +11,13 @@ use MicroweberPackages\Format\Facades\Format;
 
 class Comment extends Model
 {
+    // Lifecycle events so other modules can react to Comment changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Comments\Events\CommentWasCreated::class,
+        'updated' => \Modules\Comments\Events\CommentWasUpdated::class,
+        'deleted' => \Modules\Comments\Events\CommentWasDeleted::class,
+    ];
+
     use HasFactory;
     use Notifiable;
     protected $table = 'comments';

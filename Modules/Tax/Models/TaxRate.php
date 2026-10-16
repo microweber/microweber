@@ -39,6 +39,13 @@ use Modules\Tax\Database\Factories\TaxRateFactory;
  */
 class TaxRate extends Model
 {
+    // Lifecycle events so other modules can react to TaxRate changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Tax\Events\TaxRateWasCreated::class,
+        'updated' => \Modules\Tax\Events\TaxRateWasUpdated::class,
+        'deleted' => \Modules\Tax\Events\TaxRateWasDeleted::class,
+    ];
+
     use CacheableQueryBuilderTrait;
     use HasFactory;
 

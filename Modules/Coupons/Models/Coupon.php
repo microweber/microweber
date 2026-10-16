@@ -9,6 +9,13 @@ use Modules\Coupons\Database\Factories\CouponFactory;
 
 class Coupon extends Model
 {
+    // Lifecycle events so other modules can react to Coupon changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Coupons\Events\CouponWasCreated::class,
+        'updated' => \Modules\Coupons\Events\CouponWasUpdated::class,
+        'deleted' => \Modules\Coupons\Events\CouponWasDeleted::class,
+    ];
+
     use HasFactory;
 
     protected $table = 'cart_coupons';

@@ -9,6 +9,13 @@ use Modules\Rating\Database\Factories\RatingFactory;
 
 class Rating extends Model
 {
+    // Lifecycle events so other modules can react to Rating changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Rating\Events\RatingWasCreated::class,
+        'updated' => \Modules\Rating\Events\RatingWasUpdated::class,
+        'deleted' => \Modules\Rating\Events\RatingWasDeleted::class,
+    ];
+
     use HasFactory;
     use CacheableQueryBuilderTrait;
 

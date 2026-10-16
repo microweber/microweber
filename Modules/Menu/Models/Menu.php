@@ -14,6 +14,13 @@ use MicroweberPackages\Database\Facades\DatabaseManager;
 
 class Menu extends Model
 {
+    // Lifecycle events so other modules can react to Menu changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Menu\Events\MenuWasCreated::class,
+        'updated' => \Modules\Menu\Events\MenuWasUpdated::class,
+        'deleted' => \Modules\Menu\Events\MenuWasDeleted::class,
+    ];
+
     use CacheableQueryBuilderTrait;
     use HasFactory;
     use HasMultilanguageTrait;

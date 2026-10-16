@@ -31,6 +31,13 @@ use MicroweberPackages\User\Models\User;
  */
 class ProductStockReservation extends Model
 {
+    // Lifecycle events so other modules can react to ProductStockReservation changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Product\Events\ProductStockReservationWasCreated::class,
+        'updated' => \Modules\Product\Events\ProductStockReservationWasUpdated::class,
+        'deleted' => \Modules\Product\Events\ProductStockReservationWasDeleted::class,
+    ];
+
     use HasFactory;
     use CacheableQueryBuilderTrait;
 

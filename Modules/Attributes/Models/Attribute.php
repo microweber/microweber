@@ -9,6 +9,13 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Attribute extends Model
 {
+    // Lifecycle events so other modules can react to Attribute changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Attributes\Events\AttributeWasCreated::class,
+        'updated' => \Modules\Attributes\Events\AttributeWasUpdated::class,
+        'deleted' => \Modules\Attributes\Events\AttributeWasDeleted::class,
+    ];
+
     use CacheableQueryBuilderTrait;
 
     protected $table = 'attributes';

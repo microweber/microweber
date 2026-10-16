@@ -22,12 +22,30 @@ class ModelLifecycleEventsTest extends TestCase
     public static function modelEventMapProvider(): array
     {
         return [
+            // core commerce + content
             'Content'  => [Content::class,  'Modules\\Content\\Events\\ContentWas'],
             'Product'  => [Product::class,  'Modules\\Product\\Events\\ProductWas'],
             'Customer' => [Customer::class, 'Modules\\Customer\\Events\\CustomerWas'],
             'Cart'     => [Cart::class,     'Modules\\Cart\\Events\\CartWas'],
             'Category' => [Category::class, 'Modules\\Category\\Events\\CategoryWas'],
             'Invoice'  => [Invoice::class,  'Modules\\Invoice\\Events\\InvoiceWas'],
+            // stock / inventory
+            'ProductInventoryMovement'  => [\Modules\Product\Models\ProductInventoryMovement::class,  'Modules\\Product\\Events\\ProductInventoryMovementWas'],
+            'ProductStockReservation'   => [\Modules\Product\Models\ProductStockReservation::class,   'Modules\\Product\\Events\\ProductStockReservationWas'],
+            'ProductVariantCombination' => [\Modules\Product\Models\ProductVariantCombination::class, 'Modules\\Product\\Events\\ProductVariantCombinationWas'],
+            'ProductInventoryAlert'     => [\Modules\Product\Models\ProductInventoryAlert::class,     'Modules\\Product\\Events\\ProductInventoryAlertWas'],
+            // other domain entities
+            'Menu'             => [\Modules\Menu\Models\Menu::class,                 'Modules\\Menu\\Events\\MenuWas'],
+            'MenuItem'         => [\Modules\Menu\Models\MenuItem::class,             'Modules\\Menu\\Events\\MenuItemWas'],
+            'Media'            => [\Modules\Media\Models\Media::class,               'Modules\\Media\\Events\\MediaWas'],
+            'ShippingProvider' => [\Modules\Shipping\Models\ShippingProvider::class, 'Modules\\Shipping\\Events\\ShippingProviderWas'],
+            'Offer'            => [\Modules\Offer\Models\Offer::class,               'Modules\\Offer\\Events\\OfferWas'],
+            'TaxRate'          => [\Modules\Tax\Models\TaxRate::class,               'Modules\\Tax\\Events\\TaxRateWas'],
+            'Coupon'           => [\Modules\Coupons\Models\Coupon::class,            'Modules\\Coupons\\Events\\CouponWas'],
+            'Comment'          => [\Modules\Comments\Models\Comment::class,          'Modules\\Comments\\Events\\CommentWas'],
+            'Rating'           => [\Modules\Rating\Models\Rating::class,             'Modules\\Rating\\Events\\RatingWas'],
+            'Address'          => [\Modules\Address\Models\Address::class,           'Modules\\Address\\Events\\AddressWas'],
+            'Attribute'        => [\Modules\Attributes\Models\Attribute::class,      'Modules\\Attributes\\Events\\AttributeWas'],
         ];
     }
 

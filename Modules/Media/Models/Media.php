@@ -16,6 +16,13 @@ use MicroweberPackages\Format\Facades\Format;
 
 class Media extends Model implements CdnSyncable
 {
+    // Lifecycle events so other modules can react to Media changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Media\Events\MediaWasCreated::class,
+        'updated' => \Modules\Media\Events\MediaWasUpdated::class,
+        'deleted' => \Modules\Media\Events\MediaWasDeleted::class,
+    ];
+
     //use \Conner\Tagging\Taggable;
     public $cacheTagsToClear = ['media','media_thumbnails'];
 

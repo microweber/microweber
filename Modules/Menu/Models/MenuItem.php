@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class MenuItem extends Menu
 {
+    // Lifecycle events so other modules can react to MenuItem changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Menu\Events\MenuItemWasCreated::class,
+        'updated' => \Modules\Menu\Events\MenuItemWasUpdated::class,
+        'deleted' => \Modules\Menu\Events\MenuItemWasDeleted::class,
+    ];
+
     protected $table = 'menus';
 
     protected $primaryKey = 'id';

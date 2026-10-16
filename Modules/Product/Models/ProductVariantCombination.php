@@ -36,6 +36,13 @@ use Modules\Content\Models\Content;
  */
 class ProductVariantCombination extends Model
 {
+    // Lifecycle events so other modules can react to ProductVariantCombination changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Product\Events\ProductVariantCombinationWasCreated::class,
+        'updated' => \Modules\Product\Events\ProductVariantCombinationWasUpdated::class,
+        'deleted' => \Modules\Product\Events\ProductVariantCombinationWasDeleted::class,
+    ];
+
     use HasFactory;
     use CacheableQueryBuilderTrait;
 

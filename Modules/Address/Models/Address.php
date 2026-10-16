@@ -28,6 +28,13 @@ use Modules\Customer\Models\Customer;
  */
 class Address extends Model
 {
+    // Lifecycle events so other modules can react to Address changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Address\Events\AddressWasCreated::class,
+        'updated' => \Modules\Address\Events\AddressWasUpdated::class,
+        'deleted' => \Modules\Address\Events\AddressWasDeleted::class,
+    ];
+
     use CacheableQueryBuilderTrait;
 
     public $table = 'addresses';

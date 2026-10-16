@@ -12,6 +12,13 @@ use MicroweberPackages\Format\Facades\Format;
 
 class Offer extends Model
 {
+    // Lifecycle events so other modules can react to Offer changes.
+    protected $dispatchesEvents = [
+        'created' => \Modules\Offer\Events\OfferWasCreated::class,
+        'updated' => \Modules\Offer\Events\OfferWasUpdated::class,
+        'deleted' => \Modules\Offer\Events\OfferWasDeleted::class,
+    ];
+
     use HasFactory;
     use CacheableQueryBuilderTrait;
 
