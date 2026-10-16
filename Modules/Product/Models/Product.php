@@ -106,7 +106,12 @@ class Product extends Content
         parent::__construct($attributes);
 
         $this->attributes['content_type'] = 'product';
-        $this->attributes['subtype'] = 'product';
+        // Default subtype to 'product' only when none was provided, so a product
+        // can also be a 'downloadable_product' (digital goods). Hydration from the
+        // DB overwrites this with the stored subtype via setRawAttributes.
+        if (empty($this->attributes['subtype'])) {
+            $this->attributes['subtype'] = 'product';
+        }
     }
 
 

@@ -156,8 +156,9 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
 
     /**
      * Pure decision helper (testable without Livewire): returns true if any of
-     * the given product ids requires shipping. A product requires shipping
-     * unless its content_data 'requires_shipping' is explicitly '0'.
+     * the given product ids requires shipping. A product is non-shipping only
+     * when its content subtype is 'downloadable_product' (a digital good);
+     * everything else (regular products, unknown ids) requires shipping.
      *
      * @param array<int|string|null> $productIds
      */
@@ -172,15 +173,14 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                 return true; // unknown item → require shipping (safe default)
             }
 
-            $flag = function_exists('content_data') ? content_data($productId, 'requires_shipping') : null;
-            $nonShipping = ($flag === '0' || $flag === 0);
+            $subtype = \Modules\Content\Models\Content::where('id', $productId)->value('subtype');
 
-            if (!$nonShipping) {
-                return true; // at least one physical / unflagged item
+            if ($subtype !== 'downloadable_product') {
+                return true; // at least one physical / non-digital item
             }
         }
 
-        return false; // every item explicitly non-shipping → skip shipping
+        return false; // every item is a downloadable product → skip shipping
     }
 
     protected function getCartStepSchema(): array

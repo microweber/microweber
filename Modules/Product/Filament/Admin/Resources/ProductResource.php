@@ -3,6 +3,9 @@
 namespace Modules\Product\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ProductResource\Pages;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Arr;
@@ -33,6 +36,25 @@ class ProductResource extends ContentResource
             'create' => ProductResource\Pages\CreateProduct::route('/create'),
             'edit' => ProductResource\Pages\EditProduct::route('/{record}/edit'),
         ];
+    }
+
+    public static function form(Schema $schema): Schema
+    {
+        $schema = parent::form($schema);
+
+        // A "downloadable product" is a product with subtype 'downloadable_product'.
+        // The toggle is mapped to/from the subtype column in the Create/Edit pages
+        // (it is not a model attribute itself).
+        return $schema->components(array_merge($schema->getComponents(), [
+            Section::make(__('Product type'))
+                ->schema([
+                    Toggle::make('is_downloadable')
+                        ->label(__('Downloadable product'))
+                        ->helperText(__('Digital product — buyers get secure downloads and shipping is skipped at checkout.'))
+                        ->default(false)
+                        ->dehydrated(true),
+                ]),
+        ]));
     }
 
     public static function table(Table $table): Table
