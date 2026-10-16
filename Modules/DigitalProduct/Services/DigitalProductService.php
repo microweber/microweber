@@ -20,9 +20,13 @@ class DigitalProductService
      * Idempotent: an existing (order_id, downloadable_file_id) grant is reused,
      * so re-firing OrderWasPaid does not duplicate grants.
      *
+     * When $freeOnly is true, only free line items (price <= 0) are granted —
+     * used on OrderWasCreated so free digital products are available immediately
+     * without a payment step, while paid items wait for OrderWasPaid.
+     *
      * @return DigitalProductDownload[] the grants that now exist for this order
      */
-    public function grantForOrder($order): array
+    public function grantForOrder($order, bool $freeOnly = false): array
     {
         $grants = [];
 
@@ -47,6 +51,12 @@ class DigitalProductService
         foreach ($items as $item) {
             $productId = $item->rel_id ?? null;
             if (!$productId) {
+                continue;
+            }
+
+            // In free-only mode skip paid line items — they are granted when the
+            // order is paid (OrderWasPaid), not at creation time.
+            if ($freeOnly && (float) ($item->price ?? 0) > 0) {
                 continue;
             }
 

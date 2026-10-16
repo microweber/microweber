@@ -28,6 +28,25 @@ class DigitalProductDownloadTest extends TestCase
         return $product;
     }
 
+    protected function fakeOrder(int $id, $items, string $email = 'buyer@example.com')
+    {
+        return new class($id, $items, $email) {
+            public $id;
+            public $email;
+            public $customer_id = null;
+            private $items;
+            public function __construct($id, $items, $email) { $this->id = $id; $this->items = $items; $this->email = $email; }
+            public function cart() {
+                return new class($this->items) {
+                    private $items;
+                    public function __construct($i) { $this->items = $i; }
+                    public function where($a, $b) { return $this; }
+                    public function get() { return $this->items; }
+                };
+            }
+        };
+    }
+
     protected function makeFileRecord(Product $product, string $disk, string $path, array $attrs = []): ProductDownloadableFile
     {
         $file = ProductDownloadableFile::create(array_merge([
@@ -162,9 +181,30 @@ class DigitalProductDownloadTest extends TestCase
         );
     }
 
+    #[Test]
+    public function free_only_grants_free_items_and_skips_paid_items(): void
+    {
+        $this->product = $this->makeProduct();
+        $file = $this->makeFileRecord($this->product, 'local', 'downloads/freeonly.pdf');
+        $productId = $this->product->id;
+        $service = new DigitalProductService();
+
+        // Paid line item (price 10) in free-only mode → no grant (waits for payment).
+        $paidOrder = $this->fakeOrder(999004, collect([
+            (object) ['rel_id' => $productId, 'qty' => 1, 'price' => 10, 'order_completed' => 1],
+        ]));
+        $this->assertCount(0, $service->grantForOrder($paidOrder, true));
+
+        // Free line item (price 0) in free-only mode → granted immediately.
+        $freeOrder = $this->fakeOrder(999005, collect([
+            (object) ['rel_id' => $productId, 'qty' => 1, 'price' => 0, 'order_completed' => 1],
+        ]));
+        $this->assertCount(1, $service->grantForOrder($freeOrder, true));
+    }
+
     protected function tearDown(): void
     {
-        DigitalProductDownload::whereIn('order_id', [999001, 999002, 999003])->delete();
+        DigitalProductDownload::whereIn('order_id', [999001, 999002, 999003, 999004, 999005])->delete();
         if (!empty($this->cleanupFileIds)) {
             DigitalProductDownload::whereIn('downloadable_file_id', $this->cleanupFileIds)->delete();
             ProductDownloadableFile::whereIn('id', $this->cleanupFileIds)->delete();
