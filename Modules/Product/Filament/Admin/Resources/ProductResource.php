@@ -3,9 +3,11 @@
 namespace Modules\Product\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ProductResource\Pages;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Arr;
@@ -53,6 +55,22 @@ class ProductResource extends ContentResource
                         ->helperText(__('Digital product — buyers get secure downloads and shipping is skipped at checkout.'))
                         ->default(false)
                         ->dehydrated(true),
+                ]),
+
+            Section::make(__('Add to cart link'))
+                ->description(__('Share this link to add the product straight to the cart.'))
+                ->visible(fn (?Model $record) => $record !== null && $record->getKey())
+                ->schema([
+                    TextInput::make('add_to_cart_link')
+                        ->hiddenLabel()
+                        ->readOnly()
+                        ->dehydrated(false)
+                        ->helperText(__('Append ?qty=N to set a quantity.'))
+                        ->afterStateHydrated(function (TextInput $component, ?Model $record) {
+                            if ($record && $record->getKey()) {
+                                $component->state(url('add-to-cart/' . $record->getKey()));
+                            }
+                        }),
                 ]),
         ]));
     }
