@@ -25,6 +25,17 @@ class InvoiceServiceProvider extends BaseModuleServiceProvider
             \Modules\Order\Events\OrderWasCreated::class,
             \Modules\Invoice\Listeners\GenerateInvoiceForNewOrder::class
         );
+
+        // Mark the order's invoice paid when the order is paid — via checkout
+        // (OrderWasPaid) or by the admin "mark paid" toggle (OrderWasUpdated).
+        \Illuminate\Support\Facades\Event::listen(
+            \Modules\Order\Events\OrderWasPaid::class,
+            \Modules\Invoice\Listeners\MarkInvoicePaidOnOrderPaid::class
+        );
+        \Illuminate\Support\Facades\Event::listen(
+            \Modules\Order\Events\OrderWasUpdated::class,
+            \Modules\Invoice\Listeners\MarkInvoicePaidOnOrderPaid::class
+        );
     }
 
     /**
