@@ -6,16 +6,24 @@
     "license": "MIT",
     "homepage": "https://microweber.com",
     "authors": [
-        { "name": "Microweber", "email": "info@microweber.com" }
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
     ],
     "require": {
         "php": "^8.3",
-        "laravel/framework": "^11.0",
         "filament/filament": "~5.6",
-        "livewire/livewire": "^4.2",
-        "laravel/socialite": "^5.18"
+        "laravel/framework": "^11.0",
+        "laravel/sanctum": "^4.0",
+        "laravel/socialite": "^5.18",
+        "livewire/livewire": "^4.2"
     },
-    "autoload": { "psr-4": { "MicroweberPackages\\User\\": "src/" } },
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\User\\": "src/"
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
