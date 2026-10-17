@@ -242,7 +242,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
         return parent::findOrNew($id, $columns);
     }
 
-    public function firstOrCreate(array $attributes = [], array $values = [])
+    public function firstOrCreate(array $attributes = [], \Closure|array $values = [])
     {
         $this->clearModelCache();
         return parent::firstOrCreate($attributes, $values);
@@ -254,13 +254,13 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
         return parent::create($attributes);
     }
 
-    public function createOrFirst(array $attributes = [], array $values = [])
+    public function createOrFirst(array $attributes = [], \Closure|array $values = [])
     {
         $this->clearModelCache();
         return parent::createOrFirst($attributes, $values);
     }
 
-    public function updateOrCreate(array $attributes, array $values = [])
+    public function updateOrCreate(array $attributes, \Closure|array $values = [])
     {
 
         $this->clearModelCache();
@@ -298,7 +298,14 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     {
         DatabaseManager::clearCache();
         $tags = $this->generateCacheTags();
-        \Cache::tags($tags)->flush();
+        // The monorepo uses a taggable cache; a standalone app may use a non-taggable
+        // store (array/file without tags) — fall back to a full flush there instead of
+        // fataling on ->tags().
+        if (method_exists(\Cache::getStore(), 'tags')) {
+            \Cache::tags($tags)->flush();
+        } else {
+            \Cache::flush();
+        }
         $this->_loaded_models_cache_get = [];
     }
 

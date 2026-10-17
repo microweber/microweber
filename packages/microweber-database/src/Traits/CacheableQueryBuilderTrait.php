@@ -18,11 +18,15 @@ trait CacheableQueryBuilderTrait
 
     public function newEloquentBuilder($query)
     {
-        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+        // Guard the optional Multilanguage package: in the monorepo the class is
+        // always present (unchanged behaviour); when a package using database models
+        // runs standalone without microweber-packages/multilanguage, fall back to the
+        // non-multilanguage cached builder instead of fataling on a missing class.
+        if (class_exists(MultilanguageHelpers::class) && MultilanguageHelpers::multilanguageIsEnabled()) {
             return new MultilanguageCachedBuilder($query);
-        } else {
-            return new CachedBuilder($query);
         }
+
+        return new CachedBuilder($query);
     }
 
     /**
