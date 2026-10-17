@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  * This file is part of the Microweber framework.
  *
@@ -22,10 +21,14 @@ use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use Symfony\Component\Console\Output\BufferedOutput;
 use MicroweberPackages\Database\Facades\DatabaseManager;
 use MicroweberPackages\Url\Facades\UrlManager;
-
+use MicroweberPackages\Module\Concerns\FormatsModuleAttributes;
+use MicroweberPackages\Module\Concerns\ResolvesModulePaths;
 
 class ModuleManager
 {
+    use FormatsModuleAttributes;
+    use ResolvesModulePaths;
+
     public $tables = array();
     public $app = null;
     public $ui = array();
@@ -42,7 +45,6 @@ class ModuleManager
             define('EMPTY_MOD_STR', "<div class='mw-empty-module '>{module_title} {type}</div>");
         }
 
-
         if (!is_object($this->app)) {
             if (is_object($app)) {
                 $this->app = $app;
@@ -54,11 +56,7 @@ class ModuleManager
             $this->activeLicenses = app()->module_repository->getSystemLicenses();
         }
 
-
     }
-
-
-
 
     // example:
     /*
@@ -82,7 +80,6 @@ class ModuleManager
             ],
         ]
     */
-
 
     private $modules_register = [];
 
@@ -108,14 +105,12 @@ class ModuleManager
 //            }
 //        }
 
-
     }
 
     public function _register_module_callback_controller($module_type, $controller)
     {
         $this->app->parser->module_registry[trim($module_type)] = trim($controller);
     }
-
 
     /* public function register_module($module)
      {
@@ -201,7 +196,6 @@ class ModuleManager
         $laravelModules = app('templates');
         $modules = $laravelModules->scan();
 
-
         if ($modules) {
             if (!defined('STDIN')) {
                 define('STDIN', fopen("php://stdin", "r"));
@@ -222,7 +216,6 @@ class ModuleManager
                     continue;
                 }
 
-
                 $modulePath = $module->getPath();
 
 //                $moduleDisabled = $module->isStatus(0);
@@ -231,7 +224,6 @@ class ModuleManager
 //
 //                    continue;
 //                }
-
 
                 $json = @file_get_contents($moduleJsonPath);
                 $json = @json_decode($json, true);
@@ -263,7 +255,6 @@ class ModuleManager
                     $this->log($output->fetch());
                 }
 
-
                 $output = new BufferedOutput();
                 $output->setDecorated(false);
 
@@ -283,7 +274,6 @@ class ModuleManager
 
         $this->log('Publishing vendor assets');
 
-
         Artisan::call('vendor:publish', [
             '--provider' => 'Livewire\LivewireServiceProvider',
             '--tag' => 'livewire:assets',
@@ -294,7 +284,6 @@ class ModuleManager
         Artisan::call('vendor:publish', ['--force' => true, '--tag' => 'laravel-assets']);
         Artisan::call('vendor:publish', ['--force' => true, '--tag' => 'assets']);
         $this->log('Publishing vendor assets ready');
-
 
     }
 
@@ -310,7 +299,6 @@ class ModuleManager
         config()->set('modules.scan.enabled', true);
         $laravelModules = app('modules');
         $modules = $laravelModules->scan();
-
 
         if ($modules) {
             if (!defined('STDIN')) {
@@ -332,14 +320,12 @@ class ModuleManager
                     continue;
                 }
 
-
                 $modulePath = $module->getPath();
 
 //                $moduleDisabled = $module->isStatus(0);
 //                if($moduleDisabled){
 //                    continue;
 //                }
-
 
                 $json = @file_get_contents($moduleJsonPath);
                 $json = @json_decode($json, true);
@@ -356,7 +342,6 @@ class ModuleManager
                 }
 
                 //$module->enable();
-
 
                 // $module->register();
 
@@ -375,14 +360,12 @@ class ModuleManager
                     $this->log($output->fetch());
                 }
 
-
                 $output = new BufferedOutput();
                 $output->setDecorated(false);
 
                 $this->log('Publishing module: ' . $name);
                 Artisan::call('module:publish', ['module' => $name], $output);
                 $this->log($output->fetch());
-
 
                 $moduleToSave = [];
                 $moduleToSave['module'] = $module->getLowerName();
@@ -415,7 +398,6 @@ class ModuleManager
             $params = parse_str($params, $params2);
             $params = $options = $params2;
         }
-
 
         $args = func_get_args();
         $function_cache_id = '';
@@ -462,7 +444,6 @@ class ModuleManager
                 $this->reload_laravel_templates();
             }
 
-
         }
 
         if ($modules_remove_old or isset($options['cleanup_db']) == true) {
@@ -481,7 +462,6 @@ class ModuleManager
                 return $cache_content;
             }
         }
-
 
     }
 
@@ -552,7 +532,6 @@ class ModuleManager
     {
         return $this->get($params);
     }
-
 
     /* @deprecated */
     public function get($params = false)
@@ -626,98 +605,6 @@ class ModuleManager
         return $return;
     }
 
-    public function exists($module_name)
-    {
-        if (!is_string($module_name)) {
-            return false;
-        }
-
-        if (!mw_is_installed()) {
-            return false;
-        }
-        if (trim($module_name) == '') {
-            return false;
-        }
-
-        if (isset($this->app->parser->module_registry[$module_name]) and $this->app->parser->module_registry[$module_name]) {
-            return true;
-        } else if (isset($this->app->parser->module_registry[$module_name . '/index']) and $this->app->parser->module_registry[$module_name . '/index']) {
-            return true;
-
-        }
-
-
-        if (app()->bound('microweber')) {
-            if (app()->microweber->hasModule($module_name)) {
-                return true;
-            }
-        }
-
-
-        if (app()->bound('modules')) {
-
-            if (app()->modules->find($module_name)) {
-                return true;
-            }
-        }
-
-        global $mw_loaded_mod_memory;
-
-        if (!isset($mw_loaded_mod_memory[$module_name])) {
-            $ch = $this->locate($module_name, $custom_view = false);
-            if ($ch != false) {
-                $mw_loaded_mod_memory[$module_name] = true;
-            } else {
-                $mw_loaded_mod_memory[$module_name] = false;
-            }
-        }
-
-
-        return $mw_loaded_mod_memory[$module_name];
-    }
-
-    /* @deprecated */
-    public function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
-    {
-        // Historically did template/view fallback resolution; that body became
-        // unreachable (an early return) long ago. Resolve via dir() directly.
-        return $this->dir($module_name);
-    }
-
-    public function info($module_name)
-    {
-        $module_name = preg_replace('/admin$/', '', $module_name);
-        $module_name = rtrim($module_name, '/');
-
-        $return = [];
-        if (app()->bound('modules')) {
-            $module = app()->modules->find($module_name);
-
-            if ($module) {
-
-
-                $name = $module->getName();
-                $description = $module->getDescription();
-                $return['module'] = $module->getLowerName();
-                $return['name'] = $name;
-                $return['description'] = $description;
-               $return['icon'] = 'mw-general';
-                // $return['iconSvg'] =$module->getModuleIcon();
-
-                $checkIfWeHaveIconInconfig = config('modules.'.$return['module'].'.icon');
-
-                 if($checkIfWeHaveIconInconfig){
-                     $return['icon']  = $checkIfWeHaveIconInconfig;
-                 }
-
-
-
-            }
-        }
-        return $return;
-
-    }
-
     public function ui($name, $arr = false)
     {
         return $this->app->ui->module($name, $arr);
@@ -727,43 +614,6 @@ class ModuleManager
     {
         return $this->app->parser->load($module_name, $attrs);
 
-    }
-
-    public function format_attr($attr_value)
-    {
-        $attr_value = str_replace('"', '&quot;', $attr_value);
-        $attr_value = str_replace("'", '&#39;', $attr_value);
-        $attr_value = str_replace('<', '&lt;', $attr_value);
-        $attr_value = str_replace('>', '&gt;', $attr_value);
-        $attr_value = str_replace('&', '&amp;', $attr_value);
-        $attr_value = str_replace(']', '&#93;', $attr_value);
-        $attr_value = str_replace('[', '&#91;', $attr_value);
-        $attr_value = str_replace('{', '&#123;', $attr_value);
-        $attr_value = str_replace('}', '&#125;', $attr_value);
-        $attr_value = str_replace('`', '&#96;', $attr_value);
-        $attr_value = str_replace(';', '&#59;', $attr_value);
-        return $attr_value;
-    }
-
-
-    public function css_class($module_name)
-    {
-        global $mw_defined_module_classes;
-
-        if (isset($mw_defined_module_classes[$module_name]) != false) {
-            return $mw_defined_module_classes[$module_name];
-        } else {
-            $module_class = str_replace('/', '-', $module_name);
-            $module_class = str_replace('\\', '-', $module_class);
-            $module_class = str_replace(' ', '-', $module_class);
-            $module_class = str_replace('%20', '-', $module_class);
-            $module_class = str_replace('_', '-', $module_class);
-            $module_class = 'module-' . $module_class;
-
-            $mw_defined_module_classes[$module_name] = $module_class;
-
-            return $module_class;
-        }
     }
 
     public function license($module_name = false)
@@ -797,7 +647,6 @@ class ModuleManager
     public function templates($module_name, $template_name = false, $get_settings_file = false, $template_dir = false)
     {
 
-
         if (app()->bound('microweber')) {
             $microweberModule = app()->microweber->hasModule($module_name);
             $templates = [];
@@ -807,9 +656,7 @@ class ModuleManager
                 return $templates;
             }
 
-
         }
-
 
     }
 
@@ -892,51 +739,6 @@ class ModuleManager
     }
 
     /* @deprecated */
-    public function path($module_name)
-    {
-        return $this->dir($module_name);
-    }
-
-    /* @deprecated */
-    public function dir($module_name)
-    {
-        $mod = app()->modules->find($module_name);
-        if ($mod) {
-            return normalize_path($mod->getPath());
-        }
-    }
-
-    public function is_installed($module_name)
-    {
-
-        if (!mw_is_installed()) {
-            return false;
-        }
-        $module_name = trim($module_name);
-        $module_namei = $module_name;
-        if (strstr($module_name, 'admin')) {
-            $module_namei = str_ireplace('\\admin', '', $module_namei);
-            $module_namei = str_ireplace('/admin', '', $module_namei);
-        }
-
-        if (app()->bound('microweber')) {
-            if (app()->microweber->hasModule($module_name)) {
-                return true;
-            }
-        }
-
-        if (app()->bound('modules')) {
-            $module = app()->modules->find($module_name);
-            if ($module && $module->isEnabled()) {
-                return true;
-            }
-        }
-
-
-    }
-
-
-    /* @deprecated */
     public function reorder_modules($data)
     {
         $adm = $this->app->user_manager->is_admin();
@@ -961,7 +763,6 @@ class ModuleManager
         // $this->db_init();
     }
 
-
     /* @deprecated */
     public function uninstall($params)
     {
@@ -981,15 +782,12 @@ class ModuleManager
             }
         }
 
-
         $this->app->cache_manager->clear();
         app()->module_repository->clearCache();
     }
 
-
     public function set_installed($params)
     {
-
 
         if (is_array($params) and isset($params['for_module'])) {
             $module_name = $params['for_module'];
@@ -1009,7 +807,6 @@ class ModuleManager
 
     }
 
-
     public function get_saved_modules_as_template($params)
     {
         $params = parse_params($params);
@@ -1026,7 +823,6 @@ class ModuleManager
 
         return $data;
     }
-
 
     public function delete_module_as_template($data)
     {
@@ -1083,9 +879,7 @@ class ModuleManager
         /* @deprecated */
     }
 
-
     public $logger = null;
-
 
     public function log($text)
     {
@@ -1093,6 +887,5 @@ class ModuleManager
             $this->logger->log($text);
         }
     }
-
 
 }
