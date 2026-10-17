@@ -25,10 +25,19 @@ use MicroweberPackages\Url\Facades\UrlManager;
 use MicroweberPackages\Notification\Facades\Notifications;
 use MicroweberPackages\Format\Facades\Format;
 use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\User\Services\Concerns\BuildsUserUrls;
+use MicroweberPackages\User\Services\Concerns\ReadsUserProfile;
+use MicroweberPackages\User\Services\Concerns\QueriesUsers;
+use MicroweberPackages\User\Services\Concerns\ManagesShippingAddress;
+use MicroweberPackages\User\Services\Concerns\ManagesUserTerms;
 
 class UserManager
 {
-
+    use BuildsUserUrls;
+    use ReadsUserProfile;
+    use QueriesUsers;
+    use ManagesShippingAddress;
+    use ManagesUserTerms;
 
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
@@ -43,7 +52,6 @@ class UserManager
         }
     }
 
-
     public function is_admin()
     {
         if (!mw_is_installed()) {
@@ -55,7 +63,6 @@ class UserManager
 //        if ($adminUser &&  $adminUser->is_admin == 1) {
 //            return true;
 //        }
-
 
         if (Auth::check()) {
             return (bool) Auth::user()->is_admin;
@@ -162,8 +169,6 @@ class UserManager
 
         }
 
-
-
         // So we use second parameter
         if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
             $params['username_encoded'] = rawurldecode($params['username_encoded']);
@@ -216,14 +221,12 @@ class UserManager
             return $return_resp;
         }
 
-
         $controller = new UserLoginController();
 
         $request = new LoginRequest($params);
         $request->merge($params);
 
         $rules = $request->rules();
-
 
         try {
             $validate = $request->validate($rules, $params);
@@ -260,7 +263,6 @@ class UserManager
     {
         $cookie = [];
         $cookie[] = Cookie::forget('XSRF-TOKEN');
-
 
         Auth::logout();
         Session::flush();
@@ -435,125 +437,6 @@ class UserManager
         return redirect(admin_url());
     }
 
-    public function attributes($user_id = false)
-    {
-        if (!$user_id) {
-            $user_id = $this->id();
-        }
-        if (!$user_id) {
-            return;
-        }
-
-        $data = array();
-        $data['rel_type'] = 'users';
-        $data['rel_id'] = intval($user_id);
-        $res = array();
-        $get = $this->app->attributes_manager->get($data);
-        if (!empty($get)) {
-            foreach ($get as $item) {
-                if (isset($item['attribute_name']) and isset($item['attribute_value'])) {
-                    $res[$item['attribute_name']] = $item['attribute_value'];
-                }
-            }
-        }
-        if (!empty($res)) {
-            return $res;
-        }
-
-        return $get;
-    }
-
-    public function data_fields($user_id = false)
-    {
-        if (!$user_id) {
-            $user_id = $this->id();
-        }
-        if (!$user_id) {
-            return;
-        }
-
-        $data = array();
-        $data['rel_type'] = 'users';
-        $data['rel_id'] = intval($user_id);
-        $res = array();
-        $get = $this->app->content_manager->get_data($data);
-        if (!empty($get)) {
-            foreach ($get as $item) {
-                if (isset($item['field_name']) and isset($item['field_value'])) {
-                    $res[$item['field_name']] = $item['field_value'];
-                }
-            }
-        }
-        if (!empty($res)) {
-            return $res;
-        }
-
-        return $get;
-    }
-
-    public function has_picture($user_id = false)
-    {
-
-        if (!$user_id) {
-            $user_id = $this->id();
-        }
-
-        $name = $this->get_by_id($user_id);
-        if (isset($name['thumbnail']) and $name['thumbnail'] != '') {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function picture($user_id = false)
-    {
-
-        if (!$user_id) {
-            $user_id = $this->id();
-        }
-
-        $name = $this->get_by_id($user_id);
-        if (isset($name['thumbnail']) and $name['thumbnail'] != '') {
-            if (is_https()) {
-                $rep = 1;
-                $name['thumbnail'] = str_ireplace('http://', '//', $name['thumbnail'], $rep);
-            }
-            return $name['thumbnail'];
-        }
-
-        return modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-user.svg';
-    }
-
-    /**
-     * @function user_name
-     * gets the user's FULL name
-     *
-     * @param        $user_id the id of the user. If false it will use the curent user (you)
-     * @param string $mode full|first|last|username
-     *                        'full' //prints full name (first +last)
-     *                        'first' //prints first name
-     *                        'last' //prints last name
-     *                        'username' //prints username
-     *
-     * @return string
-     */
-    public function name($user_id = false, $mode = 'full')
-    {
-        if ($mode != 'username') {
-            if ($user_id == user_id()) {
-                // return 'You';
-            }
-        }
-        if ($user_id == false) {
-            $user_id = user_id();
-        }
-
-        $name = $this->nice_name($user_id, $mode);
-
-        return $name;
-    }
-
     /**
      * Function to get user printable name by given ID.
      *
@@ -573,101 +456,9 @@ class UserManager
 
     public $nice_name_cache = array();
 
-    public function nice_name($id = false, $mode = 'full')
-    {
-
-        if (!$id) {
-            $id = $this->id();
-        }
-
-        if (isset($this->nice_name_cache[$mode . $id])) {
-            return $this->nice_name_cache[$mode . $id];
-        }
-
-        $user = $this->get_by_id($id);
-
-
-        $user_data = $user;
-        if (empty($user)) {
-            return false;
-        }
-
-        switch ($mode) {
-            case 'first' :
-            case 'fist' :
-                // because of a common typo :)
-                $user_data['first_name'] ? $name = $user_data['first_name'] : $name = $user_data['username'];
-                $name = ucwords($name);
-
-                if (trim($name) == '' and $user_data['email'] != '') {
-                    $n = explode('@', $user_data['email']);
-                    $name = $n[0];
-                }
-                // return $name;
-                break;
-
-            case 'last' :
-                $user_data['last_name'] ? $name = $user_data['last_name'] : $name = $user_data['last_name'];
-                $name = ucwords($name);
-                break;
-
-            case 'username' :
-                $name = $user_data['username'];
-                break;
-
-
-            case 'email' :
-                $name = $user_data['email'];
-                break;
-
-            case 'full' :
-            default :
-
-                $name = '';
-                if (isset($user_data['first_name'])) {
-                    if ($user_data['first_name']) {
-                        $name = $user_data['first_name'];
-                    }
-                }
-
-                if (isset($user_data['last_name'])) {
-                    if ($user_data['last_name']) {
-                        $name .= ' ' . $user_data['last_name'];
-                    }
-                }
-                $name = ucwords($name);
-
-                if (trim($name) == '' and $user_data['email'] != '') {
-                    $name = $user_data['email'];
-                    $name_from_email = explode('@', $user_data['email']);
-                    $name = $name_from_email[0];
-                }
-
-                if (trim($name) == '' and $user_data['username'] != '') {
-                    $name = $user_data['username'];
-                    $name = ucwords($name);
-                }
-
-                break;
-        }
-
-        if (!isset($name) or $name == false or $name == null or trim($name) == '') {
-            if (isset($user_data['username']) and $user_data['username'] != false and trim($user_data['username']) != '') {
-                $name = $user_data['username'];
-            } elseif (isset($user_data['email']) and $user_data['email'] != false and trim($user_data['email']) != '') {
-                $name_from_email = explode('@', $user_data['email']);
-                $name = $name_from_email[0];
-            }
-        }
-        $this->nice_name_cache[$mode . $id] = $name;
-        return $name;
-    }
-
-
     public function register($params)
     {
         $params = xss_clean($params);
-
 
         $controller = new UserRegisterController();
 
@@ -675,7 +466,6 @@ class UserManager
         $request->merge($params);
 
         $rules = $request->rules();
-
 
         try {
             $validate = $request->validate($rules, $params);
@@ -762,10 +552,8 @@ class UserManager
                 $new_user_registration_template_id = $this->app->option_manager->get('new_user_registration_mail_template', 'users');
                 $mail_template = get_mail_template_by_id($new_user_registration_template_id, 'new_user_registration');
 
-
                 $register_email_subject = $mail_template['subject'];
                 $register_email_content = $mail_template['message'];
-
 
                 $appendFiles = array();
                 if (!empty(get_option('append_files', 'mail_template_id_' . $new_user_registration_template_id))) {
@@ -781,7 +569,6 @@ class UserManager
                     $verify_email_link = Format::encrypt($data['id']);
                     $verify_email_link = api_url('users/verify_email_link') . '?key=' . $verify_email_link;
                     $data['verify_email_link'] = $verify_email_link;
-
 
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
@@ -903,7 +690,6 @@ class UserManager
                         }
                     } else {
 
-
                         if (!isset($params['id'])) {
                             $params['id'] = $this->id();
                         }
@@ -946,10 +732,8 @@ class UserManager
             }
         }
 
-
         if (isset($params['id']) and intval($params['id']) != 0) {
             $user = User::find($params['id']);
-
 
         } else {
             $user = new User();
@@ -958,14 +742,12 @@ class UserManager
 
         $data_to_save = Format::clean_xss($data_to_save);
 
-
         if (isset($data_to_save['password2'])) {
             $data_to_save['verify_password'] = $data_to_save['password2'];
         }
 
         $checkValidator = $user->validateAndFill($data_to_save);
         $getValidatorMessages = $user->getValidatorMessages();
-
 
         if ($checkValidator) {
 
@@ -977,11 +759,9 @@ class UserManager
                 }
             }
 
-
             if (isset($user->id)) {
                 $data_to_save['id'] = $params['id'] = $user->id;
             }
-
 
             if (isset($data_to_save['id']) and $data_to_save['id'] == 0) {
                 if ((isset($data_to_save['username']) and $data_to_save['username'] == false) and (isset($data_to_save['email']) and $data_to_save['email'] == false)
@@ -1121,49 +901,6 @@ class UserManager
         }
     }
 
-    public function get($params = false)
-    {
-        $id = $params;
-        if ($id == false) {
-            $id = $this->id();
-        }
-        if ($id == 0) {
-            return false;
-        }
-        $res = $this->get_by_id($id);
-        if (empty($res)) {
-            $res = $this->get_by_username($id);
-        }
-
-        return $res;
-    }
-
-    public function get_by_email($email)
-    {
-        $data = array();
-        $data['email'] = $email;
-        $data['limit'] = 1;
-        $data = $this->get_all($data);
-        if (isset($data[0])) {
-            $data = $data[0];
-        }
-
-        return $data;
-    }
-
-    public function get_by_username($username)
-    {
-        $data = array();
-        $data['username'] = $username;
-        $data['limit'] = 1;
-        $data = $this->get_all($data);
-        if (isset($data[0])) {
-            $data = $data[0];
-        }
-
-        return $data;
-    }
-
     public function delete($data)
     {
         if (!is_array($data)) {
@@ -1209,7 +946,6 @@ class UserManager
             }
         }
 
-
         if (!isset($params['password_reset_hash']) or trim($params['password_reset_hash']) == '') {
             return array('error' => 'You must send password_reset_hash parameter');
         }
@@ -1230,7 +966,6 @@ class UserManager
         $data1['id'] = intval($params['id']);
         $data1['password_reset_hash'] = DatabaseManager::escape_string($params['password_reset_hash']);
         $table = 'users';
-
 
         $check = User::whereNotNull('password_reset_hash')->where('password_reset_hash', $data1['password_reset_hash'])->where('id', $data1['id'])->first();
         if (!$check) {
@@ -1273,14 +1008,12 @@ class UserManager
     public function send_forgot_password($params)
     {
 
-
         $request = new Request();
         $params['format'] = 'json';
 
         $request->merge($params);
 
         $controller = new UserForgotPasswordController();
-
 
         $response = $controller->send($request);
 
@@ -1290,7 +1023,6 @@ class UserManager
 
         }
         return $response;
-
 
         //  return RequestRoute::postJson(route('api.user.password.email'), $params);
     }
@@ -1336,7 +1068,6 @@ class UserManager
             }
         }
 
-
         if (intval($user_id) > 0) {
             $data = $this->get_by_id($user_id);
             if ($data == false) {
@@ -1377,31 +1108,6 @@ class UserManager
                 }
             }
         }
-    }
-
-    /**
-     * Generic function to get the user by id.
-     * Uses the getUsers function to get the data.
-     *
-     * @param
-     *            int id
-     *
-     * @return array
-     */
-    public function get_by_id($id)
-    {
-        $id = intval($id);
-        if ($id == 0) {
-            return false;
-        }
-
-        $findUser = User::where('id', $id)->first();
-        if ($findUser == null) {
-            return false;
-        }
-
-
-        return $findUser->toArray();
     }
 
     public function update_last_login_time()
@@ -1523,8 +1229,6 @@ class UserManager
             //do nothing
         }
 
-
-
         if ($user_after_login != false) {
             if(!str_contains($user_after_login, UrlManager::site())) {
                 $user_after_login = site_url($user_after_login);
@@ -1533,191 +1237,6 @@ class UserManager
             return UrlManager::redirect($user_after_login);
         } else {
             return UrlManager::redirect(site_url());
-        }
-    }
-
-    public function count()
-    {
-        $options = array();
-        $options['count'] = true;
-        $options['cache_group'] = 'users/global/';
-        $data = $this->get_all($options);
-
-        return $data;
-    }
-
-    /**
-     * @function get_users
-     *
-     * @param $params array|string;
-     * @params $params['username'] string username for user
-     * @params $params['email'] string email for user
-     * @params $params['password'] string password for user
-     *
-     *
-     * @usage $this->get_all('email=my_email');
-     *
-     * @return array of users;
-     */
-    public function get_all($params)
-    {
-        $params = parse_params($params);
-
-        $table = 'users';
-
-        $data = Format::clean_html($params);
-        $orig_data = $data;
-
-        if (isset($data['ids']) and is_array($data['ids'])) {
-            if (!empty($data['ids'])) {
-                $ids = $data['ids'];
-            }
-        }
-        if (!isset($params['search_in_fields'])) {
-            $data['search_in_fields'] = array('id', 'first_name', 'last_name', 'username', 'email');
-        }
-        $cache_group = 'users/global';
-        if (isset($limit) and $limit != false) {
-            $data['limit'] = $limit;
-        }
-        if (isset($count_only) and $count_only != false) {
-            $data['count'] = $count_only;
-        }
-        if (isset($data['username']) and $data['username'] == false) {
-            unset($data['username']);
-        }
-
-
-        $data['table'] = $table;
-        $data['exclude_shorthand'] = true;
-        // $data['no_cache'] = 1;
-
-        $get = DatabaseManager::get($data);
-
-        return $get;
-    }
-
-    public function register_url()
-    {
-        $template_dir = $this->app->template_manager->dir();
-        $file = $template_dir . 'register.php';
-        $default_url = false;
-        if (is_file($file)) {
-            $default_url = 'register';
-        } else {
-            $default_url = 'users/register';
-        }
-
-        $checkout_url = $this->app->option_manager->get('register_url', 'users');
-        if ($checkout_url != false and trim($checkout_url) != '') {
-            $default_url = $checkout_url;
-        }
-
-        $checkout_url_sess = $this->session_get('register_url');
-
-        if ($checkout_url_sess == false) {
-            return UrlManager::site($default_url);
-        } else {
-            return UrlManager::site($checkout_url_sess);
-        }
-    }
-
-    public function logout_url()
-    {
-
-        $template_dir = $this->app->template_manager->dir();
-        $file = $template_dir . 'logout.php';
-        $logout_url_settings = $this->app->option_manager->get('logout_url', 'users');
-        $logout_url_sess = $this->session_get('logout_url');
-
-        if ($logout_url_sess) {
-            return $logout_url_sess;
-        } else if ($logout_url_settings) {
-            return $logout_url_settings;
-        } else if (is_file($file)) {
-            return site_url('logout');
-        } else {
-            if(route_exists('logout')) {
-                return route('logout');
-            } else {
-                return site_url('logout');
-            }
-
-            //return route('api.user.logout');
-          //  return route('logout');
-        }
-
-    }
-
-    public function login_url()
-    {
-        $template_dir = $this->app->template_manager->dir();
-        $file = $template_dir . 'login.php';
-        $default_url = false;
-//        if (is_file($file)) {
-//            $default_url = 'login';
-//        } else {
-//            $default_url = 'users/login';
-//        }
-        $default_url = 'login';
-        $login_url = $this->app->option_manager->get('login_url', 'users');
-        if ($login_url != false and trim($login_url) != '') {
-            $default_url = $login_url;
-        }
-
-        $login_url_sess = $this->session_get('login_url');
-
-        if ($login_url_sess == false) {
-            return UrlManager::site($default_url);
-        } else {
-            return UrlManager::site($login_url_sess);
-        }
-    }
-
-    public function profile_url()
-    {
-        $template_dir = $this->app->template_manager->dir();
-        $file = $template_dir . 'profile.php';
-        $default_url = false;
-        if (is_file($file)) {
-            $default_url = 'profile';
-        } else {
-            $default_url = 'users/profile';
-        }
-
-        $profile_url = $this->app->option_manager->get('profile_url', 'users');
-        if ($profile_url != false and trim($profile_url) != '') {
-            $profile_url = $profile_url;
-        }
-
-        $profile_url_sess = $this->session_get('profile_url');
-
-        if ($profile_url_sess == false) {
-            return UrlManager::site($default_url);
-        } else {
-            return UrlManager::site($profile_url_sess);
-        }
-    }
-
-    public function forgot_password_url()
-    {
-        $template_dir = $this->app->template_manager->dir();
-        $file = $template_dir . 'forgot_password.php';
-        $default_url = false;
-        if (is_file($file)) {
-            $default_url = 'forgot_password';
-        } else {
-            $default_url = 'users/forgot_password';
-        }
-        $checkout_url = $this->app->option_manager->get('forgot_password_url', 'users');
-        if ($checkout_url != false and trim($checkout_url) != '') {
-            $default_url = $checkout_url;
-        }
-        $checkout_url_sess = $this->session_get('forgot_password_url');
-        if ($checkout_url_sess == false) {
-            return UrlManager::site($default_url);
-        } else {
-            return UrlManager::site($checkout_url_sess);
         }
     }
 
@@ -1779,102 +1298,6 @@ class UserManager
         // The UserSocialiteServiceProvider populates the config on boot.
     }
 
-    public function terms_accept($tos_name, $user_id_or_email = false)
-    {
-        $tos = new TosManager();
-        return $tos->terms_accept($tos_name, $user_id_or_email);
-
-    }
-
-    public function terms_check($tos_name = false, $user_id_or_email = false)
-    {
-
-        $tos = new TosManager();
-        return $tos->terms_check($tos_name, $user_id_or_email);
-
-    }
-
-
-    public function get_shipping_address()
-    {
-        $shipping_address_from_profile = [];
-        if ($this->is_logged()) {
-            $findCustomer = \Modules\Customer\Models\Customer::where('user_id', Auth::id())->first();
-            if ($findCustomer) {
-                $findAddressShipping = \Modules\Address\Models\Address::where('type', 'shipping')
-
-                    ->where('rel_id', $findCustomer->id)
-                    ->where('rel_type', Customer::class)
-
-                    ->first();
-                if ($findAddressShipping) {
-                    $country_from_shipping_addr = $findAddressShipping->country()->first();
-                    foreach ($findAddressShipping->toArray() as $addressKey => $addressValue) {
-                        $shipping_address_from_profile[$addressKey] = $addressValue;
-                    }
-                    if ($country_from_shipping_addr and isset($country_from_shipping_addr->name)) {
-                        $shipping_address_from_profile['country'] = $country_from_shipping_addr->name;
-                    }
-
-                    if ($findAddressShipping and isset($findAddressShipping->address_street_1)) {
-                        $shipping_address_from_profile['address'] = $findAddressShipping->address_street_1;
-                    }
-
-                    if (!isset($shipping_address_from_profile['address']) and $findAddressShipping and isset($findAddressShipping->address_street_2)) {
-                        $shipping_address_from_profile['address'] = $findAddressShipping->address_street_2;
-                    }
-
-
-            return $shipping_address_from_profile;
-        }
-    }
-
-}
-}
-
-    public function save_shipping_address(array $data): bool
-    {
-        if (!$this->is_logged()) {
-            return false;
-        }
-
-        $userId = $this->id();
-        if (!$userId) {
-            return false;
-        }
-
-        // Find or create customer record
-        $customer = \Modules\Customer\Models\Customer::firstOrCreate(
-            ['user_id' => $userId],
-            [
-                'first_name' => $data['first_name'] ?? get_user()['first_name'] ?? '',
-                'last_name' => $data['last_name'] ?? get_user()['last_name'] ?? '',
-                'email' => $data['email'] ?? get_user()['email'] ?? '',
-            ]
-        );
-
-        // Find or create shipping address
-        $addressData = [
-            'rel_type' => \Modules\Customer\Models\Customer::class,
-            'rel_id' => $customer->id,
-            'type' => 'shipping',
-        ];
-
-        $shippingAddress = \Modules\Address\Models\Address::updateOrCreate(
-            $addressData,
-            [
-                'address_street_1' => $data['address'] ?? null,
-                'city' => $data['city'] ?? null,
-                'state' => $data['state'] ?? null,
-                'zip' => $data['zip'] ?? $data['postal_code'] ?? null,
-                'country' => $data['country'] ?? null,
-                'phone' => $data['phone'] ?? null,
-            ]
-        );
-
-        return (bool) $shippingAddress;
-    }
-
 private function __check_id_has_ability_to_edit_user($user_id)
     {
         if (!$user_id) {
@@ -1896,7 +1319,6 @@ private function __check_id_has_ability_to_edit_user($user_id)
                 }
             }
         }
-
 
         return true;
 
