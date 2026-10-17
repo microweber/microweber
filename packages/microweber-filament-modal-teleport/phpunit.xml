@@ -5,13 +5,8 @@
          colors="true"
 >
     <testsuites>
-        <testsuite name="Contract">
-            <file>tests/ModalStackingCssContractTest.php</file>
-            <file>tests/ModalTeleportAssetsContractTest.php</file>
-            <file>tests/MwModalTeleportPluginTest.php</file>
-        </testsuite>
-        <testsuite name="Livewire">
-            <file>tests/NestedModalLivewireTest.php</file>
+        <testsuite name="ModalTeleport">
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>

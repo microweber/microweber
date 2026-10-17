@@ -9,6 +9,7 @@ if (class_exists(\Orchestra\Testbench\TestCase::class)) {
         protected function getPackageProviders($app): array
         {
             return [
+                \Livewire\LivewireServiceProvider::class,
                 \MicroweberPackages\CdnSync\CdnSyncServiceProvider::class,
             ];
         }
