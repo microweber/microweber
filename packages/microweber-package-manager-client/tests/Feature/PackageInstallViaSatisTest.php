@@ -44,7 +44,7 @@ class PackageInstallViaSatisTest extends TestCase
         parent::tearDown();
     }
 
-    private function makeClient(): PackageManagerClient
+    private function makeClient(): PackageManagerClientService
     {
         return new PackageManagerClientService(
             packageServers: [$this->server->packagesJsonUrl()],

@@ -45,7 +45,7 @@ class DatabaseManagerService extends DbUtils
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = mw();
+                $this->app = function_exists('mw') ? mw() : app();
             }
         }
     }
