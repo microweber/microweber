@@ -7,6 +7,8 @@
     <testsuites>
         <testsuite name="AiTools">
             <directory>tests</directory>
+            <!-- Dusk tests need a browser + laravel/dusk; excluded from the standalone/unit run -->
+            <exclude>tests/Dusk</exclude>
         </testsuite>
     </testsuites>
     <source>

@@ -27,7 +27,9 @@ class EventManagerServiceProviderTest extends TestCase
     public function it_provides_event_manager_key(): void
     {
         $provider = new EventManagerServiceProvider($this->app);
-        $this->assertContains('event_manager', $provider->provides());
+        // The package binds/provides the service by its FQCN (the facade accessor is
+        // EventService::class); the legacy 'event_manager' string key is a monorepo-ism.
+        $this->assertContains(EventService::class, $provider->provides());
     }
 
     #[Test]

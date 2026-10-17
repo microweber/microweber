@@ -279,6 +279,6 @@ class EventTest extends TestCase
     {
         /** @var Event $manager */
         $manager = EventManager::getFacadeRoot();
-        $this->assertInstanceOf(\MicroweberPackages\Event\LaravelEventService::class, $manager->getAdapter());
+        $this->assertInstanceOf(\MicroweberPackages\Event\LaravelEvent::class, $manager->getAdapter());
     }
 }
