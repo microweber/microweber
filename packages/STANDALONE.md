@@ -60,15 +60,15 @@ were removed. phpquery now PASSES (272 tests).
   package-manager-client (wrong class/return-type refs), event-manager (2 test bugs),
   filament-theme (added smoke test), filament-modal-teleport (phpunit file refs + xsi typo).
 
-### ✅ PASS (standalone-ready) — 46
+### ✅ PASS (standalone-ready) — 47
 ai-tools, app-bootstrap-cache, blade-cache, cdn-sync, class-loader, config, config-merge,
 content-field, db-installer, db-migrator, disposable-email-checker, env-writer,
 event-manager, filament-modal-teleport, filament-registry, filament-theme, filesystem,
 file-uploader, format, http, image-optimization, livewire-modal, mail-sender,
 media-pixum, media-thumbnail, minifier, module-registry, multisite, notification,
-package, package-manager-client, pagination, queue, repository, searchable, security,
-svg-icons, system-licenses, taggable-file-cache, template-custom-css, template-fonts,
-thumbnailer, translation, url, view, zip.
+package, package-manager-client, pagination, phpquery, queue, repository, searchable,
+security, svg-icons, system-licenses, taggable-file-cache, template-custom-css,
+template-fonts, thumbnailer, translation, url, view, zip.
 
 ## Resuming
 Pick a FAIL package, run `scripts/standalone-test.sh <pkg>` to see the exact error,
