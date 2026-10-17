@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\TemplateFonts\Services;
 
+
+use MicroweberPackages\Package\Concerns\ReadsArrayConfig;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +22,8 @@ use MicroweberPackages\TemplateFonts\Providers\SystemFontsProvider;
  */
 class TemplateFontsManager
 {
+    use ReadsArrayConfig;
+
     /** @var array<string, FontProviderInterface> */
     protected array $providers = [];
 
@@ -66,45 +70,6 @@ class TemplateFontsManager
             'legacy_option_group' => 'template',
             'legacy_proxy_option_key' => 'use_google_fonts_proxy',
         ];
-    }
-
-    protected function configString(string $key, string $default = ''): string
-    {
-        $value = $this->config[$key] ?? $default;
-        if (is_string($value)) {
-            return $value;
-        }
-        if (is_int($value) || is_float($value)) {
-            return (string) $value;
-        }
-
-        return $default;
-    }
-
-    protected function configInt(string $key, int $default = 0): int
-    {
-        $value = $this->config[$key] ?? $default;
-        if (is_int($value)) {
-            return $value;
-        }
-        if (is_numeric($value)) {
-            return (int) $value;
-        }
-
-        return $default;
-    }
-
-    protected function configBool(string $key, bool $default = false): bool
-    {
-        $value = $this->config[$key] ?? $default;
-        if (is_bool($value)) {
-            return $value;
-        }
-        if (is_int($value) || is_string($value)) {
-            return (bool) $value;
-        }
-
-        return $default;
     }
 
     protected function registerDefaultProviders(): void

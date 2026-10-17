@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\TemplateCustomCss\Services;
 
+
+use MicroweberPackages\Package\Concerns\ReadsArrayConfig;
 use MicroweberPackages\TemplateCustomCss\Contracts\CssFileHandlerInterface;
 use MicroweberPackages\TemplateCustomCss\Contracts\OptionStoreInterface;
 use MicroweberPackages\TemplateCustomCss\Support\PathHelper;
@@ -16,6 +18,8 @@ use MicroweberPackages\TemplateCustomCss\Support\PathHelper;
  */
 class CustomCssManager implements CssFileHandlerInterface
 {
+    use ReadsArrayConfig;
+
     public const KEY = 'custom';
 
     /** @var list<callable(): void> */
@@ -383,32 +387,6 @@ class CustomCssManager implements CssFileHandlerInterface
         }
 
         return '/api/' . ltrim($route, '/');
-    }
-
-    protected function configString(string $key, string $default = ''): string
-    {
-        $value = $this->config[$key] ?? $default;
-        if (is_string($value)) {
-            return $value;
-        }
-        if (is_int($value) || is_float($value)) {
-            return (string) $value;
-        }
-
-        return $default;
-    }
-
-    protected function configBool(string $key, bool $default = false): bool
-    {
-        $value = $this->config[$key] ?? $default;
-        if (is_bool($value)) {
-            return $value;
-        }
-        if (is_int($value) || is_string($value)) {
-            return (bool) $value;
-        }
-
-        return $default;
     }
 
     /**
