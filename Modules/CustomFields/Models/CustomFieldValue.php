@@ -1,11 +1,15 @@
 <?php
 namespace Modules\CustomFields\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class CustomFieldValue extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use CacheableQueryBuilderTrait;
   //  use HasMultilanguageTrait;
 

@@ -2,11 +2,15 @@
 
 namespace Modules\Ai\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AgentChatSearch extends Model
 {
+    use FiresModelLifecycleEvents;
+
     protected $fillable = [
         'chat_id',
         'message_id',

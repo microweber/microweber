@@ -2,6 +2,8 @@
 
 namespace Modules\Product\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -27,6 +29,8 @@ use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
  */
 class ProductVariantAttribute extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
     use CacheableQueryBuilderTrait;
     use HasCreatedByFieldsTrait;

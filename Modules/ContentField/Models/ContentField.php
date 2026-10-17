@@ -2,12 +2,16 @@
 
 namespace Modules\ContentField\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class ContentField extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasCreatedByFieldsTrait;
     use HasMultilanguageTrait;
 

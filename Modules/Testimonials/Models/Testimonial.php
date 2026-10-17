@@ -2,6 +2,8 @@
 
 namespace Modules\Testimonials\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
@@ -11,6 +13,8 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class Testimonial extends Model
 {
+    use FiresModelLifecycleEvents;
+
 
     use HasMultilanguageTrait;
     use CacheableQueryBuilderTrait;

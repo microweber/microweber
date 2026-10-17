@@ -2,6 +2,8 @@
 
 namespace Modules\Newsletter\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Newsletter\Livewire\Admin\NewsletterSubscribersList;
@@ -9,6 +11,8 @@ use Modules\Newsletter\Database\Factories\NewsletterCampaignFactory;
 
 class NewsletterCampaign extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     public $table = 'newsletter_campaigns';

@@ -2,12 +2,16 @@
 
 namespace Modules\Order\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Payment\Models\Payment;
 
 class OrderRefund extends Model
 {
+    use FiresModelLifecycleEvents;
+
     protected $table = 'order_refunds';
 
     protected $fillable = [

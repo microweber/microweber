@@ -2,6 +2,8 @@
 
 namespace Modules\WordPressMigration\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -24,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class StagingMedia extends Model
 {
+    use FiresModelLifecycleEvents;
+
     protected $table = 'wp_migration_staging_media';
 
     protected $fillable = [

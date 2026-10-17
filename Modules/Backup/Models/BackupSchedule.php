@@ -2,6 +2,8 @@
 
 namespace Modules\Backup\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,6 +17,8 @@ use Carbon\Carbon;
  */
 class BackupSchedule extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     /**

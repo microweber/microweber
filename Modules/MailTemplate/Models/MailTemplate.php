@@ -2,6 +2,8 @@
 
 namespace Modules\MailTemplate\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\MailTemplate\Database\Factories\MailTemplateFactory;
@@ -9,6 +11,8 @@ use Modules\MailTemplate\Services\MailTemplateService;
 
 class MailTemplate extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     protected static function newFactory(): MailTemplateFactory

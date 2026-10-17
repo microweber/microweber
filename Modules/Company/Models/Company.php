@@ -2,12 +2,16 @@
 
 namespace Modules\Company\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Company\Database\Factories\CompanyFactory;
 
 class Company extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     protected static function newFactory()

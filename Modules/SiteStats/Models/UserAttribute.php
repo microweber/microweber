@@ -1,10 +1,14 @@
 <?php
 namespace Modules\SiteStats\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 
 class UserAttribute extends Model
 {
+    use FiresModelLifecycleEvents;
+
     protected $table = 'attributes';
 
     public static function getUtmDetails($userId)

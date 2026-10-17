@@ -3,6 +3,8 @@
 namespace Modules\Content\Models;
 
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
@@ -10,6 +12,8 @@ use MicroweberPackages\Database\Traits\MaxPositionTrait;
 
 class ContentRelated extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use MaxPositionTrait;
 
     use CacheableQueryBuilderTrait;

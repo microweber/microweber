@@ -5,6 +5,7 @@ namespace Modules\Content\Tests\Feature;
 use Illuminate\Support\Facades\Event;
 use Modules\Cart\Models\Cart;
 use Modules\Category\Models\Category;
+use Modules\Company\Models\Company;
 use Modules\Content\Models\Content;
 use Modules\Customer\Models\Customer;
 use Modules\Invoice\Models\Invoice;
@@ -121,5 +122,42 @@ class ModelLifecycleEventsTest extends TestCase
         Event::assertDispatched(\Modules\Category\Events\CategoryWasCreated::class);
 
         $cat->forceDelete();
+    }
+
+    #[Test]
+    public function models_using_the_generic_trait_fire_generic_events(): void
+    {
+        // A sample of models wired with FiresModelLifecycleEvents must use the
+        // trait and dispatch the generic Model* events on create/update/delete.
+        $sample = [
+            \Modules\Accordion\Models\Accordion::class,
+            \Modules\Company\Models\Company::class,
+            \Modules\Payment\Models\PaymentProvider::class,
+        ];
+        foreach ($sample as $cls) {
+            $this->assertContains(
+                \MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents::class,
+                class_uses_recursive($cls),
+                "$cls should use FiresModelLifecycleEvents"
+            );
+        }
+
+        Event::fake([
+            \MicroweberPackages\Core\Events\ModelWasCreated::class,
+            \MicroweberPackages\Core\Events\ModelWasUpdated::class,
+            \MicroweberPackages\Core\Events\ModelWasDeleted::class,
+        ]);
+
+        $company = new Company();
+        $company->name = 'generic-evt-' . uniqid();
+        $company->save();
+        Event::assertDispatched(\MicroweberPackages\Core\Events\ModelWasCreated::class, fn ($e) => $e->getModel() instanceof Company);
+
+        $company->name = 'generic-evt-updated';
+        $company->save();
+        Event::assertDispatched(\MicroweberPackages\Core\Events\ModelWasUpdated::class);
+
+        $company->delete();
+        Event::assertDispatched(\MicroweberPackages\Core\Events\ModelWasDeleted::class);
     }
 }

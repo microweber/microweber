@@ -1,12 +1,16 @@
 <?php
 namespace Modules\Newsletter\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Newsletter\Database\Factories\NewsletterListFactory;
 
 class NewsletterList extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     public $table = 'newsletter_lists';

@@ -11,11 +11,15 @@
 
 namespace Modules\Order\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
 class OrderAnonymousClient extends Model
 {
+    use FiresModelLifecycleEvents;
+
 
     use Notifiable;
 

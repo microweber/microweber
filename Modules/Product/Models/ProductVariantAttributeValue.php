@@ -2,6 +2,8 @@
 
 namespace Modules\Product\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,6 +32,8 @@ use MicroweberPackages\Database\Traits\MaxPositionTrait;
  */
 class ProductVariantAttributeValue extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
     use CacheableQueryBuilderTrait;
     use MaxPositionTrait;

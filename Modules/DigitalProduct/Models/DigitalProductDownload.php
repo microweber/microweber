@@ -2,6 +2,8 @@
 
 namespace Modules\DigitalProduct\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
@@ -12,6 +14,8 @@ use Illuminate\Support\Str;
  */
 class DigitalProductDownload extends Model
 {
+    use FiresModelLifecycleEvents;
+
     protected $table = 'digital_product_downloads';
 
     protected $fillable = [

@@ -2,10 +2,14 @@
 
 namespace Modules\Log\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 
 class Log extends Model
 {
+    use FiresModelLifecycleEvents;
+
     protected $table = 'logs';
 
     public $timestamps = true;

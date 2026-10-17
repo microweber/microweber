@@ -2,11 +2,15 @@
 
 namespace Modules\Newsletter\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class NewsletterAutomationQueue extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     public $table = 'newsletter_automation_queue';

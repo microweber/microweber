@@ -2,6 +2,8 @@
 
 namespace Modules\CustomFields\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -12,6 +14,8 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class CustomField extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use MaxPositionTrait;
     use CacheableQueryBuilderTrait;
     use HasCreatedByFieldsTrait;

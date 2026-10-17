@@ -2,11 +2,15 @@
 
 namespace Modules\Backup\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Sushi\Sushi;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Backup extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
     use Sushi;
 

@@ -2,11 +2,15 @@
 
 namespace Modules\Invoice\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InvoiceItem extends Model
 {
+    use FiresModelLifecycleEvents;
+
     protected $fillable = [
         'invoice_id',
         'name',

@@ -2,6 +2,8 @@
 
 namespace Modules\Newsletter\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Newsletter\Database\Factories\NewsletterCampaignPixelFactory;
@@ -9,6 +11,8 @@ use Modules\Newsletter\Livewire\Admin\NewsletterSubscribersList;
 
 class NewsletterCampaignPixel extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     public $table = 'newsletter_campaigns_pixel';

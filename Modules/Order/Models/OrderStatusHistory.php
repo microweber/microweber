@@ -2,6 +2,8 @@
 
 namespace Modules\Order\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +11,8 @@ use MicroweberPackages\User\Models\User;
 
 class OrderStatusHistory extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     protected $table = 'order_status_history';

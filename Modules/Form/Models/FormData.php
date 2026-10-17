@@ -2,10 +2,14 @@
 
 namespace Modules\Form\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 
 class FormData extends Model
 {
+    use FiresModelLifecycleEvents;
+
     protected $table = 'forms_data';
 
     public static function boot()

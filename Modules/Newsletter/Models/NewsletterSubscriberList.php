@@ -2,12 +2,16 @@
 
 namespace Modules\Newsletter\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Newsletter\Database\Factories\NewsletterSubscriberListFactory;
 
 class NewsletterSubscriberList extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     protected $table = 'newsletter_subscribers_lists';

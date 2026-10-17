@@ -2,6 +2,8 @@
 
 namespace Modules\Accordion\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
@@ -23,6 +25,8 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
  */
 class Accordion extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasMultilanguageTrait;
     use CacheableQueryBuilderTrait;
     use MaxPositionTrait;

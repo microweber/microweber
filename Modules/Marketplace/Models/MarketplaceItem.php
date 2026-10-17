@@ -3,6 +3,8 @@
 namespace Modules\Marketplace\Models;
 
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -12,6 +14,8 @@ use Sushi\Sushi;
 
 class MarketplaceItem extends Model
 {
+    use FiresModelLifecycleEvents;
+
 
     use Sushi;
 

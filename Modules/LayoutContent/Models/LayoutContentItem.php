@@ -2,12 +2,16 @@
 
 namespace Modules\LayoutContent\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\LayoutContent\Database\Factories\LayoutContentItemFactory;
 
 class LayoutContentItem extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     /**

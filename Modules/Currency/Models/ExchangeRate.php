@@ -2,6 +2,8 @@
 
 namespace Modules\Currency\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ExchangeRate extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     /**

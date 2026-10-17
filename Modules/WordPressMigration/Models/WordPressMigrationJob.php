@@ -2,6 +2,8 @@
 
 namespace Modules\WordPressMigration\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,6 +37,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class WordPressMigrationJob extends Model
 {
+    use FiresModelLifecycleEvents;
+
     public const STATUS_PROBING = 'probing';
     public const STATUS_READY = 'ready';
     public const STATUS_UNREACHABLE = 'unreachable';

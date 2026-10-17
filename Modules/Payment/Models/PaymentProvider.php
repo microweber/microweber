@@ -2,11 +2,15 @@
 
 namespace Modules\Payment\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class PaymentProvider extends \Illuminate\Database\Eloquent\Model
 {
+    use FiresModelLifecycleEvents;
+
     use CacheableQueryBuilderTrait;
     use HasFactory;
 

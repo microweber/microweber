@@ -2,12 +2,16 @@
 
 namespace Modules\HostingApi\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Customer\Models\Customer;
 
 class HostingSubscription extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     protected $table = 'hosting_subscriptions';

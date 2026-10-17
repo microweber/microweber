@@ -1,12 +1,16 @@
 <?php
 namespace Modules\Country\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Country extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use CacheableQueryBuilderTrait;
 
 

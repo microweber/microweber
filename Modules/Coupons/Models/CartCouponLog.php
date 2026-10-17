@@ -2,10 +2,14 @@
 
 namespace Modules\Coupons\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 
 class CartCouponLog extends Model
 {
+    use FiresModelLifecycleEvents;
+
     protected $table = 'cart_coupon_logs';
     
     protected $fillable = [

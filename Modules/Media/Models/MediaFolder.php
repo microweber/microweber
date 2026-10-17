@@ -2,12 +2,16 @@
 
 namespace Modules\Media\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class MediaFolder extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use CacheableQueryBuilderTrait;
 
     protected $table = 'media_folders';

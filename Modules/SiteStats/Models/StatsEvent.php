@@ -2,12 +2,16 @@
 namespace Modules\SiteStats\Models;
 
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Modules\SiteStats\DTO\UtmEvent;
 use Modules\SiteStats\Support\UtmVisitorData;
 
 class StatsEvent extends Model
 {
+    use FiresModelLifecycleEvents;
+
     protected $table = 'stats_events';
     
     protected $fillable = [

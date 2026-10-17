@@ -2,6 +2,8 @@
 
 namespace Modules\Faq\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
@@ -12,6 +14,8 @@ use Modules\Faq\Database\Factories\FaqFactory;
 
 class Faq extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
     use HasMultilanguageTrait;
     use CacheableQueryBuilderTrait;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -13,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ChatEvent extends Model
 {
+    use FiresModelLifecycleEvents;
+
     protected $table = 'ai_chat_events';
 
     protected $fillable = [

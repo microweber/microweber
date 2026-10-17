@@ -2,6 +2,8 @@
 
 namespace Modules\Currency\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Currency\Database\Factories\CurrencyFactory;
@@ -14,6 +16,8 @@ use Modules\Currency\Database\Factories\CurrencyFactory;
  */
 class Currency extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     protected static function newFactory()

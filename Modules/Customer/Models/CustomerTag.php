@@ -2,6 +2,8 @@
 
 namespace Modules\Customer\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,6 +22,8 @@ use Modules\Tag\Models\Tag;
  */
 class CustomerTag extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
     use CacheableQueryBuilderTrait;
 

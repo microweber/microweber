@@ -11,11 +11,15 @@
 
 namespace Modules\Form\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
 class FormRecipient extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use Notifiable;
 
     public $table = 'forms_recipients';

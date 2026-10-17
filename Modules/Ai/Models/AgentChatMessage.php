@@ -2,6 +2,8 @@
 
 namespace Modules\Ai\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +12,8 @@ use Modules\Ai\Database\Factories\AgentChatMessageFactory;
 
 class AgentChatMessage extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     protected static function newFactory(): AgentChatMessageFactory

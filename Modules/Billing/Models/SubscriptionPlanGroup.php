@@ -2,6 +2,8 @@
 
 namespace Modules\Billing\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,6 +11,8 @@ use Modules\Billing\Database\Factories\SubscriptionPlanGroupFactory;
 
 class SubscriptionPlanGroup extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     public static function newFactory()

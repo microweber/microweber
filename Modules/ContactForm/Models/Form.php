@@ -2,12 +2,16 @@
 
 namespace Modules\ContactForm\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\ContactForm\Database\Factories\FormFactory;
 
 class Form extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     /**

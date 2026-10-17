@@ -2,11 +2,15 @@
 
 namespace Modules\Billing\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SubscriptionCancelReason extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     protected $table = 'subscription_cancel_reasons';

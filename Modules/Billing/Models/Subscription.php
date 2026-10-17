@@ -2,12 +2,16 @@
 
 namespace Modules\Billing\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use DateTimeZone;
 use Modules\Billing\Database\Factories\SubscriptionFactory;
 use Illuminate\Support\Facades\Log;
 
 class Subscription extends \Laravel\Cashier\Subscription
 {
+    use FiresModelLifecycleEvents;
+
     protected $table = 'subscriptions';
 
     /**

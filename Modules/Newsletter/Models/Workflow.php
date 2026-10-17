@@ -2,6 +2,8 @@
 
 namespace Modules\Newsletter\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,6 +11,8 @@ use Modules\Newsletter\Database\Factories\WorkflowFactory;
 
 class Workflow extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     protected static function newFactory()

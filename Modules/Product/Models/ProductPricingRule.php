@@ -2,6 +2,8 @@
 
 namespace Modules\Product\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -42,6 +44,8 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
  */
 class ProductPricingRule extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
     use CacheableQueryBuilderTrait;
 

@@ -2,6 +2,8 @@
 
 namespace Modules\Newsletter\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class NewsletterTrackedLinkAllowlist extends Model
 {
+    use FiresModelLifecycleEvents;
+
     public $table = 'newsletter_tracked_link_allowlist';
 
     public $fillable = [

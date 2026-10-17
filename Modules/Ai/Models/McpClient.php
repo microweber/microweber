@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +16,8 @@ use Modules\Ai\Database\Factories\McpClientFactory;
 
 class McpClient extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     protected $fillable = [

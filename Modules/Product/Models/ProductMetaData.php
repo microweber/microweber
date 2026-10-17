@@ -3,10 +3,14 @@
 namespace Modules\Product\Models;
 
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductMetaData extends Model
 {
+    use FiresModelLifecycleEvents;
+
 
     protected $fillable = [
         'qty',

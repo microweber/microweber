@@ -1,10 +1,14 @@
 <?php
 namespace Modules\Form\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 
 class FormDataValue extends Model
 {
+    use FiresModelLifecycleEvents;
+
     public $timestamps = false;
     protected $table = 'forms_data_values';
 

@@ -2,6 +2,8 @@
 
 namespace Modules\DigitalProduct\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +14,8 @@ use Modules\DigitalProduct\Services\DigitalProductService;
  */
 class ProductDownloadableFile extends Model
 {
+    use FiresModelLifecycleEvents;
+
     protected $table = 'product_downloadable_files';
 
     protected $fillable = [

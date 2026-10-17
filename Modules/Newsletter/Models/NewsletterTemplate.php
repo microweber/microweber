@@ -2,12 +2,16 @@
 
 namespace Modules\Newsletter\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Newsletter\Database\Factories\NewsletterTemplateFactory;
 
 class NewsletterTemplate extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use HasFactory;
 
     public $timestamps = true;

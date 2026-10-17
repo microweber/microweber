@@ -3,6 +3,8 @@
 
 namespace Modules\ContentData\Models;
 
+
+use MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
@@ -10,6 +12,8 @@ use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 
 class ContentData extends Model
 {
+    use FiresModelLifecycleEvents;
+
     use CacheableQueryBuilderTrait;
     use HasCreatedByFieldsTrait;
 
