@@ -92,6 +92,14 @@ final class PersonalAccessTokenTest extends \MicroweberPackages\Passport\Tests\T
     #[Test]
     public function different_users_tokens_are_isolated(): void
     {
+        // This test calls refreshApplication() mid-test; against an in-memory sqlite
+        // DB (the standalone Testbench default) that drops all tables, so skip there.
+        // It runs normally against a persistent connection (the monorepo).
+        $default = config('database.default');
+        if (config("database.connections.$default.database") === ':memory:') {
+            $this->markTestSkipped('refreshApplication() wipes an in-memory sqlite DB; needs a persistent connection.');
+        }
+
         $emailA = 'pat-iso-a-' . uniqid() . '@example.com';
         $emailB = 'pat-iso-b-' . uniqid() . '@example.com';
 
