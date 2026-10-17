@@ -24,7 +24,10 @@ class LogoModule extends BaseModule
     private const DEFAULT_OPTIONS = [
         'logoimage' => '',
         'text' => '',
-        'text_color' => '#000',
+        // Inherit the surrounding header colour by default so the logo text is
+        // visible on both dark and light headers (a hardcoded #000 was invisible
+        // on dark headers). Users can still pick an explicit colour.
+        'text_color' => 'inherit',
         'font_family' => 'inherit',
         'font_size' => '30',
         'size' => '100'

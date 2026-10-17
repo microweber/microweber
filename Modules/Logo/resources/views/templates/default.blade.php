@@ -27,26 +27,32 @@
          conditional now is the runtime is_live_edit() ternary which
          is a behaviour gate, not a dead branch. --}}
     <a href="{{ is_live_edit() ? 'javascript:void(0)' : site_url() }}" class="logo-link"@if(is_live_edit()) title="Use the menu to navigate" aria-disabled="true"@endif>
-        @if(isset($logoimage) && !empty($logoimage))
-            {{-- task-2026-05-17-488fa3 / AI-804 -- WCAG 2.1 SC 1.1.1 fix.
-                 Pre-fix alt="{{ isset($text) ? $text : '' }}" rendered
-                 empty alt when no module text override was set --
-                 screen-reader users heard nothing on the brand mark.
-                 Fallback precedence: user-set $text -> configured site
-                 website_title -> literal 'Home' safety net (never empty).
-                 Designer dispatch suggested option_get(); Microweber's
-                 canonical helper is get_option(key, group) -- matches
-                 the existing pattern at src/MicroweberPackages/App
-                 /resources/views/email/simple.blade.php:348. --}}
-            <img src="{{ $logoimage }}" alt="{{ isset($text) && $text !== '' ? $text : (get_option('website_title', 'website') ?: 'Home') }}" style="max-width: {{ isset($size) ? $size . 'px' : '200px' }};"/>
-        @elseif(isset($text) && !empty($text))
-            <span class="logo-text" style="color: {{ isset($text_color) ? $text_color : 'inherit' }}; font-family: {{ isset($font_family) ? $font_family : 'inherit' }}; font-size: {{ isset($font_size) ? $font_size : '30' }}px;">
-                {{ $text }}
-            </span>
+        @php
+            // Image and text are independent — a logo can have an image, text, or both.
+            $hasLogoImage = isset($logoimage) && !empty($logoimage);
+            $hasLogoText  = isset($text) && $text !== '';
+        @endphp
+        @if(!$hasLogoImage && !$hasLogoText)
+            {{-- Nothing configured: show the "add logo" prompt only while editing.
+                 On the public site render nothing (no empty placeholder). --}}
+            @if(is_live_edit())
+                <span class="logo-text logo-text--placeholder">
+                    {!! lnotif('Click to add logo') !!}
+                </span>
+            @endif
         @else
-            <span class="logo-text">
-               {!! lnotif('Click to add logo') !!}
-            </span>
+            @if($hasLogoImage)
+                {{-- task-2026-05-17-488fa3 / AI-804 -- WCAG 2.1 SC 1.1.1: alt falls back
+                     user-set $text -> site website_title -> literal 'Home' (never empty). --}}
+                <img src="{{ $logoimage }}" class="logo-image" alt="{{ $hasLogoText ? $text : (get_option('website_title', 'website') ?: 'Home') }}" style="max-width: {{ isset($size) ? $size . 'px' : '200px' }};"/>
+            @endif
+            @if($hasLogoText)
+                {{-- Rendered alongside the image when both are set; omitted entirely when
+                     the user did not enter any text. --}}
+                <span class="logo-text {{ $hasLogoImage ? 'logo-text--with-image' : '' }}" style="color: {{ isset($text_color) ? $text_color : 'inherit' }}; font-family: {{ isset($font_family) ? $font_family : 'inherit' }}; font-size: {{ isset($font_size) ? $font_size : '30' }}px;">
+                    {{ $text }}
+                </span>
+            @endif
         @endif
     </a>
 </div>
@@ -220,13 +226,18 @@
         height: 60px !important;
         max-width: none !important;
         display: inline-block !important;
+        vertical-align: middle !important;
     }
     .logo-text {
         display: inline-block;
-        margin-top: 10px;
+        vertical-align: middle;
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+    /* Gap between the image and the text when a logo has both. */
+    .logo-module .logo-text--with-image {
+        margin-left: 10px;
     }
     @media (max-width: 575px) {
         /*
