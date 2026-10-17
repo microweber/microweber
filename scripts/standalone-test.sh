@@ -21,11 +21,20 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PKGROOT="$ROOT/packages"
 KEEP=0
 
+# Packages whose tests exercise the INTEGRATED CMS (full data-layer / core app
+# runtime) and are therefore monorepo-only by design. They run + pass via the root
+# phpunit.xml in CI; recreating the CMS inside a per-package Testbench harness is a
+# non-goal. The harness reports them as monorepo-only rather than failing.
+MONOREPO_ONLY=" microweber-core microweber-database microweber-db-export "
+
 run_one() {
   local pkg="$1"
   local dir="$PKGROOT/$pkg"
   if [ ! -f "$dir/composer.json" ]; then
     echo "SKIP  $pkg (no composer.json)"; return 3
+  fi
+  if [[ "$MONOREPO_ONLY" == *" $pkg "* ]]; then
+    echo "SKIP  $pkg (monorepo-only — integrated CMS data/core layer; runs in root phpunit.xml CI)"; return 3
   fi
   if [ ! -f "$dir/phpunit.xml" ] && [ ! -f "$dir/phpunit.xml.dist" ]; then
     echo "SKIP  $pkg (no phpunit.xml — not scaffolded for standalone tests)"; return 3

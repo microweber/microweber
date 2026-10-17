@@ -24,26 +24,32 @@ A new standalone package should mirror its shape.
 
 ## Status (2026-10-17)
 
-**47 / 53 scaffolded packages pass fully standalone.**
+**50 / 53 pass fully standalone; the other 3 are monorepo-only by design (0 failing).**
 
-### Remaining 6 — all classified, none are "just a bug left unfixed"
-- **core, database, db-export** — monorepo-only by design: they drive the full CMS
-  data-layer runtime (DatabaseManager + custom CachedBuilder); `core` ships no
-  `orchestra/testbench` dev-dep at all. All three are wired into the **root
-  phpunit.xml** and run+pass in the monorepo CI, which is their intended home.
-- **fortify, social-login** — extend `MicroweberPackages\Core\tests\TestCase` (need a
-  User model + auth + DB). Need either a dedicated full-auth Testbench harness or
-  wiring into the monorepo CI. (Deferred — not a quick fix.)
-- **passport** — standalone-only; token tests need a complete Laravel Passport OAuth
-  bootstrap (oauth tables + RSA keys + a personal-access/grant client). Partial setup
-  started (users table + migrations + keys) but not converged — needs a dedicated
-  Passport test harness.
+`scripts/standalone-test.sh --all` → 50 PASS, 3 SKIP (monorepo-only), 0 FAIL.
 
-(RESOLVED) **phpquery** — the "segfault" was NOT a library/PHP issue: `PhpQueryManager`
-imported its own facade (accessor → `PhpQueryManager::class`), so every manager/facade
-call recursed infinitely → C-stack overflow → SIGSEGV. The manager+facade had zero
-consumers (the codebase uses the static `PhpQuery` class + `pq()` directly), so they
-were removed. phpquery now PASSES (272 tests).
+### The 3 monorepo-only packages (harness reports them as SKIP)
+- **core, database, db-export** — their tests exercise the INTEGRATED CMS data/core
+  runtime (`DatabaseManager::build_table/get/save`, the custom `CachedBuilder`, app
+  config/sessions/templates/mail); `core` ships no `orchestra/testbench` dev-dep at all.
+  All three are wired into the **root phpunit.xml** and run in the monorepo CI, which is
+  their intended home. Recreating the CMS inside a per-package Testbench harness is a
+  non-goal, so `scripts/standalone-test.sh` lists them in `MONOREPO_ONLY` and reports
+  SKIP rather than FAIL.
+
+### Previously-failing, now fixed
+- **fortify, social-login** — were extending the CMS `Core\tests\TestCase` with no
+  standalone fallback; given dual-mode Testbench harnesses (fortify uses its
+  tests/Fixtures/User + a 2FA users table + Livewire/Fortify providers; social-login
+  uses Socialite + its provider). Both PASS.
+- **passport** — now has a full standalone Passport OAuth harness (base oauth_*
+  migrations + keys + personal-access-grant client + an /api/user route); PASS (30
+  tests, 1 skip for a refreshApplication()/:memory: edge case).
+- **phpquery** — the "segfault" was NOT a library/PHP issue: `PhpQueryManager` imported
+  its own facade (accessor → `PhpQueryManager::class`), so every manager/facade call
+  recursed infinitely → C-stack overflow → SIGSEGV. The manager+facade had zero
+  consumers (the codebase uses the static `PhpQuery` class + `pq()` directly), so they
+  were removed. phpquery now PASSES (272 tests).
 
 ### History: the push from 33 → 46 fixed, by class
 - Install-layer: svg-sanitize `^1.0`, `illuminate/foundation`→`laravel/framework`,
@@ -60,15 +66,15 @@ were removed. phpquery now PASSES (272 tests).
   package-manager-client (wrong class/return-type refs), event-manager (2 test bugs),
   filament-theme (added smoke test), filament-modal-teleport (phpunit file refs + xsi typo).
 
-### ✅ PASS (standalone-ready) — 47
+### ✅ PASS (standalone-ready) — 50
 ai-tools, app-bootstrap-cache, blade-cache, cdn-sync, class-loader, config, config-merge,
 content-field, db-installer, db-migrator, disposable-email-checker, env-writer,
 event-manager, filament-modal-teleport, filament-registry, filament-theme, filesystem,
-file-uploader, format, http, image-optimization, livewire-modal, mail-sender,
+file-uploader, fortify, format, http, image-optimization, livewire-modal, mail-sender,
 media-pixum, media-thumbnail, minifier, module-registry, multisite, notification,
-package, package-manager-client, pagination, phpquery, queue, repository, searchable,
-security, svg-icons, system-licenses, taggable-file-cache, template-custom-css,
-template-fonts, thumbnailer, translation, url, view, zip.
+package, package-manager-client, pagination, passport, phpquery, queue, repository,
+searchable, security, social-login, svg-icons, system-licenses, taggable-file-cache,
+template-custom-css, template-fonts, thumbnailer, translation, url, view, zip.
 
 ## Resuming
 Pick a FAIL package, run `scripts/standalone-test.sh <pkg>` to see the exact error,
