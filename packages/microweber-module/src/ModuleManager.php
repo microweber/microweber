@@ -679,84 +679,9 @@ class ModuleManager
     /* @deprecated */
     public function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
     {
-
+        // Historically did template/view fallback resolution; that body became
+        // unreachable (an early return) long ago. Resolve via dir() directly.
         return $this->dir($module_name);
-
-
-        $template_dir = templates_dir() . 'default/';
-
-        if (defined('ACTIVE_TEMPLATE_DIR')) {
-            $template_dir = ACTIVE_TEMPLATE_DIR;
-            //  $this->app->content_manager->define_constants();
-        }
-
-        //  dd(debug_backtrace(1));
-
-        $module_name = trim($module_name);
-        // prevent hack of the directory
-        $module_name = str_replace('\\', '/', $module_name);
-        $module_name = sanitize_path($module_name);
-
-        $module_name = reduce_double_slashes($module_name);
-        $module_in_template_dir = $template_dir . 'modules/' . $module_name . '';
-        $module_in_template_dir = normalize_path($module_in_template_dir, 1);
-        $module_in_template_file = $template_dir . 'modules/' . $module_name . '.php';
-        $module_in_template_file = normalize_path($module_in_template_file, false);
-        $module_in_default_file12 = modules_path() . $module_name . '.php';
-
-        $try_file1 = false;
-        $mod_d = $module_in_template_dir;
-        $mod_d1 = normalize_path($mod_d, 1);
-        $try_file1x = $mod_d1 . 'index.php';
-
-        if (is_file($try_file1x)) {
-            $try_file1 = $try_file1x;
-        } elseif (is_file($module_in_template_file)) {
-            $try_file1 = $module_in_template_file;
-        } elseif (is_file($module_in_default_file12) and $custom_view == false) {
-            $try_file1 = $module_in_default_file12;
-        } else {
-            $module_in_default_dir = modules_path() . $module_name . '';
-            $module_in_default_dir = normalize_path($module_in_default_dir, 1);
-            $module_in_default_file = modules_path() . $module_name . '.php';
-            $module_in_default_file_custom_view = modules_path() . $module_name . '_' . $custom_view . '.php';
-            $element_in_default_file = elements_path() . $module_name . '.php';
-            $element_in_default_file = normalize_path($element_in_default_file, false);
-
-            $module_in_default_file = normalize_path($module_in_default_file, false);
-
-            if (is_file($module_in_default_file)) {
-                if ($custom_view == true and is_file($module_in_default_file_custom_view)) {
-                    $try_file1 = $module_in_default_file_custom_view;
-                    if ($no_fallback_to_view == true) {
-                        return $try_file1;
-                    }
-                }
-            } else {
-                if (is_dir($module_in_default_dir)) {
-                    $mod_d1 = normalize_path($module_in_default_dir, 1);
-
-                    if ($custom_view == true) {
-                        $try_file1 = $mod_d1 . trim($custom_view) . '.php';
-                        if ($no_fallback_to_view == true) {
-                            return $try_file1;
-                        }
-                    } else {
-                        if ($no_fallback_to_view == true) {
-                            return false;
-                        }
-                        $try_file1 = $mod_d1 . 'index.php';
-                    }
-                } elseif (is_file($element_in_default_file)) {
-                    $is_element = true;
-                    $try_file1 = $element_in_default_file;
-                }
-            }
-        }
-
-        $try_file1 = normalize_path($try_file1, false);
-
-        return $try_file1;
     }
 
     public function info($module_name)
