@@ -24,7 +24,7 @@ class ErrorTrackingService
             $id = DB::table('error_tracking')->insertGetId($errorData);
             
             // Clear stats cache to ensure fresh data
-            Cache::forget('monitoring:error_stats');
+            $this->clearStatsCache();
             
             // Also log to Laravel's logger
             Log::error($exception->getMessage(), [
@@ -101,7 +101,7 @@ class ErrorTrackingService
             
             $id = DB::table('error_tracking')->insertGetId($errorData);
             
-            Cache::forget('monitoring:error_stats');
+            $this->clearStatsCache();
             
             return $id;
         } catch (Throwable $e) {
@@ -120,6 +120,22 @@ class ErrorTrackingService
      * @param string $period Period for stats (today, week, month)
      * @return array
      */
+    /** Periods cached by getErrorStats(); used to invalidate every variant. */
+    protected const STATS_PERIODS = ['today', 'week', 'month'];
+
+    /**
+     * Forget all period-keyed stats caches. getErrorStats() caches under
+     * "monitoring:error_stats:{period}", so forgetting the un-suffixed key alone
+     * left every period's cache stale for up to 300s after track/resolve.
+     */
+    protected function clearStatsCache(): void
+    {
+        foreach (self::STATS_PERIODS as $period) {
+            Cache::forget("monitoring:error_stats:{$period}");
+        }
+        Cache::forget('monitoring:error_stats');
+    }
+
     public function getErrorStats(string $period = 'today'): array
     {
         $cacheKey = "monitoring:error_stats:{$period}";
@@ -198,7 +214,7 @@ class ErrorTrackingService
                     'updated_at' => now(),
                 ]);
             
-            Cache::forget('monitoring:error_stats');
+            $this->clearStatsCache();
             
             return true;
         } catch (Throwable $e) {

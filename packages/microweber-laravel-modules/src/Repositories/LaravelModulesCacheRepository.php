@@ -2,8 +2,6 @@
 
 namespace MicroweberPackages\LaravelModules\Repositories;
 
-use Arcanedev\Html\Elements\P;
-use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;

@@ -375,13 +375,10 @@ class TemplateStylesSettingsReader
 
     private function makeInheritSelectors($settings, $parentSelectors = [])
     {
-        // Search for 'inherit' key
-        $mustInherit = $this->findElementsWithInheritSelectors($settings, 'inherit', true);
-
-        if ($mustInherit) {
-            dd($mustInherit);
-        }
-
+        // NOTE: 'inherit' selector processing was never implemented — this
+        // method is currently unused and returns settings unchanged. (Removed a
+        // leftover dd($mustInherit) debugging landmine that would dump-and-die
+        // if this were ever wired up.)
         return $settings;
     }
 

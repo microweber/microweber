@@ -281,10 +281,13 @@ class ContentFieldManagerTest extends TestCase
 
         $this->manager()->deduplicateGlobalFields('header', 'module', '0');
 
-        // After dedup, only the first row with rel_id=0 + the rel_id=1 row should remain
-        // (the dedup removes rows where rel_id != target OR i > 1)
-        $remaining = DB::table('content_fields')->count();
-        $this->assertLessThanOrEqual(2, $remaining);
+        // The two rel_id=0 duplicates collapse to exactly one; the rel_id=1 row
+        // (different content) must be left untouched.
+        $this->assertSame(1, DB::table('content_fields')
+            ->where('rel_type', 'module')->where('rel_id', '0')->where('field', 'header')->count());
+        $this->assertSame(1, DB::table('content_fields')
+            ->where('rel_type', 'module')->where('rel_id', '1')->where('field', 'header')->count());
+        $this->assertSame(2, DB::table('content_fields')->count());
     }
 
     // ------------------------------------------------------------------

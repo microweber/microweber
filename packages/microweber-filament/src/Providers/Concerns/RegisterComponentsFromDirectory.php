@@ -57,9 +57,7 @@ trait RegisterComponentsFromDirectory
                 })
                 ->filter(function (string $class) use ($baseClass) {
                     $isSubclass = is_subclass_of($class, $baseClass);
-                    $isNotAbstract = 1;
-                    dump($baseClass,$class,$isSubclass);
-                 //   $isNotAbstract = !(new \ReflectionClass($class))->isAbstract();
+                    $isNotAbstract = $isSubclass && !(new \ReflectionClass($class))->isAbstract();
                     return $isSubclass && $isNotAbstract;
                 })
                 ->all(),

@@ -23,7 +23,6 @@ use Modules\Category\Filament\Admin\Resources\CategoryResource;
 use Modules\Content\Filament\Admin\ContentResource;
 use Modules\Content\Models\Content;
 use Modules\Media\Models\Media;
-use function Clue\StreamFilter\fun;
 
 class AdminLiveEditPage extends Page
 {

@@ -53,7 +53,10 @@ class ServeStaticFileContoller extends Controller
         abort_if(in_array(strtolower($ext), $this->skip_ext), 403);
 
         $filesUtils = mw_filesystem();
-        if ($filesUtils->isAllowedFile($path)) {
+        // isAllowedFile() returns true when the extension IS permitted, so block
+        // the request when it is NOT allowed. (Previously negated — it 403'd
+        // every legitimate file and let disallowed types through.)
+        if (!$filesUtils->isAllowedFile($path)) {
             abort(403, 'File not allowed');
         }
 

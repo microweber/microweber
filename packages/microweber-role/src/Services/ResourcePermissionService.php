@@ -14,8 +14,8 @@ class ResourcePermissionService
     public function can(Role $role, string $resourceName, string $action): bool
     {
         $cacheKey = "role_{$role->id}_resource_{$resourceName}_{$action}";
-        
-        return Cache::remember($cacheKey, 3600, function () use ($role, $resourceName, $action) {
+
+        return $this->cache()->remember($cacheKey, 3600, function () use ($role, $resourceName, $action) {
             // First check if role has the specific permission
             $permission = ResourcePermission::where('resource_name', $resourceName)
                 ->where('action', $action)
@@ -209,14 +209,43 @@ class ResourcePermissionService
      */
     protected function clearCache(Role $role, string $resourceName, string $action): void
     {
-        Cache::forget("role_{$role->id}_resource_{$resourceName}_{$action}");
+        $this->cache()->forget("role_{$role->id}_resource_{$resourceName}_{$action}");
     }
 
     /**
-     * Clear all resource permission caches
+     * Clear all resource permission caches.
+     *
+     * Scoped to this service's own cache entries via a tag so it never wipes
+     * the whole application cache (the previous Cache::flush() did). On the rare
+     * cache store that does not support tags, there is no way to selectively
+     * sweep, so we fall back to a full flush as a last resort.
      */
     public function clearAllCache(): void
     {
+        if ($this->supportsTags()) {
+            Cache::tags([self::CACHE_TAG])->flush();
+
+            return;
+        }
+
         Cache::flush();
+    }
+
+    /** Cache tag namespacing this service's permission entries. */
+    protected const CACHE_TAG = 'resource_permissions';
+
+    /** Tagged cache repository when the store supports tags, else the default. */
+    protected function cache()
+    {
+        return $this->supportsTags() ? Cache::tags([self::CACHE_TAG]) : Cache::store();
+    }
+
+    protected function supportsTags(): bool
+    {
+        try {
+            return method_exists(Cache::getStore(), 'tags');
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 }

@@ -126,7 +126,10 @@ class ImageProcessor
     public function sanitizeSvg(string $dirtySVG): ?string
     {
         if (!class_exists(\enshrined\svgSanitize\Sanitizer::class)) {
-            return $dirtySVG; // If sanitizer is not available, return as-is
+            // Fail CLOSED: enshrined/svg-sanitize is a required dependency, so
+            // this should never happen — but if it's somehow missing, refuse to
+            // pass through unsanitized SVG (XSS risk) rather than return it as-is.
+            return null;
         }
         $sanitizer = new \enshrined\svgSanitize\Sanitizer();
         $clean = $sanitizer->sanitize($dirtySVG);

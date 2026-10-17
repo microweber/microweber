@@ -275,25 +275,32 @@ class ContentFieldManager
      */
     public function deduplicateGlobalFields(string $field, string $relType, mixed $relId): void
     {
-        $existing = DB::table('content_fields')
+        // rel_id is a string column; normalise so the comparison is reliable.
+        $relId = (string) $relId;
+
+        $rows = DB::table('content_fields')
             ->where('field', $field)
             ->where('rel_type', $relType)
+            ->where('rel_id', $relId)
+            ->orderBy('id')
             ->get();
 
-        if ($existing->count() <= 1) {
+        if ($rows->count() <= 1) {
             return;
         }
 
-        $i = 1;
-        foreach ($existing as $row) {
-            if ($row->rel_id != $relId) { // @phpstan-ignore notEqual.alwaysTrue
-                DB::table('content_fields')->where('id', $row->id)->delete();
-            }
-            if ($i > 1) {
-                DB::table('content_fields')->where('id', $row->id)->delete();
-            }
-            $i++;
-        }
+        // Keep the first row for this field+rel_type+rel_id, delete the rest.
+        // Scoped by rel_id so duplicates for OTHER rel_ids are never touched
+        // (the previous implementation deleted other rel_ids' rows and could
+        // even delete the keeper when the loose rel_id comparison misfired).
+        $keepId = $rows->first()->id;
+
+        DB::table('content_fields')
+            ->where('field', $field)
+            ->where('rel_type', $relType)
+            ->where('rel_id', $relId)
+            ->where('id', '!=', $keepId)
+            ->delete();
     }
 
     // -----------------------------------------------------------------
