@@ -38,6 +38,7 @@ class AiToolsServiceProvider extends MicroweberPackageServiceProvider
             return new ToolRegistry();
         });
         $this->app->alias(ToolRegistry::class, ToolRegistryInterface::class);
+        $this->app->alias(ToolRegistry::class, 'aitools.registry');
     }
 
     public function packageBooted(): void
