@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Cookie;
 use  \Illuminate\Support\Facades\Route;
 
-// task-2026-06-06-adminapisession: the `admin` middleware authorises via
 // is_admin() / Auth::check() (session-based). These route groups ran in the
 // stateless `api` group (or with only `['admin']`), which never starts a
 // session — so the logged-in admin's session cookie was ignored and every
@@ -35,7 +34,6 @@ Route::name('api.module.')
 //            });
 //        }
     });
-
 
 // NOTE: this group uses only ['admin'] (no 'api' group). Such routes already
 // receive a session — it's specifically opting INTO the stateless `api` group

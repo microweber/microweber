@@ -40,9 +40,6 @@ class AdminModuleController
             }
         }
 
-
-
-
         if(!is_module($type)){
             return 'No module found';
         }
@@ -53,20 +50,7 @@ class AdminModuleController
 
     }
 
-    /**
-     * AI-71 / TICKET-AA (cycle-84 2026-05-08): module-zoo dev/QA
-     * page. Discovers every installed module via the
-     * ModuleRepository + scans each module's `resources/views/templates`
-     * folder for skin variations. Renders them in one page so
-     * reviewers can audit every skin side-by-side without having to
-     * stage 33+ live-edit pages by hand.
-     *
-     * Filtering: optional `?type=Posts` query string limits the page
-     * to a single module — useful for narrowing reviews. Optional
-     * `?installed_only=0` shows uninstalled modules too (default
-     * filters to installed).
-     */
-    public function zoo(Request $request)
+        public function zoo(Request $request)
     {
         $repository = app(\MicroweberPackages\Module\Repositories\ModuleRepository::class);
         $allModules = $repository->getAllModules();
@@ -109,14 +93,7 @@ class AdminModuleController
         ]);
     }
 
-    /**
-     * AI-71 / TICKET-AA (cycle-84 2026-05-08): glob the module's
-     * `resources/views/templates/*.blade.php` folder and return a
-     * deduplicated, sorted list of skin names. Returns ['default']
-     * when nothing else is found so the zoo page always renders at
-     * least one preview per module.
-     */
-    protected function discoverModuleSkins(string $moduleName): array
+        protected function discoverModuleSkins(string $moduleName): array
     {
         $studlyName = str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $moduleName)));
         $candidatePaths = [

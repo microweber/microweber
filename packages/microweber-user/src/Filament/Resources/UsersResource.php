@@ -38,8 +38,7 @@ public static function form(Schema $schema): Schema
             ->schema([
                 TextInput::make('first_name'),
                 TextInput::make('last_name'),
-                // task-2026-05-23-b3f5df / AI-1050 — autocomplete="off" prevents browser
-                // from pre-filling admin's own credentials into the new-user form.
+                                // from pre-filling admin's own credentials into the new-user form.
                 TextInput::make('username')->unique(
                     ignoreRecord: true,
                 )->extraInputAttributes(['autocomplete' => 'off']),
@@ -59,8 +58,7 @@ public static function form(Schema $schema): Schema
                     ->required(fn (string $operation): bool => $operation === 'create')
                     ->dehydrated(false)
                     ->extraInputAttributes(['autocomplete' => 'new-password']),
-                // task-2026-05-23-6579bd / AI-1051 — boolean fields use Toggle (consistent
-                // with Published, Autoplay, Muted etc. across all other admin forms).
+                                // with Published, Autoplay, Muted etc. across all other admin forms).
                 // Is Admin defaults to false (new users are not admins by default).
                 // Is Active defaults to true (new users should be active immediately).
                 Toggle::make('is_admin')
@@ -81,24 +79,21 @@ public static function form(Schema $schema): Schema
     public static function table(Table $table): Table
     {
         return $table
-            // task-2026-05-26 / AI-1088 — exclude test-fixture users
-            // created by PHPUnit factories (RFC 2606 reserved domains).
+                        // created by PHPUnit factories (RFC 2606 reserved domains).
             ->modifyQueryUsing(fn (Builder $query) => $query
                 ->where('email', 'NOT LIKE', '%@example.com')
                 ->where('email', 'NOT LIKE', '%@example.org')
                 ->where('email', 'NOT LIKE', '%@example.net')
             )
             ->columns([
-                // AI-1033 / task-2026-05-22 — removed raw DB id column;
-                // replaced with email as first visible column.
+                                // replaced with email as first visible column.
                 Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\TextColumn::make('username')->searchable(),
                 Tables\Columns\TextColumn::make('first_name')->searchable()
                     ->visibleFrom('md'),
                 Tables\Columns\TextColumn::make('last_name')->searchable()
                     ->visibleFrom('md'),
-                // AI-1031 / task-2026-05-22 — roles column: use is_admin as fallback
-                // because the roles relationship may be empty for non-RBAC installs.
+                                // because the roles relationship may be empty for non-RBAC installs.
                 Tables\Columns\TextColumn::make('roles.name')
                     ->label('Roles')
                     ->badge()
@@ -108,8 +103,7 @@ public static function form(Schema $schema): Schema
                     ->label('Admin')
                     ->boolean()
                     ->toggleable(isToggledHiddenByDefault: true),
-                // AI-1032 / task-2026-05-22 — phone column hidden by default (often empty).
-                Tables\Columns\TextColumn::make('phone')->searchable()
+                                Tables\Columns\TextColumn::make('phone')->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->toggleable(isToggledHiddenByDefault: true),

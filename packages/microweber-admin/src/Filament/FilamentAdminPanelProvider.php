@@ -37,10 +37,8 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Modules\Checkout\Filament\Resources\CheckoutResource;
 use Modules\Checkout\Filament\Resources\Pages\CheckoutPage;
 
-
 class FilamentAdminPanelProvider extends PanelProvider
 {
-
 
     public string $filamentId = 'admin';
     public string $filamentPath = 'admin';
@@ -57,8 +55,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             return $table
                 ->paginationPageOptions([10, 25, 50, 100, 250])
                 ->defaultPaginationPageOption(25)
-                // task-2026-05-27-305605 / AI-1132
-                ->stackedOnMobile();
+                                ->stackedOnMobile();
         });
 
         // Keep data tables compact so they don't overflow into horizontal
@@ -104,7 +101,6 @@ class FilamentAdminPanelProvider extends PanelProvider
         return [
             'web',
 
-
             VerifyCsrfToken::class,
             SubstituteBindings::class,
             DisableBladeIconComponents::class,
@@ -132,15 +128,11 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->font('Inter')
             // MW v2 avatar: light-grey chip + ink initials (Filament default is near-black).
             ->defaultAvatarProvider(\MicroweberPackages\Admin\Filament\MwAvatarProvider::class)
-            // AI-703 / task-2026-05-16-29342d — Responsive sidebar slice 1: 240px.
-            // AI-926 — removed sidebarCollapsibleOnDesktop() per operator feedback:
-            //   icons-only mode with no visible expand affordance confused new operators
+                                    //   icons-only mode with no visible expand affordance confused new operators
             //   who could not identify navigation items. Sidebar now always shows labels.
             //   Restore collapse feature only after adding a prominent expand chevron or
             //   after operators are onboarded with the icon set.
-            // task-2026-05-17-76dd12 / AI-702 CHANGE — designer
-            // verified `441050920e` and rejected the AI-702 ship
-            // because the existing Filament `->brandLogo()` panel-
+                                    // because the existing Filament `->brandLogo()` panel-
             // config call was still rendering alongside the new
             // TOPBAR_START hook (added at task-bcb327). Two side-
             // by-side Microweber logos visible in the admin topbar.
@@ -154,17 +146,11 @@ class FilamentAdminPanelProvider extends PanelProvider
             //
             // Use Filament's native brand-logo API (docs 5.x/styling/overview#adding-a-logo)
             // instead of a custom render-hook brand mark.
-            // task-2026-05-16-bcb327 / AI-702 — brandLogo, darkModeBrandLogo, brandLogoHeight,
-            // and brandName removed; brand mark delivered via TOPBAR_START render hook below
-            // so there is exactly one logo in the admin topbar (AI-702 CHANGE / task-76dd12).
-            // AI-703 / task-2026-05-16-29342d — 240px per designer spec
-            // (was 16rem = 256px). Width applies to the pinned-open sidebar
+                        // and brandName removed; brand mark delivered via TOPBAR_START render hook below
+                                    // (was 16rem = 256px). Width applies to the pinned-open sidebar
             // at lg+ and the overlay drawer below lg.
-            // AI-703a follow-up candidate: shift sidebarCollapsibleOnDesktop
-            // breakpoint from 1024px to 1280px when ready.
-            // task-2026-09-25 — removed sidebarCollapsibleOnDesktop() (again, per
-            //   AI-926): operators want the FULL sidebar with text labels on
-            //   desktop, not the icon-only "rail" collapsed state. Desktop is now
+                        // breakpoint from 1024px to 1280px when ready.
+                                    //   desktop, not the icon-only "rail" collapsed state. Desktop is now
             //   always pinned-open with labels; below 1024px Filament falls back
             //   to its responsive hamburger overlay (also with labels).
             ->sidebarWidth('240px')
@@ -178,9 +164,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ])
             ->maxContentWidth(Width::Full)
             ->unsavedChangesAlerts()
-            // task-2026-05-27-13983e / AI-1133 sub-issue 1
-            // task-2026-05-27-37db93 / AI-1171: error boundary for panels that don't register UsersResource
-            ->userMenuItems([
+                                    ->userMenuItems([
                 \Filament\Navigation\MenuItem::make()
                     ->label('My Account')
                     ->icon('heroicon-o-user-circle')
@@ -223,8 +207,7 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->label('')
                     ->collapsible(false),
 
-                // AI-943 / task-2026-09-25 — NO group-level ->icon() on Website and
-                // Shop. Filament v5 forbids a group icon AND per-item icons at the
+                                // Shop. Filament v5 forbids a group icon AND per-item icons at the
                 // same time in the full (non-collapsible) sidebar — it throws
                 // "group has an icon but one or more of its items also have icons"
                 // → HTTP 500 on every admin request. The items under these groups
@@ -360,11 +343,9 @@ class FilamentAdminPanelProvider extends PanelProvider
             ])->bootUsing(function (Panel $panel) {
                 //  dd($panel);
 
-
             });
 
-        // AI-702 / task-2026-05-16-bcb327 — Microweber brand mark rendered via
-        // TOPBAR_START so it sits at the leftmost position in the admin topbar.
+                // TOPBAR_START so it sits at the leftmost position in the admin topbar.
         // Registered BEFORE the GLOBAL_SEARCH_AFTER hook so Filament accumulates
         // it first and renders it leftmost. Logo URL uses the same fallback chain
         // as the old ->brandLogo() call.
@@ -386,11 +367,9 @@ class FilamentAdminPanelProvider extends PanelProvider
             }
         );
 
-        // task-2026-06-08-addleft / AI-704 CHANGE — restore the v2 layout:
-        // the +Add button sits at the LEFT of the topbar (just after the
+                // the +Add button sits at the LEFT of the topbar (just after the
         // brand mark) with a visible "+ Add" label, as in the Microweber v2
-        // admin. AI-704 (task-2026-05-16-225150) had moved it into the
-        // right-side GLOBAL_SEARCH_AFTER cluster next to Live Edit; per the
+                // right-side GLOBAL_SEARCH_AFTER cluster next to Live Edit; per the
         // PM "want it on left as before (see v2 demo)" this reverts the
         // placement. Registered at TOPBAR_START AFTER the brand-mark hook so
         // Filament accumulates brand first (leftmost) then +Add to its right
@@ -403,10 +382,8 @@ class FilamentAdminPanelProvider extends PanelProvider
         );
 
         // Live Edit stays in the right cluster (GLOBAL_SEARCH_AFTER); the
-        // search-quick-nav renders OUTSIDE the wrapper. (The old AI-704a
-        // follow-up — render +Add in the mobile drawer instead of hiding it
-        // — is moot now: task-2026-06-08-addmobile keeps +Add visible at the
-        // 44px touch floor on mobile.)
+                // follow-up — render +Add in the mobile drawer instead of hiding it
+                // 44px touch floor on mobile.)
         $panel->renderHook(
             name: PanelsRenderHook::GLOBAL_SEARCH_AFTER,
             hook: fn(): string => '<div class="mw-admin-primary-actions">'
@@ -415,12 +392,10 @@ class FilamentAdminPanelProvider extends PanelProvider
                 . view('admin::livewire.filament.search-quick-nav')->render()
         );
 
-        // AI-703 / task-2026-05-16-29342d — bridge Filament's Alpine sidebar
-        // state into `localStorage.admin_sidebar_mode` so the designer-spec
+                // state into `localStorage.admin_sidebar_mode` so the designer-spec
         // key is present alongside Filament's native persistence.
         //
-        // task-2026-05-17-6cb0d8 / AI-703 CHANGE — designer verified
-        // 6 of 7 acceptance points but found the localStorage bridge
+                // 6 of 7 acceptance points but found the localStorage bridge
         // was stuck on its initial value through every state
         // transition. Root cause: the observer was watching the
         // `body` element's `fi-sidebar-open` / `fi-sidebar-collapsed-
@@ -448,9 +423,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             name: PanelsRenderHook::BODY_END,
             hook: fn(): string => <<<'HTML'
             <script>
-            /* AI-703 / task-2026-05-16-29342d + AI-703 CHANGE
-               task-2026-05-17-6cb0d8 — admin_sidebar_mode localStorage
-               bridge, observing .fi-sidebar element. */
+            /* admin_sidebar_mode localStorage bridge, observing the .fi-sidebar element. */
             (function () {
                 if (typeof window === 'undefined' || !window.localStorage) return;
                 var KEY = 'admin_sidebar_mode';
@@ -497,7 +470,6 @@ class FilamentAdminPanelProvider extends PanelProvider
             HTML
         );
 
-
         $panel->renderHook(
             name: \Filament\Tables\View\TablesRenderHook::TOOLBAR_SEARCH_BEFORE,
             hook: fn(): string => view('modules.content::filament.admin.list-records-render-category-tree'),
@@ -508,9 +480,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ]
         );
 
-
         $registeredPlugins = FilamentRegistry::getPlugins(self::class);
-
 
         $tableToggle = new TableLayoutTogglePlugin();
         $tableToggle->defaultLayout('grid');
@@ -555,12 +525,10 @@ class FilamentAdminPanelProvider extends PanelProvider
                 in: app_path('Filament/Admin/Resources'),
                 for: 'App\\Filament\\Admin\\Resources');
 
-
         $panel->resources($this->getPanelResources())
             ->pages($this->getPanelPages());;
 
         $panel->livewireComponents($this->getPanelClusters());
-
 
         //  MicroweberFilamentTheme::configure();
 

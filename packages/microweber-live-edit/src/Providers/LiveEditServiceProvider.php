@@ -86,15 +86,10 @@ class LiveEditServiceProvider extends MicroweberPackageServiceProvider
 
       //  Event::listen(ServingLiveEdit::class, [$this, 'registerMenu']);
 
-
-
-
-
         // Event::listen(ServingFilament::class, function () {
         FilamentRegistry::registerPage(AdminLiveEditPage::class);
         FilamentRegistry::registerPage(AdminLiveEditSidebarTemplateSettingsPage::class);
         FilamentRegistry::registerPage(AdminLiveEditSidebarElementStyleEditorPage::class);
-
 
         //editor tools
         FilamentRegistry::registerPage(ResetContentModuleSettingsPage::class);
@@ -105,12 +100,9 @@ class LiveEditServiceProvider extends MicroweberPackageServiceProvider
         FilamentRegistry::registerPage(UnlockPackageModuleSettingsPage::class);
       //  FilamentRegistry::registerResource(ModulePresetsResource::class);
 
-
         //  });
 
-
         //
-
 
     }
 
@@ -134,13 +126,11 @@ class LiveEditServiceProvider extends MicroweberPackageServiceProvider
 
         $this->registerMenu();
 
-        // task-2026-09-14-qskit — shared Live-Edit "quick settings" framework +
-        // the per-module configs that drive it. The kit must load before the
+                // the per-module configs that drive it. The kit must load before the
         // configs (which call mw.quickSettingsKit.register). Served static from
         // public/live-edit-quick-settings (source in resources/assets/js).
         \MicroweberPackages\LiveEdit\Facades\LiveEditManager::addScript('mw-quick-settings-kit', asset('live-edit-quick-settings/quick-settings-kit.js'));
         \MicroweberPackages\LiveEdit\Facades\LiveEditManager::addScript('mw-quick-settings-configs', asset('live-edit-quick-settings/quick-settings-configs.js'));
-
 
         Event::listen(ServingFilament::class, function () {
             try {
@@ -168,7 +158,6 @@ class LiveEditServiceProvider extends MicroweberPackageServiceProvider
             }
         });
 
-
     }
 
     public function registerMenu()
@@ -186,7 +175,6 @@ class LiveEditServiceProvider extends MicroweberPackageServiceProvider
                                                     </svg>'
                 ]
             ]);
-
 
         \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
             ->menuItems
@@ -259,7 +247,6 @@ class LiveEditServiceProvider extends MicroweberPackageServiceProvider
 //            ->getChild('Website Settings')
 //            ->setExtra('orderNumber', 13);
 
-
         if (app()->ui->enable_service_links()) {
             \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
                 ->addChild('Report issue', [
@@ -272,14 +259,12 @@ class LiveEditServiceProvider extends MicroweberPackageServiceProvider
                     ]
                 ]);
 
-
             \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
                 ->menuItems
                 ->getChild('Report issue')
                 ->setExtra('orderNumber', 13);
 
         }
-
 
         \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
             ->addChild('See website', [
@@ -294,7 +279,6 @@ class LiveEditServiceProvider extends MicroweberPackageServiceProvider
             ->menuItems
             ->getChild('See website')
             ->setExtra('orderNumber', 14);
-
 
         \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
             ->addChild('Log out', [

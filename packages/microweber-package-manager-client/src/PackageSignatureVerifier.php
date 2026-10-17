@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\PackageManagerClient;
 
-/**
- * Supply-chain signature verifier (AI-131 / SEC-06).
- *
- * The signature scheme: each released package carries a detached Ed25519
- * signature over the SHA-256 digest of the zip. Verifier is fail-closed.
- */
 final class PackageSignatureVerifier
 {
     public const SIGNATURE_VERSION = 1;

@@ -6,34 +6,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
-/**
- * AI-120 / TICKET-BN (cycle-117 2026-05-09): boot-time query audit.
- *
- * Hits the admin home (/) with `DB::enableQueryLog()` enabled BEFORE
- * the app boots and dumps a count + grouped breakdown of every query
- * fired during the warm-cache request. The brief target is <50
- * queries on a warmed admin home.
- *
- * Usage:
- *
- *   php artisan monitoring:boot-query-audit
- *   php artisan monitoring:boot-query-audit --route=/admin
- *   php artisan monitoring:boot-query-audit --threshold=50
- *   php artisan monitoring:boot-query-audit --top=10 --no-warmup
- *
- * The first run is cold (Filament panel discovery + module registry
- * cache build). The default behaviour fires a discarded warm-up
- * request first and only counts the SECOND request, so the report
- * reflects steady-state cost rather than first-request boot.
- *
- * Why an artisan command and not a phpunit assertion: the boot-time
- * cost is environment-sensitive (Redis vs database cache, MySQL vs
- * SQLite, opcache vs cold) and the contract test family is
- * file-system-only by design (see project memory `feedback_testing`).
- * The command is the canonical "is the admin warm-cache fast?"
- * runbook step, intended to live in CI's nightly cron + the
- * deploy-check checklist.
- */
 class BootQueryAuditCommand extends Command
 {
     protected $signature = 'monitoring:boot-query-audit

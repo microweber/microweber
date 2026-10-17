@@ -6,22 +6,6 @@ namespace MicroweberPackages\ActivityLog\Services;
 
 use Illuminate\Support\Facades\DB;
 
-/**
- * AI-131 / SEC-06 (cycle-124 2026-05-09): Activity Log service.
- *
- * The service-locator entry point for recording an audit-trail
- * row. Callers fire it at the action site:
- *
- *   ActivityLogger::record('auth.login', user: $user);
- *   ActivityLogger::record('settings.update', metadata: ['key' => 'site_title']);
- *   ActivityLogger::record('role.grant', subject: $user, metadata: ['role' => 'admin']);
- *   ActivityLogger::record('content.bulk_delete', metadata: ['ids' => [1,2,3]]);
- *
- * Failure-mode: ALL records are best-effort. If the activity_log
- * table is missing (fresh-install timing) or the DB is read-only
- * the record fails silently — the audit log must NEVER block the
- * action it's auditing.
- */
 final class ActivityLogger
 {
     /**

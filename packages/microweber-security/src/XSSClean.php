@@ -8,8 +8,8 @@ use voku\helper\AntiXSS;
 class XSSClean
 {
     /**
-     * task-2026-09-23 — the fully-configured AntiXSS instance, built once per
-     * request and reused. Previously clean() did `new AntiXSS()` AND re-applied
+     * The fully-configured AntiXSS instance, built once per request and reused.
+     * Previously clean() did `new AntiXSS()` AND re-applied
      * the entire evil-tag/attribute/allow-list config on EVERY call; cleaning a
      * large structure (e.g. the admin content tree: ~7 fields × 1500 nodes ≈ 10k
      * calls) cost ~25s just constructing/configuring AntiXSS. The config never

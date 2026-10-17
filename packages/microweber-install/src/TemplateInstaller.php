@@ -37,7 +37,6 @@ class TemplateInstaller
         $this->logger = $logger;
     }
 
-
     public function run()
     {
         $this->log('Performing template install');
@@ -47,7 +46,6 @@ class TemplateInstaller
         $default_content = $this->installDefaultContent ? $this->installDefaultContent : Config::get('microweber.install_default_content');
         $this->setDefaultTemplate($selected_template);
         $create_default_fallback = false;
-
 
         if ($default_content) {
 
@@ -69,8 +67,7 @@ class TemplateInstaller
     {
         $this->log('Setting default template: ' . $template_name);
 
-        // AI-108 / TICKET-BG (cycle-133): routed through the Option model.
-        $option = Option::query()
+                $option = Option::query()
             ->where('option_key', 'current_template')
             ->where('option_group', 'template')
             ->first()
@@ -80,7 +77,6 @@ class TemplateInstaller
         $option->option_value = $template_name;
         $option->is_system = 1;
         $option->save();
-
 
         app()->option_manager->clear_memory();
     }
@@ -126,7 +122,6 @@ class TemplateInstaller
             }
             $logData = $manager->start();
 
-
             return true;
         } else {
             return false;
@@ -154,11 +149,8 @@ class TemplateInstaller
             $content->save();
         }
 
-
         app()->content_repository->createDefaultShopPage();
         app()->content_repository->createDefaultBlogPage();
-
-
 
         try {
 

@@ -68,7 +68,6 @@ trait LiveEditTrait
             $contentLink = content_link($page['id']);
         }
 
-
         $multiLanguageIsEnabled = false;
         $current_lang = false;
         $multiLanguageEnabledLanguages = [];
@@ -80,25 +79,20 @@ trait LiveEditTrait
         }
         $multiLanguageEnabledLanguages = json_encode($multiLanguageEnabledLanguages);
 
-
         $templateConfigReady = [];
         $templateConfigReady['dir_name'] = $templateConfig['dir_name'] ?? '';
         $templateConfigReady['name'] = $templateConfig['name'] ?? '';
         $templateConfigReady['is_symlink'] = $templateConfig['is_symlink'] ?? false;
 
-
         $fonts = \MicroweberPackages\TemplateFonts\Facades\TemplateFonts::getEnabledFonts();
 
         $templateConfigReady['fonts'] = $fonts ;
-
-
 
         $templateConfigReady = json_encode($templateConfigReady);
         $templateComposer = json_encode($templateComposer);
         $contentDetailsScript = "
 \n<script type='application/x-javascript' id='mw-iframe-page-data-script'>
         mw.liveEditIframeData = mw.liveEditIframeData || {};
-
 
         mw.liveEditIframeData.content = {};
         mw.liveEditIframeData.content.id = '{$pageId}';
@@ -107,7 +101,6 @@ trait LiveEditTrait
         mw.liveEditIframeData.content.is_shop = {$is_shop};
         mw.liveEditIframeData.content.content_type = '{$contentType}';
         mw.liveEditIframeData.content.content_edit_link = '{$contentEditLink}';
-
 
         mw.liveEditIframeData.back_to_admin_link = '" . admin_url() . "';
         mw.liveEditIframeData.content_link = '" . $contentLink . "';
@@ -131,12 +124,10 @@ trait LiveEditTrait
             $liveEditUrl = $liveEditUrl .= '?url=' . content_link($content['id']);
         }
 
-
         // $viteScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js');
         //  $viteScriptCss = Vite::asset('packages/frontend-assets/resources/assets/css/scss/liveedit.scss', 'build');
         //$viteScriptCss = Vite::asset('resources/assets/css/scss/liveedit.scss', 'vendor/microweber-packages/frontend-assets/build');
-        // task-2026-06-13-letele2 — cache-bust the canvas-injected bundle. These
-        // are fixed Vite filenames referenced via bare asset() (no version), so
+                // are fixed Vite filenames referenced via bare asset() (no version), so
         // browsers cached liveedit.css / live-edit-page-scripts.js forever — users
         // kept stale canvas CSS (e.g. the layout-handle "empty Settings row" fix
         // not applying) after a rebuild. Append the built file's mtime so each
@@ -150,7 +141,6 @@ trait LiveEditTrait
 
         if ($viteScript) {
 
-
             $viteScriptSrc = '<script id="mw-live-edit-page-scripts" src="' . $viteScript . '" type="module"></script>';
             $viteScriptSrc .= '<script>window.mwLiveEditIframeBackUrl = "' . $liveEditUrl . '"; </script>';
 
@@ -160,8 +150,6 @@ trait LiveEditTrait
             return $html;
         }
     }
-
-
 
     public function liveEditToolbarBack($html)
     {

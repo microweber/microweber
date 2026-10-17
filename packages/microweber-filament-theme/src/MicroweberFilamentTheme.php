@@ -23,7 +23,6 @@ class MicroweberFilamentTheme implements Plugin
     public function register(Panel $panel): void
     {
 
-
         $panel
             ->font('DM Sans')
             ->colors(static::getColors())
@@ -45,22 +44,7 @@ class MicroweberFilamentTheme implements Plugin
             fn (): string => '<div id="main-content"></div>',
         );
 
-        /*
-         * Theme-switcher (light/dark/system) lives in the user-menu
-         * dropdown — Filament's stock location, rendered by
-         * `vendor/filament/filament/resources/views/components/user-menu.blade.php`
-         * lines 112-116 when `filament()->hasDarkMode()` is true.
-         *
-         * Historical note (task-2026-05-16-cfef17): a previous
-         * cycle (AI-168, 2026-05-09) duplicated the theme-switcher
-         * into the topbar via `TOPBAR_END` render hook for visibility.
-         * Removed at user request — "move the dark/light switch in
-         * the submenu as they were before" — restoring Filament's
-         * default user-menu location. If a future visibility audit
-         * finds the user-menu doesn't render the switcher, debug the
-         * user-menu rather than reinstate the topbar duplicate.
-         */
-    }
+            }
 
     public static function configureAssets(): void
     {

@@ -26,18 +26,7 @@ use MicroweberPackages\Url\Facades\UrlManager;
  */
 class Option extends Model
 {
-    /*
-     * AI-108 / TICKET-BG (cycle-133 2026-05-09): expanded $fillable so the
-     * Option Eloquent model is the canonical write path (it was previously
-     * limited to option_group/option_value, which is why production
-     * controllers and installers fell back to raw DB::table('options')
-     * queries to avoid silently dropping option_key/module). The Settings
-     * REST API and the install-time DefaultOptionsInstaller now route
-     * through the model so OptionWasCreated/Updated/Deleted events fire,
-     * which fixes a stale-cache bug: TemplateClearCachedCssListener was
-     * never invoked when settings were changed via /api/module/settings.
-     */
-    protected $fillable = ['option_key', 'option_group', 'option_value', 'module', 'is_system'];
+        protected $fillable = ['option_key', 'option_group', 'option_value', 'module', 'is_system'];
     public $cacheTagsToClear = ['global','content','frontend'];
 
     use CacheableQueryBuilderTrait;
@@ -53,7 +42,6 @@ class Option extends Model
         'saved'   => OptionWasUpdated::class,
         'deleted'   => OptionWasDeleted::class,
     ];
-
 
     protected $casts = [
         'option_value' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ =>  {SITE_URL}400/200/
@@ -128,8 +116,7 @@ class Option extends Model
             return [];
         }
 
-        // AI-108 / TICKET-BG (cycle-133 2026-05-09): this helper is invoked
-        // during early app boot via OptionRepository, before Eloquent's
+                // during early app boot via OptionRepository, before Eloquent's
         // connection resolver is ready. self::query() throws "Call to
         // a member function connection() on null" at that stage. The
         // raw DB::table query bypasses that bootstrap dependency.
@@ -155,8 +142,7 @@ class Option extends Model
      */
     public static function queryOptionsByGroup(string $optionGroup): array
     {
-        // AI-108 / TICKET-BG (cycle-133 2026-05-09): same early-boot
-        // constraint as queryAllExistingOptionGroups — must remain a raw
+                // constraint as queryAllExistingOptionGroups — must remain a raw
         // DB::table query because OptionRepository invokes this helper
         // during early boot before Eloquent's connection resolver is ready.
         $allOptions = DB::table('options')

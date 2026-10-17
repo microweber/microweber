@@ -35,7 +35,6 @@ use MicroweberPackages\User\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use MicroweberPackages\User\Http\Livewire\TwoFactorAuthenticationForm;
 use MicroweberPackages\User\Services\UserManager;
 
-
 class UserServiceProvider extends AuthServiceProvider
 {
     /**
@@ -92,14 +91,12 @@ class UserServiceProvider extends AuthServiceProvider
             return $userComponents[$name] ?? null;
         });
 
-
         Event::listen(ServingAdmin::class, [$this, 'registerMenu']);
 
         // Passport Filament pages are now registered by the microweber-passport package.
         // No need to register ApiApplicationsPage here.
 
-        // task-2026-06-06-AI839 — make /admin/profile resolve (it redirects to
-        // the signed-in user's edit page) instead of falling through to 404.
+                // the signed-in user's edit page) instead of falling through to 404.
         FilamentRegistry::registerPage(AdminProfileRedirectPage::class);
 
         // Register the social login package first (provides the service),

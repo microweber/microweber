@@ -11,9 +11,7 @@ use MicroweberPackages\Translation\Database\Factories\TranslationKeyFactory;
 class TranslationKey extends Model
 {
     use HasFactory;
-    // Restored after this model was moved into the package: the AI-1353 searchable
-    // repoint was dropped during the AI-1326 move. Pinned by
-    // Tests\Unit\Searchable\SearchableTraitIntegrationTest.
+            // Tests\Unit\Searchable\SearchableTraitIntegrationTest.
     use HasSearchableTrait;
 
     protected static function newFactory(): TranslationKeyFactory

@@ -45,7 +45,6 @@ class ModulesApiLiveEdit extends Controller
             $active_site_template = template_name();
         }
 
-
         $template_config = app()->template_manager->get_config($active_site_template);
         $params = $request->all();
         if (isset($template_config['elements_mode']) and $template_config['elements_mode'] == 'disabled') {
@@ -83,7 +82,6 @@ class ModulesApiLiveEdit extends Controller
                 $el_params['layout_type'] = $params['layout_type'];
             }
 
-
             if (isset($template_config['group_layouts_by_category']) and $template_config['group_layouts_by_category']) {
                 $show_grouped_by_cats = true;
             }
@@ -120,9 +118,7 @@ class ModulesApiLiveEdit extends Controller
 //                $active_site_template = $params['active_site_template'];
 //            }
 
-
             $module_layouts_skins = app()->microweber->getTemplates('layouts', $active_site_template);
-
 
             //    $dynamic_layouts = app()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
             //$module_layouts_skins = app()->module_manager->templates('layouts', false, false, $template_dir);
@@ -133,9 +129,7 @@ class ModulesApiLiveEdit extends Controller
                 $module_layouts_skins = false;
             }
 
-
         } else {
-
 
             $modulesFromRegistry = app()->microweber->getModulesDetails();
 
@@ -156,9 +150,7 @@ class ModulesApiLiveEdit extends Controller
             }
             if ($modulesFromRegistry) {
 
-
                 foreach ($modulesFromRegistry as $modkey => $mod) {
-
 
                     if (isset($mod['registers_in_navigation'])) {
                         if (!$mod['registers_in_navigation']) {
@@ -166,7 +158,6 @@ class ModulesApiLiveEdit extends Controller
                             continue;
                         }
                     }
-
 
                     if (isset($mod['icon']) and ($mod['icon'])) {
 
@@ -191,17 +182,14 @@ class ModulesApiLiveEdit extends Controller
                             }
                         }
 
-
                     } else {
 
                     }
                     $modulesFromRegistry[$modkey] = $mod;
                 }
 
-
                 $modules = array_merge($modulesFromRegistry, $modules);
             }
-
 
             if (!empty($modules)) {
                 //
@@ -360,7 +348,6 @@ class ModulesApiLiveEdit extends Controller
         /*
                 if (isset($dynamic_layouts) and is_array($dynamic_layouts)) {
 
-
                     $i = 0;
 
                     foreach ($dynamic_layouts as $dynamic_layout) {
@@ -394,7 +381,6 @@ class ModulesApiLiveEdit extends Controller
                     }
 
                 }
-
 
                 */
         // $template_config = app()->template_manager->get_config($active_site_template);
@@ -469,12 +455,10 @@ class ModulesApiLiveEdit extends Controller
                 $unlocked_layouts_skins = $template_config['unlocked_layouts_skins'];
             }
 
-
             foreach ($module_layouts_skins_grouped as $dynamic_layouts_group_name => $dynamic_layouts_grouped) {
                 $dynamic_layouts_group_name_orig = $dynamic_layouts_group_name;
 
                 $dynamic_layouts_group_name = str_slug($dynamic_layouts_group_name);
-
 
                 foreach ($dynamic_layouts_grouped as $dynamic_layout) {
                     $randId = uniqid();
@@ -510,7 +494,6 @@ class ModulesApiLiveEdit extends Controller
 
                         }
 
-
                         if (isset($template_composer['extra']['premium_layouts'])
                             && !empty($template_composer['extra']['premium_layouts'])) {
                             foreach ($template_composer['extra']['premium_layouts'] as $composerPremiumLayout) {
@@ -526,9 +509,7 @@ class ModulesApiLiveEdit extends Controller
                             }
                         }
 
-
                         //unlocked_layouts_skins
-
 
                         if (isset($dynamic_layout['hidden'])) {
                             if ($dynamic_layout['hidden'] == true || $dynamic_layout['hidden'] == 1) {
@@ -539,11 +520,9 @@ class ModulesApiLiveEdit extends Controller
                         // if (!isset($dynamic_layout['screenshot'])) {
                         if (isset($dynamic_layout['screenshot_public_url']) and ($dynamic_layout['screenshot_public_url'])) {
 
-
 //
 //                                $dynamic_layout['screenshot'] = thumbnail($dynamic_layout['screenshot_file'], 1024);
                             $dynamic_layout['screenshot'] = $dynamic_layout['screenshot_public_url'];
-
 
                         }
                         //  }
@@ -560,8 +539,7 @@ class ModulesApiLiveEdit extends Controller
                             }
                         }
 
-                        // task-2026-05-26-630b6e / AI-1126: clean layout title
-                        $layoutName = $dynamic_layout['name'] ?? '';
+                                                $layoutName = $dynamic_layout['name'] ?? '';
                         $layoutTitle = str_replace('/', ' ', $layoutName);
                         $layoutTitle = titlelize($layoutTitle);
 
@@ -591,10 +569,8 @@ class ModulesApiLiveEdit extends Controller
                     $i++;
                     if (isset($module_item['module'])) {
 
-
                         $module_group2 = explode(DIRECTORY_SEPARATOR, $module_item['module']);
                         $module_group2 = $module_group2[0];
-
 
                         $module_item['module'] = str_replace('\\', '/', $module_item['module']);
 
@@ -607,7 +583,6 @@ class ModulesApiLiveEdit extends Controller
                             }
                             $module_item['categories'] = implode(',', $temp);
                         }
-
 
                         $module_item['module_clean'] = str_replace('/', '__', $module_item['module']);
                         $module_item['name_clean'] = str_replace('/', '-', $module_item['module']);
@@ -623,7 +598,6 @@ class ModulesApiLiveEdit extends Controller
                         if (!isset($module_item['description'])) {
                             $module_item['description'] = $module_item['name'];
                         }
-
 
                         $module_id = $module_item['name_clean'] . '_' . uniqid($i);
 
@@ -654,7 +628,6 @@ class ModulesApiLiveEdit extends Controller
 
                         $title = $module_item["name"];
                         $title = _e($title, true);
-
 
                         $moduleDataItem = [
                             'module_id' => $module_id,
@@ -690,8 +663,7 @@ class ModulesApiLiveEdit extends Controller
             && !empty($moduleListJson['categories'])
             && is_array($moduleListJson['categories'])) {
 
-            // task-2026-05-26-630b6e / AI-1126: Title Case category names
-            $moduleListJson['categories'] = array_values(array_unique(array_map(
+                        $moduleListJson['categories'] = array_values(array_unique(array_map(
                 fn($cat) => ucwords(trim($cat)),
                 array_keys($moduleListJson['categories'])
             )));
@@ -701,7 +673,6 @@ class ModulesApiLiveEdit extends Controller
 
         return $moduleListJson;
     }
-
 
     public function getSkins(Request $request)
     {

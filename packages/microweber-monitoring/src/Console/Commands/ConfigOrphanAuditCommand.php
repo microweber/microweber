@@ -5,23 +5,6 @@ namespace MicroweberPackages\Monitoring\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-/**
- * AI-124 / TICKET-CT (cycle-121 2026-05-09): config-orphan audit.
- *
- * Greps every `config('foo.bar')` callsite in the source tree and
- * cross-checks that the dot-key resolves to a real value in the
- * matching `config/foo.php` file. Flags two failure modes:
- *
- *   1. ORPHAN — `config('foo.bar')` reads a key that doesn't
- *      exist in any config file. Returns null silently, often the
- *      root cause of mysterious "feature is disabled" reports.
- *
- *   2. UNUSED — a key declared in `config/foo.php` but never read
- *      via `config()`. Dead config entries; cleanup target.
- *
- * Exit code 0 = clean, 1 = orphans found, 2 = unused (informational
- * — `--strict` upgrades unused to a failure).
- */
 class ConfigOrphanAuditCommand extends Command
 {
     protected $signature = 'monitoring:config-orphan-audit

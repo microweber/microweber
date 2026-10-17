@@ -100,10 +100,7 @@ Route::name('api.auth.')
 
         Route::post('refreshToken', function (\Illuminate\Http\Request $request) {
 
-
             $user = $request->user();
-
-
 
             if (!$user || !$request->user()->tokenCan('refresh')) {
                 return response()->json(['message' => 'Invalid refresh token'], 403);
@@ -117,9 +114,7 @@ Route::name('api.auth.')
             ]);
         })->middleware(['api'])->name('refreshToken');
 
-
-        // AI-53 / TICKET-E (cycle-67 2026-05-08): swap bare
-        // throttle:60,1 (60 attempts/min by IP only — useless against
+                // throttle:60,1 (60 attempts/min by IP only — useless against
         // a credential-stuffing attacker who can rotate emails) for
         // the named `login` limiter declared in bootstrap/app.php
         // (5/min keyed on `login::<ip>::<email|username>`). The named
@@ -134,9 +129,6 @@ Route::name('api.auth.')
             ->name('logout')
             ->middleware(['api','web']);
     });
-
-
-
 
 Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $request) {
 
@@ -190,7 +182,6 @@ Route::prefix(mw_admin_prefix_url_legacy())->middleware(['admin'])->group(functi
     Route::get('login', \MicroweberPackages\User\Http\Controllers\UserLoginController::class . '@index')->name('admin.login')->middleware(['allowed_ips']);
 });
 
-
 // OLD API SAVE USER
 Route::post('api/save_user', function (\Illuminate\Http\Request $request) {
     if (!defined('MW_API_CALL')) {
@@ -215,7 +206,6 @@ Route::post('api/delete_user', function (\Illuminate\Support\Facades\Request $re
     $input = $request->all();
     return delete_user($input);
 })->middleware(['api']);
-
 
 Route::name('api.')
     ->prefix('api')
@@ -243,8 +233,7 @@ Route::name('api.user.')
     ])
      ->group(function () {
 
-        // AI-53 / TICKET-E (cycle-67 2026-05-08): swap bare
-        // throttle:60,1 for the named `login` limiter (5/min keyed on
+                // throttle:60,1 for the named `login` limiter (5/min keyed on
         // ip+email). See sibling change at line 43 above.
         Route::post('login', \MicroweberPackages\User\Http\Controllers\UserLoginController::class.'@login')->name('login')->middleware(['allowed_ips', 'throttle:login']);
         Route::any('logout', \MicroweberPackages\User\Http\Controllers\UserLoginController::class.'@logout')->name('logout')->excludedMiddleware(

@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\Database\Facades\DatabaseManager;
 
-
 class DefaultOptionsInstaller
 {
     public function run()
@@ -22,8 +21,7 @@ class DefaultOptionsInstaller
 
     public function setDefault()
     {
-        // AI-108 / TICKET-BG (cycle-133): routed through the Option model.
-        $existing = Option::query()
+                $existing = Option::query()
             ->where('option_key', 'website_title')
             ->where('option_group', 'website')
             ->exists();
@@ -55,8 +53,7 @@ class DefaultOptionsInstaller
 
     public function setCommentsEnabled()
     {
-        // AI-108 / TICKET-BG (cycle-133): routed through the Option model.
-        // The pgsql sequence-collision workaround that the legacy raw insert
+                // The pgsql sequence-collision workaround that the legacy raw insert
         // carried is no longer needed — Eloquent's save() goes through the
         // connection's native lastInsertId path which respects pgsql
         // sequence semantics correctly.
@@ -77,8 +74,7 @@ class DefaultOptionsInstaller
 
     public function setShippingEnabled()
     {
-        // AI-108 / TICKET-BG (cycle-133): routed through the Option model.
-        $shippingExists = Option::query()
+                $shippingExists = Option::query()
             ->where('option_key', 'shipping_gw_shop/shipping/gateways/country')
             ->where('option_group', 'shipping')
             ->exists();
@@ -89,7 +85,6 @@ class DefaultOptionsInstaller
             $option->option_value = 1;
             $option->save();
         }
-
 
         $existing = DB::table('cart_shipping')->where('shipping_country', 'Worldwide')->first();
 
@@ -112,8 +107,7 @@ class DefaultOptionsInstaller
 
     public function setPaymentsEnabled()
     {
-        // AI-108 / TICKET-BG (cycle-133): routed through the Option model.
-        $paypalExists = Option::query()
+                $paypalExists = Option::query()
             ->where('option_key', 'payment_gw_shop/payments/gateways/paypal')
             ->where('option_group', 'payments')
             ->exists();

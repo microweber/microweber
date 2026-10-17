@@ -1,6 +1,5 @@
 <?php
 
-// AI-129 / SEC-04 (cycle-122): Auth hardening — rate limiting & 2FA
 namespace MicroweberPackages\Fortify;
 
 use Illuminate\Cache\RateLimiting\Limit;

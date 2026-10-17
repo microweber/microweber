@@ -1,7 +1,5 @@
 use MicroweberPackages\Url\Facades\UrlManager;
 
-
-
 <style>
     #mw-site-preview-navigation{
         position: fixed;
@@ -22,18 +20,9 @@ use MicroweberPackages\Url\Facades\UrlManager;
             display: none;
         }
 
-        /* AI-945 / task-2026-06-05-gle945 — at mobile (390px) the fixed
-           top-centre admin preview bar overlapped the template header's nav
-           icons (logo, hamburger, search/account/cart). The bar is transparent,
-           so its Admin / Live Edit icons sat directly over the site-header
-           actions with no visual separation — admins could not tell which icons
-           were admin tools and which were site navigation.
-
-           Move the bar out of the top header row entirely: anchor it as a
-           clearly-separated floating pill at the bottom-centre, with a solid
-           backplate + ring + shadow so it always reads as a distinct admin
-           control regardless of the page surface behind it. Desktop is
-           untouched (this only overrides inside the mobile breakpoint). */
+        /* Mobile: move the admin preview bar out of the top header row (where it
+           overlapped the template's nav icons) to a floating pill at the
+           bottom-centre with a solid backplate. Desktop is untouched. */
         #mw-site-preview-navigation {
             top: auto;
             bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
@@ -56,22 +45,15 @@ use MicroweberPackages\Url\Facades\UrlManager;
 
 <div class="mw-ui-btn-nav d-flex align-items-center " id="mw-site-preview-navigation">
 
-
-
-
     <a href="<?php echo route('admin.content.index'); ?>" id="mw_back_to_admin" class="mw-ui-btn">
         <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M480.078 729.333q72.255 0 122.755-50.578 50.5-50.579 50.5-122.833 0-72.255-50.578-122.755-50.579-50.5-122.833-50.5-72.255 0-122.755 50.578-50.5 50.579-50.5 122.833 0 72.255 50.578 122.755 50.579 50.5 122.833 50.5Zm-.235-62.666q-46.176 0-78.343-32.324-32.167-32.323-32.167-78.5 0-46.176 32.324-78.343 32.323-32.167 78.5-32.167 46.176 0 78.343 32.324 32.167 32.323 32.167 78.5 0 46.176-32.324 78.343-32.323 32.167-78.5 32.167ZM480 856q-146 0-264.667-82.5Q96.667 691 40 556q56.667-135 175.333-217.5Q334 256 480 256q146 0 264.667 82.5Q863.333 421 920 556q-56.667 135-175.333 217.5Q626 856 480 856Zm0-300Zm-.112 233.334q118.445 0 217.612-63.5Q796.667 662.333 848.667 556q-52-106.333-151.054-169.834-99.055-63.5-217.501-63.5-118.445 0-217.612 63.5Q163.333 449.667 110.666 556q52.667 106.333 151.721 169.834 99.055 63.5 217.501 63.5Z"/></svg>
 
         <span class="mw-live-edit-back-to-editmode-link">
 
-
-
-
         <?php _e("Admin"); ?>
 
     </span>
     </a>
-
 
     <a id="mw_back_to_live_edit" href="<?php
     if (defined('CONTENT_ID') and CONTENT_ID != 0) {

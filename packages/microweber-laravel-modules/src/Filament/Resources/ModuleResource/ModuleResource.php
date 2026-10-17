@@ -65,8 +65,7 @@ class ModuleResource extends Resource
                         })
                         ->grow(false),
 
-                    // task-2026-05-23-366972 / AI-1041 — PascalCase module names
-                    // (e.g. 'LayoutContent', 'AiWizard') formatted via AdminDisplayName
+                                        // (e.g. 'LayoutContent', 'AiWizard') formatted via AdminDisplayName
                     // which space-splits camelCase and uppercases known acronyms (AI, SEO…).
                     Tables\Columns\TextColumn::make('name')
                         ->searchable()
@@ -77,8 +76,7 @@ class ModuleResource extends Resource
 //                        })
                         ->grow(false),
 
-                    // task-2026-05-23-cf2dd3 / AI-1042 — 2-line truncated description
-                    // from module.json (or the CamelCase-spaced fallback set by SystemModulesSushi).
+                                        // from module.json (or the CamelCase-spaced fallback set by SystemModulesSushi).
                     // CSS -webkit-line-clamp applied via extraAttributes.
                     Tables\Columns\TextColumn::make('description')
                         ->color('gray')
@@ -89,8 +87,7 @@ class ModuleResource extends Resource
                         ])
                         ->grow(false),
 
-                    // task-2026-05-23-82ffcf / AI-1046 — subdued version badge.
-                    // Only shown when version is set and not the default 'dev' placeholder.
+                                        // Only shown when version is set and not the default 'dev' placeholder.
                     Tables\Columns\TextColumn::make('version')
                         ->formatStateUsing(fn (?string $state): string => ($state && $state !== 'dev') ? 'v' . $state : '')
                         ->color('gray')
@@ -101,14 +98,12 @@ class ModuleResource extends Resource
                     return $module->adminUrl();
                 }),
 
-
             ])
             ->contentGrid([
                 'md' => 4,
                 'xl' => 4,
             ])
-            // task-2026-05-23-bbad8f / AI-1043 — replace the default circle-X empty-state icon
-            // (implies an error) with a puzzle-piece icon + CTA link to the Marketplace.
+                        // (implies an error) with a puzzle-piece icon + CTA link to the Marketplace.
             ->emptyStateIcon('heroicon-o-puzzle-piece')
             ->emptyStateHeading('No modules found')
             ->emptyStateDescription('Install modules from the Marketplace to extend your site.')

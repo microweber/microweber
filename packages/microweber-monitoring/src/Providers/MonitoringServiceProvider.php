@@ -39,15 +39,13 @@ class MonitoringServiceProvider extends ServiceProvider
         // Register Filament widgets
         FilamentRegistry::registerWidget(ErrorStatsWidget::class);
 
-        // AI-120 / TICKET-BN (cycle-117): register the boot-time
-        // query audit command alongside the existing monitoring
+                // query audit command alongside the existing monitoring
         // commands. CLI-only — gated by $this->app->runningInConsole().
         if ($this->app->runningInConsole()) {
             $this->commands([
                 BootQueryAuditCommand::class,
                 CleanupErrorTracking::class,
-                // AI-124 / TICKET-CT + TICKET-CU (cycle-121).
-                ConfigOrphanAuditCommand::class,
+                                ConfigOrphanAuditCommand::class,
                 Psr4StrictAuditCommand::class,
                 ExportErrorReport::class,
             ]);

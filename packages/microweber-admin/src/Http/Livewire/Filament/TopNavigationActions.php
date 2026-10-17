@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Admin\Http\Livewire\Filament;
 
-
 use Exception;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -23,8 +22,7 @@ class TopNavigationActions extends Component implements HasForms, HasActions
 
     public function render(): View
     {
-        // task-2026-05-04-novice — same plain-English copy as the
-        // live-edit +ADD picker (AdminLiveEditPage::addContentAction),
+                // live-edit +ADD picker (AdminLiveEditPage::addContentAction),
         // kept in sync so the top-nav and live-edit Add menus speak
         // the same human language.
         $links = [];

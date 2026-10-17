@@ -43,8 +43,7 @@ class ModuleRenderer
         }
 
         // No-wrap AND as-element both return the content with NO wrapper.
-        // task-2026-09-07-aselement — as_element fully unwraps to the legacy
-        // parser behavior: the module tag is replaced by its content directly
+                // parser behavior: the module tag is replaced by its content directly
         // (the module's own root element — e.g. <h1 class="element"> for a
         // title — becomes the editable element), with no surrounding div.
         if ($noWrap || $asElement) {
@@ -92,17 +91,7 @@ class ModuleRenderer
             || isset($attrs['no-wrap']);
     }
 
-    /**
-     * Check if a module is an "as element" module.
-     *
-     * task-2026-09-07-aselement — the legacy parser detected as_element ONLY
-     * from the `module-as-element` CSS class. The Live-Edit insert flow now
-     * supplies the flag as an `as_element="true"` (or `data-as-element`)
-     * ATTRIBUTE on the <module> tag, which the class-only check missed — so an
-     * inserted title/text element rendered as a plain `module` wrapper instead
-     * of unwrapping. Detect the attribute forms too.
-     */
-    public function isAsElement(array $attrs): bool
+        public function isAsElement(array $attrs): bool
     {
         // Legacy form: the `module-as-element` marker class.
         if (isset($attrs['class']) && strpos($attrs['class'], 'module-as-element') !== false) {

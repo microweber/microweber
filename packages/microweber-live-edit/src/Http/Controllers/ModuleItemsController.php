@@ -5,20 +5,6 @@ namespace MicroweberPackages\LiveEdit\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-/**
- * task-2026-09-15-qskit — shared CRUD for a module's DB-backed item list
- * (Accordion/FAQ/Tabs/Testimonials/Teamcard …), driving the Live-Edit
- * quick-settings inline item-list control.
- *
- * A concrete controller supplies the Eloquent model + the editable text fields;
- * this base handles list / create / update / delete / reorder for items scoped
- * to (rel_type='module', rel_id=<module id>). Fields are set by direct property
- * assignment (works regardless of the model's $fillable) — only the declared
- * fields are ever written, and rel_type is always forced to 'module'.
- *
- * Routes MUST be registered behind the `admin` middleware group — these mutate
- * the DB and must never be reachable unauthenticated.
- */
 abstract class ModuleItemsController extends Controller
 {
     /** @return class-string */

@@ -17,7 +17,6 @@ use Filament\Forms;
 
 use Filament\Forms\Form;
 
-
 class MwSelectTemplateForPage
 {
     public static function make(
@@ -26,8 +25,7 @@ class MwSelectTemplateForPage
         string $activeSiteTemplateInputName = null,
         string $layoutFileInputName = null,
 
-        // task-2026-06-06-pglayoutmodal — when false, the live template
-        // PREVIEW iframe block is omitted and the reactive selects stop
+                // PREVIEW iframe block is omitted and the reactive selects stop
         // dispatching `dynamicPreviewLayoutChange`. The preview machinery
         // (mw.templatePreview.rend() → /api/module/layout-preview) is the
         // engine of a client-side render cascade that tears the host modal
@@ -37,8 +35,7 @@ class MwSelectTemplateForPage
         // preview (default true); only the compact live-edit modal opts out.
         bool $withPreview = true,
 
-        // task-2026-06-06-pglayoutmodal — when false, the Template + Layout
-        // selects are NOT `->reactive()`. Inside a Filament mounted-action
+                // selects are NOT `->reactive()`. Inside a Filament mounted-action
         // modal a reactive commit re-renders the `action-modals.0` partial;
         // morphing it re-initialises the modal's Alpine `x-data` so `isOpen`
         // resets to false and the modal vanishes (Filament opens modals via a
@@ -54,7 +51,6 @@ class MwSelectTemplateForPage
         $activeSiteTemplateInputName = $activeSiteTemplateInputName ?? 'active_site_template';
         $layoutFileInputName = $layoutFileInputName ?? 'layout_file';
 
-
         $templates = site_templates();
         $active_site_template_default = template_name();
         // Ensure the default template matches an actual installed template dir_name.
@@ -66,11 +62,9 @@ class MwSelectTemplateForPage
             }
         }
 
-
         $selectTemplateInput = Forms\Components\Select::make($activeSiteTemplateInputName)
             ->label('Template')
-            // task-2026-06-06-pglayoutmodal — reactive only when the host opts
-            // in; the compact live-edit modal disables it to avoid the
+                        // in; the compact live-edit modal disables it to avoid the
             // partial-morph that closes the modal (see make() docblock).
             ->live(condition: $reactive)
              ->afterStateHydrated(
@@ -97,11 +91,9 @@ class MwSelectTemplateForPage
 
                 $activeSiteTemplate = $get($activeSiteTemplateInputName);
 
-
                 if (!$activeSiteTemplate || $activeSiteTemplate === 'default') {
                     $activeSiteTemplate = $active_site_template_default;
                 }
-
 
                 if ($activeSiteTemplate) {
                     return $activeSiteTemplate;
@@ -138,7 +130,6 @@ class MwSelectTemplateForPage
             })
             ->columnSpanFull();
 
-
         $selectLayoutInputInput = Forms\Components\Select::make($layoutFileInputName)
             ->label('Layout')
             ->default(function (Get $get) use ($activeSiteTemplateInputName, $active_site_template_default) {
@@ -164,8 +155,7 @@ class MwSelectTemplateForPage
                 }
 
             })
-            // task-2026-06-06-pglayoutmodal — live only when the host opts in.
-            ->live(condition: $reactive)
+                        ->live(condition: $reactive)
              ->options(function (Get $get, Set $set) use ($layoutFileInputName, $activeSiteTemplateInputName, $active_site_template_default) {
                 $activeSiteTemplate = $get($activeSiteTemplateInputName);
 
@@ -184,7 +174,6 @@ class MwSelectTemplateForPage
 
                 $layouts = app()->layouts_manager->get_all($layoutOptions);
 
-
                 return collect($layouts)->mapWithKeys(function ($layout) use ($layoutFileInputName) {
                     return [$layout[$layoutFileInputName] => $layout['name']];
                 });
@@ -194,14 +183,12 @@ class MwSelectTemplateForPage
 
                 $data = $livewire->data ?? [];
 
-
                 $activeSiteTemplate = $get($activeSiteTemplateInputName);
                 if (!$activeSiteTemplate || $activeSiteTemplate === 'default') {
                     $activeSiteTemplate = isset($data['active_site_template']) && $data['active_site_template'] !== 'default'
                         ? $data['active_site_template']
                         : $active_site_template_default;
                 }
-
 
                 // $layout_options['active_site_template'] = $active_site_template;
 
@@ -235,8 +222,7 @@ class MwSelectTemplateForPage
                     $set('is_shop', 0);
                 }
 
-                // task-2026-06-06-pglayoutmodal — skip the preview broadcast
-                // when the host has opted out of the preview iframe. The
+                                // when the host has opted out of the preview iframe. The
                 // dispatch drives mw.templatePreview.rend() which, inside a
                 // Filament mounted-action modal, kicks off a render cascade
                 // that closes the modal. Selecting a layout still updates
@@ -249,7 +235,6 @@ class MwSelectTemplateForPage
             ->key('dynamicSelectLayout')
             ->columnSpanFull();
 
-
         $templatePreviewBlock = SchemaView::make('mw-filament::components.mw-render-template-preview-iframe')
             ->viewData([
                 'url' => '',
@@ -257,13 +242,10 @@ class MwSelectTemplateForPage
                 'activeSiteTemplateInputName' => $activeSiteTemplateInputName
             ])
 
-
             ->key('dynamicPreviewLayout')
             ->columnSpanFull();
 
-
-        // task-2026-06-06-pglayoutmodal — the preview iframe is opt-out so
-        // the compact live-edit "Create page" modal can drop it (its render
+                // the compact live-edit "Create page" modal can drop it (its render
         // cascade closes the modal). Template + Layout selects stay intact.
         $schema = [$selectTemplateInput, $selectLayoutInputInput];
         if ($withPreview) {
@@ -273,6 +255,5 @@ class MwSelectTemplateForPage
         return Group::make()->schema($schema);
 
     }
-
 
 }

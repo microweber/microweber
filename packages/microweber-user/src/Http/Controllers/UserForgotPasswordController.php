@@ -14,7 +14,6 @@ use Illuminate\Support\Str;
 use MicroweberPackages\User\Models\User;
 use Auth;
 
-
 class UserForgotPasswordController extends Controller
 {
     /**
@@ -41,7 +40,6 @@ class UserForgotPasswordController extends Controller
         if (is_admin()) {
             unset($rules['captcha']);
         }
-
 
         if (!isset($inputs['email']) and isset($inputs['username'])) {
 
@@ -87,11 +85,9 @@ class UserForgotPasswordController extends Controller
             return response()->json(['error' => true, 'message' => __('passwords.user')], 422);
         }
 
-
 //        $status = Password::sendResetLink(
 //            $request->only('email')
 //        );
-
 
         // from https://laracasts.com/discuss/channels/laravel/reset-password-token-in-email-link-does-not-match-in-database-table?page=1&replyId=732755
         $status = Password::sendResetLink(
@@ -143,13 +139,11 @@ class UserForgotPasswordController extends Controller
             ->where('email', '=', $request->email)
             ->first();
         if (!$check) {
-            // task-2026-05-17-06892a / AI-794b — CHANGE 2 absorbed.
-            // Pre-CHANGE this returned `abort(response("Password reset
+                        // Pre-CHANGE this returned `abort(response("Password reset
             // link is expired", 401))` which rendered bare text on a
             // blank page (no auth chrome). Now routes through the
             // user::auth.reset-password-expired view which extends
-            // user::layout — same AI-794 chrome as the form surfaces
-            // + a "Request a new reset link" CTA so the user can
+                        // + a "Request a new reset link" CTA so the user can
             // recover without copying the URL by hand.
             return $this->expiredResetLinkResponse();
         }
@@ -160,7 +154,6 @@ class UserForgotPasswordController extends Controller
         $now = Carbon::now();
 
         $diffInHours = $createdAt->diffInHours($now);
-
 
         if (!$check) {
             $abort = true;
@@ -177,8 +170,7 @@ class UserForgotPasswordController extends Controller
                 ->where('email', '=', $request->email)
                 ->delete();
 
-            // task-2026-05-17-06892a / AI-794b — see comment above.
-            return $this->expiredResetLinkResponse();
+                        return $this->expiredResetLinkResponse();
         }
 
         return view('user::auth.reset-password', [
@@ -188,21 +180,9 @@ class UserForgotPasswordController extends Controller
     }
 
     /**
-     * task-2026-05-17-06892a / AI-794b — CHANGE 2 absorbed.
-     * Render the chrome-wrapped expired-reset-link response.
-     *
-     * Pre-AI-794b the controller called
-     * `abort(response("Password reset link is expired", 401))` which
-     * emitted bare text on a blank page — losing the AI-794 auth
-     * chrome at the exact moment the user is actively trying to
-     * recover access. Same propagation-without-renderer-update
-     * family as AI-735→AI-793 admin-404 (the form-rendering path
-     * got the AI-794 layout wrap; the controller's error path
-     * bypassed user::layout entirely).
-     *
-     * Returns 401 with the same status code + an HTML body that
-     * extends user::layout (active-template master + .mw-auth-card
-     * chrome + brand logo + footer + AI-794a brand-blue CTA).
+     * Render the chrome-wrapped (user::layout) expired-reset-link response.
+     * Returns 401 with an HTML body that extends the active template's auth
+     * layout + .mw-auth-card chrome, instead of bare text on a blank page.
      *
      * @return \Illuminate\Http\Response
      */
@@ -224,7 +204,6 @@ class UserForgotPasswordController extends Controller
             ->where('token', $request->get('token'))
             ->first();
 
-
         if (!empty($tokenMd5)) {
 
             $createdAt = Carbon::parse($tokenMd5->created_at);
@@ -233,8 +212,7 @@ class UserForgotPasswordController extends Controller
                 DB::table('password_resets')
                     ->where('email', '=', $request->get('email'))
                     ->delete();
-                // task-2026-05-17-06892a / AI-794b — CHANGE 2 absorbed.
-                // Pre-CHANGE this 3rd error path also emitted bare-text
+                                // Pre-CHANGE this 3rd error path also emitted bare-text
                 // 401. Routed through the same chrome-wrapped expired-
                 // reset-link view as showResetForm() so the user gets
                 // identical recovery UX whether the link is expired at

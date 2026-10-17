@@ -4,46 +4,6 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\Security;
 
-/**
- * AI-130 / SEC-05 (cycle-123 2026-05-09): stored-XSS rich-text
- * stripper.
- *
- * Brief: "Rich-text: strip <img onerror> and <svg onload> (stored
- * XSS)." Targets the OWASP A03 stored-XSS vector where an admin
- * (or compromised admin session) writes HTML into a content body
- * that another user later renders.
- *
- * The full HTMLPurifier-backed `MwHtmlSanitizer` already covers
- * most cases via its allowlist model — but it ships with a few
- * legacy carveouts for `onclick`-style attributes inside
- * trusted-author surfaces. This stripper is the explicit
- * defense-in-depth pass that runs at SAVE time on every content
- * body, no matter who the author is, regardless of any
- * MwHtmlSanitizer toggle.
- *
- * Strips:
- *
- *   1. Every `on*=` attribute on every tag (onerror, onload,
- *      onclick, onmouseover, etc.). The browser executes these
- *      regardless of where they're attached, so the only safe
- *      strategy is "remove them all".
- *
- *   2. `<script>...</script>` tags entirely (block-level so the
- *      whitespace + indentation collapses cleanly).
- *
- *   3. `<svg>` tags whose body contains `<script>` OR any `on*=`
- *      attribute. Plain decorative SVGs pass through unchanged
- *      (a strict <svg> blanket-strip would break legitimate icon
- *      libraries).
- *
- *   4. `javascript:` / `data:text/html` / `vbscript:` href values
- *      — collapses to `#` so the link still renders but does
- *      nothing.
- *
- * Pure-string regex implementation (no DOM parser) — runs in
- * O(n) on the input, no memory pressure on long bodies, no
- * dependencies.
- */
 final class StoredXssStripper
 {
     /**

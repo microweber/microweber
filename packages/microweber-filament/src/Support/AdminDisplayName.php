@@ -4,45 +4,6 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\Filament\Support;
 
-/**
- * task-2026-05-17-4905c8 / AI-785 — code-identifier → display-name helper.
- * Jira: https://microweber.atlassian.net/browse/AI-785
- *
- * Designer's R10-2 audit caught CamelCase code identifiers leaking
- * to the user surface in the Modules grid (e.g. "LayoutContent" /
- * "AiWizard" / "CustomFields"). These are folder names from
- * `Modules/<Name>/` that get passed through to admin form labels +
- * marketplace cards without ever going through a display layer.
- *
- * This helper centralises the camelCase → "Display name" transform
- * so every admin form that surfaces raw module identifiers can call
- * one canonical function. Designer's recurring "small refactor
- * opportunity to enforce a display-name layer at FormResource +
- * Module config layer" — first installment.
- *
- * **Rules:**
- *   - Insert a space before each uppercase letter (except the first).
- *   - Lowercase every word EXCEPT a known-acronym whitelist (AI, SEO,
- *     FAQ, URL, UI, API, CSS, JS, HTML, RTL, LTR, CMS, CSV, PDF, SMTP,
- *     MX, CDN, SVG, JSON, XML, ID, GDPR, ROI, KPI, GDP).
- *   - Acronym-prefix CamelCase like "AiWizard" → tokenise on the
- *     boundary before "Wizard"; recognise "Ai" as `AI`; result is
- *     "AI Wizard".
- *   - snake_case + kebab-case + spaces all normalise to the same
- *     output as the CamelCase equivalent so a resource calling the
- *     helper on already-normalised input is idempotent.
- *
- * **Examples:**
- *   - "LayoutContent"  → "Layout content"
- *   - "AiWizard"       → "AI wizard"
- *   - "CustomFields"   → "Custom fields"
- *   - "SeoSettings"    → "SEO settings"
- *   - "Faq"            → "FAQ"
- *   - "RTLDirection"   → "RTL direction"   (consecutive caps treated as acronym run)
- *   - "post"           → "Post"            (idempotent)
- *   - "my_first_post"  → "My first post"
- *   - "header-menu"    → "Header menu"
- */
 final class AdminDisplayName
 {
     /**

@@ -7,28 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * AI-129 / SEC-04 (cycle-122 2026-05-09): force default password
- * change on first admin login.
- *
- * Brief: "Default admin password must be changed on first login."
- *
- * Detects an authenticated admin user whose password matches the
- * well-known default seed values (`admin`, `password`, `admin123`,
- * `microweber`, `123456`). When matched, redirects every admin
- * panel request to the change-password screen until the user picks
- * a non-default password.
- *
- * Detection is by `Hash::check($default, $user->password)` not by
- * comparing the hash directly — bcrypt hashes are salted, so
- * `password === '$2y$...'` would never match.
- *
- * Bypass: requests to the change-password endpoint itself, the
- * logout endpoint, and any asset / API ping route, so the middleware
- * doesn't trap users in a redirect loop. Also bypassed entirely
- * when SESSION_DRIVER=array (test runner) so contract tests don't
- * regress.
- */
 class RequireDefaultPasswordChange
 {
     /**

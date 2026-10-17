@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages;
 
-
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\LocaleSwitcher;
@@ -39,17 +38,9 @@ class AdminLiveEditPage extends Page
     use InteractsWithActions;
     use InteractsWithForms;
 
-    /**
-     * URL of the page currently shown in the live-edit canvas, captured
-     * on initial page load via the `?url=` query param. Persisted as a
-     * Livewire property so subsequent action mounts (which run on a
-     * different request to /livewire/update) can still resolve which
-     * page the user is editing — task-2026-05-01-30153f.
-     */
-    public string $liveEditUrl = '';
+        public string $liveEditUrl = '';
 
-    // task-2026-09-22 — the content id the client (PageChip) is currently
-    // showing in the canvas, set via $wire.set before mounting the edit action.
+        // showing in the canvas, set via $wire.set before mounting the edit action.
     // Authoritative over resolveCurrentLiveEditPageId(), whose liveEditUrl can go
     // stale after in-canvas navigation (→ null → a blank "Edit page" modal).
     public ?int $editCurrentContentId = null;
@@ -71,27 +62,23 @@ class AdminLiveEditPage extends Page
             ]);
     }
 
-
     public function addContentAction(): Action
     {
-        // task-2026-05-04-novice — plain-English descriptions for
-        // Brenda the novice customer. The previous strings ("linked
+                // Brenda the novice customer. The previous strings ("linked
         // to category of main page on your website", "organize ... in
         // the right way") read like translated developer notes; a
         // first-time site owner cannot tell from those whether they
         // need a Page or a Post. Each description now answers the
         // single question the user has at this moment: "Which one
         // do I want?" with one concrete example.
-        // NOVICE #5 (task-2026-05-13-899d57) — extended each
-        // description with a "Pick this if" / "Skip this for now"
+                // description with a "Pick this if" / "Skip this for now"
         // second sentence. The persona reported: "Page sounds the
         // safest, I'll pick that" — meaning the previous one-liners
         // didn't actually help the user decide; they just listed
         // examples. A clear decision rule beats a longer example
         // list every time.
         //
-        // task-2026-05-15-0282f5 (picker UX improvement): "Add a block to
-        // this page" is moved to FIRST position because it is the most
+                // this page" is moved to FIRST position because it is the most
         // contextually relevant action for a user who is already inside
         // Live Edit — they are on a page and want to drop a block into it.
         // Page / Post / Product etc. are new-content flows that take the
@@ -100,13 +87,10 @@ class AdminLiveEditPage extends Page
         // "I scanned 6 options and picked the first one I recognised" pattern.
         $actions = [];
 
-        // NOVICE #4 (task-2026-05-13-899d57) — re-introduce the "Add a
-        // block to this page" entry that AI-309 removed, but this time
-        // as a DIRECT ACTION not a meta-instruction. The original card
+                        // as a DIRECT ACTION not a meta-instruction. The original card
         // told the user "close this picker, then tap Insert layout in
         // the toolbar" — a read-close-hunt flow that broke the picker's
-        // promise. AI-309 was right to remove that version; this is the
-        // proper replacement.
+                // proper replacement.
         //
         // The new card carries a `js_dispatch` key (instead of routing
         // through a Filament action). The picker template detects the
@@ -116,20 +100,17 @@ class AdminLiveEditPage extends Page
         // (added in the same commit) forwards to
         // `mw.app.editor.dispatch('insertLayoutRequestOnBottom')`, which
         // is what ListLayouts.vue listens for to open the layout picker
-        // dialog (task-2026-05-28: was dispatching 'insertLayoutRequest'
-        // which ListLayouts.vue never subscribes to).
+                // which ListLayouts.vue never subscribes to).
         //
         // One click → picker closes → layout picker opens. No more
         // hunting for the toolbar button after reading instructions.
-        // task-2026-05-16-968a71 / AI-692 / A2+A3: actions now carry a
-        // `group` key so the Blade picker can render them in two visually-
+                // `group` key so the Blade picker can render them in two visually-
         // distinct groups per designer spec §2 key-move 2 — "Two groups,
         // one primary per group." 'primary' = inline-insertion (Add a
         // block); 'secondary' = navigate-to-admin-form (Page/Post/etc.).
         // The two action classes have different mental models (in-place
         // vs go-somewhere-else) and should not read as visually equal.
-        // task-2026-05-27-4b1344 / AI-1139 item 5: solid filled icon
-        $actions[] = [
+                $actions[] = [
             'title' => 'Add a block to this page',
             'description' => 'Drop text, images, buttons, headings or any other block into the page you are editing right now. Pick this if you just want to add content WITHIN the current page — not create a new page.',
             'action' => 'addToCurrentPageAction',
@@ -137,13 +118,11 @@ class AdminLiveEditPage extends Page
             'js_dispatch' => 'liveEditInsertLayoutRequest',
             'group' => 'primary',
         ];
-        // task-2026-05-16-cdeefd / AI-691 / A7: "New" prefix dropped from
-        // card titles — the modal heading is already "Add new content",
+                // card titles — the modal heading is already "Add new content",
         // so the prefix was three syllables of waste per row. Visible
         // title is now just "Page" / "Post" / "Product" / "Image" /
         // "Category" per designer spec §2 key-move 6.
-        // task-2026-05-27-4b1344 / AI-1139 items 1+2: sublabel + tint
-        $actions[] = [
+                $actions[] = [
             'title' => 'Page',
             'description' => 'A standalone page like About, Services or Contact. Pick this if you want a single permanent page that lives at its own URL.',
             'action' => 'addPageAction',
@@ -170,8 +149,7 @@ class AdminLiveEditPage extends Page
             'sublabel' => 'Shop item',
             'tint' => '#FFEACC',
         ];
-        // AI-148 (cycle-142 2026-05-09): novice mobile UX — add a
-        // discoverable "New Image" entry. Tester audit found that
+                // discoverable "New Image" entry. Tester audit found that
         // mobile users opening the Add-content picker had no way to
         // upload images: searching "picture" or "image" returned no
         // results because the picker only listed Page/Post/Category/
@@ -198,8 +176,7 @@ class AdminLiveEditPage extends Page
             'sublabel' => 'Content group',
             'tint' => '#CFEDEA',
         ];
-        // task-2026-05-27-4b1344 / AI-1139 item 3: 6th Layout card
-        $actions[] = [
+                $actions[] = [
             'title' => 'Layout',
             'description' => 'A pre-designed section block — rows of columns, hero areas, feature grids, or footers. Drop a complete layout section onto your page.',
             'action' => 'addLayoutAction',
@@ -209,8 +186,7 @@ class AdminLiveEditPage extends Page
             'sublabel' => 'Section block',
             'tint' => '#DBEBFE',
         ];
-        // AI-309 (task-2026-05-13-5f1937) historical note: the previous
-        // "Add to this page" card was a meta-instruction that broke the
+                // "Add to this page" card was a meta-instruction that broke the
         // picker's flow. The companion `addToCurrentPageAction` method below is left in
         // place but is no longer referenced by the picker — keeping it
         // costs nothing and avoids a behaviour change for anyone who still
@@ -226,8 +202,7 @@ class AdminLiveEditPage extends Page
                     ])
             ])
             ->modalSubmitAction(false)
-            // NOVICE #3 (task-2026-05-13-899d57) — keep the Cancel
-            // footer button. The previous `->modalCancelAction(false)`
+                        // footer button. The previous `->modalCancelAction(false)`
             // hid every dismiss-by-button affordance, leaving only the
             // tiny top-right X. On mobile the X was hard to thumb-reach;
             // novices reported "the picker was stuck open" until they
@@ -240,8 +215,7 @@ class AdminLiveEditPage extends Page
             // matches the modal that opens after the user picks a
             // type. The previous slideOver was a tiny right-edge
             // drawer that felt like a developer tool, not a friendly
-            // "what do you want to add?" dialog. task-2026-05-02-4c1606.
-            ->modalWidth(MaxWidth::TwoExtraLarge)
+                        ->modalWidth(MaxWidth::TwoExtraLarge)
             ->extraModalWindowAttributes(['class' => 'mw-content-form-modal mw-content-picker-modal']);
     }
 
@@ -265,15 +239,7 @@ class AdminLiveEditPage extends Page
         return $this->generateAction('addCategoryAction', 'category');
     }
 
-    /**
-     * task-2026-09-22 — "Edit current content" from the toolbar page dropdown.
-     * Opens the SAME compact content form as the create actions, but pre-filled
-     * with the content currently open in the Live Edit canvas and saving updates
-     * that record (title / url / published / parent / cover / pricing) instead of
-     * creating a new one. Dispatched via the existing `liveEditOpenCreateContent`
-     * bridge with action 'editCurrentContentAction'.
-     */
-    public function editCurrentContentAction(): Action
+        public function editCurrentContentAction(): Action
     {
         // Prefer the client-supplied id (always the page in the canvas); fall
         // back to the url-derived resolver only when it wasn't provided.
@@ -331,35 +297,7 @@ class AdminLiveEditPage extends Page
             ->modalSubmitActionLabel(__('Save'));
     }
 
-    /**
-     * AI-148 (cycle-142) → task-2026-05-13-f18a79 rewrite.
-     *
-     * Real in-place upload modal. Previously this action was a
-     * redirect-only confirmation dialog ("you will be taken to the
-     * Media Library…") which broke live-edit context, required three
-     * taps, and showed nothing useful in the modal body. After repeat
-     * "still not very good" feedback from the human, the action now
-     * does what its label promises — uploads images, in-place, from a
-     * drag-and-drop file zone inside the modal itself. The user stays
-     * in live-edit; uploaded images land in the Media Library and are
-     * immediately available in module pickers.
-     *
-     * The drag-drop + multi-file + preview + validation comes from
-     * Filament's built-in `FileUpload` component. It is Livewire-
-     * native, so it does NOT conflict with the parent live-edit
-     * Livewire root (the conflict the older comment warned about was
-     * specifically about embedding the entire MediaLibrary page —
-     * a single form field is a different shape and works fine).
-     *
-     * Persistence path mirrors `MediaLibrary::updatedUploads()`:
-     * stored under `userfiles/media/` on the `public` disk, rows
-     * created in the `media` table with `media_type='picture'`.
-     *
-     * The secondary footer action keeps "Browse Media Library" as a
-     * one-tap escape hatch for advanced workflows (folder management,
-     * bulk delete, CDN sync) without making it the default path.
-     */
-    public function addImageAction(): Action
+        public function addImageAction(): Action
     {
         return Action::make('addImageAction')
             ->label('Upload image')
@@ -370,15 +308,13 @@ class AdminLiveEditPage extends Page
             ->modalCancelActionLabel('Close')
             ->modalWidth(MaxWidth::TwoExtraLarge)
             ->extraModalFooterActions(fn (Action $action): array => [
-                // NOVICE #8 (task-2026-05-13-899d57) — open the Media
-                // Library in a new tab. The previous `openUrlInNewTab(false)`
+                                // Library in a new tab. The previous `openUrlInNewTab(false)`
                 // hard-navigated mid-upload: if the user dropped a file
                 // and then absent-mindedly clicked "Browse Media Library"
                 // to peek at their other images, the page navigated away
                 // and the in-progress upload was lost without warning.
                 // Opening in a new tab preserves the upload context.
-                // task-2026-05-27-287636 / AI-1140 Part A: route was
-                // 'filament.admin.pages.media-library' (non-existent);
+                                // 'filament.admin.pages.media-library' (non-existent);
                 // correct name is 'filament.admin.pages.media'.
                 Action::make('browseMediaLibrary')
                     ->label('Browse Media Library')
@@ -390,8 +326,7 @@ class AdminLiveEditPage extends Page
                     ->openUrlInNewTab(true),
             ])
             ->form([
-                // task-2026-05-31 / AI-817 follow-up: replaced ->hiddenLabel()
-                // with ->label('Image files') + sr-only wrapper class so
+                                // with ->label('Image files') + sr-only wrapper class so
                 // screen readers announce the input purpose. ->hiddenLabel()
                 // strips the label from the accessibility tree entirely
                 // (WCAG 3.3.2 Level A failure). The .mw-fb-title-wrap
@@ -463,50 +398,7 @@ class AdminLiveEditPage extends Page
             });
     }
 
-    /**
-     * AI-167 (cycle-145): novice signposting for the in-canvas
-     * "add modules to the current page" flow.
-     *
-     * The picker entry "Add to this page" routes here. Instead of a
-     * redirect (the Insert layout / left-rail palette is in the canvas
-     * iframe and does not have a route the Filament admin page can
-     * redirect to), this action shows a Filament notification with
-     * the workflow explained in plain English. The notification stays
-     * visible after the picker closes so the user can read it while
-     * the canvas is in focus. The notification icon points at the
-     * toolbar so the user has a visual cue.
-     *
-     * Why a notification rather than a redirect or an embedded UI:
-     *   - The Insert layout flow runs in the canvas iframe via
-     *     `mw.app.editor.dispatch('insertLayoutRequestOnBottom', ...)` and
-     *     is JS-only — there is no server route to redirect to.
-     *   - Embedding the left-rail palette inside the picker modal
-     *     would conflict with the Vue toolbar / canvas iframe roots.
-     *   - A toast notification with a one-sentence runbook is the
-     *     least-disruptive novice-UX nudge: it leaves the user
-     *     exactly where they need to be (looking at the canvas)
-     *     with the right action one tap away.
-     */
-    /**
-     * NOVICE #4 (task-2026-05-13-899d57) — rewritten from a meta-
-     * instruction modal into a direct-action stub.
-     *
-     * The picker's "Add a block to this page" card now uses
-     * `js_dispatch` and never routes through this method (see the
-     * card definition + `add-content-modal.blade.php`). This method
-     * exists only as a defensive fallback: if any stale Livewire
-     * reference, a button somewhere outside the picker, or future
-     * code paths mount `addToCurrentPageAction` as a real Filament
-     * action, the user should still end up with the Insert Layout
-     * dialog rather than the old "close this and tap that" meta-
-     * instruction text.
-     *
-     * The Filament Page's `js()` method injects a `<script>` tag
-     * into the next Livewire render. The dispatched window event
-     * is the same one the picker card fires, so it's caught by the
-     * existing iframe-page listener at `liveEditInsertLayoutRequest`.
-     */
-    public function addToCurrentPageAction(): Action
+            public function addToCurrentPageAction(): Action
     {
         return Action::make('addToCurrentPageAction')
             ->label('Add a block to this page')
@@ -617,8 +509,7 @@ class AdminLiveEditPage extends Page
             ->stickyModalHeader(true)
             // cycle-N (post-cycle-116) — REVERTED back to slide-over.
             //
-            // task-2026-05-04-b2dfc1 had switched module settings to a
-            // centered modal at FiveExtraLarge width because of a
+                        // centered modal at FiveExtraLarge width because of a
             // posts/products complaint about the "small right-side
             // drawer" feel. After deploying that change widely the
             // user reported it the other way: ALL module settings
@@ -653,7 +544,6 @@ class AdminLiveEditPage extends Page
                     $this->openFilamentMwDialog($data);
                 }
             });
-
 
     }
 
@@ -739,13 +629,7 @@ class AdminLiveEditPage extends Page
         ) . ')');
     }
 
-    /**
-     * Resolve the page currently shown in the live-edit canvas
-     * (captured from `?url=` at mount() into $this->liveEditUrl) to a
-     * Content id. Defaults to the homepage when the user opens
-     * /admin/live-edit without `?url=`. task-2026-05-01-3dff3c.
-     */
-    public function resolveCurrentLiveEditPageId(): ?int
+        public function resolveCurrentLiveEditPageId(): ?int
     {
         $iframeUrl = $this->liveEditUrl;
         if ($iframeUrl !== '') {
@@ -765,13 +649,10 @@ class AdminLiveEditPage extends Page
     public function generateAction($actionName, $contentType)
     {
 
-
         if ($contentType == 'category') {
             // Lean live-edit category form — no SEO/Advanced tabs,
             // matches the post/page/product compact modal.
-            // task-2026-05-04-e0fe54.
-            // task-2026-05-05-e78299 — pass the current canvas page id
-            // explicitly so the Parent dropdown defaults to the page
+                                    // explicitly so the Parent dropdown defaults to the page
             // the user is editing. The compact form previously fell
             // back to `request()->query('parent_page_id')` / Referer,
             // both empty during the Livewire `/livewire/update` POST
@@ -783,8 +664,7 @@ class AdminLiveEditPage extends Page
             // The lean live-edit variant — title + body + published
             // + parent + (product) pricing only. Power users can
             // open the full admin form to fill in SEO / Custom
-            // Fields / Tags / Menus etc. task-2026-05-04-1d68c7.
-            $formArray = ContentResource::formArrayCompact([
+                        $formArray = ContentResource::formArrayCompact([
                 'contentType' => $contentType
             ]);
         }
@@ -796,10 +676,8 @@ class AdminLiveEditPage extends Page
         // posts/products/categories land under that page automatically.
         // Without this, "Create Post" while editing a blog page produced
         // an orphan post the user could never see in the listing —
-        // task-2026-05-01-30153f.
-        //
-        // task-2026-05-01-3dff3c: when the user opens /admin/live-edit
-        // with no `?url=` (the most common entry point — clicking
+                //
+                // with no `?url=` (the most common entry point — clicking
         // "Live edit" from the dashboard), the canvas defaults to the
         // homepage but $this->liveEditUrl is empty. Calling
         // getContentIdFromUrl('') falls through to the current
@@ -811,15 +689,11 @@ class AdminLiveEditPage extends Page
         return Action::make($actionName)
             ->label('Create ' . $contentType)
             ->modalHeading('Create ' . $contentType)
-            // task-2026-05-17-2b1020 / AI-816 — primary CTA on an
-            // unsubmitted form must render brand-blue (#0d6efd),
-            // NOT success-green. The earlier task-2026-05-02-4c1606
-            // rationale ("match the green main-toolbar SAVE pill")
+                        // unsubmitted form must render brand-blue (#0d6efd),
+                        // rationale ("match the green main-toolbar SAVE pill")
             // is obsolete: the toolbar SAVE became a BLACK pill in
-            // AI-699 / task-2026-05-16-8b10a3 (v2-style solid black
-            // with optional unsaved-state accent ring). Brand-blue
-            // matches the AI-737/AI-704/AI-731/AI-794 primary-CTA
-            // lineage; green is reserved for post-submit success
+                        // with optional unsaved-state accent ring). Brand-blue
+                        // lineage; green is reserved for post-submit success
             // semantics (saved, published, approved).
             ->color('primary')
             // Centered modal (NOT a right-side slideOver) so the form
@@ -829,14 +703,11 @@ class AdminLiveEditPage extends Page
             // for the rich text editor inside Content body, with the
             // canvas peeking through behind it. The user reported the
             // modal as "too small" and "not slide right" —
-            // task-2026-05-02-82ca03. Width bumped to FiveExtraLarge
-            // (1024px) per task-2026-05-04-3337c0 when the form still
-            // had tabs + a two-column layout. The compact form is now
+                                    // had tabs + a two-column layout. The compact form is now
             // single-column with no tabs, so the wide-shallow shape
             // wasted horizontal space while making the modal scroll
             // vertically — user reported "must look very small and
-            // compact and not have scrolls" (task-2026-05-05-899bf8).
-            // Dropped back to ThreeExtraLarge (768px): proportional to
+                        // Dropped back to ThreeExtraLarge (768px): proportional to
             // the single-column compact form, keeps the live-edit
             // canvas visible on either side, removes the "wide and
             // shallow" feel.
@@ -847,34 +718,29 @@ class AdminLiveEditPage extends Page
             // fine for slide-overs, catastrophic for centered
             // content-creation modals where the user can't tell where
             // the modal ends). CSS lives in iframe-page.blade.php.
-            // task-2026-05-02-df09aa.
-            ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'])
+                        ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'])
             // Don't let a stray backdrop click or Escape keystroke
             // destroy a half-typed Add Post form. Filament defaults
             // both to true; for content-creation modals where the user
             // has invested keystrokes, that default is catastrophic
             // (no draft, no warning, no recovery) — see screenshot
             // `audit-2-after-click-outside.png` from
-            // task-2026-05-02-354958. Cancel still works via the X
-            // button or the explicit "Cancel" footer action.
+                        // button or the explicit "Cancel" footer action.
             ->closeModalByClickingAway(false)
             ->closeModalByEscaping(false)
             // Long forms (Title + URL + Content body w/ rich text +
             // Excerpt + …) push the in-modal Save button below the
             // viewport. Sticky footer keeps Save/Cancel visible while
-            // the form scrolls. task-2026-05-02-354958.
-            ->stickyModalFooter()
+                        ->stickyModalFooter()
             // "Open in admin" escape hatch — the live-edit modal
             // intentionally ships only the essentials (Title +
             // body + published + parent + maybe pricing). Power
             // users who need SEO / Custom Fields / Tags / Menus /
             // Variants can click this to open the full admin
             // create form in a new tab without losing their
-            // place in the live-edit canvas. task-2026-05-04-76275d.
-            ->extraModalFooterActions(fn () => [
+                        ->extraModalFooterActions(fn () => [
                 Action::make('openInAdmin')
-                    // task-2026-05-04-novice — "Open in admin" is
-                    // jargon. A novice user has no idea what "admin"
+                                        // jargon. A novice user has no idea what "admin"
                     // means in this context (vs the green SAVE pill
                     // that's also "in admin"). Renamed to "Show all
                     // options" so the verb describes what the user
@@ -882,14 +748,12 @@ class AdminLiveEditPage extends Page
                     // Custom Fields / Permalink — and so it stops
                     // looking like a synonym for Save.
                     ->label('Show all options')
-                    // AI-937 — changed from heroicon-o-arrow-top-right-on-square (external link)
-                    // to heroicon-o-adjustments-horizontal (options/settings) because the arrow
+                                        // to heroicon-o-adjustments-horizontal (options/settings) because the arrow
                     // icon WCAG 1.3.3-implied "opens in new tab" which confused operators.
                     // Note: the button still opens in a new tab via openUrlInNewTab(); the icon
                     // now focuses on the ACTION (show more options) not the transport (new tab).
                     ->icon('heroicon-o-adjustments-horizontal')
-                    // AI-938 — changed from ->outlined() to ->link() so Save (filled primary)
-                    // has clear visual priority over "Show all options" (text link).
+                                        // has clear visual priority over "Show all options" (text link).
                     // ->outlined() made both buttons appear as equal-weight blue buttons;
                     // ->link() clearly communicates secondary hierarchy.
                     ->link()
@@ -898,8 +762,7 @@ class AdminLiveEditPage extends Page
                     // input to the URL query string is wired up
                     // client-side in iframe-page.blade.php — see
                     // the `mw-open-in-admin-btn` JS hook there.
-                    // task-2026-05-04-1e4af3 (P1-3).
-                    ->url(static::resolveAdminCreateUrl($contentType, $currentPageId))
+                                        ->url(static::resolveAdminCreateUrl($contentType, $currentPageId))
                     ->openUrlInNewTab(),
             ])
             ->form($formArray)
@@ -909,13 +772,11 @@ class AdminLiveEditPage extends Page
 
                 // Default-link the new item to the page being edited so
                 // it appears under that listing immediately after save
-                // (task-2026-05-01-30153f). Pages stay top-level.
-                if ($currentPageId && $contentType !== 'page' && empty($data['parent'])) {
+                                if ($currentPageId && $contentType !== 'page' && empty($data['parent'])) {
                     $data['parent'] = $currentPageId;
                 }
 
-                // task-2026-06-06-pglayoutmodal — derive is_shop / subtype
-                // from the chosen page layout at SAVE time. The compact
+                                // from the chosen page layout at SAVE time. The compact
                 // modal's Template/Layout selects are non-reactive (so the
                 // modal survives — see MwSelectTemplateForPage), which means
                 // the old afterStateUpdated that set these no longer fires.
@@ -935,8 +796,7 @@ class AdminLiveEditPage extends Page
                         && $layoutDetails['is_shop'] == 1) ? 1 : 0;
                 }
 
-                // task-2026-10-12 — enforce a UNIQUE slug. This create path
-                // persists via the Eloquent model directly (not save_content()),
+                                // persists via the Eloquent model directly (not save_content()),
                 // which does NOT dedup the URL. Without this a new page could be
                 // saved with a slug already owned by a product/page and then be
                 // shadowed by it on the frontend (the OTHER content is served at
@@ -960,8 +820,7 @@ class AdminLiveEditPage extends Page
                 $model->fill($data);
                 $model->save();
 
-                // NOVICE #11 (task-2026-05-13-899d57) — body
-                // placeholder backfill. The persona reported: "I
+                                // placeholder backfill. The persona reported: "I
                 // created my first blog post. The toast said 'Now
                 // click anywhere on the page to start writing'. I
                 // clicked. Nothing happened. The page is empty
@@ -984,8 +843,7 @@ class AdminLiveEditPage extends Page
                 // intentional; categories aren't a user-typed body
                 // surface at all.
                 //
-                // task-2026-06-06-pglayoutmodal — but NOT for a page that
-                // was created with a designed layout. A layout blade like
+                                // was created with a designed layout. A layout blade like
                 // services/pricing/landing/about renders its own default
                 // module blocks inside the `field="content"` editable
                 // region; writing the placeholder into `content` here
@@ -1029,13 +887,11 @@ class AdminLiveEditPage extends Page
                 // have a public URL anyway and skip the canvas
                 // navigation, so for them the "Edit details"
                 // link is doubly useful as the only way back to
-                // the new record. task-2026-05-04-f575c7.
-                $editDetailsUrl = ($contentType === 'category')
+                                $editDetailsUrl = ($contentType === 'category')
                     ? CategoryResource::getUrl('edit', ['record' => $model])
                     : ContentResource::getUrl('edit', ['record' => $model]);
 
-                // task-2026-05-04-6adcfe — user reported "I still
-                // don't think the content adding is ok". Walking
+                                // don't think the content adding is ok". Walking
                 // the flow live: title-only Save lands on a near-
                 // empty public page (just title + date + footer),
                 // toast fades in 5s — user has zero idea what to
@@ -1058,8 +914,7 @@ class AdminLiveEditPage extends Page
                     ? '"' . mb_strimwidth($titleText, 0, 40, '…') . '"'
                     : strtolower($contentTypeFriendly);
 
-                // NOVICE #11 (task-2026-05-13-899d57) — copy update.
-                // For post/page where the body was empty we just
+                                // For post/page where the body was empty we just
                 // injected a "Click here to start writing…"
                 // placeholder, so the toast now directs the user
                 // at that visible target rather than the previous
@@ -1090,22 +945,14 @@ class AdminLiveEditPage extends Page
                 // necessarily list posts — the user clicked "Add Post"
                 // and would still see the unchanged homepage, then
                 // file a bug saying "add posts is not working" because
-                // nothing visibly happened (task-2026-05-01-3dff3c).
-                // Navigating to the new item turns Save into "I see my
+                                // Navigating to the new item turns Save into "I see my
                 // post, it worked" — the strongest possible signal.
                 $this->dispatch('liveEditAddContentSaved', url: $newContentLink);
             })
             ->modalSubmitActionLabel('Save');
     }
 
-    /**
-     * Resolve the full-admin create URL for the "Open in admin"
-     * escape hatch in the live-edit compact modal. Carries the
-     * current canvas page as `?parent_page_id=` so the admin form
-     * defaults to the same parent the user implicitly chose by
-     * editing that page. task-2026-05-04-76275d.
-     */
-    protected static function resolveAdminCreateUrl(string $contentType, ?int $currentPageId): string
+        protected static function resolveAdminCreateUrl(string $contentType, ?int $currentPageId): string
     {
         $query = [];
         if ($currentPageId && $contentType !== 'page') {
