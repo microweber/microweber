@@ -364,6 +364,10 @@
         <testsuite name="MicroweberMonitoring">
             <directory>packages/microweber-monitoring/tests</directory>
         </testsuite>
+
+        <testsuite name="MicroweberFormat">
+            <directory>packages/microweber-format/tests</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>
