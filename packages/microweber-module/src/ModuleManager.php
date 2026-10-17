@@ -12,18 +12,21 @@
 
 namespace MicroweberPackages\Module;
 
-use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Facades\DatabaseManager;
 use MicroweberPackages\Url\Facades\UrlManager;
 use MicroweberPackages\Module\Concerns\FormatsModuleAttributes;
 use MicroweberPackages\Module\Concerns\ResolvesModulePaths;
 use MicroweberPackages\Module\Concerns\ScansAndReloadsModules;
+use MicroweberPackages\Module\Concerns\ManagesModuleTemplates;
+use MicroweberPackages\Module\Concerns\PersistsModules;
 
 class ModuleManager
 {
     use FormatsModuleAttributes;
     use ResolvesModulePaths;
     use ScansAndReloadsModules;
+    use ManagesModuleTemplates;
+    use PersistsModules;
 
     public $tables = array();
     public $app = null;
@@ -106,68 +109,6 @@ class ModuleManager
     public function _register_module_callback_controller($module_type, $controller)
     {
         $this->app->parser->module_registry[trim($module_type)] = trim($controller);
-    }
-
-    public function save($data_to_save)
-    {
-        if (app()->user_manager->is_admin() == false and $this->_install_mode == false) {
-            return false;
-        }
-        if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
-        }
-
-        $table = 'modules';
-        $save = false;
-
-        if (!empty($data_to_save)) {
-            $s = $data_to_save;
-
-            if (!isset($s['parent_id'])) {
-                $s['parent_id'] = 0;
-            }
-
-            if (!isset($s['installed']) or $s['installed'] == 'auto') {
-                $s['installed'] = 1;
-            }
-
-            if (isset($s['settings']) and is_array($s['settings'])) {
-                $s['settings'] = json_encode($s['settings']);
-            }
-
-            $s['allow_html'] = true;
-
-            if (!isset($s['id']) and isset($s['module'])) {
-                $s['module'] = $data_to_save['module'];
-
-                if (!isset($s['module_id'])) {
-                    //$save = $this->get_modules('ui=any&no_cache=1&module=' . $s['module']);
-                    $save = db_get('table=modules&no_cache=1&module=' . $s['module']);
-
-                    if ($save != false and isset($save[0]) and is_array($save[0]) and isset($save[0]['id'])) {
-                        $s['id'] = intval($save[0]['id']);
-                        //   $s['position'] = intval($save[0]['position']);
-                        $s['installed'] = intval($save[0]['installed']);
-
-                        $save = DatabaseManager::save($table, $s);
-                        // print_r($save);
-                        $mname_clen = str_replace('\\', '/', $s['module']);
-                        if ($s['id'] > 0) {
-
-                            //$delid = $s["id"];
-                            DB::table($table)->where('id', '!=', $s['id'])->where('module', $s['module'])->delete();
-                            // $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
-                            //DatabaseManager::q($del);
-                        }
-                    } else {
-
-                        $save = DatabaseManager::save($table, $s);
-                    }
-                }
-            } else {
-                $save = DatabaseManager::save($table, $s);
-            }
-        }
-        return $save;
     }
 
     /* @deprecated */
@@ -379,141 +320,6 @@ class ModuleManager
         }
 
         return $checked[$module_name];
-    }
-
-    /* @deprecated */
-    public function reorder_modules($data)
-    {
-        $adm = $this->app->user_manager->is_admin();
-        if ($adm == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
-        $table = 'modules';
-        foreach ($data as $value) {
-            if (is_array($value)) {
-                $indx = array();
-                $i = 0;
-                foreach ($value as $value2) {
-                    $indx[$i] = $value2;
-                    ++$i;
-                }
-                DatabaseManager::update_position_field($table, $indx);
-                app()->module_repository->clearCache();
-
-                return $indx;
-            }
-        }
-        // $this->db_init();
-    }
-
-    /* @deprecated */
-    public function uninstall($params)
-    {
-        if (is_array($params) and isset($params['for_module'])) {
-            $module_name = $params['for_module'];
-        } else {
-            $module_name = $params;
-        }
-
-        if (app()->bound('modules')) {
-            $module = app()->modules->find($module_name);
-            if ($module) {
-                if ($module->isEnabled()) {
-                    $module->disable();
-                    app()->module_repository->clearCache();
-                }
-            }
-        }
-
-        $this->app->cache_manager->clear();
-        app()->module_repository->clearCache();
-    }
-
-    public function set_installed($params)
-    {
-
-        if (is_array($params) and isset($params['for_module'])) {
-            $module_name = $params['for_module'];
-        } else {
-            $module_name = $params;
-        }
-
-        if (app()->bound('modules')) {
-            $module = app()->modules->find($module_name);
-            if ($module) {
-                if (!$module->isEnabled()) {
-                    $module->enable();
-                    app()->module_repository->clearCache();
-                }
-            }
-        }
-
-    }
-
-    public function get_saved_modules_as_template($params)
-    {
-        $params = parse_params($params);
-
-        if ($this->app->user_manager->is_admin() == false) {
-            return false;
-        }
-
-        $table = 'module_templates';
-
-        $params['table'] = $table;
-        $params['order_by'] = 'position asc';
-        $data = DatabaseManager::get($params);
-
-        return $data;
-    }
-
-    public function delete_module_as_template($data)
-    {
-        if ($this->app->user_manager->is_admin() == false) {
-            return false;
-        }
-
-        $table = 'module_templates';
-        $save = false;
-
-        $adm = $this->app->user_manager->is_admin();
-        if ($adm == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
-
-        if (isset($data['id'])) {
-            $c_id = intval($data['id']);
-            DatabaseManager::delete_by_id($table, $c_id);
-        }
-
-        if (isset($data['ids']) and is_array($data['ids'])) {
-            foreach ($data['ids'] as $value) {
-                $c_id = intval($value);
-                DatabaseManager::delete_by_id($table, $c_id);
-            }
-        }
-        app()->module_repository->clearCache();
-
-    }
-
-    /* @deprecated */
-    public function save_module_as_template($data_to_save)
-    {
-        if ($this->app->user_manager->is_admin() == false) {
-            return false;
-        }
-
-        $table = 'module_templates';
-        $save = false;
-
-        if (!empty($data_to_save)) {
-            $s = $data_to_save;
-
-            $save = DatabaseManager::save($table, $s);
-        }
-        app()->module_repository->clearCache();
-
-        return $save;
     }
 
     public $logger = null;
