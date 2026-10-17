@@ -39,9 +39,9 @@ use PHPUnit\Framework\TestCase;
  */
 class Ai209PrimaryColorUnificationContractTest extends TestCase
 {
-    private const MW_COLORS_PHP             = __DIR__ . '/../../../src/MicroweberPackages/Admin/Filament/MwColors.php';
+    private const MW_COLORS_PHP             = __DIR__ . '/../../../packages/microweber-admin/src/Filament/MwColors.php';
     private const CHECKOUT_PANEL_PROVIDER   = __DIR__ . '/../../../Modules/Checkout/Providers/FilamentCheckoutPanelProvider.php';
-    private const ADMIN_PANEL_PROVIDER      = __DIR__ . '/../../../src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php';
+    private const ADMIN_PANEL_PROVIDER      = __DIR__ . '/../../../packages/microweber-admin/src/Filament/FilamentAdminPanelProvider.php';
     private const DESIGN_SYSTEM_CSS         = __DIR__ . '/../../../packages/frontend-assets/resources/assets/css/microweber/css/design-system.css';
     private const PUBLIC_TOUCH_CSS          = __DIR__ . '/../../../Templates/Bootstrap/resources/assets/css/public-touch.css';
 
