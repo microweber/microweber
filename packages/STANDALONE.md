@@ -24,9 +24,9 @@ A new standalone package should mirror its shape.
 
 ## Status (2026-10-17)
 
-**46 / 53 scaffolded packages pass fully standalone.**
+**47 / 53 scaffolded packages pass fully standalone.**
 
-### Remaining 7 — all classified, none are "just a bug left unfixed"
+### Remaining 6 — all classified, none are "just a bug left unfixed"
 - **core, database, db-export** — monorepo-only by design: they drive the full CMS
   data-layer runtime (DatabaseManager + custom CachedBuilder); `core` ships no
   `orchestra/testbench` dev-dep at all. All three are wired into the **root
@@ -38,9 +38,12 @@ A new standalone package should mirror its shape.
   bootstrap (oauth tables + RSA keys + a personal-access/grant client). Partial setup
   started (users table + migrations + keys) but not converged — needs a dedicated
   Passport test harness.
-- **phpquery** — **segfaults** (dumps core) at ~test 156/279 under PHP 8.4: a native
-  crash in the vendored phpQuery DOM library, not a scaffolding issue. Needs a library
-  patch / PHP-compat fix.
+
+(RESOLVED) **phpquery** — the "segfault" was NOT a library/PHP issue: `PhpQueryManager`
+imported its own facade (accessor → `PhpQueryManager::class`), so every manager/facade
+call recursed infinitely → C-stack overflow → SIGSEGV. The manager+facade had zero
+consumers (the codebase uses the static `PhpQuery` class + `pq()` directly), so they
+were removed. phpquery now PASSES (272 tests).
 
 ### History: the push from 33 → 46 fixed, by class
 - Install-layer: svg-sanitize `^1.0`, `illuminate/foundation`→`laravel/framework`,
