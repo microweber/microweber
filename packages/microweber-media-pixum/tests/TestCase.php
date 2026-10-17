@@ -5,34 +5,67 @@ namespace MicroweberPackages\MediaPixum\Tests;
 /**
  * Base test case for the media-pixum package.
  *
- * Extends the CMS harness (Tests\TestCase), which boots the full Microweber
- * application via Orchestra Testbench.
+ * Dual-mode: Orchestra Testbench for standalone package testing, or the CMS
+ * harness (Tests\TestCase) when running inside the Microweber monorepo.
  */
-abstract class TestCase extends \Tests\TestCase
-{
-    protected function setUp(): void
+if (class_exists(\Orchestra\Testbench\TestCase::class) && ! trait_exists(\Tests\CreatesApplication::class)) {
+    abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
-        parent::setUp();
-
-        // Ensure pixum cache path is set
-        $pixumPath = storage_path('app/public/pixum-test');
-        config(['media-pixum.cache_path' => $pixumPath]);
-    }
-
-    protected function tearDown(): void
-    {
-        // Clean up generated test files
-        $pixumPath = config('media-pixum.cache_path');
-        if ($pixumPath && is_dir($pixumPath)) {
-            $files = glob($pixumPath . '/*.png');
-            if ($files) {
-                foreach ($files as $f) {
-                    @unlink($f);
-                }
-            }
-            @rmdir($pixumPath);
+        protected function getPackageProviders($app): array
+        {
+            return [
+                \MicroweberPackages\MediaPixum\MediaPixumServiceProvider::class,
+            ];
         }
 
-        parent::tearDown();
+        protected function getEnvironmentSetUp($app): void
+        {
+            $app['config']->set('app.key', 'base64:' . base64_encode(random_bytes(32)));
+            $app['config']->set('database.default', 'testing');
+            $app['config']->set('database.connections.testing', [
+                'driver' => 'sqlite',
+                'database' => ':memory:',
+                'prefix' => '',
+            ]);
+        }
+
+        protected function setUp(): void
+        {
+            parent::setUp();
+            config(['media-pixum.cache_path' => storage_path('app/public/pixum-test')]);
+        }
+
+        protected function tearDown(): void
+        {
+            $pixumPath = config('media-pixum.cache_path');
+            if ($pixumPath && is_dir($pixumPath)) {
+                foreach ((glob($pixumPath . '/*.png') ?: []) as $f) {
+                    @unlink($f);
+                }
+                @rmdir($pixumPath);
+            }
+            parent::tearDown();
+        }
+    }
+} else {
+    abstract class TestCase extends \Tests\TestCase
+    {
+        protected function setUp(): void
+        {
+            parent::setUp();
+            config(['media-pixum.cache_path' => storage_path('app/public/pixum-test')]);
+        }
+
+        protected function tearDown(): void
+        {
+            $pixumPath = config('media-pixum.cache_path');
+            if ($pixumPath && is_dir($pixumPath)) {
+                foreach ((glob($pixumPath . '/*.png') ?: []) as $f) {
+                    @unlink($f);
+                }
+                @rmdir($pixumPath);
+            }
+            parent::tearDown();
+        }
     }
 }
