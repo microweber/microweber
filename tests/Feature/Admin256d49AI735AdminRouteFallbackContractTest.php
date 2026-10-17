@@ -26,7 +26,7 @@ use Tests\TestCase;
  * This ship addresses surfaces 3 + 4 (admin route fall-through)
  * via the smallest valid change: add `admin` to the catch-all
  * route's excluded-prefix regex in
- * src/MicroweberPackages/Frontend/routes/web.php. Unmatched
+ * packages/microweber-frontend/src/routes/web.php. Unmatched
  * `/admin/*` URLs now propagate to Route::fallback() which
  * returns a clean 404.
  *
@@ -44,7 +44,7 @@ class Admin256d49AI735AdminRouteFallbackContractTest extends TestCase
     {
         parent::setUp();
         $this->routesSrc = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Frontend/routes/web.php'
+            'packages/microweber-frontend/src/routes/web.php'
         ));
     }
 

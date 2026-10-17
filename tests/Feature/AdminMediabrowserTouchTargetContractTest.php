@@ -49,7 +49,7 @@ class AdminMediabrowserTouchTargetContractTest extends TestCase
         parent::setUp();
 
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament-forms/components/mw-media-browser.blade.php'
+            'packages/microweber-filament/src/resources/views/filament-forms/components/mw-media-browser.blade.php'
         ));
         // Strip Blade {{-- ... --}} + PHP block comments before negative
         // assertions so docblock prose mentioning attribute strings does not

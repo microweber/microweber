@@ -34,7 +34,7 @@ class Auth093946AI757BackgroundAI735ScopeContractTest extends TestCase
     {
         parent::setUp();
         $authRaw = (string) file_get_contents(
-            base_path('src/MicroweberPackages/User/resources/views/admin/auth/index.blade.php')
+            base_path('packages/microweber-user/src/resources/views/admin/auth/index.blade.php')
         );
         $this->authSrc = $authRaw;
         $this->authStripped = preg_replace('~\{\{--[\s\S]*?--\}\}~s', $authRaw, '') ?? $authRaw;
@@ -42,7 +42,7 @@ class Auth093946AI757BackgroundAI735ScopeContractTest extends TestCase
         $this->authStripped = preg_replace('~/\*[\s\S]*?\*/~s', '', $authRaw) ?? $authRaw;
 
         $this->routesSrc = (string) file_get_contents(
-            base_path('src/MicroweberPackages/Frontend/routes/web.php')
+            base_path('packages/microweber-frontend/src/routes/web.php')
         );
     }
 

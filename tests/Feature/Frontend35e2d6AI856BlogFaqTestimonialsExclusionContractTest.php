@@ -30,7 +30,7 @@ use Tests\TestCase;
  *
  * Fix slice 1: add `blog|faq|testimonials` to the FrontendController
  * catch-all exclusion regex at
- * src/MicroweberPackages/Frontend/routes/web.php. The three URLs now
+ * packages/microweber-frontend/src/routes/web.php. The three URLs now
  * fall through to Route::fallback() which renders the AI-795
  * chrome-wrapped 404 view (extended by AI-850 to cover excluded-
  * prefix URLs) -- proper "no such page" surface vs. fixture leak.
@@ -43,7 +43,7 @@ use Tests\TestCase;
  */
 class Frontend35e2d6AI856BlogFaqTestimonialsExclusionContractTest extends TestCase
 {
-    private const FRONTEND_ROUTES = 'src/MicroweberPackages/Frontend/routes/web.php';
+    private const FRONTEND_ROUTES = 'packages/microweber-frontend/src/routes/web.php';
 
     /**
      * @return array<string, array{0: string}>

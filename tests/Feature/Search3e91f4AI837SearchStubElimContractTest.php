@@ -14,7 +14,7 @@ use Tests\TestCase;
  * Stage-3 propagation-without-renderer-update closure (sibling lineage:
  * AI-735 admin route propagation / AI-793 admin 404 chrome / AI-795
  * frontend 404 chrome / AI-735b explicit follow-up flagged in
- * src/MicroweberPackages/Frontend/routes/web.php).
+ * packages/microweber-frontend/src/routes/web.php).
  *
  * Pre-fix /search?q=hello fell through the FrontendController catch-all
  * which detected "search" as an installed module name, set
@@ -50,7 +50,7 @@ class Search3e91f4AI837SearchStubElimContractTest extends TestCase
     private const ROUTES = 'Modules/Search/routes/web.php';
     private const PROVIDER = 'Modules/Search/Providers/SearchServiceProvider.php';
     private const VIEW = 'resources/views/frontend/search/results.blade.php';
-    private const FRONTEND_ROUTES = 'src/MicroweberPackages/Frontend/routes/web.php';
+    private const FRONTEND_ROUTES = 'packages/microweber-frontend/src/routes/web.php';
 
     private function read(string $relativePath): string
     {

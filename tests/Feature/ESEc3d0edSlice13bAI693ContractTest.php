@@ -69,7 +69,7 @@ class ESEc3d0edSlice13bAI693ContractTest extends TestCase
             'packages/frontend-assets/resources/assets/ui/apps/ElementStyleEditor/components/Align.vue'
         ));
         $this->modalBlade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+            'packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php'
         ));
         // task-2026-05-16-651cc2 CHANGE (designer per SOUL #108
         // verify-before-accept): AI-693 hover-accent rule was NOT

@@ -12,7 +12,7 @@ use Tests\TestCase;
  * task-2026-05-18-78caa0 / AI-864 — /login Register tab autocomplete leak.
  * Jira: https://microweber.atlassian.net/browse/AI-864
  *
- * Pre-fix `src/MicroweberPackages/User/resources/views/admin/auth/index.blade.php`
+ * Pre-fix `packages/microweber-user/src/resources/views/admin/auth/index.blade.php`
  * Register tab Password (L645) + Confirm Password (L651) both carried
  * `autocomplete="current-password"` — the WHATWG HTML autocomplete spec
  * §4.10.18.7 hint reserved for *signing in with an existing account*.
@@ -47,7 +47,7 @@ class Auth78caa0AI864AutocompleteHintsContractTest extends TestCase
 {
     private function authSource(): string
     {
-        return (string) file_get_contents(base_path('src/MicroweberPackages/User/resources/views/admin/auth/index.blade.php'));
+        return (string) file_get_contents(base_path('packages/microweber-user/src/resources/views/admin/auth/index.blade.php'));
     }
 
     private function stripBladeAndPhpComments(string $source): string

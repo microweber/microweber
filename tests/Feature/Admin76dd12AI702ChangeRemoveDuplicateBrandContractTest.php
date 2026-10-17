@@ -17,7 +17,7 @@ use Tests\TestCase;
  *
  * Fix: remove the existing `->brandLogo()` + `->brandName()` +
  * `->brandLogoHeight()` panel-config calls from
- * `src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php`
+ * `packages/microweber-admin/src/Filament/FilamentAdminPanelProvider.php`
  * so Filament's own `.fi-logo` slot does not render. The
  * TOPBAR_START render hook (still in place) owns the full brand-
  * anchor surface.
@@ -35,7 +35,7 @@ class Admin76dd12AI702ChangeRemoveDuplicateBrandContractTest extends TestCase
     {
         parent::setUp();
         $this->providerSrc = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php'
+            'packages/microweber-admin/src/Filament/FilamentAdminPanelProvider.php'
         ));
         // Strip block + line comments before scanning so the
         // migration-rationale block (which legitimately quotes the

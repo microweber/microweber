@@ -40,13 +40,13 @@ class ModuleZooContractTest extends TestCase
     {
         parent::setUp();
         $this->routesSrc = file_get_contents(base_path(
-            'src/MicroweberPackages/Module/routes/admin.php'
+            'packages/microweber-module/src/routes/admin.php'
         ));
         $this->controllerSrc = file_get_contents(base_path(
-            'src/MicroweberPackages/Module/Http/Controllers/Admin/AdminModuleController.php'
+            'packages/microweber-module/src/Http/Controllers/Admin/AdminModuleController.php'
         ));
         $this->viewSrc = file_get_contents(base_path(
-            'src/MicroweberPackages/Module/resources/views/admin/module-zoo.blade.php'
+            'packages/microweber-module/src/resources/views/admin/module-zoo.blade.php'
         ));
     }
 

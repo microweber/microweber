@@ -52,13 +52,13 @@ class AuthF141ffAI794ForgotPasswordChromeContractTest extends TestCase
     {
         parent::setUp();
         $this->layout = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/User/resources/views/layout.blade.php'
+            'packages/microweber-user/src/resources/views/layout.blade.php'
         ));
         $this->forgot = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/User/resources/views/auth/forgot-password.blade.php'
+            'packages/microweber-user/src/resources/views/auth/forgot-password.blade.php'
         ));
         $this->reset = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/User/resources/views/auth/reset-password.blade.php'
+            'packages/microweber-user/src/resources/views/auth/reset-password.blade.php'
         ));
     }
 

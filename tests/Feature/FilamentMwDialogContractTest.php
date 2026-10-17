@@ -35,7 +35,7 @@ class FilamentMwDialogContractTest extends TestCase
     #[Test]
     public function filament_action_macro_file_exists(): void
     {
-        $path = $this->root . '/src/MicroweberPackages/Filament/Support/RegistersMwDialogMacro.php';
+        $path = $this->root . '/packages/microweber-filament/src/Support/RegistersMwDialogMacro.php';
         $this->assertFileExists($path);
         $src = (string) file_get_contents($path);
         $this->assertStringContainsString("macro('mwDialog'", $src);

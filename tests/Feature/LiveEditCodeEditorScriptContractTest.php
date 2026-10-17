@@ -13,7 +13,7 @@ class LiveEditCodeEditorScriptContractTest extends TestCase
     public function html_editor_keeps_dirty_edits_until_admin_applies_or_discards_them(): void
     {
         $content = file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/editor-tools/render-code-editor.blade.php'
+            'packages/microweber-live-edit/src/resources/views/editor-tools/render-code-editor.blade.php'
         ));
 
         $this->assertStringContainsString('let hasUnsavedChanges = false;', $content);
@@ -27,7 +27,7 @@ class LiveEditCodeEditorScriptContractTest extends TestCase
     public function html_editor_uses_module_selector_diff_instead_of_stale_type_fallbacks(): void
     {
         $content = file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/editor-tools/render-code-editor.blade.php'
+            'packages/microweber-live-edit/src/resources/views/editor-tools/render-code-editor.blade.php'
         ));
 
         $this->assertStringContainsString('collectModuleSelectors', $content);
@@ -39,7 +39,7 @@ class LiveEditCodeEditorScriptContractTest extends TestCase
     public function css_editor_uses_hot_reload_paths_instead_of_window_reload(): void
     {
         $content = file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/editor-tools/render-css-editor.blade.php'
+            'packages/microweber-live-edit/src/resources/views/editor-tools/render-css-editor.blade.php'
         ));
 
         $this->assertStringNotContainsString('window.location.reload()', $content);
@@ -61,7 +61,7 @@ class LiveEditCodeEditorScriptContractTest extends TestCase
     public function html_editor_exposes_a_real_focusable_format_code_button(): void
     {
         $content = file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/editor-tools/render-code-editor.blade.php'
+            'packages/microweber-live-edit/src/resources/views/editor-tools/render-code-editor.blade.php'
         ));
 
         // A real <button> with an id (the old one was commented out + had no id).
@@ -93,7 +93,7 @@ class LiveEditCodeEditorScriptContractTest extends TestCase
     public function css_editor_textareas_escape_their_source_to_prevent_breakout(): void
     {
         $content = file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/editor-tools/render-css-editor.blade.php'
+            'packages/microweber-live-edit/src/resources/views/editor-tools/render-css-editor.blade.php'
         ));
 
         $this->assertStringContainsString('htmlspecialchars((string) $custom_css, ENT_QUOTES)', $content);

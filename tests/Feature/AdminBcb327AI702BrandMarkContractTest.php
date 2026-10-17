@@ -53,7 +53,7 @@ class AdminBcb327AI702BrandMarkContractTest extends TestCase
     {
         parent::setUp();
         $this->panelProvider = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php'
+            'packages/microweber-admin/src/Filament/FilamentAdminPanelProvider.php'
         ));
         $this->generalStyles = (string) file_get_contents(base_path(
             'packages/microweber-filament-theme/resources/assets/css/microweber/general-styles.css'

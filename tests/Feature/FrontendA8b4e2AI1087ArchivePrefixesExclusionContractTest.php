@@ -33,7 +33,7 @@ use Tests\TestCase;
  * Fix slice 1: add tag word-boundary + tags word-boundary +
  * categories word-boundary + captcha word-boundary to the
  * FrontendController catch-all exclusion regex at
- * src/MicroweberPackages/Frontend/routes/web.php. The four URLs now
+ * packages/microweber-frontend/src/routes/web.php. The four URLs now
  * fall through to Route::fallback() which renders the AI-795
  * chrome-wrapped 404 view (extended by AI-850 to cover excluded-
  * prefix URLs) -- proper "no such page" surface vs. silent-stub
@@ -52,7 +52,7 @@ use Tests\TestCase;
  */
 class FrontendA8b4e2AI1087ArchivePrefixesExclusionContractTest extends TestCase
 {
-    private const FRONTEND_ROUTES = 'src/MicroweberPackages/Frontend/routes/web.php';
+    private const FRONTEND_ROUTES = 'packages/microweber-frontend/src/routes/web.php';
 
     private string $routesSource;
 

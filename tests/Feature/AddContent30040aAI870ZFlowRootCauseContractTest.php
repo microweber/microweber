@@ -56,7 +56,7 @@ class AddContent30040aAI870ZFlowRootCauseContractTest extends TestCase
     private string $bundle;
 
     private const CSS_SRC = 'packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-classes.css';
-    private const MODAL_BLADE = 'src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php';
+    private const MODAL_BLADE = 'packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php';
     private const BUNDLE = 'public/vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css';
 
     protected function setUp(): void

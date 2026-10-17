@@ -32,7 +32,7 @@ class AdminC5d4b9AI1081ContentTypesNavGroupContractTest extends TestCase
 {
     private const CONTENT_TYPES_PAGE = 'Modules/Content/Filament/Admin/Pages/ContentTypesPage.php';
 
-    private const ADMIN_PANEL_PROVIDER = 'src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php';
+    private const ADMIN_PANEL_PROVIDER = 'packages/microweber-admin/src/Filament/FilamentAdminPanelProvider.php';
 
     private string $pageSource;
 

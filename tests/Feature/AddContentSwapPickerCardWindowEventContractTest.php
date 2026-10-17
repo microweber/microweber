@@ -34,10 +34,10 @@ class AddContentSwapPickerCardWindowEventContractTest extends TestCase
     {
         parent::setUp();
         $this->iframePage = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/iframe-page.blade.php'
+            'packages/microweber-live-edit/src/resources/views/iframe-page.blade.php'
         ));
         $this->modal = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+            'packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php'
         ));
     }
 

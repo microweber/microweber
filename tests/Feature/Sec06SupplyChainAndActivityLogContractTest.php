@@ -148,7 +148,7 @@ class Sec06SupplyChainAndActivityLogContractTest extends TestCase
     #[Test]
     public function activity_logger_service_exists_with_canonical_api(): void
     {
-        $src = $this->read('src/MicroweberPackages/ActivityLog/Services/ActivityLogger.php');
+        $src = $this->read('packages/microweber-activity-log/src/Services/ActivityLogger.php');
 
         $this->assertStringContainsString(
             'final class ActivityLogger',

@@ -1566,7 +1566,7 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         //   `options.custom_css` (group=template) — the key the
         //   TemplateCustomCss adapter reads on every public
         //   render
-        //   (src/MicroweberPackages/Template/Adapters/TemplateCustomCss.php:80).
+        //   (packages/microweber-template/src/Adapters/TemplateCustomCss.php:80).
         //   The pack's --mw-* variable map must be present in
         //   that stored CSS.
         //

@@ -29,7 +29,7 @@ class AdminCf2dd3AI1042to1046ModulesContentTypesContractTest extends TestCase
         parent::setUp();
 
         $mr = (string) file_get_contents(
-            base_path('src/MicroweberPackages/LaravelModules/Filament/Resources/ModuleResource/ModuleResource.php')
+            base_path('packages/microweber-laravel-modules/src/Filament/Resources/ModuleResource/ModuleResource.php')
         );
         $this->moduleResourceSrc = $mr;
         $s = preg_replace('~/\*[\s\S]*?\*/~s', '', $mr);

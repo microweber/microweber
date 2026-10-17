@@ -53,7 +53,7 @@ class Admin4905c8AI785AI786R10Slice2ContractTest extends TestCase
     {
         parent::setUp();
         $this->helperSource = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/Support/AdminDisplayName.php'
+            'packages/microweber-filament/src/Support/AdminDisplayName.php'
         ));
         $this->marketplaceResource = (string) file_get_contents(base_path(
             'Modules/Marketplace/Filament/Admin/MarketplaceResource.php'

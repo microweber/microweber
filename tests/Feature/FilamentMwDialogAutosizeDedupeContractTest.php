@@ -26,7 +26,7 @@ class FilamentMwDialogAutosizeDedupeContractTest extends TestCase
 {
     private const SKIN_SCRIPTS = 'packages/microweber-livewire-modal/resources/views/partials/scripts.blade.php';
 
-    private const LIVEEDIT_SCRIPTS = 'src/MicroweberPackages/LiveEdit/resources/views/partials/filament-mw-dialog-scripts.blade.php';
+    private const LIVEEDIT_SCRIPTS = 'packages/microweber-live-edit/src/resources/views/partials/filament-mw-dialog-scripts.blade.php';
 
     private function read(string $relative): string
     {

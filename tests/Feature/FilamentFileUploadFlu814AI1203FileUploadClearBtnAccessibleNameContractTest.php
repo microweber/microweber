@@ -48,10 +48,10 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
     {
         parent::setUp();
         $this->singleBlade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament-forms/components/mw-file-upload.blade.php'
+            'packages/microweber-filament/src/resources/views/filament-forms/components/mw-file-upload.blade.php'
         ));
         $this->multiBlade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament-forms/components/mw-file-upload-multiple.blade.php'
+            'packages/microweber-filament/src/resources/views/filament-forms/components/mw-file-upload-multiple.blade.php'
         ));
 
         $this->singleStripped = (string) preg_replace('~\{\{--.*?--\}\}~s', '', $this->singleBlade);
@@ -62,7 +62,7 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
     public function single_variant_blade_file_exists(): void
     {
         $this->assertFileExists(
-            base_path('src/MicroweberPackages/Filament/resources/views/filament-forms/components/mw-file-upload.blade.php'),
+            base_path('packages/microweber-filament/src/resources/views/filament-forms/components/mw-file-upload.blade.php'),
             'mw-file-upload schema-component blade MUST live at the canonical filament-forms components path'
         );
     }
@@ -71,7 +71,7 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
     public function multi_variant_blade_file_exists(): void
     {
         $this->assertFileExists(
-            base_path('src/MicroweberPackages/Filament/resources/views/filament-forms/components/mw-file-upload-multiple.blade.php'),
+            base_path('packages/microweber-filament/src/resources/views/filament-forms/components/mw-file-upload-multiple.blade.php'),
             'mw-file-upload-multiple schema-component blade MUST live at the canonical filament-forms components path'
         );
     }

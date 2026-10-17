@@ -19,7 +19,7 @@ use Tests\TestCase;
  *   - <svg> child had no aria-hidden / focusable attributes
  *   - Screen readers announced "button" with no purpose (WCAG 4.1.2 Level A)
  *
- * Fix: src/MicroweberPackages/Filament/resources/views/filament-forms/
+ * Fix: packages/microweber-filament/src/resources/views/filament-forms/
  *      components/mw-color-picker.blade.php
  *
  *   1. Add aria-label="Close color picker" + title="Close color picker"
@@ -43,7 +43,7 @@ class ColorPicker0752faAI817ClosePanelAriaLabelContractTest extends TestCase
     {
         parent::setUp();
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament-forms/components/mw-color-picker.blade.php'
+            'packages/microweber-filament/src/resources/views/filament-forms/components/mw-color-picker.blade.php'
         ));
     }
 

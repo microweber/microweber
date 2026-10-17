@@ -31,7 +31,7 @@ use Tests\TestCase;
  * In-scope (5 changes):
  *   1. Modules/Content/.../Pages/CreateContent.php (saveContent action)
  *   2. Modules/Content/.../Pages/EditContent.php (EditAction save)
- *   3. src/MicroweberPackages/LiveEdit/.../AdminLiveEditPage.php
+ *   3. packages/microweber-live-edit/src/.../AdminLiveEditPage.php
  *      (in-canvas compact Create modal)
  *   4. Modules/Content/Filament/ContentTableList.php (CreateAction)
  *   5. Modules/Content/Filament/ContentTableList.php (EditAction)
@@ -73,7 +73,7 @@ class Admin2b1020AI816SaveCtaPrimaryColorContractTest extends TestCase
                 'primary',
             ],
             'AdminLiveEditPage in-canvas Create modal' => [
-                'src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php',
+                'packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php',
                 "->modalHeading('Create ' . \$contentType)",
                 'primary',
             ],
@@ -149,7 +149,7 @@ class Admin2b1020AI816SaveCtaPrimaryColorContractTest extends TestCase
     #[Test]
     public function obsolete_match_the_green_toolbar_docblock_replaced_with_ai816_rationale(): void
     {
-        $adminLiveEdit = $this->fileContents('src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php');
+        $adminLiveEdit = $this->fileContents('packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php');
         $contentTableList = $this->fileContents('Modules/Content/Filament/ContentTableList.php');
 
         // AdminLiveEditPage: assert AI-816 marker present near the in-canvas

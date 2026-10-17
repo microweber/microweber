@@ -29,7 +29,7 @@ use Tests\TestCase;
  * Designer dispatch suggested option_get() -- the canonical
  * Microweber helper is actually get_option(key, group), matching
  * the existing pattern at
- * src/MicroweberPackages/App/resources/views/email/simple.blade.php:348.
+ * packages/microweber-app/src/resources/views/email/simple.blade.php:348.
  *
  * Designer Tier-3 probe:
  *   const img = document.querySelector('.logo-module img');

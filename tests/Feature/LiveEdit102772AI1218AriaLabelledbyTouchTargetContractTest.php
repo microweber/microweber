@@ -32,7 +32,7 @@ class LiveEdit102772AI1218AriaLabelledbyTouchTargetContractTest extends TestCase
         $root = self::projectRoot();
 
         $this->addContentBlade = (string) file_get_contents(
-            $root . '/src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+            $root . '/packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php'
         );
 
         $this->liveEditCss = (string) file_get_contents(
@@ -91,7 +91,7 @@ class LiveEdit102772AI1218AriaLabelledbyTouchTargetContractTest extends TestCase
     public function test_modal_heading_text_exists_in_action(): void
     {
         $adminPage = (string) file_get_contents(
-            self::projectRoot() . '/src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php'
+            self::projectRoot() . '/packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php'
         );
 
         $this->assertStringContainsString(
@@ -104,7 +104,7 @@ class LiveEdit102772AI1218AriaLabelledbyTouchTargetContractTest extends TestCase
     public function test_modal_cancel_label_exists(): void
     {
         $adminPage = (string) file_get_contents(
-            self::projectRoot() . '/src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php'
+            self::projectRoot() . '/packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php'
         );
 
         $this->assertStringContainsString(

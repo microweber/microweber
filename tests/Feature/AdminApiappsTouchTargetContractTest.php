@@ -47,7 +47,7 @@ class AdminApiappsTouchTargetContractTest extends TestCase
         parent::setUp();
 
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/User/resources/views/filament/pages/api-applications.blade.php'
+            'packages/microweber-user/src/resources/views/filament/pages/api-applications.blade.php'
         ));
         // Strip Blade {{-- ... --}} + PHP block comments before negative
         // assertions so docblock prose mentioning attribute strings does not

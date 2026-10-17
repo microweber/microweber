@@ -50,7 +50,7 @@ class LiveEditModuleSettingsPointerEventsContractTest extends TestCase
         $root = dirname(__DIR__, 2);
 
         // --- PHP source ---
-        $phpPath = $root . '/src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php';
+        $phpPath = $root . '/packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php';
         $this->phpSrc = (string) file_get_contents($phpPath);
 
         // Strip PHP block + line comments so absence-assertions are not fooled
@@ -60,7 +60,7 @@ class LiveEditModuleSettingsPointerEventsContractTest extends TestCase
         $this->phpExecutable = $stripped;
 
         // --- Blade source (iframe-page.blade.php — contains the teleport IIFE) ---
-        $bladePath = $root . '/src/MicroweberPackages/LiveEdit/resources/views/iframe-page.blade.php';
+        $bladePath = $root . '/packages/microweber-live-edit/src/resources/views/iframe-page.blade.php';
         $this->bladeSrc = (string) file_get_contents($bladePath);
 
         // Strip JS line comments and Blade comments for absence-checks.
@@ -217,7 +217,7 @@ class LiveEditModuleSettingsPointerEventsContractTest extends TestCase
     public function test_plugin_registered_in_admin_panel(): void
     {
         $root = dirname(__DIR__, 2);
-        $providerPath = $root . '/src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php';
+        $providerPath = $root . '/packages/microweber-admin/src/Filament/FilamentAdminPanelProvider.php';
         $provider = file_get_contents($providerPath);
 
         $this->assertStringContainsString(

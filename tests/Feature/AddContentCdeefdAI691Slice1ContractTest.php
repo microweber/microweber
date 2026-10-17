@@ -48,10 +48,10 @@ class AddContentCdeefdAI691Slice1ContractTest extends TestCase
     {
         parent::setUp();
         $this->page = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php'
+            'packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php'
         ));
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+            'packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php'
         ));
     }
 

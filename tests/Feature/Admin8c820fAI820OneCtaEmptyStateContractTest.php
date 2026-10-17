@@ -47,7 +47,7 @@ class Admin8c820fAI820OneCtaEmptyStateContractTest extends TestCase
             'Modules/Content/resources/views/filament/admin/empty-state.blade.php'
         ));
         $this->addContentModal = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+            'packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php'
         ));
         $this->listComments = (string) file_get_contents(base_path(
             'Modules/Comments/Filament/Resources/CommentResource/Pages/ListComments.php'

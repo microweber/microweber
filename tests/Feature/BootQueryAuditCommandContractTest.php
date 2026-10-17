@@ -25,8 +25,8 @@ use Tests\TestCase;
  */
 class BootQueryAuditCommandContractTest extends TestCase
 {
-    private const COMMAND  = 'src/MicroweberPackages/Monitoring/Console/Commands/BootQueryAuditCommand.php';
-    private const PROVIDER = 'src/MicroweberPackages/Monitoring/Providers/MonitoringServiceProvider.php';
+    private const COMMAND  = 'packages/microweber-monitoring/src/Console/Commands/BootQueryAuditCommand.php';
+    private const PROVIDER = 'packages/microweber-monitoring/src/Providers/MonitoringServiceProvider.php';
 
     private function read(string $rel): string
     {

@@ -16,7 +16,7 @@ use Tests\TestCase;
  * passed (both rules present in source), but the live admin build
  * had neither rule firing — Cancel still visible at desktop AND
  * mobile, picker still centered (not anchored). Root cause:
- * `src/MicroweberPackages/Filament/resources/views/filament/
+ * `packages/microweber-filament/src/resources/views/filament/
  * components/layout/live-edit-module-settings.blade.php` is the
  * LiveEditModuleSettings sub-form layout, NOT the live-edit
  * canvas layout — the `<style>` block in that Blade only renders

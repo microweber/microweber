@@ -41,7 +41,7 @@ use Tests\TestCase;
  *
  * Fix shape (Slice A — 2 surface edits):
  *   (1) Add `customer` to the FrontendController catch-all exclusion
- *       regex at src/MicroweberPackages/Frontend/routes/web.php so
+ *       regex at packages/microweber-frontend/src/routes/web.php so
  *       /customer reaches Route::fallback() instead of falling through
  *       to FrontendController's is_installed("customer") branch.
  *   (2) Extend Route::fallback() so non-admin frontend URLs render the
@@ -60,7 +60,7 @@ use Tests\TestCase;
  */
 class Customer28d21dAI850CustomerSurfaceContractTest extends TestCase
 {
-    private const FRONTEND_ROUTES = 'src/MicroweberPackages/Frontend/routes/web.php';
+    private const FRONTEND_ROUTES = 'packages/microweber-frontend/src/routes/web.php';
     private const AI795_VIEW = 'resources/views/frontend/errors/404.blade.php';
 
     private function read(string $relativePath): string

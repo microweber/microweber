@@ -43,7 +43,7 @@ class UserAI839AdminProfileRouteContractTest extends TestCase
     public function mount_redirects_to_the_users_edit_page(): void
     {
         $src = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/User/Filament/Pages/AdminProfileRedirectPage.php'
+            'packages/microweber-user/src/Filament/Pages/AdminProfileRedirectPage.php'
         ));
         $this->assertStringContainsString('$this->redirect(', $src,
             'mount() must redirect rather than render a standalone page.');

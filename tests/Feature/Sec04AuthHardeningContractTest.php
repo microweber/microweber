@@ -26,7 +26,7 @@ use Tests\TestCase;
 class Sec04AuthHardeningContractTest extends TestCase
 {
     private const FORTIFY = 'packages/microweber-fortify/src/FortifyServiceProvider.php';
-    private const MWARE   = 'src/MicroweberPackages/User/Http/Middleware/RequireDefaultPasswordChange.php';
+    private const MWARE   = 'packages/microweber-user/src/Http/Middleware/RequireDefaultPasswordChange.php';
     private const BOOT    = 'bootstrap/app.php';
 
     private function read(string $rel): string

@@ -52,7 +52,7 @@ class FrontendC54f1fAI795NotFoundChromeContractTest extends TestCase
     {
         parent::setUp();
         $this->controller = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/App/Http/Controllers/FrontendController.php'
+            'packages/microweber-app/src/Http/Controllers/FrontendController.php'
         ));
         $this->view = (string) file_get_contents(base_path(
             'resources/views/frontend/errors/404.blade.php'

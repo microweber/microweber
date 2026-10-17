@@ -33,7 +33,7 @@ class TemplateSettingsTs987AI987SearchFilterContractTest extends TestCase
     {
         parent::setUp();
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Template/resources/views/livewire/live-edit/template-settings-sidebar.blade.php'
+            'packages/microweber-template/src/resources/views/livewire/live-edit/template-settings-sidebar.blade.php'
         ));
     }
 

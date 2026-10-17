@@ -15,7 +15,7 @@ use Tests\TestCase;
  * regression coverage.
  *
  * Pins:
- *   - Both POST /login routes in src/MicroweberPackages/User/routes/api.php
+ *   - Both POST /login routes in packages/microweber-user/src/routes/api.php
  *     are wired onto `throttle:login` (NOT bare `throttle:60,1`).
  *   - The named `login` limiter is registered (declared in
  *     bootstrap/app.php and FortifyServiceProvider) — invoke it via
@@ -37,7 +37,7 @@ class LoginThrottleNamedLimiterContractTest extends TestCase
     {
         parent::setUp();
         $this->apiRoutesSrc = file_get_contents(base_path(
-            'src/MicroweberPackages/User/routes/api.php'
+            'packages/microweber-user/src/routes/api.php'
         ));
     }
 

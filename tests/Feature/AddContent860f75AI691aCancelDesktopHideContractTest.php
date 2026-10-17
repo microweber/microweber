@@ -59,7 +59,7 @@ class AddContent860f75AI691aCancelDesktopHideContractTest extends TestCase
             'packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-classes.css'
         ));
         $this->page = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php'
+            'packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php'
         ));
         $this->mobileCss = (string) file_get_contents(base_path(
             'packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-mobile.css'

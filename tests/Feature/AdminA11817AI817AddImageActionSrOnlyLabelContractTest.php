@@ -53,7 +53,7 @@ class AdminA11817AI817AddImageActionSrOnlyLabelContractTest extends TestCase
     #[Test]
     public function add_image_file_upload_uses_label_and_sr_only_wrapper(): void
     {
-        $relativePath = 'src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php';
+        $relativePath = 'packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php';
         $source = $this->fileContents($relativePath);
         $this->assertNotSame('', $source, "Source file missing: {$relativePath}");
 
@@ -79,7 +79,7 @@ class AdminA11817AI817AddImageActionSrOnlyLabelContractTest extends TestCase
     #[Test]
     public function add_image_file_upload_does_not_use_hidden_label(): void
     {
-        $relativePath = 'src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php';
+        $relativePath = 'packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php';
         $source = $this->fileContents($relativePath);
 
         $anchor = "FileUpload::make('images')";
@@ -99,7 +99,7 @@ class AdminA11817AI817AddImageActionSrOnlyLabelContractTest extends TestCase
     #[Test]
     public function iframe_page_blade_carries_sr_only_rule_for_mw_fb_title_wrap(): void
     {
-        $relativePath = 'src/MicroweberPackages/LiveEdit/resources/views/iframe-page.blade.php';
+        $relativePath = 'packages/microweber-live-edit/src/resources/views/iframe-page.blade.php';
         $source = $this->fileContents($relativePath);
         $this->assertNotSame('', $source, "Source file missing: {$relativePath}");
 
@@ -129,7 +129,7 @@ class AdminA11817AI817AddImageActionSrOnlyLabelContractTest extends TestCase
     #[Test]
     public function admin_live_edit_page_carries_ai817_task_marker(): void
     {
-        $relativePath = 'src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php';
+        $relativePath = 'packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php';
         $source = $this->fileContents($relativePath);
 
         $this->assertStringContainsString(

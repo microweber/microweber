@@ -250,7 +250,7 @@ class Public046a37AI861AddToCartCtaContractTest extends TestCase
         // public frontend will false-fail here.
         $shopComponent = $this->read('Modules/Shop/Livewire/ShopComponent.php');
         $this->assertStringNotContainsString('FIXTURE_SLUG_LIKE_PATTERNS', $shopComponent, 'AI-860 LIKE filter MUST stay removed — fixtures should not be filtered in prod request paths (task-4ebf70).');
-        $frontendController = $this->read('src/MicroweberPackages/App/Http/Controllers/FrontendController.php');
+        $frontendController = $this->read('packages/microweber-app/src/Http/Controllers/FrontendController.php');
         $this->assertStringNotContainsString('isFixtureSlug(', $frontendController, 'AI-860 abort(404) short-circuit MUST stay removed — same rationale.');
     }
 }

@@ -150,9 +150,9 @@ class CanvasFe8f9eAI801ContentTypeInferenceContractTest extends TestCase
         // module-render parser. Pin the parser invariant so future parser
         // refactors that drop this default break this test BEFORE they hit
         // the runtime defect.
-        // Reference: src/MicroweberPackages/App/Utils/ParserLoadModuleTrait.php:405-407
+        // Reference: packages/microweber-app/src/Utils/ParserLoadModuleTrait.php:405-407
         $parser = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/App/Utils/ParserLoadModuleTrait.php'
+            'packages/microweber-app/src/Utils/ParserLoadModuleTrait.php'
         ));
         $this->assertMatchesRegularExpression(
             "/if\\s*\\(!isset\\(\\\$attrs\\[\\s*['\"]type['\"]\\s*\\]\\)\\)\\s*\\{\\s*\\\$attrs\\[\\s*['\"]type['\"]\\s*\\]\\s*=\\s*\\\$module_name;\\s*\\}/",

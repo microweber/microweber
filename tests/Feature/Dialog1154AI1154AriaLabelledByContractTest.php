@@ -38,7 +38,7 @@ class Dialog1154AI1154AriaLabelledByContractTest extends TestCase
         $root = self::projectRoot();
 
         $this->addContentBlade = (string) file_get_contents(
-            $root . '/src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+            $root . '/packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php'
         );
 
         $this->mwDialogJs = (string) file_get_contents(

@@ -64,13 +64,13 @@ class Auth06892aAI794abChangeAbsorptionContractTest extends TestCase
     {
         parent::setUp();
         $this->layoutCss = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/User/resources/views/layout.blade.php'
+            'packages/microweber-user/src/resources/views/layout.blade.php'
         ));
         $this->controllerSrc = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/User/Http/Controllers/UserForgotPasswordController.php'
+            'packages/microweber-user/src/Http/Controllers/UserForgotPasswordController.php'
         ));
         $this->expiredView = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/User/resources/views/auth/reset-password-expired.blade.php'
+            'packages/microweber-user/src/resources/views/auth/reset-password-expired.blade.php'
         ));
 
         // Strip PHP block + line comments + Blade {{-- --}} from the
@@ -142,7 +142,7 @@ class Auth06892aAI794abChangeAbsorptionContractTest extends TestCase
     {
         $this->assertNotEmpty(
             $this->expiredView,
-            'AI-794b: src/MicroweberPackages/User/resources/views/auth/reset-password-expired.blade.php MUST exist.'
+            'AI-794b: packages/microweber-user/src/resources/views/auth/reset-password-expired.blade.php MUST exist.'
         );
         // MUST extend user::layout so the AI-794 chrome (active-
         // template master + .mw-auth-card + brand logo + footer +
@@ -293,7 +293,7 @@ class Auth06892aAI794abChangeAbsorptionContractTest extends TestCase
         }
         // forgot-password.blade.php still extends user::layout
         $forgotView = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/User/resources/views/auth/forgot-password.blade.php'
+            'packages/microweber-user/src/resources/views/auth/forgot-password.blade.php'
         ));
         $this->assertStringContainsString(
             "@extends('user::layout')",

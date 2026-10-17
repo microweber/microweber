@@ -34,7 +34,7 @@ use Tests\TestCase;
  */
 class LiveEdit79d301AI752LiveEditLoadContractTest extends TestCase
 {
-    private const LIVE_EDIT_LAYOUT = 'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php';
+    private const LIVE_EDIT_LAYOUT = 'packages/microweber-filament/src/resources/views/filament/components/layout/live-edit.blade.php';
 
     private string $raw;
     private string $stripped;
@@ -148,7 +148,7 @@ class LiveEdit79d301AI752LiveEditLoadContractTest extends TestCase
         );
 
         $src = (string) file_get_contents(
-            base_path('src/MicroweberPackages/MetaTags/Entities/MwSettingsJsScriptTag.php')
+            base_path('packages/microweber-meta-tags/src/Entities/MwSettingsJsScriptTag.php')
         );
 
         $this->assertStringContainsString(

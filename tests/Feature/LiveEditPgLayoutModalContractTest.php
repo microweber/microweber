@@ -38,13 +38,13 @@ class LiveEditPgLayoutModalContractTest extends TestCase
     {
         parent::setUp();
         $this->selectSrc = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/Forms/Components/MwSelectTemplateForPage.php'
+            'packages/microweber-filament/src/Forms/Components/MwSelectTemplateForPage.php'
         ));
         $this->contentResourceSrc = (string) file_get_contents(base_path(
             'Modules/Content/Filament/Admin/ContentResource.php'
         ));
         $this->livePageSrc = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php'
+            'packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php'
         ));
     }
 

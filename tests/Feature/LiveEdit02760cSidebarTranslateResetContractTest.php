@@ -42,7 +42,7 @@ class LiveEdit02760cSidebarTranslateResetContractTest extends TestCase
     {
         parent::setUp();
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php'
+            'packages/microweber-filament/src/resources/views/filament/components/layout/live-edit.blade.php'
         ));
     }
 

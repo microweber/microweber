@@ -9,7 +9,7 @@ use Tests\TestCase;
 /**
  * Covers the S3 / configurable-disk userfiles feature:
  *  - the global disk-selection helpers in
- *    src/MicroweberPackages/App/functions/paths.php, and
+ *    packages/microweber-app/src/functions/paths.php, and
  *  - Modules\Media\Repositories\MediaManager::upload() now streaming through
  *    Laravel's Storage (no move_uploaded_file).
  *

@@ -43,13 +43,13 @@ class Admin225150AI704PrimaryActionsClusterContractTest extends TestCase
     {
         parent::setUp();
         $this->panelProvider = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php'
+            'packages/microweber-admin/src/Filament/FilamentAdminPanelProvider.php'
         ));
         $this->generalStyles = (string) file_get_contents(base_path(
             'packages/microweber-filament-theme/resources/assets/css/microweber/general-styles.css'
         ));
         $this->addButtonBlade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Admin/resources/views/livewire/filament/top-navigation-actions.blade.php'
+            'packages/microweber-admin/src/resources/views/livewire/filament/top-navigation-actions.blade.php'
         ));
     }
 

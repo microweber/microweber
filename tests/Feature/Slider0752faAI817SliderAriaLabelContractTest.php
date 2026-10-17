@@ -19,7 +19,7 @@ use Tests\TestCase;
  *     "slider, 0 of 600" with no purpose (WCAG 4.1.2 Level A)
  *
  * Fix: shared MwInputSliderGroup blade template
- *   src/MicroweberPackages/Filament/resources/views/filament-forms/components/mw-input-slider.blade.php
+ *   packages/microweber-filament/src/resources/views/filament-forms/components/mw-input-slider.blade.php
  *
  *   1. Generate $sliderLabelId = $sliderId . "-label"
  *   2. Render <label id="{labelId}" for="{sliderId}">{label}</label>
@@ -43,7 +43,7 @@ class Slider0752faAI817SliderAriaLabelContractTest extends TestCase
     {
         parent::setUp();
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament-forms/components/mw-input-slider.blade.php'
+            'packages/microweber-filament/src/resources/views/filament-forms/components/mw-input-slider.blade.php'
         ));
     }
 

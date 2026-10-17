@@ -22,7 +22,7 @@ class Admin366972AI1041ModuleNameFormatContractTest extends TestCase
         parent::setUp();
 
         $raw = (string) file_get_contents(
-            base_path('src/MicroweberPackages/LaravelModules/Filament/Resources/ModuleResource/ModuleResource.php')
+            base_path('packages/microweber-laravel-modules/src/Filament/Resources/ModuleResource/ModuleResource.php')
         );
         $this->src = $raw;
         $stripped = preg_replace('~/\*[\s\S]*?\*/~s', '', $raw);

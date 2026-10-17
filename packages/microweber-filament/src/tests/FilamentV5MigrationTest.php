@@ -178,7 +178,7 @@ class FilamentV5MigrationTest extends TestCase
     {
         // Read the service provider file and confirm no class_alias calls
         $providerFile = file_get_contents(
-            base_path('src/MicroweberPackages/Filament/Providers/MicroweberFilamentServiceProvider.php')
+            base_path('packages/microweber-filament/src/Providers/MicroweberFilamentServiceProvider.php')
         );
 
         $this->assertStringNotContainsString(

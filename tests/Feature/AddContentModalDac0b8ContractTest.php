@@ -11,7 +11,7 @@ use Tests\TestCase;
  * task-2026-05-14-dac0b8 — Live Edit Add Content modal improvements.
  *
  * Four scoped improvements applied to
- * `src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php`
+ * `packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php`
  * on top of the existing AI-308 / AI-309 / AI-310 / bf1966 / QW1 /
  * NOVICE #14 / AI-307-polish baseline:
  *
@@ -33,7 +33,7 @@ use Tests\TestCase;
  */
 class AddContentModalDac0b8ContractTest extends TestCase
 {
-    private const MODAL = 'src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php';
+    private const MODAL = 'packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php';
 
     private string $blade;
 
@@ -48,7 +48,7 @@ class AddContentModalDac0b8ContractTest extends TestCase
         $this->blade = file_get_contents(base_path(self::MODAL))
             . "\n"
             . file_get_contents(base_path(
-                'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php'
+                'packages/microweber-filament/src/resources/views/filament/components/layout/live-edit.blade.php'
             ));
     }
 

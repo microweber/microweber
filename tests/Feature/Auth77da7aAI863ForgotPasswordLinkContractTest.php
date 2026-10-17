@@ -13,7 +13,7 @@ use Tests\TestCase;
  * AI-794 standalone chrome (href="#" + JS in-place panel).
  * Jira: https://microweber.atlassian.net/browse/AI-863
  *
- * Pre-fix `src/MicroweberPackages/User/resources/views/admin/auth/index.blade.php`
+ * Pre-fix `packages/microweber-user/src/resources/views/admin/auth/index.blade.php`
  * rendered 3 anchors with `href="#"` (L535 forgot-password-link, L672 + L704
  * login-link), with a JS click-intercept block at L735+/L742+ that called
  * `e.preventDefault()` + swapped to an in-place forgot panel. The standalone
@@ -52,7 +52,7 @@ class Auth77da7aAI863ForgotPasswordLinkContractTest extends TestCase
 {
     private function authSource(): string
     {
-        return (string) file_get_contents(base_path('src/MicroweberPackages/User/resources/views/admin/auth/index.blade.php'));
+        return (string) file_get_contents(base_path('packages/microweber-user/src/resources/views/admin/auth/index.blade.php'));
     }
 
     private function stripBladeAndPhpComments(string $source): string

@@ -37,7 +37,7 @@ class LiveEditD8b915AI1217DarkModeTextContrastContractTest extends TestCase
         );
 
         $this->addContentBlade = (string) file_get_contents(
-            $root . '/src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+            $root . '/packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php'
         );
     }
 

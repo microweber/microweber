@@ -167,7 +167,7 @@ class Admin04f015AI817TitleInputLabelContractTest extends TestCase
     #[Test]
     public function css_visually_hides_label_via_sr_only_positioning_not_display_none(): void
     {
-        $blade = $this->fileContents('src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit-module-settings.blade.php');
+        $blade = $this->fileContents('packages/microweber-filament/src/resources/views/filament/components/layout/live-edit-module-settings.blade.php');
 
         $marker = 'task-2026-05-17-04f015 / AI-817';
         $markerPos = strpos($blade, $marker);

@@ -14,7 +14,7 @@ class RoleResourceTest extends TestCase
         parent::setUp();
 
         $this->artisan('migrate', [
-            '--path' => base_path('src/MicroweberPackages/Role/database/migrations'),
+            '--path' => base_path('packages/microweber-role/src/database/migrations'),
             '--realpath' => true,
             '--force' => true,
         ]);

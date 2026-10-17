@@ -29,7 +29,7 @@ use Tests\TestCase;
 class Ai515MobileSafeAreaContractTest extends TestCase
 {
     private const MOBILE_TOUCH_CSS = 'packages/microweber-filament-theme/resources/assets/css/microweber/mobile-touch.css';
-    private const LIVE_EDIT_IFRAME = 'src/MicroweberPackages/LiveEdit/resources/views/iframe.blade.php';
+    private const LIVE_EDIT_IFRAME = 'packages/microweber-live-edit/src/resources/views/iframe.blade.php';
 
     private function read(string $rel): string
     {

@@ -123,7 +123,7 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
         // MwColors::Blue (e.g. server-rendered Filament admin views with
         // inline color emission, future ColorManager-version upgrades)
         // continues to receive the brand palette.
-        $source = $this->fileContents('src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php');
+        $source = $this->fileContents('packages/microweber-admin/src/Filament/FilamentAdminPanelProvider.php');
 
         $this->assertMatchesRegularExpression(
             "/->colors\\(\\s*\\[[^\\]]*'primary'\\s*=>\\s*MwColors::Blue/s",
@@ -131,7 +131,7 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
             'AI-819: admin panel provider must still wire primary to MwColors::Blue (the override is belt-and-braces, not a replacement).'
         );
 
-        $mwColors = $this->fileContents('src/MicroweberPackages/Admin/Filament/MwColors.php');
+        $mwColors = $this->fileContents('packages/microweber-admin/src/Filament/MwColors.php');
         $this->assertStringContainsString(
             "500 => '13, 110, 253'",
             $mwColors,

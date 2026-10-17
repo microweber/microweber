@@ -59,7 +59,7 @@ class AddContent968a71AI692TwoGroupLayoutContractTest extends TestCase
     {
         parent::setUp();
         $this->page = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php'
+            'packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php'
         ));
         // task-2026-05-18-76a360 pin-evolution: the Alpine.data() factory
         // body was moved out of add-content-modal.blade.php into
@@ -71,9 +71,9 @@ class AddContent968a71AI692TwoGroupLayoutContractTest extends TestCase
         // their targets in the union. Structural assertions on x-data
         // attributes still match the modal blade contents.
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+            'packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php'
         )) . "\n" . (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php'
+            'packages/microweber-filament/src/resources/views/filament/components/layout/live-edit.blade.php'
         ));
     }
 

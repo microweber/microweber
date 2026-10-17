@@ -25,9 +25,9 @@ use Tests\TestCase;
  */
 class ConfigOrphanAndPsr4AuditContractTest extends TestCase
 {
-    private const CT_CMD = 'src/MicroweberPackages/Monitoring/Console/Commands/ConfigOrphanAuditCommand.php';
-    private const CU_CMD = 'src/MicroweberPackages/Monitoring/Console/Commands/Psr4StrictAuditCommand.php';
-    private const PROVIDER = 'src/MicroweberPackages/Monitoring/Providers/MonitoringServiceProvider.php';
+    private const CT_CMD = 'packages/microweber-monitoring/src/Console/Commands/ConfigOrphanAuditCommand.php';
+    private const CU_CMD = 'packages/microweber-monitoring/src/Console/Commands/Psr4StrictAuditCommand.php';
+    private const PROVIDER = 'packages/microweber-monitoring/src/Providers/MonitoringServiceProvider.php';
 
     private function read(string $rel): string
     {

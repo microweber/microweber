@@ -38,7 +38,7 @@ class LiveEdit49266aAI710ChangePanelH3RenameContractTest extends TestCase
     {
         parent::setUp();
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/iframe-page.blade.php'
+            'packages/microweber-live-edit/src/resources/views/iframe-page.blade.php'
         ));
     }
 

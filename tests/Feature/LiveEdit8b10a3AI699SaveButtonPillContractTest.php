@@ -31,7 +31,7 @@ use Tests\TestCase;
  * The single-source-of-truth requirement ("Remove redundant 'Saved' /
  * 'Unsaved' badges from Layers, ESE header, and any other surface")
  * was a pre-emptive ask — grep across `packages/frontend-assets/`
- * and `src/MicroweberPackages/LiveEdit/` found ZERO redundant
+ * and `packages/microweber-live-edit/src/` found ZERO redundant
  * Saved/Unsaved badges in current code. Already satisfied; no
  * additional removal needed.
  *

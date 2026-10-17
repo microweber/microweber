@@ -31,7 +31,7 @@ class Auth834339LoginCheckboxTouchTargetContractTest extends TestCase
     {
         parent::setUp();
         $this->src = (string) file_get_contents(
-            base_path('src/MicroweberPackages/User/resources/views/admin/auth/index.blade.php')
+            base_path('packages/microweber-user/src/resources/views/admin/auth/index.blade.php')
         );
         // Strip CSS /* */ block comments to avoid self-match on prose.
         $this->srcStripped = preg_replace('~/\*[\s\S]*?\*/~s', '', $this->src) ?? $this->src;

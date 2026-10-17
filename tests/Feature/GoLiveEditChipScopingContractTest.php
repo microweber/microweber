@@ -27,9 +27,9 @@ use Tests\TestCase;
  */
 class GoLiveEditChipScopingContractTest extends TestCase
 {
-    private const TOPBAR2 = 'src/MicroweberPackages/Admin/resources/views/layouts/partials/topbar2-links-right-default.blade.php';
-    private const TOPBAR  = 'src/MicroweberPackages/Admin/resources/views/layouts/partials/topbar.blade.php';
-    private const FILA    = 'src/MicroweberPackages/Admin/resources/views/livewire/filament/top-navigation-go-live-edit.blade.php';
+    private const TOPBAR2 = 'packages/microweber-admin/src/resources/views/layouts/partials/topbar2-links-right-default.blade.php';
+    private const TOPBAR  = 'packages/microweber-admin/src/resources/views/layouts/partials/topbar.blade.php';
+    private const FILA    = 'packages/microweber-admin/src/resources/views/livewire/filament/top-navigation-go-live-edit.blade.php';
 
     private function read(string $rel): string
     {

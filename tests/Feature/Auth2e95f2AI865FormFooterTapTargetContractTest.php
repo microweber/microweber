@@ -52,7 +52,7 @@ class Auth2e95f2AI865FormFooterTapTargetContractTest extends TestCase
 {
     private function authSource(): string
     {
-        return (string) file_get_contents(base_path('src/MicroweberPackages/User/resources/views/admin/auth/index.blade.php'));
+        return (string) file_get_contents(base_path('packages/microweber-user/src/resources/views/admin/auth/index.blade.php'));
     }
 
     private function stripBladeAndPhpComments(string $source): string

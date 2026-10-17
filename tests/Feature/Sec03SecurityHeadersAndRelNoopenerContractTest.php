@@ -34,7 +34,7 @@ class Sec03SecurityHeadersAndRelNoopenerContractTest extends TestCase
     #[Test]
     public function security_headers_middleware_declares_required_headers(): void
     {
-        $src = $this->read('src/MicroweberPackages/App/Http/Middleware/SecurityHeaders.php');
+        $src = $this->read('packages/microweber-app/src/Http/Middleware/SecurityHeaders.php');
 
         $this->assertStringContainsString(
             "frame-ancestors 'self'",

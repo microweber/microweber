@@ -45,7 +45,7 @@ class Admin6cb0d8AI703ChangeBridgeObserverContractTest extends TestCase
     {
         parent::setUp();
         $this->src = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Admin/Filament/FilamentAdminPanelProvider.php'
+            'packages/microweber-admin/src/Filament/FilamentAdminPanelProvider.php'
         ));
     }
 

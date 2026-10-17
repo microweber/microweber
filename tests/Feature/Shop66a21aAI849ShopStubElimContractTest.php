@@ -67,7 +67,7 @@ class Shop66a21aAI849ShopStubElimContractTest extends TestCase
     private const ROUTES = 'Modules/Shop/routes/web.php';
     private const PROVIDER = 'Modules/Shop/Providers/ShopServiceProvider.php';
     private const VIEW = 'resources/views/frontend/shop/index.blade.php';
-    private const FRONTEND_ROUTES = 'src/MicroweberPackages/Frontend/routes/web.php';
+    private const FRONTEND_ROUTES = 'packages/microweber-frontend/src/routes/web.php';
 
     private function read(string $relativePath): string
     {
@@ -441,7 +441,7 @@ class Shop66a21aAI849ShopStubElimContractTest extends TestCase
             'routes' => ['Modules/Shop/routes/web.php'],
             'provider' => ['Modules/Shop/Providers/ShopServiceProvider.php'],
             'view' => ['resources/views/frontend/shop/index.blade.php'],
-            'frontend_routes' => ['src/MicroweberPackages/Frontend/routes/web.php'],
+            'frontend_routes' => ['packages/microweber-frontend/src/routes/web.php'],
         ];
     }
 

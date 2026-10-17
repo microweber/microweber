@@ -37,7 +37,7 @@ class Auth1dcb94AI757AdminLoginBrandLogoContractTest extends TestCase
     {
         parent::setUp();
         $raw = (string) file_get_contents(
-            base_path('src/MicroweberPackages/User/resources/views/admin/auth/index.blade.php')
+            base_path('packages/microweber-user/src/resources/views/admin/auth/index.blade.php')
         );
         $this->src = $raw;
         // Strip Blade comments before absence assertions
@@ -186,7 +186,7 @@ class Auth1dcb94AI757AdminLoginBrandLogoContractTest extends TestCase
     public function ai793_route_fallback_has_admin_prefix_branch(): void
     {
         $routes = (string) file_get_contents(
-            base_path('src/MicroweberPackages/Frontend/routes/web.php')
+            base_path('packages/microweber-frontend/src/routes/web.php')
         );
         $this->assertStringContainsString('admin.errors.404', $routes,
             'AI-793 Route::fallback must reference the admin-styled 404 view.'

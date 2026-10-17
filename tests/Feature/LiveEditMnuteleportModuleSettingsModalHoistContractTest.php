@@ -50,7 +50,7 @@ class LiveEditMnuteleportModuleSettingsModalHoistContractTest extends TestCase
     {
         parent::setUp();
         $this->layout = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit-module-settings.blade.php'
+            'packages/microweber-filament/src/resources/views/filament/components/layout/live-edit-module-settings.blade.php'
         ));
 
         // Pre-strip comments so negative assertions can't self-match on prose

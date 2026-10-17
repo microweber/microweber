@@ -74,10 +74,10 @@ class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
     {
         parent::setUp();
         $this->modal = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+            'packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php'
         ));
         $this->liveEditLayout = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php'
+            'packages/microweber-filament/src/resources/views/filament/components/layout/live-edit.blade.php'
         ));
     }
 

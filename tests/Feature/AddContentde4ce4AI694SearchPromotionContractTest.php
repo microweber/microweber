@@ -76,12 +76,12 @@ class AddContentde4ce4AI694SearchPromotionContractTest extends TestCase
         // (activateFirstVisibleCard, visibleCount, visibility filter)
         // still find their targets in the union.
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+            'packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php'
         )) . "\n" . (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php'
+            'packages/microweber-filament/src/resources/views/filament/components/layout/live-edit.blade.php'
         ));
         $this->adminStyleBlade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit-module-settings.blade.php'
+            'packages/microweber-filament/src/resources/views/filament/components/layout/live-edit-module-settings.blade.php'
         ));
     }
 

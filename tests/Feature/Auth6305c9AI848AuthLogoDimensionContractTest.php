@@ -66,7 +66,7 @@ class Auth6305c9AI848AuthLogoDimensionContractTest extends TestCase
     {
         parent::setUp();
         $this->layoutSrc = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/User/resources/views/layout.blade.php'
+            'packages/microweber-user/src/resources/views/layout.blade.php'
         ));
 
         // Strip CSS /* ... */ comments + Blade {{-- --}} so docblock prose

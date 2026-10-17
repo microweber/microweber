@@ -77,7 +77,7 @@ class LiveEditE3da1aAI697AnchoredPickerContractTest extends TestCase
             'packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-classes.css'
         ));
         $this->page = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php'
+            'packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php'
         ));
     }
 

@@ -85,7 +85,7 @@ class LiveEdit505ed5AI708HeadingDisambiguationContractTest extends TestCase
             'packages/frontend-assets/resources/assets/api-core/services/bootstrap.js'
         ));
         $this->liveEditBlade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php'
+            'packages/microweber-filament/src/resources/views/filament/components/layout/live-edit.blade.php'
         ));
         $this->settingsCustomize = (string) file_get_contents(base_path(
             'packages/frontend-assets/resources/assets/ui/components/Toolbar/SettingsCustomize.vue'

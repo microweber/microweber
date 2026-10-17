@@ -59,7 +59,7 @@ class AdminC188deAI788AI789FormWidgetUmbrellaContractTest extends TestCase
     {
         parent::setUp();
         $this->partial = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament-forms/partials/admin-empty-state.blade.php'
+            'packages/microweber-filament/src/resources/views/filament-forms/partials/admin-empty-state.blade.php'
         ));
         $this->css = (string) file_get_contents(base_path(
             'packages/microweber-filament-theme/resources/assets/css/microweber/general-styles.css'

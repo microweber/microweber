@@ -40,7 +40,7 @@ use Tests\TestCase;
  */
 class LiveEditAllModulesEditingSavePathContractTest extends TestCase
 {
-    private const LAYOUT = 'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit-module-settings.blade.php';
+    private const LAYOUT = 'packages/microweber-filament/src/resources/views/filament/components/layout/live-edit-module-settings.blade.php';
 
     /** Item-editor modules: [module settings class file, embedded table-list file]. */
     public static function itemEditorModules(): array

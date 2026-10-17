@@ -31,9 +31,9 @@ class AdminAI995LiveSearchDebounceContractTest extends TestCase
     public static function liveSearchViews(): array
     {
         return [
-            'font picker'  => ['src/MicroweberPackages/MicroweberUI/resources/views/livewire/modals/font-picker-modal.blade.php'],
-            'select tags'  => ['src/MicroweberPackages/Module/resources/views/admin/option/select-tags.blade.php'],
-            'select page'  => ['src/MicroweberPackages/Module/resources/views/admin/option/select-page.blade.php'],
+            'font picker'  => ['packages/microweber-microweber-ui/src/resources/views/livewire/modals/font-picker-modal.blade.php'],
+            'select tags'  => ['packages/microweber-module/src/resources/views/admin/option/select-tags.blade.php'],
+            'select page'  => ['packages/microweber-module/src/resources/views/admin/option/select-page.blade.php'],
         ];
     }
 

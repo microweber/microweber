@@ -40,7 +40,7 @@ class AddContentCard1153ContrastContractTest extends TestCase
 
         $this->blade = (string) file_get_contents(
             self::projectRoot()
-            . '/src/MicroweberPackages/LiveEdit/resources/views/add-content-modal.blade.php'
+            . '/packages/microweber-live-edit/src/resources/views/add-content-modal.blade.php'
         );
     }
 

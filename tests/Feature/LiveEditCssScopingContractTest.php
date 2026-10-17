@@ -22,13 +22,13 @@ use Tests\TestCase;
  * matching a raw `.fi-*` selector in any `live-edit-*.css` file
  * leaks to every Filament admin page. Scoping uses `.mw-live-edit-page`
  * because the canonical hook is the layout root (added in
- * `src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php`).
+ * `packages/microweber-filament/src/resources/views/filament/components/layout/live-edit.blade.php`).
  *
  * Contract test style: file-system reads only, no DB touch.
  */
 class LiveEditCssScopingContractTest extends TestCase
 {
-    private const LAYOUT = 'src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php';
+    private const LAYOUT = 'packages/microweber-filament/src/resources/views/filament/components/layout/live-edit.blade.php';
     private const CSS    = 'packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-classes.css';
 
     private function read(string $rel): string

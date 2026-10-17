@@ -49,7 +49,7 @@ class AdminA596d2AI793Admin404PropagationContractTest extends TestCase
     {
         parent::setUp();
         $this->routesSource = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Frontend/routes/web.php'
+            'packages/microweber-frontend/src/routes/web.php'
         ));
         $this->errorView = (string) file_get_contents(base_path(
             'resources/views/admin/errors/404.blade.php'

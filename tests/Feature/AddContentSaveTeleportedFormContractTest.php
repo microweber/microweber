@@ -33,7 +33,7 @@ class AddContentSaveTeleportedFormContractTest extends TestCase
     {
         parent::setUp();
         $this->src = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/LiveEdit/resources/views/iframe-page.blade.php'
+            'packages/microweber-live-edit/src/resources/views/iframe-page.blade.php'
         ));
     }
 

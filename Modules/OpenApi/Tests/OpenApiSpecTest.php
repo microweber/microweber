@@ -94,7 +94,7 @@ class OpenApiSpecTest extends TestCase
             'paths' => ['/api/module/customers', '/api/module/customers/{id}'],
         ],
         'Users' => [
-            'file' => 'src/MicroweberPackages/User/Http/Controllers/Api/UsersApiController.php',
+            'file' => 'packages/microweber-user/src/Http/Controllers/Api/UsersApiController.php',
             'paths' => ['/api/module/users', '/api/module/users/{id}'],
         ],
         'Cart' => [

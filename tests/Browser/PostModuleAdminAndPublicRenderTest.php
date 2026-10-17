@@ -24,7 +24,7 @@ use Tests\DuskTestCase;
  *
  * That flow turns out to be structurally different:
  * AdminLiveEditPage::openModuleSettingsAction() at
- * `src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php:178`
+ * `packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php:178`
  * forks on `is_subclass_of($componentClass, \Filament\Pages\Page::class)
  * && method_exists($componentClass, 'getUrl')`. Because
  * `Modules\Post\Filament\PostModuleSettings` extends

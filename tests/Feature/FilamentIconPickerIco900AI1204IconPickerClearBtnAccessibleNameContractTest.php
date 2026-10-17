@@ -34,7 +34,7 @@ class FilamentIconPickerIco900AI1204IconPickerClearBtnAccessibleNameContractTest
     {
         parent::setUp();
         $this->blade = (string) file_get_contents(base_path(
-            'src/MicroweberPackages/Filament/resources/views/filament-forms/components/mw-icon-picker.blade.php'
+            'packages/microweber-filament/src/resources/views/filament-forms/components/mw-icon-picker.blade.php'
         ));
         $this->bladeStripped = (string) preg_replace('~\{\{--.*?--\}\}~s', '', $this->blade);
     }
@@ -43,7 +43,7 @@ class FilamentIconPickerIco900AI1204IconPickerClearBtnAccessibleNameContractTest
     public function blade_file_exists(): void
     {
         $this->assertFileExists(
-            base_path('src/MicroweberPackages/Filament/resources/views/filament-forms/components/mw-icon-picker.blade.php'),
+            base_path('packages/microweber-filament/src/resources/views/filament-forms/components/mw-icon-picker.blade.php'),
             'mw-icon-picker blade MUST exist at the canonical path'
         );
     }

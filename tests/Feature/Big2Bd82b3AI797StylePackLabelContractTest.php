@@ -26,7 +26,7 @@ use Tests\TestCase;
  * one-word brand per Q2 ACK (NOT renamed to "Fit Power").
  *
  * Bio Links rename out of scope — different fix shape (PHP array at
- * src/MicroweberPackages/LiveEdit/Http/Controllers/SetupWizardController.php
+ * packages/microweber-live-edit/src/Http/Controllers/SetupWizardController.php
  * :35); folded as AI-829 footnote. AI-829 catalogue-wide sweep
  * (22 packs + Bio Links footnote + Art naming) follows AI-797 with
  * the same shape, larger batch.

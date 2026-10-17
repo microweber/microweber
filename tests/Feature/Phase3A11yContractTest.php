@@ -20,7 +20,7 @@ use Tests\TestCase;
  *      "...title..."')` AND `->tooltip(fn ($record) => 'Edit
  *      "...title..."')`. Generic static `'Edit'` / `'Delete'` is
  *      forbidden on icon-only buttons.
- *   S: src/MicroweberPackages/Admin/resources/views/layouts/partials/
+ *   S: packages/microweber-admin/src/resources/views/layouts/partials/
  *      topbar.blade.php Add New dropdown trigger carries
  *      aria-label="Add new content", aria-haspopup="listbox", AND
  *      retains its existing aria-expanded="false".
@@ -60,7 +60,7 @@ class Phase3A11yContractTest extends TestCase
             'Modules/Product/Filament/Admin/Resources/ProductResource.php'
         ));
         $this->topbarBlade = file_get_contents(base_path(
-            'src/MicroweberPackages/Admin/resources/views/layouts/partials/topbar.blade.php'
+            'packages/microweber-admin/src/resources/views/layouts/partials/topbar.blade.php'
         ));
         $this->mobileTouchCss = file_get_contents(base_path(
             'packages/microweber-filament-theme/resources/assets/css/microweber/mobile-touch.css'

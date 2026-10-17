@@ -26,7 +26,7 @@ use Tests\TestCase;
  *
  * Severity Low because lnotif() is editmode-gated -- the empty-
  * state surface only renders inside an admin live-edit session
- * (`src/MicroweberPackages/App/functions/other.php:355` returns
+ * (`packages/microweber-app/src/functions/other.php:355` returns
  * early when not in editmode). No frontend leak. Admin-to-admin
  * multi-operator defense-in-depth fix.
  *

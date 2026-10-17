@@ -11,7 +11,7 @@ use MicroweberPackages\Core\CoreServiceProvider;
  *
  * The original error was:
  *   "Call to undefined function normalize_path()"
- *   in src/MicroweberPackages/App/functions/paths.php (line 52)
+ *   in packages/microweber-app/src/functions/paths.php (line 52)
  *
  * This happened because Laravel's auto-discovery cache
  * (bootstrap/cache/packages.php) could be written/read concurrently,
@@ -112,7 +112,7 @@ class DeterministicLoadingTest extends TestCase
 
         // AppServiceProvider::register() must register CoreServiceProvider before
         // any other provider (its first $this->app->register(...) call).
-        $src = file_get_contents(base_path('src/MicroweberPackages/App/Providers/AppServiceProvider.php'));
+        $src = file_get_contents(base_path('packages/microweber-app/src/Providers/AppServiceProvider.php'));
         $registerBody = substr($src, strpos($src, 'function register'));
 
         $corePos = strpos($registerBody, 'register(CoreServiceProvider::class)');
