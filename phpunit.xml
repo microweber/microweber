@@ -360,6 +360,10 @@
         <testsuite name="MicroweberModule">
             <directory>packages/microweber-module/src/tests</directory>
         </testsuite>
+
+        <testsuite name="MicroweberMonitoring">
+            <directory>packages/microweber-monitoring/tests</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>

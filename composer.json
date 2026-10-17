@@ -343,6 +343,7 @@
             "MicroweberPackages\\AppBootstrapCache\\Tests\\": "packages/microweber-app-bootstrap-cache/tests/",
             "MicroweberPackages\\ConfigMerge\\Tests\\": "packages/microweber-config-merge/tests/",
             "MicroweberPackages\\Core\\Tests\\": "packages/microweber-core/tests/",
+            "MicroweberPackages\\Monitoring\\Tests\\": "packages/microweber-monitoring/tests/",
             "MicroweberPackages\\FormBuilder\\Tests\\": "packages/microweber-form-builder/tests/",
             "MicroweberPackages\\Pagination\\Tests\\": "packages/microweber-pagination/tests/",
             "MicroweberPackages\\Passport\\Tests\\": "packages/microweber-passport/tests/",

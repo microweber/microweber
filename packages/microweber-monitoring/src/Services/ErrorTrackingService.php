@@ -20,12 +20,11 @@ class ErrorTrackingService
     {
         try {
             $errorData = $this->prepareErrorData($exception, $context);
-            
-            $id = DB::table('error_tracking')->insertGetId($errorData);
-            
-            // Clear stats cache to ensure fresh data
-            $this->clearStatsCache();
-            
+
+            // recordError de-duplicates (increments occurrence_count on a repeat)
+            // and clears the stats cache — same path as trackError().
+            $id = $this->recordError($errorData);
+
             // Also log to Laravel's logger
             Log::error($exception->getMessage(), [
                 'error_tracking_id' => $id,
@@ -57,7 +56,7 @@ class ErrorTrackingService
     public function trackError(string $level, string $message, array $context = []): int|false
     {
         try {
-            $errorData = [
+            $errorData = array_merge([
                 'level' => $level,
                 'message' => $message,
                 'exception_class' => $context['exception_class'] ?? null,
@@ -65,45 +64,10 @@ class ErrorTrackingService
                 'line' => $context['line'] ?? 0,
                 'code' => $context['code'] ?? null,
                 'trace' => $context['trace'] ?? null,
-                'url' => $context['url'] ?? request()->fullUrl(),
-                'method' => $context['method'] ?? request()->method(),
-                'user_id' => auth()->id(),
-                'user_ip' => request()->ip(),
-                'user_agent' => request()->userAgent(),
-                'server_data' => json_encode($this->sanitizeServerData($_SERVER)),
                 'context' => json_encode($context['custom'] ?? []),
-                'is_resolved' => false,
-                'occurrence_count' => 1,
-                'last_occurred_at' => now(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-            
-            // Check if similar error exists (same message, file, line)
-            $existing = DB::table('error_tracking')
-                ->where('message', $message)
-                ->where('file', $errorData['file'])
-                ->where('line', $errorData['line'])
-                ->where('is_resolved', false)
-                ->first();
-            
-            if ($existing) {
-                DB::table('error_tracking')
-                    ->where('id', $existing->id)
-                    ->update([
-                        'occurrence_count' => $existing->occurrence_count + 1,
-                        'last_occurred_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                
-                return $existing->id;
-            }
-            
-            $id = DB::table('error_tracking')->insertGetId($errorData);
-            
-            $this->clearStatsCache();
-            
-            return $id;
+            ], $this->requestContext($context), $this->baseErrorRow());
+
+            return $this->recordError($errorData);
         } catch (Throwable $e) {
             Log::critical('Failed to track error', [
                 'message' => $message,
@@ -254,7 +218,7 @@ class ErrorTrackingService
      */
     protected function prepareErrorData(Throwable $exception, array $context): array
     {
-        return [
+        return array_merge([
             'level' => $this->determineErrorLevel($exception),
             'message' => $exception->getMessage(),
             'exception_class' => get_class($exception),
@@ -262,19 +226,67 @@ class ErrorTrackingService
             'line' => $exception->getLine(),
             'code' => $exception->getCode(),
             'trace' => $exception->getTraceAsString(),
+            'context' => json_encode($context),
+        ], $this->requestContext($context), $this->baseErrorRow());
+    }
+
+    /**
+     * Request/user context fields shared by exception and message tracking.
+     * request() degrades gracefully in CLI/queue (no fatal), so no guard needed.
+     */
+    protected function requestContext(array $context): array
+    {
+        return [
             'url' => $context['url'] ?? request()->fullUrl(),
             'method' => $context['method'] ?? request()->method(),
             'user_id' => auth()->id(),
             'user_ip' => request()->ip(),
             'user_agent' => request()->userAgent(),
             'server_data' => json_encode($this->sanitizeServerData($_SERVER)),
-            'context' => json_encode($context),
+        ];
+    }
+
+    /** New-row defaults shared by both tracking paths. */
+    protected function baseErrorRow(): array
+    {
+        return [
             'is_resolved' => false,
             'occurrence_count' => 1,
             'last_occurred_at' => now(),
             'created_at' => now(),
             'updated_at' => now(),
         ];
+    }
+
+    /**
+     * Insert an error row, or increment occurrence_count on an existing
+     * unresolved row with the same message+file+line. Shared by trackException
+     * and trackError so both de-duplicate identically. Clears the stats cache.
+     */
+    protected function recordError(array $row): int
+    {
+        $existing = DB::table('error_tracking')
+            ->where('message', $row['message'])
+            ->where('file', $row['file'])
+            ->where('line', $row['line'])
+            ->where('is_resolved', false)
+            ->first();
+
+        if ($existing) {
+            DB::table('error_tracking')->where('id', $existing->id)->update([
+                'occurrence_count' => $existing->occurrence_count + 1,
+                'last_occurred_at' => now(),
+                'updated_at' => now(),
+            ]);
+            $this->clearStatsCache();
+
+            return (int) $existing->id;
+        }
+
+        $id = (int) DB::table('error_tracking')->insertGetId($row);
+        $this->clearStatsCache();
+
+        return $id;
     }
     
     /**
