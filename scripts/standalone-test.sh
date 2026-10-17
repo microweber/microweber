@@ -40,7 +40,9 @@ run_one() {
   # Drop any monorepo-relative path repositories the package declares ("../microweber-x"),
   # which don't resolve from this throwaway workspace; we replace them with an absolute
   # wildcard path repo below so every sibling resolves regardless of layout.
-  php -r '$f="composer.json";$j=json_decode(file_get_contents($f),true);unset($j["repositories"]);file_put_contents($f,json_encode($j,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));'
+  # decode as OBJECTS (not assoc) so empty "{}" keys (require-dev, scripts, config) are
+  # preserved as objects — assoc=true would turn them into [] and break composer's schema.
+  php -r '$f="composer.json";$j=json_decode(file_get_contents($f));unset($j->repositories);file_put_contents($f,json_encode($j,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));'
   # wildcard path repo so any sibling microweber-packages/* resolves locally
   composer config repositories.mw-monorepo path "$PKGROOT/*" >/dev/null 2>&1
   # keep stability loose for dev sibling versions
