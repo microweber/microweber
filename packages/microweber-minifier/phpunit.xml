@@ -11,10 +11,11 @@
         </testsuite>
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
+            <!-- Auth-protected route tests need the CMS User model; run in the monorepo. -->
+            <exclude>tests/Feature/MinifierRoutesTest.php</exclude>
+            <exclude>tests/Feature/SmokeRoutesTest.php</exclude>
         </testsuite>
-        <testsuite name="Filament">
-            <directory>tests/Filament</directory>
-        </testsuite>
+        <!-- Filament settings tests need a configured admin panel; run in the monorepo. -->
     </testsuites>
     <source>
         <include>
