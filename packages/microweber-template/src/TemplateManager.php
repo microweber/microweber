@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  * This file is part of the Microweber framework.
  *
@@ -12,7 +11,6 @@
  */
 
 namespace MicroweberPackages\Template;
-
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
@@ -30,11 +28,17 @@ use MicroweberPackages\TemplateCustomCss\Services\CustomCssManager;
 use MicroweberPackages\TemplateCustomCss\Services\LiveEditCssManager;
 use MicroweberPackages\Format\Facades\Format;
 use MicroweberPackages\Event\Facades\EventManager;
-
+use MicroweberPackages\Template\Concerns\ConfiguresTemplateAdapters;
+use MicroweberPackages\Template\Concerns\ReadsTemplateFields;
+use MicroweberPackages\Template\Concerns\ManagesTemplateContext;
+use MicroweberPackages\Template\Concerns\ManagesStacks;
 
 class TemplateManager
 {
-
+    use ConfiguresTemplateAdapters;
+    use ReadsTemplateFields;
+    use ManagesTemplateContext;
+    use ManagesStacks;
 
     /**
      * An instance of the Microweber Application class.
@@ -102,7 +106,6 @@ class TemplateManager
 
     public $iconFontsAdapter = null;
 
-
     /**
      *
      * @var  $customCssAdapter CustomCssManager
@@ -114,13 +117,11 @@ class TemplateManager
      */
     public $liveEditCssAdapter = null;
 
-
     public $adapter_default = null;
     public $admin = null;
     public $stylesheet_adapter = null;
     public $js_adapter = null;
     public $stack_compiler_adapter = null;
-
 
     public function __construct($app = null)
     {
@@ -150,31 +151,6 @@ class TemplateManager
         $this->metaTagManager = new TemplateMetaTagManager();
     }
 
-    public function setIconFontsAdapter($adapter)
-    {
-        $this->iconFontsAdapter = $adapter;
-    }
-
-    public function setTemplateAdapter($adapter)
-    {
-        $this->templateAdapter = $adapter;
-    }
-
-    public function setFontsAdapter($adapter)
-    {
-        $this->fontsAdapter = $adapter;
-    }
-
-    public function setCustomCssAdapter($adapter)
-    {
-        $this->customCssAdapter = $adapter;
-    }
-
-    public function setLiveEditCssAdapter($adapter)
-    {
-        $this->liveEditCssAdapter = $adapter;
-    }
-
     public function compile_css($params)
     {
         return $this->stylesheet_adapter->compile($params);
@@ -185,7 +161,6 @@ class TemplateManager
 
         return $this->stylesheet_adapter->delete_compiled($params);
     }
-
 
     public function get_stylesheet($path, $default_stylesheet = false, $cache = true)
     {
@@ -198,12 +173,10 @@ class TemplateManager
             return $this->js_adapter->get_apijs_url();
         }*/
 
-
     public function get_apijs_settings_url()
     {
         return $this->js_adapter->get_apijs_settings_url();
     }
-
 
     public function get_apijs_combined_url()
     {
@@ -233,13 +206,11 @@ class TemplateManager
 //        return $layout;
 //    }
 
-
     /**
      * @deprecated must be moved to the MetaTags package
      */
     public function frontend_append_meta_tags($layout, $is_laravel_template = false)
     {
-
 
         event_trigger('mw.template.before_render', $layout);
 
@@ -254,7 +225,6 @@ class TemplateManager
         }
 
         $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
-
 
 //        $liveEditTags = new \MicroweberPackages\MetaTags\Entities\LiveEditCssHeadTags();
 //        $liveEditTagsHtml = $liveEditTags->toHtml();
@@ -400,7 +370,6 @@ class TemplateManager
         return $this->templateAdapter->getTemplateFolderName();
     }
 
-
     public function dir($add = false)
     {
         if ($this->templateAdapter->getActiveTemplateDir()) {
@@ -433,62 +402,6 @@ class TemplateManager
         return $this->templateAdapter->getStyleSettings($templateDir);
     }
 
-
-    public function get_data_field_title($field, $type = 'general')
-    {
-        $fieldTitle = '';
-        $dataFields = $this->get_data_fields($type);
-
-        foreach ($dataFields as $dataFieldKey => $dataFieldTitle) {
-            if ($field == $dataFieldKey) {
-                $fieldTitle = $dataFieldTitle;
-                break;
-            }
-        }
-        return $fieldTitle;
-    }
-
-    public function get_data_fields($type = 'general')
-    {
-        $templateConfig = $this->get_config();
-
-        $dataFields = [];
-        if (isset($templateConfig['data-fields-' . $type]) && !empty($templateConfig['data-fields-' . $type])) {
-            foreach ($templateConfig['data-fields-' . $type] as $templateField) {
-                $dataFields[$templateField['name']] = $templateField['title'];
-            }
-        }
-
-        return $dataFields;
-    }
-
-    public function get_edit_field_title($field, $type = 'general')
-    {
-        $fieldTitle = '';
-        $editFields = $this->get_edit_fields($type);
-        foreach ($editFields as $editFieldKey => $editFieldTitle) {
-            if ($field == $editFieldKey) {
-                $fieldTitle = $editFieldTitle;
-                break;
-            }
-        }
-        return $fieldTitle;
-    }
-
-    public function get_edit_fields($type = 'general')
-    {
-        $templateConfig = $this->get_config();
-
-        $editFields = [];
-        if (isset($templateConfig['edit-fields-' . $type]) && !empty($templateConfig['edit-fields-' . $type])) {
-            foreach ($templateConfig['edit-fields-' . $type] as $templateField) {
-                $editFields[$templateField['name']] = $templateField['title'];
-            }
-        }
-
-        return $editFields;
-    }
-
     public function url($add = false)
     {
         $val = $this->templateAdapter->getActiveTemplateUrl();
@@ -499,7 +412,6 @@ class TemplateManager
 
         return $val;
     }
-
 
     public function get_custom_fonts_css_content()
     {
@@ -520,7 +432,6 @@ class TemplateManager
     {
         return $this->customCssAdapter->getCustomCssContent();
     }
-
 
     public function get_custom_css()
     {
@@ -579,7 +490,6 @@ class TemplateManager
                     $replaces[template_url()] = str_replace($site_host, $static_files_delivery_domain, template_url());
                     $replaces[modules_url()] = str_replace($site_host, $static_files_delivery_domain, modules_url());
 
-
                 }
                 if ($replaces) {
                     $layout = str_replace(array_keys($replaces), array_values($replaces), $layout);
@@ -591,14 +501,12 @@ class TemplateManager
         return $layout;
     }
 
-
     public function get_default_system_ui_css_url()
     {
         // $url = mw_includes_url() . 'default.css';
         $url = asset('vendor/microweber-packages/frontend-assets/build/default.css');
         return $url;
     }
-
 
     public function get_admin_supported_themes()
     {
@@ -617,7 +525,6 @@ class TemplateManager
     {
         return $this->admin->getAdminCssUrl();
     }
-
 
     public function get_icon_fonts_stylesheet_url()
     {
@@ -716,7 +623,6 @@ class TemplateManager
         return $this->scriptStyleManager->foot_callback($data);
     }
 
-
 //    public function get_layout_for_laravel_template($page = array())
 //    {
 //        if (!defined('ACTIVE_TEMPLATE_DIR')) {
@@ -809,34 +715,7 @@ class TemplateManager
         $this->fontsAdapter->clearCache();
         $this->iconFontsAdapter->clearCache();
 
-
     }
-
-    /**
-     * @deprecated
-     */
-    public function stack_add($src, $group = 'default')
-    {
-        return $this->stack_compiler_adapter->add($src, $group);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function stack_display($group = 'default', $to_return = false)
-    {
-        return $this->stack_compiler_adapter->display($group, $to_return);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function process_stacks($layout)
-    {
-        return $this->stack_compiler_adapter->render($layout);
-
-    }
-
 
     /**
      * @desc      Get the template layouts info under the layouts subdir on your active template
@@ -945,10 +824,8 @@ class TemplateManager
 
         }
 
-
         return false;
     }
-
 
     /**
      * @deprecated Templates and modules are booted from the Laravel modules and Templates service providers
@@ -956,46 +833,6 @@ class TemplateManager
     public function boot()
     {
         return $this->templateAdapter->boot();
-    }
-
-    public function defineConstants($content = false)
-    {
-        return $this->templateAdapter->defineConstants($content);
-    }
-
-    public function defineTemplateConstants(): void
-    {
-        $this->templateAdapter->defineTemplateConstants();
-    }
-
-    public function getContentId()
-    {
-        return $this->templateAdapter->getContentId();
-    }
-
-    public function getProductId()
-    {
-        return $this->templateAdapter->getProductId();
-    }
-
-    public function getPageId()
-    {
-        return $this->templateAdapter->getPageId();
-    }
-
-    public function getPostId()
-    {
-        return $this->templateAdapter->getPostId();
-    }
-
-    public function getCategoryId()
-    {
-        return $this->templateAdapter->getCategoryId();
-    }
-
-    public function getMainPageId()
-    {
-        return $this->templateAdapter->getMainPageId();
     }
 
     public function getParentTemplate($templateName = false)
@@ -1008,36 +845,6 @@ class TemplateManager
         return $this->get_config($templateName);
     }
 
-
     public $isBooted = false;
-
-
-    public function boot_template()
-    {
-        if (!mw_is_installed()) {
-            return;
-        }
-        if ($this->isBooted) {
-            return;
-        }
-        $this->isBooted = true;
-        //load_service_providers_for_template();
-
-        // load_functions_files_for_template();
-//        $load_template_functions = TEMPLATE_DIR . 'functions.php';
-//
-//        if (is_file($load_template_functions)) {
-//            include_once $load_template_functions;
-//        }
-
-// //moved to load_all_service_providers_for_modules function
-//        $module = app()->template_manager->get_config();
-//
-//        if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
-//
-//            app()->module_manager->boot_module($module);
-//        }
-    }
-
 
 }
