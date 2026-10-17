@@ -1,17 +1,5 @@
 <x-filament-panels::page>
-    {{--
-        task-2026-05-16-da59c9: wrap the SiteStats page in
-        `.mw-site-stats-page` so the inline <style> block below can
-        scope all compact-table rules to THIS page only. Without the
-        wrapper any `.fi-ta-cell { padding: ... }` rule would leak to
-        every Filament table across the admin (Coupons, Orders, ...).
 
-        Inline <style> tag is intentional — the page blade is
-        runtime-interpreted (no build step needed), the CSS sits
-        next to the markup it styles, and the SiteStats module owns
-        its own page-specific polish without touching the global
-        Filament theme bundle.
-    --}}
     <div class="mw-site-stats-page">
         <style>
             /*
@@ -98,14 +86,6 @@
             }
         </style>
 
-        {{--
-            task-2026-05-16-0004bc: chart on top.
-            The Visitors & Bounce-Rate chart is the most information-dense
-            widget on the page — it answers "what does the last 30 days look
-            like?" in one glance. The smaller numeric cards below act as the
-            drill-down. Previously the cards sat above the chart so users had
-            to scan past 8 KPI boxes before reaching the trend line.
-        --}}
         {{-- Use the SAME ECharts widget as the admin dashboard (smooth #4299e1
              line + gradient area, online count, period toggle) so the analytics
              chart matches the dashboard exactly — not Filament's Chart.js widget. --}}

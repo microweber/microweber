@@ -182,7 +182,6 @@ description: Dictionary
         height: 200px;
     }
 
-
     .mw-dictionary .thumbnail-image-holder .thumbnail{
         object-fit: cover;
         width: 100%;
@@ -270,7 +269,6 @@ description: Dictionary
     }
     ksort($sorted);
 
-
     $count = 0;
     @endphp
 
@@ -305,11 +303,7 @@ description: Dictionary
                             <h3 class="glossary__results__term title-style--three mb-3">{{ $key }}</h3>
                             <div class="row">
                                 @if(empty($data))
-                                    {{-- AI-104 / TICKET-AI-104 (cycle-101 2026-05-09): wrap empty-content placeholder in is_admin() so it stays visible to editors but doesn't leak onto anonymous public pages. --}}
-                {{-- task-2026-06-07-pmprod: empty-state logic + markup centralised in
-                     \Modules\Content\Services\ContentModuleEmptyState + the shared partial
-                     below — replaces the copy-pasted ~50-line inline-PHP block (posts/pages/
-                     products/content parity). --}}
+
                 @include('modules.content::partials.module-empty-state', ['params' => $params])
                                 @else
                                     @foreach ($list as $item)
@@ -342,7 +336,6 @@ description: Dictionary
                                                         $prices =  $item['prices'];
                                                         $val1 = array_shift($prices);
                                                     @endphp
-
 
                                                     <div class="post-price-holder d-flex align-items-center justify-content-between mt-3">
                                                         @if (!$show_fields || in_array('price', $show_fields))

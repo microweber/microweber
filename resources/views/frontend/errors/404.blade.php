@@ -1,32 +1,4 @@
-{{--
-    task-2026-05-17-c54f1f / AI-795 — frontend 404 styled card (closes AI-755 in the same ship).
 
-    Mirrors AI-793 admin 404 propagation pattern, adapted for the public frontend.
-    Lineage: AI-755 (frontend placeholder 200 instead of 404 — original ticket)
-             + AI-793 (admin 404 propagation — sister surface, same shape)
-             + AI-794 (auth-flow chrome refresh — same .mw-auth-card design language).
-
-    Why this view: pre-fix, unknown frontend URLs (/register, /this-page-does-not-exist,
-    any garbage slug) fell through FrontendController's $show_404_to_non_admin branch.
-    The render pipeline set status 404 BUT rendered the `clean.php` template with the
-    default $page array — body contained `My title / My text content.` placeholder,
-    no <meta name="robots" content="noindex,nofollow">. Google indexed every
-    Microweber install's stub.
-
-    Fix: if no template-level 404.php exists, render THIS view inside the active
-    template's master (Bootstrap fallback), with explicit noindex+nofollow meta,
-    a styled "Page not found" card matching the auth-shell visual language, and
-    a "Back to homepage" CTA.
-
-    Tier-3 probe (designer dispatch):
-        for (const u of ['/register', '/this-page-does-not-exist', '/some/random/slug']) {
-            const r = await fetch(u);
-            expect(r.status).toBe(404);
-            const html = await r.text();
-            expect(html).toContain('noindex,nofollow');
-            expect(html).not.toContain('My title');
-        }
---}}
 @extends($extendsView ?? 'templates.bootstrap::layouts.master')
 
 @push('meta')
@@ -36,13 +8,7 @@
 @section('content')
 
 <style>
-/* task-2026-05-17-c54f1f / AI-795 — frontend 404 card.
-   Scoped to .mw-frontend-404 so the active template's site-wide
-   .form-control / .btn / heading rules stay untouched.
-   task-2026-05-22-3bc697 / AI-1036 — color: #fff !important on primary CTA.
-   AI-877 (a:not(.btn):not(.navbar-brand):not([class*="btn-"]) { color: var(--color-primary) })
-   has specificity (0,3,1) which beats the original .mw-frontend-404__cta--primary (0,1,0),
-   painting the button text #0d6efd on a #0d6efd background. !important restores white text. */
+
 .mw-frontend-404 { max-width: 560px; margin: 60px auto; padding: 20px; text-align: center; }
 .mw-frontend-404__card { background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); padding: 48px 32px; }
 .mw-frontend-404__status { display: inline-block; font-size: 14px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #6b7280; margin-bottom: 12px; }

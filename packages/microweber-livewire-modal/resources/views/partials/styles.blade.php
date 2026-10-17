@@ -127,9 +127,6 @@
         padding: 16px;
     }
 
-    /* task-2026-09-06-darkaudit — the fallback (mw.dialog JS unavailable) modal
-       hardcoded a white surface with no dark counterpart; if it ever fires in
-       dark mode the whole modal is white-on-dark. Latent, but cheap to cover. */
     html.dark .js-modal-livewire.mw-livewire-modal-mw-dialog.mw-dialog-fallback .mw-livewire-modal-content,
     html.dark .js-modal-livewire.mw-livewire-modal-bare.mw-dialog-fallback .mw-livewire-modal-content {
         background-color: #1f2937;

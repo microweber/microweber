@@ -11,12 +11,9 @@ description: Default
 */
 ?>
 
-
 <div class="mwembed mw-googlemaps" id="googlemaps-{{ $id }}">
     @if ($address != '')
-        {{-- task-2026-05-22-ce249e / AI-919 — data-show-marker now wired.
-             When false, omit the &markers= parameter so Google Maps renders
-             the location without a pin. --}}
+
         <iframe
             width="{{ $width ?? '100%' }}"
             height="{{ $height ?? '600px' }}"
@@ -27,10 +24,7 @@ description: Default
             src="https://maps.google.com/maps?q={{ urlencode($address) }}&amp;z={{ intval($zoom) }}&amp;t={{ $mapType ?? 'm' }}&amp;output=embed{{ !($showMarker ?? true) ? '&amp;markers=' : (isset($markerLabel) && $markerLabel ? '&amp;markers=label:' . e($markerLabel) . '|' . urlencode($address) : '') }}">
         </iframe>
     @else
-        {{-- AI-969 / task-2026-05-22 — improved placeholder when no address is set.
-             Previous placeholder used lnotif() which renders as plain text and is
-             hard to notice on canvas. New placeholder uses a styled card with map
-             pin icon + instruction link to Settings. --}}
+
         <div class="mw-googlemaps-placeholder" style="
             display: flex;
             flex-direction: column;

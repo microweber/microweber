@@ -7,8 +7,7 @@
             :comment="$comment" />
 
     @empty
-        {{-- task-2026-06-06-cmtbind: render the no-comments empty state instead of a
-             silent void (the bare @foreach had no empty branch). --}}
+
         @include('modules.comments::no-comments')
     @endforelse
 

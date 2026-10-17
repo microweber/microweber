@@ -1,12 +1,4 @@
-{{-- task-2026-05-17-8c8d0b / AI-855 Defect 1 — persistent visible dropzone
-     affordance. Pre-fix the upload zone was x-show="showUploadZone || dragOver"
-     (default false) so users saw no drag-drop target unless they first clicked
-     the Upload button. Three-clicks-and-context-switches per upload vs. the
-     drag-from-desktop one-gesture baseline. Fix: showUploadZone defaults to
-     true so the dropzone affordance is always visible; existing toggle still
-     works for the click-to-show flow. Native HTML5 drag handlers preserved
-     on the zone. The .mw-media-library-dropzone class is appended alongside
-     .mw-media-upload-zone for designer's contract-test selector. --}}
+
 <div
     x-data="{
         showUploadZone: true,
@@ -24,10 +16,7 @@
         <div class="mw-media-toolbar-left">
             <div class="mw-media-search">
                 <x-heroicon-m-magnifying-glass class="mw-media-search-icon" />
-                {{-- task-2026-05-17-8c8d0b / AI-855 Defect 3 — sibling of
-                     AI-817 hidden-label WCAG 3.3.2 family. Placeholder
-                     alone is not a label per WCAG; add aria-label so
-                     screen readers announce the field's purpose. --}}
+
                 <input
                     type="text"
                     wire:model.live.debounce.300ms="search"
@@ -45,9 +34,6 @@
                 <option value="file">Documents</option>
             </select>
 
-            {{-- AI-1039 / task-2026-05-22-558c11 — visible "From" and "To" labels next to the
-                 date pickers so the inputs are self-describing without requiring tooltip hover.
-                 HTML5 type="date" is kept (locale-aware browser formatting); labels clarify context. --}}
             <label class="mw-media-filter-date-wrap">
                 <span class="mw-media-filter-date-label">From</span>
                 <input
@@ -403,13 +389,7 @@
             @php $media = $this->getMediaProperty(); @endphp
 
             @if($media->isEmpty())
-                {{-- AI-123 / TICKET-CN (cycle-136 2026-05-09): novice-UX
-                     blank-state — heading + helpful description + a
-                     contextual CTA. Branches:
-                       (a) FILTERED empty: "no match" + Clear filters CTA.
-                       (b) UNFILTERED empty: first-time user — explain
-                           what the Media Library is + how to add the
-                           first asset (drag-drop OR Upload button). --}}
+
                 <div class="mw-media-empty">
                     <x-heroicon-o-photo class="w-16 h-16 text-gray-300" />
                     @if($search || $typeFilter || $dateFrom || $dateTo || $selectedFolderId)
@@ -438,9 +418,7 @@
                         @foreach($media as $item)
                             <div
                                 wire:click="selectMedia({{ $item->id }})"
-                                {{-- task-2026-09-17 — double-click a thumbnail to insert it
-                                     straight away: post the URL to the parent image picker,
-                                     which inserts (filepicker.js listens for insert-file). --}}
+
                                 x-on:dblclick="window.parent && window.parent !== window && window.parent.postMessage({ type: 'mw-filemanager:insert-file', url: @js($item->filename) }, '*')"
                                 class="mw-media-grid-item {{ $selectedMediaId === $item->id ? 'selected' : '' }} {{ in_array($item->id, $bulkSelected) ? 'bulk-selected' : '' }}"
                             >
@@ -500,9 +478,6 @@
                                     @endif
                                 </div>
 
-                                {{-- AI-1038 / task-2026-05-22-5beaa2 — tooltip shows full filename + file-size
-                                     on hover so a bare numeric basename (from legacy placeholder URLs)
-                                     gets context when the user hovers over the thumbnail label. --}}
                                 @php
                                     $mediaLabel = $item->title ?: basename($item->filename);
                                     $mediaTooltip = $item->filename;
@@ -748,12 +723,7 @@
         @endif
     </div>
 </div>
-{{-- task-2026-05-22-faf839 / AI-761 — postMessage row-count bridge.
-     When this page is loaded inside an iframe by the image picker
-     (filepicker.js _mountLib), it posts the total media count so the
-     parent can show a skeleton during load and an empty state when the
-     library is truly empty. The count is server-side rendered to avoid
-     waiting for Livewire. Fires immediately on page load. --}}
+
 @php
     // $media is defined inside the library-tab block above; on other tabs
     // (e.g. Unsplash) that block is skipped, so resolve it here too.

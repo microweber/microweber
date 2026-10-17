@@ -4,14 +4,6 @@
         {{ $this->table }}
     </div>
 
-    {{-- task-2026-09-30-cfreorder — make the custom-fields table drag-reorderable
-         WITHOUT toggling Filament's "Reorder records" mode (that mode hides the
-         Edit/Delete actions). An always-visible drag handle column (.cf-reorder-handle)
-         is added in ListCustomFields; here we bind SortableJS to the table body
-         and, on drop, call the component's reorderTable() with the new id order
-         (read from each row's wire:key). Wrapped in @assets because this view is
-         injected into the Live Edit module-settings modal via a Livewire morph,
-         and morphdom does NOT execute injected inline <script> tags. --}}
     @assets
     <script>
         (function () {
@@ -83,7 +75,6 @@
                 });
             };
 
-            // task-2026-09-30-cflines — remove ALL the divider lines from the
             // custom-fields table (header band, column-header row, and every body
             // row/cell). The theme draws these with high-specificity !important
             // rules (e.g. body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell)

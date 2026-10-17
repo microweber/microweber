@@ -1,4 +1,4 @@
-{{-- task-2026-05-27-6e6957 / AI-1113 --}}
+
 <x-filament-panels::page>
     <div class="flex flex-col items-center justify-center gap-y-8 p-4">
         <div class="text-center">

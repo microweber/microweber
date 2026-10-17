@@ -1,10 +1,4 @@
-{{-- AI-269 + AI-272 (task-2026-05-13-e64357) — dashboard empty-state
-     widget. Shows above the quick-stats grid ONLY when the `content`
-     table has zero rows. The four CTA cards drop into a single column
-     on mobile (<576px) and a 2x2 grid on tablet+ via the `.mw-empty-
-     state-grid` class which uses `repeat(auto-fit, minmax(240px, 1fr))`
-     in admin-empty-state.css. Every CTA is a real <a> with a 44x44
-     touch-target floor per WCAG 2.5.5. --}}
+
 <x-filament-widgets::widget>
     <div class="mw-dashboard-empty-state">
         <div class="mw-dashboard-empty-state-header">

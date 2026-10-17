@@ -1,9 +1,8 @@
 <div>
-    {{-- AI-1207 task-2026-06-01: ensure non-script content remains after Livewire's SupportMultipleRootElementDetection strips <script>/<style> tags; otherwise DOMDocument::loadHTML crashes on empty source --}}
+
     <span class="mw-le-template-settings-anchor" aria-hidden="true" style="display:none;">.</span>
 
     @include('admin::layouts.partials.loads-user-custom-fonts')
-
 
     <div wire:ignore>
         <style>
@@ -28,23 +27,19 @@
             function resetAllDeignSelectorsValuesSettings() {
                 var askForConfirmText = mw.lang('Are you sure you want to reset stylesheet settings ?');
 
-
                 var confirmed = confirm(askForConfirmText);
 
                 if (!confirmed) {
                     return;
                 }
 
-
                 let desinSelectors = window.mw_template_settings_styles_and_selectors;
                 if (desinSelectors) {
                     desinSelectors = JSON.parse(JSON.stringify(desinSelectors));
 
-
                     desinSelectors = preapareAndCleanTemplateStylesAndSelectorsData(desinSelectors);
 
                     var valuesForEdit = preapareTemplateValuesForEdit(desinSelectors);
-
 
                     // FIX: Loop over object keys instead of using for...of
                     for (const selector in valuesForEdit) {
@@ -92,14 +87,11 @@
 
             }
 
-
             mw.top().app.on('fontsChanged', function ($event) {
-
 
                 if (mw.top().app.fontManager) {
                     mw.top().app.fontManager.reloadLiveEdit();
                 }
-
 
                 // var customFontsStylesheet = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-css");
                 // if (customFontsStylesheet != null) {
@@ -110,7 +102,6 @@
                 setTimeout(function () {
                     mw.top().app.templateSettings.reloadStylesheet('{{$styleSheetSourceFile}}', '{{$optionGroupLess}}');
                 }, 1000);
-
 
             });
         </script>
@@ -137,8 +128,6 @@
                     layoutDisplay.style.display = 'none';
                 }
             }
-
-
 
             function openRTECSsEditor2(settings) {
 
@@ -254,26 +243,18 @@
                 }
             }
 
-
-
-
             document.addEventListener('DOMContentLoaded', function () {
 
                 if (mw.top().app && mw.top().app.canvas) {
-
 
                     var activeLayout =  mw.top().app.liveEdit.getSelectedLayoutNode();
 
                     const layoutDisplay = document.getElementById('layout-id-display');
                     const activeLayoutIdSpan = document.getElementById('active-layout-id');
 
-
                      window.css_vars_design_active_layout = activeLayout;
 
-
-
                     updateLayoutIdDisplay();
-
 
                     mw.top().app.canvas.on('canvasDocumentClick', () => {
                         var activeLayout =  mw.top().app.liveEdit.getSelectedLayoutNode();
@@ -294,36 +275,29 @@
 
                     })
 
-
                 }
             });
 
         </script>
 
-
         @if(isset($styleSettings) and $styleSettings)
 
             <script>
-
 
                 //ai-change-template-design-button
 
                 document.addEventListener('DOMContentLoaded', function () {
 
-
                     if (typeof mw.top().win.MwAi === 'function') {
                         $('.ai-change-template-design-button').removeClass('d-none')
                     }
-
 
                     //add chanfe for css_vars_design_apply_mode
 
                     $('#css_vars_design_apply_mode').on('change', function () {
                         var selectedValue = $(this).val();
 
-
                         window.css_vars_design_apply_mode = selectedValue;
-
 
                         var activeLayout =  mw.top().app.liveEdit.getSelectedLayoutNode();
 
@@ -332,18 +306,11 @@
                         updateLayoutIdDisplay();
                     });
 
-
                 });
-
 
                 window.mw_template_settings_styles_and_selectors = @json($styleSettings)
 
-
-
-
-
                     window.css_vars_design_apply_mode = 'template';
-
 
                 function preapareAndCleanTemplateStylesAndSelectorsData(items) {
                     if (!Array.isArray(items)) return items;
@@ -370,7 +337,6 @@
                         return item.settings?.length > 0 || item.fieldSettings || item.selectors;
                     });
                 }
-
 
                 function preapareTemplateValuesForEdit(designSelectors) {
                     // Filter out items without settings after cleaning
@@ -542,11 +508,9 @@
 
                     // First, recursively remove clearAll items and unwanted properties
 
-
                     designSelectors = preapareAndCleanTemplateStylesAndSelectorsData(designSelectors);
 
                     var valuesForEdit = preapareTemplateValuesForEdit(designSelectors);
-
 
                     // console.log('Updated design settings:', designSelectors);
                     // console.log('uniquePairs:', uniquePairs);
@@ -562,8 +526,6 @@
 
         You must write the text for the website and will the existing object IDs with the text,
 
-
-
 You must respond ONLY with the JSON schema with the following structure. Do not add any additional comments""" + \\
 """[
   JSON
@@ -572,18 +534,14 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
 """`
 
-
                     let messageOptions = {};
                     //  messageOptions.schema = this.schema();
                     messageOptions.schema = editSchema;
                     mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).show();
 
-
                     let messages = [{role: 'user', content: message}];
 
-
                     if (window.css_vars_design_apply_mode === 'layout' && window.css_vars_design_active_layout) {
-
 
                         const activeLayout = window.css_vars_design_active_layout;
                         const layoutId = typeof activeLayout === 'string'
@@ -601,14 +559,11 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
                     if (res.success && res.data) {
 
-
                         for (let selector in res.data) {
                             if (res.data.hasOwnProperty(selector)) {
 
-
                                 // Loop through all properties for the current selector
                                 for (let property in res.data[selector]) {
-
 
                                     if (res.data[selector].hasOwnProperty(property)) {
                                         const value = res.data[selector][property];
@@ -617,7 +572,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                                         if (mw.top().app.cssEditor) {
                                             // Determine unit if needed (you might need to adjust this based on property type)
                                             const unit = property.includes('color') ? '' : '';
-
 
                                             // Apply the CSS property
                                             mw.top().app.cssEditor.setPropertyForSelector(
@@ -633,18 +587,14 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                             }
                         }
 
-
                     }
 
                     return designSelectors;
                 }
 
-
             </script>
 
         @endif
-
-
 
         @if(isset($styleSettings))
 
@@ -656,12 +606,10 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                     <option value="layout">Layout</option>
                 </select>
 
-
                 <div id="layout-id-display" class="mt-2 small text-muted my-2" style="display: none;">
 
                   <div class="d-flex justify-content-between">
                       <span   id="active-layout-id" onclick="scrollToSelecttedLayout()"></span>
-
 
                       <span    id="active-layout-id-open-settings" onclick="openSelectedLayoutSettings()">
                                 &#x2699;
@@ -670,7 +618,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
                 </div>
             </div>
-
 
             <div
                 x-data="{styleEditorData:{}, showStyleSettings: '/', filterQuery: ''}"
@@ -684,15 +631,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
             }"
             >
 
-                {{-- AI-987 task-2026-06-05-ts987: search/filter for the Template
-                     Settings panel. For themes with 30+ variables the top-level
-                     list is long; this filters the named settings (and style
-                     groups) by name as the user types. Only shown at the top
-                     level (showStyleSettings == '/'); each filterable item reads
-                     its own lowercased name from a data-* attribute via
-                     $el.dataset (so the label never enters the Alpine
-                     expression string — no attribute-escape leak). Empty query
-                     shows everything, so default behaviour is unchanged. --}}
                 <div class="form-control-live-edit-label-wrapper mt-3 mb-2 mw-ts-search-wrap"
                      x-show="showStyleSettings == '/'">
                     <input type="search"
@@ -707,7 +645,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                         MAKE YOUR WEBSITE FASTER WITH AI
                     </label>
                     <div class="ai-change-template-design-button d-none"></div>
-
 
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="changeDesign"
@@ -728,8 +665,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                Styles
 
                 <div class="d-flex align-items-end" style="display: none">
-
-
 
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="Reset stylesheet settings"
@@ -763,7 +698,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                             @else
                                 x-show="showStyleSettings == '{{$styleSetting['url']}}'"
                             @endif
-
 
                             class="my-3">
 
@@ -895,7 +829,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
                                 <?php /* this is the reset button*/ ?>
 
-
                             <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                                     title="Reset template settings"
                                     class="reset-template-settings-and-stylesheet-button" x-on:click="()=> {
@@ -916,7 +849,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                                 </svg>
 
                             </button>
-
 
                         </div>
 
@@ -993,7 +925,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                                                         @php
                                                             $dropdownOptions = $settingField['options'];
                                                         @endphp
-
 
                                                         <livewire:microweber-option::dropdown
                                                             :dropdownOptions="$dropdownOptions"

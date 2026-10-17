@@ -1,10 +1,5 @@
 <div>
 
-    {{-- task-2026-10-14-menudropdown — the Menu-actions (⋮) dropdown rendered its
-         items cramped (36px rows, 8px padding, 1px gap). Give them room to breathe.
-         Scoped to this component's document (the menu settings panel), where the
-         only .fi-dropdown is this actions menu — the Menu <select> uses different
-         markup, so it's unaffected. --}}
     <style>
         /* Taller rows + a real gap for breathing room; keep the horizontal
            padding modest + widen the panel so "Create new main menu" never
@@ -23,13 +18,6 @@
 
     <div class="mw-menu-editor">
 
-        {{-- Menu selector bar.
-             items-end aligns the 3-dot ActionGroup to the bottom edge
-             of the Filament Select (which has its own label above the
-             input). justify-start (replacing justify-between) puts the
-             3-dot button right next to the dropdown instead of
-             floating off to the far-right empty space — see
-             task-2026-04-30-7e6b01. --}}
         <div class="mw-menu-editor__selector">
             <div class="flex gap-2 items-end justify-start flex-wrap">
                 <div class="flex-1 min-w-[200px] max-w-sm">
@@ -77,7 +65,6 @@
                         // child blade throw "Using $this when not
                         // in object context" and silently destroy
                         // the rendered menu item rows
-                        // (task-2026-04-29-dcde6d).
                         $component = $this;
                         $params = array(
                           'menu_id' => $menu->id,
@@ -136,11 +123,5 @@
 
     </div>
 
-    {{-- The create/edit dialog rendered by this portal gets its modal overlay
-         chrome (centred + dimmed backdrop) from the shared module-settings
-         layout style block in
-         filament/components/layout/live-edit-module-settings.blade.php
-         (task-2026-06-05-mnu-modal) — generic for every module, so no
-         per-module CSS is needed here. --}}
     <x-filament-actions::modals/>
 </div>

@@ -8,7 +8,6 @@
         font-weight: <?php echo $textWeight; ?>;
         font-style: <?php echo $textStyle; ?>;
 
-
     }
     @media only screen and (max-width: 1399px) {
         #v-marquee-<?php echo $id; ?> {
@@ -59,13 +58,7 @@
 </div>
 
 <script type="module">
-    /*
-     * task-2026-05-05-d71799 — drunk-designer audit (marquee.md QW#1):
-     * honor `prefers-reduced-motion: reduce`. Users who set the OS
-     * preference (vestibular disorder, motion sickness, focus) get a
-     * static, readable marquee instead of the looping animation. We
-     * detect the preference once at mount + listen for changes.
-     */
+
     (function () {
         var el = document.getElementById('v-marquee-{{ $id }}');
         if (!el) return;

@@ -47,12 +47,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 @section('content')
 
     <style>
-        /* task-2026-05-22-093946 / AI-757 — purposeful branded background.
-           Makes the full viewport a brand-tinted gradient so the login card
-           floats on a purposeful surface rather than inheriting the raw
-           template background. Dark mode uses a deep-navy variant so the
-           white card remains readable. WCAG AA contrast preserved (4.6:1
-           for body text on the white card). */
+
         .auth-container {
             min-height: 100vh;
             max-width: 100%;
@@ -94,7 +89,6 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
             margin-bottom: 30px;
         }
 
-        /* task-2026-05-22-1dcb94 / AI-757 — brand logo in auth header */
         .auth-brand-logo-wrapper {
             margin-bottom: 16px;
         }
@@ -333,10 +327,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
         }
 
         .form-footer {
-            /* task-2026-05-18-2e95f2 / AI-865 — bumped margin-top 20px → 28px for vertical
-               breathing room post-tap-zone enlargement on .form-footer a (designer's
-               optional polish, accepted as default since the anchor padding makes the
-               prior 20px margin visually too tight). */
+
             margin-top: 28px;
             text-align: center;
             font-size: 14px;
@@ -345,14 +336,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
         .form-footer a {
             color: #0d6efd;
             text-decoration: none;
-            /* task-2026-05-18-2e95f2 / AI-865 — WCAG 2.5.5 Target Size compliance.
-               Pre-fix `.form-footer a` had no display / min-height / padding override,
-               so the 3 in-page anchors collapsed to ~20px height at mobile 390
-               (Forgot-your-password 135×20, Sign-in 42×20 worst-case 840 sq-px,
-               Back-to-Login 85×20). inline-block + min-height: 44px + 12/16px padding
-               hits the AAA 44×44 floor without disrupting the parent
-               .form-footer { text-align: center } flow layout. line-height: 20px
-               preserves the original visual text rhythm inside the enlarged tap zone. */
+
             display: inline-block;
             min-height: 44px;
             padding: 12px 16px;
@@ -382,9 +366,6 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
             border: 1px solid #bbf7d0;
         }
 
-        /* task-2026-09-06-darkaudit — the logged-in user name (#333) was
-           invisible on the dark auth card, and the alert boxes stayed bright.
-           Add html.dark overrides to match the rest of this screen. */
         html.dark .user-info h3 {
             color: #f1f5f9;
         }
@@ -399,15 +380,6 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
             border-color: rgba(22, 163, 74, 0.4);
         }
 
-        /* task-2026-05-22-834339 — WCAG 2.5.5 touch-target floor on
-           Remember me + Terms checkboxes. Tester measured 18×18px (checkbox)
-           and 93×20px (label) at 390×844 — both below the 44×44 floor.
-           Fix: expand the wrapper row to min-height 44px and make the label
-           fill it as an inline-flex row. Clicking anywhere on the label
-           still activates the checkbox (label[for] association). The native
-           checkbox glyph stays its standard size; only the tap area grows.
-           Covers both the Login (remember me) and Register (terms) checkboxes
-           since both use the same .checkbox-wrapper class. */
         .checkbox-wrapper {
             display: flex;
             align-items: center;
@@ -529,7 +501,6 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                             <a href="{{ admin_url() }}" class="btn btn-dashboard">Go to Dashboard</a>
                         @endif
 
-
                         @if($redirect)
                             <a href="{{ $redirect }}" class="btn btn-dashboard">Continue</a>
                         @endif
@@ -539,11 +510,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                 </div>
             @else
                 <!-- Login/Register Forms -->
-                {{-- task-2026-05-22-1dcb94 / AI-757 — brand logo + brand expression
-                     on admin login page. admin_logo_login() returns the configured
-                     admin logo URL; falls back to brand name text when no logo is
-                     configured. Mirrors the AI-794 pattern from layout.blade.php.
-                --}}
+
                 @php $mwAdminLoginLogo = app()->ui->admin_logo_login(); @endphp
                 <div class="auth-header">
                     <div class="auth-brand-logo-wrapper">
@@ -649,23 +616,16 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                             <input type="hidden" name="redirect" value="{{ $redirect }}"/>
                         @endif
 
-
                         <div class="form-group">
                             <label class="form-label" for="auth-login-username">Email or Username</label>
-                            {{-- task-2026-05-18-78caa0 / AI-864 — added autocomplete="username"
-                                 per WHATWG HTML autocomplete spec §4.10.18.7 — `username` is
-                                 the primary account identifier (works for both email and
-                                 username login-key shapes). Adjacent audit while fixing the
-                                 main Register-tab password defect; see L645/L651 for the
-                                 mandatory fix. --}}
+
                             <input type="text" id="auth-login-username" class="form-control" autocomplete="username" name="username" value="{{ old('username') }}"
                                    required autofocus>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="auth-login-password">Password</label>
-                            {{-- L512 — Login Password correctly carries `current-password`
-                                 (existing-account sign-in). Untouched by AI-864. --}}
+
                             <input type="password" id="auth-login-password" class="form-control" autocomplete="current-password" name="password"
                                    required>
                         </div>
@@ -689,14 +649,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                     </form>
 
                     <div class="form-footer">
-                        {{-- task-2026-05-18-77da7a / AI-863 — replace `href="#"` JS-intercept
-                             with real route URL so the AI-794 standalone
-                             `/forgot-password` chrome (commit 4ecba69fd0) is reachable
-                             from the natural navigation. Pre-fix the JS click-handler
-                             at the bottom of this file swapped an in-place forgot panel,
-                             orphaning the polished standalone chrome. Sibling fix-shape:
-                             L672 + L704 below get the same treatment via `route('login')`.
-                             JS intercept block was removed in the same commit. --}}
+
                         <a href="{{ route('password.request') }}" class="forgot-password-link">Forgot your password?</a>
                     </div>
                 </div>
@@ -774,54 +727,40 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                         <form id="registerForm" method="POST" action="{{ route('api.user.register') }}">
                             @csrf
 
-
                             @if($redirect)
                                 <input type="hidden" name="redirect" value="{{ $redirect }}"/>
                             @endif
 
-
                             <div class="form-group">
                                 <label class="form-label" for="auth-register-first-name">Full Name</label>
-                                {{-- AI-864 adjacent audit — autocomplete="name" per WHATWG spec
-                                     for full-name proper-name autofill. --}}
+
                                 <input type="text" id="auth-register-first-name" class="form-control" autocomplete="name" name="first_name"
                                        value="{{ old('first_name') }}" required>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label" for="auth-register-email">Email</label>
-                                {{-- AI-864 adjacent audit — autocomplete="email" per WHATWG spec
-                                     for email-input autofill. --}}
+
                                 <input type="email" id="auth-register-email" class="form-control" autocomplete="email" name="email" value="{{ old('email') }}"
                                        required>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label" for="auth-register-username">Username</label>
-                                {{-- AI-864 adjacent audit — autocomplete="username" per WHATWG spec
-                                     for primary-account-identifier autofill. --}}
+
                                 <input type="text" id="auth-register-username" class="form-control" autocomplete="username" name="username" value="{{ old('username') }}">
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label" for="auth-register-password">Password</label>
-                                {{-- task-2026-05-18-78caa0 / AI-864 — autocomplete="new-password"
-                                     per WHATWG HTML autocomplete spec §4.10.18.7. Pre-fix
-                                     `current-password` told browsers this was an existing-account
-                                     sign-in form, silently pre-filling Register Password with the
-                                     user's saved /login password from prior sessions — privacy
-                                     leak on shared/public devices + UX failure on the registration
-                                     happy path. `new-password` instructs the browser to (a) NOT
-                                     autofill prior saved credentials AND (b) offer password-manager
-                                     generation for a fresh strong password. --}}
+
                                 <input type="password" id="auth-register-password" class="form-control" autocomplete="new-password"
                                        name="password" required>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label" for="auth-register-password-confirmation">Confirm Password</label>
-                                {{-- AI-864 — same fix-shape applied to Confirm Password to
-                                     match the primary Password field's autocomplete contract. --}}
+
                                 <input type="password" id="auth-register-password-confirmation" class="form-control" autocomplete="new-password"
                                        name="password_confirmation" required>
                             </div>
@@ -851,7 +790,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                         </form>
 
                         <div class="form-footer">
-                            {{-- AI-863 — real route URL (was href="#" + JS intercept). --}}
+
                             Already have an account? <a href="{{ route('login') }}" class="login-link">Sign in</a>
                         </div>
                     </div>
@@ -868,8 +807,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 
                         <div class="form-group">
                             <label class="form-label" for="auth-forgot-email">Email Address</label>
-                            {{-- AI-864 adjacent audit — autocomplete="email" on Forgot Password
-                                 email input so the browser autofills the user's saved email. --}}
+
                             <input type="email" id="auth-forgot-email" class="form-control" autocomplete="email" name="email" value="{{ old('email') }}" required
                                    autofocus>
                         </div>
@@ -886,7 +824,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                     </form>
 
                     <div class="form-footer">
-                        {{-- AI-863 — real route URL (was href="#" + JS intercept). --}}
+
                         <a href="{{ route('login') }}" class="login-link">Back to Login</a>
                     </div>
                 </div>
@@ -923,10 +861,8 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                 });
             });
 
-            // task-2026-05-18-77da7a / AI-863 — JS click-intercept handlers for
             // .forgot-password-link + .login-link REMOVED. The handlers used to
             // call e.preventDefault() + swap to an in-place forgot panel, which
-            // orphaned the AI-794 standalone /forgot-password chrome (commit
             // 4ecba69fd0). The 3 anchors now carry real route URLs
             // (route('password.request') + route('login') x2) so natural
             // navigation reaches the polished standalone chrome. Browser

@@ -1,13 +1,11 @@
 @props(['quickContentAdd' => false,'showEditContentButtonForContentId' => false])
 
-
 <?php $custom_view = url_param('view'); ?>
 <?php $custom_action = url_param('action'); ?>
 <?php event_trigger('content.create.menu'); ?>
 <?php $create_content_menu = app()->module_manager->ui('content.create.menu'); ?>
 
 <?php
-
 
 $iframeClass = '';
 $isIframe = false;
@@ -24,7 +22,6 @@ if (isset($isIframe) and $isIframe) {
     if (isset($quickContentAdd) and $quickContentAdd) {
         $appendIframeModeSuffix .= '&quickContentAdd=true';
     }
-
 
 } else {
     $appendIframeModeSuffix = '?addEditContent=true';
@@ -48,8 +45,6 @@ if($allShops){
     $allShops = array_slice($allShops, 0, 3);
 }
 
-
-
 $editContentBtnData = false;
 $editContentUrl = false;
 if($showEditContentButtonForContentId){
@@ -58,22 +53,14 @@ if($showEditContentButtonForContentId){
 if($editContentBtnData){
     $editContentUrl = content_edit_link($editContentBtnData['id']);
 
-
     if ($appendIframeModeSuffix) {
         $editContentUrl = $editContentUrl . $appendIframeModeSuffix;
     }
 }
 
-
-
 }
 
-
 ?>
-
-
-
-
 
 @if($editContentBtnData && $editContentUrl)
     <a  href="{{ $editContentUrl }}" class="col-12 text-start d-flex align-items-center flex-wrap admin-add-new-modal-buttons me-auto">
@@ -97,27 +84,13 @@ if($editContentBtnData){
                 @endif
             </h3>
 
-
             <p class="  font-weight-bold mb-0 modal-add-new-buttons-p   d-lg-block">
                 @lang('Edit') {{ character_limiter($editContentBtnData['title'], 50) }}
             </p>
         </div>
 
-
-
-
-
     </a>
 @endif
-
-
-
-
-
-
-
-
-
 
 <?php if (!empty($create_content_menu)): ?>
     <?php foreach ($create_content_menu as $type => $item): ?>
@@ -170,15 +143,10 @@ if($editContentBtnData){
         }
     }
 
-
-
-
-
     ?>
 
 <div  href="<?php print $base_url; ?>" onclick="window.location.href='<?php print $base_url; ?>'"
    class="col-12 text-start d-flex align-items-center flex-wrap admin-add-new-modal-buttons me-auto cursor-pointer">
-
 
         <?php if ($item['content_type'] == 'page') { ?>
     <div class="col-lg-2 mx-2 modal-add-new-buttons-img">
@@ -188,8 +156,6 @@ if($editContentBtnData){
     <div class="col-lg-9 ps-3">
         <h3 class="font-weight-bolder"> <?php print $title; ?>      </h3>
 
-
-        {{-- task-2026-05-04-novice — plain English; matches AdminLiveEditPage picker. --}}
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
             A standalone page like About, Services or Contact.
         </p>
@@ -220,7 +186,6 @@ if($editContentBtnData){
 
         </div>
 
-
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
             A blog article or news story that appears in your Blog list.
         </p>
@@ -234,7 +199,6 @@ if($editContentBtnData){
     <div class="col-lg-9 ps-3">
         <h3 class="  font-weight-bolder">  <?php print $title; ?></h3>
 
-
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
             A folder to group your blog posts or shop items.
         </p>
@@ -247,7 +211,6 @@ if($editContentBtnData){
 
     </div>
     <div class="col-lg-9 ps-3">
-
 
         <div>
 
@@ -267,7 +230,6 @@ if($editContentBtnData){
 
         </div>
 
-
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
             An item to sell in your online shop.
         </p>
@@ -276,8 +238,5 @@ if($editContentBtnData){
 </div>
 
 <?php endforeach; ?>
-
-
-
 
 <?php endif; ?>

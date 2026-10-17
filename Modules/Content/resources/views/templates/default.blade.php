@@ -19,7 +19,6 @@
         $columns .= ' ' . $columns_md;
     }
 
-    // AI-78 / TICKET-AE (cycle-90 2026-05-09): dropped dead `$thumb_quality`
     // + `$thumbs_columns` + dead loose-equality `if ($columns_xl != null
     // || $columns_xl != false || $columns_xl != '')` (the OR-of-three
     // was always true). Neither variable was read anywhere downstream;
@@ -34,7 +33,6 @@
         overflow: hidden;
         height: 300px;
     }
-
 
     #posts-{{ $params['id'] }} .thumbnail-image-holder .thumbnail{
         object-fit: cover;
@@ -52,8 +50,7 @@
     }
 
     #posts-{{ $params['id'] }} .post-bottom-holder {
-        /* AI-78 / TICKET-AE (cycle-90): padding-top 0 → 20px after the
-           `<br>` between thumbnail and bottom-holder was removed. */
+
         padding: 25px;
         padding-top: 20px;
     }
@@ -79,11 +76,7 @@
     <div class="col-lg-12 mx-auto">
         <div class="row big-news">
             @if(empty($data))
-                {{-- AI-104 / TICKET-AI-104 (cycle-101 2026-05-09): wrap empty-content placeholder in is_admin() so it stays visible to editors but doesn't leak onto anonymous public pages. --}}
-                {{-- task-2026-06-07-pmprod: empty-state logic + markup centralised in
-                     \Modules\Content\Services\ContentModuleEmptyState + the shared partial
-                     below — replaces the copy-pasted ~50-line inline-PHP block (posts/pages/
-                     products/content parity). --}}
+
                 @include('modules.content::partials.module-empty-state', ['params' => $params])
             @else
                 @foreach ($data as $key => $item)
@@ -93,13 +86,6 @@
                     $count++;
                 @endphp
 
-                {{-- AI-78 / TICKET-AE (cycle-90): AOS-cap. Pre-fix
-                     `data-aos-delay="{{ $key }}00"` produced 9.9 s+
-                     animation delays for posts beyond the 10th, so any
-                     visitor at the bottom of a long list saw a fully-
-                     rendered page with cards still fading in for ten
-                     seconds (or never, on mobile data). Cap at 800 ms
-                     (8 × 100). --}}
                 <div class="{{ $columns }}" data-aos="fade-up" data-aos-delay="{{ min($key, 8) * 100 }}" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                     <div class="post-holder">
                         <a href="{{ $item['link'] }}" itemprop="url">
@@ -124,22 +110,10 @@
                                 @endif
                             </div>
                         </a>
-                        {{-- AI-78 / TICKET-AE (cycle-90): replaced `<br>` with
-                             padding on `.post-bottom-holder` (defined in the
-                             stylesheet above). `<br>` for layout spacing
-                             violates the HTML semantic model (line break, not
-                             margin) and screen-readers read it as "line
-                             break" mid-card. --}}
+
                         <div class="post-bottom-holder">
                             @if (!isset($show_fields) || $show_fields == false || in_array('title', $show_fields))
-                                {{-- AI-78 / TICKET-AE (cycle-90): dropped
-                                     duplicate `itemprop="url"` from inner
-                                     anchor — the outer thumbnail wrapper
-                                     already declares `itemprop="url"` for
-                                     this item, and Schema.org expects a
-                                     single canonical URL per BlogPosting.
-                                     The h3 still carries `itemprop="name"`
-                                     so the title is still indexed. --}}
+
                                 <h3 itemprop="name" class="mw-products-title m-0"><a href="{{ $item['link'] }}">{{ $item['title'] }}</a></h3>
                             @endif
 
@@ -152,10 +126,7 @@
                                 @endif
 
                             @if (!isset($show_fields) || $show_fields == false || in_array('read_more', $show_fields))
-                                {{-- AI-78 / TICKET-AE (cycle-90): dropped
-                                     duplicate `itemprop="url"` from the
-                                     "Read more" anchor (outer thumbnail
-                                     wrapper already declares it). --}}
+
                                 <a href="{{ $item['link'] }}" class="button-8 m-t-20">
                                     <span>{{ $read_more_text ?? __('Read more') }}</span>
                                 </a>
@@ -172,7 +143,6 @@
                                     $prices =  $item['prices'];
                                     $val1 = array_shift($prices);
                                 @endphp
-
 
                                 <div class="post-price-holder d-flex align-items-center justify-content-between mt-3">
                                     @if (!$show_fields || in_array('price', $show_fields))
@@ -212,12 +182,6 @@
     </div>
 </div>
 
-{{-- AI-78 / TICKET-AE (cycle-90 2026-05-09): pagination footer.
-     Mirrors the convention already used by sidebar.blade.php /
-     masonry.blade.php / search.blade.php in this same module.
-     ContentModule.php (cycle-81) wires `$pages_count`, `$paging_param`,
-     and `$current_page` into the view scope, so the helper just emits
-     the rendered nav when there's more than one page. --}}
 @if (isset($pages_count) && $pages_count > 1 && isset($paging_param))
     @php $current_page = $current_page ?? 1; @endphp
     {!! paging("num={$pages_count}&paging_param={$paging_param}&current_page={$current_page}") !!}

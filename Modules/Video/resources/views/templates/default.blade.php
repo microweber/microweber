@@ -19,7 +19,6 @@ description: Default
          height: auto!important;
      }
 
-
     #{{ $params['id'] ?? '' }} .mwembed-video:after {
          position: absolute;
          top: 50%;
@@ -53,15 +52,13 @@ description: Default
          content: '';
      }
 
-
     #{{ $params['id'] ?? '' }} .playButton-d-none:before,  #{{ $params['id'] ?? '' }} .playButton-d-none:after {
         display: none;
     }
 </style>
 
 @if(isset($lazyload) && $lazyload)
-{{-- AI-1010 / task-2026-05-22 — lazy-load click handler disabled in live-edit mode to
-     prevent play-button click from conflicting with canvas element selection. --}}
+
 @if(!is_live_edit())
 <script>
     $(document).ready(function () {
@@ -87,8 +84,6 @@ description: Default
 @endif
 @endif
 
-{{-- AI-1009 / task-2026-05-22 — when no video source is configured the module falls
-     back to a demo video. Show an overlay badge so editors know it is a placeholder. --}}
 <div class="video-player-container" style="position:relative;">
     {!! $code ?? '' !!}
     @if(!empty($isDemoVideo))
@@ -99,7 +94,6 @@ description: Default
     @endif
 </div>
 
-{{-- AI-1010 / task-2026-05-22 — pause/play state handler skipped in live-edit mode. --}}
 @if(!is_live_edit())
 <script>
     $(document).ready(function () {
@@ -112,13 +106,6 @@ description: Default
 </script>
 @endif
 
-{{-- AI-966 / task-2026-05-22-424a58 — Video-aware floating toolbar controls in Live Edit.
-     Registers mw.quickSettings.video (the dynamic-menu slot for module type "video")
-     with Play-Pause and Mute-Toggle buttons. The onTarget callback hides both buttons
-     when the module embeds an iframe (YouTube/Vimeo) instead of a native video element,
-     because cross-origin iframes do not expose a controllable video API.
-     A global guard (_mwVideoQSRegistered) prevents duplicate registration when multiple
-     video modules exist on the same canvas page. --}}
 @if(is_live_edit())
 <script>
 (function() {

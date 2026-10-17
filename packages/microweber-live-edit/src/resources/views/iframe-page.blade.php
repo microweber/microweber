@@ -1,6 +1,5 @@
 <div class="mw-admin-live-edit-page">
 
-
     <div
         x-data="{}"
         x-init="() => {
@@ -9,7 +8,6 @@
             // sub-module button while the Layout Settings slideOver
             // is already open stacks the new modal on top — the user
             // sees both panels at once and the click feels broken
-            // (see task-2026-04-29-ee7a19). Filament doesn't
             // hot-replace actions, so we explicitly unmount + remount.
             const swapAction = (name, args = {}) => {
                 try { $wire.unmountAction(); } catch (_) { /* nothing mounted */ }
@@ -204,7 +202,6 @@
                 swapAction('openModuleSettingsAction', { data: e.detail });
             });
 
-            // task-2026-06-05-addcontent-swap: open a create action (Add Page /
             // Post / Product / Category / Image) from the +ADD picker cards.
             // The picker modal is teleported to .fi-layout, OUTSIDE the Livewire
             // wire:id subtree, so a wire:click on a card cannot resolve its
@@ -235,7 +232,6 @@
                 }
             });
 
-            // task-2026-06-05-addcontent-save: SAVE the create form from a
             // teleported action modal. The modal is hoisted to .fi-layout to
             // escape the stacking trap, which leaves its form with NO wire:id
             // ancestor -- so the footer Save button (type=submit) and the SAVE
@@ -263,14 +259,12 @@
             // module/layout-settings slideOver is already mounted when
             // the operator clicks one of those, the slideOver stays
             // open behind the new widget — exactly the bug from
-            // task-2026-04-29-2315b5 and -70496a. Listen for an
             // explicit close event from the toolbar Vue components and
             // unmount whatever Filament action is mounted.
             window.addEventListener('closeFilamentSlideOver', () => {
                 try { $wire.unmountAction(); } catch (_) { /* nothing mounted */ }
             });
 
-            // NOVICE #4 (task-2026-05-13-899d57) — when the user picks
             // 'Add a block to this page' from the +ADD picker, the
             // card's click handler fires this window event. The
             // listener forwards to the canvas's editor dispatcher,
@@ -289,7 +283,6 @@
             // dispatches this event in one tick; the canvas takes
             // over from here without any extra user interaction.
             window.addEventListener('liveEditInsertLayoutRequest', () => {
-                // task-2026-06-13-letele2 — close the Add-new-content Filament modal
                 // here. The card's own $wire.unmountAction() throws because the modal
                 // is teleported to .fi-layout (its $wire cannot resolve), so the modal
                 // window + backdrop stayed open behind the picker and looked broken.
@@ -298,7 +291,6 @@
                 try {
                     if (window.mw && window.mw.app && window.mw.app.editor
                         && typeof window.mw.app.editor.dispatch === 'function') {
-                        // task-2026-06-13-letele2 — the 'Add a block to this page' card
                         // opened the picker but inserted nothing. It dispatched
                         // 'insertLayoutRequestOnBottom', whose ListLayouts handler did
                         // NOT set this.target (only 'appendLayoutRequestOnBottom' does),
@@ -329,7 +321,6 @@
             //
             // The handler dispatches the Livewire event
             // 'liveEditAddContentSaved' (with `url` payload after
-            // task-2026-05-01-3dff3c). Livewire v3 surfaces it as a
             // window-scoped CustomEvent whose `event.detail` is an
             // ARRAY of payloads (one per dispatch arg). The first
             // element is the named-args object — `event.detail[0].url`.
@@ -338,7 +329,6 @@
             // while editing the homepage (which doesn't list posts),
             // so a plain refresh leaves the iframe looking unchanged
             // and they file 'Add posts is not working' — exactly
-            // task-2026-05-01-3dff3c. Loading the new content's URL
             // turns Save into 'I see my post, it worked'. Categories
             // have no public URL — fall back to refresh in that case.
             //
@@ -353,8 +343,6 @@
             // the canvas — NOT the whole iframe — so the change is
             // visible without a jarring full-page reload that resets
             // scroll position, focus, animations, etc.
-            // task-2026-05-02-99f90c (initial wiring) +
-            // task-2026-05-02-420d06 (per user request — selective
             // module reload instead of a full canvas refresh).
             window.addEventListener('liveEditModuleTableActionSaved', () => {
                 try {
@@ -411,13 +399,11 @@
             // to behave as a 'save everything that is visible' button.
             // When the user opens a Filament action like 'Add New Post'
             // / 'Add Page' / a module-settings form via $wire.mountAction,
-            // they expect SAVE to also submit that form — task-2026-04-29-dc57b7.
             //
             // Don't call $wire.callMountedAction() directly — that
             // bypasses Livewire's form-data sync and the server-side
             // action receives stale (empty) input values, which is
             // why the user saw 'nothing happens' on save in
-            // task-2026-04-29-ba63de. Instead, find the mounted
             // action's submit form and call requestSubmit() on it.
             // Livewire intercepts the native submit event, syncs all
             // wire:model bindings, then dispatches callMountedAction
@@ -431,7 +417,6 @@
                     // the *child* Livewire component, not the parent.
                     // Gating on the parent's mountedActions would cause
                     // table-action submits to be skipped silently —
-                    // exactly the bug from task-2026-04-29-a4bd4f. Let
                     // the form-attribute scan below be authoritative:
                     // if no form has the right wire:submit handler,
                     // .forEach is a no-op anyway.
@@ -450,7 +435,6 @@
                     //   - 'callMountedTableAction'    — table header/row actions
                     //                                   (ContentTableList 'New post' inside
                     //                                    the Edit Posts module settings —
-                    //                                    task-2026-04-29-005626)
                     //   - 'callMountedTableBulkAction'— table bulk actions
                     //   - 'callMountedFormComponentAction' — form-component
                     //                                   actions (Repeater rows etc.)
@@ -478,7 +462,6 @@
                     // submit re-fires openModuleSettingsAction which
                     // re-renders the slideOver and destroys the inner
                     // form's pending state before the row can save
-                    // (task-2026-04-29-394cd1). Always prefer the
                     // most-specific form by handler-name precedence:
                     // table/form-component/bulk actions are always
                     // INNER to a generic callMountedAction wrapper, so
@@ -505,7 +488,6 @@
                     // openModuleSettingsAction wrapper and submitting
                     // that re-fires the wrapper instead of the inner
                     // CreateAction the user actually filled in — bug
-                    // from task-2026-05-02-99f90c. Walk every iframe
                     // we can read (same-origin) and collect their
                     // forms too.
                     //
@@ -542,7 +524,6 @@
                     // origin tier. This is the disambiguator for the
                     // post-module-settings case where both the outer
                     // wrapper AND the inner CreateAction use
-                    // 'callMountedAction' — task-2026-05-02-99f90c.
                     matched.sort((a, b) => {
                         if (a.isIframe !== b.isIframe) {
                             return a.isIframe ? -1 : 1;
@@ -582,12 +563,9 @@
 
     </div>
 
-
     <div wire:ignore>
 
-
         <div>
-
 
             <?php
 
@@ -607,40 +585,9 @@
             mw.quickSettings = {};
             mw.layoutQuickSettings = [];
 
-            /*
-             * Add Page/Post/Product/Category modal — make it
-             * draggable by its header so the user can move it out
-             * of the way to peek at the live-edit canvas
-             * underneath, mirroring v2's mw.dialog behaviour.
-             * task-2026-05-04-c124bc.
-             *
-             * v2's mw.dialog draggability is just a jQuery UI
-             * .draggable() call on its own header. We apply the
-             * same call directly to Filament's `.fi-modal-window`
-             * carrying our `mw-content-form-modal` class, with
-             * `.fi-modal-header` as the handle. Doing it this way
-             * (instead of porting the whole modal pipeline to
-             * mw.dialog) keeps the Livewire form's wire:click /
-             * wire:model bindings untouched — the DOM stays where
-             * Filament put it, only its position changes.
-             *
-             * The MutationObserver catches modals that mount AFTER
-             * page load (the normal case — Filament inserts the
-             * modal node into the document body when an Action is
-             * mounted via wire:click).
-             */
             (function () {
                 function isContentFormModal(el) {
-                    /*
-                     * task-2026-05-05-978bdf — extend the drag
-                     * support to the Module Settings modal too. Same
-                     * Filament .fi-modal-window node, just carrying a
-                     * different class for the live-edit Module
-                     * Settings center-modal flow. The drag pipeline
-                     * is structure-only (header drag handle, viewport
-                     * pin, escape-on-close reset) — both modals
-                     * benefit from it without any per-modal logic.
-                     */
+
                     return el instanceof HTMLElement
                         && el.classList.contains('fi-modal-window')
                         && (el.classList.contains('mw-content-form-modal')
@@ -670,7 +617,6 @@
                     // so the next open starts at the CSS default.
                     // Falls back to watching the modal's display
                     // style if the data attribute isn't present.
-                    // task-2026-05-04-b7eee8.
                     var ctn = modal.parentElement;
                     if (!ctn) return;
                     var obs = new MutationObserver(function () {
@@ -748,7 +694,6 @@
 
                         // Keep enough of the header on-screen that
                         // the user can always grab it to drag back
-                        // (P0-2 from task-2026-05-04-1e4af3 —
                         // previous bounds let the modal go almost
                         // entirely off-screen left and there was no
                         // recovery path). Reserve a minimum
@@ -807,7 +752,6 @@
                             // probes that only exist in the Add
                             // Page/Post/Product/Category form). Skip
                             // them on the Module Settings modal —
-                            // task-2026-05-05-978bdf only needs the
                             // drag behaviour.
                             if (m.classList.contains('mw-content-form-modal')) {
                                 attachOpenInAdminTitleSync(m);
@@ -817,18 +761,6 @@
                     }
                 }
 
-                /*
-                 * task-2026-05-04-novice — FORGIVENESS guard for the
-                 * Cancel + X buttons in the live-edit Add Content
-                 * modal. Brenda the novice user was observed typing a
-                 * title + body, then clicking Cancel and silently
-                 * losing 5 minutes of work — Filament's default modal
-                 * Cancel just closes the dialog. Intercept the click
-                 * once: if the title input or rich-text body has any
-                 * content, ask "Discard this draft?" before letting
-                 * the close go through. Pure DOM-level guard, no
-                 * Filament API change required.
-                 */
                 function attachCancelGuard(modal) {
                     if (modal.dataset.mwCancelGuardWired === '1') return;
                     modal.dataset.mwCancelGuardWired = '1';
@@ -894,22 +826,6 @@
                     }
                 }
 
-                /*
-                 * task-2026-05-04-1e4af3 (P1-3): keep the
-                 * Open-in-admin button's href in sync with the
-                 * title that's been typed in the live-edit
-                 * compact modal. The button is a static <a> with
-                 * the URL set server-side at modal render —
-                 * before any title is typed. So when the user
-                 * clicks "Open in admin" mid-typing, the admin
-                 * Create page used to load with no title. Append
-                 * `&title=<typed>` on every input event so the
-                 * admin Create page can read it from the query
-                 * string (the existing /admin/contents/create
-                 * route accepts standard query-string defaults
-                 * via Filament's default-fill behaviour for
-                 * fields with a matching name).
-                 */
                 function attachOpenInAdminTitleSync(modal) {
                     if (modal.dataset.mwOpenInAdminWired === '1') return;
                     modal.dataset.mwOpenInAdminWired = '1';
@@ -920,26 +836,7 @@
                     function findTitle() {
                         return modal.querySelector('input.mw-fb-title-input, input[id$=".title"]');
                     }
-                    /*
-                     * NOVICE #12 (task-2026-05-13-899d57) — extended the
-                     * Open-in-admin URL sync to ALSO carry the user's
-                     * typed body and excerpt, not just the title. The
-                     * persona reported: "I clicked 'Show all options'
-                     * because I wanted to add tags. A new tab opened,
-                     * the original modal closed, and the title I'd typed
-                     * was gone — I had to start over." Title was already
-                     * carried (task-2026-05-04-1e4af3); body + excerpt
-                     * were not. Now ALL three fields persist.
-                     *
-                     * Caps: title 256 chars, body 6 KB, excerpt 2 KB.
-                     * URL practical limits start at ~8 KB across major
-                     * browsers + servers, so we cap each field below
-                     * its share. If the user has a longer body than
-                     * the cap, we still carry the truncated prefix —
-                     * the rest of the body is lost but the user lands
-                     * on the admin form with a meaningful head-start,
-                     * which is strictly better than losing everything.
-                     */
+
                     function findBody() {
                         return modal.querySelector('.fi-fo-rich-editor [contenteditable="true"], .ProseMirror[contenteditable="true"], .tiptap[contenteditable="true"]');
                     }
@@ -1044,7 +941,6 @@
 
             <?php
 
-
             ?>
         </script>
 
@@ -1073,25 +969,12 @@
                 color: white;
             }
 
-
             #mw-live-edit-gui-editor-box {
                 width: var(--sidebar-end-size);
                 min-width: var(--sidebar-end-size-min);
                 max-width: var(--sidebar-end-size-max);
             }
 
-            /*
-             * mw.notification (used by SaveButton.vue → mw.notification.success
-             * "Page saved successfully") renders into top.document.body via
-             * the bundled `components/notification.js` template, which uses
-             * Bootstrap-5 `text-bg-${type}` classes on the inner div for
-             * colour. The admin chrome does NOT load Bootstrap CSS in the
-             * top frame, so without an explicit fallback the notification
-             * had NO background and the page content (e.g. the Edit Posts
-             * iframe table) bled through — task-2026-05-02-003a6b. The
-             * fallbacks below match notification.less's palette so the pill
-             * stays readable everywhere admin chrome lives.
-             */
             .mw-notification {
                 background-color: #343a40;
                 color: #ffffff;
@@ -1124,76 +1007,10 @@
                 border-radius: inherit;
             }
 
-            /*
-             * `.mw-content-form-modal` is applied via
-             * extraModalWindowAttributes on the Add Page/Post/Product/
-             * Category modal (AdminLiveEditPage::generateAction) and
-             * the per-module CreateAction/EditAction. Two scoped
-             * overrides: (1) restore the modal backdrop tint that
-             * `microweber-filament-theme/.../general-styles.css`
-             * globally forces to bg-transparent (fine for slide-overs,
-             * catastrophic for centered content forms — the user
-             * couldn't tell where the modal ended), (2) make the
-             * footer position: sticky so Save/Cancel stay visible on
-             * long forms — Filament's `stickyModalFooter()` only adds
-             * a marker class, the project's compiled Filament CSS
-             * doesn't ship a rule for it. task-2026-05-02-df09aa.
-             */
             .fi-modal:has(> .fi-modal-window-ctn .mw-content-form-modal) > .fi-modal-close-overlay {
                 background-color: rgba(0, 0, 0, 0.55) !important;
             }
 
-            /*
-             * Cap the modal at viewport height and make the body
-             * scroll internally — the Add Post form is ~1640px tall
-             * (rich-text editor + media picker + parent-page tree +
-             * custom fields + SEO + advanced) and used to grow past
-             * the viewport, hiding the footer entirely AND letting
-             * late sections (Media → Add images) bleed visually
-             * behind the sticky footer (task-2026-05-04-b7eee8
-             * reproduction). Switch the modal-window to a flex
-             * column with header/footer fixed-size and the content
-             * as the lone flex-grow scroll region. After this, the
-             * footer (Save/Cancel) is always visible at the bottom
-             * and `overflow-y: auto` on .fi-modal-content lets the
-             * user scroll through the form.
-             *
-             * Pin the modal-window to viewport-fixed coordinates so
-             * the layout is deterministic regardless of Filament's
-             * modal-window-ctn flex positioning (which carries
-             * `fi-align-start` and pads the modal ~226px from the
-             * top of the live-edit toolbar — a position that left
-             * a tall form's footer below the fold). 24px from top,
-             * 50% horizontal centring via translateX, max-height
-             * = full viewport minus the 48px breathing room.
-             *
-             * The drag handler (task-2026-05-04-c124bc) already
-             * sets position: fixed + explicit left/top/margin on
-             * mousedown, which overrides these defaults — so users
-             * can still drag the modal anywhere they like.
-             */
-            /*
-             * Filament's base rule
-             * `.fi-modal:not(.fi-width-screen) .fi-modal-window:not(.fi-modal-slide-over-window)`
-             * has specificity (0,4,0). Match it with a (0,4,0)
-             * selector of our own — same specificity, later in
-             * cascade, wins. This avoids `!important` so the drag
-             * handler's inline style.left/top still take effect
-             * (task-2026-05-04-c124bc).
-             */
-            /*
-             * The live-edit toolbar sits at the top of the
-             * viewport at `position: relative; z-index: 999`
-             * (frontend-assets `ui/css/index.css`). The modal
-             * pinned to `top: 1.5rem` rendered its heading
-             * directly behind the 60px toolbar visually
-             * (heading center at y=52, toolbar bottom = 60),
-             * which not only hid the title but also intercepted
-             * mousedown on the drag handle. Push the modal
-             * below the toolbar height instead so the heading
-             * + drag handle are always reachable.
-             * task-2026-05-04-f575c7.
-             */
             .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal {
                 position: fixed;
                 top: calc(var(--toolbar-height, 60px) + 0.75rem);
@@ -1205,13 +1022,6 @@
                 flex-direction: column;
             }
 
-            /*
-             * task-2026-09-22 — vertically centre the modal close (×) button
-             * with the heading. The 44px touch-target close is absolutely
-             * positioned at top:16px, so on the short compact header its centre
-             * lands ~16px BELOW the heading text ("out of place"). Anchor it to
-             * the header centre instead.
-             */
             .mw-content-form-modal .fi-modal-header {
                 position: relative;
             }
@@ -1220,14 +1030,6 @@
                 transform: translateY(-50%);
             }
 
-            /*
-             * UX-engineer audit (task-2026-05-05-02f93f):
-             * validation failure on the compact "what's the title?"
-             * surface was too easy to miss, which made failed save feel
-             * like "nothing happened". When the title input becomes
-             * invalid, give the whole field wrapper a tinted callout and
-             * restore a real error border/ring on the giant title input.
-             */
             .mw-content-form-modal .fi-fo-field:has(.fi-input-wrp.fi-invalid .mw-fb-title-input) {
                 background: rgba(220, 38, 38, 0.06);
                 border: 1px solid rgba(220, 38, 38, 0.26);
@@ -1257,28 +1059,9 @@
                 margin-top: 0.625rem;
             }
 
-            /*
-             * Mobile-friendly: at narrow viewports the
-             * .fi-width-5xl class would set a 1024px max-width
-             * that overflows the screen. Below 768px take over
-             * width and pin to viewport edges (16px gutter on
-             * each side, 12px from top/bottom). The right
-             * sidebar columns inside the form already collapse
-             * to 1 column at narrow widths via Filament's grid
-             * because the compact form uses
-             * `.columns(1)->columnSpanFull()` already.
-             * task-2026-05-04-76275d.
-             */
             @media (max-width: 767px) {
                 .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal {
-                    /* Mobile-designer audit P1 — at 390px the
-                       live-edit toolbar wraps to 2 rows
-                       (~93-104px), so the original 60px offset
-                       puts the modal under the wrapped SAVE
-                       chip. Bump to 104px below 480px viewports
-                       to clear both single-row (60px) and
-                       wrapped (~93px) toolbar states.
-                       task-2026-05-04-0c2964. */
+
                     top: calc(var(--toolbar-height, 104px) + 0.5rem);
                     left: 0.75rem;
                     right: 0.75rem;
@@ -1295,19 +1078,6 @@
                     padding-inline: 1rem;
                 }
 
-                /*
-                 * Mobile-designer audit fixes
-                 * (task-2026-05-04-0c2964).
-                 *
-                 * P0-1: Half-width inputs. Filament's nested
-                 * field wrappers (.fi-section > .fi-section-content
-                 * > .fi-fo-field > .fi-fo-field-content-col >
-                 * .fi-input-wrp) each stack their own grid +
-                 * padding which collapsed Title/body/Excerpt
-                 * to ~189px on a 366px-wide modal. Force every
-                 * level to `min-width: 0` and a single-column
-                 * grid so the input fills the section.
-                 */
                 .mw-content-form-modal .fi-section,
                 .mw-content-form-modal .fi-section-content,
                 .mw-content-form-modal .fi-fo-field,
@@ -1434,23 +1204,6 @@
                 border-top-color: var(--gray-700, #374151);
             }
 
-            /*
-             * Dark-mode polish + further compaction
-             * (task-2026-05-04-e0fe54). The user's screenshot
-             * showed the dark modal with muddy contrast: section
-             * cards blended into the body, the header lost its
-             * separator, and overall padding still felt heavy
-             * after the schema was already trimmed.
-             *
-             * - Header gets a clear bottom border + tighter pad.
-             * - Section cards in dark mode pick up a slightly
-             *   lighter background so they read as cards on the
-             *   dark body, plus an accent border for separation.
-             * - Section padding tightened so each card takes
-             *   less vertical space (lean modal feel).
-             * - Remove the heavy outer rounded shadow pop on
-             *   the rich-text toolbar in dark mode.
-             */
             .mw-content-form-modal > .fi-modal-header {
                 padding-block: 0.875rem;
                 border-bottom: 1px solid var(--gray-200, #e5e7eb);
@@ -1484,16 +1237,6 @@
                 gap: 0.375rem;
             }
 
-            /*
-             * Facebook-style writing surface
-             * (task-2026-05-04-bfe418). The Title section drops
-             * its card border so the input reads as a writing
-             * area rather than a form input. The Title <input>
-             * itself uses a larger typography and a borderless
-             * focus state — the modal heading "Create post" +
-             * the placeholder text "What's on your mind?" do
-             * the labelling work that a field label used to do.
-             */
             .mw-content-form-modal .mw-fb-title-section {
                 border: none;
                 background: transparent;
@@ -1562,14 +1305,6 @@
                 display: none;
             }
 
-            /*
-             * "More options" accordion polish — when expanded,
-             * the inner sections used to ship their own card
-             * borders + heavy padding, stacking 3 levels of
-             * chrome. Strip the inner section borders and
-             * tighten paddings so the expanded accordion looks
-             * intentional, not nested. task-2026-05-04-1f20d2.
-             */
             .mw-content-form-modal .mw-fb-more-options {
                 padding: 0.625rem 0.875rem;
             }
@@ -1636,12 +1371,6 @@
                 color: var(--gray-300, #d1d5db);
             }
 
-            /*
-             * Tighten the upfront stack so the modal stays under
-             * ~480px tall without scrolling — keeps the SAVE
-             * button reachable on smaller viewports.
-             * task-2026-05-04-2cd250.
-             */
             .mw-content-form-modal > .fi-modal-content {
                 padding: 0.875rem 1rem 0.5rem;
             }
@@ -1658,18 +1387,6 @@
                 min-height: 2.5rem;
             }
 
-            /*
-             * task-2026-05-05-899bf8: cap the UPFRONT RichEditor body
-             * (post + product upfront body, page upfront page-content
-             * editor) at ~7rem ProseMirror so Title + Media + Body +
-             * Excerpt fits under ~480px tall on a 1280×800 viewport
-             * without internal scrolling. The `.mw-fb-more-options`
-             * version above already caps to 6rem — this is the same
-             * idea applied to the upfront slot. Users who need more
-             * room click "Show all options" to reach the full admin
-             * form. The `:not(.mw-fb-more-options ...)` guard keeps
-             * the More-options block at 6rem (it has its own rule).
-             */
             .mw-content-form-modal .fi-fo-rich-editor:not(.mw-fb-more-options *) .ProseMirror {
                 min-height: 5rem;
                 max-height: 9rem;
@@ -1704,19 +1421,6 @@
                 max-height: 5rem;
             }
 
-            /*
-             * Make the Add Page/Post/Product/Category modal draggable
-             * by its header — same UX Microweber v2's `mw.dialog`
-             * shipped (the v2 helper just called jQuery UI
-             * `.draggable()` under the hood; we apply the same
-             * behaviour directly to Filament's modal so the form's
-             * Livewire wiring stays intact instead of porting the
-             * whole modal pipeline). The cursor cue tells the user
-             * "this header is grabbable"; `user-select: none` stops
-             * the drag from selecting the heading text mid-drag;
-             * `.ui-draggable-dragging` is the class jQuery UI adds
-             * while a drag is in flight. task-2026-05-04-c124bc.
-             */
             .mw-content-form-modal .fi-modal-header,
             .mw-module-settings-live-edit-modal .fi-modal-header {
                 cursor: move;
@@ -1733,15 +1437,6 @@
                 box-shadow: 0 22px 50px -12px rgba(0, 0, 0, 0.45);
             }
 
-            /*
-             * `.mw-content-picker-modal` is the +ADD "what do you
-             * want to add?" dialog. Cards are stacked 1-per-row by
-             * default which feels overwhelming and makes the modal
-             * scroll. Grid them 2x2 on viewports wide enough so the
-             * four content types are visible at-a-glance — friendlier
-             * "Pinterest-style" picker, fewer eye movements before
-             * the user picks. task-2026-05-02-4c1606.
-             */
             .mw-content-picker-modal .mw-add-content-modal-action-wrapper {
                 display: flex;
             }
@@ -1757,18 +1452,6 @@
                 }
             }
 
-            /*
-             * `.mw-dialog` Select-image polish
-             * (task-2026-05-04-6bd361). Customer-persona audit
-             * showed the modal's X close was nearly invisible
-             * (opacity .3 over white), the OK button looked
-             * broken when disabled, the Cancel was a naked text
-             * link, the modal had no header divider, and dark
-             * mode wasn't handled at all. Scoped via
-             * `:has(.mw-filepicker-footer)` so non-media-browser
-             * dialogs (confirm modals, video skin, module
-             * settings) are untouched.
-             */
             .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) {
                 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45),
                             0 0 0 1px rgba(0, 0, 0, 0.08);
@@ -1866,12 +1549,6 @@
                 box-shadow: none !important;
             }
 
-            /*
-             * Drunk-designer audit fixes (task-2026-05-04-a8d5bb).
-             * Unified design tokens scoped to the live-edit Add
-             * Content modal + picker — consistent radius/shadow/
-             * heading/focus across the surface.
-             */
             :root {
                 --mw-radius-md: 8px;
                 --mw-radius-lg: 12px;
@@ -1879,7 +1556,7 @@
                                    0 0 0 1px rgba(0, 0, 0, 0.04);
                 --mw-accent-ring: #182433;
             }
-            /* task-2026-09-14-ink-sweep — near-white ring on dark. */
+
             html.dark, .dark { --mw-accent-ring: #f9fafb; }
 
             /* #2 Modal heading collapse — promote the title to a
@@ -1939,19 +1616,6 @@
                 box-shadow: none;
             }
 
-            /* task-2026-09-10 — Add-content picker BLEED fix.
-               The modal WINDOW (and therefore its header row, its
-               footer, and the rounded top corners) was fully
-               transparent: only Filament's `.fi-modal-content`
-               carried a surface colour, so the "Add new content"
-               header and the corner radii let the live-edit canvas
-               bleed straight through the panel chrome. Give the whole
-               window an opaque surface that matches the content panel
-               (white in light, ink #1e2330 in dark — the same value
-               `.fi-modal-content` already computes) and clip inner
-               square corners to the window radius. Scoped to BOTH the
-               picker and the content-form window (same root cause,
-               same latent defect). */
             .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal,
             .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-picker-modal {
                 background-color: #ffffff;
@@ -1991,13 +1655,6 @@
                 box-shadow: none !important;
             }
 
-            /* task-2026-05-04-a11y — respect prefers-reduced-motion.
-               Picker cards + Filament modal animations + the section
-               transition-duration:150ms class can trigger vestibular
-               disorders. WCAG 2.3.3 Animation from Interactions.
-               We disable transitions/animations inside the live-edit
-               modal stack; users who opted out of motion will still
-               see hover state changes (instant) but no slide/fade. */
             @media (prefers-reduced-motion: reduce) {
                 .mw-content-picker-modal .mw-add-content-modal-action-wrapper,
                 .mw-content-picker-modal .mw-add-content-modal-action-wrapper *,
@@ -2012,27 +1669,6 @@
                 }
             }
 
-            /*
-             * UX-engineer audit (task-2026-05-04-39767a) —
-             * polish quick wins.
-             *
-             * P1-4: drop blanket `text-transform: uppercase
-             * !important` from `.fi-btn.fi-color-success`. The
-             * theme's `microweber-theme-v3.scss:799` shouts
-             * "SAVE" / "NEW POST" / "SAVE CHANGES" / "SELECT
-             * ALL" / "DELETE SELECTED" everywhere — visual
-             * rhythm in every footer is jarring. Override
-             * scoped to the live-edit modal stack so other
-             * Filament areas keep their existing uppercase
-             * convention until the SCSS source is rebuilt.
-             *
-             * P2-9: drop `text-transform: uppercase` from the
-             * compact-form section headings (`.fi-section-
-             * header-heading`). Friendly placeholder "What's
-             * the post about?" sat next to "WHERE TO PUT IT"
-             * — two voices on one screen. Keep the small
-             * weight + tracking but in title case.
-             */
             .mw-content-form-modal .fi-btn.fi-color-success,
             .mw-content-picker-modal .fi-btn.fi-color-success,
             .mw-module-settings-live-edit-modal .fi-btn.fi-color-success {
@@ -2044,16 +1680,6 @@
                 letter-spacing: -0.005em !important;
             }
 
-            /*
-             * task-2026-05-31 / AI-817 follow-up: sr-only label visibility.
-             * The .mw-fb-title-wrap class hides the label visually while
-             * keeping it readable by screen readers (WCAG 3.3.2 Level A).
-             * Mirrors the canonical rule in
-             * src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit-module-settings.blade.php
-             * but scoped to the live-edit iframe page where the
-             * addImageAction modal renders. ->hiddenLabel() removes the
-             * element from the accessibility tree entirely.
-             */
             .mw-fb-title-wrap > .fi-fo-field-lbl,
             .mw-fb-title-wrap > .fi-fo-field-lbl-ctn,
             .mw-fb-title-wrap label.fi-fo-field-lbl,
@@ -2070,18 +1696,6 @@
             }
         </style>
 
-
-        {{-- task-2026-05-17-49266a / AI-710 CHANGE — designer
-             verified the right-rail Vue button rename ("Element
-             styles") shipped clean but the rendered panel h3
-             STILL served "Element Style Editor" at runtime.
-             Root cause: this STATIC <h3> in iframe-page.blade.php
-             is not replaced by any Vue mount — the Vue
-             StyleEditor.vue's own <h3> renders inside its own
-             card component, not inside this container. The
-             previous AI-710 ship updated the Vue h3 source but
-             missed this Blade-side static h3. Renaming here so
-             both code paths read "Element styles". --}}
         <div id="mw-element-style-editor-app-container">
             <div class="d-flex align-items-center justify-content-between mb-3">
                 <h3 class="fs-2 font-weight-bold">Element styles</h3>
@@ -2095,15 +1709,12 @@
             </div>
             <div id="mw-element-style-editor-app">
 
-
             </div>
         </div>
-
 
         <div id="live-edit-frame-holder">
 
         </div>
-
 
         <div>
             <?php //print mw_admin_footer_scripts(); ?>
@@ -2118,7 +1729,6 @@
         </script>
 
         @php
-            // task-2026-06-13-letele2 — cache-bust the live-edit bundle. Vite emits a
             // FIXED filename (live-edit-app.js, no content hash) and asset() adds no
             // version query, so browsers cached the JS forever — users kept running a
             // stale bundle (e.g. pre-teleport modal = un-clickable layout picker) after
@@ -2134,7 +1744,6 @@
         <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
         <?php event_trigger('mw.live_edit.footer'); ?>
 
-
         @if(\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled())
             <script>
 
@@ -2143,25 +1752,19 @@
                     mw.lib.require('flag_icons');
                 });
 
-
             </script>
         @endif
 
-
     </div>
-
 
     <x-filament-actions::modals/>
 
     <script x-src="{{ asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.js') }}"
             defer></script>
 
-
     <script>
 
-
         window.addEventListener('load', function () {
-
 
             setInterval(function () {
                 if(mw.top().app && mw.top().app.canvas) {
@@ -2177,12 +1780,9 @@
                 }
             }, 300000); // check session every 5 minutes
 
-
         });
 
-
     </script>
-
 
     @if(request()->get('setup_wizard'))
 
@@ -2197,14 +1797,11 @@
                 $propmtParamsJson = json_encode($propmtParams);
             }
 
-
         @endphp
 
         <script>
 
-
             window.addEventListener('load', function () {
-
 
                 setTimeout(function () {
 
@@ -2216,10 +1813,8 @@
                     topSearch.delete('setup_wizard');
                     window.top.history.pushState(null, null, `?${topSearch.toString()}`);
 
-
                 }, 2000);
             });
-
 
         </script>
 

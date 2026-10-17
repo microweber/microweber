@@ -1,6 +1,5 @@
 <div class="text-left mw-shop-filter-tags">
-    {{-- AI-67 / TICKET-ZZ (cycle-74 2026-05-08): bare div → h3 so
-         AT users can jump to filter sections via heading nav. --}}
+
     <h3 class="mw-shop-filter-heading h6 mb-2">{{ __('Tags') }}</h3>
     <div x-data="{showMoreTags: false}">
         @php
@@ -20,7 +19,6 @@
         @foreach($limitedAvailableTags as $tagSlug=>$tagName)
             @include('modules.shop::livewire.shop.filters.tags.tag-button', ['tagSlug'=>$tagSlug, 'tagName'=>$tagName])
         @endforeach
-
 
         <div x-show="showMoreTags">
             @foreach($moreAvailableTags as $tagSlug=>$tagName)

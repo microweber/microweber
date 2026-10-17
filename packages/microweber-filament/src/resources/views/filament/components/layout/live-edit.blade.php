@@ -18,25 +18,11 @@
     });
 </script>
 
-{{-- task-2026-05-18-76a360 — Alpine.data() factory for the Add Content
-     modal MUST be registered at INITIAL page load, not inside the modal
-     Blade view. Filament/Livewire morph-inserts the modal HTML when the
-     +ADD action mounts, but embedded <script> tags from morph-inserted
-     HTML DO NOT EXECUTE in the browser — so the in-modal AI-790 script
-     never ran, the factory never registered, and `x-data="addContentModal"`
-     failed with "addContentModal is not defined" leaving cards invisible.
-
-     Fix: register the factory HERE in @push('scripts') so it rides the
-     initial admin-frame page render, then `Alpine.data('addContentModal',
-     factory)` is globally available by the time Filament mounts the
-     modal subtree. Dual-path init (eager + alpine:init) covers both
-     script-loaded-before-Alpine + script-loaded-after-Alpine cases. --}}
 <script>
     (function () {
         const factory = () => ({
             q: '',
 
-            // task-2026-05-16-de4ce4 / AI-694 — filter accepts BOTH
             // display:none (legacy x-show path) AND visibility:hidden
             // (the new no-reflow path).
             visibleCards() {
@@ -84,7 +70,6 @@
                 } else if (cards.length > 1) {
                     cards[0].focus();
                 } else if (this.q !== '') {
-                    // task-2026-05-16-de4ce4 / AI-694 — zero-match ENTER
                     // fallback: ENTER still activates the primary "Add a
                     // block" card so users never hit an ENTER dead-end.
                     const primary = this.$root.querySelector(
@@ -98,7 +83,6 @@
                 return this.visibleCards().length;
             },
 
-            // task-2026-05-16-968a71 / AI-692 / §A2-3: group-aware
             // visibility helper for the two-group layout.
             hasVisibleCardsInGroup(group) {
                 const cards = Array.from(
@@ -129,7 +113,6 @@
             window.__mwAddContentModalRegistered = true;
             window.Alpine.data('addContentModal', factory);
 
-            // task-2026-05-22-6eb365 / AI-752 — DOM-already-live guard.
             // Edge case: if the modal is already in the DOM when the factory
             // registers (e.g. on Livewire full-page component reload), Alpine
             // has already processed the element and found no factory, leaving
@@ -149,7 +132,6 @@
             document.addEventListener('alpine:init', register);
         }
 
-        // task-2026-05-22-6eb365 / AI-752 — Livewire navigation listener.
         // Livewire v4 `navigate` feature re-renders the admin frame without
         // a full page reload, resetting window.__mwAddContentModalRegistered
         // to undefined without re-executing the scripts-push block. Adding a
@@ -163,24 +145,7 @@
 </script>
 
  <style>
-    /* task-2026-05-16-02760c: Filament v5 ships Tailwind v4, which uses
-       the separate CSS `translate` property for its `-translate-x-full`
-       utility on the sidebar. The slide-in animation below drives
-       `transform`, so we must also reset `translate` to `none` —
-       otherwise `translate: -100% !important` stays applied and the
-       sidebar drawer renders off-screen at x=-280 even when `.active`
-       sets the identity transform. User-visible symptom before the fix:
-       clicking the live-edit toolbar hamburger added `.active` but no
-       menu content appeared (sidebar was rendering off-screen left). */
-    /* task-2026-09-05-adminrail — single-sidebar consolidation. The admin
-       nav drawer (aside.fi-sidebar) now slides in from the RIGHT instead of
-       the left, so Live Edit has one sidebar. It docks at right:56px — just
-       left of the right icon rail (.mw-live-edit-right-sidebar-template-
-       sidebar, width 56px) — so the rail's new "Admin" button stays visible
-       and clickable as the open/close toggle. (Filament's own close-overlay
-       only flips its Alpine store, not our .active class, so a visible
-       toggle is required to close the drawer.) The horizontal translate is
-       flipped to +100% so the hidden state parks it off the right edge. */
+
     .fi-sidebar{
         position: absolute  !important;
         top:0;
@@ -188,13 +153,7 @@
         right:56px !important;
         translate: none !important;
         transform: translateX(calc(100% + 56px)) !important;
-        /* task-2026-10-14-sidebarflash — NO transition on the hidden/parked
-           state. The old `transition: 0.4s` shorthand animated ALL properties,
-           so (a) on page load the browser animated the sidebar from its default
-           visible position to this parked one — a flash on every visit — and
-           (b) closing it slid the drawer back out to the right. The transition
-           now lives ONLY on `.active` below, so the drawer SLIDES IN on open but
-           parks INSTANTLY on load and on close (no flash, no slide-out). */
+
         transition: none !important;
         z-index: 101 !important;
     }
@@ -207,25 +166,11 @@
 
     }
 
-    /* task-2026-09-07-mobilescroll — the hidden admin drawer (position:absolute,
-       parked off the right edge via transform) escapes .fi-layout's
-       overflow-x-clip, so on narrow screens it extended the page width and the
-       whole live-edit page — plus any centered modal — scrolled sideways (the
-       modal then centered on the too-wide scroll area and drifted off-centre).
-       Clip horizontal overflow at the root; the on-screen .active slide-in is
-       unaffected. This <style> only loads on the live-edit page. */
     html, body {
         overflow-x: hidden !important;
         max-width: 100% !important;
     }
 
-    /* task-2026-05-26-da6eab: Filament modals inside the live-edit layout
-       suffer from a hit-testing issue — the iframe inside
-       #live-edit-frame-holder absorbs pointer events that should reach
-       position:fixed modal children. Primary fix: disable pointer events
-       on the frame holder while any Filament modal is open so clicks and
-       keyboard focus reach modal inputs natively. The JS below is a
-       fallback rerouter for any residual cases not covered by the CSS. */
     .mw-live-edit-page:has(.fi-modal.fi-modal-open) #live-edit-frame-holder {
         pointer-events: none !important;
     }
@@ -272,7 +217,6 @@
                 e.stopPropagation();
                 e.preventDefault();
                 best.click();
-                // task-2026-05-28: for typeable elements also call .focus()
                 // so keyboard events are routed to the element for typing.
                 // Synthetic .click() alone does not reliably focus inputs.
                 if (best.tagName === 'INPUT' || best.tagName === 'TEXTAREA' || best.tagName === 'SELECT') {
@@ -285,14 +229,7 @@
 @endpush
 <x-filament-panels::layout.base :livewire="$livewire">
     {{-- The sidebar is after the page content in the markup to fix issues with page content overlapping dropdown content from the sidebar. --}}
-    {{-- AI-116 / TICKET-CI (cycle-107 2026-05-09): scoping class.
-         Live-edit-specific CSS rules in
-         packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-classes.css
-         are scoped under `.mw-live-edit-page` so they don't leak to
-         non-live-edit Filament panels (Posts list, Settings, etc.).
-         The class is added here on the layout root so every page
-         rendered through `filament-panels::components.layout.live-edit`
-         picks it up automatically. --}}
+
     <div
         class="fi-layout mw-live-edit-page flex min-h-screen w-full flex-row-reverse overflow-x-clip"
     >
@@ -374,41 +311,7 @@
 
             @livewire(filament()->getSidebarLivewireComponent())
 
-        {{--
-          task-2026-05-16-505ed5 / AI-708 — STALE controlBox removed.
-
-          Previously this file created a SECOND controlBox titled
-          "Template Style Editor" via `new mw.controlBox({ title:
-          mw.lang('Template Style Editor'), id:
-          'mw-live-edit-templateSettings-editor-box', ... })`. It
-          duplicated the `template-settings-teleport-widget` controlBox
-          created in `packages/frontend-assets/resources/assets/api-core/
-          services/bootstrap.js`. The duplicate was unreachable —
-          nothing calls `.show()` on `mw.top().app.templateSettingsBox`
-          anywhere in the codebase — but its <h3 class="mw-control-box-
-          title"> still mounted simultaneously alongside the live
-          controlBox's <h3>, plus RightSidebar.vue's own <h3>. Three
-          near-duplicate headings in one viewport (designer DOM-probe
-          via Playwright, SOUL #110 audit).
-
-          What was removed:
-            - the <style> rule for #mw-live-edit-templateSettings-editor-box
-              (CSS-only — no other surface referenced this id)
-            - the dead <template>...</template> block (HTML <template>
-              tag is inert; never executed)
-            - the <script> block that created the controlBox and stored
-              it as `mw.top().app.templateSettingsBox`
-
-          The wrapper div `#live-edit-global-template-settings-component-
-          wrapper` is kept (still hidden) as a back-compat DOM hook in
-          case external admin code references the id. Its purpose was
-          to be moved INTO the (now-removed) controlBox; with that
-          controlBox gone, the wrapper sits empty + hidden = no visual
-          effect.
-        --}}
         <div id="live-edit-global-template-settings-component-wrapper" style="display:none;"></div>
-
-
 
             <script>
                 document.addEventListener('DOMContentLoaded', () => {

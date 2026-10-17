@@ -115,7 +115,6 @@
                         min: 0,
                         max: yMax,
                         splitNumber: allZero ? 2 : undefined,
-                        // task-2026-05-16-6ba113: hide Y-axis horizontal
                         // gridlines (splitLine). They previously rendered
                         // at #e0e0e0/#f0f0f0 light gray which was too
                         // bright against the dark dashboard background.
@@ -200,12 +199,6 @@
             <x-filament::loading-indicator class="h-6 w-6" />
         </div>
 
-        {{-- Footer: visitors + bounce rate | Show More
-             AI-1040 / task-2026-05-22-3906fc — added visible text labels next to each
-             icon+number so the stats read as "20 visitors · 95% bounce rate" rather
-             than bare numbers that require tooltip discovery.
-             AI-1037 / task-2026-05-22-f9ebf9 — "View more" link updated from the old
-             /admin/site-stats slug to /admin/site-statistics (slug renamed to match label). --}}
         <div class="mw-stats-card-footer">
             <div class="mw-stats-card-footer-left">
                 <div class="mw-stats-card-footer-stat">

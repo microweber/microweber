@@ -3,15 +3,6 @@
         {{ $this->table }}
     </div>
 
-    {{-- task-2026-10-02-licensehdr — the licenses table renders a nested gray
-         header band + bordered card INSIDE a modal that already has its own
-         "Licenses" title, so the header read as a boxy card-in-a-card with a
-         heavy divider. Flatten it: drop the inner card chrome and the gray tint
-         so the heading/description + Refresh/Add actions sit as one clean header
-         row on white, with a single subtle divider before the list. Wrapped in
-         @assets (injected once into head, deduped) because a bare <style> as a
-         second root would break Livewire's single-root rule; unlayered so it
-         beats Filament's layered table utilities. --}}
     @assets
     <style>
         /* body.fi-panel-admin prefix so these out-specify the theme's own

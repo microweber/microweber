@@ -52,11 +52,7 @@ $prev = prev_content(content_id());
                                                     class="mdi mdi-arrow-left"></i></a>
                                             <div id="prev-tip" style="display: none">
                                                 <div class="next-previous-tip-content text-center">
-                                                    {{-- AI-88 / BIG2-B (cycle-98 2026-05-09):
-                                                         was alt="" — empty alt on a meaningful
-                                                         thumbnail blocks SR users from knowing
-                                                         which product they're navigating to.
-                                                         Title-as-alt + lazy/decoding hints. --}}
+
                                                     <img src="{{ get_picture($prev['id']) }}" alt="{{ $prev['title'] ?? '' }}"
                                                          loading="lazy" decoding="async"
                                                          width="90"/>
@@ -72,7 +68,7 @@ $prev = prev_content(content_id());
 
                                             <div id="next-tip" style="display: none">
                                                 <div class="next-previous-tip-content text-center">
-                                                    {{-- AI-88 / BIG2-B (cycle-98): same as prev. --}}
+
                                                     <img src="{{ get_picture($next['id']) }}" alt="{{ $next['title'] ?? '' }}"
                                                          loading="lazy" decoding="async"
                                                          width="90"/>
@@ -100,13 +96,7 @@ $prev = prev_content(content_id());
                                             </div>
 
                                             <div class="availability col-6 text-end text-right align-self-center">
-                                                {{-- AI-93 / BIG2-F (cycle-98 2026-05-09): the
-                                                     `<i class="fa fa-circle">` is decorative
-                                                     (the colour conveys In/Out stock; the text
-                                                     "In Stock" / "Out of Stock" is the
-                                                     informational content). aria-hidden="true"
-                                                     keeps SR from announcing "circle" before
-                                                     the meaningful text. --}}
+
                                                 @if($in_stock == true)
                                                 <span class="text-success"><i class="fa fa-circle" aria-hidden="true"
                                                                               style="font-size: 8px;"></i> @lang("In Stock")</span>

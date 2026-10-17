@@ -21,7 +21,6 @@
                 <div class="w-24 text-right">
                     <p class="text-sm  p-2">{{ format_currency($item['price']) }} </p>
 
-
                 </div>
 
                 <div class="w-24">
@@ -82,27 +81,9 @@
         @endif
 
     @else
-        {{-- task-2026-05-17-0e6cfa / AI-796 Slice C — empty-state copy
-             pass + Slice B single-CTA shape. Replaces the prior
-             "You have no items in your cart." line + dark-indigo
-             Filament button (Filament's <x-filament::button> isn't
-             reliably loaded on every public template; Big2 re-skinned
-             it salmon orange). New shape: heading + body + ONE CTA
-             — matches the project-wide empty-state ONE-CTA rule
-             (AI-759 cross-surface pattern, 4th instance: Live-edit
-             Create, Orders, Comments, /cart). Bare <a> styled by
-             the parent .mw-cart-standalone-page CSS at brand-blue
-             #0d6efd (matches .mw-table-empty-cta in
-             microweber-filament-theme.css). --}}
+
         <div class="mw-cart-empty">
-            {{-- task-2026-05-17-7c3881 / AI-851 [P3] — empty-cart-no-checkout
-                 notice banner. Read by the bare /checkout middleware
-                 (RedirectEmptyCheckoutToCart) when a user types /checkout
-                 directly with an empty cart, AND by CheckoutPage::mount()
-                 when a user reaches /checkout/checkout via bookmarks. Both
-                 paths now land on /cart?notice=empty-cart-no-checkout. The
-                 banner explains why the URL bounced. Unknown notice values
-                 are silently ignored. --}}
+
             @if (request()->query('notice') === 'empty-cart-no-checkout')
                 <div class="mw-cart-empty__notice" role="status" aria-live="polite" style="padding: 12px 16px; margin-bottom: 16px; background: #fffbea; border: 1px solid #fde68a; border-radius: 8px; color: #78350f; font-size: 14px;">
                     {{ _e('You tried to check out but your cart is empty — add a product first.', true) }}

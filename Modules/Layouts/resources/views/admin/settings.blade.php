@@ -1,11 +1,5 @@
 <div>
-    {{-- task-2026-09-29-layoutmods — this settings view is injected into the
-         Live Edit mw-dialog via a Livewire morph, and morphdom does NOT execute
-         injected <script src> tags — so window.layoutSettings was left undefined,
-         the x-data factory threw, and the whole tab (background UI + the
-         "This layout contains these modules" list) rendered empty. Wrap the
-         factory script in Livewire's @assets so it loads once at page level and
-         actually runs (same fix as mw-file-upload.blade.php). --}}
+
     @assets
     <script src="{{ asset('modules/layouts/js/layouts-module-settings.js') }}"></script>
     @endassets
@@ -135,10 +129,7 @@
                 </style>
 
                 <div>
-                    {{-- task-2026-05-31-bg811 / AI-1198 — Background tab buttons rendered as <span> with x-on:click
-                         but no role, tabindex, or keyboard handlers (WCAG 4.1.2 Level A). AI-811-family reprise:
-                         convert to real <button type="button" role="tab"> with aria-selected so screen readers
-                         announce the role + state and the keyboard reaches them via natural Tab order. --}}
+
                     <div role="tablist" aria-label="Background source"
                          class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper">
                         <button type="button" role="tab" x-show="supports.includes('image')" x-on:click="activeTab = 'image'"
@@ -166,9 +157,7 @@
                     <div x-show="supports.includes('image') && activeTab === 'image'" class="bg-tab">
                         <div id="bg--image-picker"></div>
                         <br>
-                        {{-- task-2026-05-31-bg811 / AI-1198 — "Image size" was a bare <label> with no `for`
-                             paired with an unannotated radio container. Bind via id+aria-labelledby so AT
-                             announces "Image size, radio group" (WCAG 1.3.1 Level A). --}}
+
                         <div class="change-layout-background-wrapper">
                             <label id="bg-image-size-label" class="live-edit-label">Image size</label>
                             <div role="radiogroup" aria-labelledby="bg-image-size-label"
@@ -231,10 +220,6 @@
             </div>
             <div @if(isset($showOnlyBackgroundSettings) && $showOnlyBackgroundSettings) x-show="false" @endif>
 
-                {{-- task-2026-05-31-bg811 / AI-1198 — heading was rendered as <label> with no `for` —
-                     binds to no control, so screen readers reported "no associated form field".
-                     Convert to <div role="heading" aria-level="3"> so AT announces it as a section
-                     heading and not a misbound label (WCAG 1.3.1 Level A). --}}
                 <div class="current-template-modules-list-wrap mt-4" x-show="modulesList.length > 0">
                     <div role="heading" aria-level="3" class="current-template-modules-list-label live-edit-label mb-2">This layout contains these modules</div>
                     <div class="current-template-modules-list d-flex flex-wrap gap-2 ms-2">

@@ -21,13 +21,11 @@ $menu_filter['a_class'] = 'nav-link px-3';
 $menu_filter['li_submenu_class'] = 'dropdown nav-item';
 $menu_filter['li_submenu_a_class'] = 'nav-link px-3 dropdown-toggle';
 
-
 $menu_filter['link'] = '<a itemprop="url" data-item-id="{id}" class="menu_element_link nav-link {active_class} {exteded_classes} {nest_level} {a_class}" {target_attribute} href="{url}"><span>{title}</span></a>';
 $menu_filter['li_submenu_a_link'] = '<a itemprop="url" data-item-id="{id}" {target_attribute} href="{url}"  class="menu_element_link nav-link {active_class} {exteded_classes} {nest_level} {li_submenu_a_class}" ><span class="name">{title}</span> <span class="caret"></span></a>';
 
 $mt = menu_tree($menu_filter);
 
-// task-2026-05-22-f4a791 / AI-791 Slice D — deduplicate top-level menu items by href.
 // Defect: when the installer runs multiple times (or demo seeds are applied on top of
 // an existing install), the same page URL appears twice in the header_menu DB rows.
 // Fix: use DOMDocument to remove duplicate top-level <li> entries; nested submenus
@@ -70,27 +68,6 @@ if ($mt && is_string($mt)) {
 }
 @endphp
 
-{{-- task-2026-05-17-4f4f83 / AI-852 + task-2026-05-17-bdba1a / AI-853 bundled.
-     Three defects closed in one shape:
-     (1) skin support style+script moved INSIDE the truthy branch so empty-
-         menu renders ship zero descendant CSS/JS bytes (textContent-leak
-         family, Round 17 deeper-Menu audit -- ~600 wasted bytes per
-         empty-menu render).
-     (2) empty-state migrates from semantic-mismatched mw-notification
-         mw-success ("success" on a "nothing yet" state -- AI-816 family)
-         to the canonical .mw-canvas-empty-state chrome shared with
-         Pictures/Page/Content/Posts per AI-780a/AI-808/AI-815 lineage.
-     (3) raw slug $menu_name (e.g. "header_menu") no longer leaks --
-         replaced with action-focused copy + a real <a href> CTA to
-         settings/menus. The new .mw-canvas-empty-state__cta IS the
-         click-affordance AI-853 needed; native href navigation replaces
-         the broken mw-open-module-settings JS handler -- no JS binding
-         needed. is_admin() gate keeps the empty-state admin-only so
-         anonymous visitors never see editor copy.
-     Supersedes task-2026-05-17-d00884 / AI-809 lnotif-with-
-     e($menu_name) shape by removing the $menu_name interpolation
-     entirely (stronger guarantee than the e()-wrap fix; nothing to
-     escape if nothing is interpolated). --}}
 @if ($mt != false)
     {!! $mt !!}
 
@@ -130,7 +107,6 @@ if ($mt && is_string($mt)) {
 
                 });
             })
-
 
         });
     </script>

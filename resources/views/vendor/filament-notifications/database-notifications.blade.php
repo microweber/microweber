@@ -1,36 +1,4 @@
-{{--
-  task-2026-05-17-551f7e / AI-774 — admin notifications drawer.
-  Jira: https://microweber.atlassian.net/browse/AI-774
 
-  Override of vendor/filament/notifications/resources/views/
-  database-notifications.blade.php. Designer's Round-9 audit flagged
-  three defects on the empty state:
-
-  1. No persistent header title — vendor swaps alignment to Center
-     and DROPS the header slot entirely when $hasNotifications is
-     false. User loses the drawer's "Notifications" chrome label.
-  2. ~50%-viewport-wide empty state — centered alignment + width=md
-     reads as a floating sheet rather than the slide-over drawer the
-     filled state uses. Inconsistent chrome.
-  3. Passive copy "Please check again later." — handled separately
-     by the translation override at
-     resources/lang/vendor/filament-notifications/en/database.php
-     (replaces with "All caught up" + action-aware description).
-
-  Fix shape:
-   - Always pass slide-over (no Alignment::Center swap on empty state).
-   - Always render the header slot with the "Notifications" title +
-     unread-count badge (renders an empty badge gracefully).
-   - Empty-state body shows the bell-slash icon + heading + description
-     centered inside the SAME slide-over chrome, NOT in a swapped
-     centered modal.
-   - Mark-all-as-read + Clear actions hidden when empty (no notifications
-     to act on — preserves the vendor behaviour).
-
-  Other vendor mechanics — close-button, sticky-header, modal teleport,
-  wire:poll, broadcast channel listener, pagination footer — all
-  preserved byte-equivalent.
---}}
 @php
     use Filament\Support\View\Components\BadgeComponent;
     use Illuminate\View\ComponentAttributeBag;
@@ -63,7 +31,6 @@
             </x-slot>
         @endif
 
-        {{-- AI-774: header slot is ALWAYS rendered (regardless of $hasNotifications). --}}
         <x-slot name="header">
             <div>
                 <h2 class="fi-modal-heading">
@@ -134,10 +101,7 @@
                 </x-slot>
             @endif
         @else
-            {{-- AI-774: empty-state body inside the slide-over chrome.
-                 Icon + heading + description from the translation override
-                 ("All caught up" / "You'll see new comments, orders, and
-                 messages here when they arrive."). --}}
+
             <div class="mw-no-database-empty">
                 <x-filament::icon
                     :icon="\Filament\Support\Icons\Heroicon::OutlinedBellSlash"

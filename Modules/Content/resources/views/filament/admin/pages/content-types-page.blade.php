@@ -1,16 +1,7 @@
-{{--
-    task-2026-05-16-299f78 / AI-732 Phase 1 — Content Types
-    listing page. Read-only aggregate of distinct content_type
-    values with row counts. CTA + create-form deferred to Phase 2
-    (AI-732-followup).
---}}
+
 <x-filament-panels::page>
     @if (empty($contentTypes))
-        {{-- Empty state — no content rows at all, or all soft-deleted.
-             Designer dispatch says "empty state" was Phase 1 AC.
-             Matches the AI-728/AI-729 empty-state shape (heading +
-             explainer + permanent guidance). No CTA per Phase 1
-             scope — Phase 2 adds the "+ Add content type" CTA. --}}
+
         <div class="mw-admin-empty-state-content-types text-center py-12">
             <h2 class="mw-admin-empty-state-heading text-center mt-4" style="font-weight: 600;">
                 No content types yet
@@ -42,7 +33,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{-- task-2026-05-23-d1aa85 / AI-1045: internal ticket reference removed from production UI. --}}
+
             </div>
         </div>
     @endif

@@ -1,16 +1,4 @@
-{{--
-    Global image uploader (single). Redesigned to the 6-state spec:
-      1 EMPTY · 2 DRAGGING OVER · 3 UPLOADING · 4 FILLED · 5 ERROR · 6 COMPACT.
 
-    Real HTML5 drag-and-drop + inline upload to api/media/upload (base64 path, so
-    SVG/WEBP are accepted) with a live XHR progress bar + Cancel, typed validation
-    errors, and a "Media library" button that opens the MW file picker. State is a
-    single URL string entangled with Livewire (unchanged shape — every consumer,
-    Logo/Image/Favicon, keeps working).
-
-    Accessibility (carries the AI-1203 fixes): every icon-only control has an
-    aria-label + title; decorative SVGs are aria-hidden + focusable=false.
---}}
 @php
     $id = $getId();
     $statePath = $getStatePath();

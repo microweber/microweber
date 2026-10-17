@@ -64,18 +64,7 @@ if (!$past_page) {
                 if (user_can_access('module.content.edit')):
                     ?>
                 <li class="mx-1">
-                    {{--
-                        TASK-020 / TICKET-S / AI-38 (cycle-60 2026-05-08):
-                        On md-down viewports the visible label is hidden
-                        (`d-none d-md-block`), turning this into an
-                        icon-only dropdown trigger. Without an aria-label
-                        the icon `<i class="mdi mdi-plus">` carries no
-                        accessible name and screen readers announce only
-                        "button". `aria-haspopup="listbox"` matches the
-                        Bootstrap dropdown-menu shape (a list of choices,
-                        not a modal-dialog), and `aria-expanded="false"`
-                        is retained so AT layers track open/closed state.
-                    --}}
+
                     <button type="button" class="btn btn-outline-success btn-rounded btn-sm-only-icon "
                             data-bs-toggle="dropdown"
                             aria-label="<?php _e('Add new content'); ?>"
@@ -116,25 +105,12 @@ if (!$past_page) {
             <div class="mw-lazy-load-module module" id="admin-header-notification"
                  type="admin/header_notifications"></div>
 
-
             <?php
-
 
             event_trigger('mw.admin.header.toolbar'); ?>
 
             <ul class="nav">
-                <?php /*
-                    AI-86 / TICKET-Q (cycle-97 2026-05-09): admin-context
-                    guard. The cycle-22 baseline gated on user_can_access
-                    — that's the user-permission half. is_admin() is the
-                    user-identity half (defense-in-depth: if a future
-                    regression ever includes this partial outside the
-                    admin layout, the chip stays hidden for anonymous
-                    visitors). Pre-check because non-admin users can
-                    never carry the content.edit permission anyway, so
-                    the extra `is_admin() &&` is a no-op for legitimate
-                    admin-layout usage.
-                */ ?>
+                <?php  ?>
                 <?php if (is_admin() && user_can_access('module.content.edit')): ?>
                 <li class="mx-1">
                     <a href="<?php print $past_page ?>?editmode=n"

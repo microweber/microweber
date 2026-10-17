@@ -1,29 +1,4 @@
-{{--
-    task-2026-05-17-3e91f4 / AI-837 — frontend /search results chrome.
 
-    Rendered by Modules\Search\Http\Controllers\SearchController@index.
-    Replaces the Templates/Bootstrap clean.blade.php "My title / My text
-    content" hardcoded placeholder that pre-fix was the user-visible
-    page for /search?q=X. Stage-3 propagation-without-renderer-update
-    closure (sibling lineage AI-735 / AI-793 / AI-795 / AI-735b).
-
-    AI-795 standing chrome-application checklist:
-      1. Extends active template master with Bootstrap fallback
-         (AI-757 pattern; $extendsView resolved by the controller).
-      2. Semantic chrome container (.mw-frontend-search-results).
-      3. Recovery / empty-state context (search input + helper copy).
-      4. Correct HTTP status (200 OK — search is a legitimate surface,
-         not an error) + noindex headers (X-Robots-Tag set by the
-         controller; <meta name="robots" content="noindex,nofollow">
-         set here as belt-and-braces).
-      5. Pinned by SearchA1B2c3AI837StubElimContractTest.
-
-    AI-837 Slice A scope: minimum-viable chrome to close the stub-
-    renderer defect. AI-837b (task-2026-06-08-srchwire) wires the live
-    results: SearchController@index now runs the query and passes
-    $searchResults; this view renders the matched pages/posts/products
-    and shows the empty-state copy ONLY when the result set is empty.
---}}
 @extends($extendsView ?? 'templates.bootstrap::layouts.master')
 
 @section('title'){{ $searchQuery !== '' ? __('Search results for') . " \"{$searchQuery}\"" : __('Search') }} · {{ get_option('website_title', 'website') ?: 'Microweber' }}@endsection
@@ -42,10 +17,7 @@
                         <h1 class="mw-frontend-search-results__heading mb-3">
                             {{ __('Search results for') }} "{{ $searchQuery }}"
                         </h1>
-                        {{-- task-2026-06-08-srchwire / AI-837b — live results.
-                             The empty-state copy now renders ONLY when the
-                             search genuinely returned nothing (was hardcoded,
-                             so /search always claimed "no results"). --}}
+
                         @if ($mwResults->isEmpty())
                             <p class="mw-frontend-search-results__hint text-muted mb-4">
                                 {!! _e('No matching pages or products were found.', true) !!}

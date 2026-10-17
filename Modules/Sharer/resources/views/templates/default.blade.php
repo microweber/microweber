@@ -1,4 +1,4 @@
-{{-- task-2026-05-22-f4a791 / AI-791 Slice E — Share section heading + wa.me URL + Copy link button --}}
+
 @include('modules.sharer::components.custom-css')
 
 <section class="mw-post-share-section" aria-labelledby="mw-sharer-heading-{{ e(md5(app()->url->current())) }}">

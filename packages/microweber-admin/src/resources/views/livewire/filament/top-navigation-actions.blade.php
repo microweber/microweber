@@ -1,11 +1,4 @@
-{{-- task-2026-06-08-addleft / AI-704 CHANGE — restore the v2 "+ Add"
-     button: rendered at the LEFT of the topbar (TOPBAR_START, after the
-     brand mark) with a VISIBLE "Add" label next to the plus icon, so it
-     reads "+ Add" as in the Microweber v2 admin. AI-704
-     (task-2026-05-16-225150) had made it icon-only and moved it to the
-     right cluster; per the PM "want it on left as before, say + Add (see
-     v2 demo)" this reverts both. The explicit aria-label/title remain for
-     AT users. Geometry + pill background live in general-styles.css. --}}
+
 {{-- Filament v5 note: <x-filament::button> rebuilds its own class list and no
      longer forwards the `class=""` attribute to the rendered <button>, so the
      `admin-toolbar-add` marker (styled in general-styles.css) is applied to this
@@ -28,18 +21,7 @@
         </x-slot>
 
         <x-slot name="description">
-            {{--
-                task-2026-05-05-5e9ffc (Audit-#1) — drunk-designer
-                external audit found this modal lacked proper
-                affordances. Added aria-label to each <a> card so
-                screen-reader users hear the full title + description
-                rather than just the inner text. Real <a href> is
-                already used (correct semantic for navigation), and
-                Filament's <x-filament::modal> component handles
-                role="dialog" on the wrapping window. Adding
-                tabindex+focus rings via Tailwind so keyboard users
-                land on each card visibly.
-            --}}
+
             <div class="mb-6 p-4">
                @foreach($links as $link)
 

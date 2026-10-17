@@ -1,63 +1,10 @@
-{{-- AI-308 / AI-309 (task-2026-05-13-5f1937) — Add Content picker UX.
-     AI-308: search/filter input at top filters cards by title +
-             description (Alpine x-model + x-show; case-insensitive
-             substring match). Empty-state message appears when no
-             card matches the query so the modal never shows blank.
-     AI-309: the "Add to this page" meta-instruction card was removed
-             from the actions array in AdminLiveEditPage::addContentAction
-             — see commit notes in that method. This template only renders
-             whatever the action provides, so nothing here needs to know
-             about the removed card.
 
-     Free-form UX improvement (task-2026-05-13-bf1966):
-       - Search input auto-focuses on modal open so users can start
-         typing immediately. Saves a tap on every modal open.
-       - Pressing Enter in the search input activates the first visible
-         card (command-palette pattern). If exactly one card matches,
-         the user can type → Enter to pick without ever leaving the
-         keyboard.
-       - Inline clear button (×) when the search has text. Cheaper than
-         select-all + delete. Hidden when the input is empty.
-       - ArrowDown from the search input moves focus to the first
-         visible card; ArrowUp from the search input moves focus to the
-         last visible card. From a card, ArrowDown/ArrowUp cycle through
-         the visible cards. Standard command-palette navigation.
-       - Refs (`x-ref="search"` + per-card refs via index) so the
-         keyboard handlers don't need to re-query the DOM.
-
-     Free-form UX improvement (task-2026-05-14-dac0b8):
-       - Clear button floor lifted from 28x28 (w-7 h-7) to 44x44
-         (w-11 h-11) to match the project-wide WCAG 2.5.5 touch-target
-         standard enforced by AI-516..AI-522. Visual × glyph stays the
-         same size; only the tap-area grows. Mobile users can now hit
-         the clear button reliably on first try.
-       - Escape on the search input: when `q` is non-empty, Escape
-         clears the search and refocuses the input — natural
-         command-palette ergonomic. When `q` is empty, Escape lets
-         Filament's modal-level Escape handler close the picker
-         (per AI-240 mw-modal focus contract). Implemented via
-         `event.stopPropagation()` only when we have text to clear.
-       - `aria-live="polite"` result-count announcement (visually
-         hidden via .sr-only): assistive tech now hears "3 results" /
-         "no results" / "all 6 options visible" as the user types,
-         without any visual change for sighted users. Updates on
-         `q` change via Alpine x-text. --}}
 <div class="mw-add-content-modal-root mb-1 p-2 flex flex-col gap-3"
-     {{-- AI-790 (task-2026-05-17-255d24) — Stage-5 template-attribute
-          escape leak. The previous inline `x-data="{ ... }"` block
-          carried embedded `//` line comments with literal `"`
-          characters (e.g. `// primary "Add a block" card`). The HTML
-          attribute parser terminates the attribute at the first
-          embedded `"`, dumping the remainder of the JS as visible
-          text content in the modal. Canonical fix per designer's
-          dispatch: extract the entire state object to a named
-          Alpine.data() registration (see <script> at the bottom of
-          this file). The Blade attribute now carries only a bare
-          identifier — no quoting issues possible. --}}
+
      x-data="addContentModal"
      x-init="$nextTick(() => {
          $refs.search && $refs.search.focus();
-         /* task-2026-05-28-102772 / AI-1218: patch missing heading id for aria-labelledby */
+
          var dlg = $el.closest('[role=dialog]');
          if (dlg) {
              var lbl = dlg.getAttribute('aria-labelledby');
@@ -66,24 +13,6 @@
          }
      })">
 
-    {{-- NOVICE #14 (task-2026-05-13-899d57) — the previous copy
-         "Search content types…" was jargon. A first-time site owner does
-         not know "content type" is a thing. Replaced with a plain-English
-         prompt that mirrors the question the user actually has in their
-         head ("what do I want to add?") and seeds them with three
-         concrete examples so they don't have to guess at the vocabulary. --}}
-    {{-- task-2026-05-16-de4ce4 / AI-694 — search promotion. Per spec §2 + §4
-         + §7 Slice 4: input becomes the primary affordance — 44px tall
-         (WCAG 2.5.5 touch-target floor + visual prominence), auto-focused
-         on modal open (already done via x-init below), `⌘K` shortcut chip
-         on the right edge as a visual affordance hint (global hotkey
-         routing intentionally deferred — designer note: "visual hint only
-         at this slice"). Keyboard contract: ENTER → activateFirstVisible
-         (zero-match → primary fallback); ↑/↓ enter the card grid;
-         ESC clears `q` or escalates to modal close (Filament/AI-240).
-         New `←/→` handlers added on the cards (below) as aliases for
-         prev/next. The pe-16 padding-right reserves space for the
-         optional ⌘K chip + clear button. --}}
     <label class="mw-add-content-modal-search relative block">
         <span class="sr-only">What do you want to add?</span>
         <input
@@ -97,20 +26,10 @@
             x-on:keydown.arrow-down.prevent="focusFirstVisibleCard()"
             x-on:keydown.arrow-up.prevent="focusLastVisibleCard()"
             x-on:keydown.escape="if (q !== '') { q = ''; $refs.search.focus(); $event.stopPropagation(); }"
-            {{-- task-2026-05-28-2f5a6c / AI-1155 — add dark:text-gray-200 so
-                 the typed search text remains readable on the dark
-                 dark:bg-gray-900 background. Without it the input text
-                 inherited the default foreground (near-black) and washed
-                 to invisible in dark mode. Contrast: gray-200 (#e5e7eb)
-                 on gray-900 (#111827) ≈ 14:1 → well above WCAG AA 4.5:1. --}}
+
             class="mw-add-content-modal-search-input w-full min-h-[44px] rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 px-4 py-3 pe-16 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#182433]"
         >
-        {{-- task-2026-05-16-de4ce4 / AI-694 — ⌘K shortcut affordance chip.
-             Visual hint only at this slice; global ⌘K hotkey routing is
-             intentionally deferred (designer dispatch note). Hidden while
-             the input has text so the clear button has room. Hidden on
-             coarse pointers (touch devices) where the cmd-K convention
-             is meaningless. --}}
+
         <kbd x-show="q === ''"
              aria-hidden="true"
              class="mw-add-content-modal-search-shortcut hidden sm:inline-flex items-center justify-center absolute end-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">⌘K</kbd>
@@ -132,48 +51,18 @@
         </button>
     </label>
 
-    {{-- task-2026-05-16-de4ce4 / AI-694 — zero-match ENTER hint.
-         When the query has no matches anywhere, surface a small hint
-         that ENTER will still add a block. This is the visible
-         counterpart to the activateFirstVisibleCard() primary
-         fallback above. style="display: none;" is the inline
-         default-hidden state (per LESSONS — there is no global
-         [x-cloak] rule). --}}
     <div x-show="q !== '' && visibleCount() === 0"
          class="mw-add-content-modal-zero-match-hint text-xs text-gray-500 dark:text-gray-400 px-1"
          style="display: none;">
         Press <kbd class="inline-flex items-center px-1 py-0.5 text-[10px] font-medium bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">Enter</kbd> to add a block to this page.
     </div>
 
-    {{-- task-2026-05-14-dac0b8 — assistive-tech result-count announcement.
-         Visually hidden via .sr-only; updated by Alpine on every `q`
-         change via x-text + resultAnnouncement(). aria-live="polite" so
-         screen-readers announce the count after the user pauses typing,
-         not on every keystroke. Empty string suppresses announcements
-         when q is empty (no result-count to report). --}}
     <div class="sr-only"
          aria-live="polite"
          aria-atomic="true"
          x-text="resultAnnouncement()"></div>
 
-    {{-- task-2026-05-16-968a71 / AI-692 / §A2 + §A3: TWO-GROUP layout.
-         Replaces the prior single 2-column grid that lumped all 6
-         cards together. Spec §2 key-move 2 — "two action classes —
-         separate them visually." Primary group (Add a block) renders
-         as a single full-width card under "On this page". Secondary
-         group (Page/Post/Product/Image/Category) renders as a 3-col
-         (desktop) / 2-col (mobile) grid under "New content".
-         Synonyms map lifted outside both loops since it's static
-         per the project — not per-iteration data.
-
-         task-2026-05-16-cdeefd / AI-691 changes preserved through
-         the refactor: card body description is rendered as the
-         native `title=` attribute (browser tooltip on hover) plus
-         the aria-label (accessibility tree) — never as visible
-         body text inside the card. Section headers introduced by
-         AI-692 do NOT re-introduce the visible body text. --}}
     @php
-        // NOVICE #14 (task-2026-05-13-899d57) — synonyms map. Adding
         // a new card? Append to this map keyed on the action name.
         $mwAddContentSynonyms = [
             'addPageAction'           => 'about services contact landing static homepage',
@@ -206,29 +95,13 @@
                     );
                     $mwAddContentJsDispatch = $action['js_dispatch'] ?? null;
                 @endphp
-                {{-- task-2026-05-16-c3d0ed / AI-693 — monochrome icon at rest; the
-                     `mw-add-content-icon` wrapper picks up the accent contract
-                     (--ese-accent-soft bg + --ese-accent foreground) on hover/
-                     focus via CSS in `live-edit-module-settings.blade.php`.
-                     Previously each action had per-type tinting (blue/indigo/
-                     emerald/violet/rose/amber); that match map is removed so
-                     the six cards share a single monochrome line-set per
-                     designer spec §2 + AI-693 description. --}}
+
                 <button
                     type="button"
                     @if ($mwAddContentJsDispatch)
                         x-on:click="window.dispatchEvent(new CustomEvent(@js($mwAddContentJsDispatch))); try { $wire.unmountAction(); } catch (e) {}"
                     @else
-                        {{-- task-2026-06-05-addcontent-swap: dispatch a window
-                             event instead of wire:click. The picker modal is
-                             teleported to .fi-layout (iframe-page.blade.php) to
-                             escape the stacking trap, which moves it OUT of the
-                             Livewire wire:id subtree -- so wire:click here cannot
-                             resolve the component and the card silently does
-                             nothing. The page-root listener (iframe-page.blade.php
-                             liveEditOpenCreateContent) has an intact $wire and
-                             swaps the picker for the create action. Single quotes
-                             only inside this double-quoted attribute. --}}
+
                         x-on:click="window.dispatchEvent(new CustomEvent('liveEditOpenCreateContent', { detail: { action: '{{ $action['action'] }}' } }))"
                     @endif
                     aria-label="{{ $action['title'] }}: {{ $action['description'] }}"
@@ -236,32 +109,19 @@
                     data-mw-add-content-card
                     data-mw-add-content-group="primary"
                     data-mw-add-content-haystack="{{ $mwAddContentHaystack }}"
-                    {{-- task-2026-05-16-de4ce4 / AI-694 — `visibility: hidden`
-                         path (via .mw-add-content-card--hidden) replaces
-                         x-show display:none so filtered cards keep their
-                         grid cell (no reflow on type). --}}
+
                     :class="{ 'mw-add-content-card--hidden': q !== '' && !@js($mwAddContentHaystack).includes(q.toLowerCase()) }"
                     x-on:keydown.arrow-down.prevent="focusNextCard($el)"
                     x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
                     x-on:keydown.arrow-left.prevent="focusPrevCard($el)"
                     x-on:keydown.arrow-right.prevent="focusNextCard($el)"
-                    {{-- task-2026-05-21-30040a / AI-870 Fix 3: min-h
-                         increased (63→72px), title text-base (was text-sm),
-                         chevron affordance added.
-                         task-2026-05-22-fa8e70: description moved back to tooltip-only
-                         (title + aria-label) per AI-691 spec — visible description
-                         below primary card title created visual imbalance vs
-                         secondary cards (icon + title only). --}}
+
                     class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-row items-center gap-3 p-3 min-h-[56px] group transition duration-150 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#182433] text-start bg-transparent">
                     <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 transition duration-150 rounded-full shrink-0">
                         @svg($action['icon'], 'h-6 w-6 transition duration-150 text-white')
                     </div>
                     <div class="flex flex-col min-w-0">
-                        {{-- task-2026-05-28-2f5a6c / AI-1153 — explicit
-                             text-gray-900 dark:text-gray-100 so the title
-                             no longer relies on inherited button-default
-                             colour (which measured ~4.1:1 in dark mode
-                             against the Filament modal surface). --}}
+
                         <div class="font-semibold text-base leading-tight text-gray-900 dark:text-gray-100">
                             {{ $action['title'] }}
                         </div>
@@ -280,16 +140,9 @@
             class="mw-add-content-group__header text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 px-1">
             New content
         </h3>
-        {{-- task-2026-05-28-2f5a6c / AI-1153 — text-gray-400 (#9ca3af) on
-             a white modal background measured ~2.85:1 (well below the
-             WCAG AA 4.5:1 floor for non-large text). Bumped to
-             text-gray-600 (#4b5563 on white ≈ 7.56:1). Dark mode keeps
-             text-gray-300 — already comfortably above the threshold
-             on the modal's dark surface. --}}
+
         <p class="text-xs text-gray-600 dark:text-gray-300 mb-3 px-1">Create something new for your website</p>
-        {{-- task-2026-05-27-4b1344 / AI-1139: responsive grid —
-             3-col on desktop (≥768px), 2-col on tablet/mobile per
-             designer responsive spec. --}}
+
         <div class="mw-add-content-group__items grid grid-cols-2 md:grid-cols-3 gap-3">
             @foreach($mwAddContentSecondary as $action)
                 @php
@@ -300,29 +153,13 @@
                     );
                     $mwAddContentJsDispatch = $action['js_dispatch'] ?? null;
                 @endphp
-                {{-- task-2026-05-16-c3d0ed / AI-693 — monochrome icon at rest;
-                     accent contract (`--ese-accent-soft` bg + `--ese-accent`
-                     foreground) applies on hover/focus via CSS in
-                     `live-edit-module-settings.blade.php`. The previous
-                     task-2026-05-15-0282f5 per-action `match` map (indigo /
-                     emerald / violet / rose / amber tints) is removed so the
-                     six cards share a single monochrome line-set per designer
-                     spec §2 + AI-693 description. --}}
+
                 <button
                     type="button"
                     @if ($mwAddContentJsDispatch)
                         x-on:click="window.dispatchEvent(new CustomEvent(@js($mwAddContentJsDispatch))); try { $wire.unmountAction(); } catch (e) {}"
                     @else
-                        {{-- task-2026-06-05-addcontent-swap: dispatch a window
-                             event instead of wire:click. The picker modal is
-                             teleported to .fi-layout (iframe-page.blade.php) to
-                             escape the stacking trap, which moves it OUT of the
-                             Livewire wire:id subtree -- so wire:click here cannot
-                             resolve the component and the card silently does
-                             nothing. The page-root listener (iframe-page.blade.php
-                             liveEditOpenCreateContent) has an intact $wire and
-                             swaps the picker for the create action. Single quotes
-                             only inside this double-quoted attribute. --}}
+
                         x-on:click="window.dispatchEvent(new CustomEvent('liveEditOpenCreateContent', { detail: { action: '{{ $action['action'] }}' } }))"
                     @endif
                     aria-label="{{ $action['title'] }}: {{ $action['description'] }}"
@@ -330,29 +167,25 @@
                     data-mw-add-content-card
                     data-mw-add-content-group="secondary"
                     data-mw-add-content-haystack="{{ $mwAddContentHaystack }}"
-                    {{-- task-2026-05-16-de4ce4 / AI-694 — visibility:hidden
-                         path (see primary card for full rationale). --}}
+
                     :class="{ 'mw-add-content-card--hidden': q !== '' && !@js($mwAddContentHaystack).includes(q.toLowerCase()) }"
                     x-on:keydown.arrow-down.prevent="focusNextCard($el)"
                     x-on:keydown.arrow-up.prevent="focusPrevCard($el)"
                     x-on:keydown.arrow-left.prevent="focusPrevCard($el)"
                     x-on:keydown.arrow-right.prevent="focusNextCard($el)"
-                    {{-- task-2026-05-27-4b1344 / AI-1139 items 1+2: centered
-                         48px icon circles with per-type color tint + sublabels. --}}
+
                     class="mw-add-content-modal-action-wrapper cursor-pointer flex flex-col items-center text-center gap-2 p-3 group transition duration-150 bg-transparent dark:bg-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.07] rounded-lg w-full border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#182433]">
                     <div class="mw-add-content-icon flex items-center justify-center w-12 h-12 transition duration-150 rounded-full shrink-0" style="background-color: {{ $action['tint'] ?? '#f3f4f6' }}">
-                        {{-- task-2026-05-27-de93c9 / AI-1168: text-gray-600 → text-gray-700 for WCAG 4.5:1 --}}
+
                         @svg($action['icon'], 'h-6 w-6 transition duration-150 text-gray-700 dark:text-gray-300')
                     </div>
                     <div class="flex flex-col items-center gap-0.5">
-                        {{-- task-2026-05-28-2f5a6c / AI-1153 — explicit
-                             text-gray-900 dark:text-gray-100 (see primary
-                             card title for full rationale). --}}
+
                         <div class="font-semibold text-sm leading-tight text-gray-900 dark:text-gray-100">
                             {{ $action['title'] }}
                         </div>
                         @if (!empty($action['sublabel']))
-                            {{-- task-2026-05-27-de93c9 / AI-1168: text-gray-400 → text-gray-500 for contrast --}}
+
                             <div class="text-xs text-gray-500 dark:text-gray-400">{{ $action['sublabel'] }}</div>
                         @endif
                     </div>
@@ -375,16 +208,7 @@
             ->values()
             ->all();
     @endphp
-    {{-- AI-307 post-fix polish (task-2026-05-13-5d3a06): the empty-state
-         element used to render `No content types match "<span x-text=q>".`
-         and relied on `x-cloak` to suppress the brief pre-Alpine paint.
-         No project stylesheet defines the `[x-cloak] { display: none }`
-         rule, so the message visibly flashed with literal empty quotes
-         (`No content types match "".`) on every modal open. Replaced
-         the query-echoing copy with a static, query-free message + an
-         inline `style="display: none"` so the element is hidden until
-         Alpine flips it via x-show. This eliminates the empty-quote
-         flash AND drops the dependency on a global x-cloak rule. --}}
+
     {{-- Empty state — outside both groups so it spans the modal
          width when no card in EITHER group matches. The .sm:col-span-2
          utility from the prior single-grid layout is no longer
@@ -395,17 +219,4 @@
         No content types found.
     </div>
 </div>
-
-{{-- task-2026-05-18-76a360 — `addContentModal` Alpine.data() factory
-     registration was MOVED from this Blade view to
-     `src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php`
-     @push('scripts') block. Embedded <script> tags inside Filament/
-     Livewire-morph-inserted modal HTML do NOT execute in the browser,
-     so the in-modal registration (per the original AI-790 / task-255d24
-     lift) silently failed at runtime — cards rendered but stayed
-     invisible because Alpine could not resolve `x-data="addContentModal"`.
-     The factory MUST be registered before the modal mounts; the parent
-     admin-frame layout is the canonical home. The Blade `x-data` binding
-     below stays — Stage-5 template-attribute-escape-leak guard still in
-     force (bare identifier, no quoting issues). --}}
 

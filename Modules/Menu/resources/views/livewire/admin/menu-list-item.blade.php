@@ -60,13 +60,7 @@
         </div>
 
         {{-- Actions --}}
-        {{--
-            Use $component (the MenusList Livewire instance passed in
-            from menus-list.blade.php's closure) instead of $this —
-            this blade is rendered via `view(...)->render()` inside a
-            menu_tree() callback, where $this is null. See
-            task-2026-04-29-dcde6d.
-        --}}
+
         @if(isset($component) && method_exists($component, 'editAction'))
             <div class="mw-menu-item__actions">
                 {{ ($component->editAction)(['id' => $item['id']]) }}

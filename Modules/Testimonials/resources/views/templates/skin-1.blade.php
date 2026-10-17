@@ -77,9 +77,7 @@ $limit = 40;
             @php $count = -1; @endphp
             @foreach ($testimonials as $item)
                 @php $count++; @endphp
-                {{-- AI-113 / TICKET-CP (cycle-103 2026-05-09): inline
-                     `style="background-image: url(...)"` lifted to a real
-                     `<img>` for CSP + apostrophe-injection. --}}
+
                 <span class="mwt-face-holder" data-index="{{ $count }}">
                 @if (isset($item['client_website']) && !empty($item['client_website']))
                     <a href="{{ $item['client_website'] }}" class="mwt-face">

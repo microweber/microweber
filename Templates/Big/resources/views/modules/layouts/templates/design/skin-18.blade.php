@@ -98,8 +98,6 @@ categories: Design
     }
 </style>
 
-
-
 <x-layout-section
     :params="$params"
     :classes="$classes"
@@ -116,12 +114,7 @@ categories: Design
                 </div>
 
                 <div class="mt-5">
-                    {{-- AI-92 / BIG2-E (cycle-98 2026-05-09): brand logos
-                         are meaningful (the surrounding text says "We are
-                         grateful for the opportunity to work alongside top-
-                         tier brands" — the LOGOS ARE THE INFORMATION).
-                         Empty alt would deny SR users the names of the
-                         brands. Each logo gets a "<Brand> logo" alt. --}}
+
                     <div class="mw-new-18-logo-strip-main">
                         <img loading="lazy" src="{{ asset('templates/big/img/layouts/logo_amazon.png') }}" alt="Amazon logo"/>
                         <img loading="lazy" src="{{ asset('templates/big/img/layouts/logo_facebook.png') }}" alt="Facebook logo"/>

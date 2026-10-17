@@ -1,7 +1,5 @@
 <div>
 
-
-
     <?php $custom_css = get_option("custom_css", "template"); ?>
 
     <?php
@@ -46,7 +44,6 @@
             background: none;
             z-index: 6;
 
-
         }
 
         .mw-css-editor-c2a-nav .module-content-views-layout-selector-custom-css {
@@ -56,7 +53,6 @@
         #custom_html_code_mirror_save {
 
         }
-
 
     </style>
 
@@ -240,7 +236,6 @@
                     key: 'custom_css',
                     value: cssval
                 }, function() {
-                    // task-2026-07-31-csssave: guard the canvas access. When the
                     // editor is opened standalone (/admin/code-editor-module-
                     // settings-page, no live-edit canvas) mw.top().app.canvas is
                     // undefined and this callback threw *after* the option had
@@ -280,7 +275,6 @@
 
                 const cssval = live_edit_css_code_area_editor.getValue();
 
-                // task-2026-07-31-csssave: guard the canvas access. Standalone
                 // (no live-edit canvas) getLiveEditData() threw here, aborting
                 // the save entirely. Fall back to posting without an explicit
                 // template — the backend resolves the current template itself.
@@ -305,7 +299,6 @@
                     var template_name = liveEditIframeData.template_name;
                     css.active_site_template = template_name;
                 }
-
 
                 $.post(mw.settings.api_url + "current_template_save_custom_css", css, function(res) {
                     const primaryMw = getPrimaryMwContext();
@@ -341,7 +334,6 @@
         // mw.lib.require('codemirror') above injects codemirror.js
         // asynchronously without a callback. Calling cssEditor.init()
         // before the script finishes parsing throws "CodeMirror is not
-        // defined" (task-2026-04-29-8db524). Poll for the global up to
         // 10s before initialising.
         $(document).ready(function() {
             var attempts = 0;
@@ -360,8 +352,6 @@
             waitForCodeMirror();
         });
     </script>
-
-
 
     <div class="d-flex" id="codeEditorTabStyleEditorCssEditorNavTabs">
         <div class="navbar navbar-expand-md navbar-transparent px-5">
@@ -386,13 +376,12 @@
             <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-css-editor-holder"
                  role="tabpanel">
 
-
 {{-- audit-test 2026-05-07 Code Editor audit finding #8 (A11Y):
      screen-reader users entering CodeMirror heard "edit text, multi-line"
      with no context. CM5 forwards aria attributes to its input handle. --}}
 <textarea class="form-select  w100 mw_option_field" dir="ltr" name="custom_css" id="custom_css_code_mirror" rows="30"
           option-group="template" aria-label="<?php _e('Custom CSS source'); ?>"
-          placeholder="<?php _e('Type your CSS code here'); ?>"><?php /* task-2026-06-06-csstextareaesc: HTML-escape so a `</textarea>` inside the CSS source can't break out of the textarea into the admin canvas iframe. Lossless — CodeMirror reads .value, which the browser auto-decodes. */ echo htmlspecialchars((string) $custom_css, ENT_QUOTES); ?></textarea>
+          placeholder="<?php _e('Type your CSS code here'); ?>"><?php  echo htmlspecialchars((string) $custom_css, ENT_QUOTES); ?></textarea>
                 {{-- audit-test 2026-05-07 Code Editor audit finding #1 (P0 BLOCKER):
                      <span onclick> Save was not focusable / not keyboard-
                      activatable; converted to <button> + addEventListener.
@@ -401,32 +390,25 @@
 
                     <button id="mw-css-editor-save-btn" class="btn btn-dark" type="button"><?php _e('Save'); ?></button>
 
-
                 </div>
-
 
             </div>
             <div class="tab-pane tab-pane-slide-right" id="style-edit-global-template-css-editor-holder-live-edit-css"
                  role="tabpanel">
-
-
 
         {{-- audit-test 2026-05-07 Code Editor audit finding #8 (A11Y):
              screen-reader label for the live-edit CSS textarea. --}}
         <textarea class="form-select  w100" dir="ltr" name="live_edit_custom_css"
                   id="live_edit_custom_css_code_mirror" rows="30"
                   aria-label="<?php _e('Live edit CSS source'); ?>"
-                  placeholder="<?php _e('Type your CSS code here'); ?>"><?php /* task-2026-06-06-csstextareaesc: HTML-escape so a `</textarea>` inside the live-edit CSS file can't break out of the textarea. Lossless — CodeMirror reads the decoded .value. */ echo htmlspecialchars((string) $live_edit_css_content, ENT_QUOTES); ?></textarea>
-
+                  placeholder="<?php _e('Type your CSS code here'); ?>"><?php  echo htmlspecialchars((string) $live_edit_css_content, ENT_QUOTES); ?></textarea>
 
                 {{-- audit-test 2026-05-07 Code Editor audit finding #1 (P0 BLOCKER):
                      <span onclick> Save → <button> + addEventListener; global
                      live_edit_savecss() preserved. --}}
                 <div class="mw-css-editor-c2a-nav">
 
-
                     <button id="mw-live-edit-css-save-btn" class="btn btn-dark" type="button"><?php _e('Save'); ?></button>
-
 
                 </div>
 

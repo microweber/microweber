@@ -1,11 +1,5 @@
 <div class="text-left mw-shop-filter-custom-fields">
-    {{-- AI-67 / TICKET-ZZ (cycle-74 2026-05-08): each custom-field
-         block is a GROUP of related checkboxes — the canonical
-         a11y pattern is <fieldset> + <legend>. Without these,
-         screen-reader users get an unannounced row of orphaned
-         checkboxes; with them they hear "Color, group: Red /
-         Blue / Green …" so they know which filter the checkbox
-         applies to. --}}
+
     <h3 class="mw-shop-filter-heading h6 mb-2">{{ __('Filter by attributes') }}</h3>
     @foreach($availableCustomFields as $customField)
         <fieldset class="mw-shop-filter-cf-group mb-3 border-0 p-0">

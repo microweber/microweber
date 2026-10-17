@@ -15,12 +15,7 @@
 @include('modules.breadcrumb::partials.breadcrumb_params')
 
 @php
-    /*
-     * task-2026-05-05-3bd724 — drunk-designer audit (breadcrumb.md
-     * QW): emit BreadcrumbList JSON-LD so search engines render the
-     * site hierarchy as a rich snippet in results pages. Builds the
-     * list once from the same $homepage + $data already in scope.
-     */
+
     $breadcrumbJsonLdItems = [];
     $breadcrumbJsonLdPos = 1;
     if (!empty($homepage['url']) && !empty($homepage['title'])) {

@@ -12,7 +12,6 @@ description: Default
 
 ?>
 
-
 @php
 
 $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
@@ -48,10 +47,6 @@ $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
                <h4>Buy license key "Big Template" and unlock 300 more layouts,</h4>
                <h4>only for $59 per year or $169 lifetime license</h4>
 
-                {{-- task-2026-05-05-90021f — drunk-designer audit
-                     QW: external `target="_blank"` links must carry
-                     `rel="noopener noreferrer"` to block tabnabbing
-                     and referrer leak. --}}
                 <a class="btn get-license-btn" target="_blank" rel="noopener noreferrer" href="https://microweber.org/go/market?prefix={{ $packageName }}">Get license key</a>
            </div>
 

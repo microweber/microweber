@@ -6,8 +6,6 @@ description: Modern slider with Swiper.js integration
 */
 @endphp
 
-
-
 <div id="js-slider-{{ $params['id'] ?? 'default' }}" class="slider_v2-default swiper">
     <div class="swiper-wrapper">
         @if($slides && $slides->count() > 0)
@@ -100,11 +98,6 @@ description: Modern slider with Swiper.js integration
                     }
                 </style>
 
-
-
-
-
-
                 <div class="swiper-slide swiper-slide-{{ $slide->id }}">
                     {{-- audit-test 2026-05-07 PM TASK-001 (TICKET-AV Option B):
                          was `<div style="background-image: url('{{thumbnail()}}')">`,
@@ -125,7 +118,6 @@ description: Modern slider with Swiper.js integration
                          alt="{{ $slide->name ?? '' }}"
                          loading="{{ $loop->first ? 'eager' : 'lazy' }}"
                          decoding="async">
-
 
                     {{-- audit-test 2026-05-07 Slider audit finding #5 (TICKET-AH partial):
                          100vh on iOS Safari includes the URL bar so the slide
@@ -191,13 +183,8 @@ if (!window.SliderV2) {
 }
 </script>
 
-
 <script>
 
-
-
-{{-- task-2026-05-22-ce249e / AI-918 — build SliderV2 config from module settings
-     (autoplay, autoplay_speed, show_arrows, show_dots) instead of hardcoded values. --}}
 ;(function(){
      const slider = new SliderV2('#js-slider-{{ $params['id'] ?? 'default' }}', {
         loop: {{ ($sliderLoop ?? true) ? 'true' : 'false' }},
@@ -222,7 +209,6 @@ if (!window.SliderV2) {
         @endif
     });
 
-
     document.querySelector('#js-slide-pagination-next-{{ $params['id'] ?? 'default' }}').addEventListener('click', () => {
         slider.driverInstance.slideNext();
     });
@@ -232,9 +218,5 @@ if (!window.SliderV2) {
 
 })();
 
-
-
-
 </script>
-
 

@@ -52,10 +52,7 @@ description: Skin-4
     <div class="slick-arrows-1">
         <div class="slick-gallery">
             @if(empty($data))
-                {{-- task-2026-05-17-525769 / AI-812 — wrap admin-targeted empty-state copy in is_admin() gate;
-                     adopt AI-780a typed empty-state pattern (heading + body + CTA pointing to admin_url('media')).
-                     Pre-fix the bare <p> rendered "No pictures added. Please add pictures to the module." to
-                     anonymous frontend visitors — admin-targeted copy leaked to public surface. --}}
+
                 @if (is_admin())
                     <div class="mw-canvas-empty-state" data-mw-content-type="picture">
                         <h3 class="mw-canvas-empty-state__title">{{ __('No pictures yet') }}</h3>

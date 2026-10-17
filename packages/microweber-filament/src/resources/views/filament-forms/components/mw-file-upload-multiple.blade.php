@@ -1,25 +1,4 @@
-{{--
-    task-2026-05-31-flu814 — AI-1203: Filament v5 native mw-file-upload-multiple
-    schema-component accessible-name gap (multi-variant sister-surface).
 
-    Pre-fix state probed via Playwright at /admin/logo-module-settings family:
-      The per-item remove <button> rendered inside <template x-for="fileItem in state">
-      carried NO aria-label, NO title, NO visible text content. AT users hearing
-      a grid of items each with an icon-only "button" had no indication that
-      activating it would remove that file from the upload set. WCAG 4.1.2 Level A
-      (icon-only buttons).
-
-    Sister-fix to AI-1199 (Tabs aria-selected), AI-1200 (Toggle aria-checked),
-    AI-1201 (Toggle accessible-name), AI-1202 (Section collapse-btn accessible-name),
-    AI-1203 (mw-file-upload single-variant — see ./mw-file-upload.blade.php).
-    Same Filament v5 native-component accessibility-gap family.
-
-    Fix: inject aria-label + title on the per-item remove-X button (semantic
-         "Remove file" action) + aria-hidden + focusable=false on its decorative
-         SVG. Translated via Microweber __() helper.
-
-    Carries to every mw-file-upload-multiple consumer project-wide.
---}}
 @php
     use Filament\Support\Facades\FilamentView;
 
@@ -34,11 +13,9 @@
     <div>
         <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3">
 
-
     <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
          {{ $getLabel() }}
     </span>
-
 
         </label>
     </div>
@@ -49,10 +26,8 @@
          }"
     >
 
-
         <div
             class="w-full flex flex-col items-center justify-center border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-
 
             <button
                 class="w-full py-6 full flex flex-col items-center justify-center"
@@ -163,7 +138,6 @@
                             <div class="flex items-center justify-center" style="width:100%;height:200px;padding:40px;"
                                  x-show="fileItem.fileType !== 'image'">
 
-
                                 <svg x-show="fileItem.fileExtension == 'pdf'"
                                      width="90px"
                                      xmlns="http://www.w3.org/2000/svg"
@@ -259,7 +233,6 @@
                                     </g>
 
                                 </svg>
-
 
                             </div>
 

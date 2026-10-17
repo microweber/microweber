@@ -66,10 +66,7 @@ description: Slick Pictures List Template
             <div class="slickSlider">
                 @php $count = -1; @endphp
                 @if(empty($data))
-                    {{-- task-2026-05-17-525769 / AI-812 — wrap admin-targeted empty-state copy in is_admin() gate;
-                         adopt AI-780a typed empty-state pattern (heading + body + CTA pointing to admin_url('media')).
-                         Pre-fix the bare <p> rendered "No pictures added. Please add pictures to the module." to
-                         anonymous frontend visitors — admin-targeted copy leaked to public surface. --}}
+
                     @if (is_admin())
                         <div class="mw-canvas-empty-state" data-mw-content-type="picture">
                             <h3 class="mw-canvas-empty-state__title">{{ __('No pictures yet') }}</h3>
@@ -84,7 +81,7 @@ description: Slick Pictures List Template
                         <div class="thumbnail-wrapper">
                             <div class="thumbnail">
                                 @php $cropPos = $item['crop_position'] ?? ''; @endphp
-                                {{-- task-2026-05-05-90021f — lazy-load gallery images. --}}
+
                                 {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                                 {!! responsive_thumbnail($item['filename'] ?? '', 300, null, array_merge(['alt' => $item['title'] ?? $item['description'] ?? __('Image'), 'class' => 'img-fluid'], $cropPos !== '' ? ['style' => 'object-position: ' . $cropPos] : [])) !!}
                             </div>

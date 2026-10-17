@@ -12,11 +12,7 @@ description: Skin 14
     <div class="new-skin-shop">
         <div class="shop-inner-gallery row">
             <div class="shop-inner-big-image position-relative ps-lg-0">
-                {{-- AI-74 / TICKET-H (cycle-69 2026-05-08): hero image now
-                     emits a full responsive <img> via the cycle-55 helper —
-                     adds srcset + sizes + decoding=async on top of the
-                     existing alt + lazy. The hero is above-the-fold so
-                     loading=eager. --}}
+
                 @php
                     $heroCropPos = $data[0]['crop_position'] ?? '';
                     $mwHeroAttrs = [
@@ -34,10 +30,7 @@ description: Skin 14
                 <div class="shop-inner-gallery-thumbnails mt-4 d-flex">
                     @php $count = -1; @endphp
                     @if(empty($data))
-                        {{-- task-2026-05-17-525769 / AI-812 — wrap admin-targeted empty-state copy in is_admin() gate;
-                             adopt AI-780a typed empty-state pattern (heading + body + CTA pointing to admin_url('media')).
-                             Pre-fix the bare <p> rendered "No pictures added. Please add pictures to the module." to
-                             anonymous frontend visitors — admin-targeted copy leaked to public surface. --}}
+
                         @if (is_admin())
                             <div class="mw-canvas-empty-state" data-mw-content-type="picture">
                                 <h3 class="mw-canvas-empty-state__title">{{ __('No pictures yet') }}</h3>
@@ -54,11 +47,7 @@ description: Skin 14
                             <a class="mx-0"
                                href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}"
                                data-mw-product-image="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}" data-mw-product-image-target="{{ $pictureElementId }}" data-mw-product-image-index="{{ $count }}">
-                                {{-- AI-115 / TICKET-CG (cycle-105 2026-05-09):
-                                     first image in the gallery is the LCP
-                                     candidate — explicit `loading="eager"`
-                                     so the browser doesn't defer it.
-                                     Subsequent images stay lazy. --}}
+
                                 {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
                                     'alt' => $item['title'] ?? $item['description'] ?? __('Product image'),
                                     'class' => 'img-fluid d-block',

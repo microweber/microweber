@@ -38,10 +38,7 @@ description: Posts 8
                             @endif
 
                             @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
-                                {{-- AI-78 / TICKET-AE (cycle-90): added
-                                     `mb-3` so the bottom margin previously
-                                     produced by a stray `<br/>` is now CSS,
-                                     not a layout-via-line-break hack. --}}
+
                                 <p class="text-start mb-3" itemprop="description">{{ \Illuminate\Support\Str::limit($item['description'], 250) }}</p>
                             @endif
 

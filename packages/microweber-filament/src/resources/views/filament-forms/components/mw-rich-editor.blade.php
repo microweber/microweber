@@ -3,11 +3,7 @@
         :field="$field"
         class="relative z-0"
 >
-    {{-- task-2026-09-27 — MwRichEditor now runs on the Microweber MWEditor engine
-         (mw.Editor), the same editor Live Edit uses. TinyMCE has been removed.
-         The editor lib is lazy-loaded once from frontend-assets-libs and attached
-         in "div" mode to the field's textarea, which it keeps in sync (its
-         _syncTextArea writes back to the textarea on every change). --}}
+
     @once
         <script>
             window.mwEnsureRichEditorLib = window.mwEnsureRichEditorLib || function () {

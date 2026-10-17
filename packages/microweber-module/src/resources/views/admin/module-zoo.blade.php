@@ -1,20 +1,7 @@
 @extends('admin::layouts.app')
 
 @section('content')
-    {{-- AI-71 / TICKET-AA (cycle-84 2026-05-08): module-zoo dev/QA
-         page. Auto-discovered every installed module + every skin in
-         its templates folder. Reviewers can scroll the page once and
-         catch visual regressions across every skin without having to
-         stage 33+ live-edit pages by hand.
 
-         Filters live in the URL — `?type=Posts` to narrow to one
-         module, `?installed_only=0` to include uninstalled modules
-         too. Both filters degrade gracefully when missing.
-
-         The actual rendering is delegated to Microweber's `<module>`
-         tag — same engine the live-edit canvas uses — so anything
-         that breaks the zoo would also break the customer-facing
-         render. --}}
     <div id="module-zoo-wrapper" class="col-xxl-10 col-lg-11 col-12 mx-auto py-4">
         <header class="mb-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
             <div>

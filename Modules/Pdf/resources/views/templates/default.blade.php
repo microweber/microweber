@@ -6,12 +6,9 @@
     }
 </script>
 
-
 <script>
 
-
     $(document).ready(function () {
-
 
         // If absolute URL from the remote server is provided, configure the CORS
         // header on that server.
@@ -62,7 +59,6 @@
 
 </script>
 
-
 <style scoped="scoped">
     #pdf-<?php print $params['id'] ?> {
         max-width: 100%;
@@ -70,12 +66,11 @@
 }
 </style>
 
-
 <canvas id="pdf-<?php print $params['id'] ?>"></canvas>
 
 <div style="clear: both;"></div>
 
 <?php if (isset($download) and $download): ?>
-<?php /* task-2026-05-05-90021f — rel=noopener noreferrer for security */ ?>
+<?php  ?>
 <a href="<?php echo $pdf; ?>" target="_blank" rel="noopener noreferrer"><?php _e('File download'); ?></a>
 <?php endif; ?>

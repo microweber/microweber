@@ -10,10 +10,7 @@ description: Dictionary
 
 */
 
-// task-2026-05-17-bb503e / AI-841 — Posts shop.js perf cost gate.
 //
-// Sibling of AI-806-defect-#1 in the legacy-Blade audit class (the
-// AI-806 family that removed unconditional mw.require('shop.js') from
 // Pages entirely; Posts CAN carry prices via the extends-from-Content
 // pattern so the shop.js load is legitimate when at least one item
 // has a non-empty prices array — but unconditional loading wastes a
@@ -34,7 +31,6 @@ description: Dictionary
 // gating remains intact (cart buttons stay conditional); this gate
 // just skips the script load entirely when no cart UI will render.
 //
-// Slice B option (deferred — AI-841b follow-up candidate): extract
 // the pre-scan + @if-gate to a shared partial at
 // Modules/Post/resources/views/templates/partials/_shop-require-gate
 // .blade.php once a 3rd Posts wrapper joins the cart-supporting set.

@@ -1,4 +1,4 @@
-{{-- task-2026-05-17-f141ff / AI-794 — forgot-password form, now wrapped in mw-auth-card chrome via user::layout --}}
+
 @extends('user::layout')
 
 @section('auth_form')

@@ -1,7 +1,6 @@
 
 @include('admin::layouts.partials.loads-user-custom-fonts')
 
-
 <script>
     // The Microweber `mw.require` / `mw.top` helpers are defined inside
     // `admin.js`, which is loaded as `type="module"` and therefore has
@@ -12,8 +11,6 @@
     // setup so the Vue style-editor app mounted with `mw.top().app` ===
     // undefined and emitted "Cannot read properties of undefined" in
     // its `mounted()` hook. Same pattern as the `waitForCodeMirror`
-    // poll in `render-css-editor.blade.php` (task-2026-04-29-8db524).
-    // task-2026-05-04-3337c0.
     (function () {
         var attempts = 0;
         var maxAttempts = 200; // 200 × 50ms = 10s
@@ -170,15 +167,11 @@
     body {
         background: #fff !important;
     }
-    /* task-2026-09-06-darkaudit — this standalone ESE page forced a white body
-       with no dark counterpart; if it ever loads in dark mode the light ESE
-       text would be white-on-white. Give it a dark surface to match the live
-       ESE container (iframe-page.blade.php uses rgb(31 41 55)). */
+
     html.dark body {
         background: rgb(31, 41, 55) !important;
     }
 </style>
-
 
 <div>
     <div id="mw-element-style-editor-app">
@@ -186,17 +179,10 @@
     </div>
     <div id="mw-element-style-editor-app-scripts">
 
-        {{-- Vue bundle URL captured for the wait-for-mw loader above
-             — stylesheet ships immediately, but the JS module is
-             injected ONLY after `mw.top().app` is ready, otherwise the
-             Vue `mounted()` hook fires `mw.top().app.on()` against an
-             undefined `app` and emits the cascade reported in
-             task-2026-05-04-3337c0. --}}
         <link rel="stylesheet" href="{{ asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.css') }}">
         <script>
             window.__mwElementStyleEditorAppUrl = @json(asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.js'));
         </script>
-
 
     </div>
 

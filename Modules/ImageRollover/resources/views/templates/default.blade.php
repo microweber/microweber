@@ -37,7 +37,6 @@
         object-fit: cover;
     }
 
-    /* task-2026-05-28-acfec1 / AI-885: touch-device fallback */
     @media (hover: none) {
         .mw-rollover {
             cursor: pointer;
@@ -86,7 +85,6 @@
     @endif
 </div>
 
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var rolloverImages = document.querySelectorAll('.mw-rollover');
@@ -104,7 +102,6 @@
             }
         });
 
-        /* task-2026-05-28-acfec1 / AI-885: tap-to-toggle on touch devices */
         if (window.matchMedia('(hover: none)').matches) {
             rolloverImages.forEach(function (container) {
                 var overlay = container.querySelector('.mw-rollover-overlay');

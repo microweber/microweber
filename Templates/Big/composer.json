@@ -2,7 +2,6 @@
     "name": "microweber-templates/big",
     "description": "Master template for Microweber CMS",
     "type": "microweber-template",
-
     "authors": [
         {
             "name": "Microweber Team",

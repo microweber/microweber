@@ -10,7 +10,6 @@
 
     <?php print mw_admin_header_scripts() ?>
 
-
     <link type="text/css" rel="stylesheet" media="all"
           href="<?php print asset('vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css'); ?>"/>
     <link type="text/css" rel="stylesheet" media="all"
@@ -19,9 +18,6 @@
 </head>
 
 <body class="bg-gray-50">
-
-
-
 
 <main class="w-full min-h-screen py-10 bg-[#ececec]">
     <link href="//fonts.googleapis.com/css?family=Inter:200,300,400,500,600,700,800,900" rel="stylesheet"/>
@@ -108,7 +104,6 @@
 
                         @endphp
 
-
                         <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ $displayName }}</h3>
                         {{--                                @if(isset($template['description']))--}}
                         {{--                                    <div class="template-description mb-4">--}}
@@ -136,13 +131,6 @@
                             </div>
                         @endif
 
-                        {{-- AI-113 / TICKET-CP (cycle-103 2026-05-09):
-                             inline `onclick="installTemplate('{{ ... }}')"`
-                             lifted to data-mw-* + delegated listener
-                             (live-edit setup-wizard.js). The pre-fix
-                             shape both broke strict CSP and would have
-                             broken on apostrophe-containing template
-                             dir names. --}}
                         <button
                             type="button"
                             class="use-template-btn btn btn-outline-dark w-full hover:bg-gray-800 text-black hover:text-white py-2.5 px-4 rounded-lg transition-colors duration-200 transform hover:scale-[1.02] shadow-sm flex items-center justify-center"
@@ -245,7 +233,6 @@
                 loadingText.textContent = messages[messageIndex];
             }, 5000); // Change message every 5 seconds
 
-
             // Disable all buttons
             const allButtons = document.querySelectorAll('.use-template-btn');
             allButtons.forEach(btn => {
@@ -298,7 +285,6 @@
 
                         mw.notification.success(data.success);
 
-
                         const wrapperMakeHiddern = document.querySelector('.templates-wrapper');
 
                         if (wrapperMakeHiddern) {
@@ -312,8 +298,6 @@
                             }
 
                         @endphp
-
-
 
                             window.location.href = "{{ admin_url('live-edit') }}?setup_wizard=true&url=" + encodeURIComponent('{{ site_url() }}') + "&template=" + encodeURIComponent(template) + "{!! $promptParams !!}";
                     }
@@ -363,7 +347,6 @@
             });
         });
 
-
         @if(isset($_GET['template']) && !empty($_GET['template']))
 
         var existingTemplates = [];
@@ -372,7 +355,6 @@
         existingTemplates.push('{{ $template['dir_name'] }}');
         @endforeach
         @endif
-
 
         // install if in existingTemplates
         document.addEventListener('DOMContentLoaded', function () {
@@ -383,7 +365,6 @@
 
         });
         @endif
-
 
         //NotaryServices2
 
@@ -466,7 +447,6 @@
         .category-filter:hover {
             transform: translateX(3px);
         }
-
 
         .top-5 {
             top: 20px !important;

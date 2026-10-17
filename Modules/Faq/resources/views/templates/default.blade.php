@@ -1,10 +1,5 @@
 @php
-    /*
-     * task-2026-05-05-3bd724 — drunk-designer audit (faq.md): emit
-     * FAQPage JSON-LD so search engines render the Q&A as a rich
-     * snippet on results pages. Skips entries with no question or
-     * no answer — those would confuse crawlers.
-     */
+
     $faqJsonLdEntities = [];
     if (isset($faqs) && !empty($faqs) && is_array($faqs)) {
         foreach ($faqs as $faqJsonLdItem) {
@@ -70,19 +65,6 @@
     </div>
 </div>
 
-{{-- AI-79 / TICKET-AI (cycle-91 2026-05-09): inline `<style>` lifted
-     into `Modules/Faq/resources/assets/css/faq-skin.css`. Solves three
-     problems at once:
-       1. CSP — strict `style-src 'self'` blocks every inline `<style>`;
-          the bundle ships from a same-origin URL so the directive is
-          satisfied without unsafe-inline.
-       2. Perf — N FAQ modules on one page previously emitted N copies
-          of ~30 lines of CSS; `@once` dedupes the load to a single
-          <link>.
-       3. Theme — hardcoded literals (#1157c1, #6f6f6f, #efefef) now
-          resolve via theme tokens (var(--mw-primary-color), etc.) so
-          the FAQ picks up the active style-pack instead of breaking
-          dark themes. --}}
 @once
     <link rel="stylesheet" href="{{ asset('modules/faq/css/faq-skin.css') }}">
 @endonce

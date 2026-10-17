@@ -12,13 +12,11 @@ description: Navigation bar skin 1
 
 ?>
 
-
 <?php
 $menu_filter['ul_class'] = '';
 $menu_filter['ul_class_deep'] = '';
 $menu_filter['li_class'] = 'space';
 $menu_filter['a_class'] = '';
-
 
 //
 $menu_filter['li_submenu_class'] = '';
@@ -29,13 +27,11 @@ $menu_filter['li_submenu_a_link'] = '<a itemprop="url" data-item-id="{id}" href=
 
 $mt = menu_tree($menu_filter);
 
-// task-2026-05-17-4f4f83 / AI-852 + task-2026-05-17-bdba1a / AI-853 bundled.
 // Inline <script> + <style> moved INSIDE the truthy branch so empty-menu
 // renders ship zero descendant CSS/JS bytes (textContent-leak family,
 // ~600 wasted bytes per empty-menu render). Empty-state migrates to
 // canonical .mw-canvas-empty-state with CTA replacing the broken
 // mw-open-module-settings JS hook. is_admin() gate keeps empty-state
-// admin-only. Supersedes task-2026-05-17-d00884 / AI-809 lnotif-with-
 // e($menu_name) shape by removing the $menu_name interpolation entirely.
 if ($mt != false) {
     print ($mt);

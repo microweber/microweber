@@ -63,6 +63,16 @@
             "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
           }
         ]
+      },
+      {
+        "__loop_handoff__": "read",
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /home/mwdev/code/.claude/hooks/loop-read.sh"
+          }
+        ]
       }
     ],
     "Stop": [
@@ -103,6 +113,16 @@
           {
             "type": "command",
             "command": "node \"/home/headless/Documents/GitHub/microweber/.autodev/scripts/hook-append.mjs\" \"/home/headless/Documents/GitHub/microweber/.autodev/hooks-events.jsonl\""
+          }
+        ]
+      },
+      {
+        "__loop_handoff__": "pre",
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /home/mwdev/code/.claude/hooks/loop-precompact.sh"
           }
         ]
       }

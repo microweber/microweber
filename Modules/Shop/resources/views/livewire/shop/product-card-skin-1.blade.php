@@ -1,11 +1,5 @@
 <div class="mw-online-shop-skin-1-product position-relative">
-    {{-- AI-265 (task-2026-05-13-de78ce) — skin-1 product card image
-         bounded optimization slice. Same migration as product-card.blade.php:
-         hand-rolled <img> → responsive_thumbnail() (gains srcset/sizes
-         centralised in the helper) + wrapper placeholder background-color
-         (no-CLS layout reservation, no white flash). See product-card.blade.php
-         for the full rationale. WebP variants + LQIP blur deferred to
-         AI-265 follow-ups. --}}
+
     <a class="text-decoration-none" href="{{content_link($product->id)}}">
         <div class="background-image-holder position-relative mw-product-card-image-placeholder"
              style="aspect-ratio: 1 / 1; overflow: hidden;">
@@ -65,13 +59,6 @@
         </span>
     @endforeach
 
-    {{-- task-2026-05-17-046a37 / AI-861 — storefront add-to-cart CTA.
-         Sibling fix to product-card.blade.php — skin-1 carried the same
-         no-buy-affordance gap. See product-card.blade.php docblock for
-         the full rationale (mw-add-to-cart-btn = canonical shop.js click
-         handler hook; data-content-id + data-price + data-title shape
-         mirrors the Cart-module templates that own the variant-picker
-         flow on the product-detail page). --}}
     <button type="button"
             class="btn btn-primary mt-3 mw-add-to-cart-btn"
             data-content-id="{{ $product->id }}"

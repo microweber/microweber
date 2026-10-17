@@ -58,9 +58,7 @@ description: Default
                     <p class="team-card-item-position">
                         {{$member['role']}}
                     </p>
-                    {{-- task-2026-05-05-90021f — security: external
-                         user-supplied URL must carry rel=noopener
-                         noreferrer to block tabnabbing. --}}
+
                     @if(!empty($member['website']))
                     <a class="d-block mb-3" href="{{ $member['website'] }}" target="_blank" rel="noopener noreferrer">
                         {{$member['website']}}

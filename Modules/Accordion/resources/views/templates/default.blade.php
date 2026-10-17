@@ -21,20 +21,6 @@
     @php $accordion = $defaults @endphp
 @endif
 
-{{-- AI-80 / TICKET-AK (cycle-92 2026-05-09): inline `<script>` and
-     inline `<style>` lifted into module assets. Solves three problems
-     at once:
-       1. CSP — strict `script-src 'self'` and `style-src 'self'`
-          block every inline block; both bundles ship from same-origin
-          URLs so the directives are satisfied without unsafe-inline.
-       2. Perf — N Accordion modules on one page previously emitted N
-          copies of the same JS+CSS; `@once` dedupes both loads.
-       3. Multi-instance correctness — the per-instance script bound
-          to `#accordion-sk-{$params['id']}`. With the JS now using a
-          document-level delegated handler against the
-          `.mw-accordion-faq-skin-card > .collapse` selector, the
-          chevron toggles correctly even on pages with 5+ Accordion
-          modules. --}}
 @once
     <link rel="stylesheet" href="{{ asset('modules/accordion/css/accordion-skin.css') }}">
     <script src="{{ asset('modules/accordion/js/accordion-skin.js') }}" defer></script>
@@ -78,20 +64,7 @@
                  to the FIRST DOM match so clicking module B's button toggled
                  module A's panel. Prefixed all 3 with `{$params['id']}-`. --}}
             <div class="mw-accordion-faq-skin-card card mb-3 {{ $key == 0 ? 'active' : '' }}">
-                {{-- AI-80 / TICKET-AK (cycle-92): BS5 canonical markup
-                     pattern. Pre-fix the header was a `<div
-                     class="card-header"><button><h5>title</h5></button></div>`
-                     — a button containing flow-content `<h5>` is invalid
-                     HTML (per HTML spec, buttons can hold phrasing
-                     content only). Switched to the BS5 docs shape:
-                     `<h5 class="accordion-header"><button class="accordion-button">title</button></h5>`
-                     — the heading wraps the button, and the button's
-                     visible label is plain phrasing content (icon
-                     `{!! ... !!}` + `<span>` for the title text +
-                     trailing chevron `<i>`). All BS5 data-bs-* attrs
-                     and ARIA stay where Bootstrap's collapse JS
-                     expects them. The chevron `style="font-size:24px"`
-                     was also moved into the stylesheet (CSP). --}}
+
                 <h5 class="mw-accordion-faq-skin-header accordion-header card-header p-0 mb-0" id="header-item-{{ $params['id'] }}-{{ $edit_field_key }}">
                     <button type="button" class="mw-accordion-faq-skin-button accordion-button mw-accordion-module-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}" aria-expanded="false" aria-controls="collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}">
                         {!! isset($slide['icon']) ? icon_html($slide['icon']) . ' ' : '' !!}

@@ -7,7 +7,6 @@ Description: Default cart add template with prices and add to cart button
 
 <script>
 
-
 </script>
 
 <script>
@@ -30,19 +29,7 @@ Description: Default cart add template with prices and add to cart button
     @endif
 
     @if(empty($data))
-        {{-- task-2026-05-17-046a37 / AI-861 — public surface MUST always
-             carry a buy CTA. Pre-fix this empty-data branch rendered ONLY
-             the admin editor prompt "Click here to edit custom fields"
-             which leaked to public users (the `mw-open-module-settings`
-             class has no display:none scope), and crucially produced ZERO
-             add-to-cart button on the product-detail page when no prices
-             were configured. Gate the admin prompt behind is_admin();
-             public users now see a fallback "Add to cart" button anchored
-             at the product's base price column (`$content_data['price']`
-             with `0` fallback for misconfigured products). The button
-             carries the canonical `mw-add-to-cart-btn` class so the
-             shop.js delegated click handler fires the cart-add transaction
-             identically to the regular price-configured path. --}}
+
         @if(is_admin())
             <div class="mw-open-module-settings">
                 {{ _e('Click here to edit custom fields', true) }}

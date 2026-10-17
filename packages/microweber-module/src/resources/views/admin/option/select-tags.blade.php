@@ -13,7 +13,7 @@
     </div>
 
     <div>
-        {{-- task-2026-06-06-AI995: debounce the live search (see font-picker note). --}}
+
         <x-microweber-ui::input wire:model.live.debounce.300ms="search" placeholder="Search tags..."  x-on:click="openTags = !openTags" />
     </div>
 

@@ -21,10 +21,7 @@
                 <div class="mw-settings-hub-card">
                     <div class="mw-settings-hub-grid">
                         @foreach($settings as $setting)
-                            {{-- task-2026-05-28-2f5a6c / AI-1098 — explicit aria-label
-                                 with trim($setting['title']) so the link's accessible
-                                 name is the cleanly-trimmed title rather than the
-                                 multi-line content. --}}
+
                             <a href="{{ $setting['url'] }}"
                                class="mw-settings-hub-item"
                                data-mw-settings-item

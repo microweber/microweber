@@ -1,14 +1,5 @@
 @include('modules.social_links::components.custom-css')
 
-{{-- AI-295: gate every social anchor on BOTH `_enabled` AND a non-empty
-     URL. `SocialLinksModule::getSocialNetworksData()` auto-enables
-     facebook/x/instagram/linkedin with empty `_url` strings on fresh
-     installs (lines 75-83); without this gate the blade rendered
-     empty-href anchors — exactly the "empty anchor" pattern the audit
-     flagged. WhatsApp is the only exception: its href is a runtime-built
-     `whatsapp://send?text=…` URL, never stored as a setting, so the
-     enable flag alone gates it. --}}
-
 <div class="mw-socialLinks">
     @if($facebook_enabled && !empty($facebook_url))
         <a href="{{ $facebook_url }}" target="_blank" rel="noopener noreferrer">

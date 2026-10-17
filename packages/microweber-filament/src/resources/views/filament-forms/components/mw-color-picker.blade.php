@@ -23,8 +23,6 @@
     :inline-label-vertical-alignment="\Filament\Support\Enums\VerticalAlignment::Center"
 >
 
-
-
     <x-filament::input.wrapper
         :disabled="$isDisabled"
         :inline-prefix="$isPrefixInline"
@@ -224,9 +222,7 @@
             >
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Choose Color</span>
-                    {{-- task-2026-05-31 AI-817 follow-up: close-X button was icon-only with no accessible name —
-                         screen readers announced "button" with no purpose. WCAG 4.1.2 Level A failure.
-                         Carries to every ColorPicker consumer (Logo / Social-links / Background / Theme). --}}
+
                     <button
                         type="button"
                         x-on:click="togglePanelVisibility()"

@@ -1,8 +1,5 @@
 <div class="flex flex-col w-full gap-0.5">
 
-    {{-- Line 1: title (+ homepage badge). task-2026-09-23 — the old faint gray
-         home icon was easy to miss; use a clear labelled pill so the homepage row
-         is obvious at a glance (matches the "set homepage" action). --}}
     <div class="flex flex-wrap items-center gap-2 font-medium w-full min-w-0">
         {{-- min-w-0 + flex-1 so a long title shrinks/ellipsises; flex-wrap so the
              flex-none Homepage badge drops to a visible second line instead of

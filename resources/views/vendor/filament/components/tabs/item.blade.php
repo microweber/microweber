@@ -2,28 +2,6 @@
     use Filament\Support\Enums\IconPosition;
 @endphp
 
-{{--
-    task-2026-05-31-tabs811 — AI-1199: Filament v5 native Tabs aria-selected gap.
-
-    Stock vendor `<x-filament::tabs.item>` (vendor/filament/support/.../tabs/item.blade.php:48)
-    merges `'aria-selected' => $active` where $active defaults to boolean false. Blade drops
-    boolean-false attributes from rendered HTML, so the DOM reports `ariaSelected: null` on
-    EVERY non-active tab — Playwright probe at /admin/layout-module-settings confirmed both
-    parent-level "Layout Settings" / "Design and Details" tabs render `aria-selected: null`.
-
-    When `$hasAlpineActiveClasses` is true (Alpine-driven state, the live-edit + admin
-    Tabs case), vendor binds only `x-bind:class="{ 'fi-active': ... }"` — never
-    `x-bind:aria-selected`. So even when the active tab toggles in JS, AT never hears
-    "selected".
-
-    Fix: project-side override binds `x-bind:aria-selected="((<alpineActive>) ? 'true' : 'false')"`
-    when Alpine drives state. Static-active path falls back to a string literal so Blade
-    keeps the attribute on the rendered HTML.
-
-    Carries to every Filament v5 Tabs surface project-wide (admin resource Tabs, live-edit
-    module-settings Tabs, future consumers).
---}}
-
 @props([
     'active' => false,
     'alpineActive' => null,

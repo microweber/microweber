@@ -1,4 +1,4 @@
-{{-- task-2026-05-17-f141ff / AI-794 — reset-password form, now wrapped in mw-auth-card chrome via user::layout (was a standalone bare DOCTYPE page that loaded no template CSS) --}}
+
 @extends('user::layout')
 
 @section('auth_form')

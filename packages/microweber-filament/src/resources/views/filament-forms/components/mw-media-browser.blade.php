@@ -9,15 +9,6 @@
     :field="$field"
     :inline-label-vertical-alignment="\Filament\Support\Enums\VerticalAlignment::Center"
 >
-    {{-- task-2026-09-17-mediabrowser-redesign — two-pane Pictures editor.
-         LEFT: thumbnail grid (server-rendered @foreach, x-sortable reorder) +
-         the drop target + top action row. RIGHT: per-image detail panel
-         (Caption / Alt text + AI / Link + Page picker / Thumbnail crop / Remove).
-         All server round-trips go through this.$wire.callSchemaComponentMethod
-         (the only call that reaches the server inside the Live Edit modal) using
-         the ABSOLUTE dotted component key ($getKey() = "form.mediaIds"); a bare
-         state path silently no-ops. Drag-drop upload + reorder persistence are
-         bound in mwMediaManagerComponent.init() (theme bundle mw-media-browser.js). --}}
 
     @php
         $mwMediaBrowserPickerHandler = "() => { mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => { if (!Array.isArray(url)) { url = [url]; } \$wire.callSchemaComponentMethod('" . $componentKey . "', 'addMediaItemMultiple', { data: { urls: url } }); }); }";

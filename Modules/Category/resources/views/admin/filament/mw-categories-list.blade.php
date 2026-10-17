@@ -9,15 +9,11 @@
 
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::RESOURCE_PAGES_LIST_RECORDS_TABLE_BEFORE, scopes: $this->getRenderHookScopes()) }}
 
-
-
-
         @php
             $suffix = '';
 
             $suffix = $this->getId();
 
-            // task-2026-05-28-2f5a6c / AI-1092 — server-side category-count gate.
             // /admin/categories renders via a custom JS-rendered tree (mw.admin.categoriesTree),
             // NOT a standard Filament table, so a Resource-level ->emptyState() wiring
             // would never render. Instead, count categories server-side and render
@@ -27,21 +23,17 @@
 
         @endphp
 
-
         @if($mwCatListCategoryCount > 0)
 
         @script
 
-
         <script>
-
 
         (async function () {
             const tree = async (params = {} )=> {
                 var skip = [];
                 var selectedData = [];
                 var options = {
-
 
                 }
 
@@ -69,7 +61,6 @@
                     type: 'category'
                 })
 
-
                 @endforeach
 
                     @endif
@@ -81,17 +72,13 @@
                     options.skip = skip;
                 }
 
-
-
                 var opts = {
                     options,
                     params
                 };
 
-
                 const target = document.querySelector('#mw-tree-edit-content-{{$suffix}}');
                 target.innerHTML = '';
-
 
                  mw.spinner({
                     element: target,
@@ -99,7 +86,6 @@
                 }).show();
 
                 let pagesTree = await mw.admin.categoriesTree(target, opts);
-
 
                 mw.spinner({
                     element: target,
@@ -113,7 +99,6 @@
 
                 pagesTree.tree.openAll();
 
-                // AI-1001 / task-2026-05-22 — wire expand-all / collapse-all buttons.
                 const expandBtn = document.querySelector('#mw-tree-expand-all-{{$suffix}}');
                 const collapseBtn = document.querySelector('#mw-tree-collapse-all-{{$suffix}}');
                 if (expandBtn) {
@@ -125,13 +110,8 @@
 
             };
 
-
-
-
-
             document.addEventListener('livewire:initialized', async () => {
                     tree();
-
 
                 Livewire.on('treeLanguageChanged', async (lang) => {
 
@@ -148,18 +128,11 @@
 
             });
 
-
-
-
-
-
-
         })();
         </script>
 
         @endscript
 
-        {{-- AI-1001 / task-2026-05-22 — expand-all / collapse-all tree toolbar. --}}
         <div class="flex gap-2 mb-2">
             <button type="button" id="mw-tree-expand-all-{{$suffix}}"
                 class="fi-btn fi-btn-size-sm fi-color-gray fi-btn-color-gray py-1 px-2 text-xs rounded"
@@ -176,11 +149,7 @@
             <div wire:ignore class="mw-edit-categories-list" id="mw-tree-edit-content-{{$suffix}}"></div>
 
         @else
-            {{-- task-2026-05-28-2f5a6c / AI-1092 — empty-state chrome for /admin/categories.
-                 Mirrors the shared-empty-state blade shape (heading + CTA-wrap + CTA)
-                 used by Content / Order / Customer / Invoice / Product branches in
-                 Modules/Content/resources/views/filament/admin/empty-state.blade.php,
-                 but lands here because the categories list bypasses Filament's table. --}}
+
             <div class="text-center you-dont-have-any d-flex justify-content-center mt-5 flex-column align-items-center" style="min-height: 300px;">
                 {{-- Empty-state icon — the shared empty-state blade shows an illustration for
                      Orders/Customers/etc.; Categories had none. A muted category (stacked)
@@ -201,11 +170,6 @@
                 </div>
             </div>
         @endif
-
-
-
-
-
 
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::RESOURCE_PAGES_LIST_RECORDS_TABLE_AFTER, scopes: $this->getRenderHookScopes()) }}
     </div>

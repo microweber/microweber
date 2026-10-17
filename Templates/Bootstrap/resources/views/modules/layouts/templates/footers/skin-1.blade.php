@@ -47,14 +47,7 @@ categories: Footers
                 </div>
                 <div class="edit" field="layout-footer-skin-1-email-{{ $params['id'] }}" rel="module">
                     <small>Email</small>
-                    {{-- AI-142 / A11Y-07 (cycle-126 2026-05-09): the
-                         default `href=""` resolved to the current
-                         page (link-to-self), confusing visitors who
-                         expected a mail-to. Switched to a real
-                         `mailto:` link with the same address as the
-                         visible text. The address itself is a
-                         placeholder; the live install replaces it
-                         via the editable region. --}}
+
                     <p class="mt-2"><a href="mailto:mail@yourcompany.com">mail@yourcompany.com</a></p>
                 </div>
                 <div class="edit" field="layout-footer-skin-1-social-{{ $params['id'] }}" rel="module">

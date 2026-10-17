@@ -4,10 +4,6 @@
     $startValue = $getState() ? [$getState()] : [0];
 @endphp
 
-{{-- task-2026-05-31 AI-817 follow-up: slider label binding + noUi-handle aria-label propagation.
-     Previously the label rendered with no htmlFor and the noUi-handle thumbs had empty
-     aria-label/aria-labelledby — screen readers announced "slider, 0 of 600" with no purpose.
-     Fix: id the label, point handles to it via aria-labelledby after slider init. --}}
 <div>
     @if($getLabel())
         <label id="{{ $sliderLabelId }}" for="{{ $sliderId }}">{{ $getLabel() }}</label>
@@ -62,7 +58,6 @@
                         }
                     });
 
-                    // AI-817 follow-up: propagate the group label onto each noUi-handle so AT
                     // users hear the slider's purpose, not just the bare role + value range.
                     const handles = this.component.querySelectorAll('.noUi-handle');
                     handles.forEach((handle) => {

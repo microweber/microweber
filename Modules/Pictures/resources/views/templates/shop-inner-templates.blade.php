@@ -22,10 +22,7 @@ description: Default skin for shop inner of the templates
             <div class="shop-inner-gallery-thumbnails">
                 @php $count = -1; @endphp
                 @if(empty($data))
-                    {{-- task-2026-05-17-525769 / AI-812 — wrap admin-targeted empty-state copy in is_admin() gate;
-                         adopt AI-780a typed empty-state pattern (heading + body + CTA pointing to admin_url('media')).
-                         Pre-fix the bare <p> rendered "No pictures added. Please add pictures to the module." to
-                         anonymous frontend visitors — admin-targeted copy leaked to public surface. --}}
+
                     @if (is_admin())
                         <div class="mw-canvas-empty-state" data-mw-content-type="picture">
                             <h3 class="mw-canvas-empty-state__title">{{ __('No pictures yet') }}</h3>
@@ -97,27 +94,7 @@ description: Default skin for shop inner of the templates
                     'style' => $cropPos !== '' ? 'object-position: ' . $cropPos : '',
                 ])) !!}
             @else
-                {{-- AI-61 / TICKET-EE (cycle-80 2026-05-08): hero
-                     image fallback when no product image is set.
-                     Prior shape rendered an empty .shop-inner-big-image
-                     div — sighted users saw a broken/skewed layout
-                     because the surrounding column expected a
-                     1080-tall image to drive its height. Now we
-                     render an inline-SVG placeholder so the column
-                     has a reasonable intrinsic aspect ratio AND
-                     screen-reader users hear "No product image
-                     available" instead of nothing.
 
-                     Inline SVG (vs. <img src=asset(...)>) avoids a
-                     404 risk if the asset hasn't been published —
-                     the placeholder is small enough to inline.
-
-                     Same `id` on the <figure> so the JS gallery
-                     binding (line 109+ below) finds the element
-                     when content has no images and renders an empty
-                     gallery instead of NPE-ing. role="img" + aria-label
-                     give the figure an accessible name. The inner
-                     <svg> is aria-hidden so SR doesn't double-announce. --}}
                 <figure class="img-fluid mw-shop-inner-big-image-placeholder"
                         id="{{ $pictureElementId }}"
                         role="img"

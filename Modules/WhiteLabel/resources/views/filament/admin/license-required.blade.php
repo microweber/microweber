@@ -4,7 +4,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
         </svg>
     </div>
-    
+
     <div class="text-center gap-y-2">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
             White Label License Required
@@ -14,10 +14,6 @@
         </p>
     </div>
 
-    {{-- task-2026-05-22-9d1964 / AI-917 — (1) removed uppercase tracking-widest (ALL-CAPS
-         was inconsistent with admin's Title Case convention); (2) swapped hierarchy:
-         "Add License Key" is the primary action (existing customers), "Purchase License"
-         is secondary (new buyers) — now outlined to de-emphasise. --}}
     <div class="flex flex-col sm:flex-row gap-3">
         <button
             type="button"
@@ -35,7 +31,7 @@
             Purchase License
         </a>
     </div>
-    
+
     <div class="text-xs text-gray-500 dark:text-gray-400 text-center">
         <p>Already have a license? Use the "Add License Key" button above to activate it.</p>
     </div>

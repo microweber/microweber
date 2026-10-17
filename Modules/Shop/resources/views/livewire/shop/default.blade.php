@@ -1,20 +1,5 @@
 <div class="d-flex justify-content-between flex-wrap mt-3">
-    {{-- task-2026-05-17-328124 / AI-862 — Bootstrap grid math fix for tablet 768.
-         Pre-fix the filter sidebar carried `col-12 col-md-2` (116px wide at
-         the 768 viewport — the unique width where md-2 hits the legibility
-         cliff: "Discount filter" label collapses to 1px) and the product grid
-         carried `col-12 col-md-9`, summing to 11 cols and leaving a visible
-         60px dead-space band on the right of the row.
 
-         Option A2 per designer (preferred): stack-at-md, sidebar-at-lg+.
-         At md (≥768): both columns hit `col-12` so the filter rail stacks
-         ABOVE the product grid — easier touch targets, all filter labels
-         legible, no dead-space gap. At lg+ (≥992): filter rail returns as
-         3-col sidebar (180px @ 992, 240px @ 1280, 300px @ 1440), product
-         grid is 9 cols. 1440 desktop UX unchanged (still sidebar layout).
-
-         Trade-off named + accepted by designer: ~1 row of vertical filter
-         pills at tablet portrait = legibility win. --}}
     <div class="col-12 col-lg-3">
         @if(!empty($availableCategories) && !$filterSettings['disable_categories_filtering'])
             @include('modules.shop::livewire.shop.filters.categories.index')
@@ -44,15 +29,7 @@
              aria-busy="true" while Livewire is fetching so SR users hear
              "loading" instead of stale results. --}}
         <div class="row mt-4" aria-live="polite" wire:loading.attr="aria-busy">
-            {{-- AI-286: 3-col (lg/xl) → 2-col (md) → 1-col (sm) responsive
-                 product grid. Previously `col-12 col-lg-6 col-xl-6` produced
-                 a 1→2 jump with no intermediate 2-col state at tablet widths
-                 and stopped at 2 cols on wide desktop. Updated breakpoints
-                 land cleanly on the AI-286 test viewports
-                 (320/390/768/1024/1440). --}}
-            {{-- task-2026-05-22-c58ec3 / AI-906 — wire Columns setting to grid class.
-                 $filterSettings['columns'] is saved by ShopModuleSettings ToggleButtons
-                 with values '2'|'3'|'4'. Default '3' preserves the pre-fix layout. --}}
+
             @php
                 $mwShopGridCols = $filterSettings['columns'] ?? '3';
                 $mwShopGridColClass = match($mwShopGridCols) {

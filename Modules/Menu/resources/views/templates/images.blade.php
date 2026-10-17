@@ -12,14 +12,6 @@ description: Images Menu skin
 
 ?>
 
-{{-- task-2026-05-17-4f4f83 / AI-852 + task-2026-05-17-bdba1a / AI-853 bundled.
-     Two mw.moduleCSS asset-registration scripts moved INSIDE the truthy
-     branch so empty-menu renders ship zero descendant CSS/JS bytes
-     (textContent-leak family). Empty-state migrates to canonical
-     .mw-canvas-empty-state with CTA replacing the broken
-     mw-open-module-settings JS hook. is_admin() gate keeps empty-state
-     admin-only. Supersedes task-2026-05-17-d00884 / AI-809 lnotif-with-
-     e($menu_name) shape by removing the $menu_name interpolation entirely. --}}
 <div class="module-navigation module-navigation-default">
     <?php
     $mt = menu_tree($menu_filter, false, true);

@@ -1,5 +1,4 @@
 <?php
-// task-2026-05-22-f4a791 / AI-791 Slices A–C
 $post = get_content_by_id(CONTENT_ID);
 $picture = get_picture(CONTENT_ID);
 
@@ -19,14 +18,6 @@ $mwPostReadingMins = max(1, (int)ceil($mwPostWords / 200));
 $mwPostPrevPost = function_exists('prev_post') ? prev_post(CONTENT_ID) : null;
 $mwPostNextPost = function_exists('next_post') ? next_post(CONTENT_ID) : null;
 
-/*
- * AI-69 / TICKET-KK (cycle-82 2026-05-08): post-detail meta
- * resolution. Author lookup falls back gracefully when the
- * created_by user has been deleted (legacy posts with orphaned
- * user_id references shouldn't break rendering); the date string
- * is computed once into both ISO-8601 (machine-readable, for
- * <time datetime>) and human-readable forms.
- */
 $postCreatedAt = isset($post['created_at']) ? strtotime((string) $post['created_at']) : false;
 $postCreatedAtIso = $postCreatedAt ? date('c', $postCreatedAt) : '';
 $postCreatedAtHuman = $postCreatedAt ? date('d M Y', $postCreatedAt) : '';
@@ -49,17 +40,14 @@ if (isset($post['created_by']) && (int) $post['created_by'] > 0) {
 @extends('templates.bootstrap::layouts.master')
 
 @section('content')
-    {{-- AI-69 / TICKET-KK (cycle-82 2026-05-08): wrap post body in
-         a real <article> landmark so screen-reader users can jump
-         to the post via document landmark navigation. itemscope +
-         itemtype add Schema.org BlogPosting microdata for SEO. --}}
+
     <article class="blog-inner-page py-5"
              id="blog-content-<?php print CONTENT_ID; ?>"
              itemscope
              itemtype="https://schema.org/BlogPosting">
         <x-container>
             <x-row class="justify-content-center">
-                {{-- Slice A (AI-791): reading-line discipline — 720px max-width (55-75ch) --}}
+
                 <x-col size="12" style="max-width: 720px; margin-left: auto; margin-right: auto;">
 
                     <?php if ($picture != '' AND $picture != false): ?>
@@ -74,7 +62,6 @@ if (isset($post['created_by']) && (int) $post['created_by'] > 0) {
 
                     <h1 class="mt-4 mb-2 text-center" itemprop="headline"><?php echo $post['title']; ?></h1>
 
-                    {{-- Slice B (AI-791): "Published on" prefix + author + reading time --}}
                     <p class="post-meta text-muted text-center mb-3">
                         @if ($postCreatedAtIso)
                             <span class="post-meta-label">{{ __('Published on') }}</span>
@@ -98,7 +85,6 @@ if (isset($post['created_by']) && (int) $post['created_by'] > 0) {
                         <span class="post-reading-time">{{ $mwPostReadingMins }} {{ __('min read') }}</span>
                     </p>
 
-                    {{-- Slice B (AI-791): category chips --}}
                     @if (!empty($itemCategories))
                         <div class="post-categories text-center mb-2">
                             @foreach ($itemCategories as $cat)
@@ -112,7 +98,6 @@ if (isset($post['created_by']) && (int) $post['created_by'] > 0) {
                         </div>
                     @endif
 
-                    {{-- Slice B (AI-791): tags row --}}
                     @if (!empty($itemTags))
                         <div class="post-tags text-center mb-4">
                             @foreach ($itemTags as $tag)
@@ -135,7 +120,6 @@ if (isset($post['created_by']) && (int) $post['created_by'] > 0) {
 
                     <module type="sharer" id="post-bottom-sharer" class="py-3"/>
 
-                    {{-- Slice C (AI-791): prev/next post navigation --}}
                     @if ($mwPostPrevPost || $mwPostNextPost)
                         <nav class="post-navigation d-flex justify-content-between mt-5 mb-3 gap-3"
                              aria-label="{{ __('Post navigation') }}">
@@ -162,7 +146,6 @@ if (isset($post['created_by']) && (int) $post['created_by'] > 0) {
                         </nav>
                     @endif
 
-                    {{-- Slice C (AI-791): comments section — gated on Comments module install --}}
                     @if (function_exists('is_module_installed') && is_module_installed('comments'))
                         <section class="post-comments mt-5"
                                  aria-labelledby="post-comments-heading-<?php print CONTENT_ID; ?>">
@@ -173,7 +156,6 @@ if (isset($post['created_by']) && (int) $post['created_by'] > 0) {
                         </section>
                     @endif
 
-                    {{-- AI-69 / TICKET-KK: related posts --}}
                     <aside class="related-posts mt-5"
                            aria-labelledby="related-posts-heading-<?php print CONTENT_ID; ?>">
                         <h2 id="related-posts-heading-<?php print CONTENT_ID; ?>" class="h4 mb-3">

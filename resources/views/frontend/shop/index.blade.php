@@ -1,38 +1,4 @@
-{{--
-    task-2026-05-17-66a21a / AI-849 — frontend /shop chrome.
 
-    Rendered by Modules\Shop\Http\Controllers\ShopController@index.
-    Replaces the Templates/Bootstrap clean.blade.php "Describe your
-    company / Call to action / The Feature Title / Pictures In The
-    Sky / $79 iWork '08" hardcoded fixture placeholder that pre-fix
-    was the user-visible page for /shop AND every /shop/{path}
-    subroute. Stage-3 propagation-without-renderer-update closure on
-    the primary commerce surface (sibling lineage AI-755/795/837).
-
-    AI-795 standing chrome-application checklist:
-      1. Extends active template master with Bootstrap fallback
-         (AI-757 pattern; $extendsView resolved by the controller).
-      2. Semantic chrome container (.mw-frontend-shop).
-      3. Recovery / empty-state context (shop heading + product grid
-         embed via the existing <module type="shop" /> Microweber
-         module renderer; falls through to a friendly empty-state
-         when no products exist).
-      4. Correct HTTP status (200 OK — /shop is a legitimate commerce
-         surface, not an error) + X-Robots-Tag: noindex ONLY when the
-         catalogue is empty (commerce surfaces with real catalogue
-         MUST be indexable for SEO; controller emits noindex header
-         only when $hasProducts === false).
-      5. Pinned by Shop66a21aAI849ShopStubElimContractTest.
-
-    AI-849 Slice A scope: minimum-viable chrome to close the stub-
-    renderer defect. AI-849b follow-up: per-subroute differentiation
-    (filter to category for /shop/category, filter to featured for
-    /shop/featured, etc.) — currently every subroute renders the same
-    chrome which is sufficient to drop the stub leak. The
-    <module type="shop" /> embed below renders the existing
-    ShopComponent Livewire product grid which already supports the
-    standard category / price / tag filters as URL query params.
---}}
 @extends($extendsView ?? 'templates.bootstrap::layouts.master')
 
 @section('title'){{ $hasProducts ? __('Shop') : __('Shop') }} · {{ get_option('website_title', 'website') ?: 'Microweber' }}@endsection
@@ -62,23 +28,7 @@
                     </header>
 
                     @if ($hasProducts)
-                        {{-- task-2026-05-17-477d4c / AI-849 CHANGE — switch from
-                             parse_modules_html('<module ...>') wrap to a bare
-                             Blade-directive form. Microweber's custom Blade
-                             directive for the module tag eagerly substitutes
-                             ANY occurrence of the directive's opening token in
-                             the Blade source, including inside string literals
-                             passed to parse_modules_html(). The pre-CHANGE
-                             shape compiled to broken PHP that crashed all 5
-                             /shop subroutes with HTTP 500 (`syntax error,
-                             unexpected identifier "module"`). Stage-2 sub-
-                             variant 6 -- the custom Blade directive eats
-                             string-literal occurrences of its own trigger
-                             token. Canonical pattern elsewhere in the
-                             codebase (Cart, Checkout, Captcha) writes the
-                             module-tag directly in the template; the Blade
-                             directive IS the module renderer -- no wrapper
-                             needed. --}}
+
                         <div class="mw-frontend-shop__grid">
                             <module type="shop" />
                         </div>

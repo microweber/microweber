@@ -1,10 +1,4 @@
-{{-- AI-705 / task-2026-05-16-2dbae0 — Welcome sub-line replaces
-     the static "Here's what's happening" filler with an actionable
-     counter strip ("3 new comments · 1 new order · 0 new messages")
-     per designer spec §2 AD4. Empty state collapses to a single
-     "All caught up." line. Counter values come from the SAME query
-     as the matching Filament navigation badge so the two surfaces
-     never disagree (single source of truth). --}}
+
 <x-filament-widgets::widget>
     <div class="mw-welcome-widget">
         <div class="mw-welcome-widget-left">

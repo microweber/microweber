@@ -8,8 +8,6 @@
 
     @if (method_exists($livewire, 'showTopBar') && $livewire->showTopBar())
 
-
-
     @endif
 
     @php
@@ -25,14 +23,12 @@
         }
     @endphp
 
-
     <main class="mw-live-edit-page-wrapper {{ $iframeClass }}" id="mw-live-edit-page-wrapper" role="main" aria-label="Module settings">
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::CONTENT_START, scopes: $livewire->getRenderHookScopes()) }}
 
         {{ $slot }}
 
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::CONTENT_END, scopes: $livewire->getRenderHookScopes()) }}
-
 
         @if ($isIframe)
 
@@ -79,7 +75,6 @@
                         // New post", the row landed in the DB, the
                         // slideOver iframe re-rendered the table, but
                         // the host page behind the slideOver kept
-                        // showing the OLD list — task-2026-05-02-99f90c.
                         Livewire.on('liveEditModuleTableActionSaved', function () {
                             try {
                                 if (top && top.window && typeof top.window.dispatchEvent === 'function') {
@@ -130,7 +125,6 @@
                             }
                         });
 
-                        // fi-modal hit-test escape — task-2026-06-05-mnumodal-teleport.
                         // Inside the live-edit slide-over this settings page renders as
                         // a NESTED iframe, and a module's Filament action modal (e.g. the
                         // Menu "Add menu item" / "Edit" create-edit dialog) mounts DEEP
@@ -192,7 +186,6 @@
                         // mwAnyActionMounted() might not enumerate.
                         // NOTE: never write a literal "less-than x-..." blade component tag
                         // anywhere in this file (even inside a JS comment) — Blade parses it
-                        // as a real component and breaks compilation (task-2026-06-05).
                         var mwModalHasVisibleWindow = function (m) {
                             var w = m.querySelector('.fi-modal-window');
                             return !!(w && (w.offsetParent !== null || w.getClientRects().length > 0));
@@ -217,7 +210,6 @@
                             });
                         }
 
-                        // task-2026-06-05-modsettings-save: save the create/edit
                         // form from a teleported module-settings modal. The hoist
                         // above moves the modal to <body>, OUTSIDE the embedded
                         // Livewire component's wire:id subtree, so the modal's
@@ -268,60 +260,18 @@
     </main>
 
     <style>
-        /*
-         * `.mw-content-form-modal` is applied via
-         * extraModalWindowAttributes on ContentTableList's
-         * CreateAction/EditAction. Three scoped overrides:
-         * (1) restore the modal backdrop tint that the project's
-         * filament theme globally forces to bg-transparent,
-         * (2) cap the modal at viewport height with an internal
-         * scroll region so long forms don't bleed past the footer
-         * (task-2026-05-04-b7eee8 — same fix mirrored from
-         * iframe-page.blade.php),
-         * (3) keep the footer styled (background, border) so it
-         * reads as a footer rather than blending into the form.
-         */
+
         .fi-modal:has(> .fi-modal-window-ctn .mw-content-form-modal) > .fi-modal-close-overlay {
             background-color: rgba(0, 0, 0, 0.55) !important;
         }
-        /*
-         * task-2026-06-05-mnu-modal — Generic module-settings create/edit modal
-         * chrome. Module panels OTHER than Content (the Menu Add-menu-item / Edit
-         * dialog, and any LiveEditModuleSettings page that renders its own
-         * filament-actions modals create/edit action) carry NO marker class, so
-         * the per-class backdrop and sizing rules above never reached them. On
-         * this surface the project filament theme forces the modal close overlay
-         * to a transparent background and leaves the window container top-aligned,
-         * so those dialogs opened with no backdrop dim and uncentred — a bare
-         * inline box over the settings list (the add-menu-item-looks-broken
-         * report). Restore the two defaults for every non-slide-over modal on the
-         * module-settings surface. Slide-over modals are excluded so the settings
-         * panel itself keeps its right-edge alignment. This style block only loads
-         * inside the module-settings layout, so it cannot reach full-page admin
-         * modals (which already render correct chrome from the panel CSS).
-         */
+
         body.fi-panel-admin .fi-modal:not(.fi-modal-slide-over) .fi-modal-close-overlay {
             background-color: rgba(0, 0, 0, 0.5) !important;
         }
         body.fi-panel-admin .fi-modal:not(.fi-modal-slide-over) .fi-modal-window-ctn {
             align-items: center !important;
         }
-        /*
-         * Live-edit submodal full-screen slide sheet — task-2026-06-05-mnumodal-slide.
-         * Inside the live-edit slide-over the module-settings page is a nested iframe,
-         * and its create/edit "submodal" (Add post, Custom field, Accordion item,
-         * New tab, ...) is teleported to be a direct child of body (see the hoist hook
-         * above). A small CENTRED dialog — or a narrow right-docked slide-over — inside
-         * the already-narrow settings panel is cramped and reads as a stray popup, so
-         * EVERY hoisted submodal (centred dialog AND native slide-over alike) instead
-         * slides in from the inline-end edge and fills the full panel viewport, giving
-         * the form maximum room. Scoped with the child combinator to `body > .fi-modal`
-         * so it ONLY affects the teleported (in-iframe) copy — the standalone
-         * /admin/<module>-module-settings page keeps its centred dialog. Inside the
-         * iframe the only `body > .fi-modal` nodes are these inner action modals, so
-         * the rule never touches the outer settings panel (that lives in the parent
-         * frame, beyond this stylesheet's reach).
-         */
+
         body.fi-panel-admin > .fi-modal .fi-modal-window {
             position: fixed !important;
             inset: 0 !important;
@@ -367,8 +317,6 @@
             flex-direction: column;
         }
 
-        /* Mobile-friendly (mirrored from iframe-page.blade.php).
-           task-2026-05-04-76275d. */
         @media (max-width: 767px) {
             .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal {
                 top: 0.75rem;
@@ -387,8 +335,6 @@
                 padding-inline: 1rem;
             }
 
-            /* Mobile-designer audit fixes (mirrored from
-               iframe-page.blade.php). task-2026-05-04-0c2964. */
             .mw-content-form-modal .fi-section,
             .mw-content-form-modal .fi-section-content,
             .mw-content-form-modal .fi-fo-field,
@@ -472,13 +418,6 @@
             border-top-color: var(--gray-700, #374151);
         }
 
-        /*
-         * Dark-mode polish + further compaction
-         * (task-2026-05-04-e0fe54). Mirrored from
-         * iframe-page.blade.php so per-module Items-list
-         * Create/Edit modals (rendered in a separate iframe)
-         * pick up the same chrome.
-         */
         .mw-content-form-modal > .fi-modal-header {
             padding-block: 0.875rem;
             border-bottom: 1px solid var(--gray-200, #e5e7eb);
@@ -510,12 +449,6 @@
             gap: 0.375rem;
         }
 
-        /*
-         * Facebook-style writing surface
-         * (task-2026-05-04-bfe418). Mirrored from
-         * iframe-page.blade.php so per-module Items-list
-         * Create/Edit modals get the same skin.
-         */
         .mw-content-form-modal .mw-fb-title-section {
             border: none;
             background: transparent;
@@ -553,24 +486,7 @@
             box-shadow: none;
             outline: none;
         }
-        /*
-         * task-2026-05-17-04f015 / AI-817 — WCAG 3.3.2 Level A.
-         * The Facebook-style writing surface intentionally hides
-         * the field label visually (big-type placeholder carries
-         * the affordance). BEFORE AI-817 we used Filament's
-         * `->hiddenLabel()` which removed the label from the DOM
-         * entirely — AT users heard "edit text, blank" with no
-         * field name. AFTER: `->label('Title')` is restored and
-         * this sr-only rule visually-hides the rendered label
-         * while keeping it programmatically associated with the
-         * input for screen readers / Dragon NaturallySpeaking /
-         * voice-control software.
-         *
-         * Shared by ContentResource compactTitleOnlySection (Post +
-         * Page + Product via CreateContent inheritance) AND
-         * CategoryResource Slice B sibling — both surfaces tag
-         * the field wrapper with .mw-fb-title-wrap.
-         */
+
         .mw-fb-title-wrap > .fi-fo-field-lbl,
         .mw-fb-title-wrap > .fi-fo-field-lbl-ctn,
         .mw-fb-title-wrap label.fi-fo-field-lbl,
@@ -604,9 +520,6 @@
             display: none;
         }
 
-        /* "More options" accordion polish + upfront stack
-           tightening (mirrored from iframe-page.blade.php).
-           task-2026-05-04-1f20d2 + task-2026-05-04-2cd250. */
         .mw-content-form-modal .mw-fb-more-options {
             padding: 0.625rem 0.875rem;
         }
@@ -682,8 +595,6 @@
             min-height: 2.5rem;
         }
 
-        /* mw.dialog Select-image polish (mirrored from
-           iframe-page.blade.php). task-2026-05-04-6bd361. */
         .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) {
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45),
                         0 0 0 1px rgba(0, 0, 0, 0.08);
@@ -768,8 +679,6 @@
             box-shadow: none !important;
         }
 
-        /* Drunk-designer audit fixes (mirrored from
-           iframe-page.blade.php). task-2026-05-04-a8d5bb. */
         :root {
             --mw-radius-md: 8px;
             --mw-radius-lg: 12px;
@@ -777,8 +686,7 @@
                                0 0 0 1px rgba(0, 0, 0, 0.04);
             --mw-accent-ring: #182433;
         }
-        /* task-2026-09-14-ink-sweep — ink focus ring is low-contrast on dark;
-           lift it to near-white there (mirrors the swarm rank-1 fix). */
+
         html.dark, .dark { --mw-accent-ring: #f9fafb; }
         .mw-content-form-modal .fi-modal-heading,
         .mw-content-picker-modal .fi-modal-heading {
@@ -827,10 +735,6 @@
             box-shadow: none !important;
         }
 
-        /* UX-engineer audit (task-2026-05-04-39767a) — drop
-           blanket-uppercase on green Save + section headings
-           inside live-edit modals. Mirrored from
-           iframe-page.blade.php. */
         .mw-content-form-modal .fi-btn.fi-color-success,
         .mw-content-picker-modal .fi-btn.fi-color-success,
         .mw-module-settings-live-edit-modal .fi-btn.fi-color-success {
@@ -842,46 +746,11 @@
             letter-spacing: -0.005em !important;
         }
 
-        /* AI-694 (task-2026-05-16-de4ce4) — `visibility: hidden` filtered-card
-           state. Replaces the prior `x-show` (display: none) path so cards
-           filtered out by the search query keep their grid cell — the
-           remaining visible cards do not reflow as the user types. Pair
-           with the Alpine `visibleCards()` filter which now skips
-           visibility: hidden alongside display: none. pointer-events: none
-           keeps the hidden card from intercepting clicks/keyboard while
-           still occupying its grid cell. Scope: any
-           .mw-add-content-modal-action-wrapper anywhere on the page —
-           the class is unique to the add-content picker cards. */
         .mw-add-content-modal-action-wrapper.mw-add-content-card--hidden {
             visibility: hidden;
             pointer-events: none;
         }
 
-        /* AI-693 (task-2026-05-16-c3d0ed) — hover-accent rules MOVED
-           OUT of this Blade per task-2026-05-16-651cc2 CHANGE.
-           Designer verified live: same defect class as AI-691a /
-           AI-697 — this Blade is the LiveEditModuleSettings sub-form
-           layout, NOT the live-edit canvas, so the `<style>` block
-           never renders when the +ADD picker modal opens. Hover-
-           accent rules now live in `packages/microweber-filament-
-           theme/resources/assets/css/microweber/live-edit-classes.
-           css` (Webpack-bundled, loaded on /admin/live-edit) — see
-           the AI-693 / task-651cc2 block in that file. */
-
-        /* task-2026-05-16-bc28fd CHANGE — the desktop-Cancel-hide
-           rule [originally AI-691a (task-2026-05-16-860f75)] and the
-           anchored Add-Content picker rule [originally AI-697
-           (task-2026-05-16-e3da1a)] MOVED OUT of this Blade. Reason: designer verified live (per the SOUL #108
-           verify-before-accept contract) that this `<style>` block ONLY
-           renders when the LiveEditModuleSettings sub-form page loads
-           (per LiveEditModuleSettings::layout = 'live-edit-module-
-           settings'), NOT when the +ADD picker modal opens on the
-           live-edit canvas. The two rules now live in
-           `packages/microweber-filament-theme/resources/assets/css/
-           microweber/live-edit-classes.css` — the Webpack-bundled
-           always-on Live Edit stylesheet that fires on
-           `/admin/live-edit`. See the AI-691a / AI-697 / task-bc28fd
-           blocks in that file. */
     </style>
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::FOOTER, scopes: $livewire->getRenderHookScopes()) }}

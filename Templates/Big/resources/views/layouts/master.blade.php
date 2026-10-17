@@ -12,33 +12,7 @@
 
     <link rel="stylesheet" href="{{ asset('templates/big/dist/build/app.css') }}">
 
-    {{--
-        AI-531a (SOUL #56) / AI-518a + AI-603 runtime gap (tester
-        evaluation 2026-05-15): public-touch.css carries the site-wide
-        WCAG 2.5.5 44×44 touch-target floors (AI-516..AI-535 + AI-518a +
-        AI-603). Until 2026-05-15 the file was loaded ONLY by the
-        Bootstrap template's master.blade.php — non-Bootstrap templates
-        (Big, Big1, etc.) inherited Bootstrap's general 44h rules via
-        main.scss compilation but did NOT get the public-touch.css
-        rules. Tester confirmed at 390×844 that the Big active-site
-        header CTA still measured 137×38 px after the AI-518a fix
-        landed in public-touch.css — root cause: this missing link
-        load.
-
-        Loading public-touch.css from this template's master.blade.php
-        closes the runtime gap. Path points at the Bootstrap template
-        asset dir because that's where the file is built (Vite source
-        in Templates/Bootstrap/resources/assets/css/public-touch.css,
-        served mirror in public/templates/bootstrap/css/public-touch.css).
-        The Bootstrap template is part of every Microweber install
-        (reference template), so the path is stable.
-
-        Long-term follow-up (AI-531a): migrate public-touch.css to a
-        template-agnostic location (e.g. packages/frontend-assets) so
-        every template gets it without cross-template path coupling.
-    --}}
     <link rel="stylesheet" href="{{ asset('templates/bootstrap/css/public-touch.css') }}">
-
 
 {{--    @if(!lang_is_rtl())--}}
 {{--        <link rel="stylesheet" href="{{ asset('templates/big/dist/build/app.css') }}">--}}
@@ -49,24 +23,15 @@
 {{--    @endif--}}
     <script>
 
-
-
-
         mw.iconLoader()
             .addIconSet('iconsMindLine')
             .addIconSet('iconsMindSolid')
             .addIconSet('fontAwesome')
             .addIconSet('materialDesignIcons');
 
-
-
     </script>
 
-
-
     <?php // print get_template_stylesheet(); ?>
-
-
 
     @yield('head')
 
@@ -95,7 +60,6 @@
     <main id="main-content" tabindex="-1">
         @yield('content')
     </main>
-
 
     @if(empty($disable_footer))
     <module type="layouts" template="footers/skin-19" id="footer-layout" template-filter="footers" />

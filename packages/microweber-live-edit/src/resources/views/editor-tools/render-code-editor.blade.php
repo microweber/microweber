@@ -86,7 +86,6 @@
         }
     </style>
 
-
     <script>
         mw.lib.require('codemirror');
         // audit-test 2026-05-07 PM TASK-005 / TICKET-AF: ensures filterXSS()
@@ -209,7 +208,6 @@
             // Initialize events
             const initEvents = function () {
 
-
                 mw.top().app.canvas.on('canvasDocumentClick', function () {
 
                     setEditorContent();
@@ -229,31 +227,22 @@
                     }
                 });
 
-
                 mw.top().app.liveEdit.handles.get('element').on('targetChange', (node, event ) => {
-
 
                         setEditorContent();
 
-
                 });
-
 
                 mw.top().app.state.on('undo', () => {
 
                         setEditorContent();
-
 
                 });
                 mw.top().app.state.on('redo', () => {
 
                         setEditorContent();
 
-
                 });
-
-
-
 
             };
 
@@ -275,8 +264,6 @@
                 if(!setHtmlToNode){
                     return;
                 }
-
-
 
                 if (setHtmlToNode) {
                     var htmlOrigClone = '';
@@ -454,7 +441,6 @@
         // <script> tag asynchronously — there is no callback for it. If
         // we call codeEditor.init() before the script finishes parsing,
         // CodeMirror.fromTextArea throws "CodeMirror is not defined"
-        // (see task-2026-04-29-8db524). Poll for the global up to 10s
         // before kicking off init.
         $(document).ready(function () {
             var attempts = 0;
@@ -500,12 +486,7 @@
          the canvas iframe. --}}
     <div class="mw-css-editor-c2a-nav">
         <div class="btn-group btn-block" role="group">
-            {{-- task-2026-06-06-fmtcodebtn: the Format-code affordance was
-                 commented out (raw <span onclick>-style), so admins had no
-                 way to auto-indent their HTML even though formatCode() /
-                 format_code2() are fully wired below. Restored it as a real,
-                 focusable <button> bound via addEventListener (matching the
-                 2026-05-07 audit pattern used for Update). --}}
+
             <button id="mw-html-editor-format-btn" class="btn btn-outline-dark" type="button"><?php _e('Format code'); ?></button>
             <button id="mw-html-editor-update-btn" class="btn btn-dark" type="button"><?php _e('Update'); ?></button>
         </div>
@@ -516,7 +497,6 @@
             if (updateBtn) {
                 updateBtn.addEventListener('click', function () { applyHtmlEdit2(); });
             }
-            // task-2026-06-06-fmtcodebtn: keyboard-accessible Format-code wiring.
             var formatBtn = document.getElementById('mw-html-editor-format-btn');
             if (formatBtn) {
                 formatBtn.addEventListener('click', function () { format_code2(); });

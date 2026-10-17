@@ -1,37 +1,4 @@
-{{--
-    task-2026-05-31-sec813 — AI-1202: Filament v5 native Section collapse-button accessible-name gap.
 
-    Pre-fix state probed via Playwright at /admin/contact-form-module-settings:
-      Every <button class="fi-icon-btn fi-section-collapse-btn"> rendered by Filament's
-      collapsible Section header carries NO aria-label, NO title, NO visible text content.
-      Stock upstream template at vendor/filament/support/resources/views/components/
-      section/index.blade.php:103-110 instantiates <x-filament::icon-button> WITHOUT the
-      label prop. AT users hear "button" with no indication of which section the toggle
-      controls. WCAG 4.1.2 Level A regression.
-
-    Sister-fix to AI-1199 (Tabs aria-selected), AI-1200 (Toggle aria-checked), AI-1201
-    (Toggle accessible-name) — same Filament v5 vendor-override accessibility-gap
-    family. Lives at the filament namespace path because Spatie
-    PackageServiceProvider->name('filament') in
-    vendor/filament/support/src/SupportServiceProvider.php registers the view namespace
-    as 'filament', NOT 'filament-support'.
-
-    Fix: inject :label="..." into the <x-filament::icon-button> invocation. Filament's
-    icon-button component (vendor/filament/support/resources/views/components/
-    icon-button.blade.php:22, :81) accepts 'label' => null and merges it as
-    'aria-label' => $label into the rendered button attribute bag, also setting title
-    when no tooltip is present.
-
-    Label shape: when $heading is filled, "Toggle section: <stripped-heading>" so the
-    screen-reader user hears which section the toggle controls. When no $heading,
-    fallback to "Toggle section" so the button still has a non-empty accessible name.
-    State is conveyed separately via aria-expanded on the content region (preserved
-    from upstream).
-
-    Carries to every Filament v5 collapsible Section surface project-wide (ContactForm
-    module-settings: 3 collapse buttons; Pictures, Slider, Btn; every Filament admin
-    resource form with Section::make()->collapsible()).
---}}
 @php
     use Filament\Support\Enums\Alignment;
     use Filament\Support\Enums\IconSize;

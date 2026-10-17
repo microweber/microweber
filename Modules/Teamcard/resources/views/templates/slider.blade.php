@@ -65,7 +65,7 @@ if (!window.SliderV2) {
                         <p class="pb-3">
                             {{$member['role']}}
                         </p>
-                        {{-- task-2026-05-05-90021f — rel=noopener noreferrer for security --}}
+
                         @if(!empty($member['website']))
                         <a href="{{ $member['website'] }}" target="_blank" rel="noopener noreferrer">
                             {{$member['website']}}

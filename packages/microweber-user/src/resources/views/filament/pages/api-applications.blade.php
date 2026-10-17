@@ -11,7 +11,7 @@
                 <div class="flex items-end gap-3">
                     <div class="flex-1">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Token Name</label>
-                        {{-- task-2026-05-30-apiapps AI-1138 — hand-rolled Tailwind input carries inline min-height:44px !important for WCAG 2.5.5 (py-2 + text-sm yields 40px). --}}
+
                         <input type="text" wire:model="newTokenName" placeholder="e.g. My API Client"
                             class="fi-input block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm transition duration-75 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                             style="min-height:44px !important;" />

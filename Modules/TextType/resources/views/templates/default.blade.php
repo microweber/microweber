@@ -28,10 +28,7 @@
 </style>
 <!-- Element to contain animated typing -->
 <?php
-    /* task-2026-05-05-d71799 — audit asked for a static fallback first
-       string for SEO + JS-disabled users + prefers-reduced-motion. Seed
-       the first line of $text so crawlers and accessibility tooling
-       have something to read before Typed.js takes over. */
+
     $textTypeFirstString = '';
     if (isset($text) && $text) {
         $textTypeFirstStringRaw = explode(PHP_EOL, $text)[0] ?? '';
@@ -50,7 +47,6 @@
 
 </script>
 <script>
-
 
     $(document).ready(function () {
 
@@ -71,14 +67,6 @@
 
         let strings = <?php echo json_encode(explode(PHP_EOL, isset($text) ? $text : '')); ?>.map(clean);
 
-        /*
-         * task-2026-05-05-d71799 — drunk-designer audit (texttype.md QW#1):
-         * honor `prefers-reduced-motion: reduce`. Users with the OS
-         * preference set get the FIRST string rendered statically (also
-         * gives SEO + JS-disabled the static fallback the audit asked
-         * for). The cursor-blink animation is also suppressed when the
-         * preference is on.
-         */
         var el = document.getElementById('js-element-<?php echo $randId; ?>');
         var prefersReducedMotion = window.matchMedia
             && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

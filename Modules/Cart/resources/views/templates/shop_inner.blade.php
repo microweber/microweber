@@ -7,7 +7,6 @@ Description: Template designed for use within shop product layouts
 
 <script>
 
-
 </script>
 
 <div class="product-info-layout-1">
@@ -19,13 +18,7 @@ Description: Template designed for use within shop product layouts
             @endif
 
             @if(empty($data))
-                {{-- task-2026-05-17-046a37 / AI-861 — public surface MUST carry
-                     a buy CTA even when no prices are configured. Same fix shape
-                     as Modules/Cart/resources/views/templates/default.blade.php
-                     — gate the admin editor prompt behind is_admin() + render a
-                     fallback `mw-add-to-cart-btn` for public users anchored at
-                     the product's base price column (or 0 for misconfigured
-                     products). --}}
+
                 @if(is_admin())
                     <div class="mw-open-module-settings">
                         {{ _e('Click here to edit custom fields', true) }}

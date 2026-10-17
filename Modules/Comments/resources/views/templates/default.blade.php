@@ -4,10 +4,7 @@
         <div class="container my-5 py-5 text-dark">
             <div class="row d-flex justify-content-center">
                 <div class="col-md-12">
-                    {{-- Livewire binds kebab-case attributes to camelCase mount params
-                         ($relType/$relId). snake_case (:rel_id) does NOT bind and left
-                         them null — the list leaked ALL comments onto every page and the
-                         reply form saved comments with rel_id=null. task-2026-06-06-cmtbind --}}
+
                     <livewire:comments::user-comment-reply
                          wire:key="reply-{{$params['id']}}"
                         :rel-type="$rel_type"

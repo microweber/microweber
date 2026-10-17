@@ -1,27 +1,4 @@
-{{--
-  task-2026-05-17-a596d2 / AI-793 — admin-styled 404 page.
-  Jira: https://microweber.atlassian.net/browse/AI-793
 
-  Designer's R10-6 audit caught /admin/seo-settings + /admin/language +
-  /admin/backup (plus any other unmatched /admin/* URL) returning
-  plain-text "Page not found at url: ..." instead of an admin-styled
-  page. AI-735 slice 1 (task-2026-05-16-256d49) added `admin` to
-  the frontend catch-all exclusion regex so unmatched admin URLs
-  propagate to Route::fallback() — but the fallback itself returned
-  text/plain. AI-793 closes that gap.
-
-  Standalone HTML page (NOT inside the Filament Livewire panel) —
-  serving it from the fallback handler can't easily bootstrap the
-  full panel context, and a minimal self-contained page is faster
-  to render + impossible to break with downstream Filament changes.
-
-  Mimics the Filament admin chrome enough to communicate "you are
-  still in admin" — loads the same theme bundle, uses the same
-  `.mw-admin-empty-state` typography + `.mw-table-empty-cta` button
-  shipped earlier today (AI-789 + AI-731 lineage). Centered card
-  with 404 heading, requested URL (escaped), short explanation, and
-  primary CTA back to /admin/dashboard.
---}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>

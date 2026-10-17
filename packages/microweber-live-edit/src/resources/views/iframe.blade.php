@@ -10,14 +10,11 @@
 
     <?php print mw_admin_header_scripts(); ?>
 
-
     <script>
-
 
         mw.lib.require('jqueryui');
         mw.lib.require('nouislider');
         mw.require('components.css')
-
 
         mw.lib.require('flag_icons');
         mw.iconLoader()
@@ -38,7 +35,6 @@
     }
     ?>
     @php
-        // task-2026-06-13-letele2 — cache-bust the live-edit bundle (fixed Vite filename
         // + no asset() version = stale-JS-after-rebuild). mtime query → fresh fetch.
         $leVer = (@filemtime(public_path('vendor/microweber-packages/frontend-assets/build/live-edit-app.js')) ?: 0)
                . '-' . (@filemtime(public_path('vendor/microweber-packages/frontend-assets/build/live-edit-app.css')) ?: 0);
@@ -48,12 +44,7 @@
 
     <?php event_trigger('mw.live_edit.header'); ?>
 
-
-
     @include('admin::layouts.partials.loads-user-custom-fonts')
-
-
-
 
 </head>
 <body class="{{ $bodyDarkClass }} mw-admin-live-edit-page">
@@ -82,7 +73,6 @@
 
     <?php
 
-
     /*
 
      @php
@@ -107,7 +97,6 @@
 
      * */
 
-
     ?>
 </script>
 
@@ -122,7 +111,6 @@
 <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
 <?php event_trigger('mw.live_edit.footer'); ?>
 
-
 <?php print mw_admin_footer_scripts(); ?>
 
 <script>
@@ -133,7 +121,6 @@
     mw.settings.liveEditModuleSettingsComponentsFromModuleRepository =  <?php print json_encode(\MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry::getSettingsComponents()); ?>;
 
 </script>
-
 
 </body>
 </html>
