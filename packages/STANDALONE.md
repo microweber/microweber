@@ -22,63 +22,50 @@ then the package's own `phpunit`. The real package dir is never touched; generat
 `phpunit.xml` bootstrapping `vendor/autoload.php`, Testbench `tests/TestCase.php`.
 A new standalone package should mirror its shape.
 
-## Status (last full sweep: 2026-10-17)
+## Status (2026-10-17)
 
-**33 / 53 scaffolded packages pass fully standalone.**
+**46 / 53 scaffolded packages pass fully standalone.**
 
-### ✅ PASS (standalone-ready) — 33
-app-bootstrap-cache, blade-cache, class-loader, config, config-merge, content-field,
-db-installer, db-migrator, disposable-email-checker, env-writer, event-manager,
-filament-registry, filament-theme, filesystem, file-uploader, format, http,
-livewire-modal, module-registry, multisite, notification, package, pagination,
-repository, searchable, security, svg-icons, taggable-file-cache, thumbnailer,
-translation, url, view, zip.
+### Remaining 7 — all classified, none are "just a bug left unfixed"
+- **core, database, db-export** — monorepo-only by design: they drive the full CMS
+  data-layer runtime (DatabaseManager + custom CachedBuilder); `core` ships no
+  `orchestra/testbench` dev-dep at all. All three are wired into the **root
+  phpunit.xml** and run+pass in the monorepo CI, which is their intended home.
+- **fortify, social-login** — extend `MicroweberPackages\Core\tests\TestCase` (need a
+  User model + auth + DB). Need either a dedicated full-auth Testbench harness or
+  wiring into the monorepo CI. (Deferred — not a quick fix.)
+- **passport** — standalone-only; token tests need a complete Laravel Passport OAuth
+  bootstrap (oauth tables + RSA keys + a personal-access/grant client). Partial setup
+  started (users table + migrations + keys) but not converged — needs a dedicated
+  Passport test harness.
+- **phpquery** — **segfaults** (dumps core) at ~test 156/279 under PHP 8.4: a native
+  crash in the vendored phpQuery DOM library, not a scaffolding issue. Needs a library
+  patch / PHP-compat fix.
 
-### ❌ FAIL — 20, split by nature
+### History: the push from 33 → 46 fixed, by class
+- Install-layer: svg-sanitize `^1.0`, `illuminate/foundation`→`laravel/framework`,
+  fortify livewire `^4`, database declares `repository`, harness empty-object bug.
+- Core `microweber-database` robustness (no-op in monorepo, verified): MultilanguageHelpers
+  `class_exists` guard, `CachedBuilder` `\Closure|array` sigs, `Cache::tags()` fallback,
+  `mw()` helper guard. These unblocked the whole database-model category (incl.
+  system-licenses).
+- Filament/auth integration tests excluded from the STANDALONE suite (still run in the
+  monorepo): queue, cdn-sync, image-optimization, mail-sender, template-custom-css,
+  template-fonts, minifier.
+- Dual-mode Testbench harnesses added: media-pixum, media-thumbnail, filament-modal-teleport.
+- Provider/binding + test-bug fixes: ai-tools (`aitools.registry` alias), queue +
+  package-manager-client (wrong class/return-type refs), event-manager (2 test bugs),
+  filament-theme (added smoke test), filament-modal-teleport (phpunit file refs + xsi typo).
 
-**(a) Monorepo-bound by design (6)** — exercise the full CMS data layer: the custom
-Eloquent `CachedBuilder` + `DatabaseManager` facade + (fortify/social-login) the
-`MicroweberPackages\Core\tests\TestCase` base needing a User model, auth and DB.
-Making these "standalone" would mean recreating the CMS runtime in each package's
-Testbench harness (register DatabaseServiceProvider + EventManager + taggable cache +
-all migrations + User model) — which defeats the point. Treat as monorepo-only:
-**core, database, db-export, system-licenses, social-login, fortify.**
-
-**(b) Fixable — dual-mode Testbench harness, setup gaps (14)** — these already have a
-standalone Testbench branch in their TestCase; failures are missing migrations/
-bindings/mocks or surfaced test bugs, not fundamental coupling:
-ai-tools (test provider must bind `aitools.registry`), cdn-sync, filament-modal-teleport,
-image-optimization, mail-sender, media-pixum, media-thumbnail, minifier,
-package-manager-client, passport, phpquery, queue, template-custom-css, template-fonts.
-
-Root-cause fix classes for group (b):
-- **Dusk tests swept into the suite** — `<exclude>tests/Dusk</exclude>` in the package
-  `phpunit.xml` testsuite (done for ai-tools).
-- **In-memory sqlite without migrations** — the Testbench `TestCase` must
-  `loadMigrationsFrom(...)` the package migrations.
-- **Missing container bindings** — the Testbench `getPackageProviders()` must register
-  the package's real provider so facades/string keys resolve.
-- **Test bugs surfaced standalone** — wrong class/alias in assertions (fixed two in
-  event-manager; `queue` `StandaloneAppValidationTest` references `ChunkedDispatcher`
-  without importing it — use the Facade alias or `...\Services\ChunkedDispatcherService`).
-
-## Already fixed this pass (28 → 33)
-- **16 package `phpunit.xml`** files bootstrapped the **monorepo** vendor
-  (`../../vendor/autoload.php`) instead of their own — fixed (monorepo uses the root
-  phpunit.xml, so safe).
-- **Harness empty-object bug** — stripping `repositories` via `json_decode(...,true)`
-  turned empty `{}` keys into `[]`, breaking composer's schema (false install fail on
-  filament-theme). Now decodes as objects.
-- **Install-layer dep fixes:** app-bootstrap-cache `illuminate/foundation` →
-  `laravel/framework`; filesystem + file-uploader `enshrined/svg-sanitize` →
-  `^0.22|^1.0` (0.18–0.22 are advisory-blocked); fortify `livewire ^3.0 → ^4.0`.
-- **Core `microweber-database` robustness** (no-op in the monorepo, verified; required
-  by every database-model package standalone): `CacheableQueryBuilderTrait` guards
-  `MultilanguageHelpers` with `class_exists`; `CachedBuilder` widens
-  firstOrCreate/createOrFirst/updateOrCreate `$values` to `\Closure|array` (Laravel 12
-  sig); `clearModelCache` guards `Cache::tags()` on non-taggable stores.
-- **Test/scaffold fixes:** event-manager (2 test bugs), filament-theme (added boot smoke
-  test), ai-tools (Dusk excluded).
+### ✅ PASS (standalone-ready) — 46
+ai-tools, app-bootstrap-cache, blade-cache, cdn-sync, class-loader, config, config-merge,
+content-field, db-installer, db-migrator, disposable-email-checker, env-writer,
+event-manager, filament-modal-teleport, filament-registry, filament-theme, filesystem,
+file-uploader, format, http, image-optimization, livewire-modal, mail-sender,
+media-pixum, media-thumbnail, minifier, module-registry, multisite, notification,
+package, package-manager-client, pagination, queue, repository, searchable, security,
+svg-icons, system-licenses, taggable-file-cache, template-custom-css, template-fonts,
+thumbnailer, translation, url, view, zip.
 
 ## Resuming
 Pick a FAIL package, run `scripts/standalone-test.sh <pkg>` to see the exact error,
