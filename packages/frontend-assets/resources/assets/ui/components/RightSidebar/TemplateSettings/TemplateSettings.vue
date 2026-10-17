@@ -97,10 +97,19 @@
                         </small>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center p-2" style="border: 1px solid var(--ese-border, rgba(0,0,0,0.08)); border-radius: 6px; background: var(--ese-surface-muted);">
-                        <span id="active-layout-id" @click="scrollToSelectedLayout" class="cursor-pointer" style="color: var(--ese-accent, #182433);">{{ activeLayoutId }}</span>
-                        <span id="active-layout-id-open-settings" @click="openSelectedLayoutSettings" class="cursor-pointer" style="color: var(--ese-accent, #182433);">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"/></svg>                        </span>
+                    <div class="live-edit-layout-picker d-flex align-items-center gap-2">
+                        <div class="live-edit-layout-select-wrap">
+                            <select id="active-layout-id-select" class="live-edit-layout-select"
+                                    :value="activeLayoutId" @change="selectLayout($event.target.value)" @mousedown="refreshAvailableLayouts">
+                                <option value="None">None — select a layout</option>
+                                <option v-for="layout in availableLayouts" :key="layout.id" :value="layout.id">{{ layout.label }}</option>
+                            </select>
+                        </div>
+                        <!-- keep the old span for back-compat hooks / Dusk selectors, hidden -->
+                        <span id="active-layout-id" style="display:none;">{{ activeLayoutId }}</span>
+                        <button type="button" id="active-layout-id-open-settings" class="live-edit-layout-gear" @click="openSelectedLayoutSettings" title="Layout settings" aria-label="Layout settings">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"/></svg>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -241,7 +250,65 @@
     cursor: pointer;
 }
 
-
+/* ── "Currently editing layout" picker ───────────────────────────── */
+.live-edit-layout-picker {
+    width: 100%;
+}
+.live-edit-layout-select-wrap {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.live-edit-layout-select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin: 0;
+    padding: 9px 34px 9px 12px;
+    border: 1px solid var(--ese-border, rgba(0, 0, 0, 0.12));
+    border-radius: 8px;
+    background-color: var(--ese-surface, #fff);
+    color: var(--ese-accent, #182433);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+    cursor: pointer;
+    outline: none;
+    text-overflow: ellipsis;
+    transition: border-color .15s ease, box-shadow .15s ease;
+    /* custom ink chevron */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23182433' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 11px center;
+    background-size: 14px 14px;
+}
+.live-edit-layout-select:hover {
+    border-color: var(--ese-accent, #182433);
+}
+.live-edit-layout-select:focus {
+    border-color: var(--ese-accent, #182433);
+    box-shadow: 0 0 0 3px rgba(24, 36, 51, 0.10);
+}
+.live-edit-layout-gear {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid var(--ese-border, rgba(0, 0, 0, 0.12));
+    border-radius: 8px;
+    background-color: var(--ese-surface, #fff);
+    color: var(--ese-accent, #182433);
+    cursor: pointer;
+    transition: background-color .15s ease, border-color .15s ease;
+}
+.live-edit-layout-gear:hover {
+    background-color: var(--ese-surface-muted, #f5f6f7);
+    border-color: var(--ese-accent, #182433);
+}
 </style>
 
 
@@ -288,6 +355,7 @@ export default {
             currentPath: '/',
             applyMode: 'template', // 'template' or 'layout'
             activeLayoutId: 'None',
+            availableLayouts: [], // [{id, label}] of layouts on the current page, for the layout picker
             activeModuleId: 'None',
             activeElementId: 'None',
             isAIAvailable: false,
@@ -453,6 +521,7 @@ export default {
 
                 if (newMode === 'layout') {
                     this.fetchExistingLayoutSelectors();
+                    this.refreshAvailableLayouts();
                 } else {
                     this.existingLayoutSelectors = [];
                     this.existingLayoutSelectorsInitialized = false;
@@ -1120,6 +1189,7 @@ export default {
                     const activeElement = window.mw.top().app.liveEdit.getSelectedElementNode();
                     this.updateActiveElementFromElement(activeElement);
                     this.updateLayoutIdDisplay();
+                    this.refreshAvailableLayouts();
 
                     window.mw.top().app.canvas.on('canvasDocumentClick', () => {
                         const activeLayout = window.mw.top().app.liveEdit.getSelectedLayoutNode();
@@ -1129,6 +1199,7 @@ export default {
                         const activeElement = window.mw.top().app.liveEdit.getSelectedElementNode();
                         this.updateActiveElementFromElement(activeElement);
                         this.updateLayoutIdDisplay();
+                        this.refreshAvailableLayouts();
                     });
                 }
             });
@@ -1179,6 +1250,54 @@ export default {
             if (firstLayoutElement) {
                 window.mw.top().app.canvas.getWindow().mw.tools.scrollTo(firstLayoutElement, 100);
             }
+        },
+
+        // Build the list of selectable layouts from the current canvas page.
+        // Only top-level layouts (header / content sections / footer) — nested
+        // sub-layouts (ids containing "--") are excluded to keep the picker clean.
+        refreshAvailableLayouts() {
+            const doc = window.mw?.top?.()?.app?.canvas?.getDocument?.();
+            const nodes = doc
+                ? Array.from(doc.querySelectorAll('.module-layouts')).filter(n => n.id && !n.id.includes('--'))
+                : [];
+            let contentIndex = 0;
+            const multipleContent = nodes.filter(n => !/header|footer/i.test(n.id)).length > 1;
+            this.availableLayouts = nodes.map(n => {
+                const id = n.id;
+                let label;
+                if (/header/i.test(id)) {
+                    label = 'Header';
+                } else if (/footer/i.test(id)) {
+                    label = 'Footer';
+                } else {
+                    contentIndex++;
+                    label = multipleContent ? 'Content ' + contentIndex : 'Content';
+                }
+                return { id, label };
+            });
+        },
+
+        // Pick a layout from the dropdown: select it on the canvas (so the layout
+        // handle shows and style edits target it) and make it the active layout.
+        selectLayout(id) {
+            if (!id || id === 'None') {
+                this.activeLayoutId = 'None';
+                return;
+            }
+            const app = window.mw?.top?.()?.app;
+            const el = app?.canvas?.getDocument?.()?.getElementById(id);
+            if (!el) {
+                this.activeLayoutId = 'None';
+                return;
+            }
+            // Mark it as the selected layout so canvas-driven logic (getSelectedLayoutNode)
+            // agrees with the panel; activeLayoutId is what actually targets style edits.
+            const le = app?.liveEdit;
+            if (le) {
+                le.clickedLayoutNode = el;
+            }
+            this.updateActiveLayoutFromElement(el);
+            this.$nextTick(() => this.scrollToSelectedLayout());
         },
 
         openSelectedLayoutSettings() {
