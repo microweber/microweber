@@ -24,48 +24,61 @@ A new standalone package should mirror its shape.
 
 ## Status (last full sweep: 2026-10-17)
 
-**29 / 53 scaffolded packages pass fully standalone** (app-bootstrap-cache fixed +
-verified after the sweep; see below).
+**33 / 53 scaffolded packages pass fully standalone.**
 
-### ✅ PASS (standalone-ready)
-blade-cache, class-loader, config, config-merge, content-field, db-installer,
-db-migrator, disposable-email-checker, env-writer, filament-registry, format, http,
+### ✅ PASS (standalone-ready) — 33
+app-bootstrap-cache, blade-cache, class-loader, config, config-merge, content-field,
+db-installer, db-migrator, disposable-email-checker, env-writer, event-manager,
+filament-registry, filament-theme, filesystem, file-uploader, format, http,
 livewire-modal, module-registry, multisite, notification, package, pagination,
 repository, searchable, security, svg-icons, taggable-file-cache, thumbnailer,
 translation, url, view, zip.
 
-### ❌ FAIL — `composer install` (dependency declaration gaps)
-- **app-bootstrap-cache** — required `illuminate/foundation` (not a standalone
-  Packagist package); fixed → `laravel/framework`. Re-verify.
-- **filament-theme, filesystem, file-uploader, fortify** — unresolvable/blocked deps.
-  `filesystem`/`file-uploader` hit `enshrined/svg-sanitize` **composer security
-  advisories** (block-insecure) — either bump to an unaffected version or add an
-  audit ignore in the package's composer.json.
+### ❌ FAIL — 20, split by nature
 
-### ❌ FAIL — tests (setup/scaffolding, not necessarily real bugs)
-ai-tools, cdn-sync, core, database, db-export, event-manager, filament-modal-teleport,
+**(a) Monorepo-bound by design (6)** — exercise the full CMS data layer: the custom
+Eloquent `CachedBuilder` + `DatabaseManager` facade + (fortify/social-login) the
+`MicroweberPackages\Core\tests\TestCase` base needing a User model, auth and DB.
+Making these "standalone" would mean recreating the CMS runtime in each package's
+Testbench harness (register DatabaseServiceProvider + EventManager + taggable cache +
+all migrations + User model) — which defeats the point. Treat as monorepo-only:
+**core, database, db-export, system-licenses, social-login, fortify.**
+
+**(b) Fixable — dual-mode Testbench harness, setup gaps (14)** — these already have a
+standalone Testbench branch in their TestCase; failures are missing migrations/
+bindings/mocks or surfaced test bugs, not fundamental coupling:
+ai-tools (test provider must bind `aitools.registry`), cdn-sync, filament-modal-teleport,
 image-optimization, mail-sender, media-pixum, media-thumbnail, minifier,
-package-manager-client, passport, phpquery, queue, social-login, system-licenses,
-template-custom-css, template-fonts.
+package-manager-client, passport, phpquery, queue, template-custom-css, template-fonts.
 
-Common root causes identified:
-- **Dusk tests swept into the standalone suite** (e.g. ai-tools) — the package
-  `phpunit.xml` testsuite includes a `tests/` dir containing `tests/Dusk/*` which
-  needs `laravel/dusk` + a browser. Fix: `<exclude>` the Dusk dir in the package
-  testsuite (keep it only in the monorepo Dusk run).
-- **In-memory sqlite without the package's migrations loaded** (model-backed packages:
-  queue, core, database, db-export, event-manager) — the Testbench `TestCase` must
-  `loadMigrationsFrom(...)` the package migrations (and define needed tables).
-- **Test bugs surfaced standalone** — e.g. `queue` `StandaloneAppValidationTest` does
-  `class_exists(ChunkedDispatcher::class)` but only imports the Facade alias, so it
-  resolves to the test namespace (should be `ChunkedDispatcherFacade::class` or the
-  `...\Services\ChunkedDispatcherService`).
+Root-cause fix classes for group (b):
+- **Dusk tests swept into the suite** — `<exclude>tests/Dusk</exclude>` in the package
+  `phpunit.xml` testsuite (done for ai-tools).
+- **In-memory sqlite without migrations** — the Testbench `TestCase` must
+  `loadMigrationsFrom(...)` the package migrations.
+- **Missing container bindings** — the Testbench `getPackageProviders()` must register
+  the package's real provider so facades/string keys resolve.
+- **Test bugs surfaced standalone** — wrong class/alias in assertions (fixed two in
+  event-manager; `queue` `StandaloneAppValidationTest` references `ChunkedDispatcher`
+  without importing it — use the Facade alias or `...\Services\ChunkedDispatcherService`).
 
-## Already fixed this pass
-- 16 package `phpunit.xml` files bootstrapped the **monorepo** vendor
-  (`../../vendor/autoload.php`) instead of their own (`vendor/autoload.php`) — they
-  could not boot standalone. Fixed (monorepo runs use the root phpunit.xml, so safe).
-- `app-bootstrap-cache` `illuminate/foundation` → `laravel/framework`.
+## Already fixed this pass (28 → 33)
+- **16 package `phpunit.xml`** files bootstrapped the **monorepo** vendor
+  (`../../vendor/autoload.php`) instead of their own — fixed (monorepo uses the root
+  phpunit.xml, so safe).
+- **Harness empty-object bug** — stripping `repositories` via `json_decode(...,true)`
+  turned empty `{}` keys into `[]`, breaking composer's schema (false install fail on
+  filament-theme). Now decodes as objects.
+- **Install-layer dep fixes:** app-bootstrap-cache `illuminate/foundation` →
+  `laravel/framework`; filesystem + file-uploader `enshrined/svg-sanitize` →
+  `^0.22|^1.0` (0.18–0.22 are advisory-blocked); fortify `livewire ^3.0 → ^4.0`.
+- **Core `microweber-database` robustness** (no-op in the monorepo, verified; required
+  by every database-model package standalone): `CacheableQueryBuilderTrait` guards
+  `MultilanguageHelpers` with `class_exists`; `CachedBuilder` widens
+  firstOrCreate/createOrFirst/updateOrCreate `$values` to `\Closure|array` (Laravel 12
+  sig); `clearModelCache` guards `Cache::tags()` on non-taggable stores.
+- **Test/scaffold fixes:** event-manager (2 test bugs), filament-theme (added boot smoke
+  test), ai-tools (Dusk excluded).
 
 ## Resuming
 Pick a FAIL package, run `scripts/standalone-test.sh <pkg>` to see the exact error,
