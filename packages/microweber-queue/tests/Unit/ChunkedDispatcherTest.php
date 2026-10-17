@@ -19,7 +19,7 @@ class ChunkedDispatcherTest extends TestCase
 
     public function test_chunk_count_math(): void
     {
-        $dispatcher = app(ChunkedDispatcher::class);
+        $dispatcher = app(ChunkedDispatcherService::class);
 
         $this->assertSame(0, $dispatcher->chunkCount(0, 100));
         $this->assertSame(1, $dispatcher->chunkCount(1, 100));
@@ -33,7 +33,7 @@ class ChunkedDispatcherTest extends TestCase
         Bus::fake();
 
         $items = range(1, 250);
-        $dispatcher = app(ChunkedDispatcher::class);
+        $dispatcher = app(ChunkedDispatcherService::class);
 
         $batch = $dispatcher->dispatch(
             items: $items,
@@ -52,7 +52,7 @@ class ChunkedDispatcherTest extends TestCase
         Bus::fake();
 
         $items = range(1, 10000);
-        $dispatcher = app(ChunkedDispatcher::class);
+        $dispatcher = app(ChunkedDispatcherService::class);
 
         // With Bus::fake(), batch may not fully materialize; assert jobs were batched.
         try {
@@ -75,13 +75,13 @@ class ChunkedDispatcherTest extends TestCase
             });
         } else {
             // Fallback: ensure chunk math is correct for 10k / 100
-            $this->assertSame(100, app(ChunkedDispatcher::class)->chunkCount(10000, 100));
+            $this->assertSame(100, app(ChunkedDispatcherService::class)->chunkCount(10000, 100));
         }
     }
 
     public function test_empty_items_returns_null(): void
     {
-        $dispatcher = app(ChunkedDispatcher::class);
+        $dispatcher = app(ChunkedDispatcherService::class);
         $result = $dispatcher->dispatch([], fn (array $c) => new FakeChunkJob($c));
         $this->assertNull($result);
     }
@@ -89,7 +89,7 @@ class ChunkedDispatcherTest extends TestCase
     public function test_invalid_chunk_size_throws(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        app(ChunkedDispatcher::class)->dispatch([1], fn (array $c) => new FakeChunkJob($c), 0);
+        app(ChunkedDispatcherService::class)->dispatch([1], fn (array $c) => new FakeChunkJob($c), 0);
     }
 
     public function test_helper_function_exists(): void
@@ -108,7 +108,7 @@ class ChunkedDispatcherTest extends TestCase
         }
 
         try {
-            $batches = app(ChunkedDispatcher::class)->dispatchJobs($jobs, batchSize: 2, queue: 'default', name: 't');
+            $batches = app(ChunkedDispatcherService::class)->dispatchJobs($jobs, batchSize: 2, queue: 'default', name: 't');
             $this->assertIsArray($batches);
         } catch (\Throwable) {
             // Bus::fake() may not support batch; verify chunking math path instead

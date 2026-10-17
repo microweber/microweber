@@ -13,9 +13,8 @@
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
         </testsuite>
-        <testsuite name="Filament">
-            <directory>tests/Filament</directory>
-        </testsuite>
+        <!-- Filament resource/page tests need a configured admin panel; covered by the
+             monorepo root phpunit.xml — excluded from the standalone run. -->
     </testsuites>
     <source>
         <include>

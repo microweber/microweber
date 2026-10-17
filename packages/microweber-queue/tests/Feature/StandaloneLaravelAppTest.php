@@ -20,7 +20,7 @@ class StandaloneLaravelAppTest extends TestCase
     {
         $this->assertTrue(
             $this->app->getProvider(QueueServiceProvider::class) !== null
-            || $this->app->bound(ChunkedDispatcher::class)
+            || $this->app->bound(ChunkedDispatcherService::class)
         );
     }
 
@@ -37,9 +37,9 @@ class StandaloneLaravelAppTest extends TestCase
 
     public function test_services_are_bound(): void
     {
-        $this->assertTrue($this->app->bound(ChunkedDispatcher::class));
+        $this->assertTrue($this->app->bound(ChunkedDispatcherService::class));
         $this->assertTrue($this->app->bound(QueueProcessor::class));
-        $this->assertInstanceOf(ChunkedDispatcher::class, app(ChunkedDispatcher::class));
+        $this->assertInstanceOf(ChunkedDispatcherService::class, app(ChunkedDispatcherService::class));
         $this->assertInstanceOf(QueueProcessor::class, app(QueueProcessor::class));
     }
 
@@ -54,7 +54,7 @@ class StandaloneLaravelAppTest extends TestCase
 
     public function test_chunked_dispatcher_usable_without_cms(): void
     {
-        $d = app(ChunkedDispatcher::class);
+        $d = app(ChunkedDispatcherService::class);
         $this->assertSame(100, $d->chunkCount(10000, 100));
         $this->assertNull($d->dispatch([], fn (array $c) => new \MicroweberPackages\Queue\Tests\Fixtures\FakeChunkJob($c)));
     }

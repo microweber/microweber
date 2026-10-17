@@ -45,7 +45,7 @@ class QueueTimeoutScenarioTest extends TestCase
         $subscriberIds = range(1, 10000);
         $chunkSize = 50; // exactly at soft timeout boundary
 
-        $dispatcher = app(ChunkedDispatcher::class);
+        $dispatcher = app(ChunkedDispatcherService::class);
         $expectedChunks = $dispatcher->chunkCount(count($subscriberIds), $chunkSize);
         $this->assertSame(200, $expectedChunks);
 
@@ -76,7 +76,7 @@ class QueueTimeoutScenarioTest extends TestCase
         $items = range(1, 10000);
         $chunkSize = 100;
 
-        app(ChunkedDispatcher::class)->dispatch(
+        app(ChunkedDispatcherService::class)->dispatch(
             items: $items,
             jobFactory: fn (array $chunk) => new FakeChunkJob($chunk),
             chunkSize: $chunkSize,
@@ -102,7 +102,7 @@ class QueueTimeoutScenarioTest extends TestCase
             'Default chunk size should be modest enough for typical worker timeouts'
         );
 
-        $chunks = app(ChunkedDispatcher::class)->chunkCount(10000, $chunkSize);
+        $chunks = app(ChunkedDispatcherService::class)->chunkCount(10000, $chunkSize);
         $this->assertGreaterThan(1, $chunks, '10k items must produce more than one job');
     }
 }

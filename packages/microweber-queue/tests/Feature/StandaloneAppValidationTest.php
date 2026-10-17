@@ -16,7 +16,7 @@ class StandaloneAppValidationTest extends TestCase
 {
     public function test_package_classes_are_loadable(): void
     {
-        $this->assertTrue(class_exists(ChunkedDispatcher::class));
+        $this->assertTrue(class_exists(ChunkedDispatcherService::class));
         $this->assertTrue(class_exists(QueueProcessor::class));
         $this->assertTrue(class_exists(\MicroweberPackages\Queue\Providers\QueueServiceProvider::class));
         $this->assertTrue(class_exists(\MicroweberPackages\Queue\Models\Job::class));

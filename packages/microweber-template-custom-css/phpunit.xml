@@ -7,6 +7,9 @@
     <testsuites>
         <testsuite name="Template Custom CSS Test Suite">
             <directory>tests</directory>
+            <!-- Filament panel + browser tests run in the monorepo (root phpunit.xml). -->
+            <exclude>tests/Filament</exclude>
+            <exclude>tests/Dusk</exclude>
         </testsuite>
     </testsuites>
     <source>
