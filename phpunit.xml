@@ -368,6 +368,10 @@
         <testsuite name="MicroweberFormat">
             <directory>packages/microweber-format/tests</directory>
         </testsuite>
+
+        <testsuite name="MicroweberRepository">
+            <directory>packages/microweber-repository/tests</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>
