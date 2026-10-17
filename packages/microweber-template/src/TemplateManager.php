@@ -12,8 +12,6 @@
 
 namespace MicroweberPackages\Template;
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
 use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
@@ -32,6 +30,10 @@ use MicroweberPackages\Template\Concerns\ConfiguresTemplateAdapters;
 use MicroweberPackages\Template\Concerns\ReadsTemplateFields;
 use MicroweberPackages\Template\Concerns\ManagesTemplateContext;
 use MicroweberPackages\Template\Concerns\ManagesStacks;
+use MicroweberPackages\Template\Concerns\ManagesCustomCssAndFonts;
+use MicroweberPackages\Template\Concerns\ManagesApiJsAssets;
+use MicroweberPackages\Template\Concerns\InjectsHeadFoot;
+use MicroweberPackages\Template\Concerns\ReadsSiteTemplates;
 
 class TemplateManager
 {
@@ -39,6 +41,10 @@ class TemplateManager
     use ReadsTemplateFields;
     use ManagesTemplateContext;
     use ManagesStacks;
+    use ManagesCustomCssAndFonts;
+    use ManagesApiJsAssets;
+    use InjectsHeadFoot;
+    use ReadsSiteTemplates;
 
     /**
      * An instance of the Microweber Application class.
@@ -167,180 +173,6 @@ class TemplateManager
         return $this->stylesheet_adapter->getStylesheet($path, $default_stylesheet, $cache);
     }
 
-    /*
-        public function get_apijs_url()
-        {
-            return $this->js_adapter->get_apijs_url();
-        }*/
-
-    public function get_apijs_settings_url()
-    {
-        return $this->js_adapter->get_apijs_settings_url();
-    }
-
-    public function get_apijs_combined_url()
-    {
-        return $this->js_adapter->get_apijs_combined_url();
-    }
-
-    /**
-     * @deprecated
-     */
-//    public function append_livewire_to_layout($layout)
-//    {
-////        $alpineUrl = mw_includes_url() . 'api/libs/alpine/alpine.min.js';
-////
-////        $alpineScript = '<script src="' . $alpineUrl . '" defer></script>';
-//
-//        $scripts = \Livewire\Livewire::scripts();
-//        $styles = \Livewire\Livewire::styles();
-//        $modal = \Livewire\Livewire::mount('livewire-ui-modal')->html();
-//
-//
-//       // $layout = Str::replaceFirst('<head>', '<head>' . $alpineScript, $layout);
-//        $layout = Str::replaceFirst('</head>', $styles . '</head>', $layout);
-//        $layout = Str::replaceFirst('</head>', $scripts . '</head>', $layout);
-//        $layout = Str::replaceFirst('</body>', $modal . '</body>', $layout);
-//
-//
-//        return $layout;
-//    }
-
-    /**
-     * @deprecated must be moved to the MetaTags package
-     */
-    public function frontend_append_meta_tags($layout, $is_laravel_template = false)
-    {
-
-        event_trigger('mw.template.before_render', $layout);
-
-        //   $layout = $this->append_livewire_to_layout($layout);
-        //  $layout = $this->append_api_js_to_layout($layout);
-        if ($is_laravel_template) {
-            $meta = '';
-
-        } else {
-            $meta = mw_header_scripts();
-
-        }
-
-        $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
-
-//        $liveEditTags = new \MicroweberPackages\MetaTags\Entities\LiveEditCssHeadTags();
-//        $liveEditTagsHtml = $liveEditTags->toHtml();
-//
-//        if ($liveEditTagsHtml) {
-//            $layout = Str::replaceFirst('</head>', $liveEditTagsHtml . '</head>', $layout);
-//        }
-        if (!$is_laravel_template) {
-            $meta = mw_footer_scripts();
-            $layout = Str::replaceFirst('</body>', $meta . '</body>', $layout);
-
-            $layout = $this->injectConditionalJqueryFooter($layout);
-        }
-
-        return $layout;
-    }
-
-    /** Inject jQuery + jQuery UI before </body> when the rendered layout contains plugin markers that require them. */
-    public function injectConditionalJqueryFooter(string $layout): string
-    {
-        if (stripos($layout, '</body>') === false) {
-            return $layout;
-        }
-
-        if (!$this->layoutNeedsJquery($layout)) {
-            return $layout;
-        }
-
-        $jquery = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery/jquery.js';
-        $jqueryUi = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.js';
-        $jqueryUiCss = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.css';
-
-        $inject = '<!-- jQuery loaded conditionally because page has jQuery-dependent module skin markers -->' . "\r\n";
-        $inject .= '<link rel="stylesheet" href="' . $jqueryUiCss . '" id="mw-jquery-ui-js-libs-styles">' . "\r\n";
-        $inject .= '<script src="' . $jquery . '" id="mw-jquery-js-libs-scripts"></script>' . "\r\n";
-        $inject .= '<script src="' . $jqueryUi . '" id="mw-jquery-ui-js-libs-scripts"></script>' . "\r\n";
-        // Re-register frontend.js extensions now that jQuery is loaded + bootstrap the legacy $.ajaxSetup CSRF shim.
-        $inject .= '<script id="mw-jquery-late-bootstrap" type="text/javascript">' . "\r\n";
-        $inject .= '(function () {' . "\r\n";
-        $inject .= '    if (typeof window.jQuery === "undefined") return;' . "\r\n";
-        $inject .= '    var token = (document.querySelector(\'meta[name="csrf-token"]\') || {}).content;' . "\r\n";
-        $inject .= '    if (token) {' . "\r\n";
-        $inject .= '        window.jQuery.ajaxSetup({ headers: { "X-CSRF-TOKEN": token } });' . "\r\n";
-        $inject .= '    }' . "\r\n";
-        $inject .= '    var ext = window.__mwRegisterJqueryExtensions || [];' . "\r\n";
-        $inject .= '    for (var i = 0; i < ext.length; i++) {' . "\r\n";
-        $inject .= '        try { ext[i](); } catch (e) {}' . "\r\n";
-        $inject .= '    }' . "\r\n";
-        $inject .= '    window.__mwRegisterJqueryExtensions = [];' . "\r\n";
-        $inject .= '})();' . "\r\n";
-        $inject .= '</script>' . "\r\n";
-
-        return Str::replaceFirst('</body>', $inject . '</body>', $layout);
-    }
-
-    /** Detect whether the rendered layout contains any marker that requires jQuery. */
-    protected function layoutNeedsJquery(string $layout): bool
-    {
-        $markers = [
-            'slick-slider',        // Slick carousel container
-            'slick-track',         // Slick inner track
-            'data-slick',          // Slick options data attribute
-            'class="slick',        // Loose slick- class prefix
-            "class='slick",
-            'masonry',             // Masonry layout (covers class + data attr)
-            'datetimepicker',      // Bootstrap Datetimepicker
-            'chosen-select',       // Chosen <select> opt-in class
-            'chosen-container',    // Chosen rendered wrapper
-            'data-mw-needs-jquery', // Explicit opt-in marker
-        ];
-
-        foreach ($markers as $marker) {
-            if (stripos($layout, $marker) !== false) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function append_api_js_to_layout($layout)
-    {
-        $apijs_combined_loaded = $this->get_apijs_combined_url();
-        $append_html = '';
-
-        if (!stristr($layout, $apijs_combined_loaded)) {
-            $append_html = $append_html . "\r\n" . '<script src="' . $apijs_combined_loaded . '"></script>' . "\r\n";
-        }
-
-        if ($append_html) {
-            $rep = 0;
-            $layout = Str::replaceFirst('<head>', '<head>' . $append_html, $layout);
-        }
-
-        return $layout;
-    }
-
-    public function clear_cached_apijs_assets()
-    {
-        $userfiles_dir = userfiles_path();
-        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
-        if (!is_dir($userfiles_cache_dir)) {
-            return;
-        }
-        $files = glob($userfiles_cache_dir . "*.js");
-        if ($files) {
-            foreach ($files as $file) {
-                if (is_file($file)) {
-                    @unlink($file);
-                }
-            }
-        }
-    }
-
     /**
      * @deprecated Use metaTagManager instead
      */
@@ -413,37 +245,6 @@ class TemplateManager
         return $val;
     }
 
-    public function get_custom_fonts_css_content()
-    {
-        return $this->fontsAdapter->getFontsStylesheetCss();
-    }
-
-    public function getFonts()
-    {
-        return $this->fontsAdapter->getFonts();
-    }
-
-    public function get_custom_fonts_css_url()
-    {
-        return $this->fontsAdapter->getFontsStylesheetCssUrl();
-    }
-
-    public function get_custom_css_content()
-    {
-        return $this->customCssAdapter->getCustomCssContent();
-    }
-
-    public function get_custom_css()
-    {
-        return $this->customCssAdapter->getCustomCss();
-
-    }
-
-    public function get_custom_css_url()
-    {
-        return $this->customCssAdapter->getCustomCssUrl();
-    }
-
     public function optimize_page_loading($layout)
     {
         $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
@@ -499,128 +300,6 @@ class TemplateManager
         }
 
         return $layout;
-    }
-
-    public function get_default_system_ui_css_url()
-    {
-        // $url = mw_includes_url() . 'default.css';
-        $url = asset('vendor/microweber-packages/frontend-assets/build/default.css');
-        return $url;
-    }
-
-    public function get_admin_supported_themes()
-    {
-        return $this->admin->getAdminTemplates();
-    }
-
-    public function get_admin_supported_theme_scss_vars($theme)
-    {
-        if (!$theme) {
-            return;
-        }
-        return $this->admin->getAdminTemplateVars($theme);
-    }
-
-    public function get_admin_system_ui_css_url()
-    {
-        return $this->admin->getAdminCssUrl();
-    }
-
-    public function get_icon_fonts_stylesheet_url()
-    {
-        return $this->iconFontsAdapter->getIconFontsStylesheetUrl();
-    }
-
-    public function clear_cached_custom_css()
-    {
-        if ($this->customCssAdapter && method_exists($this->customCssAdapter, 'clearCache')) {
-            $this->customCssAdapter->clearCache();
-
-            return;
-        }
-
-        $userfiles_dir = userfiles_path();
-        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
-        if (!is_dir($userfiles_cache_dir)) {
-            return;
-        }
-        $files = glob($userfiles_cache_dir . "custom_css*.css");
-        if ($files) {
-            foreach ($files as $file) {
-                if (is_file($file)) {
-                    @unlink($file);
-                }
-            }
-        }
-    }
-
-    /**
-     * @internal
-     * @deprecated Use scriptStyleManager->admin_head() instead
-     */
-    public function admin_head($script_src)
-    {
-        return $this->scriptStyleManager->admin_head($script_src);
-    }
-
-    /**
-     * @internal
-     * @deprecated Use scriptStyleManager->head() instead
-     */
-    public function head($script_src)
-    {
-        // Maintain backward compatibility with public properties
-        $result = $this->scriptStyleManager->head($script_src);
-
-        if (is_string($script_src)) {
-            if (!in_array($script_src, $this->head)) {
-                $this->head[] = $script_src;
-            }
-            if (!in_array($script_src, $this->head_callable)) {
-                $this->head_callable = $this->scriptStyleManager->getHeadCallable();
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * @internal
-     * @deprecated Use scriptStyleManager->head_callback() instead
-     */
-    public function head_callback($data = false)
-    {
-        return $this->scriptStyleManager->head_callback($data);
-    }
-
-    /**
-     * @internal
-     * @deprecated Use scriptStyleManager->foot() instead
-     */
-    public function foot($script_src)
-    {
-        // Maintain backward compatibility with public properties
-        $result = $this->scriptStyleManager->foot($script_src);
-
-        if (is_string($script_src)) {
-            if (!in_array($script_src, $this->foot)) {
-                $this->foot[] = $script_src;
-            }
-            if (!in_array($script_src, $this->foot_callable)) {
-                $this->foot_callable = $this->scriptStyleManager->getFootCallable();
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * @internal
-     * @deprecated Use scriptStyleManager->foot_callback() instead
-     */
-    public function foot_callback($data = false)
-    {
-        return $this->scriptStyleManager->foot_callback($data);
     }
 
 //    public function get_layout_for_laravel_template($page = array())
@@ -715,116 +394,6 @@ class TemplateManager
         $this->fontsAdapter->clearCache();
         $this->iconFontsAdapter->clearCache();
 
-    }
-
-    /**
-     * @desc      Get the template layouts info under the layouts subdir on your active template
-     *
-     * @param $options
-     * $options ['type'] - 'layout' is the default type if you dont define any. You can define your own types as post/form, etc in the layout.txt file
-     *
-     * @return array|false
-     *
-     * @author    Microweber Dev Team
-     *
-     * @since     Version 1.0
-     */
-    public function site_templates($options = [])
-    {
-        $path = $options['path'] ?? templates_dir();
-        $map = directory_map($path, true, true);
-
-        if (!is_array($map) || empty($map)) {
-            return false;
-        }
-
-        $remove_hidden = $options['remove_hidden_from_install_screen'] ?? false;
-        $templates = [];
-
-        foreach ($map as $dir) {
-            $template_path = normalize_path($path . DIRECTORY_SEPARATOR . $dir);
-            $template_path = rtrim(ltrim($template_path, '.'), '\\');
-
-            if (is_file($template_path) || !is_dir($template_path)) {
-                continue;
-            }
-
-            $config = $this->get_template_config($template_path);
-
-            if ($config && (!$remove_hidden || empty($config['is_hidden_from_install_screen']))) {
-                if (isset($config['name'])) {
-                    $config['screenshot'] = $this->get_template_screenshot($config['name']);
-
-                }
-                $templates[] = $config;
-            }
-        }
-
-        return $templates;
-    }
-
-    /**
-     * Get the template configuration file.
-     *
-     * @param string $template_path
-     * @param string $dir
-     * @return array|false
-     */
-    public function get_template_config($template_path)
-    {
-
-        $legacy_config = normalize_path($template_path, true) . 'config.php';
-        $new_config = normalize_path($template_path, true) . 'config' . DS . 'config.php';
-        $dir = basename($template_path);
-        if (is_file($new_config)) {
-            $config = include $new_config;
-            $config['dir_name'] = $dir;
-            $config['is_legacy'] = false;
-
-            $config['template_type'] = 'laravel';
-        } elseif (is_file($legacy_config)) {
-            include $legacy_config;
-            $config['dir_name'] = $dir;
-            $config['is_legacy'] = true;
-            $config['template_type'] = 'legacy';
-
-            $config['is_symlink'] = is_link(normalize_path($template_path, false));
-        } else {
-            return false;
-        }
-
-        return $config;
-    }
-
-    /**
-     * Get the screenshot file for the template.
-     *
-     * @param string $name
-     * @return string|false
-     */
-    public function get_template_screenshot($activeTemplate)
-    {
-
-        $checkIfActiveSiteTemplate = app()->templates->find($activeTemplate);
-        if ($checkIfActiveSiteTemplate) {
-            $checkIfActiveSiteTemplateLowerName = $checkIfActiveSiteTemplate->getLowerName();
-
-            $basePath = normalize_path(public_path());
-
-            $jpg_screenshot = normalize_path($basePath . 'templates' . DS . $checkIfActiveSiteTemplateLowerName . DS . 'screenshot.jpg', false);
-            $png_screenshot = normalize_path($basePath . 'templates' . DS . $checkIfActiveSiteTemplateLowerName . DS . 'screenshot.png', false);
-
-            if (is_file($png_screenshot)) {
-                return asset('templates/' . $checkIfActiveSiteTemplateLowerName . '/screenshot.png');
-            } elseif (is_file($jpg_screenshot)) {
-                return asset('templates/' . $checkIfActiveSiteTemplateLowerName . '/screenshot.jpg');
-            } else {
-                return false;
-            }
-
-        }
-
-        return false;
     }
 
     /**
