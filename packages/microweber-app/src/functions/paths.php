@@ -209,9 +209,10 @@ function mw_includes_path()
 {
     static $folder;
     if (!$folder) {
-        // $folder = modules_path() . MW_SYSTEM_MODULE_FOLDER . '/';
-        $folder = base_path() . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'MicroweberPackages' . DIRECTORY_SEPARATOR . 'App' . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR;
-
+        // The App package was migrated from src/MicroweberPackages/App to
+        // packages/microweber-app; anchor to this file's location (…/src/functions)
+        // so the includes path tracks the package wherever it lives.
+        $folder = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR;
     }
 
     return $folder;
