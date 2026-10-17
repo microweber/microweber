@@ -544,6 +544,7 @@
                                 $dbDefaultUsername = '';
                                 $dbDefaultPassword = '';
                                 $dbDefaultHostname = '';
+                                $dbDefaultPort = '';
                                 $dbDefaultEngine = 'sqlite';
                                 $dbDefaultLang = 'en_US';
 
@@ -555,6 +556,14 @@
 
                                 if (isset($config['db_host']) and $config['db_host']) {
                                     $dbDefaultHostname = $config['db_host'];
+                                }
+
+                                // port
+                                if (isset($config['port']) and $config['port']) {
+                                    $dbDefaultPort = $config['port'];
+                                }
+                                if (isset($config['db_port']) and $config['db_port']) {
+                                    $dbDefaultPort = $config['db_port'];
                                 }
 
                                 // db name
@@ -654,6 +663,15 @@
                                                         <input type="text" class="form-control" autofocus name="db_host"
                                                                tabindex="2"
                                                                value="<?php if ($dbDefaultHostname): ?><?php print $dbDefaultHostname; ?><?php endif; ?>"/>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="form-label"><?php _e('Port'); ?></label>
+                                                        <small
+                                                            class="text-muted d-block mb-2"><?php _e('The port of your database server. Leave empty for the default (MySQL 3306, PostgreSQL 5432).'); ?></small>
+                                                        <input type="text" class="form-control" name="db_port"
+                                                               tabindex="2"
+                                                               value="<?php if ($dbDefaultPort): ?><?php print $dbDefaultPort; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">

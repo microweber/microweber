@@ -21,6 +21,7 @@ class InstallCommand extends Command
      */
     protected $signature = 'microweber:install
                                     {--db-host=}
+                                    {--db-port=}
                                     {--db-name=}
                                     {--db-username=}
                                     {--db-password=}
@@ -67,6 +68,7 @@ class InstallCommand extends Command
 
         $input = array(
             'db_host' => $this->option('db-host'),
+            'db_port' => $this->option('db-port'),
             'db_name' => $this->option('db-name'),
             'db_username' => $this->option('db-username'),
             'db_password' => $this->option('db-password'),
@@ -97,6 +99,9 @@ class InstallCommand extends Command
 
         if (!$input['db_host']) {
             $input['db_host'] = getenv('DB_HOST');
+        }
+        if (!$input['db_port']) {
+            $input['db_port'] = getenv('DB_PORT');
         }
         if (!$input['db_username']) {
             $input['db_username'] = getenv('DB_USER');

@@ -213,7 +213,7 @@ class InstallController extends Controller
             $errors = array();
             $envToSave = array();
 
-            if ($dbDriver == 'mysql') {
+            if ($dbDriver != 'sqlite') {
                 if (!isset($input['db_host'])) {
                     $errors[] = 'Parameter "db_host" is required';
                 } else {
@@ -322,6 +322,10 @@ class InstallController extends Controller
             if (isset($input['db_host'])) {
                 $envToSave['DB_HOST'] = $input['db_host'];
             }
+            if ($dbDriver != 'sqlite' and isset($input['db_port']) and $input['db_port'] !== '' and $input['db_port'] !== null) {
+                $input['db_port'] = trim($input['db_port']);
+                $envToSave['DB_PORT'] = $input['db_port'];
+            }
             if ($dbDriver != 'sqlite') {
                 if ($input['db_name'] != ':memory:'
                     and $input['db_name'] != database_path('database.sqlite')) {
@@ -334,6 +338,9 @@ class InstallController extends Controller
 
             if (isset($input['db_host'])) {
                 Config::set("database.connections.$dbDriver.host", $input['db_host']);
+            }
+            if ($dbDriver != 'sqlite' and isset($input['db_port']) and $input['db_port'] !== '' and $input['db_port'] !== null) {
+                Config::set("database.connections.$dbDriver.port", $input['db_port']);
             }
             if (isset($input['db_username'])) {
                 Config::set("database.connections.$dbDriver.username", $input['db_username']);
