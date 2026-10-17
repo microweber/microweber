@@ -15,13 +15,6 @@ class TestCase extends OrchestraTestCase
         ];
     }
 
-    protected function getPackageAliases($app)
-    {
-        return [
-            'PhpQuery' => \MicroweberPackages\PhpQuery\Facades\PhpQuery::class,
-        ];
-    }
-
     protected function tearDown(): void
     {
         // Clean up documents to prevent memory leaks

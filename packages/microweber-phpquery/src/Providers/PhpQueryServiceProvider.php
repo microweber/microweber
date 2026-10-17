@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\PhpQuery\Providers;
 
-use MicroweberPackages\PhpQuery\PhpQueryManager;
 use MicroweberPackages\Package\MicroweberPackageServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 
@@ -15,12 +14,13 @@ class PhpQueryServiceProvider extends MicroweberPackageServiceProvider
 
     /**
      * Register the service provider.
+     *
+     * phpQuery is used directly via the static {@see \MicroweberPackages\PhpQuery\PhpQuery}
+     * class (and the pq() helper) — there is no manager/facade indirection.
      */
     public function packageRegistered()
     {
-        $this->app->singleton(PhpQueryManager::class, function ($app) {
-            return new PhpQueryManager();
-        });
+        //
     }
 
     /**
