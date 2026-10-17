@@ -4,7 +4,7 @@ namespace MicroweberPackages\Livewire;
 
 use \Livewire\LivewireManager as BaseLivewireManager;
 
-class LivewireFronterdAssetsManager extends BaseLivewireManager
+class LivewireFrontendAssetsManager extends BaseLivewireManager
 {
     public function copyAssets(): void
     {

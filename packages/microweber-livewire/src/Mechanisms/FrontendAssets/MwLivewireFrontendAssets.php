@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Livewire\Mechanisms\FrontendAssets;
 
 use Livewire\Mechanisms\FrontendAssets\FrontendAssets;
-use MicroweberPackages\Livewire\LivewireFronterdAssetsManager;
+use MicroweberPackages\Livewire\LivewireFrontendAssetsManager;
 
 class MwLivewireFrontendAssets extends FrontendAssets
 {
@@ -18,7 +18,7 @@ class MwLivewireFrontendAssets extends FrontendAssets
     {
         $assetWarning = null;
 
-        $helper = new LivewireFronterdAssetsManager();
+        $helper = new LivewireFrontendAssetsManager();
         $helper->copyAssets();
 
         $url = $helper->getAssetPath();

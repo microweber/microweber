@@ -9,7 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 
 
-class ServeStaticFileContoller extends Controller
+class ServeStaticFileController extends Controller
 {
     /** @var list<string> */
     public array $skip_ext = ['php', 'phtml', 'php7', '.htaccess', '.env'];
@@ -40,7 +40,7 @@ class ServeStaticFileContoller extends Controller
         }
 
         if (!$hasFile) {
-            return response('ServeStaticFileContoller: File not found', 404)
+            return response('ServeStaticFileController: File not found', 404)
                 ->withoutCookie(config('session.cookie'));
         }
 
