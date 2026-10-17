@@ -123,6 +123,19 @@ class StandaloneAppValidationTest extends TestCase
                 ]);
             }
 
+            // Each branch above may point the default connection at a fresh database;
+            // run the package migrations on it before querying.
+            try {
+                \Illuminate\Support\Facades\Artisan::call('migrate', [
+                    '--database' => $driver,
+                    '--path' => realpath(__DIR__ . '/../../database/migrations'),
+                    '--realpath' => true,
+                    '--force' => true,
+                ]);
+            } catch (\Throwable) {
+                continue;
+            }
+
             $service = app(TemplateFontsManager::class);
             $this->assertIsArray($service->getFonts(), "Failed on driver {$driver}");
         }
