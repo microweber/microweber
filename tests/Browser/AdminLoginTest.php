@@ -94,9 +94,16 @@ class AdminLoginTest extends DuskTestCase
 
             // ── Check 3: Valid login redirects to admin ──
             try {
+                // Clear before typing — Check 2 left invalid creds in the
+                // Livewire-bound fields, and `type()` appends. Without clearing,
+                // the submitted email becomes "wrong@wrong.comadmin@admin.com",
+                // which can bounce off /login without actually authenticating,
+                // so the session never establishes and Check 4 then fails.
                 $browser->visit('/admin/login')
                     ->waitFor('input[type="email"]', 10)
+                    ->clear('input[type="email"]')
                     ->type('input[type="email"]', 'admin@admin.com')
+                    ->clear('input[type="password"]')
                     ->type('input[type="password"]', 'admin')
                     ->click('button[type="submit"]')
                     ->pause(5000);

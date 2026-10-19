@@ -400,7 +400,10 @@ class AdminLiveEditDropdownAndButtonsTest extends DuskTestCase
 
             // ── Check 4: Close drawer via Escape key ──
             try {
-                $browser->keys('body', '{escape}');
+                // Dusk's ElementResolver already uses 'body' as its default
+                // prefix, so keys('body', …) resolves to the invalid selector
+                // "body body". Pass an empty selector to target <body>.
+                $browser->keys('', '{escape}');
                 $browser->pause(600);
 
                 $drawerClosed = $browser->script("

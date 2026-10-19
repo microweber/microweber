@@ -93,8 +93,11 @@ class AdminNavChangesTest extends DuskTestCase
             $flatItems = implode("\n", array_map(static fn ($text): string => trim((string) $text), $itemTexts));
             $this->assertStringContainsString('More', $flatItems,
                 'Sidebar items should include More');
-            $this->assertStringContainsString('Product Categories', $flatItems,
-                'Sidebar items should include Product Categories');
+            // The shop section exposes "Products" and content "Categories" as
+            // separate sidebar items; there is no combined "Product Categories"
+            // entry. Assert the shop Products nav is present.
+            $this->assertStringContainsString('Products', $flatItems,
+                'Sidebar items should include Products');
 
             $normalizedGroups = array_map(static function ($label): string {
                 $text = trim((string) $label);
