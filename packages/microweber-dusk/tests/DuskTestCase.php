@@ -26,6 +26,29 @@ abstract class DuskTestCase extends BaseTestCase
      */
     public static bool $adminLoggedIn = false;
 
+    /**
+     * Chromedriver TCP port. Configurable via the DUSK_CHROME_PORT env var so
+     * the suite can run on a shared host where the default 9515 is already
+     * held by another user's chromedriver. Defaults to 9515 (CI, single-user).
+     */
+    protected static function chromeDriverPort(): int
+    {
+        return (int) (getenv('DUSK_CHROME_PORT') ?: 9515);
+    }
+
+    /**
+     * WebDriver endpoint. Honors DUSK_DRIVER_URL, else derives it from the
+     * configured chromedriver port.
+     */
+    protected static function chromeDriverUrl(): string
+    {
+        $url = $_ENV['DUSK_DRIVER_URL'] ?? getenv('DUSK_DRIVER_URL');
+        if (!$url) {
+            $url = 'http://localhost:' . static::chromeDriverPort();
+        }
+        return $url;
+    }
+
     protected function setUp(): void
     {
         if (!defined('MW_UNIT_TEST')) {
@@ -57,7 +80,7 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function ensureChromeDriverRunning(): void
     {
-        $driverUrl = $_ENV['DUSK_DRIVER_URL'] ?? env('DUSK_DRIVER_URL', 'http://localhost:9515');
+        $driverUrl = static::chromeDriverUrl();
 
         // Quick health check — ChromeDriver /status endpoint
         $ch = curl_init($driverUrl . '/status');
@@ -79,7 +102,7 @@ abstract class DuskTestCase extends BaseTestCase
         usleep(500000); // 0.5s
 
         // Restart
-        static::startChromeDriver(['--port=9515']);
+        static::startChromeDriver(['--port=' . static::chromeDriverPort()]);
         usleep(1000000); // 1s to settle
     }
 
@@ -154,7 +177,7 @@ abstract class DuskTestCase extends BaseTestCase
         ]);
 
         return RemoteWebDriver::create(
-            $_ENV['DUSK_DRIVER_URL'] ?? env('DUSK_DRIVER_URL', 'http://localhost:9515'),
+            static::chromeDriverUrl(),
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY, $options
             ),

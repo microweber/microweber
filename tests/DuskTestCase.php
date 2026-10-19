@@ -67,6 +67,29 @@ abstract class DuskTestCase extends BaseTestCase
 
     use CreatesApplication;
 
+    /**
+     * Chromedriver TCP port. Configurable via the DUSK_CHROME_PORT env var so
+     * the suite can run on a shared host where the default 9515 is already
+     * held by another user's chromedriver. Defaults to 9515 (CI, single-user).
+     */
+    protected static function chromeDriverPort(): int
+    {
+        return (int) (getenv('DUSK_CHROME_PORT') ?: 9515);
+    }
+
+    /**
+     * WebDriver endpoint. Honors DUSK_DRIVER_URL, else derives it from the
+     * configured chromedriver port.
+     */
+    protected static function chromeDriverUrl(): string
+    {
+        $url = $_ENV['DUSK_DRIVER_URL'] ?? getenv('DUSK_DRIVER_URL');
+        if (!$url) {
+            $url = 'http://localhost:' . static::chromeDriverPort();
+        }
+        return $url;
+    }
+
 
     protected function setUp(): void
     {
@@ -83,9 +106,7 @@ abstract class DuskTestCase extends BaseTestCase
         parent::setUp();
 
         if (!static::runningInSail()) {
-            static::startChromeDriver([
-                '--port=9515'
-            ]);
+            static::startChromeDriver(['--port=' . static::chromeDriverPort()]);
         }
 
         //       \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
@@ -190,7 +211,7 @@ abstract class DuskTestCase extends BaseTestCase
 
 
         return RemoteWebDriver::create(
-            $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
+            static::chromeDriverUrl(),
             //  $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:4444/wd/hub',
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY, $options
@@ -388,7 +409,7 @@ abstract class DuskTestCase extends BaseTestCase
                 }
                 static::$chromeProcess = null;
             }
-            static::startChromeDriver(['--port=9515']);
+            static::startChromeDriver(['--port=' . static::chromeDriverPort()]);
 
             // Wait for the new chromedriver to accept connections.
             for ($i = 0; $i < 20; $i++) {
@@ -405,7 +426,7 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function isChromeDriverResponding(): bool
     {
-        $fp = @fsockopen('127.0.0.1', 9515, $errno, $errstr, 1);
+        $fp = @fsockopen('127.0.0.1', static::chromeDriverPort(), $errno, $errstr, 1);
         if ($fp) {
             fclose($fp);
             return true;

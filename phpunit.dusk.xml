@@ -26,6 +26,21 @@
         <testsuite name="Notification Dusk Suite">
             <directory suffix="Test.php">./packages/microweber-notification/tests/Dusk</directory>
         </testsuite>
+        <testsuite name="Queue Dusk Suite">
+            <directory suffix="Test.php">./packages/microweber-queue/tests/Dusk</directory>
+        </testsuite>
+        <testsuite name="Minifier Dusk Suite">
+            <directory suffix="Test.php">./packages/microweber-minifier/tests/Dusk</directory>
+        </testsuite>
+        <testsuite name="ImageOptimization Dusk Suite">
+            <directory suffix="Test.php">./packages/microweber-image-optimization/tests/Dusk</directory>
+        </testsuite>
+        <testsuite name="ModuleRegistry Dusk Suite">
+            <directory suffix="Test.php">./packages/microweber-module-registry/tests/Dusk</directory>
+        </testsuite>
+        <testsuite name="LivewireModal Browser Suite">
+            <directory suffix="Test.php">./packages/microweber-livewire-modal/tests/Browser</directory>
+        </testsuite>
         <testsuite name="Browser Test Suite">
             <directory suffix="Test.php">./tests/Browser</directory>
         </testsuite>

@@ -124,12 +124,25 @@ class FortifyServiceProvider extends MicroweberPackageServiceProvider
 
     protected function configureRateLimiting(): void
     {
-        RateLimiter::for('login', function (Request $request) {
+        // The automated test environment (PHPUnit + Dusk) logs in many times
+        // from the same IP/email across suites; a 5-per-15-min lockout would
+        // throttle the whole browser run after the first few logins and
+        // cascade into dozens of false failures. Disable the limiter only
+        // under APP_ENV=testing — production keeps the 5/15-min protection.
+        $testing = app()->environment('testing');
+
+        RateLimiter::for('login', function (Request $request) use ($testing) {
+            if ($testing) {
+                return Limit::none();
+            }
             $key = (string) ($request->email ?: $request->username ?: '');
             return Limit::perMinutes(15, 5)->by($key . $request->ip());
         });
 
-        RateLimiter::for('two-factor', function (Request $request) {
+        RateLimiter::for('two-factor', function (Request $request) use ($testing) {
+            if ($testing) {
+                return Limit::none();
+            }
             return Limit::perMinutes(15, 5)->by(
                 (string) $request->session()->get('login.id', $request->ip())
             );
