@@ -26,7 +26,7 @@
 #
 # Usage:
 #   ./run-dusk.sh                       # Run all Dusk suites (each isolated)
-#   ./run-dusk.sh "Browser Test Suite"  # Run specific suite(s) by name
+#   ./run-dusk.sh "Browser-01"           # Run specific suite(s) by name
 #   ./run-dusk.sh --list                # List available Dusk suites
 #
 set -uo pipefail
@@ -48,7 +48,17 @@ ALL_SUITES=(
     "Minifier Dusk Suite"
     "ImageOptimization Dusk Suite"
     "ModuleRegistry Dusk Suite"
-    "Browser Test Suite"
+    "Browser-01"
+    "Browser-02"
+    "Browser-03"
+    "Browser-04"
+    "Browser-05"
+    "Browser-06"
+    "Browser-07"
+    "Browser-08"
+    "Browser-09"
+    "Browser-10"
+    "Browser-11"
 )
 FAILED=0
 RESULTS=()

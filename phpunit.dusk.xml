@@ -8,15 +8,13 @@
          cacheDirectory=".phpunit.cache"
          backupStaticProperties="false">
     <testsuites>
-        
+
         <testsuite name="PackageLoader Dusk Suite">
             <directory suffix="Test.php">./packages/microweber-package/tests/Dusk</directory>
         </testsuite>
-
         <testsuite name="Package Dusk Suite">
             <directory suffix="Test.php">./packages/microweber-dusk/tests/Browser</directory>
         </testsuite>
-
         <testsuite name="AiTools Dusk Suite">
             <directory suffix="Test.php">./packages/microweber-ai-tools/tests/Dusk</directory>
         </testsuite>
@@ -38,11 +36,274 @@
         <testsuite name="ModuleRegistry Dusk Suite">
             <directory suffix="Test.php">./packages/microweber-module-registry/tests/Dusk</directory>
         </testsuite>
-        <!-- microweber-livewire-modal/tests/Browser/NestedModalDuskTest duplicates
-             tests/Browser/LivewireModalNestedDuskTest (same route + components);
-             the root copy already runs under "Browser Test Suite". -->
-        <testsuite name="Browser Test Suite">
-            <directory suffix="Test.php">./tests/Browser</directory>
+
+        <!-- tests/Browser (242 files / ~409 methods) is split into balanced
+             Browser-NN buckets (<=40 methods each) so run-dusk.sh runs each in
+             its own process: Chrome degrades in a single 400-test process even
+             with recycleEvery=10. Regenerate with scripts/gen-dusk-suites.php. -->
+        <testsuite name="Browser-01">
+            <file>./tests/Browser/AdminAiChatWorkflowTest.php</file>
+            <file>./tests/Browser/AdminApiApplicationsWorkflowTest.php</file>
+            <file>./tests/Browser/AdminApiTokenEndToEndTest.php</file>
+            <file>./tests/Browser/AdminBackupWorkflowTest.php</file>
+            <file>./tests/Browser/AdminBillingWorkflowTest.php</file>
+            <file>./tests/Browser/AdminCategoryTest.php</file>
+            <file>./tests/Browser/AdminCommentsWorkflowTest.php</file>
+            <file>./tests/Browser/AdminContentCreateTest.php</file>
+            <file>./tests/Browser/AdminContentDeleteTest.php</file>
+            <file>./tests/Browser/AdminContentEditTest.php</file>
+            <file>./tests/Browser/AdminContentWorkflowTest.php</file>
+            <file>./tests/Browser/AdminCouponWorkflowTest.php</file>
+            <file>./tests/Browser/AdminCustomerWorkflowTest.php</file>
+            <file>./tests/Browser/AdminDashboardWorkflowTest.php</file>
+            <file>./tests/Browser/AdminDisposableEmailSettingsDuskTest.php</file>
+            <file>./tests/Browser/AdminFormEntriesWorkflowTest.php</file>
+            <file>./tests/Browser/AdminGlobalSearchTest.php</file>
+            <file>./tests/Browser/AdminInvoiceWorkflowTest.php</file>
+        </testsuite>
+        <testsuite name="Browser-02">
+            <file>./tests/Browser/AdminLiveEditDropdownAndButtonsTest.php</file>
+            <file>./tests/Browser/AdminLiveEditElementStyleEditorTest.php</file>
+            <file>./tests/Browser/AdminLiveEditModuleSettingsTest.php</file>
+            <file>./tests/Browser/AdminLiveEditQuickSettingsFirstTest.php</file>
+            <file>./tests/Browser/AdminLiveEditWorkflowTest.php</file>
+            <file>./tests/Browser/AdminLoginTest.php</file>
+            <file>./tests/Browser/AdminMailTemplateWorkflowTest.php</file>
+            <file>./tests/Browser/AdminMarketplaceWorkflowTest.php</file>
+            <file>./tests/Browser/AdminMcpClientWorkflowTest.php</file>
+            <file>./tests/Browser/AdminMediaLibraryTest.php</file>
+            <file>./tests/Browser/AdminMissingCoverageTest.php</file>
+            <file>./tests/Browser/AdminModuleCommerceUseCasesTest.php</file>
+            <file>./tests/Browser/AdminModuleContentUseCasesTest.php</file>
+        </testsuite>
+        <testsuite name="Browser-03">
+            <file>./tests/Browser/AdminModuleLiveEditUseCasesTest.php</file>
+            <file>./tests/Browser/AdminModuleMediaUseCasesTest.php</file>
+            <file>./tests/Browser/AdminModuleNavigationUseCasesTest.php</file>
+            <file>./tests/Browser/AdminModulePagesTest.php</file>
+            <file>./tests/Browser/AdminModuleSettingsPagesDuskTest.php</file>
+            <file>./tests/Browser/AdminModuleSettingsStylingDuskTest.php</file>
+            <file>./tests/Browser/AdminModuleSettingsWorkflowTest.php</file>
+            <file>./tests/Browser/AdminModuleSocialUseCasesTest.php</file>
+            <file>./tests/Browser/AdminModuleSpecializedUseCasesTest.php</file>
+            <file>./tests/Browser/AdminMultilanguageWorkflowTest.php</file>
+        </testsuite>
+        <testsuite name="Browser-04">
+            <file>./tests/Browser/AdminNavChangesTest.php</file>
+            <file>./tests/Browser/AdminNavigationTest.php</file>
+            <file>./tests/Browser/AdminNewsletterWorkflowTest.php</file>
+            <file>./tests/Browser/AdminOrderWorkflowTest.php</file>
+            <file>./tests/Browser/AdminPagesTest.php</file>
+            <file>./tests/Browser/AdminPassportApiApplicationsDuskTest.php</file>
+            <file>./tests/Browser/AdminPaymentWorkflowTest.php</file>
+            <file>./tests/Browser/AdminProductWorkflowTest.php</file>
+            <file>./tests/Browser/AdminProfileWorkflowTest.php</file>
+            <file>./tests/Browser/AdminSettingsTest.php</file>
+        </testsuite>
+        <testsuite name="Browser-05">
+            <file>./tests/Browser/AdminSettingsWorkflowTest.php</file>
+            <file>./tests/Browser/AdminShippingTaxWorkflowTest.php</file>
+            <file>./tests/Browser/AdminShopTest.php</file>
+            <file>./tests/Browser/AdminSocialLoginSettingsDuskTest.php</file>
+            <file>./tests/Browser/AdminTagWorkflowTest.php</file>
+            <file>./tests/Browser/AdminThemeTest.php</file>
+            <file>./tests/Browser/AdminUpdaterWorkflowTest.php</file>
+            <file>./tests/Browser/AdminUserCrudTest.php</file>
+            <file>./tests/Browser/AdminUserManagementTest.php</file>
+            <file>./tests/Browser/BaseTemplateMobileLayoutsTest.php</file>
+            <file>./tests/Browser/Big2LayoutSkinPreviewSmokeTest.php</file>
+            <file>./tests/Browser/Big2UserFlowFullPageTest.php</file>
+            <file>./tests/Browser/BigLayoutSkinPreviewSmokeTest.php</file>
+            <file>./tests/Browser/BigTemplateParserEdgeCasesTest.php</file>
+            <file>./tests/Browser/DocsWordPressImportScreenshotsTest.php</file>
+            <file>./tests/Browser/ExampleTest.php</file>
+        </testsuite>
+        <testsuite name="Browser-06">
+            <file>./tests/Browser/GalleryModuleAdminAndPublicRenderTest.php</file>
+            <file>./tests/Browser/LiveAdminFullWebsiteCreationWorkflowTest.php</file>
+            <file>./tests/Browser/LiveAdminMobileSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleAccordionSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleAddressSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleAiWizardSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleAttributesSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleAudioSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleBackgroundSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleBeforeAfterSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleBlogSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleBreadcrumbSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleBtnSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleCaptchaSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleCartAddSmokeTest.php</file>
+        </testsuite>
+        <testsuite name="Browser-07">
+            <file>./tests/Browser/LiveAdminModuleCartSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleCategorySmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleCheckoutSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleCloudflareSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleCommentsSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleCompanySmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleComponentsSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleContactFormSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleContentDataSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleContentDataVariantSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleContentFieldSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleContentSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleCookieNoticeSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleCountrySmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleCouponsSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleCurrencySmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleCustomFieldsSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleEmbedSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleExportSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleFacebookLikeSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleFacebookPageSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleFaqSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleFileManagerSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleGoogleAnalyticsSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleGoogleMapsSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleHighlightCodeSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleHostingApiSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleImageRolloverSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleLayoutContentSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleLayoutsSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleLogoSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleMarqueeSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleMenuSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleMultilanguageSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleNewsletterSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleOfferSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleOpenApiSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModulePageSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModulePaginationSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModulePdfSmokeTest.php</file>
+        </testsuite>
+        <testsuite name="Browser-08">
+            <file>./tests/Browser/LiveAdminModulePicturesSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModulePostSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleProductsSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleRatingSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleRestoreSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleRssFeedSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleSeoSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleSharerSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleSiteStatsSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleSkillsSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleSliderSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleSocialLinksSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleSpacerSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleTabsSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleTeamcardSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleTestimonialsSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleTextTypeSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleTweetEmbedSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleVideoSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminModuleWhiteLabelSmokeTest.php</file>
+            <file>./tests/Browser/LiveAdminWordPressImportCtaWidgetTest.php</file>
+            <file>./tests/Browser/LiveAdminWordPressMigrationLiveSiteCheckTest.php</file>
+            <file>./tests/Browser/LiveAdminWordPressMigrationPreviewCommitTest.php</file>
+            <file>./tests/Browser/LiveAdminWordPressMigrationProbeTest.php</file>
+            <file>./tests/Browser/LiveAdminWordPressMigrationRestTest.php</file>
+            <file>./tests/Browser/LiveAdminWordPressMigrationRssTest.php</file>
+            <file>./tests/Browser/LiveAdminWordPressMigrationSitemapTest.php</file>
+            <file>./tests/Browser/LiveAdminWordPressMigrationUxTest.php</file>
+            <file>./tests/Browser/LiveAdminWordPressMigrationWxrTest.php</file>
+            <file>./tests/Browser/LiveEditAddContentBig2Test.php</file>
+            <file>./tests/Browser/LiveEditAddContentDoesNotLoseDataOnClickOutsideTest.php</file>
+            <file>./tests/Browser/LiveEditAddContentModalIsCenteredTest.php</file>
+            <file>./tests/Browser/LiveEditAddContentRefreshAndModalSubmitTest.php</file>
+            <file>./tests/Browser/LiveEditAddContentValidationFailPathTest.php</file>
+            <file>./tests/Browser/LiveEditAddPostFromHomepageTest.php</file>
+            <file>./tests/Browser/LiveEditBlogSkin1Test.php</file>
+            <file>./tests/Browser/LiveEditCodeEditorTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteActiveSwatchTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteAppleShineTest.php</file>
+        </testsuite>
+        <testsuite name="Browser-09">
+            <file>./tests/Browser/LiveEditColorPaletteArcticFrostTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteBlueberryPieTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteCitrusSplashTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteCoralPopTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteCrossTemplateTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteCyberMintTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteForestHazeTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteGoldenHourTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteLavenderFieldsTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteLayoutMatrixTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteMidnightIndigoTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteMintyFreshTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteNeonNightTest.php</file>
+            <file>./tests/Browser/LiveEditColorPalettePastelDreamTest.php</file>
+            <file>./tests/Browser/LiveEditColorPalettePickerKeyboardNavTest.php</file>
+            <file>./tests/Browser/LiveEditColorPalettePickerSwatchCountTest.php</file>
+            <file>./tests/Browser/LiveEditColorPalettePickerSwatchLabelsTest.php</file>
+            <file>./tests/Browser/LiveEditColorPalettePickerThumbnailColorsTest.php</file>
+            <file>./tests/Browser/LiveEditColorPalettePublicRenderConsoleCleanTest.php</file>
+            <file>./tests/Browser/LiveEditColorPalettePublicRenderRealTargetsTest.php</file>
+            <file>./tests/Browser/LiveEditColorPalettePublicRenderTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteRobocopTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteSakuraBloomTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteSkinMatrixNoLeakTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteSkinMatrixTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteSunsetBoulevardTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteSwitchNoBleedTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteSwitchSaveReloadTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteTemplateSwitchRoundTripTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteUrbanConcreteTest.php</file>
+            <file>./tests/Browser/LiveEditColorPaletteZeroPacksTemplateTest.php</file>
+            <file>./tests/Browser/LiveEditContentSkin1Test.php</file>
+            <file>./tests/Browser/LiveEditDropModuleIntoLayoutRenderTest.php</file>
+            <file>./tests/Browser/LiveEditEcommerceSkin1Test.php</file>
+            <file>./tests/Browser/LiveEditFeaturesSkin1Test.php</file>
+            <file>./tests/Browser/LiveEditFeaturesSkin2Test.php</file>
+            <file>./tests/Browser/LiveEditFilamentMwDialogTest.php</file>
+        </testsuite>
+        <testsuite name="Browser-10">
+            <file>./tests/Browser/LiveEditFootersSkin1Test.php</file>
+            <file>./tests/Browser/LiveEditFullLandingPageTest.php</file>
+            <file>./tests/Browser/LiveEditInsertLayoutTest.php</file>
+            <file>./tests/Browser/LiveEditInsertModuleTest.php</file>
+            <file>./tests/Browser/LiveEditInsertTopVsBottomTest.php</file>
+            <file>./tests/Browser/LiveEditJumbotronBackgroundColorInlineStyleTest.php</file>
+            <file>./tests/Browser/LiveEditJumbotronSkin1Test.php</file>
+            <file>./tests/Browser/LiveEditJumbotronSkin2Test.php</file>
+            <file>./tests/Browser/LiveEditLayoutPickerCategoryFilterTest.php</file>
+            <file>./tests/Browser/LiveEditLayoutPickerIframeBodyTest.php</file>
+            <file>./tests/Browser/LiveEditLayoutPickerKeywordSearchTest.php</file>
+            <file>./tests/Browser/LiveEditLayoutPickerPreviewUrlTest.php</file>
+            <file>./tests/Browser/LiveEditLinkPickerTabSwitchTest.php</file>
+            <file>./tests/Browser/LiveEditMenuTitleEditTest.php</file>
+            <file>./tests/Browser/LiveEditMenusSkin1Test.php</file>
+            <file>./tests/Browser/LiveEditNotificationBackgroundTest.php</file>
+            <file>./tests/Browser/LiveEditPageBuilderTraitSmokeTest.php</file>
+            <file>./tests/Browser/LiveEditPostModuleSettingsAddEditTest.php</file>
+            <file>./tests/Browser/LiveEditPostModuleSettingsMainSaveAndRefreshTest.php</file>
+            <file>./tests/Browser/LiveEditPostModuleTableActionModalCenteredTest.php</file>
+            <file>./tests/Browser/LiveEditPostsListAddPostPublicRenderTest.php</file>
+            <file>./tests/Browser/LiveEditPricingCardDragPosition3ToPosition1Test.php</file>
+            <file>./tests/Browser/LiveEditPricingInlineDoubleClickTest.php</file>
+            <file>./tests/Browser/LiveEditPricingPopularPlanOptionPersistsTest.php</file>
+            <file>./tests/Browser/LiveEditPricingSkin1Test.php</file>
+            <file>./tests/Browser/LiveEditPricingSkin2Test.php</file>
+            <file>./tests/Browser/LiveEditPricingSkin3Test.php</file>
+            <file>./tests/Browser/LiveEditPublicAssetsNo404Test.php</file>
+            <file>./tests/Browser/LiveEditPublicPageConsoleCleanTest.php</file>
+            <file>./tests/Browser/LiveEditPublicRenderParityPhase2SectionsTest.php</file>
+            <file>./tests/Browser/LiveEditSaveEndpointTest.php</file>
+            <file>./tests/Browser/LiveEditTemplateSwitchBackToBootstrapNoStateLeakTest.php</file>
+            <file>./tests/Browser/LiveEditTemplateSwitchBootstrapToBig2FallbackTest.php</file>
+            <file>./tests/Browser/LiveEditTextBlockSkin1Test.php</file>
+            <file>./tests/Browser/LiveEditTitlesSkin1Test.php</file>
+            <file>./tests/Browser/LiveEditTopModalAndSelectiveReloadTest.php</file>
+            <file>./tests/Browser/LivewireModalNestedDuskTest.php</file>
+        </testsuite>
+        <testsuite name="Browser-11">
+            <file>./tests/Browser/MenuModuleListItemsRenderTest.php</file>
+            <file>./tests/Browser/PackageManagerClientMarketplaceTest.php</file>
+            <file>./tests/Browser/PostModuleAdminAndPublicRenderTest.php</file>
+            <file>./tests/Browser/ProductModuleAdminAndPublicRenderTest.php</file>
+            <file>./tests/Browser/PublicFrontendMobileSmokeTest.php</file>
+            <file>./tests/Browser/SettingsPagesSmokeTest.php</file>
+            <file>./tests/Browser/SmokeTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
