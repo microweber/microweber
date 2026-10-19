@@ -52,8 +52,10 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
     public function table(Table $table): Table
     {
 
-        //  $query = Content::query()->where('is_active', 1);
-        $query = $this->contentModel::query()->where('is_active', 1);
+        // Show drafts (unpublished) alongside published content so newly
+        // created items are visible/manageable in the list — the status is
+        // conveyed per-row, not by hiding unpublished rows.
+        $query = $this->contentModel::query();
 
         return $table
             ->query($query)

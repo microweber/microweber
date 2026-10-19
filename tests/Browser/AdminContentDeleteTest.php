@@ -30,19 +30,35 @@ class AdminContentDeleteTest extends DuskTestCase
 
     protected function livewireSet(Browser $browser, string $property, string $value): void
     {
+        // Set Filament form fields the way a real user does — via the native
+        // input + input/change/blur events — so Filament's wire:model binding
+        // commits the value server-side. comp.set('data.title', …) updates only
+        // the client component and is reset on the next Livewire roundtrip
+        // (Filament re-hydrates its form state), leaving the field empty and the
+        // save failing "required" validation.
+        $field      = preg_replace('/^data\./', '', $property);
+        $selectorJs = json_encode('#form\\.' . $field);
         $propertyJs = json_encode($property);
         $valueJs    = json_encode($value);
         $js = <<<JS
-            var titleInput = document.querySelector('#form\\\\.title');
-            if (!titleInput) return false;
-            var el = titleInput;
+            var input = document.querySelector({$selectorJs});
+            if (input) {
+                input.focus();
+                input.value = {$valueJs};
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+                input.dispatchEvent(new Event('blur', { bubbles: true }));
+                return 'native';
+            }
+            var anchor = document.querySelector('#form\\\\.title');
+            if (!anchor) return false;
+            var el = anchor;
             while (el && !el.getAttribute('wire:id')) el = el.parentElement;
             if (!el) return false;
-            var wireId = el.getAttribute('wire:id');
-            var comp = window.Livewire.find(wireId);
+            var comp = window.Livewire.find(el.getAttribute('wire:id'));
             if (!comp) return false;
             comp.set({$propertyJs}, {$valueJs});
-            return true;
+            return 'comp';
         JS;
         $browser->script($js);
         $browser->pause(2000);
@@ -148,6 +164,23 @@ class AdminContentDeleteTest extends DuskTestCase
                     }
 
                     $pageSource = $browser->driver->getPageSource();
+
+                    // If not on page 1 (the list sorts by position, so freshly
+                    // created items are appended to the end), use the in-list
+                    // search to locate it.
+                    if (!str_contains($pageSource, $uniqueTitle)) {
+                        $browser->script("
+                            var searchInput = document.querySelector('.fi-ta-search-field input')
+                                || document.querySelector('input[placeholder=\"Search\"]');
+                            if (searchInput) {
+                                searchInput.value = " . json_encode($uniqueTitle) . ";
+                                searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            }
+                        ");
+                        $browser->pause(4000);
+                        $pageSource = $browser->driver->getPageSource();
+                    }
+
                     $this->assertStringContainsString($uniqueTitle, $pageSource,
                         "Created {$type} '{$uniqueTitle}' should appear in the list");
 

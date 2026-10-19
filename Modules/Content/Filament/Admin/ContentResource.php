@@ -2096,11 +2096,6 @@ return $get('id');
             ->searchable(true)
             ->reorderable('position')
             ->defaultSort('position', 'asc')
-            // task-2026-05-26-2b11f4 / AI-1129: exclude Dusk/PHPUnit test fixture records
-            ->modifyQueryUsing(fn (\Illuminate\Database\Eloquent\Builder $query) => $query
-                ->where('title', 'not like', 'DuskTest%')
-                ->where('title', 'not like', 'Test post')
-            )
             ->columns(
                 $livewire->isGridLayout()
                     ? static::getGridTableColumns()
@@ -2295,29 +2290,34 @@ return $get('id');
      */
     public static function modifyGlobalSearchQuery(\Illuminate\Database\Eloquent\Builder $query, string $search): void
     {
-        $searchLower = mb_strtolower($search);
-
-        $query->orWhere(function ($q) use ($searchLower) {
+        // Use the query builder's `where(..., 'like', ...)` rather than a raw
+        // `LOWER(content_fields.value) LIKE ?`: raw expressions bypass the
+        // connection's table prefix, so on a prefixed DB (DB_PREFIX=mwdev_code_)
+        // the raw `content_fields.value` resolves to a non-existent column and
+        // the whole global search throws (then gets silently swallowed). The
+        // builder wraps + prefixes the column; LIKE is case-insensitive for
+        // ASCII on MySQL/SQLite under the default collations.
+        $query->orWhere(function ($q) use ($search) {
             // Search in content_fields (live-edit body text in nested layouts)
-            $q->whereExists(function ($sub) use ($searchLower) {
+            $q->whereExists(function ($sub) use ($search) {
                 $sub->select(\Illuminate\Support\Facades\DB::raw(1))
                     ->from('content_fields')
                     ->whereColumn('content_fields.rel_id', 'content.id')
                     ->where('content_fields.rel_type', 'content')
-                    ->whereRaw('LOWER(content_fields.value) LIKE ?', ["%{$searchLower}%"]);
+                    ->where('content_fields.value', 'like', "%{$search}%");
             });
         });
 
         // Also search in multilanguage translations if the table exists
         try {
             if (\Illuminate\Support\Facades\Schema::hasTable('multilanguage_translations')) {
-                $query->orWhere(function ($q) use ($searchLower) {
-                    $q->whereExists(function ($sub) use ($searchLower) {
+                $query->orWhere(function ($q) use ($search) {
+                    $q->whereExists(function ($sub) use ($search) {
                         $sub->select(\Illuminate\Support\Facades\DB::raw(1))
                             ->from('multilanguage_translations')
                             ->whereColumn('multilanguage_translations.rel_id', 'content.id')
                             ->where('multilanguage_translations.rel_type', 'content')
-                            ->whereRaw('LOWER(multilanguage_translations.field_value) LIKE ?', ["%{$searchLower}%"]);
+                            ->where('multilanguage_translations.field_value', 'like', "%{$search}%");
                     });
                 });
             }

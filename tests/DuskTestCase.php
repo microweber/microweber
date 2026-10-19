@@ -90,6 +90,22 @@ abstract class DuskTestCase extends BaseTestCase
         return $url;
     }
 
+    /**
+     * Base URL the browser resolves visit('/…') against.
+     *
+     * Override Dusk's default (config('app.url')) to use the hardcoded
+     * $siteUrl (the test server on 127.0.0.1:8000). Otherwise, whenever the app
+     * resolves app.url from the dev .env — e.g. a `php artisan dusk` run that
+     * forgot to export APP_ENV=testing, so .env (APP_URL=the production dev
+     * domain) loads instead of .env.testing — every visit() would navigate to
+     * the live dev site instead of the test server, and post-save redirects
+     * would leave the browser on the wrong host.
+     */
+    protected function baseUrl()
+    {
+        return rtrim($this->siteUrl, '/');
+    }
+
 
     protected function setUp(): void
     {
