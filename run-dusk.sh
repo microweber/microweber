@@ -48,7 +48,6 @@ ALL_SUITES=(
     "Minifier Dusk Suite"
     "ImageOptimization Dusk Suite"
     "ModuleRegistry Dusk Suite"
-    "LivewireModal Browser Suite"
     "Browser Test Suite"
 )
 FAILED=0

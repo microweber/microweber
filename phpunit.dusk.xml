@@ -38,9 +38,9 @@
         <testsuite name="ModuleRegistry Dusk Suite">
             <directory suffix="Test.php">./packages/microweber-module-registry/tests/Dusk</directory>
         </testsuite>
-        <testsuite name="LivewireModal Browser Suite">
-            <directory suffix="Test.php">./packages/microweber-livewire-modal/tests/Browser</directory>
-        </testsuite>
+        <!-- microweber-livewire-modal/tests/Browser/NestedModalDuskTest duplicates
+             tests/Browser/LivewireModalNestedDuskTest (same route + components);
+             the root copy already runs under "Browser Test Suite". -->
         <testsuite name="Browser Test Suite">
             <directory suffix="Test.php">./tests/Browser</directory>
         </testsuite>

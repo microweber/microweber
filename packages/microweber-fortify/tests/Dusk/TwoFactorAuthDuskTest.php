@@ -245,20 +245,15 @@ class TwoFactorAuthDuskTest extends DuskTestCase
      */
     public function test_filament_2fa_full_flow_programmatic_then_browser(): void
     {
-        // We need to connect to the main database (database.sqlite) that
-        // the artisan serve process uses, not the testing DB.
-        $mainDbPath = base_path('storage/database.sqlite');
-        if (!file_exists($mainDbPath)) {
-            $this->markTestSkipped('Main database.sqlite not found — cannot test browser 2FA state');
-        }
-
-        // Use a direct PDO connection to the main DB to enable 2FA
-        $pdo = new \PDO("sqlite:{$mainDbPath}");
-        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
+        // The artisan serve process and this test now resolve the SAME
+        // database (storage/testing.sqlite via .env.testing), so write the
+        // 2FA state through the configured connection. A raw PDO handle to a
+        // hardcoded storage/database.sqlite would miss both the right file and
+        // the mwdev_code_ table prefix the real DB uses.
         $adminEmail = env('DUSK_ADMIN_EMAIL', 'admin@admin.com');
 
-        // Enable and confirm 2FA on a test user in the test DB for assertion logic
+        // Enable and confirm 2FA on a throwaway test user to generate a valid
+        // secret + recovery codes we can copy onto the admin user.
         $enable = app(EnableTwoFactorAuthentication::class);
         $enable($this->testUser);
         $this->testUser->refresh();
@@ -272,13 +267,12 @@ class TwoFactorAuthDuskTest extends DuskTestCase
         $this->testUser->refresh();
         $this->assertTrue($this->testUser->hasTwoFactorEnabled());
 
-        // Now write the 2FA data to the admin user in the MAIN database
-        $stmt = $pdo->prepare("UPDATE users SET two_factor_secret = ?, two_factor_recovery_codes = ?, two_factor_confirmed_at = ? WHERE email = ?");
-        $stmt->execute([
-            $this->testUser->two_factor_secret,
-            $this->testUser->two_factor_recovery_codes,
-            now()->toDateTimeString(),
-            $adminEmail,
+        // Mirror the 2FA data onto the admin user the browser logs in as
+        // (same connection + encryption key the server uses).
+        User::where('email', $adminEmail)->update([
+            'two_factor_secret' => $this->testUser->two_factor_secret,
+            'two_factor_recovery_codes' => $this->testUser->two_factor_recovery_codes,
+            'two_factor_confirmed_at' => now()->toDateTimeString(),
         ]);
 
         try {
@@ -300,9 +294,12 @@ class TwoFactorAuthDuskTest extends DuskTestCase
                 );
             });
         } finally {
-            // Clean up — disable 2FA on the admin user in the main DB
-            $stmt = $pdo->prepare("UPDATE users SET two_factor_secret = NULL, two_factor_recovery_codes = NULL, two_factor_confirmed_at = NULL WHERE email = ?");
-            $stmt->execute([$adminEmail]);
+            // Clean up — disable 2FA on the admin user.
+            User::where('email', $adminEmail)->update([
+                'two_factor_secret' => null,
+                'two_factor_recovery_codes' => null,
+                'two_factor_confirmed_at' => null,
+            ]);
         }
     }
 
