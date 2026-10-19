@@ -15,6 +15,30 @@ function template_dir($param = false)
     return app()->template_manager->dir($param);
 }
 
+/**
+ * Resolve a template folder name to its full directory path (trailing
+ * separator included), searching the primary Templates/ root first and then
+ * any extra template roots (config('microweber.extra_templates_paths'), e.g.
+ * ExtraTemplates/). Falls back to the primary path when the folder is not
+ * found anywhere, so behavior for Templates/ templates is unchanged and
+ * missing-template code paths stay identical.
+ */
+function template_full_dir($name)
+{
+    $name = (string) $name;
+    $primary = templates_dir() . $name . DIRECTORY_SEPARATOR;
+    if ($name === '' || is_dir($primary)) {
+        return $primary;
+    }
+    foreach ((array) config('microweber.extra_templates_paths', []) as $extra) {
+        $candidate = rtrim((string) $extra, '/\\') . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR;
+        if (is_dir($candidate)) {
+            return $candidate;
+        }
+    }
+    return $primary;
+}
+
 function template_url($param = false)
 {
     return app()->template_manager->url($param);
