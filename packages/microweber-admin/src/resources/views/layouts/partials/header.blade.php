@@ -1,5 +1,3 @@
-use MicroweberPackages\Notification\Facades\Notifications;
-use MicroweberPackages\Url\Facades\UrlManager;
 <!DOCTYPE html>
 <html <?php print lang_attributes(); ?>>
 <head>
@@ -132,12 +130,12 @@ $additionalBodyClassesStr = implode(' ', $additionalBodyClasses);
 
 
 $bodyClasses[] = 'is_admin';
-if(UrlManager::param('view')) {
-    $bodyClasses[] = 'view-'.UrlManager::param('view');
+if(\MicroweberPackages\Url\Facades\UrlManager::param('view')) {
+    $bodyClasses[] = 'view-'.\MicroweberPackages\Url\Facades\UrlManager::param('view');
 }
 
-if(UrlManager::param('action')) {
-    $bodyClasses[] = 'action-'.UrlManager::param('action');
+if(\MicroweberPackages\Url\Facades\UrlManager::param('action')) {
+    $bodyClasses[] = 'action-'.\MicroweberPackages\Url\Facades\UrlManager::param('action');
 }
 
 
@@ -146,7 +144,7 @@ $bodyClassesStr = $bodyClasses ? implode(' ', $bodyClasses) : '';
 ?>
 
 
-<body class="is_admin loading view-<?php print UrlManager::param('view'); ?> action-<?php print UrlManager::param('action'); ?> <?php print $additionalBodyClassesStr; ?>">
+<body class="is_admin loading view-<?php print \MicroweberPackages\Url\Facades\UrlManager::param('view'); ?> action-<?php print \MicroweberPackages\Url\Facades\UrlManager::param('action'); ?> <?php print $additionalBodyClassesStr; ?>">
 
 
 
