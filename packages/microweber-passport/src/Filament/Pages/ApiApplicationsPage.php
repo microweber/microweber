@@ -124,8 +124,31 @@ class ApiApplicationsPage extends Page
         }
     }
 
+    /**
+     * Passport cannot issue personal access tokens without a personal-access
+     * grant client. Installs that never ran `passport:install` have none, so
+     * $user->createToken() throws "Personal access client not found" and the
+     * action 500s. Create one on demand so token issuance works out of the box.
+     */
+    protected function ensurePersonalAccessClient(): void
+    {
+        $provider = config('auth.guards.api.provider') ?: 'users';
+        $clients = app(\Laravel\Passport\ClientRepository::class);
+
+        try {
+            $clients->personalAccessClient($provider);
+        } catch (\RuntimeException) {
+            $clients->createPersonalAccessGrantClient(
+                config('app.name', 'Microweber') . ' Personal Access Client',
+                $provider
+            );
+        }
+    }
+
     public function createPersonalToken(): void
     {
+        $this->ensurePersonalAccessClient();
+
         $name = $this->newTokenName ?: 'API Token';
         $user = auth()->user();
 

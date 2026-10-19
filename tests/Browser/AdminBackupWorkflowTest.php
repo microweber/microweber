@@ -41,7 +41,7 @@ class AdminBackupWorkflowTest extends DuskTestCase
 
             // ── Check 1: Backups list page loads ──
             try {
-                $browser->visit('/admin/backups')->pause(5000);
+                $browser->visit('/admin/backup')->pause(5000);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -176,7 +176,7 @@ class AdminBackupWorkflowTest extends DuskTestCase
 
             // ── Check 2: Create backup action doesn't crash ──
             try {
-                $browser->visit('/admin/backups')->pause(5000);
+                $browser->visit('/admin/backup')->pause(5000);
                 $this->ensureLoggedIn($browser);
 
                 // Look for a "Create" or "New Backup" button
