@@ -148,11 +148,25 @@
          Loaded LAST so the child's :root tokens + rules win over Base's defaults and
          the saved scheme. No-op on Base itself (it has no live_edit.css). --}}
     @php
-        // The active (possibly child) template. template_name() can resolve to the
-        // parent (Base) when a child inherits the master, so prefer the globally
-        // selected current_template option, which always names the chosen template.
+        // The active (possibly child) template whose design CSS to load.
+        // Prefer the CURRENT PAGE's own active_site_template so per-page designs
+        // (e.g. a JSON design imported as a page under a drop-in template) load
+        // their own CSS even when the global current_template differs — this is
+        // what lets many different imported designs coexist on one site. Fall
+        // back to the globally selected current_template, then template_name().
         $mwActiveTpl = '';
-        if (function_exists('get_option')) {
+        if (defined('CONTENT_ID') && CONTENT_ID) {
+            try {
+                $mwCurContent = app()->content_manager->get_by_id(CONTENT_ID);
+                if (!empty($mwCurContent['active_site_template'])
+                    && strtolower((string) $mwCurContent['active_site_template']) !== 'inherit') {
+                    $mwActiveTpl = (string) $mwCurContent['active_site_template'];
+                }
+            } catch (\Throwable $mwE) {
+                // ignore — fall through to the global option
+            }
+        }
+        if ($mwActiveTpl === '' && function_exists('get_option')) {
             $mwActiveTpl = (string) (get_option('current_template', 'template') ?: '');
         }
         if ($mwActiveTpl === '' && function_exists('template_name')) {

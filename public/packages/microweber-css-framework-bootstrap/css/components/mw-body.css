@@ -13,16 +13,23 @@ body {
     text-transform: var(--mw-text-transform);
 }
 
-.mw-main {
+/* `:where(.mw-main)` keeps these as token-driven DEFAULTS at element-level
+   specificity (0,0,1). They still beat Bootstrap reboot (imported earlier,
+   equal specificity) so MW's own templates look identical, but a child
+   template's / imported design's own stylesheet — loaded as a later <link>
+   with a plain `body`/`h1,h2,h3` selector — now wins the cascade by load
+   order instead of being out-specified by `.mw-main h1` (0,0,2). This is
+   what lets a drop-in JSON design own its full typography. */
+:where(.mw-main) {
     font-family: var(--mw-body-font-family);
 }
 
-.mw-main h1,
-.mw-main h2,
-.mw-main h3,
-.mw-main h4,
-.mw-main h5,
-.mw-main h6 {
+:where(.mw-main) h1,
+:where(.mw-main) h2,
+:where(.mw-main) h3,
+:where(.mw-main) h4,
+:where(.mw-main) h5,
+:where(.mw-main) h6 {
     color: var(--mw-heading-color);
     text-transform: var(--mw-text-transform);
     font-weight: var(--mw-font-weight);
@@ -31,7 +38,7 @@ body {
     font-family: var(--mw-heading-font-family);
 }
 
-.mw-main p {
+:where(.mw-main) p {
     color: var(--mw-paragraph-color);
     font-size: var(--mw-paragraph-size);
     line-height: var(--mw-line-height);
