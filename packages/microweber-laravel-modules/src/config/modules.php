@@ -198,15 +198,20 @@ return [
     |
     */
     'scan' => [
-        'enabled' => false,
-        'paths' => [
-            //  base_path('vendor/*/*'),
-            base_path('Modules/'),
-            // base_path('Modules/*/*'),
-            // base_path('userfiles/modules/*/*'),
-            // base_path('userfiles/modules/*'),
-
-        ],
+        // Scan is enabled so the extra drop-in module folders below are also
+        // discovered. The primary base_path('Modules') root is always scanned
+        // via getPath(); enabling scan only ADDS the extra roots. Empty extra
+        // folders glob to nothing, so this is a no-op until a module is dropped
+        // in — boot-safe and additive.
+        'enabled' => true,
+        // Extra drop-in module roots. Folder names are configurable via env
+        // (MW_EXTRA_MODULES_PATH / MW_EXTRA_MODULES_PATH_2) and default to
+        // ExtraModules/ and ExtraModules2/ at the repo root. Only existing
+        // directories are kept, so a missing folder is silently skipped.
+        'paths' => array_values(array_filter([
+            base_path(env('MW_EXTRA_MODULES_PATH', 'ExtraModules')),
+            base_path(env('MW_EXTRA_MODULES_PATH_2', 'ExtraModules2')),
+        ], 'is_dir')),
     ],
 
     /*

@@ -296,3 +296,15 @@ scratchpad-*/
 /scripts/__pycache__/
 /scripts/phpstan-one.sh
 /scripts/phpstan-all.sh
+
+# Drop-in folders for extra modules/templates: ignore their contents but keep
+# the folders themselves (via the tracked .gitkeep) so the scanners always have
+# an existing path to look at.
+/ExtraModules/*
+!/ExtraModules/.gitkeep
+/ExtraModules2/*
+!/ExtraModules2/.gitkeep
+/ExtraTemplates/*
+!/ExtraTemplates/.gitkeep
+/ExtraTemplates2/*
+!/ExtraTemplates2/.gitkeep

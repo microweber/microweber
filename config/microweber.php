@@ -3,6 +3,34 @@
 return [
     /*
     |--------------------------------------------------------------------------
+    | Extra drop-in module / template roots
+    |--------------------------------------------------------------------------
+    |
+    | Besides the primary Modules/ and Templates/ roots, Microweber also scans
+    | these extra drop-in folders. Drop a module into ExtraModules/<Name>/ (with
+    | a module.json) or a template into ExtraTemplates/<Name>/ (with a
+    | config/config.php and module.json) and it is discovered and loadable
+    | exactly like one living under Modules/ or Templates/.
+    |
+    | The folder names are configurable via env; only existing directories are
+    | kept, so empty / missing folders are a complete no-op. These lists are the
+    | single source of truth consumed by the site_templates() scanner; the
+    | laravel-modules scanners read the same env keys in config/modules.php and
+    | the templates package config.
+    |
+    */
+    'extra_modules_paths' => array_values(array_filter([
+        base_path(env('MW_EXTRA_MODULES_PATH', 'ExtraModules')),
+        base_path(env('MW_EXTRA_MODULES_PATH_2', 'ExtraModules2')),
+    ], 'is_dir')),
+
+    'extra_templates_paths' => array_values(array_filter([
+        base_path(env('MW_EXTRA_TEMPLATES_PATH', 'ExtraTemplates')),
+        base_path(env('MW_EXTRA_TEMPLATES_PATH_2', 'ExtraTemplates2')),
+    ], 'is_dir')),
+
+    /*
+    |--------------------------------------------------------------------------
     | Default Template
     |--------------------------------------------------------------------------
     |

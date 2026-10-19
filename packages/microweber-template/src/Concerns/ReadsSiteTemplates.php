@@ -22,36 +22,78 @@ trait ReadsSiteTemplates
      */
     public function site_templates($options = [])
     {
-        $path = $options['path'] ?? templates_dir();
-        $map = directory_map($path, true, true);
-
-        if (!is_array($map) || empty($map)) {
-            return false;
+        // An explicit path keeps the original single-root behaviour; otherwise
+        // we scan the primary Templates/ root plus any extra drop-in roots.
+        if (isset($options['path'])) {
+            $roots = [$options['path']];
+        } else {
+            $roots = $this->getSiteTemplatesRoots();
         }
 
         $remove_hidden = $options['remove_hidden_from_install_screen'] ?? false;
         $templates = [];
 
-        foreach ($map as $dir) {
-            $template_path = normalize_path($path . DIRECTORY_SEPARATOR . $dir);
-            $template_path = rtrim(ltrim($template_path, '.'), '\\');
-
-            if (is_file($template_path) || !is_dir($template_path)) {
+        foreach ($roots as $path) {
+            if (!is_dir($path)) {
                 continue;
             }
 
-            $config = $this->get_template_config($template_path);
+            $map = directory_map($path, true, true);
 
-            if ($config && (!$remove_hidden || empty($config['is_hidden_from_install_screen']))) {
-                if (isset($config['name'])) {
-                    $config['screenshot'] = $this->get_template_screenshot($config['name']);
+            if (!is_array($map) || empty($map)) {
+                continue;
+            }
 
+            foreach ($map as $dir) {
+                $template_path = normalize_path($path . DIRECTORY_SEPARATOR . $dir);
+                $template_path = rtrim(ltrim($template_path, '.'), '\\');
+
+                if (is_file($template_path) || !is_dir($template_path)) {
+                    continue;
                 }
-                $templates[] = $config;
+
+                $config = $this->get_template_config($template_path);
+
+                if ($config && (!$remove_hidden || empty($config['is_hidden_from_install_screen']))) {
+                    if (isset($config['name'])) {
+                        $config['screenshot'] = $this->get_template_screenshot($config['name']);
+
+                    }
+                    $templates[] = $config;
+                }
             }
         }
 
+        if (empty($templates)) {
+            return false;
+        }
+
         return $templates;
+    }
+
+    /**
+     * Resolve the list of roots scanned for site templates: the primary
+     * Templates/ directory followed by any configured extra drop-in roots
+     * (config('microweber.extra_templates_paths'), already filtered to existing
+     * directories). Empty extra folders simply contribute nothing.
+     *
+     * @return array
+     */
+    protected function getSiteTemplatesRoots()
+    {
+        $roots = [templates_dir()];
+
+        $extra = function_exists('config') ? config('microweber.extra_templates_paths', []) : [];
+
+        if (is_array($extra)) {
+            foreach ($extra as $extra_path) {
+                if (is_string($extra_path) && $extra_path !== '') {
+                    $roots[] = rtrim($extra_path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+                }
+            }
+        }
+
+        return $roots;
     }
 
     /**

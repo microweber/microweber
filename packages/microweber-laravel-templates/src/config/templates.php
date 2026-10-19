@@ -148,12 +148,20 @@ return [
     |
     */
     'scan' => [
-        'enabled' => false,
-        'paths' => [
-            //  base_path('vendor/*/*'),
-            base_path('Templates/*/*'),
-            base_path('userfiles/templates/*/*'),
-        ],
+        // Scan is enabled so the extra drop-in template folders below are also
+        // discovered. The primary base_path('Templates') root is always scanned
+        // via getPath(); enabling scan only ADDS the extra roots. Empty extra
+        // folders glob to nothing, so this is a no-op until a template is
+        // dropped in — boot-safe and additive.
+        'enabled' => true,
+        // Extra drop-in template roots. Folder names are configurable via env
+        // (MW_EXTRA_TEMPLATES_PATH / MW_EXTRA_TEMPLATES_PATH_2) and default to
+        // ExtraTemplates/ and ExtraTemplates2/ at the repo root. Only existing
+        // directories are kept, so a missing folder is silently skipped.
+        'paths' => array_values(array_filter([
+            base_path(env('MW_EXTRA_TEMPLATES_PATH', 'ExtraTemplates')),
+            base_path(env('MW_EXTRA_TEMPLATES_PATH_2', 'ExtraTemplates2')),
+        ], 'is_dir')),
     ],
 
     /*
