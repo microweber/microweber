@@ -207,7 +207,8 @@
         "microweber-packages/admin": "^1.0",
         "microweber-packages/role": "^1.0",
         "microweber-packages/user": "^1.0",
-        "microweber-packages/microweber-ui": "^1.0"
+        "microweber-packages/microweber-ui": "^1.0",
+        "doctrine/annotations": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",

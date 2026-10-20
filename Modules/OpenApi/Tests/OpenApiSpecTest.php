@@ -221,7 +221,8 @@ class OpenApiSpecTest extends TestCase
      */
     private function generate(array $files): array
     {
-        $openapi = Generator::scan($files, ['validate' => false]);
+        // swagger-php 6 removed the static Generator::scan(); use the instance API.
+        $openapi = (new Generator())->generate($files, validate: false);
 
         return json_decode($openapi->toJson(), true);
     }
