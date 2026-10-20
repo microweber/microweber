@@ -14,7 +14,7 @@
     "require": {
         "php": "^8.3",
         "filament/filament": "~5.6",
-        "laravel/framework": "^11.0",
+        "laravel/framework": "^11.0|^13.0",
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.18",
         "livewire/livewire": "^4.2"

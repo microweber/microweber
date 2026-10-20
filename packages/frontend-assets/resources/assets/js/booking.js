@@ -9,7 +9,6 @@
  */
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.css';
-import './booking.css';
 
 function money(amount, currency) {
     try {
@@ -54,19 +53,18 @@ function initDateRange(el) {
     const btn = el.querySelector('.mw-booking-submit');
     const msg = el.querySelector('.mw-booking-msg');
 
-    let disabled = [];
     const from = new Date();
     const to = new Date();
     to.setFullYear(to.getFullYear() + 1);
     const fmt = d => d.toISOString().slice(0, 10);
 
-    fetch(availabilityUrl() + '?product_id=' + productId + '&from=' + fmt(from) + '&to=' + fmt(to), { credentials: 'same-origin' })
-        .then(r => r.json()).then(data => {
-            disabled = (data && data.unavailable) || [];
-            fp.set('disable', disabled);
-        }).catch(() => {});
+    // `fp` is referenced by recompute(); declare it with `let` first so the
+    // closure never reads it in the temporal dead zone (flatpickr fires its
+    // callbacks synchronously during construction, before assignment).
+    let fp = null;
 
     const recompute = () => {
+        if (!fp) return;
         const sel = fp.selectedDates;
         const units = Math.max(1, parseInt(unitsInput ? unitsInput.value : '1', 10) || 1);
         if (sel.length === 2) {
@@ -81,14 +79,18 @@ function initDateRange(el) {
         }
     };
 
-    const fp = flatpickr(input, {
+    fp = flatpickr(input, {
         mode: 'range',
         minDate: 'today',
         dateFormat: 'Y-m-d',
-        disable: disabled,
-        onReady: recompute,
         onChange: recompute,
     });
+
+    fetch(availabilityUrl() + '?product_id=' + productId + '&from=' + fmt(from) + '&to=' + fmt(to), { credentials: 'same-origin' })
+        .then(r => r.json()).then(data => {
+            if (fp) fp.set('disable', (data && data.unavailable) || []);
+        }).catch(() => {});
+
     if (unitsInput) unitsInput.addEventListener('input', recompute);
 
     if (btn) {

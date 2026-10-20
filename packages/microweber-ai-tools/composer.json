@@ -13,9 +13,9 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/support": "^10.0|^11.0|^12.0",
-        "illuminate/contracts": "^10.0|^11.0|^12.0",
-        "illuminate/http": "^10.0|^11.0|^12.0",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
         "inspector-apm/neuron-ai": "^3.0",
         "microweber-packages/package": "^1.0",
         "spatie/laravel-package-tools": "^1.16"
@@ -26,9 +26,9 @@
         "phpstan/phpstan": "^2.0"
     },
     "suggest": {
-        "illuminate/database": "Required for content repository adapters",
-        "illuminate/cache": "Recommended for external service caching (Google Trends)",
-        "illuminate/log": "Recommended for audit logging"
+        "illuminate/database": "Required for content repository adapters|^13.0",
+        "illuminate/cache": "Recommended for external service caching (Google Trends)|^13.0",
+        "illuminate/log": "Recommended for audit logging|^13.0"
     },
     "autoload": {
         "psr-4": {
