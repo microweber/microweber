@@ -2,7 +2,9 @@
 
 namespace MicroweberPackages\Database;
 
+use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\Event;
+use MicroweberPackages\Database\Connections\SQLiteConnection;
 use MicroweberPackages\Database\Facades\DatabaseManager;
 use MicroweberPackages\Package\MicroweberPackageServiceProvider;
 use Spatie\LaravelPackageTools\Package;
@@ -35,6 +37,14 @@ class DatabaseManagerServiceProvider extends MicroweberPackageServiceProvider
     {
         $this->app->singleton(DatabaseManagerService::class, function ($app) {
             return new DatabaseManagerService($app);
+        });
+
+        // Use a prefix-safe SQLite connection so Laravel 13's JSON-contains
+        // grammar doesn't prefix the json_each pseudo-table (see SQLiteConnection
+        // / SQLiteQueryGrammar). Must be registered before any connection is
+        // resolved.
+        Connection::resolverFor('sqlite', function ($connection, $database, $prefix, $config) {
+            return new SQLiteConnection($connection, $database, $prefix, $config);
         });
     }
 }
