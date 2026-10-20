@@ -394,6 +394,19 @@ class CartService
             }
         }
 
+        // Bookable products (optional Booking module): the line price is the
+        // chosen stay/slot duration × unit price, and the chosen dates/guests are
+        // recorded on the line so the order can confirm the booking. Only applies
+        // when the product has active booking settings; all other products are
+        // untouched.
+        $booking = $this->applyBookingPricing($data, $forId, $canonicalPrice, $add);
+        if (is_array($booking) && isset($booking['error'])) {
+            return $booking;
+        }
+        if (is_array($booking) && isset($booking['price'])) {
+            $foundPrice = $booking['price'];
+        }
+
         // Validate custom fields
         $validationResult = $this->validateCustomFields($data, $for, $forId, $add);
         if (!empty($validationResult)) {
@@ -753,6 +766,71 @@ class CartService
      * @param array $content
      * @return float|null
      */
+    /**
+     * Bookable-product line pricing + line data (optional Booking module).
+     *
+     * Returns null for non-bookable products (and when the Booking module is
+     * absent), so ordinary products are completely unaffected. For a bookable
+     * product it reads the posted booking fields (booking_check_in/out or
+     * booking_start/end, booking_units, booking_guests), rejects an unavailable
+     * request (['error' => ...]), computes the duration price, and merges the
+     * booking fields into $add so they ride on the cart line and the order can
+     * confirm the booking.
+     *
+     * @param array $add passed by reference; booking fields are merged in
+     * @return array{price: float}|array{error: string}|null
+     */
+    protected function applyBookingPricing(array $data, int $forId, ?float $canonicalPrice, array &$add): ?array
+    {
+        $settingClass = '\\Modules\\Booking\\Models\\BookingProductSetting';
+        $serviceClass = '\\Modules\\Booking\\Services\\BookingService';
+        $availabilityClass = '\\Modules\\Booking\\Services\\AvailabilityService';
+        if (!class_exists($settingClass) || !class_exists($serviceClass)) {
+            return null;
+        }
+
+        /** @var \Modules\Booking\Models\BookingProductSetting|null $setting */
+        $setting = $settingClass::active()->where('product_id', $forId)->first();
+        if (!$setting) {
+            return null; // not a bookable product
+        }
+
+        /** @var \Modules\Booking\Services\BookingService $service */
+        $service = new $serviceClass(new $availabilityClass());
+
+        $interval = $service->intervalFromCartData($data, $setting);
+        if (!$interval) {
+            return ['error' => _e('Please choose your booking dates.', true)];
+        }
+
+        $validation = (new $availabilityClass())->validateRequest(
+            $forId,
+            $interval['start'],
+            $interval['end'],
+            $interval['units']
+        );
+        if (empty($validation['ok'])) {
+            return ['error' => _e('Those dates are not available. Please pick another time.', true)];
+        }
+
+        // Record the selection on the line (machine keys the order reads back).
+        $add[$serviceClass::F_UNITS] = $interval['units'];
+        if ($setting->isDateRange()) {
+            $add[$serviceClass::F_CHECK_IN] = $interval['start']->format('Y-m-d');
+            $add[$serviceClass::F_CHECK_OUT] = $interval['end']->format('Y-m-d');
+        } else {
+            $add[$serviceClass::F_START] = $interval['start']->format('Y-m-d H:i');
+            $add[$serviceClass::F_END] = $interval['end']->format('Y-m-d H:i');
+        }
+        if ($interval['guests'] !== null) {
+            $add[$serviceClass::F_GUESTS] = $interval['guests'];
+        }
+
+        $price = $service->priceFor($setting, $interval['start'], $interval['end'], $interval['units'], $canonicalPrice);
+
+        return ['price' => $price];
+    }
+
     protected function resolveContentCanonicalPrice(int $forId, array $content): ?float
     {
         $productPrices = $this->getProductPrices($forId);
