@@ -47,7 +47,10 @@ class LiveEditCanvasBase extends MicroweberBaseClass {
         if (!url) {
             return "";
         }
-        const urlObj = new URL(url);
+        // Resolve against the site URL so a relative page slug (e.g. the
+        // ?url=<slug> live-edit param before the canvas has loaded a full href)
+        // doesn't throw "Invalid URL" and abort the canvas mount.
+        const urlObj = new URL(url, (mw.settings && mw.settings.site_url) || window.location.origin);
         urlObj.search = "";
         urlObj.hash = "";
         let result = urlObj.toString().trim();
@@ -253,7 +256,7 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
         //     url = mw.settings.site_url;
         // }
 
-        url = new URL(url);
+        url = new URL(url, (mw.settings && mw.settings.site_url) || window.location.origin);
 
         if (url.host !== top.location.host) {
             url = `${mw.settings.site_url}`;
