@@ -266,6 +266,11 @@ class TaggableFileStore implements Store
                 event(new KeyWritten($key, $value, $seconds));
             }
         }
+
+        // Laravel's Store::put() contract returns bool; callers in newer
+        // packages (e.g. Filament 5.10's notification mailbox) check it, so
+        // this must not fall through to null.
+        return true;
     }
 
     public function putMany(array $values, $seconds)
