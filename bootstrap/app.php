@@ -40,7 +40,13 @@ return \MicroweberPackages\App\LaravelApplication::configure(basePath: dirname(_
     ]);
 })
 ->withExceptions(function (Exceptions $exceptions) {
-    //
+    // API routes should always get machine-readable JSON errors (401/403/422/…),
+    // not an HTML login redirect, even when the client didn't send
+    // Accept: application/json. Without this, auth/validation failures on
+    // api/* routes return a RedirectResponse under Laravel 13.
+    $exceptions->shouldRenderJsonWhen(function (Request $request, \Throwable $e) {
+        return $request->is('api/*') || $request->expectsJson();
+    });
 })
 ->booted(function () {
     // Configure API rate limiting
