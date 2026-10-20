@@ -170,7 +170,8 @@ class LiveEditJumbotronSkin1Test extends DuskTestCase
         $res = $browser->script("
             var doc = mw.app.canvas.getDocument();
             var h1 = doc.querySelector(
-                'section[field^=\"layout-jumbotron-skin-1-\"] h1.header-section-title'
+                'section[field^=\"layout-jumbotron-skin-1-\"] .header-section-title h1, '
+                + 'section[field^=\"layout-jumbotron-skin-1-\"] h1'
             );
             if (!h1) return 'NO_H1';
             h1.removeAttribute('data-mwplaceholder');
@@ -252,7 +253,7 @@ class LiveEditJumbotronSkin1Test extends DuskTestCase
             if (!sec) return { present: false };
             return {
                 present: true,
-                h1: (sec.querySelector('h1.header-section-title') || {}).innerText || '',
+                h1: (sec.querySelector('.header-section-title h1') || sec.querySelector('h1') || {}).innerText || '',
                 cta: (sec.querySelector('.btn') || {}).innerText || ''
             };
         ");

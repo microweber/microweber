@@ -158,12 +158,14 @@ if(window.self !== window.top) {
             // the decorate-spinner shown during a module/layout insert (insert-
             // module.js); if an insert failed/hung it can linger in the edit region
             // and would otherwise be saved into the content and reappear on reload.
-            // Empty `#mw-module-*` divs are the matching insert placeholders (the
-            // module never rendered into them) — dead nodes, safe to drop.
             mw.$('.mw-spinner', body).remove();
-            mw.$('[id^="mw-module-"]', body).each(function () {
-                if (!this.innerHTML.trim()) { mw.$(this).remove(); }
-            });
+            // NOTE: we intentionally do NOT drop empty `#mw-module-*` nodes here.
+            // Real modules (btn, background, …) carry their config in an inner
+            // `<script type="application/json">` which the `script` removal above
+            // strips — leaving the module wrapper "empty" though it is a live,
+            // attribute-driven self-closing shortcode. Deleting those empty
+            // wrappers silently dropped edited sub-modules (e.g. a jumbotron CTA
+            // button) from the save payload, so the edit never persisted.
             return body;
         },
         animationsClearFix: function (body) {
