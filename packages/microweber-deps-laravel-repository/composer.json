@@ -1,0 +1,15 @@
+{
+    "name": "torann/laravel-repository",
+    "description": "Base repository implementation for Laravel — Microweber fork with Laravel 13 support.",
+    "license": "BSD-2-Clause",
+    "version": "1.2.0",
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/cache": "^10.0|^11.0|^12.0|^13.0"
+    },
+    "autoload": {
+        "psr-4": { "Torann\\LaravelRepository\\": "src/" }
+    }
+}

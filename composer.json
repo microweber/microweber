@@ -50,12 +50,12 @@
         "coolsam/flatpickr": "~5.0",
         "microweber-deps/filament-modules": "^1.0",
         "doctrine/dbal": "^4.2",
-        "enshrined/svg-sanitize": "^0.22",
+        "enshrined/svg-sanitize": "^1.1",
         "erusev/parsedown": "^1.7",
         "ezyang/htmlpurifier": "^4.18",
         "finlet/flexmail": "dev-master",
         "florianv/swap": "^4.3",
-        "flowframe/laravel-trend": "^0.4",
+        "flowframe/laravel-trend": "^0.5",
         "geoip2/geoip2": "^2.0",
         "graham-campbell/markdown": "^15.0|^16.0",
         "graham-campbell/security-core": "^2.0|^3.0|^4.0|^5.0",
@@ -70,7 +70,7 @@
         "laravel/passport": "^12.0|^13.0",
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.18",
-        "laravel/tinker": "^2.9",
+        "laravel/tinker": "^3.0",
         "lcobucci/jwt": "^5.0",
         "league/omnipay": "^3.2",
         "livewire/livewire": "^4.2",
@@ -86,12 +86,11 @@
         "phpoffice/phpspreadsheet": "^5.0",
         "phpseclib/phpseclib": "^3.0",
         "predis/predis": "^2.0|^3.0",
-        "rappasoft/laravel-livewire-tables": "dev-develop",
         "rtconner/laravel-tagging": "^4.1",
         "scssphp/scssphp": "^1.10",
         "simshaun/recurr": "^5.0|^6.0",
         "solution-forest/filament-translate-field": "~3.0",
-        "spatie/laravel-googletagmanager": "^2.8",
+        "spatie/laravel-googletagmanager": "^3.1",
         "spatie/laravel-medialibrary": "^11.0",
         "spatie/laravel-menu": "^4.0",
         "spatie/laravel-package-tools": "^1.19",
@@ -103,19 +102,19 @@
         "squirephp/model": "^3.6",
         "squirephp/repository": "^3.6",
         "squirephp/timezones-en": "^3.6",
-        "symfony/console": "^7.3",
-        "symfony/css-selector": "^7.3",
-        "symfony/event-dispatcher": "^7.3",
-        "symfony/filesystem": "^7.3",
-        "symfony/html-sanitizer": "^7.3",
-        "symfony/http-client": "^7.3",
-        "symfony/intl": "^7.3",
-        "symfony/options-resolver": "^7.3",
-        "symfony/psr-http-message-bridge": "^7.3",
-        "symfony/stopwatch": "^7.3",
-        "symfony/string": "^7.3",
-        "symfony/translation": "^7.3",
-        "symfony/var-dumper": "^7.3",
+        "symfony/console": "^7.3|^8.0",
+        "symfony/css-selector": "^7.3|^8.0",
+        "symfony/event-dispatcher": "^7.3|^8.0",
+        "symfony/filesystem": "^7.3|^8.0",
+        "symfony/html-sanitizer": "^7.3|^8.0",
+        "symfony/http-client": "^7.3|^8.0",
+        "symfony/intl": "^7.3|^8.0",
+        "symfony/options-resolver": "^7.3|^8.0",
+        "symfony/psr-http-message-bridge": "^7.3|^8.0",
+        "symfony/stopwatch": "^7.3|^8.0",
+        "symfony/string": "^7.3|^8.0",
+        "symfony/translation": "^7.3|^8.0",
+        "symfony/var-dumper": "^7.3|^8.0",
         "torann/laravel-repository": "^1.0",
         "tucker-eric/eloquentfilter": "^3.1",
         "twig/twig": "^3.0",
@@ -163,7 +162,7 @@
         "league/flysystem-bundle": "^3.4",
         "league/flysystem-aws-s3-v3": "^3.368",
         "barryvdh/laravel-dompdf": "^3.0",
-        "darkaonline/l5-swagger": "^9.0",
+        "darkaonline/l5-swagger": "^11.0",
         "dutchcodingcompany/filament-socialite": "^3.0",
         "openai-php/client": "^0.12",
         "halaxa/json-machine": "^1.2",
@@ -213,13 +212,12 @@
     "require-dev": {
         "fakerphp/faker": "^1.24",
         "phpunit/phpunit": "^11.0.1",
-        "spatie/ignition": "1.15.0",
         "mockery/mockery": "^1.6",
         "staudenmeir/dusk-updater": "^1.5",
         "filament/upgrade": "^5.0",
         "larastan/larastan": "^3.9",
         "nunomaduro/phpinsights": "^2.0",
-        "orchestra/testbench": "^9.17"
+        "orchestra/testbench": "^11.0"
     },
     "autoload": {
         "psr-4": {
@@ -515,7 +513,6 @@
                 "coolsam/modules",
                 "savannabits/filament-modules",
                 "mhmiton/laravel-modules-livewire",
-                "rappasoft/laravel-livewire-tables",
                 "rtconner/laravel-tagging",
                 "butschster/meta-tags",
                 "microweber-packages/passport",
@@ -559,12 +556,38 @@
             "dealerdirect/phpcodesniffer-composer-installer": true
         },
         "audit": {
-            "abandoned": "report"
+            "abandoned": "report",
+            "ignore": [
+                "PKSA-8j6w-3kr7-s9xk",
+                "PKSA-6j95-1jtb-x6wc",
+                "PKSA-cbx2-m9db-bmzd"
+            ]
         }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
+        {
+            "type": "path",
+            "url": "packages/microweber-deps-laravel-repository",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-deps-arcanedev-support",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/microweber-deps-arcanedev-php-html",
+            "options": {
+                "symlink": true
+            }
+        },
         {
             "type": "path",
             "url": "packages/microweber-filament",
