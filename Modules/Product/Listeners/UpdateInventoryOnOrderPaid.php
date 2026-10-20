@@ -127,8 +127,15 @@ class UpdateInventoryOnOrderPaid
     /**
      * Release cart stock reservations.
      */
-    protected function releaseCartReservations(int $productId, ?int $variantId, string $sessionId): void
+    protected function releaseCartReservations(int $productId, ?int $variantId, ?string $sessionId): void
     {
+        // Admin-created and digital orders can have cart items with no session_id;
+        // there are then no cart reservations to release, so bail out instead of
+        // crashing on a null session.
+        if ($sessionId === null || $sessionId === '') {
+            return;
+        }
+
         try {
             $reservations = \Modules\Product\Models\ProductStockReservation::where('product_id', $productId)
                 ->where('session_id', $sessionId)

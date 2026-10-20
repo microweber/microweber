@@ -29,6 +29,7 @@ class DigitalProductDownload extends Model
         'download_limit',
         'expires_at',
         'last_downloaded_at',
+        'notified_at',
     ];
 
     protected $casts = [
@@ -36,7 +37,17 @@ class DigitalProductDownload extends Model
         'download_limit' => 'integer',
         'expires_at' => 'datetime',
         'last_downloaded_at' => 'datetime',
+        'notified_at' => 'datetime',
     ];
+
+    /**
+     * The secure, tokenized delivery URL for this grant — the only link ever
+     * shared with the buyer (never a direct file URL).
+     */
+    public function downloadUrl(): string
+    {
+        return route('digital-product.download', ['token' => $this->token]);
+    }
 
     public function file(): BelongsTo
     {

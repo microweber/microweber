@@ -29,6 +29,7 @@ class GrantDownloadsOnOrderPaid
 
         try {
             $this->service->grantForOrder($order);
+            $this->service->notifyForOrder($order);
         } catch (\Throwable $e) {
             Log::error('DigitalProduct: failed to grant downloads on order paid', [
                 'order_id' => $order->id ?? null,

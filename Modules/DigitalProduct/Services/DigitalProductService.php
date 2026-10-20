@@ -3,9 +3,12 @@
 namespace Modules\DigitalProduct\Services;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Modules\DigitalProduct\Mail\DownloadLinksMail;
 use Modules\DigitalProduct\Models\DigitalProductDownload;
 use Modules\DigitalProduct\Models\ProductDownloadableFile;
+use Modules\Product\Models\Product;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -91,6 +94,129 @@ class DigitalProductService
         }
 
         return $grants;
+    }
+
+    /**
+     * The per-product content_data key holding the "email the secure download
+     * link to the buyer when this product is ordered" opt-in flag ('1' / '0').
+     */
+    public const EMAIL_FLAG = 'email_download_on_order';
+
+    /**
+     * Email the buyer the secure download link(s) for an order, but ONLY for
+     * products whose per-product "Email download link on order" toggle is on.
+     *
+     * Idempotent: only grants with notified_at = NULL are considered and they
+     * are stamped once emailed, so re-firing OrderWasPaid / OrderWasUpdated does
+     * not re-send. Sends a single email per call listing every eligible link.
+     * No-op when the order has no buyer email.
+     *
+     * @return int the number of grants a link was emailed for (0 = nothing sent)
+     */
+    public function notifyForOrder($order): int
+    {
+        if (!$order || empty($order->id)) {
+            return 0;
+        }
+
+        $to = data_get($order, 'email');
+
+        $grants = DigitalProductDownload::with('file')
+            ->where('order_id', $order->id)
+            ->whereNull('notified_at')
+            ->get();
+
+        if ($grants->isEmpty()) {
+            return 0;
+        }
+
+        // Keep only grants whose product opted in, and resolve each product once.
+        $flagByProduct = [];
+        $links = [];
+        $eligible = [];
+
+        foreach ($grants as $grant) {
+            $productId = $grant->product_id;
+            if (!$productId || !$grant->file) {
+                continue;
+            }
+
+            if (!array_key_exists($productId, $flagByProduct)) {
+                $flagByProduct[$productId] = $this->emailOnOrderEnabled($productId);
+            }
+            if (!$flagByProduct[$productId]) {
+                continue;
+            }
+
+            $eligible[] = $grant;
+            $links[] = [
+                'title' => $this->productTitle($productId),
+                'url' => $grant->downloadUrl(),
+                'original_name' => (string) ($grant->file->original_name ?? 'file'),
+            ];
+        }
+
+        if (empty($eligible)) {
+            return 0;
+        }
+
+        // A buyer email is required to deliver; mark the grants notified anyway
+        // so a later confirmed email address isn't spammed retroactively? No —
+        // leave them unstamped so delivery can still happen once an email exists.
+        if (!is_string($to) || trim($to) === '') {
+            Log::info('DigitalProduct: order has opted-in downloads but no buyer email to deliver to', [
+                'order_id' => $order->id,
+            ]);
+
+            return 0;
+        }
+
+        try {
+            Mail::to(trim($to))->send(new DownloadLinksMail($links, (string) $order->id));
+        } catch (\Throwable $e) {
+            Log::error('DigitalProduct: failed to email download links', [
+                'order_id' => $order->id,
+                'exception' => $e->getMessage(),
+            ]);
+
+            return 0;
+        }
+
+        $now = now();
+        foreach ($eligible as $grant) {
+            $grant->forceFill(['notified_at' => $now])->save();
+        }
+
+        Log::info('DigitalProduct: emailed download links for order', [
+            'order_id' => $order->id,
+            'links' => count($eligible),
+        ]);
+
+        return count($eligible);
+    }
+
+    /**
+     * Whether a product opted in to emailing its download link on order.
+     * Reads the per-product content_data flag (default off).
+     */
+    public function emailOnOrderEnabled($productId): bool
+    {
+        $product = Product::find($productId);
+        if (!$product) {
+            return false;
+        }
+
+        $data = $product->content_data;
+        $val = is_array($data) ? ($data[self::EMAIL_FLAG] ?? null) : null;
+
+        return filter_var($val, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    protected function productTitle($productId): string
+    {
+        $product = Product::find($productId);
+
+        return $product ? (string) ($product->title ?: ('#' . $productId)) : ('#' . $productId);
     }
 
     /**

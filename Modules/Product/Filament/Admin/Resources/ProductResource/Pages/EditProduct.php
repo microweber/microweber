@@ -9,20 +9,34 @@ class EditProduct extends \Modules\Content\Filament\Admin\ContentResource\Pages\
 
     protected static string $resource = ProductResource::class;
 
-    // Reflect the stored subtype into the "Downloadable product" toggle.
+    // Reflect the stored subtype into the "Downloadable product" toggle and the
+    // content_data flag into the "Email download link on order" toggle.
     protected function mutateFormDataBeforeFill(array $data): array
     {
         $data['is_downloadable'] = ($data['subtype'] ?? 'product') === 'downloadable_product';
 
+        $contentData = $this->getRecord()->content_data;
+        $data['email_download_on_order'] = filter_var(
+            (is_array($contentData) ? ($contentData['email_download_on_order'] ?? '0') : '0'),
+            FILTER_VALIDATE_BOOLEAN
+        );
+
         return $data;
     }
 
-    // Map the toggle back to the subtype column; 'is_downloadable' is not a
-    // Product attribute, so it is removed before the record update.
+    // Map the toggles back to the subtype column + content_data; neither
+    // 'is_downloadable' nor 'email_download_on_order' is a Product attribute.
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $data['subtype'] = !empty($data['is_downloadable']) ? 'downloadable_product' : 'product';
-        unset($data['is_downloadable']);
+        $isDownloadable = !empty($data['is_downloadable']);
+        $data['subtype'] = $isDownloadable ? 'downloadable_product' : 'product';
+
+        $emailOnOrder = $isDownloadable && !empty($data['email_download_on_order']) ? '1' : '0';
+        $data['content_data'] = array_merge($data['content_data'] ?? [], [
+            'email_download_on_order' => $emailOnOrder,
+        ]);
+
+        unset($data['is_downloadable'], $data['email_download_on_order']);
 
         return $data;
     }

@@ -36,6 +36,7 @@ class GrantFreeDownloadsOnOrderCreated
 
         try {
             $this->service->grantForOrder($order, true);
+            $this->service->notifyForOrder($order);
         } catch (\Throwable $e) {
             Log::error('DigitalProduct: failed to grant free downloads on order created', [
                 'order_id' => $order->id ?? null,

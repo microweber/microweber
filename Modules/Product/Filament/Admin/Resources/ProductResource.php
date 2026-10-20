@@ -55,6 +55,17 @@ class ProductResource extends ContentResource
                         ->helperText(__('Digital product — buyers get secure downloads and shipping is skipped at checkout.'))
                         ->default(false)
                         ->dehydrated(true),
+
+                    // Per-product opt-in (default off): email the buyer the secure
+                    // tokenized download link when this product is ordered. Stored
+                    // in content_data; mapped in the Create/Edit pages. Only
+                    // meaningful for downloadable products.
+                    Toggle::make('email_download_on_order')
+                        ->label(__('Email download link on order'))
+                        ->helperText(__('When ordered, email the buyer a secure download link for this product.'))
+                        ->default(false)
+                        ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => (bool) $get('is_downloadable'))
+                        ->dehydrated(true),
                 ]),
 
             Section::make(__('Add to cart link'))

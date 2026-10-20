@@ -9,11 +9,19 @@ class CreateProduct extends CreateContent
 {
     protected static string $resource = ProductResource::class;
 
-    // Map the "Downloadable product" toggle to the subtype column.
+    // Map the "Downloadable product" toggle to the subtype column, and the
+    // per-product "Email download link on order" toggle to a content_data flag.
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['subtype'] = !empty($data['is_downloadable']) ? 'downloadable_product' : 'product';
-        unset($data['is_downloadable']);
+        $isDownloadable = !empty($data['is_downloadable']);
+        $data['subtype'] = $isDownloadable ? 'downloadable_product' : 'product';
+
+        $emailOnOrder = $isDownloadable && !empty($data['email_download_on_order']) ? '1' : '0';
+        $data['content_data'] = array_merge($data['content_data'] ?? [], [
+            'email_download_on_order' => $emailOnOrder,
+        ]);
+
+        unset($data['is_downloadable'], $data['email_download_on_order']);
 
         return $data;
     }
