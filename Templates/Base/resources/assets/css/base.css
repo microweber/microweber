@@ -102,11 +102,12 @@
         max-width: 100%;
     }
 
-    /* Shop products grid: the products module nests
-       .row > .col-lg-12 > .row.big-news, and with the container padding the
-       rows' negative gutters skew the stacked cards to one side on phones.
-       Zero the horizontal gutters so the cards sit symmetrically. */
-    [data-layout-container] .module-shop-products .row {
+    /* Shop products / posts grids: these modules nest a `.row.big-news` whose
+       negative gutters, combined with the container padding, skew the stacked
+       cards to one side on phones (e.g. blog/skin-1 posts render L0/R24). Zero
+       the horizontal gutters so the stacked cards sit symmetrically. */
+    [data-layout-container] .module-shop-products .row,
+    [data-layout-container] .module-posts .row {
         margin-left: 0 !important;
         margin-right: 0 !important;
     }
@@ -123,5 +124,12 @@
         white-space: normal;
         overflow-wrap: anywhere;
         word-break: break-word;
+    }
+
+    /* Pagination: the page-number list must wrap instead of marching off the
+       right edge on phones. Contact-form (skin-3) and shop/ecommerce skins embed
+       a .pagination whose .page-item LIs otherwise overflow the viewport. */
+    [data-layout-container] .pagination {
+        flex-wrap: wrap;
     }
 }

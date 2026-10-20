@@ -77,7 +77,7 @@ class GalleryModuleAdminAndPublicRenderTest extends DuskTestCase
             $browser->waitUsing(15, 250, function () use ($browser) {
                 $found = $browser->script(
                     "
-                    return document.querySelector('.mw-media-browser, [class*=\"mw-media-browser\"], [data-media-browser]') !== null
+                    return document.querySelector('.mw-mb, [data-mw-media-dropzone], .mw-media-browser, [data-media-browser]') !== null
                         ? 1 : 0;
                 "
                 );
@@ -86,7 +86,7 @@ class GalleryModuleAdminAndPublicRenderTest extends DuskTestCase
 
             $hasBrowser = $browser->script(
                 "
-                return document.querySelector('.mw-media-browser, [class*=\"mw-media-browser\"], [data-media-browser]') !== null
+                return document.querySelector('.mw-mb, [data-mw-media-dropzone], .mw-media-browser, [data-media-browser]') !== null
                     ? 1 : 0;
             "
             );
@@ -191,7 +191,7 @@ class GalleryModuleAdminAndPublicRenderTest extends DuskTestCase
             // Sanity — the form rendered with the gallery schema.
             $hasMediaBrowser = $browser->script(
                 "
-                return document.querySelector('.mw-media-browser, [class*=\"mw-media-browser\"], [data-media-browser]') !== null
+                return document.querySelector('.mw-mb, [data-mw-media-dropzone], .mw-media-browser, [data-media-browser]') !== null
                     ? 1 : 0;
             "
             );

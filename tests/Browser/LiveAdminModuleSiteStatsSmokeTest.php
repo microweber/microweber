@@ -104,7 +104,10 @@ class LiveAdminModuleSiteStatsSmokeTest extends DuskTestCase
      */
     private const EXPECTED_WIDGETS = [
         \Modules\SiteStats\Filament\Widgets\StatsOverviewCards::class,
-        \Modules\SiteStats\Filament\Widgets\VisitorsChartWidget::class,
+        // The chart slot uses the dashboard's ECharts widget (commit b4adc10d11
+        // "use the dashboard's ECharts chart on Site Statistics"), which lives
+        // in the module's Filament root namespace, not Filament\Widgets.
+        \Modules\SiteStats\Filament\SiteStatsEchartsWidget::class,
         \Modules\SiteStats\Filament\Widgets\TopPagesWidget::class,
         \Modules\SiteStats\Filament\Widgets\ReferrersWidget::class,
         \Modules\SiteStats\Filament\Widgets\LocationsWidget::class,

@@ -33,6 +33,22 @@ class Currency extends Model
     protected $table = 'currencies';
 
     /**
+     * Default attribute values. `thousand_separator` / `decimal_separator` are
+     * NOT NULL columns (create_currencies_table) with no DB default, so any
+     * create path that omits them — Currency::create(), Filament resource CRUD,
+     * the CurrencyManager session-resolve chain — would otherwise hit a NOT NULL
+     * constraint violation. Seed the conventional separators here so a currency
+     * can be created with just name/code/symbol/precision.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'thousand_separator' => ',',
+        'decimal_separator' => '.',
+        'swap_currency_symbol' => false,
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>

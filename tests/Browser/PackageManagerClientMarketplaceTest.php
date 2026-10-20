@@ -28,9 +28,12 @@ class PackageManagerClientMarketplaceTest extends DuskTestCase
     public function marketplace_page_uses_package_manager_client(): void
     {
         // Always assert the client is available (works without a browser).
+        // NB: reference the imported service class, not a bare
+        // `PackageManagerClient` which would resolve to this test's own
+        // namespace (Tests\Browser\…) and never exist.
         $this->assertTrue(
-            class_exists(PackageManagerClient::class),
-            'PackageManagerClient must be available'
+            class_exists(PackageManagerClientService::class),
+            'PackageManagerClientService must be available'
         );
 
         if (!$this->chromeAvailable()) {

@@ -116,7 +116,6 @@
             <file>./tests/Browser/BigLayoutSkinPreviewSmokeTest.php</file>
             <file>./tests/Browser/BigTemplateParserEdgeCasesTest.php</file>
             <file>./tests/Browser/DocsWordPressImportScreenshotsTest.php</file>
-            <file>./tests/Browser/ExampleTest.php</file>
         </testsuite>
         <testsuite name="Browser-06">
             <file>./tests/Browser/GalleryModuleAdminAndPublicRenderTest.php</file>

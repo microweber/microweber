@@ -68,7 +68,7 @@ return [
                     base_path('Modules/Newsletter/Http/Controllers/Api/NewsletterApiController.php'),
                     base_path('Modules/Settings/Http/Controllers/Api/SettingsApiController.php'),
 
-                    base_path('src/MicroweberPackages/User/Http/Controllers/Api/UsersApiController.php'),
+                    base_path('packages/microweber-user/src/Http/Controllers/Api/UsersApiController.php'),
                 ],
 
             ],
