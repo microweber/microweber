@@ -450,10 +450,54 @@ class LiveEditCssManager implements CssFileHandlerInterface
         if ($template === null || trim($template) === '' || $template === 'default') {
             $resolved = $this->resolveDefaultTemplate();
             if ($resolved !== '') {
-                return $resolved;
+                return $this->canonicalTemplateFolder($resolved);
             }
 
             return $this->configString('default_template', 'default');
+        }
+
+        return $this->canonicalTemplateFolder(trim($template));
+    }
+
+    /**
+     * Case-normalise a template name to its real on-disk Templates/ folder.
+     *
+     * The live_edit.css save path is keyed off the page's `active_site_template`
+     * (which the DB may store lowercase, e.g. 'base') while the public load path
+     * is keyed off the resolved current template (`getTemplateFolderName()`,
+     * which returns the canonical folder 'Base'). On a case-sensitive filesystem
+     * those are two different `userfiles/css/<name>/` directories, so the saved
+     * custom CSS was written to `base/` but read back from `Base/` — the Live
+     * Edit palette silently failed to persist. Canonicalising both sides to the
+     * real folder keeps the write and the read on the same directory.
+     */
+    protected function canonicalTemplateFolder(string $template): string
+    {
+        if ($template === '' || $template === 'default' || !function_exists('templates_dir')) {
+            return $template;
+        }
+
+        $roots = [templates_dir()];
+        if (function_exists('config')) {
+            foreach ((array) config('microweber.extra_templates_paths', []) as $extra) {
+                $roots[] = rtrim((string) $extra, '/\\') . DIRECTORY_SEPARATOR;
+            }
+        }
+        foreach ($roots as $dir) {
+            if (@is_dir($dir . $template)) {
+                return $template;
+            }
+            $entries = @scandir($dir);
+            if (is_array($entries)) {
+                foreach ($entries as $entry) {
+                    if ($entry === '.' || $entry === '..') {
+                        continue;
+                    }
+                    if (strcasecmp($entry, $template) === 0 && @is_dir($dir . $entry)) {
+                        return $entry;
+                    }
+                }
+            }
         }
 
         return $template;
