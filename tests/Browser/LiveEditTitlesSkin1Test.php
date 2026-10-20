@@ -24,7 +24,7 @@ use Tests\DuskTestCase;
  *
  *   1. Seed a blank Bootstrap page via {@see LandingPageFactory}.
  *   2. Open it in live-edit; prime the layout handle on the page's
- *      `.section.edit.main-content`.
+ *      `section.edit.main-content`.
  *   3. Open the Insert Layout picker (category: Titles, skin:
  *      titles/skin-1) and insert the block.
  *   4. Rewrite the H1 ("Why choose us") and the `.lead`
@@ -124,7 +124,7 @@ class LiveEditTitlesSkin1Test extends DuskTestCase
 
     /**
      * Set mw.app.liveEdit.handles.get('layout') target to the page's
-     * `.section.edit.main-content` so the Insert Layout picker's
+     * `section.edit.main-content` so the Insert Layout picker's
      * fallback target resolves.
      */
     private function primeLayoutHandleOnMainContent(Browser $browser): void
@@ -135,7 +135,7 @@ class LiveEditTitlesSkin1Test extends DuskTestCase
                 return 'NO_CANVAS';
             }
             var doc = mw.app.canvas.getDocument();
-            var target = doc.querySelector('.section.edit.main-content')
+            var target = doc.querySelector('section.edit.main-content')
                 || doc.querySelector('.section.edit[field=\"content\"]')
                 || doc.querySelector('[data-layout-container]');
             if (!target) return 'NO_MAIN_CONTENT';

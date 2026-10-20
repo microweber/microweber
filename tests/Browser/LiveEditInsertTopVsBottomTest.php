@@ -29,14 +29,14 @@ use Tests\DuskTestCase;
  *   - loc='top'    → action='prepend' (new section becomes first child)
  *   - loc='bottom' → action='append'  (new section becomes last child)
  *
- * With target set to `.section.edit.main-content` (the canvas's root
+ * With target set to `section.edit.main-content` (the canvas's root
  * layout container), Top prepends before every existing section and
  * Bottom appends after every existing section — exactly the behavior a
  * user sees when they click the + buttons on the layout handle.
  *
  * Test flow:
  *   1. Open a fresh Bootstrap landing page in live-edit.
- *   2. Prime the layout handle on `.section.edit.main-content`.
+ *   2. Prime the layout handle on `section.edit.main-content`.
  *   3. Insert content/skin-1 via `insertLayoutRequestOnBottom` — the
  *      anchor.
  *   4. Re-prime the layout handle on main-content.
@@ -229,7 +229,7 @@ class LiveEditInsertTopVsBottomTest extends DuskTestCase
 
     /**
      * Set the layout handle's active target to the canvas's
-     * `.section.edit.main-content`. Without this, a second or third
+     * `section.edit.main-content`. Without this, a second or third
      * dispatch would target whichever section was most recently
      * hovered — and Top/Bottom would be computed relative to THAT,
      * not the main-content root.
@@ -242,7 +242,7 @@ class LiveEditInsertTopVsBottomTest extends DuskTestCase
                 return 'NO_CANVAS';
             }
             var doc = mw.app.canvas.getDocument();
-            var target = doc.querySelector('.section.edit.main-content')
+            var target = doc.querySelector('section.edit.main-content')
                 || doc.querySelector('.section.edit[field=\"content\"]')
                 || doc.querySelector('[data-layout-container]');
             if (!target) return 'NO_MAIN_CONTENT';

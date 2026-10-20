@@ -159,7 +159,7 @@ class LiveEditJumbotronBackgroundColorInlineStyleTest extends DuskTestCase
 
     /**
      * Set mw.app.liveEdit.handles.get('layout') target to the page's
-     * `.section.edit.main-content`. Without a primed target, the Insert
+     * `section.edit.main-content`. Without a primed target, the Insert
      * Layout picker falls back to whichever section was last hovered,
      * which is flaky for a test that inserts on a blank page.
      */
@@ -171,7 +171,7 @@ class LiveEditJumbotronBackgroundColorInlineStyleTest extends DuskTestCase
                 return 'NO_CANVAS';
             }
             var doc = mw.app.canvas.getDocument();
-            var target = doc.querySelector('.section.edit.main-content')
+            var target = doc.querySelector('section.edit.main-content')
                 || doc.querySelector('.section.edit[field=\"content\"]')
                 || doc.querySelector('[data-layout-container]');
             if (!target) return 'NO_MAIN_CONTENT';

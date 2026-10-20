@@ -27,7 +27,7 @@ use Tests\DuskTestCase;
  *
  *   - Detect insertion by a selector that keys on the layout's unique
  *     sidebar widget + `<module type="shop/products">` children that
- *     only this layout introduces inside `.section.edit.main-content`.
+ *     only this layout introduces inside `section.edit.main-content`.
  *   - Mark the `.main-content` parent (which does have `.edit`) as
  *     `.changed` so the save pipeline picks the insertion up under the
  *     outer `field="content"` key.
@@ -162,7 +162,7 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
 
     /**
      * Set mw.app.liveEdit.handles.get('layout') target to the page's
-     * `.section.edit.main-content` so the Insert Layout picker's
+     * `section.edit.main-content` so the Insert Layout picker's
      * fallback target resolves.
      */
     private function primeLayoutHandleOnMainContent(Browser $browser): void
@@ -173,7 +173,7 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
                 return 'NO_CANVAS';
             }
             var doc = mw.app.canvas.getDocument();
-            var target = doc.querySelector('.section.edit.main-content')
+            var target = doc.querySelector('section.edit.main-content')
                 || doc.querySelector('.section.edit[field=\"content\"]')
                 || doc.querySelector('[data-layout-container]');
             if (!target) return 'NO_MAIN_CONTENT';
@@ -200,7 +200,7 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
         for ($i = 0; $i < 30; $i++) {
             $res = $browser->script("
                 var doc = mw.app.canvas.getDocument();
-                var sidebar = doc.querySelector('.section.edit.main-content .sidebar__widget');
+                var sidebar = doc.querySelector('section.edit.main-content .sidebar__widget');
                 if (sidebar) return 'OK';
                 return '';
             ");
@@ -223,7 +223,7 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
     {
         $res = $browser->script("
             var doc = mw.app.canvas.getDocument();
-            var mc = doc.querySelector('.section.edit.main-content');
+            var mc = doc.querySelector('section.edit.main-content');
             if (!mc) return 'NO_MAIN_CONTENT';
             mc.classList.add('changed');
             return 'OK';
@@ -243,7 +243,7 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
         for ($i = 0; $i < 30; $i++) {
             $state = $browser->script("
                 var doc = mw.app.canvas.getDocument();
-                var mc = doc.querySelector('.section.edit.main-content');
+                var mc = doc.querySelector('section.edit.main-content');
                 if (!mc) return { present: false };
                 var html = mc.innerHTML || '';
                 return {

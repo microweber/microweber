@@ -317,7 +317,7 @@ class LiveEditPublicRenderParityPhase2SectionsTest extends DuskTestCase
                 return 'NO_CANVAS';
             }
             var doc = mw.app.canvas.getDocument();
-            var target = doc.querySelector('.section.edit.main-content')
+            var target = doc.querySelector('section.edit.main-content')
                 || doc.querySelector('.section.edit[field=\"content\"]')
                 || doc.querySelector('[data-layout-container]');
             if (!target) return 'NO_MAIN_CONTENT';
@@ -367,7 +367,7 @@ class LiveEditPublicRenderParityPhase2SectionsTest extends DuskTestCase
     {
         $res = $browser->script("
             var doc = mw.app.canvas.getDocument();
-            var mc = doc.querySelector('.section.edit.main-content');
+            var mc = doc.querySelector('section.edit.main-content');
             if (!mc) return 'NO_MAIN_CONTENT';
             mc.classList.add('changed');
             var edits = mc.querySelectorAll('.edit');

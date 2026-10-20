@@ -24,7 +24,7 @@ use Tests\DuskTestCase;
  *
  *   1. Seeds a blank Bootstrap page via {@see LandingPageFactory}.
  *   2. Opens it in live-edit, primes the layout handle on the page's
- *      `.section.edit.main-content`.
+ *      `section.edit.main-content`.
  *   3. Inserts Features / skin-2 via the Insert Layout picker.
  *   4. Rewrites the first two `h5` feature labels to unique copies.
  *   5. Marks the surrounding `.edit` fields as `.changed` so the save
@@ -113,7 +113,7 @@ class LiveEditFeaturesSkin2Test extends DuskTestCase
 
     /**
      * Set mw.app.liveEdit.handles.get('layout') target to the page's
-     * `.section.edit.main-content` so the Insert Layout picker's
+     * `section.edit.main-content` so the Insert Layout picker's
      * fallback target resolves.
      */
     private function primeLayoutHandleOnMainContent(Browser $browser): void
@@ -124,7 +124,7 @@ class LiveEditFeaturesSkin2Test extends DuskTestCase
                 return 'NO_CANVAS';
             }
             var doc = mw.app.canvas.getDocument();
-            var target = doc.querySelector('.section.edit.main-content')
+            var target = doc.querySelector('section.edit.main-content')
                 || doc.querySelector('.section.edit[field=\"content\"]')
                 || doc.querySelector('[data-layout-container]');
             if (!target) return 'NO_MAIN_CONTENT';

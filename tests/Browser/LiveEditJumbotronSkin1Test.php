@@ -23,7 +23,7 @@ use Tests\DuskTestCase;
  *
  *   1. Seed a blank Bootstrap page via {@see LandingPageFactory}.
  *   2. Open it in live-edit.
- *   3. Target the page's `.section.edit.main-content` so the layout
+ *   3. Target the page's `section.edit.main-content` so the layout
  *      handle has something to act on, then go through the Insert
  *      Layout picker (category: Jumbotron, skin: jumbotron/skin-1).
  *   4. Rewrite the hero H1 to "Microweber Landing" and the CTA
@@ -111,7 +111,7 @@ class LiveEditJumbotronSkin1Test extends DuskTestCase
 
     /**
      * Set mw.app.liveEdit.handles.get('layout') target to the page's
-     * `.section.edit.main-content` so the Insert Layout picker's
+     * `section.edit.main-content` so the Insert Layout picker's
      * fallback target resolves.
      */
     private function primeLayoutHandleOnMainContent(Browser $browser): void
@@ -122,7 +122,7 @@ class LiveEditJumbotronSkin1Test extends DuskTestCase
                 return 'NO_CANVAS';
             }
             var doc = mw.app.canvas.getDocument();
-            var target = doc.querySelector('.section.edit.main-content')
+            var target = doc.querySelector('section.edit.main-content')
                 || doc.querySelector('.section.edit[field=\"content\"]')
                 || doc.querySelector('[data-layout-container]');
             if (!target) return 'NO_MAIN_CONTENT';
@@ -268,7 +268,7 @@ class LiveEditJumbotronSkin1Test extends DuskTestCase
      * Assert that the edited jumbotron copy round-tripped through
      * /api/content/save_edit into the database.
      *
-     * The outer `.section.edit.main-content[field="content"]` wrapper
+     * The outer `section.edit.main-content[field="content"]` wrapper
      * writes to `content.content` (the save pipeline routes `field == 'content'`
      * and `field == 'content_body'` directly into the content row instead
      * of `content_fields`). The inserted jumbotron section carries

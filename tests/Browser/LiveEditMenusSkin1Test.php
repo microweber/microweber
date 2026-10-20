@@ -39,7 +39,7 @@ use Tests\DuskTestCase;
  *     module.
  *   - **Save target**: the picker drops the `<module type="layouts"
  *     template="menus/skin-1"/>` shortcode into the canvas's
- *     `.section.edit.main-content` parent; we mark THAT parent
+ *     `section.edit.main-content` parent; we mark THAT parent
  *     `.changed` so the save pipeline's `collectData()` picks the
  *     insertion up. The skin itself has no editable field children
  *     to mark (the menu items are pulled from the menus table, not
@@ -142,7 +142,7 @@ class LiveEditMenusSkin1Test extends DuskTestCase
 
     /**
      * Set mw.app.liveEdit.handles.get('layout') target to the page's
-     * `.section.edit.main-content` so the Insert Layout picker's
+     * `section.edit.main-content` so the Insert Layout picker's
      * fallback target resolves. Same shape as the sibling per-skin
      * tests — the priming logic is layout-agnostic.
      */
@@ -154,7 +154,7 @@ class LiveEditMenusSkin1Test extends DuskTestCase
                 return 'NO_CANVAS';
             }
             var doc = mw.app.canvas.getDocument();
-            var target = doc.querySelector('.section.edit.main-content')
+            var target = doc.querySelector('section.edit.main-content')
                 || doc.querySelector('.section.edit[field=\"content\"]')
                 || doc.querySelector('[data-layout-container]');
             if (!target) return 'NO_MAIN_CONTENT';
@@ -198,7 +198,7 @@ class LiveEditMenusSkin1Test extends DuskTestCase
     }
 
     /**
-     * Tag the canvas's `.section.edit.main-content` parent with
+     * Tag the canvas's `section.edit.main-content` parent with
      * `.changed` so the save pipeline's `collectData()` picks up the
      * inserted module. The skin doesn't carry its own `.edit` field
      * to mark — the parent main-content is the editable target the
@@ -208,7 +208,7 @@ class LiveEditMenusSkin1Test extends DuskTestCase
     {
         $res = $browser->script("
             var doc = mw.app.canvas.getDocument();
-            var parent = doc.querySelector('.section.edit.main-content')
+            var parent = doc.querySelector('section.edit.main-content')
                 || doc.querySelector('.section.edit[field=\"content\"]');
             if (!parent) return 'NO_PARENT';
             parent.classList.add('changed');
