@@ -38,10 +38,10 @@ class LogoModuleSettingsFilamentTest extends TestCase
 
         $data = [
             'options.logoimage' => 'https://www.example.com/logo.png',
-            'options.size' => 200,
+            'options.size' => 180,
             'options.text' => 'My Logo',
             'options.text_color' => '#000000',
-            'options.font_size' => 30,
+            'options.font_size' => 36,
         ];
 
         Livewire::test(LogoModuleSettings::class)
@@ -63,7 +63,7 @@ class LogoModuleSettingsFilamentTest extends TestCase
             'option_group' => $moduleId,
             'module' => $moduleType,
             'option_key' => 'size',
-            'option_value' => '200'
+            'option_value' => '180'
         ]);
         $this->assertDatabaseHas('options', [
             'option_group' => $moduleId,
@@ -81,7 +81,7 @@ class LogoModuleSettingsFilamentTest extends TestCase
             'option_group' => $moduleId,
             'module' => $moduleType,
             'option_key' => 'font_size',
-            'option_value' => '30'
+            'option_value' => '36'
         ]);
 
         // Clean up
