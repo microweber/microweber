@@ -66,6 +66,82 @@ class ProductResource extends ContentResource
                         ->default(false)
                         ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => (bool) $get('is_downloadable'))
                         ->dehydrated(true),
+
+                    // A "bookable product" (subtype 'booking_product'): customers
+                    // reserve it for a date range (rooms) or a time slot (services),
+                    // with per-product capacity + availability tracking. The config
+                    // is persisted to booking_product_settings by the Create/Edit
+                    // pages; this toggle maps to the subtype.
+                    Toggle::make('is_bookable')
+                        ->label(__('Bookable product'))
+                        ->helperText(__('Customers reserve dates/times; availability is tracked and shipping is skipped.'))
+                        ->default(false)
+                        ->live()
+                        ->dehydrated(true),
+                ]),
+
+            Section::make(__('Booking settings'))
+                ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => (bool) $get('is_bookable'))
+                ->columns(2)
+                ->schema([
+                    \Filament\Forms\Components\Select::make('booking_type')
+                        ->label(__('Booking type'))
+                        ->options([
+                            'date_range' => __('Date range (nightly / rooms)'),
+                            'time_slot' => __('Time slot (hourly / services)'),
+                        ])
+                        ->default('date_range')
+                        ->live()
+                        ->dehydrated(true),
+                    TextInput::make('booking_capacity')
+                        ->label(__('Capacity (units)'))
+                        ->helperText(__('How many can be booked at once, e.g. number of identical rooms.'))
+                        ->numeric()->minValue(1)->default(1)->dehydrated(true),
+                    \Filament\Forms\Components\Select::make('booking_price_unit')
+                        ->label(__('Price per'))
+                        ->options([
+                            'per_night' => __('Night'),
+                            'per_hour' => __('Hour'),
+                            'per_slot' => __('Slot'),
+                            'flat' => __('Flat (whole booking)'),
+                        ])
+                        ->default('per_night')->dehydrated(true),
+                    TextInput::make('booking_unit_price')
+                        ->label(__('Unit price'))
+                        ->helperText(__('Leave empty to use the product price.'))
+                        ->numeric()->minValue(0)->dehydrated(true),
+                    TextInput::make('booking_min_duration')
+                        ->label(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('booking_type') === 'time_slot' ? __('Min minutes') : __('Min nights'))
+                        ->numeric()->minValue(1)->dehydrated(true),
+                    TextInput::make('booking_max_duration')
+                        ->label(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('booking_type') === 'time_slot' ? __('Max minutes') : __('Max nights'))
+                        ->numeric()->minValue(1)->dehydrated(true),
+                    TextInput::make('booking_buffer_minutes')
+                        ->label(__('Turnaround buffer (minutes)'))
+                        ->numeric()->minValue(0)->default(0)->dehydrated(true),
+                    // Time-slot only
+                    TextInput::make('booking_slot_minutes')
+                        ->label(__('Slot length (minutes)'))
+                        ->numeric()->minValue(1)
+                        ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('booking_type') === 'time_slot')
+                        ->dehydrated(true),
+                    \Filament\Forms\Components\TimePicker::make('booking_opens_at')
+                        ->label(__('Opens at'))->seconds(false)
+                        ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('booking_type') === 'time_slot')
+                        ->dehydrated(true),
+                    \Filament\Forms\Components\TimePicker::make('booking_closes_at')
+                        ->label(__('Closes at'))->seconds(false)
+                        ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('booking_type') === 'time_slot')
+                        ->dehydrated(true),
+                    // Date-range only
+                    \Filament\Forms\Components\TimePicker::make('booking_check_in_time')
+                        ->label(__('Check-in time'))->seconds(false)
+                        ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('booking_type') !== 'time_slot')
+                        ->dehydrated(true),
+                    \Filament\Forms\Components\TimePicker::make('booking_check_out_time')
+                        ->label(__('Check-out time'))->seconds(false)
+                        ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('booking_type') !== 'time_slot')
+                        ->dehydrated(true),
                 ]),
 
             Section::make(__('Add to cart link'))

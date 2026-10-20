@@ -3,14 +3,16 @@
 namespace Modules\Product\Filament\Admin\Resources\ProductResource\Pages;
 
 use Modules\Product\Filament\Admin\Resources\ProductResource;
+use Modules\Product\Filament\Admin\Resources\ProductResource\Concerns\HandlesBookingProductForm;
 
 class EditProduct extends \Modules\Content\Filament\Admin\ContentResource\Pages\EditContent
 {
+    use HandlesBookingProductForm;
 
     protected static string $resource = ProductResource::class;
 
-    // Reflect the stored subtype into the "Downloadable product" toggle and the
-    // content_data flag into the "Email download link on order" toggle.
+    // Reflect the stored subtype + content_data + booking settings back into the
+    // product-type toggles/fields.
     protected function mutateFormDataBeforeFill(array $data): array
     {
         $data['is_downloadable'] = ($data['subtype'] ?? 'product') === 'downloadable_product';
@@ -21,15 +23,23 @@ class EditProduct extends \Modules\Content\Filament\Admin\ContentResource\Pages\
             FILTER_VALIDATE_BOOLEAN
         );
 
+        // is_bookable + booking_* fields from the settings row (if any).
+        $this->fillBookingFormData($this->getRecord(), $data);
+
         return $data;
     }
 
-    // Map the toggles back to the subtype column + content_data; neither
-    // 'is_downloadable' nor 'email_download_on_order' is a Product attribute.
+    // Map the toggles back to the subtype column + content_data; the booking_*
+    // and is_* keys are not Product attributes. Precedence: bookable >
+    // downloadable > plain product.
     protected function mutateFormDataBeforeSave(array $data): array
     {
+        $isBookable = $this->extractBookingFormData($data); // pulls booking_* out
         $isDownloadable = !empty($data['is_downloadable']);
-        $data['subtype'] = $isDownloadable ? 'downloadable_product' : 'product';
+
+        $data['subtype'] = $isBookable
+            ? 'booking_product'
+            : ($isDownloadable ? 'downloadable_product' : 'product');
 
         $emailOnOrder = $isDownloadable && !empty($data['email_download_on_order']) ? '1' : '0';
         $data['content_data'] = array_merge($data['content_data'] ?? [], [
@@ -39,5 +49,10 @@ class EditProduct extends \Modules\Content\Filament\Admin\ContentResource\Pages\
         unset($data['is_downloadable'], $data['email_download_on_order']);
 
         return $data;
+    }
+
+    protected function afterSave(): void
+    {
+        $this->persistBookingSettings($this->record, $this->stashedIsBookable());
     }
 }
