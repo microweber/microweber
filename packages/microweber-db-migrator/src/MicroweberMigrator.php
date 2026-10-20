@@ -87,12 +87,12 @@ class MicroweberMigrator extends Migrator
         return null;
     }
 
-    protected function runMigration($migration, $method)
+    protected function runMigration($migration, $method, $name = null)
     {
         if (!$migration) {
             return false;
         }
-        return parent::runMigration($migration, $method);
+        return parent::runMigration($migration, $method, $name);
     }
 
     private function ensureMigrationsTableExists(): void
