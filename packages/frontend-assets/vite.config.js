@@ -127,6 +127,7 @@ export default defineConfig(({ mode }) => {
                     'core': path.resolve(__dirname, 'resources/assets/js/core.js'),
                     'admin': path.resolve(__dirname, 'resources/assets/js/admin.js'),
                     'live-edit-page-scripts': path.resolve(__dirname, 'resources/assets/live-edit/live-edit-page-scripts.js'),
+                    'booking': path.resolve(__dirname, 'resources/assets/js/booking.js'),
                     'admin-filament-libs': path.resolve(__dirname, 'resources/assets/js/admin-filament-libs.js'),
                     'admin-css': path.resolve(__dirname, 'resources/assets/css/admin.scss'),
                     'install': path.resolve(__dirname, 'resources/assets/css/install.scss'),

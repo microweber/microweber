@@ -18,6 +18,18 @@ Description: Default cart add template with prices and add to cart button
 </script>
 
 @if($for_id !== false && $for !== false)
+@php
+    // Bookable products (optional Booking module) replace the normal add-to-cart
+    // with the calendar booking widget. Guarded so non-booking products and a
+    // disabled Booking module are completely unaffected.
+    $mwIsBooking = (int) $for_id > 0
+        && class_exists(\Modules\Booking\Models\BookingProductSetting::class)
+        && \Modules\Booking\Models\BookingProductSetting::active()->where('product_id', (int) $for_id)->exists()
+        && view()->exists('modules.booking::widget');
+@endphp
+@if($mwIsBooking)
+    @include('modules.booking::widget', ['productId' => (int) $for_id])
+@else
 <div class="mw-add-to-cart-holder mw-add-to-cart-{{ $params['id'] ?? '' }}">
     @if($for == 'content' && intval($for_id) == 0)
         @php $for_id = 0; @endphp
@@ -122,4 +134,5 @@ Description: Default cart add template with prices and add to cart button
         </div>
     @endif
 </div>
+@endif
 @endif

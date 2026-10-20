@@ -11,6 +11,17 @@ Description: Template designed for use within shop product layouts
 
 <div class="product-info-layout-1">
     @if($for_id !== false && $for !== false)
+        @php
+            // Bookable products render the calendar booking widget instead of the
+            // normal add-to-cart. Guarded for the optional Booking module.
+            $mwIsBooking = (int) $for_id > 0
+                && class_exists(\Modules\Booking\Models\BookingProductSetting::class)
+                && \Modules\Booking\Models\BookingProductSetting::active()->where('product_id', (int) $for_id)->exists()
+                && view()->exists('modules.booking::widget');
+        @endphp
+        @if($mwIsBooking)
+            @include('modules.booking::widget', ['productId' => (int) $for_id])
+        @else
         <div class="mw-add-to-cart-holder mw-add-to-cart-{{ $params['id'] ?? '' }}">
             @if(is_array($data))
                 <input type="hidden" name="for" value="{{ $for }}"/>
@@ -110,5 +121,6 @@ Description: Template designed for use within shop product layouts
                 @endif
             @endif
         </div>
+        @endif
     @endif
 </div>
