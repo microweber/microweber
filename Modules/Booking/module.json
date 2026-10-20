@@ -1,0 +1,11 @@
+{
+    "name": "Booking",
+    "alias": "booking",
+    "description": "Sell bookable products (rooms and time-based services). Date-range and time-slot bookings with per-product capacity, availability tracking and a calendar.",
+    "keywords": ["booking", "reservation", "calendar", "availability", "room", "appointment", "check-in", "schedule"],
+    "priority": 0,
+    "providers": [
+        "Modules\\Booking\\Providers\\BookingServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,9 @@
+{
+    "name": "microweber-modules/booking",
+    "description": "Bookable products (rooms & time-based services) for Microweber.",
+    "authors": [
+        { "name": "Microweber", "email": "info@microweber.com" }
+    ],
+    "extra": { "laravel": { "providers": [], "aliases": {} } },
+    "autoload": { "psr-4": { "Modules\\Booking\\": "" } }
+}
