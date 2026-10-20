@@ -4,6 +4,7 @@ namespace MicroweberPackages\Filament\Tables\Columns;
 
 use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\Tables\Columns\ImageColumn;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
 
 use Closure;
@@ -22,7 +23,7 @@ class ImageUrlColumn extends ImageColumn
         return $this;
     }
 
-    public function getImageUrl(?string $state = null): ?string
+    public function getImageUrl(?string $state = null, ?Model $relatedRecord = null): ?string
     {
         return $this->evaluate($this->imageUrl);
     }

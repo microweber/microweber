@@ -45,7 +45,11 @@ class Translator extends \Illuminate\Translation\Translator
             }
 
             if (empty(trim($item))) {
-                return;
+                // Laravel 13 types trans()/Translator::get() as never-null
+                // (Translator|array|string); return the key itself for an
+                // untranslatable/empty item, matching the framework's own
+                // "echo the key back" fallback instead of returning null.
+                return $key;
             }
 
             if ($namespace and is_string($namespace) and $namespace != '*') {
