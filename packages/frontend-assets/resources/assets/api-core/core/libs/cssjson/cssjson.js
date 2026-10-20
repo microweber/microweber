@@ -83,6 +83,17 @@ var CSSJSON = new function () {
         var match = null;
         var count = 0;
 
+        // `altX` is a module-global, stateful (/g) regex whose lastIndex is
+        // shared across the recursive calls below. When the CSS is malformed —
+        // an unbalanced/truncated rule such as ".broken { color: " with an open
+        // brace and no closing "}" — a recursive call's exec() runs off the end
+        // of the string, returns null, and resets altX.lastIndex to 0. The
+        // parent loop would then re-match from the start and recurse forever
+        // (a hard main-thread hang). Guard it: every real token match advances
+        // lastIndex, so if a match does not advance past the previous position
+        // the stream has been reset by such a failure — stop parsing.
+        var prevLastIndex = -1;
+
         if (typeof args == 'undefined') {
             var args = {
                 ordered: false,
@@ -97,6 +108,15 @@ var CSSJSON = new function () {
         }
 
         while ((match = altX.exec(cssString)) != null) {
+            if (altX.lastIndex <= prevLastIndex) {
+                // No forward progress: the shared regex was reset by a recursive
+                // call hitting end-of-string on malformed CSS. Bail to avoid an
+                // infinite loop. altX keeps global state, so clear it for the
+                // next top-level toJSON() call.
+                altX.lastIndex = 0;
+                break;
+            }
+            prevLastIndex = altX.lastIndex;
             if (!isEmpty(match[capComment]) && args.comments) {
                 // Comment
                 var add = match[capComment].trim();
