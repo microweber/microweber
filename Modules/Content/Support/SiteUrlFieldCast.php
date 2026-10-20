@@ -27,7 +27,22 @@ class SiteUrlFieldCast
      */
     public static function expand($result)
     {
-        if (is_array($result) && $result !== [] && app()->bound(\MicroweberPackages\Url\UrlManagerService::class)) {
+        if (! app()->bound(\MicroweberPackages\Url\UrlManagerService::class)) {
+            return $result;
+        }
+
+        if (is_array($result) && $result !== []) {
+            return UrlManager::replace_site_url_back($result);
+        }
+
+        // A field can also be read as a scalar HTML string (getField's
+        // value shape). replace_site_url_back() recurses over strings too, so a
+        // saved `{SITE_URL}…` (e.g. a skin's data-background-image / <img src>)
+        // must be expanded here as well — otherwise the raw placeholder leaks
+        // into the public render and the asset 404s. Gate on the placeholder's
+        // presence so this is a strict no-op for every other string (and never
+        // trips replace_site_url_back's falsey "0"/"" → null guard).
+        if (is_string($result) && str_contains($result, '{SITE_URL}')) {
             return UrlManager::replace_site_url_back($result);
         }
 

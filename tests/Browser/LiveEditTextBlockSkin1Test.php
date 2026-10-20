@@ -297,8 +297,14 @@ class LiveEditTextBlockSkin1Test extends DuskTestCase
             "content row for page {$pageId} must still exist after save"
         );
 
+        // Scope to THIS skin's module fields. Module content_fields are keyed by
+        // their `field` name (all share rel_id=0 here), so an unscoped
+        // rel_type='module' pluck would pull in every other skin's persisted
+        // copy — including demo/seed rows that share a placeholder default — and
+        // wrongly trip the "must not still contain the pre-edit heading" guard.
         $moduleFields = DB::table('content_fields')
             ->where('rel_type', 'module')
+            ->where('field', 'like', self::FIELD_PREFIX . '%')
             ->pluck('value')
             ->all();
         $pageFields = DB::table('content_fields')
