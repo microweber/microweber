@@ -114,38 +114,31 @@ class LiveEditMenuTitleEditTest extends DuskTestCase
             );
             $browser->pause(6000);
 
-            // Wait for the menu-module-settings iframe to render.
-            $browser->waitUsing(20, 250, function () use ($browser) {
-                $found = $browser->script(
-                    "return Array.from(document.querySelectorAll('iframe'))
-                        .some(f => (f.src || '').indexOf('menu-module-settings') !== -1) ? 1 : 0;"
-                );
-                return ($found[0] ?? 0) === 1;
-            });
-
-            // Switch into the iframe + drive the Edit flow.
-            $browser->withinFrame('iframe[src*="menu-module-settings"]', function (Browser $iframe) use ($newTitle) {
-                $iframe->pause(3500);
+            // Menu module-settings now opens as an mw-dialog (an inline Livewire
+            // modal rendered in the TOP window — $useMwDialog = true on the
+            // LiveEditModuleSettings base), not an iframe. Drive it on the page
+            // directly instead of switching into a frame.
+            $browser->pause(3500);
 
                 // Wait for the menu-list-item rows to render.
-                $iframe->waitUsing(15, 250, function () use ($iframe) {
-                    $found = $iframe->script(
+                $browser->waitUsing(15, 250, function () use ($browser) {
+                    $found = $browser->script(
                         "return document.querySelectorAll('.mw-menu-item').length > 0 ? 1 : 0;"
                     );
                     return ($found[0] ?? 0) === 1;
                 });
 
                 // Click the first row's Edit pencil (icon-only button:first-child).
-                $iframe->script(
+                $browser->script(
                     "var item = document.querySelector('.mw-menu-item');
                      var editBtn = item.querySelector('.mw-menu-item__actions button:first-child');
                      if (editBtn) editBtn.click();"
                 );
-                $iframe->pause(2500);
+                $browser->pause(2500);
 
                 // Wait for the Edit slideOver's Title input to appear.
-                $iframe->waitUsing(15, 250, function () use ($iframe) {
-                    $found = $iframe->script(
+                $browser->waitUsing(15, 250, function () use ($browser) {
+                    $found = $browser->script(
                         "return Array.from(document.querySelectorAll('input')).some(i =>
                             Array.from(i.attributes).some(a =>
                                 a.name.startsWith('wire:model') && /\\.title\$/.test(a.value || '')
@@ -156,7 +149,7 @@ class LiveEditMenuTitleEditTest extends DuskTestCase
                 });
 
                 // Fill title + blur + submit.
-                $iframe->script(
+                $browser->script(
                     "var title = " . json_encode($newTitle) . ";
                      var input = Array.from(document.querySelectorAll('input')).find(i =>
                         Array.from(i.attributes).some(a =>
@@ -169,16 +162,15 @@ class LiveEditMenuTitleEditTest extends DuskTestCase
                      input.dispatchEvent(new Event('input', { bubbles: true }));
                      input.dispatchEvent(new Event('blur', { bubbles: true }));"
                 );
-                $iframe->pause(1500);
+                $browser->pause(1500);
 
                 // Submit the form.
-                $iframe->script(
+                $browser->script(
                     "var submit = Array.from(document.querySelectorAll('.fi-modal-window button'))
                         .find(b => /submit|save/i.test((b.textContent || '').trim()));
                      if (submit) submit.click();"
                 );
-                $iframe->pause(2000);
-            });
+                $browser->pause(2000);
         });
 
         // Poll the DB up to 15s for the title persistence.

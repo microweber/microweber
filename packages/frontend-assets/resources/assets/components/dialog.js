@@ -392,10 +392,18 @@
             var mountTarget = this.options.root.body;
             try {
                 var hostDoc = mountTarget.ownerDocument || this.options.root;
-                var openModals = hostDoc.querySelectorAll('.fi-modal.fi-modal-open[aria-modal="true"]');
+                // Host inside either a genuinely-open Filament modal
+                // (.fi-modal-open) OR an open mw-dialog livewire modal
+                // (.mw-livewire-modal.active) — module settings now present
+                // through the livewire-modal mw-dialog, whose focus-trap swallows
+                // the picker's clicks exactly like the Filament one did.
+                var openModals = hostDoc.querySelectorAll(
+                    '.fi-modal.fi-modal-open[aria-modal="true"], '
+                    + '.mw-livewire-modal.active[aria-modal="true"]'
+                );
                 for (var i = openModals.length - 1; i >= 0; i--) {
                     var modal = openModals[i];
-                    var win = modal.querySelector('.fi-modal-window');
+                    var win = modal.querySelector('.fi-modal-window, .mw-livewire-modal-content');
                     if (!win || !win.getClientRects().length) { continue; }
                     var node = modal, inInert = false;
                     while (node) {

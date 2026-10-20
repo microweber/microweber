@@ -68,16 +68,15 @@ class LiveEditLinkPickerTabSwitchTest extends DuskTestCase
             }
             $browser->pause(4500);
 
-            // 2) Add a menu item (the form lives in the "Module settings" iframe).
+            // 2) Add a menu item. Module settings now present through an
+            // mw-dialog livewire modal in the TOP window (not a "Module settings"
+            // iframe), so the Add button lives in the top document.
             $added = $browser->script(<<<'JS'
                 try {
-                    var sif = Array.prototype.find.call(
-                        document.querySelectorAll('iframe'),
-                        function (f) { return (f.title || '').indexOf('Module settings') > -1; }
-                    );
-                    if (!sif || !sif.contentDocument) return 'no-settings-iframe';
+                    var scope = document.querySelector('.mw-livewire-modal.active')
+                              || document.querySelector('.mw-livewire-modal') || document;
                     var add = Array.prototype.find.call(
-                        sif.contentDocument.querySelectorAll('button'),
+                        scope.querySelectorAll('button'),
                         function (b) { return /Add menu item/i.test(b.textContent); }
                     );
                     if (!add) return 'no-add-button';
@@ -93,11 +92,7 @@ class LiveEditLinkPickerTabSwitchTest extends DuskTestCase
             // 3) Open the link picker from the menu item's Link field.
             $picker = $browser->script(<<<'JS'
                 try {
-                    var sif = Array.prototype.find.call(
-                        document.querySelectorAll('iframe'),
-                        function (f) { return (f.title || '').indexOf('Module settings') > -1; }
-                    );
-                    var d = sif.contentDocument;
+                    var d = document;
                     var inp = d.getElementById('mountedActionSchema0.mw_link_picker')
                         || Array.prototype.find.call(d.querySelectorAll('input'),
                             function (i) { return /mw_link_picker$/.test(i.id || ''); });
@@ -128,7 +123,7 @@ class LiveEditLinkPickerTabSwitchTest extends DuskTestCase
                     return {
                         ok: true,
                         targetName: target.textContent.trim(),
-                        mountedInsideModal: !!(dlg && dlg.closest('.fi-modal[aria-modal="true"]'))
+                        mountedInsideModal: !!(dlg && dlg.closest('.fi-modal[aria-modal="true"], .mw-livewire-modal[aria-modal="true"]'))
                     };
                 } catch (e) { return { ok: false, reason: 'err:' + e.message }; }
             JS)[0] ?? ['ok' => false, 'reason' => 'no-result'];
@@ -230,7 +225,7 @@ class LiveEditLinkPickerTabSwitchTest extends DuskTestCase
                     return {
                         ok: true,
                         targetType: target.getAttribute('data-type'),
-                        mountedInsideModal: !!dlg.closest('.fi-modal[aria-modal="true"]')
+                        mountedInsideModal: !!dlg.closest('.fi-modal[aria-modal="true"], .mw-livewire-modal[aria-modal="true"]')
                     };
                 } catch (e) { return { ok: false, reason: 'err:' + e.message }; }
             JS)[0] ?? ['ok' => false, 'reason' => 'no-result'];
