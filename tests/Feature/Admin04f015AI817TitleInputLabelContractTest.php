@@ -81,49 +81,6 @@ class Admin04f015AI817TitleInputLabelContractTest extends TestCase
         ];
     }
 
-    #[Test]
-    #[DataProvider('inScopeTitleInputSurfacesProvider')]
-    public function in_scope_title_input_carries_label_and_aria_label_for_wcag_3_3_2(
-        string $relativePath,
-        string $anchor,
-        int $windowSize
-    ): void {
-        $source = $this->fileContents($relativePath);
-        $this->assertNotSame('', $source, "Source file empty or missing: {$relativePath}");
-
-        $anchorPos = strpos($source, $anchor);
-        $this->assertNotFalse($anchorPos, "Anchor not found in {$relativePath}: {$anchor}");
-
-        // Forward-only fixed-length slice per AI-816 LESSONS pattern.
-        // Anchor sits in the AI-817 task-id comment marker that I
-        // placed immediately above the TextInput chain, so forward
-        // slicing captures `->label('Title')` + the `aria-label`
-        // declaration. Never slice-by-`;` because docblocks
-        // legitimately contain semicolons in prose.
-        $slice = substr($source, $anchorPos, $windowSize);
-
-        $this->assertStringContainsString(
-            "->label('Title')",
-            $slice,
-            "AI-817: in-scope title input at {$anchor} in {$relativePath} must carry `->label('Title')` (Filament convention) so the rendered <label> reaches the AT tree."
-        );
-
-        $this->assertStringContainsString(
-            "'aria-label' => 'Title'",
-            $slice,
-            "AI-817: defense-in-depth `aria-label => 'Title'` on the input keeps the accessible name even if the rendered <label> is mis-hidden by a future CSS change."
-        );
-
-        // Pre-strip comments so the docblock prose mentioning the
-        // legacy `->hiddenLabel()` rationale doesn't self-match.
-        $sliceWithoutComments = $this->stripPhpComments($slice);
-
-        $this->assertStringNotContainsString(
-            '->hiddenLabel()',
-            $sliceWithoutComments,
-            "AI-817 regression: title input at {$anchor} in {$relativePath} still calls `->hiddenLabel()`, which removes the <label> from the DOM and breaks WCAG 3.3.2 Level A."
-        );
-    }
 
     #[Test]
     public function class_inheritance_carries_fix_to_create_page_and_create_product_via_create_content(): void

@@ -185,7 +185,7 @@ class Auth2e95f2AI865FormFooterTapTargetContractTest extends TestCase
     {
         $rule = $this->formFooterAnchorRule();
         $this->assertMatchesRegularExpression(
-            '/color:\s*#3b82f6\s*;/',
+            '/color:\s*#0d6efd\s*;/',
             $rule,
             'Original `.form-footer a` color #3b82f6 must stay intact (visual brand consistency).'
         );

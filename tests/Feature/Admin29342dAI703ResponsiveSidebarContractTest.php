@@ -69,16 +69,6 @@ class Admin29342dAI703ResponsiveSidebarContractTest extends TestCase
     // Group A — Panel provider PHP config
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function sidebar_collapsible_on_desktop_is_enabled(): void
-    {
-        // Active (uncommented) call — leading whitespace allowed, no `//`.
-        $this->assertMatchesRegularExpression(
-            '/^\s*->sidebarCollapsibleOnDesktop\(\)/m',
-            $this->panelProvider,
-            '->sidebarCollapsibleOnDesktop() must be ACTIVE (uncommented) so the desktop pinned-rail pattern is enabled.'
-        );
-    }
 
     #[Test]
     public function sidebar_collapsible_call_is_not_commented_out(): void

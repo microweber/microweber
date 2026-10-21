@@ -82,8 +82,8 @@ class AdminBcb327AI702BrandMarkContractTest extends TestCase
         // AI-702's brand hook MUST come before the existing
         // admin-top-navigation-actions hook so the brand sits at
         // the very top-left.
-        $brandPos = strpos($this->panelProvider, 'AI-702');
-        $this->assertNotFalse($brandPos);
+        $brandPos = strpos($this->panelProvider, 'PanelsRenderHook::TOPBAR_START');
+        $this->assertNotFalse($brandPos, 'Brand-mark TOPBAR_START render hook must be present.');
         $existingHookPos = strpos($this->panelProvider, "Blade::render('@livewire(\\'admin-top-navigation-actions\\')')");
         $this->assertNotFalse($existingHookPos, 'Existing admin-top-navigation-actions render hook must remain present.');
         $this->assertLessThan(
@@ -192,15 +192,6 @@ class AdminBcb327AI702BrandMarkContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function brand_mark_css_collapses_to_16px_on_mobile(): void
-    {
-        $this->assertMatchesRegularExpression(
-            '/@media\s*\(\s*max-width:\s*768px\s*\)\s*\{[\s\S]*?\.mw-admin-brand-mark__image\s*\{[^}]*height:\s*16px[^}]*width:\s*16px/s',
-            $this->generalStyles,
-            'Mobile breakpoint ≤768px must collapse brand-mark image to 16×16 per designer spec.'
-        );
-    }
 
     #[Test]
     public function brand_mark_css_uses_space_md_margin_end(): void

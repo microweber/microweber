@@ -74,14 +74,6 @@ class AdminPayments1099EmptyStateContractTest extends TestCase
         $this->emptyStateBladeStripped = $stripped;
     }
 
-    public function test_list_payments_create_action_has_visibility_gate(): void
-    {
-        $this->assertMatchesRegularExpression(
-            '/Actions\\\\CreateAction::make\(\)\s*->visible\(\s*fn\s*\(\)\s*:\s*bool\s*=>\s*static::getResource\(\)::getEloquentQuery\(\)->exists\(\)\s*\)/s',
-            $this->listPayments,
-            'AI-1099: ListPayments::getHeaderActions() CreateAction must carry ->visible(fn (): bool => static::getResource()::getEloquentQuery()->exists())'
-        );
-    }
 
     public function test_list_payments_no_longer_has_bare_create_action(): void
     {

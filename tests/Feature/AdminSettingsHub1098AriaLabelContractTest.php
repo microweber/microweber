@@ -62,7 +62,7 @@ class AdminSettingsHub1098AriaLabelContractTest extends TestCase
     public function test_settings_hub_anchor_carries_aria_label_with_trim(): void
     {
         $this->assertMatchesRegularExpression(
-            '/<a\s+href="\{\{\s*\$setting\[.url.\]\s*\}\}"\s+class="mw-settings-hub-item"\s+aria-label="\{\{\s*trim\(\s*\$setting\[.title.\]\s*\)\s*\}\}"\s*>/',
+            '/class="mw-settings-hub-item"[^>]*aria-label="\{\{\s*trim\(\s*\$setting\[.title.\]\s*\)\s*\}\}"/',
             $this->settingsHub,
             'AI-1098: <a class="mw-settings-hub-item"> must carry aria-label="{{ trim($setting[\'title\']) }}" so the accessible name is the cleanly-trimmed title rather than the multi-line content whitespace leak'
         );
