@@ -46,6 +46,8 @@ $prev = prev_content(content_id());
                                         <h1 class="edit d-inline-block" field="title" rel="content">{{ content_title() }}</h1>
                                     </div>
 
+                                    <x-vendor-badge :content-id="content_id()" />
+
                                     <div class="row main-price">
                                         <div class="col-12 d-flex">
                                             <div class="col-6">

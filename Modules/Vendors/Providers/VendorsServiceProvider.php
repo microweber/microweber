@@ -54,5 +54,12 @@ class VendorsServiceProvider extends BaseModuleServiceProvider
         // Make sure the `vendor` role exists so admins can assign it from
         // Users → Roles. Cheap + idempotent.
         app(VendorManager::class)->ensureRole();
+
+        // Opt-in "Sold by {vendor}" badge for templates:
+        //   <x-vendor-badge :content-id="content_id()" />
+        \Illuminate\Support\Facades\Blade::component(
+            'vendor-badge',
+            \Modules\Vendors\View\Components\VendorBadge::class
+        );
     }
 }

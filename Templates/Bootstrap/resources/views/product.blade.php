@@ -80,6 +80,8 @@ $prev = prev_content(content_id());
                                         </div>
                                     </div>
 
+                                    <x-vendor-badge :content-id="content_id()" />
+
                                     <x-row class="main-price">
                                         <x-col size="12" class="d-flex">
                                             <div class="col-6">

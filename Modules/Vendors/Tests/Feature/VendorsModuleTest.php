@@ -3,6 +3,7 @@
 namespace Modules\Vendors\Tests\Feature;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\User\Models\User;
@@ -329,6 +330,34 @@ class VendorsModuleTest extends TestCase
         $this->assertEquals(15.00, (float) $subtotalRef->invoke($page, $myOrder->id));
 
         \Illuminate\Support\Facades\Auth::logout();
+    }
+
+    #[Test]
+    public function vendor_badge_links_a_product_to_its_vendor_shop(): void
+    {
+        $vendorUser = $this->makeVendorUser();
+        $vendor = app(VendorManager::class)->profileFor($vendorUser);
+        $vendor->forceFill(['shop_name' => 'Badge Shop'])->save();
+        $this->vendorIds[] = $vendor->id;
+        $product = $this->makeProductFor($vendorUser->id, 'Badged Widget');
+
+        $html = Blade::render('<x-vendor-badge :content-id="' . $product->id . '" />');
+
+        $this->assertStringContainsString('Sold by', $html);
+        $this->assertStringContainsString('/vendor/' . $vendor->slug, $html);
+        $this->assertStringContainsString('Badge Shop', $html);
+    }
+
+    #[Test]
+    public function vendor_badge_is_empty_for_a_non_vendor_product(): void
+    {
+        $plain = User::factory()->create();
+        $this->userIds[] = $plain->id;
+        $product = $this->makeProductFor($plain->id, 'Plain Store Widget');
+
+        $html = trim(Blade::render('<x-vendor-badge :content-id="' . $product->id . '" />'));
+
+        $this->assertStringNotContainsString('Sold by', $html);
     }
 
     private function makeOrderWith(int $productId, float $price): Order
