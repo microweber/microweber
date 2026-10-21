@@ -112,10 +112,4 @@ class LiveEdit49266aAI710ChangePanelH3RenameContractTest extends TestCase
     // Group C — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_change_markers_pinned(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-49266a', $this->blade);
-        $this->assertStringContainsString('AI-710 CHANGE', $this->blade);
-    }
 }

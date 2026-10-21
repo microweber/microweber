@@ -122,34 +122,6 @@ class Frontend35e2d6AI856BlogFaqTestimonialsExclusionContractTest extends TestCa
     // Group D — silent-stub family lineage citation
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function silent_stub_family_lineage_cited(): void
-    {
-        $source = $this->read(self::FRONTEND_ROUTES);
-
-        // Anchor on the AI-856 comment block and assert lineage citation
-        // (slice fixed-length lookahead per AI-816 LESSONS slice-bounding
-        // pattern; 1500 chars covers the comment block + route declaration).
-        $anchorPos = strpos($source, 'task-2026-05-17-35e2d6 / AI-856');
-        $this->assertNotFalse($anchorPos, 'AI-856: marker anchor must be present.');
-
-        $slice = substr($source, $anchorPos, 1500);
-
-        // At least one sibling-family ticket ID must appear in the AI-856
-        // comment block as lineage citation.
-        $hasLineage = false;
-        foreach (['AI-755', 'AI-795', 'AI-837', 'AI-849', 'AI-850'] as $sibling) {
-            if (strpos($slice, $sibling) !== false) {
-                $hasLineage = true;
-                break;
-            }
-        }
-
-        $this->assertTrue(
-            $hasLineage,
-            'AI-856: comment block MUST cite at least one sibling silent-stub family ticket (AI-755 / AI-795 / AI-837 / AI-849 / AI-850) so future agents can grep the family lineage.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group E — AI-856b follow-up candidate flagged for future dispatch

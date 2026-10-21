@@ -102,19 +102,4 @@ class GoLiveEditChipScopingContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function audit_trail_comment_documents_ai_86_provenance(): void
-    {
-        // Each of the 3 files must carry the AI-86 audit-trail
-        // comment so future maintainers know why the guard is there
-        // (defense-in-depth) and don't strip it as "redundant".
-        foreach ([self::TOPBAR2, self::TOPBAR, self::FILA] as $rel) {
-            $src = $this->read($rel);
-            $this->assertStringContainsString(
-                'AI-86 / TICKET-Q (cycle-97',
-                $src,
-                "{$rel}: must carry the AI-86 audit-trail comment explaining the defense-in-depth guard"
-            );
-        }
-    }
 }

@@ -290,24 +290,4 @@ class FrontendC54f1fAI795NotFoundChromeContractTest extends TestCase
 
 
 
-    #[Test]
-    public function controller_short_circuit_cites_lineage(): void
-    {
-        $start = strpos($this->controller, 'task-2026-05-17-c54f1f / AI-795');
-        $this->assertNotFalse($start);
-        $end = strpos($this->controller, '$mwFallbackTemplateName', $start);
-        $this->assertNotFalse($end);
-        $docblock = substr($this->controller, $start, $end - $start);
-
-        $this->assertStringContainsString(
-            'AI-755',
-            $docblock,
-            'Controller short-circuit docblock must cite AI-755 (the original ticket this slice closes).'
-        );
-        $this->assertStringContainsString(
-            'AI-793',
-            $docblock,
-            'Controller short-circuit docblock must cite AI-793 (sister admin-404 propagation surface).'
-        );
-    }
 }

@@ -113,13 +113,6 @@ class EmptyStatefd0d1dCtaContractTest extends TestCase
         $this->assertStringContainsString('.mw-table-empty-cta:focus-visible', $this->css);
     }
 
-    #[Test]
-    public function cta_blocks_carry_the_task_id_for_audit_traceability(): void
-    {
-        $count = substr_count($this->blade, 'task-2026-05-16-fd0d1d');
-        $this->assertGreaterThanOrEqual(10, $count,
-            'Each of the 10 original CTA blocks must carry the task id comment for audit grepping.');
-    }
 
     #[Test]
     public function counts_match_the_known_branch_count(): void

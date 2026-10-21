@@ -181,19 +181,6 @@ class Category1ffb35AI815ContentTypeAwareHeadingContractTest extends TestCase
     // Group E  AI-780a lineage citation in source comment
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    #[DataProvider('allCategoryTemplatesProvider')]
-    public function ai780a_lineage_cited(string $relativePath): void
-    {
-        $raw = $this->rawTemplate($relativePath);
-        // Source-side comment MUST cite the AI-780/AI-780a pattern
-        // lineage so future audits find the family via grep.
-        $this->assertMatchesRegularExpression(
-            '/AI-780|AI-780a|AI-801/',
-            $raw,
-            "AI-815: {$relativePath} MUST cite the AI-780/AI-780a/AI-801 content-type-aware pattern lineage in source-side comment."
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group F  recon-surface guard

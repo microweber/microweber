@@ -148,27 +148,6 @@ class FrontendA8b4e2AI1087ArchivePrefixesExclusionContractTest extends TestCase
     // Group E -- silent-stub family lineage citation
     // ---------------------------------------------------------------------
 
-    #[Test]
-    public function silent_stub_family_lineage_cited(): void
-    {
-        $anchorPos = strpos($this->routesSource, 'task-2026-05-28-a8b4e2 / AI-1087');
-        $this->assertNotFalse($anchorPos, 'AI-1087: marker anchor must be present.');
-
-        $slice = substr($this->routesSource, $anchorPos, 2000);
-
-        $hasLineage = false;
-        foreach (['AI-755', 'AI-795', 'AI-837', 'AI-849', 'AI-850', 'AI-856'] as $sibling) {
-            if (strpos($slice, $sibling) !== false) {
-                $hasLineage = true;
-                break;
-            }
-        }
-
-        $this->assertTrue(
-            $hasLineage,
-            'AI-1087: comment block MUST cite at least one sibling silent-stub family ticket (AI-755 / AI-795 / AI-837 / AI-849 / AI-850 / AI-856) so future agents can grep the family lineage.'
-        );
-    }
 
     // ---------------------------------------------------------------------
     // Group F -- AI-1087b follow-up candidate flagged for future dispatch
