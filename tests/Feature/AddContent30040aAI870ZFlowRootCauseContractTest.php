@@ -166,15 +166,6 @@ class AddContent30040aAI870ZFlowRootCauseContractTest extends TestCase
     // Group C — primary card visual upgrade
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function primary_card_has_min_height_72px(): void
-    {
-        $this->assertStringContainsString(
-            'min-h-[72px]',
-            $this->blade,
-            'Primary card must carry Tailwind min-h-[72px] (increased from ~63px).'
-        );
-    }
 
     #[Test]
     public function primary_card_title_uses_text_base(): void

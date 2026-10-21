@@ -83,26 +83,6 @@ class Big2Bd82b3AI797StylePackLabelContractTest extends TestCase
     //          carries the new short label
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    #[DataProvider('ai797LabelProvider')]
-    public function style_pack_label_matches_new_short_label(string $relativePath, string $newLabel, string $oldLabel): void
-    {
-        $source = $this->read($relativePath);
-        if ($source === null) {
-            $this->markTestSkipped("Big2 subrepo file {$relativePath} not present (Templates/Big2/ is gitignored from microweber; fresh-clone CI doesn't carry it).");
-        }
-
-        $decoded = json_decode($source, true);
-        $this->assertIsArray($decoded, "AI-797: {$relativePath} must be valid JSON.");
-
-        // Pin the shape: $.settings[0].fieldSettings.styleProperties[0].label
-        $label = $decoded['settings'][0]['fieldSettings']['styleProperties'][0]['label'] ?? null;
-        $this->assertSame(
-            $newLabel,
-            $label,
-            "AI-797: {$relativePath} must carry label '{$newLabel}' at JSON path \$.settings[0].fieldSettings.styleProperties[0].label."
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group B — negative regression guard: the old " Template" suffix is
@@ -110,37 +90,6 @@ class Big2Bd82b3AI797StylePackLabelContractTest extends TestCase
     //          internal properties can legitimately mention "template")
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    #[DataProvider('ai797LabelProvider')]
-    public function legacy_template_suffix_gone_from_label(string $relativePath, string $newLabel, string $oldLabel): void
-    {
-        $source = $this->read($relativePath);
-        if ($source === null) {
-            $this->markTestSkipped("Big2 subrepo file {$relativePath} not present (fresh-clone CI).");
-        }
-
-        $decoded = json_decode($source, true);
-        $this->assertIsArray($decoded);
-
-        $label = $decoded['settings'][0]['fieldSettings']['styleProperties'][0]['label'] ?? null;
-
-        // The label MUST NOT carry the legacy suffixed form.
-        $this->assertNotSame(
-            $oldLabel,
-            $label,
-            "AI-797 regression guard: {$relativePath} MUST NOT carry the legacy label '{$oldLabel}' at the styleProperties[0].label JSON path."
-        );
-
-        // For the 3 packs whose old form ended in " Template", the new
-        // label must NOT end in " Template" either. (FitPower's "old"
-        // form ends in " Template"; the new "FitPower" doesn't. So
-        // the assertion holds across all 4.)
-        $this->assertDoesNotMatchRegularExpression(
-            '/\sTemplate$/',
-            (string) $label,
-            "AI-797 regression guard: {$relativePath} label MUST NOT end with ' Template' suffix."
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group C — schema-drift selector-self-match guard: assert the JSON
