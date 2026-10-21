@@ -23,7 +23,7 @@ class NavigationBadgeResilienceContractTest extends TestCase
     public function every_navigation_badge_query_is_guarded_against_a_missing_table(): void
     {
         $roots = [
-            base_path('src/MicroweberPackages'),
+            base_path('packages'),
             base_path('Modules'),
         ];
 

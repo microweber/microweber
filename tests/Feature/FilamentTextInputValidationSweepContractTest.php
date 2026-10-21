@@ -164,8 +164,8 @@ class FilamentTextInputValidationSweepContractTest extends TestCase
         $globs = [
             'Modules/*/Filament/**/*.php',
             'Modules/*/Filament/*.php',
-            'src/MicroweberPackages/*/Filament/**/*.php',
-            'src/MicroweberPackages/*/Filament/*.php',
+            'packages/*/src/Filament/**/*.php',
+            'packages/*/src/Filament/*.php',
         ];
 
         $files = [];
@@ -181,7 +181,7 @@ class FilamentTextInputValidationSweepContractTest extends TestCase
                 $files[$file->getPathname()] = true;
             }
         }
-        $rii2 = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(base_path('src/MicroweberPackages')));
+        $rii2 = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(base_path('packages')));
         foreach ($rii2 as $file) {
             if ($file->isFile() && str_ends_with($file->getPathname(), '.php') && str_contains($file->getPathname(), '/Filament/')) {
                 $files[$file->getPathname()] = true;
