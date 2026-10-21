@@ -85,17 +85,30 @@ foreach ($slugs as $slug) {
             $hoisted[] = trim($mm[0]); return '';
         }, $styleCss);
 
-        // 4. Assemble base.css: imports → token map → shared kit → design CSS.
+        // 4. Assemble base.css: imports → font + colour-scheme :root → var-ized design CSS.
+        //    CssVarizer rewrites hardcoded colours to var(--mw-*-color, literal) so the
+        //    design is recolorable from the Live Edit editor (same --mw-* vars Base's
+        //    master :root exposes), with the design palette as the default scheme and the
+        //    literal as the fallback (zero visual regression until a var is overridden).
         $imports = ($fontHref ? "@import url('" . $fontHref . "');\n" : '')
                  . "@import url('" . $ICONS . "');\n";
         foreach ($hoisted as $h) { $imports .= $h . "\n"; }
+
+        $source = json_decode((string) @file_get_contents($REF . '/template/' . $slug . '/content.json'), true) ?: [];
+        $designCss = $SHARED . "\n/* ===== Per-design style ===== */\n" . $styleCss;
+        $var = \MicroweberPackages\Template\ContentJson\CssVarizer::varize($designCss, [
+            'themeColor' => $source['themeColor'] ?? '',
+            'swatches' => $source['preview']['swatches'] ?? [],
+        ]);
+        $colorScheme = $var['scheme'];
+
         $baseCss = $imports
             . "/* Microweber design-token map (headings pick up the design font). */\n"
             . ":root { --mw-body-font-family: {$font}; --mw-heading-font-family: {$font}; }\n"
-            . "\n/* ===== Shared design kit (section-head centering, grids, .btnx, forms) ===== */\n"
-            . $SHARED
-            . "\n/* ===== Per-design style ===== */\n"
-            . $styleCss . "\n";
+            . "/* Colour scheme — editor-overridable --mw-*-color vars (design palette as defaults). */\n"
+            . $var['root'] . "\n"
+            . "\n/* ===== Var-ized design CSS (shared kit + per-design style) ===== */\n"
+            . $var['css'] . "\n";
 
         // 5. ExtraTemplates/<Name> thin child scaffold.
         $tplDir = base_path('ExtraTemplates/' . $name);
@@ -143,11 +156,11 @@ foreach ($slugs as $slug) {
         //    the authoritative `html` (re-apply reproduces this exact page) AND keep
         //    the source `sections` + `data` so the design stays authorable/flexible
         //    (MW's SectionRenderer can render the sections if `html` is ever dropped).
-        $source = json_decode((string) @file_get_contents($REF . '/template/' . $slug . '/content.json'), true) ?: [];
         $sections = $source['sections'] ?? [];
         $contentJson = [
             'template' => $name,
             'data' => $source,
+            'colorScheme' => $colorScheme,   // token => hex; the editor-overridable --mw-* scheme
             'pages' => [[
                 'url' => $slug,
                 'title' => $title !== '' ? $title : $name,
@@ -162,7 +175,7 @@ foreach ($slugs as $slug) {
         ];
         file_put_contents($tplDir . '/content.json', json_encode($contentJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 
-        $done[] = "{$slug} -> page#{$page->id} ({$name}), css=" . strlen($baseCss) . "B, body=" . strlen($body) . "B, content.json=" . (count($sections)) . " sections";
+        $done[] = "{$slug} -> page#{$page->id} ({$name}), css=" . strlen($baseCss) . "B, body=" . strlen($body) . "B, scheme=" . count($colorScheme) . " vars, content.json=" . (count($sections)) . " sections";
     } catch (\Throwable $e) {
         $failed[] = "{$slug}: " . $e->getMessage();
     }

@@ -9,6 +9,7 @@ use Modules\Menu\Models\Menu;
 use MicroweberPackages\Template\ContentJson\SectionRenderer;
 use MicroweberPackages\Template\ContentJson\ContentJsonInstaller;
 use MicroweberPackages\Template\ContentJson\ContentJsonExporter;
+use MicroweberPackages\Template\ContentJson\CssVarizer;
 
 /**
  * Covers the flexible content.json pipeline: the section renderer, the installer
@@ -48,6 +49,38 @@ class ContentJsonTest extends TestCase
         $this->assertStringContainsString('<main', $html);
         // navbar + footer render outside <main>
         $this->assertStringContainsString('</main>', $html);
+    }
+
+    #[Test]
+    public function css_varizer_maps_colors_to_mw_vars_with_literal_fallback(): void
+    {
+        $css = <<<CSS
+        .btn { background: #8fce00; color: #ffffff; }
+        h1 { color: #111111; }
+        .section { background: #f4f7f2; }
+        .overlay { background: rgba(0,0,0,.35); }
+        CSS;
+
+        $r = CssVarizer::varize($css, ['themeColor' => '#07172f', 'swatches' => ['#07172f', '#8fce00', '#ffffff']]);
+
+        // Accent (most saturated swatch) -> --mw-primary-color.
+        $this->assertEquals('#8fce00', $r['scheme']['--mw-primary-color'] ?? null);
+        // Darkest OPAQUE colour -> heading (the translucent overlay must NOT win).
+        $this->assertEquals('#111111', $r['scheme']['--mw-heading-color'] ?? null);
+        $this->assertEquals('#ffffff', $r['scheme']['--mw-background-color'] ?? null);
+
+        // Every colour literal is rewritten to var(--token, <original literal>) — the
+        // literal is the fallback, so output is identical until a var is overridden.
+        $this->assertStringContainsString('var(--mw-primary-color, #8fce00)', $r['css']);
+        $this->assertStringContainsString('var(--mw-heading-color, #111111)', $r['css']);
+        $this->assertStringContainsString('#8fce00', $r['css'], 'literal fallback preserved');
+
+        // Derived vars let one edit cascade.
+        $this->assertStringContainsString('--mw-body-color: var(--mw-heading-color)', $r['root']);
+        $this->assertStringContainsString('--mw-link-color: var(--mw-primary-color)', $r['root']);
+
+        // The translucent overlay becomes a template token, not a solid role var.
+        $this->assertStringContainsString('rgba(0,0,0,.35)', $r['css']);
     }
 
     #[Test]
