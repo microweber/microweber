@@ -126,9 +126,10 @@ class Admin04f015AI817TitleInputLabelContractTest extends TestCase
     {
         $blade = $this->fileContents('packages/microweber-filament/src/resources/views/filament/components/layout/live-edit-module-settings.blade.php');
 
-        $marker = 'task-2026-05-17-04f015 / AI-817';
-        $markerPos = strpos($blade, $marker);
-        $this->assertNotFalse($markerPos, "AI-817 marker missing from live-edit-module-settings.blade.php — sr-only label rule not shipped.");
+        // Anchor on the CSS hook (the task-id marker comment was stripped repo-wide).
+        $anchor = '.mw-fb-title-wrap';
+        $markerPos = strpos($blade, $anchor);
+        $this->assertNotFalse($markerPos, "sr-only label rule not shipped: {$anchor} not found in live-edit-module-settings.blade.php.");
 
         $slice = substr($blade, $markerPos, 2000);
 
