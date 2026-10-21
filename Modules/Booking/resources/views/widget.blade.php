@@ -18,6 +18,16 @@
 
 @if($bkSetting)
     <link rel="stylesheet" href="{{ $bkCss }}">
+    <style>
+        .mw-booking-widget{border:1px solid var(--bs-border-color,#e6e9ed);border-radius:12px;padding:16px;margin-top:12px;max-width:420px}
+        .mw-booking-widget label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px}
+        .mw-booking-widget input,.mw-booking-widget select{width:100%;padding:9px 12px;border:1px solid var(--bs-border-color,#ccd2d8);border-radius:8px;font-size:14px}
+        .mw-booking-row{display:flex;gap:12px}.mw-booking-row>div{flex:1}
+        .mw-booking-price{font-weight:700;font-size:15px;margin:12px 0;min-height:20px;color:#182433}
+        .mw-booking-submit{width:100%;background:#0d6efd;color:#fff;border:0;border-radius:8px;padding:12px 16px;font-weight:700;font-size:15px;cursor:pointer}
+        .mw-booking-submit:disabled{opacity:.55;cursor:not-allowed}
+        .mw-booking-msg{color:#d12c2c;font-size:13px;margin-top:8px;min-height:18px}
+    </style>
     <div class="mw-booking-widget"
          data-mw-booking
          data-product-id="{{ $productId }}"
@@ -51,5 +61,5 @@
         <button type="button" class="mw-booking-submit" disabled>{{ _e('Book now', true) }}</button>
         <div class="mw-booking-msg" role="alert"></div>
     </div>
-    <script type="module" src="{{ $bkBuild }}"></script>
+    <script src="{{ $bkBuild }}"></script>
 @endif

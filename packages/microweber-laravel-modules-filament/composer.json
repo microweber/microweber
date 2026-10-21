@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "MicroweberPackages\\LaravelModulesFilament\\": ""
+            "MicroweberPackages\\LaravelModulesFilament\\": "src/"
         }
     },
     "config": {
