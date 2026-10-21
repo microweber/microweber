@@ -123,6 +123,7 @@
         <testsuite name="Modules-Group6B">
             <exclude>Modules/*/Tests/Browser</exclude>
             <directory>Modules/DigitalProduct/Tests</directory>
+            <directory>Modules/Vendors/Tests</directory>
             <directory>Modules/Tax/Tests</directory>
             <directory>Modules/Tabs/Tests</directory>
             <directory>Modules/GoogleAnalytics/Tests</directory>

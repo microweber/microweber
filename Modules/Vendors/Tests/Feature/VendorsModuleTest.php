@@ -1,0 +1,208 @@
+<?php
+
+namespace Modules\Vendors\Tests\Feature;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
+use MicroweberPackages\User\Models\User;
+use Modules\Product\Models\Product;
+use Modules\Vendors\Filament\Pages\MyVendorProducts;
+use Modules\Vendors\Models\Vendor;
+use Modules\Vendors\Services\VendorManager;
+use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
+
+/**
+ * End-to-end contract for the multi-vendor marketplace:
+ *   - schema + role seeding
+ *   - VendorManager lifecycle (role gate, lazy profile provisioning, slug)
+ *   - product ownership via created_by (FilterByAuthor)
+ *   - the My Products page create path stamps created_by + attaches media
+ *   - the public /vendor/{slug} + /vendors routes and their status/robots
+ */
+class VendorsModuleTest extends TestCase
+{
+    protected array $userIds = [];
+    protected array $vendorIds = [];
+    protected array $productIds = [];
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        app(VendorManager::class)->ensureRole();
+    }
+
+    protected function tearDown(): void
+    {
+        Product::query()->whereIn('id', $this->productIds)->forceDelete();
+        Vendor::query()->whereIn('id', $this->vendorIds)->delete();
+        User::query()->whereIn('id', $this->userIds)->forceDelete();
+        parent::tearDown();
+    }
+
+    private function makeVendorUser(): User
+    {
+        $user = User::factory()->create();
+        $this->userIds[] = $user->id;
+        $user->assignRole(VendorManager::ROLE);
+        return $user;
+    }
+
+    #[Test]
+    public function vendors_table_and_role_exist(): void
+    {
+        $this->assertTrue(Schema::hasTable('vendors'));
+        $this->assertTrue(
+            \MicroweberPackages\Role\Models\Role::where('name', 'vendor')->exists(),
+            'The vendor role must be seeded so admins can assign it.'
+        );
+    }
+
+    #[Test]
+    public function manager_recognises_vendor_role_and_provisions_profile(): void
+    {
+        $manager = app(VendorManager::class);
+        $plain = User::factory()->create();
+        $this->userIds[] = $plain->id;
+        $vendorUser = $this->makeVendorUser();
+
+        $this->assertFalse($manager->isVendor($plain), 'A user without the role is not a vendor.');
+        $this->assertTrue($manager->isVendor($vendorUser), 'A user with the role is a vendor.');
+
+        $profile = $manager->profileFor($vendorUser);
+        $this->vendorIds[] = $profile->id;
+
+        $this->assertInstanceOf(Vendor::class, $profile);
+        $this->assertSame($vendorUser->id, (int) $profile->user_id);
+        $this->assertNotEmpty($profile->slug, 'A slug must be auto-generated.');
+        $this->assertTrue((bool) $profile->is_approved, 'Vendors are approved by default when marked.');
+
+        // Idempotent: calling again returns the same row (no duplicate).
+        $again = $manager->profileFor($vendorUser);
+        $this->assertSame($profile->id, $again->id);
+    }
+
+    #[Test]
+    public function slugs_are_unique(): void
+    {
+        $a = Vendor::create(['user_id' => 900001, 'shop_name' => 'Acme Shop']);
+        $b = Vendor::create(['user_id' => 900002, 'shop_name' => 'Acme Shop']);
+        $this->vendorIds[] = $a->id;
+        $this->vendorIds[] = $b->id;
+
+        $this->assertNotSame($a->slug, $b->slug, 'Duplicate shop names must get distinct slugs.');
+        $this->assertSame('acme-shop', $a->slug);
+    }
+
+    #[Test]
+    public function products_are_scoped_to_their_vendor_owner(): void
+    {
+        $vendorA = $this->makeVendorUser();
+        $vendorB = $this->makeVendorUser();
+
+        $pA = $this->makeProductFor($vendorA->id, 'Widget A');
+        $pB = $this->makeProductFor($vendorB->id, 'Widget B');
+
+        $ownedByA = Product::query()->filter(['author' => $vendorA->id])->pluck('id')->all();
+
+        $this->assertContains($pA->id, $ownedByA);
+        $this->assertNotContains($pB->id, $ownedByA, 'A vendor must not see another vendor\'s products.');
+    }
+
+    #[Test]
+    public function my_products_page_create_stamps_created_by_and_persists_price(): void
+    {
+        $vendorUser = $this->makeVendorUser();
+        Auth::login($vendorUser);
+
+        $page = new MyVendorProducts();
+        $ref = new \ReflectionMethod($page, 'createProduct');
+        $ref->setAccessible(true);
+
+        /** @var Product $product */
+        $product = $ref->invoke($page, [
+            'title' => 'Vendor Upload ' . uniqid(),
+            'description' => 'From the vendor panel',
+            'price' => 19.99,
+            'is_active' => true,
+            'image' => null,
+        ]);
+        $this->productIds[] = $product->id;
+
+        $this->assertSame($vendorUser->id, (int) $product->created_by, 'created_by must be the signed-in vendor.');
+        $this->assertSame('product', $product->content_type);
+        $this->assertEquals(19.99, (float) $product->fresh()->price, 'Price must persist via the ProductPrice trait.');
+        $this->assertContains(
+            $product->id,
+            Product::query()->filter(['author' => $vendorUser->id])->pluck('id')->all()
+        );
+
+        Auth::logout();
+    }
+
+    #[Test]
+    public function public_vendor_page_lists_only_that_vendors_products(): void
+    {
+        $vendorUser = $this->makeVendorUser();
+        $vendor = app(VendorManager::class)->profileFor($vendorUser);
+        $this->vendorIds[] = $vendor->id;
+
+        $mine = $this->makeProductFor($vendorUser->id, 'Public Visible Widget');
+        $otherUser = $this->makeVendorUser();
+        $theirs = $this->makeProductFor($otherUser->id, 'Someone Elses Widget');
+
+        $res = $this->get(route('vendors.show', $vendor->slug));
+        $res->assertStatus(200);
+        $res->assertSee('Public Visible Widget', false);
+        $res->assertDontSee('Someone Elses Widget', false);
+    }
+
+    #[Test]
+    public function unknown_vendor_slug_returns_chromed_404(): void
+    {
+        $res = $this->get(route('vendors.show', 'no-such-vendor-' . uniqid()));
+        $res->assertStatus(404);
+        $res->assertHeader('X-Robots-Tag', 'noindex, nofollow');
+    }
+
+    #[Test]
+    public function unapproved_vendor_is_not_public(): void
+    {
+        $vendorUser = $this->makeVendorUser();
+        $vendor = app(VendorManager::class)->profileFor($vendorUser);
+        $vendor->forceFill(['is_approved' => false])->save();
+        $this->vendorIds[] = $vendor->id;
+
+        $res = $this->get(route('vendors.show', $vendor->slug));
+        $res->assertStatus(404);
+    }
+
+    #[Test]
+    public function vendors_directory_route_responds(): void
+    {
+        $res = $this->get(route('vendors.index'));
+        $res->assertStatus(200);
+    }
+
+    private function makeProductFor(int $userId, string $title): Product
+    {
+        // Content stamps created_by from the authenticated user on create
+        // (HasCreatedByFieldsTrait), so sign in as the owner — this mirrors
+        // exactly how the vendor panel stamps ownership.
+        Auth::loginUsingId($userId);
+
+        $p = new Product();
+        $p->title = $title;
+        $p->url = \Illuminate\Support\Str::slug($title) . '-' . uniqid();
+        $p->content_type = 'product';
+        $p->subtype = 'product';
+        $p->is_active = 1;
+        $p->is_deleted = 0;
+        $p->save();
+        $this->productIds[] = $p->id;
+
+        Auth::logout();
+
+        return $p;
+    }
+}

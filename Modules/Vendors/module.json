@@ -1,0 +1,11 @@
+{
+    "name": "Vendors",
+    "alias": "vendors",
+    "description": "Multi-vendor marketplace. Give users a vendor role so they can manage their own products from the profile panel and get a public shop page listing their catalogue.",
+    "keywords": ["vendor", "marketplace", "seller", "multi-vendor", "shop", "store", "merchant"],
+    "priority": 0,
+    "providers": [
+        "Modules\\Vendors\\Providers\\VendorsServiceProvider"
+    ],
+    "files": []
+}
