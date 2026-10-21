@@ -126,12 +126,15 @@ class Admin04f015AI817TitleInputLabelContractTest extends TestCase
     {
         $blade = $this->fileContents('packages/microweber-filament/src/resources/views/filament/components/layout/live-edit-module-settings.blade.php');
 
-        // Anchor on the CSS hook (the task-id marker comment was stripped repo-wide).
-        $anchor = '.mw-fb-title-wrap';
+        // Anchor on the sr-only rule's own selector (the task-id marker comment
+        // was stripped repo-wide), and slice just that rule block so a neighbouring
+        // unrelated `display:none` rule can't leak into the window.
+        $anchor = '.mw-fb-title-wrap > .fi-fo-field-lbl';
         $markerPos = strpos($blade, $anchor);
         $this->assertNotFalse($markerPos, "sr-only label rule not shipped: {$anchor} not found in live-edit-module-settings.blade.php.");
 
-        $slice = substr($blade, $markerPos, 2000);
+        $ruleEnd = strpos($blade, '}', $markerPos);
+        $slice = substr($blade, $markerPos, ($ruleEnd !== false ? $ruleEnd - $markerPos + 1 : 400));
 
         $this->assertStringContainsString(
             '.mw-fb-title-wrap',
