@@ -36,6 +36,14 @@ class VendorsServiceProvider extends BaseModuleServiceProvider
         // orders. Gated to the vendor role via User::canAccessPanel('vendor').
         $this->app->register(FilamentVendorPanelProvider::class);
 
+        // A pointer from the profile panel to the dedicated Vendor panel, so
+        // vendors can discover their dashboard from the normal profile area.
+        FilamentRegistry::registerPage(
+            \Modules\Vendors\Filament\Pages\VendorPanelLink::class,
+            'profile',
+            'profile'
+        );
+
         // Admin: approve + manage vendor storefronts.
         FilamentRegistry::registerResource(VendorResource::class);
 
