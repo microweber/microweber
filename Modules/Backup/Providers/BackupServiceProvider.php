@@ -18,6 +18,8 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Backup\Console\Commands\BackupCommand;
 use Modules\Backup\Console\Commands\Big2DemoSeedCommand;
 use Modules\Backup\Console\Commands\Big2InstallContentCommand;
+use Modules\Backup\Console\Commands\ContentJsonExportCommand;
+use Modules\Backup\Console\Commands\ContentJsonImportCommand;
 use Modules\Backup\Console\Commands\ShopDemoSeedCommand;
 use Modules\Backup\Console\Commands\TemplateSeedRegenerateCommand;
 use Modules\Backup\Filament\Pages\RestoreAdminPage;
@@ -67,6 +69,11 @@ class BackupServiceProvider extends BaseModuleServiceProvider
             // the canonical mw_default_content.zip via TemplateInstaller
             // so tester-agent-1 has a realistic Big2 surface to evaluate.
             Big2InstallContentCommand::class,
+            // Simplified, portable content.json export/import (pages/posts/
+            // products/menus) — e.g. export a Big-template site and import it
+            // under another template. Same engine the template-apply flow uses.
+            ContentJsonExportCommand::class,
+            ContentJsonImportCommand::class,
         ]);
 
         // Register Filament resources and pages (task-2026-05-22-f83bf6 / AI-764).

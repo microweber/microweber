@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Backup\SessionStepper;
 use MicroweberPackages\Template\TemplateInstaller;
+use MicroweberPackages\Template\ContentJson\ContentJsonInstaller;
 use MicroweberPackages\Zip\Unzip;
 
 class TemplateApiController
@@ -32,6 +33,28 @@ class TemplateApiController
             save_option('current_template', $template,'template');
 
         } else if ($importType == 'only_media' || $importType == 'full' || $importType == 'delete') {
+            // Prefer the full backup zip when present; otherwise fall back to the
+            // simplified, human-authorable content.json (pages/posts/products/menus).
+            // Templates generated from JSON designs ship only content.json.
+            $contentJsonFile = ContentJsonInstaller::templateFile($template);
+            if (!is_file($filePath) && is_file($contentJsonFile)) {
+                $installer = new ContentJsonInstaller();
+                $installer->setFile($contentJsonFile)
+                    ->setTemplate($template)
+                    ->setImportType($importType);
+
+                $result = $installer->install();
+
+                save_option('current_template', $template, 'template');
+                clearcache();
+
+                return [
+                    'done' => (bool) ($result['done'] ?? false),
+                    'log' => $result['log'] ?? [],
+                    'source' => 'content.json',
+                ];
+            }
+
             if (!is_file($filePath)) {
                 return ['error'=>'Template dosen\'t have default content file.'];
             }

@@ -108,8 +108,10 @@ foreach ($slugs as $slug) {
             json_encode(['name' => $name, 'alias' => $lname, 'description' => $name . ' (imported design)', 'keywords' => [], 'priority' => 0, 'providers' => [], 'files' => []], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
         file_put_contents($tplDir . '/composer.json',
             json_encode(['name' => 'microweber-template/' . $lname, 'description' => $name . ' imported design template', 'type' => 'microweber-template', 'require' => new stdClass()], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
-        file_put_contents($tplDir . '/resources/views/standalone.blade.php',
-            "<?php\n/*\n  type: layout\n  content_type: static\n  name: Standalone design\n  position: 1\n  description: Full-bleed self-contained design (JSON import) — no MW header/footer\n*/\n?>\n@php(\$disable_header = true)\n@php(\$disable_footer = true)\n@extends('templates.base::layouts.master')\n\n@section('content')\n    <div class=\"edit main-content\" data-layout-container rel=\"content\" field=\"content\"></div>\n@endsection\n");
+        // No per-template standalone.blade.php — the page's layout_file
+        // 'standalone.blade.php' resolves to Base's single shared copy via the
+        // parent_template chain (resolveParentTemplateViewFile), so the layout
+        // lives in exactly one place (Templates/Base/resources/views/standalone.blade.php).
         file_put_contents($tplDir . '/resources/assets/css/base.css', $baseCss);
 
         // 6. Publish CSS + images.
@@ -135,7 +137,32 @@ foreach ($slugs as $slug) {
         $page->content = $body;
         $page->save();
 
-        $done[] = "{$slug} -> page#{$page->id} ({$name}), css=" . strlen($baseCss) . "B, body=" . strlen($body) . "B";
+        // 8. Ship a content.json seed in the template dir so the page's default
+        //    content can be (re)installed from the admin "Apply template" flow or
+        //    `php artisan content-json:import`. We store the pre-rendered body as
+        //    the authoritative `html` (re-apply reproduces this exact page) AND keep
+        //    the source `sections` + `data` so the design stays authorable/flexible
+        //    (MW's SectionRenderer can render the sections if `html` is ever dropped).
+        $source = json_decode((string) @file_get_contents($REF . '/template/' . $slug . '/content.json'), true) ?: [];
+        $sections = $source['sections'] ?? [];
+        $contentJson = [
+            'template' => $name,
+            'data' => $source,
+            'pages' => [[
+                'url' => $slug,
+                'title' => $title !== '' ? $title : $name,
+                'is_home' => true,
+                'content_type' => 'page',
+                'subtype' => 'static',
+                'layout_file' => 'standalone.blade.php',
+                'active_site_template' => $name,
+                'html' => $body,
+                'sections' => $sections,
+            ]],
+        ];
+        file_put_contents($tplDir . '/content.json', json_encode($contentJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+
+        $done[] = "{$slug} -> page#{$page->id} ({$name}), css=" . strlen($baseCss) . "B, body=" . strlen($body) . "B, content.json=" . (count($sections)) . " sections";
     } catch (\Throwable $e) {
         $failed[] = "{$slug}: " . $e->getMessage();
     }

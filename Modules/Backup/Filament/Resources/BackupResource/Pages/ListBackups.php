@@ -25,6 +25,9 @@ use Filament\Resources\Pages\ListRecords;
 use Modules\Backup\SessionStepper;
 use Modules\Restore\Restore;
 use MicroweberPackages\Database\Facades\DatabaseManager;
+use MicroweberPackages\Template\ContentJson\ContentJsonExporter;
+use MicroweberPackages\Template\ContentJson\ContentJsonInstaller;
+use Filament\Forms\Components\Select;
 
 class ListBackups extends ListRecords
 {
@@ -71,8 +74,102 @@ class ListBackups extends ListRecords
                 ->modalCancelAction(false)
                 ->icon('heroicon-o-inbox-arrow-down')
                 ->modalWidth(Width::MaxContent)
-                ->form($this->backupFormArray())
+                ->form($this->backupFormArray()),
+
+            // Export the site to the simplified, portable content.json format
+            // (pages/posts/products/menus) — full site or a single template.
+            Actions\Action::make('exportContentJson')
+                ->label('Export content.json')
+                ->icon('heroicon-o-document-arrow-down')
+                ->color('gray')
+                ->modalSubmitActionLabel('Download')
+                ->form([
+                    Select::make('template')
+                        ->label('Scope')
+                        ->options($this->contentJsonTemplateOptions())
+                        ->placeholder('Full site (all templates)')
+                        ->helperText('Leave empty to export the whole site, or pick a template to export only its content.'),
+                    Toggle::make('includeProducts')->label('Include products')->default(true),
+                    Toggle::make('includePosts')->label('Include posts')->default(true),
+                    Toggle::make('includeMenus')->label('Include menus')->default(true),
+                ])
+                ->action(function (array $data) {
+                    $exporter = new ContentJsonExporter();
+                    $exporter->setTemplate($data['template'] ?? null)
+                        ->setIncludeProducts((bool) ($data['includeProducts'] ?? true))
+                        ->setIncludePosts((bool) ($data['includePosts'] ?? true))
+                        ->setIncludeMenus((bool) ($data['includeMenus'] ?? true));
+                    $json = $exporter->toJson();
+                    $name = 'content-' . (($data['template'] ?? '') ?: 'site') . '-' . date('Y-m-d-His') . '.json';
+
+                    return response()->streamDownload(function () use ($json) {
+                        echo $json;
+                    }, $name, ['Content-Type' => 'application/json']);
+                }),
+
+            // Import a simplified content.json file into the site.
+            Actions\Action::make('importContentJson')
+                ->label('Import content.json')
+                ->icon('heroicon-o-document-arrow-up')
+                ->color('gray')
+                ->form([
+                    MwFileUpload::make('contentJsonFile')
+                        ->label('content.json file')
+                        ->acceptedFileTypes(['application/json', 'text/plain', 'text/json'])
+                        ->required(),
+                    Select::make('template')
+                        ->label('Apply under template')
+                        ->options($this->contentJsonTemplateOptions())
+                        ->placeholder("Use the file's own values / current template"),
+                    Select::make('importType')
+                        ->label('Mode')
+                        ->options([
+                            'full' => 'Create / update content',
+                            'delete' => 'Replace all content (delete existing pages/posts/products first)',
+                        ])
+                        ->default('full')
+                        ->required(),
+                ])
+                ->action(function (array $data) {
+                    $file = url2dir($data['contentJsonFile']);
+                    if (!is_file($file)) {
+                        Notification::make()->danger()->title('Uploaded file not found')->send();
+                        return;
+                    }
+                    $installer = new ContentJsonInstaller();
+                    $installer->setFile($file)
+                        ->setTemplate($data['template'] ?? null)
+                        ->setImportType($data['importType'] ?? 'full');
+
+                    if (!$installer->hasContent()) {
+                        Notification::make()->danger()->title('No importable content in file')->send();
+                        return;
+                    }
+                    $result = $installer->install();
+                    $this->dispatch('refreshTable');
+                    Notification::make()
+                        ->success()
+                        ->title('content.json imported')
+                        ->body(implode("\n", array_slice($result['log'] ?? [], 0, 8)))
+                        ->send();
+                }),
         ];
+    }
+
+    /** Template names available as export/import scope (core + extra templates). */
+    protected function contentJsonTemplateOptions(): array
+    {
+        $dirs = array_merge(
+            glob(base_path('Templates/*'), GLOB_ONLYDIR) ?: [],
+            glob(base_path('ExtraTemplates/*'), GLOB_ONLYDIR) ?: []
+        );
+        $names = [];
+        foreach ($dirs as $d) {
+            $name = basename($d);
+            $names[$name] = $name;
+        }
+        ksort($names);
+        return $names;
     }
 
 
