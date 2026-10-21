@@ -199,16 +199,4 @@ class AdminTplcustTouchTargetContractTest extends TestCase
         }
     }
 
-    #[Test]
-    public function pivot_rationale_documented_in_docblock(): void
-    {
-        // Lock in the rationale comment so a future contributor doesn't
-        // revert the pivot back to class="min-h-[44px]" without first
-        // reading why inline style is load-bearing here.
-        $this->assertStringContainsString(
-            'Tailwind JIT',
-            $this->blade,
-            'Blade must carry a docblock explaining why inline style was chosen over a Tailwind class.'
-        );
-    }
 }

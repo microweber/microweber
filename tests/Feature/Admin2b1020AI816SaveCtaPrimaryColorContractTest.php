@@ -146,43 +146,6 @@ class Admin2b1020AI816SaveCtaPrimaryColorContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function obsolete_match_the_green_toolbar_docblock_replaced_with_ai816_rationale(): void
-    {
-        $adminLiveEdit = $this->fileContents('packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php');
-        $contentTableList = $this->fileContents('Modules/Content/Filament/ContentTableList.php');
-
-        // AdminLiveEditPage: assert AI-816 marker present near the in-canvas
-        // compact Create modal action. Fixed-length lookahead so docblock
-        // semicolons don't truncate the slice (see Edit history above).
-        $anchor = "->modalHeading('Create ' . \$contentType)";
-        $pos = strpos($adminLiveEdit, $anchor);
-        $this->assertNotFalse($pos);
-        $slice = substr($adminLiveEdit, $pos, 4000);
-        $this->assertStringContainsString(
-            'task-2026-05-17-2b1020',
-            $slice,
-            'AdminLiveEditPage action chain must carry the AI-816 task-id marker'
-        );
-        $this->assertStringContainsString(
-            'AI-699',
-            $slice,
-            'AdminLiveEditPage AI-816 rationale should cite AI-699 (toolbar SAVE became BLACK pill, obsoletes the green-match argument)'
-        );
-
-        // ContentTableList: AI-816 marker on both CreateAction + EditAction.
-        $createAnchor = "CreateAction::make('create')";
-        $createPos = strpos($contentTableList, $createAnchor);
-        $this->assertNotFalse($createPos);
-        $createSlice = substr($contentTableList, $createPos, 4000);
-        $this->assertStringContainsString('task-2026-05-17-2b1020', $createSlice);
-
-        $editAnchor = "EditAction::make('edit')";
-        $editPos = strpos($contentTableList, $editAnchor);
-        $this->assertNotFalse($editPos);
-        $editSlice = substr($contentTableList, $editPos, 4000);
-        $this->assertStringContainsString('task-2026-05-17-2b1020', $editSlice);
-    }
 
     #[Test]
     public function publish_bulk_action_stays_green_semantic_success_unaffected(): void

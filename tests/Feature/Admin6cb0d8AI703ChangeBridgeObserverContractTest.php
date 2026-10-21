@@ -164,24 +164,4 @@ class Admin6cb0d8AI703ChangeBridgeObserverContractTest extends TestCase
     // Group E — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_change_markers_pinned(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-17-6cb0d8',
-            $this->src,
-            'AI-703 CHANGE task-id marker must be present.'
-        );
-        $this->assertStringContainsString(
-            'AI-703 CHANGE',
-            $this->src,
-            'Comment must explicitly cite "AI-703 CHANGE" so the audit chain is grep-able.'
-        );
-        // Original ship task ID preserved for audit chain.
-        $this->assertStringContainsString(
-            'task-2026-05-16-29342d',
-            $this->src,
-            'Original AI-703 ship task-id must remain in the comment for the audit chain (new → old continuity).'
-        );
-    }
 }

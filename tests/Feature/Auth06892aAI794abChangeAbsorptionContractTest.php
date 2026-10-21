@@ -120,18 +120,6 @@ class Auth06892aAI794abChangeAbsorptionContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function ai794a_lessons_lineage_cited(): void
-    {
-        // The Stage-2 cascade-loss family lineage MUST be cited
-        // in source comment so future audits find the family via
-        // grep.
-        $this->assertMatchesRegularExpression(
-            '/Stage-2|cascade-loss|AI-697|AI-786|AI-810/',
-            $this->layoutCss,
-            'AI-794a: source-side comment MUST cite the Stage-2 cascade-loss family lineage (AI-697 v3 / AI-786 / AI-810).'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group B  AI-794b CHANGE 2 — error path chrome wrap

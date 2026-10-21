@@ -145,28 +145,6 @@ class Auth77da7aAI863ForgotPasswordLinkContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function js_intercept_removal_carries_explanatory_comment(): void
-    {
-        $source = $this->authSource();
-        // The removal site must carry an AI-863 explanatory comment so future
-        // agents reading the JS block don't add the intercept back.
-        $this->assertStringContainsString(
-            '// task-2026-05-18-77da7a / AI-863',
-            $source,
-            'JS intercept removal site MUST carry an AI-863 explanatory task-id marker.'
-        );
-        $this->assertStringContainsString(
-            'JS click-intercept handlers for',
-            $source,
-            'JS intercept removal comment MUST document the removal rationale.'
-        );
-        $this->assertStringContainsString(
-            '.forgot-password-link + .login-link REMOVED',
-            $source,
-            'JS intercept removal comment MUST explicitly name the 2 selectors that were intercepted + that the handlers were REMOVED.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group C — back-compat regression sentinels

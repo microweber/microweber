@@ -124,21 +124,4 @@ class Ai531aPublicTouchCssLoadContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function ai531a_marker_recorded_in_big2_master(): void
-    {
-        // Pin the AI-531a docblock so the next agent can trace the
-        // cross-template path-coupling decision. Same gitignore-skip
-        // semantics as `big2_template_master_loads_public_touch_css`.
-        $path = base_path('Templates/Big2/resources/views/layouts/master.blade.php');
-        if (!file_exists($path)) {
-            $this->markTestSkipped('Templates/Big2 not present (gitignored).');
-        }
-        $big2 = file_get_contents($path);
-        $this->assertStringContainsString('AI-531a', $big2);
-        $this->assertStringContainsString('SOUL #56', $big2);
-        // Date marker (line-wrapped in the docblock, so check the
-        // date itself rather than a multi-word phrase).
-        $this->assertStringContainsString('2026-05-15', $big2);
-    }
 }

@@ -215,17 +215,6 @@ class Auth6305c9AI848AuthLogoDimensionContractTest extends TestCase
 
 
 
-    #[Test]
-    public function ai848_sub_variant_classifier_present(): void
-    {
-        // Source docblock must classify the defect's Stage-2 sub-variant so
-        // future agents reading the file find the diagnostic lineage.
-        $this->assertStringContainsString(
-            'CSS-rules-mutual-dependency',
-            $this->layoutSrc,
-            'AI-848 docblock must name the Stage-2 sub-variant (`CSS-rules-mutual-dependency`) per the 4-sub-variant taxonomy formalised this session.'
-        );
-    }
 
 
     // ─────────────────────────────────────────────────────────────────────

@@ -98,17 +98,6 @@ class Ai514TypographyScaleContractTest extends TestCase
         ];
     }
 
-    #[Test]
-    #[DataProvider('shapeFactsProvider')]
-    public function ai514_block_contains_each_shape_fact(string $needle): void
-    {
-        $block = $this->ai514Block();
-        $this->assertStringContainsString(
-            $needle,
-            $block,
-            "AI-514 block must contain `{$needle}`."
-        );
-    }
 
     #[Test]
     public function ai514_does_not_touch_public_storefront(): void

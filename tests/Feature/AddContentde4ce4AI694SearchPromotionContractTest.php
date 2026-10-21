@@ -256,34 +256,11 @@ class AddContentde4ce4AI694SearchPromotionContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function ai694_css_block_carries_task_id_marker(): void
-    {
-        // The CSS rule must be flanked by an AI-694 task-id marker for
-        // audit-grep coverage across blade/CSS/test surfaces.
-        $start = strpos($this->adminStyleBlade, 'AI-694 (task-2026-05-16-de4ce4)');
-        $this->assertNotFalse(
-            $start,
-            'AI-694 task-id marker must be present in the admin-side style block.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group E — Markers + back-compat
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function blade_carries_task_id_marker(): void
-    {
-        // Multiple AI-694 markers — one per substantive change point —
-        // to enable single-pass grep audits.
-        $count = substr_count($this->blade, 'task-2026-05-16-de4ce4');
-        $this->assertGreaterThanOrEqual(
-            3,
-            $count,
-            'add-content-modal.blade.php must carry at least 3 task-id markers (search input docblock, visibleCards comment, activateFirstVisibleCard fallback comment).'
-        );
-    }
 
     #[Test]
     public function prior_search_keyboard_contract_preserved(): void

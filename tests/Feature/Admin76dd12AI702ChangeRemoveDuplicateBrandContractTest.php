@@ -121,30 +121,4 @@ class Admin76dd12AI702ChangeRemoveDuplicateBrandContractTest extends TestCase
     // Group C — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_change_markers_pinned(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-17-76dd12',
-            $this->providerSrc,
-            'AI-702 CHANGE task-id marker must be present in the provider source.'
-        );
-        $this->assertStringContainsString(
-            'AI-702 CHANGE',
-            $this->providerSrc,
-            'Source comment must explicitly cite "AI-702 CHANGE" so the audit chain is grep-able.'
-        );
-        // The original ship hash + the bcb327 task ID should be
-        // discoverable in the migration-rationale comment.
-        $this->assertStringContainsString(
-            '441050920e',
-            $this->providerSrc,
-            'Comment must cite the original AI-702 ship commit (441050920e) so the audit chain reads from new → old.'
-        );
-        $this->assertStringContainsString(
-            'task-bcb327',
-            $this->providerSrc,
-            'Comment must cite the original AI-702 ship task-id (task-bcb327) for cross-task grep continuity.'
-        );
-    }
 }

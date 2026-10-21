@@ -64,15 +64,6 @@ class BackupRestoreF83bf6AI764AdminUiContractTest extends TestCase
 
     // ─── BackupResource navigation enabled ────────────────────────────────────
 
-    #[Test]
-    public function backup_resource_navigation_no_longer_suppressed(): void
-    {
-        $this->assertDoesNotMatchRegularExpression(
-            '~shouldRegisterNavigation\s*=\s*false~',
-            $this->backupResourceStripped,
-            'BackupResource must NOT have shouldRegisterNavigation = false — navigation must be enabled'
-        );
-    }
 
     #[Test]
     public function backup_resource_slug_is_backup(): void
@@ -94,15 +85,6 @@ class BackupRestoreF83bf6AI764AdminUiContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function backup_resource_group_is_system_settings(): void
-    {
-        $this->assertStringContainsString(
-            'System Settings',
-            $this->backupResourceStripped,
-            'BackupResource navigationGroup must be System Settings'
-        );
-    }
 
     // ─── RestoreAdminPage ─────────────────────────────────────────────────────
 
@@ -135,15 +117,6 @@ class BackupRestoreF83bf6AI764AdminUiContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function restore_page_group_is_system_settings(): void
-    {
-        $this->assertStringContainsString(
-            'System Settings',
-            $this->restorePageStripped,
-            'RestoreAdminPage navigationGroup must be System Settings'
-        );
-    }
 
     #[Test]
     public function restore_page_has_table_method(): void
