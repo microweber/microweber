@@ -223,8 +223,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Microweber\\": "src/Microweber/",
-            "MicroweberPackages\\": "src/MicroweberPackages/",
+            "MicroweberPackages\\LaravelModulesFilament\\": "packages/microweber-laravel-modules-filament/src/",
             "MicroweberPackages\\App\\": "packages/microweber-app/src/",
             "MicroweberPackages\\TaggableFileCache\\": "packages/microweber-taggable-file-cache/src/",
             "MicroweberPackages\\EnvWriter\\": "packages/microweber-env-writer/src/",
@@ -381,7 +380,15 @@
             "MicroweberPackages\\PhpQuery\\Tests\\": "packages/microweber-phpquery/tests/",
             "MicroweberPackages\\Package\\Tests\\": "packages/microweber-package/tests/",
             "MicroweberPackages\\ModuleRegistry\\Tests\\": "packages/microweber-module-registry/tests/",
-            "MicroweberPackages\\LivewireModal\\Tests\\": "packages/microweber-livewire-modal/tests/"
+            "MicroweberPackages\\LivewireModal\\Tests\\": "packages/microweber-livewire-modal/tests/",
+            "MicroweberPackages\\BladeCache\\Tests\\": "packages/microweber-blade-cache/tests/",
+            "MicroweberPackages\\Config\\Tests\\": "packages/microweber-config/tests/",
+            "MicroweberPackages\\DbInstaller\\Tests\\": "packages/microweber-db-installer/tests/",
+            "MicroweberPackages\\DbMigrator\\Tests\\": "packages/microweber-db-migrator/tests/",
+            "MicroweberPackages\\MicroweberFilamentTheme\\Tests\\": "packages/microweber-filament-theme/tests/",
+            "MicroweberPackages\\TaggableFileCache\\Tests\\": "packages/microweber-taggable-file-cache/tests/",
+            "MicroweberPackages\\Thumbnailer\\Tests\\": "packages/microweber-thumbnailer/tests/",
+            "MicroweberPackages\\Translation\\Tests\\": "packages/microweber-translation/tests/"
         }
     },
     "scripts": {
@@ -537,7 +544,6 @@
         },
         "merge-plugin": {
             "require": [
-                "src/MicroweberPackages/*/composer.json",
                 "Modules/*/composer.json",
                 "Templates/*/composer.json"
             ],

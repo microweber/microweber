@@ -36,6 +36,15 @@
         <testsuite name="ModuleRegistry Dusk Suite">
             <directory suffix="Test.php">./packages/microweber-module-registry/tests/Dusk</directory>
         </testsuite>
+        <testsuite name="LivewireModal Dusk Suite">
+            <directory suffix="Test.php">./packages/microweber-livewire-modal/tests/Browser</directory>
+        </testsuite>
+        <testsuite name="TemplateCustomCss Dusk Suite">
+            <directory suffix="Test.php">./packages/microweber-template-custom-css/tests/Dusk</directory>
+        </testsuite>
+        <testsuite name="TemplateFonts Dusk Suite">
+            <directory suffix="Test.php">./packages/microweber-template-fonts/tests/Dusk</directory>
+        </testsuite>
 
         <!-- tests/Browser (242 files / ~409 methods) is split into balanced
              Browser-NN buckets (<=40 methods each) so run-dusk.sh runs each in

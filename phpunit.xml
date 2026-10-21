@@ -34,12 +34,6 @@
       <directory>tests/Feature/Filament/Resources</directory>
     </testsuite>
 
-        <testsuite name="Core">
-            <exclude>src/MicroweberPackages/*/Tests/Browser</exclude>
-            <exclude>src/MicroweberPackages/*/tests/Browser</exclude>
-            <directory>./src/MicroweberPackages/*/</directory>
-        </testsuite>
-
         <!--
             Module tests are split into groups to prevent OOM errors.
             PHP leaks ~6MB/test from internal memory fragmentation that
@@ -349,7 +343,7 @@
             <directory>packages/microweber-admin/src/tests</directory>
         </testsuite>
 
-        <testsuite name="MicroweberCore">
+        <testsuite name="MicroweberCoreSrc">
             <directory>packages/microweber-core/src/tests</directory>
         </testsuite>
 
@@ -372,11 +366,125 @@
         <testsuite name="MicroweberRepository">
             <directory>packages/microweber-repository/tests</directory>
         </testsuite>
+
+        <!--
+            Remaining extracted packages/microweber-* test roots, previously
+            discovered only by the src/MicroweberPackages/* Core glob (removed
+            when src/ was emptied) or run standalone via scripts/standalone-test.sh.
+            Registered here so every package's phpunit tests are discoverable via
+            the monorepo runner. Browser/Dusk subdirs are excluded — those run
+            through phpunit.dusk.xml (php artisan dusk).
+        -->
+        <testsuite name="MicroweberApp">
+            <directory>packages/microweber-app/src/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberAppBootstrapCache">
+            <directory>packages/microweber-app-bootstrap-cache/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberBladeCache">
+            <directory>packages/microweber-blade-cache/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberConfig">
+            <directory>packages/microweber-config/tests</directory>
+            <!-- EnvironmentConfigTest relies on Orchestra Testbench's getBasePath();
+                 it only runs under the package's standalone harness, not the
+                 monorepo CMS TestCase. -->
+            <exclude>packages/microweber-config/tests/EnvironmentConfigTest.php</exclude>
+        </testsuite>
+        <testsuite name="MicroweberConfigMerge">
+            <directory>packages/microweber-config-merge/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberContentField">
+            <directory>packages/microweber-content-field/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberDbInstaller">
+            <directory>packages/microweber-db-installer/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberDbMigrator">
+            <directory>packages/microweber-db-migrator/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberDisposableEmailChecker">
+            <directory>packages/microweber-disposable-email-checker/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberEnvWriter">
+            <directory>packages/microweber-env-writer/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberEventManagerStandalone">
+            <directory>packages/microweber-event-manager/tests</directory>
+            <exclude>packages/microweber-event-manager/tests/Cms</exclude>
+        </testsuite>
+        <testsuite name="MicroweberFilamentModalTeleport">
+            <directory>packages/microweber-filament-modal-teleport/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberFilamentRegistry">
+            <directory>packages/microweber-filament-registry/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberFilamentTheme">
+            <directory>packages/microweber-filament-theme/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberFilesystem">
+            <directory>packages/microweber-filesystem/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberFileUploader">
+            <directory>packages/microweber-file-uploader/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberFortify">
+            <directory>packages/microweber-fortify/tests</directory>
+            <exclude>packages/microweber-fortify/tests/Dusk</exclude>
+        </testsuite>
+        <testsuite name="MicroweberHttp">
+            <directory>packages/microweber-http/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberLaravelModulesStandalone">
+            <directory>packages/microweber-laravel-modules/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberLivewireModal">
+            <directory>packages/microweber-livewire-modal/tests</directory>
+            <exclude>packages/microweber-livewire-modal/tests/Browser</exclude>
+        </testsuite>
+        <testsuite name="MicroweberMediaPixum">
+            <directory>packages/microweber-media-pixum/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberMediaThumbnail">
+            <directory>packages/microweber-media-thumbnail/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberMultisite">
+            <directory>packages/microweber-multisite/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberPagination">
+            <directory>packages/microweber-pagination/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberPassport">
+            <directory>packages/microweber-passport/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberPhpQuery">
+            <directory>packages/microweber-phpquery/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberSearchable">
+            <directory>packages/microweber-searchable/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberSocialLogin">
+            <directory>packages/microweber-social-login/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberSvgIcons">
+            <directory>packages/microweber-svg-icons/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberSystemLicenses">
+            <directory>packages/microweber-system-licenses/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberTaggableFileCache">
+            <directory>packages/microweber-taggable-file-cache/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberThumbnailer">
+            <directory>packages/microweber-thumbnailer/tests</directory>
+        </testsuite>
+        <testsuite name="MicroweberTranslation">
+            <directory>packages/microweber-translation/tests</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>
             <directory>app</directory>
-            <directory>src</directory>
             <directory>Modules</directory>
             <!-- Extracted packages must be project sources so PHPUnit 11 deprecation
                  analysis does not hang on HtmlSanitizer / security / url code. -->
