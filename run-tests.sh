@@ -17,7 +17,9 @@ set -euo pipefail
 
 PHPUNIT="php vendor/bin/phpunit"
 MODULE_SUITES=("Modules-Newsletter" "Modules-Content" "Modules-Billing" "Modules-Group3" "Modules-Group4" "Modules-Group5" "Modules-Group6A" "Modules-Group6B")
-ALL_SUITES=("Unit" "Feature" "Core" "${MODULE_SUITES[@]}" "Templates")
+# Derive the full suite list from phpunit.xml so it stays in sync as suites are
+# added/removed (the old hardcoded list referenced a since-removed "Core" suite).
+mapfile -t ALL_SUITES < <(grep -oE '<testsuite name="[^"]+"' phpunit.xml | sed -E 's/.*name="([^"]+)"/\1/')
 FAILED=0
 RESULTS=()
 
