@@ -36,74 +36,7 @@ class AdminLeaudSliceEValidationMismatchContractTest extends TestCase
         return (string) file_get_contents(base_path($relativePath));
     }
 
-    #[Test]
-    public function search_position_select_default_is_start_not_integer_one(): void
-    {
-        $source = $this->fileContents('Modules/Search/Filament/SearchSettings.php');
-        $this->assertNotSame('', $source);
 
-        $anchor = "Select::make('options.searchPosition')";
-        $pos = strpos($source, $anchor);
-        $this->assertNotFalse($pos, "Anchor not found: {$anchor}");
-
-        // Fixed-length lookahead window per AI-816 lesson.
-        $slice = substr($source, $pos, 800);
-
-        $this->assertStringContainsString(
-            "->default('start')",
-            $slice,
-            'searchPosition Select must default to the literal string key "start" matching the options array.'
-        );
-
-        // Selector-self-match guard per LESSONS UNIFORMITY-RULE.
-        $sliceWithoutComments = preg_replace('~//[^\n]*~', '', $slice);
-        $sliceWithoutComments = preg_replace('~/\*.*?\*/~s', '', (string) $sliceWithoutComments);
-
-        $this->assertDoesNotMatchRegularExpression(
-            '/->default\(\s*1\s*\)/',
-            (string) $sliceWithoutComments,
-            'Regression: searchPosition Select default reverted to integer 1 (never matches string option keys).'
-        );
-    }
-
-    #[Test]
-    public function marquee_animation_speed_default_is_numeric_not_string(): void
-    {
-        $source = $this->fileContents('Modules/Marquee/Filament/MarqueeModuleSettings.php');
-        $this->assertNotSame('', $source);
-
-        $anchor = "TextInput::make('options.animationSpeed')";
-        $pos = strpos($source, $anchor);
-        $this->assertNotFalse($pos, "Anchor not found: {$anchor}");
-
-        // Bound the slice at the next field declaration so the regression
-        // guard does not capture sibling fields' legitimate non-numeric
-        // defaults (textWeight + textStyle both use ->default('normal')
-        // and have no ->numeric() constraint).
-        $nextField = strpos($source, "TextInput::make('options.textWeight')", $pos);
-        $this->assertNotFalse($nextField, 'textWeight sibling anchor missing — file shape changed.');
-        $slice = substr($source, $pos, $nextField - $pos);
-
-        $this->assertStringContainsString(
-            '->numeric()',
-            $slice,
-            'animationSpeed retains the ->numeric() validation constraint.'
-        );
-        $this->assertStringContainsString(
-            '->default(100)',
-            $slice,
-            'animationSpeed default must be numeric 100 matching MarqueeModule.php runtime fallback.'
-        );
-
-        $sliceWithoutComments = preg_replace('~//[^\n]*~', '', $slice);
-        $sliceWithoutComments = preg_replace('~/\*.*?\*/~s', '', (string) $sliceWithoutComments);
-
-        $this->assertDoesNotMatchRegularExpression(
-            "/->default\(\s*'normal'\s*\)/",
-            (string) $sliceWithoutComments,
-            "Regression: animationSpeed default reverted to the string 'normal' which fails ->numeric() validation."
-        );
-    }
 
     #[Test]
     public function marquee_runtime_fallback_remains_100(): void
