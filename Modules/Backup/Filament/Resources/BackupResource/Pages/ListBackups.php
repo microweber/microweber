@@ -115,7 +115,7 @@ class ListBackups extends ListRecords
                 ->form([
                     MwFileUpload::make('contentJsonFile')
                         ->label('content.json file')
-                        ->acceptedFileTypes(['application/json', 'text/plain', 'text/json'])
+                        ->acceptExtensions(['json'])
                         ->required(),
                     Select::make('template')
                         ->label('Apply under template')
