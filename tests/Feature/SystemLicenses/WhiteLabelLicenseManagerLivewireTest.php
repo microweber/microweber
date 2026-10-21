@@ -23,10 +23,15 @@ class WhiteLabelLicenseManagerLivewireTest extends TestCase
 
         $this->fakeValidator = new FakeLicenseValidator();
         $this->app->instance(LicenseValidatorInterface::class, $this->fakeValidator);
-        $this->app->forgetInstance('system_licenses_manager');
-        $this->app->singleton('system_licenses_manager', function ($app) {
+        $this->app->forgetInstance(SystemLicensesManager::class);
+        $this->app->singleton(SystemLicensesManager::class, function ($app) {
             return new SystemLicensesManager($app->make(LicenseValidatorInterface::class));
         });
+
+        // The SystemLicenses facade caches its resolved root, so rebinding the
+        // container singleton is not enough — swap the facade to the fake-backed
+        // manager (the facade accessor is SystemLicensesManager::class).
+        SystemLicenses::swap($this->app->make(SystemLicensesManager::class));
 
         SystemLicense::query()->delete();
 

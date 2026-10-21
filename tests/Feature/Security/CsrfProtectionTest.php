@@ -123,7 +123,9 @@ class CsrfProtectionTest extends TestCase
      */
     public function test_logout_requires_csrf(): void
     {
-        $response = $this->post(route('logout.submit'));
+        // Filament owns the admin logout (POST /admin/logout); there is no standalone
+        // logout.submit route. Posting without a CSRF token must still be handled safely.
+        $response = $this->post(route('filament.admin.auth.logout'));
 
         $this->assertTrue(
             in_array($response->getStatusCode(), [419, 403, 302, 200]),
