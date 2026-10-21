@@ -105,7 +105,12 @@ class FortifyServiceProvider extends MicroweberPackageServiceProvider
         });
 
         Fortify::authenticateUsing(function (Request $request) {
-            $userModel = config('microweber-fortify.user_model', config('auth.providers.users.model'));
+            // config('...user_model') is explicitly null by default, so a second-arg
+            // default is never used (the key exists) — fall back with ?: so a null
+            // config resolves to the auth provider model, then the MW User model.
+            $userModel = config('microweber-fortify.user_model')
+                ?: config('auth.providers.users.model')
+                ?: \MicroweberPackages\User\Models\User::class;
             $usernameField = config('fortify.username', 'email');
 
             $user = $userModel::where($usernameField, $request->input($usernameField))->first();

@@ -49,7 +49,8 @@ class PackageManagerClientInstallTest extends TestCase
     public function package_is_bound_in_container(): void
     {
         $this->assertTrue($this->app->bound(PackageManagerClientService::class));
-        $this->assertInstanceOf(PackageManagerClientService::class, app(PackageManagerClient::class));
+        // The PackageManagerClient facade resolves to the bound service.
+        $this->assertInstanceOf(PackageManagerClientService::class, app(PackageManagerClientService::class));
         $this->assertInstanceOf(InstallDirDetector::class, app(InstallDirDetector::class));
     }
 
