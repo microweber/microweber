@@ -309,11 +309,12 @@ class ContentJsonInstaller
     }
 
     /**
-     * Write the content.json "colorScheme" to the template's public design-vars.css
-     * (Big2's pattern): a separate --mw-* :root scheme file, published to public and
-     * linked by Base's master before base.css — so applying a template also applies
-     * its default colour scheme, and the colours stay editable (base.css only carries
-     * var() fallbacks; the Live Edit colour editor's live_edit.css loads after it).
+     * Save the content.json "colorScheme" via the Live Edit colour editor's own store
+     * (TemplateCustomCss::liveEdit()->saveContent → the per-template template_css option
+     * + userfiles live_edit.css). Base's master emits that option inline, so applying a
+     * template also applies its default scheme and the colours stay editable — without
+     * writing to the (possibly read-only) public/templates path. base.css only carries
+     * var() fallbacks.
      */
     protected function applyColorScheme(): void
     {
@@ -325,16 +326,16 @@ class ContentJsonInstaller
         if ($css === '') {
             return;
         }
-        $lname = strtolower((string) ($this->template ?? template_name()));
-        $dir = function_exists('public_path')
-            ? public_path('templates/' . $lname . '/css')
-            : base_path('public/templates/' . $lname . '/css');
-        if (!is_dir($dir)) {
-            @mkdir($dir, 0775, true);
+        $facade = '\\MicroweberPackages\\TemplateCustomCss\\Facades\\TemplateCustomCss';
+        if (!class_exists($facade)) {
+            return;
         }
-        if (is_dir($dir)) {
-            file_put_contents($dir . '/design-vars.css', $css);
-            $this->log[] = "color scheme -> templates/{$lname}/css/design-vars.css (" . count($scheme) . ' vars)';
+        $template = (string) ($this->template ?? template_name());
+        try {
+            $facade::liveEdit()->saveContent($css, $template);
+            $this->log[] = "color scheme -> {$template} template_css option + live_edit.css (" . count($scheme) . ' vars)';
+        } catch (\Throwable $e) {
+            $this->log[] = 'color scheme save skipped: ' . $e->getMessage();
         }
     }
 

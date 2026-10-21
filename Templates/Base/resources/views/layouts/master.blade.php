@@ -175,14 +175,20 @@
         $mwActiveTplLower = strtolower($mwActiveTpl);
         $mwChildCssRel = 'templates/' . $mwActiveTplLower . '/css/base.css';
         $mwChildCssFile = function_exists('public_path') ? public_path($mwChildCssRel) : '';
-        // Separate colour-scheme file (Big2's design-vars.css pattern): the design's
-        // --mw-* var scheme lives here, not baked into base.css, so it is editable and
-        // overridable (the Live Edit colour editor's live_edit.css loads after it).
-        $mwChildVarsRel = 'templates/' . $mwActiveTplLower . '/css/design-vars.css';
-        $mwChildVarsFile = function_exists('public_path') ? public_path($mwChildVarsRel) : '';
+        // Colour scheme: read from the per-template `template_css` option — the same
+        // store the Live Edit colour editor writes via
+        // TemplateCustomCss::liveEdit()->saveContent(). DB-backed, so it needs no
+        // writable public path and no CDN round-trip, and it always reflects the latest
+        // editor edits. base.css carries var() fallbacks, so the design renders regardless.
+        $mwSchemeCss = '';
+        if (function_exists('get_option') && $mwActiveTpl !== '' && $mwActiveTplLower !== 'base') {
+            $mwSchemeCss = (string) get_option('template_css', 'template_' . $mwActiveTpl);
+        }
     @endphp
-    @if ($mwActiveTplLower !== '' && $mwActiveTplLower !== 'base' && $mwChildVarsFile && is_file($mwChildVarsFile))
-        <link rel="stylesheet" href="{{ asset($mwChildVarsRel) }}" id="mw-template-design-vars" type="text/css" media="all">
+    @if (trim($mwSchemeCss) !== '')
+        {{-- Loaded after Base's default :root so the design scheme wins; carries the
+             editor's live edits since it is the same option the editor saves to. --}}
+        <style id="mw-template-design-vars" type="text/css">{!! $mwSchemeCss !!}</style>
     @endif
     @if ($mwActiveTplLower !== '' && $mwActiveTplLower !== 'base' && $mwChildCssFile && is_file($mwChildCssFile))
         <link rel="stylesheet" href="{{ asset($mwChildCssRel) }}" id="mw-template-design" type="text/css" media="all">

@@ -176,15 +176,18 @@ foreach ($slugs as $slug) {
         ];
         file_put_contents($tplDir . '/content.json', json_encode($contentJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 
-        // 9. Write the colour scheme to a separate design-vars.css (Big2's pattern):
-        //    the --mw-* :root scheme lives here, published to public and linked by Base's
-        //    master, so it is editable + overridable (the Live Edit colour editor's
-        //    live_edit.css loads after it) rather than hardcoded into base.css. base.css
-        //    carries only var() fallbacks, so the design renders even without this file.
-        if (!empty($colorScheme)) {
-            $schemeCss = \MicroweberPackages\Template\ContentJson\CssVarizer::schemeToRootCss($colorScheme);
-            file_put_contents($tplDir . '/resources/assets/css/design-vars.css', $schemeCss);
-            file_put_contents($pubDir . '/css/design-vars.css', $schemeCss);
+        // 9. Save the colour scheme via the Live Edit colour editor's own store
+        //    (TemplateCustomCss::liveEdit()->saveContent → the per-template template_css
+        //    option + userfiles live_edit.css). Base's master emits that option inline,
+        //    so the scheme is applied + editable without writing to the (possibly
+        //    read-only) public/templates path. base.css keeps only var() fallbacks.
+        if (!empty($colorScheme) && class_exists(\MicroweberPackages\TemplateCustomCss\Facades\TemplateCustomCss::class)) {
+            try {
+                $schemeCss = \MicroweberPackages\Template\ContentJson\CssVarizer::schemeToRootCss($colorScheme);
+                \MicroweberPackages\TemplateCustomCss\Facades\TemplateCustomCss::liveEdit()->saveContent($schemeCss, $name);
+            } catch (\Throwable $e) {
+                // best-effort; base.css var() fallbacks still render the design.
+            }
         }
 
         $done[] = "{$slug} -> page#{$page->id} ({$name}), css=" . strlen($baseCss) . "B, body=" . strlen($body) . "B, scheme=" . count($colorScheme) . " vars, content.json=" . (count($sections)) . " sections";
