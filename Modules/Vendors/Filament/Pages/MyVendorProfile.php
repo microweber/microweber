@@ -2,9 +2,11 @@
 
 namespace Modules\Vendors\Filament\Pages;
 
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
@@ -55,6 +57,8 @@ class MyVendorProfile extends Page
             'banner' => $this->vendor->banner,
             'contact_email' => $this->vendor->contact_email,
             'website' => $this->vendor->website,
+            'notify_on_order' => $this->vendor->notify_on_order ?? true,
+            'notify_channels' => $this->vendor->orderNotificationChannels(),
         ]);
     }
 
@@ -89,6 +93,22 @@ class MyVendorProfile extends Page
                         ->visibility('public'),
                     TextInput::make('contact_email')->label(__('Contact email'))->email(),
                     TextInput::make('website')->label(__('Website'))->url(),
+                ]),
+
+                Section::make(__('Order notifications'))->schema([
+                    Toggle::make('notify_on_order')
+                        ->label(__('Notify me when my products are ordered'))
+                        ->default(true)
+                        ->live(),
+                    CheckboxList::make('notify_channels')
+                        ->label(__('Notify me via'))
+                        ->options([
+                            Vendor::CHANNEL_MAIL => __('Email'),
+                            Vendor::CHANNEL_DATABASE => __('In-app notifications'),
+                        ])
+                        ->default(Vendor::CHANNELS)
+                        ->visible(fn ($get) => (bool) $get('notify_on_order'))
+                        ->columns(2),
                 ]),
             ])
             ->statePath('data');

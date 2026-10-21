@@ -80,6 +80,14 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         return \Database\Factories\UserFactory::new();
     }
 
+    // Spatie guard pin. The auth provider model is App\Models\User (a thin
+    // subclass of this class), so Spatie's class-based guard resolution fails
+    // when code holds a base-class instance (is_a(parent, child) === false),
+    // throwing GuardDoesNotMatch on assignRole()/hasRole(). Declaring the guard
+    // on the model makes resolution instance-class-independent for this model
+    // and every subclass. All Microweber roles use the 'web' guard.
+    protected $guard_name = 'web';
+
     protected $casts = [
         'username' => StripTagsCast::class,
         'thumbnail' => ReplaceSiteUrlCast::class,

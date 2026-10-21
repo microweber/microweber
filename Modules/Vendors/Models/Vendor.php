@@ -19,6 +19,11 @@ class Vendor extends Model
 {
     protected $table = 'vendors';
 
+    /** Channels a vendor can receive order notifications on. */
+    public const CHANNEL_MAIL = 'mail';
+    public const CHANNEL_DATABASE = 'database';
+    public const CHANNELS = [self::CHANNEL_MAIL, self::CHANNEL_DATABASE];
+
     protected $fillable = [
         'user_id',
         'shop_name',
@@ -29,10 +34,14 @@ class Vendor extends Model
         'contact_email',
         'website',
         'is_approved',
+        'notify_on_order',
+        'notify_channels',
     ];
 
     protected $casts = [
         'is_approved' => 'boolean',
+        'notify_on_order' => 'boolean',
+        'notify_channels' => 'array',
     ];
 
     /**
@@ -65,7 +74,13 @@ class Vendor extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(\MicroweberPackages\User\Models\User::class, 'user_id');
+        // Use the app's configured auth model (App\Models\User in a standard
+        // install) rather than the base class, so $vendor->user has the SAME
+        // morph type as the authenticated user. Database notifications are
+        // keyed by notifiable morph type, so a mismatch would hide a vendor's
+        // in-app order notifications from their own notification bell.
+        $model = config('auth.providers.users.model') ?: \MicroweberPackages\User\Models\User::class;
+        return $this->belongsTo($model, 'user_id');
     }
 
     /**
@@ -82,5 +97,30 @@ class Vendor extends Model
     {
         return $this->shop_name
             ?: ($this->user?->username ?: $this->user?->email ?: ('Vendor #' . $this->user_id));
+    }
+
+    /** Should this vendor be told when one of their products is ordered? */
+    public function wantsOrderNotifications(): bool
+    {
+        return (bool) $this->notify_on_order && ! empty($this->orderNotificationChannels());
+    }
+
+    /**
+     * The channels this vendor receives order notifications on. Falls back to
+     * both mail + in-app when unset, and always drops anything unknown.
+     */
+    public function orderNotificationChannels(): array
+    {
+        $channels = $this->notify_channels;
+        if (! is_array($channels) || empty($channels)) {
+            $channels = self::CHANNELS;
+        }
+        return array_values(array_intersect($channels, self::CHANNELS));
+    }
+
+    /** Where order-notification email should go for this vendor. */
+    public function notificationEmail(): ?string
+    {
+        return $this->contact_email ?: $this->user?->email;
     }
 }

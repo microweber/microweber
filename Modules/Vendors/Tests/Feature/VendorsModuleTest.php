@@ -3,11 +3,18 @@
 namespace Modules\Vendors\Tests\Feature;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\User\Models\User;
+use Modules\Cart\Models\Cart;
+use Modules\Order\Events\OrderWasPaid;
+use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
 use Modules\Vendors\Filament\Pages\MyVendorProducts;
 use Modules\Vendors\Models\Vendor;
+use Modules\Vendors\Models\VendorOrderNotificationLog;
+use Modules\Vendors\Notifications\VendorOrderNotification;
+use Modules\Vendors\Services\VendorOrderNotifier;
 use Modules\Vendors\Services\VendorManager;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -25,6 +32,7 @@ class VendorsModuleTest extends TestCase
     protected array $userIds = [];
     protected array $vendorIds = [];
     protected array $productIds = [];
+    protected array $orderIds = [];
 
     protected function setUp(): void
     {
@@ -34,7 +42,13 @@ class VendorsModuleTest extends TestCase
 
     protected function tearDown(): void
     {
+        if (! empty($this->orderIds)) {
+            Cart::query()->whereIn('order_id', $this->orderIds)->forceDelete();
+            VendorOrderNotificationLog::query()->whereIn('order_id', $this->orderIds)->delete();
+            Order::query()->whereIn('id', $this->orderIds)->forceDelete();
+        }
         Product::query()->whereIn('id', $this->productIds)->forceDelete();
+        VendorOrderNotificationLog::query()->whereIn('vendor_id', $this->vendorIds)->delete();
         Vendor::query()->whereIn('id', $this->vendorIds)->delete();
         User::query()->whereIn('id', $this->userIds)->forceDelete();
         parent::tearDown();
@@ -182,6 +196,132 @@ class VendorsModuleTest extends TestCase
     {
         $res = $this->get(route('vendors.index'));
         $res->assertStatus(200);
+    }
+
+    #[Test]
+    public function vendor_is_notified_when_their_product_is_ordered(): void
+    {
+        Notification::fake();
+
+        $vendorUser = $this->makeVendorUser();
+        $vendor = app(VendorManager::class)->profileFor($vendorUser);
+        $this->vendorIds[] = $vendor->id;
+        $product = $this->makeProductFor($vendorUser->id, 'Ordered Widget');
+
+        $order = $this->makeOrderWith($product->id, 25.00);
+
+        $count = app(VendorOrderNotifier::class)->notifyForOrder($order);
+
+        $this->assertSame(1, $count);
+        Notification::assertSentTo(
+            $vendorUser,
+            VendorOrderNotification::class,
+            fn (VendorOrderNotification $n) => ($n->order->id ?? null) === $order->id
+                && count($n->items) === 1
+        );
+    }
+
+    #[Test]
+    public function vendor_notification_is_idempotent_per_order(): void
+    {
+        Notification::fake();
+
+        $vendorUser = $this->makeVendorUser();
+        $vendor = app(VendorManager::class)->profileFor($vendorUser);
+        $this->vendorIds[] = $vendor->id;
+        $product = $this->makeProductFor($vendorUser->id, 'Once Widget');
+        $order = $this->makeOrderWith($product->id, 10.00);
+
+        app(VendorOrderNotifier::class)->notifyForOrder($order);
+        app(VendorOrderNotifier::class)->notifyForOrder($order); // repeat (e.g. mark-paid)
+
+        Notification::assertSentToTimes($vendorUser, VendorOrderNotification::class, 1);
+    }
+
+    #[Test]
+    public function vendor_opted_out_is_not_notified(): void
+    {
+        Notification::fake();
+
+        $vendorUser = $this->makeVendorUser();
+        $vendor = app(VendorManager::class)->profileFor($vendorUser);
+        $vendor->forceFill(['notify_on_order' => false])->save();
+        $this->vendorIds[] = $vendor->id;
+        $product = $this->makeProductFor($vendorUser->id, 'Silent Widget');
+        $order = $this->makeOrderWith($product->id, 10.00);
+
+        $count = app(VendorOrderNotifier::class)->notifyForOrder($order);
+
+        $this->assertSame(0, $count);
+        Notification::assertNothingSentTo($vendorUser);
+    }
+
+    #[Test]
+    public function vendor_channel_preference_is_respected(): void
+    {
+        Notification::fake();
+
+        $vendorUser = $this->makeVendorUser();
+        $vendor = app(VendorManager::class)->profileFor($vendorUser);
+        $vendor->forceFill(['notify_channels' => [Vendor::CHANNEL_MAIL]])->save();
+        $this->vendorIds[] = $vendor->id;
+        $product = $this->makeProductFor($vendorUser->id, 'Mail Only Widget');
+        $order = $this->makeOrderWith($product->id, 10.00);
+
+        app(VendorOrderNotifier::class)->notifyForOrder($order);
+
+        Notification::assertSentTo($vendorUser, VendorOrderNotification::class, function (VendorOrderNotification $n) use ($vendorUser) {
+            $via = $n->via($vendorUser);
+            return in_array(\MicroweberPackages\Notification\Channels\AppMailChannel::class, $via, true)
+                && ! in_array('database', $via, true);
+        });
+    }
+
+    #[Test]
+    public function order_paid_event_triggers_vendor_notification(): void
+    {
+        Notification::fake();
+
+        $vendorUser = $this->makeVendorUser();
+        $vendor = app(VendorManager::class)->profileFor($vendorUser);
+        $this->vendorIds[] = $vendor->id;
+        $product = $this->makeProductFor($vendorUser->id, 'Event Widget');
+        $order = $this->makeOrderWith($product->id, 30.00);
+
+        event(new OrderWasPaid($order));
+
+        Notification::assertSentTo($vendorUser, VendorOrderNotification::class);
+    }
+
+    private function makeOrderWith(int $productId, float $price): Order
+    {
+        $order = new Order();
+        $order->amount = $price;
+        $order->email = 'buyer_' . uniqid() . '@example.com';
+        $order->is_paid = 1;
+        $order->order_completed = 1;
+        $order->save();
+        $this->orderIds[] = $order->id;
+
+        $item = new Cart();
+        $item->order_id = $order->id;
+        $item->rel_id = $productId;
+        $item->rel_type = 'content';
+        $item->title = 'Line ' . $productId;
+        $item->qty = 1;
+        $item->price = $price;
+        $item->order_completed = 1;
+        $item->save();
+
+        // Sanity: the line item must be reachable via the order relation,
+        // otherwise the notifier has nothing to group by.
+        $this->assertSame(
+            1,
+            $order->fresh()->cart()->where('order_completed', 1)->count(),
+            'order cart line item should be linked'
+        );
+
+        return $order->fresh();
     }
 
     private function makeProductFor(int $userId, string $title): Product

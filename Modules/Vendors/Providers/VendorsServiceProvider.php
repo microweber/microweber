@@ -8,6 +8,7 @@ use Modules\Vendors\Filament\Admin\Resources\VendorResource;
 use Modules\Vendors\Filament\Pages\MyVendorProducts;
 use Modules\Vendors\Filament\Pages\MyVendorProfile;
 use Modules\Vendors\Services\VendorManager;
+use Modules\Vendors\Services\VendorOrderNotifier;
 
 class VendorsServiceProvider extends BaseModuleServiceProvider
 {
@@ -25,6 +26,11 @@ class VendorsServiceProvider extends BaseModuleServiceProvider
 
         $this->app->singleton('vendor_manager', fn () => new VendorManager());
         $this->app->alias('vendor_manager', VendorManager::class);
+        $this->app->singleton(VendorOrderNotifier::class, fn () => new VendorOrderNotifier());
+
+        // Notify vendors when their products are ordered (email + in-app, per
+        // each vendor's channel opt-in).
+        $this->app->register(VendorsEventServiceProvider::class);
 
         // Admin: approve + manage vendor storefronts.
         FilamentRegistry::registerResource(VendorResource::class);

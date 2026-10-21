@@ -56,9 +56,12 @@ class VendorResource extends Resource
                 TextInput::make('website')->label(__('Website'))->url(),
             ]),
 
-            Section::make('Moderation')->schema([
+            Section::make('Moderation')->columns(2)->schema([
                 Toggle::make('is_approved')
                     ->label(__('Approved (storefront is public)'))
+                    ->default(true),
+                Toggle::make('notify_on_order')
+                    ->label(__('Email this vendor on new orders'))
                     ->default(true),
             ]),
         ]);
