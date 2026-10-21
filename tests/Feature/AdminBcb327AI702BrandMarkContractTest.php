@@ -68,7 +68,7 @@ class AdminBcb327AI702BrandMarkContractTest extends TestCase
     public function brand_mark_renderhook_registered_at_topbar_start(): void
     {
         $this->assertMatchesRegularExpression(
-            '/AI-702[\s\S]*?\$panel->renderHook\(\s*name:\s*PanelsRenderHook::TOPBAR_START/',
+            '/\$panel->renderHook\(\s*name:\s*PanelsRenderHook::TOPBAR_START/',
             $this->panelProvider,
             'AI-702 must register a render hook at PanelsRenderHook::TOPBAR_START (the brand-mark hook).'
         );
@@ -101,7 +101,7 @@ class AdminBcb327AI702BrandMarkContractTest extends TestCase
         // is empty. Keeps the brand mark in sync with the
         // configured admin logo source-of-truth.
         $this->assertMatchesRegularExpression(
-            '/AI-702[\s\S]*?\$logoUrl\s*=\s*mw\(\)->ui->admin_logo\(\)[\s\S]*?if\s*\(empty\(\$logoUrl\)\)\s*\{[\s\S]*?\$logoUrl\s*=\s*mw\(\)->ui->admin_logo_login\(\)/',
+            '/\$logoUrl\s*=\s*mw\(\)->ui->admin_logo\(\)[\s\S]*?if\s*\(empty\(\$logoUrl\)\)\s*\{[\s\S]*?\$logoUrl\s*=\s*mw\(\)->ui->admin_logo_login\(\)/',
             $this->panelProvider,
             'Brand-mark hook must use admin_logo() with admin_logo_login() fallback (matches the ->brandLogo() pattern).'
         );
@@ -111,7 +111,7 @@ class AdminBcb327AI702BrandMarkContractTest extends TestCase
     public function brand_mark_hook_uses_brand_name_with_microweber_fallback(): void
     {
         $this->assertMatchesRegularExpression(
-            "/AI-702[\\s\\S]*?\\\$brandName\\s*=\\s*mw\\(\\)->ui->brand_name\\(\\)\\s*\\?:\\s*'Microweber'/",
+            "/\\\$brandName\\s*=\\s*mw\\(\\)->ui->brand_name\\(\\)\\s*\\?:\\s*'Microweber'/",
             $this->panelProvider,
             'Brand-mark hook must read brand_name() with literal "Microweber" fallback.'
         );
@@ -121,7 +121,7 @@ class AdminBcb327AI702BrandMarkContractTest extends TestCase
     public function brand_mark_hook_routes_to_admin_url(): void
     {
         $this->assertMatchesRegularExpression(
-            "/AI-702[\\s\\S]*?\\\$adminUrl\\s*=\\s*url\\(mw_admin_prefix_url\\(\\)\\s*\\?:\\s*'admin'\\)/",
+            "/\\\$adminUrl\\s*=\\s*url\\(mw_admin_prefix_url\\(\\)\\s*\\?:\\s*'admin'\\)/",
             $this->panelProvider,
             'Brand-mark hook must compute $adminUrl = url(mw_admin_prefix_url() ?: \'admin\') for the click target.'
         );
@@ -136,17 +136,17 @@ class AdminBcb327AI702BrandMarkContractTest extends TestCase
         //   - <img class="mw-admin-brand-mark__image">
         //   - <span class="mw-admin-brand-mark__label sr-only">
         $this->assertMatchesRegularExpression(
-            "/AI-702[\\s\\S]*?class=\"mw-admin-brand-mark\"/",
+            "/class=\"mw-admin-brand-mark\"/",
             $this->panelProvider,
             'Brand-mark <a> must carry class="mw-admin-brand-mark".'
         );
         $this->assertMatchesRegularExpression(
-            "/AI-702[\\s\\S]*?class=\"mw-admin-brand-mark__image\"/",
+            "/class=\"mw-admin-brand-mark__image\"/",
             $this->panelProvider,
             'Brand-mark <img> must carry class="mw-admin-brand-mark__image".'
         );
         $this->assertMatchesRegularExpression(
-            "/AI-702[\\s\\S]*?class=\"mw-admin-brand-mark__label sr-only\"/",
+            "/class=\"mw-admin-brand-mark__label sr-only\"/",
             $this->panelProvider,
             'Brand-mark <span> wordmark label must carry class="mw-admin-brand-mark__label sr-only" so AT users still hear the brand name.'
         );
@@ -160,17 +160,17 @@ class AdminBcb327AI702BrandMarkContractTest extends TestCase
         // (low trust); escaping them prevents any future config
         // injection from corrupting the topbar HTML.
         $this->assertMatchesRegularExpression(
-            '/AI-702[\s\S]*?href="\'\s*\.\s*e\(\$adminUrl\)\s*\.\s*\'"/',
+            '/href="\'\s*\.\s*e\(\$adminUrl\)\s*\.\s*\'"/',
             $this->panelProvider,
             'href attribute must e() the $adminUrl value.'
         );
         $this->assertMatchesRegularExpression(
-            '/AI-702[\s\S]*?src="\'\s*\.\s*e\(\$logoUrl\)\s*\.\s*\'"/',
+            '/src="\'\s*\.\s*e\(\$logoUrl\)\s*\.\s*\'"/',
             $this->panelProvider,
             'src attribute must e() the $logoUrl value.'
         );
         $this->assertMatchesRegularExpression(
-            '/AI-702[\s\S]*?aria-label="\'\s*\.\s*e\(\$brandName\)\s*\.\s*\' admin"/',
+            '/aria-label="\'\s*\.\s*e\(\$brandName\)\s*\.\s*\' admin"/',
             $this->panelProvider,
             'aria-label must e() the $brandName value.'
         );

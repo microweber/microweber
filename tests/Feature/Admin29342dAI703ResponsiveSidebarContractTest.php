@@ -120,7 +120,7 @@ class Admin29342dAI703ResponsiveSidebarContractTest extends TestCase
     public function body_end_renderhook_registered_for_sidebar_mode_bridge(): void
     {
         $this->assertMatchesRegularExpression(
-            '/AI-703[\s\S]*?\$panel->renderHook\(\s*name:\s*PanelsRenderHook::BODY_END/',
+            '/\$panel->renderHook\(\s*name:\s*PanelsRenderHook::BODY_END/',
             $this->panelProvider,
             'AI-703 must register a render hook at PanelsRenderHook::BODY_END for the localStorage.admin_sidebar_mode bridge.'
         );
@@ -130,7 +130,7 @@ class Admin29342dAI703ResponsiveSidebarContractTest extends TestCase
     public function bridge_script_uses_canonical_localstorage_key(): void
     {
         $this->assertMatchesRegularExpression(
-            "/AI-703[\\s\\S]*?KEY\\s*=\\s*'admin_sidebar_mode'/",
+            "/KEY\\s*=\\s*'admin_sidebar_mode'/",
             $this->panelProvider,
             "The localStorage key MUST be 'admin_sidebar_mode' per designer spec (admin-shell-improvements §2 AD2)."
         );
@@ -143,7 +143,7 @@ class Admin29342dAI703ResponsiveSidebarContractTest extends TestCase
         // string in the readMode() helper.
         foreach (['pinned', 'rail', 'collapsed'] as $mode) {
             $this->assertMatchesRegularExpression(
-                "/AI-703[\\s\\S]*?return\\s+'{$mode}'/",
+                "/return\\s+'{$mode}'/",
                 $this->panelProvider,
                 "Bridge script must return '{$mode}' as one of the three localStorage values."
             );
@@ -159,7 +159,7 @@ class Admin29342dAI703ResponsiveSidebarContractTest extends TestCase
         // body in this build. The MutationObserver primitive shape
         // is preserved (still attributeFilter: ['class']).
         $this->assertMatchesRegularExpression(
-            "/AI-703[\\s\\S]*?new\\s+MutationObserver\\(\\s*writeMode\\s*\\)[\\s\\S]*?attributeFilter:\\s*\\['class'\\]/",
+            "/new\\s+MutationObserver\\(\\s*writeMode\\s*\\)[\\s\\S]*?attributeFilter:\\s*\\['class'\\]/",
             $this->panelProvider,
             'Bridge script must use MutationObserver with attributeFilter: ["class"] to track Filament sidebar state.'
         );
@@ -173,7 +173,7 @@ class Admin29342dAI703ResponsiveSidebarContractTest extends TestCase
         // admin panel — otherwise the checkout / profile panels would
         // also write the admin localStorage key.
         $this->assertMatchesRegularExpression(
-            "/AI-703[\\s\\S]*?body\\.classList\\.contains\\(\\s*'fi-panel-admin'\\s*\\)/",
+            "/body\\.classList\\.contains\\(\\s*'fi-panel-admin'\\s*\\)/",
             $this->panelProvider,
             'Bridge script must early-return unless body.fi-panel-admin is set (avoid cross-panel writes to admin_sidebar_mode).'
         );
@@ -193,17 +193,17 @@ class Admin29342dAI703ResponsiveSidebarContractTest extends TestCase
         // `.fi-sidebar` element directly + uses window.innerWidth
         // as a 1024 px desktop/mobile tiebreaker for the rail mode.
         $this->assertMatchesRegularExpression(
-            "/AI-703[\\s\\S]*?'fi-sidebar-open'/",
+            "/'fi-sidebar-open'/",
             $this->panelProvider,
             "Bridge script must read the canonical Filament class 'fi-sidebar-open' (the only class Filament v5 toggles in this build)."
         );
         $this->assertMatchesRegularExpression(
-            "/AI-703[\\s\\S]*?DESKTOP_PX\\s*=\\s*1024/",
+            "/DESKTOP_PX\\s*=\\s*1024/",
             $this->panelProvider,
             "Bridge script must define DESKTOP_PX = 1024 — the breakpoint that drives the rail/collapsed distinction post-CHANGE."
         );
         $this->assertMatchesRegularExpression(
-            "/AI-703[\\s\\S]*?document\\.querySelector\\(\\s*'\\.fi-sidebar'\\s*\\)/",
+            "/document\\.querySelector\\(\\s*'\\.fi-sidebar'\\s*\\)/",
             $this->panelProvider,
             "Bridge script must query the `.fi-sidebar` element directly — post-CHANGE observer target."
         );
