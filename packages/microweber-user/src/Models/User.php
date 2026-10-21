@@ -88,6 +88,27 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     // and every subclass. All Microweber roles use the 'web' guard.
     protected $guard_name = 'web';
 
+    /**
+     * Canonical polymorphic identity for users.
+     *
+     * The auth provider instantiates App\Models\User (a thin empty subclass),
+     * while the rest of the CMS — UsersResource, roles, the overwhelming
+     * majority of stored notifications — uses this base class. Those are the
+     * SAME user, but Eloquent keys polymorphic rows (model_has_roles.model_type,
+     * notifications.notifiable_type, tokenable_type, …) by the concrete class,
+     * so a role assigned via the admin resource (base class) was invisible to
+     * the logged-in user (subclass), and vice-versa for notifications.
+     *
+     * Pinning the morph class to this base collapses both classes onto one
+     * polymorphic identity, so roles and notifications line up regardless of
+     * which class instantiated the row. The companion data migration realigns
+     * the pre-existing minority rows that were stored under the subclass.
+     */
+    public function getMorphClass(): string
+    {
+        return self::class;
+    }
+
     protected $casts = [
         'username' => StripTagsCast::class,
         'thumbnail' => ReplaceSiteUrlCast::class,

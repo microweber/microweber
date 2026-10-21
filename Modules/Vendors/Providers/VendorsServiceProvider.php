@@ -5,6 +5,7 @@ namespace Modules\Vendors\Providers;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Vendors\Filament\Admin\Resources\VendorResource;
+use Modules\Vendors\Filament\Pages\MyVendorOrders;
 use Modules\Vendors\Filament\Pages\MyVendorProducts;
 use Modules\Vendors\Filament\Pages\MyVendorProfile;
 use Modules\Vendors\Services\VendorManager;
@@ -39,6 +40,7 @@ class VendorsServiceProvider extends BaseModuleServiceProvider
         // the pages gate their own navigation on the vendor role).
         FilamentRegistry::registerPage(MyVendorProfile::class, 'profile', 'profile');
         FilamentRegistry::registerPage(MyVendorProducts::class, 'profile', 'profile');
+        FilamentRegistry::registerPage(MyVendorOrders::class, 'profile', 'profile');
 
         FilamentRegistry::registerGlobalSearchEntry(
             'Vendors', '/admin/vendors',

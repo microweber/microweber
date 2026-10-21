@@ -293,6 +293,44 @@ class VendorsModuleTest extends TestCase
         Notification::assertSentTo($vendorUser, VendorOrderNotification::class);
     }
 
+    #[Test]
+    public function my_orders_page_scopes_to_the_vendors_products(): void
+    {
+        $vendorUser = $this->makeVendorUser();
+        $vendor = app(VendorManager::class)->profileFor($vendorUser);
+        $this->vendorIds[] = $vendor->id;
+        $mine = $this->makeProductFor($vendorUser->id, 'My Sold Widget');
+
+        $otherUser = $this->makeVendorUser();
+        $theirs = $this->makeProductFor($otherUser->id, 'Other Sold Widget');
+
+        $myOrder = $this->makeOrderWith($mine->id, 15.00);
+        $theirOrder = $this->makeOrderWith($theirs->id, 20.00);
+
+        \Illuminate\Support\Facades\Auth::login($vendorUser);
+        $page = new \Modules\Vendors\Filament\Pages\MyVendorOrders();
+        $ref = new \ReflectionMethod($page, 'vendorProductIds');
+        $ref->setAccessible(true);
+        $ids = $ref->invoke($page);
+
+        $this->assertContains($mine->id, $ids);
+        $this->assertNotContains($theirs->id, $ids);
+
+        // The order table query must include my order and exclude the other's.
+        $tableQuery = Order::query()->whereIn('id', function ($q) use ($ids) {
+            $q->select('order_id')->from('cart')->whereIn('rel_id', $ids ?: [0])->where('order_completed', 1);
+        })->pluck('id')->all();
+
+        $this->assertContains($myOrder->id, $tableQuery);
+        $this->assertNotContains($theirOrder->id, $tableQuery);
+
+        $subtotalRef = new \ReflectionMethod($page, 'vendorSubtotal');
+        $subtotalRef->setAccessible(true);
+        $this->assertEquals(15.00, (float) $subtotalRef->invoke($page, $myOrder->id));
+
+        \Illuminate\Support\Facades\Auth::logout();
+    }
+
     private function makeOrderWith(int $productId, float $price): Order
     {
         $order = new Order();
