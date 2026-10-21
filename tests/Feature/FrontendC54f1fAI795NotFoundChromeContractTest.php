@@ -88,13 +88,14 @@ class FrontendC54f1fAI795NotFoundChromeContractTest extends TestCase
     #[Test]
     public function controller_short_circuit_returns_404_with_robots_and_fallback_headers(): void
     {
-        // Slice the AI-795 block bounded by `task-2026-05-17-c54f1f` marker
+        // Slice the 404 short-circuit block (anchored on the $mwFallbackRendered
+        // response, since the task-id marker comment was stripped repo-wide)
         // through the matching `]);` so prose elsewhere doesn't false-match.
-        $start = strpos($this->controller, 'task-2026-05-17-c54f1f / AI-795');
-        $this->assertNotFalse($start, 'AI-795 marker must be present in FrontendController.');
+        $start = strpos($this->controller, '$mwFallbackRendered');
+        $this->assertNotFalse($start, 'FrontendController must build a $mwFallbackRendered 404 response.');
 
         $end = strpos($this->controller, ']);', $start);
-        $this->assertNotFalse($end, 'AI-795 short-circuit block must end with `]);` (header withHeaders array close).');
+        $this->assertNotFalse($end, 'The short-circuit block must end with `]);` (header withHeaders array close).');
 
         $block = substr($this->controller, $start, $end - $start + 3);
 
@@ -126,17 +127,23 @@ class FrontendC54f1fAI795NotFoundChromeContractTest extends TestCase
         // The new view must NOT render when an admin is logged in — admins see the
         // template's normal page-not-found path so they can still edit/diagnose.
         // The short-circuit lives INSIDE the existing `if (!is_admin())` branch.
-        $start = strpos($this->controller, "if (!is_admin()) {\n                    \$load_template_404 = template_dir() . '404.php';");
+        $start = strpos($this->controller, 'if (!is_admin())');
         $this->assertNotFalse(
             $start,
-            'AI-795 short-circuit must sit inside the existing `if (!is_admin())` branch — admins keep the normal page-not-found render so they can still edit/diagnose.'
+            'Short-circuit must sit inside the existing `if (!is_admin())` branch — admins keep the normal page-not-found render so they can still edit/diagnose.'
+        );
+        // template_dir()/404.php override is checked inside that same branch.
+        $this->assertNotFalse(
+            strpos($this->controller, "\$load_template_404 = template_dir() . '404.php'", $start),
+            'The `if (!is_admin())` branch must still check the template_dir()/404.php override.'
         );
 
-        // Verify the short-circuit body sits between this `if (!is_admin())` open brace
-        // and the matching close brace — same scope as the template-404.php checks.
-        $ai795Marker = strpos($this->controller, 'task-2026-05-17-c54f1f / AI-795', $start);
-        $this->assertNotFalse($ai795Marker);
-        $this->assertGreaterThan($start, $ai795Marker);
+        // Verify the 404 short-circuit ($mwFallbackRendered response) sits AFTER the
+        // `if (!is_admin())` open — i.e. it is gated on non-admin (marker anchor was
+        // stripped repo-wide, so anchor on the functional variable instead).
+        $shortCircuit = strpos($this->controller, '$mwFallbackRendered', $start);
+        $this->assertNotFalse($shortCircuit);
+        $this->assertGreaterThan($start, $shortCircuit);
     }
 
     #[Test]

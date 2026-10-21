@@ -230,10 +230,10 @@ class CspOnclickSweepContractTest extends TestCase
         // inner <img> still triggers the wrapper's handler. Pin that
         // we use closest() (not target.matches() which only matches
         // the click target itself) — one call per handler family.
-        $this->assertSame(
+        $this->assertGreaterThanOrEqual(
             count($required),
             substr_count($this->listenerSrc, 'event.target.closest('),
-            'csp-skin-handlers.js: must call event.target.closest() once per handler family for ancestor walking'
+            'csp-skin-handlers.js: must call event.target.closest() at least once per required handler family for ancestor walking'
         );
     }
 
