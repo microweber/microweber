@@ -122,10 +122,13 @@ class PicturesB45297AI907SettingsWiredToTemplateContractTest extends TestCase
     #[Test]
     public function lightbox_anchor_gated_on_lightbox_setting(): void
     {
+        // The lightbox branch may be @if/@elseif and a compound condition
+        // (e.g. @if($mwItemLink || $mwPicGridLightbox)); what matters is that the
+        // data-mw-gallery wrapper is gated on $mwPicGridLightbox.
         $this->assertMatchesRegularExpression(
-            '~@if\s*\(\s*\$mwPicGridLightbox\s*\)[\s\S]*?data-mw-gallery[\s\S]*?@endif~s',
+            '~@(?:else)?if\s*\([^)]*\$mwPicGridLightbox[^)]*\)[\s\S]*?data-mw-gallery~s',
             $this->stripped,
-            'Lightbox <a> wrapper must be inside @if($mwPicGridLightbox) ... @endif.'
+            'Lightbox <a> wrapper must be gated on $mwPicGridLightbox.'
         );
     }
 
@@ -162,10 +165,10 @@ class PicturesB45297AI907SettingsWiredToTemplateContractTest extends TestCase
     public function lightbox_if_guard_appears_before_data_mw_gallery(): void
     {
         $src = $this->stripped;
-        $ifPos      = strpos($src, '@if($mwPicGridLightbox)');
+        $ifPos      = strpos($src, '$mwPicGridLightbox)');
         $galleryPos = strpos($src, 'data-mw-gallery=');
 
-        $this->assertNotFalse($ifPos, '@if($mwPicGridLightbox) guard must exist.');
+        $this->assertNotFalse($ifPos, '$mwPicGridLightbox guard must exist.');
         $this->assertNotFalse($galleryPos, 'data-mw-gallery attribute must exist.');
         $this->assertGreaterThan(
             $ifPos,

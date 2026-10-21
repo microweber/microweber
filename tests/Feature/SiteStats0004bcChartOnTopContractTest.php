@@ -15,7 +15,7 @@ use Tests\TestCase;
  * underneath are the drill-down. Render order is fixed by the page blade
  * (Modules/SiteStats/resources/views/filament/pages/site-stats-page.blade.php).
  *
- * This test pins the order: VisitorsChartWidget must appear textually
+ * This test pins the order: SiteStatsEchartsWidget must appear textually
  * BEFORE StatsOverviewCards in the page blade.
  */
 class SiteStats0004bcChartOnTopContractTest extends TestCase
@@ -30,14 +30,14 @@ class SiteStats0004bcChartOnTopContractTest extends TestCase
         $this->blade = (string) file_get_contents(
             base_path('Modules/SiteStats/resources/views/filament/pages/site-stats-page.blade.php')
         );
-        $this->chartPos = (int) strpos($this->blade, 'VisitorsChartWidget::class');
+        $this->chartPos = (int) strpos($this->blade, 'SiteStatsEchartsWidget::class');
         $this->cardsPos = (int) strpos($this->blade, 'StatsOverviewCards::class');
     }
 
     #[Test]
     public function both_widgets_remain_in_the_page_blade(): void
     {
-        $this->assertGreaterThan(0, $this->chartPos, 'VisitorsChartWidget must still be rendered.');
+        $this->assertGreaterThan(0, $this->chartPos, 'SiteStatsEchartsWidget must still be rendered.');
         $this->assertGreaterThan(0, $this->cardsPos, 'StatsOverviewCards must still be rendered.');
     }
 
@@ -47,7 +47,7 @@ class SiteStats0004bcChartOnTopContractTest extends TestCase
         $this->assertLessThan(
             $this->cardsPos,
             $this->chartPos,
-            'VisitorsChartWidget must appear above StatsOverviewCards in the page blade.'
+            'SiteStatsEchartsWidget must appear above StatsOverviewCards in the page blade.'
         );
     }
 

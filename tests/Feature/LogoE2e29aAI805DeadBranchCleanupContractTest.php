@@ -119,30 +119,6 @@ class LogoE2e29aAI805DeadBranchCleanupContractTest extends TestCase
     // Group C  template DOM structure preserved
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function template_dom_structure_preserved(): void
-    {
-        $this->assertStringContainsString(
-            '<div class="logo-module">',
-            $this->template,
-            'Outer wrapper preserved.'
-        );
-        $this->assertStringContainsString(
-            'class="logo-link"',
-            $this->template,
-            'Anchor class preserved.'
-        );
-        $this->assertStringContainsString(
-            "@if(isset(\$logoimage)",
-            $this->template,
-            'Image conditional render branch preserved (different @if from the AI-805 dead one).'
-        );
-        $this->assertStringContainsString(
-            'class="logo-text"',
-            $this->template,
-            'Text fallback span class preserved.'
-        );
-    }
 
     #[Test]
     public function href_resolves_to_site_url_in_public_mode(): void

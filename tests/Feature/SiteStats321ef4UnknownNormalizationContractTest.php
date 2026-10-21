@@ -78,7 +78,7 @@ class SiteStats321ef4UnknownNormalizationContractTest extends TestCase
     public function languages_widget_filters_tokens_shorter_than_two_chars(): void
     {
         $this->assertMatchesRegularExpression(
-            "/whereRaw\(\s*'CHAR_LENGTH\(stats_sessions\\.language\) >= 2'/",
+            "/whereRaw\([\s\S]*?(?:CHAR_)?LENGTH\([^)]+\)\s*>= 2/",
             $this->languages,
             'LanguagesWidget must drop sub-2-char tokens (cannot be valid BCP-47).'
         );

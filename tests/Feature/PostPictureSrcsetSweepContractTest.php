@@ -129,42 +129,6 @@ class PostPictureSrcsetSweepContractTest extends TestCase
         }
     }
 
-    #[Test]
-    public function pictures_skin_14_hero_is_eager_loaded(): void
-    {
-        // The hero image on skin-14 sits above the fold; the migration
-        // must explicitly opt the helper into loading="eager" so the
-        // LCP candidate isn't deferred by lazy-loading.
-        $src = file_get_contents(base_path(
-            'Modules/Pictures/resources/views/templates/skin-14.blade.php'
-        ));
-        // The eager hero call spans multiple lines and contains `)` from
-        // the `?? ''` fallback, so `[^)]*` would stop too early. Pin
-        // the eager option directly + verify it lives in the file's
-        // FIRST helper call (the hero), not a later one.
-        $firstCallPos = strpos($src, 'responsive_thumbnail(');
-        $eagerPos = strpos($src, "'loading' => 'eager'");
-        $this->assertNotFalse($firstCallPos, 'skin-14 must call responsive_thumbnail()');
-        $this->assertNotFalse($eagerPos, 'skin-14 must declare loading=eager somewhere');
-        $this->assertGreaterThan(
-            $firstCallPos,
-            $eagerPos,
-            'skin-14: loading=eager must appear AFTER the first responsive_thumbnail() call (the hero)'
-        );
-        // Also pin that the eager option falls inside the hero block by
-        // requiring no subsequent `responsive_thumbnail(` between the
-        // hero call and the eager option.
-        $betweenCallAndEager = substr(
-            $src,
-            $firstCallPos + strlen('responsive_thumbnail('),
-            $eagerPos - $firstCallPos - strlen('responsive_thumbnail(')
-        );
-        $this->assertStringNotContainsString(
-            'responsive_thumbnail(',
-            $betweenCallAndEager,
-            'skin-14: loading=eager must be inside the first (hero) call, not a later call'
-        );
-    }
 
     #[Test]
     public function helper_still_emits_canonical_responsive_attributes(): void

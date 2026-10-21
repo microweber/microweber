@@ -384,7 +384,7 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                     // dead-end; the order proceeds with zero shipping cost.
                     Placeholder::make('no_shipping_methods')
                         ->label('')
-                        ->content(__('Free shipping — no delivery charge for this order.'))
+                        ->content(_e('Free shipping — no delivery charge for this order.', true))
                         ->visible(fn () => empty($options)),
 
                     Placeholder::make('shipping_info')

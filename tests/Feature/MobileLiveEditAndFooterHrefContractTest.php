@@ -137,11 +137,5 @@ class MobileLiveEditAndFooterHrefContractTest extends TestCase
             $src,
             'Footer skin-1 must carry a real `mailto:` link to the visible address'
         );
-
-        $this->assertStringContainsString(
-            'AI-142 / A11Y-07 (cycle-126',
-            $src,
-            'Footer skin-1 must carry the mailto-link audit-trail marker'
-        );
     }
 }

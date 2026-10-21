@@ -2103,3 +2103,16 @@ button.btn.btn-sm:not(.btn-outline-primary):not(.btn-danger):not(.btn-outline-da
         flex-wrap: wrap;
     }
 }
+
+/* Global brand override for .btn-sm — placed AFTER all @media so no viewport
+   block can leave a bare .btn-sm salmon. Mirrors the earlier rule globally. */
+a.btn.btn-sm:not(.btn-outline-primary):not(.btn-danger):not(.btn-outline-danger),
+button.btn.btn-sm:not(.btn-outline-primary):not(.btn-danger):not(.btn-outline-danger) {
+    background-color: var(--mw-btn-background-color, #0d6efd) !important;
+    border-color: var(--mw-btn-border-color, #0d6efd) !important;
+    color: #fff !important;
+}
+
+/* Global bare-link brand override — after all @media so no viewport block leaves a salmon link. */
+a:not(.btn):not(.navbar-brand):not([class*="btn-"]) { color: var(--color-primary, #0d6efd); }
+a:not(.btn):not(.navbar-brand):not([class*="btn-"]):hover { color: var(--color-primary-hover, #0b5ed7); }

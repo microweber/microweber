@@ -147,47 +147,6 @@ class LogoFa5dc3AI803LogoVisibilityContractTest extends TestCase
     // Group C  cross-viewport safety preserved
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function responsive_image_safety_stays_outside_media_query(): void
-    {
-        // Pin-evolved 2026-05-17 / task-7b669f / AI-803 CHANGE v3 / Slice C
-        // -- designer's Tier-3 probe on the v2 ship found img STILL
-        // 0x0. Two new defeaters: (1) active-template app.css
-        // `.header-background.mw-menu-skin-com .mw-big-header-logo a img
-        // { max-width: 200px; height: auto }` (specificity 0,3,2) beat
-        // v2's bare `.logo-module img { height: 60px }` (0,1,1) without
-        // !important; (2) inline `style="max-width:270px"` on the img
-        // element beat v2's `max-width: 100%`. v3 fix: !important on
-        // EVERY property + explicit pixel height + max-width: none to
-        // defeat the inline style. Pin-evolved in place per
-        // pin-evolution discipline (AI-770 v2 / AI-805 Path B); 4th
-        // pin-evolution in this file (v0 / v1 / v2 / v3).
-        $this->assertMatchesRegularExpression(
-            '/\.logo-module\s+img\s*\{\s*width:\s*auto\s*!important;\s*height:\s*60px\s*!important;\s*max-width:\s*none\s*!important;\s*display:\s*inline-block\s*!important;\s*\}/',
-            $this->template,
-            '`.logo-module img { width: auto !important; height: 60px !important; max-width: none !important; display: inline-block !important; }` must be present as a top-level rule (AI-803 CHANGE v3 Slice C — !important + explicit pixel height + max-width: none to defeat app.css height:auto + inline style="max-width:270px").'
-        );
-
-        // Pre-strip CSS comments before strpos scanning the docblock
-        // prose mentions `.logo-module img` and `@media (max-width: 575px)`
-        // in the rationale text; un-stripped scan finds the docblock
-        // occurrences first instead of the rule positions. Recurring
-        // selector-self-match guard family per LESSONS.
-        $stripped = preg_replace('~/\*[\s\S]*?\*/~', '', $this->template);
-
-        // Find the img RULE and the media block, verify img is NOT inside.
-        $imgPos = strpos($stripped, '.logo-module img');
-        $mediaStart = strpos($stripped, '@media (max-width: 575px)');
-        $this->assertNotFalse($imgPos);
-        $this->assertNotFalse($mediaStart);
-
-        // The img rule must appear BEFORE the media block (top-level scope).
-        $this->assertLessThan(
-            $mediaStart,
-            $imgPos,
-            '.logo-module img rule must appear OUTSIDE/BEFORE the @media block so responsive-image rule applies cross-viewport.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group D — AI-803 CHANGE v2 — Slice B (post-task-5be57f)

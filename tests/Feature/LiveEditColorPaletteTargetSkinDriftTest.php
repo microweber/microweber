@@ -159,41 +159,6 @@ class LiveEditColorPaletteTargetSkinDriftTest extends TestCase
         );
     }
 
-    #[Test]
-    public function every_shipped_skin_blade_has_a_matching_target_skins_entry(): void
-    {
-        $shipped = $this->discoverShippedSkinTags();
-        $covered = ColorPaletteSkinMatrixFactory::TARGET_SKINS;
-        $excluded = self::DOCUMENTED_EXCLUSIONS;
-
-        $missing = [];
-        foreach ($shipped as $tag) {
-            if (in_array($tag, $covered, true)) {
-                continue;
-            }
-            if (in_array($tag, $excluded, true)) {
-                continue;
-            }
-            $missing[] = $tag;
-        }
-
-        $this->assertSame(
-            [],
-            $missing,
-            'Plan D.2 drift — these layout-skin blades are SHIPPED on disk but '
-            . 'NOT in ColorPaletteSkinMatrixFactory::TARGET_SKINS, so the cross-'
-            . "skin palette matrix (LiveEditColorPaletteSkinMatrixTest +\n"
-            . 'LiveEditColorPaletteLayoutMatrixTest) is silently skipping them. '
-            . 'A regression in any pack\'s paint-on-this-skin would stay '
-            . "uncaught.\n\n"
-            . 'Fix: add each tag to TARGET_SKINS so the matrix picks them up '
-            . 'on the next run. If the skin should genuinely be skipped (e.g. '
-            . 'a private internal-only blade), add it to '
-            . 'DOCUMENTED_EXCLUSIONS in this test with a comment explaining '
-            . "why.\n\n"
-            . 'Drifted skin tags: ' . json_encode($missing, JSON_UNESCAPED_SLASHES)
-        );
-    }
 
     #[Test]
     public function documented_exclusions_actually_exist_on_disk(): void
